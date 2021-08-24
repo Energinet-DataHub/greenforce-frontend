@@ -1,0 +1,33 @@
+# Copyright 2020 Energinet DataHub A/S
+#
+# Licensed under the Apache License, Version 2.0 (the "License2");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+name: 'Configure Terraform Backend'
+description: 'Set proper resource group and storage account names in backend.tf file'
+inputs:
+  backend-file-path:
+    description: 'path to backend file to be changed'
+    required: true
+  resource-group-name:
+    description: 'Name of Resource Group to use in backend.tf'
+    required: true
+  storage-account-name:
+    description: 'Name of Storage Account to use in backend.tf'
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - id: run-job
+      run: |
+        sed -i 's/@resource_group_name/${{ inputs.resource-group-name }}/' ${{ inputs.backend-file-path }}
+        sed -i 's/@storage_account_name/${{ inputs.storage-account-name }}/' ${{ inputs.backend-file-path }}
+      shell: bash

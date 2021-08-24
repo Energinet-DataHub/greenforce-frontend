@@ -1,0 +1,4 @@
+environment         = "YOUR_ENVIRONMENT"
+organisation        = "YOUR_ORGANIZATION"
+resource_group_name = "YOUR_RESOURCE_GROUP"
+project             = "YOUR_PROJECT_NAME"

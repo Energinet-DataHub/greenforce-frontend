@@ -1,0 +1,25 @@
+﻿{
+  "$schema": "https://raw.githubusercontent.com/DotNetAnalyzers/StyleCopAnalyzers/master/StyleCop.Analyzers/StyleCop.Analyzers/Settings/stylecop.schema.json",
+  "settings": {
+    "orderingRules": {
+      "usingDirectivesPlacement": "outsideNamespace",
+      "elementOrder": [
+        "kind",
+        "constant",
+        "accessibility",
+        "static",
+        "readonly"
+      ]
+    },
+    "namingRules": {
+      "allowedHungarianPrefixes": ["db"]
+    },
+    "documentationRules": {
+      "documentInterfaces": true,
+      "documentExposedElements": false,
+      "documentInternalElements": false,
+      "documentPrivateElements": false,
+      "documentPrivateFields": false
+    }
+  }
+}

@@ -1,0 +1,132 @@
+# Copyright 2020 Energinet DataHub A/S
+#
+# Licensed under the Apache License, Version 2.0 (the "License2");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+name: HelloWorld CD
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - source/hello-world/**
+      - .github/workflows/hello-world-cd.yml
+      - .github/actions/dotnet-build-and-test/**
+  workflow_dispatch: {}
+
+env:
+  CSPROJ_FILE_PATH: 'source/hello-world/source/HelloWorld.HelloWorldFunction/HelloWorld.HelloWorldFunction.csproj'
+  SOLUTION_FILE_PATH: 'source/hello-world/HelloWorld.sln'
+  DOTNET_VERSION: '3.1'
+  ORGANISATION_NAME: 'endk'
+  AZURE_FUNCTIONAPP_NAME: 'helloworld'
+  PROJECT_NAME: TEMPLATE_REPLACE__YOUR_DOMAIN_NAME_LOWERCASE_NO_SYMBOLS
+  REPOSITORY_NAME: TEMPLATE_REPLACE__YOUR_REPOSITORY_PATH
+
+jobs:
+  build_helloworld:
+    name: Build HelloWorld
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@master
+
+      - name: Setup .NET ${{ env.DOTNET_VERSION }} environment
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Build and test project
+        uses: ./.github/actions/dotnet-build-and-test
+        with:
+          CSPROJ_FILE_PATH: ${{ env.CSPROJ_FILE_PATH }}
+          SOLUTION_FILE_PATH: ${{ env.SOLUTION_FILE_PATH }}
+          OUTPUT_PATH: '${{ github.workspace }}/output'
+
+      - name: Publish artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: drop
+          path: '${{ github.workspace }}/output'
+    
+  deploy_helloworld:
+    name: Deploy function to ${{ matrix.environment.name }} - ${{ matrix.environment.long }}
+    needs: build_helloworld
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        environment: [
+          {
+            long: rg-DataHub-TEMPLATE_REPLACE__YOUR_DOMAIN_NAME-U,
+            short: u,
+            name: Development
+          },
+          {
+            long: rg-DataHub-TEMPLATE_REPLACE__YOUR_DOMAIN_NAME-T,
+            short: t,
+            name: Test
+          },
+          {
+            long: rg-DataHub-TEMPLATE_REPLACE__YOUR_DOMAIN_NAME-B,
+            short: b,
+            name: Preprod
+          },
+          {
+            long: rg-DataHub-TEMPLATE_REPLACE__YOUR_DOMAIN_NAME-P,
+            short: p,
+            name: Production
+          }
+        ]
+    environment:
+      name: ${{ matrix.environment.long }}
+    steps:
+      - name: Download artifact 
+        uses: actions/download-artifact@v2
+        with:
+          name: drop
+          path: drop
+
+      - name: Setup Azure CLI
+        shell: bash
+        run: |
+          curl -sL https://aka.ms/InstallAzureCLIDeb
+          sudo bash
+          az login --service-principal --username ${{ secrets.SPN_ID }} --password ${{ secrets.SPN_SECRET }} --tenant ${{ secrets.TENANT_ID }}
+          az account set --subscription ${{ secrets.SUBSCRIPTION_ID }}
+
+      - name: Get function publish profile
+        id: get-publish-profile
+        run: |
+          publish_profile=$(az webapp deployment list-publishing-profiles --name azfun-${{ env.AZURE_FUNCTIONAPP_NAME }}-${{ env.PROJECT_NAME }}-${{ env.ORGANISATION_NAME }}-${{ matrix.environment.short }} --resource-group ${{ matrix.environment.long }} --subscription ${{ secrets.SUBSCRIPTION_ID }} --xml)
+          echo "::set-output name=publish-profile::${publish_profile}"
+
+      - name: Deploy function
+        uses: Azure/functions-action@v1
+        with:
+          app-name: "azfun-${{ env.AZURE_FUNCTIONAPP_NAME }}"
+          package: ${{ github.workspace }}/drop
+          publish-profile: ${{ steps.get-publish-profile.outputs.publish-profile }}
+
+      - name: Documentation update dispatch
+        uses: peter-evans/repository-dispatch@v1
+        with:
+          token: ${{ secrets.PAT_TOKEN }}
+          repository: Energinet-DataHub/environments-overview        
+          event-type: update-environment-overview-event
+          client-payload: '{
+            "repository_name": "${{ env.REPOSITORY_NAME }}",
+            "env_name": "${{ env.ENV_NAME }}",
+            "resource_group_name": "${{ env.RESOURCE_GROUP_NAME }}",
+            "project_name": "${{ env.PROJECT_NAME }}",
+            "service_name": "${{ env.AZURE_FUNCTIONAPP_NAME }}",
+            "commit_id": "${{ github.sha }}"
+          }'

@@ -1,0 +1,18 @@
+<Project>
+    <!--
+    Add stylecop for all projects (so long as they don't override Directory.Build.props) with a common ruleset.
+    See also: https://docs.microsoft.com/en-us/visualstudio/msbuild/customize-your-build?view=vs-2019#search-scope
+    -->
+    <ItemGroup>
+        <PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="16.8.55" />
+        <PackageReference Include="StyleCop.Analyzers" Version="1.1.118" />
+        <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.2" />
+        <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.3.1" />
+
+        <!--
+        Additional settings for specific rules (e.g. SA1200 specify namespaces must be placed correctly, the json file then defines what "correctly" means)
+        See also [stylecop.json](https://github.com/DotNetAnalyzers/StyleCopAnalyzers/blob/master/documentation/Configuration.md)
+        -->
+        <AdditionalFiles Include="$(MSBuildThisFileDirectory)\stylecop.json" />
+    </ItemGroup>
+</Project>

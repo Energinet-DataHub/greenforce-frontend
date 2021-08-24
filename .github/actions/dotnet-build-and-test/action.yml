@@ -1,0 +1,48 @@
+# Copyright 2020 Energinet DataHub A/S
+#
+# Licensed under the Apache License, Version 2.0 (the "License2");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# NOTE:
+# This should be able to handle setup, linting, building, testing, and
+# reporting, but today actions cannot call other actions. This is being worked
+# on, and once the issue below is resolved, this file should be updated to
+# include those steps.
+#
+# https://github.com/actions/runner/pull/612
+# https://github.com/actions/runner/issues/646
+
+name: 'Common steps for dotnet projects'
+description: 'Builds and tests dotnet projects.'
+inputs:
+  csproj_file_path:
+    description: 'Path to the csproj file.'
+    required: true
+  solution_file_path:
+    description: 'Path to the solution file.'
+    required: true
+  output_path:
+    description: 'Path to store the reports.'
+    required: false
+    default: './output'
+
+runs:
+  using: composite
+  steps:
+    - name: Build project
+      shell: bash
+      run: |
+        dotnet build ${{ inputs.csproj_file_path }} --configuration Release --output ${{ inputs.output_path }}
+    - name: test and publish report
+      shell: bash
+      run: |
+        dotnet tool install --tool-path ./temp/reportgenerator dotnet-reportgenerator-globaltool
+        dotnet test ${{ inputs.solution_file_path }} --filter Category=Unit /p:CollectCoverage=true /p:CoverletOutput=${{ inputs.output_path }}/ /p:CoverletOutputFormat=cobertura /p:Threshold=0
