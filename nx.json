@@ -1,0 +1,46 @@
+{
+  "npmScope": "energinet",
+  "affected": {
+    "defaultBase": "master"
+  },
+  "implicitDependencies": {
+    "package.json": {
+      "dependencies": "*",
+      "devDependencies": "*"
+    },
+    ".eslintrc.json": "*"
+  },
+  "tasksRunnerOptions": {
+    "default": {
+      "runner": "@nrwl/nx-cloud",
+      "options": {
+        "cacheableOperations": [
+          "build",
+          "lint",
+          "test",
+          "e2e"
+        ],
+        "accessToken": "M2QwZmQ2YTQtMjFjZi00ZmI4LTk0MDItZjEyOTQ4ZmMwMTUyfHJlYWQtd3JpdGU="
+      }
+    }
+  },
+  "targetDependencies": {
+    "build": [
+      {
+        "target": "build",
+        "projects": "dependencies"
+      }
+    ]
+  },
+  "projects": {
+    "dh3-admin": {
+      "tags": []
+    },
+    "dh3-admin-e2e": {
+      "tags": [],
+      "implicitDependencies": [
+        "dh3-admin"
+      ]
+    }
+  }
+}
