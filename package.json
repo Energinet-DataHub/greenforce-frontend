@@ -65,6 +65,7 @@
     "@nrwl/storybook": "12.7.2",
     "@nrwl/tao": "12.7.2",
     "@nrwl/workspace": "12.7.2",
+    "@storybook/addon-a11y": "^6.3.7",
     "@storybook/addon-essentials": "~6.3.0",
     "@storybook/addon-links": "^6.3.7",
     "@storybook/addon-storysource": "^6.3.7",

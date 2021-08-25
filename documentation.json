@@ -213,7 +213,7 @@
     "miscellaneous": {
         "variables": [
             {
-                "name": "Primary",
+                "name": "Autocomplete",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
                 "file": "libs/ui-watt/src/lib/components/autocomplete/autocomplete.component.stories.ts",
@@ -239,7 +239,7 @@
         "groupedVariables": {
             "libs/ui-watt/src/lib/components/autocomplete/autocomplete.component.stories.ts": [
                 {
-                    "name": "Primary",
+                    "name": "Autocomplete",
                     "ctype": "miscellaneous",
                     "subtype": "variable",
                     "file": "libs/ui-watt/src/lib/components/autocomplete/autocomplete.component.stories.ts",
@@ -274,7 +274,7 @@
                 "type": "variable",
                 "linktype": "miscellaneous",
                 "linksubtype": "variable",
-                "name": "Primary",
+                "name": "Autocomplete",
                 "coveragePercent": 0,
                 "coverageCount": "0/1",
                 "status": "low"
