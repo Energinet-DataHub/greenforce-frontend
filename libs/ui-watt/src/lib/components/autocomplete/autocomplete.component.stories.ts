@@ -5,23 +5,8 @@ import { AutocompleteComponent } from './autocomplete.component';
 export default {
   title: 'Components/Autocomplete',
   component: AutocompleteComponent,
-  argTypes: {
-    label: {
-      type: 'string',
-      description: 'Label for the input field',
-      required: true
-    },
-    placeholder: {
-      type: 'string',
-      description: 'Placeholder for the input field',
-      required: true
-    },
-    options: {
-      type: 'array',
-      description: 'Options for the input field',
-      required: true
-    }
-  },
+ 
+ 
   decorators: [
     moduleMetadata({
       imports: [WattModule],

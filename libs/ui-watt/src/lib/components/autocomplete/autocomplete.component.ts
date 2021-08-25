@@ -8,8 +8,25 @@ import { FormControl } from '@angular/forms';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AutocompleteComponent {
+  /**
+   * @ignore
+   */
   myControl = new FormControl();
+  /**
+   * Sets the label for the autocomplete.
+   * 
+   * @required
+   */
   @Input() label = '';
+  /**
+   * Sets the placeholder for the autocomplete.
+   * 
+   * @required
+   */
   @Input() placeholder = '';
+  /**
+   * 
+   * Sets the options for the autocomplete.
+   */
   @Input() options: string[] = [];
 }

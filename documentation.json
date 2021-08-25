@@ -1,0 +1,303 @@
+{
+    "pipes": [],
+    "interfaces": [],
+    "injectables": [],
+    "guards": [],
+    "interceptors": [],
+    "classes": [],
+    "directives": [],
+    "components": [
+        {
+            "name": "AutocompleteComponent",
+            "id": "component-AutocompleteComponent-e574f54ed58c60da7e91254ab0cda064",
+            "file": "libs/ui-watt/src/lib/components/autocomplete/autocomplete.component.ts",
+            "changeDetection": "ChangeDetectionStrategy.OnPush",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "watt-autocomplete",
+            "styleUrls": [
+                "./autocomplete.component.scss"
+            ],
+            "styles": [],
+            "templateUrl": [
+                "./autocomplete.component.html"
+            ],
+            "viewProviders": [],
+            "inputsClass": [
+                {
+                    "name": "label",
+                    "defaultValue": "''",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "jsdoctags": [
+                        {
+                            "pos": 471,
+                            "end": 484,
+                            "flags": 4227072,
+                            "modifierFlagsCache": 0,
+                            "transformFlags": 0,
+                            "kind": 317,
+                            "tagName": {
+                                "pos": 472,
+                                "end": 480,
+                                "flags": 4227072,
+                                "modifierFlagsCache": 0,
+                                "transformFlags": 0,
+                                "kind": 78,
+                                "escapedText": "required"
+                            },
+                            "comment": ""
+                        }
+                    ],
+                    "rawdescription": "Sets the label for the autocomplete.",
+                    "description": "<p>Sets the label for the autocomplete.</p>\n",
+                    "line": 20,
+                    "type": "string"
+                },
+                {
+                    "name": "options",
+                    "defaultValue": "[]",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "rawdescription": "\nSets the options for the autocomplete.",
+                    "description": "<p>Sets the options for the autocomplete.</p>\n",
+                    "line": 31,
+                    "type": "string[]"
+                },
+                {
+                    "name": "placeholder",
+                    "defaultValue": "''",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "jsdoctags": [
+                        {
+                            "pos": 575,
+                            "end": 588,
+                            "flags": 4227072,
+                            "modifierFlagsCache": 0,
+                            "transformFlags": 0,
+                            "kind": 317,
+                            "tagName": {
+                                "pos": 576,
+                                "end": 584,
+                                "flags": 4227072,
+                                "modifierFlagsCache": 0,
+                                "transformFlags": 0,
+                                "kind": 78,
+                                "escapedText": "required"
+                            },
+                            "comment": ""
+                        }
+                    ],
+                    "rawdescription": "Sets the placeholder for the autocomplete.",
+                    "description": "<p>Sets the placeholder for the autocomplete.</p>\n",
+                    "line": 26,
+                    "type": "string"
+                }
+            ],
+            "outputsClass": [],
+            "propertiesClass": [],
+            "methodsClass": [],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "hostBindings": [],
+            "hostListeners": [],
+            "description": "",
+            "rawdescription": "\n",
+            "type": "component",
+            "sourceCode": "import { Component, ChangeDetectionStrategy, Input } from '@angular/core';\nimport { FormControl } from '@angular/forms';\n\n@Component({\n  selector: 'watt-autocomplete',\n  templateUrl: './autocomplete.component.html',\n  styleUrls: ['./autocomplete.component.scss'],\n  changeDetection: ChangeDetectionStrategy.OnPush\n})\nexport class AutocompleteComponent {\n  /**\n   * @ignore\n   */\n  myControl = new FormControl();\n  /**\n   * Sets the label for the autocomplete.\n   * \n   * @required\n   */\n  @Input() label = '';\n  /**\n   * Sets the placeholder for the autocomplete.\n   * \n   * @required\n   */\n  @Input() placeholder = '';\n  /**\n   * \n   * Sets the options for the autocomplete.\n   */\n  @Input() options: string[] = [];\n}\n",
+            "assetsDirs": [],
+            "styleUrlsData": [
+                {
+                    "data": ":host {\n  display: block;\n}\n",
+                    "styleUrl": "./autocomplete.component.scss"
+                }
+            ],
+            "stylesData": "",
+            "templateData": "<mat-form-field appearance=\"fill\">\n    <mat-label>{{label}}</mat-label>\n    <input type=\"text\"\n            [placeholder]=\"placeholder\"\n            [attr.aria-label]=\"label\"\n            matInput\n            [formControl]=\"myControl\"\n            [matAutocomplete]=\"auto\">\n    <mat-autocomplete #auto=\"matAutocomplete\">\n    <mat-option *ngFor=\"let option of options\" [value]=\"option\">\n        {{option}}\n    </mat-option>\n    </mat-autocomplete>\n</mat-form-field>"
+        }
+    ],
+    "modules": [
+        {
+            "name": "AutocompleteModule",
+            "id": "module-AutocompleteModule-33e12f58043f783c64f2fffa9b1586a3",
+            "description": "",
+            "deprecationMessage": "",
+            "deprecated": false,
+            "file": "libs/ui-watt/src/lib/components/autocomplete/autocomplete.module.ts",
+            "methods": [],
+            "sourceCode": "import { CommonModule } from \"@angular/common\";\nimport { NgModule } from \"@angular/core\";\nimport { ReactiveFormsModule } from \"@angular/forms\";\nimport { MatAutocompleteModule } from '@angular/material/autocomplete';\nimport { MatFormFieldModule } from \"@angular/material/form-field\";\nimport { MatInputModule } from \"@angular/material/input\";\nimport { AutocompleteComponent } from \"./autocomplete.component\";\n\n@NgModule({\n    imports: [CommonModule, ReactiveFormsModule, MatAutocompleteModule, MatFormFieldModule, MatInputModule],\n    declarations: [AutocompleteComponent],\n    exports: [AutocompleteComponent],\n})\nexport class AutocompleteModule {}",
+            "children": [
+                {
+                    "type": "providers",
+                    "elements": []
+                },
+                {
+                    "type": "declarations",
+                    "elements": [
+                        {
+                            "name": "AutocompleteComponent"
+                        }
+                    ]
+                },
+                {
+                    "type": "imports",
+                    "elements": []
+                },
+                {
+                    "type": "exports",
+                    "elements": [
+                        {
+                            "name": "AutocompleteComponent"
+                        }
+                    ]
+                },
+                {
+                    "type": "bootstrap",
+                    "elements": []
+                },
+                {
+                    "type": "classes",
+                    "elements": []
+                }
+            ]
+        },
+        {
+            "name": "WattModule",
+            "id": "module-WattModule-a377c63cd529cb61c1c4d072e5a51edb",
+            "description": "",
+            "deprecationMessage": "",
+            "deprecated": false,
+            "file": "libs/ui-watt/src/lib/ui-watt.module.ts",
+            "methods": [],
+            "sourceCode": "import { NgModule } from '@angular/core';\nimport { CommonModule } from '@angular/common';\nimport { BrowserAnimationsModule } from '@angular/platform-browser/animations';\n\nimport { AutocompleteModule } from './components/autocomplete/autocomplete.module';\n\n@NgModule({\n  imports: [CommonModule, BrowserAnimationsModule, AutocompleteModule],\n  exports: [AutocompleteModule],\n})\nexport class WattModule {}\n",
+            "children": [
+                {
+                    "type": "providers",
+                    "elements": []
+                },
+                {
+                    "type": "declarations",
+                    "elements": []
+                },
+                {
+                    "type": "imports",
+                    "elements": [
+                        {
+                            "name": "AutocompleteModule"
+                        }
+                    ]
+                },
+                {
+                    "type": "exports",
+                    "elements": [
+                        {
+                            "name": "AutocompleteModule"
+                        }
+                    ]
+                },
+                {
+                    "type": "bootstrap",
+                    "elements": []
+                },
+                {
+                    "type": "classes",
+                    "elements": []
+                }
+            ]
+        }
+    ],
+    "miscellaneous": {
+        "variables": [
+            {
+                "name": "Primary",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "libs/ui-watt/src/lib/components/autocomplete/autocomplete.component.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "Template.bind({})"
+            },
+            {
+                "name": "Template",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "libs/ui-watt/src/lib/components/autocomplete/autocomplete.component.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story<AutocompleteComponent>",
+                "defaultValue": "(args) => ({\n  props: args,\n})"
+            }
+        ],
+        "functions": [],
+        "typealiases": [],
+        "enumerations": [],
+        "groupedVariables": {
+            "libs/ui-watt/src/lib/components/autocomplete/autocomplete.component.stories.ts": [
+                {
+                    "name": "Primary",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "libs/ui-watt/src/lib/components/autocomplete/autocomplete.component.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "Template.bind({})"
+                },
+                {
+                    "name": "Template",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "libs/ui-watt/src/lib/components/autocomplete/autocomplete.component.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story<AutocompleteComponent>",
+                    "defaultValue": "(args) => ({\n  props: args,\n})"
+                }
+            ]
+        },
+        "groupedFunctions": {},
+        "groupedEnumerations": {},
+        "groupedTypeAliases": {}
+    },
+    "routes": [],
+    "coverage": {
+        "count": 25,
+        "status": "low",
+        "files": [
+            {
+                "filePath": "libs/ui-watt/src/lib/components/autocomplete/autocomplete.component.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Primary",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "libs/ui-watt/src/lib/components/autocomplete/autocomplete.component.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Template",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "libs/ui-watt/src/lib/components/autocomplete/autocomplete.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "AutocompleteComponent",
+                "coveragePercent": 75,
+                "coverageCount": "3/4",
+                "status": "good"
+            }
+        ]
+    }
+}
