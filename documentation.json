@@ -1,6 +1,84 @@
 {
     "pipes": [],
-    "interfaces": [],
+    "interfaces": [
+        {
+            "name": "Typography",
+            "id": "interface-Typography-4725d51d5c45c83eef952952ce707690",
+            "file": "libs/ui-watt/src/lib/foundations/typography/typography.component.ts",
+            "deprecated": false,
+            "deprecationMessage": "",
+            "type": "interface",
+            "sourceCode": "import { Component } from '@angular/core';\n\ninterface Typography {\n  name: string;\n  size: string;\n  weight: string;\n  letterCase: string;\n  letterSpacing: string;\n  lineHeight: string;\n  tag: string;\n}\n\nconst typeScale: Typography[] = [\n  {\n    name: 'Headline 1',\n    size: '36px',\n    weight: 'Medium',\n    letterCase: 'All caps',\n    letterSpacing: '0',\n    lineHeight: '54',\n    tag: 'h1',\n  },\n  {\n    name: 'Headline 2',\n    size: '32px',\n    weight: 'Medium',\n    letterCase: 'All caps',\n    letterSpacing: '0',\n    lineHeight: '48',\n    tag: 'h2',\n  },\n  {\n    name: 'Headline 3',\n    size: '28px',\n    weight: 'Medium',\n    letterCase: 'All caps',\n    letterSpacing: '0',\n    lineHeight: '42',\n    tag: 'h3',\n  },\n  {\n    name: 'Headline 4',\n    size: '24px',\n    weight: 'Medium',\n    letterCase: 'All caps',\n    letterSpacing: '0',\n    lineHeight: '36',\n    tag: 'h4',\n  },\n  {\n    name: 'Headline 5',\n    size: '20px',\n    weight: 'Medium',\n    letterCase: 'All caps',\n    letterSpacing: '0',\n    lineHeight: '30',\n    tag: 'h5',\n  },\n];\n\n@Component({\n  selector: 'watt-typography',\n  templateUrl: './typography.component.html',\n  styleUrls: ['./typography.component.scss'],\n})\nexport class TypographyComponent {\n  /**\n   * @ignore\n   */\n  displayedColumns: string[] = [\n    'name',\n    'size',\n    'weight',\n    'letterCase',\n    'letterSpacing',\n    'lineHeight',\n  ];\n  /**\n   * @ignore\n   */\n  dataSource = typeScale;\n}\n",
+            "properties": [
+                {
+                    "name": "letterCase",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 7
+                },
+                {
+                    "name": "letterSpacing",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 8
+                },
+                {
+                    "name": "lineHeight",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 9
+                },
+                {
+                    "name": "name",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 4
+                },
+                {
+                    "name": "size",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 5
+                },
+                {
+                    "name": "tag",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 10
+                },
+                {
+                    "name": "weight",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 6
+                }
+            ],
+            "indexSignatures": [],
+            "kind": 163,
+            "methods": []
+        }
+    ],
     "injectables": [],
     "guards": [],
     "interceptors": [],
@@ -118,6 +196,46 @@
             ],
             "stylesData": "",
             "templateData": "<mat-form-field appearance=\"fill\">\n    <mat-label>{{label}}</mat-label>\n    <input type=\"text\"\n            [placeholder]=\"placeholder\"\n            [attr.aria-label]=\"label\"\n            matInput\n            [formControl]=\"myControl\"\n            [matAutocomplete]=\"auto\">\n    <mat-autocomplete #auto=\"matAutocomplete\">\n    <mat-option *ngFor=\"let option of options\" [value]=\"option\">\n        {{option}}\n    </mat-option>\n    </mat-autocomplete>\n</mat-form-field>"
+        },
+        {
+            "name": "TypographyComponent",
+            "id": "component-TypographyComponent-4725d51d5c45c83eef952952ce707690",
+            "file": "libs/ui-watt/src/lib/foundations/typography/typography.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "watt-typography",
+            "styleUrls": [
+                "./typography.component.scss"
+            ],
+            "styles": [],
+            "templateUrl": [
+                "./typography.component.html"
+            ],
+            "viewProviders": [],
+            "inputsClass": [],
+            "outputsClass": [],
+            "propertiesClass": [],
+            "methodsClass": [],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "hostBindings": [],
+            "hostListeners": [],
+            "description": "",
+            "rawdescription": "\n",
+            "type": "component",
+            "sourceCode": "import { Component } from '@angular/core';\n\ninterface Typography {\n  name: string;\n  size: string;\n  weight: string;\n  letterCase: string;\n  letterSpacing: string;\n  lineHeight: string;\n  tag: string;\n}\n\nconst typeScale: Typography[] = [\n  {\n    name: 'Headline 1',\n    size: '36px',\n    weight: 'Medium',\n    letterCase: 'All caps',\n    letterSpacing: '0',\n    lineHeight: '54',\n    tag: 'h1',\n  },\n  {\n    name: 'Headline 2',\n    size: '32px',\n    weight: 'Medium',\n    letterCase: 'All caps',\n    letterSpacing: '0',\n    lineHeight: '48',\n    tag: 'h2',\n  },\n  {\n    name: 'Headline 3',\n    size: '28px',\n    weight: 'Medium',\n    letterCase: 'All caps',\n    letterSpacing: '0',\n    lineHeight: '42',\n    tag: 'h3',\n  },\n  {\n    name: 'Headline 4',\n    size: '24px',\n    weight: 'Medium',\n    letterCase: 'All caps',\n    letterSpacing: '0',\n    lineHeight: '36',\n    tag: 'h4',\n  },\n  {\n    name: 'Headline 5',\n    size: '20px',\n    weight: 'Medium',\n    letterCase: 'All caps',\n    letterSpacing: '0',\n    lineHeight: '30',\n    tag: 'h5',\n  },\n];\n\n@Component({\n  selector: 'watt-typography',\n  templateUrl: './typography.component.html',\n  styleUrls: ['./typography.component.scss'],\n})\nexport class TypographyComponent {\n  /**\n   * @ignore\n   */\n  displayedColumns: string[] = [\n    'name',\n    'size',\n    'weight',\n    'letterCase',\n    'letterSpacing',\n    'lineHeight',\n  ];\n  /**\n   * @ignore\n   */\n  dataSource = typeScale;\n}\n",
+            "assetsDirs": [],
+            "styleUrlsData": [
+                {
+                    "data": ":host {\n    background: #E5E5E5;\n    display: block;\n    width: 100%;\n    padding: 1rem;\n    margin: -1rem;\n}\n\nmat-card {\n    margin-bottom: 8px;\n}",
+                    "styleUrl": "./typography.component.scss"
+                }
+            ],
+            "stylesData": "",
+            "templateData": "<mat-card>\n    <h1>Typography</h1>\n</mat-card>\n\n<mat-card>\n    <h2>Font</h2>\n    <p><strong>DIN Next LT Pro</strong> is the typeface used on Energinet platforms. The fallback font is <strong>Calibri.</strong></p>\n</mat-card>\n\n<mat-card>\n    <h2>Type Scale</h2>\n    <p>Font sizes are smaller on mobile and scale up at the md breakpoint to be larger on desktop.</p>\n\n    <table mat-table [dataSource]=\"dataSource\" style=\"width: 100%;\">\n    <!--- Note that these columns can be defined in any order.\n            The actual rendered columns are set as a property on the row definition\" -->\n\n    <!-- Name Column -->\n    <ng-container matColumnDef=\"name\">\n        <th mat-header-cell *matHeaderCellDef>Name</th>\n        <td mat-cell *matCellDef=\"let element\" innerHTML=\"<{{element.tag}}>{{element.name}}</{{element.tag}}>\">{{ element.name }}</td>\n    </ng-container>\n\n    <!-- Size Column -->\n    <ng-container matColumnDef=\"size\">\n        <th mat-header-cell *matHeaderCellDef>Size</th>\n        <td mat-cell *matCellDef=\"let element\">{{ element.size }}</td>\n    </ng-container>\n\n    <!-- Weight Column -->\n    <ng-container matColumnDef=\"weight\">\n        <th mat-header-cell *matHeaderCellDef>Weight</th>\n        <td mat-cell *matCellDef=\"let element\">{{ element.weight }}</td>\n    </ng-container>\n\n    <!-- Letter Case Column -->\n    <ng-container matColumnDef=\"letterCase\">\n        <th mat-header-cell *matHeaderCellDef>Letter Case</th>\n        <td mat-cell *matCellDef=\"let element\">{{ element.letterCase }}</td>\n    </ng-container>\n\n    <!-- Letter Spacing Column -->\n    <ng-container matColumnDef=\"letterSpacing\">\n        <th mat-header-cell *matHeaderCellDef>Letter Spacing</th>\n        <td mat-cell *matCellDef=\"let element\">{{ element.letterSpacing }}</td>\n    </ng-container>\n\n    <!-- Line height Column -->\n    <ng-container matColumnDef=\"lineHeight\">\n        <th mat-header-cell *matHeaderCellDef>Line Height</th>\n        <td mat-cell *matCellDef=\"let element\">{{ element.lineHeight }}</td>\n    </ng-container>\n\n    <tr mat-header-row *matHeaderRowDef=\"displayedColumns\"></tr>\n    <tr mat-row *matRowDef=\"let row; columns: displayedColumns\"></tr>\n    </table>\n\n    <p>* Line height is set to the recommended minimum of 1.5 times the font size by WCAG 2.1.</p>\n</mat-card>"
         }
     ],
     "modules": [
@@ -231,6 +349,36 @@
                 "deprecationMessage": "",
                 "type": "Story<AutocompleteComponent>",
                 "defaultValue": "(args) => ({\n  props: args,\n})"
+            },
+            {
+                "name": "Template",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "libs/ui-watt/src/lib/foundations/typography/typography.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story<TypographyComponent>",
+                "defaultValue": "(args) => ({\n  props: args,\n})"
+            },
+            {
+                "name": "typeScale",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "libs/ui-watt/src/lib/foundations/typography/typography.component.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Typography[]",
+                "defaultValue": "[\n  {\n    name: 'Headline 1',\n    size: '36px',\n    weight: 'Medium',\n    letterCase: 'All caps',\n    letterSpacing: '0',\n    lineHeight: '54',\n    tag: 'h1',\n  },\n  {\n    name: 'Headline 2',\n    size: '32px',\n    weight: 'Medium',\n    letterCase: 'All caps',\n    letterSpacing: '0',\n    lineHeight: '48',\n    tag: 'h2',\n  },\n  {\n    name: 'Headline 3',\n    size: '28px',\n    weight: 'Medium',\n    letterCase: 'All caps',\n    letterSpacing: '0',\n    lineHeight: '42',\n    tag: 'h3',\n  },\n  {\n    name: 'Headline 4',\n    size: '24px',\n    weight: 'Medium',\n    letterCase: 'All caps',\n    letterSpacing: '0',\n    lineHeight: '36',\n    tag: 'h4',\n  },\n  {\n    name: 'Headline 5',\n    size: '20px',\n    weight: 'Medium',\n    letterCase: 'All caps',\n    letterSpacing: '0',\n    lineHeight: '30',\n    tag: 'h5',\n  },\n]"
+            },
+            {
+                "name": "Typography",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "libs/ui-watt/src/lib/foundations/typography/typography.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "Template.bind({})"
             }
         ],
         "functions": [],
@@ -258,6 +406,40 @@
                     "type": "Story<AutocompleteComponent>",
                     "defaultValue": "(args) => ({\n  props: args,\n})"
                 }
+            ],
+            "libs/ui-watt/src/lib/foundations/typography/typography.stories.ts": [
+                {
+                    "name": "Template",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "libs/ui-watt/src/lib/foundations/typography/typography.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story<TypographyComponent>",
+                    "defaultValue": "(args) => ({\n  props: args,\n})"
+                },
+                {
+                    "name": "Typography",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "libs/ui-watt/src/lib/foundations/typography/typography.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "Template.bind({})"
+                }
+            ],
+            "libs/ui-watt/src/lib/foundations/typography/typography.component.ts": [
+                {
+                    "name": "typeScale",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "libs/ui-watt/src/lib/foundations/typography/typography.component.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Typography[]",
+                    "defaultValue": "[\n  {\n    name: 'Headline 1',\n    size: '36px',\n    weight: 'Medium',\n    letterCase: 'All caps',\n    letterSpacing: '0',\n    lineHeight: '54',\n    tag: 'h1',\n  },\n  {\n    name: 'Headline 2',\n    size: '32px',\n    weight: 'Medium',\n    letterCase: 'All caps',\n    letterSpacing: '0',\n    lineHeight: '48',\n    tag: 'h2',\n  },\n  {\n    name: 'Headline 3',\n    size: '28px',\n    weight: 'Medium',\n    letterCase: 'All caps',\n    letterSpacing: '0',\n    lineHeight: '42',\n    tag: 'h3',\n  },\n  {\n    name: 'Headline 4',\n    size: '24px',\n    weight: 'Medium',\n    letterCase: 'All caps',\n    letterSpacing: '0',\n    lineHeight: '36',\n    tag: 'h4',\n  },\n  {\n    name: 'Headline 5',\n    size: '20px',\n    weight: 'Medium',\n    letterCase: 'All caps',\n    letterSpacing: '0',\n    lineHeight: '30',\n    tag: 'h5',\n  },\n]"
+                }
             ]
         },
         "groupedFunctions": {},
@@ -266,7 +448,7 @@
     },
     "routes": [],
     "coverage": {
-        "count": 25,
+        "count": 9,
         "status": "low",
         "files": [
             {
@@ -297,6 +479,54 @@
                 "coveragePercent": 75,
                 "coverageCount": "3/4",
                 "status": "good"
+            },
+            {
+                "filePath": "libs/ui-watt/src/lib/foundations/typography/typography.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "TypographyComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "libs/ui-watt/src/lib/foundations/typography/typography.component.ts",
+                "type": "interface",
+                "linktype": "interface",
+                "name": "Typography",
+                "coveragePercent": 0,
+                "coverageCount": "0/8",
+                "status": "low"
+            },
+            {
+                "filePath": "libs/ui-watt/src/lib/foundations/typography/typography.component.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "typeScale",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "libs/ui-watt/src/lib/foundations/typography/typography.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Template",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "libs/ui-watt/src/lib/foundations/typography/typography.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Typography",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
             }
         ]
     }
