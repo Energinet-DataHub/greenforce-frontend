@@ -20,6 +20,7 @@ const Template: Story<TypographyComponent> = (args) => ({
 
 //👇 Each story then reuses that template
 export const Typography = Template.bind({});
+Typography.storyName = 'Typography - Options';
 Typography.parameters = {
   docs: {
     page: null,
