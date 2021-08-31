@@ -10,11 +10,4 @@ body {
   font-family: Roboto, 'Helvetica Neue', sans-serif;
 }
 
-body h1,
-.watt-headline-1 {
-  font-size: 2.25rem;
-  line-height: 1.5rem;
-  letter-spacing: 0;
-  font-weight: 600;
-  text-transform: uppercase;
-}
+@import './foundations/typography';
