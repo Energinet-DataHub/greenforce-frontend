@@ -14,7 +14,12 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@angular/*": [
+        "./node_modules/@angular/*"
+      ],
+      "@energinet/watt": ["libs/ui-watt/src/index.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }
