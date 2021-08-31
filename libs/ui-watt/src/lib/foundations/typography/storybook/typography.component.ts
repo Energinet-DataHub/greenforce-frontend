@@ -18,7 +18,7 @@ const typeScale: Typography[] = [
     weight: 'Medium',
     letterCase: 'All caps',
     letterSpacing: '0',
-    lineHeight: '54',
+    lineHeight: '54px',
   },
   {
     name: 'Headline 2',
@@ -27,7 +27,7 @@ const typeScale: Typography[] = [
     weight: 'Medium',
     letterCase: 'All caps',
     letterSpacing: '0',
-    lineHeight: '48',
+    lineHeight: '48px',
   },
   {
     name: 'Headline 3',
@@ -36,7 +36,7 @@ const typeScale: Typography[] = [
     weight: 'Medium',
     letterCase: 'All caps',
     letterSpacing: '0',
-    lineHeight: '42',
+    lineHeight: '42px',
   },
   {
     name: 'Headline 4',
@@ -45,7 +45,7 @@ const typeScale: Typography[] = [
     weight: 'Medium',
     letterCase: 'All caps',
     letterSpacing: '0',
-    lineHeight: '36',
+    lineHeight: '36px',
   },
   {
     name: 'Headline 5',
@@ -54,7 +54,7 @@ const typeScale: Typography[] = [
     weight: 'Medium',
     letterCase: 'All caps',
     letterSpacing: '0',
-    lineHeight: '30',
+    lineHeight: '30px',
   },
   {
     name: 'Lead (text-l)',
@@ -63,7 +63,7 @@ const typeScale: Typography[] = [
     weight: 'Medium',
     letterCase: 'Sentence',
     letterSpacing: '0',
-    lineHeight: '27',
+    lineHeight: '27px',
   },
   {
     name: 'Body (text-m)',
@@ -72,7 +72,7 @@ const typeScale: Typography[] = [
     weight: 'Regular',
     letterCase: 'Sentence',
     letterSpacing: '0',
-    lineHeight: '24',
+    lineHeight: '24px',
   },
   {
     name: 'Small (text-s)',
@@ -81,7 +81,7 @@ const typeScale: Typography[] = [
     weight: 'Regular',
     letterCase: 'Sentence',
     letterSpacing: '0',
-    lineHeight: '21',
+    lineHeight: '21px',
   },
   {
     name: 'Extra small (text-xs)',
@@ -90,7 +90,7 @@ const typeScale: Typography[] = [
     weight: 'Regular',
     letterCase: 'Sentence',
     letterSpacing: '0',
-    lineHeight: '18',
+    lineHeight: '18px',
   },
   {
     name: 'Button',
@@ -99,7 +99,7 @@ const typeScale: Typography[] = [
     weight: 'Medium',
     letterCase: 'All caps',
     letterSpacing: '1.25px',
-    lineHeight: '16',
+    lineHeight: '16px',
   },
   {
     name: 'Label',
@@ -108,7 +108,7 @@ const typeScale: Typography[] = [
     weight: 'Medium',
     letterCase: 'All caps',
     letterSpacing: '1.5px',
-    lineHeight: '16',
+    lineHeight: '14.4px',
   },
 ];
 
