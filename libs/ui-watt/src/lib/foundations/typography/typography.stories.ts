@@ -10,7 +10,7 @@ export default {
   decorators: [
     moduleMetadata({
       imports: [MatTableModule, MatCardModule],
-    })
+    }),
   ],
 } as Meta<TypographyComponent>;
 
