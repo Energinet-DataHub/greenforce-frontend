@@ -1,15 +1,14 @@
 import { moduleMetadata, Story, Meta } from '@storybook/angular';
-import { MatTableModule } from '@angular/material/table';
-import { MatCardModule } from '@angular/material/card';
 
 import { TypographyComponent } from './typography.component';
+import { TypographyModule } from './typography.module';
 
 export default {
   title: 'Foundations/Typography',
   component: TypographyComponent,
   decorators: [
     moduleMetadata({
-      imports: [MatTableModule, MatCardModule],
+      imports: [TypographyModule],
     }),
   ],
 } as Meta<TypographyComponent>;
