@@ -70,7 +70,7 @@ export const TypographyUsage = () => ({
       Button
     </p>
 
-    <p class="watt-overline">
+    <p class="watt-label">
       Label
     </p>
   `,
