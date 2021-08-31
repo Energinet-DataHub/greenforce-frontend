@@ -2,7 +2,7 @@
   "name": "energinet",
   "version": "0.0.0",
   "license": "MIT",
-  "//engines-comment": "Keep this in sync with .nvmrc",
+  "//engines-comment": "Keep this in sync with .nvmrc, and volta config in current package.json",
   "engines": {
     "node": "14.17.5",
     "npm": "6.14.14",
@@ -98,6 +98,7 @@
     "typescript": "~4.3.5"
   },
   "volta": {
+    "//node-comment": "Keep this in sync with engines in current package.json",
     "node": "14.17.5"
   }
 }
