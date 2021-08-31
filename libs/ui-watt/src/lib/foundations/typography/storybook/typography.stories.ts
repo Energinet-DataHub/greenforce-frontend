@@ -1,5 +1,6 @@
 import { moduleMetadata, Story, Meta } from '@storybook/angular';
 
+import { typographyHtmlSnippets } from './shared/styles';
 import { TypographyComponent } from './typography.component';
 import { TypographyModule } from './typography.module';
 
@@ -27,58 +28,38 @@ Typography.parameters = {
   },
 };
 
+const typographyUsageTemplate = `
+${typographyHtmlSnippets.h1}
+
+${typographyHtmlSnippets.h2}
+
+${typographyHtmlSnippets.h3}
+
+${typographyHtmlSnippets.h4}
+
+${typographyHtmlSnippets.h5}
+
+${typographyHtmlSnippets.textL}
+
+${typographyHtmlSnippets.bodyTextM}
+
+${typographyHtmlSnippets.textS}
+
+${typographyHtmlSnippets.textXs}
+
+${typographyHtmlSnippets.button}
+
+${typographyHtmlSnippets.label}
+`;
+
 export const TypographyUsage = () => ({
-  template: `
-    <h1>
-      Headline 1
-    </h1>
-
-    <h2>
-      Headline 2
-    </h2>
-
-    <h3>
-      Headline 3
-    </h3>
-
-    <h4>
-      Headline 4
-    </h4>
-
-    <h5>
-      Headline 5
-    </h5>
-
-    <p class="watt-text-l">
-      Lead (text-l)
-    </p>
-
-    <p>
-      Body (text-m)
-    </p>
-
-    <p>
-      <small>
-        Small (text-s)
-      </small>
-    </p>
-
-    <p class="watt-text-xs">
-      Extra small (text-xs)
-    </p>
-
-    <p class="watt-button">
-      Button
-    </p>
-
-    <p class="watt-label">
-      Label
-    </p>
-  `,
+  template: typographyUsageTemplate,
 });
 TypographyUsage.storyName = 'Typography - Usage';
 TypographyUsage.parameters = {
   docs: {
-    page: null,
+    source: {
+      code: typographyUsageTemplate,
+    },
   },
 };
