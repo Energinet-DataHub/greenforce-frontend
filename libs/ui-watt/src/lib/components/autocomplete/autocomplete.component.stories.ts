@@ -1,16 +1,15 @@
 import { moduleMetadata, Story, Meta } from '@storybook/angular';
+
 import { WattModule } from '../../ui-watt.module';
 import { AutocompleteComponent } from './autocomplete.component';
 
 export default {
   title: 'Components/Autocomplete',
   component: AutocompleteComponent,
- 
- 
   decorators: [
     moduleMetadata({
       imports: [WattModule],
-    })
+    }),
   ],
 } as Meta<AutocompleteComponent>;
 
@@ -25,5 +24,5 @@ export const Autocomplete = Template.bind({});
 Autocomplete.args = {
   label: 'Numbers',
   placeholder: 'Pick a number',
-  options: ['1', '2', '3']
+  options: ['1', '2', '3'],
 };
