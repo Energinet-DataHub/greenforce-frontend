@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { typographyHtmlSnippets } from './shared/styles';
+import { typographyHtmlSnippets } from './shared/typography-html-snippets';
 
 interface Typography {
   name: string;

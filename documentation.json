@@ -3,12 +3,12 @@
     "interfaces": [
         {
             "name": "Typography",
-            "id": "interface-Typography-14597b9ebcfe0658288754c07fd84fbf",
+            "id": "interface-Typography-4e767f7e3b21effa903c5f1930a5cecf",
             "file": "libs/ui-watt/src/lib/foundations/typography/storybook/typography.component.ts",
             "deprecated": false,
             "deprecationMessage": "",
             "type": "interface",
-            "sourceCode": "import { Component } from '@angular/core';\r\n\r\nimport { typographyHtmlSnippets } from './shared/styles';\r\n\r\ninterface Typography {\r\n  name: string;\r\n  html: string;\r\n  size: string;\r\n  weight: string;\r\n  letterCase: string;\r\n  letterSpacing: string;\r\n  lineHeight: string;\r\n}\r\n\r\nconst typeScale: Typography[] = [\r\n  {\r\n    name: 'Headline 1',\r\n    html: typographyHtmlSnippets.h1,\r\n    size: '36px',\r\n    weight: 'Medium',\r\n    letterCase: 'All caps',\r\n    letterSpacing: '0',\r\n    lineHeight: '54px*',\r\n  },\r\n  {\r\n    name: 'Headline 2',\r\n    html: typographyHtmlSnippets.h2,\r\n    size: '32px',\r\n    weight: 'Medium',\r\n    letterCase: 'All caps',\r\n    letterSpacing: '0',\r\n    lineHeight: '48px*',\r\n  },\r\n  {\r\n    name: 'Headline 3',\r\n    html: typographyHtmlSnippets.h3,\r\n    size: '28px',\r\n    weight: 'Medium',\r\n    letterCase: 'All caps',\r\n    letterSpacing: '0',\r\n    lineHeight: '42px*',\r\n  },\r\n  {\r\n    name: 'Headline 4',\r\n    html: typographyHtmlSnippets.h4,\r\n    size: '24px',\r\n    weight: 'Medium',\r\n    letterCase: 'All caps',\r\n    letterSpacing: '0',\r\n    lineHeight: '36px*',\r\n  },\r\n  {\r\n    name: 'Headline 5',\r\n    html: typographyHtmlSnippets.h5,\r\n    size: '20px',\r\n    weight: 'Medium',\r\n    letterCase: 'All caps',\r\n    letterSpacing: '0',\r\n    lineHeight: '30px*',\r\n  },\r\n  {\r\n    name: 'Lead (text-l)',\r\n    html: typographyHtmlSnippets.textL,\r\n    size: '18px',\r\n    weight: 'Medium',\r\n    letterCase: 'Sentence',\r\n    letterSpacing: '0',\r\n    lineHeight: '27px*',\r\n  },\r\n  {\r\n    name: 'Body (text-m)',\r\n    html: typographyHtmlSnippets.bodyTextM,\r\n    size: '16px',\r\n    weight: 'Regular',\r\n    letterCase: 'Sentence',\r\n    letterSpacing: '0',\r\n    lineHeight: '24px*',\r\n  },\r\n  {\r\n    name: 'Small (text-s)',\r\n    html: typographyHtmlSnippets.textS,\r\n    size: '14px',\r\n    weight: 'Regular',\r\n    letterCase: 'Sentence',\r\n    letterSpacing: '0',\r\n    lineHeight: '21px*',\r\n  },\r\n  {\r\n    name: 'Extra small (text-xs)',\r\n    html: typographyHtmlSnippets.textXs,\r\n    size: '12px',\r\n    weight: 'Regular',\r\n    letterCase: 'Sentence',\r\n    letterSpacing: '0',\r\n    lineHeight: '18px*',\r\n  },\r\n  {\r\n    name: 'Button',\r\n    html: typographyHtmlSnippets.button,\r\n    size: '16px',\r\n    weight: 'Medium',\r\n    letterCase: 'All caps',\r\n    letterSpacing: '1.25px',\r\n    lineHeight: '16px',\r\n  },\r\n  {\r\n    name: 'Label',\r\n    html: typographyHtmlSnippets.label,\r\n    size: '12px',\r\n    weight: 'Medium',\r\n    letterCase: 'All caps',\r\n    letterSpacing: '1.5px',\r\n    lineHeight: '14.4px',\r\n  },\r\n];\r\n\r\n@Component({\r\n  selector: 'watt-typography',\r\n  templateUrl: './typography.component.html',\r\n  styleUrls: ['./typography.component.scss'],\r\n})\r\nexport class TypographyComponent {\r\n  /**\r\n   * @ignore\r\n   */\r\n  displayedColumns: string[] = [\r\n    'name',\r\n    'size',\r\n    'weight',\r\n    'letterCase',\r\n    'letterSpacing',\r\n    'lineHeight',\r\n  ];\r\n  /**\r\n   * @ignore\r\n   */\r\n  dataSource = typeScale;\r\n}\r\n",
+            "sourceCode": "import { Component } from '@angular/core';\r\n\r\nimport { typographyHtmlSnippets } from './shared/typography-html-snippets';\r\n\r\ninterface Typography {\r\n  name: string;\r\n  html: string;\r\n  size: string;\r\n  weight: string;\r\n  letterCase: string;\r\n  letterSpacing: string;\r\n  lineHeight: string;\r\n}\r\n\r\nconst typeScale: Typography[] = [\r\n  {\r\n    name: 'Headline 1',\r\n    html: typographyHtmlSnippets.h1,\r\n    size: '36px',\r\n    weight: 'Medium',\r\n    letterCase: 'All caps',\r\n    letterSpacing: '0',\r\n    lineHeight: '54px*',\r\n  },\r\n  {\r\n    name: 'Headline 2',\r\n    html: typographyHtmlSnippets.h2,\r\n    size: '32px',\r\n    weight: 'Medium',\r\n    letterCase: 'All caps',\r\n    letterSpacing: '0',\r\n    lineHeight: '48px*',\r\n  },\r\n  {\r\n    name: 'Headline 3',\r\n    html: typographyHtmlSnippets.h3,\r\n    size: '28px',\r\n    weight: 'Medium',\r\n    letterCase: 'All caps',\r\n    letterSpacing: '0',\r\n    lineHeight: '42px*',\r\n  },\r\n  {\r\n    name: 'Headline 4',\r\n    html: typographyHtmlSnippets.h4,\r\n    size: '24px',\r\n    weight: 'Medium',\r\n    letterCase: 'All caps',\r\n    letterSpacing: '0',\r\n    lineHeight: '36px*',\r\n  },\r\n  {\r\n    name: 'Headline 5',\r\n    html: typographyHtmlSnippets.h5,\r\n    size: '20px',\r\n    weight: 'Medium',\r\n    letterCase: 'All caps',\r\n    letterSpacing: '0',\r\n    lineHeight: '30px*',\r\n  },\r\n  {\r\n    name: 'Lead (text-l)',\r\n    html: typographyHtmlSnippets.textL,\r\n    size: '18px',\r\n    weight: 'Medium',\r\n    letterCase: 'Sentence',\r\n    letterSpacing: '0',\r\n    lineHeight: '27px*',\r\n  },\r\n  {\r\n    name: 'Body (text-m)',\r\n    html: typographyHtmlSnippets.bodyTextM,\r\n    size: '16px',\r\n    weight: 'Regular',\r\n    letterCase: 'Sentence',\r\n    letterSpacing: '0',\r\n    lineHeight: '24px*',\r\n  },\r\n  {\r\n    name: 'Small (text-s)',\r\n    html: typographyHtmlSnippets.textS,\r\n    size: '14px',\r\n    weight: 'Regular',\r\n    letterCase: 'Sentence',\r\n    letterSpacing: '0',\r\n    lineHeight: '21px*',\r\n  },\r\n  {\r\n    name: 'Extra small (text-xs)',\r\n    html: typographyHtmlSnippets.textXs,\r\n    size: '12px',\r\n    weight: 'Regular',\r\n    letterCase: 'Sentence',\r\n    letterSpacing: '0',\r\n    lineHeight: '18px*',\r\n  },\r\n  {\r\n    name: 'Button',\r\n    html: typographyHtmlSnippets.button,\r\n    size: '16px',\r\n    weight: 'Medium',\r\n    letterCase: 'All caps',\r\n    letterSpacing: '1.25px',\r\n    lineHeight: '16px',\r\n  },\r\n  {\r\n    name: 'Label',\r\n    html: typographyHtmlSnippets.label,\r\n    size: '12px',\r\n    weight: 'Medium',\r\n    letterCase: 'All caps',\r\n    letterSpacing: '1.5px',\r\n    lineHeight: '14.4px',\r\n  },\r\n];\r\n\r\n@Component({\r\n  selector: 'watt-typography',\r\n  templateUrl: './typography.component.html',\r\n  styleUrls: ['./typography.component.scss'],\r\n})\r\nexport class TypographyComponent {\r\n  /**\r\n   * @ignore\r\n   */\r\n  displayedColumns: string[] = [\r\n    'name',\r\n    'size',\r\n    'weight',\r\n    'letterCase',\r\n    'letterSpacing',\r\n    'lineHeight',\r\n  ];\r\n  /**\r\n   * @ignore\r\n   */\r\n  dataSource = typeScale;\r\n}\r\n",
             "properties": [
                 {
                     "name": "html",
@@ -199,7 +199,7 @@
         },
         {
             "name": "TypographyComponent",
-            "id": "component-TypographyComponent-14597b9ebcfe0658288754c07fd84fbf",
+            "id": "component-TypographyComponent-4e767f7e3b21effa903c5f1930a5cecf",
             "file": "libs/ui-watt/src/lib/foundations/typography/storybook/typography.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -226,7 +226,7 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { Component } from '@angular/core';\r\n\r\nimport { typographyHtmlSnippets } from './shared/styles';\r\n\r\ninterface Typography {\r\n  name: string;\r\n  html: string;\r\n  size: string;\r\n  weight: string;\r\n  letterCase: string;\r\n  letterSpacing: string;\r\n  lineHeight: string;\r\n}\r\n\r\nconst typeScale: Typography[] = [\r\n  {\r\n    name: 'Headline 1',\r\n    html: typographyHtmlSnippets.h1,\r\n    size: '36px',\r\n    weight: 'Medium',\r\n    letterCase: 'All caps',\r\n    letterSpacing: '0',\r\n    lineHeight: '54px*',\r\n  },\r\n  {\r\n    name: 'Headline 2',\r\n    html: typographyHtmlSnippets.h2,\r\n    size: '32px',\r\n    weight: 'Medium',\r\n    letterCase: 'All caps',\r\n    letterSpacing: '0',\r\n    lineHeight: '48px*',\r\n  },\r\n  {\r\n    name: 'Headline 3',\r\n    html: typographyHtmlSnippets.h3,\r\n    size: '28px',\r\n    weight: 'Medium',\r\n    letterCase: 'All caps',\r\n    letterSpacing: '0',\r\n    lineHeight: '42px*',\r\n  },\r\n  {\r\n    name: 'Headline 4',\r\n    html: typographyHtmlSnippets.h4,\r\n    size: '24px',\r\n    weight: 'Medium',\r\n    letterCase: 'All caps',\r\n    letterSpacing: '0',\r\n    lineHeight: '36px*',\r\n  },\r\n  {\r\n    name: 'Headline 5',\r\n    html: typographyHtmlSnippets.h5,\r\n    size: '20px',\r\n    weight: 'Medium',\r\n    letterCase: 'All caps',\r\n    letterSpacing: '0',\r\n    lineHeight: '30px*',\r\n  },\r\n  {\r\n    name: 'Lead (text-l)',\r\n    html: typographyHtmlSnippets.textL,\r\n    size: '18px',\r\n    weight: 'Medium',\r\n    letterCase: 'Sentence',\r\n    letterSpacing: '0',\r\n    lineHeight: '27px*',\r\n  },\r\n  {\r\n    name: 'Body (text-m)',\r\n    html: typographyHtmlSnippets.bodyTextM,\r\n    size: '16px',\r\n    weight: 'Regular',\r\n    letterCase: 'Sentence',\r\n    letterSpacing: '0',\r\n    lineHeight: '24px*',\r\n  },\r\n  {\r\n    name: 'Small (text-s)',\r\n    html: typographyHtmlSnippets.textS,\r\n    size: '14px',\r\n    weight: 'Regular',\r\n    letterCase: 'Sentence',\r\n    letterSpacing: '0',\r\n    lineHeight: '21px*',\r\n  },\r\n  {\r\n    name: 'Extra small (text-xs)',\r\n    html: typographyHtmlSnippets.textXs,\r\n    size: '12px',\r\n    weight: 'Regular',\r\n    letterCase: 'Sentence',\r\n    letterSpacing: '0',\r\n    lineHeight: '18px*',\r\n  },\r\n  {\r\n    name: 'Button',\r\n    html: typographyHtmlSnippets.button,\r\n    size: '16px',\r\n    weight: 'Medium',\r\n    letterCase: 'All caps',\r\n    letterSpacing: '1.25px',\r\n    lineHeight: '16px',\r\n  },\r\n  {\r\n    name: 'Label',\r\n    html: typographyHtmlSnippets.label,\r\n    size: '12px',\r\n    weight: 'Medium',\r\n    letterCase: 'All caps',\r\n    letterSpacing: '1.5px',\r\n    lineHeight: '14.4px',\r\n  },\r\n];\r\n\r\n@Component({\r\n  selector: 'watt-typography',\r\n  templateUrl: './typography.component.html',\r\n  styleUrls: ['./typography.component.scss'],\r\n})\r\nexport class TypographyComponent {\r\n  /**\r\n   * @ignore\r\n   */\r\n  displayedColumns: string[] = [\r\n    'name',\r\n    'size',\r\n    'weight',\r\n    'letterCase',\r\n    'letterSpacing',\r\n    'lineHeight',\r\n  ];\r\n  /**\r\n   * @ignore\r\n   */\r\n  dataSource = typeScale;\r\n}\r\n",
+            "sourceCode": "import { Component } from '@angular/core';\r\n\r\nimport { typographyHtmlSnippets } from './shared/typography-html-snippets';\r\n\r\ninterface Typography {\r\n  name: string;\r\n  html: string;\r\n  size: string;\r\n  weight: string;\r\n  letterCase: string;\r\n  letterSpacing: string;\r\n  lineHeight: string;\r\n}\r\n\r\nconst typeScale: Typography[] = [\r\n  {\r\n    name: 'Headline 1',\r\n    html: typographyHtmlSnippets.h1,\r\n    size: '36px',\r\n    weight: 'Medium',\r\n    letterCase: 'All caps',\r\n    letterSpacing: '0',\r\n    lineHeight: '54px*',\r\n  },\r\n  {\r\n    name: 'Headline 2',\r\n    html: typographyHtmlSnippets.h2,\r\n    size: '32px',\r\n    weight: 'Medium',\r\n    letterCase: 'All caps',\r\n    letterSpacing: '0',\r\n    lineHeight: '48px*',\r\n  },\r\n  {\r\n    name: 'Headline 3',\r\n    html: typographyHtmlSnippets.h3,\r\n    size: '28px',\r\n    weight: 'Medium',\r\n    letterCase: 'All caps',\r\n    letterSpacing: '0',\r\n    lineHeight: '42px*',\r\n  },\r\n  {\r\n    name: 'Headline 4',\r\n    html: typographyHtmlSnippets.h4,\r\n    size: '24px',\r\n    weight: 'Medium',\r\n    letterCase: 'All caps',\r\n    letterSpacing: '0',\r\n    lineHeight: '36px*',\r\n  },\r\n  {\r\n    name: 'Headline 5',\r\n    html: typographyHtmlSnippets.h5,\r\n    size: '20px',\r\n    weight: 'Medium',\r\n    letterCase: 'All caps',\r\n    letterSpacing: '0',\r\n    lineHeight: '30px*',\r\n  },\r\n  {\r\n    name: 'Lead (text-l)',\r\n    html: typographyHtmlSnippets.textL,\r\n    size: '18px',\r\n    weight: 'Medium',\r\n    letterCase: 'Sentence',\r\n    letterSpacing: '0',\r\n    lineHeight: '27px*',\r\n  },\r\n  {\r\n    name: 'Body (text-m)',\r\n    html: typographyHtmlSnippets.bodyTextM,\r\n    size: '16px',\r\n    weight: 'Regular',\r\n    letterCase: 'Sentence',\r\n    letterSpacing: '0',\r\n    lineHeight: '24px*',\r\n  },\r\n  {\r\n    name: 'Small (text-s)',\r\n    html: typographyHtmlSnippets.textS,\r\n    size: '14px',\r\n    weight: 'Regular',\r\n    letterCase: 'Sentence',\r\n    letterSpacing: '0',\r\n    lineHeight: '21px*',\r\n  },\r\n  {\r\n    name: 'Extra small (text-xs)',\r\n    html: typographyHtmlSnippets.textXs,\r\n    size: '12px',\r\n    weight: 'Regular',\r\n    letterCase: 'Sentence',\r\n    letterSpacing: '0',\r\n    lineHeight: '18px*',\r\n  },\r\n  {\r\n    name: 'Button',\r\n    html: typographyHtmlSnippets.button,\r\n    size: '16px',\r\n    weight: 'Medium',\r\n    letterCase: 'All caps',\r\n    letterSpacing: '1.25px',\r\n    lineHeight: '16px',\r\n  },\r\n  {\r\n    name: 'Label',\r\n    html: typographyHtmlSnippets.label,\r\n    size: '12px',\r\n    weight: 'Medium',\r\n    letterCase: 'All caps',\r\n    letterSpacing: '1.5px',\r\n    lineHeight: '14.4px',\r\n  },\r\n];\r\n\r\n@Component({\r\n  selector: 'watt-typography',\r\n  templateUrl: './typography.component.html',\r\n  styleUrls: ['./typography.component.scss'],\r\n})\r\nexport class TypographyComponent {\r\n  /**\r\n   * @ignore\r\n   */\r\n  displayedColumns: string[] = [\r\n    'name',\r\n    'size',\r\n    'weight',\r\n    'letterCase',\r\n    'letterSpacing',\r\n    'lineHeight',\r\n  ];\r\n  /**\r\n   * @ignore\r\n   */\r\n  dataSource = typeScale;\r\n}\r\n",
             "assetsDirs": [],
             "styleUrlsData": [
                 {
@@ -385,6 +385,86 @@
                 "defaultValue": "Template.bind({})"
             },
             {
+                "name": "bodyTextM",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "libs/ui-watt/src/lib/foundations/typography/storybook/typography.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "() => ({\r\n  template: typographyHtmlSnippets.bodyTextM,\r\n})"
+            },
+            {
+                "name": "button",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "libs/ui-watt/src/lib/foundations/typography/storybook/typography.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "() => ({\r\n  template: typographyHtmlSnippets.button,\r\n})"
+            },
+            {
+                "name": "h1",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "libs/ui-watt/src/lib/foundations/typography/storybook/typography.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "() => ({\r\n  template: typographyHtmlSnippets.h1,\r\n})"
+            },
+            {
+                "name": "h2",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "libs/ui-watt/src/lib/foundations/typography/storybook/typography.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "() => ({\r\n  template: typographyHtmlSnippets.h2,\r\n})"
+            },
+            {
+                "name": "h3",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "libs/ui-watt/src/lib/foundations/typography/storybook/typography.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "() => ({\r\n  template: typographyHtmlSnippets.h3,\r\n})"
+            },
+            {
+                "name": "h4",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "libs/ui-watt/src/lib/foundations/typography/storybook/typography.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "() => ({\r\n  template: typographyHtmlSnippets.h4,\r\n})"
+            },
+            {
+                "name": "h5",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "libs/ui-watt/src/lib/foundations/typography/storybook/typography.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "() => ({\r\n  template: typographyHtmlSnippets.h5,\r\n})"
+            },
+            {
+                "name": "label",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "libs/ui-watt/src/lib/foundations/typography/storybook/typography.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "() => ({\r\n  template: typographyHtmlSnippets.label,\r\n})"
+            },
+            {
                 "name": "Template",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
@@ -403,6 +483,36 @@
                 "deprecationMessage": "",
                 "type": "Story<TypographyComponent>",
                 "defaultValue": "(args) => ({\r\n  props: args,\r\n})"
+            },
+            {
+                "name": "textL",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "libs/ui-watt/src/lib/foundations/typography/storybook/typography.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "() => ({\r\n  template: typographyHtmlSnippets.textL,\r\n})"
+            },
+            {
+                "name": "textS",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "libs/ui-watt/src/lib/foundations/typography/storybook/typography.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "() => ({\r\n  template: typographyHtmlSnippets.textS,\r\n})"
+            },
+            {
+                "name": "textXs",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "libs/ui-watt/src/lib/foundations/typography/storybook/typography.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "() => ({\r\n  template: typographyHtmlSnippets.textXs,\r\n})"
             },
             {
                 "name": "typeScale",
@@ -428,21 +538,11 @@
                 "name": "typographyHtmlSnippets",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "libs/ui-watt/src/lib/foundations/typography/storybook/shared/styles.ts",
+                "file": "libs/ui-watt/src/lib/foundations/typography/storybook/shared/typography-html-snippets.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "object",
                 "defaultValue": "{\r\n  h1: '<h1>Headline 1</h1>',\r\n  h2: '<h2>Headline 2</h2>',\r\n  h3: '<h3>Headline 3</h3>',\r\n  h4: '<h4>Headline 4</h4>',\r\n  h5: '<h5>Headline 5</h5>',\r\n  textL: '<p class=\"watt-text-l\">Lead (text-l)</p>',\r\n  bodyTextM: '<p>Body (text-m)</p>',\r\n  textS: '<p><small>Body (text-s)</small></p>',\r\n  textXs: '<p class=\"watt-text-xs\">Extra small (text-xs)</p>',\r\n  button: '<p class=\"watt-button\">Button</p>',\r\n  label: '<p class=\"watt-label\">Label</p>',\r\n}"
-            },
-            {
-                "name": "TypographyUsage",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "libs/ui-watt/src/lib/foundations/typography/storybook/typography.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "() => ({\r\n  template: typographyUsageTemplate,\r\n})"
             },
             {
                 "name": "typographyUsageTemplate",
@@ -483,6 +583,86 @@
             ],
             "libs/ui-watt/src/lib/foundations/typography/storybook/typography.stories.ts": [
                 {
+                    "name": "bodyTextM",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "libs/ui-watt/src/lib/foundations/typography/storybook/typography.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "() => ({\r\n  template: typographyHtmlSnippets.bodyTextM,\r\n})"
+                },
+                {
+                    "name": "button",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "libs/ui-watt/src/lib/foundations/typography/storybook/typography.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "() => ({\r\n  template: typographyHtmlSnippets.button,\r\n})"
+                },
+                {
+                    "name": "h1",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "libs/ui-watt/src/lib/foundations/typography/storybook/typography.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "() => ({\r\n  template: typographyHtmlSnippets.h1,\r\n})"
+                },
+                {
+                    "name": "h2",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "libs/ui-watt/src/lib/foundations/typography/storybook/typography.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "() => ({\r\n  template: typographyHtmlSnippets.h2,\r\n})"
+                },
+                {
+                    "name": "h3",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "libs/ui-watt/src/lib/foundations/typography/storybook/typography.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "() => ({\r\n  template: typographyHtmlSnippets.h3,\r\n})"
+                },
+                {
+                    "name": "h4",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "libs/ui-watt/src/lib/foundations/typography/storybook/typography.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "() => ({\r\n  template: typographyHtmlSnippets.h4,\r\n})"
+                },
+                {
+                    "name": "h5",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "libs/ui-watt/src/lib/foundations/typography/storybook/typography.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "() => ({\r\n  template: typographyHtmlSnippets.h5,\r\n})"
+                },
+                {
+                    "name": "label",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "libs/ui-watt/src/lib/foundations/typography/storybook/typography.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "() => ({\r\n  template: typographyHtmlSnippets.label,\r\n})"
+                },
+                {
                     "name": "Template",
                     "ctype": "miscellaneous",
                     "subtype": "variable",
@@ -493,6 +673,36 @@
                     "defaultValue": "(args) => ({\r\n  props: args,\r\n})"
                 },
                 {
+                    "name": "textL",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "libs/ui-watt/src/lib/foundations/typography/storybook/typography.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "() => ({\r\n  template: typographyHtmlSnippets.textL,\r\n})"
+                },
+                {
+                    "name": "textS",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "libs/ui-watt/src/lib/foundations/typography/storybook/typography.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "() => ({\r\n  template: typographyHtmlSnippets.textS,\r\n})"
+                },
+                {
+                    "name": "textXs",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "libs/ui-watt/src/lib/foundations/typography/storybook/typography.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "() => ({\r\n  template: typographyHtmlSnippets.textXs,\r\n})"
+                },
+                {
                     "name": "Typography",
                     "ctype": "miscellaneous",
                     "subtype": "variable",
@@ -501,16 +711,6 @@
                     "deprecationMessage": "",
                     "type": "",
                     "defaultValue": "Template.bind({})"
-                },
-                {
-                    "name": "TypographyUsage",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "libs/ui-watt/src/lib/foundations/typography/storybook/typography.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "() => ({\r\n  template: typographyUsageTemplate,\r\n})"
                 },
                 {
                     "name": "typographyUsageTemplate",
@@ -535,12 +735,12 @@
                     "defaultValue": "[\r\n  {\r\n    name: 'Headline 1',\r\n    html: typographyHtmlSnippets.h1,\r\n    size: '36px',\r\n    weight: 'Medium',\r\n    letterCase: 'All caps',\r\n    letterSpacing: '0',\r\n    lineHeight: '54px*',\r\n  },\r\n  {\r\n    name: 'Headline 2',\r\n    html: typographyHtmlSnippets.h2,\r\n    size: '32px',\r\n    weight: 'Medium',\r\n    letterCase: 'All caps',\r\n    letterSpacing: '0',\r\n    lineHeight: '48px*',\r\n  },\r\n  {\r\n    name: 'Headline 3',\r\n    html: typographyHtmlSnippets.h3,\r\n    size: '28px',\r\n    weight: 'Medium',\r\n    letterCase: 'All caps',\r\n    letterSpacing: '0',\r\n    lineHeight: '42px*',\r\n  },\r\n  {\r\n    name: 'Headline 4',\r\n    html: typographyHtmlSnippets.h4,\r\n    size: '24px',\r\n    weight: 'Medium',\r\n    letterCase: 'All caps',\r\n    letterSpacing: '0',\r\n    lineHeight: '36px*',\r\n  },\r\n  {\r\n    name: 'Headline 5',\r\n    html: typographyHtmlSnippets.h5,\r\n    size: '20px',\r\n    weight: 'Medium',\r\n    letterCase: 'All caps',\r\n    letterSpacing: '0',\r\n    lineHeight: '30px*',\r\n  },\r\n  {\r\n    name: 'Lead (text-l)',\r\n    html: typographyHtmlSnippets.textL,\r\n    size: '18px',\r\n    weight: 'Medium',\r\n    letterCase: 'Sentence',\r\n    letterSpacing: '0',\r\n    lineHeight: '27px*',\r\n  },\r\n  {\r\n    name: 'Body (text-m)',\r\n    html: typographyHtmlSnippets.bodyTextM,\r\n    size: '16px',\r\n    weight: 'Regular',\r\n    letterCase: 'Sentence',\r\n    letterSpacing: '0',\r\n    lineHeight: '24px*',\r\n  },\r\n  {\r\n    name: 'Small (text-s)',\r\n    html: typographyHtmlSnippets.textS,\r\n    size: '14px',\r\n    weight: 'Regular',\r\n    letterCase: 'Sentence',\r\n    letterSpacing: '0',\r\n    lineHeight: '21px*',\r\n  },\r\n  {\r\n    name: 'Extra small (text-xs)',\r\n    html: typographyHtmlSnippets.textXs,\r\n    size: '12px',\r\n    weight: 'Regular',\r\n    letterCase: 'Sentence',\r\n    letterSpacing: '0',\r\n    lineHeight: '18px*',\r\n  },\r\n  {\r\n    name: 'Button',\r\n    html: typographyHtmlSnippets.button,\r\n    size: '16px',\r\n    weight: 'Medium',\r\n    letterCase: 'All caps',\r\n    letterSpacing: '1.25px',\r\n    lineHeight: '16px',\r\n  },\r\n  {\r\n    name: 'Label',\r\n    html: typographyHtmlSnippets.label,\r\n    size: '12px',\r\n    weight: 'Medium',\r\n    letterCase: 'All caps',\r\n    letterSpacing: '1.5px',\r\n    lineHeight: '14.4px',\r\n  },\r\n]"
                 }
             ],
-            "libs/ui-watt/src/lib/foundations/typography/storybook/shared/styles.ts": [
+            "libs/ui-watt/src/lib/foundations/typography/storybook/shared/typography-html-snippets.ts": [
                 {
                     "name": "typographyHtmlSnippets",
                     "ctype": "miscellaneous",
                     "subtype": "variable",
-                    "file": "libs/ui-watt/src/lib/foundations/typography/storybook/shared/styles.ts",
+                    "file": "libs/ui-watt/src/lib/foundations/typography/storybook/shared/typography-html-snippets.ts",
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "object",
@@ -554,7 +754,7 @@
     },
     "routes": [],
     "coverage": {
-        "count": 6,
+        "count": 3,
         "status": "low",
         "files": [
             {
@@ -587,7 +787,7 @@
                 "status": "good"
             },
             {
-                "filePath": "libs/ui-watt/src/lib/foundations/typography/storybook/shared/styles.ts",
+                "filePath": "libs/ui-watt/src/lib/foundations/typography/storybook/shared/typography-html-snippets.ts",
                 "type": "variable",
                 "linktype": "miscellaneous",
                 "linksubtype": "variable",
@@ -629,6 +829,86 @@
                 "type": "variable",
                 "linktype": "miscellaneous",
                 "linksubtype": "variable",
+                "name": "bodyTextM",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "libs/ui-watt/src/lib/foundations/typography/storybook/typography.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "button",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "libs/ui-watt/src/lib/foundations/typography/storybook/typography.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "h1",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "libs/ui-watt/src/lib/foundations/typography/storybook/typography.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "h2",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "libs/ui-watt/src/lib/foundations/typography/storybook/typography.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "h3",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "libs/ui-watt/src/lib/foundations/typography/storybook/typography.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "h4",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "libs/ui-watt/src/lib/foundations/typography/storybook/typography.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "h5",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "libs/ui-watt/src/lib/foundations/typography/storybook/typography.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "label",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "libs/ui-watt/src/lib/foundations/typography/storybook/typography.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
                 "name": "Template",
                 "coveragePercent": 0,
                 "coverageCount": "0/1",
@@ -639,7 +919,7 @@
                 "type": "variable",
                 "linktype": "miscellaneous",
                 "linksubtype": "variable",
-                "name": "Typography",
+                "name": "textL",
                 "coveragePercent": 0,
                 "coverageCount": "0/1",
                 "status": "low"
@@ -649,7 +929,27 @@
                 "type": "variable",
                 "linktype": "miscellaneous",
                 "linksubtype": "variable",
-                "name": "TypographyUsage",
+                "name": "textS",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "libs/ui-watt/src/lib/foundations/typography/storybook/typography.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "textXs",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "libs/ui-watt/src/lib/foundations/typography/storybook/typography.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Typography",
                 "coveragePercent": 0,
                 "coverageCount": "0/1",
                 "status": "low"

@@ -1,6 +1,6 @@
 import { moduleMetadata, Story, Meta } from '@storybook/angular';
 
-import { typographyHtmlSnippets } from './shared/styles';
+import { typographyHtmlSnippets } from './shared/typography-html-snippets';
 import { TypographyComponent } from './typography.component';
 import { TypographyModule } from './typography.module';
 
@@ -50,8 +50,8 @@ Typography.parameters = {
   docs: {
     //page: null,
     source: {
-      code: typographyUsageTemplate
-    }
+      code: typographyUsageTemplate,
+    },
   },
 };
 
@@ -186,5 +186,3 @@ label.parameters = {
     },
   },
 };
-
-
