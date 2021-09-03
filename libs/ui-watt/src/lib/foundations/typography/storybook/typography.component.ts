@@ -15,7 +15,7 @@ interface Typography {
 const typeScale: Typography[] = [
   {
     name: 'Headline 1',
-    html: typographyHtmlSnippets.h1,
+    html: typographyHtmlSnippets.h1.tag,
     size: '36px',
     weight: 'Medium',
     letterCase: 'All caps',
@@ -24,7 +24,7 @@ const typeScale: Typography[] = [
   },
   {
     name: 'Headline 2',
-    html: typographyHtmlSnippets.h2,
+    html: typographyHtmlSnippets.h2.tag,
     size: '32px',
     weight: 'Medium',
     letterCase: 'All caps',
@@ -33,7 +33,7 @@ const typeScale: Typography[] = [
   },
   {
     name: 'Headline 3',
-    html: typographyHtmlSnippets.h3,
+    html: typographyHtmlSnippets.h3.tag,
     size: '28px',
     weight: 'Medium',
     letterCase: 'All caps',
@@ -42,7 +42,7 @@ const typeScale: Typography[] = [
   },
   {
     name: 'Headline 4',
-    html: typographyHtmlSnippets.h4,
+    html: typographyHtmlSnippets.h4.tag,
     size: '24px',
     weight: 'Medium',
     letterCase: 'All caps',
@@ -51,7 +51,7 @@ const typeScale: Typography[] = [
   },
   {
     name: 'Headline 5',
-    html: typographyHtmlSnippets.h5,
+    html: typographyHtmlSnippets.h5.tag,
     size: '20px',
     weight: 'Medium',
     letterCase: 'All caps',
@@ -69,7 +69,7 @@ const typeScale: Typography[] = [
   },
   {
     name: 'Body (text-m)',
-    html: typographyHtmlSnippets.bodyTextM,
+    html: typographyHtmlSnippets.bodyTextM.tag,
     size: '16px',
     weight: 'Regular',
     letterCase: 'Sentence',
@@ -96,7 +96,7 @@ const typeScale: Typography[] = [
   },
   {
     name: 'Button',
-    html: typographyHtmlSnippets.button,
+    html: typographyHtmlSnippets.button.storybook,
     size: '16px',
     weight: 'Medium',
     letterCase: 'All caps',
@@ -105,7 +105,7 @@ const typeScale: Typography[] = [
   },
   {
     name: 'Label',
-    html: typographyHtmlSnippets.label,
+    html: typographyHtmlSnippets.label.class,
     size: '12px',
     weight: 'Medium',
     letterCase: 'All caps',
