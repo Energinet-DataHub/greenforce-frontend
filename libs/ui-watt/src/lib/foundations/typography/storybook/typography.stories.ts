@@ -21,11 +21,12 @@ const Template: Story<TypographyComponent> = (args) => ({
 
 //👇 Each story then reuses that template
 export const Typography = Template.bind({});
+const emptySourceCodeBlock = ' ';
 Typography.storyName = 'Overview';
 Typography.parameters = {
   docs: {
     source: {
-      code: ' ',
+      code: emptySourceCodeBlock,
     },
   },
 };
