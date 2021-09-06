@@ -4,30 +4,6 @@ import { typographyHtmlSnippets } from './shared/typography-html-snippets';
 import { TypographyComponent } from './typography.component';
 import { TypographyModule } from './typography.module';
 
-const typographyUsageTemplate = `
-${typographyHtmlSnippets.h1.class}
-
-${typographyHtmlSnippets.h2.class}
-
-${typographyHtmlSnippets.h3.class}
-
-${typographyHtmlSnippets.h4.class}
-
-${typographyHtmlSnippets.h5.class}
-
-${typographyHtmlSnippets.textL}
-
-${typographyHtmlSnippets.bodyTextM.tag}
-
-${typographyHtmlSnippets.textS}
-
-${typographyHtmlSnippets.textXs}
-
-${typographyHtmlSnippets.button.storybook}
-
-${typographyHtmlSnippets.label.class}
-`;
-
 export default {
   title: 'Foundations/Typography',
   component: TypographyComponent,
@@ -49,7 +25,7 @@ Typography.storyName = 'Overview';
 Typography.parameters = {
   docs: {
     source: {
-      code: typographyUsageTemplate,
+      code: ' ',
     },
   },
 };
