@@ -1,7 +1,10 @@
 ---
-name:  Project Risk
+name: Project Risk
 about: Use this template for documenting project risks.
-labels: risk
+title: ''
+labels: ''
+assignees: ''
+
 ---
 
 ### Risk / Issue
