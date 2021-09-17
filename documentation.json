@@ -425,6 +425,16 @@
                 "defaultValue": "`\r\nRecommended\r\n${typographyHtmlSnippets.button.tag}\r\n\r\nAlternative\r\n${typographyHtmlSnippets.button.class}\r\n`"
             },
             {
+                "name": "emptySourceCodeBlock",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "libs/ui-watt/src/lib/foundations/typography/storybook/typography.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "string",
+                "defaultValue": "' '"
+            },
+            {
                 "name": "h1",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
@@ -623,16 +633,6 @@
                 "deprecationMessage": "",
                 "type": "object",
                 "defaultValue": "{\r\n  h1: {\r\n    tag: '<h1>Headline 1</h1>',\r\n    class: '<p class=\"watt-headline-1\">Headline 1</p>',\r\n  },\r\n  h2: {\r\n    tag: '<h2>Headline 2</h2>',\r\n    class: '<p class=\"watt-headline-2\">Headline 2</p>',\r\n  },\r\n  h3: {\r\n    tag: '<h3>Headline 3</h3>',\r\n    class: '<p class=\"watt-headline-3\">Headline 3</p>',\r\n  },\r\n  h4: {\r\n    tag: '<h4>Headline 4</h4>',\r\n    class: '<p class=\"watt-headline-4\">Headline 4</p>',\r\n  },\r\n  h5: {\r\n    tag: '<h5>Headline 5</h5>',\r\n    class: '<p class=\"watt-headline-5\">Headline 5</p>',\r\n  },\r\n  textL: '<p class=\"watt-text-l\">Lead (text-l)</p>',\r\n  bodyTextM: {\r\n    tag: '<p>Body (text-m)</p>',\r\n    class: '<div class=\"watt-text-m\">Body (text-m)</div>',\r\n  },\r\n  textS: '<p><small>Body (text-s)</small></p>',\r\n  textXs: '<p class=\"watt-text-xs\">Extra small (text-xs)</p>',\r\n  button: {\r\n    storybook: '<p class=\"watt-button\">Button</p>',\r\n    tag: '<button type=\"button\">Button</button>',\r\n    class: '<a class=\"watt-button\" href=\"#\">Button</a>',\r\n  },\r\n  label: {\r\n    tag: '<label>Label</label>',\r\n    class: '<p class=\"watt-label\">Label</p>',\r\n  },\r\n}"
-            },
-            {
-                "name": "typographyUsageTemplate",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "libs/ui-watt/src/lib/foundations/typography/storybook/typography.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "`\r\n${typographyHtmlSnippets.h1.class}\r\n\r\n${typographyHtmlSnippets.h2.class}\r\n\r\n${typographyHtmlSnippets.h3.class}\r\n\r\n${typographyHtmlSnippets.h4.class}\r\n\r\n${typographyHtmlSnippets.h5.class}\r\n\r\n${typographyHtmlSnippets.textL}\r\n\r\n${typographyHtmlSnippets.bodyTextM.tag}\r\n\r\n${typographyHtmlSnippets.textS}\r\n\r\n${typographyHtmlSnippets.textXs}\r\n\r\n${typographyHtmlSnippets.button.storybook}\r\n\r\n${typographyHtmlSnippets.label.class}\r\n`"
             }
         ],
         "functions": [],
@@ -701,6 +701,16 @@
                     "deprecationMessage": "",
                     "type": "",
                     "defaultValue": "`\r\nRecommended\r\n${typographyHtmlSnippets.button.tag}\r\n\r\nAlternative\r\n${typographyHtmlSnippets.button.class}\r\n`"
+                },
+                {
+                    "name": "emptySourceCodeBlock",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "libs/ui-watt/src/lib/foundations/typography/storybook/typography.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string",
+                    "defaultValue": "' '"
                 },
                 {
                     "name": "h1",
@@ -871,16 +881,6 @@
                     "deprecationMessage": "",
                     "type": "",
                     "defaultValue": "Template.bind({})"
-                },
-                {
-                    "name": "typographyUsageTemplate",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "libs/ui-watt/src/lib/foundations/typography/storybook/typography.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "`\r\n${typographyHtmlSnippets.h1.class}\r\n\r\n${typographyHtmlSnippets.h2.class}\r\n\r\n${typographyHtmlSnippets.h3.class}\r\n\r\n${typographyHtmlSnippets.h4.class}\r\n\r\n${typographyHtmlSnippets.h5.class}\r\n\r\n${typographyHtmlSnippets.textL}\r\n\r\n${typographyHtmlSnippets.bodyTextM.tag}\r\n\r\n${typographyHtmlSnippets.textS}\r\n\r\n${typographyHtmlSnippets.textXs}\r\n\r\n${typographyHtmlSnippets.button.storybook}\r\n\r\n${typographyHtmlSnippets.label.class}\r\n`"
                 }
             ],
             "libs/ui-watt/src/lib/foundations/typography/storybook/typography.component.ts": [
@@ -1020,6 +1020,16 @@
                 "linktype": "miscellaneous",
                 "linksubtype": "variable",
                 "name": "buttonCodeExample",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "libs/ui-watt/src/lib/foundations/typography/storybook/typography.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "emptySourceCodeBlock",
                 "coveragePercent": 0,
                 "coverageCount": "0/1",
                 "status": "low"
@@ -1190,16 +1200,6 @@
                 "linktype": "miscellaneous",
                 "linksubtype": "variable",
                 "name": "Typography",
-                "coveragePercent": 0,
-                "coverageCount": "0/1",
-                "status": "low"
-            },
-            {
-                "filePath": "libs/ui-watt/src/lib/foundations/typography/storybook/typography.stories.ts",
-                "type": "variable",
-                "linktype": "miscellaneous",
-                "linksubtype": "variable",
-                "name": "typographyUsageTemplate",
                 "coveragePercent": 0,
                 "coverageCount": "0/1",
                 "status": "low"
