@@ -1,6 +1,8 @@
 // Include Material theme
 @import '@angular/material/prebuilt-themes/indigo-pink.css';
 
+@import './foundations/box-sizing';
+
 html,
 body {
   height: 100%;
