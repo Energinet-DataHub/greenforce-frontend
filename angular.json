@@ -110,6 +110,15 @@
             "devServerTarget": "dh3-admin:serve:development"
           },
           "configurations": {
+            "ci": {
+              "cypressConfig": "apps/dh3-admin-e2e/cypress.ci.json",
+              "headless": true
+            },
+            "ci:production": {
+              "cypressConfig": "apps/dh3-admin-e2e/cypress.ci.json",
+              "devServerTarget": "dh3-admin:serve:production",
+              "headless": true
+            },
             "production": {
               "devServerTarget": "dh3-admin:serve:production"
             }

@@ -1,0 +1,11 @@
+{
+  "chromeWebSecurity": false,
+  "fileServerFolder": ".",
+  "fixturesFolder": "./src/fixtures",
+  "integrationFolder": "./src/integration",
+  "modifyObstructiveCode": false,
+  "pluginsFile": false,
+  "screenshotsFolder": "../../dist/cypress/apps/dh3-admin-e2e/screenshots",
+  "supportFile": "./src/support/index.ts",
+  "video": false
+}
