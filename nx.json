@@ -35,6 +35,13 @@
       "tags": [],
       "implicitDependencies": ["dh3-admin"]
     },
+    "ett-app": {
+      "tags": ["product:ett", "type:app"]
+    },
+    "ett-app-e2e": {
+      "tags": [],
+      "implicitDependencies": ["ett-app"]
+    },
     "ui-watt": {
       "tags": []
     },

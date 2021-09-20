@@ -21,7 +21,10 @@
               "apps/dh3-admin/src/favicon.ico",
               "apps/dh3-admin/src/assets"
             ],
-            "styles": ["libs/ui-watt/src/lib/watt.scss", "apps/dh3-admin/src/styles.scss"],
+            "styles": [
+              "libs/ui-watt/src/lib/watt.scss",
+              "apps/dh3-admin/src/styles.scss"
+            ],
             "scripts": []
           },
           "configurations": {
@@ -116,6 +119,134 @@
           "builder": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": ["apps/dh3-admin-e2e/**/*.{js,ts}"]
+          }
+        }
+      }
+    },
+    "ett-app": {
+      "projectType": "application",
+      "root": "apps/ett-app",
+      "sourceRoot": "apps/ett-app/src",
+      "prefix": "ett",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/ett-app",
+            "index": "apps/ett-app/src/index.html",
+            "main": "apps/ett-app/src/main.ts",
+            "polyfills": "apps/ett-app/src/polyfills.ts",
+            "tsConfig": "apps/ett-app/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "apps/ett-app/src/favicon.ico",
+              "apps/ett-app/src/assets"
+            ],
+            "styles": ["apps/ett-app/src/styles.scss"],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "apps/ett-app/src/environments/environment.ts",
+                  "with": "apps/ett-app/src/environments/environment.prod.ts"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "ett-app:build:production"
+            },
+            "development": {
+              "browserTarget": "ett-app:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "ett-app:build"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "apps/ett-app/src/**/*.ts",
+              "apps/ett-app/src/**/*.html"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/ett-app"],
+          "options": {
+            "jestConfig": "apps/ett-app/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "ett-app-e2e": {
+      "root": "apps/ett-app-e2e",
+      "sourceRoot": "apps/ett-app-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/ett-app-e2e/cypress.json",
+            "tsConfig": "apps/ett-app-e2e/tsconfig.e2e.json",
+            "devServerTarget": "ett-app:serve:development"
+          },
+          "configurations": {
+            "ci": {
+              "cypressConfig": "apps/ett-app-e2e/cypress.ci.json",
+              "headless": true
+            },
+            "ci:production": {
+              "cypressConfig": "apps/ett-app-e2e/cypress.ci.json",
+              "devServerTarget": "ett-app:serve:production",
+              "headless": true
+            },
+            "production": {
+              "devServerTarget": "ett-app:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["apps/ett-app-e2e/**/*.{js,ts}"]
           }
         }
       }
