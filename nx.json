@@ -36,7 +36,7 @@
       "implicitDependencies": ["dh3-admin"]
     },
     "ett-app": {
-      "tags": ["project:ett", "type:app"]
+      "tags": ["product:ett", "type:app"]
     },
     "ett-app-e2e": {
       "tags": [],
