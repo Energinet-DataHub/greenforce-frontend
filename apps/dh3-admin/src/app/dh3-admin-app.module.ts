@@ -2,12 +2,12 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { WattModule } from '@energinet/watt';
 
-import { AppComponent } from './app.component';
+import { Dh3AdminAppComponent } from './dh3-admin-app.component';
 
 @NgModule({
-  declarations: [AppComponent],
+  bootstrap: [Dh3AdminAppComponent],
+  declarations: [Dh3AdminAppComponent],
   imports: [BrowserModule, WattModule],
   providers: [],
-  bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class Dh3AdminAppModule {}
