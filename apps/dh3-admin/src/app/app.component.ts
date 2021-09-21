@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'energinet-root',
+  selector: 'dh-app',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })

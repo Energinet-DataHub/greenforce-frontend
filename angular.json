@@ -5,7 +5,7 @@
       "projectType": "application",
       "root": "apps/dh3-admin",
       "sourceRoot": "apps/dh3-admin/src",
-      "prefix": "energinet",
+      "prefix": "dh",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
