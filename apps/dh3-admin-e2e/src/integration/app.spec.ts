@@ -8,6 +8,6 @@ describe('dh3-admin', () => {
     cy.login('my-email@something.com', 'myPassword');
 
     // Function helper example, see `../support/app.po.ts` file
-    getGreeting().contains('Welcome to dh3-admin!');
+    getGreeting().contains('THIS IS THE APP');
   });
 });
