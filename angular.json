@@ -346,7 +346,9 @@
           },
           "configurations": {
             "ci": {
-              "devServerTarget": "ui-watt:storybook:ci"
+              "cypressConfig": "apps/ui-watt-e2e/cypress.ci.json",
+              "devServerTarget": "ui-watt:storybook:ci",
+              "headless": true
             }
           }
         },
