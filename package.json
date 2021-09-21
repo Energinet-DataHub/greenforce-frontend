@@ -18,6 +18,7 @@
     "affected:e2e": "nx affected:e2e --parallel",
     "affected:libs": "nx affected:libs",
     "affected:lint": "nx affected:lint --parallel",
+    "affected:lint:fix": "nx affected:lint --fix --parallel",
     "affected:test": "nx affected:test --parallel",
     "build": "nx run-many --target=build --configuration=production --all --with-deps --parallel",
     "ci": "yarn lint && yarn test && yarn build && yarn e2e --configuration=ci",
