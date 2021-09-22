@@ -114,7 +114,7 @@ jobs:
 
   format:
     name: 'PR: Format'
-    if: ${{ env.is-pull-request == 'true' }}
+    if: ${{ github.event_name  == 'pull_request' }}
     runs-on: ubuntu-latest
 
     steps:
