@@ -15,7 +15,7 @@
     "affected:build": "nx affected:build --configuration=production --parallel",
     "affected:ci": "yarn affected:lint && yarn affected:test && yarn affected:build && yarn affected:e2e",
     "affected:dep-graph": "nx affected:dep-graph",
-    "affected:e2e": "nx affected:e2e --parallel",
+    "affected:e2e": "nx affected:e2e",
     "affected:libs": "nx affected:libs",
     "affected:lint": "nx affected:lint --parallel",
     "affected:lint:fix": "nx affected:lint --fix --parallel",
