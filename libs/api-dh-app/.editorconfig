@@ -270,7 +270,10 @@ csharp_space_between_square_brackets = false
 csharp_preserve_single_line_statements = false
 csharp_preserve_single_line_blocks = true
 
-# Analyzers/StyleCop rules
+###############################
+# .NET Analyzers              #
+###############################
+
 dotnet_diagnostic.CA1303.severity = suggestion
 dotnet_diagnostic.CA1715.severity = error
 dotnet_diagnostic.CA1001.severity = warning
@@ -290,6 +293,7 @@ dotnet_diagnostic.CA1404.severity = warning
 dotnet_diagnostic.CA1405.severity = warning
 dotnet_diagnostic.CA1410.severity = warning
 dotnet_diagnostic.CA1415.severity = warning
+dotnet_diagnostic.CS1591.severity = none
 dotnet_diagnostic.CA1812.severity = suggestion
 dotnet_diagnostic.CA1821.severity = warning
 dotnet_diagnostic.CA1900.severity = warning
@@ -336,20 +340,27 @@ dotnet_diagnostic.CA2238.severity = warning
 dotnet_diagnostic.CA2240.severity = warning
 dotnet_diagnostic.CA2241.severity = warning
 dotnet_diagnostic.CA2242.severity = warning
-dotnet_diagnostic.CS1591.severity = none
-dotnet_diagnostic.SA0001.severity = none
+
+###############################
+# StyleCop Analyzers          #
+###############################
+
+# See rules here: https://github.com/DotNetAnalyzers/StyleCopAnalyzers/tree/master/documentation
+
+dotnet_diagnostic.SA0001.severity = error
+dotnet_diagnostic.SA0002.severity = error
 dotnet_diagnostic.SA1000.severity = error
 dotnet_diagnostic.SA1001.severity = error
 dotnet_diagnostic.SA1002.severity = error
 dotnet_diagnostic.SA1003.severity = error
 dotnet_diagnostic.SA1004.severity = error
-dotnet_diagnostic.SA1005.severity = suggestion
+dotnet_diagnostic.SA1005.severity = error
 dotnet_diagnostic.SA1006.severity = error
 dotnet_diagnostic.SA1007.severity = error
 dotnet_diagnostic.SA1008.severity = error
 dotnet_diagnostic.SA1009.severity = error
 dotnet_diagnostic.SA1010.severity = error
-dotnet_diagnostic.SA1011.severity = none
+dotnet_diagnostic.SA1011.severity = error
 dotnet_diagnostic.SA1012.severity = error
 dotnet_diagnostic.SA1013.severity = error
 dotnet_diagnostic.SA1014.severity = error
@@ -400,11 +411,11 @@ dotnet_diagnostic.SA1131.severity = none
 dotnet_diagnostic.SA1132.severity = error
 dotnet_diagnostic.SA1133.severity = error
 dotnet_diagnostic.SA1134.severity = error
-dotnet_diagnostic.SA1200.severity = none
-dotnet_diagnostic.SA1201.severity = none
+dotnet_diagnostic.SA1200.severity = error
+dotnet_diagnostic.SA1201.severity = error
 dotnet_diagnostic.SA1202.severity = error
 dotnet_diagnostic.SA1203.severity = error
-dotnet_diagnostic.SA1204.severity = none
+dotnet_diagnostic.SA1204.severity = error
 dotnet_diagnostic.SA1205.severity = error
 dotnet_diagnostic.SA1206.severity = error
 dotnet_diagnostic.SA1207.severity = error
@@ -446,7 +457,7 @@ dotnet_diagnostic.SA1413.severity = error
 dotnet_diagnostic.SA1500.severity = error
 dotnet_diagnostic.SA1501.severity = none
 dotnet_diagnostic.SA1502.severity = none
-dotnet_diagnostic.SA1503.severity = none
+dotnet_diagnostic.SA1503.severity = error
 dotnet_diagnostic.SA1504.severity = error
 dotnet_diagnostic.SA1505.severity = error
 dotnet_diagnostic.SA1506.severity = error
@@ -464,7 +475,7 @@ dotnet_diagnostic.SA1517.severity = error
 dotnet_diagnostic.SA1518.severity = error
 dotnet_diagnostic.SA1519.severity = error
 dotnet_diagnostic.SA1520.severity = error
-dotnet_diagnostic.SA1600.severity =warning
+dotnet_diagnostic.SA1600.severity = error
 dotnet_diagnostic.SA1601.severity = error
 dotnet_diagnostic.SA1602.severity = error
 dotnet_diagnostic.SA1604.severity = error
@@ -491,7 +502,7 @@ dotnet_diagnostic.SA1625.severity = error
 dotnet_diagnostic.SA1626.severity = error
 dotnet_diagnostic.SA1627.severity = error
 dotnet_diagnostic.SA1629.severity = none
-dotnet_diagnostic.SA1633.severity = none
+dotnet_diagnostic.SA1633.severity = error
 dotnet_diagnostic.SA1634.severity = none
 dotnet_diagnostic.SA1635.severity = none
 dotnet_diagnostic.SA1636.severity = none
