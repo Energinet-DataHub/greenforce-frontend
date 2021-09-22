@@ -1,5 +1,5 @@
 module.exports = {
-  displayName: 'dh3-admin',
+  displayName: 'dh-app',
   preset: '../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   globals: {
@@ -8,7 +8,7 @@ module.exports = {
       stringifyContentPathRegex: '\\.(html|svg)$',
     },
   },
-  coverageDirectory: '../../coverage/apps/dh3-admin',
+  coverageDirectory: '../../coverage/apps/dh-app',
   transform: {
     '^.+\\.(ts|js|html)$': 'jest-preset-angular',
   },

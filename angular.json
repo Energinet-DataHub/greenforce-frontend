@@ -1,29 +1,26 @@
 {
   "version": 1,
   "projects": {
-    "dh3-admin": {
+    "dh-app": {
       "projectType": "application",
-      "root": "apps/dh3-admin",
-      "sourceRoot": "apps/dh3-admin/src",
+      "root": "apps/dh-app",
+      "sourceRoot": "apps/dh-app/src",
       "prefix": "dh",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "outputs": ["{options.outputPath}"],
           "options": {
-            "outputPath": "dist/apps/dh3-admin",
-            "index": "apps/dh3-admin/src/index.html",
-            "main": "apps/dh3-admin/src/main.ts",
-            "polyfills": "apps/dh3-admin/src/polyfills.ts",
-            "tsConfig": "apps/dh3-admin/tsconfig.app.json",
+            "outputPath": "dist/apps/dh-app",
+            "index": "apps/dh-app/src/index.html",
+            "main": "apps/dh-app/src/main.ts",
+            "polyfills": "apps/dh-app/src/polyfills.ts",
+            "tsConfig": "apps/dh-app/tsconfig.app.json",
             "inlineStyleLanguage": "scss",
-            "assets": [
-              "apps/dh3-admin/src/favicon.ico",
-              "apps/dh3-admin/src/assets"
-            ],
+            "assets": ["apps/dh-app/src/favicon.ico", "apps/dh-app/src/assets"],
             "styles": [
               "libs/ui-watt/src/lib/watt.scss",
-              "apps/dh3-admin/src/styles.scss"
+              "apps/dh-app/src/styles.scss"
             ],
             "scripts": []
           },
@@ -43,8 +40,8 @@
               ],
               "fileReplacements": [
                 {
-                  "replace": "apps/dh3-admin/src/environments/environment.ts",
-                  "with": "apps/dh3-admin/src/environments/environment.prod.ts"
+                  "replace": "apps/dh-app/src/environments/environment.ts",
+                  "with": "apps/dh-app/src/environments/environment.prod.ts"
                 }
               ],
               "outputHashing": "all"
@@ -64,10 +61,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "dh3-admin:build:production"
+              "browserTarget": "dh-app:build:production"
             },
             "development": {
-              "browserTarget": "dh3-admin:build:development"
+              "browserTarget": "dh-app:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -75,23 +72,23 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "dh3-admin:build"
+            "browserTarget": "dh-app:build"
           }
         },
         "lint": {
           "builder": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": [
-              "apps/dh3-admin/src/**/*.ts",
-              "apps/dh3-admin/src/**/*.html"
+              "apps/dh-app/src/**/*.ts",
+              "apps/dh-app/src/**/*.html"
             ]
           }
         },
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": ["coverage/apps/dh3-admin"],
+          "outputs": ["coverage/apps/dh-app"],
           "options": {
-            "jestConfig": "apps/dh3-admin/jest.config.js",
+            "jestConfig": "apps/dh-app/jest.config.js",
             "passWithNoTests": true
           }
         }
@@ -107,11 +104,11 @@
           "options": {
             "cypressConfig": "apps/dh3-admin-e2e/cypress.json",
             "tsConfig": "apps/dh3-admin-e2e/tsconfig.e2e.json",
-            "devServerTarget": "dh3-admin:serve:development"
+            "devServerTarget": "dh-app:serve:development"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "dh3-admin:serve:production"
+              "devServerTarget": "dh-app:serve:production"
             }
           }
         },
@@ -380,5 +377,5 @@
       "style": "scss"
     }
   },
-  "defaultProject": "dh3-admin"
+  "defaultProject": "dh-app"
 }
