@@ -1,0 +1,99 @@
+name: Energy Track and Trace
+
+env:
+  app-name: ett-app
+  is-main-branch: ${{ github.ref == 'refs/heads/main' }}
+  is-pull-request: ${{ github.event_name  == 'pull_request' }}
+  NODE_OPTIONS: --max_old_space_size=6144
+  node-version: 14.x
+  NX_BRANCH: ${{ github.event.number }}
+  NX_MAX_PARALLEL: 2
+  NX_RUN_GROUP: ${{ github.run_id }}
+
+on:
+  push:
+    branches:
+      - main
+  pull_request: {}
+  workflow_dispatch: {}
+
+jobs:
+  app:
+    name: Build app
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Node.js ${{ env.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ env.node-version }}
+
+      - name: Variable-Yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+      - name: Cache Yarn cache directory
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-node-${{ env.node-version }}-yarn-${{
+            hashFiles('yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-node-${{ env.node-version }}
+            ${{ runner.os }}
+      - name: Install package dependencies
+        run: yarn install --frozen-lockfile --non-interactive
+
+      - name: Angular Compatibility Compiler
+        run: yarn ngcc
+
+      - name: Production build
+        run: yarn build ${{ env.app-name }} --max-parallel=$NX_MAX_PARALLEL
+
+      - name: Upload web app build artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ env.app-name }}
+          path: ./dist/apps/${{ env.app-name }}/
+          if-no-files-found: error
+
+  container:
+    name: Container image
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/download-artifact@v2
+        with:
+          name: ${{ env.app-name }}
+          path: ./dist/apps/${{ env.app-name }}/
+
+      - name: Container image name
+        id: image-name
+        uses: ASzc/change-string-case-action@v2
+        with:
+          string: ghcr.io/${{ github.repository }}-${{ env.app-name }}
+
+      - name: 'PR: Build container image'
+        if: ${{ env.is-pull-request == 'true' }}
+        run:
+          docker build ./ --file ./infrastructure/ett/host/Dockerfile --tag ${{
+          steps.image-name.outputs.lowercase }}:${{ github.sha }}
+      - name: 'Merge: Build container image'
+        if: ${{ env.is-main-branch == 'true' }}
+        run:
+          docker build ./ --file ./infrastructure/ett/host/Dockerfile --tag ${{
+          steps.image-name.outputs.lowercase }}:latest
+
+      - name: 'PR: Upload container image artifact'
+        if: ${{ env.is-pull-request == 'true' }}
+        uses: ishworkh/docker-image-artifact-upload@v1
+        with:
+          image: ${{ steps.image-name.outputs.lowercase }}:${{ github.sha }}
+      - name: 'Merge: Publish container image'
+        if: ${{ env.is-main-branch == 'true' }}
+        run: |
+          docker login ghcr.io --username ${{ github.actor }} --password ${{ github.token }}
+          docker push ${{ steps.image-name.outputs.lowercase }}:latest
