@@ -46,10 +46,6 @@
     },
     "ui-watt": {
       "tags": []
-    },
-    "ui-watt-e2e": {
-      "tags": [],
-      "implicitDependencies": ["ui-watt"]
     }
   }
 }
