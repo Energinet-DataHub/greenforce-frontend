@@ -31,7 +31,7 @@
     "dh-app": {
       "tags": []
     },
-    "dh3-admin-e2e": {
+    "dh-app-e2e": {
       "tags": [],
       "implicitDependencies": ["dh-app"]
     },
