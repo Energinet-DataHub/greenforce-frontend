@@ -9,7 +9,7 @@
     "yarn": "1.22.11"
   },
   "scripts": {
-    "postinstall": "node ./decorate-angular-cli.js && yarn ngcc",
+    "postinstall": "node ./decorate-angular-cli.js",
     "affected": "nx affected",
     "affected:apps": "nx affected:apps",
     "affected:build": "nx affected:build --configuration=production --parallel",
