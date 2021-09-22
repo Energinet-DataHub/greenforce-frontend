@@ -120,13 +120,11 @@ jobs:
     steps:
       # needed for nx affected command
       - name: Check out source code with current branch Git history
-        if: ${{ env.is-pull-request == 'true' }}
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
       # needed for nx affected command
       - name: Fetch base branch Git history
-        if: ${{ env.is-pull-request == 'true' }}
         run: git fetch --no-tags --depth=1 origin $BASE_BRANCH
 
       - name: Set up Node.js ${{ env.node-version }}
