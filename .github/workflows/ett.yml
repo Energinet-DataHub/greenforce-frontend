@@ -48,7 +48,7 @@ jobs:
         run: yarn install --frozen-lockfile --non-interactive
 
       - name: Angular Compatibility Compiler
-        run: yarn ngcc
+        run: yarn ngcc --use-program-dependencies --tsconfig apps/${{ env.app-name }}/tsconfig.app.json
 
       - name: Production build
         run: yarn build ${{ env.app-name }} --max-parallel=$NX_MAX_PARALLEL
@@ -61,9 +61,12 @@ jobs:
           if-no-files-found: error
 
   container:
-    name: Container image
+    name: Host container image
     needs: build
     runs-on: ubuntu-latest
+
+    env:
+      host-image-path: ./infrastructure/ett/host/Dockerfile
 
     steps:
       - uses: actions/checkout@v2
@@ -78,16 +81,12 @@ jobs:
         with:
           string: ghcr.io/${{ github.repository }}-${{ env.app-name }}
 
-      - name: 'PR: Build container image'
+      - name: 'PR: Build host container image'
         if: ${{ env.is-pull-request == 'true' }}
-        run:
-          docker build ./ --file ./infrastructure/ett/host/Dockerfile --tag ${{
-          steps.image-name.outputs.lowercase }}:${{ github.sha }}
-      - name: 'Merge: Build container image'
+        run: docker build ./ --file ${{ env.host-image-path }} --tag ${{ steps.image-name.outputs.lowercase }}:${{ github.sha }}
+      - name: 'Merge: Build host container image'
         if: ${{ env.is-main-branch == 'true' }}
-        run:
-          docker build ./ --file ./infrastructure/ett/host/Dockerfile --tag ${{
-          steps.image-name.outputs.lowercase }}:latest
+        run: docker build ./ --file ${{ env.host-image-path }} --tag ${{ steps.image-name.outputs.lowercase }}:latest
 
       - name: 'PR: Upload container image artifact'
         if: ${{ env.is-pull-request == 'true' }}
