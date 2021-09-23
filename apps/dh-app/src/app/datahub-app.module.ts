@@ -2,12 +2,11 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { WattModule } from '@energinet/watt';
 
-import { AppComponent } from './app.component';
+import { DataHubAppComponent } from './datahub-app.component';
 
 @NgModule({
-  declarations: [AppComponent],
+  bootstrap: [DataHubAppComponent],
+  declarations: [DataHubAppComponent],
   imports: [BrowserModule, WattModule],
-  providers: [],
-  bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class DataHubAppModule {}
