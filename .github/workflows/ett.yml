@@ -51,7 +51,7 @@ jobs:
         run: yarn ngcc --use-program-dependencies --tsconfig apps/${{ env.app-name }}/tsconfig.app.json
 
       - name: Production build
-        run: yarn build ${{ env.app-name }} --max-parallel=$NX_MAX_PARALLEL
+        run: nx build ${{ env.app-name }} --max-parallel=$NX_MAX_PARALLEL
 
       - name: Upload web app build artifact
         uses: actions/upload-artifact@v2
@@ -61,7 +61,7 @@ jobs:
           if-no-files-found: error
 
   container:
-    name: Host container image
+    name: Host container
     needs: app
     runs-on: ubuntu-latest
 
