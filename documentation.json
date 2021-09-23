@@ -75,7 +75,7 @@
                 }
             ],
             "indexSignatures": [],
-            "kind": 163,
+            "kind": 164,
             "methods": []
         }
     ],
@@ -117,14 +117,14 @@
                             "flags": 4227072,
                             "modifierFlagsCache": 0,
                             "transformFlags": 0,
-                            "kind": 317,
+                            "kind": 322,
                             "tagName": {
                                 "pos": 489,
                                 "end": 497,
                                 "flags": 4227072,
                                 "modifierFlagsCache": 0,
                                 "transformFlags": 0,
-                                "kind": 78,
+                                "kind": 79,
                                 "escapedText": "required"
                             },
                             "comment": ""
@@ -157,14 +157,14 @@
                             "flags": 4227072,
                             "modifierFlagsCache": 0,
                             "transformFlags": 0,
-                            "kind": 317,
+                            "kind": 322,
                             "tagName": {
                                 "pos": 599,
                                 "end": 607,
                                 "flags": 4227072,
                                 "modifierFlagsCache": 0,
                                 "transformFlags": 0,
-                                "kind": 78,
+                                "kind": 79,
                                 "escapedText": "required"
                             },
                             "comment": ""
@@ -235,7 +235,7 @@
                 }
             ],
             "stylesData": "",
-            "templateData": "<mat-card>\r\n  <h1>Typography</h1>\r\n</mat-card>\r\n\r\n<mat-card>\r\n  <h3>Font</h3>\r\n  <p>\r\n    <strong>DIN Next LT Pro</strong> is the typeface used on Energinet\r\n    platforms. The fallback font is <strong>Calibri.</strong>\r\n  </p>\r\n</mat-card>\r\n\r\n<mat-card>\r\n  <h3>Type Scale</h3>\r\n  <p>\r\n    Font sizes are smaller on mobile and scale up at the md breakpoint to be\r\n    larger on desktop.\r\n  </p>\r\n\r\n  <table mat-table [dataSource]=\"dataSource\" style=\"width: 100%\">\r\n    <!--- Note that these columns can be defined in any order.\r\n            The actual rendered columns are set as a property on the row definition\" -->\r\n\r\n    <!-- Name Column -->\r\n    <ng-container matColumnDef=\"name\">\r\n      <th mat-header-cell *matHeaderCellDef>Name</th>\r\n      <td\r\n        mat-cell\r\n        *matCellDef=\"let element\"\r\n        innerHTML=\"{{ element.html }}\"\r\n      ></td>\r\n    </ng-container>\r\n\r\n    <!-- Size Column -->\r\n    <ng-container matColumnDef=\"size\">\r\n      <th mat-header-cell *matHeaderCellDef>Size</th>\r\n      <td mat-cell *matCellDef=\"let element\">{{ element.size }}</td>\r\n    </ng-container>\r\n\r\n    <!-- Weight Column -->\r\n    <ng-container matColumnDef=\"weight\">\r\n      <th mat-header-cell *matHeaderCellDef>Weight</th>\r\n      <td mat-cell *matCellDef=\"let element\">{{ element.weight }}</td>\r\n    </ng-container>\r\n\r\n    <!-- Letter Case Column -->\r\n    <ng-container matColumnDef=\"letterCase\">\r\n      <th mat-header-cell *matHeaderCellDef>Letter Case</th>\r\n      <td mat-cell *matCellDef=\"let element\">{{ element.letterCase }}</td>\r\n    </ng-container>\r\n\r\n    <!-- Letter Spacing Column -->\r\n    <ng-container matColumnDef=\"letterSpacing\">\r\n      <th mat-header-cell *matHeaderCellDef>Letter Spacing</th>\r\n      <td mat-cell *matCellDef=\"let element\">{{ element.letterSpacing }}</td>\r\n    </ng-container>\r\n\r\n    <!-- Line height Column -->\r\n    <ng-container matColumnDef=\"lineHeight\">\r\n      <th mat-header-cell *matHeaderCellDef>Line Height</th>\r\n      <td mat-cell *matCellDef=\"let element\">{{ element.lineHeight }}</td>\r\n    </ng-container>\r\n\r\n    <tr mat-header-row *matHeaderRowDef=\"displayedColumns\"></tr>\r\n    <tr mat-row *matRowDef=\"let row; columns: displayedColumns\"></tr>\r\n  </table>\r\n\r\n  <p>\r\n    * Line height is set to the recommended minimum of 1.5 times the font size\r\n    by WCAG 2.1.\r\n  </p>\r\n</mat-card>\r\n"
+            "templateData": "<mat-card>\r\n  <h1>Typography</h1>\r\n</mat-card>\r\n\r\n<mat-card>\r\n  <h3>Font</h3>\r\n  <p>\r\n    <strong>Open Sans</strong> is the typeface used on Energinet platforms.\r\n  </p>\r\n</mat-card>\r\n\r\n<mat-card>\r\n  <h3>Type Scale</h3>\r\n  <p>\r\n    Font sizes are smaller on mobile and scale up at the md breakpoint to be\r\n    larger on desktop.\r\n  </p>\r\n\r\n  <table mat-table [dataSource]=\"dataSource\" style=\"width: 100%\">\r\n    <!--- Note that these columns can be defined in any order.\r\n            The actual rendered columns are set as a property on the row definition\" -->\r\n\r\n    <!-- Name Column -->\r\n    <ng-container matColumnDef=\"name\">\r\n      <th mat-header-cell *matHeaderCellDef>Name</th>\r\n      <td\r\n        mat-cell\r\n        *matCellDef=\"let element\"\r\n        innerHTML=\"{{ element.html }}\"\r\n      ></td>\r\n    </ng-container>\r\n\r\n    <!-- Size Column -->\r\n    <ng-container matColumnDef=\"size\">\r\n      <th mat-header-cell *matHeaderCellDef>Size</th>\r\n      <td mat-cell *matCellDef=\"let element\">{{ element.size }}</td>\r\n    </ng-container>\r\n\r\n    <!-- Weight Column -->\r\n    <ng-container matColumnDef=\"weight\">\r\n      <th mat-header-cell *matHeaderCellDef>Weight</th>\r\n      <td mat-cell *matCellDef=\"let element\">{{ element.weight }}</td>\r\n    </ng-container>\r\n\r\n    <!-- Letter Case Column -->\r\n    <ng-container matColumnDef=\"letterCase\">\r\n      <th mat-header-cell *matHeaderCellDef>Letter Case</th>\r\n      <td mat-cell *matCellDef=\"let element\">{{ element.letterCase }}</td>\r\n    </ng-container>\r\n\r\n    <!-- Letter Spacing Column -->\r\n    <ng-container matColumnDef=\"letterSpacing\">\r\n      <th mat-header-cell *matHeaderCellDef>Letter Spacing</th>\r\n      <td mat-cell *matCellDef=\"let element\">{{ element.letterSpacing }}</td>\r\n    </ng-container>\r\n\r\n    <!-- Line height Column -->\r\n    <ng-container matColumnDef=\"lineHeight\">\r\n      <th mat-header-cell *matHeaderCellDef>Line Height</th>\r\n      <td mat-cell *matCellDef=\"let element\">{{ element.lineHeight }}</td>\r\n    </ng-container>\r\n\r\n    <tr mat-header-row *matHeaderRowDef=\"displayedColumns\"></tr>\r\n    <tr mat-row *matRowDef=\"let row; columns: displayedColumns\"></tr>\r\n  </table>\r\n\r\n  <p>\r\n    * Line height is set to the recommended minimum of 1.5 times the font size\r\n    by WCAG 2.1.\r\n  </p>\r\n</mat-card>\r\n"
         }
     ],
     "modules": [

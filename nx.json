@@ -15,7 +15,9 @@
       "runner": "@nrwl/nx-cloud",
       "options": {
         "cacheableOperations": ["build", "lint", "test", "e2e"],
-        "accessToken": "M2QwZmQ2YTQtMjFjZi00ZmI4LTk0MDItZjEyOTQ4ZmMwMTUyfHJlYWQtd3JpdGU="
+        "accessToken": "M2QwZmQ2YTQtMjFjZi00ZmI4LTk0MDItZjEyOTQ4ZmMwMTUyfHJlYWQtd3JpdGU=",
+        "canTrackAnalytics": true,
+        "maxParallel": 6
       }
     }
   },
@@ -28,12 +30,12 @@
     ]
   },
   "projects": {
-    "dh3-admin": {
+    "dh-app": {
       "tags": []
     },
-    "dh3-admin-e2e": {
+    "dh-app-e2e": {
       "tags": [],
-      "implicitDependencies": ["dh3-admin"]
+      "implicitDependencies": ["dh-app"]
     },
     "ett-app": {
       "tags": ["product:ett", "type:app"]
@@ -44,10 +46,6 @@
     },
     "ui-watt": {
       "tags": []
-    },
-    "ui-watt-e2e": {
-      "tags": [],
-      "implicitDependencies": ["ui-watt"]
     }
   }
 }

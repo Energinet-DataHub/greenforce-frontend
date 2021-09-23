@@ -1,7 +1,7 @@
 import { enableProdMode } from '@angular/core';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
-import { Dh3AdminAppModule } from './app/dh3-admin-app.module';
+import { DataHubAppModule } from './app/datahub-app.module';
 import { environment } from './environments/environment';
 
 if (environment.production) {
@@ -9,5 +9,5 @@ if (environment.production) {
 }
 
 platformBrowserDynamic()
-  .bootstrapModule(Dh3AdminAppModule)
+  .bootstrapModule(DataHubAppModule)
   .catch((err) => console.error(err));
