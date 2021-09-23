@@ -62,7 +62,7 @@ jobs:
 
   container:
     name: Host container image
-    needs: build
+    needs: app
     runs-on: ubuntu-latest
 
     env:
