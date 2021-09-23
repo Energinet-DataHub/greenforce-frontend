@@ -6,8 +6,10 @@ env:
   is-pull-request: ${{ github.event_name  == 'pull_request' }}
   NODE_OPTIONS: --max_old_space_size=6144
   node-version: 14.x
-  NX_BRANCH: ${{ github.event.number }}
   NX_MAX_PARALLEL: 2
+
+  # Nx Cloud
+  NX_BRANCH: ${{ github.event.number }}
   NX_RUN_GROUP: ${{ github.run_id }}
 
 on:
