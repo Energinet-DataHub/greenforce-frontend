@@ -9,7 +9,7 @@ env:
   NX_BRANCH: ${{ github.event.number }}
   NX_MAX_PARALLEL: 2
   NX_RUN_GROUP: ${{ github.run_id }}
-
+  NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
 on:
   push:
     branches:
