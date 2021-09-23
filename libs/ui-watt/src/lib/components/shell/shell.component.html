@@ -1,1 +1,20 @@
-<p>shell works!</p>
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav
+    class="sidenav"
+    [mode]="sidenavMode"
+    [opened]="sidenavOpened"
+    role="navigation"
+  >
+    <ng-content select="[sidenav]"></ng-content>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <mat-toolbar>
+      <ng-content select="[toolbar]"></ng-content>
+    </mat-toolbar>
+
+    <main class="main-content">
+      <ng-content></ng-content>
+    </main>
+  </mat-sidenav-content>
+</mat-sidenav-container>
