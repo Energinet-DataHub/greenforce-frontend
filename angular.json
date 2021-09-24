@@ -98,7 +98,6 @@
       "projectType": "library",
       "root": "libs/dh-app/core/feature-shell",
       "sourceRoot": "libs/dh-app/core/feature-shell/src",
-      "prefix": "energinet",
       "architect": {
         "test": {
           "builder": "@nrwl/jest:jest",
