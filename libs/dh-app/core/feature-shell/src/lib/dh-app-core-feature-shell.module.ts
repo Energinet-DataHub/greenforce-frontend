@@ -1,7 +1,9 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
+import { DhAppCoreFeatureShellRoutingModule } from './dh-app-core-feature-shell-routing.module';
+import { PageModule } from './page/page.module';
 
 @NgModule({
-  imports: [CommonModule],
+  imports: [PageModule, DhAppCoreFeatureShellRoutingModule],
 })
 export class DhAppCoreFeatureShellModule {}

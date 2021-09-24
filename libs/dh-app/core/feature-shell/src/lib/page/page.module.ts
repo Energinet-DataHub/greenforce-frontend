@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { WattModule } from '@energinet/watt';
 
 import { PageComponent } from './page.component';
 
 @NgModule({
   declarations: [PageComponent],
-  imports: [CommonModule],
+  imports: [WattModule],
 })
 export class PageModule {}
