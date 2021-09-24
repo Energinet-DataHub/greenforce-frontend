@@ -29,21 +29,14 @@ jobs:
       is-affected: ${{ steps.affected.outputs.is-affected }}
 
     steps:
-      # needed for nx affected command
-      - name: 'PR: Check out source code with current branch Git history'
-        if: ${{ env.is-pull-request == 'true' }}
+      - name: Check out source code with current branch Git history
         uses: actions/checkout@v2
         with:
-          fetch-depth: 0
+          fetch-depth: ${{ env.is-main-branch == 'true' && 1 || 0 }}
       # needed for nx affected command
       - name: 'PR: Fetch base branch Git history'
         if: ${{ env.is-pull-request == 'true' }}
         run: git fetch --no-tags --depth=1 origin $BASE_BRANCH
-      - name: 'Merge: Check out source code with previous commit history'
-        if: ${{ env.is-pull-request == 'false' }}
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 1
 
       - name: Use Node.js ${{ env.node-version }}
         uses: actions/setup-node@v2
@@ -121,7 +114,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      host-image-tag: ${{ github.ref == 'refs/heads/main' && 'latest' || github.sha }}
+      host-image-tag: ${{ github.ref == 'refs/heads/main' && 'latest' || format('pr-${0}', github.event.pull_request.number) }}
 
     steps:
       - uses: actions/checkout@v2
@@ -139,35 +132,7 @@ jobs:
       - name: Build host container image
         run: docker build ./ --file ./infrastructure/ett/host/Dockerfile --tag ${{ steps.image-name.outputs.lowercase }}:${{ env.host-image-tag }}
 
-      - name: 'PR: Upload host container image artifact'
-        if: ${{ env.is-pull-request == 'true' }}
-        uses: ishworkh/docker-image-artifact-upload@v1
-        with:
-          image: ${{ steps.image-name.outputs.lowercase }}:${{ env.host-image-tag }}
-      - name: 'Merge: Publish host container image'
-        if: ${{ env.is-main-branch == 'true' }}
+      - name: Publish host container image
         run: |
           docker login ghcr.io --username ${{ github.actor }} --password ${{ github.token }}
           docker push ${{ steps.image-name.outputs.lowercase }}:${{ env.host-image-tag }}
-
-  debug:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Debug ref
-        run: echo ${{ github.ref }}
-        # -> refs/pull/35/merge
-
-      - name: Debug head_ref
-        run: echo ${{ github.head_ref }}
-        # -> ci/publish-ett-app
-
-      - name: Debug pull_request
-        env:
-          PULL_REQUEST: ${{ toJSON(github.event.pull_request) }}
-        run: echo "$PULL_REQUEST"
-
-      - name: Debug github
-        env:
-          GITHUB_CONTEXT: ${{ toJSON(github) }}
-        run: echo "$GITHUB_CONTEXT"
