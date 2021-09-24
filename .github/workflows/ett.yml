@@ -63,7 +63,7 @@ jobs:
         uses: ./.github/actions/affected
         with:
           base-branch: ${{ env.base-branch }}
-          base-commit: ${{ env.is-pull-request && 'HEAD' || 'HEAD~1' }}
+          base-commit: ${{ env.is-main-branch == 'true' && 'HEAD~1' || 'HEAD' }}
           project: ${{ env.app-name }}
 
   app:
