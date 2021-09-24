@@ -29,18 +29,16 @@ import * as path from 'path';
 import { fileURLToPath } from 'url';
 
 function readAffectedApps(base) {
-  const affected = execSync(`yarn nx affected:apps --plain --base=${base}`, {
+  const affected = execSync(`npx nx affected:apps --plain --base=${base}`, {
     encoding: 'utf-8',
-    stdio: 'inherit',
   });
 
   return sanitizeAffectedOutput(affected);
 }
 
 function readAffectedLibs(base) {
-  const affected = execSync(`yarn nx affected:libs --plain --base=${base}`, {
+  const affected = execSync(`npx nx affected:libs --plain --base=${base}`, {
     encoding: 'utf-8',
-    stdio: 'inherit',
   });
 
   return sanitizeAffectedOutput(affected);
@@ -49,9 +47,6 @@ function readAffectedLibs(base) {
 function readAffectedProjects(base) {
   const affectedApps = readAffectedApps(base);
   const affectedLibs = readAffectedLibs(base);
-
-  console.log('affected apps: ' + JSON.stringify(affectedApps));
-  console.log('affected libs: ' + JSON.stringify(affectedLibs));
 
   return affectedApps.concat(affectedLibs);
 }
