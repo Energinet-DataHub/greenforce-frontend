@@ -136,18 +136,3 @@ jobs:
         run: |
           docker login ghcr.io --username ${{ github.actor }} --password ${{ github.token }}
           docker push ${{ steps.image-name.outputs.lowercase }}:${{ env.host-image-tag }}
-
-  debug-affected:
-    name: Debug affected
-    needs: affected
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Debug is-affected
-        env:
-          IS_AFFECTED: ${{ needs.affected.outputs.is-affected }}
-        run: echo "$IS_AFFECTED"
-      - name: Debug needs
-        env:
-          IS_AFFECTED: ${{ toJSON(needs) }}
-        run: echo "$IS_AFFECTED"
