@@ -29,25 +29,19 @@ import * as path from 'path';
 import { fileURLToPath } from 'url';
 
 function readAffectedApps(base) {
-  const affected = execSync(
-    `yarn nx affected:apps --plain --base=origin/${base}`,
-    {
-      encoding: 'utf-8',
-      stdio: 'pipe',
-    }
-  );
+  const affected = execSync(`yarn nx affected:apps --plain --base=${base}`, {
+    encoding: 'utf-8',
+    stdio: 'pipe',
+  });
 
   return sanitizeAffectedOutput(affected);
 }
 
 function readAffectedLibs(base) {
-  const affected = execSync(
-    `yarn nx affected:libs --plain --base=origin/${base}`,
-    {
-      encoding: 'utf-8',
-      stdio: 'pipe',
-    }
-  );
+  const affected = execSync(`yarn nx affected:libs --plain --base=${base}`, {
+    encoding: 'utf-8',
+    stdio: 'pipe',
+  });
 
   return sanitizeAffectedOutput(affected);
 }
