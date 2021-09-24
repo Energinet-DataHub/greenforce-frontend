@@ -26,7 +26,7 @@ jobs:
     runs-on: ubuntu-latest
 
     outputs:
-      is-affected: ${{ steps.affected.outputs.is-affected }}
+      is-affected: ${{ steps.is-affected.outputs.is-affected }}
 
     steps:
       # needed for nx affected command
@@ -60,7 +60,7 @@ jobs:
         run: yarn install --frozen-lockfile --non-interactive
 
       - name: Is affected?
-        id: affected
+        id: is-affected
         uses: ./.github/actions/affected
         with:
           base: ${{ env.is-main-branch == 'true' && 'HEAD~1' || format('origin/{0}', env.BASE_BRANCH) }}
@@ -68,12 +68,17 @@ jobs:
 
   app:
     name: Build app
-    # if: ${{ needs.affected.outputs.is-affected }}  == 'true'
-    if: ${{ needs.affected.outputs.is-affected }}  == 'false'
+    if: ${{ needs.affected.outputs.is-affected }}  == 'true'
     needs: affected
     runs-on: ubuntu-latest
 
     steps:
+      - name: Debug affected output
+        run: |
+          echo "${{ needs.affected.outputs.is-affected }}  == 'true'"
+          echo "${{ needs.affected.outputs.is-affected  == 'true' }}"
+          echo "${{ needs.affected.outputs.is-affected }}"
+
       - uses: actions/checkout@v2
 
       - name: Set up Node.js ${{ env.node-version }}
