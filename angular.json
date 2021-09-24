@@ -94,6 +94,31 @@
         }
       }
     },
+    "dh-app-core-feature-shell": {
+      "projectType": "library",
+      "root": "libs/dh-app/core/feature-shell",
+      "sourceRoot": "libs/dh-app/core/feature-shell/src",
+      "prefix": "energinet",
+      "architect": {
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/dh-app/core/feature-shell"],
+          "options": {
+            "jestConfig": "libs/dh-app/core/feature-shell/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/dh-app/core/feature-shell/src/**/*.ts",
+              "libs/dh-app/core/feature-shell/src/**/*.html"
+            ]
+          }
+        }
+      }
+    },
     "dh-app-e2e": {
       "root": "apps/dh-app-e2e",
       "sourceRoot": "apps/dh-app-e2e/src",

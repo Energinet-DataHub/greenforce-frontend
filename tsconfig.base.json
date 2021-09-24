@@ -16,6 +16,9 @@
     "baseUrl": ".",
     "paths": {
       "@angular/*": ["./node_modules/@angular/*"],
+      "@energinet/dh-app-core-feature-shell": [
+        "libs/dh-app/core/feature-shell/src/index.ts"
+      ],
       "@energinet/watt": ["libs/ui-watt/src/index.ts"]
     }
   },

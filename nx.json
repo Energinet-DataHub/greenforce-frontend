@@ -33,6 +33,9 @@
     "dh-app": {
       "tags": []
     },
+    "dh-app-core-feature-shell": {
+      "tags": []
+    },
     "dh-app-e2e": {
       "tags": [],
       "implicitDependencies": ["dh-app"]
