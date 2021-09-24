@@ -3,12 +3,12 @@
     "interfaces": [
         {
             "name": "Typography",
-            "id": "interface-Typography-59bd2f2778c96f278cca064cb4c11dff",
+            "id": "interface-Typography-3f739c53fffb3b28334d865bc94c51d2",
             "file": "libs/ui-watt/src/lib/foundations/typography/storybook/typography.component.ts",
             "deprecated": false,
             "deprecationMessage": "",
             "type": "interface",
-            "sourceCode": "import { Component } from '@angular/core';\r\n\r\nimport { typographyHtmlSnippets } from './shared/typography-html-snippets';\r\n\r\ninterface Typography {\r\n  name: string;\r\n  html: string;\r\n  size: string;\r\n  weight: string;\r\n  letterCase: string;\r\n  letterSpacing: string;\r\n  lineHeight: string;\r\n}\r\n\r\nconst typeScale: Typography[] = [\r\n  {\r\n    name: 'Headline 1',\r\n    html: typographyHtmlSnippets.h1.tag,\r\n    size: '36px',\r\n    weight: 'Medium',\r\n    letterCase: 'All caps',\r\n    letterSpacing: '0',\r\n    lineHeight: '54px*',\r\n  },\r\n  {\r\n    name: 'Headline 2',\r\n    html: typographyHtmlSnippets.h2.tag,\r\n    size: '32px',\r\n    weight: 'Medium',\r\n    letterCase: 'All caps',\r\n    letterSpacing: '0',\r\n    lineHeight: '48px*',\r\n  },\r\n  {\r\n    name: 'Headline 3',\r\n    html: typographyHtmlSnippets.h3.tag,\r\n    size: '28px',\r\n    weight: 'Medium',\r\n    letterCase: 'All caps',\r\n    letterSpacing: '0',\r\n    lineHeight: '42px*',\r\n  },\r\n  {\r\n    name: 'Headline 4',\r\n    html: typographyHtmlSnippets.h4.tag,\r\n    size: '24px',\r\n    weight: 'Medium',\r\n    letterCase: 'All caps',\r\n    letterSpacing: '0',\r\n    lineHeight: '36px*',\r\n  },\r\n  {\r\n    name: 'Headline 5',\r\n    html: typographyHtmlSnippets.h5.tag,\r\n    size: '20px',\r\n    weight: 'Medium',\r\n    letterCase: 'All caps',\r\n    letterSpacing: '0',\r\n    lineHeight: '30px*',\r\n  },\r\n  {\r\n    name: 'Lead (text-l)',\r\n    html: typographyHtmlSnippets.textL,\r\n    size: '18px',\r\n    weight: 'Medium',\r\n    letterCase: 'Sentence',\r\n    letterSpacing: '0',\r\n    lineHeight: '27px*',\r\n  },\r\n  {\r\n    name: 'Body (text-m)',\r\n    html: typographyHtmlSnippets.bodyTextM.tag,\r\n    size: '16px',\r\n    weight: 'Regular',\r\n    letterCase: 'Sentence',\r\n    letterSpacing: '0',\r\n    lineHeight: '24px*',\r\n  },\r\n  {\r\n    name: 'Small (text-s)',\r\n    html: typographyHtmlSnippets.textS,\r\n    size: '14px',\r\n    weight: 'Regular',\r\n    letterCase: 'Sentence',\r\n    letterSpacing: '0',\r\n    lineHeight: '21px*',\r\n  },\r\n  {\r\n    name: 'Extra small (text-xs)',\r\n    html: typographyHtmlSnippets.textXs,\r\n    size: '12px',\r\n    weight: 'Regular',\r\n    letterCase: 'Sentence',\r\n    letterSpacing: '0',\r\n    lineHeight: '18px*',\r\n  },\r\n  {\r\n    name: 'Button',\r\n    html: typographyHtmlSnippets.button.storybook,\r\n    size: '16px',\r\n    weight: 'Medium',\r\n    letterCase: 'All caps',\r\n    letterSpacing: '1.25px',\r\n    lineHeight: '16px',\r\n  },\r\n  {\r\n    name: 'Label',\r\n    html: typographyHtmlSnippets.label.class,\r\n    size: '12px',\r\n    weight: 'Medium',\r\n    letterCase: 'All caps',\r\n    letterSpacing: '1.5px',\r\n    lineHeight: '14.4px',\r\n  },\r\n];\r\n\r\n@Component({\r\n  selector: 'watt-typography',\r\n  templateUrl: './typography.component.html',\r\n  styleUrls: ['./typography.component.scss'],\r\n})\r\nexport class TypographyComponent {\r\n  /**\r\n   * @ignore\r\n   */\r\n  displayedColumns: string[] = [\r\n    'name',\r\n    'size',\r\n    'weight',\r\n    'letterCase',\r\n    'letterSpacing',\r\n    'lineHeight',\r\n  ];\r\n  /**\r\n   * @ignore\r\n   */\r\n  dataSource = typeScale;\r\n}\r\n",
+            "sourceCode": "import { Component } from '@angular/core';\r\n\r\nimport { typographyHtmlSnippets } from './shared/typography-html-snippets';\r\n\r\ninterface Typography {\r\n  name: string;\r\n  html: string;\r\n  size: string;\r\n  weight: string;\r\n  letterCase: string;\r\n  letterSpacing: string;\r\n  lineHeight: string;\r\n}\r\n\r\nconst typeScale: Typography[] = [\r\n  {\r\n    name: 'Headline 1',\r\n    html: typographyHtmlSnippets.h1.tag,\r\n    size: '36px',\r\n    weight: 'Semibold (600)',\r\n    letterCase: 'All caps',\r\n    letterSpacing: '0',\r\n    lineHeight: '54px*',\r\n  },\r\n  {\r\n    name: 'Headline 2',\r\n    html: typographyHtmlSnippets.h2.tag,\r\n    size: '32px',\r\n    weight: 'Semibold (600)',\r\n    letterCase: 'All caps',\r\n    letterSpacing: '0',\r\n    lineHeight: '48px*',\r\n  },\r\n  {\r\n    name: 'Headline 3',\r\n    html: typographyHtmlSnippets.h3.tag,\r\n    size: '28px',\r\n    weight: 'Semibold (600)',\r\n    letterCase: 'All caps',\r\n    letterSpacing: '0',\r\n    lineHeight: '42px*',\r\n  },\r\n  {\r\n    name: 'Headline 4',\r\n    html: typographyHtmlSnippets.h4.tag,\r\n    size: '24px',\r\n    weight: 'Semibold (600)',\r\n    letterCase: 'All caps',\r\n    letterSpacing: '0',\r\n    lineHeight: '36px*',\r\n  },\r\n  {\r\n    name: 'Headline 5',\r\n    html: typographyHtmlSnippets.h5.tag,\r\n    size: '20px',\r\n    weight: 'Semibold (600)',\r\n    letterCase: 'All caps',\r\n    letterSpacing: '0',\r\n    lineHeight: '30px*',\r\n  },\r\n  {\r\n    name: 'Lead (text-l)',\r\n    html: typographyHtmlSnippets.textL,\r\n    size: '18px',\r\n    weight: 'Semibold (600)',\r\n    letterCase: 'Sentence',\r\n    letterSpacing: '0',\r\n    lineHeight: '27px*',\r\n  },\r\n  {\r\n    name: 'Body (text-m)',\r\n    html: typographyHtmlSnippets.bodyTextM.tag,\r\n    size: '16px',\r\n    weight: 'Regular (400)',\r\n    letterCase: 'Sentence',\r\n    letterSpacing: '0',\r\n    lineHeight: '24px*',\r\n  },\r\n  {\r\n    name: 'Small (text-s)',\r\n    html: typographyHtmlSnippets.textS,\r\n    size: '14px',\r\n    weight: 'Regular (400)',\r\n    letterCase: 'Sentence',\r\n    letterSpacing: '0',\r\n    lineHeight: '21px*',\r\n  },\r\n  {\r\n    name: 'Extra small (text-xs)',\r\n    html: typographyHtmlSnippets.textXs,\r\n    size: '12px',\r\n    weight: 'Regular (400)',\r\n    letterCase: 'Sentence',\r\n    letterSpacing: '0',\r\n    lineHeight: '18px*',\r\n  },\r\n  {\r\n    name: 'Button',\r\n    html: typographyHtmlSnippets.button.storybook,\r\n    size: '16px',\r\n    weight: 'Semibold (600)',\r\n    letterCase: 'All caps',\r\n    letterSpacing: '1.25px',\r\n    lineHeight: '16px',\r\n  },\r\n  {\r\n    name: 'Label',\r\n    html: typographyHtmlSnippets.label.class,\r\n    size: '12px',\r\n    weight: 'Semibold (600)',\r\n    letterCase: 'All caps',\r\n    letterSpacing: '1.5px',\r\n    lineHeight: '14.4px',\r\n  },\r\n];\r\n\r\n@Component({\r\n  selector: 'watt-typography',\r\n  templateUrl: './typography.component.html',\r\n  styleUrls: ['./typography.component.scss'],\r\n})\r\nexport class TypographyComponent {\r\n  /**\r\n   * @ignore\r\n   */\r\n  displayedColumns: string[] = [\r\n    'name',\r\n    'size',\r\n    'weight',\r\n    'letterCase',\r\n    'letterSpacing',\r\n    'lineHeight',\r\n  ];\r\n  /**\r\n   * @ignore\r\n   */\r\n  dataSource = typeScale;\r\n}\r\n",
             "properties": [
                 {
                     "name": "html",
@@ -198,8 +198,48 @@
             "templateData": "<mat-form-field appearance=\"fill\">\r\n    <mat-label>{{label}}</mat-label>\r\n    <input type=\"text\"\r\n            [placeholder]=\"placeholder\"\r\n            [attr.aria-label]=\"label\"\r\n            matInput\r\n            [formControl]=\"myControl\"\r\n            [matAutocomplete]=\"auto\">\r\n    <mat-autocomplete #auto=\"matAutocomplete\">\r\n    <mat-option *ngFor=\"let option of options\" [value]=\"option\">\r\n        {{option}}\r\n    </mat-option>\r\n    </mat-autocomplete>\r\n</mat-form-field>"
         },
         {
+            "name": "ShellComponent",
+            "id": "component-ShellComponent-28472a948e630b27a7aa9b7032c85b68",
+            "file": "libs/ui-watt/src/lib/components/shell/shell.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "watt-shell",
+            "styleUrls": [
+                "./shell.component.scss"
+            ],
+            "styles": [],
+            "templateUrl": [
+                "./shell.component.html"
+            ],
+            "viewProviders": [],
+            "inputsClass": [],
+            "outputsClass": [],
+            "propertiesClass": [],
+            "methodsClass": [],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "hostBindings": [],
+            "hostListeners": [],
+            "description": "",
+            "rawdescription": "\n",
+            "type": "component",
+            "sourceCode": "import { Component } from '@angular/core';\nimport { MatDrawerMode } from '@angular/material/sidenav';\n\n@Component({\n  selector: 'watt-shell',\n  styleUrls: ['./shell.component.scss'],\n  templateUrl: './shell.component.html',\n})\nexport class ShellComponent {\n  /**\n   * @ignore\n   */\n\n  sidenavOpened = true;\n  /**\n   * @ignore\n   */\n  sidenavMode: MatDrawerMode = 'side';\n}\n",
+            "assetsDirs": [],
+            "styleUrlsData": [
+                {
+                    "data": ":host {\r\n  display: block;\r\n}\r\n\r\n.sidenav-container {\r\n  height: 100vh;\r\n}\r\n\r\n.sidenav {\r\n  width: 200px;\r\n}\r\n",
+                    "styleUrl": "./shell.component.scss"
+                }
+            ],
+            "stylesData": "",
+            "templateData": "<mat-sidenav-container class=\"sidenav-container\">\n  <mat-sidenav\n    class=\"sidenav\"\n    [mode]=\"sidenavMode\"\n    [opened]=\"sidenavOpened\"\n    role=\"navigation\"\n  >\n    <ng-content select=\"[sidenav]\"></ng-content>\n  </mat-sidenav>\n\n  <mat-sidenav-content>\n    <mat-toolbar>\n      <ng-content select=\"[toolbar]\"></ng-content>\n    </mat-toolbar>\n\n    <main class=\"main-content\">\n      <ng-content></ng-content>\n    </main>\n  </mat-sidenav-content>\n</mat-sidenav-container>\n"
+        },
+        {
             "name": "TypographyComponent",
-            "id": "component-TypographyComponent-59bd2f2778c96f278cca064cb4c11dff",
+            "id": "component-TypographyComponent-3f739c53fffb3b28334d865bc94c51d2",
             "file": "libs/ui-watt/src/lib/foundations/typography/storybook/typography.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -226,7 +266,7 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { Component } from '@angular/core';\r\n\r\nimport { typographyHtmlSnippets } from './shared/typography-html-snippets';\r\n\r\ninterface Typography {\r\n  name: string;\r\n  html: string;\r\n  size: string;\r\n  weight: string;\r\n  letterCase: string;\r\n  letterSpacing: string;\r\n  lineHeight: string;\r\n}\r\n\r\nconst typeScale: Typography[] = [\r\n  {\r\n    name: 'Headline 1',\r\n    html: typographyHtmlSnippets.h1.tag,\r\n    size: '36px',\r\n    weight: 'Medium',\r\n    letterCase: 'All caps',\r\n    letterSpacing: '0',\r\n    lineHeight: '54px*',\r\n  },\r\n  {\r\n    name: 'Headline 2',\r\n    html: typographyHtmlSnippets.h2.tag,\r\n    size: '32px',\r\n    weight: 'Medium',\r\n    letterCase: 'All caps',\r\n    letterSpacing: '0',\r\n    lineHeight: '48px*',\r\n  },\r\n  {\r\n    name: 'Headline 3',\r\n    html: typographyHtmlSnippets.h3.tag,\r\n    size: '28px',\r\n    weight: 'Medium',\r\n    letterCase: 'All caps',\r\n    letterSpacing: '0',\r\n    lineHeight: '42px*',\r\n  },\r\n  {\r\n    name: 'Headline 4',\r\n    html: typographyHtmlSnippets.h4.tag,\r\n    size: '24px',\r\n    weight: 'Medium',\r\n    letterCase: 'All caps',\r\n    letterSpacing: '0',\r\n    lineHeight: '36px*',\r\n  },\r\n  {\r\n    name: 'Headline 5',\r\n    html: typographyHtmlSnippets.h5.tag,\r\n    size: '20px',\r\n    weight: 'Medium',\r\n    letterCase: 'All caps',\r\n    letterSpacing: '0',\r\n    lineHeight: '30px*',\r\n  },\r\n  {\r\n    name: 'Lead (text-l)',\r\n    html: typographyHtmlSnippets.textL,\r\n    size: '18px',\r\n    weight: 'Medium',\r\n    letterCase: 'Sentence',\r\n    letterSpacing: '0',\r\n    lineHeight: '27px*',\r\n  },\r\n  {\r\n    name: 'Body (text-m)',\r\n    html: typographyHtmlSnippets.bodyTextM.tag,\r\n    size: '16px',\r\n    weight: 'Regular',\r\n    letterCase: 'Sentence',\r\n    letterSpacing: '0',\r\n    lineHeight: '24px*',\r\n  },\r\n  {\r\n    name: 'Small (text-s)',\r\n    html: typographyHtmlSnippets.textS,\r\n    size: '14px',\r\n    weight: 'Regular',\r\n    letterCase: 'Sentence',\r\n    letterSpacing: '0',\r\n    lineHeight: '21px*',\r\n  },\r\n  {\r\n    name: 'Extra small (text-xs)',\r\n    html: typographyHtmlSnippets.textXs,\r\n    size: '12px',\r\n    weight: 'Regular',\r\n    letterCase: 'Sentence',\r\n    letterSpacing: '0',\r\n    lineHeight: '18px*',\r\n  },\r\n  {\r\n    name: 'Button',\r\n    html: typographyHtmlSnippets.button.storybook,\r\n    size: '16px',\r\n    weight: 'Medium',\r\n    letterCase: 'All caps',\r\n    letterSpacing: '1.25px',\r\n    lineHeight: '16px',\r\n  },\r\n  {\r\n    name: 'Label',\r\n    html: typographyHtmlSnippets.label.class,\r\n    size: '12px',\r\n    weight: 'Medium',\r\n    letterCase: 'All caps',\r\n    letterSpacing: '1.5px',\r\n    lineHeight: '14.4px',\r\n  },\r\n];\r\n\r\n@Component({\r\n  selector: 'watt-typography',\r\n  templateUrl: './typography.component.html',\r\n  styleUrls: ['./typography.component.scss'],\r\n})\r\nexport class TypographyComponent {\r\n  /**\r\n   * @ignore\r\n   */\r\n  displayedColumns: string[] = [\r\n    'name',\r\n    'size',\r\n    'weight',\r\n    'letterCase',\r\n    'letterSpacing',\r\n    'lineHeight',\r\n  ];\r\n  /**\r\n   * @ignore\r\n   */\r\n  dataSource = typeScale;\r\n}\r\n",
+            "sourceCode": "import { Component } from '@angular/core';\r\n\r\nimport { typographyHtmlSnippets } from './shared/typography-html-snippets';\r\n\r\ninterface Typography {\r\n  name: string;\r\n  html: string;\r\n  size: string;\r\n  weight: string;\r\n  letterCase: string;\r\n  letterSpacing: string;\r\n  lineHeight: string;\r\n}\r\n\r\nconst typeScale: Typography[] = [\r\n  {\r\n    name: 'Headline 1',\r\n    html: typographyHtmlSnippets.h1.tag,\r\n    size: '36px',\r\n    weight: 'Semibold (600)',\r\n    letterCase: 'All caps',\r\n    letterSpacing: '0',\r\n    lineHeight: '54px*',\r\n  },\r\n  {\r\n    name: 'Headline 2',\r\n    html: typographyHtmlSnippets.h2.tag,\r\n    size: '32px',\r\n    weight: 'Semibold (600)',\r\n    letterCase: 'All caps',\r\n    letterSpacing: '0',\r\n    lineHeight: '48px*',\r\n  },\r\n  {\r\n    name: 'Headline 3',\r\n    html: typographyHtmlSnippets.h3.tag,\r\n    size: '28px',\r\n    weight: 'Semibold (600)',\r\n    letterCase: 'All caps',\r\n    letterSpacing: '0',\r\n    lineHeight: '42px*',\r\n  },\r\n  {\r\n    name: 'Headline 4',\r\n    html: typographyHtmlSnippets.h4.tag,\r\n    size: '24px',\r\n    weight: 'Semibold (600)',\r\n    letterCase: 'All caps',\r\n    letterSpacing: '0',\r\n    lineHeight: '36px*',\r\n  },\r\n  {\r\n    name: 'Headline 5',\r\n    html: typographyHtmlSnippets.h5.tag,\r\n    size: '20px',\r\n    weight: 'Semibold (600)',\r\n    letterCase: 'All caps',\r\n    letterSpacing: '0',\r\n    lineHeight: '30px*',\r\n  },\r\n  {\r\n    name: 'Lead (text-l)',\r\n    html: typographyHtmlSnippets.textL,\r\n    size: '18px',\r\n    weight: 'Semibold (600)',\r\n    letterCase: 'Sentence',\r\n    letterSpacing: '0',\r\n    lineHeight: '27px*',\r\n  },\r\n  {\r\n    name: 'Body (text-m)',\r\n    html: typographyHtmlSnippets.bodyTextM.tag,\r\n    size: '16px',\r\n    weight: 'Regular (400)',\r\n    letterCase: 'Sentence',\r\n    letterSpacing: '0',\r\n    lineHeight: '24px*',\r\n  },\r\n  {\r\n    name: 'Small (text-s)',\r\n    html: typographyHtmlSnippets.textS,\r\n    size: '14px',\r\n    weight: 'Regular (400)',\r\n    letterCase: 'Sentence',\r\n    letterSpacing: '0',\r\n    lineHeight: '21px*',\r\n  },\r\n  {\r\n    name: 'Extra small (text-xs)',\r\n    html: typographyHtmlSnippets.textXs,\r\n    size: '12px',\r\n    weight: 'Regular (400)',\r\n    letterCase: 'Sentence',\r\n    letterSpacing: '0',\r\n    lineHeight: '18px*',\r\n  },\r\n  {\r\n    name: 'Button',\r\n    html: typographyHtmlSnippets.button.storybook,\r\n    size: '16px',\r\n    weight: 'Semibold (600)',\r\n    letterCase: 'All caps',\r\n    letterSpacing: '1.25px',\r\n    lineHeight: '16px',\r\n  },\r\n  {\r\n    name: 'Label',\r\n    html: typographyHtmlSnippets.label.class,\r\n    size: '12px',\r\n    weight: 'Semibold (600)',\r\n    letterCase: 'All caps',\r\n    letterSpacing: '1.5px',\r\n    lineHeight: '14.4px',\r\n  },\r\n];\r\n\r\n@Component({\r\n  selector: 'watt-typography',\r\n  templateUrl: './typography.component.html',\r\n  styleUrls: ['./typography.component.scss'],\r\n})\r\nexport class TypographyComponent {\r\n  /**\r\n   * @ignore\r\n   */\r\n  displayedColumns: string[] = [\r\n    'name',\r\n    'size',\r\n    'weight',\r\n    'letterCase',\r\n    'letterSpacing',\r\n    'lineHeight',\r\n  ];\r\n  /**\r\n   * @ignore\r\n   */\r\n  dataSource = typeScale;\r\n}\r\n",
             "assetsDirs": [],
             "styleUrlsData": [
                 {
@@ -235,19 +275,19 @@
                 }
             ],
             "stylesData": "",
-            "templateData": "<mat-card>\r\n  <h1>Typography</h1>\r\n</mat-card>\r\n\r\n<mat-card>\r\n  <h3>Font</h3>\r\n  <p>\r\n    <strong>Open Sans</strong> is the typeface used on Energinet platforms.\r\n  </p>\r\n</mat-card>\r\n\r\n<mat-card>\r\n  <h3>Type Scale</h3>\r\n  <p>\r\n    Font sizes are smaller on mobile and scale up at the md breakpoint to be\r\n    larger on desktop.\r\n  </p>\r\n\r\n  <table mat-table [dataSource]=\"dataSource\" style=\"width: 100%\">\r\n    <!--- Note that these columns can be defined in any order.\r\n            The actual rendered columns are set as a property on the row definition\" -->\r\n\r\n    <!-- Name Column -->\r\n    <ng-container matColumnDef=\"name\">\r\n      <th mat-header-cell *matHeaderCellDef>Name</th>\r\n      <td\r\n        mat-cell\r\n        *matCellDef=\"let element\"\r\n        innerHTML=\"{{ element.html }}\"\r\n      ></td>\r\n    </ng-container>\r\n\r\n    <!-- Size Column -->\r\n    <ng-container matColumnDef=\"size\">\r\n      <th mat-header-cell *matHeaderCellDef>Size</th>\r\n      <td mat-cell *matCellDef=\"let element\">{{ element.size }}</td>\r\n    </ng-container>\r\n\r\n    <!-- Weight Column -->\r\n    <ng-container matColumnDef=\"weight\">\r\n      <th mat-header-cell *matHeaderCellDef>Weight</th>\r\n      <td mat-cell *matCellDef=\"let element\">{{ element.weight }}</td>\r\n    </ng-container>\r\n\r\n    <!-- Letter Case Column -->\r\n    <ng-container matColumnDef=\"letterCase\">\r\n      <th mat-header-cell *matHeaderCellDef>Letter Case</th>\r\n      <td mat-cell *matCellDef=\"let element\">{{ element.letterCase }}</td>\r\n    </ng-container>\r\n\r\n    <!-- Letter Spacing Column -->\r\n    <ng-container matColumnDef=\"letterSpacing\">\r\n      <th mat-header-cell *matHeaderCellDef>Letter Spacing</th>\r\n      <td mat-cell *matCellDef=\"let element\">{{ element.letterSpacing }}</td>\r\n    </ng-container>\r\n\r\n    <!-- Line height Column -->\r\n    <ng-container matColumnDef=\"lineHeight\">\r\n      <th mat-header-cell *matHeaderCellDef>Line Height</th>\r\n      <td mat-cell *matCellDef=\"let element\">{{ element.lineHeight }}</td>\r\n    </ng-container>\r\n\r\n    <tr mat-header-row *matHeaderRowDef=\"displayedColumns\"></tr>\r\n    <tr mat-row *matRowDef=\"let row; columns: displayedColumns\"></tr>\r\n  </table>\r\n\r\n  <p>\r\n    * Line height is set to the recommended minimum of 1.5 times the font size\r\n    by WCAG 2.1.\r\n  </p>\r\n</mat-card>\r\n"
+            "templateData": "<mat-card>\r\n  <h1>Typography</h1>\r\n</mat-card>\r\n\r\n<mat-card>\r\n  <h3>Font</h3>\r\n  <p>\r\n    <strong>Open Sans</strong> is the typeface used in the Watts Design System.\r\n  </p>\r\n</mat-card>\r\n\r\n<mat-card>\r\n  <h3>Type Scale</h3>\r\n  <p>\r\n    Font sizes are smaller on mobile and scale up at the md breakpoint to be\r\n    larger on desktop.\r\n  </p>\r\n\r\n  <table mat-table [dataSource]=\"dataSource\" style=\"width: 100%\">\r\n    <!--- Note that these columns can be defined in any order.\r\n            The actual rendered columns are set as a property on the row definition\" -->\r\n\r\n    <!-- Name Column -->\r\n    <ng-container matColumnDef=\"name\">\r\n      <th mat-header-cell *matHeaderCellDef>Name</th>\r\n      <td\r\n        mat-cell\r\n        *matCellDef=\"let element\"\r\n        innerHTML=\"{{ element.html }}\"\r\n      ></td>\r\n    </ng-container>\r\n\r\n    <!-- Size Column -->\r\n    <ng-container matColumnDef=\"size\">\r\n      <th mat-header-cell *matHeaderCellDef>Size</th>\r\n      <td mat-cell *matCellDef=\"let element\">{{ element.size }}</td>\r\n    </ng-container>\r\n\r\n    <!-- Weight Column -->\r\n    <ng-container matColumnDef=\"weight\">\r\n      <th mat-header-cell *matHeaderCellDef>Weight</th>\r\n      <td mat-cell *matCellDef=\"let element\">{{ element.weight }}</td>\r\n    </ng-container>\r\n\r\n    <!-- Letter Case Column -->\r\n    <ng-container matColumnDef=\"letterCase\">\r\n      <th mat-header-cell *matHeaderCellDef>Letter Case</th>\r\n      <td mat-cell *matCellDef=\"let element\">{{ element.letterCase }}</td>\r\n    </ng-container>\r\n\r\n    <!-- Letter Spacing Column -->\r\n    <ng-container matColumnDef=\"letterSpacing\">\r\n      <th mat-header-cell *matHeaderCellDef>Letter Spacing</th>\r\n      <td mat-cell *matCellDef=\"let element\">{{ element.letterSpacing }}</td>\r\n    </ng-container>\r\n\r\n    <!-- Line height Column -->\r\n    <ng-container matColumnDef=\"lineHeight\">\r\n      <th mat-header-cell *matHeaderCellDef>Line Height</th>\r\n      <td mat-cell *matCellDef=\"let element\">{{ element.lineHeight }}</td>\r\n    </ng-container>\r\n\r\n    <tr mat-header-row *matHeaderRowDef=\"displayedColumns\"></tr>\r\n    <tr mat-row *matRowDef=\"let row; columns: displayedColumns\"></tr>\r\n  </table>\r\n\r\n  <p>\r\n    * Line height is set to the recommended minimum of 1.5 times the font size\r\n    by WCAG 2.1.\r\n  </p>\r\n</mat-card>\r\n"
         }
     ],
     "modules": [
         {
             "name": "AutocompleteModule",
-            "id": "module-AutocompleteModule-e438f4a4ae8b4e1a3b401e0045d83121",
+            "id": "module-AutocompleteModule-d64a6bc79be7d371da141ba7b2a61804",
             "description": "",
             "deprecationMessage": "",
             "deprecated": false,
             "file": "libs/ui-watt/src/lib/components/autocomplete/autocomplete.module.ts",
             "methods": [],
-            "sourceCode": "import { CommonModule } from \"@angular/common\";\r\nimport { NgModule } from \"@angular/core\";\r\nimport { ReactiveFormsModule } from \"@angular/forms\";\r\nimport { MatAutocompleteModule } from '@angular/material/autocomplete';\r\nimport { MatFormFieldModule } from \"@angular/material/form-field\";\r\nimport { MatInputModule } from \"@angular/material/input\";\r\nimport { AutocompleteComponent } from \"./autocomplete.component\";\r\n\r\n@NgModule({\r\n    imports: [CommonModule, ReactiveFormsModule, MatAutocompleteModule, MatFormFieldModule, MatInputModule],\r\n    declarations: [AutocompleteComponent],\r\n    exports: [AutocompleteComponent],\r\n})\r\nexport class AutocompleteModule {}",
+            "sourceCode": "import { CommonModule } from '@angular/common';\r\nimport { NgModule } from '@angular/core';\r\nimport { ReactiveFormsModule } from '@angular/forms';\r\nimport { MatAutocompleteModule } from '@angular/material/autocomplete';\r\nimport { MatFormFieldModule } from '@angular/material/form-field';\r\nimport { MatInputModule } from '@angular/material/input';\r\n\r\nimport { AutocompleteComponent } from './autocomplete.component';\r\n\r\n@NgModule({\r\n  declarations: [AutocompleteComponent],\r\n  exports: [AutocompleteComponent],\r\n  imports: [\r\n    CommonModule,\r\n    ReactiveFormsModule,\r\n    MatAutocompleteModule,\r\n    MatFormFieldModule,\r\n    MatInputModule,\r\n  ],\r\n})\r\nexport class AutocompleteModule {}\r\n",
             "children": [
                 {
                     "type": "providers",
@@ -270,6 +310,50 @@
                     "elements": [
                         {
                             "name": "AutocompleteComponent"
+                        }
+                    ]
+                },
+                {
+                    "type": "bootstrap",
+                    "elements": []
+                },
+                {
+                    "type": "classes",
+                    "elements": []
+                }
+            ]
+        },
+        {
+            "name": "ShellModule",
+            "id": "module-ShellModule-519a0e6324f7968e33af992a45000580",
+            "description": "",
+            "deprecationMessage": "",
+            "deprecated": false,
+            "file": "libs/ui-watt/src/lib/components/shell/shell.module.ts",
+            "methods": [],
+            "sourceCode": "import { NgModule } from '@angular/core';\r\nimport { MatSidenavModule } from '@angular/material/sidenav';\r\nimport { MatToolbarModule } from '@angular/material/toolbar';\r\n\r\nimport { ShellComponent } from './shell.component';\r\n\r\n@NgModule({\r\n  declarations: [ShellComponent],\r\n  exports: [ShellComponent],\r\n  imports: [MatSidenavModule, MatToolbarModule],\r\n})\r\nexport class ShellModule {}\r\n",
+            "children": [
+                {
+                    "type": "providers",
+                    "elements": []
+                },
+                {
+                    "type": "declarations",
+                    "elements": [
+                        {
+                            "name": "ShellComponent"
+                        }
+                    ]
+                },
+                {
+                    "type": "imports",
+                    "elements": []
+                },
+                {
+                    "type": "exports",
+                    "elements": [
+                        {
+                            "name": "ShellComponent"
                         }
                     ]
                 },
@@ -329,13 +413,13 @@
         },
         {
             "name": "WattModule",
-            "id": "module-WattModule-04b3227c4d197ac230e5c456a8e931e9",
+            "id": "module-WattModule-148fa9871c568de72229963f13cd1305",
             "description": "",
             "deprecationMessage": "",
             "deprecated": false,
             "file": "libs/ui-watt/src/lib/ui-watt.module.ts",
             "methods": [],
-            "sourceCode": "import { NgModule } from '@angular/core';\r\nimport { CommonModule } from '@angular/common';\r\nimport { BrowserAnimationsModule } from '@angular/platform-browser/animations';\r\n\r\nimport { AutocompleteModule } from './components/autocomplete/autocomplete.module';\r\n\r\n@NgModule({\r\n  imports: [CommonModule, BrowserAnimationsModule, AutocompleteModule],\r\n  exports: [AutocompleteModule],\r\n})\r\nexport class WattModule {}\r\n",
+            "sourceCode": "import { NgModule } from '@angular/core';\r\n\r\nimport { AutocompleteModule } from './components/autocomplete/autocomplete.module';\r\nimport { ShellModule } from './components/shell/shell.module';\r\n\r\n@NgModule({\r\n  exports: [AutocompleteModule, ShellModule],\r\n})\r\nexport class WattModule {}\r\n",
             "children": [
                 {
                     "type": "providers",
@@ -347,17 +431,16 @@
                 },
                 {
                     "type": "imports",
-                    "elements": [
-                        {
-                            "name": "AutocompleteModule"
-                        }
-                    ]
+                    "elements": []
                 },
                 {
                     "type": "exports",
                     "elements": [
                         {
                             "name": "AutocompleteModule"
+                        },
+                        {
+                            "name": "ShellModule"
                         }
                     ]
                 },
@@ -555,6 +638,16 @@
                 "defaultValue": "`\r\nRecommended\r\n${typographyHtmlSnippets.label.tag}\r\n\r\nAlternative\r\n${typographyHtmlSnippets.label.class}\r\n`"
             },
             {
+                "name": "shell",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "libs/ui-watt/src/lib/components/shell/shell.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "Template.bind({})"
+            },
+            {
                 "name": "Template",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
@@ -562,6 +655,16 @@
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "Story<AutocompleteComponent>",
+                "defaultValue": "(args) => ({\r\n  props: args,\r\n})"
+            },
+            {
+                "name": "Template",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "libs/ui-watt/src/lib/components/shell/shell.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story<ShellComponent>",
                 "defaultValue": "(args) => ({\r\n  props: args,\r\n})"
             },
             {
@@ -612,7 +715,7 @@
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "Typography[]",
-                "defaultValue": "[\r\n  {\r\n    name: 'Headline 1',\r\n    html: typographyHtmlSnippets.h1.tag,\r\n    size: '36px',\r\n    weight: 'Medium',\r\n    letterCase: 'All caps',\r\n    letterSpacing: '0',\r\n    lineHeight: '54px*',\r\n  },\r\n  {\r\n    name: 'Headline 2',\r\n    html: typographyHtmlSnippets.h2.tag,\r\n    size: '32px',\r\n    weight: 'Medium',\r\n    letterCase: 'All caps',\r\n    letterSpacing: '0',\r\n    lineHeight: '48px*',\r\n  },\r\n  {\r\n    name: 'Headline 3',\r\n    html: typographyHtmlSnippets.h3.tag,\r\n    size: '28px',\r\n    weight: 'Medium',\r\n    letterCase: 'All caps',\r\n    letterSpacing: '0',\r\n    lineHeight: '42px*',\r\n  },\r\n  {\r\n    name: 'Headline 4',\r\n    html: typographyHtmlSnippets.h4.tag,\r\n    size: '24px',\r\n    weight: 'Medium',\r\n    letterCase: 'All caps',\r\n    letterSpacing: '0',\r\n    lineHeight: '36px*',\r\n  },\r\n  {\r\n    name: 'Headline 5',\r\n    html: typographyHtmlSnippets.h5.tag,\r\n    size: '20px',\r\n    weight: 'Medium',\r\n    letterCase: 'All caps',\r\n    letterSpacing: '0',\r\n    lineHeight: '30px*',\r\n  },\r\n  {\r\n    name: 'Lead (text-l)',\r\n    html: typographyHtmlSnippets.textL,\r\n    size: '18px',\r\n    weight: 'Medium',\r\n    letterCase: 'Sentence',\r\n    letterSpacing: '0',\r\n    lineHeight: '27px*',\r\n  },\r\n  {\r\n    name: 'Body (text-m)',\r\n    html: typographyHtmlSnippets.bodyTextM.tag,\r\n    size: '16px',\r\n    weight: 'Regular',\r\n    letterCase: 'Sentence',\r\n    letterSpacing: '0',\r\n    lineHeight: '24px*',\r\n  },\r\n  {\r\n    name: 'Small (text-s)',\r\n    html: typographyHtmlSnippets.textS,\r\n    size: '14px',\r\n    weight: 'Regular',\r\n    letterCase: 'Sentence',\r\n    letterSpacing: '0',\r\n    lineHeight: '21px*',\r\n  },\r\n  {\r\n    name: 'Extra small (text-xs)',\r\n    html: typographyHtmlSnippets.textXs,\r\n    size: '12px',\r\n    weight: 'Regular',\r\n    letterCase: 'Sentence',\r\n    letterSpacing: '0',\r\n    lineHeight: '18px*',\r\n  },\r\n  {\r\n    name: 'Button',\r\n    html: typographyHtmlSnippets.button.storybook,\r\n    size: '16px',\r\n    weight: 'Medium',\r\n    letterCase: 'All caps',\r\n    letterSpacing: '1.25px',\r\n    lineHeight: '16px',\r\n  },\r\n  {\r\n    name: 'Label',\r\n    html: typographyHtmlSnippets.label.class,\r\n    size: '12px',\r\n    weight: 'Medium',\r\n    letterCase: 'All caps',\r\n    letterSpacing: '1.5px',\r\n    lineHeight: '14.4px',\r\n  },\r\n]"
+                "defaultValue": "[\r\n  {\r\n    name: 'Headline 1',\r\n    html: typographyHtmlSnippets.h1.tag,\r\n    size: '36px',\r\n    weight: 'Semibold (600)',\r\n    letterCase: 'All caps',\r\n    letterSpacing: '0',\r\n    lineHeight: '54px*',\r\n  },\r\n  {\r\n    name: 'Headline 2',\r\n    html: typographyHtmlSnippets.h2.tag,\r\n    size: '32px',\r\n    weight: 'Semibold (600)',\r\n    letterCase: 'All caps',\r\n    letterSpacing: '0',\r\n    lineHeight: '48px*',\r\n  },\r\n  {\r\n    name: 'Headline 3',\r\n    html: typographyHtmlSnippets.h3.tag,\r\n    size: '28px',\r\n    weight: 'Semibold (600)',\r\n    letterCase: 'All caps',\r\n    letterSpacing: '0',\r\n    lineHeight: '42px*',\r\n  },\r\n  {\r\n    name: 'Headline 4',\r\n    html: typographyHtmlSnippets.h4.tag,\r\n    size: '24px',\r\n    weight: 'Semibold (600)',\r\n    letterCase: 'All caps',\r\n    letterSpacing: '0',\r\n    lineHeight: '36px*',\r\n  },\r\n  {\r\n    name: 'Headline 5',\r\n    html: typographyHtmlSnippets.h5.tag,\r\n    size: '20px',\r\n    weight: 'Semibold (600)',\r\n    letterCase: 'All caps',\r\n    letterSpacing: '0',\r\n    lineHeight: '30px*',\r\n  },\r\n  {\r\n    name: 'Lead (text-l)',\r\n    html: typographyHtmlSnippets.textL,\r\n    size: '18px',\r\n    weight: 'Semibold (600)',\r\n    letterCase: 'Sentence',\r\n    letterSpacing: '0',\r\n    lineHeight: '27px*',\r\n  },\r\n  {\r\n    name: 'Body (text-m)',\r\n    html: typographyHtmlSnippets.bodyTextM.tag,\r\n    size: '16px',\r\n    weight: 'Regular (400)',\r\n    letterCase: 'Sentence',\r\n    letterSpacing: '0',\r\n    lineHeight: '24px*',\r\n  },\r\n  {\r\n    name: 'Small (text-s)',\r\n    html: typographyHtmlSnippets.textS,\r\n    size: '14px',\r\n    weight: 'Regular (400)',\r\n    letterCase: 'Sentence',\r\n    letterSpacing: '0',\r\n    lineHeight: '21px*',\r\n  },\r\n  {\r\n    name: 'Extra small (text-xs)',\r\n    html: typographyHtmlSnippets.textXs,\r\n    size: '12px',\r\n    weight: 'Regular (400)',\r\n    letterCase: 'Sentence',\r\n    letterSpacing: '0',\r\n    lineHeight: '18px*',\r\n  },\r\n  {\r\n    name: 'Button',\r\n    html: typographyHtmlSnippets.button.storybook,\r\n    size: '16px',\r\n    weight: 'Semibold (600)',\r\n    letterCase: 'All caps',\r\n    letterSpacing: '1.25px',\r\n    lineHeight: '16px',\r\n  },\r\n  {\r\n    name: 'Label',\r\n    html: typographyHtmlSnippets.label.class,\r\n    size: '12px',\r\n    weight: 'Semibold (600)',\r\n    letterCase: 'All caps',\r\n    letterSpacing: '1.5px',\r\n    lineHeight: '14.4px',\r\n  },\r\n]"
             },
             {
                 "name": "Typography",
@@ -633,6 +736,26 @@
                 "deprecationMessage": "",
                 "type": "object",
                 "defaultValue": "{\r\n  h1: {\r\n    tag: '<h1>Headline 1</h1>',\r\n    class: '<p class=\"watt-headline-1\">Headline 1</p>',\r\n  },\r\n  h2: {\r\n    tag: '<h2>Headline 2</h2>',\r\n    class: '<p class=\"watt-headline-2\">Headline 2</p>',\r\n  },\r\n  h3: {\r\n    tag: '<h3>Headline 3</h3>',\r\n    class: '<p class=\"watt-headline-3\">Headline 3</p>',\r\n  },\r\n  h4: {\r\n    tag: '<h4>Headline 4</h4>',\r\n    class: '<p class=\"watt-headline-4\">Headline 4</p>',\r\n  },\r\n  h5: {\r\n    tag: '<h5>Headline 5</h5>',\r\n    class: '<p class=\"watt-headline-5\">Headline 5</p>',\r\n  },\r\n  textL: '<p class=\"watt-text-l\">Lead (text-l)</p>',\r\n  bodyTextM: {\r\n    tag: '<p>Body (text-m)</p>',\r\n    class: '<div class=\"watt-text-m\">Body (text-m)</div>',\r\n  },\r\n  textS: '<p><small>Body (text-s)</small></p>',\r\n  textXs: '<p class=\"watt-text-xs\">Extra small (text-xs)</p>',\r\n  button: {\r\n    storybook: '<p class=\"watt-button\">Button</p>',\r\n    tag: '<button type=\"button\">Button</button>',\r\n    class: '<a class=\"watt-button\" href=\"#\">Button</a>',\r\n  },\r\n  label: {\r\n    tag: '<label>Label</label>',\r\n    class: '<p class=\"watt-label\">Label</p>',\r\n  },\r\n}"
+            },
+            {
+                "name": "withContent",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "libs/ui-watt/src/lib/components/shell/shell.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "() => ({\r\n  template: withContentTemplate,\r\n})"
+            },
+            {
+                "name": "withContentTemplate",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "libs/ui-watt/src/lib/components/shell/shell.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "`\r\n<watt-shell>\r\n  <ng-container sidenav>\r\n    Sidenav\r\n  </ng-container>\r\n\r\n  <ng-container toolbar>\r\n    Toolbar\r\n  </ng-container>\r\n\r\n  Main content\r\n</watt-shell>\r\n`"
             }
         ],
         "functions": [],
@@ -883,6 +1006,48 @@
                     "defaultValue": "Template.bind({})"
                 }
             ],
+            "libs/ui-watt/src/lib/components/shell/shell.stories.ts": [
+                {
+                    "name": "shell",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "libs/ui-watt/src/lib/components/shell/shell.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "Template.bind({})"
+                },
+                {
+                    "name": "Template",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "libs/ui-watt/src/lib/components/shell/shell.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story<ShellComponent>",
+                    "defaultValue": "(args) => ({\r\n  props: args,\r\n})"
+                },
+                {
+                    "name": "withContent",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "libs/ui-watt/src/lib/components/shell/shell.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "() => ({\r\n  template: withContentTemplate,\r\n})"
+                },
+                {
+                    "name": "withContentTemplate",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "libs/ui-watt/src/lib/components/shell/shell.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "`\r\n<watt-shell>\r\n  <ng-container sidenav>\r\n    Sidenav\r\n  </ng-container>\r\n\r\n  <ng-container toolbar>\r\n    Toolbar\r\n  </ng-container>\r\n\r\n  Main content\r\n</watt-shell>\r\n`"
+                }
+            ],
             "libs/ui-watt/src/lib/foundations/typography/storybook/typography.component.ts": [
                 {
                     "name": "typeScale",
@@ -892,7 +1057,7 @@
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "Typography[]",
-                    "defaultValue": "[\r\n  {\r\n    name: 'Headline 1',\r\n    html: typographyHtmlSnippets.h1.tag,\r\n    size: '36px',\r\n    weight: 'Medium',\r\n    letterCase: 'All caps',\r\n    letterSpacing: '0',\r\n    lineHeight: '54px*',\r\n  },\r\n  {\r\n    name: 'Headline 2',\r\n    html: typographyHtmlSnippets.h2.tag,\r\n    size: '32px',\r\n    weight: 'Medium',\r\n    letterCase: 'All caps',\r\n    letterSpacing: '0',\r\n    lineHeight: '48px*',\r\n  },\r\n  {\r\n    name: 'Headline 3',\r\n    html: typographyHtmlSnippets.h3.tag,\r\n    size: '28px',\r\n    weight: 'Medium',\r\n    letterCase: 'All caps',\r\n    letterSpacing: '0',\r\n    lineHeight: '42px*',\r\n  },\r\n  {\r\n    name: 'Headline 4',\r\n    html: typographyHtmlSnippets.h4.tag,\r\n    size: '24px',\r\n    weight: 'Medium',\r\n    letterCase: 'All caps',\r\n    letterSpacing: '0',\r\n    lineHeight: '36px*',\r\n  },\r\n  {\r\n    name: 'Headline 5',\r\n    html: typographyHtmlSnippets.h5.tag,\r\n    size: '20px',\r\n    weight: 'Medium',\r\n    letterCase: 'All caps',\r\n    letterSpacing: '0',\r\n    lineHeight: '30px*',\r\n  },\r\n  {\r\n    name: 'Lead (text-l)',\r\n    html: typographyHtmlSnippets.textL,\r\n    size: '18px',\r\n    weight: 'Medium',\r\n    letterCase: 'Sentence',\r\n    letterSpacing: '0',\r\n    lineHeight: '27px*',\r\n  },\r\n  {\r\n    name: 'Body (text-m)',\r\n    html: typographyHtmlSnippets.bodyTextM.tag,\r\n    size: '16px',\r\n    weight: 'Regular',\r\n    letterCase: 'Sentence',\r\n    letterSpacing: '0',\r\n    lineHeight: '24px*',\r\n  },\r\n  {\r\n    name: 'Small (text-s)',\r\n    html: typographyHtmlSnippets.textS,\r\n    size: '14px',\r\n    weight: 'Regular',\r\n    letterCase: 'Sentence',\r\n    letterSpacing: '0',\r\n    lineHeight: '21px*',\r\n  },\r\n  {\r\n    name: 'Extra small (text-xs)',\r\n    html: typographyHtmlSnippets.textXs,\r\n    size: '12px',\r\n    weight: 'Regular',\r\n    letterCase: 'Sentence',\r\n    letterSpacing: '0',\r\n    lineHeight: '18px*',\r\n  },\r\n  {\r\n    name: 'Button',\r\n    html: typographyHtmlSnippets.button.storybook,\r\n    size: '16px',\r\n    weight: 'Medium',\r\n    letterCase: 'All caps',\r\n    letterSpacing: '1.25px',\r\n    lineHeight: '16px',\r\n  },\r\n  {\r\n    name: 'Label',\r\n    html: typographyHtmlSnippets.label.class,\r\n    size: '12px',\r\n    weight: 'Medium',\r\n    letterCase: 'All caps',\r\n    letterSpacing: '1.5px',\r\n    lineHeight: '14.4px',\r\n  },\r\n]"
+                    "defaultValue": "[\r\n  {\r\n    name: 'Headline 1',\r\n    html: typographyHtmlSnippets.h1.tag,\r\n    size: '36px',\r\n    weight: 'Semibold (600)',\r\n    letterCase: 'All caps',\r\n    letterSpacing: '0',\r\n    lineHeight: '54px*',\r\n  },\r\n  {\r\n    name: 'Headline 2',\r\n    html: typographyHtmlSnippets.h2.tag,\r\n    size: '32px',\r\n    weight: 'Semibold (600)',\r\n    letterCase: 'All caps',\r\n    letterSpacing: '0',\r\n    lineHeight: '48px*',\r\n  },\r\n  {\r\n    name: 'Headline 3',\r\n    html: typographyHtmlSnippets.h3.tag,\r\n    size: '28px',\r\n    weight: 'Semibold (600)',\r\n    letterCase: 'All caps',\r\n    letterSpacing: '0',\r\n    lineHeight: '42px*',\r\n  },\r\n  {\r\n    name: 'Headline 4',\r\n    html: typographyHtmlSnippets.h4.tag,\r\n    size: '24px',\r\n    weight: 'Semibold (600)',\r\n    letterCase: 'All caps',\r\n    letterSpacing: '0',\r\n    lineHeight: '36px*',\r\n  },\r\n  {\r\n    name: 'Headline 5',\r\n    html: typographyHtmlSnippets.h5.tag,\r\n    size: '20px',\r\n    weight: 'Semibold (600)',\r\n    letterCase: 'All caps',\r\n    letterSpacing: '0',\r\n    lineHeight: '30px*',\r\n  },\r\n  {\r\n    name: 'Lead (text-l)',\r\n    html: typographyHtmlSnippets.textL,\r\n    size: '18px',\r\n    weight: 'Semibold (600)',\r\n    letterCase: 'Sentence',\r\n    letterSpacing: '0',\r\n    lineHeight: '27px*',\r\n  },\r\n  {\r\n    name: 'Body (text-m)',\r\n    html: typographyHtmlSnippets.bodyTextM.tag,\r\n    size: '16px',\r\n    weight: 'Regular (400)',\r\n    letterCase: 'Sentence',\r\n    letterSpacing: '0',\r\n    lineHeight: '24px*',\r\n  },\r\n  {\r\n    name: 'Small (text-s)',\r\n    html: typographyHtmlSnippets.textS,\r\n    size: '14px',\r\n    weight: 'Regular (400)',\r\n    letterCase: 'Sentence',\r\n    letterSpacing: '0',\r\n    lineHeight: '21px*',\r\n  },\r\n  {\r\n    name: 'Extra small (text-xs)',\r\n    html: typographyHtmlSnippets.textXs,\r\n    size: '12px',\r\n    weight: 'Regular (400)',\r\n    letterCase: 'Sentence',\r\n    letterSpacing: '0',\r\n    lineHeight: '18px*',\r\n  },\r\n  {\r\n    name: 'Button',\r\n    html: typographyHtmlSnippets.button.storybook,\r\n    size: '16px',\r\n    weight: 'Semibold (600)',\r\n    letterCase: 'All caps',\r\n    letterSpacing: '1.25px',\r\n    lineHeight: '16px',\r\n  },\r\n  {\r\n    name: 'Label',\r\n    html: typographyHtmlSnippets.label.class,\r\n    size: '12px',\r\n    weight: 'Semibold (600)',\r\n    letterCase: 'All caps',\r\n    letterSpacing: '1.5px',\r\n    lineHeight: '14.4px',\r\n  },\r\n]"
                 }
             ],
             "libs/ui-watt/src/lib/foundations/typography/storybook/shared/typography-html-snippets.ts": [
@@ -945,6 +1110,55 @@
                 "coveragePercent": 75,
                 "coverageCount": "3/4",
                 "status": "good"
+            },
+            {
+                "filePath": "libs/ui-watt/src/lib/components/shell/shell.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "ShellComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "libs/ui-watt/src/lib/components/shell/shell.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "shell",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "libs/ui-watt/src/lib/components/shell/shell.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Template",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "libs/ui-watt/src/lib/components/shell/shell.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "withContent",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "libs/ui-watt/src/lib/components/shell/shell.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "withContentTemplate",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
             },
             {
                 "filePath": "libs/ui-watt/src/lib/foundations/typography/storybook/shared/typography-html-snippets.ts",
