@@ -1,14 +1,14 @@
 import { moduleMetadata, Story, Meta } from '@storybook/angular';
 
-import { WattModule } from '../../ui-watt.module';
 import { AutocompleteComponent } from './autocomplete.component';
+import { AutocompleteModule } from './autocomplete.module';
 
 export default {
   title: 'Components/Autocomplete',
   component: AutocompleteComponent,
   decorators: [
     moduleMetadata({
-      imports: [WattModule],
+      imports: [AutocompleteModule],
     }),
   ],
 } as Meta<AutocompleteComponent>;
