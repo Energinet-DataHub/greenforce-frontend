@@ -31,7 +31,7 @@ import { fileURLToPath } from 'url';
 function readAffectedApps(base) {
   const affected = execSync(`yarn nx affected:apps --plain --base=${base}`, {
     encoding: 'utf-8',
-    stdio: 'pipe',
+    stdio: 'inherit',
   });
 
   return sanitizeAffectedOutput(affected);
@@ -40,7 +40,7 @@ function readAffectedApps(base) {
 function readAffectedLibs(base) {
   const affected = execSync(`yarn nx affected:libs --plain --base=${base}`, {
     encoding: 'utf-8',
-    stdio: 'pipe',
+    stdio: 'inherit',
   });
 
   return sanitizeAffectedOutput(affected);
