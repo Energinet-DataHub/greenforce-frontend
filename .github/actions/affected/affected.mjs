@@ -50,6 +50,9 @@ function readAffectedProjects(base) {
   const affectedApps = readAffectedApps(base);
   const affectedLibs = readAffectedLibs(base);
 
+  console.log('affected apps: ' + JSON.stringify(affectedApps));
+  console.log('affected libs: ' + JSON.stringify(affectedLibs));
+
   return affectedApps.concat(affectedLibs);
 }
 
