@@ -68,17 +68,11 @@ jobs:
 
   app:
     name: Build app
-    # if: ${{ needs.affected.outputs.is-affected }}
+    if: ${{ needs.affected.outputs.is-affected == 'true' }}
     needs: affected
     runs-on: ubuntu-latest
 
     steps:
-      - name: Debug affected output
-        run: |
-          echo "${{ needs.affected.outputs.is-affected }}  == 'true'"
-          echo "${{ needs.affected.outputs.is-affected  == 'true' }}"
-          echo "${{ needs.affected.outputs.is-affected }}"
-
       - uses: actions/checkout@v2
 
       - name: Set up Node.js ${{ env.node-version }}
