@@ -1,0 +1,61 @@
+# @license
+# MIT License
+#
+# Copyright (c) 2021 ngworkers
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+# Terms
+
+name: Affected
+description: Check whether an Nx workspace project is affected by changes.
+
+inputs:
+  base-branch:
+    description: The name of the base branch to compare affected projects to.
+    required: false
+    default: main
+  base-commit:
+    description: The commit on the base branch to compare affected projects to.
+    required: false
+    default: HEAD
+  project:
+    description: The name of the project to check.
+    required: true
+outputs:
+  is-affected:
+    description: Whether or not the project is affected by changes.
+    value: ${{ steps.affected.outputs.is-affected }}
+
+runs:
+  using: composite
+  steps:
+    - run: mkdir tmp
+      shell: bash
+    - run: touch ./tmp/IS_AFFECTED
+      shell: bash
+    # we store the result in a temporary file to allow the Node.js process to
+    # fail the calling job
+    - run: node ${{ github.action_path }}/affected.mjs ${{ inputs.project }} ${{ inputs.base-branch }} ${{ inputs.base-commit }} >> ./tmp/IS_AFFECTED
+      shell: bash
+    # if we inline the Node.js execution here, the calling job will not fail in
+    # case of process errors
+    - run: echo "::set-output name=is-affected::$(cat ./tmp/IS_AFFECTED)"
+      shell: bash
+    - run: rm ./tmp/IS_AFFECTED
+      shell: bash
