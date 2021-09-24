@@ -28,9 +28,9 @@ import { readFileSync } from 'fs';
 import * as path from 'path';
 import { fileURLToPath } from 'url';
 
-function readAffectedApps(baseBranch, baseCommit) {
+function readAffectedApps(base) {
   const affected = execSync(
-    `yarn nx affected:apps --plain --base=origin/${baseBranch} --head=${baseCommit}`,
+    `yarn nx affected:apps --plain --base=origin/${base}`,
     {
       encoding: 'utf-8',
       stdio: 'pipe',
@@ -40,9 +40,9 @@ function readAffectedApps(baseBranch, baseCommit) {
   return sanitizeAffectedOutput(affected);
 }
 
-function readAffectedLibs(baseBranch, baseCommit) {
+function readAffectedLibs(base) {
   const affected = execSync(
-    `yarn nx affected:libs --plain --base=origin/${baseBranch} --head=${baseCommit}`,
+    `yarn nx affected:libs --plain --base=origin/${base}`,
     {
       encoding: 'utf-8',
       stdio: 'pipe',
@@ -52,9 +52,9 @@ function readAffectedLibs(baseBranch, baseCommit) {
   return sanitizeAffectedOutput(affected);
 }
 
-function readAffectedProjects(baseBranch, baseCommit) {
-  const affectedApps = readAffectedApps(baseBranch, baseCommit);
-  const affectedLibs = readAffectedLibs(baseBranch, baseCommit);
+function readAffectedProjects(base) {
+  const affectedApps = readAffectedApps(base);
+  const affectedLibs = readAffectedLibs(base);
 
   return affectedApps.concat(affectedLibs);
 }
@@ -88,11 +88,11 @@ function validateProjectParameter(projectName) {
 
 // Not available in an ES Module as of Node.js 12.x
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const [, , project, baseBranch, baseCommit] = process.argv;
+const [, , project, base] = process.argv;
 
 validateProjectParameter(project);
 
-const affectedProjects = readAffectedProjects(baseBranch, baseCommit);
+const affectedProjects = readAffectedProjects(base);
 const isAffected = affectedProjects.includes(project);
 
 console.log(isAffected);
