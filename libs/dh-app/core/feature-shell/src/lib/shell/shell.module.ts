@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { WattModule } from '@energinet/watt';
 
-import { PageComponent } from './page.component';
+import { ShellComponent } from './shell.component';
 
 @NgModule({
-  declarations: [PageComponent],
+  declarations: [ShellComponent],
   imports: [WattModule],
 })
-export class PageModule {}
+export class ShellModule {}
