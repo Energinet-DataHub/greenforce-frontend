@@ -63,13 +63,13 @@ jobs:
         id: affected
         uses: ./.github/actions/affected
         with:
-          # base: ${{ env.is-main-branch == 'true' && 'HEAD~1' || format('origin/{0}', env.BASE_BRANCH) }}
-          base: ${{ env.is-main-branch == 'false' && 'HEAD~1' || format('origin/{0}', env.BASE_BRANCH) }}
+          base: ${{ env.is-main-branch == 'true' && 'HEAD~1' || format('origin/{0}', env.BASE_BRANCH) }}
           project: ${{ env.app-name }}
 
   app:
     name: Build app
-    if: ${{ needs.affected.outputs.is-affected }}  == 'true'
+    # if: ${{ needs.affected.outputs.is-affected }}  == 'true'
+    if: ${{ needs.affected.outputs.is-affected }}  == 'false'
     needs: affected
     runs-on: ubuntu-latest
 
