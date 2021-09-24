@@ -50,7 +50,8 @@ runs:
       shell: bash
     # if we inline the Node.js execution here, the calling job will not fail in
     # case of process errors
-    - run: echo "::set-output name=is-affected::$(cat ./tmp/IS_AFFECTED)"
+    - id: affected
+      run: echo "::set-output name=is-affected::$(cat ./tmp/IS_AFFECTED)"
       shell: bash
     - run: rm ./tmp/IS_AFFECTED
       shell: bash
