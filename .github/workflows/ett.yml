@@ -62,7 +62,7 @@ jobs:
         id: affected
         uses: ./.github/actions/affected
         with:
-          base-branch: ${{ env.base-branch }}
+          base-branch: ${{ env.is-main-branch == 'true' && 'main' || env.base-branch }}
           base-commit: ${{ env.is-main-branch == 'true' && 'HEAD~1' || 'HEAD' }}
           project: ${{ env.app-name }}
 
@@ -114,7 +114,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      host-image-tag: ${{ github.ref == 'refs/heads/main' && 'latest' || format('pr-${0}', github.event.pull_request.number) }}
+      host-image-tag: ${{ github.ref == 'refs/heads/main' && 'latest' || format('pr-{0}', github.event.pull_request.number) }}
 
     steps:
       - uses: actions/checkout@v2
