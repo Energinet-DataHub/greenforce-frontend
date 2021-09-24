@@ -121,7 +121,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      host-image-path: ./infrastructure/ett/host/Dockerfile
+      host-image-tag: ${{ github.ref == 'refs/heads/main' && 'latest' || github.sha }}
 
     steps:
       - uses: actions/checkout@v2
@@ -136,25 +136,16 @@ jobs:
         with:
           string: ghcr.io/${{ github.repository }}-${{ env.app-name }}
 
-      - name: Debug image tag
-        run: echo ${{ env.is-main-branch == 'true' && 'latest' || github.sha }}
-      - name: Debug negated image tag
-        run: echo ${{ env.is-main-branch == 'true' && github.sha || 'latest' }}
-
-      - name: 'PR: Build host container image'
-        if: ${{ env.is-pull-request == 'true' }}
-        run: docker build ./ --file ${{ env.host-image-path }} --tag ${{ steps.image-name.outputs.lowercase }}:${{ github.sha }}
-      - name: 'Merge: Build host container image'
-        if: ${{ env.is-main-branch == 'true' }}
-        run: docker build ./ --file ${{ env.host-image-path }} --tag ${{ steps.image-name.outputs.lowercase }}:latest
+      - name: Build host container image
+        run: docker build ./ --file ./infrastructure/ett/host/Dockerfile --tag ${{ steps.image-name.outputs.lowercase }}:${{ env.host-image-tag }}
 
       - name: 'PR: Upload container image artifact'
         if: ${{ env.is-pull-request == 'true' }}
         uses: ishworkh/docker-image-artifact-upload@v1
         with:
-          image: ${{ steps.image-name.outputs.lowercase }}:${{ github.sha }}
+          image: ${{ steps.image-name.outputs.lowercase }}:${{ env.host-image-tag }}
       - name: 'Merge: Publish container image'
         # if: ${{ env.is-main-branch == 'true' }}
         run: |
           docker login ghcr.io --username ${{ github.actor }} --password ${{ github.token }}
-          docker push ${{ steps.image-name.outputs.lowercase }}:latest
+          docker push ${{ steps.image-name.outputs.lowercase }}:${{ env.host-image-tag }}
