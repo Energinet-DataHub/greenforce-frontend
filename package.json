@@ -92,6 +92,7 @@
     "eslint": "7.22.0",
     "eslint-config-prettier": "8.1.0",
     "eslint-plugin-cypress": "^2.10.3",
+    "glob": "^7.2.0",
     "jest": "27.0.3",
     "jest-preset-angular": "9.0.4",
     "ng-packagr": "^12.1.0",

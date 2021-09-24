@@ -91,6 +91,9 @@
             "jestConfig": "apps/dh-app/jest.config.js",
             "passWithNoTests": true
           }
+        },
+        "add-license": {
+          "executor": "./tools/executors/add-license:add-license"
         }
       }
     },
@@ -219,6 +222,9 @@
             "jestConfig": "apps/ett-app/jest.config.js",
             "passWithNoTests": true
           }
+        },
+        "add-license": {
+          "executor": "./tools/executors/add-license:add-license"
         }
       }
     },
