@@ -2,7 +2,7 @@ name: Energy Track and Trace
 
 env:
   app-name: ett-app
-  base-branch: ${{ github.event.pull_request.base.ref }}
+  BASE_BRANCH: ${{ github.event.pull_request.base.ref }}
   is-main-branch: ${{ github.ref == 'refs/heads/main' }}
   is-pull-request: ${{ github.event_name  == 'pull_request' }}
   NODE_OPTIONS: --max-old-space-size=6144
@@ -62,7 +62,7 @@ jobs:
         id: affected
         uses: ./.github/actions/affected
         with:
-          base: ${{ env.is-main-branch == 'true' && 'HEAD~1' || env.base-branch }}
+          base: ${{ env.is-main-branch == 'true' && 'HEAD~1' || env.BASE_BRANCH }}
           project: ${{ env.app-name }}
 
   app:
