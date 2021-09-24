@@ -136,6 +136,11 @@ jobs:
         with:
           string: ghcr.io/${{ github.repository }}-${{ env.app-name }}
 
+      - name: Debug image tag
+        run: echo ${{ env.is-main-branch == 'true' && 'latest' || github.sha }}
+      - name: Debug negated image tag
+        run: echo ${{ env.is-main-branch == 'true' && github.sha || 'latest' }}
+
       - name: 'PR: Build host container image'
         if: ${{ env.is-pull-request == 'true' }}
         run: docker build ./ --file ${{ env.host-image-path }} --tag ${{ steps.image-name.outputs.lowercase }}:${{ github.sha }}
@@ -149,7 +154,7 @@ jobs:
         with:
           image: ${{ steps.image-name.outputs.lowercase }}:${{ github.sha }}
       - name: 'Merge: Publish container image'
-        if: ${{ env.is-main-branch == 'true' }}
+        # if: ${{ env.is-main-branch == 'true' }}
         run: |
           docker login ghcr.io --username ${{ github.actor }} --password ${{ github.token }}
           docker push ${{ steps.image-name.outputs.lowercase }}:latest
