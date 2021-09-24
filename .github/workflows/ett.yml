@@ -62,8 +62,7 @@ jobs:
         id: affected
         uses: ./.github/actions/affected
         with:
-          base-branch: ${{ env.is-main-branch == 'true' && 'main' || env.base-branch }}
-          base-commit: ${{ env.is-main-branch == 'true' && 'HEAD~1' || 'HEAD' }}
+          base: ${{ env.is-main-branch == 'true' && 'HEAD~1' || env.base-branch }}
           project: ${{ env.app-name }}
 
   app:
