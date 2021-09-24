@@ -7,6 +7,13 @@ import { MatDrawerMode } from '@angular/material/sidenav';
   templateUrl: './shell.component.html',
 })
 export class ShellComponent {
+  /**
+   * @ignore
+   */
   sidenavOpened = true;
+
+  /**
+   * @ignore
+   */
   sidenavMode: MatDrawerMode = 'side';
 }
