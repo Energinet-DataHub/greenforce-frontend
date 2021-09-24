@@ -54,3 +54,7 @@ runs:
       shell: bash
     - run: rm ./tmp/IS_AFFECTED
       shell: bash
+
+    - name: Debug affected output
+      run: node ${{ github.action_path }}/affected.mjs ${{ inputs.project }} ${{ inputs.base }}
+      shell: bash
