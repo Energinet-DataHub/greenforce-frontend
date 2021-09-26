@@ -10,8 +10,8 @@ env:
 
   # Nx Cloud
   NX_BRANCH: ${{ github.event.number }}
-  NX_RUN_GROUP: ${{ github.run_id }}
   NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
+  NX_RUN_GROUP: ${{ github.run_id }}
 
 on:
   push:
