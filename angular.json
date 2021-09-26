@@ -93,7 +93,7 @@
           }
         },
         "add-license": {
-          "executor": "./tools/executors/add-license:add-license"
+          "executor": "./tools/executors/license:add"
         }
       }
     },
@@ -224,7 +224,7 @@
           }
         },
         "add-license": {
-          "executor": "./tools/executors/add-license:add-license"
+          "executor": "./tools/executors/license:add"
         }
       }
     },

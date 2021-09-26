@@ -39,50 +39,63 @@ exports.__esModule = true;
 var glob = require("glob");
 var fs = require("fs");
 var path = require("path");
-var config = require("./../../../.licenserc.json");
+var config = require("../../../.licenserc.json");
 function addLicenseExecutor(options, context) {
     return __awaiter(this, void 0, void 0, function () {
-        var projectRoot, globs, licenses, files, success;
+        var globs, success, files;
         return __generator(this, function (_a) {
-            projectRoot = context.workspace.projects[context.projectName].root;
             globs = Object.keys(config);
-            licenses = {};
-            globs.forEach(function (glob) {
-                licenses[path.extname(glob)] = config[glob];
-            });
+            success = true;
             console.info("Adding licenses...");
-            files = glob.sync(
-            // Everything: '{,!(node_modules|dist)/**/}*{.ts,.scss,.html}',
-            "apps/dh-app{/" + globs.join(',/') + "}");
+            files = glob.sync("{,!(node_modules|dist)/**/*}*{" + globs.join(',') + "}");
             files.forEach(function (file) {
                 try {
+                    var isDirectory = fs.existsSync(file) && fs.lstatSync(file).isDirectory();
+                    if (isDirectory)
+                        return;
                     var data = fs.readFileSync(file, 'utf8');
-                    var licenseTxt = licenses[path.extname(file)].join('\n');
+                    var licenseConfig = getLicenseConfig(file);
+                    if (!licenseConfig) {
+                        console.error("No license config found for: " + file);
+                        success = false;
+                        return;
+                    }
+                    var licenseTxt = licenseConfig.join('\n');
                     var isLicensed = checkForLicense(data, licenseTxt);
-                    console.log('is licensed:', isLicensed, file);
                     if (!isLicensed) {
-                        addLicense(file, data, licenseTxt);
+                        var result = addLicense(file, data, licenseTxt, options);
+                        if (!result)
+                            success = false;
                     }
                 }
                 catch (err) {
-                    console.error(err);
+                    console.error("Couldn't read file: " + file + ", " + err);
+                    success = false;
                 }
             });
-            success = true;
             return [2 /*return*/, { success: success }];
         });
     });
 }
 exports["default"] = addLicenseExecutor;
-function addLicense(file, content, license) {
+function getLicenseConfig(file) {
+    var fileExt = path.extname(file).replace('.', '');
+    var key = Object.keys(config).find(function (glob) {
+        return glob.includes(fileExt);
+    });
+    return config[key];
+}
+function addLicense(file, content, license, options) {
     try {
-        fs.writeFileSync(file, license + '\n' + content);
+        if (!options.dryRun) {
+            fs.writeFileSync(file, license + '\n' + content);
+        }
         console.log('Added license to', file);
         return true;
     }
     catch (err) {
         console.error(err);
-        return err;
+        return false;
     }
 }
 function checkForLicense(content, license) {
