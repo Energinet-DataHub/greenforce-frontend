@@ -1,9 +1,18 @@
 import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
 
-import { DhAppCoreFeatureShellRoutingModule } from './dh-app-core-feature-shell-routing.module';
+import { ShellComponent } from './shell/shell.component';
 import { ShellModule } from './shell/shell.module';
 
+const routes: Routes = [
+  {
+    path: '',
+    component: ShellComponent,
+  },
+];
+
 @NgModule({
-  imports: [ShellModule, DhAppCoreFeatureShellRoutingModule],
+  exports: [RouterModule],
+  imports: [RouterModule.forRoot(routes), ShellModule],
 })
 export class DhAppCoreFeatureShellModule {}
