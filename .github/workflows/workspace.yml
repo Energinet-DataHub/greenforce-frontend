@@ -132,6 +132,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
+          ref: ${{ github.head_ref }}
       # needed for nx affected command
       - name: Fetch base branch Git history
         run: git fetch --no-tags --depth=1 origin $BASE_BRANCH
@@ -159,15 +160,6 @@ jobs:
       - name: Format projects and configuration files
         run: yarn format --base=origin/$BASE_BRANCH
 
-      - name: Stash changes
-        run: git stash || true
-      - name: Check out source code with current branch Git history
-        uses: actions/checkout@v2
-        with:
-          ref: ${{ github.head_ref }}
-          fetch-depth: 1
-      - name: Apply stashed changes
-        run: git stash apply || true
       - name: Commit formatted files
         run: |
           git config user.name "github-actions[bot]"
