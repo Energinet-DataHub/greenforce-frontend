@@ -31,7 +31,7 @@
   },
   "projects": {
     "dh-app": {
-      "tags": []
+      "tags": ["product:dh", "type:app"]
     },
     "dh-app-e2e": {
       "tags": [],
