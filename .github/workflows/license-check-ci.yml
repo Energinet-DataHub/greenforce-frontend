@@ -90,15 +90,12 @@ jobs:
       - name: Apply stashed changes
         run: git stash apply
       - name: Commit licensed files
-        # git add -A || true
-        # git commit -m "chore: add license" || true
-        # git push origin --force-with-lease || true
         run: |
           git config user.name "GitHub Job"
           git config user.email noreply@github.com
-          git add -A
-          git commit -m "chore: add license"
-          git push origin --force-with-lease
+          git add -A || true
+          git commit -m "chore: add license" || true
+          git push origin --force-with-lease || true
 
   check-license-lines:
     name: Check License Lines
