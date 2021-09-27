@@ -13,6 +13,17 @@
             "allow": [],
             "depConstraints": [
               {
+                "sourceTag": "product:dh",
+                "onlyDependOnLibsWithTags": [
+                  "product:dh",
+                  "scope:design-system"
+                ]
+              },
+              {
+                "sourceTag": "scope:design-system",
+                "onlyDependOnLibsWithTags": ["scope:design-system"]
+              },
+              {
                 "sourceTag": "*",
                 "onlyDependOnLibsWithTags": ["*"]
               }

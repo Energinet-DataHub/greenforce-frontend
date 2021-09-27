@@ -31,7 +31,7 @@
   },
   "projects": {
     "dh-app": {
-      "tags": []
+      "tags": ["product:dh", "type:app"]
     },
     "dh-app-core-feature-shell": {
       "tags": ["product:dh", "scope:core", "type:feature"]
@@ -48,7 +48,7 @@
       "implicitDependencies": ["ett-app"]
     },
     "ui-watt": {
-      "tags": []
+      "tags": ["scope:design-system", "type:ui"]
     }
   }
 }
