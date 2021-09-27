@@ -170,7 +170,7 @@ jobs:
         run: git stash apply
       - name: Commit formatted files
         run: |
-          git config user.name "GitHub Job"
+          git config user.name "GitHub Web Flow"
           git config user.email noreply@github.com
           git add -A || true
           git commit -m "style: format" || true
@@ -236,7 +236,7 @@ jobs:
       - name: 'PR: Commit fixed files'
         if: ${{ env.is-pull-request == 'true' }}
         run: |
-          git config user.name "GitHub Job"
+          git config user.name "GitHub Web Flow"
           git config user.email noreply@github.com
           git add -A || true
           git commit -m "style: lint" || true
