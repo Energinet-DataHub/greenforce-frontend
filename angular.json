@@ -38,9 +38,6 @@
       "sourceRoot": "apps/dh-app/src",
       "prefix": "dh",
       "architect": {
-        "add-license": {
-          "executor": "./tools/executors/license:add"
-        },
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "outputs": ["{options.outputPath}"],
@@ -169,9 +166,6 @@
       "sourceRoot": "apps/ett-app/src",
       "prefix": "ett",
       "architect": {
-        "add-license": {
-          "executor": "./tools/executors/license:add"
-        },
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "outputs": ["{options.outputPath}"],
@@ -300,9 +294,6 @@
       "sourceRoot": "libs/ui-watt/src",
       "prefix": "watt",
       "architect": {
-        "add-license": {
-          "executor": "./tools/executors/license:add"
-        },
         "build": {
           "builder": "@nrwl/angular:package",
           "outputs": ["dist/libs/ui-watt"],
@@ -366,6 +357,16 @@
               "quiet": true
             }
           }
+        }
+      }
+    },
+    "workspace": {
+      "projectType": "tool",
+      "root": "./",
+      "sourceRoot": "./",
+      "architect": {
+        "add-license": {
+          "builder": "./tools/executors/license:add"
         }
       }
     }

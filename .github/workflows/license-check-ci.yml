@@ -39,18 +39,6 @@ jobs:
         if: ${{ env.is-pull-request == 'false' }}
         uses: actions/checkout@v2
 
-      - name: Debug branch 1
-        run: git rev-parse --abbrev-ref HEAD
-      - name: Debug branch 2
-        run: git branch
-      - name: Debug github
-        env:
-          GITHUB: ${{ toJSON(github) }}
-          PULL_REQUEST: ${{ toJSON(github.event.pull_request) }}
-        run: |
-          echo "$GITHUB"
-          echo "$PULL_REQUEST"
-
       - name: Set up Node.js ${{ env.node-version }}
         uses: actions/setup-node@v2
         with:
@@ -71,13 +59,8 @@ jobs:
       - name: Install package dependencies
         run: yarn install --frozen-lockfile --non-interactive
 
-      - name: 'PR: Add license to affected projects'
-        if: ${{ env.is-pull-request == 'true' }}
-        run: yarn affected --target=add-license --base=origin/$BASE_BRANCH
-          --max-parallel=$NX_MAX_PARALLEL
-      - name: 'Merge: Add license to all projects'
-        if: ${{ env.is-pull-request == 'false' }}
-        run: yarn nx run-many --target=add-license --all --max-parallel=$NX_MAX_PARALLEL
+      - name: Add license to all projects
+        run: yarn nx run workspace:add-license
 
       - name: Stash changes
         run: git stash || true
