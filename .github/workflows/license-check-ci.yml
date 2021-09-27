@@ -43,6 +43,13 @@ jobs:
         run: git rev-parse --abbrev-ref HEAD
       - name: Debug branch 2
         run: git branch
+      - name: Debug github
+        env:
+          GITHUB: ${{ toJSON(github) }}
+          PULL_REQUEST: ${{ toJSON(github.event.pull_request) }}
+        run: |
+          echo "$GITHUB"
+          echo "$PULL_REQUEST"
 
       - name: Set up Node.js ${{ env.node-version }}
         uses: actions/setup-node@v2
