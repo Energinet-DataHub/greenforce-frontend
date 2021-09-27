@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { ShellComponent as WattShellComponent } from '@energinet/watt';
@@ -9,13 +9,11 @@ import { ShellModule } from './shell.module';
 describe(ShellComponent.name, () => {
   let fixture: ComponentFixture<ShellComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [ShellModule, NoopAnimationsModule],
-      }).compileComponents();
-    })
-  );
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [ShellModule, NoopAnimationsModule],
+    }).compileComponents();
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ShellComponent);
