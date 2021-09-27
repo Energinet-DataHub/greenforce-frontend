@@ -39,6 +39,11 @@ jobs:
         if: ${{ env.is-pull-request == 'false' }}
         uses: actions/checkout@v2
 
+      - name: Debug branch 1
+        run: git rev-parse --abbrev-ref HEAD
+      - name: Debug branch 2
+        run: git branch
+
       - name: Set up Node.js ${{ env.node-version }}
         uses: actions/setup-node@v2
         with:
