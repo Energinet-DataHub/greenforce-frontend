@@ -34,7 +34,7 @@
       "tags": []
     },
     "dh-app-core-feature-shell": {
-      "tags": []
+      "tags": ["product:dh", "scope:core", "type:feature"]
     },
     "dh-app-e2e": {
       "tags": [],
