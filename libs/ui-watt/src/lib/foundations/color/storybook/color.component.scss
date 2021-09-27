@@ -1,0 +1,37 @@
+@use 'sass:map';
+@use './../colors.import' as colors;
+
+:host {
+    background: colors.getColor('grey-300');
+    display: block;
+    width: 100%;
+    padding: 1rem;
+    margin: -1rem;
+}
+
+mat-card {
+    margin-bottom: 8px;
+}
+
+.color-grid {
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 688px;
+}
+
+figure {
+    margin: 10px;
+}
+
+figcaption {
+    text-transform: uppercase;
+}
+
+.color-sample {
+    height: 150px;
+    width: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #{colors.getColor('grey-300')};
+}

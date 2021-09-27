@@ -1,0 +1,35 @@
+@use './color/colors.import' as colors;
+
+:root {
+    /*
+     * Colors
+     */
+    @include colors.setColor('primary', #00847C, colors.getColor('white'));
+    @include colors.setColor('primary-light', #4DB4AB, colors.getColor('black'));
+    @include colors.setColor('primary-dark', #02525E, colors.getColor('white'));
+    // Focus
+    @include colors.setColor('selection', #EBF5F5, colors.getColor('black'));
+    @include colors.setColor('focus', #FFD237, colors.getColor('black'));
+    // Neutrals
+    @include colors.setColor('black', #000, colors.getColor('white'));
+    @include colors.setColor('white', #FFF, colors.getColor('black'));
+    @include colors.setColor('grey-50', #FAFAFA, colors.getColor('black'));
+    @include colors.setColor('grey-100', #F5F5F5, colors.getColor('black'));
+    @include colors.setColor('grey-200', #EEEEEE, colors.getColor('black'));
+    @include colors.setColor('grey-300', #E0E0E0, colors.getColor('black'));
+    @include colors.setColor('grey-400', #BDBDBD, colors.getColor('black'));
+    @include colors.setColor('grey-500', #9E9E9E, colors.getColor('black'));
+    @include colors.setColor('grey-600', #757575, colors.getColor('white'));
+    @include colors.setColor('grey-700', #616161, colors.getColor('white'));
+    @include colors.setColor('grey-800', #424242, colors.getColor('white'));
+    @include colors.setColor('grey-900', #212121, colors.getColor('white'));
+    // States
+    @include colors.setColor('danger', #CC493E, colors.getColor('white'));
+    @include colors.setColor('danger-light', #F7E2E0, colors.getColor('black'));
+    @include colors.setColor('warning', #F8AE3C, colors.getColor('black'));
+    @include colors.setColor('warning-light', #FEF2E0, colors.getColor('black'));
+    @include colors.setColor('success', #36b37e, colors.getColor('black'));
+    @include colors.setColor('success-light', #DFF3EA, colors.getColor('black'));
+    @include colors.setColor('info', #00A6BC, colors.getColor('black'));
+    @include colors.setColor('info-light', #D6F1F4, colors.getColor('black'));
+  }

@@ -19,9 +19,11 @@
             "inlineStyleLanguage": "scss",
             "assets": ["apps/dh-app/src/favicon.ico", "apps/dh-app/src/assets"],
             "styles": [
-              "libs/ui-watt/src/lib/watt.scss",
               "apps/dh-app/src/styles.scss"
             ],
+            "stylePreprocessorOptions": {
+              "includePaths": ["libs/ui-watt/src/lib/styles"]
+            },
             "scripts": []
           },
           "configurations": {

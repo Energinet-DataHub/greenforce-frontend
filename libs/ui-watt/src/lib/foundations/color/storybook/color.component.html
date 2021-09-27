@@ -1,0 +1,15 @@
+<mat-card>
+    <h1>Color</h1>
+</mat-card>
+
+<mat-card *ngFor="let type of colorTypes">
+    <h2>{{type.title}}</h2>
+    <p>{{type.description}}</p>
+
+    <div class="color-grid">
+        <figure *ngFor="let color of type.colors">
+            <div class="color-sample" [style.backgroundColor]="color.color" [style.color]="color.contrast">Text on {{color.name}}</div>
+            <figcaption>{{color.name}}</figcaption>
+        </figure>
+    </div>
+</mat-card>

@@ -1,0 +1,103 @@
+@use 'sass:map';
+
+/*
+ * @Please notice!!! 
+ * These values should be kept in-sync with colors.ts
+ * Naming convention is as follow: --watt-{COLOR GROUP}-colors-{COLOR NAME}
+ */
+$_colors: (
+    'primary': --watt-primary-colors-primary,
+    'primary-light': --watt-primary-colors-primary-light,
+    'primary-dark': --watt-primary-colors-primary-dark,
+    // Focus
+    'selection': --watt-focus-colors-selection,
+    'focus': --watt-focus-colors-focus,
+    // Neutrals
+    'black': --watt-neutral-colors-black,
+    'white': --watt-neutral-colors-white,
+    'grey-50': --watt-neutral-colors-grey-50,
+    'grey-100': --watt-neutral-colors-grey-100,
+    'grey-200': --watt-neutral-colors-grey-200,
+    'grey-300': --watt-neutral-colors-grey-300,
+    'grey-400': --watt-neutral-colors-grey-400,
+    'grey-500': --watt-neutral-colors-grey-500,
+    'grey-600': --watt-neutral-colors-grey-600,
+    'grey-700': --watt-neutral-colors-grey-700,
+    'grey-800': --watt-neutral-colors-grey-800,
+    'grey-900': --watt-neutral-colors-grey-900,
+    // States
+    'danger': --watt-state-colors-danger,
+    'danger-light': --watt-state-colors-danger-light,
+    'warning': --watt-state-colors-warning,
+    'warning-light': --watt-state-colors-warning-light,
+    'success': --watt-state-colors-success,
+    'success-light': --watt-state-colors-success-light,
+    'info': --watt-state-colors-info,
+    'info-light': --watt-state-colors-info-light,
+    'contrast': (
+        'primary': --watt-primary-colors-primary-contrast,
+        'primary-light': --watt-primary-colors-primary-light-contrast,
+        'primary-dark': --watt-primary-colors-primary-dark-contrast,
+        // Focus
+        'selection': --watt-focus-colors-selection-contrast,
+        'focus': --watt-focus-colors-focus-contrast,
+        // Neutrals
+        'black': --watt-neutral-colors-black-contrast,
+        'white': --watt-neutral-colors-white-contrast,
+        'grey-50': --watt-neutral-colors-grey-50-contrast,
+        'grey-100': --watt-neutral-colors-grey-100-contrast,
+        'grey-200': --watt-neutral-colors-grey-200-contrast,
+        'grey-300': --watt-neutral-colors-grey-300-contrast,
+        'grey-400': --watt-neutral-colors-grey-400-contrast,
+        'grey-500': --watt-neutral-colors-grey-500-contrast,
+        'grey-600': --watt-neutral-colors-grey-600-contrast,
+        'grey-700': --watt-neutral-colors-grey-700-contrast,
+        'grey-800': --watt-neutral-colors-grey-800-contrast,
+        'grey-900': --watt-neutral-colors-grey-900-contrast,
+        // States
+        'danger': --watt-state-colors-danger-contrast,
+        'danger-light': --watt-state-colors-danger-light-contrast,
+        'warning': --watt-state-colors-warning-contrast,
+        'warning-light': --watt-state-colors-warning-light-contrast,
+        'success': --watt-state-colors-success-contrast,
+        'success-light': --watt-state-colors-success-light-contrast,
+        'info': --watt-state-colors-info-contrast,
+        'info-light': --watt-state-colors-info-light-contrast
+    )
+);
+
+/**
+ * @description
+ *
+ * Get color by name.
+ *
+ * @publicApi
+ */
+@function getColor($name) {
+    $color-var: map-get($_colors, $name);
+    @return var(#{$color-var});
+}
+
+/**
+ * @description
+ *
+ * Get text-color / contrast color by name.
+ *
+ * @publicApi
+ */
+@function getColorContrast($name) {
+    $color-var: map-get($_colors, 'contrast', $name);
+    @return var(#{$color-var});
+}
+
+/**
+ * @description
+ *
+ * Set color and contrast by name.
+ *
+ * @publicApi
+ */
+@mixin setColor($name, $color, $contrast) {
+    #{map-get($_colors, $name)}: $color;
+    #{map-get($_colors, 'contrast', $name)}: $contrast;
+}

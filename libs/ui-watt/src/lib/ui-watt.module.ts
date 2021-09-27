@@ -6,6 +6,9 @@ import { AutocompleteModule } from './components/autocomplete/autocomplete.modul
 
 @NgModule({
   imports: [CommonModule, BrowserAnimationsModule, AutocompleteModule],
+  providers: [
+    { provide: Window, useValue: window }
+  ],
   exports: [AutocompleteModule],
 })
 export class WattModule {}
