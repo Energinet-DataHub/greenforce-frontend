@@ -79,12 +79,16 @@ jobs:
         if: ${{ env.is-pull-request == 'false' }}
         run: yarn nx run-many --target=add-license --all --max-parallel=$NX_MAX_PARALLEL
 
+      - name: Stash changes
+        run: git stash
       - name: 'PR: Check out source code with current branch Git history'
         if: ${{ env.is-pull-request == 'true' }}
         uses: actions/checkout@v2
         with:
           ref: ${{ github.head_ref }}
           fetch-depth: 1
+      - name: Apply stashed changes
+        run: git stash apply
       - name: Commit licensed files
         # git add -A || true
         # git commit -m "chore: add license" || true
