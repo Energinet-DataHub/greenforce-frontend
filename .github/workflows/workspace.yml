@@ -158,6 +158,16 @@ jobs:
 
       - name: Format projects and configuration files
         run: yarn format --base=origin/$BASE_BRANCH
+
+      - name: Stash changes
+        run: git stash
+      - name: Check out source code with current branch Git history
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 1
+      - name: Apply stashed changes
+        run: git stash apply
       - name: Commit formatted files
         run: |
           git config user.name "GitHub Job"
@@ -211,6 +221,16 @@ jobs:
         if: ${{ env.is-pull-request == 'true' }}
         run: yarn affected:lint:fix --base=origin/$BASE_BRANCH
           --max-parallel=$NX_MAX_PARALLEL
+      - name: Stash changes
+        run: git stash
+      - name: 'PR: Check out source code with current branch Git history'
+        if: ${{ env.is-pull-request == 'true' }}
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 1
+      - name: Apply stashed changes
+        run: git stash apply
       - name: 'PR: Commit fixed files'
         if: ${{ env.is-pull-request == 'true' }}
         run: |
