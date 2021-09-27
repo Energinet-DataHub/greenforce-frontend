@@ -25,7 +25,7 @@
     "designsystem:build": "yarn docs:json && npx nx run ui-watt:build-storybook --outputPath=dist/designsystem",
     "designsystem:start": "yarn docs:json && npx nx run ui-watt:storybook",
     "dep-graph": "nx dep-graph",
-    "docs:json": "npx compodoc -p ./libs/ui-watt/tsconfig.json -e json -d .",
+    "docs:json": "npx compodoc -p ./libs/ui-watt/tsconfig.json -e json -d ./libs/ui-watt",
     "e2e": "nx run-many --target=e2e --all",
     "format": "nx format:write",
     "format:check": "nx format:check",

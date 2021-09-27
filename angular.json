@@ -294,22 +294,6 @@
       "sourceRoot": "libs/ui-watt/src",
       "prefix": "watt",
       "architect": {
-        "build": {
-          "builder": "@nrwl/angular:package",
-          "outputs": ["dist/libs/ui-watt"],
-          "options": {
-            "project": "libs/ui-watt/ng-package.json"
-          },
-          "configurations": {
-            "production": {
-              "tsConfig": "libs/ui-watt/tsconfig.lib.prod.json"
-            },
-            "development": {
-              "tsConfig": "libs/ui-watt/tsconfig.lib.json"
-            }
-          },
-          "defaultConfiguration": "production"
-        },
         "test": {
           "builder": "@nrwl/jest:jest",
           "outputs": ["coverage/libs/ui-watt"],
