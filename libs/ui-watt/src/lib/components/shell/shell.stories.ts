@@ -25,11 +25,11 @@ shell.storyName = 'Empty';
 
 const withContentTemplate = `
 <watt-shell>
-  <ng-container sidenav>
+  <ng-container watt-shell-sidenav>
     Sidenav
   </ng-container>
 
-  <ng-container toolbar>
+  <ng-container watt-shell-toolbar>
     Toolbar
   </ng-container>
 

@@ -199,7 +199,7 @@
         },
         {
             "name": "ShellComponent",
-            "id": "component-ShellComponent-28472a948e630b27a7aa9b7032c85b68",
+            "id": "component-ShellComponent-b1d2caafb055e9c8892c30ad4c99f8d0",
             "file": "libs/ui-watt/src/lib/components/shell/shell.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -226,7 +226,7 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { Component } from '@angular/core';\nimport { MatDrawerMode } from '@angular/material/sidenav';\n\n@Component({\n  selector: 'watt-shell',\n  styleUrls: ['./shell.component.scss'],\n  templateUrl: './shell.component.html',\n})\nexport class ShellComponent {\n  /**\n   * @ignore\n   */\n\n  sidenavOpened = true;\n  /**\n   * @ignore\n   */\n  sidenavMode: MatDrawerMode = 'side';\n}\n",
+            "sourceCode": "import { Component } from '@angular/core';\r\nimport { MatDrawerMode } from '@angular/material/sidenav';\r\n\r\n@Component({\r\n  selector: 'watt-shell',\r\n  styleUrls: ['./shell.component.scss'],\r\n  templateUrl: './shell.component.html',\r\n})\r\nexport class ShellComponent {\r\n  /**\r\n   * @ignore\r\n   */\r\n  sidenavOpened = true;\r\n\r\n  /**\r\n   * @ignore\r\n   */\r\n  sidenavMode: MatDrawerMode = 'side';\r\n}\r\n",
             "assetsDirs": [],
             "styleUrlsData": [
                 {
@@ -235,7 +235,7 @@
                 }
             ],
             "stylesData": "",
-            "templateData": "<mat-sidenav-container class=\"sidenav-container\">\n  <mat-sidenav\n    class=\"sidenav\"\n    [mode]=\"sidenavMode\"\n    [opened]=\"sidenavOpened\"\n    role=\"navigation\"\n  >\n    <ng-content select=\"[sidenav]\"></ng-content>\n  </mat-sidenav>\n\n  <mat-sidenav-content>\n    <mat-toolbar>\n      <ng-content select=\"[toolbar]\"></ng-content>\n    </mat-toolbar>\n\n    <main class=\"main-content\">\n      <ng-content></ng-content>\n    </main>\n  </mat-sidenav-content>\n</mat-sidenav-container>\n"
+            "templateData": "<mat-sidenav-container class=\"sidenav-container\">\r\n  <mat-sidenav\r\n    class=\"sidenav\"\r\n    [mode]=\"sidenavMode\"\r\n    [opened]=\"sidenavOpened\"\r\n    role=\"navigation\"\r\n  >\r\n    <ng-content select=\"[watt-shell-sidenav]\"></ng-content>\r\n  </mat-sidenav>\r\n\r\n  <mat-sidenav-content>\r\n    <mat-toolbar>\r\n      <ng-content select=\"[watt-shell-toolbar]\"></ng-content>\r\n    </mat-toolbar>\r\n\r\n    <main class=\"main-content\">\r\n      <ng-content></ng-content>\r\n    </main>\r\n  </mat-sidenav-content>\r\n</mat-sidenav-container>\r\n"
         },
         {
             "name": "TypographyComponent",
