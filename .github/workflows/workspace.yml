@@ -221,7 +221,8 @@ jobs:
         if: ${{ env.is-pull-request == 'true' }}
         run: yarn affected:lint:fix --base=origin/$BASE_BRANCH
           --max-parallel=$NX_MAX_PARALLEL
-      - name: Stash changes
+      - name: 'PR: Stash changes'
+        if: ${{ env.is-pull-request == 'true' }}
         run: git stash
       - name: 'PR: Check out source code with current branch Git history'
         if: ${{ env.is-pull-request == 'true' }}
@@ -229,7 +230,8 @@ jobs:
         with:
           ref: ${{ github.head_ref }}
           fetch-depth: 1
-      - name: Apply stashed changes
+      - name: 'PR: Apply stashed changes'
+        if: ${{ env.is-pull-request == 'true' }}
         run: git stash apply
       - name: 'PR: Commit fixed files'
         if: ${{ env.is-pull-request == 'true' }}
