@@ -74,7 +74,7 @@ jobs:
         run: git stash apply || true
       - name: Commit licensed files
         run: |
-          git config user.name ""GitHub Web Flow""
+          git config user.name "GitHub Web Flow"
           git config user.email noreply@github.com
           git add -A || true
           git commit -m "chore: add license" || true
