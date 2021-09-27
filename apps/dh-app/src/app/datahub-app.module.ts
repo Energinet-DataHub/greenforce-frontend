@@ -8,7 +8,7 @@ const routes: Routes = [
   {
     path: '',
     loadChildren: () =>
-      import('@energinet/dh-app-core-feature-shell').then(
+      import('@energinet/dh-app/core/feature-shell').then(
         (module) => module.DhAppCoreFeatureShellModule
       ),
   },
