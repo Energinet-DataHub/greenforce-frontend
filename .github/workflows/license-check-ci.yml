@@ -79,13 +79,22 @@ jobs:
         if: ${{ env.is-pull-request == 'false' }}
         run: yarn nx run-many --target=add-license --all --max-parallel=$NX_MAX_PARALLEL
 
+      - name: 'PR: Check out source code with current branch Git history'
+        if: ${{ env.is-pull-request == 'true' }}
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 1
       - name: Commit licensed files
+        # git add -A || true
+        # git commit -m "chore: add license" || true
+        # git push origin --force-with-lease || true
         run: |
           git config user.name "GitHub Job"
           git config user.email noreply@github.com
-          git add -A || true
-          git commit -m "chore: add license" || true
-          git push origin --force-with-lease || true
+          git add -A
+          git commit -m "chore: add license"
+          git push origin --force-with-lease
 
   check-license-lines:
     name: Check License Lines
