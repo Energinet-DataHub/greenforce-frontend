@@ -7,6 +7,9 @@
       "sourceRoot": "apps/dh-app/src",
       "prefix": "dh",
       "architect": {
+        "add-license": {
+          "executor": "./tools/executors/license:add"
+        },
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "outputs": ["{options.outputPath}"],
@@ -91,9 +94,6 @@
             "jestConfig": "apps/dh-app/jest.config.js",
             "passWithNoTests": true
           }
-        },
-        "add-license": {
-          "executor": "./tools/executors/license:add"
         }
       }
     },
@@ -138,6 +138,9 @@
       "sourceRoot": "apps/ett-app/src",
       "prefix": "ett",
       "architect": {
+        "add-license": {
+          "executor": "./tools/executors/license:add"
+        },
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "outputs": ["{options.outputPath}"],
@@ -222,9 +225,6 @@
             "jestConfig": "apps/ett-app/jest.config.js",
             "passWithNoTests": true
           }
-        },
-        "add-license": {
-          "executor": "./tools/executors/license:add"
         }
       }
     },
@@ -269,6 +269,9 @@
       "sourceRoot": "libs/ui-watt/src",
       "prefix": "watt",
       "architect": {
+        "add-license": {
+          "executor": "./tools/executors/license:add"
+        },
         "build": {
           "builder": "@nrwl/angular:package",
           "outputs": ["dist/libs/ui-watt"],
@@ -362,7 +365,7 @@
       "linter": "eslint",
       "unitTestRunner": "jest"
     },
-    "@nrwl/angular:component": {
+    "@schematics/angular:component": {
       "style": "scss"
     }
   },
