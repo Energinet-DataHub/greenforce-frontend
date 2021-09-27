@@ -1,0 +1,138 @@
+name: Energy Track and Trace
+
+env:
+  app-name: ett-app
+  BASE_BRANCH: ${{ github.event.pull_request.base.ref }}
+  is-main-branch: ${{ github.ref == 'refs/heads/main' }}
+  is-pull-request: ${{ github.event_name  == 'pull_request' }}
+  NODE_OPTIONS: --max-old-space-size=6144
+  node-version: 14.x
+  NX_MAX_PARALLEL: 2
+
+  # Nx Cloud
+  NX_BRANCH: ${{ github.event.number }}
+  NX_RUN_GROUP: ${{ github.run_id }}
+
+on:
+  push:
+    branches:
+      - main
+  pull_request: {}
+  workflow_dispatch: {}
+
+jobs:
+  affected:
+    name: Is affected?
+    runs-on: ubuntu-latest
+
+    outputs:
+      is-affected: ${{ steps.affected.outputs.is-affected }}
+
+    steps:
+      # needed for nx affected command
+      - name: Check out source code with current branch Git history
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      # needed for nx affected command
+      - name: 'PR: Fetch base branch Git history'
+        if: ${{ env.is-pull-request == 'true' }}
+        run: git fetch --no-tags --depth=1 origin $BASE_BRANCH
+
+      - name: Use Node.js ${{ env.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ env.node-version }}
+
+      - name: Variable-Yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+      - name: Cache Yarn cache directory
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-node-${{ env.node-version }}-yarn-${{
+            hashFiles('yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-node-${{ env.node-version }}
+            ${{ runner.os }}
+      - name: Install package dependencies
+        run: yarn install --frozen-lockfile --non-interactive
+
+      - name: Is affected?
+        id: affected
+        uses: ./.github/actions/affected
+        with:
+          base: ${{ env.is-main-branch == 'true' && 'HEAD~1' || format('origin/{0}', env.BASE_BRANCH) }}
+          project: ${{ env.app-name }}
+
+  app:
+    name: Build app
+    if: ${{ needs.affected.outputs.is-affected == 'true' }}
+    needs: affected
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Node.js ${{ env.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ env.node-version }}
+
+      - name: Variable-Yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+      - name: Cache Yarn cache directory
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-node-${{ env.node-version }}-yarn-${{
+            hashFiles('yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-node-${{ env.node-version }}
+            ${{ runner.os }}
+      - name: Install package dependencies
+        run: yarn install --frozen-lockfile --non-interactive
+
+      - name: Angular Compatibility Compiler
+        run: yarn ngcc --use-program-dependencies --tsconfig apps/${{ env.app-name }}/tsconfig.app.json
+
+      - name: Production build
+        run: yarn nx build ${{ env.app-name }} --max-parallel=$NX_MAX_PARALLEL
+
+      - name: Upload web app build artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ env.app-name }}
+          path: ./dist/apps/${{ env.app-name }}/
+          if-no-files-found: error
+
+  container:
+    name: Host container
+    needs: app
+    runs-on: ubuntu-latest
+
+    env:
+      host-image-tag: ${{ github.ref == 'refs/heads/main' && 'latest' || format('pr-{0}', github.event.pull_request.number) }}
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/download-artifact@v2
+        with:
+          name: ${{ env.app-name }}
+          path: ./dist/apps/${{ env.app-name }}/
+
+      - name: Container image name
+        id: image-name
+        uses: ASzc/change-string-case-action@v2
+        with:
+          string: ghcr.io/${{ github.repository }}-${{ env.app-name }}
+
+      - name: Build host container image
+        run: docker build ./ --file ./infrastructure/ett/host/Dockerfile --tag ${{ steps.image-name.outputs.lowercase }}:${{ env.host-image-tag }}
+
+      - name: Publish host container image
+        run: |
+          docker login ghcr.io --username ${{ github.actor }} --password ${{ github.token }}
+          docker push ${{ steps.image-name.outputs.lowercase }}:${{ env.host-image-tag }}

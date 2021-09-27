@@ -10,6 +10,7 @@ env:
 
   # Nx Cloud
   NX_BRANCH: ${{ github.event.number }}
+  NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
   NX_RUN_GROUP: ${{ github.run_id }}
 
 on:
@@ -131,6 +132,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
+          ref: ${{ github.head_ref }}
       # needed for nx affected command
       - name: Fetch base branch Git history
         run: git fetch --no-tags --depth=1 origin $BASE_BRANCH
@@ -157,10 +159,11 @@ jobs:
 
       - name: Format projects and configuration files
         run: yarn format --base=origin/$BASE_BRANCH
+
       - name: Commit formatted files
         run: |
-          git config user.name "GitHub Job"
-          git config user.email noreply@github.com
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
           git add -A || true
           git commit -m "style: format" || true
           git push origin --force-with-lease || true
@@ -210,11 +213,23 @@ jobs:
         if: ${{ env.is-pull-request == 'true' }}
         run: yarn affected:lint:fix --base=origin/$BASE_BRANCH
           --max-parallel=$NX_MAX_PARALLEL
+      - name: 'PR: Stash changes'
+        if: ${{ env.is-pull-request == 'true' }}
+        run: git stash || true
+      - name: 'PR: Check out source code with current branch Git history'
+        if: ${{ env.is-pull-request == 'true' }}
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 1
+      - name: 'PR: Apply stashed changes'
+        if: ${{ env.is-pull-request == 'true' }}
+        run: git stash apply || true
       - name: 'PR: Commit fixed files'
         if: ${{ env.is-pull-request == 'true' }}
         run: |
-          git config user.name "GitHub Job"
-          git config user.email noreply@github.com
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
           git add -A || true
           git commit -m "style: lint" || true
           git push origin --force-with-lease || true

@@ -21,7 +21,7 @@ import * as path from 'path';
 import * as config from '../../../.licenserc.json';
 
 interface LicenseExecutorOptions {
-    dryRun: boolean;
+  dryRun: boolean;
 }
 
 export default async function addLicenseExecutor(
@@ -29,35 +29,34 @@ export default async function addLicenseExecutor(
   context: ExecutorContext
 ) {
   const globs = Object.keys(config);
-  
+
   let success = true;
 
   console.info(`Adding licenses...`);
-  
-  const files = glob.sync(
-      `{,!(node_modules|dist)/**/*}*{${globs.join(',')}}`
-  );
+
+  const files = glob.sync(`{,!(node_modules|dist)/**/*}*{${globs.join(',')}}`);
 
   files.forEach((file) => {
     try {
-      const isDirectory = fs.existsSync(file) && fs.lstatSync(file).isDirectory();
-      if(isDirectory) return;
+      const isDirectory =
+        fs.existsSync(file) && fs.lstatSync(file).isDirectory();
+      if (isDirectory) return;
 
       const data = fs.readFileSync(file, 'utf8');
 
       const licenseConfig = getLicenseConfig(file);
-      if(!licenseConfig) {
-          console.error(`No license config found for: ${file}`);
-          success = false;
-          return;
+      if (!licenseConfig) {
+        console.error(`No license config found for: ${file}`);
+        success = false;
+        return;
       }
 
       const licenseTxt = licenseConfig.join('\n');
       const isLicensed = checkForLicense(data, licenseTxt);
-    
+
       if (!isLicensed) {
         const result = addLicense(file, data, licenseTxt, options);
-        if(!result) success = false;
+        if (!result) success = false;
       }
     } catch (err) {
       console.error(`Couldn't read file: ${file}, ${err}`);
@@ -68,17 +67,22 @@ export default async function addLicenseExecutor(
 }
 
 function getLicenseConfig(file): string[] {
-    const fileExt = path.extname(file).replace('.', '');
-    const key = Object.keys(config).find((glob) => {
-        return glob.includes(fileExt);
-    })
-    return config[key];
+  const fileExt = path.extname(file).replace('.', '');
+  const key = Object.keys(config).find((glob) => {
+    return glob.includes(fileExt);
+  });
+  return config[key];
 }
 
-function addLicense(file: string, content: string, license: string, options: LicenseExecutorOptions): boolean {
+function addLicense(
+  file: string,
+  content: string,
+  license: string,
+  options: LicenseExecutorOptions
+): boolean {
   try {
-    if(!options.dryRun) {
-        fs.writeFileSync(file, license + '\n' + content);
+    if (!options.dryRun) {
+      fs.writeFileSync(file, license + '\n' + content);
     }
     console.log('Added license to', file);
     return true;
@@ -94,5 +98,5 @@ function checkForLicense(content: string, license: string): boolean {
 }
 
 function removeWhitespace(str: string): string {
-    return str.replace(/\s/g, '');
+  return str.replace(/\s/g, '');
 }

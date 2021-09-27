@@ -20,7 +20,7 @@ import { Component, NgModule } from '@angular/core';
   selector: 'ett-app',
 
   styles: [':host { display: block; }'],
-  template: `<h1>Energy Track and Trace</h1>`,
+  template: `<h1>Energy Track and Trace app</h1>`,
 })
 export class EnergyTrackAndTraceAppComponent {}
 
