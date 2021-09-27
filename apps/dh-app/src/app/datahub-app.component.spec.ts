@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterOutlet } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
@@ -12,7 +13,7 @@ describe(DataHubAppComponent.name, () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [DataHubAppModule, RouterTestingModule],
+        imports: [DataHubAppModule, NoopAnimationsModule, RouterTestingModule],
       }).compileComponents();
     })
   );
