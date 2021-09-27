@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { RouterTestingModule } from '@angular/router/testing';
 import { ShellComponent as WattShellComponent } from '@energinet/watt';
 
 import { ShellComponent } from './shell.component';
@@ -11,7 +12,7 @@ describe(ShellComponent.name, () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [ShellModule, NoopAnimationsModule],
+      imports: [ShellModule, NoopAnimationsModule, RouterTestingModule],
     }).compileComponents();
   });
 
