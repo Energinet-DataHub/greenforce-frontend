@@ -80,7 +80,7 @@ jobs:
         run: yarn nx run-many --target=add-license --all --max-parallel=$NX_MAX_PARALLEL
 
       - name: Stash changes
-        run: git stash
+        run: git stash || true
       - name: 'PR: Check out source code with current branch Git history'
         if: ${{ env.is-pull-request == 'true' }}
         uses: actions/checkout@v2
@@ -88,7 +88,7 @@ jobs:
           ref: ${{ github.head_ref }}
           fetch-depth: 1
       - name: Apply stashed changes
-        run: git stash apply
+        run: git stash apply || true
       - name: Commit licensed files
         run: |
           git config user.name ""GitHub Web Flow""
