@@ -180,6 +180,7 @@ jobs:
         if: ${{ env.is-pull-request == 'true' }}
         uses: actions/checkout@v2
         with:
+          ref: ${{ github.head_ref }}
           fetch-depth: 0
       # needed for nx affected command
       - name: 'PR: Fetch base branch Git history'
@@ -213,18 +214,18 @@ jobs:
         if: ${{ env.is-pull-request == 'true' }}
         run: yarn affected:lint:fix --base=origin/$BASE_BRANCH
           --max-parallel=$NX_MAX_PARALLEL
-      - name: 'PR: Stash changes'
-        if: ${{ env.is-pull-request == 'true' }}
-        run: git stash || true
-      - name: 'PR: Check out source code with current branch Git history'
-        if: ${{ env.is-pull-request == 'true' }}
-        uses: actions/checkout@v2
-        with:
-          ref: ${{ github.head_ref }}
-          fetch-depth: 1
-      - name: 'PR: Apply stashed changes'
-        if: ${{ env.is-pull-request == 'true' }}
-        run: git stash apply || true
+      # - name: 'PR: Stash changes'
+      #   if: ${{ env.is-pull-request == 'true' }}
+      #   run: git stash || true
+      # - name: 'PR: Check out source code with current branch Git history'
+      #   if: ${{ env.is-pull-request == 'true' }}
+      #   uses: actions/checkout@v2
+      #   with:
+      #     ref: ${{ github.head_ref }}
+      #     fetch-depth: 1
+      # - name: 'PR: Apply stashed changes'
+      #   if: ${{ env.is-pull-request == 'true' }}
+      #   run: git stash apply || true
       - name: 'PR: Commit fixed files'
         if: ${{ env.is-pull-request == 'true' }}
         run: |
@@ -233,6 +234,10 @@ jobs:
           git add -A || true
           git commit -m "style: lint" || true
           git push origin --force-with-lease || true
+
+      - name: 'PR: Install package dependencies'
+        if: ${{ env.is-pull-request == 'true' }}
+        run: yarn install --frozen-lockfile --non-interactive
       - name: 'PR: Lint workspace and affected projects'
         if: ${{ env.is-pull-request == 'true' }}
         run: yarn affected:lint --base=origin/$BASE_BRANCH
