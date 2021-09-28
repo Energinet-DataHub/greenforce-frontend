@@ -218,7 +218,7 @@ jobs:
 
       - name: '[Debug] PR: Fix affected projects using lint rules'
         if: ${{ env.is-pull-request == 'true' }}
-        run: yarn affected:lint:fix --max-parallel=$NX_MAX_PARALLEL
+        run: yarn affected:lint:fix --base=remotes/origin/$GITHUB_BASE_REF --max-parallel=$NX_MAX_PARALLEL
 
       # - name: 'PR: Stash changes'
       #   if: ${{ env.is-pull-request == 'true' }}
