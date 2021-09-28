@@ -1,0 +1,19 @@
+<!-- <mat-form-field appearance="fill">
+    <mat-label>{{label}}</mat-label>
+    <input type="text"
+            [placeholder]="placeholder"
+            [attr.aria-label]="label"
+            matInput
+            [formControl]="myControl"
+            [matAutocomplete]="auto">
+    <mat-autocomplete #auto="matAutocomplete">
+    <mat-option *ngFor="let option of options" [value]="option">
+        {{option}}
+    </mat-option>
+    </mat-autocomplete>
+</mat-form-field> -->
+formfield works {{viewInitialized}}
+<mat-form-field appearance="fill" *ngIf="viewInitialized">
+    <input type="text" matInput>
+    
+</mat-form-field>
