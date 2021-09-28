@@ -175,17 +175,22 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Debug pull_request.head.ref
+        run: echo "${{ github.event.pull_request.head.ref }}"
+      - name: Debug head_ref
+        run: echo "${{ github.head_ref }}"
+
       # needed for nx affected command
       - name: 'PR: Check out source code with current branch Git history'
         if: ${{ env.is-pull-request == 'true' }}
         uses: actions/checkout@v2
         with:
-          ref: ${{ github.event.pull_request.head.ref }}
           fetch-depth: 0
+          ref: ${{ github.head_ref }}
       # needed for nx affected command
       - name: 'PR: Fetch base branch Git history'
         if: ${{ env.is-pull-request == 'true' }}
-        run: git fetch --no-tags --depth=5 origin $BASE_BRANCH
+        run: git fetch --no-tags --depth=1 origin $BASE_BRANCH
       - name: 'Merge: Check out source code'
         if: ${{ env.is-pull-request == 'false' }}
         uses: actions/checkout@v2
