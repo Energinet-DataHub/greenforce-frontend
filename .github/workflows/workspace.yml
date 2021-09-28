@@ -175,10 +175,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Debug pull_request.head.ref
-        run: echo "${{ github.event.pull_request.head.ref }}"
-      - name: Debug head_ref
-        run: echo "${{ github.head_ref }}"
+      # - name: Debug pull_request.head.ref
+      #   run: echo "${{ github.event.pull_request.head.ref }}"
+      # ci/license
+      # - name: Debug head_ref
+      #   run: echo "${{ github.head_ref }}"
+      # ci/license
 
       # needed for nx affected command
       - name: 'PR: Check out source code with current branch Git history'
@@ -225,7 +227,7 @@ jobs:
         if: ${{ env.is-pull-request == 'true' }}
         env:
           CI: true
-        run: yarn affected:lint:fix --origin/$BASE_BRANCH --max-parallel=$NX_MAX_PARALLEL
+        run: yarn affected:lint:fix --base origin/$BASE_BRANCH --max-parallel=$NX_MAX_PARALLEL
 
       # - name: 'PR: Stash changes'
       #   if: ${{ env.is-pull-request == 'true' }}
