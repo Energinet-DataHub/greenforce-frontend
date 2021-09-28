@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { ColorHelperService } from '../color-helper.service';
 import { Colors } from '../colors';
 
 interface ColorType {
@@ -43,7 +42,6 @@ export class ColorComponent {
 
   constructor() {
     this.groupColors();
-    console.log(this.colorTypes);
   }
 
   /**
