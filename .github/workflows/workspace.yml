@@ -210,9 +210,13 @@ jobs:
       - name: Install package dependencies
         run: yarn install --frozen-lockfile --non-interactive
 
+      - name: Debug head_ref
+        run: echo "${{ github.head_ref }}"
+
       - name: 'PR: Fix affected projects using lint rules'
         if: ${{ env.is-pull-request == 'true' }}
-        run: yarn affected:lint:fix --base=origin/$BASE_BRANCH
+        run:
+          yarn affected:lint:fix --base=origin/$BASE_BRANCH --head=${{ github.head_ref }}
           --max-parallel=$NX_MAX_PARALLEL
       # - name: 'PR: Stash changes'
       #   if: ${{ env.is-pull-request == 'true' }}
