@@ -180,12 +180,12 @@ jobs:
         if: ${{ env.is-pull-request == 'true' }}
         uses: actions/checkout@v2
         with:
-          ref: ${{ github.head_ref }}
+          ref: ${{ github.event.pull_request.head.ref }}
           fetch-depth: 0
       # needed for nx affected command
       - name: 'PR: Fetch base branch Git history'
         if: ${{ env.is-pull-request == 'true' }}
-        run: git fetch --no-tags --depth=1 origin $BASE_BRANCH
+        run: git fetch --no-tags --depth=5 origin $BASE_BRANCH
       - name: 'Merge: Check out source code'
         if: ${{ env.is-pull-request == 'false' }}
         uses: actions/checkout@v2
@@ -218,7 +218,9 @@ jobs:
 
       - name: '[Debug] PR: Fix affected projects using lint rules'
         if: ${{ env.is-pull-request == 'true' }}
-        run: yarn affected:lint:fix --base=remotes/origin/$GITHUB_BASE_REF --max-parallel=$NX_MAX_PARALLEL
+        env:
+          CI: true
+        run: yarn affected:lint:fix --origin/$BASE_BRANCH --max-parallel=$NX_MAX_PARALLEL
 
       # - name: 'PR: Stash changes'
       #   if: ${{ env.is-pull-request == 'true' }}
