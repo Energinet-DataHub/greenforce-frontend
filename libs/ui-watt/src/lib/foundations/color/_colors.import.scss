@@ -1,64 +1,80 @@
+/**
+ * @license
+ * Copyright 2021 Energinet DataHub A/S
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License2");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 /*
  * @Please notice!!! 
  * These values should be kept in-sync with colors.ts
  */
 $_colors: (
-    'primary': var(--watt-color-primary),
-    'primary-light': var(--watt-color-primary-light),
-    'primary-dark': var(--watt-color-primary-dark),
+  'primary': var(--watt-color-primary),
+  'primary-light': var(--watt-color-primary-light),
+  'primary-dark': var(--watt-color-primary-dark),
+  // Focus
+  'selection': var(--watt-color-focus-selection),
+  'focus': var(--watt-color-focus),
+  // Neutrals
+  'black': var(--watt-color-neutral-black),
+  'white': var(--watt-color-neutral-white),
+  'grey-50': var(--watt-color-neutral-grey-50),
+  'grey-100': var(--watt-color-neutral-grey-100),
+  'grey-200': var(--watt-color-neutral-grey-200),
+  'grey-300': var(--watt-color-neutral-grey-300),
+  'grey-400': var(--watt-color-neutral-grey-400),
+  'grey-500': var(--watt-color-neutral-grey-500),
+  'grey-600': var(--watt-color-neutral-grey-600),
+  'grey-700': var(--watt-color-neutral-grey-700),
+  'grey-800': var(--watt-color-neutral-grey-800),
+  'grey-900': var(--watt-color-neutral-grey-900),
+  // States
+  'danger': var(--watt-color-state-danger),
+  'danger-light': var(--watt-color-state-danger-light),
+  'warning': var(--watt-color-state-warning),
+  'warning-light': var(--watt-color-state-warning-light),
+  'success': var(--watt-color-state-success),
+  'success-light': var(--watt-color-state-success-light),
+  'info': var(--watt-color-state-info),
+  'info-light': var(--watt-color-state-info-light),
+  'contrast': (
+    'primary': var(--watt-color-primary-contrast),
+    'primary-light': var(--watt-color-primary-light-contrast),
+    'primary-dark': var(--watt-color-primary-dark-contrast),
     // Focus
-    'selection': var(--watt-color-focus-selection),
-    'focus': var(--watt-color-focus),
+    'selection': var(--watt-color-focus-selection-contrast),
+    'focus': var(--watt-color-focus-contrast),
     // Neutrals
-    'black': var(--watt-color-neutral-black),
-    'white': var(--watt-color-neutral-white),
-    'grey-50': var(--watt-color-neutral-grey-50),
-    'grey-100': var(--watt-color-neutral-grey-100),
-    'grey-200': var(--watt-color-neutral-grey-200),
-    'grey-300': var(--watt-color-neutral-grey-300),
-    'grey-400': var(--watt-color-neutral-grey-400),
-    'grey-500': var(--watt-color-neutral-grey-500),
-    'grey-600': var(--watt-color-neutral-grey-600),
-    'grey-700': var(--watt-color-neutral-grey-700),
-    'grey-800': var(--watt-color-neutral-grey-800),
-    'grey-900': var(--watt-color-neutral-grey-900),
+    'black': var(--watt-color-neutral-black-contrast),
+    'white': var(--watt-color-neutral-white-contrast),
+    'grey-50': var(--watt-color-neutral-grey-50-contrast),
+    'grey-100': var(--watt-color-neutral-grey-100-contrast),
+    'grey-200': var(--watt-color-neutral-grey-200-contrast),
+    'grey-300': var(--watt-color-neutral-grey-300-contrast),
+    'grey-400': var(--watt-color-neutral-grey-400-contrast),
+    'grey-500': var(--watt-color-neutral-grey-500-contrast),
+    'grey-600': var(--watt-color-neutral-grey-600-contrast),
+    'grey-700': var(--watt-color-neutral-grey-700-contrast),
+    'grey-800': var(--watt-color-neutral-grey-800-contrast),
+    'grey-900': var(--watt-color-neutral-grey-900-contrast),
     // States
-    'danger': var(--watt-color-state-danger),
-    'danger-light': var(--watt-color-state-danger-light),
-    'warning': var(--watt-color-state-warning),
-    'warning-light': var(--watt-color-state-warning-light),
-    'success': var(--watt-color-state-success),
-    'success-light': var(--watt-color-state-success-light),
-    'info': var(--watt-color-state-info),
-    'info-light': var(--watt-color-state-info-light),
-    'contrast': (
-        'primary': var(--watt-color-primary-contrast),
-        'primary-light': var(--watt-color-primary-light-contrast),
-        'primary-dark': var(--watt-color-primary-dark-contrast),
-        // Focus
-        'selection': var(--watt-color-focus-selection-contrast),
-        'focus': var(--watt-color-focus-contrast),
-        // Neutrals
-        'black': var(--watt-color-neutral-black-contrast),
-        'white': var(--watt-color-neutral-white-contrast),
-        'grey-50': var(--watt-color-neutral-grey-50-contrast),
-        'grey-100': var(--watt-color-neutral-grey-100-contrast),
-        'grey-200': var(--watt-color-neutral-grey-200-contrast),
-        'grey-300': var(--watt-color-neutral-grey-300-contrast),
-        'grey-400': var(--watt-color-neutral-grey-400-contrast),
-        'grey-500': var(--watt-color-neutral-grey-500-contrast),
-        'grey-600': var(--watt-color-neutral-grey-600-contrast),
-        'grey-700': var(--watt-color-neutral-grey-700-contrast),
-        'grey-800': var(--watt-color-neutral-grey-800-contrast),
-        'grey-900': var(--watt-color-neutral-grey-900-contrast),
-        // States
-        'danger': var(--watt-color-state-danger-contrast),
-        'danger-light': var(--watt-color-state-danger-light-contrast),
-        'warning': var(--watt-color-state-warning-contrast),
-        'warning-light': var(--watt-color-state-warning-light-contrast),
-        'success': var(--watt-color-state-success-contrast),
-        'success-light': var(--watt-color-state-success-light-contrast),
-        'info': var(--watt-color-state-info-contrast),
-        'info-light': var(--watt-color-state-info-light-contras)t
-    )
+    'danger': var(--watt-color-state-danger-contrast),
+    'danger-light': var(--watt-color-state-danger-light-contrast),
+    'warning': var(--watt-color-state-warning-contrast),
+    'warning-light': var(--watt-color-state-warning-light-contrast),
+    'success': var(--watt-color-state-success-contrast),
+    'success-light': var(--watt-color-state-success-light-contrast),
+    'info': var(--watt-color-state-info-contrast),
+    'info-light': var(--watt-color-state-info-light-contras) t,
+  ),
 );

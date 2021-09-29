@@ -1,8 +1,8 @@
 import { create } from '@storybook/theming';
 
 export default create({
-    base: 'light'
-    /*
+  base: 'light',
+  /*
   base: 'light',
 
   colorPrimary: 'hotpink',

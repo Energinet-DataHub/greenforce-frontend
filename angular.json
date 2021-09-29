@@ -1,5 +1,36 @@
 {
   "version": 1,
+  "cli": {
+    "defaultCollection": "@nrwl/angular"
+  },
+  "schematics": {
+    "@nrwl/angular": {
+      "application": {
+        "linter": "eslint"
+      },
+      "library": {
+        "linter": "eslint"
+      },
+      "storybook-configuration": {
+        "linter": "eslint"
+      }
+    },
+    "@nrwl/angular:application": {
+      "style": "scss",
+      "linter": "eslint",
+      "unitTestRunner": "jest",
+      "e2eTestRunner": "cypress"
+    },
+    "@nrwl/angular:library": {
+      "style": "scss",
+      "linter": "eslint",
+      "unitTestRunner": "jest"
+    },
+    "@schematics/angular:component": {
+      "style": "scss"
+    }
+  },
+  "defaultProject": "dh-app",
   "projects": {
     "dh-app": {
       "projectType": "application",
@@ -18,9 +49,7 @@
             "tsConfig": "apps/dh-app/tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": ["apps/dh-app/src/favicon.ico", "apps/dh-app/src/assets"],
-            "styles": [
-              "apps/dh-app/src/styles.scss"
-            ],
+            "styles": ["apps/dh-app/src/styles.scss"],
             "stylePreprocessorOptions": {
               "includePaths": ["libs/ui-watt/src/lib/styles"]
             },
@@ -93,6 +122,9 @@
             "jestConfig": "apps/dh-app/jest.config.js",
             "passWithNoTests": true
           }
+        },
+        "add-license": {
+          "builder": "./tools/executors/license:add"
         }
       }
     },
@@ -245,6 +277,9 @@
             "jestConfig": "apps/ett-app/jest.config.js",
             "passWithNoTests": true
           }
+        },
+        "add-license": {
+          "builder": "./tools/executors/license:add"
         }
       }
     },
@@ -289,22 +324,6 @@
       "sourceRoot": "libs/ui-watt/src",
       "prefix": "watt",
       "architect": {
-        "build": {
-          "builder": "@nrwl/angular:package",
-          "outputs": ["dist/libs/ui-watt"],
-          "options": {
-            "project": "libs/ui-watt/ng-package.json"
-          },
-          "configurations": {
-            "production": {
-              "tsConfig": "libs/ui-watt/tsconfig.lib.prod.json"
-            },
-            "development": {
-              "tsConfig": "libs/ui-watt/tsconfig.lib.json"
-            }
-          },
-          "defaultConfiguration": "production"
-        },
         "test": {
           "builder": "@nrwl/jest:jest",
           "outputs": ["coverage/libs/ui-watt"],
@@ -354,37 +373,30 @@
           }
         }
       }
-    }
-  },
-  "cli": {
-    "defaultCollection": "@nrwl/angular"
-  },
-  "schematics": {
-    "@nrwl/angular": {
-      "application": {
-        "linter": "eslint"
-      },
-      "library": {
-        "linter": "eslint"
-      },
-      "storybook-configuration": {
-        "linter": "eslint"
+    },
+    "workspace-tools": {
+      "projectType": "tool",
+      "root": "tools",
+      "sourceRoot": "tools",
+      "architect": {
+        "add-license": {
+          "builder": "./tools/executors/license:add"
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["tools/**/*.ts"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/tools"],
+          "options": {
+            "jestConfig": "tools/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
       }
-    },
-    "@nrwl/angular:application": {
-      "style": "scss",
-      "linter": "eslint",
-      "unitTestRunner": "jest",
-      "e2eTestRunner": "cypress"
-    },
-    "@nrwl/angular:library": {
-      "style": "scss",
-      "linter": "eslint",
-      "unitTestRunner": "jest"
-    },
-    "@nrwl/angular:component": {
-      "style": "scss"
     }
-  },
-  "defaultProject": "dh-app"
+  }
 }
