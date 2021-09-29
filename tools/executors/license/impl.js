@@ -149,8 +149,8 @@ var __generator =
     }
   };
 exports.__esModule = true;
-var glob = require('glob');
 var fs = require('fs');
+var glob = require('glob');
 var path = require('path');
 var config = require('../../../.licenserc.json');
 function addLicenseExecutor(options, context) {

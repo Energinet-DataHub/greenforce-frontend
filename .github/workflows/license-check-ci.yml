@@ -25,19 +25,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # needed for nx affected command
-      - name: 'PR: Check out source code with current branch Git history'
-        if: ${{ env.is-pull-request == 'true' }}
+      - name: Check out source code
         uses: actions/checkout@v2
         with:
-          fetch-depth: 0
-      # needed for nx affected command
-      - name: 'PR: Fetch base branch Git history'
-        if: ${{ env.is-pull-request == 'true' }}
-        run: git fetch --no-tags --depth=1 origin $BASE_BRANCH
-      - name: 'Merge: Check out source code'
-        if: ${{ env.is-pull-request == 'false' }}
-        uses: actions/checkout@v2
+          ref: ${{ github.head_ref }}
 
       - name: Set up Node.js ${{ env.node-version }}
         uses: actions/setup-node@v2
@@ -60,18 +51,8 @@ jobs:
         run: yarn install --frozen-lockfile --non-interactive
 
       - name: Add license to all projects
-        run: yarn nx run workspace:add-license
+        run: yarn nx run workspace-tools:add-license
 
-      - name: Stash changes
-        run: git stash || true
-      - name: 'PR: Check out source code with current branch Git history'
-        if: ${{ env.is-pull-request == 'true' }}
-        uses: actions/checkout@v2
-        with:
-          ref: ${{ github.head_ref }}
-          fetch-depth: 1
-      - name: Apply stashed changes
-        run: git stash apply || true
       - name: Commit licensed files
         run: |
           git config user.name "github-actions[bot]"

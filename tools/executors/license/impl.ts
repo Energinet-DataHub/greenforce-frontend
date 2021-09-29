@@ -15,9 +15,10 @@
  * limitations under the License.
  */
 import { ExecutorContext } from '@nrwl/devkit';
-import * as glob from 'glob';
 import * as fs from 'fs';
+import * as glob from 'glob';
 import * as path from 'path';
+
 import * as config from '../../../.licenserc.json';
 
 interface LicenseExecutorOptions {

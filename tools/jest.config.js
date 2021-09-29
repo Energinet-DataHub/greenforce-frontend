@@ -14,14 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
-import { AutocompleteModule } from './components/autocomplete/autocomplete.module';
-
-@NgModule({
-  imports: [CommonModule, BrowserAnimationsModule, AutocompleteModule],
-  exports: [AutocompleteModule],
-})
-export class WattModule {}
+module.exports = {
+  displayName: 'workspace-tools',
+  preset: '../jest.preset.js',
+  globals: {
+    'ts-jest': {
+      tsConfig: '<rootDir>/tsconfig.spec.json',
+    },
+  },
+  coverageDirectory: '../coverage/tools',
+};
