@@ -1,1 +1,3 @@
 matches-ignore:
+  - name: temporary
+    match: _TEMPORARY_
