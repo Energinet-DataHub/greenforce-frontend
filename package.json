@@ -51,7 +51,6 @@
     "@angular/platform-browser": "^12.1.0",
     "@angular/platform-browser-dynamic": "^12.1.0",
     "@angular/router": "^12.1.0",
-    "@ljcl/storybook-addon-cssprops": "^0.1.0",
     "@nrwl/angular": "12.7.2",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
