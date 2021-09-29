@@ -52,7 +52,7 @@ jobs:
         run: yarn install --frozen-lockfile --non-interactive
 
       - name: Add license to all projects
-        run: yarn nx run workspace:add-license
+        run: yarn nx run workspace-tools:add-license
 
       - name: Commit licensed files
         run: |
