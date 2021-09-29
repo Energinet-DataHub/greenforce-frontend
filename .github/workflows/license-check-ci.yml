@@ -25,8 +25,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: 'Check out source code'
-        if: ${{ env.is-pull-request == 'true' }}
+      - name: Check out source code
         uses: actions/checkout@v2
         with:
           ref: ${{ github.head_ref }}
