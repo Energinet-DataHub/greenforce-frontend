@@ -25,7 +25,7 @@ Color.parameters = {
     source: {
       code: ` // Usage from SCSS / CSS (tip: hover over the color sample, and click to copy to clipboard):
 .my-element {
-  background: var(COLOR NAME);
+  background: var(<color-variable>);
 }
 
 // Usage from TypeScript:
