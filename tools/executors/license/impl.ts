@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ExecutorContext } from '@nrwl/devkit';
 import * as fs from 'fs';
 import * as glob from 'glob';
 import * as path from 'path';
@@ -26,8 +25,7 @@ interface LicenseExecutorOptions {
 }
 
 export default async function addLicenseExecutor(
-  options: LicenseExecutorOptions,
-  context: ExecutorContext
+  options: LicenseExecutorOptions
 ) {
   const globs = Object.keys(config);
 
