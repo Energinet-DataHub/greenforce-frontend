@@ -65,25 +65,3 @@ $_colors: (
         'info-light': var(--watt-color-state-info-light-contras)t
     )
 );
-
-/**
- * @description
- *
- * Get color by name.
- *
- * @publicApi
- */
-@function getColor($name) {
-    @return map-get($_colors, $name);
-}
-
-/**
- * @description
- *
- * Get text-color / contrast color by name.
- *
- * @publicApi
- */
-@function getColorContrast($name) {
-    @return map-get($_colors, 'contrast', $name);
-}

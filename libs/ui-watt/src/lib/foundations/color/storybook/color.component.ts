@@ -10,6 +10,7 @@ interface ColorType {
 }
 interface Color {
   name: string;
+  var: string;
   color: string;
   contrast: string;
 }
@@ -82,9 +83,17 @@ export class ColorComponent {
   /**
    * @ignore
    */
-  getColor(name: string, color: Colors) {
+  copyToClipboard(color: string) {
+    `var(${navigator.clipboard.writeText(color)})`;
+  }
+
+  /**
+   * @ignore
+   */
+   private getColor(name: string, color: Colors) {
     return {
       name,
+      var: color,
       color: this.colorHelperService.getColor(color),
       contrast: this.colorHelperService.getColorContrast(color),
     };

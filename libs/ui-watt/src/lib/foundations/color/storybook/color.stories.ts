@@ -9,7 +9,7 @@ export default {
   decorators: [
     moduleMetadata({
       imports: [ColorModule],
-    })
+    }),
   ],
 } as Meta<ColorComponent>;
 
@@ -23,19 +23,16 @@ export const Color = Template.bind({});
 Color.parameters = {
   docs: {
     source: {
-      code: ` // Usage from SCSS:
-@use '@energinet/watt' as watt;
+      code: ` // Usage from SCSS / CSS (tip: hover over the color sample, and click to copy to clipboard):
 .my-element {
-  background: watt.getColor('COLOR NAME');
-  color: watt.getColorContrast('COLOR NAME-contrast');
+  background: var(COLOR NAME);
 }
 
 // Usage from TypeScript:
 1. import { Colors, ColorHelperService } from '@energinet/watt';      
 1. Inject the ColorHelperService
-2. Use ColorHelperService.getColor(Colors.COLOR NAME); or ColorHelperService.getColorContrast(Colors.COLOR NAME);
+2. Use ColorHelperService.getColor(Colors.COLOR NAME);
 `,
-      language: 'sass'
     },
   },
-}
+};
