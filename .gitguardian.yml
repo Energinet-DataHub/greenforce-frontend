@@ -1,0 +1,3 @@
+matches-ignore:
+  - name: nxCloudAccessToken
+    match: 994b8e7c00028ee5981c35896a36f38356a7997f # read-only token

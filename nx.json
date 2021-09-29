@@ -15,6 +15,7 @@
       "runner": "@nrwl/nx-cloud",
       "options": {
         "cacheableOperations": ["build", "lint", "test", "e2e"],
+        "//accessToken-comment": "Token flagged by GitGuardian. Ignored in .gitguardian.yaml",
         "accessToken": "Y2IyM2EwNDEtNjUxMy00OWFkLWI2ZTUtYjY2YzBiN2Y4YTUwfHJlYWQ=",
         "canTrackAnalytics": true,
         "maxParallel": 6
