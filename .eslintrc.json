@@ -14,14 +14,15 @@
             "depConstraints": [
               {
                 "sourceTag": "product:dh",
-                "onlyDependOnLibsWithTags": [
-                  "product:dh",
-                  "scope:design-system"
-                ]
+                "onlyDependOnLibsWithTags": ["product:dh", "product:watt"]
               },
               {
-                "sourceTag": "scope:design-system",
-                "onlyDependOnLibsWithTags": ["scope:design-system"]
+                "sourceTag": "product:ett",
+                "onlyDependOnLibsWithTags": ["product:ett", "product:watt"]
+              },
+              {
+                "sourceTag": "product:watt",
+                "onlyDependOnLibsWithTags": ["product:watt"]
               },
               {
                 "sourceTag": "*",

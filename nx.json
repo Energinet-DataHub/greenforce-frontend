@@ -48,7 +48,7 @@
       "implicitDependencies": ["ett-app"]
     },
     "ui-watt": {
-      "tags": ["scope:design-system", "type:ui"]
+      "tags": ["product:watt", "type:ui"]
     }
   }
 }
