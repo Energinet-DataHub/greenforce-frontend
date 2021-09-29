@@ -1,35 +1,60 @@
 @use './color/colors.import' as colors;
 
 :root {
-    /*
-     * Colors
-     */
-    @include colors.setColor('primary', #00847C, colors.getColor('white'));
-    @include colors.setColor('primary-light', #4DB4AB, colors.getColor('black'));
-    @include colors.setColor('primary-dark', #02525E, colors.getColor('white'));
-    // Focus
-    @include colors.setColor('selection', #EBF5F5, colors.getColor('black'));
-    @include colors.setColor('focus', #FFD237, colors.getColor('black'));
-    // Neutrals
-    @include colors.setColor('black', #000, colors.getColor('white'));
-    @include colors.setColor('white', #FFF, colors.getColor('black'));
-    @include colors.setColor('grey-50', #FAFAFA, colors.getColor('black'));
-    @include colors.setColor('grey-100', #F5F5F5, colors.getColor('black'));
-    @include colors.setColor('grey-200', #EEEEEE, colors.getColor('black'));
-    @include colors.setColor('grey-300', #E0E0E0, colors.getColor('black'));
-    @include colors.setColor('grey-400', #BDBDBD, colors.getColor('black'));
-    @include colors.setColor('grey-500', #9E9E9E, colors.getColor('black'));
-    @include colors.setColor('grey-600', #757575, colors.getColor('white'));
-    @include colors.setColor('grey-700', #616161, colors.getColor('white'));
-    @include colors.setColor('grey-800', #424242, colors.getColor('white'));
-    @include colors.setColor('grey-900', #212121, colors.getColor('white'));
-    // States
-    @include colors.setColor('danger', #CC493E, colors.getColor('white'));
-    @include colors.setColor('danger-light', #F7E2E0, colors.getColor('black'));
-    @include colors.setColor('warning', #F8AE3C, colors.getColor('black'));
-    @include colors.setColor('warning-light', #FEF2E0, colors.getColor('black'));
-    @include colors.setColor('success', #36b37e, colors.getColor('black'));
-    @include colors.setColor('success-light', #DFF3EA, colors.getColor('black'));
-    @include colors.setColor('info', #00A6BC, colors.getColor('black'));
-    @include colors.setColor('info-light', #D6F1F4, colors.getColor('black'));
-  }
+  /**
+   * Colors
+   */
+  --watt-color-primary: #00847c;
+  --watt-color-primary-contrast: var(--watt-color-neutral-white);
+  --watt-color-primary-light: #4db4ab;
+  --watt-color-primary-light-contrast: var(--watt-color-neutral-black);
+  --watt-color-primary-dark: #02525e;
+  --watt-color-primary-dark-contrast: var(--watt-color-neutral-white);
+  // Focus
+  --watt-color-focus-selection: #ebf5f5;
+  --watt-color-focus-selection-contrast: var(--watt-color-neutral-black);
+  --watt-color-focus: #ffd237;
+  --watt-color-focus-contrast: var(--watt-color-neutral-black);
+  // Neutrals
+  --watt-color-neutral-black: #000;
+  --watt-color-neutral-black-contrast: var(--watt-color-neutral-white);
+  --watt-color-neutral-white: #fff;
+  --watt-color-neutral-white-contrast: var(--watt-color-neutral-black);
+  --watt-color-neutral-grey-50: #fafafa;
+  --watt-color-neutral-grey-50-contrast: var(--watt-color-neutral-black);
+  --watt-color-neutral-grey-100: #f5f5f5;
+  --watt-color-neutral-grey-100-contrast: var(--watt-color-neutral-black);
+  --watt-color-neutral-grey-200: #eeeeee;
+  --watt-color-neutral-grey-200-contrast: var(--watt-color-neutral-black);
+  --watt-color-neutral-grey-300: #e0e0e0;
+  --watt-color-neutral-grey-300-contrast: var(--watt-color-neutral-black);
+  --watt-color-neutral-grey-400: #bdbdbd;
+  --watt-color-neutral-grey400--contrast: var(--watt-color-neutral-black);
+  --watt-color-neutral-grey-500: #9e9e9e;
+  --watt-color-neutral-grey-500-contrast: var(--watt-color-neutral-black);
+  --watt-color-neutral-grey-600: #757575;
+  --watt-color-neutral-grey-600-contrast: var(--watt-color-neutral-white);
+  --watt-color-neutral-grey-700: #616161;
+  --watt-color-neutral-grey-700-contrast: var(--watt-color-neutral-white);
+  --watt-color-neutral-grey-800: #424242;
+  --watt-color-neutral-grey-800-contrast: var(--watt-color-neutral-white);
+  --watt-color-neutral-grey-900: #212121;
+  --watt-color-neutral-grey-900-contrast: var(--watt-color-neutral-white);
+  // States
+  --watt-color-state-danger: #cc493e;
+  --watt-color-state-danger-contrast: var(--watt-color-neutral-white);
+  --watt-color-state-danger-light: #f7e2e0;
+  --watt-color-state-danger-light-contrast: var(--watt-color-neutral-black);
+  --watt-color-state-warning: #f8ae3c;
+  --watt-color-state-warning-contrast: var(--watt-color-neutral-black);
+  --watt-color-state-warning-light: #fef2e0;
+  --watt-color-state-warning-light-contrast: var(--watt-color-neutral-black);
+  --watt-color-state-success: #36b37e;
+  --watt-color-state-success-contrast: var(--watt-color-neutral-black);
+  --watt-color-state-success-light: #dff3ea;
+  --watt-color-state-success-light-contrast: var(--watt-color-neutral-black);
+  --watt-color-state-info: #00a6bc;
+  --watt-color-state-info-contrast: var(--watt-color-neutral-black);
+  --watt-color-state-info-light: #d6f1f4;
+  --watt-color-state-info-light-contrast: var(--watt-color-neutral-black);
+}

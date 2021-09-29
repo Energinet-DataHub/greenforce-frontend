@@ -29,5 +29,6 @@ figure {
     display: flex;
     justify-content: center;
     align-items: center;
+    text-align: center;
     border: 1px solid #{colors.getColor('grey-300')};
 }

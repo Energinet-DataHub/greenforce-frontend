@@ -3,66 +3,66 @@
 /*
  * @Please notice!!! 
  * These values should be kept in-sync with colors.ts
- * Naming convention is as follow: --watt-{COLOR GROUP}-colors-{COLOR NAME}
+ * Naming convention is as follow: --watt-color-{COLOR GROUP (ONLY IF NOT THE SAME AS COLOR NAME)}-{COLOR NAME}
  */
 $_colors: (
-    'primary': --watt-primary-colors-primary,
-    'primary-light': --watt-primary-colors-primary-light,
-    'primary-dark': --watt-primary-colors-primary-dark,
+    'primary': var(--watt-color-primary),
+    'primary-light': var(--watt-color-primary-light),
+    'primary-dark': var(--watt-color-primary-dark),
     // Focus
-    'selection': --watt-focus-colors-selection,
-    'focus': --watt-focus-colors-focus,
+    'selection': var(--watt-color-focus-selection),
+    'focus': var(--watt-color-focus),
     // Neutrals
-    'black': --watt-neutral-colors-black,
-    'white': --watt-neutral-colors-white,
-    'grey-50': --watt-neutral-colors-grey-50,
-    'grey-100': --watt-neutral-colors-grey-100,
-    'grey-200': --watt-neutral-colors-grey-200,
-    'grey-300': --watt-neutral-colors-grey-300,
-    'grey-400': --watt-neutral-colors-grey-400,
-    'grey-500': --watt-neutral-colors-grey-500,
-    'grey-600': --watt-neutral-colors-grey-600,
-    'grey-700': --watt-neutral-colors-grey-700,
-    'grey-800': --watt-neutral-colors-grey-800,
-    'grey-900': --watt-neutral-colors-grey-900,
+    'black': var(--watt-color-neutral-black),
+    'white': var(--watt-color-neutral-white),
+    'grey-50': var(--watt-color-neutral-grey-50),
+    'grey-100': var(--watt-color-neutral-grey-100),
+    'grey-200': var(--watt-color-neutral-grey-200),
+    'grey-300': var(--watt-color-neutral-grey-300),
+    'grey-400': var(--watt-color-neutral-grey-400),
+    'grey-500': var(--watt-color-neutral-grey-500),
+    'grey-600': var(--watt-color-neutral-grey-600),
+    'grey-700': var(--watt-color-neutral-grey-700),
+    'grey-800': var(--watt-color-neutral-grey-800),
+    'grey-900': var(--watt-color-neutral-grey-900),
     // States
-    'danger': --watt-state-colors-danger,
-    'danger-light': --watt-state-colors-danger-light,
-    'warning': --watt-state-colors-warning,
-    'warning-light': --watt-state-colors-warning-light,
-    'success': --watt-state-colors-success,
-    'success-light': --watt-state-colors-success-light,
-    'info': --watt-state-colors-info,
-    'info-light': --watt-state-colors-info-light,
+    'danger': var(--watt-color-state-danger),
+    'danger-light': var(--watt-color-state-danger-light),
+    'warning': var(--watt-color-state-warning),
+    'warning-light': var(--watt-color-state-warning-light),
+    'success': var(--watt-color-state-success),
+    'success-light': var(--watt-color-state-success-light),
+    'info': var(--watt-color-state-info),
+    'info-light': var(--watt-color-state-info-light),
     'contrast': (
-        'primary': --watt-primary-colors-primary-contrast,
-        'primary-light': --watt-primary-colors-primary-light-contrast,
-        'primary-dark': --watt-primary-colors-primary-dark-contrast,
+        'primary': var(--watt-color-primary-contrast),
+        'primary-light': var(--watt-color-primary-light-contrast),
+        'primary-dark': var(--watt-color-primary-dark-contrast),
         // Focus
-        'selection': --watt-focus-colors-selection-contrast,
-        'focus': --watt-focus-colors-focus-contrast,
+        'selection': var(--watt-color-focus-selection-contrast),
+        'focus': var(--watt-color-focus-contrast),
         // Neutrals
-        'black': --watt-neutral-colors-black-contrast,
-        'white': --watt-neutral-colors-white-contrast,
-        'grey-50': --watt-neutral-colors-grey-50-contrast,
-        'grey-100': --watt-neutral-colors-grey-100-contrast,
-        'grey-200': --watt-neutral-colors-grey-200-contrast,
-        'grey-300': --watt-neutral-colors-grey-300-contrast,
-        'grey-400': --watt-neutral-colors-grey-400-contrast,
-        'grey-500': --watt-neutral-colors-grey-500-contrast,
-        'grey-600': --watt-neutral-colors-grey-600-contrast,
-        'grey-700': --watt-neutral-colors-grey-700-contrast,
-        'grey-800': --watt-neutral-colors-grey-800-contrast,
-        'grey-900': --watt-neutral-colors-grey-900-contrast,
+        'black': var(--watt-color-neutral-black-contrast),
+        'white': var(--watt-color-neutral-white-contrast),
+        'grey-50': var(--watt-color-neutral-grey-50-contrast),
+        'grey-100': var(--watt-color-neutral-grey-100-contrast),
+        'grey-200': var(--watt-color-neutral-grey-200-contrast),
+        'grey-300': var(--watt-color-neutral-grey-300-contrast),
+        'grey-400': var(--watt-color-neutral-grey-400-contrast),
+        'grey-500': var(--watt-color-neutral-grey-500-contrast),
+        'grey-600': var(--watt-color-neutral-grey-600-contrast),
+        'grey-700': var(--watt-color-neutral-grey-700-contrast),
+        'grey-800': var(--watt-color-neutral-grey-800-contrast),
+        'grey-900': var(--watt-color-neutral-grey-900-contrast),
         // States
-        'danger': --watt-state-colors-danger-contrast,
-        'danger-light': --watt-state-colors-danger-light-contrast,
-        'warning': --watt-state-colors-warning-contrast,
-        'warning-light': --watt-state-colors-warning-light-contrast,
-        'success': --watt-state-colors-success-contrast,
-        'success-light': --watt-state-colors-success-light-contrast,
-        'info': --watt-state-colors-info-contrast,
-        'info-light': --watt-state-colors-info-light-contrast
+        'danger': var(--watt-color-state-danger-contrast),
+        'danger-light': var(--watt-color-state-danger-light-contrast),
+        'warning': var(--watt-color-state-warning-contrast),
+        'warning-light': var(--watt-color-state-warning-light-contrast),
+        'success': var(--watt-color-state-success-contrast),
+        'success-light': var(--watt-color-state-success-light-contrast),
+        'info': var(--watt-color-state-info-contrast),
+        'info-light': var(--watt-color-state-info-light-contras)t
     )
 );
 
@@ -74,8 +74,7 @@ $_colors: (
  * @publicApi
  */
 @function getColor($name) {
-    $color-var: map-get($_colors, $name);
-    @return var(#{$color-var});
+    @return map-get($_colors, $name);
 }
 
 /**
@@ -86,18 +85,5 @@ $_colors: (
  * @publicApi
  */
 @function getColorContrast($name) {
-    $color-var: map-get($_colors, 'contrast', $name);
-    @return var(#{$color-var});
-}
-
-/**
- * @description
- *
- * Set color and contrast by name.
- *
- * @publicApi
- */
-@mixin setColor($name, $color, $contrast) {
-    #{map-get($_colors, $name)}: $color;
-    #{map-get($_colors, 'contrast', $name)}: $contrast;
+    @return map-get($_colors, 'contrast', $name);
 }

@@ -3,12 +3,12 @@
     "interfaces": [
         {
             "name": "Color",
-            "id": "interface-Color-70de1f901cbff4233894386745731cf7",
+            "id": "interface-Color-b7982db1f1b62e622b7ace5dbbdee611",
             "file": "libs/ui-watt/src/lib/foundations/color/storybook/color.component.ts",
             "deprecated": false,
             "deprecationMessage": "",
             "type": "interface",
-            "sourceCode": "import { Component } from '@angular/core';\r\nimport { ColorHelperService } from '../color-helper.service';\r\nimport { Colors } from '../colors';\r\n\r\ninterface ColorType {\r\n  name: string;\r\n  title: string;\r\n  description?: string;\r\n  colors: Color[];\r\n}\r\ninterface Color {\r\n  name: string;\r\n  color: string;\r\n  contrast: string;\r\n}\r\n@Component({\r\n  selector: 'watt-color',\r\n  templateUrl: './color.component.html',\r\n  styleUrls: ['./color.component.scss'],\r\n})\r\nexport class ColorComponent {\r\n  /**\r\n   * @ignore\r\n   */\r\n  colorTypes: ColorType[] = [\r\n    {\r\n      name: 'primary',\r\n      title: 'Primary Colors',\r\n      description:\r\n        'The primary colors are the brand colors that are main colors used on central elements like primary buttons and in the main navigation.',\r\n      colors: [],\r\n    },\r\n    { name: 'focus', title: 'Focus Colors', colors: [] },\r\n    { name: 'neutral', title: 'Neutral Colors', colors: [] },\r\n    {\r\n      name: 'state',\r\n      title: 'State Colors',\r\n      description:\r\n        'State color helps users find people, identify status, see actions, locate help, and understand next steps. The consistent use of color keeps cognitive load low and makes for a unified and engaging user experience.',\r\n      colors: [],\r\n    },\r\n  ];\r\n\r\n  constructor() {\r\n    this.groupColors();\r\n    console.log(this.colorTypes);\r\n  }\r\n\r\n  /**\r\n   * @ignore\r\n   */\r\n  private groupColors() {\r\n    return Object.values(Colors).map((color) => {\r\n      const withoutPrefix = color.replace('--watt-', '');\r\n      const colorGroup = withoutPrefix.split('-')[0];\r\n      const name = withoutPrefix\r\n        .replace(colorGroup, '')\r\n        .replace('-colors-', '');\r\n\r\n      const group = this.colorTypes.find((x) => {\r\n        return x.name === colorGroup;\r\n      });\r\n\r\n      group?.colors.push({\r\n        name,\r\n        color: `var(${color})`,\r\n        contrast: `var(${color}-contrast)`,\r\n      });\r\n    });\r\n  }\r\n}\r\n",
+            "sourceCode": "import { Component } from '@angular/core';\r\nimport { ColorHelperService } from '../color-helper.service';\r\nimport { Colors } from '../colors';\r\n\r\ninterface ColorType {\r\n  name: string;\r\n  title: string;\r\n  description?: string;\r\n  colors: Color[];\r\n}\r\ninterface Color {\r\n  name: string;\r\n  color: string;\r\n  contrast: string;\r\n}\r\n@Component({\r\n  selector: 'watt-color',\r\n  templateUrl: './color.component.html',\r\n  styleUrls: ['./color.component.scss'],\r\n})\r\nexport class ColorComponent {\r\n  /**\r\n   * @ignore\r\n   */\r\n  colorTypes: ColorType[] = [\r\n    {\r\n      name: 'primary',\r\n      title: 'Primary Colors',\r\n      description:\r\n        'The primary colors are the brand colors that are main colors used on central elements like primary buttons and in the main navigation.',\r\n      colors: [\r\n        this.getColor('primary', Colors.primary),\r\n        this.getColor('primary-dark', Colors.primaryDark),\r\n      ],\r\n    },\r\n    {\r\n      name: 'focus',\r\n      title: 'Focus Colors',\r\n      colors: [\r\n        this.getColor('focus', Colors.focus),\r\n        this.getColor('selection', Colors.selection),\r\n      ],\r\n    },\r\n    {\r\n      name: 'neutral',\r\n      title: 'Neutral Colors',\r\n      colors: [\r\n        this.getColor('black', Colors.black),\r\n        this.getColor('white', Colors.white),\r\n        this.getColor('grey-50', Colors.grey50),\r\n        this.getColor('grey-100', Colors.grey100),\r\n        this.getColor('grey-200', Colors.grey200),\r\n        this.getColor('grey-300', Colors.grey300),\r\n        this.getColor('grey-400', Colors.grey400),\r\n        this.getColor('grey-500', Colors.grey500),\r\n        this.getColor('grey-600', Colors.grey600),\r\n        this.getColor('grey-700', Colors.grey700),\r\n        this.getColor('grey-800', Colors.grey800),\r\n        this.getColor('grey-900', Colors.grey900),\r\n      ],\r\n    },\r\n    {\r\n      name: 'state',\r\n      title: 'State Colors',\r\n      description:\r\n        'State color helps users find people, identify status, see actions, locate help, and understand next steps. The consistent use of color keeps cognitive load low and makes for a unified and engaging user experience.',\r\n      colors: [\r\n        this.getColor('danger', Colors.danger),\r\n        this.getColor('warning', Colors.warning),\r\n        this.getColor('success', Colors.success),\r\n        this.getColor('info', Colors.info),\r\n        this.getColor('danger-light', Colors.dangerLight),\r\n        this.getColor('warning-light', Colors.warningLight),\r\n        this.getColor('success-light', Colors.successLight),\r\n        this.getColor('info-light', Colors.infoLight),\r\n      ],\r\n    },\r\n  ];\r\n\r\n  constructor(private colorHelperService: ColorHelperService) {}\r\n\r\n  /**\r\n   * @ignore\r\n   */\r\n  getColor(name: string, color: Colors) {\r\n    return {\r\n      name,\r\n      color: this.colorHelperService.getColor(color),\r\n      contrast: this.colorHelperService.getColorContrast(color),\r\n    };\r\n  }\r\n}\r\n",
             "properties": [
                 {
                     "name": "color",
@@ -44,12 +44,12 @@
         },
         {
             "name": "ColorType",
-            "id": "interface-ColorType-70de1f901cbff4233894386745731cf7",
+            "id": "interface-ColorType-b7982db1f1b62e622b7ace5dbbdee611",
             "file": "libs/ui-watt/src/lib/foundations/color/storybook/color.component.ts",
             "deprecated": false,
             "deprecationMessage": "",
             "type": "interface",
-            "sourceCode": "import { Component } from '@angular/core';\r\nimport { ColorHelperService } from '../color-helper.service';\r\nimport { Colors } from '../colors';\r\n\r\ninterface ColorType {\r\n  name: string;\r\n  title: string;\r\n  description?: string;\r\n  colors: Color[];\r\n}\r\ninterface Color {\r\n  name: string;\r\n  color: string;\r\n  contrast: string;\r\n}\r\n@Component({\r\n  selector: 'watt-color',\r\n  templateUrl: './color.component.html',\r\n  styleUrls: ['./color.component.scss'],\r\n})\r\nexport class ColorComponent {\r\n  /**\r\n   * @ignore\r\n   */\r\n  colorTypes: ColorType[] = [\r\n    {\r\n      name: 'primary',\r\n      title: 'Primary Colors',\r\n      description:\r\n        'The primary colors are the brand colors that are main colors used on central elements like primary buttons and in the main navigation.',\r\n      colors: [],\r\n    },\r\n    { name: 'focus', title: 'Focus Colors', colors: [] },\r\n    { name: 'neutral', title: 'Neutral Colors', colors: [] },\r\n    {\r\n      name: 'state',\r\n      title: 'State Colors',\r\n      description:\r\n        'State color helps users find people, identify status, see actions, locate help, and understand next steps. The consistent use of color keeps cognitive load low and makes for a unified and engaging user experience.',\r\n      colors: [],\r\n    },\r\n  ];\r\n\r\n  constructor() {\r\n    this.groupColors();\r\n    console.log(this.colorTypes);\r\n  }\r\n\r\n  /**\r\n   * @ignore\r\n   */\r\n  private groupColors() {\r\n    return Object.values(Colors).map((color) => {\r\n      const withoutPrefix = color.replace('--watt-', '');\r\n      const colorGroup = withoutPrefix.split('-')[0];\r\n      const name = withoutPrefix\r\n        .replace(colorGroup, '')\r\n        .replace('-colors-', '');\r\n\r\n      const group = this.colorTypes.find((x) => {\r\n        return x.name === colorGroup;\r\n      });\r\n\r\n      group?.colors.push({\r\n        name,\r\n        color: `var(${color})`,\r\n        contrast: `var(${color}-contrast)`,\r\n      });\r\n    });\r\n  }\r\n}\r\n",
+            "sourceCode": "import { Component } from '@angular/core';\r\nimport { ColorHelperService } from '../color-helper.service';\r\nimport { Colors } from '../colors';\r\n\r\ninterface ColorType {\r\n  name: string;\r\n  title: string;\r\n  description?: string;\r\n  colors: Color[];\r\n}\r\ninterface Color {\r\n  name: string;\r\n  color: string;\r\n  contrast: string;\r\n}\r\n@Component({\r\n  selector: 'watt-color',\r\n  templateUrl: './color.component.html',\r\n  styleUrls: ['./color.component.scss'],\r\n})\r\nexport class ColorComponent {\r\n  /**\r\n   * @ignore\r\n   */\r\n  colorTypes: ColorType[] = [\r\n    {\r\n      name: 'primary',\r\n      title: 'Primary Colors',\r\n      description:\r\n        'The primary colors are the brand colors that are main colors used on central elements like primary buttons and in the main navigation.',\r\n      colors: [\r\n        this.getColor('primary', Colors.primary),\r\n        this.getColor('primary-dark', Colors.primaryDark),\r\n      ],\r\n    },\r\n    {\r\n      name: 'focus',\r\n      title: 'Focus Colors',\r\n      colors: [\r\n        this.getColor('focus', Colors.focus),\r\n        this.getColor('selection', Colors.selection),\r\n      ],\r\n    },\r\n    {\r\n      name: 'neutral',\r\n      title: 'Neutral Colors',\r\n      colors: [\r\n        this.getColor('black', Colors.black),\r\n        this.getColor('white', Colors.white),\r\n        this.getColor('grey-50', Colors.grey50),\r\n        this.getColor('grey-100', Colors.grey100),\r\n        this.getColor('grey-200', Colors.grey200),\r\n        this.getColor('grey-300', Colors.grey300),\r\n        this.getColor('grey-400', Colors.grey400),\r\n        this.getColor('grey-500', Colors.grey500),\r\n        this.getColor('grey-600', Colors.grey600),\r\n        this.getColor('grey-700', Colors.grey700),\r\n        this.getColor('grey-800', Colors.grey800),\r\n        this.getColor('grey-900', Colors.grey900),\r\n      ],\r\n    },\r\n    {\r\n      name: 'state',\r\n      title: 'State Colors',\r\n      description:\r\n        'State color helps users find people, identify status, see actions, locate help, and understand next steps. The consistent use of color keeps cognitive load low and makes for a unified and engaging user experience.',\r\n      colors: [\r\n        this.getColor('danger', Colors.danger),\r\n        this.getColor('warning', Colors.warning),\r\n        this.getColor('success', Colors.success),\r\n        this.getColor('info', Colors.info),\r\n        this.getColor('danger-light', Colors.dangerLight),\r\n        this.getColor('warning-light', Colors.warningLight),\r\n        this.getColor('success-light', Colors.successLight),\r\n        this.getColor('info-light', Colors.infoLight),\r\n      ],\r\n    },\r\n  ];\r\n\r\n  constructor(private colorHelperService: ColorHelperService) {}\r\n\r\n  /**\r\n   * @ignore\r\n   */\r\n  getColor(name: string, color: Colors) {\r\n    return {\r\n      name,\r\n      color: this.colorHelperService.getColor(color),\r\n      contrast: this.colorHelperService.getColorContrast(color),\r\n    };\r\n  }\r\n}\r\n",
             "properties": [
                 {
                     "name": "colors",
@@ -173,7 +173,7 @@
     "injectables": [
         {
             "name": "ColorHelperService",
-            "id": "injectable-ColorHelperService-4dc36888c6e824bd2ed9b130eb8787c2",
+            "id": "injectable-ColorHelperService-11ecebaf70797636eff02a02c0836fb7",
             "file": "libs/ui-watt/src/lib/foundations/color/color-helper.service.ts",
             "properties": [
                 {
@@ -184,38 +184,13 @@
                     "type": "string",
                     "optional": false,
                     "description": "",
-                    "line": 16,
-                    "modifierKind": [
-                        121
-                    ]
-                },
-                {
-                    "name": "renderer",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "Renderer2",
-                    "optional": false,
-                    "description": "",
-                    "line": 15,
+                    "line": 12,
                     "modifierKind": [
                         121
                     ]
                 }
             ],
             "methods": [
-                {
-                    "name": "getAvailableColors",
-                    "args": [],
-                    "optional": false,
-                    "returnType": "string[]",
-                    "typeParameters": [],
-                    "line": 36,
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "modifierKind": [
-                        123
-                    ]
-                },
                 {
                     "name": "getColor",
                     "args": [
@@ -229,7 +204,7 @@
                     "optional": false,
                     "returnType": "string",
                     "typeParameters": [],
-                    "line": 26,
+                    "line": 19,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "modifierKind": [
@@ -260,7 +235,7 @@
                     "optional": false,
                     "returnType": "string",
                     "typeParameters": [],
-                    "line": 30,
+                    "line": 23,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "modifierKind": [
@@ -284,72 +259,11 @@
                     "optional": false,
                     "returnType": "any",
                     "typeParameters": [],
-                    "line": 59,
+                    "line": 29,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "modifierKind": [
                         121
-                    ]
-                },
-                {
-                    "name": "updateColor",
-                    "args": [
-                        {
-                            "name": "colorName",
-                            "type": "Colors",
-                            "deprecated": false,
-                            "deprecationMessage": ""
-                        },
-                        {
-                            "name": "color",
-                            "type": "string",
-                            "deprecated": false,
-                            "deprecationMessage": ""
-                        },
-                        {
-                            "name": "colorContrast",
-                            "type": "Colors.black | Colors.white",
-                            "deprecated": false,
-                            "deprecationMessage": ""
-                        }
-                    ],
-                    "optional": false,
-                    "returnType": "void",
-                    "typeParameters": [],
-                    "line": 40,
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "modifierKind": [
-                        123
-                    ],
-                    "jsdoctags": [
-                        {
-                            "name": "colorName",
-                            "type": "Colors",
-                            "deprecated": false,
-                            "deprecationMessage": "",
-                            "tagName": {
-                                "text": "param"
-                            }
-                        },
-                        {
-                            "name": "color",
-                            "type": "string",
-                            "deprecated": false,
-                            "deprecationMessage": "",
-                            "tagName": {
-                                "text": "param"
-                            }
-                        },
-                        {
-                            "name": "colorContrast",
-                            "type": "Colors.black | Colors.white",
-                            "deprecated": false,
-                            "deprecationMessage": "",
-                            "tagName": {
-                                "text": "param"
-                            }
-                        }
                     ]
                 }
             ],
@@ -357,19 +271,13 @@
             "deprecationMessage": "",
             "description": "",
             "rawdescription": "\n",
-            "sourceCode": "import { DOCUMENT } from '@angular/common';\r\nimport {\r\n  Inject,\r\n  Injectable,\r\n  Renderer2,\r\n  RendererFactory2,\r\n  RendererStyleFlags2,\r\n} from '@angular/core';\r\nimport { Colors } from './colors';\r\n\r\n@Injectable({\r\n  providedIn: 'root',\r\n})\r\nexport class ColorHelperService {\r\n  private renderer: Renderer2;\r\n  private colorContrastSuffix = 'contrast';\r\n\r\n  constructor(\r\n    private rendererFactory: RendererFactory2,\r\n    @Inject(DOCUMENT) private document: Document,\r\n    private window: Window\r\n  ) {\r\n    this.renderer = this.rendererFactory.createRenderer(null, null);\r\n  }\r\n\r\n  public getColor(colorName: Colors): string {\r\n    return this.getComputedStyle().getPropertyValue(colorName);\r\n  }\r\n\r\n  public getColorContrast(colorName: Colors): string {\r\n    return this.getComputedStyle().getPropertyValue(\r\n      `${colorName}-${this.colorContrastSuffix}`\r\n    );\r\n  }\r\n\r\n  public getAvailableColors(): string[] {\r\n    return Object.keys(Colors);\r\n  }\r\n\r\n  public updateColor(\r\n    colorName: Colors,\r\n    color: string,\r\n    colorContrast: Colors.black | Colors.white\r\n  ): void {\r\n    this.renderer.setStyle(\r\n      this.document.documentElement,\r\n      colorName,\r\n      color,\r\n      RendererStyleFlags2.DashCase\r\n    );\r\n    this.renderer.setStyle(\r\n      this.document.documentElement,\r\n      `${colorName}-${this.colorContrastSuffix}`,\r\n      colorContrast,\r\n      RendererStyleFlags2.DashCase\r\n    );\r\n  }\r\n\r\n  private getComputedStyle() {\r\n    return this.window.getComputedStyle(this.document.documentElement);\r\n  }\r\n}\r\n",
+            "sourceCode": "import { DOCUMENT } from '@angular/common';\r\nimport {\r\n  Inject,\r\n  Injectable,\r\n} from '@angular/core';\r\nimport { Colors } from './colors';\r\n\r\n@Injectable({\r\n  providedIn: 'root',\r\n})\r\nexport class ColorHelperService {\r\n  private colorContrastSuffix = 'contrast';\r\n\r\n  constructor(\r\n    @Inject(DOCUMENT) private document: Document,\r\n    private window: Window\r\n  ) {}\r\n\r\n  public getColor(colorName: Colors): string {\r\n    return this.getComputedStyle().getPropertyValue(colorName);\r\n  }\r\n\r\n  public getColorContrast(colorName: Colors): string {\r\n    return this.getComputedStyle().getPropertyValue(\r\n      `${colorName}-${this.colorContrastSuffix}`\r\n    );\r\n  }\r\n\r\n  private getComputedStyle() {\r\n    return this.window.getComputedStyle(this.document.documentElement);\r\n  }\r\n}\r\n",
             "constructorObj": {
                 "name": "constructor",
                 "description": "",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "args": [
-                    {
-                        "name": "rendererFactory",
-                        "type": "RendererFactory2",
-                        "deprecated": false,
-                        "deprecationMessage": ""
-                    },
                     {
                         "name": "document",
                         "type": "Document",
@@ -383,17 +291,8 @@
                         "deprecationMessage": ""
                     }
                 ],
-                "line": 16,
+                "line": 12,
                 "jsdoctags": [
-                    {
-                        "name": "rendererFactory",
-                        "type": "RendererFactory2",
-                        "deprecated": false,
-                        "deprecationMessage": "",
-                        "tagName": {
-                            "text": "param"
-                        }
-                    },
                     {
                         "name": "document",
                         "type": "Document",
@@ -536,7 +435,7 @@
         },
         {
             "name": "ColorComponent",
-            "id": "component-ColorComponent-70de1f901cbff4233894386745731cf7",
+            "id": "component-ColorComponent-b7982db1f1b62e622b7ace5dbbdee611",
             "file": "libs/ui-watt/src/lib/foundations/color/storybook/color.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -563,11 +462,11 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { Component } from '@angular/core';\r\nimport { ColorHelperService } from '../color-helper.service';\r\nimport { Colors } from '../colors';\r\n\r\ninterface ColorType {\r\n  name: string;\r\n  title: string;\r\n  description?: string;\r\n  colors: Color[];\r\n}\r\ninterface Color {\r\n  name: string;\r\n  color: string;\r\n  contrast: string;\r\n}\r\n@Component({\r\n  selector: 'watt-color',\r\n  templateUrl: './color.component.html',\r\n  styleUrls: ['./color.component.scss'],\r\n})\r\nexport class ColorComponent {\r\n  /**\r\n   * @ignore\r\n   */\r\n  colorTypes: ColorType[] = [\r\n    {\r\n      name: 'primary',\r\n      title: 'Primary Colors',\r\n      description:\r\n        'The primary colors are the brand colors that are main colors used on central elements like primary buttons and in the main navigation.',\r\n      colors: [],\r\n    },\r\n    { name: 'focus', title: 'Focus Colors', colors: [] },\r\n    { name: 'neutral', title: 'Neutral Colors', colors: [] },\r\n    {\r\n      name: 'state',\r\n      title: 'State Colors',\r\n      description:\r\n        'State color helps users find people, identify status, see actions, locate help, and understand next steps. The consistent use of color keeps cognitive load low and makes for a unified and engaging user experience.',\r\n      colors: [],\r\n    },\r\n  ];\r\n\r\n  constructor() {\r\n    this.groupColors();\r\n    console.log(this.colorTypes);\r\n  }\r\n\r\n  /**\r\n   * @ignore\r\n   */\r\n  private groupColors() {\r\n    return Object.values(Colors).map((color) => {\r\n      const withoutPrefix = color.replace('--watt-', '');\r\n      const colorGroup = withoutPrefix.split('-')[0];\r\n      const name = withoutPrefix\r\n        .replace(colorGroup, '')\r\n        .replace('-colors-', '');\r\n\r\n      const group = this.colorTypes.find((x) => {\r\n        return x.name === colorGroup;\r\n      });\r\n\r\n      group?.colors.push({\r\n        name,\r\n        color: `var(${color})`,\r\n        contrast: `var(${color}-contrast)`,\r\n      });\r\n    });\r\n  }\r\n}\r\n",
+            "sourceCode": "import { Component } from '@angular/core';\r\nimport { ColorHelperService } from '../color-helper.service';\r\nimport { Colors } from '../colors';\r\n\r\ninterface ColorType {\r\n  name: string;\r\n  title: string;\r\n  description?: string;\r\n  colors: Color[];\r\n}\r\ninterface Color {\r\n  name: string;\r\n  color: string;\r\n  contrast: string;\r\n}\r\n@Component({\r\n  selector: 'watt-color',\r\n  templateUrl: './color.component.html',\r\n  styleUrls: ['./color.component.scss'],\r\n})\r\nexport class ColorComponent {\r\n  /**\r\n   * @ignore\r\n   */\r\n  colorTypes: ColorType[] = [\r\n    {\r\n      name: 'primary',\r\n      title: 'Primary Colors',\r\n      description:\r\n        'The primary colors are the brand colors that are main colors used on central elements like primary buttons and in the main navigation.',\r\n      colors: [\r\n        this.getColor('primary', Colors.primary),\r\n        this.getColor('primary-dark', Colors.primaryDark),\r\n      ],\r\n    },\r\n    {\r\n      name: 'focus',\r\n      title: 'Focus Colors',\r\n      colors: [\r\n        this.getColor('focus', Colors.focus),\r\n        this.getColor('selection', Colors.selection),\r\n      ],\r\n    },\r\n    {\r\n      name: 'neutral',\r\n      title: 'Neutral Colors',\r\n      colors: [\r\n        this.getColor('black', Colors.black),\r\n        this.getColor('white', Colors.white),\r\n        this.getColor('grey-50', Colors.grey50),\r\n        this.getColor('grey-100', Colors.grey100),\r\n        this.getColor('grey-200', Colors.grey200),\r\n        this.getColor('grey-300', Colors.grey300),\r\n        this.getColor('grey-400', Colors.grey400),\r\n        this.getColor('grey-500', Colors.grey500),\r\n        this.getColor('grey-600', Colors.grey600),\r\n        this.getColor('grey-700', Colors.grey700),\r\n        this.getColor('grey-800', Colors.grey800),\r\n        this.getColor('grey-900', Colors.grey900),\r\n      ],\r\n    },\r\n    {\r\n      name: 'state',\r\n      title: 'State Colors',\r\n      description:\r\n        'State color helps users find people, identify status, see actions, locate help, and understand next steps. The consistent use of color keeps cognitive load low and makes for a unified and engaging user experience.',\r\n      colors: [\r\n        this.getColor('danger', Colors.danger),\r\n        this.getColor('warning', Colors.warning),\r\n        this.getColor('success', Colors.success),\r\n        this.getColor('info', Colors.info),\r\n        this.getColor('danger-light', Colors.dangerLight),\r\n        this.getColor('warning-light', Colors.warningLight),\r\n        this.getColor('success-light', Colors.successLight),\r\n        this.getColor('info-light', Colors.infoLight),\r\n      ],\r\n    },\r\n  ];\r\n\r\n  constructor(private colorHelperService: ColorHelperService) {}\r\n\r\n  /**\r\n   * @ignore\r\n   */\r\n  getColor(name: string, color: Colors) {\r\n    return {\r\n      name,\r\n      color: this.colorHelperService.getColor(color),\r\n      contrast: this.colorHelperService.getColorContrast(color),\r\n    };\r\n  }\r\n}\r\n",
             "assetsDirs": [],
             "styleUrlsData": [
                 {
-                    "data": "@use 'sass:map';\r\n@use './../colors.import' as colors;\r\n\r\n:host {\r\n    background: colors.getColor('grey-300');\r\n    display: block;\r\n    width: 100%;\r\n    padding: 1rem;\r\n    margin: -1rem;\r\n}\r\n\r\nmat-card {\r\n    margin-bottom: 8px;\r\n}\r\n\r\n.color-grid {\r\n    display: flex;\r\n    flex-wrap: wrap;\r\n    max-width: 688px;\r\n}\r\n\r\nfigure {\r\n    margin: 10px;\r\n}\r\n\r\nfigcaption {\r\n    text-transform: uppercase;\r\n}\r\n\r\n.color-sample {\r\n    height: 150px;\r\n    width: 150px;\r\n    display: flex;\r\n    justify-content: center;\r\n    align-items: center;\r\n    border: 1px solid #{colors.getColor('grey-300')};\r\n}",
+                    "data": "@use 'sass:map';\r\n@use './../colors.import' as colors;\r\n\r\n:host {\r\n    background: colors.getColor('grey-300');\r\n    display: block;\r\n    width: 100%;\r\n    padding: 1rem;\r\n    margin: -1rem;\r\n}\r\n\r\nmat-card {\r\n    margin-bottom: 8px;\r\n}\r\n\r\n.color-grid {\r\n    display: flex;\r\n    flex-wrap: wrap;\r\n    max-width: 688px;\r\n}\r\n\r\nfigure {\r\n    margin: 10px;\r\n}\r\n\r\n.color-sample {\r\n    height: 150px;\r\n    width: 150px;\r\n    display: flex;\r\n    justify-content: center;\r\n    align-items: center;\r\n    border: 1px solid #{colors.getColor('grey-300')};\r\n}",
                     "styleUrl": "./color.component.scss"
                 }
             ],
@@ -577,10 +476,28 @@
                 "description": "",
                 "deprecated": false,
                 "deprecationMessage": "",
-                "args": [],
-                "line": 42
+                "args": [
+                    {
+                        "name": "colorHelperService",
+                        "type": "ColorHelperService",
+                        "deprecated": false,
+                        "deprecationMessage": ""
+                    }
+                ],
+                "line": 78,
+                "jsdoctags": [
+                    {
+                        "name": "colorHelperService",
+                        "type": "ColorHelperService",
+                        "deprecated": false,
+                        "deprecationMessage": "",
+                        "tagName": {
+                            "text": "param"
+                        }
+                    }
+                ]
             },
-            "templateData": "<mat-card>\r\n    <h1>Color</h1>\r\n</mat-card>\r\n\r\n<mat-card *ngFor=\"let type of colorTypes\">\r\n    <h2>{{type.title}}</h2>\r\n    <p>{{type.description}}</p>\r\n\r\n    <div class=\"color-grid\">\r\n        <figure *ngFor=\"let color of type.colors\">\r\n            <div class=\"color-sample\" [style.backgroundColor]=\"color.color\" [style.color]=\"color.contrast\">Text on {{color.name}}</div>\r\n            <figcaption>{{color.name}}</figcaption>\r\n        </figure>\r\n    </div>\r\n</mat-card>"
+            "templateData": "<mat-card>\r\n    <h1>Color</h1>\r\n</mat-card>\r\n\r\n<mat-card *ngFor=\"let type of colorTypes\">\r\n    <h2>{{type.title}}</h2>\r\n    <p>{{type.description}}</p>\r\n\r\n    <div class=\"color-grid\">\r\n        <figure *ngFor=\"let color of type.colors\">\r\n            <div class=\"color-sample\" [style.backgroundColor]=\"color.color\" [style.color]=\"color.contrast\">Text on {{color.name}}</div>\r\n            <figcaption class=\"watt-label\">{{color.name}}</figcaption>\r\n        </figure>\r\n    </div>\r\n</mat-card>"
         },
         {
             "name": "TypographyComponent",
@@ -669,6 +586,42 @@
             ]
         },
         {
+            "name": "ColorModule",
+            "id": "module-ColorModule-2690dd005e5188bfbde6c4637e7ee1ea",
+            "description": "",
+            "deprecationMessage": "",
+            "deprecated": false,
+            "file": "libs/ui-watt/src/lib/foundations/color/storybook/color.module.ts",
+            "methods": [],
+            "sourceCode": "import { NgModule } from '@angular/core';\r\nimport { MatCardModule } from '@angular/material/card';\r\nimport { MatTableModule } from '@angular/material/table';\r\n\r\n@NgModule({\r\n    imports: [MatTableModule, MatCardModule],\r\n    providers: [\r\n        { provide: Window, useValue: window }\r\n    ]\r\n})\r\nexport class ColorModule {}\r\n",
+            "children": [
+                {
+                    "type": "providers",
+                    "elements": []
+                },
+                {
+                    "type": "declarations",
+                    "elements": []
+                },
+                {
+                    "type": "imports",
+                    "elements": []
+                },
+                {
+                    "type": "exports",
+                    "elements": []
+                },
+                {
+                    "type": "bootstrap",
+                    "elements": []
+                },
+                {
+                    "type": "classes",
+                    "elements": []
+                }
+            ]
+        },
+        {
             "name": "TypographyModule",
             "id": "module-TypographyModule-bdd209fd4d4a05a59569e2b161e58068",
             "description": "",
@@ -714,13 +667,13 @@
         },
         {
             "name": "WattModule",
-            "id": "module-WattModule-04b3227c4d197ac230e5c456a8e931e9",
+            "id": "module-WattModule-d99e2303be9a14d24dfef923f092944a",
             "description": "",
             "deprecationMessage": "",
             "deprecated": false,
             "file": "libs/ui-watt/src/lib/ui-watt.module.ts",
             "methods": [],
-            "sourceCode": "import { NgModule } from '@angular/core';\r\nimport { CommonModule } from '@angular/common';\r\nimport { BrowserAnimationsModule } from '@angular/platform-browser/animations';\r\n\r\nimport { AutocompleteModule } from './components/autocomplete/autocomplete.module';\r\n\r\n@NgModule({\r\n  imports: [CommonModule, BrowserAnimationsModule, AutocompleteModule],\r\n  exports: [AutocompleteModule],\r\n})\r\nexport class WattModule {}\r\n",
+            "sourceCode": "import { NgModule } from '@angular/core';\r\nimport { CommonModule } from '@angular/common';\r\nimport { BrowserAnimationsModule } from '@angular/platform-browser/animations';\r\n\r\nimport { AutocompleteModule } from './components/autocomplete/autocomplete.module';\r\n\r\n@NgModule({\r\n  imports: [CommonModule, BrowserAnimationsModule, AutocompleteModule],\r\n  providers: [\r\n    { provide: Window, useValue: window }\r\n  ],\r\n  exports: [AutocompleteModule],\r\n})\r\nexport class WattModule {}\r\n",
             "children": [
                 {
                     "type": "providers",
@@ -1050,151 +1003,151 @@
                         "name": "primary",
                         "deprecated": false,
                         "deprecationMessage": "",
-                        "value": "--watt-primary-colors-primary"
+                        "value": "--watt-color-primary"
                     },
                     {
-                        "name": "primary-light",
+                        "name": "primaryLight",
                         "deprecated": false,
                         "deprecationMessage": "",
-                        "value": "--watt-primary-colors-primary-light"
+                        "value": "--watt-color-primary-light"
                     },
                     {
-                        "name": "primary-dark",
+                        "name": "primaryDark",
                         "deprecated": false,
                         "deprecationMessage": "",
-                        "value": "--watt-primary-colors-primary-dark"
+                        "value": "--watt-color-primary-dark"
                     },
                     {
                         "name": "selection",
                         "deprecated": false,
                         "deprecationMessage": "",
-                        "value": "--watt-focus-colors-selection"
+                        "value": "--watt-color-focus-selection"
                     },
                     {
                         "name": "focus",
                         "deprecated": false,
                         "deprecationMessage": "",
-                        "value": "--watt-focus-colors-focus"
+                        "value": "--watt-color-focus"
                     },
                     {
                         "name": "black",
                         "deprecated": false,
                         "deprecationMessage": "",
-                        "value": "--watt-neutral-colors-black"
+                        "value": "--watt-color-neutral-black"
                     },
                     {
                         "name": "white",
                         "deprecated": false,
                         "deprecationMessage": "",
-                        "value": "--watt-neutral-colors-white"
+                        "value": "--watt-color-neutral-white"
                     },
                     {
-                        "name": "grey-50",
+                        "name": "grey50",
                         "deprecated": false,
                         "deprecationMessage": "",
-                        "value": "--watt-neutral-colors-grey-50"
+                        "value": "--watt-color-neutral-grey-50"
                     },
                     {
-                        "name": "grey-100",
+                        "name": "grey100",
                         "deprecated": false,
                         "deprecationMessage": "",
-                        "value": "--watt-neutral-colors-grey-100"
+                        "value": "--watt-color-neutral-grey-100"
                     },
                     {
-                        "name": "grey-200",
+                        "name": "grey200",
                         "deprecated": false,
                         "deprecationMessage": "",
-                        "value": "--watt-neutral-colors-grey-200"
+                        "value": "--watt-color-neutral-grey-200"
                     },
                     {
-                        "name": "grey-300",
+                        "name": "grey300",
                         "deprecated": false,
                         "deprecationMessage": "",
-                        "value": "--watt-neutral-colors-grey-300"
+                        "value": "--watt-color-neutral-grey-300"
                     },
                     {
-                        "name": "grey-400",
+                        "name": "grey400",
                         "deprecated": false,
                         "deprecationMessage": "",
-                        "value": "--watt-neutral-colors-grey-400"
+                        "value": "--watt-color-neutral-grey-400"
                     },
                     {
-                        "name": "grey-500",
+                        "name": "grey500",
                         "deprecated": false,
                         "deprecationMessage": "",
-                        "value": "--watt-neutral-colors-grey-500"
+                        "value": "--watt-color-neutral-grey-500"
                     },
                     {
-                        "name": "grey-600",
+                        "name": "grey600",
                         "deprecated": false,
                         "deprecationMessage": "",
-                        "value": "--watt-neutral-colors-grey-600"
+                        "value": "--watt-color-neutral-grey-600"
                     },
                     {
-                        "name": "grey-700",
+                        "name": "grey700",
                         "deprecated": false,
                         "deprecationMessage": "",
-                        "value": "--watt-neutral-colors-grey-700"
+                        "value": "--watt-color-neutral-grey-700"
                     },
                     {
-                        "name": "grey-800",
+                        "name": "grey800",
                         "deprecated": false,
                         "deprecationMessage": "",
-                        "value": "--watt-neutral-colors-grey-800"
+                        "value": "--watt-color-neutral-grey-800"
                     },
                     {
-                        "name": "grey-900",
+                        "name": "grey900",
                         "deprecated": false,
                         "deprecationMessage": "",
-                        "value": "--watt-neutral-colors-grey-900"
+                        "value": "--watt-color-neutral-grey-900"
                     },
                     {
                         "name": "danger",
                         "deprecated": false,
                         "deprecationMessage": "",
-                        "value": "--watt-state-colors-danger"
+                        "value": "--watt-color-state-danger"
                     },
                     {
-                        "name": "danger-light",
+                        "name": "dangerLight",
                         "deprecated": false,
                         "deprecationMessage": "",
-                        "value": "--watt-state-colors-danger-light"
+                        "value": "--watt-color-state-danger-light"
                     },
                     {
                         "name": "warning",
                         "deprecated": false,
                         "deprecationMessage": "",
-                        "value": "--watt-state-colors-warning"
+                        "value": "--watt-color-state-warning"
                     },
                     {
-                        "name": "warning-light",
+                        "name": "warningLight",
                         "deprecated": false,
                         "deprecationMessage": "",
-                        "value": "--watt-state-colors-warning-light"
+                        "value": "--watt-color-state-warning-light"
                     },
                     {
                         "name": "success",
                         "deprecated": false,
                         "deprecationMessage": "",
-                        "value": "--watt-state-colors-success"
+                        "value": "--watt-color-state-success"
                     },
                     {
-                        "name": "success-light",
+                        "name": "successLight",
                         "deprecated": false,
                         "deprecationMessage": "",
-                        "value": "--watt-state-colors-success-light"
+                        "value": "--watt-color-state-success-light"
                     },
                     {
                         "name": "info",
                         "deprecated": false,
                         "deprecationMessage": "",
-                        "value": "--watt-state-colors-info"
+                        "value": "--watt-color-state-info"
                     },
                     {
-                        "name": "info-light",
+                        "name": "infoLight",
                         "deprecated": false,
                         "deprecationMessage": "",
-                        "value": "--watt-state-colors-info-light"
+                        "value": "--watt-color-state-info-light"
                     }
                 ],
                 "ctype": "miscellaneous",
@@ -1507,151 +1460,151 @@
                             "name": "primary",
                             "deprecated": false,
                             "deprecationMessage": "",
-                            "value": "--watt-primary-colors-primary"
+                            "value": "--watt-color-primary"
                         },
                         {
-                            "name": "primary-light",
+                            "name": "primaryLight",
                             "deprecated": false,
                             "deprecationMessage": "",
-                            "value": "--watt-primary-colors-primary-light"
+                            "value": "--watt-color-primary-light"
                         },
                         {
-                            "name": "primary-dark",
+                            "name": "primaryDark",
                             "deprecated": false,
                             "deprecationMessage": "",
-                            "value": "--watt-primary-colors-primary-dark"
+                            "value": "--watt-color-primary-dark"
                         },
                         {
                             "name": "selection",
                             "deprecated": false,
                             "deprecationMessage": "",
-                            "value": "--watt-focus-colors-selection"
+                            "value": "--watt-color-focus-selection"
                         },
                         {
                             "name": "focus",
                             "deprecated": false,
                             "deprecationMessage": "",
-                            "value": "--watt-focus-colors-focus"
+                            "value": "--watt-color-focus"
                         },
                         {
                             "name": "black",
                             "deprecated": false,
                             "deprecationMessage": "",
-                            "value": "--watt-neutral-colors-black"
+                            "value": "--watt-color-neutral-black"
                         },
                         {
                             "name": "white",
                             "deprecated": false,
                             "deprecationMessage": "",
-                            "value": "--watt-neutral-colors-white"
+                            "value": "--watt-color-neutral-white"
                         },
                         {
-                            "name": "grey-50",
+                            "name": "grey50",
                             "deprecated": false,
                             "deprecationMessage": "",
-                            "value": "--watt-neutral-colors-grey-50"
+                            "value": "--watt-color-neutral-grey-50"
                         },
                         {
-                            "name": "grey-100",
+                            "name": "grey100",
                             "deprecated": false,
                             "deprecationMessage": "",
-                            "value": "--watt-neutral-colors-grey-100"
+                            "value": "--watt-color-neutral-grey-100"
                         },
                         {
-                            "name": "grey-200",
+                            "name": "grey200",
                             "deprecated": false,
                             "deprecationMessage": "",
-                            "value": "--watt-neutral-colors-grey-200"
+                            "value": "--watt-color-neutral-grey-200"
                         },
                         {
-                            "name": "grey-300",
+                            "name": "grey300",
                             "deprecated": false,
                             "deprecationMessage": "",
-                            "value": "--watt-neutral-colors-grey-300"
+                            "value": "--watt-color-neutral-grey-300"
                         },
                         {
-                            "name": "grey-400",
+                            "name": "grey400",
                             "deprecated": false,
                             "deprecationMessage": "",
-                            "value": "--watt-neutral-colors-grey-400"
+                            "value": "--watt-color-neutral-grey-400"
                         },
                         {
-                            "name": "grey-500",
+                            "name": "grey500",
                             "deprecated": false,
                             "deprecationMessage": "",
-                            "value": "--watt-neutral-colors-grey-500"
+                            "value": "--watt-color-neutral-grey-500"
                         },
                         {
-                            "name": "grey-600",
+                            "name": "grey600",
                             "deprecated": false,
                             "deprecationMessage": "",
-                            "value": "--watt-neutral-colors-grey-600"
+                            "value": "--watt-color-neutral-grey-600"
                         },
                         {
-                            "name": "grey-700",
+                            "name": "grey700",
                             "deprecated": false,
                             "deprecationMessage": "",
-                            "value": "--watt-neutral-colors-grey-700"
+                            "value": "--watt-color-neutral-grey-700"
                         },
                         {
-                            "name": "grey-800",
+                            "name": "grey800",
                             "deprecated": false,
                             "deprecationMessage": "",
-                            "value": "--watt-neutral-colors-grey-800"
+                            "value": "--watt-color-neutral-grey-800"
                         },
                         {
-                            "name": "grey-900",
+                            "name": "grey900",
                             "deprecated": false,
                             "deprecationMessage": "",
-                            "value": "--watt-neutral-colors-grey-900"
+                            "value": "--watt-color-neutral-grey-900"
                         },
                         {
                             "name": "danger",
                             "deprecated": false,
                             "deprecationMessage": "",
-                            "value": "--watt-state-colors-danger"
+                            "value": "--watt-color-state-danger"
                         },
                         {
-                            "name": "danger-light",
+                            "name": "dangerLight",
                             "deprecated": false,
                             "deprecationMessage": "",
-                            "value": "--watt-state-colors-danger-light"
+                            "value": "--watt-color-state-danger-light"
                         },
                         {
                             "name": "warning",
                             "deprecated": false,
                             "deprecationMessage": "",
-                            "value": "--watt-state-colors-warning"
+                            "value": "--watt-color-state-warning"
                         },
                         {
-                            "name": "warning-light",
+                            "name": "warningLight",
                             "deprecated": false,
                             "deprecationMessage": "",
-                            "value": "--watt-state-colors-warning-light"
+                            "value": "--watt-color-state-warning-light"
                         },
                         {
                             "name": "success",
                             "deprecated": false,
                             "deprecationMessage": "",
-                            "value": "--watt-state-colors-success"
+                            "value": "--watt-color-state-success"
                         },
                         {
-                            "name": "success-light",
+                            "name": "successLight",
                             "deprecated": false,
                             "deprecationMessage": "",
-                            "value": "--watt-state-colors-success-light"
+                            "value": "--watt-color-state-success-light"
                         },
                         {
                             "name": "info",
                             "deprecated": false,
                             "deprecationMessage": "",
-                            "value": "--watt-state-colors-info"
+                            "value": "--watt-color-state-info"
                         },
                         {
-                            "name": "info-light",
+                            "name": "infoLight",
                             "deprecated": false,
                             "deprecationMessage": "",
-                            "value": "--watt-state-colors-info-light"
+                            "value": "--watt-color-state-info-light"
                         }
                     ],
                     "ctype": "miscellaneous",
@@ -1705,7 +1658,7 @@
                 "linktype": "injectable",
                 "name": "ColorHelperService",
                 "coveragePercent": 0,
-                "coverageCount": "0/9",
+                "coverageCount": "0/6",
                 "status": "low"
             },
             {

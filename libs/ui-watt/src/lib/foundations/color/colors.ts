@@ -1,35 +1,35 @@
 /*
  * @Please notice!!! 
  * These values should be kept in-sync with _colors.import.scss
- * Naming convention is as follow: --watt-{COLOR GROUP}-colors-{COLOR NAME}
+ * Naming convention is as follow: --watt-color-{COLOR GROUP (ONLY IF NOT THE SAME AS COLOR NAME)}-{COLOR NAME}
  */
 export enum Colors {
-    'primary' = '--watt-primary-colors-primary',
-    'primary-light' = '--watt-primary-colors-primary-light',
-    'primary-dark' = '--watt-primary-colors-primary-dark',
+    'primary' = '--watt-color-primary',
+    'primaryLight' = '--watt-color-primary-light',
+    'primaryDark' = '--watt-color-primary-dark',
     // Focus
-    'selection' = '--watt-focus-colors-selection',
-    'focus' = '--watt-focus-colors-focus',
+    'selection' = '--watt-color-focus-selection',
+    'focus' = '--watt-color-focus',
     // Neutrals
-    'black' = '--watt-neutral-colors-black',
-    'white' = '--watt-neutral-colors-white',
-    'grey-50' = '--watt-neutral-colors-grey-50',
-    'grey-100' = '--watt-neutral-colors-grey-100',
-    'grey-200' = '--watt-neutral-colors-grey-200',
-    'grey-300' = '--watt-neutral-colors-grey-300',
-    'grey-400' = '--watt-neutral-colors-grey-400',
-    'grey-500' = '--watt-neutral-colors-grey-500',
-    'grey-600' = '--watt-neutral-colors-grey-600',
-    'grey-700' = '--watt-neutral-colors-grey-700',
-    'grey-800' = '--watt-neutral-colors-grey-800',
-    'grey-900' = '--watt-neutral-colors-grey-900',
+    'black' = '--watt-color-neutral-black',
+    'white' = '--watt-color-neutral-white',
+    'grey50' = '--watt-color-neutral-grey-50',
+    'grey100' = '--watt-color-neutral-grey-100',
+    'grey200' = '--watt-color-neutral-grey-200',
+    'grey300' = '--watt-color-neutral-grey-300',
+    'grey400' = '--watt-color-neutral-grey-400',
+    'grey500' = '--watt-color-neutral-grey-500',
+    'grey600' = '--watt-color-neutral-grey-600',
+    'grey700' = '--watt-color-neutral-grey-700',
+    'grey800' = '--watt-color-neutral-grey-800',
+    'grey900' = '--watt-color-neutral-grey-900',
     // States
-    'danger' = '--watt-state-colors-danger', 
-    'danger-light' = '--watt-state-colors-danger-light', 
-    'warning' = '--watt-state-colors-warning', 
-    'warning-light' = '--watt-state-colors-warning-light',
-    'success' = '--watt-state-colors-success', 
-    'success-light' = '--watt-state-colors-success-light',
-    'info' = '--watt-state-colors-info', 
-    'info-light' = '--watt-state-colors-info-light',
+    'danger' = '--watt-color-state-danger', 
+    'dangerLight' = '--watt-color-state-danger-light', 
+    'warning' = '--watt-color-state-warning', 
+    'warningLight' = '--watt-color-state-warning-light',
+    'success' = '--watt-color-state-success', 
+    'successLight' = '--watt-color-state-success-light',
+    'info' = '--watt-color-state-info', 
+    'infoLight' = '--watt-color-state-info-light',
 }

@@ -1,18 +1,14 @@
 import { moduleMetadata, Story, Meta } from '@storybook/angular';
-import { MatTableModule } from '@angular/material/table';
-import { MatCardModule } from '@angular/material/card';
 
 import { ColorComponent } from './color.component';
+import { ColorModule } from './color.module';
 
 export default {
   title: 'Foundations/Color',
   component: ColorComponent,
   decorators: [
     moduleMetadata({
-      imports: [MatTableModule, MatCardModule],
-      providers: [
-        { provide: Window, useValue: window }
-      ]
+      imports: [ColorModule],
     })
   ],
 } as Meta<ColorComponent>;
@@ -31,13 +27,13 @@ Color.parameters = {
 @use '@energinet/watt' as watt;
 .my-element {
   background: watt.getColor('COLOR NAME');
-  color: watt.getColor('COLOR NAME-contrast');
+  color: watt.getColorContrast('COLOR NAME-contrast');
 }
 
 // Usage from TypeScript:
 1. import { Colors, ColorHelperService } from '@energinet/watt';      
 1. Inject the ColorHelperService
-2. Use ColorHelperService.getColor(Colors.COLOR NAME);
+2. Use ColorHelperService.getColor(Colors.COLOR NAME); or ColorHelperService.getColorContrast(Colors.COLOR NAME);
 `,
       language: 'sass'
     },
