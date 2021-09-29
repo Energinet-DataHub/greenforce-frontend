@@ -15,47 +15,47 @@
  * limitations under the License.
  */
 :host {
-    background: var(--watt-color-neutral-grey-300);
-    display: block;
-    width: 100%;
-    padding: 1rem;
-    margin: -1rem;
+  background: var(--watt-color-neutral-grey-300);
+  display: block;
+  width: 100%;
+  padding: 1rem;
+  margin: -1rem;
 }
 
 mat-card {
-    margin-bottom: 8px;
+  margin-bottom: 8px;
 }
 
 .color-grid {
-    display: flex;
-    flex-wrap: wrap;
-    max-width: 688px;
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 688px;
 }
 
 figure {
-    margin: 10px;
+  margin: 10px;
 }
 
 .color-sample {
-    position: relative;
-    height: 150px;
-    width: 150px;
+  position: relative;
+  height: 150px;
+  width: 150px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  border: 1px solid var(--watt-color-neutral-grey-300);
+
+  &:hover:before {
+    position: absolute;
+    content: 'Copy to clipboard';
+    width: 100%;
+    height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
     text-align: center;
-    border: 1px solid var(--watt-color-neutral-grey-300);
-    
-    &:hover:before {
-        position: absolute;
-        content: 'Copy to clipboard';
-        width: 100%;
-        height: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
-        background-color: var(--watt-color-focus-selection);
-        color: var(--watt-color-focus-selection-contrast);
-    }
+    background-color: var(--watt-color-focus-selection);
+    color: var(--watt-color-focus-selection-contrast);
+  }
 }

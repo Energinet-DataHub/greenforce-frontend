@@ -20,11 +20,9 @@ import { MatCardModule } from '@angular/material/card';
 import { ColorComponent } from './color.component';
 
 @NgModule({
-    imports: [CommonModule, MatCardModule],
-    declarations: [ColorComponent],
-    providers: [
-        { provide: Window, useValue: window }
-    ],
-    exports: [ColorComponent]
+  imports: [CommonModule, MatCardModule],
+  declarations: [ColorComponent],
+  providers: [{ provide: Window, useValue: window }],
+  exports: [ColorComponent],
 })
 export class ColorModule {}

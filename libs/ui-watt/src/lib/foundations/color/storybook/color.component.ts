@@ -106,7 +106,7 @@ export class ColorComponent {
   /**
    * @ignore
    */
-   private getColor(name: string, color: Colors) {
+  private getColor(name: string, color: Colors) {
     return {
       name,
       var: color,
