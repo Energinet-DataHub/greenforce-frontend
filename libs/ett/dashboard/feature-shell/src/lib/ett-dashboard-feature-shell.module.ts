@@ -1,7 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { EttDashboardShellComponent, EttDashboardShellScam } from './shell/ett-dashboard-shell.component';
+import {
+  EttDashboardShellComponent,
+  EttDashboardShellScam,
+} from './shell/ett-dashboard-shell.component';
 
 const routes: Routes = [
   {
