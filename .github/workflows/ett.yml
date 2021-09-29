@@ -11,6 +11,7 @@ env:
 
   # Nx Cloud
   NX_BRANCH: ${{ github.event.number }}
+  NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
   NX_RUN_GROUP: ${{ github.run_id }}
 
 on:
@@ -37,7 +38,7 @@ jobs:
       # needed for nx affected command
       - name: 'PR: Fetch base branch Git history'
         if: ${{ env.is-pull-request == 'true' }}
-        run: git fetch --no-tags --depth=1 origin $BASE_BRANCH
+        run: git fetch --no-tags origin $BASE_BRANCH
 
       - name: Use Node.js ${{ env.node-version }}
         uses: actions/setup-node@v2
