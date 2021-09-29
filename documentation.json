@@ -3,12 +3,12 @@
     "interfaces": [
         {
             "name": "Color",
-            "id": "interface-Color-b7982db1f1b62e622b7ace5dbbdee611",
+            "id": "interface-Color-61d8d33887d4f9d90b9865c75e8a1bf2",
             "file": "libs/ui-watt/src/lib/foundations/color/storybook/color.component.ts",
             "deprecated": false,
             "deprecationMessage": "",
             "type": "interface",
-            "sourceCode": "import { Component } from '@angular/core';\r\nimport { ColorHelperService } from '../color-helper.service';\r\nimport { Colors } from '../colors';\r\n\r\ninterface ColorType {\r\n  name: string;\r\n  title: string;\r\n  description?: string;\r\n  colors: Color[];\r\n}\r\ninterface Color {\r\n  name: string;\r\n  color: string;\r\n  contrast: string;\r\n}\r\n@Component({\r\n  selector: 'watt-color',\r\n  templateUrl: './color.component.html',\r\n  styleUrls: ['./color.component.scss'],\r\n})\r\nexport class ColorComponent {\r\n  /**\r\n   * @ignore\r\n   */\r\n  colorTypes: ColorType[] = [\r\n    {\r\n      name: 'primary',\r\n      title: 'Primary Colors',\r\n      description:\r\n        'The primary colors are the brand colors that are main colors used on central elements like primary buttons and in the main navigation.',\r\n      colors: [\r\n        this.getColor('primary', Colors.primary),\r\n        this.getColor('primary-dark', Colors.primaryDark),\r\n      ],\r\n    },\r\n    {\r\n      name: 'focus',\r\n      title: 'Focus Colors',\r\n      colors: [\r\n        this.getColor('focus', Colors.focus),\r\n        this.getColor('selection', Colors.selection),\r\n      ],\r\n    },\r\n    {\r\n      name: 'neutral',\r\n      title: 'Neutral Colors',\r\n      colors: [\r\n        this.getColor('black', Colors.black),\r\n        this.getColor('white', Colors.white),\r\n        this.getColor('grey-50', Colors.grey50),\r\n        this.getColor('grey-100', Colors.grey100),\r\n        this.getColor('grey-200', Colors.grey200),\r\n        this.getColor('grey-300', Colors.grey300),\r\n        this.getColor('grey-400', Colors.grey400),\r\n        this.getColor('grey-500', Colors.grey500),\r\n        this.getColor('grey-600', Colors.grey600),\r\n        this.getColor('grey-700', Colors.grey700),\r\n        this.getColor('grey-800', Colors.grey800),\r\n        this.getColor('grey-900', Colors.grey900),\r\n      ],\r\n    },\r\n    {\r\n      name: 'state',\r\n      title: 'State Colors',\r\n      description:\r\n        'State color helps users find people, identify status, see actions, locate help, and understand next steps. The consistent use of color keeps cognitive load low and makes for a unified and engaging user experience.',\r\n      colors: [\r\n        this.getColor('danger', Colors.danger),\r\n        this.getColor('warning', Colors.warning),\r\n        this.getColor('success', Colors.success),\r\n        this.getColor('info', Colors.info),\r\n        this.getColor('danger-light', Colors.dangerLight),\r\n        this.getColor('warning-light', Colors.warningLight),\r\n        this.getColor('success-light', Colors.successLight),\r\n        this.getColor('info-light', Colors.infoLight),\r\n      ],\r\n    },\r\n  ];\r\n\r\n  constructor(private colorHelperService: ColorHelperService) {}\r\n\r\n  /**\r\n   * @ignore\r\n   */\r\n  getColor(name: string, color: Colors) {\r\n    return {\r\n      name,\r\n      color: this.colorHelperService.getColor(color),\r\n      contrast: this.colorHelperService.getColorContrast(color),\r\n    };\r\n  }\r\n}\r\n",
+            "sourceCode": "import { Component } from '@angular/core';\r\nimport { ColorHelperService } from '../color-helper.service';\r\nimport { Colors } from '../colors';\r\n\r\ninterface ColorType {\r\n  name: string;\r\n  title: string;\r\n  description?: string;\r\n  colors: Color[];\r\n}\r\ninterface Color {\r\n  name: string;\r\n  var: string;\r\n  color: string;\r\n  contrast: string;\r\n}\r\n@Component({\r\n  selector: 'watt-color',\r\n  templateUrl: './color.component.html',\r\n  styleUrls: ['./color.component.scss'],\r\n})\r\nexport class ColorComponent {\r\n  /**\r\n   * @ignore\r\n   */\r\n  colorTypes: ColorType[] = [\r\n    {\r\n      name: 'primary',\r\n      title: 'Primary Colors',\r\n      description:\r\n        'The primary colors are the brand colors that are main colors used on central elements like primary buttons and in the main navigation.',\r\n      colors: [\r\n        this.getColor('primary', Colors.primary),\r\n        this.getColor('primary-dark', Colors.primaryDark),\r\n      ],\r\n    },\r\n    {\r\n      name: 'focus',\r\n      title: 'Focus Colors',\r\n      colors: [\r\n        this.getColor('focus', Colors.focus),\r\n        this.getColor('selection', Colors.selection),\r\n      ],\r\n    },\r\n    {\r\n      name: 'neutral',\r\n      title: 'Neutral Colors',\r\n      colors: [\r\n        this.getColor('black', Colors.black),\r\n        this.getColor('white', Colors.white),\r\n        this.getColor('grey-50', Colors.grey50),\r\n        this.getColor('grey-100', Colors.grey100),\r\n        this.getColor('grey-200', Colors.grey200),\r\n        this.getColor('grey-300', Colors.grey300),\r\n        this.getColor('grey-400', Colors.grey400),\r\n        this.getColor('grey-500', Colors.grey500),\r\n        this.getColor('grey-600', Colors.grey600),\r\n        this.getColor('grey-700', Colors.grey700),\r\n        this.getColor('grey-800', Colors.grey800),\r\n        this.getColor('grey-900', Colors.grey900),\r\n      ],\r\n    },\r\n    {\r\n      name: 'state',\r\n      title: 'State Colors',\r\n      description:\r\n        'State color helps users find people, identify status, see actions, locate help, and understand next steps. The consistent use of color keeps cognitive load low and makes for a unified and engaging user experience.',\r\n      colors: [\r\n        this.getColor('danger', Colors.danger),\r\n        this.getColor('warning', Colors.warning),\r\n        this.getColor('success', Colors.success),\r\n        this.getColor('info', Colors.info),\r\n        this.getColor('danger-light', Colors.dangerLight),\r\n        this.getColor('warning-light', Colors.warningLight),\r\n        this.getColor('success-light', Colors.successLight),\r\n        this.getColor('info-light', Colors.infoLight),\r\n      ],\r\n    },\r\n  ];\r\n\r\n  constructor(private colorHelperService: ColorHelperService) {}\r\n\r\n  /**\r\n   * @ignore\r\n   */\r\n  copyToClipboard(color: string) {\r\n    `var(${navigator.clipboard.writeText(color)})`;\r\n  }\r\n\r\n  /**\r\n   * @ignore\r\n   */\r\n   private getColor(name: string, color: Colors) {\r\n    return {\r\n      name,\r\n      var: color,\r\n      color: this.colorHelperService.getColor(color),\r\n      contrast: this.colorHelperService.getColorContrast(color),\r\n    };\r\n  }\r\n}\r\n",
             "properties": [
                 {
                     "name": "color",
@@ -17,7 +17,7 @@
                     "type": "string",
                     "optional": false,
                     "description": "",
-                    "line": 13
+                    "line": 14
                 },
                 {
                     "name": "contrast",
@@ -26,7 +26,7 @@
                     "type": "string",
                     "optional": false,
                     "description": "",
-                    "line": 14
+                    "line": 15
                 },
                 {
                     "name": "name",
@@ -36,6 +36,15 @@
                     "optional": false,
                     "description": "",
                     "line": 12
+                },
+                {
+                    "name": "var",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 13
                 }
             ],
             "indexSignatures": [],
@@ -44,12 +53,12 @@
         },
         {
             "name": "ColorType",
-            "id": "interface-ColorType-b7982db1f1b62e622b7ace5dbbdee611",
+            "id": "interface-ColorType-61d8d33887d4f9d90b9865c75e8a1bf2",
             "file": "libs/ui-watt/src/lib/foundations/color/storybook/color.component.ts",
             "deprecated": false,
             "deprecationMessage": "",
             "type": "interface",
-            "sourceCode": "import { Component } from '@angular/core';\r\nimport { ColorHelperService } from '../color-helper.service';\r\nimport { Colors } from '../colors';\r\n\r\ninterface ColorType {\r\n  name: string;\r\n  title: string;\r\n  description?: string;\r\n  colors: Color[];\r\n}\r\ninterface Color {\r\n  name: string;\r\n  color: string;\r\n  contrast: string;\r\n}\r\n@Component({\r\n  selector: 'watt-color',\r\n  templateUrl: './color.component.html',\r\n  styleUrls: ['./color.component.scss'],\r\n})\r\nexport class ColorComponent {\r\n  /**\r\n   * @ignore\r\n   */\r\n  colorTypes: ColorType[] = [\r\n    {\r\n      name: 'primary',\r\n      title: 'Primary Colors',\r\n      description:\r\n        'The primary colors are the brand colors that are main colors used on central elements like primary buttons and in the main navigation.',\r\n      colors: [\r\n        this.getColor('primary', Colors.primary),\r\n        this.getColor('primary-dark', Colors.primaryDark),\r\n      ],\r\n    },\r\n    {\r\n      name: 'focus',\r\n      title: 'Focus Colors',\r\n      colors: [\r\n        this.getColor('focus', Colors.focus),\r\n        this.getColor('selection', Colors.selection),\r\n      ],\r\n    },\r\n    {\r\n      name: 'neutral',\r\n      title: 'Neutral Colors',\r\n      colors: [\r\n        this.getColor('black', Colors.black),\r\n        this.getColor('white', Colors.white),\r\n        this.getColor('grey-50', Colors.grey50),\r\n        this.getColor('grey-100', Colors.grey100),\r\n        this.getColor('grey-200', Colors.grey200),\r\n        this.getColor('grey-300', Colors.grey300),\r\n        this.getColor('grey-400', Colors.grey400),\r\n        this.getColor('grey-500', Colors.grey500),\r\n        this.getColor('grey-600', Colors.grey600),\r\n        this.getColor('grey-700', Colors.grey700),\r\n        this.getColor('grey-800', Colors.grey800),\r\n        this.getColor('grey-900', Colors.grey900),\r\n      ],\r\n    },\r\n    {\r\n      name: 'state',\r\n      title: 'State Colors',\r\n      description:\r\n        'State color helps users find people, identify status, see actions, locate help, and understand next steps. The consistent use of color keeps cognitive load low and makes for a unified and engaging user experience.',\r\n      colors: [\r\n        this.getColor('danger', Colors.danger),\r\n        this.getColor('warning', Colors.warning),\r\n        this.getColor('success', Colors.success),\r\n        this.getColor('info', Colors.info),\r\n        this.getColor('danger-light', Colors.dangerLight),\r\n        this.getColor('warning-light', Colors.warningLight),\r\n        this.getColor('success-light', Colors.successLight),\r\n        this.getColor('info-light', Colors.infoLight),\r\n      ],\r\n    },\r\n  ];\r\n\r\n  constructor(private colorHelperService: ColorHelperService) {}\r\n\r\n  /**\r\n   * @ignore\r\n   */\r\n  getColor(name: string, color: Colors) {\r\n    return {\r\n      name,\r\n      color: this.colorHelperService.getColor(color),\r\n      contrast: this.colorHelperService.getColorContrast(color),\r\n    };\r\n  }\r\n}\r\n",
+            "sourceCode": "import { Component } from '@angular/core';\r\nimport { ColorHelperService } from '../color-helper.service';\r\nimport { Colors } from '../colors';\r\n\r\ninterface ColorType {\r\n  name: string;\r\n  title: string;\r\n  description?: string;\r\n  colors: Color[];\r\n}\r\ninterface Color {\r\n  name: string;\r\n  var: string;\r\n  color: string;\r\n  contrast: string;\r\n}\r\n@Component({\r\n  selector: 'watt-color',\r\n  templateUrl: './color.component.html',\r\n  styleUrls: ['./color.component.scss'],\r\n})\r\nexport class ColorComponent {\r\n  /**\r\n   * @ignore\r\n   */\r\n  colorTypes: ColorType[] = [\r\n    {\r\n      name: 'primary',\r\n      title: 'Primary Colors',\r\n      description:\r\n        'The primary colors are the brand colors that are main colors used on central elements like primary buttons and in the main navigation.',\r\n      colors: [\r\n        this.getColor('primary', Colors.primary),\r\n        this.getColor('primary-dark', Colors.primaryDark),\r\n      ],\r\n    },\r\n    {\r\n      name: 'focus',\r\n      title: 'Focus Colors',\r\n      colors: [\r\n        this.getColor('focus', Colors.focus),\r\n        this.getColor('selection', Colors.selection),\r\n      ],\r\n    },\r\n    {\r\n      name: 'neutral',\r\n      title: 'Neutral Colors',\r\n      colors: [\r\n        this.getColor('black', Colors.black),\r\n        this.getColor('white', Colors.white),\r\n        this.getColor('grey-50', Colors.grey50),\r\n        this.getColor('grey-100', Colors.grey100),\r\n        this.getColor('grey-200', Colors.grey200),\r\n        this.getColor('grey-300', Colors.grey300),\r\n        this.getColor('grey-400', Colors.grey400),\r\n        this.getColor('grey-500', Colors.grey500),\r\n        this.getColor('grey-600', Colors.grey600),\r\n        this.getColor('grey-700', Colors.grey700),\r\n        this.getColor('grey-800', Colors.grey800),\r\n        this.getColor('grey-900', Colors.grey900),\r\n      ],\r\n    },\r\n    {\r\n      name: 'state',\r\n      title: 'State Colors',\r\n      description:\r\n        'State color helps users find people, identify status, see actions, locate help, and understand next steps. The consistent use of color keeps cognitive load low and makes for a unified and engaging user experience.',\r\n      colors: [\r\n        this.getColor('danger', Colors.danger),\r\n        this.getColor('warning', Colors.warning),\r\n        this.getColor('success', Colors.success),\r\n        this.getColor('info', Colors.info),\r\n        this.getColor('danger-light', Colors.dangerLight),\r\n        this.getColor('warning-light', Colors.warningLight),\r\n        this.getColor('success-light', Colors.successLight),\r\n        this.getColor('info-light', Colors.infoLight),\r\n      ],\r\n    },\r\n  ];\r\n\r\n  constructor(private colorHelperService: ColorHelperService) {}\r\n\r\n  /**\r\n   * @ignore\r\n   */\r\n  copyToClipboard(color: string) {\r\n    `var(${navigator.clipboard.writeText(color)})`;\r\n  }\r\n\r\n  /**\r\n   * @ignore\r\n   */\r\n   private getColor(name: string, color: Colors) {\r\n    return {\r\n      name,\r\n      var: color,\r\n      color: this.colorHelperService.getColor(color),\r\n      contrast: this.colorHelperService.getColorContrast(color),\r\n    };\r\n  }\r\n}\r\n",
             "properties": [
                 {
                     "name": "colors",
@@ -435,7 +444,7 @@
         },
         {
             "name": "ColorComponent",
-            "id": "component-ColorComponent-b7982db1f1b62e622b7ace5dbbdee611",
+            "id": "component-ColorComponent-61d8d33887d4f9d90b9865c75e8a1bf2",
             "file": "libs/ui-watt/src/lib/foundations/color/storybook/color.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -462,11 +471,11 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { Component } from '@angular/core';\r\nimport { ColorHelperService } from '../color-helper.service';\r\nimport { Colors } from '../colors';\r\n\r\ninterface ColorType {\r\n  name: string;\r\n  title: string;\r\n  description?: string;\r\n  colors: Color[];\r\n}\r\ninterface Color {\r\n  name: string;\r\n  color: string;\r\n  contrast: string;\r\n}\r\n@Component({\r\n  selector: 'watt-color',\r\n  templateUrl: './color.component.html',\r\n  styleUrls: ['./color.component.scss'],\r\n})\r\nexport class ColorComponent {\r\n  /**\r\n   * @ignore\r\n   */\r\n  colorTypes: ColorType[] = [\r\n    {\r\n      name: 'primary',\r\n      title: 'Primary Colors',\r\n      description:\r\n        'The primary colors are the brand colors that are main colors used on central elements like primary buttons and in the main navigation.',\r\n      colors: [\r\n        this.getColor('primary', Colors.primary),\r\n        this.getColor('primary-dark', Colors.primaryDark),\r\n      ],\r\n    },\r\n    {\r\n      name: 'focus',\r\n      title: 'Focus Colors',\r\n      colors: [\r\n        this.getColor('focus', Colors.focus),\r\n        this.getColor('selection', Colors.selection),\r\n      ],\r\n    },\r\n    {\r\n      name: 'neutral',\r\n      title: 'Neutral Colors',\r\n      colors: [\r\n        this.getColor('black', Colors.black),\r\n        this.getColor('white', Colors.white),\r\n        this.getColor('grey-50', Colors.grey50),\r\n        this.getColor('grey-100', Colors.grey100),\r\n        this.getColor('grey-200', Colors.grey200),\r\n        this.getColor('grey-300', Colors.grey300),\r\n        this.getColor('grey-400', Colors.grey400),\r\n        this.getColor('grey-500', Colors.grey500),\r\n        this.getColor('grey-600', Colors.grey600),\r\n        this.getColor('grey-700', Colors.grey700),\r\n        this.getColor('grey-800', Colors.grey800),\r\n        this.getColor('grey-900', Colors.grey900),\r\n      ],\r\n    },\r\n    {\r\n      name: 'state',\r\n      title: 'State Colors',\r\n      description:\r\n        'State color helps users find people, identify status, see actions, locate help, and understand next steps. The consistent use of color keeps cognitive load low and makes for a unified and engaging user experience.',\r\n      colors: [\r\n        this.getColor('danger', Colors.danger),\r\n        this.getColor('warning', Colors.warning),\r\n        this.getColor('success', Colors.success),\r\n        this.getColor('info', Colors.info),\r\n        this.getColor('danger-light', Colors.dangerLight),\r\n        this.getColor('warning-light', Colors.warningLight),\r\n        this.getColor('success-light', Colors.successLight),\r\n        this.getColor('info-light', Colors.infoLight),\r\n      ],\r\n    },\r\n  ];\r\n\r\n  constructor(private colorHelperService: ColorHelperService) {}\r\n\r\n  /**\r\n   * @ignore\r\n   */\r\n  getColor(name: string, color: Colors) {\r\n    return {\r\n      name,\r\n      color: this.colorHelperService.getColor(color),\r\n      contrast: this.colorHelperService.getColorContrast(color),\r\n    };\r\n  }\r\n}\r\n",
+            "sourceCode": "import { Component } from '@angular/core';\r\nimport { ColorHelperService } from '../color-helper.service';\r\nimport { Colors } from '../colors';\r\n\r\ninterface ColorType {\r\n  name: string;\r\n  title: string;\r\n  description?: string;\r\n  colors: Color[];\r\n}\r\ninterface Color {\r\n  name: string;\r\n  var: string;\r\n  color: string;\r\n  contrast: string;\r\n}\r\n@Component({\r\n  selector: 'watt-color',\r\n  templateUrl: './color.component.html',\r\n  styleUrls: ['./color.component.scss'],\r\n})\r\nexport class ColorComponent {\r\n  /**\r\n   * @ignore\r\n   */\r\n  colorTypes: ColorType[] = [\r\n    {\r\n      name: 'primary',\r\n      title: 'Primary Colors',\r\n      description:\r\n        'The primary colors are the brand colors that are main colors used on central elements like primary buttons and in the main navigation.',\r\n      colors: [\r\n        this.getColor('primary', Colors.primary),\r\n        this.getColor('primary-dark', Colors.primaryDark),\r\n      ],\r\n    },\r\n    {\r\n      name: 'focus',\r\n      title: 'Focus Colors',\r\n      colors: [\r\n        this.getColor('focus', Colors.focus),\r\n        this.getColor('selection', Colors.selection),\r\n      ],\r\n    },\r\n    {\r\n      name: 'neutral',\r\n      title: 'Neutral Colors',\r\n      colors: [\r\n        this.getColor('black', Colors.black),\r\n        this.getColor('white', Colors.white),\r\n        this.getColor('grey-50', Colors.grey50),\r\n        this.getColor('grey-100', Colors.grey100),\r\n        this.getColor('grey-200', Colors.grey200),\r\n        this.getColor('grey-300', Colors.grey300),\r\n        this.getColor('grey-400', Colors.grey400),\r\n        this.getColor('grey-500', Colors.grey500),\r\n        this.getColor('grey-600', Colors.grey600),\r\n        this.getColor('grey-700', Colors.grey700),\r\n        this.getColor('grey-800', Colors.grey800),\r\n        this.getColor('grey-900', Colors.grey900),\r\n      ],\r\n    },\r\n    {\r\n      name: 'state',\r\n      title: 'State Colors',\r\n      description:\r\n        'State color helps users find people, identify status, see actions, locate help, and understand next steps. The consistent use of color keeps cognitive load low and makes for a unified and engaging user experience.',\r\n      colors: [\r\n        this.getColor('danger', Colors.danger),\r\n        this.getColor('warning', Colors.warning),\r\n        this.getColor('success', Colors.success),\r\n        this.getColor('info', Colors.info),\r\n        this.getColor('danger-light', Colors.dangerLight),\r\n        this.getColor('warning-light', Colors.warningLight),\r\n        this.getColor('success-light', Colors.successLight),\r\n        this.getColor('info-light', Colors.infoLight),\r\n      ],\r\n    },\r\n  ];\r\n\r\n  constructor(private colorHelperService: ColorHelperService) {}\r\n\r\n  /**\r\n   * @ignore\r\n   */\r\n  copyToClipboard(color: string) {\r\n    `var(${navigator.clipboard.writeText(color)})`;\r\n  }\r\n\r\n  /**\r\n   * @ignore\r\n   */\r\n   private getColor(name: string, color: Colors) {\r\n    return {\r\n      name,\r\n      var: color,\r\n      color: this.colorHelperService.getColor(color),\r\n      contrast: this.colorHelperService.getColorContrast(color),\r\n    };\r\n  }\r\n}\r\n",
             "assetsDirs": [],
             "styleUrlsData": [
                 {
-                    "data": "@use 'sass:map';\r\n@use './../colors.import' as colors;\r\n\r\n:host {\r\n    background: colors.getColor('grey-300');\r\n    display: block;\r\n    width: 100%;\r\n    padding: 1rem;\r\n    margin: -1rem;\r\n}\r\n\r\nmat-card {\r\n    margin-bottom: 8px;\r\n}\r\n\r\n.color-grid {\r\n    display: flex;\r\n    flex-wrap: wrap;\r\n    max-width: 688px;\r\n}\r\n\r\nfigure {\r\n    margin: 10px;\r\n}\r\n\r\n.color-sample {\r\n    height: 150px;\r\n    width: 150px;\r\n    display: flex;\r\n    justify-content: center;\r\n    align-items: center;\r\n    border: 1px solid #{colors.getColor('grey-300')};\r\n}",
+                    "data": "@use 'sass:map';\r\n\r\n:host {\r\n    background: var(--watt-color-neutral-grey-300);\r\n    display: block;\r\n    width: 100%;\r\n    padding: 1rem;\r\n    margin: -1rem;\r\n}\r\n\r\nmat-card {\r\n    margin-bottom: 8px;\r\n}\r\n\r\n.color-grid {\r\n    display: flex;\r\n    flex-wrap: wrap;\r\n    max-width: 688px;\r\n}\r\n\r\nfigure {\r\n    margin: 10px;\r\n}\r\n\r\n.color-sample {\r\n    position: relative;\r\n    height: 150px;\r\n    width: 150px;\r\n    display: flex;\r\n    justify-content: center;\r\n    align-items: center;\r\n    text-align: center;\r\n    border: 1px solid var(--watt-color-neutral-grey-300);\r\n    \r\n    &:hover:before {\r\n        position: absolute;\r\n        content: 'Copy to clipboard';\r\n        width: 100%;\r\n        height: 100%;\r\n        display: flex;\r\n        justify-content: center;\r\n        align-items: center;\r\n        text-align: center;\r\n        background-color: var(--watt-color-focus-selection);\r\n        color: var(--watt-color-focus-selection-contrast);\r\n    }\r\n}",
                     "styleUrl": "./color.component.scss"
                 }
             ],
@@ -484,7 +493,7 @@
                         "deprecationMessage": ""
                     }
                 ],
-                "line": 78,
+                "line": 79,
                 "jsdoctags": [
                     {
                         "name": "colorHelperService",
@@ -497,7 +506,47 @@
                     }
                 ]
             },
-            "templateData": "<mat-card>\r\n    <h1>Color</h1>\r\n</mat-card>\r\n\r\n<mat-card *ngFor=\"let type of colorTypes\">\r\n    <h2>{{type.title}}</h2>\r\n    <p>{{type.description}}</p>\r\n\r\n    <div class=\"color-grid\">\r\n        <figure *ngFor=\"let color of type.colors\">\r\n            <div class=\"color-sample\" [style.backgroundColor]=\"color.color\" [style.color]=\"color.contrast\">Text on {{color.name}}</div>\r\n            <figcaption class=\"watt-label\">{{color.name}}</figcaption>\r\n        </figure>\r\n    </div>\r\n</mat-card>"
+            "templateData": "<mat-card>\r\n    <h1>Color</h1>\r\n</mat-card>\r\n\r\n<mat-card *ngFor=\"let type of colorTypes\">\r\n    <h2>{{type.title}}</h2>\r\n    <p>{{type.description}}</p>\r\n\r\n    <div class=\"color-grid\">\r\n        <figure *ngFor=\"let color of type.colors\" (click)=\"copyToClipboard(color.var)\">\r\n            <div class=\"color-sample\" [style.backgroundColor]=\"color.color\" [style.color]=\"color.contrast\">{{color.var}}</div>\r\n            <figcaption class=\"watt-label\">{{color.name}}</figcaption>\r\n        </figure>\r\n    </div>\r\n</mat-card>"
+        },
+        {
+            "name": "ShellComponent",
+            "id": "component-ShellComponent-b1d2caafb055e9c8892c30ad4c99f8d0",
+            "file": "libs/ui-watt/src/lib/components/shell/shell.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "watt-shell",
+            "styleUrls": [
+                "./shell.component.scss"
+            ],
+            "styles": [],
+            "templateUrl": [
+                "./shell.component.html"
+            ],
+            "viewProviders": [],
+            "inputsClass": [],
+            "outputsClass": [],
+            "propertiesClass": [],
+            "methodsClass": [],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "hostBindings": [],
+            "hostListeners": [],
+            "description": "",
+            "rawdescription": "\n",
+            "type": "component",
+            "sourceCode": "import { Component } from '@angular/core';\r\nimport { MatDrawerMode } from '@angular/material/sidenav';\r\n\r\n@Component({\r\n  selector: 'watt-shell',\r\n  styleUrls: ['./shell.component.scss'],\r\n  templateUrl: './shell.component.html',\r\n})\r\nexport class ShellComponent {\r\n  /**\r\n   * @ignore\r\n   */\r\n  sidenavOpened = true;\r\n\r\n  /**\r\n   * @ignore\r\n   */\r\n  sidenavMode: MatDrawerMode = 'side';\r\n}\r\n",
+            "assetsDirs": [],
+            "styleUrlsData": [
+                {
+                    "data": ":host {\r\n  display: block;\r\n}\r\n\r\n.sidenav-container {\r\n  height: 100vh;\r\n}\r\n\r\n.sidenav {\r\n  width: 200px;\r\n}\r\n",
+                    "styleUrl": "./shell.component.scss"
+                }
+            ],
+            "stylesData": "",
+            "templateData": "<mat-sidenav-container class=\"sidenav-container\">\r\n  <mat-sidenav\r\n    class=\"sidenav\"\r\n    [mode]=\"sidenavMode\"\r\n    [opened]=\"sidenavOpened\"\r\n    role=\"navigation\"\r\n  >\r\n    <ng-content select=\"[watt-shell-sidenav]\"></ng-content>\r\n  </mat-sidenav>\r\n\r\n  <mat-sidenav-content>\r\n    <mat-toolbar>\r\n      <ng-content select=\"[watt-shell-toolbar]\"></ng-content>\r\n    </mat-toolbar>\r\n\r\n    <main class=\"main-content\">\r\n      <ng-content></ng-content>\r\n    </main>\r\n  </mat-sidenav-content>\r\n</mat-sidenav-container>\r\n"
         },
         {
             "name": "TypographyComponent",
@@ -543,13 +592,13 @@
     "modules": [
         {
             "name": "AutocompleteModule",
-            "id": "module-AutocompleteModule-e438f4a4ae8b4e1a3b401e0045d83121",
+            "id": "module-AutocompleteModule-d64a6bc79be7d371da141ba7b2a61804",
             "description": "",
             "deprecationMessage": "",
             "deprecated": false,
             "file": "libs/ui-watt/src/lib/components/autocomplete/autocomplete.module.ts",
             "methods": [],
-            "sourceCode": "import { CommonModule } from \"@angular/common\";\r\nimport { NgModule } from \"@angular/core\";\r\nimport { ReactiveFormsModule } from \"@angular/forms\";\r\nimport { MatAutocompleteModule } from '@angular/material/autocomplete';\r\nimport { MatFormFieldModule } from \"@angular/material/form-field\";\r\nimport { MatInputModule } from \"@angular/material/input\";\r\nimport { AutocompleteComponent } from \"./autocomplete.component\";\r\n\r\n@NgModule({\r\n    imports: [CommonModule, ReactiveFormsModule, MatAutocompleteModule, MatFormFieldModule, MatInputModule],\r\n    declarations: [AutocompleteComponent],\r\n    exports: [AutocompleteComponent],\r\n})\r\nexport class AutocompleteModule {}",
+            "sourceCode": "import { CommonModule } from '@angular/common';\r\nimport { NgModule } from '@angular/core';\r\nimport { ReactiveFormsModule } from '@angular/forms';\r\nimport { MatAutocompleteModule } from '@angular/material/autocomplete';\r\nimport { MatFormFieldModule } from '@angular/material/form-field';\r\nimport { MatInputModule } from '@angular/material/input';\r\n\r\nimport { AutocompleteComponent } from './autocomplete.component';\r\n\r\n@NgModule({\r\n  declarations: [AutocompleteComponent],\r\n  exports: [AutocompleteComponent],\r\n  imports: [\r\n    CommonModule,\r\n    ReactiveFormsModule,\r\n    MatAutocompleteModule,\r\n    MatFormFieldModule,\r\n    MatInputModule,\r\n  ],\r\n})\r\nexport class AutocompleteModule {}\r\n",
             "children": [
                 {
                     "type": "providers",
@@ -587,13 +636,13 @@
         },
         {
             "name": "ColorModule",
-            "id": "module-ColorModule-2690dd005e5188bfbde6c4637e7ee1ea",
+            "id": "module-ColorModule-d701a50ad2e2ac7dc626faa5b7180e02",
             "description": "",
             "deprecationMessage": "",
             "deprecated": false,
             "file": "libs/ui-watt/src/lib/foundations/color/storybook/color.module.ts",
             "methods": [],
-            "sourceCode": "import { NgModule } from '@angular/core';\r\nimport { MatCardModule } from '@angular/material/card';\r\nimport { MatTableModule } from '@angular/material/table';\r\n\r\n@NgModule({\r\n    imports: [MatTableModule, MatCardModule],\r\n    providers: [\r\n        { provide: Window, useValue: window }\r\n    ]\r\n})\r\nexport class ColorModule {}\r\n",
+            "sourceCode": "import { CommonModule } from '@angular/common';\r\nimport { NgModule } from '@angular/core';\r\nimport { MatCardModule } from '@angular/material/card';\r\nimport { ColorComponent } from './color.component';\r\n\r\n@NgModule({\r\n    imports: [CommonModule, MatCardModule],\r\n    declarations: [ColorComponent],\r\n    providers: [\r\n        { provide: Window, useValue: window }\r\n    ],\r\n    exports: [ColorComponent]\r\n})\r\nexport class ColorModule {}\r\n",
             "children": [
                 {
                     "type": "providers",
@@ -601,7 +650,11 @@
                 },
                 {
                     "type": "declarations",
-                    "elements": []
+                    "elements": [
+                        {
+                            "name": "ColorComponent"
+                        }
+                    ]
                 },
                 {
                     "type": "imports",
@@ -609,7 +662,55 @@
                 },
                 {
                     "type": "exports",
+                    "elements": [
+                        {
+                            "name": "ColorComponent"
+                        }
+                    ]
+                },
+                {
+                    "type": "bootstrap",
                     "elements": []
+                },
+                {
+                    "type": "classes",
+                    "elements": []
+                }
+            ]
+        },
+        {
+            "name": "ShellModule",
+            "id": "module-ShellModule-519a0e6324f7968e33af992a45000580",
+            "description": "",
+            "deprecationMessage": "",
+            "deprecated": false,
+            "file": "libs/ui-watt/src/lib/components/shell/shell.module.ts",
+            "methods": [],
+            "sourceCode": "import { NgModule } from '@angular/core';\r\nimport { MatSidenavModule } from '@angular/material/sidenav';\r\nimport { MatToolbarModule } from '@angular/material/toolbar';\r\n\r\nimport { ShellComponent } from './shell.component';\r\n\r\n@NgModule({\r\n  declarations: [ShellComponent],\r\n  exports: [ShellComponent],\r\n  imports: [MatSidenavModule, MatToolbarModule],\r\n})\r\nexport class ShellModule {}\r\n",
+            "children": [
+                {
+                    "type": "providers",
+                    "elements": []
+                },
+                {
+                    "type": "declarations",
+                    "elements": [
+                        {
+                            "name": "ShellComponent"
+                        }
+                    ]
+                },
+                {
+                    "type": "imports",
+                    "elements": []
+                },
+                {
+                    "type": "exports",
+                    "elements": [
+                        {
+                            "name": "ShellComponent"
+                        }
+                    ]
                 },
                 {
                     "type": "bootstrap",
@@ -667,13 +768,13 @@
         },
         {
             "name": "WattModule",
-            "id": "module-WattModule-d99e2303be9a14d24dfef923f092944a",
+            "id": "module-WattModule-067463750d3a6d63307ee9510f558b95",
             "description": "",
             "deprecationMessage": "",
             "deprecated": false,
             "file": "libs/ui-watt/src/lib/ui-watt.module.ts",
             "methods": [],
-            "sourceCode": "import { NgModule } from '@angular/core';\r\nimport { CommonModule } from '@angular/common';\r\nimport { BrowserAnimationsModule } from '@angular/platform-browser/animations';\r\n\r\nimport { AutocompleteModule } from './components/autocomplete/autocomplete.module';\r\n\r\n@NgModule({\r\n  imports: [CommonModule, BrowserAnimationsModule, AutocompleteModule],\r\n  providers: [\r\n    { provide: Window, useValue: window }\r\n  ],\r\n  exports: [AutocompleteModule],\r\n})\r\nexport class WattModule {}\r\n",
+            "sourceCode": "import { NgModule } from '@angular/core';\r\n\r\nimport { AutocompleteModule } from './components/autocomplete/autocomplete.module';\r\nimport { ShellModule } from './components/shell/shell.module';\r\n\r\n@NgModule({\r\n  providers: [\r\n    { provide: Window, useValue: window }\r\n  ],\r\n  exports: [AutocompleteModule, ShellModule],\r\n})\r\nexport class WattModule {}\r\n",
             "children": [
                 {
                     "type": "providers",
@@ -685,17 +786,16 @@
                 },
                 {
                     "type": "imports",
-                    "elements": [
-                        {
-                            "name": "AutocompleteModule"
-                        }
-                    ]
+                    "elements": []
                 },
                 {
                     "type": "exports",
                     "elements": [
                         {
                             "name": "AutocompleteModule"
+                        },
+                        {
+                            "name": "ShellModule"
                         }
                     ]
                 },
@@ -903,6 +1003,16 @@
                 "defaultValue": "`\r\nRecommended\r\n${typographyHtmlSnippets.label.tag}\r\n\r\nAlternative\r\n${typographyHtmlSnippets.label.class}\r\n`"
             },
             {
+                "name": "shell",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "libs/ui-watt/src/lib/components/shell/shell.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "Template.bind({})"
+            },
+            {
                 "name": "Template",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
@@ -916,10 +1026,10 @@
                 "name": "Template",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "libs/ui-watt/src/lib/foundations/color/storybook/color.stories.ts",
+                "file": "libs/ui-watt/src/lib/components/shell/shell.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
-                "type": "Story<ColorComponent>",
+                "type": "Story<ShellComponent>",
                 "defaultValue": "(args) => ({\r\n  props: args,\r\n})"
             },
             {
@@ -930,6 +1040,16 @@
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "Story<TypographyComponent>",
+                "defaultValue": "(args) => ({\r\n  props: args,\r\n})"
+            },
+            {
+                "name": "Template",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "libs/ui-watt/src/lib/foundations/color/storybook/color.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story<ColorComponent>",
                 "defaultValue": "(args) => ({\r\n  props: args,\r\n})"
             },
             {
@@ -991,6 +1111,26 @@
                 "deprecationMessage": "",
                 "type": "object",
                 "defaultValue": "{\r\n  h1: {\r\n    tag: '<h1>Headline 1</h1>',\r\n    class: '<p class=\"watt-headline-1\">Headline 1</p>',\r\n  },\r\n  h2: {\r\n    tag: '<h2>Headline 2</h2>',\r\n    class: '<p class=\"watt-headline-2\">Headline 2</p>',\r\n  },\r\n  h3: {\r\n    tag: '<h3>Headline 3</h3>',\r\n    class: '<p class=\"watt-headline-3\">Headline 3</p>',\r\n  },\r\n  h4: {\r\n    tag: '<h4>Headline 4</h4>',\r\n    class: '<p class=\"watt-headline-4\">Headline 4</p>',\r\n  },\r\n  h5: {\r\n    tag: '<h5>Headline 5</h5>',\r\n    class: '<p class=\"watt-headline-5\">Headline 5</p>',\r\n  },\r\n  textL: '<p class=\"watt-text-l\">Lead (text-l)</p>',\r\n  bodyTextM: {\r\n    tag: '<p>Body (text-m)</p>',\r\n    class: '<div class=\"watt-text-m\">Body (text-m)</div>',\r\n  },\r\n  textS: '<p><small>Body (text-s)</small></p>',\r\n  textXs: '<p class=\"watt-text-xs\">Extra small (text-xs)</p>',\r\n  button: {\r\n    storybook: '<p class=\"watt-button\">Button</p>',\r\n    tag: '<button type=\"button\">Button</button>',\r\n    class: '<a class=\"watt-button\" href=\"#\">Button</a>',\r\n  },\r\n  label: {\r\n    tag: '<label>Label</label>',\r\n    class: '<p class=\"watt-label\">Label</p>',\r\n  },\r\n}"
+            },
+            {
+                "name": "withContent",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "libs/ui-watt/src/lib/components/shell/shell.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "() => ({\r\n  template: withContentTemplate,\r\n})"
+            },
+            {
+                "name": "withContentTemplate",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "libs/ui-watt/src/lib/components/shell/shell.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "`\r\n<watt-shell>\r\n  <ng-container watt-shell-sidenav>\r\n    Sidenav\r\n  </ng-container>\r\n\r\n  <ng-container watt-shell-toolbar>\r\n    Toolbar\r\n  </ng-container>\r\n\r\n  Main content\r\n</watt-shell>\r\n`"
             }
         ],
         "functions": [],
@@ -1425,6 +1565,48 @@
                     "defaultValue": "(args) => ({\r\n  props: args,\r\n})"
                 }
             ],
+            "libs/ui-watt/src/lib/components/shell/shell.stories.ts": [
+                {
+                    "name": "shell",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "libs/ui-watt/src/lib/components/shell/shell.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "Template.bind({})"
+                },
+                {
+                    "name": "Template",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "libs/ui-watt/src/lib/components/shell/shell.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story<ShellComponent>",
+                    "defaultValue": "(args) => ({\r\n  props: args,\r\n})"
+                },
+                {
+                    "name": "withContent",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "libs/ui-watt/src/lib/components/shell/shell.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "() => ({\r\n  template: withContentTemplate,\r\n})"
+                },
+                {
+                    "name": "withContentTemplate",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "libs/ui-watt/src/lib/components/shell/shell.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "`\r\n<watt-shell>\r\n  <ng-container watt-shell-sidenav>\r\n    Sidenav\r\n  </ng-container>\r\n\r\n  <ng-container watt-shell-toolbar>\r\n    Toolbar\r\n  </ng-container>\r\n\r\n  Main content\r\n</watt-shell>\r\n`"
+                }
+            ],
             "libs/ui-watt/src/lib/foundations/typography/storybook/typography.component.ts": [
                 {
                     "name": "typeScale",
@@ -1620,7 +1802,7 @@
     },
     "routes": [],
     "coverage": {
-        "count": 2,
+        "count": 1,
         "status": "low",
         "files": [
             {
@@ -1653,6 +1835,55 @@
                 "status": "good"
             },
             {
+                "filePath": "libs/ui-watt/src/lib/components/shell/shell.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "ShellComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "libs/ui-watt/src/lib/components/shell/shell.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "shell",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "libs/ui-watt/src/lib/components/shell/shell.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Template",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "libs/ui-watt/src/lib/components/shell/shell.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "withContent",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "libs/ui-watt/src/lib/components/shell/shell.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "withContentTemplate",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
                 "filePath": "libs/ui-watt/src/lib/foundations/color/color-helper.service.ts",
                 "type": "injectable",
                 "linktype": "injectable",
@@ -1676,7 +1907,7 @@
                 "linktype": "interface",
                 "name": "Color",
                 "coveragePercent": 0,
-                "coverageCount": "0/4",
+                "coverageCount": "0/5",
                 "status": "low"
             },
             {
