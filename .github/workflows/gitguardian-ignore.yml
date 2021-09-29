@@ -15,6 +15,9 @@ jobs:
       - name: Install package dependencies
         run: pip install ggshield
 
+      - name: Scan for exposed secrets
+        run: ggshield scan ci
+
       - name: Ignore last found secret
         run: ggshield ignore --last-found
 
