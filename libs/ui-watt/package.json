@@ -1,5 +1,5 @@
 {
-  "name": "@energinet/watt",
+  "name": "@energinet-datahub/watt",
   "version": "0.0.1",
   "peerDependencies": {
     "@angular/animations": "^12.1.0",
