@@ -344,13 +344,27 @@
         }
       }
     },
-    "workspace": {
+    "workspace-tools": {
       "projectType": "tool",
-      "root": "./",
-      "sourceRoot": "./",
+      "root": "tools",
+      "sourceRoot": "tools",
       "architect": {
         "add-license": {
           "builder": "./tools/executors/license:add"
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["tools/**/*.ts"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/tools"],
+          "options": {
+            "jestConfig": "tools/jest.config.js",
+            "passWithNoTests": true
+          }
         }
       }
     }
