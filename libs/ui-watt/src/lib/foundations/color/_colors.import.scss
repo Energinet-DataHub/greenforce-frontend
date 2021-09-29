@@ -1,9 +1,6 @@
-@use 'sass:map';
-
 /*
  * @Please notice!!! 
  * These values should be kept in-sync with colors.ts
- * Naming convention is as follow: --watt-color-{COLOR GROUP (ONLY IF NOT THE SAME AS COLOR NAME)}-{COLOR NAME}
  */
 $_colors: (
     'primary': var(--watt-color-primary),
