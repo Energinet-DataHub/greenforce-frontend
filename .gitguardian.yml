@@ -1,3 +1,2 @@
-matches-ignore:
-  - name: Nx Cloud read-only access token
-    match: Y2IyM2EwNDEtNjUxMy00OWFkLWI2ZTUtYjY2YzBiN2Y4YTUwfHJlYWQ
+paths-ignore:
+  - nx.json
