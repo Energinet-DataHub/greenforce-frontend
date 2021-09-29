@@ -1,0 +1,15 @@
+name: GitGuardian ignore
+
+on:
+  workflow_dispatch: {}
+
+jobs:
+  gitguardian-ignore:
+    name: GitGuardian ignore
+    runs-on: ubuntu-latest
+    container:
+      image: gitguardian/ggshield:latest
+
+    steps:
+      - name: Ignore last found secret
+        run: ggshield ignore --last-found
