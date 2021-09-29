@@ -5,12 +5,22 @@ on:
   workflow_dispatch: {}
 
 jobs:
+  # gitguardian-ignore:
+  #   name: GitGuardian ignore
+  #   runs-on: ubuntu-latest
+  #   container:
+  #     image: gitguardian/ggshield:latest
+
+  #   steps:
+  #     - name: Ignore last found secret
+  #       run: ggshield ignore --last-found
+
   gitguardian-ignore:
     name: GitGuardian ignore
     runs-on: ubuntu-latest
-    container:
-      image: gitguardian/ggshield:latest
 
     steps:
+      - name: Install package dependencies
+        run: pip install ggshield
       - name: Ignore last found secret
         run: ggshield ignore --last-found
