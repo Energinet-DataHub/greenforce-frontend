@@ -34,7 +34,7 @@ jobs:
       # needed for nx affected command
       - name: 'PR: Fetch base branch Git history'
         if: ${{ env.is-pull-request == 'true' }}
-        run: git fetch --no-tags --depth=1 origin $BASE_BRANCH
+        run: git fetch --no-tags origin $BASE_BRANCH
       - name: 'Merge: Check out source code'
         if: ${{ env.is-pull-request == 'false' }}
         uses: actions/checkout@v2
@@ -62,16 +62,16 @@ jobs:
       - name: Add license to all projects
         run: yarn nx run workspace:add-license
 
-      - name: Stash changes
-        run: git stash || true
-      - name: 'PR: Check out source code with current branch Git history'
-        if: ${{ env.is-pull-request == 'true' }}
-        uses: actions/checkout@v2
-        with:
-          ref: ${{ github.head_ref }}
-          fetch-depth: 1
-      - name: Apply stashed changes
-        run: git stash apply || true
+      # - name: Stash changes
+      #   run: git stash || true
+      # - name: 'PR: Check out source code with current branch Git history'
+      #   if: ${{ env.is-pull-request == 'true' }}
+      #   uses: actions/checkout@v2
+      #   with:
+      #     ref: ${{ github.head_ref }}
+      #     fetch-depth: 1
+      # - name: Apply stashed changes
+      #   run: git stash apply || true
       - name: Commit licensed files
         run: |
           git config user.name "github-actions[bot]"
