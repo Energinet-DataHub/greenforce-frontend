@@ -47,6 +47,12 @@
       "tags": [],
       "implicitDependencies": ["ett-app"]
     },
+    "ett-core-feature-shell": {
+      "tags": ["product:ett", "scope:core", "type:feature"]
+    },
+    "ett-dashboard-feature-shell": {
+      "tags": ["product:ett", "scope:dashboard", "type:feature"]
+    },
     "ui-watt": {
       "tags": ["product:watt", "type:ui"]
     }

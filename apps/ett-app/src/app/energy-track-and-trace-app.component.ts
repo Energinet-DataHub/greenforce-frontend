@@ -15,16 +15,18 @@
  * limitations under the License.
  */
 import { Component, NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'ett-app',
 
   styles: [':host { display: block; }'],
-  template: `<h1>Energy Track and Trace app</h1>`,
+  template: `<router-outlet></router-outlet>`,
 })
 export class EnergyTrackAndTraceAppComponent {}
 
 @NgModule({
   declarations: [EnergyTrackAndTraceAppComponent],
+  imports: [RouterModule],
 })
 export class EnergyTrackAndTraceAppScam {}

@@ -19,7 +19,13 @@
       "@energinet-datahub/dh-app/core/feature-shell": [
         "libs/dh-app/core/feature-shell/src/index.ts"
       ],
-      "@energinet-datahub/watt": ["libs/ui-watt/src/index.ts"]
+      "@energinet-datahub/watt": ["libs/ui-watt/src/index.ts"],
+      "@energinet/ett/core/feature-shell": [
+        "libs/ett/core/feature-shell/src/index.ts"
+      ],
+      "@energinet/ett/dashboard/feature-shell": [
+        "libs/ett/dashboard/feature-shell/src/index.ts"
+      ]
     }
   },
   "exclude": ["node_modules", "tmp"]
