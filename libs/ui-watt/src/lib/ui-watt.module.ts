@@ -1,11 +1,9 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AutocompleteModule } from './components/autocomplete/autocomplete.module';
+import { ShellModule } from './components/shell/shell.module';
 
 @NgModule({
-  imports: [CommonModule, BrowserAnimationsModule, AutocompleteModule],
-  exports: [AutocompleteModule],
+  exports: [AutocompleteModule, ShellModule],
 })
 export class WattModule {}

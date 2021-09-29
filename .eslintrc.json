@@ -13,6 +13,18 @@
             "allow": [],
             "depConstraints": [
               {
+                "sourceTag": "product:dh",
+                "onlyDependOnLibsWithTags": ["product:dh", "product:watt"]
+              },
+              {
+                "sourceTag": "product:ett",
+                "onlyDependOnLibsWithTags": ["product:ett", "product:watt"]
+              },
+              {
+                "sourceTag": "product:watt",
+                "onlyDependOnLibsWithTags": ["product:watt"]
+              },
+              {
                 "sourceTag": "*",
                 "onlyDependOnLibsWithTags": ["*"]
               }
