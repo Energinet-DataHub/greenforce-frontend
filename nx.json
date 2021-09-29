@@ -15,6 +15,7 @@
       "runner": "@nrwl/nx-cloud",
       "options": {
         "cacheableOperations": ["build", "lint", "test", "e2e"],
+        "//accessToken-comment": "Read-only token. Safe to expose.",
         "accessToken": "Y2IyM2EwNDEtNjUxMy00OWFkLWI2ZTUtYjY2YzBiN2Y4YTUwfHJlYWQ=",
         "canTrackAnalytics": true,
         "maxParallel": 6
