@@ -223,11 +223,6 @@ jobs:
           git add -A || true
           git commit -m "style: lint" || true
           git push origin --force-with-lease || true
-
-      - name: 'PR: Lint workspace and affected projects'
-        if: ${{ env.is-pull-request == 'true' }}
-        run: yarn affected:lint --base=origin/$BASE_BRANCH
-          --max-parallel=$NX_MAX_PARALLEL
       - name: 'Merge: Lint workspace and all projects'
         if: ${{ env.is-pull-request == 'false' }}
         run: yarn lint --max-parallel=$NX_MAX_PARALLEL
