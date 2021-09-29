@@ -35,7 +35,7 @@ jobs:
       # needed for nx affected command
       - name: 'PR: Fetch base branch Git history'
         if: ${{ env.is-pull-request == 'true' }}
-        run: git fetch --no-tags --depth=1 origin $BASE_BRANCH
+        run: git fetch --no-tags origin $BASE_BRANCH
       - name: 'Merge: Check out source code'
         if: ${{ env.is-pull-request == 'false' }}
         uses: actions/checkout@v2
@@ -85,7 +85,7 @@ jobs:
       # needed for nx affected command
       - name: 'PR: Fetch base branch Git history'
         if: ${{ env.is-pull-request == 'true' }}
-        run: git fetch --no-tags --depth=1 origin $BASE_BRANCH
+        run: git fetch --no-tags origin $BASE_BRANCH
       - name: 'Merge: Check out source code'
         if: ${{ env.is-pull-request == 'false' }}
         uses: actions/checkout@v2
@@ -135,7 +135,7 @@ jobs:
           ref: ${{ github.head_ref }}
       # needed for nx affected command
       - name: Fetch base branch Git history
-        run: git fetch --no-tags --depth=1 origin $BASE_BRANCH
+        run: git fetch --no-tags origin $BASE_BRANCH
 
       - name: Set up Node.js ${{ env.node-version }}
         uses: actions/setup-node@v2
@@ -175,20 +175,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # - name: Debug pull_request.head.ref
-      #   run: echo "${{ github.event.pull_request.head.ref }}"
-      # ci/license
-      # - name: Debug head_ref
-      #   run: echo "${{ github.head_ref }}"
-      # ci/license
-
       # needed for nx affected command
       - name: 'PR: Check out source code with current branch Git history'
         if: ${{ env.is-pull-request == 'true' }}
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
-          ref: ${{ github.head_ref }}
       # needed for nx affected command
       - name: 'PR: Fetch base branch Git history'
         if: ${{ env.is-pull-request == 'true' }}
@@ -220,23 +212,6 @@ jobs:
       - name: 'PR: Fix affected projects using lint rules'
         if: ${{ env.is-pull-request == 'true' }}
         run: yarn affected:lint:fix --base=origin/$BASE_BRANCH --max-parallel=$NX_MAX_PARALLEL
-
-      # - name: '[Debug] PR: Fix affected projects using lint rules'
-      # if: ${{ env.is-pull-request == 'true' }}
-      # run: npx nx affected:lint --fix --base origin/main
-
-      # - name: 'PR: Stash changes'
-      #   if: ${{ env.is-pull-request == 'true' }}
-      #   run: git stash || true
-      # - name: 'PR: Check out source code with current branch Git history'
-      #   if: ${{ env.is-pull-request == 'true' }}
-      #   uses: actions/checkout@v2
-      #   with:
-      #     ref: ${{ github.head_ref }}
-      #     fetch-depth: 1
-      # - name: 'PR: Apply stashed changes'
-      #   if: ${{ env.is-pull-request == 'true' }}
-      #   run: git stash apply || true
       - name: 'PR: Commit fixed files'
         if: ${{ env.is-pull-request == 'true' }}
         run: |
@@ -246,9 +221,6 @@ jobs:
           git commit -m "style: lint" || true
           git push origin --force-with-lease || true
 
-      - name: 'PR: Install package dependencies'
-        if: ${{ env.is-pull-request == 'true' }}
-        run: yarn install --frozen-lockfile --non-interactive
       - name: 'PR: Lint workspace and affected projects'
         if: ${{ env.is-pull-request == 'true' }}
         run: yarn affected:lint --base=origin/$BASE_BRANCH
@@ -271,7 +243,7 @@ jobs:
       # needed for nx affected command
       - name: 'PR: Fetch base branch Git history'
         if: ${{ env.is-pull-request == 'true' }}
-        run: git fetch --no-tags --depth=1 origin $BASE_BRANCH
+        run: git fetch --no-tags origin $BASE_BRANCH
       - name: 'Merge: Check out source code'
         if: ${{ env.is-pull-request == 'false' }}
         uses: actions/checkout@v2
