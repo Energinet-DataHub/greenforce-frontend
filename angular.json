@@ -39,7 +39,7 @@
       "prefix": "dh",
       "architect": {
         "build": {
-          "executor": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-devkit/build-angular:browser",
           "outputs": ["{options.outputPath}"],
           "options": {
             "outputPath": "dist/apps/dh-app",
@@ -89,7 +89,7 @@
           "defaultConfiguration": "production"
         },
         "serve": {
-          "executor": "@angular-devkit/build-angular:dev-server",
+          "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
               "browserTarget": "dh-app:build:production"
@@ -101,13 +101,13 @@
           "defaultConfiguration": "development"
         },
         "extract-i18n": {
-          "executor": "@angular-devkit/build-angular:extract-i18n",
+          "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
             "browserTarget": "dh-app:build"
           }
         },
         "lint": {
-          "executor": "@nrwl/linter:eslint",
+          "builder": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": [
               "apps/dh-app/src/**/*.ts",
@@ -116,7 +116,7 @@
           }
         },
         "test": {
-          "executor": "@nrwl/jest:jest",
+          "builder": "@nrwl/jest:jest",
           "outputs": ["coverage/apps/dh-app"],
           "options": {
             "jestConfig": "apps/dh-app/jest.config.js",
@@ -131,7 +131,7 @@
       "projectType": "application",
       "architect": {
         "e2e": {
-          "executor": "@nrwl/cypress:cypress",
+          "builder": "@nrwl/cypress:cypress",
           "options": {
             "cypressConfig": "apps/dh-app-e2e/cypress.json",
             "tsConfig": "apps/dh-app-e2e/tsconfig.e2e.json",
@@ -153,7 +153,7 @@
           }
         },
         "lint": {
-          "executor": "@nrwl/linter:eslint",
+          "builder": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": ["apps/dh-app-e2e/**/*.{js,ts}"]
           }
@@ -167,7 +167,7 @@
       "prefix": "ett",
       "architect": {
         "build": {
-          "executor": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-devkit/build-angular:browser",
           "outputs": ["{options.outputPath}"],
           "options": {
             "outputPath": "dist/apps/ett-app",
@@ -217,7 +217,7 @@
           "defaultConfiguration": "production"
         },
         "serve": {
-          "executor": "@angular-devkit/build-angular:dev-server",
+          "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
               "browserTarget": "ett-app:build:production"
@@ -229,13 +229,13 @@
           "defaultConfiguration": "development"
         },
         "extract-i18n": {
-          "executor": "@angular-devkit/build-angular:extract-i18n",
+          "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
             "browserTarget": "ett-app:build"
           }
         },
         "lint": {
-          "executor": "@nrwl/linter:eslint",
+          "builder": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": [
               "apps/ett-app/src/**/*.ts",
@@ -244,7 +244,7 @@
           }
         },
         "test": {
-          "executor": "@nrwl/jest:jest",
+          "builder": "@nrwl/jest:jest",
           "outputs": ["coverage/apps/ett-app"],
           "options": {
             "jestConfig": "apps/ett-app/jest.config.js",
@@ -259,7 +259,7 @@
       "projectType": "application",
       "architect": {
         "e2e": {
-          "executor": "@nrwl/cypress:cypress",
+          "builder": "@nrwl/cypress:cypress",
           "options": {
             "cypressConfig": "apps/ett-app-e2e/cypress.json",
             "tsConfig": "apps/ett-app-e2e/tsconfig.e2e.json",
@@ -281,7 +281,7 @@
           }
         },
         "lint": {
-          "executor": "@nrwl/linter:eslint",
+          "builder": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": ["apps/ett-app-e2e/**/*.{js,ts}"]
           }
@@ -295,7 +295,7 @@
       "prefix": "watt",
       "architect": {
         "test": {
-          "executor": "@nrwl/jest:jest",
+          "builder": "@nrwl/jest:jest",
           "outputs": ["coverage/libs/ui-watt"],
           "options": {
             "jestConfig": "libs/ui-watt/jest.config.js",
@@ -303,7 +303,7 @@
           }
         },
         "lint": {
-          "executor": "@nrwl/linter:eslint",
+          "builder": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": [
               "libs/ui-watt/src/**/*.ts",
@@ -312,7 +312,7 @@
           }
         },
         "storybook": {
-          "executor": "@nrwl/storybook:storybook",
+          "builder": "@nrwl/storybook:storybook",
           "options": {
             "uiFramework": "@storybook/angular",
             "port": 4400,
@@ -327,7 +327,7 @@
           }
         },
         "build-storybook": {
-          "executor": "@nrwl/storybook:build",
+          "builder": "@nrwl/storybook:build",
           "outputs": ["{options.outputPath}"],
           "options": {
             "uiFramework": "@storybook/angular",
@@ -350,7 +350,7 @@
       "sourceRoot": "./",
       "architect": {
         "add-license": {
-          "executor": "./tools/executors/license:add"
+          "builder": "./tools/executors/license:add"
         }
       }
     }
