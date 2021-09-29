@@ -1,3 +1,1 @@
 matches-ignore:
-  - name: Nx Cloud read-only token
-    match: f023bc9c0ab33f695172ffd17a2c67ab6821f75c
