@@ -1,7 +1,11 @@
+@use './../../foundations/variables';
+@use './../../foundations/box-sizing';
+@use './../../foundations/typography';
+
+@forward './../../foundations/color/colors.import';
+
 // Include Material theme
 @import '~@angular/material/prebuilt-themes/indigo-pink.css';
-
-@import './foundations/box-sizing';
 
 html,
 body {
@@ -12,4 +16,4 @@ body {
   font-family: 'Open Sans', sans-serif;
 }
 
-@import './foundations/typography';
+

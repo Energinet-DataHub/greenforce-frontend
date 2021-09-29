@@ -2090,11 +2090,6 @@
     merge-source-map "^1.1.0"
     schema-utils "^2.7.0"
 
-"@ljcl/storybook-addon-cssprops@^0.1.0":
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/@ljcl/storybook-addon-cssprops/-/storybook-addon-cssprops-0.1.0.tgz#0b9051f2c385ab20c9af8756b028764910d6b28c"
-  integrity sha512-V8/0eyhXcdZqY2bdcJYOAIKfHZm40GC41Qzb7RBnQTK0TcsnsMxgk05ZLZIh2U9t7PEfNvmT62MZy3kanveXDw==
-
 "@mdx-js/loader@^1.6.22":
   version "1.6.22"
   resolved "https://registry.yarnpkg.com/@mdx-js/loader/-/loader-1.6.22.tgz#d9e8fe7f8185ff13c9c8639c048b123e30d322c4"
