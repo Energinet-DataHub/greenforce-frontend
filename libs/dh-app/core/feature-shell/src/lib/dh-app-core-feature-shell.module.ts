@@ -8,6 +8,9 @@ const routes: Routes = [
   {
     path: '',
     component: ShellComponent,
+    children: [
+      // Lazy feature routes
+    ],
   },
 ];
 
