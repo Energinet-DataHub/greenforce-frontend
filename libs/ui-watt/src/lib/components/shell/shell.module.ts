@@ -15,14 +15,14 @@
  * limitations under the License.
  */
 import { NgModule } from '@angular/core';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { DhAppCoreFeatureShellModule } from '@energinet/dh-app/core/feature-shell';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatToolbarModule } from '@angular/material/toolbar';
 
-import { DataHubAppComponent } from './datahub-app.component';
+import { ShellComponent } from './shell.component';
 
 @NgModule({
-  bootstrap: [DataHubAppComponent],
-  declarations: [DataHubAppComponent],
-  imports: [BrowserAnimationsModule, DhAppCoreFeatureShellModule],
+  declarations: [ShellComponent],
+  exports: [ShellComponent],
+  imports: [MatSidenavModule, MatToolbarModule],
 })
-export class DataHubAppModule {}
+export class ShellModule {}

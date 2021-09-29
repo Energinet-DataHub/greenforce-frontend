@@ -14,18 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-// Include Material theme
-@import '@angular/material/prebuilt-themes/indigo-pink.css';
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { MatCardModule } from '@angular/material/card';
+import { ColorComponent } from './color.component';
 
-@import './foundations/box-sizing';
-
-html,
-body {
-  height: 100%;
-}
-body {
-  margin: 0;
-  font-family: 'Open Sans', sans-serif;
-}
-
-@import './foundations/typography';
+@NgModule({
+    imports: [CommonModule, MatCardModule],
+    declarations: [ColorComponent],
+    providers: [
+        { provide: Window, useValue: window }
+    ],
+    exports: [ColorComponent]
+})
+export class ColorModule {}

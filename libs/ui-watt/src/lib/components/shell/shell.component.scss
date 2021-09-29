@@ -14,15 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgModule } from '@angular/core';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { DhAppCoreFeatureShellModule } from '@energinet/dh-app/core/feature-shell';
+:host {
+  display: block;
+}
 
-import { DataHubAppComponent } from './datahub-app.component';
+.sidenav-container {
+  height: 100vh;
+}
 
-@NgModule({
-  bootstrap: [DataHubAppComponent],
-  declarations: [DataHubAppComponent],
-  imports: [BrowserAnimationsModule, DhAppCoreFeatureShellModule],
-})
-export class DataHubAppModule {}
+.sidenav {
+  width: 200px;
+}

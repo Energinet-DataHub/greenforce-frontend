@@ -14,15 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgModule } from '@angular/core';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { DhAppCoreFeatureShellModule } from '@energinet/dh-app/core/feature-shell';
+import { Component } from '@angular/core';
 
-import { DataHubAppComponent } from './datahub-app.component';
-
-@NgModule({
-  bootstrap: [DataHubAppComponent],
-  declarations: [DataHubAppComponent],
-  imports: [BrowserAnimationsModule, DhAppCoreFeatureShellModule],
+@Component({
+  selector: 'dh-shell',
+  styleUrls: ['./shell.component.scss'],
+  templateUrl: './shell.component.html',
 })
-export class DataHubAppModule {}
+export class ShellComponent {}

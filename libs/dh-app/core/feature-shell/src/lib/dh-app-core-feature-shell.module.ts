@@ -15,14 +15,23 @@
  * limitations under the License.
  */
 import { NgModule } from '@angular/core';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { DhAppCoreFeatureShellModule } from '@energinet/dh-app/core/feature-shell';
+import { RouterModule, Routes } from '@angular/router';
 
-import { DataHubAppComponent } from './datahub-app.component';
+import { ShellComponent } from './shell/shell.component';
+import { ShellModule } from './shell/shell.module';
+
+const routes: Routes = [
+  {
+    path: '',
+    component: ShellComponent,
+    children: [
+      // Lazy feature routes
+    ],
+  },
+];
 
 @NgModule({
-  bootstrap: [DataHubAppComponent],
-  declarations: [DataHubAppComponent],
-  imports: [BrowserAnimationsModule, DhAppCoreFeatureShellModule],
+  exports: [RouterModule],
+  imports: [RouterModule.forRoot(routes), ShellModule],
 })
-export class DataHubAppModule {}
+export class DhAppCoreFeatureShellModule {}

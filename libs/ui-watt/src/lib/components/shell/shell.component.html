@@ -14,4 +14,23 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<router-outlet></router-outlet>
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav
+    class="sidenav"
+    [mode]="sidenavMode"
+    [opened]="sidenavOpened"
+    role="navigation"
+  >
+    <ng-content select="[watt-shell-sidenav]"></ng-content>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <mat-toolbar>
+      <ng-content select="[watt-shell-toolbar]"></ng-content>
+    </mat-toolbar>
+
+    <main class="main-content">
+      <ng-content></ng-content>
+    </main>
+  </mat-sidenav-content>
+</mat-sidenav-container>

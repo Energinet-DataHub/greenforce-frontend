@@ -14,31 +14,41 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Meta, moduleMetadata, Story } from '@storybook/angular';
+import { moduleMetadata, Story, Meta } from '@storybook/angular';
 
-import { AutocompleteComponent } from './autocomplete.component';
-import { AutocompleteModule } from './autocomplete.module';
+import { ColorComponent } from './color.component';
+import { ColorModule } from './color.module';
 
 export default {
-  title: 'Components/Autocomplete',
-  component: AutocompleteComponent,
+  title: 'Foundations/Color',
+  component: ColorComponent,
   decorators: [
     moduleMetadata({
-      imports: [AutocompleteModule],
+      imports: [ColorModule],
     }),
   ],
-} as Meta<AutocompleteComponent>;
+} as Meta<ColorComponent>;
 
 //👇 We create a “template” of how args map to rendering
-const Template: Story<AutocompleteComponent> = (args) => ({
+const Template: Story<ColorComponent> = (args) => ({
   props: args,
 });
 
 //👇 Each story then reuses that template
-export const Autocomplete = Template.bind({});
+export const Color = Template.bind({});
+Color.parameters = {
+  docs: {
+    source: {
+      code: ` // Usage from SCSS / CSS (tip: hover over the color sample, and click to copy to clipboard):
+.my-element {
+  background: var(<color-variable>);
+}
 
-Autocomplete.args = {
-  label: 'Numbers',
-  placeholder: 'Pick a number',
-  options: ['1', '2', '3'],
+// Usage from TypeScript:
+1. import { Colors, ColorHelperService } from '@energinet/watt';      
+2. Inject the ColorHelperService
+3. Use ColorHelperService.getColor(Colors.<color-name>);
+`,
+    },
+  },
 };

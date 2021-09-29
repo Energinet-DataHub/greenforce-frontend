@@ -14,4 +14,27 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<router-outlet></router-outlet>
+<mat-card>
+  <h1>Color</h1>
+</mat-card>
+
+<mat-card *ngFor="let type of colorTypes">
+  <h3>{{ type.title }}</h3>
+  <p>{{ type.description }}</p>
+
+  <div class="color-grid">
+    <figure
+      *ngFor="let color of type.colors"
+      (click)="copyToClipboard(color.var)"
+    >
+      <div
+        class="color-sample"
+        [style.backgroundColor]="color.color"
+        [style.color]="color.contrast"
+      >
+        {{ color.var }}
+      </div>
+      <figcaption class="watt-label">{{ color.name }}</figcaption>
+    </figure>
+  </div>
+</mat-card>

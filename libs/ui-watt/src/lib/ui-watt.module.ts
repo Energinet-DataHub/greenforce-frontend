@@ -14,14 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AutocompleteModule } from './components/autocomplete/autocomplete.module';
+import { ShellModule } from './components/shell/shell.module';
 
 @NgModule({
-  imports: [CommonModule, BrowserAnimationsModule, AutocompleteModule],
-  exports: [AutocompleteModule],
+  providers: [
+    { provide: Window, useValue: window }
+  ],
+  exports: [AutocompleteModule, ShellModule],
 })
 export class WattModule {}

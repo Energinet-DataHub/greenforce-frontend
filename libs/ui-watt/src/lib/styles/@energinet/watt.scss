@@ -14,15 +14,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgModule } from '@angular/core';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { DhAppCoreFeatureShellModule } from '@energinet/dh-app/core/feature-shell';
+@use './../../foundations/variables';
+@use './../../foundations/box-sizing';
+@use './../../foundations/typography';
 
-import { DataHubAppComponent } from './datahub-app.component';
+@forward './../../foundations/color/colors.import';
 
-@NgModule({
-  bootstrap: [DataHubAppComponent],
-  declarations: [DataHubAppComponent],
-  imports: [BrowserAnimationsModule, DhAppCoreFeatureShellModule],
-})
-export class DataHubAppModule {}
+// Include Material theme
+@import '~@angular/material/prebuilt-themes/indigo-pink.css';
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: 'Open Sans', sans-serif;
+}
+
+

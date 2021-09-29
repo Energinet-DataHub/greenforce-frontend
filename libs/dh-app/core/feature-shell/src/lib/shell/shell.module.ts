@@ -15,14 +15,13 @@
  * limitations under the License.
  */
 import { NgModule } from '@angular/core';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { DhAppCoreFeatureShellModule } from '@energinet/dh-app/core/feature-shell';
+import { RouterModule } from '@angular/router';
+import { WattModule } from '@energinet/watt';
 
-import { DataHubAppComponent } from './datahub-app.component';
+import { ShellComponent } from './shell.component';
 
 @NgModule({
-  bootstrap: [DataHubAppComponent],
-  declarations: [DataHubAppComponent],
-  imports: [BrowserAnimationsModule, DhAppCoreFeatureShellModule],
+  declarations: [ShellComponent],
+  imports: [RouterModule, WattModule],
 })
-export class DataHubAppModule {}
+export class ShellModule {}

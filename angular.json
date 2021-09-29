@@ -50,9 +50,11 @@
             "inlineStyleLanguage": "scss",
             "assets": ["apps/dh-app/src/favicon.ico", "apps/dh-app/src/assets"],
             "styles": [
-              "libs/ui-watt/src/lib/watt.scss",
               "apps/dh-app/src/styles.scss"
             ],
+            "stylePreprocessorOptions": {
+              "includePaths": ["libs/ui-watt/src/lib/styles"]
+            },
             "scripts": []
           },
           "configurations": {
@@ -125,6 +127,30 @@
         },
         "add-license": {
           "builder": "./tools/executors/license:add"
+        }
+      }
+    },
+    "dh-app-core-feature-shell": {
+      "projectType": "library",
+      "root": "libs/dh-app/core/feature-shell",
+      "sourceRoot": "libs/dh-app/core/feature-shell/src",
+      "architect": {
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/dh-app/core/feature-shell"],
+          "options": {
+            "jestConfig": "libs/dh-app/core/feature-shell/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/dh-app/core/feature-shell/src/**/*.ts",
+              "libs/dh-app/core/feature-shell/src/**/*.html"
+            ]
+          }
         }
       }
     },
