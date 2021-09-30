@@ -16,11 +16,11 @@
  */
 import { NgModule } from '@angular/core';
 
-import { AutocompleteModule } from './components/autocomplete/autocomplete.module';
-import { ShellModule } from './components/shell/shell.module';
+import { WattAutocompleteModule } from './components/autocomplete/autocomplete.module';
+import { WattShellModule } from './components/shell/shell.module';
 
 @NgModule({
   providers: [{ provide: Window, useValue: window }],
-  exports: [AutocompleteModule, ShellModule],
+  exports: [WattAutocompleteModule, WattShellModule],
 })
 export class WattModule {}

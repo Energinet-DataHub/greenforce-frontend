@@ -18,7 +18,7 @@
  * @Please notice!!!
  * These values should be kept in-sync with _colors.import.scss
  */
-export enum Colors {
+export enum WattColors {
   primary = '--watt-color-primary',
   primaryLight = '--watt-color-primary-light',
   primaryDark = '--watt-color-primary-dark',

@@ -16,21 +16,21 @@
  */
 import { Meta, moduleMetadata, Story } from '@storybook/angular';
 
-import { AutocompleteComponent } from './autocomplete.component';
-import { AutocompleteModule } from './autocomplete.module';
+import { WattAutocompleteComponent } from './autocomplete.component';
+import { WattAutocompleteModule } from './autocomplete.module';
 
 export default {
   title: 'Components/Autocomplete',
-  component: AutocompleteComponent,
+  component: WattAutocompleteComponent,
   decorators: [
     moduleMetadata({
-      imports: [AutocompleteModule],
+      imports: [WattAutocompleteModule],
     }),
   ],
-} as Meta<AutocompleteComponent>;
+} as Meta<WattAutocompleteComponent>;
 
 //👇 We create a “template” of how args map to rendering
-const Template: Story<AutocompleteComponent> = (args) => ({
+const Template: Story<WattAutocompleteComponent> = (args) => ({
   props: args,
 });
 

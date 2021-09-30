@@ -21,11 +21,11 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 
-import { AutocompleteComponent } from './autocomplete.component';
+import { WattAutocompleteComponent } from './autocomplete.component';
 
 @NgModule({
-  declarations: [AutocompleteComponent],
-  exports: [AutocompleteComponent],
+  declarations: [WattAutocompleteComponent],
+  exports: [WattAutocompleteComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -34,4 +34,4 @@ import { AutocompleteComponent } from './autocomplete.component';
     MatInputModule,
   ],
 })
-export class AutocompleteModule {}
+export class WattAutocompleteModule {}

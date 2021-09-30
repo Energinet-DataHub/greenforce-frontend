@@ -15,8 +15,9 @@
  * limitations under the License.
  */
 import { Component } from '@angular/core';
-import { ColorHelperService } from '../color-helper.service';
-import { Colors } from '../colors';
+
+import { WattColorHelperService } from '../color-helper.service';
+import { WattColors } from '../colors';
 
 interface ColorType {
   name: string;
@@ -46,34 +47,34 @@ export class ColorComponent {
       description:
         'The primary colors are the brand colors that are main colors used on central elements like primary buttons and in the main navigation.',
       colors: [
-        this.getColor('primary', Colors.primary),
-        this.getColor('primary-dark', Colors.primaryDark),
+        this.getColor('primary', WattColors.primary),
+        this.getColor('primary-dark', WattColors.primaryDark),
       ],
     },
     {
       name: 'focus',
       title: 'Focus Colors',
       colors: [
-        this.getColor('focus', Colors.focus),
-        this.getColor('selection', Colors.selection),
+        this.getColor('focus', WattColors.focus),
+        this.getColor('selection', WattColors.selection),
       ],
     },
     {
       name: 'neutral',
       title: 'Neutral Colors',
       colors: [
-        this.getColor('black', Colors.black),
-        this.getColor('white', Colors.white),
-        this.getColor('grey-50', Colors.grey50),
-        this.getColor('grey-100', Colors.grey100),
-        this.getColor('grey-200', Colors.grey200),
-        this.getColor('grey-300', Colors.grey300),
-        this.getColor('grey-400', Colors.grey400),
-        this.getColor('grey-500', Colors.grey500),
-        this.getColor('grey-600', Colors.grey600),
-        this.getColor('grey-700', Colors.grey700),
-        this.getColor('grey-800', Colors.grey800),
-        this.getColor('grey-900', Colors.grey900),
+        this.getColor('black', WattColors.black),
+        this.getColor('white', WattColors.white),
+        this.getColor('grey-50', WattColors.grey50),
+        this.getColor('grey-100', WattColors.grey100),
+        this.getColor('grey-200', WattColors.grey200),
+        this.getColor('grey-300', WattColors.grey300),
+        this.getColor('grey-400', WattColors.grey400),
+        this.getColor('grey-500', WattColors.grey500),
+        this.getColor('grey-600', WattColors.grey600),
+        this.getColor('grey-700', WattColors.grey700),
+        this.getColor('grey-800', WattColors.grey800),
+        this.getColor('grey-900', WattColors.grey900),
       ],
     },
     {
@@ -82,19 +83,19 @@ export class ColorComponent {
       description:
         'State color helps users find people, identify status, see actions, locate help, and understand next steps. The consistent use of color keeps cognitive load low and makes for a unified and engaging user experience.',
       colors: [
-        this.getColor('danger', Colors.danger),
-        this.getColor('warning', Colors.warning),
-        this.getColor('success', Colors.success),
-        this.getColor('info', Colors.info),
-        this.getColor('danger-light', Colors.dangerLight),
-        this.getColor('warning-light', Colors.warningLight),
-        this.getColor('success-light', Colors.successLight),
-        this.getColor('info-light', Colors.infoLight),
+        this.getColor('danger', WattColors.danger),
+        this.getColor('warning', WattColors.warning),
+        this.getColor('success', WattColors.success),
+        this.getColor('info', WattColors.info),
+        this.getColor('danger-light', WattColors.dangerLight),
+        this.getColor('warning-light', WattColors.warningLight),
+        this.getColor('success-light', WattColors.successLight),
+        this.getColor('info-light', WattColors.infoLight),
       ],
     },
   ];
 
-  constructor(private colorHelperService: ColorHelperService) {}
+  constructor(private colorHelperService: WattColorHelperService) {}
 
   /**
    * @ignore
@@ -106,7 +107,7 @@ export class ColorComponent {
   /**
    * @ignore
    */
-  private getColor(name: string, color: Colors) {
+  private getColor(name: string, color: WattColors) {
     return {
       name,
       var: color,

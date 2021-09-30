@@ -22,7 +22,7 @@ import { MatDrawerMode } from '@angular/material/sidenav';
   styleUrls: ['./shell.component.scss'],
   templateUrl: './shell.component.html',
 })
-export class ShellComponent {
+export class WattShellComponent {
   /**
    * @ignore
    */
