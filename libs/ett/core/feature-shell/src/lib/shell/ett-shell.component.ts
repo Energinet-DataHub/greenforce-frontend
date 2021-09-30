@@ -16,7 +16,7 @@
  */
 import { Component, NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { ShellModule as WattShellModule } from '@energinet-datahub/watt';
+import { WattShellModule } from '@energinet-datahub/watt';
 
 import { EttPrimaryNavigationScam } from './../primary-navigation/ett-primary-navigation.component';
 
