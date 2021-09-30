@@ -1,3 +1,9 @@
+import { Component, NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
+import { ShellModule as WattShellModule } from '@energinet-datahub/watt';
+
+import { EttPrimaryNavigationScam } from './../primary-navigation/ett-primary-navigation.component';
+
 /**
  * @license
  * Copyright 2021 Energinet DataHub A/S
@@ -14,22 +20,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
-import { ShellModule } from '@energinet-datahub/watt';
-
 @Component({
   selector: 'ett-shell',
-
   styles: [':host { display: block; }'],
   template: `
     <watt-shell>
       <ng-container watt-shell-sidenav>
-        <h1>Energy Track and Trace</h1>
+        <ett-primary-navigation></ett-primary-navigation>
       </ng-container>
 
       <ng-container watt-shell-toolbar>
-        <p>Toolbar</p>
+        <h1>Energy Track and Trace</h1>
       </ng-container>
 
       <router-outlet></router-outlet>
@@ -40,6 +41,6 @@ export class EttShellComponent {}
 
 @NgModule({
   declarations: [EttShellComponent],
-  imports: [RouterModule, ShellModule],
+  imports: [RouterModule, WattShellModule, EttPrimaryNavigationScam],
 })
 export class EttShellScam {}
