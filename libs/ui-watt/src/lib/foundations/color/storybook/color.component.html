@@ -1,0 +1,40 @@
+<!--
+@license
+Copyright 2021 Energinet DataHub A/S
+
+Licensed under the Apache License, Version 2.0 (the "License2");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<mat-card>
+  <h1>Color</h1>
+</mat-card>
+
+<mat-card *ngFor="let type of colorTypes">
+  <h3>{{ type.title }}</h3>
+  <p>{{ type.description }}</p>
+
+  <div class="color-grid">
+    <figure
+      *ngFor="let color of type.colors"
+      (click)="copyToClipboard(color.var)"
+    >
+      <div
+        class="color-sample"
+        [style.backgroundColor]="color.color"
+        [style.color]="color.contrast"
+      >
+        {{ color.var }}
+      </div>
+      <figcaption class="watt-label">{{ color.name }}</figcaption>
+    </figure>
+  </div>
+</mat-card>
