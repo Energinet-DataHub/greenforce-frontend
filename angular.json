@@ -207,9 +207,7 @@
               "apps/ett-app/src/favicon.ico",
               "apps/ett-app/src/assets"
             ],
-            "styles": [
-              "apps/ett-app/src/styles.scss"
-            ],
+            "styles": ["apps/ett-app/src/styles.scss"],
             "stylePreprocessorOptions": {
               "includePaths": ["libs/ui-watt/src/lib/styles"]
             },
