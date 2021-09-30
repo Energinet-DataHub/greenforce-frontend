@@ -2090,11 +2090,6 @@
     merge-source-map "^1.1.0"
     schema-utils "^2.7.0"
 
-"@ljcl/storybook-addon-cssprops@^0.1.0":
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/@ljcl/storybook-addon-cssprops/-/storybook-addon-cssprops-0.1.0.tgz#0b9051f2c385ab20c9af8756b028764910d6b28c"
-  integrity sha512-V8/0eyhXcdZqY2bdcJYOAIKfHZm40GC41Qzb7RBnQTK0TcsnsMxgk05ZLZIh2U9t7PEfNvmT62MZy3kanveXDw==
-
 "@mdx-js/loader@^1.6.22":
   version "1.6.22"
   resolved "https://registry.yarnpkg.com/@mdx-js/loader/-/loader-1.6.22.tgz#d9e8fe7f8185ff13c9c8639c048b123e30d322c4"
@@ -8452,6 +8447,18 @@ glob@7.1.7, glob@^7.0.3, glob@^7.1.1, glob@^7.1.2, glob@^7.1.3, glob@^7.1.4, glo
   version "7.1.7"
   resolved "https://registry.yarnpkg.com/glob/-/glob-7.1.7.tgz#3b193e9233f01d42d0b3f78294bbeeb418f94a90"
   integrity sha512-OvD9ENzPLbegENnYP5UUfJIirTg4+XwMWGaQfQTY0JenxNvvIKP3U3/tAQSPIu/lHxXYSZmpXlUHeqAIdKzBLQ==
+  dependencies:
+    fs.realpath "^1.0.0"
+    inflight "^1.0.4"
+    inherits "2"
+    minimatch "^3.0.4"
+    once "^1.3.0"
+    path-is-absolute "^1.0.0"
+
+glob@^7.2.0:
+  version "7.2.0"
+  resolved "https://registry.yarnpkg.com/glob/-/glob-7.2.0.tgz#d15535af7732e02e948f4c41628bd910293f6023"
+  integrity sha512-lmLf6gtyrPq8tTjSmrO94wBeQbFR3HbLHbuyD69wuyQkImp2hWqMGB47OX65FBkPffO641IP9jWa1z4ivqG26Q==
   dependencies:
     fs.realpath "^1.0.0"
     inflight "^1.0.4"

@@ -2,6 +2,106 @@
   "pipes": [],
   "interfaces": [
     {
+      "name": "Color",
+      "id": "interface-Color-61d8d33887d4f9d90b9865c75e8a1bf2",
+      "file": "libs/ui-watt/src/lib/foundations/color/storybook/color.component.ts",
+      "deprecated": false,
+      "deprecationMessage": "",
+      "type": "interface",
+      "sourceCode": "import { Component } from '@angular/core';\r\nimport { ColorHelperService } from '../color-helper.service';\r\nimport { Colors } from '../colors';\r\n\r\ninterface ColorType {\r\n  name: string;\r\n  title: string;\r\n  description?: string;\r\n  colors: Color[];\r\n}\r\ninterface Color {\r\n  name: string;\r\n  var: string;\r\n  color: string;\r\n  contrast: string;\r\n}\r\n@Component({\r\n  selector: 'watt-color',\r\n  templateUrl: './color.component.html',\r\n  styleUrls: ['./color.component.scss'],\r\n})\r\nexport class ColorComponent {\r\n  /**\r\n   * @ignore\r\n   */\r\n  colorTypes: ColorType[] = [\r\n    {\r\n      name: 'primary',\r\n      title: 'Primary Colors',\r\n      description:\r\n        'The primary colors are the brand colors that are main colors used on central elements like primary buttons and in the main navigation.',\r\n      colors: [\r\n        this.getColor('primary', Colors.primary),\r\n        this.getColor('primary-dark', Colors.primaryDark),\r\n      ],\r\n    },\r\n    {\r\n      name: 'focus',\r\n      title: 'Focus Colors',\r\n      colors: [\r\n        this.getColor('focus', Colors.focus),\r\n        this.getColor('selection', Colors.selection),\r\n      ],\r\n    },\r\n    {\r\n      name: 'neutral',\r\n      title: 'Neutral Colors',\r\n      colors: [\r\n        this.getColor('black', Colors.black),\r\n        this.getColor('white', Colors.white),\r\n        this.getColor('grey-50', Colors.grey50),\r\n        this.getColor('grey-100', Colors.grey100),\r\n        this.getColor('grey-200', Colors.grey200),\r\n        this.getColor('grey-300', Colors.grey300),\r\n        this.getColor('grey-400', Colors.grey400),\r\n        this.getColor('grey-500', Colors.grey500),\r\n        this.getColor('grey-600', Colors.grey600),\r\n        this.getColor('grey-700', Colors.grey700),\r\n        this.getColor('grey-800', Colors.grey800),\r\n        this.getColor('grey-900', Colors.grey900),\r\n      ],\r\n    },\r\n    {\r\n      name: 'state',\r\n      title: 'State Colors',\r\n      description:\r\n        'State color helps users find people, identify status, see actions, locate help, and understand next steps. The consistent use of color keeps cognitive load low and makes for a unified and engaging user experience.',\r\n      colors: [\r\n        this.getColor('danger', Colors.danger),\r\n        this.getColor('warning', Colors.warning),\r\n        this.getColor('success', Colors.success),\r\n        this.getColor('info', Colors.info),\r\n        this.getColor('danger-light', Colors.dangerLight),\r\n        this.getColor('warning-light', Colors.warningLight),\r\n        this.getColor('success-light', Colors.successLight),\r\n        this.getColor('info-light', Colors.infoLight),\r\n      ],\r\n    },\r\n  ];\r\n\r\n  constructor(private colorHelperService: ColorHelperService) {}\r\n\r\n  /**\r\n   * @ignore\r\n   */\r\n  copyToClipboard(color: string) {\r\n    `var(${navigator.clipboard.writeText(color)})`;\r\n  }\r\n\r\n  /**\r\n   * @ignore\r\n   */\r\n   private getColor(name: string, color: Colors) {\r\n    return {\r\n      name,\r\n      var: color,\r\n      color: this.colorHelperService.getColor(color),\r\n      contrast: this.colorHelperService.getColorContrast(color),\r\n    };\r\n  }\r\n}\r\n",
+      "properties": [
+        {
+          "name": "color",
+          "deprecated": false,
+          "deprecationMessage": "",
+          "type": "string",
+          "optional": false,
+          "description": "",
+          "line": 30
+        },
+        {
+          "name": "contrast",
+          "deprecated": false,
+          "deprecationMessage": "",
+          "type": "string",
+          "optional": false,
+          "description": "",
+          "line": 31
+        },
+        {
+          "name": "name",
+          "deprecated": false,
+          "deprecationMessage": "",
+          "type": "string",
+          "optional": false,
+          "description": "",
+          "line": 28
+        },
+        {
+          "name": "var",
+          "deprecated": false,
+          "deprecationMessage": "",
+          "type": "string",
+          "optional": false,
+          "description": "",
+          "line": 29
+        }
+      ],
+      "indexSignatures": [],
+      "kind": 164,
+      "methods": []
+    },
+    {
+      "name": "ColorType",
+      "id": "interface-ColorType-61d8d33887d4f9d90b9865c75e8a1bf2",
+      "file": "libs/ui-watt/src/lib/foundations/color/storybook/color.component.ts",
+      "deprecated": false,
+      "deprecationMessage": "",
+      "type": "interface",
+      "sourceCode": "import { Component } from '@angular/core';\r\nimport { ColorHelperService } from '../color-helper.service';\r\nimport { Colors } from '../colors';\r\n\r\ninterface ColorType {\r\n  name: string;\r\n  title: string;\r\n  description?: string;\r\n  colors: Color[];\r\n}\r\ninterface Color {\r\n  name: string;\r\n  var: string;\r\n  color: string;\r\n  contrast: string;\r\n}\r\n@Component({\r\n  selector: 'watt-color',\r\n  templateUrl: './color.component.html',\r\n  styleUrls: ['./color.component.scss'],\r\n})\r\nexport class ColorComponent {\r\n  /**\r\n   * @ignore\r\n   */\r\n  colorTypes: ColorType[] = [\r\n    {\r\n      name: 'primary',\r\n      title: 'Primary Colors',\r\n      description:\r\n        'The primary colors are the brand colors that are main colors used on central elements like primary buttons and in the main navigation.',\r\n      colors: [\r\n        this.getColor('primary', Colors.primary),\r\n        this.getColor('primary-dark', Colors.primaryDark),\r\n      ],\r\n    },\r\n    {\r\n      name: 'focus',\r\n      title: 'Focus Colors',\r\n      colors: [\r\n        this.getColor('focus', Colors.focus),\r\n        this.getColor('selection', Colors.selection),\r\n      ],\r\n    },\r\n    {\r\n      name: 'neutral',\r\n      title: 'Neutral Colors',\r\n      colors: [\r\n        this.getColor('black', Colors.black),\r\n        this.getColor('white', Colors.white),\r\n        this.getColor('grey-50', Colors.grey50),\r\n        this.getColor('grey-100', Colors.grey100),\r\n        this.getColor('grey-200', Colors.grey200),\r\n        this.getColor('grey-300', Colors.grey300),\r\n        this.getColor('grey-400', Colors.grey400),\r\n        this.getColor('grey-500', Colors.grey500),\r\n        this.getColor('grey-600', Colors.grey600),\r\n        this.getColor('grey-700', Colors.grey700),\r\n        this.getColor('grey-800', Colors.grey800),\r\n        this.getColor('grey-900', Colors.grey900),\r\n      ],\r\n    },\r\n    {\r\n      name: 'state',\r\n      title: 'State Colors',\r\n      description:\r\n        'State color helps users find people, identify status, see actions, locate help, and understand next steps. The consistent use of color keeps cognitive load low and makes for a unified and engaging user experience.',\r\n      colors: [\r\n        this.getColor('danger', Colors.danger),\r\n        this.getColor('warning', Colors.warning),\r\n        this.getColor('success', Colors.success),\r\n        this.getColor('info', Colors.info),\r\n        this.getColor('danger-light', Colors.dangerLight),\r\n        this.getColor('warning-light', Colors.warningLight),\r\n        this.getColor('success-light', Colors.successLight),\r\n        this.getColor('info-light', Colors.infoLight),\r\n      ],\r\n    },\r\n  ];\r\n\r\n  constructor(private colorHelperService: ColorHelperService) {}\r\n\r\n  /**\r\n   * @ignore\r\n   */\r\n  copyToClipboard(color: string) {\r\n    `var(${navigator.clipboard.writeText(color)})`;\r\n  }\r\n\r\n  /**\r\n   * @ignore\r\n   */\r\n   private getColor(name: string, color: Colors) {\r\n    return {\r\n      name,\r\n      var: color,\r\n      color: this.colorHelperService.getColor(color),\r\n      contrast: this.colorHelperService.getColorContrast(color),\r\n    };\r\n  }\r\n}\r\n",
+      "properties": [
+        {
+          "name": "colors",
+          "deprecated": false,
+          "deprecationMessage": "",
+          "type": "Color[]",
+          "optional": false,
+          "description": "",
+          "line": 25
+        },
+        {
+          "name": "description",
+          "deprecated": false,
+          "deprecationMessage": "",
+          "type": "string",
+          "optional": true,
+          "description": "",
+          "line": 24
+        },
+        {
+          "name": "name",
+          "deprecated": false,
+          "deprecationMessage": "",
+          "type": "string",
+          "optional": false,
+          "description": "",
+          "line": 22
+        },
+        {
+          "name": "title",
+          "deprecated": false,
+          "deprecationMessage": "",
+          "type": "string",
+          "optional": false,
+          "description": "",
+          "line": 23
+        }
+      ],
+      "indexSignatures": [],
+      "kind": 164,
+      "methods": []
+    },
+    {
       "name": "Typography",
       "id": "interface-Typography-3f739c53fffb3b28334d865bc94c51d2",
       "file": "libs/ui-watt/src/lib/foundations/typography/storybook/typography.component.ts",
@@ -17,7 +117,7 @@
           "type": "string",
           "optional": false,
           "description": "",
-          "line": 7
+          "line": 23
         },
         {
           "name": "letterCase",
@@ -26,7 +126,7 @@
           "type": "string",
           "optional": false,
           "description": "",
-          "line": 10
+          "line": 26
         },
         {
           "name": "letterSpacing",
@@ -35,7 +135,7 @@
           "type": "string",
           "optional": false,
           "description": "",
-          "line": 11
+          "line": 27
         },
         {
           "name": "lineHeight",
@@ -44,7 +144,7 @@
           "type": "string",
           "optional": false,
           "description": "",
-          "line": 12
+          "line": 28
         },
         {
           "name": "name",
@@ -53,7 +153,7 @@
           "type": "string",
           "optional": false,
           "description": "",
-          "line": 6
+          "line": 22
         },
         {
           "name": "size",
@@ -62,7 +162,7 @@
           "type": "string",
           "optional": false,
           "description": "",
-          "line": 8
+          "line": 24
         },
         {
           "name": "weight",
@@ -71,7 +171,7 @@
           "type": "string",
           "optional": false,
           "description": "",
-          "line": 9
+          "line": 25
         }
       ],
       "indexSignatures": [],
@@ -79,7 +179,144 @@
       "methods": []
     }
   ],
-  "injectables": [],
+  "injectables": [
+    {
+      "name": "ColorHelperService",
+      "id": "injectable-ColorHelperService-11ecebaf70797636eff02a02c0836fb7",
+      "file": "libs/ui-watt/src/lib/foundations/color/color-helper.service.ts",
+      "properties": [
+        {
+          "name": "colorContrastSuffix",
+          "defaultValue": "'contrast'",
+          "deprecated": false,
+          "deprecationMessage": "",
+          "type": "string",
+          "optional": false,
+          "description": "",
+          "line": 28,
+          "modifierKind": [121]
+        }
+      ],
+      "methods": [
+        {
+          "name": "getColor",
+          "args": [
+            {
+              "name": "colorName",
+              "type": "Colors",
+              "deprecated": false,
+              "deprecationMessage": ""
+            }
+          ],
+          "optional": false,
+          "returnType": "string",
+          "typeParameters": [],
+          "line": 35,
+          "deprecated": false,
+          "deprecationMessage": "",
+          "modifierKind": [123],
+          "jsdoctags": [
+            {
+              "name": "colorName",
+              "type": "Colors",
+              "deprecated": false,
+              "deprecationMessage": "",
+              "tagName": {
+                "text": "param"
+              }
+            }
+          ]
+        },
+        {
+          "name": "getColorContrast",
+          "args": [
+            {
+              "name": "colorName",
+              "type": "Colors",
+              "deprecated": false,
+              "deprecationMessage": ""
+            }
+          ],
+          "optional": false,
+          "returnType": "string",
+          "typeParameters": [],
+          "line": 39,
+          "deprecated": false,
+          "deprecationMessage": "",
+          "modifierKind": [123],
+          "jsdoctags": [
+            {
+              "name": "colorName",
+              "type": "Colors",
+              "deprecated": false,
+              "deprecationMessage": "",
+              "tagName": {
+                "text": "param"
+              }
+            }
+          ]
+        },
+        {
+          "name": "getComputedStyle",
+          "args": [],
+          "optional": false,
+          "returnType": "any",
+          "typeParameters": [],
+          "line": 45,
+          "deprecated": false,
+          "deprecationMessage": "",
+          "modifierKind": [121]
+        }
+      ],
+      "deprecated": false,
+      "deprecationMessage": "",
+      "description": "",
+      "rawdescription": "\n",
+      "sourceCode": "import { DOCUMENT } from '@angular/common';\r\nimport {\r\n  Inject,\r\n  Injectable,\r\n} from '@angular/core';\r\nimport { Colors } from './colors';\r\n\r\n@Injectable({\r\n  providedIn: 'root',\r\n})\r\nexport class ColorHelperService {\r\n  private colorContrastSuffix = 'contrast';\r\n\r\n  constructor(\r\n    @Inject(DOCUMENT) private document: Document,\r\n    private window: Window\r\n  ) {}\r\n\r\n  public getColor(colorName: Colors): string {\r\n    return this.getComputedStyle().getPropertyValue(colorName);\r\n  }\r\n\r\n  public getColorContrast(colorName: Colors): string {\r\n    return this.getComputedStyle().getPropertyValue(\r\n      `${colorName}-${this.colorContrastSuffix}`\r\n    );\r\n  }\r\n\r\n  private getComputedStyle() {\r\n    return this.window.getComputedStyle(this.document.documentElement);\r\n  }\r\n}\r\n",
+      "constructorObj": {
+        "name": "constructor",
+        "description": "",
+        "deprecated": false,
+        "deprecationMessage": "",
+        "args": [
+          {
+            "name": "document",
+            "type": "Document",
+            "deprecated": false,
+            "deprecationMessage": ""
+          },
+          {
+            "name": "window",
+            "type": "Window",
+            "deprecated": false,
+            "deprecationMessage": ""
+          }
+        ],
+        "line": 28,
+        "jsdoctags": [
+          {
+            "name": "document",
+            "type": "Document",
+            "deprecated": false,
+            "deprecationMessage": "",
+            "tagName": {
+              "text": "param"
+            }
+          },
+          {
+            "name": "window",
+            "type": "Window",
+            "deprecated": false,
+            "deprecationMessage": "",
+            "tagName": {
+              "text": "param"
+            }
+          }
+        ]
+      },
+      "type": "injectable"
+    }
+  ],
   "guards": [],
   "interceptors": [],
   "classes": [],
@@ -87,7 +324,7 @@
   "components": [
     {
       "name": "AutocompleteComponent",
-      "id": "component-AutocompleteComponent-f22c615bec897a10f2ec9e1d29c79b38",
+      "id": "component-AutocompleteComponent-07721dc8f00d020a055fe131e5f1a637",
       "file": "libs/ui-watt/src/lib/components/autocomplete/autocomplete.component.ts",
       "changeDetection": "ChangeDetectionStrategy.OnPush",
       "encapsulation": [],
@@ -108,15 +345,15 @@
           "deprecationMessage": "",
           "jsdoctags": [
             {
-              "pos": 488,
-              "end": 502,
+              "pos": 1123,
+              "end": 1137,
               "flags": 4227072,
               "modifierFlagsCache": 0,
               "transformFlags": 0,
               "kind": 322,
               "tagName": {
-                "pos": 489,
-                "end": 497,
+                "pos": 1124,
+                "end": 1132,
                 "flags": 4227072,
                 "modifierFlagsCache": 0,
                 "transformFlags": 0,
@@ -128,7 +365,7 @@
           ],
           "rawdescription": "Sets the label for the autocomplete.",
           "description": "<p>Sets the label for the autocomplete.</p>\n",
-          "line": 20,
+          "line": 36,
           "type": "string"
         },
         {
@@ -138,7 +375,7 @@
           "deprecationMessage": "",
           "rawdescription": "\r\nSets the options for the autocomplete.",
           "description": "<p>Sets the options for the autocomplete.</p>\n",
-          "line": 31,
+          "line": 47,
           "type": "string[]"
         },
         {
@@ -148,15 +385,15 @@
           "deprecationMessage": "",
           "jsdoctags": [
             {
-              "pos": 598,
-              "end": 612,
+              "pos": 1232,
+              "end": 1246,
               "flags": 4227072,
               "modifierFlagsCache": 0,
               "transformFlags": 0,
               "kind": 322,
               "tagName": {
-                "pos": 599,
-                "end": 607,
+                "pos": 1233,
+                "end": 1241,
                 "flags": 4227072,
                 "modifierFlagsCache": 0,
                 "transformFlags": 0,
@@ -168,7 +405,7 @@
           ],
           "rawdescription": "Sets the placeholder for the autocomplete.",
           "description": "<p>Sets the placeholder for the autocomplete.</p>\n",
-          "line": 26,
+          "line": 42,
           "type": "string"
         }
       ],
@@ -182,16 +419,78 @@
       "description": "",
       "rawdescription": "\n",
       "type": "component",
-      "sourceCode": "import { Component, ChangeDetectionStrategy, Input } from '@angular/core';\r\nimport { FormControl } from '@angular/forms';\r\n\r\n@Component({\r\n  selector: 'watt-autocomplete',\r\n  templateUrl: './autocomplete.component.html',\r\n  styleUrls: ['./autocomplete.component.scss'],\r\n  changeDetection: ChangeDetectionStrategy.OnPush\r\n})\r\nexport class AutocompleteComponent {\r\n  /**\r\n   * @ignore\r\n   */\r\n  myControl = new FormControl();\r\n  /**\r\n   * Sets the label for the autocomplete.\r\n   * \r\n   * @required\r\n   */\r\n  @Input() label = '';\r\n  /**\r\n   * Sets the placeholder for the autocomplete.\r\n   * \r\n   * @required\r\n   */\r\n  @Input() placeholder = '';\r\n  /**\r\n   * \r\n   * Sets the options for the autocomplete.\r\n   */\r\n  @Input() options: string[] = [];\r\n}\r\n",
+      "sourceCode": "import { ChangeDetectionStrategy, Component, Input } from '@angular/core';\r\nimport { FormControl } from '@angular/forms';\r\n\r\n@Component({\r\n  selector: 'watt-autocomplete',\r\n  templateUrl: './autocomplete.component.html',\r\n  styleUrls: ['./autocomplete.component.scss'],\r\n  changeDetection: ChangeDetectionStrategy.OnPush,\r\n})\r\nexport class AutocompleteComponent {\r\n  /**\r\n   * @ignore\r\n   */\r\n  myControl = new FormControl();\r\n  /**\r\n   * Sets the label for the autocomplete.\r\n   *\r\n   * @required\r\n   */\r\n  @Input() label = '';\r\n  /**\r\n   * Sets the placeholder for the autocomplete.\r\n   *\r\n   * @required\r\n   */\r\n  @Input() placeholder = '';\r\n  /**\r\n   *\r\n   * Sets the options for the autocomplete.\r\n   */\r\n  @Input() options: string[] = [];\r\n}\r\n",
       "assetsDirs": [],
       "styleUrlsData": [
         {
-          "data": ":host {\r\n  display: block;\r\n}\r\n",
+          "data": "/**\r\n * @license\r\n * Copyright 2021 Energinet DataHub A/S\r\n *\r\n * Licensed under the Apache License, Version 2.0 (the \"License2\");\r\n * you may not use this file except in compliance with the License.\r\n * You may obtain a copy of the License at\r\n *\r\n *     http://www.apache.org/licenses/LICENSE-2.0\r\n *\r\n * Unless required by applicable law or agreed to in writing, software\r\n * distributed under the License is distributed on an \"AS IS\" BASIS,\r\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\r\n * See the License for the specific language governing permissions and\r\n * limitations under the License.\r\n */\r\n:host {\r\n  display: block;\r\n}\r\n",
           "styleUrl": "./autocomplete.component.scss"
         }
       ],
       "stylesData": "",
-      "templateData": "<mat-form-field appearance=\"fill\">\r\n    <mat-label>{{label}}</mat-label>\r\n    <input type=\"text\"\r\n            [placeholder]=\"placeholder\"\r\n            [attr.aria-label]=\"label\"\r\n            matInput\r\n            [formControl]=\"myControl\"\r\n            [matAutocomplete]=\"auto\">\r\n    <mat-autocomplete #auto=\"matAutocomplete\">\r\n    <mat-option *ngFor=\"let option of options\" [value]=\"option\">\r\n        {{option}}\r\n    </mat-option>\r\n    </mat-autocomplete>\r\n</mat-form-field>"
+      "templateData": "<!--\r\n@license\r\nCopyright 2021 Energinet DataHub A/S\r\n\r\nLicensed under the Apache License, Version 2.0 (the \"License2\");\r\nyou may not use this file except in compliance with the License.\r\nYou may obtain a copy of the License at\r\n\r\n    http://www.apache.org/licenses/LICENSE-2.0\r\n\r\nUnless required by applicable law or agreed to in writing, software\r\ndistributed under the License is distributed on an \"AS IS\" BASIS,\r\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\r\nSee the License for the specific language governing permissions and\r\nlimitations under the License.\r\n-->\r\n<mat-form-field appearance=\"fill\">\r\n  <mat-label>{{ label }}</mat-label>\r\n  <input\r\n    type=\"text\"\r\n    [placeholder]=\"placeholder\"\r\n    [attr.aria-label]=\"label\"\r\n    matInput\r\n    [formControl]=\"myControl\"\r\n    [matAutocomplete]=\"auto\"\r\n  />\r\n  <mat-autocomplete #auto=\"matAutocomplete\">\r\n    <mat-option *ngFor=\"let option of options\" [value]=\"option\">\r\n      {{ option }}\r\n    </mat-option>\r\n  </mat-autocomplete>\r\n</mat-form-field>\r\n"
+    },
+    {
+      "name": "ColorComponent",
+      "id": "component-ColorComponent-61d8d33887d4f9d90b9865c75e8a1bf2",
+      "file": "libs/ui-watt/src/lib/foundations/color/storybook/color.component.ts",
+      "encapsulation": [],
+      "entryComponents": [],
+      "inputs": [],
+      "outputs": [],
+      "providers": [],
+      "selector": "watt-color",
+      "styleUrls": ["./color.component.scss"],
+      "styles": [],
+      "templateUrl": ["./color.component.html"],
+      "viewProviders": [],
+      "inputsClass": [],
+      "outputsClass": [],
+      "propertiesClass": [],
+      "methodsClass": [],
+      "deprecated": false,
+      "deprecationMessage": "",
+      "hostBindings": [],
+      "hostListeners": [],
+      "description": "",
+      "rawdescription": "\n",
+      "type": "component",
+      "sourceCode": "import { Component } from '@angular/core';\r\nimport { ColorHelperService } from '../color-helper.service';\r\nimport { Colors } from '../colors';\r\n\r\ninterface ColorType {\r\n  name: string;\r\n  title: string;\r\n  description?: string;\r\n  colors: Color[];\r\n}\r\ninterface Color {\r\n  name: string;\r\n  var: string;\r\n  color: string;\r\n  contrast: string;\r\n}\r\n@Component({\r\n  selector: 'watt-color',\r\n  templateUrl: './color.component.html',\r\n  styleUrls: ['./color.component.scss'],\r\n})\r\nexport class ColorComponent {\r\n  /**\r\n   * @ignore\r\n   */\r\n  colorTypes: ColorType[] = [\r\n    {\r\n      name: 'primary',\r\n      title: 'Primary Colors',\r\n      description:\r\n        'The primary colors are the brand colors that are main colors used on central elements like primary buttons and in the main navigation.',\r\n      colors: [\r\n        this.getColor('primary', Colors.primary),\r\n        this.getColor('primary-dark', Colors.primaryDark),\r\n      ],\r\n    },\r\n    {\r\n      name: 'focus',\r\n      title: 'Focus Colors',\r\n      colors: [\r\n        this.getColor('focus', Colors.focus),\r\n        this.getColor('selection', Colors.selection),\r\n      ],\r\n    },\r\n    {\r\n      name: 'neutral',\r\n      title: 'Neutral Colors',\r\n      colors: [\r\n        this.getColor('black', Colors.black),\r\n        this.getColor('white', Colors.white),\r\n        this.getColor('grey-50', Colors.grey50),\r\n        this.getColor('grey-100', Colors.grey100),\r\n        this.getColor('grey-200', Colors.grey200),\r\n        this.getColor('grey-300', Colors.grey300),\r\n        this.getColor('grey-400', Colors.grey400),\r\n        this.getColor('grey-500', Colors.grey500),\r\n        this.getColor('grey-600', Colors.grey600),\r\n        this.getColor('grey-700', Colors.grey700),\r\n        this.getColor('grey-800', Colors.grey800),\r\n        this.getColor('grey-900', Colors.grey900),\r\n      ],\r\n    },\r\n    {\r\n      name: 'state',\r\n      title: 'State Colors',\r\n      description:\r\n        'State color helps users find people, identify status, see actions, locate help, and understand next steps. The consistent use of color keeps cognitive load low and makes for a unified and engaging user experience.',\r\n      colors: [\r\n        this.getColor('danger', Colors.danger),\r\n        this.getColor('warning', Colors.warning),\r\n        this.getColor('success', Colors.success),\r\n        this.getColor('info', Colors.info),\r\n        this.getColor('danger-light', Colors.dangerLight),\r\n        this.getColor('warning-light', Colors.warningLight),\r\n        this.getColor('success-light', Colors.successLight),\r\n        this.getColor('info-light', Colors.infoLight),\r\n      ],\r\n    },\r\n  ];\r\n\r\n  constructor(private colorHelperService: ColorHelperService) {}\r\n\r\n  /**\r\n   * @ignore\r\n   */\r\n  copyToClipboard(color: string) {\r\n    `var(${navigator.clipboard.writeText(color)})`;\r\n  }\r\n\r\n  /**\r\n   * @ignore\r\n   */\r\n   private getColor(name: string, color: Colors) {\r\n    return {\r\n      name,\r\n      var: color,\r\n      color: this.colorHelperService.getColor(color),\r\n      contrast: this.colorHelperService.getColorContrast(color),\r\n    };\r\n  }\r\n}\r\n",
+      "assetsDirs": [],
+      "styleUrlsData": [
+        {
+          "data": "/**\n * @license\n * Copyright 2021 Energinet DataHub A/S\n *\n * Licensed under the Apache License, Version 2.0 (the \"License2\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *     http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n:host {\r\n    background: var(--watt-color-neutral-grey-300);\r\n    display: block;\r\n    width: 100%;\r\n    padding: 1rem;\r\n    margin: -1rem;\r\n}\r\n\r\nmat-card {\r\n    margin-bottom: 8px;\r\n}\r\n\r\n.color-grid {\r\n    display: flex;\r\n    flex-wrap: wrap;\r\n    max-width: 688px;\r\n}\r\n\r\nfigure {\r\n    margin: 10px;\r\n}\r\n\r\n.color-sample {\r\n    position: relative;\r\n    height: 150px;\r\n    width: 150px;\r\n    display: flex;\r\n    justify-content: center;\r\n    align-items: center;\r\n    text-align: center;\r\n    border: 1px solid var(--watt-color-neutral-grey-300);\r\n    \r\n    &:hover:before {\r\n        position: absolute;\r\n        content: 'Copy to clipboard';\r\n        width: 100%;\r\n        height: 100%;\r\n        display: flex;\r\n        justify-content: center;\r\n        align-items: center;\r\n        text-align: center;\r\n        background-color: var(--watt-color-focus-selection);\r\n        color: var(--watt-color-focus-selection-contrast);\r\n    }\r\n}",
+          "styleUrl": "./color.component.scss"
+        }
+      ],
+      "stylesData": "",
+      "constructorObj": {
+        "name": "constructor",
+        "description": "",
+        "deprecated": false,
+        "deprecationMessage": "",
+        "args": [
+          {
+            "name": "colorHelperService",
+            "type": "ColorHelperService",
+            "deprecated": false,
+            "deprecationMessage": ""
+          }
+        ],
+        "line": 95,
+        "jsdoctags": [
+          {
+            "name": "colorHelperService",
+            "type": "ColorHelperService",
+            "deprecated": false,
+            "deprecationMessage": "",
+            "tagName": {
+              "text": "param"
+            }
+          }
+        ]
+      },
+      "templateData": "<!--\n@license\nCopyright 2021 Energinet DataHub A/S\n\nLicensed under the Apache License, Version 2.0 (the \"License2\");\nyou may not use this file except in compliance with the License.\nYou may obtain a copy of the License at\n\n    http://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software\ndistributed under the License is distributed on an \"AS IS\" BASIS,\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\nSee the License for the specific language governing permissions and\nlimitations under the License.\n-->\n<mat-card>\r\n  <h1>Color</h1>\r\n</mat-card>\r\n\r\n<mat-card *ngFor=\"let type of colorTypes\">\r\n  <h3>{{ type.title }}</h3>\r\n  <p>{{ type.description }}</p>\r\n\r\n  <div class=\"color-grid\">\r\n    <figure\r\n      *ngFor=\"let color of type.colors\"\r\n      (click)=\"copyToClipboard(color.var)\"\r\n    >\r\n      <div\r\n        class=\"color-sample\"\r\n        [style.backgroundColor]=\"color.color\"\r\n        [style.color]=\"color.contrast\"\r\n      >\r\n        {{ color.var }}\r\n      </div>\r\n      <figcaption class=\"watt-label\">{{ color.name }}</figcaption>\r\n    </figure>\r\n  </div>\r\n</mat-card>\r\n"
     },
     {
       "name": "ShellComponent",
@@ -222,12 +521,12 @@
       "assetsDirs": [],
       "styleUrlsData": [
         {
-          "data": ":host {\r\n  display: block;\r\n}\r\n\r\n.sidenav-container {\r\n  height: 100vh;\r\n}\r\n\r\n.sidenav {\r\n  width: 200px;\r\n}\r\n",
+          "data": "/**\n * @license\n * Copyright 2021 Energinet DataHub A/S\n *\n * Licensed under the Apache License, Version 2.0 (the \"License2\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *     http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n:host {\r\n  display: block;\r\n}\r\n\r\n.sidenav-container {\r\n  height: 100vh;\r\n}\r\n\r\n.sidenav {\r\n  width: 200px;\r\n}\r\n",
           "styleUrl": "./shell.component.scss"
         }
       ],
       "stylesData": "",
-      "templateData": "<mat-sidenav-container class=\"sidenav-container\">\r\n  <mat-sidenav\r\n    class=\"sidenav\"\r\n    [mode]=\"sidenavMode\"\r\n    [opened]=\"sidenavOpened\"\r\n    role=\"navigation\"\r\n  >\r\n    <ng-content select=\"[watt-shell-sidenav]\"></ng-content>\r\n  </mat-sidenav>\r\n\r\n  <mat-sidenav-content>\r\n    <mat-toolbar>\r\n      <ng-content select=\"[watt-shell-toolbar]\"></ng-content>\r\n    </mat-toolbar>\r\n\r\n    <main class=\"main-content\">\r\n      <ng-content></ng-content>\r\n    </main>\r\n  </mat-sidenav-content>\r\n</mat-sidenav-container>\r\n"
+      "templateData": "<!--\n@license\nCopyright 2021 Energinet DataHub A/S\n\nLicensed under the Apache License, Version 2.0 (the \"License2\");\nyou may not use this file except in compliance with the License.\nYou may obtain a copy of the License at\n\n    http://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software\ndistributed under the License is distributed on an \"AS IS\" BASIS,\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\nSee the License for the specific language governing permissions and\nlimitations under the License.\n-->\n<mat-sidenav-container class=\"sidenav-container\">\r\n  <mat-sidenav\r\n    class=\"sidenav\"\r\n    [mode]=\"sidenavMode\"\r\n    [opened]=\"sidenavOpened\"\r\n    role=\"navigation\"\r\n  >\r\n    <ng-content select=\"[watt-shell-sidenav]\"></ng-content>\r\n  </mat-sidenav>\r\n\r\n  <mat-sidenav-content>\r\n    <mat-toolbar>\r\n      <ng-content select=\"[watt-shell-toolbar]\"></ng-content>\r\n    </mat-toolbar>\r\n\r\n    <main class=\"main-content\">\r\n      <ng-content></ng-content>\r\n    </main>\r\n  </mat-sidenav-content>\r\n</mat-sidenav-container>\r\n"
     },
     {
       "name": "TypographyComponent",
@@ -258,12 +557,12 @@
       "assetsDirs": [],
       "styleUrlsData": [
         {
-          "data": ":host {\r\n  background: #e5e5e5;\r\n  display: block;\r\n  width: 100%;\r\n  padding: 1rem;\r\n  margin: -1rem;\r\n}\r\n\r\nmat-card {\r\n  margin-bottom: 8px;\r\n}\r\n",
+          "data": "/**\r\n * @license\r\n * Copyright 2021 Energinet DataHub A/S\r\n *\r\n * Licensed under the Apache License, Version 2.0 (the \"License2\");\r\n * you may not use this file except in compliance with the License.\r\n * You may obtain a copy of the License at\r\n *\r\n *     http://www.apache.org/licenses/LICENSE-2.0\r\n *\r\n * Unless required by applicable law or agreed to in writing, software\r\n * distributed under the License is distributed on an \"AS IS\" BASIS,\r\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\r\n * See the License for the specific language governing permissions and\r\n * limitations under the License.\r\n */\r\n:host {\r\n  background: #e5e5e5;\r\n  display: block;\r\n  width: 100%;\r\n  padding: 1rem;\r\n  margin: -1rem;\r\n}\r\n\r\nmat-card {\r\n  margin-bottom: 8px;\r\n}\r\n",
           "styleUrl": "./typography.component.scss"
         }
       ],
       "stylesData": "",
-      "templateData": "<mat-card>\r\n  <h1>Typography</h1>\r\n</mat-card>\r\n\r\n<mat-card>\r\n  <h3>Font</h3>\r\n  <p>\r\n    <strong>Open Sans</strong> is the typeface used in the Watts Design System.\r\n  </p>\r\n</mat-card>\r\n\r\n<mat-card>\r\n  <h3>Type Scale</h3>\r\n  <p>\r\n    Font sizes are smaller on mobile and scale up at the md breakpoint to be\r\n    larger on desktop.\r\n  </p>\r\n\r\n  <table mat-table [dataSource]=\"dataSource\" style=\"width: 100%\">\r\n    <!--- Note that these columns can be defined in any order.\r\n            The actual rendered columns are set as a property on the row definition\" -->\r\n\r\n    <!-- Name Column -->\r\n    <ng-container matColumnDef=\"name\">\r\n      <th mat-header-cell *matHeaderCellDef>Name</th>\r\n      <td\r\n        mat-cell\r\n        *matCellDef=\"let element\"\r\n        innerHTML=\"{{ element.html }}\"\r\n      ></td>\r\n    </ng-container>\r\n\r\n    <!-- Size Column -->\r\n    <ng-container matColumnDef=\"size\">\r\n      <th mat-header-cell *matHeaderCellDef>Size</th>\r\n      <td mat-cell *matCellDef=\"let element\">{{ element.size }}</td>\r\n    </ng-container>\r\n\r\n    <!-- Weight Column -->\r\n    <ng-container matColumnDef=\"weight\">\r\n      <th mat-header-cell *matHeaderCellDef>Weight</th>\r\n      <td mat-cell *matCellDef=\"let element\">{{ element.weight }}</td>\r\n    </ng-container>\r\n\r\n    <!-- Letter Case Column -->\r\n    <ng-container matColumnDef=\"letterCase\">\r\n      <th mat-header-cell *matHeaderCellDef>Letter Case</th>\r\n      <td mat-cell *matCellDef=\"let element\">{{ element.letterCase }}</td>\r\n    </ng-container>\r\n\r\n    <!-- Letter Spacing Column -->\r\n    <ng-container matColumnDef=\"letterSpacing\">\r\n      <th mat-header-cell *matHeaderCellDef>Letter Spacing</th>\r\n      <td mat-cell *matCellDef=\"let element\">{{ element.letterSpacing }}</td>\r\n    </ng-container>\r\n\r\n    <!-- Line height Column -->\r\n    <ng-container matColumnDef=\"lineHeight\">\r\n      <th mat-header-cell *matHeaderCellDef>Line Height</th>\r\n      <td mat-cell *matCellDef=\"let element\">{{ element.lineHeight }}</td>\r\n    </ng-container>\r\n\r\n    <tr mat-header-row *matHeaderRowDef=\"displayedColumns\"></tr>\r\n    <tr mat-row *matRowDef=\"let row; columns: displayedColumns\"></tr>\r\n  </table>\r\n\r\n  <p>\r\n    * Line height is set to the recommended minimum of 1.5 times the font size\r\n    by WCAG 2.1.\r\n  </p>\r\n</mat-card>\r\n"
+      "templateData": "<!--\r\n@license\r\nCopyright 2021 Energinet DataHub A/S\r\n\r\nLicensed under the Apache License, Version 2.0 (the \"License2\");\r\nyou may not use this file except in compliance with the License.\r\nYou may obtain a copy of the License at\r\n\r\n    http://www.apache.org/licenses/LICENSE-2.0\r\n\r\nUnless required by applicable law or agreed to in writing, software\r\ndistributed under the License is distributed on an \"AS IS\" BASIS,\r\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\r\nSee the License for the specific language governing permissions and\r\nlimitations under the License.\r\n-->\r\n<mat-card>\r\n  <h1>Typography</h1>\r\n</mat-card>\r\n\r\n<mat-card>\r\n  <h3>Font</h3>\r\n  <p>\r\n    <strong>Open Sans</strong> is the typeface used in the Watts Design System.\r\n  </p>\r\n</mat-card>\r\n\r\n<mat-card>\r\n  <h3>Type Scale</h3>\r\n  <p>\r\n    Font sizes are smaller on mobile and scale up at the md breakpoint to be\r\n    larger on desktop.\r\n  </p>\r\n\r\n  <table mat-table [dataSource]=\"dataSource\" style=\"width: 100%\">\r\n    <!--- Note that these columns can be defined in any order.\r\n            The actual rendered columns are set as a property on the row definition\" -->\r\n\r\n    <!-- Name Column -->\r\n    <ng-container matColumnDef=\"name\">\r\n      <th mat-header-cell *matHeaderCellDef>Name</th>\r\n      <td\r\n        mat-cell\r\n        *matCellDef=\"let element\"\r\n        innerHTML=\"{{ element.html }}\"\r\n      ></td>\r\n    </ng-container>\r\n\r\n    <!-- Size Column -->\r\n    <ng-container matColumnDef=\"size\">\r\n      <th mat-header-cell *matHeaderCellDef>Size</th>\r\n      <td mat-cell *matCellDef=\"let element\">{{ element.size }}</td>\r\n    </ng-container>\r\n\r\n    <!-- Weight Column -->\r\n    <ng-container matColumnDef=\"weight\">\r\n      <th mat-header-cell *matHeaderCellDef>Weight</th>\r\n      <td mat-cell *matCellDef=\"let element\">{{ element.weight }}</td>\r\n    </ng-container>\r\n\r\n    <!-- Letter Case Column -->\r\n    <ng-container matColumnDef=\"letterCase\">\r\n      <th mat-header-cell *matHeaderCellDef>Letter Case</th>\r\n      <td mat-cell *matCellDef=\"let element\">{{ element.letterCase }}</td>\r\n    </ng-container>\r\n\r\n    <!-- Letter Spacing Column -->\r\n    <ng-container matColumnDef=\"letterSpacing\">\r\n      <th mat-header-cell *matHeaderCellDef>Letter Spacing</th>\r\n      <td mat-cell *matCellDef=\"let element\">{{ element.letterSpacing }}</td>\r\n    </ng-container>\r\n\r\n    <!-- Line height Column -->\r\n    <ng-container matColumnDef=\"lineHeight\">\r\n      <th mat-header-cell *matHeaderCellDef>Line Height</th>\r\n      <td mat-cell *matCellDef=\"let element\">{{ element.lineHeight }}</td>\r\n    </ng-container>\r\n\r\n    <tr mat-header-row *matHeaderRowDef=\"displayedColumns\"></tr>\r\n    <tr mat-row *matRowDef=\"let row; columns: displayedColumns\"></tr>\r\n  </table>\r\n\r\n  <p>\r\n    * Line height is set to the recommended minimum of 1.5 times the font size\r\n    by WCAG 2.1.\r\n  </p>\r\n</mat-card>\r\n"
     }
   ],
   "modules": [
@@ -275,7 +574,7 @@
       "deprecated": false,
       "file": "libs/ui-watt/src/lib/components/autocomplete/autocomplete.module.ts",
       "methods": [],
-      "sourceCode": "import { CommonModule } from '@angular/common';\r\nimport { NgModule } from '@angular/core';\r\nimport { ReactiveFormsModule } from '@angular/forms';\r\nimport { MatAutocompleteModule } from '@angular/material/autocomplete';\r\nimport { MatFormFieldModule } from '@angular/material/form-field';\r\nimport { MatInputModule } from '@angular/material/input';\r\n\r\nimport { AutocompleteComponent } from './autocomplete.component';\r\n\r\n@NgModule({\r\n  declarations: [AutocompleteComponent],\r\n  exports: [AutocompleteComponent],\r\n  imports: [\r\n    CommonModule,\r\n    ReactiveFormsModule,\r\n    MatAutocompleteModule,\r\n    MatFormFieldModule,\r\n    MatInputModule,\r\n  ],\r\n})\r\nexport class AutocompleteModule {}\r\n",
+      "sourceCode": "/**\n * @license\n * Copyright 2021 Energinet DataHub A/S\n *\n * Licensed under the Apache License, Version 2.0 (the \"License2\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *     http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\nimport { CommonModule } from '@angular/common';\r\nimport { NgModule } from '@angular/core';\r\nimport { ReactiveFormsModule } from '@angular/forms';\r\nimport { MatAutocompleteModule } from '@angular/material/autocomplete';\r\nimport { MatFormFieldModule } from '@angular/material/form-field';\r\nimport { MatInputModule } from '@angular/material/input';\r\n\r\nimport { AutocompleteComponent } from './autocomplete.component';\r\n\r\n@NgModule({\r\n  declarations: [AutocompleteComponent],\r\n  exports: [AutocompleteComponent],\r\n  imports: [\r\n    CommonModule,\r\n    ReactiveFormsModule,\r\n    MatAutocompleteModule,\r\n    MatFormFieldModule,\r\n    MatInputModule,\r\n  ],\r\n})\r\nexport class AutocompleteModule {}\r\n",
       "children": [
         {
           "type": "providers",
@@ -312,6 +611,50 @@
       ]
     },
     {
+      "name": "ColorModule",
+      "id": "module-ColorModule-d701a50ad2e2ac7dc626faa5b7180e02",
+      "description": "",
+      "deprecationMessage": "",
+      "deprecated": false,
+      "file": "libs/ui-watt/src/lib/foundations/color/storybook/color.module.ts",
+      "methods": [],
+      "sourceCode": "/**\n * @license\n * Copyright 2021 Energinet DataHub A/S\n *\n * Licensed under the Apache License, Version 2.0 (the \"License2\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *     http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\nimport { CommonModule } from '@angular/common';\r\nimport { NgModule } from '@angular/core';\r\nimport { MatCardModule } from '@angular/material/card';\r\nimport { ColorComponent } from './color.component';\r\n\r\n@NgModule({\r\n    imports: [CommonModule, MatCardModule],\r\n    declarations: [ColorComponent],\r\n    providers: [\r\n        { provide: Window, useValue: window }\r\n    ],\r\n    exports: [ColorComponent]\r\n})\r\nexport class ColorModule {}\r\n",
+      "children": [
+        {
+          "type": "providers",
+          "elements": []
+        },
+        {
+          "type": "declarations",
+          "elements": [
+            {
+              "name": "ColorComponent"
+            }
+          ]
+        },
+        {
+          "type": "imports",
+          "elements": []
+        },
+        {
+          "type": "exports",
+          "elements": [
+            {
+              "name": "ColorComponent"
+            }
+          ]
+        },
+        {
+          "type": "bootstrap",
+          "elements": []
+        },
+        {
+          "type": "classes",
+          "elements": []
+        }
+      ]
+    },
+    {
       "name": "ShellModule",
       "id": "module-ShellModule-519a0e6324f7968e33af992a45000580",
       "description": "",
@@ -319,7 +662,7 @@
       "deprecated": false,
       "file": "libs/ui-watt/src/lib/components/shell/shell.module.ts",
       "methods": [],
-      "sourceCode": "import { NgModule } from '@angular/core';\r\nimport { MatSidenavModule } from '@angular/material/sidenav';\r\nimport { MatToolbarModule } from '@angular/material/toolbar';\r\n\r\nimport { ShellComponent } from './shell.component';\r\n\r\n@NgModule({\r\n  declarations: [ShellComponent],\r\n  exports: [ShellComponent],\r\n  imports: [MatSidenavModule, MatToolbarModule],\r\n})\r\nexport class ShellModule {}\r\n",
+      "sourceCode": "/**\n * @license\n * Copyright 2021 Energinet DataHub A/S\n *\n * Licensed under the Apache License, Version 2.0 (the \"License2\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *     http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\nimport { NgModule } from '@angular/core';\r\nimport { MatSidenavModule } from '@angular/material/sidenav';\r\nimport { MatToolbarModule } from '@angular/material/toolbar';\r\n\r\nimport { ShellComponent } from './shell.component';\r\n\r\n@NgModule({\r\n  declarations: [ShellComponent],\r\n  exports: [ShellComponent],\r\n  imports: [MatSidenavModule, MatToolbarModule],\r\n})\r\nexport class ShellModule {}\r\n",
       "children": [
         {
           "type": "providers",
@@ -363,7 +706,7 @@
       "deprecated": false,
       "file": "libs/ui-watt/src/lib/foundations/typography/storybook/typography.module.ts",
       "methods": [],
-      "sourceCode": "import { NgModule } from '@angular/core';\r\nimport { MatCardModule } from '@angular/material/card';\r\nimport { MatTableModule } from '@angular/material/table';\r\n\r\nimport { TypographyComponent } from './typography.component';\r\n\r\n@NgModule({\r\n  declarations: [TypographyComponent],\r\n  exports: [TypographyComponent],\r\n  imports: [MatCardModule, MatTableModule],\r\n})\r\nexport class TypographyModule {}\r\n",
+      "sourceCode": "/**\r\n * @license\r\n * Copyright 2021 Energinet DataHub A/S\r\n *\r\n * Licensed under the Apache License, Version 2.0 (the \"License2\");\r\n * you may not use this file except in compliance with the License.\r\n * You may obtain a copy of the License at\r\n *\r\n *     http://www.apache.org/licenses/LICENSE-2.0\r\n *\r\n * Unless required by applicable law or agreed to in writing, software\r\n * distributed under the License is distributed on an \"AS IS\" BASIS,\r\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\r\n * See the License for the specific language governing permissions and\r\n * limitations under the License.\r\n */\r\nimport { NgModule } from '@angular/core';\r\nimport { MatCardModule } from '@angular/material/card';\r\nimport { MatTableModule } from '@angular/material/table';\r\n\r\nimport { TypographyComponent } from './typography.component';\r\n\r\n@NgModule({\r\n  declarations: [TypographyComponent],\r\n  exports: [TypographyComponent],\r\n  imports: [MatCardModule, MatTableModule],\r\n})\r\nexport class TypographyModule {}\r\n",
       "children": [
         {
           "type": "providers",
@@ -401,13 +744,13 @@
     },
     {
       "name": "WattModule",
-      "id": "module-WattModule-148fa9871c568de72229963f13cd1305",
+      "id": "module-WattModule-067463750d3a6d63307ee9510f558b95",
       "description": "",
       "deprecationMessage": "",
       "deprecated": false,
       "file": "libs/ui-watt/src/lib/ui-watt.module.ts",
       "methods": [],
-      "sourceCode": "import { NgModule } from '@angular/core';\r\n\r\nimport { AutocompleteModule } from './components/autocomplete/autocomplete.module';\r\nimport { ShellModule } from './components/shell/shell.module';\r\n\r\n@NgModule({\r\n  exports: [AutocompleteModule, ShellModule],\r\n})\r\nexport class WattModule {}\r\n",
+      "sourceCode": "/**\n * @license\n * Copyright 2021 Energinet DataHub A/S\n *\n * Licensed under the Apache License, Version 2.0 (the \"License2\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *     http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\nimport { NgModule } from '@angular/core';\r\n\r\nimport { AutocompleteModule } from './components/autocomplete/autocomplete.module';\r\nimport { ShellModule } from './components/shell/shell.module';\r\n\r\n@NgModule({\r\n  providers: [\r\n    { provide: Window, useValue: window }\r\n  ],\r\n  exports: [AutocompleteModule, ShellModule],\r\n})\r\nexport class WattModule {}\r\n",
       "children": [
         {
           "type": "providers",
@@ -494,6 +837,16 @@
         "deprecationMessage": "",
         "type": "",
         "defaultValue": "`\r\nRecommended\r\n${typographyHtmlSnippets.button.tag}\r\n\r\nAlternative\r\n${typographyHtmlSnippets.button.class}\r\n`"
+      },
+      {
+        "name": "Color",
+        "ctype": "miscellaneous",
+        "subtype": "variable",
+        "file": "libs/ui-watt/src/lib/foundations/color/storybook/color.stories.ts",
+        "deprecated": false,
+        "deprecationMessage": "",
+        "type": "",
+        "defaultValue": "Template.bind({})"
       },
       {
         "name": "emptySourceCodeBlock",
@@ -659,6 +1012,16 @@
         "name": "Template",
         "ctype": "miscellaneous",
         "subtype": "variable",
+        "file": "libs/ui-watt/src/lib/foundations/color/storybook/color.stories.ts",
+        "deprecated": false,
+        "deprecationMessage": "",
+        "type": "Story<ColorComponent>",
+        "defaultValue": "(args) => ({\r\n  props: args,\r\n})"
+      },
+      {
+        "name": "Template",
+        "ctype": "miscellaneous",
+        "subtype": "variable",
         "file": "libs/ui-watt/src/lib/foundations/typography/storybook/typography.stories.ts",
         "deprecated": false,
         "deprecationMessage": "",
@@ -743,12 +1106,174 @@
         "deprecated": false,
         "deprecationMessage": "",
         "type": "",
-        "defaultValue": "`\r\n<watt-shell>\r\n  <ng-container sidenav>\r\n    Sidenav\r\n  </ng-container>\r\n\r\n  <ng-container toolbar>\r\n    Toolbar\r\n  </ng-container>\r\n\r\n  Main content\r\n</watt-shell>\r\n`"
+        "defaultValue": "`\r\n<watt-shell>\r\n  <ng-container watt-shell-sidenav>\r\n    Sidenav\r\n  </ng-container>\r\n\r\n  <ng-container watt-shell-toolbar>\r\n    Toolbar\r\n  </ng-container>\r\n\r\n  Main content\r\n</watt-shell>\r\n`"
       }
     ],
     "functions": [],
     "typealiases": [],
-    "enumerations": [],
+    "enumerations": [
+      {
+        "name": "Colors",
+        "childs": [
+          {
+            "name": "primary",
+            "deprecated": false,
+            "deprecationMessage": "",
+            "value": "--watt-color-primary"
+          },
+          {
+            "name": "primaryLight",
+            "deprecated": false,
+            "deprecationMessage": "",
+            "value": "--watt-color-primary-light"
+          },
+          {
+            "name": "primaryDark",
+            "deprecated": false,
+            "deprecationMessage": "",
+            "value": "--watt-color-primary-dark"
+          },
+          {
+            "name": "selection",
+            "deprecated": false,
+            "deprecationMessage": "",
+            "value": "--watt-color-focus-selection"
+          },
+          {
+            "name": "focus",
+            "deprecated": false,
+            "deprecationMessage": "",
+            "value": "--watt-color-focus"
+          },
+          {
+            "name": "black",
+            "deprecated": false,
+            "deprecationMessage": "",
+            "value": "--watt-color-neutral-black"
+          },
+          {
+            "name": "white",
+            "deprecated": false,
+            "deprecationMessage": "",
+            "value": "--watt-color-neutral-white"
+          },
+          {
+            "name": "grey50",
+            "deprecated": false,
+            "deprecationMessage": "",
+            "value": "--watt-color-neutral-grey-50"
+          },
+          {
+            "name": "grey100",
+            "deprecated": false,
+            "deprecationMessage": "",
+            "value": "--watt-color-neutral-grey-100"
+          },
+          {
+            "name": "grey200",
+            "deprecated": false,
+            "deprecationMessage": "",
+            "value": "--watt-color-neutral-grey-200"
+          },
+          {
+            "name": "grey300",
+            "deprecated": false,
+            "deprecationMessage": "",
+            "value": "--watt-color-neutral-grey-300"
+          },
+          {
+            "name": "grey400",
+            "deprecated": false,
+            "deprecationMessage": "",
+            "value": "--watt-color-neutral-grey-400"
+          },
+          {
+            "name": "grey500",
+            "deprecated": false,
+            "deprecationMessage": "",
+            "value": "--watt-color-neutral-grey-500"
+          },
+          {
+            "name": "grey600",
+            "deprecated": false,
+            "deprecationMessage": "",
+            "value": "--watt-color-neutral-grey-600"
+          },
+          {
+            "name": "grey700",
+            "deprecated": false,
+            "deprecationMessage": "",
+            "value": "--watt-color-neutral-grey-700"
+          },
+          {
+            "name": "grey800",
+            "deprecated": false,
+            "deprecationMessage": "",
+            "value": "--watt-color-neutral-grey-800"
+          },
+          {
+            "name": "grey900",
+            "deprecated": false,
+            "deprecationMessage": "",
+            "value": "--watt-color-neutral-grey-900"
+          },
+          {
+            "name": "danger",
+            "deprecated": false,
+            "deprecationMessage": "",
+            "value": "--watt-color-state-danger"
+          },
+          {
+            "name": "dangerLight",
+            "deprecated": false,
+            "deprecationMessage": "",
+            "value": "--watt-color-state-danger-light"
+          },
+          {
+            "name": "warning",
+            "deprecated": false,
+            "deprecationMessage": "",
+            "value": "--watt-color-state-warning"
+          },
+          {
+            "name": "warningLight",
+            "deprecated": false,
+            "deprecationMessage": "",
+            "value": "--watt-color-state-warning-light"
+          },
+          {
+            "name": "success",
+            "deprecated": false,
+            "deprecationMessage": "",
+            "value": "--watt-color-state-success"
+          },
+          {
+            "name": "successLight",
+            "deprecated": false,
+            "deprecationMessage": "",
+            "value": "--watt-color-state-success-light"
+          },
+          {
+            "name": "info",
+            "deprecated": false,
+            "deprecationMessage": "",
+            "value": "--watt-color-state-info"
+          },
+          {
+            "name": "infoLight",
+            "deprecated": false,
+            "deprecationMessage": "",
+            "value": "--watt-color-state-info-light"
+          }
+        ],
+        "ctype": "miscellaneous",
+        "subtype": "enum",
+        "deprecated": false,
+        "deprecationMessage": "",
+        "description": "",
+        "file": "libs/ui-watt/src/lib/foundations/color/colors.ts"
+      }
+    ],
     "groupedVariables": {
       "libs/ui-watt/src/lib/components/autocomplete/autocomplete.component.stories.ts": [
         {
@@ -994,6 +1519,28 @@
           "defaultValue": "Template.bind({})"
         }
       ],
+      "libs/ui-watt/src/lib/foundations/color/storybook/color.stories.ts": [
+        {
+          "name": "Color",
+          "ctype": "miscellaneous",
+          "subtype": "variable",
+          "file": "libs/ui-watt/src/lib/foundations/color/storybook/color.stories.ts",
+          "deprecated": false,
+          "deprecationMessage": "",
+          "type": "",
+          "defaultValue": "Template.bind({})"
+        },
+        {
+          "name": "Template",
+          "ctype": "miscellaneous",
+          "subtype": "variable",
+          "file": "libs/ui-watt/src/lib/foundations/color/storybook/color.stories.ts",
+          "deprecated": false,
+          "deprecationMessage": "",
+          "type": "Story<ColorComponent>",
+          "defaultValue": "(args) => ({\r\n  props: args,\r\n})"
+        }
+      ],
       "libs/ui-watt/src/lib/components/shell/shell.stories.ts": [
         {
           "name": "shell",
@@ -1033,7 +1580,7 @@
           "deprecated": false,
           "deprecationMessage": "",
           "type": "",
-          "defaultValue": "`\r\n<watt-shell>\r\n  <ng-container sidenav>\r\n    Sidenav\r\n  </ng-container>\r\n\r\n  <ng-container toolbar>\r\n    Toolbar\r\n  </ng-container>\r\n\r\n  Main content\r\n</watt-shell>\r\n`"
+          "defaultValue": "`\r\n<watt-shell>\r\n  <ng-container watt-shell-sidenav>\r\n    Sidenav\r\n  </ng-container>\r\n\r\n  <ng-container watt-shell-toolbar>\r\n    Toolbar\r\n  </ng-container>\r\n\r\n  Main content\r\n</watt-shell>\r\n`"
         }
       ],
       "libs/ui-watt/src/lib/foundations/typography/storybook/typography.component.ts": [
@@ -1062,12 +1609,176 @@
       ]
     },
     "groupedFunctions": {},
-    "groupedEnumerations": {},
+    "groupedEnumerations": {
+      "libs/ui-watt/src/lib/foundations/color/colors.ts": [
+        {
+          "name": "Colors",
+          "childs": [
+            {
+              "name": "primary",
+              "deprecated": false,
+              "deprecationMessage": "",
+              "value": "--watt-color-primary"
+            },
+            {
+              "name": "primaryLight",
+              "deprecated": false,
+              "deprecationMessage": "",
+              "value": "--watt-color-primary-light"
+            },
+            {
+              "name": "primaryDark",
+              "deprecated": false,
+              "deprecationMessage": "",
+              "value": "--watt-color-primary-dark"
+            },
+            {
+              "name": "selection",
+              "deprecated": false,
+              "deprecationMessage": "",
+              "value": "--watt-color-focus-selection"
+            },
+            {
+              "name": "focus",
+              "deprecated": false,
+              "deprecationMessage": "",
+              "value": "--watt-color-focus"
+            },
+            {
+              "name": "black",
+              "deprecated": false,
+              "deprecationMessage": "",
+              "value": "--watt-color-neutral-black"
+            },
+            {
+              "name": "white",
+              "deprecated": false,
+              "deprecationMessage": "",
+              "value": "--watt-color-neutral-white"
+            },
+            {
+              "name": "grey50",
+              "deprecated": false,
+              "deprecationMessage": "",
+              "value": "--watt-color-neutral-grey-50"
+            },
+            {
+              "name": "grey100",
+              "deprecated": false,
+              "deprecationMessage": "",
+              "value": "--watt-color-neutral-grey-100"
+            },
+            {
+              "name": "grey200",
+              "deprecated": false,
+              "deprecationMessage": "",
+              "value": "--watt-color-neutral-grey-200"
+            },
+            {
+              "name": "grey300",
+              "deprecated": false,
+              "deprecationMessage": "",
+              "value": "--watt-color-neutral-grey-300"
+            },
+            {
+              "name": "grey400",
+              "deprecated": false,
+              "deprecationMessage": "",
+              "value": "--watt-color-neutral-grey-400"
+            },
+            {
+              "name": "grey500",
+              "deprecated": false,
+              "deprecationMessage": "",
+              "value": "--watt-color-neutral-grey-500"
+            },
+            {
+              "name": "grey600",
+              "deprecated": false,
+              "deprecationMessage": "",
+              "value": "--watt-color-neutral-grey-600"
+            },
+            {
+              "name": "grey700",
+              "deprecated": false,
+              "deprecationMessage": "",
+              "value": "--watt-color-neutral-grey-700"
+            },
+            {
+              "name": "grey800",
+              "deprecated": false,
+              "deprecationMessage": "",
+              "value": "--watt-color-neutral-grey-800"
+            },
+            {
+              "name": "grey900",
+              "deprecated": false,
+              "deprecationMessage": "",
+              "value": "--watt-color-neutral-grey-900"
+            },
+            {
+              "name": "danger",
+              "deprecated": false,
+              "deprecationMessage": "",
+              "value": "--watt-color-state-danger"
+            },
+            {
+              "name": "dangerLight",
+              "deprecated": false,
+              "deprecationMessage": "",
+              "value": "--watt-color-state-danger-light"
+            },
+            {
+              "name": "warning",
+              "deprecated": false,
+              "deprecationMessage": "",
+              "value": "--watt-color-state-warning"
+            },
+            {
+              "name": "warningLight",
+              "deprecated": false,
+              "deprecationMessage": "",
+              "value": "--watt-color-state-warning-light"
+            },
+            {
+              "name": "success",
+              "deprecated": false,
+              "deprecationMessage": "",
+              "value": "--watt-color-state-success"
+            },
+            {
+              "name": "successLight",
+              "deprecated": false,
+              "deprecationMessage": "",
+              "value": "--watt-color-state-success-light"
+            },
+            {
+              "name": "info",
+              "deprecated": false,
+              "deprecationMessage": "",
+              "value": "--watt-color-state-info"
+            },
+            {
+              "name": "infoLight",
+              "deprecated": false,
+              "deprecationMessage": "",
+              "value": "--watt-color-state-info-light"
+            }
+          ],
+          "ctype": "miscellaneous",
+          "subtype": "enum",
+          "deprecated": false,
+          "deprecationMessage": "",
+          "description": "",
+          "file": "libs/ui-watt/src/lib/foundations/color/colors.ts"
+        }
+      ]
+    },
     "groupedTypeAliases": {}
   },
   "routes": [],
   "coverage": {
-    "count": 2,
+    "count": 1,
     "status": "low",
     "files": [
       {
@@ -1144,6 +1855,62 @@
         "linktype": "miscellaneous",
         "linksubtype": "variable",
         "name": "withContentTemplate",
+        "coveragePercent": 0,
+        "coverageCount": "0/1",
+        "status": "low"
+      },
+      {
+        "filePath": "libs/ui-watt/src/lib/foundations/color/color-helper.service.ts",
+        "type": "injectable",
+        "linktype": "injectable",
+        "name": "ColorHelperService",
+        "coveragePercent": 0,
+        "coverageCount": "0/6",
+        "status": "low"
+      },
+      {
+        "filePath": "libs/ui-watt/src/lib/foundations/color/storybook/color.component.ts",
+        "type": "component",
+        "linktype": "component",
+        "name": "ColorComponent",
+        "coveragePercent": 0,
+        "coverageCount": "0/2",
+        "status": "low"
+      },
+      {
+        "filePath": "libs/ui-watt/src/lib/foundations/color/storybook/color.component.ts",
+        "type": "interface",
+        "linktype": "interface",
+        "name": "Color",
+        "coveragePercent": 0,
+        "coverageCount": "0/5",
+        "status": "low"
+      },
+      {
+        "filePath": "libs/ui-watt/src/lib/foundations/color/storybook/color.component.ts",
+        "type": "interface",
+        "linktype": "interface",
+        "name": "ColorType",
+        "coveragePercent": 0,
+        "coverageCount": "0/5",
+        "status": "low"
+      },
+      {
+        "filePath": "libs/ui-watt/src/lib/foundations/color/storybook/color.stories.ts",
+        "type": "variable",
+        "linktype": "miscellaneous",
+        "linksubtype": "variable",
+        "name": "Color",
+        "coveragePercent": 0,
+        "coverageCount": "0/1",
+        "status": "low"
+      },
+      {
+        "filePath": "libs/ui-watt/src/lib/foundations/color/storybook/color.stories.ts",
+        "type": "variable",
+        "linktype": "miscellaneous",
+        "linksubtype": "variable",
+        "name": "Template",
         "coveragePercent": 0,
         "coverageCount": "0/1",
         "status": "low"
