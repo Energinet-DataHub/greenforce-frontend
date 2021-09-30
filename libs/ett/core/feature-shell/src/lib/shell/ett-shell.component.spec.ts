@@ -18,7 +18,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
-import { ShellComponent as WattShellComponent } from '@energinet-datahub/watt';
+import { WattShellComponent } from '@energinet-datahub/watt';
 
 import { EttShellComponent, EttShellScam } from './ett-shell.component';
 
