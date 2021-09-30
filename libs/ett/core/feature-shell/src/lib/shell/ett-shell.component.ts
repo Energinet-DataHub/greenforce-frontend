@@ -16,17 +16,31 @@
  */
 import { Component, NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { ShellModule as WattShellModule } from '@energinet-datahub/watt';
+
+import { EttPrimaryNavigationScam } from './../primary-navigation/ett-primary-navigation.component';
 
 @Component({
-  selector: 'ett-app',
-
+  selector: 'ett-shell',
   styles: [':host { display: block; }'],
-  template: `<router-outlet></router-outlet>`,
+  template: `
+    <watt-shell>
+      <ng-container watt-shell-sidenav>
+        <ett-primary-navigation></ett-primary-navigation>
+      </ng-container>
+
+      <ng-container watt-shell-toolbar>
+        <h1>Energy Track and Trace</h1>
+      </ng-container>
+
+      <router-outlet></router-outlet>
+    </watt-shell>
+  `,
 })
-export class EnergyTrackAndTraceAppComponent {}
+export class EttShellComponent {}
 
 @NgModule({
-  declarations: [EnergyTrackAndTraceAppComponent],
-  imports: [RouterModule],
+  declarations: [EttShellComponent],
+  imports: [RouterModule, WattShellModule, EttPrimaryNavigationScam],
 })
-export class EnergyTrackAndTraceAppScam {}
+export class EttShellScam {}

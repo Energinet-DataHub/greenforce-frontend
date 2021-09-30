@@ -14,19 +14,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
-
-@Component({
-  selector: 'ett-app',
-
-  styles: [':host { display: block; }'],
-  template: `<router-outlet></router-outlet>`,
-})
-export class EnergyTrackAndTraceAppComponent {}
-
-@NgModule({
-  declarations: [EnergyTrackAndTraceAppComponent],
-  imports: [RouterModule],
-})
-export class EnergyTrackAndTraceAppScam {}
+export { EttCoreFeatureShellModule } from './lib/ett-core-feature-shell.module';

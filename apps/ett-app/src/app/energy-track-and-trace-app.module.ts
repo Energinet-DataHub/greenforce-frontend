@@ -15,7 +15,8 @@
  * limitations under the License.
  */
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { EttCoreFeatureShellModule } from '@energinet-datahub/ett/core/feature-shell';
 
 import {
   EnergyTrackAndTraceAppComponent,
@@ -24,6 +25,10 @@ import {
 
 @NgModule({
   bootstrap: [EnergyTrackAndTraceAppComponent],
-  imports: [BrowserModule, EnergyTrackAndTraceAppScam],
+  imports: [
+    BrowserAnimationsModule,
+    EttCoreFeatureShellModule,
+    EnergyTrackAndTraceAppScam,
+  ],
 })
 export class EnergyTrackAndTraceAppModule {}

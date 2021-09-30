@@ -18,15 +18,19 @@ import { Component, NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 @Component({
-  selector: 'ett-app',
+  selector: 'ett-dashboard-shell',
 
   styles: [':host { display: block; }'],
-  template: `<router-outlet></router-outlet>`,
+  template: `
+    <h2>Dashboard</h2>
+
+    <router-outlet></router-outlet>
+  `,
 })
-export class EnergyTrackAndTraceAppComponent {}
+export class EttDashboardShellComponent {}
 
 @NgModule({
-  declarations: [EnergyTrackAndTraceAppComponent],
+  declarations: [EttDashboardShellComponent],
   imports: [RouterModule],
 })
-export class EnergyTrackAndTraceAppScam {}
+export class EttDashboardShellScam {}

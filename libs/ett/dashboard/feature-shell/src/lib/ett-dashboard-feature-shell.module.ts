@@ -14,19 +14,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
 
-@Component({
-  selector: 'ett-app',
+import {
+  EttDashboardShellComponent,
+  EttDashboardShellScam,
+} from './shell/ett-dashboard-shell.component';
 
-  styles: [':host { display: block; }'],
-  template: `<router-outlet></router-outlet>`,
-})
-export class EnergyTrackAndTraceAppComponent {}
+const routes: Routes = [
+  {
+    path: '',
+    component: EttDashboardShellComponent,
+    children: [
+      // Lazy feature routes
+    ],
+  },
+];
 
 @NgModule({
-  declarations: [EnergyTrackAndTraceAppComponent],
-  imports: [RouterModule],
+  exports: [RouterModule],
+  imports: [RouterModule.forChild(routes), EttDashboardShellScam],
 })
-export class EnergyTrackAndTraceAppScam {}
+export class EttDashboardFeatureShellModule {}

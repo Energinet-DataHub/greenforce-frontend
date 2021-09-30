@@ -15,18 +15,25 @@
  * limitations under the License.
  */
 import { Component, NgModule } from '@angular/core';
+import { MatListModule } from '@angular/material/list';
 import { RouterModule } from '@angular/router';
 
 @Component({
-  selector: 'ett-app',
-
+  selector: 'ett-primary-navigation',
   styles: [':host { display: block; }'],
-  template: `<router-outlet></router-outlet>`,
+  template: `
+    <mat-nav-list>
+      <a mat-list-item routerLink="/dashboard" routerLinkActive="active">
+        Dashboard
+      </a>
+    </mat-nav-list>
+  `,
 })
-export class EnergyTrackAndTraceAppComponent {}
+export class EttPrimaryNavigationComponent {}
 
 @NgModule({
-  declarations: [EnergyTrackAndTraceAppComponent],
-  imports: [RouterModule],
+  declarations: [EttPrimaryNavigationComponent],
+  exports: [EttPrimaryNavigationComponent],
+  imports: [RouterModule, MatListModule],
 })
-export class EnergyTrackAndTraceAppScam {}
+export class EttPrimaryNavigationScam {}
