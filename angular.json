@@ -125,9 +125,6 @@
             "jestConfig": "apps/dh-app/jest.config.js",
             "passWithNoTests": true
           }
-        },
-        "add-license": {
-          "builder": "./tools/executors/license:add"
         }
       }
     },
@@ -211,9 +208,11 @@
               "apps/ett-app/src/assets"
             ],
             "styles": [
-              "libs/ui-watt/src/lib/watt.scss",
               "apps/ett-app/src/styles.scss"
             ],
+            "stylePreprocessorOptions": {
+              "includePaths": ["libs/ui-watt/src/lib/styles"]
+            },
             "scripts": []
           },
           "configurations": {
@@ -283,9 +282,6 @@
             "jestConfig": "apps/ett-app/jest.config.js",
             "passWithNoTests": true
           }
-        },
-        "add-license": {
-          "builder": "./tools/executors/license:add"
         }
       }
     },
