@@ -19,16 +19,16 @@
       "@energinet-datahub/dh-app/core/feature-shell": [
         "libs/dh-app/core/feature-shell/src/index.ts"
       ],
-      "@energinet-datahub/watt": ["libs/ui-watt/src/index.ts"],
-      "@energinet/ett/core/feature-shell": [
+      "@energinet-datahub/ett/core/feature-shell": [
         "libs/ett/core/feature-shell/src/index.ts"
       ],
-      "@energinet/ett/dashboard/feature-shell": [
+      "@energinet-datahub/ett/dashboard/feature-shell": [
         "libs/ett/dashboard/feature-shell/src/index.ts"
       ],
-      "@energinet/ett/shared/test-util-angular": [
+      "@energinet-datahub/ett/shared/test-util-angular": [
         "libs/ett/shared/test-util-angular/src/index.ts"
-      ]
+      ],
+      "@energinet-datahub/watt": ["libs/ui-watt/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

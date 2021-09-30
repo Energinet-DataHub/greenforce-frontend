@@ -1,6 +1,6 @@
 import { Component, NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { ShellModule } from '@energinet/watt';
+import { ShellModule } from '@energinet-datahub/watt';
 
 @Component({
   selector: 'ett-shell',

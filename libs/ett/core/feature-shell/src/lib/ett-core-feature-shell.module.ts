@@ -16,7 +16,7 @@ const routes: Routes = [
       {
         path: 'dashboard',
         loadChildren: () =>
-          import('@energinet/ett/dashboard/feature-shell').then(
+          import('@energinet-datahub/ett/dashboard/feature-shell').then(
             (esModule) => esModule.EttDashboardFeatureShellModule
           ),
       },
