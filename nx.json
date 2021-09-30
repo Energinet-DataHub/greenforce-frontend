@@ -47,6 +47,9 @@
       "tags": ["product:ett", "type:e2e"],
       "implicitDependencies": ["ett-app"]
     },
+    "ett-core-data-access-security": {
+      "tags": ["product:ett", "scope:core", "type:data-access"]
+    },
     "ett-core-feature-shell": {
       "tags": ["product:ett", "scope:core", "type:feature"]
     },

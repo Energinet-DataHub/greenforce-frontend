@@ -19,6 +19,9 @@
       "@energinet-datahub/dh-app/core/feature-shell": [
         "libs/dh-app/core/feature-shell/src/index.ts"
       ],
+      "@energinet-datahub/ett/core/data-access-security": [
+        "libs/ett/core/data-access-security/src/index.ts"
+      ],
       "@energinet-datahub/ett/core/feature-shell": [
         "libs/ett/core/feature-shell/src/index.ts"
       ],

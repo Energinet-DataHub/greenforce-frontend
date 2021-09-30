@@ -9,7 +9,7 @@
     "yarn": "1.22.15"
   },
   "scripts": {
-    "postinstall": "node ./decorate-angular-cli.js",
+    "postinstall": "node ./decorate-angular-cli.js && ngcc --properties es2015 browser module main",
     "affected": "nx affected",
     "affected:apps": "nx affected:apps",
     "affected:build": "nx affected:build --configuration=production --parallel",
