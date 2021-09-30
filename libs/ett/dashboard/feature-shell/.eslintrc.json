@@ -13,7 +13,7 @@
           "error",
           {
             "type": "attribute",
-            "prefix": "ettDashboard",
+            "prefix": "ett",
             "style": "camelCase"
           }
         ],
@@ -21,7 +21,7 @@
           "error",
           {
             "type": "element",
-            "prefix": "ett-dashboard",
+            "prefix": "ett",
             "style": "kebab-case"
           }
         ]
