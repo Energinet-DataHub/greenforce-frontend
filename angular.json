@@ -28,6 +28,9 @@
     },
     "@schematics/angular:component": {
       "style": "scss"
+    },
+    "@nrwl/angular:component": {
+      "style": "scss"
     }
   },
   "defaultProject": "dh-app",
@@ -366,6 +369,31 @@
             "lintFilePatterns": [
               "libs/ett/dashboard/feature-shell/src/**/*.ts",
               "libs/ett/dashboard/feature-shell/src/**/*.html"
+            ]
+          }
+        }
+      }
+    },
+    "ett-shared-test-util-angular": {
+      "projectType": "library",
+      "root": "libs/ett/shared/test-util-angular",
+      "sourceRoot": "libs/ett/shared/test-util-angular/src",
+      "prefix": "ett-test",
+      "architect": {
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/ett/shared/test-util-angular"],
+          "options": {
+            "jestConfig": "libs/ett/shared/test-util-angular/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/ett/shared/test-util-angular/src/**/*.ts",
+              "libs/ett/shared/test-util-angular/src/**/*.html"
             ]
           }
         }

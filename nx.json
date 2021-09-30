@@ -53,6 +53,9 @@
     "ett-dashboard-feature-shell": {
       "tags": ["product:ett", "scope:dashboard", "type:feature"]
     },
+    "ett-shared-test-util-angular": {
+      "tags": ["product:ett", "scope:shared", "type:test-util"]
+    },
     "ui-watt": {
       "tags": ["product:watt", "type:ui"]
     }

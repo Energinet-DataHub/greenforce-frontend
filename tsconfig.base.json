@@ -25,6 +25,9 @@
       ],
       "@energinet/ett/dashboard/feature-shell": [
         "libs/ett/dashboard/feature-shell/src/index.ts"
+      ],
+      "@energinet/ett/shared/test-util-angular": [
+        "libs/ett/shared/test-util-angular/src/index.ts"
       ]
     }
   },
