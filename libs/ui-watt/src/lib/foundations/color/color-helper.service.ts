@@ -16,12 +16,13 @@
  */
 import { DOCUMENT } from '@angular/common';
 import { Inject, Injectable } from '@angular/core';
-import { Colors } from './colors';
+
+import { WattColors } from './colors';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ColorHelperService {
+export class WattColorHelperService {
   private colorContrastSuffix = 'contrast';
 
   constructor(
@@ -29,11 +30,11 @@ export class ColorHelperService {
     private window: Window
   ) {}
 
-  public getColor(colorName: Colors): string {
+  public getColor(colorName: WattColors): string {
     return this.getComputedStyle().getPropertyValue(colorName);
   }
 
-  public getColorContrast(colorName: Colors): string {
+  public getColorContrast(colorName: WattColors): string {
     return this.getComputedStyle().getPropertyValue(
       `${colorName}-${this.colorContrastSuffix}`
     );

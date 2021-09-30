@@ -18,11 +18,11 @@ import { NgModule } from '@angular/core';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 
-import { ShellComponent } from './shell.component';
+import { WattShellComponent } from './shell.component';
 
 @NgModule({
-  declarations: [ShellComponent],
-  exports: [ShellComponent],
+  declarations: [WattShellComponent],
+  exports: [WattShellComponent],
   imports: [MatSidenavModule, MatToolbarModule],
 })
-export class ShellModule {}
+export class WattShellModule {}

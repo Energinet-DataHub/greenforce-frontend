@@ -17,21 +17,21 @@
 import { moduleMetadata, Story, Meta } from '@storybook/angular';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { ShellComponent } from './shell.component';
-import { ShellModule } from './shell.module';
+import { WattShellComponent } from './shell.component';
+import { WattShellModule } from './shell.module';
 
 export default {
   title: 'Components/Shell',
-  component: ShellComponent,
+  component: WattShellComponent,
   decorators: [
     moduleMetadata({
-      imports: [BrowserAnimationsModule, ShellModule],
+      imports: [BrowserAnimationsModule, WattShellModule],
     }),
   ],
-} as Meta<ShellComponent>;
+} as Meta<WattShellComponent>;
 
 //👇 We create a “template” of how args map to rendering
-const Template: Story<ShellComponent> = (args) => ({
+const Template: Story<WattShellComponent> = (args) => ({
   props: args,
 });
 
