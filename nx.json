@@ -37,14 +37,14 @@
       "tags": ["product:dh", "scope:core", "type:feature"]
     },
     "dh-app-e2e": {
-      "tags": [],
+      "tags": ["product:dh", "type:e2e"],
       "implicitDependencies": ["dh-app"]
     },
     "ett-app": {
       "tags": ["product:ett", "type:app"]
     },
     "ett-app-e2e": {
-      "tags": [],
+      "tags": ["product:ett", "type:e2e"],
       "implicitDependencies": ["ett-app"]
     },
     "ett-core-feature-shell": {
