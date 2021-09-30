@@ -23,9 +23,9 @@ import { RouterModule } from '@angular/router';
   styles: [':host { display: block; }'],
   template: `
     <mat-nav-list>
-      <a mat-list-item routerLink="/dashboard" routerLinkActive="active"
-        >Dashboard</a
-      >
+      <a mat-list-item routerLink="/dashboard" routerLinkActive="active">
+        Dashboard
+      </a>
     </mat-nav-list>
   `,
 })
