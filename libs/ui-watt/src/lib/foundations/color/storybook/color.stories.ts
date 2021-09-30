@@ -45,7 +45,7 @@ Color.parameters = {
 }
 
 // Usage from TypeScript:
-1. import { Colors, ColorHelperService } from '@energinet/watt';      
+1. import { Colors, ColorHelperService } from '@energinet-datahub/watt';      
 2. Inject the ColorHelperService
 3. Use ColorHelperService.getColor(Colors.<color-name>);
 `,
