@@ -318,31 +318,6 @@
         }
       }
     },
-    "ett-core-data-access-security": {
-      "projectType": "library",
-      "root": "libs/ett/core/data-access-security",
-      "sourceRoot": "libs/ett/core/data-access-security/src",
-      "prefix": "energinet-datahub",
-      "architect": {
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/ett/core/data-access-security"],
-          "options": {
-            "jestConfig": "libs/ett/core/data-access-security/jest.config.js",
-            "passWithNoTests": true
-          }
-        },
-        "lint": {
-          "builder": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": [
-              "libs/ett/core/data-access-security/src/**/*.ts",
-              "libs/ett/core/data-access-security/src/**/*.html"
-            ]
-          }
-        }
-      }
-    },
     "ett-core-feature-shell": {
       "projectType": "library",
       "root": "libs/ett/core/feature-shell",
