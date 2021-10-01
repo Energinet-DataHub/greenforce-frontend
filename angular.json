@@ -318,6 +318,31 @@
         }
       }
     },
+    "ett-core-feature-onboarding": {
+      "projectType": "library",
+      "root": "libs/ett/core/feature-onboarding",
+      "sourceRoot": "libs/ett/core/feature-onboarding/src",
+      "prefix": "ett",
+      "architect": {
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/ett/core/feature-onboarding"],
+          "options": {
+            "jestConfig": "libs/ett/core/feature-onboarding/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/ett/core/feature-onboarding/src/**/*.ts",
+              "libs/ett/core/feature-onboarding/src/**/*.html"
+            ]
+          }
+        }
+      }
+    },
     "ett-core-feature-shell": {
       "projectType": "library",
       "root": "libs/ett/core/feature-shell",
