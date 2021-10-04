@@ -14,16 +14,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, NgModule } from '@angular/core';
+import { Component, HostBinding, NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'ett-app',
 
-  styles: [':host { display: block; }'],
+  styles: [':host { display: block; min-height: 100%; }'],
   template: `<router-outlet></router-outlet>`,
 })
-export class EnergyTrackAndTraceAppComponent {}
+export class EnergyTrackAndTraceAppComponent {
+  @HostBinding('className')
+  className = 'mat-app-background';
+}
 
 @NgModule({
   declarations: [EnergyTrackAndTraceAppComponent],

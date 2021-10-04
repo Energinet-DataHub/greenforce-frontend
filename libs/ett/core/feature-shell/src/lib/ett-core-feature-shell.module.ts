@@ -22,13 +22,16 @@ import { EttShellComponent, EttShellScam } from './shell/ett-shell.component';
 const routes: Routes = [
   {
     path: '',
+    pathMatch: 'full',
+    loadChildren: () =>
+      import('@energinet-datahub/ett/core/feature-onboarding').then(
+        (esModule) => esModule.EttCoreFeatureOnboardingModule
+      ),
+  },
+  {
+    path: '',
     component: EttShellComponent,
     children: [
-      {
-        path: '',
-        pathMatch: 'full',
-        redirectTo: 'dashboard',
-      },
       {
         path: 'dashboard',
         loadChildren: () =>

@@ -14,9 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@use '@energinet-datahub/watt' as watt;
+import { Component, NgModule } from '@angular/core';
 
-html,
-body {
-  min-height: 100%;
-}
+@Component({
+  selector: 'ett-onboarding-shell',
+
+  styles: [':host { display: block; min-height: 100%; }'],
+  template: ` <h2>Onboarding</h2> `,
+})
+export class EttOnboardingShellComponent {}
+
+@NgModule({
+  declarations: [EttOnboardingShellComponent],
+})
+export class EttOnboardingShellScam {}

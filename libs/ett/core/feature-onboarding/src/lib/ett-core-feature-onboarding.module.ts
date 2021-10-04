@@ -1,7 +1,16 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { RouterModule, Routes } from '@angular/router';
+
+import { EttOnboardingShellComponent, EttOnboardingShellScam } from './ett-onboarding-shell.component';
+
+const routes: Routes = [
+  {
+    path: '',
+    component: EttOnboardingShellComponent,
+  },
+];
 
 @NgModule({
-  imports: [CommonModule],
+  imports: [RouterModule.forChild(routes), EttOnboardingShellScam],
 })
 export class EttCoreFeatureOnboardingModule {}
