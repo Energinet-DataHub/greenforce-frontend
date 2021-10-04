@@ -828,11 +828,11 @@
             "implements": [
                 "AfterViewInit"
             ],
-            "templateData": "<mat-form-field floatLabel=\"always\">\r\n  <mat-label class=\"watt-label\"><ng-content select=\"mat-label\"></ng-content></mat-label>\r\n\r\n  <ng-container matPrefix>\r\n    <ng-content select=\"[wattPrefix]\"></ng-content>\r\n  </ng-container>\r\n\r\n  <ng-content select=\"[wattInput]\"></ng-content>\r\n\r\n  <ng-container matSuffix>\r\n    <ng-content select=\"[wattSuffix]\"></ng-content>\r\n  </ng-container>\r\n\r\n  <mat-error class=\"watt-text-xs\">\r\n    <ng-content select=\"mat-error\"></ng-content>\r\n  </mat-error>\r\n\r\n  <mat-hint class=\"watt-text-xs\" align=\"start\">\r\n    <ng-content select=\"mat-hint[align='start']\"></ng-content>\r\n  </mat-hint>\r\n\r\n  <mat-hint class=\"watt-text-xs\" align=\"end\">\r\n    <ng-content select=\"mat-hint[align='end']\"></ng-content>\r\n  </mat-hint>\r\n\r\n  <ng-container *ngIf=\"beforeViewInit\">\r\n    <input matInput id=\"no-way\" />\r\n  </ng-container>\r\n</mat-form-field>"
+            "templateData": "<mat-form-field floatLabel=\"always\">\r\n  <mat-label class=\"watt-label\"><ng-content select=\"watt-label\"></ng-content></mat-label>\r\n\r\n  <ng-container matPrefix>\r\n    <ng-content select=\"[wattPrefix]\"></ng-content>\r\n  </ng-container>\r\n\r\n  <ng-content select=\"[wattInput]\"></ng-content>\r\n\r\n  <ng-container matSuffix>\r\n    <ng-content select=\"[wattSuffix]\"></ng-content>\r\n  </ng-container>\r\n\r\n  <mat-error class=\"watt-text-xs\">\r\n    <ng-content select=\"watt-error\"></ng-content>\r\n  </mat-error>\r\n\r\n  <mat-hint class=\"watt-text-xs\" align=\"start\">\r\n    <ng-content select=\"mat-hint[align='start']\"></ng-content>\r\n  </mat-hint>\r\n\r\n  <mat-hint class=\"watt-text-xs\" align=\"end\">\r\n    <ng-content select=\"mat-hint[align='end']\"></ng-content>\r\n  </mat-hint>\r\n\r\n  <ng-container *ngIf=\"beforeViewInit\">\r\n    <input matInput id=\"no-way\" />\r\n  </ng-container>\r\n</mat-form-field>"
         },
         {
             "name": "InputComponent",
-            "id": "component-InputComponent-bd60489bd656128b013a17faa5b6d572",
+            "id": "component-InputComponent-e8883cf25dde6bfdd7ea9f66bee720d8",
             "file": "libs/ui-watt/src/lib/components/input/storybook/input.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -844,7 +844,7 @@
                 "./input.component.scss"
             ],
             "styles": [],
-            "template": "<watt-form-field>      <mat-label>label</mat-label>\n      <input wattInput type=\"text\" [formControl]=\"exampleFormControlProjected\" placeholder=\"Søg på Målepunkts ID\"/>\n      <button wattPrefix aria-label=\"search\">\n        icon\n      </button>\n      <button wattSuffix aria-label=\"Clear\">\n        clear\n      </button>\n      <watt-error *ngIf=\"exampleFormControlProjected.hasError('required')\">\n      This field is required\n      </watt-error>\n    </watt-form-field>\n    <!--\n    from input: <mat-form-field>\n      <mat-label>Clearable input</mat-label>\n      <input matInput type=\"text\" [formControl]=\"exampleFormControl\"/>\n      <button matPrefix aria-label=\"Clear\">\n        clear\n      </button>\n      <mat-error>\n      This field is required\n      </mat-error>\n    </mat-form-field>-->",
+            "template": "<watt-form-field>      <watt-label>label</watt-label>\n      <input wattInput type=\"text\" [formControl]=\"exampleFormControlProjected\" placeholder=\"Søg på Målepunkts ID\"/>\n      <button wattPrefix aria-label=\"search\">\n        icon\n      </button>\n      <button wattSuffix aria-label=\"Clear\">\n        clear\n      </button>\n      <watt-error *ngIf=\"exampleFormControlProjected.hasError('required')\">\n      This field is required\n      </watt-error>\n    </watt-form-field>",
             "templateUrl": [],
             "viewProviders": [],
             "inputsClass": [],
@@ -858,7 +858,7 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 33
+                    "line": 22
                 },
                 {
                     "name": "exampleFormControlProjected",
@@ -868,7 +868,7 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 37
+                    "line": 26
                 }
             ],
             "methodsClass": [
@@ -878,7 +878,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 45,
+                    "line": 34,
                     "deprecated": false,
                     "deprecationMessage": ""
                 },
@@ -888,7 +888,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 41,
+                    "line": 30,
                     "deprecated": false,
                     "deprecationMessage": ""
                 }
@@ -900,7 +900,7 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { AfterViewInit, Component, OnInit } from '@angular/core';\r\nimport { FormControl, Validators } from '@angular/forms';\r\n\r\n@Component({\r\n  selector: 'watt-input',\r\n  styleUrls: ['./input.component.scss'],\r\n  template: `<watt-form-field>\r\n      <mat-label>label</mat-label>\r\n      <input wattInput type=\"text\" [formControl]=\"exampleFormControlProjected\" placeholder=\"Søg på Målepunkts ID\"/>\r\n      <button wattPrefix aria-label=\"search\">\r\n        icon\r\n      </button>\r\n      <button wattSuffix aria-label=\"Clear\">\r\n        clear\r\n      </button>\r\n      <watt-error *ngIf=\"exampleFormControlProjected.hasError('required')\">\r\n      This field is required\r\n      </watt-error>\r\n    </watt-form-field>\r\n    <!--\r\n    from input: <mat-form-field>\r\n      <mat-label>Clearable input</mat-label>\r\n      <input matInput type=\"text\" [formControl]=\"exampleFormControl\"/>\r\n      <button matPrefix aria-label=\"Clear\">\r\n        clear\r\n      </button>\r\n      <mat-error>\r\n      This field is required\r\n      </mat-error>\r\n    </mat-form-field>-->`,\r\n})\r\nexport class InputComponent implements OnInit, AfterViewInit {\r\n  exampleFormControl = new FormControl('', [\r\n    Validators.required\r\n  ]);\r\n\r\n  exampleFormControlProjected = new FormControl('', [\r\n    Validators.required\r\n  ]);\r\n\r\n  ngOnInit() {\r\n    this.exampleFormControl.markAsTouched();\r\n  }\r\n\r\n  ngAfterViewInit() {\r\n    this.exampleFormControlProjected.markAsTouched();\r\n  }\r\n}\r\n",
+            "sourceCode": "import { AfterViewInit, Component, OnInit } from '@angular/core';\r\nimport { FormControl, Validators } from '@angular/forms';\r\n\r\n@Component({\r\n  selector: 'watt-input',\r\n  styleUrls: ['./input.component.scss'],\r\n  template: `<watt-form-field>\r\n      <watt-label>label</watt-label>\r\n      <input wattInput type=\"text\" [formControl]=\"exampleFormControlProjected\" placeholder=\"Søg på Målepunkts ID\"/>\r\n      <button wattPrefix aria-label=\"search\">\r\n        icon\r\n      </button>\r\n      <button wattSuffix aria-label=\"Clear\">\r\n        clear\r\n      </button>\r\n      <watt-error *ngIf=\"exampleFormControlProjected.hasError('required')\">\r\n      This field is required\r\n      </watt-error>\r\n    </watt-form-field>`,\r\n})\r\nexport class InputComponent implements OnInit, AfterViewInit {\r\n  exampleFormControl = new FormControl('', [\r\n    Validators.required\r\n  ]);\r\n\r\n  exampleFormControlProjected = new FormControl('', [\r\n    Validators.required\r\n  ]);\r\n\r\n  ngOnInit() {\r\n    this.exampleFormControl.markAsTouched();\r\n  }\r\n\r\n  ngAfterViewInit() {\r\n    this.exampleFormControlProjected.markAsTouched();\r\n  }\r\n}\r\n",
             "assetsDirs": [],
             "styleUrlsData": [
                 {
@@ -1021,6 +1021,46 @@
             "rawdescription": "\n",
             "type": "component",
             "sourceCode": "import {Component} from '@angular/core';\r\n\r\n@Component({\r\n  selector: 'watt-error',\r\n  template: `<ng-content></ng-content>`\r\n})\r\nexport class WattErrorComponent {}",
+            "assetsDirs": [],
+            "styleUrlsData": "",
+            "stylesData": ""
+        },
+        {
+            "name": "WattHintComponent",
+            "id": "component-WattHintComponent-ce11c9d737190051c8ea8260012870b5",
+            "file": "libs/ui-watt/src/lib/components/form-field/components/hint.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "watt-hint",
+            "styleUrls": [],
+            "styles": [],
+            "template": "<ng-content></ng-content>",
+            "templateUrl": [],
+            "viewProviders": [],
+            "inputsClass": [
+                {
+                    "name": "align",
+                    "defaultValue": "'start'",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "line": 8,
+                    "type": "\"start\" | \"end\""
+                }
+            ],
+            "outputsClass": [],
+            "propertiesClass": [],
+            "methodsClass": [],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "hostBindings": [],
+            "hostListeners": [],
+            "description": "",
+            "rawdescription": "\n",
+            "type": "component",
+            "sourceCode": "import {Component, Input} from '@angular/core';\r\n\r\n@Component({\r\n  selector: 'watt-hint',\r\n  template: `<ng-content></ng-content>`\r\n})\r\nexport class WattHintComponent {\r\n  @Input() align: 'start' | 'end' = 'start';\r\n}",
             "assetsDirs": [],
             "styleUrlsData": "",
             "stylesData": ""
@@ -1280,13 +1320,13 @@
         },
         {
             "name": "WattFormFieldModule",
-            "id": "module-WattFormFieldModule-06860d150f2867932aad9f0515866acf",
+            "id": "module-WattFormFieldModule-16ef71936e7c0a1512b0769b50b54bef",
             "description": "",
             "deprecationMessage": "",
             "deprecated": false,
             "file": "libs/ui-watt/src/lib/components/form-field/form-field.module.ts",
             "methods": [],
-            "sourceCode": "import { CommonModule } from \"@angular/common\";\r\nimport { NgModule } from \"@angular/core\";\r\nimport { MatFormFieldModule } from \"@angular/material/form-field\";\r\nimport { MatInputModule } from \"@angular/material/input\";\r\nimport { WattErrorComponent } from \"./components/error.component\";\r\nimport { WattLabelComponent } from \"./components/label.component\";\r\nimport { WattPrefixDirective } from \"./directives/prefix.directive\";\r\nimport { WattSuffixDirective } from \"./directives/suffix.directive\";\r\nimport { FormFieldComponent } from \"./form-field.component\";\r\n\r\n@NgModule({\r\n    imports: [CommonModule, MatFormFieldModule, MatInputModule],\r\n    declarations: [FormFieldComponent, WattPrefixDirective, WattSuffixDirective, WattErrorComponent, WattLabelComponent],\r\n    exports: [FormFieldComponent, WattPrefixDirective, WattSuffixDirective, WattErrorComponent, WattLabelComponent],\r\n})\r\nexport class WattFormFieldModule {}",
+            "sourceCode": "import { CommonModule } from '@angular/common';\r\nimport { NgModule } from '@angular/core';\r\nimport { MatFormFieldModule } from '@angular/material/form-field';\r\nimport { MatInputModule } from '@angular/material/input';\r\nimport { WattErrorComponent } from './components/error.component';\r\nimport { WattHintComponent } from './components/hint.component';\r\nimport { WattLabelComponent } from './components/label.component';\r\nimport { WattPrefixDirective } from './directives/prefix.directive';\r\nimport { WattSuffixDirective } from './directives/suffix.directive';\r\nimport { FormFieldComponent } from './form-field.component';\r\n\r\n@NgModule({\r\n  imports: [CommonModule, MatFormFieldModule, MatInputModule],\r\n  declarations: [\r\n    FormFieldComponent,\r\n    WattPrefixDirective,\r\n    WattSuffixDirective,\r\n    WattErrorComponent,\r\n    WattLabelComponent,\r\n    WattHintComponent\r\n  ],\r\n  exports: [\r\n    FormFieldComponent,\r\n    WattPrefixDirective,\r\n    WattSuffixDirective,\r\n    WattErrorComponent,\r\n    WattLabelComponent,\r\n    WattHintComponent\r\n  ],\r\n})\r\nexport class WattFormFieldModule {}\r\n",
             "children": [
                 {
                     "type": "providers",
@@ -1300,6 +1340,9 @@
                         },
                         {
                             "name": "WattErrorComponent"
+                        },
+                        {
+                            "name": "WattHintComponent"
                         },
                         {
                             "name": "WattLabelComponent"
@@ -1324,6 +1367,9 @@
                         },
                         {
                             "name": "WattErrorComponent"
+                        },
+                        {
+                            "name": "WattHintComponent"
                         },
                         {
                             "name": "WattLabelComponent"
@@ -1626,6 +1672,16 @@
                 "name": "Template",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
+                "file": "libs/ui-watt/src/lib/components/input/storybook/input.directive.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story<InputComponent>",
+                "defaultValue": "(args) => ({\r\n  props: args,\r\n})"
+            },
+            {
+                "name": "Template",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
                 "file": "libs/ui-watt/src/lib/foundations/color/storybook/color.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
@@ -1640,16 +1696,6 @@
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "Story<TypographyComponent>",
-                "defaultValue": "(args) => ({\r\n  props: args,\r\n})"
-            },
-            {
-                "name": "Template",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "libs/ui-watt/src/lib/components/input/storybook/input.directive.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "Story<InputComponent>",
                 "defaultValue": "(args) => ({\r\n  props: args,\r\n})"
             },
             {
@@ -2463,6 +2509,15 @@
                 "name": "WattErrorComponent",
                 "coveragePercent": 0,
                 "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "libs/ui-watt/src/lib/components/form-field/components/hint.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "WattHintComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/2",
                 "status": "low"
             },
             {

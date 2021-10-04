@@ -16,11 +16,11 @@
   </mat-error>
 
   <mat-hint class="watt-text-xs" align="start">
-    <ng-content select="mat-hint[align='start']"></ng-content>
+    <ng-content select="watt-hint:not(watt-hint[align='end'])"></ng-content>
   </mat-hint>
 
   <mat-hint class="watt-text-xs" align="end">
-    <ng-content select="mat-hint[align='end']"></ng-content>
+    <ng-content select="watt-hint[align='end']"></ng-content>
   </mat-hint>
 
   <ng-container *ngIf="beforeViewInit">

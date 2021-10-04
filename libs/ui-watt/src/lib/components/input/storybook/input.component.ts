@@ -16,6 +16,8 @@ import { FormControl, Validators } from '@angular/forms';
       <watt-error *ngIf="exampleFormControlProjected.hasError('required')">
       This field is required
       </watt-error>
+      <watt-hint>Counter</watt-hint>
+      <watt-hint align="end">Some text</watt-hint>
     </watt-form-field>`,
 })
 export class InputComponent implements OnInit, AfterViewInit {
@@ -32,6 +34,6 @@ export class InputComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.exampleFormControlProjected.markAsTouched();
+    // this.exampleFormControlProjected.markAsTouched();
   }
 }
