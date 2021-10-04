@@ -1,8 +1,9 @@
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { moduleMetadata, Story, Meta } from '@storybook/angular';
-import { FormFieldModule } from '../../form-field/form-field.module';
+import { WattFormFieldModule } from '../../form-field/form-field.module';
 
 import { InputModule } from '../input.module';
 import { InputComponent } from './input.component';
@@ -12,7 +13,7 @@ export default {
   component: InputComponent,
   decorators: [
     moduleMetadata({
-      imports: [BrowserAnimationsModule, MatFormFieldModule, MatInputModule, InputModule, FormFieldModule],
+      imports: [BrowserAnimationsModule, MatFormFieldModule, MatInputModule, WattFormFieldModule, InputModule, FormsModule, ReactiveFormsModule],
     }),
   ],
 } as Meta<InputComponent>;

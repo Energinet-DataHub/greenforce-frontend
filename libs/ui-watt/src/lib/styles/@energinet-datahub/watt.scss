@@ -17,6 +17,7 @@
 @use './../../foundations/variables';
 @use './../../foundations/box-sizing';
 @use './../../foundations/typography';
+@use './../../components/form-field/form-field.component';
 
 @forward './../../foundations/color/colors.import';
 

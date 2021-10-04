@@ -1,9 +1,9 @@
+/* eslint-disable @angular-eslint/no-host-metadata-property */
 import { Platform } from '@angular/cdk/platform';
 import { AutofillMonitor } from '@angular/cdk/text-field';
 import {
   Directive,
   ElementRef,
-  HostBinding,
   Inject,
   NgZone,
   Optional,
@@ -11,36 +11,59 @@ import {
 } from '@angular/core';
 import { FormGroupDirective, NgControl, NgForm } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
+import { MatFormFieldControl } from '@angular/material/form-field';
 import { MatInput, MAT_INPUT_VALUE_ACCESSOR } from '@angular/material/input';
 
 @Directive({
   selector: '[wattInput]',
+  exportAs: 'wattInput',
+  host: {
+    class: 'mat-input-element',
+    '[class.mat-input-server]': '_isServer',
+    // Native input properties that are overwritten by Angular inputs need to be synced with
+    // the native input element. Otherwise property bindings for those don't work.
+    '[attr.id]': 'id',
+    // At the time of writing, we have a lot of customer tests that look up the input based on its
+    // placeholder. Since we sometimes omit the placeholder attribute from the DOM to prevent screen
+    // readers from reading it twice, we have to keep it somewhere in the DOM for the lookup.
+    '[attr.data-placeholder]': 'placeholder',
+    '[disabled]': 'disabled',
+    '[required]': 'required',
+    '[attr.readonly]': 'readonly && !_isNativeSelect || null',
+    // Only mark the input as invalid for assistive technology if it has a value since the
+    // state usually overlaps with `aria-required` when the input is empty and can be redundant.
+    '[attr.aria-invalid]': '(empty && required) ? null : errorState',
+    '[attr.aria-required]': 'required',
+  },
+  providers: [{provide: MatFormFieldControl, useExisting: MatInput}],
 })
-export class InputDirective {
-  /*
-  @HostBinding('attr.matInput') matInputDirective = new MatInput(
-    this.elementRef,
-    this.platform,
-    this.ngControl,
-    this._parentForm,
-    this._parentFormGroup,
-    this._defaultErrorStateMatcher,
-    this.inputValueAccessor,
-    this._autofillMonitor,
-    this.ngZone
-  );*/
-
+export class WattInputDirective extends MatInput {
   constructor(
-    private elementRef: ElementRef,
-    private platform: Platform,
-    @Optional() @Self() private ngControl: NgControl,
-    @Optional() private _parentForm: NgForm,
-    @Optional() private _parentFormGroup: FormGroupDirective,
-    private _defaultErrorStateMatcher: ErrorStateMatcher,
-    @Optional() @Self() @Inject(MAT_INPUT_VALUE_ACCESSOR) private inputValueAccessor: any,
-    private _autofillMonitor: AutofillMonitor,
-    private ngZone: NgZone
+    protected _elementRef: ElementRef<
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    >,
+    protected _platform: Platform,
+    @Optional() @Self() ngControl: NgControl,
+    @Optional() _parentForm: NgForm,
+    @Optional() _parentFormGroup: FormGroupDirective,
+    _defaultErrorStateMatcher: ErrorStateMatcher,
+    @Optional()
+    @Self()
+    @Inject(MAT_INPUT_VALUE_ACCESSOR)
+    inputValueAccessor: unknown,
+    _autofillMonitor: AutofillMonitor,
+    ngZone: NgZone
   ) {
-    console.log('yes');
+    super(
+      _elementRef,
+      _platform,
+      ngControl,
+      _parentForm,
+      _parentFormGroup,
+      _defaultErrorStateMatcher,
+      inputValueAccessor,
+      _autofillMonitor,
+      ngZone
+    );
   }
 }
