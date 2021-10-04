@@ -22,8 +22,8 @@ export { WattAutocompleteModule } from './lib/components/autocomplete/autocomple
 export { WattColorHelperService } from './lib/foundations/color/color-helper.service';
 export { WattColors } from './lib/foundations/color/colors';
 
-export { WattButtonComponent } from './lib/components/button/button.component';
-export { WattButtonModule } from './lib/components/button/button.module';
+export { WattButtonComponent } from './lib/components/button/watt-button.component';
+export { WattButtonModule } from './lib/components/button/watt-button.module';
 
 export { WattShellComponent } from './lib/components/shell/shell.component';
 export { WattShellModule } from './lib/components/shell/shell.module';
