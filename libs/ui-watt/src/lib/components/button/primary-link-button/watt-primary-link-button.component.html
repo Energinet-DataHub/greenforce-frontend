@@ -1,0 +1,14 @@
+<a
+  mat-flat-button
+  color="primary"
+  [fragment]="routerLink.fragment"
+  [routerLink]="routerLink.routerLink"
+  [preserveFragment]="routerLink.preserveFragment"
+  [queryParams]="routerLink.queryParams"
+  [queryParamsHandling]="routerLink.queryParamsHandling"
+  [replaceUrl]="routerLink.replaceUrl"
+  [skipLocationChange]="routerLink.skipLocationChange"
+  [state]="routerLink.state"
+>
+  <ng-content></ng-content>
+</a>

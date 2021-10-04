@@ -1,0 +1,13 @@
+<ng-container
+  *ngComponentOutlet="buttonComponentType; content: [[contentWrapper]]"
+></ng-container>
+
+<div #contentWrapper class="content-grid">
+  <mat-icon *ngIf="hasIcon" [color]="iconColor" class="content-grid-item">
+    {{ icon }}
+  </mat-icon>
+
+  <div class="content-grid-item">
+    <ng-content></ng-content>
+  </div>
+</div>
