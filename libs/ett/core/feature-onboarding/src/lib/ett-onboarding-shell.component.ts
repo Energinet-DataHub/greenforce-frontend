@@ -35,7 +35,7 @@ const selector = 'ett-onboarding-shell';
     `,
   ],
   template: `
-    <mat-card>
+    <mat-card role="region">
       <mat-card-title>
         <h1>Energy Track and Trace</h1>
       </mat-card-title>
