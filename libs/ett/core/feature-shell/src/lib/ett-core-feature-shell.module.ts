@@ -23,6 +23,10 @@ const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
+    redirectTo: 'onboarding',
+  },
+  {
+    path: 'onboarding',
     loadChildren: () =>
       import('@energinet-datahub/ett/core/feature-onboarding').then(
         (esModule) => esModule.EttCoreFeatureOnboardingModule
