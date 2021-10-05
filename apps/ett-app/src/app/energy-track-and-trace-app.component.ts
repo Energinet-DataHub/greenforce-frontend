@@ -14,13 +14,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, HostBinding, NgModule } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, NgModule, ViewEncapsulation } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
-@Component({
-  selector: 'ett-app',
+const selector = 'ett-app';
 
-  styles: [':host { display: block; min-height: 100%; }'],
+@Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
+  selector,
+  styles: [
+    `
+      ${selector} {
+        display: block;
+        min-height: 100%;
+      }
+    `,
+  ],
   template: `<router-outlet></router-outlet>`,
 })
 export class EnergyTrackAndTraceAppComponent {

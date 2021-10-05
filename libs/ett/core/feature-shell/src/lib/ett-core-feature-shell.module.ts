@@ -17,7 +17,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { EttShellComponent, EttShellScam } from './shell/ett-shell.component';
+import { EttShellComponent, EttShellScam } from './ett-shell.component';
 
 const routes: Routes = [
   {

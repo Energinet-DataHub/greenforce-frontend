@@ -14,13 +14,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, NgModule } from '@angular/core';
+import { ChangeDetectionStrategy, Component, NgModule, ViewEncapsulation } from '@angular/core';
 import { MatListModule } from '@angular/material/list';
 import { RouterModule } from '@angular/router';
 
+const selector = 'ett-primary-navigation';
+
 @Component({
-  selector: 'ett-primary-navigation',
-  styles: [':host { display: block; }'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
+  selector,
+  styles: [
+    `
+      ${selector} {
+        display: block;
+      }
+    `,
+  ],
   template: `
     <mat-nav-list>
       <a mat-list-item routerLink="/dashboard" routerLinkActive="active">

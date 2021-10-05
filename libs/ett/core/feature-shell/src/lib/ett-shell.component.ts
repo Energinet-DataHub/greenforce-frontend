@@ -14,15 +14,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, NgModule } from '@angular/core';
+import { ChangeDetectionStrategy, Component, NgModule, ViewEncapsulation } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { WattShellModule } from '@energinet-datahub/watt';
 
-import { EttPrimaryNavigationScam } from './../primary-navigation/ett-primary-navigation.component';
+import { EttPrimaryNavigationScam } from './ett-primary-navigation.component';
+
+const selector = 'ett-shell';
 
 @Component({
-  selector: 'ett-shell',
-  styles: [':host { display: block; }'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
+  selector,
+  styles: [
+    `
+      ${selector} {
+        display: block;
+      }
+    `,
+  ],
   template: `
     <watt-shell>
       <ng-container watt-shell-sidenav>
