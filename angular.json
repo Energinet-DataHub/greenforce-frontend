@@ -28,6 +28,9 @@
     },
     "@schematics/angular:component": {
       "style": "scss"
+    },
+    "@nrwl/angular:component": {
+      "style": "scss"
     }
   },
   "defaultProject": "dh-app",
@@ -122,9 +125,6 @@
             "jestConfig": "apps/dh-app/jest.config.js",
             "passWithNoTests": true
           }
-        },
-        "add-license": {
-          "builder": "./tools/executors/license:add"
         }
       }
     },
@@ -208,6 +208,9 @@
               "apps/ett-app/src/assets"
             ],
             "styles": ["apps/ett-app/src/styles.scss"],
+            "stylePreprocessorOptions": {
+              "includePaths": ["libs/ui-watt/src/lib/styles"]
+            },
             "scripts": []
           },
           "configurations": {
@@ -277,9 +280,6 @@
             "jestConfig": "apps/ett-app/jest.config.js",
             "passWithNoTests": true
           }
-        },
-        "add-license": {
-          "builder": "./tools/executors/license:add"
         }
       }
     },
@@ -314,6 +314,81 @@
           "builder": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": ["apps/ett-app-e2e/**/*.{js,ts}"]
+          }
+        }
+      }
+    },
+    "ett-core-feature-shell": {
+      "projectType": "library",
+      "root": "libs/ett/core/feature-shell",
+      "sourceRoot": "libs/ett/core/feature-shell/src",
+      "prefix": "ett",
+      "architect": {
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/ett/core/feature-shell"],
+          "options": {
+            "jestConfig": "libs/ett/core/feature-shell/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/ett/core/feature-shell/src/**/*.ts",
+              "libs/ett/core/feature-shell/src/**/*.html"
+            ]
+          }
+        }
+      }
+    },
+    "ett-dashboard-feature-shell": {
+      "projectType": "library",
+      "root": "libs/ett/dashboard/feature-shell",
+      "sourceRoot": "libs/ett/dashboard/feature-shell/src",
+      "prefix": "ett-dashboard",
+      "architect": {
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/ett/dashboard/feature-shell"],
+          "options": {
+            "jestConfig": "libs/ett/dashboard/feature-shell/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/ett/dashboard/feature-shell/src/**/*.ts",
+              "libs/ett/dashboard/feature-shell/src/**/*.html"
+            ]
+          }
+        }
+      }
+    },
+    "ett-shared-test-util-angular": {
+      "projectType": "library",
+      "root": "libs/ett/shared/test-util-angular",
+      "sourceRoot": "libs/ett/shared/test-util-angular/src",
+      "prefix": "ett-test",
+      "architect": {
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/ett/shared/test-util-angular"],
+          "options": {
+            "jestConfig": "libs/ett/shared/test-util-angular/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/ett/shared/test-util-angular/src/**/*.ts",
+              "libs/ett/shared/test-util-angular/src/**/*.html"
+            ]
           }
         }
       }

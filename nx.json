@@ -1,5 +1,5 @@
 {
-  "npmScope": "energinet",
+  "npmScope": "energinet-datahub",
   "affected": {
     "defaultBase": "main"
   },
@@ -37,15 +37,24 @@
       "tags": ["product:dh", "scope:core", "type:feature"]
     },
     "dh-app-e2e": {
-      "tags": [],
+      "tags": ["product:dh", "type:e2e"],
       "implicitDependencies": ["dh-app"]
     },
     "ett-app": {
       "tags": ["product:ett", "type:app"]
     },
     "ett-app-e2e": {
-      "tags": [],
+      "tags": ["product:ett", "type:e2e"],
       "implicitDependencies": ["ett-app"]
+    },
+    "ett-core-feature-shell": {
+      "tags": ["product:ett", "scope:core", "type:feature"]
+    },
+    "ett-dashboard-feature-shell": {
+      "tags": ["product:ett", "scope:dashboard", "type:feature"]
+    },
+    "ett-shared-test-util-angular": {
+      "tags": ["product:ett", "scope:shared", "type:test-util"]
     },
     "ui-watt": {
       "tags": ["product:watt", "type:ui"]

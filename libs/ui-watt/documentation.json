@@ -3,12 +3,12 @@
     "interfaces": [
         {
             "name": "Color",
-            "id": "interface-Color-fc2323a1e802573913ecbb6ab59a4ad7",
+            "id": "interface-Color-3ca59e74454c80384e7a373ef04178d2",
             "file": "libs/ui-watt/src/lib/foundations/color/storybook/color.component.ts",
             "deprecated": false,
             "deprecationMessage": "",
             "type": "interface",
-            "sourceCode": "import { Component } from '@angular/core';\r\nimport { ColorHelperService } from '../color-helper.service';\r\nimport { Colors } from '../colors';\r\n\r\ninterface ColorType {\r\n  name: string;\r\n  title: string;\r\n  description?: string;\r\n  colors: Color[];\r\n}\r\ninterface Color {\r\n  name: string;\r\n  var: string;\r\n  color: string;\r\n  contrast: string;\r\n}\r\n@Component({\r\n  selector: 'watt-color',\r\n  templateUrl: './color.component.html',\r\n  styleUrls: ['./color.component.scss'],\r\n})\r\nexport class ColorComponent {\r\n  /**\r\n   * @ignore\r\n   */\r\n  colorTypes: ColorType[] = [\r\n    {\r\n      name: 'primary',\r\n      title: 'Primary Colors',\r\n      description:\r\n        'The primary colors are the brand colors that are main colors used on central elements like primary buttons and in the main navigation.',\r\n      colors: [\r\n        this.getColor('primary', Colors.primary),\r\n        this.getColor('primary-dark', Colors.primaryDark),\r\n      ],\r\n    },\r\n    {\r\n      name: 'focus',\r\n      title: 'Focus Colors',\r\n      colors: [\r\n        this.getColor('focus', Colors.focus),\r\n        this.getColor('selection', Colors.selection),\r\n      ],\r\n    },\r\n    {\r\n      name: 'neutral',\r\n      title: 'Neutral Colors',\r\n      colors: [\r\n        this.getColor('black', Colors.black),\r\n        this.getColor('white', Colors.white),\r\n        this.getColor('grey-50', Colors.grey50),\r\n        this.getColor('grey-100', Colors.grey100),\r\n        this.getColor('grey-200', Colors.grey200),\r\n        this.getColor('grey-300', Colors.grey300),\r\n        this.getColor('grey-400', Colors.grey400),\r\n        this.getColor('grey-500', Colors.grey500),\r\n        this.getColor('grey-600', Colors.grey600),\r\n        this.getColor('grey-700', Colors.grey700),\r\n        this.getColor('grey-800', Colors.grey800),\r\n        this.getColor('grey-900', Colors.grey900),\r\n      ],\r\n    },\r\n    {\r\n      name: 'state',\r\n      title: 'State Colors',\r\n      description:\r\n        'State color helps users find people, identify status, see actions, locate help, and understand next steps. The consistent use of color keeps cognitive load low and makes for a unified and engaging user experience.',\r\n      colors: [\r\n        this.getColor('danger', Colors.danger),\r\n        this.getColor('warning', Colors.warning),\r\n        this.getColor('success', Colors.success),\r\n        this.getColor('info', Colors.info),\r\n        this.getColor('danger-light', Colors.dangerLight),\r\n        this.getColor('warning-light', Colors.warningLight),\r\n        this.getColor('success-light', Colors.successLight),\r\n        this.getColor('info-light', Colors.infoLight),\r\n      ],\r\n    },\r\n  ];\r\n\r\n  constructor(private colorHelperService: ColorHelperService) {}\r\n\r\n  /**\r\n   * @ignore\r\n   */\r\n  copyToClipboard(color: string) {\r\n    `var(${navigator.clipboard.writeText(color)})`;\r\n  }\r\n\r\n  /**\r\n   * @ignore\r\n   */\r\n  private getColor(name: string, color: Colors) {\r\n    return {\r\n      name,\r\n      var: color,\r\n      color: this.colorHelperService.getColor(color),\r\n      contrast: this.colorHelperService.getColorContrast(color),\r\n    };\r\n  }\r\n}\r\n",
+            "sourceCode": "import { Component } from '@angular/core';\r\n\r\nimport { WattColorHelperService } from '../color-helper.service';\r\nimport { WattColors } from '../colors';\r\n\r\ninterface ColorType {\r\n  name: string;\r\n  title: string;\r\n  description?: string;\r\n  colors: Color[];\r\n}\r\ninterface Color {\r\n  name: string;\r\n  var: string;\r\n  color: string;\r\n  contrast: string;\r\n}\r\n@Component({\r\n  selector: 'watt-color',\r\n  templateUrl: './color.component.html',\r\n  styleUrls: ['./color.component.scss'],\r\n})\r\nexport class ColorComponent {\r\n  /**\r\n   * @ignore\r\n   */\r\n  colorTypes: ColorType[] = [\r\n    {\r\n      name: 'primary',\r\n      title: 'Primary Colors',\r\n      description:\r\n        'The primary colors are the brand colors that are main colors used on central elements like primary buttons and in the main navigation.',\r\n      colors: [\r\n        this.getColor('primary', WattColors.primary),\r\n        this.getColor('primary-dark', WattColors.primaryDark),\r\n      ],\r\n    },\r\n    {\r\n      name: 'focus',\r\n      title: 'Focus Colors',\r\n      colors: [\r\n        this.getColor('focus', WattColors.focus),\r\n        this.getColor('selection', WattColors.selection),\r\n      ],\r\n    },\r\n    {\r\n      name: 'neutral',\r\n      title: 'Neutral Colors',\r\n      colors: [\r\n        this.getColor('black', WattColors.black),\r\n        this.getColor('white', WattColors.white),\r\n        this.getColor('grey-50', WattColors.grey50),\r\n        this.getColor('grey-100', WattColors.grey100),\r\n        this.getColor('grey-200', WattColors.grey200),\r\n        this.getColor('grey-300', WattColors.grey300),\r\n        this.getColor('grey-400', WattColors.grey400),\r\n        this.getColor('grey-500', WattColors.grey500),\r\n        this.getColor('grey-600', WattColors.grey600),\r\n        this.getColor('grey-700', WattColors.grey700),\r\n        this.getColor('grey-800', WattColors.grey800),\r\n        this.getColor('grey-900', WattColors.grey900),\r\n      ],\r\n    },\r\n    {\r\n      name: 'state',\r\n      title: 'State Colors',\r\n      description:\r\n        'State color helps users find people, identify status, see actions, locate help, and understand next steps. The consistent use of color keeps cognitive load low and makes for a unified and engaging user experience.',\r\n      colors: [\r\n        this.getColor('danger', WattColors.danger),\r\n        this.getColor('warning', WattColors.warning),\r\n        this.getColor('success', WattColors.success),\r\n        this.getColor('info', WattColors.info),\r\n        this.getColor('danger-light', WattColors.dangerLight),\r\n        this.getColor('warning-light', WattColors.warningLight),\r\n        this.getColor('success-light', WattColors.successLight),\r\n        this.getColor('info-light', WattColors.infoLight),\r\n      ],\r\n    },\r\n  ];\r\n\r\n  constructor(private colorHelperService: WattColorHelperService) {}\r\n\r\n  /**\r\n   * @ignore\r\n   */\r\n  copyToClipboard(color: string) {\r\n    `var(${navigator.clipboard.writeText(color)})`;\r\n  }\r\n\r\n  /**\r\n   * @ignore\r\n   */\r\n  private getColor(name: string, color: WattColors) {\r\n    return {\r\n      name,\r\n      var: color,\r\n      color: this.colorHelperService.getColor(color),\r\n      contrast: this.colorHelperService.getColorContrast(color),\r\n    };\r\n  }\r\n}\r\n",
             "properties": [
                 {
                     "name": "color",
@@ -17,7 +17,7 @@
                     "type": "string",
                     "optional": false,
                     "description": "",
-                    "line": 30
+                    "line": 31
                 },
                 {
                     "name": "contrast",
@@ -26,7 +26,7 @@
                     "type": "string",
                     "optional": false,
                     "description": "",
-                    "line": 31
+                    "line": 32
                 },
                 {
                     "name": "name",
@@ -35,7 +35,7 @@
                     "type": "string",
                     "optional": false,
                     "description": "",
-                    "line": 28
+                    "line": 29
                 },
                 {
                     "name": "var",
@@ -44,7 +44,7 @@
                     "type": "string",
                     "optional": false,
                     "description": "",
-                    "line": 29
+                    "line": 30
                 }
             ],
             "indexSignatures": [],
@@ -53,12 +53,12 @@
         },
         {
             "name": "ColorType",
-            "id": "interface-ColorType-fc2323a1e802573913ecbb6ab59a4ad7",
+            "id": "interface-ColorType-3ca59e74454c80384e7a373ef04178d2",
             "file": "libs/ui-watt/src/lib/foundations/color/storybook/color.component.ts",
             "deprecated": false,
             "deprecationMessage": "",
             "type": "interface",
-            "sourceCode": "import { Component } from '@angular/core';\r\nimport { ColorHelperService } from '../color-helper.service';\r\nimport { Colors } from '../colors';\r\n\r\ninterface ColorType {\r\n  name: string;\r\n  title: string;\r\n  description?: string;\r\n  colors: Color[];\r\n}\r\ninterface Color {\r\n  name: string;\r\n  var: string;\r\n  color: string;\r\n  contrast: string;\r\n}\r\n@Component({\r\n  selector: 'watt-color',\r\n  templateUrl: './color.component.html',\r\n  styleUrls: ['./color.component.scss'],\r\n})\r\nexport class ColorComponent {\r\n  /**\r\n   * @ignore\r\n   */\r\n  colorTypes: ColorType[] = [\r\n    {\r\n      name: 'primary',\r\n      title: 'Primary Colors',\r\n      description:\r\n        'The primary colors are the brand colors that are main colors used on central elements like primary buttons and in the main navigation.',\r\n      colors: [\r\n        this.getColor('primary', Colors.primary),\r\n        this.getColor('primary-dark', Colors.primaryDark),\r\n      ],\r\n    },\r\n    {\r\n      name: 'focus',\r\n      title: 'Focus Colors',\r\n      colors: [\r\n        this.getColor('focus', Colors.focus),\r\n        this.getColor('selection', Colors.selection),\r\n      ],\r\n    },\r\n    {\r\n      name: 'neutral',\r\n      title: 'Neutral Colors',\r\n      colors: [\r\n        this.getColor('black', Colors.black),\r\n        this.getColor('white', Colors.white),\r\n        this.getColor('grey-50', Colors.grey50),\r\n        this.getColor('grey-100', Colors.grey100),\r\n        this.getColor('grey-200', Colors.grey200),\r\n        this.getColor('grey-300', Colors.grey300),\r\n        this.getColor('grey-400', Colors.grey400),\r\n        this.getColor('grey-500', Colors.grey500),\r\n        this.getColor('grey-600', Colors.grey600),\r\n        this.getColor('grey-700', Colors.grey700),\r\n        this.getColor('grey-800', Colors.grey800),\r\n        this.getColor('grey-900', Colors.grey900),\r\n      ],\r\n    },\r\n    {\r\n      name: 'state',\r\n      title: 'State Colors',\r\n      description:\r\n        'State color helps users find people, identify status, see actions, locate help, and understand next steps. The consistent use of color keeps cognitive load low and makes for a unified and engaging user experience.',\r\n      colors: [\r\n        this.getColor('danger', Colors.danger),\r\n        this.getColor('warning', Colors.warning),\r\n        this.getColor('success', Colors.success),\r\n        this.getColor('info', Colors.info),\r\n        this.getColor('danger-light', Colors.dangerLight),\r\n        this.getColor('warning-light', Colors.warningLight),\r\n        this.getColor('success-light', Colors.successLight),\r\n        this.getColor('info-light', Colors.infoLight),\r\n      ],\r\n    },\r\n  ];\r\n\r\n  constructor(private colorHelperService: ColorHelperService) {}\r\n\r\n  /**\r\n   * @ignore\r\n   */\r\n  copyToClipboard(color: string) {\r\n    `var(${navigator.clipboard.writeText(color)})`;\r\n  }\r\n\r\n  /**\r\n   * @ignore\r\n   */\r\n  private getColor(name: string, color: Colors) {\r\n    return {\r\n      name,\r\n      var: color,\r\n      color: this.colorHelperService.getColor(color),\r\n      contrast: this.colorHelperService.getColorContrast(color),\r\n    };\r\n  }\r\n}\r\n",
+            "sourceCode": "import { Component } from '@angular/core';\r\n\r\nimport { WattColorHelperService } from '../color-helper.service';\r\nimport { WattColors } from '../colors';\r\n\r\ninterface ColorType {\r\n  name: string;\r\n  title: string;\r\n  description?: string;\r\n  colors: Color[];\r\n}\r\ninterface Color {\r\n  name: string;\r\n  var: string;\r\n  color: string;\r\n  contrast: string;\r\n}\r\n@Component({\r\n  selector: 'watt-color',\r\n  templateUrl: './color.component.html',\r\n  styleUrls: ['./color.component.scss'],\r\n})\r\nexport class ColorComponent {\r\n  /**\r\n   * @ignore\r\n   */\r\n  colorTypes: ColorType[] = [\r\n    {\r\n      name: 'primary',\r\n      title: 'Primary Colors',\r\n      description:\r\n        'The primary colors are the brand colors that are main colors used on central elements like primary buttons and in the main navigation.',\r\n      colors: [\r\n        this.getColor('primary', WattColors.primary),\r\n        this.getColor('primary-dark', WattColors.primaryDark),\r\n      ],\r\n    },\r\n    {\r\n      name: 'focus',\r\n      title: 'Focus Colors',\r\n      colors: [\r\n        this.getColor('focus', WattColors.focus),\r\n        this.getColor('selection', WattColors.selection),\r\n      ],\r\n    },\r\n    {\r\n      name: 'neutral',\r\n      title: 'Neutral Colors',\r\n      colors: [\r\n        this.getColor('black', WattColors.black),\r\n        this.getColor('white', WattColors.white),\r\n        this.getColor('grey-50', WattColors.grey50),\r\n        this.getColor('grey-100', WattColors.grey100),\r\n        this.getColor('grey-200', WattColors.grey200),\r\n        this.getColor('grey-300', WattColors.grey300),\r\n        this.getColor('grey-400', WattColors.grey400),\r\n        this.getColor('grey-500', WattColors.grey500),\r\n        this.getColor('grey-600', WattColors.grey600),\r\n        this.getColor('grey-700', WattColors.grey700),\r\n        this.getColor('grey-800', WattColors.grey800),\r\n        this.getColor('grey-900', WattColors.grey900),\r\n      ],\r\n    },\r\n    {\r\n      name: 'state',\r\n      title: 'State Colors',\r\n      description:\r\n        'State color helps users find people, identify status, see actions, locate help, and understand next steps. The consistent use of color keeps cognitive load low and makes for a unified and engaging user experience.',\r\n      colors: [\r\n        this.getColor('danger', WattColors.danger),\r\n        this.getColor('warning', WattColors.warning),\r\n        this.getColor('success', WattColors.success),\r\n        this.getColor('info', WattColors.info),\r\n        this.getColor('danger-light', WattColors.dangerLight),\r\n        this.getColor('warning-light', WattColors.warningLight),\r\n        this.getColor('success-light', WattColors.successLight),\r\n        this.getColor('info-light', WattColors.infoLight),\r\n      ],\r\n    },\r\n  ];\r\n\r\n  constructor(private colorHelperService: WattColorHelperService) {}\r\n\r\n  /**\r\n   * @ignore\r\n   */\r\n  copyToClipboard(color: string) {\r\n    `var(${navigator.clipboard.writeText(color)})`;\r\n  }\r\n\r\n  /**\r\n   * @ignore\r\n   */\r\n  private getColor(name: string, color: WattColors) {\r\n    return {\r\n      name,\r\n      var: color,\r\n      color: this.colorHelperService.getColor(color),\r\n      contrast: this.colorHelperService.getColorContrast(color),\r\n    };\r\n  }\r\n}\r\n",
             "properties": [
                 {
                     "name": "colors",
@@ -67,7 +67,7 @@
                     "type": "Color[]",
                     "optional": false,
                     "description": "",
-                    "line": 25
+                    "line": 26
                 },
                 {
                     "name": "description",
@@ -76,7 +76,7 @@
                     "type": "string",
                     "optional": true,
                     "description": "",
-                    "line": 24
+                    "line": 25
                 },
                 {
                     "name": "name",
@@ -85,7 +85,7 @@
                     "type": "string",
                     "optional": false,
                     "description": "",
-                    "line": 22
+                    "line": 23
                 },
                 {
                     "name": "title",
@@ -94,7 +94,7 @@
                     "type": "string",
                     "optional": false,
                     "description": "",
-                    "line": 23
+                    "line": 24
                 }
             ],
             "indexSignatures": [],
@@ -181,8 +181,8 @@
     ],
     "injectables": [
         {
-            "name": "ColorHelperService",
-            "id": "injectable-ColorHelperService-518b8a736f9026248a93100ba2e6b424",
+            "name": "WattColorHelperService",
+            "id": "injectable-WattColorHelperService-90d46c1612ceaaea6779b33ac96ee63e",
             "file": "libs/ui-watt/src/lib/foundations/color/color-helper.service.ts",
             "properties": [
                 {
@@ -193,7 +193,7 @@
                     "type": "string",
                     "optional": false,
                     "description": "",
-                    "line": 25,
+                    "line": 26,
                     "modifierKind": [
                         121
                     ]
@@ -205,7 +205,7 @@
                     "args": [
                         {
                             "name": "colorName",
-                            "type": "Colors",
+                            "type": "WattColors",
                             "deprecated": false,
                             "deprecationMessage": ""
                         }
@@ -213,7 +213,7 @@
                     "optional": false,
                     "returnType": "string",
                     "typeParameters": [],
-                    "line": 32,
+                    "line": 33,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "modifierKind": [
@@ -222,7 +222,7 @@
                     "jsdoctags": [
                         {
                             "name": "colorName",
-                            "type": "Colors",
+                            "type": "WattColors",
                             "deprecated": false,
                             "deprecationMessage": "",
                             "tagName": {
@@ -236,7 +236,7 @@
                     "args": [
                         {
                             "name": "colorName",
-                            "type": "Colors",
+                            "type": "WattColors",
                             "deprecated": false,
                             "deprecationMessage": ""
                         }
@@ -244,7 +244,7 @@
                     "optional": false,
                     "returnType": "string",
                     "typeParameters": [],
-                    "line": 36,
+                    "line": 37,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "modifierKind": [
@@ -253,7 +253,7 @@
                     "jsdoctags": [
                         {
                             "name": "colorName",
-                            "type": "Colors",
+                            "type": "WattColors",
                             "deprecated": false,
                             "deprecationMessage": "",
                             "tagName": {
@@ -268,7 +268,7 @@
                     "optional": false,
                     "returnType": "any",
                     "typeParameters": [],
-                    "line": 42,
+                    "line": 43,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "modifierKind": [
@@ -280,7 +280,7 @@
             "deprecationMessage": "",
             "description": "",
             "rawdescription": "\n",
-            "sourceCode": "import { DOCUMENT } from '@angular/common';\r\nimport { Inject, Injectable } from '@angular/core';\r\nimport { Colors } from './colors';\r\n\r\n@Injectable({\r\n  providedIn: 'root',\r\n})\r\nexport class ColorHelperService {\r\n  private colorContrastSuffix = 'contrast';\r\n\r\n  constructor(\r\n    @Inject(DOCUMENT) private document: Document,\r\n    private window: Window\r\n  ) {}\r\n\r\n  public getColor(colorName: Colors): string {\r\n    return this.getComputedStyle().getPropertyValue(colorName);\r\n  }\r\n\r\n  public getColorContrast(colorName: Colors): string {\r\n    return this.getComputedStyle().getPropertyValue(\r\n      `${colorName}-${this.colorContrastSuffix}`\r\n    );\r\n  }\r\n\r\n  private getComputedStyle() {\r\n    return this.window.getComputedStyle(this.document.documentElement);\r\n  }\r\n}\r\n",
+            "sourceCode": "import { DOCUMENT } from '@angular/common';\r\nimport { Inject, Injectable } from '@angular/core';\r\n\r\nimport { WattColors } from './colors';\r\n\r\n@Injectable({\r\n  providedIn: 'root',\r\n})\r\nexport class WattColorHelperService {\r\n  private colorContrastSuffix = 'contrast';\r\n\r\n  constructor(\r\n    @Inject(DOCUMENT) private document: Document,\r\n    private window: Window\r\n  ) {}\r\n\r\n  public getColor(colorName: WattColors): string {\r\n    return this.getComputedStyle().getPropertyValue(colorName);\r\n  }\r\n\r\n  public getColorContrast(colorName: WattColors): string {\r\n    return this.getComputedStyle().getPropertyValue(\r\n      `${colorName}-${this.colorContrastSuffix}`\r\n    );\r\n  }\r\n\r\n  private getComputedStyle() {\r\n    return this.window.getComputedStyle(this.document.documentElement);\r\n  }\r\n}\r\n",
             "constructorObj": {
                 "name": "constructor",
                 "description": "",
@@ -300,7 +300,7 @@
                         "deprecationMessage": ""
                     }
                 ],
-                "line": 25,
+                "line": 26,
                 "jsdoctags": [
                     {
                         "name": "document",
@@ -539,120 +539,8 @@
     ],
     "components": [
         {
-            "name": "AutocompleteComponent",
-            "id": "component-AutocompleteComponent-07721dc8f00d020a055fe131e5f1a637",
-            "file": "libs/ui-watt/src/lib/components/autocomplete/autocomplete.component.ts",
-            "changeDetection": "ChangeDetectionStrategy.OnPush",
-            "encapsulation": [],
-            "entryComponents": [],
-            "inputs": [],
-            "outputs": [],
-            "providers": [],
-            "selector": "watt-autocomplete",
-            "styleUrls": [
-                "./autocomplete.component.scss"
-            ],
-            "styles": [],
-            "templateUrl": [
-                "./autocomplete.component.html"
-            ],
-            "viewProviders": [],
-            "inputsClass": [
-                {
-                    "name": "label",
-                    "defaultValue": "''",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "jsdoctags": [
-                        {
-                            "pos": 1123,
-                            "end": 1137,
-                            "flags": 4227072,
-                            "modifierFlagsCache": 0,
-                            "transformFlags": 0,
-                            "kind": 322,
-                            "tagName": {
-                                "pos": 1124,
-                                "end": 1132,
-                                "flags": 4227072,
-                                "modifierFlagsCache": 0,
-                                "transformFlags": 0,
-                                "kind": 79,
-                                "escapedText": "required"
-                            },
-                            "comment": ""
-                        }
-                    ],
-                    "rawdescription": "Sets the label for the autocomplete.",
-                    "description": "<p>Sets the label for the autocomplete.</p>\n",
-                    "line": 36,
-                    "type": "string"
-                },
-                {
-                    "name": "options",
-                    "defaultValue": "[]",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "rawdescription": "\r\nSets the options for the autocomplete.",
-                    "description": "<p>Sets the options for the autocomplete.</p>\n",
-                    "line": 47,
-                    "type": "string[]"
-                },
-                {
-                    "name": "placeholder",
-                    "defaultValue": "''",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "jsdoctags": [
-                        {
-                            "pos": 1232,
-                            "end": 1246,
-                            "flags": 4227072,
-                            "modifierFlagsCache": 0,
-                            "transformFlags": 0,
-                            "kind": 322,
-                            "tagName": {
-                                "pos": 1233,
-                                "end": 1241,
-                                "flags": 4227072,
-                                "modifierFlagsCache": 0,
-                                "transformFlags": 0,
-                                "kind": 79,
-                                "escapedText": "required"
-                            },
-                            "comment": ""
-                        }
-                    ],
-                    "rawdescription": "Sets the placeholder for the autocomplete.",
-                    "description": "<p>Sets the placeholder for the autocomplete.</p>\n",
-                    "line": 42,
-                    "type": "string"
-                }
-            ],
-            "outputsClass": [],
-            "propertiesClass": [],
-            "methodsClass": [],
-            "deprecated": false,
-            "deprecationMessage": "",
-            "hostBindings": [],
-            "hostListeners": [],
-            "description": "",
-            "rawdescription": "\n",
-            "type": "component",
-            "sourceCode": "import { ChangeDetectionStrategy, Component, Input } from '@angular/core';\r\nimport { FormControl } from '@angular/forms';\r\n\r\n@Component({\r\n  selector: 'watt-autocomplete',\r\n  templateUrl: './autocomplete.component.html',\r\n  styleUrls: ['./autocomplete.component.scss'],\r\n  changeDetection: ChangeDetectionStrategy.OnPush,\r\n})\r\nexport class AutocompleteComponent {\r\n  /**\r\n   * @ignore\r\n   */\r\n  myControl = new FormControl();\r\n  /**\r\n   * Sets the label for the autocomplete.\r\n   *\r\n   * @required\r\n   */\r\n  @Input() label = '';\r\n  /**\r\n   * Sets the placeholder for the autocomplete.\r\n   *\r\n   * @required\r\n   */\r\n  @Input() placeholder = '';\r\n  /**\r\n   *\r\n   * Sets the options for the autocomplete.\r\n   */\r\n  @Input() options: string[] = [];\r\n}\r\n",
-            "assetsDirs": [],
-            "styleUrlsData": [
-                {
-                    "data": "/**\r\n * @license\r\n * Copyright 2021 Energinet DataHub A/S\r\n *\r\n * Licensed under the Apache License, Version 2.0 (the \"License2\");\r\n * you may not use this file except in compliance with the License.\r\n * You may obtain a copy of the License at\r\n *\r\n *     http://www.apache.org/licenses/LICENSE-2.0\r\n *\r\n * Unless required by applicable law or agreed to in writing, software\r\n * distributed under the License is distributed on an \"AS IS\" BASIS,\r\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\r\n * See the License for the specific language governing permissions and\r\n * limitations under the License.\r\n */\r\n:host {\r\n  display: block;\r\n}\r\n",
-                    "styleUrl": "./autocomplete.component.scss"
-                }
-            ],
-            "stylesData": "",
-            "templateData": "<!--\r\n@license\r\nCopyright 2021 Energinet DataHub A/S\r\n\r\nLicensed under the Apache License, Version 2.0 (the \"License2\");\r\nyou may not use this file except in compliance with the License.\r\nYou may obtain a copy of the License at\r\n\r\n    http://www.apache.org/licenses/LICENSE-2.0\r\n\r\nUnless required by applicable law or agreed to in writing, software\r\ndistributed under the License is distributed on an \"AS IS\" BASIS,\r\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\r\nSee the License for the specific language governing permissions and\r\nlimitations under the License.\r\n-->\r\n<mat-form-field appearance=\"fill\">\r\n  <mat-label>{{ label }}</mat-label>\r\n  <input\r\n    type=\"text\"\r\n    [placeholder]=\"placeholder\"\r\n    [attr.aria-label]=\"label\"\r\n    matInput\r\n    [formControl]=\"myControl\"\r\n    [matAutocomplete]=\"auto\"\r\n  />\r\n  <mat-autocomplete #auto=\"matAutocomplete\">\r\n    <mat-option *ngFor=\"let option of options\" [value]=\"option\">\r\n      {{ option }}\r\n    </mat-option>\r\n  </mat-autocomplete>\r\n</mat-form-field>\r\n"
-        },
-        {
             "name": "ColorComponent",
-            "id": "component-ColorComponent-fc2323a1e802573913ecbb6ab59a4ad7",
+            "id": "component-ColorComponent-3ca59e74454c80384e7a373ef04178d2",
             "file": "libs/ui-watt/src/lib/foundations/color/storybook/color.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -679,7 +567,7 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { Component } from '@angular/core';\r\nimport { ColorHelperService } from '../color-helper.service';\r\nimport { Colors } from '../colors';\r\n\r\ninterface ColorType {\r\n  name: string;\r\n  title: string;\r\n  description?: string;\r\n  colors: Color[];\r\n}\r\ninterface Color {\r\n  name: string;\r\n  var: string;\r\n  color: string;\r\n  contrast: string;\r\n}\r\n@Component({\r\n  selector: 'watt-color',\r\n  templateUrl: './color.component.html',\r\n  styleUrls: ['./color.component.scss'],\r\n})\r\nexport class ColorComponent {\r\n  /**\r\n   * @ignore\r\n   */\r\n  colorTypes: ColorType[] = [\r\n    {\r\n      name: 'primary',\r\n      title: 'Primary Colors',\r\n      description:\r\n        'The primary colors are the brand colors that are main colors used on central elements like primary buttons and in the main navigation.',\r\n      colors: [\r\n        this.getColor('primary', Colors.primary),\r\n        this.getColor('primary-dark', Colors.primaryDark),\r\n      ],\r\n    },\r\n    {\r\n      name: 'focus',\r\n      title: 'Focus Colors',\r\n      colors: [\r\n        this.getColor('focus', Colors.focus),\r\n        this.getColor('selection', Colors.selection),\r\n      ],\r\n    },\r\n    {\r\n      name: 'neutral',\r\n      title: 'Neutral Colors',\r\n      colors: [\r\n        this.getColor('black', Colors.black),\r\n        this.getColor('white', Colors.white),\r\n        this.getColor('grey-50', Colors.grey50),\r\n        this.getColor('grey-100', Colors.grey100),\r\n        this.getColor('grey-200', Colors.grey200),\r\n        this.getColor('grey-300', Colors.grey300),\r\n        this.getColor('grey-400', Colors.grey400),\r\n        this.getColor('grey-500', Colors.grey500),\r\n        this.getColor('grey-600', Colors.grey600),\r\n        this.getColor('grey-700', Colors.grey700),\r\n        this.getColor('grey-800', Colors.grey800),\r\n        this.getColor('grey-900', Colors.grey900),\r\n      ],\r\n    },\r\n    {\r\n      name: 'state',\r\n      title: 'State Colors',\r\n      description:\r\n        'State color helps users find people, identify status, see actions, locate help, and understand next steps. The consistent use of color keeps cognitive load low and makes for a unified and engaging user experience.',\r\n      colors: [\r\n        this.getColor('danger', Colors.danger),\r\n        this.getColor('warning', Colors.warning),\r\n        this.getColor('success', Colors.success),\r\n        this.getColor('info', Colors.info),\r\n        this.getColor('danger-light', Colors.dangerLight),\r\n        this.getColor('warning-light', Colors.warningLight),\r\n        this.getColor('success-light', Colors.successLight),\r\n        this.getColor('info-light', Colors.infoLight),\r\n      ],\r\n    },\r\n  ];\r\n\r\n  constructor(private colorHelperService: ColorHelperService) {}\r\n\r\n  /**\r\n   * @ignore\r\n   */\r\n  copyToClipboard(color: string) {\r\n    `var(${navigator.clipboard.writeText(color)})`;\r\n  }\r\n\r\n  /**\r\n   * @ignore\r\n   */\r\n  private getColor(name: string, color: Colors) {\r\n    return {\r\n      name,\r\n      var: color,\r\n      color: this.colorHelperService.getColor(color),\r\n      contrast: this.colorHelperService.getColorContrast(color),\r\n    };\r\n  }\r\n}\r\n",
+            "sourceCode": "import { Component } from '@angular/core';\r\n\r\nimport { WattColorHelperService } from '../color-helper.service';\r\nimport { WattColors } from '../colors';\r\n\r\ninterface ColorType {\r\n  name: string;\r\n  title: string;\r\n  description?: string;\r\n  colors: Color[];\r\n}\r\ninterface Color {\r\n  name: string;\r\n  var: string;\r\n  color: string;\r\n  contrast: string;\r\n}\r\n@Component({\r\n  selector: 'watt-color',\r\n  templateUrl: './color.component.html',\r\n  styleUrls: ['./color.component.scss'],\r\n})\r\nexport class ColorComponent {\r\n  /**\r\n   * @ignore\r\n   */\r\n  colorTypes: ColorType[] = [\r\n    {\r\n      name: 'primary',\r\n      title: 'Primary Colors',\r\n      description:\r\n        'The primary colors are the brand colors that are main colors used on central elements like primary buttons and in the main navigation.',\r\n      colors: [\r\n        this.getColor('primary', WattColors.primary),\r\n        this.getColor('primary-dark', WattColors.primaryDark),\r\n      ],\r\n    },\r\n    {\r\n      name: 'focus',\r\n      title: 'Focus Colors',\r\n      colors: [\r\n        this.getColor('focus', WattColors.focus),\r\n        this.getColor('selection', WattColors.selection),\r\n      ],\r\n    },\r\n    {\r\n      name: 'neutral',\r\n      title: 'Neutral Colors',\r\n      colors: [\r\n        this.getColor('black', WattColors.black),\r\n        this.getColor('white', WattColors.white),\r\n        this.getColor('grey-50', WattColors.grey50),\r\n        this.getColor('grey-100', WattColors.grey100),\r\n        this.getColor('grey-200', WattColors.grey200),\r\n        this.getColor('grey-300', WattColors.grey300),\r\n        this.getColor('grey-400', WattColors.grey400),\r\n        this.getColor('grey-500', WattColors.grey500),\r\n        this.getColor('grey-600', WattColors.grey600),\r\n        this.getColor('grey-700', WattColors.grey700),\r\n        this.getColor('grey-800', WattColors.grey800),\r\n        this.getColor('grey-900', WattColors.grey900),\r\n      ],\r\n    },\r\n    {\r\n      name: 'state',\r\n      title: 'State Colors',\r\n      description:\r\n        'State color helps users find people, identify status, see actions, locate help, and understand next steps. The consistent use of color keeps cognitive load low and makes for a unified and engaging user experience.',\r\n      colors: [\r\n        this.getColor('danger', WattColors.danger),\r\n        this.getColor('warning', WattColors.warning),\r\n        this.getColor('success', WattColors.success),\r\n        this.getColor('info', WattColors.info),\r\n        this.getColor('danger-light', WattColors.dangerLight),\r\n        this.getColor('warning-light', WattColors.warningLight),\r\n        this.getColor('success-light', WattColors.successLight),\r\n        this.getColor('info-light', WattColors.infoLight),\r\n      ],\r\n    },\r\n  ];\r\n\r\n  constructor(private colorHelperService: WattColorHelperService) {}\r\n\r\n  /**\r\n   * @ignore\r\n   */\r\n  copyToClipboard(color: string) {\r\n    `var(${navigator.clipboard.writeText(color)})`;\r\n  }\r\n\r\n  /**\r\n   * @ignore\r\n   */\r\n  private getColor(name: string, color: WattColors) {\r\n    return {\r\n      name,\r\n      var: color,\r\n      color: this.colorHelperService.getColor(color),\r\n      contrast: this.colorHelperService.getColorContrast(color),\r\n    };\r\n  }\r\n}\r\n",
             "assetsDirs": [],
             "styleUrlsData": [
                 {
@@ -696,16 +584,16 @@
                 "args": [
                     {
                         "name": "colorHelperService",
-                        "type": "ColorHelperService",
+                        "type": "WattColorHelperService",
                         "deprecated": false,
                         "deprecationMessage": ""
                     }
                 ],
-                "line": 95,
+                "line": 96,
                 "jsdoctags": [
                     {
                         "name": "colorHelperService",
-                        "type": "ColorHelperService",
+                        "type": "WattColorHelperService",
                         "deprecated": false,
                         "deprecationMessage": "",
                         "tagName": {
@@ -834,7 +722,7 @@
         },
         {
             "name": "InputComponent",
-            "id": "component-InputComponent-dc1f45c089616bf1979035f858d06575",
+            "id": "component-InputComponent-ca2232828b58c0db9a407e5e005adde0",
             "file": "libs/ui-watt/src/lib/components/input/storybook/input.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -846,7 +734,7 @@
                 "./input.component.scss"
             ],
             "styles": [],
-            "template": "<watt-form-field>      <watt-label>{{label}}</watt-label>\n      <button *ngIf=\"hasPrefix\" wattPrefix aria-label=\"some meaningful description\">\n        icon\n      </button>\n      <input wattInput type=\"text\" maxlength=\"256\" [formControl]=\"exampleFormControl\" [placeholder]=\"placeholder\"/>\n      <button *ngIf=\"hasSuffix\" wattSuffix aria-label=\"some meaningful description\">\n        icon\n      </button>\n      <watt-error *ngIf=\"exampleFormControl.hasError('required')\">\n      This field is required\n      </watt-error>\n      <watt-hint *ngIf=\"hasHint\">Some hint</watt-hint>\n      <watt-hint *ngIf=\"hasHint\" align=\"end\">{{exampleFormControl.value.length}} / 256</watt-hint>\n    </watt-form-field>\n",
+            "template": "<watt-form-field [size]=\"size\">      <watt-label>{{label}}</watt-label>\n      <button *ngIf=\"hasPrefix\" wattPrefix aria-label=\"some meaningful description\">\n        icon\n      </button>\n      <input wattInput type=\"text\" maxlength=\"256\" [formControl]=\"exampleFormControl\" [placeholder]=\"placeholder\"/>\n      <button *ngIf=\"hasSuffix\" wattSuffix aria-label=\"some meaningful description\">\n        icon\n      </button>\n      <watt-error *ngIf=\"exampleFormControl.hasError('required')\">\n      This field is required\n      </watt-error>\n      <watt-hint *ngIf=\"hasHint\">Some hint</watt-hint>\n      <watt-hint *ngIf=\"hasHint\" align=\"end\">{{exampleFormControl.value.length}} / 256</watt-hint>\n    </watt-form-field>\n",
             "templateUrl": [],
             "viewProviders": [],
             "inputsClass": [
@@ -925,7 +813,7 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';\r\nimport { FormControl } from '@angular/forms';\r\n\r\n@Component({\r\n  selector: 'watt-input',\r\n  styleUrls: ['./input.component.scss'],\r\n  template: `<watt-form-field>\r\n      <watt-label>{{label}}</watt-label>\r\n      <button *ngIf=\"hasPrefix\" wattPrefix aria-label=\"some meaningful description\">\r\n        icon\r\n      </button>\r\n      <input wattInput type=\"text\" maxlength=\"256\" [formControl]=\"exampleFormControl\" [placeholder]=\"placeholder\"/>\r\n      <button *ngIf=\"hasSuffix\" wattSuffix aria-label=\"some meaningful description\">\r\n        icon\r\n      </button>\r\n      <watt-error *ngIf=\"exampleFormControl.hasError('required')\">\r\n      This field is required\r\n      </watt-error>\r\n      <watt-hint *ngIf=\"hasHint\">Some hint</watt-hint>\r\n      <watt-hint *ngIf=\"hasHint\" align=\"end\">{{exampleFormControl.value.length}} / 256</watt-hint>\r\n    </watt-form-field>\r\n    `,\r\n})\r\nexport class InputComponent implements OnChanges {\r\n  @Input() label = 'label';\r\n  @Input() placeholder = 'Some placeholder';\r\n  @Input() disabled = false;\r\n  @Input() hasPrefix = false;\r\n  @Input() hasSuffix = false;\r\n  @Input() hasHint = false;\r\n  @Input() hasError = false;\r\n  @Input() size: 'normal' | 'large' = 'normal';\r\n  \r\n  /**\r\n   * @ignore\r\n   */\r\n  exampleFormControl = new FormControl({value: '', disabled: this.disabled});\r\n\r\n  /**\r\n   * @ignore\r\n   * @param changes \r\n   */\r\n  ngOnChanges(changes: SimpleChanges) {\r\n    if(changes.disabled) {\r\n      if(changes.disabled.currentValue) {\r\n        this.exampleFormControl.disable();\r\n      } else {\r\n        this.exampleFormControl.enable();\r\n      }\r\n    } \r\n\r\n    if(!changes.hasError) return;\r\n    if(changes.hasError.currentValue) {\r\n      // Tick is needed, otherwise errors won't be applied in this context\r\n      setTimeout(() => {\r\n        this.exampleFormControl.setErrors({required: true});\r\n        this.exampleFormControl.markAsTouched();\r\n      });\r\n    } else {\r\n      this.exampleFormControl.setErrors(null);\r\n    }\r\n  }\r\n}\r\n",
+            "sourceCode": "import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';\r\nimport { FormControl } from '@angular/forms';\r\n\r\n@Component({\r\n  selector: 'watt-input',\r\n  styleUrls: ['./input.component.scss'],\r\n  template: `<watt-form-field [size]=\"size\">\r\n      <watt-label>{{label}}</watt-label>\r\n      <button *ngIf=\"hasPrefix\" wattPrefix aria-label=\"some meaningful description\">\r\n        icon\r\n      </button>\r\n      <input wattInput type=\"text\" maxlength=\"256\" [formControl]=\"exampleFormControl\" [placeholder]=\"placeholder\"/>\r\n      <button *ngIf=\"hasSuffix\" wattSuffix aria-label=\"some meaningful description\">\r\n        icon\r\n      </button>\r\n      <watt-error *ngIf=\"exampleFormControl.hasError('required')\">\r\n      This field is required\r\n      </watt-error>\r\n      <watt-hint *ngIf=\"hasHint\">Some hint</watt-hint>\r\n      <watt-hint *ngIf=\"hasHint\" align=\"end\">{{exampleFormControl.value.length}} / 256</watt-hint>\r\n    </watt-form-field>\r\n    `,\r\n})\r\nexport class InputComponent implements OnChanges {\r\n  @Input() label = 'label';\r\n  @Input() placeholder = 'Some placeholder';\r\n  @Input() disabled = false;\r\n  @Input() hasPrefix = false;\r\n  @Input() hasSuffix = false;\r\n  @Input() hasHint = false;\r\n  @Input() hasError = false;\r\n  @Input() size: 'normal' | 'large' = 'normal';\r\n  \r\n  /**\r\n   * @ignore\r\n   */\r\n  exampleFormControl = new FormControl({value: '', disabled: this.disabled});\r\n\r\n  /**\r\n   * @ignore\r\n   * @param changes \r\n   */\r\n  ngOnChanges(changes: SimpleChanges) {\r\n    if(changes.disabled) {\r\n      if(changes.disabled.currentValue) {\r\n        this.exampleFormControl.disable();\r\n      } else {\r\n        this.exampleFormControl.enable();\r\n      }\r\n    } \r\n\r\n    if(!changes.hasError) return;\r\n    if(changes.hasError.currentValue) {\r\n      // Tick is needed, otherwise errors won't be applied in this context\r\n      setTimeout(() => {\r\n        this.exampleFormControl.setErrors({required: true});\r\n        this.exampleFormControl.markAsTouched();\r\n      });\r\n    } else {\r\n      this.exampleFormControl.setErrors(null);\r\n    }\r\n  }\r\n}\r\n",
             "assetsDirs": [],
             "styleUrlsData": [
                 {
@@ -937,46 +825,6 @@
             "implements": [
                 "OnChanges"
             ]
-        },
-        {
-            "name": "ShellComponent",
-            "id": "component-ShellComponent-b1d2caafb055e9c8892c30ad4c99f8d0",
-            "file": "libs/ui-watt/src/lib/components/shell/shell.component.ts",
-            "encapsulation": [],
-            "entryComponents": [],
-            "inputs": [],
-            "outputs": [],
-            "providers": [],
-            "selector": "watt-shell",
-            "styleUrls": [
-                "./shell.component.scss"
-            ],
-            "styles": [],
-            "templateUrl": [
-                "./shell.component.html"
-            ],
-            "viewProviders": [],
-            "inputsClass": [],
-            "outputsClass": [],
-            "propertiesClass": [],
-            "methodsClass": [],
-            "deprecated": false,
-            "deprecationMessage": "",
-            "hostBindings": [],
-            "hostListeners": [],
-            "description": "",
-            "rawdescription": "\n",
-            "type": "component",
-            "sourceCode": "import { Component } from '@angular/core';\r\nimport { MatDrawerMode } from '@angular/material/sidenav';\r\n\r\n@Component({\r\n  selector: 'watt-shell',\r\n  styleUrls: ['./shell.component.scss'],\r\n  templateUrl: './shell.component.html',\r\n})\r\nexport class ShellComponent {\r\n  /**\r\n   * @ignore\r\n   */\r\n  sidenavOpened = true;\r\n\r\n  /**\r\n   * @ignore\r\n   */\r\n  sidenavMode: MatDrawerMode = 'side';\r\n}\r\n",
-            "assetsDirs": [],
-            "styleUrlsData": [
-                {
-                    "data": "/**\r\n * @license\r\n * Copyright 2021 Energinet DataHub A/S\r\n *\r\n * Licensed under the Apache License, Version 2.0 (the \"License2\");\r\n * you may not use this file except in compliance with the License.\r\n * You may obtain a copy of the License at\r\n *\r\n *     http://www.apache.org/licenses/LICENSE-2.0\r\n *\r\n * Unless required by applicable law or agreed to in writing, software\r\n * distributed under the License is distributed on an \"AS IS\" BASIS,\r\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\r\n * See the License for the specific language governing permissions and\r\n * limitations under the License.\r\n */\r\n:host {\r\n  display: block;\r\n}\r\n\r\n.sidenav-container {\r\n  height: 100vh;\r\n}\r\n\r\n.sidenav {\r\n  width: 200px;\r\n}\r\n",
-                    "styleUrl": "./shell.component.scss"
-                }
-            ],
-            "stylesData": "",
-            "templateData": "<!--\r\n@license\r\nCopyright 2021 Energinet DataHub A/S\r\n\r\nLicensed under the Apache License, Version 2.0 (the \"License2\");\r\nyou may not use this file except in compliance with the License.\r\nYou may obtain a copy of the License at\r\n\r\n    http://www.apache.org/licenses/LICENSE-2.0\r\n\r\nUnless required by applicable law or agreed to in writing, software\r\ndistributed under the License is distributed on an \"AS IS\" BASIS,\r\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\r\nSee the License for the specific language governing permissions and\r\nlimitations under the License.\r\n-->\r\n<mat-sidenav-container class=\"sidenav-container\">\r\n  <mat-sidenav\r\n    class=\"sidenav\"\r\n    [mode]=\"sidenavMode\"\r\n    [opened]=\"sidenavOpened\"\r\n    role=\"navigation\"\r\n  >\r\n    <ng-content select=\"[watt-shell-sidenav]\"></ng-content>\r\n  </mat-sidenav>\r\n\r\n  <mat-sidenav-content>\r\n    <mat-toolbar>\r\n      <ng-content select=\"[watt-shell-toolbar]\"></ng-content>\r\n    </mat-toolbar>\r\n\r\n    <main class=\"main-content\">\r\n      <ng-content></ng-content>\r\n    </main>\r\n  </mat-sidenav-content>\r\n</mat-sidenav-container>\r\n"
         },
         {
             "name": "TypographyComponent",
@@ -1017,6 +865,118 @@
             ],
             "stylesData": "",
             "templateData": "<!--\r\n@license\r\nCopyright 2021 Energinet DataHub A/S\r\n\r\nLicensed under the Apache License, Version 2.0 (the \"License2\");\r\nyou may not use this file except in compliance with the License.\r\nYou may obtain a copy of the License at\r\n\r\n    http://www.apache.org/licenses/LICENSE-2.0\r\n\r\nUnless required by applicable law or agreed to in writing, software\r\ndistributed under the License is distributed on an \"AS IS\" BASIS,\r\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\r\nSee the License for the specific language governing permissions and\r\nlimitations under the License.\r\n-->\r\n<mat-card>\r\n  <h1>Typography</h1>\r\n</mat-card>\r\n\r\n<mat-card>\r\n  <h3>Font</h3>\r\n  <p>\r\n    <strong>Open Sans</strong> is the typeface used in the Watts Design System.\r\n  </p>\r\n</mat-card>\r\n\r\n<mat-card>\r\n  <h3>Type Scale</h3>\r\n  <p>\r\n    Font sizes are smaller on mobile and scale up at the md breakpoint to be\r\n    larger on desktop.\r\n  </p>\r\n\r\n  <table mat-table [dataSource]=\"dataSource\" style=\"width: 100%\">\r\n    <!--- Note that these columns can be defined in any order.\r\n            The actual rendered columns are set as a property on the row definition\" -->\r\n\r\n    <!-- Name Column -->\r\n    <ng-container matColumnDef=\"name\">\r\n      <th mat-header-cell *matHeaderCellDef>Name</th>\r\n      <td\r\n        mat-cell\r\n        *matCellDef=\"let element\"\r\n        innerHTML=\"{{ element.html }}\"\r\n      ></td>\r\n    </ng-container>\r\n\r\n    <!-- Size Column -->\r\n    <ng-container matColumnDef=\"size\">\r\n      <th mat-header-cell *matHeaderCellDef>Size</th>\r\n      <td mat-cell *matCellDef=\"let element\">{{ element.size }}</td>\r\n    </ng-container>\r\n\r\n    <!-- Weight Column -->\r\n    <ng-container matColumnDef=\"weight\">\r\n      <th mat-header-cell *matHeaderCellDef>Weight</th>\r\n      <td mat-cell *matCellDef=\"let element\">{{ element.weight }}</td>\r\n    </ng-container>\r\n\r\n    <!-- Letter Case Column -->\r\n    <ng-container matColumnDef=\"letterCase\">\r\n      <th mat-header-cell *matHeaderCellDef>Letter Case</th>\r\n      <td mat-cell *matCellDef=\"let element\">{{ element.letterCase }}</td>\r\n    </ng-container>\r\n\r\n    <!-- Letter Spacing Column -->\r\n    <ng-container matColumnDef=\"letterSpacing\">\r\n      <th mat-header-cell *matHeaderCellDef>Letter Spacing</th>\r\n      <td mat-cell *matCellDef=\"let element\">{{ element.letterSpacing }}</td>\r\n    </ng-container>\r\n\r\n    <!-- Line height Column -->\r\n    <ng-container matColumnDef=\"lineHeight\">\r\n      <th mat-header-cell *matHeaderCellDef>Line Height</th>\r\n      <td mat-cell *matCellDef=\"let element\">{{ element.lineHeight }}</td>\r\n    </ng-container>\r\n\r\n    <tr mat-header-row *matHeaderRowDef=\"displayedColumns\"></tr>\r\n    <tr mat-row *matRowDef=\"let row; columns: displayedColumns\"></tr>\r\n  </table>\r\n\r\n  <p>\r\n    * Line height is set to the recommended minimum of 1.5 times the font size\r\n    by WCAG 2.1.\r\n  </p>\r\n</mat-card>\r\n"
+        },
+        {
+            "name": "WattAutocompleteComponent",
+            "id": "component-WattAutocompleteComponent-da1c6188d3675a8d407cade2e4ff9ff4",
+            "file": "libs/ui-watt/src/lib/components/autocomplete/autocomplete.component.ts",
+            "changeDetection": "ChangeDetectionStrategy.OnPush",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "watt-autocomplete",
+            "styleUrls": [
+                "./autocomplete.component.scss"
+            ],
+            "styles": [],
+            "templateUrl": [
+                "./autocomplete.component.html"
+            ],
+            "viewProviders": [],
+            "inputsClass": [
+                {
+                    "name": "label",
+                    "defaultValue": "''",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "jsdoctags": [
+                        {
+                            "pos": 1127,
+                            "end": 1141,
+                            "flags": 4227072,
+                            "modifierFlagsCache": 0,
+                            "transformFlags": 0,
+                            "kind": 322,
+                            "tagName": {
+                                "pos": 1128,
+                                "end": 1136,
+                                "flags": 4227072,
+                                "modifierFlagsCache": 0,
+                                "transformFlags": 0,
+                                "kind": 79,
+                                "escapedText": "required"
+                            },
+                            "comment": ""
+                        }
+                    ],
+                    "rawdescription": "Sets the label for the autocomplete.",
+                    "description": "<p>Sets the label for the autocomplete.</p>\n",
+                    "line": 36,
+                    "type": "string"
+                },
+                {
+                    "name": "options",
+                    "defaultValue": "[]",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "rawdescription": "\r\nSets the options for the autocomplete.",
+                    "description": "<p>Sets the options for the autocomplete.</p>\n",
+                    "line": 47,
+                    "type": "string[]"
+                },
+                {
+                    "name": "placeholder",
+                    "defaultValue": "''",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "jsdoctags": [
+                        {
+                            "pos": 1236,
+                            "end": 1250,
+                            "flags": 4227072,
+                            "modifierFlagsCache": 0,
+                            "transformFlags": 0,
+                            "kind": 322,
+                            "tagName": {
+                                "pos": 1237,
+                                "end": 1245,
+                                "flags": 4227072,
+                                "modifierFlagsCache": 0,
+                                "transformFlags": 0,
+                                "kind": 79,
+                                "escapedText": "required"
+                            },
+                            "comment": ""
+                        }
+                    ],
+                    "rawdescription": "Sets the placeholder for the autocomplete.",
+                    "description": "<p>Sets the placeholder for the autocomplete.</p>\n",
+                    "line": 42,
+                    "type": "string"
+                }
+            ],
+            "outputsClass": [],
+            "propertiesClass": [],
+            "methodsClass": [],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "hostBindings": [],
+            "hostListeners": [],
+            "description": "",
+            "rawdescription": "\n",
+            "type": "component",
+            "sourceCode": "import { ChangeDetectionStrategy, Component, Input } from '@angular/core';\r\nimport { FormControl } from '@angular/forms';\r\n\r\n@Component({\r\n  selector: 'watt-autocomplete',\r\n  templateUrl: './autocomplete.component.html',\r\n  styleUrls: ['./autocomplete.component.scss'],\r\n  changeDetection: ChangeDetectionStrategy.OnPush,\r\n})\r\nexport class WattAutocompleteComponent {\r\n  /**\r\n   * @ignore\r\n   */\r\n  myControl = new FormControl();\r\n  /**\r\n   * Sets the label for the autocomplete.\r\n   *\r\n   * @required\r\n   */\r\n  @Input() label = '';\r\n  /**\r\n   * Sets the placeholder for the autocomplete.\r\n   *\r\n   * @required\r\n   */\r\n  @Input() placeholder = '';\r\n  /**\r\n   *\r\n   * Sets the options for the autocomplete.\r\n   */\r\n  @Input() options: string[] = [];\r\n}\r\n",
+            "assetsDirs": [],
+            "styleUrlsData": [
+                {
+                    "data": "/**\r\n * @license\r\n * Copyright 2021 Energinet DataHub A/S\r\n *\r\n * Licensed under the Apache License, Version 2.0 (the \"License2\");\r\n * you may not use this file except in compliance with the License.\r\n * You may obtain a copy of the License at\r\n *\r\n *     http://www.apache.org/licenses/LICENSE-2.0\r\n *\r\n * Unless required by applicable law or agreed to in writing, software\r\n * distributed under the License is distributed on an \"AS IS\" BASIS,\r\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\r\n * See the License for the specific language governing permissions and\r\n * limitations under the License.\r\n */\r\n:host {\r\n  display: block;\r\n}\r\n",
+                    "styleUrl": "./autocomplete.component.scss"
+                }
+            ],
+            "stylesData": "",
+            "templateData": "<!--\r\n@license\r\nCopyright 2021 Energinet DataHub A/S\r\n\r\nLicensed under the Apache License, Version 2.0 (the \"License2\");\r\nyou may not use this file except in compliance with the License.\r\nYou may obtain a copy of the License at\r\n\r\n    http://www.apache.org/licenses/LICENSE-2.0\r\n\r\nUnless required by applicable law or agreed to in writing, software\r\ndistributed under the License is distributed on an \"AS IS\" BASIS,\r\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\r\nSee the License for the specific language governing permissions and\r\nlimitations under the License.\r\n-->\r\n<mat-form-field appearance=\"fill\">\r\n  <mat-label>{{ label }}</mat-label>\r\n  <input\r\n    type=\"text\"\r\n    [placeholder]=\"placeholder\"\r\n    [attr.aria-label]=\"label\"\r\n    matInput\r\n    [formControl]=\"myControl\"\r\n    [matAutocomplete]=\"auto\"\r\n  />\r\n  <mat-autocomplete #auto=\"matAutocomplete\">\r\n    <mat-option *ngFor=\"let option of options\" [value]=\"option\">\r\n      {{ option }}\r\n    </mat-option>\r\n  </mat-autocomplete>\r\n</mat-form-field>\r\n"
         },
         {
             "name": "WattErrorComponent",
@@ -1119,53 +1079,49 @@
             "assetsDirs": [],
             "styleUrlsData": "",
             "stylesData": ""
+        },
+        {
+            "name": "WattShellComponent",
+            "id": "component-WattShellComponent-4263277fc61674cf970049c8cc63e822",
+            "file": "libs/ui-watt/src/lib/components/shell/shell.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "watt-shell",
+            "styleUrls": [
+                "./shell.component.scss"
+            ],
+            "styles": [],
+            "templateUrl": [
+                "./shell.component.html"
+            ],
+            "viewProviders": [],
+            "inputsClass": [],
+            "outputsClass": [],
+            "propertiesClass": [],
+            "methodsClass": [],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "hostBindings": [],
+            "hostListeners": [],
+            "description": "",
+            "rawdescription": "\n",
+            "type": "component",
+            "sourceCode": "import { Component } from '@angular/core';\r\nimport { MatDrawerMode } from '@angular/material/sidenav';\r\n\r\n@Component({\r\n  selector: 'watt-shell',\r\n  styleUrls: ['./shell.component.scss'],\r\n  templateUrl: './shell.component.html',\r\n})\r\nexport class WattShellComponent {\r\n  /**\r\n   * @ignore\r\n   */\r\n  sidenavOpened = true;\r\n\r\n  /**\r\n   * @ignore\r\n   */\r\n  sidenavMode: MatDrawerMode = 'side';\r\n}\r\n",
+            "assetsDirs": [],
+            "styleUrlsData": [
+                {
+                    "data": "/**\r\n * @license\r\n * Copyright 2021 Energinet DataHub A/S\r\n *\r\n * Licensed under the Apache License, Version 2.0 (the \"License2\");\r\n * you may not use this file except in compliance with the License.\r\n * You may obtain a copy of the License at\r\n *\r\n *     http://www.apache.org/licenses/LICENSE-2.0\r\n *\r\n * Unless required by applicable law or agreed to in writing, software\r\n * distributed under the License is distributed on an \"AS IS\" BASIS,\r\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\r\n * See the License for the specific language governing permissions and\r\n * limitations under the License.\r\n */\r\n:host {\r\n  display: block;\r\n}\r\n\r\n.sidenav-container {\r\n  height: 100vh;\r\n}\r\n\r\n.sidenav {\r\n  width: 200px;\r\n}\r\n",
+                    "styleUrl": "./shell.component.scss"
+                }
+            ],
+            "stylesData": "",
+            "templateData": "<!--\r\n@license\r\nCopyright 2021 Energinet DataHub A/S\r\n\r\nLicensed under the Apache License, Version 2.0 (the \"License2\");\r\nyou may not use this file except in compliance with the License.\r\nYou may obtain a copy of the License at\r\n\r\n    http://www.apache.org/licenses/LICENSE-2.0\r\n\r\nUnless required by applicable law or agreed to in writing, software\r\ndistributed under the License is distributed on an \"AS IS\" BASIS,\r\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\r\nSee the License for the specific language governing permissions and\r\nlimitations under the License.\r\n-->\r\n<mat-sidenav-container class=\"sidenav-container\">\r\n  <mat-sidenav\r\n    class=\"sidenav\"\r\n    [mode]=\"sidenavMode\"\r\n    [opened]=\"sidenavOpened\"\r\n    role=\"navigation\"\r\n  >\r\n    <ng-content select=\"[watt-shell-sidenav]\"></ng-content>\r\n  </mat-sidenav>\r\n\r\n  <mat-sidenav-content>\r\n    <mat-toolbar>\r\n      <ng-content select=\"[watt-shell-toolbar]\"></ng-content>\r\n    </mat-toolbar>\r\n\r\n    <main class=\"main-content\">\r\n      <ng-content></ng-content>\r\n    </main>\r\n  </mat-sidenav-content>\r\n</mat-sidenav-container>\r\n"
         }
     ],
     "modules": [
-        {
-            "name": "AutocompleteModule",
-            "id": "module-AutocompleteModule-d64a6bc79be7d371da141ba7b2a61804",
-            "description": "",
-            "deprecationMessage": "",
-            "deprecated": false,
-            "file": "libs/ui-watt/src/lib/components/autocomplete/autocomplete.module.ts",
-            "methods": [],
-            "sourceCode": "/**\r\n * @license\r\n * Copyright 2021 Energinet DataHub A/S\r\n *\r\n * Licensed under the Apache License, Version 2.0 (the \"License2\");\r\n * you may not use this file except in compliance with the License.\r\n * You may obtain a copy of the License at\r\n *\r\n *     http://www.apache.org/licenses/LICENSE-2.0\r\n *\r\n * Unless required by applicable law or agreed to in writing, software\r\n * distributed under the License is distributed on an \"AS IS\" BASIS,\r\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\r\n * See the License for the specific language governing permissions and\r\n * limitations under the License.\r\n */\r\nimport { CommonModule } from '@angular/common';\r\nimport { NgModule } from '@angular/core';\r\nimport { ReactiveFormsModule } from '@angular/forms';\r\nimport { MatAutocompleteModule } from '@angular/material/autocomplete';\r\nimport { MatFormFieldModule } from '@angular/material/form-field';\r\nimport { MatInputModule } from '@angular/material/input';\r\n\r\nimport { AutocompleteComponent } from './autocomplete.component';\r\n\r\n@NgModule({\r\n  declarations: [AutocompleteComponent],\r\n  exports: [AutocompleteComponent],\r\n  imports: [\r\n    CommonModule,\r\n    ReactiveFormsModule,\r\n    MatAutocompleteModule,\r\n    MatFormFieldModule,\r\n    MatInputModule,\r\n  ],\r\n})\r\nexport class AutocompleteModule {}\r\n",
-            "children": [
-                {
-                    "type": "providers",
-                    "elements": []
-                },
-                {
-                    "type": "declarations",
-                    "elements": [
-                        {
-                            "name": "AutocompleteComponent"
-                        }
-                    ]
-                },
-                {
-                    "type": "imports",
-                    "elements": []
-                },
-                {
-                    "type": "exports",
-                    "elements": [
-                        {
-                            "name": "AutocompleteComponent"
-                        }
-                    ]
-                },
-                {
-                    "type": "bootstrap",
-                    "elements": []
-                },
-                {
-                    "type": "classes",
-                    "elements": []
-                }
-            ]
-        },
         {
             "name": "ColorModule",
             "id": "module-ColorModule-103c2ed8d6dcafb03d874a45d8863935",
@@ -1211,14 +1167,14 @@
             ]
         },
         {
-            "name": "InputModule",
-            "id": "module-InputModule-ab7ebb16b681d4b41070e5ae971446a7",
+            "name": "InputStoriesModule",
+            "id": "module-InputStoriesModule-26c54f9e6428de6bf70168ab93615374",
             "description": "",
             "deprecationMessage": "",
             "deprecated": false,
-            "file": "libs/ui-watt/src/lib/components/input/input.module.ts",
+            "file": "libs/ui-watt/src/lib/components/input/storybook/input.stories.module.ts",
             "methods": [],
-            "sourceCode": "import { NgModule } from \"@angular/core\";\r\nimport { MatFormFieldModule } from \"@angular/material/form-field\";\r\nimport { MatInputModule } from \"@angular/material/input\";\r\nimport { WattInputDirective } from \"./input.directive\";\r\n\r\n@NgModule({\r\n    imports: [MatFormFieldModule, MatInputModule],\r\n    declarations: [WattInputDirective],\r\n    exports: [WattInputDirective],\r\n})\r\nexport class InputModule {}",
+            "sourceCode": "import { NgModule } from '@angular/core';\r\nimport { FormsModule, ReactiveFormsModule } from '@angular/forms';\r\nimport { BrowserAnimationsModule } from '@angular/platform-browser/animations';\r\nimport { WattFormFieldModule } from '../../form-field/form-field.module';\r\nimport { WattInputModule } from '../input.module';\r\n\r\n@NgModule({\r\n  imports: [\r\n    BrowserAnimationsModule,\r\n    WattFormFieldModule,\r\n    WattInputModule,\r\n    FormsModule,\r\n    ReactiveFormsModule,\r\n  ],\r\n  exports: [\r\n    WattFormFieldModule,\r\n    WattInputModule,\r\n    ReactiveFormsModule,\r\n  ]\r\n})\r\nexport class InputStoriesModule {}\r\n",
             "children": [
                 {
                     "type": "providers",
@@ -1226,65 +1182,27 @@
                 },
                 {
                     "type": "declarations",
-                    "elements": [
-                        {
-                            "name": "WattInputDirective"
-                        }
-                    ]
+                    "elements": []
                 },
                 {
                     "type": "imports",
-                    "elements": []
+                    "elements": [
+                        {
+                            "name": "WattFormFieldModule"
+                        },
+                        {
+                            "name": "WattInputModule"
+                        }
+                    ]
                 },
                 {
                     "type": "exports",
                     "elements": [
                         {
-                            "name": "WattInputDirective"
-                        }
-                    ]
-                },
-                {
-                    "type": "bootstrap",
-                    "elements": []
-                },
-                {
-                    "type": "classes",
-                    "elements": []
-                }
-            ]
-        },
-        {
-            "name": "ShellModule",
-            "id": "module-ShellModule-519a0e6324f7968e33af992a45000580",
-            "description": "",
-            "deprecationMessage": "",
-            "deprecated": false,
-            "file": "libs/ui-watt/src/lib/components/shell/shell.module.ts",
-            "methods": [],
-            "sourceCode": "/**\r\n * @license\r\n * Copyright 2021 Energinet DataHub A/S\r\n *\r\n * Licensed under the Apache License, Version 2.0 (the \"License2\");\r\n * you may not use this file except in compliance with the License.\r\n * You may obtain a copy of the License at\r\n *\r\n *     http://www.apache.org/licenses/LICENSE-2.0\r\n *\r\n * Unless required by applicable law or agreed to in writing, software\r\n * distributed under the License is distributed on an \"AS IS\" BASIS,\r\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\r\n * See the License for the specific language governing permissions and\r\n * limitations under the License.\r\n */\r\nimport { NgModule } from '@angular/core';\r\nimport { MatSidenavModule } from '@angular/material/sidenav';\r\nimport { MatToolbarModule } from '@angular/material/toolbar';\r\n\r\nimport { ShellComponent } from './shell.component';\r\n\r\n@NgModule({\r\n  declarations: [ShellComponent],\r\n  exports: [ShellComponent],\r\n  imports: [MatSidenavModule, MatToolbarModule],\r\n})\r\nexport class ShellModule {}\r\n",
-            "children": [
-                {
-                    "type": "providers",
-                    "elements": []
-                },
-                {
-                    "type": "declarations",
-                    "elements": [
+                            "name": "WattFormFieldModule"
+                        },
                         {
-                            "name": "ShellComponent"
-                        }
-                    ]
-                },
-                {
-                    "type": "imports",
-                    "elements": []
-                },
-                {
-                    "type": "exports",
-                    "elements": [
-                        {
-                            "name": "ShellComponent"
+                            "name": "WattInputModule"
                         }
                     ]
                 },
@@ -1329,6 +1247,50 @@
                     "elements": [
                         {
                             "name": "TypographyComponent"
+                        }
+                    ]
+                },
+                {
+                    "type": "bootstrap",
+                    "elements": []
+                },
+                {
+                    "type": "classes",
+                    "elements": []
+                }
+            ]
+        },
+        {
+            "name": "WattAutocompleteModule",
+            "id": "module-WattAutocompleteModule-59e84a61625e2e7806d0bebba0569651",
+            "description": "",
+            "deprecationMessage": "",
+            "deprecated": false,
+            "file": "libs/ui-watt/src/lib/components/autocomplete/autocomplete.module.ts",
+            "methods": [],
+            "sourceCode": "/**\r\n * @license\r\n * Copyright 2021 Energinet DataHub A/S\r\n *\r\n * Licensed under the Apache License, Version 2.0 (the \"License2\");\r\n * you may not use this file except in compliance with the License.\r\n * You may obtain a copy of the License at\r\n *\r\n *     http://www.apache.org/licenses/LICENSE-2.0\r\n *\r\n * Unless required by applicable law or agreed to in writing, software\r\n * distributed under the License is distributed on an \"AS IS\" BASIS,\r\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\r\n * See the License for the specific language governing permissions and\r\n * limitations under the License.\r\n */\r\nimport { CommonModule } from '@angular/common';\r\nimport { NgModule } from '@angular/core';\r\nimport { ReactiveFormsModule } from '@angular/forms';\r\nimport { MatAutocompleteModule } from '@angular/material/autocomplete';\r\nimport { MatFormFieldModule } from '@angular/material/form-field';\r\nimport { MatInputModule } from '@angular/material/input';\r\n\r\nimport { WattAutocompleteComponent } from './autocomplete.component';\r\n\r\n@NgModule({\r\n  declarations: [WattAutocompleteComponent],\r\n  exports: [WattAutocompleteComponent],\r\n  imports: [\r\n    CommonModule,\r\n    ReactiveFormsModule,\r\n    MatAutocompleteModule,\r\n    MatFormFieldModule,\r\n    MatInputModule,\r\n  ],\r\n})\r\nexport class WattAutocompleteModule {}\r\n",
+            "children": [
+                {
+                    "type": "providers",
+                    "elements": []
+                },
+                {
+                    "type": "declarations",
+                    "elements": [
+                        {
+                            "name": "WattAutocompleteComponent"
+                        }
+                    ]
+                },
+                {
+                    "type": "imports",
+                    "elements": []
+                },
+                {
+                    "type": "exports",
+                    "elements": [
+                        {
+                            "name": "WattAutocompleteComponent"
                         }
                     ]
                 },
@@ -1417,14 +1379,58 @@
             ]
         },
         {
+            "name": "WattInputModule",
+            "id": "module-WattInputModule-448fb3bd7d726b188c314f3af4ed9d4c",
+            "description": "",
+            "deprecationMessage": "",
+            "deprecated": false,
+            "file": "libs/ui-watt/src/lib/components/input/input.module.ts",
+            "methods": [],
+            "sourceCode": "import { NgModule } from \"@angular/core\";\r\nimport { MatFormFieldModule } from \"@angular/material/form-field\";\r\nimport { MatInputModule } from \"@angular/material/input\";\r\nimport { WattInputDirective } from \"./input.directive\";\r\n\r\n@NgModule({\r\n    imports: [MatFormFieldModule, MatInputModule],\r\n    declarations: [WattInputDirective],\r\n    exports: [WattInputDirective],\r\n})\r\nexport class WattInputModule {}",
+            "children": [
+                {
+                    "type": "providers",
+                    "elements": []
+                },
+                {
+                    "type": "declarations",
+                    "elements": [
+                        {
+                            "name": "WattInputDirective"
+                        }
+                    ]
+                },
+                {
+                    "type": "imports",
+                    "elements": []
+                },
+                {
+                    "type": "exports",
+                    "elements": [
+                        {
+                            "name": "WattInputDirective"
+                        }
+                    ]
+                },
+                {
+                    "type": "bootstrap",
+                    "elements": []
+                },
+                {
+                    "type": "classes",
+                    "elements": []
+                }
+            ]
+        },
+        {
             "name": "WattModule",
-            "id": "module-WattModule-303ed1ce4bfffb8bb496f09aeb46d99a",
+            "id": "module-WattModule-11b0d5cb914b9591afe16a105a6485fa",
             "description": "",
             "deprecationMessage": "",
             "deprecated": false,
             "file": "libs/ui-watt/src/lib/ui-watt.module.ts",
             "methods": [],
-            "sourceCode": "/**\r\n * @license\r\n * Copyright 2021 Energinet DataHub A/S\r\n *\r\n * Licensed under the Apache License, Version 2.0 (the \"License2\");\r\n * you may not use this file except in compliance with the License.\r\n * You may obtain a copy of the License at\r\n *\r\n *     http://www.apache.org/licenses/LICENSE-2.0\r\n *\r\n * Unless required by applicable law or agreed to in writing, software\r\n * distributed under the License is distributed on an \"AS IS\" BASIS,\r\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\r\n * See the License for the specific language governing permissions and\r\n * limitations under the License.\r\n */\r\nimport { NgModule } from '@angular/core';\r\n\r\nimport { AutocompleteModule } from './components/autocomplete/autocomplete.module';\r\nimport { ShellModule } from './components/shell/shell.module';\r\n\r\n@NgModule({\r\n  providers: [{ provide: Window, useValue: window }],\r\n  exports: [AutocompleteModule, ShellModule],\r\n})\r\nexport class WattModule {}\r\n",
+            "sourceCode": "/**\r\n * @license\r\n * Copyright 2021 Energinet DataHub A/S\r\n *\r\n * Licensed under the Apache License, Version 2.0 (the \"License2\");\r\n * you may not use this file except in compliance with the License.\r\n * You may obtain a copy of the License at\r\n *\r\n *     http://www.apache.org/licenses/LICENSE-2.0\r\n *\r\n * Unless required by applicable law or agreed to in writing, software\r\n * distributed under the License is distributed on an \"AS IS\" BASIS,\r\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\r\n * See the License for the specific language governing permissions and\r\n * limitations under the License.\r\n */\r\nimport { NgModule } from '@angular/core';\r\n\r\nimport { WattAutocompleteModule } from './components/autocomplete/autocomplete.module';\r\nimport { WattShellModule } from './components/shell/shell.module';\r\n\r\n@NgModule({\r\n  providers: [{ provide: Window, useValue: window }],\r\n  exports: [WattAutocompleteModule, WattShellModule],\r\n})\r\nexport class WattModule {}\r\n",
             "children": [
                 {
                     "type": "providers",
@@ -1442,10 +1448,54 @@
                     "type": "exports",
                     "elements": [
                         {
-                            "name": "AutocompleteModule"
+                            "name": "WattAutocompleteModule"
                         },
                         {
-                            "name": "ShellModule"
+                            "name": "WattShellModule"
+                        }
+                    ]
+                },
+                {
+                    "type": "bootstrap",
+                    "elements": []
+                },
+                {
+                    "type": "classes",
+                    "elements": []
+                }
+            ]
+        },
+        {
+            "name": "WattShellModule",
+            "id": "module-WattShellModule-2132d6a9ee4f01874ed412c0466cef78",
+            "description": "",
+            "deprecationMessage": "",
+            "deprecated": false,
+            "file": "libs/ui-watt/src/lib/components/shell/shell.module.ts",
+            "methods": [],
+            "sourceCode": "/**\r\n * @license\r\n * Copyright 2021 Energinet DataHub A/S\r\n *\r\n * Licensed under the Apache License, Version 2.0 (the \"License2\");\r\n * you may not use this file except in compliance with the License.\r\n * You may obtain a copy of the License at\r\n *\r\n *     http://www.apache.org/licenses/LICENSE-2.0\r\n *\r\n * Unless required by applicable law or agreed to in writing, software\r\n * distributed under the License is distributed on an \"AS IS\" BASIS,\r\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\r\n * See the License for the specific language governing permissions and\r\n * limitations under the License.\r\n */\r\nimport { NgModule } from '@angular/core';\r\nimport { MatSidenavModule } from '@angular/material/sidenav';\r\nimport { MatToolbarModule } from '@angular/material/toolbar';\r\n\r\nimport { WattShellComponent } from './shell.component';\r\n\r\n@NgModule({\r\n  declarations: [WattShellComponent],\r\n  exports: [WattShellComponent],\r\n  imports: [MatSidenavModule, MatToolbarModule],\r\n})\r\nexport class WattShellModule {}\r\n",
+            "children": [
+                {
+                    "type": "providers",
+                    "elements": []
+                },
+                {
+                    "type": "declarations",
+                    "elements": [
+                        {
+                            "name": "WattShellComponent"
+                        }
+                    ]
+                },
+                {
+                    "type": "imports",
+                    "elements": []
+                },
+                {
+                    "type": "exports",
+                    "elements": [
+                        {
+                            "name": "WattShellComponent"
                         }
                     ]
                 },
@@ -1683,13 +1733,23 @@
                 "defaultValue": "Template.bind({})"
             },
             {
+                "name": "sizeLarge",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "libs/ui-watt/src/lib/components/input/storybook/input.directive.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "Template.bind({})"
+            },
+            {
                 "name": "Template",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
                 "file": "libs/ui-watt/src/lib/components/autocomplete/autocomplete.component.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
-                "type": "Story<AutocompleteComponent>",
+                "type": "Story<WattAutocompleteComponent>",
                 "defaultValue": "(args) => ({\r\n  props: args,\r\n})"
             },
             {
@@ -1699,7 +1759,7 @@
                 "file": "libs/ui-watt/src/lib/components/shell/shell.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
-                "type": "Story<ShellComponent>",
+                "type": "Story<WattShellComponent>",
                 "defaultValue": "(args) => ({\r\n  props: args,\r\n})"
             },
             {
@@ -1716,20 +1776,20 @@
                 "name": "Template",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "libs/ui-watt/src/lib/foundations/color/storybook/color.stories.ts",
+                "file": "libs/ui-watt/src/lib/foundations/typography/storybook/typography.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
-                "type": "Story<ColorComponent>",
+                "type": "Story<TypographyComponent>",
                 "defaultValue": "(args) => ({\r\n  props: args,\r\n})"
             },
             {
                 "name": "Template",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "libs/ui-watt/src/lib/foundations/typography/storybook/typography.stories.ts",
+                "file": "libs/ui-watt/src/lib/foundations/color/storybook/color.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
-                "type": "Story<TypographyComponent>",
+                "type": "Story<ColorComponent>",
                 "defaultValue": "(args) => ({\r\n  props: args,\r\n})"
             },
             {
@@ -1857,7 +1917,7 @@
         "typealiases": [],
         "enumerations": [
             {
-                "name": "Colors",
+                "name": "WattColors",
                 "childs": [
                     {
                         "name": "primary",
@@ -2037,7 +2097,7 @@
                     "file": "libs/ui-watt/src/lib/components/autocomplete/autocomplete.component.stories.ts",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "type": "Story<AutocompleteComponent>",
+                    "type": "Story<WattAutocompleteComponent>",
                     "defaultValue": "(args) => ({\r\n  props: args,\r\n})"
                 }
             ],
@@ -2307,6 +2367,16 @@
                     "defaultValue": "Template.bind({})"
                 },
                 {
+                    "name": "sizeLarge",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "libs/ui-watt/src/lib/components/input/storybook/input.directive.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "Template.bind({})"
+                },
+                {
                     "name": "Template",
                     "ctype": "miscellaneous",
                     "subtype": "variable",
@@ -2375,7 +2445,7 @@
                     "file": "libs/ui-watt/src/lib/components/shell/shell.stories.ts",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "type": "Story<ShellComponent>",
+                    "type": "Story<WattShellComponent>",
                     "defaultValue": "(args) => ({\r\n  props: args,\r\n})"
                 },
                 {
@@ -2428,7 +2498,7 @@
         "groupedEnumerations": {
             "libs/ui-watt/src/lib/foundations/color/colors.ts": [
                 {
-                    "name": "Colors",
+                    "name": "WattColors",
                     "childs": [
                         {
                             "name": "primary",
@@ -2594,7 +2664,7 @@
     },
     "routes": [],
     "coverage": {
-        "count": 5,
+        "count": 4,
         "status": "low",
         "files": [
             {
@@ -2621,7 +2691,7 @@
                 "filePath": "libs/ui-watt/src/lib/components/autocomplete/autocomplete.component.ts",
                 "type": "component",
                 "linktype": "component",
-                "name": "AutocompleteComponent",
+                "name": "WattAutocompleteComponent",
                 "coveragePercent": 75,
                 "coverageCount": "3/4",
                 "status": "good"
@@ -2723,6 +2793,16 @@
                 "type": "variable",
                 "linktype": "miscellaneous",
                 "linksubtype": "variable",
+                "name": "sizeLarge",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "libs/ui-watt/src/lib/components/input/storybook/input.directive.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
                 "name": "Template",
                 "coveragePercent": 0,
                 "coverageCount": "0/1",
@@ -2772,7 +2852,7 @@
                 "filePath": "libs/ui-watt/src/lib/components/shell/shell.component.ts",
                 "type": "component",
                 "linktype": "component",
-                "name": "ShellComponent",
+                "name": "WattShellComponent",
                 "coveragePercent": 0,
                 "coverageCount": "0/1",
                 "status": "low"
@@ -2821,7 +2901,7 @@
                 "filePath": "libs/ui-watt/src/lib/foundations/color/color-helper.service.ts",
                 "type": "injectable",
                 "linktype": "injectable",
-                "name": "ColorHelperService",
+                "name": "WattColorHelperService",
                 "coveragePercent": 0,
                 "coverageCount": "0/6",
                 "status": "low"

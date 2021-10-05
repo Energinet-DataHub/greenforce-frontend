@@ -16,14 +16,14 @@
  */
 export { WattModule } from './lib/ui-watt.module';
 
-export { AutocompleteComponent } from './lib/components/autocomplete/autocomplete.component';
-export { AutocompleteModule } from './lib/components/autocomplete/autocomplete.module';
+export { WattAutocompleteComponent } from './lib/components/autocomplete/autocomplete.component';
+export { WattAutocompleteModule } from './lib/components/autocomplete/autocomplete.module';
 
-export { ColorHelperService } from './lib/foundations/color/color-helper.service';
-export { Colors } from './lib/foundations/color/colors';
+export { WattColorHelperService } from './lib/foundations/color/color-helper.service';
+export { WattColors } from './lib/foundations/color/colors';
 
-export { ShellComponent } from './lib/components/shell/shell.component';
-export { ShellModule } from './lib/components/shell/shell.module';
+export { WattShellComponent } from './lib/components/shell/shell.component';
+export { WattShellModule } from './lib/components/shell/shell.module';
 
 export { WattFormFieldModule } from './lib/components/form-field/form-field.module';
 export { WattInputModule } from './lib/components/input/input.module';

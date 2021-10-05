@@ -23,7 +23,7 @@ import { FormControl } from '@angular/forms';
   styleUrls: ['./autocomplete.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AutocompleteComponent {
+export class WattAutocompleteComponent {
   /**
    * @ignore
    */
