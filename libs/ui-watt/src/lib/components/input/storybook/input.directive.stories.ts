@@ -1,19 +1,13 @@
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { moduleMetadata, Story, Meta } from '@storybook/angular';
-import { WattFormFieldModule } from '../../form-field/form-field.module';
-
-import { InputModule } from '../input.module';
 import { InputComponent } from './input.component';
+import { InputStoriesModule } from './input.stories.module';
 
 export default {
   title: 'Components/Input',
   component: InputComponent,
   decorators: [
     moduleMetadata({
-      imports: [BrowserAnimationsModule, MatFormFieldModule, MatInputModule, WattFormFieldModule, InputModule, FormsModule, ReactiveFormsModule],
+      imports: [InputStoriesModule],
     })
   ]
 } as Meta<InputComponent>;

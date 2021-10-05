@@ -8,4 +8,4 @@ import { WattInputDirective } from "./input.directive";
     declarations: [WattInputDirective],
     exports: [WattInputDirective],
 })
-export class InputModule {}
+export class WattInputModule {}

@@ -1,3 +1,5 @@
+
+
 /**
  * @license
  * Copyright 2021 Energinet DataHub A/S
@@ -24,3 +26,6 @@ export { Colors } from './lib/foundations/color/colors';
 
 export { ShellComponent } from './lib/components/shell/shell.component';
 export { ShellModule } from './lib/components/shell/shell.module';
+
+export { WattFormFieldModule } from './lib/components/form-field/form-field.module';
+export { WattInputModule } from './lib/components/input/input.module';
