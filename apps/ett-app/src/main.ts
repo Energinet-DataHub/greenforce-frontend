@@ -25,5 +25,8 @@ if (environment.production) {
 }
 
 platformBrowserDynamic()
-  .bootstrapModule(EnergyTrackAndTraceAppModule)
+  .bootstrapModule(EnergyTrackAndTraceAppModule, {
+    ngZoneEventCoalescing: true,
+    ngZoneRunCoalescing: true,
+  })
   .catch((err) => console.error(err));

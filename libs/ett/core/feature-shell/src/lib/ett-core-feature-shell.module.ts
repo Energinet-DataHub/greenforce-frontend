@@ -45,6 +45,13 @@ const routes: Routes = [
 
 @NgModule({
   exports: [RouterModule],
-  imports: [RouterModule.forRoot(routes), EttShellScam],
+  imports: [
+    RouterModule.forRoot(routes, {
+      anchorScrolling: 'enabled',
+      initialNavigation: 'enabledNonBlocking',
+      scrollPositionRestoration: 'enabled',
+    }),
+    EttShellScam,
+  ],
 })
 export class EttCoreFeatureShellModule {}
