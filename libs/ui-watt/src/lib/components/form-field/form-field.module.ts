@@ -17,7 +17,7 @@ import { FormFieldComponent } from './form-field.component';
     WattSuffixDirective,
     WattErrorComponent,
     WattLabelComponent,
-    WattHintComponent
+    WattHintComponent,
   ],
   exports: [
     FormFieldComponent,
@@ -25,7 +25,7 @@ import { FormFieldComponent } from './form-field.component';
     WattSuffixDirective,
     WattErrorComponent,
     WattLabelComponent,
-    WattHintComponent
+    WattHintComponent,
   ],
 })
 export class WattFormFieldModule {}

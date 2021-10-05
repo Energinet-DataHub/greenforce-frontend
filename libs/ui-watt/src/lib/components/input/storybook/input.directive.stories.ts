@@ -8,8 +8,8 @@ export default {
   decorators: [
     moduleMetadata({
       imports: [InputStoriesModule],
-    })
-  ]
+    }),
+  ],
 } as Meta<InputComponent>;
 
 const Template: Story<InputComponent> = (args) => ({
@@ -20,12 +20,12 @@ export const Input = Template.bind({});
 Input.args = {
   hasPrefix: true,
   hasSuffix: true,
-  hasHint: true
+  hasHint: true,
 };
 
 export const disabled = Template.bind({});
 disabled.args = {
-  disabled: true
+  disabled: true,
 };
 disabled.parameters = {
   docs: {
@@ -37,14 +37,14 @@ disabled.parameters = {
 </watt-form-field>
 
 // TypeScript (should be done via ReactiveForms and not by attribute):
-exampleFormControl = new FormControl({value: '', disabled: true});`
-    }
-  }
+exampleFormControl = new FormControl({value: '', disabled: true});`,
+    },
+  },
 };
 
 export const sizeLarge = Template.bind({});
 sizeLarge.args = {
-  size: 'large'
+  size: 'large',
 };
 sizeLarge.parameters = {
   docs: {
@@ -52,14 +52,14 @@ sizeLarge.parameters = {
       code: `<watt-form-field size="large">
   <watt-label>label</watt-label>
   <input wattInput [formControl]="exampleFormControl" />
-</watt-form-field>`
-    }
-  }
+</watt-form-field>`,
+    },
+  },
 };
 
 export const withPrefix = Template.bind({});
 withPrefix.args = {
-  hasPrefix: true
+  hasPrefix: true,
 };
 withPrefix.parameters = {
   docs: {
@@ -70,14 +70,14 @@ withPrefix.parameters = {
     icon
   </button>
   <input wattInput />
-</watt-form-field>`
-    }
-  }
+</watt-form-field>`,
+    },
+  },
 };
 
 export const withSuffix = Template.bind({});
 withSuffix.args = {
-  hasSuffix: true
+  hasSuffix: true,
 };
 withSuffix.parameters = {
   docs: {
@@ -88,14 +88,14 @@ withSuffix.parameters = {
   <button wattSuffix aria-label="some meaningful description">
     icon
   </button>
-</watt-form-field>`
-    }
-  }
+</watt-form-field>`,
+    },
+  },
 };
 
 export const withHints = Template.bind({});
 withHints.args = {
-  hasHint: true
+  hasHint: true,
 };
 withHints.parameters = {
   docs: {
@@ -110,14 +110,14 @@ withHints.parameters = {
 
 TypeScript:
 exampleFormControl = new FormControl('');
-`
-    }
-  }
+`,
+    },
+  },
 };
 
 export const withError = Template.bind({});
 withError.args = {
-  hasError: true
+  hasError: true,
 };
 withError.parameters = {
   docs: {
@@ -135,9 +135,7 @@ TypeScript:
 exampleFormControl = new FormControl('', [
   Validators.required
 ]);
-`
-    }
-  }
+`,
+    },
+  },
 };
-
-

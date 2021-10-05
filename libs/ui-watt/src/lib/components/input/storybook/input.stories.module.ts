@@ -12,10 +12,6 @@ import { WattInputModule } from '../input.module';
     FormsModule,
     ReactiveFormsModule,
   ],
-  exports: [
-    WattFormFieldModule,
-    WattInputModule,
-    ReactiveFormsModule,
-  ]
+  exports: [WattFormFieldModule, WattInputModule, ReactiveFormsModule],
 })
 export class InputStoriesModule {}

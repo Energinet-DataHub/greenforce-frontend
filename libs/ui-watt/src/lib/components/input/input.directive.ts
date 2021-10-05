@@ -35,7 +35,7 @@ import { MatInput, MAT_INPUT_VALUE_ACCESSOR } from '@angular/material/input';
     '[attr.aria-invalid]': '(empty && required) ? null : errorState',
     '[attr.aria-required]': 'required',
   },
-  providers: [{provide: MatFormFieldControl, useExisting: MatInput}],
+  providers: [{ provide: MatFormFieldControl, useExisting: MatInput }],
 })
 export class WattInputDirective extends MatInput {
   constructor(
