@@ -1,5 +1,3 @@
-
-
 /**
  * @license
  * Copyright 2021 Energinet DataHub A/S
