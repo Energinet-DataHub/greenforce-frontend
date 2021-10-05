@@ -29,8 +29,10 @@ const selector = 'ett-onboarding-shell';
   styles: [
     `
       ${selector} {
-        display: block;
-        min-height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
       }
     `,
   ],
