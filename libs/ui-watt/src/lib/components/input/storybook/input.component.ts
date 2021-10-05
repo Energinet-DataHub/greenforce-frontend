@@ -4,7 +4,7 @@ import { FormControl } from '@angular/forms';
 @Component({
   selector: 'watt-input',
   styleUrls: ['./input.component.scss'],
-  template: `<watt-form-field>
+  template: `<watt-form-field [size]="size">
       <watt-label>{{label}}</watt-label>
       <button *ngIf="hasPrefix" wattPrefix aria-label="some meaningful description">
         icon
@@ -29,6 +29,7 @@ export class InputComponent implements OnChanges {
   @Input() hasSuffix = false;
   @Input() hasHint = false;
   @Input() hasError = false;
+  @Input() size: 'normal' | 'large' = 'normal';
   
   /**
    * @ignore

@@ -1,7 +1,27 @@
 watt-form-field {
   display: inline-block;
   width: 100%;
+  --padding-vertical: 14px;
+  --padding-horizontal: 8px;
+  --input-font-size: 14px;
+  --input-line-height: 20px;
+  --label-margin-bottom: 2px;
+
+  &.watt-form-field-large {
+    --padding-vertical: 16px;
+    --padding-horizontal: 24px;
+    --input-font-size: 16px;
+    --input-line-height: 24px;
+    --label-margin-bottom: 16px;
+  }
+
+  .mat-input-element {
+    font-size: var(--input-font-size);
+    line-height: var(--input-line-height);
+  }
 }
+
+
 
 .mat-focused {
   .mat-form-field-flex {
@@ -42,16 +62,16 @@ watt-form-field {
 }
 
 .mat-form-field-flex {
-  margin-top: 16px;
-  line-height: 24px;
+  margin-top: var(--label-margin-bottom);
+  line-height: var(--line-height);
   border-radius: 4px;
   background: var(--watt-color-neutral-white);
   border: 1px solid var(--watt-color-neutral-grey-400);
-  padding: 16px 24px;
+  padding: var(--padding-vertical) var(--padding-horizontal);
 }
 
 [wattPrefix], [wattSuffix] {
-  height: 24;
+  height: var(--line-height);
 }
 
 [wattPrefix] {
@@ -75,8 +95,6 @@ watt-form-field {
   width: 100% !important;
   border: none;
 }
-
-
 
 .mat-form-field-appearance-legacy .mat-form-field-infix {
   padding: 0;

@@ -48,6 +48,21 @@ exampleFormControl = new FormControl({value: '', disabled: true});`
   }
 };
 
+export const sizeLarge = Template.bind({});
+sizeLarge.args = {
+  size: 'large'
+};
+sizeLarge.parameters = {
+  docs: {
+    source: {
+      code: `<watt-form-field size="large">
+  <watt-label>label</watt-label>
+  <input wattInput [formControl]="exampleFormControl" />
+</watt-form-field>`
+    }
+  }
+};
+
 export const withPrefix = Template.bind({});
 withPrefix.args = {
   hasPrefix: true
