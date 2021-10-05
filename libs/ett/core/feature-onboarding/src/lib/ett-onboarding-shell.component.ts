@@ -14,17 +14,45 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, NgModule } from '@angular/core';
+import { ChangeDetectionStrategy, Component, NgModule, ViewEncapsulation } from '@angular/core';
+import { MatCardModule } from '@angular/material/card';
+import { MatListModule } from '@angular/material/list';
+
+import { EttSignaturGruppenLinkScam } from './ett-signaturgruppen-link.directive';
+
+const selector = 'ett-onboarding-shell';
 
 @Component({
-  selector: 'ett-onboarding-shell',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
+  selector,
+  styles: [
+    `
+      ${selector} {
+        display: block;
+        min-height: 100%;
+      }
+    `,
+  ],
+  template: `
+    <mat-card>
+      <mat-card-title>
+        <h1>Energy Track and Trace</h1>
+      </mat-card-title>
+      <mat-card-content>
+        <p>Log in using:</p>
 
-  styles: [':host { display: block; min-height: 100%; }'],
-  template: ` <h2>Onboarding</h2> `,
+        <mat-nav-list>
+          <a mat-list-item ettSignaturgruppenLink>NemID or MitID</a>
+        </mat-nav-list>
+      </mat-card-content>
+    </mat-card>
+  `,
 })
 export class EttOnboardingShellComponent {}
 
 @NgModule({
   declarations: [EttOnboardingShellComponent],
+  imports: [MatCardModule, MatListModule, EttSignaturGruppenLinkScam],
 })
 export class EttOnboardingShellScam {}

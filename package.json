@@ -84,6 +84,7 @@
     "@storybook/angular": "~6.3.0",
     "@storybook/builder-webpack5": "~6.3.0",
     "@storybook/manager-webpack5": "~6.3.0",
+    "@testing-library/angular": "^10.11.0",
     "@types/jest": "26.0.24",
     "@types/node": "14.14.33",
     "@typescript-eslint/eslint-plugin": "~4.28.3",
