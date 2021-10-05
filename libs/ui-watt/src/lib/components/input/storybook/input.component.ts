@@ -1,39 +1,62 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'watt-input',
   styleUrls: ['./input.component.scss'],
   template: `<watt-form-field>
-      <watt-label>label</watt-label>
-      <input wattInput type="text" [formControl]="exampleFormControlProjected" placeholder="Søg på Målepunkts ID"/>
-      <button wattPrefix aria-label="search">
+      <watt-label>{{label}}</watt-label>
+      <button *ngIf="hasPrefix" wattPrefix aria-label="some meaningful description">
         icon
       </button>
-      <button wattSuffix aria-label="Clear">
-        clear
+      <input wattInput type="text" maxlength="256" [formControl]="exampleFormControl" [placeholder]="placeholder"/>
+      <button *ngIf="hasSuffix" wattSuffix aria-label="some meaningful description">
+        icon
       </button>
-      <watt-error *ngIf="exampleFormControlProjected.hasError('required')">
+      <watt-error *ngIf="exampleFormControl.hasError('required')">
       This field is required
       </watt-error>
-      <watt-hint>Counter</watt-hint>
-      <watt-hint align="end">Some text</watt-hint>
-    </watt-form-field>`,
+      <watt-hint *ngIf="hasHint">Some hint</watt-hint>
+      <watt-hint *ngIf="hasHint" align="end">{{exampleFormControl.value.length}} / 256</watt-hint>
+    </watt-form-field>
+    `,
 })
-export class InputComponent implements OnInit, AfterViewInit {
-  exampleFormControl = new FormControl('', [
-    Validators.required
-  ]);
+export class InputComponent implements OnChanges {
+  @Input() label = 'label';
+  @Input() placeholder = 'Some placeholder';
+  @Input() disabled = false;
+  @Input() hasPrefix = false;
+  @Input() hasSuffix = false;
+  @Input() hasHint = false;
+  @Input() hasError = false;
+  
+  /**
+   * @ignore
+   */
+  exampleFormControl = new FormControl({value: '', disabled: this.disabled});
 
-  exampleFormControlProjected = new FormControl('', [
-    Validators.required
-  ]);
+  /**
+   * @ignore
+   * @param changes 
+   */
+  ngOnChanges(changes: SimpleChanges) {
+    if(changes.disabled) {
+      if(changes.disabled.currentValue) {
+        this.exampleFormControl.disable();
+      } else {
+        this.exampleFormControl.enable();
+      }
+    } 
 
-  ngOnInit() {
-    this.exampleFormControl.markAsTouched();
-  }
-
-  ngAfterViewInit() {
-    // this.exampleFormControlProjected.markAsTouched();
+    if(!changes.hasError) return;
+    if(changes.hasError.currentValue) {
+      // Tick is needed, otherwise errors won't be applied in this context
+      setTimeout(() => {
+        this.exampleFormControl.setErrors({required: true});
+        this.exampleFormControl.markAsTouched();
+      });
+    } else {
+      this.exampleFormControl.setErrors(null);
+    }
   }
 }

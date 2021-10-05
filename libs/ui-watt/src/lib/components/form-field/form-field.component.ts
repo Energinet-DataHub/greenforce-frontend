@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, ContentChild, ViewChild, ChangeDetectorRef } from '@angular/core';
+import { Component, AfterViewInit, ContentChild, ViewChild } from '@angular/core';
 import { MatFormField, MatFormFieldControl } from '@angular/material/form-field';
 import { WattInputDirective } from '../input/input.directive';
 
@@ -15,10 +15,9 @@ export class FormFieldComponent implements AfterViewInit {
   @ViewChild(MatFormField)
   matFormField!: MatFormField;
 
-  constructor(private cdr: ChangeDetectorRef) {}
-
   ngAfterViewInit() {
     if (this.beforeViewInit) {
+      // Tick is needed to make this work, otherwise matFormField will be buggy
       setTimeout(() => {
         this.matFormField._control = this.control;
         this.matFormField.ngAfterContentInit();

@@ -14,16 +14,121 @@ export default {
   decorators: [
     moduleMetadata({
       imports: [BrowserAnimationsModule, MatFormFieldModule, MatInputModule, WattFormFieldModule, InputModule, FormsModule, ReactiveFormsModule],
-    }),
-  ],
+    })
+  ]
 } as Meta<InputComponent>;
 
-//👇 We create a “template” of how args map to rendering
 const Template: Story<InputComponent> = (args) => ({
   props: args,
 });
 
-//👇 Each story then reuses that template
 export const Input = Template.bind({});
+Input.args = {
+  hasPrefix: true,
+  hasSuffix: true,
+  hasHint: true
+};
 
-Input.args = {};
+export const disabled = Template.bind({});
+disabled.args = {
+  disabled: true
+};
+disabled.parameters = {
+  docs: {
+    source: {
+      code: `// HTML:
+<watt-form-field>
+  <watt-label>label</watt-label>
+  <input wattInput [formControl]="exampleFormControl" />
+</watt-form-field>
+
+// TypeScript (should be done via ReactiveForms and not by attribute):
+exampleFormControl = new FormControl({value: '', disabled: true});`
+    }
+  }
+};
+
+export const withPrefix = Template.bind({});
+withPrefix.args = {
+  hasPrefix: true
+};
+withPrefix.parameters = {
+  docs: {
+    source: {
+      code: `<watt-form-field>
+  <watt-label>label</watt-label>
+  <button wattPrefix aria-label="some meaningful description">
+    icon
+  </button>
+  <input wattInput />
+</watt-form-field>`
+    }
+  }
+};
+
+export const withSuffix = Template.bind({});
+withSuffix.args = {
+  hasSuffix: true
+};
+withSuffix.parameters = {
+  docs: {
+    source: {
+      code: `<watt-form-field>
+  <watt-label>label</watt-label>
+  <input wattInput />
+  <button wattSuffix aria-label="some meaningful description">
+    icon
+  </button>
+</watt-form-field>`
+    }
+  }
+};
+
+export const withHints = Template.bind({});
+withHints.args = {
+  hasHint: true
+};
+withHints.parameters = {
+  docs: {
+    source: {
+      code: `HTML:
+<watt-form-field>
+  <watt-label>label</watt-label>
+  <input wattInput [formControl]="exampleFormControl" />
+  <watt-hint>Some hint</watt-hint>
+  <watt-hint align="end">{{exampleFormControl.value.length}} / 256</watt-hint>
+</watt-form-field>
+
+TypeScript:
+exampleFormControl = new FormControl('');
+`
+    }
+  }
+};
+
+export const withError = Template.bind({});
+withError.args = {
+  hasError: true
+};
+withError.parameters = {
+  docs: {
+    source: {
+      code: `HTML:
+<watt-form-field>
+  <watt-label>label</watt-label>
+  <input wattInput [formControl]="exampleFormControl" />
+  <watt-error *ngIf="exampleFormControl.hasError('required')">
+    This field is required
+  </watt-error>
+</watt-form-field>
+
+TypeScript:
+exampleFormControl = new FormControl('', [
+  Validators.required
+]);
+`
+    }
+  }
+};
+
+
