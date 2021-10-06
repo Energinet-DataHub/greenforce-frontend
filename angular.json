@@ -197,25 +197,49 @@
           "builder": "@angular-devkit/build-angular:browser",
           "outputs": ["{options.outputPath}"],
           "options": {
-            "outputPath": "dist/apps/ett-app",
-            "index": "apps/ett-app/src/index.html",
-            "main": "apps/ett-app/src/main.ts",
-            "polyfills": "apps/ett-app/src/polyfills.ts",
-            "tsConfig": "apps/ett-app/tsconfig.app.json",
-            "inlineStyleLanguage": "scss",
             "assets": [
               "apps/ett-app/src/favicon.ico",
               "apps/ett-app/src/assets"
             ],
-            "styles": ["apps/ett-app/src/styles.scss"],
+            "commonChunk": false,
+            "index": "apps/ett-app/src/index.html",
+            "inlineStyleLanguage": "scss",
+            "main": "apps/ett-app/src/main.ts",
+            "outputPath": "dist/apps/ett-app",
+            "polyfills": "apps/ett-app/src/polyfills.ts",
+            "scripts": [],
             "stylePreprocessorOptions": {
               "includePaths": ["libs/ui-watt/src/lib/styles"]
             },
-            "scripts": []
+            "styles": ["apps/ett-app/src/styles.scss"],
+            "tsConfig": "apps/ett-app/tsconfig.app.json"
           },
           "configurations": {
+            "development": {
+              "buildOptimizer": false,
+              "extractLicenses": false,
+              "namedChunks": true,
+              "optimization": false,
+              "sourceMap": true,
+              "vendorChunk": true
+            },
             "production": {
               "budgets": [
+                {
+                  "type": "allScript",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
+                {
+                  "type": "anyScript",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
+                {
+                  "type": "bundle",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
                 {
                   "type": "initial",
                   "maximumWarning": "500kb",
@@ -234,14 +258,6 @@
                 }
               ],
               "outputHashing": "all"
-            },
-            "development": {
-              "buildOptimizer": false,
-              "optimization": false,
-              "vendorChunk": true,
-              "extractLicenses": false,
-              "sourceMap": true,
-              "namedChunks": true
             }
           },
           "defaultConfiguration": "production"
@@ -249,12 +265,13 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
-            "production": {
-              "browserTarget": "ett-app:build:production"
-            },
             "development": {
               "browserTarget": "ett-app:build:development",
+              "hmr": true,
               "proxyConfig": "apps/ett-app/src/proxy.conf.json"
+            },
+            "production": {
+              "browserTarget": "ett-app:build:production"
             }
           },
           "defaultConfiguration": "development"
