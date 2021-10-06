@@ -32,9 +32,6 @@ export class WattButtonComponent {
    * @ignore
    */
   private _type: WattButtonType = 'text';
-  private get isPrimaryButton(): boolean {
-    return this.type === 'primary';
-  }
 
   @Input()
   icon = '';
