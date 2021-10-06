@@ -79,9 +79,5 @@ export class WattButtonComponent {
     return this.icon !== '' && this.icon != null;
   }
 
-  get iconColor(): '' | 'primary' {
-    return this.isPrimaryButton ? '' : 'primary';
-  }
-
   constructor(private injector: Injector) {}
 }
