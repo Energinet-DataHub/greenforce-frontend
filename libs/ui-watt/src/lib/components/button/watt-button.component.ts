@@ -14,7 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, Injector, Input, Type } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Injector,
+  Input,
+  Type,
+} from '@angular/core';
 
 import { WattButtonType } from './watt-button-type';
 import { WattPrimaryButtonComponent } from './primary-button/watt-primary-button.component';
@@ -23,6 +29,7 @@ import { WattTextButtonComponent } from './text-button/watt-text-button.componen
 import { disabledAttributeToken } from './disabled-attribute-token';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'watt-button',
   styleUrls: ['./watt-button.component.scss'],
   templateUrl: './watt-button.component.html',
