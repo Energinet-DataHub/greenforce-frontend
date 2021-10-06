@@ -67,33 +67,4 @@ describe(WattButtonComponent.name, () => {
       expect(component.type).toEqual('text');
     });
   });
-
-  describe('icon', () => {
-    it('text button icons have a branded color', () => {
-      const component = new WattButtonComponent(appInjector);
-
-      component.type = 'text';
-
-      const hasBrandedColor = component.iconColor === 'primary';
-      expect(hasBrandedColor).toEqual(true);
-    });
-
-    it('secondary button icons have a branded color', () => {
-      const component = new WattButtonComponent(appInjector);
-
-      component.type = 'secondary';
-
-      const hasBrandedColor = component.iconColor === 'primary';
-      expect(hasBrandedColor).toEqual(true);
-    });
-
-    it('inverts the icon color for the primary button', () => {
-      const component = new WattButtonComponent(appInjector);
-
-      component.type = 'primary';
-
-      const hasInvertedIconColor = component.iconColor !== 'primary';
-      expect(hasInvertedIconColor).toEqual(true);
-    });
-  });
 });
