@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, HostBinding, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
 @Component({
@@ -39,6 +39,7 @@ import { FormControl } from '@angular/forms';
 export class InputComponent implements OnChanges {
   @Input() label = 'label';
   @Input() placeholder!: string;
+  @HostBinding('class.watt-input-focused') @Input() focused = false;
   @Input() disabled = false;
   @Input() hasPrefix = false;
   @Input() hasSuffix = false;
