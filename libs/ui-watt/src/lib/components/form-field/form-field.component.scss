@@ -39,10 +39,6 @@ watt-form-field {
   }
 
   .mat-form-field-appearance-legacy {
-    .mat-form-field-label {
-      color: var(--watt-color-primary-dark);
-    }
-
     .mat-form-field-infix {
       position: static;
       border: none;
@@ -90,14 +86,22 @@ watt-form-field {
 
   mat-form-field.mat-form-field-invalid {
     --input-border-color: var(--watt-color-state-danger);
-  }
 
+    .mat-form-field-label .mat-placeholder-required.mat-form-field-required-marker {
+      color: var(--watt-color-state-danger);
+    }
+  }
+  
   mat-form-field.mat-form-field-disabled {
     --input-background: var(--watt-color-neutral-grey-100);
+  }
+
+  .mat-placeholder-required.mat-form-field-required-marker {
+    color: var(--watt-color-primary-dark);
   }
 }
 
 .watt-input-focused,
-watt-form-field mat-form-field.mat-focused {
+watt-form-field mat-form-field.mat-focused:not(mat-form-field.mat-form-field-invalid) {
   --input-border-color: var(--watt-color-primary);
 }

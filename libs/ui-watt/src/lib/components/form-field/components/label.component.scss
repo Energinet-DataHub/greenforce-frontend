@@ -1,3 +1,7 @@
+:host {
+  color: var(--watt-color-primary-dark);
+}
+
 :host-context(.mat-form-field-invalid) {
   color: var(--watt-color-state-danger);
 }
@@ -6,6 +10,6 @@
   color: var(--watt-color-neutral-grey-500);
 }
 
-:host-context(.mat-focused, .watt-input-focused) {
+:host-context(.mat-focused:not(.mat-form-field-invalid), .watt-input-focused) {
   color: var(--watt-color-primary-dark);
 }
