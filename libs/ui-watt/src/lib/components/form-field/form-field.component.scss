@@ -21,8 +21,6 @@ watt-form-field {
   }
 }
 
-
-
 .mat-focused {
   .mat-form-field-flex {
     border: 1px solid var(--watt-color-primary);
@@ -70,7 +68,8 @@ watt-form-field {
   padding: var(--padding-vertical) var(--padding-horizontal);
 }
 
-[wattPrefix], [wattSuffix] {
+[wattPrefix],
+[wattSuffix] {
   height: var(--line-height);
 }
 
@@ -105,6 +104,7 @@ watt-hint {
   word-break: break-word;
 }
 
-.mat-form-field-underline, .tmp-mat-field {
+.mat-form-field-underline,
+.tmp-mat-field {
   display: none;
 }

@@ -1,10 +1,20 @@
-import { Component, AfterViewInit, ContentChild, ViewChild, Input, HostBinding } from '@angular/core';
-import { MatFormField, MatFormFieldControl } from '@angular/material/form-field';
+import {
+  Component,
+  AfterViewInit,
+  ContentChild,
+  ViewChild,
+  Input,
+  HostBinding,
+} from '@angular/core';
+import {
+  MatFormField,
+  MatFormFieldControl,
+} from '@angular/material/form-field';
 import { WattInputDirective } from '../input/input.directive';
 
 @Component({
   selector: 'watt-form-field',
-  templateUrl: './form-field.component.html'
+  templateUrl: './form-field.component.html',
 })
 export class FormFieldComponent implements AfterViewInit {
   @Input() size: 'normal' | 'large' = 'normal';
@@ -13,8 +23,8 @@ export class FormFieldComponent implements AfterViewInit {
     return [`watt-form-field-${this.size}`];
   }
 
-  beforeViewInit = true;  // Used to remove placeholder control
-  
+  beforeViewInit = true; // Used to remove placeholder control
+
   @ContentChild(WattInputDirective)
   control!: MatFormFieldControl<unknown>;
 

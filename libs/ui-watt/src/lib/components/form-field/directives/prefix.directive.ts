@@ -1,7 +1,7 @@
-import {Directive} from '@angular/core';
+import { Directive } from '@angular/core';
 
 /** Prefix to be placed in front of the form field. */
 @Directive({
-  selector: '[wattPrefix]'
+  selector: '[wattPrefix]',
 })
 export class WattPrefixDirective {}

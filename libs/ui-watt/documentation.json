@@ -331,12 +331,12 @@
     "directives": [
         {
             "name": "WattInputDirective",
-            "id": "directive-WattInputDirective-faccaa796b2d220d89fc9ffb6c53fb92",
+            "id": "directive-WattInputDirective-19b44358a9fe0f4683f395eb5fc8540a",
             "file": "libs/ui-watt/src/lib/components/input/input.directive.ts",
             "type": "directive",
             "description": "",
             "rawdescription": "\n",
-            "sourceCode": "import { Platform } from '@angular/cdk/platform';\r\nimport { AutofillMonitor } from '@angular/cdk/text-field';\r\nimport {\r\n  Directive,\r\n  ElementRef,\r\n  Inject,\r\n  NgZone,\r\n  Optional,\r\n  Self,\r\n} from '@angular/core';\r\nimport { FormGroupDirective, NgControl, NgForm } from '@angular/forms';\r\nimport { ErrorStateMatcher } from '@angular/material/core';\r\nimport { MatFormFieldControl } from '@angular/material/form-field';\r\nimport { MatInput, MAT_INPUT_VALUE_ACCESSOR } from '@angular/material/input';\r\n\r\n@Directive({\r\n  selector: '[wattInput]',\r\n  exportAs: 'wattInput',\r\n  host: {\r\n    class: 'mat-input-element',\r\n    '[class.mat-input-server]': '_isServer',\r\n    // Native input properties that are overwritten by Angular inputs need to be synced with\r\n    // the native input element. Otherwise property bindings for those don't work.\r\n    '[attr.id]': 'id',\r\n    // At the time of writing, we have a lot of customer tests that look up the input based on its\r\n    // placeholder. Since we sometimes omit the placeholder attribute from the DOM to prevent screen\r\n    // readers from reading it twice, we have to keep it somewhere in the DOM for the lookup.\r\n    '[attr.data-placeholder]': 'placeholder',\r\n    '[disabled]': 'disabled',\r\n    '[required]': 'required',\r\n    '[attr.readonly]': 'readonly && !_isNativeSelect || null',\r\n    // Only mark the input as invalid for assistive technology if it has a value since the\r\n    // state usually overlaps with `aria-required` when the input is empty and can be redundant.\r\n    '[attr.aria-invalid]': '(empty && required) ? null : errorState',\r\n    '[attr.aria-required]': 'required',\r\n  },\r\n  providers: [{provide: MatFormFieldControl, useExisting: MatInput}],\r\n})\r\nexport class WattInputDirective extends MatInput {\r\n  constructor(\r\n    protected _elementRef: ElementRef<\r\n      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement\r\n    >,\r\n    protected _platform: Platform,\r\n    @Optional() @Self() ngControl: NgControl,\r\n    @Optional() _parentForm: NgForm,\r\n    @Optional() _parentFormGroup: FormGroupDirective,\r\n    _defaultErrorStateMatcher: ErrorStateMatcher,\r\n    @Optional()\r\n    @Self()\r\n    @Inject(MAT_INPUT_VALUE_ACCESSOR)\r\n    inputValueAccessor: unknown,\r\n    _autofillMonitor: AutofillMonitor,\r\n    ngZone: NgZone\r\n  ) {\r\n    super(\r\n      _elementRef,\r\n      _platform,\r\n      ngControl,\r\n      _parentForm,\r\n      _parentFormGroup,\r\n      _defaultErrorStateMatcher,\r\n      inputValueAccessor,\r\n      _autofillMonitor,\r\n      ngZone\r\n    );\r\n  }\r\n}\r\n",
+            "sourceCode": "import { Platform } from '@angular/cdk/platform';\r\nimport { AutofillMonitor } from '@angular/cdk/text-field';\r\nimport {\r\n  Directive,\r\n  ElementRef,\r\n  Inject,\r\n  NgZone,\r\n  Optional,\r\n  Self,\r\n} from '@angular/core';\r\nimport { FormGroupDirective, NgControl, NgForm } from '@angular/forms';\r\nimport { ErrorStateMatcher } from '@angular/material/core';\r\nimport { MatFormFieldControl } from '@angular/material/form-field';\r\nimport { MatInput, MAT_INPUT_VALUE_ACCESSOR } from '@angular/material/input';\r\n\r\n@Directive({\r\n  selector: '[wattInput]',\r\n  exportAs: 'wattInput',\r\n  host: {\r\n    class: 'mat-input-element',\r\n    '[class.mat-input-server]': '_isServer',\r\n    // Native input properties that are overwritten by Angular inputs need to be synced with\r\n    // the native input element. Otherwise property bindings for those don't work.\r\n    '[attr.id]': 'id',\r\n    // At the time of writing, we have a lot of customer tests that look up the input based on its\r\n    // placeholder. Since we sometimes omit the placeholder attribute from the DOM to prevent screen\r\n    // readers from reading it twice, we have to keep it somewhere in the DOM for the lookup.\r\n    '[attr.data-placeholder]': 'placeholder',\r\n    '[disabled]': 'disabled',\r\n    '[required]': 'required',\r\n    '[attr.readonly]': 'readonly && !_isNativeSelect || null',\r\n    // Only mark the input as invalid for assistive technology if it has a value since the\r\n    // state usually overlaps with `aria-required` when the input is empty and can be redundant.\r\n    '[attr.aria-invalid]': '(empty && required) ? null : errorState',\r\n    '[attr.aria-required]': 'required',\r\n  },\r\n  providers: [{ provide: MatFormFieldControl, useExisting: MatInput }],\r\n})\r\nexport class WattInputDirective extends MatInput {\r\n  constructor(\r\n    protected _elementRef: ElementRef<\r\n      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement\r\n    >,\r\n    protected _platform: Platform,\r\n    @Optional() @Self() ngControl: NgControl,\r\n    @Optional() _parentForm: NgForm,\r\n    @Optional() _parentFormGroup: FormGroupDirective,\r\n    _defaultErrorStateMatcher: ErrorStateMatcher,\r\n    @Optional()\r\n    @Self()\r\n    @Inject(MAT_INPUT_VALUE_ACCESSOR)\r\n    inputValueAccessor: unknown,\r\n    _autofillMonitor: AutofillMonitor,\r\n    ngZone: NgZone\r\n  ) {\r\n    super(\r\n      _elementRef,\r\n      _platform,\r\n      ngControl,\r\n      _parentForm,\r\n      _parentFormGroup,\r\n      _defaultErrorStateMatcher,\r\n      inputValueAccessor,\r\n      _autofillMonitor,\r\n      ngZone\r\n    );\r\n  }\r\n}\r\n",
             "selector": "[wattInput]",
             "providers": [
                 {
@@ -500,12 +500,12 @@
         },
         {
             "name": "WattPrefixDirective",
-            "id": "directive-WattPrefixDirective-8e47d37b6c84b6e35699a880dc6163b7",
+            "id": "directive-WattPrefixDirective-41fa94377a8663efd2a4fc5a63e301e2",
             "file": "libs/ui-watt/src/lib/components/form-field/directives/prefix.directive.ts",
             "type": "directive",
             "description": "<p>Prefix to be placed in front of the form field.</p>\n",
             "rawdescription": "\nPrefix to be placed in front of the form field.",
-            "sourceCode": "import {Directive} from '@angular/core';\r\n\r\n/** Prefix to be placed in front of the form field. */\r\n@Directive({\r\n  selector: '[wattPrefix]'\r\n})\r\nexport class WattPrefixDirective {}",
+            "sourceCode": "import { Directive } from '@angular/core';\r\n\r\n/** Prefix to be placed in front of the form field. */\r\n@Directive({\r\n  selector: '[wattPrefix]',\r\n})\r\nexport class WattPrefixDirective {}\r\n",
             "selector": "[wattPrefix]",
             "providers": [],
             "inputsClass": [],
@@ -519,12 +519,12 @@
         },
         {
             "name": "WattSuffixDirective",
-            "id": "directive-WattSuffixDirective-b29a7db124f2138c026c100fd954462e",
+            "id": "directive-WattSuffixDirective-1d5f7462b75871a118044c77f2838da0",
             "file": "libs/ui-watt/src/lib/components/form-field/directives/suffix.directive.ts",
             "type": "directive",
             "description": "<p>Suffix to be placed at the end of the form field.</p>\n",
             "rawdescription": "\nSuffix to be placed at the end of the form field.",
-            "sourceCode": "import {Directive} from '@angular/core';\r\n\r\n/** Suffix to be placed at the end of the form field. */\r\n@Directive({\r\n  selector: '[wattSuffix]'\r\n})\r\nexport class WattSuffixDirective {}",
+            "sourceCode": "import { Directive } from '@angular/core';\r\n\r\n/** Suffix to be placed at the end of the form field. */\r\n@Directive({\r\n  selector: '[wattSuffix]',\r\n})\r\nexport class WattSuffixDirective {}\r\n",
             "selector": "[wattSuffix]",
             "providers": [],
             "inputsClass": [],
@@ -606,7 +606,7 @@
         },
         {
             "name": "FormFieldComponent",
-            "id": "component-FormFieldComponent-1686509fe5328ba705f6b05ef83af6da",
+            "id": "component-FormFieldComponent-500c8f34f41f1a595de9b5a998066a82",
             "file": "libs/ui-watt/src/lib/components/form-field/form-field.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -626,7 +626,7 @@
                     "defaultValue": "'normal'",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 10,
+                    "line": 20,
                     "type": "\"normal\" | \"large\""
                 }
             ],
@@ -640,7 +640,7 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 16
+                    "line": 26
                 },
                 {
                     "name": "control",
@@ -649,7 +649,7 @@
                     "type": "MatFormFieldControl<>",
                     "optional": false,
                     "description": "",
-                    "line": 19,
+                    "line": 29,
                     "decorators": [
                         {
                             "name": "ContentChild",
@@ -664,7 +664,7 @@
                     "type": "MatFormField",
                     "optional": false,
                     "description": "",
-                    "line": 22,
+                    "line": 32,
                     "decorators": [
                         {
                             "name": "ViewChild",
@@ -680,7 +680,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 24,
+                    "line": 34,
                     "deprecated": false,
                     "deprecationMessage": ""
                 }
@@ -692,7 +692,7 @@
                     "name": "class",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 12,
+                    "line": 22,
                     "type": "{}"
                 }
             ],
@@ -700,7 +700,7 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { Component, AfterViewInit, ContentChild, ViewChild, Input, HostBinding } from '@angular/core';\r\nimport { MatFormField, MatFormFieldControl } from '@angular/material/form-field';\r\nimport { WattInputDirective } from '../input/input.directive';\r\n\r\n@Component({\r\n  selector: 'watt-form-field',\r\n  templateUrl: './form-field.component.html'\r\n})\r\nexport class FormFieldComponent implements AfterViewInit {\r\n  @Input() size: 'normal' | 'large' = 'normal';\r\n  @HostBinding('class')\r\n  get _cssClass() {\r\n    return [`watt-form-field-${this.size}`];\r\n  }\r\n\r\n  beforeViewInit = true;  // Used to remove placeholder control\r\n  \r\n  @ContentChild(WattInputDirective)\r\n  control!: MatFormFieldControl<unknown>;\r\n\r\n  @ViewChild(MatFormField)\r\n  matFormField!: MatFormField;\r\n\r\n  ngAfterViewInit() {\r\n    if (this.beforeViewInit) {\r\n      // Tick is needed to make this work, otherwise matFormField will be buggy\r\n      setTimeout(() => {\r\n        this.matFormField._control = this.control;\r\n        this.matFormField.ngAfterContentInit();\r\n        this.beforeViewInit = false;\r\n      });\r\n    }\r\n  }\r\n}\r\n",
+            "sourceCode": "import {\r\n  Component,\r\n  AfterViewInit,\r\n  ContentChild,\r\n  ViewChild,\r\n  Input,\r\n  HostBinding,\r\n} from '@angular/core';\r\nimport {\r\n  MatFormField,\r\n  MatFormFieldControl,\r\n} from '@angular/material/form-field';\r\nimport { WattInputDirective } from '../input/input.directive';\r\n\r\n@Component({\r\n  selector: 'watt-form-field',\r\n  templateUrl: './form-field.component.html',\r\n})\r\nexport class FormFieldComponent implements AfterViewInit {\r\n  @Input() size: 'normal' | 'large' = 'normal';\r\n  @HostBinding('class')\r\n  get _cssClass() {\r\n    return [`watt-form-field-${this.size}`];\r\n  }\r\n\r\n  beforeViewInit = true; // Used to remove placeholder control\r\n\r\n  @ContentChild(WattInputDirective)\r\n  control!: MatFormFieldControl<unknown>;\r\n\r\n  @ViewChild(MatFormField)\r\n  matFormField!: MatFormField;\r\n\r\n  ngAfterViewInit() {\r\n    if (this.beforeViewInit) {\r\n      // Tick is needed to make this work, otherwise matFormField will be buggy\r\n      setTimeout(() => {\r\n        this.matFormField._control = this.control;\r\n        this.matFormField.ngAfterContentInit();\r\n        this.beforeViewInit = false;\r\n      });\r\n    }\r\n  }\r\n}\r\n",
             "assetsDirs": [],
             "styleUrlsData": "",
             "stylesData": "",
@@ -714,15 +714,15 @@
                         "name": "_cssClass",
                         "type": "",
                         "returnType": "",
-                        "line": 12
+                        "line": 22
                     }
                 }
             },
-            "templateData": "<mat-form-field floatLabel=\"always\">\r\n  <mat-label class=\"watt-label\"><ng-content select=\"watt-label\"></ng-content></mat-label>\r\n\r\n  <ng-container matPrefix>\r\n    <ng-content select=\"[wattPrefix]\"></ng-content>\r\n  </ng-container>\r\n\r\n  <ng-content select=\"[wattInput]\"></ng-content>\r\n\r\n  <ng-container matSuffix>\r\n    <ng-content select=\"[wattSuffix]\"></ng-content>\r\n  </ng-container>\r\n\r\n  <mat-error class=\"watt-text-xs\">\r\n    <ng-content select=\"watt-error\"></ng-content>\r\n  </mat-error>\r\n\r\n  <mat-hint class=\"watt-text-xs\" align=\"start\">\r\n    <ng-content select=\"watt-hint:not(watt-hint[align='end'])\"></ng-content>\r\n  </mat-hint>\r\n\r\n  <mat-hint class=\"watt-text-xs\" align=\"end\">\r\n    <ng-content select=\"watt-hint[align='end']\"></ng-content>\r\n  </mat-hint>\r\n\r\n  <ng-container *ngIf=\"beforeViewInit\">\r\n    <input matInput class=\"tmp-mat-field\" />\r\n  </ng-container>\r\n</mat-form-field>"
+            "templateData": "<mat-form-field floatLabel=\"always\">\r\n  <mat-label class=\"watt-label\"\r\n    ><ng-content select=\"watt-label\"></ng-content\r\n  ></mat-label>\r\n\r\n  <ng-container matPrefix>\r\n    <ng-content select=\"[wattPrefix]\"></ng-content>\r\n  </ng-container>\r\n\r\n  <ng-content select=\"[wattInput]\"></ng-content>\r\n\r\n  <ng-container matSuffix>\r\n    <ng-content select=\"[wattSuffix]\"></ng-content>\r\n  </ng-container>\r\n\r\n  <mat-error class=\"watt-text-xs\">\r\n    <ng-content select=\"watt-error\"></ng-content>\r\n  </mat-error>\r\n\r\n  <mat-hint class=\"watt-text-xs\" align=\"start\">\r\n    <ng-content select=\"watt-hint:not(watt-hint[align='end'])\"></ng-content>\r\n  </mat-hint>\r\n\r\n  <mat-hint class=\"watt-text-xs\" align=\"end\">\r\n    <ng-content select=\"watt-hint[align='end']\"></ng-content>\r\n  </mat-hint>\r\n\r\n  <ng-container *ngIf=\"beforeViewInit\">\r\n    <input matInput class=\"tmp-mat-field\" />\r\n  </ng-container>\r\n</mat-form-field>\r\n"
         },
         {
             "name": "InputComponent",
-            "id": "component-InputComponent-ca2232828b58c0db9a407e5e005adde0",
+            "id": "component-InputComponent-13da6f818a14ba32008b8b23ee666eec",
             "file": "libs/ui-watt/src/lib/components/input/storybook/input.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -734,7 +734,7 @@
                 "./input.component.scss"
             ],
             "styles": [],
-            "template": "<watt-form-field [size]=\"size\">      <watt-label>{{label}}</watt-label>\n      <button *ngIf=\"hasPrefix\" wattPrefix aria-label=\"some meaningful description\">\n        icon\n      </button>\n      <input wattInput type=\"text\" maxlength=\"256\" [formControl]=\"exampleFormControl\" [placeholder]=\"placeholder\"/>\n      <button *ngIf=\"hasSuffix\" wattSuffix aria-label=\"some meaningful description\">\n        icon\n      </button>\n      <watt-error *ngIf=\"exampleFormControl.hasError('required')\">\n      This field is required\n      </watt-error>\n      <watt-hint *ngIf=\"hasHint\">Some hint</watt-hint>\n      <watt-hint *ngIf=\"hasHint\" align=\"end\">{{exampleFormControl.value.length}} / 256</watt-hint>\n    </watt-form-field>\n",
+            "template": "<watt-form-field [size]=\"size\">    <watt-label>{{ label }}</watt-label>\n    <button\n      *ngIf=\"hasPrefix\"\n      wattPrefix\n      aria-label=\"some meaningful description\"\n    >\n      icon\n    </button>\n    <input\n      wattInput\n      type=\"text\"\n      maxlength=\"256\"\n      [formControl]=\"exampleFormControl\"\n      [placeholder]=\"placeholder\"\n    />\n    <button\n      *ngIf=\"hasSuffix\"\n      wattSuffix\n      aria-label=\"some meaningful description\"\n    >\n      icon\n    </button>\n    <watt-error *ngIf=\"exampleFormControl.hasError('required')\">\n      This field is required\n    </watt-error>\n    <watt-hint *ngIf=\"hasHint\">Some hint</watt-hint>\n    <watt-hint *ngIf=\"hasHint\" align=\"end\"\n      >{{ exampleFormControl.value.length }} / 256</watt-hint\n    >\n  </watt-form-field>",
             "templateUrl": [],
             "viewProviders": [],
             "inputsClass": [
@@ -743,7 +743,7 @@
                     "defaultValue": "false",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 27,
+                    "line": 42,
                     "type": "boolean"
                 },
                 {
@@ -751,7 +751,7 @@
                     "defaultValue": "false",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 31,
+                    "line": 46,
                     "type": "boolean"
                 },
                 {
@@ -759,7 +759,7 @@
                     "defaultValue": "false",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 30,
+                    "line": 45,
                     "type": "boolean"
                 },
                 {
@@ -767,7 +767,7 @@
                     "defaultValue": "false",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 28,
+                    "line": 43,
                     "type": "boolean"
                 },
                 {
@@ -775,7 +775,7 @@
                     "defaultValue": "false",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 29,
+                    "line": 44,
                     "type": "boolean"
                 },
                 {
@@ -783,15 +783,14 @@
                     "defaultValue": "'label'",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 25,
+                    "line": 40,
                     "type": "string"
                 },
                 {
                     "name": "placeholder",
-                    "defaultValue": "'Some placeholder'",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 26,
+                    "line": 41,
                     "type": "string"
                 },
                 {
@@ -799,7 +798,7 @@
                     "defaultValue": "'normal'",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 32,
+                    "line": 47,
                     "type": "\"normal\" | \"large\""
                 }
             ],
@@ -813,11 +812,11 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';\r\nimport { FormControl } from '@angular/forms';\r\n\r\n@Component({\r\n  selector: 'watt-input',\r\n  styleUrls: ['./input.component.scss'],\r\n  template: `<watt-form-field [size]=\"size\">\r\n      <watt-label>{{label}}</watt-label>\r\n      <button *ngIf=\"hasPrefix\" wattPrefix aria-label=\"some meaningful description\">\r\n        icon\r\n      </button>\r\n      <input wattInput type=\"text\" maxlength=\"256\" [formControl]=\"exampleFormControl\" [placeholder]=\"placeholder\"/>\r\n      <button *ngIf=\"hasSuffix\" wattSuffix aria-label=\"some meaningful description\">\r\n        icon\r\n      </button>\r\n      <watt-error *ngIf=\"exampleFormControl.hasError('required')\">\r\n      This field is required\r\n      </watt-error>\r\n      <watt-hint *ngIf=\"hasHint\">Some hint</watt-hint>\r\n      <watt-hint *ngIf=\"hasHint\" align=\"end\">{{exampleFormControl.value.length}} / 256</watt-hint>\r\n    </watt-form-field>\r\n    `,\r\n})\r\nexport class InputComponent implements OnChanges {\r\n  @Input() label = 'label';\r\n  @Input() placeholder = 'Some placeholder';\r\n  @Input() disabled = false;\r\n  @Input() hasPrefix = false;\r\n  @Input() hasSuffix = false;\r\n  @Input() hasHint = false;\r\n  @Input() hasError = false;\r\n  @Input() size: 'normal' | 'large' = 'normal';\r\n  \r\n  /**\r\n   * @ignore\r\n   */\r\n  exampleFormControl = new FormControl({value: '', disabled: this.disabled});\r\n\r\n  /**\r\n   * @ignore\r\n   * @param changes \r\n   */\r\n  ngOnChanges(changes: SimpleChanges) {\r\n    if(changes.disabled) {\r\n      if(changes.disabled.currentValue) {\r\n        this.exampleFormControl.disable();\r\n      } else {\r\n        this.exampleFormControl.enable();\r\n      }\r\n    } \r\n\r\n    if(!changes.hasError) return;\r\n    if(changes.hasError.currentValue) {\r\n      // Tick is needed, otherwise errors won't be applied in this context\r\n      setTimeout(() => {\r\n        this.exampleFormControl.setErrors({required: true});\r\n        this.exampleFormControl.markAsTouched();\r\n      });\r\n    } else {\r\n      this.exampleFormControl.setErrors(null);\r\n    }\r\n  }\r\n}\r\n",
+            "sourceCode": "import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';\r\nimport { FormControl } from '@angular/forms';\r\n\r\n@Component({\r\n  selector: 'watt-input',\r\n  styleUrls: ['./input.component.scss'],\r\n  template: `<watt-form-field [size]=\"size\">\r\n    <watt-label>{{ label }}</watt-label>\r\n    <button\r\n      *ngIf=\"hasPrefix\"\r\n      wattPrefix\r\n      aria-label=\"some meaningful description\"\r\n    >\r\n      icon\r\n    </button>\r\n    <input\r\n      wattInput\r\n      type=\"text\"\r\n      maxlength=\"256\"\r\n      [formControl]=\"exampleFormControl\"\r\n      [placeholder]=\"placeholder\"\r\n    />\r\n    <button\r\n      *ngIf=\"hasSuffix\"\r\n      wattSuffix\r\n      aria-label=\"some meaningful description\"\r\n    >\r\n      icon\r\n    </button>\r\n    <watt-error *ngIf=\"exampleFormControl.hasError('required')\">\r\n      This field is required\r\n    </watt-error>\r\n    <watt-hint *ngIf=\"hasHint\">Some hint</watt-hint>\r\n    <watt-hint *ngIf=\"hasHint\" align=\"end\"\r\n      >{{ exampleFormControl.value.length }} / 256</watt-hint\r\n    >\r\n  </watt-form-field> `,\r\n})\r\nexport class InputComponent implements OnChanges {\r\n  @Input() label = 'label';\r\n  @Input() placeholder!: string;\r\n  @Input() disabled = false;\r\n  @Input() hasPrefix = false;\r\n  @Input() hasSuffix = false;\r\n  @Input() hasHint = false;\r\n  @Input() hasError = false;\r\n  @Input() size: 'normal' | 'large' = 'normal';\r\n\r\n  /**\r\n   * @ignore\r\n   */\r\n  exampleFormControl = new FormControl({ value: '', disabled: this.disabled });\r\n\r\n  /**\r\n   * @ignore\r\n   * @param changes\r\n   */\r\n  ngOnChanges(changes: SimpleChanges) {\r\n    if (changes.disabled) {\r\n      if (changes.disabled.currentValue) {\r\n        this.exampleFormControl.disable();\r\n      } else {\r\n        this.exampleFormControl.enable();\r\n      }\r\n    }\r\n\r\n    if (!changes.hasError) return;\r\n    if (changes.hasError.currentValue) {\r\n      // Tick is needed, otherwise errors won't be applied in this context\r\n      setTimeout(() => {\r\n        this.exampleFormControl.setErrors({ required: true });\r\n        this.exampleFormControl.markAsTouched();\r\n      });\r\n    } else {\r\n      this.exampleFormControl.setErrors(null);\r\n    }\r\n  }\r\n}\r\n",
             "assetsDirs": [],
             "styleUrlsData": [
                 {
-                    "data": ":host {\r\n    padding: 20px;\r\n    display: block;\r\n    background: var(--watt-color-neutral-grey-200);\r\n}",
+                    "data": ":host {\r\n    display: inline-block;\r\n}\r\n",
                     "styleUrl": "./input.component.scss"
                 }
             ],
@@ -859,12 +858,12 @@
             "assetsDirs": [],
             "styleUrlsData": [
                 {
-                    "data": "",
+                    "data": ":host {\r\n    display: flex;\r\n    justify-content: space-between;\r\n    max-width: 910px;\r\n    flex-wrap: wrap;\r\n}\r\n\r\nh1 {\r\n    width: 100%;\r\n}\r\n\r\nh2:first-of-type {\r\n    margin-top: 0;\r\n}\r\n\r\nh2 {\r\n    margin-bottom: 16px;\r\n}\r\n\r\nul {\r\n    list-style: none;\r\n    padding: 0;\r\n}\r\n\r\np {\r\n    margin-bottom: 20px;\r\n}",
                     "styleUrl": "./overview.component.scss"
                 }
             ],
             "stylesData": "",
-            "templateData": "OVERVIEW"
+            "templateData": "<h1>Text Field</h1>\r\n<div>\r\n    <p class=\"watt-label\">State</p>\r\n    <ul>\r\n        <li>Default</li>\r\n        <li>Focus</li>\r\n        <li>Disabled</li>\r\n    </ul>\r\n\r\n    <p class=\"watt-label\">Placeholder text</p>\r\n    <ul>\r\n        <li>Placeholder</li>\r\n        <li>No Placeholder</li>\r\n    </ul>\r\n\r\n    <p class=\"watt-label\">Icon</p>\r\n    <ul>\r\n        <li>Leading icon</li>\r\n        <li>Trailing icon</li>\r\n    </ul>\r\n\r\n    <p class=\"watt-label\">Helper</p>\r\n    <ul>\r\n        <li>Assistive</li>\r\n        <li>Required</li>\r\n        <li>Error</li>\r\n    </ul>\r\n\r\n    <p class=\"watt-label\">Sizes</p>\r\n    <ul>\r\n        <li>Default</li>\r\n        <li>Large</li>\r\n    </ul>\r\n</div>\r\n<div>\r\n    <h2>States</h2>\r\n    <p>Default</p>\r\n    <watt-input></watt-input>\r\n    <p>Focused</p>\r\n    <watt-input></watt-input>\r\n    <p>Disabled</p>\r\n    <watt-input [disabled]=\"true\"></watt-input>\r\n\r\n    <h2>Icon</h2>\r\n    <p>Trailing icon</p>\r\n    <watt-input [hasSuffix]=\"true\"></watt-input>\r\n    <p>Leading icon</p>\r\n    <watt-input [hasPrefix]=\"true\"></watt-input>\r\n\r\n    <h2>Helper</h2>\r\n    <p>Assistive text</p>\r\n    <watt-input [hasHint]=\"true\"></watt-input>\r\n    <p>Required field</p>\r\n    <watt-input></watt-input>\r\n    <p>Error</p>\r\n    <watt-input [hasError]=\"true\"></watt-input>\r\n\r\n    <h2>Placeholder text</h2>\r\n    <watt-input placeholder=\"Placeholder text\"></watt-input>\r\n\r\n    <h2>Sizes</h2>\r\n    <p>Default</p>\r\n    <watt-input></watt-input>\r\n    <p>Large</p>\r\n    <watt-input size=\"large\"></watt-input>\r\n</div>\r\n\r\n"
         },
         {
             "name": "TypographyComponent",
@@ -1020,7 +1019,7 @@
         },
         {
             "name": "WattErrorComponent",
-            "id": "component-WattErrorComponent-36c47dc792ffa159a13435e92a848a01",
+            "id": "component-WattErrorComponent-18603d89e87ec79f0fe3317b3d923993",
             "file": "libs/ui-watt/src/lib/components/form-field/components/error.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -1044,14 +1043,14 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import {Component} from '@angular/core';\r\n\r\n@Component({\r\n  selector: 'watt-error',\r\n  template: `<ng-content></ng-content>`\r\n})\r\nexport class WattErrorComponent {}",
+            "sourceCode": "import { Component } from '@angular/core';\r\n\r\n@Component({\r\n  selector: 'watt-error',\r\n  template: `<ng-content></ng-content>`,\r\n})\r\nexport class WattErrorComponent {}\r\n",
             "assetsDirs": [],
             "styleUrlsData": "",
             "stylesData": ""
         },
         {
             "name": "WattHintComponent",
-            "id": "component-WattHintComponent-ce11c9d737190051c8ea8260012870b5",
+            "id": "component-WattHintComponent-3720c2e61b1f0e35adbc5fde5b40baf2",
             "file": "libs/ui-watt/src/lib/components/form-field/components/hint.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -1084,14 +1083,14 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import {Component, Input} from '@angular/core';\r\n\r\n@Component({\r\n  selector: 'watt-hint',\r\n  template: `<ng-content></ng-content>`\r\n})\r\nexport class WattHintComponent {\r\n  @Input() align: 'start' | 'end' = 'start';\r\n}",
+            "sourceCode": "import { Component, Input } from '@angular/core';\r\n\r\n@Component({\r\n  selector: 'watt-hint',\r\n  template: `<ng-content></ng-content>`,\r\n})\r\nexport class WattHintComponent {\r\n  @Input() align: 'start' | 'end' = 'start';\r\n}\r\n",
             "assetsDirs": [],
             "styleUrlsData": "",
             "stylesData": ""
         },
         {
             "name": "WattLabelComponent",
-            "id": "component-WattLabelComponent-e8667a27a23924a799d34ad14c7746e6",
+            "id": "component-WattLabelComponent-96c1c1fd3f3806494ef0f9ba1d190925",
             "file": "libs/ui-watt/src/lib/components/form-field/components/label.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -1115,7 +1114,7 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import {Component} from '@angular/core';\r\n\r\n@Component({\r\n  selector: 'watt-label',\r\n  template: `<ng-content></ng-content>`\r\n})\r\nexport class WattLabelComponent {}",
+            "sourceCode": "import { Component } from '@angular/core';\r\n\r\n@Component({\r\n  selector: 'watt-label',\r\n  template: `<ng-content></ng-content>`,\r\n})\r\nexport class WattLabelComponent {}\r\n",
             "assetsDirs": [],
             "styleUrlsData": "",
             "stylesData": ""
@@ -1208,13 +1207,13 @@
         },
         {
             "name": "InputStoriesModule",
-            "id": "module-InputStoriesModule-26c54f9e6428de6bf70168ab93615374",
+            "id": "module-InputStoriesModule-9e081e2077032b83f337d69b2d107c99",
             "description": "",
             "deprecationMessage": "",
             "deprecated": false,
             "file": "libs/ui-watt/src/lib/components/input/storybook/input.stories.module.ts",
             "methods": [],
-            "sourceCode": "import { NgModule } from '@angular/core';\r\nimport { FormsModule, ReactiveFormsModule } from '@angular/forms';\r\nimport { BrowserAnimationsModule } from '@angular/platform-browser/animations';\r\nimport { WattFormFieldModule } from '../../form-field/form-field.module';\r\nimport { WattInputModule } from '../input.module';\r\n\r\n@NgModule({\r\n  imports: [\r\n    BrowserAnimationsModule,\r\n    WattFormFieldModule,\r\n    WattInputModule,\r\n    FormsModule,\r\n    ReactiveFormsModule,\r\n  ],\r\n  exports: [\r\n    WattFormFieldModule,\r\n    WattInputModule,\r\n    ReactiveFormsModule,\r\n  ]\r\n})\r\nexport class InputStoriesModule {}\r\n",
+            "sourceCode": "import { NgModule } from '@angular/core';\r\nimport { FormsModule, ReactiveFormsModule } from '@angular/forms';\r\nimport { BrowserAnimationsModule } from '@angular/platform-browser/animations';\r\nimport { WattFormFieldModule } from '../../form-field/form-field.module';\r\nimport { WattInputModule } from '../input.module';\r\nimport { InputComponent } from './input.component';\r\nimport { InputOverviewComponent } from './overview.component';\r\n\r\n@NgModule({\r\n  imports: [\r\n    BrowserAnimationsModule,\r\n    WattFormFieldModule,\r\n    WattInputModule,\r\n    FormsModule,\r\n    ReactiveFormsModule,\r\n  ],\r\n  declarations: [InputComponent, InputOverviewComponent],\r\n  exports: [\r\n    WattFormFieldModule,\r\n    WattInputModule,\r\n    ReactiveFormsModule,\r\n    InputComponent,\r\n    InputOverviewComponent\r\n  ]\r\n})\r\nexport class InputStoriesModule {}\r\n",
             "children": [
                 {
                     "type": "providers",
@@ -1222,7 +1221,14 @@
                 },
                 {
                     "type": "declarations",
-                    "elements": []
+                    "elements": [
+                        {
+                            "name": "InputComponent"
+                        },
+                        {
+                            "name": "InputOverviewComponent"
+                        }
+                    ]
                 },
                 {
                     "type": "imports",
@@ -1238,6 +1244,12 @@
                 {
                     "type": "exports",
                     "elements": [
+                        {
+                            "name": "InputComponent"
+                        },
+                        {
+                            "name": "InputOverviewComponent"
+                        },
                         {
                             "name": "WattFormFieldModule"
                         },
@@ -1346,13 +1358,13 @@
         },
         {
             "name": "WattFormFieldModule",
-            "id": "module-WattFormFieldModule-16ef71936e7c0a1512b0769b50b54bef",
+            "id": "module-WattFormFieldModule-79e6fb1606cc31f982defc71826d42b5",
             "description": "",
             "deprecationMessage": "",
             "deprecated": false,
             "file": "libs/ui-watt/src/lib/components/form-field/form-field.module.ts",
             "methods": [],
-            "sourceCode": "import { CommonModule } from '@angular/common';\r\nimport { NgModule } from '@angular/core';\r\nimport { MatFormFieldModule } from '@angular/material/form-field';\r\nimport { MatInputModule } from '@angular/material/input';\r\nimport { WattErrorComponent } from './components/error.component';\r\nimport { WattHintComponent } from './components/hint.component';\r\nimport { WattLabelComponent } from './components/label.component';\r\nimport { WattPrefixDirective } from './directives/prefix.directive';\r\nimport { WattSuffixDirective } from './directives/suffix.directive';\r\nimport { FormFieldComponent } from './form-field.component';\r\n\r\n@NgModule({\r\n  imports: [CommonModule, MatFormFieldModule, MatInputModule],\r\n  declarations: [\r\n    FormFieldComponent,\r\n    WattPrefixDirective,\r\n    WattSuffixDirective,\r\n    WattErrorComponent,\r\n    WattLabelComponent,\r\n    WattHintComponent\r\n  ],\r\n  exports: [\r\n    FormFieldComponent,\r\n    WattPrefixDirective,\r\n    WattSuffixDirective,\r\n    WattErrorComponent,\r\n    WattLabelComponent,\r\n    WattHintComponent\r\n  ],\r\n})\r\nexport class WattFormFieldModule {}\r\n",
+            "sourceCode": "import { CommonModule } from '@angular/common';\r\nimport { NgModule } from '@angular/core';\r\nimport { MatFormFieldModule } from '@angular/material/form-field';\r\nimport { MatInputModule } from '@angular/material/input';\r\nimport { WattErrorComponent } from './components/error.component';\r\nimport { WattHintComponent } from './components/hint.component';\r\nimport { WattLabelComponent } from './components/label.component';\r\nimport { WattPrefixDirective } from './directives/prefix.directive';\r\nimport { WattSuffixDirective } from './directives/suffix.directive';\r\nimport { FormFieldComponent } from './form-field.component';\r\n\r\n@NgModule({\r\n  imports: [CommonModule, MatFormFieldModule, MatInputModule],\r\n  declarations: [\r\n    FormFieldComponent,\r\n    WattPrefixDirective,\r\n    WattSuffixDirective,\r\n    WattErrorComponent,\r\n    WattLabelComponent,\r\n    WattHintComponent,\r\n  ],\r\n  exports: [\r\n    FormFieldComponent,\r\n    WattPrefixDirective,\r\n    WattSuffixDirective,\r\n    WattErrorComponent,\r\n    WattLabelComponent,\r\n    WattHintComponent,\r\n  ],\r\n})\r\nexport class WattFormFieldModule {}\r\n",
             "children": [
                 {
                     "type": "providers",
@@ -1420,13 +1432,13 @@
         },
         {
             "name": "WattInputModule",
-            "id": "module-WattInputModule-448fb3bd7d726b188c314f3af4ed9d4c",
+            "id": "module-WattInputModule-ad4881a971817e3b737d02942d2a2120",
             "description": "",
             "deprecationMessage": "",
             "deprecated": false,
             "file": "libs/ui-watt/src/lib/components/input/input.module.ts",
             "methods": [],
-            "sourceCode": "import { NgModule } from \"@angular/core\";\r\nimport { MatFormFieldModule } from \"@angular/material/form-field\";\r\nimport { MatInputModule } from \"@angular/material/input\";\r\nimport { WattInputDirective } from \"./input.directive\";\r\n\r\n@NgModule({\r\n    imports: [MatFormFieldModule, MatInputModule],\r\n    declarations: [WattInputDirective],\r\n    exports: [WattInputDirective],\r\n})\r\nexport class WattInputModule {}",
+            "sourceCode": "import { NgModule } from '@angular/core';\r\nimport { MatFormFieldModule } from '@angular/material/form-field';\r\nimport { MatInputModule } from '@angular/material/input';\r\nimport { WattInputDirective } from './input.directive';\r\n\r\n@NgModule({\r\n  imports: [MatFormFieldModule, MatInputModule],\r\n  declarations: [WattInputDirective],\r\n  exports: [WattInputDirective],\r\n})\r\nexport class WattInputModule {}\r\n",
             "children": [
                 {
                     "type": "providers",
@@ -1553,6 +1565,16 @@
     "miscellaneous": {
         "variables": [
             {
+                "name": "assistiveText",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "libs/ui-watt/src/lib/components/input/storybook/input.directive.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "Template.bind({})"
+            },
+            {
                 "name": "Autocomplete",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
@@ -1631,6 +1653,16 @@
                 "deprecationMessage": "",
                 "type": "string",
                 "defaultValue": "' '"
+            },
+            {
+                "name": "error",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "libs/ui-watt/src/lib/components/input/storybook/input.directive.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "Template.bind({})"
             },
             {
                 "name": "h1",
@@ -1733,16 +1765,6 @@
                 "defaultValue": "`\r\nRecommended\r\n${typographyHtmlSnippets.h5.tag}\r\n\r\nAlternative\r\n${typographyHtmlSnippets.h5.class}\r\n`"
             },
             {
-                "name": "Input",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "libs/ui-watt/src/lib/components/input/storybook/input.directive.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "Template.bind({\r\n  template: `hej`\r\n})"
-            },
-            {
                 "name": "label",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
@@ -1761,6 +1783,36 @@
                 "deprecationMessage": "",
                 "type": "",
                 "defaultValue": "`\r\nRecommended\r\n${typographyHtmlSnippets.label.tag}\r\n\r\nAlternative\r\n${typographyHtmlSnippets.label.class}\r\n`"
+            },
+            {
+                "name": "leadingIcon",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "libs/ui-watt/src/lib/components/input/storybook/input.directive.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "Template.bind({})"
+            },
+            {
+                "name": "overview",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "libs/ui-watt/src/lib/components/input/storybook/input.directive.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "overviewTemplate.bind({})"
+            },
+            {
+                "name": "overviewTemplate",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "libs/ui-watt/src/lib/components/input/storybook/input.directive.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "() => ({\r\n  template: `<watt-input-overview></watt-input-overview>`\r\n})"
             },
             {
                 "name": "shell",
@@ -1863,6 +1915,16 @@
                 "defaultValue": "() => ({\r\n  template: typographyHtmlSnippets.textXs,\r\n})"
             },
             {
+                "name": "trailingIcon",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "libs/ui-watt/src/lib/components/input/storybook/input.directive.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "Template.bind({})"
+            },
+            {
                 "name": "typeScale",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
@@ -1911,46 +1973,6 @@
                 "deprecationMessage": "",
                 "type": "",
                 "defaultValue": "`\r\n<watt-shell>\r\n  <ng-container watt-shell-sidenav>\r\n    Sidenav\r\n  </ng-container>\r\n\r\n  <ng-container watt-shell-toolbar>\r\n    Toolbar\r\n  </ng-container>\r\n\r\n  Main content\r\n</watt-shell>\r\n`"
-            },
-            {
-                "name": "withError",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "libs/ui-watt/src/lib/components/input/storybook/input.directive.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "Template.bind({})"
-            },
-            {
-                "name": "withHints",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "libs/ui-watt/src/lib/components/input/storybook/input.directive.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "Template.bind({})"
-            },
-            {
-                "name": "withPrefix",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "libs/ui-watt/src/lib/components/input/storybook/input.directive.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "Template.bind({})"
-            },
-            {
-                "name": "withSuffix",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "libs/ui-watt/src/lib/components/input/storybook/input.directive.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "Template.bind({})"
             }
         ],
         "functions": [],
@@ -2119,6 +2141,98 @@
             }
         ],
         "groupedVariables": {
+            "libs/ui-watt/src/lib/components/input/storybook/input.directive.stories.ts": [
+                {
+                    "name": "assistiveText",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "libs/ui-watt/src/lib/components/input/storybook/input.directive.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "Template.bind({})"
+                },
+                {
+                    "name": "disabled",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "libs/ui-watt/src/lib/components/input/storybook/input.directive.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "Template.bind({})"
+                },
+                {
+                    "name": "error",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "libs/ui-watt/src/lib/components/input/storybook/input.directive.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "Template.bind({})"
+                },
+                {
+                    "name": "leadingIcon",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "libs/ui-watt/src/lib/components/input/storybook/input.directive.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "Template.bind({})"
+                },
+                {
+                    "name": "overview",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "libs/ui-watt/src/lib/components/input/storybook/input.directive.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "overviewTemplate.bind({})"
+                },
+                {
+                    "name": "overviewTemplate",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "libs/ui-watt/src/lib/components/input/storybook/input.directive.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story",
+                    "defaultValue": "() => ({\r\n  template: `<watt-input-overview></watt-input-overview>`\r\n})"
+                },
+                {
+                    "name": "sizeLarge",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "libs/ui-watt/src/lib/components/input/storybook/input.directive.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "Template.bind({})"
+                },
+                {
+                    "name": "Template",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "libs/ui-watt/src/lib/components/input/storybook/input.directive.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story<InputComponent>",
+                    "defaultValue": "(args) => ({\r\n  props: args,\r\n})"
+                },
+                {
+                    "name": "trailingIcon",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "libs/ui-watt/src/lib/components/input/storybook/input.directive.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "Template.bind({})"
+                }
+            ],
             "libs/ui-watt/src/lib/components/autocomplete/autocomplete.component.stories.ts": [
                 {
                     "name": "Autocomplete",
@@ -2383,88 +2497,6 @@
                     "deprecationMessage": "",
                     "type": "Story<ColorComponent>",
                     "defaultValue": "(args) => ({\r\n  props: args,\r\n})"
-                }
-            ],
-            "libs/ui-watt/src/lib/components/input/storybook/input.directive.stories.ts": [
-                {
-                    "name": "disabled",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "libs/ui-watt/src/lib/components/input/storybook/input.directive.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "Template.bind({})"
-                },
-                {
-                    "name": "Input",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "libs/ui-watt/src/lib/components/input/storybook/input.directive.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "Template.bind({\r\n  template: `hej`\r\n})"
-                },
-                {
-                    "name": "sizeLarge",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "libs/ui-watt/src/lib/components/input/storybook/input.directive.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "Template.bind({})"
-                },
-                {
-                    "name": "Template",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "libs/ui-watt/src/lib/components/input/storybook/input.directive.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "Story<InputComponent>",
-                    "defaultValue": "(args) => ({\r\n  props: args,\r\n})"
-                },
-                {
-                    "name": "withError",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "libs/ui-watt/src/lib/components/input/storybook/input.directive.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "Template.bind({})"
-                },
-                {
-                    "name": "withHints",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "libs/ui-watt/src/lib/components/input/storybook/input.directive.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "Template.bind({})"
-                },
-                {
-                    "name": "withPrefix",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "libs/ui-watt/src/lib/components/input/storybook/input.directive.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "Template.bind({})"
-                },
-                {
-                    "name": "withSuffix",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "libs/ui-watt/src/lib/components/input/storybook/input.directive.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "Template.bind({})"
                 }
             ],
             "libs/ui-watt/src/lib/components/shell/shell.stories.ts": [
@@ -2813,6 +2845,16 @@
                 "type": "variable",
                 "linktype": "miscellaneous",
                 "linksubtype": "variable",
+                "name": "assistiveText",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "libs/ui-watt/src/lib/components/input/storybook/input.directive.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
                 "name": "disabled",
                 "coveragePercent": 0,
                 "coverageCount": "0/1",
@@ -2823,7 +2865,37 @@
                 "type": "variable",
                 "linktype": "miscellaneous",
                 "linksubtype": "variable",
-                "name": "Input",
+                "name": "error",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "libs/ui-watt/src/lib/components/input/storybook/input.directive.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "leadingIcon",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "libs/ui-watt/src/lib/components/input/storybook/input.directive.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "overview",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "libs/ui-watt/src/lib/components/input/storybook/input.directive.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "overviewTemplate",
                 "coveragePercent": 0,
                 "coverageCount": "0/1",
                 "status": "low"
@@ -2853,37 +2925,7 @@
                 "type": "variable",
                 "linktype": "miscellaneous",
                 "linksubtype": "variable",
-                "name": "withError",
-                "coveragePercent": 0,
-                "coverageCount": "0/1",
-                "status": "low"
-            },
-            {
-                "filePath": "libs/ui-watt/src/lib/components/input/storybook/input.directive.stories.ts",
-                "type": "variable",
-                "linktype": "miscellaneous",
-                "linksubtype": "variable",
-                "name": "withHints",
-                "coveragePercent": 0,
-                "coverageCount": "0/1",
-                "status": "low"
-            },
-            {
-                "filePath": "libs/ui-watt/src/lib/components/input/storybook/input.directive.stories.ts",
-                "type": "variable",
-                "linktype": "miscellaneous",
-                "linksubtype": "variable",
-                "name": "withPrefix",
-                "coveragePercent": 0,
-                "coverageCount": "0/1",
-                "status": "low"
-            },
-            {
-                "filePath": "libs/ui-watt/src/lib/components/input/storybook/input.directive.stories.ts",
-                "type": "variable",
-                "linktype": "miscellaneous",
-                "linksubtype": "variable",
-                "name": "withSuffix",
+                "name": "trailingIcon",
                 "coveragePercent": 0,
                 "coverageCount": "0/1",
                 "status": "low"

@@ -8,8 +8,8 @@ export default {
   decorators: [
     moduleMetadata({
       imports: [InputStoriesModule],
-    })
-  ]
+    }),
+  ],
 } as Meta<InputComponent>;
 
 const Template: Story<InputComponent> = (args) => ({
@@ -23,7 +23,7 @@ export const overview = overviewTemplate.bind({});
 
 export const disabled = Template.bind({});
 disabled.args = {
-  disabled: true
+  disabled: true,
 };
 disabled.parameters = {
   docs: {
@@ -35,14 +35,14 @@ disabled.parameters = {
 </watt-form-field>
 
 // TypeScript (should be done via ReactiveForms and not by attribute):
-exampleFormControl = new FormControl({value: '', disabled: true});`
-    }
-  }
+exampleFormControl = new FormControl({value: '', disabled: true});`,
+    },
+  },
 };
 
 export const sizeLarge = Template.bind({});
 sizeLarge.args = {
-  size: 'large'
+  size: 'large',
 };
 sizeLarge.parameters = {
   docs: {
@@ -50,9 +50,9 @@ sizeLarge.parameters = {
       code: `<watt-form-field size="large">
   <watt-label>label</watt-label>
   <input wattInput [formControl]="exampleFormControl" />
-</watt-form-field>`
-    }
-  }
+</watt-form-field>`,
+    },
+  },
 };
 
 export const leadingIcon = Template.bind({});
@@ -68,9 +68,9 @@ leadingIcon.parameters = {
     icon
   </button>
   <input wattInput />
-</watt-form-field>`
-    }
-  }
+</watt-form-field>`,
+    },
+  },
 };
 
 export const trailingIcon = Template.bind({});
@@ -86,9 +86,9 @@ trailingIcon.parameters = {
   <button wattSuffix aria-label="some meaningful description">
     icon
   </button>
-</watt-form-field>`
-    }
-  }
+</watt-form-field>`,
+    },
+  },
 };
 
 export const assistiveText = Template.bind({});
@@ -108,9 +108,9 @@ assistiveText.parameters = {
 
 TypeScript:
 exampleFormControl = new FormControl('');
-`
-    }
-  }
+`,
+    },
+  },
 };
 
 export const error = Template.bind({});
@@ -133,9 +133,7 @@ TypeScript:
 exampleFormControl = new FormControl('', [
   Validators.required
 ]);
-`
-    }
-  }
+`,
+    },
+  },
 };
-
-
