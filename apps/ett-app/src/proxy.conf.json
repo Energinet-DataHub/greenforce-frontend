@@ -1,6 +1,6 @@
 {
   "/api/oidc": {
-    "logLevel": "debug",
+    "logLevel": "info",
     "pathRewrite": {
       "^/api": ""
     },
