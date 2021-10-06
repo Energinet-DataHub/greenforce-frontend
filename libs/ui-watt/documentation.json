@@ -722,7 +722,7 @@
         },
         {
             "name": "InputComponent",
-            "id": "component-InputComponent-3807ea33376c2ecc3d561ddee8bebad9",
+            "id": "component-InputComponent-4f4997af8a2272abb463bfed6f9917b4",
             "file": "libs/ui-watt/src/lib/components/input/storybook/input.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -734,7 +734,7 @@
                 "./input.component.scss"
             ],
             "styles": [],
-            "template": "<watt-form-field [size]=\"size\">    <watt-label>{{ label }}</watt-label>\n    <button\n      *ngIf=\"hasPrefix\"\n      wattPrefix\n      aria-label=\"some meaningful description\"\n    >\n      icon\n    </button>\n    <input\n      wattInput\n      type=\"text\"\n      maxlength=\"256\"\n      [formControl]=\"exampleFormControl\"\n      [placeholder]=\"placeholder\"\n    />\n    <button\n      *ngIf=\"hasSuffix\"\n      wattSuffix\n      aria-label=\"some meaningful description\"\n    >\n      icon\n    </button>\n    <watt-error *ngIf=\"exampleFormControl.hasError('required')\">\n      This field is required\n    </watt-error>\n    <watt-hint *ngIf=\"hasHint\">Some hint</watt-hint>\n    <watt-hint *ngIf=\"hasHint\" align=\"end\"\n      >{{ exampleFormControl.value.length }} / 256</watt-hint\n    >\n  </watt-form-field>",
+            "template": "<watt-form-field [size]=\"size\">    <watt-label>{{ label }}</watt-label>\n    <button\n      *ngIf=\"hasPrefix\"\n      wattPrefix\n      aria-label=\"some meaningful description\"\n    >\n      icon\n    </button>\n    <input\n      wattInput\n      type=\"text\"\n      maxlength=\"256\"\n      [formControl]=\"exampleFormControl\"\n      [placeholder]=\"placeholder\"\n      [required]=\"required\"\n    />\n    <button\n      *ngIf=\"hasSuffix\"\n      wattSuffix\n      aria-label=\"some meaningful description\"\n    >\n      icon\n    </button>\n    <watt-error *ngIf=\"exampleFormControl.hasError('required')\">\n      This field is required\n    </watt-error>\n    <watt-hint *ngIf=\"hasHint\">Some hint</watt-hint>\n    <watt-hint *ngIf=\"hasHint\" align=\"end\"\n      >{{ exampleFormControl.value.length }} / 256</watt-hint\n    >\n  </watt-form-field>",
             "templateUrl": [],
             "viewProviders": [],
             "inputsClass": [
@@ -743,7 +743,7 @@
                     "defaultValue": "false",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 49,
+                    "line": 50,
                     "type": "boolean"
                 },
                 {
@@ -751,7 +751,7 @@
                     "defaultValue": "false",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 48,
+                    "line": 49,
                     "type": "boolean"
                 },
                 {
@@ -759,7 +759,7 @@
                     "defaultValue": "false",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 53,
+                    "line": 55,
                     "type": "boolean"
                 },
                 {
@@ -767,7 +767,7 @@
                     "defaultValue": "false",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 52,
+                    "line": 53,
                     "type": "boolean"
                 },
                 {
@@ -775,7 +775,7 @@
                     "defaultValue": "false",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 50,
+                    "line": 51,
                     "type": "boolean"
                 },
                 {
@@ -783,7 +783,7 @@
                     "defaultValue": "false",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 51,
+                    "line": 52,
                     "type": "boolean"
                 },
                 {
@@ -791,22 +791,30 @@
                     "defaultValue": "'label'",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 46,
+                    "line": 47,
                     "type": "string"
                 },
                 {
                     "name": "placeholder",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 47,
+                    "line": 48,
                     "type": "string"
+                },
+                {
+                    "name": "required",
+                    "defaultValue": "false",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "line": 54,
+                    "type": "boolean"
                 },
                 {
                     "name": "size",
                     "defaultValue": "'normal'",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 54,
+                    "line": 56,
                     "type": "\"normal\" | \"large\""
                 }
             ],
@@ -820,7 +828,7 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import {\r\n  Component,\r\n  HostBinding,\r\n  Input,\r\n  OnChanges,\r\n  SimpleChanges,\r\n} from '@angular/core';\r\nimport { FormControl } from '@angular/forms';\r\n\r\n@Component({\r\n  selector: 'watt-input',\r\n  styleUrls: ['./input.component.scss'],\r\n  template: `<watt-form-field [size]=\"size\">\r\n    <watt-label>{{ label }}</watt-label>\r\n    <button\r\n      *ngIf=\"hasPrefix\"\r\n      wattPrefix\r\n      aria-label=\"some meaningful description\"\r\n    >\r\n      icon\r\n    </button>\r\n    <input\r\n      wattInput\r\n      type=\"text\"\r\n      maxlength=\"256\"\r\n      [formControl]=\"exampleFormControl\"\r\n      [placeholder]=\"placeholder\"\r\n    />\r\n    <button\r\n      *ngIf=\"hasSuffix\"\r\n      wattSuffix\r\n      aria-label=\"some meaningful description\"\r\n    >\r\n      icon\r\n    </button>\r\n    <watt-error *ngIf=\"exampleFormControl.hasError('required')\">\r\n      This field is required\r\n    </watt-error>\r\n    <watt-hint *ngIf=\"hasHint\">Some hint</watt-hint>\r\n    <watt-hint *ngIf=\"hasHint\" align=\"end\"\r\n      >{{ exampleFormControl.value.length }} / 256</watt-hint\r\n    >\r\n  </watt-form-field> `,\r\n})\r\nexport class InputComponent implements OnChanges {\r\n  @Input() label = 'label';\r\n  @Input() placeholder!: string;\r\n  @HostBinding('class.watt-input-focused') @Input() focused = false;\r\n  @Input() disabled = false;\r\n  @Input() hasPrefix = false;\r\n  @Input() hasSuffix = false;\r\n  @Input() hasHint = false;\r\n  @Input() hasError = false;\r\n  @Input() size: 'normal' | 'large' = 'normal';\r\n\r\n  /**\r\n   * @ignore\r\n   */\r\n  exampleFormControl = new FormControl({ value: '', disabled: this.disabled });\r\n\r\n  /**\r\n   * @ignore\r\n   * @param changes\r\n   */\r\n  ngOnChanges(changes: SimpleChanges) {\r\n    if (changes.disabled) {\r\n      if (changes.disabled.currentValue) {\r\n        this.exampleFormControl.disable();\r\n      } else {\r\n        this.exampleFormControl.enable();\r\n      }\r\n    }\r\n\r\n    if (!changes.hasError) return;\r\n    if (changes.hasError.currentValue) {\r\n      // Tick is needed, otherwise errors won't be applied in this context\r\n      setTimeout(() => {\r\n        this.exampleFormControl.setErrors({ required: true });\r\n        this.exampleFormControl.markAsTouched();\r\n      });\r\n    } else {\r\n      this.exampleFormControl.setErrors(null);\r\n    }\r\n  }\r\n}\r\n",
+            "sourceCode": "import {\r\n  Component,\r\n  HostBinding,\r\n  Input,\r\n  OnChanges,\r\n  SimpleChanges,\r\n} from '@angular/core';\r\nimport { FormControl } from '@angular/forms';\r\n\r\n@Component({\r\n  selector: 'watt-input',\r\n  styleUrls: ['./input.component.scss'],\r\n  template: `<watt-form-field [size]=\"size\">\r\n    <watt-label>{{ label }}</watt-label>\r\n    <button\r\n      *ngIf=\"hasPrefix\"\r\n      wattPrefix\r\n      aria-label=\"some meaningful description\"\r\n    >\r\n      icon\r\n    </button>\r\n    <input\r\n      wattInput\r\n      type=\"text\"\r\n      maxlength=\"256\"\r\n      [formControl]=\"exampleFormControl\"\r\n      [placeholder]=\"placeholder\"\r\n      [required]=\"required\"\r\n    />\r\n    <button\r\n      *ngIf=\"hasSuffix\"\r\n      wattSuffix\r\n      aria-label=\"some meaningful description\"\r\n    >\r\n      icon\r\n    </button>\r\n    <watt-error *ngIf=\"exampleFormControl.hasError('required')\">\r\n      This field is required\r\n    </watt-error>\r\n    <watt-hint *ngIf=\"hasHint\">Some hint</watt-hint>\r\n    <watt-hint *ngIf=\"hasHint\" align=\"end\"\r\n      >{{ exampleFormControl.value.length }} / 256</watt-hint\r\n    >\r\n  </watt-form-field> `,\r\n})\r\nexport class InputComponent implements OnChanges {\r\n  @Input() label = 'label';\r\n  @Input() placeholder!: string;\r\n  @HostBinding('class.watt-input-focused') @Input() focused = false;\r\n  @Input() disabled = false;\r\n  @Input() hasPrefix = false;\r\n  @Input() hasSuffix = false;\r\n  @Input() hasHint = false;\r\n  @Input() required = false;\r\n  @Input() hasError = false;\r\n  @Input() size: 'normal' | 'large' = 'normal';\r\n\r\n  /**\r\n   * @ignore\r\n   */\r\n  exampleFormControl = new FormControl({ value: '', disabled: this.disabled });\r\n\r\n  /**\r\n   * @ignore\r\n   * @param changes\r\n   */\r\n  ngOnChanges(changes: SimpleChanges) {\r\n    if (changes.disabled) {\r\n      if (changes.disabled.currentValue) {\r\n        this.exampleFormControl.disable();\r\n      } else {\r\n        this.exampleFormControl.enable();\r\n      }\r\n    }\r\n\r\n    if (!changes.hasError) return;\r\n    if (changes.hasError.currentValue) {\r\n      // Tick is needed, otherwise errors won't be applied in this context\r\n      setTimeout(() => {\r\n        this.exampleFormControl.setErrors({ required: true });\r\n        this.exampleFormControl.markAsTouched();\r\n      });\r\n    } else {\r\n      this.exampleFormControl.setErrors(null);\r\n    }\r\n  }\r\n}\r\n",
             "assetsDirs": [],
             "styleUrlsData": [
                 {
@@ -871,7 +879,7 @@
                 }
             ],
             "stylesData": "",
-            "templateData": "<h1>Text Field</h1>\r\n<div>\r\n  <p class=\"watt-label\">State</p>\r\n  <ul>\r\n    <li>Default</li>\r\n    <li>Focus</li>\r\n    <li>Disabled</li>\r\n  </ul>\r\n\r\n  <p class=\"watt-label\">Placeholder text</p>\r\n  <ul>\r\n    <li>Placeholder</li>\r\n    <li>No Placeholder</li>\r\n  </ul>\r\n\r\n  <p class=\"watt-label\">Icon</p>\r\n  <ul>\r\n    <li>Leading icon</li>\r\n    <li>Trailing icon</li>\r\n  </ul>\r\n\r\n  <p class=\"watt-label\">Helper</p>\r\n  <ul>\r\n    <li>Assistive</li>\r\n    <li>Required</li>\r\n    <li>Error</li>\r\n  </ul>\r\n\r\n  <p class=\"watt-label\">Sizes</p>\r\n  <ul>\r\n    <li>Default</li>\r\n    <li>Large</li>\r\n  </ul>\r\n</div>\r\n<div>\r\n  <h2>States</h2>\r\n  <p>Default</p>\r\n  <watt-input></watt-input>\r\n  <p>Focused</p>\r\n  <watt-input [focused]=\"true\"></watt-input>\r\n  <p>Disabled</p>\r\n  <watt-input [disabled]=\"true\"></watt-input>\r\n\r\n  <h2>Icon</h2>\r\n  <p>Trailing icon</p>\r\n  <watt-input [hasSuffix]=\"true\"></watt-input>\r\n  <p>Leading icon</p>\r\n  <watt-input [hasPrefix]=\"true\"></watt-input>\r\n\r\n  <h2>Helper</h2>\r\n  <p>Assistive text</p>\r\n  <watt-input [hasHint]=\"true\"></watt-input>\r\n  <p>Required field</p>\r\n  <watt-input></watt-input>\r\n  <p>Error</p>\r\n  <watt-input [hasError]=\"true\"></watt-input>\r\n\r\n  <h2>Placeholder text</h2>\r\n  <watt-input placeholder=\"Placeholder text\"></watt-input>\r\n\r\n  <h2>Sizes</h2>\r\n  <p>Default</p>\r\n  <watt-input></watt-input>\r\n  <p>Large</p>\r\n  <watt-input size=\"large\"></watt-input>\r\n</div>\r\n"
+            "templateData": "<h1>Text Field</h1>\r\n<div>\r\n  <p class=\"watt-label\">State</p>\r\n  <ul>\r\n    <li>Default</li>\r\n    <li>Focus</li>\r\n    <li>Disabled</li>\r\n  </ul>\r\n\r\n  <p class=\"watt-label\">Placeholder text</p>\r\n  <ul>\r\n    <li>Placeholder</li>\r\n    <li>No Placeholder</li>\r\n  </ul>\r\n\r\n  <p class=\"watt-label\">Icon</p>\r\n  <ul>\r\n    <li>Leading icon</li>\r\n    <li>Trailing icon</li>\r\n  </ul>\r\n\r\n  <p class=\"watt-label\">Helper</p>\r\n  <ul>\r\n    <li>Assistive</li>\r\n    <li>Required</li>\r\n    <li>Error</li>\r\n  </ul>\r\n\r\n  <p class=\"watt-label\">Sizes</p>\r\n  <ul>\r\n    <li>Default</li>\r\n    <li>Large</li>\r\n  </ul>\r\n</div>\r\n<div>\r\n  <h2>States</h2>\r\n  <p>Default</p>\r\n  <watt-input></watt-input>\r\n  <p>Focused</p>\r\n  <watt-input [focused]=\"true\"></watt-input>\r\n  <p>Disabled</p>\r\n  <watt-input [disabled]=\"true\"></watt-input>\r\n\r\n  <h2>Icon</h2>\r\n  <p>Trailing icon</p>\r\n  <watt-input [hasSuffix]=\"true\"></watt-input>\r\n  <p>Leading icon</p>\r\n  <watt-input [hasPrefix]=\"true\"></watt-input>\r\n\r\n  <h2>Helper</h2>\r\n  <p>Assistive text</p>\r\n  <watt-input [hasHint]=\"true\"></watt-input>\r\n  <p>Required field</p>\r\n  <watt-input [required]=\"true\"></watt-input>\r\n  <p>Error</p>\r\n  <watt-input [hasError]=\"true\"></watt-input>\r\n\r\n  <h2>Placeholder text</h2>\r\n  <watt-input placeholder=\"Placeholder text\"></watt-input>\r\n\r\n  <h2>Sizes</h2>\r\n  <p>Default</p>\r\n  <watt-input></watt-input>\r\n  <p>Large</p>\r\n  <watt-input size=\"large\"></watt-input>\r\n</div>\r\n"
         },
         {
             "name": "TypographyComponent",
@@ -2845,7 +2853,7 @@
                 "linktype": "component",
                 "name": "InputComponent",
                 "coveragePercent": 0,
-                "coverageCount": "0/10",
+                "coverageCount": "0/11",
                 "status": "low"
             },
             {
