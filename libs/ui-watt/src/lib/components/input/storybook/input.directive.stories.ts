@@ -123,7 +123,7 @@ error.parameters = {
       code: `HTML:
 <watt-form-field>
   <watt-label>label</watt-label>
-  <input wattInput [formControl]="exampleFormControl" />
+  <input wattInput [formControl]="exampleFormControl" required />
   <watt-error *ngIf="exampleFormControl.hasError('required')">
     This field is required
   </watt-error>

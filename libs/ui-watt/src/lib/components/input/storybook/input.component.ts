@@ -25,6 +25,7 @@ import { FormControl } from '@angular/forms';
       maxlength="256"
       [formControl]="exampleFormControl"
       [placeholder]="placeholder"
+      [required]="required"
     />
     <button
       *ngIf="hasSuffix"
@@ -50,6 +51,7 @@ export class InputComponent implements OnChanges {
   @Input() hasPrefix = false;
   @Input() hasSuffix = false;
   @Input() hasHint = false;
+  @Input() required = false;
   @Input() hasError = false;
   @Input() size: 'normal' | 'large' = 'normal';
 
