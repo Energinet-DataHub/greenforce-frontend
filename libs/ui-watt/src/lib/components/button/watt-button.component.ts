@@ -14,22 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  Component,
-  Host,
-  Injector,
-  Input,
-  Optional,
-  Type,
-} from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Component, Injector, Input, Type } from '@angular/core';
 
 import { WattButtonType } from './watt-button-type';
-import { WattLinkButtonComponent } from './link-button/watt-link-button.component';
 import { WattPrimaryButtonComponent } from './primary-button/watt-primary-button.component';
-import { WattPrimaryLinkButtonComponent } from './primary-link-button/watt-primary-link-button.component';
 import { WattSecondaryButtonComponent } from './secondary-button/watt-secondary-button.component';
-import { WattSecondaryLinkButtonComponent } from './secondary-link-button/watt-secondary-link-button.component';
 import { WattTextButtonComponent } from './text-button/watt-text-button.component';
 import { disabledAttributeToken } from './disabled-attribute-token';
 
@@ -77,16 +66,11 @@ export class WattButtonComponent {
 
   get buttonComponentType(): Type<unknown> {
     switch (this.type) {
-      case 'text':
-        return this.hasLink ? WattLinkButtonComponent : WattTextButtonComponent;
       case 'primary':
-        return this.hasLink
-          ? WattPrimaryLinkButtonComponent
-          : WattPrimaryButtonComponent;
+        return WattPrimaryButtonComponent;
       case 'secondary':
-        return this.hasLink
-          ? WattSecondaryLinkButtonComponent
-          : WattSecondaryButtonComponent;
+        return WattSecondaryButtonComponent;
+      case 'text':
       default:
         return WattTextButtonComponent;
     }
@@ -94,15 +78,10 @@ export class WattButtonComponent {
   get hasIcon(): boolean {
     return this.icon !== '' && this.icon != null;
   }
-  get hasLink(): boolean {
-    return this.routerLink != null;
-  }
+
   get iconColor(): '' | 'primary' {
     return this.isPrimaryButton ? '' : 'primary';
   }
 
-  constructor(
-    private injector: Injector,
-    @Optional() @Host() private routerLink?: RouterLink
-  ) {}
+  constructor(private injector: Injector) {}
 }

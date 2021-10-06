@@ -15,16 +15,12 @@
  * limitations under the License.
  */
 import { Injector, Type } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import { TestBed } from '@angular/core/testing';
 
-import { WattLinkButtonComponent } from './link-button/watt-link-button.component';
 import { WattButtonType } from './watt-button-type';
 import { WattButtonComponent } from './watt-button.component';
 import { WattPrimaryButtonComponent } from './primary-button/watt-primary-button.component';
-import { WattPrimaryLinkButtonComponent } from './primary-link-button/watt-primary-link-button.component';
 import { WattSecondaryButtonComponent } from './secondary-button/watt-secondary-button.component';
-import { WattSecondaryLinkButtonComponent } from './secondary-link-button/watt-secondary-link-button.component';
 import { WattTextButtonComponent } from './text-button/watt-text-button.component';
 
 const appInjector = TestBed.inject(Injector);
@@ -32,55 +28,33 @@ const appInjector = TestBed.inject(Injector);
 describe(WattButtonComponent.name, () => {
   function createComponent({
     type = 'text',
-    withLink = false,
   }: {
     type?: WattButtonType;
-    withLink?: boolean;
   } = {}): WattButtonComponent {
-    const component: WattButtonComponent = (() => {
-      if (withLink) {
-        const routerLinkMock = jest.fn() as unknown as RouterLink;
-
-        return new WattButtonComponent(appInjector, routerLinkMock);
-      } else {
-        return new WattButtonComponent(appInjector);
-      }
-    })();
+    const component: WattButtonComponent = new WattButtonComponent(appInjector);
 
     component.type = type;
 
     return component;
   }
+
   const buttonComponentTypeAssertions: ReadonlyArray<
-    [WattButtonType, Type<unknown>, Type<unknown>]
+    [WattButtonType, Type<unknown>]
   > = [
-    ['text', WattTextButtonComponent, WattLinkButtonComponent],
-    ['primary', WattPrimaryButtonComponent, WattPrimaryLinkButtonComponent],
-    [
-      'secondary',
-      WattSecondaryButtonComponent,
-      WattSecondaryLinkButtonComponent,
-    ],
+    ['text', WattTextButtonComponent],
+    ['primary', WattPrimaryButtonComponent],
+    ['secondary', WattSecondaryButtonComponent],
   ];
 
-  buttonComponentTypeAssertions.forEach(
-    ([buttonType, buttonComponentType, linkButtonComponentType]) => {
-      it(`renders a ${buttonType} button`, () => {
-        const component = createComponent({
-          type: buttonType,
-          withLink: false,
-        });
-
-        expect(component.buttonComponentType).toEqual(buttonComponentType);
+  buttonComponentTypeAssertions.forEach(([buttonType, buttonComponentType]) => {
+    it(`renders a ${buttonType} button`, () => {
+      const component = createComponent({
+        type: buttonType,
       });
 
-      it(`renders a ${buttonType} button with link`, () => {
-        const component = createComponent({ type: buttonType, withLink: true });
-
-        expect(component.buttonComponentType).toEqual(linkButtonComponentType);
-      });
-    }
-  );
+      expect(component.buttonComponentType).toEqual(buttonComponentType);
+    });
+  });
 
   const typeBottomValues = [undefined, null, ''];
 
