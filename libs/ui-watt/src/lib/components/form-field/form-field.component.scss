@@ -87,11 +87,12 @@ watt-form-field {
   mat-form-field.mat-form-field-invalid {
     --input-border-color: var(--watt-color-state-danger);
 
-    .mat-form-field-label .mat-placeholder-required.mat-form-field-required-marker {
+    .mat-form-field-label
+      .mat-placeholder-required.mat-form-field-required-marker {
       color: var(--watt-color-state-danger);
     }
   }
-  
+
   mat-form-field.mat-form-field-disabled {
     --input-background: var(--watt-color-neutral-grey-100);
   }
@@ -102,6 +103,7 @@ watt-form-field {
 }
 
 .watt-input-focused,
-watt-form-field mat-form-field.mat-focused:not(mat-form-field.mat-form-field-invalid) {
+watt-form-field
+  mat-form-field.mat-focused:not(mat-form-field.mat-form-field-invalid) {
   --input-border-color: var(--watt-color-primary);
 }
