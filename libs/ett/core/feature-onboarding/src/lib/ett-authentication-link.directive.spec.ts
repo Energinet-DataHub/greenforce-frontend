@@ -1,4 +1,3 @@
-import { Component } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { LetModule } from '@rx-angular/template';
 import { render, screen } from '@testing-library/angular';
@@ -6,11 +5,6 @@ import { render, screen } from '@testing-library/angular';
 import { EttBrowserConfigurationModule } from './../../../feature-shell/src/lib/ett-browser-configuration.module';
 import { AuthOidcStubModule } from './auth-oidc-stub.service';
 import { EttAuthenticationDirective, EttAuthenticationScam } from './ett-authentication-link.directive';
-
-@Component({
-  template: 'TestBlankComponent',
-})
-class TestBlankComponent {}
 
 describe(EttAuthenticationDirective.name, () => {
   beforeEach(async () => {
@@ -23,7 +17,6 @@ describe(EttAuthenticationDirective.name, () => {
       </ng-container>
     `,
       {
-        declarations: [TestBlankComponent],
         imports: [
           EttAuthenticationScam,
           EttBrowserConfigurationModule,
