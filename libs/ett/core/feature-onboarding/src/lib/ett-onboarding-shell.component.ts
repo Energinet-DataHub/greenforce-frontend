@@ -1,3 +1,10 @@
+import { ChangeDetectionStrategy, Component, NgModule, ViewEncapsulation } from '@angular/core';
+import { MatCardModule } from '@angular/material/card';
+import { MatListModule } from '@angular/material/list';
+import { LetModule } from '@rx-angular/template';
+
+import { EttAuthenticationScam } from './ett-authentication-link.directive';
+
 /**
  * @license
  * Copyright 2021 Energinet DataHub A/S
@@ -14,12 +21,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component, NgModule, ViewEncapsulation } from '@angular/core';
-import { MatCardModule } from '@angular/material/card';
-import { MatListModule } from '@angular/material/list';
-
-import { EttSignaturGruppenLinkScam } from './ett-signaturgruppen-link.directive';
-
 const selector = 'ett-onboarding-shell';
 
 @Component({
@@ -45,7 +46,14 @@ const selector = 'ett-onboarding-shell';
         <p>Log in using:</p>
 
         <mat-nav-list>
-          <a mat-list-item ettSignaturgruppenLink>NemID or MitID</a>
+          <ng-container ettAuthenticationLink #link="ettAuthenticationLink">
+            <a
+              *rxLet="link.loginUrl$ as loginUrl"
+              mat-list-item
+              [href]="loginUrl"
+              >NemID or MitID</a
+            >
+          </ng-container>
         </mat-nav-list>
       </mat-card-content>
     </mat-card>
@@ -55,6 +63,6 @@ export class EttOnboardingShellComponent {}
 
 @NgModule({
   declarations: [EttOnboardingShellComponent],
-  imports: [MatCardModule, MatListModule, EttSignaturGruppenLinkScam],
+  imports: [MatCardModule, MatListModule, LetModule, EttAuthenticationScam],
 })
 export class EttOnboardingShellScam {}

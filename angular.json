@@ -201,6 +201,7 @@
               "apps/ett-app/src/favicon.ico",
               "apps/ett-app/src/assets"
             ],
+            "baseHref": "/",
             "commonChunk": false,
             "index": "apps/ett-app/src/index.html",
             "inlineStyleLanguage": "scss",

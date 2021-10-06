@@ -1,3 +1,10 @@
+import { HttpClientModule } from '@angular/common/http';
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+
+import { EttBrowserConfigurationModule } from './ett-browser-configuration.module';
+import { EttShellComponent, EttShellScam } from './ett-shell.component';
+
 /**
  * @license
  * Copyright 2021 Energinet DataHub A/S
@@ -14,11 +21,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-
-import { EttShellComponent, EttShellScam } from './ett-shell.component';
-
 const routes: Routes = [
   {
     path: '',
@@ -50,6 +52,8 @@ const routes: Routes = [
 @NgModule({
   exports: [RouterModule],
   imports: [
+    EttBrowserConfigurationModule,
+    HttpClientModule,
     RouterModule.forRoot(routes, {
       anchorScrolling: 'enabled',
       initialNavigation: 'enabledNonBlocking',
