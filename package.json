@@ -33,7 +33,7 @@
     "lint": "nx workspace-lint && nx run-many --target=lint --max-warnings=0 --all --parallel",
     "lint:fix": "nx workspace-lint && nx run-many --target=lint --max-warnings=0 --fix --all --parallel",
     "ng": "nx",
-    "ngcc": "ngcc --first-only --properties es2015 module fesm2015 esm2015 browser main --create-ivy-entry-points",
+    "ngcc": "ngcc --properties es2015 module fesm2015 esm2015 browser main",
     "nx": "nx",
     "start": "ng serve",
     "test": "nx run-many --target=test --all --parallel",
