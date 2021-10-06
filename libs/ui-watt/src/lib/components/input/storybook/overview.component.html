@@ -1,0 +1,67 @@
+<h1>Text Field</h1>
+<div>
+    <p class="watt-label">State</p>
+    <ul>
+        <li>Default</li>
+        <li>Focus</li>
+        <li>Disabled</li>
+    </ul>
+
+    <p class="watt-label">Placeholder text</p>
+    <ul>
+        <li>Placeholder</li>
+        <li>No Placeholder</li>
+    </ul>
+
+    <p class="watt-label">Icon</p>
+    <ul>
+        <li>Leading icon</li>
+        <li>Trailing icon</li>
+    </ul>
+
+    <p class="watt-label">Helper</p>
+    <ul>
+        <li>Assistive</li>
+        <li>Required</li>
+        <li>Error</li>
+    </ul>
+
+    <p class="watt-label">Sizes</p>
+    <ul>
+        <li>Default</li>
+        <li>Large</li>
+    </ul>
+</div>
+<div>
+    <h2>States</h2>
+    <p>Default</p>
+    <watt-input></watt-input>
+    <p>Focused</p>
+    <watt-input></watt-input>
+    <p>Disabled</p>
+    <watt-input [disabled]="true"></watt-input>
+
+    <h2>Icon</h2>
+    <p>Trailing icon</p>
+    <watt-input [hasSuffix]="true"></watt-input>
+    <p>Leading icon</p>
+    <watt-input [hasPrefix]="true"></watt-input>
+
+    <h2>Helper</h2>
+    <p>Assistive text</p>
+    <watt-input [hasHint]="true"></watt-input>
+    <p>Required field</p>
+    <watt-input></watt-input>
+    <p>Error</p>
+    <watt-input [hasError]="true"></watt-input>
+
+    <h2>Placeholder text</h2>
+    <watt-input placeholder="Placeholder text"></watt-input>
+
+    <h2>Sizes</h2>
+    <p>Default</p>
+    <watt-input></watt-input>
+    <p>Large</p>
+    <watt-input size="large"></watt-input>
+</div>
+

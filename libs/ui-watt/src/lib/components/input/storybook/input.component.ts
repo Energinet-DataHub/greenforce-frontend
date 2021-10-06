@@ -23,7 +23,7 @@ import { FormControl } from '@angular/forms';
 })
 export class InputComponent implements OnChanges {
   @Input() label = 'label';
-  @Input() placeholder = 'Some placeholder';
+  @Input() placeholder!: string;
   @Input() disabled = false;
   @Input() hasPrefix = false;
   @Input() hasSuffix = false;

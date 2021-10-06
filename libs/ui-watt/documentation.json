@@ -827,6 +827,46 @@
             ]
         },
         {
+            "name": "InputOverviewComponent",
+            "id": "component-InputOverviewComponent-ed826cc6b987c0f0347a009f9e1c1813",
+            "file": "libs/ui-watt/src/lib/components/input/storybook/overview.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "watt-input-overview",
+            "styleUrls": [
+                "./overview.component.scss"
+            ],
+            "styles": [],
+            "templateUrl": [
+                "./overview.component.html"
+            ],
+            "viewProviders": [],
+            "inputsClass": [],
+            "outputsClass": [],
+            "propertiesClass": [],
+            "methodsClass": [],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "hostBindings": [],
+            "hostListeners": [],
+            "description": "",
+            "rawdescription": "\n",
+            "type": "component",
+            "sourceCode": "import { Component } from '@angular/core';\r\n\r\n@Component({\r\n  selector: 'watt-input-overview',\r\n  styleUrls: ['./overview.component.scss'],\r\n  templateUrl: './overview.component.html',\r\n})\r\nexport class InputOverviewComponent {}",
+            "assetsDirs": [],
+            "styleUrlsData": [
+                {
+                    "data": "",
+                    "styleUrl": "./overview.component.scss"
+                }
+            ],
+            "stylesData": "",
+            "templateData": "OVERVIEW"
+        },
+        {
             "name": "TypographyComponent",
             "id": "component-TypographyComponent-3f739c53fffb3b28334d865bc94c51d2",
             "file": "libs/ui-watt/src/lib/foundations/typography/storybook/typography.component.ts",
@@ -1700,7 +1740,7 @@
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "",
-                "defaultValue": "Template.bind({})"
+                "defaultValue": "Template.bind({\r\n  template: `hej`\r\n})"
             },
             {
                 "name": "label",
@@ -1776,20 +1816,20 @@
                 "name": "Template",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "libs/ui-watt/src/lib/foundations/typography/storybook/typography.stories.ts",
+                "file": "libs/ui-watt/src/lib/foundations/color/storybook/color.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
-                "type": "Story<TypographyComponent>",
+                "type": "Story<ColorComponent>",
                 "defaultValue": "(args) => ({\r\n  props: args,\r\n})"
             },
             {
                 "name": "Template",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "libs/ui-watt/src/lib/foundations/color/storybook/color.stories.ts",
+                "file": "libs/ui-watt/src/lib/foundations/typography/storybook/typography.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
-                "type": "Story<ColorComponent>",
+                "type": "Story<TypographyComponent>",
                 "defaultValue": "(args) => ({\r\n  props: args,\r\n})"
             },
             {
@@ -2364,7 +2404,7 @@
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "",
-                    "defaultValue": "Template.bind({})"
+                    "defaultValue": "Template.bind({\r\n  template: `hej`\r\n})"
                 },
                 {
                     "name": "sizeLarge",
@@ -2844,6 +2884,15 @@
                 "linktype": "miscellaneous",
                 "linksubtype": "variable",
                 "name": "withSuffix",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "libs/ui-watt/src/lib/components/input/storybook/overview.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "InputOverviewComponent",
                 "coveragePercent": 0,
                 "coverageCount": "0/1",
                 "status": "low"
