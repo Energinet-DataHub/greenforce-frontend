@@ -412,7 +412,7 @@
                         "deprecationMessage": ""
                     }
                 ],
-                "line": 40,
+                "line": 56,
                 "jsdoctags": [
                     {
                         "name": "_elementRef",
@@ -626,7 +626,7 @@
                     "defaultValue": "'normal'",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 20,
+                    "line": 36,
                     "type": "\"normal\" | \"large\""
                 }
             ],
@@ -640,7 +640,7 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 26
+                    "line": 42
                 },
                 {
                     "name": "control",
@@ -649,7 +649,7 @@
                     "type": "MatFormFieldControl<>",
                     "optional": false,
                     "description": "",
-                    "line": 29,
+                    "line": 45,
                     "decorators": [
                         {
                             "name": "ContentChild",
@@ -664,7 +664,7 @@
                     "type": "MatFormField",
                     "optional": false,
                     "description": "",
-                    "line": 32,
+                    "line": 48,
                     "decorators": [
                         {
                             "name": "ViewChild",
@@ -680,7 +680,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 34,
+                    "line": 50,
                     "deprecated": false,
                     "deprecationMessage": ""
                 }
@@ -692,7 +692,7 @@
                     "name": "class",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 22,
+                    "line": 38,
                     "type": "{}"
                 }
             ],
@@ -714,11 +714,11 @@
                         "name": "_cssClass",
                         "type": "",
                         "returnType": "",
-                        "line": 22
+                        "line": 38
                     }
                 }
             },
-            "templateData": "<mat-form-field floatLabel=\"always\">\r\n  <mat-label class=\"watt-label\"\r\n    ><ng-content select=\"watt-label\"></ng-content\r\n  ></mat-label>\r\n\r\n  <ng-container matPrefix>\r\n    <ng-content select=\"[wattPrefix]\"></ng-content>\r\n  </ng-container>\r\n\r\n  <ng-content select=\"[wattInput]\"></ng-content>\r\n\r\n  <ng-container matSuffix>\r\n    <ng-content select=\"[wattSuffix]\"></ng-content>\r\n  </ng-container>\r\n\r\n  <mat-error class=\"watt-text-xs\">\r\n    <ng-content select=\"watt-error\"></ng-content>\r\n  </mat-error>\r\n\r\n  <mat-hint class=\"watt-text-xs\" align=\"start\">\r\n    <ng-content select=\"watt-hint:not(watt-hint[align='end'])\"></ng-content>\r\n  </mat-hint>\r\n\r\n  <mat-hint class=\"watt-text-xs\" align=\"end\">\r\n    <ng-content select=\"watt-hint[align='end']\"></ng-content>\r\n  </mat-hint>\r\n\r\n  <ng-container *ngIf=\"beforeViewInit\">\r\n    <input matInput class=\"tmp-mat-field\" />\r\n  </ng-container>\r\n</mat-form-field>\r\n"
+            "templateData": "<!--\r\n@license\r\nCopyright 2021 Energinet DataHub A/S\r\n\r\nLicensed under the Apache License, Version 2.0 (the \"License2\");\r\nyou may not use this file except in compliance with the License.\r\nYou may obtain a copy of the License at\r\n\r\n    http://www.apache.org/licenses/LICENSE-2.0\r\n\r\nUnless required by applicable law or agreed to in writing, software\r\ndistributed under the License is distributed on an \"AS IS\" BASIS,\r\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\r\nSee the License for the specific language governing permissions and\r\nlimitations under the License.\r\n-->\r\n<mat-form-field floatLabel=\"always\">\r\n  <mat-label class=\"watt-label\"\r\n    ><ng-content select=\"watt-label\"></ng-content\r\n  ></mat-label>\r\n\r\n  <ng-container matPrefix>\r\n    <ng-content select=\"[wattPrefix]\"></ng-content>\r\n  </ng-container>\r\n\r\n  <ng-content select=\"[wattInput]\"></ng-content>\r\n\r\n  <ng-container matSuffix>\r\n    <ng-content select=\"[wattSuffix]\"></ng-content>\r\n  </ng-container>\r\n\r\n  <mat-error class=\"watt-text-xs\">\r\n    <ng-content select=\"watt-error\"></ng-content>\r\n  </mat-error>\r\n\r\n  <mat-hint class=\"watt-text-xs\" align=\"start\">\r\n    <ng-content select=\"watt-hint:not(watt-hint[align='end'])\"></ng-content>\r\n  </mat-hint>\r\n\r\n  <mat-hint class=\"watt-text-xs\" align=\"end\">\r\n    <ng-content select=\"watt-hint[align='end']\"></ng-content>\r\n  </mat-hint>\r\n\r\n  <ng-container *ngIf=\"beforeViewInit\">\r\n    <input matInput class=\"tmp-mat-field\" />\r\n  </ng-container>\r\n</mat-form-field>\r\n"
         },
         {
             "name": "InputComponent",
@@ -743,7 +743,7 @@
                     "defaultValue": "false",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 50,
+                    "line": 66,
                     "type": "boolean"
                 },
                 {
@@ -751,7 +751,7 @@
                     "defaultValue": "false",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 49,
+                    "line": 65,
                     "type": "boolean"
                 },
                 {
@@ -759,7 +759,7 @@
                     "defaultValue": "false",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 55,
+                    "line": 71,
                     "type": "boolean"
                 },
                 {
@@ -767,7 +767,7 @@
                     "defaultValue": "false",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 53,
+                    "line": 69,
                     "type": "boolean"
                 },
                 {
@@ -775,7 +775,7 @@
                     "defaultValue": "false",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 51,
+                    "line": 67,
                     "type": "boolean"
                 },
                 {
@@ -783,7 +783,7 @@
                     "defaultValue": "false",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 52,
+                    "line": 68,
                     "type": "boolean"
                 },
                 {
@@ -791,14 +791,14 @@
                     "defaultValue": "'label'",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 47,
+                    "line": 63,
                     "type": "string"
                 },
                 {
                     "name": "placeholder",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 48,
+                    "line": 64,
                     "type": "string"
                 },
                 {
@@ -806,7 +806,7 @@
                     "defaultValue": "false",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 54,
+                    "line": 70,
                     "type": "boolean"
                 },
                 {
@@ -814,7 +814,7 @@
                     "defaultValue": "'normal'",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 56,
+                    "line": 72,
                     "type": "\"normal\" | \"large\""
                 }
             ],
@@ -832,7 +832,7 @@
             "assetsDirs": [],
             "styleUrlsData": [
                 {
-                    "data": ":host {\r\n  display: inline-block;\r\n}\r\n",
+                    "data": "/**\r\n * @license\r\n * Copyright 2021 Energinet DataHub A/S\r\n *\r\n * Licensed under the Apache License, Version 2.0 (the \"License2\");\r\n * you may not use this file except in compliance with the License.\r\n * You may obtain a copy of the License at\r\n *\r\n *     http://www.apache.org/licenses/LICENSE-2.0\r\n *\r\n * Unless required by applicable law or agreed to in writing, software\r\n * distributed under the License is distributed on an \"AS IS\" BASIS,\r\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\r\n * See the License for the specific language governing permissions and\r\n * limitations under the License.\r\n */\r\n:host {\r\n  display: inline-block;\r\n}\r\n",
                     "styleUrl": "./input.component.scss"
                 }
             ],
@@ -874,12 +874,12 @@
             "assetsDirs": [],
             "styleUrlsData": [
                 {
-                    "data": ":host {\r\n  display: flex;\r\n  justify-content: space-between;\r\n  max-width: 910px;\r\n  flex-wrap: wrap;\r\n}\r\n\r\nh1 {\r\n  width: 100%;\r\n}\r\n\r\nh2:first-of-type {\r\n  margin-top: 0;\r\n}\r\n\r\nh2 {\r\n  margin-bottom: 16px;\r\n}\r\n\r\nul {\r\n  list-style: none;\r\n  padding: 0;\r\n}\r\n\r\np {\r\n  margin-bottom: 20px;\r\n}\r\n",
+                    "data": "/**\r\n * @license\r\n * Copyright 2021 Energinet DataHub A/S\r\n *\r\n * Licensed under the Apache License, Version 2.0 (the \"License2\");\r\n * you may not use this file except in compliance with the License.\r\n * You may obtain a copy of the License at\r\n *\r\n *     http://www.apache.org/licenses/LICENSE-2.0\r\n *\r\n * Unless required by applicable law or agreed to in writing, software\r\n * distributed under the License is distributed on an \"AS IS\" BASIS,\r\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\r\n * See the License for the specific language governing permissions and\r\n * limitations under the License.\r\n */\r\n:host {\r\n  display: flex;\r\n  justify-content: space-between;\r\n  max-width: 910px;\r\n  flex-wrap: wrap;\r\n}\r\n\r\nh1 {\r\n  width: 100%;\r\n}\r\n\r\nh2:first-of-type {\r\n  margin-top: 0;\r\n}\r\n\r\nh2 {\r\n  margin-bottom: 16px;\r\n}\r\n\r\nul {\r\n  list-style: none;\r\n  padding: 0;\r\n}\r\n\r\np {\r\n  margin-bottom: 20px;\r\n}\r\n",
                     "styleUrl": "./overview.component.scss"
                 }
             ],
             "stylesData": "",
-            "templateData": "<h1>Text Field</h1>\r\n<div>\r\n  <p class=\"watt-label\">State</p>\r\n  <ul>\r\n    <li>Default</li>\r\n    <li>Focus</li>\r\n    <li>Disabled</li>\r\n  </ul>\r\n\r\n  <p class=\"watt-label\">Placeholder text</p>\r\n  <ul>\r\n    <li>Placeholder</li>\r\n    <li>No Placeholder</li>\r\n  </ul>\r\n\r\n  <p class=\"watt-label\">Icon</p>\r\n  <ul>\r\n    <li>Leading icon</li>\r\n    <li>Trailing icon</li>\r\n  </ul>\r\n\r\n  <p class=\"watt-label\">Helper</p>\r\n  <ul>\r\n    <li>Assistive</li>\r\n    <li>Required</li>\r\n    <li>Error</li>\r\n  </ul>\r\n\r\n  <p class=\"watt-label\">Sizes</p>\r\n  <ul>\r\n    <li>Default</li>\r\n    <li>Large</li>\r\n  </ul>\r\n</div>\r\n<div>\r\n  <h2>States</h2>\r\n  <p>Default</p>\r\n  <watt-input></watt-input>\r\n  <p>Focused</p>\r\n  <watt-input [focused]=\"true\"></watt-input>\r\n  <p>Disabled</p>\r\n  <watt-input [disabled]=\"true\"></watt-input>\r\n\r\n  <h2>Icon</h2>\r\n  <p>Trailing icon</p>\r\n  <watt-input [hasSuffix]=\"true\"></watt-input>\r\n  <p>Leading icon</p>\r\n  <watt-input [hasPrefix]=\"true\"></watt-input>\r\n\r\n  <h2>Helper</h2>\r\n  <p>Assistive text</p>\r\n  <watt-input [hasHint]=\"true\"></watt-input>\r\n  <p>Required field</p>\r\n  <watt-input [required]=\"true\"></watt-input>\r\n  <p>Error</p>\r\n  <watt-input [hasError]=\"true\"></watt-input>\r\n\r\n  <h2>Placeholder text</h2>\r\n  <watt-input placeholder=\"Placeholder text\"></watt-input>\r\n\r\n  <h2>Sizes</h2>\r\n  <p>Default</p>\r\n  <watt-input></watt-input>\r\n  <p>Large</p>\r\n  <watt-input size=\"large\"></watt-input>\r\n</div>\r\n"
+            "templateData": "<!--\r\n@license\r\nCopyright 2021 Energinet DataHub A/S\r\n\r\nLicensed under the Apache License, Version 2.0 (the \"License2\");\r\nyou may not use this file except in compliance with the License.\r\nYou may obtain a copy of the License at\r\n\r\n    http://www.apache.org/licenses/LICENSE-2.0\r\n\r\nUnless required by applicable law or agreed to in writing, software\r\ndistributed under the License is distributed on an \"AS IS\" BASIS,\r\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\r\nSee the License for the specific language governing permissions and\r\nlimitations under the License.\r\n-->\r\n<h1>Text Field</h1>\r\n<div>\r\n  <p class=\"watt-label\">State</p>\r\n  <ul>\r\n    <li>Default</li>\r\n    <li>Focus</li>\r\n    <li>Disabled</li>\r\n  </ul>\r\n\r\n  <p class=\"watt-label\">Placeholder text</p>\r\n  <ul>\r\n    <li>Placeholder</li>\r\n    <li>No Placeholder</li>\r\n  </ul>\r\n\r\n  <p class=\"watt-label\">Icon</p>\r\n  <ul>\r\n    <li>Leading icon</li>\r\n    <li>Trailing icon</li>\r\n  </ul>\r\n\r\n  <p class=\"watt-label\">Helper</p>\r\n  <ul>\r\n    <li>Assistive</li>\r\n    <li>Required</li>\r\n    <li>Error</li>\r\n  </ul>\r\n\r\n  <p class=\"watt-label\">Sizes</p>\r\n  <ul>\r\n    <li>Default</li>\r\n    <li>Large</li>\r\n  </ul>\r\n</div>\r\n<div>\r\n  <h2>States</h2>\r\n  <p>Default</p>\r\n  <watt-input></watt-input>\r\n  <p>Focused</p>\r\n  <watt-input [focused]=\"true\"></watt-input>\r\n  <p>Disabled</p>\r\n  <watt-input [disabled]=\"true\"></watt-input>\r\n\r\n  <h2>Icon</h2>\r\n  <p>Trailing icon</p>\r\n  <watt-input [hasSuffix]=\"true\"></watt-input>\r\n  <p>Leading icon</p>\r\n  <watt-input [hasPrefix]=\"true\"></watt-input>\r\n\r\n  <h2>Helper</h2>\r\n  <p>Assistive text</p>\r\n  <watt-input [hasHint]=\"true\"></watt-input>\r\n  <p>Required field</p>\r\n  <watt-input [required]=\"true\"></watt-input>\r\n  <p>Error</p>\r\n  <watt-input [hasError]=\"true\"></watt-input>\r\n\r\n  <h2>Placeholder text</h2>\r\n  <watt-input placeholder=\"Placeholder text\"></watt-input>\r\n\r\n  <h2>Sizes</h2>\r\n  <p>Default</p>\r\n  <watt-input></watt-input>\r\n  <p>Large</p>\r\n  <watt-input size=\"large\"></watt-input>\r\n</div>\r\n"
         },
         {
             "name": "TypographyComponent",
@@ -1035,7 +1035,7 @@
         },
         {
             "name": "WattErrorComponent",
-            "id": "component-WattErrorComponent-18603d89e87ec79f0fe3317b3d923993",
+            "id": "component-WattErrorComponent-4305ce87d94af61a6708b16a5b3d957c",
             "file": "libs/ui-watt/src/lib/components/form-field/components/error.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -1043,7 +1043,9 @@
             "outputs": [],
             "providers": [],
             "selector": "watt-error",
-            "styleUrls": [],
+            "styleUrls": [
+                "./error.component.scss"
+            ],
             "styles": [],
             "template": "<ng-content></ng-content>",
             "templateUrl": [],
@@ -1059,14 +1061,19 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { Component } from '@angular/core';\r\n\r\n@Component({\r\n  selector: 'watt-error',\r\n  template: `<ng-content></ng-content>`,\r\n})\r\nexport class WattErrorComponent {}\r\n",
+            "sourceCode": "import { Component } from '@angular/core';\r\n\r\n@Component({\r\n  selector: 'watt-error',\r\n  template: `<ng-content></ng-content>`,\r\n  styleUrls: ['./error.component.scss']\r\n})\r\nexport class WattErrorComponent {}\r\n",
             "assetsDirs": [],
-            "styleUrlsData": "",
+            "styleUrlsData": [
+                {
+                    "data": ":host {\r\n    color: var(--watt-color-state-danger);\r\n}",
+                    "styleUrl": "./error.component.scss"
+                }
+            ],
             "stylesData": ""
         },
         {
             "name": "WattHintComponent",
-            "id": "component-WattHintComponent-3720c2e61b1f0e35adbc5fde5b40baf2",
+            "id": "component-WattHintComponent-46020d20b34139114b25c684c3a2e79c",
             "file": "libs/ui-watt/src/lib/components/form-field/components/hint.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -1074,7 +1081,9 @@
             "outputs": [],
             "providers": [],
             "selector": "watt-hint",
-            "styleUrls": [],
+            "styleUrls": [
+                "./hint.component.scss"
+            ],
             "styles": [],
             "template": "<ng-content></ng-content>",
             "templateUrl": [],
@@ -1085,7 +1094,7 @@
                     "defaultValue": "'start'",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 8,
+                    "line": 25,
                     "type": "\"start\" | \"end\""
                 }
             ],
@@ -1099,14 +1108,19 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { Component, Input } from '@angular/core';\r\n\r\n@Component({\r\n  selector: 'watt-hint',\r\n  template: `<ng-content></ng-content>`,\r\n})\r\nexport class WattHintComponent {\r\n  @Input() align: 'start' | 'end' = 'start';\r\n}\r\n",
+            "sourceCode": "import { Component, Input } from '@angular/core';\r\n\r\n@Component({\r\n  selector: 'watt-hint',\r\n  template: `<ng-content></ng-content>`,\r\n  styleUrls: ['./hint.component.scss']\r\n})\r\nexport class WattHintComponent {\r\n  @Input() align: 'start' | 'end' = 'start';\r\n}\r\n",
             "assetsDirs": [],
-            "styleUrlsData": "",
+            "styleUrlsData": [
+                {
+                    "data": ":host {\r\n    display: inline-block;\r\n    word-break: break-word;\r\n}",
+                    "styleUrl": "./hint.component.scss"
+                }
+            ],
             "stylesData": ""
         },
         {
             "name": "WattLabelComponent",
-            "id": "component-WattLabelComponent-96c1c1fd3f3806494ef0f9ba1d190925",
+            "id": "component-WattLabelComponent-f02b0811d4679796b2bdce1b1f5563a2",
             "file": "libs/ui-watt/src/lib/components/form-field/components/label.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -1114,7 +1128,9 @@
             "outputs": [],
             "providers": [],
             "selector": "watt-label",
-            "styleUrls": [],
+            "styleUrls": [
+                "./label.component.scss"
+            ],
             "styles": [],
             "template": "<ng-content></ng-content>",
             "templateUrl": [],
@@ -1130,9 +1146,14 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { Component } from '@angular/core';\r\n\r\n@Component({\r\n  selector: 'watt-label',\r\n  template: `<ng-content></ng-content>`,\r\n})\r\nexport class WattLabelComponent {}\r\n",
+            "sourceCode": "import { Component } from '@angular/core';\r\n\r\n@Component({\r\n  selector: 'watt-label',\r\n  template: `<ng-content></ng-content>`,\r\n  styleUrls: ['./label.component.scss']\r\n})\r\nexport class WattLabelComponent {}\r\n",
             "assetsDirs": [],
-            "styleUrlsData": "",
+            "styleUrlsData": [
+                {
+                    "data": ":host-context(.mat-form-field-invalid) {\r\n    color: var(--watt-color-state-danger)\r\n}\r\n\r\n:host-context(.mat-form-field-disabled) {\r\n    color: var(--watt-color-neutral-grey-500);\r\n}\r\n\r\n:host-context(.mat-focused, .watt-input-focused) {\r\n    color: var(--watt-color-primary-dark);\r\n}",
+                    "styleUrl": "./label.component.scss"
+                }
+            ],
             "stylesData": ""
         },
         {
@@ -1229,7 +1250,7 @@
             "deprecated": false,
             "file": "libs/ui-watt/src/lib/components/input/storybook/input.stories.module.ts",
             "methods": [],
-            "sourceCode": "import { NgModule } from '@angular/core';\r\nimport { FormsModule, ReactiveFormsModule } from '@angular/forms';\r\nimport { BrowserAnimationsModule } from '@angular/platform-browser/animations';\r\nimport { WattFormFieldModule } from '../../form-field/form-field.module';\r\nimport { WattInputModule } from '../input.module';\r\nimport { InputComponent } from './input.component';\r\nimport { InputOverviewComponent } from './overview.component';\r\n\r\n@NgModule({\r\n  imports: [\r\n    BrowserAnimationsModule,\r\n    WattFormFieldModule,\r\n    WattInputModule,\r\n    FormsModule,\r\n    ReactiveFormsModule,\r\n  ],\r\n  declarations: [InputComponent, InputOverviewComponent],\r\n  exports: [\r\n    WattFormFieldModule,\r\n    WattInputModule,\r\n    ReactiveFormsModule,\r\n    InputComponent,\r\n    InputOverviewComponent,\r\n  ],\r\n})\r\nexport class InputStoriesModule {}\r\n",
+            "sourceCode": "/**\r\n * @license\r\n * Copyright 2021 Energinet DataHub A/S\r\n *\r\n * Licensed under the Apache License, Version 2.0 (the \"License2\");\r\n * you may not use this file except in compliance with the License.\r\n * You may obtain a copy of the License at\r\n *\r\n *     http://www.apache.org/licenses/LICENSE-2.0\r\n *\r\n * Unless required by applicable law or agreed to in writing, software\r\n * distributed under the License is distributed on an \"AS IS\" BASIS,\r\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\r\n * See the License for the specific language governing permissions and\r\n * limitations under the License.\r\n */\r\nimport { NgModule } from '@angular/core';\r\nimport { FormsModule, ReactiveFormsModule } from '@angular/forms';\r\nimport { BrowserAnimationsModule } from '@angular/platform-browser/animations';\r\nimport { WattFormFieldModule } from '../../form-field/form-field.module';\r\nimport { WattInputModule } from '../input.module';\r\nimport { InputComponent } from './input.component';\r\nimport { InputOverviewComponent } from './overview.component';\r\n\r\n@NgModule({\r\n  imports: [\r\n    BrowserAnimationsModule,\r\n    WattFormFieldModule,\r\n    WattInputModule,\r\n    FormsModule,\r\n    ReactiveFormsModule,\r\n  ],\r\n  declarations: [InputComponent, InputOverviewComponent],\r\n  exports: [\r\n    WattFormFieldModule,\r\n    WattInputModule,\r\n    ReactiveFormsModule,\r\n    InputComponent,\r\n    InputOverviewComponent,\r\n  ],\r\n})\r\nexport class InputStoriesModule {}\r\n",
             "children": [
                 {
                     "type": "providers",
@@ -1380,7 +1401,7 @@
             "deprecated": false,
             "file": "libs/ui-watt/src/lib/components/form-field/form-field.module.ts",
             "methods": [],
-            "sourceCode": "import { CommonModule } from '@angular/common';\r\nimport { NgModule } from '@angular/core';\r\nimport { MatFormFieldModule } from '@angular/material/form-field';\r\nimport { MatInputModule } from '@angular/material/input';\r\nimport { WattErrorComponent } from './components/error.component';\r\nimport { WattHintComponent } from './components/hint.component';\r\nimport { WattLabelComponent } from './components/label.component';\r\nimport { WattPrefixDirective } from './directives/prefix.directive';\r\nimport { WattSuffixDirective } from './directives/suffix.directive';\r\nimport { FormFieldComponent } from './form-field.component';\r\n\r\n@NgModule({\r\n  imports: [CommonModule, MatFormFieldModule, MatInputModule],\r\n  declarations: [\r\n    FormFieldComponent,\r\n    WattPrefixDirective,\r\n    WattSuffixDirective,\r\n    WattErrorComponent,\r\n    WattLabelComponent,\r\n    WattHintComponent,\r\n  ],\r\n  exports: [\r\n    FormFieldComponent,\r\n    WattPrefixDirective,\r\n    WattSuffixDirective,\r\n    WattErrorComponent,\r\n    WattLabelComponent,\r\n    WattHintComponent,\r\n  ],\r\n})\r\nexport class WattFormFieldModule {}\r\n",
+            "sourceCode": "/**\r\n * @license\r\n * Copyright 2021 Energinet DataHub A/S\r\n *\r\n * Licensed under the Apache License, Version 2.0 (the \"License2\");\r\n * you may not use this file except in compliance with the License.\r\n * You may obtain a copy of the License at\r\n *\r\n *     http://www.apache.org/licenses/LICENSE-2.0\r\n *\r\n * Unless required by applicable law or agreed to in writing, software\r\n * distributed under the License is distributed on an \"AS IS\" BASIS,\r\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\r\n * See the License for the specific language governing permissions and\r\n * limitations under the License.\r\n */\r\nimport { CommonModule } from '@angular/common';\r\nimport { NgModule } from '@angular/core';\r\nimport { MatFormFieldModule } from '@angular/material/form-field';\r\nimport { MatInputModule } from '@angular/material/input';\r\nimport { WattErrorComponent } from './components/error.component';\r\nimport { WattHintComponent } from './components/hint.component';\r\nimport { WattLabelComponent } from './components/label.component';\r\nimport { WattPrefixDirective } from './directives/prefix.directive';\r\nimport { WattSuffixDirective } from './directives/suffix.directive';\r\nimport { FormFieldComponent } from './form-field.component';\r\n\r\n@NgModule({\r\n  imports: [CommonModule, MatFormFieldModule, MatInputModule],\r\n  declarations: [\r\n    FormFieldComponent,\r\n    WattPrefixDirective,\r\n    WattSuffixDirective,\r\n    WattErrorComponent,\r\n    WattLabelComponent,\r\n    WattHintComponent,\r\n  ],\r\n  exports: [\r\n    FormFieldComponent,\r\n    WattPrefixDirective,\r\n    WattSuffixDirective,\r\n    WattErrorComponent,\r\n    WattLabelComponent,\r\n    WattHintComponent,\r\n  ],\r\n})\r\nexport class WattFormFieldModule {}\r\n",
             "children": [
                 {
                     "type": "providers",
@@ -1454,7 +1475,7 @@
             "deprecated": false,
             "file": "libs/ui-watt/src/lib/components/input/input.module.ts",
             "methods": [],
-            "sourceCode": "import { NgModule } from '@angular/core';\r\nimport { MatFormFieldModule } from '@angular/material/form-field';\r\nimport { MatInputModule } from '@angular/material/input';\r\nimport { WattInputDirective } from './input.directive';\r\n\r\n@NgModule({\r\n  imports: [MatFormFieldModule, MatInputModule],\r\n  declarations: [WattInputDirective],\r\n  exports: [WattInputDirective],\r\n})\r\nexport class WattInputModule {}\r\n",
+            "sourceCode": "/**\r\n * @license\r\n * Copyright 2021 Energinet DataHub A/S\r\n *\r\n * Licensed under the Apache License, Version 2.0 (the \"License2\");\r\n * you may not use this file except in compliance with the License.\r\n * You may obtain a copy of the License at\r\n *\r\n *     http://www.apache.org/licenses/LICENSE-2.0\r\n *\r\n * Unless required by applicable law or agreed to in writing, software\r\n * distributed under the License is distributed on an \"AS IS\" BASIS,\r\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\r\n * See the License for the specific language governing permissions and\r\n * limitations under the License.\r\n */\r\nimport { NgModule } from '@angular/core';\r\nimport { MatFormFieldModule } from '@angular/material/form-field';\r\nimport { MatInputModule } from '@angular/material/input';\r\nimport { WattInputDirective } from './input.directive';\r\n\r\n@NgModule({\r\n  imports: [MatFormFieldModule, MatInputModule],\r\n  declarations: [WattInputDirective],\r\n  exports: [WattInputDirective],\r\n})\r\nexport class WattInputModule {}\r\n",
             "children": [
                 {
                     "type": "providers",
