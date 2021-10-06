@@ -17,7 +17,7 @@ const Template: Story<InputComponent> = (args) => ({
 });
 
 const overviewTemplate: Story = () => ({
-  template: `<watt-input-overview></watt-input-overview>`
+  template: `<watt-input-overview></watt-input-overview>`,
 });
 export const overview = overviewTemplate.bind({});
 
@@ -57,7 +57,7 @@ sizeLarge.parameters = {
 
 export const leadingIcon = Template.bind({});
 leadingIcon.args = {
-  hasPrefix: true
+  hasPrefix: true,
 };
 leadingIcon.parameters = {
   docs: {
@@ -75,7 +75,7 @@ leadingIcon.parameters = {
 
 export const trailingIcon = Template.bind({});
 trailingIcon.args = {
-  hasSuffix: true
+  hasSuffix: true,
 };
 trailingIcon.parameters = {
   docs: {
@@ -93,7 +93,7 @@ trailingIcon.parameters = {
 
 export const assistiveText = Template.bind({});
 assistiveText.args = {
-  hasHint: true
+  hasHint: true,
 };
 assistiveText.parameters = {
   docs: {
@@ -115,7 +115,7 @@ exampleFormControl = new FormControl('');
 
 export const error = Template.bind({});
 error.args = {
-  hasError: true
+  hasError: true,
 };
 error.parameters = {
   docs: {

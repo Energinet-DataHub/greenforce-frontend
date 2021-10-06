@@ -20,7 +20,7 @@ import { InputOverviewComponent } from './overview.component';
     WattInputModule,
     ReactiveFormsModule,
     InputComponent,
-    InputOverviewComponent
-  ]
+    InputOverviewComponent,
+  ],
 })
 export class InputStoriesModule {}
