@@ -49,7 +49,7 @@ watt-form-field {
       padding: 0;
     }
   }
-    
+
   .mat-form-field-flex {
     margin-top: var(--label-margin-bottom);
     line-height: var(--line-height);
@@ -60,16 +60,16 @@ watt-form-field {
     border-color: var(--input-border-color);
     padding: var(--padding-vertical) var(--padding-horizontal);
   }
-    
+
   .mat-form-field-subscript-wrapper {
     position: relative;
     padding-left: 8px;
   }
-  
+
   .mat-form-field-hint-wrapper {
     flex-wrap: wrap;
   }
-    
+
   .mat-form-field-underline,
   .tmp-mat-field {
     display: none;
@@ -79,11 +79,11 @@ watt-form-field {
   [wattSuffix] {
     height: var(--line-height);
   }
-  
+
   [wattPrefix] {
     margin-right: 20px;
   }
-  
+
   [wattSuffix] {
     margin-left: 20px;
   }
