@@ -39,10 +39,10 @@ export const overview = overviewTemplate.bind({});
 overview.parameters = {
   docs: {
     source: {
-      code: 'Nothing to see here.'
-    }
-  }
-}
+      code: 'Nothing to see here.',
+    },
+  },
+};
 
 export const disabled = Template.bind({});
 disabled.args = {
