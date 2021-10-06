@@ -14,6 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export const environment = {
-  production: true,
-};
+import 'jest-preset-angular/setup-jest';
+
+import { setUpTestbed } from '@energinet-datahub/ett/shared/test-util-angular';
+
+setUpTestbed();

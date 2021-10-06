@@ -229,8 +229,8 @@
               ],
               "fileReplacements": [
                 {
-                  "replace": "apps/ett-app/src/environments/environment.ts",
-                  "with": "apps/ett-app/src/environments/environment.prod.ts"
+                  "replace": "libs/ett/core/environments/src/lib/environment.ts",
+                  "with": "libs/ett/core/environments/src/lib/environment.prod.ts"
                 }
               ],
               "outputHashing": "all"
@@ -253,7 +253,8 @@
               "browserTarget": "ett-app:build:production"
             },
             "development": {
-              "browserTarget": "ett-app:build:development"
+              "browserTarget": "ett-app:build:development",
+              "proxyConfig": "apps/ett-app/src/proxy.conf.json"
             }
           },
           "defaultConfiguration": "development"
@@ -314,6 +315,31 @@
           "builder": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": ["apps/ett-app-e2e/**/*.{js,ts}"]
+          }
+        }
+      }
+    },
+    "ett-core-environments": {
+      "projectType": "library",
+      "root": "libs/ett/core/environments",
+      "sourceRoot": "libs/ett/core/environments/src",
+      "prefix": "ett",
+      "architect": {
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/ett/core/environments"],
+          "options": {
+            "jestConfig": "libs/ett/core/environments/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/ett/core/environments/src/**/*.ts",
+              "libs/ett/core/environments/src/**/*.html"
+            ]
           }
         }
       }

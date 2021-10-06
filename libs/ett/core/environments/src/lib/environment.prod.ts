@@ -14,19 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { enableProdMode } from '@angular/core';
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
-import { environment } from '@energinet-datahub/ett/core/environments';
+import { EttEnvironment } from './ett-environment';
 
-import { EnergyTrackAndTraceAppModule } from './app/energy-track-and-trace-app.module';
-
-if (environment.production) {
-  enableProdMode();
-}
-
-platformBrowserDynamic()
-  .bootstrapModule(EnergyTrackAndTraceAppModule, {
-    ngZoneEventCoalescing: true,
-    ngZoneRunCoalescing: true,
-  })
-  .catch((err) => console.error(err));
+export const environment: EttEnvironment = {
+  apiBase: '/api',
+  production: true,
+};

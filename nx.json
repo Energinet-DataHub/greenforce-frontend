@@ -47,6 +47,9 @@
       "tags": ["product:ett", "type:e2e"],
       "implicitDependencies": ["ett-app"]
     },
+    "ett-core-environments": {
+      "tags": ["product:ett", "scope:core", "type:environments"]
+    },
     "ett-core-feature-onboarding": {
       "tags": ["product:ett", "scope:core", "type:feature"]
     },
