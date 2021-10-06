@@ -1,4 +1,11 @@
-import { Component, Host, Input, Optional, Type } from '@angular/core';
+import {
+  Component,
+  Host,
+  Injector,
+  Input,
+  Optional,
+  Type,
+} from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 import { WattButtonType } from './watt-button-type';
@@ -8,6 +15,7 @@ import { WattPrimaryLinkButtonComponent } from './primary-link-button/watt-prima
 import { WattSecondaryButtonComponent } from './secondary-button/watt-secondary-button.component';
 import { WattSecondaryLinkButtonComponent } from './secondary-link-button/watt-secondary-link-button.component';
 import { WattTextButtonComponent } from './text-button/watt-text-button.component';
+import { disabledAttributeToken } from './disabled-attribute-token';
 
 @Component({
   selector: 'watt-button',
@@ -36,6 +44,20 @@ export class WattButtonComponent {
 
     this._type = value;
   }
+  @Input()
+  disabled = false;
+
+  get buttonComponentInjector(): Injector {
+    return Injector.create({
+      providers: [
+        {
+          provide: disabledAttributeToken,
+          useValue: this.disabled,
+        },
+      ],
+      parent: this.injector,
+    });
+  }
 
   get buttonComponentType(): Type<unknown> {
     switch (this.type) {
@@ -63,5 +85,8 @@ export class WattButtonComponent {
     return this.isPrimaryButton ? '' : 'primary';
   }
 
-  constructor(@Optional() @Host() private routerLink?: RouterLink) {}
+  constructor(
+    private injector: Injector,
+    @Optional() @Host() private routerLink?: RouterLink
+  ) {}
 }

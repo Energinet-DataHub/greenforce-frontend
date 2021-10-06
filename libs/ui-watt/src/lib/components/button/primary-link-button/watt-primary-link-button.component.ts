@@ -1,5 +1,7 @@
-import { Component, SkipSelf } from '@angular/core';
+import { Component, Inject, SkipSelf } from '@angular/core';
 import { RouterLink } from '@angular/router';
+
+import { disabledAttributeToken } from '../disabled-attribute-token';
 
 @Component({
   exportAs: 'wattPrimaryLinkButton',
@@ -8,5 +10,8 @@ import { RouterLink } from '@angular/router';
   templateUrl: './watt-primary-link-button.component.html',
 })
 export class WattPrimaryLinkButtonComponent {
-  constructor(@SkipSelf() public routerLink: RouterLink) {}
+  constructor(
+    @SkipSelf() public routerLink: RouterLink,
+    @Inject(disabledAttributeToken) public isDisabled: boolean
+  ) {}
 }

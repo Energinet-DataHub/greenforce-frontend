@@ -1,5 +1,9 @@
 <ng-container
-  *ngComponentOutlet="buttonComponentType; content: [[contentWrapper]]"
+  *ngComponentOutlet="
+    buttonComponentType;
+    content: [[contentWrapper]];
+    injector: buttonComponentInjector
+  "
 ></ng-container>
 
 <div #contentWrapper class="content-grid">

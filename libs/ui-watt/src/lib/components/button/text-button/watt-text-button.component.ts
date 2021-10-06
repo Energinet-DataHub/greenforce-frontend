@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
+
+import { disabledAttributeToken } from '../disabled-attribute-token';
 
 @Component({
   exportAs: 'wattTextButton',
@@ -6,4 +8,6 @@ import { Component } from '@angular/core';
   styleUrls: ['./watt-text-button.component.scss'],
   templateUrl: './watt-text-button.component.html',
 })
-export class WattTextButtonComponent {}
+export class WattTextButtonComponent {
+  constructor(@Inject(disabledAttributeToken) public isDisabled: boolean) {}
+}

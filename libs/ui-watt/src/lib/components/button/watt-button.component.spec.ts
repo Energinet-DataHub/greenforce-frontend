@@ -1,5 +1,6 @@
-import { Type } from '@angular/core';
+import { Injector, Type } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { TestBed } from '@angular/core/testing';
 
 import { WattLinkButtonComponent } from './link-button/watt-link-button.component';
 import { WattButtonType } from './watt-button-type';
@@ -10,7 +11,9 @@ import { WattSecondaryButtonComponent } from './secondary-button/watt-secondary-
 import { WattSecondaryLinkButtonComponent } from './secondary-link-button/watt-secondary-link-button.component';
 import { WattTextButtonComponent } from './text-button/watt-text-button.component';
 
-xdescribe(WattButtonComponent.name, () => {
+const appInjector = TestBed.inject(Injector);
+
+describe(WattButtonComponent.name, () => {
   function createComponent({
     type = 'text',
     withLink = false,
@@ -20,10 +23,11 @@ xdescribe(WattButtonComponent.name, () => {
   } = {}): WattButtonComponent {
     const component: WattButtonComponent = (() => {
       if (withLink) {
-        const routerLinkMock = jest.fn();
-        return new WattButtonComponent(routerLinkMock as unknown as RouterLink);
+        const routerLinkMock = jest.fn() as unknown as RouterLink;
+
+        return new WattButtonComponent(appInjector, routerLinkMock);
       } else {
-        return new WattButtonComponent();
+        return new WattButtonComponent(appInjector);
       }
     })();
 
@@ -66,7 +70,7 @@ xdescribe(WattButtonComponent.name, () => {
 
   typeBottomValues.forEach((bottomValue) => {
     it(`defaults to a text button (type="${bottomValue}")`, () => {
-      const component = new WattButtonComponent();
+      const component = new WattButtonComponent(appInjector);
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       component.type = bottomValue as any;
 
@@ -76,7 +80,7 @@ xdescribe(WattButtonComponent.name, () => {
 
   describe('icon', () => {
     it('text button icons have a branded color', () => {
-      const component = new WattButtonComponent();
+      const component = new WattButtonComponent(appInjector);
 
       component.type = 'text';
 
@@ -85,7 +89,7 @@ xdescribe(WattButtonComponent.name, () => {
     });
 
     it('secondary button icons have a branded color', () => {
-      const component = new WattButtonComponent();
+      const component = new WattButtonComponent(appInjector);
 
       component.type = 'secondary';
 
@@ -94,7 +98,7 @@ xdescribe(WattButtonComponent.name, () => {
     });
 
     it('inverts the icon color for the primary button', () => {
-      const component = new WattButtonComponent();
+      const component = new WattButtonComponent(appInjector);
 
       component.type = 'primary';
 
