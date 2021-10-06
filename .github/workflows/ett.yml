@@ -97,7 +97,7 @@ jobs:
         run: yarn install --frozen-lockfile --non-interactive
 
       - name: Angular Compatibility Compiler
-        run: yarn ngcc --use-program-dependencies --tsconfig apps/${{ env.app-name }}/tsconfig.app.json
+        run: yarn ngcc:ett
 
       - name: Production build
         run: yarn nx build ${{ env.app-name }} --max-parallel=$NX_MAX_PARALLEL
