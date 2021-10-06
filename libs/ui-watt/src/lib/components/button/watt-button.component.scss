@@ -6,3 +6,12 @@
   align-items: center;
   display: flex;
 }
+
+// NOTE(xdzus): Needed in order to center the icon if no content is present
+.content-grid-item {
+  flex-grow: 1;
+
+  & + .content-grid-item {
+    flex-grow: 0;
+  }
+}
