@@ -22,6 +22,7 @@ watt-form-field {
   --input-font-size: 14px;
   --input-line-height: 20px;
   --input-border-color: var(--watt-color-neutral-grey-400);
+  --input-color: var(--watt-color-primary-dark);
   --input-background: var(--watt-color-neutral-white);
   --label-margin-bottom: 2px;
 
@@ -36,6 +37,8 @@ watt-form-field {
   .mat-input-element {
     font-size: var(--input-font-size);
     line-height: var(--input-line-height);
+    color: var(--input-color);
+    caret-color: var(--watt-color-neutral-grey-900);
   }
 
   .mat-form-field-appearance-legacy {
@@ -90,8 +93,12 @@ watt-form-field {
     .mat-form-field-label .mat-placeholder-required.mat-form-field-required-marker {
       color: var(--watt-color-state-danger);
     }
+
+    .mat-input-element {
+      caret-color: var(--watt-color-neutral-grey-900);
+    }
   }
-  
+
   mat-form-field.mat-form-field-disabled {
     --input-background: var(--watt-color-neutral-grey-100);
   }
