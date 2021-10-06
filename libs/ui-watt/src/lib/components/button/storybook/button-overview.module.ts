@@ -14,11 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
-import { RouterModule } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
 
 import { WattButtonModule } from '../watt-button.module';
 import { ButtonOverviewComponent } from './button-overview.component';
@@ -26,12 +23,6 @@ import { ButtonOverviewComponent } from './button-overview.component';
 @NgModule({
   declarations: [ButtonOverviewComponent],
   exports: [ButtonOverviewComponent],
-  imports: [
-    CommonModule,
-    WattButtonModule,
-    MatCardModule,
-    RouterModule,
-    RouterTestingModule.withRoutes([]),
-  ],
+  imports: [WattButtonModule, MatCardModule],
 })
 export class ButtonOverviewModule {}
