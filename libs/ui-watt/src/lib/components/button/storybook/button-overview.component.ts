@@ -14,11 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 
 @Component({
+  encapsulation: ViewEncapsulation.None,
   selector: 'watt-button-overview',
-  templateUrl: './button-overview.component.html',
   styleUrls: ['./button-overview.component.scss'],
+  templateUrl: './button-overview.component.html',
 })
 export class ButtonOverviewComponent {}

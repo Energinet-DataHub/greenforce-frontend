@@ -14,16 +14,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-:host {
+@use '../watt-button-variables' as buttonVariables;
+
+watt-button-overview {
   background: var(--watt-color-neutral-grey-300);
   display: block;
   width: 100%;
   padding: 1rem;
   margin: -1rem;
-}
 
-.buttons-group {
-  display: flex;
-  gap: 1rem;
-  margin-bottom: 1rem;
+  & > mat-card > .content-grid {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .force-focus-state {
+    watt-primary-button button.watt-button {
+      outline: buttonVariables.$watt-button-primary-focus-outline;
+    }
+
+    watt-secondary-button button.watt-button {
+      outline: buttonVariables.$watt-button-secondary-focus-state;
+    }
+
+    watt-text-button button.watt-button {
+      outline: buttonVariables.$watt-button-text-focus-state;
+    }
+  }
 }
