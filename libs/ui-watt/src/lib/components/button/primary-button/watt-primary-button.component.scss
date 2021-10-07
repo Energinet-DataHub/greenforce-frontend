@@ -21,4 +21,8 @@
 button {
   height: 2.5rem;
   min-width: 6.25rem;
+
+  &:focus {
+    outline: 2px solid var(--watt-color-focus);
+  }
 }
