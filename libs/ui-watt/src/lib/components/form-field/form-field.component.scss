@@ -47,6 +47,12 @@ watt-form-field {
       border: none;
       padding: 0;
     }
+
+    .mat-form-field-subscript-wrapper {
+      position: relative;
+      padding-left: 8px;
+      margin-top: 4px;
+    }
   }
 
   .mat-form-field-flex {
@@ -60,10 +66,7 @@ watt-form-field {
     padding: var(--padding-vertical) var(--padding-horizontal);
   }
 
-  .mat-form-field-subscript-wrapper {
-    position: relative;
-    padding-left: 8px;
-  }
+ 
 
   .mat-form-field-hint-wrapper {
     flex-wrap: wrap;
