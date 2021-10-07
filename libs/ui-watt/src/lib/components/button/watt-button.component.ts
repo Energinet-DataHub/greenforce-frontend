@@ -20,6 +20,7 @@ import {
   Injector,
   Input,
   Type,
+  ViewEncapsulation,
 } from '@angular/core';
 
 import { WattButtonType } from './watt-button-type';
@@ -30,6 +31,7 @@ import { disabledAttributeToken } from './disabled-attribute-token';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
   selector: 'watt-button',
   styleUrls: ['./watt-button.component.scss'],
   templateUrl: './watt-button.component.html',
