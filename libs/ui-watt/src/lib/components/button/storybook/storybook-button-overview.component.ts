@@ -14,15 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgModule } from '@angular/core';
-import { MatCardModule } from '@angular/material/card';
+import { Component, ViewEncapsulation } from '@angular/core';
 
-import { WattButtonModule } from '../watt-button.module';
-import { ButtonOverviewComponent } from './button-overview.component';
-
-@NgModule({
-  declarations: [ButtonOverviewComponent],
-  exports: [ButtonOverviewComponent],
-  imports: [WattButtonModule, MatCardModule],
+@Component({
+  encapsulation: ViewEncapsulation.None,
+  // eslint-disable-next-line @angular-eslint/component-selector
+  selector: 'storybook-button-overview',
+  styleUrls: ['./storybook-button-overview.component.scss'],
+  templateUrl: './storybook-button-overview.component.html',
 })
-export class ButtonOverviewModule {}
+export class StorybookButtonOverviewComponent {}

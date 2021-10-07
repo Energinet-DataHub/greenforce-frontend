@@ -14,12 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, ViewEncapsulation } from '@angular/core';
+import { NgModule } from '@angular/core';
+import { MatCardModule } from '@angular/material/card';
 
-@Component({
-  encapsulation: ViewEncapsulation.None,
-  selector: 'watt-button-overview',
-  styleUrls: ['./button-overview.component.scss'],
-  templateUrl: './button-overview.component.html',
+import { WattButtonModule } from '../watt-button.module';
+import { StorybookButtonOverviewComponent } from './storybook-button-overview.component';
+
+@NgModule({
+  declarations: [StorybookButtonOverviewComponent],
+  exports: [StorybookButtonOverviewComponent],
+  imports: [WattButtonModule, MatCardModule],
 })
-export class ButtonOverviewComponent {}
+export class StorybookButtonOverviewModule {}
