@@ -17,7 +17,21 @@
 @use './watt-button-variables' as buttonVariables;
 
 watt-button {
-  display: inline-block;
+  &,
+  .watt-button-wrapper {
+    display: inline-block;
+  }
+
+  button.watt-button {
+    height: buttonVariables.$watt-button-size-normal-height;
+    min-width: buttonVariables.$watt-button-min-width;
+  }
+
+  .watt-button-large {
+    button.watt-button {
+      height: buttonVariables.$watt-button-size-large-height;
+    }
+  }
 
   watt-primary-button {
     button.watt-button:focus {
@@ -35,11 +49,6 @@ watt-button {
     button.watt-button:focus {
       outline: buttonVariables.$watt-button-text-focus-state;
     }
-  }
-
-  button.watt-button {
-    height: buttonVariables.$watt-button-size-normal-height;
-    min-width: buttonVariables.$watt-button-min-width;
   }
 
   .content-grid {

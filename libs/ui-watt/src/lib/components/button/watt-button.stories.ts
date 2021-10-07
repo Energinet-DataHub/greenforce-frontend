@@ -63,7 +63,7 @@ Overview.parameters = {
 const ButtonTemplate: Story<WattButtonComponent> = (args) => ({
   props: args,
   template: `
-<watt-button type="${args.type}" icon="${args.icon}" [disabled]="${args.disabled}">
+<watt-button type="${args.type}" icon="${args.icon}" [disabled]="${args.disabled}" size="${args.size}">
   Button
 </watt-button>`,
 });
@@ -105,4 +105,17 @@ TextButtonWithIcon.storyName = 'Text with icon';
 TextButtonWithIcon.args = {
   icon: 'add',
   type: 'text',
+};
+
+export const ButtonSizeNormal = ButtonTemplate.bind({});
+ButtonSizeNormal.storyName = 'Normal size';
+ButtonSizeNormal.args = {
+  type: 'primary',
+};
+
+export const ButtonSizeLarge = ButtonTemplate.bind({});
+ButtonSizeLarge.storyName = 'Large size';
+ButtonSizeLarge.args = {
+  type: 'primary',
+  size: 'large',
 };

@@ -23,6 +23,7 @@ export { WattColorHelperService } from './lib/foundations/color/color-helper.ser
 export { WattColors } from './lib/foundations/color/colors';
 
 export { WattButtonType } from './lib/components/button/watt-button-type';
+export { WattButtonSize } from './lib/components/button/watt-button-size';
 export { WattButtonComponent } from './lib/components/button/watt-button.component';
 export { WattButtonModule } from './lib/components/button/watt-button.module';
 

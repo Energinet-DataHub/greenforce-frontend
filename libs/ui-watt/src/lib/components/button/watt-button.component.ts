@@ -28,6 +28,7 @@ import { WattPrimaryButtonComponent } from './primary-button/watt-primary-button
 import { WattSecondaryButtonComponent } from './secondary-button/watt-secondary-button.component';
 import { WattTextButtonComponent } from './text-button/watt-text-button.component';
 import { disabledAttributeToken } from './disabled-attribute-token';
+import { WattButtonSize } from './watt-button-size';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -42,8 +43,7 @@ export class WattButtonComponent {
    */
   private _type: WattButtonType = 'text';
 
-  @Input()
-  icon = '';
+  @Input() icon = '';
   @Input()
   get type(): WattButtonType {
     return this._type;
@@ -55,8 +55,8 @@ export class WattButtonComponent {
 
     this._type = value;
   }
-  @Input()
-  disabled = false;
+  @Input() size: WattButtonSize = 'normal';
+  @Input() disabled = false;
 
   get buttonComponentInjector(): Injector {
     return Injector.create({
