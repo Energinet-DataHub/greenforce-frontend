@@ -18,7 +18,7 @@ import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'watt-hint',
-  template: `<span class="watt-text-xs"><ng-content></ng-content></span>`,
+  template: `<ng-content></ng-content>`,
   styleUrls: ['./hint.component.scss'],
 })
 export class WattHintComponent {

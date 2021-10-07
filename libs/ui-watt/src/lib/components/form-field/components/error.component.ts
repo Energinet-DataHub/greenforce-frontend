@@ -18,7 +18,7 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'watt-error',
-  template: `<span class="watt-text-xs"><ng-content></ng-content></span>`,
+  template: `<ng-content></ng-content>`,
   styleUrls: ['./error.component.scss'],
 })
 export class WattErrorComponent {}
