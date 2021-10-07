@@ -109,7 +109,7 @@ watt-form-field {
   }
 }
 
-.watt-input-focused,
+.watt-input-focused mat-form-field,
 watt-form-field
   mat-form-field.mat-focused:not(mat-form-field.mat-form-field-invalid) {
   --input-border-color: var(--watt-color-primary);
