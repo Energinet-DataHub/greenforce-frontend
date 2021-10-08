@@ -14,13 +14,13 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<ng-content
+<ng-container
   *ngComponentOutlet="
     buttonComponentType;
     content: [[contentWrapper]];
     injector: buttonComponentInjector
   "
-></ng-content>
+></ng-container>
 
 <div #contentWrapper class="content-grid">
   <mat-icon *ngIf="hasIcon" class="content-grid-item">
