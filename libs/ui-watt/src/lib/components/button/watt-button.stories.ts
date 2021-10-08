@@ -42,10 +42,16 @@ export default {
   ],
 } as Meta<WattButtonComponent>;
 
+const howToUseGuide = `
+1. Import ${WattButtonModule.name} in a module
+import { ${WattButtonModule.name} } from '@energinet-datahub/watt';
+
+2. Use <watt-button>Button</watt-button> in the component's HTML template
+`;
+
 export const Overview = () => ({
   template: '<storybook-button-overview></storybook-button-overview>',
 });
-const emptySourceCodeBlock = ' ';
 Overview.decorators = [
   moduleMetadata({
     imports: [StorybookButtonOverviewModule],
@@ -54,7 +60,7 @@ Overview.decorators = [
 Overview.parameters = {
   docs: {
     source: {
-      code: emptySourceCodeBlock,
+      code: howToUseGuide,
     },
   },
 };
