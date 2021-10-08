@@ -14,22 +14,20 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<div class="watt-button-wrapper watt-button-{{ size }}">
-  <ng-container
-    *ngComponentOutlet="
-      buttonComponentType;
-      content: [[contentWrapper]];
-      injector: buttonComponentInjector
-    "
-  ></ng-container>
+<ng-content
+  *ngComponentOutlet="
+    buttonComponentType;
+    content: [[contentWrapper]];
+    injector: buttonComponentInjector
+  "
+></ng-content>
 
-  <div #contentWrapper class="content-grid">
-    <mat-icon *ngIf="hasIcon" class="content-grid-item">
-      {{ icon }}
-    </mat-icon>
+<div #contentWrapper class="content-grid">
+  <mat-icon *ngIf="hasIcon" class="content-grid-item">
+    {{ icon }}
+  </mat-icon>
 
-    <div class="content-grid-item">
-      <ng-content></ng-content>
-    </div>
+  <div class="content-grid-item">
+    <ng-content></ng-content>
   </div>
 </div>

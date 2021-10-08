@@ -17,6 +17,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  HostBinding,
   Injector,
   Input,
   Type,
@@ -42,6 +43,11 @@ export class WattButtonComponent {
    * @ignore
    */
   private _type: WattButtonType = 'text';
+
+  @HostBinding('class')
+  get buttonSize() {
+    return `watt-button-${this.size}`;
+  }
 
   @Input() icon = '';
   @Input()

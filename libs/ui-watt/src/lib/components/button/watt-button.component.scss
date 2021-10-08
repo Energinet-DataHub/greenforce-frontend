@@ -17,19 +17,19 @@
 @use './watt-button-variables' as buttonVariables;
 
 watt-button {
-  &,
-  .watt-button-wrapper {
-    display: inline-block;
+  display: inline-block;
+
+  &.watt-button-normal {
+    button.watt-button {
+      height: buttonVariables.$watt-button-size-normal-height;
+      min-width: buttonVariables.$watt-button-min-width;
+    }
   }
 
-  button.watt-button {
-    height: buttonVariables.$watt-button-size-normal-height;
-    min-width: buttonVariables.$watt-button-min-width;
-  }
-
-  .watt-button-large {
+  &.watt-button-large {
     button.watt-button {
       height: buttonVariables.$watt-button-size-large-height;
+      min-width: buttonVariables.$watt-button-min-width;
     }
   }
 
