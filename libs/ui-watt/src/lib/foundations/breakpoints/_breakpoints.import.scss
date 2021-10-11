@@ -1,4 +1,8 @@
-/*
+/**
+ * * Should be kept in sync with ./breakpoints.ts
+ */
+
+/**
  * Breakpoints without max-width 
  * ex. @include watt.media('>Small') {}
  */
@@ -9,7 +13,7 @@ $breakpoints: (
   'XLarge': 1920px
 ) !default;
 
-/*
+/**
  * Media expressions for exact matches
  * ex. @include watt.media('XSmall') {}
  */

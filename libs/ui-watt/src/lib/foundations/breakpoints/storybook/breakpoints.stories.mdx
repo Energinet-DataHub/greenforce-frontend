@@ -1,9 +1,7 @@
-import { Meta, Story, Canvas } from '@storybook/addon-docs';
+import { Meta } from '@storybook/addon-docs';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 
-import { WattBreakpointsComponent } from "./breakpoints.component";
-
-<Meta title="Foundations/Layout/Breakpoints" component={WattBreakpointsComponent} />
+<Meta title="Foundations/Layout/Breakpoints" />
 
 # Breakpoints
 
@@ -86,7 +84,7 @@ Watt uses [@include-media](https://eduardoboucas.github.io/include-media/) to ma
 
 ```scss
 // NOTE: breakpoint name is case-sensitive!!!
-@include watt.media("Medium") {
+@include watt.media("Small") {
     // Your styling goes here
 }
 
