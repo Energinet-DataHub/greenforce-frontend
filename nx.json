@@ -56,6 +56,9 @@
     "ett-core-feature-shell": {
       "tags": ["product:ett", "scope:core", "type:feature"]
     },
+    "ett-core-util-browser": {
+      "tags": ["product:ett", "scope:core", "type:util"]
+    },
     "ett-dashboard-feature-shell": {
       "tags": ["product:ett", "scope:dashboard", "type:feature"]
     },

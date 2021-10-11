@@ -1,3 +1,5 @@
+import { DOCUMENT } from '@angular/common';
+import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { LetModule } from '@rx-angular/template';
 import { render, screen } from '@testing-library/angular';
@@ -26,6 +28,9 @@ describe(EttAuthenticationDirective.name, () => {
         ],
       }
     );
+
+    const document = TestBed.inject(DOCUMENT);
+    console.log(document.head.baseURI);
 
     link = await screen.findByRole('link');
   });

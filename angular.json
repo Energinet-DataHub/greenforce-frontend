@@ -412,6 +412,31 @@
         }
       }
     },
+    "ett-core-util-browser": {
+      "projectType": "library",
+      "root": "libs/ett/core/util-browser",
+      "sourceRoot": "libs/ett/core/util-browser/src",
+      "prefix": "ett",
+      "architect": {
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/ett/core/util-browser"],
+          "options": {
+            "jestConfig": "libs/ett/core/util-browser/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/ett/core/util-browser/src/**/*.ts",
+              "libs/ett/core/util-browser/src/**/*.html"
+            ]
+          }
+        }
+      }
+    },
     "ett-dashboard-feature-shell": {
       "projectType": "library",
       "root": "libs/ett/dashboard/feature-shell",

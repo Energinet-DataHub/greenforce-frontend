@@ -28,6 +28,9 @@
       "@energinet-datahub/ett/core/feature-shell": [
         "libs/ett/core/feature-shell/src/index.ts"
       ],
+      "@energinet-datahub/ett/core/util-browser": [
+        "libs/ett/core/util-browser/src/index.ts"
+      ],
       "@energinet-datahub/ett/dashboard/feature-shell": [
         "libs/ett/dashboard/feature-shell/src/index.ts"
       ],
