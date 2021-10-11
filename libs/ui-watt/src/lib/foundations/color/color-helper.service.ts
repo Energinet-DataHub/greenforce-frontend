@@ -14,8 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { DOCUMENT } from '@angular/common';
-import { Inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
+import { WattCSSVarService } from '../../utils/css-var.service';
 
 import { WattColors } from './colors';
 
@@ -25,22 +25,13 @@ import { WattColors } from './colors';
 export class WattColorHelperService {
   private colorContrastSuffix = 'contrast';
 
-  constructor(
-    @Inject(DOCUMENT) private document: Document,
-    private window: Window
-  ) {}
+  constructor(private cssVarService: WattCSSVarService) {}
 
   public getColor(colorName: WattColors): string {
-    return this.getComputedStyle().getPropertyValue(colorName);
+    return this.cssVarService.getVar(colorName);
   }
 
   public getColorContrast(colorName: WattColors): string {
-    return this.getComputedStyle().getPropertyValue(
-      `${colorName}-${this.colorContrastSuffix}`
-    );
-  }
-
-  private getComputedStyle() {
-    return this.window.getComputedStyle(this.document.documentElement);
+    return this.cssVarService.getVar(`${colorName}-${this.colorContrastSuffix}`);
   }
 }

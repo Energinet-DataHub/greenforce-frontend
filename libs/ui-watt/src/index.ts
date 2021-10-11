@@ -24,3 +24,5 @@ export { WattColors } from './lib/foundations/color/colors';
 
 export { WattShellComponent } from './lib/components/shell/shell.component';
 export { WattShellModule } from './lib/components/shell/shell.module';
+
+export * from './lib/foundations/breakpoints';
