@@ -66,8 +66,10 @@ interface WattBreakpointState {
 
 ## From SCSS
 You can use these predefined breakpoints with the `@include media` mixin.
-Watt uses [@include-media](https://eduardoboucas.github.io/include-media/) to make it simple and elegant. 
+Watt uses [@include-media](https://eduardoboucas.github.io/include-media/) to make it simple and elegant to work with media queries. 
 
+
+### With operators (without max-width)
 ```scss
 @use '@energinet-datahub/watt';
 
@@ -75,7 +77,24 @@ Watt uses [@include-media](https://eduardoboucas.github.io/include-media/) to ma
 @include watt.media(">Medium") {
     // Your styling goes here
 }
+
+/* Generates: */
+@media (min-width: 960px) {}
 ```
+
+### Exact matches (with max-width)
+
+```scss
+// NOTE: breakpoint name is case-sensitive!!!
+@include watt.media("Medium") {
+    // Your styling goes here
+}
+
+/* Generates: */
+@media (min-width: 960px) and (max-width: 1279.98px) {}
+```
+
+
 
 export const Component = () => {
   return <SyntaxHighlighter/>;
