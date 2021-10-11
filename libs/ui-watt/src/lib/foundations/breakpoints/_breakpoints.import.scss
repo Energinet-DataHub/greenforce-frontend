@@ -1,8 +1,8 @@
 $breakpoints: (
-  'small': 600px,
-  'medium': 960px,
-  'large': 1280px,
-  'xlarge': 1920px
+  'Small': 600px,
+  'Medium': 960px,
+  'Large': 1280px,
+  'XLarge': 1920px
 ) !default;
 
 @forward 'include-media' with (
