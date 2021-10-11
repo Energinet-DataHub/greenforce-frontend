@@ -1,10 +1,8 @@
-import { DOCUMENT } from '@angular/common';
-import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
+import { EttBrowserConfigurationModule } from '@energinet-datahub/ett/core/util-browser';
 import { LetModule } from '@rx-angular/template';
 import { render, screen } from '@testing-library/angular';
 
-import { EttBrowserConfigurationModule } from './../../../feature-shell/src/lib/ett-browser-configuration.module';
 import { AuthOidcStubModule } from './auth-oidc-stub.service';
 import { EttAuthenticationDirective, EttAuthenticationScam } from './ett-authentication-link.directive';
 
@@ -28,9 +26,6 @@ describe(EttAuthenticationDirective.name, () => {
         ],
       }
     );
-
-    const document = TestBed.inject(DOCUMENT);
-    console.log(document.head.baseURI);
 
     link = await screen.findByRole('link');
   });
