@@ -19,6 +19,7 @@
 @use './../../foundations/typography';
 
 @forward './../../foundations/color/colors.import';
+@forward './../../foundations/breakpoints/breakpoints.import';
 
 // Include Material theme
 @import '~@angular/material/prebuilt-themes/indigo-pink.css';

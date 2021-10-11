@@ -59,18 +59,19 @@ interface WattBreakpointState {
    * with its current matched state.
    */
   breakpoints: {
-    [key in WattBreakpoints]?: boolean;
+    [key in WattBreakpoints]?: boolean; // Predefined breakpoint: boolean
   };
 }
 ```
 
 ## From SCSS
 You can use these predefined breakpoints with the `@include media` mixin.
+Watt uses [@include-media](https://eduardoboucas.github.io/include-media/) to make it simple and elegant. 
 
 ```scss
-@use '@energinet-datahub/watt/layout';
+@use '@energinet-datahub/watt';
 
-@include media(">medium") {
+@include watt.media(">medium") {
     // Something
 }
 ```
