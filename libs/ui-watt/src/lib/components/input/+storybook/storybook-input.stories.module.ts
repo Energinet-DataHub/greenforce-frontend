@@ -20,8 +20,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { WattFormFieldModule } from '../../form-field/form-field.module';
 import { WattInputModule } from '../input.module';
-import { InputComponent } from './input.component';
-import { InputOverviewComponent } from './overview.component';
+import { StorybookInputComponent } from './storybook-input.component';
+import { StorybookInputOverviewComponent } from './storybook-input-overview.component';
 
 @NgModule({
   imports: [
@@ -31,13 +31,13 @@ import { InputOverviewComponent } from './overview.component';
     FormsModule,
     ReactiveFormsModule,
   ],
-  declarations: [InputComponent, InputOverviewComponent],
+  declarations: [StorybookInputComponent, StorybookInputOverviewComponent],
   exports: [
     WattFormFieldModule,
     WattInputModule,
     ReactiveFormsModule,
-    InputComponent,
-    InputOverviewComponent,
+    StorybookInputComponent,
+    StorybookInputOverviewComponent,
   ],
 })
-export class InputStoriesModule {}
+export class StorybookInputModule {}

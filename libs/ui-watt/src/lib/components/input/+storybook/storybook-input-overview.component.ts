@@ -17,8 +17,9 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'watt-input-overview',
-  styleUrls: ['./overview.component.scss'],
-  templateUrl: './overview.component.html',
+  // eslint-disable-next-line @angular-eslint/component-selector
+  selector: 'storybook-input-overview',
+  styleUrls: ['./storybook-input-overview.component.scss'],
+  templateUrl: './storybook-input-overview.component.html',
 })
-export class InputOverviewComponent {}
+export class StorybookInputOverviewComponent {}

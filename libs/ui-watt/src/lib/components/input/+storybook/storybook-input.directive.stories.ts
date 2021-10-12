@@ -15,25 +15,25 @@
  * limitations under the License.
  */
 import { moduleMetadata, Story, Meta } from '@storybook/angular';
-import { InputComponent } from './input.component';
-import { InputStoriesModule } from './input.stories.module';
+import { StorybookInputComponent } from './storybook-input.component';
+import { StorybookInputModule } from './storybook-input.stories.module';
 
 export default {
   title: 'Components/Text Field',
-  component: InputComponent,
+  component: StorybookInputComponent,
   decorators: [
     moduleMetadata({
-      imports: [InputStoriesModule],
+      imports: [StorybookInputModule],
     }),
   ],
-} as Meta<InputComponent>;
+} as Meta<StorybookInputComponent>;
 
-const Template: Story<InputComponent> = (args) => ({
+const Template: Story<StorybookInputComponent> = (args) => ({
   props: args,
 });
 
 const overviewTemplate: Story = () => ({
-  template: `<watt-input-overview></watt-input-overview>`,
+  template: `<storybook-input-overview></storybook-input-overview>`,
 });
 export const overview = overviewTemplate.bind({});
 overview.parameters = {
