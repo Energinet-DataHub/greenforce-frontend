@@ -19,7 +19,7 @@ import { moduleMetadata, Story, Meta } from '@storybook/angular';
 import { WattPrimaryButtonComponent } from './primary-button/watt-primary-button.component';
 import { WattSecondaryButtonComponent } from './secondary-button/watt-secondary-button.component';
 import { WattTextButtonComponent } from './text-button/watt-text-button.component';
-import { StorybookButtonOverviewModule } from './storybook/storybook-button-overview.module';
+import { StorybookButtonOverviewModule } from './+storybook/storybook-button-overview.module';
 import { WattButtonComponent } from './watt-button.component';
 import { WattButtonModule } from './watt-button.module';
 
