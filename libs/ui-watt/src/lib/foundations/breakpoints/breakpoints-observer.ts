@@ -34,9 +34,7 @@ export interface WattBreakpointState {
 
 @Injectable({ providedIn: 'root' })
 export class WattBreakpointsObserver {
-  constructor(
-    private breakpointObserver: BreakpointObserver,
-  ) {}
+  constructor(private breakpointObserver: BreakpointObserver) {}
 
   observe(
     breakpoints: WattBreakpoint | WattBreakpoint[]

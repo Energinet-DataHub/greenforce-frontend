@@ -14,6 +14,6 @@ export const parameters = {
   },
   docs: { inlineStories: true },
   viewport: {
-    viewports: INITIAL_VIEWPORTS
-  }
+    viewports: INITIAL_VIEWPORTS,
+  },
 };
