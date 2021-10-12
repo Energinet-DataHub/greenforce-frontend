@@ -14,21 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@use './../../foundations/variables';
-@use './../../foundations/box-sizing';
-@use './../../foundations/typography';
-
-@forward './../../foundations/color/colors.import';
-@forward './../../foundations/breakpoints/breakpoints.import';
-
-// Include Material theme
-@import '~@angular/material/prebuilt-themes/indigo-pink.css';
-
-html,
-body {
-  height: 100%;
-}
-body {
-  margin: 0;
-  font-family: 'Open Sans', sans-serif;
-}
+export {
+  WattBreakpointsObserver,
+  WattBreakpointState,
+} from './breakpoints-observer';
+export { WattBreakpoint } from './breakpoints';

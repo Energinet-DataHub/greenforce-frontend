@@ -1,0 +1,86 @@
+import { Meta } from '@storybook/addon-docs';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+
+<Meta title="Foundations/Layout/Breakpoints" />
+
+# Breakpoints
+
+## Predefined breakpoints
+
+The built-in `WattBreakpoint` enum offers the following predefined breakpoints for convenience,
+[originally drawn from the Material Design
+specification](https://material.io/archive/guidelines/layout/responsive-ui.html).
+
+| Breakpoint name | Media query                                      |
+| --------------- | ------------------------------------------------ |
+| `XSmall`        | `(max-width: 599.98px)`                          |
+| `Small`         | `(min-width: 600px) and (max-width: 959.98px)`   |
+| `Medium`        | `(min-width: 960px) and (max-width: 1279.98px)`  |
+| `Large`         | `(min-width: 1280px) and (max-width: 1919.98px)` |
+| `XLarge`        | `(min-width: 1920px)`                            |
+
+## Usage:
+
+- [From TypeScript](#from-typescript)
+- [From SCSS](#from-scss)
+
+### From TypeScript
+
+You can use these predefined breakpoints with `WattBreakpointObserver`.
+
+```typescript
+import {
+  WattBreakpoint,
+  WattBreakpointsObserver,
+  WattBreakpointState
+} from '@energinet-datahub/watt';
+...
+
+wattBreakpointObserver.observe([
+  WattBreakpoint.XSmall,
+  WattBreakpoint.Small
+]).subscribe((result: WattBreakpointState) => {
+  if (result.matches) {
+    // Do something
+  }
+});
+```
+
+### From SCSS
+
+You can use these predefined breakpoints with the `@include media` mixin.
+Watt uses [@include-media](https://eduardoboucas.github.io/include-media/) to make it simple and elegant to work with media queries.
+
+#### With operators (without max-width)
+
+```scss
+@use '@energinet-datahub/watt';
+
+// NOTE: breakpoint name is case-sensitive!!!
+@include watt.media('>Medium') {
+  // Your styling goes here
+}
+
+/* Generates: */
+@media (min-width: 960.02px) {
+}
+```
+
+#### Exact matches (with max-width)
+
+```scss
+// NOTE: breakpoint name is case-sensitive!!!
+@include watt.media('Medium') {
+  // Your styling goes here
+}
+
+/* Generates: */
+@media (min-width: 960px) and (max-width: 1279.98px) {
+}
+```
+
+export const Component = () => {
+  return <SyntaxHighlighter />;
+};
+
+;
