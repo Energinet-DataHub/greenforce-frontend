@@ -25,8 +25,8 @@ import { FormControl } from '@angular/forms';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
-  selector: 'storybook-input',
-  styleUrls: ['./storybook-input.component.scss'],
+  selector: 'storybook-input-wrapper',
+  styleUrls: ['./storybook-input-wrapper.component.scss'],
   template: `<watt-form-field [size]="size">
     <watt-label>{{ label }}</watt-label>
     <button
@@ -60,7 +60,7 @@ import { FormControl } from '@angular/forms';
     >
   </watt-form-field> `,
 })
-export class StorybookInputComponent implements OnChanges {
+export class StorybookInputWrapperComponent implements OnChanges {
   @Input() label = 'label';
   @Input() placeholder!: string;
   @HostBinding('class.watt-input-focused') @Input() focused = false;

@@ -15,20 +15,20 @@
  * limitations under the License.
  */
 import { moduleMetadata, Story, Meta } from '@storybook/angular';
-import { StorybookInputComponent } from './storybook-input.component';
-import { StorybookInputModule } from './storybook-input.stories.module';
+import { StorybookInputWrapperComponent } from './storybook-input-wrapper.component';
+import { StorybookInputModule } from './storybook-input-wrapper.stories.module';
 
 export default {
   title: 'Components/Text Field',
-  component: StorybookInputComponent,
+  component: StorybookInputWrapperComponent,
   decorators: [
     moduleMetadata({
       imports: [StorybookInputModule],
     }),
   ],
-} as Meta<StorybookInputComponent>;
+} as Meta<StorybookInputWrapperComponent>;
 
-const Template: Story<StorybookInputComponent> = (args) => ({
+const Template: Story<StorybookInputWrapperComponent> = (args) => ({
   props: args,
 });
 
