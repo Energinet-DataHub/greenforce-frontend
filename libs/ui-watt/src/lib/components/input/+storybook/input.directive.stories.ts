@@ -16,7 +16,8 @@
  */
 import { moduleMetadata, Story, Meta } from '@storybook/angular';
 import { StorybookInputWrapperComponent } from './storybook-input-wrapper.component';
-import { StorybookInputModule } from './storybook-input-wrapper.stories.module';
+import { StorybookInputModule } from './storybook-input-wrapper.module';
+import StorybookInputOverviewDocs from './storybook-input-overview.mdx';
 
 export default {
   title: 'Components/Text Field',
@@ -26,6 +27,11 @@ export default {
       imports: [StorybookInputModule],
     }),
   ],
+  parameters: {
+    docs: {
+      page: StorybookInputOverviewDocs
+    },
+  }
 } as Meta<StorybookInputWrapperComponent>;
 
 const Template: Story<StorybookInputWrapperComponent> = (args) => ({
@@ -36,7 +42,60 @@ const overviewTemplate: Story = () => ({
   template: `<storybook-input-overview></storybook-input-overview>`,
 });
 export const overview = overviewTemplate.bind({});
+overview.argTypes = {
+  disabled: {
+    table: {
+      disable: true
+    }
+  },
+  focused: {
+    table: {
+      disable: true
+    }
+  },
+  hasError: {
+    table: {
+      disable: true
+    }
+  },
+  hasHint: {
+    table: {
+      disable: true
+    }
+  },
+  hasPrefix: {
+    table: {
+      disable: true
+    }
+  },
+  hasSuffix: {
+    table: {
+      disable: true
+    }
+  },
+  label: {
+    table: {
+      disable: true
+    }
+  },
+  placeholder: {
+    table: {
+      disable: true
+    }
+  },
+  required: {
+    table: {
+      disable: true
+    }
+  },
+  size: {
+    table: {
+      disable: true
+    }
+  }
+};
 overview.parameters = {
+  controls: { hideNoControlsWarning: true },
   docs: {
     source: {
       code: 'Nothing to see here.',
