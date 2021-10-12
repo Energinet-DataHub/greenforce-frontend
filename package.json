@@ -6,7 +6,7 @@
   "engines": {
     "node": "14.18.0",
     "npm": "Please use Yarn v1 instead of npm to install dependencies",
-    "yarn": "1.22.11"
+    "yarn": "1.22.15"
   },
   "scripts": {
     "postinstall": "node ./decorate-angular-cli.js",
@@ -105,6 +105,6 @@
   "volta": {
     "//node-comment": "Keep this in sync with engines in current package.json",
     "node": "14.18.0",
-    "yarn": "1.22.11"
+    "yarn": "1.22.15"
   }
 }
