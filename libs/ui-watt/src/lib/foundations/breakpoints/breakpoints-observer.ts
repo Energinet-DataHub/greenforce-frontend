@@ -16,8 +16,9 @@
  */
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { Injectable } from '@angular/core';
-import { WattBreakpoint } from './breakpoints';
 import { Observable } from 'rxjs';
+
+import { WattBreakpoint } from './breakpoints';
 
 export interface WattBreakpointState {
   /** Whether the breakpoint is currently matching. */

@@ -47,6 +47,7 @@ $unit-intervals: (
   'px': 0.02 // To match material specifications of .98px
 ) !default;
 
+/* prettier-ignore */
 @forward 'include-media' with (
   $breakpoints: $breakpoints,
   $unit-intervals: $unit-intervals,
