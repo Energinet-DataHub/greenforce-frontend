@@ -20,7 +20,6 @@ import { WattAutocompleteModule } from './components/autocomplete/autocomplete.m
 import { WattShellModule } from './components/shell/shell.module';
 
 @NgModule({
-  providers: [{ provide: Window, useValue: window }],
   exports: [WattAutocompleteModule, WattShellModule],
 })
 export class WattModule {}

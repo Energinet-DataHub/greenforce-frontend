@@ -42,7 +42,7 @@ export class WattBreakpointsObserver {
     return this.breakpointObserver.observe(breakpoints);
   }
 
-  isMatched(breakpoint: WattBreakpoint) {
-    this.breakpointObserver.isMatched(breakpoint);
+  isMatched(breakpoint: WattBreakpoint): boolean {
+    return this.breakpointObserver.isMatched(breakpoint);
   }
 }
