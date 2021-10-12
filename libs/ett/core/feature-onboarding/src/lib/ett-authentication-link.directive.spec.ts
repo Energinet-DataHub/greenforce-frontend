@@ -1,49 +1,98 @@
+import { APP_BASE_HREF } from '@angular/common';
+import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { EttBrowserConfigurationModule } from '@energinet-datahub/ett/core/util-browser';
+import { setUpTestbed } from '@energinet-datahub/ett/shared/test-util-angular';
 import { LetModule } from '@rx-angular/template';
 import { render, screen } from '@testing-library/angular';
+import { MockProvider } from 'ng-mocks';
+import { of, throwError } from 'rxjs';
 
-import { AuthOidcStubModule } from './auth-oidc-stub.service';
+import { AuthOidcHttp } from './auth-oidc-http.service';
 import { EttAuthenticationDirective, EttAuthenticationScam } from './ett-authentication-link.directive';
 
 describe(EttAuthenticationDirective.name, () => {
-  beforeEach(async () => {
-    await render(
-      `
-      <ng-container ettAuthenticationLink #link="ettAuthenticationLink">
-        <a *rxLet="link.loginUrl$ as loginUrl" [href]="loginUrl">
-          Login test
-        </a>
-      </ng-container>
-    `,
-      {
-        imports: [
-          EttAuthenticationScam,
-          EttBrowserConfigurationModule,
-          RouterTestingModule,
-          LetModule,
-          AuthOidcStubModule.withAuthenticationUrl(authenticationUrl),
-        ],
-      }
-    );
-
-    link = await screen.findByRole('link');
+  beforeAll(() => {
+    setUpTestbed({
+      destroyAfterEach: false,
+    });
   });
 
-  const authenticationUrl = 'https://example.com/test-authentication';
-  let link: HTMLAnchorElement;
+  describe('When the Auth API is available', () => {
+    beforeEach(async () => {
+      await render(
+        `
+          <ng-container ettAuthenticationLink #link="ettAuthenticationLink">
+            <a *rxLet="link.loginUrl$ as loginUrl" [href]="loginUrl">
+              Login test
+            </a>
+          </ng-container>
+        `,
+        {
+          imports: [EttAuthenticationScam, RouterTestingModule, LetModule],
+          providers: [
+            MockProvider(AuthOidcHttp, {
+              login: (redirectUri) =>
+                of({
+                  url: `${authenticationUrl}?redirect_uri=${redirectUri}`,
+                }),
+            }),
+          ],
+        }
+      );
 
-  it('links to the authentication URL', async () => {
-    const actualUrl = new URL(link.href);
+      link = await screen.findByRole('link');
+    });
 
-    expect(actualUrl.origin + actualUrl.pathname).toBe(authenticationUrl);
+    const authenticationUrl = 'https://example.com/test-authentication';
+    let link: HTMLAnchorElement;
+
+    it('links to the authentication URL', async () => {
+      const actualUrl = new URL(link.href);
+
+      expect(actualUrl.origin + actualUrl.pathname).toBe(authenticationUrl);
+    });
+
+    it('returns to dashboard when login is successful', async () => {
+      const baseHref = TestBed.inject(APP_BASE_HREF);
+      const actualUrl = new URL(link.href);
+
+      expect(actualUrl.searchParams.get('redirect_uri')).toBe(
+        `${baseHref}dashboard`
+      );
+    });
   });
 
-  it('returns to dashboard when login is successful', async () => {
-    const actualUrl = new URL(link.href);
+  describe('When the Auth API is unavailable', () => {
+    beforeEach(async () => {
+      await render(
+        `
+          <ng-container ettAuthenticationLink #link="ettAuthenticationLink">
+            <a *rxLet="link.loginUrl$ as loginUrl; rxError: loginError" [href]="loginUrl">
+              Login test
+            </a>
+          </ng-container>
 
-    expect(actualUrl.searchParams.get('redirect_uri')).toBe(
-      'http://localhost/dashboard'
-    );
+          <ng-template #loginError let-error="$error">
+            <p data-testid="error">{{ error }}</p>
+          </ng-template>
+        `,
+        {
+          imports: [EttAuthenticationScam, RouterTestingModule, LetModule],
+          providers: [
+            MockProvider(AuthOidcHttp, {
+              login: () => throwError(new Error(expectedErrorMessage)),
+            }),
+          ],
+        }
+      );
+    });
+
+    const expectedErrorMessage = 'Test login fails';
+
+    it('emits an error', async () => {
+      const error = await screen.findByTestId('error');
+
+      expect(error.textContent).toContain(expectedErrorMessage);
+    });
   });
 });
