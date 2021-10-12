@@ -29,3 +29,5 @@ export { WattButtonModule } from './lib/components/button/watt-button.module';
 
 export { WattShellComponent } from './lib/components/shell/shell.component';
 export { WattShellModule } from './lib/components/shell/shell.module';
+
+export * from './lib/foundations/breakpoints';
