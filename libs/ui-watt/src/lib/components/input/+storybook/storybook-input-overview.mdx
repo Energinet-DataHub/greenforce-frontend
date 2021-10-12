@@ -6,9 +6,30 @@ import {
   Stories,
   PRIMARY_STORY,
 } from '@storybook/addon-docs';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 
 <Title />
 <Subtitle />
 <Description />
 <Primary />
+
+## How to use
+Import the `WattFormFieldModule` and `WattInputModule` module
+```typescript
+import { WattFormFieldModule } from '@energinet-datahub/watt';
+import { WattInputModule } from '@energinet-datahub/watt';
+
+@NgModule({
+  imports: [
+    WattFormFieldModule,
+    WattInputModule
+  ]
+}) class YourModule {}
+```
+***NOTE:** Remember also to import `FormsModule` and `ReactiveFormsModule` from Angular.
+
 <Stories />
+
+export const Component = () => {
+  return <SyntaxHighlighter />;
+};
