@@ -14,5 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './lib/configure-angular-testing-library';
+// Angular Testing Library
+export * from './lib/set-up-angular-testing-library';
+
+// Angular testbed
 export * from './lib/set-up-testbed';

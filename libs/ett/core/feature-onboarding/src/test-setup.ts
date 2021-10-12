@@ -16,7 +16,8 @@
  */
 import 'jest-preset-angular/setup-jest';
 
-import { configureAngularTestingLibrary, setUpTestbed } from '@energinet-datahub/ett/shared/test-util-angular';
+import { setUpAngularTestingLibrary, setUpTestbed } from '@energinet-datahub/ett/shared/test-util-angular';
 
 setUpTestbed();
-configureAngularTestingLibrary();
+setUpAngularTestingLibrary();
+
