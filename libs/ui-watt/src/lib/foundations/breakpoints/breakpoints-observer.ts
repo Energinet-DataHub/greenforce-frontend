@@ -16,7 +16,7 @@
  */
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { Injectable } from '@angular/core';
-import { WattBreakpoints } from '@energinet-datahub/watt';
+import { WattBreakpoint } from './breakpoints';
 import { Observable } from 'rxjs';
 
 export interface WattBreakpointState {
@@ -27,7 +27,7 @@ export interface WattBreakpointState {
    * with its current matched state.
    */
   breakpoints: {
-    [key in WattBreakpoints]?: boolean;
+    [key in WattBreakpoint]?: boolean;
   };
 }
 
@@ -38,12 +38,12 @@ export class WattBreakpointsObserver {
   ) {}
 
   observe(
-    breakpoints: WattBreakpoints | WattBreakpoints[]
+    breakpoints: WattBreakpoint | WattBreakpoint[]
   ): Observable<WattBreakpointState> {
     return this.breakpointObserver.observe(breakpoints);
   }
 
-  isMatched(breakpoint: WattBreakpoints) {
+  isMatched(breakpoint: WattBreakpoint) {
     this.breakpointObserver.isMatched(breakpoint);
   }
 }

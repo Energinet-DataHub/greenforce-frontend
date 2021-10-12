@@ -8,7 +8,7 @@ import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 
 ## Predefined breakpoints
 
-The built-in `WattBreakpoints` enum offers the following predefined breakpoints for convenience,
+The built-in `WattBreakpoint` enum offers the following predefined breakpoints for convenience,
 [originally drawn from the Material Design
 specification](https://material.io/archive/guidelines/layout/responsive-ui.html).
 
@@ -20,26 +20,27 @@ specification](https://material.io/archive/guidelines/layout/responsive-ui.html)
 | `Large`            | `(min-width: 1280px) and (max-width: 1919.98px)`                                                                                                       |
 | `XLarge`           | `(min-width: 1920px)`                                                                                                                                  |
 
-### Usage: 
+## Usage: 
 - [From TypeScript](#from-typescript)
 - [From SCSS](#from-scss)
 
 
 
-## From TypeScript
+### From TypeScript
 
 You can use these predefined breakpoints with `WattBreakpointObserver`.
 
 ```typescript
 import {
-  WattBreakpoints,
+  WattBreakpoint,
   WattBreakpointsObserver,
+  WattBreakpointState
 } from '@energinet-datahub/watt';
 ...
 
 wattBreakpointObserver.observe([
-  WattBreakpoints.XSmall,
-  WattBreakpoints.Small
+  WattBreakpoint.XSmall,
+  WattBreakpoint.Small
 ]).subscribe((result: WattBreakpointState) => {
   if (result.matches) {
     // Do something
@@ -47,27 +48,12 @@ wattBreakpointObserver.observe([
 });
 ```
 
-### WattBreakpointState
-```typescript
-interface WattBreakpointState {
-  /** Whether the breakpoint is currently matching. */
-  matches: boolean;
-  /**
-   * A key boolean pair for each query provided to the observe method,
-   * with its current matched state.
-   */
-  breakpoints: {
-    [key in WattBreakpoints]?: boolean; // Predefined breakpoint: boolean
-  };
-}
-```
-
-## From SCSS
+### From SCSS
 You can use these predefined breakpoints with the `@include media` mixin.
 Watt uses [@include-media](https://eduardoboucas.github.io/include-media/) to make it simple and elegant to work with media queries. 
 
 
-### With operators (without max-width)
+#### With operators (without max-width)
 ```scss
 @use '@energinet-datahub/watt';
 
@@ -77,14 +63,14 @@ Watt uses [@include-media](https://eduardoboucas.github.io/include-media/) to ma
 }
 
 /* Generates: */
-@media (min-width: 960px) {}
+@media (min-width: 960.02px) {}
 ```
 
-### Exact matches (with max-width)
+#### Exact matches (with max-width)
 
 ```scss
 // NOTE: breakpoint name is case-sensitive!!!
-@include watt.media("Small") {
+@include watt.media("Medium") {
     // Your styling goes here
 }
 
