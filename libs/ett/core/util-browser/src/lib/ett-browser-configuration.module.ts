@@ -1,13 +1,8 @@
-import { APP_BASE_HREF, DOCUMENT } from '@angular/common';
 import { NgModule } from '@angular/core';
 
-function baseUriFactory(document: Document): string {
-  return document.baseURI;
-}
+import { detectBaseHrefProvider } from './detect-base-href.provider';
 
 @NgModule({
-  providers: [
-    { deps: [DOCUMENT], provide: APP_BASE_HREF, useFactory: baseUriFactory },
-  ],
+  providers: [detectBaseHrefProvider],
 })
 export class EttBrowserConfigurationModule {}

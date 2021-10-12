@@ -15,10 +15,8 @@
  * limitations under the License.
  */
 import { ComponentFixtureAutoDetect, getTestBed } from '@angular/core/testing';
-import {
-  BrowserDynamicTestingModule,
-  platformBrowserDynamicTesting,
-} from '@angular/platform-browser-dynamic/testing';
+import { BrowserDynamicTestingModule, platformBrowserDynamicTesting } from '@angular/platform-browser-dynamic/testing';
+import { detectBaseHrefProvider } from '@energinet-datahub/ett/core/util-browser';
 
 export interface TestbedSetupOptions {
   readonly autoDetectChanges?: boolean;
@@ -44,6 +42,7 @@ export function setUpTestbed({
   testbed.configureCompiler({
     providers: [
       { provide: ComponentFixtureAutoDetect, useValue: autoDetectChanges },
+      detectBaseHrefProvider,
     ],
   });
 }
