@@ -21,6 +21,7 @@ import {
   ViewChild,
   Input,
   HostBinding,
+  ViewEncapsulation,
 } from '@angular/core';
 import {
   MatFormField,
@@ -31,7 +32,9 @@ import { WattInputDirective } from '../input/input.directive';
 
 @Component({
   selector: 'watt-form-field',
+  styleUrls: ['form-field.component.scss'],
   templateUrl: './form-field.component.html',
+  encapsulation: ViewEncapsulation.None
 })
 export class FormFieldComponent implements AfterViewInit {
   @Input() size: 'normal' | 'large' = 'normal';
