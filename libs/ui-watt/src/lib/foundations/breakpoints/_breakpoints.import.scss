@@ -44,7 +44,7 @@ $media-expressions: (
 
 // Defines a number to be added or subtracted from each unit when declaring breakpoints with exclusive intervals
 $unit-intervals: (
-  'px': 0.02 // To match material specifications of .98px,
+  'px': 0.02 // To match material specifications of .98px,,
 ) !default;
 
 /* prettier-ignore */
