@@ -27,3 +27,5 @@ export { WattShellModule } from './lib/components/shell/shell.module';
 
 export { WattFormFieldModule } from './lib/components/form-field/form-field.module';
 export { WattInputModule } from './lib/components/input/input.module';
+
+export * from './lib/foundations/breakpoints';

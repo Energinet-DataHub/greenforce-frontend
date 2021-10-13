@@ -14,21 +14,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@use './../../foundations/variables';
-@use './../../foundations/box-sizing';
-@use './../../foundations/typography';
+import { DOCUMENT } from '@angular/common';
+import { Inject, Injectable } from '@angular/core';
 
-@forward './../../foundations/color/colors.import';
-@forward './../../foundations/breakpoints/breakpoints.import';
+@Injectable({ providedIn: 'root' })
+export class WattCssCustomPropertiesService {
+  constructor(@Inject(DOCUMENT) private document: Document) {}
 
-// Include Material theme
-@import '~@angular/material/prebuilt-themes/indigo-pink.css';
+  public getPropertyValue(name: string): string {
+    return this.getComputedStyle().getPropertyValue(name);
+  }
 
-html,
-body {
-  height: 100%;
-}
-body {
-  margin: 0;
-  font-family: 'Open Sans', sans-serif;
+  private getComputedStyle() {
+    return getComputedStyle(this.document.documentElement);
+  }
 }
