@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { Meta, moduleMetadata, Story } from '@storybook/angular';
 
 import { WattAutocompleteComponent } from './autocomplete.component';
@@ -24,7 +25,7 @@ export default {
   component: WattAutocompleteComponent,
   decorators: [
     moduleMetadata({
-      imports: [WattAutocompleteModule],
+      imports: [NoopAnimationsModule, WattAutocompleteModule],
     }),
   ],
 } as Meta<WattAutocompleteComponent>;

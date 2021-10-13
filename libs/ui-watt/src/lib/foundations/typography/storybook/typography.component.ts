@@ -113,7 +113,7 @@ const typeScale: Typography[] = [
   {
     name: 'Button',
     html: typographyHtmlSnippets.button.storybook,
-    size: '16px',
+    size: '14px',
     weight: 'Semibold (600)',
     letterCase: 'All caps',
     letterSpacing: '1.25px',
