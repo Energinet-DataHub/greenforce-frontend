@@ -25,10 +25,10 @@ const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: 'onboarding',
+    redirectTo: 'login',
   },
   {
-    path: 'onboarding',
+    path: 'login',
     loadChildren: () =>
       import('@energinet-datahub/ett/auth/feature-shell').then(
         (esModule) => esModule.EttAuthFeatureShellModule
