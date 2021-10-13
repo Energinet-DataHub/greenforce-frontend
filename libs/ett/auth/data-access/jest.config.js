@@ -1,5 +1,5 @@
 module.exports = {
-  displayName: 'ett-core-data-access-auth',
+  displayName: 'ett-auth-data-access',
   preset: '../../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   globals: {
@@ -8,7 +8,7 @@ module.exports = {
       stringifyContentPathRegex: '\\.(html|svg)$',
     },
   },
-  coverageDirectory: '../../../../coverage/libs/ett/core/data-access-auth',
+  coverageDirectory: '../../../../coverage/libs/ett/auth/data-access',
   transform: {
     '^.+\\.(ts|js|html)$': 'jest-preset-angular',
   },

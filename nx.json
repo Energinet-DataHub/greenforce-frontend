@@ -47,14 +47,14 @@
       "tags": ["product:ett", "type:e2e"],
       "implicitDependencies": ["ett-app"]
     },
+    "ett-auth-data-access": {
+      "tags": ["product:ett", "scope:auth", "type:data-access"]
+    },
     "ett-auth-feature-login": {
       "tags": ["product:ett", "scope:auth", "type:feature"]
     },
     "ett-auth-feature-shell": {
-      "tags": ["product:ett", "scope:core", "type:feature"]
-    },
-    "ett-core-data-access-auth": {
-      "tags": ["product:ett", "scope:core", "type:data-access"]
+      "tags": ["product:ett", "scope:auth", "type:feature"]
     },
     "ett-core-environments": {
       "tags": ["product:ett", "scope:core", "type:environments"]

@@ -337,6 +337,31 @@
         }
       }
     },
+    "ett-auth-data-access": {
+      "projectType": "library",
+      "root": "libs/ett/auth/data-access",
+      "sourceRoot": "libs/ett/auth/data-access/src",
+      "prefix": "energinet-datahub",
+      "architect": {
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/ett/auth/data-access"],
+          "options": {
+            "jestConfig": "libs/ett/auth/data-access/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/ett/auth/data-access/src/**/*.ts",
+              "libs/ett/auth/data-access/src/**/*.html"
+            ]
+          }
+        }
+      }
+    },
     "ett-auth-feature-login": {
       "projectType": "library",
       "root": "libs/ett/auth/feature-login",
@@ -382,31 +407,6 @@
             "lintFilePatterns": [
               "libs/ett/auth/feature-shell/src/**/*.ts",
               "libs/ett/auth/feature-shell/src/**/*.html"
-            ]
-          }
-        }
-      }
-    },
-    "ett-core-data-access-auth": {
-      "projectType": "library",
-      "root": "libs/ett/core/data-access-auth",
-      "sourceRoot": "libs/ett/core/data-access-auth/src",
-      "prefix": "energinet-datahub",
-      "architect": {
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/ett/core/data-access-auth"],
-          "options": {
-            "jestConfig": "libs/ett/core/data-access-auth/jest.config.js",
-            "passWithNoTests": true
-          }
-        },
-        "lint": {
-          "builder": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": [
-              "libs/ett/core/data-access-auth/src/**/*.ts",
-              "libs/ett/core/data-access-auth/src/**/*.html"
             ]
           }
         }
