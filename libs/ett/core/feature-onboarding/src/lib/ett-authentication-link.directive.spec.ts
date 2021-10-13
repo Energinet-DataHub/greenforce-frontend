@@ -73,11 +73,11 @@ describe(EttAuthenticationDirective.name, () => {
             <a *rxLet="link.loginUrl$ as loginUrl; rxError: loginError" [href]="loginUrl">
               Login test
             </a>
-          </ng-container>
 
-          <ng-template #loginError let-error="$error">
-            <p data-testid="error">{{ error }}</p>
-          </ng-template>
+            <ng-template #loginError let-error="$error">
+              <p data-testid="error">{{ error }}</p>
+            </ng-template>
+          </ng-container>
         `,
         {
           imports: [EttAuthenticationScam, RouterTestingModule, LetModule],
