@@ -18,52 +18,52 @@
 
 body h1,
 .watt-headline-1 {
-  @include typography.watt-headline-1();
+  @include typography.watt-headline-1;
 }
 
 body h2,
 .watt-headline-2 {
-  @include typography.watt-headline-2();
+  @include typography.watt-headline-2;
 }
 
 body h3,
 .watt-headline-3 {
-  @include typography.watt-headline-3();
+  @include typography.watt-headline-3;
 }
 
 body h4,
 .watt-headline-4 {
-  @include typography.watt-headline-4();
+  @include typography.watt-headline-4;
 }
 
 body h5,
 .watt-headline-5 {
-  @include typography.watt-headline-5();
+  @include typography.watt-headline-5;
 }
 
 .watt-text-l {
-  @include typography.watt-text-l();
+  @include typography.watt-text-l;
 }
 
 body,
 .watt-text-m {
-  @include typography.watt-text-m();
+  @include typography.watt-text-m;
 }
 
 small,
 .watt-text-s {
-  @include typography.watt-text-s();
+  @include typography.watt-text-s;
 }
 
 .watt-text-xs {
-  @include typography.watt-text-xs();
+  @include typography.watt-text-xs;
 }
 
 .watt-button {
-  @include typography.watt-button();
+  @include typography.watt-button;
 }
 
 label,
 .watt-label {
-  @include typography.watt-label();
+  @include typography.watt-label;
 }
