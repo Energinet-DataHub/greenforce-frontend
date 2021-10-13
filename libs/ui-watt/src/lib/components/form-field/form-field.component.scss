@@ -20,7 +20,7 @@ watt-form-field {
   --padding-vertical: 10px;
   --padding-horizontal: 8px;
   --input-font-size: 14px;
-  --input-line-height: 20px;
+  --input-line-height: 22px;
   --input-border-color: var(--watt-color-neutral-grey-400);
   --input-color: var(--watt-color-primary-dark);
   --input-background: var(--watt-color-neutral-white);
@@ -28,9 +28,9 @@ watt-form-field {
 
   &.watt-form-field-large {
     --padding-vertical: 16px;
-    --padding-horizontal: 24px;
+    --padding-horizontal: 16px;
     --input-font-size: 16px;
-    --input-line-height: 24px;
+    --input-line-height: 22px;
   }
 
   .mat-form-field {
@@ -60,7 +60,7 @@ watt-form-field {
 
   .mat-form-field-flex {
     margin-top: var(--label-margin-bottom);
-    line-height: var(--line-height);
+    line-height: var(--input-line-height);
     border-radius: 4px;
     background: var(--input-background);
     border-width: 1px;
@@ -80,7 +80,7 @@ watt-form-field {
 
   [wattPrefix],
   [wattSuffix] {
-    height: var(--line-height);
+    height: var(--input-line-height);
   }
 
   [wattPrefix] {
