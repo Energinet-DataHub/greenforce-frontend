@@ -131,11 +131,12 @@ const typeScale: Typography[] = [
 ];
 
 @Component({
-  selector: 'watt-typography',
-  templateUrl: './typography.component.html',
-  styleUrls: ['./typography.component.scss'],
+  // eslint-disable-next-line @angular-eslint/component-selector
+  selector: 'storybook-typography-overview',
+  templateUrl: './storybook-typography-overview.component.html',
+  styleUrls: ['./storybook-typography-overview.component.scss'],
 })
-export class TypographyComponent {
+export class StorybookTypographyOverviewComponent {
   /**
    * @ignore
    */

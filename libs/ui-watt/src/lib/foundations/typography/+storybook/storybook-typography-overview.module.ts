@@ -14,14 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
-import { ColorComponent } from './color.component';
+import { MatTableModule } from '@angular/material/table';
+
+import { StorybookTypographyOverviewComponent } from './storybook-typography-overview.component';
 
 @NgModule({
-  imports: [CommonModule, MatCardModule],
-  declarations: [ColorComponent],
-  exports: [ColorComponent],
+  declarations: [StorybookTypographyOverviewComponent],
+  exports: [StorybookTypographyOverviewComponent],
+  imports: [MatCardModule, MatTableModule],
 })
-export class ColorModule {}
+export class StorybookTypographyOverviewModule {}
