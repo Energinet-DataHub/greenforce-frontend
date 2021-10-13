@@ -43,7 +43,7 @@ const selector = 'ett-login-providers';
     `,
   ],
   template: `
-    <mat-nav-list>
+    <mat-nav-list role="navigation" aria-label="Login providers">
       <mat-list-item>
         <ng-container ettAuthenticationLink #link="ettAuthenticationLink">
           <a
