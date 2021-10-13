@@ -1,9 +1,12 @@
-import { ChangeDetectionStrategy, Component, NgModule, ViewEncapsulation } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  NgModule,
+  ViewEncapsulation,
+} from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
-import { MatListModule } from '@angular/material/list';
-import { LetModule } from '@rx-angular/template';
 
-import { EttAuthenticationScam } from './ett-authentication-link.directive';
+import { EttLoginProvidersScam } from './ett-login-providers.component';
 
 /**
  * @license
@@ -45,16 +48,7 @@ const selector = 'ett-onboarding-shell';
       <mat-card-content>
         <p>Log in using:</p>
 
-        <mat-nav-list>
-          <ng-container ettAuthenticationLink #link="ettAuthenticationLink">
-            <a
-              *rxLet="link.loginUrl$ as loginUrl"
-              mat-list-item
-              [href]="loginUrl"
-              >NemID or MitID</a
-            >
-          </ng-container>
-        </mat-nav-list>
+        <ett-login-providers></ett-login-providers>
       </mat-card-content>
     </mat-card>
   `,
@@ -63,6 +57,6 @@ export class EttOnboardingShellComponent {}
 
 @NgModule({
   declarations: [EttOnboardingShellComponent],
-  imports: [MatCardModule, MatListModule, LetModule, EttAuthenticationScam],
+  imports: [MatCardModule, EttLoginProvidersScam],
 })
 export class EttOnboardingShellScam {}
