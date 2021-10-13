@@ -30,9 +30,9 @@ export default {
   ],
   parameters: {
     docs: {
-      page: StorybookInputOverviewDocs
+      page: StorybookInputOverviewDocs,
     },
-  }
+  },
 } as Meta<StorybookInputWrapperComponent>;
 
 const Template: Story<StorybookInputWrapperComponent> = (args) => ({
@@ -46,54 +46,54 @@ export const overview = overviewTemplate.bind({});
 overview.argTypes = {
   disabled: {
     table: {
-      disable: true
-    }
+      disable: true,
+    },
   },
   focused: {
     table: {
-      disable: true
-    }
+      disable: true,
+    },
   },
   hasError: {
     table: {
-      disable: true
-    }
+      disable: true,
+    },
   },
   hasHint: {
     table: {
-      disable: true
-    }
+      disable: true,
+    },
   },
   hasPrefix: {
     table: {
-      disable: true
-    }
+      disable: true,
+    },
   },
   hasSuffix: {
     table: {
-      disable: true
-    }
+      disable: true,
+    },
   },
   label: {
     table: {
-      disable: true
-    }
+      disable: true,
+    },
   },
   placeholder: {
     table: {
-      disable: true
-    }
+      disable: true,
+    },
   },
   required: {
     table: {
-      disable: true
-    }
+      disable: true,
+    },
   },
   size: {
     table: {
-      disable: true
-    }
-  }
+      disable: true,
+    },
+  },
 };
 overview.parameters = {
   controls: { hideNoControlsWarning: true },

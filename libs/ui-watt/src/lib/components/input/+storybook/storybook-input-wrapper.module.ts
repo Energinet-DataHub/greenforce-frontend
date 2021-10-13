@@ -31,7 +31,10 @@ import { StorybookInputOverviewComponent } from './storybook-input-overview.comp
     FormsModule,
     ReactiveFormsModule,
   ],
-  declarations: [StorybookInputWrapperComponent, StorybookInputOverviewComponent],
+  declarations: [
+    StorybookInputWrapperComponent,
+    StorybookInputOverviewComponent,
+  ],
   exports: [
     WattFormFieldModule,
     WattInputModule,

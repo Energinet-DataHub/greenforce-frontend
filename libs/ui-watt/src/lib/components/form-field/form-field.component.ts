@@ -34,7 +34,7 @@ import { WattInputDirective } from '../input/input.directive';
   selector: 'watt-form-field',
   styleUrls: ['form-field.component.scss'],
   templateUrl: './form-field.component.html',
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
 })
 export class FormFieldComponent implements AfterViewInit {
   @Input() size: 'normal' | 'large' = 'normal';

@@ -15,6 +15,6 @@
  * limitations under the License.
  */
 declare module '*.mdx' {
-    let MDXComponent: (props: unknown) => JSX.Element;
-    export default MDXComponent;
+  let MDXComponent: (props: unknown) => JSX.Element;
+  export default MDXComponent;
 }

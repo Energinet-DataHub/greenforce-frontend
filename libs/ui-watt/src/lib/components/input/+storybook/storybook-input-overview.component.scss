@@ -25,7 +25,8 @@
   max-width: 100%;
 }
 
-.headers, .examples {
+.headers,
+.examples {
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
@@ -42,7 +43,7 @@
 
 .headers {
   display: none;
-  @media (min-width: 1030px) { 
+  @media (min-width: 1030px) {
     display: flex;
   }
 }
