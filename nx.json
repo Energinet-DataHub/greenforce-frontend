@@ -47,6 +47,9 @@
       "tags": ["product:ett", "type:e2e"],
       "implicitDependencies": ["ett-app"]
     },
+    "ett-core-data-access-auth": {
+      "tags": ["product:ett", "scope:core", "type:data-access"]
+    },
     "ett-core-environments": {
       "tags": ["product:ett", "scope:core", "type:environments"]
     },
