@@ -17,23 +17,50 @@
 :host {
   display: flex;
   justify-content: space-between;
-  max-width: 910px;
   flex-wrap: wrap;
+  max-width: 1030px;
 }
 
-h2:first-of-type {
+.showcases {
+  max-width: 100%;
+}
+
+.headers, .examples {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+
+  * {
+    width: 100%;
+
+    @media (min-width: 1030px) {
+      width: 50%;
+      padding-right: 56px;
+    }
+  }
+}
+
+.headers {
+  display: none;
+  @media (min-width: 1030px) { 
+    display: flex;
+  }
+}
+
+h1 {
+  width: 100%;
+}
+
+h2,
+h3:first-of-type {
   margin-top: 0;
 }
 
-h2 {
+h3 {
   margin-bottom: 16px;
 }
 
 ul {
   list-style: none;
   padding: 0;
-}
-
-p {
-  margin-bottom: 20px;
 }

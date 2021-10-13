@@ -24,14 +24,13 @@ watt-form-field {
   --input-border-color: var(--watt-color-neutral-grey-400);
   --input-color: var(--watt-color-primary-dark);
   --input-background: var(--watt-color-neutral-white);
-  --label-margin-bottom: 2px;
+  --label-margin-bottom: 4px;
 
   &.watt-form-field-large {
     --padding-vertical: 16px;
     --padding-horizontal: 24px;
     --input-font-size: 16px;
     --input-line-height: 24px;
-    --label-margin-bottom: 16px;
   }
 
   .mat-form-field {
