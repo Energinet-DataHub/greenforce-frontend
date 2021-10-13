@@ -205,7 +205,6 @@ bodyTextM.parameters = {
   },
 };
 
-
 const textSCodeExample = `
 Recommended
 ${typographyHtmlSnippets.textS.tag}
