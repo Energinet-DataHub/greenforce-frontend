@@ -1,0 +1,112 @@
+<!--
+@license
+Copyright 2021 Energinet DataHub A/S
+
+Licensed under the Apache License, Version 2.0 (the "License2");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<mat-card>
+  <h1>Button</h1>
+
+  <h2>Primary</h2>
+
+  <p>
+    Contained buttons are <strong>high-emphasis</strong>, distinguished by their
+    use of fill. They contain actions that are primary to your app.
+  </p>
+
+  <div class="content-grid">
+    <watt-button type="primary">Enabled</watt-button>
+    <watt-button type="primary">Hovered</watt-button>
+    <span class="force-focus-state">
+      <watt-button type="primary">Focused</watt-button>
+    </span>
+    <watt-button type="primary" [disabled]="true">Disabled</watt-button>
+    <watt-button type="primary" icon="sync"></watt-button>
+  </div>
+
+  <div class="content-grid">
+    <watt-button type="primary" icon="add">Enabled</watt-button>
+    <watt-button type="primary" icon="add">Hovered</watt-button>
+    <span class="force-focus-state">
+      <watt-button type="primary" icon="add">Focused</watt-button>
+    </span>
+    <watt-button type="primary" icon="add" [disabled]="true"
+      >Disabled</watt-button
+    >
+  </div>
+
+  <h2>Secondary</h2>
+
+  <p>
+    Outlined buttons are <strong>medium-emphasis</strong> buttons. They contain
+    actions that are important, but aren’t the primary action in an app.
+  </p>
+
+  <div class="content-grid">
+    <watt-button type="secondary">Enabled</watt-button>
+    <watt-button type="secondary">Hovered</watt-button>
+    <span class="force-focus-state">
+      <watt-button type="secondary">Focused</watt-button>
+    </span>
+    <watt-button type="secondary" [disabled]="true">Disabled</watt-button>
+    <watt-button type="secondary" icon="sync"></watt-button>
+  </div>
+
+  <div class="content-grid">
+    <watt-button type="secondary" icon="add">Enabled</watt-button>
+    <watt-button type="secondary" icon="add">Hovered</watt-button>
+    <span class="force-focus-state">
+      <watt-button type="secondary" icon="add">Focused</watt-button>
+    </span>
+    <watt-button type="secondary" icon="add" [disabled]="true"
+      >Disabled</watt-button
+    >
+  </div>
+
+  <h2>Text</h2>
+
+  <p>
+    Text buttons are typically used for
+    <strong>less-pronounced actions</strong>, including those located in dialogs
+    and cards. In cards, text buttons help maintain an emphasis on card content.
+  </p>
+
+  <div class="content-grid">
+    <watt-button>Enabled</watt-button>
+    <watt-button>Hovered</watt-button>
+    <span class="force-focus-state">
+      <watt-button>Focused</watt-button>
+    </span>
+    <watt-button [disabled]="true">Disabled</watt-button>
+    <watt-button icon="sync"></watt-button>
+  </div>
+
+  <div class="content-grid">
+    <watt-button icon="add">Enabled</watt-button>
+    <watt-button icon="add">Hovered</watt-button>
+    <span class="force-focus-state">
+      <watt-button icon="add">Focused</watt-button>
+    </span>
+    <watt-button icon="add" [disabled]="true">Disabled</watt-button>
+  </div>
+
+  <h2>Size</h2>
+
+  <p>Default</p>
+
+  <watt-button type="primary">Enabled</watt-button>
+
+  <p>Large</p>
+
+  <watt-button type="primary" size="large">Enabled</watt-button>
+</mat-card>
