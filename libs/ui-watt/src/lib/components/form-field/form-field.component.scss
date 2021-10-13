@@ -1,0 +1,117 @@
+/**
+ * @license
+ * Copyright 2021 Energinet DataHub A/S
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License2");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+@use '@energinet-datahub/watt' as watt;
+
+watt-form-field {
+  display: block;
+  width: 100%;
+  --input-border-color: var(--watt-color-neutral-grey-400);
+  --input-color: var(--watt-color-primary-dark);
+  --input-background: var(--watt-color-neutral-white);
+  --label-margin-bottom: 4px;
+
+  &.watt-form-field-large {
+    .mat-input-element {
+      @include watt.typography-watt-text-m;
+    }
+    .mat-form-field-flex {
+      height: 56px;
+    }
+  }
+
+  .mat-input-element {
+    @include watt.typography-watt-text-s;
+    color: var(--input-color);
+    caret-color: var(--watt-color-neutral-grey-900);
+  }
+
+  .mat-form-field-flex {
+    align-items: center;
+    margin-top: var(--label-margin-bottom);
+    border-radius: 4px;
+    background: var(--input-background);
+    border-width: 1px;
+    border-style: solid;
+    border-color: var(--input-border-color);
+    height: 44px;
+    padding: 0 12px;
+  }
+
+  .mat-form-field {
+    display: block;
+  }
+
+  .mat-form-field-appearance-legacy {
+    .mat-form-field-infix {
+      position: static;
+      border: none;
+      padding: 0;
+    }
+
+    .mat-form-field-subscript-wrapper {
+      position: relative;
+      padding-left: 8px;
+      margin-top: 4px;
+    }
+  }
+
+  .mat-form-field-hint-wrapper {
+    flex-wrap: wrap;
+  }
+
+  .mat-form-field-underline,
+  .tmp-mat-field {
+    display: none;
+  }
+
+  [wattPrefix] {
+    margin-left: 4px;
+    margin-right: 8px;
+  }
+
+  [wattSuffix] {
+    margin-left: 8px;
+    margin-right: 4px;
+  }
+
+  mat-form-field.mat-form-field-invalid {
+    --input-border-color: var(--watt-color-state-danger);
+
+    .mat-form-field-label
+      .mat-placeholder-required.mat-form-field-required-marker {
+      color: var(--watt-color-state-danger);
+    }
+
+    .mat-input-element {
+      caret-color: var(--watt-color-neutral-grey-900);
+    }
+  }
+
+  mat-form-field.mat-form-field-disabled {
+    --input-background: var(--watt-color-neutral-grey-100);
+  }
+
+  .mat-placeholder-required.mat-form-field-required-marker {
+    color: var(--watt-color-primary-dark);
+  }
+}
+
+.watt-input-focused mat-form-field,
+watt-form-field
+  mat-form-field.mat-focused:not(mat-form-field.mat-form-field-invalid) {
+  --input-border-color: var(--watt-color-primary);
+}

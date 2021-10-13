@@ -1,0 +1,55 @@
+<!--
+@license
+Copyright 2021 Energinet DataHub A/S
+
+Licensed under the Apache License, Version 2.0 (the "License2");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+import {
+  Title,
+  Subtitle,
+  Description,
+  Primary,
+  Stories,
+  PRIMARY_STORY,
+} from '@storybook/addon-docs';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+
+<Title />
+<Subtitle />
+<Description />
+<Primary />
+
+## How to use
+
+Import the `WattFormFieldModule` and `WattInputModule` module
+
+```typescript
+import { WattFormFieldModule } from '@energinet-datahub/watt';
+import { WattInputModule } from '@energinet-datahub/watt';
+
+@NgModule({
+  imports: [WattFormFieldModule, WattInputModule],
+})
+class YourModule {}
+```
+
+**\*NOTE:** Remember also to import `FormsModule` and `ReactiveFormsModule` from Angular.
+
+<Stories />
+
+export const Component = () => {
+  return <SyntaxHighlighter />;
+};
+
+;
