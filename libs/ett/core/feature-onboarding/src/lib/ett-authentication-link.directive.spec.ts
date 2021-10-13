@@ -1,13 +1,13 @@
 import { APP_BASE_HREF } from '@angular/common';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
+import { AuthOidcHttp } from '@energinet-datahub/ett/core/data-access-auth';
 import { setUpTestbed } from '@energinet-datahub/ett/shared/test-util-staging';
 import { LetModule } from '@rx-angular/template';
 import { render, screen } from '@testing-library/angular';
 import { MockProvider } from 'ng-mocks';
 import { of, throwError } from 'rxjs';
 
-import { AuthOidcHttp } from './auth-oidc-http.service';
 import {
   EttAuthenticationDirective,
   EttAuthenticationScam,
