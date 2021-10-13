@@ -14,34 +14,45 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+@use '@energinet-datahub/watt' as watt;
+
 watt-form-field {
   display: block;
   width: 100%;
-  --padding-vertical: 10px;
-  --padding-horizontal: 8px;
-  --input-font-size: 14px;
-  --input-line-height: 22px;
   --input-border-color: var(--watt-color-neutral-grey-400);
   --input-color: var(--watt-color-primary-dark);
   --input-background: var(--watt-color-neutral-white);
   --label-margin-bottom: 4px;
 
   &.watt-form-field-large {
-    --padding-vertical: 16px;
-    --padding-horizontal: 16px;
-    --input-font-size: 16px;
-    --input-line-height: 22px;
+    .mat-input-element {
+      @include watt.typography-watt-text-m;
+    }
+    .mat-form-field-flex {
+      height: 56px;
+    }
+  }
+
+  .mat-input-element {
+    @include watt.typography-watt-text-s;
+    color: var(--input-color);
+    caret-color: var(--watt-color-neutral-grey-900);
+  }
+
+  .mat-form-field-flex {
+    align-items: center;
+    margin-top: var(--label-margin-bottom);
+    border-radius: 4px;
+    background: var(--input-background);
+    border-width: 1px;
+    border-style: solid;
+    border-color: var(--input-border-color);
+    height: 44px;
+    padding: 0 12px;
   }
 
   .mat-form-field {
     display: block;
-  }
-
-  .mat-input-element {
-    font-size: var(--input-font-size);
-    line-height: var(--input-line-height);
-    color: var(--input-color);
-    caret-color: var(--watt-color-neutral-grey-900);
   }
 
   .mat-form-field-appearance-legacy {
@@ -58,17 +69,6 @@ watt-form-field {
     }
   }
 
-  .mat-form-field-flex {
-    margin-top: var(--label-margin-bottom);
-    line-height: var(--input-line-height);
-    border-radius: 4px;
-    background: var(--input-background);
-    border-width: 1px;
-    border-style: solid;
-    border-color: var(--input-border-color);
-    padding: var(--padding-vertical) var(--padding-horizontal);
-  }
-
   .mat-form-field-hint-wrapper {
     flex-wrap: wrap;
   }
@@ -78,17 +78,14 @@ watt-form-field {
     display: none;
   }
 
-  [wattPrefix],
-  [wattSuffix] {
-    height: var(--input-line-height);
-  }
-
   [wattPrefix] {
-    margin-right: 20px;
+    margin-left: 4px;
+    margin-right: 8px;
   }
 
   [wattSuffix] {
-    margin-left: 20px;
+    margin-left: 8px;
+    margin-right: 4px;
   }
 
   mat-form-field.mat-form-field-invalid {
