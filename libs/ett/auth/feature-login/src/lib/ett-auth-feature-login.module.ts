@@ -1,4 +1,8 @@
 import { NgModule } from '@angular/core';
 
-@NgModule({})
+import { EttLoginProvidersScam } from './ett-login-providers.component';
+
+@NgModule({
+  exports: [EttLoginProvidersScam],
+})
 export class EttAuthFeatureLoginModule {}

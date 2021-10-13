@@ -6,7 +6,7 @@ import {
 } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 
-import { EttLoginProvidersScam } from './ett-login-providers.component';
+import { EttAuthFeatureLoginModule } from './../../../../auth/feature-login/src/lib/ett-auth-feature-login.module';
 
 /**
  * @license
@@ -57,6 +57,6 @@ export class EttOnboardingShellComponent {}
 
 @NgModule({
   declarations: [EttOnboardingShellComponent],
-  imports: [MatCardModule, EttLoginProvidersScam],
+  imports: [MatCardModule, EttAuthFeatureLoginModule],
 })
 export class EttOnboardingShellScam {}
