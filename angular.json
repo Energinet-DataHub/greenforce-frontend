@@ -462,17 +462,17 @@
         }
       }
     },
-    "ett-shared-test-util-angular": {
+    "ett-shared-test-util-staging": {
       "projectType": "library",
-      "root": "libs/ett/shared/test-util-angular",
-      "sourceRoot": "libs/ett/shared/test-util-angular/src",
+      "root": "libs/ett/shared/test-util-staging",
+      "sourceRoot": "libs/ett/shared/test-util-staging/src",
       "prefix": "ett-test",
       "architect": {
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/ett/shared/test-util-angular"],
+          "outputs": ["coverage/libs/ett/shared/test-util-staging"],
           "options": {
-            "jestConfig": "libs/ett/shared/test-util-angular/jest.config.js",
+            "jestConfig": "libs/ett/shared/test-util-staging/jest.config.js",
             "passWithNoTests": true
           }
         },
@@ -480,8 +480,8 @@
           "builder": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": [
-              "libs/ett/shared/test-util-angular/src/**/*.ts",
-              "libs/ett/shared/test-util-angular/src/**/*.html"
+              "libs/ett/shared/test-util-staging/src/**/*.ts",
+              "libs/ett/shared/test-util-staging/src/**/*.html"
             ]
           }
         }
