@@ -50,14 +50,14 @@
     "ett-auth-feature-login": {
       "tags": ["product:ett", "scope:auth", "type:feature"]
     },
+    "ett-auth-feature-shell": {
+      "tags": ["product:ett", "scope:core", "type:feature"]
+    },
     "ett-core-data-access-auth": {
       "tags": ["product:ett", "scope:core", "type:data-access"]
     },
     "ett-core-environments": {
       "tags": ["product:ett", "scope:core", "type:environments"]
-    },
-    "ett-core-feature-onboarding": {
-      "tags": ["product:ett", "scope:core", "type:feature"]
     },
     "ett-core-feature-shell": {
       "tags": ["product:ett", "scope:core", "type:feature"]

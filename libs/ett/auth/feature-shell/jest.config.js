@@ -1,5 +1,5 @@
 module.exports = {
-  displayName: 'ett-core-feature-onboarding',
+  displayName: 'ett-auth-feature-shell',
   preset: '../../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   globals: {
@@ -8,7 +8,7 @@ module.exports = {
       stringifyContentPathRegex: '\\.(html|svg)$',
     },
   },
-  coverageDirectory: '../../../../coverage/libs/ett/core/feature-onboarding',
+  coverageDirectory: '../../../../coverage/libs/ett/auth/feature-shell',
   transform: {
     '^.+\\.(ts|js|html)$': 'jest-preset-angular',
   },

@@ -1,13 +1,3 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  NgModule,
-  ViewEncapsulation,
-} from '@angular/core';
-import { MatCardModule } from '@angular/material/card';
-
-import { EttAuthFeatureLoginModule } from './../../../../auth/feature-login/src/lib/ett-auth-feature-login.module';
-
 /**
  * @license
  * Copyright 2021 Energinet DataHub A/S
@@ -24,7 +14,16 @@ import { EttAuthFeatureLoginModule } from './../../../../auth/feature-login/src/
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-const selector = 'ett-onboarding-shell';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  NgModule,
+  ViewEncapsulation,
+} from '@angular/core';
+import { MatCardModule } from '@angular/material/card';
+import { EttAuthFeatureLoginModule } from '@energinet-datahub/ett/auth/feature-login';
+
+const selector = 'ett-auth-shell';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -53,10 +52,10 @@ const selector = 'ett-onboarding-shell';
     </mat-card>
   `,
 })
-export class EttOnboardingShellComponent {}
+export class EttAuthShellComponent {}
 
 @NgModule({
-  declarations: [EttOnboardingShellComponent],
+  declarations: [EttAuthShellComponent],
   imports: [MatCardModule, EttAuthFeatureLoginModule],
 })
-export class EttOnboardingShellScam {}
+export class EttAuthShellScam {}
