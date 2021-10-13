@@ -51,8 +51,11 @@ const h1CodeExample = `
 Recommended
 ${typographyHtmlSnippets.h1.tag}
 
-Alternative
+Alternative (CSS class)
 ${typographyHtmlSnippets.h1.class}
+
+Alternative (SCSS mixin)
+${typographyHtmlSnippets.h1.mixin}
 `;
 
 export const h1 = () => ({
@@ -71,8 +74,11 @@ const h2CodeExample = `
 Recommended
 ${typographyHtmlSnippets.h2.tag}
 
-Alternative
+Alternative (CSS class)
 ${typographyHtmlSnippets.h2.class}
+
+Alternative (SCSS mixin)
+${typographyHtmlSnippets.h2.mixin}
 `;
 
 export const h2 = () => ({
@@ -91,8 +97,11 @@ const h3CodeExample = `
 Recommended
 ${typographyHtmlSnippets.h3.tag}
 
-Alternative
+Alternative (CSS class)
 ${typographyHtmlSnippets.h3.class}
+
+Alternative (SCSS mixin)
+${typographyHtmlSnippets.h3.mixin}
 `;
 
 export const h3 = () => ({
@@ -111,8 +120,11 @@ const h4CodeExample = `
 Recommended
 ${typographyHtmlSnippets.h4.tag}
 
-Alternative
+Alternative (CSS class)
 ${typographyHtmlSnippets.h4.class}
+
+Alternative (SCSS mixin)
+${typographyHtmlSnippets.h4.mixin}
 `;
 
 export const h4 = () => ({
@@ -131,8 +143,11 @@ const h5CodeExample = `
 Recommended
 ${typographyHtmlSnippets.h5.tag}
 
-Alternative
+Alternative (CSS class)
 ${typographyHtmlSnippets.h5.class}
+
+Alternative (SCSS mixin)
+${typographyHtmlSnippets.h5.mixin}
 `;
 
 export const h5 = () => ({
@@ -147,14 +162,22 @@ h5.parameters = {
   },
 };
 
+const textLCodeExample = `
+CSS class
+${typographyHtmlSnippets.textL.class}
+
+SCSS mixin
+${typographyHtmlSnippets.textL.mixin}
+`;
+
 export const textL = () => ({
-  template: typographyHtmlSnippets.textL,
+  template: typographyHtmlSnippets.textL.class,
 });
 textL.storyName = 'Lead (text-l)';
 textL.parameters = {
   docs: {
     source: {
-      code: typographyHtmlSnippets.textL,
+      code: textLCodeExample,
     },
   },
 };
@@ -163,8 +186,11 @@ const bodyTextMCodeExample = `
 Recommended
 ${typographyHtmlSnippets.bodyTextM.tag}
 
-Alternative
+Alternative (CSS class)
 ${typographyHtmlSnippets.bodyTextM.class}
+
+Alternative (SCSS mixin)
+${typographyHtmlSnippets.bodyTextM.mixin}
 `;
 
 export const bodyTextM = () => ({
@@ -179,26 +205,42 @@ bodyTextM.parameters = {
   },
 };
 
+const textSCodeExample = `
+Recommended
+${typographyHtmlSnippets.textS.tag}
+
+Alternative (SCSS mixin)
+${typographyHtmlSnippets.textS.mixin}
+`;
+
 export const textS = () => ({
-  template: typographyHtmlSnippets.textS,
+  template: typographyHtmlSnippets.textS.tag,
 });
 textS.storyName = 'Body (text-s)';
 textS.parameters = {
   docs: {
     source: {
-      code: typographyHtmlSnippets.textS,
+      code: textSCodeExample,
     },
   },
 };
 
+const textXsCodeExample = `
+CSS class
+${typographyHtmlSnippets.textXs.class}
+
+SCSS mixin
+${typographyHtmlSnippets.textXs.mixin}
+`;
+
 export const textXs = () => ({
-  template: typographyHtmlSnippets.textXs,
+  template: typographyHtmlSnippets.textXs.class,
 });
 textXs.storyName = 'Extra small (text-xs)';
 textXs.parameters = {
   docs: {
     source: {
-      code: typographyHtmlSnippets.textXs,
+      code: textXsCodeExample,
     },
   },
 };
@@ -207,8 +249,11 @@ const buttonCodeExample = `
 Recommended
 ${typographyHtmlSnippets.button.tag}
 
-Alternative
+Alternative (CSS Class)
 ${typographyHtmlSnippets.button.class}
+
+Alternative (SCSS mixin)
+${typographyHtmlSnippets.button.mixin}
 `;
 
 export const button = () => ({
@@ -227,8 +272,11 @@ const labelCodeExample = `
 Recommended
 ${typographyHtmlSnippets.label.tag}
 
-Alternative
+Alternative (CSS Class)
 ${typographyHtmlSnippets.label.class}
+
+Alternative (SCSS mixin)
+${typographyHtmlSnippets.label.mixin}
 `;
 
 export const label = () => ({
