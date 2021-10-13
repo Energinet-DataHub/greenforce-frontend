@@ -25,18 +25,21 @@ interface ColorType {
   description?: string;
   colors: Color[];
 }
+
 interface Color {
   name: string;
   var: string;
   color: string;
   contrast: string;
 }
+
 @Component({
-  selector: 'watt-color',
-  templateUrl: './color.component.html',
-  styleUrls: ['./color.component.scss'],
+  // eslint-disable-next-line @angular-eslint/component-selector
+  selector: 'storybook-colors-overview',
+  templateUrl: './storybook-colors-overview.component.html',
+  styleUrls: ['./storybook-colors-overview.component.scss'],
 })
-export class ColorComponent {
+export class StorybookColorsOverviewComponent {
   /**
    * @ignore
    */
