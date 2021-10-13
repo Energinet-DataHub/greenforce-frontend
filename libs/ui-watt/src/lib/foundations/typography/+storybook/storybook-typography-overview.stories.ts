@@ -17,21 +17,21 @@
 import { Meta, moduleMetadata, Story } from '@storybook/angular';
 
 import { typographyHtmlSnippets } from './shared/typography-html-snippets';
-import { TypographyComponent } from './typography.component';
-import { TypographyModule } from './typography.module';
+import { StorybookTypographyOverviewComponent } from './storybook-typography-overview.component';
+import { StorybookTypographyOverviewModule } from './storybook-typography-overview.module';
 
 export default {
   title: 'Foundations/Typography',
-  component: TypographyComponent,
+  component: StorybookTypographyOverviewComponent,
   decorators: [
     moduleMetadata({
-      imports: [TypographyModule],
+      imports: [StorybookTypographyOverviewModule],
     }),
   ],
-} as Meta<TypographyComponent>;
+} as Meta<StorybookTypographyOverviewComponent>;
 
 //👇 We create a “template” of how args map to rendering
-const Template: Story<TypographyComponent> = (args) => ({
+const Template: Story<StorybookTypographyOverviewComponent> = (args) => ({
   props: args,
 });
 
