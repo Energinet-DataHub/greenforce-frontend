@@ -30,7 +30,7 @@ const routes: Routes = [
   {
     path: 'onboarding',
     loadChildren: () =>
-      import('@energinet-datahub/auth/feature-shell').then(
+      import('@energinet-datahub/ett/auth/feature-shell').then(
         (esModule) => esModule.EttAuthFeatureShellModule
       ),
   },
