@@ -76,7 +76,7 @@ const typeScale: Typography[] = [
   },
   {
     name: 'Lead (text-l)',
-    html: typographyHtmlSnippets.textL,
+    html: typographyHtmlSnippets.textL.class,
     size: '18px',
     weight: 'Semibold (600)',
     letterCase: 'Sentence',
@@ -94,7 +94,7 @@ const typeScale: Typography[] = [
   },
   {
     name: 'Small (text-s)',
-    html: typographyHtmlSnippets.textS,
+    html: typographyHtmlSnippets.textS.tag,
     size: '14px',
     weight: 'Regular (400)',
     letterCase: 'Sentence',
@@ -103,7 +103,7 @@ const typeScale: Typography[] = [
   },
   {
     name: 'Extra small (text-xs)',
-    html: typographyHtmlSnippets.textXs,
+    html: typographyHtmlSnippets.textXs.class,
     size: '12px',
     weight: 'Regular (400)',
     letterCase: 'Sentence',
