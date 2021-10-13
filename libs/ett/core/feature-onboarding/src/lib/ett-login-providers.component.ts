@@ -36,15 +36,29 @@ const selector = 'ett-login-providers';
       ${selector} {
         display: block;
       }
+
+      .${selector}__error.${selector}__error {
+        margin: 0;
+      }
     `,
   ],
   template: `
     <mat-nav-list>
-      <ng-container ettAuthenticationLink #link="ettAuthenticationLink">
-        <a *rxLet="link.loginUrl$ as loginUrl" mat-list-item [href]="loginUrl"
-          >NemID or MitID</a
-        >
-      </ng-container>
+      <mat-list-item>
+        <ng-container ettAuthenticationLink #link="ettAuthenticationLink">
+          <a
+            *rxLet="link.loginUrl$ as loginUrl; rxError: loginError"
+            [href]="loginUrl"
+            >NemID or MitID</a
+          >
+          <ng-template #loginError let-error="$error">
+            <p class="${selector}__error">
+              NemID and MitID login is currently unavailable. Please try again
+              later.
+            </p>
+          </ng-template>
+        </ng-container>
+      </mat-list-item>
     </mat-nav-list>
   `,
 })
