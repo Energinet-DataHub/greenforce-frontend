@@ -38,7 +38,7 @@ export function setUpAngularTestingLibrary(
     ...config,
     defaultImports: [
       ComponentFixtureAutoDetectModule,
-      EttBrowserConfigurationModule,
+      EttBrowserConfigurationModule.forRoot(),
       ...(config.defaultImports ?? []),
     ],
   });

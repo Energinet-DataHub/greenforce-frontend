@@ -27,7 +27,7 @@ describe(EttBrowserConfigurationModule.name, () => {
 
   it('APP_BASE_HREF is provided when the Angular module is imported', () => {
     TestBed.configureTestingModule({
-      imports: [EttBrowserConfigurationModule],
+      imports: [EttBrowserConfigurationModule.forRoot()],
     });
 
     const actualAppBaseHref = TestBed.inject(APP_BASE_HREF, null);

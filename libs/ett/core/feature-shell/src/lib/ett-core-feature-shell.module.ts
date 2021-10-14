@@ -52,7 +52,7 @@ const routes: Routes = [
 @NgModule({
   exports: [RouterModule],
   imports: [
-    EttBrowserConfigurationModule,
+    EttBrowserConfigurationModule.forRoot(),
     HttpClientModule,
     RouterModule.forRoot(routes, {
       anchorScrolling: 'enabled',
