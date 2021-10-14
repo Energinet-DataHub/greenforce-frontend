@@ -15,6 +15,13 @@
  * limitations under the License.
  */
 export interface EttEnvironment {
+  /**
+   * Base path for APIs.
+   */
   readonly apiBase: string;
+  /**
+   * `true` if Angular is running in Production mode. `false` if Angular is
+   * running in Development mode.
+   */
   readonly production: boolean;
 }
