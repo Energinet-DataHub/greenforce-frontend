@@ -9,7 +9,7 @@
     "yarn": "1.22.15"
   },
   "scripts": {
-    "postinstall": "npm run nx-patch && npm run ngcc:ett",
+    "postinstall": "npm run nx-patch && npm run ngcc",
     "affected": "nx affected",
     "affected:apps": "nx affected:apps",
     "affected:build": "nx affected:build --configuration=production --parallel",
