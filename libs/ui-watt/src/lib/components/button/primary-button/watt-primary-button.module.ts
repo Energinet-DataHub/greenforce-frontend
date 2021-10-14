@@ -22,6 +22,6 @@ import { WattPrimaryButtonComponent } from './watt-primary-button.component';
 
 @NgModule({
   declarations: [WattPrimaryButtonComponent],
-  imports: [CommonModule, MatButtonModule]
+  imports: [CommonModule, MatButtonModule],
 })
 export class WattPrimaryButtonModule {}

@@ -26,7 +26,7 @@ import { WattButtonModule } from './watt-button.module';
   // https://github.com/thymikee/jest-preset-angular/issues/83
   providers: [{ provide: MATERIAL_SANITY_CHECKS, useValue: false }],
   entryComponents: [WattPrimaryButtonComponent],
-  exports: [WattButtonModule]
+  exports: [WattButtonModule],
 })
 export class TestingModule {}
 
