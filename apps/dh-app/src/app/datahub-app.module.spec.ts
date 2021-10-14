@@ -28,7 +28,7 @@ describe('Application smoke test', () => {
     TestBed.configureTestingModule({
       imports: [DataHubAppModule, NoopAnimationsModule, RouterTestingModule],
       // https://github.com/thymikee/jest-preset-angular/issues/83
-      providers: [{provide: MATERIAL_SANITY_CHECKS, useValue: false}]
+      providers: [{ provide: MATERIAL_SANITY_CHECKS, useValue: false }],
     }).compileComponents();
 
     rootFixture = TestBed.createComponent(DataHubAppComponent);

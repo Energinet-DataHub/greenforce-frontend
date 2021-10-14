@@ -31,7 +31,7 @@ describe(ShellComponent.name, () => {
     TestBed.configureTestingModule({
       imports: [ShellModule, NoopAnimationsModule, RouterTestingModule],
       // https://github.com/thymikee/jest-preset-angular/issues/83
-      providers: [{provide: MATERIAL_SANITY_CHECKS, useValue: false}]
+      providers: [{ provide: MATERIAL_SANITY_CHECKS, useValue: false }],
     }).compileComponents();
   });
 

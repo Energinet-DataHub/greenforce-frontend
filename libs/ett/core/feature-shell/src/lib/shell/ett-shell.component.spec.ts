@@ -28,7 +28,7 @@ describe(EttShellComponent.name, () => {
     TestBed.configureTestingModule({
       imports: [EttShellScam, NoopAnimationsModule, RouterTestingModule],
       // https://github.com/thymikee/jest-preset-angular/issues/83
-      providers: [{provide: MATERIAL_SANITY_CHECKS, useValue: false}]
+      providers: [{ provide: MATERIAL_SANITY_CHECKS, useValue: false }],
     }).compileComponents();
 
     fixture = TestBed.createComponent(EttShellComponent);

@@ -23,6 +23,6 @@ import { WattSecondaryButtonComponent } from './watt-secondary-button.component'
 @NgModule({
   declarations: [WattSecondaryButtonComponent],
   imports: [CommonModule, MatButtonModule],
-  entryComponents: [WattSecondaryButtonComponent]
+  entryComponents: [WattSecondaryButtonComponent],
 })
 export class WattSecondaryButtonModule {}
