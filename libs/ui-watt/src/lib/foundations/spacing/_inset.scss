@@ -14,44 +14,47 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@use './spacing.import' as spacing;
+@use './spacing.import' as space;
 
+// Inset
 .watt-space-inset-xs {
-  @include spacing.watt-space-inset-xs;
+  @include space.inset-xs;
 }
 
 .watt-space-inset-s {
-  @include spacing.watt-space-inset-s;
+  @include space.inset-s;
 }
 
 .watt-space-inset-m {
-  @include spacing.watt-space-inset-m;
+  @include space.inset-m;
 }
 
 .watt-space-inset-l {
-  @include spacing.watt-space-inset-l;
+  @include space.inset-l;
 }
 
 .watt-space-inset-xl {
-  @include spacing.watt-space-inset-xl;
+  @include space.inset-xl;
 }
 
+// Inset Squish
 .watt-space-inset-squish-s {
-  @include spacing.watt-space-inset-squish-s;
+  @include space.inset-squish-s;
 }
 
 .watt-space-inset-squish-m {
-  @include spacing.watt-space-inset-squish-m;
+  @include space.inset-squish-m;
 }
 
 .watt-space-inset-squish-l {
-  @include spacing.watt-space-inset-squish-l;
+  @include space.inset-squish-l;
 }
 
+// Inset Stretch
 .watt-space-inset-stretch-s {
-  @include spacing.watt-space-inset-stretch-s;
+  @include space.inset-stretch-s;
 }
 
 .watt-space-inset-stretch-m {
-  @include spacing.watt-space-inset-stretch-m;
+  @include space.inset-stretch-m;
 }

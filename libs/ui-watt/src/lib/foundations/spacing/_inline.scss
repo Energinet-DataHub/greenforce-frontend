@@ -14,28 +14,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@use './spacing.import' as spacing;
+@use './spacing.import' as space;
 
 .watt-space-inline-xxs {
-  @include spacing.watt-space-inline-xxs;
+  @include space.inline-xxs;
 }
 
 .watt-space-inline-xs {
-  @include spacing.watt-space-inline-xs;
+  @include space.inline-xs;
 }
 
 .watt-space-inline-s {
-  @include spacing.watt-space-inline-s;
+  @include space.inline-s;
 }
 
 .watt-space-inline-m {
-  @include spacing.watt-space-inline-m;
+  @include space.inline-m;
 }
 
 .watt-space-inline-l {
-  @include spacing.watt-space-inline-l;
+  @include space.inline-l;
 }
 
 .watt-space-inline-xl {
-  @include spacing.watt-space-inline-xl;
+  @include space.inline-xl;
 }

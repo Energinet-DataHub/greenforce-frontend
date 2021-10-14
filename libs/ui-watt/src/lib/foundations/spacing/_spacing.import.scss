@@ -15,94 +15,94 @@
  * limitations under the License.
  */
 // Inset
-@mixin watt-space-inset-xs {
+@mixin inset-xs {
   padding: var(--watt-space-inset-xs);
 }
 
-@mixin watt-space-inset-s {
+@mixin inset-s {
   padding: var(--watt-space-inset-s);
 }
 
-@mixin watt-space-inset-m {
+@mixin inset-m {
   padding: var(--watt-space-inset-m);
 }
 
-@mixin watt-space-inset-l {
+@mixin inset-l {
   padding: var(--watt-space-inset-l);
 }
 
-@mixin watt-space-inset-xl {
+@mixin inset-xl {
   padding: var(--watt-space-inset-xl);
 }
 
 // Inset Squish
-@mixin watt-space-inset-squish-s {
+@mixin inset-squish-s {
   padding: var(--watt-space-xs) var(--watt-space-s);
 }
 
-@mixin watt-space-inset-squish-m {
+@mixin inset-squish-m {
   padding: var(--watt-space-s) var(--watt-space-m);
 }
 
-@mixin watt-space-inset-squish-l {
+@mixin inset-squish-l {
   padding: var(--watt-space-m) var(--watt-space-l);
 }
 
 // Inset Stretch
-@mixin watt-space-inset-stretch-s {
+@mixin inset-stretch-s {
   padding: calc(3 * var(--watt-space-baseline)) var(--watt-space-s);
 }
 
-@mixin watt-space-inset-stretch-m {
+@mixin inset-stretch-m {
   padding: calc(6 * var(--watt-space-baseline)) var(--watt-space-m);
 }
 
 // Stack
-@mixin watt-space-stack-xxs {
+@mixin stack-xxs {
   margin: 0 0 calc(var(--watt-space-baseline) / 2) 0;
 }
 
-@mixin watt-space-stack-xs {
+@mixin stack-xs {
   margin: 0 0 var(--watt-space-xs) 0;
 }
 
-@mixin watt-space-stack-s {
+@mixin stack-s {
   margin: 0 0 var(--watt-space-s) 0;
 }
 
-@mixin watt-space-stack-m {
+@mixin stack-m {
   margin: 0 0 var(--watt-space-m) 0;
 }
 
-@mixin watt-space-stack-l {
+@mixin stack-l {
   margin: 0 0 var(--watt-space-l) 0;
 }
 
-@mixin watt-space-stack-xl {
+@mixin stack-xl {
   margin: 0 0 var(--watt-space-xl) 0;
 }
 
 // Inline
-@mixin watt-space-inline-xxs {
+@mixin inline-xxs {
   margin: 0 calc(var(--watt-space-baseline) / 2) 0 0;
 }
 
-@mixin watt-space-inline-xs {
+@mixin inline-xs {
   margin: 0 var(--watt-space-xs) 0 0;
 }
 
-@mixin watt-space-inline-s {
+@mixin inline-s {
   margin: 0 var(--watt-space-s) 0 0;
 }
 
-@mixin watt-space-inline-m {
+@mixin inline-m {
   margin: 0 var(--watt-space-m) 0 0;
 }
 
-@mixin watt-space-inline-l {
+@mixin inline-l {
   margin: 0 var(--watt-space-l) 0 0;
 }
 
-@mixin watt-space-inline-xl {
+@mixin inline-xl {
   margin: 0 var(--watt-space-xl) 0 0;
 }
