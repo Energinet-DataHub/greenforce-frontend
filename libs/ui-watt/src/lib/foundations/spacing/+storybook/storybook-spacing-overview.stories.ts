@@ -20,6 +20,8 @@ import { StorybookSpacingOverviewComponent } from './storybook-spacing-overview.
 import { StorybookSpacingOverviewModule } from './storybook-spacing-overview.module';
 import StorybookSpacingOverviewDocs from './storybook-spacing-overview.mdx';
 
+const emptySourceCodeBlock = ' ';
+
 export default {
   title: 'Foundations/Spacing',
   component: StorybookSpacingOverviewComponent,
@@ -31,6 +33,9 @@ export default {
   parameters: {
     docs: {
       page: StorybookSpacingOverviewDocs,
+      source: {
+        code: emptySourceCodeBlock,
+      },
     },
   },
 } as Meta<StorybookSpacingOverviewComponent>;
