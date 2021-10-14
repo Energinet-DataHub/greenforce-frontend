@@ -1,0 +1,18 @@
+<h1>Icons</h1>
+
+<h2>Custom icons</h2>
+<p>Cumulus contains a library of all custom icons. Icons exist in both white and color.</p>
+
+<h2>Interface essentials</h2>
+
+<ul class="groups">
+  <li *ngFor="let group of icons" class="group">
+    <span class="watt-label">{{group.name}}</span>
+    <ul class="icons">
+      <li *ngFor="let icon of group.icons" class="icon">
+        <watt-icon [name]="icon.icon" [label]="icon.name"></watt-icon> 
+        <span>{{icon.name}}</span>
+      </li>
+    </ul>
+  </li>
+</ul>
