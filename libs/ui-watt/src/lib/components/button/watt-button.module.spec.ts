@@ -34,12 +34,12 @@ describe(WattButtonModule.name, () => {
       // https://github.com/thymikee/jest-preset-angular/issues/83
       providers: [{ provide: MATERIAL_SANITY_CHECKS, useValue: false }],
       entryComponents: [WattPrimaryButtonComponent],
-      exports: [WattButtonModule]
+      exports: [WattButtonModule],
     })
     class TestingModule {}
 
     TestBed.configureTestingModule({
-      imports: [TestingModule]
+      imports: [TestingModule],
     });
 
     const fixture = TestBed.createComponent(TestHostComponent);
