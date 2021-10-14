@@ -1,9 +1,9 @@
 :root {
-  --watt-layout-space-baseline: 0.25rem;
+  --watt-space-baseline: 0.25rem;
 
-  --watt-layout-space-xs: var(--watt-layout-space-baseline);
-  --watt-layout-space-s: calc(2 * var(--watt-layout-space-baseline));
-  --watt-layout-space-m: calc(4 * var(--watt-layout-space-baseline));
-  --watt-layout-space-l: calc(8 * var(--watt-layout-space-baseline));
-  --watt-layout-space-xl: calc(16 * var(--watt-layout-space-baseline));
+  --watt-space-xs: var(--watt-space-baseline);
+  --watt-space-s: calc(var(--watt-space-baseline) * 2);
+  --watt-space-m: calc(var(--watt-space-baseline) * 4);
+  --watt-space-l: calc(var(--watt-space-baseline) * 8);
+  --watt-space-xl: calc(var(--watt-space-baseline) * 16);
 }
