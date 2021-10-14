@@ -57,10 +57,10 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-${{ env.node-version }}
             ${{ runner.os }}
-      - uses: ./.github/actions/setup-postinstall
+      - name: Disable workspace NGCC run
+        uses: ./.github/actions/setup-postinstall
         with:
           ngcc: false
-          nx: true
       - name: Install package dependencies
         run: yarn install --frozen-lockfile --non-interactive
 
@@ -97,10 +97,10 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-${{ env.node-version }}
             ${{ runner.os }}
-      - uses: ./.github/actions/setup-postinstall
+      - name: Disable workspace NGCC run
+        uses: ./.github/actions/setup-postinstall
         with:
           ngcc: false
-          nx: true
       - name: Install package dependencies
         run: yarn install --frozen-lockfile --non-interactive
 
