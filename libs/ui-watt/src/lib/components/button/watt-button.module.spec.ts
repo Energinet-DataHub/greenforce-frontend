@@ -16,6 +16,7 @@
  */
 import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 
 import { WattButtonModule } from './watt-button.module';
 
@@ -29,6 +30,8 @@ describe(WattButtonModule.name, () => {
     TestBed.configureTestingModule({
       declarations: [TestHostComponent],
       imports: [WattButtonModule],
+      // https://github.com/thymikee/jest-preset-angular/issues/83
+      providers: [{provide: MATERIAL_SANITY_CHECKS, useValue: false}]
     });
 
     const fixture = TestBed.createComponent(TestHostComponent);
@@ -42,7 +45,7 @@ describe(WattButtonModule.name, () => {
   it('exports shared Watt Design System buttons', () => {
     const text = 'Primary button';
     const template = `
-      <watt-button type="primary">
+      <watt-button type="text">
         ${text}
       </watt-button>
     `;

@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -26,6 +27,8 @@ describe('Application smoke test', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [DataHubAppModule, NoopAnimationsModule, RouterTestingModule],
+      // https://github.com/thymikee/jest-preset-angular/issues/83
+      providers: [{provide: MATERIAL_SANITY_CHECKS, useValue: false}]
     }).compileComponents();
 
     rootFixture = TestBed.createComponent(DataHubAppComponent);
