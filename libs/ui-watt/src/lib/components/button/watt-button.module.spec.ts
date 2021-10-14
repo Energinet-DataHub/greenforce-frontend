@@ -14,8 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component } from '@angular/core';
+import { Component, NgModule } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
+import { WattPrimaryButtonComponent } from './primary-button/watt-primary-button.component';
 
 import { WattButtonModule } from './watt-button.module';
 
@@ -26,9 +28,18 @@ describe(WattButtonModule.name, () => {
     })
     class TestHostComponent {}
 
-    TestBed.configureTestingModule({
-      declarations: [TestHostComponent],
+    @NgModule({
       imports: [WattButtonModule],
+      declarations: [TestHostComponent],
+      // https://github.com/thymikee/jest-preset-angular/issues/83
+      providers: [{ provide: MATERIAL_SANITY_CHECKS, useValue: false }],
+      entryComponents: [WattPrimaryButtonComponent],
+      exports: [WattButtonModule],
+    })
+    class TestingModule {}
+
+    TestBed.configureTestingModule({
+      imports: [TestingModule],
     });
 
     const fixture = TestBed.createComponent(TestHostComponent);
