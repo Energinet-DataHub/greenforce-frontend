@@ -18,6 +18,7 @@ import { moduleMetadata, Story, Meta } from '@storybook/angular';
 
 import { StorybookSpacingOverviewComponent } from './storybook-spacing-overview.component';
 import { StorybookSpacingOverviewModule } from './storybook-spacing-overview.module';
+import StorybookSpacingOverviewDocs from './storybook-spacing-overview.mdx';
 
 export default {
   title: 'Foundations/Spacing',
@@ -27,6 +28,11 @@ export default {
       imports: [StorybookSpacingOverviewModule],
     }),
   ],
+  parameters: {
+    docs: {
+      page: StorybookSpacingOverviewDocs,
+    },
+  },
 } as Meta<StorybookSpacingOverviewComponent>;
 
 //👇 We create a “template” of how args map to rendering

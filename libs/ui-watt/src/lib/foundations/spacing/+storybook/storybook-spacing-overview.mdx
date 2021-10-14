@@ -1,0 +1,127 @@
+<!--
+@license
+Copyright 2021 Energinet DataHub A/S
+
+Licensed under the Apache License, Version 2.0 (the "License2");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+import {
+  Title,
+  Subtitle,
+  Description,
+  Primary,
+  Stories,
+  PRIMARY_STORY,
+} from '@storybook/addon-docs';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+
+<Title />
+<Subtitle />
+<Description />
+<Primary />
+
+## How to use
+
+### SCSS/CSS
+
+#### CSS Custom Variables
+
+```css
+--watt-space-xs
+--watt-space-s
+--watt-space-m
+--watt-space-l
+--watt-space-xl
+```
+
+#### Mixins
+
+```css
+@use '@energinet-datahub/watt/utils' as watt;
+
+// Inset
+@include watt.space-inset-xs;
+@include watt.space-inset-s;
+@include watt.space-inset-m;
+@include watt.space-inset-l;
+@include watt.space-inset-xl;
+
+// Inset Squish
+@include watt.space-inset-squish-s;
+@include watt.space-inset-squish-m;
+@include watt.space-inset-squish-l;
+
+// Inset Stretch
+@include watt.space-inset-stretch-s;
+@include watt.space-inset-stretch-m;
+
+// Stack
+@include watt.space-stack-xxs;
+@include watt.space-stack-xs;
+@include watt.space-stack-s;
+@include watt.space-stack-m;
+@include watt.space-stack-l;
+@include watt.space-stack-xl;
+
+// Inline
+@include watt.space-inline-xxs;
+@include watt.space-inline-xs;
+@include watt.space-inline-s;
+@include watt.space-inline-m;
+@include watt.space-inline-l;
+@include watt.space-inline-xl;
+```
+
+### HTML
+
+Available classes
+
+```css
+<!-- Inset -->
+<div class="watt-space-inset-xs">...</div>
+<div class="watt-space-inset-s">...</div>
+<div class="watt-space-inset-m">...</div>
+<div class="watt-space-inset-l">...</div>
+<div class="watt-space-inset-xl">...</div>
+
+<!-- Inset Squish -->
+<div class="watt-space-inset-squish-s">...</div>
+<div class="watt-space-inset-squish-m">...</div>
+<div class="watt-space-inset-squish-l">...</div>
+
+<!-- Inset Stretch -->
+<div class="watt-space-inset-stretch-s">...</div>
+<div class="watt-space-inset-stretch-m">...</div>
+
+<!-- Stack -->
+<div class="watt-space-stack-xxs">...</div>
+<div class="watt-space-stack-xs">...</div>
+<div class="watt-space-stack-s">...</div>
+<div class="watt-space-stack-m">...</div>
+<div class="watt-space-stack-l">...</div>
+<div class="watt-space-stack-xl">...</div>
+
+<!-- Inline -->
+<div class="watt-space-inline-xxs">...</div>
+<div class="watt-space-inline-xs">...</div>
+<div class="watt-space-inline-s">...</div>
+<div class="watt-space-inline-m">...</div>
+<div class="watt-space-inline-l">...</div>
+<div class="watt-space-inline-xl">...</div>
+```
+
+<Stories />
+
+export const Component = () => {
+  return <SyntaxHighlighter />;
+};
