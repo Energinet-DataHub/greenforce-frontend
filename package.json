@@ -1,5 +1,5 @@
 {
-  "name": "energinet",
+  "name": "energinet-datahub",
   "version": "0.0.0",
   "license": "MIT",
   "//engines-comment": "Keep this in sync with .nvmrc, and volta config in current package.json",
