@@ -63,6 +63,8 @@ jobs:
           ngcc: false
       - name: Install package dependencies
         run: yarn install --frozen-lockfile --non-interactive
+      - name: Revert postinstall changes
+        run: git reset --hard
 
       - name: Is affected?
         id: affected
@@ -103,12 +105,13 @@ jobs:
           ngcc: false
       - name: Install package dependencies
         run: yarn install --frozen-lockfile --non-interactive
-
       - name: Angular Compatibility Compiler
         run: npm run ngcc:ett
+      - name: Revert postinstall changes
+        run: git reset --hard
 
       - name: Production build
-        run: yarn nx build ${{ env.app-name }} --max-parallel=$NX_MAX_PARALLEL
+        run: npm run nx -- build ${{ env.app-name }} --max-parallel=$NX_MAX_PARALLEL
 
       - name: Upload web app build artifact
         uses: actions/upload-artifact@v2
