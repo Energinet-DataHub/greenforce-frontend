@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 function mixinSnippet(name: string) {
-  return `@use '@energinet-datahub/watt' as watt
+  return `@use '@energinet-datahub/watt/utils' as watt
 @include watt.typography-watt-${name}
   `;
 }
