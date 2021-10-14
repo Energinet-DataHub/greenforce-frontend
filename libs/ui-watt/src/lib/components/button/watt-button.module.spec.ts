@@ -21,15 +21,6 @@ import { WattPrimaryButtonComponent } from './primary-button/watt-primary-button
 
 import { WattButtonModule } from './watt-button.module';
 
-@NgModule({
-  imports: [WattButtonModule],
-  // https://github.com/thymikee/jest-preset-angular/issues/83
-  providers: [{ provide: MATERIAL_SANITY_CHECKS, useValue: false }],
-  entryComponents: [WattPrimaryButtonComponent],
-  exports: [WattButtonModule]
-})
-export class TestingModule {}
-
 describe(WattButtonModule.name, () => {
   function setup(template: string) {
     @Component({
@@ -37,9 +28,18 @@ describe(WattButtonModule.name, () => {
     })
     class TestHostComponent {}
 
-    TestBed.configureTestingModule({
+    @NgModule({
+      imports: [WattButtonModule],
       declarations: [TestHostComponent],
-      imports: [TestingModule],
+      // https://github.com/thymikee/jest-preset-angular/issues/83
+      providers: [{ provide: MATERIAL_SANITY_CHECKS, useValue: false }],
+      entryComponents: [WattPrimaryButtonComponent],
+      exports: [WattButtonModule]
+    })
+    class TestingModule {}
+
+    TestBed.configureTestingModule({
+      imports: [TestingModule]
     });
 
     const fixture = TestBed.createComponent(TestHostComponent);
