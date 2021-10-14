@@ -45,7 +45,7 @@ describe(WattButtonModule.name, () => {
   it('exports shared Watt Design System buttons', () => {
     const text = 'Primary button';
     const template = `
-      <watt-button type="text">
+      <watt-button type="primary">
         ${text}
       </watt-button>
     `;
