@@ -13,7 +13,7 @@
           "error",
           {
             "type": "attribute",
-            "prefix": "energinetDatahub",
+            "prefix": "ett",
             "style": "camelCase"
           }
         ],
@@ -21,7 +21,7 @@
           "error",
           {
             "type": "element",
-            "prefix": "energinet-datahub",
+            "prefix": "ett",
             "style": "kebab-case"
           }
         ]
