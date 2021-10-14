@@ -16,14 +16,17 @@
  */
 import { enableProdMode } from '@angular/core';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+import { environment } from '@energinet-datahub/ett/core/environments';
 
 import { EnergyTrackAndTraceAppModule } from './app/energy-track-and-trace-app.module';
-import { environment } from './environments/environment';
 
 if (environment.production) {
   enableProdMode();
 }
 
 platformBrowserDynamic()
-  .bootstrapModule(EnergyTrackAndTraceAppModule)
+  .bootstrapModule(EnergyTrackAndTraceAppModule, {
+    ngZoneEventCoalescing: true,
+    ngZoneRunCoalescing: true,
+  })
   .catch((err) => console.error(err));

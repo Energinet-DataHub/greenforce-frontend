@@ -14,21 +14,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { EttBrowserConfigurationModule } from '@energinet-datahub/ett/core/util-browser';
 
-import { EttShellComponent, EttShellScam } from './shell/ett-shell.component';
+import { EttShellComponent, EttShellScam } from './ett-shell.component';
 
 const routes: Routes = [
   {
     path: '',
+    pathMatch: 'full',
+    redirectTo: 'login',
+  },
+  {
+    path: 'login',
+    loadChildren: () =>
+      import('@energinet-datahub/ett/auth/feature-shell').then(
+        (esModule) => esModule.EttAuthFeatureShellModule
+      ),
+  },
+  {
+    path: '',
     component: EttShellComponent,
     children: [
-      {
-        path: '',
-        pathMatch: 'full',
-        redirectTo: 'dashboard',
-      },
       {
         path: 'dashboard',
         loadChildren: () =>
@@ -42,6 +51,15 @@ const routes: Routes = [
 
 @NgModule({
   exports: [RouterModule],
-  imports: [RouterModule.forRoot(routes), EttShellScam],
+  imports: [
+    EttBrowserConfigurationModule.forRoot(),
+    HttpClientModule,
+    RouterModule.forRoot(routes, {
+      anchorScrolling: 'enabled',
+      initialNavigation: 'enabledNonBlocking',
+      scrollPositionRestoration: 'enabled',
+    }),
+    EttShellScam,
+  ],
 })
 export class EttCoreFeatureShellModule {}

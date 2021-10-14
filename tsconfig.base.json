@@ -19,14 +19,29 @@
       "@energinet-datahub/dh-app/core/feature-shell": [
         "libs/dh-app/core/feature-shell/src/index.ts"
       ],
+      "@energinet-datahub/ett/auth/data-access": [
+        "libs/ett/auth/data-access/src/index.ts"
+      ],
+      "@energinet-datahub/ett/auth/feature-login": [
+        "libs/ett/auth/feature-login/src/index.ts"
+      ],
+      "@energinet-datahub/ett/auth/feature-shell": [
+        "libs/ett/auth/feature-shell/src/index.ts"
+      ],
+      "@energinet-datahub/ett/core/environments": [
+        "libs/ett/core/environments/src/index.ts"
+      ],
       "@energinet-datahub/ett/core/feature-shell": [
         "libs/ett/core/feature-shell/src/index.ts"
+      ],
+      "@energinet-datahub/ett/core/util-browser": [
+        "libs/ett/core/util-browser/src/index.ts"
       ],
       "@energinet-datahub/ett/dashboard/feature-shell": [
         "libs/ett/dashboard/feature-shell/src/index.ts"
       ],
-      "@energinet-datahub/ett/shared/test-util-angular": [
-        "libs/ett/shared/test-util-angular/src/index.ts"
+      "@energinet-datahub/ett/shared/test-util-staging": [
+        "libs/ett/shared/test-util-staging/src/index.ts"
       ],
       "@energinet-datahub/watt": ["libs/ui-watt/src/index.ts"]
     }
