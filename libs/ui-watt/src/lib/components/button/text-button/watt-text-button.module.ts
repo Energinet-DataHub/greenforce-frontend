@@ -23,5 +23,6 @@ import { WattTextButtonComponent } from './watt-text-button.component';
 @NgModule({
   declarations: [WattTextButtonComponent],
   imports: [CommonModule, MatButtonModule],
+  entryComponents: [WattTextButtonComponent],
 })
 export class WattTextButtonModule {}
