@@ -1,0 +1,41 @@
+.watt-layout-inset-xs {
+  padding: var(--watt-layout-space-xs);
+}
+
+.watt-layout-inset-s {
+  padding: var(--watt-layout-space-s);
+}
+
+.watt-layout-inset-m {
+  padding: var(--watt-layout-space-m);
+}
+
+.watt-layout-inset-l {
+  padding: var(--watt-layout-space-l);
+}
+
+.watt-layout-inset-xl {
+  padding: var(--watt-layout-space-xl);
+}
+
+.watt-layout-inset-squish-s {
+  padding: var(--watt-layout-space-xs) var(--watt-layout-space-s);
+}
+
+.watt-layout-inset-squish-m {
+  padding: var(--watt-layout-space-s) var(--watt-layout-space-m);
+}
+
+.watt-layout-inset-squish-l {
+  padding: var(--watt-layout-space-m) var(--watt-layout-space-l);
+}
+
+.watt-layout-inset-stretch-s {
+  padding: calc(3 * var(--watt-layout-space-baseline))
+    var(--watt-layout-space-s);
+}
+
+.watt-layout-inset-stretch-m {
+  padding: calc(6 * var(--watt-layout-space-baseline))
+    var(--watt-layout-space-m);
+}
