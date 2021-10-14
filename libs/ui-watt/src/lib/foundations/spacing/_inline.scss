@@ -1,23 +1,41 @@
-.watt-layout-inline-xxs {
-  margin-right: calc(var(--watt-layout-space-baseline) / 2);
+/**
+ * @license
+ * Copyright 2021 Energinet DataHub A/S
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License2");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+@use './spacing.import' as spacing;
+
+.watt-space-inline-xxs {
+  @include spacing.watt-space-inline-xxs;
 }
 
-.watt-layout-inline-xs {
-  margin-right: var(--watt-layout-space-xs);
+.watt-space-inline-xs {
+  @include spacing.watt-space-inline-xs;
 }
 
-.watt-layout-inline-s {
-  margin-right: var(--watt-layout-space-s);
+.watt-space-inline-s {
+  @include spacing.watt-space-inline-s;
 }
 
-.watt-layout-inline-m {
-  margin-right: var(--watt-layout-space-m);
+.watt-space-inline-m {
+  @include spacing.watt-space-inline-m;
 }
 
-.watt-layout-inline-l {
-  margin-right: var(--watt-layout-space-l);
+.watt-space-inline-l {
+  @include spacing.watt-space-inline-l;
 }
 
-.watt-layout-inline-xl {
-  margin-right: var(--watt-layout-space-xl);
+.watt-space-inline-xl {
+  @include spacing.watt-space-inline-xl;
 }
