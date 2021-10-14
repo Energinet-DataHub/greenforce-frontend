@@ -36,12 +36,12 @@ runs:
       run: |
         if ${{ inputs.ngcc == 'false'  }}
         then
-          json -I -f package.json -e "this.scripts.ngcc = '';"
+          json -I -f package.json -e "this.scripts['postinstall:ngcc'] = '';"
         fi
     - name: Disable Nx patch
       shell: bash
       run: |
         if ${{ inputs.nx == 'false' }}
         then
-          json -I -f package.json -e "this.scripts['nx-patch'] = '';"
+          json -I -f package.json -e "this.scripts['postinstall:nx'] = '';"
         fi
