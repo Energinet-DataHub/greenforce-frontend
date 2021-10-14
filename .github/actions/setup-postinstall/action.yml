@@ -15,13 +15,19 @@ runs:
   using: composite
   steps:
     - name: Install json tool globally
+      shell: bash
       run: npm install --global json
-      shell: bash
     - name: Disable ngcc script
-      if: ${{ inputs.ngcc == 'false' }}
-      run: json -I -f package.json -e "this.scripts.ngcc = '';"
       shell: bash
+      run: |
+        if ${{ inputs.ngcc == 'false'  }}
+        then
+          json -I -f package.json -e "this.scripts.ngcc = '';"
+        fi
     - name: Disable Nx patch
-      if: ${{ inputs.nx == 'false' }}
-      run: json -I -f package.json -e "this.scripts['nx-patch'] = '';"
       shell: bash
+      run: |
+        if ${{ inputs.nx == 'false' }}
+        then
+          json -I -f package.json -e "this.scripts['nx-patch'] = '';"
+        fi
