@@ -29,12 +29,12 @@ export interface AuthOidcLoginResponse {
 export class AuthOidcHttp {
   constructor(private http: HttpClient) {}
 
-  login(redirectUri: string): Observable<AuthOidcLoginResponse> {
+  login(returnUrl: string): Observable<AuthOidcLoginResponse> {
     return this.http.get<AuthOidcLoginResponse>(
       `${environment.apiBase}/oidc/login`,
       {
         params: {
-          redirect_uri: redirectUri,
+          return_url: returnUrl,
         },
       }
     );
