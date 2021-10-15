@@ -5,7 +5,7 @@ import { WattIcon } from "./icons";
 @Component({
     selector: 'watt-icon',
     templateUrl: './icon.component.html',
-    styleUrls: ['./icon.component.scss']
+    styleUrls: ['./icon.component.scss'],
 })
 export class WattIconComponent {
     @Input() name!: WattIcon;

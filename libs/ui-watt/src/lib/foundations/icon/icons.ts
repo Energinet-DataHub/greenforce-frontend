@@ -1,4 +1,8 @@
 export enum WattIcon {
+    // Custom
+    power = 'custom-icon-power',
+    explore = 'custom-icon-explore',
+    // Essentials
     search = 'search',
     filter = 'filter_list',
     plus = 'add',

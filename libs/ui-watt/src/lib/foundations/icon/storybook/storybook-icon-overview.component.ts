@@ -96,7 +96,7 @@ export class StorybookIconOverviewComponent {
         { name: 'Upload', icon: WattIcon.upload },
         { name: 'Download', icon: WattIcon.download },
         { name: 'Print', icon: WattIcon.print },
-        { name: 'Link', icon: WattIcon.preview },
+        { name: 'Preview', icon: WattIcon.preview },
       ],
     },
   ];
