@@ -27,7 +27,12 @@ limitations under the License.
     making layouts more predictable and more likely to “fit” and align well.
   </p>
 
-  <table mat-table [dataSource]="dataSource" style="width: 100%">
+  <table
+    class="watt-space-stack-l"
+    mat-table
+    [dataSource]="dataSource"
+    style="width: 100%"
+  >
     <!--- Note that these columns can be defined in any order.
             The actual rendered columns are set as a property on the row definition" -->
 
@@ -62,4 +67,12 @@ limitations under the License.
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
   </table>
+
+  <h4>Visual reference</h4>
+
+  <img
+    class="visual-reference"
+    src="./assets/ui-watt/storybook-spacing-visual-reference.png"
+    alt="Visual reference"
+  />
 </mat-card>
