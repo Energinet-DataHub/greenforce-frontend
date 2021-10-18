@@ -14,19 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@use '../../../foundations/variables';
-@use '../../../foundations/box-sizing';
-@use '../../../foundations/typography';
-@use '../../../foundations/spacing';
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { MatCardModule } from '@angular/material/card';
+import { MatTableModule } from '@angular/material/table';
 
-// Include Material theme
-@import '~@angular/material/prebuilt-themes/indigo-pink.css';
+import { StorybookSpacingOverviewComponent } from './storybook-spacing-overview.component';
 
-html,
-body {
-  height: 100%;
-}
-body {
-  margin: 0;
-  font-family: 'Open Sans', sans-serif;
-}
+@NgModule({
+  declarations: [StorybookSpacingOverviewComponent],
+  exports: [StorybookSpacingOverviewComponent],
+  imports: [CommonModule, MatCardModule, MatTableModule],
+})
+export class StorybookSpacingOverviewModule {}

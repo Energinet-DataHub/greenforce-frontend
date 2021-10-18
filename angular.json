@@ -51,7 +51,15 @@
             "polyfills": "apps/dh-app/src/polyfills.ts",
             "tsConfig": "apps/dh-app/tsconfig.app.json",
             "inlineStyleLanguage": "scss",
-            "assets": ["apps/dh-app/src/favicon.ico", "apps/dh-app/src/assets"],
+            "assets": [
+              "apps/dh-app/src/favicon.ico",
+              "apps/dh-app/src/assets",
+              {
+                "input": "libs/ui-watt/src/assets",
+                "glob": "**/*",
+                "output": "assets/ui-watt"
+              }
+            ],
             "styles": ["apps/dh-app/src/styles.scss"],
             "stylePreprocessorOptions": {
               "includePaths": ["libs/ui-watt/src/lib/styles"]

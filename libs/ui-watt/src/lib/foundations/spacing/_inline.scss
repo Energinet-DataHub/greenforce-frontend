@@ -14,19 +14,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@use '../../../foundations/variables';
-@use '../../../foundations/box-sizing';
-@use '../../../foundations/typography';
-@use '../../../foundations/spacing';
+@use './spacing.import' as space;
 
-// Include Material theme
-@import '~@angular/material/prebuilt-themes/indigo-pink.css';
-
-html,
-body {
-  height: 100%;
+.watt-space-inline-xxs {
+  @include space.inline-xxs;
 }
-body {
-  margin: 0;
-  font-family: 'Open Sans', sans-serif;
+
+.watt-space-inline-xs {
+  @include space.inline-xs;
+}
+
+.watt-space-inline-s {
+  @include space.inline-s;
+}
+
+.watt-space-inline-m {
+  @include space.inline-m;
+}
+
+.watt-space-inline-l {
+  @include space.inline-l;
+}
+
+.watt-space-inline-xl {
+  @include space.inline-xl;
 }
