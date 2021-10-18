@@ -51,11 +51,15 @@
             "polyfills": "apps/dh-app/src/polyfills.ts",
             "tsConfig": "apps/dh-app/tsconfig.app.json",
             "inlineStyleLanguage": "scss",
-            "assets": ["apps/dh-app/src/favicon.ico", "apps/dh-app/src/assets", {
-              "input": "libs/ui-watt/src/assets",
-              "glob": "**/*",
-              "output": "assets/ui-watt"
-            }],
+            "assets": [
+              "apps/dh-app/src/favicon.ico",
+              "apps/dh-app/src/assets",
+              {
+                "input": "libs/ui-watt/src/assets",
+                "glob": "**/*",
+                "output": "assets/ui-watt"
+              }
+            ],
             "styles": ["apps/dh-app/src/styles.scss"],
             "stylePreprocessorOptions": {
               "includePaths": ["libs/ui-watt/src/lib/styles"]
@@ -201,25 +205,50 @@
           "builder": "@angular-devkit/build-angular:browser",
           "outputs": ["{options.outputPath}"],
           "options": {
-            "outputPath": "dist/apps/ett-app",
-            "index": "apps/ett-app/src/index.html",
-            "main": "apps/ett-app/src/main.ts",
-            "polyfills": "apps/ett-app/src/polyfills.ts",
-            "tsConfig": "apps/ett-app/tsconfig.app.json",
-            "inlineStyleLanguage": "scss",
             "assets": [
               "apps/ett-app/src/favicon.ico",
               "apps/ett-app/src/assets"
             ],
-            "styles": ["apps/ett-app/src/styles.scss"],
+            "baseHref": "/",
+            "commonChunk": false,
+            "index": "apps/ett-app/src/index.html",
+            "inlineStyleLanguage": "scss",
+            "main": "apps/ett-app/src/main.ts",
+            "outputPath": "dist/apps/ett-app",
+            "polyfills": "apps/ett-app/src/polyfills.ts",
+            "scripts": [],
             "stylePreprocessorOptions": {
               "includePaths": ["libs/ui-watt/src/lib/styles"]
             },
-            "scripts": []
+            "styles": ["apps/ett-app/src/styles.scss"],
+            "tsConfig": "apps/ett-app/tsconfig.app.json"
           },
           "configurations": {
+            "development": {
+              "buildOptimizer": false,
+              "extractLicenses": false,
+              "namedChunks": true,
+              "optimization": false,
+              "sourceMap": true,
+              "vendorChunk": true
+            },
             "production": {
               "budgets": [
+                {
+                  "type": "allScript",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
+                {
+                  "type": "anyScript",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
+                {
+                  "type": "bundle",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
                 {
                   "type": "initial",
                   "maximumWarning": "500kb",
@@ -233,19 +262,11 @@
               ],
               "fileReplacements": [
                 {
-                  "replace": "apps/ett-app/src/environments/environment.ts",
-                  "with": "apps/ett-app/src/environments/environment.prod.ts"
+                  "replace": "libs/ett/core/environments/src/lib/environment.ts",
+                  "with": "libs/ett/core/environments/src/lib/environment.prod.ts"
                 }
               ],
               "outputHashing": "all"
-            },
-            "development": {
-              "buildOptimizer": false,
-              "optimization": false,
-              "vendorChunk": true,
-              "extractLicenses": false,
-              "sourceMap": true,
-              "namedChunks": true
             }
           },
           "defaultConfiguration": "production"
@@ -253,11 +274,13 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
+            "development": {
+              "browserTarget": "ett-app:build:development",
+              "hmr": true,
+              "proxyConfig": "apps/ett-app/src/proxy.conf.json"
+            },
             "production": {
               "browserTarget": "ett-app:build:production"
-            },
-            "development": {
-              "browserTarget": "ett-app:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -322,6 +345,106 @@
         }
       }
     },
+    "ett-auth-data-access": {
+      "projectType": "library",
+      "root": "libs/ett/auth/data-access",
+      "sourceRoot": "libs/ett/auth/data-access/src",
+      "prefix": "energinet-datahub",
+      "architect": {
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/ett/auth/data-access"],
+          "options": {
+            "jestConfig": "libs/ett/auth/data-access/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/ett/auth/data-access/src/**/*.ts",
+              "libs/ett/auth/data-access/src/**/*.html"
+            ]
+          }
+        }
+      }
+    },
+    "ett-auth-feature-login": {
+      "projectType": "library",
+      "root": "libs/ett/auth/feature-login",
+      "sourceRoot": "libs/ett/auth/feature-login/src",
+      "prefix": "ett",
+      "architect": {
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/ett/auth/feature-login"],
+          "options": {
+            "jestConfig": "libs/ett/auth/feature-login/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/ett/auth/feature-login/src/**/*.ts",
+              "libs/ett/auth/feature-login/src/**/*.html"
+            ]
+          }
+        }
+      }
+    },
+    "ett-auth-feature-shell": {
+      "projectType": "library",
+      "root": "libs/ett/auth/feature-shell",
+      "sourceRoot": "libs/ett/auth/feature-shell/src",
+      "prefix": "ett",
+      "architect": {
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/ett/auth/feature-shell"],
+          "options": {
+            "jestConfig": "libs/ett/auth/feature-shell/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/ett/auth/feature-shell/src/**/*.ts",
+              "libs/ett/auth/feature-shell/src/**/*.html"
+            ]
+          }
+        }
+      }
+    },
+    "ett-core-environments": {
+      "projectType": "library",
+      "root": "libs/ett/core/environments",
+      "sourceRoot": "libs/ett/core/environments/src",
+      "prefix": "ett",
+      "architect": {
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/ett/core/environments"],
+          "options": {
+            "jestConfig": "libs/ett/core/environments/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/ett/core/environments/src/**/*.ts",
+              "libs/ett/core/environments/src/**/*.html"
+            ]
+          }
+        }
+      }
+    },
     "ett-core-feature-shell": {
       "projectType": "library",
       "root": "libs/ett/core/feature-shell",
@@ -342,6 +465,31 @@
             "lintFilePatterns": [
               "libs/ett/core/feature-shell/src/**/*.ts",
               "libs/ett/core/feature-shell/src/**/*.html"
+            ]
+          }
+        }
+      }
+    },
+    "ett-core-util-browser": {
+      "projectType": "library",
+      "root": "libs/ett/core/util-browser",
+      "sourceRoot": "libs/ett/core/util-browser/src",
+      "prefix": "ett",
+      "architect": {
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/ett/core/util-browser"],
+          "options": {
+            "jestConfig": "libs/ett/core/util-browser/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/ett/core/util-browser/src/**/*.ts",
+              "libs/ett/core/util-browser/src/**/*.html"
             ]
           }
         }
@@ -372,17 +520,17 @@
         }
       }
     },
-    "ett-shared-test-util-angular": {
+    "ett-shared-test-util-staging": {
       "projectType": "library",
-      "root": "libs/ett/shared/test-util-angular",
-      "sourceRoot": "libs/ett/shared/test-util-angular/src",
+      "root": "libs/ett/shared/test-util-staging",
+      "sourceRoot": "libs/ett/shared/test-util-staging/src",
       "prefix": "ett-test",
       "architect": {
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/ett/shared/test-util-angular"],
+          "outputs": ["coverage/libs/ett/shared/test-util-staging"],
           "options": {
-            "jestConfig": "libs/ett/shared/test-util-angular/jest.config.js",
+            "jestConfig": "libs/ett/shared/test-util-staging/jest.config.js",
             "passWithNoTests": true
           }
         },
@@ -390,8 +538,8 @@
           "builder": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": [
-              "libs/ett/shared/test-util-angular/src/**/*.ts",
-              "libs/ett/shared/test-util-angular/src/**/*.html"
+              "libs/ett/shared/test-util-staging/src/**/*.ts",
+              "libs/ett/shared/test-util-staging/src/**/*.html"
             ]
           }
         }

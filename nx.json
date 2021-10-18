@@ -47,17 +47,33 @@
       "tags": ["product:ett", "type:e2e"],
       "implicitDependencies": ["ett-app"]
     },
+    "ett-auth-data-access": {
+      "tags": ["product:ett", "scope:auth", "type:data-access"]
+    },
+    "ett-auth-feature-login": {
+      "tags": ["product:ett", "scope:auth", "type:feature"]
+    },
+    "ett-auth-feature-shell": {
+      "tags": ["product:ett", "scope:auth", "type:feature"]
+    },
+    "ett-core-environments": {
+      "tags": ["product:ett", "scope:core", "type:environments"]
+    },
     "ett-core-feature-shell": {
       "tags": ["product:ett", "scope:core", "type:feature"]
+    },
+    "ett-core-util-browser": {
+      "tags": ["product:ett", "scope:core", "type:util"]
     },
     "ett-dashboard-feature-shell": {
       "tags": ["product:ett", "scope:dashboard", "type:feature"]
     },
-    "ett-shared-test-util-angular": {
+    "ett-shared-test-util-staging": {
       "tags": ["product:ett", "scope:shared", "type:test-util"]
     },
     "ui-watt": {
       "tags": ["product:watt", "type:ui"]
-    }
+    },
+    "workspace-tools": {}
   }
 }

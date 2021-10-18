@@ -20,7 +20,7 @@ import { RouterModule, Routes } from '@angular/router';
 import {
   EttDashboardShellComponent,
   EttDashboardShellScam,
-} from './shell/ett-dashboard-shell.component';
+} from './ett-dashboard-shell.component';
 
 const routes: Routes = [
   {

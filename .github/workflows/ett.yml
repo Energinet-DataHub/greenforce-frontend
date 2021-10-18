@@ -57,6 +57,10 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-${{ env.node-version }}
             ${{ runner.os }}
+      - name: Disable workspace NGCC run
+        uses: ./.github/actions/setup-postinstall
+        with:
+          ngcc: false
       - name: Install package dependencies
         run: yarn install --frozen-lockfile --non-interactive
 
@@ -93,11 +97,15 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-${{ env.node-version }}
             ${{ runner.os }}
+      - name: Disable workspace NGCC run
+        uses: ./.github/actions/setup-postinstall
+        with:
+          ngcc: false
       - name: Install package dependencies
         run: yarn install --frozen-lockfile --non-interactive
 
       - name: Angular Compatibility Compiler
-        run: yarn ngcc --use-program-dependencies --tsconfig apps/${{ env.app-name }}/tsconfig.app.json
+        run: npm run ngcc:ett
 
       - name: Production build
         run: yarn nx build ${{ env.app-name }} --max-parallel=$NX_MAX_PARALLEL

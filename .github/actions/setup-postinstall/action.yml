@@ -1,0 +1,47 @@
+# @license
+# Copyright 2021 Energinet DataHub A/S
+#
+# Licensed under the Apache License, Version 2.0 (the "License2");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+name: Set up postinstall script
+description: Configure the postinstall script in package.json.
+
+inputs:
+  ngcc:
+    description: Enable NGCC?
+    required: false
+    default: true
+  nx:
+    description: Enable Nx?
+    required: false
+    default: true
+
+runs:
+  using: composite
+  steps:
+    - name: Install json tool globally
+      shell: bash
+      run: npm install --global json
+    - name: Disable ngcc script
+      shell: bash
+      run: |
+        if ${{ inputs.ngcc == 'false'  }}
+        then
+          json -I -f package.json -e "this.scripts['postinstall:ngcc'] = '';"
+        fi
+    - name: Disable Nx patch
+      shell: bash
+      run: |
+        if ${{ inputs.nx == 'false' }}
+        then
+          json -I -f package.json -e "this.scripts['postinstall:nx'] = '';"
+        fi
