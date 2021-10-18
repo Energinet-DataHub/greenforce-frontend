@@ -105,11 +105,4 @@ export class StorybookIconOverviewComponent {
       ],
     },
   ];
-
-  /**
-   * @ignore
-   */
-  copyToClipboard(color: string) {
-    `var(${navigator.clipboard.writeText(color)})`;
-  }
 }
