@@ -16,7 +16,8 @@
  */
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { WattIconModule } from '@energinet-datahub/watt';
+
+import { WattIconModule } from './../icon.module';
 import { StorybookIconOverviewComponent } from './storybook-icon-overview.component';
 
 @NgModule({
