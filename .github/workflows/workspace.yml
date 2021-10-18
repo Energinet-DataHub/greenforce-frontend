@@ -61,9 +61,6 @@ jobs:
       - name: Install package dependencies
         run: yarn install --frozen-lockfile --non-interactive
 
-      - name: Angular Compatibility Compiler
-        run: yarn ngcc
-
       - name: 'PR: Production build of affected products'
         if: ${{ env.is-pull-request == 'true' }}
         run: yarn affected:build --base=origin/$BASE_BRANCH
@@ -112,9 +109,6 @@ jobs:
       - name: Install package dependencies
         run: yarn install --frozen-lockfile --non-interactive
 
-      - name: Angular Compatibility Compiler
-        run: yarn ngcc
-
       - name: 'PR: End-to-end test affected products'
         if: ${{ env.is-pull-request == 'true' }}
         run: yarn affected:e2e --configuration=ci --base=origin/$BASE_BRANCH
@@ -156,8 +150,14 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-${{ env.node-version }}
             ${{ runner.os }}
+      - name: Disable Angular Compatibility Compiler
+        uses: ./.github/actions/setup-postinstall
+        with:
+          ngcc: false
       - name: Install package dependencies
         run: yarn install --frozen-lockfile --non-interactive
+      - name: Revert postinstall changes
+        run: git reset --hard
 
       - name: Format projects and configuration files
         run: yarn format --base=origin/$BASE_BRANCH
@@ -209,8 +209,14 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-${{ env.node-version }}
             ${{ runner.os }}
+      - name: Disable Angular Compatibility Compiler
+        uses: ./.github/actions/setup-postinstall
+        with:
+          ngcc: false
       - name: Install package dependencies
         run: yarn install --frozen-lockfile --non-interactive
+      - name: Revert postinstall changes
+        run: git reset --hard
 
       - name: 'PR: Fix affected projects using lint rules'
         if: ${{ env.is-pull-request == 'true' }}
@@ -266,9 +272,6 @@ jobs:
             ${{ runner.os }}
       - name: Install package dependencies
         run: yarn install --frozen-lockfile --non-interactive
-
-      - name: Angular Compatibility Compiler
-        run: yarn ngcc
 
       - name: 'PR: Test affected projects'
         if: ${{ env.is-pull-request == 'true' }}
