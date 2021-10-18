@@ -19,11 +19,6 @@
     width: 100%;
 }
 
-.xxl {
-    width: auto;
-    height: 128px;
-}
-
 ul {
     list-style: none;
     padding: 0;
@@ -46,10 +41,20 @@ ul {
     color: var(--watt-color-primary);
 }
 
-.custom-icons {
+.custom-icons, .sizes {
     color: var(--watt-color-primary-dark);
 }
 
 watt-icon {
     margin-right: 10px;
+}
+
+.sizes {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: end;
+}
+
+figure {
+    margin: 10px;
 }

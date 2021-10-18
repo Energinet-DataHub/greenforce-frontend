@@ -17,25 +17,33 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  HostBinding,
   Input,
   OnChanges,
   SimpleChanges,
+  ViewEncapsulation,
 } from '@angular/core';
 
-import { WattColors } from '@energinet-datahub/watt';
 import { WattIconService } from './icon.service';
 import { WattIcon } from './icons';
+
+export type WattIconSize = 'XSmall' | 'Small' | 'Medium' | 'Large' | 'XLarge' | 'XXLarge';
 
 @Component({
   selector: 'watt-icon',
   templateUrl: './icon.component.html',
   styleUrls: ['./icon.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None
 })
 export class WattIconComponent implements OnChanges {
   @Input() name!: WattIcon;
   @Input() label!: string;
-  @Input() color: WattColors = WattColors.primary;
+  @Input() size: WattIconSize = 'Medium';
+
+  @HostBinding('class') get currentSize(): string[] {
+    return [`icon-${this.size}`];
+  }
 
   icon!: string;
   customIcon!: string;

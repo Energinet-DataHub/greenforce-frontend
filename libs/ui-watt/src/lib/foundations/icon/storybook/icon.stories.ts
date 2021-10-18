@@ -14,16 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { CommonModule } from '@angular/common';
 import { Meta, moduleMetadata, Story } from '@storybook/angular';
-import { WattIconModule } from '../icon.module';
 import { StorybookIconOverviewComponent } from './storybook-icon-overview.component';
+import { StorybookIconOverviewModule } from './storybook-icon-overview.module';
 
 export default {
   title: 'Foundations/Icons',
   decorators: [
     moduleMetadata({
-      imports: [CommonModule, WattIconModule],
+      imports: [StorybookIconOverviewModule],
     }),
   ],
   component: StorybookIconOverviewComponent

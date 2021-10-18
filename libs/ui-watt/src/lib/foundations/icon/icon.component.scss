@@ -14,15 +14,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-:host {
+@use './watt-icon-variables' as variables;
+
+watt-icon {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 24px;
-    height: 24px;
 }
 
-.mat-icon {
-    width: 100%;
-    height: 100%;
+@each $name, $size in variables.$sizes {
+    .icon-#{$name} mat-icon {
+      font-size: $size;
+      line-height: $size;
+      height: $size;
+      width: $size;
+    }
 }
