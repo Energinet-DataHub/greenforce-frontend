@@ -29,7 +29,12 @@ import { FormControl } from '@angular/forms';
   styleUrls: ['./storybook-input-wrapper.component.scss'],
   template: `<watt-form-field [size]="size">
     <watt-label>{{ label }}</watt-label>
-    <watt-icon *ngIf="hasPrefix" wattPrefix name="search" label="some meaningful description"></watt-icon>
+    <watt-icon
+      *ngIf="hasPrefix"
+      wattPrefix
+      name="search"
+      label="some meaningful description"
+    ></watt-icon>
     <input
       wattInput
       type="text"

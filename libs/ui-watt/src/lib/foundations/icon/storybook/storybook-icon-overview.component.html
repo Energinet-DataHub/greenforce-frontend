@@ -17,7 +17,10 @@ limitations under the License.
 <h1>Icons</h1>
 
 <h2>Watt icons</h2>
-<p>Cumulus contains a library of all custom icons. Icons exist in both white and color.</p>
+<p>
+  Cumulus contains a library of all custom icons. Icons exist in both white and
+  color.
+</p>
 
 <div class="groups custom-icons">
   <figure>
@@ -34,11 +37,11 @@ limitations under the License.
 
 <ul class="groups">
   <li *ngFor="let group of icons" class="group">
-    <span class="watt-label">{{group.name}}</span>
+    <span class="watt-label">{{ group.name }}</span>
     <ul class="icons">
       <li *ngFor="let icon of group.icons" class="icon">
-        <watt-icon [name]="icon.icon" [label]="icon.name"></watt-icon> 
-        <span>{{icon.name}}</span>
+        <watt-icon [name]="icon.icon" [label]="icon.name"></watt-icon>
+        <span>{{ icon.name }}</span>
       </li>
     </ul>
   </li>
@@ -69,5 +72,5 @@ limitations under the License.
   <figure>
     <watt-icon name="plus" size="XXLarge"></watt-icon>
     <figcaption>XXLarge</figcaption>
-  </figure>  
+  </figure>
 </section>

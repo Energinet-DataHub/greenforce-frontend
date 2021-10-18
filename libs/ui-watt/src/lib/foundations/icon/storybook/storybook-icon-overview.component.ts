@@ -17,7 +17,6 @@
 import { Component } from '@angular/core';
 import { WattIcon } from '../icons';
 
-
 interface Icon {
   name: string;
   icon: WattIcon;
