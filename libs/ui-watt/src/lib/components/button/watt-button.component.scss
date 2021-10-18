@@ -53,7 +53,7 @@ watt-button {
 
   .content-grid {
     align-items: center;
-    display: flex;
+    display: inline-flex;
   }
 
   // NOTE(xdzus): Needed in order to center the icon if content is empty

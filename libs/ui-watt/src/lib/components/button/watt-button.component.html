@@ -23,9 +23,11 @@ limitations under the License.
 ></ng-container>
 
 <div #contentWrapper class="content-grid">
-  <mat-icon *ngIf="hasIcon" class="content-grid-item">
-    {{ icon }}
-  </mat-icon>
+  <watt-icon
+    *ngIf="hasIcon"
+    class="content-grid-item"
+    [name]="icon"
+  ></watt-icon>
 
   <div class="content-grid-item">
     <ng-content></ng-content>

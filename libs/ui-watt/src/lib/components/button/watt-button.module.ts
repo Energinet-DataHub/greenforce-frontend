@@ -16,7 +16,8 @@
  */
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { MatIconModule } from '@angular/material/icon';
+
+import { WattIconModule } from './../../foundations/icon/icon.module';
 
 import { WattButtonComponent } from './watt-button.component';
 import { WattPrimaryButtonModule } from './primary-button/watt-primary-button.module';
@@ -28,7 +29,7 @@ import { WattTextButtonModule } from './text-button/watt-text-button.module';
   exports: [WattButtonComponent],
   imports: [
     CommonModule,
-    MatIconModule,
+    WattIconModule,
     WattTextButtonModule,
     WattSecondaryButtonModule,
     WattPrimaryButtonModule,
