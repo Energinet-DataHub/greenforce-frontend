@@ -89,7 +89,7 @@ export class WattButtonComponent {
     }
   }
   get hasIcon(): boolean {
-    return this.icon !== '' && this.icon != null;
+    return this.icon != null;
   }
 
   constructor(private injector: Injector) {}
