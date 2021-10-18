@@ -48,8 +48,6 @@ import { WattIconModule } from './../../../foundations/icon';
     StorybookInputWrapperComponent,
     StorybookInputOverviewComponent,
   ],
-  entryComponents: [
-    WattTextButtonComponent
-  ]
+  entryComponents: [WattTextButtonComponent],
 })
 export class StorybookInputModule {}

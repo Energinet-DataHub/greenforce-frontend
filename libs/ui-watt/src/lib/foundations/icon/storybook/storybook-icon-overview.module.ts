@@ -14,14 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { CommonModule } from "@angular/common";
-import { NgModule } from "@angular/core";
-import { WattIconModule } from "@energinet-datahub/watt";
-import { StorybookIconOverviewComponent } from "./storybook-icon-overview.component";
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { WattIconModule } from '@energinet-datahub/watt';
+import { StorybookIconOverviewComponent } from './storybook-icon-overview.component';
 
 @NgModule({
-    imports: [CommonModule, WattIconModule],
-    declarations: [StorybookIconOverviewComponent],
-    exports: [StorybookIconOverviewComponent]
+  imports: [CommonModule, WattIconModule],
+  declarations: [StorybookIconOverviewComponent],
+  exports: [StorybookIconOverviewComponent],
 })
 export class StorybookIconOverviewModule {}

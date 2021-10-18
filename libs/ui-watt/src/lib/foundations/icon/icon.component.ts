@@ -27,14 +27,20 @@ import {
 import { WattIconService } from './icon.service';
 import { WattIcon } from './icons';
 
-export type WattIconSize = 'XSmall' | 'Small' | 'Medium' | 'Large' | 'XLarge' | 'XXLarge';
+export type WattIconSize =
+  | 'XSmall'
+  | 'Small'
+  | 'Medium'
+  | 'Large'
+  | 'XLarge'
+  | 'XXLarge';
 
 @Component({
   selector: 'watt-icon',
   templateUrl: './icon.component.html',
   styleUrls: ['./icon.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
 })
 export class WattIconComponent implements OnChanges {
   @Input() name!: WattIcon;
@@ -61,7 +67,7 @@ export class WattIconComponent implements OnChanges {
 
   /**
    * @ignore
-   * @param changes 
+   * @param changes
    */
   ngOnChanges(changes: SimpleChanges) {
     this.setIcon(changes.name?.currentValue);
@@ -69,8 +75,8 @@ export class WattIconComponent implements OnChanges {
 
   /**
    * @ignore
-   * @param name 
-   * @returns 
+   * @param name
+   * @returns
    */
   private setIcon(name: WattIcon) {
     if (!name) return;

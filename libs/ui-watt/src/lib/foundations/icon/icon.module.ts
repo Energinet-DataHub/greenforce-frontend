@@ -14,15 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { CommonModule } from "@angular/common";
-import { HttpClientModule } from "@angular/common/http";
-import { NgModule } from "@angular/core";
-import { MatIconModule } from "@angular/material/icon";
+import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
+import { NgModule } from '@angular/core';
+import { MatIconModule } from '@angular/material/icon';
 
-import { WattIconComponent } from "./icon.component";
+import { WattIconComponent } from './icon.component';
 @NgModule({
-    imports: [MatIconModule, HttpClientModule, CommonModule],
-    declarations: [WattIconComponent],
-    exports: [WattIconComponent]
+  imports: [MatIconModule, HttpClientModule, CommonModule],
+  declarations: [WattIconComponent],
+  exports: [WattIconComponent],
 })
 export class WattIconModule {}

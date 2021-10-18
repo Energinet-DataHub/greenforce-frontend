@@ -15,45 +15,45 @@
  * limitations under the License.
  */
 const _icons = {
-    // Essentials
-    search: 'search',
-    filter: 'filter_list',
-    plus: 'add',
-    minus: 'remove',
-    edit: 'edit',
-    remove: 'delete',
-    close: 'close',
-    checkmark: 'check',
-    user: 'account_circle',
-    settings: 'settings',
-    date: 'calendar_today',
-    time: 'schedule',
-    email: 'email',
-    link: 'link',
-    // Navigation
-    left: 'navigate_before',
-    right: 'navigate_next',
-    up: 'expand_less',
-    down: 'expand_more',
-    // Alerts
-    danger: 'dangerous',
-    warning: 'report_problem',
-    success: 'check_circle',
-    info: 'info',
-    // Files
-    upload: 'cloud_upload',
-    download: 'cloud_download',
-    print: 'print',
-    preview: 'preview'
-}
+  // Essentials
+  search: 'search',
+  filter: 'filter_list',
+  plus: 'add',
+  minus: 'remove',
+  edit: 'edit',
+  remove: 'delete',
+  close: 'close',
+  checkmark: 'check',
+  user: 'account_circle',
+  settings: 'settings',
+  date: 'calendar_today',
+  time: 'schedule',
+  email: 'email',
+  link: 'link',
+  // Navigation
+  left: 'navigate_before',
+  right: 'navigate_next',
+  up: 'expand_less',
+  down: 'expand_more',
+  // Alerts
+  danger: 'dangerous',
+  warning: 'report_problem',
+  success: 'check_circle',
+  info: 'info',
+  // Files
+  upload: 'cloud_upload',
+  download: 'cloud_download',
+  print: 'print',
+  preview: 'preview',
+};
 
 /**
  * Icons manually registered
  */
 export const _customIcons = {
-    power: 'power',
-    explore: 'explore',
-}
+  power: 'power',
+  explore: 'explore',
+};
 
-export const _allIcons = {..._icons, ..._customIcons};
+export const _allIcons = { ..._icons, ..._customIcons };
 export type WattIcon = keyof typeof _allIcons;
