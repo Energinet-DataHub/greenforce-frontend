@@ -65,3 +65,11 @@ watt-button {
     }
   }
 }
+
+/**
+ * In context of Watt Form Field
+ */
+watt-form-field watt-button.watt-button-normal button.watt-button {
+  min-width: auto;
+  padding: 0;
+}
