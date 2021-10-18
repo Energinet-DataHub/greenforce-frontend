@@ -38,6 +38,9 @@ export type WattIconSize = 'XSmall' | 'Small' | 'Medium' | 'Large' | 'XLarge' | 
 })
 export class WattIconComponent implements OnChanges {
   @Input() name!: WattIcon;
+  /**
+   * @description used for `aria-label`
+   */
   @Input() label!: string;
   @Input() size: WattIconSize = 'Medium';
 
@@ -45,15 +48,30 @@ export class WattIconComponent implements OnChanges {
     return [`icon-${this.size}`];
   }
 
+  /**
+   * @ignore
+   */
   icon!: string;
+  /**
+   * @ignore
+   */
   customIcon!: string;
 
   constructor(private iconRegistry: WattIconService) {}
 
+  /**
+   * @ignore
+   * @param changes 
+   */
   ngOnChanges(changes: SimpleChanges) {
     this.setIcon(changes.name?.currentValue);
   }
 
+  /**
+   * @ignore
+   * @param name 
+   * @returns 
+   */
   private setIcon(name: WattIcon) {
     if (!name) return;
     const iconName = this.iconRegistry.getIconName(name);

@@ -15,7 +15,9 @@
  * limitations under the License.
  */
 import { Meta, moduleMetadata, Story } from '@storybook/angular';
-import { StorybookIconOverviewComponent } from './storybook-icon-overview.component';
+
+import { WattIconComponent } from './../icon.component';
+
 import { StorybookIconOverviewModule } from './storybook-icon-overview.module';
 
 export default {
@@ -25,13 +27,43 @@ export default {
       imports: [StorybookIconOverviewModule],
     }),
   ],
-  component: StorybookIconOverviewComponent
-} as Meta<StorybookIconOverviewComponent>;
+  component: WattIconComponent
+} as Meta<WattIconComponent>;
 
 //👇 We create a “template” of how args map to rendering
-const Template: Story<StorybookIconOverviewComponent> = (args) => ({
+const Template: Story<WattIconComponent> = (args) => ({
   props: args,
+  template: `<storybook-icon-overview></storybook-icon-overview>` 
 });
 
 //👇 Each story then reuses that template
 export const icons = Template.bind({});
+icons.parameters = {
+  controls: { hideNoControlsWarning: true },
+  docs: {
+    source: {
+      code: `1. Import WattIconModule in a module
+import { WattIconModule } from '@energinet-datahub/watt';
+      
+2. Use <watt-icon name="ICON NAME" label="ICON DESCRIPTION" size="ICON SIZE"><watt-icon> in the component's HTML template`,
+    },
+  }
+}
+icons.argTypes = {
+  label: {
+    description: 'Description of the icon used for `aria-label`',
+    control: false
+  },
+  name: {
+    description: 'Name of the icon',
+    control: false
+  },
+  size: {
+    description: 'Size of the icon `WattIconSize`',
+    defaultValue: 'Medium',
+    table: {
+      type: { summary: 'string' },
+      defaultValue: { summary: 'Medium' },
+    }
+  }
+}
