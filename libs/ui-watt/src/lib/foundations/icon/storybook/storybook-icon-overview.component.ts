@@ -17,6 +17,17 @@
 import { Component } from '@angular/core';
 import { WattIcon } from '../icons';
 
+
+interface Icon {
+  name: string;
+  icon: WattIcon;
+}
+
+interface IconGroup {
+  name?: string;
+  icons: Icon[];
+}
+
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'storybook-icon-overview',
@@ -27,76 +38,70 @@ export class StorybookIconOverviewComponent {
   /**
    * @ignore
    */
-  icons = [
+  icons: IconGroup[] = [
     {
-      name: null,
       icons: [
-        { name: 'Search', icon: WattIcon.search },
-        { name: 'Filter', icon: WattIcon.filter },
-        { name: 'Plus', icon: WattIcon.plus },
-        { name: 'Minus', icon: WattIcon.minus },
+        { name: 'Search', icon: 'search' },
+        { name: 'Filter', icon: 'filter' },
+        { name: 'Plus', icon: 'plus' },
+        { name: 'Minus', icon: 'minus' },
       ],
     },
     {
-      name: null,
       icons: [
-        { name: 'Edit', icon: WattIcon.edit },
-        { name: 'Remove', icon: WattIcon.remove },
+        { name: 'Edit', icon: 'edit' },
+        { name: 'Remove', icon: 'remove' },
       ],
     },
     {
-      name: null,
       icons: [
-        { name: 'Close', icon: WattIcon.close },
-        { name: 'Checkmark', icon: WattIcon.checkmark },
+        { name: 'Close', icon: 'close' },
+        { name: 'Checkmark', icon: 'checkmark' },
       ],
     },
     {
-      name: null,
       icons: [
-        { name: 'User', icon: WattIcon.user },
-        { name: 'Settings', icon: WattIcon.settings },
+        { name: 'User', icon: 'user' },
+        { name: 'Settings', icon: 'settings' },
       ],
     },
     {
-      name: null,
       icons: [
-        { name: 'Date', icon: WattIcon.date },
-        { name: 'Time', icon: WattIcon.time },
+        { name: 'Date', icon: 'date' },
+        { name: 'Time', icon: 'time' },
       ],
     },
     {
-      name: null,
       icons: [
-        { name: 'E-mail', icon: WattIcon.email },
-        { name: 'Link', icon: WattIcon.link },
+        { name: 'E-mail', icon: 'email' },
+        { name: 'Link', icon: 'link' },
       ],
     },
     {
       name: 'navigation',
       icons: [
-        { name: 'Left', icon: WattIcon.left },
-        { name: 'Right', icon: WattIcon.right },
-        { name: 'Up', icon: WattIcon.up },
-        { name: 'Down', icon: WattIcon.down },
+        { name: 'Left', icon: 'left' },
+        { name: 'Right', icon: 'right' },
+        { name: 'Up', icon: 'up' },
+        { name: 'Down', icon: 'down' },
       ],
     },
     {
       name: 'alerts',
       icons: [
-        { name: 'Danger', icon: WattIcon.danger },
-        { name: 'Warning', icon: WattIcon.warning },
-        { name: 'Success', icon: WattIcon.success },
-        { name: 'Info', icon: WattIcon.info },
+        { name: 'Danger', icon: 'danger' },
+        { name: 'Warning', icon: 'warning' },
+        { name: 'Success', icon: 'success' },
+        { name: 'Info', icon: 'info' },
       ],
     },
     {
       name: 'files',
       icons: [
-        { name: 'Upload', icon: WattIcon.upload },
-        { name: 'Download', icon: WattIcon.download },
-        { name: 'Print', icon: WattIcon.print },
-        { name: 'Preview', icon: WattIcon.preview },
+        { name: 'Upload', icon: 'upload' },
+        { name: 'Download', icon: 'download' },
+        { name: 'Print', icon: 'print' },
+        { name: 'Preview', icon: 'preview' },
       ],
     },
   ];

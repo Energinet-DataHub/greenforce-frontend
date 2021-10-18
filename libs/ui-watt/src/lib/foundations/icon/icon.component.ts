@@ -14,17 +14,43 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, Input } from "@angular/core";
-import { WattColors } from "@energinet-datahub/watt";
-import { WattIcon } from "./icons";
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnChanges,
+  SimpleChanges,
+} from '@angular/core';
+
+import { WattColors } from '@energinet-datahub/watt';
+import { WattIconService } from './icon.service';
+import { WattIcon } from './icons';
 
 @Component({
-    selector: 'watt-icon',
-    templateUrl: './icon.component.html',
-    styleUrls: ['./icon.component.scss'],
+  selector: 'watt-icon',
+  templateUrl: './icon.component.html',
+  styleUrls: ['./icon.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class WattIconComponent {
-    @Input() name!: WattIcon;
-    @Input() label!: string;
-    @Input() color: WattColors = WattColors.primary;
-} 
+export class WattIconComponent implements OnChanges {
+  @Input() name!: WattIcon;
+  @Input() label!: string;
+  @Input() color: WattColors = WattColors.primary;
+
+  icon!: string;
+  customIcon!: string;
+
+  constructor(private iconRegistry: WattIconService) {}
+
+  ngOnChanges(changes: SimpleChanges) {
+    this.setIcon(changes.name?.currentValue);
+  }
+
+  private setIcon(name: WattIcon) {
+    if (!name) return;
+    const iconName = this.iconRegistry.getIconName(name);
+    this.iconRegistry.isCustomIcon(name)
+      ? (this.customIcon = iconName)
+      : (this.icon = iconName);
+  }
+}

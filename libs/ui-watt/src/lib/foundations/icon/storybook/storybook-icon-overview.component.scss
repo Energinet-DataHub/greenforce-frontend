@@ -20,8 +20,8 @@
 }
 
 .xxl {
-    width: 128px;
-    height: auto;
+    width: auto;
+    height: 128px;
 }
 
 ul {
@@ -44,6 +44,10 @@ ul {
     display: flex;
     align-items: center;
     color: var(--watt-color-primary);
+}
+
+.custom-icons {
+    color: var(--watt-color-primary-dark);
 }
 
 watt-icon {
