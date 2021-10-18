@@ -16,7 +16,7 @@
  */
 import { Meta, moduleMetadata, Story } from '@storybook/angular';
 
-import { WattIconComponent } from './../icon.component';
+import { WattIconComponent } from '../icon.component';
 
 import { StorybookIconOverviewModule } from './storybook-icon-overview.module';
 
