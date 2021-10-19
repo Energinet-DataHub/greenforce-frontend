@@ -16,29 +16,32 @@ export const emptyState: Story<WattEmptyStateComponent> = (args) => ({
   props: args,
 });
 emptyState.args = {
-    icon: 'explore',
-    title: 'No results for ‘test’',
-    msg: 'Try adjusting your search or filter to find what you are looking for.'
-}
+  icon: 'explore',
+  title: 'No results for ‘test’',
+  msg: 'Try adjusting your search or filter to find what you are looking for.',
+};
 
-
-const emptyStateWithCallBackTemplate = (args: Partial<WattEmptyStateComponent>) => (`<watt-empty-state icon="${args.icon}" title="${args.title}" msg="${args.msg}">
+const emptyStateWithCallBackTemplate = (
+  args: Partial<WattEmptyStateComponent>
+) => `<watt-empty-state icon="${args.icon}" title="${args.title}" msg="${args.msg}">
   <watt-button type="primary" size="normal">Go Back</watt-button>
-</watt-empty-state>`)  
+</watt-empty-state>`;
 
-export const emptyStateWithCallBack: Story<WattEmptyStateComponent> = (args) => ({
+export const emptyStateWithCallBack: Story<WattEmptyStateComponent> = (
+  args
+) => ({
   props: args,
   template: emptyStateWithCallBackTemplate(args),
 });
 emptyStateWithCallBack.args = {
   icon: 'power',
   title: 'An unexpected error occured',
-  msg: 'Try again or contact your system administrator if you keep getting this error.'
-}
+  msg: 'Try again or contact your system administrator if you keep getting this error.',
+};
 emptyStateWithCallBack.parameters = {
   docs: {
     source: {
-      code: emptyStateWithCallBackTemplate(emptyStateWithCallBack.args)
+      code: emptyStateWithCallBackTemplate(emptyStateWithCallBack.args),
     },
   },
-}
+};

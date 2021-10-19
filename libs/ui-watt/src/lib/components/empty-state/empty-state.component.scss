@@ -1,17 +1,18 @@
 watt-empty-state {
-    display: block;
-    text-align: center;
-    color: var(--watt-color-primary-dark);
+  display: block;
+  text-align: center;
+  color: var(--watt-color-primary-dark);
 
-    h3, p {
-        margin: 0;
+  h3,
+  p {
+    margin: 0;
+  }
+
+  watt-button {
+    display: block;
+    margin-top: var(--watt-space-m);
+    &:first-of-type {
+      margin-top: var(--watt-space-l);
     }
-    
-    watt-button {
-        display: block;
-        margin-top: var(--watt-space-m);
-        &:first-of-type {
-            margin-top: var(--watt-space-l);
-        }
-    }
+  }
 }
