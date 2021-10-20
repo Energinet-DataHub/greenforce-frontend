@@ -3,11 +3,7 @@
 
 @include mat.core();
 
-$watt-primary: mat.define-palette(colors.$palette, 'primary', 'primary-light', 'primary-dark');
-$watt-accent: mat.define-palette(colors.$palette, 'primary', 'primary-light', 'primary-dark');
-
-// The "warn" palette is optional and defaults to red if not specified.
-$watt-warn: mat.define-palette(mat.$red-palette);
+$watt-palette: mat.define-palette(colors.$palette, 'primary', 'primary-light', 'primary-dark');
 
 $watt-typography: mat.define-typography-config(
     $font-family: 'Open Sans, sans-serif',
@@ -15,19 +11,13 @@ $watt-typography: mat.define-typography-config(
 
 $watt-theme: mat.define-light-theme((
  color: (
-   primary: $watt-primary,
-   accent: $watt-accent,
-   warn: $watt-warn
+   primary: $watt-palette,
+   accent: $watt-palette
  ),
  typography: $watt-typography
 ));
 
-// Emit theme-dependent styles for common features used across multiple components.
 @include mat.core-theme($watt-theme);
-
-// Emit styles for MatButton based on `$watt-theme`. Because the configuration
-// passed to `define-light-theme` omits typography, `button-theme` will not
-// emit any typography styles.
 @include mat.button-theme($watt-theme);
 @include mat.form-field-theme($watt-theme);
 @include mat.input-theme($watt-theme);
