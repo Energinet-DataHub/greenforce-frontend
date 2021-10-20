@@ -12,11 +12,11 @@ export type WattBadge = 'warning' | 'success' | 'danger' | 'info';
   templateUrl: './badge.component.html',
   // eslint-disable-next-line @angular-eslint/no-host-metadata-property
   host: {
-    class: 'watt-label'
-  }
+    class: 'watt-label',
+  },
 })
 export class WattBadgeComponent {
-  @Input() type: WattBadge = 'info'; 
+  @Input() type: WattBadge = 'info';
 
   @HostBinding('class')
   get badgeType() {

@@ -24,42 +24,42 @@ export const overview: Story<WattBadgeComponent> = (args) => ({
   <watt-badge type="success">Success</watt-badge>
   <br />
   <watt-badge type="info">Info</watt-badge>
-  `
+  `,
 });
 overview.parameters = {
   docs: {
     source: {
-      code: 'Nothing to see here.'
-    }
-  }
-}
+      code: 'Nothing to see here.',
+    },
+  },
+};
 overview.argTypes = {
   type: {
-    control: false
-  }
-}
+    control: false,
+  },
+};
 
 const template: Story<WattBadgeComponent> = (args) => ({
   props: args,
-  template: `<watt-badge type="${args.type}">${args.type}</watt-badge>`
+  template: `<watt-badge type="${args.type}">${args.type}</watt-badge>`,
 });
 
 export const warning = template.bind({});
 warning.args = {
-  type: 'warning'
-}
+  type: 'warning',
+};
 
 export const danger = template.bind({});
 danger.args = {
-  type: 'danger'
-}
+  type: 'danger',
+};
 
 export const success = template.bind({});
 success.args = {
-  type: 'success'
-}
+  type: 'success',
+};
 
 export const info = template.bind({});
 info.args = {
-  type: 'info'
-}
+  type: 'info',
+};

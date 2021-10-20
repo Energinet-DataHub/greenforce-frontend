@@ -7,17 +7,16 @@
   &.watt-badge-warning {
     background: var(--watt-color-state-warning-light);
   }
-  
+
   &.watt-badge-danger {
     background: var(--watt-color-state-danger-light);
   }
-  
+
   &.watt-badge-success {
     background: var(--watt-color-state-success-light);
   }
-  
+
   &.watt-badge-info {
     background: var(--watt-color-state-info-light);
-  }  
+  }
 }
-
