@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { WattSpinnerComponent } from './spinner.component';
 
