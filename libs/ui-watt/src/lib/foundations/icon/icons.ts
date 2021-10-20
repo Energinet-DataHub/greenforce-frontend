@@ -53,6 +53,8 @@ const _icons = {
 export const _customIcons = {
   power: 'power',
   explore: 'explore',
+  meter: 'meter',
+  map_marker: 'map_marker'
 };
 
 export const _allIcons = { ..._icons, ..._customIcons };
