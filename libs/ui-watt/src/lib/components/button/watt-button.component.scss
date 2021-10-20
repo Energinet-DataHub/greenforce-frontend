@@ -18,7 +18,7 @@
 
 watt-button {
   display: inline-block;
-  button.watt-button { 
+  button.watt-button {
     font-weight: 600;
   }
 
@@ -58,7 +58,7 @@ watt-button {
       outline: buttonVariables.$watt-button-secondary-focus-state;
       background: buttonVariables.$watt-button-secondary-focus-background;
     }
-    
+
     button.watt-button:hover:not(.mat-button-disabled) {
       background: buttonVariables.$watt-button-secondary-hover-background;
     }
