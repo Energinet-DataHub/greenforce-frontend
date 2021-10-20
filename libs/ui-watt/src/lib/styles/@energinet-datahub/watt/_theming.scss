@@ -1,0 +1,42 @@
+@use '~@angular/material' as mat;
+@use './../../../foundations/color/colors.import' as colors;
+
+@include mat.core();
+
+$watt-primary: mat.define-palette(colors.$palette, 'primary', 'primary-light', 'primary-dark');
+$watt-accent: mat.define-palette(colors.$palette, 'primary', 'primary-light', 'primary-dark');
+
+// The "warn" palette is optional and defaults to red if not specified.
+$watt-warn: mat.define-palette(mat.$red-palette);
+
+$watt-typography: mat.define-typography-config(
+    $font-family: 'Open Sans, sans-serif',
+);
+
+$watt-theme: mat.define-light-theme((
+ color: (
+   primary: $watt-primary,
+   accent: $watt-accent,
+   warn: $watt-warn
+ ),
+ typography: $watt-typography
+));
+
+// Emit theme-dependent styles for common features used across multiple components.
+@include mat.core-theme($watt-theme);
+
+// Emit styles for MatButton based on `$watt-theme`. Because the configuration
+// passed to `define-light-theme` omits typography, `button-theme` will not
+// emit any typography styles.
+@include mat.button-theme($watt-theme);
+@include mat.form-field-theme($watt-theme);
+@include mat.input-theme($watt-theme);
+@include mat.select-theme($watt-theme);
+@include mat.autocomplete-theme($watt-theme);
+@include mat.progress-spinner-theme($watt-theme);
+@include mat.badge-theme($watt-theme);
+@include mat.expansion-theme($watt-theme);
+@include mat.tabs-theme($watt-theme);
+@include mat.table-theme($watt-theme);
+@include mat.sidenav-theme($watt-theme);
+@include mat.icon-theme($watt-theme);

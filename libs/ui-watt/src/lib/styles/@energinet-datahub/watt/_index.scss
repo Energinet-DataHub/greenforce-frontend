@@ -19,8 +19,7 @@
 @use '../../../foundations/typography';
 @use '../../../foundations/spacing';
 
-// Include Material theme
-@import '~@angular/material/prebuilt-themes/indigo-pink.css';
+@use './theming';
 
 html,
 body {

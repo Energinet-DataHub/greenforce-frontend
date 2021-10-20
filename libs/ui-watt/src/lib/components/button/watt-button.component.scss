@@ -18,6 +18,9 @@
 
 watt-button {
   display: inline-block;
+  button.watt-button { 
+    font-weight: 600;
+  }
 
   &.watt-button-normal {
     button.watt-button {
@@ -36,18 +39,45 @@ watt-button {
   watt-primary-button {
     button.watt-button:focus {
       outline: buttonVariables.$watt-button-primary-focus-outline;
+      background: buttonVariables.$watt-button-primary-focus-background;
+    }
+
+    button.watt-button:hover {
+      background: buttonVariables.$watt-button-primary-hover-background;
+    }
+
+    button.watt-button.mat-flat-button.mat-button-disabled {
+      background-color: transparent;
+      border: none;
+      color: var(--watt-color-neutral-grey-500);
     }
   }
 
   watt-secondary-button {
     button.watt-button:focus {
       outline: buttonVariables.$watt-button-secondary-focus-state;
+      background: buttonVariables.$watt-button-secondary-focus-background;
+    }
+    
+    button.watt-button:hover:not(.mat-button-disabled) {
+      background: buttonVariables.$watt-button-secondary-hover-background;
+    }
+
+    button.watt-button.mat-stroked-button.mat-button-disabled {
+      border-color: var(--watt-color-neutral-grey-300);
     }
   }
 
   watt-text-button {
     button.watt-button:focus {
       outline: buttonVariables.$watt-button-text-focus-state;
+    }
+
+    button.watt-button:hover {
+      color: buttonVariables.$watt-button-text-hover-color;
+      .mat-button-focus-overlay {
+        background-color: transparent;
+      }
     }
   }
 
