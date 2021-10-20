@@ -20,35 +20,33 @@ const template: Story<WattExpansionComponent> = (args) => ({
     Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nihil assumenda sint similique maiores aliquam consectetur earum, qui facere delectus distinctio perferendis dolorum officia numquam ipsa architecto mollitia debitis sed exercitationem.
     Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nihil assumenda sint similique maiores aliquam consectetur earum, qui facere delectus distinctio perferendis dolorum officia numquam ipsa architecto mollitia debitis sed exercitationem.
     Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nihil assumenda sint similique maiores aliquam consectetur earum, qui facere delectus distinctio perferendis dolorum officia numquam ipsa architecto mollitia debitis sed exercitationem.
-  </watt-expansion>`
+  </watt-expansion>`,
 });
 
 export const collapsed = template.bind({});
 collapsed.parameters = {
   docs: {
     source: {
-      code: '<watt-expansion openLabel="Show more" closeLabel="Show less">YOUR AMAZING CONTENT</watt-expansion>'
-    }
-  }
-}
+      code: '<watt-expansion openLabel="Show more" closeLabel="Show less">YOUR AMAZING CONTENT</watt-expansion>',
+    },
+  },
+};
 collapsed.args = {
   openLabel: 'Show more',
   closeLabel: 'Show less',
-  expanded: false
-}
+  expanded: false,
+};
 
 export const expanded = template.bind({});
 expanded.args = {
   openLabel: 'Show more',
   closeLabel: 'Show less',
-  expanded: true
-}
+  expanded: true,
+};
 expanded.parameters = {
   docs: {
     source: {
-      code: '<watt-expansion openLabel="Show more" closeLabel="Show less" expanded="true">YOUR AMAZING CONTENT</watt-expansion>'
-    }
-  }
-}
-
-
+      code: '<watt-expansion openLabel="Show more" closeLabel="Show less" expanded="true">YOUR AMAZING CONTENT</watt-expansion>',
+    },
+  },
+};

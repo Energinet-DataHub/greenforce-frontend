@@ -1,9 +1,15 @@
-<mat-expansion-panel hideToggle #expansion="matExpansionPanel" [expanded]="expanded">
+<mat-expansion-panel
+  hideToggle
+  #expansion="matExpansionPanel"
+  [expanded]="expanded"
+>
   <mat-expansion-panel-header expandedHeight="0px">
-    <watt-button aria-hidden="true" type="text">{{openLabel}}</watt-button>
+    <watt-button aria-hidden="true" type="text">{{ openLabel }}</watt-button>
   </mat-expansion-panel-header>
   <ng-content></ng-content>
   <mat-action-row>
-    <watt-button type="text" (click)="onClose(expansion)">{{closeLabel}}</watt-button>
+    <watt-button type="text" (click)="onClose(expansion)">{{
+      closeLabel
+    }}</watt-button>
   </mat-action-row>
 </mat-expansion-panel>
