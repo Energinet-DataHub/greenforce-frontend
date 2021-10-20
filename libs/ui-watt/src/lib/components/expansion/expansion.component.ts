@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, Input, ViewEncapsulation } from '@angular/core';
 import { MatExpansionPanel } from '@angular/material/expansion';
 
 /**
@@ -12,6 +12,14 @@ import { MatExpansionPanel } from '@angular/material/expansion';
   encapsulation: ViewEncapsulation.None
 })
 export class WattExpansionComponent {
+  @Input() openLabel!: string;
+  @Input() closeLabel!: string;
+  @Input() expanded = false;
+
+  /**
+   * @ignore
+   * @param matExpansionPanel 
+   */
   onClose(matExpansionPanel: MatExpansionPanel) {
     matExpansionPanel.close();
   }
