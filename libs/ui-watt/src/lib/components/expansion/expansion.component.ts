@@ -9,7 +9,7 @@ import { MatExpansionPanel } from '@angular/material/expansion';
   selector: 'watt-expansion',
   styleUrls: ['./expansion.component.scss'],
   templateUrl: './expansion.component.html',
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
 })
 export class WattExpansionComponent {
   @Input() openLabel!: string;
@@ -18,7 +18,7 @@ export class WattExpansionComponent {
 
   /**
    * @ignore
-   * @param matExpansionPanel 
+   * @param matExpansionPanel
    */
   onClose(matExpansionPanel: MatExpansionPanel) {
     matExpansionPanel.close();

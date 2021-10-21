@@ -1,11 +1,11 @@
-watt-expansion .mat-expansion-panel:not([class*=mat-elevation-z]) {
+watt-expansion .mat-expansion-panel:not([class*='mat-elevation-z']) {
   box-shadow: none;
 }
 
 watt-expansion mat-expansion-panel-header.mat-expansion-panel-header {
   padding: 0;
   background: none !important; // important is not pretty, but a selector which is stronger than MAT is even worse :(
-  
+
   .mat-content {
     justify-content: end;
   }
@@ -13,7 +13,7 @@ watt-expansion mat-expansion-panel-header.mat-expansion-panel-header {
   button {
     opacity: 1;
     transform: translate3d(0, 0, 0);
-    transition: transform .25s ease-in-out, opacity .25s ease-in-out;
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
   }
 }
 
@@ -24,6 +24,7 @@ watt-expansion mat-action-row.mat-action-row {
 
 watt-expansion .mat-expanded mat-expansion-panel-header {
   overflow: hidden;
+
   button {
     transform: translate3d(0, 100%, 0);
     opacity: 0;
@@ -34,6 +35,8 @@ watt-expansion watt-button watt-text-button button.watt-button:focus {
   border: none;
 }
 
-watt-expansion .mat-button:hover:not(.mat-button-disabled) .mat-button-focus-overlay {
+watt-expansion
+  .mat-button:hover:not(.mat-button-disabled)
+  .mat-button-focus-overlay {
   opacity: 0;
 }
