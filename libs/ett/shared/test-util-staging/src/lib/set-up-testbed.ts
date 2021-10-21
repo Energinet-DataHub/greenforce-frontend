@@ -23,10 +23,6 @@ import { detectBaseHrefProvider } from '@energinet-datahub/ett/core/util-browser
 
 export interface TestbedSetupOptions {
   readonly autoDetectChanges?: boolean;
-  /**
-   * Setting to `true` can cause issues with using Angular Testing Library in a
-   * `beforeEach` hook.
-   */
   readonly destroyAfterEach?: boolean;
   readonly detectBaseHref?: boolean;
 }

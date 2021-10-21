@@ -18,7 +18,6 @@ import { APP_BASE_HREF } from '@angular/common';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AuthOidcHttp } from '@energinet-datahub/ett/auth/data-access';
-import { setUpTestbed } from '@energinet-datahub/ett/shared/test-util-staging';
 import { LetModule } from '@rx-angular/template';
 import { render, screen } from '@testing-library/angular';
 import { MockProvider } from 'ng-mocks';
@@ -30,12 +29,6 @@ import {
 } from './ett-authentication-link.directive';
 
 describe(EttAuthenticationDirective.name, () => {
-  beforeAll(() => {
-    setUpTestbed({
-      destroyAfterEach: false,
-    });
-  });
-
   describe('When the Auth API is available', () => {
     beforeEach(async () => {
       await render(
