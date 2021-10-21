@@ -13,7 +13,7 @@ watt-expansion mat-expansion-panel-header.mat-expansion-panel-header {
   button {
     opacity: 1;
     transform: translate3d(0, 0, 0);
-    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+    transition: transform 0.25s ease-in-out;
   }
 }
 
@@ -27,7 +27,6 @@ watt-expansion .mat-expanded mat-expansion-panel-header {
 
   button {
     transform: translate3d(0, 100%, 0);
-    opacity: 0;
   }
 }
 
