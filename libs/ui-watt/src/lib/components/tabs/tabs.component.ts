@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, ContentChildren, QueryList } from '@angular/core';
+import { WattTabComponent } from './tab/tab.component';
 
 /**
  * Usage:
@@ -9,4 +10,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./tabs.component.scss'],
   templateUrl: './tabs.component.html',
 })
-export class WattTabsComponent {}
+export class WattTabsComponent {
+  @ContentChildren(WattTabComponent)
+  public readonly tabElements: QueryList<WattTabComponent> = new QueryList<WattTabComponent>();
+}

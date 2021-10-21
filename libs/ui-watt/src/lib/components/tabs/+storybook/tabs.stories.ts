@@ -15,8 +15,8 @@ export default {
 export const tabs: Story<WattTabsComponent> = (args) => ({
   props: args,
   template: `<watt-tabs>
-  <watt-tab label="First"> Content 1 </watt-tab>
-  <watt-tab label="Second"> Content 2 </watt-tab>
-  <watt-tab label="Third"> Content 3 </watt-tab>
+  <watt-tab label="First">Some awesome content for the first tab</watt-tab>
+  <watt-tab label="Second">Some awesome content for the second tab</watt-tab>
+  <watt-tab label="Third">Some awesome content for the third tab</watt-tab>
 </watt-tabs>`
 });
