@@ -1,4 +1,5 @@
-import { Component, ContentChildren, QueryList } from '@angular/core';
+import { Component, ContentChildren, QueryList, ViewEncapsulation } from '@angular/core';
+
 import { WattTabComponent } from './tab/tab.component';
 
 /**
@@ -9,6 +10,7 @@ import { WattTabComponent } from './tab/tab.component';
   selector: 'watt-tabs',
   styleUrls: ['./tabs.component.scss'],
   templateUrl: './tabs.component.html',
+  encapsulation: ViewEncapsulation.None
 })
 export class WattTabsComponent {
   @ContentChildren(WattTabComponent)

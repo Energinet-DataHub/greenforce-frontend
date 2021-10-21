@@ -1,0 +1,35 @@
+watt-tabs .mat-tab-header {
+  border-top: 1px solid var(--watt-color-neutral-grey-300);
+  border-bottom: 1px solid var(--watt-color-neutral-grey-300);
+}
+
+watt-tabs .mat-tab-label {
+  min-width: 120px;
+  padding: var(--watt-space-m);
+
+  .mat-tab-label-content {
+    color: var(--watt-color-primary);
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 16px;
+    letter-spacing: 1.25px;
+    text-transform: uppercase;
+  }
+
+  &.mat-tab-label-active {
+    background: var(--watt-color-primary);
+    opacity: 1;
+
+    .mat-tab-label-content {
+      color: var(--watt-color-neutral-white);
+    }
+  }
+}
+
+watt-tabs .mat-ink-bar {
+  display: none;
+}
+
+watt-tabs .mat-tab-header-pagination-chevron {
+  border-color: var(--watt-color-primary);
+}
