@@ -22,24 +22,104 @@ on:
 
 env:
   STORAGE_ACCOUNT_BASE_NAME: ''
+  app-name: ui-watt
+  BASE_BRANCH: ${{ github.event.pull_request.base.ref }}
+  is-main-branch: ${{ github.ref == 'refs/heads/main' }}
+  is-pull-request: ${{ github.event_name  == 'pull_request' }}
+  NODE_OPTIONS: --max-old-space-size=6144
+  node-version: 14.x
+  NX_MAX_PARALLEL: 2
+
+  # Nx Cloud
+  NX_BRANCH: ${{ github.event.number }}
+  NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
+  NX_RUN_GROUP: ${{ github.run_id }}
 
 jobs:
+  affected:
+    name: Is affected?
+    runs-on: ubuntu-latest
+
+    outputs:
+      is-affected: ${{ steps.affected.outputs.is-affected }}
+
+    steps:
+      # needed for nx affected command
+      - name: Check out source code with current branch Git history
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      # needed for nx affected command
+      - name: 'PR: Fetch base branch Git history'
+        if: ${{ env.is-pull-request == 'true' }}
+        run: git fetch --no-tags origin $BASE_BRANCH
+
+      - name: Use Node.js ${{ env.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ env.node-version }}
+
+      - name: Variable-Yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+      - name: Cache Yarn cache directory
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-node-${{ env.node-version }}-yarn-${{
+            hashFiles('yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-node-${{ env.node-version }}
+            ${{ runner.os }}
+      - name: Disable workspace NGCC run
+        uses: ./.github/actions/setup-postinstall
+        with:
+          ngcc: false
+      - name: Install package dependencies
+        run: yarn install --frozen-lockfile --non-interactive
+
+      - name: Is affected?
+        id: affected
+        uses: ./.github/actions/affected
+        with:
+          base: ${{ env.is-main-branch == 'true' && 'HEAD~1' || format('origin/{0}', env.BASE_BRANCH) }}
+          project: ${{ env.app-name }}
+
   publish_inbound:
     name: Publish
+    if: ${{ needs.affected.outputs.is-affected == 'true' }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@master
 
+      - name: Set up Node.js ${{ env.node-version }}
       - uses: actions/setup-node@v2
         with:
-          node-version: '14.17.5'
+          node-version: ${{ env.node-version }}
 
-      - run: npm install
+      - name: Variable-Yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+      - name: Cache Yarn cache directory
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-node-${{ env.node-version }}-yarn-${{
+            hashFiles('yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-node-${{ env.node-version }}
+            ${{ runner.os }}
+      - name: Disable workspace NGCC run
+        uses: ./.github/actions/setup-postinstall
+        with:
+          ngcc: false
+      - name: Install package dependencies
+        run: yarn install --frozen-lockfile --non-interactive
 
       # - run: npm test
-
-      - run: npm run designsystem:build
+      - name: Production build
+      - run: yarn designsystem:build
 
       - name: Publish artifact
         uses: actions/upload-artifact@v2
