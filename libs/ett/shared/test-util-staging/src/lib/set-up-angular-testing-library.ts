@@ -34,7 +34,7 @@ export function setUpAngularTestingLibrary(
 
   configure({
     // Assume SCAMs
-    excludeComponentDeclaration: false,
+    excludeComponentDeclaration: true,
     ...config,
     defaultImports: [
       ComponentFixtureAutoDetectModule,

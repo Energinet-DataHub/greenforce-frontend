@@ -40,6 +40,7 @@ describe(EttAuthenticationDirective.name, () => {
           </ng-container>
         `,
         {
+          excludeComponentDeclaration: false,
           imports: [EttAuthenticationScam, RouterTestingModule, LetModule],
           providers: [
             MockProvider(AuthOidcHttp, {
