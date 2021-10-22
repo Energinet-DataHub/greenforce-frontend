@@ -119,7 +119,7 @@ jobs:
 
       # - run: npm test
       - name: Production build
-      - run: yarn designsystem:build
+        run: yarn designsystem:build
 
       - name: Publish artifact
         uses: actions/upload-artifact@v2
