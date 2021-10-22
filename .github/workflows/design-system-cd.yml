@@ -89,9 +89,11 @@ jobs:
           base: ${{ env.is-main-branch == 'true' && 'HEAD~1' || format('origin/{0}', env.BASE_BRANCH) }}
           project: ${{ env.app-name }}
 
+  
+
   publish_inbound:
     name: Publish
-    if: ${{ needs.affected.outputs.is-affected == 'true' }}
+    if: ${{ needs.affected.outputs.is-affected == 'true' &&  env.is-main-branch == 'true' }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
