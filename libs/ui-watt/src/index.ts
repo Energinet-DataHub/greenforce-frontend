@@ -35,3 +35,5 @@ export { WattFormFieldModule } from './lib/components/form-field/form-field.modu
 export { WattInputModule } from './lib/components/input/input.module';
 
 export * from './lib/foundations/breakpoints';
+
+console.log('WHAAAT')

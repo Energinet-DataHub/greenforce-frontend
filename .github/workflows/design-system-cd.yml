@@ -89,6 +89,9 @@ jobs:
           base: ${{ env.is-main-branch == 'true' && 'HEAD~1' || format('origin/{0}', env.BASE_BRANCH) }}
           project: ${{ env.app-name }}
 
+      - name: Is affected result
+        run: echo "Is affected? ${{ needs.affected.outputs.is-affected }}"
+
   publish_inbound:
     name: Publish
     if: ${{ needs.affected.outputs.is-affected == 'true'}}
