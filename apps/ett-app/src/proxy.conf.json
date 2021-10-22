@@ -1,0 +1,10 @@
+{
+  "/api/oidc": {
+    "logLevel": "info",
+    "pathRewrite": {
+      "^/api": ""
+    },
+    "secure": false,
+    "target": "http://localhost:9096"
+  }
+}

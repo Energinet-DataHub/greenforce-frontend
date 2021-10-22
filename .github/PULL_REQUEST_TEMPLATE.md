@@ -1,4 +1,4 @@
-<!--- 🙏 Thank you for your submission, we really appreciate it. Like many open source projects, we ask that you sign our [Contributor License Agreement](https://cla.opensource.microsoft.com/microsoft/green-energy-hub) before we can accept your contribution. --->
+<!--- 🙏 Thank you for your submission, we really appreciate it. Like many open source projects, we ask that you sign our [Contributor License Agreement](https://cla-assistant.io/Energinet-DataHub/greenforce-frontend) before we can accept your contribution. --->
 
 ## Description
 
@@ -8,4 +8,4 @@
 
 <!--- Are there any issues, pull requests or similar that should be linked here? --->
 
-* #0000
+- #0000

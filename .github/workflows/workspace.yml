@@ -1,0 +1,282 @@
+name: Green Force Frontend
+
+env:
+  BASE_BRANCH: ${{ github.event.pull_request.base.ref }}
+  is-main-branch: ${{ github.ref == 'refs/heads/main' }}
+  is-pull-request: ${{ github.event_name  == 'pull_request' }}
+  NODE_OPTIONS: --max_old_space_size=6144
+  node-version: 14.x
+  NX_MAX_PARALLEL: 2
+
+  # Nx Cloud
+  NX_BRANCH: ${{ github.event.number }}
+  NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
+  NX_RUN_GROUP: ${{ github.run_id }}
+
+on:
+  push:
+    branches:
+      - main
+  pull_request: {}
+  workflow_dispatch: {}
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+
+    steps:
+      # needed for nx affected command
+      - name: 'PR: Check out source code with current branch Git history'
+        if: ${{ env.is-pull-request == 'true' }}
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          ref: ${{ github.head_ref }}
+      # needed for nx affected command
+      - name: 'PR: Fetch base branch Git history'
+        if: ${{ env.is-pull-request == 'true' }}
+        run: git fetch --no-tags origin $BASE_BRANCH
+      - name: 'Merge: Check out source code'
+        if: ${{ env.is-pull-request == 'false' }}
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js ${{ env.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ env.node-version }}
+
+      - name: Variable-Yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+      - name: Cache Yarn cache directory
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-node-${{ env.node-version }}-yarn-${{
+            hashFiles('yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-node-${{ env.node-version }}
+            ${{ runner.os }}
+      - name: Install package dependencies
+        run: yarn install --frozen-lockfile --non-interactive
+
+      - name: 'PR: Production build of affected products'
+        if: ${{ env.is-pull-request == 'true' }}
+        run: yarn affected:build --base=origin/$BASE_BRANCH
+          --max-parallel=$NX_MAX_PARALLEL
+      - name: 'Merge: Production build of all products'
+        if: ${{ env.is-pull-request == 'false' }}
+        run: yarn build --max-parallel=$NX_MAX_PARALLEL
+
+  e2e:
+    name: End-to-end test
+    runs-on: ubuntu-latest
+
+    steps:
+      # needed for nx affected command
+      - name: 'PR: Check out source code with current branch Git history'
+        if: ${{ env.is-pull-request == 'true' }}
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          ref: ${{ github.head_ref }}
+      # needed for nx affected command
+      - name: 'PR: Fetch base branch Git history'
+        if: ${{ env.is-pull-request == 'true' }}
+        run: git fetch --no-tags origin $BASE_BRANCH
+      - name: 'Merge: Check out source code'
+        if: ${{ env.is-pull-request == 'false' }}
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js ${{ env.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ env.node-version }}
+
+      - name: Variable-Yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+      - name: Cache Yarn cache directory
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-node-${{ env.node-version }}-yarn-${{
+            hashFiles('yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-node-${{ env.node-version }}
+            ${{ runner.os }}
+      - name: Install package dependencies
+        run: yarn install --frozen-lockfile --non-interactive
+
+      - name: 'PR: End-to-end test affected products'
+        if: ${{ env.is-pull-request == 'true' }}
+        run: yarn affected:e2e --configuration=ci --base=origin/$BASE_BRANCH
+          --max-parallel=$NX_MAX_PARALLEL
+      - name: 'Merge: End-to-end test all products'
+        if: ${{ env.is-pull-request == 'false' }}
+        run: yarn e2e --configuration=ci --max-parallel=$NX_MAX_PARALLEL
+
+  format:
+    name: 'PR: Format'
+    if: ${{ github.event_name  == 'pull_request' }}
+    runs-on: ubuntu-latest
+
+    steps:
+      # needed for nx affected command
+      - name: Check out source code with current branch Git history
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          ref: ${{ github.head_ref }}
+      # needed for nx affected command
+      - name: Fetch base branch Git history
+        run: git fetch --no-tags origin $BASE_BRANCH
+
+      - name: Set up Node.js ${{ env.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ env.node-version }}
+
+      - name: Variable-Yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+      - name: Cache Yarn cache directory
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-node-${{ env.node-version }}-yarn-${{
+            hashFiles('yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-node-${{ env.node-version }}
+            ${{ runner.os }}
+      - name: Disable Angular Compatibility Compiler
+        uses: ./.github/actions/setup-postinstall
+        with:
+          ngcc: false
+      - name: Install package dependencies
+        run: yarn install --frozen-lockfile --non-interactive
+      - name: Revert postinstall changes
+        run: git reset --hard
+
+      - name: Format projects and configuration files
+        run: yarn format --base=origin/$BASE_BRANCH
+
+      - name: Commit formatted files
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A || true
+          git commit -m "style: format" || true
+          git push origin --force-with-lease || true
+      - name: Check formatting of projects and configuration files
+        run: yarn format:check --base=origin/$BASE_BRANCH
+
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+
+    steps:
+      # needed for nx affected command
+      - name: 'PR: Check out source code with current branch Git history'
+        if: ${{ env.is-pull-request == 'true' }}
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          ref: ${{ github.head_ref }}
+      # needed for nx affected command
+      - name: 'PR: Fetch base branch Git history'
+        if: ${{ env.is-pull-request == 'true' }}
+        run: git fetch --no-tags origin $BASE_BRANCH
+      - name: 'Merge: Check out source code'
+        if: ${{ env.is-pull-request == 'false' }}
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js ${{ env.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ env.node-version }}
+
+      - name: Variable-Yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+      - name: Cache Yarn cache directory
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-node-${{ env.node-version }}-yarn-${{
+            hashFiles('yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-node-${{ env.node-version }}
+            ${{ runner.os }}
+      - name: Disable Angular Compatibility Compiler
+        uses: ./.github/actions/setup-postinstall
+        with:
+          ngcc: false
+      - name: Install package dependencies
+        run: yarn install --frozen-lockfile --non-interactive
+      - name: Revert postinstall changes
+        run: git reset --hard
+
+      - name: 'PR: Fix affected projects using lint rules'
+        if: ${{ env.is-pull-request == 'true' }}
+        run: yarn affected:lint:fix --base=origin/$BASE_BRANCH --max-parallel=$NX_MAX_PARALLEL
+      - name: 'PR: Commit fixed files'
+        if: ${{ env.is-pull-request == 'true' }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A || true
+          git commit -m "style: lint" || true
+          git push origin --force-with-lease || true
+      - name: 'Merge: Lint workspace and all projects'
+        if: ${{ env.is-pull-request == 'false' }}
+        run: yarn lint --max-parallel=$NX_MAX_PARALLEL
+
+  test:
+    name: Unit and integration test
+    runs-on: ubuntu-latest
+
+    steps:
+      # needed for nx affected command
+      - name: 'PR: Check out source code with current branch Git history'
+        if: ${{ env.is-pull-request == 'true' }}
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          ref: ${{ github.head_ref }}
+      # needed for nx affected command
+      - name: 'PR: Fetch base branch Git history'
+        if: ${{ env.is-pull-request == 'true' }}
+        run: git fetch --no-tags origin $BASE_BRANCH
+      - name: 'Merge: Check out source code'
+        if: ${{ env.is-pull-request == 'false' }}
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js ${{ env.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ env.node-version }}
+
+      - name: Variable-Yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+      - name: Cache Yarn cache directory
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-node-${{ env.node-version }}-yarn-${{
+            hashFiles('yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-node-${{ env.node-version }}
+            ${{ runner.os }}
+      - name: Install package dependencies
+        run: yarn install --frozen-lockfile --non-interactive
+
+      - name: 'PR: Test affected projects'
+        if: ${{ env.is-pull-request == 'true' }}
+        run: yarn affected:test --base=origin/$BASE_BRANCH
+          --max-parallel=$NX_MAX_PARALLEL
+      - name: 'Merge: Test all projects'
+        if: ${{ env.is-pull-request == 'false' }}
+        run: yarn test --max-parallel=$NX_MAX_PARALLEL

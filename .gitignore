@@ -434,3 +434,5 @@ testem.log
 .DS_Store
 Thumbs.db
 
+# Compodoc
+documentation.json

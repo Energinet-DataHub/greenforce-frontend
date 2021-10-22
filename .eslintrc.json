@@ -1,7 +1,7 @@
 {
   "root": true,
   "ignorePatterns": ["**/*"],
-  "plugins": ["@nrwl/nx"],
+  "plugins": ["@nrwl/nx", "ngrx"],
   "overrides": [
     {
       "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
@@ -12,6 +12,18 @@
             "enforceBuildableLibDependency": true,
             "allow": [],
             "depConstraints": [
+              {
+                "sourceTag": "product:dh",
+                "onlyDependOnLibsWithTags": ["product:dh", "product:watt"]
+              },
+              {
+                "sourceTag": "product:ett",
+                "onlyDependOnLibsWithTags": ["product:ett", "product:watt"]
+              },
+              {
+                "sourceTag": "product:watt",
+                "onlyDependOnLibsWithTags": ["product:watt"]
+              },
               {
                 "sourceTag": "*",
                 "onlyDependOnLibsWithTags": ["*"]
@@ -24,7 +36,9 @@
     {
       "files": ["*.ts", "*.tsx"],
       "extends": ["plugin:@nrwl/nx/typescript"],
-      "rules": {}
+      "rules": {
+        "ngrx/updater-explicit-return-type": "error"
+      }
     },
     {
       "files": ["*.js", "*.jsx"],

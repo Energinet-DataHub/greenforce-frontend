@@ -1,7 +1,7 @@
 {
-  "npmScope": "energinet",
+  "npmScope": "energinet-datahub",
   "affected": {
-    "defaultBase": "master"
+    "defaultBase": "main"
   },
   "implicitDependencies": {
     "package.json": {
@@ -15,7 +15,9 @@
       "runner": "@nrwl/nx-cloud",
       "options": {
         "cacheableOperations": ["build", "lint", "test", "e2e"],
-        "accessToken": "M2QwZmQ2YTQtMjFjZi00ZmI4LTk0MDItZjEyOTQ4ZmMwMTUyfHJlYWQtd3JpdGU="
+        "accessToken": "Y2IyM2EwNDEtNjUxMy00OWFkLWI2ZTUtYjY2YzBiN2Y4YTUwfHJlYWQ=",
+        "canTrackAnalytics": true,
+        "maxParallel": 6
       }
     }
   },
@@ -28,19 +30,50 @@
     ]
   },
   "projects": {
-    "dh3-admin": {
-      "tags": []
+    "dh-app": {
+      "tags": ["product:dh", "type:app"]
     },
-    "dh3-admin-e2e": {
-      "tags": [],
-      "implicitDependencies": ["dh3-admin"]
+    "dh-app-core-feature-shell": {
+      "tags": ["product:dh", "scope:core", "type:feature"]
+    },
+    "dh-app-e2e": {
+      "tags": ["product:dh", "type:e2e"],
+      "implicitDependencies": ["dh-app"]
+    },
+    "ett-app": {
+      "tags": ["product:ett", "type:app"]
+    },
+    "ett-app-e2e": {
+      "tags": ["product:ett", "type:e2e"],
+      "implicitDependencies": ["ett-app"]
+    },
+    "ett-auth-data-access": {
+      "tags": ["product:ett", "scope:auth", "type:data-access"]
+    },
+    "ett-auth-feature-login": {
+      "tags": ["product:ett", "scope:auth", "type:feature"]
+    },
+    "ett-auth-feature-shell": {
+      "tags": ["product:ett", "scope:auth", "type:feature"]
+    },
+    "ett-core-environments": {
+      "tags": ["product:ett", "scope:core", "type:environments"]
+    },
+    "ett-core-feature-shell": {
+      "tags": ["product:ett", "scope:core", "type:feature"]
+    },
+    "ett-core-util-browser": {
+      "tags": ["product:ett", "scope:core", "type:util"]
+    },
+    "ett-dashboard-feature-shell": {
+      "tags": ["product:ett", "scope:dashboard", "type:feature"]
+    },
+    "ett-shared-test-util-staging": {
+      "tags": ["product:ett", "scope:shared", "type:test-util"]
     },
     "ui-watt": {
-      "tags": []
+      "tags": ["product:watt", "type:ui"]
     },
-    "ui-watt-e2e": {
-      "tags": [],
-      "implicitDependencies": ["ui-watt"]
-    }
+    "workspace-tools": {}
   }
 }
