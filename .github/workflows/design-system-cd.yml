@@ -33,6 +33,7 @@ on:
     branches:
       - main
       - renetnielsen/add-infrastructure
+  pull_request: {}
   workflow_dispatch: {}
 
 jobs:
