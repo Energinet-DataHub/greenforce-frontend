@@ -1,5 +1,10 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, Router, UrlTree } from '@angular/router';
+import {
+  ActivatedRouteSnapshot,
+  CanActivateChild,
+  Router,
+  UrlTree,
+} from '@angular/router';
 import { ettAuthRoutePath } from '@energinet-datahub/ett/auth/feature-shell';
 
 /**
@@ -8,14 +13,14 @@ import { ettAuthRoutePath } from '@energinet-datahub/ett/auth/feature-shell';
 @Injectable({
   providedIn: 'root',
 })
-export class EttAuthenticationGuard implements CanActivate {
+export class EttAuthenticationGuard implements CanActivateChild {
   private loginUrl(route: ActivatedRouteSnapshot): UrlTree {
     const loginUrl = this.router.createUrlTree([ettAuthRoutePath]);
 
     loginUrl.queryParams = {
-      error: route.queryParamMap.get('error'),
-      error_text: route.queryParamMap.get('error_text'),
-      returnUrl: this.router.url,
+      error: route.queryParamMap.get('error') ?? '',
+      error_code: route.queryParamMap.get('error_code'),
+      return_url: route.url,
     };
 
     return loginUrl;
@@ -23,7 +28,7 @@ export class EttAuthenticationGuard implements CanActivate {
 
   constructor(private router: Router) {}
 
-  canActivate(route: ActivatedRouteSnapshot): boolean | UrlTree {
+  canActivateChild(route: ActivatedRouteSnapshot): boolean | UrlTree {
     const authenticationSuccessQueryParameterName = 'success';
     const authenticationSuccess = '1';
     const isAuthenticationCallback = route.queryParamMap.has(
