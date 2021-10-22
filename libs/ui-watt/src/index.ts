@@ -36,4 +36,4 @@ export { WattInputModule } from './lib/components/input/input.module';
 
 export * from './lib/foundations/breakpoints';
 
-console.log('WHAAAT')
+console.log('WHAAAT!')
