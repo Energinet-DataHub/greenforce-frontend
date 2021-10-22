@@ -17,18 +17,20 @@
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { ettAuthRoutePath } from '@energinet-datahub/ett/auth/feature-shell';
 import { EttBrowserConfigurationModule } from '@energinet-datahub/ett/core/util-browser';
 
+import { ettDashboardRoutePath } from './../../../../dashboard/feature-shell/src/lib/ett-dashboard-route-path';
 import { EttShellComponent, EttShellScam } from './ett-shell.component';
 
 const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: 'login',
+    redirectTo: ettAuthRoutePath,
   },
   {
-    path: 'login',
+    path: ettAuthRoutePath,
     loadChildren: () =>
       import('@energinet-datahub/ett/auth/feature-shell').then(
         (esModule) => esModule.EttAuthFeatureShellModule
@@ -39,7 +41,7 @@ const routes: Routes = [
     component: EttShellComponent,
     children: [
       {
-        path: 'dashboard',
+        path: ettDashboardRoutePath,
         loadChildren: () =>
           import('@energinet-datahub/ett/dashboard/feature-shell').then(
             (esModule) => esModule.EttDashboardFeatureShellModule
