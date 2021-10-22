@@ -48,7 +48,7 @@ describe(EttAuthenticationGuard.name, () => {
   let router: Router;
   let view: RenderResult<SpectacularAppComponent, SpectacularAppComponent>;
 
-  describe('navigates to the login page', () => {
+  describe('redirects to the login page', () => {
     it('when authentication fails', async () => {
       const authenticationError = {
         error: 'User failed to verify SSN',
@@ -73,6 +73,42 @@ describe(EttAuthenticationGuard.name, () => {
 
       expect(decodeURIComponent(appLocation.path())).toBe(
         decodeURIComponent(expectedLoginUrl)
+      );
+    });
+  });
+
+  describe('allows navigation', () => {
+    it('when authentication succeeds', async () => {
+      const successfulAuthentication = {
+        success: '1',
+      };
+      const expectedUrl = router.serializeUrl(
+        router.createUrlTree([guardedPath], {
+          queryParams: {
+            success: successfulAuthentication.success,
+          },
+        })
+      );
+
+      await view.navigate(
+        '/?' + new URLSearchParams(successfulAuthentication),
+        guardedPath
+      );
+
+      expect(decodeURIComponent(appLocation.path())).toBe(
+        decodeURIComponent(expectedUrl)
+      );
+    });
+
+    it('when navigation does not follow authentication', async () => {
+      const expectedUrl = router.serializeUrl(
+        router.createUrlTree([guardedPath])
+      );
+
+      await view.navigate('/', guardedPath);
+
+      expect(decodeURIComponent(appLocation.path())).toBe(
+        decodeURIComponent(expectedUrl)
       );
     });
   });
