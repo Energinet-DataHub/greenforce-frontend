@@ -3,19 +3,26 @@
 
 @include mat.core();
 
-$watt-palette: mat.define-palette(colors.$palette, 'primary', 'primary-light', 'primary-dark');
-
-$watt-typography: mat.define-typography-config(
-    $font-family: 'Open Sans, sans-serif',
+$watt-palette: mat.define-palette(
+  colors.$palette,
+  'primary',
+  'primary-light',
+  'primary-dark'
 );
 
-$watt-theme: mat.define-light-theme((
- color: (
-   primary: $watt-palette,
-   accent: $watt-palette
- ),
- typography: $watt-typography
-));
+$watt-typography: mat.define-typography-config(
+  $font-family: 'Open Sans, sans-serif',
+);
+
+$watt-theme: mat.define-light-theme(
+  (
+    color: (
+      primary: $watt-palette,
+      accent: $watt-palette,
+    ),
+    typography: $watt-typography,
+  )
+);
 
 @include mat.core-theme($watt-theme);
 @include mat.button-theme($watt-theme);
