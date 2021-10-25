@@ -39,7 +39,6 @@ namespace Energinet.DataHub.WebApi.Controllers
 
         /// <summary>
         /// This text will show up in Swagger UI.
-        /// See also: https://docs.microsoft.com/en-us/aspnet/core/tutorials/getting-started-with-swashbuckle?view=aspnetcore-5.0&tabs=visual-studio#customize-and-extend
         /// </summary>
         [HttpGet]
         public ActionResult<IEnumerable<WeatherForecast>> Get()
