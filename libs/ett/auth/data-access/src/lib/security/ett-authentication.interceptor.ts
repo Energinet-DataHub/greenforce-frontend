@@ -18,7 +18,7 @@ import { concatMapTo, switchMap } from 'rxjs/operators';
  * credentials have expired.
  */
 @Injectable()
-export class AuthenticationInterceptor implements HttpInterceptor {
+export class EttAuthenticationInterceptor implements HttpInterceptor {
   constructor(private router: Router) {}
 
   intercept(
@@ -50,5 +50,5 @@ export class AuthenticationInterceptor implements HttpInterceptor {
 export const authenticationInterceptorProvider: ClassProvider = {
   multi: true,
   provide: HTTP_INTERCEPTORS,
-  useClass: AuthenticationInterceptor,
+  useClass: EttAuthenticationInterceptor,
 };
