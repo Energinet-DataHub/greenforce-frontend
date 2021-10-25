@@ -1,3 +1,4 @@
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Meta, moduleMetadata, Story } from '@storybook/angular';
 
 import { WattExpansionComponent, WattExpansionModule } from './../index';
@@ -6,7 +7,7 @@ export default {
   title: 'Components/Expansion Panel',
   decorators: [
     moduleMetadata({
-      imports: [WattExpansionModule],
+      imports: [BrowserAnimationsModule, WattExpansionModule],
     }),
   ],
   component: WattExpansionComponent,
