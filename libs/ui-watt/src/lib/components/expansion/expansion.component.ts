@@ -12,8 +12,8 @@ import { MatExpansionPanel } from '@angular/material/expansion';
   encapsulation: ViewEncapsulation.None,
 })
 export class WattExpansionComponent {
-  @Input() openLabel!: string;
-  @Input() closeLabel!: string;
+  @Input() openLabel = '';
+  @Input() closeLabel = '';
   @Input() expanded = false;
 
   /**
