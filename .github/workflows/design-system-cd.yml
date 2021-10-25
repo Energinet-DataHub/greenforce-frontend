@@ -90,7 +90,7 @@ jobs:
           project: ${{ env.app-name }}
 
       - name: Is affected result
-        run: echo "Is affected? ${{ affected.outputs.is-affected }}"
+        run: echo "Is affected? ${{ is-affected }}"
 
   publish_inbound:
     name: Publish

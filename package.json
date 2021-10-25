@@ -4,9 +4,9 @@
   "license": "MIT",
   "//engines-comment": "Keep this in sync with .nvmrc, and volta config in current package.json",
   "engines": {
-    "node": "14.18.1",
+    "node": "14.18.0",
     "npm": "Please use Yarn v1 instead of npm to install dependencies",
-    "yarn": "1.22.17"
+    "yarn": "1.22.15"
   },
   "scripts": {
     "postinstall": "npm run postinstall:nx && npm run postinstall:ngcc",
@@ -114,7 +114,7 @@
   },
   "volta": {
     "//node-comment": "Keep this in sync with engines in current package.json",
-    "node": "14.18.1",
-    "yarn": "1.22.17"
+    "node": "14.18.0",
+    "yarn": "1.22.15"
   }
 }
