@@ -17,7 +17,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.OpenApi.Models;
 
 namespace Energinet.DataHub.WebApi
 {
@@ -37,15 +36,15 @@ namespace Energinet.DataHub.WebApi
         {
             services.AddControllers();
 
-            // Register the Swagger generator, defining 1 or more Swagger documents.
-            services.AddSwaggerGen(c =>
+            // Use OpenAPI v3
+            services.AddOpenApiDocument(config =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo
+                config.PostProcess = document =>
                 {
-                    Title = "DataHub BFF",
-                    Version = "v1",
-                    Description = "Backend-for-frontend for DataHub",
-                });
+                    document.Info.Title = "DataHub BFF";
+                    document.Info.Version = "v1";
+                    document.Info.Description = "Backend-for-frontend for DataHub";
+                };
             });
         }
 
@@ -58,12 +57,10 @@ namespace Energinet.DataHub.WebApi
             {
                 app.UseDeveloperExceptionPage();
 
-                // Enable middleware to serve generated Swagger as a JSON endpoint.
-                app.UseSwagger();
-
-                // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.)
-                app.UseSwaggerUI(options =>
-                    options.SwaggerEndpoint("/swagger/v1/swagger.json", "DataHub.WebApi v1"));
+                // Register the Swagger generator and the Swagger UI middlewares
+                app
+                    .UseOpenApi()
+                    .UseSwaggerUi3();
             }
 
             app.UseHttpsRedirection();

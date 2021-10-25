@@ -37,8 +37,12 @@ namespace Energinet.DataHub.WebApi.Controllers
             _logger = logger;
         }
 
+        /// <summary>
+        /// This text will show up in Swagger UI.
+        /// See also: https://docs.microsoft.com/en-us/aspnet/core/tutorials/getting-started-with-swashbuckle?view=aspnetcore-5.0&tabs=visual-studio#customize-and-extend
+        /// </summary>
         [HttpGet]
-        public IEnumerable<WeatherForecast> Get()
+        public ActionResult<IEnumerable<WeatherForecast>> Get()
         {
             var rng = new Random();
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
