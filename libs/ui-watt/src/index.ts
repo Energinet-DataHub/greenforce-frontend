@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- // SOME DUMMY CHANGE TO TEST CD!
 export { WattModule } from './lib/ui-watt.module';
 
 export { WattAutocompleteComponent } from './lib/components/autocomplete/autocomplete.component';
@@ -35,5 +34,3 @@ export { WattFormFieldModule } from './lib/components/form-field/form-field.modu
 export { WattInputModule } from './lib/components/input/input.module';
 
 export * from './lib/foundations/breakpoints';
-
-console.log('WHAAAT!')
