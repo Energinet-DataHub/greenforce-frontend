@@ -23,10 +23,7 @@ import { render, screen } from '@testing-library/angular';
 import { MockProvider } from 'ng-mocks';
 import { of, throwError } from 'rxjs';
 
-import {
-  EttAuthenticationDirective,
-  EttAuthenticationScam,
-} from './ett-authentication-link.directive';
+import { EttAuthenticationDirective, EttAuthenticationScam } from './ett-authentication-link.directive';
 
 describe(EttAuthenticationDirective.name, () => {
   describe('When the Auth API is available', () => {
@@ -40,7 +37,6 @@ describe(EttAuthenticationDirective.name, () => {
           </ng-container>
         `,
         {
-          excludeComponentDeclaration: false,
           imports: [EttAuthenticationScam, RouterTestingModule, LetModule],
           providers: [
             MockProvider(AuthOidcHttp, {
