@@ -28,5 +28,6 @@ $watt-theme: mat.define-light-theme((
 @include mat.expansion-theme($watt-theme);
 @include mat.tabs-theme($watt-theme);
 @include mat.table-theme($watt-theme);
+@include mat.toolbar-theme($watt-theme);
 @include mat.sidenav-theme($watt-theme);
 @include mat.icon-theme($watt-theme);
