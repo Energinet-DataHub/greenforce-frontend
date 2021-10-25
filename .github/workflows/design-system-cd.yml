@@ -94,6 +94,8 @@ jobs:
 
   publish_inbound:
     name: Publish
+    if: ${{ needs.affected.outputs.is-affected == 'true' }}
+    needs: affected
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
