@@ -92,7 +92,8 @@ jobs:
         run: echo "Is affected? ${{ steps.affected.outputs.is-affected }}"
 
   chromatic-deployment:
-    if: ${{ needs.affected.outputs.is-affected == 'true' && github.ref != 'refs/heads/main' }}
+    name: Deploy to Chromatic
+    if: ${{ needs.affected.outputs.is-affected == 'true' }}
     needs: affected
     # Operating System
     runs-on: ubuntu-latest
@@ -113,11 +114,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-${{ env.node-version }}
             ${{ runner.os }}
-
-      - name: Disable workspace NGCC run
-        uses: ./.github/actions/setup-postinstall
-        with:
-          ngcc: false
 
       - name: Install package dependencies
         run: yarn install --frozen-lockfile --non-interactive    
