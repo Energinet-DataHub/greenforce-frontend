@@ -22,7 +22,7 @@ using Microsoft.Extensions.Logging;
 namespace Energinet.DataHub.WebApi.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("v1/[controller]")]
     public class WeatherForecastController : ControllerBase
     {
         private static readonly string[] _summaries = new[]
