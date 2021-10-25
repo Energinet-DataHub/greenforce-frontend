@@ -18,6 +18,7 @@ import { APP_BASE_HREF } from '@angular/common';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AuthOidcHttp } from '@energinet-datahub/ett/auth/data-access';
+import { RX_ANGULAR_CONFIG, RxAngularConfig } from '@rx-angular/cdk';
 import { LetModule } from '@rx-angular/template';
 import { render, screen } from '@testing-library/angular';
 import { MockProvider } from 'ng-mocks';
@@ -39,6 +40,12 @@ describe(EttAuthenticationDirective.name, () => {
         {
           imports: [EttAuthenticationScam, RouterTestingModule, LetModule],
           providers: [
+            {
+              provide: RX_ANGULAR_CONFIG,
+              useValue: {
+                primaryStrategy: 'global', // or 'native'?
+              } as RxAngularConfig<string>,
+            },
             MockProvider(AuthOidcHttp, {
               login: (redirectUri) =>
                 of({
