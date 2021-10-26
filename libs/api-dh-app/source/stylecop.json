@@ -12,7 +12,7 @@
       ]
     },
     "namingRules": {
-      "allowedHungarianPrefixes": [ "db" ]
+      "allowedHungarianPrefixes": ["db"]
     },
     "documentationRules": {
       "documentInterfaces": true,
