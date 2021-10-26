@@ -24,6 +24,10 @@ import {
 class TestAuthComponent {}
 
 describe(EttAuthenticationInterceptor.name, () => {
+  function sendRequest(): Promise<unknown> {
+    return http.get(testEndpoint).toPromise();
+  }
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [TestAuthComponent],
@@ -53,17 +57,21 @@ describe(EttAuthenticationInterceptor.name, () => {
   describe(`
     Given the user is not authenticated
     Or their credentials have expired`, () => {
+    function respondWith401Unauthorized(errorMessage: string): void {
+      const testRequest = httpController.expectOne(testEndpoint);
+      testRequest.flush(errorMessage, {
+        status: HttpStatusCode.Unauthorized,
+        statusText: 'Unauthorized',
+      });
+    }
+
     const dummyResponseErrorMessage = 'Dummy response error';
 
     it('Then the request is rejected', async () => {
       expect.assertions(2);
 
-      const whenResponse = http.get(testEndpoint).toPromise();
-      const testRequest = httpController.expectOne(testEndpoint);
-      testRequest.flush(dummyResponseErrorMessage, {
-        status: HttpStatusCode.Unauthorized,
-        statusText: 'Unauthorized',
-      });
+      const whenResponse = sendRequest();
+      respondWith401Unauthorized(dummyResponseErrorMessage);
 
       await expect(whenResponse).rejects.toBeInstanceOf(HttpErrorResponse);
       await expect(whenResponse).rejects.toEqual(
@@ -76,12 +84,8 @@ describe(EttAuthenticationInterceptor.name, () => {
     it('Then they are redirected to the login page', async () => {
       expect.assertions(1);
 
-      const whenResponse = http.get(testEndpoint).toPromise();
-      const testRequest = httpController.expectOne(testEndpoint);
-      testRequest.flush(dummyResponseErrorMessage, {
-        status: HttpStatusCode.Unauthorized,
-        statusText: 'Unauthorized',
-      });
+      const whenResponse = sendRequest();
+      respondWith401Unauthorized(dummyResponseErrorMessage);
 
       await whenResponse.catch(() =>
         expect(appLocation.path()).toBe(`/${ettAuthRoutePath}`)
@@ -90,13 +94,17 @@ describe(EttAuthenticationInterceptor.name, () => {
   });
 
   describe('Given the user is authenticated', () => {
+    function respondWith200Ok(body: string): void {
+      const testRequest = httpController.expectOne(testEndpoint);
+      testRequest.flush(body);
+    }
+
     it('Then the request passes', async () => {
       expect.assertions(1);
       const dummySuccess = 'Dummy success response value';
 
-      const whenResponse = http.get(testEndpoint).toPromise();
-      const testRequest = httpController.expectOne(testEndpoint);
-      testRequest.flush(dummySuccess);
+      const whenResponse = sendRequest();
+      respondWith200Ok(dummySuccess);
 
       await expect(whenResponse).resolves.toBe(dummySuccess);
     });
