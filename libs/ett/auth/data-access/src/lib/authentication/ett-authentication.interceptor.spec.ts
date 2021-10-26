@@ -90,7 +90,7 @@ describe(EttAuthenticationInterceptor.name, () => {
   });
 
   describe('Given the user is authenticated', () => {
-    it('Then the response is successful', async () => {
+    it('Then the request passes', async () => {
       expect.assertions(1);
       const dummySuccess = 'Dummy success response value';
 
