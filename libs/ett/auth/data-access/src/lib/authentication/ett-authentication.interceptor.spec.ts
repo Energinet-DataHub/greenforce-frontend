@@ -62,7 +62,7 @@ describe(EttAuthenticationInterceptor.name, () => {
       const testRequest = httpController.expectOne(testEndpoint);
       testRequest.flush(dummyResponseErrorMessage, {
         status: HttpStatusCode.Unauthorized,
-        statusText: 'Expired',
+        statusText: 'Unauthorized',
       });
 
       await expect(whenResponse).rejects.toBeInstanceOf(HttpErrorResponse);
