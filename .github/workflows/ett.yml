@@ -16,6 +16,8 @@ env:
 
 on:
   push:
+    paths-ignore:
+      - libs/api-dh-app/**
     branches:
       - main
   pull_request: {}
