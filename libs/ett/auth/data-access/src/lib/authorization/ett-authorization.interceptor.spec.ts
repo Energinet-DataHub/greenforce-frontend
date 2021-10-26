@@ -11,7 +11,6 @@ import {
 import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { ettAuthRoutePath } from '@energinet-datahub/ett/auth/feature-shell';
 
 import {
   EttAuthorizationInterceptor,
@@ -21,7 +20,7 @@ import {
 @Component({
   template: '',
 })
-class TestAuthComponent {}
+class TestDefaultRouteComponent {}
 
 describe(EttAuthorizationInterceptor.name, () => {
   function sendRequest(): Promise<unknown> {
@@ -30,11 +29,12 @@ describe(EttAuthorizationInterceptor.name, () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [TestAuthComponent],
+      declarations: [TestDefaultRouteComponent],
       imports: [
         HttpClientTestingModule,
         RouterTestingModule.withRoutes([
-          { path: ettAuthRoutePath, component: TestAuthComponent },
+          { path: '', pathMatch: 'full', redirectTo: defaultRoutePath },
+          { path: defaultRoutePath, component: TestDefaultRouteComponent },
         ]),
       ],
       providers: [ettAuthorizationInterceptorProvider],
@@ -50,6 +50,7 @@ describe(EttAuthorizationInterceptor.name, () => {
   });
 
   let appLocation: Location;
+  const defaultRoutePath = 'default';
   let http: HttpClient;
   let httpController: HttpTestingController;
   const testEndpoint = '/api/test';
@@ -79,19 +80,19 @@ describe(EttAuthorizationInterceptor.name, () => {
       );
     });
 
-    it('Then they are redirected to the login page', async () => {
+    it('Then they are redirected to the default page', async () => {
       expect.assertions(1);
 
       const whenResponse = sendRequest();
       respondWith403Forbidden(dummyResponseErrorMessage);
 
       await whenResponse.catch(() =>
-        expect(appLocation.path()).toBe(`/${ettAuthRoutePath}`)
+        expect(appLocation.path()).toBe(`/${defaultRoutePath}`)
       );
     });
   });
 
-  describe('Given the user is authenticated', () => {
+  describe('Given the user has sufficient permissions', () => {
     function respondWith200Ok(body: string): void {
       const testRequest = httpController.expectOne(testEndpoint);
       testRequest.flush(body);

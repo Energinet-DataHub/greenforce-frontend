@@ -9,12 +9,11 @@ import {
 } from '@angular/common/http';
 import { ClassProvider, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { ettAuthRoutePath } from '@energinet-datahub/ett/auth/feature-shell';
 import { from, Observable, throwError } from 'rxjs';
 import { catchError, switchMapTo } from 'rxjs/operators';
 
 /**
- * Redirects to the login page when the user has insufficient permissions.
+ * Displays an error when the user has insufficient permissions.
  */
 @Injectable()
 export class EttAuthorizationInterceptor implements HttpInterceptor {
@@ -31,7 +30,7 @@ export class EttAuthorizationInterceptor implements HttpInterceptor {
         catchError(
           (error: unknown): Observable<never> =>
             this.#is403ForbiddenResponse(error)
-              ? from(this.router.navigate([ettAuthRoutePath])).pipe(
+              ? from(this.router.navigateByUrl('/')).pipe(
                   switchMapTo(throwError(error))
                 )
               : throwError(error)
