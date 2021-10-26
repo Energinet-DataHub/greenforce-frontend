@@ -25,7 +25,7 @@ export class EttHttpRootModule {
   ) {
     if (maybeNgModuleFromParentInjector) {
       throw new Error(
-        'EttHttpRootModule.forRoot registered in multiple injectors. Only call it from the core feature shell module or in the Angular testing module.'
+        'EttHttpModule.forRoot registered in multiple injectors. Only call it from the core feature shell module or in the Angular testing module.'
       );
     }
   }
