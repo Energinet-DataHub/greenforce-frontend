@@ -33,14 +33,16 @@ export default async function addLicenseExecutor(
 
   let ignores = [];
   try {
-    const data = fs.readFileSync('./.nxignore', 'utf8')
-    ignores = data.split('\n').map(x => x.replace('\r', ''));
+    const data = fs.readFileSync('./.nxignore', 'utf8');
+    ignores = data.split('\n').map((x) => x.replace('\r', ''));
   } catch (err) {
-    console.error(err)
+    console.error(err);
   }
 
   console.info(`Adding licenses...`);
-  const files = glob.sync(`{,!(node_modules|dist)/**/*}*{${globs.join(',')}}`, {ignore: ignores});
+  const files = glob.sync(`{,!(node_modules|dist)/**/*}*{${globs.join(',')}}`, {
+    ignore: ignores,
+  });
 
   files.forEach((file) => {
     try {
