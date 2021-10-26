@@ -5,11 +5,17 @@ import {
   Optional,
   SkipSelf,
 } from '@angular/core';
-import { ettAuthenticationInterceptorProvider } from '@energinet-datahub/ett/auth/data-access';
+import {
+  ettAuthenticationInterceptorProvider,
+  ettAuthorizationInterceptorProvider,
+} from '@energinet-datahub/ett/auth/data-access';
 
 @NgModule({
   imports: [HttpClientModule],
-  providers: [ettAuthenticationInterceptorProvider],
+  providers: [
+    ettAuthenticationInterceptorProvider,
+    ettAuthorizationInterceptorProvider,
+  ],
 })
 export class EttHttpRootModule {
   constructor(
