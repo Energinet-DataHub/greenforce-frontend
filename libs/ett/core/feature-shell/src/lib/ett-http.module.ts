@@ -10,6 +10,9 @@ import {
   ettAuthorizationInterceptorProvider,
 } from '@energinet-datahub/ett/auth/data-access';
 
+/**
+ * Do not import directly. Use `EttHttpModule.forRoot`.
+ */
 @NgModule({
   imports: [HttpClientModule],
   providers: [
@@ -31,8 +34,14 @@ export class EttHttpRootModule {
   }
 }
 
+/**
+ * Do not import directly. Use `EttHttpModule.forRoot`.
+ */
 @NgModule()
 export class EttHttpModule {
+  /**
+   * Registers root-level HTTP dependencies.
+   */
   static forRoot(): ModuleWithProviders<EttHttpRootModule> {
     return {
       ngModule: EttHttpRootModule,
