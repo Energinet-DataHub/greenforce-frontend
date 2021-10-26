@@ -48,7 +48,7 @@ export class EttAuthenticationInterceptor implements HttpInterceptor {
   }
 }
 
-export const authenticationInterceptorProvider: ClassProvider = {
+export const ettAuthenticationInterceptorProvider: ClassProvider = {
   multi: true,
   provide: HTTP_INTERCEPTORS,
   useClass: EttAuthenticationInterceptor,

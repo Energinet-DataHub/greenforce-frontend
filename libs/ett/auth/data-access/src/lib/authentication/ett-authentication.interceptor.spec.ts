@@ -14,8 +14,8 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { ettAuthRoutePath } from '@energinet-datahub/ett/auth/feature-shell';
 
 import {
-  authenticationInterceptorProvider,
   EttAuthenticationInterceptor,
+  ettAuthenticationInterceptorProvider,
 } from './ett-authentication.interceptor';
 
 @Component({
@@ -33,7 +33,7 @@ describe(EttAuthenticationInterceptor.name, () => {
           { path: ettAuthRoutePath, component: TestAuthComponent },
         ]),
       ],
-      providers: [authenticationInterceptorProvider],
+      providers: [ettAuthenticationInterceptorProvider],
     });
 
     http = TestBed.inject(HttpClient);
