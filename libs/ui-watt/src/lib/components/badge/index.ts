@@ -1,2 +1,2 @@
 export { WattBadgeModule } from './badge.module';
-export { WattBadgeComponent, WattBadge } from './badge.component';
+export { WattBadgeComponent, WattBadgeType } from './badge.component';

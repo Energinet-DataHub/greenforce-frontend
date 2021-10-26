@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+
 import { WattBadgeComponent } from './badge.component';
 
 @NgModule({

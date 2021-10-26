@@ -1,10 +1,10 @@
 import { Component, HostBinding, Input } from '@angular/core';
 
-export type WattBadge = 'warning' | 'success' | 'danger' | 'info';
+export type WattBadgeType = 'warning' | 'success' | 'danger' | 'info';
 
 /**
  * Usage:
- * `import WattBadgeModule from '@energinet-datahub/watt';`
+ * `import { WattBadgeModule } from '@energinet-datahub/watt';`
  */
 @Component({
   selector: 'watt-badge',
@@ -16,7 +16,7 @@ export type WattBadge = 'warning' | 'success' | 'danger' | 'info';
   },
 })
 export class WattBadgeComponent {
-  @Input() type: WattBadge = 'info';
+  @Input() type: WattBadgeType = 'info';
 
   @HostBinding('class')
   get badgeType() {
