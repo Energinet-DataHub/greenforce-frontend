@@ -15,3 +15,21 @@ It can also automatically add a license header to files for which it is missing,
 ## Setup local envioment
 
 > Describe necessary setup here.
+
+## OpenAPI
+
+We use [NSwag](https://github.com/RicoSuter/NSwag) to:
+
+* Expose a Swagger UI and an OpenAPI v3 endpoint.
+* Auto generate type script API clients for use by the DataHub Angular frontend.
+
+This functionality is only enabled when:
+
+* The ASP.NET Core environment is set to `development`. See the `Configure` method in [Startup.cs](../source/DataHub.WebApi/Startup.cs).
+* The project is build using the configuration `debug`. See the `NSwag` target in [DataHub.WebApi.csproj](../source/DataHub.WebApi/DataHub.WebApi.csproj)
+
+### Generate API clients
+
+We use [NSwag.MSBuild](https://github.com/RicoSuter/NSwag/wiki/NSwag.MSBuild) to generate the type script API clients during build of the `DataHub.WebApi` project.
+
+The generator is configured using the [nswag.json](../source/DataHub.WebApi/nswag.json) file.
