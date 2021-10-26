@@ -10,6 +10,7 @@ import {
 } from '@angular/common/http/testing';
 import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import {
@@ -32,6 +33,7 @@ describe(EttAuthorizationInterceptor.name, () => {
       declarations: [TestDefaultRouteComponent],
       imports: [
         HttpClientTestingModule,
+        MatSnackBarModule,
         RouterTestingModule.withRoutes([
           { path: '', pathMatch: 'full', redirectTo: defaultRoutePath },
           { path: defaultRoutePath, component: TestDefaultRouteComponent },
@@ -89,6 +91,16 @@ describe(EttAuthorizationInterceptor.name, () => {
       await whenResponse.catch(() =>
         expect(appLocation.path()).toBe(`/${defaultRoutePath}`)
       );
+    });
+
+    it('Then an error message is displayed', async () => {
+      expect.assertions(1);
+
+      const whenResponse = sendRequest();
+      respondWith403Forbidden(dummyResponseErrorMessage);
+      await whenResponse;
+
+      // expect(...)
     });
   });
 
