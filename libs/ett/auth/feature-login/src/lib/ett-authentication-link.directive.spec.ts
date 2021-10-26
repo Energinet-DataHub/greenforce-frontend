@@ -52,7 +52,7 @@ describe(EttAuthenticationDirective.name, () => {
             MockProvider(AuthOidcHttp, {
               login: (redirectUri) =>
                 of({
-                  url: `${authenticationUrl}?redirect_uri=${redirectUri}`,
+                  url: `${authenticationUrl}?return_url=${redirectUri}`,
                 }),
             }),
           ],
@@ -75,7 +75,7 @@ describe(EttAuthenticationDirective.name, () => {
       const baseHref = TestBed.inject(APP_BASE_HREF);
       const actualUrl = new URL(link.href);
 
-      expect(actualUrl.searchParams.get('redirect_uri')).toBe(
+      expect(actualUrl.searchParams.get('return_url')).toBe(
         `${baseHref}dashboard`
       );
     });
