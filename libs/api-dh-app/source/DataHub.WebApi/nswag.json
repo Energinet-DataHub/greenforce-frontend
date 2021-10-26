@@ -79,7 +79,7 @@
       "wrapResponses": false,
       "wrapResponseMethods": [],
       "generateResponseClasses": true,
-      "responseClass": "SwaggerResponse",
+      "responseClass": "ApiResponse",
       "protectedMethods": [],
       "configurationClass": null,
       "useTransformOptionsMethod": false,

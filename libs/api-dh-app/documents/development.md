@@ -33,3 +33,14 @@ This functionality is only enabled when:
 We use [NSwag.MSBuild](https://github.com/RicoSuter/NSwag/wiki/NSwag.MSBuild) to generate the type script API clients during build of the `DataHub.WebApi` project.
 
 The generator is configured using the [nswag.json](../source/DataHub.WebApi/nswag.json) file.
+
+Notice the following important settings:
+
+* `aspNetCoreToOpenApi`:
+
+  * `project`: the ASP.NET Core project that is reflected and used as input.
+  * `output`: the file to which the generated OpenAPI specification is written.
+
+* `openApiToTypeScriptClient`
+
+  * `output`: the file to which the generated type script clients are written.
