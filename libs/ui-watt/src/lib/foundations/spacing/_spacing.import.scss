@@ -18,23 +18,23 @@
 
 // Inset
 @mixin inset-xs {
-  padding: var(--watt-space-inset-xs);
+  padding: var(--watt-space-xs);
 }
 
 @mixin inset-s {
-  padding: var(--watt-space-inset-s);
+  padding: var(--watt-space-s);
 }
 
 @mixin inset-m {
-  padding: var(--watt-space-inset-m);
+  padding: var(--watt-space-m);
 }
 
 @mixin inset-l {
-  padding: var(--watt-space-inset-l);
+  padding: var(--watt-space-l);
 }
 
 @mixin inset-xl {
-  padding: var(--watt-space-inset-xl);
+  padding: var(--watt-space-xl);
 }
 
 // Inset Squish
