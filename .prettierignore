@@ -8,3 +8,4 @@
 **/*.props
 launchSettings.json
 stylecop.json
+nswag.json
