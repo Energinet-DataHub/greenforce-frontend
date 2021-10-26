@@ -1,12 +1,22 @@
 import { Location } from '@angular/common';
-import { HttpClient, HttpStatusCode } from '@angular/common/http';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import {
+  HttpClient,
+  HttpErrorResponse,
+  HttpStatusCode,
+} from '@angular/common/http';
+import {
+  HttpClientTestingModule,
+  HttpTestingController,
+} from '@angular/common/http/testing';
 import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ettAuthRoutePath } from '@energinet-datahub/ett/auth/feature-shell';
 
-import { authenticationInterceptorProvider, EttAuthenticationInterceptor } from './ett-authentication.interceptor';
+import {
+  authenticationInterceptorProvider,
+  EttAuthenticationInterceptor,
+} from './ett-authentication.interceptor';
 
 @Component({
   template: '',
@@ -31,21 +41,64 @@ describe(EttAuthenticationInterceptor.name, () => {
     appLocation = TestBed.inject(Location);
   });
 
+  afterEach(() => {
+    httpController.verify();
+  });
+
   let appLocation: Location;
   let http: HttpClient;
   let httpController: HttpTestingController;
+  const testEndpoint = '/api/test';
 
-  it('redirects to the login page when the user has not authenticated', async () => {
-    const testEndpoint = '/api/test';
+  describe(`
+    Given the user is not authenticated
+    Or their credentials have expired`, () => {
+    const dummyResponseErrorMessage = 'Dummy response error';
 
-    const whenResponse = http.get(testEndpoint).toPromise();
-    const response = httpController.expectOne(testEndpoint);
-    response.flush(null, {
-      status: HttpStatusCode.Unauthorized,
-      statusText: 'Unauthorized',
+    it('Then the request is rejected', async () => {
+      expect.assertions(2);
+
+      const whenResponse = http.get(testEndpoint).toPromise();
+      const testRequest = httpController.expectOne(testEndpoint);
+      testRequest.flush(dummyResponseErrorMessage, {
+        status: HttpStatusCode.Unauthorized,
+        statusText: 'Expired',
+      });
+
+      await expect(whenResponse).rejects.toBeInstanceOf(HttpErrorResponse);
+      await expect(whenResponse).rejects.toEqual(
+        expect.objectContaining<Partial<HttpErrorResponse>>({
+          error: dummyResponseErrorMessage,
+        })
+      );
     });
-    await whenResponse;
 
-    expect(appLocation.path()).toBe(`/${ettAuthRoutePath}`);
+    it('Then they are redirected to the login page', async () => {
+      expect.assertions(1);
+
+      const whenResponse = http.get(testEndpoint).toPromise();
+      const testRequest = httpController.expectOne(testEndpoint);
+      testRequest.flush(dummyResponseErrorMessage, {
+        status: HttpStatusCode.Unauthorized,
+        statusText: 'Unauthorized',
+      });
+
+      await whenResponse.catch(() =>
+        expect(appLocation.path()).toBe(`/${ettAuthRoutePath}`)
+      );
+    });
+  });
+
+  describe('Given the user is authenticated', () => {
+    it('Then the response is successful', async () => {
+      expect.assertions(1);
+      const dummySuccess = 'Dummy success response value';
+
+      const whenResponse = http.get(testEndpoint).toPromise();
+      const testRequest = httpController.expectOne(testEndpoint);
+      testRequest.flush(dummySuccess);
+
+      await expect(whenResponse).resolves.toBe(dummySuccess);
+    });
   });
 });
