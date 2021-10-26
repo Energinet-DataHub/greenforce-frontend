@@ -20,7 +20,11 @@ on:
       - libs/api-dh-app/**
     branches:
       - main
-  pull_request: {}
+  pull_request:
+    branches:
+      - main
+    paths-ignore:
+      - libs/api-dh-app/**
   workflow_dispatch: {}
 
 jobs:
