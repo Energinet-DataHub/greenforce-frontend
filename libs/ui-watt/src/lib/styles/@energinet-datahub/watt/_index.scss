@@ -19,7 +19,7 @@
 @use '../../../foundations/typography';
 @use '../../../foundations/spacing';
 
-@use './theme';
+@use './theme/light-theme.scss';
 
 html,
 body {

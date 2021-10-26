@@ -16,7 +16,7 @@
  */
 /*
  * @Please notice!!!
- * These values should be kept in-sync with _colors.import.scss
+ * These values should be kept in-sync with libs\ui-watt\src\lib\styles\@energinet-datahub\watt\theme\_palette.scss
  */
 export enum WattColor {
   primary = '--watt-color-primary',

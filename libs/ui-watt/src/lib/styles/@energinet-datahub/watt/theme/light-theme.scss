@@ -1,5 +1,5 @@
 @use '~@angular/material' as mat;
-@use './../../../foundations/color/colors.import' as colors;
+@use './palette' as colors;
 
 @include mat.core();
 
