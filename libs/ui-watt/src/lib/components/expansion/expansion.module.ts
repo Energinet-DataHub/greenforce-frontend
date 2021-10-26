@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { WattButtonModule } from '@energinet-datahub/watt';
+import { WattButtonModule } from '../button/watt-button.module';
 
 import { WattExpansionComponent } from './expansion.component';
 
