@@ -43,7 +43,7 @@ namespace Energinet.DataHub.WebApi
 
                 config.PostProcess = document =>
                 {
-                    document.Info.Title = "DataHub BFF X";
+                    document.Info.Title = "DataHub BFF";
                     document.Info.Version = "1.0.0";
                     document.Info.Description = "Backend-for-frontend for DataHub";
                 };
