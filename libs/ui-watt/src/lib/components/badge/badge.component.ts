@@ -14,29 +14,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { environment } from '@energinet-datahub/ett/core/environments';
-import { Observable } from 'rxjs';
+import { Component, HostBinding, Input } from '@angular/core';
 
-export interface AuthOidcLoginResponse {
-  readonly url: string;
-}
+export type WattBadgeType = 'warning' | 'success' | 'danger' | 'info';
 
-@Injectable({
-  providedIn: 'root',
+/**
+ * Usage:
+ * `import { WattBadgeModule } from '@energinet-datahub/watt';`
+ */
+@Component({
+  selector: 'watt-badge',
+  styleUrls: ['./badge.component.scss'],
+  templateUrl: './badge.component.html',
+  // eslint-disable-next-line @angular-eslint/no-host-metadata-property
+  host: {
+    class: 'watt-label',
+  },
 })
-export class AuthOidcHttp {
-  constructor(private http: HttpClient) {}
+export class WattBadgeComponent {
+  @Input() type: WattBadgeType = 'info';
 
-  login(returnUrl: string): Observable<AuthOidcLoginResponse> {
-    return this.http.get<AuthOidcLoginResponse>(
-      `${environment.apiBase}/oidc/login`,
-      {
-        params: {
-          return_url: returnUrl,
-        },
-      }
-    );
+  @HostBinding('class')
+  get badgeType() {
+    return `watt-badge-${this.type}`;
   }
 }

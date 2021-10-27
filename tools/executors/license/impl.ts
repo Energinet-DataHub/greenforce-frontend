@@ -31,9 +31,18 @@ export default async function addLicenseExecutor(
 
   let success = true;
 
-  console.info(`Adding licenses...`);
+  let ignores = [];
+  try {
+    const data = fs.readFileSync('./.nxignore', 'utf8');
+    ignores = data.split('\n').map((x) => x.replace('\r', ''));
+  } catch (err) {
+    console.error(err);
+  }
 
-  const files = glob.sync(`{,!(node_modules|dist)/**/*}*{${globs.join(',')}}`);
+  console.info(`Adding licenses...`);
+  const files = glob.sync(`{,!(node_modules|dist)/**/*}*{${globs.join(',')}}`, {
+    ignore: ignores,
+  });
 
   files.forEach((file) => {
     try {
@@ -43,7 +52,7 @@ export default async function addLicenseExecutor(
 
       const data = fs.readFileSync(file, 'utf8');
 
-      const licenseConfig = getLicenseConfig(file);
+      const licenseConfig = getLicenseConfig(config, file);
       if (!licenseConfig) {
         console.error(`No license config found for: ${file}`);
         success = false;
@@ -65,7 +74,7 @@ export default async function addLicenseExecutor(
   return { success };
 }
 
-function getLicenseConfig(file): string[] {
+function getLicenseConfig(config, file): string[] {
   const fileExt = path.extname(file).replace('.', '');
   const key = Object.keys(config).find((glob) => {
     return glob.includes(fileExt);

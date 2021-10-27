@@ -14,29 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { environment } from '@energinet-datahub/ett/core/environments';
-import { Observable } from 'rxjs';
+import { NgModule } from '@angular/core';
 
-export interface AuthOidcLoginResponse {
-  readonly url: string;
-}
+import { WattBadgeComponent } from './badge.component';
 
-@Injectable({
-  providedIn: 'root',
+@NgModule({
+  declarations: [WattBadgeComponent],
+  exports: [WattBadgeComponent],
 })
-export class AuthOidcHttp {
-  constructor(private http: HttpClient) {}
-
-  login(returnUrl: string): Observable<AuthOidcLoginResponse> {
-    return this.http.get<AuthOidcLoginResponse>(
-      `${environment.apiBase}/oidc/login`,
-      {
-        params: {
-          return_url: returnUrl,
-        },
-      }
-    );
-  }
-}
+export class WattBadgeModule {}
