@@ -9,7 +9,7 @@ import { WattTabComponent } from './tab/tab.component';
 
 /**
  * Usage:
- * `import WattTabsModule from '@energinet-datahub/watt';`
+ * `import { WattTabsModule } from '@energinet-datahub/watt';`
  */
 @Component({
   selector: 'watt-tabs',
