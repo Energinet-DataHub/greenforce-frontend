@@ -1,12 +1,22 @@
 import { Location } from '@angular/common';
-import { HttpClient, HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import {
+  HttpClient,
+  HttpErrorResponse,
+  HttpStatusCode,
+} from '@angular/common/http';
+import {
+  HttpClientTestingModule,
+  HttpTestingController,
+} from '@angular/common/http/testing';
 import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ettAuthRoutePath } from '@energinet-datahub/ett/auth/feature-shell';
 
-import { EttAuthenticationInterceptor, ettAuthenticationInterceptorProvider } from './ett-authentication.interceptor';
+import {
+  EttAuthenticationInterceptor,
+  ettAuthenticationInterceptorProvider,
+} from './ett-authentication.interceptor';
 
 @Component({
   template: '',
