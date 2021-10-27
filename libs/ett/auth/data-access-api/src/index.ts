@@ -14,5 +14,5 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-// API
-export * from './lib/api/oidc/auth-oidc-http.service';
+// OIDC
+export * from './lib/oidc/auth-oidc-http.service';

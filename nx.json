@@ -47,7 +47,7 @@
       "tags": ["product:ett", "type:e2e"],
       "implicitDependencies": ["ett-app"]
     },
-    "ett-auth-data-access": {
+    "ett-auth-data-access-api": {
       "tags": ["product:ett", "scope:auth", "type:data-access"]
     },
     "ett-auth-data-access-security": {
