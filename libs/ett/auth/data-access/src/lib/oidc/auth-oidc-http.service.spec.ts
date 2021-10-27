@@ -51,6 +51,6 @@ describe(AuthOidcHttp.name, () => {
     );
     response.flush(fakeResponse);
 
-    expect(response.request.params.get('redirect_uri')).toBe(expectedReturnUrl);
+    expect(response.request.params.get('return_url')).toBe(expectedReturnUrl);
   });
 });

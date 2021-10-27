@@ -2,3 +2,9 @@
 
 /dist
 /coverage
+**/*.sln
+**/*.csproj
+**/*.cs
+**/*.props
+launchSettings.json
+stylecop.json
