@@ -14,15 +14,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgModule } from '@angular/core';
-import { MatExpansionModule } from '@angular/material/expansion';
-import { WattButtonModule } from '../button/watt-button.module';
+import { Meta, moduleMetadata, Story } from '@storybook/angular';
 
-import { WattExpansionComponent } from './expansion.component';
+import { WattSpinnerComponent, WattSpinnerModule } from './../index';
 
-@NgModule({
-  imports: [MatExpansionModule, WattButtonModule],
-  declarations: [WattExpansionComponent],
-  exports: [WattExpansionComponent],
-})
-export class WattExpansionModule {}
+export default {
+  title: 'Components/Spinner',
+  decorators: [
+    moduleMetadata({
+      imports: [WattSpinnerModule],
+    }),
+  ],
+  component: WattSpinnerComponent,
+} as Meta<WattSpinnerComponent>;
+
+export const Spinner: Story<WattSpinnerComponent> = (args) => ({
+  props: args,
+});

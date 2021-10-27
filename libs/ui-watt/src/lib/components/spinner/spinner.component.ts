@@ -14,29 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, Input, ViewEncapsulation } from '@angular/core';
-import { MatExpansionPanel } from '@angular/material/expansion';
-
+import { Component } from '@angular/core';
 /**
  * Usage:
- * `import { WattExpansionModule } from '@energinet-datahub/watt';`
+ * `import { WattSpinnerModule } from '@energinet-datahub/watt';`
  */
 @Component({
-  selector: 'watt-expansion',
-  styleUrls: ['./expansion.component.scss'],
-  templateUrl: './expansion.component.html',
-  encapsulation: ViewEncapsulation.None,
+  selector: 'watt-spinner',
+  templateUrl: './spinner.component.html',
 })
-export class WattExpansionComponent {
-  @Input() openLabel = '';
-  @Input() closeLabel = '';
-  @Input() expanded = false;
-
-  /**
-   * @ignore
-   * @param matExpansionPanel
-   */
-  onClose(matExpansionPanel: MatExpansionPanel) {
-    matExpansionPanel.close();
-  }
-}
+export class WattSpinnerComponent {}

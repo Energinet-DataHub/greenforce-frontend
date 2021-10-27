@@ -14,30 +14,36 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+@use 'sass:math';
+
 @use './variables' as spaceVariables;
 
 // Inset
 @mixin inset-xs {
-  padding: var(--watt-space-inset-xs);
+  padding: var(--watt-space-xs);
 }
 
 @mixin inset-s {
-  padding: var(--watt-space-inset-s);
+  padding: var(--watt-space-s);
 }
 
 @mixin inset-m {
-  padding: var(--watt-space-inset-m);
+  padding: var(--watt-space-m);
 }
 
 @mixin inset-l {
-  padding: var(--watt-space-inset-l);
+  padding: var(--watt-space-l);
 }
 
 @mixin inset-xl {
-  padding: var(--watt-space-inset-xl);
+  padding: var(--watt-space-xl);
 }
 
 // Inset Squish
+@mixin inset-squish-xs {
+  padding: math.div(spaceVariables.$watt-space-baseline, 2) var(--watt-space-xs);
+}
+
 @mixin inset-squish-s {
   padding: var(--watt-space-xs) var(--watt-space-s);
 }
@@ -61,7 +67,7 @@
 
 // Stack
 @mixin stack-xxs {
-  margin: 0 0 #{spaceVariables.$watt-space-baseline / 2} 0;
+  margin: 0 0 math.div(spaceVariables.$watt-space-baseline, 2) 0;
 }
 
 @mixin stack-xs {
@@ -86,7 +92,7 @@
 
 // Inline
 @mixin inline-xxs {
-  margin: 0 #{spaceVariables.$watt-space-baseline / 2} 0 0;
+  margin: 0 math.div(spaceVariables.$watt-space-baseline, 2) 0 0;
 }
 
 @mixin inline-xs {

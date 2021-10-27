@@ -14,15 +14,5 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgModule } from '@angular/core';
-import { MatExpansionModule } from '@angular/material/expansion';
-import { WattButtonModule } from '../button/watt-button.module';
-
-import { WattExpansionComponent } from './expansion.component';
-
-@NgModule({
-  imports: [MatExpansionModule, WattButtonModule],
-  declarations: [WattExpansionComponent],
-  exports: [WattExpansionComponent],
-})
-export class WattExpansionModule {}
+export { WattSpinnerModule } from './spinner.module';
+export { WattSpinnerComponent } from './spinner.component';

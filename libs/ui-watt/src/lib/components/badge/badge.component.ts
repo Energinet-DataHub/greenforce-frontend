@@ -14,29 +14,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, Input, ViewEncapsulation } from '@angular/core';
-import { MatExpansionPanel } from '@angular/material/expansion';
+import { Component, HostBinding, Input } from '@angular/core';
+
+export type WattBadgeType = 'warning' | 'success' | 'danger' | 'info';
 
 /**
  * Usage:
- * `import { WattExpansionModule } from '@energinet-datahub/watt';`
+ * `import { WattBadgeModule } from '@energinet-datahub/watt';`
  */
 @Component({
-  selector: 'watt-expansion',
-  styleUrls: ['./expansion.component.scss'],
-  templateUrl: './expansion.component.html',
-  encapsulation: ViewEncapsulation.None,
+  selector: 'watt-badge',
+  styleUrls: ['./badge.component.scss'],
+  templateUrl: './badge.component.html',
+  // eslint-disable-next-line @angular-eslint/no-host-metadata-property
+  host: {
+    class: 'watt-label',
+  },
 })
-export class WattExpansionComponent {
-  @Input() openLabel = '';
-  @Input() closeLabel = '';
-  @Input() expanded = false;
+export class WattBadgeComponent {
+  @Input() type: WattBadgeType = 'info';
 
-  /**
-   * @ignore
-   * @param matExpansionPanel
-   */
-  onClose(matExpansionPanel: MatExpansionPanel) {
-    matExpansionPanel.close();
+  @HostBinding('class')
+  get badgeType() {
+    return `watt-badge-${this.type}`;
   }
 }
