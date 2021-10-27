@@ -18,16 +18,12 @@ import { APP_BASE_HREF } from '@angular/common';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AuthOidcHttp } from '@energinet-datahub/ett/auth/data-access-api';
-import { RX_ANGULAR_CONFIG, RxAngularConfig } from '@rx-angular/cdk';
 import { LetModule } from '@rx-angular/template';
 import { render, screen } from '@testing-library/angular';
 import { MockProvider } from 'ng-mocks';
 import { of, throwError } from 'rxjs';
 
-import {
-  EttAuthenticationDirective,
-  EttAuthenticationScam,
-} from './ett-authentication-link.directive';
+import { EttAuthenticationDirective, EttAuthenticationScam } from './ett-authentication-link.directive';
 
 describe(EttAuthenticationDirective.name, () => {
   describe('When the Auth API is available', () => {
@@ -43,12 +39,6 @@ describe(EttAuthenticationDirective.name, () => {
         {
           imports: [EttAuthenticationScam, RouterTestingModule, LetModule],
           providers: [
-            {
-              provide: RX_ANGULAR_CONFIG,
-              useValue: {
-                primaryStrategy: 'global', // or 'native'?
-              } as RxAngularConfig<string>,
-            },
             MockProvider(AuthOidcHttp, {
               login: (redirectUri) =>
                 of({
@@ -82,7 +72,9 @@ describe(EttAuthenticationDirective.name, () => {
   });
 
   describe('When the Auth API is unavailable', () => {
-    beforeEach(async () => {
+    it('emits an error', async () => {
+      const expectedErrorMessage = 'Test login fails';
+
       await render(
         `
           <ng-container ettAuthenticationLink #link="ettAuthenticationLink">
@@ -104,13 +96,8 @@ describe(EttAuthenticationDirective.name, () => {
           ],
         }
       );
-    });
 
-    const expectedErrorMessage = 'Test login fails';
-
-    it('emits an error', async () => {
       const error = await screen.findByTestId('error');
-
       expect(error.textContent).toContain(expectedErrorMessage);
     });
   });

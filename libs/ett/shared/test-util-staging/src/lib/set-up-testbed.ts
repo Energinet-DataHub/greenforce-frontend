@@ -1,9 +1,3 @@
-import { ComponentFixtureAutoDetect, getTestBed } from '@angular/core/testing';
-import { BrowserDynamicTestingModule, platformBrowserDynamicTesting } from '@angular/platform-browser-dynamic/testing';
-
-import { EttAngularMaterialTestingModule } from './angular-material/ett-angular-material-testing.module';
-import { EttBrowserTestingModule } from './angular/ett-browser-testing.module';
-
 /**
  * @license
  * Copyright 2021 Energinet DataHub A/S
@@ -20,15 +14,33 @@ import { EttBrowserTestingModule } from './angular/ett-browser-testing.module';
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export interface TestbedSetupOptions {
-  readonly autoDetectChanges?: boolean;
+import { getTestBed, TestModuleMetadata } from '@angular/core/testing';
+import { BrowserDynamicTestingModule, platformBrowserDynamicTesting } from '@angular/platform-browser-dynamic/testing';
+
+import { EttAngularMaterialTestingModule } from './angular-material/ett-angular-material-testing.module';
+import { EttBrowserTestingModule } from './angular/ett-browser-testing.module';
+import { EttRxAngularTestingModule } from './rx-angular/ett-rx-angular-testing.module';
+
+function patchTestbed(): void {
+  const isUnpatched =
+    testbed.configureTestingModule === realConfigureTestingModule;
+
+  if (isUnpatched) {
+    testbed.configureTestingModule = (moduleDef: TestModuleMetadata): void => {
+      realConfigureTestingModule.call(testbed, {
+        ...moduleDef,
+        imports: [
+          EttBrowserTestingModule,
+          EttAngularMaterialTestingModule,
+          EttRxAngularTestingModule,
+          ...(moduleDef.imports ?? []),
+        ],
+      });
+    };
+  }
 }
 
-export function setUpTestbed({
-  autoDetectChanges = true,
-}: TestbedSetupOptions = {}): void {
-  const testbed = getTestBed();
-
+export function setUpTestbed(): void {
   testbed.resetTestEnvironment();
   testbed.initTestEnvironment(
     BrowserDynamicTestingModule,
@@ -39,10 +51,9 @@ export function setUpTestbed({
       },
     }
   );
-  testbed.configureTestingModule({
-    imports: [EttBrowserTestingModule, EttAngularMaterialTestingModule],
-    providers: [
-      { provide: ComponentFixtureAutoDetect, useValue: autoDetectChanges },
-    ],
-  });
+
+  patchTestbed();
 }
+
+const testbed = getTestBed();
+const realConfigureTestingModule = getTestBed().configureTestingModule;

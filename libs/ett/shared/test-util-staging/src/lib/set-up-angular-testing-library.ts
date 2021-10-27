@@ -1,11 +1,3 @@
-import { NgModule } from '@angular/core';
-import { ComponentFixtureAutoDetect } from '@angular/core/testing';
-import { Config, configure } from '@testing-library/angular';
-
-import { EttAngularMaterialTestingModule } from './angular-material/ett-angular-material-testing.module';
-import { EttBrowserTestingModule } from './angular/ett-browser-testing.module';
-import { TestbedSetupOptions } from './set-up-testbed';
-
 /**
  * @license
  * Copyright 2021 Energinet DataHub A/S
@@ -22,26 +14,12 @@ import { TestbedSetupOptions } from './set-up-testbed';
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export function setUpAngularTestingLibrary(
-  config: Partial<Config> = {},
-  { autoDetectChanges = true }: TestbedSetupOptions = {}
-): void {
-  @NgModule({
-    providers: [
-      { provide: ComponentFixtureAutoDetect, useValue: autoDetectChanges },
-    ],
-  })
-  class ComponentFixtureAutoDetectModule {}
+import { Config, configure } from '@testing-library/angular';
 
+export function setUpAngularTestingLibrary(config: Partial<Config> = {}): void {
   configure({
     // Assume SCAMs
     excludeComponentDeclaration: true,
     ...config,
-    defaultImports: [
-      ComponentFixtureAutoDetectModule,
-      EttBrowserTestingModule,
-      EttAngularMaterialTestingModule,
-      ...(config.defaultImports ?? []),
-    ],
   });
 }
