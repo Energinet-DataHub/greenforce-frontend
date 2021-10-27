@@ -47,11 +47,7 @@ $watt-theme: mat.define-light-theme(
   )
 );
 
-$watt-typography-config: mat.define-typography-config(
-  $font-family:   'Open Sans, sans-serif',
-);
-
-@include mat.core($watt-typography-config);
+@include mat.core($watt-typography);
 
 @include mat.autocomplete-theme($watt-theme);
 @include mat.badge-theme($watt-theme);
