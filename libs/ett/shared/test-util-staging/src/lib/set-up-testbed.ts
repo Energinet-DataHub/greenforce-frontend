@@ -15,7 +15,10 @@
  * limitations under the License.
  */
 import { getTestBed, TestModuleMetadata } from '@angular/core/testing';
-import { BrowserDynamicTestingModule, platformBrowserDynamicTesting } from '@angular/platform-browser-dynamic/testing';
+import {
+  BrowserDynamicTestingModule,
+  platformBrowserDynamicTesting,
+} from '@angular/platform-browser-dynamic/testing';
 
 import { EttAngularMaterialTestingModule } from './angular-material/ett-angular-material-testing.module';
 import { EttBrowserTestingModule } from './angular/ett-browser-testing.module';

@@ -1,12 +1,22 @@
-import { HttpClient, HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import {
+  HttpClient,
+  HttpErrorResponse,
+  HttpStatusCode,
+} from '@angular/common/http';
+import {
+  HttpClientTestingModule,
+  HttpTestingController,
+} from '@angular/common/http/testing';
 import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { EttAuthorizationInterceptor, ettAuthorizationInterceptorProvider } from './ett-authorization.interceptor';
+import {
+  EttAuthorizationInterceptor,
+  ettAuthorizationInterceptorProvider,
+} from './ett-authorization.interceptor';
 
 @Component({
   template: '',
