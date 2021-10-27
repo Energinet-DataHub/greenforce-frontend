@@ -16,8 +16,6 @@
  */
 @use '~@angular/material' as mat;
 
-@include mat.core();
-
 $palette: (
   'primary': var(--watt-color-primary),
   'primary-light': var(--watt-color-primary-light),
@@ -45,10 +43,15 @@ $watt-theme: mat.define-light-theme(
     color: (
       primary: $watt-palette,
       accent: $watt-palette,
-    ),
-    typography: $watt-typography,
+    )
   )
 );
+
+$watt-typography-config: mat.define-typography-config(
+  $font-family:   'Open Sans, sans-serif',
+);
+
+@include mat.core($watt-typography-config);
 
 @include mat.autocomplete-theme($watt-theme);
 @include mat.badge-theme($watt-theme);
