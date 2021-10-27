@@ -11,7 +11,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-name: Infrastructure CD
+name: Design System Infrastructure CD
 
 on:
   push:
@@ -23,8 +23,8 @@ on:
       - .github/workflows/infrastructure-cd.yml
   workflow_dispatch: {}
 env:
-  TERRAFORM_BACKEND_FILE_PATH: './build/infrastructure/main/backend.tf'
-  TERRAFORM_WORKING_DIR_PATH: './build/infrastructure/main'
+  TERRAFORM_BACKEND_FILE_PATH: './build/infrastructure/design-system/main/backend.tf'
+  TERRAFORM_WORKING_DIR_PATH: './build/infrastructure/design-system/main'
 
 jobs:
   infra_deploy_development:
