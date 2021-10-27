@@ -16,4 +16,7 @@
  */
 :host {
   display: inline-block;
+  button {
+    border-color: var(--watt-color-primary);
+  }
 }

@@ -14,10 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/*
- * @Please notice!!!
- * These values should be kept in-sync with _colors.import.scss
- */
 export enum WattColor {
   primary = '--watt-color-primary',
   primaryLight = '--watt-color-primary-light',
