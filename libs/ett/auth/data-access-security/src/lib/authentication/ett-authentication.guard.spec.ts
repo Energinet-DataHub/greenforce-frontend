@@ -48,8 +48,8 @@ describe(EttAuthenticationGuard.name, () => {
   let router: Router;
   let view: RenderResult<SpectacularAppComponent, SpectacularAppComponent>;
 
-  describe('redirects to the login page', () => {
-    it('when authentication fails', async () => {
+  describe('Given user authentication failed', () => {
+    it('Then the user is redirected to the login page', async () => {
       const authenticationError = {
         error: 'User failed to verify SSN',
         errorCode: 'E3',
@@ -77,8 +77,8 @@ describe(EttAuthenticationGuard.name, () => {
     });
   });
 
-  describe('allows navigation', () => {
-    it('when authentication succeeds', async () => {
+  describe('Given the user has authenticated', () => {
+    it('Then navigation is allowed', async () => {
       const successfulAuthentication = {
         success: '1',
       };
@@ -99,8 +99,10 @@ describe(EttAuthenticationGuard.name, () => {
         decodeURIComponent(expectedUrl)
       );
     });
+  });
 
-    it('when navigation does not follow authentication', async () => {
+  describe('Given the user has not attempted to authenticate', () => {
+    it('Then navigation is allowed', async () => {
       const expectedUrl = router.serializeUrl(
         router.createUrlTree([guardedPath])
       );
