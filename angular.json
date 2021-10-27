@@ -274,13 +274,13 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
-            "e2e": {
-              "browserTarget": "ett-app:build:development"
-            },
             "development": {
               "browserTarget": "ett-app:build:development",
               "hmr": true,
               "proxyConfig": "apps/ett-app/src/proxy.conf.json"
+            },
+            "e2e": {
+              "browserTarget": "ett-app:build:development"
             },
             "production": {
               "browserTarget": "ett-app:build:production"
