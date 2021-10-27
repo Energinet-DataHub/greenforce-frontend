@@ -14,12 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  ChangeDetectionStrategy,
-  Component,
-  NgModule,
-  ViewEncapsulation,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, NgModule, ViewEncapsulation } from '@angular/core';
 import { MatListModule } from '@angular/material/list';
 import { LetModule } from '@rx-angular/template';
 
@@ -53,7 +48,7 @@ const selector = 'ett-login-providers';
           >
           <ng-template #loginError let-error="$error">
             <p class="${selector}__error">
-              NemID and MitID login is currently unavailable. Please try again
+              NemID and MitID login are currently unavailable. Please try again
               later.
             </p>
           </ng-template>
