@@ -23,7 +23,6 @@ Besides the `apps` folder, there's also a `libs` folder that contains features u
 
 There's currenly only one BFF located in `api-dh-app` under `libs`. It is for `dh-app` and is using .NET 5.0.
 
-
 ## Watt Design System
 
 "Watt" is a Design System that is used by all front-end apps. It is located in `ui-watt` under `libs`.
@@ -35,13 +34,3 @@ Located under `.github/workflows`. There are:
 - `ett.yml` - Used by "Energy Track and Trace" app
 - `license-check-ci.yml` - Used for adding license to files
 - `workspace.yml` - Used to build, test, format and lint all front-end apps
-
-## Intro
-
-This should be replaced by content that fits your domain.
-
-Before you start editing this repository, please read the [TEMPLATE README](./docs/template-readme/README.md)
-
-## Architecture
-
-![design](ARCHITECTURE.png)
