@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@use "sass:math";
+@use 'sass:math';
 
 @use './variables' as spaceVariables;
 
@@ -41,7 +41,7 @@
 
 // Inset Squish
 @mixin inset-squish-xs {
-  padding: math.div(spaceVariables.$watt-space-baseline,2) var(--watt-space-xs);
+  padding: math.div(spaceVariables.$watt-space-baseline, 2) var(--watt-space-xs);
 }
 
 @mixin inset-squish-s {
