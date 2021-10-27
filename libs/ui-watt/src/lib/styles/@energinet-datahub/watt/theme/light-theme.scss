@@ -26,7 +26,7 @@ $palette: (
     'primary': var(--watt-color-primary-contrast),
     'primary-light': var(--watt-color-primary-light-contrast),
     'primary-dark': var(--watt-color-primary-dark-contrast),
-  )
+  ),
 );
 
 $watt-palette: mat.define-palette(
