@@ -19,7 +19,7 @@ on:
       - main
       - renetnielsen/add-infrastructure
     paths:
-      - build/infrastructure/**
+      - build/infrastructure/design-system/**
       - .github/workflows/infrastructure-cd.yml
   workflow_dispatch: {}
 env:
