@@ -50,6 +50,9 @@
     "ett-auth-data-access": {
       "tags": ["product:ett", "scope:auth", "type:data-access"]
     },
+    "ett-auth-data-access-security": {
+      "tags": ["product:ett", "scope:auth", "type:data-access"]
+    },
     "ett-auth-feature-login": {
       "tags": ["product:ett", "scope:auth", "type:feature"]
     },

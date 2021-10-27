@@ -22,6 +22,9 @@
       "@energinet-datahub/ett/auth/data-access": [
         "libs/ett/auth/data-access/src/index.ts"
       ],
+      "@energinet-datahub/ett/auth/data-access-security": [
+        "libs/ett/auth/data-access-security/src/index.ts"
+      ],
       "@energinet-datahub/ett/auth/feature-login": [
         "libs/ett/auth/feature-login/src/index.ts"
       ],

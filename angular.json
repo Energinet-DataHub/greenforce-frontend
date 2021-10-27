@@ -370,6 +370,31 @@
         }
       }
     },
+    "ett-auth-data-access-security": {
+      "projectType": "library",
+      "root": "libs/ett/auth/data-access-security",
+      "sourceRoot": "libs/ett/auth/data-access-security/src",
+      "prefix": "ett",
+      "architect": {
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/ett/auth/data-access-security"],
+          "options": {
+            "jestConfig": "libs/ett/auth/data-access-security/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/ett/auth/data-access-security/src/**/*.ts",
+              "libs/ett/auth/data-access-security/src/**/*.html"
+            ]
+          }
+        }
+      }
+    },
     "ett-auth-feature-login": {
       "projectType": "library",
       "root": "libs/ett/auth/feature-login",

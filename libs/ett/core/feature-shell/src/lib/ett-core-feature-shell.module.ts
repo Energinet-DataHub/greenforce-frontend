@@ -16,11 +16,11 @@
  */
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { EttAuthenticationGuard } from '@energinet-datahub/ett/auth/data-access';
+import { EttAuthenticationGuard } from '@energinet-datahub/ett/auth/data-access-security';
 import { ettAuthRoutePath } from '@energinet-datahub/ett/auth/feature-shell';
 import { EttBrowserConfigurationModule } from '@energinet-datahub/ett/core/util-browser';
+import { ettDashboardRoutePath } from '@energinet-datahub/ett/dashboard/feature-shell';
 
-import { ettDashboardRoutePath } from './../../../../dashboard/feature-shell/src/lib/ett-dashboard-route-path';
 import { EttHttpModule } from './ett-http.module';
 import { EttShellComponent, EttShellScam } from './ett-shell.component';
 

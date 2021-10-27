@@ -16,10 +16,3 @@
  */
 // API
 export * from './lib/api/oidc/auth-oidc-http.service';
-
-// Authentication
-export * from './lib/authentication/ett-authentication.guard';
-export * from './lib/authentication/ett-authentication.interceptor';
-
-// Authorization
-export * from './lib/authorization/ett-authorization.interceptor';
