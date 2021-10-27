@@ -22,5 +22,6 @@ import { Component, Input, TemplateRef, ViewChild } from '@angular/core';
 })
 export class WattTabComponent {
   @Input() label = '';
-  @ViewChild('templateRef') public templateRef: TemplateRef<unknown> | null = null;
+  @ViewChild('templateRef') public templateRef: TemplateRef<unknown> | null =
+    null;
 }
