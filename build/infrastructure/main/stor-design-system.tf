@@ -21,7 +21,6 @@ resource "azurerm_storage_account" "stor_design_system" {
   enable_https_traffic_only = true
   tags                      = data.azurerm_resource_group.main.tags
   min_tls_version           = "TLS1_2"
-  allow_blob_public_access  = true
 
   static_website {
     index_document = "index.html"
