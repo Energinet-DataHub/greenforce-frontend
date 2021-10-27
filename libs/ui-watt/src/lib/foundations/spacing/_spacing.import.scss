@@ -67,7 +67,7 @@
 
 // Stack
 @mixin stack-xxs {
-  margin: 0 0 #{spaceVariables.$watt-space-baseline / 2} 0;
+  margin: 0 0 math.div(spaceVariables.$watt-space-baseline,2) 0;
 }
 
 @mixin stack-xs {
@@ -92,7 +92,7 @@
 
 // Inline
 @mixin inline-xxs {
-  margin: 0 #{spaceVariables.$watt-space-baseline / 2} 0 0;
+  margin: 0 math.div(spaceVariables.$watt-space-baseline,2) 0 0;
 }
 
 @mixin inline-xs {
