@@ -25,3 +25,5 @@ We use [Swashbuckle](https://github.com/domaindrivendev/Swashbuckle.AspNetCore) 
 This functionality is only enabled when:
 
 * The ASP.NET Core environment is set to `development`. See the `Configure` method in [Startup.cs](../source/DataHub.WebApi/Startup.cs).
+
+See also [Get started with Swashbuckle and ASP.NET Core](https://docs.microsoft.com/en-us/aspnet/core/tutorials/getting-started-with-swashbuckle?view=aspnetcore-5.0&tabs=visual-studio).

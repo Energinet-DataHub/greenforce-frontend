@@ -12,11 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System;
+using System.IO;
+using System.Reflection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
 
 namespace Energinet.DataHub.WebApi
 {
@@ -36,15 +40,20 @@ namespace Energinet.DataHub.WebApi
         {
             services.AddControllers();
 
-            // Use OpenAPI v3
-            services.AddOpenApiDocument(config =>
+            // Register the Swagger generator, defining 1 or more Swagger documents.
+            services.AddSwaggerGen(config =>
             {
-                config.PostProcess = document =>
+                config.SwaggerDoc("v1", new OpenApiInfo
                 {
-                    document.Info.Title = "DataHub BFF";
-                    document.Info.Version = "v1";
-                    document.Info.Description = "Backend-for-frontend for DataHub";
-                };
+                    Title = "DataHub BFF",
+                    Version = "1.0.0",
+                    Description = "Backend-for-frontend for DataHub",
+                });
+
+                // Set the comments path for the Swagger JSON and UI.
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                config.IncludeXmlComments(xmlPath);
             });
         }
 
@@ -57,10 +66,12 @@ namespace Energinet.DataHub.WebApi
             {
                 app.UseDeveloperExceptionPage();
 
-                // Register the Swagger generator and the Swagger UI middlewares
-                app
-                    .UseOpenApi()
-                    .UseSwaggerUi3();
+                // Enable middleware to serve generated Swagger as a JSON endpoint.
+                app.UseSwagger();
+
+                // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.)
+                app.UseSwaggerUI(options =>
+                    options.SwaggerEndpoint("/swagger/v1/swagger.json", "DataHub.WebApi v1"));
             }
 
             app.UseHttpsRedirection();
