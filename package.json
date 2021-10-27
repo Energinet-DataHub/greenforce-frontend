@@ -15,7 +15,7 @@
     "affected": "nx affected",
     "affected:apps": "nx affected:apps",
     "affected:build": "nx affected:build --configuration=production --parallel",
-    "affected:ci": "npm run affected:lint && npm run affected:test && npm run affected:build && npm run affected:e2e",
+    "affected:ci": "npm run affected:lint && npm run affected:test && npm run affected:build && npm run affected:e2e -- --configuration=ci",
     "affected:dep-graph": "nx affected:dep-graph",
     "affected:e2e": "nx affected:e2e",
     "affected:libs": "nx affected:libs",
