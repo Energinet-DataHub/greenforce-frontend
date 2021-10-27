@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Meta, moduleMetadata, Story } from '@storybook/angular';
 
 import { WattTabsComponent, WattTabsModule } from './../index';
@@ -22,7 +23,7 @@ export default {
   title: 'Components/Tabs',
   decorators: [
     moduleMetadata({
-      imports: [WattTabsModule],
+      imports: [BrowserAnimationsModule, WattTabsModule],
     }),
   ],
   component: WattTabsComponent,
