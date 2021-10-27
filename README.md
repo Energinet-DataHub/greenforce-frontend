@@ -12,7 +12,7 @@ Monorepo that hosts:
 
 The front-end apps are built with Angular in an Nx Workspace. They are located under `apps` folder:
 
-- `dh-app` - New "DataHub" app
+- `dh-app` - "DataHub" app
 - `dh-app-e2e` - End-to-end tests for `dh-app`
 - `ett-app` - "Energy Track and Trace" app.
 - `ett-app-e2e` - End-to-end tests for `ett-app`
@@ -21,7 +21,8 @@ Besides the `apps` folder, there's also a `libs` folder that contains features u
 
 ## Backend-for-frontend (BFF)
 
-There's currenly only one BFF located in `api-dh-app` under `libs`. It is for `dh-app` and is using .NET Core 5.0.
+There's currenly only one BFF located in `api-dh-app` under `libs`. It is for `dh-app` and is using .NET 5.0.
+
 
 ## Watt Design System
 
