@@ -171,13 +171,23 @@ var path = require('path');
 var config = require('../../../.licenserc.json');
 function addLicenseExecutor(options) {
   return __awaiter(this, void 0, void 0, function () {
-    var globs, success, files;
+    var globs, success, ignores, data, files;
     return __generator(this, function (_a) {
       globs = Object.keys(config);
       success = true;
+      ignores = [];
+      try {
+        data = fs.readFileSync('./.nxignore', 'utf8');
+        ignores = data.split('\n').map(function (x) {
+          return x.replace('\r', '');
+        });
+      } catch (err) {
+        console.error(err);
+      }
       console.info('Adding licenses...');
       files = glob.sync(
-        '{,!(node_modules|dist)/**/*}*{' + globs.join(',') + '}'
+        '{,!(node_modules|dist)/**/*}*{' + globs.join(',') + '}',
+        { ignore: ignores }
       );
       files.forEach(function (file) {
         try {
@@ -185,7 +195,7 @@ function addLicenseExecutor(options) {
             fs.existsSync(file) && fs.lstatSync(file).isDirectory();
           if (isDirectory) return;
           var data = fs.readFileSync(file, 'utf8');
-          var licenseConfig = getLicenseConfig(file);
+          var licenseConfig = getLicenseConfig(config, file);
           if (!licenseConfig) {
             console.error('No license config found for: ' + file);
             success = false;
@@ -207,7 +217,7 @@ function addLicenseExecutor(options) {
   });
 }
 exports['default'] = addLicenseExecutor;
-function getLicenseConfig(file) {
+function getLicenseConfig(config, file) {
   var fileExt = path.extname(file).replace('.', '');
   var key = Object.keys(config).find(function (glob) {
     return glob.includes(fileExt);

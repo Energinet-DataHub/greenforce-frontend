@@ -38,6 +38,10 @@
 }
 
 // Inset Squish
+.watt-space-inset-squish-xs {
+  @include space.inset-squish-xs;
+}
+
 .watt-space-inset-squish-s {
   @include space.inset-squish-s;
 }
