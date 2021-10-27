@@ -38,6 +38,10 @@
 }
 
 // Inset Squish
+@mixin inset-squish-xs {
+  padding: #{spaceVariables.$watt-space-baseline / 2} var(--watt-space-xs);
+}
+
 @mixin inset-squish-s {
   padding: var(--watt-space-xs) var(--watt-space-s);
 }
