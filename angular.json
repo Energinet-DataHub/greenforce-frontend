@@ -274,6 +274,9 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
+            "e2e": {
+              "browserTarget": "ett-app:build:development"
+            },
             "development": {
               "browserTarget": "ett-app:build:development",
               "hmr": true,
@@ -320,7 +323,7 @@
           "options": {
             "cypressConfig": "apps/ett-app-e2e/cypress.json",
             "tsConfig": "apps/ett-app-e2e/tsconfig.e2e.json",
-            "devServerTarget": "ett-app:serve:development"
+            "devServerTarget": "ett-app:serve:e2e"
           },
           "configurations": {
             "ci": {
