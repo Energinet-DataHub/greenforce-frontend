@@ -14,10 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/*
- * @Please notice!!!
- * These values should be kept in-sync with libs\ui-watt\src\lib\styles\@energinet-datahub\watt\theme\_palette.scss
- */
 export enum WattColor {
   primary = '--watt-color-primary',
   primaryLight = '--watt-color-primary-light',

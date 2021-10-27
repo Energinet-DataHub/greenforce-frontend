@@ -15,12 +15,22 @@
  * limitations under the License.
  */
 @use '~@angular/material' as mat;
-@use './palette' as colors;
 
 @include mat.core();
 
+$palette: (
+  'primary': var(--watt-color-primary),
+  'primary-light': var(--watt-color-primary-light),
+  'primary-dark': var(--watt-color-primary-dark),
+  'contrast': (
+    'primary': var(--watt-color-primary-contrast),
+    'primary-light': var(--watt-color-primary-light-contrast),
+    'primary-dark': var(--watt-color-primary-dark-contrast),
+  )
+);
+
 $watt-palette: mat.define-palette(
-  colors.$palette,
+  $palette,
   'primary',
   'primary-light',
   'primary-dark'
