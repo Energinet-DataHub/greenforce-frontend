@@ -71,14 +71,16 @@ describe(EttAuthorizationInterceptor.name, () => {
       );
     });
 
-    it('Then an error message is displayed', () => {
+    it('Then an error message is displayed', async () => {
       const snackBar = TestBed.inject(MatSnackBar);
       jest.spyOn(snackBar, 'open');
 
-      sendRequest();
+      const whenResponse = sendRequest();
       respondWith403Forbidden(dummyResponseErrorMessage);
 
-      expect(snackBar.open).toHaveBeenCalledTimes(1);
+      await whenResponse.catch(() => {
+        expect(snackBar.open).toHaveBeenCalledTimes(1);
+      });
     });
   });
 
