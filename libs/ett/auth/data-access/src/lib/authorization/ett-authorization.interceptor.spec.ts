@@ -1,22 +1,12 @@
-import { Location } from '@angular/common';
-import {
-  HttpClient,
-  HttpErrorResponse,
-  HttpStatusCode,
-} from '@angular/common/http';
-import {
-  HttpClientTestingModule,
-  HttpTestingController,
-} from '@angular/common/http/testing';
+import { HttpClient, HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import {
-  EttAuthorizationInterceptor,
-  ettAuthorizationInterceptorProvider,
-} from './ett-authorization.interceptor';
+import { EttAuthorizationInterceptor, ettAuthorizationInterceptorProvider } from './ett-authorization.interceptor';
 
 @Component({
   template: '',
@@ -33,25 +23,24 @@ describe(EttAuthorizationInterceptor.name, () => {
       declarations: [TestDefaultRouteComponent],
       imports: [
         HttpClientTestingModule,
-        MatSnackBarModule,
         RouterTestingModule.withRoutes([
           { path: '', pathMatch: 'full', redirectTo: defaultRoutePath },
           { path: defaultRoutePath, component: TestDefaultRouteComponent },
         ]),
+        NoopAnimationsModule,
+        MatSnackBarModule,
       ],
       providers: [ettAuthorizationInterceptorProvider],
     });
 
     http = TestBed.inject(HttpClient);
     httpController = TestBed.inject(HttpTestingController);
-    appLocation = TestBed.inject(Location);
   });
 
   afterEach(() => {
     httpController.verify();
   });
 
-  let appLocation: Location;
   const defaultRoutePath = 'default';
   let http: HttpClient;
   let httpController: HttpTestingController;
@@ -82,25 +71,14 @@ describe(EttAuthorizationInterceptor.name, () => {
       );
     });
 
-    it('Then they are redirected to the default page', async () => {
-      expect.assertions(1);
+    it('Then an error message is displayed', () => {
+      const snackBar = TestBed.inject(MatSnackBar);
+      jest.spyOn(snackBar, 'open');
 
-      const whenResponse = sendRequest();
+      sendRequest();
       respondWith403Forbidden(dummyResponseErrorMessage);
 
-      await whenResponse.catch(() =>
-        expect(appLocation.path()).toBe(`/${defaultRoutePath}`)
-      );
-    });
-
-    it('Then an error message is displayed', async () => {
-      expect.assertions(1);
-
-      const whenResponse = sendRequest();
-      respondWith403Forbidden(dummyResponseErrorMessage);
-      await whenResponse;
-
-      // expect(...)
+      expect(snackBar.open).toHaveBeenCalledTimes(1);
     });
   });
 

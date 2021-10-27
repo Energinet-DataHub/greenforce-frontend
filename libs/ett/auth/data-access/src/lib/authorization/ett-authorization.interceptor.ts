@@ -8,34 +8,35 @@ import {
   HttpStatusCode,
 } from '@angular/common/http';
 import { ClassProvider, Injectable } from '@angular/core';
-import { Router } from '@angular/router';
-import { from, Observable, throwError } from 'rxjs';
-import { catchError, switchMapTo } from 'rxjs/operators';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
+
+import { error } from './../../../../../../ui-watt/src/lib/components/input/+storybook/input.directive.stories';
 
 /**
  * Displays an error when the user has insufficient permissions.
  */
 @Injectable()
 export class EttAuthorizationInterceptor implements HttpInterceptor {
-  constructor(private router: Router) {}
+  constructor(private snackBar: MatSnackBar) {}
 
   intercept(
     request: HttpRequest<unknown>,
     nextHandler: HttpHandler
   ): Observable<HttpEvent<unknown>> {
     request.responseType;
-    return nextHandler
-      .handle(request)
-      .pipe(
-        catchError(
-          (error: unknown): Observable<never> =>
-            this.#is403ForbiddenResponse(error)
-              ? from(this.router.navigateByUrl('/')).pipe(
-                  switchMapTo(throwError(error))
-                )
-              : throwError(error)
-        )
-      );
+    return nextHandler.handle(request).pipe(
+      tap({
+        error: () => this.#displayPermissionError(),
+      })
+    );
+  }
+
+  #displayPermissionError(): Observable<void> {
+    return this.snackBar
+      .open('You do not have permission to perform this action.')
+      .afterOpened();
   }
 
   #is403ForbiddenResponse(error: unknown): boolean {
