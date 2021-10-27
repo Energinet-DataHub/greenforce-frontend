@@ -10,7 +10,6 @@ import {
 import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import {
@@ -37,7 +36,6 @@ describe(EttAuthorizationInterceptor.name, () => {
           { path: '', pathMatch: 'full', redirectTo: defaultRoutePath },
           { path: defaultRoutePath, component: TestDefaultRouteComponent },
         ]),
-        NoopAnimationsModule,
         MatSnackBarModule,
       ],
       providers: [ettAuthorizationInterceptorProvider],
