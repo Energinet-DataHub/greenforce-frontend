@@ -14,12 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, Input, ViewEncapsulation } from '@angular/core';
-import { WattIcon } from '@energinet-datahub/watt';
+import { Component, HostBinding, Input, OnChanges, SimpleChanges, ViewEncapsulation } from '@angular/core';
+import { WattIcon, WattIconSize } from '@energinet-datahub/watt';
 
 /**
  * Usage:
- * `import WattEmptyStateModule from '@energinet-datahub/watt';`
+ * `import { WattEmptyStateModule } from '@energinet-datahub/watt';`
  */
 @Component({
   selector: 'watt-empty-state',
@@ -27,8 +27,21 @@ import { WattIcon } from '@energinet-datahub/watt';
   templateUrl: './empty-state.component.html',
   encapsulation: ViewEncapsulation.None,
 })
-export class WattEmptyStateComponent {
-  @Input() icon: WattIcon = 'explore';
-  @Input() title!: string;
-  @Input() msg!: string;
+export class WattEmptyStateComponent implements OnChanges {
+  @Input() icon?: WattIcon | undefined;
+  @Input() size: 'small' | 'large' = 'large';
+  @Input() title = '';
+  @Input() msg = '';
+
+  iconSize: WattIconSize = 'XXLarge';
+
+  @HostBinding('class') get currentSize(): string[] {
+    return [`empty-state-${this.size}`];
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if(changes?.size?.currentValue === 'small') {
+      this.iconSize = 'XLarge';
+    }
+  }
 }

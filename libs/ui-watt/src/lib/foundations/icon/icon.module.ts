@@ -23,6 +23,6 @@ import { WattIconComponent } from './icon.component';
 @NgModule({
   imports: [MatIconModule, HttpClientModule, CommonModule],
   declarations: [WattIconComponent],
-  exports: [WattIconComponent],
+  exports: [WattIconComponent, CommonModule],
 })
 export class WattIconModule {}

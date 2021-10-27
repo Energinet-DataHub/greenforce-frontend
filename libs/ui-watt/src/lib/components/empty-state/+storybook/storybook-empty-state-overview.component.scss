@@ -1,0 +1,50 @@
+:host {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  max-width: 1030px;
+
+  .examples {
+    &:not(:last-of-type) {
+        margin-bottom: 50px;
+    }
+    
+    > * {
+      margin-top: 25px;
+    }
+  }
+}
+
+h1 {
+  width: 100%;
+}
+
+h2 {
+  width: 50%;
+}
+
+.showcases {
+  max-width: 100%;
+}
+
+.headers,
+.examples {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+
+  watt-empty-state {
+    width: 100%;
+
+    @media (min-width: 1030px) {
+      width: 50%;
+    }
+  }
+}
+
+.headers {
+  display: none;
+  @media (min-width: 1030px) {
+    display: flex;
+  }
+}

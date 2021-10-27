@@ -17,6 +17,7 @@
 import { Meta, moduleMetadata, Story } from '@storybook/angular';
 
 import { WattEmptyStateComponent, WattEmptyStateModule } from './../index';
+import { EmptyStateOverviewComponent } from './storybook-empty-state-overview.component';
 
 export default {
   title: 'Components/Empty State',
@@ -25,17 +26,12 @@ export default {
       imports: [WattEmptyStateModule],
     }),
   ],
-  component: WattEmptyStateComponent,
-} as Meta<WattEmptyStateComponent>;
+  component: EmptyStateOverviewComponent,
+} as Meta<EmptyStateOverviewComponent>;
 
-export const emptyState: Story<WattEmptyStateComponent> = (args) => ({
+export const overview: Story<EmptyStateOverviewComponent> = (args) => ({
   props: args,
 });
-emptyState.args = {
-  icon: 'explore',
-  title: 'No results for ‘test’',
-  msg: 'Try adjusting your search or filter to find what you are looking for.',
-};
 
 const emptyStateWithCallBackTemplate = (
   args: Partial<WattEmptyStateComponent>
@@ -43,21 +39,59 @@ const emptyStateWithCallBackTemplate = (
   <watt-button type="primary" size="normal">Go Back</watt-button>
 </watt-empty-state>`;
 
-export const emptyStateWithCallBack: Story<WattEmptyStateComponent> = (
-  args
-) => ({
+export const withCallToAction: Story<WattEmptyStateComponent> = (args) => ({
   props: args,
   template: emptyStateWithCallBackTemplate(args),
 });
-emptyStateWithCallBack.args = {
+withCallToAction.args = {
   icon: 'power',
   title: 'An unexpected error occured',
   msg: 'Try again or contact your system administrator if you keep getting this error.',
 };
-emptyStateWithCallBack.parameters = {
+withCallToAction.parameters = {
   docs: {
     source: {
-      code: emptyStateWithCallBackTemplate(emptyStateWithCallBack.args),
+      code: emptyStateWithCallBackTemplate(withCallToAction.args),
+    },
+  },
+};
+
+const withoutIconTemplate = (args: Partial<WattEmptyStateComponent>) =>
+  `<watt-empty-state title="${args.title}" msg="${args.msg}"></watt-empty-state>`;
+
+export const withoutIcon: Story<WattEmptyStateComponent> = (args) => ({
+  props: args,
+  template: withoutIconTemplate(args),
+});
+withoutIcon.args = {
+  title: 'No results for ‘test’',
+  msg: 'Try adjusting your search or filter to find what you are looking for.',
+};
+withoutIcon.parameters = {
+  docs: {
+    source: {
+      code: withoutIconTemplate(withoutIcon.args),
+    },
+  },
+};
+
+const smallTemplate = (args: Partial<WattEmptyStateComponent>) =>
+  `<watt-empty-state size="small" title="${args.title}" msg="${args.msg}"></watt-empty-state>`;
+
+export const small: Story<WattEmptyStateComponent> = (args) => ({
+  props: args,
+  template: smallTemplate(args),
+});
+small.args = {
+  icon: undefined,
+  title: 'No results for ‘test’',
+  msg: 'Try adjusting your search or filter to find what you are looking for.',
+};
+
+small.parameters = {
+  docs: {
+    source: {
+      code: smallTemplate(small.args),
     },
   },
 };

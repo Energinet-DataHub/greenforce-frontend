@@ -14,13 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+@use '@energinet-datahub/watt/utils' as watt;
+
 watt-empty-state {
   display: block;
   text-align: center;
   color: var(--watt-color-primary-dark);
 
-  h3,
-  p {
+  h3, h5, p {
     margin: 0;
   }
 
