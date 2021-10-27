@@ -23,8 +23,8 @@ watt-tabs .mat-tab-header {
 
 watt-tabs .mat-tab-label {
   min-width: 120px;
-  padding: var(--watt-space-m);
   opacity: 1;
+  @include watt.space-inset-m;
 
   .mat-tab-label-content {
     color: var(--watt-color-primary);
