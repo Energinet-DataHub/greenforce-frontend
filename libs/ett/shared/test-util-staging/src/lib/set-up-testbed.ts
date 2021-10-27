@@ -1,3 +1,9 @@
+import { ComponentFixtureAutoDetect, getTestBed } from '@angular/core/testing';
+import { BrowserDynamicTestingModule, platformBrowserDynamicTesting } from '@angular/platform-browser-dynamic/testing';
+
+import { EttAngularMaterialTestingModule } from './angular-material/ett-angular-material-testing.module';
+import { EttBrowserTestingModule } from './angular/ett-browser-testing.module';
+
 /**
  * @license
  * Copyright 2021 Energinet DataHub A/S
@@ -14,23 +20,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ComponentFixtureAutoDetect, getTestBed } from '@angular/core/testing';
-import {
-  BrowserDynamicTestingModule,
-  platformBrowserDynamicTesting,
-} from '@angular/platform-browser-dynamic/testing';
-import { detectBaseHrefProvider } from '@energinet-datahub/ett/core/util-browser';
-
 export interface TestbedSetupOptions {
   readonly autoDetectChanges?: boolean;
-  readonly destroyAfterEach?: boolean;
-  readonly detectBaseHref?: boolean;
 }
 
 export function setUpTestbed({
   autoDetectChanges = true,
-  destroyAfterEach = true,
-  detectBaseHref = true,
 }: TestbedSetupOptions = {}): void {
   const testbed = getTestBed();
 
@@ -40,14 +35,14 @@ export function setUpTestbed({
     platformBrowserDynamicTesting(),
     {
       teardown: {
-        destroyAfterEach,
+        destroyAfterEach: true,
       },
     }
   );
-  testbed.configureCompiler({
+  testbed.configureTestingModule({
+    imports: [EttBrowserTestingModule, EttAngularMaterialTestingModule],
     providers: [
       { provide: ComponentFixtureAutoDetect, useValue: autoDetectChanges },
-      detectBaseHref ? [detectBaseHrefProvider] : [],
     ],
   });
 }

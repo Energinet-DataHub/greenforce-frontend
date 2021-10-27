@@ -12,8 +12,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
-import { error } from './../../../../../../ui-watt/src/lib/components/input/+storybook/input.directive.stories';
-
 /**
  * Displays an error when the user has insufficient permissions.
  */
@@ -28,7 +26,11 @@ export class EttAuthorizationInterceptor implements HttpInterceptor {
     request.responseType;
     return nextHandler.handle(request).pipe(
       tap({
-        error: () => this.#displayPermissionError(),
+        error: (error) => {
+          if (this.#is403ForbiddenResponse(error)) {
+            this.#displayPermissionError();
+          }
+        },
       })
     );
   }
