@@ -15,8 +15,7 @@
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Energinet.DataHub.Core.TestCommon;
-using Energinet.DataHub.WebApi.Controllers;
+using Energinet.DataHub.WebApi.Tests.Fixtures;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Xunit;
@@ -26,14 +25,12 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
     // PoC showing how to integration test controllers
     public class WeatherForecastControllerTests
     {
-        public class Get : TestBase<WeatherForecastController>, IClassFixture<WebApplicationFactory<WebApi.Startup>>
+        public class Get : WebHostTestBase
         {
             public Get(WebApplicationFactory<WebApi.Startup> factory)
+                : base(factory)
             {
-                Client = factory.CreateClient();
             }
-
-            private HttpClient Client { get; }
 
             [Fact]
             public async Task When_Requested_Then_StatusCodeIsOK()
@@ -42,7 +39,7 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
                 var requestUrl = "/v1/weatherForecast";
 
                 // Act
-                var actual = await Client.GetAsync(requestUrl);
+                var actual = await HttpClient.GetAsync(requestUrl);
 
                 // Assert
                 actual.StatusCode.Should().Be(HttpStatusCode.OK);

@@ -12,15 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Net.Http;
+using Microsoft.AspNetCore.Mvc.Testing;
+using Xunit;
 
-namespace Energinet.DataHub.WebApi.Tests.Integration
+namespace Energinet.DataHub.WebApi.Tests.Fixtures
 {
-    public class OpenApiEndpointTests
+    public abstract class WebHostTestBase : IClassFixture<WebApplicationFactory<WebApi.Startup>>
     {
+        public WebHostTestBase(WebApplicationFactory<WebApi.Startup> factory)
+        {
+            HttpClient = factory.CreateClient();
+        }
+
+        protected HttpClient HttpClient { get; }
     }
 }
