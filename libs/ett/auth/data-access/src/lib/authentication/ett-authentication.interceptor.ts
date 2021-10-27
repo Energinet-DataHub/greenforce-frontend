@@ -32,9 +32,7 @@ export class EttAuthenticationInterceptor implements HttpInterceptor {
         catchError(
           (error: unknown): Observable<never> =>
             this.#is401UnauthorizedResponse(error)
-              ? from(this.router.navigate([ettAuthRoutePath])).pipe(
-                  switchMapTo(throwError(error))
-                )
+              ? this.#navigateToLoginPage().pipe(switchMapTo(throwError(error)))
               : throwError(error)
         )
       );
@@ -45,6 +43,10 @@ export class EttAuthenticationInterceptor implements HttpInterceptor {
       error instanceof HttpErrorResponse &&
       error.status === HttpStatusCode.Unauthorized
     );
+  }
+
+  #navigateToLoginPage(): Observable<boolean> {
+    return from(this.router.navigate([ettAuthRoutePath]));
   }
 }
 
