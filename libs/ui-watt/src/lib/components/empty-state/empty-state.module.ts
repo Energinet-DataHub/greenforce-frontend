@@ -14,12 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+
 import { WattIconModule } from '../../foundations/icon';
 import { WattEmptyStateComponent } from './empty-state.component';
 
 @NgModule({
-  imports: [WattIconModule],
+  imports: [CommonModule, WattIconModule],
   declarations: [WattEmptyStateComponent],
   exports: [WattEmptyStateComponent],
 })
