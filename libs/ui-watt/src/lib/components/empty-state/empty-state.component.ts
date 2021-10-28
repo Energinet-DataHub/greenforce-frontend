@@ -18,10 +18,9 @@ import {
   Component,
   HostBinding,
   Input,
-  OnChanges,
-  SimpleChanges,
   ViewEncapsulation,
 } from '@angular/core';
+
 import { WattIcon, WattIconSize } from '../../foundations/icon';
 
 /**
@@ -34,22 +33,22 @@ import { WattIcon, WattIconSize } from '../../foundations/icon';
   templateUrl: './empty-state.component.html',
   encapsulation: ViewEncapsulation.None,
 })
-export class WattEmptyStateComponent implements OnChanges {
+export class WattEmptyStateComponent {
   @Input() icon?: WattIcon;
   @Input() size: 'Small' | 'Large' = 'Large';
   @Input() title = '';
   @Input() message = '';
 
-  iconSize: WattIconSize = 'XXLarge';
-
   @HostBinding('class') get currentSize(): string[] {
     return [`empty-state-${this.size}`];
   }
 
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes?.size?.currentValue === 'Small') {
-      this.iconSize = 'XLarge';
+  get iconSize(): WattIconSize {
+    if (this.size === 'Small') {
+      return 'XLarge';
     }
+
+    return 'XXLarge';
   }
 
   get hasIcon(): boolean {
