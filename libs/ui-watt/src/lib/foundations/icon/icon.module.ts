@@ -19,6 +19,7 @@ import { NgModule } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 
 import { WattIconComponent } from './icon.component';
+
 @NgModule({
   imports: [MatIconModule, HttpClientModule],
   declarations: [WattIconComponent],
