@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { WattButtonModule } from '@energinet-datahub/watt';
 import { Meta, moduleMetadata, Story } from '@storybook/angular';
 
 import { WattEmptyStateComponent, WattEmptyStateModule } from './../index';
@@ -23,7 +24,7 @@ export default {
   title: 'Components/Empty State',
   decorators: [
     moduleMetadata({
-      imports: [WattEmptyStateModule],
+      imports: [WattEmptyStateModule, WattButtonModule],
     }),
   ],
   component: EmptyStateOverviewComponent,

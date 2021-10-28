@@ -15,12 +15,12 @@
  * limitations under the License.
  */
 import { NgModule } from '@angular/core';
-import { WattButtonModule, WattIconModule } from '@energinet-datahub/watt';
+import { WattIconModule } from '../../foundations/icon';
 import { WattEmptyStateComponent } from './empty-state.component';
 
 @NgModule({
-  imports: [WattIconModule, WattButtonModule],
+  imports: [WattIconModule],
   declarations: [WattEmptyStateComponent],
-  exports: [WattEmptyStateComponent, WattButtonModule],
+  exports: [WattEmptyStateComponent],
 })
 export class WattEmptyStateModule {}
