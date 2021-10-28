@@ -43,7 +43,7 @@ specification](https://material.io/archive/guidelines/layout/responsive-ui.html)
 
 ### From TypeScript
 
-You can use these predefined breakpoints with `WattBreakpointObserver`.
+You can use these predefined breakpoints with `WattBreakpointsObserver`.
 
 ```typescript
 import {
@@ -53,7 +53,7 @@ import {
 } from '@energinet-datahub/watt';
 ...
 
-wattBreakpointObserver.observe([
+WattBreakpointsObserver.observe([
   WattBreakpoint.XSmall,
   WattBreakpoint.Small
 ]).subscribe((result: WattBreakpointState) => {
