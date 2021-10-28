@@ -43,7 +43,8 @@ export type WattIconSize =
   encapsulation: ViewEncapsulation.None,
 })
 export class WattIconComponent implements OnChanges {
-  @Input() name?: WattIcon | undefined;
+  @Input() name?: WattIcon;
+
   /**
    * @description used for `aria-label`
    */
