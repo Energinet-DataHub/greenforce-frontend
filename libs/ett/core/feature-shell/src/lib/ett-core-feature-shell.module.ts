@@ -1,3 +1,14 @@
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { EttAuthenticationGuard } from '@energinet-datahub/ett/auth/data-access-security';
+import { ettAuthRoutePath } from '@energinet-datahub/ett/auth/feature-shell';
+import { EttBrowserConfigurationModule } from '@energinet-datahub/ett/core/util-browser';
+import { ettDashboardRoutePath } from '@energinet-datahub/ett/dashboard/feature-shell';
+
+import { EttHttpModule } from './ett-http.module';
+import { EttMaterialModule } from './ett-material.module';
+import { EttShellComponent, EttShellScam } from './ett-shell.component';
+
 /**
  * @license
  * Copyright 2021 Energinet DataHub A/S
@@ -14,16 +25,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { EttAuthenticationGuard } from '@energinet-datahub/ett/auth/data-access-security';
-import { ettAuthRoutePath } from '@energinet-datahub/ett/auth/feature-shell';
-import { EttBrowserConfigurationModule } from '@energinet-datahub/ett/core/util-browser';
-import { ettDashboardRoutePath } from '@energinet-datahub/ett/dashboard/feature-shell';
-
-import { EttHttpModule } from './ett-http.module';
-import { EttShellComponent, EttShellScam } from './ett-shell.component';
-
 const routes: Routes = [
   {
     path: '',
@@ -63,6 +64,7 @@ const routes: Routes = [
       initialNavigation: 'enabledNonBlocking',
       scrollPositionRestoration: 'enabled',
     }),
+    EttMaterialModule.forRoot(),
     EttShellScam,
   ],
 })
