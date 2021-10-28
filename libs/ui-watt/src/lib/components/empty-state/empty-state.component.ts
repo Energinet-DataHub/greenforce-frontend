@@ -14,7 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, HostBinding, Input, OnChanges, SimpleChanges, ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  HostBinding,
+  Input,
+  OnChanges,
+  SimpleChanges,
+  ViewEncapsulation,
+} from '@angular/core';
 import { WattIcon, WattIconSize } from '../../foundations/icon';
 
 /**
@@ -40,7 +47,7 @@ export class WattEmptyStateComponent implements OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if(changes?.size?.currentValue === 'Small') {
+    if (changes?.size?.currentValue === 'Small') {
       this.iconSize = 'XLarge';
     }
   }
