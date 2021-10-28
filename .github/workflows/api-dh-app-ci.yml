@@ -23,16 +23,10 @@ on:
       - .github/workflows/api-dh-app-ci.yml
   workflow_dispatch: {}
 
-env:
-  SOLUTION_FILE_PATH: libs/api-dh-app/DataHub.WebApi.sln
-  BUILD_CONFIGURATION: Release
-  # Tool versions
-  DOTNET_VERSION: '5.0.202'
-
 jobs:
   validate_dotnet_webapi:
     uses: Energinet-DataHub/.github/.github/workflows/validate-dotnet-webapi.yml@dstenroejl/validate-webapi
     with:
-      SOLUTION_FILE_PATH: ${{ env.SOLUTION_FILE_PATH }}
-      BUILD_CONFIGURATION: ${{ env.BUILD_CONFIGURATION }}
-      DOTNET_VERSION: ${{ env.DOTNET_VERSION }}
+      SOLUTION_FILE_PATH: 'libs/api-dh-app/DataHub.WebApi.sln'
+      BUILD_CONFIGURATION: 'Release'
+      DOTNET_VERSION: '5.0.202'
