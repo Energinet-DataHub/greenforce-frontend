@@ -47,7 +47,7 @@ export class WattIconComponent implements OnChanges {
   /**
    * @description used for `aria-label`
    */
-  @Input() label!: string;
+  @Input() label: string | null = null;
   @Input() size: WattIconSize = 'Medium';
 
   @HostBinding('class') get currentSize(): string[] {
@@ -57,11 +57,11 @@ export class WattIconComponent implements OnChanges {
   /**
    * @ignore
    */
-  icon!: string;
+  icon: string | null = null;
   /**
    * @ignore
    */
-  customIcon!: string;
+  customIcon: string | null = null;
 
   constructor(private iconRegistry: WattIconService) {}
 
@@ -79,7 +79,10 @@ export class WattIconComponent implements OnChanges {
    * @returns
    */
   private setIcon(name: WattIcon) {
-    if (!name) return;
+    if (!name) {
+      console.warn('No icon was provided!');
+      return;
+    };
     const iconName = this.iconRegistry.getIconName(name);
     this.iconRegistry.isCustomIcon(name)
       ? (this.customIcon = iconName)

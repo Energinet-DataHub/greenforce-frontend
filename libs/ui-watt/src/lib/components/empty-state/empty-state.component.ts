@@ -29,7 +29,7 @@ import { WattIcon, WattIconSize } from '@energinet-datahub/watt';
 })
 export class WattEmptyStateComponent implements OnChanges {
   @Input() icon?: WattIcon | undefined;
-  @Input() size: 'small' | 'large' = 'large';
+  @Input() size: 'Small' | 'Large' = 'Large';
   @Input() title = '';
   @Input() message = '';
 
@@ -40,8 +40,7 @@ export class WattEmptyStateComponent implements OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    console.log(changes);
-    if(changes?.size?.currentValue === 'small') {
+    if(changes?.size?.currentValue === 'Small') {
       this.iconSize = 'XLarge';
     }
   }
