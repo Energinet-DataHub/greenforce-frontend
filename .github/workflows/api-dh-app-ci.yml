@@ -30,35 +30,9 @@ env:
   DOTNET_VERSION: '5.0.202'
 
 jobs:
-  validate_webapi:
-    runs-on: windows-latest
-    name: Validate ASP.NET Core Web API
-
-    environment: CI
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@master
-
-      - name: Setup .NET ${{ env.DOTNET_VERSION }} environment
-        uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: ${{ env.DOTNET_VERSION }}
-
-      - name: Cache NuGet packages
-        uses: actions/cache@v2
-        id: cache-nuget
-        with:
-          path: ~/.nuget/packages
-          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }} #hash of project files
-          restore-keys: |
-            ${{ runner.os }}-nuget-
-
-      - name: Restore NuGet packages
-        run: dotnet restore ${{ env.SOLUTION_FILE_PATH }}
-
-      - name: Build solution
-        run: dotnet build ${{ env.SOLUTION_FILE_PATH }} --no-restore --configuration ${{ env.BUILD_CONFIGURATION }}
-
-      - name: Run tests
-        run: dotnet test ${{ env.SOLUTION_FILE_PATH }} --no-build --configuration ${{ env.BUILD_CONFIGURATION }} --verbosity normal
+  validate_dotnet_webapi:
+    uses: Energinet-DataHub/.github/.github/workflows/validate-dotnet-webapi.yml@dstenroejl/validate-webapi
+    with:
+      SOLUTION_FILE_PATH: ${{ env.SOLUTION_FILE_PATH }}
+      BUILD_CONFIGURATION: ${{ env.BUILD_CONFIGURATION }}
+      DOTNET_VERSION: ${{ env.DOTNET_VERSION }}
