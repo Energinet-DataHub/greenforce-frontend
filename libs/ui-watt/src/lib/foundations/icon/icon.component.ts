@@ -82,7 +82,7 @@ export class WattIconComponent implements OnChanges {
     if (!name) {
       console.warn('No icon was provided!');
       return;
-    };
+    }
     const iconName = this.iconService.getIconName(name);
     this.iconService.isCustomIcon(name)
       ? (this.customIcon = iconName)

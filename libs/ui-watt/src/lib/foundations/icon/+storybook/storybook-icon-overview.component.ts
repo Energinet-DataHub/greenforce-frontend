@@ -105,9 +105,9 @@ export class StorybookIconOverviewComponent {
     },
     {
       icons: [
-        { name: 'Forward Message', icon: 'forwardMessage'},
-        { name: 'Monetization', icon: 'monetization'}
-      ]
-    }
+        { name: 'Forward Message', icon: 'forwardMessage' },
+        { name: 'Monetization', icon: 'monetization' },
+      ],
+    },
   ];
 }
