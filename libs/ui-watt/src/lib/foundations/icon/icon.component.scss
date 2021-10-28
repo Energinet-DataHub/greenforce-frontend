@@ -27,6 +27,13 @@ watt-icon {
   display: flex;
   justify-content: center;
   align-items: center;
+
+  @each $name, $size in variables.$sizes {
+    &.icon-#{$name} mat-icon,
+    &.icon-#{$name} .mat-icon {
+      @include icon-size($size);
+    }
+  }
 }
 
 .watt-form-field-normal .icon-Medium .mat-icon {
@@ -35,11 +42,4 @@ watt-icon {
 
 .watt-form-field-large .icon-Medium .mat-icon {
   @include icon-size(24px);
-}
-
-@each $name, $size in variables.$sizes {
-  .icon-#{$name} mat-icon,
-  .icon-#{$name} .mat-icon {
-    @include icon-size($size);
-  }
 }
