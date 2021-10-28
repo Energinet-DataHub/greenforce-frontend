@@ -61,3 +61,4 @@ export const customIcons = {
 
 export const allIcons = { ...icons, ...customIcons };
 export type WattIcon = keyof typeof allIcons;
+export type WattCustomIcon = keyof typeof customIcons;

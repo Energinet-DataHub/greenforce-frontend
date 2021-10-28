@@ -17,7 +17,7 @@
 import { Injectable } from '@angular/core';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
-import { WattIcon, allIcons, customIcons } from './icons';
+import { WattIcon, allIcons, customIcons, WattCustomIcon } from './icons';
 
 @Injectable({ providedIn: 'root' })
 export class WattIconService {
@@ -25,10 +25,7 @@ export class WattIconService {
     private iconRegistry: MatIconRegistry,
     private sanitizer: DomSanitizer
   ) {
-    this.addSvgIcon('explore', '/assets/ui-watt/icons/explore.svg');
-    this.addSvgIcon('power', '/assets/ui-watt/icons/power.svg');
-    this.addSvgIcon('meter', '/assets/ui-watt/icons/meter.svg');
-    this.addSvgIcon('map_marker', '/assets/ui-watt/icons/mapMarker.svg');
+    this.registerCustomIcons();
   }
 
   isCustomIcon(icon: WattIcon): boolean {
@@ -39,7 +36,14 @@ export class WattIconService {
     return allIcons[icon];
   }
 
-  private addSvgIcon(icon: WattIcon, url: string) {
+  private registerCustomIcons() {
+    this.addSvgIcon('explore', '/assets/ui-watt/icons/explore.svg');
+    this.addSvgIcon('power', '/assets/ui-watt/icons/power.svg');
+    this.addSvgIcon('meter', '/assets/ui-watt/icons/meter.svg');
+    this.addSvgIcon('map_marker', '/assets/ui-watt/icons/mapMarker.svg');
+  }
+
+  private addSvgIcon(icon: WattCustomIcon, url: string) {
     this.iconRegistry.addSvgIcon(
       this.getIconName(icon),
       this.sanitizer.bypassSecurityTrustResourceUrl(url)
