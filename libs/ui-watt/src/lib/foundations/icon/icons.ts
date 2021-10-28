@@ -31,6 +31,7 @@ const icons = {
   email: 'email',
   link: 'link',
   monetization: 'monetization_on',
+  forwardMessage: 'forward_to_inbox',
   // Navigation
   left: 'navigate_before',
   right: 'navigate_next',

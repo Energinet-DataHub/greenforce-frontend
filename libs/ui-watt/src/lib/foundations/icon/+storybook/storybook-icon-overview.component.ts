@@ -44,7 +44,6 @@ export class StorybookIconOverviewComponent {
         { name: 'Filter', icon: 'filter' },
         { name: 'Plus', icon: 'plus' },
         { name: 'Minus', icon: 'minus' },
-        { name: 'Monetization', icon: 'monetization'}
       ],
     },
     {
@@ -104,5 +103,11 @@ export class StorybookIconOverviewComponent {
         { name: 'Preview', icon: 'preview' },
       ],
     },
+    {
+      icons: [
+        { name: 'Forward Message', icon: 'forwardMessage'},
+        { name: 'Monetization', icon: 'monetization'}
+      ]
+    }
   ];
 }
