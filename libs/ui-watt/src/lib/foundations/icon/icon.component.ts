@@ -61,7 +61,7 @@ export class WattIconComponent implements OnChanges {
   /**
    * @ignore
    */
-  customIcon: string | null = null;
+  customIcon = '';
 
   constructor(private iconService: WattIconService) {}
 
