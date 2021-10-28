@@ -36,7 +36,7 @@ export const overview: Story<EmptyStateOverviewComponent> = (args) => ({
 
 const emptyStateWithCallBackTemplate = (
   args: Partial<WattEmptyStateComponent>
-) => `<watt-empty-state icon="${args.icon}" title="${args.title}" msg="${args.msg}">
+) => `<watt-empty-state icon="${args.icon}" title="${args.title}" message="${args.message}">
   <watt-button type="primary" size="normal">Go Back</watt-button>
 </watt-empty-state>`;
 
@@ -47,7 +47,7 @@ export const withCallToAction: Story<WattEmptyStateComponent> = (args) => ({
 withCallToAction.args = {
   icon: 'power',
   title: 'An unexpected error occured',
-  msg: 'Try again or contact your system administrator if you keep getting this error.',
+  message: 'Try again or contact your system administrator if you keep getting this error.',
 };
 withCallToAction.parameters = {
   docs: {
@@ -58,7 +58,7 @@ withCallToAction.parameters = {
 };
 
 const withoutIconTemplate = (args: Partial<WattEmptyStateComponent>) =>
-  `<watt-empty-state title="${args.title}" msg="${args.msg}"></watt-empty-state>`;
+  `<watt-empty-state title="${args.title}" message="${args.message}"></watt-empty-state>`;
 
 export const withoutIcon: Story<WattEmptyStateComponent> = (args) => ({
   props: args,
@@ -66,7 +66,7 @@ export const withoutIcon: Story<WattEmptyStateComponent> = (args) => ({
 });
 withoutIcon.args = {
   title: 'No results for ‘test’',
-  msg: 'Try adjusting your search or filter to find what you are looking for.',
+  message: 'Try adjusting your search or filter to find what you are looking for.',
 };
 withoutIcon.parameters = {
   docs: {
@@ -77,7 +77,7 @@ withoutIcon.parameters = {
 };
 
 const smallTemplate = (args: Partial<WattEmptyStateComponent>) =>
-  `<watt-empty-state size="small" title="${args.title}" msg="${args.msg}"></watt-empty-state>`;
+  `<watt-empty-state size="small" title="${args.title}" message="${args.message}"></watt-empty-state>`;
 
 export const small: Story<WattEmptyStateComponent> = (args) => ({
   props: args,
@@ -86,7 +86,7 @@ export const small: Story<WattEmptyStateComponent> = (args) => ({
 small.args = {
   icon: undefined,
   title: 'No results for ‘test’',
-  msg: 'Try adjusting your search or filter to find what you are looking for.',
+  message: 'Try adjusting your search or filter to find what you are looking for.',
 };
 
 small.parameters = {
