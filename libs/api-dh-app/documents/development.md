@@ -10,7 +10,10 @@ Notes regarding the development of the DataHub Backend-for-frontend (BFF).
 
 This workflow verifies all files has a license header.
 
-It can also automatically add a license header to files for which it is missing, but will ignore file patterns specified in the `.nxignore` file.
+It can also:
+
+- Automatically add a license header to files for which it is missing, but will ignore file patterns specified in the `.nxignore` file.
+- Format files, but will ignore folders/file patterns specified in the `.prettierignore` file.
 
 ## Setup local envioment
 
