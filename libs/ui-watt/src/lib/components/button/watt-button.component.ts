@@ -50,7 +50,7 @@ export class WattButtonComponent {
     return `watt-button-${this.size}`;
   }
 
-  @Input() icon!: WattIcon;
+  @Input() icon?: WattIcon;
   @Input()
   get type(): WattButtonType {
     return this._type;
@@ -89,7 +89,7 @@ export class WattButtonComponent {
     }
   }
   get hasIcon(): boolean {
-    return this.icon && String(this.icon) !== 'undefined';
+    return !!this.icon && String(this.icon) !== 'undefined';
   }
 
   constructor(private injector: Injector) {}
