@@ -63,7 +63,7 @@ export class WattIconComponent implements OnChanges {
    */
   customIcon: string | null = null;
 
-  constructor(private iconRegistry: WattIconService) {}
+  constructor(private iconService: WattIconService) {}
 
   /**
    * @ignore
@@ -83,8 +83,8 @@ export class WattIconComponent implements OnChanges {
       console.warn('No icon was provided!');
       return;
     };
-    const iconName = this.iconRegistry.getIconName(name);
-    this.iconRegistry.isCustomIcon(name)
+    const iconName = this.iconService.getIconName(name);
+    this.iconService.isCustomIcon(name)
       ? (this.customIcon = iconName)
       : (this.icon = iconName);
   }
