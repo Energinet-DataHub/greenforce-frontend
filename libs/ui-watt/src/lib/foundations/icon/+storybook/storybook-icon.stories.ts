@@ -17,7 +17,7 @@
 import { Meta, moduleMetadata, Story } from '@storybook/angular';
 
 import { WattIconComponent } from '../icon.component';
-
+import { WattIconSize } from '../watt-icon-size';
 import { StorybookIconOverviewModule } from './storybook-icon-overview.module';
 
 export default {
@@ -60,10 +60,10 @@ icons.argTypes = {
   },
   size: {
     description: 'Size of the icon `WattIconSize`',
-    defaultValue: 'Medium',
+    defaultValue: WattIconSize.Medium,
     table: {
       type: { summary: 'string' },
-      defaultValue: { summary: 'Medium' },
+      defaultValue: { summary: WattIconSize.Medium },
     },
   },
 };

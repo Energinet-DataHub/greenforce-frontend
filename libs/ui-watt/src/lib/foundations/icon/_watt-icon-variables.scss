@@ -16,10 +16,10 @@
  */
 // Keep in sync with ./storybook/storybook-icon-overview.component.html -> sizes
 $sizes: (
-  XSmall: 12px,
-  Small: 14px,
-  Medium: 16px,
-  Large: 32px,
-  XLarge: 64px,
-  XXLarge: 128px,
+  xs: 12px,
+  s: 14px,
+  m: 16px,
+  l: 32px,
+  xl: 64px,
+  xxl: 128px,
 );

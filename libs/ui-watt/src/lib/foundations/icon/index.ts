@@ -16,5 +16,6 @@
  */
 export { WattIcon } from './icons';
 export { WattIconModule } from './icon.module';
-export { WattIconSize, WattIconComponent } from './icon.component';
+export { WattIconComponent } from './icon.component';
+export { WattIconSize } from './watt-icon-size';
 export { WattIconService } from './icon.service';

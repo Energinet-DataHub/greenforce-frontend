@@ -21,7 +21,8 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 
-import { WattIcon, WattIconSize } from '../../foundations/icon';
+import { WattIcon } from '../../foundations/icon';
+import { WattIconSize } from '../../foundations/icon/watt-icon-size';
 
 /**
  * Usage:
@@ -35,7 +36,7 @@ import { WattIcon, WattIconSize } from '../../foundations/icon';
 })
 export class WattEmptyStateComponent {
   @Input() icon?: WattIcon;
-  @Input() size: 'Small' | 'Large' = 'Large';
+  @Input() size: 'small' | 'large' = 'large';
   @Input() title = '';
   @Input() message = '';
 
@@ -44,11 +45,11 @@ export class WattEmptyStateComponent {
   }
 
   get iconSize(): WattIconSize {
-    if (this.size === 'Small') {
-      return 'XLarge';
+    if (this.size === 'small') {
+      return WattIconSize.XLarge;
     }
 
-    return 'XXLarge';
+    return WattIconSize.XXLarge;
   }
 
   get hasIcon(): boolean {

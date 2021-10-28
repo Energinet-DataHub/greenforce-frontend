@@ -26,14 +26,7 @@ import {
 
 import { WattIconService } from './icon.service';
 import { WattIcon } from './icons';
-
-export type WattIconSize =
-  | 'XSmall'
-  | 'Small'
-  | 'Medium'
-  | 'Large'
-  | 'XLarge'
-  | 'XXLarge';
+import { WattIconSize } from './watt-icon-size';
 
 @Component({
   selector: 'watt-icon',
@@ -49,10 +42,10 @@ export class WattIconComponent implements OnChanges {
    * @description used for `aria-label`
    */
   @Input() label: string | null = null;
-  @Input() size: WattIconSize = 'Medium';
+  @Input() size: WattIconSize = WattIconSize.Medium;
 
   @HostBinding('class') get currentSize(): string[] {
-    return [`icon-${this.size}`];
+    return [`icon-size-${this.size}`];
   }
 
   /**
@@ -84,7 +77,9 @@ export class WattIconComponent implements OnChanges {
       console.warn('No icon was provided!');
       return;
     }
+
     const iconName = this.iconService.getIconName(name);
+
     this.iconService.isCustomIcon(name)
       ? (this.customIcon = iconName)
       : (this.icon = iconName);

@@ -21,10 +21,10 @@ limitations under the License.
   class="watt-space-stack-l"
 ></watt-icon>
 
-<ng-container *ngTemplateOutlet="size === 'Large' ? largeTitle : smallTitle">
+<ng-container *ngTemplateOutlet="size === 'large' ? largeTitle : smallTitle">
 </ng-container>
 
-<p [ngClass]="{ 'watt-text-s': size === 'Small' }">{{ message }}</p>
+<p [ngClass]="{ 'watt-text-s': size === 'small' }">{{ message }}</p>
 <ng-content></ng-content>
 
 <!-- Title sizes -->

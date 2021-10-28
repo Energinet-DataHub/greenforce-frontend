@@ -14,32 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@use './watt-icon-variables' as variables;
 
-@mixin icon-size($size) {
-  font-size: $size;
-  line-height: $size;
-  height: $size;
-  width: $size;
-}
-
-watt-icon {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  @each $name, $size in variables.$sizes {
-    &.icon-size-#{$name} mat-icon,
-    &.icon-size-#{$name} .mat-icon {
-      @include icon-size($size);
-    }
-  }
-}
-
-.watt-form-field-normal watt-icon.icon-size-m .mat-icon {
-  @include icon-size(20px);
-}
-
-.watt-form-field-large watt-icon.icon-size-m .mat-icon {
-  @include icon-size(24px);
+export enum WattIconSize {
+  XSmall = 'xs',
+  Small = 's',
+  Medium = 'm',
+  Large = 'l',
+  XLarge = 'xl',
+  XXLarge = 'xxl',
 }
