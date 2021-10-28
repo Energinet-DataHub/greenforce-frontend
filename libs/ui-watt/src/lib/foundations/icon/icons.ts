@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-const icons = {
+const materialIcons = {
   // Essentials
   search: 'search',
   filter: 'filter_list',
@@ -59,6 +59,6 @@ export const customIcons = {
   map_marker: 'map_marker',
 };
 
-export const allIcons = { ...icons, ...customIcons };
+export const allIcons = { ...materialIcons, ...customIcons };
 export type WattIcon = keyof typeof allIcons;
 export type WattCustomIcon = keyof typeof customIcons;
