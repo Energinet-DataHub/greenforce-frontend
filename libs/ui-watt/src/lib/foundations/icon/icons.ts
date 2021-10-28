@@ -30,6 +30,7 @@ const _icons = {
   time: 'schedule',
   email: 'email',
   link: 'link',
+  monetization: 'monetization_on',
   // Navigation
   left: 'navigate_before',
   right: 'navigate_next',
