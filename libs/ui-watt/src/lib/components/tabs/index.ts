@@ -14,9 +14,5 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-:host {
-  display: inline-block;
-  button {
-    border-color: var(--watt-color-primary);
-  }
-}
+export { WattTabsModule } from './tabs.module';
+export { WattTabsComponent } from './tabs.component';

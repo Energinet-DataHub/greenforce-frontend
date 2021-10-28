@@ -14,9 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-:host {
-  display: inline-block;
-  button {
-    border-color: var(--watt-color-primary);
-  }
+import { Component, Input, TemplateRef, ViewChild } from '@angular/core';
+
+@Component({
+  selector: 'watt-tab',
+  templateUrl: './tab.component.html',
+})
+export class WattTabComponent {
+  @Input() label = '';
+  @ViewChild('templateRef') public templateRef: TemplateRef<unknown> | null =
+    null;
 }
