@@ -34,6 +34,7 @@ export { WattFormFieldModule } from './lib/components/form-field/form-field.modu
 export { WattInputModule } from './lib/components/input/input.module';
 
 export * from './lib/components/empty-state';
+export * from './lib/components/tabs';
 export * from './lib/components/badge';
 export * from './lib/components/spinner';
 
