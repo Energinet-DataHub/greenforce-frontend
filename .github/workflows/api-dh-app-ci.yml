@@ -24,7 +24,8 @@ on:
   workflow_dispatch: {}
 
 jobs:
-  validate_dotnet_webapi:
+  validate_bff:
+    name: Validate BFF
     uses: Energinet-DataHub/.github/.github/workflows/validate-dotnet-webapi.yml@dstenroejl/validate-webapi
     with:
       SOLUTION_FILE_PATH: 'libs/api-dh-app/DataHub.WebApi.sln'
