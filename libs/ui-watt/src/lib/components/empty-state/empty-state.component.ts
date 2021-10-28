@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { Component, HostBinding, Input, OnChanges, SimpleChanges, ViewEncapsulation } from '@angular/core';
-import { WattIcon, WattIconSize } from '@energinet-datahub/watt';
+import { WattIcon, WattIconSize } from '../../foundations/icon';
 
 /**
  * Usage:
