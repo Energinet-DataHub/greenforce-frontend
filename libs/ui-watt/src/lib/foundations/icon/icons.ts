@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-const _icons = {
+const icons = {
   // Essentials
   search: 'search',
   filter: 'filter_list',
@@ -51,12 +51,12 @@ const _icons = {
 /**
  * Icons manually registered
  */
-export const _customIcons = {
+export const customIcons = {
   power: 'power',
   explore: 'explore',
   meter: 'meter',
   map_marker: 'map_marker',
 };
 
-export const _allIcons = { ..._icons, ..._customIcons };
-export type WattIcon = keyof typeof _allIcons;
+export const allIcons = { ...icons, ...customIcons };
+export type WattIcon = keyof typeof allIcons;

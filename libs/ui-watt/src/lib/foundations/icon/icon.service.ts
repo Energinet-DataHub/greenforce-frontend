@@ -17,7 +17,7 @@
 import { Injectable } from '@angular/core';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
-import { WattIcon, _allIcons, _customIcons } from './icons';
+import { WattIcon, allIcons, customIcons } from './icons';
 
 @Injectable({ providedIn: 'root' })
 export class WattIconService {
@@ -32,11 +32,11 @@ export class WattIconService {
   }
 
   isCustomIcon(icon: WattIcon): boolean {
-    return Object.values(_customIcons).includes(icon);
+    return Object.values(customIcons).includes(icon);
   }
 
   getIconName(icon: WattIcon) {
-    return _allIcons[icon];
+    return allIcons[icon];
   }
 
   private addSvgIcon(icon: WattIcon, url: string) {
