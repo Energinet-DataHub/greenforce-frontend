@@ -14,12 +14,17 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<watt-icon *ngIf="icon" [name]="icon" [size]="iconSize" class="watt-space-stack-l"></watt-icon>
+<watt-icon
+  *ngIf="hasIcon"
+  [name]="icon"
+  [size]="iconSize"
+  class="watt-space-stack-l"
+></watt-icon>
 <ng-container *ngIf="size === 'Large'">
-    <h3>{{ title }}</h3>    
+  <h3>{{ title }}</h3>
 </ng-container>
 <ng-container *ngIf="size === 'Small'">
-    <h5>{{ title }}</h5>
+  <h5>{{ title }}</h5>
 </ng-container>
-<p [ngClass]="{'watt-text-s': size === 'Small'}">{{ message }}</p>
+<p [ngClass]="{ 'watt-text-s': size === 'Small' }">{{ message }}</p>
 <ng-content></ng-content>

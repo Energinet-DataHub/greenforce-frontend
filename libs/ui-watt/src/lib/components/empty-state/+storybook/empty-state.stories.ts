@@ -16,21 +16,29 @@
  */
 import { Meta, moduleMetadata, Story } from '@storybook/angular';
 
-import { WattEmptyStateComponent, WattEmptyStateModule } from './../index';
-import { EmptyStateOverviewComponent } from './storybook-empty-state-overview.component';
 import { WattButtonModule } from '../../button/watt-button.module';
+import { WattEmptyStateComponent } from '../empty-state.component';
+import { WattEmptyStateModule } from '../empty-state.module';
+import { StorybookEmptyStateOverviewComponent } from './storybook-empty-state-overview.component';
+import { StorybookEmptyStateOverviewModule } from './storybook-empty-state-overview.module';
 
 export default {
   title: 'Components/Empty State',
   decorators: [
     moduleMetadata({
-      imports: [WattEmptyStateModule, WattButtonModule],
+      imports: [
+        StorybookEmptyStateOverviewModule,
+        WattEmptyStateModule,
+        WattButtonModule,
+      ],
     }),
   ],
-  component: EmptyStateOverviewComponent,
-} as Meta<EmptyStateOverviewComponent>;
+  component: StorybookEmptyStateOverviewComponent,
+} as Meta<StorybookEmptyStateOverviewComponent>;
 
-export const overview: Story<EmptyStateOverviewComponent> = (args) => ({
+export const overview: Story<StorybookEmptyStateOverviewComponent> = (
+  args
+) => ({
   props: args,
 });
 
