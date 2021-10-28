@@ -35,7 +35,7 @@ import { WattIcon, WattIconSize } from '../../foundations/icon';
   encapsulation: ViewEncapsulation.None,
 })
 export class WattEmptyStateComponent implements OnChanges {
-  @Input() icon?: WattIcon | undefined;
+  @Input() icon?: WattIcon;
   @Input() size: 'Small' | 'Large' = 'Large';
   @Input() title = '';
   @Input() message = '';
@@ -50,5 +50,9 @@ export class WattEmptyStateComponent implements OnChanges {
     if (changes?.size?.currentValue === 'Small') {
       this.iconSize = 'XLarge';
     }
+  }
+
+  get hasIcon(): boolean {
+    return !!this.icon;
   }
 }
