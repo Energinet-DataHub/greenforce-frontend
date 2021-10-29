@@ -34,4 +34,6 @@ To get started, see [Get started with Swashbuckle and ASP.NET Core](https://docs
 
 ## API Versioning
 
+**TODO: We need to decide on a standard/format and update this section.**
+
 We must have a version in all url's following a format like `\v1\`.
