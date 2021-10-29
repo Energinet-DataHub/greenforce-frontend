@@ -1,0 +1,65 @@
+/**
+ * @license
+ * Copyright 2021 Energinet DataHub A/S
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License2");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+:host {
+  display: block;
+  width: 100%;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.groups {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.group {
+  margin-top: 16px;
+  width: calc(100% / 6);
+}
+
+.icon {
+  display: flex;
+  align-items: center;
+  color: var(--watt-color-primary);
+}
+
+.custom-icons,
+.sizes {
+  color: var(--watt-color-primary-dark);
+}
+
+watt-icon {
+  margin-right: 10px;
+}
+
+.sizes {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+}
+
+figure {
+  margin: 10px;
+}
+
+figcaption {
+  text-align: center;
+}

@@ -14,22 +14,9 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<ng-container
-  *ngComponentOutlet="
-    buttonComponentType;
-    content: [[contentWrapper]];
-    injector: buttonComponentInjector
-  "
-></ng-container>
-
-<div #contentWrapper class="content-grid">
-  <watt-icon
-    *ngIf="hasIcon"
-    class="content-grid-item"
-    [name]="icon"
-  ></watt-icon>
-
-  <div class="content-grid-item">
-    <ng-content></ng-content>
-  </div>
-</div>
+<mat-icon
+  [svgIcon]="customIcon"
+  aria-hidden="false"
+  [attr.aria-label]="label"
+  >{{ icon }}</mat-icon
+>

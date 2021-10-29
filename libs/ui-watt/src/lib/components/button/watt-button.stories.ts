@@ -83,7 +83,7 @@ PrimaryButton.args = {
 export const PrimaryButtonWithIcon = ButtonTemplate.bind({});
 PrimaryButtonWithIcon.storyName = 'Primary with icon';
 PrimaryButtonWithIcon.args = {
-  icon: 'add',
+  icon: 'plus',
   type: 'primary',
 };
 
@@ -96,7 +96,7 @@ SecondaryButton.args = {
 export const SecondaryButtonWithIcon = ButtonTemplate.bind({});
 SecondaryButtonWithIcon.storyName = 'Secondary with icon';
 SecondaryButtonWithIcon.args = {
-  icon: 'add',
+  icon: 'plus',
   type: 'secondary',
 };
 
@@ -109,7 +109,7 @@ TextButton.args = {
 export const TextButtonWithIcon = ButtonTemplate.bind({});
 TextButtonWithIcon.storyName = 'Text with icon';
 TextButtonWithIcon.args = {
-  icon: 'add',
+  icon: 'plus',
   type: 'text',
 };
 

@@ -80,7 +80,7 @@ watt-button {
 
   .content-grid {
     align-items: center;
-    display: flex;
+    display: inline-flex;
   }
 
   // NOTE(xdzus): Needed in order to center the icon if content is empty
@@ -91,4 +91,12 @@ watt-button {
       flex-grow: 0;
     }
   }
+}
+
+/**
+ * In context of Watt Form Field
+ */
+watt-form-field watt-button.watt-button-normal button.watt-button {
+  min-width: auto;
+  padding: 0;
 }

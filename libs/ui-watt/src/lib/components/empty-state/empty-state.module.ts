@@ -17,22 +17,12 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
-import { WattIconModule } from './../../foundations/icon/icon.module';
-
-import { WattButtonComponent } from './watt-button.component';
-import { WattPrimaryButtonModule } from './primary-button/watt-primary-button.module';
-import { WattSecondaryButtonModule } from './secondary-button/watt-secondary-button.module';
-import { WattTextButtonModule } from './text-button/watt-text-button.module';
+import { WattIconModule } from '../../foundations/icon';
+import { WattEmptyStateComponent } from './empty-state.component';
 
 @NgModule({
-  declarations: [WattButtonComponent],
-  exports: [WattButtonComponent],
-  imports: [
-    CommonModule,
-    WattIconModule,
-    WattTextButtonModule,
-    WattSecondaryButtonModule,
-    WattPrimaryButtonModule,
-  ],
+  imports: [CommonModule, WattIconModule],
+  declarations: [WattEmptyStateComponent],
+  exports: [WattEmptyStateComponent],
 })
-export class WattButtonModule {}
+export class WattEmptyStateModule {}
