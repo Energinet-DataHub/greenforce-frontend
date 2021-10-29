@@ -1,1 +1,2 @@
-libs/api-dh-app/**/*
+# Ignore BFF's
+libs/api-dh-app
