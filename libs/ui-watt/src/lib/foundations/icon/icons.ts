@@ -32,6 +32,8 @@ const materialIcons = {
   link: 'link',
   monetization: 'monetization_on',
   forwardMessage: 'forward_to_inbox',
+  menu: 'menu',
+  logout: 'logout',
   // Navigation
   left: 'navigate_before',
   right: 'navigate_next',
