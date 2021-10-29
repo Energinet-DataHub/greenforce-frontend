@@ -4,3 +4,4 @@
 **/*.props
 launchSettings.json
 stylecop.json
+libs/api-dh-app/**/*
