@@ -1,0 +1,22 @@
+ett-base-helm-chart:
+  deployments:
+    - name: app
+      replicaCount: 2
+      image:
+        repository: ghcr.io/energinet-datahub/greenforce-frontend-ett-app
+        tag: 'latest'
+        pullPolicy: Always
+
+  service:
+    deployment: app
+    type: ClusterIP
+    port: 80
+
+  ingress:
+    hosts: []
+    paths:
+      - /
+    pathExceptions:
+      - /api
+      - /auth
+    servicePort: 80
