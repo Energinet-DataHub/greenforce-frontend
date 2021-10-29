@@ -178,16 +178,23 @@ function addLicenseExecutor(options) {
       ignores = [];
       try {
         data = fs.readFileSync('./.nxignore', 'utf8');
-        ignores = data.split('\n').map(function (x) {
-          return x.replace('\r', '');
-        });
+        ignores = data
+          .split('\n')
+          .map(function (x) {
+            return x.replace('\r', '');
+          })
+          .filter(function (x) {
+            return !x.startsWith('#');
+          });
       } catch (err) {
         console.error(err);
       }
       console.info('Adding licenses...');
       files = glob.sync(
         '{,!(node_modules|dist)/**/*}*{' + globs.join(',') + '}',
-        { ignore: ignores }
+        {
+          ignore: ignores,
+        }
       );
       files.forEach(function (file) {
         try {
