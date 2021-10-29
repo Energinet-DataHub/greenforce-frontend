@@ -19,6 +19,9 @@ It can also:
 
 > Describe necessary setup here.
 
+## .nxignore / .prettierignore
+Avoid conflicts with the frontend tool-chain, the path of the BFF should be added to `.nxignore` and `.prettierignore` 
+
 ## OpenAPI
 
 We use [Swashbuckle](https://github.com/domaindrivendev/Swashbuckle.AspNetCore) to expose a Swagger UI and an OpenAPI v3 endpoint. This is configured in [Startup.cs](../source/DataHub.WebApi/Startup.cs).
