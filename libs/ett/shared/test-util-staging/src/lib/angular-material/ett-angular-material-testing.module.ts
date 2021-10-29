@@ -15,15 +15,24 @@
  * limitations under the License.
  */
 import { NgModule } from '@angular/core';
-import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
+import { MATERIAL_SANITY_CHECKS, SanityChecks } from '@angular/material/core';
 import { MatIconTestingModule } from '@angular/material/icon/testing';
+
+const disableThemeCheck: SanityChecks = {
+  doctype: true,
+  /**
+   * `getComputedStyle` does not work with Jest so this check will fail.
+   */
+  theme: false,
+  version: true,
+};
 
 @NgModule({
   imports: [MatIconTestingModule],
   providers: [
     {
       provide: MATERIAL_SANITY_CHECKS,
-      useValue: false,
+      useValue: disableThemeCheck,
     },
   ],
 })
