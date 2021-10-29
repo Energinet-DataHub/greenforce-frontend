@@ -14,14 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { TestBed } from '@angular/core/testing';
-
-import { browserLocationToken } from './browser-location.token';
-
-describe('browserLocationToken', () => {
-  it('provides the brower Location API', () => {
-    const providedLocation = TestBed.inject(browserLocationToken);
-
-    expect(providedLocation).toBe(location);
-  });
-});
+// OIDC
+export * from './lib/oidc/auth-oidc-http.service';
+export * from './lib/oidc/auth-oidc-query-parameter-name';

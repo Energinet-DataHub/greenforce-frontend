@@ -53,7 +53,7 @@ const selector = 'ett-login-providers';
           >
           <ng-template #loginError let-error="$error">
             <p class="${selector}__error">
-              NemID and MitID login is currently unavailable. Please try again
+              NemID and MitID login are currently unavailable. Please try again
               later.
             </p>
           </ng-template>

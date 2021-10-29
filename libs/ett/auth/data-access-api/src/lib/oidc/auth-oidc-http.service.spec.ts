@@ -21,6 +21,7 @@ import {
 import { TestBed } from '@angular/core/testing';
 
 import { AuthOidcHttp, AuthOidcLoginResponse } from './auth-oidc-http.service';
+import { AuthOidcQueryParameterName } from './auth-oidc-query-parameter-name';
 
 describe(AuthOidcHttp.name, () => {
   beforeEach(() => {
@@ -51,6 +52,8 @@ describe(AuthOidcHttp.name, () => {
     );
     response.flush(fakeResponse);
 
-    expect(response.request.params.get('return_url')).toBe(expectedReturnUrl);
+    expect(
+      response.request.params.get(AuthOidcQueryParameterName.ReturnUrl)
+    ).toBe(expectedReturnUrl);
   });
 });

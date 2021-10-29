@@ -14,12 +14,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Config, configure } from '@testing-library/angular';
+import { NgModule } from '@angular/core';
+import { MATERIAL_SANITY_CHECKS, SanityChecks } from '@angular/material/core';
+import { MatIconTestingModule } from '@angular/material/icon/testing';
 
-export function setUpAngularTestingLibrary(config: Partial<Config> = {}): void {
-  configure({
-    // Assume SCAMs
-    excludeComponentDeclaration: true,
-    ...config,
-  });
-}
+const disableThemeCheck: SanityChecks = {
+  doctype: true,
+  /**
+   * `getComputedStyle` does not work with Jest so this check will fail.
+   */
+  theme: false,
+  version: true,
+};
+
+@NgModule({
+  imports: [MatIconTestingModule],
+  providers: [
+    {
+      provide: MATERIAL_SANITY_CHECKS,
+      useValue: disableThemeCheck,
+    },
+  ],
+})
+export class EttAngularMaterialTestingModule {}

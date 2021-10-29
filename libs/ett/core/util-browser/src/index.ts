@@ -14,6 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './lib/browser-location.token';
+export * from './lib/aboslute-url-generator.service';
 export * from './lib/detect-base-href.provider';
 export * from './lib/ett-browser-configuration.module';

@@ -14,12 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { InjectionToken } from '@angular/core';
+import { NgModule } from '@angular/core';
+import { RX_ANGULAR_CONFIG, RxAngularConfig } from '@rx-angular/cdk';
 
-export const browserLocationToken = new InjectionToken<Location>(
-  'browserLocationToken',
-  {
-    factory: () => location,
-    providedIn: 'platform',
-  }
-);
+@NgModule({
+  providers: [
+    {
+      provide: RX_ANGULAR_CONFIG,
+      useValue: {
+        primaryStrategy: 'global', // or 'native'?
+      } as RxAngularConfig<string>,
+    },
+  ],
+})
+export class EttRxAngularTestingModule {}

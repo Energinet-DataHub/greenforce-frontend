@@ -14,44 +14,49 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ComponentFixtureAutoDetect, getTestBed } from '@angular/core/testing';
+import { getTestBed, TestModuleMetadata } from '@angular/core/testing';
 import {
   BrowserDynamicTestingModule,
   platformBrowserDynamicTesting,
 } from '@angular/platform-browser-dynamic/testing';
-import { detectBaseHrefProvider } from '@energinet-datahub/ett/core/util-browser';
 
-export interface TestbedSetupOptions {
-  readonly autoDetectChanges?: boolean;
-  /**
-   * Setting to `true` can cause issues with using Angular Testing Library in a
-   * `beforeEach` hook.
-   */
-  readonly destroyAfterEach?: boolean;
-  readonly detectBaseHref?: boolean;
+import { EttAngularMaterialTestingModule } from './angular-material/ett-angular-material-testing.module';
+import { EttBrowserTestingModule } from './angular/ett-browser-testing.module';
+import { EttRxAngularTestingModule } from './rx-angular/ett-rx-angular-testing.module';
+
+function patchTestbed(): void {
+  const isUnpatched =
+    testbed.configureTestingModule === realConfigureTestingModule;
+
+  if (isUnpatched) {
+    testbed.configureTestingModule = (moduleDef: TestModuleMetadata): void => {
+      realConfigureTestingModule.call(testbed, {
+        ...moduleDef,
+        imports: [
+          EttBrowserTestingModule,
+          EttAngularMaterialTestingModule,
+          EttRxAngularTestingModule,
+          ...(moduleDef.imports ?? []),
+        ],
+      });
+    };
+  }
 }
 
-export function setUpTestbed({
-  autoDetectChanges = true,
-  destroyAfterEach = true,
-  detectBaseHref = true,
-}: TestbedSetupOptions = {}): void {
-  const testbed = getTestBed();
-
+export function setUpTestbed(): void {
   testbed.resetTestEnvironment();
   testbed.initTestEnvironment(
     BrowserDynamicTestingModule,
     platformBrowserDynamicTesting(),
     {
       teardown: {
-        destroyAfterEach,
+        destroyAfterEach: true,
       },
     }
   );
-  testbed.configureCompiler({
-    providers: [
-      { provide: ComponentFixtureAutoDetect, useValue: autoDetectChanges },
-      detectBaseHref ? [detectBaseHrefProvider] : [],
-    ],
-  });
+
+  patchTestbed();
 }
+
+const testbed = getTestBed();
+const realConfigureTestingModule = getTestBed().configureTestingModule;

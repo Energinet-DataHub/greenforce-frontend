@@ -17,8 +17,10 @@
 import { APP_BASE_HREF } from '@angular/common';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { AuthOidcHttp } from '@energinet-datahub/ett/auth/data-access';
-import { setUpTestbed } from '@energinet-datahub/ett/shared/test-util-staging';
+import {
+  AuthOidcHttp,
+  AuthOidcQueryParameterName,
+} from '@energinet-datahub/ett/auth/data-access-api';
 import { LetModule } from '@rx-angular/template';
 import { render, screen } from '@testing-library/angular';
 import { MockProvider } from 'ng-mocks';
@@ -30,12 +32,6 @@ import {
 } from './ett-authentication-link.directive';
 
 describe(EttAuthenticationDirective.name, () => {
-  beforeAll(() => {
-    setUpTestbed({
-      destroyAfterEach: false,
-    });
-  });
-
   describe('When the Auth API is available', () => {
     beforeEach(async () => {
       await render(
@@ -50,9 +46,9 @@ describe(EttAuthenticationDirective.name, () => {
           imports: [EttAuthenticationScam, RouterTestingModule, LetModule],
           providers: [
             MockProvider(AuthOidcHttp, {
-              login: (redirectUri) =>
+              login: (returnUrl) =>
                 of({
-                  url: `${authenticationUrl}?return_url=${redirectUri}`,
+                  url: `${authenticationUrl}?${AuthOidcQueryParameterName.ReturnUrl}=${returnUrl}`,
                 }),
             }),
           ],
@@ -75,14 +71,16 @@ describe(EttAuthenticationDirective.name, () => {
       const baseHref = TestBed.inject(APP_BASE_HREF);
       const actualUrl = new URL(link.href);
 
-      expect(actualUrl.searchParams.get('return_url')).toBe(
-        `${baseHref}dashboard`
-      );
+      expect(
+        actualUrl.searchParams.get(AuthOidcQueryParameterName.ReturnUrl)
+      ).toBe(`${baseHref}dashboard`);
     });
   });
 
   describe('When the Auth API is unavailable', () => {
-    beforeEach(async () => {
+    it('emits an error', async () => {
+      const expectedErrorMessage = 'Test login fails';
+
       await render(
         `
           <ng-container ettAuthenticationLink #link="ettAuthenticationLink">
@@ -104,13 +102,8 @@ describe(EttAuthenticationDirective.name, () => {
           ],
         }
       );
-    });
 
-    const expectedErrorMessage = 'Test login fails';
-
-    it('emits an error', async () => {
       const error = await screen.findByTestId('error');
-
       expect(error.textContent).toContain(expectedErrorMessage);
     });
   });

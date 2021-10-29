@@ -14,12 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Config, configure } from '@testing-library/angular';
+import 'jest-preset-angular/setup-jest';
 
-export function setUpAngularTestingLibrary(config: Partial<Config> = {}): void {
-  configure({
-    // Assume SCAMs
-    excludeComponentDeclaration: true,
-    ...config,
-  });
-}
+import {
+  setUpAngularTestingLibrary,
+  setUpTestbed,
+} from '@energinet-datahub/ett/shared/test-util-staging';
+
+setUpTestbed();
+setUpAngularTestingLibrary();

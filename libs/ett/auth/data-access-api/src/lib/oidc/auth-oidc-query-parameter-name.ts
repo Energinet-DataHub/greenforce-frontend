@@ -14,12 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Config, configure } from '@testing-library/angular';
-
-export function setUpAngularTestingLibrary(config: Partial<Config> = {}): void {
-  configure({
-    // Assume SCAMs
-    excludeComponentDeclaration: true,
-    ...config,
-  });
+export enum AuthOidcQueryParameterName {
+  Error = 'error',
+  ErrorCode = 'error_code',
+  ReturnUrl = 'return_url',
+  Success = 'success',
 }

@@ -14,12 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Config, configure } from '@testing-library/angular';
+import { NgModule } from '@angular/core';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { EttBrowserConfigurationModule } from '@energinet-datahub/ett/core/util-browser';
 
-export function setUpAngularTestingLibrary(config: Partial<Config> = {}): void {
-  configure({
-    // Assume SCAMs
-    excludeComponentDeclaration: true,
-    ...config,
-  });
-}
+@NgModule({
+  imports: [NoopAnimationsModule, EttBrowserConfigurationModule.forRoot()],
+})
+export class EttBrowserTestingModule {}

@@ -14,12 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Config, configure } from '@testing-library/angular';
+// Authentication
+export * from './lib/authentication/ett-authentication.guard';
+export * from './lib/authentication/ett-authentication.interceptor';
 
-export function setUpAngularTestingLibrary(config: Partial<Config> = {}): void {
-  configure({
-    // Assume SCAMs
-    excludeComponentDeclaration: true,
-    ...config,
-  });
-}
+// Authorization
+export * from './lib/authorization/ett-authorization.interceptor';

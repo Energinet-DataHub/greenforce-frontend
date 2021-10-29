@@ -15,3 +15,4 @@
  * limitations under the License.
  */
 export * from './lib/ett-dashboard-feature-shell.module';
+export * from './lib/ett-dashboard-route-path';

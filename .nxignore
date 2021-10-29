@@ -1,2 +1,12 @@
-# Ignore BFF's (make sure to include '/**/*', as the license executor uses this glob)
+# Backend-for-frontend
+**/*.sln
+**/*.csproj
+**/*.cs
+**/*.props
+launchSettings.json
+stylecop.json
+# make sure to include '/**/*', as the license executor uses this glob
 libs/api-dh-app/**/*
+
+# Frontend
+**/*.spec.ts
