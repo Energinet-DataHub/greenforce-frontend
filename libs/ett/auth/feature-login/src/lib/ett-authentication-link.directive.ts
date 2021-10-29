@@ -14,11 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { APP_BASE_HREF, Location as AppLocation } from '@angular/common';
-import { Directive, Inject, NgModule } from '@angular/core';
-import { Router } from '@angular/router';
+import { Directive, NgModule } from '@angular/core';
 import { AuthOidcHttp } from '@energinet-datahub/ett/auth/data-access-api';
-import { browserLocationToken } from '@energinet-datahub/ett/core/util-browser';
+import { AbsoluteUrlGenerator } from '@energinet-datahub/ett/core/util-browser';
+import { ettDashboardRoutePath } from '@energinet-datahub/ett/dashboard/feature-shell';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -27,21 +26,15 @@ import { map } from 'rxjs/operators';
   selector: '[ettAuthenticationLink]',
 })
 export class EttAuthenticationDirective {
-  #returnUrl =
-    this.browserLocation.origin +
-    (this.appLocation.normalize(this.baseHref) ?? '') +
-    this.router.serializeUrl(this.router.createUrlTree(['dashboard']));
+  #returnUrl = this.urlGenerator.fromCommands([ettDashboardRoutePath]);
 
   loginUrl$: Observable<string> = this.authOidc
     .login(this.#returnUrl)
     .pipe(map((response) => response.url));
 
   constructor(
-    private appLocation: AppLocation,
     private authOidc: AuthOidcHttp,
-    @Inject(APP_BASE_HREF) private baseHref: string,
-    @Inject(browserLocationToken) private browserLocation: Location,
-    private router: Router
+    private urlGenerator: AbsoluteUrlGenerator
   ) {}
 }
 
