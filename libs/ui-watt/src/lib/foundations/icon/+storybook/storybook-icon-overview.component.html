@@ -1,0 +1,90 @@
+<!--
+@license
+Copyright 2021 Energinet DataHub A/S
+
+Licensed under the Apache License, Version 2.0 (the "License2");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<h1>Icons</h1>
+
+<h2>Watt icons</h2>
+<p>
+  Cumulus contains a library of all custom icons. Icons exist in both white and
+  color.
+</p>
+
+<div class="groups custom-icons">
+  <figure>
+    <watt-icon name="explore" [size]="iconSize.XLarge"></watt-icon>
+    <figcaption>explore</figcaption>
+  </figure>
+  <figure>
+    <watt-icon name="power" [size]="iconSize.XLarge"></watt-icon>
+    <figcaption>power</figcaption>
+  </figure>
+  <figure>
+    <watt-icon name="map_marker" [size]="iconSize.XLarge"></watt-icon>
+    <figcaption>map_marker</figcaption>
+  </figure>
+  <figure>
+    <watt-icon name="meter" [size]="iconSize.XLarge"></watt-icon>
+    <figcaption>meter</figcaption>
+  </figure>
+</div>
+
+<h2>Interface essentials (Material icons)</h2>
+<p>
+  Interface icons are inherited from
+  <a href="https://fonts.google.com/icons?selected=Material+Icons"
+    >Google’s Material Icons</a
+  >
+</p>
+
+<ul class="groups">
+  <li *ngFor="let group of icons" class="group">
+    <span class="watt-label">{{ group.name }}</span>
+    <ul class="icons">
+      <li *ngFor="let icon of group.icons" class="icon">
+        <watt-icon [name]="icon.icon" [label]="icon.name"></watt-icon>
+        <span>{{ icon.name }}</span>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h2>Sizes</h2>
+<section class="sizes">
+  <figure>
+    <watt-icon name="search" [size]="iconSize.XSmall"></watt-icon>
+    <figcaption>XSmall (12px)</figcaption>
+  </figure>
+  <figure>
+    <watt-icon name="search" [size]="iconSize.Small"></watt-icon>
+    <figcaption>Small (14px)</figcaption>
+  </figure>
+  <figure>
+    <watt-icon name="search" [size]="iconSize.Medium"></watt-icon>
+    <figcaption>Medium (16px)</figcaption>
+  </figure>
+  <figure>
+    <watt-icon name="search" [size]="iconSize.Large"></watt-icon>
+    <figcaption>Large (32px)</figcaption>
+  </figure>
+  <figure>
+    <watt-icon name="search" [size]="iconSize.XLarge"></watt-icon>
+    <figcaption>XLarge (64px)</figcaption>
+  </figure>
+  <figure>
+    <watt-icon name="search" [size]="iconSize.XXLarge"></watt-icon>
+    <figcaption>XXLarge (128px)</figcaption>
+  </figure>
+</section>

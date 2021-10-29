@@ -18,16 +18,22 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+import { WattButtonModule } from './../../button/watt-button.module';
 import { WattFormFieldModule } from '../../form-field/form-field.module';
 import { WattInputModule } from '../input.module';
+
 import { StorybookInputWrapperComponent } from './storybook-input-wrapper.component';
 import { StorybookInputOverviewComponent } from './storybook-input-overview.component';
+import { WattTextButtonComponent } from '../../button/text-button/watt-text-button.component';
+import { WattIconModule } from './../../../foundations/icon';
 
 @NgModule({
   imports: [
     BrowserAnimationsModule,
     WattFormFieldModule,
+    WattIconModule,
     WattInputModule,
+    WattButtonModule,
     FormsModule,
     ReactiveFormsModule,
   ],
@@ -42,5 +48,6 @@ import { StorybookInputOverviewComponent } from './storybook-input-overview.comp
     StorybookInputWrapperComponent,
     StorybookInputOverviewComponent,
   ],
+  entryComponents: [WattTextButtonComponent],
 })
 export class StorybookInputModule {}

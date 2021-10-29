@@ -14,22 +14,23 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<ng-container
-  *ngComponentOutlet="
-    buttonComponentType;
-    content: [[contentWrapper]];
-    injector: buttonComponentInjector
-  "
-></ng-container>
+<watt-icon
+  *ngIf="hasIcon"
+  [name]="icon"
+  [size]="iconSize"
+  class="watt-space-stack-l"
+></watt-icon>
 
-<div #contentWrapper class="content-grid">
-  <watt-icon
-    *ngIf="hasIcon"
-    class="content-grid-item"
-    [name]="icon"
-  ></watt-icon>
+<ng-container *ngTemplateOutlet="size === 'large' ? largeTitle : smallTitle">
+</ng-container>
 
-  <div class="content-grid-item">
-    <ng-content></ng-content>
-  </div>
-</div>
+<p [ngClass]="{ 'watt-text-s': size === 'small' }">{{ message }}</p>
+<ng-content></ng-content>
+
+<!-- Title sizes -->
+<ng-template #largeTitle>
+  <h3>{{ title }}</h3>
+</ng-template>
+<ng-template #smallTitle>
+  <h5>{{ title }}</h5>
+</ng-template>

@@ -128,7 +128,6 @@ jobs:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
           exitZeroOnChanges: true # 👈 Option to prevent the workflow from failing
           buildScriptName: 'designsystem:build'
-          outputDir: 'dist/designsystem'
 
   publish_inbound:
     name: Publish

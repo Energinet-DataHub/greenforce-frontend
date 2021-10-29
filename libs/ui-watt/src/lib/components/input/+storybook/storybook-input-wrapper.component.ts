@@ -29,13 +29,12 @@ import { FormControl } from '@angular/forms';
   styleUrls: ['./storybook-input-wrapper.component.scss'],
   template: `<watt-form-field [size]="size">
     <watt-label>{{ label }}</watt-label>
-    <button
+    <watt-icon
       *ngIf="hasPrefix"
       wattPrefix
-      aria-label="some meaningful description"
-    >
-      icon
-    </button>
+      name="search"
+      label="some meaningful description"
+    ></watt-icon>
     <input
       wattInput
       type="text"
@@ -44,13 +43,13 @@ import { FormControl } from '@angular/forms';
       [placeholder]="placeholder"
       [required]="required"
     />
-    <button
+    <watt-button
       *ngIf="hasSuffix"
       wattSuffix
+      type="text"
+      icon="close"
       aria-label="some meaningful description"
-    >
-      icon
-    </button>
+    ></watt-button>
     <watt-error *ngIf="exampleFormControl.hasError('required')">
       This field is required
     </watt-error>
