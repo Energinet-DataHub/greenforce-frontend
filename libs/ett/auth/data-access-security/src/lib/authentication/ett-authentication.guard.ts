@@ -19,9 +19,12 @@ import {
   ActivatedRouteSnapshot,
   CanActivateChild,
   Router,
+  RouterStateSnapshot,
   UrlTree,
 } from '@angular/router';
+import { AuthOidcQueryParameterName } from '@energinet-datahub/ett/auth/data-access-api';
 import { ettAuthRoutePath } from '@energinet-datahub/ett/auth/feature-shell';
+import { AbsoluteUrlGenerator } from '@energinet-datahub/ett/core/util-browser';
 
 /**
  * Redirects to login page if authentication fails.
@@ -30,33 +33,58 @@ import { ettAuthRoutePath } from '@energinet-datahub/ett/auth/feature-shell';
   providedIn: 'root',
 })
 export class EttAuthenticationGuard implements CanActivateChild {
-  private loginUrl(route: ActivatedRouteSnapshot): UrlTree {
+  #loginUrl(routerState: RouterStateSnapshot): UrlTree {
     const loginUrl = this.router.createUrlTree([ettAuthRoutePath]);
+    const absoluteReturnUrl = new URL(
+      this.urlGenerator.fromUrl(routerState.url)
+    );
 
-    loginUrl.queryParams = {
-      error: route.queryParamMap.get('error') ?? '',
-      error_code: route.queryParamMap.get('error_code'),
-      return_url: route.url,
-    };
+    if (absoluteReturnUrl.searchParams.has(AuthOidcQueryParameterName.Error)) {
+      loginUrl.queryParams[AuthOidcQueryParameterName.Error] =
+        absoluteReturnUrl.searchParams.get(AuthOidcQueryParameterName.Error);
+      absoluteReturnUrl.searchParams.delete(AuthOidcQueryParameterName.Error);
+    }
+
+    if (
+      absoluteReturnUrl.searchParams.has(AuthOidcQueryParameterName.ErrorCode)
+    ) {
+      loginUrl.queryParams[AuthOidcQueryParameterName.ErrorCode] =
+        absoluteReturnUrl.searchParams.get(
+          AuthOidcQueryParameterName.ErrorCode
+        );
+      absoluteReturnUrl.searchParams.delete(
+        AuthOidcQueryParameterName.ErrorCode
+      );
+    }
+
+    absoluteReturnUrl.searchParams.delete(AuthOidcQueryParameterName.Success);
+
+    loginUrl.queryParams[AuthOidcQueryParameterName.ReturnUrl] =
+      absoluteReturnUrl.toString();
 
     return loginUrl;
   }
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private urlGenerator: AbsoluteUrlGenerator
+  ) {}
 
-  canActivateChild(route: ActivatedRouteSnapshot): boolean | UrlTree {
-    const authenticationSuccessQueryParameterName = 'success';
+  canActivateChild(
+    route: ActivatedRouteSnapshot,
+    routerState: RouterStateSnapshot
+  ): boolean | UrlTree {
     const authenticationSuccess = '1';
     const isAuthenticationCallback = route.queryParamMap.has(
-      authenticationSuccessQueryParameterName
+      AuthOidcQueryParameterName.Success
     );
     const isAuthenticationSuccessful =
-      route.queryParamMap.get(authenticationSuccessQueryParameterName) ===
+      route.queryParamMap.get(AuthOidcQueryParameterName.Success) ===
       authenticationSuccess;
 
     const allowNavigation =
       !isAuthenticationCallback || isAuthenticationSuccessful;
 
-    return allowNavigation ? true : this.loginUrl(route);
+    return allowNavigation ? true : this.#loginUrl(routerState);
   }
 }

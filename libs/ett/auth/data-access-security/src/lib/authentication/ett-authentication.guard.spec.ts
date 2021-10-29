@@ -2,6 +2,7 @@ import { Location } from '@angular/common';
 import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
+import { AuthOidcQueryParameterName } from '@energinet-datahub/ett/auth/data-access-api';
 import { ettAuthRoutePath } from '@energinet-datahub/ett/auth/feature-shell';
 import { SpectacularAppComponent } from '@ngworker/spectacular';
 import { render, RenderResult } from '@testing-library/angular';
@@ -29,7 +30,12 @@ describe(EttAuthenticationGuard.name, () => {
           children: [
             {
               path: guardedPath,
-              component: TestGuardedComponent,
+              children: [
+                {
+                  path: 'test',
+                  component: TestGuardedComponent,
+                },
+              ],
             },
           ],
         },
@@ -39,45 +45,47 @@ describe(EttAuthenticationGuard.name, () => {
         },
       ],
     });
-    appLocation = TestBed.inject(Location);
+    angularLocation = TestBed.inject(Location);
     router = TestBed.inject(Router);
   });
 
-  let appLocation: Location;
+  let angularLocation: Location;
   const guardedPath = 'guarded';
   let router: Router;
   let view: RenderResult<SpectacularAppComponent, SpectacularAppComponent>;
 
-  describe('Given user authentication failed', () => {
+  describe('When user authentication fails', () => {
     it('Then the user is redirected to the login page', async () => {
       const authenticationError = {
         error: 'User failed to verify SSN',
         errorCode: 'E3',
       };
       const failedAuthentication = new URLSearchParams({
-        error: authenticationError.error,
-        error_code: authenticationError.errorCode,
-        success: '0',
+        [AuthOidcQueryParameterName.Error]: authenticationError.error,
+        [AuthOidcQueryParameterName.ErrorCode]: authenticationError.errorCode,
+        [AuthOidcQueryParameterName.Success]: '0',
       });
       const expectedLoginUrl = router.serializeUrl(
         router.createUrlTree([ettAuthRoutePath], {
           queryParams: {
-            error: authenticationError.error.replace(/ /g, '+'),
-            error_code: authenticationError.errorCode,
-            return_url: guardedPath,
+            [AuthOidcQueryParameterName.Error]:
+              authenticationError.error.replace(/ /g, '+'),
+            [AuthOidcQueryParameterName.ErrorCode]:
+              authenticationError.errorCode,
+            [AuthOidcQueryParameterName.ReturnUrl]: `http://localhost/${guardedPath}/test`,
           },
         })
       );
 
-      await view.navigate('/?' + failedAuthentication, guardedPath);
+      await view.navigate('/test/?' + failedAuthentication, guardedPath);
 
-      expect(decodeURIComponent(appLocation.path())).toBe(
+      expect(decodeURIComponent(angularLocation.path())).toBe(
         decodeURIComponent(expectedLoginUrl)
       );
     });
   });
 
-  describe('Given the user has authenticated', () => {
+  describe('When user authenticates', () => {
     it('Then navigation is allowed', async () => {
       const successfulAuthentication = {
         success: '1',
@@ -95,13 +103,13 @@ describe(EttAuthenticationGuard.name, () => {
         guardedPath
       );
 
-      expect(decodeURIComponent(appLocation.path())).toBe(
+      expect(decodeURIComponent(angularLocation.path())).toBe(
         decodeURIComponent(expectedUrl)
       );
     });
   });
 
-  describe('Given the user has not attempted to authenticate', () => {
+  describe('Given a user who has not attempted to authenticate', () => {
     it('Then navigation is allowed', async () => {
       const expectedUrl = router.serializeUrl(
         router.createUrlTree([guardedPath])
@@ -109,7 +117,7 @@ describe(EttAuthenticationGuard.name, () => {
 
       await view.navigate('/', guardedPath);
 
-      expect(decodeURIComponent(appLocation.path())).toBe(
+      expect(decodeURIComponent(angularLocation.path())).toBe(
         decodeURIComponent(expectedUrl)
       );
     });

@@ -17,7 +17,10 @@
 import { APP_BASE_HREF } from '@angular/common';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { AuthOidcHttp } from '@energinet-datahub/ett/auth/data-access-api';
+import {
+  AuthOidcHttp,
+  AuthOidcQueryParameterName,
+} from '@energinet-datahub/ett/auth/data-access-api';
 import { LetModule } from '@rx-angular/template';
 import { render, screen } from '@testing-library/angular';
 import { MockProvider } from 'ng-mocks';
@@ -43,9 +46,9 @@ describe(EttAuthenticationDirective.name, () => {
           imports: [EttAuthenticationScam, RouterTestingModule, LetModule],
           providers: [
             MockProvider(AuthOidcHttp, {
-              login: (redirectUri) =>
+              login: (returnUrl) =>
                 of({
-                  url: `${authenticationUrl}?return_url=${redirectUri}`,
+                  url: `${authenticationUrl}?${AuthOidcQueryParameterName.ReturnUrl}=${returnUrl}`,
                 }),
             }),
           ],
@@ -68,9 +71,9 @@ describe(EttAuthenticationDirective.name, () => {
       const baseHref = TestBed.inject(APP_BASE_HREF);
       const actualUrl = new URL(link.href);
 
-      expect(actualUrl.searchParams.get('return_url')).toBe(
-        `${baseHref}dashboard`
-      );
+      expect(
+        actualUrl.searchParams.get(AuthOidcQueryParameterName.ReturnUrl)
+      ).toBe(`${baseHref}dashboard`);
     });
   });
 
