@@ -1,2 +1,2 @@
-# Ignore BFF's
-libs/api-dh-app
+# Ignore BFF's (make sure to include '/**/*', as the license executor uses this glob)
+libs/api-dh-app/**/*
