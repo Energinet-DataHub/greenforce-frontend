@@ -13,8 +13,7 @@ ett-base-helm-chart:
     port: 80
 
   ingress:
-    hosts:
-      - localhost
+    hosts: []
     paths:
       - /
     pathExceptions:
