@@ -27,4 +27,4 @@ import { RX_ANGULAR_CONFIG, RxAngularConfig } from '@rx-angular/cdk';
     },
   ],
 })
-export class EttRxAngularTestingModule {}
+export class GfRxAngularTestingModule {}
