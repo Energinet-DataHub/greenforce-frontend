@@ -1,5 +1,5 @@
 {
-  "extends": ["../../../../.eslintrc.json"],
+  "extends": ["../../../libs/.eslintrc.json"],
   "ignorePatterns": ["!**/*"],
   "overrides": [
     {
@@ -13,7 +13,7 @@
           "error",
           {
             "type": "attribute",
-            "prefix": "ettTest",
+            "prefix": "energinet-datahub",
             "style": "camelCase"
           }
         ],
@@ -21,7 +21,7 @@
           "error",
           {
             "type": "element",
-            "prefix": "ett-test",
+            "prefix": "energinetDatahub",
             "style": "kebab-case"
           }
         ]

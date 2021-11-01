@@ -16,6 +16,6 @@
  */
 import 'jest-preset-angular/setup-jest';
 
-import { setUpTestbed } from '@energinet-datahub/ett/shared/test-util-staging';
+import { setUpTestbed } from '@energinet-datahub/shared/test-util-staging';
 
 setUpTestbed();
