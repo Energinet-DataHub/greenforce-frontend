@@ -24,7 +24,8 @@ This workflow verifies the ASP.NET Core Web API by building and running all test
 > Describe necessary setup here.
 
 ## .nxignore / .prettierignore
-Avoid conflicts with the frontend tool-chain, the path of the BFF should be added to `.nxignore` and `.prettierignore` 
+
+To avoid conflicts with the frontend tool-chain, the path of the BFF should be added to `.nxignore` and `.prettierignore`. Files for the BFF requires charset `UTF-8 with BOM` which these tools does not respect. The required `charset` is configured in the `libs\api-dh-app\.editorconfig`.
 
 ## OpenAPI
 
