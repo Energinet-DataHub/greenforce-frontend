@@ -19,11 +19,13 @@ on:
       - main
     paths-ignore:
       - libs/api-dh-app/**
+      - .github/workflows/api-dh-app-*.yml
   pull_request:
     branches:
       - main
     paths-ignore:
       - libs/api-dh-app/**
+      - .github/workflows/api-dh-app-*.yml
   workflow_dispatch: {}
 
 jobs:

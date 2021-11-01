@@ -21,7 +21,7 @@ Besides the `apps` folder, there's also a `libs` folder that contains features u
 
 ## Backend-for-frontend (BFF)
 
-There's currenly only one BFF located in `api-dh-app` under `libs`. It is for `dh-app` and is using .NET 5.0.
+There's currenly only one BFF located in `api-dh-app` under `libs`. It is for `dh-app` and is using .NET 5.0. See [Development notes](./libs/api-dh-app/documents/development.md).
 
 ## Watt Design System
 
@@ -31,6 +31,7 @@ There's currenly only one BFF located in `api-dh-app` under `libs`. It is for `d
 
 Located under `.github/workflows`. There are:
 
+- `api-dh-app-ci.yml` - Used by the BFF for `dh-app`.
 - `ett.yml` - Used by "Energy Track and Trace" app
 - `license-check-ci.yml` - Used for adding license to files
 - `workspace.yml` - Used to build, test, format and lint all front-end apps
