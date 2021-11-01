@@ -352,7 +352,7 @@
       "projectType": "library",
       "root": "libs/ett/auth/data-access-api",
       "sourceRoot": "libs/ett/auth/data-access-api/src",
-      "prefix": "energinet-datahub",
+      "prefix": "ett",
       "architect": {
         "test": {
           "builder": "@nrwl/jest:jest",
@@ -577,7 +577,7 @@
       "projectType": "library",
       "root": "libs/gf/util-browser",
       "sourceRoot": "libs/gf/util-browser/src",
-      "prefix": "energinet-datahub",
+      "prefix": "gf",
       "architect": {
         "test": {
           "builder": "@nrwl/jest:jest",
