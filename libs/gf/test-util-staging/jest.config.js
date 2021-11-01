@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 module.exports = {
-  displayName: 'shared-test-util-staging',
+  displayName: 'gf-test-util-staging',
   preset: '../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   globals: {
@@ -24,7 +24,7 @@ module.exports = {
       stringifyContentPathRegex: '\\.(html|svg)$',
     },
   },
-  coverageDirectory: '../../../coverage/libs/shared/test-util-staging',
+  coverageDirectory: '../../../coverage/libs/gf/test-util-staging',
   transform: {
     '^.+\\.(ts|js|html)$': 'jest-preset-angular',
   },

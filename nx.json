@@ -71,8 +71,8 @@
     "ett-dashboard-feature-shell": {
       "tags": ["product:ett", "scope:dashboard", "type:feature"]
     },
-    "shared-test-util-staging": {
-      "tags": ["product:shared", "scope:shared", "type:test-util"]
+    "gf-test-util-staging": {
+      "tags": ["product:gf", "scope:shared", "type:test-util"]
     },
     "ui-watt": {
       "tags": ["product:watt", "type:ui"]

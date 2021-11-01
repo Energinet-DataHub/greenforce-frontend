@@ -43,8 +43,8 @@
       "@energinet-datahub/ett/dashboard/feature-shell": [
         "libs/ett/dashboard/feature-shell/src/index.ts"
       ],
-      "@energinet-datahub/shared/test-util-staging": [
-        "libs/shared/test-util-staging/src/index.ts"
+      "@energinet-datahub/gf/test-util-staging": [
+        "libs/gf/test-util-staging/src/index.ts"
       ],
       "@energinet-datahub/watt": ["libs/ui-watt/src/index.ts"]
     }

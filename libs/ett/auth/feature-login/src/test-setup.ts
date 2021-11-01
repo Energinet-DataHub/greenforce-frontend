@@ -20,7 +20,7 @@ import {
   setUpAngularTestingLibrary,
   setUpNgMocks,
   setUpTestbed,
-} from '@energinet-datahub/shared/test-util-staging';
+} from '@energinet-datahub/gf/test-util-staging';
 
 setUpTestbed();
 setUpAngularTestingLibrary();
