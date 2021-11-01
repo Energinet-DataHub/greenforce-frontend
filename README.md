@@ -12,7 +12,8 @@ Monorepo that hosts:
 
 The folder structure of the repository is based on [Nrwl](https://nrwl.io/) [NX](https://nx.dev/angular) mono-repository project.
 
-```Energinet-DataHub/greenforce-frontend
+```|
+Energinet-DataHub/greenforce-frontend
 ├── apps                    # Contains source code for applications. This includes frontends, BFF and E2E. Apps are grouped by a product root folder, and type prefixed sub-folder(s).
 |  ├── dh                   # Data Hub application (product)
 |  |  ├── api-dh            # - BFF for Data Hub
