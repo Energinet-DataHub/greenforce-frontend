@@ -16,9 +16,12 @@
  */
 import { NgModule } from '@angular/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { EttBrowserConfigurationModule } from '@energinet-datahub/ett/core/util-browser';
+import { GfBrowserConfigurationModule } from '@energinet-datahub/ett/core/util-browser';
 
+/**
+ * Disable animations and provide `APP_BASE_HREF` at runtime.
+ */
 @NgModule({
-  imports: [NoopAnimationsModule, EttBrowserConfigurationModule.forRoot()],
+  imports: [NoopAnimationsModule, GfBrowserConfigurationModule.forRoot()],
 })
 export class EttBrowserTestingModule {}
