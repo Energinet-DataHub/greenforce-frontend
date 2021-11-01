@@ -18,7 +18,7 @@ import { getTestBed, TestModuleMetadata } from '@angular/core/testing';
 import { BrowserDynamicTestingModule, platformBrowserDynamicTesting } from '@angular/platform-browser-dynamic/testing';
 
 import { GfAngularMaterialTestingModule } from './angular-material/gf-angular-material-testing.module';
-import { EttBrowserTestingModule } from './angular/ett-browser-testing.module';
+import { GfBrowserTestingModule } from './angular/gf-browser-testing.module';
 import { GfRxAngularTestingModule } from './rx-angular/gf-rx-angular-testing.module';
 
 function patchTestbed(): void {
@@ -30,7 +30,7 @@ function patchTestbed(): void {
       realConfigureTestingModule.call(testbed, {
         ...moduleDef,
         imports: [
-          EttBrowserTestingModule,
+          GfBrowserTestingModule,
           GfAngularMaterialTestingModule,
           GfRxAngularTestingModule,
           ...(moduleDef.imports ?? []),
