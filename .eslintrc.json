@@ -14,11 +14,23 @@
             "depConstraints": [
               {
                 "sourceTag": "product:dh",
-                "onlyDependOnLibsWithTags": ["product:dh", "product:watt"]
+                "onlyDependOnLibsWithTags": [
+                  "product:dh",
+                  "product:gf",
+                  "product:watt"
+                ]
               },
               {
                 "sourceTag": "product:ett",
-                "onlyDependOnLibsWithTags": ["product:ett", "product:watt"]
+                "onlyDependOnLibsWithTags": [
+                  "product:ett",
+                  "product:gf",
+                  "product:watt"
+                ]
+              },
+              {
+                "sourceTag": "product:gf",
+                "onlyDependOnLibsWithTags": ["product:gf"]
               },
               {
                 "sourceTag": "product:watt",
