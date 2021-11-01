@@ -16,7 +16,7 @@
  */
 import { NgModule } from '@angular/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { GfBrowserConfigurationModule } from '@energinet-datahub/ett/core/util-browser';
+import { GfBrowserConfigurationModule } from '@energinet-datahub/gf/util-browser';
 
 /**
  * Disable animations and provide `APP_BASE_HREF` at runtime.

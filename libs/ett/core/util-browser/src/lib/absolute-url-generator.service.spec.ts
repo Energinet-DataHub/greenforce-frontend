@@ -1,13 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { GfBrowserConfigurationModule } from '@energinet-datahub/ett/core/util-browser';
 
 import { AbsoluteUrlGenerator } from './absolute-url-generator.service';
 
 describe(AbsoluteUrlGenerator.name, () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [GfBrowserConfigurationModule.forRoot(), RouterTestingModule],
+      imports: [RouterTestingModule],
     });
     service = TestBed.inject(AbsoluteUrlGenerator);
   });

@@ -74,6 +74,9 @@
     "gf-test-util-staging": {
       "tags": ["product:gf", "scope:shared", "type:test-util"]
     },
+    "gf-util-browser": {
+      "tags": ["product:gf", "scope:shared", "type:util"]
+    },
     "ui-watt": {
       "tags": ["product:watt", "type:ui"]
     },

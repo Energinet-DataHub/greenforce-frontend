@@ -46,6 +46,9 @@
       "@energinet-datahub/gf/test-util-staging": [
         "libs/gf/test-util-staging/src/index.ts"
       ],
+      "@energinet-datahub/gf/util-browser": [
+        "libs/gf/util-browser/src/index.ts"
+      ],
       "@energinet-datahub/watt": ["libs/ui-watt/src/index.ts"]
     }
   },
