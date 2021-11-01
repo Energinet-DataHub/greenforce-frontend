@@ -43,6 +43,12 @@ function patchTestbed(): void {
   }
 }
 
+/**
+ * Use Angular testing module teardown.
+ *
+ * Automatically import testing Angular modules for Angular Material and
+ * RxAngular.
+ */
 export function setUpTestbed(): void {
   testbed.resetTestEnvironment();
   testbed.initTestEnvironment(

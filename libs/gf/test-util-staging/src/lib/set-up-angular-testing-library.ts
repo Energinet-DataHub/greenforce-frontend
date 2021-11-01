@@ -16,6 +16,9 @@
  */
 import { Config, configure } from '@testing-library/angular';
 
+/**
+ * Configure Angular Testing Library to assume SCAMs.
+ */
 export function setUpAngularTestingLibrary(config: Partial<Config> = {}): void {
   configure({
     // Assume SCAMs

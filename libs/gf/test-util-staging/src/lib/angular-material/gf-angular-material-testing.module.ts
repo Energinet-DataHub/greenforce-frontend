@@ -27,6 +27,11 @@ const disableThemeCheck: SanityChecks = {
   version: true,
 };
 
+/**
+ * Disable theme check because it always fails in Jest tests.
+ *
+ * Fake the icon registry to enable verification of SVG icons.
+ */
 @NgModule({
   imports: [MatIconTestingModule],
   providers: [

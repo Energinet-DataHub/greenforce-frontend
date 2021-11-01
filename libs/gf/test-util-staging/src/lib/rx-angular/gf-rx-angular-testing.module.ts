@@ -17,6 +17,9 @@
 import { NgModule } from '@angular/core';
 import { RX_ANGULAR_CONFIG, RxAngularConfig } from '@rx-angular/cdk';
 
+/**
+ * Enable RxAngular Template to render in Jest tests.
+ */
 @NgModule({
   providers: [
     {

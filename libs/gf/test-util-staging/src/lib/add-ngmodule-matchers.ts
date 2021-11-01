@@ -36,6 +36,9 @@ declare global {
   }
 }
 
+/**
+ * Add Jest matchers for Angular modules.
+ */
 export function addNgModuleMatchers(): void {
   expect.extend({
     toGuardAgainstDirectImport<TModule>(ngModuleType: Type<TModule>) {
