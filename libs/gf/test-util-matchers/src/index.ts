@@ -14,10 +14,5 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import 'jest-preset-angular/setup-jest';
-
-import { addNgModuleMatchers } from '@energinet-datahub/gf/test-util-matchers';
-import { setUpTestbed } from '@energinet-datahub/gf/test-util-staging';
-
-setUpTestbed();
-addNgModuleMatchers();
+// Angular
+export * from './lib/add-ngmodule-matchers';

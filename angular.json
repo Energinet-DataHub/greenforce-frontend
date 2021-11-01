@@ -548,6 +548,31 @@
         }
       }
     },
+    "gf-test-util-matchers": {
+      "projectType": "library",
+      "root": "libs/gf/test-util-matchers",
+      "sourceRoot": "libs/gf/test-util-matchers/src",
+      "prefix": "energinet-datahub",
+      "architect": {
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/gf/test-util-matchers"],
+          "options": {
+            "jestConfig": "libs/gf/test-util-matchers/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/gf/test-util-matchers/src/**/*.ts",
+              "libs/gf/test-util-matchers/src/**/*.html"
+            ]
+          }
+        }
+      }
+    },
     "gf-test-util-staging": {
       "projectType": "library",
       "root": "libs/gf/test-util-staging",

@@ -43,6 +43,9 @@
       "@energinet-datahub/ett/dashboard/feature-shell": [
         "libs/ett/dashboard/feature-shell/src/index.ts"
       ],
+      "@energinet-datahub/gf/test-util-matchers": [
+        "libs/gf/test-util-matchers/src/index.ts"
+      ],
       "@energinet-datahub/gf/test-util-staging": [
         "libs/gf/test-util-staging/src/index.ts"
       ],

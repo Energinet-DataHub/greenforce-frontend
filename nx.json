@@ -71,6 +71,9 @@
     "ett-dashboard-feature-shell": {
       "tags": ["product:ett", "scope:dashboard", "type:feature"]
     },
+    "gf-test-util-matchers": {
+      "tags": ["product:gf", "scope:shared", "type:test-util"]
+    },
     "gf-test-util-staging": {
       "tags": ["product:gf", "scope:shared", "type:test-util"]
     },
