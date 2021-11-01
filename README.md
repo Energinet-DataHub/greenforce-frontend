@@ -26,8 +26,8 @@ Energinet-DataHub/greenforce-frontend
 |  ├── apps                 #
 |  └── libs                 #
 ├── libs                    # Contains source code for libraries. Libraries are grouped by a product root folder, and type prefixed sub-folder(s).
-|  ├── dh                   # - Libraries for Data Hub (product) 
-|  ├── ett                  # - Libraries for Energy Track and Trace (product) 
+|  ├── dh                   # - Libraries for Data Hub (product)
+|  ├── ett                  # - Libraries for Energy Track and Trace (product)
 |  └── ui-watt              # - Actual implementation of the design system
 └── tools                   # Contains various tools
    └── executors            # - Executors perform actions on your code. This can include building, linting, testing, serving. Example: "add license"
