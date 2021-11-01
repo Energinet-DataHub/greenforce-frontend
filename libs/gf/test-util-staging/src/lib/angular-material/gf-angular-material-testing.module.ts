@@ -36,4 +36,4 @@ const disableThemeCheck: SanityChecks = {
     },
   ],
 })
-export class EttAngularMaterialTestingModule {}
+export class GfAngularMaterialTestingModule {}
