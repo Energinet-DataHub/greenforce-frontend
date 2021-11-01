@@ -17,7 +17,10 @@
 import { APP_BASE_HREF } from '@angular/common';
 import { TestBed } from '@angular/core/testing';
 
-import { GfBrowserConfigurationModule } from './gf-browser-configuration.module';
+import {
+  GfBrowserConfigurationModule,
+  GfBrowserConfigurationRootModule,
+} from './gf-browser-configuration.module';
 
 describe(GfBrowserConfigurationModule.name, () => {
   it('APP_BASE_HREF is not provided when the Angular module is not imported', () => {
@@ -32,5 +35,15 @@ describe(GfBrowserConfigurationModule.name, () => {
 
     const actualAppBaseHref = TestBed.inject(APP_BASE_HREF, null);
     expect(actualAppBaseHref).not.toBeNull();
+  });
+
+  it('guards against direct import', () => {
+    expect(GfBrowserConfigurationModule).toGuardAgainstDirectImport();
+  });
+
+  it('guards against being registered in multiple injectors', () => {
+    expect(
+      GfBrowserConfigurationRootModule
+    ).toGuardAgainstMultipleInjectorRegistration();
   });
 });
