@@ -50,7 +50,7 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
         private HttpClient HttpClient { get; }
 
         [Fact]
-        public async Task When_Requested_Then_StatusCodeIsOK()
+        public async Task When_MeteringPoint_Requested_And_Found_Then_StatusCode_IsOK()
         {
             // Arrange
             const string gsrn = "574591757409421563";
@@ -69,7 +69,7 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
         }
 
         [Fact]
-        public async Task When_Requested_Then_StatusCodeIsNotFound()
+        public async Task When_MeteringPoint_Requested_And_Not_Found_Then_StatusCode_IsNotFound()
         {
             // Arrange
             const string gsrn = "non-existing-gsrn-number";
