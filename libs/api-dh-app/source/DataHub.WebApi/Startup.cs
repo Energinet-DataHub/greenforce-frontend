@@ -91,9 +91,9 @@ namespace Energinet.DataHub.WebApi
 
         private void AddDomainClients(IServiceCollection services)
         {
-            var baseUrls = Configuration.GetSection("BaseUrls").Get<BaseUrls>();
+            var apiClientSettings = Configuration.GetSection("ApiClientSettings").Get<ApiClientSettings>();
 
-            services.AddMeteringPointClient(baseUrls.GetMeteringPointUrl());
+            services.AddMeteringPointClient(new Uri(apiClientSettings.MeteringPointBaseUrl ?? "https://empty"));
         }
     }
 }
