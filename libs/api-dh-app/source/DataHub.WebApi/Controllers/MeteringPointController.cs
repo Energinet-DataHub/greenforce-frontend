@@ -30,12 +30,12 @@ namespace Energinet.DataHub.WebApi.Controllers
         }
 
         /// <summary>
-        /// Get a metering point by GSRN number
+        /// Get a metering point by GSRN number.
         /// </summary>
-        /// <param name="gsrnNumber">Public identifier of a metering point</param>
-        /// <returns>A metering point if found</returns>
-        /// <response code="200">Returns a metering point if found</response>
-        /// <response code="404">Returned if not found</response>
+        /// <param name="gsrnNumber">Public identifier of a metering point.</param>
+        /// <returns>A metering point if found.</returns>
+        /// <response code="200">Returns a metering point if found.</response>
+        /// <response code="404">Returned if not found.</response>
         [HttpGet("GetByGsrn")]
         public async Task<IActionResult> GetByGsrnAsync(string gsrnNumber)
         {
