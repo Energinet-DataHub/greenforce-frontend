@@ -15,6 +15,7 @@
 using System;
 using System.IO;
 using System.Reflection;
+using Energinet.DataHub.MeteringPoints.Client.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -31,7 +32,7 @@ namespace Energinet.DataHub.WebApi
             Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
+        private IConfiguration Configuration { get; }
 
         /// <summary>
         /// This method gets called by the runtime. Use this method to add services to the container.
@@ -39,6 +40,8 @@ namespace Energinet.DataHub.WebApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            AddDomainClients(services);
 
             // Register the Swagger generator, defining 1 or more Swagger documents.
             services.AddSwaggerGen(config =>
@@ -84,6 +87,13 @@ namespace Energinet.DataHub.WebApi
             {
                 endpoints.MapControllers();
             });
+        }
+
+        private void AddDomainClients(IServiceCollection services)
+        {
+            var baseUrls = Configuration.GetSection("BaseUrls").Get<BaseUrls>();
+
+            services.AddMeteringPointClient(baseUrls.GetMeteringPointUrl());
         }
     }
 }

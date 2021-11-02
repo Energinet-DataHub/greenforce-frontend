@@ -1,4 +1,4 @@
-﻿// Copyright 2021 Energinet DataHub A/S
+﻿// Copyright 2020 Energinet DataHub A/S
 //
 // Licensed under the Apache License, Version 2.0 (the "License2");
 // you may not use this file except in compliance with the License.
@@ -12,19 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.Net.Http;
-using Microsoft.AspNetCore.Mvc.Testing;
-using Xunit;
+using System;
 
-namespace Energinet.DataHub.WebApi.Tests.Fixtures
+namespace Energinet.DataHub.WebApi
 {
-    public abstract class WebHostTestBase : IClassFixture<WebApplicationFactory<Startup>>
+    public class BaseUrls
     {
-        protected WebHostTestBase(WebApplicationFactory<Startup> factory)
-        {
-            HttpClient = factory.CreateClient();
-        }
+        public string? MeteringPoint { get; set; }
 
-        protected HttpClient HttpClient { get; }
+        public Uri GetMeteringPointUrl()
+        {
+            if (MeteringPoint == null) throw new ArgumentNullException(nameof(MeteringPoint));
+            return new Uri(MeteringPoint);
+        }
     }
 }
