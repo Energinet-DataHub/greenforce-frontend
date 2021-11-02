@@ -19,7 +19,7 @@ It can also:
 
 This workflow verifies the ASP.NET Core Web API by building and running all tests.
 
-## Setup local envioment
+## Setup local environment
 
 > Describe necessary setup here.
 
