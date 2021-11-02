@@ -41,9 +41,7 @@ namespace Energinet.DataHub.WebApi.Controllers
         {
             var result = await _meteringPointClient.GetMeteringPointByGsrnAsync(gsrnNumber);
 
-            if (result == null) return NotFound();
-
-            return Ok(result);
+            return result == null ? NotFound() : Ok(result);
         }
     }
 }
