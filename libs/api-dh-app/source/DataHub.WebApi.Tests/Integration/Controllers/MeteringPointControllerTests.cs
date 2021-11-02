@@ -13,27 +13,53 @@
 // limitations under the License.
 
 using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
-using Energinet.DataHub.WebApi.Tests.Fixtures;
+using AutoFixture;
+using Energinet.DataHub.MeteringPoints.Client.Abstractions;
+using Energinet.DataHub.MeteringPoints.Client.Abstractions.Models;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.Extensions.DependencyInjection;
+using Moq;
 using Xunit;
 
 namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
 {
-    public class MeteringPointControllerTests : WebHostTestBase
+    public class MeteringPointControllerTests : IClassFixture<WebApplicationFactory<Startup>>
     {
         public MeteringPointControllerTests(WebApplicationFactory<Startup> factory)
-            : base(factory)
         {
+            Fixture = new Fixture();
+
+            ApiClientMock = new Mock<IMeteringPointClient>();
+            HttpClient = factory.WithWebHostBuilder(builder =>
+            {
+                builder.ConfigureServices(services =>
+                {
+                    services.AddTransient(provider => ApiClientMock.Object);
+                });
+            })
+            .CreateClient();
         }
+
+        private Fixture Fixture { get; }
+
+        private Mock<IMeteringPointClient> ApiClientMock { get; }
+
+        private HttpClient HttpClient { get; }
 
         [Fact]
         public async Task When_Requested_Then_StatusCodeIsOK()
         {
             // Arrange
-            string gsrn = "574591757409421563";
+            const string gsrn = "574591757409421563";
             var requestUrl = $"/v1/MeteringPoint/GetByGsrn?gsrnNumber={gsrn}";
+            var meteringPointDto = Fixture.Create<MeteringPointDto>();
+
+            ApiClientMock
+                .Setup(mock => mock.GetMeteringPointByGsrnAsync(gsrn))
+                .ReturnsAsync(meteringPointDto);
 
             // Act
             var actual = await HttpClient.GetAsync(requestUrl);
@@ -46,8 +72,12 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
         public async Task When_Requested_Then_StatusCodeIsNotFound()
         {
             // Arrange
-            string gsrn = "non-existing-gsrn-number";
+            const string gsrn = "non-existing-gsrn-number";
             var requestUrl = $"/v1/meteringpoint/getbygsrn?gsrnNumber={gsrn}";
+
+            ApiClientMock
+                .Setup(mock => mock.GetMeteringPointByGsrnAsync(gsrn))
+                .Returns(Task.FromResult<MeteringPointDto?>(null));
 
             // Act
             var actual = await HttpClient.GetAsync(requestUrl);
