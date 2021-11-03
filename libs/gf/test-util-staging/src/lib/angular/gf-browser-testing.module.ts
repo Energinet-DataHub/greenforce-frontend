@@ -16,12 +16,18 @@
  */
 import { NgModule } from '@angular/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { RouterTestingModule } from '@angular/router/testing';
 import { GfBrowserConfigurationModule } from '@energinet-datahub/gf/util-browser';
 
 /**
- * Disable animations and provide `APP_BASE_HREF` at runtime.
+ * Disable animations, provide `APP_BASE_HREF` at runtime, and isolate routing
+ * from the DOM.
  */
 @NgModule({
-  imports: [NoopAnimationsModule, GfBrowserConfigurationModule.forRoot()],
+  imports: [
+    NoopAnimationsModule,
+    RouterTestingModule,
+    GfBrowserConfigurationModule.forRoot(),
+  ],
 })
 export class GfBrowserTestingModule {}

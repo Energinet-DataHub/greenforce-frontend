@@ -34,7 +34,7 @@
               },
               {
                 "sourceTag": "product:watt",
-                "onlyDependOnLibsWithTags": ["product:watt"]
+                "onlyDependOnLibsWithTags": ["product:watt", "type:test-util"]
               },
               {
                 "sourceTag": "*",

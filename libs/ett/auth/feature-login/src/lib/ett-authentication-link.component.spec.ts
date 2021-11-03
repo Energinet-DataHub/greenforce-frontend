@@ -16,7 +16,6 @@
  */
 import { APP_BASE_HREF } from '@angular/common';
 import { TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 import {
   AuthOidcHttp,
   AuthOidcQueryParameterName,
@@ -34,7 +33,7 @@ describe(EttAuthenticationLinkComponent.name, () => {
   describe('Given the Auth API is available', () => {
     beforeEach(async () => {
       await render(EttAuthenticationLinkComponent, {
-        imports: [EttAuthenticationLinkScam, RouterTestingModule],
+        imports: [EttAuthenticationLinkScam],
         providers: [
           MockProvider(AuthOidcHttp, {
             login: (returnUrl) =>
@@ -72,7 +71,7 @@ describe(EttAuthenticationLinkComponent.name, () => {
   describe('Given the Auth API is unavailable', () => {
     it('Then an error message is displayed', async () => {
       await render(EttAuthenticationLinkComponent, {
-        imports: [EttAuthenticationLinkScam, RouterTestingModule],
+        imports: [EttAuthenticationLinkScam],
         providers: [
           MockProvider(AuthOidcHttp, {
             login: () => throwError(new Error('Dummy error message')),
