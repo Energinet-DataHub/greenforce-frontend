@@ -8,17 +8,18 @@
       "options": {
         "cypressConfig": "apps/dh-app-e2e/cypress.json",
         "tsConfig": "apps/dh-app-e2e/tsconfig.e2e.json",
-        "devServerTarget": "dh-app:serve:development"
+        "devServerTarget": "dh-app:serve:development",
+        "headed": true
       },
       "configurations": {
         "ci": {
           "cypressConfig": "apps/dh-app-e2e/cypress.ci.json",
-          "headless": true
+          "headed": false
         },
         "ci:production": {
           "cypressConfig": "apps/dh-app-e2e/cypress.ci.json",
           "devServerTarget": "dh-app:serve:production",
-          "headless": true
+          "headed": false
         },
         "production": {
           "devServerTarget": "dh-app:serve:production"
