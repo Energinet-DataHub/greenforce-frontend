@@ -29,60 +29,35 @@
       }
     ]
   },
-  "projects": {
-    "dh-app": {
-      "tags": ["product:dh", "type:app"]
+  "cli": {
+    "defaultCollection": "@nrwl/angular"
+  },
+  "defaultProject": "dh-app",
+  "generators": {
+    "@nrwl/angular": {
+      "application": {
+        "linter": "eslint"
+      },
+      "library": {
+        "linter": "eslint"
+      },
+      "storybook-configuration": {
+        "linter": "eslint"
+      }
     },
-    "dh-app-core-feature-shell": {
-      "tags": ["product:dh", "scope:core", "type:feature"]
+    "@nrwl/angular:application": {
+      "style": "scss",
+      "linter": "eslint",
+      "unitTestRunner": "jest",
+      "e2eTestRunner": "cypress"
     },
-    "dh-app-e2e": {
-      "tags": ["product:dh", "type:e2e"],
-      "implicitDependencies": ["dh-app"]
+    "@nrwl/angular:library": {
+      "style": "scss",
+      "linter": "eslint",
+      "unitTestRunner": "jest"
     },
-    "ett-app": {
-      "tags": ["product:ett", "type:app"]
-    },
-    "ett-app-e2e": {
-      "tags": ["product:ett", "type:e2e"],
-      "implicitDependencies": ["ett-app"]
-    },
-    "ett-auth-data-access-api": {
-      "tags": ["product:ett", "scope:auth", "type:data-access"]
-    },
-    "ett-auth-data-access-security": {
-      "tags": ["product:ett", "scope:auth", "type:data-access"]
-    },
-    "ett-auth-feature-login": {
-      "tags": ["product:ett", "scope:auth", "type:feature"]
-    },
-    "ett-auth-feature-shell": {
-      "tags": ["product:ett", "scope:auth", "type:feature"]
-    },
-    "ett-core-environments": {
-      "tags": ["product:ett", "scope:core", "type:environments"]
-    },
-    "ett-core-feature-shell": {
-      "tags": ["product:ett", "scope:core", "type:feature"]
-    },
-    "ett-core-util-browser": {
-      "tags": ["product:ett", "scope:core", "type:util"]
-    },
-    "ett-dashboard-feature-shell": {
-      "tags": ["product:ett", "scope:dashboard", "type:feature"]
-    },
-    "gf-test-util-matchers": {
-      "tags": ["product:gf", "scope:shared", "type:test-util"]
-    },
-    "gf-test-util-staging": {
-      "tags": ["product:gf", "scope:shared", "type:test-util"]
-    },
-    "gf-util-browser": {
-      "tags": ["product:gf", "scope:shared", "type:util"]
-    },
-    "ui-watt": {
-      "tags": ["product:watt", "type:ui"]
-    },
-    "workspace-tools": {}
+    "@schematics/angular:component": {
+      "style": "scss"
+    }
   }
 }

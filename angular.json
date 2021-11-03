@@ -1,39 +1,5 @@
 {
   "version": 1,
-  "cli": {
-    "defaultCollection": "@nrwl/angular"
-  },
-  "schematics": {
-    "@nrwl/angular": {
-      "application": {
-        "linter": "eslint"
-      },
-      "library": {
-        "linter": "eslint"
-      },
-      "storybook-configuration": {
-        "linter": "eslint"
-      }
-    },
-    "@nrwl/angular:application": {
-      "style": "scss",
-      "linter": "eslint",
-      "unitTestRunner": "jest",
-      "e2eTestRunner": "cypress"
-    },
-    "@nrwl/angular:library": {
-      "style": "scss",
-      "linter": "eslint",
-      "unitTestRunner": "jest"
-    },
-    "@schematics/angular:component": {
-      "style": "scss"
-    },
-    "@nrwl/angular:component": {
-      "style": "scss"
-    }
-  },
-  "defaultProject": "dh-app",
   "projects": {
     "dh-app": {
       "projectType": "application",
@@ -135,7 +101,8 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": ["product:dh", "type:app"]
     },
     "dh-app-core-feature-shell": {
       "projectType": "library",
@@ -160,7 +127,8 @@
           },
           "outputs": ["{options.outputFile}"]
         }
-      }
+      },
+      "tags": ["product:dh", "scope:core", "type:feature"]
     },
     "dh-app-e2e": {
       "root": "apps/dh-app-e2e",
@@ -196,7 +164,9 @@
           },
           "outputs": ["{options.outputFile}"]
         }
-      }
+      },
+      "tags": ["product:dh", "type:e2e"],
+      "implicitDependencies": ["dh-app"]
     },
     "ett-app": {
       "projectType": "application",
@@ -315,7 +285,8 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": ["product:ett", "type:app"]
     },
     "ett-app-e2e": {
       "root": "apps/ett-app-e2e",
@@ -351,7 +322,9 @@
           },
           "outputs": ["{options.outputFile}"]
         }
-      }
+      },
+      "tags": ["product:ett", "type:e2e"],
+      "implicitDependencies": ["ett-app"]
     },
     "ett-auth-data-access-api": {
       "projectType": "library",
@@ -377,7 +350,8 @@
           },
           "outputs": ["{options.outputFile}"]
         }
-      }
+      },
+      "tags": ["product:ett", "scope:auth", "type:data-access"]
     },
     "ett-auth-data-access-security": {
       "projectType": "library",
@@ -403,7 +377,8 @@
           },
           "outputs": ["{options.outputFile}"]
         }
-      }
+      },
+      "tags": ["product:ett", "scope:auth", "type:data-access"]
     },
     "ett-auth-feature-login": {
       "projectType": "library",
@@ -429,7 +404,8 @@
           },
           "outputs": ["{options.outputFile}"]
         }
-      }
+      },
+      "tags": ["product:ett", "scope:auth", "type:feature"]
     },
     "ett-auth-feature-shell": {
       "projectType": "library",
@@ -455,7 +431,8 @@
           },
           "outputs": ["{options.outputFile}"]
         }
-      }
+      },
+      "tags": ["product:ett", "scope:auth", "type:feature"]
     },
     "ett-core-environments": {
       "projectType": "library",
@@ -481,7 +458,8 @@
           },
           "outputs": ["{options.outputFile}"]
         }
-      }
+      },
+      "tags": ["product:ett", "scope:core", "type:environments"]
     },
     "ett-core-feature-shell": {
       "projectType": "library",
@@ -507,7 +485,8 @@
           },
           "outputs": ["{options.outputFile}"]
         }
-      }
+      },
+      "tags": ["product:ett", "scope:core", "type:feature"]
     },
     "ett-core-util-browser": {
       "projectType": "library",
@@ -533,7 +512,8 @@
           },
           "outputs": ["{options.outputFile}"]
         }
-      }
+      },
+      "tags": ["product:ett", "scope:core", "type:util"]
     },
     "ett-dashboard-feature-shell": {
       "projectType": "library",
@@ -559,7 +539,8 @@
           },
           "outputs": ["{options.outputFile}"]
         }
-      }
+      },
+      "tags": ["product:ett", "scope:dashboard", "type:feature"]
     },
     "gf-test-util-matchers": {
       "projectType": "library",
@@ -585,7 +566,8 @@
           },
           "outputs": ["{options.outputFile}"]
         }
-      }
+      },
+      "tags": ["product:gf", "scope:shared", "type:test-util"]
     },
     "gf-test-util-staging": {
       "projectType": "library",
@@ -611,7 +593,8 @@
           },
           "outputs": ["{options.outputFile}"]
         }
-      }
+      },
+      "tags": ["product:gf", "scope:shared", "type:test-util"]
     },
     "gf-util-browser": {
       "projectType": "library",
@@ -637,7 +620,8 @@
           },
           "outputs": ["{options.outputFile}"]
         }
-      }
+      },
+      "tags": ["product:gf", "scope:shared", "type:util"]
     },
     "ui-watt": {
       "projectType": "library",
@@ -694,7 +678,8 @@
             }
           }
         }
-      }
+      },
+      "tags": ["product:watt", "type:ui"]
     },
     "workspace-tools": {
       "projectType": "tool",
