@@ -24,5 +24,10 @@ export function setUpAngularTestingLibrary(config: Partial<Config> = {}): void {
     // Assume SCAMs
     excludeComponentDeclaration: true,
     ...config,
+    dom: {
+      // Require semantic queries by default
+      throwSuggestions: true,
+      ...(config.dom ?? {}),
+    },
   });
 }
