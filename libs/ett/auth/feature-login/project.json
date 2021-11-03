@@ -1,0 +1,27 @@
+{
+  "projectType": "library",
+  "root": "libs/ett/auth/feature-login",
+  "sourceRoot": "libs/ett/auth/feature-login/src",
+  "prefix": "ett",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/ett/auth/feature-login"],
+      "options": {
+        "jestConfig": "libs/ett/auth/feature-login/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/ett/auth/feature-login/src/**/*.ts",
+          "libs/ett/auth/feature-login/src/**/*.html"
+        ]
+      },
+      "outputs": ["{options.outputFile}"]
+    }
+  },
+  "tags": ["product:ett", "scope:auth", "type:feature"]
+}

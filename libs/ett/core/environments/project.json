@@ -1,0 +1,27 @@
+{
+  "projectType": "library",
+  "root": "libs/ett/core/environments",
+  "sourceRoot": "libs/ett/core/environments/src",
+  "prefix": "ett",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/ett/core/environments"],
+      "options": {
+        "jestConfig": "libs/ett/core/environments/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/ett/core/environments/src/**/*.ts",
+          "libs/ett/core/environments/src/**/*.html"
+        ]
+      },
+      "outputs": ["{options.outputFile}"]
+    }
+  },
+  "tags": ["product:ett", "scope:core", "type:environments"]
+}

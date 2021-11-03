@@ -1,0 +1,117 @@
+{
+  "projectType": "application",
+  "root": "apps/ett-app",
+  "sourceRoot": "apps/ett-app/src",
+  "prefix": "ett",
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:browser",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "assets": ["apps/ett-app/src/favicon.ico", "apps/ett-app/src/assets"],
+        "baseHref": "/",
+        "commonChunk": false,
+        "index": "apps/ett-app/src/index.html",
+        "inlineStyleLanguage": "scss",
+        "main": "apps/ett-app/src/main.ts",
+        "outputPath": "dist/apps/ett-app",
+        "polyfills": "apps/ett-app/src/polyfills.ts",
+        "scripts": [],
+        "stylePreprocessorOptions": {
+          "includePaths": ["libs/ui-watt/src/lib/styles"]
+        },
+        "styles": ["apps/ett-app/src/styles.scss"],
+        "tsConfig": "apps/ett-app/tsconfig.app.json"
+      },
+      "configurations": {
+        "development": {
+          "buildOptimizer": false,
+          "extractLicenses": false,
+          "namedChunks": true,
+          "optimization": false,
+          "sourceMap": true,
+          "vendorChunk": true
+        },
+        "production": {
+          "budgets": [
+            {
+              "type": "allScript",
+              "maximumWarning": "500kb",
+              "maximumError": "1mb"
+            },
+            {
+              "type": "anyScript",
+              "maximumWarning": "500kb",
+              "maximumError": "1mb"
+            },
+            {
+              "type": "bundle",
+              "maximumWarning": "500kb",
+              "maximumError": "1mb"
+            },
+            {
+              "type": "initial",
+              "maximumWarning": "500kb",
+              "maximumError": "1mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "2kb",
+              "maximumError": "4kb"
+            }
+          ],
+          "fileReplacements": [
+            {
+              "replace": "libs/ett/core/environments/src/lib/environment.ts",
+              "with": "libs/ett/core/environments/src/lib/environment.prod.ts"
+            }
+          ],
+          "outputHashing": "all"
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "serve": {
+      "executor": "@angular-devkit/build-angular:dev-server",
+      "configurations": {
+        "development": {
+          "browserTarget": "ett-app:build:development",
+          "hmr": true,
+          "proxyConfig": "apps/ett-app/src/proxy.conf.json"
+        },
+        "e2e": {
+          "browserTarget": "ett-app:build:development"
+        },
+        "production": {
+          "browserTarget": "ett-app:build:production"
+        }
+      },
+      "defaultConfiguration": "development"
+    },
+    "extract-i18n": {
+      "executor": "@angular-devkit/build-angular:extract-i18n",
+      "options": {
+        "browserTarget": "ett-app:build"
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "apps/ett-app/src/**/*.ts",
+          "apps/ett-app/src/**/*.html"
+        ]
+      },
+      "outputs": ["{options.outputFile}"]
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/apps/ett-app"],
+      "options": {
+        "jestConfig": "apps/ett-app/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": ["product:ett", "type:app"]
+}
