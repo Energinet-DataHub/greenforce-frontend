@@ -37,7 +37,7 @@ namespace Energinet.DataHub.WebApi.Controllers
         /// <response code="200">Returns a metering point if found.</response>
         /// <response code="404">Returned if not found.</response>
         [HttpGet("GetByGsrn")]
-        public async Task<IActionResult> GetByGsrnAsync(string gsrnNumber)
+        public async Task<ActionResult<MeteringPointDto>> GetByGsrnAsync(string gsrnNumber)
         {
             var result = await _meteringPointClient.GetMeteringPointByGsrnAsync(gsrnNumber);
 
