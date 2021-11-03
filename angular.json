@@ -124,7 +124,8 @@
               "apps/dh-app/src/**/*.ts",
               "apps/dh-app/src/**/*.html"
             ]
-          }
+          },
+          "outputs": ["{options.outputFile}"]
         },
         "test": {
           "builder": "@nrwl/jest:jest",
@@ -156,7 +157,8 @@
               "libs/dh-app/core/feature-shell/src/**/*.ts",
               "libs/dh-app/core/feature-shell/src/**/*.html"
             ]
-          }
+          },
+          "outputs": ["{options.outputFile}"]
         }
       }
     },
@@ -191,7 +193,8 @@
           "builder": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": ["apps/dh-app-e2e/**/*.{js,ts}"]
-          }
+          },
+          "outputs": ["{options.outputFile}"]
         }
       }
     },
@@ -301,7 +304,8 @@
               "apps/ett-app/src/**/*.ts",
               "apps/ett-app/src/**/*.html"
             ]
-          }
+          },
+          "outputs": ["{options.outputFile}"]
         },
         "test": {
           "builder": "@nrwl/jest:jest",
@@ -344,7 +348,8 @@
           "builder": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": ["apps/ett-app-e2e/**/*.{js,ts}"]
-          }
+          },
+          "outputs": ["{options.outputFile}"]
         }
       }
     },
@@ -369,7 +374,8 @@
               "libs/ett/auth/data-access-api/src/**/*.ts",
               "libs/ett/auth/data-access-api/src/**/*.html"
             ]
-          }
+          },
+          "outputs": ["{options.outputFile}"]
         }
       }
     },
@@ -394,7 +400,8 @@
               "libs/ett/auth/data-access-security/src/**/*.ts",
               "libs/ett/auth/data-access-security/src/**/*.html"
             ]
-          }
+          },
+          "outputs": ["{options.outputFile}"]
         }
       }
     },
@@ -419,7 +426,8 @@
               "libs/ett/auth/feature-login/src/**/*.ts",
               "libs/ett/auth/feature-login/src/**/*.html"
             ]
-          }
+          },
+          "outputs": ["{options.outputFile}"]
         }
       }
     },
@@ -444,7 +452,8 @@
               "libs/ett/auth/feature-shell/src/**/*.ts",
               "libs/ett/auth/feature-shell/src/**/*.html"
             ]
-          }
+          },
+          "outputs": ["{options.outputFile}"]
         }
       }
     },
@@ -469,7 +478,8 @@
               "libs/ett/core/environments/src/**/*.ts",
               "libs/ett/core/environments/src/**/*.html"
             ]
-          }
+          },
+          "outputs": ["{options.outputFile}"]
         }
       }
     },
@@ -494,7 +504,8 @@
               "libs/ett/core/feature-shell/src/**/*.ts",
               "libs/ett/core/feature-shell/src/**/*.html"
             ]
-          }
+          },
+          "outputs": ["{options.outputFile}"]
         }
       }
     },
@@ -519,7 +530,8 @@
               "libs/ett/core/util-browser/src/**/*.ts",
               "libs/ett/core/util-browser/src/**/*.html"
             ]
-          }
+          },
+          "outputs": ["{options.outputFile}"]
         }
       }
     },
@@ -544,7 +556,8 @@
               "libs/ett/dashboard/feature-shell/src/**/*.ts",
               "libs/ett/dashboard/feature-shell/src/**/*.html"
             ]
-          }
+          },
+          "outputs": ["{options.outputFile}"]
         }
       }
     },
@@ -569,7 +582,8 @@
               "libs/gf/test-util-matchers/src/**/*.ts",
               "libs/gf/test-util-matchers/src/**/*.html"
             ]
-          }
+          },
+          "outputs": ["{options.outputFile}"]
         }
       }
     },
@@ -594,7 +608,8 @@
               "libs/gf/test-util-staging/src/**/*.ts",
               "libs/gf/test-util-staging/src/**/*.html"
             ]
-          }
+          },
+          "outputs": ["{options.outputFile}"]
         }
       }
     },
@@ -619,7 +634,8 @@
               "libs/gf/util-browser/src/**/*.ts",
               "libs/gf/util-browser/src/**/*.html"
             ]
-          }
+          },
+          "outputs": ["{options.outputFile}"]
         }
       }
     },
@@ -644,7 +660,8 @@
               "libs/ui-watt/src/**/*.ts",
               "libs/ui-watt/src/**/*.html"
             ]
-          }
+          },
+          "outputs": ["{options.outputFile}"]
         },
         "storybook": {
           "builder": "@nrwl/storybook:storybook",
@@ -691,7 +708,8 @@
           "builder": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": ["tools/**/*.ts"]
-          }
+          },
+          "outputs": ["{options.outputFile}"]
         },
         "test": {
           "builder": "@nrwl/jest:jest",
