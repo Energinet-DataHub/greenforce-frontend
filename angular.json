@@ -552,7 +552,7 @@
       "projectType": "library",
       "root": "libs/gf/test-util-matchers",
       "sourceRoot": "libs/gf/test-util-matchers/src",
-      "prefix": "energinet-datahub",
+      "prefix": "gf-test",
       "architect": {
         "test": {
           "builder": "@nrwl/jest:jest",
@@ -577,7 +577,7 @@
       "projectType": "library",
       "root": "libs/gf/test-util-staging",
       "sourceRoot": "libs/gf/test-util-staging/src",
-      "prefix": "ett-test",
+      "prefix": "gf-test",
       "architect": {
         "test": {
           "builder": "@nrwl/jest:jest",
