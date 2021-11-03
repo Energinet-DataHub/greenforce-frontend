@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.Threading;
 using System.Threading.Tasks;
 using Energinet.DataHub.MeteringPoints.Client.Abstractions;
 using Energinet.DataHub.MeteringPoints.Client.Abstractions.Models;
@@ -34,13 +35,14 @@ namespace Energinet.DataHub.WebApi.Controllers
         /// Get a metering point by GSRN number.
         /// </summary>
         /// <param name="gsrnNumber">Public identifier of a metering point.</param>
+        /// <param name="cancellationToken"><see cref="CancellationToken"/></param>
         /// <returns>A metering point if found.</returns>
         /// <response code="200">Returns a metering point if found.</response>
         /// <response code="404">Returned if not found.</response>
         [HttpGet("GetByGsrn")]
-        public async Task<ActionResult<MeteringPointDto>> GetByGsrnAsync(string gsrnNumber)
+        public async Task<ActionResult<MeteringPointDto>> GetByGsrnAsync(string gsrnNumber, CancellationToken cancellationToken)
         {
-            var result = await _meteringPointClient.GetMeteringPointByGsrnAsync(gsrnNumber);
+            var result = await _meteringPointClient.GetMeteringPointByGsrnAsync(gsrnNumber, cancellationToken);
 
             return result == null ? NotFound() : Ok(result);
         }
