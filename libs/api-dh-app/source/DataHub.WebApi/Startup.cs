@@ -46,12 +46,7 @@ namespace Energinet.DataHub.WebApi
             // Register the Swagger generator, defining 1 or more Swagger documents.
             services.AddSwaggerGen(config =>
             {
-                config.SwaggerDoc("v1", new OpenApiInfo
-                {
-                    Title = "DataHub BFF",
-                    Version = "1.0.0",
-                    Description = "Backend-for-frontend for DataHub",
-                });
+                config.SwaggerDoc("v1", new OpenApiInfo { Title = "DataHub BFF", Version = "1.0.0", Description = "Backend-for-frontend for DataHub", });
 
                 // Set the comments path for the Swagger JSON and UI.
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
@@ -93,7 +88,13 @@ namespace Energinet.DataHub.WebApi
         {
             var apiClientSettings = Configuration.GetSection("ApiClientSettings").Get<ApiClientSettings>();
 
-            services.AddMeteringPointClient(new Uri(apiClientSettings?.MeteringPointBaseUrl ?? "https://empty-url"));
+            AddMeteringPointClient(services, apiClientSettings);
+        }
+
+        private static void AddMeteringPointClient(IServiceCollection services, ApiClientSettings? apiClientSettings)
+        {
+            Uri meteringPointBaseUrl = Uri.TryCreate(apiClientSettings?.MeteringPointBaseUrl, UriKind.Absolute, out var url) ? url : new Uri("https://empty");
+            services.AddMeteringPointClient(meteringPointBaseUrl);
         }
     }
 }
