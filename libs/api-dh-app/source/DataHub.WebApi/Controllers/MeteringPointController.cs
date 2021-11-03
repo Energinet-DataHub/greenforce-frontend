@@ -14,6 +14,7 @@
 
 using System.Threading.Tasks;
 using Energinet.DataHub.MeteringPoints.Client.Abstractions;
+using Energinet.DataHub.MeteringPoints.Client.Abstractions.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Energinet.DataHub.WebApi.Controllers
