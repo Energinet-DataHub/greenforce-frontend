@@ -14,7 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { getTestBed, TestModuleMetadata } from '@angular/core/testing';
+import {
+  ComponentFixtureAutoDetect,
+  getTestBed,
+  TestModuleMetadata,
+} from '@angular/core/testing';
 import {
   BrowserDynamicTestingModule,
   platformBrowserDynamicTesting,
@@ -37,6 +41,11 @@ function patchTestbed(): void {
           GfAngularMaterialTestingModule,
           GfRxAngularTestingModule,
           ...(moduleDef.imports ?? []),
+        ],
+        providers: [
+          // Use automatic change detection in tests
+          { provide: ComponentFixtureAutoDetect, useValue: true },
+          ...(moduleDef.providers ?? []),
         ],
       });
     };
