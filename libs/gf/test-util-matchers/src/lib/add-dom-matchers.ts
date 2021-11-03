@@ -14,8 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-// Angular
-export * from './lib/add-ngmodule-matchers';
-
-// DOM
-export * from './lib/add-dom-matchers';
+export function addDomMatchers(): void {
+  beforeAll(async () => {
+    // Issue: node_modules/@types/testing-library__jest-dom/index.d.ts' is not a module.
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    await import('@testing-library/jest-dom');
+  });
+}

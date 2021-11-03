@@ -80,7 +80,7 @@ describe(EttAuthenticationLinkComponent.name, () => {
       });
 
       const error = await screen.findByText(/unavailable/i);
-      expect(error.textContent).toContain('Please try again later');
+      expect(error).toHaveTextContent(/please try again later/i);
     });
   });
 });
