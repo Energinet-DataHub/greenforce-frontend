@@ -16,9 +16,11 @@
  */
 import { enableProdMode } from '@angular/core';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+// `libs/dh-app` should be renamed to `libs/dh` to prevent this lint error
+// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
+import { environment } from '@energinet-datahub/dh-app/shared/environments';
 
 import { DataHubAppModule } from './app/datahub-app.module';
-import { environment } from './environments/environment';
 
 if (environment.production) {
   enableProdMode();

@@ -1,7 +1,19 @@
-import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
-import { TRANSLOCO_CONFIG, TRANSLOCO_LOADER, translocoConfig, TranslocoModule } from '@ngneat/transloco';
+import {
+  ModuleWithProviders,
+  NgModule,
+  Optional,
+  SkipSelf,
+} from '@angular/core';
+// `libs/dh-app` should be renamed to `libs/dh` to prevent this lint error
+// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
+import { environment } from '@energinet-datahub/dh-app/shared/environments';
+import {
+  TRANSLOCO_CONFIG,
+  TRANSLOCO_LOADER,
+  translocoConfig,
+  TranslocoModule,
+} from '@ngneat/transloco';
 
-import { environment } from '../environments/environment';
 import { DhTranslocoHttpLoader } from './dh-transloco-http-loader.service';
 
 @NgModule({
