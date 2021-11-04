@@ -19,6 +19,9 @@
       "@energinet-datahub/dh-app/core/feature-shell": [
         "libs/dh-app/core/feature-shell/src/index.ts"
       ],
+      "@energinet-datahub/dh-app/shared/assets": [
+        "libs/dh-app/shared/assets/src/index.ts"
+      ],
       "@energinet-datahub/dh-app/shared/environments": [
         "libs/dh-app/shared/environments/src/index.ts"
       ],

@@ -1,5 +1,5 @@
 module.exports = {
-  rootTranslationsPath: 'apps/dh-app/src/assets/i18n/',
+  rootTranslationsPath: 'libs/dh-app/shared/assets/src/assets/i18n/',
   langs: ['da', 'en'],
-  keysManager: {}
+  keysManager: {},
 };

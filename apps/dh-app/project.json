@@ -15,8 +15,16 @@
         "tsConfig": "apps/dh-app/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
         "assets": [
-          "apps/dh-app/src/favicon.ico",
-          "apps/dh-app/src/assets",
+          {
+            "glob": "favicon.ico",
+            "input": "libs/dh-app/shared/assets/src",
+            "output": ""
+          },
+          {
+            "glob": "**/*",
+            "input": "libs/dh-app/shared/assets/src/assets",
+            "output": "assets"
+          },
           {
             "input": "libs/ui-watt/src/assets",
             "glob": "**/*",
