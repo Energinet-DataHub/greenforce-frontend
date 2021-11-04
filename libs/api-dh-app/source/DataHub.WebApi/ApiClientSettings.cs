@@ -12,19 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.Net.Http;
-using Microsoft.AspNetCore.Mvc.Testing;
-using Xunit;
-
-namespace Energinet.DataHub.WebApi.Tests.Fixtures
+namespace Energinet.DataHub.WebApi
 {
-    public abstract class WebHostTestBase : IClassFixture<WebApplicationFactory<Startup>>
+    public class ApiClientSettings
     {
-        protected WebHostTestBase(WebApplicationFactory<Startup> factory)
-        {
-            HttpClient = factory.CreateClient();
-        }
-
-        protected HttpClient HttpClient { get; }
+        public string MeteringPointBaseUrl { get; set; } = string.Empty;
     }
 }
