@@ -17,7 +17,8 @@
 import { Config, configure } from '@testing-library/angular';
 
 /**
- * Configure Angular Testing Library to assume SCAMs.
+ * Configure Angular Testing Library to assume SCAMs and require semantic
+ * queries.
  */
 export function setUpAngularTestingLibrary(config: Partial<Config> = {}): void {
   configure({
