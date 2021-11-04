@@ -122,7 +122,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: ${{ env.app-name }}
-          path: ./dist/apps/${{ env.app-name }}/
+          path: ./dist/apps/ett/${{ env.app-name }}/
           if-no-files-found: error
 
   container:
@@ -138,7 +138,7 @@ jobs:
       - uses: actions/download-artifact@v2
         with:
           name: ${{ env.app-name }}
-          path: ./dist/apps/${{ env.app-name }}/
+          path: ./dist/apps/ett/${{ env.app-name }}/
 
       - name: Container image name
         id: image-name
