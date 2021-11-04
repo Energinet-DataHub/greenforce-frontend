@@ -1,0 +1,23 @@
+{
+  "version": 2,
+  "projects": {
+    "dh-app": "apps/dh-app",
+    "dh-app-core-feature-shell": "libs/dh-app/core/feature-shell",
+    "dh-app-e2e": "apps/dh-app-e2e",
+    "ett-app": "apps/ett-app",
+    "ett-app-e2e": "apps/ett-app-e2e",
+    "ett-auth-data-access-api": "libs/ett/auth/data-access-api",
+    "ett-auth-data-access-security": "libs/ett/auth/data-access-security",
+    "ett-auth-feature-login": "libs/ett/auth/feature-login",
+    "ett-auth-feature-shell": "libs/ett/auth/feature-shell",
+    "ett-core-environments": "libs/ett/core/environments",
+    "ett-core-feature-shell": "libs/ett/core/feature-shell",
+    "ett-core-util-browser": "libs/ett/core/util-browser",
+    "ett-dashboard-feature-shell": "libs/ett/dashboard/feature-shell",
+    "gf-test-util-matchers": "libs/gf/test-util-matchers",
+    "gf-test-util-staging": "libs/gf/test-util-staging",
+    "gf-util-browser": "libs/gf/util-browser",
+    "ui-watt": "libs/ui-watt",
+    "workspace-tools": "tools"
+  }
+}

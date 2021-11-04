@@ -26,8 +26,7 @@ import {
 import { ClassProvider, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { ettAuthRoutePath } from '@energinet-datahub/ett/auth/feature-shell';
-import { from, Observable, throwError } from 'rxjs';
-import { catchError, switchMapTo } from 'rxjs/operators';
+import { catchError, from, Observable, switchMapTo, throwError } from 'rxjs';
 
 /**
  * Redirects to the login page when the user is not authenticated or their
@@ -48,8 +47,10 @@ export class EttAuthenticationInterceptor implements HttpInterceptor {
         catchError(
           (error: unknown): Observable<never> =>
             this.#is401UnauthorizedResponse(error)
-              ? this.#navigateToLoginPage().pipe(switchMapTo(throwError(error)))
-              : throwError(error)
+              ? this.#navigateToLoginPage().pipe(
+                  switchMapTo(throwError(() => error))
+                )
+              : throwError(() => error)
         )
       );
   }

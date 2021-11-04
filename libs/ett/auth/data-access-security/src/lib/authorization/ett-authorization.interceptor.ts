@@ -25,8 +25,7 @@ import {
 } from '@angular/common/http';
 import { ClassProvider, Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { Observable, tap } from 'rxjs';
 
 /**
  * Displays an error when the user has insufficient permissions.

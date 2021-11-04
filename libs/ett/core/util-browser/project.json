@@ -1,0 +1,27 @@
+{
+  "projectType": "library",
+  "root": "libs/ett/core/util-browser",
+  "sourceRoot": "libs/ett/core/util-browser/src",
+  "prefix": "ett",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/ett/core/util-browser"],
+      "options": {
+        "jestConfig": "libs/ett/core/util-browser/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/ett/core/util-browser/src/**/*.ts",
+          "libs/ett/core/util-browser/src/**/*.html"
+        ]
+      },
+      "outputs": ["{options.outputFile}"]
+    }
+  },
+  "tags": ["product:ett", "scope:core", "type:util"]
+}

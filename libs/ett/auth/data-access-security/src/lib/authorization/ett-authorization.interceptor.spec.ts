@@ -11,6 +11,7 @@ import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { RouterTestingModule } from '@angular/router/testing';
+import { lastValueFrom } from 'rxjs';
 
 import {
   EttAuthorizationInterceptor,
@@ -24,7 +25,7 @@ class TestDefaultRouteComponent {}
 
 describe(EttAuthorizationInterceptor.name, () => {
   function sendRequest(): Promise<unknown> {
-    return http.get(testEndpoint).toPromise();
+    return lastValueFrom(http.get(testEndpoint));
   }
 
   beforeEach(() => {
