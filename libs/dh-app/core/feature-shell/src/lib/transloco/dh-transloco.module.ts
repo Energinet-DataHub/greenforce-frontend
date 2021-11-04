@@ -24,6 +24,13 @@ import { DhTranslocoHttpLoader } from './dh-transloco-http-loader.service';
       useValue: translocoConfig({
         availableLangs: ['da', 'en'],
         defaultLang: 'da',
+        fallbackLang: ['da', 'en'],
+        flatten: {
+          aot: environment.production,
+        },
+        missingHandler: {
+          useFallbackTranslation: true,
+        },
         // Remove this option if your application doesn't support changing language in runtime.
         reRenderOnLangChange: true,
         prodMode: environment.production,
