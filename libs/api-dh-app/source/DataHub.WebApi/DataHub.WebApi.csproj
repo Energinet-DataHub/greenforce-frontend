@@ -30,6 +30,8 @@ limitations under the License.
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Energinet.DataHub.MeteringPoints.Client" Version="0.0.6" />
+    <PackageReference Include="Energinet.DataHub.MeteringPoints.Client.Abstractions" Version="0.0.6" />
     <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.3">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

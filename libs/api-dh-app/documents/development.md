@@ -19,9 +19,11 @@ It can also:
 
 This workflow verifies the ASP.NET Core Web API by building and running all tests.
 
-## Setup local envioment
+## Setup local environment
 
-> Describe necessary setup here.
+Add appsettings.Development.json with valid settings:
+
+ApiClientSettings > MeteringPointBaseUrl
 
 ## .nxignore / .prettierignore
 
