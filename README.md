@@ -22,16 +22,27 @@ Energinet-DataHub/greenforce-frontend
 |  └── ett                  # Energy Track and Trace (product)
 |  |  ├── app-ett           # - Frontend for Energy Track and Trace
 |  |  └── e2e-ett           # - E2E tests for Energy Track and Trace
+├── build                   # Contains infrastructure of Data hub and the design system
+├── dist                    # Contains output files when building artifacts (for distribution)
+├── docs                    # Contains general documentation
 ├── dist                    # Contains output files when building artifacts (for distribution)
 |  ├── apps                 #
 |  └── libs                 #
-├── libs                    # Contains source code for libraries. Libraries are grouped by a product root folder, and type prefixed sub-folder(s).
-|  ├── dh                   # - Libraries for Data Hub (product)
-|  ├── gf                   # - Shared libraries for GreenForce (ART)
-|  ├── ett                  # - Libraries for Energy Track and Trace (product)
-|  └── ui-watt              # - Actual implementation of the design system
+├── infrastructure          # Contains infrastructure of Energy Track and Trace
+├── libs                    # Contains source code for libraries. See "folder structure - library" for more information
 └── tools                   # Contains various tools
-   └── executors            # - Executors perform actions on your code. This can include building, linting, testing, serving. Example: "add license"
+   ├── executors            # - Executors perform actions on your code. This can include building, linting, testing, serving. 
+   └── generators           # - Generators provide a way to automate tasks you regularly perform as part of your development workflow. This can include: scafolding
+```
+
+### Folder Structure - library
+
+```|
+...
+└── libs                                     # Contains source code for libraries
+   └── <product>                             # All libraries are grouped by a product root folder       
+      └── <domain>                           # A product can contain serveral domains ex. auth, core, etc.  
+         └── <library type>-<library name>   # A domain can contain serveral libraries which are prefixed by type
 ```
 
 ## App Types
