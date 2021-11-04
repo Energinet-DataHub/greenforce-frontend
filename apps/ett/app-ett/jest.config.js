@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 module.exports = {
-  displayName: 'dh-app',
+  displayName: 'ett-app',
   preset: '../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   globals: {
@@ -24,7 +24,7 @@ module.exports = {
       stringifyContentPathRegex: '\\.(html|svg)$',
     },
   },
-  coverageDirectory: '../../coverage/apps/dh-app',
+  coverageDirectory: '../../coverage/apps/ett/app-ett',
   transform: {
     '^.+\\.(ts|js|html)$': 'jest-preset-angular',
   },

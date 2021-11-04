@@ -37,30 +37,30 @@
   "projects": {
     "dh-app": {
       "projectType": "application",
-      "root": "apps/dh-app",
-      "sourceRoot": "apps/dh-app/src",
+      "root": "apps/dh/app-dh",
+      "sourceRoot": "apps/dh/app-dh/src",
       "prefix": "dh",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "outputs": ["{options.outputPath}"],
           "options": {
-            "outputPath": "dist/apps/dh-app",
-            "index": "apps/dh-app/src/index.html",
-            "main": "apps/dh-app/src/main.ts",
-            "polyfills": "apps/dh-app/src/polyfills.ts",
-            "tsConfig": "apps/dh-app/tsconfig.app.json",
+            "outputPath": "dist/apps/dh/app-dh",
+            "index": "apps/dh/app-dh/src/index.html",
+            "main": "apps/dh/app-dh/src/main.ts",
+            "polyfills": "apps/dh/app-dh/src/polyfills.ts",
+            "tsConfig": "apps/dh/app-dh/tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "apps/dh-app/src/favicon.ico",
-              "apps/dh-app/src/assets",
+              "apps/dh/app-dh/src/favicon.ico",
+              "apps/dh/app-dh/src/assets",
               {
                 "input": "libs/ui-watt/src/assets",
                 "glob": "**/*",
                 "output": "assets/ui-watt"
               }
             ],
-            "styles": ["apps/dh-app/src/styles.scss"],
+            "styles": ["apps/dh/app-dh/src/styles.scss"],
             "stylePreprocessorOptions": {
               "includePaths": ["libs/ui-watt/src/lib/styles"]
             },
@@ -82,8 +82,8 @@
               ],
               "fileReplacements": [
                 {
-                  "replace": "apps/dh-app/src/environments/environment.ts",
-                  "with": "apps/dh-app/src/environments/environment.prod.ts"
+                  "replace": "apps/dh/app-dh/src/environments/environment.ts",
+                  "with": "apps/dh/app-dh/src/environments/environment.prod.ts"
                 }
               ],
               "outputHashing": "all"
@@ -121,16 +121,16 @@
           "builder": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": [
-              "apps/dh-app/src/**/*.ts",
-              "apps/dh-app/src/**/*.html"
+              "apps/dh/app-dh/src/**/*.ts",
+              "apps/dh/app-dh/src/**/*.html"
             ]
           }
         },
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": ["coverage/apps/dh-app"],
+          "outputs": ["coverage/apps/dh/app-dh"],
           "options": {
-            "jestConfig": "apps/dh-app/jest.config.js",
+            "jestConfig": "apps/dh/app-dh/jest.config.js",
             "passWithNoTests": true
           }
         }
@@ -161,24 +161,24 @@
       }
     },
     "dh-app-e2e": {
-      "root": "apps/dh-app-e2e",
-      "sourceRoot": "apps/dh-app-e2e/src",
+      "root": "apps/dh/e2e-dh",
+      "sourceRoot": "apps/dh/e2e-dh/src",
       "projectType": "application",
       "architect": {
         "e2e": {
           "builder": "@nrwl/cypress:cypress",
           "options": {
-            "cypressConfig": "apps/dh-app-e2e/cypress.json",
-            "tsConfig": "apps/dh-app-e2e/tsconfig.e2e.json",
+            "cypressConfig": "apps/dh/e2e-dh/cypress.json",
+            "tsConfig": "apps/dh/e2e-dh/tsconfig.e2e.json",
             "devServerTarget": "dh-app:serve:development"
           },
           "configurations": {
             "ci": {
-              "cypressConfig": "apps/dh-app-e2e/cypress.ci.json",
+              "cypressConfig": "apps/dh/e2e-dh/cypress.ci.json",
               "headless": true
             },
             "ci:production": {
-              "cypressConfig": "apps/dh-app-e2e/cypress.ci.json",
+              "cypressConfig": "apps/dh/e2e-dh/cypress.ci.json",
               "devServerTarget": "dh-app:serve:production",
               "headless": true
             },
@@ -190,15 +190,15 @@
         "lint": {
           "builder": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": ["apps/dh-app-e2e/**/*.{js,ts}"]
+            "lintFilePatterns": ["apps/dh/e2e-dh/**/*.{js,ts}"]
           }
         }
       }
     },
     "ett-app": {
       "projectType": "application",
-      "root": "apps/ett-app",
-      "sourceRoot": "apps/ett-app/src",
+      "root": "apps/ett/app-ett",
+      "sourceRoot": "apps/ett/app-ett/src",
       "prefix": "ett",
       "architect": {
         "build": {
@@ -206,22 +206,22 @@
           "outputs": ["{options.outputPath}"],
           "options": {
             "assets": [
-              "apps/ett-app/src/favicon.ico",
-              "apps/ett-app/src/assets"
+              "apps/ett/app-ett/src/favicon.ico",
+              "apps/ett/app-ett/src/assets"
             ],
             "baseHref": "/",
             "commonChunk": false,
-            "index": "apps/ett-app/src/index.html",
+            "index": "apps/ett/app-ett/src/index.html",
             "inlineStyleLanguage": "scss",
-            "main": "apps/ett-app/src/main.ts",
-            "outputPath": "dist/apps/ett-app",
-            "polyfills": "apps/ett-app/src/polyfills.ts",
+            "main": "apps/ett/app-ett/src/main.ts",
+            "outputPath": "dist/apps/ett/app-ett",
+            "polyfills": "apps/ett/app-ett/src/polyfills.ts",
             "scripts": [],
             "stylePreprocessorOptions": {
               "includePaths": ["libs/ui-watt/src/lib/styles"]
             },
-            "styles": ["apps/ett-app/src/styles.scss"],
-            "tsConfig": "apps/ett-app/tsconfig.app.json"
+            "styles": ["apps/ett/app-ett/src/styles.scss"],
+            "tsConfig": "apps/ett/app-ett/tsconfig.app.json"
           },
           "configurations": {
             "development": {
@@ -277,7 +277,7 @@
             "development": {
               "browserTarget": "ett-app:build:development",
               "hmr": true,
-              "proxyConfig": "apps/ett-app/src/proxy.conf.json"
+              "proxyConfig": "apps/ett/app-ett/src/proxy.conf.json"
             },
             "e2e": {
               "browserTarget": "ett-app:build:development"
@@ -298,40 +298,40 @@
           "builder": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": [
-              "apps/ett-app/src/**/*.ts",
-              "apps/ett-app/src/**/*.html"
+              "apps/ett/app-ett/src/**/*.ts",
+              "apps/ett/app-ett/src/**/*.html"
             ]
           }
         },
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": ["coverage/apps/ett-app"],
+          "outputs": ["coverage/apps/ett/app-ett"],
           "options": {
-            "jestConfig": "apps/ett-app/jest.config.js",
+            "jestConfig": "apps/ett/app-ett/jest.config.js",
             "passWithNoTests": true
           }
         }
       }
     },
     "ett-app-e2e": {
-      "root": "apps/ett-app-e2e",
-      "sourceRoot": "apps/ett-app-e2e/src",
+      "root": "apps/ett/e2e-ett",
+      "sourceRoot": "apps/ett/e2e-ett/src",
       "projectType": "application",
       "architect": {
         "e2e": {
           "builder": "@nrwl/cypress:cypress",
           "options": {
-            "cypressConfig": "apps/ett-app-e2e/cypress.json",
-            "tsConfig": "apps/ett-app-e2e/tsconfig.e2e.json",
+            "cypressConfig": "apps/ett/e2e-ett/cypress.json",
+            "tsConfig": "apps/ett/e2e-ett/tsconfig.e2e.json",
             "devServerTarget": "ett-app:serve:e2e"
           },
           "configurations": {
             "ci": {
-              "cypressConfig": "apps/ett-app-e2e/cypress.ci.json",
+              "cypressConfig": "apps/ett/e2e-ett/cypress.ci.json",
               "headless": true
             },
             "ci:production": {
-              "cypressConfig": "apps/ett-app-e2e/cypress.ci.json",
+              "cypressConfig": "apps/ett/e2e-ett/cypress.ci.json",
               "devServerTarget": "ett-app:serve:production",
               "headless": true
             },
@@ -343,7 +343,7 @@
         "lint": {
           "builder": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": ["apps/ett-app-e2e/**/*.{js,ts}"]
+            "lintFilePatterns": ["apps/ett/e2e-ett/**/*.{js,ts}"]
           }
         }
       }
