@@ -14,15 +14,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 
+import { WattButtonModule } from '../button/watt-button.module';
+import { WattIconModule } from '../../foundations/icon';
 import { WattShellComponent } from './shell.component';
 
 @NgModule({
   declarations: [WattShellComponent],
   exports: [WattShellComponent],
-  imports: [MatSidenavModule, MatToolbarModule],
+  imports: [
+    CommonModule,
+    MatSidenavModule,
+    MatToolbarModule,
+    WattButtonModule,
+    WattIconModule,
+  ],
 })
 export class WattShellModule {}
