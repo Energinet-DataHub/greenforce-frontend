@@ -16,6 +16,6 @@ namespace Energinet.DataHub.WebApi
 {
     public class ApiClientSettings
     {
-        public string? MeteringPointBaseUrl { get; set; }
+        public string MeteringPointBaseUrl { get; set; } = string.Empty;
     }
 }
