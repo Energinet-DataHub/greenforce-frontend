@@ -2190,6 +2190,26 @@
     call-me-maybe "^1.0.1"
     glob-to-regexp "^0.3.0"
 
+"@ngneat/transloco-utils@^3.0.1":
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/@ngneat/transloco-utils/-/transloco-utils-3.0.2.tgz#43470e314d4815eab82a5247ff3123992d2fec3c"
+  integrity sha512-NItuBldCJPfQ1FtDcbTQUGbOtfYjdoNC/IIV+M0jeUqzeKCZCYh5ajwTYhLXSXhMhG4nH4QNWCADOKwOAOVuRg==
+  dependencies:
+    cosmiconfig "^7.0.0"
+    tslib "^2.3.0"
+
+"@ngneat/transloco@^3.0.7":
+  version "3.0.7"
+  resolved "https://registry.yarnpkg.com/@ngneat/transloco/-/transloco-3.0.7.tgz#8be780e04f7784f567fb651b0fd24ebee34f83e7"
+  integrity sha512-q9l4GrgOz0ispF64/CXzKzwn0HlqmbS033wQI+WrvVFeNjY5puca0AYQQHB4cSIWwkG9ex3q8IXCOD9dC1a4bA==
+  dependencies:
+    "@ngneat/transloco-utils" "^3.0.1"
+    flat "5.0.2"
+    lodash.kebabcase "^4.1.1"
+    ora "^5.4.1"
+    replace-in-file "^6.2.0"
+    tslib "^2.2.0"
+
 "@ngrx/component-store@~12.5.1":
   version "12.5.1"
   resolved "https://registry.yarnpkg.com/@ngrx/component-store/-/component-store-12.5.1.tgz#768b6c427e163a48dff5cefef12f1c7a1cb0c6ed"
@@ -8469,7 +8489,7 @@ flat-cache@^3.0.4:
     flatted "^3.1.0"
     rimraf "^3.0.2"
 
-flat@^5.0.2:
+flat@5.0.2, flat@^5.0.2:
   version "5.0.2"
   resolved "https://registry.yarnpkg.com/flat/-/flat-5.0.2.tgz#8ca6fe332069ffa9d324c327198c598259ceb241"
   integrity sha512-b6suED+5/3rTpUBdG1gupIl8MPFCAMA0QXwmljLhvCUKcUvdE4gWky9zpuGCcXHOsz4J9wPGNWq6OKpmIzz3hQ==
@@ -11274,6 +11294,11 @@ lodash.debounce@^4.0.8:
   resolved "https://registry.yarnpkg.com/lodash.debounce/-/lodash.debounce-4.0.8.tgz#82d79bff30a67c4005ffd5e2515300ad9ca4d7af"
   integrity sha1-gteb/zCmfEAF/9XiUVMArZyk168=
 
+lodash.kebabcase@^4.1.1:
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/lodash.kebabcase/-/lodash.kebabcase-4.1.1.tgz#8489b1cb0d29ff88195cceca448ff6d6cc295c36"
+  integrity sha1-hImxyw0p/4gZXM7KRI/21swpXDY=
+
 lodash.memoize@4.x, lodash.memoize@^4.1.2:
   version "4.1.2"
   resolved "https://registry.yarnpkg.com/lodash.memoize/-/lodash.memoize-4.1.2.tgz#bcc6c49a42a2840ed997f323eada5ecd182e0bfe"
@@ -12477,7 +12502,7 @@ optionator@^0.9.1:
     type-check "^0.4.0"
     word-wrap "^1.2.3"
 
-ora@5.4.1, ora@^5.1.0, ora@^5.3.0:
+ora@5.4.1, ora@^5.1.0, ora@^5.3.0, ora@^5.4.1:
   version "5.4.1"
   resolved "https://registry.yarnpkg.com/ora/-/ora-5.4.1.tgz#1b2678426af4ac4a509008e5e4ac9e9959db9e18"
   integrity sha512-5b6Y85tPxZZ7QytO+BQzysW31HJku27cRIlkbAXaNx+BdcVi+LlRFmVXzeF6a7JCwJpyw5c4b+YSVImQIrBpuQ==
@@ -14443,6 +14468,15 @@ repeat-string@^1.5.4, repeat-string@^1.6.1:
   version "1.6.1"
   resolved "https://registry.yarnpkg.com/repeat-string/-/repeat-string-1.6.1.tgz#8dcae470e1c88abc2d600fff4a776286da75e637"
   integrity sha1-jcrkcOHIirwtYA//Sndihtp15jc=
+
+replace-in-file@^6.2.0:
+  version "6.3.2"
+  resolved "https://registry.yarnpkg.com/replace-in-file/-/replace-in-file-6.3.2.tgz#0f19835137177c89932f45df319f3539a019484f"
+  integrity sha512-Dbt5pXKvFVPL3WAaEB3ZX+95yP0CeAtIPJDwYzHbPP5EAHn+0UoegH/Wg3HKflU9dYBH8UnBC2NvY3P+9EZtTg==
+  dependencies:
+    chalk "^4.1.2"
+    glob "^7.2.0"
+    yargs "^17.2.1"
 
 request-progress@^3.0.0:
   version "3.0.0"
@@ -17384,7 +17418,7 @@ yargs@^16.2.0:
     y18n "^5.0.5"
     yargs-parser "^20.2.2"
 
-yargs@^17.0.0:
+yargs@^17.0.0, yargs@^17.2.1:
   version "17.2.1"
   resolved "https://registry.yarnpkg.com/yargs/-/yargs-17.2.1.tgz#e2c95b9796a0e1f7f3bf4427863b42e0418191ea"
   integrity sha512-XfR8du6ua4K6uLGm5S6fA+FIJom/MdJcFNVY8geLlp2v8GYbOXD4EB1tPNZsRn4vBzKGMgb5DRZMeWuFc2GO8Q==
