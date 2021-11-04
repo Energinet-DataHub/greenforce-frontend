@@ -22,6 +22,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Energinet.DataHub.WebApi
 {
@@ -46,7 +47,13 @@ namespace Energinet.DataHub.WebApi
             // Register the Swagger generator, defining 1 or more Swagger documents.
             services.AddSwaggerGen(config =>
             {
-                config.SwaggerDoc("v1", new OpenApiInfo { Title = "DataHub BFF", Version = "1.0.0", Description = "Backend-for-frontend for DataHub", });
+                config.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "DataHub BFF",
+                    Version = "1.0.0",
+                    Description = "Backend-for-frontend for DataHub",
+                });
+
                 config.SupportNonNullableReferenceTypes();
 
                 // Set the comments path for the Swagger JSON and UI.
@@ -69,7 +76,8 @@ namespace Energinet.DataHub.WebApi
                 app.UseSwagger();
 
                 // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.)
-                app.UseSwaggerUI(options => options.SwaggerEndpoint("/swagger/v1/swagger.json", "DataHub.WebApi v1"));
+                app.UseSwaggerUI(options =>
+                    options.SwaggerEndpoint("/swagger/v1/swagger.json", "DataHub.WebApi v1"));
             }
 
             app.UseHttpsRedirection();
