@@ -1,0 +1,8 @@
+{
+  "projectType": "library",
+  "root": "libs/dh-app/shared/assets",
+  "sourceRoot": "libs/dh-app/shared/assets/src",
+  "prefix": "dh",
+  "targets": {},
+  "tags": ["product:dh", "scope:shared", "type:assets"]
+}
