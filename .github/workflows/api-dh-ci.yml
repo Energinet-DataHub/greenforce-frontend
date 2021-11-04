@@ -20,7 +20,7 @@ on:
       - main
     paths:
       - apps/dh/api-dh/**
-      - .github/workflows/api-dh-app-ci.yml
+      - .github/workflows/api-dh-ci.yml
   workflow_dispatch: {}
 
 jobs:

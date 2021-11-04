@@ -15,7 +15,7 @@ It can also:
 - Automatically add a license header to files for which it is missing, but will ignore file patterns specified in the `.nxignore` file.
 - Format files, but will ignore folders/file patterns specified in the `.prettierignore` file.
 
-### `api-dh-app-ci.yml`
+### `api-dh-ci.yml`
 
 This workflow verifies the ASP.NET Core Web API by building and running all tests.
 
