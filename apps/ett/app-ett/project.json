@@ -8,7 +8,10 @@
       "executor": "@angular-devkit/build-angular:browser",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "assets": ["apps/ett/app-ett/src/favicon.ico", "apps/ett/app-ett/src/assets"],
+        "assets": [
+          "apps/ett/app-ett/src/favicon.ico",
+          "apps/ett/app-ett/src/assets"
+        ],
         "baseHref": "/",
         "commonChunk": false,
         "index": "apps/ett/app-ett/src/index.html",
