@@ -12,6 +12,7 @@ import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ettAuthRoutePath } from '@energinet-datahub/ett/auth/feature-shell';
+import { lastValueFrom } from 'rxjs';
 
 import {
   EttAuthenticationInterceptor,
@@ -25,7 +26,7 @@ class TestAuthComponent {}
 
 describe(EttAuthenticationInterceptor.name, () => {
   function sendRequest(): Promise<unknown> {
-    return http.get(testEndpoint).toPromise();
+    return lastValueFrom(http.get(testEndpoint));
   }
 
   beforeEach(() => {

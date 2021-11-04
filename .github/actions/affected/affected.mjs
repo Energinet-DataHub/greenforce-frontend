@@ -65,7 +65,7 @@ function validateProjectParameter(projectName) {
     process.exit(1);
   }
 
-  const workspacePath = path.resolve(__dirname, '../../../angular.json');
+  const workspacePath = path.resolve(__dirname, '../../../workspace.json');
   const workspace = JSON.parse(readFileSync(workspacePath).toString());
   const isProjectFound = workspace.projects[projectName] !== undefined;
 

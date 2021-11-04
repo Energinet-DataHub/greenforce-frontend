@@ -1,0 +1,103 @@
+{
+  "projectType": "application",
+  "root": "apps/dh/app-dh",
+  "sourceRoot": "apps/dh/app-dh/src",
+  "prefix": "dh",
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:browser",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/dh/app-dh",
+        "index": "apps/dh/app-dh/src/index.html",
+        "main": "apps/dh/app-dh/src/main.ts",
+        "polyfills": "apps/dh/app-dh/src/polyfills.ts",
+        "tsConfig": "apps/dh/app-dh/tsconfig.app.json",
+        "inlineStyleLanguage": "scss",
+        "assets": [
+          "apps/dh/app-dh/src/favicon.ico",
+          "apps/dh/app-dh/src/assets",
+          {
+            "input": "libs/ui-watt/src/assets",
+            "glob": "**/*",
+            "output": "assets/ui-watt"
+          }
+        ],
+        "styles": ["apps/dh/app-dh/src/styles.scss"],
+        "stylePreprocessorOptions": {
+          "includePaths": ["libs/ui-watt/src/lib/styles"]
+        },
+        "scripts": []
+      },
+      "configurations": {
+        "production": {
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "500kb",
+              "maximumError": "1mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "2kb",
+              "maximumError": "4kb"
+            }
+          ],
+          "fileReplacements": [
+            {
+              "replace": "apps/dh/app-dh/src/environments/environment.ts",
+              "with": "apps/dh/app-dh/src/environments/environment.prod.ts"
+            }
+          ],
+          "outputHashing": "all"
+        },
+        "development": {
+          "buildOptimizer": false,
+          "optimization": false,
+          "vendorChunk": true,
+          "extractLicenses": false,
+          "sourceMap": true,
+          "namedChunks": true
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "serve": {
+      "executor": "@angular-devkit/build-angular:dev-server",
+      "configurations": {
+        "production": {
+          "browserTarget": "app-dh:build:production"
+        },
+        "development": {
+          "browserTarget": "app-dh:build:development"
+        }
+      },
+      "defaultConfiguration": "development"
+    },
+    "extract-i18n": {
+      "executor": "@angular-devkit/build-angular:extract-i18n",
+      "options": {
+        "browserTarget": "app-dh:build"
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "apps/dh/app-dh/src/**/*.ts",
+          "apps/dh/app-dh/src/**/*.html"
+        ]
+      },
+      "outputs": ["{options.outputFile}"]
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/apps/dh/app-dh"],
+      "options": {
+        "jestConfig": "apps/dh/app-dh/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": ["product:dh", "type:app"]
+}

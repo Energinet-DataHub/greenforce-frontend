@@ -1,0 +1,27 @@
+{
+  "projectType": "library",
+  "root": "libs/gf/test-util-staging",
+  "sourceRoot": "libs/gf/test-util-staging/src",
+  "prefix": "gf-test",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/gf/test-util-staging"],
+      "options": {
+        "jestConfig": "libs/gf/test-util-staging/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/gf/test-util-staging/src/**/*.ts",
+          "libs/gf/test-util-staging/src/**/*.html"
+        ]
+      },
+      "outputs": ["{options.outputFile}"]
+    }
+  },
+  "tags": ["product:gf", "scope:shared", "type:test-util"]
+}

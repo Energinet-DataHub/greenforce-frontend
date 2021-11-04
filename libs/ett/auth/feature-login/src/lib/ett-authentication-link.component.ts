@@ -24,8 +24,7 @@ import { AuthOidcHttp } from '@energinet-datahub/ett/auth/data-access-api';
 import { AbsoluteUrlGenerator } from '@energinet-datahub/ett/core/util-browser';
 import { ettDashboardRoutePath } from '@energinet-datahub/ett/dashboard/feature-shell';
 import { LetModule } from '@rx-angular/template';
-import { Observable, of } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { catchError, map, Observable, of } from 'rxjs';
 
 const selector = 'ett-authentication-link';
 

@@ -1,0 +1,39 @@
+{
+  "root": "apps/dh/e2e-dh",
+  "sourceRoot": "apps/dh/e2e-dh/src",
+  "projectType": "application",
+  "targets": {
+    "e2e": {
+      "executor": "@nrwl/cypress:cypress",
+      "options": {
+        "cypressConfig": "apps/dh/e2e-dh/cypress.json",
+        "tsConfig": "apps/dh/e2e-dh/tsconfig.e2e.json",
+        "devServerTarget": "app-dh:serve:development",
+        "headed": true
+      },
+      "configurations": {
+        "ci": {
+          "cypressConfig": "apps/dh/e2e-dh/cypress.ci.json",
+          "headed": false
+        },
+        "ci:production": {
+          "cypressConfig": "apps/dh/e2e-dh/cypress.ci.json",
+          "devServerTarget": "app-dh:serve:production",
+          "headed": false
+        },
+        "production": {
+          "devServerTarget": "app-dh:serve:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": ["apps/dh/e2e-dh/**/*.{js,ts}"]
+      },
+      "outputs": ["{options.outputFile}"]
+    }
+  },
+  "tags": ["product:dh", "type:e2e"],
+  "implicitDependencies": ["app-dh"]
+}
