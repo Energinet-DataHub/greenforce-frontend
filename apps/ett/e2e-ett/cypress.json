@@ -7,6 +7,6 @@
   "supportFile": "./src/support/index.ts",
   "video": true,
   "videosFolder": "../../dist/cypress/apps/ett/e2e-ett/videos",
-  "screenshotsFolder": "../../dist/cypress/apps/ett/e2e-ett/screenshots",
+  "screenshotsFolder": "../../../dist/cypress/apps/ett/e2e-ett/screenshots",
   "chromeWebSecurity": false
 }

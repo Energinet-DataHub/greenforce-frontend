@@ -5,7 +5,7 @@
   "integrationFolder": "./src/integration",
   "modifyObstructiveCode": false,
   "pluginsFile": false,
-  "screenshotsFolder": "../../dist/cypress/apps/ett/e2e-ett/screenshots",
+  "screenshotsFolder": "../../../dist/cypress/apps/ett/e2e-ett/screenshots",
   "supportFile": "./src/support/index.ts",
   "video": false
 }
