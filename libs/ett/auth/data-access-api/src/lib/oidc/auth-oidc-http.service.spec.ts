@@ -19,6 +19,7 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
+import { lastValueFrom } from 'rxjs';
 
 import { AuthOidcHttp, AuthOidcLoginResponse } from './auth-oidc-http.service';
 import { AuthOidcQueryParameterName } from './auth-oidc-query-parameter-name';
@@ -46,7 +47,7 @@ describe(AuthOidcHttp.name, () => {
     };
     const expectedReturnUrl = 'http://example.com/app';
 
-    client.login(expectedReturnUrl).toPromise();
+    lastValueFrom(client.login(expectedReturnUrl));
     const response = server.expectOne(
       (request) => request.url === '/api/oidc/login' && request.method === 'GET'
     );

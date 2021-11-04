@@ -74,7 +74,7 @@ describe(EttAuthenticationLinkComponent.name, () => {
         imports: [EttAuthenticationLinkScam],
         providers: [
           MockProvider(AuthOidcHttp, {
-            login: () => throwError(new Error('Dummy error message')),
+            login: () => throwError(() => new Error('Dummy error message')),
           }),
         ],
       });
