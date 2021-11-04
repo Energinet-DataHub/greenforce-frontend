@@ -352,7 +352,7 @@
       "projectType": "library",
       "root": "libs/ett/auth/data-access-api",
       "sourceRoot": "libs/ett/auth/data-access-api/src",
-      "prefix": "energinet-datahub",
+      "prefix": "ett",
       "architect": {
         "test": {
           "builder": "@nrwl/jest:jest",
@@ -548,17 +548,17 @@
         }
       }
     },
-    "ett-shared-test-util-staging": {
+    "gf-test-util-matchers": {
       "projectType": "library",
-      "root": "libs/ett/shared/test-util-staging",
-      "sourceRoot": "libs/ett/shared/test-util-staging/src",
-      "prefix": "ett-test",
+      "root": "libs/gf/test-util-matchers",
+      "sourceRoot": "libs/gf/test-util-matchers/src",
+      "prefix": "gf-test",
       "architect": {
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/ett/shared/test-util-staging"],
+          "outputs": ["coverage/libs/gf/test-util-matchers"],
           "options": {
-            "jestConfig": "libs/ett/shared/test-util-staging/jest.config.js",
+            "jestConfig": "libs/gf/test-util-matchers/jest.config.js",
             "passWithNoTests": true
           }
         },
@@ -566,8 +566,58 @@
           "builder": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": [
-              "libs/ett/shared/test-util-staging/src/**/*.ts",
-              "libs/ett/shared/test-util-staging/src/**/*.html"
+              "libs/gf/test-util-matchers/src/**/*.ts",
+              "libs/gf/test-util-matchers/src/**/*.html"
+            ]
+          }
+        }
+      }
+    },
+    "gf-test-util-staging": {
+      "projectType": "library",
+      "root": "libs/gf/test-util-staging",
+      "sourceRoot": "libs/gf/test-util-staging/src",
+      "prefix": "gf-test",
+      "architect": {
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/gf/test-util-staging"],
+          "options": {
+            "jestConfig": "libs/gf/test-util-staging/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/gf/test-util-staging/src/**/*.ts",
+              "libs/gf/test-util-staging/src/**/*.html"
+            ]
+          }
+        }
+      }
+    },
+    "gf-util-browser": {
+      "projectType": "library",
+      "root": "libs/gf/util-browser",
+      "sourceRoot": "libs/gf/util-browser/src",
+      "prefix": "gf",
+      "architect": {
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/gf/util-browser"],
+          "options": {
+            "jestConfig": "libs/gf/util-browser/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/gf/util-browser/src/**/*.ts",
+              "libs/gf/util-browser/src/**/*.html"
             ]
           }
         }

@@ -14,37 +14,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { By } from '@angular/platform-browser';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterOutlet } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
+import { render } from '@testing-library/angular';
 
 import { DataHubAppComponent } from './datahub-app.component';
 import { DataHubAppModule } from './datahub-app.module';
 
 describe(DataHubAppComponent.name, () => {
-  let fixture: ComponentFixture<DataHubAppComponent>;
+  it('has a router outlet', async () => {
+    const view = await render(DataHubAppComponent, {
+      imports: [DataHubAppModule],
+    });
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [DataHubAppModule, NoopAnimationsModule, RouterTestingModule],
-      // https://github.com/thymikee/jest-preset-angular/issues/83
-      providers: [{ provide: MATERIAL_SANITY_CHECKS, useValue: false }],
-    }).compileComponents();
-  });
+    const routerOutlet = view.fixture.debugElement
+      .query(By.directive(RouterOutlet))
+      ?.injector.get(RouterOutlet);
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(DataHubAppComponent);
-    fixture.detectChanges();
-  });
-
-  it('has a router outlet', () => {
-    const { componentInstance: routerOutletHost } = fixture.debugElement.query(
-      By.directive(RouterOutlet)
-    );
-
-    expect(routerOutletHost).toBeInstanceOf(DataHubAppComponent);
+    expect(routerOutlet).toBeInstanceOf(RouterOutlet);
   });
 });

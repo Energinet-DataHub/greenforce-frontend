@@ -14,39 +14,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { Router } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
+import { render } from '@testing-library/angular';
 
 import { DataHubAppComponent } from './datahub-app.component';
 import { DataHubAppModule } from './datahub-app.module';
 
 describe('Application smoke test', () => {
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [DataHubAppModule, NoopAnimationsModule, RouterTestingModule],
-      // https://github.com/thymikee/jest-preset-angular/issues/83
-      providers: [{ provide: MATERIAL_SANITY_CHECKS, useValue: false }],
-    }).compileComponents();
-
-    rootFixture = TestBed.createComponent(DataHubAppComponent);
-    router = TestBed.inject(Router);
-
-    rootFixture.autoDetectChanges(true);
-  });
-
-  let rootFixture: ComponentFixture<DataHubAppComponent>;
-  let router: Router;
-
   it('navigation works', async () => {
-    expect.assertions(1);
+    const { navigate } = await render(DataHubAppComponent, {
+      imports: [DataHubAppModule],
+    });
 
-    const whenNavigatedToDefaultRoute = rootFixture.ngZone?.run(() =>
-      router.navigateByUrl('/')
-    );
+    const didNavigationSucceed = await navigate('/');
 
-    await expect(whenNavigatedToDefaultRoute).resolves.toBe(true);
+    await expect(didNavigationSucceed).toBe(true);
   });
 });

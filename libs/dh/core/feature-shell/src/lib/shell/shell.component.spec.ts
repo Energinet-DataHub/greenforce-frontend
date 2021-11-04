@@ -15,10 +15,7 @@
  * limitations under the License.
  */
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { By } from '@angular/platform-browser';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { RouterTestingModule } from '@angular/router/testing';
 import { WattShellComponent } from '@energinet-datahub/watt';
 
 import { ShellComponent } from './shell.component';
@@ -29,15 +26,12 @@ describe(ShellComponent.name, () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [ShellModule, NoopAnimationsModule, RouterTestingModule],
-      // https://github.com/thymikee/jest-preset-angular/issues/83
-      providers: [{ provide: MATERIAL_SANITY_CHECKS, useValue: false }],
-    }).compileComponents();
+      imports: [ShellModule],
+    });
   });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ShellComponent);
-    fixture.detectChanges();
   });
 
   it('renders a shell component from Watt Design System', () => {

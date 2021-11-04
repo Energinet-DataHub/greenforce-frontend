@@ -21,9 +21,8 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { MatListModule } from '@angular/material/list';
-import { LetModule } from '@rx-angular/template';
 
-import { EttAuthenticationScam } from './ett-authentication-link.directive';
+import { EttAuthenticationLinkScam } from './ett-authentication-link.component';
 
 const selector = 'ett-login-providers';
 
@@ -45,19 +44,7 @@ const selector = 'ett-login-providers';
   template: `
     <mat-nav-list role="navigation" aria-label="Login providers">
       <mat-list-item>
-        <ng-container ettAuthenticationLink #link="ettAuthenticationLink">
-          <a
-            *rxLet="link.loginUrl$ as loginUrl; rxError: loginError"
-            [href]="loginUrl"
-            >NemID or MitID</a
-          >
-          <ng-template #loginError let-error="$error">
-            <p class="${selector}__error">
-              NemID and MitID login are currently unavailable. Please try again
-              later.
-            </p>
-          </ng-template>
-        </ng-container>
+        <ett-authentication-link></ett-authentication-link>
       </mat-list-item>
     </mat-nav-list>
   `,
@@ -67,6 +54,6 @@ export class EttLoginProvidersComponent {}
 @NgModule({
   declarations: [EttLoginProvidersComponent],
   exports: [EttLoginProvidersComponent],
-  imports: [MatListModule, LetModule, EttAuthenticationScam],
+  imports: [MatListModule, EttAuthenticationLinkScam],
 })
 export class EttLoginProvidersScam {}
