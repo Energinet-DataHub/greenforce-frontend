@@ -61,8 +61,15 @@ function patchTestbed(): void {
 /**
  * Use Angular testing module teardown.
  *
+ * Use automatic change detection in tests
+ *
+ * Disable animations, provide `APP_BASE_HREF` at runtime, and isolate routing
+ * from the DOM.
+ *
  * Automatically import testing Angular modules for Angular Material and
  * RxAngular.
+ *
+ *
  */
 export function setUpTestbed(): void {
   testbed.resetTestEnvironment();
