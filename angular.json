@@ -138,14 +138,14 @@
     },
     "dh-app-core-feature-shell": {
       "projectType": "library",
-      "root": "libs/dh-app/core/feature-shell",
-      "sourceRoot": "libs/dh-app/core/feature-shell/src",
+      "root": "libs/dh/core/feature-shell",
+      "sourceRoot": "libs/dh/core/feature-shell/src",
       "architect": {
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/dh-app/core/feature-shell"],
+          "outputs": ["coverage/libs/dh/core/feature-shell"],
           "options": {
-            "jestConfig": "libs/dh-app/core/feature-shell/jest.config.js",
+            "jestConfig": "libs/dh/core/feature-shell/jest.config.js",
             "passWithNoTests": true
           }
         },
@@ -153,8 +153,8 @@
           "builder": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": [
-              "libs/dh-app/core/feature-shell/src/**/*.ts",
-              "libs/dh-app/core/feature-shell/src/**/*.html"
+              "libs/dh/core/feature-shell/src/**/*.ts",
+              "libs/dh/core/feature-shell/src/**/*.html"
             ]
           }
         }

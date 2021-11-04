@@ -24,7 +24,7 @@ module.exports = {
       stringifyContentPathRegex: '\\.(html|svg)$',
     },
   },
-  coverageDirectory: '../../../../coverage/libs/dh-app/core/feature-shell',
+  coverageDirectory: '../../../../coverage/libs/dh/core/feature-shell',
   transform: {
     '^.+\\.(ts|js|html)$': 'jest-preset-angular',
   },
