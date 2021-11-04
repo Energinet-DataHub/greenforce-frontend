@@ -16,10 +16,10 @@
  */
 import 'jest-preset-angular/setup-jest';
 
-import {
-  setUpAngularTestingLibrary,
-  setUpTestbed,
-} from '@energinet-datahub/gf/test-util-staging';
+import { addNgModuleMatchers } from '@energinet-datahub/gf/test-util-matchers';
+import { setUpAngularTestingLibrary, setUpTestbed } from '@energinet-datahub/gf/test-util-staging';
+
+addNgModuleMatchers();
 
 setUpTestbed();
 setUpAngularTestingLibrary();

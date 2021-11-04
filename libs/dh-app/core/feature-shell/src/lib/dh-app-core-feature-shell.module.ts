@@ -1,3 +1,11 @@
+import { HttpClientModule } from '@angular/common/http';
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+
+import { ShellComponent } from './shell/shell.component';
+import { ShellModule } from './shell/shell.module';
+import { TranslocoRootModule } from './transloco/dh-transloco.module';
+
 /**
  * @license
  * Copyright 2021 Energinet DataHub A/S
@@ -14,12 +22,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-
-import { ShellComponent } from './shell/shell.component';
-import { ShellModule } from './shell/shell.module';
-
 const routes: Routes = [
   {
     path: '',
@@ -32,6 +34,11 @@ const routes: Routes = [
 
 @NgModule({
   exports: [RouterModule],
-  imports: [RouterModule.forRoot(routes), ShellModule],
+  imports: [
+    HttpClientModule,
+    TranslocoRootModule,
+    RouterModule.forRoot(routes),
+    ShellModule,
+  ],
 })
 export class DhAppCoreFeatureShellModule {}
