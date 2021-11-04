@@ -14,6 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+/**
+ * Add Jest matchers for DOM elements.
+ */
 export function addDomMatchers(): void {
   beforeAll(async () => {
     // Issue: node_modules/@types/testing-library__jest-dom/index.d.ts' is not a module.
