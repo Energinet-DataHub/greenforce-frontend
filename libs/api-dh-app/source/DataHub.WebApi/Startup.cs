@@ -47,6 +47,7 @@ namespace Energinet.DataHub.WebApi
             services.AddSwaggerGen(config =>
             {
                 config.SwaggerDoc("v1", new OpenApiInfo { Title = "DataHub BFF", Version = "1.0.0", Description = "Backend-for-frontend for DataHub", });
+                config.SupportNonNullableReferenceTypes();
 
                 // Set the comments path for the Swagger JSON and UI.
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
@@ -68,8 +69,7 @@ namespace Energinet.DataHub.WebApi
                 app.UseSwagger();
 
                 // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.)
-                app.UseSwaggerUI(options =>
-                    options.SwaggerEndpoint("/swagger/v1/swagger.json", "DataHub.WebApi v1"));
+                app.UseSwaggerUI(options => options.SwaggerEndpoint("/swagger/v1/swagger.json", "DataHub.WebApi v1"));
             }
 
             app.UseHttpsRedirection();
