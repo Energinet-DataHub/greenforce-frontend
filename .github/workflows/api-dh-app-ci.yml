@@ -19,7 +19,7 @@ on:
     branches:
       - main
     paths:
-      - libs/api-dh-app/**
+      - apps/dh/api-dh/**
       - .github/workflows/api-dh-app-ci.yml
   workflow_dispatch: {}
 
@@ -28,6 +28,6 @@ jobs:
     name: Validate BFF
     uses: Energinet-DataHub/.github/.github/workflows/validate-dotnet-webapi.yml@1.6.0
     with:
-      SOLUTION_FILE_PATH: 'libs/api-dh-app/DataHub.WebApi.sln'
+      SOLUTION_FILE_PATH: 'apps/dh/api-dh/DataHub.WebApi.sln'
       BUILD_CONFIGURATION: 'Release'
       DOTNET_VERSION: '5.0.202'

@@ -33,13 +33,13 @@ on:
     branches:
       - main
     paths-ignore:
-      - libs/api-dh-app/**
+      - apps/dh/api-dh/**
       - .github/workflows/api-dh-app-*.yml
   pull_request:
     branches:
       - main
     paths-ignore:
-      - libs/api-dh-app/**
+      - apps/dh/api-dh/**
       - .github/workflows/api-dh-app-*.yml
   workflow_dispatch: {}
 

@@ -152,7 +152,7 @@ Besides the `apps` folder, there's also a `libs` folder that contains features u
 
 ## Backend-for-frontend (BFF)
 
-There's currenly only one BFF located in `api-dh` under `apps/dh`. It is for `app-dh` and is using .NET 5.0. See [Development notes](./libs/api-dh-app/documents/development.md).
+There's currenly only one BFF located in `api-dh` under `apps/dh`. It is for `app-dh` and is using .NET 5.0. See [Development notes](./apps/dh/api-dh/documents/development.md).
 
 ## Watt Design System
 

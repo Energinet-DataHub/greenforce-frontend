@@ -6,7 +6,7 @@
 launchSettings.json
 stylecop.json
 # make sure to include '/**/*', as the license executor uses this glob
-libs/api-dh-app/**/*
+apps/dh/api-dh/**/*
 
 # Frontend
 **/*.spec.ts
