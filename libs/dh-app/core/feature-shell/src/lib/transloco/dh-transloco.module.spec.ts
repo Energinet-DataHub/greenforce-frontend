@@ -1,5 +1,5 @@
-import { HttpClient } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
+import { TRANSLOCO_CONFIG } from '@ngneat/transloco';
 
 import {
   DhTranslocoModule,
@@ -7,14 +7,14 @@ import {
 } from './dh-transloco.module';
 
 describe(DhTranslocoModule.name, () => {
-  it(`provides ${HttpClient.name}`, () => {
+  it(`provides TRANSLOCO_CONFIG`, () => {
     TestBed.configureTestingModule({
       imports: [DhTranslocoModule.forRoot()],
     });
 
-    const http = TestBed.inject(HttpClient, null);
+    const config = TestBed.inject(TRANSLOCO_CONFIG, null);
 
-    expect(http).not.toBeNull();
+    expect(config).not.toBeNull();
   });
 
   it('guards against direct import', () => {
