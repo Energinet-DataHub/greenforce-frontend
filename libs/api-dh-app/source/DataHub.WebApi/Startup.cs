@@ -15,12 +15,14 @@
 using System;
 using System.IO;
 using System.Reflection;
+using Energinet.DataHub.MeteringPoints.Client.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Energinet.DataHub.WebApi
 {
@@ -31,7 +33,7 @@ namespace Energinet.DataHub.WebApi
             Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
+        private IConfiguration Configuration { get; }
 
         /// <summary>
         /// This method gets called by the runtime. Use this method to add services to the container.
@@ -39,6 +41,8 @@ namespace Energinet.DataHub.WebApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            AddDomainClients(services);
 
             // Register the Swagger generator, defining 1 or more Swagger documents.
             services.AddSwaggerGen(config =>
@@ -49,6 +53,8 @@ namespace Energinet.DataHub.WebApi
                     Version = "1.0.0",
                     Description = "Backend-for-frontend for DataHub",
                 });
+
+                config.SupportNonNullableReferenceTypes();
 
                 // Set the comments path for the Swagger JSON and UI.
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
@@ -84,6 +90,22 @@ namespace Energinet.DataHub.WebApi
             {
                 endpoints.MapControllers();
             });
+        }
+
+        private void AddDomainClients(IServiceCollection services)
+        {
+            var apiClientSettings = Configuration.GetSection("ApiClientSettings").Get<ApiClientSettings>();
+
+            AddMeteringPointClient(services, apiClientSettings);
+        }
+
+        private static void AddMeteringPointClient(IServiceCollection services, ApiClientSettings? apiClientSettings)
+        {
+            Uri meteringPointBaseUrl = Uri.TryCreate(apiClientSettings?.MeteringPointBaseUrl, UriKind.Absolute, out var url)
+                ? url
+                : new Uri("https://empty");
+
+            services.AddMeteringPointClient(meteringPointBaseUrl);
         }
     }
 }
