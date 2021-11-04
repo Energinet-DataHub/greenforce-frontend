@@ -35,7 +35,7 @@ limitations under the License.
   </mat-sidenav>
 
   <mat-sidenav-content>
-    <mat-toolbar class="toolbar">
+    <mat-toolbar class="mat-elevation-z1 toolbar">
       <watt-button *ngIf="isHandset$ | async" (click)="drawer.toggle()">
         <watt-icon name="menu"></watt-icon>
       </watt-button>
