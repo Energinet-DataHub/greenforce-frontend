@@ -14,57 +14,50 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Injector, Type } from '@angular/core';
-import { TestBed } from '@angular/core/testing';
+import { Type } from '@angular/core';
+import { render } from '@testing-library/angular';
 
-import { WattButtonType } from './watt-button-type';
-import { WattButtonComponent } from './watt-button.component';
 import { WattPrimaryButtonComponent } from './primary-button/watt-primary-button.component';
 import { WattSecondaryButtonComponent } from './secondary-button/watt-secondary-button.component';
 import { WattTextButtonComponent } from './text-button/watt-text-button.component';
-
-const appInjector = TestBed.inject(Injector);
+import { WattButtonType } from './watt-button-type';
+import { WattButtonComponent } from './watt-button.component';
+import { WattButtonModule } from './watt-button.module';
 
 describe(WattButtonComponent.name, () => {
-  function createComponent({
-    type = 'text',
-  }: {
-    type?: WattButtonType;
-  } = {}): WattButtonComponent {
-    const component: WattButtonComponent = new WattButtonComponent(appInjector);
-
-    component.type = type;
-
-    return component;
-  }
-
-  const buttonComponentTypeAssertions: ReadonlyArray<
-    [WattButtonType, Type<unknown>]
-  > = [
+  test.each([
     ['text', WattTextButtonComponent],
     ['primary', WattPrimaryButtonComponent],
     ['secondary', WattSecondaryButtonComponent],
-  ];
-
-  buttonComponentTypeAssertions.forEach(([buttonType, buttonComponentType]) => {
-    it(`renders a ${buttonType} button`, () => {
-      const component = createComponent({
-        type: buttonType,
+  ] as readonly [WattButtonType, Type<unknown>][])(
+    'renders a %s button',
+    async (buttonType, buttonComponentType) => {
+      const view = await render(WattButtonComponent, {
+        componentProperties: {
+          type: buttonType,
+        },
+        imports: [WattButtonModule],
       });
 
-      expect(component.buttonComponentType).toEqual(buttonComponentType);
-    });
-  });
+      const component = view.fixture.componentInstance;
+      expect(component.buttonComponentType).toBe(buttonComponentType);
+    }
+  );
 
-  const typeBottomValues = [undefined, null, ''];
+  test.each([undefined, null, ''])(
+    '`defaults to a text button (type="$bottomValue")',
+    async (bottomValue) => {
+      const view = await render(WattButtonComponent, {
+        componentProperties: {
+          // intentionally pass bottom values
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          type: bottomValue as any,
+        },
+        imports: [WattButtonModule],
+      });
 
-  typeBottomValues.forEach((bottomValue) => {
-    it(`defaults to a text button (type="${bottomValue}")`, () => {
-      const component = new WattButtonComponent(appInjector);
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      component.type = bottomValue as any;
-
-      expect(component.type).toEqual('text');
-    });
-  });
+      const component = view.fixture.componentInstance;
+      expect(component.type).toBe('text');
+    }
+  );
 });
