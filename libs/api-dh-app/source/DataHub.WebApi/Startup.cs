@@ -93,7 +93,10 @@ namespace Energinet.DataHub.WebApi
 
         private static void AddMeteringPointClient(IServiceCollection services, ApiClientSettings? apiClientSettings)
         {
-            Uri meteringPointBaseUrl = Uri.TryCreate(apiClientSettings?.MeteringPointBaseUrl, UriKind.Absolute, out var url) ? url : new Uri("https://empty");
+            Uri meteringPointBaseUrl = Uri.TryCreate(apiClientSettings?.MeteringPointBaseUrl, UriKind.Absolute, out var url)
+                ? url
+                : new Uri("https://empty");
+
             services.AddMeteringPointClient(meteringPointBaseUrl);
         }
     }
