@@ -33,9 +33,9 @@
       "style": "scss"
     }
   },
-  "defaultProject": "dh-app",
+  "defaultProject": "app-dh",
   "projects": {
-    "dh-app": {
+    "app-dh": {
       "projectType": "application",
       "root": "apps/dh/app-dh",
       "sourceRoot": "apps/dh/app-dh/src",
@@ -103,10 +103,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "dh-app:build:production"
+              "browserTarget": "app-dh:build:production"
             },
             "development": {
-              "browserTarget": "dh-app:build:development"
+              "browserTarget": "app-dh:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -114,7 +114,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "dh-app:build"
+            "browserTarget": "app-dh:build"
           }
         },
         "lint": {
@@ -136,7 +136,7 @@
         }
       }
     },
-    "dh-app-core-feature-shell": {
+    "app-dh-core-feature-shell": {
       "projectType": "library",
       "root": "libs/dh/core/feature-shell",
       "sourceRoot": "libs/dh/core/feature-shell/src",
@@ -160,7 +160,7 @@
         }
       }
     },
-    "dh-app-e2e": {
+    "app-dh-e2e": {
       "root": "apps/dh/e2e-dh",
       "sourceRoot": "apps/dh/e2e-dh/src",
       "projectType": "application",
@@ -170,7 +170,7 @@
           "options": {
             "cypressConfig": "apps/dh/e2e-dh/cypress.json",
             "tsConfig": "apps/dh/e2e-dh/tsconfig.e2e.json",
-            "devServerTarget": "dh-app:serve:development"
+            "devServerTarget": "app-dh:serve:development"
           },
           "configurations": {
             "ci": {
@@ -179,11 +179,11 @@
             },
             "ci:production": {
               "cypressConfig": "apps/dh/e2e-dh/cypress.ci.json",
-              "devServerTarget": "dh-app:serve:production",
+              "devServerTarget": "app-dh:serve:production",
               "headless": true
             },
             "production": {
-              "devServerTarget": "dh-app:serve:production"
+              "devServerTarget": "app-dh:serve:production"
             }
           }
         },
@@ -195,7 +195,7 @@
         }
       }
     },
-    "ett-app": {
+    "app-ett": {
       "projectType": "application",
       "root": "apps/ett/app-ett",
       "sourceRoot": "apps/ett/app-ett/src",
@@ -275,15 +275,15 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "development": {
-              "browserTarget": "ett-app:build:development",
+              "browserTarget": "app-ett:build:development",
               "hmr": true,
               "proxyConfig": "apps/ett/app-ett/src/proxy.conf.json"
             },
             "e2e": {
-              "browserTarget": "ett-app:build:development"
+              "browserTarget": "app-ett:build:development"
             },
             "production": {
-              "browserTarget": "ett-app:build:production"
+              "browserTarget": "app-ett:build:production"
             }
           },
           "defaultConfiguration": "development"
@@ -291,7 +291,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "ett-app:build"
+            "browserTarget": "app-ett:build"
           }
         },
         "lint": {
@@ -313,7 +313,7 @@
         }
       }
     },
-    "ett-app-e2e": {
+    "app-ett-e2e": {
       "root": "apps/ett/e2e-ett",
       "sourceRoot": "apps/ett/e2e-ett/src",
       "projectType": "application",
@@ -323,7 +323,7 @@
           "options": {
             "cypressConfig": "apps/ett/e2e-ett/cypress.json",
             "tsConfig": "apps/ett/e2e-ett/tsconfig.e2e.json",
-            "devServerTarget": "ett-app:serve:e2e"
+            "devServerTarget": "app-ett:serve:e2e"
           },
           "configurations": {
             "ci": {
@@ -332,11 +332,11 @@
             },
             "ci:production": {
               "cypressConfig": "apps/ett/e2e-ett/cypress.ci.json",
-              "devServerTarget": "ett-app:serve:production",
+              "devServerTarget": "app-ett:serve:production",
               "headless": true
             },
             "production": {
-              "devServerTarget": "ett-app:serve:production"
+              "devServerTarget": "app-ett:serve:production"
             }
           }
         },

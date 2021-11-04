@@ -30,22 +30,22 @@
     ]
   },
   "projects": {
-    "dh-app": {
+    "app-dh": {
       "tags": ["product:dh", "type:app"]
     },
-    "dh-app-core-feature-shell": {
+    "app-dh-core-feature-shell": {
       "tags": ["product:dh", "scope:core", "type:feature"]
     },
-    "dh-app-e2e": {
+    "app-dh-e2e": {
       "tags": ["product:dh", "type:e2e"],
-      "implicitDependencies": ["dh-app"]
+      "implicitDependencies": ["app-dh"]
     },
-    "ett-app": {
+    "app-ett": {
       "tags": ["product:ett", "type:app"]
     },
-    "ett-app-e2e": {
+    "app-ett-e2e": {
       "tags": ["product:ett", "type:e2e"],
-      "implicitDependencies": ["ett-app"]
+      "implicitDependencies": ["app-ett"]
     },
     "ett-auth-data-access-api": {
       "tags": ["product:ett", "scope:auth", "type:data-access"]
