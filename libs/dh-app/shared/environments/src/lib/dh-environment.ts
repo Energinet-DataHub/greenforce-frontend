@@ -14,8 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { DhEnvironment } from './dh-environment';
-
-export const environment: DhEnvironment = {
-  production: true,
-};
+export interface DhEnvironment {
+  readonly production: boolean;
+}
