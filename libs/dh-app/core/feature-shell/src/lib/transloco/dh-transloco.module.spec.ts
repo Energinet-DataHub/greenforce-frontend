@@ -1,7 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
 
-import { DhTranslocoModule, DhTranslocoRootModule } from './dh-transloco.module';
+import {
+  DhTranslocoModule,
+  DhTranslocoRootModule,
+} from './dh-transloco.module';
 
 describe(DhTranslocoModule.name, () => {
   it(`provides ${HttpClient.name}`, () => {
