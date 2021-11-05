@@ -144,7 +144,7 @@ jobs:
         id: image-name
         uses: ASzc/change-string-case-action@v2
         with:
-          string: ghcr.io/${{ github.repository }}-${{ env.app-name }}
+          string: ghcr.io/${{ github.repository }}-ett-app
 
       - name: Build host container image
         run: docker build ./ --file ./infrastructure/ett/host/Dockerfile --tag ${{ steps.image-name.outputs.lowercase }}:${{ env.host-image-tag }}
