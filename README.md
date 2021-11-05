@@ -70,7 +70,7 @@ Allowed dependencies: `e2e-util` libraries and always an implicit dependency on 
 All libraries are related to a product or shared across multiple products. The libraries are located under `libs/<product>` and are prefixed with `<library type>-<library name>`.
 For shared libraries `gf` should be used as `product`.
 
-Only libraries of type `data-access` may have dependencies to apps, and only apps of type `api`. Depending on the type of a library, a library can have dependencies to other certain types of libraries.
+Only libraries of type `data-access` may have dependencies to apps, and only apps of type `api`. Depending on the type of a library, a library can have dependencies to other types of libraries:
 
 - feature
 - ui
