@@ -15,14 +15,14 @@ The folder structure of the repository is based on [Nrwl](https://nrwl.io/) [NX]
 ```|
 Energinet-DataHub/greenforce-frontend
 ├── apps                    # Contains source code for applications. This includes frontends, BFF and E2E. Apps are grouped by a product root folder, and type prefixed sub-folder(s).
-|  ├── dh                   # Data Hub application (product)
-|  |  ├── api-dh            # - BFF for Data Hub
-|  |  ├── app-dh            # - Frontend for Data Hub
-|  |  └── e2e-dh            # - E2E tests for Data Hub
+|  ├── dh                   # DataHub application (product)
+|  |  ├── api-dh            # - BFF for DataHub
+|  |  ├── app-dh            # - Frontend for DataHub
+|  |  └── e2e-dh            # - E2E tests for DataHub
 |  └── ett                  # Energy Track and Trace (product)
 |     ├── app-ett           # - Frontend for Energy Track and Trace
 |     └── e2e-ett           # - E2E tests for Energy Track and Trace
-├── build                   # Contains infrastructure for Data hub and the design system
+├── build                   # Contains infrastructure for DataHub and the design system
 ├── dist                    # Contains output files when building artifacts (for distribution)
 |  ├── apps                 #
 |  └── libs                 #
