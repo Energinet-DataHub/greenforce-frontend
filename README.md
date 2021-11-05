@@ -24,10 +24,9 @@ Energinet-DataHub/greenforce-frontend
 |  |  └── e2e-ett           # - E2E tests for Energy Track and Trace
 ├── build                   # Contains infrastructure for Data hub and the design system
 ├── dist                    # Contains output files when building artifacts (for distribution)
-├── docs                    # Contains general documentation
-├── dist                    # Contains output files when building artifacts (for distribution)
 |  ├── apps                 #
 |  └── libs                 #
+├── docs                    # Contains general documentation
 ├── infrastructure          # Contains infrastructure for Energy Track and Trace
 ├── libs                    # Contains source code for libraries. See "folder structure - library" for more information
 └── tools                   # Contains various tools
