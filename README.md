@@ -135,7 +135,7 @@ Allowed dependencies to: `assets`.
 
 ### styles
 
-SCSS functions, mixins, variables and partials.
+SCSS functions, mixins, variables, partials, and global stylesheets.
 Allowed dependencies to: `assets`, `styles`.
 
 ## Front-end apps
