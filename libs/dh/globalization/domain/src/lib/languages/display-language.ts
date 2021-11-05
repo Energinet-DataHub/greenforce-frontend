@@ -15,7 +15,7 @@ export function assertDisplayLanguage(
  *
  * @throws {Error} if the specified language is an unknown display language.
  */
-export function fromLanguage(language: string): DisplayLanguage {
+export function toDisplayLanguage(language: string): DisplayLanguage {
   assertDisplayLanguage(language);
 
   return language;

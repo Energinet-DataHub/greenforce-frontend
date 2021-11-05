@@ -1,0 +1,26 @@
+{
+  "projectType": "library",
+  "root": "libs/dh/globalization/domain",
+  "sourceRoot": "libs/dh/globalization/domain/src",
+  "prefix": "dh",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/dh/globalization/domain"],
+      "options": {
+        "jestConfig": "libs/dh/globalization/domain/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/dh/globalization/domain/src/**/*.ts",
+          "libs/dh/globalization/domain/src/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": ["product:dh", "scope:globalization", "type:domain"]
+}

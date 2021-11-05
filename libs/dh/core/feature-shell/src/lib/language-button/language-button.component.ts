@@ -5,8 +5,7 @@ import {
   Input,
   Output,
 } from '@angular/core';
-
-import { DisplayLanguage } from '../display-language';
+import { DisplayLanguage } from '@energinet-datahub/dh/globalization/domain';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

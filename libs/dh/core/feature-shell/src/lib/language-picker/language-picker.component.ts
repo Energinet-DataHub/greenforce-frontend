@@ -1,12 +1,11 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { TranslocoService } from '@ngneat/transloco';
-import { map, Observable } from 'rxjs';
-
 import {
   DisplayLanguage,
   displayLanguages,
-  fromLanguage,
-} from '../display-language';
+  toDisplayLanguage,
+} from '@energinet-datahub/dh/globalization/domain';
+import { TranslocoService } from '@ngneat/transloco';
+import { map, Observable } from 'rxjs';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -16,7 +15,7 @@ import {
 })
 export class LanguagePickerComponent {
   activeLanguage$: Observable<DisplayLanguage> =
-    this.transloco.langChanges$.pipe(map(fromLanguage));
+    this.transloco.langChanges$.pipe(map(toDisplayLanguage));
   displayLanguages = displayLanguages;
 
   constructor(private transloco: TranslocoService) {}
