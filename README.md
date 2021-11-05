@@ -62,8 +62,8 @@ Allowed dependencies: `shell`, `environments`, `assets`, `styles` libraries.
 
 ### E2E apps
 
-A E2E app contains the e2e application of a product. Frontend apps are located under `apps/<product>` and are prefixed with `e2e-<product>`
-Allowed dependencies: `e2e-util` libraries and always an implicit dependency of an app, and a api (BFF).
+An E2E app contains the e2e application of a product. E2E apps are located under `apps/<product>` and are prefixed with `e2e-<product>`
+Allowed dependencies: `e2e-util` libraries and always an implicit dependency on an app, and an API (BFF).
 
 ## Library Types
 
