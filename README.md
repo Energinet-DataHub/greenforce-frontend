@@ -20,8 +20,8 @@ Energinet-DataHub/greenforce-frontend
 |  |  ├── app-dh            # - Frontend for Data Hub
 |  |  └── e2e-dh            # - E2E tests for Data Hub
 |  └── ett                  # Energy Track and Trace (product)
-|  |  ├── app-ett           # - Frontend for Energy Track and Trace
-|  |  └── e2e-ett           # - E2E tests for Energy Track and Trace
+|     ├── app-ett           # - Frontend for Energy Track and Trace
+|     └── e2e-ett           # - E2E tests for Energy Track and Trace
 ├── build                   # Contains infrastructure for Data hub and the design system
 ├── dist                    # Contains output files when building artifacts (for distribution)
 |  ├── apps                 #
