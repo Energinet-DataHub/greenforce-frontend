@@ -50,26 +50,26 @@ Energinet-DataHub/greenforce-frontend
 - app (Frontend)
 - e2e
 
-### Api apps (BFF's)
+### API apps (BFFs)
 
-A Api app contains the BFF of a product. Api apps are located under `apps/<product>` and are prefixed with `api-<product>`.
+An API app contains the BFF of a product. API apps are located under `apps/<product>` and are prefixed with `api-<product>`.
 
-### Frontend App
+### Frontend Apps
 
 A Frontend app contains the frontend application of a product. Frontend apps are located under `apps/<product>` and are prefixed with `app-<product>`.
 Allowed dependencies: `shell`, `environments`, `assets`, `styles` libraries.
 
 ### E2E apps
 
-A E2E app contains the e2e application of a product. Frontend apps are located under `apps/<product>` and are prefixed with `e2e-<product>`
-Allowed dependencies: `e2e-util` libraries and always an implicit dependency of an app, and a api (BFF).
+An E2E app contains the e2e application of a product. E2E apps are located under `apps/<product>` and are prefixed with `e2e-<product>`
+Allowed dependencies: `e2e-util` libraries and always an implicit dependency on an app, and an API (BFF).
 
 ## Library Types
 
 All libraries are related to a product or shared across multiple products. The libraries are located under `libs/<product>` and are prefixed with `<library type>-<library name>`.
 For shared libraries `gf` should be used as `product`.
 
-Only libraries of type `data-access` may have dependencies to apps, and only apps of type `api`. Depending on the type of a library, a library can have dependencies to other certain types of libraries.
+Only libraries of type `data-access` may have dependencies to apps, and only apps of type `api`. Depending on the type of a library, a library can have dependencies to other types of libraries:
 
 - feature
 - ui
@@ -115,7 +115,7 @@ Allowed dependencies to: `util`, `test-util`, `e2e-util`.
 
 ### domain
 
-interfaces, types, constants, functions and services related to domain objects.
+Interfaces, types, constants, functions and services related to domain objects.
 Allowed dependencies to: `domain`, `util`, `test-util`.
 
 ### shell
@@ -130,7 +130,7 @@ Allowed dependencies to: `util`, `test-util`, `environments`.
 
 ### assets
 
-Icons, images, fonts etc.
+Icons, images, fonts, etc.
 Allowed dependencies to: `assets`.
 
 ### styles
