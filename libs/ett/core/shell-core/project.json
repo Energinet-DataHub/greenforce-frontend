@@ -1,0 +1,27 @@
+{
+  "projectType": "library",
+  "root": "libs/ett/core/shell-core",
+  "sourceRoot": "libs/ett/core/shell-core/src",
+  "prefix": "ett",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/ett/core/shell-core"],
+      "options": {
+        "jestConfig": "libs/ett/core/shell-core/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/ett/core/shell-core/src/**/*.ts",
+          "libs/ett/core/shell-core/src/**/*.html"
+        ]
+      },
+      "outputs": ["{options.outputFile}"]
+    }
+  },
+  "tags": ["product:ett", "domain:core", "type:shell"]
+}

@@ -74,6 +74,7 @@ Only libraries of type `data-access` may have dependencies to apps, and only app
 - feature
 - ui
 - data-access
+- routing
 - util
 - test-util
 - e2e-util
@@ -98,6 +99,11 @@ Allowed dependencies to: `ui`, `util`, `test-util`, `domain`, `assets`, `styles`
 A data-access library contains code for interacting with a back-end system. It also includes all the code related to state management, routing and HTTP interceptors.
 Allowed dependencies to: `data-access`, `util`, `test-util`, `domain`, `environments`.
 
+### Routing libraries
+
+A routing library contains code related for routing (routes, guards).
+Allowed dependencies to: `data-access`, `routing`, `util`, `test-util`, `shell`.
+
 ### Utility libraries
 
 A utility library contains low-level utilities used by many libraries and applications (services, pure functions, contants).
@@ -121,7 +127,7 @@ Allowed dependencies to: `domain`, `util`, `test-util`.
 ### Shell libraries
 
 Entrypoint for an application or domain. Orchestration and routing.
-Allowed dependencies to: `feature`, `ui`, `data-access`, `util`, `test-util`, `shell`, `environments`, `assets`, `styles`.
+Allowed dependencies to: `feature`, `ui`, `data-access`, `routing`, `util`, `test-util`, `shell`, `environments`, `assets`, `styles`.
 
 ### Environments libraries
 

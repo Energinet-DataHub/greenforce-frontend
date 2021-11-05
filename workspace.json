@@ -12,7 +12,7 @@
     "ett-auth-feature-login": "libs/ett/auth/feature-login",
     "ett-auth-feature-shell": "libs/ett/auth/feature-shell",
     "ett-core-environments": "libs/ett/core/environments",
-    "ett-core-feature-shell": "libs/ett/core/feature-shell",
+    "ett-core-shell": "libs/ett/core/shell-core",
     "ett-core-util-browser": "libs/ett/core/util-browser",
     "ett-dashboard-feature-shell": "libs/ett/dashboard/feature-shell",
     "gf-test-util-matchers": "libs/gf/test-util-matchers",
