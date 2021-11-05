@@ -131,7 +131,7 @@ Allowed dependencies to: `util`, `test-util`, `environments`.
 
 ### assets
 
-Icons, images, fonts etc.
+Icons, images, fonts, etc.
 Allowed dependencies to: `assets`.
 
 ### styles
