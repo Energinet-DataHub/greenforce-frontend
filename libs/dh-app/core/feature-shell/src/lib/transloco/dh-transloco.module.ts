@@ -6,7 +6,7 @@ import {
 } from '@angular/core';
 // `libs/dh-app` should be renamed to `libs/dh` to prevent this lint error
 // eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
-import { environment } from '@energinet-datahub/dh-app/shared/environments';
+import { environment } from '@energinet-datahub/dh/shared/environments';
 import {
   TRANSLOCO_CONFIG,
   TRANSLOCO_LOADER,

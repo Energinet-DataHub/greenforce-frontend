@@ -1,14 +1,14 @@
 {
   "projectType": "library",
-  "root": "libs/dh-app/shared/environments",
-  "sourceRoot": "libs/dh-app/shared/environments/src",
+  "root": "libs/dh/shared/environments",
+  "sourceRoot": "libs/dh/shared/environments/src",
   "prefix": "dh",
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/dh-app/shared/environments"],
+      "outputs": ["coverage/libs/dh/shared/environments"],
       "options": {
-        "jestConfig": "libs/dh-app/shared/environments/jest.config.js",
+        "jestConfig": "libs/dh/shared/environments/jest.config.js",
         "passWithNoTests": true
       }
     },
@@ -16,8 +16,8 @@
       "executor": "@nrwl/linter:eslint",
       "options": {
         "lintFilePatterns": [
-          "libs/dh-app/shared/environments/src/**/*.ts",
-          "libs/dh-app/shared/environments/src/**/*.html"
+          "libs/dh/shared/environments/src/**/*.ts",
+          "libs/dh/shared/environments/src/**/*.html"
         ]
       }
     }

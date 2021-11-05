@@ -1,5 +1,5 @@
 module.exports = {
-  displayName: 'dh-app-shared-environments',
+  displayName: 'dh-shared-environments',
   preset: '../../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   globals: {
@@ -8,7 +8,7 @@ module.exports = {
       stringifyContentPathRegex: '\\.(html|svg)$',
     },
   },
-  coverageDirectory: '../../../../coverage/libs/dh-app/shared/environments',
+  coverageDirectory: '../../../../coverage/libs/dh/shared/environments',
   transform: {
     '^.+\\.(ts|js|html)$': 'jest-preset-angular',
   },

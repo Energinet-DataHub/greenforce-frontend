@@ -53,8 +53,8 @@
           ],
           "fileReplacements": [
             {
-              "replace": "libs/dh-app/shared/environments/src/lib/environment.ts",
-              "with": "libs/dh-app/shared/environments/src/lib/environment.prod.ts"
+              "replace": "libs/dh/shared/environments/src/lib/environment.ts",
+              "with": "libs/dh/shared/environments/src/lib/environment.prod.ts"
             }
           ],
           "outputHashing": "all"
