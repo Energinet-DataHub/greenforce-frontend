@@ -51,7 +51,7 @@ Energinet-DataHub/greenforce-frontend
 - app (Frontend)
 - e2e
 
-### Api apps (BFF's)
+### API apps (BFFs)
 
 A Api app contains the BFF of a product. Api apps are located under `apps/<product>` and are prefixed with `api-<product>`.
 
