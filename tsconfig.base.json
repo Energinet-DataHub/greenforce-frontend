@@ -16,8 +16,8 @@
     "baseUrl": ".",
     "paths": {
       "@angular/*": ["./node_modules/@angular/*"],
-      "@energinet-datahub/dh/core/feature-shell": [
-        "libs/dh/core/feature-shell/src/index.ts"
+      "@energinet-datahub/dh/core/shell-core": [
+        "libs/dh/core/shell-core/src/index.ts"
       ],
       "@energinet-datahub/ett/auth/data-access-api": [
         "libs/ett/auth/data-access-api/src/index.ts"
@@ -28,8 +28,8 @@
       "@energinet-datahub/ett/auth/feature-login": [
         "libs/ett/auth/feature-login/src/index.ts"
       ],
-      "@energinet-datahub/ett/auth/feature-shell": [
-        "libs/ett/auth/feature-shell/src/index.ts"
+      "@energinet-datahub/ett/auth/shell-auth": [
+        "libs/ett/auth/shell-auth/src/index.ts"
       ],
       "@energinet-datahub/ett/core/environments": [
         "libs/ett/core/environments/src/index.ts"
@@ -40,8 +40,8 @@
       "@energinet-datahub/ett/core/util-browser": [
         "libs/ett/core/util-browser/src/index.ts"
       ],
-      "@energinet-datahub/ett/dashboard/feature-shell": [
-        "libs/ett/dashboard/feature-shell/src/index.ts"
+      "@energinet-datahub/ett/dashboard/shell-dashboard": [
+        "libs/ett/dashboard/shell-dashboard/src/index.ts"
       ],
       "@energinet-datahub/gf/test-util-matchers": [
         "libs/gf/test-util-matchers/src/index.ts"

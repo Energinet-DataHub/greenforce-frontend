@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 module.exports = {
-  displayName: 'ett-auth-feature-shell',
+  displayName: 'dh-app-core-feature-shell',
   preset: '../../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   globals: {
@@ -24,7 +24,7 @@ module.exports = {
       stringifyContentPathRegex: '\\.(html|svg)$',
     },
   },
-  coverageDirectory: '../../../../coverage/libs/ett/auth/feature-shell',
+  coverageDirectory: '../../../../coverage/libs/dh/core/shell-core',
   transform: {
     '^.+\\.(ts|js|html)$': 'jest-preset-angular',
   },

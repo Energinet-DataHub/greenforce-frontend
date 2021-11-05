@@ -14,4 +14,5 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export { DhAppCoreFeatureShellModule } from './lib/dh-app-core-feature-shell.module';
+export * from './lib/ett-dashboard-shell.module';
+export * from './lib/ett-dashboard-route-path';

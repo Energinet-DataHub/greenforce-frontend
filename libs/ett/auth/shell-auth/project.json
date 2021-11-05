@@ -1,0 +1,27 @@
+{
+  "projectType": "library",
+  "root": "libs/ett/auth/shell-auth",
+  "sourceRoot": "libs/ett/auth/shell-auth/src",
+  "prefix": "ett",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/ett/auth/shell-auth"],
+      "options": {
+        "jestConfig": "libs/ett/auth/shell-auth/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/ett/auth/shell-auth/src/**/*.ts",
+          "libs/ett/auth/shell-auth/src/**/*.html"
+        ]
+      },
+      "outputs": ["{options.outputFile}"]
+    }
+  },
+  "tags": ["product:ett", "domain:auth", "type:shell"]
+}

@@ -25,7 +25,7 @@ import {
 } from '@angular/common/http';
 import { ClassProvider, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { ettAuthRoutePath } from '@energinet-datahub/ett/auth/feature-shell';
+import { ettAuthRoutePath } from '@energinet-datahub/ett/auth/shell-auth';
 import { catchError, from, Observable, switchMapTo, throwError } from 'rxjs';
 
 /**
