@@ -3,5 +3,5 @@
 /dist
 /coverage
 
-# Ignore BFF's
-/apps/dh/api-dh
+# Ignore API applications (BFF's)
+**/api-*/**/*

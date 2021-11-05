@@ -12,8 +12,13 @@ This workflow verifies all files has a license header.
 
 It can also:
 
-- Automatically add a license header to files for which it is missing, but will ignore file patterns specified in the `.nxignore` file.
-- Format files, but will ignore folders/file patterns specified in the `.prettierignore` file.
+- Automatically add a license header to files for which it is missing, but will ignore apps of type `api`.
+
+### `workspace.yml`
+
+This workflow builds, lint, format and runs tests for the frontend applications and design system.
+
+- Applications of type `api` are ignored from the `.prettierignore` file. This is done automatically as long as the naming convention is followed `api-<application name>`.
 
 ### `api-dh-ci.yml`
 
@@ -24,10 +29,6 @@ This workflow verifies the ASP.NET Core Web API by building and running all test
 Add appsettings.Development.json with valid settings:
 
 ApiClientSettings > MeteringPointBaseUrl
-
-## .nxignore / .prettierignore
-
-To avoid conflicts with the frontend tool-chain, the path of the BFF should be added to `.nxignore` and `.prettierignore`. Files for the BFF requires charset `UTF-8 with BOM` which these tools does not respect. The required `charset` is configured in the `libs\api-dh-app\.editorconfig`.
 
 ## OpenAPI
 
