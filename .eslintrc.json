@@ -23,9 +23,7 @@
               },
               {
                 "sourceTag": "type:e2e",
-                "onlyDependOnLibsWithTags": [
-                  "type:e2e-util"
-                ]
+                "onlyDependOnLibsWithTags": ["type:e2e-util"]
               },
               {
                 "sourceTag": "type:feature",
@@ -63,10 +61,7 @@
               },
               {
                 "sourceTag": "type:util",
-                "onlyDependOnLibsWithTags": [
-                  "type:util",
-                  "type:test-util"
-                ]
+                "onlyDependOnLibsWithTags": ["type:util", "type:test-util"]
               },
               {
                 "sourceTag": "type:test-util",
@@ -116,16 +111,11 @@
               },
               {
                 "sourceTag": "type:assets",
-                "onlyDependOnLibsWithTags": [
-                  "type:assets"
-                ]
+                "onlyDependOnLibsWithTags": ["type:assets"]
               },
               {
                 "sourceTag": "type:styles",
-                "onlyDependOnLibsWithTags": [
-                  "type:assets",
-                  "type:styles"
-                ]
+                "onlyDependOnLibsWithTags": ["type:assets", "type:styles"]
               },
               {
                 "sourceTag": "product:dh",
