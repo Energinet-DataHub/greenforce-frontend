@@ -1,0 +1,8 @@
+<ng-container *rxLet="activeLanguage$ as activeLanguage">
+  <dh-language-button
+    *ngFor="let language of displayLanguages"
+    [isDisabled]="activeLanguage === language"
+    [language]="language"
+    (languageSelect)="onLanguageSelect(language)"
+  ></dh-language-button>
+</ng-container>

@@ -19,10 +19,11 @@ import { RouterModule } from '@angular/router';
 import { WattModule } from '@energinet-datahub/watt';
 import { TranslocoModule } from '@ngneat/transloco';
 
+import { LanguagePickerModule } from './../language-picker/language-picker.module';
 import { ShellComponent } from './shell.component';
 
 @NgModule({
   declarations: [ShellComponent],
-  imports: [RouterModule, TranslocoModule, WattModule],
+  imports: [RouterModule, TranslocoModule, WattModule, LanguagePickerModule],
 })
 export class ShellModule {}
