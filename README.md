@@ -103,37 +103,37 @@ Allowed dependencies to: `data-access`, `util`, `test-util`, `domain`, `environm
 A utility library contains low-level utilities used by many libraries and applications (services, pure functions, contants).
 Allowed dependencies to: `util`, `test-util`.
 
-### test-util
+### Test-util libraries
 
 Stubs, jest matchers, testing modules, test library configuration
 Allowed dependencies to: `data-access`, `util`, `test-util`, `domain`.
 
-### e2e-util
+### E2E-util libraries
 
 Cypress commands or fixtures
 Allowed dependencies to: `util`, `test-util`, `e2e-util`.
 
-### domain
+### Domain libraries
 
 Interfaces, types, constants, functions and services related to domain objects.
 Allowed dependencies to: `domain`, `util`, `test-util`.
 
-### shell
+### Shell libraries
 
 Entrypoint for an application or domain. Orchestration and routing.
 Allowed dependencies to: `feature`, `ui`, `data-access`, `util`, `test-util`, `shell`, `environments`, `assets`, `styles`.
 
-### environments
+### Environments libraries
 
 Angular environment files.
 Allowed dependencies to: `util`, `test-util`, `environments`.
 
-### assets
+### Assets libraries
 
 Icons, images, fonts, etc.
 Allowed dependencies to: `assets`.
 
-### styles
+### Styles libraries
 
 SCSS functions, mixins, variables, partials, and global stylesheets.
 Allowed dependencies to: `assets`, `styles`.
