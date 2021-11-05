@@ -23,5 +23,5 @@
       "outputs": ["{options.outputFile}"]
     }
   },
-  "tags": ["product:ett", "scope:dashboard", "type:feature"]
+  "tags": ["product:ett", "domain:dashboard", "type:feature"]
 }

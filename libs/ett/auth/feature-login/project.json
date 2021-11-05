@@ -23,5 +23,5 @@
       "outputs": ["{options.outputFile}"]
     }
   },
-  "tags": ["product:ett", "scope:auth", "type:feature"]
+  "tags": ["product:ett", "domain:auth", "type:feature"]
 }

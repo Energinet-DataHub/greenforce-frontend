@@ -23,5 +23,5 @@
       "outputs": ["{options.outputFile}"]
     }
   },
-  "tags": ["product:ett", "scope:core", "type:feature"]
+  "tags": ["product:ett", "domain:core", "type:feature"]
 }
