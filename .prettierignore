@@ -4,4 +4,4 @@
 /coverage
 
 # Ignore BFF's
-/libs/api-dh-app
+/apps/dh/api-dh

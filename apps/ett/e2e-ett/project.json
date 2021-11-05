@@ -1,0 +1,39 @@
+{
+  "root": "apps/ett/e2e-ett",
+  "sourceRoot": "apps/ett/e2e-ett/src",
+  "projectType": "application",
+  "targets": {
+    "e2e": {
+      "executor": "@nrwl/cypress:cypress",
+      "options": {
+        "cypressConfig": "apps/ett/e2e-ett/cypress.json",
+        "tsConfig": "apps/ett/e2e-ett/tsconfig.e2e.json",
+        "devServerTarget": "app-ett:serve:e2e",
+        "headed": true
+      },
+      "configurations": {
+        "ci": {
+          "cypressConfig": "apps/ett/e2e-ett/cypress.ci.json",
+          "headed": false
+        },
+        "ci:production": {
+          "cypressConfig": "apps/ett/e2e-ett/cypress.ci.json",
+          "devServerTarget": "app-ett:serve:production",
+          "headed": false
+        },
+        "production": {
+          "devServerTarget": "app-ett:serve:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": ["apps/ett/e2e-ett/**/*.{js,ts}"]
+      },
+      "outputs": ["{options.outputFile}"]
+    }
+  },
+  "tags": ["product:ett", "type:e2e"],
+  "implicitDependencies": ["app-ett"]
+}

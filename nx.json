@@ -32,7 +32,7 @@
   "cli": {
     "defaultCollection": "@nrwl/angular"
   },
-  "defaultProject": "dh-app",
+  "defaultProject": "app-dh",
   "generators": {
     "@nrwl/angular": {
       "application": {
