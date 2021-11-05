@@ -1,6 +1,7 @@
 {
   "version": 2,
   "projects": {
+    "api-dh": "apps/dh/api-dh",
     "app-dh": "apps/dh/app-dh",
     "app-dh-core-feature-shell": "libs/dh/core/feature-shell",
     "app-ett": "apps/ett/app-ett",
