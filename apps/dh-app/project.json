@@ -17,12 +17,12 @@
         "assets": [
           {
             "glob": "favicon.ico",
-            "input": "libs/dh-app/shared/assets/src",
+            "input": "libs/dh/shared/assets/src",
             "output": ""
           },
           {
             "glob": "**/*",
-            "input": "libs/dh-app/shared/assets/src/assets",
+            "input": "libs/dh/shared/assets/src/assets",
             "output": "assets"
           },
           {
