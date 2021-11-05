@@ -33,9 +33,7 @@ export default async function addLicenseExecutor(
 
   console.info(`Adding licenses...`);
   const files = glob.sync(`{,!(node_modules|dist)/**/*}*{${globs.join(',')}}`, {
-    ignore: [
-      '**/api-*/**/*'
-    ],
+    ignore: ['**/api-*/**/*'],
   });
 
   files.forEach((file) => {
