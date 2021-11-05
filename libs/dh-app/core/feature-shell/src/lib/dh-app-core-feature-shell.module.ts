@@ -4,7 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { ShellComponent } from './shell/shell.component';
 import { ShellModule } from './shell/shell.module';
-import { TranslocoRootModule } from './transloco/dh-transloco.module';
+import { DhTranslocoModule } from './transloco/dh-transloco.module';
 
 /**
  * @license
@@ -36,7 +36,7 @@ const routes: Routes = [
   exports: [RouterModule],
   imports: [
     HttpClientModule,
-    TranslocoRootModule,
+    DhTranslocoModule.forRoot(),
     RouterModule.forRoot(routes),
     ShellModule,
   ],
