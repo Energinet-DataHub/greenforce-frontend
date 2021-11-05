@@ -144,6 +144,7 @@ jobs:
         id: image-name
         uses: ASzc/change-string-case-action@v2
         with:
+          # TODO(xlgni): coordinate name change to `env.app-name` with Fenris infrastructure
           string: ghcr.io/${{ github.repository }}-ett-app
 
       - name: Build host container image
