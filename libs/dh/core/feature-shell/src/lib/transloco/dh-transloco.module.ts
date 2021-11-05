@@ -1,6 +1,16 @@
-import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
+import {
+  ModuleWithProviders,
+  NgModule,
+  Optional,
+  SkipSelf,
+} from '@angular/core';
 import { environment } from '@energinet-datahub/dh/shared/environments';
-import { TRANSLOCO_CONFIG, TRANSLOCO_LOADER, translocoConfig, TranslocoModule } from '@ngneat/transloco';
+import {
+  TRANSLOCO_CONFIG,
+  TRANSLOCO_LOADER,
+  translocoConfig,
+  TranslocoModule,
+} from '@ngneat/transloco';
 
 import { DhTranslocoHttpLoader } from './dh-transloco-http-loader.service';
 
