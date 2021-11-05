@@ -55,7 +55,7 @@ Energinet-DataHub/greenforce-frontend
 
 An API app contains the BFF of a product. API apps are located under `apps/<product>` and are prefixed with `api-<product>`.
 
-### Frontend App
+### Frontend Apps
 
 A Frontend app contains the frontend application of a product. Frontend apps are located under `apps/<product>` and are prefixed with `app-<product>`.
 Allowed dependencies: `shell`, `environments`, `assets`, `styles` libraries.
