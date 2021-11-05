@@ -116,7 +116,7 @@ Allowed dependencies to: `util`, `test-util`, `e2e-util`.
 
 ### domain
 
-interfaces, types, constants, functions and services related to domain objects.
+Interfaces, types, constants, functions and services related to domain objects.
 Allowed dependencies to: `domain`, `util`, `test-util`.
 
 ### shell
