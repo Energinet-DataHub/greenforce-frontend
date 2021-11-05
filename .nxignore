@@ -1,12 +1,2 @@
-# Backend-for-frontend
-**/*.sln
-**/*.csproj
-**/*.cs
-**/*.props
-launchSettings.json
-stylecop.json
-# make sure to include '/**/*', as the license executor uses this glob
-apps/dh/api-dh/**/*
-
 # Frontend
 **/*.spec.ts

@@ -31,20 +31,11 @@ export default async function addLicenseExecutor(
 
   let success = true;
 
-  let ignores = [];
-  try {
-    const data = fs.readFileSync('./.nxignore', 'utf8');
-    ignores = data
-      .split('\n')
-      .map((x) => x.replace('\r', ''))
-      .filter((x) => !x.startsWith('#'));
-  } catch (err) {
-    console.error(err);
-  }
-
   console.info(`Adding licenses...`);
   const files = glob.sync(`{,!(node_modules|dist)/**/*}*{${globs.join(',')}}`, {
-    ignore: ignores,
+    ignore: [
+      '**/api-*/**/*'
+    ],
   });
 
   files.forEach((file) => {
