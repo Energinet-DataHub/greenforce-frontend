@@ -1,0 +1,27 @@
+{
+  "projectType": "library",
+  "root": "libs/ett/security/data-access-security",
+  "sourceRoot": "libs/ett/security/data-access-security/src",
+  "prefix": "ett",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/ett/security/data-access-security"],
+      "options": {
+        "jestConfig": "libs/ett/security/data-access-security/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/ett/security/data-access-security/src/**/*.ts",
+          "libs/ett/security/data-access-security/src/**/*.html"
+        ]
+      },
+      "outputs": ["{options.outputFile}"]
+    }
+  },
+  "tags": ["product:ett", "domain:security", "type:data-access"]
+}

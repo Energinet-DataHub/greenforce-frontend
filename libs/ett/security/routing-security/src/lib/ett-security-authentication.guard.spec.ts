@@ -7,7 +7,7 @@ import { ettAuthRoutePath } from '@energinet-datahub/ett/auth/shell-auth';
 import { SpectacularAppComponent } from '@ngworker/spectacular';
 import { render, RenderResult } from '@testing-library/angular';
 
-import { EttAuthenticationGuard } from './ett-authentication.guard';
+import { EttAuthenticationGuard } from './ett-security-authentication.guard';
 
 describe(EttAuthenticationGuard.name, () => {
   @Component({
