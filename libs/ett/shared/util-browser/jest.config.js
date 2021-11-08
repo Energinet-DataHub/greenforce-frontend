@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 module.exports = {
-  displayName: 'ett-core-util-browser',
+  displayName: 'ett-shared-util-browser',
   preset: '../../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   globals: {
@@ -24,7 +24,7 @@ module.exports = {
       stringifyContentPathRegex: '\\.(html|svg)$',
     },
   },
-  coverageDirectory: '../../../../coverage/libs/ett/core/util-browser',
+  coverageDirectory: '../../../../coverage/libs/ett/shared/util-browser',
   transform: {
     '^.+\\.(ts|js|html)$': 'jest-preset-angular',
   },

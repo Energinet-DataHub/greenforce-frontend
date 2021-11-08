@@ -23,7 +23,7 @@ import {
   UrlTree,
 } from '@angular/router';
 import { AuthOidcQueryParameterName } from '@energinet-datahub/ett/auth/data-access-api';
-import { AbsoluteUrlGenerator } from '@energinet-datahub/ett/core/util-browser';
+import { AbsoluteUrlGenerator } from '@energinet-datahub/ett/shared/util-browser';
 
 import { ettAuthRoutePath } from './ett-auth-route-path';
 
