@@ -16,9 +16,6 @@
  */
 import { moduleMetadata, Story, Meta } from '@storybook/angular';
 
-import { WattPrimaryButtonComponent } from './primary-button/watt-primary-button.component';
-import { WattSecondaryButtonComponent } from './secondary-button/watt-secondary-button.component';
-import { WattTextButtonComponent } from './text-button/watt-text-button.component';
 import { StorybookButtonOverviewModule } from './+storybook/storybook-button-overview.module';
 import { WattButtonComponent } from './watt-button.component';
 import { WattButtonModule } from './watt-button.module';
@@ -28,15 +25,6 @@ export default {
   component: WattButtonComponent,
   decorators: [
     moduleMetadata({
-      // NOTE(xdzus): Needed because Storybook doesn't support Ivy
-      // see https://github.com/storybookjs/storybook/issues/10863#issuecomment-632571554
-      // see https://github.com/nrwl/nx/issues/2601
-      // see https://github.com/nrwl/nx/pull/4641
-      entryComponents: [
-        WattTextButtonComponent,
-        WattPrimaryButtonComponent,
-        WattSecondaryButtonComponent,
-      ],
       imports: [WattButtonModule],
     }),
   ],
