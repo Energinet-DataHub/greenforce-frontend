@@ -33,7 +33,9 @@ limitations under the License.
       <watt-button type="primary">Focused</watt-button>
     </span>
     <watt-button type="primary" [disabled]="true">Disabled</watt-button>
-    <watt-button type="primary" icon="search"></watt-button>
+    <watt-button type="primary" icon="search" [loading]="true"
+      >Search</watt-button
+    >
   </div>
 
   <div class="content-grid">
@@ -65,7 +67,9 @@ limitations under the License.
       <watt-button type="secondary">Focused</watt-button>
     </span>
     <watt-button type="secondary" [disabled]="true">Disabled</watt-button>
-    <watt-button type="secondary" icon="search"></watt-button>
+    <watt-button type="secondary" icon="search" [loading]="true"
+      >Search</watt-button
+    >
   </div>
 
   <div class="content-grid">
@@ -98,7 +102,6 @@ limitations under the License.
       <watt-button>Focused</watt-button>
     </span>
     <watt-button [disabled]="true">Disabled</watt-button>
-    <watt-button icon="search"></watt-button>
   </div>
 
   <div class="content-grid">
@@ -114,11 +117,15 @@ limitations under the License.
 
   <h2>Size</h2>
 
-  <p>Default</p>
+  <div class="content-grid">
+    <div>
+      <p>Default</p>
+      <watt-button type="primary">Enabled</watt-button>
+    </div>
+    <div>
+      <p>Large</p>
 
-  <watt-button type="primary">Enabled</watt-button>
-
-  <p>Large</p>
-
-  <watt-button type="primary" size="large">Enabled</watt-button>
+      <watt-button type="primary" size="large">Enabled</watt-button>
+    </div>
+  </div>
 </mat-card>

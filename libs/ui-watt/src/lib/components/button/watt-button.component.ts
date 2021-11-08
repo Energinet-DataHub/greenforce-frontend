@@ -50,7 +50,13 @@ export class WattButtonComponent {
     return `watt-button-${this.size}`;
   }
 
+  @HostBinding('class.watt-button-loading')
+  get buttonLoadingState() {
+    return this.loading;
+  }
+
   @Input() icon?: WattIcon;
+
   @Input()
   get type(): WattButtonType {
     return this._type;
@@ -62,8 +68,12 @@ export class WattButtonComponent {
 
     this._type = value;
   }
+
   @Input() size: WattButtonSize = 'normal';
+
   @Input() disabled = false;
+
+  @Input() loading = false;
 
   get buttonComponentInjector(): Injector {
     return Injector.create({
@@ -88,6 +98,7 @@ export class WattButtonComponent {
         return WattTextButtonComponent;
     }
   }
+
   get hasIcon(): boolean {
     return !!this.icon;
   }

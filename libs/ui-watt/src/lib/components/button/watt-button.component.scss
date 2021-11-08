@@ -33,6 +33,32 @@ watt-button {
     }
   }
 
+  &.watt-button-loading {
+    .content-grid {
+      position: relative;
+    }
+
+    .content-grid-item-spinner {
+      position: absolute;
+    }
+
+    .content-grid-item:not(.content-grid-item-spinner) {
+      visibility: hidden;
+    }
+
+    watt-primary-button {
+      .mat-spinner circle {
+        stroke: var(--watt-color-neutral-white);
+      }
+    }
+  }
+
+  .content-grid {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+  }
+
   watt-primary-button {
     button.watt-button:focus {
       outline: buttonVariables.$watt-button-primary-focus-outline;
@@ -67,28 +93,19 @@ watt-button {
 
   watt-text-button {
     button.watt-button:focus {
-      border: buttonVariables.$watt-button-text-focus-state;
-    }
+      outline: buttonVariables.$watt-button-text-focus-state;
 
-    button.watt-button:hover {
-      color: buttonVariables.$watt-button-text-hover-color;
       .mat-button-focus-overlay {
         background-color: transparent;
       }
     }
-  }
 
-  .content-grid {
-    align-items: center;
-    display: inline-flex;
-  }
+    button.watt-button:hover {
+      color: buttonVariables.$watt-button-text-hover-color;
 
-  // NOTE(xdzus): Needed in order to center the icon if content is empty
-  .content-grid-item {
-    flex-grow: 1;
-
-    & + .content-grid-item {
-      flex-grow: 0;
+      .mat-button-focus-overlay {
+        background-color: transparent;
+      }
     }
   }
 }
