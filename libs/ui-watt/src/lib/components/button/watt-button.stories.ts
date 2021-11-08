@@ -56,86 +56,10 @@ Overview.parameters = {
 //👇 We create a “template” of how args map to rendering
 const ButtonTemplate: Story<WattButtonComponent> = (args) => ({
   props: args,
-  template: `
-<watt-button
-  type="${args.type}"
-  icon="${args.icon}"
-  size="${args.size}"
-  [loading]="${args.loading}"
-  [disabled]="${args.disabled}">
-  Button
-</watt-button>`,
+  template: `<watt-button>Button</watt-button>`,
 });
 
-export const PrimaryButton = ButtonTemplate.bind({});
-PrimaryButton.storyName = 'Primary';
-PrimaryButton.args = {
-  type: 'primary',
-};
-
-export const PrimaryButtonWithIcon = ButtonTemplate.bind({});
-PrimaryButtonWithIcon.storyName = 'Primary with icon';
-PrimaryButtonWithIcon.args = {
-  icon: 'plus',
-  type: 'primary',
-};
-
-export const PrimaryButtonLoading = ButtonTemplate.bind({});
-PrimaryButtonLoading.storyName = 'Primary in loading state';
-PrimaryButtonLoading.args = {
-  type: 'primary',
-  loading: true,
-};
-
-export const SecondaryButton = ButtonTemplate.bind({});
-SecondaryButton.storyName = 'Secondary';
-SecondaryButton.args = {
-  type: 'secondary',
-};
-
-export const SecondaryButtonWithIcon = ButtonTemplate.bind({});
-SecondaryButtonWithIcon.storyName = 'Secondary with icon';
-SecondaryButtonWithIcon.args = {
-  icon: 'plus',
-  type: 'secondary',
-};
-
-export const SecondaryButtonLoading = ButtonTemplate.bind({});
-SecondaryButtonLoading.storyName = 'Secondary in loading state';
-SecondaryButtonLoading.args = {
-  type: 'secondary',
-  loading: true,
-};
-
-export const TextButton = ButtonTemplate.bind({});
-TextButton.storyName = 'Text';
-TextButton.args = {
+export const Button = ButtonTemplate.bind({});
+Button.args = {
   type: 'text',
-};
-
-export const TextButtonWithIcon = ButtonTemplate.bind({});
-TextButtonWithIcon.storyName = 'Text with icon';
-TextButtonWithIcon.args = {
-  icon: 'plus',
-  type: 'text',
-};
-
-export const TextButtonLoading = ButtonTemplate.bind({});
-TextButtonLoading.storyName = 'Text in loading state';
-TextButtonLoading.args = {
-  type: 'text',
-  loading: true,
-};
-
-export const ButtonSizeNormal = ButtonTemplate.bind({});
-ButtonSizeNormal.storyName = 'Normal size';
-ButtonSizeNormal.args = {
-  type: 'primary',
-};
-
-export const ButtonSizeLarge = ButtonTemplate.bind({});
-ButtonSizeLarge.storyName = 'Large size';
-ButtonSizeLarge.args = {
-  type: 'primary',
-  size: 'large',
 };
