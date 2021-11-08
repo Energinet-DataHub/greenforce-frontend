@@ -32,4 +32,4 @@ const routes: Routes = [
 @NgModule({
   imports: [RouterModule.forChild(routes), EttAuthShellScam],
 })
-export class EttAuthFeatureShellModule {}
+export class EttAuthShellModule {}

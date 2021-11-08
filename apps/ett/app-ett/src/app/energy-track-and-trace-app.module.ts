@@ -16,7 +16,7 @@
  */
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { EttCoreFeatureShellModule } from '@energinet-datahub/ett/core/shell-core';
+import { EttCoreShellModule } from '@energinet-datahub/ett/core/shell-core';
 
 import {
   EnergyTrackAndTraceAppComponent,
@@ -27,7 +27,7 @@ import {
   bootstrap: [EnergyTrackAndTraceAppComponent],
   imports: [
     BrowserAnimationsModule,
-    EttCoreFeatureShellModule,
+    EttCoreShellModule,
     EnergyTrackAndTraceAppScam,
   ],
 })

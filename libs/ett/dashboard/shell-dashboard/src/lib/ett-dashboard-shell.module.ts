@@ -36,4 +36,4 @@ const routes: Routes = [
   exports: [RouterModule],
   imports: [RouterModule.forChild(routes), EttDashboardShellScam],
 })
-export class EttDashboardFeatureShellModule {}
+export class EttDashboardShellModule {}
