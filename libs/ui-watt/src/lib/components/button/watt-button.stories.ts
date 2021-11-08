@@ -69,7 +69,12 @@ Overview.parameters = {
 const ButtonTemplate: Story<WattButtonComponent> = (args) => ({
   props: args,
   template: `
-<watt-button type="${args.type}" icon="${args.icon}" [disabled]="${args.disabled}" size="${args.size}">
+<watt-button
+  type="${args.type}"
+  icon="${args.icon}"
+  size="${args.size}"
+  [loading]="${args.loading}"
+  [disabled]="${args.disabled}">
   Button
 </watt-button>`,
 });
@@ -87,6 +92,13 @@ PrimaryButtonWithIcon.args = {
   type: 'primary',
 };
 
+export const PrimaryButtonLoading = ButtonTemplate.bind({});
+PrimaryButtonLoading.storyName = 'Primary in loading state';
+PrimaryButtonLoading.args = {
+  type: 'primary',
+  loading: true,
+};
+
 export const SecondaryButton = ButtonTemplate.bind({});
 SecondaryButton.storyName = 'Secondary';
 SecondaryButton.args = {
@@ -100,6 +112,13 @@ SecondaryButtonWithIcon.args = {
   type: 'secondary',
 };
 
+export const SecondaryButtonLoading = ButtonTemplate.bind({});
+SecondaryButtonLoading.storyName = 'Secondary in loading state';
+SecondaryButtonLoading.args = {
+  type: 'secondary',
+  loading: true,
+};
+
 export const TextButton = ButtonTemplate.bind({});
 TextButton.storyName = 'Text';
 TextButton.args = {
@@ -111,6 +130,13 @@ TextButtonWithIcon.storyName = 'Text with icon';
 TextButtonWithIcon.args = {
   icon: 'plus',
   type: 'text',
+};
+
+export const TextButtonLoading = ButtonTemplate.bind({});
+TextButtonLoading.storyName = 'Text in loading state';
+TextButtonLoading.args = {
+  type: 'text',
+  loading: true,
 };
 
 export const ButtonSizeNormal = ButtonTemplate.bind({});
