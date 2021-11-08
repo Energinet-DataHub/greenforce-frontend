@@ -114,9 +114,21 @@
                   "type:util",
                   "type:test-util",
                   "type:shell",
+                  "type:configuration",
                   "type:environments",
                   "type:assets",
                   "type:styles"
+                ]
+              },
+              {
+                "sourceTag": "type:configuration",
+                "onlyDependOnLibsWithTags": [
+                  "type:data-access",
+                  "type:routing",
+                  "type:util",
+                  "type:test-util",
+                  "type:configuration",
+                  "type:environments"
                 ]
               },
               {

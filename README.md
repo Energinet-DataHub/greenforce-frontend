@@ -80,6 +80,7 @@ Only libraries of type `data-access` may have dependencies to apps, and only app
 - e2e-util
 - domain
 - shell
+- configuration
 - environments
 - assets
 - styles
@@ -127,7 +128,12 @@ Allowed dependencies to: `domain`, `util`, `test-util`.
 ### Shell libraries
 
 Entrypoint for an application or domain. Orchestration and routing.
-Allowed dependencies to: `feature`, `ui`, `data-access`, `routing`, `util`, `test-util`, `shell`, `environments`, `assets`, `styles`.
+Allowed dependencies to: `feature`, `ui`, `data-access`, `routing`, `util`, `test-util`, `shell`, `configuration`, `environments`, `assets`, `styles`.
+
+### Configuration libraries
+
+A library containing configurations, example: i18n
+Allowed dependencies to: `data-access`, `routing`, `util`, `test-util`, `configuration`, `environments`.
 
 ### Environments libraries
 
