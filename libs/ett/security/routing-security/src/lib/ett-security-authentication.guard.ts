@@ -23,8 +23,8 @@ import {
   UrlTree,
 } from '@angular/router';
 import { AuthOidcQueryParameterName } from '@energinet-datahub/ett/auth/data-access-api';
-import { ettAuthRoutePath } from '@energinet-datahub/ett/auth/shell-auth';
 import { AbsoluteUrlGenerator } from '@energinet-datahub/ett/core/util-browser';
+import { ettAuthRoutePath } from './ett-security-route-path';
 
 /**
  * Redirects to login page if authentication fails.

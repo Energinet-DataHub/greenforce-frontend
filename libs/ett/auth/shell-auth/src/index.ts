@@ -15,4 +15,3 @@
  * limitations under the License.
  */
 export * from './lib/ett-auth-feature-shell.module';
-export * from '../../../security/routing-security/src/lib/ett-security-route-path';

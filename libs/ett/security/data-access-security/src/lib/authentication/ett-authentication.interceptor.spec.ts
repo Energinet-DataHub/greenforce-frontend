@@ -11,7 +11,7 @@ import {
 import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { ettAuthRoutePath } from '@energinet-datahub/ett/auth/shell-auth';
+import { ettAuthRoutePath } from '@energinet-datahub/ett/security/routing-security';
 import { lastValueFrom } from 'rxjs';
 
 import {

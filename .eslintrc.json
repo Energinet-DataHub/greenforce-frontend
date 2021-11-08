@@ -32,6 +32,7 @@
                   "type:feature",
                   "type:ui",
                   "type:data-access",
+                  "type:routing",
                   "type:util",
                   "type:test-util",
                   "type:domain",
@@ -54,10 +55,21 @@
                 "sourceTag": "type:data-access",
                 "onlyDependOnLibsWithTags": [
                   "type:data-access",
+                  "type:routing",
                   "type:util",
                   "type:test-util",
                   "type:domain",
                   "type:environments"
+                ]
+              },
+              {
+                "sourceTag": "type:routing",
+                "onlyDependOnLibsWithTags": [
+                  "type:data-access",
+                  "type:routing",
+                  "type:util",
+                  "type:test-util",
+                  "type:shell"
                 ]
               },
               {
@@ -94,6 +106,7 @@
                   "type:feature",
                   "type:ui",
                   "type:data-access",
+                  "type:routing",
                   "type:util",
                   "type:test-util",
                   "type:shell",

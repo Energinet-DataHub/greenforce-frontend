@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { AuthOidcQueryParameterName } from '@energinet-datahub/ett/auth/data-access-api';
-import { ettAuthRoutePath } from '@energinet-datahub/ett/auth/shell-auth';
+import { ettAuthRoutePath } from '@energinet-datahub/ett/security/routing-security';
 import { SpectacularAppComponent } from '@ngworker/spectacular';
 import { render, RenderResult } from '@testing-library/angular';
 

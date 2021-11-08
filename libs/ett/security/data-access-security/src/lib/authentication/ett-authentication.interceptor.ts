@@ -25,8 +25,8 @@ import {
 } from '@angular/common/http';
 import { ClassProvider, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { ettAuthRoutePath } from '@energinet-datahub/ett/auth/shell-auth';
 import { catchError, from, Observable, switchMapTo, throwError } from 'rxjs';
+import { ettAuthRoutePath } from '@energinet-datahub/ett/security/routing-security';
 
 /**
  * Redirects to the login page when the user is not authenticated or their

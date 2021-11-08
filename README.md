@@ -87,7 +87,7 @@ Only libraries of type `data-access` may have dependencies to apps, and only app
 ### Feature libraries
 
 Developers should consider feature libraries as libraries that implement smart UI (with access to data sources) for specific business use cases or pages in an application.
-Allowed dependencies to: `feature`, `ui`, `data-access`, `util`, `test-util`, `domain`, `environments`, `assets`.
+Allowed dependencies to: `feature`, `ui`, `data-access`, `routing`, `util`, `test-util`, `domain`, `environments`, `assets`.
 
 ### UI libraries
 
@@ -97,7 +97,7 @@ Allowed dependencies to: `ui`, `util`, `test-util`, `domain`, `assets`, `styles`
 ### Data-access libraries
 
 A data-access library contains code for interacting with a back-end system. It also includes all the code related to state management, routing and HTTP interceptors.
-Allowed dependencies to: `data-access`, `util`, `test-util`, `domain`, `environments`.
+Allowed dependencies to: `data-access`, `routing`, `util`, `test-util`, `domain`, `environments`.
 
 ### Routing libraries
 
