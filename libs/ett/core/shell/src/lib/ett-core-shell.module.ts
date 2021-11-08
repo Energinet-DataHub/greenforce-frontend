@@ -36,7 +36,7 @@ const routes: Routes = [
   {
     path: ettAuthRoutePath,
     loadChildren: () =>
-      import('@energinet-datahub/ett/auth/shell-auth').then(
+      import('@energinet-datahub/ett/auth/shell').then(
         (esModule) => esModule.EttAuthShellModule
       ),
   },

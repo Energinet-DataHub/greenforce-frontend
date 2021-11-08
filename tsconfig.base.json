@@ -10,17 +10,12 @@
     "importHelpers": true,
     "target": "es2015",
     "module": "esnext",
-    "lib": [
-      "es2017",
-      "dom"
-    ],
+    "lib": ["es2017", "dom"],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@angular/*": [
-        "./node_modules/@angular/*"
-      ],
+      "@angular/*": ["./node_modules/@angular/*"],
       "@energinet-datahub/dh/core/shell-core": [
         "libs/dh/core/shell-core/src/index.ts"
       ],
@@ -36,15 +31,11 @@
       "@energinet-datahub/ett/auth/routing-security": [
         "libs/ett/auth/routing-security/src/index.ts"
       ],
-      "@energinet-datahub/ett/auth/shell-auth": [
-        "libs/ett/auth/shell-auth/src/index.ts"
-      ],
+      "@energinet-datahub/ett/auth/shell": ["libs/ett/auth/shell/src/index.ts"],
       "@energinet-datahub/ett/core/environments": [
         "libs/ett/core/environments/src/index.ts"
       ],
-      "@energinet-datahub/ett/core/shell": [
-        "libs/ett/core/shell/src/index.ts"
-      ],
+      "@energinet-datahub/ett/core/shell": ["libs/ett/core/shell/src/index.ts"],
       "@energinet-datahub/ett/dashboard/routing": [
         "libs/ett/dashboard/routing/src/index.ts"
       ],
@@ -63,13 +54,8 @@
       "@energinet-datahub/gf/util-browser": [
         "libs/gf/util-browser/src/index.ts"
       ],
-      "@energinet-datahub/watt": [
-        "libs/ui-watt/src/index.ts"
-      ]
+      "@energinet-datahub/watt": ["libs/ui-watt/src/index.ts"]
     }
   },
-  "exclude": [
-    "node_modules",
-    "tmp"
-  ]
+  "exclude": ["node_modules", "tmp"]
 }

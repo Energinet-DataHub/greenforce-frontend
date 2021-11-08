@@ -11,7 +11,7 @@
     "ett-auth-data-access-security": "libs/ett/auth/data-access-security",
     "ett-auth-feature-login": "libs/ett/auth/feature-login",
     "ett-auth-routing-security": "libs/ett/auth/routing-security",
-    "ett-auth-shell": "libs/ett/auth/shell-auth",
+    "ett-auth-shell": "libs/ett/auth/shell",
     "ett-core-environments": "libs/ett/core/environments",
     "ett-core-shell": "libs/ett/core/shell",
     "ett-dashboard-routing": "libs/ett/dashboard/routing",
