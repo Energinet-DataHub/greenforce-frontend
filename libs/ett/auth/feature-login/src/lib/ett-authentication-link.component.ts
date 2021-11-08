@@ -21,7 +21,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { AuthOidcHttp } from '@energinet-datahub/ett/auth/data-access-api';
-import { AbsoluteUrlGenerator } from '@energinet-datahub/ett/core/util-browser';
+import { AbsoluteUrlGenerator } from '@energinet-datahub/ett/shared/util-browser';
 import { ettDashboardRoutePath } from '@energinet-datahub/ett/dashboard/routing-dashboard';
 import { LetModule } from '@rx-angular/template';
 import { catchError, map, Observable, of } from 'rxjs';
