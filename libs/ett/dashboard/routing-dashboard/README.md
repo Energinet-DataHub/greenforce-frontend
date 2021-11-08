@@ -1,1 +1,1 @@
-# Energy Track and Trace dashboard routing
+# Dashboard routing
