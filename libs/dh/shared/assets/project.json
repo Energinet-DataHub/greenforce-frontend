@@ -4,5 +4,5 @@
   "sourceRoot": "libs/dh/shared/assets/src",
   "prefix": "dh",
   "targets": {},
-  "tags": ["product:dh", "scope:shared", "type:assets"]
+  "tags": ["product:dh", "domain:shared", "type:assets"]
 }

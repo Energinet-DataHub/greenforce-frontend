@@ -22,5 +22,5 @@
       }
     }
   },
-  "tags": ["product:dh", "scope:globalization", "type:domain"]
+  "tags": ["product:dh", "domain:globalization", "type:domain"]
 }
