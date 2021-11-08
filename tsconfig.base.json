@@ -22,8 +22,14 @@
       "@energinet-datahub/ett/auth/data-access-api": [
         "libs/ett/auth/data-access-api/src/index.ts"
       ],
+      "@energinet-datahub/ett/auth/data-access-security": [
+        "libs/ett/auth/data-access-security/src/index.ts"
+      ],
       "@energinet-datahub/ett/auth/feature-login": [
         "libs/ett/auth/feature-login/src/index.ts"
+      ],
+      "@energinet-datahub/ett/auth/routing-security": [
+        "libs/ett/auth/routing-security/src/index.ts"
       ],
       "@energinet-datahub/ett/auth/shell-auth": [
         "libs/ett/auth/shell-auth/src/index.ts"
@@ -42,12 +48,6 @@
       ],
       "@energinet-datahub/ett/dashboard/shell-dashboard": [
         "libs/ett/dashboard/shell-dashboard/src/index.ts"
-      ],
-      "@energinet-datahub/ett/security/data-access-security": [
-        "libs/ett/security/data-access-security/src/index.ts"
-      ],
-      "@energinet-datahub/ett/security/routing-security": [
-        "libs/ett/security/routing-security/src/index.ts"
       ],
       "@energinet-datahub/gf/test-util-matchers": [
         "libs/gf/test-util-matchers/src/index.ts"

@@ -24,7 +24,7 @@ import {
 import {
   ettAuthenticationInterceptorProvider,
   ettAuthorizationInterceptorProvider,
-} from '@energinet-datahub/ett/security/data-access-security';
+} from '@energinet-datahub/ett/auth/data-access-security';
 
 /**
  * Do not import directly. Use `EttHttpModule.forRoot`.

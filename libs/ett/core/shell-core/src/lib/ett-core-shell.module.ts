@@ -20,7 +20,7 @@ import { ettDashboardRoutePath } from '@energinet-datahub/ett/dashboard/routing-
 import {
   EttAuthenticationGuard,
   ettAuthRoutePath,
-} from '@energinet-datahub/ett/security/routing-security';
+} from '@energinet-datahub/ett/auth/routing-security';
 import { GfBrowserConfigurationModule } from '@energinet-datahub/gf/util-browser';
 
 import { EttHttpModule } from './ett-http.module';
