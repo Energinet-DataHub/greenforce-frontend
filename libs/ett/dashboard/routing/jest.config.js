@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 module.exports = {
-  displayName: 'ett-auth-shell',
+  displayName: 'ett-dashboard-routing',
   preset: '../../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   globals: {
@@ -24,7 +24,7 @@ module.exports = {
       stringifyContentPathRegex: '\\.(html|svg)$',
     },
   },
-  coverageDirectory: '../../../../coverage/libs/ett/auth/shell-auth',
+  coverageDirectory: '../../../../coverage/libs/ett/dashboard/routing',
   transform: {
     '^.+\\.(ts|js|html)$': 'jest-preset-angular',
   },

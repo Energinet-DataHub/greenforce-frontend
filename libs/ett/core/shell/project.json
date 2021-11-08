@@ -1,14 +1,14 @@
 {
   "projectType": "library",
-  "root": "libs/ett/core/shell-core",
-  "sourceRoot": "libs/ett/core/shell-core/src",
+  "root": "libs/ett/core/shell",
+  "sourceRoot": "libs/ett/core/shell/src",
   "prefix": "ett",
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/ett/core/shell-core"],
+      "outputs": ["coverage/libs/ett/core/shell"],
       "options": {
-        "jestConfig": "libs/ett/core/shell-core/jest.config.js",
+        "jestConfig": "libs/ett/core/shell/jest.config.js",
         "passWithNoTests": true
       }
     },
@@ -16,8 +16,8 @@
       "executor": "@nrwl/linter:eslint",
       "options": {
         "lintFilePatterns": [
-          "libs/ett/core/shell-core/src/**/*.ts",
-          "libs/ett/core/shell-core/src/**/*.html"
+          "libs/ett/core/shell/src/**/*.ts",
+          "libs/ett/core/shell/src/**/*.html"
         ]
       },
       "outputs": ["{options.outputFile}"]

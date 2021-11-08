@@ -16,7 +16,7 @@
  */
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { DhAppCoreShellModule } from '@energinet-datahub/dh/core/shell-core';
+import { DhAppCoreShellModule } from '@energinet-datahub/dh/core/shell';
 
 import { DataHubAppComponent } from './datahub-app.component';
 

@@ -16,7 +16,7 @@
  */
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ettDashboardRoutePath } from '@energinet-datahub/ett/dashboard/routing-dashboard';
+import { ettDashboardRoutePath } from '@energinet-datahub/ett/dashboard/routing';
 import {
   EttAuthenticationGuard,
   ettAuthRoutePath,
@@ -36,7 +36,7 @@ const routes: Routes = [
   {
     path: ettAuthRoutePath,
     loadChildren: () =>
-      import('@energinet-datahub/ett/auth/shell-auth').then(
+      import('@energinet-datahub/ett/auth/shell').then(
         (esModule) => esModule.EttAuthShellModule
       ),
   },
@@ -48,7 +48,7 @@ const routes: Routes = [
       {
         path: ettDashboardRoutePath,
         loadChildren: () =>
-          import('@energinet-datahub/ett/dashboard/shell-dashboard').then(
+          import('@energinet-datahub/ett/dashboard/shell').then(
             (esModule) => esModule.EttDashboardShellModule
           ),
       },
