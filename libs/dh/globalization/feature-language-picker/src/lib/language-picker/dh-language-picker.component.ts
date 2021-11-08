@@ -10,10 +10,10 @@ import { map, Observable } from 'rxjs';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'dh-language-picker',
-  templateUrl: './language-picker.component.html',
-  styleUrls: ['./language-picker.component.scss'],
+  templateUrl: './dh-language-picker.component.html',
+  styleUrls: ['./dh-language-picker.component.scss'],
 })
-export class LanguagePickerComponent {
+export class DhLanguagePickerComponent {
   activeLanguage$: Observable<DisplayLanguage> =
     this.transloco.langChanges$.pipe(map(toDisplayLanguage));
   displayLanguages = displayLanguages;

@@ -6,6 +6,7 @@
     "app-dh-core-feature-shell": "libs/dh/core/feature-shell",
     "app-ett": "apps/ett/app-ett",
     "dh-globalization-domain": "libs/dh/globalization/domain",
+    "dh-globalization-feature-language-picker": "libs/dh/globalization/feature-language-picker",
     "dh-shared-assets": "libs/dh/shared/assets",
     "dh-shared-environments": "libs/dh/shared/environments",
     "e2e-dh": "apps/dh/e2e-dh",

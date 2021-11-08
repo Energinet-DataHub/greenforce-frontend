@@ -2,11 +2,11 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { WattButtonModule } from '@energinet-datahub/watt';
 
-import { LanguageButtonComponent } from './language-button.component';
+import { DhLanguageButtonComponent } from './dh-language-button.component';
 
 @NgModule({
-  declarations: [LanguageButtonComponent],
-  exports: [LanguageButtonComponent],
+  declarations: [DhLanguageButtonComponent],
+  exports: [DhLanguageButtonComponent],
   imports: [CommonModule, WattButtonModule],
 })
-export class LanguageButtonModule {}
+export class DhLanguageButtonModule {}

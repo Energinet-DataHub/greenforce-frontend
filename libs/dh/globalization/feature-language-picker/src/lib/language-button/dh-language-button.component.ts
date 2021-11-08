@@ -10,10 +10,10 @@ import { DisplayLanguage } from '@energinet-datahub/dh/globalization/domain';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'dh-language-button',
-  templateUrl: './language-button.component.html',
-  styleUrls: ['./language-button.component.scss'],
+  templateUrl: './dh-language-button.component.html',
+  styleUrls: ['./dh-language-button.component.scss'],
 })
-export class LanguageButtonComponent {
+export class DhLanguageButtonComponent {
   @Input()
   isDisabled = false;
   @Input()

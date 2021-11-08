@@ -16,14 +16,14 @@
  */
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { DhLanguagePickerModule } from '@energinet-datahub/dh/globalization/feature-language-picker';
 import { WattModule } from '@energinet-datahub/watt';
 import { TranslocoModule } from '@ngneat/transloco';
 
-import { LanguagePickerModule } from './../language-picker/language-picker.module';
 import { ShellComponent } from './shell.component';
 
 @NgModule({
   declarations: [ShellComponent],
-  imports: [RouterModule, TranslocoModule, WattModule, LanguagePickerModule],
+  imports: [RouterModule, TranslocoModule, WattModule, DhLanguagePickerModule],
 })
 export class ShellModule {}
