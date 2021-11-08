@@ -16,9 +16,7 @@
     "baseUrl": ".",
     "paths": {
       "@angular/*": ["./node_modules/@angular/*"],
-      "@energinet-datahub/dh/core/shell-core": [
-        "libs/dh/core/shell-core/src/index.ts"
-      ],
+      "@energinet-datahub/dh/core/shell": ["libs/dh/core/shell/src/index.ts"],
       "@energinet-datahub/ett/auth/data-access-api": [
         "libs/ett/auth/data-access-api/src/index.ts"
       ],

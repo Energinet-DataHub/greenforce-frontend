@@ -3,8 +3,8 @@
   "projects": {
     "api-dh": "apps/dh/api-dh",
     "app-dh": "apps/dh/app-dh",
-    "app-dh-core-shell": "libs/dh/core/shell-core",
     "app-ett": "apps/ett/app-ett",
+    "dh-core-shell": "libs/dh/core/shell",
     "e2e-dh": "apps/dh/e2e-dh",
     "e2e-ett": "apps/ett/e2e-ett",
     "ett-auth-data-access-api": "libs/ett/auth/data-access-api",

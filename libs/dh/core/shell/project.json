@@ -1,13 +1,13 @@
 {
   "projectType": "library",
-  "root": "libs/dh/core/shell-core",
-  "sourceRoot": "libs/dh/core/shell-core/src",
+  "root": "libs/dh/core/shell",
+  "sourceRoot": "libs/dh/core/shell/src",
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/dh/core/shell-core"],
+      "outputs": ["coverage/libs/dh/core/shell"],
       "options": {
-        "jestConfig": "libs/dh/core/shell-core/jest.config.js",
+        "jestConfig": "libs/dh/core/shell/jest.config.js",
         "passWithNoTests": true
       }
     },
@@ -15,8 +15,8 @@
       "executor": "@nrwl/linter:eslint",
       "options": {
         "lintFilePatterns": [
-          "libs/dh/core/shell-core/src/**/*.ts",
-          "libs/dh/core/shell-core/src/**/*.html"
+          "libs/dh/core/shell/src/**/*.ts",
+          "libs/dh/core/shell/src/**/*.html"
         ]
       },
       "outputs": ["{options.outputFile}"]
