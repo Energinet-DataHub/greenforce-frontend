@@ -16,9 +16,6 @@
  */
 import { moduleMetadata, Story, Meta } from '@storybook/angular';
 
-import { WattPrimaryButtonComponent } from './primary-button/watt-primary-button.component';
-import { WattSecondaryButtonComponent } from './secondary-button/watt-secondary-button.component';
-import { WattTextButtonComponent } from './text-button/watt-text-button.component';
 import { StorybookButtonOverviewModule } from './+storybook/storybook-button-overview.module';
 import { WattButtonComponent } from './watt-button.component';
 import { WattButtonModule } from './watt-button.module';
@@ -28,15 +25,6 @@ export default {
   component: WattButtonComponent,
   decorators: [
     moduleMetadata({
-      // NOTE(xdzus): Needed because Storybook doesn't support Ivy
-      // see https://github.com/storybookjs/storybook/issues/10863#issuecomment-632571554
-      // see https://github.com/nrwl/nx/issues/2601
-      // see https://github.com/nrwl/nx/pull/4641
-      entryComponents: [
-        WattTextButtonComponent,
-        WattPrimaryButtonComponent,
-        WattSecondaryButtonComponent,
-      ],
       imports: [WattButtonModule],
     }),
   ],
@@ -68,60 +56,10 @@ Overview.parameters = {
 //👇 We create a “template” of how args map to rendering
 const ButtonTemplate: Story<WattButtonComponent> = (args) => ({
   props: args,
-  template: `
-<watt-button type="${args.type}" icon="${args.icon}" [disabled]="${args.disabled}" size="${args.size}">
-  Button
-</watt-button>`,
+  template: `<watt-button>Button</watt-button>`,
 });
 
-export const PrimaryButton = ButtonTemplate.bind({});
-PrimaryButton.storyName = 'Primary';
-PrimaryButton.args = {
-  type: 'primary',
-};
-
-export const PrimaryButtonWithIcon = ButtonTemplate.bind({});
-PrimaryButtonWithIcon.storyName = 'Primary with icon';
-PrimaryButtonWithIcon.args = {
-  icon: 'plus',
-  type: 'primary',
-};
-
-export const SecondaryButton = ButtonTemplate.bind({});
-SecondaryButton.storyName = 'Secondary';
-SecondaryButton.args = {
-  type: 'secondary',
-};
-
-export const SecondaryButtonWithIcon = ButtonTemplate.bind({});
-SecondaryButtonWithIcon.storyName = 'Secondary with icon';
-SecondaryButtonWithIcon.args = {
-  icon: 'plus',
-  type: 'secondary',
-};
-
-export const TextButton = ButtonTemplate.bind({});
-TextButton.storyName = 'Text';
-TextButton.args = {
+export const Button = ButtonTemplate.bind({});
+Button.args = {
   type: 'text',
-};
-
-export const TextButtonWithIcon = ButtonTemplate.bind({});
-TextButtonWithIcon.storyName = 'Text with icon';
-TextButtonWithIcon.args = {
-  icon: 'plus',
-  type: 'text',
-};
-
-export const ButtonSizeNormal = ButtonTemplate.bind({});
-ButtonSizeNormal.storyName = 'Normal size';
-ButtonSizeNormal.args = {
-  type: 'primary',
-};
-
-export const ButtonSizeLarge = ButtonTemplate.bind({});
-ButtonSizeLarge.storyName = 'Large size';
-ButtonSizeLarge.args = {
-  type: 'primary',
-  size: 'large',
 };

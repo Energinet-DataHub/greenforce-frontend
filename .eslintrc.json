@@ -13,6 +13,141 @@
             "allow": [],
             "depConstraints": [
               {
+                "sourceTag": "type:app",
+                "onlyDependOnLibsWithTags": [
+                  "type:test-util",
+                  "type:shell",
+                  "type:environments",
+                  "type:assets",
+                  "type:styles"
+                ]
+              },
+              {
+                "sourceTag": "type:e2e",
+                "onlyDependOnLibsWithTags": [
+                  "type:api",
+                  "type:app",
+                  "type:e2e-util"
+                ]
+              },
+              {
+                "sourceTag": "type:feature",
+                "onlyDependOnLibsWithTags": [
+                  "type:feature",
+                  "type:ui",
+                  "type:data-access",
+                  "type:routing",
+                  "type:util",
+                  "type:test-util",
+                  "type:domain",
+                  "type:environments",
+                  "type:assets"
+                ]
+              },
+              {
+                "sourceTag": "type:ui",
+                "onlyDependOnLibsWithTags": [
+                  "type:ui",
+                  "type:util",
+                  "type:test-util",
+                  "type:domain",
+                  "type:assets",
+                  "type:styles"
+                ]
+              },
+              {
+                "sourceTag": "type:data-access",
+                "onlyDependOnLibsWithTags": [
+                  "type:data-access",
+                  "type:routing",
+                  "type:util",
+                  "type:test-util",
+                  "type:domain",
+                  "type:environments"
+                ]
+              },
+              {
+                "sourceTag": "type:routing",
+                "onlyDependOnLibsWithTags": [
+                  "type:data-access",
+                  "type:routing",
+                  "type:util",
+                  "type:test-util",
+                  "type:shell"
+                ]
+              },
+              {
+                "sourceTag": "type:util",
+                "onlyDependOnLibsWithTags": ["type:util", "type:test-util"]
+              },
+              {
+                "sourceTag": "type:test-util",
+                "onlyDependOnLibsWithTags": [
+                  "type:data-access",
+                  "type:util",
+                  "type:test-util"
+                ]
+              },
+              {
+                "sourceTag": "type:e2e-util",
+                "onlyDependOnLibsWithTags": [
+                  "type:util",
+                  "type:test-util",
+                  "type:e2e-util"
+                ]
+              },
+              {
+                "sourceTag": "type:domain",
+                "onlyDependOnLibsWithTags": [
+                  "type:domain",
+                  "type:util",
+                  "type:test-util"
+                ]
+              },
+              {
+                "sourceTag": "type:shell",
+                "onlyDependOnLibsWithTags": [
+                  "type:feature",
+                  "type:ui",
+                  "type:data-access",
+                  "type:routing",
+                  "type:util",
+                  "type:test-util",
+                  "type:shell",
+                  "type:configuration",
+                  "type:environments",
+                  "type:assets",
+                  "type:styles"
+                ]
+              },
+              {
+                "sourceTag": "type:configuration",
+                "onlyDependOnLibsWithTags": [
+                  "type:data-access",
+                  "type:routing",
+                  "type:util",
+                  "type:test-util",
+                  "type:configuration",
+                  "type:environments"
+                ]
+              },
+              {
+                "sourceTag": "type:environments",
+                "onlyDependOnLibsWithTags": [
+                  "type:util",
+                  "type:test-util",
+                  "type:environments"
+                ]
+              },
+              {
+                "sourceTag": "type:assets",
+                "onlyDependOnLibsWithTags": ["type:assets"]
+              },
+              {
+                "sourceTag": "type:styles",
+                "onlyDependOnLibsWithTags": ["type:assets", "type:styles"]
+              },
+              {
                 "sourceTag": "product:dh",
                 "onlyDependOnLibsWithTags": [
                   "product:dh",

@@ -23,5 +23,5 @@
       "outputs": ["{options.outputFile}"]
     }
   },
-  "tags": ["product:gf", "scope:shared", "type:util"]
+  "tags": ["product:gf", "domain:shared", "type:util"]
 }

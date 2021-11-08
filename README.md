@@ -74,11 +74,13 @@ Only libraries of type `data-access` may have dependencies to apps, and only app
 - feature
 - ui
 - data-access
+- routing
 - util
 - test-util
 - e2e-util
 - domain
 - shell
+- configuration
 - environments
 - assets
 - styles
@@ -86,7 +88,7 @@ Only libraries of type `data-access` may have dependencies to apps, and only app
 ### Feature libraries
 
 Developers should consider feature libraries as libraries that implement smart UI (with access to data sources) for specific business use cases or pages in an application.
-Allowed dependencies to: `feature`, `ui`, `data-access`, `util`, `test-util`, `domain`, `environments`, `assets`.
+Allowed dependencies to: `feature`, `ui`, `data-access`, `routing`, `util`, `test-util`, `domain`, `environments`, `assets`.
 
 ### UI libraries
 
@@ -96,44 +98,54 @@ Allowed dependencies to: `ui`, `util`, `test-util`, `domain`, `assets`, `styles`
 ### Data-access libraries
 
 A data-access library contains code for interacting with a back-end system. It also includes all the code related to state management, routing and HTTP interceptors.
-Allowed dependencies to: `data-access`, `util`, `test-util`, `domain`, `environments`.
+Allowed dependencies to: `data-access`, `routing`, `util`, `test-util`, `domain`, `environments`.
+
+### Routing libraries
+
+A routing library contains code related for routing (routes, route paths, route guards, route resolvers, route reuse strategies, preloading strategies).
+Allowed dependencies to: `data-access`, `routing`, `util`, `test-util`, `shell`.
 
 ### Utility libraries
 
 A utility library contains low-level utilities used by many libraries and applications (services, pure functions, contants).
 Allowed dependencies to: `util`, `test-util`.
 
-### test-util
+### Test-util libraries
 
 Stubs, jest matchers, testing modules, test library configuration
 Allowed dependencies to: `data-access`, `util`, `test-util`, `domain`.
 
-### e2e-util
+### E2E-util libraries
 
 Cypress commands or fixtures
 Allowed dependencies to: `util`, `test-util`, `e2e-util`.
 
-### domain
+### Domain libraries
 
 Interfaces, types, constants, functions and services related to domain objects.
 Allowed dependencies to: `domain`, `util`, `test-util`.
 
-### shell
+### Shell libraries
 
 Entrypoint for an application or domain. Orchestration and routing.
-Allowed dependencies to: `feature`, `ui`, `data-access`, `util`, `test-util`, `shell`, `environments`, `assets`, `styles`.
+Allowed dependencies to: `feature`, `ui`, `data-access`, `routing`, `util`, `test-util`, `shell`, `configuration`, `environments`, `assets`, `styles`.
 
-### environments
+### Configuration libraries
+
+A library containing configurations, example: i18n
+Allowed dependencies to: `data-access`, `routing`, `util`, `test-util`, `configuration`, `environments`.
+
+### Environments libraries
 
 Angular environment files.
 Allowed dependencies to: `util`, `test-util`, `environments`.
 
-### assets
+### Assets libraries
 
 Icons, images, fonts, etc.
 Allowed dependencies to: `assets`.
 
-### styles
+### Styles libraries
 
 SCSS functions, mixins, variables, partials, and global stylesheets.
 Allowed dependencies to: `assets`, `styles`.

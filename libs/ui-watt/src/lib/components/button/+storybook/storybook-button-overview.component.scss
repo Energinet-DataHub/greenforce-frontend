@@ -24,19 +24,19 @@ storybook-button-overview {
 
   & > mat-card > .content-grid {
     display: flex;
-    gap: 1rem;
+    gap: 2rem;
     margin-bottom: 1rem;
   }
 
   .force-focus-state {
     watt-primary-button button.watt-button {
-      outline: buttonVariables.$watt-button-primary-focus-outline;
       background: buttonVariables.$watt-button-primary-focus-background;
+      outline: buttonVariables.$watt-button-primary-focus-outline;
     }
 
     watt-secondary-button button.watt-button {
-      outline: buttonVariables.$watt-button-secondary-focus-state;
       background: buttonVariables.$watt-button-secondary-focus-background;
+      outline: buttonVariables.$watt-button-secondary-focus-state;
     }
 
     watt-text-button button.watt-button {
