@@ -33,6 +33,33 @@ watt-button {
     }
   }
 
+  &.watt-button-loading {
+    .content-grid {
+      flex-direction: column;
+
+      > .content-grid {
+        flex-direction: row;
+      }
+
+      .content-grid-item:not(.content-grid-item-spinner) {
+        height: 0;
+        visibility: hidden;
+      }
+    }
+
+    watt-primary-button {
+      .mat-spinner circle {
+        stroke: var(--watt-color-neutral-white);
+      }
+    }
+  }
+
+  .content-grid {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+  }
+
   watt-primary-button {
     button.watt-button:focus {
       outline: buttonVariables.$watt-button-primary-focus-outline;
@@ -75,20 +102,6 @@ watt-button {
       .mat-button-focus-overlay {
         background-color: transparent;
       }
-    }
-  }
-
-  .content-grid {
-    align-items: center;
-    display: inline-flex;
-  }
-
-  // NOTE(xdzus): Needed in order to center the icon if content is empty
-  .content-grid-item {
-    flex-grow: 1;
-
-    & + .content-grid-item {
-      flex-grow: 0;
     }
   }
 }
