@@ -16,7 +16,7 @@
  */
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ettDashboardRoutePath } from '@energinet-datahub/ett/dashboard/routing-dashboard';
+import { ettDashboardRoutePath } from '@energinet-datahub/ett/dashboard/routing';
 import {
   EttAuthenticationGuard,
   ettAuthRoutePath,
