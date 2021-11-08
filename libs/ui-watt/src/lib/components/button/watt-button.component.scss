@@ -94,11 +94,16 @@ watt-button {
 
   watt-text-button {
     button.watt-button:focus {
-      border: buttonVariables.$watt-button-text-focus-state;
+      outline: buttonVariables.$watt-button-text-focus-state;
+
+      .mat-button-focus-overlay {
+        background-color: transparent;
+      }
     }
 
     button.watt-button:hover {
       color: buttonVariables.$watt-button-text-hover-color;
+
       .mat-button-focus-overlay {
         background-color: transparent;
       }
