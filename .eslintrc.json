@@ -24,7 +24,11 @@
               },
               {
                 "sourceTag": "type:e2e",
-                "onlyDependOnLibsWithTags": ["type:api","type:app","type:e2e-util"]
+                "onlyDependOnLibsWithTags": [
+                  "type:api",
+                  "type:app",
+                  "type:e2e-util"
+                ]
               },
               {
                 "sourceTag": "type:feature",
