@@ -35,16 +35,15 @@ watt-button {
 
   &.watt-button-loading {
     .content-grid {
-      flex-direction: column;
+      position: relative;
+    }
 
-      > .content-grid {
-        flex-direction: row;
-      }
+    .content-grid-item-spinner {
+      position: absolute;
+    }
 
-      .content-grid-item:not(.content-grid-item-spinner) {
-        height: 0;
-        visibility: hidden;
-      }
+    .content-grid-item:not(.content-grid-item-spinner) {
+      visibility: hidden;
     }
 
     watt-primary-button {

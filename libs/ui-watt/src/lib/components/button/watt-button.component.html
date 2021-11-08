@@ -23,26 +23,11 @@ limitations under the License.
 ></ng-container>
 
 <div #contentWrapper class="content-grid">
-  <ng-container *ngTemplateOutlet="contentWrapperTemplate"></ng-container>
-</div>
-
-<ng-template #contentWrapperTemplate>
-  <ng-container *ngIf="loading; else buttonContentTemplate">
-    <ng-container *ngTemplateOutlet="loadingTemplate"></ng-container>
-  </ng-container>
-</ng-template>
-
-<ng-template #loadingTemplate>
   <watt-spinner
+    *ngIf="loading"
     class="content-grid-item content-grid-item-spinner"
   ></watt-spinner>
 
-  <div class="content-grid content-grid-item">
-    <ng-container *ngTemplateOutlet="buttonContentTemplate"></ng-container>
-  </div>
-</ng-template>
-
-<ng-template #buttonContentTemplate>
   <watt-icon
     *ngIf="hasIcon"
     class="content-grid-item"
@@ -52,4 +37,4 @@ limitations under the License.
   <div class="content-grid-item">
     <ng-content></ng-content>
   </div>
-</ng-template>
+</div>
