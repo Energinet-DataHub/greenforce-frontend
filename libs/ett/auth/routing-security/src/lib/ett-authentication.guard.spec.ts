@@ -14,21 +14,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { Location } from '@angular/common';
+import { Component } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
+import { Router } from '@angular/router';
+import { AuthOidcQueryParameterName } from '@energinet-datahub/ett/auth/data-access-api';
+import { SpectacularAppComponent } from '@ngworker/spectacular';
+import { render, RenderResult } from '@testing-library/angular';
+
+import { ettAuthRoutePath } from './ett-auth-route-path';
+import { EttAuthenticationGuard } from './ett-authentication.guard';
+
 describe(EttAuthenticationGuard.name, () => {
   @Component({
     template: '',
   })
   class TestGuardedComponent {}
-  import { Location } from '@angular/common';
-  import { Component } from '@angular/core';
-  import { TestBed } from '@angular/core/testing';
-  import { Router } from '@angular/router';
-  import { AuthOidcQueryParameterName } from '@energinet-datahub/ett/auth/data-access-api';
-  import { SpectacularAppComponent } from '@ngworker/spectacular';
-  import { render, RenderResult } from '@testing-library/angular';
-
-  import { ettAuthRoutePath } from './ett-auth-route-path';
-  import { EttAuthenticationGuard } from './ett-authentication.guard';
 
   @Component({
     template: '',
