@@ -48,7 +48,7 @@ const routes: Routes = [
       {
         path: ettDashboardRoutePath,
         loadChildren: () =>
-          import('@energinet-datahub/ett/dashboard/shell-dashboard').then(
+          import('@energinet-datahub/ett/dashboard/shell').then(
             (esModule) => esModule.EttDashboardShellModule
           ),
       },

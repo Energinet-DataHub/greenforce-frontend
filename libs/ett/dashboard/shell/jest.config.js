@@ -24,7 +24,7 @@ module.exports = {
       stringifyContentPathRegex: '\\.(html|svg)$',
     },
   },
-  coverageDirectory: '../../../../coverage/libs/ett/dashboard/shell-dashboard',
+  coverageDirectory: '../../../../coverage/libs/ett/dashboard/shell',
   transform: {
     '^.+\\.(ts|js|html)$': 'jest-preset-angular',
   },

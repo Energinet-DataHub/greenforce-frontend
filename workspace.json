@@ -15,7 +15,7 @@
     "ett-core-environments": "libs/ett/core/environments",
     "ett-core-shell": "libs/ett/core/shell-core",
     "ett-dashboard-routing-dashboard": "libs/ett/dashboard/routing-dashboard",
-    "ett-dashboard-shell-dashboard": "libs/ett/dashboard/shell-dashboard",
+    "ett-dashboard-shell": "libs/ett/dashboard/shell",
     "ett-shared-util-browser": "libs/ett/shared/util-browser",
     "gf-test-util-matchers": "libs/gf/test-util-matchers",
     "gf-test-util-staging": "libs/gf/test-util-staging",
