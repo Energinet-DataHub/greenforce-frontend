@@ -24,7 +24,8 @@ import {
 } from '@angular/router';
 import { AuthOidcQueryParameterName } from '@energinet-datahub/ett/auth/data-access-api';
 import { AbsoluteUrlGenerator } from '@energinet-datahub/ett/core/util-browser';
-import { ettAuthRoutePath } from './ett-security-route-path';
+
+import { ettAuthRoutePath } from './ett-auth-route-path';
 
 /**
  * Redirects to login page if authentication fails.
