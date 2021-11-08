@@ -14,5 +14,5 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export { ettAuthRoutePath } from './lib/ett-auth-route-path';
-export { EttAuthenticationGuard } from './lib/ett-authentication.guard';
+export * from './lib/ett-auth-route-path';
+export * from './lib/ett-authentication.guard';

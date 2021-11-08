@@ -14,4 +14,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export { EttCoreShellModule } from './lib/ett-core-shell.module';
+export * from './lib/ett-core-shell.module';
