@@ -16,7 +16,7 @@
     "ett-core-shell": "libs/ett/core/shell-core",
     "ett-core-util-browser": "libs/ett/core/util-browser",
     "ett-dashboard-routing-dashboard": "libs/ett/dashboard/routing-dashboard",
-    "ett-dashboard-shell": "libs/ett/dashboard/shell-dashboard",
+    "ett-dashboard-shell-dashboard": "libs/ett/dashboard/shell-dashboard",
     "gf-test-util-matchers": "libs/gf/test-util-matchers",
     "gf-test-util-staging": "libs/gf/test-util-staging",
     "gf-util-browser": "libs/gf/util-browser",
