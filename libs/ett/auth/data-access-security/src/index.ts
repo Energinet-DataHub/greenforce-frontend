@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 // Authentication
-export * from './lib/authentication/ett-authentication.guard';
 export * from './lib/authentication/ett-authentication.interceptor';
 
 // Authorization

@@ -171,29 +171,15 @@ var path = require('path');
 var config = require('../../../.licenserc.json');
 function addLicenseExecutor(options) {
   return __awaiter(this, void 0, void 0, function () {
-    var globs, success, ignores, data, files;
+    var globs, success, files;
     return __generator(this, function (_a) {
       globs = Object.keys(config);
       success = true;
-      ignores = [];
-      try {
-        data = fs.readFileSync('./.nxignore', 'utf8');
-        ignores = data
-          .split('\n')
-          .map(function (x) {
-            return x.replace('\r', '');
-          })
-          .filter(function (x) {
-            return !x.startsWith('#');
-          });
-      } catch (err) {
-        console.error(err);
-      }
       console.info('Adding licenses...');
       files = glob.sync(
         '{,!(node_modules|dist)/**/*}*{' + globs.join(',') + '}',
         {
-          ignore: ignores,
+          ignore: ['**/api-*/**/*'],
         }
       );
       files.forEach(function (file) {
