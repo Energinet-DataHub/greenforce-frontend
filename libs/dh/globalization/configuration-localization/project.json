@@ -2,7 +2,7 @@
   "projectType": "library",
   "root": "libs/dh/globalization/configuration-localization",
   "sourceRoot": "libs/dh/globalization/configuration-localization/src",
-  "prefix": "energinet-datahub",
+  "prefix": "dh",
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
