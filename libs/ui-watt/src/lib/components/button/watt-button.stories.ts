@@ -17,12 +17,14 @@
 import { moduleMetadata, Story, Meta } from '@storybook/angular';
 
 import { StorybookButtonOverviewModule } from './+storybook/storybook-button-overview.module';
+import { WattIconButtonComponent } from './icon-button/watt-icon-button.component';
 import { WattButtonComponent } from './watt-button.component';
 import { WattButtonModule } from './watt-button.module';
 
 export default {
   title: 'Components/Button',
   component: WattButtonComponent,
+  subcomponents: { WattIconButtonComponent },
   decorators: [
     moduleMetadata({
       imports: [WattButtonModule],
@@ -34,7 +36,7 @@ const howToUseGuide = `
 1. Import ${WattButtonModule.name} in a module
 import { ${WattButtonModule.name} } from '@energinet-datahub/watt';
 
-2a. Use <watt-button>Button</watt-button> in the component's HTML template
+2a. Use <watt-button>Button</watt-button>
 
 OR
 
@@ -66,4 +68,25 @@ const ButtonTemplate: Story<WattButtonComponent> = (args) => ({
 export const Button = ButtonTemplate.bind({});
 Button.args = {
   type: 'text',
+};
+
+const IconButtonTemplate: Story<WattIconButtonComponent> = (args) => ({
+  props: args,
+  template: `<watt-icon-button icon="${args.icon}" [disabled]="${args.disabled}"></watt-icon-button>`,
+});
+
+export const IconButton = IconButtonTemplate.bind({});
+IconButton.argTypes = {
+  type: {
+    control: false,
+  },
+  size: {
+    control: false,
+  },
+  loading: {
+    control: false,
+  },
+};
+IconButton.args = {
+  icon: 'search',
 };
