@@ -34,7 +34,11 @@ const howToUseGuide = `
 1. Import ${WattButtonModule.name} in a module
 import { ${WattButtonModule.name} } from '@energinet-datahub/watt';
 
-2. Use <watt-button>Button</watt-button> in the component's HTML template
+2a. Use <watt-button>Button</watt-button> in the component's HTML template
+
+OR
+
+2b. Use <watt-icon-button icon="<icon-name>"></watt-icon-button> in the component's HTML template
 `;
 
 export const Overview = () => ({
