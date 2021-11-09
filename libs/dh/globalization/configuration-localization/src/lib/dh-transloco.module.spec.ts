@@ -24,7 +24,7 @@ import {
 } from './dh-transloco.module';
 
 describe(DhTranslocoModule.name, () => {
-  it('provides TRANSLOCO_CONFIG', () => {
+  it('TRANSLOCO_CONFIG is provided', () => {
     TestBed.configureTestingModule({
       imports: [DhTranslocoModule.forRoot()],
     });
@@ -35,7 +35,7 @@ describe(DhTranslocoModule.name, () => {
   });
 
   it(`Given HttpClient is provided
-    Then it provides TRANSLOCO_LOADER`, () => {
+    Then TRANSLOCO_LOADER is provided`, () => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule, DhTranslocoModule.forRoot()],
     });
