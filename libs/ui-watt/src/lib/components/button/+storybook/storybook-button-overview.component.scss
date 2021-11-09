@@ -42,6 +42,10 @@ storybook-button-overview {
     watt-text-button button.watt-button {
       outline: buttonVariables.$watt-button-text-focus-state;
     }
+
+    watt-icon-button button.watt-icon-button {
+      outline: 2px solid var(--watt-color-primary);
+    }
   }
 
   .force-hover-state {
@@ -55,6 +59,10 @@ storybook-button-overview {
 
     watt-text-button button.watt-button {
       color: buttonVariables.$watt-button-text-hover-color;
+    }
+
+    watt-icon-button button.watt-icon-button {
+      color: var(--watt-color-primary-dark);
     }
   }
 }
