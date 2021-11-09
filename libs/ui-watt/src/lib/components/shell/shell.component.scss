@@ -22,6 +22,16 @@
   height: 100vh;
 }
 
+.sidenav-menu-button {
+  left: 100%;
+  position: absolute;
+  top: 0;
+}
+
+.mat-drawer {
+  overflow-y: visible;
+}
+
 .sidenav {
   width: 245px;
   background-color: var(--watt-color-primary-dark);
