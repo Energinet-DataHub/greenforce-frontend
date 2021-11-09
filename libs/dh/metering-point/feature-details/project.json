@@ -1,0 +1,26 @@
+{
+  "projectType": "library",
+  "root": "libs/dh/metering-point/feature-details",
+  "sourceRoot": "libs/dh/metering-point/feature-details/src",
+  "prefix": "dh",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/dh/metering-point/feature-details"],
+      "options": {
+        "jestConfig": "libs/dh/metering-point/feature-details/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/dh/metering-point/feature-details/src/**/*.ts",
+          "libs/dh/metering-point/feature-details/src/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": ["product:dh", "domain:metering-point", "type:feature"]
+}

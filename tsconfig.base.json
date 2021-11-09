@@ -17,6 +17,15 @@
     "paths": {
       "@angular/*": ["./node_modules/@angular/*"],
       "@energinet-datahub/dh/core/shell": ["libs/dh/core/shell/src/index.ts"],
+      "@energinet-datahub/dh/metering-point/feature-child": [
+        "libs/dh/metering-point/feature-child/src/index.ts"
+      ],
+      "@energinet-datahub/dh/metering-point/feature-details": [
+        "libs/dh/metering-point/feature-details/src/index.ts"
+      ],
+      "@energinet-datahub/dh/metering-point/feature-search": [
+        "libs/dh/metering-point/feature-search/src/index.ts"
+      ],
       "@energinet-datahub/ett/auth/data-access-api": [
         "libs/ett/auth/data-access-api/src/index.ts"
       ],
