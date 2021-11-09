@@ -5,6 +5,7 @@
     "app-dh": "apps/dh/app-dh",
     "app-ett": "apps/ett/app-ett",
     "dh-core-shell": "libs/dh/core/shell",
+    "dh-globalization-assets-localization": "libs/dh/globalization/assets-localization",
     "dh-globalization-configuration-localization": "libs/dh/globalization/configuration-localization",
     "dh-globalization-data-access-localization": "libs/dh/globalization/data-access-localization",
     "dh-globalization-domain": "libs/dh/globalization/domain",

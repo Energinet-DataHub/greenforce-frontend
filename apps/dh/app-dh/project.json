@@ -22,7 +22,7 @@
           },
           {
             "glob": "**/*",
-            "input": "libs/dh/shared/assets/src/assets",
+            "input": "libs/dh/globalization/assets-localization/src/assets",
             "output": "assets"
           },
           {
@@ -81,12 +81,6 @@
         }
       },
       "defaultConfiguration": "development"
-    },
-    "extract-i18n": {
-      "executor": "@angular-devkit/build-angular:extract-i18n",
-      "options": {
-        "browserTarget": "app-dh:build"
-      }
     },
     "lint": {
       "executor": "@nrwl/linter:eslint",
