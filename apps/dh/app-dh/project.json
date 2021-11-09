@@ -22,6 +22,11 @@
           },
           {
             "glob": "**/*",
+            "input": "libs/dh/shared/assets/src/assets",
+            "output": "assets"
+          },
+          {
+            "glob": "**/*",
             "input": "libs/dh/globalization/assets-localization/src/assets",
             "output": "assets"
           },
