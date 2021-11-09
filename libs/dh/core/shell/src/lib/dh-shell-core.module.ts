@@ -1,11 +1,3 @@
-import { HttpClientModule } from '@angular/common/http';
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-
-import { ShellComponent } from './shell/shell.component';
-import { ShellModule } from './shell/shell.module';
-import { DhTranslocoModule } from './transloco/dh-transloco.module';
-
 /**
  * @license
  * Copyright 2021 Energinet DataHub A/S
@@ -22,6 +14,14 @@ import { DhTranslocoModule } from './transloco/dh-transloco.module';
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { HttpClientModule } from '@angular/common/http';
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { DhTranslocoModule } from '@energinet-datahub/dh/globalization/configuration-localization';
+
+import { ShellComponent } from './shell/shell.component';
+import { ShellModule } from './shell/shell.module';
+
 const routes: Routes = [
   {
     path: '',

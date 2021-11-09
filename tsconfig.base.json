@@ -17,6 +17,12 @@
     "paths": {
       "@angular/*": ["./node_modules/@angular/*"],
       "@energinet-datahub/dh/core/shell": ["libs/dh/core/shell/src/index.ts"],
+      "@energinet-datahub/dh/globalization/configuration-localization": [
+        "libs/dh/globalization/configuration-localization/src/index.ts"
+      ],
+      "@energinet-datahub/dh/globalization/data-access-localization": [
+        "libs/dh/globalization/data-access-localization/src/index.ts"
+      ],
       "@energinet-datahub/dh/globalization/domain": [
         "libs/dh/globalization/domain/src/index.ts"
       ],

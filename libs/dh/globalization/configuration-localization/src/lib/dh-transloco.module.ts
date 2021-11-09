@@ -4,15 +4,13 @@ import {
   Optional,
   SkipSelf,
 } from '@angular/core';
+import { dhTranslocoHttpLoaderProvider } from '@energinet-datahub/dh/globalization/data-access-localization';
 import { environment } from '@energinet-datahub/dh/shared/environments';
 import {
   TRANSLOCO_CONFIG,
-  TRANSLOCO_LOADER,
   translocoConfig,
   TranslocoModule,
 } from '@ngneat/transloco';
-
-import { DhTranslocoHttpLoader } from './dh-transloco-http-loader.service';
 
 @NgModule({
   imports: [TranslocoModule],
@@ -34,7 +32,7 @@ import { DhTranslocoHttpLoader } from './dh-transloco-http-loader.service';
         prodMode: environment.production,
       }),
     },
-    { provide: TRANSLOCO_LOADER, useClass: DhTranslocoHttpLoader },
+    dhTranslocoHttpLoaderProvider,
   ],
 })
 export class DhTranslocoRootModule {
