@@ -14,4 +14,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export { dhTranslocoHttpLoaderProvider } from './lib/dh-transloco-http-loader.service';
+export * from './lib/dh-transloco-http-loader.service';
