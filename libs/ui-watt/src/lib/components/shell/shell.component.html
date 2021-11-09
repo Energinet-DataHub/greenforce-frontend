@@ -19,6 +19,7 @@ limitations under the License.
     #drawer
     class="sidenav"
     fixedInViewport
+    [autoFocus]="shouldAutoFocus"
     [mode]="(isHandset$ | async) ? 'over' : 'side'"
     [opened]="(isHandset$ | async) === false"
     role="navigation"

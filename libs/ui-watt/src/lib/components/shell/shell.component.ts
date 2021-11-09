@@ -31,7 +31,7 @@ export class WattShellComponent {
   /**
    * @ignore
    */
-  sidenavOpened = true;
+  shouldAutoFocus = false;
 
   /**
    * @ignore
