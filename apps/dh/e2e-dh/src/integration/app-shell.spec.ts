@@ -14,4 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export const getGreeting = () => cy.get('h1');
+import * as appShell from '../support/app-shell.po';
+
+describe('Application shell', () => {
+  beforeEach(() => cy.visit('/'));
+
+  it('the application title is displayed', () => {
+    appShell.getTitle().contains(/datahub/i);
+  });
+});
