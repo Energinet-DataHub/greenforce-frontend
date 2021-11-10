@@ -65,6 +65,9 @@ function patchTestbed(): void {
 }
 
 /**
+ * This function must be called in all `test-setup.ts` files to ensure
+ * consistent test runs.
+ *
  * Use Angular testing module teardown.
  *
  * Use automatic change detection in tests
