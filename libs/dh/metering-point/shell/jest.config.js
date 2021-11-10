@@ -1,5 +1,5 @@
 module.exports = {
-  displayName: 'dh-metering-point-routing',
+  displayName: 'dh-metering-point-shell-metering-point',
   preset: '../../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   globals: {
@@ -9,7 +9,7 @@ module.exports = {
     },
   },
   coverageDirectory:
-    '../../../../coverage/libs/dh/metering-point/metering-point-routing',
+    '../../../../coverage/libs/dh/metering-point/shell',
   transform: {
     '^.+\\.(ts|js|html)$': 'jest-preset-angular',
   },

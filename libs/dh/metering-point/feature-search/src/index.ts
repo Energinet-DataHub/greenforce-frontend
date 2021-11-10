@@ -1,1 +1,1 @@
-export * from './lib/dh-metering-point-feature-search.module';
+export * from './lib/dh-metering-point-search.component';

@@ -14,14 +14,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
-import { WattModule } from '@energinet-datahub/watt';
+ import {
+  ChangeDetectionStrategy,
+  Component,
+  NgModule,
+  ViewEncapsulation,
+} from '@angular/core';
 
-import { ShellComponent } from './shell.component';
+const selector = 'dh-metering-point-search';
+
+@Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
+  selector,
+  styles: [
+    `
+      ${selector} {
+        display: block;
+      }
+    `,
+  ],
+  template: `
+    <h1>Search</h1>
+  `,
+})
+export class DhMeteringPointSearchComponent {}
 
 @NgModule({
-  declarations: [ShellComponent],
-  imports: [RouterModule, WattModule],
+  declarations: [DhMeteringPointSearchComponent],
 })
-export class ShellModule {}
+export class DhMeteringPointSearchScam {}

@@ -8,7 +8,7 @@
     "dh-metering-point-feature-child": "libs/dh/metering-point/feature-child",
     "dh-metering-point-feature-details": "libs/dh/metering-point/feature-details",
     "dh-metering-point-feature-search": "libs/dh/metering-point/feature-search",
-    "dh-metering-point-metering-point-routing": "libs/dh/metering-point/routing",
+    "dh-metering-point-shell": "libs/dh/metering-point/shell",
     "e2e-dh": "apps/dh/e2e-dh",
     "e2e-ett": "apps/ett/e2e-ett",
     "ett-auth-data-access-api": "libs/ett/auth/data-access-api",

@@ -14,5 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export { DhCoreShellComponent } from './lib/dh-core-shell.component';
-export { DhCoreShellModule } from './lib/dh-core-shell.module';
+ import { Component } from '@angular/core';
+
+ @Component({
+   selector: 'dh-shell',
+   styleUrls: ['./dh-core-shell.component.scss'],
+   templateUrl: './dh-core-shell.component.html',
+ })
+ export class DhCoreShellComponent {}

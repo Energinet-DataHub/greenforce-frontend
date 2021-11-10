@@ -14,5 +14,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export { DhCoreShellComponent } from './lib/dh-core-shell.component';
-export { DhCoreShellModule } from './lib/dh-core-shell.module';
+ import {
+  ChangeDetectionStrategy,
+  Component,
+  NgModule,
+  ViewEncapsulation,
+} from '@angular/core';
+
+const selector = 'dh-metering-point-details';
+
+@Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
+  selector,
+  styles: [
+    `
+      ${selector} {
+        display: block;
+      }
+    `,
+  ],
+  template: `
+    <h1>Details</h1>
+  `,
+})
+export class DhMeteringPointDetailsComponent {}
+
+@NgModule({
+  declarations: [DhMeteringPointDetailsComponent],
+})
+export class DhMeteringPointDetailsScam {}

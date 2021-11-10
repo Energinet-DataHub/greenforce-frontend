@@ -18,20 +18,20 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { WattShellComponent } from '@energinet-datahub/watt';
 
-import { ShellComponent } from './shell.component';
-import { ShellModule } from './shell.module';
+import { DhCoreShellComponent } from './dh-core-shell.component';
+import { DhCoreShellModule } from './dh-core-shell.module';
 
-describe(ShellComponent.name, () => {
-  let fixture: ComponentFixture<ShellComponent>;
+describe(DhCoreShellComponent.name, () => {
+  let fixture: ComponentFixture<DhCoreShellComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [ShellModule],
+      imports: [DhCoreShellModule],
     });
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ShellComponent);
+    fixture = TestBed.createComponent(DhCoreShellComponent);
   });
 
   it('renders a shell component from Watt Design System', () => {

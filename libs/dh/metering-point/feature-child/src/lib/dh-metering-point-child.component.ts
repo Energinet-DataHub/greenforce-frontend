@@ -14,11 +14,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component } from '@angular/core';
+ import {
+  ChangeDetectionStrategy,
+  Component,
+  NgModule,
+  ViewEncapsulation,
+} from '@angular/core';
+
+const selector = 'dh-metering-point-child';
 
 @Component({
-  selector: 'dh-shell',
-  styleUrls: ['./shell.component.scss'],
-  templateUrl: './shell.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
+  selector,
+  styles: [
+    `
+      ${selector} {
+        display: block;
+      }
+    `,
+  ],
+  template: `
+    <h1>Child</h1>
+  `,
 })
-export class ShellComponent {}
+export class DhMeteringPointChildComponent {}
+
+@NgModule({
+  declarations: [DhMeteringPointChildComponent],
+})
+export class DhMeteringPointChildScam {}
