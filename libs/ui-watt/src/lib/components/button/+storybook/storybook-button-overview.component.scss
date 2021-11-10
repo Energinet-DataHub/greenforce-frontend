@@ -44,7 +44,7 @@ storybook-button-overview {
     }
 
     watt-icon-button button.watt-icon-button {
-      color: var(--watt-color-primary-dark);
+      outline: 2px solid var(--watt-color-primary);
     }
   }
 
@@ -62,7 +62,7 @@ storybook-button-overview {
     }
 
     watt-icon-button button.watt-icon-button {
-      outline: 2px solid var(--watt-color-primary);
+      color: var(--watt-color-primary-dark);
     }
   }
 }
