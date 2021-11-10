@@ -25,9 +25,9 @@
 }
 
 .sidenav-menu-button {
-  left: 100%;
+  left: calc(var(--watt-space-s) + 100%);
   position: absolute;
-  top: 0;
+  top: var(--watt-space-s);
 }
 
 .mat-drawer {
