@@ -128,7 +128,8 @@
                   "type:util",
                   "type:test-util",
                   "type:configuration",
-                  "type:environments"
+                  "type:environments",
+                  "type:domain"
                 ]
               },
               {

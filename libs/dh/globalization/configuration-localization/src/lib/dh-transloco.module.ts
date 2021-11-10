@@ -21,6 +21,7 @@ import {
   SkipSelf,
 } from '@angular/core';
 import { dhTranslocoHttpLoaderProvider } from '@energinet-datahub/dh/globalization/data-access-localization';
+import { DisplayLanguage } from '@energinet-datahub/dh/globalization/domain';
 import { environment } from '@energinet-datahub/dh/shared/environments';
 import {
   TRANSLOCO_CONFIG,
@@ -34,9 +35,9 @@ import {
     {
       provide: TRANSLOCO_CONFIG,
       useValue: translocoConfig({
-        availableLangs: ['da', 'en'],
-        defaultLang: 'da',
-        fallbackLang: ['da', 'en'],
+        availableLangs: [DisplayLanguage.Danish, DisplayLanguage.English],
+        defaultLang: DisplayLanguage.Danish,
+        fallbackLang: [DisplayLanguage.Danish, DisplayLanguage.English],
         flatten: {
           aot: environment.production,
         },
