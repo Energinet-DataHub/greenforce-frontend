@@ -20,10 +20,15 @@ limitations under the License.
   </ng-container>
 
   <ng-container watt-shell-toolbar>
-    <p>Toolbar</p>
+    <div class="app-actions">
+      <dh-language-picker></dh-language-picker>
+    </div>
   </ng-container>
 
-  <h1>THIS IS THE APP</h1>
+  <ng-container *transloco="let transloco">
+    <h1>{{ transloco('appName') }}</h1>
+  </ng-container>
+
   <watt-autocomplete></watt-autocomplete>
 
   <router-outlet></router-outlet>

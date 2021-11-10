@@ -14,31 +14,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { WattShellComponent } from '@energinet-datahub/watt';
+import { render, RenderResult } from '@testing-library/angular';
 
 import { ShellComponent } from './shell.component';
 import { ShellModule } from './shell.module';
 
 describe(ShellComponent.name, () => {
-  let fixture: ComponentFixture<ShellComponent>;
-
-  beforeEach(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    view = await render(ShellComponent, {
       imports: [ShellModule],
     });
   });
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(ShellComponent);
-  });
+  let view: RenderResult<ShellComponent, ShellComponent>;
 
-  it('renders a shell component from Watt Design System', () => {
-    const { componentInstance: shellComponent } = fixture.debugElement.query(
+  it('displays the Watt shell', () => {
+    const wattShell = view.fixture.debugElement.query(
       By.directive(WattShellComponent)
     );
 
-    expect(shellComponent).toBeInstanceOf(WattShellComponent);
+    expect(wattShell.componentInstance).toBeInstanceOf(WattShellComponent);
   });
 });

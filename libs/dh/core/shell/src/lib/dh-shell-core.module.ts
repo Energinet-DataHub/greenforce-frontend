@@ -14,8 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { DhTranslocoModule } from '@energinet-datahub/dh/globalization/configuration-localization';
 
 import { ShellComponent } from './shell/shell.component';
 import { ShellModule } from './shell/shell.module';
@@ -32,6 +34,11 @@ const routes: Routes = [
 
 @NgModule({
   exports: [RouterModule],
-  imports: [RouterModule.forRoot(routes), ShellModule],
+  imports: [
+    HttpClientModule,
+    DhTranslocoModule.forRoot(),
+    RouterModule.forRoot(routes),
+    ShellModule,
+  ],
 })
 export class DhAppCoreShellModule {}
