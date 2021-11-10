@@ -60,23 +60,28 @@ Overview.parameters = {
 };
 
 //👇 We create a “template” of how args map to rendering
-const ButtonTemplate: Story<WattButtonComponent> = (args) => ({
+const ButtonStory: Story<WattButtonComponent> = (args) => ({
   props: args,
   template: `<watt-button>Button</watt-button>`,
 });
 
-export const Button = ButtonTemplate.bind({});
+export const Button = ButtonStory.bind({});
 Button.args = {
   type: 'text',
 };
 
-const IconButtonTemplate: Story<WattIconButtonComponent> = (args) => ({
+const iconButtonTemplate = (args: Partial<WattIconButtonComponent>) =>
+  `<watt-icon-button icon="${args.icon}" [disabled]="${args.disabled}"></watt-icon-button>`;
+
+const IconButton: Story<WattIconButtonComponent> = (args) => ({
   props: args,
-  template: `<watt-icon-button icon="${args.icon}" [disabled]="${args.disabled}"></watt-icon-button>`,
+  template: iconButtonTemplate(args),
 });
 
-export const IconButton = IconButtonTemplate.bind({});
-IconButton.argTypes = {
+export const IconButtonStory = IconButton.bind({});
+
+IconButtonStory.storyName = 'Icon Button';
+IconButtonStory.argTypes = {
   type: {
     control: false,
   },
@@ -87,6 +92,14 @@ IconButton.argTypes = {
     control: false,
   },
 };
-IconButton.args = {
+IconButtonStory.args = {
   icon: 'search',
+  disabled: false,
+};
+IconButtonStory.parameters = {
+  docs: {
+    source: {
+      code: iconButtonTemplate(IconButtonStory.args),
+    },
+  },
 };
