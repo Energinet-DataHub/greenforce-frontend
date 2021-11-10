@@ -3,6 +3,35 @@
   "root": "apps/dh/api-dh",
   "sourceRoot": "apps/dh/api-dh/source",
   "prefix": "dh",
-  "targets": {},
+  "targets": {
+    "build": {
+      "executor": "@nrwl/workspace:run-commands",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "commands": [
+          "npm run check:dotnet",
+          "dotnet build apps/dh/api-dh/DataHub.WebApi.sln --configuration=Release"
+        ],
+        "parallel": false,
+        "outputPath": "apps/dh/api-dh/source/DataHub.WebApi/bin/Release/net5.0"
+      }
+    },
+    "build-client": {
+      "dependsOn": [
+        {
+          "target": "build",
+          "projects": "self"
+        }
+      ],
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "commands": [
+          "npm run check:java",
+          "openapi-generator-cli generate -o dist/apps/dh/api-dh -i apps/dh/api-dh/source/DataHub.WebApi/bin/Release/net5.0/swagger.json -g typescript-angular -p=fileNaming=kebab-case -p=serviceFileSuffix=-http.service -p=serviceSuffix=Http -p=supportsES6=true -p=taggedUnions=true"
+        ],
+        "parallel": false
+      }
+    }
+  },
   "tags": ["product:dh", "type:api"]
 }

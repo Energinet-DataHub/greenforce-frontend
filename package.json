@@ -29,8 +29,6 @@
     "designsystem:build": "npm run docs:json && npm run nx -- run ui-watt:build-storybook --outputPath=dist/designsystem",
     "designsystem:start": "npm run docs:json && npm run nx -- run ui-watt:storybook",
     "dep-graph": "nx dep-graph",
-    "dh:api:build": "npm run check:dotnet && dotnet build apps/dh/api-dh/DataHub.WebApi.sln --configuration=Release",
-    "dh:api:generate-client": "npm run check:java && openapi-generator-cli generate -i apps/dh/api-dh/source/DataHub.WebApi/bin/Release/net5.0/swagger.json -g typescript-angular -o dist/apps/dh/api-dh -p=fileNaming=kebab-case -p=serviceFileSuffix=-http.service -p=serviceSuffix=Http -p=supportsES6=true -p=taggedUnions=true",
     "docs:json": "npx compodoc -p ./libs/ui-watt/tsconfig.json -e json -d ./libs/ui-watt",
     "e2e": "nx run-many --target=e2e --all",
     "format": "nx format:write",
