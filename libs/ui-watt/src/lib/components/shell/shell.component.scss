@@ -75,3 +75,11 @@
   gap: var(--watt-space-m);
   height: 3rem;
 }
+
+.main-content {
+  @include watt.space-inset-m;
+
+  @include watt.media('>Large') {
+    @include watt.space-inset-l;
+  }
+}
