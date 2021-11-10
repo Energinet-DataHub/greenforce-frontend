@@ -19,14 +19,14 @@
 watt-button {
   display: inline-block;
 
-  &.watt-button-normal {
+  &.watt-button-size-normal {
     button.watt-button {
       height: buttonVariables.$watt-button-size-normal-height;
       min-width: buttonVariables.$watt-button-min-width;
     }
   }
 
-  &.watt-button-large {
+  &.watt-button-size-large {
     button.watt-button {
       height: buttonVariables.$watt-button-size-large-height;
       min-width: buttonVariables.$watt-button-min-width;
