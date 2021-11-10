@@ -20,18 +20,11 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 
 import { WattButtonModule } from '../button/watt-button.module';
-import { WattIconModule } from '../../foundations/icon';
 import { WattShellComponent } from './shell.component';
 
 @NgModule({
   declarations: [WattShellComponent],
   exports: [WattShellComponent],
-  imports: [
-    CommonModule,
-    MatSidenavModule,
-    MatToolbarModule,
-    WattButtonModule,
-    WattIconModule,
-  ],
+  imports: [CommonModule, MatSidenavModule, MatToolbarModule, WattButtonModule],
 })
 export class WattShellModule {}
