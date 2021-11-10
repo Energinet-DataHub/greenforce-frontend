@@ -37,6 +37,19 @@
 .sidenav {
   width: 245px;
   background-color: var(--watt-color-primary-dark);
+
+  &.mat-drawer-over {
+    &.mat-drawer-opened {
+      .sidenav-close-button {
+        opacity: 1;
+      }
+    }
+
+    .sidenav-close-button {
+      opacity: 0;
+      transition: opacity 50ms linear;
+    }
+  }
 }
 
 .toolbar {
