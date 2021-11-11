@@ -78,10 +78,19 @@ Watt uses [@include-media](https://eduardoboucas.github.io/include-media/) to ma
   // Your styling goes here
 }
 
+@include watt.media('>=Medium') {
+  // Your styling goes here
+}
+
 /* Generates: */
 @media (min-width: 960.02px) {
   // Your styling goes here
 }
+
+@media (min-width: 960px) {
+  // Your styling goes here
+}
+
 ```
 
 #### Exact matches (with max-width)
