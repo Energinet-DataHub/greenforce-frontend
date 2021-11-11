@@ -18,7 +18,7 @@ import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'dh-metering-point-child',
+  selector: 'dh-metering-point-overview',
   styles: [
     `
       :host {
@@ -26,11 +26,11 @@ import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
       }
     `,
   ],
-  template: ` <h2>Child</h2> `,
+  template: ` <h2>Overview</h2> `,
 })
-export class DhMeteringPointChildComponent {}
+export class DhMeteringPointOverviewComponent {}
 
 @NgModule({
-  declarations: [DhMeteringPointChildComponent],
+  declarations: [DhMeteringPointOverviewComponent],
 })
-export class DhMeteringPointChildScam {}
+export class DhMeteringPointOverviewScam {}

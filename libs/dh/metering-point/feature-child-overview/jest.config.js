@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 module.exports = {
-  displayName: 'dh-metering-point-feature-child',
+  displayName: 'dh-metering-point-feature-child-overview',
   preset: '../../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   globals: {
@@ -25,7 +25,7 @@ module.exports = {
     },
   },
   coverageDirectory:
-    '../../../../coverage/libs/dh/metering-point/feature-child',
+    '../../../../coverage/libs/dh/metering-point/feature-child-overview',
   transform: {
     '^.+\\.(ts|js|html)$': 'jest-preset-angular',
   },

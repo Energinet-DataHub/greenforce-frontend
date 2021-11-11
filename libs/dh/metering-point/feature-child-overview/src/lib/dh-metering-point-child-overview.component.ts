@@ -14,4 +14,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './lib/dh-metering-point-child.component';
+import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
+
+@Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: 'dh-metering-point-child-overview',
+  styles: [
+    `
+      :host {
+        display: block;
+      }
+    `,
+  ],
+  template: ` <h2>Child Overview</h2> `,
+})
+export class DhMeteringPointChildOverviewComponent {}
+
+@NgModule({
+  declarations: [DhMeteringPointChildOverviewComponent],
+})
+export class DhMeteringPointChildOverviewScam {}
