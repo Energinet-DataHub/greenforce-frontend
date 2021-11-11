@@ -31,11 +31,6 @@
             "output": "assets"
           },
           {
-            "glob": "**/*",
-            "input": "libs/dh/core/assets-core",
-            "output": "assets"
-          },
-          {
             "input": "libs/ui-watt/src/assets",
             "glob": "**/*",
             "output": "assets/ui-watt"
