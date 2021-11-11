@@ -18,7 +18,10 @@ import { By } from '@angular/platform-browser';
 import { WattShellComponent } from '@energinet-datahub/watt';
 import { render, RenderResult } from '@testing-library/angular';
 
-import { DhCoreShellComponent, DhCoreShellScam } from './dh-core-shell.component';
+import {
+  DhCoreShellComponent,
+  DhCoreShellScam,
+} from './dh-core-shell.component';
 
 describe(DhCoreShellComponent.name, () => {
   beforeEach(async () => {
