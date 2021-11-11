@@ -57,7 +57,7 @@ const routes: Routes = [
       anchorScrolling: 'enabled',
       initialNavigation: 'enabledNonBlocking',
       scrollPositionRestoration: 'enabled',
-    })
+    }),
   ],
 })
 export class DhCoreShellModule {}
