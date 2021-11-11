@@ -68,13 +68,18 @@ WattBreakpointsObserver.observe([
 You can use these predefined breakpoints with the `@include media` mixin.
 Watt uses [@include-media](https://eduardoboucas.github.io/include-media/) to make it simple and elegant to work with media queries.
 
-#### With operators (without max-width)
+#### With operators (without `max-width`)
 
 ```scss
 @use '@energinet-datahub/watt/utils' as watt;
 
-// NOTE: breakpoint name is case-sensitive!!!
+// NOTE: breakpoint name is case-sensitive!
 @include watt.media('>Medium') {
+  // Your styling goes here
+}
+
+// Generates
+@media (min-width: 960.02px) {
   // Your styling goes here
 }
 
@@ -82,25 +87,21 @@ Watt uses [@include-media](https://eduardoboucas.github.io/include-media/) to ma
   // Your styling goes here
 }
 
-/* Generates: */
-@media (min-width: 960.02px) {
-  // Your styling goes here
-}
-
+// Generates
 @media (min-width: 960px) {
   // Your styling goes here
 }
 ```
 
-#### Exact matches (with max-width)
+#### Exact matches (with `max-width`)
 
 ```scss
-// NOTE: breakpoint name is case-sensitive!!!
+// NOTE: breakpoint name is case-sensitive!
 @include watt.media('Medium') {
   // Your styling goes here
 }
 
-/* Generates: */
+// Generates
 @media (min-width: 960px) and (max-width: 1279.98px) {
   // Your styling goes here
 }
