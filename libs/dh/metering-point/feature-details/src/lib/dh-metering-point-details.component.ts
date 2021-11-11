@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- import {
+import {
   ChangeDetectionStrategy,
   Component,
   NgModule,
@@ -34,9 +34,7 @@ const selector = 'dh-metering-point-details';
       }
     `,
   ],
-  template: `
-    <h1>Details</h1>
-  `,
+  template: ` <h1>Details</h1> `,
 })
 export class DhMeteringPointDetailsComponent {}
 
