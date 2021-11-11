@@ -28,7 +28,7 @@ describe(DhCoreShellComponent.name, () => {
     });
   });
 
-  let view: RenderResult<DhCoreShellComponent, DhCoreShellComponent>;
+  let view: RenderResult<DhCoreShellComponent>;
 
   it('displays the Watt shell', () => {
     const wattShell = view.fixture.debugElement.query(
