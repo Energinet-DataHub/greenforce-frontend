@@ -20,6 +20,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { ShellComponent } from './shell/shell.component';
 import { ShellModule } from './shell/shell.module';
 
+// xlgni says let's deploy
+
 const routes: Routes = [
   {
     path: '',
