@@ -131,7 +131,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: ${{ env.app-name }}
-          path: ./dist/apps/appdh/${{ env.app-name }}/
+          path: ./dist/apps/dh/${{ env.app-name }}/
           if-no-files-found: error
 
   deploy_inbound_development:
