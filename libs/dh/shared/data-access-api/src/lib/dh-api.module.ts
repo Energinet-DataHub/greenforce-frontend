@@ -1,4 +1,9 @@
-import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
+import {
+  ModuleWithProviders,
+  NgModule,
+  Optional,
+  SkipSelf,
+} from '@angular/core';
 import { environment } from '@energinet-datahub/dh/shared/environments';
 
 import { ApiModule, Configuration } from './generated/v1';
