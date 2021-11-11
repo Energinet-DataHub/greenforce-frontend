@@ -1,1 +1,1 @@
-# Metering point details feature
+# Metering point overview feature
