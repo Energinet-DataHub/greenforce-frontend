@@ -13,8 +13,8 @@
 # limitations under the License.
 resource "azurerm_app_service" "bff" {
   name                = "app-bff-${lower(var.domain_name_short)}-${lower(var.environment_short)}-${lower(var.environment_instance)}"
-  resource_group_name = azurerm_resource_group.this.name
-  location            = azurerm_resource_group.this.location
+  location            = data.azurerm_resource_group.main.location
+  resource_group_name = data.azurerm_resource_group.main.name
   app_service_plan_id = module.plan_bff.id
 
   site_config {
@@ -25,7 +25,7 @@ resource "azurerm_app_service" "bff" {
     }
   }
 
-  tags              = azurerm_resource_group.this.tags
+  tags              = data.azurerm_resource_group.main.tags
 
   lifecycle {
     ignore_changes = [
@@ -52,5 +52,5 @@ module "plan_bff" {
     size  = "B1"
   }
 
-  tags                = azurerm_resource_group.this.tags
+  tags                = data.azurerm_resource_group.main.tags
 }

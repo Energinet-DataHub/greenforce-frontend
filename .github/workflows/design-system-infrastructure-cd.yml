@@ -17,10 +17,9 @@ on:
   push:
     branches:
       - main
-      - renetnielsen/add-infrastructure
     paths:
       - build/infrastructure/design-system/**
-      - .github/workflows/infrastructure-cd.yml
+      - .github/workflows/design-system-infrastructure-cd.yml
   workflow_dispatch: {}
 env:
   TERRAFORM_BACKEND_FILE_PATH: './build/infrastructure/design-system/main/backend.tf'
@@ -32,10 +31,6 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: Development
-    env:
-      TF_VAR_environment_short: "u"
-      TF_VAR_environment_instance: "001"
-      TF_VAR_domain_name_short: "frontend"
     steps:
       - name: Checkout code
         uses: actions/checkout@master
@@ -68,10 +63,6 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: Test
-    env:
-      TF_VAR_environment_short: "t"
-      TF_VAR_environment_instance: "001"
-      TF_VAR_domain_name_short: "frontend"
     steps:
       - name: Checkout code
         uses: actions/checkout@master
@@ -104,10 +95,6 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: Preproduction
-    env:
-      TF_VAR_environment_short: "b"
-      TF_VAR_environment_instance: "001"
-      TF_VAR_domain_name_short: "frontend"
     steps:
       - name: Checkout code
         uses: actions/checkout@master
@@ -140,10 +127,6 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: Production
-    env:
-      TF_VAR_environment_short: "p"
-      TF_VAR_environment_instance: "001"
-      TF_VAR_domain_name_short: "frontend"
     steps:
       - name: Checkout code
         uses: actions/checkout@master
