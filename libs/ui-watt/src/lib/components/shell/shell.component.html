@@ -18,7 +18,6 @@ limitations under the License.
   <mat-sidenav
     #drawer
     class="sidenav"
-    fixedInViewport
     [autoFocus]="shouldAutoFocus"
     [mode]="(isHandset$ | async) ? 'over' : 'side'"
     [opened]="(isHandset$ | async) === false"
