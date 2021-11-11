@@ -29,6 +29,6 @@ import { DhEnvironment } from './dh-environment';
 import 'zone.js/plugins/zone-error';
 
 export const environment: DhEnvironment = {
-  apiBase: 'https://localhost:5001',
+  apiBase: '/api',
   production: false,
 };
