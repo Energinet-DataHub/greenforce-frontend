@@ -1,10 +1,14 @@
 {
   "appName": "DataHub [EN]",
-  "metering-point.search.title": "Målepunkter [EN]",
-  "metering-point.search.search-label": "Indtast et Målepunkts ID for at fremsøge et målepunkt [EN]",
-  "metering-point.search.search-placeholder": "Søg på Målepunkts ID [EN]",
-  "metering-point.search.search-button": "Søg [EN]",
-  "metering-point.search.search-invalid-length": "Målepunkts ID’et skal være 18 cifre [EN]",
-  "metering-point.search.no-metering-point-found-title": "Vi fandt Desværre intet målepunkt [EN]",
-  "metering-point.search.no-metering-point-found-message": "Tjek for eventuelle tastefejl og prøv igen [EN]"
+  "metering-point": {
+    "search": {
+      "title": "Målepunkter [EN]",
+      "search-label": "Indtast et Målepunkts ID for at fremsøge et målepunkt [EN]",
+      "search-placeholder": "Søg på Målepunkts ID [EN]",
+      "search-button": "Søg [EN]",
+      "search-invalid-length": "Målepunkts ID’et skal være 18 cifre [EN]",
+      "no-metering-point-found-title": "Vi fandt Desværre intet målepunkt [EN]",
+      "no-metering-point-found-message": "Tjek for eventuelle tastefejl og prøv igen [EN]"
+    }
+  }
 }
