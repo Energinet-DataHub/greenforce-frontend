@@ -43,6 +43,11 @@ jobs:
       is-affected: ${{ steps.affected.outputs.is-affected }}
 
     steps:
+      - name: Debug event name
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+        run: echo "Event name: $EVENT_NAME"
+
       # needed for nx affected command
       - name: Check out source code with current branch Git history
         uses: actions/checkout@v2
