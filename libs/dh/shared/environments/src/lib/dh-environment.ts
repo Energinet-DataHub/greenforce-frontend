@@ -15,5 +15,6 @@
  * limitations under the License.
  */
 export interface DhEnvironment {
+  readonly apiBase: string;
   readonly production: boolean;
 }

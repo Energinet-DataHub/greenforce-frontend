@@ -17,5 +17,6 @@
 import { DhEnvironment } from './dh-environment';
 
 export const environment: DhEnvironment = {
+  apiBase: 'https://cdn-dh-endpoint-dh3admin-endk-u.azureedge.net/',
   production: true,
 };
