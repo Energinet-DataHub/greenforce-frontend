@@ -45,7 +45,7 @@ icons.parameters = {
       code: `1. Import WattIconModule in a module
 import { WattIconModule } from '@energinet-datahub/watt';
       
-2. Use <watt-icon name="ICON NAME" label="ICON DESCRIPTION" size="ICON SIZE"><watt-icon> in the component's HTML template`,
+2. Use <watt-icon name="<name>" label="<description>" size="<size>"><watt-icon> in the component's HTML template`,
     },
   },
 };

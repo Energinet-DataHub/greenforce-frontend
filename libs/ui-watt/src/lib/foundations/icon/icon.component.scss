@@ -35,11 +35,3 @@ watt-icon {
     }
   }
 }
-
-.watt-form-field-normal watt-icon.icon-size-m .mat-icon {
-  @include icon-size(20px);
-}
-
-.watt-form-field-large watt-icon.icon-size-m .mat-icon {
-  @include icon-size(24px);
-}
