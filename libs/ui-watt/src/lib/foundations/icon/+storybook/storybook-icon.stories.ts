@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { HttpClientModule } from '@angular/common/http';
 import { Meta, moduleMetadata, Story } from '@storybook/angular';
 
 import { WattIconComponent } from '../icon.component';
@@ -24,7 +25,7 @@ export default {
   title: 'Foundations/Icons',
   decorators: [
     moduleMetadata({
-      imports: [StorybookIconOverviewModule],
+      imports: [StorybookIconOverviewModule, HttpClientModule],
     }),
   ],
   component: WattIconComponent,
@@ -44,7 +45,7 @@ icons.parameters = {
     source: {
       code: `1. Import WattIconModule in a module
 import { WattIconModule } from '@energinet-datahub/watt';
-      
+
 2. Use <watt-icon name="<name>" label="<description>" size="<size>"><watt-icon> in the component's HTML template`,
     },
   },
