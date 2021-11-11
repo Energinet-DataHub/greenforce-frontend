@@ -19,7 +19,10 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { DhTranslocoModule } from '@energinet-datahub/dh/globalization/configuration-localization';
 
-import { DhCoreShellComponent, DhCoreShellComponentScam } from './dh-core-shell.component';
+import {
+  DhCoreShellComponent,
+  DhCoreShellComponentScam,
+} from './dh-core-shell.component';
 
 const routes: Routes = [
   {
@@ -52,7 +55,7 @@ const routes: Routes = [
       anchorScrolling: 'enabled',
       initialNavigation: 'enabledNonBlocking',
       scrollPositionRestoration: 'enabled',
-    })
+    }),
   ],
 })
 export class DhCoreShellModule {}
