@@ -6,6 +6,7 @@ import { DhApiModule } from './dh-api.module';
 import { MeteringPointDto, MeteringPointHttp } from './generated/v1';
 
 const nullGsrn = '000000000000000000';
+// Available in the metering point test environment
 const testMeteringPointGsrns = [
   '571313180400014077',
   '573830327917661875',
@@ -46,7 +47,7 @@ describe('Metering Point API v1', () => {
   });
 
   it(`When an unknown metering point is looked up by GSRN
-    Then the response has status code 404`, async () => {
+    Then the response has status code 404 Not Found`, async () => {
     const whenResponse = lastValueFrom(
       http.v1MeteringPointGetByGsrnGet(nullGsrn)
     );
@@ -54,6 +55,19 @@ describe('Metering Point API v1', () => {
     await expect(whenResponse).rejects.toEqual(
       expect.objectContaining({
         status: HttpStatusCode.NotFound,
+      })
+    );
+  });
+
+  it(`When no GSRN is specified
+    Then the response has status code 400 Bad Request`, async () => {
+    const whenResponse = lastValueFrom(
+      http.v1MeteringPointGetByGsrnGet(undefined)
+    );
+
+    await expect(whenResponse).rejects.toEqual(
+      expect.objectContaining({
+        status: HttpStatusCode.BadRequest,
       })
     );
   });
