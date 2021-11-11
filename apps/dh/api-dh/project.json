@@ -34,6 +34,16 @@
         ],
         "parallel": false
       }
+    },
+    "serve": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "commands": [
+          "npm run check:dotnet",
+          "dotnet run --project apps/dh/api-dh/source/DataHub.WebApi/DataHub.WebApi.csproj --configuration=Debug"
+        ],
+        "parallel": false
+      }
     }
   },
   "tags": ["product:dh", "type:api"]
