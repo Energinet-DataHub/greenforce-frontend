@@ -29,3 +29,18 @@ variable organisation {
   type        = string
   description = "Organisation that is running the infrastructure code"
 }
+
+variable environment_short {
+  type          = string
+  description   = "1 character name of the enviroment that the infrastructure code is deployed into."
+}
+
+variable environment_instance {
+  type          = string
+  description   = "Enviroment instance that the infrastructure code is deployed into."
+}
+
+variable domain_name_short {
+  type          = string
+  description   = "Shortest possible edition of the domain name."
+}

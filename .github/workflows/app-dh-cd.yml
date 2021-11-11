@@ -31,8 +31,6 @@ on:
   push:
     branches:
       - main
-      - renetnielsen/new-frontend-iac
-  workflow_dispatch: {}
 
 jobs:
   affected:
