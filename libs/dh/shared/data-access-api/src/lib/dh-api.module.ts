@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import {
   ModuleWithProviders,
   NgModule,
@@ -25,11 +26,19 @@ export class DhApiRootModule {
   constructor(
     @Optional()
     @SkipSelf()
-    maybeNgModuleFromParentInjector?: DhApiRootModule
+    maybeNgModuleFromParentInjector?: DhApiRootModule,
+    @Optional()
+    maybeHttp?: HttpClient
   ) {
     if (maybeNgModuleFromParentInjector) {
       throw new Error(
-        'DhApiRootModule.forRoot registered in multiple injectors. Only call it from the core feature shell module or in the Angular testing module.'
+        'DhApiRootModule.forRoot registered in multiple injectors. Only call it from the core shell module or in the Angular testing module.'
+      );
+    }
+
+    if (!maybeHttp) {
+      throw new Error(
+        'HttpClientModule has not been imported. Import it in the core shell module or the Angular testing module.'
       );
     }
   }
