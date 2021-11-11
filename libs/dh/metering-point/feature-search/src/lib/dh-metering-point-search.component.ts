@@ -17,23 +17,14 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  NgModule,
-  ViewEncapsulation,
+  NgModule
 } from '@angular/core';
 
 const selector = 'dh-metering-point-search';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None,
   selector,
-  styles: [
-    `
-      ${selector} {
-        display: block;
-      }
-    `,
-  ],
   template: ` <h2>Search</h2> `,
 })
 export class DhMeteringPointSearchComponent {}

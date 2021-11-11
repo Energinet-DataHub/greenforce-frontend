@@ -17,23 +17,14 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  NgModule,
-  ViewEncapsulation,
+  NgModule
 } from '@angular/core';
 
 const selector = 'dh-metering-point-child';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None,
   selector,
-  styles: [
-    `
-      ${selector} {
-        display: block;
-      }
-    `,
-  ],
   template: ` <h2>Child</h2> `,
 })
 export class DhMeteringPointChildComponent {}
