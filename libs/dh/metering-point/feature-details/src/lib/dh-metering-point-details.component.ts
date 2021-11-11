@@ -20,7 +20,14 @@ const selector = 'dh-metering-point-details';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector,
+  selector: 'dh-metering-point-details',
+  styles: [
+    `
+      :host {
+        display: block;
+      }
+    `,
+  ],
   template: ` <h2>Details</h2> `,
 })
 export class DhMeteringPointDetailsComponent {}
