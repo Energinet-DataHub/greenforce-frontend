@@ -35,7 +35,7 @@ const selector = 'dh-metering-point-search';
     `,
   ],
   template: `
-    <h1>Search</h1>
+    <h2>Search</h2>
   `,
 })
 export class DhMeteringPointSearchComponent {}

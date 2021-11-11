@@ -35,7 +35,7 @@ const selector = 'dh-metering-point-child';
     `,
   ],
   template: `
-    <h1>Child</h1>
+    <h2>Child</h2>
   `,
 })
 export class DhMeteringPointChildComponent {}
