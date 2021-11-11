@@ -28,7 +28,7 @@ Energinet-DataHub/greenforce-frontend
 |  └── libs                 #
 ├── docs                    # Contains general documentation
 ├── infrastructure          # Contains infrastructure for Energy Track and Trace
-├── libs                    # Contains source code for libraries. See "folder structure - library" for more information
+├── libs                    # Contains source code for libraries. See "Folder Structure - library" section for more information
 └── tools                   # Contains various tools
    ├── executors            # - Executors perform actions on your code. This can include building, linting, testing, serving.
    └── generators           # - Generators provide a way to automate tasks you regularly perform as part of your development workflow. This can include: scafolding
@@ -42,6 +42,7 @@ Energinet-DataHub/greenforce-frontend
    └── <product>                             # All libraries are grouped by a product root folder
       └── <domain>                           # A product can contain serveral domains ex. auth, core, etc.
          └── <library type>-<library name>   # A domain can contain serveral libraries which are prefixed by type
+   └── ui-watt                               # See "Watt Design System" section
 ```
 
 ## App Types
