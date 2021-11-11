@@ -28,12 +28,15 @@ namespace Energinet.DataHub.WebApi
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IWebHostEnvironment environment)
         {
             Configuration = configuration;
+            Environment = environment;
         }
 
         private IConfiguration Configuration { get; }
+
+        private IWebHostEnvironment Environment { get; }
 
         /// <summary>
         /// This method gets called by the runtime. Use this method to add services to the container.
@@ -61,6 +64,17 @@ namespace Energinet.DataHub.WebApi
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 config.IncludeXmlComments(xmlPath);
             });
+
+            if (Environment.IsDevelopment())
+            {
+                services.AddCors(options =>
+                {
+                    options.AddDefaultPolicy(builder => builder
+                        .AllowAnyOrigin()
+                        .AllowAnyHeader()
+                        .AllowAnyMethod());
+                });
+            }
         }
 
         /// <summary>
@@ -83,6 +97,8 @@ namespace Energinet.DataHub.WebApi
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors();
 
             app.UseAuthorization();
 

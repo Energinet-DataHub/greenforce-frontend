@@ -83,8 +83,7 @@
         },
         "development": {
           "browserTarget": "app-dh:build:development",
-          "hmr": true,
-          "proxyConfig": "apps/dh/app-dh/src/proxy.conf.json"
+          "hmr": true
         }
       },
       "defaultConfiguration": "development"
