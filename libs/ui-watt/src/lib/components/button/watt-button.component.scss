@@ -19,14 +19,14 @@
 watt-button {
   display: inline-block;
 
-  &.watt-button-normal {
+  &.watt-button-size-normal {
     button.watt-button {
       height: buttonVariables.$watt-button-size-normal-height;
       min-width: buttonVariables.$watt-button-min-width;
     }
   }
 
-  &.watt-button-large {
+  &.watt-button-size-large {
     button.watt-button {
       height: buttonVariables.$watt-button-size-large-height;
       min-width: buttonVariables.$watt-button-min-width;
@@ -56,6 +56,7 @@ watt-button {
   .content-grid {
     align-items: center;
     display: flex;
+    gap: var(--watt-space-xs);
     justify-content: center;
   }
 
@@ -94,6 +95,10 @@ watt-button {
   watt-text-button {
     button.watt-button:focus {
       outline: buttonVariables.$watt-button-text-focus-state;
+    }
+
+    button.watt-button:hover {
+      color: buttonVariables.$watt-button-text-hover-color;
 
       .mat-button-focus-overlay {
         background-color: transparent;

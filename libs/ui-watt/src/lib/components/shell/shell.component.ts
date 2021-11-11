@@ -15,7 +15,12 @@
  * limitations under the License.
  */
 import { Component } from '@angular/core';
-import { MatDrawerMode } from '@angular/material/sidenav';
+import { map, shareReplay } from 'rxjs/operators';
+
+import {
+  WattBreakpointsObserver,
+  WattBreakpoint,
+} from '../../foundations/breakpoints';
 
 @Component({
   selector: 'watt-shell',
@@ -26,10 +31,21 @@ export class WattShellComponent {
   /**
    * @ignore
    */
-  sidenavOpened = true;
+  shouldAutoFocus = false;
 
   /**
    * @ignore
    */
-  sidenavMode: MatDrawerMode = 'side';
+  isHandset$ = this.breakpointObserver
+    .observe([
+      WattBreakpoint.XSmall,
+      WattBreakpoint.Small,
+      WattBreakpoint.Medium,
+    ])
+    .pipe(
+      map((result) => result.matches),
+      shareReplay()
+    );
+
+  constructor(private breakpointObserver: WattBreakpointsObserver) {}
 }
