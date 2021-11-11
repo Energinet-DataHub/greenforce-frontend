@@ -16,9 +16,18 @@
  */
 import { NgModule } from '@angular/core';
 
-import { DhMeteringPointChildComponent, DhMeteringPointChildScam } from '@energinet-datahub/dh/metering-point/feature-child';
-import { DhMeteringPointDetailsComponent, DhMeteringPointDetailsScam } from '@energinet-datahub/dh/metering-point/feature-details';
-import { DhMeteringPointSearchComponent, DhMeteringPointSearchScam } from '@energinet-datahub/dh/metering-point/feature-search';
+import {
+  DhMeteringPointChildComponent,
+  DhMeteringPointChildScam,
+} from '@energinet-datahub/dh/metering-point/feature-child';
+import {
+  DhMeteringPointDetailsComponent,
+  DhMeteringPointDetailsScam,
+} from '@energinet-datahub/dh/metering-point/feature-details';
+import {
+  DhMeteringPointSearchComponent,
+  DhMeteringPointSearchScam,
+} from '@energinet-datahub/dh/metering-point/feature-search';
 import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
@@ -32,6 +41,11 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [DhMeteringPointChildScam, DhMeteringPointDetailsScam, DhMeteringPointSearchScam, RouterModule.forChild(routes)],
+  imports: [
+    DhMeteringPointChildScam,
+    DhMeteringPointDetailsScam,
+    DhMeteringPointSearchScam,
+    RouterModule.forChild(routes),
+  ],
 })
 export class DhMeteringPointShellModule {}
