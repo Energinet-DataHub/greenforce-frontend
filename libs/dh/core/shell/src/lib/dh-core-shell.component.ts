@@ -14,7 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- import { Component } from '@angular/core';
+ import { Component, NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
+import { DhLanguagePickerModule } from '@energinet-datahub/dh/globalization/feature-language-picker';
+import { WattShellModule } from '@energinet-datahub/watt';
+import { TranslocoModule } from '@ngneat/transloco';
 
  @Component({
    selector: 'dh-shell',
@@ -22,3 +26,9 @@
    templateUrl: './dh-core-shell.component.html',
  })
  export class DhCoreShellComponent {}
+
+ @NgModule({
+  declarations: [DhCoreShellComponent],
+  imports: [TranslocoModule, DhLanguagePickerModule, RouterModule, WattShellModule],
+})
+export class DhCoreShellComponentScam {}

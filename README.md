@@ -132,8 +132,8 @@ Allowed dependencies to: `feature`, `ui`, `data-access`, `routing`, `util`, `tes
 
 ### Configuration libraries
 
-A library containing configurations, example: i18n
-Allowed dependencies to: `data-access`, `routing`, `util`, `test-util`, `configuration`, `environments`.
+A library containing configuration and setup of libraries and conerns, for example i18n
+Allowed dependencies to: `data-access`, `routing`, `util`, `test-util`, `configuration`, `environments`, `domain`.
 
 ### Environments libraries
 

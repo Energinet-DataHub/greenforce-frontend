@@ -17,9 +17,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { WattModule } from '@energinet-datahub/watt';
+import { DhTranslocoModule } from '@energinet-datahub/dh/globalization/configuration-localization';
 
-import { DhCoreShellComponent } from './dh-core-shell.component';
+import { DhCoreShellComponent, DhCoreShellComponentScam } from './dh-core-shell.component';
 
 const routes: Routes = [
   {
@@ -29,7 +29,7 @@ const routes: Routes = [
       {
         path: '',
         redirectTo: 'metering-point',
-        pathMatch: 'full'
+        pathMatch: 'full',
       },
       {
         path: 'metering-point',
@@ -37,19 +37,22 @@ const routes: Routes = [
           import('@energinet-datahub/dh/metering-point/shell').then(
             (esModule) => esModule.DhMeteringPointShellModule
           ),
-      }
-    ]
+      },
+    ],
   },
   // { path: '**', component: PageNotFoundComponent },
 ];
 
 @NgModule({
-  declarations: [DhCoreShellComponent],
   exports: [RouterModule],
-  imports: [WattModule, RouterModule.forRoot(routes, {
-    anchorScrolling: 'enabled',
-    initialNavigation: 'enabledNonBlocking',
-    scrollPositionRestoration: 'enabled',
-  }),],
+  imports: [
+    DhCoreShellComponentScam,
+    DhTranslocoModule.forRoot(),
+    RouterModule.forRoot(routes, {
+      anchorScrolling: 'enabled',
+      initialNavigation: 'enabledNonBlocking',
+      scrollPositionRestoration: 'enabled',
+    })
+  ],
 })
 export class DhCoreShellModule {}

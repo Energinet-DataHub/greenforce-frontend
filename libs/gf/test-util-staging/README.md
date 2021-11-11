@@ -1,6 +1,10 @@
 # Test staging utilities
 
-Call these functions in your project's `test-setup.ts`.
+Call these functions in the project's `test-setup.ts`.
+
+As a minimum, we must always call `setUpTestbed` to ensure consistent test runs.
+Other test staging functions are called based on what is needed by the project's
+test suites.
 
 Default testing configurations for:
 | Technology | API | Description |

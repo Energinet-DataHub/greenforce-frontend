@@ -19,7 +19,15 @@ limitations under the License.
     <p>Sidenav</p>
   </ng-container>
 
-  <ng-container watt-shell-toolbar></ng-container>
+  <ng-container watt-shell-toolbar>
+    <div class="app-actions">
+      <dh-language-picker></dh-language-picker>
+    </div>
+  </ng-container>
+
+  <ng-container *transloco="let transloco">
+    <h1>{{ transloco('appName') }}</h1>
+  </ng-container>
 
   <router-outlet></router-outlet>
 </watt-shell>

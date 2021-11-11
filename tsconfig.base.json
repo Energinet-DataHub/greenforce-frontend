@@ -29,6 +29,27 @@
       "@energinet-datahub/dh/metering-point/shell": [
         "libs/dh/metering-point/shell/src/index.ts"
       ],
+      "@energinet-datahub/dh/globalization/assets-localization": [
+        "libs/dh/globalization/assets-localization/src/index.ts"
+      ],
+      "@energinet-datahub/dh/globalization/configuration-localization": [
+        "libs/dh/globalization/configuration-localization/src/index.ts"
+      ],
+      "@energinet-datahub/dh/globalization/data-access-localization": [
+        "libs/dh/globalization/data-access-localization/src/index.ts"
+      ],
+      "@energinet-datahub/dh/globalization/domain": [
+        "libs/dh/globalization/domain/src/index.ts"
+      ],
+      "@energinet-datahub/dh/globalization/feature-language-picker": [
+        "libs/dh/globalization/feature-language-picker/src/index.ts"
+      ],
+      "@energinet-datahub/dh/shared/assets": [
+        "libs/dh/shared/assets/src/index.ts"
+      ],
+      "@energinet-datahub/dh/shared/environments": [
+        "libs/dh/shared/environments/src/index.ts"
+      ],
       "@energinet-datahub/ett/auth/data-access-api": [
         "libs/ett/auth/data-access-api/src/index.ts"
       ],

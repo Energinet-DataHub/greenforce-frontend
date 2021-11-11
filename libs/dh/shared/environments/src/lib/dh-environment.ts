@@ -14,4 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export const getGreeting = () => cy.get('h1');
+export interface DhEnvironment {
+  readonly production: boolean;
+}
