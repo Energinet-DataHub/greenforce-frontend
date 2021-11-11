@@ -16,9 +16,6 @@
     "baseUrl": ".",
     "paths": {
       "@angular/*": ["./node_modules/@angular/*"],
-      "@energinet-datahub/dh/core/assets-core": [
-        "libs/dh/core/assets-core/src/index.ts"
-      ],
       "@energinet-datahub/dh/core/shell": ["libs/dh/core/shell/src/index.ts"],
       "@energinet-datahub/dh/globalization/assets-localization": [
         "libs/dh/globalization/assets-localization/src/index.ts"
