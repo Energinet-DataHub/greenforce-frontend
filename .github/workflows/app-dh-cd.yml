@@ -46,7 +46,7 @@ jobs:
       - name: Debug event name
         env:
           EVENT_NAME: ${{ github.event_name }}
-        run: echo "Event name: $EVENT_NAME"
+        run: echo "Event name is $EVENT_NAME"
 
       # needed for nx affected command
       - name: Check out source code with current branch Git history
