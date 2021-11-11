@@ -16,8 +16,6 @@
  */
 import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
 
-const selector = 'dh-metering-point-details';
-
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'dh-metering-point-details',
