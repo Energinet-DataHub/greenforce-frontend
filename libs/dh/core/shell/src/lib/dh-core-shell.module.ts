@@ -22,7 +22,7 @@ import { DhTranslocoModule } from '@energinet-datahub/dh/globalization/configura
 
 import {
   DhCoreShellComponent,
-  DhCoreShellComponentScam,
+  DhCoreShellScam,
 } from './dh-core-shell.component';
 
 const routes: Routes = [
@@ -50,7 +50,7 @@ const routes: Routes = [
 @NgModule({
   exports: [RouterModule],
   imports: [
-    DhCoreShellComponentScam,
+    DhCoreShellScam,
     DhTranslocoModule.forRoot(),
     HttpClientModule,
     RouterModule.forRoot(routes, {

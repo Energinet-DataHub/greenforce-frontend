@@ -18,13 +18,12 @@ import { By } from '@angular/platform-browser';
 import { WattShellComponent } from '@energinet-datahub/watt';
 import { render, RenderResult } from '@testing-library/angular';
 
-import { DhCoreShellComponent } from './dh-core-shell.component';
-import { DhCoreShellModule } from './dh-core-shell.module';
+import { DhCoreShellComponent, DhCoreShellScam } from './dh-core-shell.component';
 
 describe(DhCoreShellComponent.name, () => {
   beforeEach(async () => {
     view = await render(DhCoreShellComponent, {
-      imports: [DhCoreShellModule],
+      imports: [DhCoreShellScam],
     });
   });
 

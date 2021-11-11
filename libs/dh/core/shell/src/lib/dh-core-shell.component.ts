@@ -36,4 +36,4 @@ export class DhCoreShellComponent {}
     WattShellModule,
   ],
 })
-export class DhCoreShellComponentScam {}
+export class DhCoreShellScam {}
