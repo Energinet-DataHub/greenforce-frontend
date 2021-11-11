@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
@@ -51,11 +52,12 @@ const routes: Routes = [
   imports: [
     DhCoreShellComponentScam,
     DhTranslocoModule.forRoot(),
+    HttpClientModule,
     RouterModule.forRoot(routes, {
       anchorScrolling: 'enabled',
       initialNavigation: 'enabledNonBlocking',
       scrollPositionRestoration: 'enabled',
-    }),
+    })
   ],
 })
 export class DhCoreShellModule {}
