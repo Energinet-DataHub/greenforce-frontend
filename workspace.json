@@ -4,6 +4,7 @@
     "api-dh": "apps/dh/api-dh",
     "app-dh": "apps/dh/app-dh",
     "app-ett": "apps/ett/app-ett",
+    "dh-core-assets-core": "libs/dh/core/assets-core",
     "dh-core-shell": "libs/dh/core/shell",
     "dh-globalization-assets-localization": "libs/dh/globalization/assets-localization",
     "dh-globalization-configuration-localization": "libs/dh/globalization/configuration-localization",
