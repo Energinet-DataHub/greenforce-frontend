@@ -2,13 +2,13 @@
   "appName": "DataHub [EN]",
   "meteringPoint": {
     "search": {
-      "title": "Målepunkter [EN]",
-      "searchLabel": "Indtast et Målepunkts ID for at fremsøge et målepunkt [EN]",
-      "searchPlaceholder": "Søg på Målepunkts ID [EN]",
-      "searchButton": "Søg [EN]",
-      "searchInvalidLength": "Målepunkts ID’et skal være 18 cifre [EN]",
-      "noMeteringPointFoundTitle": "Vi fandt Desværre intet målepunkt [EN]",
-      "noMeteringPointFoundMessage": "Tjek for eventuelle tastefejl og prøv igen [EN]"
+      "title": "Metering Points",
+      "searchLabel": "Enter a Metering Point ID to find a metering point",
+      "searchPlaceholder": "Search by Metering Point ID",
+      "searchButton": "Search",
+      "searchInvalidLength": "Metering Point ID must be an 18-digit number",
+      "noMeteringPointFoundTitle": "Sorry, we did not find a metering point match",
+      "noMeteringPointFoundMessage": "Please check the spelling and try again"
     }
   }
 }
