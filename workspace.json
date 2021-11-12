@@ -14,6 +14,7 @@
     "dh-metering-point-feature-child-overview": "libs/dh/metering-point/feature-child-overview",
     "dh-metering-point-feature-overview": "libs/dh/metering-point/feature-overview",
     "dh-metering-point-feature-search": "libs/dh/metering-point/feature-search",
+    "dh-metering-point-routing-security": "libs/dh/metering-point/routing-security",
     "dh-metering-point-shell": "libs/dh/metering-point/shell",
     "dh-shared-assets": "libs/dh/shared/assets",
     "dh-shared-environments": "libs/dh/shared/environments",
