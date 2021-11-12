@@ -32,6 +32,7 @@ limitations under the License.
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
     <Exec Command="dotnet tool restore" />
     <Exec Command="dotnet swagger tofile --output $(OutputPath)\swagger.json $(OutputPath)\$(AssemblyName).dll v1" />
+    <Exec Command="yarn install &amp;&amp; nx run api-dh:build-client" />
   </Target>
 
   <ItemGroup>

@@ -17,12 +17,6 @@
       }
     },
     "build-client": {
-      "dependsOn": [
-        {
-          "target": "build",
-          "projects": "self"
-        }
-      ],
       "executor": "@nrwl/workspace:run-commands",
       "options": {
         "commands": [
