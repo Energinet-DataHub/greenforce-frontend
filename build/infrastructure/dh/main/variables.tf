@@ -20,16 +20,6 @@ variable environment {
   description = "Enviroment that the infrastructure code is deployed into"
 }
 
-variable project {
-  type        = string
-  description = "Project that is running the infrastructure code"
-}
-
-variable organisation {
-  type        = string
-  description = "Organisation that is running the infrastructure code"
-}
-
 variable environment_short {
   type          = string
   description   = "1 character name of the enviroment that the infrastructure code is deployed into."

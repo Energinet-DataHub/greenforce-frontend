@@ -32,6 +32,10 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: Development
+    env:
+      TF_VAR_environment_short: u
+      TF_VAR_environment_instance: "001"
+      TF_VAR_domain_name_short: designsys
     steps:
       - name: Checkout code
         uses: actions/checkout@master
@@ -40,7 +44,7 @@ jobs:
         uses: hashicorp/setup-terraform@v1.2.1
         with:
           terraform_wrapper: false
-          terraform_version: 1.0.5 # THIS NEEDS TO BE EQUAL TO THE VERSION DEFINED IN PROVIDERS.TF
+          terraform_version: 1.0.5
 
       - name: Terraform CD
         uses: Energinet-DataHub/.github/.github/actions/terraform@main
@@ -49,101 +53,6 @@ jobs:
           ORGANISATION_NAME: ${{ secrets.ORGANISATION_NAME }}
           ENVIRONMENT_SHORT: u
           ENVIRONMENT_NAME: development
-          TERRAFORM_BACKEND_FILE_PATH: ${{ env.TERRAFORM_BACKEND_FILE_PATH }}
-          TERRAFORM_WORKING_DIR_PATH: ${{ env.TERRAFORM_WORKING_DIR_PATH }}
-          AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
-          AZURE_SPN_ID: ${{ secrets.AZURE_SPN_ID }}
-          AZURE_SPN_OBJECT_ID: ${{ secrets.AZURE_SPN_OBJECT_ID }}
-          AZURE_SPN_SECRET: ${{ secrets.AZURE_SPN_SECRET }}
-          AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-          AZURE_RG_NAME: ${{ secrets.AZURE_RG_NAME }}
-
-  infra_deploy_test:
-    name: Deploy infrastructure to Test
-    needs: infra_deploy_development
-    runs-on: ubuntu-latest
-    environment:
-      name: Test
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@master
-
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v1.2.1
-        with:
-          terraform_wrapper: false
-          terraform_version: 1.0.5 # THIS NEEDS TO BE EQUAL TO THE VERSION DEFINED IN PROVIDERS.TF
-
-      - name: Terraform CD
-        uses: Energinet-DataHub/.github/.github/actions/terraform@main
-        with:
-          PROJECT_NAME: designsys
-          ORGANISATION_NAME: ${{ secrets.ORGANISATION_NAME }}
-          ENVIRONMENT_SHORT: t
-          ENVIRONMENT_NAME: test
-          TERRAFORM_BACKEND_FILE_PATH: ${{ env.TERRAFORM_BACKEND_FILE_PATH }}
-          TERRAFORM_WORKING_DIR_PATH: ${{ env.TERRAFORM_WORKING_DIR_PATH }}
-          AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
-          AZURE_SPN_ID: ${{ secrets.AZURE_SPN_ID }}
-          AZURE_SPN_OBJECT_ID: ${{ secrets.AZURE_SPN_OBJECT_ID }}
-          AZURE_SPN_SECRET: ${{ secrets.AZURE_SPN_SECRET }}
-          AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-          AZURE_RG_NAME: ${{ secrets.AZURE_RG_NAME }}
-
-  infra_deploy_preprod:
-    name: Deploy infrastructure to Preproduction
-    needs: infra_deploy_test
-    runs-on: ubuntu-latest
-    environment:
-      name: Preproduction
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@master
-
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v1.2.1
-        with:
-          terraform_wrapper: false
-          terraform_version: 1.0.5 # THIS NEEDS TO BE EQUAL TO THE VERSION DEFINED IN PROVIDERS.TF
-
-      - name: Terraform CD
-        uses: Energinet-DataHub/.github/.github/actions/terraform@main
-        with:
-          PROJECT_NAME: designsys
-          ORGANISATION_NAME: ${{ secrets.ORGANISATION_NAME }}
-          ENVIRONMENT_SHORT: b
-          ENVIRONMENT_NAME: preproduction
-          TERRAFORM_BACKEND_FILE_PATH: ${{ env.TERRAFORM_BACKEND_FILE_PATH }}
-          TERRAFORM_WORKING_DIR_PATH: ${{ env.TERRAFORM_WORKING_DIR_PATH }}
-          AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
-          AZURE_SPN_ID: ${{ secrets.AZURE_SPN_ID }}
-          AZURE_SPN_OBJECT_ID: ${{ secrets.AZURE_SPN_OBJECT_ID }}
-          AZURE_SPN_SECRET: ${{ secrets.AZURE_SPN_SECRET }}
-          AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-          AZURE_RG_NAME: ${{ secrets.AZURE_RG_NAME }}
-
-  infra_deploy_prod:
-    name: Deploy infrastructure to Production
-    needs: infra_deploy_preprod
-    runs-on: ubuntu-latest
-    environment:
-      name: Production
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@master
-
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v1.2.1
-        with:
-          terraform_wrapper: false
-      
-      - name: Terraform CD
-        uses: Energinet-DataHub/.github/.github/actions/terraform@main
-        with:
-          PROJECT_NAME: designsys
-          ORGANISATION_NAME: ${{ secrets.ORGANISATION_NAME }}
-          ENVIRONMENT_SHORT: p
-          ENVIRONMENT_NAME: production
           TERRAFORM_BACKEND_FILE_PATH: ${{ env.TERRAFORM_BACKEND_FILE_PATH }}
           TERRAFORM_WORKING_DIR_PATH: ${{ env.TERRAFORM_WORKING_DIR_PATH }}
           AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}

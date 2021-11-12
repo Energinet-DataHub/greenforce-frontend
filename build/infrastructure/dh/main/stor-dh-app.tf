@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 resource "azurerm_storage_account" "stor_dh" {
-  name                      = "stordh${var.organisation}${var.environment}"
+  name                      = "stordh${lower(var.domain_name_short)}${lower(var.environment_short)}${lower(var.environment_instance)}"
   resource_group_name       = data.azurerm_resource_group.main.name
   location                  = data.azurerm_resource_group.main.location
   account_kind              = "StorageV2"

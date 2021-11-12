@@ -12,21 +12,21 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 resource "azurerm_cdn_profile" "cdn_profile_dh" {
-  name                = "cdn-dh-${var.project}-${var.organisation}-${var.environment}"
+  name                = "cdn-dh-${lower(var.domain_name_short)}-${lower(var.environment_short)}-${lower(var.environment_instance)}"
   location            = data.azurerm_resource_group.main.location
   resource_group_name = data.azurerm_resource_group.main.name
   sku                 = "Standard_Microsoft"
 }
 
 resource "azurerm_cdn_endpoint" "cdn_endpoint" {
-  name                = "cdn-dh-endpoint-${var.project}-${var.organisation}-${var.environment}"
+  name                = "cdn-dh-endpoint-${lower(var.domain_name_short)}-${lower(var.environment_short)}-${lower(var.environment_instance)}"
   profile_name        = azurerm_cdn_profile.cdn_profile_dh.name
   location            = data.azurerm_resource_group.main.location
   resource_group_name = data.azurerm_resource_group.main.name
   origin_host_header  = azurerm_storage_account.stor_dh.primary_web_host
 
   origin {
-    name                = "cdn-endpoint-${var.project}-${var.organisation}-${var.environment}"
+    name                = "cdn-endpoint-${lower(var.domain_name_short)}-${lower(var.environment_short)}-${lower(var.environment_instance)}"
     host_name           = azurerm_storage_account.stor_dh.primary_web_host
   }
 }
