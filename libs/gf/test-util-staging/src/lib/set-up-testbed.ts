@@ -28,6 +28,12 @@ import { GfAngularMaterialTestingModule } from './angular-material/gf-angular-ma
 import { GfBrowserTestingModule } from './angular/gf-browser-testing.module';
 import { GfRxAngularTestingModule } from './rx-angular/gf-rx-angular-testing.module';
 
+/*
+ * For easier debugging in development mode, you can import the following file
+ * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.
+ */
+import 'zone.js/plugins/zone-error';
+
 function patchTestbed(): void {
   const isUnpatched =
     testbed.configureTestingModule === realConfigureTestingModule;
@@ -59,6 +65,9 @@ function patchTestbed(): void {
 }
 
 /**
+ * This function must be called in all `test-setup.ts` files to ensure
+ * consistent test runs.
+ *
  * Use Angular testing module teardown.
  *
  * Use automatic change detection in tests

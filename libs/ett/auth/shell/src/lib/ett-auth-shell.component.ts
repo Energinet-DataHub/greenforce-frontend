@@ -18,9 +18,11 @@ import {
   ChangeDetectionStrategy,
   Component,
   NgModule,
+  OnInit,
   ViewEncapsulation,
 } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
+import { ActivatedRoute } from '@angular/router';
 import { EttAuthFeatureLoginModule } from '@energinet-datahub/ett/auth/feature-login';
 
 const selector = 'ett-auth-shell';
@@ -45,6 +47,7 @@ const selector = 'ett-auth-shell';
         <h1>Energy Track and Trace</h1>
       </mat-card-title>
       <mat-card-content>
+        <p style="color: red">{{ errorMessage }}</p>
         <p>Log in using:</p>
 
         <ett-login-providers></ett-login-providers>
@@ -52,7 +55,39 @@ const selector = 'ett-auth-shell';
     </mat-card>
   `,
 })
-export class EttAuthShellComponent {}
+export class EttAuthShellComponent implements OnInit {
+  DEFAULT_ERROR_MESSAGE = 'Der opstod en ukendt fejl, prøv venligst igen.';
+
+  // TODO Get messages from i18n
+  ERROR_MESSAGES: { [key: string]: string } = {
+    E0: 'Ukendt fejl fra Identity Provider',
+    E1: 'Login afbrudt af bruger',
+    E3: 'CPR validering fejlede',
+    E500: 'Internal fejl',
+    E501: 'Der opstod en fejl hos Identity Provider',
+    E505: 'Kunne ikke kommunikere med Identity Provider',
+  };
+
+  errorMessage?: string;
+
+  constructor(private route: ActivatedRoute) {}
+
+  ngOnInit() {
+    this.route.queryParams.subscribe((params) => {
+      if ('error_code' in params) {
+        if (params.error_code in this.ERROR_MESSAGES) {
+          this.errorMessage = this.ERROR_MESSAGES[params.error_code];
+        } else if ('error' in params) {
+          this.errorMessage = params.error;
+        } else {
+          this.errorMessage = this.DEFAULT_ERROR_MESSAGE;
+        }
+      } else {
+        this.errorMessage = '';
+      }
+    });
+  }
+}
 
 @NgModule({
   declarations: [EttAuthShellComponent],

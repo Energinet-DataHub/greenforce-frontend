@@ -47,7 +47,7 @@ export class WattButtonComponent {
 
   @HostBinding('class')
   get buttonSize() {
-    return `watt-button-${this.size}`;
+    return `watt-button-size-${this.size}`;
   }
 
   @HostBinding('class.watt-button-loading')

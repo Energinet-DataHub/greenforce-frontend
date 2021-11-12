@@ -23,10 +23,11 @@ import { WattPrimaryButtonModule } from './primary-button/watt-primary-button.mo
 import { WattSecondaryButtonModule } from './secondary-button/watt-secondary-button.module';
 import { WattTextButtonModule } from './text-button/watt-text-button.module';
 import { WattSpinnerModule } from '../spinner';
+import { WattIconButtonModule } from './icon-button/watt-icon-button.module';
 
 @NgModule({
   declarations: [WattButtonComponent],
-  exports: [WattButtonComponent],
+  exports: [WattButtonComponent, WattIconButtonModule],
   imports: [
     CommonModule,
     WattIconModule,

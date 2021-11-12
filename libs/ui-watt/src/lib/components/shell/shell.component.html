@@ -14,22 +14,39 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<mat-sidenav-container class="sidenav-container">
+<mat-sidenav-container class="watt-sidenav-container">
   <mat-sidenav
-    class="sidenav"
-    [mode]="sidenavMode"
-    [opened]="sidenavOpened"
+    #drawer
+    class="watt-sidenav"
+    [autoFocus]="shouldAutoFocus"
+    [mode]="(isHandset$ | async) ? 'over' : 'side'"
+    [opened]="(isHandset$ | async) === false"
     role="navigation"
   >
+    <watt-icon-button
+      *ngIf="isHandset$ | async"
+      icon="close"
+      class="watt-sidenav-close-button"
+      (click)="drawer.toggle()"
+    >
+    </watt-icon-button>
+
     <ng-content select="[watt-shell-sidenav]"></ng-content>
   </mat-sidenav>
 
   <mat-sidenav-content>
-    <mat-toolbar>
+    <mat-toolbar class="watt-toolbar">
+      <watt-icon-button
+        *ngIf="isHandset$ | async"
+        icon="menu"
+        (click)="drawer.toggle()"
+      >
+      </watt-icon-button>
+
       <ng-content select="[watt-shell-toolbar]"></ng-content>
     </mat-toolbar>
 
-    <main class="main-content">
+    <main class="watt-main-content">
       <ng-content></ng-content>
     </main>
   </mat-sidenav-content>

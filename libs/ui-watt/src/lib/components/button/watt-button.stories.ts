@@ -17,12 +17,14 @@
 import { moduleMetadata, Story, Meta } from '@storybook/angular';
 
 import { StorybookButtonOverviewModule } from './+storybook/storybook-button-overview.module';
+import { WattIconButtonComponent } from './icon-button/watt-icon-button.component';
 import { WattButtonComponent } from './watt-button.component';
 import { WattButtonModule } from './watt-button.module';
 
 export default {
   title: 'Components/Button',
   component: WattButtonComponent,
+  subcomponents: { WattIconButtonComponent },
   decorators: [
     moduleMetadata({
       imports: [WattButtonModule],
@@ -34,7 +36,11 @@ const howToUseGuide = `
 1. Import ${WattButtonModule.name} in a module
 import { ${WattButtonModule.name} } from '@energinet-datahub/watt';
 
-2. Use <watt-button>Button</watt-button> in the component's HTML template
+2a. Use <watt-button>Button</watt-button>
+
+OR
+
+2b. Use <watt-icon-button icon="<icon-name>"></watt-icon-button> in the component's HTML template
 `;
 
 export const Overview = () => ({
@@ -54,12 +60,46 @@ Overview.parameters = {
 };
 
 //👇 We create a “template” of how args map to rendering
-const ButtonTemplate: Story<WattButtonComponent> = (args) => ({
+const ButtonStory: Story<WattButtonComponent> = (args) => ({
   props: args,
   template: `<watt-button>Button</watt-button>`,
 });
 
-export const Button = ButtonTemplate.bind({});
+export const Button = ButtonStory.bind({});
 Button.args = {
   type: 'text',
+};
+
+const iconButtonTemplate = (args: Partial<WattIconButtonComponent>) =>
+  `<watt-icon-button icon="${args.icon}" [disabled]="${args.disabled}"></watt-icon-button>`;
+
+const IconButton: Story<WattIconButtonComponent> = (args) => ({
+  props: args,
+  template: iconButtonTemplate(args),
+});
+
+export const IconButtonStory = IconButton.bind({});
+
+IconButtonStory.storyName = 'Icon Button';
+IconButtonStory.argTypes = {
+  type: {
+    control: false,
+  },
+  size: {
+    control: false,
+  },
+  loading: {
+    control: false,
+  },
+};
+IconButtonStory.args = {
+  icon: 'search',
+  disabled: false,
+};
+IconButtonStory.parameters = {
+  docs: {
+    source: {
+      code: iconButtonTemplate(IconButtonStory.args),
+    },
+  },
 };

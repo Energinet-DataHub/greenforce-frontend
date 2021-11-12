@@ -128,4 +128,21 @@ limitations under the License.
       <watt-button type="primary" size="large">Enabled</watt-button>
     </div>
   </div>
+
+  <h2>Icon</h2>
+
+  <p>
+    Icon buttons allow users to take actions and make choices with a single tap.
+  </p>
+
+  <div class="content-grid">
+    <watt-icon-button icon="plus"></watt-icon-button>
+    <span class="force-hover-state">
+      <watt-icon-button icon="plus"></watt-icon-button>
+    </span>
+    <span class="force-focus-state">
+      <watt-icon-button icon="plus"></watt-icon-button>
+    </span>
+    <watt-icon-button icon="plus" [disabled]="true"></watt-icon-button>
+  </div>
 </mat-card>

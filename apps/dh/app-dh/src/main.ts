@@ -16,9 +16,9 @@
  */
 import { enableProdMode } from '@angular/core';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+import { environment } from '@energinet-datahub/dh/shared/environments';
 
 import { DataHubAppModule } from './app/datahub-app.module';
-import { environment } from './environments/environment';
 
 if (environment.production) {
   enableProdMode();
