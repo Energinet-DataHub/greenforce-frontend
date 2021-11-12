@@ -15,3 +15,4 @@
  * limitations under the License.
  */
 export * from './lib/dh-transloco.module';
+export { getTranslocoTestingModule } from './lib/dh-transloco-testing.module';

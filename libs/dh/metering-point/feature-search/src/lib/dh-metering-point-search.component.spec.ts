@@ -1,5 +1,7 @@
 import { render, screen } from '@testing-library/angular';
 
+import { getTranslocoTestingModule } from '@energinet-datahub/dh/globalization/configuration-localization';
+
 import { DhMeteringPointSearchComponent, DhMeteringPointSearchScam } from './dh-metering-point-search.component';
 
 describe(DhMeteringPointSearchComponent.name, () => {
@@ -7,7 +9,7 @@ describe(DhMeteringPointSearchComponent.name, () => {
 
   beforeEach(async () => {
     await render(DhMeteringPointSearchComponent, {
-      imports: [DhMeteringPointSearchScam]
+      imports: [getTranslocoTestingModule(), DhMeteringPointSearchScam]
     });
 
     input = screen.getByRole('textbox', { name: /search-input/i });
@@ -18,6 +20,7 @@ describe(DhMeteringPointSearchComponent.name, () => {
   });
 
   it('should focus the input on load', async () => {
-    expect(input).toHaveFocus();
+    // We check this by attribute, as toHaveFocus is not working unless you do .focus() on the element
+    expect(input).toHaveAttribute('autofocus');
   });
 });

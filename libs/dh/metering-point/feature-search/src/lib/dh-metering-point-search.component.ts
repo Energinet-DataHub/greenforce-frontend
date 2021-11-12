@@ -80,10 +80,10 @@ import {
     `,
   ],
   template: `
-    <div class="container" *transloco="let transloco">
-      <h1>{{ transloco('meteringPoint.search.title') }}</h1>
+    <div class="container" *transloco="let transloco; read: 'meteringPoint.search'">
+      <h1>{{ transloco('title') }}</h1>
       <label for="search-input">
-        {{ transloco('meteringPoint.search.searchLabel') }}
+        {{ transloco('searchLabel') }}
       </label>
       <watt-form-field>
         <watt-icon-button icon="search" wattPrefix></watt-icon-button>
@@ -92,10 +92,11 @@ import {
           id="search-input"
           type="text"
           aria-label="search-input"
-          [placeholder]="transloco('meteringPoint.search.searchPlaceholder')"
+          [placeholder]="transloco('searchPlaceholder')"
+          autofocus
         />
         <watt-error>
-          {{ transloco('meteringPoint.search.searchInvalidLength') }}
+          {{ transloco('searchInvalidLength') }}
         </watt-error>
         <watt-icon-button icon="close" wattSuffix></watt-icon-button>
       </watt-form-field>
@@ -104,13 +105,13 @@ import {
         size="normal"
         [disabled]="false"
         [loading]="false"
-        >{{ transloco('meteringPoint.search.searchButton') }}</watt-button
+        >{{ transloco('searchButton') }}</watt-button
       >
       <watt-empty-state
         icon="explore"
-        [title]="transloco('meteringPoint.search.noMeteringPointFoundTitle')"
+        [title]="transloco('noMeteringPointFoundTitle')"
         [message]="
-          transloco('meteringPoint.search.noMeteringPointFoundMessage')
+          transloco('noMeteringPointFoundMessage')
         "
       ></watt-empty-state>
     </div>
