@@ -32,6 +32,18 @@
       "@energinet-datahub/dh/globalization/feature-language-picker": [
         "libs/dh/globalization/feature-language-picker/src/index.ts"
       ],
+      "@energinet-datahub/dh/metering-point/feature-child-overview": [
+        "libs/dh/metering-point/feature-child-overview/src/index.ts"
+      ],
+      "@energinet-datahub/dh/metering-point/feature-overview": [
+        "libs/dh/metering-point/feature-overview/src/index.ts"
+      ],
+      "@energinet-datahub/dh/metering-point/feature-search": [
+        "libs/dh/metering-point/feature-search/src/index.ts"
+      ],
+      "@energinet-datahub/dh/metering-point/shell": [
+        "libs/dh/metering-point/shell/src/index.ts"
+      ],
       "@energinet-datahub/dh/shared/assets": [
         "libs/dh/shared/assets/src/index.ts"
       ],

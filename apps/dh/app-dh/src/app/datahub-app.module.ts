@@ -16,13 +16,13 @@
  */
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { DhAppCoreShellModule } from '@energinet-datahub/dh/core/shell';
+import { DhCoreShellModule } from '@energinet-datahub/dh/core/shell';
 
 import { DataHubAppComponent } from './datahub-app.component';
 
 @NgModule({
   bootstrap: [DataHubAppComponent],
   declarations: [DataHubAppComponent],
-  imports: [BrowserAnimationsModule, DhAppCoreShellModule],
+  imports: [BrowserAnimationsModule, DhCoreShellModule],
 })
 export class DataHubAppModule {}

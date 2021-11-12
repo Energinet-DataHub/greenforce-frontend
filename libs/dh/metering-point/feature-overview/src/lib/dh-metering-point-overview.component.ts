@@ -14,11 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
 
 @Component({
-  selector: 'dh-shell',
-  styleUrls: ['./shell.component.scss'],
-  templateUrl: './shell.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: 'dh-metering-point-overview',
+  styles: [':host { display: block; }'],
+  template: ` <h2>Overview</h2> `,
 })
-export class ShellComponent {}
+export class DhMeteringPointOverviewComponent {}
+
+@NgModule({
+  declarations: [DhMeteringPointOverviewComponent],
+})
+export class DhMeteringPointOverviewScam {}

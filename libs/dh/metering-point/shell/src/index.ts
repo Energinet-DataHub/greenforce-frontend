@@ -14,16 +14,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
-import { DhLanguagePickerModule } from '@energinet-datahub/dh/globalization/feature-language-picker';
-import { WattModule } from '@energinet-datahub/watt';
-import { TranslocoModule } from '@ngneat/transloco';
-
-import { ShellComponent } from './shell.component';
-
-@NgModule({
-  declarations: [ShellComponent],
-  imports: [RouterModule, TranslocoModule, WattModule, DhLanguagePickerModule],
-})
-export class ShellModule {}
+export * from './lib/dh-metering-point-shell.module';

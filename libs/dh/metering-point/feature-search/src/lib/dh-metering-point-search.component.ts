@@ -14,14 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgModule } from '@angular/core';
-import { MatIconModule } from '@angular/material/icon';
+import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
 
-import { WattIconComponent } from './icon.component';
+@Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: 'dh-metering-point-search',
+  styles: [':host { display: block; }'],
+  template: ` <h2>Search</h2> `,
+})
+export class DhMeteringPointSearchComponent {}
 
 @NgModule({
-  imports: [MatIconModule],
-  declarations: [WattIconComponent],
-  exports: [WattIconComponent],
+  declarations: [DhMeteringPointSearchComponent],
 })
-export class WattIconModule {}
+export class DhMeteringPointSearchScam {}

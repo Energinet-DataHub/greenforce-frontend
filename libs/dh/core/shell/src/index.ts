@@ -14,4 +14,5 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export { DhAppCoreShellModule } from './lib/dh-shell-core.module';
+export { DhCoreShellComponent } from './lib/dh-core-shell.component';
+export { DhCoreShellModule } from './lib/dh-core-shell.module';

@@ -18,17 +18,19 @@ import { By } from '@angular/platform-browser';
 import { WattShellComponent } from '@energinet-datahub/watt';
 import { render, RenderResult } from '@testing-library/angular';
 
-import { ShellComponent } from './shell.component';
-import { ShellModule } from './shell.module';
+import {
+  DhCoreShellComponent,
+  DhCoreShellScam,
+} from './dh-core-shell.component';
 
-describe(ShellComponent.name, () => {
+describe(DhCoreShellComponent.name, () => {
   beforeEach(async () => {
-    view = await render(ShellComponent, {
-      imports: [ShellModule],
+    view = await render(DhCoreShellComponent, {
+      imports: [DhCoreShellScam],
     });
   });
 
-  let view: RenderResult<ShellComponent, ShellComponent>;
+  let view: RenderResult<DhCoreShellComponent>;
 
   it('displays the Watt shell', () => {
     const wattShell = view.fixture.debugElement.query(

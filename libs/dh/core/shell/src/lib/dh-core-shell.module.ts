@@ -17,28 +17,47 @@
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+
 import { DhTranslocoModule } from '@energinet-datahub/dh/globalization/configuration-localization';
 
-import { ShellComponent } from './shell/shell.component';
-import { ShellModule } from './shell/shell.module';
+import {
+  DhCoreShellComponent,
+  DhCoreShellScam,
+} from './dh-core-shell.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: ShellComponent,
+    component: DhCoreShellComponent,
     children: [
-      // Lazy feature routes
+      {
+        path: '',
+        redirectTo: 'metering-point',
+        pathMatch: 'full',
+      },
+      {
+        path: 'metering-point',
+        loadChildren: () =>
+          import('@energinet-datahub/dh/metering-point/shell').then(
+            (esModule) => esModule.DhMeteringPointShellModule
+          ),
+      },
     ],
   },
+  // { path: '**', component: PageNotFoundComponent },
 ];
 
 @NgModule({
   exports: [RouterModule],
   imports: [
-    HttpClientModule,
+    DhCoreShellScam,
     DhTranslocoModule.forRoot(),
-    RouterModule.forRoot(routes),
-    ShellModule,
+    HttpClientModule,
+    RouterModule.forRoot(routes, {
+      anchorScrolling: 'enabled',
+      initialNavigation: 'enabledNonBlocking',
+      scrollPositionRestoration: 'enabled',
+    }),
   ],
 })
-export class DhAppCoreShellModule {}
+export class DhCoreShellModule {}
