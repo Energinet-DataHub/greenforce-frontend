@@ -44,3 +44,8 @@ variable domain_name_short {
   type          = string
   description   = "Shortest possible edition of the domain name."
 }
+
+variable metering_point_base_url {
+  type        = string
+  description = "Url of the metering point domain entry"
+}
