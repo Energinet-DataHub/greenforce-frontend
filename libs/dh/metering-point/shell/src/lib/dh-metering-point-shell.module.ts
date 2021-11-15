@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 import { NgModule } from '@angular/core';
+import { DhMeteringPointOverviewGuard } from '@energinet-datahub/dh/metering-point/routing-security';
 
 import {
   DhMeteringPointChildOverviewComponent,
@@ -33,11 +34,12 @@ import { RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   { path: 'search', component: DhMeteringPointSearchComponent },
   {
-    path: ':id',
+    path: ':metering-point-id',
     component: DhMeteringPointOverviewComponent,
+    canActivate: [DhMeteringPointOverviewGuard],
   },
   {
-    path: ':id/child/:child-id',
+    path: ':metering-point-id/child/:child-id',
     component: DhMeteringPointChildOverviewComponent,
   },
   { path: '', redirectTo: 'search', pathMatch: 'full' },
