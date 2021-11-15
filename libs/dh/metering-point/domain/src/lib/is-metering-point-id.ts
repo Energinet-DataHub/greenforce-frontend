@@ -17,8 +17,8 @@
 import { meteringPointIdPattern } from './metering-point-id-pattern';
 
 /**
- * Validates that a metering point id is exactly 18 digits
+ * Checks that the value is a valid metering point id
  */
-export function isMeteringPointId(maybeMeteringPointId: string): boolean {
+export function isValidMeteringPointId(maybeMeteringPointId: string): boolean {
   return meteringPointIdPattern.test(maybeMeteringPointId);
 }
