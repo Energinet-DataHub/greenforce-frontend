@@ -21,7 +21,7 @@ import {
   Router,
   UrlTree,
 } from '@angular/router';
-import { isMeteringPointId } from '@energinet-datahub/dh/metering-point/domain';
+import { isValidMeteringPointId } from '@energinet-datahub/dh/metering-point/domain';
 
 /**
  * Redirects to search metering point page if metering point id is invalid.
@@ -41,7 +41,7 @@ export class DhMeteringPointOverviewGuard implements CanActivate {
   canActivate(route: ActivatedRouteSnapshot): boolean | UrlTree {
     const meteringPointId = route.paramMap.get('metering-point-id') ?? '';
 
-    return isMeteringPointId(meteringPointId)
+    return isValidMeteringPointId(meteringPointId)
       ? true
       : this.searchMeteringPointUrl();
   }
