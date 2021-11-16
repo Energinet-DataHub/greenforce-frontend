@@ -1,5 +1,5 @@
 module.exports = {
-  displayName: 'dh-shared-data-access-route',
+  displayName: 'dh-metering-point-data-access-route',
   preset: '../../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   globals: {
@@ -8,7 +8,8 @@ module.exports = {
       stringifyContentPathRegex: '\\.(html|svg)$',
     },
   },
-  coverageDirectory: '../../../../coverage/libs/dh/shared/data-access-route',
+  coverageDirectory:
+    '../../../../coverage/libs/dh/metering-point/data-access-route',
   transform: {
     '^.+\\.(ts|js|html)$': 'jest-preset-angular',
   },
