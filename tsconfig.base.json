@@ -53,6 +53,9 @@
       "@energinet-datahub/dh/shared/assets": [
         "libs/dh/shared/assets/src/index.ts"
       ],
+      "@energinet-datahub/dh/shared/data-access-route": [
+        "libs/dh/shared/data-access-route/src/index.ts"
+      ],
       "@energinet-datahub/dh/shared/environments": [
         "libs/dh/shared/environments/src/index.ts"
       ],
