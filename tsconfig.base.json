@@ -32,6 +32,9 @@
       "@energinet-datahub/dh/globalization/feature-language-picker": [
         "libs/dh/globalization/feature-language-picker/src/index.ts"
       ],
+      "@energinet-datahub/dh/metering-point/data-access-route": [
+        "libs/dh/metering-point/data-access-route/src/index.ts"
+      ],
       "@energinet-datahub/dh/metering-point/domain": [
         "libs/dh/metering-point/domain/src/index.ts"
       ],
@@ -52,9 +55,6 @@
       ],
       "@energinet-datahub/dh/shared/assets": [
         "libs/dh/shared/assets/src/index.ts"
-      ],
-      "@energinet-datahub/dh/shared/data-access-route": [
-        "libs/dh/shared/data-access-route/src/index.ts"
       ],
       "@energinet-datahub/dh/shared/environments": [
         "libs/dh/shared/environments/src/index.ts"
