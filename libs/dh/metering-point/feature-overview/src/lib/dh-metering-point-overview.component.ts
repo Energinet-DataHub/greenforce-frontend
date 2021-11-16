@@ -20,9 +20,9 @@ import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'dh-metering-point-overview',
   styles: [':host { display: block; }'],
-  template: ` <h2>Overview</h2> `,
+  templateUrl: './dh-metering-point-overview.component.html',
 })
-export class DhMeteringPointOverviewComponent {}
+export class DhMeteringPointOverviewComponent {
 
 @NgModule({
   declarations: [DhMeteringPointOverviewComponent],
