@@ -33,17 +33,15 @@ import {
   DhMeteringPointSearchScam,
 } from '@energinet-datahub/dh/metering-point/feature-search';
 
-const meteringPointIdParam = `:${dhMeteringPointIdParam}`;
-
 const routes: Routes = [
   { path: 'search', component: DhMeteringPointSearchComponent },
   {
-    path: meteringPointIdParam,
+    path: `:${dhMeteringPointIdParam}`,
     component: DhMeteringPointOverviewComponent,
     canActivate: [DhMeteringPointOverviewGuard],
   },
   {
-    path: `${meteringPointIdParam}/child/:child-id`,
+    path: `:${dhMeteringPointIdParam}/child/:child-id`,
     component: DhMeteringPointChildOverviewComponent,
   },
   { path: '', redirectTo: 'search', pathMatch: 'full' },
