@@ -34,7 +34,7 @@ import { dhMeteringPointPath } from './dh-metering-point-path';
 })
 export class DhMeteringPointOverviewGuard implements CanActivate {
   private searchMeteringPointUrl(): UrlTree {
-    const url = `/${dhMeteringPointPath}`;
+    const url = `${dhMeteringPointPath}/search`;
 
     return this.router.createUrlTree([url]);
   }
