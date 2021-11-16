@@ -104,7 +104,7 @@ Allowed dependencies to: `data-access`, `routing`, `util`, `test-util`, `domain`
 ### Routing libraries
 
 A routing library contains code related for routing (routes, route paths, route guards, route resolvers, route reuse strategies, preloading strategies).
-Allowed dependencies to: `data-access`, `routing`, `util`, `test-util`, `shell`.
+Allowed dependencies to: `data-access`, `routing`, `util`, `test-util`, `shell`, `domain`.
 
 ### Utility libraries
 
