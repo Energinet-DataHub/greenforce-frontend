@@ -14,12 +14,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import {
+  validMeteringPointId,
+  invalidMeteringPointId,
+} from '@energinet-datahub/dh/shared/test-util-metering-point';
+
 import { isValidMeteringPointId } from './is-valid-metering-point-id';
+
+const _17Digits = validMeteringPointId.slice(0, -1);
+const _18Digits = validMeteringPointId;
+const _19Digits = invalidMeteringPointId;
 
 describe(isValidMeteringPointId.prototype.name, () => {
   it('is valid', () => {
-    const _18Digits = '123456789000000000';
-
     expect(isValidMeteringPointId(_18Digits)).toBeTruthy();
   });
 
@@ -31,14 +38,10 @@ describe(isValidMeteringPointId.prototype.name, () => {
     });
 
     it('one digit below valid metering point id length', () => {
-      const _17Digits = '12345678900000000';
-
       expect(isValidMeteringPointId(_17Digits)).toBeFalsy();
     });
 
     it('one digit above valid metering point id length', () => {
-      const _19Digits = '1234567890000000001';
-
       expect(isValidMeteringPointId(_19Digits)).toBeFalsy();
     });
 
