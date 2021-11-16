@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { isValidMeteringPointId } from './is-metering-point-id';
+import { isValidMeteringPointId } from './is-valid-metering-point-id';
 
 describe(isValidMeteringPointId.prototype.name, () => {
   it('is valid', () => {
