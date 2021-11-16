@@ -19,7 +19,7 @@ import { RouterModule, Routes } from '@angular/router';
 import {
   DhMeteringPointOverviewGuard,
   dhMeteringPointIdParam,
-} from '@energinet-datahub/dh/metering-point/routing-security';
+} from '@energinet-datahub/dh/metering-point/routing';
 import {
   DhMeteringPointChildOverviewComponent,
   DhMeteringPointChildOverviewScam,

@@ -19,7 +19,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { DhTranslocoModule } from '@energinet-datahub/dh/globalization/configuration-localization';
-import { dhMeteringPointPath } from '@energinet-datahub/dh/metering-point/routing-security';
+import { dhMeteringPointPath } from '@energinet-datahub/dh/metering-point/routing';
 
 import {
   DhCoreShellComponent,
