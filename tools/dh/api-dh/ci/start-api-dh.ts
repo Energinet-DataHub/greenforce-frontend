@@ -2,7 +2,7 @@ import { setup as setupDevServer } from 'jest-dev-server';
 
 async function startApiDh() {
   await setupDevServer({
-    command: 'nx serve api-dh',
+    command: 'npm run nx -- serve api-dh',
     debug: true,
     launchTimeout: 15000,
     port: 5001,
