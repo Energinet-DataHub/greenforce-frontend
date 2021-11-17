@@ -9,6 +9,11 @@
       "searchInvalidLength": "Metering Point ID must be an 18-digit number",
       "noMeteringPointFoundTitle": "Sorry, we did not find a metering point match",
       "noMeteringPointFoundMessage": "Please check the spelling and try again"
+    },
+    "overview": {
+      "breadcrumbs": {
+        "meteringPoints": "Metering points"
+      }
     }
   }
 }
