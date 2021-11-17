@@ -177,6 +177,6 @@ Located under `.github/workflows`. There are:
 - `api-dh-ci.yml` - Used by the BFF for `app-dh`.
 - `ett.yml` - Used by "Energy Track and Trace" app
 - `license-check-ci.yml` - Used for adding license to files
-- `workspace.yml` - Used to build, test, format and lint all front-end apps
+- `frontend-ci.yml` - Used to build, test, format and lint all front-end apps
 
 **Please note**: Before merging a frontend pull request, be sure that all checks have passed. Currently, jobs done by a Git-bot (like formatting and adding licenses) don't trigger a re-run of all the other checks. The "merge button" can therefore give you a false positive signal.

@@ -1,4 +1,4 @@
-name: Green Force Frontend
+name: GreenForce Frontend CI
 
 env:
   BASE_BRANCH: ${{ github.event.pull_request.base.ref }}
