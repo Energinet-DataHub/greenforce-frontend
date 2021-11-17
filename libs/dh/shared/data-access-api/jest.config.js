@@ -24,8 +24,6 @@ module.exports = {
       stringifyContentPathRegex: '\\.(html|svg)$',
     },
   },
-  globalSetup: '<rootDir>/src/api-dh-setup.ts',
-  globalTeardown: '<rootDir>/src/api-dh-teardown.ts',
   coverageDirectory: '../../../../coverage/libs/dh/shared/data-access-api',
   transform: {
     '^.+\\.(ts|js|html)$': 'jest-preset-angular',
