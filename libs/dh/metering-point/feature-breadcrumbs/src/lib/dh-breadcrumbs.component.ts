@@ -7,7 +7,7 @@ import { dhMeteringPointPath } from '@energinet-datahub/dh/metering-point/routin
   styleUrls: ['./dh-breadcrumbs.component.scss'],
 })
 export class DhBreadcrumbsComponent {
-  meteringPointBasePath = ['/', dhMeteringPointPath];
+  meteringPointAbsolutePath = ['/', dhMeteringPointPath];
 
   @Input() meteringPointId = '';
 }
