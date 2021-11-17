@@ -74,7 +74,7 @@
         "parallel": false
       },
       "outputs": ["apps/dh/api-dh/source/DataHub.WebApi/bin/Release/net5.0"]
-    },
+    }
   },
   "tags": ["product:dh", "type:api"]
 }
