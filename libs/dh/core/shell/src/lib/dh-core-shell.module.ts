@@ -19,6 +19,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { DhTranslocoModule } from '@energinet-datahub/dh/globalization/configuration-localization';
+import { dhMeteringPointPath } from '@energinet-datahub/dh/metering-point/routing';
 
 import {
   DhCoreShellComponent,
@@ -32,11 +33,11 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: 'metering-point',
+        redirectTo: dhMeteringPointPath,
         pathMatch: 'full',
       },
       {
-        path: 'metering-point',
+        path: dhMeteringPointPath,
         loadChildren: () =>
           import('@energinet-datahub/dh/metering-point/shell').then(
             (esModule) => esModule.DhMeteringPointShellModule

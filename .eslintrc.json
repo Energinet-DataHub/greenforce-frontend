@@ -73,7 +73,8 @@
                   "type:routing",
                   "type:util",
                   "type:test-util",
-                  "type:shell"
+                  "type:shell",
+                  "type:domain"
                 ]
               },
               {
