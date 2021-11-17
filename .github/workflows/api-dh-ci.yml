@@ -45,7 +45,19 @@ jobs:
       output-path: libs/dh/shared/data-access-api/src/lib/generated/v1/
 
     steps:
-      - name: Check out source code
+      # needed to push to origin
+      - name: 'PR: Check out source code with current branch Git history'
+        if: ${{ env.is-pull-request == 'true' }}
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          ref: ${{ github.head_ref }}
+      # needed to push to origin
+      - name: 'PR: Fetch base branch Git history'
+        if: ${{ env.is-pull-request == 'true' }}
+        run: git fetch --no-tags origin $BASE_BRANCH
+      - name: 'Merge: Check out source code'
+        if: ${{ env.is-main-branch == 'true' }}
         uses: actions/checkout@v2
 
       - name: Set up Node.js ${{ env.node-version }}
