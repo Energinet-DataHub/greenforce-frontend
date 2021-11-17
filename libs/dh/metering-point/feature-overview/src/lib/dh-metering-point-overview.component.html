@@ -17,6 +17,7 @@ limitations under the License.
 <ng-container
   *rxLet="meteringPointId$ as meteringPointId; rxSuspense: suspenseTemplate"
 >
+  <dh-breadcrumbs [meteringPointId]="meteringPointId"></dh-breadcrumbs>
   <h1>{{ meteringPointId }}</h1>
 </ng-container>
 
