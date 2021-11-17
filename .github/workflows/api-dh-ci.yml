@@ -69,7 +69,7 @@ jobs:
         run: yarn install --frozen-lockfile --non-interactive
 
       - name: Generate API client
-        run: yarn nx api-dh:build-client
+        run: yarn nx run api-dh:build-client
 
       - name: 'PR: Commit generated files'
         if: ${{ env.is-pull-request == 'true' }}
