@@ -6,15 +6,15 @@
   "targets": {
     "build": {
       "executor": "@nrwl/workspace:run-commands",
-      "outputs": ["{options.outputPath}"],
       "options": {
         "commands": [
           "npm run check:dotnet",
           "dotnet build apps/dh/api-dh/DataHub.WebApi.sln --configuration=Release"
         ],
-        "parallel": false,
-        "outputPath": "apps/dh/api-dh/source/DataHub.WebApi/bin/Release/net5.0"
-      }
+        "outputPath": "apps/dh/api-dh/source/DataHub.WebApi/bin/Release/net5.0",
+        "parallel": false
+      },
+      "outputs": ["{options.outputPath}"]
     },
     "build-client": {
       "executor": "@nrwl/workspace:run-commands",
@@ -26,15 +26,23 @@
           "rimraf libs/dh/shared/data-access-api/src/lib/generated/v1/.gitignore",
           "rimraf libs/dh/shared/data-access-api/src/lib/generated/v1/git_push.sh"
         ],
+        "outputPath": "libs/dh/shared/data-access-api/src/lib/generated/v1",
         "parallel": false
-      }
+      },
+      "outputs": ["{options.outputPath}"]
     },
     "serve": {
+      "dependsOn": [
+        {
+          "target": "build",
+          "projects": "self"
+        }
+      ],
       "executor": "@nrwl/workspace:run-commands",
       "options": {
         "commands": [
           "npm run check:dotnet",
-          "dotnet run --project apps/dh/api-dh/source/DataHub.WebApi/DataHub.WebApi.csproj --configuration=Debug"
+          "dotnet run --no-build --project apps/dh/api-dh/source/DataHub.WebApi/DataHub.WebApi.csproj --configuration=Debug"
         ],
         "parallel": false
       }
