@@ -1,0 +1,12 @@
+@use '@energinet-datahub/watt/utils' as watt;
+
+:host {
+  background-color: var(--watt-color-neutral-white);
+  display: block;
+  @include watt.space-inset-squish-l;
+}
+
+.overview__spinner {
+  display: flex;
+  justify-content: center;
+}

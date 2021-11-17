@@ -23,7 +23,7 @@ import { DhMeteringPointDataAccessRouteStore } from '@energinet-datahub/dh/meter
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'dh-metering-point-overview',
-  styles: [':host { display: block; }'],
+  styleUrls: ['./dh-metering-point-overview.component.scss'],
   templateUrl: './dh-metering-point-overview.component.html',
   viewProviders: [DhMeteringPointDataAccessRouteStore],
 })
