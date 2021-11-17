@@ -1,0 +1,7 @@
+@use '@energinet-datahub/watt/utils' as watt;
+
+:host {
+  align-items: center;
+  display: flex;
+  padding-bottom: var(--watt-space-m);
+}
