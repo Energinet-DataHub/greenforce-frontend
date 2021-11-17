@@ -26,16 +26,6 @@
       {
         "target": "build",
         "projects": "dependencies"
-      },
-      {
-        "target": "build-client",
-        "projects": "dependencies"
-      }
-    ],
-    "test": [
-      {
-        "target": "build-client",
-        "projects": "dependencies"
       }
     ]
   },
