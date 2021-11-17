@@ -19,6 +19,7 @@
     "dh-metering-point-shell": "libs/dh/metering-point/shell",
     "dh-shared-assets": "libs/dh/shared/assets",
     "dh-shared-environments": "libs/dh/shared/environments",
+    "dh-shared-test-util-metering-point": "libs/dh/shared/test-util-metering-point",
     "e2e-dh": "apps/dh/e2e-dh",
     "e2e-ett": "apps/ett/e2e-ett",
     "ett-auth-data-access-api": "libs/ett/auth/data-access-api",

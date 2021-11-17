@@ -59,6 +59,9 @@
       "@energinet-datahub/dh/shared/environments": [
         "libs/dh/shared/environments/src/index.ts"
       ],
+      "@energinet-datahub/dh/shared/test-util-metering-point": [
+        "libs/dh/shared/test-util-metering-point/src/index.ts"
+      ],
       "@energinet-datahub/ett/auth/data-access-api": [
         "libs/ett/auth/data-access-api/src/index.ts"
       ],

@@ -20,6 +20,10 @@ import { TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { SpectacularAppComponent } from '@ngworker/spectacular';
 import { render, RenderResult } from '@testing-library/angular';
+import {
+  validMeteringPointId,
+  invalidMeteringPointId,
+} from '@energinet-datahub/dh/shared/test-util-metering-point';
 
 import { DhMeteringPointOverviewGuard } from './dh-metering-point-overview.guard';
 import { dhMeteringPointIdParam } from './dh-metering-point-id-param';
@@ -62,8 +66,6 @@ describe(DhMeteringPointOverviewGuard.name, () => {
 
   let angularLocation: Location;
   let router: Router;
-  const validMeteringPointId = '123456789000000000';
-  const invalidMeteringPointId = validMeteringPointId + '0';
   let view: RenderResult<SpectacularAppComponent>;
 
   describe('When metering point id is valid', () => {
