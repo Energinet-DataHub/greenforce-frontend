@@ -21,7 +21,10 @@ import { DhTranslocoModule } from '@energinet-datahub/dh/globalization/configura
 import { dhMeteringPointPath } from '@energinet-datahub/dh/metering-point/routing';
 import { DhApiModule } from '@energinet-datahub/dh/shared/data-access-api';
 
-import { DhCoreShellComponent, DhCoreShellScam } from './dh-core-shell.component';
+import {
+  DhCoreShellComponent,
+  DhCoreShellScam,
+} from './dh-core-shell.component';
 
 const routes: Routes = [
   {
