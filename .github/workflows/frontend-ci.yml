@@ -229,9 +229,9 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add -A || true
-          git commit -m "style: format" || true
-          git push origin --force-with-lease || true
+          git add -A || cd .
+          git commit -m "style: format" || cd .
+          git push origin --force-with-lease || cd .
       - name: Check formatting of projects and configuration files
         run: yarn format:check --base=origin/$BASE_BRANCH
 
@@ -289,9 +289,9 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add -A || true
-          git commit -m "style: lint" || true
-          git push origin --force-with-lease || true
+          git add -A || cd .
+          git commit -m "style: lint" || cd .
+          git push origin --force-with-lease || cd .
       - name: 'Merge: Lint workspace and all projects'
         if: ${{ env.is-pull-request == 'false' }}
         run: yarn lint --max-parallel=$NX_MAX_PARALLEL
