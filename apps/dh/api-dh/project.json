@@ -5,6 +5,9 @@
   "prefix": "dh",
   "targets": {
     "build": {
+      "configurations": {
+        "ci": {}
+      },
       "executor": "@nrwl/workspace:run-commands",
       "options": {
         "commands": [
@@ -40,7 +43,7 @@
         "ci": {
           "commands": [
             "npm run check:dotnet",
-            "nohup dotnet run --no-build --project apps/dh/api-dh/source/DataHub.WebApi/DataHub.WebApi.csproj --configuration=Debug > /dev/null 2>&1 &"
+            "npx ts-node tools/dh/api-dh/ci/start-api-dh.ts"
           ]
         }
       },
@@ -58,7 +61,20 @@
         ],
         "parallel": false
       }
-    }
+    },
+    "stop": {
+      "configurations": {
+        "ci": {}
+      },
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "commands": [
+          "npx ts-node tools/dh/api-dh/ci/stop-api-dh.ts"
+        ],
+        "parallel": false
+      },
+      "outputs": ["apps/dh/api-dh/source/DataHub.WebApi/bin/Release/net5.0"]
+    },
   },
   "tags": ["product:dh", "type:api"]
 }
