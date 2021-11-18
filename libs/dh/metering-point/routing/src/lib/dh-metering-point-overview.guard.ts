@@ -21,13 +21,13 @@ import {
   Router,
   UrlTree,
 } from '@angular/router';
-import { isValidMeteringPointId } from '@energinet-datahub/dh/metering-point/domain';
+import { isValidGsrnNumber } from '@energinet-datahub/dh/metering-point/domain';
 
-import { dhMeteringPointIdParam } from './dh-metering-point-id-param';
+import { dhGsrnNumberParam } from './dh-gsrn-number-param';
 import { dhMeteringPointPath } from './dh-metering-point-path';
 
 /**
- * Redirects to search metering point page if metering point id is invalid.
+ * Redirects to search metering point page if GSRN number is invalid.
  */
 @Injectable({
   providedIn: 'root',
@@ -42,10 +42,8 @@ export class DhMeteringPointOverviewGuard implements CanActivate {
   constructor(private router: Router) {}
 
   canActivate(route: ActivatedRouteSnapshot): boolean | UrlTree {
-    const meteringPointId = route.paramMap.get(dhMeteringPointIdParam) ?? '';
+    const gsrnNumber = route.paramMap.get(dhGsrnNumberParam) ?? '';
 
-    return isValidMeteringPointId(meteringPointId)
-      ? true
-      : this.searchMeteringPointUrl();
+    return isValidGsrnNumber(gsrnNumber) ? true : this.searchMeteringPointUrl();
   }
 }

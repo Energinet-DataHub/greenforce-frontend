@@ -20,7 +20,7 @@ import { ActivatedRoute } from '@angular/router';
 import { LetModule } from '@rx-angular/template';
 import { map, Observable } from 'rxjs';
 import { WattSpinnerModule } from '@energinet-datahub/watt';
-import { dhMeteringPointIdParam } from '@energinet-datahub/dh/metering-point/routing';
+import { dhGsrnNumberParam } from '@energinet-datahub/dh/metering-point/routing';
 
 import { DhBreadcrumbsModule } from './breadcrumbs/dh-breadcrumbs.module';
 
@@ -31,8 +31,8 @@ import { DhBreadcrumbsModule } from './breadcrumbs/dh-breadcrumbs.module';
   templateUrl: './dh-metering-point-overview.component.html',
 })
 export class DhMeteringPointOverviewComponent {
-  meteringPointId$: Observable<string> = this.route.params.pipe(
-    map((params) => params[dhMeteringPointIdParam])
+  gsrnNumber$: Observable<string> = this.route.params.pipe(
+    map((params) => params[dhGsrnNumberParam])
   );
 
   constructor(private route: ActivatedRoute) {}

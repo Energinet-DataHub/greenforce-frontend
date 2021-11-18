@@ -21,12 +21,12 @@ import { Router } from '@angular/router';
 import { SpectacularAppComponent } from '@ngworker/spectacular';
 import { render, RenderResult } from '@testing-library/angular';
 import {
-  validMeteringPointId,
-  invalidMeteringPointId,
+  validGsrnNumber,
+  invalidGsrnNumber,
 } from '@energinet-datahub/dh/shared/test-util-metering-point';
 
 import { DhMeteringPointOverviewGuard } from './dh-metering-point-overview.guard';
-import { dhMeteringPointIdParam } from './dh-metering-point-id-param';
+import { dhGsrnNumberParam } from './dh-gsrn-number-param';
 import { dhMeteringPointPath } from './dh-metering-point-path';
 
 describe(DhMeteringPointOverviewGuard.name, () => {
@@ -54,7 +54,7 @@ describe(DhMeteringPointOverviewGuard.name, () => {
             {
               canActivate: [DhMeteringPointOverviewGuard],
               component: TestGuardedComponent,
-              path: `:${dhMeteringPointIdParam}`,
+              path: `:${dhGsrnNumberParam}`,
             },
           ],
         },
@@ -68,9 +68,9 @@ describe(DhMeteringPointOverviewGuard.name, () => {
   let router: Router;
   let view: RenderResult<SpectacularAppComponent>;
 
-  describe('When metering point id is valid', () => {
+  describe('When GSRN number is valid', () => {
     it('Then navigation is allowed', async () => {
-      const guardedPath = `${dhMeteringPointPath}/${validMeteringPointId}`;
+      const guardedPath = `${dhMeteringPointPath}/${validGsrnNumber}`;
 
       const expectedUrl = router.serializeUrl(
         router.createUrlTree([guardedPath])
@@ -84,9 +84,9 @@ describe(DhMeteringPointOverviewGuard.name, () => {
     });
   });
 
-  describe('When metering point id is NOT valid', () => {
+  describe('When GSRN number is NOT valid', () => {
     it('Then the user is redirected to the search page', async () => {
-      const guardedPath = `${dhMeteringPointPath}/${invalidMeteringPointId}`;
+      const guardedPath = `${dhMeteringPointPath}/${invalidGsrnNumber}`;
 
       const expectedUrl = router.serializeUrl(
         router.createUrlTree([dhMeteringPointPath, 'search'])

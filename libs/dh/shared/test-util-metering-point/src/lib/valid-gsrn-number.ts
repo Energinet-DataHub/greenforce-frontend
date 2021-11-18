@@ -14,4 +14,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export const dhMeteringPointIdParam = 'metering-point-id';
+export const validGsrnNumber = '123456789000000000';

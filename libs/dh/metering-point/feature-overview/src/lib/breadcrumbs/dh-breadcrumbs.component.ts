@@ -25,5 +25,5 @@ import { dhMeteringPointPath } from '@energinet-datahub/dh/metering-point/routin
 export class DhBreadcrumbsComponent {
   meteringPointAbsolutePath = ['/', dhMeteringPointPath];
 
-  @Input() meteringPointId = '';
+  @Input() gsrnNumber = '';
 }

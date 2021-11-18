@@ -14,6 +14,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { validMeteringPointId } from './valid-metering-point-id';
-
-export const invalidMeteringPointId = validMeteringPointId + '0';
+export const dhGsrnNumberParam = 'gsrn-number';

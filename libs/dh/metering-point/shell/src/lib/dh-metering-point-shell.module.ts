@@ -18,7 +18,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {
   DhMeteringPointOverviewGuard,
-  dhMeteringPointIdParam,
+  dhGsrnNumberParam,
 } from '@energinet-datahub/dh/metering-point/routing';
 import {
   DhMeteringPointChildOverviewComponent,
@@ -36,12 +36,12 @@ import {
 const routes: Routes = [
   { path: 'search', component: DhMeteringPointSearchComponent },
   {
-    path: `:${dhMeteringPointIdParam}`,
+    path: `:${dhGsrnNumberParam}`,
     component: DhMeteringPointOverviewComponent,
     canActivate: [DhMeteringPointOverviewGuard],
   },
   {
-    path: `:${dhMeteringPointIdParam}/child/:child-id`,
+    path: `:${dhGsrnNumberParam}/child/:child-id`,
     component: DhMeteringPointChildOverviewComponent,
   },
   { path: '', redirectTo: 'search', pathMatch: 'full' },

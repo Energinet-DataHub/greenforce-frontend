@@ -14,4 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export const validMeteringPointId = '123456789000000000';
+import { gsrnNumberPattern } from './gsrn-number-pattern';
+
+/**
+ * Checks that the value is a GSRN number
+ */
+export function isValidGsrnNumber(maybeGsrnNumber: string): boolean {
+  return gsrnNumberPattern.test(maybeGsrnNumber);
+}

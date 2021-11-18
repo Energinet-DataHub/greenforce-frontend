@@ -14,5 +14,5 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './lib/valid-metering-point-id';
-export * from './lib/invalid-metering-point-id';
+export * from './lib/valid-gsrn-number';
+export * from './lib/invalid-gsrn-number';

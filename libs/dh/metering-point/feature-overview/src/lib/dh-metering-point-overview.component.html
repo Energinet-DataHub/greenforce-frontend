@@ -14,11 +14,9 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<ng-container
-  *rxLet="meteringPointId$ as meteringPointId; rxSuspense: suspenseTemplate"
->
-  <dh-breadcrumbs [meteringPointId]="meteringPointId"></dh-breadcrumbs>
-  <h1>{{ meteringPointId }}</h1>
+<ng-container *rxLet="gsrnNumber$ as gsrnNumber; rxSuspense: suspenseTemplate">
+  <dh-breadcrumbs [gsrnNumber]="gsrnNumber"></dh-breadcrumbs>
+  <h1>{{ gsrnNumber }}</h1>
 </ng-container>
 
 <ng-template #suspenseTemplate>

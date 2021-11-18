@@ -14,11 +14,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { meteringPointIdPattern } from './metering-point-id-pattern';
-
-/**
- * Checks that the value is a valid metering point id
- */
-export function isValidMeteringPointId(maybeMeteringPointId: string): boolean {
-  return meteringPointIdPattern.test(maybeMeteringPointId);
-}
+export const gsrnNumberPattern = /^\d{18}$/;

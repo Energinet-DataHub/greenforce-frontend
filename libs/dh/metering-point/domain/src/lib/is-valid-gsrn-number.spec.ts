@@ -15,40 +15,40 @@
  * limitations under the License.
  */
 import {
-  validMeteringPointId,
-  invalidMeteringPointId,
+  validGsrnNumber,
+  invalidGsrnNumber,
 } from '@energinet-datahub/dh/shared/test-util-metering-point';
 
-import { isValidMeteringPointId } from './is-valid-metering-point-id';
+import { isValidGsrnNumber } from './is-valid-gsrn-number';
 
-const _17Digits = validMeteringPointId.slice(0, -1);
-const _18Digits = validMeteringPointId;
-const _19Digits = invalidMeteringPointId;
+const _17Digits = validGsrnNumber.slice(0, -1);
+const _18Digits = validGsrnNumber;
+const _19Digits = invalidGsrnNumber;
 
-describe(isValidMeteringPointId.prototype.name, () => {
+describe(isValidGsrnNumber.prototype.name, () => {
   it('is valid', () => {
-    expect(isValidMeteringPointId(_18Digits)).toBeTruthy();
+    expect(isValidGsrnNumber(_18Digits)).toBeTruthy();
   });
 
   describe('NOT valid', () => {
     it('invalidates an empty string', () => {
       const emptyString = '';
 
-      expect(isValidMeteringPointId(emptyString)).toBeFalsy();
+      expect(isValidGsrnNumber(emptyString)).toBeFalsy();
     });
 
-    it('one digit below valid metering point id length', () => {
-      expect(isValidMeteringPointId(_17Digits)).toBeFalsy();
+    it('one digit below the valid GSRN number length', () => {
+      expect(isValidGsrnNumber(_17Digits)).toBeFalsy();
     });
 
-    it('one digit above valid metering point id length', () => {
-      expect(isValidMeteringPointId(_19Digits)).toBeFalsy();
+    it('one digit above the valid GSRN number length', () => {
+      expect(isValidGsrnNumber(_19Digits)).toBeFalsy();
     });
 
     it('mixed value with letters and digits', () => {
       const lettersAndDigits = 'abc1234567890';
 
-      expect(isValidMeteringPointId(lettersAndDigits)).toBeFalsy();
+      expect(isValidGsrnNumber(lettersAndDigits)).toBeFalsy();
     });
   });
 });
