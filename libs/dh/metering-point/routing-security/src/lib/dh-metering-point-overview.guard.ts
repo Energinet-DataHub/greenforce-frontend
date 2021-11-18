@@ -39,7 +39,7 @@ export class DhMeteringPointOverviewGuard implements CanActivate {
   constructor(private router: Router) {}
 
   canActivate(route: ActivatedRouteSnapshot): boolean | UrlTree {
-    const meteringPointId = route.paramMap.get('id') ?? '';
+    const meteringPointId = route.paramMap.get('metering-point-id') ?? '';
 
     return isMeteringPointId(meteringPointId)
       ? true
