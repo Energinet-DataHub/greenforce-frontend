@@ -170,8 +170,8 @@ jobs:
 
       - name: 'DH: Start API'
         if: ${{ env.is-main-branch == 'true' || needs.dh-affected.outputs.is-affected == 'true' }}
-        # run: yarn nx serve api-dh:serve:ci --skip-nx-cache
-        run: dotnet run --project apps/dh/api-dh/source/DataHub.WebApi/DataHub.WebApi.csproj --configuration=Debug
+        run: yarn nx serve api-dh:serve:ci --skip-nx-cache
+        # run: dotnet run --project apps/dh/api-dh/source/DataHub.WebApi/DataHub.WebApi.csproj --configuration=Debug
 
       - name: 'PR: End-to-end test affected products'
         if: ${{ env.is-pull-request == 'true' }}
@@ -340,8 +340,8 @@ jobs:
 
       - name: 'DH: Start API'
         if: ${{ env.is-main-branch == 'true' || needs.dh-affected.outputs.is-affected == 'true' }}
-        # run: yarn nx serve api-dh:serve:ci --skip-nx-cache
-        run: dotnet run --project apps/dh/api-dh/source/DataHub.WebApi/DataHub.WebApi.csproj --configuration=Debug
+        run: yarn nx serve api-dh:serve:ci --skip-nx-cache
+        # run: dotnet run --project apps/dh/api-dh/source/DataHub.WebApi/DataHub.WebApi.csproj --configuration=Debug
 
       - name: 'PR: Test affected projects'
         if: ${{ env.is-pull-request == 'true' }}
