@@ -38,6 +38,15 @@
       },
       "outputs": ["libs/dh/shared/data-access-api/src/lib/generated/v1"]
     },
+    "ci-configuration": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "commands": [
+          "mv build/ci/dh/api-dh/ci.appsettings.Development.json apps/dh/api-dh/source/DataHub.WebApi/appsettings.Development.json"
+        ],
+        "parallel": false
+      }
+    },
     "serve": {
       "configurations": {
         "ci": {
