@@ -21,7 +21,8 @@ import { LetModule } from '@rx-angular/template';
 import { map, Observable } from 'rxjs';
 import { WattSpinnerModule } from '@energinet-datahub/watt';
 import { dhMeteringPointIdParam } from '@energinet-datahub/dh/metering-point/routing';
-import { DhBreadcrumbsModule } from '@energinet-datahub/dh/metering-point/feature-breadcrumbs';
+
+import { DhBreadcrumbsModule } from './breadcrumbs/dh-breadcrumbs.module';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -1,0 +1,7 @@
+<ng-container *transloco="let transloco; read: 'meteringPoint.overview'">
+  <a [routerLink]="meteringPointAbsolutePath">{{
+    transloco('breadcrumbs.meteringPoints')
+  }}</a>
+  <watt-icon name="right"></watt-icon>
+  {{ meteringPointId }}
+</ng-container>
