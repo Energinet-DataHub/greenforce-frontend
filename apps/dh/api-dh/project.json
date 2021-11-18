@@ -42,7 +42,7 @@
       "executor": "@nrwl/workspace:run-commands",
       "options": {
         "commands": [
-          "mv build/ci/dh/api-dh/ci.appsettings.Development.json apps/dh/api-dh/source/DataHub.WebApi/appsettings.Development.json"
+          "cp build/ci/dh/api-dh/ci.appsettings.Development.json apps/dh/api-dh/source/DataHub.WebApi/appsettings.Development.json"
         ],
         "parallel": false
       }
