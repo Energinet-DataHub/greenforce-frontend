@@ -1,0 +1,26 @@
+{
+  "projectType": "library",
+  "root": "libs/dh/metering-point/routing-security",
+  "sourceRoot": "libs/dh/metering-point/routing-security/src",
+  "prefix": "dh",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/dh/metering-point/routing-security"],
+      "options": {
+        "jestConfig": "libs/dh/metering-point/routing-security/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/dh/metering-point/routing-security/src/**/*.ts",
+          "libs/dh/metering-point/routing-security/src/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": ["product:dh", "domain:metering-point", "type:routing"]
+}
