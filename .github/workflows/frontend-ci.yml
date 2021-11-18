@@ -342,8 +342,8 @@ jobs:
       - name: 'DH: Start API'
         if: ${{ env.is-main-branch == 'true' || needs.dh-affected.outputs.is-affected == 'true' }}
         run: |
-        yarn nx run api-dh:ci-configuration
-        yarn nx serve api-dh:serve:ci
+          yarn nx run api-dh:ci-configuration
+          yarn nx serve api-dh:serve:ci
 
       - name: 'PR: Test affected projects'
         if: ${{ env.is-pull-request == 'true' }}
