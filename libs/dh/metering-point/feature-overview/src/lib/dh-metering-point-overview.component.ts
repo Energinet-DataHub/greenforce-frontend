@@ -14,17 +14,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { LetModule } from '@rx-angular/template';
+import { map, Observable } from 'rxjs';
+import { WattSpinnerModule } from '@energinet-datahub/watt';
+import { dhMeteringPointIdParam } from '@energinet-datahub/dh/metering-point/routing';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'dh-metering-point-overview',
-  styles: [':host { display: block; }'],
-  template: ` <h2>Overview</h2> `,
+  styleUrls: ['./dh-metering-point-overview.component.scss'],
+  templateUrl: './dh-metering-point-overview.component.html',
 })
-export class DhMeteringPointOverviewComponent {}
+export class DhMeteringPointOverviewComponent {
+  meteringPointId$: Observable<string> = this.route.params.pipe(
+    map((params) => params[dhMeteringPointIdParam])
+  );
+
+  constructor(private route: ActivatedRoute) {}
+}
 
 @NgModule({
   declarations: [DhMeteringPointOverviewComponent],
+  imports: [CommonModule, LetModule, WattSpinnerModule],
 })
 export class DhMeteringPointOverviewScam {}
