@@ -170,7 +170,7 @@ jobs:
 
       - name: 'DH: Start API'
         if: ${{ env.is-main-branch == 'true' || needs.dh-affected.outputs.is-affected == 'true' }}
-        run: yarn nx serve api-dh:serve:ci
+        run: yarn nx serve api-dh:serve:ci --skip-nx-cache
 
       - name: 'PR: End-to-end test affected products'
         if: ${{ env.is-pull-request == 'true' }}
@@ -339,7 +339,7 @@ jobs:
 
       - name: 'DH: Start API'
         if: ${{ env.is-main-branch == 'true' || needs.dh-affected.outputs.is-affected == 'true' }}
-        run: yarn nx serve api-dh:serve:ci
+        run: yarn nx serve api-dh:serve:ci --skip-nx-cache
 
       - name: 'PR: Test affected projects'
         if: ${{ env.is-pull-request == 'true' }}
