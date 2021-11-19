@@ -194,6 +194,7 @@ jobs:
         with:
           fetch-depth: 0
           ref: ${{ github.head_ref }}
+          ssh-key: ${{ secrets.ACTIONS_BOT_SSH_KEY }}
       # needed for nx affected command
       - name: Fetch base branch Git history
         run: git fetch --no-tags origin $BASE_BRANCH
@@ -249,6 +250,7 @@ jobs:
         with:
           fetch-depth: 0
           ref: ${{ github.head_ref }}
+          ssh-key: ${{ secrets.ACTIONS_BOT_SSH_KEY }}
       # needed for nx affected command
       - name: 'PR: Fetch base branch Git history'
         if: ${{ env.is-pull-request == 'true' }}
