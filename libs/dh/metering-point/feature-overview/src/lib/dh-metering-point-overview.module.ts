@@ -19,11 +19,11 @@ import { NgModule } from '@angular/core';
 import { WattSpinnerModule } from '@energinet-datahub/watt';
 import { LetModule } from '@rx-angular/template';
 
-import { DhBreadcrumbsScam } from './breadcrumbs/dh-breadcrumbs.module';
+import { DhBreadcrumbsModule } from './breadcrumbs/dh-breadcrumbs.module';
 import { DhMeteringPointOverviewComponent } from './dh-metering-point-overview.component';
 
 @NgModule({
   declarations: [DhMeteringPointOverviewComponent],
-  imports: [CommonModule, LetModule, DhBreadcrumbsScam, WattSpinnerModule],
+  imports: [CommonModule, LetModule, DhBreadcrumbsModule, WattSpinnerModule],
 })
 export class DhMeteringPointOverviewModule {}
