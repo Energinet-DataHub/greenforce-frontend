@@ -14,10 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Location } from '@angular/common';
 import { Component } from '@angular/core';
-import { TestBed } from '@angular/core/testing';
-import { Router } from '@angular/router';
 import {
   dhMeteringPointIdParam,
   DhMeteringPointOverviewGuard,
@@ -56,25 +53,28 @@ describe(DhMeteringPointOverviewComponent.name, () => {
         },
       ],
     });
-
-    angularLocation = TestBed.inject(Location);
-    router = TestBed.inject(Router);
   });
 
-  let angularLocation: Location;
-  let router: Router;
   let view: RenderResult<SpectacularAppComponent>;
-  let link: HTMLAnchorElement;
+  const meteringPointId = '571313180400014077';
 
   it('displays a link to the Metering point URL', async () => {
     const meteringPointUrl = `http://localhost/${dhMeteringPointPath}`;
 
-    await view.navigate(`/${dhMeteringPointPath}/571313180400014077`);
+    await view.navigate(`/${dhMeteringPointPath}/${meteringPointId}`);
 
-    link = await screen.findByRole('link');
+    const link: HTMLAnchorElement = await screen.findByRole('link');
 
     const actualUrl = new URL(link.href);
 
     expect(actualUrl.origin + actualUrl.pathname).toBe(meteringPointUrl);
+  });
+
+  it('displays the metering point id from the URL in a heading', async () => {
+    await view.navigate(`/${dhMeteringPointPath}/${meteringPointId}`);
+
+    const heading: HTMLHeadingElement = await screen.findByRole('heading');
+
+    expect(heading.textContent).toBe(meteringPointId);
   });
 });
