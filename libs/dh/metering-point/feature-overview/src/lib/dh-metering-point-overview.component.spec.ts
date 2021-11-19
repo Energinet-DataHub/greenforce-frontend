@@ -27,23 +27,13 @@ import { DhMeteringPointOverviewModule } from './dh-metering-point-overview.modu
 import { DhMeteringPointOverviewComponent } from './dh-metering-point-overview.component';
 
 describe(DhMeteringPointOverviewComponent.name, () => {
-  @Component({
-    template: '',
-  })
-  class TestMeteringPointSearchComponent {}
-
   beforeEach(async () => {
     view = await render(SpectacularAppComponent, {
-      declarations: [TestMeteringPointSearchComponent],
       imports: [DhMeteringPointOverviewModule],
       routes: [
         {
           path: dhMeteringPointPath,
           children: [
-            {
-              component: TestMeteringPointSearchComponent,
-              path: 'search',
-            },
             {
               canActivate: [DhMeteringPointOverviewGuard],
               component: DhMeteringPointOverviewComponent,
