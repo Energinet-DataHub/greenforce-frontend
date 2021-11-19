@@ -1,0 +1,26 @@
+{
+  "projectType": "library",
+  "root": "libs/dh/metering-point/data-access-metering-point",
+  "sourceRoot": "libs/dh/metering-point/data-access-metering-point/src",
+  "prefix": "dh",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/dh/metering-point/data-access-metering-point"],
+      "options": {
+        "jestConfig": "libs/dh/metering-point/data-access-metering-point/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/dh/metering-point/data-access-metering-point/src/**/*.ts",
+          "libs/dh/metering-point/data-access-metering-point/src/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": ["product:dh", "domain:metering-point", "type:data-access"]
+}
