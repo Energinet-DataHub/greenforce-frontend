@@ -26,7 +26,7 @@ import { environment } from '@energinet-datahub/dh/shared/environments';
 import { ApiModule, Configuration } from './generated/v1';
 
 /**
- * Do not import directly. Use `EttHttpModule.forRoot`.
+ * Do not import directly. Use `DhApiModule.forRoot`.
  */
 @NgModule({
   imports: [
