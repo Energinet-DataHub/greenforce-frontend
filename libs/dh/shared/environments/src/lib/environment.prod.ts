@@ -17,5 +17,6 @@
 import { DhEnvironment } from './dh-environment';
 
 export const environment: DhEnvironment = {
+  apiBase: 'https://app-bff-frontend-u-001.azurewebsites.net',
   production: true,
 };

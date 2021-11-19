@@ -82,7 +82,8 @@
           "browserTarget": "app-dh:build:production"
         },
         "development": {
-          "browserTarget": "app-dh:build:development"
+          "browserTarget": "app-dh:build:development",
+          "hmr": true
         }
       },
       "defaultConfiguration": "development"

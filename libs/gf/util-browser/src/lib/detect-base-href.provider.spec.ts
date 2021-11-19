@@ -63,6 +63,14 @@ describe('detectBaseHrefProvider', () => {
     'http://localhost:4200/',
     'http://localhost:4200/app',
     'http://localhost:4200/app/',
+    'https://localhost',
+    'https://localhost/',
+    'https://localhost/app',
+    'https://localhost/app/',
+    'https://localhost:5001',
+    'https://localhost:5001/',
+    'https://localhost:5001/app',
+    'https://localhost:5001/app/',
   ].forEach((expectedBaseHref) => {
     it(`provides the document's base URI "${expectedBaseHref}" as APP_BASE_HREF`, () => {
       setBaseUri(expectedBaseHref);

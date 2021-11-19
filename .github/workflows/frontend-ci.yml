@@ -1,4 +1,4 @@
-name: Green Force Frontend
+name: GreenForce Frontend CI
 
 env:
   BASE_BRANCH: ${{ github.event.pull_request.base.ref }}
@@ -29,6 +29,56 @@ on:
   workflow_dispatch: {}
 
 jobs:
+  dh-affected:
+    if: ${{ github.event_name  == 'pull_request' }}
+    name: Is DataHub affected?
+    runs-on: ubuntu-latest
+
+    outputs:
+      is-affected: ${{ steps.affected.outputs.is-affected }}
+
+    steps:
+      # needed for nx affected command
+      - name: Check out source code with current branch Git history
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      # needed for nx affected command
+      - name: 'PR: Fetch base branch Git history'
+        if: ${{ env.is-pull-request == 'true' }}
+        run: git fetch --no-tags origin $BASE_BRANCH
+
+      - name: Use Node.js ${{ env.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ env.node-version }}
+
+      - name: Variable-Yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+      - name: Cache Yarn cache directory
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-node-${{ env.node-version }}-yarn-${{
+            hashFiles('yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-node-${{ env.node-version }}
+            ${{ runner.os }}
+      - name: Disable workspace NGCC run
+        uses: ./.github/actions/setup-postinstall
+        with:
+          ngcc: false
+      - name: Install package dependencies
+        run: yarn install --frozen-lockfile --non-interactive
+
+      - name: Is affected?
+        id: affected
+        uses: ./.github/actions/affected
+        with:
+          base: ${{ env.is-main-branch == 'true' && 'HEAD~1' || format('origin/{0}', env.BASE_BRANCH) }}
+          project: app-dh
+
   build:
     name: Build
     runs-on: ubuntu-latest
@@ -79,6 +129,7 @@ jobs:
 
   e2e:
     name: End-to-end test
+    needs: dh-affected
     runs-on: ubuntu-latest
 
     steps:
@@ -116,6 +167,12 @@ jobs:
             ${{ runner.os }}
       - name: Install package dependencies
         run: yarn install --frozen-lockfile --non-interactive
+
+      - name: 'DH: Start API'
+        if: ${{ env.is-main-branch == 'true' || needs.dh-affected.outputs.is-affected == 'true' }}
+        run: |
+          yarn nx run api-dh:ci-configuration
+          yarn nx serve api-dh:serve:ci
 
       - name: 'PR: End-to-end test affected products'
         if: ${{ env.is-pull-request == 'true' }}
@@ -174,9 +231,9 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add -A || true
-          git commit -m "style: format" || true
-          git push origin --force-with-lease || true
+          git add -A || cd .
+          git commit -m "style: format" || cd .
+          git push origin --force-with-lease || cd .
       - name: Check formatting of projects and configuration files
         run: yarn format:check --base=origin/$BASE_BRANCH
 
@@ -234,15 +291,16 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add -A || true
-          git commit -m "style: lint" || true
-          git push origin --force-with-lease || true
+          git add -A || cd .
+          git commit -m "style: lint" || cd .
+          git push origin --force-with-lease || cd .
       - name: 'Merge: Lint workspace and all projects'
         if: ${{ env.is-pull-request == 'false' }}
         run: yarn lint --max-parallel=$NX_MAX_PARALLEL
 
   test:
     name: Unit and integration test
+    needs: dh-affected
     runs-on: ubuntu-latest
 
     steps:
@@ -280,6 +338,12 @@ jobs:
             ${{ runner.os }}
       - name: Install package dependencies
         run: yarn install --frozen-lockfile --non-interactive
+
+      - name: 'DH: Start API'
+        if: ${{ env.is-main-branch == 'true' || needs.dh-affected.outputs.is-affected == 'true' }}
+        run: |
+          yarn nx run api-dh:ci-configuration
+          yarn nx serve api-dh:serve:ci
 
       - name: 'PR: Test affected projects'
         if: ${{ env.is-pull-request == 'true' }}
