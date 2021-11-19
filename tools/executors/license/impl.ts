@@ -27,13 +27,13 @@ interface LicenseExecutorOptions {
 export default async function addLicenseExecutor(
   options: LicenseExecutorOptions
 ) {
-  const globs = Object.keys(config);
+  const globs = Object.keys(config).filter((glob) => glob !== 'ignore');
 
   let success = true;
 
   console.info(`Adding licenses...`);
   const files = glob.sync(`{,!(node_modules|dist)/**/*}*{${globs.join(',')}}`, {
-    ignore: ['**/api-*/**/*'],
+    ignore: config.ignore,
   });
 
   files.forEach((file) => {

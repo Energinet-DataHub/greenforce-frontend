@@ -33,6 +33,7 @@ const typeScale: Typography[] = [
     name: 'Headline 1',
     html: typographyHtmlSnippets.h1.tag,
     size: '36px',
+    // eslint-disable-next-line sonarjs/no-duplicate-string
     weight: 'Semibold (600)',
     letterCase: 'All caps',
     letterSpacing: '0',
@@ -87,6 +88,7 @@ const typeScale: Typography[] = [
     name: 'Body (text-m)',
     html: typographyHtmlSnippets.bodyTextM.tag,
     size: '16px',
+    // eslint-disable-next-line sonarjs/no-duplicate-string
     weight: 'Regular (400)',
     letterCase: 'Sentence',
     letterSpacing: '0',

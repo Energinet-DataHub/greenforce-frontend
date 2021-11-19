@@ -41,6 +41,7 @@ namespace Energinet.DataHub.WebApi.Controllers
         /// This text will show up in Swagger UI.
         /// </summary>
         [HttpGet]
+        [HttpHead]
         public ActionResult<IEnumerable<WeatherForecast>> Get()
         {
             var rng = new Random();
