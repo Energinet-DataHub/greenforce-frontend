@@ -22,7 +22,7 @@ import { LocalRouterStore } from '@ngworker/router-component-store';
 import { LetModule } from '@rx-angular/template';
 import { Observable } from 'rxjs';
 
-import { DhBreadcrumbsModule } from './breadcrumbs/dh-breadcrumbs.module';
+import { DhBreadcrumbsScam } from './breadcrumbs/dh-breadcrumbs.module';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -41,6 +41,6 @@ export class DhMeteringPointOverviewComponent {
 
 @NgModule({
   declarations: [DhMeteringPointOverviewComponent],
-  imports: [CommonModule, LetModule, DhBreadcrumbsModule, WattSpinnerModule],
+  imports: [CommonModule, LetModule, DhBreadcrumbsScam, WattSpinnerModule],
 })
 export class DhMeteringPointOverviewScam {}

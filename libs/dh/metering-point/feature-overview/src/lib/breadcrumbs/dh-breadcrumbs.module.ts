@@ -28,4 +28,4 @@ import { DhBreadcrumbsComponent } from './dh-breadcrumbs.component';
   exports: [DhBreadcrumbsComponent],
   imports: [CommonModule, RouterModule, TranslocoModule, WattIconModule],
 })
-export class DhBreadcrumbsModule {}
+export class DhBreadcrumbsScam {}
