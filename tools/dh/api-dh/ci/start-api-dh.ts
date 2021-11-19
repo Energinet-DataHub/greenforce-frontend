@@ -1,11 +1,13 @@
 import { setup as setupDevServer } from 'jest-dev-server';
 
+import { apiDhPort } from './api-dh-port';
+
 async function startApiDh() {
   await setupDevServer({
     command: 'npm run nx -- serve api-dh',
     debug: true,
     launchTimeout: 60000,
-    port: 5001,
+    port: apiDhPort,
     path: 'v1/WeatherForecast',
     protocol: 'https',
     usedPortAction: 'error',
