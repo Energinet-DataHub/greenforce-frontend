@@ -190,6 +190,10 @@
       }
     },
     {
+      "files": ["*.js", "*.ts"],
+      "extends": ["plugin:sonarjs/recommended"]
+    },
+    {
       "files": ["*.js", "*.jsx"],
       "extends": ["plugin:@nrwl/nx/javascript"],
       "rules": {}
