@@ -66,7 +66,7 @@ describe(DhMeteringPointOverviewComponent.name, () => {
   let view: RenderResult<SpectacularAppComponent>;
   let link: HTMLAnchorElement;
 
-  it('displays the Watt shell', async () => {
+  it('displays a link to the Metering point URL', async () => {
     const meteringPointUrl = `http://localhost/${dhMeteringPointPath}`;
 
     await view.navigate(`/${dhMeteringPointPath}/571313180400014077`);
