@@ -26,7 +26,7 @@ import {
 } from '@energinet-datahub/dh/metering-point/feature-child-overview';
 import {
   DhMeteringPointOverviewComponent,
-  DhMeteringPointOverviewScam,
+  DhMeteringPointOverviewModule,
 } from '@energinet-datahub/dh/metering-point/feature-overview';
 import {
   DhMeteringPointSearchComponent,
@@ -50,7 +50,7 @@ const routes: Routes = [
 @NgModule({
   imports: [
     DhMeteringPointChildOverviewScam,
-    DhMeteringPointOverviewScam,
+    DhMeteringPointOverviewModule,
     DhMeteringPointSearchScam,
     RouterModule.forChild(routes),
   ],
