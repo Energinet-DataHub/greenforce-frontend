@@ -15,21 +15,18 @@
  * limitations under the License.
  */
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { dhMeteringPointIdParam } from '@energinet-datahub/dh/metering-point/routing';
 import { LocalRouterStore } from '@ngworker/router-component-store';
-import { Observable } from 'rxjs';
+import { DhDataAccessMeteringPointStore } from '@energinet-datahub/dh/metering-point/data-access-metering-point';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'dh-metering-point-overview',
   styleUrls: ['./dh-metering-point-overview.component.scss'],
   templateUrl: './dh-metering-point-overview.component.html',
-  viewProviders: [LocalRouterStore],
+  viewProviders: [LocalRouterStore, DhDataAccessMeteringPointStore],
 })
 export class DhMeteringPointOverviewComponent {
-  meteringPointId$: Observable<string> = this.route.selectRouteParam(
-    dhMeteringPointIdParam
-  );
+  meteringPoint$ = this.store.meteringPoint$;
 
-  constructor(private route: LocalRouterStore) {}
+  constructor(private store: DhDataAccessMeteringPointStore) {}
 }
