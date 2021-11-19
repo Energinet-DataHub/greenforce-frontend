@@ -20,7 +20,18 @@ limitations under the License.
   <dh-breadcrumbs
     [meteringPointId]="meteringPoint?.gsrnNumber ?? ''"
   ></dh-breadcrumbs>
-  <h1>{{ meteringPoint?.gsrnNumber }}</h1>
+  <div class="overview__header">
+    <div class="watt-text-s">
+      {{ meteringPoint?.meteringPointType }}
+      ({{ meteringPoint?.meteringPointSubType }})
+    </div>
+    <h1>{{ meteringPoint?.gsrnNumber }}</h1>
+    <div class="watt-text-s">
+      <watt-badge>{{ meteringPoint?.connectionState }}</watt-badge>
+      | {{ meteringPoint?.settlementMethod }} |
+      {{ meteringPoint?.readingOccurrence }}
+    </div>
+  </div>
 </ng-container>
 
 <ng-template #suspenseTemplate>
