@@ -59,15 +59,12 @@ describe(DhMeteringPointOverviewComponent.name, () => {
   const meteringPointId = '571313180400014077';
 
   it('displays a link to the Metering point URL', async () => {
-    const meteringPointUrl = `http://localhost/${dhMeteringPointPath}`;
-
     await view.navigate(`/${dhMeteringPointPath}/${meteringPointId}`);
 
     const link: HTMLAnchorElement = await screen.findByRole('link');
-
     const actualUrl = new URL(link.href);
 
-    expect(actualUrl.origin + actualUrl.pathname).toBe(meteringPointUrl);
+    expect(actualUrl.pathname).toBe(`/${dhMeteringPointPath}`);
   });
 
   it('displays the metering point id from the URL in a heading', async () => {
