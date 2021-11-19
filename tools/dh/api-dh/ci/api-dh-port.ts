@@ -1,1 +1,1 @@
-export const apiDhPort = '5001';
+export const apiDhPort = 5001;
