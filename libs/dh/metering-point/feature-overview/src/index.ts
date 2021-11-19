@@ -15,3 +15,4 @@
  * limitations under the License.
  */
 export * from './lib/dh-metering-point-overview.component';
+export * from './lib/dh-metering-point-overview.module';
