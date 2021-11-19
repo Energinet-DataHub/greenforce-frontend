@@ -16,11 +16,11 @@
  */
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { LetModule } from '@rx-angular/template';
-import { map, Observable } from 'rxjs';
-import { WattSpinnerModule } from '@energinet-datahub/watt';
 import { dhMeteringPointIdParam } from '@energinet-datahub/dh/metering-point/routing';
+import { WattSpinnerModule } from '@energinet-datahub/watt';
+import { LocalRouterStore } from '@ngworker/router-component-store';
+import { LetModule } from '@rx-angular/template';
+import { Observable } from 'rxjs';
 
 import { DhBreadcrumbsModule } from './breadcrumbs/dh-breadcrumbs.module';
 
@@ -29,13 +29,14 @@ import { DhBreadcrumbsModule } from './breadcrumbs/dh-breadcrumbs.module';
   selector: 'dh-metering-point-overview',
   styleUrls: ['./dh-metering-point-overview.component.scss'],
   templateUrl: './dh-metering-point-overview.component.html',
+  viewProviders: [LocalRouterStore],
 })
 export class DhMeteringPointOverviewComponent {
-  meteringPointId$: Observable<string> = this.route.params.pipe(
-    map((params) => params[dhMeteringPointIdParam])
+  meteringPointId$: Observable<string> = this.route.selectRouteParam(
+    dhMeteringPointIdParam
   );
 
-  constructor(private route: ActivatedRoute) {}
+  constructor(private route: LocalRouterStore) {}
 }
 
 @NgModule({

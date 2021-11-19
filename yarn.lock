@@ -2250,6 +2250,13 @@
   resolved "https://registry.yarnpkg.com/@ngtools/webpack/-/webpack-12.2.13.tgz#44d711edfa39d175a2d655aa5c6f9968dfedcc35"
   integrity sha512-krAwMyRqOaC1S0+IxAFid9F6A6ABip2DJ0tgCx26X+1Vw/d1GKtV9ZqDJFizMf5k1ywl9aBlhOazWpq5d6i+gw==
 
+"@ngworker/router-component-store@~0.0.1":
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/@ngworker/router-component-store/-/router-component-store-0.0.1.tgz#2c1be5a5e8102538c5b491ee3cfa659693c88f3d"
+  integrity sha512-s6erKTiutupaTpac7YWVVU50OkM70FkhlW5AfTw/LEVSCJqhM/wdWGPRnj/mC+IsbHDGYtQWis6rJ+fUdCSu/w==
+  dependencies:
+    tslib "^2.3.0"
+
 "@ngworker/spectacular@~0.2.0":
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/@ngworker/spectacular/-/spectacular-0.2.0.tgz#c0456b136f73c3b45dca2a5e42f3d03027897acd"
