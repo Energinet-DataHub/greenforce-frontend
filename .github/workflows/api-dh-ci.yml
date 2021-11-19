@@ -52,6 +52,7 @@ jobs:
         with:
           fetch-depth: 0
           ref: ${{ github.head_ref }}
+          ssh-key: ${{ secrets.ACTIONS_BOT_SSH_KEY }}
       - name: 'Merge: Check out source code'
         if: ${{ env.is-main-branch == 'true' }}
         uses: actions/checkout@v2
