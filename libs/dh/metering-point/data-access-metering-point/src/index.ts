@@ -1,1 +1,1 @@
-export * from './lib/dh-metering-point-data-access-metering-point.module';
+export * from './lib/dh-data-access-metering-point.store';
