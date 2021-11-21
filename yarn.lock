@@ -8264,10 +8264,10 @@ eslint-plugin-cypress@^2.10.3:
   dependencies:
     globals "^11.12.0"
 
-eslint-plugin-ngrx@^1.47.0:
-  version "1.47.0"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-ngrx/-/eslint-plugin-ngrx-1.47.0.tgz#c4ac750fab3d051e7cbdd650399fec1cf5c25a76"
-  integrity sha512-2qM4fY5oGuC56qcmJgKqRZWZeQROJG8KbeCqdpjaUWbGm4s3K0G1JYA9PxqlW+2/N4OiLpSfchUWL+6o90RUQA==
+eslint-plugin-ngrx@^1.47.1:
+  version "1.47.1"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-ngrx/-/eslint-plugin-ngrx-1.47.1.tgz#b78e47823dc36390f3214f0a8840f21a8b1713c4"
+  integrity sha512-o2b0nGFiwHSRty0CqfxopRoEp5ZsxMUPgyEiXOHnRhWsiZMYDfksy/+ULtw3Sv71Fugora3eH5kG98IyyG3oog==
   dependencies:
     "@angular-devkit/schematics" "^12.2.2"
     "@typescript-eslint/experimental-utils" "^4.31.1"
