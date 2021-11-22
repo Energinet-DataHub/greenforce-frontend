@@ -31,9 +31,7 @@ limitations under the License.
       [formControl]="searchControl"
       inputmode="numeric"
     />
-    <watt-error
-      *ngIf="searchControl.errors?.invalidMeteringPointId"
-    >
+    <watt-error *ngIf="searchControl.errors?.invalidMeteringPointId">
       {{ transloco('searchInvalidLength') }}
     </watt-error>
     <watt-icon-button

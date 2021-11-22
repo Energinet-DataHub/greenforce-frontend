@@ -37,7 +37,7 @@ export class DhMeteringPointOverviewGuard implements CanActivate {
   private searchMeteringPointUrl(id: string): UrlTree {
     const url = `${dhMeteringPointPath}/${dhMeteringPointSearchPath}`;
 
-    return this.router.createUrlTree([url], { queryParams: { q: id} });
+    return this.router.createUrlTree([url], { queryParams: { q: id } });
   }
 
   constructor(private router: Router) {}

@@ -59,9 +59,16 @@ export class DhMeteringPointSearchFormComponent implements AfterViewInit {
   @ViewChild('searchInput') searchInput?: ElementRef;
 
   loading = false;
-  searchControl = new FormControl('', [Validators.required, meteringPointIdValidator()]);
+  searchControl = new FormControl('', [
+    Validators.required,
+    meteringPointIdValidator(),
+  ]);
 
-  constructor(private router: Router, private route: ActivatedRoute, private changeDetectorRef: ChangeDetectorRef) {}
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private changeDetectorRef: ChangeDetectorRef
+  ) {}
 
   ngAfterViewInit() {
     this.setInitialValue();
@@ -95,7 +102,7 @@ export class DhMeteringPointSearchFormComponent implements AfterViewInit {
 
   private setInitialValue(): void {
     const query = this.route.snapshot.queryParams.q;
-    if(!query) return;
+    if (!query) return;
 
     this.searchControl.setValue(query);
     this.searchControl.markAsTouched();
