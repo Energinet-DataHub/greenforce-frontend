@@ -21,11 +21,13 @@ import {
   OnDestroy,
 } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
-
-import { WattEmptyStateModule } from '@energinet-datahub/watt';
-import { DhMeteringPointSearchFormScam } from './form/dh-metering-point-search-form.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { filter, map, Subscription } from 'rxjs';
+
+import { WattEmptyStateModule } from '@energinet-datahub/watt';
+
+import { dhMeteringPointPath, dhMeteringPointSearchPath } from '@energinet-datahub/dh/metering-point/routing';
+import { DhMeteringPointSearchFormScam } from './form/dh-metering-point-search-form.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -87,7 +89,7 @@ export class DhMeteringPointSearchComponent implements OnDestroy {
 
   navigateToQuery(q: string) {
     // TODO: MAKE USE OF PATHS
-    this.router.navigate(['/metering-point/search'], { queryParams: { q } });
+    this.router.navigate([`/${dhMeteringPointPath}/${dhMeteringPointSearchPath}`], { queryParams: { q } });
   }
 
   private onSearchQueryChange(q: string) {

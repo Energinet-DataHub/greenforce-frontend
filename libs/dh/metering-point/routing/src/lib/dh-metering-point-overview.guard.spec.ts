@@ -28,6 +28,7 @@ import {
 import { DhMeteringPointOverviewGuard } from './dh-metering-point-overview.guard';
 import { dhMeteringPointIdParam } from './dh-metering-point-id-param';
 import { dhMeteringPointPath } from './dh-metering-point-path';
+import { dhMeteringPointSearchPath } from './dh-metering-point-search-path';
 
 describe(DhMeteringPointOverviewGuard.name, () => {
   @Component({
@@ -49,7 +50,7 @@ describe(DhMeteringPointOverviewGuard.name, () => {
           children: [
             {
               component: TestMeteringPointSearchComponent,
-              path: 'search',
+              path: dhMeteringPointSearchPath,
             },
             {
               canActivate: [DhMeteringPointOverviewGuard],
@@ -89,7 +90,7 @@ describe(DhMeteringPointOverviewGuard.name, () => {
       const guardedPath = `${dhMeteringPointPath}/${invalidMeteringPointId}`;
 
       const expectedUrl = router.serializeUrl(
-        router.createUrlTree([dhMeteringPointPath, 'search'])
+        router.createUrlTree([dhMeteringPointPath, dhMeteringPointSearchPath])
       );
 
       await view.navigate('/', guardedPath);

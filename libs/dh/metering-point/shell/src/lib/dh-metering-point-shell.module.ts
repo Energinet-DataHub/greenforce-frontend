@@ -19,6 +19,7 @@ import { RouterModule, Routes } from '@angular/router';
 import {
   DhMeteringPointOverviewGuard,
   dhMeteringPointIdParam,
+  dhMeteringPointSearchPath
 } from '@energinet-datahub/dh/metering-point/routing';
 import {
   DhMeteringPointChildOverviewComponent,
@@ -34,7 +35,7 @@ import {
 } from '@energinet-datahub/dh/metering-point/feature-search';
 
 const routes: Routes = [
-  { path: 'search', component: DhMeteringPointSearchComponent },
+  { path: dhMeteringPointSearchPath, component: DhMeteringPointSearchComponent },
   {
     path: `:${dhMeteringPointIdParam}`,
     component: DhMeteringPointOverviewComponent,
