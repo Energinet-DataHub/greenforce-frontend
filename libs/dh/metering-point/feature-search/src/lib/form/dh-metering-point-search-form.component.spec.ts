@@ -1,3 +1,19 @@
+/**
+ * @license
+ * Copyright 2021 Energinet DataHub A/S
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License2");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 import { render, screen, fireEvent, waitFor } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
 
@@ -12,9 +28,12 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 describe(DhMeteringPointSearchFormComponent.name, () => {
   async function setup() {
-
     const { fixture } = await render(DhMeteringPointSearchFormComponent, {
-      imports: [NoopAnimationsModule, getTranslocoTestingModule(), DhMeteringPointSearchFormScam],
+      imports: [
+        NoopAnimationsModule,
+        getTranslocoTestingModule(),
+        DhMeteringPointSearchFormScam,
+      ],
     });
 
     const submitSpy = jest
@@ -27,7 +46,7 @@ describe(DhMeteringPointSearchFormComponent.name, () => {
     return {
       input,
       submitSpy,
-      fixture
+      fixture,
     };
   }
 
@@ -95,7 +114,9 @@ describe(DhMeteringPointSearchFormComponent.name, () => {
 
     fireEvent.blur(input);
 
-    const error = screen.queryByText(da.meteringPoint.search.searchInvalidLength);
+    const error = screen.queryByText(
+      da.meteringPoint.search.searchInvalidLength
+    );
     expect(error).not.toBeInTheDocument();
 
     userEvent.click(submitButton);
@@ -104,11 +125,15 @@ describe(DhMeteringPointSearchFormComponent.name, () => {
 
   it('should not show errors before input has been blurred', async () => {
     const { input } = await setup();
-    expect(screen.queryByText(da.meteringPoint.search.searchInvalidLength)).not.toBeInTheDocument();
+    expect(
+      screen.queryByText(da.meteringPoint.search.searchInvalidLength)
+    ).not.toBeInTheDocument();
 
     fireEvent.blur(input);
 
-    expect(screen.queryByText(da.meteringPoint.search.searchInvalidLength)).toBeInTheDocument();
+    expect(
+      screen.queryByText(da.meteringPoint.search.searchInvalidLength)
+    ).toBeInTheDocument();
   });
 
   it('should not submit a invalid form', async () => {

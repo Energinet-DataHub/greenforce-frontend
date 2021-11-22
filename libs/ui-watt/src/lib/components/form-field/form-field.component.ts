@@ -53,9 +53,9 @@ export class FormFieldComponent implements AfterViewInit {
 
   ngAfterViewInit() {
     if (this.beforeViewInit) {
-        this.matFormField._control = this.control;
-        this.matFormField.ngAfterContentInit();
-        this.beforeViewInit = false;
+      this.matFormField._control = this.control;
+      this.matFormField.ngAfterContentInit();
+      this.beforeViewInit = false;
     }
   }
 }
