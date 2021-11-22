@@ -22,7 +22,7 @@ import { dhMeteringPointIdParam } from '@energinet-datahub/dh/metering-point/rou
 import { LetModule } from '@rx-angular/template';
 import { Observable } from 'rxjs';
 
-import { DhBreadcrumbsScam } from './breadcrumbs/dh-breadcrumbs.component';
+import { DhBreadcrumbScam } from './breadcrumb/dh-breadcrumb.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -41,6 +41,6 @@ export class DhMeteringPointOverviewComponent {
 
 @NgModule({
   declarations: [DhMeteringPointOverviewComponent],
-  imports: [CommonModule, LetModule, DhBreadcrumbsScam, WattSpinnerModule],
+  imports: [CommonModule, LetModule, DhBreadcrumbScam, WattSpinnerModule],
 })
 export class DhMeteringPointOverviewScam {}

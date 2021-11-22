@@ -11,7 +11,7 @@
       "noMeteringPointFoundMessage": "Please check the spelling and try again"
     },
     "overview": {
-      "breadcrumbs": {
+      "breadcrumb": {
         "meteringPoints": "Metering points"
       }
     }

@@ -22,19 +22,19 @@ import { WattIconModule } from '@energinet-datahub/watt';
 import { dhMeteringPointPath } from '@energinet-datahub/dh/metering-point/routing';
 
 @Component({
-  selector: 'dh-breadcrumbs',
-  templateUrl: './dh-breadcrumbs.component.html',
-  styleUrls: ['./dh-breadcrumbs.component.scss'],
+  selector: 'dh-breadcrumb',
+  templateUrl: './dh-breadcrumb.component.html',
+  styleUrls: ['./dh-breadcrumb.component.scss'],
 })
-export class DhBreadcrumbsComponent {
+export class DhBreadcrumbComponent {
   meteringPointAbsolutePath = ['/', dhMeteringPointPath];
 
   @Input() meteringPointId = '';
 }
 
 @NgModule({
-  declarations: [DhBreadcrumbsComponent],
-  exports: [DhBreadcrumbsComponent],
+  declarations: [DhBreadcrumbComponent],
+  exports: [DhBreadcrumbComponent],
   imports: [CommonModule, RouterModule, TranslocoModule, WattIconModule],
 })
-export class DhBreadcrumbsScam {}
+export class DhBreadcrumbScam {}
