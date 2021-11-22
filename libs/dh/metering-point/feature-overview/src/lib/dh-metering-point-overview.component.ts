@@ -27,6 +27,7 @@ import { DhDataAccessMeteringPointStore } from '@energinet-datahub/dh/metering-p
 })
 export class DhMeteringPointOverviewComponent {
   meteringPoint$ = this.store.meteringPoint$;
+  meteringPointStatus$ = this.store.meteringPointStatus$;
 
   constructor(private store: DhDataAccessMeteringPointStore) {}
 }

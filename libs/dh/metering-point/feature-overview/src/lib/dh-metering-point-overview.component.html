@@ -27,7 +27,11 @@ limitations under the License.
     </div>
     <h1>{{ meteringPoint?.gsrnNumber }}</h1>
     <div class="watt-text-s">
-      <watt-badge>{{ meteringPoint?.connectionState }}</watt-badge>
+      <watt-badge
+        *rxLet="meteringPointStatus$ as meteringPointStatus"
+        [type]="meteringPointStatus.badgeType"
+        >{{ meteringPointStatus.value }}</watt-badge
+      >
       | {{ meteringPoint?.settlementMethod }} |
       {{ meteringPoint?.readingOccurrence }}
     </div>
