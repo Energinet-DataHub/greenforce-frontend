@@ -60,7 +60,10 @@ export class DhMeteringPointSearchFormComponent
 
   @ViewChild('searchInput') searchInput?: ElementRef;
 
-  searchControl = new FormControl('', [Validators.required, meteringPointIdValidator()]);
+  searchControl = new FormControl('', [
+    Validators.required,
+    meteringPointIdValidator(),
+  ]);
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.value && changes.value.currentValue !== '') {
