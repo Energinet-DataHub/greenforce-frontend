@@ -17,14 +17,12 @@
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   ElementRef,
   EventEmitter,
-  Input,
   NgModule,
-  OnChanges,
   Output,
-  SimpleChanges,
   ViewChild,
 } from '@angular/core';
 import {
@@ -34,14 +32,19 @@ import {
   Validators,
 } from '@angular/forms';
 import { TranslocoModule } from '@ngneat/transloco';
+import { CommonModule } from '@angular/common';
+import { ActivatedRoute, Router } from '@angular/router';
 
+import {
+  dhMeteringPointPath,
+  dhMeteringPointSearchPath,
+} from '@energinet-datahub/dh/metering-point/routing';
 import {
   WattButtonModule,
   WattFormFieldModule,
   WattIconModule,
   WattInputModule,
 } from '@energinet-datahub/watt';
-import { CommonModule } from '@angular/common';
 
 import { meteringPointIdValidator } from './dh-metering-point.validator';
 
@@ -51,28 +54,17 @@ import { meteringPointIdValidator } from './dh-metering-point.validator';
   styleUrls: ['./dh-metering-point-search-form.component.scss'],
   templateUrl: './dh-metering-point-search-form.component.html',
 })
-export class DhMeteringPointSearchFormComponent
-  implements OnChanges, AfterViewInit
-{
-  @Input() loading = false;
-  @Input() value = '';
+export class DhMeteringPointSearchFormComponent implements AfterViewInit {
   @Output() search = new EventEmitter<string>();
-
   @ViewChild('searchInput') searchInput?: ElementRef;
 
+  loading = false;
   searchControl = new FormControl('', [Validators.required, meteringPointIdValidator()]);
 
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes.value && changes.value.currentValue !== '') {
-      // If not applied, error message won't be shown on initial value if value is invalid
-      setTimeout(() => {
-        this.searchControl.setValue(this.value);
-        this.searchControl.markAsTouched();
-      });
-    }
-  }
+  constructor(private router: Router, private route: ActivatedRoute, private changeDetectorRef: ChangeDetectorRef) {}
 
   ngAfterViewInit() {
+    this.setInitialValue();
     this.focusSearchInput();
   }
 
@@ -81,13 +73,40 @@ export class DhMeteringPointSearchFormComponent
   }
 
   onSubmit() {
-    console.log(this.searchControl);
+    this.router.navigate(
+      [`/${dhMeteringPointPath}/${dhMeteringPointSearchPath}`],
+      { queryParams: { q: this.searchControl.value } }
+    );
+
     if (!this.searchControl.valid) {
       this.focusSearchInput();
       return;
     } else if (this.loading) return;
 
+    /*
+     * If detectChanges is not called,
+     * loading indicator will not be shown until the user blur the input
+     */
+    this.loading = true;
+    this.changeDetectorRef.detectChanges();
+
     this.search.emit(this.searchControl.value);
+  }
+
+  private setInitialValue(): void {
+    const query = this.route.snapshot.queryParams.q;
+    if(!query) return;
+
+    this.searchControl.setValue(query);
+    this.searchControl.markAsTouched();
+
+    /*
+     * If detectChanges is not called,
+     * the error messages will not be shown until the user blur the input
+     */
+    this.changeDetectorRef.detectChanges();
+
+    this.onSubmit();
   }
 
   private focusSearchInput(): void {

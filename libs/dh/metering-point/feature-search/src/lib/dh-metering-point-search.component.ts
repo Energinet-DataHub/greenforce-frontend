@@ -21,15 +21,9 @@ import {
   OnDestroy,
 } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
-import { ActivatedRoute, Router } from '@angular/router';
-import { filter, map, Subscription } from 'rxjs';
 
 import { WattEmptyStateModule } from '@energinet-datahub/watt';
 
-import {
-  dhMeteringPointPath,
-  dhMeteringPointSearchPath,
-} from '@energinet-datahub/dh/metering-point/routing';
 import { DhMeteringPointSearchFormScam } from './form/dh-metering-point-search-form.component';
 
 @Component({
@@ -61,9 +55,7 @@ import { DhMeteringPointSearchFormScam } from './form/dh-metering-point-search-f
       <h1>{{ transloco('title') }}</h1>
 
       <dh-metering-point-search-form
-        [value]="value"
-        (search)="navigateToQuery($event)"
-        [loading]="loading"
+        (search)="onSubmit($event)"
       ></dh-metering-point-search-form>
 
       <watt-empty-state
@@ -74,37 +66,8 @@ import { DhMeteringPointSearchFormScam } from './form/dh-metering-point-search-f
     </ng-container>
   `,
 })
-export class DhMeteringPointSearchComponent implements OnDestroy {
-  loading = false;
-  value = '';
-  searhQuerySubscription$: Subscription = this.route.queryParams
-    .pipe(
-      map((params) => params.q),
-      filter((q) => !!q)
-    )
-    .subscribe((q) => this.onSearchQueryChange(q));
-
-  constructor(private router: Router, private route: ActivatedRoute) {}
-
-  ngOnDestroy() {
-    this.searhQuerySubscription$.unsubscribe();
-  }
-
-  navigateToQuery(q: string) {
-    // TODO: MAKE USE OF PATHS
-    this.router.navigate(
-      [`/${dhMeteringPointPath}/${dhMeteringPointSearchPath}`],
-      { queryParams: { q } }
-    );
-  }
-
-  private onSearchQueryChange(q: string) {
-    this.value = q;
-    this.fetchMeteringPoint(q);
-  }
-
-  private fetchMeteringPoint(id: string) {
-    this.loading = true;
+export class DhMeteringPointSearchComponent {
+  onSubmit(id: string) {
     console.log('Fetching...', id);
   }
 }
