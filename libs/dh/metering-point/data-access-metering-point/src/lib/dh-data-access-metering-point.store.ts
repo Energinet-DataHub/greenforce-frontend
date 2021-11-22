@@ -9,6 +9,8 @@ import {
 import { dhMeteringPointIdParam } from '@energinet-datahub/dh/metering-point/routing';
 import { WattBadgeType } from '@energinet-datahub/watt';
 
+import { connectionStateToBadgeType } from './connection-state-to-badge-type';
+
 interface MeteringPointState {
   meteringPoint?: MeteringPointDto;
 }
@@ -16,14 +18,6 @@ interface MeteringPointState {
 export interface MeteringPointStatus {
   badgeType: WattBadgeType;
   value: string;
-}
-
-enum ConnectionState {
-  'NotUsed' = 'Not used',
-  'ClosedDown' = 'Closed down',
-  'New' = 'New',
-  'Connected' = 'Connected',
-  'Disconnected' = 'Disconnected',
 }
 
 const initialState: MeteringPointState = {
@@ -39,7 +33,7 @@ export class DhDataAccessMeteringPointStore extends ComponentStore<MeteringPoint
     map((meteringPoint) => meteringPoint?.connectionState),
     map((connectionState) => connectionState as string),
     map((connectionState) => ({
-      badgeType: this.connectionStateToBadgeType(connectionState),
+      badgeType: connectionStateToBadgeType(connectionState),
       value: connectionState,
     }))
   );
@@ -74,18 +68,4 @@ export class DhDataAccessMeteringPointStore extends ComponentStore<MeteringPoint
       meteringPoint: meteringPointData,
     })
   );
-
-  private connectionStateToBadgeType(connectionState: string): WattBadgeType {
-    switch (connectionState) {
-      case ConnectionState['ClosedDown']:
-      case ConnectionState['Disconnected']:
-      case ConnectionState['NotUsed']:
-        return 'warning';
-      case ConnectionState['Connected']:
-      case ConnectionState['New']:
-        return 'success';
-      default:
-        throw new Error('Connection state cannot be empty');
-    }
-  }
 }
