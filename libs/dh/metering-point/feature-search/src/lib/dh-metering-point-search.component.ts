@@ -26,7 +26,10 @@ import { filter, map, Subscription } from 'rxjs';
 
 import { WattEmptyStateModule } from '@energinet-datahub/watt';
 
-import { dhMeteringPointPath, dhMeteringPointSearchPath } from '@energinet-datahub/dh/metering-point/routing';
+import {
+  dhMeteringPointPath,
+  dhMeteringPointSearchPath,
+} from '@energinet-datahub/dh/metering-point/routing';
 import { DhMeteringPointSearchFormScam } from './form/dh-metering-point-search-form.component';
 
 @Component({
@@ -89,7 +92,10 @@ export class DhMeteringPointSearchComponent implements OnDestroy {
 
   navigateToQuery(q: string) {
     // TODO: MAKE USE OF PATHS
-    this.router.navigate([`/${dhMeteringPointPath}/${dhMeteringPointSearchPath}`], { queryParams: { q } });
+    this.router.navigate(
+      [`/${dhMeteringPointPath}/${dhMeteringPointSearchPath}`],
+      { queryParams: { q } }
+    );
   }
 
   private onSearchQueryChange(q: string) {
