@@ -37,12 +37,14 @@ const routes: Routes = [
   { path: 'search', component: DhMeteringPointSearchComponent },
   {
     path: `:${dhMeteringPointIdParam}`,
-    component: DhMeteringPointOverviewComponent,
     canActivate: [DhMeteringPointOverviewGuard],
-  },
-  {
-    path: `:${dhMeteringPointIdParam}/child/:child-id`,
-    component: DhMeteringPointChildOverviewComponent,
+    children: [
+      { path: '', component: DhMeteringPointOverviewComponent },
+      {
+        path: 'child/:child-id',
+        component: DhMeteringPointChildOverviewComponent,
+      },
+    ],
   },
   { path: '', redirectTo: 'search', pathMatch: 'full' },
 ];
