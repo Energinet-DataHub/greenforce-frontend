@@ -53,12 +53,9 @@ export class FormFieldComponent implements AfterViewInit {
 
   ngAfterViewInit() {
     if (this.beforeViewInit) {
-      // Tick is needed to make this work, otherwise matFormField will be buggy
-      setTimeout(() => {
         this.matFormField._control = this.control;
         this.matFormField.ngAfterContentInit();
         this.beforeViewInit = false;
-      });
     }
   }
 }

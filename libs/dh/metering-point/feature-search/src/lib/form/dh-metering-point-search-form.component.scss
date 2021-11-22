@@ -1,0 +1,33 @@
+@use '@energinet-datahub/watt/utils' as watt;
+
+:host {
+  display: block;
+  padding-top: var(--watt-space-s);
+}
+
+form {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+label,
+watt-form-field {
+  width: 100%;
+  flex: 1 1 auto;
+}
+
+watt-icon {
+  color: var(--watt-color-primary);
+}
+
+watt-form-field {
+  width: auto;
+  margin-right: var(--watt-space-s);
+  --label-margin-bottom: var(--watt-space-m);
+}
+
+watt-button {
+  margin-top: var(--watt-space-m);
+}

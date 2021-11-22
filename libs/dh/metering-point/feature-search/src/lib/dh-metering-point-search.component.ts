@@ -18,16 +18,14 @@ import {
   ChangeDetectionStrategy,
   Component,
   NgModule,
-  OnInit,
+  OnDestroy,
 } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
 
-import {
-  WattButtonModule,
-  WattEmptyStateModule,
-  WattFormFieldModule,
-  WattInputModule,
-} from '@energinet-datahub/watt';
+import { WattEmptyStateModule } from '@energinet-datahub/watt';
+import { DhMeteringPointSearchFormScam } from './form/dh-metering-point-search-form.component';
+import { ActivatedRoute, Router } from '@angular/router';
+import { filter, map, Subscription } from 'rxjs';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -37,41 +35,15 @@ import {
       @use '@energinet-datahub/watt/utils' as watt;
 
       :host {
-        display: flex;
-        justify-content: center;
-      }
-
-      .container {
-        display: flex;
-        flex-wrap: wrap;
+        display: block;
         max-width: 844px;
-        justify-content: space-between;
-      }
-
-      h1,
-      label,
-      watt-form-field,
-      watt-empty-state {
-        width: 100%;
-        flex: 1 1 auto;
+        margin: 0 auto;
       }
 
       h1 {
+        color: var(--watt-color-primary-dark);
+        margin-left: -2px; // todo: Why is this needed?
         margin-bottom: var(--watt-space-s);
-      }
-
-      label {
-        @include watt.typography-watt-text-m;
-        margin-bottom: var(--watt-space-s);
-      }
-
-      watt-form-field {
-        width: auto;
-        margin-right: var(--watt-space-s);
-      }
-
-      watt-button {
-        margin-top: var(--watt-space-xs);
       }
 
       watt-empty-state {
@@ -80,54 +52,58 @@ import {
     `,
   ],
   template: `
-    <div class="container" *transloco="let transloco; read: 'meteringPoint.search'">
+    <ng-container *transloco="let transloco; read: 'meteringPoint.search'">
       <h1>{{ transloco('title') }}</h1>
-      <label for="search-input">
-        {{ transloco('searchLabel') }}
-      </label>
-      <watt-form-field>
-        <watt-icon-button icon="search" wattPrefix></watt-icon-button>
-        <input
-          wattInput
-          id="search-input"
-          type="text"
-          aria-label="search-input"
-          [placeholder]="transloco('searchPlaceholder')"
-          autofocus
-        />
-        <watt-error>
-          {{ transloco('searchInvalidLength') }}
-        </watt-error>
-        <watt-icon-button icon="close" wattSuffix></watt-icon-button>
-      </watt-form-field>
-      <watt-button
-        type="primary"
-        size="normal"
-        [disabled]="false"
-        [loading]="false"
-        >{{ transloco('searchButton') }}</watt-button
-      >
+
+      <dh-metering-point-search-form
+        [value]="value"
+        (search)="navigateToQuery($event)"
+        [loading]="loading"
+      ></dh-metering-point-search-form>
+
       <watt-empty-state
         icon="explore"
         [title]="transloco('noMeteringPointFoundTitle')"
-        [message]="
-          transloco('noMeteringPointFoundMessage')
-        "
+        [message]="transloco('noMeteringPointFoundMessage')"
       ></watt-empty-state>
-    </div>
+    </ng-container>
   `,
 })
-export class DhMeteringPointSearchComponent implements OnInit {
-  ngOnInit(): void {
-    document.getElementById('test')?.focus();
+export class DhMeteringPointSearchComponent implements OnDestroy {
+  loading = false;
+  value = '';
+  searhQuerySubscription$: Subscription = this.route.queryParams
+    .pipe(
+      map((params) => params.q),
+      filter((q) => !!q)
+    )
+    .subscribe((q) => this.onSearchQueryChange(q));
+
+  constructor(private router: Router, private route: ActivatedRoute) {}
+
+  ngOnDestroy() {
+    this.searhQuerySubscription$.unsubscribe();
+  }
+
+  navigateToQuery(q: string) {
+    // TODO: MAKE USE OF PATHS
+    this.router.navigate(['/metering-point/search'], { queryParams: { q } });
+  }
+
+  private onSearchQueryChange(q: string) {
+    this.value = q;
+    this.fetchMeteringPoint(q);
+  }
+
+  private fetchMeteringPoint(id: string) {
+    this.loading = true;
+    console.log('Fetching...', id);
   }
 }
 
 @NgModule({
   imports: [
-    WattFormFieldModule,
-    WattInputModule,
-    WattButtonModule,
+    DhMeteringPointSearchFormScam,
     WattEmptyStateModule,
     TranslocoModule,
   ],
