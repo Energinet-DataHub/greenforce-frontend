@@ -104,7 +104,7 @@ Allowed dependencies to: `data-access`, `routing`, `util`, `test-util`, `domain`
 ### Routing libraries
 
 A routing library contains code related for routing (routes, route paths, route guards, route resolvers, route reuse strategies, preloading strategies).
-Allowed dependencies to: `data-access`, `routing`, `util`, `test-util`, `shell`.
+Allowed dependencies to: `data-access`, `routing`, `util`, `test-util`, `shell`, `domain`.
 
 ### Utility libraries
 
@@ -164,7 +164,8 @@ Besides the `apps` folder, there's also a `libs` folder that contains features u
 
 ## Backend-for-frontend (BFF)
 
-There's currenly only one BFF located in `api-dh` under `apps/dh`. It is for `app-dh` and is using .NET 5.0. See [Development notes](./apps/dh/api-dh/documents/development.md).
+There's currenly only one BFF located in `api-dh` under `apps/dh`. It is for `app-dh` and is using .NET 5.0. See [Development notes](./apps/dh/api-dh/documents/development.md). When developing `app-dh`, run `nx serve api-dh` to start
+the BFF. This is required for both local development and tests.
 
 ## Watt Design System
 
@@ -177,6 +178,6 @@ Located under `.github/workflows`. There are:
 - `api-dh-ci.yml` - Used by the BFF for `app-dh`.
 - `ett.yml` - Used by "Energy Track and Trace" app
 - `license-check-ci.yml` - Used for adding license to files
-- `workspace.yml` - Used to build, test, format and lint all front-end apps
+- `frontend-ci.yml` - Used to build, test, format and lint all front-end apps
 
 **Please note**: Before merging a frontend pull request, be sure that all checks have passed. Currently, jobs done by a Git-bot (like formatting and adding licenses) don't trigger a re-run of all the other checks. The "merge button" can therefore give you a false positive signal.

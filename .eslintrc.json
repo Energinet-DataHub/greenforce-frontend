@@ -73,7 +73,8 @@
                   "type:routing",
                   "type:util",
                   "type:test-util",
-                  "type:shell"
+                  "type:shell",
+                  "type:domain"
                 ]
               },
               {
@@ -183,9 +184,19 @@
     },
     {
       "files": ["*.ts", "*.tsx"],
-      "extends": ["plugin:@nrwl/nx/typescript"],
+      "extends": ["plugin:@nrwl/nx/typescript"]
+    },
+    {
+      "files": ["*.ts"],
       "rules": {
         "ngrx/updater-explicit-return-type": "error"
+      }
+    },
+    {
+      "files": ["*.js", "*.ts"],
+      "extends": ["plugin:sonarjs/recommended"],
+      "rules": {
+        "sonarjs/cognitive-complexity": ["error", 8]
       }
     },
     {
