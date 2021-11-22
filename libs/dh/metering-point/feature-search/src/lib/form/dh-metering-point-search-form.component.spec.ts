@@ -12,9 +12,12 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 describe(DhMeteringPointSearchFormComponent.name, () => {
   async function setup() {
-
     const { fixture } = await render(DhMeteringPointSearchFormComponent, {
-      imports: [NoopAnimationsModule, getTranslocoTestingModule(), DhMeteringPointSearchFormScam],
+      imports: [
+        NoopAnimationsModule,
+        getTranslocoTestingModule(),
+        DhMeteringPointSearchFormScam,
+      ],
     });
 
     const submitSpy = jest
@@ -27,7 +30,7 @@ describe(DhMeteringPointSearchFormComponent.name, () => {
     return {
       input,
       submitSpy,
-      fixture
+      fixture,
     };
   }
 
@@ -95,7 +98,9 @@ describe(DhMeteringPointSearchFormComponent.name, () => {
 
     fireEvent.blur(input);
 
-    const error = screen.queryByText(da.meteringPoint.search.searchInvalidLength);
+    const error = screen.queryByText(
+      da.meteringPoint.search.searchInvalidLength
+    );
     expect(error).not.toBeInTheDocument();
 
     userEvent.click(submitButton);
@@ -104,11 +109,15 @@ describe(DhMeteringPointSearchFormComponent.name, () => {
 
   it('should not show errors before input has been blurred', async () => {
     const { input } = await setup();
-    expect(screen.queryByText(da.meteringPoint.search.searchInvalidLength)).not.toBeInTheDocument();
+    expect(
+      screen.queryByText(da.meteringPoint.search.searchInvalidLength)
+    ).not.toBeInTheDocument();
 
     fireEvent.blur(input);
 
-    expect(screen.queryByText(da.meteringPoint.search.searchInvalidLength)).toBeInTheDocument();
+    expect(
+      screen.queryByText(da.meteringPoint.search.searchInvalidLength)
+    ).toBeInTheDocument();
   });
 
   it('should not submit a invalid form', async () => {

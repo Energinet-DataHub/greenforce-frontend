@@ -79,8 +79,7 @@ export class DhMeteringPointSearchFormComponent
     if (!this.searchControl.valid) {
       this.focusSearchInput();
       return;
-    }
-    else if (this.loading) return;
+    } else if (this.loading) return;
 
     this.search.emit(this.searchControl.value);
   }
