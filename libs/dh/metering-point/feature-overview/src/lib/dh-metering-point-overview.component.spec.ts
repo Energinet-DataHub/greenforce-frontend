@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component } from '@angular/core';
 import {
   dhMeteringPointIdParam,
   DhMeteringPointOverviewGuard,
@@ -23,13 +22,15 @@ import {
 import { render, RenderResult, screen } from '@testing-library/angular';
 import { SpectacularAppComponent } from '@ngworker/spectacular';
 
-import { DhMeteringPointOverviewModule } from './dh-metering-point-overview.module';
-import { DhMeteringPointOverviewComponent } from './dh-metering-point-overview.component';
+import {
+  DhMeteringPointOverviewComponent,
+  DhMeteringPointOverviewScam,
+} from './dh-metering-point-overview.component';
 
 describe(DhMeteringPointOverviewComponent.name, () => {
   beforeEach(async () => {
     view = await render(SpectacularAppComponent, {
-      imports: [DhMeteringPointOverviewModule],
+      imports: [DhMeteringPointOverviewScam],
       routes: [
         {
           path: dhMeteringPointPath,

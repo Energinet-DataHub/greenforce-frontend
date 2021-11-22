@@ -14,7 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, Input } from '@angular/core';
+import { NgModule, Component, Input } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { TranslocoModule } from '@ngneat/transloco';
+import { WattIconModule } from '@energinet-datahub/watt';
 import { dhMeteringPointPath } from '@energinet-datahub/dh/metering-point/routing';
 
 @Component({
@@ -27,3 +31,10 @@ export class DhBreadcrumbsComponent {
 
   @Input() meteringPointId = '';
 }
+
+@NgModule({
+  declarations: [DhBreadcrumbsComponent],
+  exports: [DhBreadcrumbsComponent],
+  imports: [CommonModule, RouterModule, TranslocoModule, WattIconModule],
+})
+export class DhBreadcrumbsScam {}
