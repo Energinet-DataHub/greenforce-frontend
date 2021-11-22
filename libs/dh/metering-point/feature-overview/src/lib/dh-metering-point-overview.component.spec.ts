@@ -52,8 +52,10 @@ describe(DhMeteringPointOverviewComponent.name, () => {
   it('displays a link to the Metering point URL', async () => {
     await view.navigate(`/${dhMeteringPointPath}/${meteringPointId}`);
 
-    const link: HTMLAnchorElement = await screen.findByRole('link');
-    const actualUrl = new URL(link.href);
+    const [topLevelLink]: HTMLAnchorElement[] = await screen.findAllByRole(
+      'link'
+    );
+    const actualUrl = new URL(topLevelLink.href);
 
     expect(actualUrl.pathname).toBe(`/${dhMeteringPointPath}`);
   });
