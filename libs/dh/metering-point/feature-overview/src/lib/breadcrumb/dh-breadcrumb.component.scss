@@ -17,6 +17,10 @@
 @use '@energinet-datahub/watt/utils' as watt;
 
 :host {
+  display: block;
+}
+
+.breadcrumb {
   align-items: center;
   border-bottom: 1px solid var(--watt-color-neutral-grey-300);
   display: flex;
