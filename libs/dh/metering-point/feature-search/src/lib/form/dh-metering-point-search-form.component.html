@@ -29,11 +29,10 @@ limitations under the License.
       aria-label="search-input"
       [placeholder]="transloco('searchPlaceholder')"
       [formControl]="searchControl"
-      pattern="[0-9]*"
       inputmode="numeric"
     />
     <watt-error
-      *ngIf="searchControl.errors?.required || searchControl.errors?.pattern"
+      *ngIf="searchControl.errors?.invalidMeteringPointId"
     >
       {{ transloco('searchInvalidLength') }}
     </watt-error>

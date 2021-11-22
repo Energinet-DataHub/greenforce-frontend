@@ -43,6 +43,8 @@ import {
 } from '@energinet-datahub/watt';
 import { CommonModule } from '@angular/common';
 
+import { meteringPointIdValidator } from './dh-metering-point.validator';
+
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'dh-metering-point-search-form',
@@ -58,12 +60,15 @@ export class DhMeteringPointSearchFormComponent
 
   @ViewChild('searchInput') searchInput?: ElementRef;
 
-  searchControl = new FormControl('', [Validators.required]);
+  searchControl = new FormControl('', [Validators.required, meteringPointIdValidator()]);
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.value && changes.value.currentValue !== '') {
-      this.searchControl.setValue(this.value);
-      this.searchControl.markAsTouched();
+      // If not applied, error message won't be shown on initial value if value is invalid
+      setTimeout(() => {
+        this.searchControl.setValue(this.value);
+        this.searchControl.markAsTouched();
+      });
     }
   }
 
@@ -76,6 +81,7 @@ export class DhMeteringPointSearchFormComponent
   }
 
   onSubmit() {
+    console.log(this.searchControl);
     if (!this.searchControl.valid) {
       this.focusSearchInput();
       return;

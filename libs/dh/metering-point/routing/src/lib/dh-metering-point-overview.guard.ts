@@ -34,10 +34,10 @@ import { dhMeteringPointSearchPath } from './dh-metering-point-search-path';
   providedIn: 'root',
 })
 export class DhMeteringPointOverviewGuard implements CanActivate {
-  private searchMeteringPointUrl(): UrlTree {
+  private searchMeteringPointUrl(id: string): UrlTree {
     const url = `${dhMeteringPointPath}/${dhMeteringPointSearchPath}`;
 
-    return this.router.createUrlTree([url]);
+    return this.router.createUrlTree([url], { queryParams: { q: id} });
   }
 
   constructor(private router: Router) {}
@@ -47,6 +47,6 @@ export class DhMeteringPointOverviewGuard implements CanActivate {
 
     return isValidMeteringPointId(meteringPointId)
       ? true
-      : this.searchMeteringPointUrl();
+      : this.searchMeteringPointUrl(meteringPointId);
   }
 }

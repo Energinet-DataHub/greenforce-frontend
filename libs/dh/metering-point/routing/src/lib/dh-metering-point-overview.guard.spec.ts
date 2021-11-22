@@ -90,7 +90,7 @@ describe(DhMeteringPointOverviewGuard.name, () => {
       const guardedPath = `${dhMeteringPointPath}/${invalidMeteringPointId}`;
 
       const expectedUrl = router.serializeUrl(
-        router.createUrlTree([dhMeteringPointPath, dhMeteringPointSearchPath])
+        router.createUrlTree([dhMeteringPointPath, dhMeteringPointSearchPath], {queryParams: {q: invalidMeteringPointId}})
       );
 
       await view.navigate('/', guardedPath);
