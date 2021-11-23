@@ -19,7 +19,8 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { TranslocoModule } from '@ngneat/transloco';
 import { WattIconModule } from '@energinet-datahub/watt';
-import { dhMeteringPointPath } from '@energinet-datahub/dh/metering-point/routing';
+
+import { dhMeteringPointPath } from '../routing/dh-metering-point-path';
 
 @Component({
   selector: 'dh-breadcrumb',

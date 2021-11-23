@@ -14,5 +14,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './lib/dh-metering-point-child-overview.component';
-export * from './lib/routing/route';
+export const dhMeteringPointPath = 'metering-point';

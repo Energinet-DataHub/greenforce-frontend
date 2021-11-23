@@ -14,11 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  dhMeteringPointIdParam,
-  DhMeteringPointOverviewGuard,
-  dhMeteringPointPath,
-} from '@energinet-datahub/dh/metering-point/routing';
 import { render, RenderResult, screen } from '@testing-library/angular';
 import { SpectacularAppComponent } from '@ngworker/spectacular';
 
@@ -27,22 +22,14 @@ import {
   DhMeteringPointOverviewScam,
 } from './dh-metering-point-overview.component';
 
+import { meteringPointRoute } from './routing/route';
+import { dhMeteringPointPath } from './routing/dh-metering-point-path';
+
 describe(DhMeteringPointOverviewComponent.name, () => {
   beforeEach(async () => {
     view = await render(SpectacularAppComponent, {
       imports: [DhMeteringPointOverviewScam],
-      routes: [
-        {
-          path: dhMeteringPointPath,
-          children: [
-            {
-              canActivate: [DhMeteringPointOverviewGuard],
-              component: DhMeteringPointOverviewComponent,
-              path: `:${dhMeteringPointIdParam}`,
-            },
-          ],
-        },
-      ],
+      routes: [meteringPointRoute],
     });
   });
 

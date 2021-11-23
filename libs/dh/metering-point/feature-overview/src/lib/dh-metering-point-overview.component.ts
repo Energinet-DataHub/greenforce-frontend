@@ -18,11 +18,11 @@ import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
 import { LocalRouterStore } from '@ngworker/router-component-store';
 import { CommonModule } from '@angular/common';
 import { WattSpinnerModule } from '@energinet-datahub/watt';
-import { dhMeteringPointIdParam } from '@energinet-datahub/dh/metering-point/routing';
 import { LetModule } from '@rx-angular/template';
 import { Observable } from 'rxjs';
 
 import { DhBreadcrumbScam } from './breadcrumb/dh-breadcrumb.component';
+import { dhMeteringPointIdParam } from './routing/dh-metering-point-id-param';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

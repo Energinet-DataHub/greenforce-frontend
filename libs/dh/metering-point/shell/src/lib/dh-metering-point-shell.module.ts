@@ -16,17 +16,11 @@
  */
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+
+import { DhMeteringPointChildOverviewScam } from '@energinet-datahub/dh/metering-point/feature-child-overview';
 import {
-  DhMeteringPointOverviewGuard,
-  dhMeteringPointIdParam,
-} from '@energinet-datahub/dh/metering-point/routing';
-import {
-  DhMeteringPointChildOverviewComponent,
-  DhMeteringPointChildOverviewScam,
-} from '@energinet-datahub/dh/metering-point/feature-child-overview';
-import {
-  DhMeteringPointOverviewComponent,
   DhMeteringPointOverviewScam,
+  meteringPointRoute,
 } from '@energinet-datahub/dh/metering-point/feature-overview';
 import {
   DhMeteringPointSearchComponent,
@@ -35,17 +29,7 @@ import {
 
 const routes: Routes = [
   { path: 'search', component: DhMeteringPointSearchComponent },
-  {
-    path: `:${dhMeteringPointIdParam}`,
-    canActivate: [DhMeteringPointOverviewGuard],
-    children: [
-      { path: '', component: DhMeteringPointOverviewComponent },
-      {
-        path: 'child/:child-id',
-        component: DhMeteringPointChildOverviewComponent,
-      },
-    ],
-  },
+  meteringPointRoute,
   { path: '', redirectTo: 'search', pathMatch: 'full' },
 ];
 
