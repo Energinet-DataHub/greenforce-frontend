@@ -41,19 +41,22 @@ import { ActivatedRoute } from '@angular/router';
 
 describe(DhMeteringPointSearchFormComponent.name, () => {
   async function setup() {
-    const { fixture, navigate } = await render(DhMeteringPointSearchFormComponent, {
-      imports: [
-        NoopAnimationsModule,
-        getTranslocoTestingModule(),
-        DhMeteringPointSearchFormScam,
-      ],
-      routes: [
-        {
-          path: `${dhMeteringPointPath}/${dhMeteringPointSearchPath}`,
-          component: DhMeteringPointSearchComponent
-        }
-      ]
-    });
+    const { fixture, navigate } = await render(
+      DhMeteringPointSearchFormComponent,
+      {
+        imports: [
+          NoopAnimationsModule,
+          getTranslocoTestingModule(),
+          DhMeteringPointSearchFormScam,
+        ],
+        routes: [
+          {
+            path: `${dhMeteringPointPath}/${dhMeteringPointSearchPath}`,
+            component: DhMeteringPointSearchComponent,
+          },
+        ],
+      }
+    );
 
     const submitSpy = jest
       .spyOn(fixture.componentInstance.search, 'emit')
@@ -75,7 +78,7 @@ describe(DhMeteringPointSearchFormComponent.name, () => {
       submitSpy,
       fixture,
       navigate,
-      activatedRoute
+      activatedRoute,
     };
   }
 
@@ -122,7 +125,9 @@ describe(DhMeteringPointSearchFormComponent.name, () => {
   describe('on submit', () => {
     it('should submit valid form, and not show error message', async () => {
       const { submitButton, submitSpy, input, activatedRoute } = await setup();
-      const errors = screen.queryByText(da.meteringPoint.search.searchInvalidLength);
+      const errors = screen.queryByText(
+        da.meteringPoint.search.searchInvalidLength
+      );
 
       userEvent.type(input, validMeteringPointId);
       userEvent.click(submitButton);
@@ -132,7 +137,9 @@ describe(DhMeteringPointSearchFormComponent.name, () => {
       expect(submitSpy).toHaveBeenCalled();
 
       await waitFor(() => {
-        expect(activatedRoute.snapshot.queryParams).toEqual({q: validMeteringPointId})
+        expect(activatedRoute.snapshot.queryParams).toEqual({
+          q: validMeteringPointId,
+        });
       });
     });
 
@@ -142,7 +149,9 @@ describe(DhMeteringPointSearchFormComponent.name, () => {
       userEvent.type(input, invalidMeteringPointId);
       userEvent.click(submitButton);
 
-      const errors = screen.getByText(da.meteringPoint.search.searchInvalidLength);
+      const errors = screen.getByText(
+        da.meteringPoint.search.searchInvalidLength
+      );
 
       expect(input).toBeInvalid();
       expect(input).toHaveFocus();
@@ -150,7 +159,9 @@ describe(DhMeteringPointSearchFormComponent.name, () => {
       expect(submitSpy).not.toHaveBeenCalled();
 
       await waitFor(() => {
-        expect(activatedRoute.snapshot.queryParams).toEqual({q: invalidMeteringPointId})
+        expect(activatedRoute.snapshot.queryParams).toEqual({
+          q: invalidMeteringPointId,
+        });
       });
     });
   });
@@ -158,23 +169,31 @@ describe(DhMeteringPointSearchFormComponent.name, () => {
   describe('on deeplink', () => {
     it('should submit form if valid', async () => {
       const { fixture, input, navigate, submitSpy } = await setup();
-      await navigate(`${dhMeteringPointPath}/${dhMeteringPointSearchPath}?q=${validMeteringPointId}`);
+      await navigate(
+        `${dhMeteringPointPath}/${dhMeteringPointSearchPath}?q=${validMeteringPointId}`
+      );
       fixture.componentInstance.ngOnInit();
 
-      const errors = screen.queryByText(da.meteringPoint.search.searchInvalidLength);
+      const errors = screen.queryByText(
+        da.meteringPoint.search.searchInvalidLength
+      );
 
       expect(errors).not.toBeInTheDocument();
-      expect(input.value).toBe(validMeteringPointId)
+      expect(input.value).toBe(validMeteringPointId);
       expect(input).toBeValid();
       expect(submitSpy).toHaveBeenCalledWith(validMeteringPointId);
     });
 
     it('should show error message, if not valid', async () => {
       const { fixture, input, navigate, submitSpy } = await setup();
-      await navigate(`${dhMeteringPointPath}/${dhMeteringPointSearchPath}?q=${invalidMeteringPointId}`);
+      await navigate(
+        `${dhMeteringPointPath}/${dhMeteringPointSearchPath}?q=${invalidMeteringPointId}`
+      );
       fixture.componentInstance.ngOnInit();
 
-      const errors = screen.getByText(da.meteringPoint.search.searchInvalidLength);
+      const errors = screen.getByText(
+        da.meteringPoint.search.searchInvalidLength
+      );
 
       expect(errors).toBeInTheDocument();
       expect(input.value).toBe(invalidMeteringPointId);

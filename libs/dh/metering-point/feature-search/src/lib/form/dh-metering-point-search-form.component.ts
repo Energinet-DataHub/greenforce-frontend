@@ -26,11 +26,7 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-import {
-  FormControl,
-  FormsModule,
-  ReactiveFormsModule
-} from '@angular/forms';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoModule } from '@ngneat/transloco';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -54,14 +50,14 @@ import { meteringPointIdValidator } from './dh-metering-point.validator';
   styleUrls: ['./dh-metering-point-search-form.component.scss'],
   templateUrl: './dh-metering-point-search-form.component.html',
 })
-export class DhMeteringPointSearchFormComponent implements OnInit, AfterViewInit {
+export class DhMeteringPointSearchFormComponent
+  implements OnInit, AfterViewInit
+{
   @Output() search = new EventEmitter<string>();
   @ViewChild('searchInput') searchInput?: ElementRef;
 
   loading = false;
-  searchControl = new FormControl('', [
-    meteringPointIdValidator(),
-  ]);
+  searchControl = new FormControl('', [meteringPointIdValidator()]);
 
   constructor(
     private router: Router,
@@ -80,9 +76,9 @@ export class DhMeteringPointSearchFormComponent implements OnInit, AfterViewInit
   // TODO: Should clear cancel the search?
   onSearchInputClear(): void {
     this.searchControl.setValue('');
-    this.router.navigate(
-      [`/${dhMeteringPointPath}/${dhMeteringPointSearchPath}`],
-    );
+    this.router.navigate([
+      `/${dhMeteringPointPath}/${dhMeteringPointSearchPath}`,
+    ]);
   }
 
   onSubmit() {
