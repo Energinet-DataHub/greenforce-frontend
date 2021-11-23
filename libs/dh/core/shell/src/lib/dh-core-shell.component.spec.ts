@@ -15,8 +15,11 @@
  * limitations under the License.
  */
 import { By } from '@angular/platform-browser';
-import { WattShellComponent } from '@energinet-datahub/watt';
 import { render, RenderResult } from '@testing-library/angular';
+
+import { WattShellComponent } from '@energinet-datahub/watt';
+
+import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-metering-point';
 
 import {
   DhCoreShellComponent,
@@ -26,7 +29,7 @@ import {
 describe(DhCoreShellComponent.name, () => {
   beforeEach(async () => {
     view = await render(DhCoreShellComponent, {
-      imports: [DhCoreShellScam],
+      imports: [getTranslocoTestingModule(), DhCoreShellScam],
     });
   });
 

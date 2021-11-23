@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+ import da from './assets/i18n/da.json';
+ import en from './assets/i18n/en.json';
 
-export * from './lib/dh-transloco-testing.module';
-export * from './lib/invalid-metering-point-id';
-export * from './lib/valid-metering-point-id';
+ export { da, en };
