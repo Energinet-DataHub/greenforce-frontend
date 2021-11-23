@@ -14,6 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { TestBed } from '@angular/core/testing';
+import { Component } from '@angular/core';
 import { render, RenderResult, screen } from '@testing-library/angular';
 import user from '@testing-library/user-event';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -26,10 +28,7 @@ import {
 
 import { DhMeteringPointOverviewComponent } from './dh-metering-point-overview.component';
 import { DhMeteringPointFeatureOverviewModule } from './dh-metering-point-feature-overview.module';
-
 import { dhMeteringPointPath } from './routing/dh-metering-point-path';
-import { TestBed } from '@angular/core/testing';
-import { Component } from '@angular/core';
 
 describe(DhMeteringPointOverviewComponent.name, () => {
   beforeEach(async () => {
