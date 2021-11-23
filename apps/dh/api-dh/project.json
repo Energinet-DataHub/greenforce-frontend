@@ -71,9 +71,7 @@
       },
       "executor": "@nrwl/workspace:run-commands",
       "options": {
-        "commands": [
-          "npx ts-node tools/dh/api-dh/ci/stop-api-dh.ts"
-        ],
+        "commands": ["npx ts-node tools/dh/api-dh/ci/stop-api-dh.ts"],
         "parallel": false
       },
       "outputs": ["apps/dh/api-dh/source/DataHub.WebApi/bin/Release/net5.0"]
