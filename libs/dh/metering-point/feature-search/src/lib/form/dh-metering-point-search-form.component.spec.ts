@@ -26,47 +26,58 @@ import {
 } from './dh-metering-point-search-form.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
+import {
+  validMeteringPointId,
+  invalidMeteringPointId,
+} from '@energinet-datahub/dh/shared/test-util-metering-point';
+import { DhMeteringPointSearchComponent } from '../dh-metering-point-search.component';
+
+import {
+  dhMeteringPointPath,
+  dhMeteringPointSearchPath,
+} from '@energinet-datahub/dh/metering-point/routing';
+import { TestBed } from '@angular/core/testing';
+import { ActivatedRoute } from '@angular/router';
+
 describe(DhMeteringPointSearchFormComponent.name, () => {
   async function setup() {
-    const { fixture } = await render(DhMeteringPointSearchFormComponent, {
+    const { fixture, navigate } = await render(DhMeteringPointSearchFormComponent, {
       imports: [
         NoopAnimationsModule,
         getTranslocoTestingModule(),
         DhMeteringPointSearchFormScam,
       ],
+      routes: [
+        {
+          path: `${dhMeteringPointPath}/${dhMeteringPointSearchPath}`,
+          component: DhMeteringPointSearchComponent
+        }
+      ]
     });
 
     const submitSpy = jest
       .spyOn(fixture.componentInstance.search, 'emit')
       .mockName('submitSpy');
+
     const input: HTMLInputElement = screen.getByRole('textbox', {
       name: /search-input/i,
     });
 
-    return {
-      input,
-      submitSpy,
-      fixture,
-    };
-  }
-
-  it('should submit the form', async () => {
-    const { submitSpy, input } = await setup();
     const submitButton = screen.getByRole('button', {
       name: da.meteringPoint.search.searchButton,
     });
 
-    userEvent.type(input, 'dsadsad');
-    userEvent.click(submitButton);
+    const activatedRoute = TestBed.inject(ActivatedRoute);
 
-    expect(input.value).toBe('dsadsad');
-    expect(submitSpy).toHaveBeenCalled();
-  });
-
-  it('should render input', async () => {
-    const { input } = await setup();
-    expect(input).toBeInTheDocument();
-  });
+    return {
+      input,
+      submitButton,
+      submitSpy,
+      fixture,
+      navigate,
+      activatedRoute
+    };
+  }
 
   it('should render label', async () => {
     await setup();
@@ -76,8 +87,7 @@ describe(DhMeteringPointSearchFormComponent.name, () => {
 
   it('should focus the input on load', async () => {
     const { input } = await setup();
-    // We check this by attribute, as toHaveFocus is not working unless you do .focus() on the element
-    expect(input).toHaveAttribute('autofocus');
+    expect(input).toHaveFocus();
   });
 
   it('should clear search input', async () => {
@@ -89,38 +99,11 @@ describe(DhMeteringPointSearchFormComponent.name, () => {
     expect(clearButton).toBeInTheDocument();
 
     const value = '23';
-    fireEvent.change(input, { target: { value } });
+    userEvent.type(input, value);
     expect(input.value).toBe(value);
 
     clearButton.click();
     expect(input.value).toBe('');
-  });
-
-  it('should not show errors after clearing search input, but should NOT submit', async () => {
-    const { submitSpy, input } = await setup();
-    const clearButton = screen.getByRole('button', {
-      name: /clear search input/i,
-    });
-    const submitButton = screen.getByRole('button', {
-      name: da.meteringPoint.search.searchButton,
-    });
-
-    const value = '23';
-    fireEvent.change(input, { target: { value } });
-    expect(input.value).toBe(value);
-
-    userEvent.click(clearButton);
-    expect(input.value).toBe('');
-
-    fireEvent.blur(input);
-
-    const error = screen.queryByText(
-      da.meteringPoint.search.searchInvalidLength
-    );
-    expect(error).not.toBeInTheDocument();
-
-    userEvent.click(submitButton);
-    expect(submitSpy).not.toHaveBeenCalled();
   });
 
   it('should not show errors before input has been blurred', async () => {
@@ -136,12 +119,67 @@ describe(DhMeteringPointSearchFormComponent.name, () => {
     ).toBeInTheDocument();
   });
 
-  it('should not submit a invalid form', async () => {
-    const { submitSpy } = await setup();
-    const submitButton = screen.getByRole('button', {
-      name: da.meteringPoint.search.searchButton,
+  describe('on submit', () => {
+    it('should submit valid form, and not show error message', async () => {
+      const { submitButton, submitSpy, input, activatedRoute } = await setup();
+      const errors = screen.queryByText(da.meteringPoint.search.searchInvalidLength);
+
+      userEvent.type(input, validMeteringPointId);
+      userEvent.click(submitButton);
+
+      expect(input).toBeValid();
+      expect(errors).not.toBeInTheDocument();
+      expect(submitSpy).toHaveBeenCalled();
+
+      await waitFor(() => {
+        expect(activatedRoute.snapshot.queryParams).toEqual({q: validMeteringPointId})
+      });
     });
-    fireEvent.click(submitButton);
-    expect(submitSpy).not.toHaveBeenCalled();
+
+    it('should not submit invalid form, but instead show error message and focus input', async () => {
+      const { submitButton, submitSpy, input, activatedRoute } = await setup();
+
+      userEvent.type(input, invalidMeteringPointId);
+      userEvent.click(submitButton);
+
+      const errors = screen.getByText(da.meteringPoint.search.searchInvalidLength);
+
+      expect(input).toBeInvalid();
+      expect(input).toHaveFocus();
+      expect(errors).toBeInTheDocument();
+      expect(submitSpy).not.toHaveBeenCalled();
+
+      await waitFor(() => {
+        expect(activatedRoute.snapshot.queryParams).toEqual({q: invalidMeteringPointId})
+      });
+    });
+  });
+
+  describe('on deeplink', () => {
+    it('should submit form if valid', async () => {
+      const { fixture, input, navigate, submitSpy } = await setup();
+      await navigate(`${dhMeteringPointPath}/${dhMeteringPointSearchPath}?q=${validMeteringPointId}`);
+      fixture.componentInstance.ngOnInit();
+
+      const errors = screen.queryByText(da.meteringPoint.search.searchInvalidLength);
+
+      expect(errors).not.toBeInTheDocument();
+      expect(input.value).toBe(validMeteringPointId)
+      expect(input).toBeValid();
+      expect(submitSpy).toHaveBeenCalledWith(validMeteringPointId);
+    });
+
+    it('should show error message, if not valid', async () => {
+      const { fixture, input, navigate, submitSpy } = await setup();
+      await navigate(`${dhMeteringPointPath}/${dhMeteringPointSearchPath}?q=${invalidMeteringPointId}`);
+      fixture.componentInstance.ngOnInit();
+
+      const errors = screen.getByText(da.meteringPoint.search.searchInvalidLength);
+
+      expect(errors).toBeInTheDocument();
+      expect(input.value).toBe(invalidMeteringPointId);
+      expect(input).toBeInvalid();
+      expect(submitSpy).not.toHaveBeenCalled();
+    });
   });
 });

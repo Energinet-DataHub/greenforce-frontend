@@ -18,7 +18,6 @@ import {
   ChangeDetectionStrategy,
   Component,
   NgModule,
-  OnDestroy,
 } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
 
