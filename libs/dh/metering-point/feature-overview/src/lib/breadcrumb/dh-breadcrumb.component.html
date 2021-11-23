@@ -14,8 +14,10 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<a [routerLink]="meteringPointAbsolutePath" class="watt-text-s">{{
-  'meteringPoint.overview.breadcrumbs.meteringPoints' | transloco
-}}</a>
-<watt-icon name="right"></watt-icon>
-{{ meteringPointId }}
+<nav class="breadcrumb">
+  <a [routerLink]="meteringPointAbsolutePath" class="watt-text-s">{{
+    'meteringPoint.overview.breadcrumb.meteringPoints' | transloco
+  }}</a>
+  <watt-icon name="right"></watt-icon>
+  {{ meteringPointId }}
+</nav>

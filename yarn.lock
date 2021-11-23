@@ -2299,10 +2299,10 @@
   resolved "https://registry.yarnpkg.com/@ngtools/webpack/-/webpack-12.2.13.tgz#44d711edfa39d175a2d655aa5c6f9968dfedcc35"
   integrity sha512-krAwMyRqOaC1S0+IxAFid9F6A6ABip2DJ0tgCx26X+1Vw/d1GKtV9ZqDJFizMf5k1ywl9aBlhOazWpq5d6i+gw==
 
-"@ngworker/router-component-store@~0.0.1":
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/@ngworker/router-component-store/-/router-component-store-0.0.1.tgz#2c1be5a5e8102538c5b491ee3cfa659693c88f3d"
-  integrity sha512-s6erKTiutupaTpac7YWVVU50OkM70FkhlW5AfTw/LEVSCJqhM/wdWGPRnj/mC+IsbHDGYtQWis6rJ+fUdCSu/w==
+"@ngworker/router-component-store@~0.0.2":
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/@ngworker/router-component-store/-/router-component-store-0.0.2.tgz#19da98c8d0525b310c57ddafa742a7f584dca4dc"
+  integrity sha512-jFvEqeZBxSMyQPeR3vTQAJG4dTCIiEyD3fSAp3A8QbWr3ptPBGn0zD2lu+nDDRtGJLVV8AaCYKjN4qAEWnwtWQ==
   dependencies:
     tslib "^2.3.0"
 
@@ -3809,6 +3809,13 @@
     dom-accessibility-api "^0.5.6"
     lodash "^4.17.15"
     redent "^3.0.0"
+
+"@testing-library/user-event@^13.5.0":
+  version "13.5.0"
+  resolved "https://registry.yarnpkg.com/@testing-library/user-event/-/user-event-13.5.0.tgz#69d77007f1e124d55314a2b73fd204b333b13295"
+  integrity sha512-5Kwtbo3Y/NowpkbRuSepbyMFkZmHgD+vPzYB/RJ4oxt5Gj/avFFBYjhw27cqSVPVw/3a67NK1PbiIr9k4Gwmdg==
+  dependencies:
+    "@babel/runtime" "^7.12.5"
 
 "@tootallnate/once@1":
   version "1.1.2"
@@ -8271,10 +8278,10 @@ eslint-plugin-cypress@^2.10.3:
   dependencies:
     globals "^11.12.0"
 
-eslint-plugin-ngrx@^1.46.4:
-  version "1.46.4"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-ngrx/-/eslint-plugin-ngrx-1.46.4.tgz#1a205310d05563419621abde6acec1f5516bc768"
-  integrity sha512-xMEFh+kSttj0Mp8z8sj2X4viKDxjEjFmqWuUe/LMny7N4vIxD0VSIUBq3RU8DjkefaFt9z5wa4qwiWUGa1Dw0Q==
+eslint-plugin-ngrx@^1.47.1:
+  version "1.47.1"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-ngrx/-/eslint-plugin-ngrx-1.47.1.tgz#b78e47823dc36390f3214f0a8840f21a8b1713c4"
+  integrity sha512-o2b0nGFiwHSRty0CqfxopRoEp5ZsxMUPgyEiXOHnRhWsiZMYDfksy/+ULtw3Sv71Fugora3eH5kG98IyyG3oog==
   dependencies:
     "@angular-devkit/schematics" "^12.2.2"
     "@typescript-eslint/experimental-utils" "^4.31.1"

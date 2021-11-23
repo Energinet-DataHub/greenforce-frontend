@@ -14,9 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { LocalRouterStore } from '@ngworker/router-component-store';
 import { DhDataAccessMeteringPointStore } from '@energinet-datahub/dh/metering-point/data-access-metering-point';
+import { WattBadgeModule, WattSpinnerModule } from '@energinet-datahub/watt';
+import { LetModule } from '@rx-angular/template';
+
+import { DhBreadcrumbScam } from './breadcrumb/dh-breadcrumb.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -31,3 +36,15 @@ export class DhMeteringPointOverviewComponent {
 
   constructor(private store: DhDataAccessMeteringPointStore) {}
 }
+
+@NgModule({
+  declarations: [DhMeteringPointOverviewComponent],
+  imports: [
+    CommonModule,
+    LetModule,
+    DhBreadcrumbScam,
+    WattBadgeModule,
+    WattSpinnerModule,
+  ],
+})
+export class DhMeteringPointOverviewScam {}

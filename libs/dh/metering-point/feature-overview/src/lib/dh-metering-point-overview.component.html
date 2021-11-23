@@ -17,9 +17,9 @@ limitations under the License.
 <ng-container
   *rxLet="meteringPoint$ as meteringPoint; rxSuspense: suspenseTemplate"
 >
-  <dh-breadcrumbs
+  <dh-breadcrumb
     [meteringPointId]="meteringPoint?.gsrnNumber ?? ''"
-  ></dh-breadcrumbs>
+  ></dh-breadcrumb>
   <div class="overview__header">
     <div class="watt-text-s">
       {{ meteringPoint?.meteringPointType }}

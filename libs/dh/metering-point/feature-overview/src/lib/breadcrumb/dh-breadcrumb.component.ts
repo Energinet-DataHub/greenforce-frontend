@@ -14,16 +14,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, Input } from '@angular/core';
-import { dhMeteringPointPath } from '@energinet-datahub/dh/metering-point/routing';
+import { NgModule, Component, Input } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { TranslocoModule } from '@ngneat/transloco';
+import { WattIconModule } from '@energinet-datahub/watt';
+
+import { dhMeteringPointPath } from '../routing/dh-metering-point-path';
 
 @Component({
-  selector: 'dh-breadcrumbs',
-  templateUrl: './dh-breadcrumbs.component.html',
-  styleUrls: ['./dh-breadcrumbs.component.scss'],
+  selector: 'dh-breadcrumb',
+  templateUrl: './dh-breadcrumb.component.html',
+  styleUrls: ['./dh-breadcrumb.component.scss'],
 })
-export class DhBreadcrumbsComponent {
+export class DhBreadcrumbComponent {
   meteringPointAbsolutePath = ['/', dhMeteringPointPath];
 
   @Input() meteringPointId = '';
 }
+
+@NgModule({
+  declarations: [DhBreadcrumbComponent],
+  exports: [DhBreadcrumbComponent],
+  imports: [CommonModule, RouterModule, TranslocoModule, WattIconModule],
+})
+export class DhBreadcrumbScam {}

@@ -6,7 +6,6 @@ import {
   MeteringPointDto,
   MeteringPointHttp,
 } from '@energinet-datahub/dh/shared/data-access-api';
-import { dhMeteringPointIdParam } from '@energinet-datahub/dh/metering-point/routing';
 import { WattBadgeType } from '@energinet-datahub/watt';
 
 import { connectionStateToBadgeType } from './connection-state-to-badge-type';
@@ -46,7 +45,7 @@ export class DhDataAccessMeteringPointStore extends ComponentStore<MeteringPoint
   }
 
   loadMeteringPointData = this.effect(() => {
-    return this.route.selectRouteParam<string>(dhMeteringPointIdParam).pipe(
+    return this.route.selectRouteParam<string>('metering-point-id').pipe(
       switchMap((meteringPointId: string) =>
         this.httpClient.v1MeteringPointGetByGsrnGet(meteringPointId).pipe(
           tapResponse(

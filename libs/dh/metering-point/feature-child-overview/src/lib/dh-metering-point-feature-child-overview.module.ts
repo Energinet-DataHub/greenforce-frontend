@@ -14,6 +14,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './lib/dh-metering-point-overview.guard';
-export * from './lib/dh-metering-point-path';
-export * from './lib/dh-metering-point-id-param';
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+
+import {
+  DhMeteringPointChildOverviewComponent,
+  DhMeteringPointChildOverviewScam,
+} from './dh-metering-point-child-overview.component';
+
+const routes: Routes = [
+  {
+    path: 'child/:child-id',
+    component: DhMeteringPointChildOverviewComponent,
+  },
+];
+
+@NgModule({
+  imports: [DhMeteringPointChildOverviewScam, RouterModule.forChild(routes)],
+})
+export class DhMeteringPointFeatureChildOverviewModule {}
