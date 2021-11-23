@@ -1,4 +1,4 @@
-ett-base-helm-chart:
+eo-base-helm-chart:
   deployments:
     - name: app
       replicaCount: 2
