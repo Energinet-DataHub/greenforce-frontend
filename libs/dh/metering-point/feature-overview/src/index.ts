@@ -14,6 +14,5 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './lib/dh-metering-point-overview.component';
+export * from './lib/dh-metering-point-feature-overview.module';
 export * from './lib/routing/dh-metering-point-path';
-export * from './lib/routing/route';

@@ -17,19 +17,15 @@
 import { render, RenderResult, screen } from '@testing-library/angular';
 import { SpectacularAppComponent } from '@ngworker/spectacular';
 
-import {
-  DhMeteringPointOverviewComponent,
-  DhMeteringPointOverviewScam,
-} from './dh-metering-point-overview.component';
+import { DhMeteringPointOverviewComponent } from './dh-metering-point-overview.component';
+import { DhMeteringPointFeatureOverviewModule } from './dh-metering-point-feature-overview.module';
 
-import { meteringPointRoute } from './routing/route';
 import { dhMeteringPointPath } from './routing/dh-metering-point-path';
 
 describe(DhMeteringPointOverviewComponent.name, () => {
   beforeEach(async () => {
     view = await render(SpectacularAppComponent, {
-      imports: [DhMeteringPointOverviewScam],
-      routes: [meteringPointRoute],
+      imports: [DhMeteringPointFeatureOverviewModule],
     });
   });
 
