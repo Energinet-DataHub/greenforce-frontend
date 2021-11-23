@@ -1,7 +1,7 @@
 {
   "root": true,
   "ignorePatterns": ["**/*"],
-  "plugins": ["@nrwl/nx", "ngrx"],
+  "plugins": ["@nrwl/nx"],
   "overrides": [
     {
       "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
@@ -189,9 +189,7 @@
     },
     {
       "files": ["*.ts"],
-      "rules": {
-        "ngrx/updater-explicit-return-type": "error"
-      }
+      "extends": ["plugin:ngrx/component-store-strict"]
     },
     {
       "files": ["*.js", "*.ts"],
