@@ -14,7 +14,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+ import {
+  TranslocoTestingModule,
+  TranslocoTestingOptions,
+} from '@ngneat/transloco';
 
-export * from './lib/dh-transloco-testing.module';
-export * from './lib/invalid-metering-point-id';
-export * from './lib/valid-metering-point-id';
+import {
+  da,
+  en,
+} from '@energinet-datahub/dh/globalization/assets-localization';
+
+export function getTranslocoTestingModule(
+  options: TranslocoTestingOptions = {}
+) {
+  return TranslocoTestingModule.forRoot({
+    langs: { da, en },
+    translocoConfig: {
+      availableLangs: ['da', 'en'],
+      defaultLang: 'da',
+    },
+    preloadLangs: true,
+    ...options,
+  });
+}

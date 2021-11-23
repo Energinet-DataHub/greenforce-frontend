@@ -14,6 +14,8 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
     "paths": {
       "@angular/*": ["./node_modules/@angular/*"],
       "@energinet-datahub/dh/core/shell": ["libs/dh/core/shell/src/index.ts"],
