@@ -14,4 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+// API environment
+export * from './lib/api-environment/dh-api-environment';
+export * from './lib/api-environment/load-dh-api-environment';
+
+// Application environment
 export * from './lib/environment';

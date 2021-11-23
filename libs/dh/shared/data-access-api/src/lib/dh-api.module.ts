@@ -15,13 +15,8 @@
  * limitations under the License.
  */
 import { HttpClient } from '@angular/common/http';
-import {
-  ModuleWithProviders,
-  NgModule,
-  Optional,
-  SkipSelf,
-} from '@angular/core';
-import { environment } from '@energinet-datahub/dh/shared/environments';
+import { inject, ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
+import { dhApiEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 
 import { ApiModule, Configuration } from './generated/v1';
 
@@ -33,7 +28,7 @@ import { ApiModule, Configuration } from './generated/v1';
     ApiModule.forRoot(
       () =>
         new Configuration({
-          basePath: environment.apiBase,
+          basePath: inject(dhApiEnvironmentToken).apiBase,
         })
     ),
   ],

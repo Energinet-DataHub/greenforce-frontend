@@ -17,6 +17,7 @@
 import { Component, NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { DhLanguagePickerModule } from '@energinet-datahub/dh/globalization/feature-language-picker';
+import { MeteringPointHttp } from '@energinet-datahub/dh/shared/data-access-api';
 import { WattShellModule } from '@energinet-datahub/watt';
 import { TranslocoModule } from '@ngneat/transloco';
 
@@ -25,7 +26,13 @@ import { TranslocoModule } from '@ngneat/transloco';
   styleUrls: ['./dh-core-shell.component.scss'],
   templateUrl: './dh-core-shell.component.html',
 })
-export class DhCoreShellComponent {}
+export class DhCoreShellComponent {
+  constructor(http: MeteringPointHttp) {
+    http
+      .v1MeteringPointGetByGsrnGet('571313180400014077')
+      .subscribe(console.log, console.error);
+  }
+}
 
 @NgModule({
   declarations: [DhCoreShellComponent],
