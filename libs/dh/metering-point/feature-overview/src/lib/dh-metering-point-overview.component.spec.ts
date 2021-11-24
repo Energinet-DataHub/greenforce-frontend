@@ -25,6 +25,7 @@ import {
   SpectacularFeatureRouter,
   SpectacularFeatureLocation,
 } from '@ngworker/spectacular';
+import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
 
 import { DhMeteringPointOverviewComponent } from './dh-metering-point-overview.component';
 import { DhMeteringPointFeatureOverviewModule } from './dh-metering-point-feature-overview.module';
@@ -40,6 +41,7 @@ describe(DhMeteringPointOverviewComponent.name, () => {
     view = await render(SpectacularAppComponent, {
       imports: [
         RouterTestingModule,
+        getTranslocoTestingModule(),
         SpectacularFeatureTestingModule.withFeature({
           featureModule: DhMeteringPointFeatureOverviewModule,
           featurePath: dhMeteringPointPath,
