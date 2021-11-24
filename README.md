@@ -114,7 +114,7 @@ Allowed dependencies to: `util`, `test-util`.
 ### Test-util libraries
 
 Stubs, jest matchers, testing modules, test library configuration
-Allowed dependencies to: `data-access`, `util`, `test-util`, `domain`.
+Allowed dependencies to: `data-access`, `util`, `test-util`, `domain`, `configuration`, `assets`.
 
 ### E2E-util libraries
 

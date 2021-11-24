@@ -86,7 +86,9 @@
                 "onlyDependOnLibsWithTags": [
                   "type:data-access",
                   "type:util",
-                  "type:test-util"
+                  "type:test-util",
+                  "type:configuration",
+                  "type:assets"
                 ]
               },
               {
