@@ -14,5 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './lib/invalid-metering-point-id';
-export * from './lib/valid-metering-point-id';
+import da from './assets/i18n/da.json';
+import en from './assets/i18n/en.json';
+
+export { da, en };
