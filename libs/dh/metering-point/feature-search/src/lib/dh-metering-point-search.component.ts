@@ -14,12 +14,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { ChangeDetectionStrategy, Component, NgModule, OnInit } from '@angular/core';
+import { LocalRouterStore } from '@ngworker/router-component-store';
 import { TranslocoModule } from '@ngneat/transloco';
 
 import { WattEmptyStateModule } from '@energinet-datahub/watt';
 
+import { dhMeteringPointPath } from '@energinet-datahub/dh/metering-point/routing';
 import { DhMeteringPointSearchFormScam } from './form/dh-metering-point-search-form.component';
+import { filter, take } from 'rxjs';
+import { PushModule } from '@rx-angular/template';
+import { Router } from '@angular/router';
+
+// TODO: Should be removed:
+import { DhDataAccessMeteringPointStore } from './should-be-removed/dh-data-access-metering-point.store';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -50,20 +59,47 @@ import { DhMeteringPointSearchFormScam } from './form/dh-metering-point-search-f
       <h1>{{ transloco('title') }}</h1>
 
       <dh-metering-point-search-form
+        [loading]="isLoading$ | push"
         (search)="onSubmit($event)"
       ></dh-metering-point-search-form>
 
       <watt-empty-state
+        *ngIf="notFound$ | push"
         icon="explore"
         [title]="transloco('noMeteringPointFoundTitle')"
         [message]="transloco('noMeteringPointFoundMessage')"
       ></watt-empty-state>
     </ng-container>
   `,
+  providers: [LocalRouterStore, DhDataAccessMeteringPointStore],
 })
-export class DhMeteringPointSearchComponent {
+export class DhMeteringPointSearchComponent implements OnInit {
+  isLoading$ = this.store.select((state) => state.isLoading);
+  notFound$ = this.store.select((state) => state.notFound);
+  hasError$ = this.store.select((state) => state.hasError);
+  meteringPointLoaded$ = this.store
+  .select((state) => state.meteringPoint)
+  .pipe(
+    filter((x) => !!x),
+    take(1)
+  );
+
+  constructor(private router: Router, private store: DhDataAccessMeteringPointStore) {}
+
+  ngOnInit() {
+    this.meteringPointLoaded$.subscribe((meteringPoint) => {
+      this.router.navigate([`/${dhMeteringPointPath}/${meteringPoint?.gsrnNumber}`]);
+    });
+  }
+
   onSubmit(id: string) {
-    console.log('Fetching...', id);
+    this.store.setState({
+      meteringPoint: undefined,
+      isLoading: true,
+      hasError: false,
+      notFound: false,
+    });
+    this.store.loadMeteringPointData(id);
   }
 }
 
@@ -72,6 +108,8 @@ export class DhMeteringPointSearchComponent {
     DhMeteringPointSearchFormScam,
     WattEmptyStateModule,
     TranslocoModule,
+    PushModule,
+    CommonModule,
   ],
   declarations: [DhMeteringPointSearchComponent],
 })

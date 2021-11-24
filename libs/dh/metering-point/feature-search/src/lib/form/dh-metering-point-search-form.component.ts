@@ -21,6 +21,7 @@ import {
   Component,
   ElementRef,
   EventEmitter,
+  Input,
   NgModule,
   OnInit,
   Output,
@@ -53,10 +54,10 @@ import { meteringPointIdValidator } from './dh-metering-point.validator';
 export class DhMeteringPointSearchFormComponent
   implements OnInit, AfterViewInit
 {
+  @Input() loading = false;
   @Output() search = new EventEmitter<string>();
   @ViewChild('searchInput') searchInput?: ElementRef;
 
-  loading = false;
   searchControl = new FormControl('', [meteringPointIdValidator()]);
 
   constructor(
@@ -91,13 +92,6 @@ export class DhMeteringPointSearchFormComponent
       this.focusSearchInput();
       return;
     } else if (this.loading) return;
-
-    /*
-     * If detectChanges is not called,
-     * loading indicator will not be shown until the user blur the input
-     */
-    this.loading = true;
-    this.changeDetectorRef.detectChanges();
 
     this.search.emit(this.searchControl.value);
   }
