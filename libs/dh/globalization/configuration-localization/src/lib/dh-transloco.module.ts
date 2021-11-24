@@ -29,25 +29,27 @@ import {
   TranslocoModule,
 } from '@ngneat/transloco';
 
+export const dhTranslocoConfig = {
+  availableLangs: [DisplayLanguage.Danish, DisplayLanguage.English],
+  defaultLang: DisplayLanguage.Danish,
+  fallbackLang: [DisplayLanguage.Danish, DisplayLanguage.English],
+  flatten: {
+    aot: environment.production,
+  },
+  missingHandler: {
+    useFallbackTranslation: true,
+  },
+  // Remove this option if your application doesn't support changing language in runtime.
+  reRenderOnLangChange: true,
+  prodMode: environment.production,
+};
+
 @NgModule({
   imports: [TranslocoModule],
   providers: [
     {
       provide: TRANSLOCO_CONFIG,
-      useValue: translocoConfig({
-        availableLangs: [DisplayLanguage.Danish, DisplayLanguage.English],
-        defaultLang: DisplayLanguage.Danish,
-        fallbackLang: [DisplayLanguage.Danish, DisplayLanguage.English],
-        flatten: {
-          aot: environment.production,
-        },
-        missingHandler: {
-          useFallbackTranslation: true,
-        },
-        // Remove this option if your application doesn't support changing language in runtime.
-        reRenderOnLangChange: true,
-        prodMode: environment.production,
-      }),
+      useValue: translocoConfig(dhTranslocoConfig),
     },
     dhTranslocoHttpLoaderProvider,
   ],
@@ -65,7 +67,6 @@ export class DhTranslocoRootModule {
     }
   }
 }
-
 /**
  * Do not import directly. Use `DhTranslocoModule.forRoot`.
  */
