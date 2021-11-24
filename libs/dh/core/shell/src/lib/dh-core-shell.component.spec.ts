@@ -29,7 +29,7 @@ import {
 describe(DhCoreShellComponent.name, () => {
   beforeEach(async () => {
     view = await render(DhCoreShellComponent, {
-      imports: [DhCoreShellScam],
+      imports: [getTranslocoTestingModule(), DhCoreShellScam],
     });
   });
 
