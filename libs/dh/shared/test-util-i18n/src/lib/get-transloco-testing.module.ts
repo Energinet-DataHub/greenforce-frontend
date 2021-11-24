@@ -33,7 +33,7 @@ export function getTranslocoTestingModule(
     langs: { da, en },
     translocoConfig: {
       ...dhTranslocoConfig,
-      defaultLang: DisplayLanguage.English
+      defaultLang: DisplayLanguage.English,
     },
     preloadLangs: true,
     ...options,
