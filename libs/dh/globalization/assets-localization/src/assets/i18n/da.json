@@ -13,7 +13,13 @@
     "overview": {
       "breadcrumb": {
         "meteringPoints": "Målepunkter"
-      }
+      },
+      "meteringPointType": "Målepunktstype",
+      "meteringPointSubType": "Målepunktsart",
+      "gsrnNumber": "Målepunkts ID",
+      "connectionState": "Tilslutningsstatus",
+      "settlementMethod": "Afregningsform",
+      "readingOccurrence": "Aflæsningsfrevens"
     }
   }
 }

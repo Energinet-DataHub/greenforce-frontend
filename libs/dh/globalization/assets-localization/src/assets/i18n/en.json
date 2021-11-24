@@ -13,7 +13,13 @@
     "overview": {
       "breadcrumb": {
         "meteringPoints": "Metering points"
-      }
+      },
+      "meteringPointType": "Type of Metering Point",
+      "meteringPointSubType": "Metering Method",
+      "gsrnNumber": "Metering Point ID",
+      "connectionState": "Connection State",
+      "settlementMethod": "Settlement Method",
+      "readingOccurrence": "Meter Reading Periodicity"
     }
   }
 }
