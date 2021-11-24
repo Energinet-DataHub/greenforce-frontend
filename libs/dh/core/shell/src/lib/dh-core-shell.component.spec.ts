@@ -41,7 +41,7 @@ describe(DhCoreShellComponent.name, () => {
     );
 
     expect(
-      screen.queryByRole('heading', { name: /datahub \[da\]/i })
+      screen.queryByRole('heading', { name: /datahub \[en\]/i })
     ).toBeInTheDocument();
     expect(wattShell.componentInstance).toBeInstanceOf(WattShellComponent);
   });
