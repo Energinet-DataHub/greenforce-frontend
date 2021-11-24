@@ -40,7 +40,9 @@ describe(DhCoreShellComponent.name, () => {
       By.directive(WattShellComponent)
     );
 
-    expect(screen.queryByRole('heading', { name: /datahub \[da\]/i })).toBeInTheDocument();
+    expect(
+      screen.queryByRole('heading', { name: /datahub \[da\]/i })
+    ).toBeInTheDocument();
     expect(wattShell.componentInstance).toBeInstanceOf(WattShellComponent);
   });
 });
