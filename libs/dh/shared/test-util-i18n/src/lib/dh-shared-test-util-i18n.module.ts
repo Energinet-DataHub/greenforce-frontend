@@ -23,16 +23,14 @@ import {
   da,
   en,
 } from '@energinet-datahub/dh/globalization/assets-localization';
+import { dhTranslocoConfig } from '@energinet-datahub/dh/globalization/configuration-localization';
 
 export function getTranslocoTestingModule(
   options: TranslocoTestingOptions = {}
 ) {
   return TranslocoTestingModule.forRoot({
     langs: { da, en },
-    translocoConfig: {
-      availableLangs: ['da', 'en'],
-      defaultLang: 'da',
-    },
+    translocoConfig: dhTranslocoConfig,
     preloadLangs: true,
     ...options,
   });
