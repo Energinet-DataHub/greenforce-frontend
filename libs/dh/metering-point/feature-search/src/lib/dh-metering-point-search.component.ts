@@ -74,6 +74,13 @@ import { DhDataAccessMeteringPointStore } from './should-be-removed/dh-data-acce
         [title]="transloco('noMeteringPointFoundTitle')"
         [message]="transloco('noMeteringPointFoundMessage')"
       ></watt-empty-state>
+
+      <watt-empty-state
+        *ngIf="hasError$ | push"
+        icon="power"
+        [title]="transloco('serverErrorTitle')"
+        [message]="transloco('serverErrorMessage')"
+      ></watt-empty-state>
     </ng-container>
   `,
   providers: [LocalRouterStore, DhDataAccessMeteringPointStore],

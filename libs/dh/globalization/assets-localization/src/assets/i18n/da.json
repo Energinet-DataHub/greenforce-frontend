@@ -8,7 +8,9 @@
       "searchButton": "Søg",
       "searchInvalidLength": "Målepunkts ID’et skal være 18 cifre",
       "noMeteringPointFoundTitle": "Vi fandt Desværre intet målepunkt",
-      "noMeteringPointFoundMessage": "Tjek for eventuelle tastefejl og prøv igen"
+      "noMeteringPointFoundMessage": "Tjek for eventuelle tastefejl og prøv igen",
+      "serverErrorTitle": "Ups! Der opstod en fejl",
+      "serverErrorMessage": "Der opstod desværre en fejl, da vi skulle hente de nødvendige oplysninger."
     }
   }
 }
