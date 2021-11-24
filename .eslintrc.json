@@ -85,6 +85,7 @@
                 "sourceTag": "type:test-util",
                 "onlyDependOnLibsWithTags": [
                   "type:data-access",
+                  "type:domain",
                   "type:util",
                   "type:test-util",
                   "type:configuration",
