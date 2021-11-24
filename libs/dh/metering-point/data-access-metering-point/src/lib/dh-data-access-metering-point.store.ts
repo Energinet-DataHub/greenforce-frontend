@@ -6,9 +6,8 @@ import {
   MeteringPointDto,
   MeteringPointHttp,
 } from '@energinet-datahub/dh/shared/data-access-api';
+import { connectionStateToBadgeType } from '@energinet-datahub/dh/metering-point/domain';
 import { WattBadgeType } from '@energinet-datahub/watt';
-
-import { connectionStateToBadgeType } from './connection-state-to-badge-type';
 
 interface MeteringPointState {
   meteringPoint?: MeteringPointDto;
