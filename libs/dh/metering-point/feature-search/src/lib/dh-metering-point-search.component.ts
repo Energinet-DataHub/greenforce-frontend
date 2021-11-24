@@ -15,7 +15,12 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, NgModule, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  NgModule,
+  OnInit,
+} from '@angular/core';
 import { LocalRouterStore } from '@ngworker/router-component-store';
 import { TranslocoModule } from '@ngneat/transloco';
 
@@ -78,17 +83,22 @@ export class DhMeteringPointSearchComponent implements OnInit {
   notFound$ = this.store.select((state) => state.notFound);
   hasError$ = this.store.select((state) => state.hasError);
   meteringPointLoaded$ = this.store
-  .select((state) => state.meteringPoint)
-  .pipe(
-    filter((x) => !!x),
-    take(1)
-  );
+    .select((state) => state.meteringPoint)
+    .pipe(
+      filter((x) => !!x),
+      take(1)
+    );
 
-  constructor(private router: Router, private store: DhDataAccessMeteringPointStore) {}
+  constructor(
+    private router: Router,
+    private store: DhDataAccessMeteringPointStore
+  ) {}
 
   ngOnInit() {
     this.meteringPointLoaded$.subscribe((meteringPoint) => {
-      this.router.navigate([`/${dhMeteringPointPath}/${meteringPoint?.gsrnNumber}`]);
+      this.router.navigate([
+        `/${dhMeteringPointPath}/${meteringPoint?.gsrnNumber}`,
+      ]);
     });
   }
 

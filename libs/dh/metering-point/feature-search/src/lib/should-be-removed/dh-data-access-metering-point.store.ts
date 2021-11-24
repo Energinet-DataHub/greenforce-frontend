@@ -45,48 +45,45 @@ export class DhDataAccessMeteringPointStore extends ComponentStore<MeteringPoint
     }))
   );
 
-  constructor(
-    private httpClient: MeteringPointHttp,
-  ) {
+  constructor(private httpClient: MeteringPointHttp) {
     super(initialState);
   }
 
-  readonly loadMeteringPointData = this.effect((meteringPointId: Observable<string>) => {
-    return meteringPointId.pipe(
-      switchMap(
-        (id) => this.httpClient.v1MeteringPointGetByGsrnGet(id).pipe(
-          tapResponse(
-            (meteringPointData) =>
-              this.updateMeteringPointData(meteringPointData),
-            (error: HttpErrorResponse) => this.handleError(error)
+  readonly loadMeteringPointData = this.effect(
+    (meteringPointId: Observable<string>) => {
+      return meteringPointId.pipe(
+        switchMap((id) =>
+          this.httpClient.v1MeteringPointGetByGsrnGet(id).pipe(
+            tapResponse(
+              (meteringPointData) =>
+                this.updateMeteringPointData(meteringPointData),
+              (error: HttpErrorResponse) => this.handleError(error)
+            )
           )
         )
-      ),
-    );
-  });
+      );
+    }
+  );
 
   private handleError = this.updater(
-    (
-      _: MeteringPointState,
-      error: HttpErrorResponse
-    ): MeteringPointState => {
-      if(error.status === 404) {
+    (_: MeteringPointState, error: HttpErrorResponse): MeteringPointState => {
+      if (error.status === 404) {
         return {
           meteringPoint: undefined,
           hasError: false,
           notFound: true,
           isLoading: false,
-        }
+        };
       } else {
         return {
           meteringPoint: undefined,
           hasError: true,
           notFound: false,
           isLoading: false,
-        }
+        };
       }
     }
-  )
+  );
 
   private updateMeteringPointData = this.updater(
     (
