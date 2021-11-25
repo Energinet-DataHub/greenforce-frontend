@@ -33,13 +33,35 @@ const selector = 'ett-primary-navigation';
     `
       ${selector} {
         display: block;
+
+        mat-nav-list {
+          color: white;
+          font-weight: bold;
+          border-left: transparent solid 10px;
+
+          .active {
+            border-left: #facf42 solid 10px;
+          }
+        }
       }
     `,
   ],
   template: `
     <mat-nav-list>
+      <div mat-list-item>
+        <img src="/assets/logo.png" style="width: 100%;">
+      </div>
       <a mat-list-item routerLink="/dashboard" routerLinkActive="active">
         Dashboard
+      </a>
+      <a mat-list-item routerLink="/facilities" routerLinkActive="active">
+        Facilities
+      </a>
+      <a mat-list-item routerLink="/certificates" routerLinkActive="active">
+        Certificates
+      </a>
+      <a mat-list-item routerLink="/support" routerLinkActive="active">
+        Support
       </a>
     </mat-nav-list>
   `,

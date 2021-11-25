@@ -16,14 +16,22 @@
  */
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   NgModule,
+  OnInit,
   ViewEncapsulation,
 } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
+import { AuthOidcHttp, GetProfileResponse, UserProfile } from '@energinet-datahub/ett/auth/data-access-api';
 import { WattShellModule } from '@energinet-datahub/watt';
+import { WattButtonModule } from '@energinet-datahub/watt';
+import { MatIconModule } from '@angular/material/icon'; // TODO Import from Watt?
+import { MatMenuModule } from '@angular/material/menu'; // TODO Import from Watt?
+import { map, catchError } from 'rxjs';
 
 import { EttPrimaryNavigationScam } from './ett-primary-navigation.component';
+import { CommonModule } from '@angular/common';
 
 const selector = 'ett-shell';
 
@@ -35,27 +43,131 @@ const selector = 'ett-shell';
     `
       ${selector} {
         display: block;
+
+        .toolbar {
+          width: 100%;
+          display: flex;
+
+          h1 {
+            flex: auto;
+          }
+
+          .menu {
+            align-self: flex-end;
+          }
+        }
       }
     `,
   ],
   template: `
-    <watt-shell>
+    <div *ngIf="profileLoading">
+      Loading
+    </div>
+
+    <watt-shell *ngIf="!profileLoading">
       <ng-container watt-shell-sidenav>
         <ett-primary-navigation></ett-primary-navigation>
       </ng-container>
 
       <ng-container watt-shell-toolbar>
-        <h1>Energy Track and Trace</h1>
+        <div class="toolbar">
+          <h1>Energy Origin</h1>
+          <div class="menu">
+            <watt-button
+              type="text"
+              size="normal"
+              [disabled]="false"
+              [loading]="false"
+              [matMenuTriggerFor]="menu">
+                {{ profile?.name }}
+                <mat-icon aria-hidden="false" aria-label="Logout">expand_more</mat-icon>
+            </watt-button>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item (click)="logout()">Logout</button>
+            </mat-menu>
+          </div>
+        </div>
       </ng-container>
 
       <router-outlet></router-outlet>
     </watt-shell>
   `,
 })
-export class EttShellComponent {}
+export class EttShellComponent implements OnInit {
+
+  profile?: UserProfile;
+  profileLoading = true;
+
+  constructor(
+    private router: Router,
+    private change: ChangeDetectorRef,
+    private authOidc: AuthOidcHttp,
+  ) {}
+
+  ngOnInit() {
+    this.getProfile();
+  }
+
+  // -- Logout ---------------------------------------------------------------
+
+  logout() {
+    this.authOidc
+      .logout()
+      .pipe(map((response) => response.success))
+      .subscribe({
+        next: this.onLogoutComplete.bind(this),
+        error: this.onLogoutFailed.bind(this),
+      });
+  }
+
+  private onLogoutComplete(success: boolean) {
+    if(success) {
+      this.router.navigate(['/login']);
+    }
+  }
+
+  private onLogoutFailed(error: any) {
+    // TODO Test this
+    console.log('onLogoutFailed', error);
+  }
+
+  // -- GetProfile -----------------------------------------------------------
+
+  getProfile() {
+    this.profileLoading = true;
+    this.authOidc
+      .getProfile()
+      .subscribe({
+        next: this.onGetProfileComplete.bind(this),
+        error: this.onGetProfileFailed.bind(this),
+      });
+  }
+
+  private onGetProfileComplete(response?: GetProfileResponse) {
+    if(response?.success) {
+      this.profile = response.profile;
+      this.profileLoading = false;
+      // TODO Replace with observables:
+      this.change.markForCheck();
+    }
+  }
+
+  private onGetProfileFailed(error: any) {
+    // TODO Test this
+    console.log('onGetProfileFailed', error);
+  }
+}
 
 @NgModule({
   declarations: [EttShellComponent],
-  imports: [RouterModule, WattShellModule, EttPrimaryNavigationScam],
+  imports: [
+    CommonModule,
+    RouterModule,
+    WattShellModule,
+    WattButtonModule,
+    MatIconModule,
+    MatMenuModule,
+    EttPrimaryNavigationScam,
+  ],
 })
 export class EttShellScam {}
