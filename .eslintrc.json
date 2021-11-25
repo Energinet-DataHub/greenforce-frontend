@@ -1,7 +1,7 @@
 {
   "root": true,
   "ignorePatterns": ["**/*"],
-  "plugins": ["@nrwl/nx", "ngrx"],
+  "plugins": ["@nrwl/nx"],
   "overrides": [
     {
       "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
@@ -73,7 +73,8 @@
                   "type:routing",
                   "type:util",
                   "type:test-util",
-                  "type:shell"
+                  "type:shell",
+                  "type:domain"
                 ]
               },
               {
@@ -84,8 +85,11 @@
                 "sourceTag": "type:test-util",
                 "onlyDependOnLibsWithTags": [
                   "type:data-access",
+                  "type:domain",
                   "type:util",
-                  "type:test-util"
+                  "type:test-util",
+                  "type:configuration",
+                  "type:assets"
                 ]
               },
               {
@@ -183,9 +187,17 @@
     },
     {
       "files": ["*.ts", "*.tsx"],
-      "extends": ["plugin:@nrwl/nx/typescript"],
+      "extends": ["plugin:@nrwl/nx/typescript"]
+    },
+    {
+      "files": ["*.ts"],
+      "extends": ["plugin:ngrx/component-store-strict"]
+    },
+    {
+      "files": ["*.js", "*.ts"],
+      "extends": ["plugin:sonarjs/recommended"],
       "rules": {
-        "ngrx/updater-explicit-return-type": "error"
+        "sonarjs/cognitive-complexity": ["error", 8]
       }
     },
     {

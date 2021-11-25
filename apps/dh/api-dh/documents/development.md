@@ -14,7 +14,7 @@ It can also:
 
 - Automatically add a license header to files for which it is missing, but will ignore apps of type `api`.
 
-### `workspace.yml`
+### `frontend-ci.yml`
 
 This workflow builds, lint, format and runs tests for the frontend applications and design system.
 

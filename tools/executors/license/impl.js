@@ -173,13 +173,15 @@ function addLicenseExecutor(options) {
   return __awaiter(this, void 0, void 0, function () {
     var globs, success, files;
     return __generator(this, function (_a) {
-      globs = Object.keys(config);
+      globs = Object.keys(config).filter(function (glob) {
+        return glob !== 'ignore';
+      });
       success = true;
       console.info('Adding licenses...');
       files = glob.sync(
         '{,!(node_modules|dist)/**/*}*{' + globs.join(',') + '}',
         {
-          ignore: ['**/api-*/**/*'],
+          ignore: config.ignore,
         }
       );
       files.forEach(function (file) {

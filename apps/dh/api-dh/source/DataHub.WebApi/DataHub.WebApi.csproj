@@ -29,6 +29,11 @@ limitations under the License.
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="dotnet tool restore" />
+    <Exec Command="dotnet swagger tofile --output $(OutputPath)/swagger.json $(OutputPath)/$(AssemblyName).dll v1" />
+  </Target>
+
   <ItemGroup>
     <PackageReference Include="Energinet.DataHub.MeteringPoints.Client" Version="0.0.6" />
     <PackageReference Include="Energinet.DataHub.MeteringPoints.Client.Abstractions" Version="0.0.6" />
