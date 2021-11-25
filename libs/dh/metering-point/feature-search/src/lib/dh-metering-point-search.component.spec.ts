@@ -41,9 +41,11 @@ describe(DhMeteringPointSearchComponent.name, () => {
     expect(heading).toBeInTheDocument();
   });
 
+  /*
   it('should redirect to overview, if metering point is found', () => {});
 
   it('should show empty state if no metering point is found', () => {});
 
   it('should show error if request failed', () => {});
+  */
 });

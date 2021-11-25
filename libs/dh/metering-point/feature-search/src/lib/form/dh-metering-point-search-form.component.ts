@@ -44,7 +44,6 @@ import {
 } from '@energinet-datahub/watt';
 
 import { meteringPointIdValidator } from './dh-metering-point.validator';
-import { HttpClientModule } from '@angular/common/http';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

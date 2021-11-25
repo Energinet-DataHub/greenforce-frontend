@@ -16,13 +16,11 @@
  */
 import { Injectable } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
-import { LocalRouterStore } from '@ngworker/router-component-store';
 import { map, Observable, switchMap } from 'rxjs';
 import {
   MeteringPointDto,
   MeteringPointHttp,
 } from '@energinet-datahub/dh/shared/data-access-api';
-import { dhMeteringPointIdParam } from '@energinet-datahub/dh/metering-point/routing';
 import { WattBadgeType } from '@energinet-datahub/watt';
 
 import { connectionStateToBadgeType } from './connection-state-to-badge-type';
