@@ -1,9 +1,3 @@
-import { enableProdMode } from '@angular/core';
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
-import { dhApiEnvironmentToken, environment, loadDhApiEnvironment } from '@energinet-datahub/dh/shared/environments';
-
-import { DataHubAppModule } from './app/datahub-app.module';
-
 /**
  * @license
  * Copyright 2021 Energinet DataHub A/S
@@ -20,6 +14,16 @@ import { DataHubAppModule } from './app/datahub-app.module';
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { enableProdMode } from '@angular/core';
+import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+import {
+  dhApiEnvironmentToken,
+  environment,
+  loadDhApiEnvironment,
+} from '@energinet-datahub/dh/shared/environments';
+
+import { DataHubAppModule } from './app/datahub-app.module';
+
 if (environment.production) {
   enableProdMode();
 }

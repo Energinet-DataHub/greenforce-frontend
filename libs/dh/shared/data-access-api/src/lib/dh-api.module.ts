@@ -15,7 +15,13 @@
  * limitations under the License.
  */
 import { HttpClient } from '@angular/common/http';
-import { inject, ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
+import {
+  inject,
+  ModuleWithProviders,
+  NgModule,
+  Optional,
+  SkipSelf,
+} from '@angular/core';
 import { dhApiEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 
 import { ApiModule, Configuration } from './generated/v1';
