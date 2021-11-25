@@ -16,43 +16,20 @@
  */
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import {
-  DhMeteringPointOverviewGuard,
-  dhMeteringPointIdParam,
-} from '@energinet-datahub/dh/metering-point/routing';
-import {
-  DhMeteringPointChildOverviewComponent,
-  DhMeteringPointChildOverviewScam,
-} from '@energinet-datahub/dh/metering-point/feature-child-overview';
-import {
-  DhMeteringPointOverviewComponent,
-  DhMeteringPointOverviewScam,
-} from '@energinet-datahub/dh/metering-point/feature-overview';
+
+import { DhMeteringPointFeatureOverviewModule } from '@energinet-datahub/dh/metering-point/feature-overview';
 import {
   DhMeteringPointSearchComponent,
   DhMeteringPointSearchScam,
 } from '@energinet-datahub/dh/metering-point/feature-search';
 
 const routes: Routes = [
-  { path: 'search', component: DhMeteringPointSearchComponent },
-  {
-    path: `:${dhMeteringPointIdParam}`,
-    component: DhMeteringPointOverviewComponent,
-    canActivate: [DhMeteringPointOverviewGuard],
-  },
-  {
-    path: `:${dhMeteringPointIdParam}/child/:child-id`,
-    component: DhMeteringPointChildOverviewComponent,
-  },
   { path: '', redirectTo: 'search', pathMatch: 'full' },
+  { path: 'search', component: DhMeteringPointSearchComponent },
+  { path: '', loadChildren: () => DhMeteringPointFeatureOverviewModule },
 ];
 
 @NgModule({
-  imports: [
-    DhMeteringPointChildOverviewScam,
-    DhMeteringPointOverviewScam,
-    DhMeteringPointSearchScam,
-    RouterModule.forChild(routes),
-  ],
+  imports: [DhMeteringPointSearchScam, RouterModule.forChild(routes)],
 })
 export class DhMeteringPointShellModule {}
