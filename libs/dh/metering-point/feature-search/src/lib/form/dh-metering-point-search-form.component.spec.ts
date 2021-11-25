@@ -84,7 +84,9 @@ describe(DhMeteringPointSearchFormComponent.name, () => {
 
   it('should render label', async () => {
     await setup();
-    const label = screen.getByText(translations.meteringPoint.search.searchLabel);
+    const label = screen.getByText(
+      translations.meteringPoint.search.searchLabel
+    );
     expect(label).toBeInTheDocument();
   });
 

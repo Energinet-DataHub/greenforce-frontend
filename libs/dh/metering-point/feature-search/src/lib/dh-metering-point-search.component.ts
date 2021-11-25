@@ -60,7 +60,9 @@ export class DhMeteringPointSearchComponent implements OnInit {
         filter((x) => !!x),
         take(1)
       )
-      .subscribe((meteringPoint) => this.onMeteringPointLoaded(meteringPoint?.gsrnNumber));
+      .subscribe((meteringPoint) =>
+        this.onMeteringPointLoaded(meteringPoint?.gsrnNumber)
+      );
   }
 
   onSubmit(id: string) {
@@ -74,9 +76,7 @@ export class DhMeteringPointSearchComponent implements OnInit {
   }
 
   private onMeteringPointLoaded(meteringPointId?: string) {
-    this.router.navigate([
-      `/${dhMeteringPointPath}/${meteringPointId}`,
-    ]);
+    this.router.navigate([`/${dhMeteringPointPath}/${meteringPointId}`]);
   }
 }
 

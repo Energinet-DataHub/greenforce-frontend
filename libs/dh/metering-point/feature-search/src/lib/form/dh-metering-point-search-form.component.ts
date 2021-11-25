@@ -128,7 +128,7 @@ export class DhMeteringPointSearchFormComponent
     TranslocoModule,
     FormsModule,
     ReactiveFormsModule,
-    CommonModule
+    CommonModule,
   ],
   declarations: [DhMeteringPointSearchFormComponent],
   exports: [DhMeteringPointSearchFormComponent, ReactiveFormsModule],
