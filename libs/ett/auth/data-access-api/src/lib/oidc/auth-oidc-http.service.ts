@@ -41,6 +41,21 @@ export interface AuthOidcLoginResponse {
   readonly url: string;
 }
 
+export interface AuthOidcLogoutResponse {
+  readonly success: boolean;
+}
+
+export interface UserProfile {
+  readonly id: string;
+  readonly name: string;
+  readonly company?: string;
+}
+
+export interface GetProfileResponse {
+  readonly success: boolean;
+  readonly profile: UserProfile;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -49,12 +64,26 @@ export class AuthOidcHttp {
 
   login(returnUrl: string): Observable<AuthOidcLoginResponse> {
     return this.http.get<AuthOidcLoginResponse>(
-      `${environment.apiBase}/oidc/login`,
+      `${environment.apiBase}/auth/oidc/login`,
       {
         params: {
           [AuthOidcQueryParameterName.ReturnUrl]: returnUrl,
         },
       }
+    );
+  }
+
+  logout(): Observable<AuthOidcLogoutResponse> {
+    return this.http.get<AuthOidcLogoutResponse>(
+      `${environment.apiBase}/auth/logout`,
+      {}
+    );
+  }
+
+  getProfile(): Observable<GetProfileResponse> {
+    return this.http.get<GetProfileResponse>(
+      `${environment.apiBase}/auth/profile`,
+      {}
     );
   }
 }
