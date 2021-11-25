@@ -23,7 +23,11 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
-import { AuthOidcHttp, GetProfileResponse, UserProfile } from '@energinet-datahub/ett/auth/data-access-api';
+import {
+  AuthOidcHttp,
+  GetProfileResponse,
+  UserProfile,
+} from '@energinet-datahub/ett/auth/data-access-api';
 import { WattShellModule } from '@energinet-datahub/watt';
 import { WattButtonModule } from '@energinet-datahub/watt';
 import { MatIconModule } from '@angular/material/icon'; // TODO Import from Watt?
@@ -60,9 +64,7 @@ const selector = 'ett-shell';
     `,
   ],
   template: `
-    <div *ngIf="profileLoading">
-      Loading
-    </div>
+    <div *ngIf="profileLoading">Loading</div>
 
     <watt-shell *ngIf="!profileLoading">
       <ng-container watt-shell-sidenav>
@@ -78,9 +80,12 @@ const selector = 'ett-shell';
               size="normal"
               [disabled]="false"
               [loading]="false"
-              [matMenuTriggerFor]="menu">
-                {{ profile?.name }}
-                <mat-icon aria-hidden="false" aria-label="Logout">expand_more</mat-icon>
+              [matMenuTriggerFor]="menu"
+            >
+              {{ profile?.name }}
+              <mat-icon aria-hidden="false" aria-label="Logout"
+                >expand_more</mat-icon
+              >
             </watt-button>
             <mat-menu #menu="matMenu">
               <button mat-menu-item (click)="logout()">Logout</button>
@@ -94,14 +99,13 @@ const selector = 'ett-shell';
   `,
 })
 export class EttShellComponent implements OnInit {
-
   profile?: UserProfile;
   profileLoading = true;
 
   constructor(
     private router: Router,
     private change: ChangeDetectorRef,
-    private authOidc: AuthOidcHttp,
+    private authOidc: AuthOidcHttp
   ) {}
 
   ngOnInit() {
@@ -121,7 +125,7 @@ export class EttShellComponent implements OnInit {
   }
 
   private onLogoutComplete(success: boolean) {
-    if(success) {
+    if (success) {
       this.router.navigate(['/login']);
     }
   }
@@ -135,16 +139,14 @@ export class EttShellComponent implements OnInit {
 
   getProfile() {
     this.profileLoading = true;
-    this.authOidc
-      .getProfile()
-      .subscribe({
-        next: this.onGetProfileComplete.bind(this),
-        error: this.onGetProfileFailed.bind(this),
-      });
+    this.authOidc.getProfile().subscribe({
+      next: this.onGetProfileComplete.bind(this),
+      error: this.onGetProfileFailed.bind(this),
+    });
   }
 
   private onGetProfileComplete(response?: GetProfileResponse) {
-    if(response?.success) {
+    if (response?.success) {
       this.profile = response.profile;
       this.profileLoading = false;
       // TODO Replace with observables:

@@ -49,7 +49,7 @@ const selector = 'ett-primary-navigation';
   template: `
     <mat-nav-list>
       <div mat-list-item>
-        <img src="/assets/logo.png" style="width: 100%;">
+        <img src="/assets/logo.png" style="width: 100%;" />
       </div>
       <a mat-list-item routerLink="/dashboard" routerLinkActive="active">
         Dashboard
