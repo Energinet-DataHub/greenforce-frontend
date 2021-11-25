@@ -18,22 +18,38 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { LetModule } from '@rx-angular/template';
-import { map, Observable } from 'rxjs';
+import { map } from 'rxjs';
 import { WattSpinnerModule } from '@energinet-datahub/watt';
 import { dhMeteringPointIdParam } from '@energinet-datahub/dh/metering-point/routing';
+import { DhMeteringPointDataAccessApiStore } from '@energinet-datahub/dh/metering-point/data-access-api';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'dh-metering-point-overview',
   styleUrls: ['./dh-metering-point-overview.component.scss'],
   templateUrl: './dh-metering-point-overview.component.html',
+  providers: [DhMeteringPointDataAccessApiStore],
 })
 export class DhMeteringPointOverviewComponent {
-  meteringPointId$: Observable<string> = this.route.params.pipe(
-    map((params) => params[dhMeteringPointIdParam])
-  );
+  meteringPoint$ = this.store.meteringPoint$;
 
-  constructor(private route: ActivatedRoute) {}
+  constructor(
+    private route: ActivatedRoute,
+    private store: DhMeteringPointDataAccessApiStore
+  ) {
+    this.loadMeteringPointData();
+  }
+
+  private loadMeteringPointData(): void {
+    this.route.params
+      .pipe(
+        map((params) => params[dhMeteringPointIdParam]),
+        map((meteringPointId: string) =>
+          this.store.loadMeteringPointData(meteringPointId)
+        )
+      )
+      .subscribe();
+  }
 }
 
 @NgModule({

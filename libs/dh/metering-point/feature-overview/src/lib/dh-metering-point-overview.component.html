@@ -15,9 +15,9 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <ng-container
-  *rxLet="meteringPointId$ as meteringPointId; rxSuspense: suspenseTemplate"
+  *rxLet="meteringPoint$ as meteringPoint; rxSuspense: suspenseTemplate"
 >
-  <h1>{{ meteringPointId }}</h1>
+  <h1>{{ meteringPoint?.gsrnNumber }}</h1>
 </ng-container>
 
 <ng-template #suspenseTemplate>
