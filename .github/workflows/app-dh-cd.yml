@@ -166,4 +166,4 @@ jobs:
       - name: Upload package to blob
         shell: bash
         run: |
-          az storage blob upload-batch --account-name stordhendku -d '$web' -s drop/.
+          az storage blob upload-batch --account-name stordhendku001 -d '$web' -s drop/.

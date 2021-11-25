@@ -17,7 +17,6 @@ on:
   push:
     branches:
       - main
-      - renetnielsen/new-frontend-iac
     paths:
       - .github/workflows/api-dh-cd.yml
       - apps/dh/api-dh/**
