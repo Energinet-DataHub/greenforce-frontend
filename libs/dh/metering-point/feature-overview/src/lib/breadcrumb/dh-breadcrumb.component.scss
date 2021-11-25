@@ -14,6 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './lib/dh-metering-point-overview.guard';
-export * from './lib/dh-metering-point-path';
-export * from './lib/dh-metering-point-id-param';
+@use '@energinet-datahub/watt/utils' as watt;
+
+:host {
+  display: block;
+}
+
+.breadcrumb {
+  align-items: center;
+  border-bottom: 1px solid var(--watt-color-neutral-grey-300);
+  display: flex;
+  padding-bottom: var(--watt-space-m);
+}

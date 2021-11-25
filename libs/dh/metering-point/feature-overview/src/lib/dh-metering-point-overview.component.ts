@@ -14,37 +14,39 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { DhMeteringPointDataAccessApiStore } from '@energinet-datahub/dh/metering-point/data-access-api';
+import { LocalRouterStore } from '@ngworker/router-component-store';
+import { CommonModule } from '@angular/common';
+import { WattSpinnerModule } from '@energinet-datahub/watt';
 import { LetModule } from '@rx-angular/template';
 import { map } from 'rxjs';
-import { WattSpinnerModule } from '@energinet-datahub/watt';
-import { dhMeteringPointIdParam } from '@energinet-datahub/dh/metering-point/routing';
-import { DhMeteringPointDataAccessApiStore } from '@energinet-datahub/dh/metering-point/data-access-api';
+
+import { DhBreadcrumbScam } from './breadcrumb/dh-breadcrumb.component';
+import { dhMeteringPointIdParam } from './routing/dh-metering-point-id-param';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'dh-metering-point-overview',
   styleUrls: ['./dh-metering-point-overview.component.scss'],
   templateUrl: './dh-metering-point-overview.component.html',
-  providers: [DhMeteringPointDataAccessApiStore],
+  providers: [DhMeteringPointDataAccessApiStore, LocalRouterStore],
 })
 export class DhMeteringPointOverviewComponent {
   meteringPoint$ = this.store.meteringPoint$;
 
   constructor(
-    private route: ActivatedRoute,
+    private route: LocalRouterStore,
     private store: DhMeteringPointDataAccessApiStore
   ) {
     this.loadMeteringPointData();
   }
 
   private loadMeteringPointData(): void {
-    this.route.params
+    this.route
+      .selectRouteParam<string>(dhMeteringPointIdParam)
       .pipe(
-        map((params) => params[dhMeteringPointIdParam]),
-        map((meteringPointId: string) =>
+        map((meteringPointId) =>
           this.store.loadMeteringPointData(meteringPointId)
         )
       )
@@ -54,6 +56,6 @@ export class DhMeteringPointOverviewComponent {
 
 @NgModule({
   declarations: [DhMeteringPointOverviewComponent],
-  imports: [CommonModule, LetModule, WattSpinnerModule],
+  imports: [CommonModule, LetModule, DhBreadcrumbScam, WattSpinnerModule],
 })
 export class DhMeteringPointOverviewScam {}

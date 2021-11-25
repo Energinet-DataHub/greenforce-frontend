@@ -67,3 +67,12 @@ label,
 .watt-label {
   @include typography.watt-label;
 }
+
+a {
+  @include typography.watt-text-m;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}

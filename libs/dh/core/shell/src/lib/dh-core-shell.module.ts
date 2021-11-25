@@ -18,7 +18,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { DhTranslocoModule } from '@energinet-datahub/dh/globalization/configuration-localization';
-import { dhMeteringPointPath } from '@energinet-datahub/dh/metering-point/routing';
+import { dhMeteringPointPath } from '@energinet-datahub/dh/metering-point/shell';
 import { DhApiModule } from '@energinet-datahub/dh/shared/data-access-api';
 
 import {

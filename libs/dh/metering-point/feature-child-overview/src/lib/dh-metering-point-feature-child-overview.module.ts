@@ -14,8 +14,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import 'jest-preset-angular/setup-jest';
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
 
-import { setUpTestbed } from '@energinet-datahub/gf/test-util-staging';
+import {
+  DhMeteringPointChildOverviewComponent,
+  DhMeteringPointChildOverviewScam,
+} from './dh-metering-point-child-overview.component';
 
-setUpTestbed();
+const routes: Routes = [
+  {
+    path: 'child/:child-id',
+    component: DhMeteringPointChildOverviewComponent,
+  },
+];
+
+@NgModule({
+  imports: [DhMeteringPointChildOverviewScam, RouterModule.forChild(routes)],
+})
+export class DhMeteringPointFeatureChildOverviewModule {}
