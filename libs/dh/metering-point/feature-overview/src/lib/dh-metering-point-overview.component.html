@@ -22,18 +22,29 @@ limitations under the License.
   ></dh-breadcrumb>
   <div class="overview__header">
     <div class="watt-text-s">
-      {{ meteringPoint?.meteringPointType }}
-      ({{ meteringPoint?.meteringPointSubType }})
+      <ng-container *ngIf="meteringPoint?.meteringPointType; else emptyField">
+        {{ meteringPoint?.meteringPointType }}
+      </ng-container>
+      (<ng-container
+        *ngIf="meteringPoint?.meteringPointSubType; else emptyField"
+        >{{ meteringPoint?.meteringPointSubType }}</ng-container
+      >)
     </div>
     <h1>{{ meteringPoint?.gsrnNumber }}</h1>
     <div class="watt-text-s">
-      <watt-badge
-        *rxLet="meteringPointStatus$ as meteringPointStatus"
-        [type]="meteringPointStatus.badgeType"
-        >{{ meteringPointStatus.value }}</watt-badge
-      >
-      | {{ meteringPoint?.settlementMethod }} |
-      {{ meteringPoint?.readingOccurrence }}
+      <ng-container *ngIf="meteringPoint?.connectionState; else emptyField">
+        <watt-badge
+          *rxLet="meteringPointStatus$ as meteringPointStatus"
+          [type]="meteringPointStatus.badgeType"
+          >{{ meteringPointStatus.value }}</watt-badge
+        >
+      </ng-container>
+      <ng-container *ngIf="meteringPoint?.settlementMethod">
+        | {{ meteringPoint?.settlementMethod }}
+      </ng-container>
+      <ng-container *ngIf="meteringPoint?.readingOccurrence">
+        | {{ meteringPoint?.readingOccurrence }}
+      </ng-container>
     </div>
   </div>
 </ng-container>
@@ -43,3 +54,5 @@ limitations under the License.
     <watt-spinner></watt-spinner>
   </div>
 </ng-template>
+
+<ng-template #emptyField>—</ng-template>
