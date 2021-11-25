@@ -14,15 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- import { CommonModule } from '@angular/common';
- import { NgModule } from '@angular/core';
- import { WattButtonModule } from '@energinet-datahub/watt';
- 
- import { DhLanguageButtonComponent } from './dh-language-button.component';
- 
- @NgModule({
-   declarations: [DhLanguageButtonComponent],
-   exports: [DhLanguageButtonComponent],
-   imports: [CommonModule, WattButtonModule],
- })
- export class DhLanguageButtonModule {}
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { WattButtonModule } from '@energinet-datahub/watt';
+
+import { DhLanguageButtonComponent } from './dh-language-button.component';
+
+@NgModule({
+  declarations: [DhLanguageButtonComponent],
+  exports: [DhLanguageButtonComponent],
+  imports: [CommonModule, WattButtonModule],
+})
+export class DhLanguageButtonModule {}

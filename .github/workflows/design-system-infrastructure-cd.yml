@@ -34,7 +34,7 @@ jobs:
       name: Development
     env:
       TF_VAR_environment_short: u
-      TF_VAR_environment_instance: "001"
+      TF_VAR_environment_instance: '001'
       TF_VAR_domain_name_short: designsys
     steps:
       - name: Checkout code

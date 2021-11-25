@@ -57,7 +57,7 @@ jobs:
         with:
           name: drop
           path: '${{ github.workspace }}/output'
-    
+
   deploy_webapi:
     name: Deploy app to rg-DataHub-GUI-U
     needs: build_webapi
@@ -65,7 +65,7 @@ jobs:
     environment:
       name: Development
     steps:
-      - name: Download artifact 
+      - name: Download artifact
         uses: actions/download-artifact@v2
         with:
           name: drop
