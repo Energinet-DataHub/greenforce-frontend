@@ -37,11 +37,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@master
 
-      - name: Setup .NET 3.1 environment
-        uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: '3.1.x'
-
       - name: Setup .NET 5.0.202 environment
         uses: actions/setup-dotnet@v1
         with:
