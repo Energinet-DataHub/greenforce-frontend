@@ -24,7 +24,6 @@ import {
   DhMeteringPointSearchScam,
 } from './dh-metering-point-search.component';
 
-
 describe(DhMeteringPointSearchComponent.name, () => {
   beforeEach(async () => {
     await render(DhMeteringPointSearchComponent, {
