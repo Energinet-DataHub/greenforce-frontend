@@ -14,7 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgModule, Component, Input } from '@angular/core';
+import {
+  NgModule,
+  Component,
+  Input,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { TranslocoModule } from '@ngneat/transloco';
@@ -23,6 +28,7 @@ import { WattIconModule } from '@energinet-datahub/watt';
 import { dhMeteringPointPath } from '../routing/dh-metering-point-path';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'dh-breadcrumb',
   templateUrl: './dh-breadcrumb.component.html',
   styleUrls: ['./dh-breadcrumb.component.scss'],
