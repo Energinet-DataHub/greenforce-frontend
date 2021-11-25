@@ -1,0 +1,22 @@
+<ng-container *transloco="let transloco; read: 'meteringPoint.search'">
+  <h1>{{ transloco('title') }}</h1>
+
+  <dh-metering-point-search-form
+    [loading]="isLoading$ | push"
+    (search)="onSubmit($event)"
+  ></dh-metering-point-search-form>
+
+  <watt-empty-state
+    *ngIf="notFound$ | push"
+    icon="explore"
+    [title]="transloco('noMeteringPointFoundTitle')"
+    [message]="transloco('noMeteringPointFoundMessage')"
+  ></watt-empty-state>
+
+  <watt-empty-state
+    *ngIf="hasError$ | push"
+    icon="power"
+    [title]="transloco('serverErrorTitle')"
+    [message]="transloco('serverErrorMessage')"
+  ></watt-empty-state>
+</ng-container>

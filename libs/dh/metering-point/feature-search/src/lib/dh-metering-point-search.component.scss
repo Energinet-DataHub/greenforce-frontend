@@ -1,0 +1,17 @@
+@use '@energinet-datahub/watt/utils' as watt;
+
+:host {
+  display: block;
+  max-width: 844px;
+  margin: 0 auto;
+}
+
+h1 {
+  color: var(--watt-color-primary-dark);
+  margin-left: -2px; // todo: Why is this needed?
+  margin-bottom: var(--watt-space-s);
+}
+
+watt-empty-state {
+  margin-top: var(--watt-space-xl);
+}

@@ -15,18 +15,24 @@
  * limitations under the License.
  */
 import { render, screen } from '@testing-library/angular';
+import { HttpClientModule } from '@angular/common/http';
 
-import { getTranslocoTestingModule } from '@energinet-datahub/dh/globalization/configuration-localization';
+import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
 
 import {
   DhMeteringPointSearchComponent,
   DhMeteringPointSearchScam,
 } from './dh-metering-point-search.component';
 
+
 describe(DhMeteringPointSearchComponent.name, () => {
   beforeEach(async () => {
     await render(DhMeteringPointSearchComponent, {
-      imports: [getTranslocoTestingModule(), DhMeteringPointSearchScam],
+      imports: [
+        getTranslocoTestingModule(),
+        HttpClientModule,
+        DhMeteringPointSearchScam,
+      ],
     });
   });
 

@@ -38,63 +38,16 @@ import { DhDataAccessMeteringPointStore } from './should-be-removed/dh-data-acce
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'dh-metering-point-search',
-  styles: [
-    `
-      @use '@energinet-datahub/watt/utils' as watt;
-
-      :host {
-        display: block;
-        max-width: 844px;
-        margin: 0 auto;
-      }
-
-      h1 {
-        color: var(--watt-color-primary-dark);
-        margin-left: -2px; // todo: Why is this needed?
-        margin-bottom: var(--watt-space-s);
-      }
-
-      watt-empty-state {
-        margin-top: var(--watt-space-xl);
-      }
-    `,
-  ],
-  template: `
-    <ng-container *transloco="let transloco; read: 'meteringPoint.search'">
-      <h1>{{ transloco('title') }}</h1>
-
-      <dh-metering-point-search-form
-        [loading]="isLoading$ | push"
-        (search)="onSubmit($event)"
-      ></dh-metering-point-search-form>
-
-      <watt-empty-state
-        *ngIf="notFound$ | push"
-        icon="explore"
-        [title]="transloco('noMeteringPointFoundTitle')"
-        [message]="transloco('noMeteringPointFoundMessage')"
-      ></watt-empty-state>
-
-      <watt-empty-state
-        *ngIf="hasError$ | push"
-        icon="power"
-        [title]="transloco('serverErrorTitle')"
-        [message]="transloco('serverErrorMessage')"
-      ></watt-empty-state>
-    </ng-container>
-  `,
+  styleUrls: ['./dh-metering-point-search.component.scss'],
+  templateUrl: './dh-metering-point-search.component.html',
+  // TODO: Should be removed:
   providers: [LocalRouterStore, DhDataAccessMeteringPointStore],
 })
 export class DhMeteringPointSearchComponent implements OnInit {
   isLoading$ = this.store.select((state) => state.isLoading);
   notFound$ = this.store.select((state) => state.notFound);
   hasError$ = this.store.select((state) => state.hasError);
-  meteringPointLoaded$ = this.store
-    .select((state) => state.meteringPoint)
-    .pipe(
-      filter((x) => !!x),
-      take(1)
-    );
+  meteringPointLoaded$ = this.store.select((state) => state.meteringPoint);
 
   constructor(
     private router: Router,
@@ -102,11 +55,12 @@ export class DhMeteringPointSearchComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.meteringPointLoaded$.subscribe((meteringPoint) => {
-      this.router.navigate([
-        `/${dhMeteringPointPath}/${meteringPoint?.gsrnNumber}`,
-      ]);
-    });
+    this.meteringPointLoaded$
+      .pipe(
+        filter((x) => !!x),
+        take(1)
+      )
+      .subscribe((meteringPoint) => this.onMeteringPointLoaded(meteringPoint?.gsrnNumber));
   }
 
   onSubmit(id: string) {
@@ -117,6 +71,12 @@ export class DhMeteringPointSearchComponent implements OnInit {
       notFound: false,
     });
     this.store.loadMeteringPointData(id);
+  }
+
+  private onMeteringPointLoaded(meteringPointId?: string) {
+    this.router.navigate([
+      `/${dhMeteringPointPath}/${meteringPointId}`,
+    ]);
   }
 }
 
