@@ -1,3 +1,14 @@
 {
-  "appName": "DataHub [EN]"
+  "appName": "DataHub [EN]",
+  "meteringPoint": {
+    "search": {
+      "title": "Metering Points",
+      "searchLabel": "Enter a Metering Point ID to find a metering point",
+      "searchPlaceholder": "Search by Metering Point ID",
+      "searchButton": "Search",
+      "searchInvalidLength": "Metering Point ID must be an 18-digit number",
+      "noMeteringPointFoundTitle": "Sorry, we did not find a metering point match",
+      "noMeteringPointFoundMessage": "Please check the spelling and try again"
+    }
+  }
 }

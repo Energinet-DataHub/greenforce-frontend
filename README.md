@@ -104,7 +104,7 @@ Allowed dependencies to: `data-access`, `routing`, `util`, `test-util`, `domain`
 ### Routing libraries
 
 A routing library contains code related for routing (routes, route paths, route guards, route resolvers, route reuse strategies, preloading strategies).
-Allowed dependencies to: `data-access`, `routing`, `util`, `test-util`, `shell`.
+Allowed dependencies to: `data-access`, `routing`, `util`, `test-util`, `shell`, `domain`.
 
 ### Utility libraries
 
@@ -114,7 +114,7 @@ Allowed dependencies to: `util`, `test-util`.
 ### Test-util libraries
 
 Stubs, jest matchers, testing modules, test library configuration
-Allowed dependencies to: `data-access`, `util`, `test-util`, `domain`.
+Allowed dependencies to: `data-access`, `util`, `test-util`, `domain`, `configuration`, `assets`.
 
 ### E2E-util libraries
 
@@ -164,7 +164,8 @@ Besides the `apps` folder, there's also a `libs` folder that contains features u
 
 ## Backend-for-frontend (BFF)
 
-There's currenly only one BFF located in `api-dh` under `apps/dh`. It is for `app-dh` and is using .NET 5.0. See [Development notes](./apps/dh/api-dh/documents/development.md).
+There's currenly only one BFF located in `api-dh` under `apps/dh`. It is for `app-dh` and is using .NET 5.0. See [Development notes](./apps/dh/api-dh/documents/development.md). When developing `app-dh`, run `nx serve api-dh` to start
+the BFF. This is required for both local development and tests.
 
 ## Watt Design System
 
@@ -177,6 +178,14 @@ Located under `.github/workflows`. There are:
 - `api-dh-ci.yml` - Used by the BFF for `app-dh`.
 - `ett.yml` - Used by "Energy Track and Trace" app
 - `license-check-ci.yml` - Used for adding license to files
-- `workspace.yml` - Used to build, test, format and lint all front-end apps
+- `frontend-ci.yml` - Used to build, test, format and lint all front-end apps
 
-**Please note**: Before merging a frontend pull request, be sure that all checks have passed. Currently, jobs done by a Git-bot (like formatting and adding licenses) don't trigger a re-run of all the other checks. The "merge button" can therefore give you a false positive signal.
+We use bots for certain trivial tasks such as adding license headers to files, formatting code, fixing lint errors, and generating API clients based on OpenAPI. For this to work, bots have to use the repository secret `ACTIONS_BOT_SSH_KEY`
+when checking out and pushing changes or creating releases that trigger a workflow. Only do this for idempotent tasks to
+prevent circular workflows from causing inifinite workflow runs.
+
+The `ACTIONS_BOT_SSH_KEY` repository secret is registered as a deploy key. The following guides are used to manage this
+SSH key:
+
+- [Deploy keys](https://docs.github.com/en/developers/overview/managing-deploy-keys#deploy-keys)
+- [Generating a new SSH key](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent#generating-a-new-ssh-key)
