@@ -16,25 +16,43 @@
  */
 import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LocalRouterStore } from '@ngworker/router-component-store';
-import { DhDataAccessMeteringPointStore } from '@energinet-datahub/dh/metering-point/data-access-metering-point';
-import { WattBadgeModule, WattSpinnerModule } from '@energinet-datahub/watt';
 import { LetModule } from '@rx-angular/template';
+import { LocalRouterStore } from '@ngworker/router-component-store';
+import { map } from 'rxjs';
+import { WattBadgeModule, WattSpinnerModule } from '@energinet-datahub/watt';
+import { DhMeteringPointDataAccessApiStore } from '@energinet-datahub/dh/metering-point/data-access-api';
 
 import { DhBreadcrumbScam } from './breadcrumb/dh-breadcrumb.component';
+import { dhMeteringPointIdParam } from './routing/dh-metering-point-id-param';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'dh-metering-point-overview',
   styleUrls: ['./dh-metering-point-overview.component.scss'],
   templateUrl: './dh-metering-point-overview.component.html',
-  viewProviders: [LocalRouterStore, DhDataAccessMeteringPointStore],
+  viewProviders: [DhMeteringPointDataAccessApiStore, LocalRouterStore],
 })
 export class DhMeteringPointOverviewComponent {
   meteringPoint$ = this.store.meteringPoint$;
   meteringPointStatus$ = this.store.meteringPointStatus$;
 
-  constructor(private store: DhDataAccessMeteringPointStore) {}
+  constructor(
+    private route: LocalRouterStore,
+    private store: DhMeteringPointDataAccessApiStore
+  ) {
+    this.loadMeteringPointData();
+  }
+
+  private loadMeteringPointData(): void {
+    this.route
+      .selectRouteParam<string>(dhMeteringPointIdParam)
+      .pipe(
+        map((meteringPointId) =>
+          this.store.loadMeteringPointData(meteringPointId)
+        )
+      )
+      .subscribe();
+  }
 }
 
 @NgModule({

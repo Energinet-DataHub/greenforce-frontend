@@ -7,5 +7,5 @@ version: v0.1.1
 
 dependencies:
   - name: eo-base-helm-chart
-    version: 'v0.4.0'
+    version: 'v0.4.7'
     repository: 'https://energinet-datahub.github.io/helm-charts/'

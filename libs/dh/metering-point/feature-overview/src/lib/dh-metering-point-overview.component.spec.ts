@@ -41,6 +41,7 @@ describe(DhMeteringPointOverviewComponent.name, () => {
     class TestMeteringPointComponent {}
 
     view = await render(SpectacularAppComponent, {
+      declarations: [TestMeteringPointComponent],
       imports: [
         HttpClientModule,
         DhApiModule.forRoot(),

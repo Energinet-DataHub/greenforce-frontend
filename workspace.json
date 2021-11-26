@@ -10,7 +10,7 @@
     "dh-globalization-data-access-localization": "libs/dh/globalization/data-access-localization",
     "dh-globalization-domain": "libs/dh/globalization/domain",
     "dh-globalization-feature-language-picker": "libs/dh/globalization/feature-language-picker",
-    "dh-metering-point-data-access-metering-point": "libs/dh/metering-point/data-access-metering-point",
+    "dh-metering-point-data-access-api": "libs/dh/metering-point/data-access-api",
     "dh-metering-point-domain": "libs/dh/metering-point/domain",
     "dh-metering-point-feature-child-overview": "libs/dh/metering-point/feature-child-overview",
     "dh-metering-point-feature-overview": "libs/dh/metering-point/feature-overview",
