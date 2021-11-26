@@ -47,19 +47,19 @@ const selector = 'ett-shell';
     `
       ${selector} {
         display: block;
+      }
 
-        .toolbar {
+      ${selector}__toolbar {
           width: 100%;
           display: flex;
+      }
 
-          h1 {
-            flex: auto;
-          }
+      ${selector}__toolbar h1 {
+          flex: auto;
+      }
 
-          .menu {
-            align-self: flex-end;
-          }
-        }
+      ${selector}__toolbar .menu {
+          align-self: flex-end;
       }
     `,
   ],
@@ -72,7 +72,7 @@ const selector = 'ett-shell';
       </ng-container>
 
       <ng-container watt-shell-toolbar>
-        <div class="toolbar">
+        <div class="${selector}__toolbar">
           <h1>Energy Origin</h1>
           <div class="menu">
             <watt-button
