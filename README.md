@@ -139,7 +139,7 @@ Allowed dependencies to: `data-access`, `routing`, `util`, `test-util`, `configu
 ### Environments libraries
 
 Angular environment files.
-Allowed dependencies to: `util`, `test-util`, `environments`.
+Allowed dependencies to: `util`, `test-util`, `environments`, `assets`.
 
 ### Assets libraries
 
