@@ -13,6 +13,7 @@ export const dhApiEnvironmentToken = new InjectionToken<DhApiEnvironment>('dhApi
       throw new Error('No DataHub API environment provided.');
     }
 
+    // Used for unit and integration tests
     return dhLocalApiEnvironment;
   },
   providedIn: 'platform',
