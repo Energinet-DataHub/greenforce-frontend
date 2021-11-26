@@ -41,6 +41,7 @@ import { DhMeteringPointOverviewPresenter } from './dh-metering-point-overview.p
 export class DhMeteringPointOverviewComponent {
   meteringPoint$ = this.store.meteringPoint$;
   meteringPointStatus$ = this.presenter.meteringPointStatus$;
+  emDash = '—';
 
   constructor(
     private route: LocalRouterStore,
