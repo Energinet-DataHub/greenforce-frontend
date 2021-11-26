@@ -92,11 +92,20 @@ describe(DhMeteringPointSearchComponent.name, () => {
     });
   });
 
-  /*
-  it('should redirect to overview, if metering point is found', () => {});
+  it('should show empty state if no metering point is found', async () => {
+    const {input, submitButton } = await setup();
+    const location: Location = TestBed.inject(Location);
 
-  it('should show empty state if no metering point is found', () => {});
+    userEvent.type(input, '000000000000000000');
+    userEvent.click(submitButton);
 
-  it('should show error if request failed', () => {});
-  */
+    expect(screen.queryByRole('progressbar')).toBeInTheDocument();
+    await waitForElementToBeRemoved(() => screen.queryByRole('progressbar'));
+    expect(screen.queryByRole('heading', { name: /sorry, we did not find a metering point match/i })).toBeInTheDocument();
+    expect(screen.queryByRole('heading', { name: /oops! there was an error/i })).not.toBeInTheDocument();
+
+    await waitFor(() => {
+      expect(location.path()).toBe('/metering-point/search?q=000000000000000000');
+    });
+  });
 });

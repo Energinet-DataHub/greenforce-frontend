@@ -23,6 +23,7 @@ import {
   EventEmitter,
   Input,
   NgModule,
+  OnDestroy,
   Output,
   ViewChild,
 } from '@angular/core';
@@ -43,7 +44,7 @@ import {
 } from '@energinet-datahub/watt';
 
 import { meteringPointIdValidator } from './dh-metering-point.validator';
-import { Subscription, take } from 'rxjs';
+import { Subscription } from 'rxjs';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -52,7 +53,7 @@ import { Subscription, take } from 'rxjs';
   templateUrl: './dh-metering-point-search-form.component.html',
 })
 export class DhMeteringPointSearchFormComponent
-  implements AfterViewInit
+  implements AfterViewInit, OnDestroy
 {
   @Input() loading = false;
   @Output() search = new EventEmitter<string>();
@@ -69,10 +70,14 @@ export class DhMeteringPointSearchFormComponent
   ) {}
 
   ngAfterViewInit() {
-    this.queryParamsSubscription = this.route.queryParams.pipe(take(1)).subscribe((params) => {
+    this.queryParamsSubscription = this.route.queryParams.subscribe((params) => {
       this.setInitialValue(params.q);
     });
     this.focusSearchInput();
+  }
+
+  ngOnDestroy() {
+    this.queryParamsSubscription?.unsubscribe();
   }
 
   onSearchInputClear(): void {
