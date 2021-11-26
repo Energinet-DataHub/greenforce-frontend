@@ -19,6 +19,7 @@ import { CommonModule } from '@angular/common';
 import { LetModule } from '@rx-angular/template';
 import { LocalRouterStore } from '@ngworker/router-component-store';
 import { map } from 'rxjs';
+import { TranslocoModule } from '@ngneat/transloco';
 import { WattBadgeModule, WattSpinnerModule } from '@energinet-datahub/watt';
 import { DhMeteringPointDataAccessApiStore } from '@energinet-datahub/dh/metering-point/data-access-api';
 
@@ -66,6 +67,7 @@ export class DhMeteringPointOverviewComponent {
   imports: [
     CommonModule,
     LetModule,
+    TranslocoModule,
     DhBreadcrumbScam,
     WattBadgeModule,
     WattSpinnerModule,

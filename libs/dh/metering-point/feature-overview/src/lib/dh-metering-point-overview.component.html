@@ -22,28 +22,44 @@ limitations under the License.
   ></dh-breadcrumb>
   <div class="overview__header">
     <div class="watt-text-s">
-      <ng-container *ngIf="meteringPoint?.meteringPointType; else emptyField">
-        {{ meteringPoint?.meteringPointType }}
-      </ng-container>
-      (<ng-container
-        *ngIf="meteringPoint?.meteringPointSubType; else emptyField"
-        >{{ meteringPoint?.meteringPointSubType }}</ng-container
+      <span [title]="'meteringPoint.overview.meteringPointType' | transloco">
+        <ng-container *ngIf="meteringPoint?.meteringPointType; else emptyField">
+          {{ meteringPoint?.meteringPointType }}
+        </ng-container>
+      </span>
+      (<span
+        [title]="'meteringPoint.overview.meteringPointSubType' | transloco"
+      >
+        <ng-container
+          *ngIf="meteringPoint?.meteringPointSubType; else emptyField"
+          >{{ meteringPoint?.meteringPointSubType }}</ng-container
+        ></span
       >)
     </div>
-    <h1>{{ meteringPoint?.gsrnNumber }}</h1>
+    <h1 [title]="'meteringPoint.overview.gsrnNumber' | transloco">
+      {{ meteringPoint?.gsrnNumber }}
+    </h1>
     <div class="watt-text-s">
       <ng-container *ngIf="meteringPoint?.connectionState; else emptyField">
         <watt-badge
           *rxLet="meteringPointStatus$ as meteringPointStatus"
           [type]="meteringPointStatus.badgeType"
-          >{{ meteringPointStatus.value }}</watt-badge
+          [attr.title]="'meteringPoint.overview.connectionState' | transloco"
+          >{{ meteringPointStatus.text }}</watt-badge
         >
       </ng-container>
       <ng-container *ngIf="meteringPoint?.settlementMethod">
-        | {{ meteringPoint?.settlementMethod }}
+        |
+        <span [title]="'meteringPoint.overview.settlementMethod' | transloco">{{
+          meteringPoint?.settlementMethod
+        }}</span>
       </ng-container>
       <ng-container *ngIf="meteringPoint?.readingOccurrence">
-        | {{ meteringPoint?.readingOccurrence }}
+        |
+        <span
+          [title]="'meteringPoint.overview.readingOccurrence' | transloco"
+          >{{ meteringPoint?.readingOccurrence }}</span
+        >
       </ng-container>
     </div>
   </div>
