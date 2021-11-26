@@ -34,7 +34,7 @@ import {
   DhMeteringPointSearchScam,
 } from '@energinet-datahub/dh/metering-point/feature-search';
 
-const routes: Routes = [
+export const dhMeteringPointRoutes: Routes = [
   {
     path: dhMeteringPointSearchPath,
     component: DhMeteringPointSearchComponent,
@@ -56,7 +56,7 @@ const routes: Routes = [
     DhMeteringPointChildOverviewScam,
     DhMeteringPointOverviewScam,
     DhMeteringPointSearchScam,
-    RouterModule.forChild(routes),
+    RouterModule.forChild(dhMeteringPointRoutes),
   ],
 })
 export class DhMeteringPointShellModule {}

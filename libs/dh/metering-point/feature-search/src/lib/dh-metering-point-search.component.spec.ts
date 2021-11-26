@@ -14,30 +14,82 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { render, screen } from '@testing-library/angular';
+import { TestBed } from '@angular/core/testing';
+import { render, screen, waitFor, waitForElementToBeRemoved } from '@testing-library/angular';
+import userEvent from '@testing-library/user-event';
+import { ActivatedRoute } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 
+import { en as translations } from '@energinet-datahub/dh/globalization/assets-localization';
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
+import {Location} from '@angular/common';
 
 import {
   DhMeteringPointSearchComponent,
   DhMeteringPointSearchScam,
 } from './dh-metering-point-search.component';
+import { dhMeteringPointPath } from '@energinet-datahub/dh/metering-point/routing';
+import { DhApiModule } from '@energinet-datahub/dh/shared/data-access-api';
 
 describe(DhMeteringPointSearchComponent.name, () => {
-  beforeEach(async () => {
-    await render(DhMeteringPointSearchComponent, {
+  async function setup() {
+    const { fixture } = await render(DhMeteringPointSearchComponent, {
       imports: [
         getTranslocoTestingModule(),
+        DhApiModule.forRoot(),
         HttpClientModule,
         DhMeteringPointSearchScam,
       ],
+      routes: [
+        {
+          path: dhMeteringPointPath,
+          loadChildren: () =>
+            import('@energinet-datahub/dh/metering-point/shell').then(
+              (esModule) => esModule.DhMeteringPointShellModule
+            ),
+        },
+      ]
     });
-  });
 
-  it('should show heading of level 1', () => {
+    const activatedRoute = TestBed.inject(ActivatedRoute);
+
+    const input: HTMLInputElement = screen.getByRole('textbox', {
+      name: /search-input/i,
+    });
+
+    const submitButton = screen.getByRole('button', {
+      name: translations.meteringPoint.search.searchButton,
+    });
+
+    return {
+      input,
+      submitButton,
+      activatedRoute,
+      fixture
+    }
+  }
+
+  it('should show heading of level 1', async () => {
+    await setup();
     const heading = screen.getByRole('heading', { level: 1 });
     expect(heading).toBeInTheDocument();
+  });
+
+  it('should redirect to overview, if metering point is found', async () => {
+    const {input, submitButton } = await setup();
+    const location: Location = TestBed.inject(Location);
+
+    userEvent.type(input, '571313180400014077');
+    userEvent.click(submitButton);
+
+    expect(screen.queryByRole('progressbar')).toBeInTheDocument();
+    await waitForElementToBeRemoved(() => screen.queryByRole('progressbar'));
+    expect(screen.queryByRole('heading', { name: /sorry, we did not find a metering point match/i })).not.toBeInTheDocument();
+    expect(screen.queryByRole('heading', { name: /oops! there was an error/i })).not.toBeInTheDocument();
+
+    await waitFor(() => {
+      expect(location.path()).toBe('/metering-point/571313180400014077');
+    });
   });
 
   /*

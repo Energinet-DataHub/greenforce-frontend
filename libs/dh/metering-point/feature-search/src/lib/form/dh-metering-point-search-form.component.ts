@@ -23,7 +23,6 @@ import {
   EventEmitter,
   Input,
   NgModule,
-  OnInit,
   Output,
   ViewChild,
 } from '@angular/core';
@@ -44,6 +43,7 @@ import {
 } from '@energinet-datahub/watt';
 
 import { meteringPointIdValidator } from './dh-metering-point.validator';
+import { Subscription, take } from 'rxjs';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -52,11 +52,13 @@ import { meteringPointIdValidator } from './dh-metering-point.validator';
   templateUrl: './dh-metering-point-search-form.component.html',
 })
 export class DhMeteringPointSearchFormComponent
-  implements OnInit, AfterViewInit
+  implements AfterViewInit
 {
   @Input() loading = false;
   @Output() search = new EventEmitter<string>();
   @ViewChild('searchInput') searchInput?: ElementRef;
+
+  queryParamsSubscription?: Subscription;
 
   searchControl = new FormControl('', [meteringPointIdValidator()]);
 
@@ -66,15 +68,13 @@ export class DhMeteringPointSearchFormComponent
     private changeDetectorRef: ChangeDetectorRef
   ) {}
 
-  ngOnInit() {
-    this.setInitialValue();
-  }
-
   ngAfterViewInit() {
+    this.queryParamsSubscription = this.route.queryParams.pipe(take(1)).subscribe((params) => {
+      this.setInitialValue(params.q);
+    });
     this.focusSearchInput();
   }
 
-  // TODO: Should clear cancel the search?
   onSearchInputClear(): void {
     this.searchControl.setValue('');
     this.router.navigate([
@@ -96,20 +96,20 @@ export class DhMeteringPointSearchFormComponent
     this.search.emit(this.searchControl.value);
   }
 
-  private setInitialValue(): void {
-    const query = this.route.snapshot.queryParams.q;
-    if (!query) return;
+  private setInitialValue(value: string): void {
+    this.searchControl.setValue(value);
 
-    this.searchControl.setValue(query);
-    this.searchControl.markAsTouched();
+    if(!value) {
+      this.searchControl.markAsUntouched();
+    } else {
+      this.searchControl.markAsTouched();
+    }
 
     /*
      * If detectChanges is not called,
      * the error messages will not be shown until the user blur the input
      */
     this.changeDetectorRef.detectChanges();
-
-    this.onSubmit();
   }
 
   private focusSearchInput(): void {

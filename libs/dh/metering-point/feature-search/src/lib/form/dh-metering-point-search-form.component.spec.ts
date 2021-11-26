@@ -169,29 +169,30 @@ describe(DhMeteringPointSearchFormComponent.name, () => {
   });
 
   describe('on deeplink', () => {
-    it('should submit form if valid', async () => {
-      const { fixture, input, navigate, submitSpy } = await setup();
+    it('should have initial value', async () => {
+      const { fixture, input, navigate } = await setup();
       await navigate(
         `${dhMeteringPointPath}/${dhMeteringPointSearchPath}?q=${validMeteringPointId}`
       );
-      fixture.componentInstance.ngOnInit();
+
+      fixture.componentInstance.ngAfterViewInit();
 
       const errors = screen.queryByText(
         translations.meteringPoint.search.searchInvalidLength
       );
 
-      expect(errors).not.toBeInTheDocument();
       expect(input.value).toBe(validMeteringPointId);
       expect(input).toBeValid();
-      expect(submitSpy).toHaveBeenCalledWith(validMeteringPointId);
+      expect(errors).not.toBeInTheDocument();
     });
 
-    it('should show error message, if not valid', async () => {
-      const { fixture, input, navigate, submitSpy } = await setup();
+    it('should show error message, if initial value is not valid', async () => {
+      const { fixture, input, navigate } = await setup();
       await navigate(
         `${dhMeteringPointPath}/${dhMeteringPointSearchPath}?q=${invalidMeteringPointId}`
       );
-      fixture.componentInstance.ngOnInit();
+
+      fixture.componentInstance.ngAfterViewInit();
 
       const errors = screen.getByText(
         translations.meteringPoint.search.searchInvalidLength
@@ -200,7 +201,23 @@ describe(DhMeteringPointSearchFormComponent.name, () => {
       expect(errors).toBeInTheDocument();
       expect(input.value).toBe(invalidMeteringPointId);
       expect(input).toBeInvalid();
-      expect(submitSpy).not.toHaveBeenCalled();
+    });
+
+    it('should not show error message, if initial value is empty', async () => {
+      const { fixture, input, navigate } = await setup();
+      await navigate(
+        `${dhMeteringPointPath}/${dhMeteringPointSearchPath}`
+      );
+
+      fixture.componentInstance.ngAfterViewInit();
+
+      const errors = screen.queryByText(
+        translations.meteringPoint.search.searchInvalidLength
+      );
+
+      expect(errors).not.toBeInTheDocument();
+      expect(input.value).toBe('');
+      expect(input).toBeValid();
     });
   });
 });

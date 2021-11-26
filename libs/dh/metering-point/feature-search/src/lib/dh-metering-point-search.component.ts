@@ -18,8 +18,7 @@ import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  NgModule,
-  OnInit,
+  NgModule
 } from '@angular/core';
 import { LocalRouterStore } from '@ngworker/router-component-store';
 import { TranslocoModule } from '@ngneat/transloco';
@@ -43,27 +42,21 @@ import { DhDataAccessMeteringPointStore } from './should-be-removed/dh-data-acce
   // TODO: Should be removed:
   providers: [LocalRouterStore, DhDataAccessMeteringPointStore],
 })
-export class DhMeteringPointSearchComponent implements OnInit {
+export class DhMeteringPointSearchComponent {
   isLoading$ = this.store.select((state) => state.isLoading);
   notFound$ = this.store.select((state) => state.notFound);
   hasError$ = this.store.select((state) => state.hasError);
-  meteringPointLoaded$ = this.store.select((state) => state.meteringPoint);
+  meteringPointLoaded$ = this.store
+    .select((state) => state.meteringPoint)
+    .pipe(
+      filter((x) => !!x),
+      take(1)
+    );
 
   constructor(
     private router: Router,
     private store: DhDataAccessMeteringPointStore
   ) {}
-
-  ngOnInit() {
-    this.meteringPointLoaded$
-      .pipe(
-        filter((x) => !!x),
-        take(1)
-      )
-      .subscribe((meteringPoint) =>
-        this.onMeteringPointLoaded(meteringPoint?.gsrnNumber)
-      );
-  }
 
   onSubmit(id: string) {
     this.store.setState({
@@ -72,7 +65,12 @@ export class DhMeteringPointSearchComponent implements OnInit {
       hasError: false,
       notFound: false,
     });
+
     this.store.loadMeteringPointData(id);
+
+    this.meteringPointLoaded$.subscribe((meteringPoint) => {
+      this.onMeteringPointLoaded(meteringPoint?.gsrnNumber)
+    });
   }
 
   private onMeteringPointLoaded(meteringPointId?: string) {
