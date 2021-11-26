@@ -21,18 +21,6 @@
       "settlementMethod": "Settlement Method",
       "readingOccurrence": "Meter Reading Periodicity"
     },
-    "physicalStatusCode": {
-      "D01": "Not used",
-      "D02": "Closed down",
-      "D03": "New",
-      "E22": "Connected",
-      "E23": "Disconnected"
-    },
-    "settlementMethodCode": {
-      "D01": "Flex settled",
-      "E01": "Profiled",
-      "E02": "Non profiled"
-    },
     "meteringPointTypeCode": {
       "D01": "VE production",
       "D02": "Analysis",
@@ -68,6 +56,23 @@
       "E17": "Consumption",
       "E18": "Production",
       "E20": "Exchange"
+    },
+    "MeteringPointSubTypeCode": {
+      "D01": "Physical",
+      "D02": "Virtual",
+      "D03": "Calculated"
+    },
+    "physicalStatusCode": {
+      "D01": "Not used",
+      "D02": "Closed down",
+      "D03": "New",
+      "E22": "Connected",
+      "E23": "Disconnected"
+    },
+    "settlementMethodCode": {
+      "D01": "Flex settled",
+      "E01": "Profiled",
+      "E02": "Non profiled"
     }
   }
 }

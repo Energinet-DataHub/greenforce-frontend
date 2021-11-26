@@ -21,18 +21,6 @@
       "settlementMethod": "Afregningsform",
       "readingOccurrence": "Aflæsningsfrevens"
     },
-    "physicalStatusCode": {
-      "D01": "Anvendes ikke",
-      "D02": "Nedlæg",
-      "D03": "Ny",
-      "E22": "Tilsluttet",
-      "E23": "Afbrudt"
-    },
-    "settlementMethodCode": {
-      "D01": "Flex afregnet",
-      "E01": "Time afregnet",
-      "E02": "Skabelon afregnet"
-    },
     "meteringPointTypeCode": {
       "D01": "VE produktion",
       "D02": "Analysemålepunkt",
@@ -68,6 +56,23 @@
       "E17": "Forbrug",
       "E18": "Produktion",
       "E20": "Udveksling"
+    },
+    "MeteringPointSubTypeCode": {
+      "D01": "Fysisk",
+      "D02": "Virtuel",
+      "D03": "Beregnet"
+    },
+    "physicalStatusCode": {
+      "D01": "Anvendes ikke",
+      "D02": "Nedlæg",
+      "D03": "Ny",
+      "E22": "Tilsluttet",
+      "E23": "Afbrudt"
+    },
+    "settlementMethodCode": {
+      "D01": "Flex afregnet",
+      "E01": "Time afregnet",
+      "E02": "Skabelon afregnet"
     }
   }
 }
