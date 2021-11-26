@@ -17,6 +17,10 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
+# Frontend configuration files
+**/configuration/**/*.json
+!**/configuration/**/*.local.json
+
 # User-specific files
 *.rsuser
 *.suo
