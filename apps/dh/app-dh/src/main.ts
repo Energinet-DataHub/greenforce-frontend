@@ -28,10 +28,17 @@ if (environment.production) {
   enableProdMode();
 }
 
-loadDhApiEnvironment()
+loadDhApiEnvironment('dh-api-environment.json')
+  .catch((error: unknown) => {
+    if (environment.production) {
+      throw error;
+    }
+
+    return loadDhApiEnvironment('dh-api-environment.local.json');
+  })
   .then((dhApiEnvironment) =>
     platformBrowserDynamic([
       { provide: dhApiEnvironmentToken, useValue: dhApiEnvironment },
     ]).bootstrapModule(DataHubAppModule)
   )
-  .catch((err) => console.error(err));
+  .catch((error: unknown) => console.error(error));
