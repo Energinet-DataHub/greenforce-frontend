@@ -15,14 +15,19 @@
  * limitations under the License.
  */
 import { TestBed } from '@angular/core/testing';
-import { render, screen, waitFor, waitForElementToBeRemoved } from '@testing-library/angular';
+import {
+  render,
+  screen,
+  waitFor,
+  waitForElementToBeRemoved,
+} from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
 import { ActivatedRoute } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 
 import { en as translations } from '@energinet-datahub/dh/globalization/assets-localization';
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
-import {Location} from '@angular/common';
+import { Location } from '@angular/common';
 
 import {
   DhMeteringPointSearchComponent,
@@ -47,7 +52,7 @@ describe(DhMeteringPointSearchComponent.name, () => {
               (esModule) => esModule.DhMeteringPointShellModule
             ),
         },
-      ]
+      ],
     });
 
     const activatedRoute = TestBed.inject(ActivatedRoute);
@@ -64,8 +69,8 @@ describe(DhMeteringPointSearchComponent.name, () => {
       input,
       submitButton,
       activatedRoute,
-      fixture
-    }
+      fixture,
+    };
   }
 
   it('should show heading of level 1', async () => {
@@ -75,7 +80,7 @@ describe(DhMeteringPointSearchComponent.name, () => {
   });
 
   it('should redirect to overview, if metering point is found', async () => {
-    const {input, submitButton } = await setup();
+    const { input, submitButton } = await setup();
     const location: Location = TestBed.inject(Location);
 
     userEvent.type(input, '571313180400014077');
@@ -83,8 +88,14 @@ describe(DhMeteringPointSearchComponent.name, () => {
 
     expect(screen.queryByRole('progressbar')).toBeInTheDocument();
     await waitForElementToBeRemoved(() => screen.queryByRole('progressbar'));
-    expect(screen.queryByRole('heading', { name: /sorry, we did not find a metering point match/i })).not.toBeInTheDocument();
-    expect(screen.queryByRole('heading', { name: /oops! there was an error/i })).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole('heading', {
+        name: /sorry, we did not find a metering point match/i,
+      })
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole('heading', { name: /oops! there was an error/i })
+    ).not.toBeInTheDocument();
 
     await waitFor(() => {
       expect(location.path()).toBe('/metering-point/571313180400014077');
@@ -92,7 +103,7 @@ describe(DhMeteringPointSearchComponent.name, () => {
   });
 
   it('should show empty state if no metering point is found', async () => {
-    const {input, submitButton } = await setup();
+    const { input, submitButton } = await setup();
     const location: Location = TestBed.inject(Location);
 
     userEvent.type(input, '000000000000000000');
@@ -100,11 +111,19 @@ describe(DhMeteringPointSearchComponent.name, () => {
 
     expect(screen.queryByRole('progressbar')).toBeInTheDocument();
     await waitForElementToBeRemoved(() => screen.queryByRole('progressbar'));
-    expect(screen.queryByRole('heading', { name: /sorry, we did not find a metering point match/i })).toBeInTheDocument();
-    expect(screen.queryByRole('heading', { name: /oops! there was an error/i })).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole('heading', {
+        name: /sorry, we did not find a metering point match/i,
+      })
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByRole('heading', { name: /oops! there was an error/i })
+    ).not.toBeInTheDocument();
 
     await waitFor(() => {
-      expect(location.path()).toBe('/metering-point/search?q=000000000000000000');
+      expect(location.path()).toBe(
+        '/metering-point/search?q=000000000000000000'
+      );
     });
   });
 });

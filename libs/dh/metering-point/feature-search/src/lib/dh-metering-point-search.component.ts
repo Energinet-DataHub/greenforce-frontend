@@ -15,11 +15,7 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  NgModule
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
 import { LocalRouterStore } from '@ngworker/router-component-store';
 import { TranslocoModule } from '@ngneat/transloco';
 
@@ -68,7 +64,7 @@ export class DhMeteringPointSearchComponent {
     this.store.loadMeteringPointData(id);
 
     this.meteringPointLoaded$.subscribe((meteringPoint) => {
-      this.onMeteringPointLoaded(meteringPoint?.gsrnNumber)
+      this.onMeteringPointLoaded(meteringPoint?.gsrnNumber);
     });
   }
 

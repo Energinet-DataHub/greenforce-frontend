@@ -205,9 +205,7 @@ describe(DhMeteringPointSearchFormComponent.name, () => {
 
     it('should not show error message, if initial value is empty', async () => {
       const { fixture, input, navigate } = await setup();
-      await navigate(
-        `${dhMeteringPointPath}/${dhMeteringPointSearchPath}`
-      );
+      await navigate(`${dhMeteringPointPath}/${dhMeteringPointSearchPath}`);
 
       fixture.componentInstance.ngAfterViewInit();
 

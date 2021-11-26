@@ -66,9 +66,11 @@ export class DhMeteringPointSearchFormComponent
   ) {}
 
   ngAfterViewInit() {
-    this.queryParamsSubscription = this.route.queryParams.subscribe((params) => {
-      this.setInitialValue(params.q);
-    });
+    this.queryParamsSubscription = this.route.queryParams.subscribe(
+      (params) => {
+        this.setInitialValue(params.q);
+      }
+    );
     this.focusSearchInput();
   }
 
@@ -78,16 +80,13 @@ export class DhMeteringPointSearchFormComponent
 
   onSearchInputClear(): void {
     this.searchControl.setValue('');
-    this.router.navigate([
-      `/metering-point/search`,
-    ]);
+    this.router.navigate([`/metering-point/search`]);
   }
 
   onSubmit() {
-    this.router.navigate(
-      [`/metering-point/search`],
-      { queryParams: { q: this.searchControl.value } }
-    );
+    this.router.navigate([`/metering-point/search`], {
+      queryParams: { q: this.searchControl.value },
+    });
 
     if (!this.searchControl.valid) {
       this.focusSearchInput();
@@ -100,7 +99,7 @@ export class DhMeteringPointSearchFormComponent
   private setInitialValue(value: string): void {
     this.searchControl.setValue(value);
 
-    if(!value) {
+    if (!value) {
       this.searchControl.markAsUntouched();
     } else {
       this.searchControl.markAsTouched();
