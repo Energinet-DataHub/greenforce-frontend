@@ -28,7 +28,6 @@ import {
   DhMeteringPointSearchComponent,
   DhMeteringPointSearchScam,
 } from './dh-metering-point-search.component';
-import { dhMeteringPointPath } from '@energinet-datahub/dh/metering-point/routing';
 import { DhApiModule } from '@energinet-datahub/dh/shared/data-access-api';
 
 describe(DhMeteringPointSearchComponent.name, () => {
@@ -42,7 +41,7 @@ describe(DhMeteringPointSearchComponent.name, () => {
       ],
       routes: [
         {
-          path: dhMeteringPointPath,
+          path: 'metering-point',
           loadChildren: () =>
             import('@energinet-datahub/dh/metering-point/shell').then(
               (esModule) => esModule.DhMeteringPointShellModule
