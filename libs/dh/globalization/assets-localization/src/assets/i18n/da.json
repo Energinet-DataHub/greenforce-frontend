@@ -11,6 +11,11 @@
       "noMeteringPointFoundMessage": "Tjek for eventuelle tastefejl og prøv igen",
       "serverErrorTitle": "Ups! Der opstod en fejl",
       "serverErrorMessage": "Der opstod desværre en fejl, da vi skulle hente de nødvendige oplysninger."
+    },
+    "overview": {
+      "breadcrumb": {
+        "meteringPoints": "Målepunkter"
+      }
     }
   }
 }

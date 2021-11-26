@@ -2299,7 +2299,7 @@
   resolved "https://registry.yarnpkg.com/@ngtools/webpack/-/webpack-12.2.13.tgz#44d711edfa39d175a2d655aa5c6f9968dfedcc35"
   integrity sha512-krAwMyRqOaC1S0+IxAFid9F6A6ABip2DJ0tgCx26X+1Vw/d1GKtV9ZqDJFizMf5k1ywl9aBlhOazWpq5d6i+gw==
 
-"@ngworker/router-component-store@^0.0.2":
+"@ngworker/router-component-store@~0.0.2":
   version "0.0.2"
   resolved "https://registry.yarnpkg.com/@ngworker/router-component-store/-/router-component-store-0.0.2.tgz#19da98c8d0525b310c57ddafa742a7f584dca4dc"
   integrity sha512-jFvEqeZBxSMyQPeR3vTQAJG4dTCIiEyD3fSAp3A8QbWr3ptPBGn0zD2lu+nDDRtGJLVV8AaCYKjN4qAEWnwtWQ==

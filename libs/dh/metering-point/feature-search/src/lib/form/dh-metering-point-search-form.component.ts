@@ -33,10 +33,6 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import {
-  dhMeteringPointPath,
-  dhMeteringPointSearchPath,
-} from '@energinet-datahub/dh/metering-point/routing';
-import {
   WattButtonModule,
   WattFormFieldModule,
   WattIconModule,
@@ -83,13 +79,13 @@ export class DhMeteringPointSearchFormComponent
   onSearchInputClear(): void {
     this.searchControl.setValue('');
     this.router.navigate([
-      `/${dhMeteringPointPath}/${dhMeteringPointSearchPath}`,
+      `/metering-point/search`,
     ]);
   }
 
   onSubmit() {
     this.router.navigate(
-      [`/${dhMeteringPointPath}/${dhMeteringPointSearchPath}`],
+      [`/metering-point/search`],
       { queryParams: { q: this.searchControl.value } }
     );
 

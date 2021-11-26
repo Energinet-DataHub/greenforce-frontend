@@ -11,6 +11,11 @@
       "noMeteringPointFoundMessage": "Please check the spelling and try again",
       "serverErrorTitle": "Oops! There was an error",
       "serverErrorMessage": "Unfortunately, an error occurred while retrieving the necessary information."
+    },
+    "overview": {
+      "breadcrumb": {
+        "meteringPoints": "Metering points"
+      }
     }
   }
 }

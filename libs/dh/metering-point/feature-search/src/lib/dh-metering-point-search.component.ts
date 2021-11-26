@@ -25,7 +25,6 @@ import { TranslocoModule } from '@ngneat/transloco';
 
 import { WattEmptyStateModule } from '@energinet-datahub/watt';
 
-import { dhMeteringPointPath } from '@energinet-datahub/dh/metering-point/routing';
 import { DhMeteringPointSearchFormScam } from './form/dh-metering-point-search-form.component';
 import { filter, take } from 'rxjs';
 import { PushModule } from '@rx-angular/template';
@@ -74,7 +73,7 @@ export class DhMeteringPointSearchComponent {
   }
 
   private onMeteringPointLoaded(meteringPointId?: string) {
-    this.router.navigate([`/${dhMeteringPointPath}/${meteringPointId}`]);
+    this.router.navigate([`/metering-point/${meteringPointId}`]);
   }
 }
 
