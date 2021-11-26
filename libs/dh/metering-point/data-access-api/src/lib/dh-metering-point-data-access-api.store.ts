@@ -16,25 +16,18 @@
  */
 import { Injectable } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
-import { filter, map, Observable, switchMap, tap } from 'rxjs';
+import { filter, Observable, switchMap, tap } from 'rxjs';
 import {
   MeteringPointDto,
   MeteringPointHttp,
 } from '@energinet-datahub/dh/shared/data-access-api';
 import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
-import { connectionStateToBadgeType } from '@energinet-datahub/dh/metering-point/domain';
-import { WattBadgeType } from '@energinet-datahub/watt';
 
 interface MeteringPointState {
   readonly meteringPoint?: MeteringPointDto;
   readonly meteringPointNotFound: boolean;
   readonly isLoading: boolean;
   readonly hasError: boolean;
-}
-
-export interface MeteringPointStatus {
-  badgeType: WattBadgeType;
-  value: string;
 }
 
 const initialState: MeteringPointState = {
@@ -48,16 +41,6 @@ const initialState: MeteringPointState = {
 export class DhMeteringPointDataAccessApiStore extends ComponentStore<MeteringPointState> {
   meteringPoint$ = this.select((state) => state.meteringPoint).pipe(
     filter((meteringPointId) => !!meteringPointId)
-  );
-  meteringPointStatus$: Observable<MeteringPointStatus> = this.select(
-    (state) => state.meteringPoint
-  ).pipe(
-    map((meteringPoint) => meteringPoint?.connectionState),
-    map((connectionState) => connectionState as string),
-    map((connectionState) => ({
-      badgeType: connectionStateToBadgeType(connectionState),
-      value: connectionState,
-    }))
   );
 
   constructor(private httpClient: MeteringPointHttp) {

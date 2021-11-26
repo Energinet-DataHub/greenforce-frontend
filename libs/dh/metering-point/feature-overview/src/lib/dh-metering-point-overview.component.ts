@@ -24,21 +24,27 @@ import { DhMeteringPointDataAccessApiStore } from '@energinet-datahub/dh/meterin
 
 import { DhBreadcrumbScam } from './breadcrumb/dh-breadcrumb.component';
 import { dhMeteringPointIdParam } from './routing/dh-metering-point-id-param';
+import { DhMeteringPointOverviewPresenter } from './dh-metering-point-overview.presenter';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'dh-metering-point-overview',
   styleUrls: ['./dh-metering-point-overview.component.scss'],
   templateUrl: './dh-metering-point-overview.component.html',
-  viewProviders: [DhMeteringPointDataAccessApiStore, LocalRouterStore],
+  viewProviders: [
+    LocalRouterStore,
+    DhMeteringPointOverviewPresenter,
+    DhMeteringPointDataAccessApiStore,
+  ],
 })
 export class DhMeteringPointOverviewComponent {
   meteringPoint$ = this.store.meteringPoint$;
-  meteringPointStatus$ = this.store.meteringPointStatus$;
+  meteringPointStatus$ = this.presenter.meteringPointStatus$;
 
   constructor(
     private route: LocalRouterStore,
-    private store: DhMeteringPointDataAccessApiStore
+    private store: DhMeteringPointDataAccessApiStore,
+    private presenter: DhMeteringPointOverviewPresenter
   ) {
     this.loadMeteringPointData();
   }
