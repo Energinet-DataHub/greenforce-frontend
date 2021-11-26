@@ -32,10 +32,6 @@ import {
 } from '@energinet-datahub/dh/shared/test-util-metering-point';
 import { DhMeteringPointSearchComponent } from '../dh-metering-point-search.component';
 
-import {
-  dhMeteringPointPath,
-  dhMeteringPointSearchPath,
-} from '@energinet-datahub/dh/metering-point/routing';
 import { TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 
@@ -51,7 +47,7 @@ describe(DhMeteringPointSearchFormComponent.name, () => {
         ],
         routes: [
           {
-            path: `${dhMeteringPointPath}/${dhMeteringPointSearchPath}`,
+            path: `metering-point/search`,
             component: DhMeteringPointSearchComponent,
           },
         ],
@@ -172,7 +168,7 @@ describe(DhMeteringPointSearchFormComponent.name, () => {
     it('should have initial value', async () => {
       const { fixture, input, navigate } = await setup();
       await navigate(
-        `${dhMeteringPointPath}/${dhMeteringPointSearchPath}?q=${validMeteringPointId}`
+        `metering-point/search?q=${validMeteringPointId}`
       );
 
       fixture.componentInstance.ngAfterViewInit();
@@ -189,7 +185,7 @@ describe(DhMeteringPointSearchFormComponent.name, () => {
     it('should show error message, if initial value is not valid', async () => {
       const { fixture, input, navigate } = await setup();
       await navigate(
-        `${dhMeteringPointPath}/${dhMeteringPointSearchPath}?q=${invalidMeteringPointId}`
+        `metering-point/search?q=${invalidMeteringPointId}`
       );
 
       fixture.componentInstance.ngAfterViewInit();
@@ -205,7 +201,7 @@ describe(DhMeteringPointSearchFormComponent.name, () => {
 
     it('should not show error message, if initial value is empty', async () => {
       const { fixture, input, navigate } = await setup();
-      await navigate(`${dhMeteringPointPath}/${dhMeteringPointSearchPath}`);
+      await navigate(`metering-point/search`);
 
       fixture.componentInstance.ngAfterViewInit();
 
