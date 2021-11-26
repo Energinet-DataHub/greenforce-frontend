@@ -131,7 +131,7 @@ jobs:
         shell: bash
         run: |
           mkdir dist/apps/dh/${{ env.app-name }}/assets/configuration
-          echo "{\"apiBase\":\"https://app-bff-dh-u-001.azurewebsites.net\"}" > ./dist/apps/dh/assets/configuration/dh-api-environment.json
+          echo "{\"apiBase\":\"https://app-bff-dh-u-001.azurewebsites.net\"}" > dist/apps/dh/${{ env.app-name }}/assets/configuration/dh-api-environment.json
           cd mkdir dist/apps/dh/${{ env.app-name }}/assets/configuration
           ls -ahl
 
