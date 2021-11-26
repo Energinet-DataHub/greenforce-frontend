@@ -131,9 +131,7 @@ export class EttShellComponent implements OnInit {
 
   getProfile() {
     this.profileLoading = true;
-    this.authOidc
-      .getProfile()
-      .subscribe(this.onGetProfileComplete.bind(this));
+    this.authOidc.getProfile().subscribe(this.onGetProfileComplete.bind(this));
   }
 
   private onGetProfileComplete(response?: GetProfileResponse) {
