@@ -29,9 +29,9 @@
       "E23": "Afbrudt"
     },
     "settlementMethodCode": {
-      "D01": "Flex settled [EN]",
-      "E01": "Profiled [EN]",
-      "E02": "Non profiled [EN]"
+      "D01": "Flex afregnet",
+      "E01": "Time afregnet",
+      "E02": "Skabelon afregnet"
     },
     "meteringPointTypeCode": {
       "D01": "VE produktion",
