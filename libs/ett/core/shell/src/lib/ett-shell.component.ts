@@ -32,7 +32,7 @@ import { WattShellModule } from '@energinet-datahub/watt';
 import { WattButtonModule } from '@energinet-datahub/watt';
 import { MatIconModule } from '@angular/material/icon'; // TODO Import from Watt?
 import { MatMenuModule } from '@angular/material/menu'; // TODO Import from Watt?
-import { map, catchError } from 'rxjs';
+import { map } from 'rxjs';
 
 import { EttPrimaryNavigationScam } from './ett-primary-navigation.component';
 import { CommonModule } from '@angular/common';
@@ -118,10 +118,7 @@ export class EttShellComponent implements OnInit {
     this.authOidc
       .logout()
       .pipe(map((response) => response.success))
-      .subscribe({
-        next: this.onLogoutComplete.bind(this),
-        error: this.onLogoutFailed.bind(this),
-      });
+      .subscribe(this.onLogoutComplete.bind(this));
   }
 
   private onLogoutComplete(success: boolean) {
@@ -130,19 +127,13 @@ export class EttShellComponent implements OnInit {
     }
   }
 
-  private onLogoutFailed(error: any) {
-    // TODO Test this
-    console.log('onLogoutFailed', error);
-  }
-
   // -- GetProfile -----------------------------------------------------------
 
   getProfile() {
     this.profileLoading = true;
-    this.authOidc.getProfile().subscribe({
-      next: this.onGetProfileComplete.bind(this),
-      error: this.onGetProfileFailed.bind(this),
-    });
+    this.authOidc
+      .getProfile()
+      .subscribe(this.onGetProfileComplete.bind(this));
   }
 
   private onGetProfileComplete(response?: GetProfileResponse) {
@@ -152,11 +143,6 @@ export class EttShellComponent implements OnInit {
       // TODO Replace with observables:
       this.change.markForCheck();
     }
-  }
-
-  private onGetProfileFailed(error: any) {
-    // TODO Test this
-    console.log('onGetProfileFailed', error);
   }
 }
 
