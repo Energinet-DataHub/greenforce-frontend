@@ -78,6 +78,8 @@ describe(DhMeteringPointOverviewComponent.name, () => {
   it('displays a link to the Metering point URL', async () => {
     await featureRouter.navigateByUrl(`~/${meteringPointId}`);
 
+    await view.fixture.whenStable();
+
     const [topLevelLink]: HTMLAnchorElement[] = await screen.findAllByRole(
       'link'
     );
