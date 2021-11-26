@@ -17,6 +17,7 @@
 import { TestBed } from '@angular/core/testing';
 import { Component } from '@angular/core';
 import { render, RenderResult, screen } from '@testing-library/angular';
+import { HttpClientModule } from '@angular/common/http';
 import user from '@testing-library/user-event';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
@@ -26,6 +27,7 @@ import {
   SpectacularFeatureLocation,
 } from '@ngworker/spectacular';
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
+import { DhApiModule } from '@energinet-datahub/dh/shared/data-access-api';
 
 import { DhMeteringPointOverviewComponent } from './dh-metering-point-overview.component';
 import { DhMeteringPointFeatureOverviewModule } from './dh-metering-point-feature-overview.module';
@@ -40,6 +42,8 @@ describe(DhMeteringPointOverviewComponent.name, () => {
 
     view = await render(SpectacularAppComponent, {
       imports: [
+        HttpClientModule,
+        DhApiModule.forRoot(),
         RouterTestingModule,
         getTranslocoTestingModule(),
         SpectacularFeatureTestingModule.withFeature({
@@ -84,8 +88,10 @@ describe(DhMeteringPointOverviewComponent.name, () => {
     expect(featureLocation.path()).toBe(`~/`);
   });
 
-  it('displays the metering point id from the URL in a heading', async () => {
+  it('displays the metering point id in a heading for an existing metering point', async () => {
     await featureRouter.navigateByUrl(`~/${meteringPointId}`);
+
+    await view.fixture.whenStable();
 
     expect(
       await screen.findByRole('heading', {
