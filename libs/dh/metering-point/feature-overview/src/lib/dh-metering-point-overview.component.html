@@ -40,14 +40,15 @@ limitations under the License.
       {{ meteringPoint?.gsrnNumber }}
     </h1>
     <div class="watt-text-s">
-      <ng-container *ngIf="meteringPoint?.connectionState; else emptyField">
-        <watt-badge
-          *rxLet="meteringPointStatus$ as meteringPointStatus"
-          [type]="meteringPointStatus.badgeType"
-          [attr.title]="'meteringPoint.overview.connectionState' | transloco"
-          >{{ meteringPointStatus.text }}</watt-badge
-        >
-      </ng-container>
+      <span [title]="'meteringPoint.overview.connectionState' | transloco">
+        <ng-container *ngIf="meteringPoint?.connectionState; else emptyField">
+          <watt-badge
+            *rxLet="meteringPointStatus$ as meteringPointStatus"
+            [type]="meteringPointStatus.badgeType"
+            >{{ meteringPointStatus.text }}</watt-badge
+          >
+        </ng-container>
+      </span>
       <ng-container *ngIf="meteringPoint?.settlementMethod">
         |
         <span [title]="'meteringPoint.overview.settlementMethod' | transloco">{{
