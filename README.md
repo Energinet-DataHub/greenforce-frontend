@@ -2,7 +2,7 @@
 
 Monorepo that hosts:
 
-- Front-end apps
+- Frontend apps
 - Backend-for-frontends (BFFs)
 - Watt Design System
 - CI/CD pipelines
@@ -151,9 +151,9 @@ Allowed dependencies to: `assets`.
 SCSS functions, mixins, variables, partials, and global stylesheets.
 Allowed dependencies to: `assets`, `styles`.
 
-## Front-end apps
+## Frontend apps
 
-The front-end apps are built with Angular in an Nx Workspace. They are located under `apps` folder:
+The frontend apps are built with Angular in an Nx Workspace. They are located under `apps` folder:
 
 - `dh/app-dh` - "DataHub" app
 - `dh/e2e-dh` - End-to-end tests for `app-dh`
@@ -162,6 +162,13 @@ The front-end apps are built with Angular in an Nx Workspace. They are located u
 
 Besides the `apps` folder, there's also a `libs` folder that contains features used by the apps. This is where most of the code lives.
 
+### Frontend configuration files
+
+#### DataHub frontend
+
+Configuration files are located in the `assets/configuration` folder. Local configurations have a `.local` filename suffix but is overridable by a configuration file without a prefix. For example, `dh-api-environment.local.json` configures the DataHub frontend to use a local DataHub API. To use a remote DataHub API, place a `dh-api-environment.json` file in the same folder
+and set the remote address in the relevant property.
+
 ## Backend-for-frontend (BFF)
 
 There's currenly only one BFF located in `api-dh` under `apps/dh`. It is for `app-dh` and is using .NET 5.0. See [Development notes](./apps/dh/api-dh/documents/development.md). When developing `app-dh`, run `nx serve api-dh` to start
@@ -169,7 +176,7 @@ the BFF. This is required for both local development and tests.
 
 ## Watt Design System
 
-"Watt" is a Design System that is used by all front-end apps. It is located in `ui-watt` under `libs`.
+"Watt" is a Design System that is used by all frontend apps. It is located in `ui-watt` under `libs`.
 
 ## CI/CD pipelines
 
@@ -178,7 +185,7 @@ Located under `.github/workflows`. There are:
 - `api-dh-ci.yml` - Used by the BFF for `app-dh`.
 - `ett.yml` - Used by "Energy Track and Trace" app
 - `license-check-ci.yml` - Used for adding license to files
-- `frontend-ci.yml` - Used to build, test, format and lint all front-end apps
+- `frontend-ci.yml` - Used to build, test, format and lint all frontend apps
 
 We use bots for certain trivial tasks such as adding license headers to files, formatting code, fixing lint errors, and generating API clients based on OpenAPI. For this to work, bots have to use the repository secret `ACTIONS_BOT_SSH_KEY`
 when checking out and pushing changes or creating releases that trigger a workflow. Only do this for idempotent tasks to
