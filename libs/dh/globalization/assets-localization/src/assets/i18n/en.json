@@ -23,6 +23,10 @@
       "notFound": {
         "title": "Vi fandt desværre intet målepunkt [EN]",
         "message": "Tjek for eventuelle tastefejl og prøv igen eller gå til søgning. [EN]"
+      },
+      "serverError": {
+        "title": "Ups! Der opstod en fejl [EN]",
+        "message": "Der opstod desværre en fejl, da vi skulle hente de nødvendige oplysninger. [EN]"
       }
     },
     "meteringPointTypeCode": {

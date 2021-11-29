@@ -75,9 +75,19 @@ limitations under the License.
 <ng-container *rxLet="meteringPointNotFound$ as meteringPointNotFound">
   <ng-container *ngIf="meteringPointNotFound">
     <watt-empty-state
-      [title]="'meteringPoint.overview.notFound.title' | transloco"
       icon="explore"
+      [title]="'meteringPoint.overview.notFound.title' | transloco"
       >{{ 'meteringPoint.overview.notFound.message' | transloco }}
+    </watt-empty-state>
+  </ng-container>
+</ng-container>
+
+<ng-container *rxLet="hasError$ as hasError">
+  <ng-container *ngIf="hasError">
+    <watt-empty-state
+      icon="power"
+      [title]="'meteringPoint.overview.serverError.title' | transloco"
+      >{{ 'meteringPoint.overview.serverError.message' | transloco }}
     </watt-empty-state>
   </ng-container>
 </ng-container>

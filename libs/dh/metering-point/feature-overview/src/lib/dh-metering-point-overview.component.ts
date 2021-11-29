@@ -47,6 +47,7 @@ export class DhMeteringPointOverviewComponent {
   meteringPointStatus$ = this.presenter.meteringPointStatus$;
   isLoading$ = this.store.isLoading$;
   meteringPointNotFound$ = this.store.meteringPointNotFound$;
+  hasError$ = this.store.hasError$;
 
   emDash = '—';
 

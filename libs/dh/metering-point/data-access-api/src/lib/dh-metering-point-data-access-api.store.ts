@@ -44,6 +44,7 @@ export class DhMeteringPointDataAccessApiStore extends ComponentStore<MeteringPo
   );
   isLoading$ = this.select((store) => store.isLoading);
   meteringPointNotFound$ = this.select((store) => store.meteringPointNotFound);
+  hasError$ = this.select((store) => store.hasError);
 
   constructor(private httpClient: MeteringPointHttp) {
     super(initialState);
