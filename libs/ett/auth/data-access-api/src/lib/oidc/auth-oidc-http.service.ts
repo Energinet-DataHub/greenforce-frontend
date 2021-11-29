@@ -48,7 +48,7 @@ export interface AuthOidcLogoutResponse {
 export interface UserProfile {
   readonly id: string;
   readonly name: string;
-  readonly company?: string;
+  readonly company: string | null;
 }
 
 export interface GetProfileResponse {
