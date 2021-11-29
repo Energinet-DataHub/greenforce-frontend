@@ -70,14 +70,12 @@ describe(EttShellComponent.name, () => {
   });
 });
 
-
 describe(EttShellComponent.name, () => {
-
   beforeEach(async () => {
     const profile = {
       id: '123',
       name: profileName,
-      company: 'Energinet'
+      company: 'Energinet',
     } as UserProfile;
 
     const response = {
@@ -95,18 +93,20 @@ describe(EttShellComponent.name, () => {
         {
           provide: AuthOidcHttp,
           useValue: mockAuthOidcHttp,
-        }
-      ]
+        },
+      ],
     });
   });
 
   let view: RenderResult<EttShellComponent, EttShellComponent>;
   let mockAuthOidcHttp: AuthOidcHttp;
-  const profileName = 'Mock User'
+  const profileName = 'Mock User';
 
-  it('displays the user\'s name', async () => {
-    expect(await view.findByRole('button', {
-      name: new RegExp(profileName, 'i')
-    })).toBeInTheDocument();
+  it("displays the user's name", async () => {
+    expect(
+      await view.findByRole('button', {
+        name: new RegExp(profileName, 'i'),
+      })
+    ).toBeInTheDocument();
   });
 });
