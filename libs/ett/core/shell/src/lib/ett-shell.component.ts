@@ -83,9 +83,9 @@ const selector = 'ett-shell';
               [matMenuTriggerFor]="menu"
             >
               {{ profile?.name }}
-              <mat-icon aria-hidden="false" aria-label="Logout"
-                >expand_more</mat-icon
-              >
+              <mat-icon aria-hidden="false" aria-label="Logout">
+                expand_more
+              </mat-icon>
             </watt-button>
             <mat-menu #menu="matMenu">
               <button mat-menu-item (click)="logout()">Logout</button>

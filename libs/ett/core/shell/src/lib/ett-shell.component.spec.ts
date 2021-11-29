@@ -22,6 +22,7 @@ import { of } from 'rxjs';
 import { MockService } from 'ng-mocks';
 
 import { EttShellComponent, EttShellScam } from './ett-shell.component';
+import { render, RenderResult } from '@testing-library/angular';
 
 
 describe(EttShellComponent.name, () => {
@@ -63,5 +64,46 @@ describe(EttShellComponent.name, () => {
     );
 
     expect(wattShell.componentInstance).toBeInstanceOf(WattShellComponent);
+  });
+});
+
+
+describe(EttShellComponent.name, () => {
+
+  beforeEach(async () => {
+    const profile = {
+      id: '123',
+      name: profileName,
+      company: 'Energinet'
+    } as UserProfile;
+
+    const response = {
+      success: true,
+      profile: profile,
+    } as GetProfileResponse;
+
+    mockAuthOidcHttp = MockService(AuthOidcHttp);
+
+    (mockAuthOidcHttp.getProfile as jest.Mock).mockReturnValue(of(response));
+
+    view = await render(EttShellComponent, {
+      imports: [EttShellScam],
+      providers: [
+        {
+          provide: AuthOidcHttp,
+          useValue: mockAuthOidcHttp,
+        }
+      ]
+    });
+  });
+
+  let view: RenderResult<EttShellComponent, EttShellComponent>;
+  let mockAuthOidcHttp: AuthOidcHttp;
+  const profileName = 'Mock User'
+
+  it('displays the user\'s name', async () => {
+    expect(await view.findByRole('button', {
+      name: new RegExp(profileName, 'i')
+    })).toBeInTheDocument();
   });
 });
