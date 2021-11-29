@@ -58,8 +58,8 @@
           ],
           "fileReplacements": [
             {
-              "replace": "apps/dh/src/configuration/load-dh-api-environment.ts",
-              "with": "apps/dh/src/configuration/load-dh-api-environment.prod.ts"
+              "replace": "apps/dh/app-dh/src/configuration/load-dh-api-environment.ts",
+              "with": "apps/dh/app-dh/src/configuration/load-dh-api-environment.prod.ts"
             },
             {
               "replace": "libs/dh/shared/environments/src/lib/environment.ts",
