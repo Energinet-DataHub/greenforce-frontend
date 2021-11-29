@@ -22,7 +22,7 @@ import {
 } from '@energinet-datahub/dh/shared/environments';
 
 import { DataHubAppModule } from './app/datahub-app.module';
-import { loadDhApiEnvironment } from './load-dh-api-environment';
+import { loadDhApiEnvironment } from './configuration/load-dh-api-environment';
 
 if (environment.production) {
   enableProdMode();
