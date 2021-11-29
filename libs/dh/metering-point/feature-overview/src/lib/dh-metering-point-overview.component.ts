@@ -43,6 +43,9 @@ import { DhMeteringPointOverviewPresenter } from './dh-metering-point-overview.p
   ],
 })
 export class DhMeteringPointOverviewComponent {
+  meteringPointId$ = this.route.selectRouteParam<string>(
+    dhMeteringPointIdParam
+  );
   meteringPoint$ = this.store.meteringPoint$;
   meteringPointStatus$ = this.presenter.meteringPointStatus$;
   isLoading$ = this.store.isLoading$;
@@ -60,8 +63,7 @@ export class DhMeteringPointOverviewComponent {
   }
 
   private loadMeteringPointData(): void {
-    this.route
-      .selectRouteParam<string>(dhMeteringPointIdParam)
+    this.meteringPointId$
       .pipe(
         map((meteringPointId) =>
           this.store.loadMeteringPointData(meteringPointId)

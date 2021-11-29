@@ -14,10 +14,11 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
+<ng-container *rxLet="meteringPointId$ as meteringPointId">
+  <dh-breadcrumb [meteringPointId]="meteringPointId"></dh-breadcrumb>
+</ng-container>
+
 <ng-container *rxLet="meteringPoint$ as meteringPoint">
-  <dh-breadcrumb
-    [meteringPointId]="meteringPoint?.gsrnNumber ?? ''"
-  ></dh-breadcrumb>
   <div class="overview__header">
     <div class="watt-text-s">
       <span [title]="'meteringPoint.overview.meteringPointType' | transloco">
