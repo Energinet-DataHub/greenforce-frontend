@@ -27,7 +27,8 @@
       },
       "serverError": {
         "title": "Ups! Der opstod en fejl [EN]",
-        "message": "Der opstod desværre en fejl, da vi skulle hente de nødvendige oplysninger. [EN]"
+        "message": "Der opstod desværre en fejl, da vi skulle hente de nødvendige oplysninger. [EN]",
+        "button": "Prøv igen [EN]"
       }
     },
     "meteringPointTypeCode": {

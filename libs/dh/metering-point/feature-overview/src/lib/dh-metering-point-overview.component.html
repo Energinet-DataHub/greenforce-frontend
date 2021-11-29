@@ -98,8 +98,11 @@ limitations under the License.
       <watt-empty-state
         icon="power"
         [title]="'meteringPoint.overview.serverError.title' | transloco"
-        >{{ 'meteringPoint.overview.serverError.message' | transloco }}
-      </watt-empty-state>
+        [message]="'meteringPoint.overview.serverError.message' | transloco"
+        ><watt-button (click)="goToSearch()" type="primary">{{
+          'meteringPoint.overview.serverError.button' | transloco
+        }}</watt-button></watt-empty-state
+      >
     </div>
   </ng-container>
 </ng-container>

@@ -73,6 +73,10 @@ export class DhMeteringPointOverviewComponent {
     this.router.navigateByUrl(url);
   }
 
+  tryAgain(): void {
+    this.loadMeteringPointData();
+  }
+
   private loadMeteringPointData(): void {
     this.meteringPointId$
       .pipe(
