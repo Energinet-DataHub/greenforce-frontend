@@ -17,7 +17,10 @@
 import 'jest-preset-angular/setup-jest';
 
 import { addNgModuleMatchers, addDomMatchers } from '@energinet-datahub/gf/test-util-matchers';
-import { setUpTestbed, setUpNgMocks } from '@energinet-datahub/gf/test-util-staging';
+import {
+  setUpTestbed,
+  setUpNgMocks,
+} from '@energinet-datahub/gf/test-util-staging';
 
 setUpTestbed();
 setUpNgMocks();
