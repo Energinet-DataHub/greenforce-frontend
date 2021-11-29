@@ -16,7 +16,6 @@
  */
 import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
 import { LetModule } from '@rx-angular/template';
 import { LocalRouterStore } from '@ngworker/router-component-store';
 import { map } from 'rxjs';
@@ -32,8 +31,7 @@ import { DhMeteringPointDataAccessApiStore } from '@energinet-datahub/dh/meterin
 import { DhBreadcrumbScam } from './breadcrumb/dh-breadcrumb.component';
 import { dhMeteringPointIdParam } from './routing/dh-metering-point-id-param';
 import { DhMeteringPointOverviewPresenter } from './dh-metering-point-overview.presenter';
-
-import { dhMeteringPointPath } from './routing/dh-metering-point-path';
+import { DhMeteringPointNotFoundScam } from './not-found/dh-metering-point-not-found.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -59,18 +57,11 @@ export class DhMeteringPointOverviewComponent {
   emDash = '—';
 
   constructor(
-    private router: Router,
     private route: LocalRouterStore,
     private store: DhMeteringPointDataAccessApiStore,
     private presenter: DhMeteringPointOverviewPresenter
   ) {
     this.loadMeteringPointData();
-  }
-
-  goToSearch(): void {
-    const url = this.router.createUrlTree([dhMeteringPointPath, 'search']);
-
-    this.router.navigateByUrl(url);
   }
 
   tryAgain(): void {
@@ -95,6 +86,7 @@ export class DhMeteringPointOverviewComponent {
     LetModule,
     TranslocoModule,
     DhBreadcrumbScam,
+    DhMeteringPointNotFoundScam,
     WattBadgeModule,
     WattButtonModule,
     WattSpinnerModule,
