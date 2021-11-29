@@ -52,14 +52,14 @@ const selector = 'ett-shell';
       ${selector}__toolbar {
         width: 100%;
         display: flex;
-      }
 
-      ${selector}__toolbar h1 {
-        flex: auto;
-      }
+        h1 {
+          flex: auto;
+        }
 
-      ${selector}__toolbar .menu {
-        align-self: flex-end;
+        .menu {
+          align-self: flex-end;
+        }
       }
     `,
   ],
