@@ -20,9 +20,10 @@
       "connectionState": "Tilslutningsstatus",
       "settlementMethod": "Afregningsform",
       "readingOccurrence": "Aflæsningsfrevens",
-      "notFound": {
+      "meteringPointNotFound": {
         "title": "Vi fandt desværre intet målepunkt",
-        "message": "Tjek for eventuelle tastefejl og prøv igen eller gå til søgning."
+        "message": "Tjek for eventuelle tastefejl og prøv igen eller gå til søgning.",
+        "button": "Gå til søgning"
       },
       "serverError": {
         "title": "Ups! Der opstod en fejl",

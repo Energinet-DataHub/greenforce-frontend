@@ -78,8 +78,15 @@ limitations under the License.
     <div class="overview__error">
       <watt-empty-state
         icon="explore"
-        [title]="'meteringPoint.overview.notFound.title' | transloco"
-        >{{ 'meteringPoint.overview.notFound.message' | transloco }}
+        [title]="
+          'meteringPoint.overview.meteringPointNotFound.title' | transloco
+        "
+        [message]="
+          'meteringPoint.overview.meteringPointNotFound.message' | transloco
+        "
+        ><watt-button (click)="goToSearch()" type="primary">{{
+          'meteringPoint.overview.meteringPointNotFound.button' | transloco
+        }}</watt-button>
       </watt-empty-state>
     </div>
   </ng-container>
