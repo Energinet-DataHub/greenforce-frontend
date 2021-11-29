@@ -25,12 +25,7 @@ import { LetModule } from '@rx-angular/template';
 import { LocalRouterStore } from '@ngworker/router-component-store';
 import { map, Subject, takeUntil } from 'rxjs';
 import { TranslocoModule } from '@ngneat/transloco';
-import {
-  WattBadgeModule,
-  WattButtonModule,
-  WattSpinnerModule,
-  WattEmptyStateModule,
-} from '@energinet-datahub/watt';
+import { WattBadgeModule, WattSpinnerModule } from '@energinet-datahub/watt';
 import { DhMeteringPointDataAccessApiStore } from '@energinet-datahub/dh/metering-point/data-access-api';
 
 import { DhBreadcrumbScam } from './breadcrumb/dh-breadcrumb.component';
@@ -99,9 +94,7 @@ export class DhMeteringPointOverviewComponent implements OnDestroy {
     DhMeteringPointNotFoundScam,
     DhMeteringPointServerErrorScam,
     WattBadgeModule,
-    WattButtonModule,
     WattSpinnerModule,
-    WattEmptyStateModule,
   ],
 })
 export class DhMeteringPointOverviewScam {}
