@@ -14,5 +14,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './lib/dh-metering-point-shell.module';
-export { dhMeteringPointPath } from '@energinet-datahub/dh/metering-point/feature-overview';
+export * from './lib/dh-metering-point-data-access-api.store';

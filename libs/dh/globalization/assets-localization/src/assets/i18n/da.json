@@ -9,6 +9,11 @@
       "searchInvalidLength": "Målepunkts ID’et skal være 18 cifre",
       "noMeteringPointFoundTitle": "Vi fandt Desværre intet målepunkt",
       "noMeteringPointFoundMessage": "Tjek for eventuelle tastefejl og prøv igen"
+    },
+    "overview": {
+      "breadcrumb": {
+        "meteringPoints": "Målepunkter"
+      }
     }
   }
 }
