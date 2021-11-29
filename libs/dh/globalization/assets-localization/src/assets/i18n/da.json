@@ -19,7 +19,11 @@
       "gsrnNumber": "Målepunkts ID",
       "connectionState": "Tilslutningsstatus",
       "settlementMethod": "Afregningsform",
-      "readingOccurrence": "Aflæsningsfrevens"
+      "readingOccurrence": "Aflæsningsfrevens",
+      "notFound": {
+        "title": "Vi fandt desværre intet målepunkt",
+        "message": "Tjek for eventuelle tastefejl og prøv igen eller gå til søgning."
+      }
     },
     "meteringPointTypeCode": {
       "D01": "VE produktion",

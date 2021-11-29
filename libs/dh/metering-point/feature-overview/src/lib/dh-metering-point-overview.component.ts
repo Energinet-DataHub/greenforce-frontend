@@ -20,7 +20,11 @@ import { LetModule } from '@rx-angular/template';
 import { LocalRouterStore } from '@ngworker/router-component-store';
 import { map } from 'rxjs';
 import { TranslocoModule } from '@ngneat/transloco';
-import { WattBadgeModule, WattSpinnerModule } from '@energinet-datahub/watt';
+import {
+  WattBadgeModule,
+  WattSpinnerModule,
+  WattEmptyStateModule,
+} from '@energinet-datahub/watt';
 import { DhMeteringPointDataAccessApiStore } from '@energinet-datahub/dh/metering-point/data-access-api';
 
 import { DhBreadcrumbScam } from './breadcrumb/dh-breadcrumb.component';
@@ -41,6 +45,9 @@ import { DhMeteringPointOverviewPresenter } from './dh-metering-point-overview.p
 export class DhMeteringPointOverviewComponent {
   meteringPoint$ = this.store.meteringPoint$;
   meteringPointStatus$ = this.presenter.meteringPointStatus$;
+  isLoading$ = this.store.isLoading$;
+  meteringPointNotFound$ = this.store.meteringPointNotFound$;
+
   emDash = '—';
 
   constructor(
@@ -72,6 +79,7 @@ export class DhMeteringPointOverviewComponent {
     DhBreadcrumbScam,
     WattBadgeModule,
     WattSpinnerModule,
+    WattEmptyStateModule,
   ],
 })
 export class DhMeteringPointOverviewScam {}

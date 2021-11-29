@@ -14,9 +14,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<ng-container
-  *rxLet="meteringPoint$ as meteringPoint; rxSuspense: suspenseTemplate"
->
+<ng-container *rxLet="meteringPoint$ as meteringPoint">
   <dh-breadcrumb
     [meteringPointId]="meteringPoint?.gsrnNumber ?? ''"
   ></dh-breadcrumb>
@@ -66,10 +64,22 @@ limitations under the License.
   </div>
 </ng-container>
 
-<ng-template #suspenseTemplate>
-  <div class="overview__spinner">
-    <watt-spinner></watt-spinner>
-  </div>
-</ng-template>
+<ng-container *rxLet="isLoading$ as isLoading">
+  <ng-container *ngIf="isLoading">
+    <div class="overview__spinner">
+      <watt-spinner></watt-spinner>
+    </div>
+  </ng-container>
+</ng-container>
+
+<ng-container *rxLet="meteringPointNotFound$ as meteringPointNotFound">
+  <ng-container *ngIf="meteringPointNotFound">
+    <watt-empty-state
+      [title]="'meteringPoint.overview.notFound.title' | transloco"
+      icon="explore"
+      >{{ 'meteringPoint.overview.notFound.message' | transloco }}
+    </watt-empty-state>
+  </ng-container>
+</ng-container>
 
 <ng-template #emptyField>{{ emDash }}</ng-template>

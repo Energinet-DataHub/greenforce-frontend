@@ -19,7 +19,11 @@
       "gsrnNumber": "Metering Point ID",
       "connectionState": "Connection State",
       "settlementMethod": "Settlement Method",
-      "readingOccurrence": "Meter Reading Periodicity"
+      "readingOccurrence": "Meter Reading Periodicity",
+      "notFound": {
+        "title": "Vi fandt desværre intet målepunkt [EN]",
+        "message": "Tjek for eventuelle tastefejl og prøv igen eller gå til søgning. [EN]"
+      }
     },
     "meteringPointTypeCode": {
       "D01": "VE production",
