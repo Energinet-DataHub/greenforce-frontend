@@ -32,6 +32,11 @@
   justify-content: center;
 }
 
+.overview__metering-point-not-found,
+.overview__server-error {
+  padding: var(--watt-space-xl) 0;
+}
+
 // NOTE(xdzus): Move to a global reset
 h1 {
   margin: 0;
