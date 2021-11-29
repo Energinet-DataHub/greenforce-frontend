@@ -16,8 +16,8 @@
  */
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { WattShellComponent } from '@energinet-datahub/watt';
 import { AuthOidcHttp, GetProfileResponse, UserProfile } from '@energinet-datahub/ett/auth/data-access-api';
+import { WattShellComponent } from '@energinet-datahub/watt';
 import { of } from 'rxjs';
 import { MockService } from 'ng-mocks';
 
