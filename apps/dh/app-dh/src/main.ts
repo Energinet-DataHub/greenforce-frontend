@@ -19,23 +19,16 @@ import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import {
   dhApiEnvironmentToken,
   environment,
-  loadDhApiEnvironment,
 } from '@energinet-datahub/dh/shared/environments';
 
 import { DataHubAppModule } from './app/datahub-app.module';
+import { loadDhApiEnvironment } from './load-dh-api-environment';
 
 if (environment.production) {
   enableProdMode();
 }
 
-loadDhApiEnvironment('dh-api-environment.json')
-  .catch((error: unknown) => {
-    if (environment.production) {
-      throw error;
-    }
-
-    return loadDhApiEnvironment('dh-api-environment.local.json');
-  })
+loadDhApiEnvironment()
   .then((dhApiEnvironment) =>
     platformBrowserDynamic([
       { provide: dhApiEnvironmentToken, useValue: dhApiEnvironment },
