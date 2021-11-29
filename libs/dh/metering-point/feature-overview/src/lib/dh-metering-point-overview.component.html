@@ -84,14 +84,9 @@ limitations under the License.
 <ng-container *rxLet="hasError$ as hasError">
   <ng-container *ngIf="hasError">
     <div class="overview__error">
-      <watt-empty-state
-        icon="power"
-        [title]="'meteringPoint.overview.serverError.title' | transloco"
-        [message]="'meteringPoint.overview.serverError.message' | transloco"
-        ><watt-button (click)="tryAgain()" type="primary">{{
-          'meteringPoint.overview.serverError.button' | transloco
-        }}</watt-button></watt-empty-state
-      >
+      <dh-metering-point-server-error
+        (reload)="loadMeteringPointData()"
+      ></dh-metering-point-server-error>
     </div>
   </ng-container>
 </ng-container>

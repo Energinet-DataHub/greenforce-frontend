@@ -1,0 +1,8 @@
+<watt-empty-state
+  icon="power"
+  [title]="'meteringPoint.overview.serverError.title' | transloco"
+  [message]="'meteringPoint.overview.serverError.message' | transloco"
+  ><watt-button (click)="reload.emit()" type="primary">{{
+    'meteringPoint.overview.serverError.button' | transloco
+  }}</watt-button></watt-empty-state
+>

@@ -14,11 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  NgModule,
+  OnDestroy,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LetModule } from '@rx-angular/template';
 import { LocalRouterStore } from '@ngworker/router-component-store';
-import { map } from 'rxjs';
+import { map, Subject, takeUntil } from 'rxjs';
 import { TranslocoModule } from '@ngneat/transloco';
 import {
   WattBadgeModule,
@@ -32,6 +37,7 @@ import { DhBreadcrumbScam } from './breadcrumb/dh-breadcrumb.component';
 import { dhMeteringPointIdParam } from './routing/dh-metering-point-id-param';
 import { DhMeteringPointOverviewPresenter } from './dh-metering-point-overview.presenter';
 import { DhMeteringPointNotFoundScam } from './not-found/dh-metering-point-not-found.component';
+import { DhMeteringPointServerErrorScam } from './server-error/dh-metering-point-server-error.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -44,7 +50,9 @@ import { DhMeteringPointNotFoundScam } from './not-found/dh-metering-point-not-f
     DhMeteringPointDataAccessApiStore,
   ],
 })
-export class DhMeteringPointOverviewComponent {
+export class DhMeteringPointOverviewComponent implements OnDestroy {
+  private destroy$ = new Subject<void>();
+
   meteringPointId$ = this.route.selectRouteParam<string>(
     dhMeteringPointIdParam
   );
@@ -64,13 +72,15 @@ export class DhMeteringPointOverviewComponent {
     this.loadMeteringPointData();
   }
 
-  tryAgain(): void {
-    this.loadMeteringPointData();
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.unsubscribe();
   }
 
-  private loadMeteringPointData(): void {
+  loadMeteringPointData(): void {
     this.meteringPointId$
       .pipe(
+        takeUntil(this.destroy$),
         map((meteringPointId) =>
           this.store.loadMeteringPointData(meteringPointId)
         )
@@ -87,6 +97,7 @@ export class DhMeteringPointOverviewComponent {
     TranslocoModule,
     DhBreadcrumbScam,
     DhMeteringPointNotFoundScam,
+    DhMeteringPointServerErrorScam,
     WattBadgeModule,
     WattButtonModule,
     WattSpinnerModule,
