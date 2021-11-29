@@ -48,12 +48,12 @@ export interface AuthOidcLogoutResponse {
 export interface UserProfile {
   readonly id: string;
   readonly name: string;
-  readonly company: string | null;
+  readonly company?: string | null;
 }
 
 export interface GetProfileResponse {
   readonly success: boolean;
-  readonly profile: UserProfile;
+  readonly profile?: UserProfile | null;
 }
 
 @Injectable({
