@@ -22,19 +22,21 @@
   @include watt.space-inset-squish-l;
 }
 
-.overview__header {
-  border-bottom: 1px solid var(--watt-color-neutral-grey-300);
-  padding: var(--watt-space-m) 0;
-}
+.overview {
+  &__header {
+    border-bottom: 1px solid var(--watt-color-neutral-grey-300);
+    padding: var(--watt-space-m) 0;
+  }
 
-.overview__spinner {
-  display: flex;
-  justify-content: center;
-}
+  &__spinner {
+    display: flex;
+    justify-content: center;
+    padding: var(--watt-space-l) 0;
+  }
 
-.overview__metering-point-not-found,
-.overview__server-error {
-  padding: var(--watt-space-xl) 0;
+  &__error {
+    padding: var(--watt-space-xl) 0;
+  }
 }
 
 // NOTE(xdzus): Move to a global reset
