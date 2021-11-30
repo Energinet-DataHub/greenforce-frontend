@@ -57,7 +57,7 @@ describe('Authentication', () => {
       Then the user is redirected to the login page`, () => {
       appShell.logOut();
 
-      loginPage.getLoginProvidersLabel().should('exist');
+      loginPage.isActivePage();
     });
 
     it(`When the log out menu item is clicked
@@ -65,6 +65,25 @@ describe('Authentication', () => {
       appShell.logOut();
 
       cy.wait('@logout');
+    });
+  });
+
+  // Skipped until error handling is added to the frontend
+  describe.skip('Given user authentication fails', () => {
+    beforeEach(() => {
+      cy.intercept('GET', '/api/auth/profile', (request) => {
+        const response: GetProfileResponse = {
+          success: false,
+        };
+
+        request.reply(response);
+      }).as('getProfile');
+
+      cy.visit('/dashboard');
+    });
+
+    it('Then the user is redirected to the login page', () => {
+      loginPage.isActivePage();
     });
   });
 });

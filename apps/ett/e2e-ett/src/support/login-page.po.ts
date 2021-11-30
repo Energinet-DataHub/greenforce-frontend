@@ -14,4 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export const getLoginProvidersLabel = () => cy.findByText(/log in using/i);
+
+const getLoginProvidersLabel = () => cy.findByText(/log in using/i);
+
+export const isActivePage = () => {
+  cy.url().should('include', '/login');
+  getLoginProvidersLabel().should('be.visible');
+};
