@@ -15,11 +15,22 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, NgModule, OnInit, ViewEncapsulation } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  NgModule,
+  OnInit,
+  ViewEncapsulation,
+} from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { Router, RouterModule } from '@angular/router';
-import { AuthOidcHttp, GetProfileResponse, UserProfile } from '@energinet-datahub/ett/auth/data-access-api';
+import {
+  AuthOidcHttp,
+  GetProfileResponse,
+  UserProfile,
+} from '@energinet-datahub/ett/auth/data-access-api';
 import { WattButtonModule, WattShellModule } from '@energinet-datahub/watt';
 import { map } from 'rxjs';
 
@@ -71,7 +82,7 @@ const selector = 'ett-shell';
               [matMenuTriggerFor]="menu"
             >
               {{ profile?.name }}
-              <mat-icon aria-hidden="false" aria-label="Logout">
+              <mat-icon aria-hidden="false" aria-label="Profile menu">
                 expand_more
               </mat-icon>
             </watt-button>

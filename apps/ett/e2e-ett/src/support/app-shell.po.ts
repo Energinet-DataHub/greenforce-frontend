@@ -14,4 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export const getTitle = () => cy.get('h1');
+export const getProfileButton = (profileName: string) =>
+  cy.findByRole('button', { name: new RegExp(profileName) });
+
+export const logOut = () => {
+  cy.findByRole('img', { name: /profile menu/i }).click();
+  cy.findByRole('menuitem', { name: /logout/i }).click();
+};
