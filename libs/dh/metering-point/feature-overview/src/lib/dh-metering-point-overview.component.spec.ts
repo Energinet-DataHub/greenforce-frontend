@@ -119,6 +119,5 @@ describe(DhMeteringPointOverviewComponent.name, () => {
         })
       ).toBeInTheDocument();
     });
-
   });
 });
