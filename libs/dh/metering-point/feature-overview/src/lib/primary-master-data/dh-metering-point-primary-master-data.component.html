@@ -14,7 +14,9 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<ng-container *transloco="let transloco; read: 'meteringPoint.overview.primaryMasterData'">
+<ng-container
+  *transloco="let transloco; read: 'meteringPoint.overview.primaryMasterData'"
+>
   <section>
     <watt-icon
       name="map_marker"
@@ -32,11 +34,18 @@ limitations under the License.
   </section>
 
   <section>
-    <watt-icon name="power" label="power" [size]="iconSizes.XLarge" aria-hidden></watt-icon>
+    <watt-icon
+      name="power"
+      label="power"
+      [size]="iconSizes.XLarge"
+      aria-hidden
+    ></watt-icon>
     <dl>
       <dt class="watt-label">{{ transloco('hasElectricitySupplier') }}</dt>
       <dd>Ja</dd>
-      <dd class="watt-text-xs text-dimmed">{{ transloco('since') }} d. 2. Feb. 2021</dd>
+      <dd class="watt-text-xs text-dimmed">
+        {{ transloco('since') }} d. 2. Feb. 2021
+      </dd>
     </dl>
   </section>
 
@@ -52,7 +61,9 @@ limitations under the License.
       <dd class="watt-text-xs">{{ transloco('actualAdress') }}</dd>
       <dt class="watt-text-xs">{{ transloco('locationDescription') }}:</dt>
       <dd class="watt-text-xs">Bygning nr. 2</dd>
-      <dt class="watt-text-xs text-dimmed">{{ transloco('geoInfoReference') }}:</dt>
+      <dt class="watt-text-xs text-dimmed">
+        {{ transloco('geoInfoReference') }}:
+      </dt>
       <dd class="watt-text-xs text-dimmed">
         0a3f50b9-b942-32b8-e044-0003ba298018
       </dd>
@@ -60,11 +71,15 @@ limitations under the License.
   </section>
 
   <section>
-    <watt-icon name="meter" label="meter" [size]="iconSizes.XLarge" aria-hidden></watt-icon>
+    <watt-icon
+      name="meter"
+      label="meter"
+      [size]="iconSizes.XLarge"
+      aria-hidden
+    ></watt-icon>
     <dl>
       <dt class="watt-label">{{ transloco('meterNumber') }}</dt>
       <dd><small>123123</small></dd>
     </dl>
   </section>
 </ng-container>
-
