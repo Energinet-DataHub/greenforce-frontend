@@ -29,8 +29,9 @@ import {
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
 import { DhApiModule } from '@energinet-datahub/dh/shared/data-access-api';
 
-import { DhMeteringPointOverviewComponent } from './dh-metering-point-overview.component';
+import { DhMeteringPointDataAccessApiStore } from '@energinet-datahub/dh/metering-point/data-access-api';
 import { DhMeteringPointFeatureOverviewModule } from './dh-metering-point-feature-overview.module';
+import { DhMeteringPointOverviewComponent } from './dh-metering-point-overview.component';
 import { dhMeteringPointPath } from './routing/dh-metering-point-path';
 
 describe(DhMeteringPointOverviewComponent.name, () => {
@@ -52,6 +53,7 @@ describe(DhMeteringPointOverviewComponent.name, () => {
           featurePath: dhMeteringPointPath,
         }),
       ],
+      providers: [DhMeteringPointDataAccessApiStore],
       routes: [
         {
           path: dhMeteringPointPath,
