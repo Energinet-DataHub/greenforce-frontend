@@ -21,7 +21,6 @@ import {
   OnDestroy,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LetModule, PushModule } from '@rx-angular/template';
 import { LocalRouterStore } from '@ngworker/router-component-store';
 import { map, Subject, takeUntil } from 'rxjs';
 import { TranslocoModule } from '@ngneat/transloco';
@@ -88,7 +87,6 @@ export class DhMeteringPointOverviewComponent implements OnDestroy {
   declarations: [DhMeteringPointOverviewComponent],
   imports: [
     CommonModule,
-    LetModule,
     TranslocoModule,
     DhBreadcrumbScam,
     DhMeteringPointNotFoundScam,
