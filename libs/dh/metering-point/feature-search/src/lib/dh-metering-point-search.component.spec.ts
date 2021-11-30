@@ -37,9 +37,8 @@ import { DhApiModule } from '@energinet-datahub/dh/shared/data-access-api';
 import { DhMeteringPointDataAccessApiStore } from '@energinet-datahub/dh/metering-point/data-access-api';
 import { Component } from '@angular/core';
 
-
-@Component ({
-  template: `nothing to see here`
+@Component({
+  template: `nothing to see here`,
 })
 class NoopComponent {}
 
@@ -52,12 +51,8 @@ describe(DhMeteringPointSearchComponent.name, () => {
         HttpClientModule,
         DhMeteringPointSearchScam,
       ],
-      providers: [
-        DhMeteringPointDataAccessApiStore
-      ],
-      routes: [
-        { 'path': ':metering-point-id', component: NoopComponent}
-      ],
+      providers: [DhMeteringPointDataAccessApiStore],
+      routes: [{ path: ':metering-point-id', component: NoopComponent }],
     });
 
     const activatedRoute = TestBed.inject(ActivatedRoute);
@@ -126,9 +121,7 @@ describe(DhMeteringPointSearchComponent.name, () => {
     ).not.toBeInTheDocument();
 
     await waitFor(() => {
-      expect(location.path()).toBe(
-        '/?q=000000000000000000'
-      );
+      expect(location.path()).toBe('/?q=000000000000000000');
     });
   });
 });
