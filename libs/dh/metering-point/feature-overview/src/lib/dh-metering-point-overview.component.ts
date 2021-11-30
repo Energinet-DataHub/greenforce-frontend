@@ -57,6 +57,12 @@ export class DhMeteringPointOverviewComponent {
 
 @NgModule({
   declarations: [DhMeteringPointOverviewComponent],
-  imports: [CommonModule, LetModule, DhBreadcrumbScam, DhMeteringPointPrimaryMasterDataScam, WattSpinnerModule],
+  imports: [
+    CommonModule,
+    LetModule,
+    DhBreadcrumbScam,
+    DhMeteringPointPrimaryMasterDataScam,
+    WattSpinnerModule,
+  ],
 })
 export class DhMeteringPointOverviewScam {}
