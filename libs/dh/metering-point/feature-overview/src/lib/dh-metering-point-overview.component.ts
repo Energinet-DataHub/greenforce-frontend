@@ -24,6 +24,7 @@ import { map } from 'rxjs';
 
 import { DhBreadcrumbScam } from './breadcrumb/dh-breadcrumb.component';
 import { dhMeteringPointIdParam } from './routing/dh-metering-point-id-param';
+import { DhMeteringPointPrimaryMasterDataScam } from './primary-master-data/dh-metering-point-primary-master-data.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -56,6 +57,6 @@ export class DhMeteringPointOverviewComponent {
 
 @NgModule({
   declarations: [DhMeteringPointOverviewComponent],
-  imports: [CommonModule, LetModule, DhBreadcrumbScam, WattSpinnerModule],
+  imports: [CommonModule, LetModule, DhBreadcrumbScam, DhMeteringPointPrimaryMasterDataScam, WattSpinnerModule],
 })
 export class DhMeteringPointOverviewScam {}
