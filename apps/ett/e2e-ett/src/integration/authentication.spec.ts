@@ -1,4 +1,7 @@
-import { AuthOidcLogoutResponse, GetProfileResponse } from '@energinet-datahub/ett/auth/data-access-api';
+import {
+  AuthOidcLogoutResponse,
+  GetProfileResponse,
+} from '@energinet-datahub/ett/auth/data-access-api';
 
 import * as appShell from '../support/app-shell.po';
 import * as loginPage from '../support/login-page.po';
