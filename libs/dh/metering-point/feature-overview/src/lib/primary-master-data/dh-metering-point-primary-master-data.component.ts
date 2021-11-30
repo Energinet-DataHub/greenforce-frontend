@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
+import { WattIconModule, WattIconSize } from '@energinet-datahub/watt';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -23,11 +24,13 @@ import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
   templateUrl: './dh-metering-point-primary-master-data.component.html',
   providers: [],
 })
-export class DhMeteringPointPrimaryMasterDataComponent {}
+export class DhMeteringPointPrimaryMasterDataComponent {
+  iconSizes = WattIconSize;
+}
 
 @NgModule({
   declarations: [DhMeteringPointPrimaryMasterDataComponent],
-  imports: [],
+  imports: [WattIconModule],
   exports: [DhMeteringPointPrimaryMasterDataComponent],
 })
 export class DhMeteringPointPrimaryMasterDataScam {}
