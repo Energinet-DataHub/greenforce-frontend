@@ -23,7 +23,7 @@ describe('Authentication', () => {
         };
 
         request.reply(response);
-      });
+      }).as('logout');
 
       cy.visit('/dashboard');
     });
@@ -39,6 +39,13 @@ describe('Authentication', () => {
       appShell.logOut();
 
       loginPage.getLoginProvidersLabel().should('exist');
+    });
+
+    it(`When the log out menu item is clicked
+      Then a logout request is sent`, () => {
+      appShell.logOut();
+
+      cy.wait('@logout');
     });
   });
 });
