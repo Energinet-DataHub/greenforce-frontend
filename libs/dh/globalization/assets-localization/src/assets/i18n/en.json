@@ -13,6 +13,17 @@
     "overview": {
       "breadcrumb": {
         "meteringPoints": "Metering points"
+      },
+      "primaryMasterData": {
+        "address": "Address",
+        "actualAddress": "Actual address",
+        "locationDescription": "Location description",
+        "geoInfoReference": "DAR reference [EN]",
+        "hasElectricitySupplier": "Has an electricity supplier?",
+        "yes": "Yes",
+        "no": "No",
+        "since": "Since",
+        "meterNumber": "Meternumber"
       }
     }
   }

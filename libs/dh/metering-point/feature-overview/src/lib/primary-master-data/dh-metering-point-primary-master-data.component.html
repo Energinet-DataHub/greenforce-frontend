@@ -14,49 +14,57 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
+<ng-container *transloco="let transloco; read: 'meteringPoint.overview.primaryMasterData'">
+  <section>
+    <watt-icon
+      name="map_marker"
+      label="map_marker"
+      [size]="iconSizes.XLarge"
+      aria-hidden
+    ></watt-icon>
+    <dl>
+      <dt class="watt-label">{{ transloco('address') }}</dt>
+      <dd>
+        Nørre Lysgade 112N, 4. tv<br />
+        4545 Fiktivby
+      </dd>
+    </dl>
+  </section>
 
-<section>
-  <watt-icon
-    name="map_marker"
-    label="map_marker"
-    [size]="iconSizes.XLarge"
-  ></watt-icon>
-  <dl>
-    <dt class="watt-label">Adresse</dt>
-    <dd>Nørre Lysgade 112N, 4. tv 4545 Fiktivby</dd>
-  </dl>
-</section>
+  <section>
+    <watt-icon name="power" label="power" [size]="iconSizes.XLarge" aria-hidden></watt-icon>
+    <dl>
+      <dt class="watt-label">{{ transloco('hasElectricitySupplier') }}</dt>
+      <dd>Ja</dd>
+      <dd class="watt-text-xs text-dimmed">{{ transloco('since') }} d. 2. Feb. 2021</dd>
+    </dl>
+  </section>
 
-<section>
-  <watt-icon name="power" label="power" [size]="iconSizes.XLarge"></watt-icon>
-  <dl>
-    <dt class="watt-label">Har el-leverandør?</dt>
-    <dd>Ja</dd>
-    <dd class="watt-text-xs text-dimmed">Siden d. 2. Feb. 2021</dd>
-  </dl>
-</section>
+  <section>
+    <dl class="multiple-terms-and-descriptions">
+      <dt>
+        <watt-icon
+          name="success"
+          label="success"
+          [size]="iconSizes.XSmall"
+        ></watt-icon>
+      </dt>
+      <dd class="watt-text-xs">{{ transloco('actualAdress') }}</dd>
+      <dt class="watt-text-xs">{{ transloco('locationDescription') }}:</dt>
+      <dd class="watt-text-xs">Bygning nr. 2</dd>
+      <dt class="watt-text-xs text-dimmed">{{ transloco('geoInfoReference') }}:</dt>
+      <dd class="watt-text-xs text-dimmed">
+        0a3f50b9-b942-32b8-e044-0003ba298018
+      </dd>
+    </dl>
+  </section>
 
-<section>
-  <dl class="multiple-terms-and-descriptions">
-    <dt>
-      <watt-icon
-        name="success"
-        label="success"
-        [size]="iconSizes.XSmall"
-      ></watt-icon>
-    </dt>
-    <dd class="watt-text-xs">Faktisk adresse</dd>
-    <dt class="watt-text-xs">Målepunktskommentar:</dt>
-    <dd class="watt-text-xs">Bygning nr. 2</dd>
-    <dt class="watt-text-xs text-dimmed">DAR reference:</dt>
-    <dd class="watt-text-xs text-dimmed">0a3f50b9-b942-32b8-e044-0003ba298018</dd>
-  </dl>
-</section>
+  <section>
+    <watt-icon name="meter" label="meter" [size]="iconSizes.XLarge" aria-hidden></watt-icon>
+    <dl>
+      <dt class="watt-label">{{ transloco('meterNumber') }}</dt>
+      <dd><small>123123</small></dd>
+    </dl>
+  </section>
+</ng-container>
 
-<section>
-  <watt-icon name="meter" label="meter" [size]="iconSizes.XLarge"></watt-icon>
-  <dl>
-    <dt class="watt-label">Målenummer</dt>
-    <dd><small>123123</small></dd>
-  </dl>
-</section>

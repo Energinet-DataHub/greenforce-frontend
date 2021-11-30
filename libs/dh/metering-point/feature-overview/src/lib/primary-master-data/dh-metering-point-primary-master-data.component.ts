@@ -15,6 +15,8 @@
  * limitations under the License.
  */
 import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
+import { TranslocoModule } from '@ngneat/transloco';
+
 import { WattIconModule, WattIconSize } from '@energinet-datahub/watt';
 
 @Component({
@@ -30,7 +32,7 @@ export class DhMeteringPointPrimaryMasterDataComponent {
 
 @NgModule({
   declarations: [DhMeteringPointPrimaryMasterDataComponent],
-  imports: [WattIconModule],
+  imports: [WattIconModule, TranslocoModule],
   exports: [DhMeteringPointPrimaryMasterDataComponent],
 })
 export class DhMeteringPointPrimaryMasterDataScam {}

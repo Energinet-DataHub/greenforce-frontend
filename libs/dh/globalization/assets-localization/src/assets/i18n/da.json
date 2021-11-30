@@ -13,6 +13,17 @@
     "overview": {
       "breadcrumb": {
         "meteringPoints": "Målepunkter"
+      },
+      "primaryMasterData": {
+        "address": "Adresse",
+        "actualAdress": "Faktisk adresse",
+        "locationDescription": "Målepunktskommentar",
+        "geoInfoReference": "DAR reference",
+        "hasElectricitySupplier": "Har El-leverandør?",
+        "yes": "Ja",
+        "no": "Nej",
+        "since": "Siden",
+        "meterNumber": "Målernummer"
       }
     }
   }
