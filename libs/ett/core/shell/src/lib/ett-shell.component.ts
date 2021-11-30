@@ -14,28 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  NgModule,
-  OnInit,
-  ViewEncapsulation,
-} from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, NgModule, OnInit, ViewEncapsulation } from '@angular/core';
+import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
 import { Router, RouterModule } from '@angular/router';
-import {
-  AuthOidcHttp,
-  GetProfileResponse,
-  UserProfile,
-} from '@energinet-datahub/ett/auth/data-access-api';
-import { WattShellModule } from '@energinet-datahub/watt';
-import { WattButtonModule } from '@energinet-datahub/watt';
-import { MatIconModule } from '@angular/material/icon'; // TODO Import from Watt?
-import { MatMenuModule } from '@angular/material/menu'; // TODO Import from Watt?
+import { AuthOidcHttp, GetProfileResponse, UserProfile } from '@energinet-datahub/ett/auth/data-access-api';
+import { WattButtonModule, WattShellModule } from '@energinet-datahub/watt';
 import { map } from 'rxjs';
 
 import { EttPrimaryNavigationScam } from './ett-primary-navigation.component';
-import { CommonModule } from '@angular/common';
 
 const selector = 'ett-shell';
 
@@ -99,7 +87,7 @@ const selector = 'ett-shell';
   `,
 })
 export class EttShellComponent implements OnInit {
-  profile?: UserProfile;
+  profile?: UserProfile | null;
   profileLoading = true;
 
   constructor(
