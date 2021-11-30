@@ -22,7 +22,6 @@ import {
   DhMeteringPointOverviewComponent,
   DhMeteringPointOverviewScam,
 } from './dh-metering-point-overview.component';
-import { DhMeteringPointPrimaryMasterDataScam } from './primary-master-data/dh-metering-point-primary-master-data.component';
 import { dhMeteringPointIdParam } from './routing/dh-metering-point-id-param';
 import { DhMeteringPointOverviewGuard } from './routing/dh-metering-point-overview.guard';
 
