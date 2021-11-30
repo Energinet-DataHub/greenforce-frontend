@@ -14,7 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component, Input, NgModule } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  NgModule,
+} from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
 
 import { WattIconModule, WattIconSize } from '@energinet-datahub/watt';
@@ -53,7 +58,7 @@ export class DhMeteringPointPrimaryMasterDataComponent {
     locationDescription: undefined,
     geoInfoReference: undefined,
     supplyStart: undefined,
-    meterNumber: undefined
+    meterNumber: undefined,
   };
   iconSizes = WattIconSize;
 }
