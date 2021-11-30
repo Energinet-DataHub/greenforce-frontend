@@ -21,3 +21,6 @@ export const logOut = () => {
   cy.findByRole('img', { name: /profile menu/i }).click();
   cy.findByRole('menuitem', { name: /logout/i }).click();
 };
+
+export const openSidePanel = () =>
+  cy.findByRole('button', { name: /menu/i }).click();

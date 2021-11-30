@@ -17,24 +17,15 @@
 import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   NgModule,
-  OnInit,
   ViewEncapsulation,
 } from '@angular/core';
-import { MatIconModule } from '@angular/material/icon';
-import { MatMenuModule } from '@angular/material/menu';
-import { Router, RouterModule } from '@angular/router';
-import {
-  AuthOidcHttp,
-  GetProfileResponse,
-  UserProfile,
-} from '@energinet-datahub/ett/auth/data-access-api';
-import { WattButtonModule, WattShellModule } from '@energinet-datahub/watt';
-import { map } from 'rxjs';
+import { RouterModule } from '@angular/router';
+import { WattShellModule } from '@energinet-datahub/watt';
 
 import { EttPrimaryNavigationScam } from './ett-primary-navigation.component';
+import { EttUserScam } from './ett-user.component';
 
 const selector = 'ett-shell';
 
@@ -63,9 +54,7 @@ const selector = 'ett-shell';
     `,
   ],
   template: `
-    <div *ngIf="profileLoading">Loading</div>
-
-    <watt-shell *ngIf="!profileLoading">
+    <watt-shell>
       <ng-container watt-shell-sidenav>
         <ett-primary-navigation></ett-primary-navigation>
       </ng-container>
@@ -73,22 +62,9 @@ const selector = 'ett-shell';
       <ng-container watt-shell-toolbar>
         <div class="${selector}__toolbar">
           <h1>Energy Origin</h1>
+
           <div class="menu">
-            <watt-button
-              type="text"
-              size="normal"
-              [disabled]="false"
-              [loading]="false"
-              [matMenuTriggerFor]="menu"
-            >
-              {{ profile?.name }}
-              <mat-icon aria-hidden="false" aria-label="Profile menu">
-                expand_more
-              </mat-icon>
-            </watt-button>
-            <mat-menu #menu="matMenu">
-              <button mat-menu-item (click)="logout()">Logout</button>
-            </mat-menu>
+            <ett-user></ett-user>
           </div>
         </div>
       </ng-container>
@@ -97,51 +73,7 @@ const selector = 'ett-shell';
     </watt-shell>
   `,
 })
-export class EttShellComponent implements OnInit {
-  profile?: UserProfile | null;
-  profileLoading = true;
-
-  constructor(
-    private router: Router,
-    private change: ChangeDetectorRef,
-    private authOidc: AuthOidcHttp
-  ) {}
-
-  ngOnInit() {
-    this.getProfile();
-  }
-
-  // -- Logout ---------------------------------------------------------------
-
-  logout() {
-    this.authOidc
-      .logout()
-      .pipe(map((response) => response.success))
-      .subscribe(this.onLogoutComplete.bind(this));
-  }
-
-  private onLogoutComplete(success: boolean) {
-    if (success) {
-      this.router.navigate(['/login']);
-    }
-  }
-
-  // -- GetProfile -----------------------------------------------------------
-
-  getProfile() {
-    this.profileLoading = true;
-    this.authOidc.getProfile().subscribe(this.onGetProfileComplete.bind(this));
-  }
-
-  private onGetProfileComplete(response?: GetProfileResponse) {
-    if (response?.success) {
-      this.profile = response.profile;
-      this.profileLoading = false;
-      // TODO Replace with observables:
-      this.change.markForCheck();
-    }
-  }
-}
+export class EttShellComponent {}
 
 @NgModule({
   declarations: [EttShellComponent],
@@ -149,10 +81,8 @@ export class EttShellComponent implements OnInit {
     CommonModule,
     RouterModule,
     WattShellModule,
-    WattButtonModule,
-    MatIconModule,
-    MatMenuModule,
     EttPrimaryNavigationScam,
+    EttUserScam,
   ],
 })
 export class EttShellScam {}
