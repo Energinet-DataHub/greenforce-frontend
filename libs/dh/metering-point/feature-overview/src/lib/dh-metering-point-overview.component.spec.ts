@@ -104,4 +104,21 @@ describe(DhMeteringPointOverviewComponent.name, () => {
       })
     ).toBeInTheDocument();
   });
+
+  describe('When metering point is not found', () => {
+    const nulMeteringPointId = '000000000000000000';
+
+    it('displays an error message in a heading', async () => {
+      await featureRouter.navigateByUrl(`~/${nulMeteringPointId}`);
+
+      await view.fixture.whenStable();
+
+      expect(
+        await screen.findByRole('heading', {
+          level: 3,
+        })
+      ).toBeInTheDocument();
+    });
+
+  });
 });
