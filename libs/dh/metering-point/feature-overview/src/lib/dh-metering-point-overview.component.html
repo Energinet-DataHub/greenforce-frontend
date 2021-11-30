@@ -14,11 +14,9 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<ng-container *rxLet="meteringPointId$ as meteringPointId">
-  <dh-breadcrumb [meteringPointId]="meteringPointId"></dh-breadcrumb>
-</ng-container>
+<dh-breadcrumb [meteringPointId]="meteringPointId$ | push"></dh-breadcrumb>
 
-<ng-container *rxLet="meteringPoint$ as meteringPoint">
+<ng-container *ngIf="meteringPoint$ | push as meteringPoint">
   <div class="overview__header">
     <div class="watt-text-s">
       <span [title]="'meteringPoint.overview.meteringPointType' | transloco">
@@ -65,30 +63,24 @@ limitations under the License.
   </div>
 </ng-container>
 
-<ng-container *rxLet="isLoading$ as isLoading">
-  <ng-container *ngIf="isLoading">
-    <div class="overview__spinner">
-      <watt-spinner></watt-spinner>
-    </div>
-  </ng-container>
+<ng-container *ngIf="isLoading$ | push">
+  <div class="overview__spinner">
+    <watt-spinner></watt-spinner>
+  </div>
 </ng-container>
 
-<ng-container *rxLet="meteringPointNotFound$ as meteringPointNotFound">
-  <ng-container *ngIf="meteringPointNotFound">
-    <div class="overview__error">
-      <dh-metering-point-not-found></dh-metering-point-not-found>
-    </div>
-  </ng-container>
+<ng-container *ngIf="meteringPointNotFound$ | push">
+  <div class="overview__error">
+    <dh-metering-point-not-found></dh-metering-point-not-found>
+  </div>
 </ng-container>
 
-<ng-container *rxLet="hasError$ as hasError">
-  <ng-container *ngIf="hasError">
-    <div class="overview__error">
-      <dh-metering-point-server-error
-        (reload)="loadMeteringPointData()"
-      ></dh-metering-point-server-error>
-    </div>
-  </ng-container>
+<ng-container *ngIf="hasError$ | push">
+  <div class="overview__error">
+    <dh-metering-point-server-error
+      (reload)="loadMeteringPointData()"
+    ></dh-metering-point-server-error>
+  </div>
 </ng-container>
 
 <ng-template #emptyField>{{ emDash }}</ng-template>
