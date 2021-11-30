@@ -16,30 +16,25 @@
  */
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
-import { LocalRouterStore } from '@ngworker/router-component-store';
 import { TranslocoModule } from '@ngneat/transloco';
 
 import { WattEmptyStateModule } from '@energinet-datahub/watt';
+import { DhMeteringPointDataAccessApiStore } from '@energinet-datahub/dh/metering-point/data-access-api';
 
 import { DhMeteringPointSearchFormScam } from './form/dh-metering-point-search-form.component';
 import { filter, take } from 'rxjs';
 import { PushModule } from '@rx-angular/template';
-import { Router } from '@angular/router';
-
-// TODO: Should be removed:
-import { DhDataAccessMeteringPointStore } from './should-be-removed/dh-data-access-metering-point.store';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'dh-metering-point-search',
   styleUrls: ['./dh-metering-point-search.component.scss'],
   templateUrl: './dh-metering-point-search.component.html',
-  // TODO: Should be removed:
-  providers: [LocalRouterStore, DhDataAccessMeteringPointStore],
 })
 export class DhMeteringPointSearchComponent {
   isLoading$ = this.store.select((state) => state.isLoading);
-  notFound$ = this.store.select((state) => state.notFound);
+  notFound$ = this.store.select((state) => state.meteringPointNotFound);
   hasError$ = this.store.select((state) => state.hasError);
   meteringPointLoaded$ = this.store
     .select((state) => state.meteringPoint)
@@ -50,17 +45,11 @@ export class DhMeteringPointSearchComponent {
 
   constructor(
     private router: Router,
-    private store: DhDataAccessMeteringPointStore
+    private route: ActivatedRoute,
+    private store: DhMeteringPointDataAccessApiStore
   ) {}
 
   onSubmit(id: string) {
-    this.store.setState({
-      meteringPoint: undefined,
-      isLoading: true,
-      hasError: false,
-      notFound: false,
-    });
-
     this.store.loadMeteringPointData(id);
 
     this.meteringPointLoaded$.subscribe((meteringPoint) => {
@@ -69,7 +58,7 @@ export class DhMeteringPointSearchComponent {
   }
 
   private onMeteringPointLoaded(meteringPointId?: string) {
-    this.router.navigate([`/metering-point/${meteringPointId}`]);
+    this.router.navigate([`../${meteringPointId}`], { relativeTo: this.route });
   }
 }
 

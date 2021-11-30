@@ -80,11 +80,11 @@ export class DhMeteringPointSearchFormComponent
 
   onSearchInputClear(): void {
     this.searchControl.setValue('');
-    this.router.navigate([`/metering-point/search`]);
+    this.router.navigate([], { queryParams: { q: null } });
   }
 
   onSubmit() {
-    this.router.navigate([`/metering-point/search`], {
+    this.router.navigate([], {
       queryParams: { q: this.searchControl.value },
     });
 

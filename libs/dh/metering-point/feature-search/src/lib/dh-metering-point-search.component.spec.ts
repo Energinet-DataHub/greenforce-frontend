@@ -34,6 +34,14 @@ import {
   DhMeteringPointSearchScam,
 } from './dh-metering-point-search.component';
 import { DhApiModule } from '@energinet-datahub/dh/shared/data-access-api';
+import { DhMeteringPointDataAccessApiStore } from '@energinet-datahub/dh/metering-point/data-access-api';
+import { Component } from '@angular/core';
+
+
+@Component ({
+  template: `nothing to see here`
+})
+class NoopComponent {}
 
 describe(DhMeteringPointSearchComponent.name, () => {
   async function setup() {
@@ -44,14 +52,11 @@ describe(DhMeteringPointSearchComponent.name, () => {
         HttpClientModule,
         DhMeteringPointSearchScam,
       ],
+      providers: [
+        DhMeteringPointDataAccessApiStore
+      ],
       routes: [
-        {
-          path: 'metering-point',
-          loadChildren: () =>
-            import('@energinet-datahub/dh/metering-point/shell').then(
-              (esModule) => esModule.DhMeteringPointShellModule
-            ),
-        },
+        { 'path': ':metering-point-id', component: NoopComponent}
       ],
     });
 
@@ -98,7 +103,7 @@ describe(DhMeteringPointSearchComponent.name, () => {
     ).not.toBeInTheDocument();
 
     await waitFor(() => {
-      expect(location.path()).toBe('/metering-point/571313180400014077');
+      expect(location.path()).toBe('/571313180400014077');
     });
   });
 
@@ -122,7 +127,7 @@ describe(DhMeteringPointSearchComponent.name, () => {
 
     await waitFor(() => {
       expect(location.path()).toBe(
-        '/metering-point/search?q=000000000000000000'
+        '/?q=000000000000000000'
       );
     });
   });

@@ -30,7 +30,7 @@ import { dhMeteringPointIdParam } from './routing/dh-metering-point-id-param';
   selector: 'dh-metering-point-overview',
   styleUrls: ['./dh-metering-point-overview.component.scss'],
   templateUrl: './dh-metering-point-overview.component.html',
-  providers: [DhMeteringPointDataAccessApiStore, LocalRouterStore],
+  providers: [LocalRouterStore],
 })
 export class DhMeteringPointOverviewComponent {
   meteringPoint$ = this.store.meteringPoint$;
