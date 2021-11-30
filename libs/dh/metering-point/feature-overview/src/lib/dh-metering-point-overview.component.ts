@@ -89,7 +89,6 @@ export class DhMeteringPointOverviewComponent implements OnDestroy {
   imports: [
     CommonModule,
     LetModule,
-    PushModule,
     TranslocoModule,
     DhBreadcrumbScam,
     DhMeteringPointNotFoundScam,
