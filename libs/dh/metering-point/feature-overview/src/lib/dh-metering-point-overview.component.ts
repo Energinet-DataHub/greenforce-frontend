@@ -19,7 +19,7 @@ import { DhMeteringPointDataAccessApiStore } from '@energinet-datahub/dh/meterin
 import { LocalRouterStore } from '@ngworker/router-component-store';
 import { CommonModule } from '@angular/common';
 import { WattSpinnerModule } from '@energinet-datahub/watt';
-import { LetModule } from '@rx-angular/template';
+import { LetModule, PushModule } from '@rx-angular/template';
 import { map } from 'rxjs';
 
 import { DhBreadcrumbScam } from './breadcrumb/dh-breadcrumb.component';
@@ -60,6 +60,7 @@ export class DhMeteringPointOverviewComponent {
   imports: [
     CommonModule,
     LetModule,
+    PushModule,
     DhBreadcrumbScam,
     DhMeteringPointPrimaryMasterDataScam,
     WattSpinnerModule,

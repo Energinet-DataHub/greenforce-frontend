@@ -17,9 +17,9 @@
       "primaryMasterData": {
         "address": "Address",
         "actualAddress": "Actual address",
-        "locationDescription": "Location description",
-        "geoInfoReference": "DAR reference [EN]",
-        "hasElectricitySupplier": "Has an electricity supplier?",
+        "locationDescription": "Description",
+        "geoInfoReference": "DAR reference",
+        "hasElectricitySupplier": "Has Supplier?",
         "yes": "Yes",
         "no": "No",
         "since": "Since",

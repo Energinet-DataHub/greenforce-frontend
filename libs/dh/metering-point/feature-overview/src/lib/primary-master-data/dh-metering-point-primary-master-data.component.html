@@ -14,7 +14,9 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<ng-container *transloco="let transloco; read: 'meteringPoint.overview.primaryMasterData'">
+<ng-container
+  *transloco="let transloco; read: 'meteringPoint.overview.primaryMasterData'"
+>
   <section>
     <watt-icon
       name="map_marker"
@@ -25,46 +27,85 @@ limitations under the License.
     <dl>
       <dt class="watt-label">{{ transloco('address') }}</dt>
       <dd>
-        Nørre Lysgade 112N, 4. tv<br />
-        4545 Fiktivby
+        <ng-container *ngIf="primaryMasterData?.streetName && primaryMasterData?.buildingNumber; else emptyValue">
+          {{ primaryMasterData?.streetName }}
+          {{ primaryMasterData?.buildingNumber
+          }}<ng-container *ngIf="primaryMasterData?.floor"
+            >, {{ primaryMasterData?.floor }}.
+            <ng-container *ngIf="primaryMasterData?.suite">
+              {{ primaryMasterData?.suite }}
+            </ng-container>
+          </ng-container>
+          <br />{{ primaryMasterData?.postCode }}
+          {{ primaryMasterData?.citySubDivisionName }}
+        </ng-container>
       </dd>
     </dl>
   </section>
 
   <section>
-    <watt-icon name="power" label="power" [size]="iconSizes.XLarge" aria-hidden></watt-icon>
+    <watt-icon
+      name="power"
+      label="power"
+      [size]="iconSizes.XLarge"
+      aria-hidden
+    ></watt-icon>
     <dl>
       <dt class="watt-label">{{ transloco('hasElectricitySupplier') }}</dt>
-      <dd>Ja</dd>
-      <dd class="watt-text-xs text-dimmed">{{ transloco('since') }} d. 2. Feb. 2021</dd>
+      <dd>
+        {{
+          primaryMasterData?.supplyStart ? transloco('yes') : transloco('no')
+        }}
+      </dd>
+      <dd class="watt-text-xs text-dimmed">
+        <ng-container *ngIf="primaryMasterData?.supplyStart; else emptyValue">
+          {{ transloco('since') }}
+          {{ primaryMasterData?.supplyStart | date: 'medium' }}
+        </ng-container>
+      </dd>
     </dl>
   </section>
 
   <section>
     <dl class="multiple-terms-and-descriptions">
-      <dt>
-        <watt-icon
-          name="success"
-          label="success"
-          [size]="iconSizes.XSmall"
-        ></watt-icon>
-      </dt>
-      <dd class="watt-text-xs">{{ transloco('actualAdress') }}</dd>
+      <ng-container *ngIf="primaryMasterData?.isActualAddress">
+        <dt>
+          <watt-icon
+            name="success"
+            label="success"
+            [size]="iconSizes.XSmall"
+          ></watt-icon>
+        </dt>
+        <dd class="watt-text-xs">{{ transloco('actualAdress') }}</dd>
+      </ng-container>
+
       <dt class="watt-text-xs">{{ transloco('locationDescription') }}:</dt>
-      <dd class="watt-text-xs">Bygning nr. 2</dd>
-      <dt class="watt-text-xs text-dimmed">{{ transloco('geoInfoReference') }}:</dt>
+      <dd class="watt-text-xs">
+        {{ primaryMasterData?.locationDescription ?? '-' }}
+      </dd>
+      <dt class="watt-text-xs text-dimmed">
+        {{ transloco('geoInfoReference') }}:
+      </dt>
       <dd class="watt-text-xs text-dimmed">
-        0a3f50b9-b942-32b8-e044-0003ba298018
+        {{ primaryMasterData?.geoInfoReference || '-' }}
       </dd>
     </dl>
   </section>
 
   <section>
-    <watt-icon name="meter" label="meter" [size]="iconSizes.XLarge" aria-hidden></watt-icon>
+    <watt-icon
+      name="meter"
+      label="meter"
+      [size]="iconSizes.XLarge"
+      aria-hidden
+    ></watt-icon>
     <dl>
       <dt class="watt-label">{{ transloco('meterNumber') }}</dt>
-      <dd><small>123123</small></dd>
+      <dd>
+        <small>{{ primaryMasterData?.meterNumber ?? '-' }}</small>
+      </dd>
     </dl>
   </section>
 </ng-container>
 
+<ng-template #emptyValue>-</ng-template>

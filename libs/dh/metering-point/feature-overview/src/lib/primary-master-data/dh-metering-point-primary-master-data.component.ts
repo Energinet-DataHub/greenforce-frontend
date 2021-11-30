@@ -14,10 +14,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, NgModule } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
 
 import { WattIconModule, WattIconSize } from '@energinet-datahub/watt';
+import { CommonModule } from '@angular/common';
+
+interface PrimaryMasterData {
+  streetName?: string;
+  buildingNumber?: string;
+  floor?: string;
+  suite?: string;
+  citySubDivisionName?: string;
+  postCode?: string;
+  isActualAddress?: boolean | null;
+  locationDescription?: string;
+  geoInfoReference?: string | null;
+  supplyStart?: string | null;
+  meterNumber?: string;
+}
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -27,12 +42,25 @@ import { WattIconModule, WattIconSize } from '@energinet-datahub/watt';
   providers: [],
 })
 export class DhMeteringPointPrimaryMasterDataComponent {
+  @Input() primaryMasterData?: PrimaryMasterData = {
+    streetName: undefined,
+    buildingNumber: undefined,
+    floor: undefined,
+    suite: undefined,
+    citySubDivisionName: undefined,
+    postCode: undefined,
+    isActualAddress: undefined,
+    locationDescription: undefined,
+    geoInfoReference: undefined,
+    supplyStart: undefined,
+    meterNumber: undefined
+  };
   iconSizes = WattIconSize;
 }
 
 @NgModule({
   declarations: [DhMeteringPointPrimaryMasterDataComponent],
-  imports: [WattIconModule, TranslocoModule],
+  imports: [CommonModule, WattIconModule, TranslocoModule],
   exports: [DhMeteringPointPrimaryMasterDataComponent],
 })
 export class DhMeteringPointPrimaryMasterDataScam {}
