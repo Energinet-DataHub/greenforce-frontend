@@ -23,22 +23,25 @@ import {
 } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { WattShellModule } from '@energinet-datahub/watt';
+import { LetModule } from '@rx-angular/template';
+import { Observable } from 'rxjs';
 
 import { EttPrimaryNavigationScam } from './ett-primary-navigation.component';
 import { EttUserScam } from './ett-user.component';
+import { UserStore } from './user.store';
 
 const selector = 'ett-shell';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
+  providers: [UserStore],
   selector,
   styles: [
     `
       ${selector} {
         display: block;
       }
-
       ${selector}__toolbar {
         width: 100%;
         display: flex;
@@ -54,32 +57,47 @@ const selector = 'ett-shell';
     `,
   ],
   template: `
-    <watt-shell>
-      <ng-container watt-shell-sidenav>
-        <ett-primary-navigation></ett-primary-navigation>
-      </ng-container>
+    <ng-container *rxLet="isAuthenticated$ as isAuthenticated">
+      <watt-shell *ngIf="isAuthenticated; else errorTemplate">
+        <ng-container watt-shell-sidenav>
+          <ett-primary-navigation></ett-primary-navigation>
+        </ng-container>
 
-      <ng-container watt-shell-toolbar>
-        <div class="${selector}__toolbar">
-          <h1>Energy Origin</h1>
+        <ng-container watt-shell-toolbar>
+          <div class="${selector}__toolbar">
+            <h1>Energy Origin</h1>
 
-          <div class="menu">
-            <ett-user></ett-user>
+            <div class="menu">
+              <ett-user></ett-user>
+            </div>
           </div>
-        </div>
-      </ng-container>
+        </ng-container>
 
-      <router-outlet></router-outlet>
-    </watt-shell>
+        <router-outlet></router-outlet>
+      </watt-shell>
+
+      <ng-template #errorTemplate let-error="$error">
+        <p>
+          User authentication failed.
+
+          <a routerLink="/login">Go to login form</a>.
+        </p>
+      </ng-template>
+    </ng-container>
   `,
 })
-export class EttShellComponent {}
+export class EttShellComponent {
+  isAuthenticated$: Observable<boolean> = this.user.isAuthenticated$;
+
+  constructor(private user: UserStore) {}
+}
 
 @NgModule({
   declarations: [EttShellComponent],
   imports: [
     CommonModule,
     RouterModule,
+    LetModule,
     WattShellModule,
     EttPrimaryNavigationScam,
     EttUserScam,

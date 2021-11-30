@@ -1,3 +1,17 @@
+import {
+  ChangeDetectionStrategy,
+  Component,
+  NgModule,
+  ViewEncapsulation,
+} from '@angular/core';
+import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
+import { UserProfile } from '@energinet-datahub/ett/auth/data-access-api';
+import { WattButtonModule } from '@energinet-datahub/watt';
+import { Observable } from 'rxjs';
+
+import { UserStore } from './user.store';
+
 /**
  * @license
  * Copyright 2021 Energinet DataHub A/S
@@ -14,25 +28,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  NgModule,
-  OnInit,
-  ViewEncapsulation,
-} from '@angular/core';
-import { MatIconModule } from '@angular/material/icon';
-import { MatMenuModule } from '@angular/material/menu';
-import { Router } from '@angular/router';
-import {
-  AuthOidcHttp,
-  GetProfileResponse,
-  UserProfile,
-} from '@energinet-datahub/ett/auth/data-access-api';
-import { WattButtonModule } from '@energinet-datahub/watt';
-import { map } from 'rxjs';
-
 const selector = 'ett-user';
 
 @Component({
@@ -47,70 +42,34 @@ const selector = 'ett-user';
     `,
   ],
   template: `
-    <!-- <ng-container *ngIf="!profileLoading; else loading"> -->
-    <watt-button
-      type="text"
-      size="normal"
-      [disabled]="false"
-      [loading]="false"
-      [matMenuTriggerFor]="menu"
-    >
-      {{ profile?.name }}
-      <mat-icon aria-hidden="false" aria-label="Profile menu">
-        expand_more
-      </mat-icon>
-    </watt-button>
-    <mat-menu #menu="matMenu">
-      <button mat-menu-item (click)="logout()">Logout</button>
-    </mat-menu>
-    <!-- </ng-container> -->
-
-    <!-- <ng-template #loading>Loading profile...</ng-template> -->
+    <ng-container *rxLet="profile$ as profile">
+      <ng-container *ngIf="profile">
+        <watt-button
+          type="text"
+          size="normal"
+          [disabled]="false"
+          [loading]="false"
+          [matMenuTriggerFor]="menu"
+        >
+          {{ profile?.name }}
+          <mat-icon aria-hidden="false" aria-label="Profile menu">
+            expand_more
+          </mat-icon>
+        </watt-button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item (click)="onLogOut()">Logout</button>
+        </mat-menu>
+      </ng-container>
+    </ng-container>
   `,
 })
-export class EttUserComponent implements OnInit {
-  profile?: UserProfile | null;
-  profileLoading = true;
+export class EttUserComponent {
+  profile$: Observable<UserProfile | null> = this.user.profile$;
 
-  constructor(
-    private router: Router,
-    private change: ChangeDetectorRef,
-    private authOidc: AuthOidcHttp
-  ) {}
+  constructor(private user: UserStore) {}
 
-  ngOnInit() {
-    this.getProfile();
-  }
-
-  // -- Logout ---------------------------------------------------------------
-
-  logout() {
-    this.authOidc
-      .logout()
-      .pipe(map((response) => response.success))
-      .subscribe(this.onLogoutComplete.bind(this));
-  }
-
-  private onLogoutComplete(success: boolean) {
-    if (success) {
-      this.router.navigate(['/login']);
-    }
-  }
-
-  // -- GetProfile -----------------------------------------------------------
-
-  getProfile() {
-    this.profileLoading = true;
-    this.authOidc.getProfile().subscribe(this.onGetProfileComplete.bind(this));
-  }
-
-  private onGetProfileComplete(response?: GetProfileResponse) {
-    if (response?.success) {
-      this.profile = response.profile;
-      this.profileLoading = false;
-      // TODO Replace with observables:
-      this.change.markForCheck();
-    }
+  onLogOut(): void {
+    this.user.logOut();
   }
 }
 

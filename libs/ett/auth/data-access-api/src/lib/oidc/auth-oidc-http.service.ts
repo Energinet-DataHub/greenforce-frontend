@@ -17,7 +17,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '@energinet-datahub/ett/core/environments';
-import { Observable } from 'rxjs';
+import { EMPTY, mergeMap, Observable, of, throwError } from 'rxjs';
 
 import { AuthOidcQueryParameterName } from './auth-oidc-query-parameter-name';
 
@@ -62,6 +62,23 @@ export interface GetProfileResponse {
 export class AuthOidcHttp {
   constructor(private http: HttpClient) {}
 
+  getProfile(): Observable<UserProfile> {
+    return this.http
+      .get<GetProfileResponse>(`${environment.apiBase}/auth/profile`)
+      .pipe(
+        mergeMap((response) =>
+          response.success
+            ? of(response.profile)
+            : throwError(() => new Error('User authenticated failed'))
+        ),
+        mergeMap((profile) =>
+          profile == null
+            ? throwError(() => new Error('User profile not in response'))
+            : of(profile)
+        )
+      );
+  }
+
   login(returnUrl: string): Observable<AuthOidcLoginResponse> {
     return this.http.get<AuthOidcLoginResponse>(
       `${environment.apiBase}/auth/oidc/login`,
@@ -74,16 +91,14 @@ export class AuthOidcHttp {
   }
 
   logout(): Observable<AuthOidcLogoutResponse> {
-    return this.http.get<AuthOidcLogoutResponse>(
-      `${environment.apiBase}/auth/logout`,
-      {}
-    );
-  }
-
-  getProfile(): Observable<GetProfileResponse> {
-    return this.http.get<GetProfileResponse>(
-      `${environment.apiBase}/auth/profile`,
-      {}
-    );
+    return this.http
+      .get<AuthOidcLogoutResponse>(`${environment.apiBase}/auth/logout`)
+      .pipe(
+        mergeMap((response) =>
+          response.success
+            ? EMPTY
+            : throwError(() => new Error('User logout failed'))
+        )
+      );
   }
 }
