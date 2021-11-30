@@ -22,7 +22,9 @@ limitations under the License.
   ></dh-breadcrumb>
   <h1>{{ meteringPoint?.gsrnNumber }}</h1>
 
-  <dh-metering-point-primary-master-data [primaryMasterData]="meteringPoint$ | push"></dh-metering-point-primary-master-data>
+  <dh-metering-point-primary-master-data
+    [primaryMasterData]="meteringPoint$ | push"
+  ></dh-metering-point-primary-master-data>
 </ng-container>
 
 <ng-template #suspenseTemplate>

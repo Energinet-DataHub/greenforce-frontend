@@ -27,7 +27,12 @@ limitations under the License.
     <dl>
       <dt class="watt-label">{{ transloco('address') }}</dt>
       <dd>
-        <ng-container *ngIf="primaryMasterData?.streetName && primaryMasterData?.buildingNumber; else emptyValue">
+        <ng-container
+          *ngIf="
+            primaryMasterData?.streetName && primaryMasterData?.buildingNumber;
+            else emptyValue
+          "
+        >
           {{ primaryMasterData?.streetName }}
           {{ primaryMasterData?.buildingNumber
           }}<ng-container *ngIf="primaryMasterData?.floor"
