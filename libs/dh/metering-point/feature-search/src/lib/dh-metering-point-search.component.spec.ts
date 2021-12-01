@@ -87,7 +87,9 @@ describe(DhMeteringPointSearchComponent.name, () => {
     userEvent.click(submitButton);
 
     expect(screen.queryByRole('progressbar')).toBeInTheDocument();
-    await waitForElementToBeRemoved(() => screen.queryByRole('progressbar'), {timeout: 3000});
+    await waitForElementToBeRemoved(() => screen.queryByRole('progressbar'), {
+      timeout: 3000,
+    });
     expect(
       screen.queryByRole('heading', {
         name: /sorry, we did not find a metering point match/i,
@@ -110,7 +112,9 @@ describe(DhMeteringPointSearchComponent.name, () => {
     userEvent.click(submitButton);
 
     expect(screen.queryByRole('progressbar')).toBeInTheDocument();
-    await waitForElementToBeRemoved(() => screen.queryByRole('progressbar'), {timeout: 3000});
+    await waitForElementToBeRemoved(() => screen.queryByRole('progressbar'), {
+      timeout: 3000,
+    });
     expect(
       screen.queryByRole('heading', {
         name: /sorry, we did not find a metering point match/i,
