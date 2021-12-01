@@ -27,7 +27,7 @@
     margin-right: var(--watt-space-l);
   }
 
-  @include watt.media('>=Medium') {
+  @include watt.media('>=Small') {
     section:nth-of-type(even) > watt-icon {
       margin-left: var(--watt-space-xl);
     }
@@ -40,7 +40,7 @@ section {
   display: flex;
   align-items: center;
   margin-bottom: var(--watt-space-m);
-  @include watt.media('>=Medium') {
+  @include watt.media('>=Small') {
     width: 50%;
   }
 }
