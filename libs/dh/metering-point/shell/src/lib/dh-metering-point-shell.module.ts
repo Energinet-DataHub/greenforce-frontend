@@ -30,6 +30,6 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [DhMeteringPointSearchScam, RouterModule.forChild(routes)]
+  imports: [DhMeteringPointSearchScam, RouterModule.forChild(routes)],
 })
 export class DhMeteringPointShellModule {}
