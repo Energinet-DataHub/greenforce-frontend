@@ -14,23 +14,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { CommonModule } from '@angular/common';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
-import { TranslocoModule } from '@ngneat/transloco';
-
-import { WattEmptyStateModule } from '@energinet-datahub/watt';
-import { DhMeteringPointDataAccessApiStore } from '@energinet-datahub/dh/metering-point/data-access-api';
-
-import { DhMeteringPointSearchFormScam } from './form/dh-metering-point-search-form.component';
+import { CommonModule } from '@angular/common';
 import { filter, take } from 'rxjs';
 import { PushModule } from '@rx-angular/template';
-import { ActivatedRoute, Router } from '@angular/router';
+import { TranslocoModule } from '@ngneat/transloco';
 
+import { DhMeteringPointDataAccessApiStore } from '@energinet-datahub/dh/metering-point/data-access-api';
+import { WattEmptyStateModule } from '@energinet-datahub/watt';
+
+import { DhMeteringPointSearchFormScam } from './form/dh-metering-point-search-form.component';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'dh-metering-point-search',
   styleUrls: ['./dh-metering-point-search.component.scss'],
   templateUrl: './dh-metering-point-search.component.html',
+  providers: [DhMeteringPointDataAccessApiStore],
 })
 export class DhMeteringPointSearchComponent {
   isLoading$ = this.store.select((state) => state.isLoading);

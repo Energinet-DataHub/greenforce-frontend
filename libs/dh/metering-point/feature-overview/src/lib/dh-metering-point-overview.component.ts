@@ -15,14 +15,15 @@
  * limitations under the License.
  */
 import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
-import { DhMeteringPointDataAccessApiStore } from '@energinet-datahub/dh/metering-point/data-access-api';
 import { LocalRouterStore } from '@ngworker/router-component-store';
 import { CommonModule } from '@angular/common';
-import { WattSpinnerModule } from '@energinet-datahub/watt';
 import { LetModule } from '@rx-angular/template';
 import { map } from 'rxjs';
 
+import { WattSpinnerModule } from '@energinet-datahub/watt';
+
 import { DhBreadcrumbScam } from './breadcrumb/dh-breadcrumb.component';
+import { DhMeteringPointDataAccessApiStore } from '@energinet-datahub/dh/metering-point/data-access-api';
 import { dhMeteringPointIdParam } from './routing/dh-metering-point-id-param';
 
 @Component({
@@ -30,7 +31,7 @@ import { dhMeteringPointIdParam } from './routing/dh-metering-point-id-param';
   selector: 'dh-metering-point-overview',
   styleUrls: ['./dh-metering-point-overview.component.scss'],
   templateUrl: './dh-metering-point-overview.component.html',
-  providers: [LocalRouterStore],
+  providers: [DhMeteringPointDataAccessApiStore, LocalRouterStore],
 })
 export class DhMeteringPointOverviewComponent {
   meteringPoint$ = this.store.meteringPoint$;

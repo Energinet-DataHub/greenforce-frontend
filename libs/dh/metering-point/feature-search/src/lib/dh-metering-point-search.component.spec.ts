@@ -34,7 +34,6 @@ import {
   DhMeteringPointSearchScam,
 } from './dh-metering-point-search.component';
 import { DhApiModule } from '@energinet-datahub/dh/shared/data-access-api';
-import { DhMeteringPointDataAccessApiStore } from '@energinet-datahub/dh/metering-point/data-access-api';
 import { Component } from '@angular/core';
 
 @Component({
@@ -51,7 +50,6 @@ describe(DhMeteringPointSearchComponent.name, () => {
         HttpClientModule,
         DhMeteringPointSearchScam,
       ],
-      providers: [DhMeteringPointDataAccessApiStore],
       routes: [{ path: ':metering-point-id', component: NoopComponent }],
     });
 

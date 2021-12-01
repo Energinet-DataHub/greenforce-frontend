@@ -16,7 +16,6 @@
  */
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { DhMeteringPointDataAccessApiStore } from '@energinet-datahub/dh/metering-point/data-access-api';
 
 import { DhMeteringPointFeatureOverviewModule } from '@energinet-datahub/dh/metering-point/feature-overview';
 import {
@@ -31,7 +30,6 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [DhMeteringPointSearchScam, RouterModule.forChild(routes)],
-  providers: [DhMeteringPointDataAccessApiStore],
+  imports: [DhMeteringPointSearchScam, RouterModule.forChild(routes)]
 })
 export class DhMeteringPointShellModule {}
