@@ -41,8 +41,8 @@ limitations under the License.
               {{ primaryMasterData?.suite }}
             </ng-container>
           </ng-container>
-          <br />{{ primaryMasterData?.postCode }}
-          {{ primaryMasterData?.citySubDivisionName }}
+          <br />{{ primaryMasterData?.citySubDivisionName }}
+          <br />{{ primaryMasterData?.postCode }} {{ primaryMasterData?.cityName }}
         </ng-container>
       </dd>
     </dl>
@@ -86,13 +86,13 @@ limitations under the License.
 
       <dt class="watt-text-xs">{{ transloco('locationDescription') }}:</dt>
       <dd class="watt-text-xs">
-        {{ primaryMasterData?.locationDescription ?? '-' }}
+        {{ primaryMasterData?.locationDescription ?? '—' }}
       </dd>
       <dt class="watt-text-xs text-dimmed">
         {{ transloco('geoInfoReference') }}:
       </dt>
       <dd class="watt-text-xs text-dimmed">
-        {{ primaryMasterData?.geoInfoReference || '-' }}
+        {{ primaryMasterData?.geoInfoReference || '—' }}
       </dd>
     </dl>
   </section>
@@ -107,10 +107,10 @@ limitations under the License.
     <dl>
       <dt class="watt-label">{{ transloco('meterNumber') }}</dt>
       <dd>
-        <small>{{ primaryMasterData?.meterNumber ?? '-' }}</small>
+        <small>{{ primaryMasterData?.meterNumber ?? '—' }}</small>
       </dd>
     </dl>
   </section>
 </ng-container>
 
-<ng-template #emptyValue>-</ng-template>
+<ng-template #emptyValue>—</ng-template>

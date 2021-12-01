@@ -31,6 +31,7 @@ interface PrimaryMasterData {
   floor?: string;
   suite?: string;
   citySubDivisionName?: string;
+  cityName?: string;
   postCode?: string;
   isActualAddress?: boolean | null;
   locationDescription?: string;
