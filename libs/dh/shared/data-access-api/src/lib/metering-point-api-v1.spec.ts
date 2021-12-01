@@ -19,7 +19,7 @@ import { TestBed } from '@angular/core/testing';
 import { lastValueFrom } from 'rxjs';
 
 import { DhApiModule } from './dh-api.module';
-import { MeteringPointDto, MeteringPointHttp } from './generated/v1';
+import { MeteringPointCimDto, MeteringPointHttp } from './generated/v1';
 
 const nullGsrn = '000000000000000000';
 // Available in the metering point test environment
@@ -56,7 +56,7 @@ describe('Metering Point API v1', () => {
     );
 
     await expect(whenResponse).resolves.toEqual(
-      expect.objectContaining<MeteringPointDto>({
+      expect.objectContaining<MeteringPointCimDto>({
         gsrnNumber: expectedGsrn,
       })
     );
