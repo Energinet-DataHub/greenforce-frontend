@@ -56,7 +56,7 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
             // Arrange
             const string gsrn = "574591757409421563";
             var requestUrl = $"/v1/MeteringPoint/GetByGsrn?gsrnNumber={gsrn}";
-            var meteringPointDto = Fixture.Create<MeteringPointDto>();
+            var meteringPointDto = Fixture.Create<MeteringPointCimDto>();
 
             ApiClientMock
                 .Setup(mock => mock.GetMeteringPointByGsrnAsync(gsrn))
@@ -78,7 +78,7 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
 
             ApiClientMock
                 .Setup(mock => mock.GetMeteringPointByGsrnAsync(gsrn))
-                .Returns(Task.FromResult<MeteringPointDto?>(null));
+                .Returns(Task.FromResult<MeteringPointCimDto?>(null));
 
             // Act
             var actual = await HttpClient.GetAsync(requestUrl);
