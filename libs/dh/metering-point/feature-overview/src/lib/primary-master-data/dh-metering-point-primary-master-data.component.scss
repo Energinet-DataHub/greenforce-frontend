@@ -21,23 +21,28 @@
   display: flex;
   flex-wrap: wrap;
 
-  section:nth-of-type(even) > watt-icon {
-    margin-left: var(--watt-space-xl);
-  }
-
   watt-icon {
     display: inline-block;
     color: var(--watt-color-primary-dark);
     margin-right: var(--watt-space-l);
   }
+
+  @include watt.media('>=Medium') {
+    section:nth-of-type(even) > watt-icon {
+      margin-left: var(--watt-space-xl);
+    }
+  }
 }
 
 section {
   flex: 1 1 auto;
-  width: 50%;
+  width: 100%;
   display: flex;
   align-items: center;
   margin-bottom: var(--watt-space-m);
+  @include watt.media('>=Medium') {
+    width: 50%;
+  }
 }
 
 .text-dimmed {
