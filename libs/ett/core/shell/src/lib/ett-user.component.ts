@@ -1,14 +1,5 @@
 /**
  * @license
-import { ChangeDetectionStrategy, Component, NgModule, ViewEncapsulation } from '@angular/core';
-import { MatIconModule } from '@angular/material/icon';
-import { MatMenuModule } from '@angular/material/menu';
-import { AuthProfile } from '@energinet-datahub/ett/auth/data-access-api';
-import { WattButtonModule } from '@energinet-datahub/watt';
-import { Observable } from 'rxjs';
-
-import { UserStore } from './user.store';
-
  * Copyright 2021 Energinet DataHub A/S
  *
  * Licensed under the Apache License, Version 2.0 (the "License2");
@@ -23,6 +14,20 @@ import { UserStore } from './user.store';
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import {
+  ChangeDetectionStrategy,
+  Component,
+  NgModule,
+  ViewEncapsulation,
+} from '@angular/core';
+import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
+import { AuthProfile } from '@energinet-datahub/ett/auth/data-access-api';
+import { WattButtonModule } from '@energinet-datahub/watt';
+import { Observable } from 'rxjs';
+
+import { UserStore } from './user.store';
+
 const selector = 'ett-user';
 
 @Component({
