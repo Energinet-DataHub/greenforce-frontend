@@ -92,23 +92,24 @@ describe(DhMeteringPointOverviewComponent.name, () => {
     expect(featureLocation.path()).toBe(`~/`);
   });
 
-  it('displays the metering point id in a heading for an existing metering point', async () => {
-    await featureRouter.navigateByUrl(`~/${meteringPointId}`);
+  describe('When the metering point exists', () => {
+    it('Then the metering point id is displayed in a heading', async () => {
+      await featureRouter.navigateByUrl(`~/${meteringPointId}`);
 
-    await view.fixture.whenStable();
+      await view.fixture.whenStable();
 
-    expect(
-      await screen.findByRole('heading', {
+      const heading = await screen.getByRole('heading', {
         level: 1,
-        name: meteringPointId,
-      })
-    ).toBeInTheDocument();
+      });
+
+      expect(heading).toHaveTextContent(meteringPointId);
+    });
   });
 
   describe('When metering point is not found', () => {
     const nulMeteringPointId = '000000000000000000';
 
-    it('displays an error message in a heading', async () => {
+    it('Then an error message is displayed in a heading', async () => {
       await featureRouter.navigateByUrl(`~/${nulMeteringPointId}`);
 
       await view.fixture.whenStable();
