@@ -23,9 +23,7 @@ import { MeteringPointCimDto, MeteringPointHttp } from './generated/v1';
 
 const nullGsrn = '000000000000000000';
 // Available in the metering point test environment
-const testMeteringPointGsrns = [
-  '575391908025497398'
-];
+const testMeteringPointGsrns = ['575391908025497398'];
 
 describe('Metering Point API v1', () => {
   beforeEach(() => {
