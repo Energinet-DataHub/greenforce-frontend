@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import {
-  AuthOidcLogoutResponse,
+  AuthLogoutResponse,
   AuthProfileResponse,
 } from '@energinet-datahub/ett/auth/data-access-api';
 
@@ -37,7 +37,7 @@ describe('Authentication', () => {
         request.reply(response);
       }).as('getProfile');
       cy.intercept('GET', '/api/auth/logout', (request) => {
-        const response: AuthOidcLogoutResponse = {
+        const response: AuthLogoutResponse = {
           success: true,
         };
 

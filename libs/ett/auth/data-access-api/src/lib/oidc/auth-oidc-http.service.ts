@@ -25,7 +25,7 @@ export interface AuthOidcLoginResponse {
   readonly url: string;
 }
 
-export interface AuthOidcLogoutResponse {
+export interface AuthLogoutResponse {
   readonly success: boolean;
 }
 
@@ -71,9 +71,9 @@ export class AuthOidcHttp {
     });
   }
 
-  logout(): Observable<AuthOidcLogoutResponse> {
+  logout(): Observable<AuthLogoutResponse> {
     return this.http
-      .get<AuthOidcLogoutResponse>(`${this.#apiBase}/logout`)
+      .get<AuthLogoutResponse>(`${this.#apiBase}/logout`)
       .pipe(
         mergeMap((response) =>
           response.success
