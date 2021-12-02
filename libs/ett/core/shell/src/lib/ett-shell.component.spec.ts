@@ -17,7 +17,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
-  AuthOidcHttp,
+  AuthHttp,
   AuthProfile,
   AuthProfileResponse,
 } from '@energinet-datahub/ett/auth/data-access-api';
@@ -41,16 +41,16 @@ describe(EttShellComponent.name, () => {
       profile: profile,
     } as AuthProfileResponse;
 
-    mockAuthOidcHttp = MockService(AuthOidcHttp);
+    mockAuthHttp = MockService(AuthHttp);
 
-    (mockAuthOidcHttp.getProfile as jest.Mock).mockReturnValue(of(response));
+    (mockAuthHttp.getProfile as jest.Mock).mockReturnValue(of(response));
 
     TestBed.configureTestingModule({
       imports: [EttShellScam],
       providers: [
         {
-          provide: AuthOidcHttp,
-          useValue: mockAuthOidcHttp,
+          provide: AuthHttp,
+          useValue: mockAuthHttp,
         },
       ],
     });
@@ -59,7 +59,7 @@ describe(EttShellComponent.name, () => {
   });
 
   let fixture: ComponentFixture<EttShellComponent>;
-  let mockAuthOidcHttp: AuthOidcHttp;
+  let mockAuthHttp: AuthHttp;
 
   it('displays the Watt shell', () => {
     const wattShell = fixture.debugElement.query(
@@ -83,23 +83,23 @@ describe(EttShellComponent.name, () => {
       profile: profile,
     } as AuthProfileResponse;
 
-    mockAuthOidcHttp = MockService(AuthOidcHttp);
+    mockAuthHttp = MockService(AuthHttp);
 
-    (mockAuthOidcHttp.getProfile as jest.Mock).mockReturnValue(of(response));
+    (mockAuthHttp.getProfile as jest.Mock).mockReturnValue(of(response));
 
     view = await render(EttShellComponent, {
       imports: [EttShellScam],
       providers: [
         {
-          provide: AuthOidcHttp,
-          useValue: mockAuthOidcHttp,
+          provide: AuthHttp,
+          useValue: mockAuthHttp,
         },
       ],
     });
   });
 
   let view: RenderResult<EttShellComponent, EttShellComponent>;
-  let mockAuthOidcHttp: AuthOidcHttp;
+  let mockAuthHttp: AuthHttp;
   const profileName = 'Mock User';
 
   it("displays the user's name", async () => {

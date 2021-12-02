@@ -17,7 +17,7 @@
 import { ApplicationInitStatus, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import {
-  AuthOidcHttp,
+  AuthHttp,
   AuthProfile,
 } from '@energinet-datahub/ett/auth/data-access-api';
 import { ettAuthRoutePath } from '@energinet-datahub/ett/auth/routing-security';
@@ -45,7 +45,7 @@ export class UserStore extends ComponentStore<UserState> {
   );
 
   constructor(
-    private authOidc: AuthOidcHttp,
+    private authOidc: AuthHttp,
     applicationInit: ApplicationInitStatus,
     private router: Router
   ) {

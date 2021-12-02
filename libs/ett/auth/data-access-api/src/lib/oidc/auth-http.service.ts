@@ -43,7 +43,7 @@ export interface AuthProfileResponse {
 @Injectable({
   providedIn: 'root',
 })
-export class AuthOidcHttp {
+export class AuthHttp {
   #apiBase = `${environment.apiBase}/auth`;
 
   constructor(private http: HttpClient) {}

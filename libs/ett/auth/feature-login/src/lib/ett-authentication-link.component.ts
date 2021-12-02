@@ -20,7 +20,7 @@ import {
   NgModule,
   ViewEncapsulation,
 } from '@angular/core';
-import { AuthOidcHttp } from '@energinet-datahub/ett/auth/data-access-api';
+import { AuthHttp } from '@energinet-datahub/ett/auth/data-access-api';
 import { ettDashboardRoutePath } from '@energinet-datahub/ett/dashboard/routing';
 import { AbsoluteUrlGenerator } from '@energinet-datahub/ett/shared/util-browser';
 import { LetModule } from '@rx-angular/template';
@@ -63,7 +63,7 @@ export class EttAuthenticationLinkComponent {
     .pipe(map((response) => response.url));
 
   constructor(
-    private authOidc: AuthOidcHttp,
+    private authOidc: AuthHttp,
     private urlGenerator: AbsoluteUrlGenerator
   ) {
     this.loginProviderError$ = this.loginUrl$.pipe(

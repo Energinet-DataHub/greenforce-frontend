@@ -21,16 +21,16 @@ import {
 import { TestBed } from '@angular/core/testing';
 import { lastValueFrom } from 'rxjs';
 
-import { AuthOidcHttp, AuthOidcLoginResponse } from './auth-oidc-http.service';
+import { AuthHttp, AuthOidcLoginResponse } from './auth-http.service';
 import { AuthOidcQueryParameterName } from './auth-oidc-query-parameter-name';
 
-describe(AuthOidcHttp.name, () => {
+describe(AuthHttp.name, () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
     });
 
-    client = TestBed.inject(AuthOidcHttp);
+    client = TestBed.inject(AuthHttp);
     server = TestBed.inject(HttpTestingController);
   });
 
@@ -38,7 +38,7 @@ describe(AuthOidcHttp.name, () => {
     server.verify();
   });
 
-  let client: AuthOidcHttp;
+  let client: AuthHttp;
   let server: HttpTestingController;
 
   it('the redirect URI query parameter is the specified return URL', () => {
