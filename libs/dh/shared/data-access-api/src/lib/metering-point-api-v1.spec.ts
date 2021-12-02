@@ -24,16 +24,7 @@ import { MeteringPointCimDto, MeteringPointHttp } from './generated/v1';
 const nullGsrn = '000000000000000000';
 // Available in the metering point test environment
 const testMeteringPointGsrns = [
-  '571313180400014077',
-  '573830327917661875',
-  '572618486737161170',
-  '575990512432508407',
-  '576198124843533632',
-  '572865215148321165',
-  '576874126135722710',
-  '576811034603915520',
-  '571313180400014169',
-  '579548851016417698',
+  '575391908025497398'
 ];
 
 describe('Metering Point API v1', () => {
@@ -50,7 +41,6 @@ describe('Metering Point API v1', () => {
   it(`When an existing metering point is looked up by GSRN
     Then a successful response is received`, async () => {
     const [expectedGsrn] = testMeteringPointGsrns;
-
     const whenResponse = lastValueFrom(
       http.v1MeteringPointGetByGsrnGet(expectedGsrn)
     );
