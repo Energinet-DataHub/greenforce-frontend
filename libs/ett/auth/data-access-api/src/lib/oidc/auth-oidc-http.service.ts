@@ -21,18 +21,18 @@ import { EMPTY, mergeMap, Observable, of, throwError } from 'rxjs';
 
 import { AuthOidcQueryParameterName } from './auth-oidc-query-parameter-name';
 
-export interface AuthOidcLoginResponse {
-  readonly url: string;
-}
-
 export interface AuthLogoutResponse {
   readonly success: boolean;
 }
 
+export interface AuthOidcLoginResponse {
+  readonly url: string;
+}
+
 export interface AuthProfile {
+  readonly company?: string | null;
   readonly id: string;
   readonly name: string;
-  readonly company?: string | null;
 }
 
 export interface AuthProfileResponse {
