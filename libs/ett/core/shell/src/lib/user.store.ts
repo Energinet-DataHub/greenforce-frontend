@@ -74,7 +74,7 @@ export class UserStore extends ComponentStore<UserState> {
   logOut = this.effect<void>((origin$) =>
     origin$.pipe(
       exhaustMap(() =>
-        this.authOidc.logout().pipe(
+        this.authOidc.getLogout().pipe(
           exhaustMap(() => this.router.navigate([ettAuthRoutePath])),
           tapResponse(
             () =>

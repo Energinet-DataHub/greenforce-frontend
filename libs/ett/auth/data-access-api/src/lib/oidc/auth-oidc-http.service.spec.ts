@@ -47,7 +47,7 @@ describe(AuthOidcHttp.name, () => {
     };
     const expectedReturnUrl = 'http://example.com/app';
 
-    lastValueFrom(client.login(expectedReturnUrl));
+    lastValueFrom(client.getOidcLogin(expectedReturnUrl));
     const response = server.expectOne(
       (request) => request.url === '/api/oidc/login' && request.method === 'GET'
     );

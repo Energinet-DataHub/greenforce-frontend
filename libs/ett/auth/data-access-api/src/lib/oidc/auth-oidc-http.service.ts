@@ -48,6 +48,26 @@ export class AuthOidcHttp {
 
   constructor(private http: HttpClient) {}
 
+  getLogout(): Observable<AuthLogoutResponse> {
+    return this.http
+      .get<AuthLogoutResponse>(`${this.#apiBase}/logout`)
+      .pipe(
+        mergeMap((response) =>
+          response.success
+            ? EMPTY
+            : throwError(() => new Error('User logout failed'))
+        )
+      );
+  }
+
+  getOidcLogin(returnUrl: string): Observable<AuthOidcLoginResponse> {
+    return this.http.get<AuthOidcLoginResponse>(`${this.#apiBase}/oidc/login`, {
+      params: {
+        [AuthOidcQueryParameterName.ReturnUrl]: returnUrl,
+      },
+    });
+  }
+
   getProfile(): Observable<AuthProfile> {
     return this.http.get<AuthProfileResponse>(`${this.#apiBase}/profile`).pipe(
       mergeMap((response) =>
@@ -61,25 +81,5 @@ export class AuthOidcHttp {
           : of(profile)
       )
     );
-  }
-
-  login(returnUrl: string): Observable<AuthOidcLoginResponse> {
-    return this.http.get<AuthOidcLoginResponse>(`${this.#apiBase}/oidc/login`, {
-      params: {
-        [AuthOidcQueryParameterName.ReturnUrl]: returnUrl,
-      },
-    });
-  }
-
-  logout(): Observable<AuthLogoutResponse> {
-    return this.http
-      .get<AuthLogoutResponse>(`${this.#apiBase}/logout`)
-      .pipe(
-        mergeMap((response) =>
-          response.success
-            ? EMPTY
-            : throwError(() => new Error('User logout failed'))
-        )
-      );
   }
 }

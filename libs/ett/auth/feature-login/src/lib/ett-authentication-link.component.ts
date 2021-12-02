@@ -21,8 +21,8 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { AuthOidcHttp } from '@energinet-datahub/ett/auth/data-access-api';
-import { AbsoluteUrlGenerator } from '@energinet-datahub/ett/shared/util-browser';
 import { ettDashboardRoutePath } from '@energinet-datahub/ett/dashboard/routing';
+import { AbsoluteUrlGenerator } from '@energinet-datahub/ett/shared/util-browser';
 import { LetModule } from '@rx-angular/template';
 import { catchError, map, Observable, of } from 'rxjs';
 
@@ -59,7 +59,7 @@ export class EttAuthenticationLinkComponent {
 
   loginProviderError$: Observable<unknown>;
   loginUrl$: Observable<string> = this.authOidc
-    .login(this.#returnUrl)
+    .getOidcLogin(this.#returnUrl)
     .pipe(map((response) => response.url));
 
   constructor(

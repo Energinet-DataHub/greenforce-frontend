@@ -36,7 +36,7 @@ describe(EttAuthenticationLinkComponent.name, () => {
         imports: [EttAuthenticationLinkScam],
         providers: [
           MockProvider(AuthOidcHttp, {
-            login: (returnUrl) =>
+            getOidcLogin: (returnUrl) =>
               of({
                 url: `${authenticationUrl}?${AuthOidcQueryParameterName.ReturnUrl}=${returnUrl}`,
               }),
@@ -74,7 +74,8 @@ describe(EttAuthenticationLinkComponent.name, () => {
         imports: [EttAuthenticationLinkScam],
         providers: [
           MockProvider(AuthOidcHttp, {
-            login: () => throwError(() => new Error('Dummy error message')),
+            getOidcLogin: () =>
+              throwError(() => new Error('Dummy error message')),
           }),
         ],
       });
