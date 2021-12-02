@@ -35,7 +35,7 @@ export interface AuthProfile {
   readonly company?: string | null;
 }
 
-export interface GetProfileResponse {
+export interface AuthProfileResponse {
   readonly success: boolean;
   readonly profile?: AuthProfile | null;
 }
@@ -49,7 +49,7 @@ export class AuthOidcHttp {
   constructor(private http: HttpClient) {}
 
   getProfile(): Observable<AuthProfile> {
-    return this.http.get<GetProfileResponse>(`${this.#apiBase}/profile`).pipe(
+    return this.http.get<AuthProfileResponse>(`${this.#apiBase}/profile`).pipe(
       mergeMap((response) =>
         response.success
           ? of(response.profile)

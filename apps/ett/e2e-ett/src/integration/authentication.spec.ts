@@ -16,7 +16,7 @@
  */
 import {
   AuthOidcLogoutResponse,
-  GetProfileResponse,
+  AuthProfileResponse,
 } from '@energinet-datahub/ett/auth/data-access-api';
 
 import * as appShell from '../support/app-shell.po';
@@ -26,7 +26,7 @@ describe('Authentication', () => {
   describe('Given the user is authenticated', () => {
     beforeEach(() => {
       cy.intercept('GET', '/api/auth/profile', (request) => {
-        const response: GetProfileResponse = {
+        const response: AuthProfileResponse = {
           success: true,
           profile: {
             id: '1234',
@@ -72,7 +72,7 @@ describe('Authentication', () => {
   describe.skip('Given user authentication fails', () => {
     beforeEach(() => {
       cy.intercept('GET', '/api/auth/profile', (request) => {
-        const response: GetProfileResponse = {
+        const response: AuthProfileResponse = {
           success: false,
         };
 
