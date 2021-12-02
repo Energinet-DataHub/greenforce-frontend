@@ -18,28 +18,28 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   AuthOidcHttp,
-  GetProfileResponse,
-  UserProfile,
+  AuthProfile,
+  AuthProfileResponse,
 } from '@energinet-datahub/ett/auth/data-access-api';
 import { WattShellComponent } from '@energinet-datahub/watt';
-import { of } from 'rxjs';
+import { render, RenderResult } from '@testing-library/angular';
 import { MockService } from 'ng-mocks';
+import { of } from 'rxjs';
 
 import { EttShellComponent, EttShellScam } from './ett-shell.component';
-import { render, RenderResult } from '@testing-library/angular';
 
 describe(EttShellComponent.name, () => {
   beforeEach(() => {
-    const profile = {
+    const profile: AuthProfile = {
       id: '123',
       name: 'Mock',
       company: 'Energinet',
-    } as UserProfile;
+    };
 
     const response = {
       success: true,
       profile: profile,
-    } as GetProfileResponse;
+    } as AuthProfileResponse;
 
     mockAuthOidcHttp = MockService(AuthOidcHttp);
 
@@ -72,16 +72,16 @@ describe(EttShellComponent.name, () => {
 
 describe(EttShellComponent.name, () => {
   beforeEach(async () => {
-    const profile = {
+    const profile: AuthProfile = {
       id: '123',
       name: profileName,
       company: 'Energinet',
-    } as UserProfile;
+    };
 
     const response = {
       success: true,
       profile: profile,
-    } as GetProfileResponse;
+    } as AuthProfileResponse;
 
     mockAuthOidcHttp = MockService(AuthOidcHttp);
 

@@ -45,7 +45,7 @@ export interface AuthOidcLogoutResponse {
   readonly success: boolean;
 }
 
-export interface UserProfile {
+export interface AuthProfile {
   readonly id: string;
   readonly name: string;
   readonly company?: string | null;
@@ -53,7 +53,7 @@ export interface UserProfile {
 
 export interface GetProfileResponse {
   readonly success: boolean;
-  readonly profile?: UserProfile | null;
+  readonly profile?: AuthProfile | null;
 }
 
 @Injectable({
@@ -62,7 +62,7 @@ export interface GetProfileResponse {
 export class AuthOidcHttp {
   constructor(private http: HttpClient) {}
 
-  getProfile(): Observable<UserProfile> {
+  getProfile(): Observable<AuthProfile> {
     return this.http
       .get<GetProfileResponse>(`${environment.apiBase}/auth/profile`)
       .pipe(

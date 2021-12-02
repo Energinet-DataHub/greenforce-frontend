@@ -1,19 +1,14 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  NgModule,
-  ViewEncapsulation,
-} from '@angular/core';
+/**
+ * @license
+import { ChangeDetectionStrategy, Component, NgModule, ViewEncapsulation } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
-import { UserProfile } from '@energinet-datahub/ett/auth/data-access-api';
+import { AuthProfile } from '@energinet-datahub/ett/auth/data-access-api';
 import { WattButtonModule } from '@energinet-datahub/watt';
 import { Observable } from 'rxjs';
 
 import { UserStore } from './user.store';
 
-/**
- * @license
  * Copyright 2021 Energinet DataHub A/S
  *
  * Licensed under the Apache License, Version 2.0 (the "License2");
@@ -64,7 +59,7 @@ const selector = 'ett-user';
   `,
 })
 export class EttUserComponent {
-  profile$: Observable<UserProfile | null> = this.user.profile$;
+  profile$: Observable<AuthProfile | null> = this.user.profile$;
 
   constructor(private user: UserStore) {}
 
