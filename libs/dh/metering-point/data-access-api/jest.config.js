@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 module.exports = {
-  displayName: 'dh-metering-point-routing',
+  displayName: 'dh-metering-point-data-access-api',
   preset: '../../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   globals: {
@@ -24,7 +24,8 @@ module.exports = {
       stringifyContentPathRegex: '\\.(html|svg)$',
     },
   },
-  coverageDirectory: '../../../../coverage/libs/dh/metering-point/routing',
+  coverageDirectory:
+    '../../../../coverage/libs/dh/metering-point/data-access-api',
   transform: {
     '^.+\\.(ts|js|html)$': 'jest-preset-angular',
   },
