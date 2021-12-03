@@ -23,7 +23,7 @@ import { WattBadgeType } from '@energinet-datahub/watt';
 
 export interface MeteringPointStatus {
   badgeType: WattBadgeType;
-  text: string;
+  translationKey: string;
 }
 
 @Injectable()
@@ -34,7 +34,7 @@ export class DhMeteringPointOverviewPresenter {
       map((connectionState) => connectionState as ConnectionState),
       map((connectionState) => ({
         badgeType: connectionStateToBadgeType(connectionState),
-        text: connectionState,
+        translationKey: `meteringPoint.physicalStatusCode.${connectionState}`,
       }))
     );
 

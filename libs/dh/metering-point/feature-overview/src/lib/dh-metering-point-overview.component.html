@@ -41,7 +41,7 @@ limitations under the License.
           <watt-badge
             *ngIf="meteringPointStatus$ | async as meteringPointStatus"
             [type]="meteringPointStatus.badgeType"
-            >{{ meteringPointStatus.text }}</watt-badge
+            >{{ meteringPointStatus.translationKey | transloco }}</watt-badge
           >
         </ng-container>
       </span>
