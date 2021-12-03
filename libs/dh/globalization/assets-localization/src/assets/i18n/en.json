@@ -67,7 +67,7 @@
       "E18": "Production",
       "E20": "Exchange"
     },
-    "MeteringPointSubTypeCode": {
+    "meteringPointSubTypeCode": {
       "D01": "Physical",
       "D02": "Virtual",
       "D03": "Calculated"

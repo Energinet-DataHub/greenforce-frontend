@@ -67,7 +67,7 @@
       "E18": "Produktion",
       "E20": "Udveksling"
     },
-    "MeteringPointSubTypeCode": {
+    "meteringPointSubTypeCode": {
       "D01": "Fysisk",
       "D02": "Virtuel",
       "D03": "Beregnet"
