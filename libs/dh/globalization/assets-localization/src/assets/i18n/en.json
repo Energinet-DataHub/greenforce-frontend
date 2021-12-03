@@ -15,7 +15,7 @@
         "meteringPoints": "Metering points"
       },
       "meteringPointType": "Type of Metering Point",
-      "meteringPointSubType": "Metering Method",
+      "meteringMethod": "Metering Method",
       "gsrnNumber": "Metering Point ID",
       "connectionState": "Connection State",
       "settlementMethod": "Settlement Method",

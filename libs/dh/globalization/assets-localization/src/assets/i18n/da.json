@@ -15,7 +15,7 @@
         "meteringPoints": "Målepunkter"
       },
       "meteringPointType": "Målepunktstype",
-      "meteringPointSubType": "Målepunktsart",
+      "meteringMethod": "Målepunktsart",
       "gsrnNumber": "Målepunkts ID",
       "connectionState": "Tilslutningsstatus",
       "settlementMethod": "Afregningsform",

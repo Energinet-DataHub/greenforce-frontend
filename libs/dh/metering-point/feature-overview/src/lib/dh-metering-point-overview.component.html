@@ -26,13 +26,10 @@ limitations under the License.
           {{ meteringPoint?.meteringPointType }}
         </ng-container>
       </span>
-      (<span
-        [title]="'meteringPoint.overview.meteringPointSubType' | transloco"
-      >
-        <ng-container
-          *ngIf="meteringPoint?.meteringPointSubType; else emptyField"
-          >{{ meteringPoint?.meteringPointSubType }}</ng-container
-        ></span
+      (<span [title]="'meteringPoint.overview.meteringMethod' | transloco">
+        <ng-container *ngIf="meteringPoint?.meteringMethod; else emptyField">{{
+          meteringPoint?.meteringMethod
+        }}</ng-container></span
       >)
     </div>
     <h1 [title]="'meteringPoint.overview.gsrnNumber' | transloco">
