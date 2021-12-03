@@ -81,7 +81,7 @@ describe(DhMeteringPointSearchComponent.name, () => {
     const { input, submitButton } = await setup();
     const location: Location = TestBed.inject(Location);
 
-    userEvent.type(input, '571313180400014077');
+    userEvent.type(input, '575391908025497398');
     userEvent.click(submitButton);
 
     expect(screen.queryByRole('progressbar')).toBeInTheDocument();
@@ -98,7 +98,7 @@ describe(DhMeteringPointSearchComponent.name, () => {
     ).not.toBeInTheDocument();
 
     await waitFor(() => {
-      expect(location.path()).toBe('/571313180400014077');
+      expect(location.path()).toBe('/575391908025497398');
     });
   });
 
