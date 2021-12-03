@@ -14,12 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import * as appShell from '../support/app-shell.po';
+:host {
+  display: block;
+  max-width: 844px;
+  margin: 0 auto;
+}
 
-describe('Application shell', () => {
-  beforeEach(() => cy.visit('/'));
+h1 {
+  margin-bottom: var(--watt-space-s);
+}
 
-  it('the application title is displayed', () => {
-    appShell.getTitle().contains(/Målepunkter/i);
-  });
-});
+watt-empty-state {
+  margin-top: var(--watt-space-xl);
+}

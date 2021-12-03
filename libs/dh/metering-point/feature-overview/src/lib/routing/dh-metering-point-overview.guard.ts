@@ -21,6 +21,8 @@ import {
   Router,
   UrlTree,
 } from '@angular/router';
+
+import { dhMeteringPointSearchPath } from '@energinet-datahub/dh/metering-point/feature-search';
 import { isValidMeteringPointId } from '@energinet-datahub/dh/metering-point/domain';
 
 import { dhMeteringPointIdParam } from './dh-metering-point-id-param';
@@ -33,10 +35,10 @@ import { dhMeteringPointPath } from './dh-metering-point-path';
   providedIn: 'root',
 })
 export class DhMeteringPointOverviewGuard implements CanActivate {
-  private searchMeteringPointUrl(): UrlTree {
-    const url = `${dhMeteringPointPath}/search`;
+  private searchMeteringPointUrl(id: string): UrlTree {
+    const url = `${dhMeteringPointPath}/${dhMeteringPointSearchPath}`;
 
-    return this.router.createUrlTree([url]);
+    return this.router.createUrlTree([url], { queryParams: { q: id } });
   }
 
   constructor(private router: Router) {}
@@ -46,6 +48,6 @@ export class DhMeteringPointOverviewGuard implements CanActivate {
 
     return isValidMeteringPointId(meteringPointId)
       ? true
-      : this.searchMeteringPointUrl();
+      : this.searchMeteringPointUrl(meteringPointId);
   }
 }

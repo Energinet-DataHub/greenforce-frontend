@@ -1,0 +1,49 @@
+<!--
+@license
+Copyright 2021 Energinet DataHub A/S
+
+Licensed under the Apache License, Version 2.0 (the "License2");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<form
+  *transloco="let transloco; read: 'meteringPoint.search'"
+  name="search-form"
+>
+  <watt-form-field size="large">
+    <watt-label class="watt-text-m">{{ transloco('searchLabel') }}</watt-label>
+    <watt-icon name="search" wattPrefix></watt-icon>
+    <input
+      #searchInput
+      wattInput
+      type="text"
+      [placeholder]="transloco('searchPlaceholder')"
+      [formControl]="searchControl"
+      inputmode="numeric"
+    />
+    <watt-error *ngIf="searchControl.errors?.invalidMeteringPointId">
+      {{ transloco('searchInvalidLength') }}
+    </watt-error>
+    <watt-icon-button
+      icon="close"
+      wattSuffix
+      [label]="transloco('clearSearchButton')"
+      (click)="onSearchInputClear()"
+    ></watt-icon-button>
+  </watt-form-field>
+  <watt-button
+    type="primary"
+    size="large"
+    [loading]="loading"
+    (click)="onSubmit()"
+    >{{ transloco('searchButton') }}</watt-button
+  >
+</form>
