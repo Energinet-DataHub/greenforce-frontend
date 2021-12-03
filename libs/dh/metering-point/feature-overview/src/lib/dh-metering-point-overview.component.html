@@ -23,13 +23,20 @@ limitations under the License.
     <div class="watt-text-s">
       <span [title]="'meteringPoint.overview.meteringPointType' | transloco">
         <ng-container *ngIf="meteringPoint?.meteringPointType; else emptyField">
-          {{ meteringPoint?.meteringPointType }}
+          <ng-container
+            *transloco="let t; read: 'meteringPoint.meteringPointTypeCode'"
+          >
+            {{ t(meteringPoint?.meteringPointType!) }}
+          </ng-container>
         </ng-container>
       </span>
       (<span [title]="'meteringPoint.overview.meteringMethod' | transloco">
-        <ng-container *ngIf="meteringPoint?.meteringMethod; else emptyField">{{
-          meteringPoint?.meteringMethod
-        }}</ng-container></span
+        <ng-container *ngIf="meteringPoint?.meteringMethod; else emptyField">
+          <ng-container
+            *transloco="let t; read: 'meteringPoint.meteringPointSubTypeCode'"
+            >{{ t(meteringPoint?.meteringMethod!) }}</ng-container
+          >
+        </ng-container></span
       >)
     </div>
     <h1 [title]="'meteringPoint.overview.gsrnNumber' | transloco">
@@ -47,9 +54,12 @@ limitations under the License.
       </span>
       <ng-container *ngIf="meteringPoint?.settlementMethod">
         |
-        <span [title]="'meteringPoint.overview.settlementMethod' | transloco">{{
-          meteringPoint?.settlementMethod
-        }}</span>
+        <span [title]="'meteringPoint.overview.settlementMethod' | transloco">
+          <ng-container
+            *transloco="let t; read: 'meteringPoint.settlementMethodCode'"
+            >{{ t(meteringPoint?.settlementMethod!) }}</ng-container
+          ></span
+        >
       </ng-container>
       <ng-container *ngIf="meteringPoint?.readingOccurrence">
         |
