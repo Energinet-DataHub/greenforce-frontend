@@ -42,10 +42,6 @@ export class DhMeteringPointDataAccessApiStore extends ComponentStore<MeteringPo
   meteringPoint$ = this.select((state) => state.meteringPoint).pipe(
     filter((meteringPointId) => !!meteringPointId)
   );
-  isLoading$ = this.select((store) => store.isLoading);
-  meteringPointNotFound$ = this.select((store) => store.meteringPointNotFound);
-  hasError$ = this.select((store) => store.hasError);
-
   isLoading$ = this.select((state) => state.isLoading);
   meteringPointNotFound$ = this.select((state) => state.meteringPointNotFound);
   hasError$ = this.select((state) => state.hasError);
