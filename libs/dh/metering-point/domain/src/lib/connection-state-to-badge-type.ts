@@ -14,30 +14,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { ConnectionState } from '@energinet-datahub/dh/shared/data-access-api';
 import { WattBadgeType } from '@energinet-datahub/watt';
-
-export enum ConnectionState {
-  'NotUsed' = 'Not used',
-  'ClosedDown' = 'Closed down',
-  'New' = 'New',
-  'Connected' = 'Connected',
-  'Disconnected' = 'Disconnected',
-}
 
 /**
  *
  * @throws {Error} if the specified connection state has an unknown value.
  */
 export function connectionStateToBadgeType(
-  connectionState: string
+  connectionState: ConnectionState
 ): WattBadgeType {
   switch (connectionState) {
-    case ConnectionState.ClosedDown:
-    case ConnectionState.Disconnected:
-    case ConnectionState.NotUsed:
+    case ConnectionState.D02:
+    case ConnectionState.E23:
+      // case ConnectionState.D01:
       return 'warning';
-    case ConnectionState.Connected:
-    case ConnectionState.New:
+    case ConnectionState.E22:
+    case ConnectionState.D03:
       return 'success';
     default:
       throw new Error(`Unknown connection state: ${connectionState}`);

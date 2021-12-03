@@ -14,57 +14,46 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  ConnectionState,
-  connectionStateToBadgeType,
-} from './connection-state-to-badge-type';
+// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
+import { ConnectionState } from '@energinet-datahub/dh/shared/data-access-api';
+
+import { connectionStateToBadgeType } from './connection-state-to-badge-type';
 
 describe(connectionStateToBadgeType.prototype.name, () => {
-  it(`Given connection state is "Not used"
+  it(`Given connection state is "${ConnectionState.D02}"
     Then badge type is "warning"`, () => {
-    const actualBadgeType = connectionStateToBadgeType(ConnectionState.NotUsed);
+    const actualBadgeType = connectionStateToBadgeType(ConnectionState.D02);
 
     expect(actualBadgeType).toBe('warning');
   });
 
-  it(`Given connection state is "Disconnected"
+  it(`Given connection state is "${ConnectionState.E23}"
     Then badge type is "warning"`, () => {
-    const actualBadgeType = connectionStateToBadgeType(
-      ConnectionState.Disconnected
-    );
+    const actualBadgeType = connectionStateToBadgeType(ConnectionState.E23);
 
     expect(actualBadgeType).toBe('warning');
   });
 
-  it(`Given connection state is "Closed down"
+  it(`Given connection state is "${ConnectionState.E22}"
     Then badge type is "warning"`, () => {
-    const actualBadgeType = connectionStateToBadgeType(
-      ConnectionState.ClosedDown
-    );
-
-    expect(actualBadgeType).toBe('warning');
-  });
-
-  it(`Given connection state is "Connected"
-    Then badge type is "warning"`, () => {
-    const actualBadgeType = connectionStateToBadgeType(
-      ConnectionState.Connected
-    );
+    const actualBadgeType = connectionStateToBadgeType(ConnectionState.E22);
 
     expect(actualBadgeType).toBe('success');
   });
 
-  it(`Given connection state is "New"
+  it(`Given connection state is "${ConnectionState.D03}"
     Then badge type is "warning"`, () => {
-    const actualBadgeType = connectionStateToBadgeType(ConnectionState.New);
+    const actualBadgeType = connectionStateToBadgeType(ConnectionState.D03);
 
     expect(actualBadgeType).toBe('success');
   });
 
   it(`When an unknown connection state is specified
     Then an error is thrown"`, () => {
-    expect(() => connectionStateToBadgeType('test')).toThrowError(
-      /unknown connection state/i
-    );
+    const unknowConnectionState = 'TEST' as ConnectionState;
+
+    expect(() =>
+      connectionStateToBadgeType(unknowConnectionState)
+    ).toThrowError(/unknown connection state/i);
   });
 });
