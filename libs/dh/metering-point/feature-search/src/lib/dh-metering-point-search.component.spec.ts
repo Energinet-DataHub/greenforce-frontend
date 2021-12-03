@@ -51,7 +51,9 @@ describe(DhMeteringPointSearchComponent.name, () => {
         HttpClientModule,
         DhMeteringPointSearchScam,
       ],
-      routes: [{ path: `:${dhMeteringPointIdParam}`, component: NoopComponent }],
+      routes: [
+        { path: `:${dhMeteringPointIdParam}`, component: NoopComponent },
+      ],
     });
 
     const activatedRoute = TestBed.inject(ActivatedRoute);
@@ -96,7 +98,9 @@ describe(DhMeteringPointSearchComponent.name, () => {
       })
     ).not.toBeInTheDocument();
     expect(
-      screen.queryByRole('heading', { name: enTranslations.meteringPoint.search.serverErrorTitle })
+      screen.queryByRole('heading', {
+        name: enTranslations.meteringPoint.search.serverErrorTitle,
+      })
     ).not.toBeInTheDocument();
 
     await waitFor(() => {
@@ -122,7 +126,9 @@ describe(DhMeteringPointSearchComponent.name, () => {
       })
     ).toBeInTheDocument();
     expect(
-      screen.queryByRole('heading', { name: enTranslations.meteringPoint.search.serverErrorTitle })
+      screen.queryByRole('heading', {
+        name: enTranslations.meteringPoint.search.serverErrorTitle,
+      })
     ).not.toBeInTheDocument();
 
     await waitFor(() => {
