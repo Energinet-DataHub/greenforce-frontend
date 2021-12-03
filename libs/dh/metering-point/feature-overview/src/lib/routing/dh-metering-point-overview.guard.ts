@@ -21,11 +21,12 @@ import {
   Router,
   UrlTree,
 } from '@angular/router';
+
+import { dhMeteringPointSearchPath } from '@energinet-datahub/dh/metering-point/feature-search';
 import { isValidMeteringPointId } from '@energinet-datahub/dh/metering-point/domain';
 
 import { dhMeteringPointIdParam } from './dh-metering-point-id-param';
 import { dhMeteringPointPath } from './dh-metering-point-path';
-import { dhMeteringPointSearchPath } from './dh-metering-point-search-path';
 
 /**
  * Redirects to search metering point page if metering point id is invalid.
