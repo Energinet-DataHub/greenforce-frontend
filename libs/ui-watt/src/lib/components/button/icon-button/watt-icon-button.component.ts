@@ -33,6 +33,7 @@ import { WattIcon } from '../../../foundations/icon';
 })
 export class WattIconButtonComponent {
   @Input() icon?: WattIcon;
+  @Input() label?: string;
 
   @Input() disabled = false;
 }
