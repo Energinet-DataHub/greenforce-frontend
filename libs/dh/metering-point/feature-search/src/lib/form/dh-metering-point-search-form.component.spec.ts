@@ -171,7 +171,7 @@ describe(DhMeteringPointSearchFormComponent.name, () => {
   describe('on deeplink', () => {
     it('should have initial value', async () => {
       const { fixture, input, navigate } = await setup();
-      await navigate(`metering-point/search?q=${validMeteringPointId}`);
+      await navigate(`${dhMeteringPointPath}/${dhMeteringPointSearchPath}?q=${validMeteringPointId}`);
 
       fixture.componentInstance.ngAfterViewInit();
 
@@ -186,7 +186,7 @@ describe(DhMeteringPointSearchFormComponent.name, () => {
 
     it('should show error message, if initial value is not valid', async () => {
       const { fixture, input, navigate } = await setup();
-      await navigate(`metering-point/search?q=${invalidMeteringPointId}`);
+      await navigate(`${dhMeteringPointPath}/${dhMeteringPointSearchPath}?q=${invalidMeteringPointId}`);
 
       fixture.componentInstance.ngAfterViewInit();
 
@@ -201,7 +201,7 @@ describe(DhMeteringPointSearchFormComponent.name, () => {
 
     it('should not show error message, if initial value is empty', async () => {
       const { fixture, input, navigate } = await setup();
-      await navigate(`metering-point/search`);
+      await navigate(`${dhMeteringPointPath}/${dhMeteringPointSearchPath}`);
 
       fixture.componentInstance.ngAfterViewInit();
 
