@@ -73,7 +73,6 @@
       "D03": "Calculated"
     },
     "physicalStatusCode": {
-      "D01": "Not used",
       "D02": "Closed down",
       "D03": "New",
       "E22": "Connected",

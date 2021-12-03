@@ -73,7 +73,6 @@
       "D03": "Beregnet"
     },
     "physicalStatusCode": {
-      "D01": "Anvendes ikke",
       "D02": "Nedlæg",
       "D03": "Ny",
       "E22": "Tilsluttet",

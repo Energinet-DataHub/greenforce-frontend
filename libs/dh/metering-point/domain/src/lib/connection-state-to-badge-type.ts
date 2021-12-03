@@ -27,7 +27,6 @@ export function connectionStateToBadgeType(
   switch (connectionState) {
     case ConnectionState.D02:
     case ConnectionState.E23:
-      // case ConnectionState.D01:
       return 'warning';
     case ConnectionState.E22:
     case ConnectionState.D03:
