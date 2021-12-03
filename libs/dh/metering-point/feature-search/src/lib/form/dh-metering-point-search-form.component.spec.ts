@@ -59,7 +59,7 @@ describe(DhMeteringPointSearchFormComponent.name, () => {
       .mockName('submitSpy');
 
     const input: HTMLInputElement = screen.getByRole('textbox', {
-      name: /search-input/i,
+      name: enTranslations.meteringPoint.search.searchLabel,
     });
 
     const submitButton = screen.getByRole('button', {
