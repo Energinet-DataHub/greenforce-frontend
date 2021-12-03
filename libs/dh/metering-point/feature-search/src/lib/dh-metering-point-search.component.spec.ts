@@ -25,7 +25,7 @@ import userEvent from '@testing-library/user-event';
 import { ActivatedRoute } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 
-import { en as translations } from '@energinet-datahub/dh/globalization/assets-localization';
+import { en as enTranslations } from '@energinet-datahub/dh/globalization/assets-localization';
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
 import { Location } from '@angular/common';
 
