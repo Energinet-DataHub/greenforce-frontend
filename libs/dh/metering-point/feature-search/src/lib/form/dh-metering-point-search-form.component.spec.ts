@@ -17,7 +17,7 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
 
-import { en as translations } from '@energinet-datahub/dh/globalization/assets-localization';
+import { en as Enranslations } from '@energinet-datahub/dh/globalization/assets-localization';
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
 
 import {
