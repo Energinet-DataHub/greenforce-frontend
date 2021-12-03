@@ -110,13 +110,17 @@ describe(DhMeteringPointSearchFormComponent.name, () => {
   it('should not show errors before input has been blurred', async () => {
     const { input } = await setup();
     expect(
-      screen.queryByText(enTranslations.meteringPoint.search.searchInvalidLength)
+      screen.queryByText(
+        enTranslations.meteringPoint.search.searchInvalidLength
+      )
     ).not.toBeInTheDocument();
 
     fireEvent.blur(input);
 
     expect(
-      screen.queryByText(enTranslations.meteringPoint.search.searchInvalidLength)
+      screen.queryByText(
+        enTranslations.meteringPoint.search.searchInvalidLength
+      )
     ).toBeInTheDocument();
   });
 
