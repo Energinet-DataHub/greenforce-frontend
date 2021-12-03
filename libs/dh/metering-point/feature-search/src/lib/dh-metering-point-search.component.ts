@@ -17,7 +17,7 @@
 import { ActivatedRoute, Router } from '@angular/router';
 import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { filter, take } from 'rxjs';
+import { take } from 'rxjs';
 import { PushModule } from '@rx-angular/template';
 import { TranslocoModule } from '@ngneat/transloco';
 
@@ -33,15 +33,10 @@ import { DhMeteringPointSearchFormScam } from './form/dh-metering-point-search-f
   providers: [DhMeteringPointDataAccessApiStore],
 })
 export class DhMeteringPointSearchComponent {
-  isLoading$ = this.store.select((state) => state.isLoading);
-  notFound$ = this.store.select((state) => state.meteringPointNotFound);
-  hasError$ = this.store.select((state) => state.hasError);
-  meteringPointLoaded$ = this.store
-    .select((state) => state.meteringPoint)
-    .pipe(
-      filter((x) => !!x),
-      take(1)
-    );
+  isLoading$ = this.store.isLoading$;
+  notFound$ = this.store.meteringPointNotFound$;
+  hasError$ = this.store.hasError$;
+  meteringPointLoaded$ = this.store.meteringPoint$.pipe(take(1));
 
   constructor(
     private router: Router,
