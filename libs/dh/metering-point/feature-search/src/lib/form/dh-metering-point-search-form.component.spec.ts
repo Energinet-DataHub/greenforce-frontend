@@ -14,26 +14,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { render, screen, fireEvent, waitFor } from '@testing-library/angular';
-import userEvent from '@testing-library/user-event';
-
+import { ActivatedRoute } from '@angular/router';
 import { en as enTranslations } from '@energinet-datahub/dh/globalization/assets-localization';
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
-
-import {
-  DhMeteringPointSearchFormComponent,
-  DhMeteringPointSearchFormScam,
-} from './dh-metering-point-search-form.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { render, screen, fireEvent, waitFor } from '@testing-library/angular';
+import { TestBed } from '@angular/core/testing';
+import userEvent from '@testing-library/user-event';
 
 import {
   validMeteringPointId,
   invalidMeteringPointId,
 } from '@energinet-datahub/dh/shared/test-util-metering-point';
-import { DhMeteringPointSearchComponent } from '../dh-metering-point-search.component';
 
-import { TestBed } from '@angular/core/testing';
-import { ActivatedRoute } from '@angular/router';
+import { DhMeteringPointSearchComponent } from '../dh-metering-point-search.component';
+import {
+  DhMeteringPointSearchFormComponent,
+  DhMeteringPointSearchFormScam,
+} from './dh-metering-point-search-form.component';
 
 describe(DhMeteringPointSearchFormComponent.name, () => {
   async function setup() {
