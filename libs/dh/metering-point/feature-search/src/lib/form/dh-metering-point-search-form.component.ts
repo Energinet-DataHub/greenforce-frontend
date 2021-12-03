@@ -80,13 +80,11 @@ export class DhMeteringPointSearchFormComponent
 
   onSearchInputClear(): void {
     this.searchControl.setValue('');
-    this.router.navigate([], { queryParams: { q: null } });
+    this.updateQueryParam(null);
   }
 
   onSubmit() {
-    this.router.navigate([], {
-      queryParams: { q: this.searchControl.value },
-    });
+    this.updateQueryParam(this.searchControl.value);
 
     if (!this.searchControl.valid) {
       this.focusSearchInput();
@@ -94,6 +92,10 @@ export class DhMeteringPointSearchFormComponent
     } else if (this.loading) return;
 
     this.search.emit(this.searchControl.value);
+  }
+
+  private updateQueryParam(q: string | null): void {
+    this.router.navigate([], { queryParams: { q } });
   }
 
   private setInitialValue(value: string): void {
@@ -130,6 +132,6 @@ export class DhMeteringPointSearchFormComponent
     CommonModule,
   ],
   declarations: [DhMeteringPointSearchFormComponent],
-  exports: [DhMeteringPointSearchFormComponent, ReactiveFormsModule],
+  exports: [DhMeteringPointSearchFormComponent],
 })
 export class DhMeteringPointSearchFormScam {}

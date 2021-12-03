@@ -60,7 +60,7 @@ describe(DhMeteringPointSearchComponent.name, () => {
     });
 
     const submitButton = screen.getByRole('button', {
-      name: translations.meteringPoint.search.searchButton,
+      name: enTranslations.meteringPoint.search.searchButton,
     });
 
     return {

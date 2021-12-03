@@ -14,8 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@use '@energinet-datahub/watt/utils' as watt;
-
 :host {
   display: block;
   padding-top: var(--watt-space-s);
@@ -28,9 +26,12 @@ form {
   flex-wrap: wrap;
 }
 
+label {
+  width: 100%;
+}
+
 label,
 watt-form-field {
-  width: 100%;
   flex: 1 1 auto;
 }
 

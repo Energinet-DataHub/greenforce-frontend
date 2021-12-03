@@ -17,7 +17,7 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
 
-import { en as Enranslations } from '@energinet-datahub/dh/globalization/assets-localization';
+import { en as enTranslations } from '@energinet-datahub/dh/globalization/assets-localization';
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
 
 import {
@@ -63,7 +63,7 @@ describe(DhMeteringPointSearchFormComponent.name, () => {
     });
 
     const submitButton = screen.getByRole('button', {
-      name: translations.meteringPoint.search.searchButton,
+      name: enTranslations.meteringPoint.search.searchButton,
     });
 
     const activatedRoute = TestBed.inject(ActivatedRoute);
@@ -81,7 +81,7 @@ describe(DhMeteringPointSearchFormComponent.name, () => {
   it('should render label', async () => {
     await setup();
     const label = screen.getByText(
-      translations.meteringPoint.search.searchLabel
+      enTranslations.meteringPoint.search.searchLabel
     );
     expect(label).toBeInTheDocument();
   });
@@ -110,13 +110,13 @@ describe(DhMeteringPointSearchFormComponent.name, () => {
   it('should not show errors before input has been blurred', async () => {
     const { input } = await setup();
     expect(
-      screen.queryByText(translations.meteringPoint.search.searchInvalidLength)
+      screen.queryByText(enTranslations.meteringPoint.search.searchInvalidLength)
     ).not.toBeInTheDocument();
 
     fireEvent.blur(input);
 
     expect(
-      screen.queryByText(translations.meteringPoint.search.searchInvalidLength)
+      screen.queryByText(enTranslations.meteringPoint.search.searchInvalidLength)
     ).toBeInTheDocument();
   });
 
@@ -124,7 +124,7 @@ describe(DhMeteringPointSearchFormComponent.name, () => {
     it('should submit valid form, and not show error message', async () => {
       const { submitButton, submitSpy, input, activatedRoute } = await setup();
       const errors = screen.queryByText(
-        translations.meteringPoint.search.searchInvalidLength
+        enTranslations.meteringPoint.search.searchInvalidLength
       );
 
       userEvent.type(input, validMeteringPointId);
@@ -148,7 +148,7 @@ describe(DhMeteringPointSearchFormComponent.name, () => {
       userEvent.click(submitButton);
 
       const errors = screen.getByText(
-        translations.meteringPoint.search.searchInvalidLength
+        enTranslations.meteringPoint.search.searchInvalidLength
       );
 
       expect(input).toBeInvalid();
@@ -172,7 +172,7 @@ describe(DhMeteringPointSearchFormComponent.name, () => {
       fixture.componentInstance.ngAfterViewInit();
 
       const errors = screen.queryByText(
-        translations.meteringPoint.search.searchInvalidLength
+        enTranslations.meteringPoint.search.searchInvalidLength
       );
 
       expect(input.value).toBe(validMeteringPointId);
@@ -187,7 +187,7 @@ describe(DhMeteringPointSearchFormComponent.name, () => {
       fixture.componentInstance.ngAfterViewInit();
 
       const errors = screen.getByText(
-        translations.meteringPoint.search.searchInvalidLength
+        enTranslations.meteringPoint.search.searchInvalidLength
       );
 
       expect(errors).toBeInTheDocument();
@@ -202,7 +202,7 @@ describe(DhMeteringPointSearchFormComponent.name, () => {
       fixture.componentInstance.ngAfterViewInit();
 
       const errors = screen.queryByText(
-        translations.meteringPoint.search.searchInvalidLength
+        enTranslations.meteringPoint.search.searchInvalidLength
       );
 
       expect(errors).not.toBeInTheDocument();
