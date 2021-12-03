@@ -15,6 +15,7 @@
 using System;
 using System.IO;
 using System.Reflection;
+using System.Text.Json.Serialization;
 using Energinet.DataHub.MeteringPoints.Client.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -22,7 +23,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Energinet.DataHub.WebApi
 {
@@ -43,7 +43,8 @@ namespace Energinet.DataHub.WebApi
         /// </summary>
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllers()
+                .AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 
             AddDomainClients(services);
 
