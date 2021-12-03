@@ -14,12 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import * as appShell from '../support/app-shell.po';
+import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 
-describe('Application shell', () => {
-  beforeEach(() => cy.visit('/'));
+import { isValidMeteringPointId } from '@energinet-datahub/dh/metering-point/domain';
 
-  it('the application title is displayed', () => {
-    appShell.getTitle().contains(/Målepunkter/i);
-  });
-});
+export function meteringPointIdValidator(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    return !isValidMeteringPointId(control.value)
+      ? { invalidMeteringPointId: true }
+      : null;
+  };
+}

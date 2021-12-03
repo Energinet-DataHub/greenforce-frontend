@@ -133,7 +133,8 @@
                   "type:test-util",
                   "type:configuration",
                   "type:environments",
-                  "type:domain"
+                  "type:domain",
+                  "type:assets"
                 ]
               },
               {

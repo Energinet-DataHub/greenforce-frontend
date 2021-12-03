@@ -21,11 +21,11 @@ import {
   OnDestroy,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LocalRouterStore } from '@ngworker/router-component-store';
 import { map, Subject, takeUntil } from 'rxjs';
 import { TranslocoModule } from '@ngneat/transloco';
 import { WattBadgeModule, WattSpinnerModule } from '@energinet-datahub/watt';
 import { DhMeteringPointDataAccessApiStore } from '@energinet-datahub/dh/metering-point/data-access-api';
+import { LocalRouterStore } from '@ngworker/router-component-store';
 
 import { DhBreadcrumbScam } from './breadcrumb/dh-breadcrumb.component';
 import { dhMeteringPointIdParam } from './routing/dh-metering-point-id-param';

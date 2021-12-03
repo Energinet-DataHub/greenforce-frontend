@@ -14,12 +14,37 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import * as appShell from '../support/app-shell.po';
+:host {
+  display: block;
+  padding-top: var(--watt-space-s);
+}
 
-describe('Application shell', () => {
-  beforeEach(() => cy.visit('/'));
+form {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
 
-  it('the application title is displayed', () => {
-    appShell.getTitle().contains(/Målepunkter/i);
-  });
-});
+label {
+  width: 100%;
+}
+
+label,
+watt-form-field {
+  flex: 1 1 auto;
+}
+
+watt-icon {
+  color: var(--watt-color-primary);
+}
+
+watt-form-field {
+  width: auto;
+  margin-right: var(--watt-space-s);
+  --label-margin-bottom: var(--watt-space-m);
+}
+
+watt-button {
+  margin-top: var(--watt-space-m);
+}
