@@ -28,14 +28,14 @@ describe('Language selection', () => {
 
   it(`Given no language is selected
     Then Danish translations are displayed`, () => {
-    appShell.getTitle().should('contain', 'DataHub [DA]');
+    appShell.getTitle().should('contain', 'Målepunkter');
   });
 
   it(`When English is selected
     Then English translations are displayed`, () => {
     getLanguagePicker(DisplayLanguage.English).click();
 
-    appShell.getTitle().should('contain', 'DataHub [EN]');
+    appShell.getTitle().should('contain', 'Metering Points');
   });
 
   it(`Given English is selected
@@ -45,6 +45,6 @@ describe('Language selection', () => {
 
     getLanguagePicker(DisplayLanguage.Danish).click();
 
-    appShell.getTitle().should('contain', 'DataHub [DA]');
+    appShell.getTitle().should('contain', 'Målepunkter');
   });
 });

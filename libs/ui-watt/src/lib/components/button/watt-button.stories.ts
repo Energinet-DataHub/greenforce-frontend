@@ -40,7 +40,7 @@ import { ${WattButtonModule.name} } from '@energinet-datahub/watt';
 
 OR
 
-2b. Use <watt-icon-button icon="<icon-name>"></watt-icon-button> in the component's HTML template
+2b. Use <watt-icon-button icon="<icon-name>" label="Something meaningful"></watt-icon-button> in the component's HTML template
 `;
 
 export const Overview = () => ({
@@ -71,7 +71,7 @@ Button.args = {
 };
 
 const iconButtonTemplate = (args: Partial<WattIconButtonComponent>) =>
-  `<watt-icon-button icon="${args.icon}" [disabled]="${args.disabled}"></watt-icon-button>`;
+  `<watt-icon-button icon="${args.icon}" [disabled]="${args.disabled}" label="Something meaningful"></watt-icon-button>`;
 
 const IconButton: Story<WattIconButtonComponent> = (args) => ({
   props: args,

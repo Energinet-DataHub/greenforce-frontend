@@ -15,3 +15,4 @@
  * limitations under the License.
  */
 export * from './lib/dh-metering-point-search.component';
+export * from './lib/routing/dh-metering-point-search-path';

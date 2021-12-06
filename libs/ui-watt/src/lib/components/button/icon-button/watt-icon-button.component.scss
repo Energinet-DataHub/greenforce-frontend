@@ -46,3 +46,11 @@ watt-shell {
     }
   }
 }
+
+watt-form-field {
+  watt-icon-button[wattsuffix] {
+    button.watt-icon-button {
+      color: var(--watt-color-neutral-grey-500);
+    }
+  }
+}

@@ -18,7 +18,7 @@ import { HttpClient, HttpHeaders, HttpParams,
 import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
 
-import { MeteringPointDto } from '../model/models';
+import { MeteringPointCimDto } from '../model/models';
 
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
@@ -91,9 +91,9 @@ export class MeteringPointHttp {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public v1MeteringPointGetByGsrnGet(gsrnNumber?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<MeteringPointDto>;
-    public v1MeteringPointGetByGsrnGet(gsrnNumber?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<MeteringPointDto>>;
-    public v1MeteringPointGetByGsrnGet(gsrnNumber?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<MeteringPointDto>>;
+    public v1MeteringPointGetByGsrnGet(gsrnNumber?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<MeteringPointCimDto>;
+    public v1MeteringPointGetByGsrnGet(gsrnNumber?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<MeteringPointCimDto>>;
+    public v1MeteringPointGetByGsrnGet(gsrnNumber?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<MeteringPointCimDto>>;
     public v1MeteringPointGetByGsrnGet(gsrnNumber?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
@@ -129,7 +129,7 @@ export class MeteringPointHttp {
             responseType_ = 'text';
         }
 
-        return this.httpClient.get<MeteringPointDto>(`${this.configuration.basePath}/v1/MeteringPoint/GetByGsrn`,
+        return this.httpClient.get<MeteringPointCimDto>(`${this.configuration.basePath}/v1/MeteringPoint/GetByGsrn`,
             {
                 context: localVarHttpContext,
                 params: localVarQueryParameters,
