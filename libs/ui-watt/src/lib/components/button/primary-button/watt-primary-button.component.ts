@@ -17,6 +17,8 @@
 import { Component, Inject } from '@angular/core';
 
 import { disabledAttributeToken } from '../disabled-attribute-token';
+import { typeAttributeToken } from '../type-attribute-token';
+import { WattButtonType } from '../watt-button-type';
 
 @Component({
   exportAs: 'wattPrimaryButton',
@@ -25,5 +27,5 @@ import { disabledAttributeToken } from '../disabled-attribute-token';
   templateUrl: './watt-primary-button.component.html',
 })
 export class WattPrimaryButtonComponent {
-  constructor(@Inject(disabledAttributeToken) public isDisabled: boolean) {}
+  constructor(@Inject(disabledAttributeToken) public isDisabled: boolean, @Inject(typeAttributeToken) public type: WattButtonType) {}
 }

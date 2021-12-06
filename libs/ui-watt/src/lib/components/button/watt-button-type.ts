@@ -15,6 +15,6 @@
  * limitations under the License.
  */
 /**
- * Possible values for {WattButtonComponent#type}.
+ * Possible values for {WattButtonComponent#variant}.
  */
-export type WattButtonType = 'primary' | 'secondary' | 'text';
+export type WattButtonType = 'button' | 'submit' | 'reset';

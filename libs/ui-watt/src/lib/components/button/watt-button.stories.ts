@@ -67,7 +67,7 @@ const ButtonStory: Story<WattButtonComponent> = (args) => ({
 
 export const Button = ButtonStory.bind({});
 Button.args = {
-  type: 'text',
+  variant: 'text',
 };
 
 const iconButtonTemplate = (args: Partial<WattIconButtonComponent>) =>
@@ -82,7 +82,7 @@ export const IconButtonStory = IconButton.bind({});
 
 IconButtonStory.storyName = 'Icon Button';
 IconButtonStory.argTypes = {
-  type: {
+  variant: {
     control: false,
   },
   size: {
@@ -90,7 +90,7 @@ IconButtonStory.argTypes = {
   },
   loading: {
     control: false,
-  },
+  }
 };
 IconButtonStory.args = {
   icon: 'search',

@@ -14,18 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, Inject } from '@angular/core';
+import { InjectionToken } from '@angular/core';
 
-import { disabledAttributeToken } from '../disabled-attribute-token';
-import { typeAttributeToken } from '../type-attribute-token';
-import { WattButtonType } from '../watt-button-type';
-
-@Component({
-  exportAs: 'wattTextButton',
-  selector: 'watt-text-button',
-  styleUrls: ['./watt-text-button.component.scss'],
-  templateUrl: './watt-text-button.component.html',
-})
-export class WattTextButtonComponent {
-  constructor(@Inject(disabledAttributeToken) public isDisabled: boolean, @Inject(typeAttributeToken) public type: WattButtonType) {}
-}
+export const typeAttributeToken = new InjectionToken<boolean>(
+  'Type attribute token'
+);

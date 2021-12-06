@@ -14,29 +14,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export { WattModule } from './lib/ui-watt.module';
-
 export { WattAutocompleteComponent } from './lib/components/autocomplete/autocomplete.component';
 export { WattAutocompleteModule } from './lib/components/autocomplete/autocomplete.module';
-
-export { WattColorHelperService } from './lib/foundations/color/color-helper.service';
 export { WattColor } from './lib/foundations/color/colors';
-
-export { WattButtonType } from './lib/components/button/watt-button-type';
-export { WattButtonSize } from './lib/components/button/watt-button-size';
-export { WattButtonComponent } from './lib/components/button/watt-button.component';
-export { WattButtonModule } from './lib/components/button/watt-button.module';
-
+export { WattColorHelperService } from './lib/foundations/color/color-helper.service';
+export { WattFormFieldModule } from './lib/components/form-field/form-field.module';
+export { WattInputModule } from './lib/components/input/input.module';
+export { WattModule } from './lib/ui-watt.module';
 export { WattShellComponent } from './lib/components/shell/shell.component';
 export { WattShellModule } from './lib/components/shell/shell.module';
 
-export { WattFormFieldModule } from './lib/components/form-field/form-field.module';
-export { WattInputModule } from './lib/components/input/input.module';
-
-export * from './lib/components/empty-state';
-export * from './lib/components/tabs';
 export * from './lib/components/badge';
+export * from './lib/components/button';
+export * from './lib/components/empty-state';
 export * from './lib/components/spinner';
-
+export * from './lib/components/tabs';
 export * from './lib/foundations/breakpoints';
 export * from './lib/foundations/icon';
