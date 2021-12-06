@@ -32,6 +32,7 @@ import { dhMeteringPointIdParam } from './routing/dh-metering-point-id-param';
 import { DhMeteringPointOverviewPresenter } from './dh-metering-point-overview.presenter';
 import { DhMeteringPointNotFoundScam } from './not-found/dh-metering-point-not-found.component';
 import { DhMeteringPointServerErrorScam } from './server-error/dh-metering-point-server-error.component';
+import { DhMeteringPointStatusBadgeScam } from './status-badge/dh-metering-point-status-badge.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -91,6 +92,7 @@ export class DhMeteringPointOverviewComponent implements OnDestroy {
     DhBreadcrumbScam,
     DhMeteringPointNotFoundScam,
     DhMeteringPointServerErrorScam,
+    DhMeteringPointStatusBadgeScam,
     WattBadgeModule,
     WattSpinnerModule,
   ],

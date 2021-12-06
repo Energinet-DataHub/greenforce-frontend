@@ -41,11 +41,9 @@ limitations under the License.
     <div class="watt-text-s">
       <span [title]="t('overview.connectionState')">
         <ng-container *ngIf="meteringPoint?.connectionState; else emptyField">
-          <watt-badge
-            *ngIf="meteringPointStatus$ | async as meteringPointStatus"
-            [type]="meteringPointStatus.badgeType"
-            >{{ meteringPointStatus.translationKey | transloco }}</watt-badge
-          >
+          <dh-status-badge
+            [connectionState]="meteringPoint?.connectionState"
+          ></dh-status-badge>
         </ng-container>
       </span>
 
