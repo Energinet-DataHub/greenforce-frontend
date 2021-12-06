@@ -34,6 +34,7 @@ limitations under the License.
     </watt-error>
     <watt-icon-button
       icon="close"
+      type="reset"
       wattSuffix
       [label]="transloco('clearSearchButton')"
       (click)="onSearchInputClear()"
@@ -41,6 +42,7 @@ limitations under the License.
   </watt-form-field>
   <watt-button
     variant="primary"
+    type="submit"
     size="large"
     [loading]="loading"
     (click)="onSubmit()"
