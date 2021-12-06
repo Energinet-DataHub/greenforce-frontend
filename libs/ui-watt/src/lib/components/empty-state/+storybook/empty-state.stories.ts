@@ -31,7 +31,7 @@ export default {
         StorybookEmptyStateOverviewModule,
         WattEmptyStateModule,
         WattButtonModule,
-        HttpClientModule
+        HttpClientModule,
       ],
     }),
   ],
