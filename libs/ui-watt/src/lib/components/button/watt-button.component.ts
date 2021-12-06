@@ -88,7 +88,7 @@ export class WattButtonComponent {
         {
           provide: typeAttributeToken,
           useValue: this.type,
-        }
+        },
       ],
       parent: this.injector,
     });

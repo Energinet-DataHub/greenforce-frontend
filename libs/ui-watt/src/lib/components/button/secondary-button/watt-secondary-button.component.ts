@@ -27,5 +27,8 @@ import { WattButtonType } from '../watt-button-type';
   templateUrl: './watt-secondary-button.component.html',
 })
 export class WattSecondaryButtonComponent {
-  constructor(@Inject(disabledAttributeToken) public isDisabled: boolean, @Inject(typeAttributeToken) public type: WattButtonType) {}
+  constructor(
+    @Inject(disabledAttributeToken) public isDisabled: boolean,
+    @Inject(typeAttributeToken) public type: WattButtonType
+  ) {}
 }

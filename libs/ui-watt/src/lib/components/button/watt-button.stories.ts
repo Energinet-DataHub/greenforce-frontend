@@ -90,7 +90,7 @@ IconButtonStory.argTypes = {
   },
   loading: {
     control: false,
-  }
+  },
 };
 IconButtonStory.args = {
   icon: 'search',
