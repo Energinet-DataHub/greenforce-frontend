@@ -19,31 +19,27 @@ limitations under the License.
 </ng-container>
 
 <ng-container *ngIf="meteringPoint$ | async as meteringPoint">
-  <div class="overview__header">
+  <div class="overview__header" *transloco="let t; read: 'meteringPoint'">
     <div class="watt-text-s">
-      <span [title]="'meteringPoint.overview.meteringPointType' | transloco">
+      <span [title]="t('overview.meteringPointType')">
         <ng-container *ngIf="meteringPoint?.meteringPointType; else emptyField">
-          <ng-container
-            *transloco="let t; read: 'meteringPoint.meteringPointTypeCode'"
-          >
-            {{ t(meteringPoint?.meteringPointType!) }}
-          </ng-container>
+          {{ t('meteringPointTypeCode.' + meteringPoint?.meteringPointType!) }}
         </ng-container>
       </span>
-      (<span [title]="'meteringPoint.overview.meteringMethod' | transloco">
-        <ng-container *ngIf="meteringPoint?.meteringMethod; else emptyField">
-          <ng-container
-            *transloco="let t; read: 'meteringPoint.meteringPointSubTypeCode'"
-            >{{ t(meteringPoint?.meteringMethod!) }}</ng-container
-          >
-        </ng-container></span
+
+      (<span [title]="t('overview.meteringMethod')">
+        <ng-container *ngIf="meteringPoint?.meteringMethod; else emptyField">{{
+          t('meteringPointSubTypeCode.' + meteringPoint?.meteringMethod!)
+        }}</ng-container></span
       >)
     </div>
-    <h1 [title]="'meteringPoint.overview.gsrnNumber' | transloco">
+
+    <h1 [title]="t('overview.gsrnNumber')">
       {{ meteringPoint?.gsrnNumber }}
     </h1>
+
     <div class="watt-text-s">
-      <span [title]="'meteringPoint.overview.connectionState' | transloco">
+      <span [title]="t('overview.connectionState')">
         <ng-container *ngIf="meteringPoint?.connectionState; else emptyField">
           <watt-badge
             *ngIf="meteringPointStatus$ | async as meteringPointStatus"
@@ -52,21 +48,19 @@ limitations under the License.
           >
         </ng-container>
       </span>
+
       <ng-container *ngIf="meteringPoint?.settlementMethod">
         |
-        <span [title]="'meteringPoint.overview.settlementMethod' | transloco">
-          <ng-container
-            *transloco="let t; read: 'meteringPoint.settlementMethodCode'"
-            >{{ t(meteringPoint?.settlementMethod!) }}</ng-container
-          ></span
-        >
+        <span [title]="t('overview.settlementMethod')">{{
+          t('settlementMethodCode.' + meteringPoint?.settlementMethod!)
+        }}</span>
       </ng-container>
+
       <ng-container *ngIf="meteringPoint?.readingOccurrence">
         |
-        <span
-          [title]="'meteringPoint.overview.readingOccurrence' | transloco"
-          >{{ meteringPoint?.readingOccurrence }}</span
-        >
+        <span [title]="t('overview.readingOccurrence')">{{
+          meteringPoint?.readingOccurrence
+        }}</span>
       </ng-container>
     </div>
   </div>
