@@ -94,7 +94,7 @@ export class WattButtonComponent {
     });
   }
 
-  get buttonComponentType(): Type<unknown> {
+  get buttonComponentVariant(): Type<unknown> {
     switch (this.variant) {
       case 'primary':
         return WattPrimaryButtonComponent;

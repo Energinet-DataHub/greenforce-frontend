@@ -69,6 +69,7 @@ export class DhMeteringPointSearchFormComponent
     this.queryParamsSubscription = this.route.queryParams.subscribe(
       (params) => {
         this.setInitialValue(params.q);
+        this.focusSearchInput();
       }
     );
     this.focusSearchInput();
