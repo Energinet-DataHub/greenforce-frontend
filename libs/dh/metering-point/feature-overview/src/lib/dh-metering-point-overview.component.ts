@@ -29,7 +29,6 @@ import { LocalRouterStore } from '@ngworker/router-component-store';
 
 import { DhBreadcrumbScam } from './breadcrumb/dh-breadcrumb.component';
 import { dhMeteringPointIdParam } from './routing/dh-metering-point-id-param';
-import { DhMeteringPointOverviewPresenter } from './dh-metering-point-overview.presenter';
 import { DhMeteringPointNotFoundScam } from './not-found/dh-metering-point-not-found.component';
 import { DhMeteringPointServerErrorScam } from './server-error/dh-metering-point-server-error.component';
 import { DhMeteringPointStatusBadgeScam } from './status-badge/dh-metering-point-status-badge.component';
@@ -39,11 +38,7 @@ import { DhMeteringPointStatusBadgeScam } from './status-badge/dh-metering-point
   selector: 'dh-metering-point-overview',
   styleUrls: ['./dh-metering-point-overview.component.scss'],
   templateUrl: './dh-metering-point-overview.component.html',
-  viewProviders: [
-    LocalRouterStore,
-    DhMeteringPointOverviewPresenter,
-    DhMeteringPointDataAccessApiStore,
-  ],
+  viewProviders: [LocalRouterStore, DhMeteringPointDataAccessApiStore],
 })
 export class DhMeteringPointOverviewComponent implements OnDestroy {
   private destroy$ = new Subject<void>();
@@ -52,7 +47,6 @@ export class DhMeteringPointOverviewComponent implements OnDestroy {
     dhMeteringPointIdParam
   );
   meteringPoint$ = this.store.meteringPoint$;
-  meteringPointStatus$ = this.presenter.meteringPointStatus$;
   isLoading$ = this.store.isLoading$;
   meteringPointNotFound$ = this.store.meteringPointNotFound$;
   hasError$ = this.store.hasError$;
@@ -61,8 +55,7 @@ export class DhMeteringPointOverviewComponent implements OnDestroy {
 
   constructor(
     private route: LocalRouterStore,
-    private store: DhMeteringPointDataAccessApiStore,
-    private presenter: DhMeteringPointOverviewPresenter
+    private store: DhMeteringPointDataAccessApiStore
   ) {
     this.loadMeteringPointData();
   }
