@@ -24,7 +24,7 @@ describe(WattButtonModule.name, () => {
 
     const view = await render(
       `
-      <watt-button type="primary">
+      <watt-button variant="primary">
         ${text}
       </watt-button>
     `,
