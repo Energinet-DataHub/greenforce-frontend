@@ -25,6 +25,7 @@ import {
   SpectacularFeatureRouter,
   SpectacularFeatureLocation,
 } from '@ngworker/spectacular';
+import { RX_ANGULAR_CONFIG } from '@rx-angular/cdk/render-strategies';
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
 import { DhApiModule } from '@energinet-datahub/dh/shared/data-access-api';
 
@@ -50,6 +51,14 @@ describe(DhMeteringPointOverviewComponent.name, () => {
           featureModule: DhMeteringPointFeatureOverviewModule,
           featurePath: dhMeteringPointPath,
         }),
+      ],
+      providers: [
+        {
+          provide: RX_ANGULAR_CONFIG,
+          useValue: {
+            primaryStrategy: 'native',
+          },
+        },
       ],
       routes: [
         {
