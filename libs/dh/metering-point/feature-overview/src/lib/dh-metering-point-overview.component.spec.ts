@@ -114,10 +114,10 @@ describe(DhMeteringPointOverviewComponent.name, () => {
   });
 
   describe('When a metering point is not found', () => {
-    const nulMeteringPointId = '000000000000000000';
+    const nullMeteringPointId = '000000000000000000';
 
     it('Then an error message is displayed in a heading', async () => {
-      await featureRouter.navigateByUrl(`~/${nulMeteringPointId}`);
+      await featureRouter.navigateByUrl(`~/${nullMeteringPointId}`);
 
       await view.fixture.whenStable();
 
