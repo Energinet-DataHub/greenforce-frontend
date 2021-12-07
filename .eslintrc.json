@@ -142,7 +142,8 @@
                 "onlyDependOnLibsWithTags": [
                   "type:util",
                   "type:test-util",
-                  "type:environments"
+                  "type:environments",
+                  "type:assets"
                 ]
               },
               {

@@ -24,13 +24,15 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 
+import { disabledAttributeToken } from './disabled-attribute-token';
+import { typeAttributeToken } from './type-attribute-token';
+import { WattButtonSize } from './watt-button-size';
 import { WattButtonType } from './watt-button-type';
+import { WattButtonVariant } from './watt-button-variant';
+import { WattIcon } from './../../foundations/icon';
 import { WattPrimaryButtonComponent } from './primary-button/watt-primary-button.component';
 import { WattSecondaryButtonComponent } from './secondary-button/watt-secondary-button.component';
 import { WattTextButtonComponent } from './text-button/watt-text-button.component';
-import { disabledAttributeToken } from './disabled-attribute-token';
-import { WattButtonSize } from './watt-button-size';
-import { WattIcon } from './../../foundations/icon';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -43,7 +45,7 @@ export class WattButtonComponent {
   /**
    * @ignore
    */
-  private _type: WattButtonType = 'text';
+  private _variant: WattButtonVariant = 'text';
 
   @HostBinding('class')
   get buttonSize() {
@@ -56,17 +58,18 @@ export class WattButtonComponent {
   }
 
   @Input() icon?: WattIcon;
+  @Input() type: WattButtonType = 'button';
 
   @Input()
-  get type(): WattButtonType {
-    return this._type;
+  get variant(): WattButtonVariant {
+    return this._variant;
   }
-  set type(value: WattButtonType) {
+  set variant(value: WattButtonVariant) {
     if (value == null || (value as unknown) === '') {
       value = 'text';
     }
 
-    this._type = value;
+    this._variant = value;
   }
 
   @Input() size: WattButtonSize = 'normal';
@@ -82,13 +85,17 @@ export class WattButtonComponent {
           provide: disabledAttributeToken,
           useValue: this.disabled,
         },
+        {
+          provide: typeAttributeToken,
+          useValue: this.type,
+        },
       ],
       parent: this.injector,
     });
   }
 
-  get buttonComponentType(): Type<unknown> {
-    switch (this.type) {
+  get buttonComponentVariant(): Type<unknown> {
+    switch (this.variant) {
       case 'primary':
         return WattPrimaryButtonComponent;
       case 'secondary':

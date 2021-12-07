@@ -89,9 +89,10 @@ describe(DhMeteringPointOverviewComponent.name, () => {
     await view.fixture.whenStable();
 
     const [topLevelLink]: HTMLAnchorElement[] = await screen.findAllByRole(
-      'link'
+      'link',
+      undefined,
+      { timeout: 3000 }
     );
-
     user.click(topLevelLink);
 
     await view.fixture.whenStable();

@@ -2267,6 +2267,15 @@
     glob "7.1.7"
     ora "5.4.1"
 
+"@ngneat/transloco-optimize@^3.0.2":
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/@ngneat/transloco-optimize/-/transloco-optimize-3.0.2.tgz#8862c2b2b909720632bf96328cb7a8e2b074b446"
+  integrity sha512-yCRJGofjIZSCcEf38UEmYkQ3Ez38PKtx88CC2FgbcLgmkdkUB2/xVeRtUN6f0nNt2bJSgMtJvwm7BrttVIACDg==
+  dependencies:
+    command-line-args "^5.2.0"
+    flat "^5.0.2"
+    glob "^7.1.7"
+
 "@ngneat/transloco-utils@^3.0.1", "@ngneat/transloco-utils@^3.0.2":
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/@ngneat/transloco-utils/-/transloco-utils-3.0.2.tgz#43470e314d4815eab82a5247ff3123992d2fec3c"
@@ -6480,7 +6489,7 @@ comma-separated-tokens@^1.0.0:
   resolved "https://registry.yarnpkg.com/comma-separated-tokens/-/comma-separated-tokens-1.0.8.tgz#632b80b6117867a158f1080ad498b2fbe7e3f5ea"
   integrity sha512-GHuDRO12Sypu2cV70d1dkA2EUmXHgntrzbpvOB+Qy+49ypNfGgFQIC2fhhXbnyrJRynDCAARsT7Ou0M6hirpfw==
 
-command-line-args@5.2.0:
+command-line-args@5.2.0, command-line-args@^5.2.0:
   version "5.2.0"
   resolved "https://registry.yarnpkg.com/command-line-args/-/command-line-args-5.2.0.tgz#087b02748272169741f1fd7c785b295df079b9be"
   integrity sha512-4zqtU1hYsSJzcJBOcNZIbW5Fbk9BkjCp1pZVhQKoRaWL5J7N4XphDLwo8aWwdQpTugxwu+jf9u2ZhkXiqp5Z6A==
