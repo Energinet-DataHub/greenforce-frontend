@@ -22,6 +22,7 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { map, Subject, takeUntil } from 'rxjs';
+import { LetModule } from '@rx-angular/template';
 import { TranslocoModule } from '@ngneat/transloco';
 import { WattBadgeModule, WattSpinnerModule } from '@energinet-datahub/watt';
 import { DhMeteringPointDataAccessApiStore } from '@energinet-datahub/dh/metering-point/data-access-api';
@@ -32,13 +33,18 @@ import { dhMeteringPointIdParam } from './routing/dh-metering-point-id-param';
 import { DhMeteringPointNotFoundScam } from './not-found/dh-metering-point-not-found.component';
 import { DhMeteringPointServerErrorScam } from './server-error/dh-metering-point-server-error.component';
 import { DhMeteringPointStatusBadgeScam } from './status-badge/dh-metering-point-status-badge.component';
+import { DhMeteringPointPresenter } from './dh-metering-point-overview.presenter';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'dh-metering-point-overview',
   styleUrls: ['./dh-metering-point-overview.component.scss'],
   templateUrl: './dh-metering-point-overview.component.html',
-  viewProviders: [LocalRouterStore, DhMeteringPointDataAccessApiStore],
+  viewProviders: [
+    LocalRouterStore,
+    DhMeteringPointDataAccessApiStore,
+    DhMeteringPointPresenter,
+  ],
 })
 export class DhMeteringPointOverviewComponent implements OnDestroy {
   private destroy$ = new Subject<void>();
@@ -50,12 +56,14 @@ export class DhMeteringPointOverviewComponent implements OnDestroy {
   isLoading$ = this.store.isLoading$;
   meteringPointNotFound$ = this.store.meteringPointNotFound$;
   hasError$ = this.store.hasError$;
+  translationKeys$ = this.presenter.translationKeys$;
 
   emDash = '—';
 
   constructor(
     private route: LocalRouterStore,
-    private store: DhMeteringPointDataAccessApiStore
+    private store: DhMeteringPointDataAccessApiStore,
+    private presenter: DhMeteringPointPresenter
   ) {
     this.loadMeteringPointData();
   }
@@ -80,6 +88,7 @@ export class DhMeteringPointOverviewComponent implements OnDestroy {
 @NgModule({
   declarations: [DhMeteringPointOverviewComponent],
   imports: [
+    LetModule,
     CommonModule,
     TranslocoModule,
     DhBreadcrumbScam,

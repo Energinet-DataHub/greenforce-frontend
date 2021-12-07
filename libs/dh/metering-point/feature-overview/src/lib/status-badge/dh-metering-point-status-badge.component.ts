@@ -30,16 +30,14 @@ import { connectionStateToBadgeType } from './connection-state-to-badge-type';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'dh-status-badge',
-  template: `<ng-container *ngIf="badgeType && connectionState">
-    <watt-badge
-      [type]="badgeType"
-      *transloco="let t; read: 'meteringPoint.physicalStatusCode'"
-      >{{ t(connectionState) }}</watt-badge
-    >
+  template: `<ng-container *ngIf="badgeType">
+    <watt-badge *transloco="let t" [type]="badgeType">{{
+      t(translationKey)
+    }}</watt-badge>
   </ng-container>`,
 })
 export class DhStatusBadgeComponent {
-  #connectionState?: ConnectionState;
+  translationKey = '';
   badgeType?: WattBadgeType;
 
   @Input()
@@ -48,12 +46,8 @@ export class DhStatusBadgeComponent {
       return;
     }
 
-    this.#connectionState = value;
     this.badgeType = connectionStateToBadgeType(value);
-  }
-
-  get connectionState(): ConnectionState | undefined {
-    return this.#connectionState;
+    this.translationKey = `meteringPoint.physicalStatusCode.${value}`;
   }
 }
 
