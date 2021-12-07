@@ -17,6 +17,7 @@ on:
   push:
     branches:
       - main
+      - renetnielsen/fix-bff-cd
     paths:
       - .github/workflows/api-dh-cd.yml
       - apps/dh/api-dh/**
@@ -74,7 +75,7 @@ jobs:
       - name: Set dynamic environment variables
         shell: bash
         run: |
-          echo "AZURE_APP_NAME=app-bff-frontend-u-001" >> $GITHUB_ENV
+          echo "AZURE_APP_NAME=app-bff-dh-u-001" >> $GITHUB_ENV
 
       - name: Setup Azure CLI
         shell: bash
