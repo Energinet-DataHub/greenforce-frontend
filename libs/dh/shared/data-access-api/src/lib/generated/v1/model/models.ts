@@ -7,5 +7,6 @@ export * from './metering-point-cim-dto';
 export * from './metering-point-type';
 export * from './net-settlement-group';
 export * from './price-unit';
+export * from './reading-occurrence';
 export * from './settlement-method';
 export * from './weather-forecast';
