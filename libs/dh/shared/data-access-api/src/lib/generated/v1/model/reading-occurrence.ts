@@ -16,7 +16,7 @@ export type ReadingOccurrence = 'P1Y' | 'P1M' | 'PT1H' | 'PT15M';
 export const ReadingOccurrence = {
     P1Y: 'P1Y' as ReadingOccurrence,
     P1M: 'P1M' as ReadingOccurrence,
-    Pt1H: 'PT1H' as ReadingOccurrence,
-    Pt15M: 'PT15M' as ReadingOccurrence
+    PT1H: 'PT1H' as ReadingOccurrence,
+    PT15M: 'PT15M' as ReadingOccurrence
 };
 
