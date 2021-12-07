@@ -28,16 +28,16 @@ import { CommonModule } from '@angular/common';
 interface PrimaryMasterData {
   streetName?: string;
   buildingNumber?: string;
-  floor?: string;
+  floorIdentification?: string;
   suite?: string;
   citySubDivisionName?: string;
   cityName?: string;
   postCode?: string;
   isActualAddress?: boolean | null;
   locationDescription?: string;
-  geoInfoReference?: string | null;
+  darReference?: string | null;
   supplyStart?: string | null;
-  meterNumber?: string;
+  gsrnNumber?: string;
 }
 
 @Component({
@@ -51,15 +51,15 @@ export class DhMeteringPointPrimaryMasterDataComponent {
   @Input() primaryMasterData?: PrimaryMasterData = {
     streetName: undefined,
     buildingNumber: undefined,
-    floor: undefined,
+    floorIdentification: undefined,
     suite: undefined,
     citySubDivisionName: undefined,
     postCode: undefined,
     isActualAddress: undefined,
     locationDescription: undefined,
-    geoInfoReference: undefined,
+    darReference: undefined,
     supplyStart: undefined,
-    meterNumber: undefined,
+    gsrnNumber: undefined,
   };
   iconSizes = WattIconSize;
 }

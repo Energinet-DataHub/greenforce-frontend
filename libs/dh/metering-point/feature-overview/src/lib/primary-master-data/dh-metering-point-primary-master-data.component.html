@@ -35,8 +35,8 @@ limitations under the License.
         >
           {{ primaryMasterData?.streetName }}
           {{ primaryMasterData?.buildingNumber
-          }}<ng-container *ngIf="primaryMasterData?.floor"
-            >, {{ primaryMasterData?.floor }}.
+          }}<ng-container *ngIf="primaryMasterData?.floorIdentification"
+            >, {{ primaryMasterData?.floorIdentification }}.
             <ng-container *ngIf="primaryMasterData?.suite">
               {{ primaryMasterData?.suite }}
             </ng-container>
@@ -64,7 +64,7 @@ limitations under the License.
           primaryMasterData?.supplyStart ? transloco('yes') : transloco('no')
         }}
       </dd>
-      <dd class="watt-text-xs text-dimmed">
+      <dd class="watt-text-xs text-dimmed full-width">
         <ng-container *ngIf="primaryMasterData?.supplyStart; else emptyValue">
           {{ transloco('since') }}
           {{ primaryMasterData?.supplyStart | date: 'medium' }}
@@ -76,7 +76,7 @@ limitations under the License.
   <section>
     <dl class="multiple-terms-and-descriptions">
       <ng-container *ngIf="primaryMasterData?.isActualAddress">
-        <dt>
+        <dt class="with-icon">
           <watt-icon
             name="success"
             label="success"
@@ -94,7 +94,7 @@ limitations under the License.
         {{ transloco('geoInfoReference') }}:
       </dt>
       <dd class="watt-text-xs text-dimmed">
-        {{ primaryMasterData?.geoInfoReference || '—' }}
+        {{ primaryMasterData?.darReference || '—' }}
       </dd>
     </dl>
   </section>
@@ -109,7 +109,7 @@ limitations under the License.
     <dl>
       <dt class="watt-label">{{ transloco('meterNumber') }}</dt>
       <dd>
-        <small>{{ primaryMasterData?.meterNumber ?? '—' }}</small>
+        <small>{{ primaryMasterData?.gsrnNumber ?? '—' }}</small>
       </dd>
     </dl>
   </section>

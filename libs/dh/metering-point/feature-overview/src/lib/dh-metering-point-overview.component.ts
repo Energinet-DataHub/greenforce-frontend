@@ -17,7 +17,7 @@
 import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
 import { LocalRouterStore } from '@ngworker/router-component-store';
 import { CommonModule } from '@angular/common';
-import { LetModule } from '@rx-angular/template';
+import { LetModule, PushModule } from '@rx-angular/template';
 import { map } from 'rxjs';
 
 import { WattSpinnerModule } from '@energinet-datahub/watt';

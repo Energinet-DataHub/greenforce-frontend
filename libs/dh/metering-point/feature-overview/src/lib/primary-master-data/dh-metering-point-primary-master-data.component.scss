@@ -49,6 +49,10 @@ section {
   color: var(--watt-color-neutral-grey-600);
 }
 
+.full-width {
+  width: 100%;
+}
+
 dl {
   margin: 0;
   width: 100%;
@@ -56,7 +60,7 @@ dl {
 
 dd {
   margin: 0;
-  line-height: inherit;
+  float: left;
 }
 
 dl.multiple-terms-and-descriptions {
@@ -69,5 +73,10 @@ dl.multiple-terms-and-descriptions {
     float: left;
     clear: left;
     margin-right: var(--watt-space-xs);
+
+    &.with-icon {
+      line-height: 18px;
+      height: 18px;
+    }
   }
 }
