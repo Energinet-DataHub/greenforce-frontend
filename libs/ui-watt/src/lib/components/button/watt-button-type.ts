@@ -17,4 +17,4 @@
 /**
  * Possible values for {WattButtonComponent#type}.
  */
-export type WattButtonType = 'primary' | 'secondary' | 'text';
+export type WattButtonType = 'button' | 'submit' | 'reset';

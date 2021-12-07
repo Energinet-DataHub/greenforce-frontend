@@ -20,7 +20,7 @@ import { render } from '@testing-library/angular';
 import { WattPrimaryButtonComponent } from './primary-button/watt-primary-button.component';
 import { WattSecondaryButtonComponent } from './secondary-button/watt-secondary-button.component';
 import { WattTextButtonComponent } from './text-button/watt-text-button.component';
-import { WattButtonType } from './watt-button-type';
+import { WattButtonVariant } from './watt-button-variant';
 import { WattButtonComponent } from './watt-button.component';
 import { WattButtonModule } from './watt-button.module';
 
@@ -29,35 +29,35 @@ describe(WattButtonComponent.name, () => {
     ['text', WattTextButtonComponent],
     ['primary', WattPrimaryButtonComponent],
     ['secondary', WattSecondaryButtonComponent],
-  ] as readonly [WattButtonType, Type<unknown>][])(
+  ] as readonly [WattButtonVariant, Type<unknown>][])(
     'renders a %s button',
-    async (buttonType, buttonComponentType) => {
+    async (buttonVariant, buttonComponentType) => {
       const view = await render(WattButtonComponent, {
         componentProperties: {
-          type: buttonType,
+          variant: buttonVariant,
         },
         imports: [WattButtonModule],
       });
 
       const component = view.fixture.componentInstance;
-      expect(component.buttonComponentType).toBe(buttonComponentType);
+      expect(component.buttonComponentVariant).toBe(buttonComponentType);
     }
   );
 
   test.each([undefined, null, ''])(
-    '`defaults to a text button (type="$bottomValue")',
+    '`defaults to a text button (variant="$bottomValue")',
     async (bottomValue) => {
       const view = await render(WattButtonComponent, {
         componentProperties: {
           // intentionally pass bottom values
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          type: bottomValue as any,
+          variant: bottomValue as any,
         },
         imports: [WattButtonModule],
       });
 
       const component = view.fixture.componentInstance;
-      expect(component.type).toBe('text');
+      expect(component.variant).toBe('text');
     }
   );
 });
