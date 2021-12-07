@@ -18,13 +18,13 @@ import { Injectable } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { filter, Observable, switchMap, tap } from 'rxjs';
 import {
-  MeteringPointDto,
+  MeteringPointCimDto,
   MeteringPointHttp,
 } from '@energinet-datahub/dh/shared/data-access-api';
 import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 
 interface MeteringPointState {
-  readonly meteringPoint?: MeteringPointDto;
+  readonly meteringPoint?: MeteringPointCimDto;
   readonly meteringPointNotFound: boolean;
   readonly isLoading: boolean;
   readonly hasError: boolean;
@@ -42,6 +42,10 @@ export class DhMeteringPointDataAccessApiStore extends ComponentStore<MeteringPo
   meteringPoint$ = this.select((state) => state.meteringPoint).pipe(
     filter((meteringPointId) => !!meteringPointId)
   );
+
+  isLoading$ = this.select((state) => state.isLoading);
+  meteringPointNotFound$ = this.select((state) => state.meteringPointNotFound);
+  hasError$ = this.select((state) => state.hasError);
 
   constructor(private httpClient: MeteringPointHttp) {
     super(initialState);
@@ -74,7 +78,7 @@ export class DhMeteringPointDataAccessApiStore extends ComponentStore<MeteringPo
   private updateMeteringPointData = this.updater(
     (
       state: MeteringPointState,
-      meteringPointData: MeteringPointDto | undefined
+      meteringPointData: MeteringPointCimDto | undefined
     ): MeteringPointState => ({
       ...state,
       meteringPoint: meteringPointData,

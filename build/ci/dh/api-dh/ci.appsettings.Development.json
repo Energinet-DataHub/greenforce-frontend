@@ -7,6 +7,6 @@
     }
   },
   "ApiClientSettings": {
-    "MeteringPointBaseUrl": "https://app-webapi-meteringpoint-endk-t.azurewebsites.net"
+    "MeteringPointBaseUrl": "https://app-webapi-mpt-u-002.azurewebsites.net"
   }
 }

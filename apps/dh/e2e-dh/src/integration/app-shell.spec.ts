@@ -20,6 +20,6 @@ describe('Application shell', () => {
   beforeEach(() => cy.visit('/'));
 
   it('the application title is displayed', () => {
-    appShell.getTitle().contains(/datahub/i);
+    appShell.getTitle().contains(/Målepunkter/i);
   });
 });

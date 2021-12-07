@@ -29,8 +29,8 @@ import {
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
 import { DhApiModule } from '@energinet-datahub/dh/shared/data-access-api';
 
-import { DhMeteringPointOverviewComponent } from './dh-metering-point-overview.component';
 import { DhMeteringPointFeatureOverviewModule } from './dh-metering-point-feature-overview.module';
+import { DhMeteringPointOverviewComponent } from './dh-metering-point-overview.component';
 import { dhMeteringPointPath } from './routing/dh-metering-point-path';
 
 describe(DhMeteringPointOverviewComponent.name, () => {
@@ -71,7 +71,7 @@ describe(DhMeteringPointOverviewComponent.name, () => {
   });
 
   let view: RenderResult<SpectacularAppComponent>;
-  const meteringPointId = '571313180400014077';
+  const meteringPointId = '575391908025497398';
   let featureRouter: SpectacularFeatureRouter;
   let featureLocation: SpectacularFeatureLocation;
 
