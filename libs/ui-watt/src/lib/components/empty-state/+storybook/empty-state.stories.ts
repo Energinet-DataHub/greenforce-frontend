@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { HttpClientModule } from '@angular/common/http';
 import { Meta, moduleMetadata, Story } from '@storybook/angular';
 
 import { WattButtonModule } from '../../button/watt-button.module';
@@ -30,6 +31,7 @@ export default {
         StorybookEmptyStateOverviewModule,
         WattEmptyStateModule,
         WattButtonModule,
+        HttpClientModule,
       ],
     }),
   ],
@@ -45,7 +47,7 @@ export const overview: Story<StorybookEmptyStateOverviewComponent> = (
 const emptyStateWithCallBackTemplate = (
   args: Partial<WattEmptyStateComponent>
 ) => `<watt-empty-state icon="${args.icon}" title="${args.title}" message="${args.message}">
-  <watt-button type="primary" size="normal">Go Back</watt-button>
+  <watt-button variant="primary" size="normal">Go Back</watt-button>
 </watt-empty-state>`;
 
 export const withCallToAction: Story<WattEmptyStateComponent> = (args) => ({

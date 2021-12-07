@@ -79,9 +79,10 @@ describe(DhMeteringPointOverviewComponent.name, () => {
     await featureRouter.navigateByUrl(`~/${meteringPointId}`);
 
     const [topLevelLink]: HTMLAnchorElement[] = await screen.findAllByRole(
-      'link'
+      'link',
+      undefined,
+      { timeout: 3000 }
     );
-
     user.click(topLevelLink);
 
     await view.fixture.whenStable();

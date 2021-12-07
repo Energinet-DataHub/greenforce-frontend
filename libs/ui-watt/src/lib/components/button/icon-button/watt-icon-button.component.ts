@@ -21,6 +21,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 
+import { WattButtonType } from '../watt-button-type';
 import { WattIcon } from '../../../foundations/icon';
 
 @Component({
@@ -33,6 +34,7 @@ import { WattIcon } from '../../../foundations/icon';
 })
 export class WattIconButtonComponent {
   @Input() icon?: WattIcon;
+  @Input() type: WattButtonType = 'button';
   @Input() label?: string;
 
   @Input() disabled = false;

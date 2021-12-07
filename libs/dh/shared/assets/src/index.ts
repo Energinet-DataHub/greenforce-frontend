@@ -14,25 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { render } from '@testing-library/angular';
+import * as dhLocalApiEnvironment from './assets/configuration/dh-api-environment.local.json';
 
-import { WattButtonModule } from './watt-button.module';
-
-describe(WattButtonModule.name, () => {
-  it('exports shared Watt Design System buttons', async () => {
-    const text = 'Primary button';
-
-    const view = await render(
-      `
-      <watt-button variant="primary">
-        ${text}
-      </watt-button>
-    `,
-      {
-        imports: [WattButtonModule],
-      }
-    );
-
-    expect(view.queryByText(text)).not.toBeNull();
-  });
-});
+export { dhLocalApiEnvironment };

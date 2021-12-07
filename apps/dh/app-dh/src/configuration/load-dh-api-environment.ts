@@ -14,25 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { render } from '@testing-library/angular';
+import {
+  DhApiEnvironment,
+  loadDhApiEnvironment as _loadDhApiEnvironment,
+} from '@energinet-datahub/dh/shared/environments';
 
-import { WattButtonModule } from './watt-button.module';
-
-describe(WattButtonModule.name, () => {
-  it('exports shared Watt Design System buttons', async () => {
-    const text = 'Primary button';
-
-    const view = await render(
-      `
-      <watt-button variant="primary">
-        ${text}
-      </watt-button>
-    `,
-      {
-        imports: [WattButtonModule],
-      }
-    );
-
-    expect(view.queryByText(text)).not.toBeNull();
-  });
-});
+export function loadDhApiEnvironment(): Promise<DhApiEnvironment> {
+  return _loadDhApiEnvironment('dh-api-environment.json').catch(() =>
+    _loadDhApiEnvironment('dh-api-environment.local.json')
+  );
+}
