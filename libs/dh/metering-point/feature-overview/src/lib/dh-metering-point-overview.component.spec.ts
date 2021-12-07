@@ -16,7 +16,7 @@
  */
 import { TestBed } from '@angular/core/testing';
 import { Component } from '@angular/core';
-import { render, RenderResult, screen } from '@testing-library/angular';
+import { render, RenderResult, screen, waitFor } from '@testing-library/angular';
 import { HttpClientModule } from '@angular/common/http';
 import user from '@testing-library/user-event';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -77,16 +77,13 @@ describe(DhMeteringPointOverviewComponent.name, () => {
 
   it('displays a link to the Metering point URL', async () => {
     await featureRouter.navigateByUrl(`~/${meteringPointId}`);
-
-    const [topLevelLink]: HTMLAnchorElement[] = await screen.findAllByRole(
-      'link'
-    );
-
-    user.click(topLevelLink);
-
-    await view.fixture.whenStable();
-
-    expect(featureLocation.path()).toBe(`~/`);
+    await waitFor(() => {
+      const [topLevelLink]: HTMLAnchorElement[] = screen.queryAllByRole(
+        'link'
+      );
+      user.click(topLevelLink);
+      expect(featureLocation.path()).toBe(`~/`);
+    }, { timeout: 3000 });
   });
 
   it('displays the metering point id in a heading for an existing metering point', async () => {
