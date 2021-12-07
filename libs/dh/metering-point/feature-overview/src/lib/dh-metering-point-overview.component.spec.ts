@@ -77,13 +77,13 @@ describe(DhMeteringPointOverviewComponent.name, () => {
 
   it('displays a link to the Metering point URL', async () => {
     await featureRouter.navigateByUrl(`~/${meteringPointId}`);
-    await waitFor(() => {
-      const [topLevelLink]: HTMLAnchorElement[] = screen.queryAllByRole(
-        'link'
-      );
-      user.click(topLevelLink);
-      expect(featureLocation.path()).toBe(`~/`);
-    }, { timeout: 3000 });
+
+    const [topLevelLink]: HTMLAnchorElement[] = await screen.findAllByRole('link', undefined, { timeout: 3000 });
+    user.click(topLevelLink);
+
+    await view.fixture.whenStable();
+
+    expect(featureLocation.path()).toBe(`~/`);
   });
 
   it('displays the metering point id in a heading for an existing metering point', async () => {
