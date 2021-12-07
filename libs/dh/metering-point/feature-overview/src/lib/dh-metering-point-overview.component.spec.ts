@@ -16,7 +16,12 @@
  */
 import { TestBed } from '@angular/core/testing';
 import { Component } from '@angular/core';
-import { render, RenderResult, screen, waitFor } from '@testing-library/angular';
+import {
+  render,
+  RenderResult,
+  screen,
+  waitFor,
+} from '@testing-library/angular';
 import { HttpClientModule } from '@angular/common/http';
 import user from '@testing-library/user-event';
 import { RouterTestingModule } from '@angular/router/testing';
