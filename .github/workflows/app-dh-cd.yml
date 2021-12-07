@@ -133,7 +133,6 @@ jobs:
       - name: Add configuration file
         shell: bash
         run: |
-          mkdir dist/apps/dh/${{ env.app-name }}/assets/configuration
           echo "{\"apiBase\":\"https://app-bff-dh-u-001.azurewebsites.net\"}" > dist/apps/dh/${{ env.app-name }}/assets/configuration/dh-api-environment.json
 
       - name: Upload web app build artifact
