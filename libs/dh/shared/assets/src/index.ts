@@ -14,6 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export interface DhEnvironment {
-  readonly production: boolean;
-}
+import * as dhLocalApiEnvironment from './assets/configuration/dh-api-environment.local.json';
+
+export { dhLocalApiEnvironment };

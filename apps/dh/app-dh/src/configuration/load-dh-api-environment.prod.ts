@@ -14,6 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export interface DhEnvironment {
-  readonly production: boolean;
+import {
+  DhApiEnvironment,
+  loadDhApiEnvironment as _loadDhApiEnvironment,
+} from '@energinet-datahub/dh/shared/environments';
+
+export function loadDhApiEnvironment(): Promise<DhApiEnvironment> {
+  return _loadDhApiEnvironment('dh-api-environment.json');
 }
