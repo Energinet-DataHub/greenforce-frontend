@@ -19,7 +19,6 @@ import { Component } from '@angular/core';
 import { render, RenderResult, screen } from '@testing-library/angular';
 import { HttpClientModule } from '@angular/common/http';
 import user from '@testing-library/user-event';
-import { RouterTestingModule } from '@angular/router/testing';
 import {
   SpectacularAppComponent,
   SpectacularFeatureTestingModule,
@@ -46,7 +45,6 @@ describe(DhMeteringPointOverviewComponent.name, () => {
       imports: [
         HttpClientModule,
         DhApiModule.forRoot(),
-        RouterTestingModule,
         getTranslocoTestingModule(),
         SpectacularFeatureTestingModule.withFeature({
           featureModule: DhMeteringPointFeatureOverviewModule,
@@ -92,7 +90,7 @@ describe(DhMeteringPointOverviewComponent.name, () => {
     expect(featureLocation.path()).toBe(`~/`);
   });
 
-  describe('When the metering point exists', () => {
+  describe('When a metering point exists', () => {
     it('Then the metering point id is displayed in a heading', async () => {
       await featureRouter.navigateByUrl(`~/${meteringPointId}`);
 
@@ -106,7 +104,7 @@ describe(DhMeteringPointOverviewComponent.name, () => {
     });
   });
 
-  describe('When metering point is not found', () => {
+  describe('When a metering point is not found', () => {
     const nulMeteringPointId = '000000000000000000';
 
     it('Then an error message is displayed in a heading', async () => {
