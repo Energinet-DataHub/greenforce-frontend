@@ -22,6 +22,7 @@ export interface MeteringPointOverviewTranslationKeys {
   settlementMethod: string;
   meteringMethod: string;
   meteringPointType: string;
+  readingOccurrence: string;
 }
 
 @Injectable()
@@ -32,11 +33,13 @@ export class DhMeteringPointPresenter {
         const settlementMethod = `meteringPoint.settlementMethodCode.${meteringPoint?.settlementMethod}`;
         const meteringPointType = `meteringPoint.meteringPointTypeCode.${meteringPoint?.meteringPointType}`;
         const meteringMethod = `meteringPoint.meteringPointSubTypeCode.${meteringPoint?.meteringMethod}`;
+        const readingOccurrence = `meteringPoint.readingOccurrenceCode.${meteringPoint?.readingOccurrence}`;
 
         return {
           meteringPointType,
           meteringMethod,
           settlementMethod,
+          readingOccurrence,
         };
       })
     );

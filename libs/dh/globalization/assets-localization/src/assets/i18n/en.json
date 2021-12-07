@@ -85,6 +85,12 @@
       "D01": "Flex settled",
       "E01": "Profiled",
       "E02": "Non profiled"
+    },
+    "readingOccurrenceCode": {
+      "PT15M": "Quarterly",
+      "PT1H": "Hourly",
+      "P1M": "Monthly",
+      "P1Y": "Yearly"
     }
   }
 }

@@ -85,6 +85,12 @@
       "D01": "Flex afregnet",
       "E01": "Time afregnet",
       "E02": "Skabelon afregnet"
+    },
+    "readingOccurrenceCode": {
+      "PT15M": "Quarterly [DK]",
+      "PT1H": "Hourly [DK]",
+      "P1M": "Monthly [DK]",
+      "P1Y": "Yearly [DK]"
     }
   }
 }

@@ -57,17 +57,19 @@ limitations under the License.
       <ng-container *ngIf="meteringPoint?.settlementMethod">
         |
         <span [title]="t('settlementMethod')">
-          <ng-container *rxLet="translationKeys$ as translationKeys">{{
-            translationKeys.settlementMethod | transloco
-          }}</ng-container>
+          <ng-container *rxLet="translationKeys$ as translationKeys"
+            >{{ translationKeys.settlementMethod | transloco }}
+          </ng-container>
         </span>
       </ng-container>
 
       <ng-container *ngIf="meteringPoint?.readingOccurrence">
         |
-        <span [title]="t('readingOccurrence')">{{
-          meteringPoint?.readingOccurrence
-        }}</span>
+        <span [title]="t('readingOccurrence')">
+          <ng-container *rxLet="translationKeys$ as translationKeys"
+            >{{ translationKeys.readingOccurrence | transloco }}
+          </ng-container>
+        </span>
       </ng-container>
     </div>
   </div>
