@@ -16,6 +16,7 @@
  */
 import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
 import { Router } from '@angular/router';
+import { dhMeteringPointSearchPath } from '@energinet-datahub/dh/metering-point/feature-search';
 import {
   WattButtonModule,
   WattEmptyStateModule,
@@ -33,7 +34,10 @@ export class DhMeteringPointNotFoundComponent {
   constructor(private router: Router) {}
 
   goToSearch(): void {
-    const url = this.router.createUrlTree([dhMeteringPointPath, 'search']);
+    const url = this.router.createUrlTree([
+      dhMeteringPointPath,
+      dhMeteringPointSearchPath,
+    ]);
 
     this.router.navigateByUrl(url);
   }
