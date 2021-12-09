@@ -24,14 +24,14 @@
       "settlementMethod": "Settlement Method",
       "readingOccurrence": "Meter Reading Periodicity",
       "meteringPointNotFound": {
-        "title": "Vi fandt desværre intet målepunkt [EN]",
-        "message": "Tjek for eventuelle tastefejl og prøv igen eller gå til søgning. [EN]",
-        "button": "Gå til søgning [EN]"
+        "title": "Sorry, we did not find a metering point match",
+        "message": "Please check the spelling and try again or go to search",
+        "button": "Go to search"
       },
       "serverError": {
-        "title": "Ups! Der opstod en fejl [EN]",
-        "message": "Der opstod desværre en fejl, da vi skulle hente de nødvendige oplysninger. [EN]",
-        "button": "Prøv igen [EN]"
+        "title": "Oops! There was an error",
+        "message": "Unfortunately, an error occurred while retrieving the necessary information.",
+        "button": "Try again"
       }
     },
     "meteringPointTypeCode": {
