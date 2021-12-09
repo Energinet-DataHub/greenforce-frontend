@@ -53,7 +53,7 @@ export function addNgModuleMatchers(): void {
         TestBed.inject<TModule>(ngModuleType);
       } catch (error) {
         didThrow = true;
-        if(error instanceof Error) {
+        if (error instanceof Error) {
           errorMessage = error?.message ?? String(error);
         }
       }
