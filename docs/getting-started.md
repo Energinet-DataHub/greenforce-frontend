@@ -3,7 +3,7 @@
 - [We recommend using VOLTA to manage your JavaScript command-line tools](volta.sh)
 - Node.js® version 14.18.1
 - Yarn - Please use Yarn v1 instead of npm to install dependencies  
-`npm install --global yarn@1.22.17`
+  `npm install --global yarn@1.22.17`
 
 ## Visual Studio Code - recommended extensions
 
@@ -25,7 +25,7 @@ To run the application locally you need to serve the frontend application and co
 
 #### Frontend application
 
-`yarn nx serve app-dh`  
+`yarn nx serve app-dh`
 
 #### BFF (backend for frontend)
 
