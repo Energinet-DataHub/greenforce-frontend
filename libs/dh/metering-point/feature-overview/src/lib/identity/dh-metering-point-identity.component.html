@@ -1,0 +1,58 @@
+<ng-container *ngIf="meteringPoint">
+  <div
+    class="overview__header"
+    *transloco="let t; read: 'meteringPoint.overview'"
+  >
+    <div class="watt-text-s">
+      <span [title]="t('meteringPointType')">
+        <ng-container *ngIf="meteringPoint?.meteringPointType; else emptyField">
+          <ng-container *rxLet="translationKeys$ as translationKeys">{{
+            translationKeys.meteringPointType | transloco
+          }}</ng-container>
+        </ng-container>
+      </span>
+
+      (<span [title]="t('meteringMethod')">
+        <ng-container *ngIf="meteringPoint?.meteringMethod; else emptyField">
+          <ng-container *rxLet="translationKeys$ as translationKeys">{{
+            translationKeys.meteringMethod | transloco
+          }}</ng-container>
+        </ng-container></span
+      >)
+    </div>
+
+    <h1 [title]="t('gsrnNumber')">
+      {{ meteringPoint?.gsrnNumber }}
+    </h1>
+
+    <div class="watt-text-s">
+      <span [title]="t('connectionState')">
+        <ng-container *ngIf="meteringPoint?.connectionState; else emptyField">
+          <dh-status-badge
+            [connectionState]="meteringPoint?.connectionState"
+          ></dh-status-badge>
+        </ng-container>
+      </span>
+
+      <ng-container *ngIf="meteringPoint?.settlementMethod">
+        |
+        <span [title]="t('settlementMethod')">
+          <ng-container *rxLet="translationKeys$ as translationKeys"
+            >{{ translationKeys.settlementMethod | transloco }}
+          </ng-container>
+        </span>
+      </ng-container>
+
+      <ng-container *ngIf="meteringPoint?.readingOccurrence">
+        |
+        <span [title]="t('readingOccurrence')">
+          <ng-container *rxLet="translationKeys$ as translationKeys"
+            >{{ translationKeys.readingOccurrence | transloco }}
+          </ng-container>
+        </span>
+      </ng-container>
+    </div>
+  </div>
+</ng-container>
+
+<ng-template #emptyField>{{ emDash }}</ng-template>

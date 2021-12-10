@@ -14,22 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@use '@energinet-datahub/watt/utils' as watt;
-
 :host {
-  background-color: var(--watt-color-neutral-white);
   display: block;
-  @include watt.space-inset-squish-l;
 }
 
-.overview {
-  &__spinner {
-    display: flex;
-    justify-content: center;
-    padding: var(--watt-space-l) 0;
-  }
+.overview__header {
+  border-bottom: 1px solid var(--watt-color-neutral-grey-300);
+  padding: var(--watt-space-m) 0;
+}
 
-  &__error {
-    padding: var(--watt-space-xl) 0;
-  }
+// NOTE(xdzus): Move to a global reset
+h1 {
+  margin: 0;
 }
