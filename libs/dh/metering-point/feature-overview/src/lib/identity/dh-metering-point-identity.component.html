@@ -1,4 +1,4 @@
-<ng-container *ngIf="meteringPoint">
+<ng-container *ngIf="meteringPoint && translationKeys">
   <div
     class="overview__header"
     *transloco="let t; read: 'meteringPoint.overview'"
@@ -6,18 +6,14 @@
     <div class="watt-text-s">
       <span [title]="t('meteringPointType')">
         <ng-container *ngIf="meteringPoint?.meteringPointType; else emptyField">
-          <ng-container *rxLet="translationKeys$ as translationKeys">{{
-            translationKeys.meteringPointType | transloco
-          }}</ng-container>
+          {{ translationKeys.meteringPointType | transloco }}
         </ng-container>
       </span>
 
       (<span [title]="t('meteringMethod')">
-        <ng-container *ngIf="meteringPoint?.meteringMethod; else emptyField">
-          <ng-container *rxLet="translationKeys$ as translationKeys">{{
-            translationKeys.meteringMethod | transloco
-          }}</ng-container>
-        </ng-container></span
+        <ng-container *ngIf="meteringPoint?.meteringMethod; else emptyField">{{
+          translationKeys.meteringMethod | transloco
+        }}</ng-container></span
       >)
     </div>
 
@@ -37,18 +33,14 @@
       <ng-container *ngIf="meteringPoint?.settlementMethod">
         |
         <span [title]="t('settlementMethod')">
-          <ng-container *rxLet="translationKeys$ as translationKeys"
-            >{{ translationKeys.settlementMethod | transloco }}
-          </ng-container>
+          {{ translationKeys.settlementMethod | transloco }}
         </span>
       </ng-container>
 
       <ng-container *ngIf="meteringPoint?.readingOccurrence">
         |
         <span [title]="t('readingOccurrence')">
-          <ng-container *rxLet="translationKeys$ as translationKeys"
-            >{{ translationKeys.readingOccurrence | transloco }}
-          </ng-container>
+          {{ translationKeys.readingOccurrence | transloco }}
         </span>
       </ng-container>
     </div>

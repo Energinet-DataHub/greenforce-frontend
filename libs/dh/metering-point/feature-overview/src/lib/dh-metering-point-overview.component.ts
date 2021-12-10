@@ -33,18 +33,13 @@ import { DhMeteringPointNotFoundScam } from './not-found/dh-metering-point-not-f
 import { DhMeteringPointServerErrorScam } from './server-error/dh-metering-point-server-error.component';
 import { DhMeteringPointStatusBadgeScam } from './status-badge/dh-metering-point-status-badge.component';
 import { DhMeteringPointIdentityScam } from './identity/dh-metering-point-identity.component';
-import { DhMeteringPointPresenter } from './dh-metering-point-overview.presenter';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'dh-metering-point-overview',
   styleUrls: ['./dh-metering-point-overview.component.scss'],
   templateUrl: './dh-metering-point-overview.component.html',
-  viewProviders: [
-    LocalRouterStore,
-    DhMeteringPointDataAccessApiStore,
-    DhMeteringPointPresenter,
-  ],
+  providers: [LocalRouterStore, DhMeteringPointDataAccessApiStore],
 })
 export class DhMeteringPointOverviewComponent implements OnDestroy {
   private destroy$ = new Subject<void>();
