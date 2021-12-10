@@ -11,6 +11,7 @@
  */
 import { SettlementMethod } from './settlement-method';
 import { AssetType } from './asset-type';
+import { ReadingOccurrence } from './reading-occurrence';
 import { PriceUnit } from './price-unit';
 import { ConnectionType } from './connection-type';
 import { NetSettlementGroup } from './net-settlement-group';
@@ -29,7 +30,7 @@ export interface MeteringPointCimDto {
     countryCode?: string;
     connectionState?: ConnectionState;
     meteringMethod?: MeteringMethod;
-    readingOccurrence?: string;
+    readingOccurrence?: ReadingOccurrence;
     meteringPointType?: MeteringPointType;
     ratedCapacity?: number | null;
     ratedCurrent?: number | null;

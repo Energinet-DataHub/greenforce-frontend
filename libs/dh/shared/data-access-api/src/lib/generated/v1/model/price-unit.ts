@@ -14,13 +14,13 @@
 export type PriceUnit = 'AMP' | 'K3' | 'KWH' | 'KWT' | 'MAW' | 'MWH' | 'TNE' | 'Z03' | 'Z14' | 'H87';
 
 export const PriceUnit = {
-    Amp: 'AMP' as PriceUnit,
+    AMP: 'AMP' as PriceUnit,
     K3: 'K3' as PriceUnit,
-    Kwh: 'KWH' as PriceUnit,
-    Kwt: 'KWT' as PriceUnit,
-    Maw: 'MAW' as PriceUnit,
-    Mwh: 'MWH' as PriceUnit,
-    Tne: 'TNE' as PriceUnit,
+    KWH: 'KWH' as PriceUnit,
+    KWT: 'KWT' as PriceUnit,
+    MAW: 'MAW' as PriceUnit,
+    MWH: 'MWH' as PriceUnit,
+    TNE: 'TNE' as PriceUnit,
     Z03: 'Z03' as PriceUnit,
     Z14: 'Z14' as PriceUnit,
     H87: 'H87' as PriceUnit
