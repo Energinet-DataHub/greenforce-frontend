@@ -2,7 +2,8 @@
 
 - [We recommend using VOLTA to manage your JavaScript command-line tools](volta.sh)
 - Node.js® version 14.18.1
-- Yarn - Please use Yarn v1 instead of npm to install dependencies `npm install --global yarn@1.22.17`
+- Yarn - Please use Yarn v1 instead of npm to install dependencies  
+`npm install --global yarn@1.22.17`
 
 ## Visual Studio Code - recommended extensions
 
