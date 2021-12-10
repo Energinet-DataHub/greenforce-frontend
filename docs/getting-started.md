@@ -60,6 +60,10 @@ The design system is deployed through chromatic, and can be found here:
 You can also find a deployed version of your specific branch here (direct link, can also be found under checks in a pull-request):  
 `https://<branch>--61765fc47451ff003afe62ff.chromatic.com`
 
+### Running it locally
+
+`yarn designsystem:start`
+
 ## Architecture
 
 The repository is a mono-repo which hosts serveral applications.  
