@@ -17,6 +17,7 @@
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { BrowserUtils } from '@azure/msal-browser';
 import { DhTranslocoModule } from '@energinet-datahub/dh/globalization/configuration-localization';
 import { dhMeteringPointPath } from '@energinet-datahub/dh/metering-point/shell';
 import { DhApiModule } from '@energinet-datahub/dh/shared/data-access-api';
@@ -57,7 +58,12 @@ const routes: Routes = [
     DhTranslocoModule.forRoot(),
     RouterModule.forRoot(routes, {
       anchorScrolling: 'enabled',
-      initialNavigation: 'enabledNonBlocking',
+      useHash: true,
+      // Don't perform initial navigation in iframes or popups
+      initialNavigation:
+        !BrowserUtils.isInIframe() && !BrowserUtils.isInPopup()
+          ? 'enabled'
+          : 'disabled',
       scrollPositionRestoration: 'enabled',
     }),
   ],
