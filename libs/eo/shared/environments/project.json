@@ -1,0 +1,26 @@
+{
+  "projectType": "library",
+  "root": "libs/eo/shared/environments",
+  "sourceRoot": "libs/eo/shared/environments/src",
+  "prefix": "eo",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/eo/shared/environments"],
+      "options": {
+        "jestConfig": "libs/eo/shared/environments/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/eo/shared/environments/src/**/*.ts",
+          "libs/eo/shared/environments/src/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": ["product:eo", "domain:shared", "type:environments"]
+}
