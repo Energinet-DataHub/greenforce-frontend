@@ -15,12 +15,7 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  NgModule,
-} from '@angular/core';
+import { Component, Input, NgModule } from '@angular/core';
 import { MeteringPointCimDto } from '@energinet-datahub/dh/shared/data-access-api';
 import { TranslocoModule } from '@ngneat/transloco';
 
@@ -35,7 +30,6 @@ export interface MeteringPointIdentityTranslationKeys {
 }
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'dh-metering-point-identity',
   styleUrls: ['./dh-metering-point-identity.component.scss'],
   templateUrl: './dh-metering-point-identity.component.html',
