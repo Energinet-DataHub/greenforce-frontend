@@ -19,7 +19,7 @@ limitations under the License.
   *transloco="let t; read: 'meteringPoint.overview'"
 >
   <div class="watt-text-s">
-    <span [title]="t('meteringPointType')" data-testid="meteringPointType">
+    <span [title]="t('meteringPointType')">
       <ng-container *ngIf="meteringPoint?.meteringPointType; else emptyField">
         {{ translationKeys?.meteringPointType | transloco }}
       </ng-container>
