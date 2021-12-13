@@ -21,11 +21,11 @@ import {
   OnDestroy,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ActivatedRoute } from '@angular/router';
 import { map, Subject, takeUntil } from 'rxjs';
 import { LetModule } from '@rx-angular/template';
-import { WattSpinnerModule } from '@energinet-datahub/watt';
 import { DhMeteringPointDataAccessApiStore } from '@energinet-datahub/dh/metering-point/data-access-api';
-import { LocalRouterStore } from '@ngworker/router-component-store';
+import { WattSpinnerModule } from '@energinet-datahub/watt';
 
 import { DhBreadcrumbScam } from './breadcrumb/dh-breadcrumb.component';
 import { dhMeteringPointIdParam } from './routing/dh-metering-point-id-param';
@@ -39,13 +39,13 @@ import { DhMeteringPointIdentityScam } from './identity/dh-metering-point-identi
   selector: 'dh-metering-point-overview',
   styleUrls: ['./dh-metering-point-overview.component.scss'],
   templateUrl: './dh-metering-point-overview.component.html',
-  providers: [LocalRouterStore, DhMeteringPointDataAccessApiStore],
+  providers: [DhMeteringPointDataAccessApiStore],
 })
 export class DhMeteringPointOverviewComponent implements OnDestroy {
   private destroy$ = new Subject<void>();
 
-  meteringPointId$ = this.route.selectRouteParam<string>(
-    dhMeteringPointIdParam
+  meteringPointId$ = this.route.params.pipe(
+    map((params) => params[dhMeteringPointIdParam] as string)
   );
   meteringPoint$ = this.store.meteringPoint$;
   isLoading$ = this.store.isLoading$;
@@ -53,7 +53,7 @@ export class DhMeteringPointOverviewComponent implements OnDestroy {
   hasError$ = this.store.hasError$;
 
   constructor(
-    private route: LocalRouterStore,
+    private route: ActivatedRoute,
     private store: DhMeteringPointDataAccessApiStore
   ) {
     this.loadMeteringPointData();
