@@ -45,10 +45,18 @@ export class DhMeteringPointIdentityComponent {
   private buildTranslations(
     meteringPoint: MeteringPointCimDto
   ): MeteringPointIdentityTranslationKeys {
-    const meteringMethod = `meteringPoint.meteringPointSubTypeCode.${meteringPoint?.meteringMethod}`;
-    const meteringPointType = `meteringPoint.meteringPointTypeCode.${meteringPoint?.meteringPointType}`;
-    const readingOccurrence = `meteringPoint.readingOccurrenceCode.${meteringPoint?.readingOccurrence}`;
-    const settlementMethod = `meteringPoint.settlementMethodCode.${meteringPoint?.settlementMethod}`;
+    const meteringMethod = `meteringPoint.meteringPointSubTypeCode.${
+      meteringPoint?.meteringMethod ?? ''
+    }`;
+    const meteringPointType = `meteringPoint.meteringPointTypeCode.${
+      meteringPoint?.meteringPointType ?? ''
+    }`;
+    const readingOccurrence = `meteringPoint.readingOccurrenceCode.${
+      meteringPoint?.readingOccurrence ?? ''
+    }`;
+    const settlementMethod = `meteringPoint.settlementMethodCode.${
+      meteringPoint?.settlementMethod ?? ''
+    }`;
 
     return {
       meteringMethod,
