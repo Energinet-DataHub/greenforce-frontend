@@ -28,7 +28,9 @@ This workflow verifies the ASP.NET Core Web API by building and running all test
 
 Add appsettings.Development.json with valid settings:
 
-ApiClientSettings > MeteringPointBaseUrl
+`ApiClientSettings`  
+`> MeteringPointBaseUrl`  
+`> ChargesBaseUrl`
 
 ## OpenAPI
 
