@@ -73,7 +73,9 @@ Button.args = {
 const iconButtonTemplate = (args: Partial<WattIconButtonComponent>) =>
   `<watt-icon-button icon="${args.icon}" [disabled]="${args.disabled}" label="Something meaningful"></watt-icon-button>`;
 
-const IconButton: Story<WattIconButtonComponent> = (args) => ({
+const IconButton: Story<WattIconButtonComponent | WattButtonComponent> = (
+  args
+) => ({
   props: args,
   template: iconButtonTemplate(args),
 });
