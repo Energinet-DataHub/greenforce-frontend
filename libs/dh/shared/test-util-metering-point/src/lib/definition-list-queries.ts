@@ -14,17 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { screen } from "@testing-library/angular";
+import { screen } from '@testing-library/angular';
 
 export function getByTerm(term: string) {
   const terms = screen.getAllByRole('term');
   let matches = terms.filter((t: HTMLElement) => t.textContent === term);
 
-  if(matches.length === 0) {
-    matches = screen.getAllByRole('term', {name: term});
+  if (matches.length === 0) {
+    matches = screen.getAllByRole('term', { name: term });
   }
 
-  if(matches.length > 1) {
+  if (matches.length > 1) {
     throwError(`Multiple terms found with text content or name: ${term}`);
   }
 
@@ -35,11 +35,11 @@ export function queryByTerm(term: string) {
   const terms = screen.queryAllByRole('term');
   let matches = terms.filter((t: HTMLElement) => t.textContent === term);
 
-  if(matches.length === 0) {
-    matches = screen.queryAllByRole('term', {name: term});
+  if (matches.length === 0) {
+    matches = screen.queryAllByRole('term', { name: term });
   }
 
-  if(matches.length > 1) {
+  if (matches.length > 1) {
     throwError(`Multiple terms found with text content or name: ${term}`);
   }
 
@@ -47,15 +47,15 @@ export function queryByTerm(term: string) {
 }
 
 export function getDefinitonByTerm(term: string | HTMLElement) {
-  if(typeof term === 'string') {
+  if (typeof term === 'string') {
     term = getByTerm(term);
   }
 
   const definition = term.nextElementSibling;
 
-  if(!definition) {
+  if (!definition) {
     throwError(`No definition found for term: ${term}`);
-  } else if(definition.tagName !== 'DD') {
+  } else if (definition.tagName !== 'DD') {
     throwError(`Definition found for term: ${term} is not a definition`);
   }
 

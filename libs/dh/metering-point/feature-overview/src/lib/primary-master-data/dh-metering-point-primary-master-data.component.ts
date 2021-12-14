@@ -62,21 +62,27 @@ export class DhMeteringPointPrimaryMasterDataComponent implements OnChanges {
   }
 
   private formatAddress(data: PrimaryMasterData): string {
-    if(!data.streetName && !data.buildingNumber && !data.citySubDivisionName && !data.cityName && !data.postalCode) {
+    if (
+      !data.streetName &&
+      !data.buildingNumber &&
+      !data.citySubDivisionName &&
+      !data.cityName &&
+      !data.postalCode
+    ) {
       return '—';
     }
 
     let address = `${data.streetName} ${data.buildingNumber}`;
-    if(data.floorIdentification || data.suiteNumber) {
+    if (data.floorIdentification || data.suiteNumber) {
       address += ',';
     }
-    if(data.floorIdentification) {
+    if (data.floorIdentification) {
       address += ` ${data.floorIdentification}.`;
     }
-    if(data.suiteNumber) {
+    if (data.suiteNumber) {
       address += ` ${data.suiteNumber}`;
     }
-    if(data.citySubDivisionName) {
+    if (data.citySubDivisionName) {
       address += `<br />${data.citySubDivisionName}`;
     }
     address += `<br />${data.postalCode} ${data.cityName}`;

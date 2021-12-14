@@ -23,7 +23,7 @@ import {
   getByTerm,
   getDefinitonByTerm,
   queryByTerm,
-  runOnPushChangeDetection
+  runOnPushChangeDetection,
 } from '@energinet-datahub/dh/shared/test-util-metering-point';
 
 import {
@@ -85,7 +85,9 @@ describe(DhMeteringPointPrimaryMasterDataComponent.name, () => {
       const definition = getDefinitonByTerm(term);
 
       expect(definition).toBeInTheDocument();
-      expect(definition?.innerHTML).toEqual('[streetName] [buildingNumber], [floorIdentification]. [suiteNumber]<br>[citySubDivisionName]<br>[postalCode] [cityName]');
+      expect(definition?.innerHTML).toEqual(
+        '[streetName] [buildingNumber], [floorIdentification]. [suiteNumber]<br>[citySubDivisionName]<br>[postalCode] [cityName]'
+      );
     });
 
     it('should show address without floor and suite number correctly', async () => {
@@ -101,7 +103,9 @@ describe(DhMeteringPointPrimaryMasterDataComponent.name, () => {
       const definition = getDefinitonByTerm(term);
 
       expect(definition).toBeInTheDocument();
-      expect(definition?.innerHTML).toEqual('[streetName] [buildingNumber]<br>[citySubDivisionName]<br>[postalCode] [cityName]');
+      expect(definition?.innerHTML).toEqual(
+        '[streetName] [buildingNumber]<br>[citySubDivisionName]<br>[postalCode] [cityName]'
+      );
     });
 
     it('should show fallback if streetname, buildingNumber, citySubDivisionName, postalCode and cityName are not provided', async () => {
