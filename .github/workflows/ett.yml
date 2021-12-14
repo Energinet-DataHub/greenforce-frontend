@@ -147,7 +147,7 @@ jobs:
   container-merge:
     name: 'Merge: Host container'
     # if: ${{ github.ref == 'refs/heads/feature/auto-deploy-eo-frontend' }} # TODO Change to main ref
-    # needs: app
+    needs: app
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
