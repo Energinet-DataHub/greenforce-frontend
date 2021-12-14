@@ -40,7 +40,8 @@ const initialState: MeteringPointState = {
 @Injectable()
 export class DhMeteringPointDataAccessApiStore extends ComponentStore<MeteringPointState> {
   meteringPoint$ = this.select((state) => state.meteringPoint).pipe(
-    filter((meteringPoint) => !!meteringPoint), map(meteringPoint => meteringPoint as MeteringPointCimDto)
+    filter((meteringPoint) => !!meteringPoint),
+    map((meteringPoint) => meteringPoint as MeteringPointCimDto)
   );
 
   isLoading$ = this.select((state) => state.isLoading);
