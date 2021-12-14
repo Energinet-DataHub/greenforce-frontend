@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, NgModule } from '@angular/core';
-import { WattExpansionModule } from '@energinet-datahub/watt';
+import { WattExpansionModule, WattIconModule } from '@energinet-datahub/watt';
 import { TranslocoModule } from '@ngneat/transloco';
 import { SecondaryMasterData } from './secondary-master-data';
 
@@ -31,7 +31,7 @@ export class UiSecondaryMasterDataComponent{
 
 @NgModule({
   declarations: [UiSecondaryMasterDataComponent],
-  imports: [WattExpansionModule, CommonModule, TranslocoModule],
+  imports: [WattExpansionModule, CommonModule, TranslocoModule, WattIconModule],
   exports: [UiSecondaryMasterDataComponent]
 })
 export class UiSecondaryMasterDataComponentScam {}
