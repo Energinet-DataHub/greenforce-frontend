@@ -22,7 +22,7 @@ To run the application locally you need to serve the frontend application and co
 
 #### Frontend application
 
-`yarn nx serve app-dh`  
+`yarn nx serve app-dh`
 
 #### BFF (backend for frontend)
 
