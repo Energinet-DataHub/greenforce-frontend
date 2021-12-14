@@ -24,6 +24,7 @@ import {
 } from '@energinet-datahub/dh/shared/data-access-api';
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
 import { render, screen } from '@testing-library/angular';
+import { MatcherOptions } from '@testing-library/dom';
 import { en as enTranslations } from '@energinet-datahub/dh/globalization/assets-localization';
 
 import {
@@ -55,8 +56,10 @@ describe(DhMeteringPointIdentityComponent.name, () => {
 
       await setup(meteringPoint);
 
+      const disableQuerySuggestions: MatcherOptions = { suggest: false };
       const actualMeteringPointType = screen.getByTitle(
-        enTranslations.meteringPoint.overview.meteringPointType
+        enTranslations.meteringPoint.overview.meteringPointType,
+        disableQuerySuggestions
       );
 
       const expectedMeteringPointType =
@@ -75,8 +78,10 @@ describe(DhMeteringPointIdentityComponent.name, () => {
 
       await setup(meteringPoint);
 
+      const disableQuerySuggestions: MatcherOptions = { suggest: false };
       const actualMeteringPointType = screen.getByTitle(
-        enTranslations.meteringPoint.overview.meteringPointType
+        enTranslations.meteringPoint.overview.meteringPointType,
+        disableQuerySuggestions
       );
 
       expect(actualMeteringPointType.textContent).toBe(emDash);
@@ -93,8 +98,10 @@ describe(DhMeteringPointIdentityComponent.name, () => {
 
       await setup(meteringPoint);
 
+      const disableQuerySuggestions: MatcherOptions = { suggest: false };
       const actualMeteringMethod = screen.getByTitle(
-        enTranslations.meteringPoint.overview.meteringMethod
+        enTranslations.meteringPoint.overview.meteringMethod,
+        disableQuerySuggestions
       );
 
       const expectedMeteringMethod =
@@ -112,8 +119,10 @@ describe(DhMeteringPointIdentityComponent.name, () => {
 
       await setup(meteringPoint);
 
+      const disableQuerySuggestions: MatcherOptions = { suggest: false };
       const actualMeteringMethod = screen.getByTitle(
-        enTranslations.meteringPoint.overview.meteringMethod
+        enTranslations.meteringPoint.overview.meteringMethod,
+        disableQuerySuggestions
       );
 
       expect(actualMeteringMethod.textContent).toBe(emDash);
@@ -163,8 +172,10 @@ describe(DhMeteringPointIdentityComponent.name, () => {
 
       await setup(meteringPoint);
 
+      const disableQuerySuggestions: MatcherOptions = { suggest: false };
       const actualConnectionState = screen.getByTitle(
-        enTranslations.meteringPoint.overview.connectionState
+        enTranslations.meteringPoint.overview.connectionState,
+        disableQuerySuggestions
       );
 
       expect(actualConnectionState.textContent).toBe(emDash);
@@ -181,8 +192,10 @@ describe(DhMeteringPointIdentityComponent.name, () => {
 
       await setup(meteringPoint);
 
+      const disableQuerySuggestions: MatcherOptions = { suggest: false };
       const actualSettlementMethod = screen.getByTitle(
-        enTranslations.meteringPoint.overview.settlementMethod
+        enTranslations.meteringPoint.overview.settlementMethod,
+        disableQuerySuggestions
       );
 
       const expectedSettlementMethod =
@@ -218,8 +231,10 @@ describe(DhMeteringPointIdentityComponent.name, () => {
 
       await setup(meteringPoint);
 
+      const disableQuerySuggestions: MatcherOptions = { suggest: false };
       const actualReadingOccurrence = screen.getByTitle(
-        enTranslations.meteringPoint.overview.readingOccurrence
+        enTranslations.meteringPoint.overview.readingOccurrence,
+        disableQuerySuggestions
       );
 
       const expectedReadingOccurrence =
