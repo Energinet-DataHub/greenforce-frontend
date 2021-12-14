@@ -150,9 +150,12 @@ jobs:
     # needs: app
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-        
+      - uses: actions/checkout@v2
+      - uses: actions/download-artifact@v2
+        with:
+          name: ${{ env.app-name }}
+          path: ./dist/apps/ett/${{ env.app-name }}/
+
       - name: Container image name
         id: image-name
         uses: ASzc/change-string-case-action@v2
