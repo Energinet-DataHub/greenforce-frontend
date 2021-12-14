@@ -14,7 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { EoApiEnvironment, loadEoApiEnvironment as _loadEoApiEnvironment } from '@energinet-datahub/eo/shared/environments';
+import {
+  EoApiEnvironment,
+  loadEoApiEnvironment as _loadEoApiEnvironment,
+} from '@energinet-datahub/eo/shared/environments';
 
 export function loadEoApiEnvironment(): Promise<EoApiEnvironment> {
   return _loadEoApiEnvironment('eo-api-environment.json').catch(() =>

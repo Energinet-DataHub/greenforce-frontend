@@ -16,7 +16,10 @@
  */
 import { enableProdMode } from '@angular/core';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
-import { environment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
+import {
+  environment,
+  eoApiEnvironmentToken,
+} from '@energinet-datahub/eo/shared/environments';
 
 import { EnergyTrackAndTraceAppModule } from './app/energy-track-and-trace-app.module';
 import { loadEoApiEnvironment } from './configuration/load-eo-api-environment';
