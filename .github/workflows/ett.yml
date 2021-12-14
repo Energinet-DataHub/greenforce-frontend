@@ -150,6 +150,9 @@ jobs:
     # needs: app
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        
       - name: Container image name
         id: image-name
         uses: ASzc/change-string-case-action@v2
