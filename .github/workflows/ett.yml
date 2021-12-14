@@ -180,7 +180,7 @@ jobs:
           DOCKER_USERNAME: ${{ github.actor }}
           DOCKER_PASSWORD: ${{ github.token }}
           DOCKER_IMAGE: ${{ steps.image-name.outputs.lowercase }}
-          INCLUDE_LATEST_TAG: false
+          INCLUDE_LATEST_TAG: true
           TAG_VERSION_PREFIX: ''
           TAG_VERSION_SUFFIX: ''
           MAJOR: 0
