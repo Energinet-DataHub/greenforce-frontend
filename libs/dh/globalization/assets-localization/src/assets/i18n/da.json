@@ -33,7 +33,11 @@
       "locationDetailTitle": "Øvrige Lokationsdetaljer",
       "streetCode": "Vejkode",
       "municipalityCode": "Kommunekode",
-      "countryCode": "Landekode"
+      "countryCode": "Landekode",
+      "expansion": {
+        "openLabel": "Se flere detaljer",
+        "closeLabel": "Se færre detaljer"
+      }
     }
   }
 }
