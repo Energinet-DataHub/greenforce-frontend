@@ -4,6 +4,7 @@ export * from './connection-type';
 export * from './disconnection-type';
 export * from './metering-method';
 export * from './metering-point-cim-dto';
+export * from './metering-point-simple-cim-dto';
 export * from './metering-point-type';
 export * from './net-settlement-group';
 export * from './price-unit';

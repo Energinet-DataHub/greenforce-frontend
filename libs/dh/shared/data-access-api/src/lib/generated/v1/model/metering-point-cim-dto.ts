@@ -14,6 +14,7 @@ import { AssetType } from './asset-type';
 import { ReadingOccurrence } from './reading-occurrence';
 import { PriceUnit } from './price-unit';
 import { ConnectionType } from './connection-type';
+import { MeteringPointSimpleCimDto } from './metering-point-simple-cim-dto';
 import { NetSettlementGroup } from './net-settlement-group';
 import { MeteringPointType } from './metering-point-type';
 import { ConnectionState } from './connection-state';
@@ -60,6 +61,8 @@ export interface MeteringPointCimDto {
     connectionType?: ConnectionType;
     disconnectionType?: DisconnectionType;
     productionObligation?: boolean | null;
+    childMeteringPoints?: Array<MeteringPointSimpleCimDto> | null;
+    parentMeteringPoint?: MeteringPointSimpleCimDto;
 }
 
 
