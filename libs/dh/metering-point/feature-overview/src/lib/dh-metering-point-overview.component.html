@@ -21,8 +21,8 @@ limitations under the License.
     [meteringPointId]="meteringPoint?.gsrnNumber ?? ''"
   ></dh-breadcrumb>
   <h1>{{ meteringPoint?.gsrnNumber }}</h1>
+  <dh-ui-secondary-master-data [secondaryMasterData]="meteringPoint"></dh-ui-secondary-master-data>
 </ng-container>
-
 <ng-template #suspenseTemplate>
   <div class="overview__spinner">
     <watt-spinner></watt-spinner>
