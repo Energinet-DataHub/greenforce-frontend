@@ -26,27 +26,7 @@ limitations under the License.
     ></watt-icon>
     <dl>
       <dt class="watt-label">{{ transloco('address') }}</dt>
-      <dd>
-        <ng-container
-          *ngIf="
-            primaryMasterData?.streetName && primaryMasterData?.buildingNumber;
-            else emptyValue
-          "
-        >
-          {{ primaryMasterData?.streetName }}
-          {{ primaryMasterData?.buildingNumber
-          }}<ng-container *ngIf="primaryMasterData?.floorIdentification"
-            >, {{ primaryMasterData?.floorIdentification }}.
-            <ng-container *ngIf="primaryMasterData?.suite">
-              {{ primaryMasterData?.suite }}
-            </ng-container>
-          </ng-container>
-          <br />{{ primaryMasterData?.citySubDivisionName }} <br />{{
-            primaryMasterData?.postCode
-          }}
-          {{ primaryMasterData?.cityName }}
-        </ng-container>
-      </dd>
+      <dd [innerHTML]="address"></dd>
     </dl>
   </section>
 
@@ -58,7 +38,9 @@ limitations under the License.
       aria-hidden
     ></watt-icon>
     <dl>
-      <dt class="watt-label">{{ transloco('hasElectricitySupplier') }}</dt>
+      <dt class="watt-label" [title]="transloco('hasElectricitySupplier')">
+        {{ transloco('hasElectricitySupplier') }}
+      </dt>
       <dd>
         {{
           primaryMasterData?.supplyStart ? transloco('yes') : transloco('no')
@@ -67,7 +49,7 @@ limitations under the License.
       <dd class="watt-text-xs text-dimmed full-width">
         <ng-container *ngIf="primaryMasterData?.supplyStart; else emptyValue">
           {{ transloco('since') }}
-          {{ primaryMasterData?.supplyStart | date: 'medium' }}
+          {{ primaryMasterData?.supplyStart }}
         </ng-container>
       </dd>
     </dl>
@@ -76,21 +58,26 @@ limitations under the License.
   <section>
     <dl class="multiple-terms-and-descriptions">
       <ng-container *ngIf="primaryMasterData?.isActualAddress">
-        <dt class="with-icon">
+        <dt class="with-icon" [title]="transloco('actualAddress')">
           <watt-icon
             name="success"
             label="success"
             [size]="iconSizes.XSmall"
           ></watt-icon>
         </dt>
-        <dd class="watt-text-xs">{{ transloco('actualAdress') }}</dd>
+        <dd class="watt-text-xs">{{ transloco('actualAddress') }}Whaat</dd>
       </ng-container>
 
-      <dt class="watt-text-xs">{{ transloco('locationDescription') }}:</dt>
+      <dt class="watt-text-xs" [title]="transloco('locationDescription')">
+        {{ transloco('locationDescription') }}:
+      </dt>
       <dd class="watt-text-xs">
         {{ primaryMasterData?.locationDescription ?? '—' }}
       </dd>
-      <dt class="watt-text-xs text-dimmed">
+      <dt
+        class="watt-text-xs text-dimmed"
+        [title]="transloco('geoInfoReference')"
+      >
         {{ transloco('geoInfoReference') }}:
       </dt>
       <dd class="watt-text-xs text-dimmed">
@@ -109,7 +96,7 @@ limitations under the License.
     <dl>
       <dt class="watt-label">{{ transloco('meterNumber') }}</dt>
       <dd>
-        <small>{{ primaryMasterData?.gsrnNumber ?? '—' }}</small>
+        <small>{{ primaryMasterData?.meterId ?? '—' }}</small>
       </dd>
     </dl>
   </section>

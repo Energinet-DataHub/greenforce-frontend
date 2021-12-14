@@ -19,49 +19,69 @@ import {
   Component,
   Input,
   NgModule,
+  OnChanges,
+  SimpleChanges,
 } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { TranslocoModule } from '@ngneat/transloco';
 
+import { MeteringPointCimDto } from '@energinet-datahub/dh/shared/data-access-api';
 import { WattIconModule, WattIconSize } from '@energinet-datahub/watt';
-import { CommonModule } from '@angular/common';
 
-interface PrimaryMasterData {
-  streetName?: string;
-  buildingNumber?: string;
-  floorIdentification?: string;
-  suite?: string;
-  citySubDivisionName?: string;
-  cityName?: string;
-  postCode?: string;
-  isActualAddress?: boolean | null;
-  locationDescription?: string;
-  darReference?: string | null;
-  supplyStart?: string | null;
-  gsrnNumber?: string;
-}
+export type PrimaryMasterData = Pick<
+  MeteringPointCimDto,
+  | 'streetName'
+  | 'buildingNumber'
+  | 'floorIdentification'
+  | 'suiteNumber'
+  | 'cityName'
+  | 'citySubDivisionName'
+  | 'postalCode'
+  | 'isActualAddress'
+  | 'locationDescription'
+  | 'darReference'
+  | 'supplyStart'
+  | 'meterId'
+>;
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'dh-metering-point-primary-master-data',
   styleUrls: ['./dh-metering-point-primary-master-data.component.scss'],
   templateUrl: './dh-metering-point-primary-master-data.component.html',
-  providers: [],
 })
-export class DhMeteringPointPrimaryMasterDataComponent {
-  @Input() primaryMasterData?: PrimaryMasterData = {
-    streetName: undefined,
-    buildingNumber: undefined,
-    floorIdentification: undefined,
-    suite: undefined,
-    citySubDivisionName: undefined,
-    postCode: undefined,
-    isActualAddress: undefined,
-    locationDescription: undefined,
-    darReference: undefined,
-    supplyStart: undefined,
-    gsrnNumber: undefined,
-  };
+export class DhMeteringPointPrimaryMasterDataComponent implements OnChanges {
+  @Input() primaryMasterData?: PrimaryMasterData;
+  address?: string;
   iconSizes = WattIconSize;
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.primaryMasterData && changes.primaryMasterData.currentValue) {
+      this.address = this.formatAddress(changes.primaryMasterData.currentValue);
+    }
+  }
+
+  private formatAddress(data: PrimaryMasterData): string {
+    if(!data.streetName && !data.buildingNumber && !data.citySubDivisionName && !data.cityName && !data.postalCode) {
+      return '—';
+    }
+
+    let address = `${data.streetName} ${data.buildingNumber}`;
+    if(data.floorIdentification || data.suiteNumber) {
+      address += ',';
+    }
+    if(data.floorIdentification) {
+      address += ` ${data.floorIdentification}.`;
+    }
+    if(data.suiteNumber) {
+      address += ` ${data.suiteNumber}`;
+    }
+    if(data.citySubDivisionName) {
+      address += `<br />${data.citySubDivisionName}`;
+    }
+    address += `<br />${data.postalCode} ${data.cityName}`;
+    return address;
+  }
 }
 
 @NgModule({
