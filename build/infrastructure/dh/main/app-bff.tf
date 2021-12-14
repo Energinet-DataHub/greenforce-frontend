@@ -27,6 +27,7 @@ resource "azurerm_app_service" "bff" {
 
   app_settings = {
     "ApiClientSettings__MeteringPointBaseUrl": var.metering_point_base_url
+    "ApiClientSettings__ChargesBaseUrl": var.charges_base_url
   }
 
   tags              = data.azurerm_resource_group.main.tags

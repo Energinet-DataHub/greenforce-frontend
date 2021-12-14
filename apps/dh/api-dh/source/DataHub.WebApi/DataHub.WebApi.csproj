@@ -35,6 +35,8 @@ limitations under the License.
   </Target>
 
   <ItemGroup>
+    <PackageReference Include="Energinet.DataHub.Charges.Clients" Version="1.0.15" />
+    <PackageReference Include="Energinet.DataHub.Charges.Clients.Registration" Version="0.1.1" />
     <PackageReference Include="Energinet.DataHub.MeteringPoints.Client" Version="1.0.0" />
     <PackageReference Include="Energinet.DataHub.MeteringPoints.Client.Abstractions" Version="1.0.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.3">
