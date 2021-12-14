@@ -16,11 +16,11 @@ env:
 
   # Update base env
   SERVICE_NAME: eo-frontend
-  BASE_ENV_REPO: "Energinet-DataHub/eo-base-environment"
-  BASE_ENV_REPO_BRANCH: "development"
-  HELM_CHART_PATH: "yggdrasil/applications/eo/eo-frontend/eo-frontend.yaml"
+  BASE_ENV_REPO: 'Energinet-DataHub/eo-base-environment'
+  BASE_ENV_REPO_BRANCH: 'development'
+  HELM_CHART_PATH: 'yggdrasil/applications/eo/eo-frontend/eo-frontend.yaml'
 
-  JOB_URL: "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+  JOB_URL: '${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}'
 
 on:
   push:
@@ -150,7 +150,7 @@ jobs:
         run: |
           docker login ghcr.io --username ${{ github.actor }} --password ${{ github.token }}
           docker push ${{ steps.image-name.outputs.lowercase }}:${{ env.host-image-tag }}
-  
+
   container_merge:
     name: 'Merge: Host container'
     if: ${{ github.ref == 'refs/heads/main' }}
@@ -187,14 +187,14 @@ jobs:
           MINOR: 0
           PATCH: ${{ github.run_number }}
           FILE: infrastructure/eo/host/Dockerfile
-      
-      - uses: "marvinpinto/action-automatic-releases@919008cf3f741b179569b7a6fb4d8860689ab7f0"
+
+      - uses: 'marvinpinto/action-automatic-releases@919008cf3f741b179569b7a6fb4d8860689ab7f0'
         with:
           repo_token: ${{ secrets.EO_DEPLOYMENT_TOKEN }}
           automatic_release_tag: ${{ steps.build_and_push.outputs.RELEASE_VERSION }}
           prerelease: false
           draft: false
-          title: Release ${{ steps.build_and_push.outputs.RELEASE_VERSION }} 
+          title: Release ${{ steps.build_and_push.outputs.RELEASE_VERSION }}
 
   update_base_env:
     name: Update Base Environment
@@ -208,13 +208,13 @@ jobs:
           token: ${{ secrets.EO_DEPLOYMENT_TOKEN }}
           repository: ${{ env.BASE_ENV_REPO }}
           ref: ${{ env.BASE_ENV_REPO_BRANCH }}
-      
+
       - name: Replace docker tag
         uses: Energinet-DataHub/.github/.github/actions/regex-search-and-replace@731c5e2a1ec807416acc0d4dd3b244621e720bb7
         with:
           FILE_PATH: ${{ env.HELM_CHART_PATH }}
           NEW_VALUE: ${{ needs.container_merge.outputs.release_tag }}
-          REGEX_EXPRESSION: "^(?:.*tag: (.*))"
+          REGEX_EXPRESSION: '^(?:.*tag: (.*))'
 
       # Create a new branch and a pullrequest in the base environment
       - name: Create Pull Request
@@ -224,8 +224,8 @@ jobs:
           title: Bump ${{ env.SERVICE_NAME }} to ${{ needs.container_merge.outputs.release_tag }}
           commit-message: Bump ${{ env.SERVICE_NAME }} to ${{ needs.container_merge.outputs.release_tag }}
           committer: GitHub <noreply@github.com>
-          branch: "automated/github_actions/bump-${{ env.SERVICE_NAME }}-version-${{ needs.container_merge.outputs.release_tag }}"
-          labels: "automerge" # Indicates that pull requests may be auto merged
+          branch: 'automated/github_actions/bump-${{ env.SERVICE_NAME }}-version-${{ needs.container_merge.outputs.release_tag }}'
+          labels: 'automerge' # Indicates that pull requests may be auto merged
           body: |
             Bump ${{ env.SERVICE_NAME }} to ${{ needs.container_merge.outputs.release_tag }}
 
