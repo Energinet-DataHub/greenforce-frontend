@@ -1,60 +1,178 @@
-<watt-expansion openLabel="{{'meteringPoint.secondaryMasterData.expansion.openLabel' | transloco}}" closeLabel="{{'meteringPoint.secondaryMasterData.expansion.closeLabel' | transloco}}">
+<watt-expansion
+  openLabel="{{
+    'meteringPoint.secondaryMasterData.expansion.openLabel' | transloco
+  }}"
+  closeLabel="{{
+    'meteringPoint.secondaryMasterData.expansion.closeLabel' | transloco
+  }}"
+>
   <div>
-    <h5>{{'meteringPoint.secondaryMasterData.technicalSpecificationTitle' | transloco}}</h5>
+    <h5>
+      {{
+        'meteringPoint.secondaryMasterData.technicalSpecificationTitle'
+          | transloco
+      }}
+    </h5>
     <div class="smd__line">
-      <p class="watt-text-l">{{'meteringPoint.secondaryMasterData.netSettlementGroup' | transloco}}</p>
-      <p class="watt-text-m">{{(secondaryMasterData?.netSettlementGroup) ? secondaryMasterData.netSettlementGroup : "----------"}}</p>
+      <p class="watt-text-l">
+        {{ 'meteringPoint.secondaryMasterData.netSettlementGroup' | transloco }}
+      </p>
+      <p class="watt-text-m">
+        {{
+          secondaryMasterData?.netSettlementGroup
+            ? secondaryMasterData.netSettlementGroup
+            : '----------'
+        }}
+      </p>
     </div>
     <div class="smd__line">
-      <p class="watt-text-l">{{'meteringPoint.secondaryMasterData.disconnectionType' | transloco}}</p>
-      <p class="watt-text-m">{{(secondaryMasterData?.disconnectionType) ? secondaryMasterData.disconnectionType : "----------"}}</p>
+      <p class="watt-text-l">
+        {{ 'meteringPoint.secondaryMasterData.disconnectionType' | transloco }}
+      </p>
+      <p class="watt-text-m">
+        {{
+          secondaryMasterData?.disconnectionType
+            ? secondaryMasterData.disconnectionType
+            : '----------'
+        }}
+      </p>
     </div>
     <div class="smd__line">
-      <p class="watt-text-l">{{'meteringPoint.secondaryMasterData.connectionType' | transloco}}</p>
-      <p class="watt-text-m">{{(secondaryMasterData?.connectionType) ? secondaryMasterData.connectionType : "----------"}}</p>
+      <p class="watt-text-l">
+        {{ 'meteringPoint.secondaryMasterData.connectionType' | transloco }}
+      </p>
+      <p class="watt-text-m">
+        {{
+          secondaryMasterData?.connectionType
+            ? secondaryMasterData.connectionType
+            : '----------'
+        }}
+      </p>
     </div>
     <div class="smd__line">
-      <p class="watt-text-l">{{'meteringPoint.secondaryMasterData.gridArea' | transloco}}</p>
-      <p class="watt-text-m">{{(secondaryMasterData?.gridAreaCode) ? secondaryMasterData.gridAreaCode : "----------"}}</p>
+      <p class="watt-text-l">
+        {{ 'meteringPoint.secondaryMasterData.gridArea' | transloco }}
+      </p>
+      <p class="watt-text-m">
+        {{
+          secondaryMasterData?.gridAreaCode
+            ? secondaryMasterData.gridAreaCode
+            : '----------'
+        }}
+      </p>
     </div>
     <div class="smd__line">
-      <p class="watt-text-l">{{'meteringPoint.secondaryMasterData.capacity' | transloco}}</p>
-      <p class="watt-text-m">{{(secondaryMasterData?.capacity) ? secondaryMasterData.capacity : "----------"}}</p>
+      <p class="watt-text-l">
+        {{ 'meteringPoint.secondaryMasterData.capacity' | transloco }}
+      </p>
+      <p class="watt-text-m">
+        {{
+          secondaryMasterData?.capacity
+            ? secondaryMasterData.capacity
+            : '----------'
+        }}
+      </p>
     </div>
     <div class="smd__line">
-      <p class="watt-text-l">{{'meteringPoint.secondaryMasterData.assetType' | transloco}}</p>
-      <p class="watt-text-m">{{(secondaryMasterData?.assetType) ? secondaryMasterData.assetType : "----------"}}</p>
+      <p class="watt-text-l">
+        {{ 'meteringPoint.secondaryMasterData.assetType' | transloco }}
+      </p>
+      <p class="watt-text-m">
+        {{
+          secondaryMasterData?.assetType
+            ? secondaryMasterData.assetType
+            : '----------'
+        }}
+      </p>
     </div>
     <div class="smd__line">
-      <p class="watt-text-l">{{'meteringPoint.secondaryMasterData.ratedCapacity' | transloco}}</p>
-      <p class="watt-text-m">{{(secondaryMasterData?.ratedCapacity) ? secondaryMasterData.ratedCapacity : "----------"}}</p>
+      <p class="watt-text-l">
+        {{ 'meteringPoint.secondaryMasterData.ratedCapacity' | transloco }}
+      </p>
+      <p class="watt-text-m">
+        {{
+          secondaryMasterData?.ratedCapacity
+            ? secondaryMasterData.ratedCapacity
+            : '----------'
+        }}
+      </p>
     </div>
     <div class="smd__line">
-      <p class="watt-text-l">{{'meteringPoint.secondaryMasterData.ratedCurrent' | transloco}}</p>
-      <p class="watt-text-m">{{(secondaryMasterData?.ratedCurrent) ? secondaryMasterData.ratedCurrent : "----------"}}</p>
+      <p class="watt-text-l">
+        {{ 'meteringPoint.secondaryMasterData.ratedCurrent' | transloco }}
+      </p>
+      <p class="watt-text-m">
+        {{
+          secondaryMasterData?.ratedCurrent
+            ? secondaryMasterData.ratedCurrent
+            : '----------'
+        }}
+      </p>
     </div>
     <div class="smd__line">
-      <p class="watt-text-l">{{'meteringPoint.secondaryMasterData.gsrnNumber' | transloco}}</p>
-      <p class="watt-text-m">{{(secondaryMasterData?.gsrnNumber) ? secondaryMasterData.gsrnNumber : "----------"}}</p>
+      <p class="watt-text-l">
+        {{ 'meteringPoint.secondaryMasterData.gsrnNumber' | transloco }}
+      </p>
+      <p class="watt-text-m">
+        {{
+          secondaryMasterData?.gsrnNumber
+            ? secondaryMasterData.gsrnNumber
+            : '----------'
+        }}
+      </p>
     </div>
     <div class="smd__line">
-      <p class="watt-text-l">{{'meteringPoint.secondaryMasterData.productId' | transloco}}</p>
-      <p class="watt-text-m">{{(secondaryMasterData?.productId) ? secondaryMasterData.productId : "----------"}}</p>
+      <p class="watt-text-l">
+        {{ 'meteringPoint.secondaryMasterData.productId' | transloco }}
+      </p>
+      <p class="watt-text-m">
+        {{
+          secondaryMasterData?.productId
+            ? secondaryMasterData.productId
+            : '----------'
+        }}
+      </p>
     </div>
   </div>
   <div>
-    <h5>{{'meteringPoint.secondaryMasterData.locationDetailTitle' | transloco}}</h5>
+    <h5>
+      {{ 'meteringPoint.secondaryMasterData.locationDetailTitle' | transloco }}
+    </h5>
     <div class="smd__line">
-      <p class="watt-text-l">{{'meteringPoint.secondaryMasterData.streetCode' | transloco}}</p>
-      <p class="watt-text-m">{{(secondaryMasterData?.streetCode) ? secondaryMasterData.streetCode : "----------"}}</p>
+      <p class="watt-text-l">
+        {{ 'meteringPoint.secondaryMasterData.streetCode' | transloco }}
+      </p>
+      <p class="watt-text-m">
+        {{
+          secondaryMasterData?.streetCode
+            ? secondaryMasterData.streetCode
+            : '----------'
+        }}
+      </p>
     </div>
     <div class="smd__line">
-      <p class="watt-text-l">{{'meteringPoint.secondaryMasterData.municipalityCode' | transloco}}</p>
-      <p class="watt-text-m">{{(secondaryMasterData?.municipalityCode) ? secondaryMasterData.municipalityCode : "----------"}}</p>
+      <p class="watt-text-l">
+        {{ 'meteringPoint.secondaryMasterData.municipalityCode' | transloco }}
+      </p>
+      <p class="watt-text-m">
+        {{
+          secondaryMasterData?.municipalityCode
+            ? secondaryMasterData.municipalityCode
+            : '----------'
+        }}
+      </p>
     </div>
     <div class="smd__line">
-      <p class="watt-text-l">{{'meteringPoint.secondaryMasterData.countryCode' | transloco}}</p>
-      <p class="watt-text-m">{{(secondaryMasterData?.countryCode) ? secondaryMasterData.countryCode : "----------"}}</p>
+      <p class="watt-text-l">
+        {{ 'meteringPoint.secondaryMasterData.countryCode' | transloco }}
+      </p>
+      <p class="watt-text-m">
+        {{
+          secondaryMasterData?.countryCode
+            ? secondaryMasterData.countryCode
+            : '----------'
+        }}
+      </p>
     </div>
   </div>
 </watt-expansion>

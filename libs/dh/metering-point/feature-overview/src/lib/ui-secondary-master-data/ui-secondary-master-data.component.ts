@@ -7,9 +7,9 @@ import { SecondaryMasterData } from './secondary-master-data';
 @Component({
   selector: 'dh-ui-secondary-master-data',
   templateUrl: './ui-secondary-master-data.component.html',
-  styleUrls: ['./ui-secondary-master-data.component.scss']
+  styleUrls: ['./ui-secondary-master-data.component.scss'],
 })
-export class UiSecondaryMasterDataComponent{
+export class UiSecondaryMasterDataComponent {
   @Input() secondaryMasterData: SecondaryMasterData = {
     netSettlementGroup: undefined,
     disconnectionType: undefined,
@@ -24,14 +24,13 @@ export class UiSecondaryMasterDataComponent{
     productId: undefined,
     streetCode: undefined,
     municipalityCode: undefined,
-    countryCode: undefined
+    countryCode: undefined,
   };
-
 }
 
 @NgModule({
   declarations: [UiSecondaryMasterDataComponent],
   imports: [WattExpansionModule, CommonModule, TranslocoModule, WattIconModule],
-  exports: [UiSecondaryMasterDataComponent]
+  exports: [UiSecondaryMasterDataComponent],
 })
 export class UiSecondaryMasterDataComponentScam {}

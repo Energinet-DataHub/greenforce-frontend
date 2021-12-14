@@ -8,9 +8,8 @@ describe('UiSecondaryMasterDataComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ UiSecondaryMasterDataComponent ]
-    })
-    .compileComponents();
+      declarations: [UiSecondaryMasterDataComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {
