@@ -74,7 +74,7 @@ jobs:
 
   app:
     name: Build app
-    if: ${{ needs.affected.outputs.is-affected == 'true' }}
+    # if: ${{ needs.affected.outputs.is-affected == 'true' }} #TODO: Uncomment
     needs: affected
     runs-on: ubuntu-latest
 
