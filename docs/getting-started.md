@@ -26,6 +26,12 @@ To run the application locally you need to serve the frontend application and co
 
 #### BFF (backend for frontend)
 
+Before you're able to run the BFF locally you need to copy `build/ci/dh/api-dh/ci.appsettings.Development.json` -> `apps/dh/api-dh/source/DataHub.WebApi/appsettings.Development.json`. If you're using powershell core or another terminal with `cp` you can do it with:  
+`yarn nx run api-dh:ci-configuration`  
+Otherwise you need to do the copying manually.
+
+To run the BFF locally:
+
 `yarn nx serve api-dh`
 
 ### Testing
