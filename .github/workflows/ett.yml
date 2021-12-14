@@ -14,6 +14,10 @@ env:
   NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
   NX_RUN_GROUP: ${{ github.run_id }}
 
+  # Update base env
+  SERVICE_NAME: eo-frontend
+  HELM_CHART_PATH: "yggdrasil/applications/eo/eo-frontend/eo-frontend.yaml"
+
 on:
   push:
     branches:
@@ -144,10 +148,12 @@ jobs:
           docker login ghcr.io --username ${{ github.actor }} --password ${{ github.token }}
           docker push ${{ steps.image-name.outputs.lowercase }}:${{ env.host-image-tag }}
   
-  container-merge:
+  container_merge:
     name: 'Merge: Host container'
     # if: ${{ github.ref == 'refs/heads/feature/auto-deploy-eo-frontend' }} # TODO Change to main ref
     needs: app
+    outputs:
+      release_tag: ${{ steps.build_and_push.outputs.RELEASE_VERSION }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -165,13 +171,62 @@ jobs:
 
       - name: Build and Push Docker image
         id: build_and_push
-        uses: Energinet-DataHub/.github/.github/actions/docker-build-and-push@5d9ab63943810f4f1a259241cc56bbbe22db5fcf
+        uses: Energinet-DataHub/.github/.github/actions/docker-build-and-push@9b79b91f1290f69410eed3ad3855cfe04904f01e
         with:
           REGISTRY: ghcr.io
           DOCKER_USERNAME: ${{ github.actor }}
           DOCKER_PASSWORD: ${{ github.token }}
           DOCKER_IMAGE: ${{ steps.image-name.outputs.lowercase }}
+          INCLUDE_LATEST_TAG: false
+          TAG_VERSION_PREFIX: ''
+          TAG_VERSION_SUFFIX: ''
           MAJOR: 0
           MINOR: 0
           PATCH: ${{ github.run_number }}
           FILE: infrastructure/eo/host/Dockerfile
+      
+      - uses: "marvinpinto/action-automatic-releases@919008cf3f741b179569b7a6fb4d8860689ab7f0"
+        with:
+          repo_token: ${{ secrets.EO_DEPLOYMENT_TOKEN }}
+          automatic_release_tag: ${{ steps.build_and_push.outputs.RELEASE_VERSION }}
+          prerelease: false
+          draft: false
+          title: Release ${{ steps.build_and_push.outputs.RELEASE_VERSION }} 
+
+  update_base_env:
+    name: Update Base Environment
+    runs-on: ubuntu-latest
+    needs:
+      - container_merge
+    steps:
+      # Checkout the base envionment
+      - uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          repository: ${{ env.BASE_ENV_REPO }}
+          ref: ${{ env.BASE_ENV_REPO_BRANCH }}
+      
+      - name: Replace docker tag
+        uses: Energinet-DataHub/.github/.github/actions/regex-search-and-replace@731c5e2a1ec807416acc0d4dd3b244621e720bb7
+        with:
+          FILE_PATH: ${{ env.HELM_CHART_PATH }}
+          NEW_VALUE: ${{ needs.container_merge.outputs.release_tag }}
+          REGEX_EXPRESSION: "^(?:.*tag: (.*))"
+
+      # Create a new branch and a pullrequest in the base environment
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v3
+        with:
+          token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          title: Bump ${{ env.SERVICE_NAME }} to ${{ needs.container_merge.outputs.release_tag }}
+          commit-message: Bump ${{ env.SERVICE_NAME }} to ${{ needs.container_merge.outputs.release_tag }}
+          committer: GitHub <noreply@github.com>
+          branch: "automated/github_actions/bump-${{ env.SERVICE_NAME }}-version-${{ needs.container_merge.outputs.release_tag }}"
+          labels: "automerge" # Indicates that pull requests may be auto merged
+          body: |
+            Bump ${{ env.SERVICE_NAME }} to ${{ needs.container_merge.outputs.release_tag }}
+
+            - Triggered by [Job][1] in [Repo][2]
+
+            [1]: ${{ env.JOB_URL }} 
+            [2]: ${{ github.server_url }}/${{ github.repository }}
