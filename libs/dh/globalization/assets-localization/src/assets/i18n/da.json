@@ -17,6 +17,23 @@
       "breadcrumb": {
         "meteringPoints": "Målepunkter"
       }
+    },
+    "secondaryMasterData":{
+      "technicalSpecificationTitle": "Tekniske Specifikationer",
+      "netSettlementGroup": "Nettoafregningsgruppe",
+      "disconnectionType": "Afbrydelsesart",
+      "connectionType": "Tilslutningstype",
+      "gridArea": "Netområde",
+      "capacity": "Anlægskapacitet",
+      "assetType": "Anlægsteknologi",
+      "ratedCapacity": "Effektgrænse KW",
+      "ratedCurrent": "Effektgrænse A",
+      "gsrnNumber": "VærksGSRN",
+      "productId": "Produkt",
+      "locationDetailTitle": "Øvrige Lokationsdetaljer",
+      "streetCode": "Vejkode",
+      "municipalityCode": "Kommunekode",
+      "countryCode": "Landekode"
     }
   }
 }
