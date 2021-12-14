@@ -26,7 +26,6 @@ on:
   push:
     branches:
       - main
-      - feature/auto-deploy-eo-frontend # TODO Delete this
   pull_request: {}
   workflow_dispatch: {}
 
@@ -73,16 +72,16 @@ jobs:
       - name: Install package dependencies
         run: yarn install --frozen-lockfile --non-interactive
 
-      # - name: Is affected?
-      #   id: affected
-      #   uses: ./.github/actions/affected
-      #   with:
-      #     base: ${{ env.is-main-branch == 'true' && 'HEAD~1' || format('origin/{0}', env.BASE_BRANCH) }}
-      #     project: ${{ env.app-name }}
+      - name: Is affected?
+        id: affected
+        uses: ./.github/actions/affected
+        with:
+          base: ${{ env.is-main-branch == 'true' && 'HEAD~1' || format('origin/{0}', env.BASE_BRANCH) }}
+          project: ${{ env.app-name }}
 
   app:
     name: Build app
-    # if: ${{ needs.affected.outputs.is-affected == 'true' }} #TODO: Uncomment
+    if: ${{ needs.affected.outputs.is-affected == 'true' }}
     needs: affected
     runs-on: ubuntu-latest
 
@@ -154,7 +153,7 @@ jobs:
   
   container_merge:
     name: 'Merge: Host container'
-    # if: ${{ github.ref == 'refs/heads/feature/auto-deploy-eo-frontend' }} # TODO Change to main ref
+    if: ${{ github.ref == 'refs/heads/main' }}
     needs: app
     outputs:
       release_tag: ${{ steps.build_and_push.outputs.RELEASE_VERSION }}
@@ -226,7 +225,7 @@ jobs:
           commit-message: Bump ${{ env.SERVICE_NAME }} to ${{ needs.container_merge.outputs.release_tag }}
           committer: GitHub <noreply@github.com>
           branch: "automated/github_actions/bump-${{ env.SERVICE_NAME }}-version-${{ needs.container_merge.outputs.release_tag }}"
-          # labels: "automerge" # Indicates that pull requests may be auto merged # TODO: ENABLE when complete
+          labels: "automerge" # Indicates that pull requests may be auto merged
           body: |
             Bump ${{ env.SERVICE_NAME }} to ${{ needs.container_merge.outputs.release_tag }}
 
