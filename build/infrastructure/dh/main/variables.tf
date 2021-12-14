@@ -39,3 +39,8 @@ variable metering_point_base_url {
   type        = string
   description = "Url of the metering point domain entry"
 }
+
+variable charges_base_url {
+  type        = string
+  description = "Url of the charges domain entry"
+}
