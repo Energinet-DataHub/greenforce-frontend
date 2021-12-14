@@ -35,7 +35,7 @@ export function MSALInstanceFactory(): IPublicClientApplication {
   return new PublicClientApplication({
     auth: {
       clientId: '88e5d356-0c71-49e9-b260-d0629f3c0445',
-      authority: b2cPolicies.authorities.signUpSignIn.authority,
+      authority: b2cPolicies.authorities.signIn.authority,
       redirectUri: '/',
       postLogoutRedirectUri: '/',
       knownAuthorities: [b2cPolicies.authorityDomain],

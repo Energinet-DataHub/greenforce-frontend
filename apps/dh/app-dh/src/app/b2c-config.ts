@@ -5,11 +5,11 @@
  */
  export const b2cPolicies = {
   names: {
-      signUpSignIn: "B2C_1_susi_reset_v2"
+      signIn: "B2C_1_sign_in_experiments"
   },
   authorities: {
-      signUpSignIn: {
-          authority: "https://dev002DataHubB2C.b2clogin.com/dev002DataHubB2C.onmicrosoft.com",
+      signIn: {
+          authority: "https://dev002DataHubB2C.b2clogin.com/dev002DataHubB2C.onmicrosoft.com/B2C_1_sign_in_experiments",
       }
   },
   authorityDomain: "dev002DataHubB2C.b2clogin.com"
@@ -20,6 +20,6 @@
 * The current application coordinates were pre-registered in a B2C tenant.
 */
 export const apiConfig: { scopes: string[]; uri: string } = {
-  scopes: ['https://fabrikamb2c.onmicrosoft.com/helloapi/demo.read'],
+  scopes: [],
   uri: 'https://fabrikamb2chello.azurewebsites.net/hello'
 };
