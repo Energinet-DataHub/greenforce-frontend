@@ -25,7 +25,7 @@ import { RX_ANGULAR_CONFIG, RxAngularConfig } from '@rx-angular/cdk';
     {
       provide: RX_ANGULAR_CONFIG,
       useValue: {
-        primaryStrategy: 'global', // or 'native'
+        primaryStrategy: 'native',
       } as RxAngularConfig<string>,
     },
   ],

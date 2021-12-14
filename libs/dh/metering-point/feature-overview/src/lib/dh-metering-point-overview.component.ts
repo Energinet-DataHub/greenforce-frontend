@@ -14,16 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
-import { LocalRouterStore } from '@ngworker/router-component-store';
 import { CommonModule } from '@angular/common';
+import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { DhMeteringPointDataAccessApiStore } from '@energinet-datahub/dh/metering-point/data-access-api';
+import { WattSpinnerModule } from '@energinet-datahub/watt';
 import { LetModule, PushModule } from '@rx-angular/template';
 import { map } from 'rxjs';
 
-import { WattSpinnerModule } from '@energinet-datahub/watt';
-
 import { DhBreadcrumbScam } from './breadcrumb/dh-breadcrumb.component';
-import { DhMeteringPointDataAccessApiStore } from '@energinet-datahub/dh/metering-point/data-access-api';
 import { dhMeteringPointIdParam } from './routing/dh-metering-point-id-param';
 import { DhMeteringPointPrimaryMasterDataScam } from './primary-master-data/dh-metering-point-primary-master-data.component';
 
@@ -32,22 +31,22 @@ import { DhMeteringPointPrimaryMasterDataScam } from './primary-master-data/dh-m
   selector: 'dh-metering-point-overview',
   styleUrls: ['./dh-metering-point-overview.component.scss'],
   templateUrl: './dh-metering-point-overview.component.html',
-  providers: [DhMeteringPointDataAccessApiStore, LocalRouterStore],
+  providers: [DhMeteringPointDataAccessApiStore],
 })
 export class DhMeteringPointOverviewComponent {
   meteringPoint$ = this.store.meteringPoint$;
 
   constructor(
-    private route: LocalRouterStore,
+    private route: ActivatedRoute,
     private store: DhMeteringPointDataAccessApiStore
   ) {
     this.loadMeteringPointData();
   }
 
   private loadMeteringPointData(): void {
-    this.route
-      .selectRouteParam<string>(dhMeteringPointIdParam)
+    this.route.params
       .pipe(
+        map((params) => params[dhMeteringPointIdParam] as string),
         map((meteringPointId) =>
           this.store.loadMeteringPointData(meteringPointId)
         )
