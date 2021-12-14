@@ -25,9 +25,8 @@ import { TranslocoModule } from '@ngneat/transloco';
   templateUrl: './ui-secondary-master-data.component.html',
   styleUrls: ['./ui-secondary-master-data.component.scss'],
 })
-export class UiSecondaryMasterDataComponent{
+export class UiSecondaryMasterDataComponent {
   @Input() secondaryMasterData: MeteringPointCimDto = {};
-
 }
 
 @NgModule({
