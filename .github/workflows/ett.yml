@@ -16,6 +16,8 @@ env:
 
   # Update base env
   SERVICE_NAME: eo-frontend
+  BASE_ENV_REPO: "Energinet-DataHub/eo-base-environment"
+  BASE_ENV_REPO_BRANCH: "development"
   HELM_CHART_PATH: "yggdrasil/applications/eo/eo-frontend/eo-frontend.yaml"
 
 on:
@@ -202,7 +204,7 @@ jobs:
       # Checkout the base envionment
       - uses: actions/checkout@v2
         with:
-          token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          token: ${{ secrets.EO_DEPLOYMENT_TOKEN }}
           repository: ${{ env.BASE_ENV_REPO }}
           ref: ${{ env.BASE_ENV_REPO_BRANCH }}
       
