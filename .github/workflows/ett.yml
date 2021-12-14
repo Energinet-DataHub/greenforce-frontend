@@ -20,6 +20,8 @@ env:
   BASE_ENV_REPO_BRANCH: "development"
   HELM_CHART_PATH: "yggdrasil/applications/eo/eo-frontend/eo-frontend.yaml"
 
+  JOB_URL: "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+
 on:
   push:
     branches:
