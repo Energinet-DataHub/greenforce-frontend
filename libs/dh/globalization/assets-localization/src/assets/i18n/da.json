@@ -16,7 +16,81 @@
     "overview": {
       "breadcrumb": {
         "meteringPoints": "Målepunkter"
+      },
+      "meteringPointType": "Målepunktstype",
+      "meteringMethod": "Målepunktsart",
+      "gsrnNumber": "Målepunkts ID",
+      "connectionState": "Tilslutningsstatus",
+      "settlementMethod": "Afregningsform",
+      "readingOccurrence": "Aflæsningsfrevens",
+      "meteringPointNotFound": {
+        "title": "Vi fandt desværre intet målepunkt",
+        "message": "Tjek for eventuelle tastefejl og prøv igen eller gå til søgning.",
+        "button": "Gå til søgning"
+      },
+      "serverError": {
+        "title": "Ups! Der opstod en fejl",
+        "message": "Der opstod desværre en fejl, da vi skulle hente de nødvendige oplysninger.",
+        "button": "Prøv igen"
       }
+    },
+    "meteringPointTypeCode": {
+      "D01": "VE produktion",
+      "D02": "Analysemålepunkt",
+      "D03": "Anvendes ikke",
+      "D04": "Overskudsproduktion gruppe 6",
+      "D05": "Nettoproduktion",
+      "D06": "Leveret til net",
+      "D07": "Forbrugt fra net",
+      "D08": "Afregningsgrundlag / Information",
+      "D09": "Egenproduktion",
+      "D10": "Netto fra net",
+      "D11": "Netto til net",
+      "D12": "Brutto forbrug",
+      "D13": "Nettabskorrektion",
+      "D14": "Elvarme",
+      "D15": "Netto forbrug",
+      "D16": "Reserveret til senere brug",
+      "D17": "Reserveret til senere brug",
+      "D18": "Reserveret til senere brug",
+      "D19": "Reserveret til senere brug",
+      "D20": "Udveksling – Reaktiv energi",
+      "D21": "Reserveret til senere brug",
+      "D22": "Reserveret til senere brug",
+      "D23": "Reserveret til senere brug",
+      "D24": "Reserveret til senere brug",
+      "D25": "Reserveret til senere brug",
+      "D26": "Reserveret til senere brug",
+      "D27": "Reserveret til senere brug",
+      "D28": "Reserveret til senere brug",
+      "D29": "Reserveret til senere brug",
+      "D30": "Reserveret til senere brug",
+      "D99": "Intern brug",
+      "E17": "Forbrug",
+      "E18": "Produktion",
+      "E20": "Udveksling"
+    },
+    "meteringPointSubTypeCode": {
+      "D01": "Fysisk",
+      "D02": "Virtuel",
+      "D03": "Beregnet"
+    },
+    "physicalStatusCode": {
+      "D02": "Nedlæg",
+      "D03": "Ny",
+      "E22": "Tilsluttet",
+      "E23": "Afbrudt"
+    },
+    "settlementMethodCode": {
+      "D01": "Flex afregnet",
+      "E01": "Time afregnet",
+      "E02": "Skabelon afregnet"
+    },
+    "readingOccurrenceCode": {
+      "PT15M": "Aflæses pr. kvarter",
+      "PT1H": "Aflæses pr. time",
+      "P1M": "Aflæses pr. måned",
+      "P1Y": "Aflæses pr. år"
     }
   }
 }

@@ -16,7 +16,7 @@ using System;
 using System.IO;
 using System.Reflection;
 using System.Text.Json.Serialization;
-using Energinet.DataHub.Charges.Clients.Registration;
+using Energinet.DataHub.Charges.Clients.Registration.ChargeLinks.ServiceCollectionExtensions;
 using Energinet.DataHub.MeteringPoints.Client.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
