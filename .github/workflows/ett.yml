@@ -195,7 +195,8 @@ jobs:
       - container_merge
     env:
       SERVICE_NAME: eo-frontend
-      BASE_ENV_REPO: 'Energinet-DataHub/eo-base-environment'
+      # BASE_ENV_REPO: 'Energinet-DataHub/eo-base-environment'
+      BASE_ENV_REPO: 'RasmusGodske/eo-base-environment'
       BASE_ENV_REPO_BRANCH: 'development'
       HELM_CHART_PATH: 'yggdrasil/applications/eo/eo-frontend/eo-frontend.yaml'
 
@@ -219,7 +220,7 @@ jobs:
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3
         with:
-          token: ${{ secrets.EO_DEPLOYMENT_TOKEN }}
+          token: ${{ secrets.c }}
           title: Bump ${{ env.SERVICE_NAME }} to ${{ needs.container_merge.outputs.release_tag }}
           commit-message: Bump ${{ env.SERVICE_NAME }} to ${{ needs.container_merge.outputs.release_tag }}
           committer: GitHub <noreply@github.com>
