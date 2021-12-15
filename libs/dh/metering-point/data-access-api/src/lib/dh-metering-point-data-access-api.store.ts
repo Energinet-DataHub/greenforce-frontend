@@ -16,7 +16,7 @@
  */
 import { Injectable } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
-import { filter, Observable, switchMap, tap } from 'rxjs';
+import { filter, map, Observable, switchMap, tap } from 'rxjs';
 import {
   MeteringPointCimDto,
   MeteringPointHttp,
@@ -39,10 +39,12 @@ const initialState: MeteringPointState = {
 
 @Injectable()
 export class DhMeteringPointDataAccessApiStore extends ComponentStore<MeteringPointState> {
-  meteringPoint$ = this.select((state) => state.meteringPoint).pipe(
-    filter((meteringPointId) => !!meteringPointId)
+  meteringPoint$: Observable<MeteringPointCimDto> = this.select(
+    (state) => state.meteringPoint
+  ).pipe(
+    filter((meteringPoint) => !!meteringPoint),
+    map((meteringPoint) => meteringPoint as MeteringPointCimDto)
   );
-
   isLoading$ = this.select((state) => state.isLoading);
   meteringPointNotFound$ = this.select((state) => state.meteringPointNotFound);
   hasError$ = this.select((state) => state.hasError);

@@ -8,6 +8,10 @@ Monorepo that hosts:
 - CI/CD pipelines
 - Infrastructure
 
+## Getting started
+
+[Read more here](docs/getting-started.md)
+
 ## Folder Structure
 
 The folder structure of the repository is based on [Nrwl](https://nrwl.io/) [NX](https://nx.dev/angular) mono-repository project.
