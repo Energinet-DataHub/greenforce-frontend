@@ -14,13 +14,6 @@ env:
   NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
   NX_RUN_GROUP: ${{ github.run_id }}
 
-  # Update base env
-  SERVICE_NAME: eo-frontend
-  BASE_ENV_REPO: 'Energinet-DataHub/eo-base-environment'
-  BASE_ENV_REPO_BRANCH: 'development'
-  HELM_CHART_PATH: 'yggdrasil/applications/eo/eo-frontend/eo-frontend.yaml'
-
-  JOB_URL: '${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}'
 
 on:
   push:
@@ -127,7 +120,7 @@ jobs:
 
   container-pr:
     name: 'PR: Host container'
-    if: ${{ github.ref != 'refs/heads/main' }}
+    if: ${{ env.is-pull-request == 'true' }}
     needs: app
     runs-on: ubuntu-latest
     env:
@@ -153,7 +146,7 @@ jobs:
 
   container_merge:
     name: 'Merge: Host container'
-    if: ${{ github.ref == 'refs/heads/main' }}
+    if: ${{ env.is-main-branch == 'true' }}
     needs: app
     outputs:
       release_tag: ${{ steps.build_and_push.outputs.RELEASE_VERSION }}
@@ -201,6 +194,13 @@ jobs:
     runs-on: ubuntu-latest
     needs:
       - container_merge
+    env:
+      SERVICE_NAME: eo-frontend
+      BASE_ENV_REPO: 'Energinet-DataHub/eo-base-environment'
+      BASE_ENV_REPO_BRANCH: 'development'
+      HELM_CHART_PATH: 'yggdrasil/applications/eo/eo-frontend/eo-frontend.yaml'
+
+      JOB_URL: '${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}'
     steps:
       # Checkout the base envionment
       - uses: actions/checkout@v2
