@@ -119,7 +119,7 @@ jobs:
 
   container-pr:
     name: 'PR: Host container'
-    if: ${{ env.is-pull-request == 'true' }}
+    if: ${{ github.event_name  == 'pull_request' }}
     needs: app
     runs-on: ubuntu-latest
     env:
@@ -145,7 +145,7 @@ jobs:
 
   container_merge:
     name: 'Merge: Host container'
-    if: ${{ env.is-main-branch == 'true' }}
+    if: ${{ github.ref == 'refs/heads/main' }}
     needs: app
     outputs:
       release_tag: ${{ steps.build_and_push.outputs.RELEASE_VERSION }}
