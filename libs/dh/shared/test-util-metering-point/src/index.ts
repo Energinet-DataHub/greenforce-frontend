@@ -16,6 +16,5 @@
  */
 export * from './lib/definition-list-queries';
 export * from './lib/invalid-metering-point-id';
-export * from './lib/on-push-change-detection';
 export * from './lib/valid-metering-point-id';
 export * from './lib/on-push-change-detection';
