@@ -96,8 +96,7 @@
       "configurations": {
         "development": {
           "browserTarget": "app-ett:build:development",
-          "hmr": true,
-          "proxyConfig": "apps/ett/app-ett/src/proxy.conf.json"
+          "hmr": true
         },
         "e2e": {
           "browserTarget": "app-ett:build:development"
