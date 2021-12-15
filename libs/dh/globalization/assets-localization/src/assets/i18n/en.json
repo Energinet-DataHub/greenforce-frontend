@@ -16,7 +16,81 @@
     "overview": {
       "breadcrumb": {
         "meteringPoints": "Metering points"
+      },
+      "meteringPointType": "Type of Metering Point",
+      "meteringMethod": "Metering Method",
+      "gsrnNumber": "Metering Point ID",
+      "connectionState": "Connection State",
+      "settlementMethod": "Settlement Method",
+      "readingOccurrence": "Meter Reading Periodicity",
+      "meteringPointNotFound": {
+        "title": "Sorry, we did not find a metering point match",
+        "message": "Please check the spelling and try again or go to search",
+        "button": "Go to search"
+      },
+      "serverError": {
+        "title": "Oops! There was an error",
+        "message": "Unfortunately, an error occurred while retrieving the necessary information.",
+        "button": "Try again"
       }
+    },
+    "meteringPointTypeCode": {
+      "D01": "VE production",
+      "D02": "Analysis",
+      "D03": "Not used",
+      "D04": "Surplus production group 6",
+      "D05": "Net production",
+      "D06": "Supply to grid",
+      "D07": "Consumption from grid",
+      "D08": "Whole sale services / information",
+      "D09": "Own production",
+      "D10": "Net from grid",
+      "D11": "Net to grid",
+      "D12": "Total consumption",
+      "D13": "Net loss correction",
+      "D14": "Electrical heating",
+      "D15": "Net Consumption",
+      "D16": "Reserved for later use",
+      "D17": "Reserved for later use",
+      "D18": "Reserved for later use",
+      "D19": "Reserved for later use",
+      "D20": "Exchange - Reactive energy",
+      "D21": "Reserved for later use",
+      "D22": "Reserved for later use",
+      "D23": "Reserved for later use",
+      "D24": "Reserved for later use",
+      "D25": "Reserved for later use",
+      "D26": "Reserved for later use",
+      "D27": "Reserved for later use",
+      "D28": "Reserved for later use",
+      "D29": "Reserved for later use",
+      "D30": "Reserved for later use",
+      "D99": "Internal use",
+      "E17": "Consumption",
+      "E18": "Production",
+      "E20": "Exchange"
+    },
+    "meteringPointSubTypeCode": {
+      "D01": "Physical",
+      "D02": "Virtual",
+      "D03": "Calculated"
+    },
+    "physicalStatusCode": {
+      "D02": "Closed down",
+      "D03": "New",
+      "E22": "Connected",
+      "E23": "Disconnected"
+    },
+    "settlementMethodCode": {
+      "D01": "Flex settled",
+      "E01": "Profiled",
+      "E02": "Non profiled"
+    },
+    "readingOccurrenceCode": {
+      "PT15M": "Quarterly",
+      "PT1H": "Hourly",
+      "P1M": "Monthly",
+      "P1Y": "Yearly"
     }
   }
 }

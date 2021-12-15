@@ -20,12 +20,16 @@ import { RouterModule, Routes } from '@angular/router';
 import { DhMeteringPointFeatureOverviewModule } from '@energinet-datahub/dh/metering-point/feature-overview';
 import {
   DhMeteringPointSearchComponent,
+  dhMeteringPointSearchPath,
   DhMeteringPointSearchScam,
 } from '@energinet-datahub/dh/metering-point/feature-search';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'search', pathMatch: 'full' },
-  { path: 'search', component: DhMeteringPointSearchComponent },
+  { path: '', redirectTo: dhMeteringPointSearchPath, pathMatch: 'full' },
+  {
+    path: dhMeteringPointSearchPath,
+    component: DhMeteringPointSearchComponent,
+  },
   { path: '', loadChildren: () => DhMeteringPointFeatureOverviewModule },
 ];
 

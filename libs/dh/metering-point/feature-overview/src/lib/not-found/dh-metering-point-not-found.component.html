@@ -14,10 +14,11 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<nav class="breadcrumb">
-  <a [routerLink]="meteringPointAbsolutePath" class="watt-text-s">{{
-    'meteringPoint.overview.breadcrumb.meteringPoints' | transloco
-  }}</a>
-  <watt-icon name="right"></watt-icon>
-  {{ meteringPointId }}
-</nav>
+<watt-empty-state
+  icon="explore"
+  [title]="'meteringPoint.overview.meteringPointNotFound.title' | transloco"
+  [message]="'meteringPoint.overview.meteringPointNotFound.message' | transloco"
+  ><watt-button (click)="goToSearch()" variant="primary">{{
+    'meteringPoint.overview.meteringPointNotFound.button' | transloco
+  }}</watt-button>
+</watt-empty-state>

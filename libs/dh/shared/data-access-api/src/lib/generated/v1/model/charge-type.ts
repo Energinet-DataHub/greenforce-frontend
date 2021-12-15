@@ -11,11 +11,11 @@
  */
 
 
-export type ChargeType = 'Subscription' | 'Fee' | 'Tariff';
+export type ChargeType = 'D01' | 'D02' | 'D03';
 
 export const ChargeType = {
-    Subscription: 'Subscription' as ChargeType,
-    Fee: 'Fee' as ChargeType,
-    Tariff: 'Tariff' as ChargeType
+    D01: 'D01' as ChargeType,
+    D02: 'D02' as ChargeType,
+    D03: 'D03' as ChargeType
 };
 
