@@ -71,8 +71,8 @@ limitations under the License.
       </p>
       <p class="watt-text-m">
         {{
-          secondaryMasterData?.gridAreaCode
-            ? secondaryMasterData.gridAreaCode
+          secondaryMasterData?.gridAreaName
+            ? secondaryMasterData.gridAreaName + " (" + secondaryMasterData?.gridAreaCode + ")"
             : emDash
         }}
       </p>
