@@ -4,12 +4,7 @@
 
 ## Visual Studio Code - recommended extensions
 
-- Angular Language Service
-- Prettier - Code formatter
-- Nx Console
-- EditorConfig for VS Code
-- markdownlint
-- ESLint
+Extensions are stored in `.vscode/extenstions.json`, and will automatically be suggested to be installed when launching the project from Visual Studio Code.
 
 ## DataHub Application (app-dh)
 
