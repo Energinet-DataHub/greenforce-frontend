@@ -28,7 +28,6 @@
 *.userosscache
 *.sln.docstates
 *.idea*
-.vscode/
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
@@ -425,6 +424,7 @@ build/terraform/**/*.tfvars
 !.vscode/extensions.json
 
 # misc
+/.angular/cache
 /.sass-cache
 /connect.lock
 /coverage
