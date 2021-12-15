@@ -14,17 +14,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import {
+  ChangeDetectionStrategy,
+  Component,
+  NgModule,
+  OnDestroy,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { map, Subject, takeUntil } from 'rxjs';
+import { LetModule } from '@rx-angular/template';
+
 import { DhMeteringPointDataAccessApiStore } from '@energinet-datahub/dh/metering-point/data-access-api';
 import { WattSpinnerModule } from '@energinet-datahub/watt';
-import { LetModule, PushModule } from '@rx-angular/template';
-import { map } from 'rxjs';
 
 import { DhBreadcrumbScam } from './breadcrumb/dh-breadcrumb.component';
+import { DhMeteringPointIdentityScam } from './identity/dh-metering-point-identity.component';
 import { dhMeteringPointIdParam } from './routing/dh-metering-point-id-param';
+import { DhMeteringPointNotFoundScam } from './not-found/dh-metering-point-not-found.component';
 import { DhMeteringPointPrimaryMasterDataScam } from './primary-master-data/dh-metering-point-primary-master-data.component';
+import { DhMeteringPointServerErrorScam } from './server-error/dh-metering-point-server-error.component';
+import { DhMeteringPointStatusBadgeScam } from './status-badge/dh-metering-point-status-badge.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -33,8 +43,16 @@ import { DhMeteringPointPrimaryMasterDataScam } from './primary-master-data/dh-m
   templateUrl: './dh-metering-point-overview.component.html',
   providers: [DhMeteringPointDataAccessApiStore],
 })
-export class DhMeteringPointOverviewComponent {
+export class DhMeteringPointOverviewComponent implements OnDestroy {
+  private destroy$ = new Subject<void>();
+
+  meteringPointId$ = this.route.params.pipe(
+    map((params) => params[dhMeteringPointIdParam] as string)
+  );
   meteringPoint$ = this.store.meteringPoint$;
+  isLoading$ = this.store.isLoading$;
+  meteringPointNotFound$ = this.store.meteringPointNotFound$;
+  hasError$ = this.store.hasError$;
 
   constructor(
     private route: ActivatedRoute,
@@ -43,10 +61,15 @@ export class DhMeteringPointOverviewComponent {
     this.loadMeteringPointData();
   }
 
-  private loadMeteringPointData(): void {
-    this.route.params
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.unsubscribe();
+  }
+
+  loadMeteringPointData(): void {
+    this.meteringPointId$
       .pipe(
-        map((params) => params[dhMeteringPointIdParam] as string),
+        takeUntil(this.destroy$),
         map((meteringPointId) =>
           this.store.loadMeteringPointData(meteringPointId)
         )
@@ -59,10 +82,13 @@ export class DhMeteringPointOverviewComponent {
   declarations: [DhMeteringPointOverviewComponent],
   imports: [
     CommonModule,
-    LetModule,
-    PushModule,
     DhBreadcrumbScam,
+    DhMeteringPointIdentityScam,
+    DhMeteringPointNotFoundScam,
     DhMeteringPointPrimaryMasterDataScam,
+    DhMeteringPointServerErrorScam,
+    DhMeteringPointStatusBadgeScam,
+    LetModule,
     WattSpinnerModule,
   ],
 })

@@ -16,6 +16,7 @@ using System;
 using System.IO;
 using System.Reflection;
 using System.Text.Json.Serialization;
+using Energinet.DataHub.Charges.Clients.Registration.ChargeLinks.ServiceCollectionExtensions;
 using Energinet.DataHub.MeteringPoints.Client.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -114,6 +115,16 @@ namespace Energinet.DataHub.WebApi
             var apiClientSettings = Configuration.GetSection("ApiClientSettings").Get<ApiClientSettings>();
 
             AddMeteringPointClient(services, apiClientSettings);
+            AddChargeLinksClient(services, apiClientSettings);
+        }
+
+        private static void AddChargeLinksClient(IServiceCollection services, ApiClientSettings apiClientSettings)
+        {
+            Uri chargesBaseUrl = Uri.TryCreate(apiClientSettings?.ChargesBaseUrl, UriKind.Absolute, out var url)
+                ? url
+                : new Uri("https://empty");
+
+            services.AddChargeLinksClient(chargesBaseUrl);
         }
 
         private static void AddMeteringPointClient(IServiceCollection services, ApiClientSettings? apiClientSettings)
