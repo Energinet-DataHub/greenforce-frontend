@@ -14,18 +14,26 @@ env:
   NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
   NX_RUN_GROUP: ${{ github.run_id }}
 
-on:
-  push:
-    branches:
-      - main
-  pull_request: {}
-  workflow_dispatch: {}
+# on:
+#   push:
+#     branches:
+#       - main
+#   pull_request: {}
+#   workflow_dispatch: {}
 
-concurrency:
-  group: ett@${{ github.ref_name }}
-  cancel-in-progress: ${{ github.ref_name != 'main' }}
+on:
+  workflow_run:
+    workflows: ["GreenForce Frontend CI"]
+    types:
+      - completed
 
 jobs:
+  test:
+    name: test
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "$GITHUB_CONTEXT"
+
   affected:
     name: Is affected?
     runs-on: ubuntu-latest
