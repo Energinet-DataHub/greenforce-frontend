@@ -17,7 +17,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using AutoFixture;
-using Energinet.Charges.Contracts;
+using Energinet.Charges.Contracts.ChargeLink;
 using Energinet.DataHub.Charges.Clients.ChargeLinks;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc.Testing;
@@ -44,7 +44,7 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
             {
                 builder.ConfigureServices(services =>
                 {
-                    services.AddTransient(provider => ApiClientMock.Object);
+                    services.AddTransient(_ => ApiClientMock.Object);
                 });
             })
             .CreateClient();
