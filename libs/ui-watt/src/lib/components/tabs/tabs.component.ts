@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 import {
-  AfterContentInit,
   Component,
   ContentChildren,
   QueryList,
@@ -34,12 +33,10 @@ import { WattTabComponent } from './tab/tab.component';
   templateUrl: './tabs.component.html',
   encapsulation: ViewEncapsulation.None,
 })
-export class WattTabsComponent implements AfterContentInit {
+export class WattTabsComponent {
+  /**
+   * @ignore
+   */
   @ContentChildren(WattTabComponent)
-  private tabComponents: QueryList<WattTabComponent> = new QueryList<WattTabComponent>();
-  tabTemplates: Array<WattTabComponent> = [];
-
-  ngAfterContentInit(): void {
-    this.tabTemplates = this.tabComponents.toArray();
-  }
+  public readonly tabElements: QueryList<WattTabComponent> = new QueryList<WattTabComponent>();
 }
