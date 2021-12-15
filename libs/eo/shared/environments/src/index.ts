@@ -16,7 +16,7 @@
  */
 // API environment
 export * from './lib/api-environment/eo-api-environment';
-export * from './lib/api-environment/load-oe-api-environment';
+export * from './lib/api-environment/load-eo-api-environment';
 
 // Application environment
 export * from './lib/environment';
