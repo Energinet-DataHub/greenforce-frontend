@@ -14,6 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { render, screen } from '@testing-library/angular';
+import { MatcherOptions } from '@testing-library/dom';
+
 import {
   ConnectionState,
   MeteringMethod,
@@ -23,9 +26,8 @@ import {
   SettlementMethod,
 } from '@energinet-datahub/dh/shared/data-access-api';
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
-import { render, screen } from '@testing-library/angular';
-import { MatcherOptions } from '@testing-library/dom';
 import { en as enTranslations } from '@energinet-datahub/dh/globalization/assets-localization';
+import { runOnPushChangeDetection } from '@energinet-datahub/dh/shared/test-util-metering-point';
 
 import {
   DhMeteringPointIdentityComponent,
@@ -35,12 +37,14 @@ import { emDash } from './em-dash';
 
 describe(DhMeteringPointIdentityComponent.name, () => {
   async function setup(meteringPoint: MeteringPointCimDto) {
-    await render(DhMeteringPointIdentityComponent, {
+    const { fixture } = await render(DhMeteringPointIdentityComponent, {
       componentProperties: {
         meteringPoint,
       },
       imports: [DhMeteringPointIdentityScam, getTranslocoTestingModule()],
     });
+
+    runOnPushChangeDetection(fixture);
   }
 
   const meteringPointId = '575391908025497398';
