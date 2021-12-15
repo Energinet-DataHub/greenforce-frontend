@@ -18,7 +18,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using AutoFixture;
 using Energinet.Charges.Contracts;
-using Energinet.DataHub.Charges.Clients;
+using Energinet.DataHub.Charges.Clients.ChargeLinks;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
