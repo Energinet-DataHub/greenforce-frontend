@@ -36,10 +36,10 @@ import { WattTabComponent } from './tab/tab.component';
 })
 export class WattTabsComponent implements AfterContentInit {
   @ContentChildren(WattTabComponent)
-  private readonly tabElements: QueryList<WattTabComponent> = new QueryList<WattTabComponent>();
+  private tabElements: QueryList<WattTabComponent> = new QueryList<WattTabComponent>();
   tabs: Array<WattTabComponent> = [];
 
-  public ngAfterContentInit(): void {
+  ngAfterContentInit(): void {
     this.tabs = this.tabElements.toArray();
   }
 }
