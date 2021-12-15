@@ -16,13 +16,13 @@ export interface ChargeLinkDto {
     chargeType?: ChargeType;
     chargeId?: string | null;
     chargeName?: string | null;
-    chargeOwnerId?: string | null;
+    chargeOwner?: string | null;
     chargeOwnerName?: string | null;
     taxIndicator?: boolean;
     transparentInvoicing?: boolean;
-    factor?: number;
-    startDateTimeUtc?: string;
-    endDateTimeUtc?: string | null;
+    chargeOccurrence?: number;
+    startDate?: string;
+    endDate?: string | null;
 }
 
 
