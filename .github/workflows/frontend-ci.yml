@@ -1,5 +1,5 @@
 name: GreenForce Frontend CI
- 
+  
 env:
   BASE_BRANCH: ${{ github.event.pull_request.base.ref }}
   is-main-branch: ${{ github.ref == 'refs/heads/main' }}
