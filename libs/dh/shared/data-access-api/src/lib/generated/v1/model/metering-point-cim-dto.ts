@@ -60,6 +60,8 @@ export interface MeteringPointCimDto {
     connectionType?: ConnectionType;
     disconnectionType?: DisconnectionType;
     productionObligation?: boolean | null;
+    unitType?: string;
+    powerPlantGsrnNumber?: string;
 }
 
 
