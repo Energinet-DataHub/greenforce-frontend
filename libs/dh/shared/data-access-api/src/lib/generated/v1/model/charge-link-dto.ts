@@ -20,7 +20,7 @@ export interface ChargeLinkDto {
     chargeOwnerName?: string | null;
     taxIndicator?: boolean;
     transparentInvoicing?: boolean;
-    chargeOccurrence?: number;
+    quantity?: number;
     startDate?: string;
     endDate?: string | null;
 }
