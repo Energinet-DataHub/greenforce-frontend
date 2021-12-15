@@ -15,8 +15,11 @@
  * limitations under the License.
  */
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { environment } from '@energinet-datahub/ett/core/environments';
+import { Inject, Injectable } from '@angular/core';
+import {
+  EoApiEnvironment,
+  eoApiEnvironmentToken,
+} from '@energinet-datahub/eo/shared/environments';
 import { Observable } from 'rxjs';
 
 import { AuthOidcQueryParameterName } from './auth-oidc-query-parameter-name';
@@ -45,11 +48,14 @@ export interface AuthOidcLoginResponse {
   providedIn: 'root',
 })
 export class AuthOidcHttp {
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    @Inject(eoApiEnvironmentToken) private apiEnvironment: EoApiEnvironment
+  ) {}
 
   login(returnUrl: string): Observable<AuthOidcLoginResponse> {
     return this.http.get<AuthOidcLoginResponse>(
-      `${environment.apiBase}/oidc/login`,
+      `${this.apiEnvironment.apiBase}/auth/oidc/login`,
       {
         params: {
           [AuthOidcQueryParameterName.ReturnUrl]: returnUrl,
