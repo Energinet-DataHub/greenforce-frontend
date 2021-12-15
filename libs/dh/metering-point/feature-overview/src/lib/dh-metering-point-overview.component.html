@@ -14,19 +14,32 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<ng-container
-  *rxLet="meteringPoint$ as meteringPoint; rxSuspense: suspenseTemplate"
->
-  <dh-breadcrumb
-    [meteringPointId]="meteringPoint?.gsrnNumber ?? ''"
-  ></dh-breadcrumb>
-  <h1>{{ meteringPoint?.gsrnNumber }}</h1>
-  <dh-ui-secondary-master-data
-    [secondaryMasterData]="meteringPoint"
-  ></dh-ui-secondary-master-data>
+<ng-container *rxLet="meteringPointId$ as meteringPointId">
+  <dh-breadcrumb [meteringPointId]="meteringPointId"></dh-breadcrumb>
 </ng-container>
-<ng-template #suspenseTemplate>
-  <div class="overview__spinner">
+
+<ng-container *rxLet="meteringPoint$ as meteringPoint">
+  <dh-metering-point-identity
+    [meteringPoint]="meteringPoint"
+  ></dh-metering-point-identity>
+</ng-container>
+
+<ng-container *rxLet="isLoading$ as isLoading">
+  <div *ngIf="isLoading" class="overview__spinner">
     <watt-spinner></watt-spinner>
   </div>
-</ng-template>
+</ng-container>
+
+<ng-container *rxLet="meteringPointNotFound$ as meteringPointNotFound">
+  <div *ngIf="meteringPointNotFound" class="overview__error">
+    <dh-metering-point-not-found></dh-metering-point-not-found>
+  </div>
+</ng-container>
+
+<ng-container *rxLet="hasError$ as hasError">
+  <div *ngIf="hasError" class="overview__error">
+    <dh-metering-point-server-error
+      (reload)="loadMeteringPointData()"
+    ></dh-metering-point-server-error>
+  </div>
+</ng-container>
