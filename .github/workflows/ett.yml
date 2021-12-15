@@ -35,6 +35,10 @@ jobs:
       GITHUB_CONTEXT: ${{ toJSON(github) }}
     steps:
       - run: echo "$GITHUB_CONTEXT"
+      - run: echo ${{ github.workflow_run }}
+      - run: echo ${{ github.workflow_run.event }}
+      - run: echo ${{ github.workflow_run.head_branch }}
+      - run: echo ${{ github.repository.default_branch }}
 
   affected:
     name: Is affected?
