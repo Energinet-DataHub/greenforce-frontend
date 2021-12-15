@@ -14,32 +14,14 @@ env:
   NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
   NX_RUN_GROUP: ${{ github.run_id }}
 
-# on:
-#   push:
-#     branches:
-#       - main
-#   pull_request: {}
-#   workflow_dispatch: {}
- 
 on:
-  workflow_run:
-    workflows: ["GreenForce Frontend CI"]
-    types:
-      - completed
+  push:
+    branches:
+      - main
+  pull_request: {}
+  workflow_dispatch: {}
 
 jobs:
-  test:
-    name: test
-    runs-on: ubuntu-latest
-    env: 
-      GITHUB_CONTEXT: ${{ toJSON(github) }}
-    steps:
-      - run: echo "$GITHUB_CONTEXT"
-      - run: echo ${{ github.workflow_run }}
-      - run: echo ${{ github.workflow_run.event }}
-      - run: echo ${{ github.workflow_run.head_branch }}
-      - run: echo ${{ github.repository.default_branch }}
-
   affected:
     name: Is affected?
     runs-on: ubuntu-latest
@@ -217,8 +199,8 @@ jobs:
       BASE_ENV_REPO: 'RasmusGodske/eo-base-environment'
       BASE_ENV_REPO_BRANCH: 'development'
       HELM_CHART_PATH: 'yggdrasil/applications/eo/eo-frontend/eo-frontend.yaml'
-
       JOB_URL: '${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}'
+      
     steps:
       # Checkout the base envionment
       - uses: actions/checkout@v2
