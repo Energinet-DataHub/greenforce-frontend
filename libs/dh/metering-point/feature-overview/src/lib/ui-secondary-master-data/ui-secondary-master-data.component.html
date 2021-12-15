@@ -83,7 +83,9 @@ limitations under the License.
       </p>
       <p class="watt-text-m">
         {{
-          secondaryMasterData?.capacity ? secondaryMasterData.capacity : emDash
+          secondaryMasterData?.capacity
+          ? secondaryMasterData.capacity + " KW"
+          : emDash
         }}
       </p>
     </div>
@@ -106,7 +108,7 @@ limitations under the License.
       <p class="watt-text-m">
         {{
           secondaryMasterData?.ratedCapacity
-            ? secondaryMasterData.ratedCapacity
+            ? secondaryMasterData.ratedCapacity + " KW"
             : emDash
         }}
       </p>
@@ -118,7 +120,7 @@ limitations under the License.
       <p class="watt-text-m">
         {{
           secondaryMasterData?.ratedCurrent
-            ? secondaryMasterData.ratedCurrent
+            ? secondaryMasterData.ratedCurrent + " A"
             : emDash
         }}
       </p>
