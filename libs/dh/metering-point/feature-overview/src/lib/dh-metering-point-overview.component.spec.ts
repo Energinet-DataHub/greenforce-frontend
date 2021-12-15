@@ -19,7 +19,6 @@ import { Component } from '@angular/core';
 import { render, RenderResult, screen } from '@testing-library/angular';
 import { HttpClientModule } from '@angular/common/http';
 import user from '@testing-library/user-event';
-import { RouterTestingModule } from '@angular/router/testing';
 import {
   SpectacularAppComponent,
   SpectacularFeatureTestingModule,
@@ -45,7 +44,6 @@ describe(DhMeteringPointOverviewComponent.name, () => {
       imports: [
         HttpClientModule,
         DhApiModule.forRoot(),
-        RouterTestingModule,
         getTranslocoTestingModule(),
         SpectacularFeatureTestingModule.withFeature({
           featureModule: DhMeteringPointFeatureOverviewModule,
@@ -78,10 +76,10 @@ describe(DhMeteringPointOverviewComponent.name, () => {
   it('displays a link to the Metering point URL', async () => {
     await featureRouter.navigateByUrl(`~/${meteringPointId}`);
 
+    await view.fixture.whenStable();
+
     const [topLevelLink]: HTMLAnchorElement[] = await screen.findAllByRole(
-      'link',
-      undefined,
-      { timeout: 3000 }
+      'link'
     );
     user.click(topLevelLink);
 
@@ -90,16 +88,33 @@ describe(DhMeteringPointOverviewComponent.name, () => {
     expect(featureLocation.path()).toBe(`~/`);
   });
 
-  it('displays the metering point id in a heading for an existing metering point', async () => {
-    await featureRouter.navigateByUrl(`~/${meteringPointId}`);
+  describe('When a metering point exists', () => {
+    it('Then the metering point id is displayed in a heading', async () => {
+      await featureRouter.navigateByUrl(`~/${meteringPointId}`);
 
-    await view.fixture.whenStable();
+      await view.fixture.whenStable();
 
-    expect(
-      await screen.findByRole('heading', {
+      const heading = await screen.getByRole('heading', {
         level: 1,
-        name: meteringPointId,
-      })
-    ).toBeInTheDocument();
+      });
+
+      expect(heading).toHaveTextContent(meteringPointId);
+    });
+  });
+
+  describe('When a metering point is not found', () => {
+    const nullMeteringPointId = '000000000000000000';
+
+    it('Then an error message is displayed in a heading', async () => {
+      await featureRouter.navigateByUrl(`~/${nullMeteringPointId}`);
+
+      await view.fixture.whenStable();
+
+      expect(
+        await screen.findByRole('heading', {
+          level: 3,
+        })
+      ).toBeInTheDocument();
+    });
   });
 });
