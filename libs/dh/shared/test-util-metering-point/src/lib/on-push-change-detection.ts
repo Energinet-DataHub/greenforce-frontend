@@ -14,6 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './lib/invalid-metering-point-id';
-export * from './lib/valid-metering-point-id';
-export * from './lib/on-push-change-detection';
+import { ChangeDetectorRef } from '@angular/core';
+import { ComponentFixture } from '@angular/core/testing';
+
+export async function runOnPushChangeDetection(
+  fixture: ComponentFixture<unknown>
+): Promise<void> {
+  const changeDetectorRef =
+    fixture.debugElement.injector.get<ChangeDetectorRef>(ChangeDetectorRef);
+
+  changeDetectorRef.detectChanges();
+
+  return fixture.whenStable();
+}
