@@ -21,9 +21,10 @@ import {
   Input,
   NgModule,
 } from '@angular/core';
+import { TranslocoModule } from '@ngneat/transloco';
+
 import { ConnectionState } from '@energinet-datahub/dh/shared/data-access-api';
 import { WattBadgeModule, WattBadgeType } from '@energinet-datahub/watt';
-import { TranslocoModule } from '@ngneat/transloco';
 
 import { connectionStateToBadgeType } from './connection-state-to-badge-type';
 

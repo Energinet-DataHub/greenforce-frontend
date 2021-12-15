@@ -16,8 +16,9 @@
  */
 import { CommonModule } from '@angular/common';
 import { Component, Input, NgModule } from '@angular/core';
-import { MeteringPointCimDto } from '@energinet-datahub/dh/shared/data-access-api';
 import { TranslocoModule } from '@ngneat/transloco';
+
+import { MeteringPointCimDto } from '@energinet-datahub/dh/shared/data-access-api';
 
 import { DhMeteringPointStatusBadgeScam } from '../status-badge/dh-metering-point-status-badge.component';
 import { emDash } from './em-dash';

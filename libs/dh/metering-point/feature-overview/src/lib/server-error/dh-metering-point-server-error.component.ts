@@ -21,11 +21,12 @@ import {
   NgModule,
   Output,
 } from '@angular/core';
+import { TranslocoModule } from '@ngneat/transloco';
+
 import {
   WattButtonModule,
   WattEmptyStateModule,
 } from '@energinet-datahub/watt';
-import { TranslocoModule } from '@ngneat/transloco';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
