@@ -21,10 +21,11 @@
 .smd__line {
   display: flex;
   justify-content: left;
+  align-items: center;
 }
 
 .smd__line p:first-of-type {
-  width: 20%;
+  width: 15rem;
 }
 
 .smd__line p {
