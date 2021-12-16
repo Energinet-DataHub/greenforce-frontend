@@ -186,7 +186,7 @@ jobs:
           automatic_release_tag: ${{ steps.build_and_push.outputs.RELEASE_VERSION }}
           prerelease: false
           draft: false
-          title: Release ${{ steps.build_and_push.outputs.RELEASE_VERSION }}
+          title: Energy Origin ${{ steps.build_and_push.outputs.RELEASE_VERSION }}
 
   update_base_env:
     name: Update Base Environment
