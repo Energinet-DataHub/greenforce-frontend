@@ -18,16 +18,12 @@
   display: block;
 }
 
-.smd__line {
+.smd__container div {
   display: flex;
   justify-content: left;
   align-items: center;
 }
 
-.smd__line p:first-of-type {
+.smd__container dt {
   width: 15rem;
-}
-
-.smd__line p {
-  margin: 0 0 0 0;
 }

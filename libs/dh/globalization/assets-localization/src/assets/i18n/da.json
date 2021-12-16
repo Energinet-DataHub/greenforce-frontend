@@ -42,8 +42,8 @@
       "connectionType": "Tilslutningstype",
       "gridAreaName": "Netområde",
       "gridAreaCode": "Netområde ID",
-      "toGridAreaCode": "Til net",
-      "fromGridAreaCode": "Fra net",
+      "inAreaCode": "Til net",
+      "outAreaCode": "Fra net",
       "capacity": "Anlægskapacitet",
       "assetType": "Anlægsteknologi",
       "ratedCapacity": "Effektgrænse KW",
@@ -59,6 +59,10 @@
       "expansion": {
         "openLabel": "Se flere detaljer",
         "closeLabel": "Se færre detaljer"
+      },
+      "boolean": {
+        "true": "Ja",
+        "false": "Nej"
       }
     },
     "meteringPointTypeCode": {

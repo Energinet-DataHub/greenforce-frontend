@@ -20,6 +20,7 @@ import { MeteringPointCimDto } from '@energinet-datahub/dh/shared/data-access-ap
 import { WattExpansionModule, WattIconModule } from '@energinet-datahub/watt';
 import { TranslocoModule } from '@ngneat/transloco';
 import { emDash } from '../identity/em-dash';
+import { TypeOfModule } from './typeof.pipe';
 
 @Component({
   selector: 'dh-ui-secondary-master-data',
@@ -33,7 +34,7 @@ export class UiSecondaryMasterDataComponent {
 
 @NgModule({
   declarations: [UiSecondaryMasterDataComponent],
-  imports: [WattExpansionModule, CommonModule, TranslocoModule, WattIconModule],
+  imports: [WattExpansionModule, CommonModule, TranslocoModule, WattIconModule, TypeOfModule],
   exports: [UiSecondaryMasterDataComponent],
 })
 export class UiSecondaryMasterDataComponentScam {}
