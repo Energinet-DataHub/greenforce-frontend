@@ -17,15 +17,65 @@
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { BrowserUtils } from '@azure/msal-browser';
+import { MsalInterceptorConfiguration } from '@azure/msal-angular';
+import { BrowserCacheLocation, BrowserUtils, InteractionType, IPublicClientApplication, LogLevel, PublicClientApplication } from '@azure/msal-browser';
+import { MsalGuard, MsalGuardConfiguration, MsalModule } from '@energinet-datahub/dh/auth/msal';
 import { DhTranslocoModule } from '@energinet-datahub/dh/globalization/configuration-localization';
 import { dhMeteringPointPath } from '@energinet-datahub/dh/metering-point/shell';
 import { DhApiModule } from '@energinet-datahub/dh/shared/data-access-api';
+import { apiConfig, b2cPolicies } from './b2c-config';
 
 import {
   DhCoreShellComponent,
   DhCoreShellScam,
 } from './dh-core-shell.component';
+
+export function loggerCallback(logLevel: LogLevel, message: string) {
+  console.log(message);
+}
+
+export function MSALInstanceFactory(): IPublicClientApplication {
+  return new PublicClientApplication({
+    auth: {
+      clientId: '88e5d356-0c71-49e9-b260-d0629f3c0445',
+      authority: b2cPolicies.authorities.signIn.authority,
+      redirectUri: '/',
+      postLogoutRedirectUri: '/',
+      knownAuthorities: [b2cPolicies.authorityDomain],
+    },
+    cache: {
+      cacheLocation: BrowserCacheLocation.LocalStorage,
+      storeAuthStateInCookie: false, // set to true for IE 11
+    },
+    system: {
+      loggerOptions: {
+        loggerCallback,
+        logLevel: LogLevel.Info,
+        piiLoggingEnabled: false,
+      },
+    },
+  });
+}
+
+export function MSALInterceptorConfigFactory(): MsalInterceptorConfiguration {
+  const protectedResourceMap = new Map<string, Array<string>>();
+  protectedResourceMap.set(apiConfig.uri, apiConfig.scopes);
+
+  return {
+    interactionType: InteractionType.Redirect,
+    protectedResourceMap,
+  };
+}
+
+export function MSALGuardConfigFactory(): MsalGuardConfiguration {
+  return {
+    interactionType: InteractionType.Redirect,
+    authRequest: {
+      scopes: [...apiConfig.scopes],
+    },
+    loginFailedRoute: 'login-failed',
+  };
+}
 
 const routes: Routes = [
   {
@@ -43,10 +93,14 @@ const routes: Routes = [
           import('@energinet-datahub/dh/metering-point/shell').then(
             (esModule) => esModule.DhMeteringPointShellModule
           ),
+          canActivate: [
+            MsalGuard,
+          ]
       },
     ],
   },
-  // { path: '**', component: PageNotFoundComponent },
+  // Used by MSAL (B2C)
+  { path: 'state', redirectTo: '', pathMatch: 'full' }
 ];
 
 @NgModule({
@@ -56,6 +110,11 @@ const routes: Routes = [
     HttpClientModule,
     DhApiModule.forRoot(),
     DhTranslocoModule.forRoot(),
+    MsalModule.forRoot(
+      MSALInstanceFactory(),
+      MSALGuardConfigFactory(),
+      MSALInterceptorConfigFactory()
+    ),
     RouterModule.forRoot(routes, {
       anchorScrolling: 'enabled',
       useHash: true,

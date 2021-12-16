@@ -1,5 +1,8 @@
 {
   "appName": "DataHub [DA]",
+  "shell": {
+    "logout": "Log ud"
+  },
   "meteringPoint": {
     "search": {
       "title": "Målepunkter",

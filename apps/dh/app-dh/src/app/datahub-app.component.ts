@@ -14,33 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, Inject } from '@angular/core';
-import {
-  MsalGuardConfiguration,
-  MsalService,
-  MSAL_GUARD_CONFIG,
-} from '@azure/msal-angular';
-import { RedirectRequest } from '@azure/msal-browser';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'dh-app',
   styleUrls: ['./datahub-app.component.scss'],
   templateUrl: './datahub-app.component.html',
 })
-export class DataHubAppComponent {
-  constructor(
-    private authService: MsalService,
-    @Inject(MSAL_GUARD_CONFIG) private msalGuardConfig: MsalGuardConfiguration
-  ) {}
-
-  login(userFlowRequest?: RedirectRequest) {
-    if (this.msalGuardConfig.authRequest) {
-      this.authService.loginRedirect({
-        ...this.msalGuardConfig.authRequest,
-        ...userFlowRequest,
-      } as RedirectRequest);
-    } else {
-      this.authService.loginRedirect(userFlowRequest);
-    }
-  }
-}
+export class DataHubAppComponent {}

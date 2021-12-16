@@ -37,6 +37,6 @@ export const b2cPolicies = {
  * The current application coordinates were pre-registered in a B2C tenant.
  */
 export const apiConfig: { scopes: string[]; uri: string } = {
-  scopes: [],
-  uri: 'https://fabrikamb2chello.azurewebsites.net/hello',
+  scopes: ['https://fabrikamb2c.onmicrosoft.com/helloapi/demo.read'],
+  uri: 'https://fabrikamb2chello.azurewebsites.net/hello'
 };

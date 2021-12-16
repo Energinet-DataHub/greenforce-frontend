@@ -14,19 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgModule } from '@angular/core';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MsalRedirectComponent } from '@energinet-datahub/dh/auth/msal';
-import { DhCoreShellModule } from '@energinet-datahub/dh/core/shell';
+ import 'jest-preset-angular/setup-jest';
 
-import { DataHubAppComponent } from './datahub-app.component';
+ import { addDomMatchers } from '@energinet-datahub/gf/test-util-matchers';
+ import {
+   setUpAngularTestingLibrary,
+   setUpNgMocks,
+   setUpTestbed,
+ } from '@energinet-datahub/gf/test-util-staging';
 
-@NgModule({
-  bootstrap: [DataHubAppComponent, MsalRedirectComponent],
-  declarations: [DataHubAppComponent],
-  imports: [
-    BrowserAnimationsModule,
-    DhCoreShellModule
-  ],
-})
-export class DataHubAppModule {}
+ addDomMatchers();
+ setUpTestbed();
+ setUpAngularTestingLibrary();
+ setUpNgMocks();

@@ -44,7 +44,7 @@
     "ngcc:dh": "npm run ngcc -- --use-program-dependencies --tsconfig apps/dh/app-dh/tsconfig.app.json",
     "ngcc:ett": "npm run ngcc -- --use-program-dependencies --tsconfig apps/ett/app-ett/tsconfig.app.json",
     "nx": "nx",
-    "start": "ng serve",
+    "start": "ng serve --ssl",
     "test": "nx run-many --target=test --all --parallel",
     "update": "nx migrate latest",
     "workspace-generator": "nx workspace-generator"
