@@ -43,6 +43,18 @@ limitations under the License.
     </div>
     <div class="smd__line">
       <p class="watt-label">
+        {{ 'meteringPoint.secondaryMasterData.productionObligation' | transloco }}
+      </p>
+      <p class="watt-text-m">
+        {{
+          secondaryMasterData?.productionObligation
+            ? secondaryMasterData.productionObligation
+            : emDash
+        }}
+      </p>
+    </div>
+    <div class="smd__line">
+      <p class="watt-label">
         {{ 'meteringPoint.secondaryMasterData.disconnectionType' | transloco }}
       </p>
       <p class="watt-text-m">
@@ -67,15 +79,36 @@ limitations under the License.
     </div>
     <div class="smd__line">
       <p class="watt-label">
+        {{ 'meteringPoint.secondaryMasterData.toGridAreaCode' | transloco }}
+      </p>
+      <p class="watt-text-m">
+        {{
+          secondaryMasterData?.outAreaCode
+            ? secondaryMasterData.outAreaCode
+            : emDash
+        }}
+      </p>
+    </div>
+    <div class="smd__line">
+      <p class="watt-label">
+        {{ 'meteringPoint.secondaryMasterData.fromGridAreaCode' | transloco }}
+      </p>
+      <p class="watt-text-m">
+        {{
+          secondaryMasterData?.inAreaCode
+            ? secondaryMasterData.inAreaCode
+            : emDash
+        }}
+      </p>
+    </div>
+    <div class="smd__line">
+      <p class="watt-label">
         {{ 'meteringPoint.secondaryMasterData.gridAreaName' | transloco }}
       </p>
       <p class="watt-text-m">
         {{
           secondaryMasterData?.gridAreaName
-            ? secondaryMasterData.gridAreaName +
-              ' (' +
-              secondaryMasterData?.gridAreaCode +
-              ')'
+            ? secondaryMasterData.gridAreaName + " (" + secondaryMasterData?.gridAreaCode + ")"
             : emDash
         }}
       </p>
@@ -161,6 +194,16 @@ limitations under the License.
       <p class="watt-text-m">
         {{
           secondaryMasterData?.unitType ? secondaryMasterData.unitType : emDash
+        }}
+      </p>
+    </div>
+    <div class="smd__line">
+      <p class="watt-label">
+        {{ 'meteringPoint.secondaryMasterData.effectiveDate' | transloco }}
+      </p>
+      <p class="watt-text-m">
+        {{
+          secondaryMasterData?.unitType ? secondaryMasterData.effectiveDate : emDash
         }}
       </p>
     </div>
