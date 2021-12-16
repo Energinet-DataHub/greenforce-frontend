@@ -145,7 +145,7 @@ jobs:
 
   container_merge:
     name: 'Merge: Host container'
-    # if: ${{ github.ref == 'refs/heads/main' }} #TODO: UNCOMMENT THIS BEFORE MERGE!"=#!"#!"#!"#!"#!"#
+    if: ${{ github.ref == 'refs/heads/main' }}
     needs: app
     outputs:
       release_tag: ${{ steps.build_and_push.outputs.RELEASE_VERSION }}
