@@ -120,12 +120,7 @@ limitations under the License.
           *ngIf="secondaryMasterData?.gridAreaName; else emptyField"
         >
           <dd class="watt-text-m">
-            {{
-              secondaryMasterData.gridAreaName +
-                ' (' +
-                secondaryMasterData?.gridAreaCode +
-                ')'
-            }}
+            {{ secondaryMasterData.gridAreaName }} ({{secondaryMasterData?.gridAreaCode}})
           </dd>
         </ng-container>
       </div>
@@ -135,7 +130,7 @@ limitations under the License.
         </dt>
         <ng-container *ngIf="secondaryMasterData?.capacity; else emptyField">
           <dd class="watt-text-m">
-            {{ secondaryMasterData.capacity + ' KW' }}
+            {{ secondaryMasterData.capacity }} {{ 'meteringPoint.secondaryMasterData.units.kilowatt' | transloco }}
           </dd>
         </ng-container>
       </div>
@@ -157,7 +152,7 @@ limitations under the License.
           *ngIf="secondaryMasterData?.ratedCapacity; else emptyField"
         >
           <dd class="watt-text-m">
-            {{ secondaryMasterData.ratedCapacity + ' KW' }}
+            {{ secondaryMasterData.ratedCapacity }} {{ 'meteringPoint.secondaryMasterData.units.kilowatt' | transloco }}
           </dd>
         </ng-container>
       </div>
@@ -169,7 +164,7 @@ limitations under the License.
           *ngIf="secondaryMasterData?.ratedCurrent; else emptyField"
         >
           <dd class="watt-text-m">
-            {{ secondaryMasterData.ratedCurrent + ' A' }}
+            {{ secondaryMasterData.ratedCurrent }} {{ 'meteringPoint.secondaryMasterData.units.ampere' | transloco }}
           </dd>
         </ng-container>
       </div>
