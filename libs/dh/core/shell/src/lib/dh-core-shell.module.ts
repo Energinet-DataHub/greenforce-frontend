@@ -18,8 +18,19 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { MsalInterceptorConfiguration } from '@azure/msal-angular';
-import { BrowserCacheLocation, BrowserUtils, InteractionType, IPublicClientApplication, LogLevel, PublicClientApplication } from '@azure/msal-browser';
-import { MsalGuard, MsalGuardConfiguration, MsalModule } from '@energinet-datahub/dh/auth/msal';
+import {
+  BrowserCacheLocation,
+  BrowserUtils,
+  InteractionType,
+  IPublicClientApplication,
+  LogLevel,
+  PublicClientApplication,
+} from '@azure/msal-browser';
+import {
+  MsalGuard,
+  MsalGuardConfiguration,
+  MsalModule,
+} from '@energinet-datahub/dh/auth/msal';
 import { DhTranslocoModule } from '@energinet-datahub/dh/globalization/configuration-localization';
 import { dhMeteringPointPath } from '@energinet-datahub/dh/metering-point/shell';
 import { DhApiModule } from '@energinet-datahub/dh/shared/data-access-api';
@@ -93,14 +104,12 @@ const routes: Routes = [
           import('@energinet-datahub/dh/metering-point/shell').then(
             (esModule) => esModule.DhMeteringPointShellModule
           ),
-          canActivate: [
-            MsalGuard,
-          ]
+        canActivate: [MsalGuard],
       },
     ],
   },
   // Used by MSAL (B2C)
-  { path: 'state', redirectTo: '', pathMatch: 'full' }
+  { path: 'state', redirectTo: '', pathMatch: 'full' },
 ];
 
 @NgModule({

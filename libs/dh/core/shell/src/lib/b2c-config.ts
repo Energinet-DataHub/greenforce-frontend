@@ -38,5 +38,5 @@ export const b2cPolicies = {
  */
 export const apiConfig: { scopes: string[]; uri: string } = {
   scopes: ['https://fabrikamb2c.onmicrosoft.com/helloapi/demo.read'],
-  uri: 'https://fabrikamb2chello.azurewebsites.net/hello'
+  uri: 'https://fabrikamb2chello.azurewebsites.net/hello',
 };
