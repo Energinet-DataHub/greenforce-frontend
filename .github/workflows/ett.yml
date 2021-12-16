@@ -202,7 +202,7 @@ jobs:
       JOB_URL: '${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}'
 
     steps:
-      # Checkout the base envionment
+      # Check out the base environment
       - uses: actions/checkout@v2
         with:
           ssh-key: ${{ secrets.EO_DEPLOYMENT_TOKEN }}
