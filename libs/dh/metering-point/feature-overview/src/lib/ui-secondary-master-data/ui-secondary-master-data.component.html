@@ -43,7 +43,9 @@ limitations under the License.
     </div>
     <div class="smd__line">
       <p class="watt-label">
-        {{ 'meteringPoint.secondaryMasterData.productionObligation' | transloco }}
+        {{
+          'meteringPoint.secondaryMasterData.productionObligation' | transloco
+        }}
       </p>
       <p class="watt-text-m">
         {{
@@ -108,7 +110,10 @@ limitations under the License.
       <p class="watt-text-m">
         {{
           secondaryMasterData?.gridAreaName
-            ? secondaryMasterData.gridAreaName + " (" + secondaryMasterData?.gridAreaCode + ")"
+            ? secondaryMasterData.gridAreaName +
+              ' (' +
+              secondaryMasterData?.gridAreaCode +
+              ')'
             : emDash
         }}
       </p>
@@ -203,7 +208,9 @@ limitations under the License.
       </p>
       <p class="watt-text-m">
         {{
-          secondaryMasterData?.unitType ? secondaryMasterData.effectiveDate : emDash
+          secondaryMasterData?.unitType
+            ? secondaryMasterData.effectiveDate
+            : emDash
         }}
       </p>
     </div>
