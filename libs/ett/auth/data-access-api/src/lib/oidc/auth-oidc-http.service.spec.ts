@@ -14,10 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  HttpClientTestingModule,
-  HttpTestingController,
-} from '@angular/common/http/testing';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { lastValueFrom } from 'rxjs';
 
@@ -49,7 +46,9 @@ describe(AuthOidcHttp.name, () => {
 
     lastValueFrom(client.login(expectedReturnUrl));
     const response = server.expectOne(
-      (request) => request.url === '/api/oidc/login' && request.method === 'GET'
+      (request) =>
+        request.url === 'https://dev.energioprindelse.dk/api/auth/oidc/login' &&
+        request.method === 'GET'
     );
     response.flush(fakeResponse);
 
