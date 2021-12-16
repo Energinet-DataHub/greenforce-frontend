@@ -24,9 +24,6 @@ import { DataHubAppComponent } from './datahub-app.component';
 @NgModule({
   bootstrap: [DataHubAppComponent, MsalRedirectComponent],
   declarations: [DataHubAppComponent],
-  imports: [
-    BrowserAnimationsModule,
-    DhCoreShellModule
-  ],
+  imports: [BrowserAnimationsModule, DhCoreShellModule],
 })
 export class DataHubAppModule {}
