@@ -22,9 +22,7 @@
 
      ngOnInit(): void {
          this.authService.getLogger().verbose("MsalRedirectComponent activated");
-         this.authService.handleRedirectObservable().subscribe((x) => {
-          console.log(x);
-         });
+         this.authService.handleRedirectObservable().subscribe();
      }
 
  }

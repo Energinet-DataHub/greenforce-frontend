@@ -1,3 +1,4 @@
+export * from './lib/b2c-config';
 export * from './lib/msal-constants';
 export * from './lib/msal.broadcast.service';
 export * from './lib/msal.guard.config';
