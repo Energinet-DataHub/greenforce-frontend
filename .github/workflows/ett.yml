@@ -145,7 +145,7 @@ jobs:
 
   container_merge:
     name: 'Merge: Host container'
-    # if: ${{ github.ref == 'refs/heads/main' }}
+    # if: ${{ github.ref == 'refs/heads/main' }} #TODO: UNCOMMENT THIS BEFORE MERGE!"=#!"#!"#!"#!"#!"#
     needs: app
     outputs:
       release_tag: ${{ steps.build_and_push.outputs.RELEASE_VERSION }}
@@ -205,7 +205,7 @@ jobs:
       # Check out the base environment
       - uses: actions/checkout@v2
         with:
-          ssh-key: ${{ secrets.EO_PAT }}
+          token: ${{ secrets.EO_PAT }}
           repository: ${{ env.BASE_ENV_REPO }}
           ref: ${{ env.BASE_ENV_REPO_BRANCH }}
 
