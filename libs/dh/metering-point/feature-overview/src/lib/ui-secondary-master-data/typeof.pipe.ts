@@ -20,7 +20,7 @@ import { NgModule, Pipe, PipeTransform } from '@angular/core';
   name: 'typeof',
 })
 export class TypeofPipe implements PipeTransform {
-  transform(value: any): any {
+  transform(value: unknown): unknown {
     return typeof value;
   }
 }
