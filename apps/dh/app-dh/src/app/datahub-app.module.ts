@@ -16,13 +16,12 @@
  */
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MsalRedirectComponent } from '@energinet-datahub/dh/auth/msal';
 import { DhCoreShellModule } from '@energinet-datahub/dh/core/shell';
 
 import { DataHubAppComponent } from './datahub-app.component';
 
 @NgModule({
-  bootstrap: [DataHubAppComponent, MsalRedirectComponent],
+  bootstrap: [DataHubAppComponent],
   declarations: [DataHubAppComponent],
   imports: [BrowserAnimationsModule, DhCoreShellModule],
 })
