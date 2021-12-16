@@ -69,6 +69,57 @@
         "ampere": "A"
       }
     },
+    "disconnectionTypeCode": {
+      "D01": "Fjern afbrydelig",
+      "D02": "Manual afbrydelig"
+    },
+    "mPConnectionTypeCode": {
+      "D01": "Direkte tilsluttet",
+      "D02": "Installationstilsluttet"
+    },
+    "assetTypeCode": {
+      "D01": "Dampturbine med modtryksdrift",
+      "D02": "Gasturbine",
+      "D03": "Combined cycle",
+      "D04": "Forbrændingsmotor Gas",
+      "D05": "Dampturbine med kondens/damp",
+      "D06": "Kedel",
+      "D07": "Stirlingmotor",
+      "D08": "Reserveret til senere brug",
+      "D09": "Reserveret til senere brug",
+      "D10": "Brændselsceller",
+      "D11": "Solceller",
+      "D12": "Vindmøller",
+      "D13": "Vandkraft",
+      "D14": "Bølgekraft",
+      "D15": "Reserveret til senere brug",
+      "D16": "Reserveret til senere brug",
+      "D17": "Regulerbare Vindmøller",
+      "D18": "Reserveret til senere brug",
+      "D19": "Forbrændingsmotor Dieselmotor",
+      "D20": "Bioforbrændingsmotor",
+      "D99": "Ukendt teknologi"
+    },
+    "energyProductionIdentificationCode": {
+      "5790001330590": "Tariff",
+      "5790001330606": "Fuel quantity",
+      "8716867000016": "Power active",
+      "8716867000023": "Power reactive",
+      "8716867000030": "Energy active",
+      "8716867000047": "Energy reactive"
+    },
+    "measurementUnitCommonCode": {
+      "AMP": "Ampere",
+      "H87": "Antal styk",
+      "K3": "KiloVolt-Ampere reactive hour",
+      "KWH": "Kilowatt-hour",
+      "KWT": "Kilowatt",
+      "MAW": "Megawatt",
+      "MWH": "Megawatt-hour",
+      "TNE": "metric ton",
+      "Z03": "MegaVolt-Ampere reactive power",
+      "Z14": "KT  Tarifkode"
+    },
     "meteringPointTypeCode": {
       "D01": "VE produktion",
       "D02": "Analysemålepunkt",
