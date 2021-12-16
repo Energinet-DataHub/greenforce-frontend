@@ -34,7 +34,13 @@ export class UiSecondaryMasterDataComponent {
 
 @NgModule({
   declarations: [UiSecondaryMasterDataComponent],
-  imports: [WattExpansionModule, CommonModule, TranslocoModule, WattIconModule, TypeOfModule],
+  imports: [
+    WattExpansionModule,
+    CommonModule,
+    TranslocoModule,
+    WattIconModule,
+    TypeOfModule,
+  ],
   exports: [UiSecondaryMasterDataComponent],
 })
 export class UiSecondaryMasterDataComponentScam {}
