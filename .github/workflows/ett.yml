@@ -205,7 +205,7 @@ jobs:
       # Checkout the base envionment
       - uses: actions/checkout@v2
         with:
-          ssh-key: ${{ secrets.EO_DEPLOYMENT_TOKEN }}
+          ssh-key: ${{ secrets.EO_PAT }}
           repository: ${{ env.BASE_ENV_REPO }}
           ref: ${{ env.BASE_ENV_REPO_BRANCH }}
 
@@ -220,7 +220,7 @@ jobs:
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3
         with:
-          token: ${{ secrets.EO_DEPLOYMENT_TOKEN }}
+          token: ${{ secrets.EO_PAT }}
           title: Bump ${{ env.SERVICE_NAME }} to ${{ needs.container_merge.outputs.release_tag }}
           commit-message: Bump ${{ env.SERVICE_NAME }} to ${{ needs.container_merge.outputs.release_tag }}
           committer: GitHub <noreply@github.com>
