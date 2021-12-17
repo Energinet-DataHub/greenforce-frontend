@@ -17,14 +17,14 @@ limitations under the License.
 <ng-container
   *transloco="let transloco; read: 'meteringPoint.overview.primaryMasterData'"
 >
-  <div class="column">
+  <div class="column flex">
+    <watt-icon
+      name="map_marker"
+      label="map_marker"
+      [size]="iconSizes.XLarge"
+      aria-hidden
+    ></watt-icon>
     <section class="align-top">
-      <watt-icon
-        name="map_marker"
-        label="map_marker"
-        [size]="iconSizes.XLarge"
-        aria-hidden
-      ></watt-icon>
       <dl>
         <dt class="watt-label">{{ transloco('address') }}</dt>
         <dd [innerHTML]="address"></dd>
