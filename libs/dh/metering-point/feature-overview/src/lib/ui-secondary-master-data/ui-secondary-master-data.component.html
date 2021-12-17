@@ -201,9 +201,9 @@ limitations under the License.
           <dt class="watt-label">
             {{ t('unitType') }}
           </dt>
-          <ng-container *ngIf="secondaryMasterData?.unitType; else emptyField">
+          <ng-container *ngIf="secondaryMasterData?.unit; else emptyField">
             <dd class="watt-text-m">
-              {{ translationKeys?.unitType | transloco }}
+              {{ translationKeys?.unit | transloco }}
             </dd>
           </ng-container>
         </div>

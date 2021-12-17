@@ -27,7 +27,7 @@ export interface MeteringPointIdentityTranslationKeys {
   connectionType: string;
   assetType: string;
   product: string;
-  unitType: string;
+  unit: string;
 }
 
 @Component({
@@ -58,19 +58,19 @@ export class UiSecondaryMasterDataComponent {
     meteringPoint: MeteringPointCimDto
   ): MeteringPointIdentityTranslationKeys {
     const disconnectionType = `meteringPoint.disconnectionTypeCode.${
-      meteringPoint?.disconnectionType ?? ''
+      meteringPoint?.disconnectionType
     }`;
     const connectionType = `meteringPoint.disconnectionTypeCode.${
-      meteringPoint?.connectionType ?? ''
+      meteringPoint?.connectionType
     }`;
     const assetType = `meteringPoint.assetTypeCode.${
-      meteringPoint?.assetType ?? ''
+      meteringPoint?.assetType
     }`;
     const product = `meteringPoint.energyProductionIdentificationCode.${
-      meteringPoint?.productId ?? ''
+      meteringPoint?.productId
     }`;
-    const unitType = `meteringPoint.measurementUnitCommonCode.${
-      meteringPoint?.unitType ?? ''
+    const unit = `meteringPoint.measurementUnitCommonCode.${
+      meteringPoint?.unit
     }`;
 
     return {
@@ -78,7 +78,7 @@ export class UiSecondaryMasterDataComponent {
       connectionType,
       assetType,
       product,
-      unitType
+      unit
     };
   }
 }
