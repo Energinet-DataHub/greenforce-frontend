@@ -41,7 +41,7 @@
         "hasElectricitySupplier": "Har El-leverandør?",
         "yes": "Ja",
         "no": "Nej",
-        "since": "Siden",
+        "since": "Siden {{date}}",
         "meterNumber": "Målernummer"
       }
     },

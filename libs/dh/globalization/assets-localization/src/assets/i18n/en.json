@@ -41,7 +41,7 @@
         "hasElectricitySupplier": "Has Supplier?",
         "yes": "Yes",
         "no": "No",
-        "since": "Since",
+        "since": "Since {{date}}",
         "meterNumber": "Meternumber"
       }
     },

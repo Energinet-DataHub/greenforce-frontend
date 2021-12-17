@@ -48,8 +48,7 @@ limitations under the License.
       </dd>
       <dd class="watt-text-xs text-dimmed full-width">
         <ng-container *ngIf="primaryMasterData?.supplyStart; else emptyValue">
-          {{ transloco('since') }}
-          {{ primaryMasterData?.supplyStart }}
+          {{ transloco('since', { date: primaryMasterData?.supplyStart })  }}
         </ng-container>
       </dd>
     </dl>
