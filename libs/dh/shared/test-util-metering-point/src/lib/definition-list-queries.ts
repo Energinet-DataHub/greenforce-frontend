@@ -18,7 +18,7 @@ import { screen } from '@testing-library/angular';
 
 export function getByTerm(term: string) {
   const terms = screen.getAllByRole('term');
-  let matches = terms.filter((t: HTMLElement) => t.textContent === term);
+  let matches = terms.filter((t: HTMLElement) => t.textContent?.includes(term));
 
   if (matches.length === 0) {
     matches = screen.getAllByRole('term', { name: term });
@@ -33,7 +33,7 @@ export function getByTerm(term: string) {
 
 export function queryByTerm(term: string) {
   const terms = screen.queryAllByRole('term');
-  let matches = terms.filter((t: HTMLElement) => t.textContent === term);
+  let matches = terms.filter((t: HTMLElement) => t.textContent?.includes(term));
 
   if (matches.length === 0) {
     matches = screen.queryAllByRole('term', { name: term });

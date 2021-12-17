@@ -262,7 +262,7 @@ describe(DhMeteringPointPrimaryMasterDataComponent.name, () => {
 
       const since = definition?.nextElementSibling;
       expect(since).toHaveTextContent(
-        `${enTranslations.meteringPoint.overview.primaryMasterData.since} ${testData.supplyStart}`
+        `${enTranslations.meteringPoint.overview.primaryMasterData.since.replace('{{date}}', testData.supplyStart as string)}`
       );
     });
 

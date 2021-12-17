@@ -32,11 +32,10 @@ limitations under the License.
 
       <dl class="multiple-terms-and-descriptions">
         <ng-container *ngIf="primaryMasterData?.isActualAddress">
-          <dt class="with-icon">
+          <dt class="with-icon" [title]="transloco('actualAddress')">
             <watt-icon
               name="success"
-              class="success"
-              [label]="transloco('actualAddress')"
+              label="success"
               [size]="iconSizes.XSmall"
             ></watt-icon>
           </dt>
