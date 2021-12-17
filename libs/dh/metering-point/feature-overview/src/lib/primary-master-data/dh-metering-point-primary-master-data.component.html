@@ -69,15 +69,11 @@ limitations under the License.
         <dd class="watt-text-xs">{{ transloco('actualAddress') }}</dd>
       </ng-container>
 
-      <dt class="watt-text-xs">
-        {{ transloco('locationDescription') }}:
-      </dt>
+      <dt class="watt-text-xs">{{ transloco('locationDescription') }}:</dt>
       <dd class="watt-text-xs">
         {{ primaryMasterData?.locationDescription ?? fallbackValue }}
       </dd>
-      <dt
-        class="watt-text-xs text-dimmed"
-      >
+      <dt class="watt-text-xs text-dimmed">
         {{ transloco('geoInfoReference') }}:
       </dt>
       <dd class="watt-text-xs text-dimmed">
@@ -102,4 +98,4 @@ limitations under the License.
   </section>
 </ng-container>
 
-<ng-template #emptyValue>{{fallbackValue}}</ng-template>
+<ng-template #emptyValue>{{ fallbackValue }}</ng-template>
