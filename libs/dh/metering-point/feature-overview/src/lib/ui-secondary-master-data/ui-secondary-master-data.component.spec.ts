@@ -14,13 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- import { render, screen } from '@testing-library/angular';
- import { MatcherOptions } from '@testing-library/dom';
+import { render, screen } from '@testing-library/angular';
+import { MatcherOptions } from '@testing-library/dom';
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { 
+import {
   MeteringPointCimDto,
-  DisconnectionType
+  DisconnectionType,
 } from '@energinet-datahub/dh/shared/data-access-api';
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
 import { en as enTranslations } from '@energinet-datahub/dh/globalization/assets-localization';
@@ -63,7 +63,10 @@ describe(UiSecondaryMasterDataComponent.name, () => {
       componentProperties: {
         secondaryMasterData,
       },
-      imports: [UiSecondaryMasterDataComponentScam, getTranslocoTestingModule()],
+      imports: [
+        UiSecondaryMasterDataComponentScam,
+        getTranslocoTestingModule(),
+      ],
     });
 
     runOnPushChangeDetection(fixture);
@@ -73,23 +76,30 @@ describe(UiSecondaryMasterDataComponent.name, () => {
     it('displays correct value', async () => {
       const disconnectionType: DisconnectionType = 'D01';
       const secondaryMasterData: Partial<MeteringPointCimDto> = {
-        disconnectionType
+        disconnectionType,
       };
       await setup(secondaryMasterData);
       const disableQuerySuggestions: MatcherOptions = { suggest: false };
-      const actualDisconnectionType = screen.getByTestId("disconnectionType", disableQuerySuggestions).textContent;
-      const expectedDisconnectionType = enTranslations.meteringPoint.disconnectionType[disconnectionType];
-      expect(actualDisconnectionType).toContain(expectedDisconnectionType)
+      const actualDisconnectionType = screen.getByTestId(
+        'disconnectionType',
+        disableQuerySuggestions
+      ).textContent;
+      const expectedDisconnectionType =
+        enTranslations.meteringPoint.disconnectionType[disconnectionType];
+      expect(actualDisconnectionType).toContain(expectedDisconnectionType);
     });
 
     it('displays fallback value when undefined', async () => {
       const secondaryMasterData: Partial<MeteringPointCimDto> = {
-        disconnectionType: undefined
+        disconnectionType: undefined,
       };
       await setup(secondaryMasterData);
       const disableQuerySuggestions: MatcherOptions = { suggest: false };
-      const actualDisconnectionType = screen.getByTestId("disconnectionType", disableQuerySuggestions).textContent;
-      expect(actualDisconnectionType).toBe(emDash)
+      const actualDisconnectionType = screen.getByTestId(
+        'disconnectionType',
+        disableQuerySuggestions
+      ).textContent;
+      expect(actualDisconnectionType).toBe(emDash);
     });
-  }); 
+  });
 });
