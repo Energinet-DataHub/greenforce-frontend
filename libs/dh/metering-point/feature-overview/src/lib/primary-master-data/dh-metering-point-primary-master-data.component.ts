@@ -63,22 +63,8 @@ export class DhMeteringPointPrimaryMasterDataComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.primaryMasterData && changes.primaryMasterData.currentValue) {
-      this.address = this.formatAddress(
-        this.sanitizeObject(changes.primaryMasterData.currentValue)
-      );
+      this.address = this.formatAddress(changes.primaryMasterData.currentValue);
     }
-  }
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  private sanitizeObject(object: any) {
-    let sanitizedObject = {};
-    for (const key in object) {
-      sanitizedObject = {
-        ...sanitizedObject,
-        [key]: this.domSanitizer.sanitize(SecurityContext.HTML, object[key]),
-      };
-    }
-    return sanitizedObject;
   }
 
   private formatAddress(data: PrimaryMasterData): string {
@@ -106,7 +92,7 @@ export class DhMeteringPointPrimaryMasterDataComponent implements OnChanges {
       address += `<br />${data.citySubDivisionName}`;
     }
     address += `<br />${data.postalCode} ${data.cityName}`;
-    return address;
+    return this.domSanitizer.sanitize(SecurityContext.HTML, address) as string;
   }
 }
 
