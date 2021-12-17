@@ -17,7 +17,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
 
-import { UiSecondaryMasterDataComponent, UiSecondaryMasterDataComponentScam } from './ui-secondary-master-data.component';
+import {
+  UiSecondaryMasterDataComponent,
+  UiSecondaryMasterDataComponentScam,
+} from './ui-secondary-master-data.component';
 
 describe('UiSecondaryMasterDataComponent', () => {
   let component: UiSecondaryMasterDataComponent;
@@ -26,7 +29,10 @@ describe('UiSecondaryMasterDataComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [UiSecondaryMasterDataComponent],
-      imports: [UiSecondaryMasterDataComponentScam, getTranslocoTestingModule()]
+      imports: [
+        UiSecondaryMasterDataComponentScam,
+        getTranslocoTestingModule(),
+      ],
     }).compileComponents();
   });
 
