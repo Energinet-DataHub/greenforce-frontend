@@ -26,6 +26,10 @@
     display: inline-block;
     color: var(--watt-color-primary-dark);
     margin-right: var(--watt-space-l);
+
+    &.success {
+      color: var(--watt-color-state-success);
+    }
   }
 
   @include watt.media('>=Small') {
@@ -62,6 +66,7 @@ dl {
 dd {
   margin: 0;
   float: left;
+  color: var(--watt-color-primary-dark);
 }
 
 dl.multiple-terms-and-descriptions {

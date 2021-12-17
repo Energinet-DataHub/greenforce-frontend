@@ -20,6 +20,7 @@ import {
   Input,
   NgModule,
   OnChanges,
+  SecurityContext,
   SimpleChanges,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -27,6 +28,8 @@ import { TranslocoModule } from '@ngneat/transloco';
 
 import { MeteringPointCimDto } from '@energinet-datahub/dh/shared/data-access-api';
 import { WattIconModule, WattIconSize } from '@energinet-datahub/watt';
+import { DomSanitizer } from '@angular/platform-browser';
+import { emDash } from '../identity/em-dash';
 
 export type PrimaryMasterData = Pick<
   MeteringPointCimDto,
@@ -54,11 +57,28 @@ export class DhMeteringPointPrimaryMasterDataComponent implements OnChanges {
   @Input() primaryMasterData?: PrimaryMasterData;
   address?: string;
   iconSizes = WattIconSize;
+  fallbackValue = emDash;
+
+  constructor(private domSanitizer: DomSanitizer) {}
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.primaryMasterData && changes.primaryMasterData.currentValue) {
-      this.address = this.formatAddress(changes.primaryMasterData.currentValue);
+      this.address = this.formatAddress(
+        this.sanitizeObject(changes.primaryMasterData.currentValue)
+      );
     }
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  private sanitizeObject(object: any) {
+    let sanitizedObject = {};
+    for (const key in object) {
+      sanitizedObject = {
+        ...sanitizedObject,
+        [key]: this.domSanitizer.sanitize(SecurityContext.HTML, object[key]),
+      };
+    }
+    return sanitizedObject;
   }
 
   private formatAddress(data: PrimaryMasterData): string {

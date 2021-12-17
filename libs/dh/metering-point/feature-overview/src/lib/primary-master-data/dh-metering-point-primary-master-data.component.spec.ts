@@ -31,9 +31,10 @@ import {
   DhMeteringPointPrimaryMasterDataScam,
   PrimaryMasterData,
 } from './dh-metering-point-primary-master-data.component';
+import { emDash } from '../identity/em-dash';
 
 describe(DhMeteringPointPrimaryMasterDataComponent.name, () => {
-  const fallbackValue = '—';
+  const fallbackValue = emDash;
   const testData: PrimaryMasterData = {
     meterId: '000',
     supplyStart: '2020-01-01',

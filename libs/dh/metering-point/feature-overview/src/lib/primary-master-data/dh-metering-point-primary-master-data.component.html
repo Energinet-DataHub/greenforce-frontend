@@ -38,7 +38,7 @@ limitations under the License.
       aria-hidden
     ></watt-icon>
     <dl>
-      <dt class="watt-label" [title]="transloco('hasElectricitySupplier')">
+      <dt class="watt-label">
         {{ transloco('hasElectricitySupplier') }}
       </dt>
       <dd>
@@ -58,30 +58,30 @@ limitations under the License.
   <section>
     <dl class="multiple-terms-and-descriptions">
       <ng-container *ngIf="primaryMasterData?.isActualAddress">
-        <dt class="with-icon" [title]="transloco('actualAddress')">
+        <dt class="with-icon">
           <watt-icon
             name="success"
-            label="success"
+            class="success"
+            [label]="transloco('actualAddress')"
             [size]="iconSizes.XSmall"
           ></watt-icon>
         </dt>
         <dd class="watt-text-xs">{{ transloco('actualAddress') }}</dd>
       </ng-container>
 
-      <dt class="watt-text-xs" [title]="transloco('locationDescription')">
+      <dt class="watt-text-xs">
         {{ transloco('locationDescription') }}:
       </dt>
       <dd class="watt-text-xs">
-        {{ primaryMasterData?.locationDescription ?? '—' }}
+        {{ primaryMasterData?.locationDescription ?? fallbackValue }}
       </dd>
       <dt
         class="watt-text-xs text-dimmed"
-        [title]="transloco('geoInfoReference')"
       >
         {{ transloco('geoInfoReference') }}:
       </dt>
       <dd class="watt-text-xs text-dimmed">
-        {{ primaryMasterData?.darReference || '—' }}
+        {{ primaryMasterData?.darReference || fallbackValue }}
       </dd>
     </dl>
   </section>
@@ -96,10 +96,10 @@ limitations under the License.
     <dl>
       <dt class="watt-label">{{ transloco('meterNumber') }}</dt>
       <dd>
-        <small>{{ primaryMasterData?.meterId ?? '—' }}</small>
+        <small>{{ primaryMasterData?.meterId ?? fallbackValue }}</small>
       </dd>
     </dl>
   </section>
 </ng-container>
 
-<ng-template #emptyValue>—</ng-template>
+<ng-template #emptyValue>{{fallbackValue}}</ng-template>
