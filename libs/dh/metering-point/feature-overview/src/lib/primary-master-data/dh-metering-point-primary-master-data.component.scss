@@ -31,36 +31,33 @@
       color: var(--watt-color-state-success);
     }
   }
-
-  @include watt.media('>=Small') {
-    section:nth-of-type(even) > watt-icon {
-      margin-left: var(--watt-space-xl);
-    }
-  }
 }
 
-section {
-  flex: 1 1 auto;
+.column {
   width: 100%;
-  display: flex;
-  align-items: center;
-  margin-bottom: var(--watt-space-m);
-  @include watt.media('>=Small') {
+
+  @include watt.media('>=Medium') {
     width: 50%;
   }
 }
 
-.text-dimmed {
-  color: var(--watt-color-neutral-grey-600);
-}
-
-.full-width {
+section {
   width: 100%;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: var(--watt-space-m);
+
+  &.align-top {
+    align-items: flex-start;
+  }
 }
 
 dl {
   margin: 0;
-  width: 100%;
+  @include watt.media('>=Medium') {
+    width: auto;
+  }
 }
 
 dd {
@@ -70,11 +67,14 @@ dd {
 }
 
 dl.multiple-terms-and-descriptions {
+  width: 100%;
+  margin-top: var(--watt-space-m);
   padding-left: calc(var(--watt-space-l) + var(--watt-space-xl));
 
   watt-icon {
     margin: 0;
   }
+
   dt {
     float: left;
     clear: left;
@@ -85,4 +85,15 @@ dl.multiple-terms-and-descriptions {
       height: 18px;
     }
   }
+}
+
+/**
+ * Utility classes
+ */
+.text-dimmed {
+  color: var(--watt-color-neutral-grey-600);
+}
+
+.full-width {
+  width: 100%;
 }
