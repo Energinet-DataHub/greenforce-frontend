@@ -37,7 +37,7 @@ describe(DhMeteringPointPrimaryMasterDataComponent.name, () => {
   const fallbackValue = emDash;
   const testData: PrimaryMasterData = {
     meterId: '000',
-    supplyStart: '2020-01-01',
+    supplyStart: '2021-12-17T12:38:16.428Z',
     isActualAddress: true,
     locationDescription: 'some description',
     darReference: '8e58b34d-efe2-43aa-8143-80a7b2b0ef73',
