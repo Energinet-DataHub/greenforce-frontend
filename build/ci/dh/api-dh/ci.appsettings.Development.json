@@ -7,6 +7,7 @@
     }
   },
   "ApiClientSettings": {
-    "MeteringPointBaseUrl": "https://app-webapi-mpt-u-002.azurewebsites.net"
+    "MeteringPointBaseUrl": "https://app-webapi-mpt-u-002.azurewebsites.net",
+    "ChargesBaseUrl": "https://app-webapi-charges-u-002.azurewebsites.net"
   }
 }

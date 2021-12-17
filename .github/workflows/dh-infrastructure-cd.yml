@@ -36,7 +36,8 @@ jobs:
       TF_VAR_environment_short: u
       TF_VAR_environment_instance: '001'
       TF_VAR_domain_name_short: dh
-      TF_VAR_metering_point_base_url: 'https://app-webapi-meteringpoint-endk-t.azurewebsites.net'
+      TF_VAR_metering_point_base_url: 'https://app-webapi-mpt-u-001.azurewebsites.net'
+      TF_VAR_charges_base_url: 'https://app-webapi-charges-u-001.azurewebsites.net'
     steps:
       - name: Checkout code
         uses: actions/checkout@master
