@@ -71,10 +71,6 @@ dl.multiple-terms-and-descriptions {
   width: 100%;
   margin-top: var(--watt-space-m);
 
-  @include watt.media('>=Small') {
-    //padding-left: calc(var(--watt-space-l) + var(--watt-space-xl));
-  }
-
   watt-icon {
     margin: 0;
   }
@@ -104,4 +100,8 @@ dl.multiple-terms-and-descriptions {
 
 .flex {
   display: flex;
+  flex-wrap: wrap;
+  @include watt.media('>=Small') {
+    flex-wrap: nowrap;
+  }
 }
