@@ -12,12 +12,13 @@
 import { SettlementMethod } from './settlement-method';
 import { AssetType } from './asset-type';
 import { ReadingOccurrence } from './reading-occurrence';
-import { PriceUnit } from './price-unit';
 import { ConnectionType } from './connection-type';
 import { MeteringPointSimpleCimDto } from './metering-point-simple-cim-dto';
 import { NetSettlementGroup } from './net-settlement-group';
 import { MeteringPointType } from './metering-point-type';
+import { ProductId } from './product-id';
 import { ConnectionState } from './connection-state';
+import { Unit } from './unit';
 import { MeteringMethod } from './metering-method';
 import { DisconnectionType } from './disconnection-type';
 
@@ -39,8 +40,8 @@ export interface MeteringPointCimDto {
     gridAreaCode?: string;
     linkedExtendedMasterdata?: string;
     locationDescription?: string;
-    productId?: string;
-    priceUnit?: PriceUnit;
+    productId?: ProductId;
+    unit?: Unit;
     effectiveDate?: string | null;
     meterId?: string;
     streetCode?: string;
@@ -63,6 +64,7 @@ export interface MeteringPointCimDto {
     productionObligation?: boolean | null;
     childMeteringPoints?: Array<MeteringPointSimpleCimDto> | null;
     parentMeteringPoint?: MeteringPointSimpleCimDto;
+    powerPlantGsrnNumber?: string;
 }
 
 
