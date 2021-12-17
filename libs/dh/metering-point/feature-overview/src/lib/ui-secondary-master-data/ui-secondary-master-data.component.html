@@ -28,186 +28,192 @@ limitations under the License.
           <dt class="watt-label">
             {{ t('netSettlementGroup') }}
           </dt>
-          <ng-container
-            *ngIf="secondaryMasterData?.netSettlementGroup; else emptyField"
-          >
-            <dd class="watt-text-m">
+          <dd class="watt-text-m">
+            <ng-container
+              *ngIf="secondaryMasterData?.netSettlementGroup; else emptyField"
+            >
               {{ secondaryMasterData?.netSettlementGroup }}
-            </dd>
-          </ng-container>
+            </ng-container>
+          </dd>
         </div>
         <div>
           <dt class="watt-label">
             {{ t('disconnectionType') }}
           </dt>
-          <ng-container
-            *ngIf="secondaryMasterData?.disconnectionType; else emptyField"
-          >
-            <dd class="watt-text-m">
+          <dd class="watt-text-m" data-testid="disconnectionType">
+            <ng-container
+              *ngIf="secondaryMasterData?.disconnectionType; else emptyField"
+            >
               {{ translationKeys?.disconnectionType | transloco }}
-            </dd>
-          </ng-container>
+            </ng-container>
+          </dd>
         </div>
         <div>
           <dt class="watt-label">
             {{ t('productionObligation') }}
           </dt>
-          <ng-container
-            *ngIf="
-              (secondaryMasterData?.productionObligation | typeof) ===
-                'boolean';
-              else emptyField
-            "
-          >
-            <dd class="watt-text-m">
+          <dd class="watt-text-m">
+            <ng-container
+              *ngIf="
+                (secondaryMasterData?.productionObligation | typeof) ===
+                  'boolean';
+                else emptyField
+              "
+            >
               {{
                 secondaryMasterData?.productionObligation!
                   ? t('boolean.true')
                   : t('boolean.false')
               }}
-            </dd>
-          </ng-container>
+            </ng-container>
+          </dd>
         </div>
         <div>
           <dt class="watt-label">
             {{ t('connectionType') }}
           </dt>
-          <ng-container
-            *ngIf="secondaryMasterData?.connectionType; else emptyField"
-          >
-            <dd class="watt-text-m">
+          <dd class="watt-text-m">
+            <ng-container
+              *ngIf="secondaryMasterData?.connectionType; else emptyField"
+            >
               {{ translationKeys?.connectionType | transloco }}
-            </dd>
-          </ng-container>
+            </ng-container>
+          </dd>
         </div>
         <div>
           <dt class="watt-label">
             {{ t('inAreaCode') }}
           </dt>
-          <ng-container
-            *ngIf="secondaryMasterData?.inAreaCode; else emptyField"
-          >
-            <dd class="watt-text-m">
+          <dd class="watt-text-m">
+            <ng-container
+              *ngIf="secondaryMasterData?.inAreaCode; else emptyField"
+            >
               {{ secondaryMasterData?.inAreaCode }}
-            </dd>
-          </ng-container>
+            </ng-container>
+          </dd>
         </div>
         <div>
           <dt class="watt-label">
             {{ t('outAreaCode') }}
           </dt>
-          <ng-container
-            *ngIf="secondaryMasterData?.outAreaCode; else emptyField"
-          >
-            <dd class="watt-text-m">
+          <dd class="watt-text-m">
+            <ng-container
+              *ngIf="secondaryMasterData?.outAreaCode; else emptyField"
+            >
               {{ secondaryMasterData?.outAreaCode }}
-            </dd>
-          </ng-container>
+            </ng-container>
+          </dd>
         </div>
         <div>
           <dt class="watt-label">
             {{ t('gridAreaName') }}
           </dt>
-          <ng-container
-            *ngIf="secondaryMasterData?.gridAreaName; else emptyField"
-          >
-            <dd class="watt-text-m">
+          <dd class="watt-text-m">
+            <ng-container
+              *ngIf="secondaryMasterData?.gridAreaName; else emptyField"
+            >
               {{ secondaryMasterData?.gridAreaName }} ({{
                 secondaryMasterData?.gridAreaCode
               }})
-            </dd>
-          </ng-container>
+            </ng-container>
+          </dd>
         </div>
         <div>
           <dt class="watt-label">
             {{ t('capacity') }}
           </dt>
-          <ng-container *ngIf="secondaryMasterData?.capacity; else emptyField">
-            <dd class="watt-text-m">
+          <dd class="watt-text-m">
+            <ng-container
+              *ngIf="secondaryMasterData?.capacity; else emptyField"
+            >
               {{ secondaryMasterData?.capacity }}
               {{ t('units.kilowatt') }}
-            </dd>
-          </ng-container>
+            </ng-container>
+          </dd>
         </div>
         <div>
           <dt class="watt-label">
             {{ t('assetType') }}
           </dt>
-          <ng-container *ngIf="secondaryMasterData?.assetType; else emptyField">
-            <dd class="watt-text-m">
+          <dd class="watt-text-m">
+            <ng-container
+              *ngIf="secondaryMasterData?.assetType; else emptyField"
+            >
               {{ translationKeys?.assetType | transloco }}
-            </dd>
-          </ng-container>
+            </ng-container>
+          </dd>
         </div>
         <div>
           <dt class="watt-label">
             {{ t('ratedCapacity') }}
           </dt>
-          <ng-container
-            *ngIf="secondaryMasterData?.ratedCapacity; else emptyField"
-          >
-            <dd class="watt-text-m">
+          <dd class="watt-text-m">
+            <ng-container
+              *ngIf="secondaryMasterData?.ratedCapacity; else emptyField"
+            >
               {{ secondaryMasterData?.ratedCapacity }}
               {{ t('units.kilowatt') }}
-            </dd>
-          </ng-container>
+            </ng-container>
+          </dd>
         </div>
         <div>
           <dt class="watt-label">
             {{ t('ratedCurrent') }}
           </dt>
-          <ng-container
-            *ngIf="secondaryMasterData?.ratedCurrent; else emptyField"
-          >
-            <dd class="watt-text-m">
+          <dd class="watt-text-m">
+            <ng-container
+              *ngIf="secondaryMasterData?.ratedCurrent; else emptyField"
+            >
               {{ secondaryMasterData?.ratedCurrent }}
               {{ t('units.ampere') }}
-            </dd>
-          </ng-container>
+            </ng-container>
+          </dd>
         </div>
         <div>
           <dt class="watt-label">
             {{ t('powerPlantGsrnNumber') }}
           </dt>
-          <ng-container
-            *ngIf="secondaryMasterData?.powerPlantGsrnNumber; else emptyField"
-          >
-            <dd class="watt-text-m">
+          <dd class="watt-text-m">
+            <ng-container
+              *ngIf="secondaryMasterData?.powerPlantGsrnNumber; else emptyField"
+            >
               {{ secondaryMasterData?.powerPlantGsrnNumber }}
-            </dd>
-          </ng-container>
+            </ng-container>
+          </dd>
         </div>
         <div>
           <dt class="watt-label">
             {{ t('productId') }}
           </dt>
-          <ng-container *ngIf="secondaryMasterData?.productId; else emptyField">
-            <dd class="watt-text-m">
+          <dd class="watt-text-m">
+            <ng-container
+              *ngIf="secondaryMasterData?.productId; else emptyField"
+            >
               {{ translationKeys?.productId | transloco }}
-            </dd>
-          </ng-container>
+            </ng-container>
+          </dd>
         </div>
         <div>
           <dt class="watt-label">
             {{ t('unitType') }}
           </dt>
-          <ng-container *ngIf="secondaryMasterData?.unit; else emptyField">
-            <dd class="watt-text-m">
+          <dd class="watt-text-m">
+            <ng-container *ngIf="secondaryMasterData?.unit; else emptyField">
               {{ translationKeys?.unit | transloco }}
-            </dd>
-          </ng-container>
+            </ng-container>
+          </dd>
         </div>
         <div>
           <dt class="watt-label">
             {{ t('effectiveDate') }}
           </dt>
-          <ng-container
-            *ngIf="secondaryMasterData?.effectiveDate; else emptyField"
-          >
-            <dd class="watt-text-m">
+          <dd class="watt-text-m">
+            <ng-container
+              *ngIf="secondaryMasterData?.effectiveDate; else emptyField"
+            >
               {{ secondaryMasterData?.effectiveDate }}
-            </dd>
-          </ng-container>
+            </ng-container>
+          </dd>
         </div>
       </dl>
     </div>
@@ -220,43 +226,41 @@ limitations under the License.
           <dt class="watt-label">
             {{ t('streetCode') }}
           </dt>
-          <ng-container
-            *ngIf="secondaryMasterData?.streetCode; else emptyField"
-          >
-            <dd class="watt-text-m">
+          <dd class="watt-text-m">
+            <ng-container
+              *ngIf="secondaryMasterData?.streetCode; else emptyField"
+            >
               {{ secondaryMasterData?.streetCode }}
-            </dd>
-          </ng-container>
+            </ng-container>
+          </dd>
         </div>
         <div>
           <dt class="watt-label">
             {{ t('municipalityCode') }}
           </dt>
-          <ng-container
-            *ngIf="secondaryMasterData?.municipalityCode; else emptyField"
-          >
-            <dd class="watt-text-m">
+          <dd class="watt-text-m">
+            <ng-container
+              *ngIf="secondaryMasterData?.municipalityCode; else emptyField"
+            >
               {{ secondaryMasterData?.municipalityCode }}
-            </dd>
-          </ng-container>
+            </ng-container>
+          </dd>
         </div>
         <div>
           <dt class="watt-label">
             {{ t('countryCode') }}
           </dt>
-          <ng-container
-            *ngIf="secondaryMasterData?.countryCode; else emptyField"
-          >
-            <dd class="watt-text-m">
+          <dd class="watt-text-m">
+            <ng-container
+              *ngIf="secondaryMasterData?.countryCode; else emptyField"
+            >
               {{ secondaryMasterData?.countryCode }}
-            </dd>
-          </ng-container>
+            </ng-container>
+          </dd>
         </div>
       </dl>
     </div>
   </watt-expansion>
 </ng-container>
 
-<ng-template #emptyField
-  ><dd class="watt-text-m">{{ emDash }}</dd></ng-template
->
+<ng-template #emptyField>{{ emDash }}</ng-template>
