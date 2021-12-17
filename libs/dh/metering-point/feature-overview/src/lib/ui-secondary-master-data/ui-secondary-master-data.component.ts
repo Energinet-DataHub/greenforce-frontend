@@ -22,14 +22,65 @@ import { TranslocoModule } from '@ngneat/transloco';
 import { emDash } from '../identity/em-dash';
 import { TypeOfModule } from './typeof.pipe';
 
+export interface MeteringPointIdentityTranslationKeys {
+  disconnectionType: string;
+  connectionType: string;
+  assetType: string;
+  product: string;
+  unitType: string;
+}
+
 @Component({
   selector: 'dh-ui-secondary-master-data',
   templateUrl: './ui-secondary-master-data.component.html',
   styleUrls: ['./ui-secondary-master-data.component.scss'],
 })
 export class UiSecondaryMasterDataComponent {
-  @Input() secondaryMasterData: MeteringPointCimDto = {};
+  #secondaryMasterData: MeteringPointCimDto | undefined;
+
+  translationKeys: MeteringPointIdentityTranslationKeys | undefined;
   emDash = emDash;
+
+  @Input()
+  set secondaryMasterData(value: MeteringPointCimDto | undefined) {
+    if (value == undefined) {
+      return;
+    }
+
+    this.#secondaryMasterData = value;
+    this.translationKeys = this.buildTranslations(value);
+  }
+  get secondaryMasterData() {
+    return this.#secondaryMasterData;
+  }
+
+  private buildTranslations(
+    meteringPoint: MeteringPointCimDto
+  ): MeteringPointIdentityTranslationKeys {
+    const disconnectionType = `meteringPoint.disconnectionTypeCode.${
+      meteringPoint?.disconnectionType ?? ''
+    }`;
+    const connectionType = `meteringPoint.disconnectionTypeCode.${
+      meteringPoint?.connectionType ?? ''
+    }`;
+    const assetType = `meteringPoint.assetTypeCode.${
+      meteringPoint?.assetType ?? ''
+    }`;
+    const product = `meteringPoint.energyProductionIdentificationCode.${
+      meteringPoint?.productId ?? ''
+    }`;
+    const unitType = `meteringPoint.measurementUnitCommonCode.${
+      meteringPoint?.unitType ?? ''
+    }`;
+
+    return {
+      disconnectionType,
+      connectionType,
+      assetType,
+      product,
+      unitType
+    };
+  }
 }
 
 @NgModule({
