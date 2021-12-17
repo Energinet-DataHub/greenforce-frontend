@@ -169,8 +169,8 @@
     },
     "settlementMethodCode": {
       "D01": "Flex afregnet",
-      "E01": "Time afregnet",
-      "E02": "Skabelon afregnet"
+      "E01": "Skabelon afregnet",
+      "E02": "Time afregnet"
     },
     "readingOccurrenceCode": {
       "PT15M": "Aflæses pr. kvarter",
