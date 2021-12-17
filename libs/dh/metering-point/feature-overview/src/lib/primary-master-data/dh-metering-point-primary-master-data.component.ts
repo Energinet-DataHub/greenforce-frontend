@@ -89,7 +89,7 @@ export class DhMeteringPointPrimaryMasterDataComponent implements OnChanges {
       !data.cityName &&
       !data.postalCode
     ) {
-      return '—';
+      return this.fallbackValue;
     }
 
     let address = `${data.streetName} ${data.buildingNumber}`;
