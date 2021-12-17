@@ -69,15 +69,15 @@
         "ampere": "A"
       }
     },
-    "disconnectionTypeCode": {
+    "disconnectionType": {
       "D01": "Fjern afbrydelig",
       "D02": "Manual afbrydelig"
     },
-    "mPConnectionTypeCode": {
+    "connectionType": {
       "D01": "Direkte tilsluttet",
       "D02": "Installationstilsluttet"
     },
-    "assetTypeCode": {
+    "assetType": {
       "D01": "Dampturbine med modtryksdrift",
       "D02": "Gasturbine",
       "D03": "Combined cycle",
@@ -100,7 +100,7 @@
       "D20": "Bioforbrændingsmotor",
       "D99": "Ukendt teknologi"
     },
-    "energyProductionIdentificationCode": {
+    "productId": {
       "Tariff": "Tariff",
       "FuelQuantity": "Fuel quantity",
       "PowerActive": "Power active",
@@ -108,7 +108,7 @@
       "EnergyActive": "Energy active",
       "EnergyReactive": "Energy reactive"
     },
-    "measurementUnitCommonCode": {
+    "unit": {
       "AMP": "Ampere",
       "H87": "Antal styk",
       "K3": "KiloVolt-Ampere reactive hour",
