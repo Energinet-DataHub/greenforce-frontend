@@ -78,7 +78,7 @@ export class UiSecondaryMasterDataComponent {
       connectionType,
       assetType,
       product,
-      unitType
+      unitType,
     };
   }
 }

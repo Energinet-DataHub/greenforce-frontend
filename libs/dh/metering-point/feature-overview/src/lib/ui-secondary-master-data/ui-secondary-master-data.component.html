@@ -38,9 +38,7 @@ limitations under the License.
         </div>
         <div>
           <dt class="watt-label">
-            {{
-              t('disconnectionType')
-            }}
+            {{ t('disconnectionType') }}
           </dt>
           <ng-container
             *ngIf="secondaryMasterData?.disconnectionType; else emptyField"
@@ -52,9 +50,7 @@ limitations under the License.
         </div>
         <div>
           <dt class="watt-label">
-            {{
-              t('productionObligation')
-            }}
+            {{ t('productionObligation') }}
           </dt>
           <ng-container
             *ngIf="
@@ -129,9 +125,7 @@ limitations under the License.
           <ng-container *ngIf="secondaryMasterData?.capacity; else emptyField">
             <dd class="watt-text-m">
               {{ secondaryMasterData?.capacity }}
-              {{
-                t('units.kilowatt')
-              }}
+              {{ t('units.kilowatt') }}
             </dd>
           </ng-container>
         </div>
@@ -154,9 +148,7 @@ limitations under the License.
           >
             <dd class="watt-text-m">
               {{ secondaryMasterData?.ratedCapacity }}
-              {{
-                t('units.kilowatt')
-              }}
+              {{ t('units.kilowatt') }}
             </dd>
           </ng-container>
         </div>
@@ -175,9 +167,7 @@ limitations under the License.
         </div>
         <div>
           <dt class="watt-label">
-            {{
-              t('powerPlantGsrnNumber')
-            }}
+            {{ t('powerPlantGsrnNumber') }}
           </dt>
           <ng-container
             *ngIf="secondaryMasterData?.powerPlantGsrnNumber; else emptyField"
@@ -223,9 +213,7 @@ limitations under the License.
     </div>
     <div class="smd__container">
       <p class="watt-text-l">
-        {{
-          t('locationDetailTitle')
-        }}
+        {{ t('locationDetailTitle') }}
       </p>
       <dl>
         <div>
@@ -242,9 +230,7 @@ limitations under the License.
         </div>
         <div>
           <dt class="watt-label">
-            {{
-              t('municipalityCode')
-            }}
+            {{ t('municipalityCode') }}
           </dt>
           <ng-container
             *ngIf="secondaryMasterData?.municipalityCode; else emptyField"
