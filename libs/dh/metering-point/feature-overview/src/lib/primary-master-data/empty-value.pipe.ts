@@ -19,10 +19,7 @@ import { emDash } from '../identity/em-dash';
 
 @Pipe({ name: 'emptyValue' })
 export class EmptyValuePipe implements PipeTransform {
-  transform(
-    value: string | undefined | null,
-    translation?: string
-  ): string {
+  transform(value: string | undefined | null, translation?: string): string {
     if (value === undefined || value === null || value.trim() === '') {
       return emDash;
     } else {
