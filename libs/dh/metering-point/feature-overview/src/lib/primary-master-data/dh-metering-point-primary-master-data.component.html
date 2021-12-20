@@ -44,18 +44,18 @@ limitations under the License.
           ></watt-icon>
         </dt>
         <dd class="watt-text-xs">
-          {{transloco(actualAddressTranslationKey)}}
+          {{ transloco(actualAddressTranslationKey) }}
         </dd>
 
         <dt class="watt-text-xs">{{ transloco('locationDescription') }}:</dt>
         <dd class="watt-text-xs">
-          {{ primaryMasterData?.locationDescription ?? fallbackValue }}
+          {{ primaryMasterData?.locationDescription | emptyValue }}
         </dd>
         <dt class="watt-text-xs text-dimmed">
           {{ transloco('geoInfoReference') }}:
         </dt>
         <dd class="watt-text-xs text-dimmed">
-          {{ primaryMasterData?.darReference || fallbackValue }}
+          {{ primaryMasterData?.darReference | emptyValue }}
         </dd>
       </dl>
     </section>
@@ -75,13 +75,16 @@ limitations under the License.
         </dt>
         <dd>
           {{
-            primaryMasterData?.supplyStart ? transloco('yes') : transloco('no')
+            primaryMasterData?.supplyStart
+              | emptyValue: transloco('yes'):transloco('no')
           }}
         </dd>
         <dd class="watt-text-xs text-dimmed full-width">
-          <ng-container *ngIf="primaryMasterData?.supplyStart; else emptyValue">
-            {{ transloco('since', { date: primaryMasterData?.supplyStart }) }}
-          </ng-container>
+          {{
+            primaryMasterData?.supplyStart
+              | emptyValue
+                : transloco('since', { date: primaryMasterData?.supplyStart })
+          }}
         </dd>
       </dl>
     </section>
@@ -96,11 +99,9 @@ limitations under the License.
       <dl>
         <dt class="watt-label">{{ transloco('meterNumber') }}</dt>
         <dd>
-          <small>{{ primaryMasterData?.meterId ?? fallbackValue }}</small>
+          <small>{{ primaryMasterData?.meterId | emptyValue }}</small>
         </dd>
       </dl>
     </section>
   </div>
 </ng-container>
-
-<ng-template #emptyValue>{{ fallbackValue }}</ng-template>

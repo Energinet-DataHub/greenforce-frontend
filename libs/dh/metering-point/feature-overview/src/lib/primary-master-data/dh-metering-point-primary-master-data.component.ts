@@ -30,6 +30,7 @@ import { MeteringPointCimDto } from '@energinet-datahub/dh/shared/data-access-ap
 import { WattIcon, WattIconModule, WattIconSize } from '@energinet-datahub/watt';
 import { DomSanitizer } from '@angular/platform-browser';
 import { emDash } from '../identity/em-dash';
+import { DhEmptyValuePipeScam } from './empty-value.pipe';
 
 export type PrimaryMasterData = Pick<
   MeteringPointCimDto,
@@ -60,6 +61,7 @@ export class DhMeteringPointPrimaryMasterDataComponent implements OnChanges {
   fallbackValue = emDash;
   isActualAddressIcon: WattIcon = 'success';
   actualAddressTranslationKey = 'actualAddress';
+  hasElectricitySupplier = false;
 
   constructor(private domSanitizer: DomSanitizer) {}
 
@@ -109,7 +111,7 @@ export class DhMeteringPointPrimaryMasterDataComponent implements OnChanges {
 
 @NgModule({
   declarations: [DhMeteringPointPrimaryMasterDataComponent],
-  imports: [CommonModule, WattIconModule, TranslocoModule],
+  imports: [CommonModule, WattIconModule, TranslocoModule, DhEmptyValuePipeScam],
   exports: [DhMeteringPointPrimaryMasterDataComponent],
 })
 export class DhMeteringPointPrimaryMasterDataScam {}

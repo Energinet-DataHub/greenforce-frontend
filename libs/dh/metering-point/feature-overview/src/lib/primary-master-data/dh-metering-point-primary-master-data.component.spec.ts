@@ -202,8 +202,21 @@ describe(DhMeteringPointPrimaryMasterDataComponent.name, () => {
       );
     });
 
-    it('should render fallback definition, if no location description is provided', async () => {
+    it('should render fallback definition, if location description is undefined', async () => {
       await setup({ ...testData, locationDescription: undefined });
+
+      const term = getByTerm(
+        enTranslations.meteringPoint.overview.primaryMasterData
+          .locationDescription
+      );
+      const definition = getDefinitonByTerm(term);
+
+      expect(definition).toBeInTheDocument();
+      expect(definition).toHaveTextContent(fallbackValue);
+    });
+
+    it('should render fallback definition, if location description is empty string', async () => {
+      await setup({ ...testData, locationDescription: ' ' });
 
       const term = getByTerm(
         enTranslations.meteringPoint.overview.primaryMasterData
@@ -237,8 +250,32 @@ describe(DhMeteringPointPrimaryMasterDataComponent.name, () => {
       expect(definition).toHaveTextContent(testData.darReference as string);
     });
 
-    it('should render fallback definition, if no geo info reference is provided', async () => {
+    it('should render fallback definition, if geo info reference is undefined', async () => {
       await setup({ ...testData, darReference: undefined });
+
+      const term = getByTerm(
+        enTranslations.meteringPoint.overview.primaryMasterData.geoInfoReference
+      );
+      const definition = getDefinitonByTerm(term);
+
+      expect(definition).toBeInTheDocument();
+      expect(definition).toHaveTextContent(fallbackValue);
+    });
+
+    it('should render fallback definition, if geo info reference is null', async () => {
+      await setup({ ...testData, darReference: null });
+
+      const term = getByTerm(
+        enTranslations.meteringPoint.overview.primaryMasterData.geoInfoReference
+      );
+      const definition = getDefinitonByTerm(term);
+
+      expect(definition).toBeInTheDocument();
+      expect(definition).toHaveTextContent(fallbackValue);
+    });
+
+    it('should render fallback definition, if geo info reference is empty string', async () => {
+      await setup({ ...testData, darReference: ' ' });
 
       const term = getByTerm(
         enTranslations.meteringPoint.overview.primaryMasterData.geoInfoReference
@@ -283,8 +320,44 @@ describe(DhMeteringPointPrimaryMasterDataComponent.name, () => {
       );
     });
 
-    it('should render fallback definition, if no definition is provided', async () => {
+    it('should render fallback definition, if supply start is undefined', async () => {
       await setup({ ...testData, supplyStart: undefined });
+
+      const term = getByTerm(
+        enTranslations.meteringPoint.overview.primaryMasterData
+          .hasElectricitySupplier
+      );
+      const definition = getDefinitonByTerm(term);
+
+      expect(definition).toBeInTheDocument();
+      expect(definition).toHaveTextContent(
+        enTranslations.meteringPoint.overview.primaryMasterData.no
+      );
+
+      const since = definition?.nextElementSibling;
+      expect(since).toHaveTextContent(fallbackValue);
+    });
+
+    it('should render fallback definition, if supply start is null', async () => {
+      await setup({ ...testData, supplyStart: null });
+
+      const term = getByTerm(
+        enTranslations.meteringPoint.overview.primaryMasterData
+          .hasElectricitySupplier
+      );
+      const definition = getDefinitonByTerm(term);
+
+      expect(definition).toBeInTheDocument();
+      expect(definition).toHaveTextContent(
+        enTranslations.meteringPoint.overview.primaryMasterData.no
+      );
+
+      const since = definition?.nextElementSibling;
+      expect(since).toHaveTextContent(fallbackValue);
+    });
+
+    it('should render fallback definition, if supply start is empty string', async () => {
+      await setup({ ...testData, supplyStart: ' ' });
 
       const term = getByTerm(
         enTranslations.meteringPoint.overview.primaryMasterData
@@ -324,8 +397,21 @@ describe(DhMeteringPointPrimaryMasterDataComponent.name, () => {
       expect(definition).toHaveTextContent(testData.meterId as string);
     });
 
-    it('should render fallback definition, if no definition is provided', async () => {
+    it('should render fallback definition, if meter ID is undefined', async () => {
       await setup({ ...testData, meterId: undefined });
+
+      const term = getByTerm(
+        enTranslations.meteringPoint.overview.primaryMasterData.meterNumber
+      );
+      const definition = getDefinitonByTerm(term);
+
+      expect(term).toBeInTheDocument();
+      expect(definition).toBeInTheDocument();
+      expect(definition).toHaveTextContent(fallbackValue);
+    });
+
+    it('should render fallback definition, if meter ID is empty string', async () => {
+      await setup({ ...testData, meterId: ' ' });
 
       const term = getByTerm(
         enTranslations.meteringPoint.overview.primaryMasterData.meterNumber
