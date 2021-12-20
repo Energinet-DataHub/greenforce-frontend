@@ -42,8 +42,6 @@
         "locationDescription": "Description",
         "geoInfoReference": "DAR reference",
         "hasElectricitySupplier": "Has Supplier?",
-        "yes": "Yes",
-        "no": "No",
         "since": "Since {{date}}",
         "meterNumber": "Meternumber"
       }

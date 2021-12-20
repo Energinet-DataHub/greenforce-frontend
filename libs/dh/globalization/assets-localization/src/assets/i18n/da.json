@@ -42,8 +42,6 @@
         "locationDescription": "Målepunktskommentar",
         "geoInfoReference": "DAR reference",
         "hasElectricitySupplier": "Har El-leverandør?",
-        "yes": "Ja",
-        "no": "Nej",
         "since": "Siden {{date}}",
         "meterNumber": "Målernummer"
       }
