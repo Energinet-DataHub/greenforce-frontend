@@ -1,5 +1,7 @@
 {
   "appName": "DataHub [EN]",
+  "yes": "Yes",
+  "no": "No",
   "meteringPoint": {
     "search": {
       "title": "Metering Points",
