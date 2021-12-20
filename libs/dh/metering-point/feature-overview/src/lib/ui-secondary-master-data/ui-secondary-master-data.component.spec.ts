@@ -84,7 +84,6 @@ describe(UiSecondaryMasterDataComponent.name, () => {
       ${{assetType: AssetType.D01}}                 | ${'assetType'}         | ${enTranslations.meteringPoint.assetType.D01}
       ${{productId: ProductId.EnergyActive}}        | ${'productId'}         | ${enTranslations.meteringPoint.productId.EnergyActive}
       ${{unit: Unit.KWH}}                           | ${'unit'}              | ${enTranslations.meteringPoint.unit.KWH}
-        expect(actualAssetType).toContain(expectedAssetType)}
     `("displays correct value", async ({incommingValueObject, testId, expectedDisplayValue}) => {
       const secondaryMasterData: Partial<MeteringPointCimDto> = incommingValueObject;
       await setup(secondaryMasterData);
@@ -100,7 +99,6 @@ describe(UiSecondaryMasterDataComponent.name, () => {
       ${{assetType: undefined}}                     | ${'assetType'}        
       ${{productId: undefined}}                     | ${'productId'}        
       ${{unit: undefined}}                          | ${'unit'}             
-        expect(actualAssetType).toContain(expectedAssetType)}
     `("displays fallback value when undefined", async ({incommingValueObject, testId}) => {
       const secondaryMasterData: Partial<MeteringPointCimDto> = incommingValueObject;
       await setup(secondaryMasterData);
