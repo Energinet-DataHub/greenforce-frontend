@@ -82,8 +82,8 @@
               "with": "apps/ett/app-ett/src/configuration/load-eo-api-environment.prod.ts"
             },
             {
-              "replace": "libs/ett/core/environments/src/lib/environment.ts",
-              "with": "libs/ett/core/environments/src/lib/environment.prod.ts"
+              "replace": "libs/eo/shared/environments/src/lib/environment.ts",
+              "with": "libs/eo/shared/environments/src/lib/environment.prod.ts"
             }
           ],
           "outputHashing": "all"
