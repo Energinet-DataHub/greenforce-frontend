@@ -35,6 +35,7 @@ import {
 import { DomSanitizer } from '@angular/platform-browser';
 import { emDash } from '../identity/em-dash';
 import { DhEmptyValuePipeScam } from './empty-value.pipe';
+import { DhYesNoPipeScam } from './yes-no.pipe';
 
 export type PrimaryMasterData = Pick<
   MeteringPointCimDto,
@@ -119,6 +120,7 @@ export class DhMeteringPointPrimaryMasterDataComponent implements OnChanges {
     WattIconModule,
     TranslocoModule,
     DhEmptyValuePipeScam,
+    DhYesNoPipeScam
   ],
   exports: [DhMeteringPointPrimaryMasterDataComponent],
 })

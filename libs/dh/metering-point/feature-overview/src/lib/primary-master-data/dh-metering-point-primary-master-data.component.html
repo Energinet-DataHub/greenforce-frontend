@@ -74,10 +74,7 @@ limitations under the License.
           {{ transloco('hasElectricitySupplier') }}
         </dt>
         <dd>
-          {{
-            primaryMasterData?.supplyStart
-              | emptyValue: transloco('yes'):transloco('no')
-          }}
+          {{ primaryMasterData?.supplyStart | yesNo }}
         </dd>
         <dd class="watt-text-xs text-dimmed full-width">
           {{
