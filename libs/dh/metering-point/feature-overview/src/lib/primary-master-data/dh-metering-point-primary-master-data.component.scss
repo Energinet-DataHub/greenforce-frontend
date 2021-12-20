@@ -27,8 +27,12 @@
     color: var(--watt-color-primary-dark);
     margin-right: var(--watt-space-l);
 
-    &[name='success'] {
+    &.success {
       color: var(--watt-color-state-success);
+    }
+
+    &.warning {
+      color: var(--watt-color-state-warning);
     }
   }
 }

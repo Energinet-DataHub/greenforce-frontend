@@ -130,7 +130,7 @@ describe(DhMeteringPointPrimaryMasterDataComponent.name, () => {
   });
 
   describe('Is actual address', () => {
-    it('should render icon', async () => {
+    it('should render success icon, when actual address', async () => {
       await setup();
       const term = getByTerm(
         enTranslations.meteringPoint.overview.primaryMasterData.actualAddress
@@ -153,13 +153,27 @@ describe(DhMeteringPointPrimaryMasterDataComponent.name, () => {
       );
     });
 
-    it('should not render term or definition, if not an actual address', async () => {
+    it('should render warning icon, when not actual address', async () => {
+      await setup({ ...testData, isActualAddress: false });
+      const term = getByTerm(
+        enTranslations.meteringPoint.overview.primaryMasterData.notActualAddress
+      );
+      expect(term).toBeInTheDocument();
+      within(term).getByRole('img', { name: 'warning' });
+    });
+
+    it('should render not actual address', async () => {
       await setup({ ...testData, isActualAddress: false });
 
-      const term = queryByTerm(
-        enTranslations.meteringPoint.overview.primaryMasterData.actualAddress
+      const term = getByTerm(
+        enTranslations.meteringPoint.overview.primaryMasterData.notActualAddress
       );
-      expect(term).not.toBeInTheDocument();
+      const definition = getDefinitonByTerm(term);
+
+      expect(definition).toBeInTheDocument();
+      expect(definition).toHaveTextContent(
+        enTranslations.meteringPoint.overview.primaryMasterData.notActualAddress
+      );
     });
   });
 

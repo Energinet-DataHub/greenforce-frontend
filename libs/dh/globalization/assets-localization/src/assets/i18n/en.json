@@ -36,6 +36,7 @@
       "primaryMasterData": {
         "address": "Address",
         "actualAddress": "Actual address",
+        "notActualAddress": "Not an actual address",
         "locationDescription": "Description",
         "geoInfoReference": "DAR reference",
         "hasElectricitySupplier": "Has Supplier?",

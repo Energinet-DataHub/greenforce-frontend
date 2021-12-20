@@ -36,6 +36,7 @@
       "primaryMasterData": {
         "address": "Adresse",
         "actualAddress": "Faktuel adresse",
+        "notActualAddress": "Ikke faktuel adresse",
         "locationDescription": "Målepunktskommentar",
         "geoInfoReference": "DAR reference",
         "hasElectricitySupplier": "Har El-leverandør?",
