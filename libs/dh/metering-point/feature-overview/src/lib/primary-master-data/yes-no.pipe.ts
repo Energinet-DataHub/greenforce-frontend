@@ -14,22 +14,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgModule } from '@angular/core';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { EttCoreShellModule } from '@energinet-datahub/ett/core/shell';
+import { NgModule, Pipe, PipeTransform } from '@angular/core';
+import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 
-import {
-  EnergyTrackAndTraceAppComponent,
-  EnergyTrackAndTraceAppScam,
-} from './energy-track-and-trace-app.component';
+@Pipe({
+  name: 'yesNo',
+  pure: false,
+})
+export class YesNoPipe implements PipeTransform {
+  transform(value: string | undefined | null): string {
+    if (value === undefined || value === null || value.trim() === '') {
+      return this.transloco.translate('no');
+    }
+
+    return this.transloco.translate('yes');
+  }
+
+  constructor(private transloco: TranslocoService) {}
+}
 
 @NgModule({
-  bootstrap: [EnergyTrackAndTraceAppComponent],
-  imports: [
-    BrowserAnimationsModule,
-    EttCoreShellModule,
-    EnergyTrackAndTraceAppScam,
-  ],
+  declarations: [YesNoPipe],
+  imports: [TranslocoModule],
+  exports: [YesNoPipe],
 })
-export class EnergyTrackAndTraceAppModule {}
-// Teest
+export class DhYesNoPipeScam {}

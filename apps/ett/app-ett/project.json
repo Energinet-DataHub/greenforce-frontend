@@ -9,8 +9,21 @@
       "outputs": ["{options.outputPath}"],
       "options": {
         "assets": [
-          "apps/ett/app-ett/src/favicon.ico",
-          "apps/ett/app-ett/src/assets"
+          {
+            "glob": "favicon.ico",
+            "input": "libs/eo/shared/assets/src",
+            "output": ""
+          },
+          {
+            "glob": "**/*",
+            "input": "libs/eo/shared/assets/src/assets",
+            "output": "assets"
+          },
+          {
+            "input": "libs/ui-watt/src/assets",
+            "glob": "**/*",
+            "output": "assets/ui-watt"
+          }
         ],
         "baseHref": "/",
         "commonChunk": false,
@@ -65,8 +78,12 @@
           ],
           "fileReplacements": [
             {
-              "replace": "libs/ett/core/environments/src/lib/environment.ts",
-              "with": "libs/ett/core/environments/src/lib/environment.prod.ts"
+              "replace": "apps/ett/app-ett/src/configuration/load-eo-api-environment.ts",
+              "with": "apps/ett/app-ett/src/configuration/load-eo-api-environment.prod.ts"
+            },
+            {
+              "replace": "libs/eo/shared/environments/src/lib/environment.ts",
+              "with": "libs/eo/shared/environments/src/lib/environment.prod.ts"
             }
           ],
           "outputHashing": "all"
@@ -79,8 +96,7 @@
       "configurations": {
         "development": {
           "browserTarget": "app-ett:build:development",
-          "hmr": true,
-          "proxyConfig": "apps/ett/app-ett/src/proxy.conf.json"
+          "hmr": true
         },
         "e2e": {
           "browserTarget": "app-ett:build:development"

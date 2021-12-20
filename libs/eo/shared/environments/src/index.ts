@@ -14,22 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgModule } from '@angular/core';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { EttCoreShellModule } from '@energinet-datahub/ett/core/shell';
+// API environment
+export * from './lib/api-environment/eo-api-environment';
+export * from './lib/api-environment/load-eo-api-environment';
 
-import {
-  EnergyTrackAndTraceAppComponent,
-  EnergyTrackAndTraceAppScam,
-} from './energy-track-and-trace-app.component';
-
-@NgModule({
-  bootstrap: [EnergyTrackAndTraceAppComponent],
-  imports: [
-    BrowserAnimationsModule,
-    EttCoreShellModule,
-    EnergyTrackAndTraceAppScam,
-  ],
-})
-export class EnergyTrackAndTraceAppModule {}
-// Teest
+// Application environment
+export * from './lib/environment';
