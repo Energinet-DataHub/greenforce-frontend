@@ -32,10 +32,10 @@ export interface MeteringPointIdentityTranslationKeys {
 
 @Component({
   selector: 'dh-ui-secondary-master-data',
-  templateUrl: './ui-secondary-master-data.component.html',
-  styleUrls: ['./ui-secondary-master-data.component.scss'],
+  templateUrl: './dh-secondary-master-data.component.html',
+  styleUrls: ['./dh-secondary-master-data.component.scss'],
 })
-export class UiSecondaryMasterDataComponent {
+export class DhSecondaryMasterDataComponent {
   #secondaryMasterData: MeteringPointCimDto | undefined;
 
   translationKeys: MeteringPointIdentityTranslationKeys | undefined;
@@ -74,7 +74,7 @@ export class UiSecondaryMasterDataComponent {
 }
 
 @NgModule({
-  declarations: [UiSecondaryMasterDataComponent],
+  declarations: [DhSecondaryMasterDataComponent],
   imports: [
     WattExpansionModule,
     CommonModule,
@@ -82,6 +82,6 @@ export class UiSecondaryMasterDataComponent {
     WattIconModule,
     TypeOfModule,
   ],
-  exports: [UiSecondaryMasterDataComponent],
+  exports: [DhSecondaryMasterDataComponent],
 })
-export class UiSecondaryMasterDataComponentScam {}
+export class DhSecondaryMasterDataComponentScam {}

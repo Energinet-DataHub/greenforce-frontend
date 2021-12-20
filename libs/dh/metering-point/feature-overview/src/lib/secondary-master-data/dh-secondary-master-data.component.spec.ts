@@ -31,27 +31,27 @@ import { en as enTranslations } from '@energinet-datahub/dh/globalization/assets
 import { runOnPushChangeDetection } from '@energinet-datahub/dh/shared/test-util-metering-point';
 
 import {
-  UiSecondaryMasterDataComponent,
-  UiSecondaryMasterDataComponentScam,
-} from './ui-secondary-master-data.component';
+  DhSecondaryMasterDataComponent,
+  DhSecondaryMasterDataComponentScam,
+} from './dh-secondary-master-data.component';
 import { emDash } from '../identity/em-dash';
 
-describe('UiSecondaryMasterDataComponent', () => {
-  let component: UiSecondaryMasterDataComponent;
-  let fixture: ComponentFixture<UiSecondaryMasterDataComponent>;
+describe('DhSecondaryMasterDataComponent', () => {
+  let component: DhSecondaryMasterDataComponent;
+  let fixture: ComponentFixture<DhSecondaryMasterDataComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [UiSecondaryMasterDataComponent],
+      declarations: [DhSecondaryMasterDataComponent],
       imports: [
-        UiSecondaryMasterDataComponentScam,
+        DhSecondaryMasterDataComponentScam,
         getTranslocoTestingModule(),
       ],
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(UiSecondaryMasterDataComponent);
+    fixture = TestBed.createComponent(DhSecondaryMasterDataComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -61,14 +61,14 @@ describe('UiSecondaryMasterDataComponent', () => {
   });
 });
 
-describe(UiSecondaryMasterDataComponent.name, () => {
+describe(DhSecondaryMasterDataComponent.name, () => {
   async function setup(secondaryMasterData: MeteringPointCimDto) {
-    const { fixture } = await render(UiSecondaryMasterDataComponent, {
+    const { fixture } = await render(DhSecondaryMasterDataComponent, {
       componentProperties: {
         secondaryMasterData,
       },
       imports: [
-        UiSecondaryMasterDataComponentScam,
+        DhSecondaryMasterDataComponentScam,
         getTranslocoTestingModule(),
       ],
     });
