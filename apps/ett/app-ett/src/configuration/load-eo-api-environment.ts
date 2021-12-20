@@ -14,22 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgModule } from '@angular/core';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { EttCoreShellModule } from '@energinet-datahub/ett/core/shell';
-
 import {
-  EnergyTrackAndTraceAppComponent,
-  EnergyTrackAndTraceAppScam,
-} from './energy-track-and-trace-app.component';
+  environment,
+  EoApiEnvironment,
+  loadEoApiEnvironment as _loadEoApiEnvironment,
+} from '@energinet-datahub/eo/shared/environments';
 
-@NgModule({
-  bootstrap: [EnergyTrackAndTraceAppComponent],
-  imports: [
-    BrowserAnimationsModule,
-    EttCoreShellModule,
-    EnergyTrackAndTraceAppScam,
-  ],
-})
-export class EnergyTrackAndTraceAppModule {}
-// Teest
+export function loadEoApiEnvironment(): Promise<EoApiEnvironment> {
+  const configurationFilename = environment.production
+    ? 'eo-api-environment.json'
+    : 'eo-api-environment.local.json';
+
+  return _loadEoApiEnvironment(configurationFilename);
+}

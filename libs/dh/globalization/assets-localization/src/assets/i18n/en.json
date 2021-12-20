@@ -1,5 +1,7 @@
 {
   "appName": "DataHub [EN]",
+  "yes": "Yes",
+  "no": "No",
   "shell": {
     "logout": "Sign out"
   },
@@ -35,6 +37,16 @@
         "title": "Oops! There was an error",
         "message": "Unfortunately, an error occurred while retrieving the necessary information.",
         "button": "Try again"
+      },
+      "primaryMasterData": {
+        "address": "Address",
+        "actualAddress": "Actual address",
+        "notActualAddress": "Not an actual address",
+        "locationDescription": "Description",
+        "geoInfoReference": "DAR reference",
+        "hasElectricitySupplier": "Has Supplier?",
+        "since": "Since {{date}}",
+        "meterNumber": "Meternumber"
       }
     },
     "meteringPointTypeCode": {

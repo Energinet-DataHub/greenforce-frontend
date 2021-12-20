@@ -14,9 +14,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { EttEnvironment } from './ett-environment';
+import { NgModule, Pipe, PipeTransform } from '@angular/core';
 
-export const environment: EttEnvironment = {
-  apiBase: '/api',
-  production: true,
-};
+import { emDash } from '../identity/em-dash';
+
+@Pipe({ name: 'emptyValue' })
+export class EmptyValuePipe implements PipeTransform {
+  transform(value: string | undefined | null, translation?: string): string {
+    if (value === undefined || value === null || value.trim() === '') {
+      return emDash;
+    } else {
+      return translation ? translation : value;
+    }
+  }
+}
+
+@NgModule({
+  declarations: [EmptyValuePipe],
+  exports: [EmptyValuePipe],
+})
+export class DhEmptyValuePipeScam {}

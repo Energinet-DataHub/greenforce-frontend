@@ -1,0 +1,8 @@
+{
+  "projectType": "library",
+  "root": "libs/eo/shared/assets",
+  "sourceRoot": "libs/eo/shared/assets/src",
+  "prefix": "eo",
+  "targets": {},
+  "tags": ["product:eo", "domain:shared", "type:assets"]
+}

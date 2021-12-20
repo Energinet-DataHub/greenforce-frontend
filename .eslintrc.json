@@ -163,8 +163,18 @@
                 ]
               },
               {
+                "sourceTag": "product:eo",
+                "onlyDependOnLibsWithTags": [
+                  "product:eo",
+                  "product:ett",
+                  "product:gf",
+                  "product:watt"
+                ]
+              },
+              {
                 "sourceTag": "product:ett",
                 "onlyDependOnLibsWithTags": [
+                  "product:eo",
                   "product:ett",
                   "product:gf",
                   "product:watt"

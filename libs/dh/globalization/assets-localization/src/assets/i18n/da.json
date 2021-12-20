@@ -1,5 +1,7 @@
 {
   "appName": "DataHub [DA]",
+  "yes": "Ja",
+  "no": "Nej",
   "shell": {
     "logout": "Log ud"
   },
@@ -35,6 +37,16 @@
         "title": "Ups! Der opstod en fejl",
         "message": "Der opstod desværre en fejl, da vi skulle hente de nødvendige oplysninger.",
         "button": "Prøv igen"
+      },
+      "primaryMasterData": {
+        "address": "Adresse",
+        "actualAddress": "Faktuel adresse",
+        "notActualAddress": "Ikke faktuel adresse",
+        "locationDescription": "Målepunktskommentar",
+        "geoInfoReference": "DAR reference",
+        "hasElectricitySupplier": "Har El-leverandør?",
+        "since": "Siden {{date}}",
+        "meterNumber": "Målernummer"
       }
     },
     "meteringPointTypeCode": {
@@ -86,8 +98,8 @@
     },
     "settlementMethodCode": {
       "D01": "Flex afregnet",
-      "E01": "Time afregnet",
-      "E02": "Skabelon afregnet"
+      "E01": "Skabelon afregnet",
+      "E02": "Time afregnet"
     },
     "readingOccurrenceCode": {
       "PT15M": "Aflæses pr. kvarter",
