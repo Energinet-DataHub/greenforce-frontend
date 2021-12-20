@@ -115,7 +115,12 @@ export class DhMeteringPointPrimaryMasterDataComponent implements OnChanges {
 
 @NgModule({
   declarations: [DhMeteringPointPrimaryMasterDataComponent],
-  imports: [CommonModule, WattIconModule, TranslocoModule, DhEmptyValuePipeScam],
+  imports: [
+    CommonModule,
+    WattIconModule,
+    TranslocoModule,
+    DhEmptyValuePipeScam,
+  ],
   exports: [DhMeteringPointPrimaryMasterDataComponent],
 })
 export class DhMeteringPointPrimaryMasterDataScam {}
