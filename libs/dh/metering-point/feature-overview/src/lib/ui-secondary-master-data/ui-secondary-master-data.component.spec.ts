@@ -14,11 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- import { render, screen } from '@testing-library/angular';
- import { MatcherOptions } from '@testing-library/dom';
+import { render, screen } from '@testing-library/angular';
+import { MatcherOptions } from '@testing-library/dom';
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { 
+import {
   MeteringPointCimDto,
   DisconnectionType,
   ConnectionType,
@@ -67,7 +67,10 @@ describe(UiSecondaryMasterDataComponent.name, () => {
       componentProperties: {
         secondaryMasterData,
       },
-      imports: [UiSecondaryMasterDataComponentScam, getTranslocoTestingModule()],
+      imports: [
+        UiSecondaryMasterDataComponentScam,
+        getTranslocoTestingModule(),
+      ],
     });
 
     runOnPushChangeDetection(fixture);
@@ -105,5 +108,5 @@ describe(UiSecondaryMasterDataComponent.name, () => {
       const actualDisplayValue = screen.getByTestId(testId, disableQuerySuggestions).textContent;
       expect(actualDisplayValue).toBe(emDash)
     });
-  }); 
+  });
 });
