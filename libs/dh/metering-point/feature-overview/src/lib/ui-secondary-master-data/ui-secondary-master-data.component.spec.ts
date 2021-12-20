@@ -24,7 +24,7 @@ import {
   ConnectionType,
   AssetType,
   ProductId,
-  Unit
+  Unit,
 } from '@energinet-datahub/dh/shared/data-access-api';
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
 import { en as enTranslations } from '@energinet-datahub/dh/globalization/assets-localization';
@@ -75,7 +75,7 @@ describe(UiSecondaryMasterDataComponent.name, () => {
 
     runOnPushChangeDetection(fixture);
   }
-  
+
   describe('test globalization', () => {
     it.each`
       incommingValueObject                          |testId                  | expectedDisplayValue
