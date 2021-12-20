@@ -27,7 +27,11 @@ import { CommonModule } from '@angular/common';
 import { TranslocoModule } from '@ngneat/transloco';
 
 import { MeteringPointCimDto } from '@energinet-datahub/dh/shared/data-access-api';
-import { WattIcon, WattIconModule, WattIconSize } from '@energinet-datahub/watt';
+import {
+  WattIcon,
+  WattIconModule,
+  WattIconSize,
+} from '@energinet-datahub/watt';
 import { DomSanitizer } from '@angular/platform-browser';
 import { emDash } from '../identity/em-dash';
 
@@ -68,7 +72,7 @@ export class DhMeteringPointPrimaryMasterDataComponent implements OnChanges {
       const currentValue = changes.primaryMasterData.currentValue;
 
       this.address = this.formatAddress(currentValue);
-      if(currentValue.isActualAddress) {
+      if (currentValue.isActualAddress) {
         this.isActualAddressIcon = 'success';
         this.actualAddressTranslationKey = 'actualAddress';
       } else {
