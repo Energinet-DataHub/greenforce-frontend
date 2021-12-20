@@ -22,6 +22,7 @@ on:
   workflow_dispatch: {}
   workflow_run:
     workflows: ['GreenForce Frontend CI']
+    types: [completed]
 
 jobs:
   affected:
