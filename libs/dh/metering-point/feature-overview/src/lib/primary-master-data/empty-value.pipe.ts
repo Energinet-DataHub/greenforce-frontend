@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 import { NgModule, Pipe, PipeTransform } from '@angular/core';
+
 import { emDash } from '../identity/em-dash';
 
 @Pipe({ name: 'emptyValue' })
@@ -30,7 +31,6 @@ export class EmptyValuePipe implements PipeTransform {
 
 @NgModule({
   declarations: [EmptyValuePipe],
-  imports: [],
   exports: [EmptyValuePipe],
 })
 export class DhEmptyValuePipeScam {}
