@@ -1,0 +1,12 @@
+name: ETTTEST
+
+
+on:
+  push: {}
+
+jobs:
+  app:
+    name: Build app
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo 'Test'
