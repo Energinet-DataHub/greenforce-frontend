@@ -1,4 +1,4 @@
-name: Release pypi package
+name: Test Workflow
 
 env:
   python-version: 3.8
