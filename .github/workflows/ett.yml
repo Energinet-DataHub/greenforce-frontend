@@ -173,7 +173,7 @@ jobs:
         with:
           REGISTRY: ghcr.io
           DOCKER_USERNAME: ${{ github.actor }}
-          DOCKER_PASSWORD: ${{ secrets.GITHUB_TOKEN  }}
+          DOCKER_PASSWORD: "${{ secrets.GITHUB_TOKEN }}"
           DOCKER_IMAGE: ${{ steps.image-name.outputs.lowercase }}
           INCLUDE_LATEST_TAG: true
           TAG_VERSION_PREFIX: ''
