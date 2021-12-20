@@ -65,7 +65,6 @@ export class DhMeteringPointPrimaryMasterDataComponent implements OnChanges {
   fallbackValue = emDash;
   isActualAddressIcon: WattIcon = 'success';
   actualAddressTranslationKey = 'actualAddress';
-  hasElectricitySupplier = false;
 
   constructor(private domSanitizer: DomSanitizer) {}
 
