@@ -6,7 +6,7 @@ env:
 on:
   workflow_run:
     workflows: ["GreenForce Frontend CI"]
-    # types: [completed]
+    types: [completed]
     # branches: [main]
     # branches: ['ci/deploy-after-tests']
 
