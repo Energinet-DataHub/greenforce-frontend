@@ -307,9 +307,7 @@ describe(DhMeteringPointPrimaryMasterDataComponent.name, () => {
       const definition = getDefinitonByTerm(term);
 
       expect(definition).toBeInTheDocument();
-      expect(definition).toHaveTextContent(
-        enTranslations.yes
-      );
+      expect(definition).toHaveTextContent(enTranslations.yes);
 
       const since = definition?.nextElementSibling;
       expect(since).toHaveTextContent(
@@ -330,9 +328,7 @@ describe(DhMeteringPointPrimaryMasterDataComponent.name, () => {
       const definition = getDefinitonByTerm(term);
 
       expect(definition).toBeInTheDocument();
-      expect(definition).toHaveTextContent(
-        enTranslations.no
-      );
+      expect(definition).toHaveTextContent(enTranslations.no);
 
       const since = definition?.nextElementSibling;
       expect(since).toHaveTextContent(fallbackValue);
@@ -348,9 +344,7 @@ describe(DhMeteringPointPrimaryMasterDataComponent.name, () => {
       const definition = getDefinitonByTerm(term);
 
       expect(definition).toBeInTheDocument();
-      expect(definition).toHaveTextContent(
-        enTranslations.no
-      );
+      expect(definition).toHaveTextContent(enTranslations.no);
 
       const since = definition?.nextElementSibling;
       expect(since).toHaveTextContent(fallbackValue);
@@ -366,9 +360,7 @@ describe(DhMeteringPointPrimaryMasterDataComponent.name, () => {
       const definition = getDefinitonByTerm(term);
 
       expect(definition).toBeInTheDocument();
-      expect(definition).toHaveTextContent(
-        enTranslations.no
-      );
+      expect(definition).toHaveTextContent(enTranslations.no);
 
       const since = definition?.nextElementSibling;
       expect(since).toHaveTextContent(fallbackValue);
