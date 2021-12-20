@@ -72,7 +72,7 @@ limitations under the License.
           <dt class="watt-label">
             {{ t('connectionType') }}
           </dt>
-          <dd class="watt-text-m">
+          <dd class="watt-text-m" data-testid="connectionType">
             <ng-container
               *ngIf="secondaryMasterData?.connectionType; else emptyField"
             >
@@ -135,7 +135,7 @@ limitations under the License.
           <dt class="watt-label">
             {{ t('assetType') }}
           </dt>
-          <dd class="watt-text-m">
+          <dd class="watt-text-m" data-testid="assetType">
             <ng-container
               *ngIf="secondaryMasterData?.assetType; else emptyField"
             >
@@ -185,7 +185,7 @@ limitations under the License.
           <dt class="watt-label">
             {{ t('productId') }}
           </dt>
-          <dd class="watt-text-m">
+          <dd class="watt-text-m" data-testid="productId">
             <ng-container
               *ngIf="secondaryMasterData?.productId; else emptyField"
             >
@@ -195,9 +195,9 @@ limitations under the License.
         </div>
         <div>
           <dt class="watt-label">
-            {{ t('unitType') }}
+            {{ t('unit') }}
           </dt>
-          <dd class="watt-text-m">
+          <dd class="watt-text-m" data-testid="unit">
             <ng-container *ngIf="secondaryMasterData?.unit; else emptyField">
               {{ translationKeys?.unit | transloco }}
             </ng-container>
