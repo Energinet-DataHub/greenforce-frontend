@@ -21,11 +21,10 @@ import { emDash } from '../identity/em-dash';
 export class EmptyValuePipe implements PipeTransform {
   transform(
     value: string | undefined | null,
-    translation?: string,
-    customFallbackValue?: string
+    translation?: string
   ): string {
     if (value === undefined || value === null || value.trim() === '') {
-      return customFallbackValue ? customFallbackValue : emDash;
+      return emDash;
     } else {
       return translation ? translation : value;
     }
