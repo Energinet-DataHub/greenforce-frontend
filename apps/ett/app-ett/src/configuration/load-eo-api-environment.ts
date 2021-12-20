@@ -14,9 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { EttEnvironment } from './ett-environment';
+import {
+  EoApiEnvironment,
+  loadEoApiEnvironment as _loadEoApiEnvironment,
+} from '@energinet-datahub/eo/shared/environments';
 
-export const environment: EttEnvironment = {
-  apiBase: '/api',
-  production: true,
-};
+export function loadEoApiEnvironment(): Promise<EoApiEnvironment> {
+  return _loadEoApiEnvironment('eo-api-environment.json').catch(() =>
+    _loadEoApiEnvironment('eo-api-environment.local.json')
+  );
+}
