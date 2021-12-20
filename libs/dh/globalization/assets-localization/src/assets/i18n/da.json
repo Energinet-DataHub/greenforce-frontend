@@ -50,7 +50,7 @@
       "ratedCurrent": "Effektgrænse A",
       "powerPlantGsrnNumber": "VærksGSRN",
       "productId": "Produkt",
-      "unitType": "Energienhed",
+      "unit": "Energienhed",
       "effectiveDate": "Gyldighedsdato",
       "locationDetailTitle": "Øvrige Lokationsdetaljer",
       "streetCode": "Vejkode",

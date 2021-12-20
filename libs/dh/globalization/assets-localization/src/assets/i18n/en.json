@@ -50,7 +50,7 @@
       "ratedCurrent": "Effektgrænse A",
       "powerPlantGsrnNumber": "VærksGSRN",
       "productId": "Produkt",
-      "unitType": "Energienhed",
+      "unit": "Energienhed",
       "effectiveDate": "Gyldighedsdato",
       "locationDetailTitle": "Øvrige Lokationsdetaljer",
       "streetCode": "Vejkode",
@@ -101,12 +101,12 @@
       "D99": "Ukendt teknologi"
     },
     "productId": {
-      "5790001330590": "Tariff",
-      "5790001330606": "Fuel quantity",
-      "8716867000016": "Power active",
-      "8716867000023": "Power reactive",
-      "8716867000030": "Energy active",
-      "8716867000047": "Energy reactive"
+      "Tariff": "Tariff",
+      "FuelQuantity": "Fuel quantity",
+      "PowerActive": "Power active",
+      "PowerReactive": "Power reactive",
+      "EnergyActive": "Energy active",
+      "EnergyReactive": "Energy reactive"
     },
     "unit": {
       "AMP": "Ampere",
