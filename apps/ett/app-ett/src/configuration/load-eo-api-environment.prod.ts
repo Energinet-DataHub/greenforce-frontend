@@ -14,7 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export interface EttEnvironment {
-  readonly apiBase: string;
-  readonly production: boolean;
+import {
+  EoApiEnvironment,
+  loadEoApiEnvironment as _loadEoApiEnvironment,
+} from '@energinet-datahub/eo/shared/environments';
+
+export function loadEoApiEnvironment(): Promise<EoApiEnvironment> {
+  return _loadEoApiEnvironment('eo-api-environment.json');
 }
