@@ -15,11 +15,13 @@ env:
   NX_RUN_GROUP: ${{ github.run_id }}
 
 on:
-  push:
-    branches:
-      - main
+  # push:
+  #   branches:
+  #     - main
   pull_request: {}
   workflow_dispatch: {}
+  workflow_run:
+    workflows: ['GreenForce Frontend CI']
 
 jobs:
   affected:
