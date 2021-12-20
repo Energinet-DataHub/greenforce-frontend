@@ -120,7 +120,7 @@ export class DhMeteringPointPrimaryMasterDataComponent implements OnChanges {
     WattIconModule,
     TranslocoModule,
     DhEmptyValuePipeScam,
-    DhYesNoPipeScam
+    DhYesNoPipeScam,
   ],
   exports: [DhMeteringPointPrimaryMasterDataComponent],
 })
