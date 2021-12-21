@@ -55,15 +55,12 @@ limitations under the License.
           <dd class="watt-text-m">
             <ng-container
               *ngIf="
-                (secondaryMasterData?.productionObligation | typeof) ===
-                  'boolean';
+                isProductObligationDefined;
                 else emptyField
               "
             >
               {{
-                secondaryMasterData?.productionObligation!
-                  ? t('boolean.true')
-                  : t('boolean.false')
+                secondaryMasterData?.productionObligation | yesNo
               }}
             </ng-container>
           </dd>

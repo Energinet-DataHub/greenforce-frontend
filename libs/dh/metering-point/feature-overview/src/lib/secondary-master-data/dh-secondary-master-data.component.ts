@@ -20,7 +20,7 @@ import { MeteringPointCimDto } from '@energinet-datahub/dh/shared/data-access-ap
 import { WattExpansionModule, WattIconModule } from '@energinet-datahub/watt';
 import { TranslocoModule } from '@ngneat/transloco';
 import { emDash } from '../identity/em-dash';
-import { TypeOfModule } from './typeof.pipe';
+import { DhYesNoPipeScam } from '../primary-master-data/yes-no.pipe';
 
 export interface MeteringPointIdentityTranslationKeys {
   disconnectionType: string;
@@ -53,6 +53,9 @@ export class DhSecondaryMasterDataComponent {
   get secondaryMasterData() {
     return this.#secondaryMasterData;
   }
+  get isProductObligationDefined() {
+    return this.#secondaryMasterData?.productionObligation != null;
+  }
 
   private buildTranslations(
     meteringPoint: MeteringPointCimDto
@@ -80,7 +83,7 @@ export class DhSecondaryMasterDataComponent {
     CommonModule,
     TranslocoModule,
     WattIconModule,
-    TypeOfModule,
+    DhYesNoPipeScam,
   ],
   exports: [DhSecondaryMasterDataComponent],
 })
