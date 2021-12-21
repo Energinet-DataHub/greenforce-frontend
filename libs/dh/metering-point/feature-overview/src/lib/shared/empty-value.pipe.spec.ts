@@ -29,7 +29,7 @@ describe(EmptyValuePipe.name, () => {
     expect(harness.text).toBe(emDash);
   });
 
-  it(`returns ${emDash} when value empty string`, () => {
+  it(`returns ${emDash} when value is an empty string`, () => {
     harness.value = '';
 
     expect(harness.text).toBe(emDash);

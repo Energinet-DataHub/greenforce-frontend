@@ -38,7 +38,7 @@ describe(YesNoPipe.name, () => {
     expect(harness.text).toBe(enTranslations.no);
   });
 
-  it('returns "No" when value is empty string', () => {
+  it('returns "No" when value is an empty string', () => {
     harness.value = '';
 
     expect(harness.text).toBe(enTranslations.no);
