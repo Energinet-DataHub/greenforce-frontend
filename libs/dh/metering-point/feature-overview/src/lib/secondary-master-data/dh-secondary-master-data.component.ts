@@ -31,7 +31,7 @@ export interface MeteringPointIdentityTranslationKeys {
 }
 
 @Component({
-  selector: 'dh-ui-secondary-master-data',
+  selector: 'dh-secondary-master-data',
   templateUrl: './dh-secondary-master-data.component.html',
   styleUrls: ['./dh-secondary-master-data.component.scss'],
 })
