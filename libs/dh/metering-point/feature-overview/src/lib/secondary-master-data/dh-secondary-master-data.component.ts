@@ -20,7 +20,7 @@ import { MeteringPointCimDto } from '@energinet-datahub/dh/shared/data-access-ap
 import { WattExpansionModule, WattIconModule } from '@energinet-datahub/watt';
 import { TranslocoModule } from '@ngneat/transloco';
 
-import { emDash } from '../identity/em-dash';
+import { emDash } from '../shared/em-dash';
 import { DhYesNoPipeScam } from '../shared/yes-no.pipe';
 
 export interface MeteringPointIdentityTranslationKeys {

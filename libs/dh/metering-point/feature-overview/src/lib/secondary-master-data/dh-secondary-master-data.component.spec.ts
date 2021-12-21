@@ -33,7 +33,7 @@ import {
   DhSecondaryMasterDataComponent,
   DhSecondaryMasterDataComponentScam,
 } from './dh-secondary-master-data.component';
-import { emDash } from '../identity/em-dash';
+import { emDash } from '../shared/em-dash';
 
 describe(DhSecondaryMasterDataComponent.name, () => {
   async function setup(secondaryMasterData: MeteringPointCimDto) {

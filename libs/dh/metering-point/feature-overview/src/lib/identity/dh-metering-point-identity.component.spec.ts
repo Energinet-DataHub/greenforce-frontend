@@ -33,7 +33,7 @@ import {
   DhMeteringPointIdentityComponent,
   DhMeteringPointIdentityScam,
 } from './dh-metering-point-identity.component';
-import { emDash } from './em-dash';
+import { emDash } from '../shared/em-dash';
 
 describe(DhMeteringPointIdentityComponent.name, () => {
   async function setup(meteringPoint: MeteringPointCimDto) {

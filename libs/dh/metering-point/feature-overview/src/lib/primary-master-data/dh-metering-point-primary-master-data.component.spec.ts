@@ -31,7 +31,7 @@ import {
   DhMeteringPointPrimaryMasterDataScam,
   PrimaryMasterData,
 } from './dh-metering-point-primary-master-data.component';
-import { emDash } from '../identity/em-dash';
+import { emDash } from '../shared/em-dash';
 
 describe(DhMeteringPointPrimaryMasterDataComponent.name, () => {
   const fallbackValue = emDash;
