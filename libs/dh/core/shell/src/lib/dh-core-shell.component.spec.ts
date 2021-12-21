@@ -25,11 +25,13 @@ import {
   DhCoreShellComponent,
   DhCoreShellScam,
 } from './dh-core-shell.component';
+import { MsalServiceFake } from '@energinet-datahub/dh/shared/test-util-auth';
 
 describe(DhCoreShellComponent.name, () => {
   beforeEach(async () => {
     view = await render(DhCoreShellComponent, {
       imports: [getTranslocoTestingModule(), DhCoreShellScam],
+      providers: [MsalServiceFake]
     });
   });
 
