@@ -32,9 +32,4 @@ import {
   ],
 })
 export class EnergyTrackAndTraceAppModule {}
-<<<<<<< HEAD
-// Teest    
-       
-=======
-// Teest
->>>>>>> d7be82524a73404c60776aa863946a080ead78e5
+// Teest 
