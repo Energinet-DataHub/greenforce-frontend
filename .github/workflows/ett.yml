@@ -15,10 +15,6 @@ env:
   NX_RUN_GROUP: ${{ github.run_id }}
 
 on:
-  # push:
-  #   branches:
-  #     - main
-  # pull_request: {}
   workflow_dispatch: {}
   workflow_run:
     workflows: ['GreenForce Frontend CI']
@@ -198,6 +194,7 @@ jobs:
       - container_merge
     env:
       SERVICE_NAME: eo-frontend
+      # TODO: REVERT BACK
       # BASE_ENV_REPO: 'Energinet-DataHub/eo-base-environment' 
       BASE_ENV_REPO: 'RasmusGodske/eo-base-environment'
       BASE_ENV_REPO_BRANCH: 'development'
