@@ -13,15 +13,15 @@ import { ChargeType } from './charge-type';
 
 
 export interface ChargeLinkDto { 
-    chargeType?: ChargeType;
+    chargeType: ChargeType;
     chargeId?: string | null;
     chargeName?: string | null;
     chargeOwner?: string | null;
     chargeOwnerName?: string | null;
-    taxIndicator?: boolean;
-    transparentInvoicing?: boolean;
-    quantity?: number;
-    startDate?: string;
+    taxIndicator: boolean;
+    transparentInvoicing: boolean;
+    quantity: number;
+    startDate: string;
     endDate?: string | null;
 }
 

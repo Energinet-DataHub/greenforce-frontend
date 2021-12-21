@@ -14,11 +14,11 @@ import { ConnectionState } from './connection-state';
 
 
 export interface MeteringPointSimpleCimDto { 
-    meteringPointId?: string;
-    gsrnNumber?: string;
-    connectionState?: ConnectionState;
-    meteringPointType?: MeteringPointType;
-    effectiveDate?: string;
+    meteringPointId: string;
+    gsrnNumber: string;
+    connectionState: ConnectionState;
+    meteringPointType: MeteringPointType;
+    effectiveDate: string;
 }
 
 
