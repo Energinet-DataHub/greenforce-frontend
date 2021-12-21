@@ -53,15 +53,8 @@ limitations under the License.
             {{ t('productionObligation') }}
           </dt>
           <dd class="watt-text-m">
-            <ng-container
-              *ngIf="
-                isProductObligationDefined;
-                else emptyField
-              "
-            >
-              {{
-                secondaryMasterData?.productionObligation | yesNo
-              }}
+            <ng-container *ngIf="isProductObligationDefined; else emptyField">
+              {{ secondaryMasterData?.productionObligation | yesNo }}
             </ng-container>
           </dd>
         </div>
