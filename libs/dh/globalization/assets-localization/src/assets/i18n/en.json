@@ -126,7 +126,7 @@
       "MWH": "Megawatt-hour [EN]",
       "TNE": "metric ton [EN]",
       "Z03": "MegaVolt-Ampere reactive power [EN]",
-      "Z14": "KT  Tarifkode [EN]"
+      "Z14": "KT Tarifkode [EN]"
     },
     "meteringPointTypeCode": {
       "D01": "VE production",
