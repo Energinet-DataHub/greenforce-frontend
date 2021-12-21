@@ -21,8 +21,6 @@ on:
       - apps/dh/api-dh/**
       - .github/workflows/api-dh-app-*.yml
   pull_request:
-    branches:
-      - main
     paths-ignore:
       - apps/dh/api-dh/**
       - .github/workflows/api-dh-app-*.yml
