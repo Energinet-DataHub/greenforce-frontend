@@ -36,31 +36,6 @@ import {
 } from './dh-secondary-master-data.component';
 import { emDash } from '../identity/em-dash';
 
-describe('DhSecondaryMasterDataComponent', () => {
-  let component: DhSecondaryMasterDataComponent;
-  let fixture: ComponentFixture<DhSecondaryMasterDataComponent>;
-
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [DhSecondaryMasterDataComponent],
-      imports: [
-        DhSecondaryMasterDataComponentScam,
-        getTranslocoTestingModule(),
-      ],
-    }).compileComponents();
-  });
-
-  beforeEach(() => {
-    fixture = TestBed.createComponent(DhSecondaryMasterDataComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
-
 describe(DhSecondaryMasterDataComponent.name, () => {
   async function setup(secondaryMasterData: MeteringPointCimDto) {
     const { fixture } = await render(DhSecondaryMasterDataComponent, {
