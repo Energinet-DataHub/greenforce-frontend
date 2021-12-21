@@ -61,14 +61,18 @@ describe(DhSecondaryMasterDataComponent.name, () => {
     `(
       'displays correct value',
       async ({ incommingValueObject, testId, expectedDisplayValue }) => {
-        const secondaryMasterData: Partial<MeteringPointCimDto> =
-          incommingValueObject;
+        const secondaryMasterData: MeteringPointCimDto = {
+          ...incommingValueObject,
+        };
+
         await setup(secondaryMasterData);
+
         const disableQuerySuggestions: MatcherOptions = { suggest: false };
         const actualDisplayValue = screen.getByTestId(
           testId,
           disableQuerySuggestions
         ).textContent;
+
         expect(actualDisplayValue).toContain(expectedDisplayValue);
       }
     );
@@ -83,14 +87,18 @@ describe(DhSecondaryMasterDataComponent.name, () => {
     `(
       'displays fallback value when undefined',
       async ({ incommingValueObject, testId }) => {
-        const secondaryMasterData: Partial<MeteringPointCimDto> =
-          incommingValueObject;
+        const secondaryMasterData: MeteringPointCimDto = {
+          ...incommingValueObject,
+        };
+
         await setup(secondaryMasterData);
+
         const disableQuerySuggestions: MatcherOptions = { suggest: false };
         const actualDisplayValue = screen.getByTestId(
           testId,
           disableQuerySuggestions
         ).textContent;
+
         expect(actualDisplayValue).toBe(emDash);
       }
     );
