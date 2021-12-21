@@ -72,10 +72,6 @@
         "openLabel": "Se flere detaljer",
         "closeLabel": "Se færre detaljer"
       },
-      "boolean": {
-        "true": "Ja",
-        "false": "Nej"
-      },
       "units": {
         "kilowatt": "KW",
         "ampere": "A"
