@@ -181,11 +181,11 @@ jobs:
 
       - uses: 'marvinpinto/action-automatic-releases@919008cf3f741b179569b7a6fb4d8860689ab7f0'
         with:
-          repo_token: ${{ secrets.EO_DEPLOYMENT_TOKEN }}
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
           automatic_release_tag: ${{ steps.build_and_push.outputs.RELEASE_VERSION }}
           prerelease: false
           draft: false
-          title: Release ${{ steps.build_and_push.outputs.RELEASE_VERSION }}
+          title: Energy Origin ${{ steps.build_and_push.outputs.RELEASE_VERSION }}
 
   update_base_env:
     name: Update Base Environment
@@ -194,18 +194,17 @@ jobs:
       - container_merge
     env:
       SERVICE_NAME: eo-frontend
-      # TODO: REVERT BACK
-      # BASE_ENV_REPO: 'Energinet-DataHub/eo-base-environment' 
-      BASE_ENV_REPO: 'RasmusGodske/eo-base-environment'
+
+      BASE_ENV_REPO: 'Energinet-DataHub/eo-base-environment'
       BASE_ENV_REPO_BRANCH: 'development'
       HELM_CHART_PATH: 'yggdrasil/applications/eo/eo-frontend/eo-frontend.yaml'
       JOB_URL: '${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}'
-      
+
     steps:
-      # Checkout the base envionment
+      # Check out the base environment
       - uses: actions/checkout@v2
         with:
-          token: ${{ secrets.EO_DEPLOYMENT_TOKEN }}
+          token: ${{ secrets.EO_PAT }}
           repository: ${{ env.BASE_ENV_REPO }}
           ref: ${{ env.BASE_ENV_REPO_BRANCH }}
 
@@ -216,11 +215,11 @@ jobs:
           NEW_VALUE: ${{ needs.container_merge.outputs.release_tag }}
           REGEX_EXPRESSION: '^(?:.*tag: (.*))'
 
-      # Create a new branch and a pullrequest in the base environment
+      # Create a new branch and a pull request in the base environment
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3
         with:
-          token: ${{ secrets.EO_DEPLOYMENT_TOKEN }}
+          token: ${{ secrets.EO_PAT }}
           title: Bump ${{ env.SERVICE_NAME }} to ${{ needs.container_merge.outputs.release_tag }}
           commit-message: Bump ${{ env.SERVICE_NAME }} to ${{ needs.container_merge.outputs.release_tag }}
           committer: GitHub <noreply@github.com>

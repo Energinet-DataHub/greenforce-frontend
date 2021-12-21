@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 module.exports = {
-  displayName: 'ett-core-environments',
+  displayName: 'eo-shared-environments',
   preset: '../../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   globals: {
@@ -24,7 +24,7 @@ module.exports = {
       stringifyContentPathRegex: '\\.(html|svg)$',
     },
   },
-  coverageDirectory: '../../../../coverage/libs/ett/core/environments',
+  coverageDirectory: '../../../../coverage/libs/eo/shared/environments',
   transform: {
     '^.+.(ts|mjs|js|html)$': 'jest-preset-angular',
   },

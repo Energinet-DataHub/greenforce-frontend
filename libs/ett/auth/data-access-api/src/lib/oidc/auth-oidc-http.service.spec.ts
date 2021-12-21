@@ -19,6 +19,10 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
+import {
+  EoApiEnvironment,
+  eoApiEnvironmentToken,
+} from '@energinet-datahub/eo/shared/environments';
 import { lastValueFrom } from 'rxjs';
 
 import { AuthOidcHttp, AuthOidcLoginResponse } from './auth-oidc-http.service';
@@ -30,6 +34,7 @@ describe(AuthOidcHttp.name, () => {
       imports: [HttpClientTestingModule],
     });
 
+    apiEnvironment = TestBed.inject(eoApiEnvironmentToken);
     client = TestBed.inject(AuthOidcHttp);
     server = TestBed.inject(HttpTestingController);
   });
@@ -38,6 +43,7 @@ describe(AuthOidcHttp.name, () => {
     server.verify();
   });
 
+  let apiEnvironment: EoApiEnvironment;
   let client: AuthOidcHttp;
   let server: HttpTestingController;
 
@@ -49,7 +55,9 @@ describe(AuthOidcHttp.name, () => {
 
     lastValueFrom(client.login(expectedReturnUrl));
     const response = server.expectOne(
-      (request) => request.url === '/api/oidc/login' && request.method === 'GET'
+      (request) =>
+        request.url === `${apiEnvironment.apiBase}/auth/oidc/login` &&
+        request.method === 'GET'
     );
     response.flush(fakeResponse);
 

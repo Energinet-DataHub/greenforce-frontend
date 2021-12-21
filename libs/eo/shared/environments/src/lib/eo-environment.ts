@@ -14,9 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { EttEnvironment } from './ett-environment';
-
-export const environment: EttEnvironment = {
-  apiBase: '/api',
-  production: true,
-};
+export interface EoEnvironment {
+  readonly production: boolean;
+}
