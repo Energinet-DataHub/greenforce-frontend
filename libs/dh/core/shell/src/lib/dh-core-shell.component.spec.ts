@@ -31,7 +31,7 @@ describe(DhCoreShellComponent.name, () => {
   beforeEach(async () => {
     view = await render(DhCoreShellComponent, {
       imports: [getTranslocoTestingModule(), DhCoreShellScam],
-      providers: [MsalServiceFake]
+      providers: [MsalServiceFake],
     });
   });
 
