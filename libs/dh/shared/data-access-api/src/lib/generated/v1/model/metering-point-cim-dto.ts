@@ -38,17 +38,17 @@ export interface MeteringPointCimDto {
     ratedCurrent?: number | null;
     gridAreaName: string;
     gridAreaCode: string;
-    linkedExtendedMasterdata: string;
-    locationDescription: string;
+    linkedExtendedMasterdata?: string | null;
+    locationDescription?: string | null;
     productId: ProductId;
     unit: Unit;
-    effectiveDate?: string | null;
-    meterId: string;
-    streetCode: string;
-    citySubDivisionName: string;
-    floorIdentification: string;
-    suiteNumber: string;
-    buildingNumber: string;
+    effectiveDate: string;
+    meterId?: string | null;
+    streetCode?: string | null;
+    citySubDivisionName?: string | null;
+    floorIdentification?: string | null;
+    suiteNumber?: string | null;
+    buildingNumber?: string | null;
     municipalityCode?: number | null;
     isActualAddress?: boolean | null;
     darReference?: string | null;
@@ -64,7 +64,7 @@ export interface MeteringPointCimDto {
     productionObligation?: boolean | null;
     childMeteringPoints?: Array<MeteringPointSimpleCimDto> | null;
     parentMeteringPoint: MeteringPointSimpleCimDto;
-    powerPlantGsrnNumber: string;
+    powerPlantGsrnNumber?: string | null;
 }
 
 
