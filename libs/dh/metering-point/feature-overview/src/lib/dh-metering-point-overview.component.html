@@ -28,6 +28,12 @@ limitations under the License.
   <dh-secondary-master-data
     [secondaryMasterData]="meteringPoint"
   ></dh-secondary-master-data>
+  <watt-tabs>
+    <watt-tab label="Priser">Some awesome content for the first tab</watt-tab>
+    <watt-tab label="Child Målepunkter">
+      <dh-child-metering-point></dh-child-metering-point>
+    </watt-tab>
+  </watt-tabs>
 </ng-container>
 
 <ng-container *rxLet="isLoading$ as isLoading">

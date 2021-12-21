@@ -26,7 +26,7 @@ import { map, Subject, takeUntil } from 'rxjs';
 import { LetModule } from '@rx-angular/template';
 
 import { DhMeteringPointDataAccessApiStore } from '@energinet-datahub/dh/metering-point/data-access-api';
-import { WattSpinnerModule } from '@energinet-datahub/watt';
+import { WattSpinnerModule, WattTabsModule } from '@energinet-datahub/watt';
 
 import { DhSecondaryMasterDataComponentScam } from './secondary-master-data/dh-secondary-master-data.component';
 import { DhBreadcrumbScam } from './breadcrumb/dh-breadcrumb.component';
@@ -36,6 +36,7 @@ import { DhMeteringPointNotFoundScam } from './not-found/dh-metering-point-not-f
 import { DhMeteringPointPrimaryMasterDataScam } from './primary-master-data/dh-metering-point-primary-master-data.component';
 import { DhMeteringPointServerErrorScam } from './server-error/dh-metering-point-server-error.component';
 import { DhMeteringPointStatusBadgeScam } from './status-badge/dh-metering-point-status-badge.component';
+import { DhChildMeteringPointComponentScam } from './child-metering-point/dh-child-metering-point.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -92,6 +93,8 @@ export class DhMeteringPointOverviewComponent implements OnDestroy {
     LetModule,
     WattSpinnerModule,
     DhSecondaryMasterDataComponentScam,
+    WattTabsModule,
+    DhChildMeteringPointComponentScam
   ],
 })
 export class DhMeteringPointOverviewScam {}
