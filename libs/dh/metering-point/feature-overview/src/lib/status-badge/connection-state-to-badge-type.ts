@@ -14,7 +14,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export interface EttEnvironment {
-  readonly apiBase: string;
-  readonly production: boolean;
+import { ConnectionState } from '@energinet-datahub/dh/shared/data-access-api';
+import { WattBadgeType } from '@energinet-datahub/watt';
+
+/**
+ *
+ * @throws {Error} if the specified connection state has an unknown value.
+ */
+export function connectionStateToBadgeType(
+  connectionState: ConnectionState
+): WattBadgeType {
+  switch (connectionState) {
+    case ConnectionState.D02:
+    case ConnectionState.E23:
+      return 'warning';
+    case ConnectionState.E22:
+    case ConnectionState.D03:
+      return 'success';
+    default:
+      throw new Error(`Unknown connection state: ${connectionState}`);
+  }
 }

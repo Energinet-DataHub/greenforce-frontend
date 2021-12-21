@@ -1,5 +1,7 @@
 {
   "appName": "DataHub [EN]",
+  "yes": "Yes",
+  "no": "No",
   "meteringPoint": {
     "search": {
       "title": "Metering Points",
@@ -16,7 +18,173 @@
     "overview": {
       "breadcrumb": {
         "meteringPoints": "Metering points"
+      },
+      "meteringPointType": "Type of Metering Point",
+      "meteringMethod": "Metering Method",
+      "gsrnNumber": "Metering Point ID",
+      "connectionState": "Connection State",
+      "settlementMethod": "Settlement Method",
+      "readingOccurrence": "Meter Reading Periodicity",
+      "meteringPointNotFound": {
+        "title": "Sorry, we did not find a metering point match",
+        "message": "Please check the spelling and try again or go to search",
+        "button": "Go to search"
+      },
+      "serverError": {
+        "title": "Oops! There was an error",
+        "message": "Unfortunately, an error occurred while retrieving the necessary information.",
+        "button": "Try again"
+      },
+      "primaryMasterData": {
+        "address": "Address",
+        "actualAddress": "Actual address",
+        "notActualAddress": "Not an actual address",
+        "locationDescription": "Description",
+        "geoInfoReference": "DAR reference",
+        "hasElectricitySupplier": "Has Supplier?",
+        "since": "Since {{date}}",
+        "meterNumber": "Meternumber"
       }
+    },
+    "secondaryMasterData": {
+      "technicalSpecificationTitle": "Tekniske Specifikationer [EN]",
+      "netSettlementGroup": "Nettoafregningsgruppe [EN]",
+      "disconnectionType": "Afbrydelsesart [EN]",
+      "productionObligation": "Aftageligt [EN]",
+      "connectionType": "Tilslutningstype [EN]",
+      "gridAreaName": "Netområde [EN]",
+      "gridAreaCode": "Netområde ID [EN]",
+      "inAreaCode": "Til net [EN]",
+      "outAreaCode": "Fra net [EN]",
+      "capacity": "Anlægskapacitet [EN]",
+      "assetType": "Anlægsteknologi [EN]",
+      "ratedCapacity": "Effektgrænse KW [EN]",
+      "ratedCurrent": "Effektgrænse A [EN]",
+      "powerPlantGsrnNumber": "VærksGSRN [EN]",
+      "productId": "Produkt [EN]",
+      "unit": "Energienhed [EN]",
+      "effectiveDate": "Gyldighedsdato [EN]",
+      "locationDetailTitle": "Øvrige Lokationsdetaljer [EN]",
+      "streetCode": "Vejkode [EN]",
+      "municipalityCode": "Kommunekode [EN]",
+      "countryCode": "Landekode [EN]",
+      "expansion": {
+        "openLabel": "Se flere detaljer [EN]",
+        "closeLabel": "Se færre detaljer [EN]"
+      },
+      "units": {
+        "kilowatt": "KW",
+        "ampere": "A"
+      }
+    },
+    "disconnectionType": {
+      "D01": "Fjern afbrydelig [EN]",
+      "D02": "Manual afbrydelig [EN]"
+    },
+    "connectionType": {
+      "D01": "Direkte tilsluttet [EN]",
+      "D02": "Installationstilsluttet [EN]"
+    },
+    "assetType": {
+      "D01": "Dampturbine med modtryksdrift [EN]",
+      "D02": "Gasturbine [EN]",
+      "D03": "Combined cycle [EN]",
+      "D04": "Forbrændingsmotor Gas [EN]",
+      "D05": "Dampturbine med kondens/damp [EN]",
+      "D06": "Kedel [EN]",
+      "D07": "Stirlingmotor [EN]",
+      "D08": "Reserveret til senere brug [EN]",
+      "D09": "Reserveret til senere brug [EN]",
+      "D10": "Brændselsceller [EN]",
+      "D11": "Solceller [EN]",
+      "D12": "Vindmøller [EN]",
+      "D13": "Vandkraft [EN]",
+      "D14": "Bølgekraft [EN]",
+      "D15": "Reserveret til senere brug [EN]",
+      "D16": "Reserveret til senere brug [EN]",
+      "D17": "Regulerbare Vindmøller [EN]",
+      "D18": "Reserveret til senere brug [EN]",
+      "D19": "Forbrændingsmotor Dieselmotor [EN]",
+      "D20": "Bioforbrændingsmotor [EN]",
+      "D99": "Ukendt teknologi [EN]"
+    },
+    "productId": {
+      "Tariff": "Tariff",
+      "FuelQuantity": "Fuel quantity",
+      "PowerActive": "Power active",
+      "PowerReactive": "Power reactive",
+      "EnergyActive": "Energy active",
+      "EnergyReactive": "Energy reactive"
+    },
+    "unit": {
+      "AMP": "Ampere [EN]",
+      "H87": "Antal styk [EN]",
+      "K3": "KiloVolt-Ampere reactive hour [EN]",
+      "KWH": "Kilowatt-hour [EN]",
+      "KWT": "Kilowatt [EN]",
+      "MAW": "Megawatt [EN]",
+      "MWH": "Megawatt-hour [EN]",
+      "TNE": "metric ton [EN]",
+      "Z03": "MegaVolt-Ampere reactive power [EN]",
+      "Z14": "KT Tarifkode [EN]"
+    },
+    "meteringPointTypeCode": {
+      "D01": "VE production",
+      "D02": "Analysis",
+      "D03": "Not used",
+      "D04": "Surplus production group 6",
+      "D05": "Net production",
+      "D06": "Supply to grid",
+      "D07": "Consumption from grid",
+      "D08": "Whole sale services / information",
+      "D09": "Own production",
+      "D10": "Net from grid",
+      "D11": "Net to grid",
+      "D12": "Total consumption",
+      "D13": "Net loss correction",
+      "D14": "Electrical heating",
+      "D15": "Net Consumption",
+      "D16": "Reserved for later use",
+      "D17": "Reserved for later use",
+      "D18": "Reserved for later use",
+      "D19": "Reserved for later use",
+      "D20": "Exchange - Reactive energy",
+      "D21": "Reserved for later use",
+      "D22": "Reserved for later use",
+      "D23": "Reserved for later use",
+      "D24": "Reserved for later use",
+      "D25": "Reserved for later use",
+      "D26": "Reserved for later use",
+      "D27": "Reserved for later use",
+      "D28": "Reserved for later use",
+      "D29": "Reserved for later use",
+      "D30": "Reserved for later use",
+      "D99": "Internal use",
+      "E17": "Consumption",
+      "E18": "Production",
+      "E20": "Exchange"
+    },
+    "meteringPointSubTypeCode": {
+      "D01": "Physical",
+      "D02": "Virtual",
+      "D03": "Calculated"
+    },
+    "physicalStatusCode": {
+      "D02": "Closed down",
+      "D03": "New",
+      "E22": "Connected",
+      "E23": "Disconnected"
+    },
+    "settlementMethodCode": {
+      "D01": "Flex settled",
+      "E01": "Profiled",
+      "E02": "Non profiled"
+    },
+    "readingOccurrenceCode": {
+      "PT15M": "Quarterly",
+      "PT1H": "Hourly",
+      "P1M": "Monthly",
+      "P1Y": "Yearly"
     }
   }
 }

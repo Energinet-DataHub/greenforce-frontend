@@ -34,6 +34,9 @@ import { WattTabComponent } from './tab/tab.component';
   encapsulation: ViewEncapsulation.None,
 })
 export class WattTabsComponent {
+  /**
+   * @ignore
+   */
   @ContentChildren(WattTabComponent)
   public readonly tabElements: QueryList<WattTabComponent> = new QueryList<WattTabComponent>();
 }
