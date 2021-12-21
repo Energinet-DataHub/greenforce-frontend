@@ -108,25 +108,6 @@ describe(DhMeteringPointPrimaryMasterDataComponent.name, () => {
         '[streetName] [buildingNumber]<br>[citySubDivisionName]<br>[postalCode] [cityName]'
       );
     });
-
-    it('should show fallback if streetname, buildingNumber, citySubDivisionName, postalCode and cityName are not provided', async () => {
-      await setup({
-        ...testData,
-        streetName: undefined,
-        buildingNumber: undefined,
-        citySubDivisionName: undefined,
-        postalCode: undefined,
-        cityName: undefined,
-      });
-
-      const term = queryByTerm(
-        enTranslations.meteringPoint.overview.primaryMasterData.address
-      );
-      const definition = getDefinitonByTerm(term);
-
-      expect(definition).toBeInTheDocument();
-      expect(definition).toHaveTextContent(fallbackValue);
-    });
   });
 
   describe('Is actual address', () => {
@@ -389,8 +370,8 @@ describe(DhMeteringPointPrimaryMasterDataComponent.name, () => {
       expect(definition).toHaveTextContent(testData.meterId as string);
     });
 
-    it('should render fallback definition, if meter ID is undefined', async () => {
-      await setup({ ...testData, meterId: undefined });
+    it('should render fallback definition, if meter ID is null', async () => {
+      await setup({ ...testData, meterId: null });
 
       const term = getByTerm(
         enTranslations.meteringPoint.overview.primaryMasterData.meterNumber
