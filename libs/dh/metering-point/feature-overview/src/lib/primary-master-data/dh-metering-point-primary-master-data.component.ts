@@ -34,7 +34,7 @@ import {
   WattIconSize,
 } from '@energinet-datahub/watt';
 
-import { DhEmptyValuePipeScam } from './empty-value.pipe';
+import { DhEmptyValuePipeScam } from '../shared/empty-value.pipe';
 import { emDash } from '../shared/em-dash';
 import { DhYesNoPipeScam } from '../shared/yes-no.pipe';
 

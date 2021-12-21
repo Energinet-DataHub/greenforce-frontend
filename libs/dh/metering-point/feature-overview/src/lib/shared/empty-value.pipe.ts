@@ -16,7 +16,7 @@
  */
 import { NgModule, Pipe, PipeTransform } from '@angular/core';
 
-import { emDash } from '../shared/em-dash';
+import { emDash } from './em-dash';
 
 @Pipe({ name: 'emptyValue' })
 export class EmptyValuePipe implements PipeTransform {
