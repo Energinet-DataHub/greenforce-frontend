@@ -1,8 +1,12 @@
-import { AuthenticationResult, IPublicClientApplication, Logger } from "@azure/msal-browser";
-import { MockProvider } from "ng-mocks";
-import { Observable, of } from "rxjs";
+import {
+  AuthenticationResult,
+  IPublicClientApplication,
+  Logger,
+} from '@azure/msal-browser';
+import { MockProvider } from 'ng-mocks';
+import { Observable, of } from 'rxjs';
 
-import { MsalService } from "@energinet-datahub/dh/auth/msal";
+import { MsalService } from '@energinet-datahub/dh/auth/msal';
 
 const accountMock = {
   environment: '',
@@ -11,10 +15,12 @@ const accountMock = {
   localAccountId: '',
   name: '',
   tenantId: '',
-  username: ''
+  username: '',
 };
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-function handleRedirectObservableMock(_hash?: string): Observable<AuthenticationResult> {
+function handleRedirectObservableMock(
+  _hash?: string
+): Observable<AuthenticationResult> {
   return of({
     accessToken: '',
     account: accountMock,
@@ -51,5 +57,5 @@ export const MsalServiceFake = MockProvider(MsalService, {
   getLogger: getLoggerMock,
   instance: {
     getAllAccounts: () => [accountMock],
-  } as IPublicClientApplication
+  } as IPublicClientApplication,
 });

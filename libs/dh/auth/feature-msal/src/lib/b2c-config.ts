@@ -92,6 +92,6 @@ export function MSALGuardConfigFactory(): MsalGuardConfiguration {
     interactionType: InteractionType.Redirect,
     authRequest: {
       scopes: [...apiConfig.scopes],
-    }
+    },
   };
 }

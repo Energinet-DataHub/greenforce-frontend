@@ -27,9 +27,7 @@ describe(DataHubAppComponent.name, () => {
   it('has a router outlet', async () => {
     const view = await render(DataHubAppComponent, {
       imports: [DataHubAppModule],
-      providers: [
-        MsalServiceFake
-      ]
+      providers: [MsalServiceFake],
     });
 
     const routerOutlet = view.fixture.debugElement

@@ -25,9 +25,7 @@ describe('Application smoke test', () => {
   it('navigation works', async () => {
     const { navigate } = await render(DataHubAppComponent, {
       imports: [DataHubAppModule],
-      providers: [
-        MsalServiceFake
-      ]
+      providers: [MsalServiceFake],
     });
 
     const didNavigationSucceed = await navigate('/');
