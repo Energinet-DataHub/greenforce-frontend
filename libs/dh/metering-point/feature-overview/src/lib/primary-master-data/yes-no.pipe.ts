@@ -33,11 +33,8 @@ export class YesNoPipe implements PipeTransform {
   constructor(private transloco: TranslocoService) {}
 
   private isFalsy(value: string | undefined | null | boolean): boolean {
-
     if (typeof value === 'string') {
-
       return value.trim() === '';
-
     }
 
     return value == null || value === false;
