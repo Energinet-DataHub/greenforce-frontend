@@ -33,7 +33,7 @@ import {
   DhSecondaryMasterDataComponent,
   DhSecondaryMasterDataComponentScam,
 } from './dh-secondary-master-data.component';
-import { emDash } from '../identity/em-dash';
+import { emDash } from '../shared/em-dash';
 
 describe(DhSecondaryMasterDataComponent.name, () => {
   async function setup(secondaryMasterData: MeteringPointCimDto) {
@@ -61,14 +61,18 @@ describe(DhSecondaryMasterDataComponent.name, () => {
     `(
       'displays correct value',
       async ({ incommingValueObject, testId, expectedDisplayValue }) => {
-        const secondaryMasterData: Partial<MeteringPointCimDto> =
-          incommingValueObject;
+        const secondaryMasterData: MeteringPointCimDto = {
+          ...incommingValueObject,
+        };
+
         await setup(secondaryMasterData);
+
         const disableQuerySuggestions: MatcherOptions = { suggest: false };
         const actualDisplayValue = screen.getByTestId(
           testId,
           disableQuerySuggestions
         ).textContent;
+
         expect(actualDisplayValue).toContain(expectedDisplayValue);
       }
     );
@@ -83,14 +87,18 @@ describe(DhSecondaryMasterDataComponent.name, () => {
     `(
       'displays fallback value when undefined',
       async ({ incommingValueObject, testId }) => {
-        const secondaryMasterData: Partial<MeteringPointCimDto> =
-          incommingValueObject;
+        const secondaryMasterData: MeteringPointCimDto = {
+          ...incommingValueObject,
+        };
+
         await setup(secondaryMasterData);
+
         const disableQuerySuggestions: MatcherOptions = { suggest: false };
         const actualDisplayValue = screen.getByTestId(
           testId,
           disableQuerySuggestions
         ).textContent;
+
         expect(actualDisplayValue).toBe(emDash);
       }
     );

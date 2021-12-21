@@ -33,7 +33,6 @@ import {
   DhMeteringPointIdentityComponent,
   DhMeteringPointIdentityScam,
 } from './dh-metering-point-identity.component';
-import { emDash } from './em-dash';
 
 describe(DhMeteringPointIdentityComponent.name, () => {
   async function setup(meteringPoint: MeteringPointCimDto) {
@@ -46,8 +45,6 @@ describe(DhMeteringPointIdentityComponent.name, () => {
 
     runOnPushChangeDetection(fixture);
   }
-
-  const meteringPointId = '575391908025497398';
 
   describe('metering point type', () => {
     // eslint-disable-next-line sonarjs/no-duplicate-string
