@@ -18,12 +18,12 @@
   display: block;
 }
 
-.smd__container div {
+.smd-list__row {
   display: flex;
   justify-content: left;
   align-items: center;
 }
 
-.smd__container dt {
+.smd-list__row dt {
   width: 15rem;
 }
