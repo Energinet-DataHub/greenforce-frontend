@@ -33,8 +33,9 @@ const accountMock = {
   tenantId: '',
   username: '',
 };
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+
 function handleRedirectObservableMock(
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   _hash?: string
 ): Observable<AuthenticationResult> {
   return of({
