@@ -35,7 +35,7 @@ import {
 import { DomSanitizer } from '@angular/platform-browser';
 import { emDash } from '../identity/em-dash';
 import { DhEmptyValuePipeScam } from './empty-value.pipe';
-import { DhYesNoPipeScam } from './yes-no.pipe';
+import { DhYesNoPipeScam } from '../shared/yes-no.pipe';
 
 export type PrimaryMasterData = Pick<
   MeteringPointCimDto,

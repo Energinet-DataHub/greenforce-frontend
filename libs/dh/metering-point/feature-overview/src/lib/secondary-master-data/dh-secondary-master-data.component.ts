@@ -19,8 +19,9 @@ import { Component, Input, NgModule } from '@angular/core';
 import { MeteringPointCimDto } from '@energinet-datahub/dh/shared/data-access-api';
 import { WattExpansionModule, WattIconModule } from '@energinet-datahub/watt';
 import { TranslocoModule } from '@ngneat/transloco';
+
 import { emDash } from '../identity/em-dash';
-import { DhYesNoPipeScam } from '../primary-master-data/yes-no.pipe';
+import { DhYesNoPipeScam } from '../shared/yes-no.pipe';
 
 export interface MeteringPointIdentityTranslationKeys {
   disconnectionType: string;
