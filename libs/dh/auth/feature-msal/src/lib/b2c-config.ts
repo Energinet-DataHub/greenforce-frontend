@@ -23,7 +23,8 @@ import {
   LogLevel,
   PublicClientApplication,
 } from '@azure/msal-browser';
-import { MsalGuardConfiguration } from '@energinet-datahub/dh/auth/msal';
+
+import { MsalGuardConfiguration } from './msal.guard.config';
 
 /**
  * Enter here the user flows and custom policies for your B2C application
