@@ -15,17 +15,16 @@
  * limitations under the License.
  */
 module.exports = {
-  displayName: 'dh-app',
-  preset: '../../../jest.preset.js',
+  displayName: 'dh-shared-test-util-auth',
+  preset: '../../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   globals: {
     'ts-jest': {
       tsconfig: '<rootDir>/tsconfig.spec.json',
       stringifyContentPathRegex: '\\.(html|svg)$',
     },
-    crypto: require('crypto') // Required by MSAL
   },
-  coverageDirectory: '../../coverage/apps/dh/app-dh',
+  coverageDirectory: '../../../../coverage/libs/dh/shared/test-util-auth',
   transform: {
     '^.+.(ts|mjs|js|html)$': 'jest-preset-angular',
   },

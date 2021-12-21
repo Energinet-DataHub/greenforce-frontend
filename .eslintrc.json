@@ -15,6 +15,7 @@
               {
                 "sourceTag": "type:app",
                 "onlyDependOnLibsWithTags": [
+                  "type:feature",
                   "type:test-util",
                   "type:shell",
                   "type:environments",

@@ -20,6 +20,7 @@
     "dh-shared-assets": "libs/dh/shared/assets",
     "dh-shared-data-access-api": "libs/dh/shared/data-access-api",
     "dh-shared-environments": "libs/dh/shared/environments",
+    "dh-shared-test-util-auth": "libs/dh/shared/test-util-auth",
     "dh-shared-test-util-i18n": "libs/dh/shared/test-util-i18n",
     "dh-shared-test-util-metering-point": "libs/dh/shared/test-util-metering-point",
     "e2e-dh": "apps/dh/e2e-dh",
