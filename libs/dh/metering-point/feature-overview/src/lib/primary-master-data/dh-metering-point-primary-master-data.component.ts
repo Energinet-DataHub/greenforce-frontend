@@ -85,17 +85,10 @@ export class DhMeteringPointPrimaryMasterDataComponent implements OnChanges {
   }
 
   private formatAddress(data: PrimaryMasterData): string {
-    if (
-      !data.streetName &&
-      !data.buildingNumber &&
-      !data.citySubDivisionName &&
-      !data.cityName &&
-      !data.postalCode
-    ) {
-      return this.fallbackValue;
+    let address = `${data.streetName}`;
+    if (data.buildingNumber) {
+      address += ` ${data.buildingNumber}`;
     }
-
-    let address = `${data.streetName} ${data.buildingNumber}`;
     if (data.floorIdentification || data.suiteNumber) {
       address += ',';
     }
