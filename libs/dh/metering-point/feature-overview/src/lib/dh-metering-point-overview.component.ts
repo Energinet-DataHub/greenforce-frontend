@@ -28,6 +28,7 @@ import { LetModule } from '@rx-angular/template';
 import { DhMeteringPointDataAccessApiStore } from '@energinet-datahub/dh/metering-point/data-access-api';
 import { WattSpinnerModule } from '@energinet-datahub/watt';
 
+import { DhSecondaryMasterDataComponentScam } from './secondary-master-data/dh-secondary-master-data.component';
 import { DhBreadcrumbScam } from './breadcrumb/dh-breadcrumb.component';
 import { DhMeteringPointIdentityScam } from './identity/dh-metering-point-identity.component';
 import { dhMeteringPointIdParam } from './routing/dh-metering-point-id-param';
@@ -90,6 +91,7 @@ export class DhMeteringPointOverviewComponent implements OnDestroy {
     DhMeteringPointStatusBadgeScam,
     LetModule,
     WattSpinnerModule,
+    DhSecondaryMasterDataComponentScam,
   ],
 })
 export class DhMeteringPointOverviewScam {}

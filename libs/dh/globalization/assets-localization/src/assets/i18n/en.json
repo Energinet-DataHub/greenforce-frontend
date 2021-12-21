@@ -46,6 +46,88 @@
         "meterNumber": "Meternumber"
       }
     },
+    "secondaryMasterData": {
+      "technicalSpecificationTitle": "Tekniske Specifikationer [EN]",
+      "netSettlementGroup": "Nettoafregningsgruppe [EN]",
+      "disconnectionType": "Afbrydelsesart [EN]",
+      "productionObligation": "Aftageligt [EN]",
+      "connectionType": "Tilslutningstype [EN]",
+      "gridAreaName": "Netområde [EN]",
+      "gridAreaCode": "Netområde ID [EN]",
+      "inAreaCode": "Til net [EN]",
+      "outAreaCode": "Fra net [EN]",
+      "capacity": "Anlægskapacitet [EN]",
+      "assetType": "Anlægsteknologi [EN]",
+      "ratedCapacity": "Effektgrænse KW [EN]",
+      "ratedCurrent": "Effektgrænse A [EN]",
+      "powerPlantGsrnNumber": "VærksGSRN [EN]",
+      "productId": "Produkt [EN]",
+      "unit": "Energienhed [EN]",
+      "effectiveDate": "Gyldighedsdato [EN]",
+      "locationDetailTitle": "Øvrige Lokationsdetaljer [EN]",
+      "streetCode": "Vejkode [EN]",
+      "municipalityCode": "Kommunekode [EN]",
+      "countryCode": "Landekode [EN]",
+      "expansion": {
+        "openLabel": "Se flere detaljer [EN]",
+        "closeLabel": "Se færre detaljer [EN]"
+      },
+      "units": {
+        "kilowatt": "KW",
+        "ampere": "A"
+      }
+    },
+    "disconnectionType": {
+      "D01": "Fjern afbrydelig [EN]",
+      "D02": "Manual afbrydelig [EN]"
+    },
+    "connectionType": {
+      "D01": "Direkte tilsluttet [EN]",
+      "D02": "Installationstilsluttet [EN]"
+    },
+    "assetType": {
+      "D01": "Dampturbine med modtryksdrift [EN]",
+      "D02": "Gasturbine [EN]",
+      "D03": "Combined cycle [EN]",
+      "D04": "Forbrændingsmotor Gas [EN]",
+      "D05": "Dampturbine med kondens/damp [EN]",
+      "D06": "Kedel [EN]",
+      "D07": "Stirlingmotor [EN]",
+      "D08": "Reserveret til senere brug [EN]",
+      "D09": "Reserveret til senere brug [EN]",
+      "D10": "Brændselsceller [EN]",
+      "D11": "Solceller [EN]",
+      "D12": "Vindmøller [EN]",
+      "D13": "Vandkraft [EN]",
+      "D14": "Bølgekraft [EN]",
+      "D15": "Reserveret til senere brug [EN]",
+      "D16": "Reserveret til senere brug [EN]",
+      "D17": "Regulerbare Vindmøller [EN]",
+      "D18": "Reserveret til senere brug [EN]",
+      "D19": "Forbrændingsmotor Dieselmotor [EN]",
+      "D20": "Bioforbrændingsmotor [EN]",
+      "D99": "Ukendt teknologi [EN]"
+    },
+    "productId": {
+      "Tariff": "Tariff",
+      "FuelQuantity": "Fuel quantity",
+      "PowerActive": "Power active",
+      "PowerReactive": "Power reactive",
+      "EnergyActive": "Energy active",
+      "EnergyReactive": "Energy reactive"
+    },
+    "unit": {
+      "AMP": "Ampere [EN]",
+      "H87": "Antal styk [EN]",
+      "K3": "KiloVolt-Ampere reactive hour [EN]",
+      "KWH": "Kilowatt-hour [EN]",
+      "KWT": "Kilowatt [EN]",
+      "MAW": "Megawatt [EN]",
+      "MWH": "Megawatt-hour [EN]",
+      "TNE": "metric ton [EN]",
+      "Z03": "MegaVolt-Ampere reactive power [EN]",
+      "Z14": "KT Tarifkode [EN]"
+    },
     "meteringPointTypeCode": {
       "D01": "VE production",
       "D02": "Analysis",

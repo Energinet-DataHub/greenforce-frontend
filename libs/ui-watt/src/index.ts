@@ -31,3 +31,4 @@ export * from './lib/components/spinner';
 export * from './lib/components/tabs';
 export * from './lib/foundations/breakpoints';
 export * from './lib/foundations/icon';
+export * from './lib/components/expansion';

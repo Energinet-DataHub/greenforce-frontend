@@ -20,10 +20,12 @@ limitations under the License.
   [expanded]="expanded"
 >
   <mat-expansion-panel-header>
-    <watt-button aria-hidden="true">{{ openLabel }}</watt-button>
+    <watt-button icon="plus" aria-hidden="true">{{ openLabel }}</watt-button>
   </mat-expansion-panel-header>
   <ng-content></ng-content>
   <mat-action-row>
-    <watt-button (click)="onClose(expansion)">{{ closeLabel }}</watt-button>
+    <watt-button icon="minus" (click)="onClose(expansion)">{{
+      closeLabel
+    }}</watt-button>
   </mat-action-row>
 </mat-expansion-panel>

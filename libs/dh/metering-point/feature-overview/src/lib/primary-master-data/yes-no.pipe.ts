@@ -22,8 +22,8 @@ import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
   pure: false,
 })
 export class YesNoPipe implements PipeTransform {
-  transform(value: string | undefined | null): string {
-    if (value === undefined || value === null || value.trim() === '') {
+  transform(value: string | undefined | null | boolean): string {
+    if (this.isFalsy(value)) {
       return this.transloco.translate('no');
     }
 
@@ -31,6 +31,14 @@ export class YesNoPipe implements PipeTransform {
   }
 
   constructor(private transloco: TranslocoService) {}
+
+  private isFalsy(value: string | undefined | null | boolean): boolean {
+    if (typeof value === 'string') {
+      return value.trim() === '';
+    }
+
+    return value == null || value === false;
+  }
 }
 
 @NgModule({
