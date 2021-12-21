@@ -57,11 +57,11 @@ export class DhSecondaryMasterDataComponent {
   private buildTranslations(
     meteringPoint: MeteringPointCimDto
   ): MeteringPointIdentityTranslationKeys {
-    const disconnectionType = `meteringPoint.disconnectionType.${meteringPoint?.disconnectionType}`;
-    const connectionType = `meteringPoint.connectionType.${meteringPoint?.connectionType}`;
-    const assetType = `meteringPoint.assetType.${meteringPoint?.assetType}`;
-    const productId = `meteringPoint.productId.${meteringPoint?.productId}`;
-    const unit = `meteringPoint.unit.${meteringPoint?.unit}`;
+    const disconnectionType = `meteringPoint.disconnectionType.${meteringPoint?.disconnectionType ?? ''}`;
+    const connectionType = `meteringPoint.connectionType.${meteringPoint?.connectionType ?? ''}`;
+    const assetType = `meteringPoint.assetType.${meteringPoint?.assetType ?? ''}`;
+    const productId = `meteringPoint.productId.${meteringPoint?.productId ?? ''}`;
+    const unit = `meteringPoint.unit.${meteringPoint?.unit ?? ''}`;
 
     return {
       disconnectionType,
