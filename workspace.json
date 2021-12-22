@@ -21,6 +21,7 @@
     "dh-shared-environments": "libs/dh/shared/environments",
     "dh-shared-test-util-i18n": "libs/dh/shared/test-util-i18n",
     "dh-shared-test-util-metering-point": "libs/dh/shared/test-util-metering-point",
+    "dh-shared-ui-date-time": "libs/dh/shared/ui-date-time",
     "e2e-dh": "apps/dh/e2e-dh",
     "e2e-ett": "apps/ett/e2e-ett",
     "eo-shared-assets": "libs/eo/shared/assets",
