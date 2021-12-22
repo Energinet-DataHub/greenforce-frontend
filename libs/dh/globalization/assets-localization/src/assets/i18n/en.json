@@ -44,6 +44,12 @@
         "hasElectricitySupplier": "Has Supplier?",
         "since": "Since {{date}}",
         "meterNumber": "Meternumber"
+      },
+      "childMeteringPoint": {
+        "childMeteringPoint": "Child Målepunkt [EN]",
+        "effectivePeriod": "Gyldighedsperiode [EN]",
+        "status": "Status [EN]",
+        "now": "now"
       }
     },
     "secondaryMasterData": {
