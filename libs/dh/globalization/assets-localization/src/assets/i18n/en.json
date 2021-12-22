@@ -46,10 +46,16 @@
         "meterNumber": "Meternumber"
       },
       "childMeteringPoint": {
-        "childMeteringPoint": "Child Målepunkt [EN]",
-        "effectivePeriod": "Gyldighedsperiode [EN]",
-        "status": "Status [EN]",
-        "now": "now"
+        "childMeteringPoint": "Child Metering Point",
+        "effectivePeriod": "Validity period",
+        "status": "Status",
+        "now": "now",
+        "noChildMeteringPointsTitle": "No child metering point(s)",
+        "noChildMeteringPointsText": "we did not find any child metering point(s) on this metering point "
+      },
+      "tabs": {
+        "prices": "Prices",
+        "childMeteringPoints": "Child Metering Points"
       }
     },
     "secondaryMasterData": {

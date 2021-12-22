@@ -1,13 +1,13 @@
 .header-cell{
-    background: #EBF5F5;
+    background: var(--watt-color-focus-selection);
 }
 
 .secondary-text{
-    color: #757575;
+    color: var(--watt-color-neutral-grey-600);
 }
 
 .primary-color{
-    color: #00847C;
+    color: var(--watt-color-primary);
 }
 
 .mat-cell > div{
@@ -16,4 +16,9 @@
 
 .multi-line-cell{
     padding: 0.75rem 0 0.25rem 0;
+}
+
+:host {
+    display: block;
+    padding: var(--watt-space-xl) 0;
 }

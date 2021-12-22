@@ -1,52 +1,107 @@
-<mat-table [dataSource]="sortedData" matSort (matSortChange)="sortData($event)">
-  <!-- User name Definition -->
-  <ng-container matColumnDef="childMeteringPoint">
-    <mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by number" class="header-cell watt-label">{{ 'meteringPoint.overview.childMeteringPoint.childMeteringPoint' | transloco }}</mat-header-cell>
-    <mat-cell *matCellDef="let row">
-      <div class="multi-line-cell">
-
-        <div class="watt-text-s">
-          {{ 'meteringPoint.meteringPointTypeCode.' + row.meteringPointType | transloco }}
-        </div>
-        <div class="watt-text-xs secondary-text">
-          {{ row.gsrnNumber }} 
-        </div>
-      </div>
-    </mat-cell>
-  </ng-container>
-
-  <!-- Age Definition -->
-  <ng-container matColumnDef="effectivePeriod">
-    <mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by number" class="header-cell watt-label">{{ 'meteringPoint.overview.childMeteringPoint.effectivePeriod' | transloco }}</mat-header-cell>
-    <mat-cell *matCellDef="let row">
-      <div class="watt-text-s">
-        <watt-icon name="date" [size]="iconSize.Small" class="primary-color"></watt-icon>
-      </div>
-      <div class="watt-text-s">
-        {{ row.effectiveDate }} - {{'meteringPoint.overview.childMeteringPoint.now' | transloco}}
-      </div>
-    </mat-cell>
-  </ng-container>
-
-  <!-- Title Definition -->
-  <ng-container matColumnDef="status">
-    <mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by number" class="header-cell watt-label">{{ 'meteringPoint.overview.childMeteringPoint.status' | transloco }}</mat-header-cell>
-    <mat-cell *matCellDef="let row">
-        <dh-status-badge
-        [connectionState]="row.connectionState"
-        ></dh-status-badge>
-    </mat-cell>
-  </ng-container>
-
-  <!-- Header and Row Declarations -->
-  <mat-header-row
-    *matHeaderRowDef="['childMeteringPoint', 'effectivePeriod', 'status']"
-  ></mat-header-row>
-  <mat-row
-    *matRowDef="
-      let row;
-      columns: ['childMeteringPoint', 'effectivePeriod', 'status']
-    "
+<ng-container
+  *ngIf="childMeteringPoints && childMeteringPoints.length > 0; else emptyTab"
+>
+  <mat-table
+    #matTable
+    [dataSource]="sortedData"
+    matSort
+    (matSortChange)="sortData($event)"
   >
-</mat-row>
-</mat-table>
+    <!-- User name Definition -->
+    <ng-container matColumnDef="childMeteringPoint">
+      <mat-header-cell
+        *matHeaderCellDef
+        mat-sort-header
+        sortActionDescription="Sort by number"
+        class="header-cell watt-label"
+        >{{
+          'meteringPoint.overview.childMeteringPoint.childMeteringPoint'
+            | transloco
+        }}</mat-header-cell
+      >
+      <mat-cell *matCellDef="let row">
+        <div class="multi-line-cell">
+          <div class="watt-text-s">
+            {{
+              'meteringPoint.meteringPointTypeCode.' + row.meteringPointType
+                | transloco
+            }}
+          </div>
+          <div class="watt-text-xs secondary-text">
+            {{ row.gsrnNumber }}
+          </div>
+        </div>
+      </mat-cell>
+    </ng-container>
+
+    <!-- Age Definition -->
+    <ng-container matColumnDef="effectivePeriod">
+      <mat-header-cell
+        *matHeaderCellDef
+        mat-sort-header
+        sortActionDescription="Sort by number"
+        class="header-cell watt-label"
+        >{{
+          'meteringPoint.overview.childMeteringPoint.effectivePeriod'
+            | transloco
+        }}</mat-header-cell
+      >
+      <mat-cell *matCellDef="let row">
+        <div class="watt-text-s">
+          <watt-icon
+            name="date"
+            [size]="iconSize.Small"
+            class="primary-color"
+          ></watt-icon>
+        </div>
+        <div class="watt-text-s">
+          {{ row.effectiveDate }} -
+          {{ 'meteringPoint.overview.childMeteringPoint.now' | transloco }}
+        </div>
+      </mat-cell>
+    </ng-container>
+
+    <!-- Title Definition -->
+    <ng-container matColumnDef="status">
+      <mat-header-cell
+        *matHeaderCellDef
+        mat-sort-header
+        sortActionDescription="Sort by number"
+        class="header-cell watt-label"
+        >{{
+          'meteringPoint.overview.childMeteringPoint.status' | transloco
+        }}</mat-header-cell
+      >
+      <mat-cell *matCellDef="let row">
+        <dh-status-badge
+          [connectionState]="row.connectionState"
+        ></dh-status-badge>
+      </mat-cell>
+    </ng-container>
+
+    <!-- Header and Row Declarations -->
+    <mat-header-row
+      *matHeaderRowDef="['childMeteringPoint', 'effectivePeriod', 'status']"
+    ></mat-header-row>
+    <mat-row
+      *matRowDef="
+        let row;
+        columns: ['childMeteringPoint', 'effectivePeriod', 'status']
+      "
+    >
+    </mat-row>
+  </mat-table>
+</ng-container>
+<ng-template #emptyTab>
+  <watt-empty-state
+    size="small"
+    [title]="
+      'meteringPoint.overview.childMeteringPoint.noChildMeteringPointsTitle'
+        | transloco
+    "
+    [message]="
+      'meteringPoint.overview.childMeteringPoint.noChildMeteringPointsText'
+        | transloco
+    "
+  ></watt-empty-state>
+</ng-template>
