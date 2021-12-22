@@ -16,7 +16,7 @@
  */
 import { NgModule } from '@angular/core';
 
-import { DhDatePipe } from './dh-date-time.pipe';
+import { DhDatePipe } from './dh-date.pipe';
 
 @NgModule({
   declarations: [DhDatePipe],
