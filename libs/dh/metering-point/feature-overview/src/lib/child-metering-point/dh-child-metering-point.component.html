@@ -1,7 +1,7 @@
-<mat-table [dataSource]="childMeteringPoints">
+<mat-table [dataSource]="sortedData" matSort (matSortChange)="sortData($event)">
   <!-- User name Definition -->
   <ng-container matColumnDef="childMeteringPoint">
-    <mat-header-cell *matHeaderCellDef mat-sort-header class="header-cell watt-label">{{ 'meteringPoint.overview.childMeteringPoint.childMeteringPoint' | transloco }}</mat-header-cell>
+    <mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by number" class="header-cell watt-label">{{ 'meteringPoint.overview.childMeteringPoint.childMeteringPoint' | transloco }}</mat-header-cell>
     <mat-cell *matCellDef="let row">
       <div class="multi-line-cell">
 
@@ -17,7 +17,7 @@
 
   <!-- Age Definition -->
   <ng-container matColumnDef="effectivePeriod">
-    <mat-header-cell *matHeaderCellDef mat-sort-header class="header-cell watt-label">{{ 'meteringPoint.overview.childMeteringPoint.effectivePeriod' | transloco }}</mat-header-cell>
+    <mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by number" class="header-cell watt-label">{{ 'meteringPoint.overview.childMeteringPoint.effectivePeriod' | transloco }}</mat-header-cell>
     <mat-cell *matCellDef="let row">
       <div class="watt-text-s">
         <watt-icon name="date" [size]="iconSize.Small" class="primary-color"></watt-icon>
@@ -30,7 +30,7 @@
 
   <!-- Title Definition -->
   <ng-container matColumnDef="status">
-    <mat-header-cell *matHeaderCellDef mat-sort-header class="header-cell watt-label">{{ 'meteringPoint.overview.childMeteringPoint.status' | transloco }}</mat-header-cell>
+    <mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by number" class="header-cell watt-label">{{ 'meteringPoint.overview.childMeteringPoint.status' | transloco }}</mat-header-cell>
     <mat-cell *matCellDef="let row">
         <dh-status-badge
         [connectionState]="row.connectionState"
