@@ -17,6 +17,7 @@ import { WattIconModule, WattIconSize, WattEmptyStateModule } from '@energinet-d
 import { MeteringPointSimpleCimDto } from '@energinet-datahub/dh/shared/data-access-api';
 import { TranslocoModule } from '@ngneat/transloco';
 import { DhMeteringPointStatusBadgeScam } from '../status-badge/dh-metering-point-status-badge.component';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'dh-child-metering-point',
@@ -30,6 +31,8 @@ export class DhChildMeteringPointComponent implements AfterViewInit {
   @Input()
   childMeteringPoints?: Array<MeteringPointSimpleCimDto> | null | undefined;
   
+  constructor(private router: Router, private route: ActivatedRoute){}
+
   @ViewChild(MatSort) matSort?: MatSort;
 
   ngAfterViewInit(): void {
@@ -62,13 +65,20 @@ export class DhChildMeteringPointComponent implements AfterViewInit {
       }
     });
   }
+
   setDefaultSorting() {
       this.matSort?.sort(
         this.matSort.sortables.get('childMeteringPoint') as MatSortable
       );
   }
+
   compare(a: number | string, b: number | string, isAsc: boolean) {
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
+  }
+
+  onClick(row: MeteringPointSimpleCimDto){
+    console.log('click', this.route.snapshot)
+    this.router.navigate(['/metering-point', row.gsrnNumber])
   }
 }
 
