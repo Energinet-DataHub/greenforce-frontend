@@ -24,9 +24,8 @@ describe('DhChildMeteringPointComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ DhChildMeteringPointComponent ]
-    })
-    .compileComponents();
+      declarations: [DhChildMeteringPointComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

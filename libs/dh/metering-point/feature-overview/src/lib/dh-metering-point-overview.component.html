@@ -30,8 +30,19 @@ limitations under the License.
   ></dh-secondary-master-data>
   <watt-tabs *transloco="let t; read: 'meteringPoint.overview.tabs'">
     <watt-tab [label]="t('prices')"></watt-tab>
-    <watt-tab [label]="t('childMeteringPoints', {count: (meteringPoint.childMeteringPoints !== null || undefined) ? meteringPoint.childMeteringPoints!.length : 0})">
-      <dh-child-metering-point [childMeteringPoints]="meteringPoint.childMeteringPoints"></dh-child-metering-point>
+    <watt-tab
+      [label]="
+        t('childMeteringPoints', {
+          count:
+            meteringPoint.childMeteringPoints !== null || undefined
+              ? meteringPoint.childMeteringPoints!.length
+              : 0
+        })
+      "
+    >
+      <dh-child-metering-point
+        [childMeteringPoints]="meteringPoint.childMeteringPoints"
+      ></dh-child-metering-point>
     </watt-tab>
   </watt-tabs>
 </ng-container>
