@@ -1,7 +1,9 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
+import { DhDatePipe } from './dh-date-time.pipe';
 
 @NgModule({
-  imports: [CommonModule],
+  declarations: [DhDatePipe],
+  exports: [DhDatePipe],
 })
 export class DhSharedUiDateTimeModule {}
