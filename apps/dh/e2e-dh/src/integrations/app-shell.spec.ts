@@ -14,6 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- import { Page } from '@playwright/test';
+import { test, expect } from '@playwright/test';
 
- export const getTitle = (page: Page) => page.locator('h1');
+import * as appShell from '../support/app-shell.po';
+
+test.describe('Application shell', () => {
+
+  test.beforeEach(async ({ page }) => {
+    await page.goto('/');
+  });
+
+  test('the application title is displayed', async ({ page }) => {
+    await expect(appShell.getTitle(page)).toHaveText('Målepunkter');
+  });
+});
