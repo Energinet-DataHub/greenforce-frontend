@@ -30,18 +30,18 @@ export interface MeteringPointCimDto {
     postalCode: string;
     cityName: string;
     countryCode: string;
-    connectionState: ConnectionState;
-    meteringMethod: MeteringMethod;
-    readingOccurrence: ReadingOccurrence;
-    meteringPointType: MeteringPointType;
+    connectionState: ConnectionState | null;
+    meteringMethod: MeteringMethod | null;
+    readingOccurrence: ReadingOccurrence | null;
+    meteringPointType: MeteringPointType | null;
     ratedCapacity?: number | null;
     ratedCurrent?: number | null;
     gridAreaName: string;
     gridAreaCode: string;
     linkedExtendedMasterdata?: string | null;
     locationDescription?: string | null;
-    productId: ProductId;
-    unit: Unit;
+    productId: ProductId | null;
+    unit: Unit | null;
     effectiveDate: string;
     meterId?: string | null;
     streetCode?: string | null;
@@ -53,17 +53,17 @@ export interface MeteringPointCimDto {
     isActualAddress?: boolean | null;
     darReference?: string | null;
     capacity?: number | null;
-    assetType?: AssetType;
-    settlementMethod?: SettlementMethod;
+    assetType?: AssetType | null;
+    settlementMethod?: SettlementMethod | null;
     inAreaCode?: string | null;
     outAreaCode?: string | null;
-    netSettlementGroup?: NetSettlementGroup;
+    netSettlementGroup?: NetSettlementGroup | null;
     supplyStart?: string | null;
-    connectionType?: ConnectionType;
-    disconnectionType?: DisconnectionType;
+    connectionType?: ConnectionType | null;
+    disconnectionType?: DisconnectionType | null;
     productionObligation?: boolean | null;
     childMeteringPoints?: Array<MeteringPointSimpleCimDto> | null;
-    parentMeteringPoint?: MeteringPointSimpleCimDto;
+    parentMeteringPoint?: MeteringPointSimpleCimDto | null;
     powerPlantGsrnNumber?: string | null;
 }
 

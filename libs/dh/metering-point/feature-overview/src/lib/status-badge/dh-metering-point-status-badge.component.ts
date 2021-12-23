@@ -42,7 +42,7 @@ export class DhStatusBadgeComponent {
   badgeType?: WattBadgeType;
 
   @Input()
-  set connectionState(value: ConnectionState | undefined) {
+  set connectionState(value: ConnectionState | null | undefined) {
     if (value == undefined) {
       return;
     }
