@@ -115,6 +115,11 @@ namespace Energinet.DataHub.WebApi
         {
             var apiClientSettings = Configuration.GetSection("ApiClientSettings").Get<ApiClientSettings>();
 
+            services.AddSwaggerGen(setup =>
+            {
+                setup.UseAllOfToExtendReferenceSchemas();
+            });
+
             AddMeteringPointClient(services, apiClientSettings);
             AddChargeLinksClient(services, apiClientSettings);
         }
