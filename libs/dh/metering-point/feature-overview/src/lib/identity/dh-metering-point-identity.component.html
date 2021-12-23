@@ -36,9 +36,9 @@ limitations under the License.
 
   <div class="watt-text-s">
     <span [title]="t('connectionState')">
-        <dh-status-badge
-          [connectionState]="meteringPoint.connectionState"
-        ></dh-status-badge>
+      <dh-status-badge
+        [connectionState]="meteringPoint.connectionState"
+      ></dh-status-badge>
     </span>
 
     <ng-container *ngIf="meteringPoint?.settlementMethod">
