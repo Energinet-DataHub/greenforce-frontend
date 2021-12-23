@@ -5,7 +5,7 @@ const config: PlaywrightTestConfig = {
   ...baseConfig,
   use: {
     ...baseConfig.use,
-    headless: true
-  }
+    headless: true,
+  },
 };
 export default config;

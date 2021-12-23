@@ -14,6 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- import { Page } from '@playwright/test';
+import { Page } from '@playwright/test';
 
- export const getTitle = (page: Page) => page.locator('h1');
+export const getTitle = (page: Page) => page.locator('h1');

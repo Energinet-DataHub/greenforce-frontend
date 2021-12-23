@@ -17,7 +17,9 @@ async function globalSetup(config: FullConfig) {
   await page.waitForURL('https://localhost:4200');
 
   // Save signed-in state to 'playwright-storage-state.json'.
-  await page.context().storageState({ path: 'apps/dh/e2e-dh/playwright-storage-state.json' });
+  await page
+    .context()
+    .storageState({ path: 'apps/dh/e2e-dh/playwright-storage-state.json' });
   await browser.close();
 
   console.log('Authenticating completed...');
