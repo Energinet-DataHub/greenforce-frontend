@@ -104,7 +104,7 @@ export class DhChildMeteringPointComponent implements AfterViewInit {
     MatSortModule,
     CommonModule,
     WattEmptyStateModule,
-    RouterModule
+    RouterModule,
   ],
   exports: [DhChildMeteringPointComponent],
 })

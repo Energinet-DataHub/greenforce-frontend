@@ -14,14 +14,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ConnectionState, MeteringPointSimpleCimDto, MeteringPointType } from '@energinet-datahub/dh/shared/data-access-api';
+import {
+  ConnectionState,
+  MeteringPointSimpleCimDto,
+  MeteringPointType,
+} from '@energinet-datahub/dh/shared/data-access-api';
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
 import { runOnPushChangeDetection } from '@energinet-datahub/dh/shared/test-util-metering-point';
 import { render, screen } from '@testing-library/angular';
 import { MatcherOptions } from '@testing-library/dom';
 import { en as enTranslations } from '@energinet-datahub/dh/globalization/assets-localization';
 
-import { DhChildMeteringPointComponent, DhChildMeteringPointComponentScam } from './dh-child-metering-point.component';
+import {
+  DhChildMeteringPointComponent,
+  DhChildMeteringPointComponentScam,
+} from './dh-child-metering-point.component';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatTableModule } from '@angular/material/table';
 import { MatSort, MatSortModule } from '@angular/material/sort';
@@ -69,7 +76,7 @@ const TestData: MeteringPointSimpleCimDto[] = [
     connectionState: ConnectionState.E22,
     meteringPointId: '10',
     meteringPointType: MeteringPointType.D09,
-  }
+  },
 ];
 
 describe(DhChildMeteringPointComponent.name, () => {
@@ -77,13 +84,13 @@ describe(DhChildMeteringPointComponent.name, () => {
     const { fixture } = await render(DhChildMeteringPointComponent, {
       componentProperties: {
         sortedData: childMeteringPoints,
-        childMeteringPoints
+        childMeteringPoints,
       },
       imports: [
         DhChildMeteringPointComponentScam,
         getTranslocoTestingModule(),
         MatTableModule,
-        MatSortModule
+        MatSortModule,
       ],
     });
     runOnPushChangeDetection(fixture);
@@ -92,13 +99,16 @@ describe(DhChildMeteringPointComponent.name, () => {
   describe('do things', () => {
     it('do stuff', async () => {
       const childMeteringPoints: Array<MeteringPointSimpleCimDto> = TestData;
-      
+
       await setup(childMeteringPoints);
 
       const disableQuerySuggestions: MatcherOptions = { suggest: false };
-      const actualMeteringPointType = screen.getAllByTestId('gsrn', disableQuerySuggestions);
+      const actualMeteringPointType = screen.getAllByTestId(
+        'gsrn',
+        disableQuerySuggestions
+      );
       const firstRow = actualMeteringPointType[0].textContent;
-      
+
       expect(firstRow).toContain('2');
       expect(actualMeteringPointType.length).toBe(3);
     });
