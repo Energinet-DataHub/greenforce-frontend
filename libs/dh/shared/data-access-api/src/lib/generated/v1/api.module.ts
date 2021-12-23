@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 
 import { ChargeLinksHttp } from './api/charge-links-http.service';
 import { MeteringPointHttp } from './api/metering-point-http.service';
+import { WeatherForecastHttp } from './api/weather-forecast-http.service';
 
 @NgModule({
   imports:      [],
