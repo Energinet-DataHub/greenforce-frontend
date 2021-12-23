@@ -1,7 +1,8 @@
 import { chromium, FullConfig } from '@playwright/test';
 import 'dotenv/config';
 
-async function globalSetup(config: FullConfig) {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+async function globalSetup(_config: FullConfig) {
   console.log('Authenticating...');
 
   const browser = await chromium.launch();
