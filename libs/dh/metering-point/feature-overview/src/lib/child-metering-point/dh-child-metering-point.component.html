@@ -43,7 +43,7 @@ limitations under the License.
                 | transloco
             }}
           </div>
-          <div class="watt-text-xs secondary-text">
+          <div class="watt-text-xs secondary-text" data-testid="gsrn">
             {{ row.gsrnNumber }}
           </div>
         </div>
@@ -104,7 +104,7 @@ limitations under the License.
         let row;
         columns: ['childMeteringPoint', 'effectivePeriod', 'status']
       "
-      (click)="onClick(row)"
+      routerLink="/metering-point/{{ row.gsrnNumber }}"
     >
     </mat-row>
   </mat-table>

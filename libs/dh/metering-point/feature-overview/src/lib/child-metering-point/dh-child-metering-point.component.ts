@@ -37,7 +37,7 @@ import {
 import { MeteringPointSimpleCimDto } from '@energinet-datahub/dh/shared/data-access-api';
 import { TranslocoModule } from '@ngneat/transloco';
 import { DhMeteringPointStatusBadgeScam } from '../status-badge/dh-metering-point-status-badge.component';
-import { ActivatedRoute, Router } from '@angular/router';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'dh-child-metering-point',
@@ -50,8 +50,6 @@ export class DhChildMeteringPointComponent implements AfterViewInit {
   sortedData: Array<MeteringPointSimpleCimDto> = [];
   @Input()
   childMeteringPoints?: Array<MeteringPointSimpleCimDto> | null | undefined;
-
-  constructor(private router: Router, private route: ActivatedRoute) {}
 
   @ViewChild(MatSort) matSort?: MatSort;
 
@@ -94,11 +92,6 @@ export class DhChildMeteringPointComponent implements AfterViewInit {
   compare(a: number | string, b: number | string, isAsc: boolean) {
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
   }
-
-  onClick(row: MeteringPointSimpleCimDto) {
-    console.log('click', this.route.snapshot);
-    this.router.navigate(['/metering-point', row.gsrnNumber]);
-  }
 }
 
 @NgModule({
@@ -111,6 +104,7 @@ export class DhChildMeteringPointComponent implements AfterViewInit {
     MatSortModule,
     CommonModule,
     WattEmptyStateModule,
+    RouterModule
   ],
   exports: [DhChildMeteringPointComponent],
 })

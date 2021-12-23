@@ -88,11 +88,7 @@ export class DhMeteringPointOverviewComponent implements OnDestroy {
   meteringPointId$ = this.route.params.pipe(
     map((params) => params[dhMeteringPointIdParam] as string)
   );
-  meteringPoint$ = this.store.meteringPoint$.pipe(
-    map((mp) => {
-      return { ...mp, childMeteringPoints: TestData };
-    })
-  ); // .pipe(map(mp => {return {...mp, childMeteringPoints: TestData}}))
+  meteringPoint$ = this.store.meteringPoint$; // .pipe(map(mp => {return {...mp, childMeteringPoints: TestData}}))
   isLoading$ = this.store.isLoading$;
   meteringPointNotFound$ = this.store.meteringPointNotFound$;
   hasError$ = this.store.hasError$;
