@@ -42,7 +42,7 @@ import { TranslocoModule } from '@ngneat/transloco';
 
 const TestData: MeteringPointSimpleCimDto[] = [
   {gsrnNumber: '570263739584198159', effectiveDate: '2020-01-02T00:00:00Z', connectionState: ConnectionState.D03, meteringPointId: '5678', meteringPointType: MeteringPointType.D01},
-  {gsrnNumber: '910', effectiveDate: '2020-04-01T00:00:00Z', connectionState: ConnectionState.D02, meteringPointId: '546', meteringPointType: MeteringPointType.D02},
+  {gsrnNumber: '575391908025497398', effectiveDate: '2020-04-01T00:00:00Z', connectionState: ConnectionState.D02, meteringPointId: '546', meteringPointType: MeteringPointType.D02},
   {gsrnNumber: '678', effectiveDate: '2020-01-03T00:00:00Z', connectionState: ConnectionState.E22, meteringPointId: '125', meteringPointType: MeteringPointType.D09},
   {gsrnNumber: '345', effectiveDate: '2020-02-02T00:00:00Z', connectionState: ConnectionState.E23, meteringPointId: '558', meteringPointType: MeteringPointType.D13}
 ]
