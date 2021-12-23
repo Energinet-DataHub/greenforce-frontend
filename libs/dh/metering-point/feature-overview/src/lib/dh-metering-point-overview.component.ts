@@ -37,15 +37,43 @@ import { DhMeteringPointPrimaryMasterDataScam } from './primary-master-data/dh-m
 import { DhMeteringPointServerErrorScam } from './server-error/dh-metering-point-server-error.component';
 import { DhMeteringPointStatusBadgeScam } from './status-badge/dh-metering-point-status-badge.component';
 import { DhChildMeteringPointComponentScam } from './child-metering-point/dh-child-metering-point.component';
-import { ConnectionState, MeteringPointSimpleCimDto, MeteringPointType } from '@energinet-datahub/dh/shared/data-access-api';
+import {
+  ConnectionState,
+  MeteringPointSimpleCimDto,
+  MeteringPointType,
+} from '@energinet-datahub/dh/shared/data-access-api';
 import { TranslocoModule } from '@ngneat/transloco';
 
 const TestData: MeteringPointSimpleCimDto[] = [
-  {gsrnNumber: '570263739584198159', effectiveDate: '2020-01-02T00:00:00Z', connectionState: ConnectionState.D03, meteringPointId: '5678', meteringPointType: MeteringPointType.D01},
-  {gsrnNumber: '575391908025497398', effectiveDate: '2020-04-01T00:00:00Z', connectionState: ConnectionState.D02, meteringPointId: '546', meteringPointType: MeteringPointType.D02},
-  {gsrnNumber: '678', effectiveDate: '2020-01-03T00:00:00Z', connectionState: ConnectionState.E22, meteringPointId: '125', meteringPointType: MeteringPointType.D09},
-  {gsrnNumber: '345', effectiveDate: '2020-02-02T00:00:00Z', connectionState: ConnectionState.E23, meteringPointId: '558', meteringPointType: MeteringPointType.D13}
-]
+  {
+    gsrnNumber: '570263739584198159',
+    effectiveDate: '2020-01-02T00:00:00Z',
+    connectionState: ConnectionState.D03,
+    meteringPointId: '5678',
+    meteringPointType: MeteringPointType.D01,
+  },
+  {
+    gsrnNumber: '575391908025497398',
+    effectiveDate: '2020-04-01T00:00:00Z',
+    connectionState: ConnectionState.D02,
+    meteringPointId: '546',
+    meteringPointType: MeteringPointType.D02,
+  },
+  {
+    gsrnNumber: '678',
+    effectiveDate: '2020-01-03T00:00:00Z',
+    connectionState: ConnectionState.E22,
+    meteringPointId: '125',
+    meteringPointType: MeteringPointType.D09,
+  },
+  {
+    gsrnNumber: '345',
+    effectiveDate: '2020-02-02T00:00:00Z',
+    connectionState: ConnectionState.E23,
+    meteringPointId: '558',
+    meteringPointType: MeteringPointType.D13,
+  },
+];
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -60,7 +88,11 @@ export class DhMeteringPointOverviewComponent implements OnDestroy {
   meteringPointId$ = this.route.params.pipe(
     map((params) => params[dhMeteringPointIdParam] as string)
   );
-  meteringPoint$ = this.store.meteringPoint$.pipe(map(mp => {return {...mp, childMeteringPoints: TestData}})); // .pipe(map(mp => {return {...mp, childMeteringPoints: TestData}}))
+  meteringPoint$ = this.store.meteringPoint$.pipe(
+    map((mp) => {
+      return { ...mp, childMeteringPoints: TestData };
+    })
+  ); // .pipe(map(mp => {return {...mp, childMeteringPoints: TestData}}))
   isLoading$ = this.store.isLoading$;
   meteringPointNotFound$ = this.store.meteringPointNotFound$;
   hasError$ = this.store.hasError$;
@@ -104,7 +136,7 @@ export class DhMeteringPointOverviewComponent implements OnDestroy {
     DhSecondaryMasterDataComponentScam,
     WattTabsModule,
     DhChildMeteringPointComponentScam,
-    TranslocoModule
+    TranslocoModule,
   ],
 })
 export class DhMeteringPointOverviewScam {}

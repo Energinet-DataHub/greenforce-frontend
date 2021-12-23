@@ -1,3 +1,19 @@
+/**
+ * @license
+ * Copyright 2021 Energinet DataHub A/S
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License2");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 import { CommonModule } from '@angular/common';
 import {
   Component,
@@ -13,7 +29,11 @@ import {
   Sort,
 } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
-import { WattIconModule, WattIconSize, WattEmptyStateModule } from '@energinet-datahub/watt';
+import {
+  WattIconModule,
+  WattIconSize,
+  WattEmptyStateModule,
+} from '@energinet-datahub/watt';
 import { MeteringPointSimpleCimDto } from '@energinet-datahub/dh/shared/data-access-api';
 import { TranslocoModule } from '@ngneat/transloco';
 import { DhMeteringPointStatusBadgeScam } from '../status-badge/dh-metering-point-status-badge.component';
@@ -30,14 +50,13 @@ export class DhChildMeteringPointComponent implements AfterViewInit {
   sortedData: Array<MeteringPointSimpleCimDto> = [];
   @Input()
   childMeteringPoints?: Array<MeteringPointSimpleCimDto> | null | undefined;
-  
-  constructor(private router: Router, private route: ActivatedRoute){}
+
+  constructor(private router: Router, private route: ActivatedRoute) {}
 
   @ViewChild(MatSort) matSort?: MatSort;
 
   ngAfterViewInit(): void {
-    if(this.childMeteringPoints !== undefined || null){
-
+    if (this.childMeteringPoints !== undefined || null) {
       this.setDefaultSorting();
     }
   }
@@ -67,18 +86,18 @@ export class DhChildMeteringPointComponent implements AfterViewInit {
   }
 
   setDefaultSorting() {
-      this.matSort?.sort(
-        this.matSort.sortables.get('childMeteringPoint') as MatSortable
-      );
+    this.matSort?.sort(
+      this.matSort.sortables.get('childMeteringPoint') as MatSortable
+    );
   }
 
   compare(a: number | string, b: number | string, isAsc: boolean) {
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
   }
 
-  onClick(row: MeteringPointSimpleCimDto){
-    console.log('click', this.route.snapshot)
-    this.router.navigate(['/metering-point', row.gsrnNumber])
+  onClick(row: MeteringPointSimpleCimDto) {
+    console.log('click', this.route.snapshot);
+    this.router.navigate(['/metering-point', row.gsrnNumber]);
   }
 }
 
@@ -91,7 +110,7 @@ export class DhChildMeteringPointComponent implements AfterViewInit {
     WattIconModule,
     MatSortModule,
     CommonModule,
-    WattEmptyStateModule
+    WattEmptyStateModule,
   ],
   exports: [DhChildMeteringPointComponent],
 })
