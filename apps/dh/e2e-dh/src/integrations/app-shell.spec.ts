@@ -24,6 +24,7 @@ test.describe('Application shell', () => {
   });
 
   test('the application title is displayed', async ({ page }) => {
+    test.slow();
     await expect(appShell.getTitle(page)).toHaveText('Målepunkter');
   });
 });
