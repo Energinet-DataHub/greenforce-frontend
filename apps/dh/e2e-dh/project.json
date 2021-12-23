@@ -6,9 +6,9 @@
     "e2e": {
       "executor": "./tools/executors/playwright:playwright",
       "options": {
-          "playwrightConfig": "apps/dh/e2e-dh/playwright.ts",
-          "tsConfig": "apps/dh/e2e-dh/tsconfig.json",
-          "devServerTarget": "app-dh:serve:development"
+        "playwrightConfig": "apps/dh/e2e-dh/playwright.ts",
+        "tsConfig": "apps/dh/e2e-dh/tsconfig.json",
+        "devServerTarget": "app-dh:serve:development"
       },
       "configurations": {
         "ci": {

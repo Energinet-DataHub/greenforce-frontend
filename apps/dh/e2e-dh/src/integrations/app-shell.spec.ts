@@ -19,7 +19,6 @@ import { test, expect } from '@playwright/test';
 import * as appShell from '../support/app-shell.po';
 
 test.describe('Application shell', () => {
-
   test.beforeEach(async ({ page }) => {
     await page.goto('/');
   });
