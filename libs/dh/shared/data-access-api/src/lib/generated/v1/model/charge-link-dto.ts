@@ -13,7 +13,7 @@ import { ChargeType } from './charge-type';
 
 
 export interface ChargeLinkDto { 
-    chargeType: ChargeType;
+    chargeType: ChargeType | null;
     chargeId?: string | null;
     chargeName?: string | null;
     chargeOwner?: string | null;
