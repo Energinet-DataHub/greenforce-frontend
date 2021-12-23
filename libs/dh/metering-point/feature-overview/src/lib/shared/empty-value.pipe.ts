@@ -16,11 +16,14 @@
  */
 import { NgModule, Pipe, PipeTransform } from '@angular/core';
 
-import { emDash } from '../identity/em-dash';
+import { emDash } from './em-dash';
 
-@Pipe({ name: 'emptyValue' })
+export type TValue = string | undefined | null;
+export const pipeName = 'emptyValue';
+
+@Pipe({ name: pipeName })
 export class EmptyValuePipe implements PipeTransform {
-  transform(value: string | undefined | null, translation?: string): string {
+  transform(value: TValue, translation?: string): string {
     if (value === undefined || value === null || value.trim() === '') {
       return emDash;
     } else {
