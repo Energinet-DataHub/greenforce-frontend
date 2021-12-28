@@ -3,8 +3,12 @@ import { CommonModule } from '@angular/common';
 import { DhChargesDataAccessApiStore } from '@energinet-datahub/dh/charges/data-access-api';
 import { ChargeLinkDto } from '@energinet-datahub/dh/shared/data-access-api';
 import { map, Observable, Subject, takeUntil } from 'rxjs';
+import { LetModule } from '@rx-angular/template';
 import { ActivatedRoute } from '@angular/router';
 import { dhMeteringPointIdParam } from '../..';
+import { WattSpinnerModule } from '@energinet-datahub/watt';
+import { TranslocoModule } from '@ngneat/transloco';
+import { DhChargeItemScam } from './dh-charge-item/dh-charge-item.component';
 
 @Component({
   selector: 'dh-charges',
@@ -28,6 +32,9 @@ export class DhChargesComponent implements OnDestroy {
   tariffs$: Observable<Array<ChargeLinkDto>> = this.store.tariffs$;
   subscriptions$: Observable<Array<ChargeLinkDto>> = this.store.subscriptions$;
   fees$: Observable<Array<ChargeLinkDto>> = this.store.fees$;
+  isLoading$ = this.store.isLoading$;
+  chargesNotFound$ = this.store.chargesNotFound$;
+  hasError$ = this.store.hasError$;
 
   ngOnDestroy(): void {
     this.destroy$.next();
@@ -47,8 +54,14 @@ export class DhChargesComponent implements OnDestroy {
 }
 
 @NgModule({
-  imports: [CommonModule],
+  imports: [
+    CommonModule,
+    WattSpinnerModule,
+    LetModule,
+    TranslocoModule,
+    DhChargeItemScam
+  ],
   declarations: [DhChargesComponent],
   exports: [DhChargesComponent],
 })
-export class DhChargesComponentModule {}
+export class DhChargesScam {}
