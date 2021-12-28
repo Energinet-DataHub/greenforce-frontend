@@ -201,6 +201,7 @@
     "transparentInvoicing": "Transparent Invoicing",
     "quantity": "Quantity",
     "noActive": "No active {{title}}",
-    "noActiveMessage": "We found no active {{title}} on this metering point"
+    "noActiveMessage": "We found no active {{title}} on this metering point",
+    "validTo": "to"
   }
 }
