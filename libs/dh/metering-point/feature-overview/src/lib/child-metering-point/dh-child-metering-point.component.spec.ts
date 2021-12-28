@@ -23,7 +23,6 @@ import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-uti
 import { runOnPushChangeDetection } from '@energinet-datahub/dh/shared/test-util-metering-point';
 import { render, screen } from '@testing-library/angular';
 import { MatcherOptions } from '@testing-library/dom';
-import { en as enTranslations } from '@energinet-datahub/dh/globalization/assets-localization';
 
 import {
   DhChildMeteringPointComponent,
@@ -31,8 +30,7 @@ import {
 } from './dh-child-metering-point.component';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatTableModule } from '@angular/material/table';
-import { MatSort, MatSortModule } from '@angular/material/sort';
-import { CommonModule } from '@angular/common';
+import { MatSortModule } from '@angular/material/sort';
 
 describe('DhChildMeteringPointComponent', () => {
   let component: DhChildMeteringPointComponent;
