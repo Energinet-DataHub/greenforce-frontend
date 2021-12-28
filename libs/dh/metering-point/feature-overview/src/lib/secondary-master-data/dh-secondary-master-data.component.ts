@@ -17,6 +17,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, NgModule } from '@angular/core';
 import { MeteringPointCimDto } from '@energinet-datahub/dh/shared/data-access-api';
+import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import { WattExpansionModule, WattIconModule } from '@energinet-datahub/watt';
 import { TranslocoModule } from '@ngneat/transloco';
 
@@ -93,6 +94,7 @@ export class DhSecondaryMasterDataComponent {
     TranslocoModule,
     WattIconModule,
     DhYesNoPipeScam,
+    DhSharedUiDateTimeModule,
   ],
   exports: [DhSecondaryMasterDataComponent],
 })

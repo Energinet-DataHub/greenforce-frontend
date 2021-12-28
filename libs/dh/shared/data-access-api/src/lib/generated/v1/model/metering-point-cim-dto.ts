@@ -53,17 +53,17 @@ export interface MeteringPointCimDto {
     isActualAddress?: boolean | null;
     darReference?: string | null;
     capacity?: number | null;
-    assetType: AssetType;
-    settlementMethod: SettlementMethod;
+    assetType?: AssetType;
+    settlementMethod?: SettlementMethod;
     inAreaCode?: string | null;
     outAreaCode?: string | null;
-    netSettlementGroup: NetSettlementGroup;
+    netSettlementGroup?: NetSettlementGroup;
     supplyStart?: string | null;
-    connectionType: ConnectionType;
-    disconnectionType: DisconnectionType;
+    connectionType?: ConnectionType;
+    disconnectionType?: DisconnectionType;
     productionObligation?: boolean | null;
     childMeteringPoints?: Array<MeteringPointSimpleCimDto> | null;
-    parentMeteringPoint: MeteringPointSimpleCimDto;
+    parentMeteringPoint?: MeteringPointSimpleCimDto;
     powerPlantGsrnNumber?: string | null;
 }
 

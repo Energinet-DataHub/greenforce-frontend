@@ -14,5 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './lib/dh-configuration-localization.module';
-export * from './lib/dh-transloco.module';
+import { NgModule } from '@angular/core';
+
+import { danishLocaleInitializer } from './danish-locale.initializer';
+import { danishLocaleProvider } from './danish-locale.provider';
+
+@NgModule({
+  providers: [danishLocaleProvider, danishLocaleInitializer],
+})
+export class DanishLocaleModule {}
