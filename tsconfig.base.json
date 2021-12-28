@@ -69,6 +69,9 @@
       "@energinet-datahub/dh/shared/test-util-metering-point": [
         "libs/dh/shared/test-util-metering-point/src/index.ts"
       ],
+      "@energinet-datahub/dh/shared/ui-date-time": [
+        "libs/dh/shared/ui-date-time/src/index.ts"
+      ],
       "@energinet-datahub/eo/shared/assets": [
         "libs/eo/shared/assets/src/index.ts"
       ],
