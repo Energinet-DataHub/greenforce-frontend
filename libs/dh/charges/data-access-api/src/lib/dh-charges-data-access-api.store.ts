@@ -25,7 +25,7 @@ export class DhChargesDataAccessApiStore extends ComponentStore<ChargesState>{
   ).pipe(
     filter((charges) => !!charges),
     map((charges) => charges as Array<ChargeLinkDto>),
-    map((charges) => charges.filter(charge => charge.chargeType === ChargeType.D01))
+    map((charges) => charges.filter(charge => charge.chargeType === ChargeType.D03))
   );
 
   subscriptions$: Observable<Array<ChargeLinkDto>> = this.select(
@@ -33,7 +33,7 @@ export class DhChargesDataAccessApiStore extends ComponentStore<ChargesState>{
   ).pipe(
     filter((charges) => !!charges),
     map((charges) => charges as Array<ChargeLinkDto>),
-    map((charges) => charges.filter(charge => charge.chargeType === ChargeType.D02))
+    map((charges) => charges.filter(charge => charge.chargeType === ChargeType.D01))
   );
 
   fees$: Observable<Array<ChargeLinkDto>> = this.select(
@@ -41,7 +41,7 @@ export class DhChargesDataAccessApiStore extends ComponentStore<ChargesState>{
   ).pipe(
     filter((charges) => !!charges),
     map((charges) => charges as Array<ChargeLinkDto>),
-    map((charges) => charges.filter(charge => charge.chargeType === ChargeType.D03))
+    map((charges) => charges.filter(charge => charge.chargeType === ChargeType.D02))
   );
 
   isLoading$ = this.select((state) => state.isLoading);
