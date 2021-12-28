@@ -186,5 +186,19 @@
       "P1M": "Aflæses pr. måned",
       "P1Y": "Aflæses pr. år"
     }
+  },
+  "charges": {
+    "tariffsTitle": "Tariffer",
+    "subscriptionsTitle": "Abonnementer",
+    "feesTitle": "Gebyrer",
+    "chargeType": {
+      "D01": "Abonnement",
+      "D02": "Gebyr",
+      "D03": "Tarif"
+    },
+    "chargeOwner": "Ejer",
+    "startDate": "Dato",
+    "transparentInvoicing": "Viderefakturering",
+    "quantity": "Antal"
   }
 }

@@ -186,5 +186,19 @@
       "P1M": "Monthly",
       "P1Y": "Yearly"
     }
+  },
+  "charges": {
+    "tariffsTitle": "Tariffs",
+    "subscriptionsTitle": "Subscriptions",
+    "feesTitle": "Fees",
+    "chargeType": {
+      "D01": "Subscription",
+      "D02": "Fee",
+      "D03": "Tariff"
+    },
+    "chargeOwner": "Owner",
+    "startDate": "Date",
+    "transparentInvoicing": "Transparent Invoicing",
+    "quantity": "Quantity"
   }
 }
