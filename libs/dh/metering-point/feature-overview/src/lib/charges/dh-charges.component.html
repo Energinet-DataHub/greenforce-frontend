@@ -1,1 +1,47 @@
-{{tariffs$ | async | json}}
+<ng-container *rxLet="isLoading$ as isLoading">
+    <div *ngIf="isLoading" class="overview__spinner">
+        <watt-spinner></watt-spinner>
+    </div>
+    <div *ngIf="!isLoading">
+        <ng-container *transloco="let t; read: 'charges'">
+            <div>
+                <h4>{{ t('tariffsTitle') }}</h4>
+                <ng-container *rxLet="tariffs$ as tariffs">
+                    {{tariffs | json}}
+                </ng-container>
+            </div>
+
+            <div>
+                <h4>{{ t('subscriptionsTitle') }}</h4>
+                <ng-container *rxLet="subscriptions$ as subscriptions">
+                    {{subscriptions | json}}
+                </ng-container>
+            </div>
+
+            <div>
+                <h4>{{ t('feesTitle') }}</h4>
+                <ng-container *rxLet="fees$ as fees">
+                    {{fees | json}}
+                </ng-container>
+            </div>
+            
+
+
+
+            <ng-container *rxLet="chargesNotFound$ as chargesNotFound">
+                <div *ngIf="chargesNotFound">
+                    NOT FOUND!
+                </div>
+            </ng-container>
+
+            <ng-container *rxLet="hasError$ as hasError">
+                <div *ngIf="hasError">
+                    <!-- <dh-metering-point-server-error (reload)="loadMeteringPointData()"></dh-metering-point-server-error> -->
+                    ERROR!
+                </div>
+            </ng-container>
+        </ng-container>
+    </div>
+</ng-container>
+
+
