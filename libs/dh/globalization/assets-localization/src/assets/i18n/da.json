@@ -55,7 +55,7 @@
       },
       "tabs": {
         "prices": "Priser",
-        "childMeteringPoints": "Child Målepunkter ({{count}})"
+        "childMeteringPoints": "Child Målepunkter ({{ count }})"
       }
     },
     "secondaryMasterData": {
