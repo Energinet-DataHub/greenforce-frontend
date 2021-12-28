@@ -40,7 +40,6 @@ limitations under the License.
       <watt-tabs *transloco="let t; read: 'meteringPoint.overview.tabs'">
         <watt-tab [label]="t('prices')"></watt-tab>
         <watt-tab
-          *rxLet="numberOfChildMeteringPoints$ as numberOfChildMeteringPoints"
           [label]="
             t('childMeteringPoints', {
               count: numberOfChildMeteringPoints

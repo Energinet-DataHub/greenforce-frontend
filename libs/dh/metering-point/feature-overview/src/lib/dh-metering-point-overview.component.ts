@@ -22,7 +22,7 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
-import { map, Subject, takeUntil } from 'rxjs';
+import { map, Subject, takeUntil, tap } from 'rxjs';
 import { LetModule } from '@rx-angular/template';
 import { TranslocoModule } from '@ngneat/transloco';
 
@@ -51,14 +51,16 @@ export class DhMeteringPointOverviewComponent implements OnDestroy {
   meteringPointId$ = this.route.params.pipe(
     map((params) => params[dhMeteringPointIdParam] as string)
   );
-  meteringPoint$ = this.store.meteringPoint$;
+  meteringPoint$ = this.store.meteringPoint$.pipe(
+    tap((meteringPoint) => {
+      this.numberOfChildMeteringPoints =
+        meteringPoint.childMeteringPoints?.length ?? 0;
+    })
+  );
   isLoading$ = this.store.isLoading$;
   meteringPointNotFound$ = this.store.meteringPointNotFound$;
   hasError$ = this.store.hasError$;
-  numberOfChildMeteringPoints$ = this.meteringPoint$.pipe(
-    map((meteringPoint) => meteringPoint.childMeteringPoints),
-    map((childMeteringPoints) => childMeteringPoints?.length ?? 0)
-  );
+  numberOfChildMeteringPoints = 0;
 
   constructor(
     private route: ActivatedRoute,
