@@ -1,0 +1,26 @@
+{
+  "projectType": "library",
+  "root": "libs/dh/shared/ui-date-time",
+  "sourceRoot": "libs/dh/shared/ui-date-time/src",
+  "prefix": "dh",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/dh/shared/ui-date-time"],
+      "options": {
+        "jestConfig": "libs/dh/shared/ui-date-time/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/dh/shared/ui-date-time/src/**/*.ts",
+          "libs/dh/shared/ui-date-time/src/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": ["product:dh", "domain:shared", "type:ui"]
+}

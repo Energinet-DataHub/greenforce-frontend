@@ -14,5 +14,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './lib/dh-configuration-localization.module';
-export * from './lib/dh-transloco.module';
+import { registerLocaleData } from '@angular/common';
+import { APP_INITIALIZER, FactoryProvider } from '@angular/core';
+import danishLocale from '@angular/common/locales/da';
+
+import { danishLocaleCode } from './danish-locale-code';
+
+function registerDanishLocale(): void {
+  registerLocaleData(danishLocale, danishLocaleCode);
+}
+
+export const danishLocaleInitializer: FactoryProvider = {
+  multi: true,
+  provide: APP_INITIALIZER,
+  useFactory: () => (): void => registerDanishLocale(),
+};

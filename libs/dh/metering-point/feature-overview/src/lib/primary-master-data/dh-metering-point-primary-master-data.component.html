@@ -80,7 +80,9 @@ limitations under the License.
           {{
             primaryMasterData?.supplyStart
               | emptyValue
-                : transloco('since', { date: primaryMasterData?.supplyStart })
+                : transloco('since', {
+                    date: primaryMasterData?.supplyStart | dhDate
+                  })
           }}
         </dd>
       </dl>

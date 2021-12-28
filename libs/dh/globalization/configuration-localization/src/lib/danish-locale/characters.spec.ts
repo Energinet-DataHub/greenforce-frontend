@@ -14,5 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './lib/dh-configuration-localization.module';
-export * from './lib/dh-transloco.module';
+import { nonBreakingSpace } from './characters';
+
+describe('nonBreakingSpace', () => {
+  it('has the character code 160', () => {
+    expect(nonBreakingSpace.charCodeAt(0)).toBe(160);
+  });
+
+  it('is one character', () => {
+    expect(nonBreakingSpace).toHaveLength(1);
+  });
+});
