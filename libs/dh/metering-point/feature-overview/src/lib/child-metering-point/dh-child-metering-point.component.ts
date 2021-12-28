@@ -38,6 +38,7 @@ import { MeteringPointSimpleCimDto } from '@energinet-datahub/dh/shared/data-acc
 import { TranslocoModule } from '@ngneat/transloco';
 import { DhMeteringPointStatusBadgeScam } from '../status-badge/dh-metering-point-status-badge.component';
 import { RouterModule } from '@angular/router';
+import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 
 @Component({
   selector: 'dh-child-metering-point',
@@ -105,6 +106,7 @@ export class DhChildMeteringPointComponent implements AfterViewInit {
     CommonModule,
     WattEmptyStateModule,
     RouterModule,
+    DhSharedUiDateTimeModule,
   ],
   exports: [DhChildMeteringPointComponent],
 })

@@ -71,7 +71,7 @@ limitations under the License.
           ></watt-icon>
         </div>
         <div class="watt-text-s">
-          {{ row.effectiveDate }} -
+          {{ row.effectiveDate | dhDate }} -
           {{ 'meteringPoint.overview.childMeteringPoint.now' | transloco }}
         </div>
       </mat-cell>
