@@ -22,7 +22,7 @@ limitations under the License.
     <ng-container *rxLet="meteringPointId$ as meteringPointId">
       <dh-breadcrumb [meteringPointId]="meteringPointId"></dh-breadcrumb>
     </ng-container>
-    
+
     <ng-container *rxLet="meteringPoint$ as meteringPoint">
       <dh-metering-point-identity
         [meteringPoint]="meteringPoint"
@@ -51,15 +51,13 @@ limitations under the License.
         </watt-tab>
       </watt-tabs>
     </ng-container>
-    
-    
-    
+
     <ng-container *rxLet="meteringPointNotFound$ as meteringPointNotFound">
       <div *ngIf="meteringPointNotFound" class="overview__error">
         <dh-metering-point-not-found></dh-metering-point-not-found>
       </div>
     </ng-container>
-    
+
     <ng-container *rxLet="hasError$ as hasError">
       <div *ngIf="hasError" class="overview__error">
         <dh-metering-point-server-error
@@ -69,4 +67,3 @@ limitations under the License.
     </ng-container>
   </div>
 </ng-container>
-
