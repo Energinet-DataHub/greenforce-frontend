@@ -199,6 +199,8 @@
     "chargeOwner": "Ejer",
     "startDate": "Dato",
     "transparentInvoicing": "Viderefakturering",
-    "quantity": "Antal"
+    "quantity": "Antal",
+    "noActive": "Ingen aktive {{title}}",
+    "noActiveMessage": "Vi fandt ingen aktive {{title}} på dette målepunkt"
   }
 }

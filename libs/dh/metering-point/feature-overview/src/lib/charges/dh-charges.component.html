@@ -4,27 +4,16 @@
     </div>
     <div *ngIf="!isLoading">
         <ng-container *transloco="let t; read: 'charges'">
-            <div>
-                <h4>{{ t('tariffsTitle') }}</h4>
-                <ng-container *rxLet="tariffs$ as tariffs">
-                    {{tariffs | json}}
-                </ng-container>
-            </div>
+            <ng-container *rxLet="tariffs$ as tariffs">
+                <dh-charge-item [charges]="tariffs" [title]="t('tariffsTitle')"></dh-charge-item>
+            </ng-container>
+            <ng-container *rxLet="subscriptions$ as subscriptions">
+                <dh-charge-item [charges]="subscriptions" [title]="t('subscriptionsTitle')"></dh-charge-item>
+            </ng-container>
+            <ng-container *rxLet="fees$ as fees">
+                <dh-charge-item [charges]="fees" [title]="t('feesTitle')"></dh-charge-item>
+            </ng-container>
 
-            <div>
-                <h4>{{ t('subscriptionsTitle') }}</h4>
-                <ng-container *rxLet="subscriptions$ as subscriptions">
-                    {{subscriptions | json}}
-                </ng-container>
-            </div>
-
-            <div>
-                <h4>{{ t('feesTitle') }}</h4>
-                <ng-container *rxLet="fees$ as fees">
-                    {{fees | json}}
-                </ng-container>
-            </div>
-            
 
 
 
@@ -43,5 +32,3 @@
         </ng-container>
     </div>
 </ng-container>
-
-

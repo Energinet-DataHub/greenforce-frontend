@@ -199,6 +199,8 @@
     "chargeOwner": "Owner",
     "startDate": "Date",
     "transparentInvoicing": "Transparent Invoicing",
-    "quantity": "Quantity"
+    "quantity": "Quantity",
+    "noActive": "No active {{title}}",
+    "noActiveMessage": "We found no active {{title}} on this metering point"
   }
 }

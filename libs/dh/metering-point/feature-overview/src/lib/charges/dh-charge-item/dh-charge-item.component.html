@@ -1,0 +1,61 @@
+<h4>{{ title }}</h4>
+<ng-container *ngIf="charges.length > 0; else emptyTab">
+    <mat-table #matTable [dataSource]="charges">
+        <ng-container matColumnDef="chargeType">
+            <mat-header-cell *matHeaderCellDef class="header-cell watt-label">{{
+                'charges.chargeType.' + charges[0].chargeType
+                | transloco
+                }}</mat-header-cell>
+            <mat-cell *matCellDef="let row">
+                <div class="multi-line-cell">
+                    <div class="watt-text-s">
+                        {{ row.chargeName }}
+                    </div>
+                    <div class="watt-text-xs secondary-text">
+                        {{ row.chargeId }}
+                    </div>
+                </div>
+            </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="owner">
+            <mat-header-cell *matHeaderCellDef class="header-cell watt-label">
+                {{ 'charges.chargeOwner' | transloco }}
+            </mat-header-cell>
+            <mat-cell *matCellDef="let row">
+                <div class="multi-line-cell">
+                <div class="watt-text-s">
+                    {{ row.chargeOwnerName }}
+                </div>
+                <div class="watt-text-xs secondary-text">
+                    {{ row.chargeOwner }}
+                </div>
+            </div>
+            </mat-cell>
+        </ng-container>
+
+        <!-- <ng-container matColumnDef="status">
+            <mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by number"
+                class="header-cell watt-label">{{
+                'meteringPoint.overview.childMeteringPoint.status' | transloco
+                }}</mat-header-cell>
+            <mat-cell *matCellDef="let row">
+                <dh-status-badge [connectionState]="row.connectionState"></dh-status-badge>
+            </mat-cell>
+        </ng-container> -->
+
+        <!-- Header and Row Declarations -->
+        <mat-header-row *matHeaderRowDef="['chargeType', 'owner']"></mat-header-row>
+        <mat-row *matRowDef="
+        let row;
+        columns: ['chargeType', 'owner']">
+        </mat-row>
+    </mat-table>
+    <!-- {{ charges | json }}
+    show quantity {{ charges[0].chargeType === chargeTypes.D02 || charges[0].chargeType === chargeTypes.D01 ? 'yes' :
+    'no' }} -->
+</ng-container>
+<ng-template #emptyTab>
+    <watt-empty-state *transloco="let transloco;" size="small" [title]="transloco('charges.noActive', { title: title })"
+        [message]="transloco('charges.noActiveMessage', { title: title })"></watt-empty-state>
+</ng-template>
