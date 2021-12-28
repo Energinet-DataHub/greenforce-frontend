@@ -23,26 +23,27 @@ limitations under the License.
     <watt-spinner></watt-spinner>
   </div>
 
-  <div *ngIf="!isLoading">
+  <ng-container *ngIf="!isLoading">
     <ng-container *rxLet="meteringPoint$ as meteringPoint">
       <dh-metering-point-identity
         [meteringPoint]="meteringPoint"
       ></dh-metering-point-identity>
+
       <dh-metering-point-primary-master-data
         [primaryMasterData]="meteringPoint"
       ></dh-metering-point-primary-master-data>
+
       <dh-secondary-master-data
         [secondaryMasterData]="meteringPoint"
       ></dh-secondary-master-data>
+
       <watt-tabs *transloco="let t; read: 'meteringPoint.overview.tabs'">
         <watt-tab [label]="t('prices')"></watt-tab>
         <watt-tab
+          *rxLet="numberOfChildMeteringPoints$ as numberOfChildMeteringPoints"
           [label]="
             t('childMeteringPoints', {
-              count:
-                meteringPoint.childMeteringPoints !== null || undefined
-                  ? meteringPoint.childMeteringPoints!.length
-                  : 0
+              count: numberOfChildMeteringPoints
             })
           "
         >
@@ -52,19 +53,19 @@ limitations under the License.
         </watt-tab>
       </watt-tabs>
     </ng-container>
+  </ng-container>
+</ng-container>
 
-    <ng-container *rxLet="meteringPointNotFound$ as meteringPointNotFound">
-      <div *ngIf="meteringPointNotFound" class="overview__error">
-        <dh-metering-point-not-found></dh-metering-point-not-found>
-      </div>
-    </ng-container>
+<ng-container *rxLet="meteringPointNotFound$ as meteringPointNotFound">
+  <div *ngIf="meteringPointNotFound" class="overview__error">
+    <dh-metering-point-not-found></dh-metering-point-not-found>
+  </div>
+</ng-container>
 
-    <ng-container *rxLet="hasError$ as hasError">
-      <div *ngIf="hasError" class="overview__error">
-        <dh-metering-point-server-error
-          (reload)="loadMeteringPointData()"
-        ></dh-metering-point-server-error>
-      </div>
-    </ng-container>
+<ng-container *rxLet="hasError$ as hasError">
+  <div *ngIf="hasError" class="overview__error">
+    <dh-metering-point-server-error
+      (reload)="loadMeteringPointData()"
+    ></dh-metering-point-server-error>
   </div>
 </ng-container>

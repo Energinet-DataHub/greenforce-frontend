@@ -55,6 +55,10 @@ export class DhMeteringPointOverviewComponent implements OnDestroy {
   isLoading$ = this.store.isLoading$;
   meteringPointNotFound$ = this.store.meteringPointNotFound$;
   hasError$ = this.store.hasError$;
+  numberOfChildMeteringPoints$ = this.meteringPoint$.pipe(
+    map((meteringPoint) => meteringPoint.childMeteringPoints),
+    map((childMeteringPoints) => childMeteringPoints?.length ?? 0)
+  );
 
   constructor(
     private route: ActivatedRoute,
