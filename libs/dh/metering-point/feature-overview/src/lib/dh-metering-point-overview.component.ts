@@ -37,11 +37,11 @@ import { DhMeteringPointPrimaryMasterDataScam } from './primary-master-data/dh-m
 import { DhMeteringPointServerErrorScam } from './server-error/dh-metering-point-server-error.component';
 import { DhMeteringPointStatusBadgeScam } from './status-badge/dh-metering-point-status-badge.component';
 import { DhChildMeteringPointComponentScam } from './child-metering-point/dh-child-metering-point.component';
-import {
-  ConnectionState,
-  MeteringPointSimpleCimDto,
-  MeteringPointType,
-} from '@energinet-datahub/dh/shared/data-access-api';
+// import {
+//   ConnectionState,
+//   MeteringPointSimpleCimDto,
+//   MeteringPointType,
+// } from '@energinet-datahub/dh/shared/data-access-api';
 import { TranslocoModule } from '@ngneat/transloco';
 
 // const TestData: MeteringPointSimpleCimDto[] = [
