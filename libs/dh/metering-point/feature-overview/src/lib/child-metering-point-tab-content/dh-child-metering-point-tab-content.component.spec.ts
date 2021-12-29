@@ -14,6 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { render, screen } from '@testing-library/angular';
+import { MatcherOptions } from '@testing-library/dom';
+import { MatTableModule } from '@angular/material/table';
+import { MatSortModule } from '@angular/material/sort';
+
 import {
   ConnectionState,
   MeteringPointSimpleCimDto,
@@ -21,16 +27,11 @@ import {
 } from '@energinet-datahub/dh/shared/data-access-api';
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
 import { runOnPushChangeDetection } from '@energinet-datahub/dh/shared/test-util-metering-point';
-import { render, screen } from '@testing-library/angular';
-import { MatcherOptions } from '@testing-library/dom';
 
 import {
   DhChildMeteringPointTabContentComponent,
   DhChildMeteringPointTabContentScam,
 } from './dh-child-metering-point-tab-content.component';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatTableModule } from '@angular/material/table';
-import { MatSortModule } from '@angular/material/sort';
 
 describe('DhChildMeteringPointComponent', () => {
   let component: DhChildMeteringPointTabContentComponent;
