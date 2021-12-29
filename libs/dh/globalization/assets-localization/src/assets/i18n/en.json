@@ -17,7 +17,7 @@
     },
     "overview": {
       "breadcrumb": {
-        "meteringPoints": "Metering points"
+        "meteringPoints": "Metering point"
       },
       "meteringPointType": "Type of Metering Point",
       "meteringMethod": "Metering Method",
