@@ -16,8 +16,6 @@
  */
 import { render, screen } from '@testing-library/angular';
 import { MatcherOptions } from '@testing-library/dom';
-import { MatTableModule } from '@angular/material/table';
-import { MatSortModule } from '@angular/material/sort';
 
 import {
   ConnectionState,
@@ -64,10 +62,8 @@ describe(DhChildMeteringPointTabContentComponent.name, () => {
         childMeteringPoints,
       },
       imports: [
-        DhChildMeteringPointTabContentScam,
         getTranslocoTestingModule(),
-        MatTableModule,
-        MatSortModule,
+        DhChildMeteringPointTabContentScam,
       ],
     });
 
