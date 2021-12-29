@@ -14,8 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+:host {
+  display: block;
+  padding: var(--watt-space-l) 0;
+}
+
+.mat-header-row {
+  min-height: 32px;
+}
+
 .header-cell {
-  background: var(--watt-color-focus-selection);
+  background-color: var(--watt-color-focus-selection);
 }
 
 .secondary-text {
@@ -36,9 +45,4 @@
 
 .mat-row {
   cursor: pointer;
-}
-
-:host {
-  display: block;
-  padding: var(--watt-space-xl) 0;
 }
