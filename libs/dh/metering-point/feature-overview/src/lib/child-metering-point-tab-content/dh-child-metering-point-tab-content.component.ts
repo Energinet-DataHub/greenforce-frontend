@@ -41,11 +41,11 @@ import { RouterModule } from '@angular/router';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 
 @Component({
-  selector: 'dh-child-metering-point',
-  templateUrl: './dh-child-metering-point.component.html',
-  styleUrls: ['./dh-child-metering-point.component.scss'],
+  selector: 'dh-child-metering-point-tab-content',
+  templateUrl: './dh-child-metering-point-tab-content.component.html',
+  styleUrls: ['./dh-child-metering-point-tab-content.component.scss'],
 })
-export class DhChildMeteringPointComponent implements AfterViewInit {
+export class DhChildMeteringPointTabContentComponent implements AfterViewInit {
   displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
   iconSize = WattIconSize;
   sortedData: Array<MeteringPointSimpleCimDto> = [];
@@ -96,7 +96,7 @@ export class DhChildMeteringPointComponent implements AfterViewInit {
 }
 
 @NgModule({
-  declarations: [DhChildMeteringPointComponent],
+  declarations: [DhChildMeteringPointTabContentComponent],
   imports: [
     MatTableModule,
     TranslocoModule,
@@ -108,6 +108,6 @@ export class DhChildMeteringPointComponent implements AfterViewInit {
     RouterModule,
     DhSharedUiDateTimeModule,
   ],
-  exports: [DhChildMeteringPointComponent],
+  exports: [DhChildMeteringPointTabContentComponent],
 })
-export class DhChildMeteringPointComponentScam {}
+export class DhChildMeteringPointTabContentScam {}

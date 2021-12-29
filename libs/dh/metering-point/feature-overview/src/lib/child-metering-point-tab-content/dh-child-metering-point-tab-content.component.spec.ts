@@ -25,25 +25,25 @@ import { render, screen } from '@testing-library/angular';
 import { MatcherOptions } from '@testing-library/dom';
 
 import {
-  DhChildMeteringPointComponent,
-  DhChildMeteringPointComponentScam,
-} from './dh-child-metering-point.component';
+  DhChildMeteringPointTabContentComponent,
+  DhChildMeteringPointTabContentScam,
+} from './dh-child-metering-point-tab-content.component';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
 
 describe('DhChildMeteringPointComponent', () => {
-  let component: DhChildMeteringPointComponent;
-  let fixture: ComponentFixture<DhChildMeteringPointComponent>;
+  let component: DhChildMeteringPointTabContentComponent;
+  let fixture: ComponentFixture<DhChildMeteringPointTabContentComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [DhChildMeteringPointComponent],
+      declarations: [DhChildMeteringPointTabContentComponent],
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DhChildMeteringPointComponent);
+    fixture = TestBed.createComponent(DhChildMeteringPointTabContentComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -77,15 +77,15 @@ const TestData: MeteringPointSimpleCimDto[] = [
   },
 ];
 
-describe(DhChildMeteringPointComponent.name, () => {
+describe(DhChildMeteringPointTabContentComponent.name, () => {
   async function setup(childMeteringPoints: Array<MeteringPointSimpleCimDto>) {
-    const { fixture } = await render(DhChildMeteringPointComponent, {
+    const { fixture } = await render(DhChildMeteringPointTabContentComponent, {
       componentProperties: {
         sortedData: childMeteringPoints,
         childMeteringPoints,
       },
       imports: [
-        DhChildMeteringPointComponentScam,
+        DhChildMeteringPointTabContentScam,
         getTranslocoTestingModule(),
         MatTableModule,
         MatSortModule,
