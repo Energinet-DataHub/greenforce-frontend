@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { render, screen } from '@testing-library/angular';
 import { MatcherOptions } from '@testing-library/dom';
 import { MatTableModule } from '@angular/material/table';
@@ -32,27 +31,6 @@ import {
   DhChildMeteringPointTabContentComponent,
   DhChildMeteringPointTabContentScam,
 } from './dh-child-metering-point-tab-content.component';
-
-describe('DhChildMeteringPointComponent', () => {
-  let component: DhChildMeteringPointTabContentComponent;
-  let fixture: ComponentFixture<DhChildMeteringPointTabContentComponent>;
-
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [DhChildMeteringPointTabContentComponent],
-    }).compileComponents();
-  });
-
-  beforeEach(() => {
-    fixture = TestBed.createComponent(DhChildMeteringPointTabContentComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
 
 const TestData: MeteringPointSimpleCimDto[] = [
   {
