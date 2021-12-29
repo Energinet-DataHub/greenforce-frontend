@@ -96,14 +96,9 @@ limitations under the License.
     </ng-container>
 
     <!-- Header and Row Declarations -->
-    <mat-header-row
-      *matHeaderRowDef="displayedColumns"
-    ></mat-header-row>
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
     <mat-row
-      *matRowDef="
-        let row;
-        columns: displayedColumns
-      "
+      *matRowDef="let row; columns: displayedColumns"
       routerLink="/metering-point/{{ row.gsrnNumber }}"
     >
     </mat-row>
