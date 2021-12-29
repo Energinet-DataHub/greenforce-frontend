@@ -58,12 +58,12 @@ export class DhChildMeteringPointTabContentComponent implements AfterViewInit {
   iconSize = WattIconSize;
   sortedData: Array<MeteringPointSimpleCimDto> = [];
   @Input()
-  childMeteringPoints?: Array<MeteringPointSimpleCimDto> | null | undefined;
+  childMeteringPoints: Array<MeteringPointSimpleCimDto> | null | undefined;
 
   @ViewChild(MatSort) matSort?: MatSort;
 
   ngAfterViewInit(): void {
-    if (this.childMeteringPoints !== undefined || null) {
+    if (this.childMeteringPoints != undefined) {
       this.setDefaultSorting();
     }
   }

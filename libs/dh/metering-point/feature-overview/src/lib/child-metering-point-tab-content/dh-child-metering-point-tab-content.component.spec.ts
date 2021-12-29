@@ -32,7 +32,14 @@ import {
   DhChildMeteringPointTabContentScam,
 } from './dh-child-metering-point-tab-content.component';
 
-const TestData: MeteringPointSimpleCimDto[] = [
+const testData: MeteringPointSimpleCimDto[] = [
+  {
+    gsrnNumber: '1',
+    effectiveDate: '2020-01-03T00:00:00Z',
+    connectionState: ConnectionState.E22,
+    meteringPointId: '10',
+    meteringPointType: MeteringPointType.D09,
+  },
   {
     gsrnNumber: '2',
     effectiveDate: '2020-01-02T00:00:00Z',
@@ -47,17 +54,10 @@ const TestData: MeteringPointSimpleCimDto[] = [
     meteringPointId: '30',
     meteringPointType: MeteringPointType.D02,
   },
-  {
-    gsrnNumber: '1',
-    effectiveDate: '2020-01-03T00:00:00Z',
-    connectionState: ConnectionState.E22,
-    meteringPointId: '10',
-    meteringPointType: MeteringPointType.D09,
-  },
 ];
 
 describe(DhChildMeteringPointTabContentComponent.name, () => {
-  async function setup(childMeteringPoints: Array<MeteringPointSimpleCimDto>) {
+  async function setup(childMeteringPoints?: Array<MeteringPointSimpleCimDto>) {
     const { fixture } = await render(DhChildMeteringPointTabContentComponent, {
       componentProperties: {
         sortedData: childMeteringPoints,
@@ -70,24 +70,42 @@ describe(DhChildMeteringPointTabContentComponent.name, () => {
         MatSortModule,
       ],
     });
+
     runOnPushChangeDetection(fixture);
   }
 
-  describe('do things', () => {
-    it('do stuff', async () => {
-      const childMeteringPoints: Array<MeteringPointSimpleCimDto> = TestData;
+  it(`Given child metering points data,
+      Then each child metering point is displayed in a separate table row`, async () => {
+    await setup(testData);
 
-      await setup(childMeteringPoints);
+    const disableQuerySuggestions: MatcherOptions = { suggest: false };
+    const actualGsrnNumbers = screen.getAllByTestId(
+      'gsrn',
+      disableQuerySuggestions
+    );
 
-      const disableQuerySuggestions: MatcherOptions = { suggest: false };
-      const actualMeteringPointType = screen.getAllByTestId(
-        'gsrn',
-        disableQuerySuggestions
-      );
-      const firstRow = actualMeteringPointType[0].textContent;
+    expect(actualGsrnNumbers.length).toBe(testData.length);
 
-      expect(firstRow).toContain('2');
-      expect(actualMeteringPointType.length).toBe(3);
+    actualGsrnNumbers.forEach((gsrnNumber, index) => {
+      expect(gsrnNumber.textContent?.trim()).toBe(testData[index].gsrnNumber);
     });
+  });
+
+  it(`Given child metering points data is empty,
+    Then empty state is displayed`, async () => {
+    await setup([]);
+
+    const heading = screen.getByRole('heading', { level: 5 });
+
+    expect(heading).toBeInTheDocument();
+  });
+
+  it(`Given child metering points data is "undefined",
+    Then empty state is displayed`, async () => {
+    await setup(undefined);
+
+    const heading = screen.getByRole('heading', { level: 5 });
+
+    expect(heading).toBeInTheDocument();
   });
 });
