@@ -29,16 +29,18 @@ import {
   Sort,
 } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
+import { TranslocoModule } from '@ngneat/transloco';
+import { RouterModule } from '@angular/router';
+
 import {
   WattIconModule,
   WattIconSize,
   WattEmptyStateModule,
 } from '@energinet-datahub/watt';
-import { MeteringPointSimpleCimDto } from '@energinet-datahub/dh/shared/data-access-api';
-import { TranslocoModule } from '@ngneat/transloco';
-import { DhMeteringPointStatusBadgeScam } from '../status-badge/dh-metering-point-status-badge.component';
-import { RouterModule } from '@angular/router';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
+import { MeteringPointSimpleCimDto } from '@energinet-datahub/dh/shared/data-access-api';
+
+import { DhMeteringPointStatusBadgeScam } from '../status-badge/dh-metering-point-status-badge.component';
 
 @Component({
   selector: 'dh-child-metering-point-tab-content',
