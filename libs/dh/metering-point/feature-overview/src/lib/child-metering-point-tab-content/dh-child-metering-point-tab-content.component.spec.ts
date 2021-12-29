@@ -32,21 +32,21 @@ import {
 
 const testData: MeteringPointSimpleCimDto[] = [
   {
-    gsrnNumber: '1',
+    gsrnNumber: '570263739584198159',
     effectiveDate: '2020-01-03T00:00:00Z',
     connectionState: ConnectionState.E22,
     meteringPointId: '10',
     meteringPointType: MeteringPointType.D09,
   },
   {
-    gsrnNumber: '2',
+    gsrnNumber: '574289323666998780',
     effectiveDate: '2020-01-02T00:00:00Z',
     connectionState: ConnectionState.D03,
     meteringPointId: '20',
     meteringPointType: MeteringPointType.D01,
   },
   {
-    gsrnNumber: '3',
+    gsrnNumber: '579702678493999563',
     effectiveDate: '2020-04-01T00:00:00Z',
     connectionState: ConnectionState.D02,
     meteringPointId: '30',
