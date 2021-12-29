@@ -27,22 +27,19 @@
   background-color: var(--watt-color-focus-selection);
 }
 
-.secondary-text {
+.grey-text {
   color: var(--watt-color-neutral-grey-600);
 }
 
-.primary-color {
+.date-icon {
   color: var(--watt-color-primary);
-}
-
-.mat-cell > div {
-  padding-right: 0.5rem;
+  margin-right: 0.5rem;
 }
 
 .multi-line-cell {
-  padding: 0.75rem 0 0.25rem 0;
+  padding: 0.5rem 0;
 }
 
-.mat-row {
+.mat-row:hover {
   cursor: pointer;
 }

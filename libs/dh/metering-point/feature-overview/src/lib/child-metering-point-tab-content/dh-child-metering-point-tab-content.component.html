@@ -43,7 +43,7 @@ limitations under the License.
                 | transloco
             }}
           </div>
-          <div class="watt-text-xs secondary-text" data-testid="gsrn">
+          <div class="watt-text-xs grey-text" data-testid="gsrn">
             {{ row.gsrnNumber }}
           </div>
         </div>
@@ -63,17 +63,16 @@ limitations under the License.
         }}</mat-header-cell
       >
       <mat-cell *matCellDef="let row">
-        <div class="watt-text-s">
-          <watt-icon
-            name="date"
-            [size]="iconSize.Small"
-            class="primary-color"
-          ></watt-icon>
-        </div>
-        <div class="watt-text-s">
+        <watt-icon
+          name="date"
+          [size]="iconSize.Small"
+          class="date-icon"
+        ></watt-icon>
+
+        <span class="watt-text-s">
           {{ row.effectiveDate | dhDate }} -
           {{ 'meteringPoint.overview.childMeteringPointsTab.now' | transloco }}
-        </div>
+        </span>
       </mat-cell>
     </ng-container>
 
