@@ -97,12 +97,12 @@ limitations under the License.
 
     <!-- Header and Row Declarations -->
     <mat-header-row
-      *matHeaderRowDef="['childMeteringPoint', 'effectivePeriod', 'status']"
+      *matHeaderRowDef="displayedColumns"
     ></mat-header-row>
     <mat-row
       *matRowDef="
         let row;
-        columns: ['childMeteringPoint', 'effectivePeriod', 'status']
+        columns: displayedColumns
       "
       routerLink="/metering-point/{{ row.gsrnNumber }}"
     >

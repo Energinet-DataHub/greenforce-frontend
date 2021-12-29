@@ -48,7 +48,11 @@ import { DhMeteringPointStatusBadgeScam } from '../status-badge/dh-metering-poin
   styleUrls: ['./dh-child-metering-point-tab-content.component.scss'],
 })
 export class DhChildMeteringPointTabContentComponent implements AfterViewInit {
-  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
+  displayedColumns: string[] = [
+    'childMeteringPoint',
+    'effectivePeriod',
+    'status',
+  ];
   iconSize = WattIconSize;
   sortedData: Array<MeteringPointSimpleCimDto> = [];
   @Input()
