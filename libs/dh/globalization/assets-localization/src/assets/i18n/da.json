@@ -45,17 +45,19 @@
         "since": "Siden {{date}}",
         "meterNumber": "Målernummer"
       },
-      "childMeteringPoint": {
-        "childMeteringPoint": "Child Målepunkt",
-        "effectivePeriod": "Gyldighedsperiode",
-        "status": "Status",
-        "now": "nu",
-        "noChildMeteringPointsTitle": "Ingen child målepunkter",
-        "noChildMeteringPointsText": "Vi fandt ingen child målepunkter på dette målepunkt"
-      },
       "tabs": {
         "prices": "Priser",
         "childMeteringPoints": "Child Målepunkter ({{ count }})"
+      },
+      "childMeteringPointsTab": {
+        "headers": {
+          "childMeteringPoint": "Child Målepunkt",
+          "effectivePeriod": "Gyldighedsperiode",
+          "status": "Status"
+        },
+        "now": "nu",
+        "noChildMeteringPointsTitle": "Ingen child målepunkter",
+        "noChildMeteringPointsText": "Vi fandt ingen child målepunkter på dette målepunkt"
       }
     },
     "secondaryMasterData": {
