@@ -21,6 +21,7 @@ import {
   NgModule,
   ViewChild,
   AfterViewInit,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import {
   MatSort,
@@ -43,6 +44,7 @@ import { MeteringPointSimpleCimDto } from '@energinet-datahub/dh/shared/data-acc
 import { DhMeteringPointStatusBadgeScam } from '../status-badge/dh-metering-point-status-badge.component';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'dh-child-metering-point-tab-content',
   templateUrl: './dh-child-metering-point-tab-content.component.html',
   styleUrls: ['./dh-child-metering-point-tab-content.component.scss'],
