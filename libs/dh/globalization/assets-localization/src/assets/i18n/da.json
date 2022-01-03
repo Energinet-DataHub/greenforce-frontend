@@ -216,7 +216,6 @@
     "quantity": "Antal",
     "noActive": "Ingen aktive {{title}}",
     "noActiveMessage": "Vi fandt ingen aktive {{title}} på dette målepunkt",
-    "validTo": "til",
     "taxIndicator": "Afgift",
     "chargesNotFound": {
       "title": "Vi fandt desværre ingen priser tilknyttet til dette målepunkt"

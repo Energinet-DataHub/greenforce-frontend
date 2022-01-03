@@ -216,7 +216,6 @@
     "quantity": "Quantity",
     "noActive": "No active {{title}}",
     "noActiveMessage": "We found no active {{title}} on this metering point",
-    "validTo": "to",
     "taxIndicator": "Tax",
     "chargesNotFound": {
       "title": "Sorry, we did not find any charges for this metering point"

@@ -47,7 +47,10 @@
                 </div>
                 <ng-container *ngIf="row.endDate">
                     <div class="watt-text-s secondary-text" *transloco="let transloco;">
-                        {{ (transloco('charges.validTo')) }}
+                        -
+                    </div>
+                    <div class="watt-text-s">
+                        <watt-icon name="date" [size]="iconSize.Small" class="primary-color"></watt-icon>
                     </div>
                     <div class="watt-text-s">
                         {{ row.endDate | dhDate }}
@@ -77,7 +80,7 @@
                         <watt-icon name="success" [size]="iconSize.Small" class="primary-color"></watt-icon>
                     </div>
                     <div class="watt-text-s" *transloco="let transloco;">
-                        {{ transloco('charges.transparentInvoicing')}}
+                        {{ transloco('charges.transparentInvoicing') }}
                     </div>
                 </ng-container>
             </mat-cell>
@@ -88,8 +91,11 @@
             </mat-header-cell>
             <mat-cell *matCellDef="let row">
                 <ng-container *ngIf="row.taxIndicator">
-                    <div class="watt-text-s" *transloco="let transloco;" title="{{ transloco('charges.taxIndicator') }}">
+                    <div class="watt-text-s" *transloco="let transloco;">
                         <watt-icon name="monetization" [size]="iconSize.Small" class="primary-color"></watt-icon>
+                    </div>
+                    <div class="watt-text-s" *transloco="let transloco;">
+                        {{ transloco('charges.taxIndicator') }}
                     </div>
                 </ng-container>
             </mat-cell>

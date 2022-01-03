@@ -17,15 +17,19 @@
   .multi-line-cell {
     padding: 0.75rem 0 0.25rem 0;
   }
-  
-  .mat-row {
-    cursor: pointer;
-  }
 
   .mat-column-tax {
-    flex: 0 0 50px;
+    flex: 0 0 100px;
   }
   
+  .mat-column-invoicing {
+    flex: 0 0 200px;
+  }
+
+  .mat-column-quantity {
+    flex: 0 0 150px;
+  }
+
   :host {
     display: block;
   }
