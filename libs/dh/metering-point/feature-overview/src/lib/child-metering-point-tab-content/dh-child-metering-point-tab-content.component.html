@@ -1,0 +1,120 @@
+<!--
+@license
+Copyright 2021 Energinet DataHub A/S
+
+Licensed under the Apache License, Version 2.0 (the "License2");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<ng-container
+  *ngIf="childMeteringPoints && childMeteringPoints.length > 0; else emptyTab"
+>
+  <mat-table
+    #matTable
+    [dataSource]="sortedData"
+    matSort
+    (matSortChange)="sortData($event)"
+  >
+    <!-- Child Metering Point Definition -->
+    <ng-container matColumnDef="childMeteringPoint">
+      <mat-header-cell
+        *matHeaderCellDef
+        mat-sort-header
+        sortActionDescription="Sort by number"
+        class="header-cell watt-label"
+        >{{
+          'meteringPoint.overview.childMeteringPointsTab.headers.childMeteringPoint'
+            | transloco
+        }}</mat-header-cell
+      >
+      <mat-cell *matCellDef="let row">
+        <div class="multi-line-cell">
+          <div class="watt-text-s">
+            {{
+              'meteringPoint.meteringPointTypeCode.' + row.meteringPointType
+                | transloco
+            }}
+          </div>
+          <div class="watt-text-xs grey-text" data-testid="gsrn">
+            {{ row.gsrnNumber }}
+          </div>
+        </div>
+      </mat-cell>
+    </ng-container>
+
+    <!-- Effective Period Definition -->
+    <ng-container matColumnDef="effectivePeriod">
+      <mat-header-cell
+        *matHeaderCellDef
+        mat-sort-header
+        sortActionDescription="Sort by number"
+        class="header-cell watt-label"
+        >{{
+          'meteringPoint.overview.childMeteringPointsTab.headers.effectivePeriod'
+            | transloco
+        }}</mat-header-cell
+      >
+      <mat-cell *matCellDef="let row">
+        <watt-icon
+          name="date"
+          [size]="iconSize.Small"
+          class="date-icon"
+        ></watt-icon>
+
+        <span class="watt-text-s">
+          {{ row.effectiveDate | dhDate }} -
+          {{ 'meteringPoint.overview.childMeteringPointsTab.now' | transloco }}
+        </span>
+      </mat-cell>
+    </ng-container>
+
+    <!-- Status Definition -->
+    <ng-container matColumnDef="status">
+      <mat-header-cell
+        *matHeaderCellDef
+        mat-sort-header
+        sortActionDescription="Sort by number"
+        class="header-cell watt-label"
+        >{{
+          'meteringPoint.overview.childMeteringPointsTab.headers.status'
+            | transloco
+        }}</mat-header-cell
+      >
+      <mat-cell *matCellDef="let row">
+        <dh-status-badge
+          [connectionState]="row.connectionState"
+        ></dh-status-badge>
+      </mat-cell>
+    </ng-container>
+
+    <!-- Header and Row Declarations -->
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row
+      *matRowDef="let row; columns: displayedColumns"
+      routerLink="/metering-point/{{ row.gsrnNumber }}"
+    >
+    </mat-row>
+  </mat-table>
+</ng-container>
+
+<ng-template #emptyTab>
+  <watt-empty-state
+    size="small"
+    [title]="
+      'meteringPoint.overview.childMeteringPointsTab.noChildMeteringPointsTitle'
+        | transloco
+    "
+    [message]="
+      'meteringPoint.overview.childMeteringPointsTab.noChildMeteringPointsText'
+        | transloco
+    "
+  ></watt-empty-state>
+</ng-template>
