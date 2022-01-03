@@ -83,11 +83,23 @@
             </mat-cell>
         </ng-container>
 
+        <ng-container matColumnDef="tax">
+            <mat-header-cell *matHeaderCellDef class="header-cell watt-label">
+            </mat-header-cell>
+            <mat-cell *matCellDef="let row">
+                <ng-container *ngIf="row.taxIndicator">
+                    <div class="watt-text-s" *transloco="let transloco;" title="{{ transloco('charges.taxIndicator') }}">
+                        <watt-icon name="monetization" [size]="iconSize.Small" class="primary-color"></watt-icon>
+                    </div>
+                </ng-container>
+            </mat-cell>
+        </ng-container>
+
         <!-- Header and Row Declarations -->
-        <mat-header-row *matHeaderRowDef="['chargeType', 'owner', 'date', 'quantity', 'invoicing']"></mat-header-row>
+        <mat-header-row *matHeaderRowDef="['chargeType', 'owner', 'date', 'quantity', 'invoicing', 'tax']"></mat-header-row>
         <mat-row *matRowDef="
         let row;
-        columns: ['chargeType', 'owner', 'date', 'quantity', 'invoicing']">
+        columns: ['chargeType', 'owner', 'date', 'quantity', 'invoicing', 'tax']">
         </mat-row>
     </mat-table>
 </ng-container>

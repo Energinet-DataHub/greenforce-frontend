@@ -21,6 +21,10 @@
   .mat-row {
     cursor: pointer;
   }
+
+  .mat-column-tax {
+    flex: 0 0 50px;
+  }
   
   :host {
     display: block;
