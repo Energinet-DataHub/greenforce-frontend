@@ -42,10 +42,17 @@
                 <div class="watt-text-s">
                     <watt-icon name="date" [size]="iconSize.Small" class="primary-color"></watt-icon>
                 </div>
-                <div class="watt-text-s" *transloco="let transloco;">
-                    {{ row.startDate | dhDate }}{{ row.endDate ? ' ' + (transloco('charges.validTo')) + ' ' +
-                    (row.endDate | dhDate) : '' }}
+                <div class="watt-text-s">
+                    {{ row.startDate | dhDate }}
                 </div>
+                <ng-container *ngIf="row.endDate">
+                    <div class="watt-text-s secondary-text" *transloco="let transloco;">
+                        {{ (transloco('charges.validTo')) }}
+                    </div>
+                    <div class="watt-text-s">
+                        {{ row.endDate | dhDate }}
+                    </div>
+                </ng-container>
             </mat-cell>
         </ng-container>
 
