@@ -42,7 +42,7 @@
                 <div class="watt-text-s">
                     <watt-icon name="date" [size]="iconSize.Small" class="primary-color"></watt-icon>
                 </div>
-                <div class="watt-text-s">
+                <div class="watt-text-s" data-testid="date-cell-from">
                     {{ row.startDate | dhDate }}
                 </div>
                 <ng-container *ngIf="row.endDate">
@@ -52,7 +52,7 @@
                     <div class="watt-text-s">
                         <watt-icon name="date" [size]="iconSize.Small" class="primary-color"></watt-icon>
                     </div>
-                    <div class="watt-text-s">
+                    <div class="watt-text-s" data-testid="date-cell-to">
                         {{ row.endDate | dhDate }}
                     </div>
                 </ng-container>
