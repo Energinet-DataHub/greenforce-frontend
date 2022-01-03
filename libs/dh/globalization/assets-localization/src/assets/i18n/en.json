@@ -131,16 +131,16 @@
       "EnergyReactive": "Energy reactive"
     },
     "unit": {
-      "AMP": "Ampere [EN]",
-      "H87": "Antal styk [EN]",
-      "K3": "KiloVolt-Ampere reactive hour [EN]",
-      "KWH": "Kilowatt-hour [EN]",
-      "KWT": "Kilowatt [EN]",
-      "MAW": "Megawatt [EN]",
-      "MWH": "Megawatt-hour [EN]",
-      "TNE": "metric ton [EN]",
-      "Z03": "MegaVolt-Ampere reactive power [EN]",
-      "Z14": "KT Tarifkode [EN]"
+      "AMP": "Ampere",
+      "H87": "STK",
+      "K3": "kVArh",
+      "KWH": "kWh",
+      "KWT": "kW",
+      "MAW": "MW",
+      "MWH": "MWh",
+      "TNE": "Tonne",
+      "Z03": "MVAr",
+      "Z14": "Danish Tariff code"
     },
     "meteringPointTypeCode": {
       "D01": "VE production",

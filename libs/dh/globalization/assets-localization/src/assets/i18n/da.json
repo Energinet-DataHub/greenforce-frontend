@@ -132,14 +132,14 @@
     },
     "unit": {
       "AMP": "Ampere",
-      "H87": "Antal styk",
-      "K3": "KiloVolt-Ampere reactive hour",
-      "KWH": "Kilowatt-hour",
-      "KWT": "Kilowatt",
-      "MAW": "Megawatt",
-      "MWH": "Megawatt-hour",
-      "TNE": "metric ton",
-      "Z03": "MegaVolt-Ampere reactive power",
+      "H87": "STK",
+      "K3": "kVArh",
+      "KWH": "kWh",
+      "KWT": "kW",
+      "MAW": "MW",
+      "MWH": "MWh",
+      "TNE": "Tons",
+      "Z03": "MVAr",
       "Z14": "KT Tarifkode"
     },
     "meteringPointTypeCode": {
