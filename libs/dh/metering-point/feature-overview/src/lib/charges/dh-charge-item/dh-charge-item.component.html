@@ -1,5 +1,5 @@
 <h4>{{ title }}</h4>
-<ng-container *ngIf="charges.length > 0; else emptyTab">
+<ng-container *ngIf="charges.length; else emptyTab">
     <mat-table #matTable [dataSource]="charges">
         <ng-container matColumnDef="chargeType">
             <mat-header-cell *matHeaderCellDef class="header-cell watt-label">{{
@@ -52,13 +52,11 @@
         <ng-container matColumnDef="quantity">
             <mat-header-cell *matHeaderCellDef class="header-cell watt-label">
                 <div *transloco="let transloco;">
-                    {{ ((charges[0].chargeType === chargeTypes.D02 || charges[0].chargeType === chargeTypes.D01) ?
-                    transloco('charges.quantity') : '') }}</div>
+                    {{ transloco('charges.quantity') }}</div>
             </mat-header-cell>
             <mat-cell *matCellDef="let row">
                 <div class="watt-text-s">
-                    {{ charges[0].chargeType === chargeTypes.D02 || charges[0].chargeType === chargeTypes.D01 ?
-                    row.quantity : '' }}
+                    {{ row.quantity }}
                 </div>
             </mat-cell>
         </ng-container>
