@@ -16,7 +16,7 @@
  */
 import { CommonModule } from '@angular/common';
 import { Component, Input, NgModule } from '@angular/core';
-import { MeteringPointCimDto } from '@energinet-datahub/dh/shared/data-access-api';
+import { MeteringPointCimDto, NetSettlementGroup } from '@energinet-datahub/dh/shared/data-access-api';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import { WattExpansionModule, WattIconModule } from '@energinet-datahub/watt';
 import { TranslocoModule } from '@ngneat/transloco';
@@ -30,7 +30,6 @@ export interface MeteringPointIdentityTranslationKeys {
   assetType: string;
   productId: string;
   unit: string;
-  netSettlementGroupAsNumber: string;
 }
 
 @Component({
@@ -59,6 +58,24 @@ export class DhSecondaryMasterDataComponent {
   get isProductObligationDefined() {
     return this.#secondaryMasterData?.productionObligation != null;
   }
+  get netSettlementGroupAsNumber(): number | undefined {
+    switch (this.#secondaryMasterData?.netSettlementGroup) {
+      case NetSettlementGroup.Zero:
+        return 0;
+      case NetSettlementGroup.One:
+        return 1;
+      case NetSettlementGroup.Two:
+        return 2;
+      case NetSettlementGroup.Three:
+        return 3;
+      case NetSettlementGroup.Six:
+        return 6;
+      case NetSettlementGroup.NinetyNine:
+        return 99;
+      default:
+        return;
+    }
+  }
 
   private buildTranslations(
     meteringPoint: MeteringPointCimDto
@@ -76,9 +93,6 @@ export class DhSecondaryMasterDataComponent {
       meteringPoint?.productId ?? ''
     }`;
     const unit = `meteringPoint.unit.${meteringPoint?.unit ?? ''}`;
-    const netSettlementGroupAsNumber = `meteringPoint.secondaryMasterData.netSettlementGroupAsNumber.${
-      meteringPoint?.netSettlementGroup ?? ''
-    }`;
 
     return {
       disconnectionType,
@@ -86,7 +100,6 @@ export class DhSecondaryMasterDataComponent {
       assetType,
       productId,
       unit,
-      netSettlementGroupAsNumber,
     };
   }
 }

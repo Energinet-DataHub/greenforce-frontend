@@ -86,14 +86,6 @@
         "openLabel": "Se flere detaljer",
         "closeLabel": "Se færre detaljer"
       },
-      "netSettlementGroupAsNumber": {
-        "Zero": "0",
-        "One": "1",
-        "Two": "2",
-        "Three": "3",
-        "Six": "6",
-        "NinetyNine": "99"
-      },
       "units": {
         "kilowatt": "KW",
         "ampere": "A"
