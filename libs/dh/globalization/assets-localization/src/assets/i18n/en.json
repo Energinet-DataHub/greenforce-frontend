@@ -17,7 +17,7 @@
     },
     "overview": {
       "breadcrumb": {
-        "meteringPoints": "Metering points"
+        "meteringPoints": "Metering point"
       },
       "meteringPointType": "Type of Metering Point",
       "meteringMethod": "Metering Method",
@@ -44,6 +44,20 @@
         "hasElectricitySupplier": "Has Supplier?",
         "since": "Since {{date}}",
         "meterNumber": "Meternumber"
+      },
+      "tabs": {
+        "prices": "Prices",
+        "childMeteringPoints": "Child Metering Points ({{ count }})"
+      },
+      "childMeteringPointsTab": {
+        "headers": {
+          "childMeteringPoint": "Child Metering Point",
+          "effectivePeriod": "Validity period",
+          "status": "Status"
+        },
+        "now": "now",
+        "noChildMeteringPointsTitle": "No child metering point(s)",
+        "noChildMeteringPointsText": "We did not find any child metering point(s) on this metering point"
       }
     },
     "secondaryMasterData": {

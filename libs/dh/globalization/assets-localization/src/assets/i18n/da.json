@@ -17,7 +17,7 @@
     },
     "overview": {
       "breadcrumb": {
-        "meteringPoints": "Målepunkter"
+        "meteringPoints": "Målepunkt"
       },
       "meteringPointType": "Målepunktstype",
       "meteringMethod": "Målepunktsart",
@@ -44,6 +44,20 @@
         "hasElectricitySupplier": "Har El-leverandør?",
         "since": "Siden {{date}}",
         "meterNumber": "Målernummer"
+      },
+      "tabs": {
+        "prices": "Priser",
+        "childMeteringPoints": "Child Målepunkter ({{ count }})"
+      },
+      "childMeteringPointsTab": {
+        "headers": {
+          "childMeteringPoint": "Child Målepunkt",
+          "effectivePeriod": "Gyldighedsperiode",
+          "status": "Status"
+        },
+        "now": "nu",
+        "noChildMeteringPointsTitle": "Ingen child målepunkter",
+        "noChildMeteringPointsText": "Vi fandt ingen child målepunkter på dette målepunkt"
       }
     },
     "secondaryMasterData": {
