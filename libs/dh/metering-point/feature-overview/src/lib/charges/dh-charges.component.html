@@ -21,6 +21,9 @@
                 <div *ngIf="chargesNotFound">
                     <dh-charges-not-found></dh-charges-not-found>
                 </div>
+                <div *ngIf="hasError && !chargesNotFound">
+                    <dh-charges-server-error></dh-charges-server-error>
+                </div>
             </ng-container>
         </div>
     </ng-container>

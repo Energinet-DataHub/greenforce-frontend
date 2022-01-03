@@ -10,6 +10,7 @@ import { WattSpinnerModule } from '@energinet-datahub/watt';
 import { TranslocoModule } from '@ngneat/transloco';
 import { DhChargeItemScam } from './dh-charge-item/dh-charge-item.component';
 import { DhChargesNotFoundScam } from './dh-charges-not-found/dh-charges-not-found.component';
+import { DhChargesServerErrorScam } from './dh-charges-server-error/dh-charges-server-error.component';
 
 @Component({
   selector: 'dh-charges',
@@ -61,7 +62,8 @@ export class DhChargesComponent implements OnDestroy {
     LetModule,
     TranslocoModule,
     DhChargeItemScam,
-    DhChargesNotFoundScam
+    DhChargesNotFoundScam,
+    DhChargesServerErrorScam
   ],
   declarations: [DhChargesComponent],
   exports: [DhChargesComponent],
