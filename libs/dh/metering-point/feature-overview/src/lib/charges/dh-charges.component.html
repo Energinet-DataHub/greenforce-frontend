@@ -2,33 +2,30 @@
     <div *ngIf="isLoading" class="overview__spinner">
         <watt-spinner></watt-spinner>
     </div>
-    <div *ngIf="!isLoading">
-        <ng-container *transloco="let t; read: 'charges'">
-            <ng-container *rxLet="tariffs$ as tariffs">
-                <dh-charge-item [charges]="tariffs" [title]="t('tariffsTitle')"></dh-charge-item>
+    <ng-container *rxLet="hasError$ as hasError">
+        <div *ngIf="!isLoading && !hasError">
+            <ng-container *transloco="let t; read: 'charges'">
+                <ng-container *rxLet="tariffs$ as tariffs">
+                    <dh-charge-item [charges]="tariffs" [title]="t('tariffsTitle')"></dh-charge-item>
+                </ng-container>
+                <ng-container *rxLet="subscriptions$ as subscriptions">
+                    <dh-charge-item [charges]="subscriptions" [title]="t('subscriptionsTitle')"></dh-charge-item>
+                </ng-container>
+                <ng-container *rxLet="fees$ as fees">
+                    <dh-charge-item [charges]="fees" [title]="t('feesTitle')"></dh-charge-item>
+                </ng-container>
             </ng-container>
-            <ng-container *rxLet="subscriptions$ as subscriptions">
-                <dh-charge-item [charges]="subscriptions" [title]="t('subscriptionsTitle')"></dh-charge-item>
-            </ng-container>
-            <ng-container *rxLet="fees$ as fees">
-                <dh-charge-item [charges]="fees" [title]="t('feesTitle')"></dh-charge-item>
-            </ng-container>
-
-
-
-
+        </div>
+        <div *ngIf="hasError">
             <ng-container *rxLet="chargesNotFound$ as chargesNotFound">
                 <div *ngIf="chargesNotFound">
-                    NOT FOUND!
+                    <dh-charges-not-found></dh-charges-not-found>
                 </div>
             </ng-container>
-
-            <ng-container *rxLet="hasError$ as hasError">
                 <div *ngIf="hasError">
                     <!-- <dh-metering-point-server-error (reload)="loadMeteringPointData()"></dh-metering-point-server-error> -->
                     ERROR!
                 </div>
-            </ng-container>
-        </ng-container>
-    </div>
+        </div>
+    </ng-container>
 </ng-container>

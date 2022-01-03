@@ -9,6 +9,7 @@ import { dhMeteringPointIdParam } from '../..';
 import { WattSpinnerModule } from '@energinet-datahub/watt';
 import { TranslocoModule } from '@ngneat/transloco';
 import { DhChargeItemScam } from './dh-charge-item/dh-charge-item.component';
+import { DhChargesNotFoundScam } from './dh-charges-not-found/dh-charges-not-found.component';
 
 @Component({
   selector: 'dh-charges',
@@ -59,7 +60,8 @@ export class DhChargesComponent implements OnDestroy {
     WattSpinnerModule,
     LetModule,
     TranslocoModule,
-    DhChargeItemScam
+    DhChargeItemScam,
+    DhChargesNotFoundScam
   ],
   declarations: [DhChargesComponent],
   exports: [DhChargesComponent],
