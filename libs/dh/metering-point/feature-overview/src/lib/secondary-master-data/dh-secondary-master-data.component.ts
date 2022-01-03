@@ -30,6 +30,7 @@ export interface MeteringPointIdentityTranslationKeys {
   assetType: string;
   productId: string;
   unit: string;
+  netSettlementGroupAsNumber: string;
 }
 
 @Component({
@@ -75,6 +76,9 @@ export class DhSecondaryMasterDataComponent {
       meteringPoint?.productId ?? ''
     }`;
     const unit = `meteringPoint.unit.${meteringPoint?.unit ?? ''}`;
+    const netSettlementGroupAsNumber = `meteringPoint.secondaryMasterData.netSettlementGroupAsNumber.${
+      meteringPoint?.netSettlementGroup ?? ''
+    }`;
 
     return {
       disconnectionType,
@@ -82,6 +86,7 @@ export class DhSecondaryMasterDataComponent {
       assetType,
       productId,
       unit,
+      netSettlementGroupAsNumber,
     };
   }
 }
