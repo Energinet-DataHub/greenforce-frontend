@@ -6,16 +6,12 @@ import { TranslocoModule } from '@ngneat/transloco';
 @Component({
   selector: 'dh-charges-server-error',
   templateUrl: './dh-charges-server-error.component.html',
-  styleUrls: ['./dh-charges-server-error.component.scss']
+  styleUrls: ['./dh-charges-server-error.component.scss'],
 })
-export class DhChargesServerErrorComponent { }
+export class DhChargesServerErrorComponent {}
 
 @NgModule({
-  imports: [
-    TranslocoModule,
-    CommonModule,
-    WattEmptyStateModule
-  ],
+  imports: [TranslocoModule, CommonModule, WattEmptyStateModule],
   declarations: [DhChargesServerErrorComponent],
   exports: [DhChargesServerErrorComponent],
 })

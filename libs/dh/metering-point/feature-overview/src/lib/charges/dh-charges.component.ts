@@ -27,9 +27,10 @@ export class DhChargesComponent implements OnDestroy {
 
   constructor(
     private route: ActivatedRoute,
-    private store: DhChargesDataAccessApiStore) {
-      this.loadChargesData();
-    }
+    private store: DhChargesDataAccessApiStore
+  ) {
+    this.loadChargesData();
+  }
 
   tariffs$: Observable<Array<ChargeLinkDto>> = this.store.tariffs$;
   subscriptions$: Observable<Array<ChargeLinkDto>> = this.store.subscriptions$;
@@ -47,9 +48,7 @@ export class DhChargesComponent implements OnDestroy {
     this.meteringPointId$
       .pipe(
         takeUntil(this.destroy$),
-        map((meteringPointId) =>
-          this.store.loadChargesData(meteringPointId)
-        )
+        map((meteringPointId) => this.store.loadChargesData(meteringPointId))
       )
       .subscribe();
   }
@@ -63,7 +62,7 @@ export class DhChargesComponent implements OnDestroy {
     TranslocoModule,
     DhChargeItemScam,
     DhChargesNotFoundScam,
-    DhChargesServerErrorScam
+    DhChargesServerErrorScam,
   ],
   declarations: [DhChargesComponent],
   exports: [DhChargesComponent],

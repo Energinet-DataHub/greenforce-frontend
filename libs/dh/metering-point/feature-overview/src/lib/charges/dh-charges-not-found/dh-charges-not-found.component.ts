@@ -6,18 +6,13 @@ import { TranslocoModule } from '@ngneat/transloco';
 @Component({
   selector: 'dh-charges-not-found',
   templateUrl: './dh-charges-not-found.component.html',
-  styleUrls: ['./dh-charges-not-found.component.scss']
+  styleUrls: ['./dh-charges-not-found.component.scss'],
 })
 export class DhChargesNotFoundComponent {}
 
 @NgModule({
-  imports: [
-    CommonModule,
-    TranslocoModule,
-    WattEmptyStateModule
-  ],
+  imports: [CommonModule, TranslocoModule, WattEmptyStateModule],
   declarations: [DhChargesNotFoundComponent],
   exports: [DhChargesNotFoundComponent],
 })
 export class DhChargesNotFoundScam {}
-
