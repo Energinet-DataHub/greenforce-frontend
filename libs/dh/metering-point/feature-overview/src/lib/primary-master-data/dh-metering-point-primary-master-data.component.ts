@@ -53,6 +53,7 @@ export type PrimaryMasterData = Pick<
   | 'darReference'
   | 'supplyStart'
   | 'meterId'
+  | 'parentMeteringPoint'
 >;
 
 @Component({
