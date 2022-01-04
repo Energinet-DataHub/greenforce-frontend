@@ -23,18 +23,25 @@ import {
 } from '@energinet-datahub/dh/shared/data-access-api';
 import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 
+export const enum LoadingState {
+  INIT = 'INIT',
+  LOADING = 'LOADING',
+  LOADED = 'LOADED',
+}
+
+export const enum ErrorState {
+  NOT_FOUND_ERROR = 'NOT_FOUND_ERROR',
+  OTHER_ERROR = 'OTHER_ERROR',
+}
+
 interface MeteringPointState {
   readonly meteringPoint?: MeteringPointCimDto;
-  readonly meteringPointNotFound: boolean;
-  readonly isLoading: boolean;
-  readonly hasError: boolean;
+  readonly requestState: LoadingState | ErrorState;
 }
 
 const initialState: MeteringPointState = {
   meteringPoint: undefined,
-  meteringPointNotFound: false,
-  isLoading: false,
-  hasError: false,
+  requestState: LoadingState.INIT,
 };
 
 @Injectable()
@@ -45,9 +52,15 @@ export class DhMeteringPointDataAccessApiStore extends ComponentStore<MeteringPo
     filter((meteringPoint) => !!meteringPoint),
     map((meteringPoint) => meteringPoint as MeteringPointCimDto)
   );
-  isLoading$ = this.select((state) => state.isLoading);
-  meteringPointNotFound$ = this.select((state) => state.meteringPointNotFound);
-  hasError$ = this.select((state) => state.hasError);
+  isLoading$ = this.select(
+    (state) => state.requestState === LoadingState.LOADING
+  );
+  meteringPointNotFound$ = this.select(
+    (state) => state.requestState === ErrorState.NOT_FOUND_ERROR
+  );
+  hasError$ = this.select(
+    (state) => state.requestState === ErrorState.OTHER_ERROR
+  );
 
   constructor(private httpClient: MeteringPointHttp) {
     super(initialState);
@@ -90,36 +103,36 @@ export class DhMeteringPointDataAccessApiStore extends ComponentStore<MeteringPo
   private setLoading = this.updater(
     (state, isLoading: boolean): MeteringPointState => ({
       ...state,
-      isLoading,
+      requestState: isLoading ? LoadingState.LOADING : LoadingState.LOADED,
     })
   );
 
   private updateMeteringPointNotFound = this.updater(
-    (state, meteringPointNotFound: boolean): MeteringPointState => ({
+    (state): MeteringPointState => ({
       ...state,
-      meteringPointNotFound,
+      requestState: ErrorState.NOT_FOUND_ERROR,
     })
   );
 
   private upateError = this.updater(
-    (state: MeteringPointState, hasError: boolean): MeteringPointState => ({
+    (state: MeteringPointState): MeteringPointState => ({
       ...state,
       meteringPoint: undefined,
-      hasError,
+      requestState: ErrorState.OTHER_ERROR,
     })
   );
 
   private handleError = (error: HttpErrorResponse) => {
     this.setLoading(false);
 
-    const noMeteringPointData = undefined;
-    this.updateMeteringPointData(noMeteringPointData);
+    const meteringPointData = undefined;
+    this.updateMeteringPointData(meteringPointData);
 
-    const meteringPointNotFound = error.status === HttpStatusCode.NotFound;
-    this.updateMeteringPointNotFound(meteringPointNotFound);
-
-    const otherResponseError = !meteringPointNotFound;
-    this.upateError(otherResponseError);
+    if (error.status === HttpStatusCode.NotFound) {
+      this.updateMeteringPointNotFound();
+    } else {
+      this.upateError();
+    }
   };
 
   private resetState = () => this.setState(initialState);
