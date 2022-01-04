@@ -16,7 +16,6 @@
  */
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { DhMeteringPointFeatureChildOverviewModule } from '@energinet-datahub/dh/metering-point/feature-child-overview';
 
 import {
   DhMeteringPointOverviewComponent,
@@ -34,10 +33,6 @@ const routes: Routes = [
         path: '',
         pathMatch: 'full',
         component: DhMeteringPointOverviewComponent,
-      },
-      {
-        path: '',
-        loadChildren: () => DhMeteringPointFeatureChildOverviewModule,
       },
     ],
   },
