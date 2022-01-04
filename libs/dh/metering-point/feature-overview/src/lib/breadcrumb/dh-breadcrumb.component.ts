@@ -26,6 +26,12 @@ import { TranslocoModule } from '@ngneat/transloco';
 import { WattIconModule } from '@energinet-datahub/watt';
 
 import { dhMeteringPointPath } from '../routing/dh-metering-point-path';
+import { MeteringPointCimDto } from '@energinet-datahub/dh/shared/data-access-api';
+
+export interface MeteringPointTranslationKeys {
+  meteringMethod: string;
+  meteringPointType: string;
+}
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -34,9 +40,43 @@ import { dhMeteringPointPath } from '../routing/dh-metering-point-path';
   styleUrls: ['./dh-breadcrumb.component.scss'],
 })
 export class DhBreadcrumbComponent {
+  #meteringPoint: MeteringPointCimDto | undefined;
+
   meteringPointAbsolutePath = ['/', dhMeteringPointPath];
 
-  @Input() meteringPointId = '';
+  translationKeys: MeteringPointTranslationKeys | undefined;
+
+  @Input() 
+  set meteringPoint(value: MeteringPointCimDto | undefined){
+    if (value == undefined) {
+      return;
+    }
+
+    this.#meteringPoint = value;
+    this.translationKeys = this.buildTranslations(value);
+  }
+  get meteringPoint() {
+    return this.#meteringPoint;
+  }
+  get meteringPointParentPath(){
+    return ['/', dhMeteringPointPath, this.meteringPoint?.parentMeteringPoint?.gsrnNumber];
+  }
+
+  private buildTranslations(
+    meteringPoint: MeteringPointCimDto
+  ): MeteringPointTranslationKeys {
+    const meteringMethod = `meteringPoint.meteringPointSubTypeCode.${
+      meteringPoint?.meteringMethod ?? ''
+    }`;
+    const meteringPointType = `meteringPoint.meteringPointTypeCode.${
+      meteringPoint?.meteringPointType ?? ''
+    }`;
+
+    return {
+      meteringMethod,
+      meteringPointType,
+    };
+  }
 }
 
 @NgModule({

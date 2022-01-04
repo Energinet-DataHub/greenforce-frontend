@@ -14,32 +14,30 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<ng-container *rxLet="meteringPointId$ as meteringPointId">
-  <dh-breadcrumb [meteringPointId]="meteringPointId"></dh-breadcrumb>
-</ng-container>
-
-<ng-container *rxLet="isLoading$ as isLoading">
-  <div *ngIf="isLoading" class="overview__spinner">
-    <watt-spinner></watt-spinner>
-  </div>
-
-  <ng-container *ngIf="!isLoading">
-    <ng-container *rxLet="meteringPoint$ as meteringPoint">
-      <dh-metering-point-identity
+<ng-container *rxLet="meteringPoint$ as meteringPoint">
+  <dh-breadcrumb [meteringPoint]="meteringPoint"></dh-breadcrumb>
+  
+  <ng-container *rxLet="isLoading$ as isLoading">
+    <div *ngIf="isLoading" class="overview__spinner">
+      <watt-spinner></watt-spinner>
+    </div>
+    
+    <ng-container *ngIf="!isLoading">
+        <dh-metering-point-identity
         [meteringPoint]="meteringPoint"
-      ></dh-metering-point-identity>
-
+        ></dh-metering-point-identity>
+        
       <dh-metering-point-primary-master-data
-        [primaryMasterData]="meteringPoint"
+      [primaryMasterData]="meteringPoint"
       ></dh-metering-point-primary-master-data>
-
+      
       <dh-secondary-master-data
-        [secondaryMasterData]="meteringPoint"
+      [secondaryMasterData]="meteringPoint"
       ></dh-secondary-master-data>
-
+      
       <watt-tabs *transloco="let t; read: 'meteringPoint.overview.tabs'">
         <watt-tab [label]="t('prices')"></watt-tab>
-        <ng-container *ngIf="meteringPoint.parentMeteringPoint !== undefined">
+        <ng-container *ngIf="meteringPoint.parentMeteringPoint === undefined">
           <watt-tab
           [label]="
           t('childMeteringPoints', {
@@ -52,9 +50,9 @@ limitations under the License.
           ></dh-child-metering-point-tab-content>
         </watt-tab>
       </ng-container>
-      </watt-tabs>
-    </ng-container>
+    </watt-tabs>
   </ng-container>
+</ng-container>
 </ng-container>
 
 <ng-container *rxLet="meteringPointNotFound$ as meteringPointNotFound">
@@ -66,7 +64,7 @@ limitations under the License.
 <ng-container *rxLet="hasError$ as hasError">
   <div *ngIf="hasError" class="overview__error">
     <dh-metering-point-server-error
-      (reload)="loadMeteringPointData()"
+    (reload)="loadMeteringPointData()"
     ></dh-metering-point-server-error>
   </div>
 </ng-container>
