@@ -13,7 +13,6 @@
     "dh-globalization-feature-language-picker": "libs/dh/globalization/feature-language-picker",
     "dh-metering-point-data-access-api": "libs/dh/metering-point/data-access-api",
     "dh-metering-point-domain": "libs/dh/metering-point/domain",
-    "dh-metering-point-feature-child-overview": "libs/dh/metering-point/feature-child-overview",
     "dh-metering-point-feature-overview": "libs/dh/metering-point/feature-overview",
     "dh-metering-point-feature-search": "libs/dh/metering-point/feature-search",
     "dh-metering-point-shell": "libs/dh/metering-point/shell",

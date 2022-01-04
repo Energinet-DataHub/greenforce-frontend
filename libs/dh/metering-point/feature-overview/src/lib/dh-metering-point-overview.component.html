@@ -14,17 +14,15 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<ng-container *rxLet="meteringPointId$ as meteringPointId">
-  <dh-breadcrumb [meteringPointId]="meteringPointId"></dh-breadcrumb>
-</ng-container>
+<ng-container *rxLet="meteringPoint$ as meteringPoint">
+  <dh-breadcrumb [meteringPoint]="meteringPoint"></dh-breadcrumb>
 
-<ng-container *rxLet="isLoading$ as isLoading">
-  <div *ngIf="isLoading" class="overview__spinner">
-    <watt-spinner></watt-spinner>
-  </div>
+  <ng-container *rxLet="isLoading$ as isLoading">
+    <div *ngIf="isLoading" class="overview__spinner">
+      <watt-spinner></watt-spinner>
+    </div>
 
-  <ng-container *ngIf="!isLoading">
-    <ng-container *rxLet="meteringPoint$ as meteringPoint">
+    <ng-container *ngIf="!isLoading">
       <dh-metering-point-identity
         [meteringPoint]="meteringPoint"
       ></dh-metering-point-identity>
@@ -41,17 +39,19 @@ limitations under the License.
         <watt-tab [label]="t('prices')">
           <dh-charges></dh-charges>
         </watt-tab>
-        <watt-tab
-          [label]="
-            t('childMeteringPoints', {
-              count: childMeteringPointsCount
-            })
-          "
-        >
-          <dh-child-metering-point-tab-content
-            [childMeteringPoints]="meteringPoint.childMeteringPoints"
-          ></dh-child-metering-point-tab-content>
-        </watt-tab>
+        <ng-container *ngIf="meteringPoint?.childMeteringPoints">
+          <watt-tab
+            [label]="
+              t('childMeteringPoints', {
+                count: childMeteringPointsCount
+              })
+            "
+          >
+            <dh-child-metering-point-tab-content
+              [childMeteringPoints]="meteringPoint.childMeteringPoints"
+            ></dh-child-metering-point-tab-content>
+          </watt-tab>
+        </ng-container>
       </watt-tabs>
     </ng-container>
   </ng-container>
