@@ -7,8 +7,22 @@
       }}</mat-header-cell>
       <mat-cell *matCellDef="let row">
         <div class="multi-line-cell">
-          <div class="watt-text-s">
+          <div class="watt-text-s flex">
             {{ row.chargeName }}
+            <ng-container *ngIf="row.taxIndicator">
+              <div
+                class="watt-text-s flex-center"
+                *transloco="let transloco"
+                title="{{ transloco('charges.taxIndicator') }}"
+                data-testid="tax-cell"
+              >
+                <watt-icon
+                  name="monetization"
+                  [size]="iconSize.Small"
+                  class="primary-color"
+                ></watt-icon>
+              </div>
+            </ng-container>
           </div>
           <div class="watt-text-xs secondary-text">
             {{ row.chargeId }}
@@ -102,29 +116,6 @@
       </mat-cell>
     </ng-container>
 
-    <ng-container matColumnDef="tax">
-      <mat-header-cell *matHeaderCellDef class="header-cell watt-label">
-      </mat-header-cell>
-      <mat-cell *matCellDef="let row">
-        <ng-container *ngIf="row.taxIndicator">
-          <div class="watt-text-s" *transloco="let transloco">
-            <watt-icon
-              name="monetization"
-              [size]="iconSize.Small"
-              class="primary-color"
-            ></watt-icon>
-          </div>
-          <div
-            class="watt-text-s"
-            *transloco="let transloco"
-            data-testid="tax-cell"
-          >
-            {{ transloco('charges.taxIndicator') }}
-          </div>
-        </ng-container>
-      </mat-cell>
-    </ng-container>
-
     <!-- Header and Row Declarations -->
     <mat-header-row
       *matHeaderRowDef="[
@@ -132,14 +123,13 @@
         'owner',
         'date',
         'quantity',
-        'invoicing',
-        'tax'
+        'invoicing'
       ]"
     ></mat-header-row>
     <mat-row
       *matRowDef="
         let row;
-        columns: ['chargeType', 'owner', 'date', 'quantity', 'invoicing', 'tax']
+        columns: ['chargeType', 'owner', 'date', 'quantity', 'invoicing']
       "
     >
     </mat-row>
