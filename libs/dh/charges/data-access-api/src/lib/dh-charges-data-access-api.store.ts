@@ -1,31 +1,45 @@
 import { Injectable } from '@angular/core';
-import { ChargeLinkDto, ChargeLinksHttp, ChargeType } from '@energinet-datahub/dh/shared/data-access-api';
+import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { filter, map, Observable, switchMap, tap } from 'rxjs';
-import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
+
+import {
+  ChargeLinkDto,
+  ChargeLinksHttp,
+  ChargeType,
+} from '@energinet-datahub/dh/shared/data-access-api';
+
+export const enum LoadingState {
+  INIT = 'INIT',
+  LOADING = 'LOADING',
+  LOADED = 'LOADED',
+}
+
+export const enum ErrorState {
+  NOT_FOUND_ERROR = 'NOT_FOUND_ERROR',
+  OTHER_ERROR = 'OTHER_ERROR',
+}
 
 interface ChargesState {
   readonly charges?: Array<ChargeLinkDto>;
-  readonly chargesNotFound: boolean;
-  readonly isLoading: boolean;
-  readonly hasError: boolean;
+  readonly requestState: LoadingState | ErrorState;
 }
 
 const initialState: ChargesState = {
   charges: undefined,
-  chargesNotFound: false,
-  isLoading: false,
-  hasError: false,
+  requestState: LoadingState.INIT,
 };
 
 @Injectable()
-export class DhChargesDataAccessApiStore extends ComponentStore<ChargesState>{
+export class DhChargesDataAccessApiStore extends ComponentStore<ChargesState> {
   tariffs$: Observable<Array<ChargeLinkDto>> = this.select(
     (state) => state.charges
   ).pipe(
     filter((charges) => !!charges),
     map((charges) => charges as Array<ChargeLinkDto>),
-    map((charges) => charges.filter(charge => charge.chargeType === ChargeType.D03))
+    map((charges) =>
+      charges.filter((charge) => charge.chargeType === ChargeType.D03)
+    )
   );
 
   subscriptions$: Observable<Array<ChargeLinkDto>> = this.select(
@@ -33,7 +47,9 @@ export class DhChargesDataAccessApiStore extends ComponentStore<ChargesState>{
   ).pipe(
     filter((charges) => !!charges),
     map((charges) => charges as Array<ChargeLinkDto>),
-    map((charges) => charges.filter(charge => charge.chargeType === ChargeType.D01))
+    map((charges) =>
+      charges.filter((charge) => charge.chargeType === ChargeType.D01)
+    )
   );
 
   fees$: Observable<Array<ChargeLinkDto>> = this.select(
@@ -41,12 +57,20 @@ export class DhChargesDataAccessApiStore extends ComponentStore<ChargesState>{
   ).pipe(
     filter((charges) => !!charges),
     map((charges) => charges as Array<ChargeLinkDto>),
-    map((charges) => charges.filter(charge => charge.chargeType === ChargeType.D02))
+    map((charges) =>
+      charges.filter((charge) => charge.chargeType === ChargeType.D02)
+    )
   );
 
-  isLoading$ = this.select((state) => state.isLoading);
-  chargesNotFound$ = this.select((state) => state.chargesNotFound);
-  hasError$ = this.select((state) => state.hasError);
+  isLoading$ = this.select(
+    (state) => state.requestState === LoadingState.LOADING
+  );
+  chargesNotFound$ = this.select(
+    (state) => state.requestState === ErrorState.NOT_FOUND_ERROR
+  );
+  hasError$ = this.select(
+    (state) => state.requestState === ErrorState.OTHER_ERROR
+  );
 
   constructor(private httpClient: ChargeLinksHttp) {
     super(initialState);
@@ -89,36 +113,36 @@ export class DhChargesDataAccessApiStore extends ComponentStore<ChargesState>{
   private setLoading = this.updater(
     (state, isLoading: boolean): ChargesState => ({
       ...state,
-      isLoading,
+      requestState: isLoading ? LoadingState.LOADING : LoadingState.LOADED,
     })
   );
 
   private updateChargesNotFound = this.updater(
-    (state, chargesNotFound: boolean): ChargesState => ({
+    (state): ChargesState => ({
       ...state,
-      chargesNotFound,
+      requestState: ErrorState.NOT_FOUND_ERROR,
     })
   );
 
   private upateError = this.updater(
-    (state: ChargesState, hasError: boolean): ChargesState => ({
+    (state: ChargesState): ChargesState => ({
       ...state,
       charges: undefined,
-      hasError,
+      requestState: ErrorState.OTHER_ERROR,
     })
   );
 
   private handleError = (error: HttpErrorResponse) => {
     this.setLoading(false);
 
-    const noChargesData = undefined;
-    this.updateChargesData(noChargesData);
+    const chargesData = undefined;
+    this.updateChargesData(chargesData);
 
-    const chargesNotFound = error.status === HttpStatusCode.NotFound;
-    this.updateChargesNotFound(chargesNotFound);
-
-    const otherResponseError = !chargesNotFound;
-    this.upateError(otherResponseError);
+    if (error.status === HttpStatusCode.NotFound) {
+      this.updateChargesNotFound();
+    } else {
+      this.upateError();
+    }
   };
 
   private resetState = () => this.setState(initialState);
