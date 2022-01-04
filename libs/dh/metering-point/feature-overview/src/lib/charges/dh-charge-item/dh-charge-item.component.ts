@@ -36,7 +36,7 @@ import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-t
 })
 export class DhChargeItemComponent {
   @Input() charges: Array<ChargeLinkDto> = [];
-  @Input() title: string = '';
+  @Input() title = '';
   chargeTypes = ChargeType;
   iconSize = WattIconSize;
 }
