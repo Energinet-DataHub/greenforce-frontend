@@ -20,7 +20,7 @@ limitations under the License.
   }}</a>
   <watt-icon name="right"></watt-icon>
   <ng-container
-    *ngIf="meteringPoint?.parentMeteringPoint === undefined; else isChild"
+    *ngIf="!meteringPoint?.parentMeteringPoint; else isChild"
   >
     {{ meteringPoint?.gsrnNumber }}
   </ng-container>
@@ -33,7 +33,5 @@ limitations under the License.
     >{{ meteringPoint?.parentMeteringPoint?.gsrnNumber }}</a
   >
   <watt-icon name="right"></watt-icon>
-  {{ translationKeys?.meteringPointType | transloco }}({{
-    translationKeys?.meteringMethod | transloco
-  }})
+  {{ translationKeys?.meteringPointType | transloco }}
 </ng-template>

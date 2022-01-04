@@ -37,7 +37,7 @@ limitations under the License.
       
       <watt-tabs *transloco="let t; read: 'meteringPoint.overview.tabs'">
         <watt-tab [label]="t('prices')"></watt-tab>
-        <ng-container *ngIf="meteringPoint.parentMeteringPoint === undefined">
+        <ng-container *ngIf="meteringPoint?.childMeteringPoints">
           <watt-tab
           [label]="
           t('childMeteringPoints', {
