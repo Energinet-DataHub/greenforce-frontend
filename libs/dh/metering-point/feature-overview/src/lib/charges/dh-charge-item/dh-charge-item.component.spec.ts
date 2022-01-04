@@ -78,14 +78,13 @@ describe(DhChargeItemComponent.name, () => {
 
     const expected = enTranslations.charges.taxIndicator;
 
-    expect(actual.textContent?.trim()).toBe(expected);
+    expect(actual.title?.trim()).toBe(expected);
   });
 
   it(`Tax is not present in table if taxIndicator is false`, async () => {
     const testDataClone = [...testData];
 
     testDataClone[0].taxIndicator = false;
-
     await setup(testDataClone);
 
     const actual = screen.queryByTestId('tax-cell', { suggest: false });
