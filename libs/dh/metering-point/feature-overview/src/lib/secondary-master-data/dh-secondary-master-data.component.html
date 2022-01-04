@@ -195,47 +195,49 @@ limitations under the License.
         </dd>
       </div>
     </dl>
-    <div class="watt-text-l">
-      {{ t('locationDetailTitle') }}
-    </div>
-    <dl>
-      <div class="smd-list__row">
-        <dt class="watt-label">
-          {{ t('streetCode') }}
-        </dt>
-        <dd class="watt-text-m">
-          <ng-container
-            *ngIf="secondaryMasterData?.streetCode; else emptyField"
-          >
-            {{ secondaryMasterData?.streetCode }}
-          </ng-container>
-        </dd>
+    <ng-container *ngIf="secondaryMasterData?.childMeteringPoints">
+      <div class="watt-text-l">
+        {{ t('locationDetailTitle') }}
       </div>
-      <div class="smd-list__row">
-        <dt class="watt-label">
-          {{ t('municipalityCode') }}
-        </dt>
-        <dd class="watt-text-m">
-          <ng-container
-            *ngIf="secondaryMasterData?.municipalityCode; else emptyField"
-          >
-            {{ secondaryMasterData?.municipalityCode }}
-          </ng-container>
-        </dd>
-      </div>
-      <div class="smd-list__row">
-        <dt class="watt-label">
-          {{ t('countryCode') }}
-        </dt>
-        <dd class="watt-text-m">
-          <ng-container
-            *ngIf="secondaryMasterData?.countryCode; else emptyField"
-          >
-            {{ secondaryMasterData?.countryCode }}
-          </ng-container>
-        </dd>
-      </div>
-    </dl>
+      <dl>
+        <div class="smd-list__row">
+          <dt class="watt-label">
+            {{ t('streetCode') }}
+          </dt>
+          <dd class="watt-text-m">
+            <ng-container
+              *ngIf="secondaryMasterData?.streetCode; else emptyField"
+            >
+              {{ secondaryMasterData?.streetCode }}
+            </ng-container>
+          </dd>
+        </div>
+        <div class="smd-list__row">
+          <dt class="watt-label">
+            {{ t('municipalityCode') }}
+          </dt>
+          <dd class="watt-text-m">
+            <ng-container
+              *ngIf="secondaryMasterData?.municipalityCode; else emptyField"
+            >
+              {{ secondaryMasterData?.municipalityCode }}
+            </ng-container>
+          </dd>
+        </div>
+        <div class="smd-list__row">
+          <dt class="watt-label">
+            {{ t('countryCode') }}
+          </dt>
+          <dd class="watt-text-m">
+            <ng-container
+              *ngIf="secondaryMasterData?.countryCode; else emptyField"
+            >
+              {{ secondaryMasterData?.countryCode }}
+            </ng-container>
+          </dd>
+        </div>
+      </dl>
+    </ng-container>
   </watt-expansion>
 </ng-container>
 

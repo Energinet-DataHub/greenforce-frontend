@@ -48,6 +48,7 @@ describe(DhMeteringPointPrimaryMasterDataComponent.name, () => {
     citySubDivisionName: '[citySubDivisionName]',
     postalCode: '[postalCode]',
     cityName: '[cityName]',
+    childMeteringPoints: [],
   };
 
   async function setup(primaryMasterData: PrimaryMasterData = { ...testData }) {
