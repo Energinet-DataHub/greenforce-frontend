@@ -65,28 +65,11 @@ describe(DhMeteringPointOverviewComponent.name, () => {
     });
 
     featureRouter = TestBed.inject(SpectacularFeatureRouter);
-    featureLocation = TestBed.inject(SpectacularFeatureLocation);
   });
 
   let view: RenderResult<SpectacularAppComponent>;
   const meteringPointId = '575391908025497398';
   let featureRouter: SpectacularFeatureRouter;
-  let featureLocation: SpectacularFeatureLocation;
-
-  it('displays a link to the Metering point URL', async () => {
-    await featureRouter.navigateByUrl(`~/${meteringPointId}`);
-
-    await view.fixture.whenStable();
-
-    const [topLevelLink]: HTMLAnchorElement[] = await screen.findAllByRole(
-      'link'
-    );
-    user.click(topLevelLink);
-
-    await view.fixture.whenStable();
-
-    expect(featureLocation.path()).toBe(`~/`);
-  });
 
   describe('When a metering point exists', () => {
     it('Then the metering point id is displayed in a heading', async () => {
