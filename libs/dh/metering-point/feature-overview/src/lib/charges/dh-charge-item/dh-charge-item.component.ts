@@ -39,8 +39,6 @@ export class DhChargeItemComponent {
   @Input() title: string = '';
   chargeTypes = ChargeType;
   iconSize = WattIconSize;
-
-  constructor() {}
 }
 
 @NgModule({

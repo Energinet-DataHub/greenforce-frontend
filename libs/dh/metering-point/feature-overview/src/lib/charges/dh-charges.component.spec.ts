@@ -14,21 +14,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { render, screen } from '@testing-library/angular';
+// import { render, screen } from '@testing-library/angular';
 
 import { DhChargesComponent, DhChargesScam } from './dh-charges.component';
-import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
-import { runOnPushChangeDetection } from '@energinet-datahub/dh/shared/test-util-metering-point';
+// import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
+// import { runOnPushChangeDetection } from '@energinet-datahub/dh/shared/test-util-metering-point';
 
 describe(DhChargesComponent.name, () => {
-  async function setup() {
-    const { fixture } = await render(DhChargesComponent, {
-      componentProperties: {},
-      imports: [getTranslocoTestingModule(), DhChargesScam],
-    });
+  // async function setup() {
+  //   const { fixture } = await render(DhChargesComponent, {
+  //     componentProperties: {},
+  //     imports: [getTranslocoTestingModule(), DhChargesScam],
+  //   });
 
-    runOnPushChangeDetection(fixture);
-  }
+  //   runOnPushChangeDetection(fixture);
+  // }
 
   it(`dummy test`, () => {
     expect(true).toBe(true);
