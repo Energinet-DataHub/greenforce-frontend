@@ -46,8 +46,8 @@ export class DhBreadcrumbComponent {
 
   translationKeys: MeteringPointTranslationKeys | undefined;
 
-  @Input() 
-  set meteringPoint(value: MeteringPointCimDto | undefined){
+  @Input()
+  set meteringPoint(value: MeteringPointCimDto | undefined) {
     if (value == undefined) {
       return;
     }
@@ -58,8 +58,12 @@ export class DhBreadcrumbComponent {
   get meteringPoint() {
     return this.#meteringPoint;
   }
-  get meteringPointParentPath(){
-    return ['/', dhMeteringPointPath, this.meteringPoint?.parentMeteringPoint?.gsrnNumber];
+  get meteringPointParentPath() {
+    return [
+      '/',
+      dhMeteringPointPath,
+      this.meteringPoint?.parentMeteringPoint?.gsrnNumber,
+    ];
   }
 
   private buildTranslations(
