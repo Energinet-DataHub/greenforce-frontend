@@ -36,7 +36,6 @@ import { dhMeteringPointIdParam } from './routing/dh-metering-point-id-param';
 import { DhMeteringPointNotFoundScam } from './not-found/dh-metering-point-not-found.component';
 import { DhMeteringPointPrimaryMasterDataScam } from './primary-master-data/dh-metering-point-primary-master-data.component';
 import { DhMeteringPointServerErrorScam } from './server-error/dh-metering-point-server-error.component';
-import { DhMeteringPointStatusBadgeScam } from './status-badge/dh-metering-point-status-badge.component';
 import { DhChargesScam } from './charges/dh-charges.component';
 import { DhChildMeteringPointTabContentScam } from './child-metering-point-tab-content/dh-child-metering-point-tab-content.component';
 
