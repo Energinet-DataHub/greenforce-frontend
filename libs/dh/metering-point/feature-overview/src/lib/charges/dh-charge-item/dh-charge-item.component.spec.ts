@@ -6,6 +6,7 @@ import {
 } from '@energinet-datahub/dh/shared/data-access-api';
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
 import { runOnPushChangeDetection } from '@energinet-datahub/dh/shared/test-util-metering-point';
+import { en as enTranslations } from '@energinet-datahub/dh/globalization/assets-localization';
 
 import {
   DhChargeItemComponent,
@@ -28,10 +29,11 @@ const testData: ChargeLinkDto[] = [
 ];
 
 describe(DhChargeItemComponent.name, () => {
-  async function setup(charges: Array<ChargeLinkDto>) {
+  async function setup(charges: Array<ChargeLinkDto>, title?: string) {
     const { fixture } = await render(DhChargeItemComponent, {
       componentProperties: {
         charges: charges,
+        title: title,
       },
       imports: [getTranslocoTestingModule(), DhChargeItemScam],
     });
@@ -58,5 +60,57 @@ describe(DhChargeItemComponent.name, () => {
 
     expect(dateCellFrom.textContent?.trim()).toBe('01-01-2020');
     expect(dateCellTo.textContent?.trim()).toBe('01-03-2020');
+  });
+
+  it(`Given title is shown in UI even though no data for charges is present`, async () => {
+    const expectedTitle = 'testTitle';
+    await setup([], expectedTitle);
+
+    const title = screen.getByRole('heading', { level: 4 });
+
+    expect(title.textContent?.trim()).toBe(expectedTitle);
+  });
+
+  it(`Tax is present in table if taxIndicator is true`, async () => {
+    await setup(testData);
+
+    const actual = screen.getByTestId('tax-cell', { suggest: false });
+
+    const expected = enTranslations.charges.taxIndicator;
+
+    expect(actual.textContent?.trim()).toBe(expected);
+  });
+
+  it(`Tax is not present in table if taxIndicator is false`, async () => {
+    const testDataClone = [...testData];
+
+    testDataClone[0].taxIndicator = false;
+
+    await setup(testDataClone);
+
+    const actual = screen.queryByTestId('tax-cell', { suggest: false });
+
+    expect(actual).toBe(null);
+  });
+
+  it(`Invoicing is present in table if transparentInvoicing is true`, async () => {
+    await setup(testData);
+
+    const actual = screen.getByTestId('invoicing-cell', { suggest: false });
+
+    const expected = enTranslations.charges.transparentInvoicing;
+
+    expect(actual.textContent?.trim()).toBe(expected);
+  });
+
+  it(`Invoicing is not present in table if transparentInvoicing is false`, async () => {
+    const testDataClone = [...testData];
+
+    testDataClone[0].transparentInvoicing = false;
+    await setup(testDataClone);
+
+    const actual = screen.queryByTestId('invoicing-cell', { suggest: false });
+
+    expect(actual).toBe(null);
   });
 });
