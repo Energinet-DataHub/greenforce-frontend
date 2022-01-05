@@ -200,5 +200,29 @@
       "P1M": "Aflæses pr. måned",
       "P1Y": "Aflæses pr. år"
     }
+  },
+  "charges": {
+    "tariffsTitle": "Tariffer",
+    "subscriptionsTitle": "Abonnementer",
+    "feesTitle": "Gebyrer",
+    "chargeType": {
+      "D01": "Abonnement",
+      "D02": "Gebyr",
+      "D03": "Tarif"
+    },
+    "chargeOwner": "Ejer",
+    "startDate": "Dato",
+    "transparentInvoicing": "Viderefakturering",
+    "quantity": "Antal",
+    "noActive": "Ingen aktive {{title}}",
+    "noActiveMessage": "Vi fandt ingen aktive {{title}} på dette målepunkt",
+    "taxIndicator": "Afgift",
+    "chargesNotFound": {
+      "title": "Vi fandt desværre ingen priser tilknyttet til dette målepunkt"
+    },
+    "serverError": {
+      "title": "Ups! Der opstod en fejl",
+      "message": "Der opstod desværre en fejl, da vi skulle hente de nødvendige oplysninger."
+    }
   }
 }
