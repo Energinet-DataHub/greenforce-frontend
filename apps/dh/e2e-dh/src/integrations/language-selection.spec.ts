@@ -27,7 +27,7 @@ export const getLanguagePicker = (language: DisplayLanguage, page: Page) => {
 
 test.describe('Language selection', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/');
+    await page.goto('/metering-point/search');
   });
 
   test(`Given no language is selected
