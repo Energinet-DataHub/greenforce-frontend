@@ -24,6 +24,9 @@ test.describe('Application shell', () => {
   });
 
   test('the application title is displayed', async ({ page }) => {
+    test.slow();
+    await page.waitForTimeout(5000);
+    console.log(await page.innerHTML('dh-metering-point-search'));
     await expect(appShell.getTitle(page)).toHaveText('Målepunkter');
   });
 });
