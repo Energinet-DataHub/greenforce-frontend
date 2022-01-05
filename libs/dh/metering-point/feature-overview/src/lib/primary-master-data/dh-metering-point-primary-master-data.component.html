@@ -62,7 +62,7 @@ limitations under the License.
   </div>
 
   <div class="column">
-    <section *ngIf="primaryMasterData?.childMeteringPoints">
+    <section *ngIf="primaryMasterData?.meteringPointType | isParent">
       <watt-icon
         name="power"
         label="power"
