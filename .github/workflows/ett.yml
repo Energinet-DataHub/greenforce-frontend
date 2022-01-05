@@ -14,6 +14,7 @@ env:
   NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
   NX_RUN_GROUP: ${{ github.run_id }}
 
+
 on:
   workflow_dispatch: {}
   workflow_run:
@@ -21,6 +22,19 @@ on:
     types: [completed]
 
 jobs:
+  test:
+    name: "test"
+    env: 
+      GITHUB_CONTEXT: ${{ toJSON(github) }}
+      EVENT_NAME: ${{github.event_name}}
+    runs-on: ubuntu-latest
+    steps:
+      - name: "test"
+        run: echo "$GITHUB_CONTEXT"
+      
+      - name: "test2"
+        run: echo "$EVENT_NAME"
+
   affected:
     name: Is affected?
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
