@@ -35,7 +35,7 @@ test.describe('Language selection', () => {
     test.slow();
     await page.waitForTimeout(5000);
     console.log('-------------------------------------');
-    console.log('the application title is displayed')
+    console.log('the application title is displayed');
     console.log(await page.innerHTML('dh-metering-point-search'));
     console.log('-------------------------------------');
     await expect(appShell.getTitle(page)).toHaveText('Målepunkter');
