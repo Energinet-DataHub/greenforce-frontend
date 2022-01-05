@@ -123,12 +123,12 @@
       "D99": "Ukendt teknologi"
     },
     "productId": {
-      "Tariff": "Tariff",
-      "FuelQuantity": "Fuel quantity",
-      "PowerActive": "Power active",
-      "PowerReactive": "Power reactive",
-      "EnergyActive": "Energy active",
-      "EnergyReactive": "Energy reactive"
+      "Tariff": "Tarif",
+      "FuelQuantity": "Brændselsmængde",
+      "PowerActive": "Aktiv effekt",
+      "PowerReactive": "Reaktiv effekt",
+      "EnergyActive": "Aktiv energi",
+      "EnergyReactive": "Reaktiv energi"
     },
     "unit": {
       "AMP": "Ampere",
