@@ -55,7 +55,6 @@
           "effectivePeriod": "Validity period",
           "status": "Connection state"
         },
-        "now": "now",
         "noChildMeteringPointsTitle": "No child metering point(s)",
         "noChildMeteringPointsText": "We did not find any child metering point(s) on this metering point"
       }

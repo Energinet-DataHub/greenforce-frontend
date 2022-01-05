@@ -55,7 +55,6 @@
           "effectivePeriod": "Gyldighedsperiode",
           "status": "Tilslutningsstatus"
         },
-        "now": "nu",
         "noChildMeteringPointsTitle": "Ingen child målepunkter",
         "noChildMeteringPointsText": "Vi fandt ingen child målepunkter til dette målepunkt"
       }
