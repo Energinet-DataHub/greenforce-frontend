@@ -36,5 +36,5 @@ export class EnergyTrackAndTraceAppModule {}
 // bob
 // busk bobber bob
 // busk bubbi bub
-// Bubbi busk
-// Jobski bobski
+// busk bubbi bubski
+// Jobber bobber
