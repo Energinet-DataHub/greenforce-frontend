@@ -4,7 +4,8 @@ env:
   app-name: app-ett
   BASE_BRANCH: ${{ github.event.pull_request.base.ref }}
   is-main-branch: ${{ github.ref == 'refs/heads/main' }}
-  is-pull-request: ${{ github.event_name  == 'pull_request' }}
+  is-pull-request: ${{ github.event.workflow_run.event  == 'pull_request' }}
+  is-push-request: ${{ github.event.workflow_run.event  == 'push' }}
   NODE_OPTIONS: --max-old-space-size=6144
   node-version: 14.x
   NX_MAX_PARALLEL: 2
@@ -133,7 +134,7 @@ jobs:
 
   container-pr:
     name: 'PR: Host container'
-    if: ${{ github.event_name  == 'pull_request' }}
+    if: ${{ github.event.workflow_run.event  == 'pull_request' }}
     needs: app
     runs-on: ubuntu-latest
     env:
@@ -159,7 +160,7 @@ jobs:
 
   container_merge:
     name: 'Merge: Host container'
-    if: ${{ github.ref == 'refs/heads/main' }}
+    if: ${{ github.ref == 'refs/heads/main' && github.event.workflow_run.event  == 'push' }}
     needs: app
     outputs:
       release_tag: ${{ steps.build_and_push.outputs.RELEASE_VERSION }}
