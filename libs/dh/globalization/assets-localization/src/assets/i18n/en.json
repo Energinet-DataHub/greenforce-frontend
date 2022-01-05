@@ -4,12 +4,12 @@
   "no": "No",
   "meteringPoint": {
     "search": {
-      "title": "Metering Points",
-      "searchLabel": "Enter a Metering Point ID to find a metering point",
-      "searchPlaceholder": "Search by Metering Point ID",
+      "title": "Search metering points",
+      "searchLabel": "Enter a metering point ID to find a metering point",
+      "searchPlaceholder": "Search by metering point ID",
       "searchButton": "Search",
       "clearSearchButton": "Clear search input",
-      "searchInvalidLength": "Metering Point ID must be an 18-digit number",
+      "searchInvalidLength": "Metering point ID must be an 18-digit number",
       "noMeteringPointFoundTitle": "Sorry, we did not find a metering point match",
       "noMeteringPointFoundMessage": "Please check the spelling and try again",
       "serverErrorTitle": "Oops! There was an error",
@@ -19,12 +19,12 @@
       "breadcrumb": {
         "meteringPoints": "Metering point"
       },
-      "meteringPointType": "Type of Metering Point",
-      "meteringMethod": "Metering Method",
-      "gsrnNumber": "Metering Point ID",
-      "connectionState": "Connection State",
-      "settlementMethod": "Settlement Method",
-      "readingOccurrence": "Meter Reading Periodicity",
+      "meteringPointType": "Type of metering point",
+      "meteringMethod": "Metering method",
+      "gsrnNumber": "Metering point ID",
+      "connectionState": "Connection state",
+      "settlementMethod": "Settlement method",
+      "readingOccurrence": "Meter reading periodicity",
       "meteringPointNotFound": {
         "title": "Sorry, we did not find a metering point match",
         "message": "Please check the spelling and try again or go to search",
@@ -47,13 +47,13 @@
       },
       "tabs": {
         "prices": "Prices",
-        "childMeteringPoints": "Child Metering Points ({{ count }})"
+        "childMeteringPoints": "Child metering points ({{ count }})"
       },
       "childMeteringPointsTab": {
         "headers": {
-          "childMeteringPoint": "Child Metering Point",
+          "childMeteringPoint": "Child metering point",
           "effectivePeriod": "Validity period",
-          "status": "Status"
+          "status": "Connection state"
         },
         "now": "now",
         "noChildMeteringPointsTitle": "No child metering point(s)",
