@@ -14,5 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './lib/dh-configuration-localization.module';
-export * from './lib/dh-transloco.module';
+import { NgModule } from '@angular/core';
+
+import { DhDatePipe } from './dh-date.pipe';
+
+@NgModule({
+  declarations: [DhDatePipe],
+  exports: [DhDatePipe],
+})
+export class DhSharedUiDateTimeModule {}

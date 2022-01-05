@@ -26,7 +26,7 @@ import { TranslocoModule } from '@ngneat/transloco';
 import { MeteringPointCimDto } from '@energinet-datahub/dh/shared/data-access-api';
 
 import { DhMeteringPointStatusBadgeScam } from '../status-badge/dh-metering-point-status-badge.component';
-import { emDash } from './em-dash';
+import { emDash } from '../shared/em-dash';
 
 export interface MeteringPointIdentityTranslationKeys {
   meteringMethod: string;

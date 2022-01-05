@@ -17,7 +17,7 @@
     },
     "overview": {
       "breadcrumb": {
-        "meteringPoints": "Målepunkter"
+        "meteringPoints": "Målepunkt"
       },
       "meteringPointType": "Målepunktstype",
       "meteringMethod": "Målepunktsart",
@@ -37,14 +37,110 @@
       },
       "primaryMasterData": {
         "address": "Adresse",
-        "actualAddress": "Faktuel adresse",
-        "notActualAddress": "Ikke faktuel adresse",
+        "actualAddress": "Faktisk adresse",
+        "notActualAddress": "Ikke faktisk adresse",
         "locationDescription": "Målepunktskommentar",
         "geoInfoReference": "DAR reference",
         "hasElectricitySupplier": "Har El-leverandør?",
         "since": "Siden {{date}}",
         "meterNumber": "Målernummer"
+      },
+      "tabs": {
+        "prices": "Priser",
+        "childMeteringPoints": "Child Målepunkter ({{ count }})"
+      },
+      "childMeteringPointsTab": {
+        "headers": {
+          "childMeteringPoint": "Child Målepunkt",
+          "effectivePeriod": "Gyldighedsperiode",
+          "status": "Status"
+        },
+        "now": "nu",
+        "noChildMeteringPointsTitle": "Ingen child målepunkter",
+        "noChildMeteringPointsText": "Vi fandt ingen child målepunkter på dette målepunkt"
       }
+    },
+    "secondaryMasterData": {
+      "technicalSpecificationTitle": "Tekniske Specifikationer",
+      "netSettlementGroup": "Nettoafregningsgruppe",
+      "disconnectionType": "Afbrydelsesart",
+      "productionObligation": "Aftagepligt",
+      "connectionType": "Tilslutningstype",
+      "gridAreaName": "Netområde",
+      "gridAreaCode": "Netområde ID",
+      "inAreaCode": "Til net",
+      "outAreaCode": "Fra net",
+      "capacity": "Anlægskapacitet",
+      "assetType": "Anlægsteknologi",
+      "ratedCapacity": "Effektgrænse KW",
+      "ratedCurrent": "Effektgrænse A",
+      "powerPlantGsrnNumber": "VærksGSRN",
+      "productId": "Produkt",
+      "unit": "Energienhed",
+      "effectiveDate": "Gyldighedsdato",
+      "locationDetailTitle": "Øvrige Lokationsdetaljer",
+      "streetCode": "Vejkode",
+      "municipalityCode": "Kommunekode",
+      "countryCode": "Landekode",
+      "expansion": {
+        "openLabel": "Se flere detaljer",
+        "closeLabel": "Se færre detaljer"
+      },
+      "units": {
+        "kilowatt": "KW",
+        "ampere": "A"
+      }
+    },
+    "disconnectionType": {
+      "D01": "Fjern afbrydelig",
+      "D02": "Manual afbrydelig"
+    },
+    "connectionType": {
+      "D01": "Direkte tilsluttet",
+      "D02": "Installationstilsluttet"
+    },
+    "assetType": {
+      "D01": "Dampturbine med modtryksdrift",
+      "D02": "Gasturbine",
+      "D03": "Combined cycle",
+      "D04": "Forbrændingsmotor Gas",
+      "D05": "Dampturbine med kondens/damp",
+      "D06": "Kedel",
+      "D07": "Stirlingmotor",
+      "D08": "Reserveret til senere brug",
+      "D09": "Reserveret til senere brug",
+      "D10": "Brændselsceller",
+      "D11": "Solceller",
+      "D12": "Vindmøller",
+      "D13": "Vandkraft",
+      "D14": "Bølgekraft",
+      "D15": "Reserveret til senere brug",
+      "D16": "Reserveret til senere brug",
+      "D17": "Regulerbare Vindmøller",
+      "D18": "Reserveret til senere brug",
+      "D19": "Forbrændingsmotor Dieselmotor",
+      "D20": "Bioforbrændingsmotor",
+      "D99": "Ukendt teknologi"
+    },
+    "productId": {
+      "Tariff": "Tariff",
+      "FuelQuantity": "Fuel quantity",
+      "PowerActive": "Power active",
+      "PowerReactive": "Power reactive",
+      "EnergyActive": "Energy active",
+      "EnergyReactive": "Energy reactive"
+    },
+    "unit": {
+      "AMP": "Ampere",
+      "H87": "STK",
+      "K3": "kVArh",
+      "KWH": "kWh",
+      "KWT": "kW",
+      "MAW": "MW",
+      "MWH": "MWh",
+      "TNE": "Tons",
+      "Z03": "MVAr",
+      "Z14": "KT Tarifkode"
     },
     "meteringPointTypeCode": {
       "D01": "VE produktion",

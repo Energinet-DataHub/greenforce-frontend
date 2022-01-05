@@ -12,10 +12,10 @@
 
 
 export interface WeatherForecast { 
-    date?: string;
-    temperatureC?: number;
-    readonly temperatureF?: number;
-    summary?: string;
+    date: string;
+    temperatureC: number;
+    readonly temperatureF: number;
+    summary: string;
 }
 
 

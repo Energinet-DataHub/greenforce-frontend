@@ -59,6 +59,7 @@ namespace Energinet.DataHub.WebApi
                     Description = "Backend-for-frontend for DataHub",
                 });
 
+                config.SchemaFilter<RequireNonNullablePropertiesSchemaFilter>();
                 config.SupportNonNullableReferenceTypes();
 
                 // Set the comments path for the Swagger JSON and UI.
