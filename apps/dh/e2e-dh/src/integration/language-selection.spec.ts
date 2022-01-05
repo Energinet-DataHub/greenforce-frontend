@@ -15,6 +15,10 @@
  * limitations under the License.
  */
 import { DisplayLanguage } from '@energinet-datahub/dh/globalization/domain';
+import {
+  en as enTranslations,
+  da as daTranslations,
+} from '@energinet-datahub/dh/globalization/assets-localization';
 
 import * as appShell from '../support/app-shell.po';
 
@@ -28,14 +32,20 @@ describe('Language selection', () => {
 
   it(`Given no language is selected
     Then Danish translations are displayed`, () => {
-    appShell.getTitle().should('contain', 'Målepunkter');
+    appShell
+      .getTitle()
+      .should('have.text', daTranslations.meteringPoint.search.title);
   });
 
   it(`When English is selected
     Then English translations are displayed`, () => {
     getLanguagePicker(DisplayLanguage.English).click();
 
-    appShell.getTitle().should('contain', 'Metering Points');
+    console.log(appShell.getTitle());
+
+    appShell
+      .getTitle()
+      .should('have.text', enTranslations.meteringPoint.search.title);
   });
 
   it(`Given English is selected
@@ -45,6 +55,8 @@ describe('Language selection', () => {
 
     getLanguagePicker(DisplayLanguage.Danish).click();
 
-    appShell.getTitle().should('contain', 'Målepunkter');
+    appShell
+      .getTitle()
+      .should('have.text', daTranslations.meteringPoint.search.title);
   });
 });
