@@ -37,6 +37,7 @@ import { DhMeteringPointNotFoundScam } from './not-found/dh-metering-point-not-f
 import { DhMeteringPointPrimaryMasterDataScam } from './primary-master-data/dh-metering-point-primary-master-data.component';
 import { DhMeteringPointServerErrorScam } from './server-error/dh-metering-point-server-error.component';
 import { DhChildMeteringPointTabContentScam } from './child-metering-point-tab-content/dh-child-metering-point-tab-content.component';
+import { DhIsParentPipeScam } from './shared/is-parent.pipe';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -101,6 +102,7 @@ export class DhMeteringPointOverviewComponent implements OnDestroy {
     WattTabsModule,
     DhChildMeteringPointTabContentScam,
     TranslocoModule,
+    DhIsParentPipeScam,
   ],
 })
 export class DhMeteringPointOverviewScam {}
