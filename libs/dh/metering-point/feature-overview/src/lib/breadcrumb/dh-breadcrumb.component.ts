@@ -87,6 +87,12 @@ export class DhBreadcrumbComponent {
 @NgModule({
   declarations: [DhBreadcrumbComponent],
   exports: [DhBreadcrumbComponent],
-  imports: [CommonModule, RouterModule, TranslocoModule, WattIconModule, DhIsParentPipeScam],
+  imports: [
+    CommonModule,
+    RouterModule,
+    TranslocoModule,
+    WattIconModule,
+    DhIsParentPipeScam,
+  ],
 })
 export class DhBreadcrumbScam {}

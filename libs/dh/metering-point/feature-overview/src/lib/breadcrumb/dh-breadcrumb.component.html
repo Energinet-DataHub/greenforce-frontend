@@ -19,7 +19,9 @@ limitations under the License.
     'meteringPoint.overview.breadcrumb.meteringPoints' | transloco
   }}</a>
   <watt-icon name="right"></watt-icon>
-  <ng-container *ngIf="meteringPoint?.meteringPointType | isParent; else isChild">
+  <ng-container
+    *ngIf="meteringPoint?.meteringPointType | isParent; else isChild"
+  >
     {{ meteringPoint?.gsrnNumber }}
   </ng-container>
 </nav>
