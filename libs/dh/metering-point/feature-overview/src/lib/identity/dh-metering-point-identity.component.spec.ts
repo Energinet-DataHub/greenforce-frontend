@@ -33,7 +33,6 @@ import {
   DhMeteringPointIdentityComponent,
   DhMeteringPointIdentityScam,
 } from './dh-metering-point-identity.component';
-import { emDash } from './em-dash';
 
 describe(DhMeteringPointIdentityComponent.name, () => {
   async function setup(meteringPoint: MeteringPointCimDto) {
@@ -47,16 +46,14 @@ describe(DhMeteringPointIdentityComponent.name, () => {
     runOnPushChangeDetection(fixture);
   }
 
-  const meteringPointId = '575391908025497398';
-
   describe('metering point type', () => {
     // eslint-disable-next-line sonarjs/no-duplicate-string
     it('is displayed when it has a valid value', async () => {
       const meteringPointType: MeteringPointType = 'E17';
 
-      const meteringPoint: Partial<MeteringPointCimDto> = {
+      const meteringPoint: MeteringPointCimDto = {
         meteringPointType,
-      };
+      } as MeteringPointCimDto;
 
       await setup(meteringPoint);
 
@@ -73,32 +70,15 @@ describe(DhMeteringPointIdentityComponent.name, () => {
         expectedMeteringPointType
       );
     });
-
-    // eslint-disable-next-line sonarjs/no-duplicate-string
-    it('displays a fallback when the value is missing', async () => {
-      const meteringPoint: Partial<MeteringPointCimDto> = {
-        meteringPointType: undefined,
-      };
-
-      await setup(meteringPoint);
-
-      const disableQuerySuggestions: MatcherOptions = { suggest: false };
-      const actualMeteringPointType = screen.getByTitle(
-        enTranslations.meteringPoint.overview.meteringPointType,
-        disableQuerySuggestions
-      );
-
-      expect(actualMeteringPointType.textContent).toBe(emDash);
-    });
   });
 
   describe('metering method', () => {
     it('is displayed when it has a valid value', async () => {
       const meteringMethod: MeteringMethod = 'D01';
 
-      const meteringPoint: Partial<MeteringPointCimDto> = {
+      const meteringPoint: MeteringPointCimDto = {
         meteringMethod,
-      };
+      } as MeteringPointCimDto;
 
       await setup(meteringPoint);
 
@@ -115,45 +95,15 @@ describe(DhMeteringPointIdentityComponent.name, () => {
         expectedMeteringMethod
       );
     });
-
-    it('displays a fallback when the value is missing', async () => {
-      const meteringPoint: Partial<MeteringPointCimDto> = {
-        meteringMethod: undefined,
-      };
-
-      await setup(meteringPoint);
-
-      const disableQuerySuggestions: MatcherOptions = { suggest: false };
-      const actualMeteringMethod = screen.getByTitle(
-        enTranslations.meteringPoint.overview.meteringMethod,
-        disableQuerySuggestions
-      );
-
-      expect(actualMeteringMethod.textContent).toBe(emDash);
-    });
-  });
-
-  describe('metering point id', () => {
-    it('is displayed when it has a value', async () => {
-      const meteringPoint: Partial<MeteringPointCimDto> = {
-        gsrnNumber: meteringPointId,
-      };
-
-      await setup(meteringPoint);
-
-      const heading = screen.getByRole('heading', { level: 1 });
-
-      expect(heading.textContent).toContain(meteringPointId);
-    });
   });
 
   describe('metering point status', () => {
     it('is displayed when it has a valid value', async () => {
       const connectionState: ConnectionState = 'D03';
 
-      const meteringPoint: Partial<MeteringPointCimDto> = {
+      const meteringPoint: MeteringPointCimDto = {
         connectionState,
-      };
+      } as MeteringPointCimDto;
 
       await setup(meteringPoint);
 
@@ -168,31 +118,15 @@ describe(DhMeteringPointIdentityComponent.name, () => {
         expectedConnectionState
       );
     });
-
-    it('displays a fallback when the value is missing', async () => {
-      const meteringPoint: Partial<MeteringPointCimDto> = {
-        connectionState: undefined,
-      };
-
-      await setup(meteringPoint);
-
-      const disableQuerySuggestions: MatcherOptions = { suggest: false };
-      const actualConnectionState = screen.getByTitle(
-        enTranslations.meteringPoint.overview.connectionState,
-        disableQuerySuggestions
-      );
-
-      expect(actualConnectionState.textContent).toBe(emDash);
-    });
   });
 
   describe('settlement method', () => {
     it('is displayed when it has a valid value', async () => {
       const settlementMethod: SettlementMethod = 'D01';
 
-      const meteringPoint: Partial<MeteringPointCimDto> = {
+      const meteringPoint: MeteringPointCimDto = {
         settlementMethod,
-      };
+      } as MeteringPointCimDto;
 
       await setup(meteringPoint);
 
@@ -209,29 +143,15 @@ describe(DhMeteringPointIdentityComponent.name, () => {
         expectedSettlementMethod
       );
     });
-
-    it('is NOT displayed when the value is missing', async () => {
-      const meteringPoint: Partial<MeteringPointCimDto> = {
-        settlementMethod: undefined,
-      };
-
-      await setup(meteringPoint);
-
-      expect(() =>
-        screen.getByTitle(
-          enTranslations.meteringPoint.overview.settlementMethod
-        )
-      ).toThrowError();
-    });
   });
 
   describe('reading occurrence', () => {
     it('is displayed when it has a valid value', async () => {
       const readingOccurrence: ReadingOccurrence = 'PT1H';
 
-      const meteringPoint: Partial<MeteringPointCimDto> = {
+      const meteringPoint: MeteringPointCimDto = {
         readingOccurrence,
-      };
+      } as MeteringPointCimDto;
 
       await setup(meteringPoint);
 
@@ -247,20 +167,6 @@ describe(DhMeteringPointIdentityComponent.name, () => {
       expect(actualReadingOccurrence.textContent).toContain(
         expectedReadingOccurrence
       );
-    });
-
-    it('is NOT displayed when the value is missing', async () => {
-      const meteringPoint: Partial<MeteringPointCimDto> = {
-        readingOccurrence: undefined,
-      };
-
-      await setup(meteringPoint);
-
-      expect(() =>
-        screen.getByTitle(
-          enTranslations.meteringPoint.overview.readingOccurrence
-        )
-      ).toThrowError();
     });
   });
 });

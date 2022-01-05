@@ -14,28 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgModule, Pipe, PipeTransform } from '@angular/core';
-import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
+import { NgModule } from '@angular/core';
 
-@Pipe({
-  name: 'yesNo',
-  pure: false,
-})
-export class YesNoPipe implements PipeTransform {
-  transform(value: string | undefined | null): string {
-    if (value === undefined || value === null || value.trim() === '') {
-      return this.transloco.translate('no');
-    }
-
-    return this.transloco.translate('yes');
-  }
-
-  constructor(private transloco: TranslocoService) {}
-}
+import { danishLocaleInitializer } from './danish-locale.initializer';
+import { danishLocaleProvider } from './danish-locale.provider';
 
 @NgModule({
-  declarations: [YesNoPipe],
-  imports: [TranslocoModule],
-  exports: [YesNoPipe],
+  providers: [danishLocaleProvider, danishLocaleInitializer],
 })
-export class DhYesNoPipeScam {}
+export class DanishLocaleModule {}

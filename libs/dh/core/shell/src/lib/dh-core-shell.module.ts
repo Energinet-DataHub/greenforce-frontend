@@ -25,7 +25,10 @@ import {
   MSAL_INSTANCE,
   MSAL_INTERCEPTOR_CONFIG,
 } from '@energinet-datahub/dh/auth/msal';
-import { DhTranslocoModule } from '@energinet-datahub/dh/globalization/configuration-localization';
+import {
+  DhConfigurationLocalizationModule,
+  DhTranslocoModule,
+} from '@energinet-datahub/dh/globalization/configuration-localization';
 import { dhMeteringPointPath } from '@energinet-datahub/dh/metering-point/shell';
 import { DhApiModule } from '@energinet-datahub/dh/shared/data-access-api';
 import {
@@ -71,6 +74,7 @@ const routes: Routes = [
     DhTranslocoModule.forRoot(),
     HttpClientModule,
     MsalModule,
+    DhConfigurationLocalizationModule.forRoot(),
     RouterModule.forRoot(routes, {
       anchorScrolling: 'enabled',
       useHash: true,

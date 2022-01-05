@@ -24,31 +24,31 @@ import { DisconnectionType } from './disconnection-type';
 
 
 export interface MeteringPointCimDto { 
-    meteringPointId?: string;
-    gsrnNumber?: string;
-    streetName?: string;
-    postalCode?: string;
-    cityName?: string;
-    countryCode?: string;
-    connectionState?: ConnectionState;
-    meteringMethod?: MeteringMethod;
-    readingOccurrence?: ReadingOccurrence;
-    meteringPointType?: MeteringPointType;
+    meteringPointId: string;
+    gsrnNumber: string;
+    streetName: string;
+    postalCode: string;
+    cityName: string;
+    countryCode: string;
+    connectionState: ConnectionState;
+    meteringMethod: MeteringMethod;
+    readingOccurrence: ReadingOccurrence;
+    meteringPointType: MeteringPointType;
     ratedCapacity?: number | null;
     ratedCurrent?: number | null;
-    gridAreaName?: string;
-    gridAreaCode?: string;
-    linkedExtendedMasterdata?: string;
-    locationDescription?: string;
-    productId?: ProductId;
-    unit?: Unit;
-    effectiveDate?: string | null;
-    meterId?: string;
-    streetCode?: string;
-    citySubDivisionName?: string;
-    floorIdentification?: string;
-    suiteNumber?: string;
-    buildingNumber?: string;
+    gridAreaName: string;
+    gridAreaCode: string;
+    linkedExtendedMasterdata?: string | null;
+    locationDescription?: string | null;
+    productId: ProductId;
+    unit: Unit;
+    effectiveDate: string;
+    meterId?: string | null;
+    streetCode?: string | null;
+    citySubDivisionName?: string | null;
+    floorIdentification?: string | null;
+    suiteNumber?: string | null;
+    buildingNumber?: string | null;
     municipalityCode?: number | null;
     isActualAddress?: boolean | null;
     darReference?: string | null;
@@ -64,7 +64,7 @@ export interface MeteringPointCimDto {
     productionObligation?: boolean | null;
     childMeteringPoints?: Array<MeteringPointSimpleCimDto> | null;
     parentMeteringPoint?: MeteringPointSimpleCimDto;
-    powerPlantGsrnNumber?: string;
+    powerPlantGsrnNumber?: string | null;
 }
 
 

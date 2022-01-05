@@ -14,4 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './lib/dh-metering-point-feature-child-overview.module';
+import { LOCALE_ID, StaticProvider } from '@angular/core';
+
+import { danishLocaleCode } from './danish-locale-code';
+
+export const danishLocaleProvider: StaticProvider = {
+  provide: LOCALE_ID,
+  useValue: danishLocaleCode,
+};

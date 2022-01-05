@@ -14,6 +14,7 @@
         "polyfills": "apps/dh/app-dh/src/polyfills.ts",
         "tsConfig": "apps/dh/app-dh/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
+        "allowedCommonJsDependencies": ["date-fns-tz"],
         "assets": [
           {
             "glob": "favicon.ico",
