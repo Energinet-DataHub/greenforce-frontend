@@ -4,7 +4,7 @@ env:
   app-name: app-ett
   BASE_BRANCH: ${{ github.event.pull_request.base.ref }}
   is-main-branch: ${{ github.ref == 'refs/heads/main' }}
-  is-pull-request: ${{ github.event_name  == 'pull_request' }}
+  is-pull-request: ${{ github.workflow_run.pull_requests  != 'null' }}
   NODE_OPTIONS: --max-old-space-size=6144
   node-version: 14.x
   NX_MAX_PARALLEL: 2
