@@ -25,20 +25,6 @@ limitations under the License.
         <div class="multi-line-cell">
           <div class="watt-text-s flex">
             {{ row.chargeName }}
-            <ng-container *ngIf="row.taxIndicator">
-              <div
-                class="watt-text-s flex-center"
-                *transloco="let transloco"
-                title="{{ transloco('charges.taxIndicator') }}"
-                data-testid="tax-cell"
-              >
-                <watt-icon
-                  name="monetization"
-                  [size]="iconSize.Small"
-                  class="primary-color"
-                ></watt-icon>
-              </div>
-            </ng-container>
           </div>
           <div class="watt-text-xs secondary-text">
             {{ row.chargeId }}
@@ -98,19 +84,46 @@ limitations under the License.
 
     <ng-container matColumnDef="quantity">
       <mat-header-cell *matHeaderCellDef class="header-cell watt-label">
-        <div *transloco="let transloco">
-          {{ transloco('charges.quantity') }}
-        </div>
+        <ng-container *transloco="let transloco">
+          <div *ngIf="charges[0].chargeType !== chargeTypes.D03">
+            {{ transloco('charges.quantity') }}
+          </div>
+          <ng-container *ngIf="charges[0].chargeType === chargeTypes.D03">
+            {{ transloco('charges.taxIndicator') }}
+          </ng-container>
+        </ng-container>
       </mat-header-cell>
       <mat-cell *matCellDef="let row">
-        <div class="watt-text-s">
+        <div
+          *ngIf="charges[0].chargeType !== chargeTypes.D03"
+          class="watt-text-s"
+        >
           {{ row.quantity }}
         </div>
+        <ng-container *ngIf="row.taxIndicator">
+          <div class="watt-text-s" *transloco="let transloco">
+            <watt-icon
+              name="success"
+              [size]="iconSize.Small"
+              class="primary-color"
+            ></watt-icon>
+          </div>
+          <div
+            class="watt-text-s"
+            *transloco="let transloco"
+            data-testid="tax-cell"
+          >
+            {{ transloco('charges.taxIndicator') }}
+          </div>
+        </ng-container>
       </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="invoicing">
       <mat-header-cell *matHeaderCellDef class="header-cell watt-label">
+        <ng-container *transloco="let transloco">
+          {{ transloco('charges.transparentInvoicing') }}
+        </ng-container>
       </mat-header-cell>
       <mat-cell *matCellDef="let row">
         <ng-container *ngIf="row.transparentInvoicing">

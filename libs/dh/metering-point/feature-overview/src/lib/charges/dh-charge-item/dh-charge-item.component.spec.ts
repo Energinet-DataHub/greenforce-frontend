@@ -93,7 +93,7 @@ describe(DhChargeItemComponent.name, () => {
 
     const expected = enTranslations.charges.taxIndicator;
 
-    expect(actual.title?.trim()).toBe(expected);
+    expect(actual.textContent?.trim()).toBe(expected);
   });
 
   it(`Tax is not present in table if taxIndicator is false`, async () => {
