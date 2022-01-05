@@ -77,7 +77,6 @@ const routes: Routes = [
     DhConfigurationLocalizationModule.forRoot(),
     RouterModule.forRoot(routes, {
       anchorScrolling: 'enabled',
-      useHash: true,
       // Don't perform initial navigation in iframes or popups
       initialNavigation:
         !BrowserUtils.isInIframe() && !BrowserUtils.isInPopup()
