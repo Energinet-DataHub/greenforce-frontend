@@ -24,18 +24,20 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { DomSanitizer } from '@angular/platform-browser';
 import { TranslocoModule } from '@ngneat/transloco';
 
 import { MeteringPointCimDto } from '@energinet-datahub/dh/shared/data-access-api';
+import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import {
   WattIcon,
   WattIconModule,
   WattIconSize,
 } from '@energinet-datahub/watt';
-import { DomSanitizer } from '@angular/platform-browser';
-import { emDash } from '../identity/em-dash';
-import { DhEmptyValuePipeScam } from './empty-value.pipe';
-import { DhYesNoPipeScam } from './yes-no.pipe';
+
+import { DhEmptyValuePipeScam } from '../shared/empty-value.pipe';
+import { emDash } from '../shared/em-dash';
+import { DhYesNoPipeScam } from '../shared/yes-no.pipe';
 
 export type PrimaryMasterData = Pick<
   MeteringPointCimDto,
@@ -51,6 +53,7 @@ export type PrimaryMasterData = Pick<
   | 'darReference'
   | 'supplyStart'
   | 'meterId'
+  | 'childMeteringPoints'
 >;
 
 @Component({
@@ -85,17 +88,10 @@ export class DhMeteringPointPrimaryMasterDataComponent implements OnChanges {
   }
 
   private formatAddress(data: PrimaryMasterData): string {
-    if (
-      !data.streetName &&
-      !data.buildingNumber &&
-      !data.citySubDivisionName &&
-      !data.cityName &&
-      !data.postalCode
-    ) {
-      return this.fallbackValue;
+    let address = `${data.streetName}`;
+    if (data.buildingNumber) {
+      address += ` ${data.buildingNumber}`;
     }
-
-    let address = `${data.streetName} ${data.buildingNumber}`;
     if (data.floorIdentification || data.suiteNumber) {
       address += ',';
     }
@@ -120,6 +116,7 @@ export class DhMeteringPointPrimaryMasterDataComponent implements OnChanges {
     WattIconModule,
     TranslocoModule,
     DhEmptyValuePipeScam,
+    DhSharedUiDateTimeModule,
     DhYesNoPipeScam,
   ],
   exports: [DhMeteringPointPrimaryMasterDataComponent],

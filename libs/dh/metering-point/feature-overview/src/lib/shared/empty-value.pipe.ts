@@ -14,22 +14,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { NgModule, Pipe, PipeTransform } from '@angular/core';
 
-import {
-  DhMeteringPointChildOverviewComponent,
-  DhMeteringPointChildOverviewScam,
-} from './dh-metering-point-child-overview.component';
+import { emDash } from './em-dash';
 
-const routes: Routes = [
-  {
-    path: 'child/:child-id',
-    component: DhMeteringPointChildOverviewComponent,
-  },
-];
+export type TValue = string | undefined | null;
+export const pipeName = 'emptyValue';
+
+@Pipe({ name: pipeName })
+export class EmptyValuePipe implements PipeTransform {
+  transform(value: TValue, translation?: string): string {
+    if (value === undefined || value === null || value.trim() === '') {
+      return emDash;
+    } else {
+      return translation ? translation : value;
+    }
+  }
+}
 
 @NgModule({
-  imports: [DhMeteringPointChildOverviewScam, RouterModule.forChild(routes)],
+  declarations: [EmptyValuePipe],
+  exports: [EmptyValuePipe],
 })
-export class DhMeteringPointFeatureChildOverviewModule {}
+export class DhEmptyValuePipeScam {}

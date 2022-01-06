@@ -88,7 +88,7 @@ describe('Metering Point API v1', () => {
     await expect(whenResponse).resolves.toEqual(
       expect.objectContaining<MeteringPointCimDto>({
         gsrnNumber: expectedGsrn,
-      })
+      } as MeteringPointCimDto)
     );
   });
 

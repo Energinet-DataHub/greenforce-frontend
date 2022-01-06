@@ -14,23 +14,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgModule, Pipe, PipeTransform } from '@angular/core';
-
-import { emDash } from '../identity/em-dash';
-
-@Pipe({ name: 'emptyValue' })
-export class EmptyValuePipe implements PipeTransform {
-  transform(value: string | undefined | null, translation?: string): string {
-    if (value === undefined || value === null || value.trim() === '') {
-      return emDash;
-    } else {
-      return translation ? translation : value;
-    }
-  }
-}
-
-@NgModule({
-  declarations: [EmptyValuePipe],
-  exports: [EmptyValuePipe],
-})
-export class DhEmptyValuePipeScam {}
+export * from './lib/dh-shared-ui-date-time.module';

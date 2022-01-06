@@ -14,17 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
+import { nonBreakingSpace } from '../danish-locale/characters';
 
-@Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'dh-metering-point-child-overview',
-  styles: [':host { display: block; }'],
-  template: ` <h2>Child Overview</h2> `,
-})
-export class DhMeteringPointChildOverviewComponent {}
+const singleSpace = ' ';
 
-@NgModule({
-  declarations: [DhMeteringPointChildOverviewComponent],
-})
-export class DhMeteringPointChildOverviewScam {}
+export function spaceToNonBreakingSpace(value: string): string {
+  return value.replace(singleSpace, nonBreakingSpace);
+}

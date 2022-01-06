@@ -24,7 +24,7 @@ import {
   PublicClientApplication,
 } from '@azure/msal-browser';
 
-import { MsalGuardConfiguration } from './msal.guard.config';
+import { MsalGuardConfiguration } from './@azure/msal-angular/msal.guard.config';
 
 /**
  * Enter here the user flows and custom policies for your B2C application

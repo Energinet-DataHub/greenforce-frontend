@@ -20,11 +20,16 @@ import * as appShell from '../support/app-shell.po';
 
 test.describe('Application shell', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/');
+    await page.goto('/metering-point/search');
   });
 
   test('the application title is displayed', async ({ page }) => {
     test.slow();
+    await page.waitForTimeout(5000);
+    console.log('-------------------------------------');
+    console.log('the application title is displayed');
+    console.log(await page.innerHTML('dh-metering-point-search'));
+    console.log('-------------------------------------');
     await expect(appShell.getTitle(page)).toHaveText('Målepunkter');
   });
 });
