@@ -27,8 +27,15 @@ runs:
         mkdir ${{ inputs.RELEASE_FOLDER_PATH }}
         mkdir ${{ inputs.RELEASE_FOLDER_PATH }}/infrastructure
         cp -fR ${{ inputs.REPO_FOLDER_PATH }}/build/infrastructure/dh/main ${{ inputs.RELEASE_FOLDER_PATH }}/infrastructure/main 2>/dev/null || :
+
     - name: Publish Web API to release folder
       uses: actions/download-artifact@v2
       with:
         name: webapi
         path: ${{ inputs.RELEASE_FOLDER_PATH }}/functions/webapi
+
+    - name: Publish Web App to release folder
+      uses: actions/download-artifact@v2
+      with:
+        name: app-dh
+        path: ${{ inputs.RELEASE_FOLDER_PATH }}/frontend/app-dh
