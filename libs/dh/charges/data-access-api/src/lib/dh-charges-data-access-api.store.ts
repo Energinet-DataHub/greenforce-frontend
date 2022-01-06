@@ -15,13 +15,15 @@
  * limitations under the License.
  */
 import { Injectable } from '@angular/core';
+import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { filter, map, Observable, switchMap, tap } from 'rxjs';
+
 import {
-  MeteringPointCimDto,
-  MeteringPointHttp,
+  ChargeLinkDto,
+  ChargeLinksHttp,
+  ChargeType,
 } from '@energinet-datahub/dh/shared/data-access-api';
-import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 
 export const enum LoadingState {
   INIT = 'INIT',
@@ -34,39 +36,63 @@ export const enum ErrorState {
   OTHER_ERROR = 'OTHER_ERROR',
 }
 
-interface MeteringPointState {
-  readonly meteringPoint?: MeteringPointCimDto;
+interface ChargesState {
+  readonly charges?: Array<ChargeLinkDto>;
   readonly requestState: LoadingState | ErrorState;
 }
 
-const initialState: MeteringPointState = {
-  meteringPoint: undefined,
+const initialState: ChargesState = {
+  charges: undefined,
   requestState: LoadingState.INIT,
 };
 
 @Injectable()
-export class DhMeteringPointDataAccessApiStore extends ComponentStore<MeteringPointState> {
-  meteringPoint$: Observable<MeteringPointCimDto> = this.select(
-    (state) => state.meteringPoint
+export class DhChargesDataAccessApiStore extends ComponentStore<ChargesState> {
+  tariffs$: Observable<Array<ChargeLinkDto>> = this.select(
+    (state) => state.charges
   ).pipe(
-    filter((meteringPoint) => !!meteringPoint),
-    map((meteringPoint) => meteringPoint as MeteringPointCimDto)
+    filter((charges) => !!charges),
+    map((charges) => charges as Array<ChargeLinkDto>),
+    map((charges) =>
+      charges.filter((charge) => charge.chargeType === ChargeType.D03)
+    )
   );
+
+  subscriptions$: Observable<Array<ChargeLinkDto>> = this.select(
+    (state) => state.charges
+  ).pipe(
+    filter((charges) => !!charges),
+    map((charges) => charges as Array<ChargeLinkDto>),
+    map((charges) =>
+      charges.filter((charge) => charge.chargeType === ChargeType.D01)
+    )
+  );
+
+  fees$: Observable<Array<ChargeLinkDto>> = this.select(
+    (state) => state.charges
+  ).pipe(
+    filter((charges) => !!charges),
+    map((charges) => charges as Array<ChargeLinkDto>),
+    map((charges) =>
+      charges.filter((charge) => charge.chargeType === ChargeType.D02)
+    )
+  );
+
   isLoading$ = this.select(
     (state) => state.requestState === LoadingState.LOADING
   );
-  meteringPointNotFound$ = this.select(
+  chargesNotFound$ = this.select(
     (state) => state.requestState === ErrorState.NOT_FOUND_ERROR
   );
   hasError$ = this.select(
     (state) => state.requestState === ErrorState.OTHER_ERROR
   );
 
-  constructor(private httpClient: MeteringPointHttp) {
+  constructor(private httpClient: ChargeLinksHttp) {
     super(initialState);
   }
 
-  readonly loadMeteringPointData = this.effect(
+  readonly loadChargesData = this.effect(
     (meteringPointId: Observable<string>) => {
       return meteringPointId.pipe(
         tap(() => {
@@ -75,12 +101,12 @@ export class DhMeteringPointDataAccessApiStore extends ComponentStore<MeteringPo
           this.setLoading(true);
         }),
         switchMap((id) =>
-          this.httpClient.v1MeteringPointGetByGsrnGet(id).pipe(
+          this.httpClient.v1ChargeLinksGet(id).pipe(
             tapResponse(
-              (meteringPointData) => {
+              (chargesData) => {
                 this.setLoading(false);
 
-                this.updateMeteringPointData(meteringPointData);
+                this.updateChargesData(chargesData);
               },
               (error: HttpErrorResponse) => this.handleError(error)
             )
@@ -90,34 +116,34 @@ export class DhMeteringPointDataAccessApiStore extends ComponentStore<MeteringPo
     }
   );
 
-  private updateMeteringPointData = this.updater(
+  private updateChargesData = this.updater(
     (
-      state: MeteringPointState,
-      meteringPointData: MeteringPointCimDto | undefined
-    ): MeteringPointState => ({
+      state: ChargesState,
+      chargesData: Array<ChargeLinkDto> | undefined
+    ): ChargesState => ({
       ...state,
-      meteringPoint: meteringPointData,
+      charges: chargesData,
     })
   );
 
   private setLoading = this.updater(
-    (state, isLoading: boolean): MeteringPointState => ({
+    (state, isLoading: boolean): ChargesState => ({
       ...state,
       requestState: isLoading ? LoadingState.LOADING : LoadingState.LOADED,
     })
   );
 
-  private updateMeteringPointNotFound = this.updater(
-    (state): MeteringPointState => ({
+  private updateChargesNotFound = this.updater(
+    (state): ChargesState => ({
       ...state,
       requestState: ErrorState.NOT_FOUND_ERROR,
     })
   );
 
   private upateError = this.updater(
-    (state: MeteringPointState): MeteringPointState => ({
+    (state: ChargesState): ChargesState => ({
       ...state,
-      meteringPoint: undefined,
+      charges: undefined,
       requestState: ErrorState.OTHER_ERROR,
     })
   );
@@ -125,11 +151,11 @@ export class DhMeteringPointDataAccessApiStore extends ComponentStore<MeteringPo
   private handleError = (error: HttpErrorResponse) => {
     this.setLoading(false);
 
-    const meteringPointData = undefined;
-    this.updateMeteringPointData(meteringPointData);
+    const chargesData = undefined;
+    this.updateChargesData(chargesData);
 
     if (error.status === HttpStatusCode.NotFound) {
-      this.updateMeteringPointNotFound();
+      this.updateChargesNotFound();
     } else {
       this.upateError();
     }

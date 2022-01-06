@@ -32,6 +32,7 @@ import {
   PrimaryMasterData,
 } from './dh-metering-point-primary-master-data.component';
 import { emDash } from '../shared/em-dash';
+import { MeteringPointType } from '@energinet-datahub/dh/shared/data-access-api';
 
 describe(DhMeteringPointPrimaryMasterDataComponent.name, () => {
   const fallbackValue = emDash;
@@ -48,6 +49,7 @@ describe(DhMeteringPointPrimaryMasterDataComponent.name, () => {
     citySubDivisionName: '[citySubDivisionName]',
     postalCode: '[postalCode]',
     cityName: '[cityName]',
+    meteringPointType: MeteringPointType.E17,
   };
 
   async function setup(primaryMasterData: PrimaryMasterData = { ...testData }) {

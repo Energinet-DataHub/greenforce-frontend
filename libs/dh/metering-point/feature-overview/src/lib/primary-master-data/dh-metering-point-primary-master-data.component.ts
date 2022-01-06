@@ -38,6 +38,7 @@ import {
 import { DhEmptyValuePipeScam } from '../shared/empty-value.pipe';
 import { emDash } from '../shared/em-dash';
 import { DhYesNoPipeScam } from '../shared/yes-no.pipe';
+import { DhIsParentPipeScam } from '../shared/is-parent.pipe';
 
 export type PrimaryMasterData = Pick<
   MeteringPointCimDto,
@@ -53,6 +54,7 @@ export type PrimaryMasterData = Pick<
   | 'darReference'
   | 'supplyStart'
   | 'meterId'
+  | 'meteringPointType'
 >;
 
 @Component({
@@ -117,6 +119,7 @@ export class DhMeteringPointPrimaryMasterDataComponent implements OnChanges {
     DhEmptyValuePipeScam,
     DhSharedUiDateTimeModule,
     DhYesNoPipeScam,
+    DhIsParentPipeScam,
   ],
   exports: [DhMeteringPointPrimaryMasterDataComponent],
 })
