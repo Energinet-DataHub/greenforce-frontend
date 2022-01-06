@@ -33,7 +33,7 @@ export const MeteringPointTypeMap = {
         MeteringPointType.D18
     ],
     locationDescription: ["All"],
-    balanceSupplierId: [MeteringPointType.E17, MeteringPointType.E18],
+    electricitySupplier: [MeteringPointType.E17, MeteringPointType.E18],
     productType: ["All"],
     unitType: ["All"],
     disconnectionType: [MeteringPointType.E17, MeteringPointType.E18],
