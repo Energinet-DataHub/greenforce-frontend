@@ -22,29 +22,26 @@ on:
       - 'apps/dh/api-dh/**'
 
 jobs:
-  ci_base:
-    uses: Energinet-DataHub/.github/.github/workflows/ci-base.yml@2.1.0
-
   dotnet_solution_ci:
     uses: Energinet-DataHub/.github/.github/workflows/dotnet-solution-ci.yml@2.6.1
     with:
       SOLUTION_FILE_PATH: 'apps/dh/api-dh/DataHub.WebApi.sln'
       DOTNET_VERSION: '5.0'
     secrets:
-      AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
-      AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-      AZURE_SPN_ID: ${{ secrets.AZURE_SPN_ID }}
-      AZURE_SPN_SECRET: ${{ secrets.AZURE_SPN_SECRET }}
-      AZURE_KEYVAULT_URL: ${{ secrets.AZURE_KEYVAULT_URL }}
+      AZURE_TENANT_ID: ${{ secrets.AZURE_TESTING_TENANT_ID }}
+      AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_TESTING_SUBSCRIPTION_ID }}
+      AZURE_SPN_ID: ${{ secrets.AZURE_TESTING_SPN_ID }}
+      AZURE_SPN_SECRET: ${{ secrets.AZURE_TESTING_SPN_SECRET }}
+      AZURE_KEYVAULT_URL: ${{ secrets.AZURE_TESTING_KEYVAULT_URL }}
 
   terraform_validate:
     uses: Energinet-DataHub/.github/.github/workflows/terraform-validate.yml@2.1.0
     with:
       TERRAFORM_WORKING_DIR_PATH: './build/infrastructure/dh/main'
-      TERRAFORM_VERSION: '1.0.6'
+      TERRAFORM_VERSION: '1.1.2'
 
   webapi_ci:
-    needs: [ci_base, dotnet_solution_ci, package_ci, terraform_validate]
+    needs: [dotnet_solution_ci, terraform_validate]
     uses: Energinet-DataHub/.github/.github/workflows/dotnet-create-function-artifact.yml@2.1.0
     with:
       CSPROJ_FILE_PATH: 'apps/dh/api-dh/source/DataHub.WebApi/DataHub.WebApi.csproj'
