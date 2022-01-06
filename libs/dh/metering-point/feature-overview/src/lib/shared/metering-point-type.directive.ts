@@ -33,7 +33,7 @@ export class MeteringPointTypeDirective implements OnInit {
   private content: string | undefined;
 
   constructor(
-    private templateRef: TemplateRef<any>,
+    private templateRef: TemplateRef<unknown>,
     private viewContainer: ViewContainerRef
   ) {}
 
