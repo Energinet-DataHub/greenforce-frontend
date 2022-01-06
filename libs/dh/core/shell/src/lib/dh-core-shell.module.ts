@@ -79,9 +79,9 @@ const routes: Routes = [
       anchorScrolling: 'enabled',
       // Don't perform initial navigation in iframes or popups
       initialNavigation:
-        !BrowserUtils.isInIframe() && !BrowserUtils.isInPopup()
-          ? 'enabled'
-          : 'disabled',
+        BrowserUtils.isInIframe() && BrowserUtils.isInPopup()
+          ? 'disabled'
+          : 'enabled',
       scrollPositionRestoration: 'enabled',
     }),
   ],
