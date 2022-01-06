@@ -41,8 +41,6 @@ describe('Language selection', () => {
     Then English translations are displayed`, () => {
     getLanguagePicker(DisplayLanguage.English).click();
 
-    console.log(appShell.getTitle());
-
     appShell
       .getTitle()
       .should('have.text', enTranslations.meteringPoint.search.title);
