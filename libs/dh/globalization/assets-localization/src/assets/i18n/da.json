@@ -55,7 +55,6 @@
           "effectivePeriod": "Gyldighedsperiode",
           "status": "Tilslutningsstatus"
         },
-        "now": "nu",
         "noChildMeteringPointsTitle": "Ingen child målepunkter",
         "noChildMeteringPointsText": "Vi fandt ingen child målepunkter til dette målepunkt"
       }
@@ -218,7 +217,7 @@
     "noActiveMessage": "Vi fandt ingen aktive {{title}} på dette målepunkt",
     "taxIndicator": "Afgift",
     "chargesNotFound": {
-      "title": "Vi fandt desværre ingen priser tilknyttet til dette målepunkt"
+      "title": "Vi fandt desværre ingen priser tilknyttet dette målepunkt"
     },
     "serverError": {
       "title": "Ups! Der opstod en fejl",
