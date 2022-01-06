@@ -9,7 +9,7 @@ export const MeteringPointTypeMap = {
     subTypeOfMeteringPoint: ["All"],
     meterReadingOccurence: ["All"],
     netSettlementGroup: [MeteringPointType.E17, MeteringPointType.E18],
-    supplyStart: [MeteringPointType.E17, MeteringPointType.E18], // effectiveDate??
+    supplyStart: [MeteringPointType.E17, MeteringPointType.E18],
     ratedCurrent: ["All"],
     ratedCapacity: ["All"],
     meteringGridArea: ["All"],
@@ -70,7 +70,7 @@ export const MeteringPointTypeMap = {
         MeteringPointType.D17,
         MeteringPointType.D18
     ],
-    occurrence: ["All"], // effectiveDate??
+    effectiveDate: ["All"],
     streetName: ["All"],
     streetCode: ["All"],
     buildingNumber: ["All"],
