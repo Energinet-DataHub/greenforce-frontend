@@ -18,7 +18,7 @@ on:
     branches:
       - main
     paths:
-      - './build/infrastructure/dh/**'
+      - 'build/infrastructure/dh/**'
       - 'apps/dh/api-dh/**'
 
 jobs:
@@ -35,22 +35,22 @@ jobs:
       AZURE_KEYVAULT_URL: ${{ secrets.AZURE_TESTING_KEYVAULT_URL }}
 
   terraform_validate:
-    uses: Energinet-DataHub/.github/.github/workflows/terraform-validate.yml@2.1.0
+    uses: Energinet-DataHub/.github/.github/workflows/terraform-validate.yml@2.6.1
     with:
-      TERRAFORM_WORKING_DIR_PATH: './build/infrastructure/dh/main'
+      TERRAFORM_WORKING_DIR_PATH: 'build/infrastructure/dh/main'
       TERRAFORM_VERSION: '1.1.2'
 
   webapi_ci:
     needs: [dotnet_solution_ci, terraform_validate]
-    uses: Energinet-DataHub/.github/.github/workflows/dotnet-create-function-artifact.yml@2.1.0
+    uses: Energinet-DataHub/.github/.github/workflows/dotnet-create-artifact.yml@2.7.0
     with:
       CSPROJ_FILE_PATH: 'apps/dh/api-dh/source/DataHub.WebApi/DataHub.WebApi.csproj'
-      DOTNET_VERSION: '5.0'
+      DOTNET_VERSION: '5.0.202'
       ARTIFACT_NAME: webapi
 
   create_prerelease:
-    needs: [webapi]
-    uses: Energinet-DataHub/.github/.github/workflows/create-prerelease.yml@2.1.0
+    needs: [webapi_ci]
+    uses: Energinet-DataHub/.github/.github/workflows/create-prerelease.yml@2.6.1
     with:
       CALLER_REPOSITORY_PATH: Energinet-DataHub/greenforce-frontend
     secrets:
