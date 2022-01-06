@@ -121,7 +121,7 @@ export class DhMeteringPointPrimaryMasterDataComponent implements OnChanges {
     DhSharedUiDateTimeModule,
     DhYesNoPipeScam,
     DhIsParentPipeScam,
-    DhMeteringPointTypeDirectiveScam
+    DhMeteringPointTypeDirectiveScam,
   ],
   exports: [DhMeteringPointPrimaryMasterDataComponent],
 })
