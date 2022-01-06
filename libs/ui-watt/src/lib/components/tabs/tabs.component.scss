@@ -47,3 +47,7 @@ watt-tabs .mat-ink-bar {
 watt-tabs .mat-tab-header-pagination-chevron {
   border-color: var(--watt-color-primary);
 }
+
+watt-tabs .mat-tab-body {
+  min-height: 20rem;
+}
