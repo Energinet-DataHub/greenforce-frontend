@@ -1,3 +1,5 @@
+
+
 # Copyright 2020 Energinet DataHub A/S
 #
 # Licensed under the Apache License, Version 2.0 (the "License2");
@@ -11,18 +13,19 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-variable resource_group_name {
-  type = string
+variable subscription_id {
+  type        = string
+  description = "Subscription that the infrastructure code is deployed into."
 }
 
-variable environment {
+variable resource_group_name {
   type        = string
-  description = "Enviroment that the infrastructure code is deployed into"
+  description = "Resource Group that the infrastructure code is deployed into."
 }
 
 variable environment_short {
   type          = string
-  description   = "1 character name of the enviroment that the infrastructure code is deployed into."
+  description   = "Enviroment that the infrastructure code is deployed into."
 }
 
 variable environment_instance {
@@ -35,12 +38,22 @@ variable domain_name_short {
   description   = "Shortest possible edition of the domain name."
 }
 
-variable metering_point_base_url {
+variable shared_resources_keyvault_name {
+  type          = string
+  description   = "Name of the KeyVault, that contains the shared secrets"
+}
+
+variable shared_resources_resource_group_name {
+  type          = string
+  description   = "Name of the Resource Group, that contains the shared resources."
+}
+
+variable metering_point_api_base_url {
   type        = string
   description = "Url of the metering point domain entry"
 }
 
-variable charges_base_url {
+variable charges_api_base_url {
   type        = string
   description = "Url of the charges domain entry"
 }

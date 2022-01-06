@@ -33,3 +33,9 @@ runs:
       with:
         name: webapi
         path: ${{ inputs.RELEASE_FOLDER_PATH }}/functions/webapi
+
+    - name: Publish Web App to release folder
+      uses: actions/download-artifact@v2
+      with:
+        name: app-dh
+        path: ${{ inputs.RELEASE_FOLDER_PATH }}/frontend/app-dh
