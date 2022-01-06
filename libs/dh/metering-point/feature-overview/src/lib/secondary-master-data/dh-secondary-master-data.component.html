@@ -14,6 +14,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
+{{secondaryMasterData | json}}
 <ng-container *transloco="let t; read: 'meteringPoint.secondaryMasterData'">
   <watt-expansion
     [openLabel]="t('expansion.openLabel')"
@@ -23,7 +24,7 @@ limitations under the License.
       {{ t('technicalSpecificationTitle') }}
     </div>
     <dl>
-      <div class="smd-list__row">
+      <div class="smd-list__row" *dhMeteringPointType="secondaryMasterData?.meteringPointType; content:'netSettlementGroup'">
         <dt class="watt-label">
           {{ t('netSettlementGroup') }}
         </dt>
@@ -35,7 +36,7 @@ limitations under the License.
           </ng-container>
         </dd>
       </div>
-      <div class="smd-list__row">
+      <div class="smd-list__row" *dhMeteringPointType="secondaryMasterData?.meteringPointType; content:'disconnectionType'">
         <dt class="watt-label">
           {{ t('disconnectionType') }}
         </dt>
@@ -47,7 +48,7 @@ limitations under the License.
           </ng-container>
         </dd>
       </div>
-      <div class="smd-list__row">
+      <div class="smd-list__row" *dhMeteringPointType="secondaryMasterData?.meteringPointType; content:'productionObligation'">
         <dt class="watt-label">
           {{ t('productionObligation') }}
         </dt>
@@ -57,7 +58,7 @@ limitations under the License.
           </ng-container>
         </dd>
       </div>
-      <div class="smd-list__row">
+      <div class="smd-list__row" *dhMeteringPointType="secondaryMasterData?.meteringPointType; content:'mPConnectionType'">
         <dt class="watt-label">
           {{ t('connectionType') }}
         </dt>
@@ -69,7 +70,7 @@ limitations under the License.
           </ng-container>
         </dd>
       </div>
-      <div class="smd-list__row">
+      <div class="smd-list__row" *dhMeteringPointType="secondaryMasterData?.meteringPointType; content:'inAreaCode'">
         <dt class="watt-label">
           {{ t('inAreaCode') }}
         </dt>
@@ -81,7 +82,7 @@ limitations under the License.
           </ng-container>
         </dd>
       </div>
-      <div class="smd-list__row">
+      <div class="smd-list__row" *dhMeteringPointType="secondaryMasterData?.meteringPointType; content:'outAreaCode'">
         <dt class="watt-label">
           {{ t('outAreaCode') }}
         </dt>
@@ -93,7 +94,7 @@ limitations under the License.
           </ng-container>
         </dd>
       </div>
-      <div class="smd-list__row">
+      <div class="smd-list__row" *dhMeteringPointType="secondaryMasterData?.meteringPointType; content:'meteringGridArea'">
         <dt class="watt-label">
           {{ t('gridAreaName') }}
         </dt>
@@ -107,7 +108,7 @@ limitations under the License.
           </ng-container>
         </dd>
       </div>
-      <div class="smd-list__row">
+      <div class="smd-list__row" *dhMeteringPointType="secondaryMasterData?.meteringPointType; content:'capacity'">
         <dt class="watt-label">
           {{ t('capacity') }}
         </dt>
@@ -118,7 +119,7 @@ limitations under the License.
           </ng-container>
         </dd>
       </div>
-      <div class="smd-list__row">
+      <div class="smd-list__row" *dhMeteringPointType="secondaryMasterData?.meteringPointType; content:'assetType'">
         <dt class="watt-label">
           {{ t('assetType') }}
         </dt>
@@ -128,7 +129,7 @@ limitations under the License.
           </ng-container>
         </dd>
       </div>
-      <div class="smd-list__row">
+      <div class="smd-list__row" *dhMeteringPointType="secondaryMasterData?.meteringPointType; content:'ratedCapacity'">
         <dt class="watt-label">
           {{ t('ratedCapacity') }}
         </dt>
@@ -141,7 +142,7 @@ limitations under the License.
           </ng-container>
         </dd>
       </div>
-      <div class="smd-list__row">
+      <div class="smd-list__row" *dhMeteringPointType="secondaryMasterData?.meteringPointType; content:'ratedCurrent'">
         <dt class="watt-label">
           {{ t('ratedCurrent') }}
         </dt>
@@ -154,7 +155,7 @@ limitations under the License.
           </ng-container>
         </dd>
       </div>
-      <div class="smd-list__row">
+      <div class="smd-list__row" *dhMeteringPointType="secondaryMasterData?.meteringPointType; content:'powerPlantGsrnNumber'">
         <dt class="watt-label">
           {{ t('powerPlantGsrnNumber') }}
         </dt>
@@ -166,7 +167,7 @@ limitations under the License.
           </ng-container>
         </dd>
       </div>
-      <div class="smd-list__row">
+      <div class="smd-list__row" *dhMeteringPointType="secondaryMasterData?.meteringPointType; content:'productType'">
         <dt class="watt-label">
           {{ t('productId') }}
         </dt>
@@ -176,7 +177,7 @@ limitations under the License.
           </ng-container>
         </dd>
       </div>
-      <div class="smd-list__row">
+      <div class="smd-list__row" *dhMeteringPointType="secondaryMasterData?.meteringPointType; content:'unitType'">
         <dt class="watt-label">
           {{ t('unit') }}
         </dt>
@@ -200,7 +201,7 @@ limitations under the License.
         {{ t('locationDetailTitle') }}
       </div>
       <dl>
-        <div class="smd-list__row">
+        <div class="smd-list__row" *dhMeteringPointType="secondaryMasterData?.meteringPointType; content:'streetCode'">
           <dt class="watt-label">
             {{ t('streetCode') }}
           </dt>
@@ -212,7 +213,7 @@ limitations under the License.
             </ng-container>
           </dd>
         </div>
-        <div class="smd-list__row">
+        <div class="smd-list__row" *dhMeteringPointType="secondaryMasterData?.meteringPointType; content:'municipalityCode'">
           <dt class="watt-label">
             {{ t('municipalityCode') }}
           </dt>
@@ -224,7 +225,7 @@ limitations under the License.
             </ng-container>
           </dd>
         </div>
-        <div class="smd-list__row">
+        <div class="smd-list__row" *dhMeteringPointType="secondaryMasterData?.meteringPointType; content:'countryCode'">
           <dt class="watt-label">
             {{ t('countryCode') }}
           </dt>
