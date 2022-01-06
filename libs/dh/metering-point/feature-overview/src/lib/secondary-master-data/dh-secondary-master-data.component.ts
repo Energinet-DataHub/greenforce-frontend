@@ -26,6 +26,7 @@ import { TranslocoModule } from '@ngneat/transloco';
 
 import { emDash } from '../shared/em-dash';
 import { DhMeteringPointTypeDirectiveScam } from '../shared/metering-point-type.directive';
+import { DhIsParentPipeScam } from '../shared/is-parent.pipe';
 import { DhYesNoPipeScam } from '../shared/yes-no.pipe';
 
 export interface MeteringPointIdentityTranslationKeys {
@@ -118,6 +119,7 @@ export class DhSecondaryMasterDataComponent {
     DhYesNoPipeScam,
     DhSharedUiDateTimeModule,
     DhMeteringPointTypeDirectiveScam,
+    DhIsParentPipeScam,
   ],
   exports: [DhSecondaryMasterDataComponent],
 })
