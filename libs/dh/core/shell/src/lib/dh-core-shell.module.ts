@@ -34,6 +34,7 @@ import {
   MSALInstanceFactory,
   MSALInterceptorConfigFactory,
   MsalModule,
+  MsalService,
 } from '@energinet-datahub/dh/auth/msal';
 
 import {
@@ -85,6 +86,7 @@ const routes: Routes = [
     }),
   ],
   providers: [
+    MsalService,
     {
       provide: MSAL_INSTANCE,
       useFactory: MSALInstanceFactory,

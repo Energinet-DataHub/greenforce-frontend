@@ -16,7 +16,6 @@
  */
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DhCoreShellModule } from '@energinet-datahub/dh/core/shell';
-import { MsalService } from '@energinet-datahub/dh/auth/msal';
 import { NgModule } from '@angular/core';
 
 import { DataHubAppComponent } from './datahub-app.component';
@@ -25,6 +24,6 @@ import { DataHubAppComponent } from './datahub-app.component';
   bootstrap: [DataHubAppComponent],
   declarations: [DataHubAppComponent],
   imports: [BrowserAnimationsModule, DhCoreShellModule],
-  providers: [MsalService],
+  //providers: [MsalService],
 })
 export class DataHubAppModule {}
