@@ -14,9 +14,6 @@
 name: DH CI
 
 on:
-  push:
-    branches:
-      - renetnielsen/frontend-deployment
   pull_request:
     branches:
       - main
