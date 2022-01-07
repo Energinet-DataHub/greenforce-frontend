@@ -14,19 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@use './theme/light-theme.scss';
+mat-table {
+  mat-header-row {
+    min-height: 34px;
+  }
 
-@use '../../../foundations/variables';
-@use '../../../foundations/box-sizing';
-@use '../../../foundations/typography';
-@use '../../../foundations/spacing';
-@use '../../../foundations/table';
+  mat-header-cell {
+    background-color: var(--watt-color-focus-selection);
+  }
 
-html,
-body {
-  height: 100%;
-}
-body {
-  margin: 0;
-  font-family: 'Open Sans', sans-serif;
+  mat-row:hover {
+    cursor: pointer;
+  }
 }
