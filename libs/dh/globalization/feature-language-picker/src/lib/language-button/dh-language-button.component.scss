@@ -14,6 +14,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-:host {
+dh-language-button {
   display: inline-block;
+
+  .mat-button-toggle-group {
+    border-bottom: 1px solid var(--watt-color-neutral-grey-300);
+    border-top: 0;
+    border-left: 0;
+    border-right: 0;
+  }
+
+  .mat-button-toggle-group-appearance-standard {
+    border-radius: 0;
+  }
+
+  .mat-button-toggle-checked.mat-button-toggle-appearance-standard {
+    background-color: var(--watt-color-primary);
+    color: var(--watt-color-neutral-white);
+  }
+
+  .mat-button-toggle {
+    width: 4rem;
+  }
+
+  .mat-button-toggle-checked .mat-button-toggle-focus-overlay {
+    border-bottom: solid 5rem;
+  }
 }
