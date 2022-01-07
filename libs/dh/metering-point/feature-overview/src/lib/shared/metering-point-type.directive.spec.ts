@@ -14,31 +14,41 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { MockBuilder, MockRender } from 'ng-mocks';
-import { MeteringPointTypeDirective } from './metering-point-type.directive';
+import { render, screen } from '@testing-library/angular';
+import { MatcherOptions } from '@testing-library/dom';
+import {
+  DhMeteringPointTypeDirectiveScam,
+  MeteringPointTypeDirective,
+} from './metering-point-type.directive';
 
 describe('MeteringPointTypeDirective', () => {
-  beforeEach(() => MockBuilder(MeteringPointTypeDirective));
+  beforeEach(() => MeteringPointTypeDirective);
 
-  it('renders div', () => {
-    const fixture = MockRender(
+  it('renders div', async () => {
+    await render(
       `
-        <div *dhMeteringPointType="'E17'; content:'netSettlementGroup'">
-          test
-        </div>
-      `
+      <div *dhMeteringPointType="'E17'; content:'netSettlementGroup'" data-testid='1'>
+        test
+      </div>
+      `,
+      { imports: [DhMeteringPointTypeDirectiveScam] }
     );
-    expect(fixture.nativeElement.innerHTML).toContain('test');
+    const disableQuerySuggestions: MatcherOptions = { suggest: false };
+    expect(screen.getByTestId("1", disableQuerySuggestions).textContent).toContain("test");
   });
 
-  it('does not render div', () => {
-    const fixture = MockRender(
+  it('does not render div', async () => {
+    await render(
       `
+      <div data-testid='1'>
         <div *dhMeteringPointType="'E20'; content:'netSettlementGroup'">
           test
         </div>
-      `
+      </div>
+      `,
+      { imports: [DhMeteringPointTypeDirectiveScam] }
     );
-    expect(fixture.nativeElement.innerHTML).not.toContain('test');
+    const disableQuerySuggestions: MatcherOptions = { suggest: false };
+    expect(screen.getByTestId("1", disableQuerySuggestions).textContent).not.toContain("test");
   });
 });
