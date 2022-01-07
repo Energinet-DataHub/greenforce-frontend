@@ -54,16 +54,16 @@ jobs:
       TERRAFORM_WORKING_DIR_PATH: 'build/infrastructure/dh/main'
       TERRAFORM_VERSION: '1.1.2'
 
-  webapi_ci:
+  bff_ci:
     needs: [dotnet_solution_ci, terraform_validate]
     uses: Energinet-DataHub/.github/.github/workflows/dotnet-create-artifact.yml@2.7.0
     with:
       CSPROJ_FILE_PATH: 'apps/dh/api-dh/source/DataHub.WebApi/DataHub.WebApi.csproj'
       DOTNET_VERSION: '5.0.202'
-      ARTIFACT_NAME: webapi
+      ARTIFACT_NAME: bff
 
   generate_client:
-    needs: webapi_ci
+    needs: bff_ci
     runs-on: ubuntu-latest
     env:
       output-path: libs/dh/shared/data-access-api/src/lib/generated/v1/
@@ -119,7 +119,7 @@ jobs:
           git diff ${{ env.output-path }} --exit-code || (echo '❌ DataHub API v1 client is out-of-sync. Run the `build-client` Nx target and merge the changes.' && exit 1)
 
   create_prerelease:
-    needs: [webapi_ci]
+    needs: [bff_ci]
     uses: Energinet-DataHub/.github/.github/workflows/create-prerelease.yml@2.7.0
     with:
       CALLER_REPOSITORY_PATH: Energinet-DataHub/greenforce-frontend
