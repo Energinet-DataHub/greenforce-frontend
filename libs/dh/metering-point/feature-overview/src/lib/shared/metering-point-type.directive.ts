@@ -44,12 +44,13 @@ export class MeteringPointTypeDirective implements OnChanges {
       this.updateView();
     }
   }
+
   // eslint-disable-next-line sonarjs/cognitive-complexity
   private updateView() {
-    if (this.dhMeteringPointTypeContent !== undefined && this.dhMeteringPointType) {
-      for (const [key, value] of Object.entries(MeteringPointTypeMap)) {
-        if (key === this.dhMeteringPointTypeContent) {
-          if (value.includes(this.dhMeteringPointType) || value[0] === 'All') {
+    if (this.dhMeteringPointTypeContent && this.dhMeteringPointType) {
+      for (const [content, meteringPointTypes] of Object.entries(MeteringPointTypeMap)) {
+        if (content === this.dhMeteringPointTypeContent) {
+          if (meteringPointTypes.includes(this.dhMeteringPointType) || meteringPointTypes[0] === 'All') {
             this.viewContainer.createEmbeddedView(this.templateRef);
           } else {
             this.viewContainer.clear();
