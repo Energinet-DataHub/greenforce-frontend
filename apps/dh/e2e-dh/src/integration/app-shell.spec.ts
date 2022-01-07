@@ -33,6 +33,8 @@ test.describe('Application shell', () => {
     console.log('the application title is displayed');
     console.log(await page.innerHTML('dh-metering-point-search'));
     console.log('-------------------------------------');
-    await expect(appShell.getTitle(page)).toHaveText(daTranslations.meteringPoint.search.title);
+    await expect(appShell.getTitle(page)).toHaveText(
+      daTranslations.meteringPoint.search.title
+    );
   });
 });
