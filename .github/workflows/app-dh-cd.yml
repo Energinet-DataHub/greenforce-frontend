@@ -11,7 +11,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-name: App DH CD
+name: DH UI Frontend CD
 
 env:
   app-name: app-dh
@@ -167,6 +167,6 @@ jobs:
         uses: peter-evans/repository-dispatch@v1
         with:
           token: ${{ secrets.PAT_TOKEN }}
-          repository: Energinet-DataHub/greenforce-frontend
+          repository: ${{ secrets.ENVIRONMENT_REPOSITORY_PATH }}
           event-type: ${{ env.EVENT_TYPE }}
           client-payload: '{"tag_name": "${{ env.RELEASE_VERSION }}"}'
