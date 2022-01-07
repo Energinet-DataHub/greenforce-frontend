@@ -60,3 +60,13 @@ module "plan_bff" {
 
   tags                = azurerm_resource_group.this.tags
 }
+
+module "kvs_app_bff_base_url" {
+  source        = "git::https://github.com/Energinet-DataHub/geh-terraform-modules.git//azure/key-vault-secret?ref=5.1.0"
+
+  name          = "app-bff-base-url"
+  value         = "https://${azurerm_app_service.bff.default_site_hostname}"
+  key_vault_id  = data.azurerm_key_vault.kv_shared_resources.id
+
+  tags          = azurerm_resource_group.this.tags
+}
