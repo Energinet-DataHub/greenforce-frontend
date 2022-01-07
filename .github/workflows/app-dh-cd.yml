@@ -130,11 +130,6 @@ jobs:
       - name: Optimize i18n assets
         run: yarn i18n:optimize:${{ env.app-name }}
 
-      - name: Add configuration file
-        shell: bash
-        run: |
-          echo "{\"apiBase\":\"https://app-bff-dh-u-001.azurewebsites.net\"}" > dist/apps/dh/${{ env.app-name }}/assets/configuration/dh-api-environment.json
-
       - name: Upload web app build artifact
         uses: actions/upload-artifact@v2
         with:
@@ -154,6 +149,14 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: ${{ env.app-name }}
+          path: artifact
+
+      - name: Zip artifact
+        uses: thedoctor0/zip-release@master
+        with:
+          type: 'zip'
+          filename: ${{ env.RELEASE_VERSION }}.zip
+          directory: artifact
 
       - uses: marvinpinto/action-automatic-releases@latest
         with:
@@ -161,7 +164,7 @@ jobs:
           automatic_release_tag: ${{ env.RELEASE_VERSION }}
           title: ${{ env.RELEASE_VERSION }}
           prerelease: false
-          files: ${{ env.app-name }}
+          files: artifact/${{ env.RELEASE_VERSION }}.zip
 
       - name: Repository Dispatch
         uses: peter-evans/repository-dispatch@v1
