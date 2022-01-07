@@ -26,9 +26,9 @@ resource "azurerm_app_service" "bff" {
   }
 
   app_settings = {
-    ApiClientSettings__MeteringPointBaseUrl = var.metering_point_api_base_url
-    ApiClientSettings__ChargesBaseUrl       = var.charges_api_base_url
-    APPINSIGHTS_INSTRUMENTATIONKEY          = "${data.azurerm_key_vault_secret.appi_instrumentation_key.value}"
+    ApiClientSettings__MeteringPointBaseUrl = data.azurerm_key_vault_secret.app_metering_point_webapi_base_url.value
+    ApiClientSettings__ChargesBaseUrl       = data.azurerm_key_vault_secret.app_charges_webapi_base_url.value
+    APPINSIGHTS_INSTRUMENTATIONKEY          = data.azurerm_key_vault_secret.appi_instrumentation_key.value
   }
 
   tags                = azurerm_resource_group.this.tags
@@ -59,4 +59,14 @@ module "plan_bff" {
   }
 
   tags                = azurerm_resource_group.this.tags
+}
+
+module "kvs_app_bff_base_url" {
+  source        = "git::https://github.com/Energinet-DataHub/geh-terraform-modules.git//azure/key-vault-secret?ref=5.1.0"
+
+  name          = "app-bff-base-url"
+  value         = "https://${azurerm_app_service.bff.default_site_hostname}"
+  key_vault_id  = data.azurerm_key_vault.kv_shared_resources.id
+
+  tags          = azurerm_resource_group.this.tags
 }
