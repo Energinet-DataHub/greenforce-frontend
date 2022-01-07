@@ -35,12 +35,12 @@ export class MeteringPointTypeDirective implements OnChanges {
     private viewContainer: ViewContainerRef
   ) {}
 
-  @Input() dhMeteringPointType: MeteringPointType | undefined
+  @Input() dhMeteringPointType: MeteringPointType | undefined;
 
-  @Input() dhMeteringPointTypeContent: string | undefined
+  @Input() dhMeteringPointTypeContent: string | undefined;
 
   ngOnChanges(changes: SimpleChanges): void {
-    if(changes.dhMeteringPointType) {
+    if (changes.dhMeteringPointType) {
       this.updateView();
     }
   }
