@@ -42,13 +42,17 @@ test.describe('Language selection', () => {
     console.log('the application title is displayed');
     console.log(await page.innerHTML('dh-metering-point-search'));
     console.log('-------------------------------------');
-    await expect(appShell.getTitle(page)).toHaveText(daTranslations.meteringPoint.search.title);
+    await expect(appShell.getTitle(page)).toHaveText(
+      daTranslations.meteringPoint.search.title
+    );
   });
 
   test(`When English is selected
       Then English translations are displayed`, async ({ page }) => {
     await getLanguagePicker(DisplayLanguage.English, page).click();
-    await expect(appShell.getTitle(page)).toHaveText(enTranslations.meteringPoint.search.title);
+    await expect(appShell.getTitle(page)).toHaveText(
+      enTranslations.meteringPoint.search.title
+    );
   });
 
   test(`Given English is selected
@@ -57,6 +61,8 @@ test.describe('Language selection', () => {
     await getLanguagePicker(DisplayLanguage.English, page).click();
     await getLanguagePicker(DisplayLanguage.Danish, page).click();
 
-    await expect(appShell.getTitle(page)).toHaveText(daTranslations.meteringPoint.search.title);
+    await expect(appShell.getTitle(page)).toHaveText(
+      daTranslations.meteringPoint.search.title
+    );
   });
 });
