@@ -446,4 +446,4 @@ documentation.json
 
 # Playwright e2e tests
 playwright-storage-state.json
-apps/dh/e2e-dh/.env
+apps/dh/e2e-dh/.env.local
