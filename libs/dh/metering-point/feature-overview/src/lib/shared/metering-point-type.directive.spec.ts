@@ -34,7 +34,9 @@ describe('MeteringPointTypeDirective', () => {
       { imports: [DhMeteringPointTypeDirectiveScam] }
     );
     const disableQuerySuggestions: MatcherOptions = { suggest: false };
-    expect(screen.getByTestId("1", disableQuerySuggestions).textContent).toContain("test");
+    expect(
+      screen.getByTestId('1', disableQuerySuggestions).textContent
+    ).toContain('test');
   });
 
   it('does not render div', async () => {
@@ -49,6 +51,8 @@ describe('MeteringPointTypeDirective', () => {
       { imports: [DhMeteringPointTypeDirectiveScam] }
     );
     const disableQuerySuggestions: MatcherOptions = { suggest: false };
-    expect(screen.getByTestId("1", disableQuerySuggestions).textContent).not.toContain("test");
+    expect(
+      screen.getByTestId('1', disableQuerySuggestions).textContent
+    ).not.toContain('test');
   });
 });

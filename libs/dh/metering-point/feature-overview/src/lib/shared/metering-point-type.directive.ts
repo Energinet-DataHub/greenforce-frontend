@@ -35,18 +35,21 @@ export class MeteringPointTypeDirective implements OnChanges {
     private viewContainer: ViewContainerRef
   ) {}
 
-  @Input() dhMeteringPointType: MeteringPointType | undefined
+  @Input() dhMeteringPointType: MeteringPointType | undefined;
 
-  @Input() dhMeteringPointTypeContent: string | undefined
+  @Input() dhMeteringPointTypeContent: string | undefined;
 
   ngOnChanges(changes: SimpleChanges): void {
-    if(changes.dhMeteringPointType) {
+    if (changes.dhMeteringPointType) {
       this.updateView();
     }
   }
   // eslint-disable-next-line sonarjs/cognitive-complexity
   private updateView() {
-    if (this.dhMeteringPointTypeContent !== undefined && this.dhMeteringPointType) {
+    if (
+      this.dhMeteringPointTypeContent !== undefined &&
+      this.dhMeteringPointType
+    ) {
       for (const [key, value] of Object.entries(MeteringPointTypeMap)) {
         if (key === this.dhMeteringPointTypeContent) {
           if (value.includes(this.dhMeteringPointType) || value[0] === 'All') {
