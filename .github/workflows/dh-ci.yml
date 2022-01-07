@@ -63,7 +63,7 @@ jobs:
       ARTIFACT_NAME: webapi
 
   generate_client:
-    needs: webapi_ci    
+    needs: webapi_ci
     runs-on: ubuntu-latest
     env:
       output-path: libs/dh/shared/data-access-api/src/lib/generated/v1/
