@@ -36,7 +36,7 @@
         "stylePreprocessorOptions": {
           "includePaths": ["libs/ui-watt/src/lib/styles"]
         },
-        "styles": ["apps/ett/app-ett/src/styles.scss"],
+        "styles": [ {"input": "apps/ett/app-ett/src/styles.scss", "inject": false} ],
         "tsConfig": "apps/ett/app-ett/tsconfig.app.json"
       },
       "configurations": {
