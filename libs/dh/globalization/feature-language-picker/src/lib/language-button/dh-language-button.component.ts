@@ -20,20 +20,28 @@ import {
   EventEmitter,
   Input,
   Output,
+  ViewEncapsulation,
 } from '@angular/core';
-import { DisplayLanguage } from '@energinet-datahub/dh/globalization/domain';
+import {
+  DisplayLanguage,
+  displayLanguages,
+} from '@energinet-datahub/dh/globalization/domain';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'dh-language-button',
   templateUrl: './dh-language-button.component.html',
   styleUrls: ['./dh-language-button.component.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class DhLanguageButtonComponent {
+  displayLanguages = displayLanguages;
   @Input()
-  isDisabled = false;
-  @Input()
-  language = DisplayLanguage.Danish;
+  activeLanguage = DisplayLanguage.Danish;
   @Output()
-  languageSelect = new EventEmitter<void>();
+  activeLanguageSelect = new EventEmitter<DisplayLanguage>();
+
+  onLanguageChange(value: DisplayLanguage) {
+    this.activeLanguageSelect.emit(value);
+  }
 }
