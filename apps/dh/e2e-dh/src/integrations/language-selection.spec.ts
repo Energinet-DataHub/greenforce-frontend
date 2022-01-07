@@ -17,6 +17,10 @@
 import { test, expect, Page } from '@playwright/test';
 
 // Appearantly there are some issues with `paths` so we need to use absolute paths for now.
+import {
+  da as daTranslations,
+  en as enTranslations,
+} from '../../../../../libs/dh/globalization/assets-localization/src';
 import { DisplayLanguage } from '../../../../../libs/dh/globalization/domain/src';
 
 import * as appShell from '../support/app-shell.po';
@@ -38,13 +42,13 @@ test.describe('Language selection', () => {
     console.log('the application title is displayed');
     console.log(await page.innerHTML('dh-metering-point-search'));
     console.log('-------------------------------------');
-    await expect(appShell.getTitle(page)).toHaveText('Målepunkter');
+    await expect(appShell.getTitle(page)).toHaveText(daTranslations.meteringPoint.search.title);
   });
 
   test(`When English is selected
       Then English translations are displayed`, async ({ page }) => {
     await getLanguagePicker(DisplayLanguage.English, page).click();
-    await expect(appShell.getTitle(page)).toHaveText('Metering Points');
+    await expect(appShell.getTitle(page)).toHaveText(enTranslations.meteringPoint.search.title);
   });
 
   test(`Given English is selected
@@ -53,6 +57,6 @@ test.describe('Language selection', () => {
     await getLanguagePicker(DisplayLanguage.English, page).click();
     await getLanguagePicker(DisplayLanguage.Danish, page).click();
 
-    await expect(appShell.getTitle(page)).toHaveText('Målepunkter');
+    await expect(appShell.getTitle(page)).toHaveText(daTranslations.meteringPoint.search.title);
   });
 });

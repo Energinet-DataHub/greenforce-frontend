@@ -7,13 +7,13 @@
   },
   "meteringPoint": {
     "search": {
-      "title": "Målepunkter",
+      "title": "Søg målepunkter",
       "searchLabel": "Indtast et Målepunkts ID for at fremsøge et målepunkt",
       "searchPlaceholder": "Søg på Målepunkts ID",
       "searchButton": "Søg",
       "clearSearchButton": "Nulstil søgning",
       "searchInvalidLength": "Målepunkts ID’et skal være 18 cifre",
-      "noMeteringPointFoundTitle": "Vi fandt Desværre intet målepunkt",
+      "noMeteringPointFoundTitle": "Vi fandt desværre intet målepunkt",
       "noMeteringPointFoundMessage": "Tjek for eventuelle tastefejl og prøv igen",
       "serverErrorTitle": "Ups! Der opstod en fejl",
       "serverErrorMessage": "Der opstod desværre en fejl, da vi skulle hente de nødvendige oplysninger."
@@ -44,8 +44,8 @@
         "notActualAddress": "Ikke faktisk adresse",
         "locationDescription": "Målepunktskommentar",
         "geoInfoReference": "DAR reference",
-        "hasElectricitySupplier": "Har El-leverandør?",
-        "since": "Siden {{date}}",
+        "hasElectricitySupplier": "Har elleverandør?",
+        "since": "Fra {{date}}",
         "meterNumber": "Målernummer"
       },
       "tabs": {
@@ -56,11 +56,10 @@
         "headers": {
           "childMeteringPoint": "Child Målepunkt",
           "effectivePeriod": "Gyldighedsperiode",
-          "status": "Status"
+          "status": "Tilslutningsstatus"
         },
-        "now": "nu",
         "noChildMeteringPointsTitle": "Ingen child målepunkter",
-        "noChildMeteringPointsText": "Vi fandt ingen child målepunkter på dette målepunkt"
+        "noChildMeteringPointsText": "Vi fandt ingen child målepunkter til dette målepunkt"
       }
     },
     "secondaryMasterData": {
@@ -77,11 +76,11 @@
       "assetType": "Anlægsteknologi",
       "ratedCapacity": "Effektgrænse KW",
       "ratedCurrent": "Effektgrænse A",
-      "powerPlantGsrnNumber": "VærksGSRN",
+      "powerPlantGsrnNumber": "Værks GSRN",
       "productId": "Produkt",
       "unit": "Energienhed",
       "effectiveDate": "Gyldighedsdato",
-      "locationDetailTitle": "Øvrige Lokationsdetaljer",
+      "locationDetailTitle": "Øvrige lokationsdetaljer",
       "streetCode": "Vejkode",
       "municipalityCode": "Kommunekode",
       "countryCode": "Landekode",
@@ -106,32 +105,32 @@
       "D01": "Dampturbine med modtryksdrift",
       "D02": "Gasturbine",
       "D03": "Combined cycle",
-      "D04": "Forbrændingsmotor Gas",
+      "D04": "Forbrændingsmotor gas",
       "D05": "Dampturbine med kondens/damp",
       "D06": "Kedel",
       "D07": "Stirlingmotor",
-      "D08": "Reserveret til senere brug",
-      "D09": "Reserveret til senere brug",
+      "D08": "Permanent tilsluttede elektriske energilageranlæg",
+      "D09": "Temporært tilsluttede elektriske energilageranlæg",
       "D10": "Brændselsceller",
       "D11": "Solceller",
       "D12": "Vindmøller",
       "D13": "Vandkraft",
       "D14": "Bølgekraft",
-      "D15": "Reserveret til senere brug",
-      "D16": "Reserveret til senere brug",
-      "D17": "Regulerbare Vindmøller",
-      "D18": "Reserveret til senere brug",
-      "D19": "Forbrændingsmotor Dieselmotor",
+      "D15": "Blandet produktion",
+      "D16": "Produktion med elektriske energilageranlæg",
+      "D17": "Power-to-X",
+      "D18": "Regenerative forbrugsanlæg",
+      "D19": "Forbrændingsmotor dieselmotor",
       "D20": "Bioforbrændingsmotor",
       "D99": "Ukendt teknologi"
     },
     "productId": {
-      "Tariff": "Tariff",
-      "FuelQuantity": "Fuel quantity",
-      "PowerActive": "Power active",
-      "PowerReactive": "Power reactive",
-      "EnergyActive": "Energy active",
-      "EnergyReactive": "Energy reactive"
+      "Tariff": "Tarif",
+      "FuelQuantity": "Brændselsmængde",
+      "PowerActive": "Aktiv effekt",
+      "PowerReactive": "Reaktiv effekt",
+      "EnergyActive": "Aktiv energi",
+      "EnergyReactive": "Reaktiv energi"
     },
     "unit": {
       "AMP": "Ampere",
@@ -187,8 +186,8 @@
       "D03": "Beregnet"
     },
     "physicalStatusCode": {
-      "D02": "Nedlæg",
-      "D03": "Ny",
+      "D02": "Nedlagt",
+      "D03": "Nyoprettet",
       "E22": "Tilsluttet",
       "E23": "Afbrudt"
     },
@@ -202,6 +201,30 @@
       "PT1H": "Aflæses pr. time",
       "P1M": "Aflæses pr. måned",
       "P1Y": "Aflæses pr. år"
+    }
+  },
+  "charges": {
+    "tariffsTitle": "Tariffer",
+    "subscriptionsTitle": "Abonnementer",
+    "feesTitle": "Gebyrer",
+    "chargeType": {
+      "D01": "Abonnement",
+      "D02": "Gebyr",
+      "D03": "Tarif"
+    },
+    "chargeOwner": "Tarif ejer",
+    "startDate": "Dato",
+    "transparentInvoicing": "Viderefakturering",
+    "quantity": "Antal",
+    "noActive": "Ingen aktive {{title}}",
+    "noActiveMessage": "Vi fandt ingen aktive {{title}} på dette målepunkt",
+    "taxIndicator": "Afgift",
+    "chargesNotFound": {
+      "title": "Vi fandt desværre ingen priser tilknyttet dette målepunkt"
+    },
+    "serverError": {
+      "title": "Ups! Der opstod en fejl",
+      "message": "Der opstod desværre en fejl, da vi skulle hente de nødvendige oplysninger."
     }
   }
 }

@@ -27,6 +27,7 @@ import { WattIconModule } from '@energinet-datahub/watt';
 
 import { dhMeteringPointPath } from '../routing/dh-metering-point-path';
 import { MeteringPointCimDto } from '@energinet-datahub/dh/shared/data-access-api';
+import { DhIsParentPipeScam } from '../shared/is-parent.pipe';
 
 export interface MeteringPointTranslationKeys {
   meteringMethod: string;
@@ -86,6 +87,12 @@ export class DhBreadcrumbComponent {
 @NgModule({
   declarations: [DhBreadcrumbComponent],
   exports: [DhBreadcrumbComponent],
-  imports: [CommonModule, RouterModule, TranslocoModule, WattIconModule],
+  imports: [
+    CommonModule,
+    RouterModule,
+    TranslocoModule,
+    WattIconModule,
+    DhIsParentPipeScam,
+  ],
 })
 export class DhBreadcrumbScam {}

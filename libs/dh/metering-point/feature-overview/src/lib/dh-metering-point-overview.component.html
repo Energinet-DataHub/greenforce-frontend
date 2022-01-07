@@ -35,8 +35,10 @@ limitations under the License.
       ></dh-secondary-master-data>
 
       <watt-tabs *transloco="let t; read: 'meteringPoint.overview.tabs'">
-        <watt-tab [label]="t('prices')"></watt-tab>
-        <ng-container *ngIf="meteringPoint?.childMeteringPoints">
+        <watt-tab [label]="t('prices')">
+          <dh-charges></dh-charges>
+        </watt-tab>
+        <ng-container *ngIf="meteringPoint?.meteringPointType | isParent">
           <watt-tab
             [label]="
               t('childMeteringPoints', {

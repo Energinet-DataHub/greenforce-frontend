@@ -16,6 +16,9 @@
  */
 import { test, expect } from '@playwright/test';
 
+// Appearantly there are some issues with `paths` so we need to use absolute paths for now.
+import { da as daTranslations } from '../../../../../libs/dh/globalization/assets-localization/src';
+
 import * as appShell from '../support/app-shell.po';
 
 test.describe('Application shell', () => {
@@ -30,6 +33,6 @@ test.describe('Application shell', () => {
     console.log('the application title is displayed');
     console.log(await page.innerHTML('dh-metering-point-search'));
     console.log('-------------------------------------');
-    await expect(appShell.getTitle(page)).toHaveText('Målepunkter');
+    await expect(appShell.getTitle(page)).toHaveText(daTranslations.meteringPoint.search.title);
   });
 });
