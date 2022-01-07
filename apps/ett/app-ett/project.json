@@ -37,7 +37,7 @@
           "includePaths": ["libs/ui-watt/src/lib/styles"]
         },
         "styles": [
-          { "input": "apps/ett/app-ett/src/styles.scss", "inject": false }
+          { "input": "apps/ett/app-ett/src/styles.scss", "inject": true }
         ],
         "tsConfig": "apps/ett/app-ett/tsconfig.app.json"
       },
