@@ -62,7 +62,12 @@ limitations under the License.
   </div>
 
   <div class="column">
-    <section *ngIf="primaryMasterData?.meteringPointType | isParent">
+    <section
+      *dhMeteringPointType="
+        primaryMasterData?.meteringPointType;
+        content: 'electricitySupplier'
+      "
+    >
       <watt-icon
         name="power"
         label="power"

@@ -39,6 +39,7 @@ import { DhEmptyValuePipeScam } from '../shared/empty-value.pipe';
 import { emDash } from '../shared/em-dash';
 import { DhYesNoPipeScam } from '../shared/yes-no.pipe';
 import { DhIsParentPipeScam } from '../shared/is-parent.pipe';
+import { DhMeteringPointTypeDirectiveScam } from '../shared/metering-point-type.directive';
 
 export type PrimaryMasterData = Pick<
   MeteringPointCimDto,
@@ -120,6 +121,7 @@ export class DhMeteringPointPrimaryMasterDataComponent implements OnChanges {
     DhSharedUiDateTimeModule,
     DhYesNoPipeScam,
     DhIsParentPipeScam,
+    DhMeteringPointTypeDirectiveScam,
   ],
   exports: [DhMeteringPointPrimaryMasterDataComponent],
 })
