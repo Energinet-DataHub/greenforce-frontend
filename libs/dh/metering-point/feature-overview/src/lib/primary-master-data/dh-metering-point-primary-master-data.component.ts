@@ -28,6 +28,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { TranslocoModule } from '@ngneat/transloco';
 
 import { MeteringPointCimDto } from '@energinet-datahub/dh/shared/data-access-api';
+import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import {
   WattIcon,
   WattIconModule,
@@ -37,6 +38,7 @@ import {
 import { DhEmptyValuePipeScam } from '../shared/empty-value.pipe';
 import { emDash } from '../shared/em-dash';
 import { DhYesNoPipeScam } from '../shared/yes-no.pipe';
+import { DhIsParentPipeScam } from '../shared/is-parent.pipe';
 
 export type PrimaryMasterData = Pick<
   MeteringPointCimDto,
@@ -52,6 +54,7 @@ export type PrimaryMasterData = Pick<
   | 'darReference'
   | 'supplyStart'
   | 'meterId'
+  | 'meteringPointType'
 >;
 
 @Component({
@@ -114,7 +117,9 @@ export class DhMeteringPointPrimaryMasterDataComponent implements OnChanges {
     WattIconModule,
     TranslocoModule,
     DhEmptyValuePipeScam,
+    DhSharedUiDateTimeModule,
     DhYesNoPipeScam,
+    DhIsParentPipeScam,
   ],
   exports: [DhMeteringPointPrimaryMasterDataComponent],
 })
