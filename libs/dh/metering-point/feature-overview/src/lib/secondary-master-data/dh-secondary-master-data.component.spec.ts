@@ -24,6 +24,7 @@ import {
   AssetType,
   ProductId,
   Unit,
+  MeteringPointType,
 } from '@energinet-datahub/dh/shared/data-access-api';
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
 import { en as enTranslations } from '@energinet-datahub/dh/globalization/assets-localization';
@@ -63,6 +64,7 @@ describe(DhSecondaryMasterDataComponent.name, () => {
       async ({ incommingValueObject, testId, expectedDisplayValue }) => {
         const secondaryMasterData: MeteringPointCimDto = {
           ...incommingValueObject,
+          meteringPointType: MeteringPointType.E17
         };
 
         await setup(secondaryMasterData);
@@ -89,6 +91,7 @@ describe(DhSecondaryMasterDataComponent.name, () => {
       async ({ incommingValueObject, testId }) => {
         const secondaryMasterData: MeteringPointCimDto = {
           ...incommingValueObject,
+          meteringPointType: MeteringPointType.E17
         };
 
         await setup(secondaryMasterData);
