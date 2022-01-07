@@ -18,7 +18,8 @@ import {
   Directive,
   Input,
   NgModule,
-  OnInit,
+  OnChanges,
+  SimpleChanges,
   TemplateRef,
   ViewContainerRef,
 } from '@angular/core';
@@ -28,31 +29,27 @@ import { MeteringPointTypeMap } from './metering-point-type-map';
 @Directive({
   selector: '[dhMeteringPointType]',
 })
-export class MeteringPointTypeDirective implements OnInit {
-  private meteringPointType: MeteringPointType | undefined;
-  private content: string | undefined;
-
+export class MeteringPointTypeDirective implements OnChanges {
   constructor(
     private templateRef: TemplateRef<unknown>,
     private viewContainer: ViewContainerRef
   ) {}
 
-  @Input() set dhMeteringPointType(
-    meteringPointType: MeteringPointType | undefined
-  ) {
-    this.meteringPointType = meteringPointType;
-  }
+  @Input() dhMeteringPointType: MeteringPointType | undefined
 
-  @Input() set dhMeteringPointTypeContent(content: string) {
-    this.content = content;
-  }
+  @Input() dhMeteringPointTypeContent: string | undefined
 
+  ngOnChanges(changes: SimpleChanges): void {
+    if(changes.dhMeteringPointType) {
+      this.updateView();
+    }
+  }
   // eslint-disable-next-line sonarjs/cognitive-complexity
-  ngOnInit(): void {
-    if (this.content !== undefined && this.meteringPointType) {
+  private updateView() {
+    if (this.dhMeteringPointTypeContent !== undefined && this.dhMeteringPointType) {
       for (const [key, value] of Object.entries(MeteringPointTypeMap)) {
-        if (key === this.content) {
-          if (value.includes(this.meteringPointType) || value[0] === 'All') {
+        if (key === this.dhMeteringPointTypeContent) {
+          if (value.includes(this.dhMeteringPointType) || value[0] === 'All') {
             this.viewContainer.createEmbeddedView(this.templateRef);
           } else {
             this.viewContainer.clear();
