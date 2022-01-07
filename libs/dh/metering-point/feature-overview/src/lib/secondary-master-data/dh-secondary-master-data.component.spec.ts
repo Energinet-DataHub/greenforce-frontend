@@ -64,7 +64,7 @@ describe(DhSecondaryMasterDataComponent.name, () => {
       async ({ incommingValueObject, testId, expectedDisplayValue }) => {
         const secondaryMasterData: MeteringPointCimDto = {
           ...incommingValueObject,
-          meteringPointType: MeteringPointType.E17
+          meteringPointType: MeteringPointType.E17,
         };
 
         await setup(secondaryMasterData);
@@ -91,7 +91,7 @@ describe(DhSecondaryMasterDataComponent.name, () => {
       async ({ incommingValueObject, testId }) => {
         const secondaryMasterData: MeteringPointCimDto = {
           ...incommingValueObject,
-          meteringPointType: MeteringPointType.E17
+          meteringPointType: MeteringPointType.E17,
         };
 
         await setup(secondaryMasterData);
