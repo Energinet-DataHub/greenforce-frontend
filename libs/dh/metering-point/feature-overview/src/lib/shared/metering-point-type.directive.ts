@@ -48,9 +48,14 @@ export class MeteringPointTypeDirective implements OnChanges {
   // eslint-disable-next-line sonarjs/cognitive-complexity
   private updateView() {
     if (this.dhMeteringPointTypeContent && this.dhMeteringPointType) {
-      for (const [content, meteringPointTypes] of Object.entries(MeteringPointTypeMap)) {
+      for (const [content, meteringPointTypes] of Object.entries(
+        MeteringPointTypeMap
+      )) {
         if (content === this.dhMeteringPointTypeContent) {
-          if (meteringPointTypes.includes(this.dhMeteringPointType) || meteringPointTypes[0] === 'All') {
+          if (
+            meteringPointTypes.includes(this.dhMeteringPointType) ||
+            meteringPointTypes[0] === 'All'
+          ) {
             this.viewContainer.createEmbeddedView(this.templateRef);
           } else {
             this.viewContainer.clear();
