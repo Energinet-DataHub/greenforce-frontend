@@ -14,6 +14,13 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<watt-button [disabled]="isDisabled" (click)="languageSelect.emit()">{{
-  language | uppercase
-}}</watt-button>
+<mat-button-toggle-group [value]="activeLanguage" name="language-toggle">
+  <mat-button-toggle
+    *ngFor="let language of displayLanguages"
+    [checked]="activeLanguage === language"
+    [value]="language"
+    (change)="onLanguageChange($event.value)"
+    class="watt-text-s"
+    >{{ language | uppercase }}</mat-button-toggle
+  >
+</mat-button-toggle-group>
