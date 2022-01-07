@@ -16,11 +16,16 @@
  */
 import { CommonModule } from '@angular/common';
 import { Component, Input, NgModule } from '@angular/core';
-import { MeteringPointCimDto } from '@energinet-datahub/dh/shared/data-access-api';
+import {
+  MeteringPointCimDto,
+  NetSettlementGroup,
+} from '@energinet-datahub/dh/shared/data-access-api';
+import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import { WattExpansionModule, WattIconModule } from '@energinet-datahub/watt';
 import { TranslocoModule } from '@ngneat/transloco';
 
 import { emDash } from '../shared/em-dash';
+import { DhIsParentPipeScam } from '../shared/is-parent.pipe';
 import { DhYesNoPipeScam } from '../shared/yes-no.pipe';
 
 export interface MeteringPointIdentityTranslationKeys {
@@ -56,6 +61,24 @@ export class DhSecondaryMasterDataComponent {
   }
   get isProductObligationDefined() {
     return this.#secondaryMasterData?.productionObligation != null;
+  }
+  get netSettlementGroupAsNumber(): number | undefined {
+    switch (this.#secondaryMasterData?.netSettlementGroup) {
+      case NetSettlementGroup.Zero:
+        return 0;
+      case NetSettlementGroup.One:
+        return 1;
+      case NetSettlementGroup.Two:
+        return 2;
+      case NetSettlementGroup.Three:
+        return 3;
+      case NetSettlementGroup.Six:
+        return 6;
+      case NetSettlementGroup.NinetyNine:
+        return 99;
+      default:
+        return;
+    }
   }
 
   private buildTranslations(
@@ -93,6 +116,8 @@ export class DhSecondaryMasterDataComponent {
     TranslocoModule,
     WattIconModule,
     DhYesNoPipeScam,
+    DhSharedUiDateTimeModule,
+    DhIsParentPipeScam,
   ],
   exports: [DhSecondaryMasterDataComponent],
 })

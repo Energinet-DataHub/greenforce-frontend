@@ -67,6 +67,8 @@
     "@rx-angular/cdk": ">=1.0.0-alpha.10 || ^1.0.0",
     "@rx-angular/template": ">=1.0.0-beta.28 || ^1.0.0",
     "@testing-library/user-event": "^13.5.0",
+    "date-fns": "^2.27.0",
+    "date-fns-tz": "^1.2.2",
     "include-media": "^1.4.10",
     "rxjs": "~7.4.0",
     "tslib": "^2.0.0",

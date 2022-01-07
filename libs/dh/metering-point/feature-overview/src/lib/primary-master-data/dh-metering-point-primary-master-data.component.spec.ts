@@ -32,6 +32,7 @@ import {
   PrimaryMasterData,
 } from './dh-metering-point-primary-master-data.component';
 import { emDash } from '../shared/em-dash';
+import { MeteringPointType } from '@energinet-datahub/dh/shared/data-access-api';
 
 describe(DhMeteringPointPrimaryMasterDataComponent.name, () => {
   const fallbackValue = emDash;
@@ -48,6 +49,7 @@ describe(DhMeteringPointPrimaryMasterDataComponent.name, () => {
     citySubDivisionName: '[citySubDivisionName]',
     postalCode: '[postalCode]',
     cityName: '[cityName]',
+    meteringPointType: MeteringPointType.E17,
   };
 
   async function setup(primaryMasterData: PrimaryMasterData = { ...testData }) {
@@ -294,7 +296,7 @@ describe(DhMeteringPointPrimaryMasterDataComponent.name, () => {
       expect(since).toHaveTextContent(
         `${enTranslations.meteringPoint.overview.primaryMasterData.since.replace(
           '{{date}}',
-          testData.supplyStart as string
+          '17-12-2021'
         )}`
       );
     });
@@ -317,22 +319,6 @@ describe(DhMeteringPointPrimaryMasterDataComponent.name, () => {
 
     it('should render fallback definition, if supply start is null', async () => {
       await setup({ ...testData, supplyStart: null });
-
-      const term = getByTerm(
-        enTranslations.meteringPoint.overview.primaryMasterData
-          .hasElectricitySupplier
-      );
-      const definition = getDefinitonByTerm(term);
-
-      expect(definition).toBeInTheDocument();
-      expect(definition).toHaveTextContent(enTranslations.no);
-
-      const since = definition?.nextElementSibling;
-      expect(since).toHaveTextContent(fallbackValue);
-    });
-
-    it('should render fallback definition, if supply start is empty string', async () => {
-      await setup({ ...testData, supplyStart: ' ' });
 
       const term = getByTerm(
         enTranslations.meteringPoint.overview.primaryMasterData

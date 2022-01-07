@@ -5,6 +5,7 @@
     "editorconfig.editorconfig",
     "davidanson.vscode-markdownlint",
     "nrwl.angular-console",
-    "esbenp.prettier-vscode"
+    "esbenp.prettier-vscode",
+    "firsttris.vscode-jest-runner"
   ]
 }
