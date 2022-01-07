@@ -47,13 +47,3 @@ variable shared_resources_resource_group_name {
   type          = string
   description   = "Name of the Resource Group, that contains the shared resources."
 }
-
-variable metering_point_api_base_url {
-  type        = string
-  description = "Url of the metering point domain entry"
-}
-
-variable charges_api_base_url {
-  type        = string
-  description = "Url of the charges domain entry"
-}
