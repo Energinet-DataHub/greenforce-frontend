@@ -16,13 +16,13 @@
  */
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { WattButtonModule } from '@energinet-datahub/watt';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 import { DhLanguageButtonComponent } from './dh-language-button.component';
 
 @NgModule({
   declarations: [DhLanguageButtonComponent],
   exports: [DhLanguageButtonComponent],
-  imports: [CommonModule, WattButtonModule],
+  imports: [CommonModule, MatButtonToggleModule],
 })
 export class DhLanguageButtonModule {}

@@ -64,3 +64,4 @@ $watt-theme: mat.define-light-theme(
 @include mat.table-theme($watt-theme);
 @include mat.tabs-theme($watt-theme);
 @include mat.toolbar-theme($watt-theme);
+@include mat.button-toggle-theme($watt-theme);

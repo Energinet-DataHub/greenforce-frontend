@@ -59,6 +59,8 @@ export class EttAuthShellComponent implements OnInit {
   DEFAULT_ERROR_MESSAGE = 'Der opstod en ukendt fejl, prøv venligst igen.';
 
   // TODO Get messages from i18n
+  // The backend also provides fallback messages in case any
+  // error code is unknown to the frontend.
   ERROR_MESSAGES: { [key: string]: string } = {
     E0: 'Ukendt fejl fra Identity Provider',
     E1: 'Login afbrudt af bruger',
