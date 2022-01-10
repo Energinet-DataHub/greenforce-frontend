@@ -15,11 +15,11 @@ Currently the application is only deployed to a single environment.
 
 To run the application locally you need to serve the frontend application and corrosponding BFF (Backend for frontend).
 
-**Frontend application**
+### Frontend application
 
 `yarn nx serve app-dh`
 
-**BFF (backend for frontend)**
+### BFF (backend for frontend)
 
 Before you're able to run the BFF locally you need to copy `build/ci/dh/api-dh/ci.appsettings.Development.json` -> `apps/dh/api-dh/source/DataHub.WebApi/appsettings.Development.json`. If you're using powershell core or another terminal with `cp` you can do it with:  
 `yarn nx run api-dh:ci-configuration`  
@@ -29,7 +29,7 @@ To run the BFF locally:
 
 `yarn nx serve api-dh`
 
-### Testing
+### Unit / Integration Testing
 
 Currently the test suites are integrating with the BFF (backend for frontend), so to run the tests succesfully make sure you're already serving the backend locally.
 
@@ -38,6 +38,18 @@ Currently the test suites are integrating with the BFF (backend for frontend), s
 While developing you can run the tests in watch mode:
 
 `yarn test --watch`
+
+### E2E Testing
+
+Due to the limitations of Cypress authenticating against MSAL (B2C), we have chosen to use playwright for our E2E tests. To be able to running the tests locally, you will need to rename `apps\dh\e2e-dh\.env` to `apps\dh\e2e-dh\.env.local` and insert some testing user credentials. 
+
+To run the tests use following command:
+
+`yarn nx run e2e-dh:e2e`
+
+To debug E2E tests with the playwright inspector you can use following command (Windows PowerShell), you can find more information [here](https://playwright.dev/docs/debug):
+
+`$Env:PWDEBUG=1; npx playwright test apps/dh/e2e-dh/src --config=apps/dh/e2e-dh/playwright.ts --workers=1`
 
 ### Generating new components
 
