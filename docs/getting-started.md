@@ -41,7 +41,7 @@ While developing you can run the tests in watch mode:
 
 ### E2E Testing
 
-Due to the limitations of Cypress authenticating against MSAL (B2C), we have chosen to use playwright for our E2E tests. To be able to running the tests locally, you will need to rename `apps\dh\e2e-dh\.env` to `apps\dh\e2e-dh\.env.local` and insert some testing user credentials. 
+Due to the limitations of Cypress authenticating against MSAL (B2C), we have chosen to use playwright for our E2E tests. To be able to running the tests locally, you will need to rename `apps\dh\e2e-dh\.env` to `apps\dh\e2e-dh\.env.local` and insert some testing user credentials.
 
 To run the tests use following command:
 
