@@ -55,10 +55,16 @@ describe(DhEmDashFallbackPipe.name, () => {
     expect(harness.text).toBe(emDash);
   });
 
-  it(`returns the same value when value is defined`, () => {
+  it(`returns the same value when value is a string`, () => {
     harness.value = 'TEST';
 
     expect(harness.text).toBe('TEST');
+  });
+
+  it(`returns the same value when value is a number`, () => {
+    harness.value = 4;
+
+    expect(harness.text).toBe('4');
   });
 
   it(`returns a fallback value when fallback is defined`, () => {
