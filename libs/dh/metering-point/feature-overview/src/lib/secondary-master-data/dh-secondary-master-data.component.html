@@ -23,7 +23,13 @@ limitations under the License.
       {{ t('technicalSpecificationTitle') }}
     </div>
     <dl>
-      <div class="smd-list__row">
+      <div
+        class="smd-list__row"
+        *dhShowForMeteringPointType="
+          secondaryMasterData?.meteringPointType;
+          property: 'netSettlementGroup'
+        "
+      >
         <dt class="watt-label">
           {{ t('netSettlementGroup') }}
         </dt>
@@ -35,7 +41,13 @@ limitations under the License.
           </ng-container>
         </dd>
       </div>
-      <div class="smd-list__row">
+      <div
+        class="smd-list__row"
+        *dhShowForMeteringPointType="
+          secondaryMasterData?.meteringPointType;
+          property: 'disconnectionType'
+        "
+      >
         <dt class="watt-label">
           {{ t('disconnectionType') }}
         </dt>
@@ -47,7 +59,13 @@ limitations under the License.
           </ng-container>
         </dd>
       </div>
-      <div class="smd-list__row">
+      <div
+        class="smd-list__row"
+        *dhShowForMeteringPointType="
+          secondaryMasterData?.meteringPointType;
+          property: 'productionObligation'
+        "
+      >
         <dt class="watt-label">
           {{ t('productionObligation') }}
         </dt>
@@ -57,7 +75,13 @@ limitations under the License.
           </ng-container>
         </dd>
       </div>
-      <div class="smd-list__row">
+      <div
+        class="smd-list__row"
+        *dhShowForMeteringPointType="
+          secondaryMasterData?.meteringPointType;
+          property: 'connectionType'
+        "
+      >
         <dt class="watt-label">
           {{ t('connectionType') }}
         </dt>
@@ -69,7 +93,13 @@ limitations under the License.
           </ng-container>
         </dd>
       </div>
-      <div class="smd-list__row">
+      <div
+        class="smd-list__row"
+        *dhShowForMeteringPointType="
+          secondaryMasterData?.meteringPointType;
+          property: 'inAreaCode'
+        "
+      >
         <dt class="watt-label">
           {{ t('inAreaCode') }}
         </dt>
@@ -81,7 +111,13 @@ limitations under the License.
           </ng-container>
         </dd>
       </div>
-      <div class="smd-list__row">
+      <div
+        class="smd-list__row"
+        *dhShowForMeteringPointType="
+          secondaryMasterData?.meteringPointType;
+          property: 'outAreaCode'
+        "
+      >
         <dt class="watt-label">
           {{ t('outAreaCode') }}
         </dt>
@@ -93,7 +129,13 @@ limitations under the License.
           </ng-container>
         </dd>
       </div>
-      <div class="smd-list__row">
+      <div
+        class="smd-list__row"
+        *dhShowForMeteringPointType="
+          secondaryMasterData?.meteringPointType;
+          property: 'meteringGridArea'
+        "
+      >
         <dt class="watt-label">
           {{ t('gridAreaName') }}
         </dt>
@@ -107,7 +149,13 @@ limitations under the License.
           </ng-container>
         </dd>
       </div>
-      <div class="smd-list__row">
+      <div
+        class="smd-list__row"
+        *dhShowForMeteringPointType="
+          secondaryMasterData?.meteringPointType;
+          property: 'capacity'
+        "
+      >
         <dt class="watt-label">
           {{ t('capacity') }}
         </dt>
@@ -118,7 +166,13 @@ limitations under the License.
           </ng-container>
         </dd>
       </div>
-      <div class="smd-list__row">
+      <div
+        class="smd-list__row"
+        *dhShowForMeteringPointType="
+          secondaryMasterData?.meteringPointType;
+          property: 'assetType'
+        "
+      >
         <dt class="watt-label">
           {{ t('assetType') }}
         </dt>
@@ -128,7 +182,13 @@ limitations under the License.
           </ng-container>
         </dd>
       </div>
-      <div class="smd-list__row">
+      <div
+        class="smd-list__row"
+        *dhShowForMeteringPointType="
+          secondaryMasterData?.meteringPointType;
+          property: 'ratedCapacity'
+        "
+      >
         <dt class="watt-label">
           {{ t('ratedCapacity') }}
         </dt>
@@ -141,7 +201,13 @@ limitations under the License.
           </ng-container>
         </dd>
       </div>
-      <div class="smd-list__row">
+      <div
+        class="smd-list__row"
+        *dhShowForMeteringPointType="
+          secondaryMasterData?.meteringPointType;
+          property: 'ratedCurrent'
+        "
+      >
         <dt class="watt-label">
           {{ t('ratedCurrent') }}
         </dt>
@@ -154,7 +220,13 @@ limitations under the License.
           </ng-container>
         </dd>
       </div>
-      <div class="smd-list__row">
+      <div
+        class="smd-list__row"
+        *dhShowForMeteringPointType="
+          secondaryMasterData?.meteringPointType;
+          property: 'powerPlantGsrnNumber'
+        "
+      >
         <dt class="watt-label">
           {{ t('powerPlantGsrnNumber') }}
         </dt>
@@ -166,7 +238,13 @@ limitations under the License.
           </ng-container>
         </dd>
       </div>
-      <div class="smd-list__row">
+      <div
+        class="smd-list__row"
+        *dhShowForMeteringPointType="
+          secondaryMasterData?.meteringPointType;
+          property: 'productType'
+        "
+      >
         <dt class="watt-label">
           {{ t('productId') }}
         </dt>
@@ -176,7 +254,13 @@ limitations under the License.
           </ng-container>
         </dd>
       </div>
-      <div class="smd-list__row">
+      <div
+        class="smd-list__row"
+        *dhShowForMeteringPointType="
+          secondaryMasterData?.meteringPointType;
+          property: 'unitType'
+        "
+      >
         <dt class="watt-label">
           {{ t('unit') }}
         </dt>
@@ -186,7 +270,13 @@ limitations under the License.
           </ng-container>
         </dd>
       </div>
-      <div class="smd-list__row">
+      <div
+        class="smd-list__row"
+        *dhShowForMeteringPointType="
+          secondaryMasterData?.meteringPointType;
+          property: 'effectiveDate'
+        "
+      >
         <dt class="watt-label">
           {{ t('effectiveDate') }}
         </dt>
@@ -200,7 +290,13 @@ limitations under the License.
         {{ t('locationDetailTitle') }}
       </div>
       <dl>
-        <div class="smd-list__row">
+        <div
+          class="smd-list__row"
+          *dhShowForMeteringPointType="
+            secondaryMasterData?.meteringPointType;
+            property: 'streetCode'
+          "
+        >
           <dt class="watt-label">
             {{ t('streetCode') }}
           </dt>
@@ -212,7 +308,13 @@ limitations under the License.
             </ng-container>
           </dd>
         </div>
-        <div class="smd-list__row">
+        <div
+          class="smd-list__row"
+          *dhShowForMeteringPointType="
+            secondaryMasterData?.meteringPointType;
+            property: 'municipalityCode'
+          "
+        >
           <dt class="watt-label">
             {{ t('municipalityCode') }}
           </dt>
@@ -224,7 +326,13 @@ limitations under the License.
             </ng-container>
           </dd>
         </div>
-        <div class="smd-list__row">
+        <div
+          class="smd-list__row"
+          *dhShowForMeteringPointType="
+            secondaryMasterData?.meteringPointType;
+            property: 'countryCode'
+          "
+        >
           <dt class="watt-label">
             {{ t('countryCode') }}
           </dt>
