@@ -1,0 +1,29 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "title": "Playwright Target",
+  "description": "Playwright target option for Build Facade",
+  "type": "object",
+  "outputCapture": "pipe",
+  "cli": "nx",
+  "properties": {
+    "playwrightConfig": {
+      "type": "string",
+      "description": "The path of the playwright configuration file."
+    },
+    "watch": {
+      "type": "boolean",
+      "description": "Recompile and run tests when files change.",
+      "default": false
+    },
+    "tsConfig": {
+      "type": "string",
+      "description": "The path of the Cypress tsconfig configuration json file."
+    },
+    "devServerTarget": {
+      "type": "string",
+      "description": "Dev server target to run tests against."
+    }
+  },
+  "additionalProperties": true,
+  "required": ["playwrightConfig"]
+}

@@ -2,6 +2,9 @@
   "appName": "DataHub",
   "yes": "Yes",
   "no": "No",
+  "shell": {
+    "logout": "Sign out"
+  },
   "meteringPoint": {
     "search": {
       "title": "Search metering points",

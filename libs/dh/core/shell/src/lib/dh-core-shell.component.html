@@ -30,6 +30,11 @@ limitations under the License.
     <div class="app-actions">
       <dh-language-picker></dh-language-picker>
     </div>
+    <ng-container *transloco="let transloco; read: 'shell'">
+      <watt-button (click)="logout()" icon="logout">{{
+        transloco('logout')
+      }}</watt-button>
+    </ng-container>
   </ng-container>
 
   <router-outlet></router-outlet>

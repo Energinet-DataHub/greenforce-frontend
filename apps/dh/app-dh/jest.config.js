@@ -23,6 +23,7 @@ module.exports = {
       tsconfig: '<rootDir>/tsconfig.spec.json',
       stringifyContentPathRegex: '\\.(html|svg)$',
     },
+    crypto: require('crypto'), // Required by MSAL
   },
   coverageDirectory: '../../coverage/apps/dh/app-dh',
   transform: {

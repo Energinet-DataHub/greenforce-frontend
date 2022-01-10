@@ -1,0 +1,26 @@
+{
+  "projectType": "library",
+  "root": "libs/dh/shared/test-util-auth",
+  "sourceRoot": "libs/dh/shared/test-util-auth/src",
+  "prefix": "dh",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/dh/shared/test-util-auth"],
+      "options": {
+        "jestConfig": "libs/dh/shared/test-util-auth/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/dh/shared/test-util-auth/src/**/*.ts",
+          "libs/dh/shared/test-util-auth/src/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": ["product:dh", "domain:shared", "type:test-util"]
+}
