@@ -41,7 +41,8 @@ export function MSALInstanceFactory(): IPublicClientApplication {
   return new PublicClientApplication({
     auth: {
       clientId: '88e5d356-0c71-49e9-b260-d0629f3c0445',
-      authority: 'https://dev002DataHubB2C.b2clogin.com/dev002DataHubB2C.onmicrosoft.com/B2C_1_sign_in_experiments',
+      authority:
+        'https://dev002DataHubB2C.b2clogin.com/dev002DataHubB2C.onmicrosoft.com/B2C_1_sign_in_experiments',
       redirectUri: '/',
       postLogoutRedirectUri: '/',
       knownAuthorities: ['dev002DataHubB2C.b2clogin.com'],
