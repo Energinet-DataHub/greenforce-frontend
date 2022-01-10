@@ -35,7 +35,7 @@ import {
   WattIconSize,
 } from '@energinet-datahub/watt';
 
-import { DhEmptyValuePipeScam } from '../shared/empty-value.pipe';
+import { DhEmDashFallbackPipeScam } from '../shared/dh-em-dash-fallback.pipe';
 import { emDash } from '../shared/em-dash';
 import { DhYesNoPipeScam } from '../shared/yes-no.pipe';
 import { DhIsParentPipeScam } from '../shared/is-parent.pipe';
@@ -117,7 +117,7 @@ export class DhMeteringPointPrimaryMasterDataComponent implements OnChanges {
     CommonModule,
     WattIconModule,
     TranslocoModule,
-    DhEmptyValuePipeScam,
+    DhEmDashFallbackPipeScam,
     DhSharedUiDateTimeModule,
     DhYesNoPipeScam,
     DhIsParentPipeScam,

@@ -19,10 +19,10 @@ import { NgModule, Pipe, PipeTransform } from '@angular/core';
 import { emDash } from './em-dash';
 
 export type TValue = string | undefined | null;
-export const pipeName = 'emptyValue';
+export const pipeName = 'emDashFallback';
 
 @Pipe({ name: pipeName })
-export class EmptyValuePipe implements PipeTransform {
+export class DhEmDashFallbackPipe implements PipeTransform {
   transform(value: TValue, translation?: string): string {
     if (value === undefined || value === null || value.trim() === '') {
       return emDash;
@@ -33,7 +33,7 @@ export class EmptyValuePipe implements PipeTransform {
 }
 
 @NgModule({
-  declarations: [EmptyValuePipe],
-  exports: [EmptyValuePipe],
+  declarations: [DhEmDashFallbackPipe],
+  exports: [DhEmDashFallbackPipe],
 })
-export class DhEmptyValuePipeScam {}
+export class DhEmDashFallbackPipeScam {}
