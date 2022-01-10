@@ -199,7 +199,7 @@ limitations under the License.
         if (elm) {
           callback(elm);
         } else {
-          setTimeout(function() {
+          setTimeout(function () {
             waitFor(selector, callback);
           }, 100);
         }
@@ -207,19 +207,19 @@ limitations under the License.
 
       function toggleErrorClasses() {
         document.querySelectorAll('input').forEach((inputElement) => {
-            var parent = inputElement.parentElement;
-            var hasError = inputElement.classList.contains('highlightError');
-            if(!parent) return;
+          var parent = inputElement.parentElement;
+          var hasError = inputElement.classList.contains('highlightError');
+          if (!parent) return;
 
-            if(hasError) {
-                parent.classList.add('entry-item-error');
-            } else {
-                parent.classList.remove('entry-item-error');
-            }
+          if (hasError) {
+            parent.classList.add('entry-item-error');
+          } else {
+            parent.classList.remove('entry-item-error');
+          }
         });
       }
 
-      waitFor('button#next', function(element) {
+      waitFor('button#next', function (element) {
         element.addEventListener('click', toggleErrorClasses);
       });
     </script>
