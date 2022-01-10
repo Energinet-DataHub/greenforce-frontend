@@ -18,17 +18,25 @@ import { NgModule, Pipe, PipeTransform } from '@angular/core';
 
 import { emDash } from './em-dash';
 
-export type TValue = string | undefined | null;
+export type TValue = string | number | undefined | null;
 export const pipeName = 'emDashFallback';
 
 @Pipe({ name: pipeName })
 export class DhEmDashFallbackPipe implements PipeTransform {
-  transform(value: TValue, translation?: string): string {
-    if (value === undefined || value === null || value.trim() === '') {
+  transform(value: TValue, translation?: string): string | number {
+    if (this.isFalsy(value)) {
       return emDash;
-    } else {
-      return translation ? translation : value;
     }
+
+    return translation ? translation : (value as string | number);
+  }
+
+  private isFalsy(value: TValue): boolean {
+    if (typeof value === 'string') {
+      return value.trim() === '';
+    }
+
+    return value == null;
   }
 }
 
