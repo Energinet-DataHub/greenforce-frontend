@@ -116,7 +116,6 @@ async function runPlaywright(
   const projectname = context.projectName;
   const sourceRoot = context.workspace.projects[projectname].sourceRoot;
 
-  await runTsc(opts, context);
   const { success } = await runCommandsExecutor(
     {
       commands: [
@@ -128,14 +127,4 @@ async function runPlaywright(
   );
 
   return success;
-}
-
-function runTsc(opts: PlaywrightExecutorOptions, context) {
-  return runCommandsExecutor(
-    {
-      commands: [`tsc --incremental -p ${opts.tsConfig}`],
-      parallel: true,
-    },
-    context
-  );
 }

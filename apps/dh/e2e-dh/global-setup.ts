@@ -25,12 +25,20 @@ async function globalSetup(_config: FullConfig) {
   const context = await browser.newContext({ ignoreHTTPSErrors: true });
   const page = await context.newPage();
 
-  await page.goto('https://localhost:4200/');
-  await page.click('text=email');
-  await page.type('input[id="email"]', process.env.DH_E2E_USERNAME);
+  page.goto('https://localhost:4200');
+
+  // Click [placeholder="Email Address"]
+  await page.click('[placeholder="Email Address"]');
+  // Fill [placeholder="Email Address"]
+  await page.fill('[placeholder="Email Address"]', process.env.DH_E2E_USERNAME);
+  // Click [placeholder="Password"]
   await page.click('[placeholder="Password"]');
+  // Fill [placeholder="Password"]
   await page.fill('[placeholder="Password"]', process.env.DH_E2E_PASSWORD);
+
+  // Click button:has-text("Sign in")
   await page.click('button:has-text("Sign in")');
+
   await page.waitForURL('https://localhost:4200');
 
   // Save signed-in state to 'playwright-storage-state.json'.

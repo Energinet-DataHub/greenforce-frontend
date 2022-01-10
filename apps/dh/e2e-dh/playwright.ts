@@ -19,8 +19,6 @@ import { PlaywrightTestConfig } from '@playwright/test';
 // We use named export to beeing able to extend the config in other config files
 export const config: PlaywrightTestConfig = {
   globalSetup: require.resolve('./global-setup'),
-  // This is required to be able to use custom tsconfig
-  testDir: '../../../dist/out-tsc/apps/dh/e2e-dh',
   use: {
     headless: false,
     baseURL: 'https://localhost:4200/',
