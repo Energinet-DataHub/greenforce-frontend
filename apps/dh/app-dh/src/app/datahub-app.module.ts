@@ -24,6 +24,5 @@ import { DataHubAppComponent } from './datahub-app.component';
   bootstrap: [DataHubAppComponent],
   declarations: [DataHubAppComponent],
   imports: [BrowserAnimationsModule, DhCoreShellModule],
-  //providers: [MsalService],
 })
 export class DataHubAppModule {}

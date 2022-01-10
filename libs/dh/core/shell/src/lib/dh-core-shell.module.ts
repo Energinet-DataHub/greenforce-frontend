@@ -81,7 +81,7 @@ const routes: Routes = [
       initialNavigation:
         BrowserUtils.isInIframe() && BrowserUtils.isInPopup()
           ? 'disabled'
-          : 'enabled',
+          : 'enabledNonBlocking',
       scrollPositionRestoration: 'enabled',
     }),
   ],
