@@ -95,6 +95,18 @@ limitations under the License.
         color: #02525e;
         margin-bottom: 2rem;
       }
+
+      /** Localize content **/
+      .imprint.imprint-en:lang(en),
+      .imprint.imprint-da:lang(da) {
+        display: inherit !important;
+      }
+
+      .imprint {
+        display: none;
+      }
+      /** END Localize content **/
+
       /** Form **/
       form {
         display: flex;
@@ -184,7 +196,8 @@ limitations under the License.
     <div class="login">
       <div class="login-form">
         <p class="badge">BETA</p>
-        <h2 aria-level="1">LOG IND</h2>
+        <h2 aria-level="1" class="imprint imprint-da">LOG IND</h2>
+        <h2 aria-level="1" class="imprint imprint-en">SIGN IN</h2>
         <div id="api"></div>
       </div>
     </div>
