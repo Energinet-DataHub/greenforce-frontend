@@ -1,4 +1,4 @@
-# Copyright 2021 Energinet DataHub A/S
+# Copyright 2020 Energinet DataHub A/S
 #
 # Licensed under the Apache License, Version 2.0 (the "License2");
 # you may not use this file except in compliance with the License.
@@ -11,34 +11,59 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-name: DataHub BFF CI
+name: DH UI Backend CI
 
 env:
+  app-name: app-dh
+  BASE_BRANCH: ${{ github.event.pull_request.base.ref }}
   is-main-branch: ${{ github.ref == 'refs/heads/main' }}
   is-pull-request: ${{ github.event_name  == 'pull_request' }}
-  NODE_OPTIONS: --max_old_space_size=6144
+  NODE_OPTIONS: --max-old-space-size=6144
   node-version: 14.x
+  NX_MAX_PARALLEL: 2
+
+  # Nx Cloud
+  NX_BRANCH: ${{ github.event.number }}
+  NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
+  NX_RUN_GROUP: ${{ github.run_id }}
 
 on:
   pull_request:
     branches:
       - main
     paths:
-      - apps/dh/api-dh/**
-      - .github/workflows/api-dh-ci.yml
-  workflow_dispatch: {}
+      - 'build/infrastructure/dh/**'
+      - 'apps/dh/api-dh/**'
 
 jobs:
-  validate_bff:
-    name: Validate BFF
-    uses: Energinet-DataHub/.github/.github/workflows/validate-dotnet-webapi.yml@1.6.0
+  dotnet_solution_ci:
+    uses: Energinet-DataHub/.github/.github/workflows/dotnet-solution-ci.yml@2.7.0
     with:
       SOLUTION_FILE_PATH: 'apps/dh/api-dh/DataHub.WebApi.sln'
-      BUILD_CONFIGURATION: 'Release'
+      DOTNET_VERSION: '5.0'
+    secrets:
+      AZURE_TENANT_ID: ${{ secrets.AZURE_TESTING_TENANT_ID }}
+      AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_TESTING_SUBSCRIPTION_ID }}
+      AZURE_SPN_ID: ${{ secrets.AZURE_TESTING_SPN_ID }}
+      AZURE_SPN_SECRET: ${{ secrets.AZURE_TESTING_SPN_SECRET }}
+      AZURE_KEYVAULT_URL: ${{ secrets.AZURE_TESTING_KEYVAULT_URL }}
+
+  terraform_validate:
+    uses: Energinet-DataHub/.github/.github/workflows/terraform-validate.yml@2.7.0
+    with:
+      TERRAFORM_WORKING_DIR_PATH: 'build/infrastructure/dh/main'
+      TERRAFORM_VERSION: '1.1.2'
+
+  bff_ci:
+    needs: [dotnet_solution_ci, terraform_validate]
+    uses: Energinet-DataHub/.github/.github/workflows/dotnet-create-artifact.yml@2.7.0
+    with:
+      CSPROJ_FILE_PATH: 'apps/dh/api-dh/source/DataHub.WebApi/DataHub.WebApi.csproj'
       DOTNET_VERSION: '5.0.202'
+      ARTIFACT_NAME: bff
 
   generate_client:
-    name: Generate API client
+    needs: bff_ci
     runs-on: ubuntu-latest
     env:
       output-path: libs/dh/shared/data-access-api/src/lib/generated/v1/
@@ -92,3 +117,11 @@ jobs:
         if: ${{ env.is-main-branch == 'true' }}
         run: |
           git diff ${{ env.output-path }} --exit-code || (echo '❌ DataHub API v1 client is out-of-sync. Run the `build-client` Nx target and merge the changes.' && exit 1)
+
+  create_prerelease:
+    needs: [bff_ci]
+    uses: Energinet-DataHub/.github/.github/workflows/create-prerelease.yml@2.7.0
+    with:
+      CALLER_REPOSITORY_PATH: Energinet-DataHub/greenforce-frontend
+    secrets:
+      PAT_TOKEN: ${{ secrets.PAT_TOKEN }}

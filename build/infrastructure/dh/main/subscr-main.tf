@@ -11,20 +11,6 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-name: DH CI
-
-on:
-  pull_request:
-    branches:
-      - main
-    paths:
-      - './build/infrastructure/dh/**'
-      - 'apps/dh/api-dh/**'
-
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Temp
-        shell: bash
-        run: echo "test"
+data "azurerm_subscription" "this" {
+  subscription_id = var.subscription_id
+}

@@ -11,20 +11,25 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-name: Design System CI
+name: DH UI Backend CD
 
 on:
-  pull_request:
+  push:
     branches:
       - main
-    paths:
-      - './build/infrastructure/dh/**'
-      - 'apps/dh/api-dh/**'
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Temp
-        shell: bash
-        run: echo "test"
+  publish_release:
+    uses: Energinet-DataHub/.github/.github/workflows/publish-release.yml@2.7.0
+    secrets:
+      PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
+
+  dispatch_deployment_request:
+    needs: publish_release
+    uses: Energinet-DataHub/.github/.github/workflows/dispatch-deployment-request.yml@2.7.0
+    with:
+      CALLER_REPOSITORY_NAME: greenforce-frontend
+      CALLER_REPOSITORY_PATH: Energinet-DataHub/greenforce-frontend
+    secrets:
+      PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
+      ENVIRONMENT_REPOSITORY_PATH: ${{ secrets.ENVIRONMENT_REPOSITORY_PATH }}
