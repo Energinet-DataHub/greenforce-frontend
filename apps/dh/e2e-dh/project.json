@@ -4,22 +4,19 @@
   "projectType": "application",
   "targets": {
     "e2e": {
-      "executor": "@nrwl/cypress:cypress",
+      "executor": "./tools/executors/playwright:playwright",
       "options": {
-        "cypressConfig": "apps/dh/e2e-dh/cypress.json",
-        "tsConfig": "apps/dh/e2e-dh/tsconfig.e2e.json",
-        "devServerTarget": "app-dh:serve:development",
-        "headed": true
+        "playwrightConfig": "apps/dh/e2e-dh/playwright.ts",
+        "tsConfig": "apps/dh/e2e-dh/tsconfig.json",
+        "devServerTarget": "app-dh:serve:development"
       },
       "configurations": {
         "ci": {
-          "cypressConfig": "apps/dh/e2e-dh/cypress.ci.json",
-          "headed": false
+          "playwrightConfig": "apps/dh/e2e-dh/playwright.ci.ts"
         },
         "ci:production": {
-          "cypressConfig": "apps/dh/e2e-dh/cypress.ci.json",
-          "devServerTarget": "app-dh:serve:production",
-          "headed": false
+          "playwrightConfig": "apps/dh/e2e-dh/playwright.ci.ts",
+          "devServerTarget": "app-dh:serve:production"
         },
         "production": {
           "devServerTarget": "app-dh:serve:production"

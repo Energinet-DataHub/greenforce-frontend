@@ -14,20 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-// ***********************************************************
-// This example support/index.js is processed and
-// loaded automatically before your test files.
-//
-// This is a great place to put global configuration and
-// behavior that modifies Cypress.
-//
-// You can change the location of this file or turn off
-// automatically serving support files with the
-// 'supportFile' configuration option.
-//
-// You can read more here:
-// https://on.cypress.io/configuration
-// ***********************************************************
+import 'jest-preset-angular/setup-jest';
 
-// Import commands.js using ES2015 syntax:
-import './commands';
+import { addDomMatchers } from '@energinet-datahub/gf/test-util-matchers';
+import {
+  setUpAngularTestingLibrary,
+  setUpNgMocks,
+  setUpTestbed,
+} from '@energinet-datahub/gf/test-util-staging';
+
+addDomMatchers();
+setUpTestbed();
+setUpAngularTestingLibrary();
+setUpNgMocks();

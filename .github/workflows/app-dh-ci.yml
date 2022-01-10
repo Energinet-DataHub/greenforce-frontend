@@ -26,6 +26,10 @@ env:
   NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
   NX_RUN_GROUP: ${{ github.run_id }}
 
+  # DH E2E
+  DH_E2E_USERNAME: ${{ secrets.DH_E2E_USERNAME }}
+  DH_E2E_PASSWORD: ${{ secrets.DH_E2E_PASSWORD }}
+
 on:
   push:
     branches:
@@ -180,7 +184,8 @@ jobs:
             ${{ runner.os }}
       - name: Install package dependencies
         run: yarn install --frozen-lockfile --non-interactive
-
+      - name: Install Playwright
+        run: npx playwright install --with-deps
       - name: 'DH: Start API'
         if: ${{ env.is-main-branch == 'true' || needs.dh-affected.outputs.is-affected == 'true' }}
         run: |

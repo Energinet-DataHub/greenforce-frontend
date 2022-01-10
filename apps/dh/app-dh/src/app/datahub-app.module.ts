@@ -14,9 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DhCoreShellModule } from '@energinet-datahub/dh/core/shell';
+import { NgModule } from '@angular/core';
 
 import { DataHubAppComponent } from './datahub-app.component';
 
