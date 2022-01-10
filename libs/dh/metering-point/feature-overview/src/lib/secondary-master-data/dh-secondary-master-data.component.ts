@@ -25,6 +25,7 @@ import { WattExpansionModule, WattIconModule } from '@energinet-datahub/watt';
 import { TranslocoModule } from '@ngneat/transloco';
 
 import { emDash } from '../shared/em-dash';
+import { DhShowForMeteringPointTypeDirectiveScam } from '../shared/dh-show-for-metering-point-type.directive';
 import { DhIsParentPipeScam } from '../shared/is-parent.pipe';
 import { DhYesNoPipeScam } from '../shared/yes-no.pipe';
 
@@ -117,6 +118,7 @@ export class DhSecondaryMasterDataComponent {
     WattIconModule,
     DhYesNoPipeScam,
     DhSharedUiDateTimeModule,
+    DhShowForMeteringPointTypeDirectiveScam,
     DhIsParentPipeScam,
   ],
   exports: [DhSecondaryMasterDataComponent],
