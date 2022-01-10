@@ -207,7 +207,6 @@ limitations under the License.
 
       function toggleErrorClasses() {
         document.querySelectorAll('input').forEach((inputElement) => {
-            console.log(inputElement);
             var parent = inputElement.parentElement;
             var hasError = inputElement.classList.contains('highlightError');
             if(!parent) return;
