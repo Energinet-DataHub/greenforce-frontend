@@ -22,7 +22,7 @@ async function globalSetup(_config: FullConfig) {
   console.log('Authenticating...');
 
   const browser = await chromium.launch();
-  const context = await browser.newContext({ ignoreHTTPSErrors: true });
+  const context = await browser.newContext({ ignoreHTTPSErrors: true, locale: 'en' });
   const page = await context.newPage();
 
   page.goto('https://localhost:4200');
