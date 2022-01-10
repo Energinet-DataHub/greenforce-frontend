@@ -129,6 +129,10 @@ limitations under the License.
         order: 2;
         margin-top: -1rem;
       }
+      .entry-item-error label {
+        color: #d12923 !important;
+      }
+
       .error.pageLevel {
         margin-top: 0.5rem;
       }
@@ -188,6 +192,38 @@ limitations under the License.
         background-color: rgb(2, 82, 94);
       }
     </style>
+    <script>
+      function waitFor(selector, callback) {
+        var elm = document.querySelector(selector);
+
+        if (elm) {
+          callback(elm);
+        } else {
+          setTimeout(function() {
+            waitFor(selector, callback);
+          }, 100);
+        }
+      }
+
+      function toggleErrorClasses() {
+        document.querySelectorAll('input').forEach((inputElement) => {
+            console.log(inputElement);
+            var parent = inputElement.parentElement;
+            var hasError = inputElement.classList.contains('highlightError');
+            if(!parent) return;
+
+            if(hasError) {
+                parent.classList.add('entry-item-error');
+            } else {
+                parent.classList.remove('entry-item-error');
+            }
+        });
+      }
+
+      waitFor('button#next', function(element) {
+        element.addEventListener('click', toggleErrorClasses);
+      });
+    </script>
   </head>
   <body>
     <div class="background">
