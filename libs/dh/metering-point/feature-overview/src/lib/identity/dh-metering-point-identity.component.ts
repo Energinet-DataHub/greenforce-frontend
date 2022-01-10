@@ -25,14 +25,14 @@ import { TranslocoModule } from '@ngneat/transloco';
 
 import { MeteringPointCimDto } from '@energinet-datahub/dh/shared/data-access-api';
 
+import { DhEmDashFallbackPipeScam } from '../shared/dh-em-dash-fallback.pipe';
 import { DhMeteringPointStatusBadgeScam } from '../status-badge/dh-metering-point-status-badge.component';
-import { emDash } from '../shared/em-dash';
 
 export interface MeteringPointIdentityTranslationKeys {
   meteringMethod: string;
   meteringPointType: string;
   readingOccurrence: string;
-  settlementMethod: string;
+  settlementMethod?: string;
 }
 
 @Component({
@@ -45,7 +45,6 @@ export class DhMeteringPointIdentityComponent {
   #meteringPoint: MeteringPointCimDto | undefined;
 
   translationKeys: MeteringPointIdentityTranslationKeys | undefined;
-  emDash = emDash;
 
   @Input()
   set meteringPoint(value: MeteringPointCimDto | undefined) {
@@ -63,31 +62,31 @@ export class DhMeteringPointIdentityComponent {
   private buildTranslations(
     meteringPoint: MeteringPointCimDto
   ): MeteringPointIdentityTranslationKeys {
-    const meteringMethod = `meteringPoint.meteringPointSubTypeCode.${
-      meteringPoint?.meteringMethod ?? ''
-    }`;
-    const meteringPointType = `meteringPoint.meteringPointTypeCode.${
-      meteringPoint?.meteringPointType ?? ''
-    }`;
-    const readingOccurrence = `meteringPoint.readingOccurrenceCode.${
-      meteringPoint?.readingOccurrence ?? ''
-    }`;
-    const settlementMethod = `meteringPoint.settlementMethodCode.${
-      meteringPoint?.settlementMethod ?? ''
-    }`;
-
-    return {
-      meteringMethod,
-      meteringPointType,
-      readingOccurrence,
-      settlementMethod,
+    let translationKeys: MeteringPointIdentityTranslationKeys = {
+      meteringMethod: `meteringPoint.meteringPointSubTypeCode.${meteringPoint.meteringMethod}`,
+      meteringPointType: `meteringPoint.meteringPointTypeCode.${meteringPoint.meteringPointType}`,
+      readingOccurrence: `meteringPoint.readingOccurrenceCode.${meteringPoint.readingOccurrence}`,
     };
+
+    if (meteringPoint?.settlementMethod) {
+      translationKeys = {
+        ...translationKeys,
+        settlementMethod: `meteringPoint.settlementMethodCode.${meteringPoint.settlementMethod}`,
+      };
+    }
+
+    return translationKeys;
   }
 }
 
 @NgModule({
   declarations: [DhMeteringPointIdentityComponent],
   exports: [DhMeteringPointIdentityComponent],
-  imports: [DhMeteringPointStatusBadgeScam, CommonModule, TranslocoModule],
+  imports: [
+    DhMeteringPointStatusBadgeScam,
+    DhEmDashFallbackPipeScam,
+    CommonModule,
+    TranslocoModule,
+  ],
 })
 export class DhMeteringPointIdentityScam {}
