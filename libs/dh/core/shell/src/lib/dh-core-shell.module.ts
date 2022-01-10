@@ -17,12 +17,25 @@
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { BrowserUtils } from '@azure/msal-browser';
+
+import { DhApiModule } from '@energinet-datahub/dh/shared/data-access-api';
 import {
   DhConfigurationLocalizationModule,
   DhTranslocoModule,
 } from '@energinet-datahub/dh/globalization/configuration-localization';
 import { dhMeteringPointPath } from '@energinet-datahub/dh/metering-point/shell';
-import { DhApiModule } from '@energinet-datahub/dh/shared/data-access-api';
+import {
+  MSAL_GUARD_CONFIG,
+  MSAL_INSTANCE,
+  MSAL_INTERCEPTOR_CONFIG,
+  MsalGuard,
+  MSALGuardConfigFactory,
+  MSALInstanceFactory,
+  MSALInterceptorConfigFactory,
+  MsalModule,
+  MsalService,
+} from '@energinet-datahub/dh/auth/msal';
 
 import {
   DhCoreShellComponent,
@@ -45,25 +58,47 @@ const routes: Routes = [
           import('@energinet-datahub/dh/metering-point/shell').then(
             (esModule) => esModule.DhMeteringPointShellModule
           ),
+        canActivate: [MsalGuard],
       },
     ],
   },
-  // { path: '**', component: PageNotFoundComponent },
+  // Used by MSAL (B2C)
+  { path: 'state', redirectTo: '', pathMatch: 'full' },
 ];
 
 @NgModule({
   exports: [RouterModule],
   imports: [
-    DhCoreShellScam,
-    HttpClientModule,
     DhApiModule.forRoot(),
+    DhCoreShellScam,
     DhTranslocoModule.forRoot(),
+    HttpClientModule,
+    MsalModule,
     DhConfigurationLocalizationModule.forRoot(),
     RouterModule.forRoot(routes, {
       anchorScrolling: 'enabled',
-      initialNavigation: 'enabledNonBlocking',
+      // Don't perform initial navigation in iframes or popups
+      initialNavigation:
+        BrowserUtils.isInIframe() && BrowserUtils.isInPopup()
+          ? 'disabled'
+          : 'enabledNonBlocking',
       scrollPositionRestoration: 'enabled',
     }),
+  ],
+  providers: [
+    MsalService,
+    {
+      provide: MSAL_INSTANCE,
+      useFactory: MSALInstanceFactory,
+    },
+    {
+      provide: MSAL_GUARD_CONFIG,
+      useFactory: MSALGuardConfigFactory,
+    },
+    {
+      provide: MSAL_INTERCEPTOR_CONFIG,
+      useFactory: MSALInterceptorConfigFactory,
+    },
   ],
 })
 export class DhCoreShellModule {}

@@ -14,47 +14,51 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { DisplayLanguage } from '@energinet-datahub/dh/globalization/domain';
+import { test, expect, Page } from '@playwright/test';
+
+// Appearantly there are some issues with `paths` so we need to use absolute paths for now.
 import {
-  en as enTranslations,
   da as daTranslations,
-} from '@energinet-datahub/dh/globalization/assets-localization';
+  en as enTranslations,
+} from '../../../../../libs/dh/globalization/assets-localization/src';
+import { DisplayLanguage } from '../../../../../libs/dh/globalization/domain/src';
 
 import * as appShell from '../support/app-shell.po';
 
-export const getLanguagePicker = (language: DisplayLanguage) =>
-  cy.findByRole('button', {
-    name: new RegExp('\\s*' + language.toUpperCase() + '\\s*'),
+export const getLanguagePicker = (language: DisplayLanguage, page: Page) => {
+  return page.locator(`text=/\\s*${language}\\s*/i`);
+};
+
+test.describe('Language selection', () => {
+  test.beforeEach(async ({ page }) => {
+    await page.goto('/metering-point/search');
   });
 
-describe('Language selection', () => {
-  beforeEach(() => cy.visit('/'));
-
-  it(`Given no language is selected
-    Then Danish translations are displayed`, () => {
-    appShell
-      .getTitle()
-      .should('have.text', daTranslations.meteringPoint.search.title);
+  test(`Given no language is selected
+        Then Danish translations are displayed`, async ({ page }) => {
+    test.slow();
+    await page.waitForTimeout(5000);
+    await expect(appShell.getTitle(page)).toHaveText(
+      daTranslations.meteringPoint.search.title
+    );
   });
 
-  it(`When English is selected
-    Then English translations are displayed`, () => {
-    getLanguagePicker(DisplayLanguage.English).click();
-
-    appShell
-      .getTitle()
-      .should('have.text', enTranslations.meteringPoint.search.title);
+  test(`When English is selected
+      Then English translations are displayed`, async ({ page }) => {
+    await getLanguagePicker(DisplayLanguage.English, page).click();
+    await expect(appShell.getTitle(page)).toHaveText(
+      enTranslations.meteringPoint.search.title
+    );
   });
 
-  it(`Given English is selected
-    When Danish is selected
-    Then Danish translations are displayed`, () => {
-    getLanguagePicker(DisplayLanguage.English).click();
+  test(`Given English is selected
+        When Danish is selected
+        Then Danish translations are displayed`, async ({ page }) => {
+    await getLanguagePicker(DisplayLanguage.English, page).click();
+    await getLanguagePicker(DisplayLanguage.Danish, page).click();
 
-    getLanguagePicker(DisplayLanguage.Danish).click();
-
-    appShell
-      .getTitle()
-      .should('have.text', daTranslations.meteringPoint.search.title);
+    await expect(appShell.getTitle(page)).toHaveText(
+      daTranslations.meteringPoint.search.title
+    );
   });
 });
