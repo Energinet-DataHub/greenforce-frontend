@@ -28,11 +28,12 @@ import { emDash } from '../shared/em-dash';
 import { DhShowForMeteringPointTypeDirectiveScam } from '../shared/dh-show-for-metering-point-type.directive';
 import { DhIsParentPipeScam } from '../shared/is-parent.pipe';
 import { DhYesNoPipeScam } from '../shared/yes-no.pipe';
+import { DhEmDashFallbackPipeScam } from '../shared/dh-em-dash-fallback.pipe';
 
 export interface MeteringPointIdentityTranslationKeys {
-  disconnectionType: string;
-  connectionType: string;
-  assetType: string;
+  disconnectionType?: string;
+  connectionType?: string;
+  assetType?: string;
   productId: string;
   unit: string;
 }
@@ -85,27 +86,33 @@ export class DhSecondaryMasterDataComponent {
   private buildTranslations(
     meteringPoint: MeteringPointCimDto
   ): MeteringPointIdentityTranslationKeys {
-    const disconnectionType = `meteringPoint.disconnectionType.${
-      meteringPoint?.disconnectionType ?? ''
-    }`;
-    const connectionType = `meteringPoint.connectionType.${
-      meteringPoint?.connectionType ?? ''
-    }`;
-    const assetType = `meteringPoint.assetType.${
-      meteringPoint?.assetType ?? ''
-    }`;
-    const productId = `meteringPoint.productId.${
-      meteringPoint?.productId ?? ''
-    }`;
-    const unit = `meteringPoint.unit.${meteringPoint?.unit ?? ''}`;
-
-    return {
-      disconnectionType,
-      connectionType,
-      assetType,
-      productId,
-      unit,
+    let translationKeys: MeteringPointIdentityTranslationKeys = {
+      productId: `meteringPoint.productId.${meteringPoint.productId}`,
+      unit: `meteringPoint.unit.${meteringPoint.unit}`,
     };
+
+    if (meteringPoint.disconnectionType) {
+      translationKeys = {
+        ...translationKeys,
+        disconnectionType: `meteringPoint.disconnectionType.${meteringPoint.disconnectionType}`,
+      };
+    }
+
+    if (meteringPoint.connectionType) {
+      translationKeys = {
+        ...translationKeys,
+        connectionType: `meteringPoint.connectionType.${meteringPoint.connectionType}`,
+      };
+    }
+
+    if (meteringPoint.assetType) {
+      translationKeys = {
+        ...translationKeys,
+        assetType: `meteringPoint.assetType.${meteringPoint.assetType}`,
+      };
+    }
+
+    return translationKeys;
   }
 }
 
@@ -120,6 +127,7 @@ export class DhSecondaryMasterDataComponent {
     DhSharedUiDateTimeModule,
     DhShowForMeteringPointTypeDirectiveScam,
     DhIsParentPipeScam,
+    DhEmDashFallbackPipeScam,
   ],
   exports: [DhSecondaryMasterDataComponent],
 })
