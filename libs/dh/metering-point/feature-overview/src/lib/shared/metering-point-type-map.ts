@@ -16,19 +16,22 @@
  */
 import { MeteringPointType } from '@energinet-datahub/dh/shared/data-access-api';
 
-export const MeteringPointTypeMap = {
-  meteringPointId: ['All'],
+export const allMeteringPointTypes = 'allMeteringPointTypes';
+
+export type meteringPointTypeMapProperty = keyof typeof meteringPointTypeMap;
+
+export const meteringPointTypeMap = {
+  meteringPointId: [allMeteringPointTypes],
   settlementMethod: [MeteringPointType.E17],
-  physicalStatusOfMeteringPoint: ['All'],
-  scheduledMeterReadingDate: [MeteringPointType.E17], // E17 yellow??
-  typeOfMeteringPoint: ['All'],
-  subTypeOfMeteringPoint: ['All'],
-  meterReadingOccurence: ['All'],
+  physicalStatusOfMeteringPoint: [allMeteringPointTypes],
+  typeOfMeteringPoint: [allMeteringPointTypes],
+  subTypeOfMeteringPoint: [allMeteringPointTypes],
+  meterReadingOccurence: [allMeteringPointTypes],
   netSettlementGroup: [MeteringPointType.E17, MeteringPointType.E18],
   supplyStart: [MeteringPointType.E17, MeteringPointType.E18],
-  ratedCurrent: ['All'],
-  ratedCapacity: ['All'],
-  meteringGridArea: ['All'],
+  ratedCurrent: [allMeteringPointTypes],
+  ratedCapacity: [allMeteringPointTypes],
+  meteringGridArea: [allMeteringPointTypes],
   inAreaCode: [MeteringPointType.E20],
   outAreaCode: [MeteringPointType.E20],
   productionObligation: [MeteringPointType.E18],
@@ -48,10 +51,10 @@ export const MeteringPointTypeMap = {
     MeteringPointType.D17,
     MeteringPointType.D18,
   ],
-  locationDescription: ['All'],
+  locationDescription: [allMeteringPointTypes],
   electricitySupplier: [MeteringPointType.E17, MeteringPointType.E18],
-  productType: ['All'],
-  unitType: ['All'],
+  productType: [allMeteringPointTypes],
+  unitType: [allMeteringPointTypes],
   disconnectionType: [MeteringPointType.E17, MeteringPointType.E18],
   connectionType: [MeteringPointType.E17, MeteringPointType.E18],
   capacity: [
@@ -86,23 +89,23 @@ export const MeteringPointTypeMap = {
     MeteringPointType.D17,
     MeteringPointType.D18,
   ],
-  effectiveDate: ['All'],
-  streetName: ['All'],
-  streetCode: ['All'],
-  buildingNumber: ['All'],
-  floorId: ['All'],
-  roomId: ['All'],
-  citySubDivName: ['All'],
-  postCode: ['All'],
-  cityName: ['All'],
-  municipalityCode: ['All'],
-  countryCode: ['All'],
+  effectiveDate: [allMeteringPointTypes],
+  streetName: [allMeteringPointTypes],
+  streetCode: [allMeteringPointTypes],
+  buildingNumber: [allMeteringPointTypes],
+  floorId: [allMeteringPointTypes],
+  roomId: [allMeteringPointTypes],
+  citySubDivName: [allMeteringPointTypes],
+  postCode: [allMeteringPointTypes],
+  cityName: [allMeteringPointTypes],
+  municipalityCode: [allMeteringPointTypes],
+  countryCode: [allMeteringPointTypes],
   mPAddressWashInstruction: [
     MeteringPointType.E17,
     MeteringPointType.E18,
     MeteringPointType.E20,
   ],
-  darReference: ['All'],
+  darReference: [allMeteringPointTypes],
   meterIdentification: [
     MeteringPointType.E17,
     MeteringPointType.E18,
@@ -122,7 +125,7 @@ export const MeteringPointTypeMap = {
     MeteringPointType.D18,
     MeteringPointType.D20,
   ],
-  originalBusinessDocument: ['All'],
+  originalBusinessDocument: [allMeteringPointTypes],
   childMeteringPoint: [
     MeteringPointType.E17,
     MeteringPointType.E18,

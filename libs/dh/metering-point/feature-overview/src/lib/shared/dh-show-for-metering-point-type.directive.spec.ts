@@ -17,21 +17,21 @@
 import { render, screen } from '@testing-library/angular';
 import { MatcherOptions } from '@testing-library/dom';
 import {
-  DhMeteringPointTypeDirectiveScam,
-  MeteringPointTypeDirective,
-} from './metering-point-type.directive';
+  DhShowForMeteringPointTypeDirectiveScam,
+  DhShowForMeteringPointTypeDirective,
+} from './dh-show-for-metering-point-type.directive';
 
-describe('MeteringPointTypeDirective', () => {
-  beforeEach(() => MeteringPointTypeDirective);
+describe(DhShowForMeteringPointTypeDirective.name, () => {
+  beforeEach(() => DhShowForMeteringPointTypeDirective);
 
   it('renders div', async () => {
     await render(
       `
-      <div *dhMeteringPointType="'E17'; content:'netSettlementGroup'" data-testid='1'>
+      <div *dhShowForMeteringPointType="'E17'; property:'netSettlementGroup'" data-testid='1'>
         test
       </div>
       `,
-      { imports: [DhMeteringPointTypeDirectiveScam] }
+      { imports: [DhShowForMeteringPointTypeDirectiveScam] }
     );
     const disableQuerySuggestions: MatcherOptions = { suggest: false };
     expect(
@@ -43,12 +43,12 @@ describe('MeteringPointTypeDirective', () => {
     await render(
       `
       <div data-testid='1'>
-        <div *dhMeteringPointType="'E20'; content:'netSettlementGroup'">
+        <div *dhShowForMeteringPointType="'E20'; property:'netSettlementGroup'">
           test
         </div>
       </div>
       `,
-      { imports: [DhMeteringPointTypeDirectiveScam] }
+      { imports: [DhShowForMeteringPointTypeDirectiveScam] }
     );
     const disableQuerySuggestions: MatcherOptions = { suggest: false };
     expect(
