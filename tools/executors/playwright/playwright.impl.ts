@@ -37,7 +37,7 @@ export interface PlaywrightExecutorOptions extends Json {
   headless?: boolean;
 }
 
-export default async function cypressExecutor(
+export default async function playwrightExecutor(
   options: PlaywrightExecutorOptions,
   context: ExecutorContext
 ) {

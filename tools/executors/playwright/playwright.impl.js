@@ -75,7 +75,7 @@ require("dotenv/config");
 var path_1 = require("path");
 var devkit_1 = require("@nrwl/devkit");
 var run_commands_impl_1 = require("@nrwl/workspace/src/executors/run-commands/run-commands.impl");
-function cypressExecutor(options, context) {
+function playwrightExecutor(options, context) {
     var e_1, _a;
     return __awaiter(this, void 0, void 0, function () {
         var success, _b, _c, baseUrl, e_2, e_1_1;
@@ -131,7 +131,7 @@ function cypressExecutor(options, context) {
         });
     });
 }
-exports["default"] = cypressExecutor;
+exports["default"] = playwrightExecutor;
 function normalizeOptions(options, context) {
     options.env = options.env || {};
     if (options.tsConfig) {
