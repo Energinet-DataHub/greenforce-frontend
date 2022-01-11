@@ -22,12 +22,12 @@ import {
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
 import { en as enTranslations } from '@energinet-datahub/dh/globalization/assets-localization';
 
-import { pipeName, YesNoPipe, TValue } from './yes-no.pipe';
+import { pipeName, DhYesNoPipe, TValue } from './dh-yes-no.pipe';
 
-describe(YesNoPipe.name, () => {
+describe(DhYesNoPipe.name, () => {
   beforeEach(() => {
     harness = createPipeHarness({
-      pipe: YesNoPipe,
+      pipe: DhYesNoPipe,
       pipeName,
       value: undefined,
       imports: [getTranslocoTestingModule()],
@@ -36,31 +36,31 @@ describe(YesNoPipe.name, () => {
 
   let harness: SpectacularPipeHarness<TValue>;
 
-  it('returns "No" when value is `undefined`', () => {
+  it('displays an empty string when value is `undefined`', () => {
     harness.value = undefined;
 
-    expect(harness.text).toBe(enTranslations.no);
+    expect(harness.text).toBe('');
   });
 
-  it('returns "No" when value is `null`', () => {
+  it('displays an empty string when value is `null`', () => {
     harness.value = null;
 
-    expect(harness.text).toBe(enTranslations.no);
+    expect(harness.text).toBe('');
   });
 
-  it('returns "No" when value is `false`', () => {
+  it('displays "No" when value is `false`', () => {
     harness.value = false;
 
     expect(harness.text).toBe(enTranslations.no);
   });
 
-  it('returns "No" when value is an empty string', () => {
+  it('displays "No" when value is an empty string', () => {
     harness.value = '';
 
     expect(harness.text).toBe(enTranslations.no);
   });
 
-  it('returns "Yes" when value is `true`', () => {
+  it('displays "Yes" when value is `true`', () => {
     harness.value = true;
 
     expect(harness.text).toBe(enTranslations.yes);

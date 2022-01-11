@@ -27,7 +27,7 @@ import { WattIconModule } from '@energinet-datahub/watt';
 
 import { dhMeteringPointPath } from '../routing/dh-metering-point-path';
 import { MeteringPointCimDto } from '@energinet-datahub/dh/shared/data-access-api';
-import { DhIsParentPipeScam } from '../shared/is-parent.pipe';
+import { DhIsParentPipeScam } from '../shared/dh-is-parent.pipe';
 
 export interface MeteringPointTranslationKeys {
   meteringMethod: string;

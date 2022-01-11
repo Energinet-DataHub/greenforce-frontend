@@ -84,8 +84,6 @@ describe(DhSecondaryMasterDataComponent.name, () => {
       ${{ disconnectionType: undefined }} | ${'disconnectionType'}
       ${{ connectionType: undefined }}    | ${'connectionType'}
       ${{ assetType: undefined }}         | ${'assetType'}
-      ${{ productId: undefined }}         | ${'productId'}
-      ${{ unit: undefined }}              | ${'unit'}
     `(
       'displays fallback value when undefined',
       async ({ incommingValueObject, testId }) => {
@@ -102,7 +100,7 @@ describe(DhSecondaryMasterDataComponent.name, () => {
           disableQuerySuggestions
         ).textContent;
 
-        expect(actualDisplayValue).toBe(emDash);
+        expect(actualDisplayValue?.trim()).toBe(emDash);
       }
     );
   });

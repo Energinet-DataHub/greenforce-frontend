@@ -34,11 +34,7 @@ limitations under the License.
           {{ t('netSettlementGroup') }}
         </dt>
         <dd class="watt-text-m">
-          <ng-container
-            *ngIf="secondaryMasterData?.netSettlementGroup; else emptyField"
-          >
-            {{ netSettlementGroupAsNumber }}
-          </ng-container>
+          {{ netSettlementGroupAsNumber | dhEmDashFallback }}
         </dd>
       </div>
       <div
@@ -52,11 +48,9 @@ limitations under the License.
           {{ t('disconnectionType') }}
         </dt>
         <dd class="watt-text-m" data-testid="disconnectionType">
-          <ng-container
-            *ngIf="secondaryMasterData?.disconnectionType; else emptyField"
-          >
-            {{ translationKeys?.disconnectionType | transloco }}
-          </ng-container>
+          {{
+            translationKeys?.disconnectionType | transloco | dhEmDashFallback
+          }}
         </dd>
       </div>
       <div
@@ -70,9 +64,11 @@ limitations under the License.
           {{ t('productionObligation') }}
         </dt>
         <dd class="watt-text-m">
-          <ng-container *ngIf="isProductObligationDefined; else emptyField">
-            {{ secondaryMasterData?.productionObligation | yesNo }}
-          </ng-container>
+          {{
+            secondaryMasterData?.productionObligation
+              | dhYesNo
+              | dhEmDashFallback
+          }}
         </dd>
       </div>
       <div
@@ -86,11 +82,7 @@ limitations under the License.
           {{ t('connectionType') }}
         </dt>
         <dd class="watt-text-m" data-testid="connectionType">
-          <ng-container
-            *ngIf="secondaryMasterData?.connectionType; else emptyField"
-          >
-            {{ translationKeys?.connectionType | transloco }}
-          </ng-container>
+          {{ translationKeys?.connectionType | transloco | dhEmDashFallback }}
         </dd>
       </div>
       <div
@@ -104,11 +96,7 @@ limitations under the License.
           {{ t('inAreaCode') }}
         </dt>
         <dd class="watt-text-m">
-          <ng-container
-            *ngIf="secondaryMasterData?.inAreaCode; else emptyField"
-          >
-            {{ secondaryMasterData?.inAreaCode }}
-          </ng-container>
+          {{ secondaryMasterData?.inAreaCode | dhEmDashFallback }}
         </dd>
       </div>
       <div
@@ -122,11 +110,7 @@ limitations under the License.
           {{ t('outAreaCode') }}
         </dt>
         <dd class="watt-text-m">
-          <ng-container
-            *ngIf="secondaryMasterData?.outAreaCode; else emptyField"
-          >
-            {{ secondaryMasterData?.outAreaCode }}
-          </ng-container>
+          {{ secondaryMasterData?.outAreaCode | dhEmDashFallback }}
         </dd>
       </div>
       <div
@@ -140,13 +124,9 @@ limitations under the License.
           {{ t('gridAreaName') }}
         </dt>
         <dd class="watt-text-m">
-          <ng-container
-            *ngIf="secondaryMasterData?.gridAreaName; else emptyField"
-          >
-            {{ secondaryMasterData?.gridAreaName }} ({{
-              secondaryMasterData?.gridAreaCode
-            }})
-          </ng-container>
+          {{ secondaryMasterData?.gridAreaName | dhEmDashFallback }} ({{
+            secondaryMasterData?.gridAreaCode | dhEmDashFallback
+          }})
         </dd>
       </div>
       <div
@@ -160,10 +140,11 @@ limitations under the License.
           {{ t('capacity') }}
         </dt>
         <dd class="watt-text-m">
-          <ng-container *ngIf="secondaryMasterData?.capacity; else emptyField">
-            {{ secondaryMasterData?.capacity }}
-            {{ t('units.kilowatt') }}
-          </ng-container>
+          {{
+            translationKeys?.capacityFormatted
+              | transloco: { capacity: secondaryMasterData?.capacity }
+              | dhEmDashFallback
+          }}
         </dd>
       </div>
       <div
@@ -177,9 +158,7 @@ limitations under the License.
           {{ t('assetType') }}
         </dt>
         <dd class="watt-text-m" data-testid="assetType">
-          <ng-container *ngIf="secondaryMasterData?.assetType; else emptyField">
-            {{ translationKeys?.assetType | transloco }}
-          </ng-container>
+          {{ translationKeys?.assetType | transloco | dhEmDashFallback }}
         </dd>
       </div>
       <div
@@ -193,12 +172,11 @@ limitations under the License.
           {{ t('ratedCapacity') }}
         </dt>
         <dd class="watt-text-m">
-          <ng-container
-            *ngIf="secondaryMasterData?.ratedCapacity; else emptyField"
-          >
-            {{ secondaryMasterData?.ratedCapacity }}
-            {{ t('units.kilowatt') }}
-          </ng-container>
+          {{
+            translationKeys?.ratedCapacityFormatted
+              | transloco: { capacity: secondaryMasterData?.ratedCapacity }
+              | dhEmDashFallback
+          }}
         </dd>
       </div>
       <div
@@ -212,12 +190,11 @@ limitations under the License.
           {{ t('ratedCurrent') }}
         </dt>
         <dd class="watt-text-m">
-          <ng-container
-            *ngIf="secondaryMasterData?.ratedCurrent; else emptyField"
-          >
-            {{ secondaryMasterData?.ratedCurrent }}
-            {{ t('units.ampere') }}
-          </ng-container>
+          {{
+            translationKeys?.ratedCurrentFormatted
+              | transloco: { current: secondaryMasterData?.ratedCurrent }
+              | dhEmDashFallback
+          }}
         </dd>
       </div>
       <div
@@ -231,11 +208,7 @@ limitations under the License.
           {{ t('powerPlantGsrnNumber') }}
         </dt>
         <dd class="watt-text-m">
-          <ng-container
-            *ngIf="secondaryMasterData?.powerPlantGsrnNumber; else emptyField"
-          >
-            {{ secondaryMasterData?.powerPlantGsrnNumber }}
-          </ng-container>
+          {{ secondaryMasterData?.powerPlantGsrnNumber | dhEmDashFallback }}
         </dd>
       </div>
       <div
@@ -249,9 +222,7 @@ limitations under the License.
           {{ t('productId') }}
         </dt>
         <dd class="watt-text-m" data-testid="productId">
-          <ng-container *ngIf="secondaryMasterData?.productId; else emptyField">
-            {{ translationKeys?.productId | transloco }}
-          </ng-container>
+          {{ translationKeys?.productId | transloco }}
         </dd>
       </div>
       <div
@@ -265,9 +236,7 @@ limitations under the License.
           {{ t('unit') }}
         </dt>
         <dd class="watt-text-m" data-testid="unit">
-          <ng-container *ngIf="secondaryMasterData?.unit; else emptyField">
-            {{ translationKeys?.unit | transloco }}
-          </ng-container>
+          {{ translationKeys?.unit | transloco }}
         </dd>
       </div>
       <div
@@ -285,7 +254,7 @@ limitations under the License.
         </dd>
       </div>
     </dl>
-    <ng-container *ngIf="secondaryMasterData?.meteringPointType | isParent">
+    <ng-container *ngIf="secondaryMasterData?.meteringPointType | dhIsParent">
       <div class="watt-text-l">
         {{ t('locationDetailTitle') }}
       </div>
@@ -301,11 +270,7 @@ limitations under the License.
             {{ t('streetCode') }}
           </dt>
           <dd class="watt-text-m">
-            <ng-container
-              *ngIf="secondaryMasterData?.streetCode; else emptyField"
-            >
-              {{ secondaryMasterData?.streetCode }}
-            </ng-container>
+            {{ secondaryMasterData?.streetCode | dhEmDashFallback }}
           </dd>
         </div>
         <div
@@ -319,11 +284,7 @@ limitations under the License.
             {{ t('municipalityCode') }}
           </dt>
           <dd class="watt-text-m">
-            <ng-container
-              *ngIf="secondaryMasterData?.municipalityCode; else emptyField"
-            >
-              {{ secondaryMasterData?.municipalityCode }}
-            </ng-container>
+            {{ secondaryMasterData?.municipalityCode | dhEmDashFallback }}
           </dd>
         </div>
         <div
@@ -337,16 +298,10 @@ limitations under the License.
             {{ t('countryCode') }}
           </dt>
           <dd class="watt-text-m">
-            <ng-container
-              *ngIf="secondaryMasterData?.countryCode; else emptyField"
-            >
-              {{ secondaryMasterData?.countryCode }}
-            </ng-container>
+            {{ secondaryMasterData?.countryCode }}
           </dd>
         </div>
       </dl>
     </ng-container>
   </watt-expansion>
 </ng-container>
-
-<ng-template #emptyField>{{ emDash }}</ng-template>

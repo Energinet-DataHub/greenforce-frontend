@@ -19,16 +19,13 @@ limitations under the License.
   *transloco="let t; read: 'meteringPoint.overview'"
 >
   <div class="watt-text-s">
-    <span [title]="t('meteringPointType')">
-      <ng-container *ngIf="meteringPoint?.meteringPointType; else emptyField">
-        {{ translationKeys?.meteringPointType | transloco }}
-      </ng-container>
-    </span>
+    <span [title]="t('meteringPointType')">{{
+      translationKeys?.meteringPointType | transloco | dhEmDashFallback
+    }}</span>
 
-    (<span [title]="t('meteringMethod')">
-      <ng-container *ngIf="meteringPoint?.meteringMethod; else emptyField">{{
-        translationKeys?.meteringMethod | transloco
-      }}</ng-container></span
+    (<span [title]="t('meteringMethod')">{{
+      translationKeys?.meteringMethod | transloco | dhEmDashFallback
+    }}</span
     >)
   </div>
 
@@ -36,11 +33,9 @@ limitations under the License.
 
   <div class="watt-text-s">
     <span [title]="t('connectionState')">
-      <ng-container *ngIf="meteringPoint?.connectionState; else emptyField">
-        <dh-status-badge
-          [connectionState]="meteringPoint?.connectionState"
-        ></dh-status-badge>
-      </ng-container>
+      <dh-status-badge
+        [connectionState]="meteringPoint?.connectionState"
+      ></dh-status-badge>
     </span>
 
     <ng-container *ngIf="meteringPoint?.settlementMethod">
@@ -58,5 +53,3 @@ limitations under the License.
     </ng-container>
   </div>
 </div>
-
-<ng-template #emptyField>{{ emDash }}</ng-template>

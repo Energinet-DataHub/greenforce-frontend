@@ -38,7 +38,7 @@ import { DhMeteringPointPrimaryMasterDataScam } from './primary-master-data/dh-m
 import { DhMeteringPointServerErrorScam } from './server-error/dh-metering-point-server-error.component';
 import { DhChargesScam } from './charges/dh-charges.component';
 import { DhChildMeteringPointTabContentScam } from './child-metering-point-tab-content/dh-child-metering-point-tab-content.component';
-import { DhIsParentPipeScam } from './shared/is-parent.pipe';
+import { DhIsParentPipeScam } from './shared/dh-is-parent.pipe';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

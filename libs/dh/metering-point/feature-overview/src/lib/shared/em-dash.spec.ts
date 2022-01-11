@@ -14,26 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgModule, Pipe, PipeTransform } from '@angular/core';
-import { MeteringPointType } from '@energinet-datahub/dh/shared/data-access-api';
+import { emDash } from './em-dash';
 
-@Pipe({
-  name: 'isParent',
-})
-export class IsParentPipe implements PipeTransform {
-  transform(value: MeteringPointType | undefined): boolean {
-    if (
-      value === MeteringPointType.E17 ||
-      value === MeteringPointType.E18 ||
-      value === MeteringPointType.E20
-    )
-      return true;
-    return false;
-  }
-}
+describe('emDash', () => {
+  it('has the character code 8212', () => {
+    expect(emDash.charCodeAt(0)).toBe(8212);
+  });
 
-@NgModule({
-  declarations: [IsParentPipe],
-  exports: [IsParentPipe],
-})
-export class DhIsParentPipeScam {}
+  it('is one character', () => {
+    expect(emDash).toHaveLength(1);
+  });
+});

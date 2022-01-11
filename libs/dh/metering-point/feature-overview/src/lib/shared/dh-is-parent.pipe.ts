@@ -15,25 +15,25 @@
  * limitations under the License.
  */
 import { NgModule, Pipe, PipeTransform } from '@angular/core';
+import { MeteringPointType } from '@energinet-datahub/dh/shared/data-access-api';
 
-import { emDash } from './em-dash';
-
-export type TValue = string | undefined | null;
-export const pipeName = 'emptyValue';
-
-@Pipe({ name: pipeName })
-export class EmptyValuePipe implements PipeTransform {
-  transform(value: TValue, translation?: string): string {
-    if (value === undefined || value === null || value.trim() === '') {
-      return emDash;
-    } else {
-      return translation ? translation : value;
-    }
+@Pipe({
+  name: 'dhIsParent',
+})
+export class DhIsParentPipe implements PipeTransform {
+  transform(value: MeteringPointType | undefined): boolean {
+    if (
+      value === MeteringPointType.E17 ||
+      value === MeteringPointType.E18 ||
+      value === MeteringPointType.E20
+    )
+      return true;
+    return false;
   }
 }
 
 @NgModule({
-  declarations: [EmptyValuePipe],
-  exports: [EmptyValuePipe],
+  declarations: [DhIsParentPipe],
+  exports: [DhIsParentPipe],
 })
-export class DhEmptyValuePipeScam {}
+export class DhIsParentPipeScam {}

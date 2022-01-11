@@ -15,38 +15,33 @@
  * limitations under the License.
  */
 import { NgModule, Pipe, PipeTransform } from '@angular/core';
-import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 
-export type TValue = undefined | null | string | boolean;
-export const pipeName = 'yesNo';
+import { emDash } from './em-dash';
 
-@Pipe({
-  name: pipeName,
-  pure: false,
-})
-export class YesNoPipe implements PipeTransform {
-  transform(value: TValue): string {
+export type TValue = string | number | undefined | null;
+export const pipeName = 'dhEmDashFallback';
+
+@Pipe({ name: pipeName })
+export class DhEmDashFallbackPipe implements PipeTransform {
+  transform(value: TValue): string | number {
     if (this.isFalsy(value)) {
-      return this.transloco.translate('no');
+      return emDash;
     }
 
-    return this.transloco.translate('yes');
+    return value as string | number;
   }
-
-  constructor(private transloco: TranslocoService) {}
 
   private isFalsy(value: TValue): boolean {
     if (typeof value === 'string') {
       return value.trim() === '';
     }
 
-    return value == null || value === false;
+    return value == null;
   }
 }
 
 @NgModule({
-  declarations: [YesNoPipe],
-  imports: [TranslocoModule],
-  exports: [YesNoPipe],
+  declarations: [DhEmDashFallbackPipe],
+  exports: [DhEmDashFallbackPipe],
 })
-export class DhYesNoPipeScam {}
+export class DhEmDashFallbackPipeScam {}
