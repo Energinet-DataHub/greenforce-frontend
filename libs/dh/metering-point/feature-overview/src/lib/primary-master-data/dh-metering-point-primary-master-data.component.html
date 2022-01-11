@@ -79,15 +79,13 @@ limitations under the License.
           {{ transloco('hasElectricitySupplier') }}
         </dt>
         <dd>
-          {{ primaryMasterData?.supplyStart | yesNo }}
+          {{ isSupplyStartSet | yesNo }}
         </dd>
         <dd class="watt-text-xs text-dimmed full-width">
           {{
-            primaryMasterData?.supplyStart
+            electricitySupplierSinceTranslationKey
+              | transloco: { date: primaryMasterData?.supplyStart | dhDate }
               | emDashFallback
-                : transloco('since', {
-                    date: primaryMasterData?.supplyStart | dhDate
-                  })
           }}
         </dd>
       </dl>
