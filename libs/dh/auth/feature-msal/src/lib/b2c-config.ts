@@ -39,7 +39,9 @@ export const apiConfig: { scopes: string[]; uri: string } = {
   uri: 'https://fabrikamb2chello.azurewebsites.net/hello',
 };
 
-export function MSALInstanceFactory(config: DhB2CEnvironment): IPublicClientApplication {
+export function MSALInstanceFactory(
+  config: DhB2CEnvironment
+): IPublicClientApplication {
   return new PublicClientApplication({
     auth: {
       clientId: config.clientId,

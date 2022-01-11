@@ -91,7 +91,7 @@ const routes: Routes = [
     {
       provide: MSAL_INSTANCE,
       useFactory: MSALInstanceFactory,
-      deps: [dhB2CEnvironmentToken]
+      deps: [dhB2CEnvironmentToken],
     },
     {
       provide: MSAL_GUARD_CONFIG,
