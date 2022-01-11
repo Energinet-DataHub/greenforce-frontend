@@ -35,8 +35,7 @@ import {
   WattIconSize,
 } from '@energinet-datahub/watt';
 
-import { DhEmptyValuePipeScam } from '../shared/empty-value.pipe';
-import { emDash } from '../shared/em-dash';
+import { DhEmDashFallbackPipeScam } from '../shared/dh-em-dash-fallback.pipe';
 import { DhYesNoPipeScam } from '../shared/yes-no.pipe';
 import { DhIsParentPipeScam } from '../shared/is-parent.pipe';
 import { DhShowForMeteringPointTypeDirectiveScam } from '../shared/dh-show-for-metering-point-type.directive';
@@ -68,9 +67,20 @@ export class DhMeteringPointPrimaryMasterDataComponent implements OnChanges {
   @Input() primaryMasterData?: PrimaryMasterData;
   address?: string;
   iconSizes = WattIconSize;
-  fallbackValue = emDash;
   isActualAddressIcon: WattIcon = 'success';
   actualAddressTranslationKey = 'actualAddress';
+
+  get electricitySupplierSinceTranslationKey(): string | undefined {
+    if (this.primaryMasterData?.supplyStart == null) {
+      return;
+    }
+
+    return 'meteringPoint.overview.primaryMasterData.since';
+  }
+
+  get isSupplyStartSet(): boolean {
+    return this.primaryMasterData?.supplyStart != null;
+  }
 
   constructor(private domSanitizer: DomSanitizer) {}
 
@@ -117,7 +127,7 @@ export class DhMeteringPointPrimaryMasterDataComponent implements OnChanges {
     CommonModule,
     WattIconModule,
     TranslocoModule,
-    DhEmptyValuePipeScam,
+    DhEmDashFallbackPipeScam,
     DhSharedUiDateTimeModule,
     DhYesNoPipeScam,
     DhIsParentPipeScam,

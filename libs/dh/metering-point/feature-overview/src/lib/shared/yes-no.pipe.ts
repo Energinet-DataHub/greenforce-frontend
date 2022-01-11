@@ -17,7 +17,7 @@
 import { NgModule, Pipe, PipeTransform } from '@angular/core';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 
-export type TValue = undefined | null | string | boolean;
+export type TValue = string | boolean | undefined | null;
 export const pipeName = 'yesNo';
 
 @Pipe({
@@ -25,7 +25,11 @@ export const pipeName = 'yesNo';
   pure: false,
 })
 export class YesNoPipe implements PipeTransform {
-  transform(value: TValue): string {
+  transform(value: TValue) {
+    if (value == null) {
+      return;
+    }
+
     if (this.isFalsy(value)) {
       return this.transloco.translate('no');
     }
@@ -40,7 +44,7 @@ export class YesNoPipe implements PipeTransform {
       return value.trim() === '';
     }
 
-    return value == null || value === false;
+    return value === false;
   }
 }
 

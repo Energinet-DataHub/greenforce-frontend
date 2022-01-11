@@ -36,31 +36,31 @@ describe(YesNoPipe.name, () => {
 
   let harness: SpectacularPipeHarness<TValue>;
 
-  it('returns "No" when value is `undefined`', () => {
+  it('displays an empty string when value is `undefined`', () => {
     harness.value = undefined;
 
-    expect(harness.text).toBe(enTranslations.no);
+    expect(harness.text).toBe('');
   });
 
-  it('returns "No" when value is `null`', () => {
+  it('displays an empty string when value is `null`', () => {
     harness.value = null;
 
-    expect(harness.text).toBe(enTranslations.no);
+    expect(harness.text).toBe('');
   });
 
-  it('returns "No" when value is `false`', () => {
+  it('displays "No" when value is `false`', () => {
     harness.value = false;
 
     expect(harness.text).toBe(enTranslations.no);
   });
 
-  it('returns "No" when value is an empty string', () => {
+  it('displays "No" when value is an empty string', () => {
     harness.value = '';
 
     expect(harness.text).toBe(enTranslations.no);
   });
 
-  it('returns "Yes" when value is `true`', () => {
+  it('displays "Yes" when value is `true`', () => {
     harness.value = true;
 
     expect(harness.text).toBe(enTranslations.yes);
