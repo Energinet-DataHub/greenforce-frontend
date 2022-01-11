@@ -49,7 +49,7 @@
             {
               "type": "initial",
               "maximumWarning": "500kb",
-              "maximumError": "1mb"
+              "maximumError": "1.2mb"
             },
             {
               "type": "anyComponentStyle",
@@ -84,11 +84,13 @@
       "executor": "@angular-devkit/build-angular:dev-server",
       "configurations": {
         "production": {
-          "browserTarget": "app-dh:build:production"
+          "browserTarget": "app-dh:build:production",
+          "ssl": true
         },
         "development": {
           "browserTarget": "app-dh:build:development",
-          "hmr": true
+          "hmr": true,
+          "ssl": true
         }
       },
       "defaultConfiguration": "development"
@@ -112,5 +114,6 @@
       }
     }
   },
-  "tags": ["product:dh", "type:app"]
+  "tags": ["product:dh", "type:app"],
+  "implicitDependencies": ["dh-globalization-assets-localization"]
 }

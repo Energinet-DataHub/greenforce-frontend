@@ -1,7 +1,10 @@
 {
-  "appName": "DataHub [DA]",
+  "appName": "DataHub",
   "yes": "Ja",
   "no": "Nej",
+  "shell": {
+    "logout": "Log ud"
+  },
   "meteringPoint": {
     "search": {
       "title": "Søg målepunkter",

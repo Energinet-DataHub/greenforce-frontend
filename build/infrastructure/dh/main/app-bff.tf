@@ -13,8 +13,8 @@
 # limitations under the License.
 resource "azurerm_app_service" "bff" {
   name                = "app-bff-${lower(var.domain_name_short)}-${lower(var.environment_short)}-${lower(var.environment_instance)}"
-  location            = data.azurerm_resource_group.main.location
-  resource_group_name = data.azurerm_resource_group.main.name
+  location            = azurerm_resource_group.this.location
+  resource_group_name = azurerm_resource_group.this.name
   app_service_plan_id = module.plan_bff.id
 
   site_config {
@@ -26,11 +26,12 @@ resource "azurerm_app_service" "bff" {
   }
 
   app_settings = {
-    "ApiClientSettings__MeteringPointBaseUrl": var.metering_point_base_url
-    "ApiClientSettings__ChargesBaseUrl": var.charges_base_url
+    ApiClientSettings__MeteringPointBaseUrl = data.azurerm_key_vault_secret.app_metering_point_webapi_base_url.value
+    ApiClientSettings__ChargesBaseUrl       = data.azurerm_key_vault_secret.app_charges_webapi_base_url.value
+    APPINSIGHTS_INSTRUMENTATIONKEY          = data.azurerm_key_vault_secret.appi_instrumentation_key.value
   }
 
-  tags              = data.azurerm_resource_group.main.tags
+  tags                = azurerm_resource_group.this.tags
 
   lifecycle {
     ignore_changes = [
@@ -48,8 +49,8 @@ module "plan_bff" {
   project_name          = var.domain_name_short
   environment_short     = var.environment_short
   environment_instance  = var.environment_instance
-  location              = data.azurerm_resource_group.main.location
-  resource_group_name   = data.azurerm_resource_group.main.name
+  location              = azurerm_resource_group.this.location
+  resource_group_name   = azurerm_resource_group.this.name
   kind                  = "Linux"
   reserved              = true
   sku                   = {
@@ -57,5 +58,15 @@ module "plan_bff" {
     size  = "B1"
   }
 
-  tags                = data.azurerm_resource_group.main.tags
+  tags                = azurerm_resource_group.this.tags
+}
+
+module "kvs_app_bff_base_url" {
+  source        = "git::https://github.com/Energinet-DataHub/geh-terraform-modules.git//azure/key-vault-secret?ref=5.1.0"
+
+  name          = "app-bff-base-url"
+  value         = "https://${azurerm_app_service.bff.default_site_hostname}"
+  key_vault_id  = data.azurerm_key_vault.kv_shared_resources.id
+
+  tags          = azurerm_resource_group.this.tags
 }

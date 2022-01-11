@@ -1,0 +1,9 @@
+{
+  "executors": {
+    "playwright": {
+      "implementation": "./playwright.impl",
+      "schema": "./schema.json",
+      "description": "Run Playwright e2e tests"
+    }
+  }
+}

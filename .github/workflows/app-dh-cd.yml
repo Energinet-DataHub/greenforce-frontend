@@ -11,7 +11,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-name: App DH CD
+name: DH UI Frontend CD
 
 env:
   app-name: app-dh
@@ -87,8 +87,8 @@ jobs:
 
   build_app:
     name: Build app
-    if: ${{ needs.affected.outputs.is-affected == 'true' }}
-    needs: affected
+    #if: ${{ needs.affected.outputs.is-affected == 'true' }}
+    #needs: affected
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -129,11 +129,6 @@ jobs:
       - name: Optimize i18n assets
         run: yarn i18n:optimize:${{ env.app-name }}
 
-      - name: Add configuration file
-        shell: bash
-        run: |
-          echo "{\"apiBase\":\"https://app-bff-dh-u-001.azurewebsites.net\"}" > dist/apps/dh/${{ env.app-name }}/assets/configuration/dh-api-environment.json
-
       - name: Upload web app build artifact
         uses: actions/upload-artifact@v2
         with:
@@ -141,36 +136,39 @@ jobs:
           path: ./dist/apps/dh/${{ env.app-name }}/
           if-no-files-found: error
 
-  deploy_inbound_development:
-    name: Deploy client to Development
+  dispatch_deployment_request:
     needs: build_app
+    name: Dispatch deployment request
     runs-on: ubuntu-latest
-    environment:
-      name: Development
+    env:
+      RELEASE_VERSION: app_dh_${{ github.run_id }}
+      EVENT_TYPE: 'greenforce-frontend-app-deployment-request'
     steps:
       - name: Download artifact
         uses: actions/download-artifact@v2
         with:
           name: ${{ env.app-name }}
-          path: drop
+          path: artifact
 
-      - name: Set Environment Variables
-        shell: bash
-        run: |
-          echo "TERRAFORM_STORAGE_NAME=tfstate${{ inputs.PROJECT_NAME }}${{ inputs.ENVIRONMENT_SHORT }}" >> $GITHUB_ENV
-          echo "ARM_TENANT_ID=${{ inputs.AZURE_TENANT_ID }}" >> $GITHUB_ENV
-          echo "ARM_CLIENT_ID=${{ inputs.AZURE_SPN_ID }}" >> $GITHUB_ENV
-          echo "ARM_CLIENT_OBJECT_ID=${{ inputs.AZURE_SPN_OBJECT_ID }}" >> $GITHUB_ENV
-          echo "ARM_CLIENT_SECRET=${{ inputs.AZURE_SPN_SECRET }}" >> $GITHUB_ENV
-          echo "ARM_SUBSCRIPTION_ID=${{ inputs.AZURE_SUBSCRIPTION_ID }}" >> $GITHUB_ENV
+      - name: Zip artifact
+        uses: thedoctor0/zip-release@master
+        with:
+          type: 'zip'
+          filename: ${{ env.RELEASE_VERSION }}.zip
+          directory: artifact
 
-      - name: Azure CLI Login
-        shell: bash
-        run: |
-          az login --service-principal --username ${{ secrets.AZURE_SPN_ID }} --password ${{ secrets.AZURE_SPN_SECRET }} --tenant ${{ secrets.AZURE_TENANT_ID }}
-          az account set --subscription ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      - uses: marvinpinto/action-automatic-releases@latest
+        with:
+          repo_token: ${{ secrets.PAT_TOKEN }}
+          automatic_release_tag: ${{ env.RELEASE_VERSION }}
+          title: ${{ env.RELEASE_VERSION }}
+          prerelease: false
+          files: artifact/${{ env.RELEASE_VERSION }}.zip
 
-      - name: Upload package to blob
-        shell: bash
-        run: |
-          az storage blob upload-batch --account-name stordhdhu001 -d '$web' -s drop/.
+      - name: Repository Dispatch
+        uses: peter-evans/repository-dispatch@v1
+        with:
+          token: ${{ secrets.PAT_TOKEN }}
+          repository: ${{ secrets.ENVIRONMENT_REPOSITORY_PATH }}
+          event-type: ${{ env.EVENT_TYPE }}
+          client-payload: '{"tag_name": "${{ env.RELEASE_VERSION }}"}'

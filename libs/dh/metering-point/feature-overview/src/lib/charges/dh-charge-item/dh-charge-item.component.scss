@@ -28,6 +28,9 @@
 
 .mat-cell > div {
   padding-right: 0.5rem;
+  &:last-child {
+    padding-right: 0;
+  }
 }
 
 .multi-line-cell {
