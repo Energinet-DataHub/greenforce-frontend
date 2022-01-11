@@ -123,7 +123,8 @@ limitations under the License.
         width: 100%;
         max-width: 390px;
       }
-      .entry-item, .attrEntry {
+      .entry-item,
+      .attrEntry {
         display: flex;
         flex-direction: column;
       }
@@ -147,7 +148,8 @@ limitations under the License.
         margin-top: 0.5rem;
       }
 
-      .highlightError, .entry-item-error input {
+      .highlightError,
+      .entry-item-error input {
         outline: 1px solid #d12923 !important;
         border: none;
       }
@@ -220,7 +222,9 @@ limitations under the License.
         width: 100%;
       }
 
-      .verificationInfoText, .verificationSuccessText, .verificationErrorText {
+      .verificationInfoText,
+      .verificationSuccessText,
+      .verificationErrorText {
         width: 100%;
         order: 2;
       }
@@ -262,13 +266,19 @@ limitations under the License.
         element.addEventListener('click', toggleErrorClasses);
       });
 
-      waitFor('button#emailVerificationControl_but_send_code', function(element) {
-        element.addEventListener('click', toggleErrorClasses);
-
-        waitFor('button#emailVerificationControl_but_verify_code', function(element) {
+      waitFor(
+        'button#emailVerificationControl_but_send_code',
+        function (element) {
           element.addEventListener('click', toggleErrorClasses);
-        });
-      });
+
+          waitFor(
+            'button#emailVerificationControl_but_verify_code',
+            function (element) {
+              element.addEventListener('click', toggleErrorClasses);
+            }
+          );
+        }
+      );
     </script>
   </head>
   <body>
