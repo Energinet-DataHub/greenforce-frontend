@@ -114,5 +114,6 @@
       }
     }
   },
-  "tags": ["product:dh", "type:app"]
+  "tags": ["product:dh", "type:app"],
+  "implicitDependencies": ["dh-globalization-assets-localization"]
 }
