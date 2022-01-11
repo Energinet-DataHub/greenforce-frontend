@@ -57,7 +57,7 @@ describe(EttAuthenticationLinkComponent.name, () => {
     });
 
     it(`
-      When user authentiaction is successful
+      When user authentication is successful
       Then the user is redirected to the dashboard`, async () => {
       const baseHref = TestBed.inject(APP_BASE_HREF);
       const actualUrl = new URL(link.href);
