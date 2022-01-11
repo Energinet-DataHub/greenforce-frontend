@@ -18,9 +18,9 @@ import { NgModule, Pipe, PipeTransform } from '@angular/core';
 import { MeteringPointType } from '@energinet-datahub/dh/shared/data-access-api';
 
 @Pipe({
-  name: 'isParent',
+  name: 'dhIsParent',
 })
-export class IsParentPipe implements PipeTransform {
+export class DhIsParentPipe implements PipeTransform {
   transform(value: MeteringPointType | undefined): boolean {
     if (
       value === MeteringPointType.E17 ||
@@ -33,7 +33,7 @@ export class IsParentPipe implements PipeTransform {
 }
 
 @NgModule({
-  declarations: [IsParentPipe],
-  exports: [IsParentPipe],
+  declarations: [DhIsParentPipe],
+  exports: [DhIsParentPipe],
 })
 export class DhIsParentPipeScam {}

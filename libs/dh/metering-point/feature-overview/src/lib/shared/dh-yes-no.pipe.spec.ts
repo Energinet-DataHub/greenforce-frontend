@@ -22,12 +22,12 @@ import {
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
 import { en as enTranslations } from '@energinet-datahub/dh/globalization/assets-localization';
 
-import { pipeName, YesNoPipe, TValue } from './yes-no.pipe';
+import { pipeName, DhYesNoPipe, TValue } from './dh-yes-no.pipe';
 
-describe(YesNoPipe.name, () => {
+describe(DhYesNoPipe.name, () => {
   beforeEach(() => {
     harness = createPipeHarness({
-      pipe: YesNoPipe,
+      pipe: DhYesNoPipe,
       pipeName,
       value: undefined,
       imports: [getTranslocoTestingModule()],

@@ -25,8 +25,8 @@ import { WattExpansionModule, WattIconModule } from '@energinet-datahub/watt';
 import { TranslocoModule } from '@ngneat/transloco';
 
 import { DhShowForMeteringPointTypeDirectiveScam } from '../shared/dh-show-for-metering-point-type.directive';
-import { DhIsParentPipeScam } from '../shared/is-parent.pipe';
-import { DhYesNoPipeScam } from '../shared/yes-no.pipe';
+import { DhIsParentPipeScam } from '../shared/dh-is-parent.pipe';
+import { DhYesNoPipeScam } from '../shared/dh-yes-no.pipe';
 import { DhEmDashFallbackPipeScam } from '../shared/dh-em-dash-fallback.pipe';
 
 export interface MeteringPointIdentityTranslationKeys {

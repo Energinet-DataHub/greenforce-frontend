@@ -18,13 +18,13 @@ import { NgModule, Pipe, PipeTransform } from '@angular/core';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 
 export type TValue = string | boolean | undefined | null;
-export const pipeName = 'yesNo';
+export const pipeName = 'dhYesNo';
 
 @Pipe({
   name: pipeName,
   pure: false,
 })
-export class YesNoPipe implements PipeTransform {
+export class DhYesNoPipe implements PipeTransform {
   transform(value: TValue) {
     if (value == null) {
       return;
@@ -49,8 +49,8 @@ export class YesNoPipe implements PipeTransform {
 }
 
 @NgModule({
-  declarations: [YesNoPipe],
+  declarations: [DhYesNoPipe],
   imports: [TranslocoModule],
-  exports: [YesNoPipe],
+  exports: [DhYesNoPipe],
 })
 export class DhYesNoPipeScam {}
