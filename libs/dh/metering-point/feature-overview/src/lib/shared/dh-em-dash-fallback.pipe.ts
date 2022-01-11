@@ -19,7 +19,7 @@ import { NgModule, Pipe, PipeTransform } from '@angular/core';
 import { emDash } from './em-dash';
 
 export type TValue = string | number | undefined | null;
-export const pipeName = 'emDashFallback';
+export const pipeName = 'dhEmDashFallback';
 
 @Pipe({ name: pipeName })
 export class DhEmDashFallbackPipe implements PipeTransform {

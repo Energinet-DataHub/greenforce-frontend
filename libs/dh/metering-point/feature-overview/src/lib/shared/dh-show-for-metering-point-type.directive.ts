@@ -27,7 +27,7 @@ import { MeteringPointType } from '@energinet-datahub/dh/shared/data-access-api'
 
 import {
   allMeteringPointTypes,
-  meteringPointTypeMapProperty,
+  MeteringPointTypeMapProperty,
   meteringPointTypeMap,
 } from './metering-point-type-map';
 
@@ -43,7 +43,7 @@ export class DhShowForMeteringPointTypeDirective implements OnChanges {
   @Input() dhShowForMeteringPointType: MeteringPointType | undefined;
 
   @Input() dhShowForMeteringPointTypeProperty:
-    | meteringPointTypeMapProperty
+    | MeteringPointTypeMapProperty
     | undefined;
 
   ngOnChanges(changes: SimpleChanges): void {
