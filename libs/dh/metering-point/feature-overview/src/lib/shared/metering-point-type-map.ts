@@ -18,7 +18,7 @@ import { MeteringPointType } from '@energinet-datahub/dh/shared/data-access-api'
 
 export const allMeteringPointTypes = 'allMeteringPointTypes';
 
-export type meteringPointTypeMapProperty = keyof typeof meteringPointTypeMap;
+export type MeteringPointTypeMapProperty = keyof typeof meteringPointTypeMap;
 
 export const meteringPointTypeMap = {
   meteringPointId: [allMeteringPointTypes],
