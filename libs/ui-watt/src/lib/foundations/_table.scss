@@ -26,4 +26,8 @@ mat-table {
   mat-row:hover {
     cursor: pointer;
   }
+
+  .multi-line-cell {
+    padding: 0.5rem 0;
+  }
 }
