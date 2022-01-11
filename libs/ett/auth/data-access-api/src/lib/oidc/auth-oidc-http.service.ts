@@ -53,7 +53,8 @@ export class AuthHttp {
       `${this.apiEnvironment.apiBase}/auth/oidc/login`,
       {
         params: {
-          [AuthOidcQueryParameterName.FeUrl]: feUrl,
+          // TODO(xlgni): Add parameter when accepted by Auth API
+          // [AuthOidcQueryParameterName.FeUrl]: feUrl,
           [AuthOidcQueryParameterName.ReturnUrl]: returnUrl,
         },
       }
