@@ -14,16 +14,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-:host {
-  display: block;
-  padding: var(--watt-space-l) 0;
-}
+mat-table {
+  mat-header-row {
+    min-height: 34px;
+  }
 
-.grey-text {
-  color: var(--watt-color-neutral-grey-600);
-}
+  mat-header-cell {
+    background-color: var(--watt-color-focus-selection);
+  }
 
-.date-icon {
-  color: var(--watt-color-primary);
-  margin-right: 0.5rem;
+  mat-row:hover {
+    cursor: pointer;
+  }
+
+  .multi-line-cell {
+    padding: 0.5rem 0;
+  }
 }
