@@ -24,6 +24,8 @@ import {
   PublicClientApplication,
 } from '@azure/msal-browser';
 
+import { DhB2CEnvironment } from '@energinet-datahub/dh/shared/environments';
+
 import { MsalGuardConfiguration } from './@azure/msal-angular/msal.guard.config';
 
 /**
@@ -37,15 +39,14 @@ export const apiConfig: { scopes: string[]; uri: string } = {
   uri: 'https://fabrikamb2chello.azurewebsites.net/hello',
 };
 
-export function MSALInstanceFactory(): IPublicClientApplication {
+export function MSALInstanceFactory(config: DhB2CEnvironment): IPublicClientApplication {
   return new PublicClientApplication({
     auth: {
-      clientId: '88e5d356-0c71-49e9-b260-d0629f3c0445',
-      authority:
-        'https://dev002DataHubB2C.b2clogin.com/dev002DataHubB2C.onmicrosoft.com/B2C_1_sign_in_experiments',
+      clientId: config.clientId,
+      authority: config.authority,
       redirectUri: '/',
       postLogoutRedirectUri: '/',
-      knownAuthorities: ['dev002DataHubB2C.b2clogin.com'],
+      knownAuthorities: config.knownAuthorities,
     },
     cache: {
       cacheLocation: BrowserCacheLocation.LocalStorage,

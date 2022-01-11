@@ -15,11 +15,12 @@
  * limitations under the License.
  */
 import { HttpClientModule } from '@angular/common/http';
-import { NgModule } from '@angular/core';
+import { Injector, NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { BrowserUtils } from '@azure/msal-browser';
 
 import { DhApiModule } from '@energinet-datahub/dh/shared/data-access-api';
+import { dhB2CEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 import {
   DhConfigurationLocalizationModule,
   DhTranslocoModule,
@@ -90,6 +91,7 @@ const routes: Routes = [
     {
       provide: MSAL_INSTANCE,
       useFactory: MSALInstanceFactory,
+      deps: [dhB2CEnvironmentToken]
     },
     {
       provide: MSAL_GUARD_CONFIG,
