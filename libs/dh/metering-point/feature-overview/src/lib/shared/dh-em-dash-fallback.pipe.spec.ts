@@ -37,42 +37,33 @@ describe(DhEmDashFallbackPipe.name, () => {
 
   let harness: SpectacularPipeHarness<TValue>;
 
-  it(`returns ${emDash} when value is \`undefined\``, () => {
+  it(`displays ${emDash} when value is \`undefined\``, () => {
     harness.value = undefined;
 
     expect(harness.text).toBe(emDash);
   });
 
-  it(`returns ${emDash} when value is \`null\``, () => {
+  it(`displays ${emDash} when value is \`null\``, () => {
     harness.value = null;
 
     expect(harness.text).toBe(emDash);
   });
 
-  it(`returns ${emDash} when value is an empty string`, () => {
+  it(`displays ${emDash} when value is an empty string`, () => {
     harness.value = '';
 
     expect(harness.text).toBe(emDash);
   });
 
-  it(`returns the same value when value is a string`, () => {
+  it(`displays value when value is a string`, () => {
     harness.value = 'TEST';
 
     expect(harness.text).toBe('TEST');
   });
 
-  it(`returns the same value when value is a number`, () => {
+  it(`displays value when value is a number`, () => {
     harness.value = 4;
 
     expect(harness.text).toBe('4');
-  });
-
-  it(`returns a fallback value when fallback is defined`, () => {
-    harness.value = 'TEST';
-    const fallback = 'FALLBACK';
-
-    harness.template = `{{ value | ${pipeName}: '${fallback}' }}`;
-
-    expect(harness.text).toBe(fallback);
   });
 });

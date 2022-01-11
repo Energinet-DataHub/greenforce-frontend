@@ -23,12 +23,12 @@ export const pipeName = 'emDashFallback';
 
 @Pipe({ name: pipeName })
 export class DhEmDashFallbackPipe implements PipeTransform {
-  transform(value: TValue, translation?: string): string | number {
+  transform(value: TValue): string | number {
     if (this.isFalsy(value)) {
       return emDash;
     }
 
-    return translation ? translation : (value as string | number);
+    return value as string | number;
   }
 
   private isFalsy(value: TValue): boolean {
