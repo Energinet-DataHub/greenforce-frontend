@@ -13,4 +13,3 @@ export * from './product-id';
 export * from './reading-occurrence';
 export * from './settlement-method';
 export * from './unit';
-export * from './weather-forecast';
