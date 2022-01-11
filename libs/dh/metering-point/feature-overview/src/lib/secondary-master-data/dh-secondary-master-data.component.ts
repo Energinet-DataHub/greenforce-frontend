@@ -24,7 +24,6 @@ import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-t
 import { WattExpansionModule, WattIconModule } from '@energinet-datahub/watt';
 import { TranslocoModule } from '@ngneat/transloco';
 
-import { emDash } from '../shared/em-dash';
 import { DhShowForMeteringPointTypeDirectiveScam } from '../shared/dh-show-for-metering-point-type.directive';
 import { DhIsParentPipeScam } from '../shared/is-parent.pipe';
 import { DhYesNoPipeScam } from '../shared/yes-no.pipe';
@@ -47,7 +46,6 @@ export class DhSecondaryMasterDataComponent {
   #secondaryMasterData: MeteringPointCimDto | undefined;
 
   translationKeys: MeteringPointIdentityTranslationKeys | undefined;
-  emDash = emDash;
 
   @Input()
   set secondaryMasterData(value: MeteringPointCimDto | undefined) {
@@ -61,9 +59,7 @@ export class DhSecondaryMasterDataComponent {
   get secondaryMasterData() {
     return this.#secondaryMasterData;
   }
-  get isProductObligationDefined() {
-    return this.#secondaryMasterData?.productionObligation != null;
-  }
+
   get netSettlementGroupAsNumber(): number | undefined {
     switch (this.#secondaryMasterData?.netSettlementGroup) {
       case NetSettlementGroup.Zero:
