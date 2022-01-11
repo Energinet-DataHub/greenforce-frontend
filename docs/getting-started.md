@@ -18,6 +18,10 @@ Deployed version of the application can be found here:
 
 **Please note:** that B2C currently only runs on a single environment **u002**. However it can be accessed from **[localhost](https://localhost:4200), u001** and **u002**.
 
+### Deployment
+
+The deployments can be found [here](https://github.com/Energinet-DataHub/dh3-environments/actions/workflows/dh-ui-frontend-cd.yml).
+
 ### Running the application
 
 To run the application locally you need to serve the frontend application and corrosponding BFF (Backend for frontend).
