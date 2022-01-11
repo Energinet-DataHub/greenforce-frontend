@@ -136,8 +136,11 @@ limitations under the License.
           {{ t('capacity') }}
         </dt>
         <dd class="watt-text-m">
-          {{ secondaryMasterData?.capacity | emDashFallback }}
-          {{ t('units.kilowatt') }}
+          {{
+            translationKeys?.capacityFormatted
+              | transloco: { capacity: secondaryMasterData?.capacity }
+              | emDashFallback
+          }}
         </dd>
       </div>
       <div
@@ -165,8 +168,11 @@ limitations under the License.
           {{ t('ratedCapacity') }}
         </dt>
         <dd class="watt-text-m">
-          {{ secondaryMasterData?.ratedCapacity | emDashFallback }}
-          {{ t('units.kilowatt') }}
+          {{
+            translationKeys?.ratedCapacityFormatted
+              | transloco: { capacity: secondaryMasterData?.ratedCapacity }
+              | emDashFallback
+          }}
         </dd>
       </div>
       <div
@@ -180,8 +186,11 @@ limitations under the License.
           {{ t('ratedCurrent') }}
         </dt>
         <dd class="watt-text-m">
-          {{ secondaryMasterData?.ratedCurrent | emDashFallback }}
-          {{ t('units.ampere') }}
+          {{
+            translationKeys?.ratedCurrentFormatted
+              | transloco: { current: secondaryMasterData?.ratedCurrent }
+              | emDashFallback
+          }}
         </dd>
       </div>
       <div

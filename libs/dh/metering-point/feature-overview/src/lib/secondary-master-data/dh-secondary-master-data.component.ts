@@ -30,11 +30,14 @@ import { DhYesNoPipeScam } from '../shared/yes-no.pipe';
 import { DhEmDashFallbackPipeScam } from '../shared/dh-em-dash-fallback.pipe';
 
 export interface MeteringPointIdentityTranslationKeys {
+  unit: string;
   disconnectionType?: string;
   connectionType?: string;
   assetType?: string;
   productId: string;
-  unit: string;
+  capacityFormatted?: string;
+  ratedCapacityFormatted?: string;
+  ratedCurrentFormatted?: string;
 }
 
 @Component({
@@ -105,6 +108,27 @@ export class DhSecondaryMasterDataComponent {
       translationKeys = {
         ...translationKeys,
         assetType: `meteringPoint.assetType.${meteringPoint.assetType}`,
+      };
+    }
+
+    if (meteringPoint.capacity) {
+      translationKeys = {
+        ...translationKeys,
+        capacityFormatted: `meteringPoint.secondaryMasterData.capacityFormatted`,
+      };
+    }
+
+    if (meteringPoint.ratedCapacity) {
+      translationKeys = {
+        ...translationKeys,
+        ratedCapacityFormatted: `meteringPoint.secondaryMasterData.ratedCapacityFormatted`,
+      };
+    }
+
+    if (meteringPoint.ratedCurrent) {
+      translationKeys = {
+        ...translationKeys,
+        ratedCurrentFormatted: `meteringPoint.secondaryMasterData.ratedCurrentFormatted`,
       };
     }
 
