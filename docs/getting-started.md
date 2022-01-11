@@ -8,8 +8,19 @@ Extensions are stored in `.vscode/extenstions.json`, and will automatically be s
 
 ## DataHub Application (app-dh)
 
-Deployed version of the application can be found [here.](https://cdn-dh-endpoint-dh-u-001.azureedge.net/)  
-Currently the application is only deployed to a single environment.
+Deployed version of the application can be found here:
+
+- [U-001](https://jolly-sand-03f839703.azurestaticapps.net)
+- [U-002](https://ambitious-coast-027d0aa03.azurestaticapps.net)
+- [T-001](https://lively-river-0f22ad403.azurestaticapps.net)
+- [B-001](https://blue-rock-05b7e5e03.azurestaticapps.net)
+- [B-002](https://purple-forest-07e41fb03.azurestaticapps.net)
+
+**Please note:** that B2C currently only runs on a single environment **U-002**. However it can be accessed from **[localhost](https://localhost:4200), U-001** and **U-002**.
+
+### Deployment
+
+The deployments can be found [here](https://github.com/Energinet-DataHub/dh3-environments/actions/workflows/dh-ui-frontend-cd.yml).
 
 ### Running the application
 
