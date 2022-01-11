@@ -17,7 +17,7 @@
 import { APP_BASE_HREF } from '@angular/common';
 import { TestBed } from '@angular/core/testing';
 import {
-  AuthOidcHttp,
+  AuthHttp,
   AuthOidcQueryParameterName,
 } from '@energinet-datahub/ett/auth/data-access-api';
 import { render, screen } from '@testing-library/angular';
@@ -35,8 +35,8 @@ describe(EttAuthenticationLinkComponent.name, () => {
       await render(EttAuthenticationLinkComponent, {
         imports: [EttAuthenticationLinkScam],
         providers: [
-          MockProvider(AuthOidcHttp, {
-            login: (returnUrl) =>
+          MockProvider(AuthHttp, {
+            getLogin: (_feUrl, returnUrl) =>
               of({
                 url: `${authenticationUrl}?${AuthOidcQueryParameterName.ReturnUrl}=${returnUrl}`,
               }),
@@ -73,8 +73,8 @@ describe(EttAuthenticationLinkComponent.name, () => {
       await render(EttAuthenticationLinkComponent, {
         imports: [EttAuthenticationLinkScam],
         providers: [
-          MockProvider(AuthOidcHttp, {
-            login: () => throwError(() => new Error('Dummy error message')),
+          MockProvider(AuthHttp, {
+            getLogin: () => throwError(() => new Error('Dummy error message')),
           }),
         ],
       });

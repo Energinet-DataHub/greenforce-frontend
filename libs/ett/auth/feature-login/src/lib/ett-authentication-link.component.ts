@@ -17,14 +17,16 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  Inject,
   NgModule,
   ViewEncapsulation,
 } from '@angular/core';
-import { AuthOidcHttp } from '@energinet-datahub/ett/auth/data-access-api';
+import { AuthHttp } from '@energinet-datahub/ett/auth/data-access-api';
 import { AbsoluteUrlGenerator } from '@energinet-datahub/ett/shared/util-browser';
 import { ettDashboardRoutePath } from '@energinet-datahub/ett/dashboard/routing';
 import { LetModule } from '@rx-angular/template';
 import { catchError, map, Observable, of } from 'rxjs';
+import { APP_BASE_HREF } from '@angular/common';
 
 const selector = 'ett-authentication-link';
 
@@ -45,26 +47,27 @@ const selector = 'ett-authentication-link';
   ],
   template: `
     <a *rxLet="loginUrl$ as loginUrl; rxError: loginError" [href]="loginUrl"
-      >NemID or MitID</a
+      >NemID</a
     >
     <ng-template #loginError let-error="$error">
       <p class="${selector}__error">
-        NemID and MitID login are currently unavailable. Please try again later.
+        NemID login is currently unavailable. Please try again later.
       </p>
     </ng-template>
   `,
 })
 export class EttAuthenticationLinkComponent {
-  #returnUrl = this.urlGenerator.fromCommands([ettDashboardRoutePath]);
+  #absoluteReturnUrl = this.urlGenerator.fromCommands([ettDashboardRoutePath]);
 
   loginProviderError$: Observable<unknown>;
   loginUrl$: Observable<string> = this.authOidc
-    .login(this.#returnUrl)
+    .getLogin(this.absoluteAuthenticationAppBaseUrl, this.#absoluteReturnUrl)
     .pipe(map((response) => response.url));
 
   constructor(
-    private authOidc: AuthOidcHttp,
-    private urlGenerator: AbsoluteUrlGenerator
+    private authOidc: AuthHttp,
+    private urlGenerator: AbsoluteUrlGenerator,
+    @Inject(APP_BASE_HREF) private absoluteAuthenticationAppBaseUrl: string
   ) {
     this.loginProviderError$ = this.loginUrl$.pipe(
       catchError((error: unknown) => of(error))
