@@ -10,13 +10,13 @@ Extensions are stored in `.vscode/extenstions.json`, and will automatically be s
 
 Deployed version of the application can be found here:
 
-- [u001](https://jolly-sand-03f839703.azurestaticapps.net)
-- [u002](https://ambitious-coast-027d0aa03.azurestaticapps.net)
-- [t001](https://lively-river-0f22ad403.azurestaticapps.net)
-- [b001](https://blue-rock-05b7e5e03.azurestaticapps.net)
-- [b002](https://purple-forest-07e41fb03.azurestaticapps.net)
+- [U-001](https://jolly-sand-03f839703.azurestaticapps.net)
+- [U-002](https://ambitious-coast-027d0aa03.azurestaticapps.net)
+- [T-001](https://lively-river-0f22ad403.azurestaticapps.net)
+- [B-001](https://blue-rock-05b7e5e03.azurestaticapps.net)
+- [B-002](https://purple-forest-07e41fb03.azurestaticapps.net)
 
-**Please note:** that B2C currently only runs on a single environment **u002**. However it can be accessed from **[localhost](https://localhost:4200), u001** and **u002**.
+**Please note:** that B2C currently only runs on a single environment **U-002**. However it can be accessed from **[localhost](https://localhost:4200), U001** and **U-002**.
 
 ### Deployment
 
