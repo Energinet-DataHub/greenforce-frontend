@@ -16,7 +16,7 @@ Deployed version of the application can be found here:
 - [B-001](https://blue-rock-05b7e5e03.azurestaticapps.net)
 - [B-002](https://purple-forest-07e41fb03.azurestaticapps.net)
 
-**Please note:** that B2C currently only runs on a single environment **U-002**. However it can be accessed from **[localhost](https://localhost:4200), U001** and **U-002**.
+**Please note:** that B2C currently only runs on a single environment **U-002**. However it can be accessed from **[localhost](https://localhost:4200), U-001** and **U-002**.
 
 ### Deployment
 
