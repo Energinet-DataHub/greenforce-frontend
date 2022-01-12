@@ -28,17 +28,6 @@ import { DhB2CEnvironment } from '@energinet-datahub/dh/shared/environments';
 
 import { MsalGuardConfiguration } from './@azure/msal-angular/msal.guard.config';
 
-/**
- * Enter here the coordinates of your web API and scopes for access token request
- * The current application coordinates were pre-registered in a B2C tenant.
- * To learn more about user flows, visit: https://docs.microsoft.com/en-us/azure/active-directory-b2c/user-flow-overview
- * To learn more about custom policies, visit: https://docs.microsoft.com/en-us/azure/active-directory-b2c/custom-policy-overview
- */
-export const apiConfig: { scopes: string[]; uri: string } = {
-  scopes: ['https://fabrikamb2c.onmicrosoft.com/helloapi/demo.read'],
-  uri: 'https://fabrikamb2chello.azurewebsites.net/hello',
-};
-
 export function MSALInstanceFactory(
   config: DhB2CEnvironment
 ): IPublicClientApplication {
@@ -66,9 +55,9 @@ export function MSALInstanceFactory(
   });
 }
 
-export function MSALInterceptorConfigFactory(): MsalInterceptorConfiguration {
+export function MSALInterceptorConfigFactory(config: DhB2CEnvironment): MsalInterceptorConfiguration {
   const protectedResourceMap = new Map<string, Array<string>>();
-  protectedResourceMap.set(apiConfig.uri, apiConfig.scopes);
+  protectedResourceMap.set('*', [config.clientId]);
 
   return {
     interactionType: InteractionType.Redirect,
@@ -76,11 +65,11 @@ export function MSALInterceptorConfigFactory(): MsalInterceptorConfiguration {
   };
 }
 
-export function MSALGuardConfigFactory(): MsalGuardConfiguration {
+export function MSALGuardConfigFactory(config: DhB2CEnvironment): MsalGuardConfiguration {
   return {
     interactionType: InteractionType.Redirect,
     authRequest: {
-      scopes: [...apiConfig.scopes],
+      scopes: [config.clientId],
     },
   };
 }
