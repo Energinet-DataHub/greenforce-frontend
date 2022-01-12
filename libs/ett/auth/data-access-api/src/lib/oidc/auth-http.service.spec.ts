@@ -49,7 +49,7 @@ describe(AuthHttp.name, () => {
 
   it('the redirect URI query parameter is the specified return URL', () => {
     const fakeResponse: AuthOidcLoginResponse = {
-      url: 'https://example.com/authentication',
+      next_url: 'https://example.com/authentication',
     };
     const expectedAuthAppBaseUrl = 'http://example.com/app';
     const expectedReturnUrl = `${expectedAuthAppBaseUrl}/welcome`;

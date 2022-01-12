@@ -28,7 +28,7 @@ export interface AuthOidcLoginResponse {
   /**
    * The URL to redirect the user to in order to authenticate.
    */
-  readonly url: string;
+  readonly next_url: string;
 }
 
 @Injectable({

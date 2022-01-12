@@ -62,7 +62,7 @@ export class EttAuthenticationLinkComponent {
   loginProviderError$: Observable<unknown>;
   loginUrl$: Observable<string> = this.authOidc
     .getLogin(this.absoluteAuthenticationAppBaseUrl, this.#absoluteReturnUrl)
-    .pipe(map((response) => response.url));
+    .pipe(map((response) => response.next_url));
 
   constructor(
     private authOidc: AuthHttp,
