@@ -15,4 +15,3 @@
  * limitations under the License.
  */
 export * from './lib/is-valid-metering-point-id';
-export * from './lib/connection-state-to-badge-type';
