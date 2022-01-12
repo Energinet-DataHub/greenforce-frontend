@@ -34,9 +34,6 @@ limitations under the License.
         display: flex;
         min-height: 100%;
       }
-      h1 {
-        width: 100%;
-      }
       * {
         margin: 0;
       }
@@ -132,7 +129,9 @@ limitations under the License.
       .entry-item-error label {
         color: #d12923 !important;
       }
-
+      .error.itemLevel {
+        min-height: 18px;
+      }
       .error.pageLevel {
         margin-top: 0.5rem;
       }
@@ -158,7 +157,8 @@ limitations under the License.
         font-size: 14px;
         line-height: 21px;
         height: 44px;
-        border: 1px solid #bdbdbd;
+        outline: 1px solid #bdbdbd;
+        border: none;
         color: #02525e;
         border-radius: 3px;
         margin-bottom: 1rem;
@@ -166,7 +166,6 @@ limitations under the License.
       }
       input:focus-visible {
         outline: 1px solid #00847c;
-        border: none;
       }
       button {
         width: 100%;
@@ -175,7 +174,6 @@ limitations under the License.
         box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25),
           0px 4px 4px rgba(0, 0, 0, 0.25);
         border-radius: 4px;
-        margin: 24px 0px;
         padding: 8px 16px;
         border: none;
         font-family: Open Sans;
@@ -186,8 +184,11 @@ limitations under the License.
         line-height: 16px;
         letter-spacing: 1.25px;
         text-transform: uppercase;
+        cursor: pointer;
+        outline: none;
       }
       button:focus,
+      button:focus-visible,
       button:hover {
         background-color: rgb(2, 82, 94);
       }
