@@ -14,7 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import * as dhLocalApiEnvironment from './assets/configuration/dh-api-environment.local.json';
-import * as dhLocalB2CEnvironment from './assets/configuration/dh-b2c-environment.local.json';
+import {
+  DhB2CEnvironment,
+  loadDhB2CEnvironment as _loadDhB2CEnvironment,
+} from '@energinet-datahub/dh/shared/environments';
 
-export { dhLocalApiEnvironment, dhLocalB2CEnvironment };
+export function loadDhB2CEnvironment(): Promise<DhB2CEnvironment> {
+  return _loadDhB2CEnvironment('dh-b2c-environment.json');
+}

@@ -87,8 +87,8 @@ jobs:
 
   build_app:
     name: Build app
-    #if: ${{ needs.affected.outputs.is-affected == 'true' }}
-    #needs: affected
+    if: ${{ needs.affected.outputs.is-affected == 'true' }}
+    needs: affected
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2

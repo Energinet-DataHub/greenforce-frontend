@@ -63,6 +63,10 @@
               "with": "apps/dh/app-dh/src/configuration/load-dh-api-environment.prod.ts"
             },
             {
+              "replace": "apps/dh/app-dh/src/configuration/load-dh-b2c-environment.ts",
+              "with": "apps/dh/app-dh/src/configuration/load-dh-b2c-environment.prod.ts"
+            },
+            {
               "replace": "libs/dh/shared/environments/src/lib/environment.ts",
               "with": "libs/dh/shared/environments/src/lib/environment.prod.ts"
             }
