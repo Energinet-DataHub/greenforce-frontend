@@ -55,7 +55,9 @@ export function MSALInstanceFactory(
   });
 }
 
-export function MSALInterceptorConfigFactory(config: DhB2CEnvironment): MsalInterceptorConfiguration {
+export function MSALInterceptorConfigFactory(
+  config: DhB2CEnvironment
+): MsalInterceptorConfiguration {
   const protectedResourceMap = new Map<string, Array<string>>();
   protectedResourceMap.set('*', [config.clientId]);
 
@@ -65,7 +67,9 @@ export function MSALInterceptorConfigFactory(config: DhB2CEnvironment): MsalInte
   };
 }
 
-export function MSALGuardConfigFactory(config: DhB2CEnvironment): MsalGuardConfiguration {
+export function MSALGuardConfigFactory(
+  config: DhB2CEnvironment
+): MsalGuardConfiguration {
   return {
     interactionType: InteractionType.Redirect,
     authRequest: {

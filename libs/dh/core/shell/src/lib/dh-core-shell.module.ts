@@ -92,7 +92,7 @@ const routes: Routes = [
     {
       provide: HTTP_INTERCEPTORS,
       useClass: MsalInterceptor,
-      multi: true
+      multi: true,
     },
     {
       provide: MSAL_INSTANCE,
