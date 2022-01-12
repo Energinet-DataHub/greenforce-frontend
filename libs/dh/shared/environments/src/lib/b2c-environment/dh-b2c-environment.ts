@@ -30,7 +30,7 @@ export const dhB2CEnvironmentToken = new InjectionToken<DhB2CEnvironment>(
   {
     factory: (): DhB2CEnvironment => {
       if (environment.production) {
-        throw new Error('No DataHub API environment provided.');
+        throw new Error('No DataHub B2C API environment provided.');
       }
 
       // Used for unit and integration tests
