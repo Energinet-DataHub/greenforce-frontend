@@ -25,7 +25,7 @@ import {
 } from '@energinet-datahub/eo/shared/environments';
 import { lastValueFrom } from 'rxjs';
 
-import { AuthHttp, AuthOidcLoginResponse } from './auth-oidc-http.service';
+import { AuthHttp, AuthOidcLoginResponse } from './auth-http.service';
 import { AuthOidcQueryParameterName } from './auth-oidc-query-parameter-name';
 
 describe(AuthHttp.name, () => {

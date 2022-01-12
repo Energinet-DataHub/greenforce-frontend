@@ -15,5 +15,5 @@
  * limitations under the License.
  */
 // OIDC
-export * from './lib/oidc/auth-oidc-http.service';
+export * from './lib/oidc/auth-http.service';
 export * from './lib/oidc/auth-oidc-query-parameter-name';
