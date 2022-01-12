@@ -39,9 +39,8 @@ import {
   WattEmptyStateModule,
 } from '@energinet-datahub/watt';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
+import { DhMeteringPointStatusBadgeScam } from '@energinet-datahub/dh/metering-point/ui-status-badge';
 import { MeteringPointSimpleCimDto } from '@energinet-datahub/dh/shared/data-access-api';
-
-import { DhMeteringPointStatusBadgeScam } from '../status-badge/dh-metering-point-status-badge.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
