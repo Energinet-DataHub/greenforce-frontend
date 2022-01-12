@@ -14,7 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import * as dhLocalApiEnvironment from './assets/configuration/dh-api-environment.local.json';
-import * as dhLocalB2CEnvironment from './assets/configuration/dh-b2c-environment.local.json';
+import { DhB2CEnvironment } from './dh-b2c-environment';
 
-export { dhLocalApiEnvironment, dhLocalB2CEnvironment };
+export function loadDhB2CEnvironment(
+  configurationFilename: string
+): Promise<DhB2CEnvironment> {
+  return fetch(`/assets/configuration/${configurationFilename}`).then(
+    (response) => response.json()
+  );
+}
