@@ -33,7 +33,7 @@ export const enum LoadingState {
 
 export const enum ErrorState {
   NOT_FOUND_ERROR = 'NOT_FOUND_ERROR',
-  OTHER_ERROR = 'OTHER_ERROR',
+  GENERAL_ERROR = 'GENERAL_ERROR',
 }
 
 interface ChargesState {
@@ -84,8 +84,8 @@ export class DhChargesDataAccessApiStore extends ComponentStore<ChargesState> {
   chargesNotFound$ = this.select(
     (state) => state.requestState === ErrorState.NOT_FOUND_ERROR
   );
-  hasError$ = this.select(
-    (state) => state.requestState === ErrorState.OTHER_ERROR
+  hasGeneralError$ = this.select(
+    (state) => state.requestState === ErrorState.GENERAL_ERROR
   );
 
   constructor(private httpClient: ChargeLinksHttp) {
@@ -108,7 +108,11 @@ export class DhChargesDataAccessApiStore extends ComponentStore<ChargesState> {
 
                 this.updateChargesData(chargesData);
               },
-              (error: HttpErrorResponse) => this.handleError(error)
+              (error: HttpErrorResponse) => {
+                this.setLoading(false);
+
+                this.handleError(error);
+              }
             )
           )
         )
@@ -133,32 +137,16 @@ export class DhChargesDataAccessApiStore extends ComponentStore<ChargesState> {
     })
   );
 
-  private updateChargesNotFound = this.updater(
-    (state): ChargesState => ({
-      ...state,
-      requestState: ErrorState.NOT_FOUND_ERROR,
-    })
-  );
-
-  private upateError = this.updater(
-    (state: ChargesState): ChargesState => ({
-      ...state,
-      charges: undefined,
-      requestState: ErrorState.OTHER_ERROR,
-    })
-  );
-
   private handleError = (error: HttpErrorResponse) => {
-    this.setLoading(false);
-
     const chargesData = undefined;
     this.updateChargesData(chargesData);
 
-    if (error.status === HttpStatusCode.NotFound) {
-      this.updateChargesNotFound();
-    } else {
-      this.upateError();
-    }
+    const requestError =
+      error.status === HttpStatusCode.NotFound
+        ? ErrorState.NOT_FOUND_ERROR
+        : ErrorState.GENERAL_ERROR;
+
+    this.patchState({ requestState: requestError });
   };
 
   private resetState = () => this.setState(initialState);

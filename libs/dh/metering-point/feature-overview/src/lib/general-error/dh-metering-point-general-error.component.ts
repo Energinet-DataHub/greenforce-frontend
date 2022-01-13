@@ -14,21 +14,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { CommonModule } from '@angular/common';
-import { Component, NgModule } from '@angular/core';
-import { WattEmptyStateModule } from '@energinet-datahub/watt';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  NgModule,
+  Output,
+} from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
 
+import {
+  WattButtonModule,
+  WattEmptyStateModule,
+} from '@energinet-datahub/watt';
+
 @Component({
-  selector: 'dh-charges-server-error',
-  templateUrl: './dh-charges-server-error.component.html',
-  styleUrls: ['./dh-charges-server-error.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: 'dh-metering-point-general-error',
+  templateUrl: './dh-metering-point-general-error.component.html',
 })
-export class DhChargesServerErrorComponent {}
+export class DhMeteringPointGeneralErrorComponent {
+  @Output() reload = new EventEmitter<void>();
+}
 
 @NgModule({
-  imports: [TranslocoModule, CommonModule, WattEmptyStateModule],
-  declarations: [DhChargesServerErrorComponent],
-  exports: [DhChargesServerErrorComponent],
+  declarations: [DhMeteringPointGeneralErrorComponent],
+  exports: [DhMeteringPointGeneralErrorComponent],
+  imports: [TranslocoModule, WattButtonModule, WattEmptyStateModule],
 })
-export class DhChargesServerErrorScam {}
+export class DhMeteringPointGeneralErrorScam {}
