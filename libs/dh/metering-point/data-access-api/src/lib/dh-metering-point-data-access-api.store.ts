@@ -31,7 +31,7 @@ export const enum LoadingState {
 
 export const enum ErrorState {
   NOT_FOUND_ERROR = 'NOT_FOUND_ERROR',
-  OTHER_ERROR = 'OTHER_ERROR',
+  GENERAL_ERROR = 'GENERAL_ERROR',
 }
 
 interface MeteringPointState {
@@ -58,8 +58,8 @@ export class DhMeteringPointDataAccessApiStore extends ComponentStore<MeteringPo
   meteringPointNotFound$ = this.select(
     (state) => state.requestState === ErrorState.NOT_FOUND_ERROR
   );
-  hasError$ = this.select(
-    (state) => state.requestState === ErrorState.OTHER_ERROR
+  hasGeneralError$ = this.select(
+    (state) => state.requestState === ErrorState.GENERAL_ERROR
   );
 
   constructor(private httpClient: MeteringPointHttp) {
@@ -82,7 +82,11 @@ export class DhMeteringPointDataAccessApiStore extends ComponentStore<MeteringPo
 
                 this.updateMeteringPointData(meteringPointData);
               },
-              (error: HttpErrorResponse) => this.handleError(error)
+              (error: HttpErrorResponse) => {
+                this.setLoading(false);
+
+                this.handleError(error);
+              }
             )
           )
         )
@@ -107,32 +111,16 @@ export class DhMeteringPointDataAccessApiStore extends ComponentStore<MeteringPo
     })
   );
 
-  private updateMeteringPointNotFound = this.updater(
-    (state): MeteringPointState => ({
-      ...state,
-      requestState: ErrorState.NOT_FOUND_ERROR,
-    })
-  );
-
-  private upateError = this.updater(
-    (state: MeteringPointState): MeteringPointState => ({
-      ...state,
-      meteringPoint: undefined,
-      requestState: ErrorState.OTHER_ERROR,
-    })
-  );
-
   private handleError = (error: HttpErrorResponse) => {
-    this.setLoading(false);
-
     const meteringPointData = undefined;
     this.updateMeteringPointData(meteringPointData);
 
-    if (error.status === HttpStatusCode.NotFound) {
-      this.updateMeteringPointNotFound();
-    } else {
-      this.upateError();
-    }
+    const requestError =
+      error.status === HttpStatusCode.NotFound
+        ? ErrorState.NOT_FOUND_ERROR
+        : ErrorState.GENERAL_ERROR;
+
+    this.patchState({ requestState: requestError });
   };
 
   private resetState = () => this.setState(initialState);

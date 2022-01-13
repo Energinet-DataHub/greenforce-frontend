@@ -61,7 +61,7 @@ export class DhMeteringPointOverviewComponent implements OnDestroy {
   );
   isLoading$ = this.store.isLoading$;
   meteringPointNotFound$ = this.store.meteringPointNotFound$;
-  hasError$ = this.store.hasError$;
+  hasGeneralError$ = this.store.hasGeneralError$;
   childMeteringPointsCount = 0;
 
   constructor(
