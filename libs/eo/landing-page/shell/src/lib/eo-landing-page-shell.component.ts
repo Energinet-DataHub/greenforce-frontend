@@ -56,8 +56,7 @@ const selector = 'eo-landingpage-shell';
         <img src="assets/energyorigin-logo.png" />
       </nav>
       <nav>
-        <watt-button>START</watt-button>
-        <!--<button>START</button>-->
+        <watt-button [variant]=buttonVariant>START</watt-button>
       </nav>
     </header>
   `,
@@ -77,6 +76,7 @@ export class EoLandingPageShellComponent implements OnInit {
     E505: 'Kunne ikke kommunikere med Identity Provider',
   };
 
+  readonly buttonVariant: WattButtonVariant = 'primary';
   errorMessage?: string;
 
   constructor(private route: ActivatedRoute) {}
