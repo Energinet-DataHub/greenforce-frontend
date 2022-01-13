@@ -34,6 +34,7 @@ on:
     paths:
       - 'build/infrastructure/dh/**'
       - 'apps/dh/api-dh/**'
+      - '.github/workflows/dh-backend-ci.yml'
 
 jobs:
   dotnet_solution_ci:
