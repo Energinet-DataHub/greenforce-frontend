@@ -17,8 +17,8 @@
         "allowedCommonJsDependencies": ["date-fns-tz"],
         "assets": [
           {
-            "glob": "favicon.ico",
-            "input": "libs/dh/shared/assets/src",
+            "glob": "**/*",
+            "input": "libs/dh/shared/assets/src/assets/favicon",
             "output": ""
           },
           {
