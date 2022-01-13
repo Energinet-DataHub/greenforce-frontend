@@ -54,6 +54,16 @@ jobs:
       TERRAFORM_WORKING_DIR_PATH: 'build/infrastructure/dh/main'
       TERRAFORM_VERSION: '1.1.2'
 
+  sonarcloud_analysis:
+    uses: Energinet-DataHub/.github/.github/workflows/sonarcloud-dotnet.yml@1670f55d7d9ef2c105c12cc4f40d8534bdf79c05
+    with:
+      SOLUTION_FILE_PATH: 'apps/dh/api-dh/DataHub.WebApi.sln'
+      DOTNET_VERSION: '5.0'
+      SONAR_CLOUD_ORGANIZATION: 'energinet-datahub'
+      SONAR_CLOUD_PROJECT: 'geh-frontend-webapi'
+    secrets:
+      SONAR_CLOUD_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
   bff_ci:
     needs: [dotnet_solution_ci, terraform_validate]
     uses: Energinet-DataHub/.github/.github/workflows/dotnet-create-artifact.yml@2.7.0
