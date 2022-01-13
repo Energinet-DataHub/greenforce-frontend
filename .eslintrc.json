@@ -48,6 +48,7 @@
                 "sourceTag": "type:ui",
                 "onlyDependOnLibsWithTags": [
                   "type:ui",
+                  "type:open-api",
                   "type:util",
                   "type:test-util",
                   "type:domain",
@@ -64,6 +65,13 @@
                   "type:test-util",
                   "type:domain",
                   "type:environments"
+                ]
+              },
+              {
+                "sourceTag": "type:open-api",
+                "onlyDependOnLibsWithTags": [
+                  "type:environments",
+                  "type:test-util"
                 ]
               },
               {
