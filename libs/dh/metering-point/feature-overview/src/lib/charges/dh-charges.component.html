@@ -46,8 +46,8 @@ limitations under the License.
       <dh-charges-not-found></dh-charges-not-found>
     </div>
   </ng-container>
-  <ng-container *rxLet="hasError$ as hasError">
-    <div *ngIf="hasError">
+  <ng-container *rxLet="hasGeneralError$ as hasGeneralError">
+    <div *ngIf="hasGeneralError">
       <dh-charges-server-error></dh-charges-server-error>
     </div>
   </ng-container>

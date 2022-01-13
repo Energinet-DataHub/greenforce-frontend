@@ -53,7 +53,7 @@ export class DhChargesComponent implements OnDestroy {
   fees$: Observable<Array<ChargeLinkDto>> = this.store.fees$;
   isLoading$ = this.store.isLoading$;
   chargesNotFound$ = this.store.chargesNotFound$;
-  hasError$ = this.store.hasError$;
+  hasGeneralError$ = this.store.hasGeneralError$;
 
   ngOnDestroy(): void {
     this.destroy$.next();
