@@ -35,11 +35,13 @@ const selector = 'ett-shell';
     `
       ${selector} {
         display: block;
+        background: #EEE;
       }
     `,
   ],
   template: `
     <watt-shell>
+    <!--
       <ng-container watt-shell-sidenav>
         <ett-primary-navigation></ett-primary-navigation>
       </ng-container>
@@ -47,7 +49,7 @@ const selector = 'ett-shell';
       <ng-container watt-shell-toolbar>
         <h1>Energy Track and Trace</h1>
       </ng-container>
-
+    -->
       <router-outlet></router-outlet>
     </watt-shell>
   `,
