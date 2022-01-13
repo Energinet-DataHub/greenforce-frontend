@@ -2,4 +2,4 @@
 
 ## Favicon
 
-favicons are generated with https://realfavicongenerator.net/ using `favcicon - Datahub.svg`
+Favicons are generated with https://realfavicongenerator.net/ using `original-datahub-favcicon.svg`
