@@ -86,15 +86,6 @@ watt-form-field {
     margin-left: 8px;
   }
 
-  mat-form-field.mat-form-field-invalid.ng-dirty {
-    --input-border-color: var(--watt-color-state-danger);
-
-    .mat-form-field-label
-      .mat-placeholder-required.mat-form-field-required-marker {
-      color: var(--watt-color-state-danger);
-    }
-  }
-
   mat-form-field.mat-form-field-disabled {
     --input-background: var(--watt-color-neutral-grey-100);
   }
@@ -102,6 +93,16 @@ watt-form-field {
   .mat-placeholder-required.mat-form-field-required-marker {
     color: var(--watt-color-primary-dark);
   }
+}
+
+.ng-submitted watt-form-field .mat-form-field-invalid,
+watt-form-field .mat-form-field-invalid.ng-dirty {
+  --input-border-color: var(--watt-color-state-danger);
+
+    .mat-form-field-label
+      .mat-placeholder-required.mat-form-field-required-marker {
+      color: var(--watt-color-state-danger);
+    }
 }
 
 .watt-input-focused mat-form-field,

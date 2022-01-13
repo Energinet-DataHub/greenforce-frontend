@@ -19,5 +19,9 @@
 }
 
 :host-context(.mat-form-field-invalid.ng-pristine) {
-  visibility: hidden;
+  display: none;
+}
+
+:host-context(.ng-submitted .mat-form-field-invalid) {
+  display: block !important;
 }
