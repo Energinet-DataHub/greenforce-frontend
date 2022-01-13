@@ -17,3 +17,7 @@
 :host {
   color: var(--watt-color-state-danger);
 }
+
+:host-context(.mat-form-field-invalid.ng-pristine) {
+  visibility: hidden;
+}

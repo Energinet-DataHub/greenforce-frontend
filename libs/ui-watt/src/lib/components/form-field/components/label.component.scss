@@ -18,7 +18,7 @@
   color: var(--watt-color-primary-dark);
 }
 
-:host-context(.mat-form-field-invalid) {
+:host-context(.mat-form-field-invalid.ng-dirty) {
   color: var(--watt-color-state-danger);
 }
 
