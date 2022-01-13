@@ -36,6 +36,7 @@
     "ett-core-shell": "libs/ett/core/shell",
     "ett-dashboard-routing": "libs/ett/dashboard/routing",
     "ett-dashboard-shell": "libs/ett/dashboard/shell",
+    "ett-landing-page-shell-landing-page": "libs/ett/landing-page/shell/landing-page",
     "ett-shared-util-browser": "libs/ett/shared/util-browser",
     "gf-test-util-matchers": "libs/gf/test-util-matchers",
     "gf-test-util-staging": "libs/gf/test-util-staging",
