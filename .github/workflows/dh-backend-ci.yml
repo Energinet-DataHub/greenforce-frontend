@@ -56,7 +56,7 @@ jobs:
       TERRAFORM_VERSION: '1.1.2'
 
   sonarcloud_analysis:
-    uses: Energinet-DataHub/.github/.github/workflows/sonarcloud-dotnet.yml@a1541363ea8d79e3a8e1dd0764e1d73d3a4a28c0
+    uses: Energinet-DataHub/.github/.github/workflows/sonarcloud-dotnet.yml@91538617b55b880e96dcdd1f83bb953390215bcc
     with:
       SOLUTION_FILE_PATH: 'apps/dh/api-dh/DataHub.WebApi.sln'
       DOTNET_VERSION: '5.0'
