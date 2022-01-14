@@ -86,7 +86,6 @@ export class DhMeteringPointSearchFormComponent
 
   onSubmit() {
     this.updateQueryParam(this.searchControl.value);
-    this.changeDetectorRef.detectChanges();
 
     if (!this.searchControl.valid) {
       this.focusSearchInput();
