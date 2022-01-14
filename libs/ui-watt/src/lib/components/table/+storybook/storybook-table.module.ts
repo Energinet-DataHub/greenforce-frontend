@@ -27,15 +27,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     MatTableModule,
     WattIconModule,
     MatSortModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
   ],
   declarations: [
     StorybookTableWrapperComponent,
-    StorybookTableOverviewComponent
+    StorybookTableOverviewComponent,
   ],
-  exports: [
-    StorybookTableWrapperComponent,
-    StorybookTableOverviewComponent
-  ],
+  exports: [StorybookTableWrapperComponent, StorybookTableOverviewComponent],
 })
 export class StorybookTableModule {}

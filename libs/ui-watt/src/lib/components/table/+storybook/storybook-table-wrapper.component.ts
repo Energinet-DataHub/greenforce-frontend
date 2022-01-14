@@ -14,7 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { AfterViewInit, ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  ViewChild,
+} from '@angular/core';
 import { WattIconSize } from '@energinet-datahub/watt';
 import { MatSort, MatSortable, Sort } from '@angular/material/sort';
 
@@ -26,9 +31,9 @@ export interface PeriodicElement {
 }
 
 export const periodicElements: PeriodicElement[] = [
-  {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
-  {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He'},
-  {position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li'},
+  { position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H' },
+  { position: 2, name: 'Helium', weight: 4.0026, symbol: 'He' },
+  { position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li' },
 ];
 
 @Component({
@@ -74,9 +79,7 @@ export class StorybookTableWrapperComponent implements AfterViewInit {
   }
 
   setDefaultSorting() {
-    this.matSort?.sort(
-      this.matSort.sortables.get('position') as MatSortable
-    );
+    this.matSort?.sort(this.matSort.sortables.get('position') as MatSortable);
   }
 
   compare(a: number | string, b: number | string, isAsc: boolean) {

@@ -28,5 +28,5 @@ export default {
 
 export const Overview: Story = (args) => ({
   props: args,
-  template: '<storybook-table-overview></storybook-table-overview>'
+  template: '<storybook-table-overview></storybook-table-overview>',
 });

@@ -21,5 +21,4 @@ import { Component } from '@angular/core';
   selector: 'storybook-table-overview',
   template: '<storybook-table-wrapper></storybook-table-wrapper>',
 })
-export class StorybookTableOverviewComponent {
-}
+export class StorybookTableOverviewComponent {}
