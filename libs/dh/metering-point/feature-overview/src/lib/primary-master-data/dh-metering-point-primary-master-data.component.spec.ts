@@ -25,14 +25,14 @@ import {
   queryByTerm,
   runOnPushChangeDetection,
 } from '@energinet-datahub/dh/shared/test-util-metering-point';
+import { MeteringPointType } from '@energinet-datahub/dh/shared/data-access-api';
+import { emDash } from '@energinet-datahub/dh/metering-point/shared/ui-util';
 
 import {
   DhMeteringPointPrimaryMasterDataComponent,
   DhMeteringPointPrimaryMasterDataScam,
   PrimaryMasterData,
 } from './dh-metering-point-primary-master-data.component';
-import { emDash } from '../shared/em-dash';
-import { MeteringPointType } from '@energinet-datahub/dh/shared/data-access-api';
 
 describe(DhMeteringPointPrimaryMasterDataComponent.name, () => {
   const fallbackValue = emDash;

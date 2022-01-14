@@ -23,11 +23,12 @@ import {
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { TranslocoModule } from '@ngneat/transloco';
+
 import { WattIconModule } from '@energinet-datahub/watt';
+import { MeteringPointCimDto } from '@energinet-datahub/dh/shared/data-access-api';
+import { DhIsParentPipeScam } from '@energinet-datahub/dh/metering-point/shared/ui-util';
 
 import { dhMeteringPointPath } from '../routing/dh-metering-point-path';
-import { MeteringPointCimDto } from '@energinet-datahub/dh/shared/data-access-api';
-import { DhIsParentPipeScam } from '../shared/dh-is-parent.pipe';
 
 export interface MeteringPointTranslationKeys {
   meteringMethod: string;

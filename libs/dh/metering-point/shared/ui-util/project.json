@@ -1,0 +1,26 @@
+{
+  "projectType": "library",
+  "root": "libs/dh/metering-point/shared/ui-util",
+  "sourceRoot": "libs/dh/metering-point/shared/ui-util/src",
+  "prefix": "dh",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/dh/metering-point/shared/ui-util"],
+      "options": {
+        "jestConfig": "libs/dh/metering-point/shared/ui-util/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/dh/metering-point/shared/ui-util/src/**/*.ts",
+          "libs/dh/metering-point/shared/ui-util/src/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": ["product:dh", "domain:metering-point", "type:ui"]
+}

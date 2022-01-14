@@ -16,18 +16,20 @@
  */
 import { CommonModule } from '@angular/common';
 import { Component, Input, NgModule } from '@angular/core';
+import { TranslocoModule } from '@ngneat/transloco';
+
 import {
   MeteringPointCimDto,
   NetSettlementGroup,
 } from '@energinet-datahub/dh/shared/data-access-api';
-import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import { WattExpansionModule, WattIconModule } from '@energinet-datahub/watt';
-import { TranslocoModule } from '@ngneat/transloco';
-
-import { DhShowForMeteringPointTypeDirectiveScam } from '../shared/dh-show-for-metering-point-type.directive';
-import { DhIsParentPipeScam } from '../shared/dh-is-parent.pipe';
-import { DhYesNoPipeScam } from '../shared/dh-yes-no.pipe';
-import { DhEmDashFallbackPipeScam } from '../shared/dh-em-dash-fallback.pipe';
+import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
+import {
+  DhEmDashFallbackPipeScam,
+  DhIsParentPipeScam,
+  DhShowForMeteringPointTypeDirectiveScam,
+  DhYesNoPipeScam,
+} from '@energinet-datahub/dh/metering-point/shared/ui-util';
 
 export interface MeteringPointIdentityTranslationKeys {
   unit: string;

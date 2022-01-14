@@ -34,11 +34,12 @@ import {
   WattIconModule,
   WattIconSize,
 } from '@energinet-datahub/watt';
-
-import { DhEmDashFallbackPipeScam } from '../shared/dh-em-dash-fallback.pipe';
-import { DhYesNoPipeScam } from '../shared/dh-yes-no.pipe';
-import { DhIsParentPipeScam } from '../shared/dh-is-parent.pipe';
-import { DhShowForMeteringPointTypeDirectiveScam } from '../shared/dh-show-for-metering-point-type.directive';
+import {
+  DhEmDashFallbackPipeScam,
+  DhIsParentPipeScam,
+  DhShowForMeteringPointTypeDirectiveScam,
+  DhYesNoPipeScam,
+} from '@energinet-datahub/dh/metering-point/shared/ui-util';
 
 export type PrimaryMasterData = Pick<
   MeteringPointCimDto,

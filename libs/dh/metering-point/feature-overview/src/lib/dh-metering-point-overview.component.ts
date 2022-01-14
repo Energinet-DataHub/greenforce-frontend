@@ -28,6 +28,7 @@ import { TranslocoModule } from '@ngneat/transloco';
 
 import { DhMeteringPointDataAccessApiStore } from '@energinet-datahub/dh/metering-point/data-access-api';
 import { WattSpinnerModule, WattTabsModule } from '@energinet-datahub/watt';
+import { DhIsParentPipeScam } from '@energinet-datahub/dh/metering-point/shared/ui-util';
 
 import { DhSecondaryMasterDataComponentScam } from './secondary-master-data/dh-secondary-master-data.component';
 import { DhBreadcrumbScam } from './breadcrumb/dh-breadcrumb.component';
@@ -38,7 +39,6 @@ import { DhMeteringPointPrimaryMasterDataScam } from './primary-master-data/dh-m
 import { DhMeteringPointGeneralErrorScam } from './general-error/dh-metering-point-general-error.component';
 import { DhChargesScam } from './charges/dh-charges.component';
 import { DhChildMeteringPointTabContentScam } from './child-metering-point-tab-content/dh-child-metering-point-tab-content.component';
-import { DhIsParentPipeScam } from './shared/dh-is-parent.pipe';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
