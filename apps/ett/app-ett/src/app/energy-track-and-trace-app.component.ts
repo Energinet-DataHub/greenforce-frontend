@@ -35,10 +35,6 @@ const selector = 'ett-app';
         display: block;
         min-height: 100%;
         background: var(--watt-color-neutral-grey-100);
-        width: 100%;
-        max-width: 1600px;
-        margin: 0 auto;
-        /** @todo: Agree on breakpoints - Full width and centered on screens larger than 1600px(?) */
       }
     `,
   ],
