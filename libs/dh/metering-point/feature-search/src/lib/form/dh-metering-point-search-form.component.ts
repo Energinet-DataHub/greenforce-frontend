@@ -41,6 +41,7 @@ import {
 
 import { meteringPointIdValidator } from './dh-metering-point.validator';
 import { Subscription } from 'rxjs';
+import { HIGH_CONTRAST_MODE_ACTIVE_CSS_CLASS } from '@angular/cdk/a11y/high-contrast-mode/high-contrast-mode-detector';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -86,6 +87,7 @@ export class DhMeteringPointSearchFormComponent
 
   onSubmit() {
     this.updateQueryParam(this.searchControl.value);
+    this.changeDetectorRef.detectChanges();
 
     if (!this.searchControl.valid) {
       this.focusSearchInput();
