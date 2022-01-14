@@ -44,7 +44,7 @@ const selector = 'ett-auth-shell';
   template: `
     <mat-card role="region">
       <mat-card-title>
-        <h1>Energy Track and Trace</h1>
+        <h1>EnergyOrigin</h1>
       </mat-card-title>
       <mat-card-content>
         <p style="color: red">{{ errorMessage }}</p>

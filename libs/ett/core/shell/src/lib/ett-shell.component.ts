@@ -45,7 +45,7 @@ const selector = 'ett-shell';
       </ng-container>
 
       <ng-container watt-shell-toolbar>
-        <h1>Energy Track and Trace</h1>
+        <h1>EnergyOrigin</h1>
       </ng-container>
 
       <router-outlet></router-outlet>
