@@ -37,7 +37,7 @@ const selector = 'eo-landingpage-shell';
           display: flex;
           justify-content: space-between;
           height: 64px;
-          background: #FFF !important;
+          background: #FFF;
 
           a {
             background: var(--watt-color-primary);
