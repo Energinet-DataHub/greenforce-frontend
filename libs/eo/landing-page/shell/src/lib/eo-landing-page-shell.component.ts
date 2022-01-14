@@ -36,8 +36,11 @@ const selector = 'eo-landingpage-shell';
         .mat-toolbar {
           display: flex;
           justify-content: space-between;
+          filter: drop-shadow(0px 0px 15px rgba(0, 0, 0, 0.1));
           height: 64px;
           background: #fff;
+          padding-left: 16px;
+          padding-right: 16px;
 
           a {
             background: var(--watt-color-primary);
