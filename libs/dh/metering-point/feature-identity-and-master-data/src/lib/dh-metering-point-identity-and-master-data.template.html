@@ -14,14 +14,16 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<dh-metering-point-identity
-  [meteringPoint]="meteringPoint"
-></dh-metering-point-identity>
+<ng-container *rxLet="meteringPoint$ as meteringPoint">
+  <dh-metering-point-identity
+    [meteringPoint]="meteringPoint"
+  ></dh-metering-point-identity>
 
-<dh-metering-point-primary-master-data
-  [primaryMasterData]="meteringPoint"
-></dh-metering-point-primary-master-data>
+  <dh-metering-point-primary-master-data
+    [primaryMasterData]="meteringPoint"
+  ></dh-metering-point-primary-master-data>
 
-<dh-secondary-master-data
-  [secondaryMasterData]="meteringPoint"
-></dh-secondary-master-data>
+  <dh-secondary-master-data
+    [secondaryMasterData]="meteringPoint"
+  ></dh-secondary-master-data>
+</ng-container>

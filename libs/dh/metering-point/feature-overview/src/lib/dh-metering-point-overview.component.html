@@ -22,9 +22,7 @@ limitations under the License.
     <ng-container *rxLet="meteringPoint$ as meteringPoint">
       <dh-breadcrumb [meteringPoint]="meteringPoint"></dh-breadcrumb>
 
-      <dh-identity-and-master-data
-        [meteringPoint]="meteringPoint"
-      ></dh-identity-and-master-data>
+      <dh-identity-and-master-data></dh-identity-and-master-data>
 
       <watt-tabs *transloco="let t; read: 'meteringPoint.overview.tabs'">
         <watt-tab [label]="t('prices')">

@@ -14,19 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  Component,
-  Input,
-  NgModule,
-  ChangeDetectionStrategy,
-} from '@angular/core';
+import { Component, NgModule, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { MeteringPointCimDto } from '@energinet-datahub/dh/shared/data-access-api';
+import { LetModule } from '@rx-angular/template';
 
 import { DhMeteringPointIdentityScam } from './identity/dh-metering-point-identity.component';
 import { DhMeteringPointPrimaryMasterDataScam } from './primary-master-data/dh-metering-point-primary-master-data.component';
 import { DhSecondaryMasterDataComponentScam } from './secondary-master-data/dh-secondary-master-data.component';
+import { DhMeteringPointDataAccessApiStore } from '@energinet-datahub/dh/metering-point/data-access-api';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -34,7 +30,9 @@ import { DhSecondaryMasterDataComponentScam } from './secondary-master-data/dh-s
   templateUrl: './dh-metering-point-identity-and-master-data.template.html',
 })
 export class DhMeteringPointIdentityAndMasterDataComponent {
-  @Input() meteringPoint: MeteringPointCimDto | undefined;
+  meteringPoint$ = this.store.meteringPoint$;
+
+  constructor(private store: DhMeteringPointDataAccessApiStore) {}
 }
 
 @NgModule({
@@ -42,6 +40,7 @@ export class DhMeteringPointIdentityAndMasterDataComponent {
   exports: [DhMeteringPointIdentityAndMasterDataComponent],
   imports: [
     CommonModule,
+    LetModule,
     DhMeteringPointIdentityScam,
     DhMeteringPointPrimaryMasterDataScam,
     DhSecondaryMasterDataComponentScam,
