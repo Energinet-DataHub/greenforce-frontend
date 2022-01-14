@@ -29,12 +29,12 @@ import {
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
 import { en as enTranslations } from '@energinet-datahub/dh/globalization/assets-localization';
 import { runOnPushChangeDetection } from '@energinet-datahub/dh/shared/test-util-metering-point';
+import { emDash } from '@energinet-datahub/dh/metering-point/shared/ui-util';
 
 import {
   DhSecondaryMasterDataComponent,
   DhSecondaryMasterDataComponentScam,
 } from './dh-secondary-master-data.component';
-import { emDash } from '../shared/em-dash';
 
 describe(DhSecondaryMasterDataComponent.name, () => {
   async function setup(secondaryMasterData: MeteringPointCimDto) {

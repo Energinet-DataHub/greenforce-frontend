@@ -96,6 +96,7 @@ export class StorybookInputWrapperComponent implements OnChanges {
       setTimeout(() => {
         this.exampleFormControl.setErrors({ required: true });
         this.exampleFormControl.markAsTouched();
+        this.exampleFormControl.markAsDirty();
       });
     } else {
       this.exampleFormControl.setErrors(null);

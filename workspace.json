@@ -16,6 +16,7 @@
     "dh-metering-point-domain": "libs/dh/metering-point/domain",
     "dh-metering-point-feature-overview": "libs/dh/metering-point/feature-overview",
     "dh-metering-point-feature-search": "libs/dh/metering-point/feature-search",
+    "dh-metering-point-shared-ui-util": "libs/dh/metering-point/shared/ui-util",
     "dh-metering-point-shell": "libs/dh/metering-point/shell",
     "dh-metering-point-ui-status-badge": "libs/dh/metering-point/ui-status-badge",
     "dh-shared-assets": "libs/dh/shared/assets",

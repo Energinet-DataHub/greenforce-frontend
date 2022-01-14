@@ -1,4 +1,4 @@
-name: Energy Track and Trace
+name: EnergyOrigin
 
 env:
   app-name: app-ett
@@ -197,7 +197,7 @@ jobs:
       SERVICE_NAME: eo-frontend
 
       BASE_ENV_REPO: 'Energinet-DataHub/eo-base-environment'
-      BASE_ENV_REPO_BRANCH: 'development'
+      BASE_ENV_REPO_BRANCH: 'main'
       HELM_CHART_PATH: 'yggdrasil/applications/eo/eo-frontend/eo-frontend.yaml'
       JOB_URL: '${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}'
 
@@ -231,5 +231,5 @@ jobs:
 
             - Triggered by [Job][1] in [Repo][2]
 
-            [1]: ${{ env.JOB_URL }} 
+            [1]: ${{ env.JOB_URL }}
             [2]: ${{ github.server_url }}/${{ github.repository }}

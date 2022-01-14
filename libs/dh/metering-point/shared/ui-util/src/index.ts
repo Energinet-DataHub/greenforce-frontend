@@ -14,19 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-:host {
-  color: var(--watt-color-primary-dark);
-}
-
-:host-context(.mat-form-field-invalid.ng-dirty),
-:host-context(.ng-submitted .mat-form-field-invalid) {
-  color: var(--watt-color-state-danger);
-}
-
-:host-context(.mat-form-field-disabled) {
-  color: var(--watt-color-neutral-grey-500);
-}
-
-:host-context(.mat-focused:not(.mat-form-field-invalid), .watt-input-focused) {
-  color: var(--watt-color-primary-dark);
-}
+export { emDash } from './lib/em-dash';
+export { DhEmDashFallbackPipeScam } from './lib/dh-em-dash-fallback.pipe';
+export { DhYesNoPipeScam } from './lib/dh-yes-no.pipe';
+export { DhIsParentPipeScam } from './lib/dh-is-parent.pipe';
+export { DhShowForMeteringPointTypeDirectiveScam } from './lib/dh-show-for-metering-point-type.directive';
