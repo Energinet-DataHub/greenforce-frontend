@@ -18,14 +18,14 @@ import {
   ChangeDetectionStrategy,
   Component,
   NgModule,
-  OnInit,
   ViewEncapsulation,
 } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { WattButtonModule } from '@energinet-datahub/watt';
 import { WattButtonVariant } from '@energinet-datahub/watt';
 
 const selector = 'eo-landingpage-shell';
+
+// @todo: Brug Angular material "top bar"
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -56,41 +56,14 @@ const selector = 'eo-landingpage-shell';
     </header>
   `,
 })
-export class EoLandingPageShellComponent implements OnInit {
-  DEFAULT_ERROR_MESSAGE = 'Der opstod en ukendt fejl, prøv venligst igen.';
-
-  // TODO Get messages from i18n
-  // The backend also provides fallback messages in case any
-  // error code is unknown to the frontend.
-  ERROR_MESSAGES: { [key: string]: string } = {
-    E0: 'Ukendt fejl fra Identity Provider',
-    E1: 'Login afbrudt af bruger',
-    E3: 'CPR validering fejlede',
-    E500: 'Internal fejl',
-    E501: 'Der opstod en fejl hos Identity Provider',
-    E505: 'Kunne ikke kommunikere med Identity Provider',
-  };
-
+export class EoLandingPageShellComponent {
   readonly buttonVariant: WattButtonVariant = 'primary';
-  errorMessage?: string;
+  constructor() {
 
-  constructor(private route: ActivatedRoute) {}
-
-  ngOnInit() {
-    this.route.queryParams.subscribe((params) => {
-      if ('error_code' in params) {
-        if (params.error_code in this.ERROR_MESSAGES) {
-          this.errorMessage = this.ERROR_MESSAGES[params.error_code];
-        } else if ('error' in params) {
-          this.errorMessage = params.error;
-        } else {
-          this.errorMessage = this.DEFAULT_ERROR_MESSAGE;
-        }
-      } else {
-        this.errorMessage = '';
-      }
-    });
   }
+
+  // @todo: Create logic that creates the link to auth (own backend)
+  // ...
 }
 
 
