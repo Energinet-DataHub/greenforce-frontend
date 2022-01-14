@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {
   EoLandingPageShellComponent,
-  EoLandingPageShellScam
+  EoLandingPageShellScam,
 } from './eo-landing-page-shell.component';
 
 const routes: Routes = [
@@ -13,9 +13,6 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [
-    RouterModule.forChild(routes),
-    EoLandingPageShellScam
-  ],
+  imports: [RouterModule.forChild(routes), EoLandingPageShellScam],
 })
 export class EoLandingPageShellModule {}

@@ -40,7 +40,7 @@ const selector = 'eo-landingpage-shell';
           padding: 0 20px 0 20px;
           align-items: center;
           height: 64px;
-          background: #FFF;
+          background: #fff;
         }
       }
     `,
@@ -51,21 +51,18 @@ const selector = 'eo-landingpage-shell';
         <img src="assets/energyorigin-logo.png" />
       </nav>
       <nav>
-        <watt-button [variant]=buttonVariant>START</watt-button>
+        <watt-button [variant]="buttonVariant">START</watt-button>
       </nav>
     </header>
   `,
 })
 export class EoLandingPageShellComponent {
   readonly buttonVariant: WattButtonVariant = 'primary';
-  constructor() {
-
-  }
+  constructor() {}
 
   // @todo: Create logic that creates the link to auth (own backend)
   // ...
 }
-
 
 // @todo: JAN K -> Forstå denne her export(?)
 @NgModule({
