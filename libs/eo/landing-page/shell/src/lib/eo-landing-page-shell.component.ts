@@ -37,7 +37,7 @@ const selector = 'eo-landingpage-shell';
           display: flex;
           justify-content: space-between;
           height: 64px;
-          background: #FFF !important;
+          background: #fff !important;
 
           a {
             background: var(--watt-color-primary);
@@ -51,12 +51,19 @@ const selector = 'eo-landingpage-shell';
     `,
   ],
   template: `
-  <header class="header-toolbar">
-    <mat-toolbar role="heading">
-      <img src="assets/energyorigin-logo.png" />
-      <a mat-button mat-flat-button color="primary" href="https://www.google.com/" target="_blank">START</a>
-    </mat-toolbar>
-  </header>
+    <header class="header-toolbar">
+      <mat-toolbar role="heading">
+        <img src="assets/energyorigin-logo.png" />
+        <a
+          mat-button
+          mat-flat-button
+          color="primary"
+          href="https://www.google.com/"
+          target="_blank"
+          >START</a
+        >
+      </mat-toolbar>
+    </header>
   `,
 })
 export class EoLandingPageShellComponent {
@@ -68,6 +75,6 @@ export class EoLandingPageShellComponent {
 
 @NgModule({
   declarations: [EoLandingPageShellComponent],
-  imports: [MatToolbarModule, MatButtonModule]
+  imports: [MatToolbarModule, MatButtonModule],
 })
 export class EoLandingPageShellScam {}
