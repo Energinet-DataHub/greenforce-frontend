@@ -17,3 +17,11 @@
 :host {
   color: var(--watt-color-state-danger);
 }
+
+:host-context(.mat-form-field-invalid.ng-pristine) {
+  display: none;
+}
+
+:host-context(.ng-submitted .mat-form-field-invalid) {
+  display: block !important;
+}
