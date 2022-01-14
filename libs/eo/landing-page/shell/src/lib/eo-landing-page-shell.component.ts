@@ -20,12 +20,11 @@ import {
   NgModule,
   ViewEncapsulation,
 } from '@angular/core';
-import { WattButtonModule } from '@energinet-datahub/watt';
+import { MatButtonModule } from '@angular/material/button';
+import { MatToolbarModule } from '@angular/material/toolbar';
 import { WattButtonVariant } from '@energinet-datahub/watt';
 
 const selector = 'eo-landingpage-shell';
-
-// @todo: Brug Angular material "top bar"
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -34,42 +33,41 @@ const selector = 'eo-landingpage-shell';
   styles: [
     `
       ${selector} {
-        header {
+        .mat-toolbar {
           display: flex;
           justify-content: space-between;
-          padding: 0 20px 0 20px;
-          align-items: center;
           height: 64px;
-          background: #FFF;
+          background: #FFF !important;
+
+          a {
+            background: var(--watt-color-primary);
+
+            &:hover {
+              text-decoration: none;
+            }
+          }
         }
       }
     `,
   ],
   template: `
-    <header>
-      <nav>
-        <img src="assets/energyorigin-logo.png" />
-      </nav>
-      <nav>
-        <watt-button [variant]=buttonVariant>START</watt-button>
-      </nav>
-    </header>
+  <header class="header-toolbar">
+    <mat-toolbar role="heading">
+      <img src="assets/energyorigin-logo.png" />
+      <a mat-button mat-flat-button color="primary" href="https://www.google.com/" target="_blank">START</a>
+    </mat-toolbar>
+  </header>
   `,
 })
 export class EoLandingPageShellComponent {
   readonly buttonVariant: WattButtonVariant = 'primary';
-  constructor() {
-
-  }
 
   // @todo: Create logic that creates the link to auth (own backend)
   // ...
 }
 
-
-// @todo: JAN K -> Forstå denne her export(?)
 @NgModule({
   declarations: [EoLandingPageShellComponent],
-  imports: [WattButtonModule], // Import modules used in this view here
+  imports: [MatToolbarModule, MatButtonModule]
 })
 export class EoLandingPageShellScam {}
