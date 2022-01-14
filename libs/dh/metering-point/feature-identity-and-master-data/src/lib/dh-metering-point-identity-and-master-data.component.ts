@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, NgModule, ChangeDetectionStrategy } from '@angular/core';
+import { Component, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { LetModule } from '@rx-angular/template';
@@ -25,7 +25,6 @@ import { DhSecondaryMasterDataComponentScam } from './secondary-master-data/dh-s
 import { DhMeteringPointDataAccessApiStore } from '@energinet-datahub/dh/metering-point/data-access-api';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'dh-identity-and-master-data',
   templateUrl: './dh-metering-point-identity-and-master-data.template.html',
 })
