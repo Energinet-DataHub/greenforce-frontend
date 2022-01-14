@@ -36,7 +36,7 @@ import { dhMeteringPointIdParam } from './routing/dh-metering-point-id-param';
 import { DhMeteringPointNotFoundScam } from './not-found/dh-metering-point-not-found.component';
 import { DhMeteringPointGeneralErrorScam } from './general-error/dh-metering-point-general-error.component';
 import { DhChargesScam } from './charges/dh-charges.component';
-import { DhChildMeteringPointTabContentScam } from './child-metering-point-tab-content/dh-child-metering-point-tab-content.component';
+import { DhChildMeteringPointsTabContentScam } from './child-metering-points-tab-content/dh-child-metering-points-tab-content.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -98,7 +98,7 @@ export class DhMeteringPointOverviewComponent implements OnDestroy {
     WattSpinnerModule,
     DhChargesScam,
     WattTabsModule,
-    DhChildMeteringPointTabContentScam,
+    DhChildMeteringPointsTabContentScam,
     TranslocoModule,
     DhIsParentPipeScam,
   ],
