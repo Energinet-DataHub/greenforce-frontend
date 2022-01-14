@@ -29,7 +29,7 @@ import { EttMaterialModule } from './ett-material.module';
 // Landingpage test, Jan K.
 import {
   EoLandingPageShellComponent,
-  EoLandingPageShellScam
+  EoLandingPageShellScam,
 } from '@energinet-datahub/eo/landing-page/shell';
 
 const routes: Routes = [
@@ -91,7 +91,7 @@ const routes: Routes = [
     }),
     EttMaterialModule.forRoot(),
     // EttShellScam,
-    EoLandingPageShellScam // JAN K: Understand this part.
+    EoLandingPageShellScam, // JAN K: Understand this part.
   ],
 })
 export class EttCoreShellModule {}
