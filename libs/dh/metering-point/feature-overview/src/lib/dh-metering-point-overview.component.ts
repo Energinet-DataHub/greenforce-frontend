@@ -35,7 +35,7 @@ import { DhMeteringPointIdentityScam } from './identity/dh-metering-point-identi
 import { dhMeteringPointIdParam } from './routing/dh-metering-point-id-param';
 import { DhMeteringPointNotFoundScam } from './not-found/dh-metering-point-not-found.component';
 import { DhMeteringPointPrimaryMasterDataScam } from './primary-master-data/dh-metering-point-primary-master-data.component';
-import { DhMeteringPointServerErrorScam } from './server-error/dh-metering-point-server-error.component';
+import { DhMeteringPointGeneralErrorScam } from './general-error/dh-metering-point-general-error.component';
 import { DhChargesScam } from './charges/dh-charges.component';
 import { DhChildMeteringPointTabContentScam } from './child-metering-point-tab-content/dh-child-metering-point-tab-content.component';
 import { DhIsParentPipeScam } from './shared/dh-is-parent.pipe';
@@ -61,7 +61,7 @@ export class DhMeteringPointOverviewComponent implements OnDestroy {
   );
   isLoading$ = this.store.isLoading$;
   meteringPointNotFound$ = this.store.meteringPointNotFound$;
-  hasError$ = this.store.hasError$;
+  hasGeneralError$ = this.store.hasGeneralError$;
   childMeteringPointsCount = 0;
 
   constructor(
@@ -96,7 +96,7 @@ export class DhMeteringPointOverviewComponent implements OnDestroy {
     DhMeteringPointIdentityScam,
     DhMeteringPointNotFoundScam,
     DhMeteringPointPrimaryMasterDataScam,
-    DhMeteringPointServerErrorScam,
+    DhMeteringPointGeneralErrorScam,
     LetModule,
     WattSpinnerModule,
     DhSecondaryMasterDataComponentScam,

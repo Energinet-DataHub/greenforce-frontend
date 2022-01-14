@@ -26,7 +26,7 @@ import { WattSpinnerModule } from '@energinet-datahub/watt';
 import { TranslocoModule } from '@ngneat/transloco';
 import { DhChargeItemScam } from './dh-charge-item/dh-charge-item.component';
 import { DhChargesNotFoundScam } from './dh-charges-not-found/dh-charges-not-found.component';
-import { DhChargesServerErrorScam } from './dh-charges-server-error/dh-charges-server-error.component';
+import { DhChargesGeneralErrorScam } from './dh-charges-general-error/dh-charges-general-error.component';
 
 @Component({
   selector: 'dh-charges',
@@ -53,7 +53,7 @@ export class DhChargesComponent implements OnDestroy {
   fees$: Observable<Array<ChargeLinkDto>> = this.store.fees$;
   isLoading$ = this.store.isLoading$;
   chargesNotFound$ = this.store.chargesNotFound$;
-  hasError$ = this.store.hasError$;
+  hasGeneralError$ = this.store.hasGeneralError$;
 
   ngOnDestroy(): void {
     this.destroy$.next();
@@ -78,7 +78,7 @@ export class DhChargesComponent implements OnDestroy {
     TranslocoModule,
     DhChargeItemScam,
     DhChargesNotFoundScam,
-    DhChargesServerErrorScam,
+    DhChargesGeneralErrorScam,
   ],
   declarations: [DhChargesComponent],
   exports: [DhChargesComponent],
