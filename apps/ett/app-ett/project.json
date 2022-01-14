@@ -101,14 +101,14 @@
     },
     "serve": {
       "executor": "@angular-devkit/build-angular:dev-server",
+      "options": {
+        "browserTarget": "app-ett:build:development"
+      },
       "configurations": {
         "development": {
-          "browserTarget": "app-ett:build:development",
           "hmr": true
         },
-        "e2e": {
-          "browserTarget": "app-ett:build:development"
-        },
+        "e2e": {},
         "production": {
           "browserTarget": "app-ett:build:production"
         }

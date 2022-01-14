@@ -16,13 +16,20 @@
           "cypressConfig": "apps/ett/e2e-ett/cypress.ci.json",
           "headed": false
         },
-        "ci:production": {
+        "ci-production": {
           "cypressConfig": "apps/ett/e2e-ett/cypress.ci.json",
           "devServerTarget": "app-ett:serve:production",
           "headed": false
         },
         "production": {
           "devServerTarget": "app-ett:serve:production"
+        },
+        "watch": {
+          "watch": true
+        },
+        "watch-production": {
+          "devServerTarget": "app-ett:serve:production",
+          "watch": true
         }
       }
     },
