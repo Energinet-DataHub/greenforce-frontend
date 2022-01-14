@@ -35,7 +35,6 @@ const selector = 'ett-shell';
     `
       ${selector} {
         display: block;
-        background: #EEE;
       }
     `,
   ],

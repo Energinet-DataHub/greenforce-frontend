@@ -23,12 +23,7 @@ import {
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { WattButtonModule } from '@energinet-datahub/watt';
-import {
-  WattButtonComponent,
-  WattButtonSize,
-  WattButtonType,
-  WattButtonVariant
-} from '@energinet-datahub/watt';
+import { WattButtonVariant } from '@energinet-datahub/watt';
 
 const selector = 'eo-landingpage-shell';
 

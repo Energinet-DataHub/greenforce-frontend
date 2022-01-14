@@ -34,14 +34,17 @@ const selector = 'ett-app';
       ${selector} {
         display: block;
         min-height: 100%;
+        background: var(--watt-color-neutral-grey-100);
+        width: 100%;
+        max-width: 1600px;
+        margin: 0 auto;
+        /** @todo: Agree on breakpoints - Full width and centered on screens larger than 1600px(?) */
       }
     `,
   ],
   template: `<router-outlet></router-outlet>`,
 })
 export class EnergyTrackAndTraceAppComponent {
-  @HostBinding('className')
-  className = 'mat-app-background';
 }
 
 @NgModule({
