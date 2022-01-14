@@ -65,9 +65,4 @@ limitations under the License.
   <ItemGroup>
     <Folder Include="Unit\" />
   </ItemGroup>
-
-  <ItemGroup>
-    <Compile Remove="Integration\Controllers\WeatherForecastControllerTests.cs" />
-  </ItemGroup>
-
 </Project>

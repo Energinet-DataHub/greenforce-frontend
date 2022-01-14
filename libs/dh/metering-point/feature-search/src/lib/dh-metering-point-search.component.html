@@ -30,7 +30,7 @@ limitations under the License.
   ></watt-empty-state>
 
   <watt-empty-state
-    *ngIf="hasError$ | push"
+    *ngIf="hasGeneralError$ | push"
     icon="power"
     [title]="transloco('serverErrorTitle')"
     [message]="transloco('serverErrorMessage')"

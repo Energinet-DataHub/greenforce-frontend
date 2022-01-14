@@ -17,8 +17,8 @@
         "allowedCommonJsDependencies": ["date-fns-tz"],
         "assets": [
           {
-            "glob": "favicon.ico",
-            "input": "libs/dh/shared/assets/src",
+            "glob": "**/*",
+            "input": "libs/dh/shared/assets/src/favicon",
             "output": ""
           },
           {
@@ -61,6 +61,10 @@
             {
               "replace": "apps/dh/app-dh/src/configuration/load-dh-api-environment.ts",
               "with": "apps/dh/app-dh/src/configuration/load-dh-api-environment.prod.ts"
+            },
+            {
+              "replace": "apps/dh/app-dh/src/configuration/load-dh-b2c-environment.ts",
+              "with": "apps/dh/app-dh/src/configuration/load-dh-b2c-environment.prod.ts"
             },
             {
               "replace": "libs/dh/shared/environments/src/lib/environment.ts",

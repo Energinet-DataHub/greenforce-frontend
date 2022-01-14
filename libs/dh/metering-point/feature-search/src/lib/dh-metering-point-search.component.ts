@@ -35,7 +35,7 @@ import { DhMeteringPointSearchFormScam } from './form/dh-metering-point-search-f
 export class DhMeteringPointSearchComponent {
   isLoading$ = this.store.isLoading$;
   notFound$ = this.store.meteringPointNotFound$;
-  hasError$ = this.store.hasError$;
+  hasGeneralError$ = this.store.hasGeneralError$;
   meteringPointLoaded$ = this.store.meteringPoint$.pipe(take(1));
 
   constructor(
