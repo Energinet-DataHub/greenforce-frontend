@@ -1,10 +1,8 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 
-import { DhChildMeteringPointsTabContentScam } from './child-metering-points-tab-content/dh-child-metering-points-tab-content.component';
+import { DhMeteringPointTabsScam } from './dh-metering-point-tabs.component';
 
 @NgModule({
-  imports: [CommonModule],
-  exports: [DhChildMeteringPointsTabContentScam],
+  exports: [DhMeteringPointTabsScam],
 })
 export class DhMeteringPointFeatureTabsModule {}

@@ -24,24 +24,7 @@ limitations under the License.
 
       <dh-identity-and-master-data></dh-identity-and-master-data>
 
-      <watt-tabs *transloco="let t; read: 'meteringPoint.overview.tabs'">
-        <watt-tab [label]="t('prices')">
-          <dh-charges></dh-charges>
-        </watt-tab>
-        <ng-container *ngIf="meteringPoint?.meteringPointType | dhIsParent">
-          <watt-tab
-            [label]="
-              t('childMeteringPoints', {
-                count: childMeteringPointsCount
-              })
-            "
-          >
-            <dh-child-metering-point-tab-content
-              [childMeteringPoints]="meteringPoint.childMeteringPoints"
-            ></dh-child-metering-point-tab-content>
-          </watt-tab>
-        </ng-container>
-      </watt-tabs>
+      <dh-metering-point-tabs></dh-metering-point-tabs>
     </ng-container>
   </ng-container>
 </ng-container>

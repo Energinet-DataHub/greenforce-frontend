@@ -16,13 +16,13 @@
  */
 // import { render, screen } from '@testing-library/angular';
 
-import { DhChargesComponent } from './dh-charges.component';
+import { DhChargesTabContentComponent } from './dh-charges-tab-content.component';
 // import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
 // import { runOnPushChangeDetection } from '@energinet-datahub/dh/shared/test-util-metering-point';
 
-describe(DhChargesComponent.name, () => {
+describe(DhChargesTabContentComponent.name, () => {
   // async function setup() {
-  //   const { fixture } = await render(DhChargesComponent, {
+  //   const { fixture } = await render(DhChargesTabContentComponent, {
   //     componentProperties: {},
   //     imports: [getTranslocoTestingModule(), DhChargesScam],
   //   });

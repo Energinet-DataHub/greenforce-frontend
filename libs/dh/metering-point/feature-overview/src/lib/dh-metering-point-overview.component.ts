@@ -22,13 +22,11 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
-import { map, Subject, takeUntil, tap } from 'rxjs';
+import { map, Subject, takeUntil } from 'rxjs';
 import { LetModule } from '@rx-angular/template';
-import { TranslocoModule } from '@ngneat/transloco';
 
+import { WattSpinnerModule } from '@energinet-datahub/watt';
 import { DhMeteringPointDataAccessApiStore } from '@energinet-datahub/dh/metering-point/data-access-api';
-import { WattSpinnerModule, WattTabsModule } from '@energinet-datahub/watt';
-import { DhIsParentPipeScam } from '@energinet-datahub/dh/metering-point/shared/ui-util';
 import { DhMeteringPointFeatureIdentityAndMasterDataModule } from '@energinet-datahub/dh/metering-point/feature-identity-and-master-data';
 import { DhMeteringPointFeatureTabsModule } from '@energinet-datahub/dh/metering-point/feature-tabs';
 
@@ -36,7 +34,6 @@ import { DhBreadcrumbScam } from './breadcrumb/dh-breadcrumb.component';
 import { dhMeteringPointIdParam } from './routing/dh-metering-point-id-param';
 import { DhMeteringPointNotFoundScam } from './not-found/dh-metering-point-not-found.component';
 import { DhMeteringPointGeneralErrorScam } from './general-error/dh-metering-point-general-error.component';
-import { DhChargesScam } from './charges/dh-charges.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -51,16 +48,10 @@ export class DhMeteringPointOverviewComponent implements OnDestroy {
   meteringPointId$ = this.route.params.pipe(
     map((params) => params[dhMeteringPointIdParam] as string)
   );
-  meteringPoint$ = this.store.meteringPoint$.pipe(
-    tap((meteringPoint) => {
-      this.childMeteringPointsCount =
-        meteringPoint.childMeteringPoints?.length ?? 0;
-    })
-  );
+  meteringPoint$ = this.store.meteringPoint$;
   isLoading$ = this.store.isLoading$;
   meteringPointNotFound$ = this.store.meteringPointNotFound$;
   hasGeneralError$ = this.store.hasGeneralError$;
-  childMeteringPointsCount = 0;
 
   constructor(
     private route: ActivatedRoute,
@@ -96,11 +87,7 @@ export class DhMeteringPointOverviewComponent implements OnDestroy {
     DhMeteringPointGeneralErrorScam,
     LetModule,
     WattSpinnerModule,
-    DhChargesScam,
-    WattTabsModule,
     DhMeteringPointFeatureTabsModule,
-    TranslocoModule,
-    DhIsParentPipeScam,
   ],
 })
 export class DhMeteringPointOverviewScam {}

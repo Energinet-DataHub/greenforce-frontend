@@ -44,7 +44,7 @@ import { MeteringPointSimpleCimDto } from '@energinet-datahub/dh/shared/data-acc
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'dh-child-metering-point-tab-content',
+  selector: 'dh-child-metering-points-tab-content',
   templateUrl: './dh-child-metering-points-tab-content.component.html',
   styleUrls: ['./dh-child-metering-points-tab-content.component.scss'],
 })
