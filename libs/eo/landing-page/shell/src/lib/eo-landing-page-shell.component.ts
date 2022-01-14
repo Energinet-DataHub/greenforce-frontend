@@ -51,19 +51,17 @@ const selector = 'eo-landingpage-shell';
     `,
   ],
   template: `
-    <header class="header-toolbar">
-      <mat-toolbar role="heading">
-        <img src="assets/energyorigin-logo.png" />
-        <a
-          mat-button
-          mat-flat-button
-          color="primary"
-          href="https://www.google.com/"
-          target="_blank"
-          >START</a
-        >
-      </mat-toolbar>
-    </header>
+    <mat-toolbar role="heading">
+      <img src="assets/energyorigin-logo.png" />
+      <a
+        mat-button
+        mat-flat-button
+        color="primary"
+        href="https://www.google.com/"
+        target="_blank"
+        >START</a
+      >
+    </mat-toolbar>
   `,
 })
 export class EoLandingPageShellComponent {
