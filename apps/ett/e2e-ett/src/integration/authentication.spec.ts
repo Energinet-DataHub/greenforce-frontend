@@ -14,21 +14,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import * as loginPage from '../support/login.po';
 import * as dashboardPage from '../support/dashboard.po';
+import * as loginPage from '../support/login.po';
 
 describe('Authentication', () => {
   it(`Given a commercial user
     When NemID authentication is successful
     Then they are redirected to the dashboard page`, () => {
-    cy.intercept('GET', '/api/auth/oidc/login', {
-      body: { next_url: '/dashboard?success=1' },
-      statusCode: 200,
-    }).as('authOidcLogin');
+    cy.intercept(
+      {
+        hostname: 'localhost',
+        method: 'GET',
+        pathname: '/api/auth/oidc/login',
+        // url: 'http://localhost:4200/api/auth/oidc/login?return_url=http://localhost:4200/dashboard',
+      },
+      {
+        next_url: '/dashboard?success=1',
+      }
+    ).as('authOidcLogin');
     loginPage.navigateTo();
 
     loginPage.getNemidLink().click();
-    cy.wait('@authOidcLogin');
 
     dashboardPage.getTitle().should('exist');
   });
