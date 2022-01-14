@@ -14,10 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { HttpClientModule } from '@angular/common/http';
+import { BrowserUtils } from '@azure/msal-browser';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { BrowserUtils } from '@azure/msal-browser';
 
 import { DhApiModule } from '@energinet-datahub/dh/shared/data-access-api';
 import { dhB2CEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
@@ -33,6 +33,7 @@ import {
   MsalGuard,
   MSALGuardConfigFactory,
   MSALInstanceFactory,
+  MsalInterceptor,
   MSALInterceptorConfigFactory,
   MsalModule,
   MsalService,
@@ -89,6 +90,11 @@ const routes: Routes = [
   providers: [
     MsalService,
     {
+      provide: HTTP_INTERCEPTORS,
+      useClass: MsalInterceptor,
+      multi: true,
+    },
+    {
       provide: MSAL_INSTANCE,
       useFactory: MSALInstanceFactory,
       deps: [dhB2CEnvironmentToken],
@@ -96,10 +102,12 @@ const routes: Routes = [
     {
       provide: MSAL_GUARD_CONFIG,
       useFactory: MSALGuardConfigFactory,
+      deps: [dhB2CEnvironmentToken],
     },
     {
       provide: MSAL_INTERCEPTOR_CONFIG,
       useFactory: MSALInterceptorConfigFactory,
+      deps: [dhB2CEnvironmentToken],
     },
   ],
 })

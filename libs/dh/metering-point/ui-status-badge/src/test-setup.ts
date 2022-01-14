@@ -14,12 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './lib/b2c-config';
-export * from './lib/@azure/msal-angular/msal-constants';
-export * from './lib/@azure/msal-angular/msal.broadcast.service';
-export * from './lib/@azure/msal-angular/msal.guard.config';
-export * from './lib/@azure/msal-angular/msal.guard';
-export * from './lib/@azure/msal-angular/msal.interceptor.config';
-export * from './lib/@azure/msal-angular/msal.interceptor';
-export * from './lib/@azure/msal-angular/msal.module';
-export * from './lib/@azure/msal-angular/msal.service';
+import 'jest-preset-angular/setup-jest';
+
+import { setUpTestbed } from '@energinet-datahub/gf/test-util-staging';
+
+setUpTestbed();
