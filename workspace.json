@@ -14,6 +14,7 @@
     "dh-globalization-feature-language-picker": "libs/dh/globalization/feature-language-picker",
     "dh-metering-point-data-access-api": "libs/dh/metering-point/data-access-api",
     "dh-metering-point-domain": "libs/dh/metering-point/domain",
+    "dh-metering-point-feature-identity-and-master-data": "libs/dh/metering-point/feature-identity-and-master-data",
     "dh-metering-point-feature-overview": "libs/dh/metering-point/feature-overview",
     "dh-metering-point-feature-search": "libs/dh/metering-point/feature-search",
     "dh-metering-point-shared-ui-util": "libs/dh/metering-point/shared/ui-util",

@@ -29,13 +29,11 @@ import { TranslocoModule } from '@ngneat/transloco';
 import { DhMeteringPointDataAccessApiStore } from '@energinet-datahub/dh/metering-point/data-access-api';
 import { WattSpinnerModule, WattTabsModule } from '@energinet-datahub/watt';
 import { DhIsParentPipeScam } from '@energinet-datahub/dh/metering-point/shared/ui-util';
+import { DhMeteringPointFeatureIdentityAndMasterDataModule } from '@energinet-datahub/dh/metering-point/feature-identity-and-master-data';
 
-import { DhSecondaryMasterDataComponentScam } from './secondary-master-data/dh-secondary-master-data.component';
 import { DhBreadcrumbScam } from './breadcrumb/dh-breadcrumb.component';
-import { DhMeteringPointIdentityScam } from './identity/dh-metering-point-identity.component';
 import { dhMeteringPointIdParam } from './routing/dh-metering-point-id-param';
 import { DhMeteringPointNotFoundScam } from './not-found/dh-metering-point-not-found.component';
-import { DhMeteringPointPrimaryMasterDataScam } from './primary-master-data/dh-metering-point-primary-master-data.component';
 import { DhMeteringPointGeneralErrorScam } from './general-error/dh-metering-point-general-error.component';
 import { DhChargesScam } from './charges/dh-charges.component';
 import { DhChildMeteringPointTabContentScam } from './child-metering-point-tab-content/dh-child-metering-point-tab-content.component';
@@ -93,13 +91,11 @@ export class DhMeteringPointOverviewComponent implements OnDestroy {
   imports: [
     CommonModule,
     DhBreadcrumbScam,
-    DhMeteringPointIdentityScam,
+    DhMeteringPointFeatureIdentityAndMasterDataModule,
     DhMeteringPointNotFoundScam,
-    DhMeteringPointPrimaryMasterDataScam,
     DhMeteringPointGeneralErrorScam,
     LetModule,
     WattSpinnerModule,
-    DhSecondaryMasterDataComponentScam,
     DhChargesScam,
     WattTabsModule,
     DhChildMeteringPointTabContentScam,
