@@ -1,0 +1,46 @@
+<mat-table
+  #matTable
+  [dataSource]="sortedData"
+  matSort
+  (matSortChange)="sortData($event)">
+
+  <!--- Note that these columns can be defined in any order.
+        The actual rendered columns are set as a property on the row definition" -->
+
+  <!-- Position Column -->
+  <ng-container matColumnDef="position">
+    <mat-header-cell *matHeaderCellDef mat-sort-header class="header-cell watt-label"> No. </mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{element.position}} </mat-cell>
+  </ng-container>
+
+  <!-- Name Column -->
+  <ng-container matColumnDef="name">
+    <mat-header-cell *matHeaderCellDef  mat-sort-header class="header-cell watt-label"> Name </mat-header-cell>
+    <mat-cell *matCellDef="let element">
+    <div class="multi-line-cell">
+      <div class="watt-text-s">
+        {{element.name}}
+      </div>
+      <div class="watt-text-xs" data-testid="gsrn">
+        Weight: {{element.weight}}
+      </div>
+    </div>
+    </mat-cell>
+  </ng-container>
+
+  <!-- Symbol Column -->
+  <ng-container matColumnDef="symbol">
+    <mat-header-cell *matHeaderCellDef mat-sort-header class="header-cell watt-label"> Symbol </mat-header-cell>
+    <mat-cell *matCellDef="let element">
+      <watt-icon
+        name="date"
+        [size]="iconSize.Small"
+        class="date-icon watt-space-inline-s"
+      ></watt-icon>
+
+      <span class="watt-text-s">{{element.symbol}}</span></mat-cell>
+  </ng-container>
+
+  <mat-header-row  *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+</mat-table>
