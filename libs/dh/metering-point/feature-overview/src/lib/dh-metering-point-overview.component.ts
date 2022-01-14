@@ -30,13 +30,13 @@ import { DhMeteringPointDataAccessApiStore } from '@energinet-datahub/dh/meterin
 import { WattSpinnerModule, WattTabsModule } from '@energinet-datahub/watt';
 import { DhIsParentPipeScam } from '@energinet-datahub/dh/metering-point/shared/ui-util';
 import { DhMeteringPointFeatureIdentityAndMasterDataModule } from '@energinet-datahub/dh/metering-point/feature-identity-and-master-data';
+import { DhMeteringPointFeatureTabsModule } from '@energinet-datahub/dh/metering-point/feature-tabs';
 
 import { DhBreadcrumbScam } from './breadcrumb/dh-breadcrumb.component';
 import { dhMeteringPointIdParam } from './routing/dh-metering-point-id-param';
 import { DhMeteringPointNotFoundScam } from './not-found/dh-metering-point-not-found.component';
 import { DhMeteringPointGeneralErrorScam } from './general-error/dh-metering-point-general-error.component';
 import { DhChargesScam } from './charges/dh-charges.component';
-import { DhChildMeteringPointsTabContentScam } from './child-metering-points-tab-content/dh-child-metering-points-tab-content.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -98,7 +98,7 @@ export class DhMeteringPointOverviewComponent implements OnDestroy {
     WattSpinnerModule,
     DhChargesScam,
     WattTabsModule,
-    DhChildMeteringPointsTabContentScam,
+    DhMeteringPointFeatureTabsModule,
     TranslocoModule,
     DhIsParentPipeScam,
   ],
