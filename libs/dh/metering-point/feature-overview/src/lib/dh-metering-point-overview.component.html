@@ -22,36 +22,9 @@ limitations under the License.
     <ng-container *rxLet="meteringPoint$ as meteringPoint">
       <dh-breadcrumb [meteringPoint]="meteringPoint"></dh-breadcrumb>
 
-      <dh-metering-point-identity
-        [meteringPoint]="meteringPoint"
-      ></dh-metering-point-identity>
+      <dh-identity-and-master-data></dh-identity-and-master-data>
 
-      <dh-metering-point-primary-master-data
-        [primaryMasterData]="meteringPoint"
-      ></dh-metering-point-primary-master-data>
-
-      <dh-secondary-master-data
-        [secondaryMasterData]="meteringPoint"
-      ></dh-secondary-master-data>
-
-      <watt-tabs *transloco="let t; read: 'meteringPoint.overview.tabs'">
-        <watt-tab [label]="t('prices')">
-          <dh-charges></dh-charges>
-        </watt-tab>
-        <ng-container *ngIf="meteringPoint?.meteringPointType | dhIsParent">
-          <watt-tab
-            [label]="
-              t('childMeteringPoints', {
-                count: childMeteringPointsCount
-              })
-            "
-          >
-            <dh-child-metering-point-tab-content
-              [childMeteringPoints]="meteringPoint.childMeteringPoints"
-            ></dh-child-metering-point-tab-content>
-          </watt-tab>
-        </ng-container>
-      </watt-tabs>
+      <dh-metering-point-tabs></dh-metering-point-tabs>
     </ng-container>
   </ng-container>
 </ng-container>
