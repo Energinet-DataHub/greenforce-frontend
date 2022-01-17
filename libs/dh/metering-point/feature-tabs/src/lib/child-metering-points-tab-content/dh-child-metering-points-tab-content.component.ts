@@ -44,11 +44,11 @@ import { MeteringPointSimpleCimDto } from '@energinet-datahub/dh/shared/data-acc
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'dh-child-metering-point-tab-content',
-  templateUrl: './dh-child-metering-point-tab-content.component.html',
-  styleUrls: ['./dh-child-metering-point-tab-content.component.scss'],
+  selector: 'dh-child-metering-points-tab-content',
+  templateUrl: './dh-child-metering-points-tab-content.component.html',
+  styleUrls: ['./dh-child-metering-points-tab-content.component.scss'],
 })
-export class DhChildMeteringPointTabContentComponent implements AfterViewInit {
+export class DhChildMeteringPointsTabContentComponent implements AfterViewInit {
   displayedColumns: string[] = [
     'childMeteringPoint',
     'effectivePeriod',
@@ -103,7 +103,7 @@ export class DhChildMeteringPointTabContentComponent implements AfterViewInit {
 }
 
 @NgModule({
-  declarations: [DhChildMeteringPointTabContentComponent],
+  declarations: [DhChildMeteringPointsTabContentComponent],
   imports: [
     MatTableModule,
     TranslocoModule,
@@ -115,6 +115,6 @@ export class DhChildMeteringPointTabContentComponent implements AfterViewInit {
     RouterModule,
     DhSharedUiDateTimeModule,
   ],
-  exports: [DhChildMeteringPointTabContentComponent],
+  exports: [DhChildMeteringPointsTabContentComponent],
 })
-export class DhChildMeteringPointTabContentScam {}
+export class DhChildMeteringPointsTabContentScam {}

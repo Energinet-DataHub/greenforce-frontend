@@ -15,5 +15,3 @@
  * limitations under the License.
  */
 export * from './lib/dh-metering-point-feature-overview.module';
-export * from './lib/routing/dh-metering-point-path';
-export * from './lib/routing/dh-metering-point-id-param';

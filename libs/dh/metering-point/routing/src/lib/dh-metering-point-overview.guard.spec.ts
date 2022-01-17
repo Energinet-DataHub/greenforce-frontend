@@ -25,11 +25,11 @@ import {
   validMeteringPointId,
   invalidMeteringPointId,
 } from '@energinet-datahub/dh/shared/test-util-metering-point';
-import { dhMeteringPointSearchPath } from '@energinet-datahub/dh/metering-point/feature-search';
 
 import { DhMeteringPointOverviewGuard } from './dh-metering-point-overview.guard';
 import { dhMeteringPointIdParam } from './dh-metering-point-id-param';
 import { dhMeteringPointPath } from './dh-metering-point-path';
+import { dhMeteringPointSearchPath } from './dh-metering-point-search-path';
 
 describe(DhMeteringPointOverviewGuard.name, () => {
   @Component({

@@ -45,11 +45,20 @@
       "@energinet-datahub/dh/metering-point/domain": [
         "libs/dh/metering-point/domain/src/index.ts"
       ],
+      "@energinet-datahub/dh/metering-point/feature-identity-and-master-data": [
+        "libs/dh/metering-point/feature-identity-and-master-data/src/index.ts"
+      ],
       "@energinet-datahub/dh/metering-point/feature-overview": [
         "libs/dh/metering-point/feature-overview/src/index.ts"
       ],
       "@energinet-datahub/dh/metering-point/feature-search": [
         "libs/dh/metering-point/feature-search/src/index.ts"
+      ],
+      "@energinet-datahub/dh/metering-point/feature-tabs": [
+        "libs/dh/metering-point/feature-tabs/src/index.ts"
+      ],
+      "@energinet-datahub/dh/metering-point/routing": [
+        "libs/dh/metering-point/routing/src/index.ts"
       ],
       "@energinet-datahub/dh/metering-point/shared/ui-util": [
         "libs/dh/metering-point/shared/ui-util/src/index.ts"
