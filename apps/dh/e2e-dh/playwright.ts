@@ -26,7 +26,7 @@ export const config: PlaywrightTestConfig = {
     ignoreHTTPSErrors: true,
     // Tell all tests to load signed-in state from 'playwright-storage-state.json'.
     storageState: 'apps/dh/e2e-dh/playwright-storage-state.json',
-  }
+  },
 };
 
 // Default export is needed for Playwright to load the config.
