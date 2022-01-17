@@ -1,7 +1,7 @@
 {
   "ignore": ["**/api-*/**/*", "**/generated/**/*"],
   "**/*.cs": [
-    "// Copyright 2021 Energinet DataHub A/S",
+    "// Copyright 2022 Energinet DataHub A/S",
     "//",
     "// Licensed under the Apache License, Version 2.0 (the \"License2\");",
     "// you may not use this file except in compliance with the License.",
@@ -18,7 +18,7 @@
   "**/*.{csproj,html,xml,mdx}": [
     "<!--",
     "@license",
-    "Copyright 2021 Energinet DataHub A/S",
+    "Copyright 2022 Energinet DataHub A/S",
     "",
     "Licensed under the Apache License, Version 2.0 (the \"License2\");",
     "you may not use this file except in compliance with the License.",
@@ -34,7 +34,7 @@
     "-->"
   ],
   "**/*.py": [
-    "# Copyright 2021 Energinet DataHub A/S",
+    "# Copyright 2022 Energinet DataHub A/S",
     "#",
     "# Licensed under the Apache License, Version 2.0 (the \"License2\");",
     "# you may not use this file except in compliance with the License.",
@@ -50,7 +50,7 @@
   ],
   "**/*.sln": [
     "Microsoft Visual Studio Solution File, Format Version 12.00",
-    "# Copyright 2021 Energinet DataHub A/S",
+    "# Copyright 2022 Energinet DataHub A/S",
     "#",
     "# Licensed under the Apache License, Version 2.0 (the \"License2\");",
     "# you may not use this file except in compliance with the License.",
@@ -67,7 +67,7 @@
   "**/*.{proto,js,ts,scss}": [
     "/**",
     " * @license",
-    " * Copyright 2021 Energinet DataHub A/S",
+    " * Copyright 2022 Energinet DataHub A/S",
     " *",
     " * Licensed under the Apache License, Version 2.0 (the \"License2\");",
     " * you may not use this file except in compliance with the License.",
