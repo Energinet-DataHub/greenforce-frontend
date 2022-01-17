@@ -27,7 +27,7 @@ import { Location } from '@angular/common';
 import { TestBed } from '@angular/core/testing';
 import userEvent from '@testing-library/user-event';
 
-import { dhMeteringPointIdParam } from '@energinet-datahub/dh/metering-point/feature-overview';
+import { dhMeteringPointIdParam } from '@energinet-datahub/dh/metering-point/routing';
 import { en as enTranslations } from '@energinet-datahub/dh/globalization/assets-localization';
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
 

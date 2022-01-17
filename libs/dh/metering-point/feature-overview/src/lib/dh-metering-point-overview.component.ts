@@ -28,10 +28,10 @@ import { LetModule } from '@rx-angular/template';
 import { WattSpinnerModule } from '@energinet-datahub/watt';
 import { DhMeteringPointDataAccessApiStore } from '@energinet-datahub/dh/metering-point/data-access-api';
 import { DhMeteringPointFeatureIdentityAndMasterDataModule } from '@energinet-datahub/dh/metering-point/feature-identity-and-master-data';
+import { dhMeteringPointIdParam } from '@energinet-datahub/dh/metering-point/routing';
 import { DhMeteringPointFeatureTabsModule } from '@energinet-datahub/dh/metering-point/feature-tabs';
 
 import { DhBreadcrumbScam } from './breadcrumb/dh-breadcrumb.component';
-import { dhMeteringPointIdParam } from './routing/dh-metering-point-id-param';
 import { DhMeteringPointNotFoundScam } from './not-found/dh-metering-point-not-found.component';
 import { DhMeteringPointGeneralErrorScam } from './general-error/dh-metering-point-general-error.component';
 

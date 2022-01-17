@@ -23,7 +23,7 @@ import { TranslocoModule } from '@ngneat/transloco';
 
 import { DhChargesDataAccessApiStore } from '@energinet-datahub/dh/charges/data-access-api';
 import { ChargeLinkDto } from '@energinet-datahub/dh/shared/data-access-api';
-import { dhMeteringPointIdParam } from '@energinet-datahub/dh/metering-point/feature-overview';
+import { dhMeteringPointIdParam } from '@energinet-datahub/dh/metering-point/routing';
 import { WattSpinnerModule } from '@energinet-datahub/watt';
 
 import { DhChargeItemScam } from './dh-charge-item/dh-charge-item.component';
