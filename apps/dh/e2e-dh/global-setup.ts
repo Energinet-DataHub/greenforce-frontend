@@ -28,7 +28,7 @@ async function globalSetup(_config: FullConfig) {
   });
   const page = await context.newPage();
 
-  page.goto('https://localhost:4200');
+  page.goto(process.env.BASE_URL);
 
   // Click [placeholder="Email Address"]
   await page.click('[placeholder="Email Address"]');
@@ -42,7 +42,7 @@ async function globalSetup(_config: FullConfig) {
   // Click button:has-text("Sign in")
   await page.click('button:has-text("Sign in")');
 
-  await page.waitForURL('https://localhost:4200');
+  await page.waitForURL(process.env.BASE_URL);
 
   // Save signed-in state to 'playwright-storage-state.json'.
   await page
