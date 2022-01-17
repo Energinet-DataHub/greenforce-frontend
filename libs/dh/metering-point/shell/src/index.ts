@@ -15,4 +15,4 @@
  * limitations under the License.
  */
 export * from './lib/dh-metering-point-shell.module';
-export { dhMeteringPointPath } from '@energinet-datahub/dh/metering-point/feature-overview';
+export { dhMeteringPointPath } from '@energinet-datahub/dh/metering-point/routing';

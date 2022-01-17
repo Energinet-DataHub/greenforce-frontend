@@ -18,13 +18,14 @@ import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslocoModule } from '@ngneat/transloco';
 
-import { dhMeteringPointSearchPath } from '@energinet-datahub/dh/metering-point/feature-search';
+import {
+  dhMeteringPointSearchPath,
+  dhMeteringPointPath,
+} from '@energinet-datahub/dh/metering-point/routing';
 import {
   WattButtonModule,
   WattEmptyStateModule,
 } from '@energinet-datahub/watt';
-
-import { dhMeteringPointPath } from '../routing/dh-metering-point-path';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

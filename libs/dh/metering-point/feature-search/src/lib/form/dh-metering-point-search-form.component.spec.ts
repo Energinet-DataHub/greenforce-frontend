@@ -22,18 +22,20 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/angular';
 import { TestBed } from '@angular/core/testing';
 import userEvent from '@testing-library/user-event';
 
-import { dhMeteringPointPath } from '@energinet-datahub/dh/metering-point/feature-overview';
 import {
   validMeteringPointId,
   invalidMeteringPointId,
 } from '@energinet-datahub/dh/shared/test-util-metering-point';
+import {
+  dhMeteringPointPath,
+  dhMeteringPointSearchPath,
+} from '@energinet-datahub/dh/metering-point/routing';
 
 import { DhMeteringPointSearchComponent } from '../dh-metering-point-search.component';
 import {
   DhMeteringPointSearchFormComponent,
   DhMeteringPointSearchFormScam,
 } from './dh-metering-point-search-form.component';
-import { dhMeteringPointSearchPath } from '../routing/dh-metering-point-search-path';
 
 describe(DhMeteringPointSearchFormComponent.name, () => {
   async function setup() {
