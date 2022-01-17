@@ -233,7 +233,14 @@ function addLicense(file, content, license, options) {
 }
 function checkForLicense(content, license) {
   if (!license) return;
-  return removeWhitespace(content).startsWith(removeWhitespace(license));
+  var maybeLicense = removeWhitespace(content).startsWith(
+    removeWhitespace(license)
+  );
+  if (maybeLicense) {
+    return maybeLicense;
+  }
+  var copyrightNoticeRegex = /Copyright 20\d{2} Energinet DataHub A\/S/;
+  return copyrightNoticeRegex.test(content);
 }
 function removeWhitespace(str) {
   return str.replace(/\s/g, '');

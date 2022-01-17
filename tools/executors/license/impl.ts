@@ -94,7 +94,18 @@ function addLicense(
 
 function checkForLicense(content: string, license: string): boolean {
   if (!license) return;
-  return removeWhitespace(content).startsWith(removeWhitespace(license));
+
+  const maybeLicense = removeWhitespace(content).startsWith(
+    removeWhitespace(license)
+  );
+
+  if (maybeLicense) {
+    return maybeLicense;
+  }
+
+  const copyrightNoticeRegex = /Copyright 20\d{2} Energinet DataHub A\/S/;
+
+  return copyrightNoticeRegex.test(content);
 }
 
 function removeWhitespace(str: string): string {
