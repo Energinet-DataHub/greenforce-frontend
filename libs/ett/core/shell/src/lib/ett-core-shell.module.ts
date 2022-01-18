@@ -18,7 +18,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {
   EttAuthenticationGuard,
-  // ettAuthRoutePath,
+  ettAuthRoutePath,
 } from '@energinet-datahub/ett/auth/routing-security';
 import { GfBrowserConfigurationModule } from '@energinet-datahub/gf/util-browser';
 
@@ -55,6 +55,7 @@ const routes: Routes = [
     pathMatch: 'full',
     redirectTo: ettAuthRoutePath,
   },
+  */
   {
     path: ettAuthRoutePath,
     loadChildren: () =>
@@ -62,6 +63,7 @@ const routes: Routes = [
         (esModule) => esModule.EttAuthShellModule
       ),
   },
+  /*
   {
     path: '',
     component: EttShellComponent,
