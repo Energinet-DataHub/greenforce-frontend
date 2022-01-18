@@ -1,5 +1,13 @@
 # Project targets
 
+`e2e` target configurations using a `development` application configuration will
+load the `eo-api-environment.local.json` configuration file which can be
+configured to target a feature environment.
+
+`e2e` target configurations using a `production` application configuration will
+load the `eo-api-environment.json` configuration file which targets local/same
+environment `/api` endpoints which we stub using Cypress interceptors for now.
+
 ## Run end-to-end tests once in Cypress app with remote backend (feature environment)
 
 nx run e2e-ett:e2e
