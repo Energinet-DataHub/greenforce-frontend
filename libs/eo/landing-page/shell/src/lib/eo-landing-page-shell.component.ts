@@ -37,7 +37,6 @@ const selector = 'eo-landingpage-shell';
   ],
   template: `
     <eo-landingpage-shell-header></eo-landingpage-shell-header>
-    <!-- Content -->
   `,
 })
 export class EoLandingPageShellComponent {

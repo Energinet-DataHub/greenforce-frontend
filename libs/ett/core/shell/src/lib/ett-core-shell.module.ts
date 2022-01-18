@@ -18,44 +18,23 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {
   EttAuthenticationGuard,
-  ettAuthRoutePath,
+  ettAuthRoutePath
 } from '@energinet-datahub/ett/auth/routing-security';
 import { GfBrowserConfigurationModule } from '@energinet-datahub/gf/util-browser';
 
 import { EttHttpModule } from './ett-http.module';
 import { EttMaterialModule } from './ett-material.module';
-// import { EttShellComponent, EttShellScam } from './ett-shell.component';
-
-// Landingpage test, Jan K.
-import {
-  EoLandingPageShellComponent,
-  EoLandingPageShellScam,
-} from '@energinet-datahub/eo/landing-page/shell';
+import { EttShellComponent, EttShellScam } from './ett-shell.component';
+import { ettDashboardRoutePath } from '@energinet-datahub/ett/dashboard/routing';
 
 const routes: Routes = [
   {
     path: '',
-    component: EoLandingPageShellComponent,
-    canActivateChild: [EttAuthenticationGuard], // ?
-    /*
-    children: [
-      {
-        path: ettDashboardRoutePath,
-        loadChildren: () =>
-          import('@energinet-datahub/ett/dashboard/shell').then(
-            (esModule) => esModule.EttDashboardShellModule
-          ),
-      },
-    ],
-    */
-  },
-  /*
-  {
-    path: '',
     pathMatch: 'full',
-    redirectTo: ettAuthRoutePath,
+    loadChildren: () =>
+      import('@energinet-datahub/eo/landing-page/shell').then(
+        (esModule) => esModule.EoLandingPageShellModule)
   },
-  */
   {
     path: ettAuthRoutePath,
     loadChildren: () =>
@@ -63,7 +42,6 @@ const routes: Routes = [
         (esModule) => esModule.EttAuthShellModule
       ),
   },
-  /*
   {
     path: '',
     component: EttShellComponent,
@@ -78,7 +56,6 @@ const routes: Routes = [
       },
     ],
   },
-  */
 ];
 
 @NgModule({
@@ -92,8 +69,7 @@ const routes: Routes = [
       scrollPositionRestoration: 'enabled',
     }),
     EttMaterialModule.forRoot(),
-    // EttShellScam,
-    EoLandingPageShellScam, // JAN K: Understand this part.
+    EttShellScam
   ],
 })
 export class EttCoreShellModule {}
