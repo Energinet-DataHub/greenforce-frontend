@@ -32,7 +32,7 @@ limitations under the License.
     >
       No.
     </mat-header-cell>
-    <mat-cell *matCellDef="let element"> {{ element.position }} </mat-cell>
+    <mat-cell *matCellDef="let element">{{ element.position }}</mat-cell>
   </ng-container>
 
   <!-- Name Column -->
@@ -49,9 +49,7 @@ limitations under the License.
         <div class="watt-text-s">
           {{ element.name }}
         </div>
-        <div class="watt-text-xs" data-testid="gsrn">
-          Weight: {{ element.weight }}
-        </div>
+        <div class="watt-text-xs">Weight: {{ element.weight }}</div>
       </div>
     </mat-cell>
   </ng-container>
