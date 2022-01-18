@@ -115,6 +115,7 @@ async function runPlaywright(
 ) {
   const projectname = context.projectName;
   const sourceRoot = context.workspace.projects[projectname].sourceRoot;
+  process.env.BASE_URL = baseUrl;
 
   const { success } = await runCommandsExecutor(
     {
