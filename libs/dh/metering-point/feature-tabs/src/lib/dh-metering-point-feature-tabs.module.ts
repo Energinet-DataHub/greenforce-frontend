@@ -14,4 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './lib/dh-metering-point-search.component';
+import { NgModule } from '@angular/core';
+
+import { DhMeteringPointTabsScam } from './dh-metering-point-tabs.component';
+
+@NgModule({
+  exports: [DhMeteringPointTabsScam],
+})
+export class DhMeteringPointFeatureTabsModule {}

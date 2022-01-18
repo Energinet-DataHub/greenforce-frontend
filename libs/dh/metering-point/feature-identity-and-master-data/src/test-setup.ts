@@ -14,4 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './lib/dh-metering-point-search.component';
+import 'jest-preset-angular/setup-jest';
+
+import {
+  setUpTestbed,
+  setUpAngularTestingLibrary,
+} from '@energinet-datahub/gf/test-util-staging';
+import { addDomMatchers } from '@energinet-datahub/gf/test-util-matchers';
+
+addDomMatchers();
+setUpTestbed();
+setUpAngularTestingLibrary();
