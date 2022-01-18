@@ -26,12 +26,11 @@ describe('Authentication', () => {
         hostname: 'localhost',
         method: 'GET',
         pathname: '/api/auth/oidc/login',
-        // url: 'http://localhost:4200/api/auth/oidc/login?return_url=http://localhost:4200/dashboard',
       },
       {
         next_url: '/dashboard?success=1',
       }
-    ).as('authOidcLogin');
+    );
     loginPage.navigateTo();
 
     loginPage.getNemidLink().click();
