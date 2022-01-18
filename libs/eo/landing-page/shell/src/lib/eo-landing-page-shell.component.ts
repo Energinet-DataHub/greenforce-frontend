@@ -22,7 +22,6 @@ import {
 } from '@angular/core';
 
 import { EoLandingPageShellHeaderModule } from './header/eo-landing-page-shell-header.module';
-import { EoLandingPageShellFooterModule } from './footer/eo-landing-page-shell-footer.module';
 
 const selector = 'eo-landingpage-shell';
 
@@ -39,7 +38,6 @@ const selector = 'eo-landingpage-shell';
   template: `
     <eo-landingpage-shell-header></eo-landingpage-shell-header>
     <!-- Content -->
-    <eo-landingpage-shell-footer></eo-landingpage-shell-footer>
   `,
 })
 export class EoLandingPageShellComponent {
@@ -48,8 +46,7 @@ export class EoLandingPageShellComponent {
 @NgModule({
   declarations: [EoLandingPageShellComponent],
   imports: [
-    EoLandingPageShellHeaderModule,
-    EoLandingPageShellFooterModule
+    EoLandingPageShellHeaderModule
   ]
 })
 export class EoLandingPageShellScam {}
