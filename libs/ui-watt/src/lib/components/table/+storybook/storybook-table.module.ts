@@ -15,12 +15,13 @@
  * limitations under the License.
  */
 import { NgModule } from '@angular/core';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatTableModule } from '@angular/material/table';
+import { MatSortModule } from '@angular/material/sort';
+
+import { WattIconModule } from '../../../foundations/icon';
 import { StorybookTableWrapperComponent } from './storybook-table-wrapper.component';
 import { StorybookTableOverviewComponent } from './storybook-table-overview.component';
-import { WattIconModule } from '@energinet-datahub/watt';
-import { MatSortModule } from '@angular/material/sort';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   imports: [

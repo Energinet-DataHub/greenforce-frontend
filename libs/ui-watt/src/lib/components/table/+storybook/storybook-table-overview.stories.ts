@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 import { moduleMetadata, Story } from '@storybook/angular';
+
 import { StorybookTableModule } from './storybook-table.module';
 
 export default {
