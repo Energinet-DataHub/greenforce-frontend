@@ -34,7 +34,7 @@ const selector = 'eo-landingpage-shell-header';
   styles: [
     `
       ${selector} {
-        .mat-toolbar[role="heading"] {
+        .mat-toolbar[role='heading'] {
           display: flex;
           justify-content: space-between;
           filter: drop-shadow(0px 0px 15px rgba(0, 0, 0, 0.1));
