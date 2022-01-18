@@ -26,8 +26,8 @@ nx run e2e-ett:e2e:watch-production
 
 ## Run end-to-end tests headless once with remote backend (feature environment)
 
-nx run e2e-ett:e2e:ci
+nx run e2e-ett:e2e:ci-development
 
 ## Run end-to-end tests headless once with stubbed backend (`/api`)
 
-nx run e2e-ett:e2e:ci-production
+nx run e2e-ett:e2e:ci

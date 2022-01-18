@@ -108,7 +108,7 @@
         "development": {
           "hmr": true
         },
-        "e2e": {},
+        "e2e-development": {},
         "production": {
           "browserTarget": "app-ett:build:production"
         }

@@ -8,17 +8,17 @@
       "options": {
         "cypressConfig": "apps/ett/e2e-ett/cypress.json",
         "tsConfig": "apps/ett/e2e-ett/tsconfig.e2e.json",
-        "devServerTarget": "app-ett:serve:e2e",
+        "devServerTarget": "app-ett:serve:e2e-development",
         "headed": true
       },
       "configurations": {
         "ci": {
           "cypressConfig": "apps/ett/e2e-ett/cypress.ci.json",
+          "devServerTarget": "app-ett:serve:production",
           "headed": false
         },
-        "ci-production": {
+        "ci-development": {
           "cypressConfig": "apps/ett/e2e-ett/cypress.ci.json",
-          "devServerTarget": "app-ett:serve:production",
           "headed": false
         },
         "production": {
