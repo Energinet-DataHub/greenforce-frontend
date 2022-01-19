@@ -73,4 +73,4 @@ export class EoLandingPageHeaderComponent {
   exports: [EoLandingPageHeaderComponent],
   imports: [RouterModule, MatToolbarModule, MatButtonModule],
 })
-export class EoLandingPageShellHeaderScam {}
+export class EoLandingPageHeaderScam {}

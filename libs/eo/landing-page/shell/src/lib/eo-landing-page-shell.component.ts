@@ -21,7 +21,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 
-import { EoLandingPageShellHeaderScam } from './header/eo-landing-page-shell-header.component';
+import { EoLandingPageHeaderScam } from './header/eo-landing-page-header.component';
 
 const selector = 'eo-landing-page-shell';
 
@@ -44,6 +44,6 @@ export class EoLandingPageShellComponent {}
 
 @NgModule({
   declarations: [EoLandingPageShellComponent],
-  imports: [EoLandingPageShellHeaderScam],
+  imports: [EoLandingPageHeaderScam],
 })
 export class EoLandingPageShellScam {}
