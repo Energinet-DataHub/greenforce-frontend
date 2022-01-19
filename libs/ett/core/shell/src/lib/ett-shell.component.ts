@@ -43,7 +43,6 @@ const selector = 'ett-shell';
   ],
   template: `
     <watt-shell>
-
       <ng-container watt-shell-sidenav>
         <ett-primary-navigation></ett-primary-navigation>
       </ng-container>

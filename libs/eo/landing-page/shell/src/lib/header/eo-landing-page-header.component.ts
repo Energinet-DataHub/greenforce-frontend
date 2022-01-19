@@ -54,19 +54,16 @@ const selector = 'eo-landing-page-header';
     `,
   ],
   template: `
-    <mat-toolbar role="heading" class="${selector}__toolbar watt-space-inset-squished-m">
+    <mat-toolbar
+      role="heading"
+      class="${selector}__toolbar watt-space-inset-squished-m"
+    >
       <img src="assets/energyorigin-logo.png" alt="EnergyOrigin" />
-      <a
-        mat-button
-        mat-flat-button
-        routerLink="/login"
-        >Start</a
-      >
+      <a mat-button mat-flat-button routerLink="/login">Start</a>
     </mat-toolbar>
   `,
 })
-export class EoLandingPageHeaderComponent {
-}
+export class EoLandingPageHeaderComponent {}
 
 @NgModule({
   declarations: [EoLandingPageHeaderComponent],
