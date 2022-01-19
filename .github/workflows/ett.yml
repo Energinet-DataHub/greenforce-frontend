@@ -73,7 +73,7 @@ jobs:
 
   e2e-pr:
     name: 'PR: End-to-end test against feature environment if configured'
-    if: ${{ && github.event_name == 'pull_request' && needs.affected.outputs.is-affected == 'true' }}
+    if: ${{ github.event_name == 'pull_request' && needs.affected.outputs.is-affected == 'true' }}
     needs: affected
     runs-on: ubuntu-latest
 
