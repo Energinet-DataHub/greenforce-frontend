@@ -27,7 +27,7 @@ describe('EnergyOrigin app', () => {
   });
 
   it('displays a log in link in header', () => {
-    getLogInLinkInHeader().contains('START');
+    getLogInLinkInHeader().contains('Start');
   });
 
 });
