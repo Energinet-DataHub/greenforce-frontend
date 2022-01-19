@@ -108,7 +108,7 @@ jobs:
         run: npm run ngcc:ett
 
       - name: End-to-end test against feature environment if configured
-        run: yarn nx run e2e-ett:e2e --configuration=ci-development --base=origin/$BASE_BRANCH
+        run: yarn nx run e2e-ett:e2e --configuration=ci-development
 
   app:
     name: Build app
