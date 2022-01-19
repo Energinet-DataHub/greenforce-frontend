@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2021 Energinet DataHub A/S
+ * Copyright 2020 Energinet DataHub A/S
  *
  * Licensed under the Apache License, Version 2.0 (the "License2");
  * you may not use this file except in compliance with the License.
@@ -151,7 +151,7 @@ var __generator =
 exports.__esModule = true;
 /**
  * @license
- * Copyright 2021 Energinet DataHub A/S
+ * Copyright 2020 Energinet DataHub A/S
  *
  * Licensed under the Apache License, Version 2.0 (the "License2");
  * you may not use this file except in compliance with the License.
@@ -233,14 +233,7 @@ function addLicense(file, content, license, options) {
 }
 function checkForLicense(content, license) {
   if (!license) return;
-  var maybeLicense = removeWhitespace(content).startsWith(
-    removeWhitespace(license)
-  );
-  if (maybeLicense) {
-    return maybeLicense;
-  }
-  var copyrightNoticeRegex = /Copyright 20\d{2} Energinet DataHub A\/S/;
-  return copyrightNoticeRegex.test(content);
+  return removeWhitespace(content).startsWith(removeWhitespace(license));
 }
 function removeWhitespace(str) {
   return str.replace(/\s/g, '');
