@@ -20,15 +20,15 @@ const environments = [
   {
     name: 'B002',
     url: 'https://purple-forest-07e41fb03.azurestaticapps.net',
-  }
+  },
 ];
 
 environments.forEach((env) => {
-  test(`${env.name} should have correct redirect_uri, after redirected to B2C login page @b2c`, async ({ page }) => {
+  test(`${env.name} should have correct redirect_uri, after redirected to B2C login page @b2c`, async ({
+    page,
+  }) => {
     await page.goto(env.url);
     await page.waitForNavigation();
     expect(page.url()).toContain(`redirect_uri=${encodeURIComponent(env.url)}`);
   });
 });
-
-

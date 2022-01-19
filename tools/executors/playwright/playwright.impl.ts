@@ -119,13 +119,13 @@ async function runPlaywright(
   const sourceRoot = context.workspace.projects[projectname].sourceRoot;
 
   let playwrightCommand = `playwright test ${sourceRoot} --config=${opts.playwrightConfig}`;
-  if(opts.include) {
+  if (opts.include) {
     playwrightCommand += ` --grep=${opts.include}`;
   }
-  if(opts.exclude) {
+  if (opts.exclude) {
     playwrightCommand += ` --grep-invert=${opts.exclude}`;
   }
-  if(opts.debug) {
+  if (opts.debug) {
     process.env.PWDEBUG = '1';
     playwrightCommand += ` --workers=1`;
   }
@@ -134,9 +134,7 @@ async function runPlaywright(
 
   const { success } = await runCommandsExecutor(
     {
-      commands: [
-        playwrightCommand,
-      ],
+      commands: [playwrightCommand],
       parallel: true,
     },
     context
