@@ -16,18 +16,26 @@
  */
 import { moduleMetadata, Story } from '@storybook/angular';
 
-import { StorybookTableModule } from './storybook-table.module';
+import { StorybookTableOverviewComponent } from './storybook-table-overview.component';
+import { StorybookTableOverviewModule } from './storybook-table-overview.module';
 
 export default {
   title: 'Components/Table',
   decorators: [
     moduleMetadata({
-      imports: [StorybookTableModule],
+      imports: [StorybookTableOverviewModule],
     }),
   ],
 };
 
-export const Overview: Story = (args) => ({
+export const overview: Story<StorybookTableOverviewComponent> = (args) => ({
   props: args,
   template: '<storybook-table-overview></storybook-table-overview>',
 });
+overview.parameters = {
+  docs: {
+    source: {
+      code: 'asdas',
+    },
+  },
+};

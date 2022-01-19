@@ -20,7 +20,6 @@ import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
 
 import { WattIconModule } from '../../../foundations/icon';
-import { StorybookTableWrapperComponent } from './storybook-table-wrapper.component';
 import { StorybookTableOverviewComponent } from './storybook-table-overview.component';
 
 @NgModule({
@@ -30,10 +29,7 @@ import { StorybookTableOverviewComponent } from './storybook-table-overview.comp
     MatSortModule,
     BrowserAnimationsModule,
   ],
-  declarations: [
-    StorybookTableWrapperComponent,
-    StorybookTableOverviewComponent,
-  ],
-  exports: [StorybookTableWrapperComponent, StorybookTableOverviewComponent],
+  declarations: [StorybookTableOverviewComponent],
+  exports: [StorybookTableOverviewComponent],
 })
-export class StorybookTableModule {}
+export class StorybookTableOverviewModule {}
