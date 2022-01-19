@@ -23,7 +23,7 @@ const config: PlaywrightTestConfig = {
   use: {
     ...baseConfig.use,
     headless: true,
-    storageState: undefined
+    storageState: undefined,
   },
 };
 export default config;
