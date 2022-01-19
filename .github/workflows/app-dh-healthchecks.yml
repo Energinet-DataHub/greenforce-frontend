@@ -15,6 +15,9 @@ name: DH UI Frontend Healthchecks
 env:
   node-version: 14.x
 on:
+  push:
+    branches:
+     - 'feat/dh-healthchecks'
   schedule:
     - cron: '15 * * * *'
 
