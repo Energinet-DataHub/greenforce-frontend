@@ -14,6 +14,19 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
+<p>
+  <strong>Important:</strong>
+  Watt doesn't currently have a table component.
+</p>
+<p>
+  We recommend using the Table component (<a
+    href="https://material.angular.io/components/table/overview"
+    target="_blank"
+    >link to documentation</a
+  >) from Angular Material. When using that component, Watt will apply some
+  global styling to it as seen in the follwing example.
+</p>
+
 <mat-table
   #matTable
   [dataSource]="sortedData"
@@ -25,25 +38,13 @@ limitations under the License.
 
   <!-- Position Column -->
   <ng-container matColumnDef="position">
-    <mat-header-cell
-      *matHeaderCellDef
-      mat-sort-header
-      class="header-cell watt-label"
-    >
-      No.
-    </mat-header-cell>
+    <mat-header-cell *matHeaderCellDef mat-sort-header>No.</mat-header-cell>
     <mat-cell *matCellDef="let element">{{ element.position }}</mat-cell>
   </ng-container>
 
   <!-- Name Column -->
   <ng-container matColumnDef="name">
-    <mat-header-cell
-      *matHeaderCellDef
-      mat-sort-header
-      class="header-cell watt-label"
-    >
-      Name
-    </mat-header-cell>
+    <mat-header-cell *matHeaderCellDef mat-sort-header>Name</mat-header-cell>
     <mat-cell *matCellDef="let element">
       <div class="multi-line-cell">
         <div class="watt-text-s">
@@ -56,13 +57,7 @@ limitations under the License.
 
   <!-- Symbol Column -->
   <ng-container matColumnDef="symbol">
-    <mat-header-cell
-      *matHeaderCellDef
-      mat-sort-header
-      class="header-cell watt-label"
-    >
-      Symbol
-    </mat-header-cell>
+    <mat-header-cell *matHeaderCellDef mat-sort-header>Symbol</mat-header-cell>
     <mat-cell *matCellDef="let element">
       <watt-icon
         name="date"

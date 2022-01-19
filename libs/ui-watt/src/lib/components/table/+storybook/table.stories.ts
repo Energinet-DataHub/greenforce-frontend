@@ -35,7 +35,7 @@ export const overview: Story<StorybookTableOverviewComponent> = (args) => ({
 overview.parameters = {
   docs: {
     source: {
-      code: 'asdas',
+      code: 'Use Table component from Angular Material.',
     },
   },
 };
