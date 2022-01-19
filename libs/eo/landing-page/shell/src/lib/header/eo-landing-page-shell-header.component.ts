@@ -33,29 +33,25 @@ const selector = 'eo-landingpage-shell-header';
   selector,
   styles: [
     `
-      ${selector} {
-        mat-toolbar[role="heading"] {
-          display: flex;
-          justify-content: space-between;
-          filter: drop-shadow(0px 0px 15px rgba(0, 0, 0, 0.1));
-          height: 64px;
-          background: #fff;
-          padding-left: 16px;
-          padding-right: 16px;
+      .${selector}__toolbar {
+        display: flex;
+        justify-content: space-between;
+        filter: drop-shadow(0px 0px 15px rgba(0, 0, 0, 0.1));
+        height: var(--watt-space-xl);
+        background: var(--watt-color-neutral-white);
 
-          a {
-            background: var(--watt-color-primary);
+        a {
+          background: var(--watt-color-primary);
 
-            &:hover {
-              text-decoration: none;
-            }
+          &:hover {
+            text-decoration: none;
           }
         }
       }
     `,
   ],
   template: `
-    <mat-toolbar role="heading">
+    <mat-toolbar role="heading" class="${selector}__toolbar watt-space-inset-squished-m">
       <img src="assets/energyorigin-logo.png" />
       <a
         mat-button

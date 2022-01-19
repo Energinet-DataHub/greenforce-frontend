@@ -15,3 +15,5 @@
  * limitations under the License.
  */
 export const getTitle = () => cy.get('h1');
+export const getLink = () => cy.get('a');
+export const getImage = () => cy.get('img');

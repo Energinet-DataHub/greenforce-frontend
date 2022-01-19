@@ -39,13 +39,10 @@ const selector = 'eo-landingpage-shell';
     <eo-landingpage-shell-header></eo-landingpage-shell-header>
   `,
 })
-export class EoLandingPageShellComponent {
-}
+export class EoLandingPageShellComponent {}
 
 @NgModule({
   declarations: [EoLandingPageShellComponent],
-  imports: [
-    EoLandingPageShellHeaderModule
-  ]
+  imports: [EoLandingPageShellHeaderModule],
 })
 export class EoLandingPageShellScam {}

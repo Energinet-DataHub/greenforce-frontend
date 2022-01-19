@@ -18,6 +18,6 @@ import { NgModule } from '@angular/core';
 import { EoLandingPageShellHeaderScam } from './eo-landing-page-shell-header.component';
 
 @NgModule({
-  exports: [EoLandingPageShellHeaderScam]
+  exports: [EoLandingPageShellHeaderScam],
 })
 export class EoLandingPageShellHeaderModule {}

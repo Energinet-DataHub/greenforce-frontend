@@ -14,12 +14,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { getTitle } from '../support/app.po';
+import {
+  getLink,
+  getImage
+} from '../support/app.po';
 
 describe('EnergyOrigin app', () => {
   beforeEach(() => cy.visit('/'));
 
-  it('displays a title', () => {
-    getTitle().contains('EnergyOrigin');
+  it('displays a log in link in header', () => {
+    getLink().contains('START');
+  });
+
+  it('displays a logo in header', () => {
+    getImage().should('have.attr', 'src', 'assets/energyorigin-logo.png');
   });
 });
