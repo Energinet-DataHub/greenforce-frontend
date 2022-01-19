@@ -26,6 +26,11 @@ jobs:
     name: Healthchecks
     runs-on: ubuntu-latest
     steps:
+      - name: Check out source code with current branch Git history
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
       - name: Set up Node.js ${{ env.node-version }}
         uses: actions/setup-node@v2
         with:
