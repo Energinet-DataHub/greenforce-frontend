@@ -18,7 +18,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {
   EttAuthenticationGuard,
-  ettAuthRoutePath
+  ettAuthRoutePath,
 } from '@energinet-datahub/ett/auth/routing-security';
 import { ettDashboardRoutePath } from '@energinet-datahub/ett/dashboard/routing';
 import { GfBrowserConfigurationModule } from '@energinet-datahub/gf/util-browser';
@@ -33,7 +33,8 @@ const routes: Routes = [
     pathMatch: 'full',
     loadChildren: () =>
       import('@energinet-datahub/eo/landing-page/shell').then(
-        (esModule) => esModule.EoLandingPageShellModule)
+        (esModule) => esModule.EoLandingPageShellModule
+      ),
   },
   {
     path: ettAuthRoutePath,
@@ -69,7 +70,7 @@ const routes: Routes = [
       scrollPositionRestoration: 'enabled',
     }),
     EttMaterialModule.forRoot(),
-    EttShellScam
+    EttShellScam,
   ],
 })
 export class EttCoreShellModule {}
