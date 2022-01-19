@@ -36,9 +36,7 @@ const selector = 'eo-landing-page-shell';
       }
     `,
   ],
-  template: `
-    <eo-landing-page-header></eo-landing-page-header>
-  `,
+  template: ` <eo-landing-page-header></eo-landing-page-header> `,
 })
 export class EoLandingPageShellComponent {}
 

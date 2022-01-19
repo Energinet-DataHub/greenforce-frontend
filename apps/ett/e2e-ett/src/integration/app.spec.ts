@@ -16,18 +16,21 @@
  */
 import {
   getLogoInHeader,
-  getLogInLinkInHeader
+  getLogInLinkInHeader,
 } from '../support/landing-page.po';
 
 describe('EnergyOrigin app', () => {
   beforeEach(() => cy.visit('/'));
 
   it('displays a logo in header', () => {
-    getLogoInHeader().should('have.attr', 'src', 'assets/energyorigin-logo.png');
+    getLogoInHeader().should(
+      'have.attr',
+      'src',
+      'assets/energyorigin-logo.png'
+    );
   });
 
   it('displays a log in link in header', () => {
     getLogInLinkInHeader().contains('Start');
   });
-
 });
