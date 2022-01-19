@@ -14,13 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+@use './typography/typography.import' as typography;
+
 mat-table {
-  mat-header-row {
+  .mat-header-row {
     min-height: 34px;
   }
 
-  mat-header-cell {
+  .mat-header-cell {
     background-color: var(--watt-color-focus-selection);
+    @include typography.watt-label;
   }
 
   mat-row:hover {
