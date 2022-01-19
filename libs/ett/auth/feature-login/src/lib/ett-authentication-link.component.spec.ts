@@ -16,12 +16,18 @@
  */
 import { APP_BASE_HREF } from '@angular/common';
 import { TestBed } from '@angular/core/testing';
-import { AuthHttp, AuthOidcQueryParameterName } from '@energinet-datahub/ett/auth/data-access-api';
+import {
+  AuthHttp,
+  AuthOidcQueryParameterName,
+} from '@energinet-datahub/ett/auth/data-access-api';
 import { render, screen } from '@testing-library/angular';
 import { MockProvider } from 'ng-mocks';
 import { of, throwError } from 'rxjs';
 
-import { EttAuthenticationLinkComponent, EttAuthenticationLinkScam } from './ett-authentication-link.component';
+import {
+  EttAuthenticationLinkComponent,
+  EttAuthenticationLinkScam,
+} from './ett-authentication-link.component';
 
 describe(EttAuthenticationLinkComponent.name, () => {
   describe('Given the Auth API is available', () => {
