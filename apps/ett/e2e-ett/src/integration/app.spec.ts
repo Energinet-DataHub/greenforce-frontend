@@ -14,10 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  getLink,
-  getImage
-} from '../support/app.po';
+import { getLink, getImage } from '../support/app.po';
 
 describe('EnergyOrigin app', () => {
   beforeEach(() => cy.visit('/'));

@@ -51,7 +51,10 @@ const selector = 'eo-landingpage-shell-header';
     `,
   ],
   template: `
-    <mat-toolbar role="heading" class="${selector}__toolbar watt-space-inset-squished-m">
+    <mat-toolbar
+      role="heading"
+      class="${selector}__toolbar watt-space-inset-squished-m"
+    >
       <img src="assets/energyorigin-logo.png" />
       <a
         mat-button
