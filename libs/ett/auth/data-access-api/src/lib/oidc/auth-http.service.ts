@@ -16,10 +16,7 @@
  */
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import {
-  EoApiEnvironment,
-  eoApiEnvironmentToken,
-} from '@energinet-datahub/eo/shared/environments';
+import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
 import { Observable } from 'rxjs';
 
 import { AuthOidcQueryParameterName } from './auth-oidc-query-parameter-name';
@@ -53,8 +50,7 @@ export class AuthHttp {
       `${this.apiEnvironment.apiBase}/auth/oidc/login`,
       {
         params: {
-          // TODO(xlgni): Add parameter when accepted by Auth API
-          // [AuthOidcQueryParameterName.FeUrl]: feUrl,
+          [AuthOidcQueryParameterName.FeUrl]: feUrl,
           [AuthOidcQueryParameterName.ReturnUrl]: returnUrl,
         },
       }
