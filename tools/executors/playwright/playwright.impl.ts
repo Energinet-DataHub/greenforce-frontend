@@ -35,6 +35,8 @@ export interface PlaywrightExecutorOptions extends Json {
   devServerTarget?: string;
   headed?: boolean;
   headless?: boolean;
+  include?: string;
+  exclude?: string;
 }
 
 export default async function playwrightExecutor(
@@ -115,12 +117,25 @@ async function runPlaywright(
 ) {
   const projectname = context.projectName;
   const sourceRoot = context.workspace.projects[projectname].sourceRoot;
+
+  let playwrightCommand = `playwright test ${sourceRoot} --config=${opts.playwrightConfig}`;
+  if(opts.include) {
+    playwrightCommand += ` --grep=${opts.include}`;
+  }
+  if(opts.exclude) {
+    playwrightCommand += ` --grep-invert=${opts.exclude}`;
+  }
+  if(opts.debug) {
+    process.env.PWDEBUG = '1';
+    playwrightCommand += ` --workers=1`;
+  }
+
   process.env.BASE_URL = baseUrl;
 
   const { success } = await runCommandsExecutor(
     {
       commands: [
-        `playwright test ${sourceRoot} --config=${opts.playwrightConfig}`,
+        playwrightCommand,
       ],
       parallel: true,
     },

@@ -22,6 +22,14 @@
     "devServerTarget": {
       "type": "string",
       "description": "Dev server target to run tests against."
+    },
+    "include": {
+      "type": "string",
+      "description": "Only run tests matching this regular expression (default: \".*\")."
+    },
+    "exclude": {
+      "type": "string",
+      "description": "Only run tests that do not match this regular expression."
     }
   },
   "additionalProperties": true,
