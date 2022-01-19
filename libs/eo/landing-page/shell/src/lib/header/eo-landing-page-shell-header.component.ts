@@ -23,9 +23,8 @@ import {
 import { RouterModule } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { WattButtonVariant } from '@energinet-datahub/watt';
 
-const selector = 'eo-landingpage-shell-header';
+const selector = 'eo-landing-page-header';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -41,6 +40,10 @@ const selector = 'eo-landingpage-shell-header';
         background: var(--watt-color-neutral-white);
 
         a {
+          // Temporary solution until we have a WATT link, styled as a button with the appropiate dimensions (?)
+          height: 44px; // var(--watt-space-l);
+          line-height: 44px;
+          color: var(--watt-color-neutral-white);
           background: var(--watt-color-primary);
 
           &:hover {
@@ -52,24 +55,22 @@ const selector = 'eo-landingpage-shell-header';
   ],
   template: `
     <mat-toolbar role="heading" class="${selector}__toolbar watt-space-inset-squished-m">
-      <img src="assets/energyorigin-logo.png" />
+      <img src="assets/energyorigin-logo.png" alt="EnergyOrigin" />
       <a
         mat-button
         mat-flat-button
-        [color]="headerButtonVariant"
         routerLink="/login"
-        >START</a
+        >Start</a
       >
     </mat-toolbar>
   `,
 })
-export class EoLandingPageShellHeaderComponent {
-  readonly headerButtonVariant: WattButtonVariant = 'primary';
+export class EoLandingPageHeaderComponent {
 }
 
 @NgModule({
-  declarations: [EoLandingPageShellHeaderComponent],
-  exports: [EoLandingPageShellHeaderComponent],
+  declarations: [EoLandingPageHeaderComponent],
+  exports: [EoLandingPageHeaderComponent],
   imports: [RouterModule, MatToolbarModule, MatButtonModule],
 })
 export class EoLandingPageShellHeaderScam {}

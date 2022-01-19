@@ -15,18 +15,19 @@
  * limitations under the License.
  */
 import {
-  getLink,
-  getImage
-} from '../support/app.po';
+  getLogoInHeader,
+  getLogInLinkInHeader
+} from '../support/landing-page.po';
 
 describe('EnergyOrigin app', () => {
   beforeEach(() => cy.visit('/'));
 
-  it('displays a log in link in header', () => {
-    getLink().contains('START');
+  it('displays a logo in header', () => {
+    getLogoInHeader().should('have.attr', 'src', 'assets/energyorigin-logo.png');
   });
 
-  it('displays a logo in header', () => {
-    getImage().should('have.attr', 'src', 'assets/energyorigin-logo.png');
+  it('displays a log in link in header', () => {
+    getLogInLinkInHeader().contains('START');
   });
+
 });

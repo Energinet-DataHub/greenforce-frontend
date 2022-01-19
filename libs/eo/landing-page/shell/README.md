@@ -1,4 +1,4 @@
-# eo-landing-page-shell
+# EnergyOrigin Landing page shell
 
 This library was generated with [Nx](https://nx.dev).
 

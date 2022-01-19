@@ -38,13 +38,12 @@ const selector = 'ett-shell';
         width: 100%;
         max-width: 1600px;
         margin: 0 auto;
-        /** @todo: Agree on breakpoints - Full width and centered on screens larger than 1600px(?) */
       }
     `,
   ],
   template: `
     <watt-shell>
-      <!--
+
       <ng-container watt-shell-sidenav>
         <ett-primary-navigation></ett-primary-navigation>
       </ng-container>
@@ -52,7 +51,7 @@ const selector = 'ett-shell';
       <ng-container watt-shell-toolbar>
         <h1>EnergyOrigin</h1>
       </ng-container>
-    -->
+
       <router-outlet></router-outlet>
     </watt-shell>
   `,

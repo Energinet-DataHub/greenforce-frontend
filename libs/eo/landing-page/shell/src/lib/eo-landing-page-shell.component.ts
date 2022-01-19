@@ -21,9 +21,9 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 
-import { EoLandingPageShellHeaderModule } from './header/eo-landing-page-shell-header.module';
+import { EoLandingPageShellHeaderScam } from './header/eo-landing-page-shell-header.component';
 
-const selector = 'eo-landingpage-shell';
+const selector = 'eo-landing-page-shell';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -32,17 +32,18 @@ const selector = 'eo-landingpage-shell';
   styles: [
     `
       ${selector} {
+        display: block;
       }
     `,
   ],
   template: `
-    <eo-landingpage-shell-header></eo-landingpage-shell-header>
+    <eo-landing-page-header></eo-landing-page-header>
   `,
 })
 export class EoLandingPageShellComponent {}
 
 @NgModule({
   declarations: [EoLandingPageShellComponent],
-  imports: [EoLandingPageShellHeaderModule],
+  imports: [EoLandingPageShellHeaderScam],
 })
 export class EoLandingPageShellScam {}
