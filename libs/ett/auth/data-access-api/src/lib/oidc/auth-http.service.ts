@@ -16,7 +16,10 @@
  */
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { EoApiEnvironment, eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
+import {
+  EoApiEnvironment,
+  eoApiEnvironmentToken,
+} from '@energinet-datahub/eo/shared/environments';
 import { Observable } from 'rxjs';
 
 import { AuthOidcQueryParameterName } from './auth-oidc-query-parameter-name';
