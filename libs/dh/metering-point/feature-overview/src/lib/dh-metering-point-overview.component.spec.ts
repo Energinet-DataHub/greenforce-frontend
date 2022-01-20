@@ -69,7 +69,7 @@ describe(DhMeteringPointOverviewComponent.name, () => {
   });
 
   let view: RenderResult<SpectacularAppComponent>;
-  const meteringPointId = '575391908025497398';
+  const meteringPointId = '571313180400014602';
   let featureRouter: SpectacularFeatureRouter;
   let featureLocation: SpectacularFeatureLocation;
 
