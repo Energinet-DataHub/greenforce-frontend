@@ -15,13 +15,14 @@
  * limitations under the License.
  */
 import { PlaywrightTestConfig } from '@playwright/test';
+import 'dotenv/config';
 
 // We use named export to beeing able to extend the config in other config files
 export const config: PlaywrightTestConfig = {
   globalSetup: require.resolve('./global-setup'),
   use: {
+    baseURL: process.env.BASE_URL,
     headless: false,
-    baseURL: 'https://localhost:4200/',
     ignoreHTTPSErrors: true,
     // Tell all tests to load signed-in state from 'playwright-storage-state.json'.
     storageState: 'apps/dh/e2e-dh/playwright-storage-state.json',

@@ -437,6 +437,7 @@ function runPlaywright(baseUrl, opts, context) {
         case 0:
           projectname = context.projectName;
           sourceRoot = context.workspace.projects[projectname].sourceRoot;
+          process.env.BASE_URL = baseUrl;
           return [
             4 /*yield*/,
             (0, run_commands_impl_1['default'])(

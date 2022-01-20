@@ -83,7 +83,7 @@ describe(DhMeteringPointSearchComponent.name, () => {
   it('should redirect to overview, if metering point is found', async () => {
     const { input, submitButton } = await setup();
     const location: Location = TestBed.inject(Location);
-    const validMeteringPointIdThatExist = '575391908025497398';
+    const validMeteringPointIdThatExist = '571313180400014602';
 
     userEvent.type(input, validMeteringPointIdThatExist);
     userEvent.click(submitButton);
@@ -104,7 +104,7 @@ describe(DhMeteringPointSearchComponent.name, () => {
     ).not.toBeInTheDocument();
 
     await waitFor(() => {
-      expect(location.path()).toBe('/575391908025497398');
+      expect(location.path()).toBe('/571313180400014602');
     });
   });
 
