@@ -67,7 +67,7 @@ jobs:
 
   bff_ci:
     needs: [dotnet_solution_ci, terraform_validate, sonarcloud_analysis]
-    uses: Energinet-DataHub/.github/.github/workflows/dotnet-create-artifact.yml@2.8.0
+    uses: Energinet-DataHub/.github/.github/workflows/dotnet-create-webapi-artifact.yml@2.8.0
     with:
       CSPROJ_FILE_PATH: 'apps/dh/api-dh/source/DataHub.WebApi/DataHub.WebApi.csproj'
       DOTNET_VERSION: '5.0.202'
