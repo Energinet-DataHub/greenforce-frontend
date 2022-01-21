@@ -38,7 +38,7 @@ on:
 
 jobs:
   dotnet_solution_ci:
-    uses: Energinet-DataHub/.github/.github/workflows/dotnet-solution-ci.yml@2.8.0
+    uses: Energinet-DataHub/.github/.github/workflows/dotnet-solution-ci.yml@3.0.3
     with:
       SOLUTION_FILE_PATH: 'apps/dh/api-dh/DataHub.WebApi.sln'
       DOTNET_VERSION: '5.0'
@@ -50,13 +50,13 @@ jobs:
       AZURE_KEYVAULT_URL: ${{ secrets.AZURE_TESTING_KEYVAULT_URL }}
 
   terraform_validate:
-    uses: Energinet-DataHub/.github/.github/workflows/terraform-validate.yml@2.8.0
+    uses: Energinet-DataHub/.github/.github/workflows/terraform-validate.yml@3.0.3
     with:
       TERRAFORM_WORKING_DIR_PATH: 'build/infrastructure/dh/main'
       TERRAFORM_VERSION: '1.1.2'
 
   sonarcloud_analysis:
-    uses: Energinet-DataHub/.github/.github/workflows/sonarcloud-dotnet.yml@2.8.0
+    uses: Energinet-DataHub/.github/.github/workflows/sonarcloud-dotnet.yml@3.0.3
     with:
       SOLUTION_FILE_PATH: 'apps/dh/api-dh/DataHub.WebApi.sln'
       DOTNET_VERSION: '5.0'
@@ -67,7 +67,7 @@ jobs:
 
   bff_ci:
     needs: [dotnet_solution_ci, terraform_validate, sonarcloud_analysis]
-    uses: Energinet-DataHub/.github/.github/workflows/dotnet-create-function-artifact.yml@2.8.0
+    uses: Energinet-DataHub/.github/.github/workflows/dotnet-create-webapi-artifact.yml@3.0.3
     with:
       CSPROJ_FILE_PATH: 'apps/dh/api-dh/source/DataHub.WebApi/DataHub.WebApi.csproj'
       DOTNET_VERSION: '5.0.202'
@@ -131,7 +131,7 @@ jobs:
 
   create_prerelease:
     needs: [bff_ci]
-    uses: Energinet-DataHub/.github/.github/workflows/create-prerelease.yml@2.8.0
+    uses: Energinet-DataHub/.github/.github/workflows/create-prerelease.yml@3.0.3
     with:
       CALLER_REPOSITORY_PATH: Energinet-DataHub/greenforce-frontend
     secrets:
