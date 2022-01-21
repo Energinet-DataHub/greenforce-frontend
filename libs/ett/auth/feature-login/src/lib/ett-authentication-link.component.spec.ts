@@ -17,7 +17,7 @@
 import { APP_BASE_HREF } from '@angular/common';
 import { TestBed } from '@angular/core/testing';
 import {
-  AuthOidcHttp,
+  AuthHttp,
   AuthOidcQueryParameterName,
 } from '@energinet-datahub/ett/auth/data-access-api';
 import { render, screen } from '@testing-library/angular';
@@ -35,10 +35,10 @@ describe(EttAuthenticationLinkComponent.name, () => {
       await render(EttAuthenticationLinkComponent, {
         imports: [EttAuthenticationLinkScam],
         providers: [
-          MockProvider(AuthOidcHttp, {
-            login: (returnUrl) =>
+          MockProvider(AuthHttp, {
+            getLogin: (_feUrl, returnUrl) =>
               of({
-                url: `${authenticationUrl}?${AuthOidcQueryParameterName.ReturnUrl}=${returnUrl}`,
+                next_url: `${authenticationUrl}?${AuthOidcQueryParameterName.ReturnUrl}=${returnUrl}`,
               }),
           }),
         ],
@@ -57,7 +57,7 @@ describe(EttAuthenticationLinkComponent.name, () => {
     });
 
     it(`
-      When user authentiaction is successful
+      When user authentication is successful
       Then the user is redirected to the dashboard`, async () => {
       const baseHref = TestBed.inject(APP_BASE_HREF);
       const actualUrl = new URL(link.href);
@@ -73,8 +73,8 @@ describe(EttAuthenticationLinkComponent.name, () => {
       await render(EttAuthenticationLinkComponent, {
         imports: [EttAuthenticationLinkScam],
         providers: [
-          MockProvider(AuthOidcHttp, {
-            login: () => throwError(() => new Error('Dummy error message')),
+          MockProvider(AuthHttp, {
+            getLogin: () => throwError(() => new Error('Dummy error message')),
           }),
         ],
       });

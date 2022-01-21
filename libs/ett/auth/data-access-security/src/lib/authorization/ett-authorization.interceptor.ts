@@ -38,7 +38,6 @@ export class EttAuthorizationInterceptor implements HttpInterceptor {
     request: HttpRequest<unknown>,
     nextHandler: HttpHandler
   ): Observable<HttpEvent<unknown>> {
-    request.responseType;
     return nextHandler.handle(request).pipe(
       tap({
         error: (error) => {

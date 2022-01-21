@@ -14,6 +14,5 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-// OIDC
-export * from './lib/oidc/auth-http.service';
-export * from './lib/oidc/auth-oidc-query-parameter-name';
+export const getTitle = () =>
+  cy.findByRole('heading', { level: 2, name: /dashboard/i });

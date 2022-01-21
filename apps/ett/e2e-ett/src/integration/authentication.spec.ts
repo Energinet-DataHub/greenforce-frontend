@@ -14,6 +14,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-// OIDC
-export * from './lib/oidc/auth-http.service';
-export * from './lib/oidc/auth-oidc-query-parameter-name';
+import * as dashboardPage from '../support/dashboard.po';
+import * as loginPage from '../support/login.po';
+
+describe('Authentication', () => {
+  it(`Given a commercial user
+    When NemID authentication is successful
+    Then they are redirected to the dashboard page`, () => {
+    cy.intercept(
+      {
+        hostname: 'localhost',
+        method: 'GET',
+        pathname: '/api/auth/oidc/login',
+      },
+      {
+        next_url: '/dashboard?success=1',
+      }
+    );
+    loginPage.navigateTo();
+
+    loginPage.getNemidLink().click();
+
+    dashboardPage.getTitle().should('exist');
+  });
+});
