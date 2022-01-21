@@ -50,7 +50,6 @@ const selector = 'eo-landing-page-header';
           // Default styles for button in WATT
           @include watt.typography-watt-button;
 
-
           // The following styles are following the "watt primary button"
           background: var(--watt-color-primary);
           color: var(--watt-color-primary-contrast);
