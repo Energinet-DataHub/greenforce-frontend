@@ -17,6 +17,13 @@
 export enum AuthOidcQueryParameterName {
   Error = 'error',
   ErrorCode = 'error_code',
+  /**
+   * Base URL for authentication web app.
+   */
+  FeUrl = 'fe_url',
+  /**
+   * Absolute URL to return to after authentication.
+   */
   ReturnUrl = 'return_url',
   Success = 'success',
 }

@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2020 Energinet DataHub A/S
+ * Copyright 2021 Energinet DataHub A/S
  *
  * Licensed under the Apache License, Version 2.0 (the "License2");
  * you may not use this file except in compliance with the License.
@@ -14,6 +14,5 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-// OIDC
-export * from './lib/oidc/auth-http.service';
-export * from './lib/oidc/auth-oidc-query-parameter-name';
+export const getTitle = () =>
+  cy.findByRole('heading', { level: 2, name: /dashboard/i });

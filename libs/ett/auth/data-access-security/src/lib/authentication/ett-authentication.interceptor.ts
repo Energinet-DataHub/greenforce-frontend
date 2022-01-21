@@ -40,7 +40,6 @@ export class EttAuthenticationInterceptor implements HttpInterceptor {
     request: HttpRequest<unknown>,
     nextHandler: HttpHandler
   ): Observable<HttpEvent<unknown>> {
-    request.responseType;
     return nextHandler
       .handle(request)
       .pipe(

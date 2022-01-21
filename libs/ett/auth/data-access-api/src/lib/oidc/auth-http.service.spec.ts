@@ -25,17 +25,17 @@ import {
 } from '@energinet-datahub/eo/shared/environments';
 import { lastValueFrom } from 'rxjs';
 
-import { AuthOidcHttp, AuthOidcLoginResponse } from './auth-oidc-http.service';
+import { AuthHttp, AuthOidcLoginResponse } from './auth-http.service';
 import { AuthOidcQueryParameterName } from './auth-oidc-query-parameter-name';
 
-describe(AuthOidcHttp.name, () => {
+describe(AuthHttp.name, () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
     });
 
     apiEnvironment = TestBed.inject(eoApiEnvironmentToken);
-    client = TestBed.inject(AuthOidcHttp);
+    client = TestBed.inject(AuthHttp);
     server = TestBed.inject(HttpTestingController);
   });
 
@@ -44,16 +44,17 @@ describe(AuthOidcHttp.name, () => {
   });
 
   let apiEnvironment: EoApiEnvironment;
-  let client: AuthOidcHttp;
+  let client: AuthHttp;
   let server: HttpTestingController;
 
   it('the redirect URI query parameter is the specified return URL', () => {
     const fakeResponse: AuthOidcLoginResponse = {
-      url: 'https://example.com/authentication',
+      next_url: 'https://example.com/authentication',
     };
-    const expectedReturnUrl = 'http://example.com/app';
+    const expectedAuthAppBaseUrl = 'http://example.com/app';
+    const expectedReturnUrl = `${expectedAuthAppBaseUrl}/welcome`;
 
-    lastValueFrom(client.login(expectedReturnUrl));
+    lastValueFrom(client.getLogin(expectedAuthAppBaseUrl, expectedReturnUrl));
     const response = server.expectOne(
       (request) =>
         request.url === `${apiEnvironment.apiBase}/auth/oidc/login` &&
@@ -61,6 +62,9 @@ describe(AuthOidcHttp.name, () => {
     );
     response.flush(fakeResponse);
 
+    expect(response.request.params.get(AuthOidcQueryParameterName.FeUrl)).toBe(
+      expectedAuthAppBaseUrl
+    );
     expect(
       response.request.params.get(AuthOidcQueryParameterName.ReturnUrl)
     ).toBe(expectedReturnUrl);
