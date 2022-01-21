@@ -30,8 +30,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-// export const getLogoInHeader = () => cy.get('img').should('have.attr', 'class', 'eo-landingpage-shell-header__toolbar');
-export const getLogoInHeader = () =>
-  cy.get('eo-landingpage-shell-header').find('img');
-export const getLogInLinkInHeader = () =>
-  cy.get('eo-landingpage-shell-header').find('a');
+export const findLogo = () =>
+  cy.findByRole('img', {
+    name: 'EnergyOrigin',
+  });
+export const findStartLink = () => cy.findByRole('link', { name: /Start/i });
+export const navigateTo = () => cy.visit('/');

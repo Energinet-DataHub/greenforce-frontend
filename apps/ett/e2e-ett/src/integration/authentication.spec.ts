@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 import * as dashboardPage from '../support/dashboard.po';
+import * as landingPage from '../support/landing-page.po';
 import * as loginPage from '../support/login.po';
 
 describe('Authentication', () => {
@@ -31,7 +32,8 @@ describe('Authentication', () => {
         next_url: '/dashboard?success=1',
       }
     );
-    loginPage.navigateTo();
+    landingPage.navigateTo();
+    landingPage.findStartLink().click();
 
     loginPage.getNemidLink().click();
 
