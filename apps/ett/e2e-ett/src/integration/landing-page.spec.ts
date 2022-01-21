@@ -14,23 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  getLogoInHeader,
-  getLogInLinkInHeader,
-} from '../support/landing-page.po';
+import * as landingPage from '../support/landing-page.po';
 
-describe('EnergyOrigin app', () => {
-  beforeEach(() => cy.visit('/'));
-
-  it('displays a logo in header', () => {
-    getLogoInHeader().should(
-      'have.attr',
-      'src',
-      'assets/energyorigin-logo.png'
-    );
+describe('Landing page', () => {
+  beforeEach(() => {
+    landingPage.navigateTo();
   });
 
-  it('displays a log in link in header', () => {
-    getLogInLinkInHeader().contains('Start');
+  it('displays the EnergyOrigin logo', () => {
+    landingPage.findLogo().should('exist');
   });
 });
