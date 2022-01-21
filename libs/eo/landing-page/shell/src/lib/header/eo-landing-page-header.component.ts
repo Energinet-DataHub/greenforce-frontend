@@ -32,19 +32,35 @@ const selector = 'eo-landing-page-header';
   selector,
   styles: [
     `
+      @use '@energinet-datahub/watt/utils' as watt;
+
       .${selector}__toolbar {
         display: flex;
         justify-content: space-between;
-        filter: drop-shadow(0px 0px 15px rgba(0, 0, 0, 0.1));
+
+        // These styles are matching watt toolbar
+        background-color: var(--watt-color-neutral-white);
+        border-bottom: 1px solid var(--watt-color-neutral-grey-300);
+        box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.08);
+
+        // Adjustment locally to contain a normal sized button
         height: var(--watt-space-xl);
-        background: var(--watt-color-neutral-white);
 
         a {
-          // Calculating height & line-height - Should be 44px, but is not directly available in Storybook afaik(?), hence the magic number 3 below.
-          height: calc(var(--watt-space-l) + calc(var(--watt-space-xs) * 3));
-          line-height: calc(var(--watt-space-l) + calc(var(--watt-space-xs) * 3));
-          color: var(--watt-color-neutral-white);
+          // Default styles for button in WATT
+          @include watt.typography-watt-button;
+
+
+          // The following styles are following the "watt primary button"
           background: var(--watt-color-primary);
+          color: var(--watt-color-primary-contrast);
+
+          // This is equivalent to a normal size watt button
+          min-width: 6.25rem;
+          height: 2.75rem;
+
+          // Adjustment locally to fit the position of the text vertically
+          line-height: 2.75rem;
 
           &:hover {
             text-decoration: none;
@@ -58,7 +74,7 @@ const selector = 'eo-landing-page-header';
       role="heading"
       class="${selector}__toolbar watt-space-inset-squished-m"
     >
-      <img src="assets/energyorigin-logo.png" alt="EnergyOrigin" />
+      <img src="assets/energyorigin-logo.svg" alt="EnergyOrigin" />
       <a mat-button mat-flat-button routerLink="/login">Start</a>
     </mat-toolbar>
   `,
