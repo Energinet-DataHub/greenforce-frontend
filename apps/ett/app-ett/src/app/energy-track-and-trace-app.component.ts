@@ -17,7 +17,6 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  HostBinding,
   NgModule,
   ViewEncapsulation,
 } from '@angular/core';
