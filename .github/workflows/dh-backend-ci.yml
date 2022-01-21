@@ -32,9 +32,10 @@ on:
     branches:
       - main
     paths:
-      - 'build/infrastructure/dh/*'
+      - 'build/infrastructure/dh/**'
       - 'apps/dh/api-dh/**'
       - '.github/workflows/dh-backend-ci.yml'
+      - '.github/actions/publish-release-contents/action.yml'
 
 jobs:
   dotnet_solution_ci:
