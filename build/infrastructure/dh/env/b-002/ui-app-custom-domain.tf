@@ -13,6 +13,6 @@
 # limitations under the License.
 resource "azurerm_static_site_custom_domain" "ui_custom_domain" {
   static_site_id  = azurerm_static_site.ui.id
-  domain_name     = "it-lev.datahub.dk"
+  domain_name     = "itlev.datahub.dk"
   validation_type = "cname-delegation"
 }
