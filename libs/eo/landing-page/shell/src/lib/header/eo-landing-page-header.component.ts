@@ -42,7 +42,9 @@ const selector = 'eo-landing-page-header';
         a {
           // Calculating height & line-height - Should be 44px, but is not directly available in Storybook afaik(?), hence the magic number 3 below.
           height: calc(var(--watt-space-l) + calc(var(--watt-space-xs) * 3));
-          line-height: calc(var(--watt-space-l) + calc(var(--watt-space-xs) * 3));
+          line-height: calc(
+            var(--watt-space-l) + calc(var(--watt-space-xs) * 3)
+          );
           color: var(--watt-color-neutral-white);
           background: var(--watt-color-primary);
 
