@@ -32,7 +32,7 @@ on:
     branches:
       - main
     paths:
-      - 'build/infrastructure/dh/**'
+      - 'build/infrastructure/dh/*'
       - 'apps/dh/api-dh/**'
       - '.github/workflows/dh-backend-ci.yml'
 
