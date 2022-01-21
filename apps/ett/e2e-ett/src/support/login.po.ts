@@ -14,6 +14,5 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-// OIDC
-export * from './lib/oidc/auth-http.service';
-export * from './lib/oidc/auth-oidc-query-parameter-name';
+export const getNemidLink = () => cy.findByRole('link', { name: /NemID/i });
+export const navigateTo = () => cy.visit('/login');
