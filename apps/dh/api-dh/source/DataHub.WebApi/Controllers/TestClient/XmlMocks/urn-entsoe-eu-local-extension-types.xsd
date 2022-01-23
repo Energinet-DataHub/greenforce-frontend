@@ -1,0 +1,4201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- edited with XMLSpy v2019 rel. 3 sp1 (http://www.altova.com) by Ove Nesvik (EdiSys Consulting AS) -->
+<xsd:schema xmlns:ecl="urn:entsoe.eu:wgedi:codelists" xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xsd:simpleType name="LocalAllocationModeType">
+		<xsd:restriction base="xsd:NMTOKEN">
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="LocalAnalogType">
+		<xsd:restriction base="xsd:NMTOKEN">
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="LocalAssetType">
+		<xsd:restriction base="xsd:NMTOKEN">
+			<xsd:enumeration value="Z03">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Transformer station</Title>
+							<Definition>A resource that can transforms voltage</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D01">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Steam turbine with back-pressure mode</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D02">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Gas turbine</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D03">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Combined cycle</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D04">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Combustion engine gas</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D05">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Steam turbine with condensation / steam</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D06">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Boiler</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D07">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Stirling engine</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D10">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Fuel Cells</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D11">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Photo voltaic cells</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D12">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Wind turbines</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D13">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Hydroelectric power</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D14">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Wave power</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D17">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Dispatch able wind turbines</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D19">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Combustion engine – diesel</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D20">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Combustion engine - bio</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D99">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Unknown technology</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>			
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="LocalAuctionType">
+		<xsd:restriction base="xsd:NMTOKEN">
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="LocalBusinessType">
+		<xsd:restriction base="xsd:NMTOKEN">
+			<xsd:enumeration value="N03">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>In-feed ATC</Title>
+							<Definition>Available transfer capacity at the in-feed side of a tie-line or cable (i.e. into the cable, out from sending area)(E.g. used in the NorNed project)</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="N04">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Out-feed ATC</Title>
+							<Definition>Available transfer capacity at the out-feed side of a tieline or cable, i.e. after subtraction of grid loss. (i.e. out of the cable, into receiving area)(E.g. used in the NorNed project)</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z05">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Net internal trade counterpart</Title>
+							<Definition>Net internal trade as reported from the counterpart, used during matching procedure.</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z08">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Trade, unconfirmed</Title>
+							<Definition>The trade plan of an actor when not matched against a counterpart, used during matching procedure.</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z12">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Total primary reserve</Title>
+							<Definition>Sum of all primary reserves </Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z13">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Balance regulation activations</Title>
+							<Definition>Activations of tertiary reserves in the Balance regulation market</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z14">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>System operator adjustment </Title>
+							<Definition>Proposed adjustment by the System operator, used during matching procedure.</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z15">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Result of an automatic System operator adjustment </Title>
+							<Definition>Forced adjustment by the System operator, used during matching procedure.</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z16">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Market schedules difference </Title>
+							<Definition>Difference between own and counterparty market schedules, used during matching procedure.</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z17">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Technical minimum</Title>
+							<Definition>Technical minimum possible, under minimum, Resource Object having the possibility of using overload areas.</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z18">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Technical maximum</Title>
+							<Definition>Technical maximum possible, maximum incl. overload, Resource Object having the possibility of using overload areas.</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z19">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Total maximum production</Title>
+							<Definition>Schedule for maximum total production.</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z20">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Total minimum production</Title>
+							<Definition>Schedule for minimum total production.</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z21">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Total Transfer Capacity (TTC)</Title>
+							<Definition>The Total Transfer Capacity is the maximum exchange program between two areas compatible with operational security standards applicable at each system if future network conditions, generation and load patterns were perfectly known in advance.</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z22">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Maximum production capacity</Title>
+							<Definition>Maximum total value of planned production.</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z23">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Minimum production capacity</Title>
+							<Definition>Minimum total value of planned production</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z24">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Peak load resource</Title>
+							<Definition>Peak load resource refers to power plants which produce electricity using condensing power capacity covered by the power load reserve arrangement and may also refer to dis-connectable consumption.</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z27">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Operational capacity (OC)</Title>
+							<Definition>Operational capacity is exchanged between System operators. The OC is the available transfer capacity as established during the operational day, i.e. the capacity available after closure of the intra-day market. The OC is used for system operation and not for market purposes. The OC may be both higher and lower than the ATC. The OC may be negative. This is a permanent Nordic code.</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z28">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Balance regulation power</Title>
+							<Definition>Offered tertiary reserves to the Balance regulation market</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z29">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Reserves option power</Title>
+							<Definition>Offered tertiary reserves to the Reserves option market</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z32">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>System price</Title>
+							<Definition>The time series provides the system price, which is calculated as the price that will be realised if there are no congestions between Market balance areas.</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z35">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Commercial bid</Title>
+							<Definition>The time series provides commercial bids.</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z36">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Reserve bid</Title>
+							<Definition>The time series provides reserve bids.</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z37">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>The time series provides reserve bids.</Title>
+							<Definition>Activations of primary reserves</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z38">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Hydro production</Title>
+							<Definition>The business being described concerns production based on hydro power</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z39">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Nuclear production</Title>
+							<Definition>The business being described concerns production based on nuclear power</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z40">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Thermal production</Title>
+							<Definition>The business being described concerns production based on thermal power</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z41">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Wind production</Title>
+							<Definition>The business being described concerns production based on wind power</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z42">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Decentralised production</Title>
+							<Definition>The business being described concerns production based on decentralised power</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z43">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Gas turbine and diesel production</Title>
+							<Definition>The business being described concerns production based on gas turbine and diesel power</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z44">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Other thermal production</Title>
+							<Definition>The business being described concerns production based on other thermal power</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z45">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Disturbance on the Link</Title>
+							<Definition>Nordic code (currently used by SwePol)</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z46">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>System Operator redispatching, in case of ASP special</Title>
+							<Definition>Nordic code (currently used by SwePol)</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z47">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Loop Flow</Title>
+							<Definition>Nordic code (currently used by SwePol)</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z48">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Number of return cables</Title>
+							<Definition>Nordic code (currently used by SwePol)</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z50">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Commercial wind production</Title>
+							<Definition>The time series provides commercial bids based on wind production</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z52">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Small scale production</Title>
+							<Definition>Production from small scale production plants</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z64">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Internal trade difference</Title>
+							<Definition>A time series concerning internal trade difference, within a Market balance area, i.e. the difference between trades reported from an out party (seller) and an in party (buyer). The internal trade difference is the delta value between what is reported by the two Balance responsible Parties.</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z66">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Last resort</Title>
+							<Definition>A time series concerning consumption handled by supplier of last resort</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z67">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>TRM</Title>
+							<Definition>Transmission Reliability Margin</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z68">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Production Units own consumption</Title>
+							<Definition>The consumption of one or more Production Units</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z69">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Metered frequency</Title>
+							<Definition>A time series concerning metered frequency</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z73">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Fast active disturbance reserve</Title>
+							<Definition>The fast active disturbance reserve is the manual reserve (FRR-M) available within 15 minutes in the event of the loss of an individual principal component (production unit, line, transformer, bus bar etc.). Restores the frequency controlled disturbance reserve.</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z74">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Imbalance sales price</Title>
+							<Definition>A time series concerning imbalance prices for sales</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z75">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Imbalance purchase price</Title>
+							<Definition>A time series concerning imbalance prices for purchase</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z76">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Day ahead prices used for CZC forecast calculation</Title>
+							<Definition>20190403: Reserved by Statnett (Stein-Ole)</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z77">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>ACE OL (Area Control Error Open Loop)</Title>
+							<Definition>The Area Control Error Open Loop (ACE OL) is the real-time imbalance of an area in the power system without automatic Frequency Restoration Reserve (aFRR) and manual Frequency Restoration Reserves (mFRR). ACE OL is the imbalance before any operator balancing actions.</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z78">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Upper Alert</Title>
+							<Definition>A time series concerning the upper limit before an alarm is raised</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z79">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Upper Emergency</Title>
+							<Definition>A time series concerning the upper limit before an emergency is raised</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z80">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Lower Alert</Title>
+							<Definition>A time series concerning the lower limit before an alarm is raised</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z81">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Lower Emergency</Title>
+							<Definition>A time series concerning the lower limit before an emergency is raised</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z82">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Upper Warning</Title>
+							<Definition>A time series concerning the upper limit before a warning is raised</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z83">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Lower Warning</Title>
+							<Definition>A time series concerning the lower limit before a warning is raised</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z84">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Inertia</Title>
+							<Definition>A time series concerning the ability of the kinetic energy stored in the rotating masses in the electricity system to resist changes in frequency.</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z85">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>FFR</Title>
+							<Definition>A time series concerning the Fast Frequency Reserve (FFR), a power response activated within about one second when the system frequency drops below a certain level.</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z86">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Frequency nadir</Title>
+							<Definition>A time series concerning the expected lowest value of the frequency, after a disturbance.</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z87">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Reference incident</Title>
+							<Definition>A time series concerning the expected maximum incident size in MW.</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z88">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Total planned flow</Title>
+							<Definition>A time series concerning total planned flow of power between areas.</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z89">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Expected countertrade</Title>
+							<Definition>The planned supportive power corrections.</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z90">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Power Plan Trade</Title>
+							<Definition>Sum of planned flow considering the Day ahead and Intraday market.</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z91">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Loop transit</Title>
+							<Definition>Flow resulting from agreed loop flows and transit agreement.</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z92">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Agreed supportive power (ASP) </Title>
+							<Definition>Flow from agreed supportive power.</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z93">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Production adjustments</Title>
+							<Definition>Period shift products activated in the balancing time frame where the activation and need are in different areas.</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="LocalCategoryType">
+		<xsd:restriction base="xsd:NMTOKEN">
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="LocalClassificationType">
+		<xsd:restriction base="xsd:NMTOKEN">
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="LocalCodingSchemeType">
+		<xsd:restriction base="xsd:NMTOKEN">
+			<xsd:enumeration value="ARR">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Social Security Number</Title>
+							<Definition>Social Security Number</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="VA">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>VAT number</Title>
+							<Definition>VAT number</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="9">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>GS1</Title>
+							<Definition>GS1</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="LocalCoordinateSystemType">
+		<xsd:restriction base="xsd:NMTOKEN">
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="LocalContractType">
+		<xsd:restriction base="xsd:NMTOKEN">
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="LocalCurrencyType">
+		<xsd:restriction base="xsd:NMTOKEN">
+			<xsd:enumeration value="BAM"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="LocalCurveType">
+		<xsd:restriction base="xsd:NMTOKEN">
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="LocalDirectionType">
+		<xsd:restriction base="xsd:NMTOKEN">
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="LocalEicType">
+		<xsd:restriction base="xsd:NMTOKEN">
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="LocalEnergyProductType">
+		<xsd:restriction base="xsd:NMTOKEN">
+			<xsd:enumeration value="5790001330590">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Tariff</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="5790001330606">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Fuel quantity</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="LocalHVDCModeType">
+		<xsd:restriction base="xsd:NMTOKEN">
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="LocalIndicatorType">
+		<xsd:restriction base="xsd:NMTOKEN">
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="LocalMessageType">
+		<xsd:restriction base="xsd:NMTOKEN">
+			<xsd:enumeration value="294">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Application acknowledgement and error report</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="392">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Request change of supplier</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="414">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Confirmation of start of supply</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="432">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Notification to grid operator of contract termination</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D01">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Request re-allocate change of supplier</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D02">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Response re-allocate change of supplier</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D03">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Request Service</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D04">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Response Servicerequest</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D05">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Request Update Master Data Charge</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D06">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Response Update Master Data Charge</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D07">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Notify Master Data Charge </Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D08">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Query Master Data Charge </Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D09">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Response Master Data Charge </Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D10">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Request update charge information</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D11">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Response update charge information</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D12">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Notify charge information</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D13">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Query charge information</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D14">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Response charge information</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D15">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Request update Metering Point party</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D16">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Response update Metering Point party</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D17">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Response MasterData party </Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D18">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Query all master data </Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D19">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Reject all master data </Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D20">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Response MasterData MeterinPoint</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D21">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Request for Aggregated Billing Information</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D22">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Response MasterData Meter</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D23">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Notify Volumes</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D24">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Notify missing data</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D25">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Request missing data</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="E07">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Master data, metering point</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="E08">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Master data, meter</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="E10">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Request for Master data, Metering point</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="E21">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Master data, Consumer</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="E31">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Aggregate metered data from the Metered Data Aggregator, local</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="E38">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Request Master data, meter</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="E41">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Request to Meter administrator (MA) for change in Meter-db</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="E42">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Response from Meter administrator (MA) for change in Meter-db</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="E44">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Notification to supplier of contract termination</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="E58">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Request to change metering point attributes</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="E59">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title> Confirmation/rejection of change metering point attributes</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="E66">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Validated metered data, time series</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="E67">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Request regarding Cancellation </Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="E68">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Response regarding Cancellation </Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="E73">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Request for validated metered data</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="E74">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Request aggregated metered data</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="E78">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Cancellation of notification</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="ERR">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Processability Error Report</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z03">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Auction Specification Document</Title>
+							<Definition>The document provides auction specification information.</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z04">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Operational schedule, binding</Title>
+							<Definition>The document provides binding operational (resource) schedules from the System operator, after market cut-off time.</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z06">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Market connection points document</Title>
+							<Definition>A document specifying connection point and related area where the connection point belongs.</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z07">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Rate of exchange document </Title>
+							<Definition>A document used to distribute Rate of exchange</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z08">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Intermediate Confirmation of Aggregate metered data from the Metered Data Aggregator</Title>
+							<Definition>Intermediate Confirmation of Aggregated Data per Neighbouring Grid from Imbalance Settlement Responsible to Metered Data Aggregator</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z09">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Final Confirmation of Aggregate metered data from the Metered Data Aggregator</Title>
+							<Definition>Final Confirmation of Aggregated Data per Neighbouring Grid from Imbalance Settlement Responsible to Metered Data Aggregator</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z12">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Request change of retailer consumption master data</Title>
+							<Definition>A document requesting changes to retailer consumption master data, sent from an Entitled Role to the Imbalance Settlement Responsible</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z13">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Request change of Resource Object master data</Title>
+							<Definition>Resource Object master data document where Validity Start and/or Validity End date are changed within the Validity Time Interval (Start date/time inclusive and End date/time exclusive). A document containing master data for a Resource Object</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z16">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Generator Group Relations document</Title>
+							<Definition>A document containing master data for Generator Group and Generator Relations</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z17">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Spot Market Bid Status Report</Title>
+							<Definition>A document containing a Bid Status from the Spot Market</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z18">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Party Relation Master Data Document containing master data changed within the Validity Time Interval</Title>
+							<Definition>Party Relation Master Data Document containing master data changed within the Validity Time Interval (Start date/time inclusive and End date/time exclusive)</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z19">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Party Relation Master Data Document containing all valid master data within the Validity Time Interval</Title>
+							<Definition>Party Relation Master Data Document containing all valid master data within the Validity Time Interval (Start date/time inclusive and End date/time exclusive)</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z20">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Retailer consumption master data document containing master data changed within the Validity Time Interval</Title>
+							<Definition>Retailer consumption master data document containing master data changed within the Validity Time Interval (Start date/time inclusive and End date/time exclusive)</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z21">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Retailer consumption master data document containing all valid master data within the Validity Time Interval</Title>
+							<Definition>Retailer consumption master data document containing all valid master data within the Validity Time Interval (Start date/time inclusive and End date/time exclusive)</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z22">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Resource Object master data document containing master data changed within the Validity Time Interval</Title>
+							<Definition>Resource Object master data document containing master data changed within the Validity Time Interval (Start date/time inclusive and End date/time exclusive)</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z23">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Resource Object master data document containing all valid master data within the Validity Time Interval</Title>
+							<Definition>Resource Object master data document containing all valid master data within the Validity Time Interval (Start date/time inclusive and End date/time exclusive)</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z24">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Request Bilateral Trade Structure Document</Title>
+							<Definition>Request Bilateral Trade Structure Document</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z25">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Request PX Trade Structure Document</Title>
+							<Definition>A document requesting a new, changed or deleted PX (Power Exchange) Trade Structure </Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z26">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>A document requesting a new, changed or deleted PX (Power Exchange) Trade Structure </Title>
+							<Definition>Bilateral trade structure master data document containing master data changed within the Validity Time Interval (Start date/time inclusive and End date/time exclusive)</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z27">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Bilateral trade structure master data document containing all valid master data within the Validity Time Interval</Title>
+							<Definition>Bilateral trade structure master data document containing all valid master data within the Validity Time Interval (Start date/time inclusive and End date/time exclusive)</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z28">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>PX trade structure master data document containing master data changed within the Validity Time Interval</Title>
+							<Definition>PX (Power Exchange) trade structure master data document containing master data changed within the Validity Time Interval (Start date/time inclusive and End date/time exclusive)</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z29">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>PX trade structure master data document containing all valid master data within the Validity Time Interval</Title>
+							<Definition>PX (Power Exchange) trade structure master data document containing all valid master data within the Validity Time Interval (Start date/time inclusive and End date/time exclusive)</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z30">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Request change of Generator Group (Regulation Object) relations</Title>
+							<Definition>Used for master data for Resource Objects</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z31">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Production Plan Structure – valid for the whole time interval</Title>
+							<Definition>Used for master data for Resource Objects</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z32">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Production Plan Structure – having a start or end within the validity period</Title>
+							<Definition>Used for master data for Resource Objects</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z34">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Market Operator Configuration Document</Title>
+							<Definition>A document used for sending Market operator calendars.</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z35">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>ACE OL</Title>
+							<Definition>A document to provide Area Control Error Open Loop (ACE OL) values</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z36">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Power Prognoses</Title>
+							<Definition>A document to provide power prognoses</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="LocalMarketProductType">
+		<xsd:restriction base="xsd:NMTOKEN">
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="LocalObjectAggregationType">
+		<xsd:restriction base="xsd:NMTOKEN">
+			<xsd:enumeration value="Z01">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Generator group</Title>
+							<Definition>The object being described concerns a group of Reserve objects or Resource objects</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z02">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Mutually Regulated Areas (MRA)</Title>
+							<Definition>The object being described concerns Mutually Regulated Areas (MRA)</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="LocalPaymentTermsType">
+		<xsd:restriction base="xsd:NMTOKEN">
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="LocalPriceCategoryType">
+		<xsd:restriction base="xsd:NMTOKEN">
+			<xsd:enumeration value="Z01">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Buying</Title>
+							<Definition>The price for buying commodities in the market.</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z02">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Selling</Title>
+							<Definition>The price for selling commodities in the market.</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z03">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Average</Title>
+							<Definition>Average, i.e. the average price in the market.</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="LocalPriceDirectionType">
+		<xsd:restriction base="xsd:NMTOKEN">
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="LocalProcessType">
+		<xsd:restriction base="xsd:NMTOKEN">
+			<xsd:enumeration value="D02">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Preparation for imbalance settlement</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D03">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Temporary</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D04">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>1st settlement</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D05">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>2nd settlement</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D06">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Continuous meter reading from profiled metering points</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D07">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Rollback Change-of-supplier</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D09">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Latest available value</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D10">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Meter reading, profiled consumption</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D11">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Incorrect process</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D12">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Cancel meter reading request</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D13">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Change of supply to supplier of last resort</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D14">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Close down metering point</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D15">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Connect meteringpoint</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D16">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title> Merge of Grids</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D17">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Update masterdata settlement</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D18">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Update charge information</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D19">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Meter Reading</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D20">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Electrical heating</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D21">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Move-in due to other reason </Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D22">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Servicerequest</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D23">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Reminder Balance Supplier</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D24">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Missing flex meter reading</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D25">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Missing non-profiled time series</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D26">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Missing flex time series</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D27">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Missing profiled reading</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D28">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Proposal contact information</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D29">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Secondary move-in</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D30">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Switch with short notice</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D31">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Transfer metering point</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D32">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Correction settlement</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D33">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Incorrect move</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D34">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>End supply due to reallocate</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D35">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Continue supply due to rejected reallocate</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D36">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Continue supply of customer</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D37">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Cancel service request</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D38">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>End of supply with short notice</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D39">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Production Obligation</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D40">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Removed parent relation on meteringpoint</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D41">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>No disconnection of meteringpoint</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D42">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Periodic flex metering </Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D43">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Historical information about consumption</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D44">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Process cancelled by requesting party</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D45">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Process cancelled by ITX</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D46">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Incorrect MeteringGridArea</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="E01">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Move</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="E02">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>New metering point</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="E03">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Change of balance supplier</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="E05">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Cancellation</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="E06">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Unrequested change of balance supplier</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="E0G">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Data alignment for master data metering point</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="E20">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>End of supply</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="E23">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Periodic metering</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="E30">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Historical data</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="E32">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Update master data metering point</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="E34">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Update master data consumer</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="E53">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Meter reading on demand</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="E56">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Change of Balance Responsible Party</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="E65">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Customer move-in</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="E66">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Customer move-out</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="E67">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Placement of Meter </Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="E75">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Change of metering method</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="E79">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Change Connection Status</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="E80">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Change of estimated annual volume</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="E84">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Update master data meter</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z01">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Frequency controlled reserves market</Title>
+							<Definition>Processes related to the Frequency controlled reserves market, Primary reserves market</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z02">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>LFC market</Title>
+							<Definition>Processes related to the Load Frequency Control market, Secondary reserves market</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z03">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Balance regulation market</Title>
+							<Definition>Processes related to the Balance regulation market, Tertiary reserves market</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z05">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Bilateral trade</Title>
+							<Definition>Processes related to the bilateral trade </Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z06">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Total trade</Title>
+							<Definition>The trade balance of a party at a given time </Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z08">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Common Grid Model (CGM) process</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z09">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Coordinated Security Assessment (CSA) process</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z10">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Outage Planning Coordination process</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z11">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Short and Medium Term Adequacy Assessment (SMTA)</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z12">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>ACE OL real-time </Title>
+							<Definition>The process of exchanging real-time ACE OL values</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z13">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Corrected real time values</Title>
+							<Definition>Reporting of real time values after validation and correction.</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z14">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Fast Frequency Reserve (FFR) Process</Title>
+							<Definition>The process of exchanging information regarding the Fast Frequency Reserve (FFR).</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="LocalQualityType">
+		<xsd:restriction base="xsd:NMTOKEN">
+			<xsd:enumeration value="Z01">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Calculated</Title>
+							<Definition>The contents of the object are calculated.</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="LocalReasonCodeType">
+		<xsd:restriction base="xsd:NMTOKEN">
+			<xsd:enumeration value="D01">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>The document is approved</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D02">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>General error</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D03">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Missing consumer name or address</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D04">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Not used</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D05">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Metering point ID does not match the one from the original document</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D06">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Reference to transaction ID does not match the one from the original document</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D07">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Ongoing move process</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D08">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Balance supplier does not match the current Balance Supplier</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D09">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Not used</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D11">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Combination of search criteria not possible</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D12">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Invalid Quantity Quality Code</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D13">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>DataHub Internal error</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D14">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Incorrect charge information </Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D15">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Incorrect settlement</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D16">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Incorrect connection status</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D17">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Incorrect CPR/CVR</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D18">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Incorrect type of meteringpoint</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D19">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Functioncode not allowed</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D20">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Violated process</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D21">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Cancel Meterreading</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D22">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Change of supply on MP, new</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D23">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Resolution not correct</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D24">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Incorrect contract information</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D25">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Balance Responsible Party does not match the current Balance Responsible Party</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D26">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Unauthorized TSO</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D27">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Illegal request</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D28">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Service request rejected</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D29">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>No existing contract</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D30">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>The attribute cannot be updated in this process </Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D31">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Incorrect meter information according to rules</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D32">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Metering point sub type cannot be changed</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D33">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Metering point is part of a calculation structure</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D34">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Parent metering point has children</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D35">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Balance supplier exist at metering point</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D36">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Metering point cannot be connected</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D37">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Illegal metering point sub type</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D38">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Stop of supply not registered for metering point</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D39">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Ongoing stop of supply</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D40">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Illegal process</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D41">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>The municipality must be involved in the disconnection</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D42">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>The police must be involved in the disconnection</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D43">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>The bailiff’s court must be involved in the disconnection</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D44">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Other rejection reason</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D45">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Rejection 5</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D46">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Incorrect MeteringGridArea </Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D47">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Operation not allowed for net settlement group 6</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D48">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Marketplayer is blocked for operation in this MeteringGridArea</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D49">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Other marketplayer is blocked for operation in this MeteringGridArea</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D50">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>No delegation found</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D51">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Change of electrical heating status not allowed</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D52">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Process could not be carried out. Please contact DataHub Support</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D53">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Incorrect MeterReading Occurrence</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D54">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>A move is not allowed because of a completed “End of Supply” process</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D55">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Incorrect MPConnectionType</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D56">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Incorrect MPCapacity</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D57">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Incorrect PowerPlant</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D58">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>No access to the meter</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D59">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Incorrect MPTechnologyCode</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D60">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Illegal use of code</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D61">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Unauthorized Meteringpoint Responsible party</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D62">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Incorrect Resolution</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D63">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Actual Address indicator is not correct</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="E09">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Installation not identifiable</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="E10">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Metering point not identifiable</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="E11">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Measuring problem</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="E14">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Other Reason</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="E16">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Unauthorized balance supplier</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="E17">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Requested switch date not within time limits</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="E18">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Unauthorized balance responsible</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="E19">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Meter readings not within limits</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="E22">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Metering point blocked for switching</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="E29">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Product code unknown or not related to MP</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="E47">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>No ongoing switch for MP</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="E50">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Invalid period</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="E51">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Invalid number of decimals</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="E55">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Unathorised metered data responsible</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="E59">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Already existing relation</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="E61">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Meter not identifiable</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="E73">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Incorrect measure unit</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="E81">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>MeteringPoint is not connected</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="E86">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Incorrect value</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="E87">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Number of observations dosn't fit observation period/resolution</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="E90">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Measurement beyond plausibility limits</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="E91">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Estimate is not acceptable</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="E97">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Measurement should not be zero</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="E98">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Measurement has wrong sign</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="E0H">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Data not available</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="E0I">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Unauthorised Grid Access Provider</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z01">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Operational</Title>
+							<Definition>The given unit has a status of operational</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z02">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Reduced Operational</Title>
+							<Definition>The given unit has a status of reduced operational</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z03">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Non Operational</Title>
+							<Definition>The given unit has a status of non operational</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z04">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Revision</Title>
+							<Definition>The given unit is under revision</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z05">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Suspended</Title>
+							<Definition>The given unit is suspended</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z06">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Crashed</Title>
+							<Definition>The given unit is crashed</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z07">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Discarded</Title>
+							<Definition>The given unit is discarded</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z20">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Frequency regulation</Title>
+							<Definition>The information provided regards a regulation for frequency purpose</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z21">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Supportive power</Title>
+							<Definition>The object relates to Supportive power</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z22">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Supportive power</Title>
+							<Definition>The object relates to Supportive power</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z23">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Special Regulation</Title>
+							<Definition>The object relates to Special Regulation</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z24">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Quarterly adjustments</Title>
+							<Definition>The object relates to Quarterly adjustments</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z25">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Ordinary regulation</Title>
+							<Definition>The object relates to Ordinary regulation</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z26">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Transit triangle </Title>
+							<Definition>The object relates to Transit triangle </Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z27">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Transit redispatch</Title>
+							<Definition>The object relates to Transit redispatch</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z28">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Transit SB Loop Long</Title>
+							<Definition>The object relates to Transit SB Loop Long</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z29">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>FCR</Title>
+							<Definition>Frequency Containment Reserve (FCR) is an automatic and momentarily regulation, to adjust the physical balance in the power system.</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z30">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>FRR-A </Title>
+							<Definition>Frequency Restoration Reserve - Automatic (FRR-A) is an automatic reserve, activated continuously by the frequency</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z31">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>FRR-M, Balancing Power</Title>
+							<Definition>Frequency Restoration Reserve - Manual activated reserves (FRR-M), Balancing Power</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z32">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>FRR-M, Countertrades</Title>
+							<Definition>Frequency Restoration Reserve - Manual activated reserves (FRR-M), Countertrades when TSO need to maintain (replace) transfer capacity</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z33">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>FRR-M, Peak Load Reserve Regulation</Title>
+							<Definition>Frequency Restoration Reserve - Manual activated reserves (FRR-M), Peak Load Reserve Regulation when no commercial bids are available for balancing</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z34">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>FRR-M, Quarter regulation</Title>
+							<Definition>Frequency Restoration Reserve - Manual activated reserves (FRR-M), Quarter regulation when TSO need transfer of production (usually start 15 min earlier)</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z35">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>FRR-M, Special Regulation</Title>
+							<Definition>Frequency Restoration Reserve - Manual activated reserves (FRR-M), Special Regulation where regelation does not affect the regulation price</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z36">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Hour Change Regulation</Title>
+							<Definition>In order to reduce problems encountered at the turn of the hour in the Nordic countries or in Finland, Fingrid reserves the right to transfer the planned changes to begin 15 minutes before or after the planned moment</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z37">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Power Transaction</Title>
+							<Definition>Fixed price transaction used for specific purposes outside of ordinary regulation</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z38">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>TSO Internal Countertrades</Title>
+							<Definition>The time series concern TSO Internal Countertrades</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z39">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Day Ahead Production Adjustment</Title>
+							<Definition>Energy (production) moved from one hour to another to avoid major changes between hours</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z40">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>FCR-N </Title>
+							<Definition>Frequency Containment Reserve, Normal operation (FCR-N)</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z41">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>FCR-D </Title>
+							<Definition>Frequency Containment Reserve, Disturbance (FCR-D)</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z42">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>FCR – N D-1</Title>
+							<Definition>Frequency Containment Reserve, Normal operation, day minus one</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z43">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>FCR – N D-2</Title>
+							<Definition>Frequency Containment Reserve, Normal operation, day minus two</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z44">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>FCR – N D-1 correction </Title>
+							<Definition>Frequency Containment Reserve, Normal operation, day minus one, correction</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z45">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>FCR – N D-2 correction</Title>
+							<Definition>Frequency Containment Reserve, Normal operation, day minus two, correction</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z46">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>FCR – D D-1</Title>
+							<Definition>Frequency Containment Reserve, Disturbance, day minus one</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z47">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>FCR – D D-2</Title>
+							<Definition>Frequency Containment Reserve, Disturbance, day minus two</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z48">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>FCR – D D-1 correction</Title>
+							<Definition>Frequency Containment Reserve, Disturbance, day minus one, correction</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z49">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>FCR – D D-2 correction</Title>
+							<Definition>Frequency Containment Reserve, Disturbance, day minus two, correction</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z50">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Supportive power special</Title>
+							<Definition>The object relates to Supportive power special</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z51">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Supportive power disturbance</Title>
+							<Definition>The object relates to Supportive power disturbance</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z52">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Transit SB Loop Short</Title>
+							<Definition>The object relates to Transit SB Loop Short</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="LocalRightsType">
+		<xsd:restriction base="xsd:NMTOKEN">
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="LocalRoleType">
+		<xsd:restriction base="xsd:NMTOKEN">
+			<xsd:enumeration value="Z06">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Regional Security Coordinator</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="DDK">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Balance responsible party</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="DDM">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Grid access provider</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="DDQ">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Energy Supplier</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="DDX">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Imbalance settlement responsible</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="DDZ">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Metering Point Administrator</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="DEA">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Metered data aggregator</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="EZ">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>System Operator</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="MDR">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Metered data responsible</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="DGL">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Metered Data Administrator</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="LocalStatusType">
+		<xsd:restriction base="xsd:NMTOKEN">
+			<xsd:enumeration value="5">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Update</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="9">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Original</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="LocalTarifTypeType">
+		<xsd:restriction base="xsd:NMTOKEN">
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="LocalUnitMultiplier">
+		<xsd:restriction base="xsd:NMTOKEN">
+			<xsd:enumeration value="1"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="LocalUnitOfMeasureType">
+		<xsd:restriction base="xsd:NMTOKEN">
+			<xsd:enumeration value="A59"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="LocalSettlementMethodType">
+		<xsd:restriction base="xsd:NMTOKEN">
+			<xsd:enumeration value="D01">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Flex settled</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+		</xsd:restriction>
+	</xsd:simpleType>	
+	<xsd:simpleType name="LocalMeteringPointType">
+		<xsd:restriction base="xsd:NMTOKEN">
+			<xsd:enumeration value="D01">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>VE production</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D02">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Analysis</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D03">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Not used</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D04">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Surplus production group 6</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D05">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Net production</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D06">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Supply to grid</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D07">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Consumption from grid</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D08">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Whole sale services / information</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D09">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Own production</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D10">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Net from grid</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D11">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Net to grid</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D12">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Total consumption</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D13">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Net loss correction</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D14">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Electrical heating</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D15">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Net Consumption</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D20">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Exchange - Reactive energy</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D99">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Internal use</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="LocalUnitSymbol">
+		<xsd:restriction base="xsd:NMTOKEN">
+			<xsd:enumeration value="H87">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>STK</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="K3">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>kVArh</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="TNE">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Tonne</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z03">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>MVAr</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Z14">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Danish Tariff code</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="LocalDocumentType">
+		<xsd:restriction base="xsd:NMTOKEN">
+		</xsd:restriction>
+	</xsd:simpleType>
+</xsd:schema>

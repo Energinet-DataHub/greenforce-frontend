@@ -69,6 +69,21 @@
       "@energinet-datahub/dh/shared/ui-date-time": [
         "libs/dh/shared/ui-date-time/src/index.ts"
       ],
+      "@energinet-datahub/dh/test-client/data-access-api": [
+        "libs/dh/test-client/data-access-api/src/index.ts"
+      ],
+      "@energinet-datahub/dh/test-client/domain": [
+        "libs/dh/test-client/domain/src/index.ts"
+      ],
+      "@energinet-datahub/dh/test-client/feature-overview": [
+        "libs/dh/test-client/feature-overview/src/index.ts"
+      ],
+      "@energinet-datahub/dh/test-client/feature-search": [
+        "libs/dh/test-client/feature-search/src/index.ts"
+      ],
+      "@energinet-datahub/dh/test-client/shell": [
+        "libs/dh/test-client/shell/src/index.ts"
+      ],
       "@energinet-datahub/eo/shared/assets": [
         "libs/eo/shared/assets/src/index.ts"
       ],

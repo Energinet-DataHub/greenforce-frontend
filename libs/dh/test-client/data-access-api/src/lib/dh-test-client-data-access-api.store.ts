@@ -1,0 +1,190 @@
+/**
+ * @license
+ * Copyright 2021 Energinet DataHub A/S
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License2");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+import { Injectable } from '@angular/core';
+import { ComponentStore, tapResponse } from '@ngrx/component-store';
+import { filter, map, Observable, switchMap, tap } from 'rxjs';
+import {
+  SendMessageTemplateDTO,
+  SendMessageResultDTO,
+  //SendMessageTemplateFieldDTO,
+  TestClientHttp,
+} from '@energinet-datahub/dh/shared/data-access-api';
+import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
+
+export const enum LoadingState {
+  INIT = 'INIT',
+  LOADING = 'LOADING',
+  LOADED = 'LOADED',
+}
+
+export const enum ErrorState {
+  NOT_FOUND_ERROR = 'NOT_FOUND_ERROR',
+  OTHER_ERROR = 'OTHER_ERROR',
+}
+
+interface SendMessageTemplateState {
+  readonly sendMessageTemplate?: SendMessageTemplateDTO;
+  readonly sendMessageResult?: SendMessageResultDTO;
+  readonly requestState: LoadingState | ErrorState;
+}
+
+const initialState: SendMessageTemplateState = {
+  sendMessageTemplate: undefined,
+  sendMessageResult: undefined,
+  requestState: LoadingState.INIT,
+};
+
+@Injectable()
+export class DhTestClientDataAccessApiStore extends ComponentStore<SendMessageTemplateState> {
+
+  sendMessageTemplate$: Observable<SendMessageTemplateDTO> = this.select(
+    (state) => state.sendMessageTemplate
+  ).pipe(
+    filter((sendMessageTemplate) => !!sendMessageTemplate),
+    map((sendMessageTemplate) => sendMessageTemplate as SendMessageTemplateDTO)
+  );
+  sendMessageResult$: Observable<SendMessageResultDTO> = this.select(
+    (state) => state.sendMessageResult
+  ).pipe(
+    filter((sendMessageResult) => !!sendMessageResult),
+    map((sendMessageResult) => sendMessageResult as SendMessageResultDTO)
+  );
+
+  isLoading$ = this.select(
+    (state) => state.requestState === LoadingState.LOADING
+  );
+  sendMessageNotFound$ = this.select(
+    (state) => state.requestState === ErrorState.NOT_FOUND_ERROR
+  );
+  hasError$ = this.select(
+    (state) => state.requestState === ErrorState.OTHER_ERROR
+  );
+
+  constructor(private httpClient: TestClientHttp) {
+    super(initialState);
+  }
+
+  readonly getSendMessageTemplate = this.effect(
+    (sendMessageTemplateId: Observable<string>) => {
+      return sendMessageTemplateId.pipe(
+        tap(() => {
+          this.resetState();
+
+          this.setLoading(true);
+        }),
+        switchMap((id) =>
+          this.httpClient.v1TestClientGetSendMessageTemplateDTOGet(id).pipe(
+            tapResponse(
+              (sendMessageTemplateData) => {
+                this.setLoading(false);
+
+                this.updateSendMessageTemplateData(sendMessageTemplateData);
+              },
+              (error: HttpErrorResponse) => this.handleError(error)
+            )
+          )
+        )
+      );
+    }
+  );
+
+
+  //  public sendMessageSimple( sendMessageTemplateDto :SendMessageTemplateDTO) :SendMessageResultDTO
+  // {
+  //   return  this.httpClient.v1TestClientSendMessageGet(sendMessageTemplateDto);
+  // }
+  readonly getSendMessage = this.effect(
+    (sendMessageTemplateObs: Observable<SendMessageTemplateDTO>) => {
+      return sendMessageTemplateObs.pipe(
+        tap(() => {
+          this.resetState();
+          this.setLoading(true);
+        }),
+        switchMap((sendMessageTemplateDto) =>
+          //console.error("test");
+          this.httpClient.v1TestClientSendMessageGet(sendMessageTemplateDto).pipe(
+            tapResponse(
+              (sendMessageResultData) => {
+                this.setLoading(false);
+                this.updateSendMessageResultData(sendMessageResultData);
+              },
+              (error: HttpErrorResponse) => this.handleError(error)
+            )
+          )
+        )
+      );
+    }
+  );
+
+  private updateSendMessageResultData = this.updater(
+    (
+      state: SendMessageTemplateState,
+      sendMessageResultData: SendMessageResultDTO | undefined
+    ): SendMessageTemplateState => ({
+      ...state,
+      sendMessageResult: sendMessageResultData,
+    })
+  );
+
+
+  private updateSendMessageTemplateData = this.updater(
+    (
+      state: SendMessageTemplateState,
+      sendMessageTemplateData: SendMessageTemplateDTO | undefined
+    ): SendMessageTemplateState => ({
+      ...state,
+      sendMessageTemplate: sendMessageTemplateData,
+    })
+  );
+
+  private setLoading = this.updater(
+    (state, isLoading: boolean): SendMessageTemplateState => ({
+      ...state,
+      requestState: isLoading ? LoadingState.LOADING : LoadingState.LOADED,
+    })
+  );
+
+  private updateSendMessageTemplateNotFound = this.updater(
+    (state): SendMessageTemplateState => ({
+      ...state,
+      requestState: ErrorState.NOT_FOUND_ERROR,
+    })
+  );
+
+  private upateError = this.updater(
+    (state: SendMessageTemplateState): SendMessageTemplateState => ({
+      ...state,
+      sendMessageTemplate: undefined,
+      requestState: ErrorState.OTHER_ERROR,
+    })
+  );
+
+  private handleError = (error: HttpErrorResponse) => {
+    this.setLoading(false);
+
+    const sendMessageTemplateData = undefined;
+    this.updateSendMessageTemplateData(sendMessageTemplateData);
+
+    if (error.status === HttpStatusCode.NotFound) {
+      this.updateSendMessageTemplateNotFound();
+    } else {
+      this.upateError();
+    }
+  };
+
+  private resetState = () => this.setState(initialState);
+}

@@ -1,0 +1,901 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- edited with XMLSpy v2021 (http://www.altova.com) by Ove Nesvik (EdiSys Consulting AS) -->
+<xsd:schema xmlns:ecl="urn:entsoe.eu:wgedi:codelists" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="urn:entsoe.eu:wgedi:codelists" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xsd:include schemaLocation="urn-entsoe-eu-wgedi-codelists.xsd"/>
+	<xsd:annotation>
+		<xsd:documentation>
+			<Version>Current version 1</Version>
+			<Title>Complete compilation of Nordic Ediel and ENTSO-E Code Lists used by Nordic Ediel XML electronic documents and CIM XML electronic documents.</Title>
+			<Release>Current Release: 0</Release>
+			<ReleaseDate>2020-10-08</ReleaseDate>
+		</xsd:documentation>
+	</xsd:annotation>
+	<xsd:simpleType name="AddressTypeList">
+		<xsd:annotation>
+			<xsd:documentation>
+				<Uid>DK0001</Uid>
+				<Definition>A code specifying whether (or not) the Accounting Point is part of the imbalance settlement. .</Definition>
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:NMTOKEN">
+			<xsd:enumeration value="D01">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Technical address</Title>
+							<Definition>The Accounting Point is directly conected.</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D02">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Juridical address</Title>
+							<Definition>The Accounting Point is connected through an installation.</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="BusinessSectorTypeList">
+		<xsd:annotation>
+			<xsd:documentation>
+				<Uid>000080</Uid>
+				<Definition>A code specifying the business sector, such as electricity or gas</Definition>
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:NMTOKEN">
+			<xsd:enumeration value="23">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Electricity Supply Industry</Title>
+							<Definition>The document is a part of the an electricity sector process</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="27">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>28</Title>
+							<Definition>The document is a part of the a gas sector process.</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="ChargeTypeList">
+		<xsd:annotation>
+			<xsd:documentation>
+				<Uid>DK0002</Uid>
+				<Definition>A code specifying how the energy volumes are treated for settlement for an Accounting Point, such as profiled or non-profiled.</Definition>
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:NMTOKEN">
+			<xsd:enumeration value="D01">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Subscription</Title>
+							<Definition>The Settlement Method is profiled.</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D02">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Fee</Title>
+							<Definition>The Settlement Method is non-profiled.</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D03">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Tariff</Title>
+							<Definition>The Settlement Method is non-profiled with special rules.</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="DisconnectionMethodTypeList">
+		<xsd:annotation>
+			<xsd:documentation>
+				<Uid>000493</Uid>
+				<Definition>A code specifying the direction of the active energy flow in this Metering Point, such as consumption, production or combined.</Definition>
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:NMTOKEN">
+		<xsd:enumeration value="D01">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Remote disconnection</Title>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D02">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Manual disconnection</Title>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="E36">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Remote</Title>
+							<Definition>The Metering Point is connected.</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="E37">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Manual</Title>
+							<Definition>The Metering Point is disconnected.</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="E38">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Manual outside</Title>
+							<Definition>The Metering Point is under construction.</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="E39">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Manual inside</Title>
+							<Definition>The Metering Point is demolished.</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="MeteredDataCollectionMethodTypeList">
+		<xsd:annotation>
+			<xsd:documentation>
+				<Uid>000487</Uid>
+				<Definition>A code specifying how a Metered Data Collector collects data from the Meter for this Accounting Point, such as Automatic or Manually.</Definition>
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:NMTOKEN">
+			<xsd:enumeration value="D01">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Automatic (AMR)</Title>
+							<Definition>Metered data is collected automatically (AMR)</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D02">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Manual</Title>
+							<Definition>Metered data is collected manually.</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="MeteringMethodTypeList">
+		<xsd:annotation>
+			<xsd:documentation>
+				<Uid>000103</Uid>
+				<Definition>A code specifying how the energy volumes are established for this Accounting Point, such as continuous- non-continuous- or not-metered.</Definition>
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:NMTOKEN">
+			<xsd:enumeration value="D01">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Physical</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D02">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Virtual</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D03">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Calculated</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="E13">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Continuous</Title>
+							<Definition>The Accounting Point is continuous metered.</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="E14">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Non continuous</Title>
+							<Definition>The Accounting Point is non continuous metered.</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="E16">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Not metered</Title>
+							<Definition>The Accounting Point is not metered.</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="E21">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Non continuous, monthly</Title>
+							<Definition>The Accounting Point is monthly (non continuous) metered.</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="E24">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Calculated</Title>
+							<Definition>The Accounting Point is calculated metered.</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="MeteringPointTypeList">
+		<xsd:annotation>
+			<xsd:documentation>
+				<Uid>000101</Uid>
+				<Definition>A code specifying the direction of the active energy flow in this Metering Point, such as consumption, production or combined.</Definition>
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:NMTOKEN">
+		<xsd:enumeration value="D01">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>VE production</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D02">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Analysis</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D03">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Not used</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D04">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Surplus production group 6</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D05">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Net production</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D06">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Supply to grid</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D07">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Consumption from grid</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D08">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Whole sale services / information</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D09">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Own production</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D10">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Net from grid</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D11">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Net to grid</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D12">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Total consumption</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D13">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Net loss correction</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D14">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Electrical heating</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D15">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Net Consumption</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D20">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Exchange - Reactive energy</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D99">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Internal use</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="E17">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Consumption</Title>
+							<Definition>The Metering Point is a consumption Metering Point.</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="E18">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Production</Title>
+							<Definition>The Metering Point is a production Metering Point.</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="E19">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Combined</Title>
+							<Definition>The Metering Point is a combined production and consumption Metering Point.</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="E20">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Exchange</Title>
+							<Definition>The Metering Point is an exchange Metering Point.</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="MeterReadingTypeList">
+		<xsd:annotation>
+			<xsd:documentation>
+				<Uid>DK002</Uid>
+				<Definition>A code specifying whether (or not) the Accounting Point is part of the imbalance settlement. .</Definition>
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:NMTOKEN">
+			<xsd:enumeration value="D01">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Accumulated</Title>
+							<Definition>The meter reading is accumulated</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D02">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Balanced</Title>
+							<Definition>The meter reading is balanced</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="MPConnectionTypeList">
+		<xsd:annotation>
+			<xsd:documentation>
+				<Uid>DK0004</Uid>
+				<Definition>A code specifying whether (or not) the Accounting Point is part of the imbalance settlement. .</Definition>
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:NMTOKEN">
+			<xsd:enumeration value="D01">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Direct</Title>
+							<Definition>The Accounting Point is directly conected.</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D02">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Installation</Title>
+							<Definition>The Accounting Point is connected through an installation.</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="PhysicalStatusTypeList">
+		<xsd:annotation>
+			<xsd:documentation>
+				<Uid>000062</Uid>
+				<Definition>A code specifying the direction of the active energy flow in this Metering Point, such as consumption, production or combined.</Definition>
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:NMTOKEN">
+		<xsd:enumeration value="D01">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Not used</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D02">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Closed down</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D03">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>New</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="E22">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Connected</Title>
+							<Definition>The Metering Point is connected.</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="E23">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Disconnected</Title>
+							<Definition>The Metering Point is disconnected.</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="E30">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Under construction</Title>
+							<Definition>The Metering Point is under construction.</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="E31">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Demolished</Title>
+							<Definition>The Metering Point is demolished.</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="ServiceRequestTypeList">
+		<xsd:annotation>
+			<xsd:documentation>
+				<Uid>DK0008</Uid>
+				<Definition>A code specifying a type of service the Energy Supplier can request form the Grid Company.</Definition>
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:NMTOKEN">
+			<xsd:enumeration value="D01">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Disconnect</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D02">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Close down</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D03">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Connect</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D04">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Reading request</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D05">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Meter check</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D06">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Flex change</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D07">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Non-profiled change</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D08">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Disconnect due to end of supply</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D09">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>The municipality is involved in the disconnection</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D10">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>The police is involved in the disconnection</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D11">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>The bailiff's court is involved in the disconnection</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D12">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Ordinary disconnection – agreed with the customer</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D13">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Other reason</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D14">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Establish electric heating</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D15">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Remove electric heating</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="SettlementMethodTypeList">
+		<xsd:annotation>
+			<xsd:documentation>
+				<Uid>000102</Uid>
+				<Definition>A code specifying how the energy volumes are treated for settlement for an Accounting Point, such as profiled or non-profiled.</Definition>
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:NMTOKEN">
+			<xsd:enumeration value="D01">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Flex settled</Title>
+							<Definition/>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="E01">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Profiled</Title>
+							<Definition>The Settlement Method is profiled.</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="E02">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Non-profiled</Title>
+							<Definition>The Settlement Method is non-profiled.</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="E15">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Non-profiled with special rules</Title>
+							<Definition>The Settlement Method is non-profiled with special rules.</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="VATPayerTypeList">
+		<xsd:annotation>
+			<xsd:documentation>
+				<Uid>DK0007</Uid>
+				<Definition>A code specifying whether (or not) the Accounting Point is part of the imbalance settlement. .</Definition>
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:NMTOKEN">
+			<xsd:enumeration value="D01">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Payed by issuer</Title>
+							<Definition>Indicates if the VAT is already payed by the issuer.</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="D02">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Payed by recipient</Title>
+							<Definition>Indicates if the VAT NOT is payed by the issuer.</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+		</xsd:restriction>
+	</xsd:simpleType>
+</xsd:schema>

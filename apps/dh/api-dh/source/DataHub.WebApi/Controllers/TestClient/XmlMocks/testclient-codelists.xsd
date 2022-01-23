@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- edited with XMLSpy v2021 (http://www.altova.com) by Ove Nesvik (EdiSys Consulting AS) -->
+<xsd:schema xmlns:ecl="urn:entsoe.eu:wgedi:codelists" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="urn:entsoe.eu:wgedi:codelists" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xsd:include schemaLocation="urn-entsoe-eu-wgedi-codelists.xsd"/>
+	<xsd:annotation>
+		<xsd:documentation>
+			<Version>Current version 1</Version>
+			<Title>Testclient codelists</Title>
+			<Release>Current Release: 0</Release>
+			<ReleaseDate>2022-01-20</ReleaseDate>
+		</xsd:documentation>
+	</xsd:annotation>
+	<xsd:simpleType name="TestCodeList">
+		<xsd:annotation>
+			<xsd:documentation>
+				<Uid>TC0001</Uid>
+				<Definition>testing.</Definition>
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:NMTOKEN">
+			<xsd:enumeration value="D66">
+				<xsd:annotation>
+					<xsd:documentation>
+						<CodeDescription>
+							<Title>Title test</Title>
+							<Definition>Definition test.</Definition>
+						</CodeDescription>
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>			
+		</xsd:restriction>
+	</xsd:simpleType>
+</xsd:schema>

@@ -62,8 +62,4 @@ limitations under the License.
     <ProjectReference Include="..\DataHub.WebApi\DataHub.WebApi.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Unit\" />
-  </ItemGroup>
-
 </Project>

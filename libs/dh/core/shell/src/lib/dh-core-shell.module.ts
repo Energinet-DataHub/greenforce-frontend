@@ -22,6 +22,7 @@ import {
   DhTranslocoModule,
 } from '@energinet-datahub/dh/globalization/configuration-localization';
 import { dhMeteringPointPath } from '@energinet-datahub/dh/metering-point/shell';
+import { dhTestClientPath } from '@energinet-datahub/dh/test-client/shell';
 import { DhApiModule } from '@energinet-datahub/dh/shared/data-access-api';
 
 import {
@@ -44,6 +45,13 @@ const routes: Routes = [
         loadChildren: () =>
           import('@energinet-datahub/dh/metering-point/shell').then(
             (esModule) => esModule.DhMeteringPointShellModule
+          ),
+      },
+      {
+        path: dhTestClientPath,
+        loadChildren: () =>
+          import('@energinet-datahub/dh/test-client/shell').then(
+            (esModule) => esModule.DhTestClientShellModule
           ),
       },
     ],
