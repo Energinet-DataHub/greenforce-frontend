@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2021 Energinet DataHub A/S
+ * Copyright 2020 Energinet DataHub A/S
  *
  * Licensed under the Apache License, Version 2.0 (the "License2");
  * you may not use this file except in compliance with the License.
@@ -22,8 +22,13 @@ import { DhApiModule } from './dh-api.module';
 import { MeteringPointCimDto, MeteringPointHttp } from './generated/v1';
 
 const nullGsrn = '000000000000000000';
-// Available in the metering point test environment
-const testMeteringPointGsrns = [
+
+// Available in the metering point U-001 test environment
+const testMeteringPointGsrnsU001 = ['571313180400014602'];
+
+// Available in the metering point U-002 test environment
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const _testMeteringPointGsrnsU002 = [
   '575391908025497398',
   '577323355423810428',
   '572171372772494363',
@@ -80,7 +85,7 @@ describe('Metering Point API v1', () => {
 
   it(`When an existing metering point is looked up by GSRN
     Then a successful response is received`, async () => {
-    const [expectedGsrn] = testMeteringPointGsrns;
+    const [expectedGsrn] = testMeteringPointGsrnsU001;
     const whenResponse = lastValueFrom(
       http.v1MeteringPointGetByGsrnGet(expectedGsrn)
     );

@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2021 Energinet DataHub A/S
+ * Copyright 2020 Energinet DataHub A/S
  *
  * Licensed under the Apache License, Version 2.0 (the "License2");
  * you may not use this file except in compliance with the License.
@@ -23,11 +23,11 @@ import {
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { TranslocoModule } from '@ngneat/transloco';
-import { WattIconModule } from '@energinet-datahub/watt';
 
-import { dhMeteringPointPath } from '../routing/dh-metering-point-path';
+import { WattIconModule } from '@energinet-datahub/watt';
 import { MeteringPointCimDto } from '@energinet-datahub/dh/shared/data-access-api';
-import { DhIsParentPipeScam } from '../shared/is-parent.pipe';
+import { DhIsParentPipeScam } from '@energinet-datahub/dh/metering-point/shared/ui-util';
+import { dhMeteringPointPath } from '@energinet-datahub/dh/metering-point/routing';
 
 export interface MeteringPointTranslationKeys {
   meteringMethod: string;

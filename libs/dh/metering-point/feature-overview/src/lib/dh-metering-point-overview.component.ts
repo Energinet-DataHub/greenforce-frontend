@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2021 Energinet DataHub A/S
+ * Copyright 2020 Energinet DataHub A/S
  *
  * Licensed under the Apache License, Version 2.0 (the "License2");
  * you may not use this file except in compliance with the License.
@@ -22,23 +22,18 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
-import { map, Subject, takeUntil, tap } from 'rxjs';
+import { map, Subject, takeUntil } from 'rxjs';
 import { LetModule } from '@rx-angular/template';
-import { TranslocoModule } from '@ngneat/transloco';
 
+import { WattSpinnerModule } from '@energinet-datahub/watt';
 import { DhMeteringPointDataAccessApiStore } from '@energinet-datahub/dh/metering-point/data-access-api';
-import { WattSpinnerModule, WattTabsModule } from '@energinet-datahub/watt';
+import { DhMeteringPointFeatureIdentityAndMasterDataModule } from '@energinet-datahub/dh/metering-point/feature-identity-and-master-data';
+import { dhMeteringPointIdParam } from '@energinet-datahub/dh/metering-point/routing';
+import { DhMeteringPointFeatureTabsModule } from '@energinet-datahub/dh/metering-point/feature-tabs';
 
-import { DhSecondaryMasterDataComponentScam } from './secondary-master-data/dh-secondary-master-data.component';
 import { DhBreadcrumbScam } from './breadcrumb/dh-breadcrumb.component';
-import { DhMeteringPointIdentityScam } from './identity/dh-metering-point-identity.component';
-import { dhMeteringPointIdParam } from './routing/dh-metering-point-id-param';
 import { DhMeteringPointNotFoundScam } from './not-found/dh-metering-point-not-found.component';
-import { DhMeteringPointPrimaryMasterDataScam } from './primary-master-data/dh-metering-point-primary-master-data.component';
-import { DhMeteringPointServerErrorScam } from './server-error/dh-metering-point-server-error.component';
-import { DhChargesScam } from './charges/dh-charges.component';
-import { DhChildMeteringPointTabContentScam } from './child-metering-point-tab-content/dh-child-metering-point-tab-content.component';
-import { DhIsParentPipeScam } from './shared/is-parent.pipe';
+import { DhMeteringPointGeneralErrorScam } from './general-error/dh-metering-point-general-error.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -53,16 +48,10 @@ export class DhMeteringPointOverviewComponent implements OnDestroy {
   meteringPointId$ = this.route.params.pipe(
     map((params) => params[dhMeteringPointIdParam] as string)
   );
-  meteringPoint$ = this.store.meteringPoint$.pipe(
-    tap((meteringPoint) => {
-      this.childMeteringPointsCount =
-        meteringPoint.childMeteringPoints?.length ?? 0;
-    })
-  );
+  meteringPoint$ = this.store.meteringPoint$;
   isLoading$ = this.store.isLoading$;
   meteringPointNotFound$ = this.store.meteringPointNotFound$;
-  hasError$ = this.store.hasError$;
-  childMeteringPointsCount = 0;
+  hasGeneralError$ = this.store.hasGeneralError$;
 
   constructor(
     private route: ActivatedRoute,
@@ -93,18 +82,12 @@ export class DhMeteringPointOverviewComponent implements OnDestroy {
   imports: [
     CommonModule,
     DhBreadcrumbScam,
-    DhMeteringPointIdentityScam,
+    DhMeteringPointFeatureIdentityAndMasterDataModule,
     DhMeteringPointNotFoundScam,
-    DhMeteringPointPrimaryMasterDataScam,
-    DhMeteringPointServerErrorScam,
+    DhMeteringPointGeneralErrorScam,
     LetModule,
     WattSpinnerModule,
-    DhSecondaryMasterDataComponentScam,
-    DhChargesScam,
-    WattTabsModule,
-    DhChildMeteringPointTabContentScam,
-    TranslocoModule,
-    DhIsParentPipeScam,
+    DhMeteringPointFeatureTabsModule,
   ],
 })
 export class DhMeteringPointOverviewScam {}

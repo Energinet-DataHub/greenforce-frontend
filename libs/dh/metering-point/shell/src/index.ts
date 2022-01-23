@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2021 Energinet DataHub A/S
+ * Copyright 2020 Energinet DataHub A/S
  *
  * Licensed under the Apache License, Version 2.0 (the "License2");
  * you may not use this file except in compliance with the License.
@@ -15,4 +15,4 @@
  * limitations under the License.
  */
 export * from './lib/dh-metering-point-shell.module';
-export { dhMeteringPointPath } from '@energinet-datahub/dh/metering-point/feature-overview';
+export { dhMeteringPointPath } from '@energinet-datahub/dh/metering-point/routing';

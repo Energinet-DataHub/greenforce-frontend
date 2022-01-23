@@ -23,15 +23,15 @@ Energinet-DataHub/greenforce-frontend
 |  |  ├── api-dh            # - BFF for DataHub
 |  |  ├── app-dh            # - Frontend for DataHub
 |  |  └── e2e-dh            # - E2E tests for DataHub
-|  └── ett                  # Energy Track and Trace (product)
-|     ├── app-ett           # - Frontend for Energy Track and Trace
-|     └── e2e-ett           # - E2E tests for Energy Track and Trace
+|  └── ett                  # EnergyOrigin (product)
+|     ├── app-ett           # - Frontend for EnergyOrigin
+|     └── e2e-ett           # - E2E tests for EnergyOrigin
 ├── build                   # Contains infrastructure for DataHub and the design system
 ├── dist                    # Contains output files when building artifacts (for distribution)
 |  ├── apps                 #
 |  └── libs                 #
 ├── docs                    # Contains general documentation
-├── infrastructure          # Contains infrastructure for Energy Track and Trace
+├── infrastructure          # Contains infrastructure for EnergyOrigin
 ├── libs                    # Contains source code for libraries. See "Folder Structure - library" section for more information
 └── tools                   # Contains various tools
    ├── executors            # - Executors perform actions on your code. This can include building, linting, testing, serving.
@@ -79,6 +79,7 @@ Only libraries of type `data-access` may have dependencies to apps, and only app
 - feature
 - ui
 - data-access
+- open-api
 - routing
 - util
 - test-util
@@ -98,12 +99,17 @@ Allowed dependencies to: `feature`, `ui`, `data-access`, `routing`, `util`, `tes
 ### UI libraries
 
 A UI library contains only presentational logic (presentational components, pipes, presentational services, directives).
-Allowed dependencies to: `ui`, `util`, `test-util`, `domain`, `assets`, `styles`.
+Allowed dependencies to: `ui`, `open-api`, `util`, `test-util`, `domain`, `assets`, `styles`.
 
 ### Data-access libraries
 
 A data-access library contains code for interacting with a back-end system. It also includes all the code related to state management, routing and HTTP interceptors.
 Allowed dependencies to: `data-access`, `routing`, `util`, `test-util`, `domain`, `environments`.
+
+### Open API libraries
+
+An open-api library is a data-acces library that contains code for interacting with a back-end system. However, it also contains DTOs/models that are auto-generated using OpenAPI Generator.
+Allowed dependencies to: `environments`, `test-util`.
 
 ### Routing libraries
 
@@ -161,7 +167,7 @@ The frontend apps are built with Angular in an Nx Workspace. They are located un
 
 - `dh/app-dh` - "DataHub" app
 - `dh/e2e-dh` - End-to-end tests for `app-dh`
-- `ett/app-ett` - "Energy Track and Trace" app.
+- `ett/app-ett` - "EnergyOrigin" app.
 - `ett/e2e-ett` - End-to-end tests for `app-ett`
 
 Besides the `apps` folder, there's also a `libs` folder that contains features used by the apps. This is where most of the code lives.
@@ -187,7 +193,7 @@ the BFF. This is required for both local development and tests.
 Located under `.github/workflows`. There are:
 
 - `api-dh-ci.yml` - Used by the BFF for `app-dh`.
-- `ett.yml` - Used by "Energy Track and Trace" app
+- `ett.yml` - Used by "EnergyOrigin" app
 - `license-check-ci.yml` - Used for adding license to files
 - `frontend-ci.yml` - Used to build, test, format and lint all frontend apps
 

@@ -1,4 +1,4 @@
-﻿// Copyright 2021 Energinet DataHub A/S
+﻿// Copyright 2020 Energinet DataHub A/S
 //
 // Licensed under the Apache License, Version 2.0 (the "License2");
 // you may not use this file except in compliance with the License.
@@ -19,6 +19,8 @@ namespace Energinet.DataHub.WebApi
 {
     public class Program
     {
+        protected Program() { }
+
         public static void Main(string[] args)
         {
             CreateHostBuilder(args).Build().Run();

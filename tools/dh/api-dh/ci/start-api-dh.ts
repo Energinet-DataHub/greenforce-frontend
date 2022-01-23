@@ -8,7 +8,7 @@ async function startApiDh() {
     debug: true,
     launchTimeout: 60000,
     port: apiDhPort,
-    path: 'v1/WeatherForecast',
+    path: 'health',
     protocol: 'https',
     usedPortAction: 'error',
   });

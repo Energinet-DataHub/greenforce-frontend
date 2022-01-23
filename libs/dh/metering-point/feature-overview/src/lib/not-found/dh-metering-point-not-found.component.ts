@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2021 Energinet DataHub A/S
+ * Copyright 2020 Energinet DataHub A/S
  *
  * Licensed under the Apache License, Version 2.0 (the "License2");
  * you may not use this file except in compliance with the License.
@@ -18,13 +18,14 @@ import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslocoModule } from '@ngneat/transloco';
 
-import { dhMeteringPointSearchPath } from '@energinet-datahub/dh/metering-point/feature-search';
+import {
+  dhMeteringPointSearchPath,
+  dhMeteringPointPath,
+} from '@energinet-datahub/dh/metering-point/routing';
 import {
   WattButtonModule,
   WattEmptyStateModule,
 } from '@energinet-datahub/watt';
-
-import { dhMeteringPointPath } from '../routing/dh-metering-point-path';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

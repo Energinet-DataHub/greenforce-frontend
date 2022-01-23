@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2021 Energinet DataHub A/S
+ * Copyright 2020 Energinet DataHub A/S
  *
  * Licensed under the Apache License, Version 2.0 (the "License2");
  * you may not use this file except in compliance with the License.
@@ -22,18 +22,20 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/angular';
 import { TestBed } from '@angular/core/testing';
 import userEvent from '@testing-library/user-event';
 
-import { dhMeteringPointPath } from '@energinet-datahub/dh/metering-point/feature-overview';
 import {
   validMeteringPointId,
   invalidMeteringPointId,
 } from '@energinet-datahub/dh/shared/test-util-metering-point';
+import {
+  dhMeteringPointPath,
+  dhMeteringPointSearchPath,
+} from '@energinet-datahub/dh/metering-point/routing';
 
 import { DhMeteringPointSearchComponent } from '../dh-metering-point-search.component';
 import {
   DhMeteringPointSearchFormComponent,
   DhMeteringPointSearchFormScam,
 } from './dh-metering-point-search-form.component';
-import { dhMeteringPointSearchPath } from '../routing/dh-metering-point-search-path';
 
 describe(DhMeteringPointSearchFormComponent.name, () => {
   async function setup() {

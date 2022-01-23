@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2021 Energinet DataHub A/S
+ * Copyright 2020 Energinet DataHub A/S
  *
  * Licensed under the Apache License, Version 2.0 (the "License2");
  * you may not use this file except in compliance with the License.
@@ -18,6 +18,8 @@ import { By } from '@angular/platform-browser';
 import { RouterOutlet } from '@angular/router';
 import { render } from '@testing-library/angular';
 
+import { MsalServiceFake } from '@energinet-datahub/dh/shared/test-util-auth';
+
 import { DataHubAppComponent } from './datahub-app.component';
 import { DataHubAppModule } from './datahub-app.module';
 
@@ -25,6 +27,7 @@ describe(DataHubAppComponent.name, () => {
   it('has a router outlet', async () => {
     const view = await render(DataHubAppComponent, {
       imports: [DataHubAppModule],
+      providers: [MsalServiceFake],
     });
 
     const routerOutlet = view.fixture.debugElement

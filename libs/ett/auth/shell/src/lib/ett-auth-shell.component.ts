@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2021 Energinet DataHub A/S
+ * Copyright 2020 Energinet DataHub A/S
  *
  * Licensed under the Apache License, Version 2.0 (the "License2");
  * you may not use this file except in compliance with the License.
@@ -44,7 +44,7 @@ const selector = 'ett-auth-shell';
   template: `
     <mat-card role="region">
       <mat-card-title>
-        <h1>Energy Track and Trace</h1>
+        <h1>EnergyOrigin</h1>
       </mat-card-title>
       <mat-card-content>
         <p style="color: red">{{ errorMessage }}</p>

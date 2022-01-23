@@ -4,6 +4,4 @@ export * from './metering-point-http.service';
 import { MeteringPointHttp } from './metering-point-http.service';
 export * from './test-client-http.service';
 import { TestClientHttp } from './test-client-http.service';
-export * from './weather-forecast-http.service';
-import { WeatherForecastHttp } from './weather-forecast-http.service';
-export const APIS = [ChargeLinksHttp, MeteringPointHttp, TestClientHttp, WeatherForecastHttp];
+export const APIS = [ChargeLinksHttp, MeteringPointHttp, TestClientHttp];

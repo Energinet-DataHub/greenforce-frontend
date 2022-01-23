@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2021 Energinet DataHub A/S
+ * Copyright 2020 Energinet DataHub A/S
  *
  * Licensed under the Apache License, Version 2.0 (the "License2");
  * you may not use this file except in compliance with the License.
@@ -27,7 +27,7 @@ import { Location } from '@angular/common';
 import { TestBed } from '@angular/core/testing';
 import userEvent from '@testing-library/user-event';
 
-import { dhMeteringPointIdParam } from '@energinet-datahub/dh/metering-point/feature-overview';
+import { dhMeteringPointIdParam } from '@energinet-datahub/dh/metering-point/routing';
 import { en as enTranslations } from '@energinet-datahub/dh/globalization/assets-localization';
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
 
@@ -83,7 +83,7 @@ describe(DhMeteringPointSearchComponent.name, () => {
   it('should redirect to overview, if metering point is found', async () => {
     const { input, submitButton } = await setup();
     const location: Location = TestBed.inject(Location);
-    const validMeteringPointIdThatExist = '575391908025497398';
+    const validMeteringPointIdThatExist = '571313180400014602';
 
     userEvent.type(input, validMeteringPointIdThatExist);
     userEvent.click(submitButton);
@@ -104,7 +104,7 @@ describe(DhMeteringPointSearchComponent.name, () => {
     ).not.toBeInTheDocument();
 
     await waitFor(() => {
-      expect(location.path()).toBe('/575391908025497398');
+      expect(location.path()).toBe('/571313180400014602');
     });
   });
 

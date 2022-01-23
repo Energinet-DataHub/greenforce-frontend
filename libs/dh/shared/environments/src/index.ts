@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2021 Energinet DataHub A/S
+ * Copyright 2020 Energinet DataHub A/S
  *
  * Licensed under the Apache License, Version 2.0 (the "License2");
  * you may not use this file except in compliance with the License.
@@ -17,6 +17,10 @@
 // API environment
 export * from './lib/api-environment/dh-api-environment';
 export * from './lib/api-environment/load-dh-api-environment';
+
+// B2C environment
+export * from './lib/b2c-environment/dh-b2c-environment';
+export * from './lib/b2c-environment/load-dh-b2c-environment';
 
 // Application environment
 export * from './lib/environment';

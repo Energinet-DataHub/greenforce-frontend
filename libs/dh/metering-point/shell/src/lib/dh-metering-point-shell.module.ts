@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2021 Energinet DataHub A/S
+ * Copyright 2020 Energinet DataHub A/S
  *
  * Licensed under the Apache License, Version 2.0 (the "License2");
  * you may not use this file except in compliance with the License.
@@ -20,9 +20,9 @@ import { RouterModule, Routes } from '@angular/router';
 import { DhMeteringPointFeatureOverviewModule } from '@energinet-datahub/dh/metering-point/feature-overview';
 import {
   DhMeteringPointSearchComponent,
-  dhMeteringPointSearchPath,
   DhMeteringPointSearchScam,
 } from '@energinet-datahub/dh/metering-point/feature-search';
+import { dhMeteringPointSearchPath } from '@energinet-datahub/dh/metering-point/routing';
 
 const routes: Routes = [
   { path: '', redirectTo: dhMeteringPointSearchPath, pathMatch: 'full' },

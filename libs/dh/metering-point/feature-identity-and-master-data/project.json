@@ -1,0 +1,28 @@
+{
+  "projectType": "library",
+  "root": "libs/dh/metering-point/feature-identity-and-master-data",
+  "sourceRoot": "libs/dh/metering-point/feature-identity-and-master-data/src",
+  "prefix": "dh",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": [
+        "coverage/libs/dh/metering-point/feature-identity-and-master-data"
+      ],
+      "options": {
+        "jestConfig": "libs/dh/metering-point/feature-identity-and-master-data/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/dh/metering-point/feature-identity-and-master-data/src/**/*.ts",
+          "libs/dh/metering-point/feature-identity-and-master-data/src/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": ["product:dh", "domain:metering-point", "type:feature"]
+}

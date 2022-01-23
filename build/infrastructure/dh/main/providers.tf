@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 terraform {
-  required_version = ">=1.0.6"
+  required_version = "1.1.2"
 
   required_providers {
     # It is recommended to pin to a given version of the Azure provider

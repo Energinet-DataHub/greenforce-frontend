@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2021 Energinet DataHub A/S
+ * Copyright 2020 Energinet DataHub A/S
  *
  * Licensed under the Apache License, Version 2.0 (the "License2");
  * you may not use this file except in compliance with the License.
@@ -35,7 +35,7 @@ import { DhMeteringPointSearchFormScam } from './form/dh-metering-point-search-f
 export class DhMeteringPointSearchComponent {
   isLoading$ = this.store.isLoading$;
   notFound$ = this.store.meteringPointNotFound$;
-  hasError$ = this.store.hasError$;
+  hasGeneralError$ = this.store.hasGeneralError$;
   meteringPointLoaded$ = this.store.meteringPoint$.pipe(take(1));
 
   constructor(

@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2021 Energinet DataHub A/S
+ * Copyright 2020 Energinet DataHub A/S
  *
  * Licensed under the Apache License, Version 2.0 (the "License2");
  * you may not use this file except in compliance with the License.
@@ -14,16 +14,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { HttpClientModule } from '@angular/common/http';
+import { BrowserUtils } from '@azure/msal-browser';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+
+import { DhApiModule } from '@energinet-datahub/dh/shared/data-access-api';
+import { dhB2CEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 import {
   DhConfigurationLocalizationModule,
   DhTranslocoModule,
 } from '@energinet-datahub/dh/globalization/configuration-localization';
 import { dhMeteringPointPath } from '@energinet-datahub/dh/metering-point/shell';
 import { dhTestClientPath } from '@energinet-datahub/dh/test-client/shell';
-import { DhApiModule } from '@energinet-datahub/dh/shared/data-access-api';
+import {
+  MSAL_GUARD_CONFIG,
+  MSAL_INSTANCE,
+  MSAL_INTERCEPTOR_CONFIG,
+  MsalGuard,
+  MSALGuardConfigFactory,
+  MSALInstanceFactory,
+  MsalInterceptor,
+  MSALInterceptorConfigFactory,
+  MsalModule,
+  MsalService,
+} from '@energinet-datahub/dh/auth/msal';
 
 import {
   DhCoreShellComponent,
@@ -46,6 +61,7 @@ const routes: Routes = [
           import('@energinet-datahub/dh/metering-point/shell').then(
             (esModule) => esModule.DhMeteringPointShellModule
           ),
+        canActivate: [MsalGuard],
       },
       {
         path: dhTestClientPath,
@@ -56,22 +72,51 @@ const routes: Routes = [
       },
     ],
   },
-  // { path: '**', component: PageNotFoundComponent },
+  // Used by MSAL (B2C)
+  { path: 'state', redirectTo: '', pathMatch: 'full' },
 ];
 
 @NgModule({
   exports: [RouterModule],
   imports: [
-    DhCoreShellScam,
-    HttpClientModule,
     DhApiModule.forRoot(),
+    DhCoreShellScam,
     DhTranslocoModule.forRoot(),
+    HttpClientModule,
+    MsalModule,
     DhConfigurationLocalizationModule.forRoot(),
     RouterModule.forRoot(routes, {
       anchorScrolling: 'enabled',
-      initialNavigation: 'enabledNonBlocking',
+      // Don't perform initial navigation in iframes or popups
+      initialNavigation:
+        BrowserUtils.isInIframe() && BrowserUtils.isInPopup()
+          ? 'disabled'
+          : 'enabledNonBlocking',
       scrollPositionRestoration: 'enabled',
     }),
+  ],
+  providers: [
+    MsalService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: MsalInterceptor,
+      multi: true,
+    },
+    {
+      provide: MSAL_INSTANCE,
+      useFactory: MSALInstanceFactory,
+      deps: [dhB2CEnvironmentToken],
+    },
+    {
+      provide: MSAL_GUARD_CONFIG,
+      useFactory: MSALGuardConfigFactory,
+      deps: [dhB2CEnvironmentToken],
+    },
+    {
+      provide: MSAL_INTERCEPTOR_CONFIG,
+      useFactory: MSALInterceptorConfigFactory,
+      deps: [dhB2CEnvironmentToken],
+    },
   ],
 })
 export class DhCoreShellModule {}

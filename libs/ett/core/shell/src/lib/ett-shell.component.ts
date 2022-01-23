@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2021 Energinet DataHub A/S
+ * Copyright 2020 Energinet DataHub A/S
  *
  * Licensed under the Apache License, Version 2.0 (the "License2");
  * you may not use this file except in compliance with the License.
@@ -45,7 +45,7 @@ const selector = 'ett-shell';
       </ng-container>
 
       <ng-container watt-shell-toolbar>
-        <h1>Energy Track and Trace</h1>
+        <h1>EnergyOrigin</h1>
       </ng-container>
 
       <router-outlet></router-outlet>

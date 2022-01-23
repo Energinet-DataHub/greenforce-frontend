@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2021 Energinet DataHub A/S
+ * Copyright 2020 Energinet DataHub A/S
  *
  * Licensed under the Apache License, Version 2.0 (the "License2");
  * you may not use this file except in compliance with the License.
@@ -16,8 +16,9 @@
  */
 import { Component, NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { MsalService } from '@energinet-datahub/dh/auth/msal';
 import { DhLanguagePickerModule } from '@energinet-datahub/dh/globalization/feature-language-picker';
-import { WattShellModule } from '@energinet-datahub/watt';
+import { WattButtonModule, WattShellModule } from '@energinet-datahub/watt';
 import { TranslocoModule } from '@ngneat/transloco';
 
 @Component({
@@ -25,7 +26,13 @@ import { TranslocoModule } from '@ngneat/transloco';
   styleUrls: ['./dh-core-shell.component.scss'],
   templateUrl: './dh-core-shell.component.html',
 })
-export class DhCoreShellComponent {}
+export class DhCoreShellComponent {
+  constructor(private authService: MsalService) {}
+
+  logout() {
+    this.authService.logout();
+  }
+}
 
 @NgModule({
   declarations: [DhCoreShellComponent],
@@ -34,6 +41,7 @@ export class DhCoreShellComponent {}
     DhLanguagePickerModule,
     RouterModule,
     WattShellModule,
+    WattButtonModule,
   ],
 })
 export class DhCoreShellScam {}

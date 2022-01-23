@@ -1,6 +1,6 @@
 <!--
 @license
-Copyright 2021 Energinet DataHub A/S
+Copyright 2020 Energinet DataHub A/S
 
 Licensed under the Apache License, Version 2.0 (the "License2");
 you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@ limitations under the License.
 <form
   *transloco="let transloco; read: 'meteringPoint.search'"
   name="search-form"
+  (ngSubmit)="onSubmit()"
 >
   <watt-form-field size="large">
     <watt-label class="watt-text-m">{{ transloco('searchLabel') }}</watt-label>
@@ -45,7 +46,6 @@ limitations under the License.
     type="submit"
     size="large"
     [loading]="loading"
-    (click)="onSubmit()"
     >{{ transloco('searchButton') }}</watt-button
   >
 </form>

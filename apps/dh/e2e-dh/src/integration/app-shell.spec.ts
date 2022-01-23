@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2021 Energinet DataHub A/S
+ * Copyright 2020 Energinet DataHub A/S
  *
  * Licensed under the Apache License, Version 2.0 (the "License2");
  * you may not use this file except in compliance with the License.
@@ -14,12 +14,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { test, expect } from '@playwright/test';
+
+// Appearantly there are some issues with `paths` so we need to use absolute paths for now.
+import { da as daTranslations } from '../../../../../libs/dh/globalization/assets-localization/src';
+
 import * as appShell from '../support/app-shell.po';
 
-describe('Application shell', () => {
-  beforeEach(() => cy.visit('/'));
+test.describe('Application shell', () => {
+  test.beforeEach(async ({ page }) => {
+    await page.goto('/metering-point/search');
+  });
 
-  it('the application title is displayed', () => {
-    appShell.getTitle().contains(/Målepunkter/i);
+  test('the application title is displayed', async ({ page }) => {
+    test.slow();
+    await page.waitForTimeout(5000);
+    await expect(appShell.getTitle(page)).toHaveText(
+      daTranslations.meteringPoint.search.title
+    );
   });
 });

@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2021 Energinet DataHub A/S
+ * Copyright 2020 Energinet DataHub A/S
  *
  * Licensed under the Apache License, Version 2.0 (the "License2");
  * you may not use this file except in compliance with the License.
@@ -17,6 +17,13 @@
 export enum AuthOidcQueryParameterName {
   Error = 'error',
   ErrorCode = 'error_code',
+  /**
+   * Base URL for authentication web app.
+   */
+  FeUrl = 'fe_url',
+  /**
+   * Absolute URL to return to after authentication.
+   */
   ReturnUrl = 'return_url',
   Success = 'success',
 }

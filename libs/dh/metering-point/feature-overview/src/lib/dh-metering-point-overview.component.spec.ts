@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2021 Energinet DataHub A/S
+ * Copyright 2020 Energinet DataHub A/S
  *
  * Licensed under the Apache License, Version 2.0 (the "License2");
  * you may not use this file except in compliance with the License.
@@ -27,10 +27,10 @@ import {
 } from '@ngworker/spectacular';
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
 import { DhApiModule } from '@energinet-datahub/dh/shared/data-access-api';
+import { dhMeteringPointPath } from '@energinet-datahub/dh/metering-point/routing';
 
 import { DhMeteringPointFeatureOverviewModule } from './dh-metering-point-feature-overview.module';
 import { DhMeteringPointOverviewComponent } from './dh-metering-point-overview.component';
-import { dhMeteringPointPath } from './routing/dh-metering-point-path';
 
 describe(DhMeteringPointOverviewComponent.name, () => {
   beforeEach(async () => {
@@ -69,7 +69,7 @@ describe(DhMeteringPointOverviewComponent.name, () => {
   });
 
   let view: RenderResult<SpectacularAppComponent>;
-  const meteringPointId = '575391908025497398';
+  const meteringPointId = '571313180400014602';
   let featureRouter: SpectacularFeatureRouter;
   let featureLocation: SpectacularFeatureLocation;
 

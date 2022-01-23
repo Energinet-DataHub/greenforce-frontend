@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2021 Energinet DataHub A/S
+ * Copyright 2020 Energinet DataHub A/S
  *
  * Licensed under the Apache License, Version 2.0 (the "License2");
  * you may not use this file except in compliance with the License.
@@ -16,10 +16,10 @@
  */
 import { getTitle } from '../support/app.po';
 
-describe('Energy Track and Trace app', () => {
+describe('EnergyOrigin app', () => {
   beforeEach(() => cy.visit('/'));
 
   it('displays a title', () => {
-    getTitle().contains('Energy Track and Trace');
+    getTitle().contains('EnergyOrigin');
   });
 });

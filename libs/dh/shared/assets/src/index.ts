@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2021 Energinet DataHub A/S
+ * Copyright 2020 Energinet DataHub A/S
  *
  * Licensed under the Apache License, Version 2.0 (the "License2");
  * you may not use this file except in compliance with the License.
@@ -15,5 +15,6 @@
  * limitations under the License.
  */
 import * as dhLocalApiEnvironment from './assets/configuration/dh-api-environment.local.json';
+import * as dhLocalB2CEnvironment from './assets/configuration/dh-b2c-environment.local.json';
 
-export { dhLocalApiEnvironment };
+export { dhLocalApiEnvironment, dhLocalB2CEnvironment };

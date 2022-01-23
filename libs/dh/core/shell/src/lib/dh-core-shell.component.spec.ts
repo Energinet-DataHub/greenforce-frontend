@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2021 Energinet DataHub A/S
+ * Copyright 2020 Energinet DataHub A/S
  *
  * Licensed under the Apache License, Version 2.0 (the "License2");
  * you may not use this file except in compliance with the License.
@@ -25,11 +25,13 @@ import {
   DhCoreShellComponent,
   DhCoreShellScam,
 } from './dh-core-shell.component';
+import { MsalServiceFake } from '@energinet-datahub/dh/shared/test-util-auth';
 
 describe(DhCoreShellComponent.name, () => {
   beforeEach(async () => {
     view = await render(DhCoreShellComponent, {
       imports: [getTranslocoTestingModule(), DhCoreShellScam],
+      providers: [MsalServiceFake],
     });
   });
 

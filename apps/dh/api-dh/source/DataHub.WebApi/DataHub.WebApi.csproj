@@ -1,6 +1,6 @@
 ﻿<!--
 @license
-Copyright 2021 Energinet DataHub A/S
+Copyright 2020 Energinet DataHub A/S
 
 Licensed under the Apache License, Version 2.0 (the "License2");
 you may not use this file except in compliance with the License.
@@ -52,8 +52,8 @@ limitations under the License.
     <EmbeddedResource Include="Controllers\TestClient\XmlMocks\urn-entsoe-eu-wgedi-codelists.xsd" />
   </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Energinet.DataHub.Charges.Clients" Version="1.0.21" />
+  <ItemGroup>  
+    <PackageReference Include="Energinet.DataHub.Charges.Clients" Version="1.0.22" />
     <PackageReference Include="Energinet.DataHub.Charges.Clients.Registration" Version="0.1.3" />
     <PackageReference Include="Energinet.DataHub.MeteringPoints.Client" Version="1.0.4" />
     <PackageReference Include="Energinet.DataHub.MeteringPoints.Client.Abstractions" Version="1.0.4" />
@@ -71,5 +71,4 @@ limitations under the License.
     </PackageReference>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
   </ItemGroup>
-
 </Project>

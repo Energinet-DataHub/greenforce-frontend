@@ -19,4 +19,3 @@ export * from './send-message-template-dto';
 export * from './send-message-template-field-dto';
 export * from './settlement-method';
 export * from './unit';
-export * from './weather-forecast';
