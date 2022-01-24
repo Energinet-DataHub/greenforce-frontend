@@ -120,10 +120,10 @@ async function runPlaywright(
 
   let playwrightCommand = `playwright test ${sourceRoot} --config=${opts.playwrightConfig}`;
   if (opts.include) {
-    playwrightCommand += ` --grep=${escapeRegExp(opts.include)}`;
+    playwrightCommand += ` --grep="${escapeRegExp(opts.include)}"`;
   }
   if (opts.exclude) {
-    playwrightCommand += ` --grep-invert=${escapeRegExp(opts.exclude)}`;
+    playwrightCommand += ` --grep-invert="${escapeRegExp(opts.exclude)}"`;
   }
   if (opts.debug) {
     process.env.PWDEBUG = '1';
