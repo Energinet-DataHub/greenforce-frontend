@@ -154,12 +154,12 @@ jobs:
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@v1.6
         with:
+          # The "+storybook" directory is written as "*storybook" because SonarCloud has a problem with the "+" symbol
           args: >
             -Dsonar.projectKey=geh-frontend-app
             -Dsonar.organization=energinet-datahub
             -Dsonar.sources=./apps/dh/app-dh,./libs/dh,./libs/ui-watt,./libs/gf
-            -Dsonar.exclusions=**/*storybook/*
-            -Dsonar.coverage.exclusions=**/*storybook/*
+            -Dsonar.coverage.exclusions=./libs/ui-watt/**/*storybook/*
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
