@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export const getLogoInHeader = () =>
-  cy.get('eo-landing-page-header').find('img');
-export const getLogInLinkInHeader = () =>
-  cy.get('eo-landing-page-header').find('a');
+export const navigateTo = () => cy.visit('/');
+export const findLogo = () => cy.findByRole('img', {
+  name: 'EnergyOrigin'
+});
