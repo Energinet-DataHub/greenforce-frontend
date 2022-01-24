@@ -140,9 +140,6 @@
     "ts-node": "~9.1.1",
     "typescript": "4.4.4"
   },
-  "resolutions": {
-    "**/trim": "^1.0.0"
-  },
   "volta": {
     "//node-comment": "Keep this in sync with engines in current package.json",
     "node": "14.18.3",
