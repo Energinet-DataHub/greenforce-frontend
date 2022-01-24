@@ -27,6 +27,7 @@
       "options": {
         "uiFramework": "@storybook/angular",
         "port": 4400,
+        "projectBuildConfig": "app-dh",
         "config": {
           "configFolder": "libs/ui-watt/.storybook"
         }
