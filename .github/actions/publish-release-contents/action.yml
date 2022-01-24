@@ -27,7 +27,7 @@ runs:
         mkdir ${{ inputs.RELEASE_FOLDER_PATH }}
         mkdir ${{ inputs.RELEASE_FOLDER_PATH }}/infrastructure
         cp -fR ${{ inputs.REPO_FOLDER_PATH }}/build/infrastructure/dh/* ${{ inputs.RELEASE_FOLDER_PATH }}/infrastructure 2>/dev/null || :
- 
+
     - name: Publish BFF to release folder
       uses: actions/download-artifact@v2
       with:
