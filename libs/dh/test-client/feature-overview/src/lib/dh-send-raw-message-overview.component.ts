@@ -115,7 +115,7 @@ export class DhSendRawMessageOverviewComponent implements OnDestroy {
       takeUntil(this.destroy$),
       map((sendMessageResult) =>
       {
-        console.error('xxxx');
+        console.error('xxxx2');
         console.error(sendMessageResult);
       }
       )
