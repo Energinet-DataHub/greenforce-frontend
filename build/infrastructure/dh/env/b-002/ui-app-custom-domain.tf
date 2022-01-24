@@ -11,7 +11,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-resource "azurerm_static_site_custom_domain" "ui_custom_domain" {
+resource "azurerm_static_site_custom_domain" "static_site_custom_domain" {
   static_site_id  = azurerm_static_site.ui.id
   domain_name     = "itlev.datahub.dk"
   validation_type = "cname-delegation"
