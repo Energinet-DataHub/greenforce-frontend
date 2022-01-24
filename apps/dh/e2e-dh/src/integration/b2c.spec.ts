@@ -40,7 +40,7 @@ const environments = [
 ];
 
 environments.forEach((env) => {
-  test(`${env.name} should have correct redirect_uri, after redirected to B2C login page @b2c`, async ({
+  test(`[B2C Healthcheck] ${env.name} should have correct redirect_uri, after redirected to B2C login page`, async ({
     page,
   }) => {
     await page.goto(env.url);
