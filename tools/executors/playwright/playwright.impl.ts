@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2021 Energinet DataHub A/S
+ * Copyright 2020 Energinet DataHub A/S
  *
  * Licensed under the Apache License, Version 2.0 (the "License2");
  * you may not use this file except in compliance with the License.
@@ -120,10 +120,10 @@ async function runPlaywright(
 
   let playwrightCommand = `playwright test ${sourceRoot} --config=${opts.playwrightConfig}`;
   if (opts.include) {
-    playwrightCommand += ` --grep=${opts.include}`;
+    playwrightCommand += ` --grep="${escapeRegExp(opts.include)}"`;
   }
   if (opts.exclude) {
-    playwrightCommand += ` --grep-invert=${opts.exclude}`;
+    playwrightCommand += ` --grep-invert="${escapeRegExp(opts.exclude)}"`;
   }
   if (opts.debug) {
     process.env.PWDEBUG = '1';
@@ -141,4 +141,8 @@ async function runPlaywright(
   );
 
   return success;
+}
+
+function escapeRegExp(string) {
+  return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
 }

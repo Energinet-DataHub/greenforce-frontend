@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2021 Energinet DataHub A/S
+ * Copyright 2020 Energinet DataHub A/S
  *
  * Licensed under the Apache License, Version 2.0 (the "License2");
  * you may not use this file except in compliance with the License.
@@ -25,23 +25,35 @@ import { Observable } from 'rxjs';
 import { AuthOidcQueryParameterName } from './auth-oidc-query-parameter-name';
 
 export interface AuthOidcLoginResponse {
-  readonly url: string;
+  /**
+   * The URL to redirect the user to in order to authenticate.
+   */
+  readonly next_url: string;
 }
 
 @Injectable({
   providedIn: 'root',
 })
-export class AuthOidcHttp {
+export class AuthHttp {
   constructor(
     private http: HttpClient,
     @Inject(eoApiEnvironmentToken) private apiEnvironment: EoApiEnvironment
   ) {}
 
-  login(returnUrl: string): Observable<AuthOidcLoginResponse> {
+  /**
+   *
+   * @param feUrl Base URL for authentication web app.
+   * @param returnUrl Absolute URL to return to after authentication.
+   */
+  getLogin(
+    feUrl: string,
+    returnUrl: string
+  ): Observable<AuthOidcLoginResponse> {
     return this.http.get<AuthOidcLoginResponse>(
       `${this.apiEnvironment.apiBase}/auth/oidc/login`,
       {
         params: {
+          [AuthOidcQueryParameterName.FeUrl]: feUrl,
           [AuthOidcQueryParameterName.ReturnUrl]: returnUrl,
         },
       }

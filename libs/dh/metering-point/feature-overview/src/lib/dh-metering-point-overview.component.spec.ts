@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2021 Energinet DataHub A/S
+ * Copyright 2020 Energinet DataHub A/S
  *
  * Licensed under the Apache License, Version 2.0 (the "License2");
  * you may not use this file except in compliance with the License.
@@ -69,7 +69,7 @@ describe(DhMeteringPointOverviewComponent.name, () => {
   });
 
   let view: RenderResult<SpectacularAppComponent>;
-  const meteringPointId = '575391908025497398';
+  const meteringPointId = '571313180400014602';
   let featureRouter: SpectacularFeatureRouter;
   let featureLocation: SpectacularFeatureLocation;
 

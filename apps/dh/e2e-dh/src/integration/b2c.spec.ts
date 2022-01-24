@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2021 Energinet DataHub A/S
+ * Copyright 2020 Energinet DataHub A/S
  *
  * Licensed under the Apache License, Version 2.0 (the "License2");
  * you may not use this file except in compliance with the License.
@@ -40,7 +40,7 @@ const environments = [
 ];
 
 environments.forEach((env) => {
-  test(`${env.name} should have correct redirect_uri, after redirected to B2C login page @b2c`, async ({
+  test(`[B2C Healthcheck] ${env.name} should have correct redirect_uri, after redirected to B2C login page`, async ({
     page,
   }) => {
     await page.goto(env.url);

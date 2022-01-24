@@ -9,7 +9,7 @@
         "playwrightConfig": "apps/dh/e2e-dh/playwright.ts",
         "tsConfig": "apps/dh/e2e-dh/tsconfig.json",
         "devServerTarget": "app-dh:serve:development",
-        "exclude": "@b2c"
+        "exclude": "[B2C Healthcheck]"
       },
       "configurations": {
         "ci": {
@@ -28,7 +28,7 @@
       "executor": "./tools/executors/playwright:playwright",
       "options": {
         "playwrightConfig": "apps/dh/e2e-dh/playwright.health.ts",
-        "include": "@b2c"
+        "include": "[B2C Healthcheck]"
       }
     },
     "lint": {
