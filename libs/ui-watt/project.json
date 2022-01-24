@@ -25,9 +25,9 @@
     "storybook": {
       "executor": "@nrwl/storybook:storybook",
       "options": {
-        "uiFramework": "@storybook/angular",
         "port": 4400,
         "projectBuildConfig": "app-dh",
+        "uiFramework": "@storybook/angular",
         "config": {
           "configFolder": "libs/ui-watt/.storybook"
         }
@@ -42,8 +42,9 @@
       "executor": "@nrwl/storybook:build",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "uiFramework": "@storybook/angular",
         "outputPath": "dist/storybook/ui-watt",
+        "projectBuildConfig": "app-dh",
+        "uiFramework": "@storybook/angular",
         "config": {
           "configFolder": "libs/ui-watt/.storybook"
         }
