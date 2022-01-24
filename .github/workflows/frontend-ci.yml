@@ -158,8 +158,8 @@ jobs:
             -Dsonar.projectKey=geh-frontend-app
             -Dsonar.organization=energinet-datahub
             -Dsonar.sources=./apps/dh/app-dh,./libs/dh,./libs/ui-watt,./libs/gf
-            -Dsonar.exclusions=./libs/ui-watt/**/+storybook
-            -Dsonar.coverage.exclusions=./libs/ui-watt/**/+storybook
+            -Dsonar.exclusions=./libs/ui-watt/**/+storybook/*
+            -Dsonar.coverage.exclusions=./libs/ui-watt/**/+storybook/*
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
