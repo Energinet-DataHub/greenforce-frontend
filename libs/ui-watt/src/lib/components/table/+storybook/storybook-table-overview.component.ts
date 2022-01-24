@@ -16,6 +16,7 @@
  */
 import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { MatSort, MatSortable, Sort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 
 import { WattIconSize } from '../../../foundations/icon';
 
@@ -39,45 +40,24 @@ export const periodicElements: PeriodicElement[] = [
 })
 export class StorybookTableOverviewComponent implements AfterViewInit {
   displayedColumns: string[] = ['position', 'name', 'symbol'];
-  sortedData: PeriodicElement[] = [];
+  sortedData = new MatTableDataSource(periodicElements);
   iconSize = WattIconSize;
 
   @ViewChild(MatSort) matSort?: MatSort;
 
   ngAfterViewInit(): void {
+    this.sortedData.sort = this.matSort ?? null;
+
     this.setDefaultSorting();
   }
 
   sortData(sort: Sort) {
-    // Shallow copy of original array
-    const data = [...periodicElements];
-
-    if (!sort.active || sort.direction === '') {
-      this.sortedData = data;
+    if (sort.direction === '') {
       this.setDefaultSorting();
-      return;
     }
-
-    this.sortedData = data.sort((a, b) => {
-      const isAsc = sort.direction === 'asc';
-      switch (sort.active) {
-        case 'position':
-          return this.compare(a.position, b.position, isAsc);
-        case 'name':
-          return this.compare(a.name, b.name, isAsc);
-        case 'symbol':
-          return this.compare(a.symbol, b.symbol, isAsc);
-        default:
-          return 0;
-      }
-    });
   }
 
   setDefaultSorting() {
     this.matSort?.sort(this.matSort.sortables.get('position') as MatSortable);
-  }
-
-  compare(a: number | string, b: number | string, isAsc: boolean) {
-    return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
   }
 }
