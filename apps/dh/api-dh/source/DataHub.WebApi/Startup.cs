@@ -1,4 +1,4 @@
-﻿// Copyright 2021 Energinet DataHub A/S
+﻿// Copyright 2020 Energinet DataHub A/S
 //
 // Licensed under the Apache License, Version 2.0 (the "License2");
 // you may not use this file except in compliance with the License.
@@ -124,18 +124,20 @@ namespace Energinet.DataHub.WebApi
 
         private static void AddChargeLinksClient(IServiceCollection services, ApiClientSettings apiClientSettings)
         {
+            string emptyUrl = "https://empty";
             Uri chargesBaseUrl = Uri.TryCreate(apiClientSettings?.ChargesBaseUrl, UriKind.Absolute, out var url)
                 ? url
-                : new Uri("https://empty");
+                : new Uri(emptyUrl);
 
             services.AddChargeLinksClient(chargesBaseUrl);
         }
 
         private static void AddMeteringPointClient(IServiceCollection services, ApiClientSettings? apiClientSettings)
         {
+            string emptyUrl = "https://empty";
             Uri meteringPointBaseUrl = Uri.TryCreate(apiClientSettings?.MeteringPointBaseUrl, UriKind.Absolute, out var url)
                 ? url
-                : new Uri("https://empty");
+                : new Uri(emptyUrl);
 
             services.AddMeteringPointClient(meteringPointBaseUrl);
         }
