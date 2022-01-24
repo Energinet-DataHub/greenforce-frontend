@@ -83,7 +83,6 @@ export class DhTestClientDataAccessApiStore extends ComponentStore<SendMessageTe
       return sendMessageTemplateId.pipe(
         tap(() => {
           this.resetState();
-
           this.setLoading(true);
         }),
         switchMap((id) =>
@@ -103,10 +102,8 @@ export class DhTestClientDataAccessApiStore extends ComponentStore<SendMessageTe
   );
 
 
-  //  public sendMessageSimple( sendMessageTemplateDto :SendMessageTemplateDTO) :SendMessageResultDTO
-  // {
-  //   return  this.httpClient.v1TestClientSendMessageGet(sendMessageTemplateDto);
-  // }
+
+
   readonly getSendMessage = this.effect(
     (sendMessageTemplateObs: Observable<SendMessageTemplateDTO>) => {
       return sendMessageTemplateObs.pipe(
@@ -115,8 +112,7 @@ export class DhTestClientDataAccessApiStore extends ComponentStore<SendMessageTe
           this.setLoading(true);
         }),
         switchMap((sendMessageTemplateDto) =>
-          //console.error("test");
-          this.httpClient.v1TestClientSendMessageGet(sendMessageTemplateDto).pipe(
+          this.httpClient.v1TestClientSendMessagePost(sendMessageTemplateDto).pipe(
             tapResponse(
               (sendMessageResultData) => {
                 this.setLoading(false);
@@ -187,4 +183,20 @@ export class DhTestClientDataAccessApiStore extends ComponentStore<SendMessageTe
   };
 
   private resetState = () => this.setState(initialState);
+
+
+  public sendMessageSimple( sendMessageTemplateDto :SendMessageTemplateDTO) : void
+  {
+    this.httpClient.v1TestClientSendMessagePost(sendMessageTemplateDto).pipe(
+      tapResponse(
+        (sendMessageResultData) => {
+          console.error(sendMessageResultData);
+          this.setLoading(false);
+          this.updateSendMessageResultData(sendMessageResultData);
+        },
+        (error: HttpErrorResponse) => this.handleError(error)
+      )
+    ).subscribe();
+  }
+
 }

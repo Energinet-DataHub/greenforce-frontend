@@ -24,7 +24,9 @@ namespace Energinet.DataHub.WebApi.Controllers.TestClient
 
     public record SendMessageResultDTO
     {
-        public string Result { get; set; }
+        public string XmlSent { get; set; }
+        public string Status { get; set; }
+        public DateTime XmlSentDate { get; set; }
     }
 
     public record PeekAndDequeueMessageResultDTO

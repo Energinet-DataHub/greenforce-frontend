@@ -24,6 +24,8 @@
 	  <Code>MpId</Code>
       <Comment>18 chars</Comment>
 	  <DefaultValue>57xxxxx</DefaultValue>
+     <Value></Value>
+     <ValueOriginal></ValueOriginal>
       <IsMandatory>true</IsMandatory>
 	  <FieldType>String</FieldType>
 	  <FieldTypeParam1></FieldTypeParam1>
@@ -39,6 +41,8 @@
 	  <Code>MpType</Code>
       <Comment>ex E17</Comment>
 	  <DefaultValue>E17</DefaultValue>
+     <Value></Value>
+     <ValueOriginal></ValueOriginal>
       <IsMandatory>true</IsMandatory>
 	  <FieldType>CodeList</FieldType>
 	  <FieldTypeParam1>MeteringPointType</FieldTypeParam1>
@@ -54,6 +58,8 @@
 	  <Code>SupplyStart</Code>
       <Comment>Enter date of supply start</Comment>
 	  <DefaultValue>NOW</DefaultValue>
+       <Value></Value>
+       <ValueOriginal></ValueOriginal>
       <IsMandatory>false</IsMandatory>
 	  <FieldType>DateTime</FieldType>
 	  <FieldTypeParam1></FieldTypeParam1>

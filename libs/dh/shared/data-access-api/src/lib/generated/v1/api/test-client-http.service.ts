@@ -210,10 +210,10 @@ export class TestClientHttp {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public v1TestClientSendMessageGet(sendMessageTemplateDTO?: SendMessageTemplateDTO, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<SendMessageResultDTO>;
-    public v1TestClientSendMessageGet(sendMessageTemplateDTO?: SendMessageTemplateDTO, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<SendMessageResultDTO>>;
-    public v1TestClientSendMessageGet(sendMessageTemplateDTO?: SendMessageTemplateDTO, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<SendMessageResultDTO>>;
-    public v1TestClientSendMessageGet(sendMessageTemplateDTO?: SendMessageTemplateDTO, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
+    public v1TestClientSendMessagePost(sendMessageTemplateDTO?: SendMessageTemplateDTO, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<SendMessageResultDTO>;
+    public v1TestClientSendMessagePost(sendMessageTemplateDTO?: SendMessageTemplateDTO, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<SendMessageResultDTO>>;
+    public v1TestClientSendMessagePost(sendMessageTemplateDTO?: SendMessageTemplateDTO, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<SendMessageResultDTO>>;
+    public v1TestClientSendMessagePost(sendMessageTemplateDTO?: SendMessageTemplateDTO, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
 
         let localVarHeaders = this.defaultHeaders;
 
@@ -253,7 +253,8 @@ export class TestClientHttp {
             responseType_ = 'text';
         }
 
-        return this.httpClient.get<SendMessageResultDTO>(`${this.configuration.basePath}/v1/TestClient/SendMessage`,
+        return this.httpClient.post<SendMessageResultDTO>(`${this.configuration.basePath}/v1/TestClient/SendMessage`,
+            sendMessageTemplateDTO,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,

@@ -62,7 +62,7 @@ export class DhSendRawMessageTempPropsComponent implements OnInit{
 
   ngOnInit() {
 
-
+console.warn('ddfsfsd');
 // create a form array for the groups
 const formControlArray = this.sendMessageTemplateDto.fieldList.map(x => this.formBuilder.control(x.value));
 const formArray = this.formBuilder.array(formControlArray);
@@ -94,15 +94,6 @@ const formArray = this.formBuilder.array(formControlArray);
         window.open(url);
         URL.revokeObjectURL(url);
     }
-  }
-
-
-
-  updatetheform() {
-    this.sendMessageTemplateForm.patchValue({
-      name: 'Nancy',
-      code: 'sdf'
-    });
   }
 }
 

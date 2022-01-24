@@ -26,7 +26,15 @@ limitations under the License.
 
 <h2>Fields</h2>
 
+<!-- [loading]="loading" -->
+<watt-button
+variant="primary"
+type="submit"
+size="large"
 
+(click)="onSubmit()"
+>{{ transloco('sendMessageButton') }}</watt-button
+>
 
 <div formArrayName="arrayList">
 
@@ -113,15 +121,7 @@ limitations under the License.
 <br/>
 <br/><br/><br/>
 
-<!-- [loading]="loading" -->
-<watt-button
-variant="primary"
-type="submit"
-size="large"
 
-(click)="onSubmit()"
->{{ transloco('sendMessageButton') }}</watt-button
->
 
 </form>
 

@@ -90,7 +90,8 @@ export class DhSendRawMessageOverviewComponent implements OnDestroy {
 
     this.store.getSendMessage(sendMessageTemplateDto);
 
-    //const sendMesResult =  this.store.sendMessageSimple(sendMessageTemplateDto);
+    //const sendMesResult =
+    //this.store.sendMessageSimple(sendMessageTemplateDto);
 
 
     //console.error(sendMesResult);
@@ -113,7 +114,10 @@ export class DhSendRawMessageOverviewComponent implements OnDestroy {
     this.sendMessageResult$.pipe(
       takeUntil(this.destroy$),
       map((sendMessageResult) =>
-        console.error(sendMessageResult)
+      {
+        console.error('xxxx');
+        console.error(sendMessageResult);
+      }
       )
     ).subscribe();
 

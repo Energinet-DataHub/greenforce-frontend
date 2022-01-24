@@ -22,7 +22,7 @@ import {
   UrlTree,
 } from '@angular/router';
 
-import { dhMeteringPointSearchPath } from '@energinet-datahub/dh/metering-point/feature-search';
+import { DhMeteringPointSearchScam } from '@energinet-datahub/dh/metering-point/feature-search';
 //import { isValidMeteringPointId } from '@energinet-datahub/dh/metering-point/domain';
 
 //import { dhSendRawMessageTemplateIdParam } from './dh-send-raw-message-id-param';
@@ -36,7 +36,7 @@ import { dhTestClientPath } from './dh-send-raw-message-path';
 })
 export class DhMeteringPointOverviewGuard implements CanActivate {
   private searchMeteringPointUrl(id: string): UrlTree {
-    const url = `${dhTestClientPath}/${dhMeteringPointSearchPath}`;
+    const url = `${dhTestClientPath}/${DhMeteringPointSearchScam}`;
 
     return this.router.createUrlTree([url], { queryParams: { q: id } });
   }

@@ -61,10 +61,10 @@ namespace Energinet.DataHub.WebApi.Controllers
             return result == null ? NotFound() : Ok(result); //xmlMessage == null ? NotFound() : Ok(xmlMessage + "FROM SERVER");
         }
 
-        [HttpGet("SendMessage")]
+        [HttpPost("SendMessage")]
         public async Task<ActionResult<SendMessageResultDTO>> SendMessage(SendMessageTemplateDTO dto)
         {
-            var result = new SendMessageResultDTO() { Result = dto.ToXml()};
+            var result = new SendMessageResultDTO() { Status = "OK", XmlSentDate = DateTime.Now, XmlSent = dto.ToXml() }; //dto.ToXml()
             return result == null ? NotFound() : Ok(result); //xmlMessage == null ? NotFound() : Ok(xmlMessage + "FROM SERVER");
         }
 
