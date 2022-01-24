@@ -20,6 +20,8 @@ on:
     paths:
       - 'build/infrastructure/dh/**'
       - 'apps/dh/api-dh/**'
+      - '.github/workflows/dh-backend-ci.yml'
+      - '.github/actions/publish-release-contents/action.yml'
 
 jobs:
   publish_release:
