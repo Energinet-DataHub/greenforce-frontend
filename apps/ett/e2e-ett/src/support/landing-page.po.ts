@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 export const navigateTo = () => cy.visit('/');
-export const findLogo = () => cy.findByRole('img', {
-  name: 'EnergyOrigin'
-});
+export const findLogo = () =>
+  cy.findByRole('img', {
+    name: 'EnergyOrigin',
+  });
