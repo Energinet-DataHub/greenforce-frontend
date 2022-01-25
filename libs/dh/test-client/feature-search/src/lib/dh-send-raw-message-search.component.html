@@ -14,25 +14,28 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<ng-container *transloco="let transloco; read: 'meteringPoint.search'">
+<ng-container *transloco="let transloco; read: 'testClient.sendMessage.search'">
   <h1>{{ transloco('title') }}</h1>
 
-  <dh-send-raw-message-search-form
-    [loading]="isLoading$ | push"
-    (search)="onSubmit($event)"
-  ></dh-send-raw-message-search-form>
+  <!-- <table>
+        <tr *ngFor="let item of sendMessageTemplateListDto.templateList">
+          <td>{{item.name}}</td>
+          <td>{{item.description}}</td>
+          <td>{{item.id}}</td>
+        </tr>
+</table> -->
+<!-- <div *ngIf="sendMessageTemplateListDto" > -->
+<mat-table   [dataSource]="sendMessageTemplateListDataSource">
 
-  <watt-empty-state
-    *ngIf="notFound$ | push"
-    icon="explore"
-    [title]="transloco('noMeteringPointFoundTitle')"
-    [message]="transloco('noMeteringPointFoundMessage')"
-  ></watt-empty-state>
+  <ng-container [matColumnDef]="column" *ngFor="let column of displayedColumns">
+    <mat-header-cell *matHeaderCellDef> {{column}} </mat-header-cell>
+    <mat-cell *matCellDef="let emp"> {{emp[column]}} </mat-cell>
+</ng-container>
 
-  <watt-empty-state
-    *ngIf="hasError$ | push"
-    icon="power"
-    [title]="transloco('serverErrorTitle')"
-    [message]="transloco('serverErrorMessage')"
-  ></watt-empty-state>
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+
+  <mat-row *matRowDef="let temprow; columns: displayedColumns;" (click)="getChosenTemplate(temprow)">{{temprow.Id}}</mat-row>
+
+</mat-table>
+<!-- </div> -->
 </ng-container>

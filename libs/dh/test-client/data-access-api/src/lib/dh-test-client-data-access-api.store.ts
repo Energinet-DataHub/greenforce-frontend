@@ -19,8 +19,8 @@ import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { filter, map, Observable, switchMap, tap } from 'rxjs';
 import {
   SendMessageTemplateDTO,
+  SendMessageTemplateListDTO,
   SendMessageResultDTO,
-  //SendMessageTemplateFieldDTO,
   TestClientHttp,
 } from '@energinet-datahub/dh/shared/data-access-api';
 import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
@@ -38,12 +38,14 @@ export const enum ErrorState {
 
 interface SendMessageTemplateState {
   readonly sendMessageTemplate?: SendMessageTemplateDTO;
+  readonly sendMessageTemplateList?: SendMessageTemplateListDTO;
   readonly sendMessageResult?: SendMessageResultDTO;
   readonly requestState: LoadingState | ErrorState;
 }
 
 const initialState: SendMessageTemplateState = {
-  sendMessageTemplate: undefined,
+sendMessageTemplate: undefined,
+sendMessageTemplateList: undefined,
   sendMessageResult: undefined,
   requestState: LoadingState.INIT,
 };
@@ -57,6 +59,14 @@ export class DhTestClientDataAccessApiStore extends ComponentStore<SendMessageTe
     filter((sendMessageTemplate) => !!sendMessageTemplate),
     map((sendMessageTemplate) => sendMessageTemplate as SendMessageTemplateDTO)
   );
+
+  sendMessageTemplateList$: Observable<SendMessageTemplateListDTO> = this.select(
+    (state) => state.sendMessageTemplateList
+  ).pipe(
+    filter((sendMessageTemplateList) => !!sendMessageTemplateList),
+    map((sendMessageTemplateList) => sendMessageTemplateList as SendMessageTemplateListDTO)
+  );
+
   sendMessageResult$: Observable<SendMessageResultDTO> = this.select(
     (state) => state.sendMessageResult
   ).pipe(
@@ -101,14 +111,35 @@ export class DhTestClientDataAccessApiStore extends ComponentStore<SendMessageTe
     }
   );
 
+  // readonly getSendMessageTemplateList = this.effect(
+  //   (sendMessageTemplddateId: Observable) => {
+  //     return sendMessageTemplddateId.pipe(
+  //       tap(() => {
+  //         this.resetState();
+  //         this.setLoading(true);
+  //       }),
+  //       switchMap(() =>
+  //         this.httpClient.v1TestClientGetSendMessageTemplateListDTOGet().pipe(
+  //           tapResponse(
+  //             (sendMessageTemplateListData) => {
+  //               this.setLoading(false);
 
+  //               this.updateSendMessageTemplateListData(sendMessageTemplateListData);
+  //             },
+  //             (error: HttpErrorResponse) => this.handleError(error)
+  //           )
+  //         )
+  //       )
+  //     );
+  //   }
+  // );
 
 
   readonly getSendMessage = this.effect(
     (sendMessageTemplateObs: Observable<SendMessageTemplateDTO>) => {
       return sendMessageTemplateObs.pipe(
         tap(() => {
-          this.resetState();
+          //this.resetState();
           this.setLoading(true);
         }),
         switchMap((sendMessageTemplateDto) =>
@@ -136,6 +167,15 @@ export class DhTestClientDataAccessApiStore extends ComponentStore<SendMessageTe
     })
   );
 
+  private updateSendMessageTemplateListData = this.updater(
+    (
+      state: SendMessageTemplateState,
+      sendMessageTemplateListData: SendMessageTemplateListDTO | undefined
+    ): SendMessageTemplateState => ({
+      ...state,
+      sendMessageTemplateList: sendMessageTemplateListData,
+    })
+  );
 
   private updateSendMessageTemplateData = this.updater(
     (
@@ -193,6 +233,20 @@ export class DhTestClientDataAccessApiStore extends ComponentStore<SendMessageTe
           console.error(sendMessageResultData);
           this.setLoading(false);
           this.updateSendMessageResultData(sendMessageResultData);
+        },
+        (error: HttpErrorResponse) => this.handleError(error)
+      )
+    ).subscribe();
+  }
+
+  public getMessageMessageTemplateList() : void
+  {
+    this.httpClient.v1TestClientGetSendMessageTemplateListDTOGet().pipe(
+      tapResponse(
+        (sendMessageTempListData) => {
+          //console.error(sendMessageTempListData);
+          this.setLoading(false);
+          this.updateSendMessageTemplateListData(sendMessageTempListData);
         },
         (error: HttpErrorResponse) => this.handleError(error)
       )

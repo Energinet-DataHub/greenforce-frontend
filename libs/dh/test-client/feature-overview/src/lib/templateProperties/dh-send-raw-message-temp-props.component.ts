@@ -29,8 +29,9 @@ import { TranslocoModule } from '@ngneat/transloco';
 
 import {SendMessageTemplateDTO } from '@energinet-datahub/dh/shared/data-access-api';
 import { WattButtonModule, WattAutocompleteModule, WattFormFieldModule, WattTabsModule, WattIconModule, WattInputModule } from '@energinet-datahub/watt';
-import { FormGroup, FormBuilder, ReactiveFormsModule, FormArray } from '@angular/forms';
+import { FormGroup, FormBuilder, ReactiveFormsModule, FormArray} from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
+import { MatInputModule } from '@angular/material/input';
 
 // import { DhMeteringPointStatusBadgeScam } from '../status-badge/dh-metering-point-status-badge.component';
 //import { emDash } from '../'../shared/em-dash';
@@ -62,7 +63,7 @@ export class DhSendRawMessageTempPropsComponent implements OnInit{
 
   ngOnInit() {
 
-console.warn('ddfsfsd');
+
 // create a form array for the groups
 const formControlArray = this.sendMessageTemplateDto.fieldList.map(x => this.formBuilder.control(x.value));
 const formArray = this.formBuilder.array(formControlArray);
@@ -73,16 +74,35 @@ const formArray = this.formBuilder.array(formControlArray);
     description:'',
     domain: '',
     rsmName: '',
-    xmlTemplate: '',
+    xmlTemplate: this.sendMessageTemplateDto.xmlTemplate,
     arrayList: formArray
   });
   }
 
-  onSubmit() {
+  onUpdateAndSendMessage() {
 
-    const fieldValueformArray = (<FormArray>this.sendMessageTemplateForm.get('arrayList'));
-    fieldValueformArray.controls.forEach( (elem, index) => this.sendMessageTemplateDto.fieldList[index].value = elem.value);
+    //(<FormControl>this.sendMessageTemplateForm.get('xmlTemplate')).value = this.sendMessageTemplateDto.xmlTemplate;
+    this.onUpdateFormAndDto();
     this.sendMessage.emit(this.sendMessageTemplateDto);
+  }
+
+  onSendMessage() {
+    this.sendMessage.emit(this.sendMessageTemplateDto);
+  }
+
+  onUpdateFormAndDto()
+  {
+    const fieldValueformArray = (<FormArray>this.sendMessageTemplateForm.get('arrayList'));
+    fieldValueformArray.controls.forEach( (elem, index) =>
+    {
+      this.sendMessageTemplateDto.fieldList[index].value = elem.value;
+      this.sendMessageTemplateDto.xmlTemplate = this.sendMessageTemplateDto.xmlTemplate.replace('{{'+this.sendMessageTemplateDto.fieldList[index].code+'}}',elem.value);
+      console.warn(elem.value);
+      console.warn(this.sendMessageTemplateDto.fieldList[index].code);
+
+    }
+    );
+    this.sendMessageTemplateForm.patchValue({xmlTemplate: this.sendMessageTemplateDto.xmlTemplate});
   }
 
   openXmlInNewWindow() {
@@ -108,6 +128,7 @@ const formArray = this.formBuilder.array(formControlArray);
     WattTabsModule,
     TranslocoModule,
     MatSelectModule,
+    MatInputModule,
     //FormsModule,
     ReactiveFormsModule,
     CommonModule,],

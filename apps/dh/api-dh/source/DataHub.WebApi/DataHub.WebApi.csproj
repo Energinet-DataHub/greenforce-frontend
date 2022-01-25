@@ -35,8 +35,8 @@ limitations under the License.
   </Target>
 
   <ItemGroup>
-    <None Remove="Controllers\TestClient\XmlMocks\47fd7258-bf98-4146-a04f-5014f0b1a324-XMLTemplate.xml" />
-    <None Remove="Controllers\TestClient\XmlMocks\47fd7258-bf98-4146-a04f-5014f0b1a324.xml" />
+    <None Remove="Controllers\TestClient\XmlMocks\SendMessageTemplate-47fd7258-bf98-4146-a04f-5014f0b1a324-XMLTemplate.xml" />
+    <None Remove="Controllers\TestClient\XmlMocks\SendMessageTemplate-47fd7258-bf98-4146-a04f-5014f0b1a324.xml" />
     <None Remove="Controllers\TestClient\XmlMocks\testclient-codelists.xsd" />
     <None Remove="Controllers\TestClient\XmlMocks\urn-ediel-org-codelists.xsd" />
     <None Remove="Controllers\TestClient\XmlMocks\urn-entsoe-eu-local-extension-types.xsd" />
@@ -44,8 +44,8 @@ limitations under the License.
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Controllers\TestClient\XmlMocks\47fd7258-bf98-4146-a04f-5014f0b1a324-XMLTemplate.xml" />
-    <EmbeddedResource Include="Controllers\TestClient\XmlMocks\47fd7258-bf98-4146-a04f-5014f0b1a324.xml" />
+    <EmbeddedResource Include="Controllers\TestClient\XmlMocks\SendMessageTemplate-47fd7258-bf98-4146-a04f-5014f0b1a324-XMLTemplate.xml" />
+    <EmbeddedResource Include="Controllers\TestClient\XmlMocks\SendMessageTemplate-47fd7258-bf98-4146-a04f-5014f0b1a324.xml" />
     <EmbeddedResource Include="Controllers\TestClient\XmlMocks\testclient-codelists.xsd" />
     <EmbeddedResource Include="Controllers\TestClient\XmlMocks\urn-ediel-org-codelists.xsd" />
     <EmbeddedResource Include="Controllers\TestClient\XmlMocks\urn-entsoe-eu-local-extension-types.xsd" />

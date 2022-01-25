@@ -15,9 +15,9 @@
  * limitations under the License.
  */
 import { ActivatedRoute, Router } from '@angular/router';
-import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, NgModule, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { take } from 'rxjs';
+import { map, Subject, take, takeUntil, tap } from 'rxjs';
 import { PushModule } from '@rx-angular/template';
 import { TranslocoModule } from '@ngneat/transloco';
 
@@ -25,6 +25,8 @@ import { DhTestClientDataAccessApiStore } from '@energinet-datahub/dh/test-clien
 import { WattEmptyStateModule } from '@energinet-datahub/watt';
 
 import { DhSendRawMessageSearchFormScam } from './form/dh-send-raw-message-search-form.component';
+import { SendMessageTemplateDTO, SendMessageTemplateListDTO } from '@energinet-datahub/dh/shared/data-access-api';
+import { MatTable, MatTableDataSource, MatTableModule } from '@angular/material/table';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'dh-send-raw-message-search',
@@ -32,35 +34,53 @@ import { DhSendRawMessageSearchFormScam } from './form/dh-send-raw-message-searc
   templateUrl: './dh-send-raw-message-search.component.html',
   providers: [DhTestClientDataAccessApiStore],
 })
-export class DhSendRawMessageSearchComponent {
+export class DhSendRawMessageSearchComponent implements OnInit {
+  //private destroy$ = new Subject<void>();
   isLoading$ = this.store.isLoading$;
-  notFound$ = this.store.sendMessageNotFound$;
-  hasError$ = this.store.hasError$;
-  sendMessageLoaded$ = this.store.sendMessageTemplate$.pipe(take(1));
+  // notFound$ = this.store.sendMessageNotFound$;
+  // hasError$ = this.store.hasError$;
+  //sendMessageTemplateList$ = this.store.sendMessageTemplateList$;
+  sendMessageTemplateListDataSource = new MatTableDataSource<SendMessageTemplateDTO>();
+  //sendMessageListLoaded$ = this.store.sendMessageTemplateList$.pipe(take(1));
+
+  // sendMessageTemplateListDto!: SendMessageTemplateListDTO;
+  // templateList : SendMessageTemplateDTO[] | undefined;
+  displayedColumns: string[] = ['name', 'description','format','domain','rsmName'];
+
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private store: DhTestClientDataAccessApiStore
-  ) {}
+    //private changeDetectorRefs: ChangeDetectorRef
+  ) {
 
-  onSubmit(id: string) {
-    console.warn('test submit:'+id);
-    this.store.getSendMessageTemplate(id);
 
-    this.sendMessageLoaded$.subscribe(() => {
-      this.onGetSendMessageTemplateLoaded(id);
-    });
+
   }
 
-  private onGetSendMessageTemplateLoaded(Id?: string) {
-    this.router.navigate([`../${Id}`], { relativeTo: this.route });
+  ngOnInit(): void {
+
+    this.store.sendMessageTemplateList$.subscribe(dto => {
+    this.sendMessageTemplateListDataSource.data = dto.templateList;
+    //this.store.getMessageMessageTemplateListSimple();
+      // this.dataSource.paginator = this.paginator;
+      // this.dataSource.sort = this.sort;
+  });
+
+     this.store.getMessageMessageTemplateList();
   }
+
+  getChosenTemplate(template : SendMessageTemplateDTO)
+  {
+    this.router.navigate([`../${template.id}`], { relativeTo: this.route });
+  }
+
 }
-
 @NgModule({
   imports: [
     DhSendRawMessageSearchFormScam,
+    MatTableModule,
     WattEmptyStateModule,
     TranslocoModule,
     PushModule,

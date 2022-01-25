@@ -39,6 +39,20 @@ namespace Energinet.DataHub.WebApi.Controllers.TestClient
         public int DequeueMessageCount { get; set; }
     }
 
+    public record SendMessageTemplateListDTO
+    {
+    
+        public string Result { get; set; }
+
+        public SendMessageTemplateListDTO()
+        {
+            TemplateList = new List<SendMessageTemplateDTO>();
+        }
+
+        public List<SendMessageTemplateDTO> TemplateList { get; set; }
+        
+    }
+
     public record SendMessageTemplateDTO
     {
         public SendMessageTemplateDTO()
@@ -106,19 +120,19 @@ namespace Energinet.DataHub.WebApi.Controllers.TestClient
             CodeItemList = new List<CodeListItemDTO>();
         }
 
-        
+
 
         public string CodeListName { get; set; }
 
         public string CodeListNameAligned { get; set; }
-        
+
         public string CodeListUid { get; set; }
 
         public string CodeListDefinition { get; set; }
 
         public List<CodeListItemDTO> CodeItemList { get; set; }
 
-      
+
     }
 
 

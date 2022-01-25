@@ -4,7 +4,7 @@
   <cim:mRID>String</cim:mRID>
   <cim:type>E58</cim:type>
   <cim:process.processType>E02</cim:process.processType>
-  <cim:businessSector.type>E24</cim:businessSector.type>
+  <cim:businessSector.type>{{BusinessSectorType}}</cim:businessSector.type>
   <cim:sender_MarketParticipant.mRID codingScheme="NFI">1234567890123</cim:sender_MarketParticipant.mRID>
   <cim:sender_MarketParticipant.marketRole.type>DDM</cim:sender_MarketParticipant.marketRole.type>
   <cim:receiver_MarketParticipant.mRID codingScheme="NLT">DHGLN</cim:receiver_MarketParticipant.mRID>

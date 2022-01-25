@@ -17,6 +17,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using System.Xml.Serialization;
@@ -36,6 +37,15 @@ namespace Energinet.DataHub.WebApi.Controllers
         private static readonly HttpClient Client = new HttpClient();
 
 
+        [HttpGet("GetSendMessageTemplateListDTO")]
+        public async Task<ActionResult<SendMessageTemplateListDTO>> GetSendMessageTemplateListDTO()
+        {
+            TestClientService service = new TestClientService();
+            var result = service.GetMessageTemplateList();
+            //result.TemplateList[0].Description = $"{Directory.GetCurrentDirectory()}|{Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}";
+            //"C:\projects\DH30\greenforce-frontend\apps\dh\api-dh\source\DataHub.WebApi|C:\projects\DH30\greenforce-frontend\apps\dh\api-dh\source\DataHub.WebApi\bin\Debug\net5.0"
+            return result == null ? NotFound() : Ok(result);
+        }
 
             [HttpGet("GetSendMessageTemplateDTO")]
         public async Task<ActionResult<SendMessageTemplateDTO>> GetSendMessageTemplateDTO(string templateId)
@@ -64,7 +74,7 @@ namespace Energinet.DataHub.WebApi.Controllers
         [HttpPost("SendMessage")]
         public async Task<ActionResult<SendMessageResultDTO>> SendMessage(SendMessageTemplateDTO dto)
         {
-            var result = new SendMessageResultDTO() { Status = "OK", XmlSentDate = DateTime.Now, XmlSent = dto.Code }; //dto.ToXml()
+            var result = new SendMessageResultDTO() { Status = "OK", XmlSentDate = DateTime.Now, XmlSent = dto.XmlTemplate }; //dto.ToXml()
             return result == null ? NotFound() : Ok(result); //xmlMessage == null ? NotFound() : Ok(xmlMessage + "FROM SERVER");
         }
 

@@ -14,7 +14,8 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<ng-container *rxLet="isLoading$ as isLoading">
+<ng-container *transloco="let transloco; read: 'testClient.sendMessage.overview.form'">
+<ng-container *rxLet="isLoading$ as isLoading" >
   <div *ngIf="isLoading" class="overview__spinner">
     <watt-spinner></watt-spinner>
   </div>
@@ -74,7 +75,7 @@ limitations under the License.
     </ng-container>
   </ng-container>
 </ng-container>
-
+</ng-container>
 
 
 

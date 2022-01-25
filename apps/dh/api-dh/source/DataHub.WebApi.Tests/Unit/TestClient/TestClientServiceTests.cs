@@ -38,5 +38,21 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
             var codelists = service.GetCodeLists();
             Assert.Equal(2, codelists.Where(x => x.CodeListNameAligned == "AddressType").First().CodeItemList.Count());
         }
+
+        [Fact]
+        public void GetSendMessageTemplateTest()
+        {
+            var service = new TestClientService();
+            var templ = service.GetMessageTemplate("47fd7258-bf98-4146-a04f-5014f0b1a324");
+            Assert.Equal("CreateMp", templ.Code);
+        }
+
+        [Fact]
+        public void GetSendMessageTemplateListsTest()
+        {
+            var service = new TestClientService();
+            var templateList = service.GetMessageTemplateList();
+            Assert.Single(templateList.TemplateList.Where(x => x.Code == "CreateMp"));
+        }
     }
 }

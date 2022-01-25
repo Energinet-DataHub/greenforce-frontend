@@ -16,6 +16,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using System.Xml.Serialization;
@@ -27,11 +28,19 @@ namespace Energinet.DataHub.WebApi.Controllers.TestClient
     {
 #pragma warning disable
 
+        public SendMessageTemplateListDTO GetMessageTemplateList()
+        {
+            SendMessageTemplateListDTO dto = new SendMessageTemplateListDTO();
+            dto.TemplateList = GetAllMessageTemplateListFromXml();
+            dto.Result = dto.TemplateList.Count.ToString();
+            return dto;
+        }
+
         public SendMessageTemplateDTO GetMessageTemplate(string templateId)
         {
             var codelists = GetCodeLists();
-            SendMessageTemplateDTO result = GetObjectFromXml(templateId);
-            result.XmlTemplate = GetResourceTextFileTemp(templateId + "-XMLTemplate");
+            SendMessageTemplateDTO result = GetMessageTemplateFromXml(templateId);
+            result.XmlTemplate = GetResourceTextFileTemp("SendMessageTemplate-" + templateId + "-XMLTemplate");
 
             result.XmlOriginal = result.XmlTemplate;
 
@@ -84,12 +93,36 @@ namespace Energinet.DataHub.WebApi.Controllers.TestClient
         }
 
 
-        private SendMessageTemplateDTO GetObjectFromXml(string templateId)
+        private List<SendMessageTemplateDTO> GetAllMessageTemplateListFromXml()
+        {
+            string currentFolder = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            List<SendMessageTemplateDTO> mesTempList = new List<SendMessageTemplateDTO>();
+            //string devPath = $@"C:\projects\DH30\greenforce-frontend\apps\dh\api-dh\source\DataHub.WebApi\Controllers\TestClient\XmlMocks";
+            string curDir = Directory.GetCurrentDirectory();
+            string devPath = $@"{curDir}\Controllers\TestClient\XmlMocks";
+            List<string> fileList = new List<string>();
+            if(Directory.Exists(devPath))
+                fileList.AddRange( System.IO.Directory.GetFileSystemEntries(devPath));
+            var embedResList = GetListOfTemplateResourcesEmbedded();
+            fileList.AddRange(embedResList);
+
+            foreach (var filename in fileList.Distinct())
+            {
+                var fileInfo = new FileInfo(filename);
+                if(fileInfo.Name.StartsWith("SendMessageTemplate-") && !fileInfo.Name.Contains("XMLTemplate"))
+                    mesTempList.Add(GetMessageTemplateFromXml(fileInfo.Name.Replace("SendMessageTemplate-","").Replace(".xml","")));
+            }
+
+            return mesTempList;
+        }
+
+
+        private SendMessageTemplateDTO GetMessageTemplateFromXml(string templateId)
         {
             var serializer = new XmlSerializer(typeof(SendMessageTemplateDTO));
             SendMessageTemplateDTO resultObj;
 
-            using (TextReader reader = new StringReader(GetResourceTextFileTemp(templateId)))
+            using (TextReader reader = new StringReader(GetResourceTextFileTemp("SendMessageTemplate-"+templateId)))
             {
                 resultObj = (SendMessageTemplateDTO)serializer.Deserialize(reader);
             }
@@ -134,11 +167,18 @@ namespace Energinet.DataHub.WebApi.Controllers.TestClient
             //Console.WriteLine(enums.Count()); // Tested, outputs 3.
         }
 
+        private List<string> GetListOfTemplateResourcesEmbedded()
+        {
+            return this.GetType().Assembly.GetManifestResourceNames().Select(x=> x.Replace("Energinet.DataHub.WebApi.Controllers.TestClient.XmlMocks.","")).ToList();
+        }
+
         private string GetResourceTextFileTemp(string filename)
         {
             string result = string.Empty;
-
-            string devPath = $@"C:\projects\DH30\greenforce-frontend\apps\dh\api-dh\source\DataHub.WebApi\Controllers\TestClient\XmlMocks\{filename}.xml";
+            
+            //string devPath = $@"C:\projects\DH30\greenforce-frontend\apps\dh\api-dh\source\DataHub.WebApi\Controllers\TestClient\XmlMocks\{filename}.xml";
+            string curDir = Directory.GetCurrentDirectory();
+            string devPath = $@"{curDir}\Controllers\TestClient\XmlMocks\{filename}.xml";
             if (System.IO.File.Exists(devPath))
             {
                 return System.IO.File.ReadAllText(devPath);

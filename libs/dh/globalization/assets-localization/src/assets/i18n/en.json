@@ -229,5 +229,22 @@
       "title": "Oops! There was an error",
       "message": "Unfortunately, an error occurred while retrieving the necessary information."
     }
+  },
+  "testClient": {
+    "sendMessage": {
+      "search":{
+        "title" : "Choose message to send"
+      },
+      "overview":{
+        "form":{
+          "sendMessageButton" : "Send message",
+          "updateXmlTemplateBeforeSendButton" : "Update xml from fields",
+          "sendMessageAfterEditButton" : "Send message (after edit)",
+          "enterValuesDescription" : "Fill in fields before sending message. Edit XML before sending if needed",
+          "openXmlInNewWindow" : "Open XML in new window",
+          "editXmlBeforeSendingDescription" : "Edit XML before sending message. Update from fields before editing and use the 'Open XML in new window' button to get a better view of the message before sending"
+        }
+      }
+    }
   }
 }

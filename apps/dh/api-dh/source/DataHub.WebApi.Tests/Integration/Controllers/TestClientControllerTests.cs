@@ -70,23 +70,20 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
             actual.StatusCode.Should().Be(HttpStatusCode.OK);
         }
 
-        //[Fact]
-        //public async Task When_MeteringPoint_Requested_And_Not_Found_Then_StatusCode_IsNotFound()
-        //{
-        //    // Arrange
-        //    const string gsrn = "non-existing-gsrn-number";
-        //    var requestUrl = $"/v1/meteringpoint/getbygsrn?gsrnNumber={gsrn}";
 
-        //    ApiClientMock
-        //        .Setup(mock => mock.GetMeteringPointByGsrnAsync(gsrn))
-        //        .Returns(Task.FromResult<MeteringPointCimDto?>(null));
+        [Fact]
+        public async Task When_MessageTemplateList_Requested_And_Found_Then_StatusCode_IsOK()
+        {
+            // Arrange
+            var requestUrl = "/v1/TestClient/GetSendMessageTemplateListDTO?";
+            
+            // Act
+            var actual = await HttpClient.GetAsync(requestUrl);
 
-        //    // Act
-        //    var actual = await HttpClient.GetAsync(requestUrl);
+            // Assert
+            actual.StatusCode.Should().Be(HttpStatusCode.OK);
+        }
 
-        //    // Assert
-        //    actual.StatusCode.Should().Be(HttpStatusCode.NotFound);
-        //}
 #pragma warning restore
     }
 }

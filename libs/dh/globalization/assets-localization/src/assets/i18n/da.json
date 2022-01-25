@@ -229,5 +229,23 @@
       "title": "Ups! Der opstod en fejl",
       "message": "Der opstod desværre en fejl, da vi skulle hente de nødvendige oplysninger."
     }
+  },
+  "testClient": {
+    "sendMessage": {
+      "search":{
+          "title" : "Vælg besked du ønsker at sende"
+        },
+      "overview":{
+        "form":{
+          "sendMessageButton" : "Send besked",
+          "updateXmlTemplateBeforeSendButton" : "Opdater XML fra felter",
+          "sendMessageAfterEditButton" : "Send besked (efter redigering)",
+          "enterValuesDescription" : "Udfyld felter og afsend besked. Evt. rediger XML inden afsendelse",
+          "openXmlInNewWindow" : "Åben XML i nyt vindue",
+          "editXmlBeforeSendingDescription" : "Rediger XML før afsendelse af besked. Updater felter før redigering og brug 'Open XML in new window' knappen for at få et bedre overblik af besked inden afsendelse"
+        }
+      }
+    }
   }
+
 }

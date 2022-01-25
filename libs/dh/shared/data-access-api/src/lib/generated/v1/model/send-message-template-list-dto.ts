@@ -9,12 +9,12 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { SendMessageTemplateDTO } from './send-message-template-dto';
 
 
-export interface SendMessageResultDTO { 
-    xmlSent: string;
-    status: string;
-    xmlSentDate: string;
+export interface SendMessageTemplateListDTO { 
+    result: string;
+    templateList: Array<SendMessageTemplateDTO>;
 }
 
 

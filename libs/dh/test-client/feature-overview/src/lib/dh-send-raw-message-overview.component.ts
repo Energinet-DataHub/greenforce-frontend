@@ -42,7 +42,7 @@ import { dhSendRawMessageTemplateIdParam } from './routing/dh-send-raw-message-i
 
 import { DhSendRawMessageOverviewFormScam } from './form/dh-send-raw-message-overview-form.component';
 import { DhSendRawMessageTempPropsScam } from './templateProperties/dh-send-raw-message-temp-props.component';
-import { SendMessageTemplateDTO, SendMessageResultDTO } from '@energinet-datahub/dh/shared/data-access-api';
+import { SendMessageTemplateDTO } from '@energinet-datahub/dh/shared/data-access-api';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
