@@ -22,10 +22,45 @@ limitations under the License.
   name="dh-send-raw-message-temp-props"
 >
 
-<watt-tabs
 
+<!-- <mat-tab-group>
+  <mat-tab>
+    <ng-template matTabContent>
+      <ng-template mat-tab-label>First</ng-template>
+      Content 1
+    </ng-template>
+  </mat-tab>
+
+  <mat-tab>
+    <ng-template matTabContent>
+      <ng-template mat-tab-label>Second</ng-template>
+      Content 2
+    </ng-template>
+  </mat-tab>
+
+  <mat-tab>
+    <ng-template matTabContent>
+      <ng-template mat-tab-label>Third</ng-template>
+      Content 3
+    </ng-template>
+  </mat-tab>
+</mat-tab-group> -->
+
+<watt-button
+variant="primary"
+type="submit"
+size="large"
+(click)="openXmlInNewWindow()"
+>{{ transloco('openXmlInNewWindow') }}</watt-button
 >
-  <watt-tab label="Enter values" >
+
+<br/><br/>
+
+<mat-tab-group
+(selectedTabChange)="tabClick($event)"
+>
+
+  <mat-tab label="Enter values" >
     <!-- (click)="onChangeTab()" -->
 
     <br/>
@@ -39,8 +74,6 @@ limitations under the License.
     >{{ transloco('sendMessageButton') }}</watt-button
     >
     <br/><br/>
-
-<h2>Fields</h2>
 
 <!-- [loading]="loading" -->
 
@@ -64,7 +97,12 @@ limitations under the License.
         <ng-container  [ngSwitch]="fieldItem.fieldType">
           <div *ngSwitchCase="'String'" >
             <!-- <h2>{{fieldItem.fieldType}}</h2> -->
-
+<!-- <span>{{fieldItem.name}}</span>
+<input
+type="text"
+[formControlName]="i"
+/>
+<span>{{fieldItem.comment}}</span> -->
         <watt-form-field size="normal">
           <watt-label class="watt-text-m">{{fieldItem.name}}</watt-label>
 
@@ -115,30 +153,15 @@ limitations under the License.
   </div>
 
     </div>
-  </watt-tab >
+  </mat-tab >
 
-    <watt-tab  label="Edit XML before sending">
+    <mat-tab  label="Edit XML before sending">
       <br/>
       <span>{{transloco('editXmlBeforeSendingDescription')}}</span>
       <br/><br/>
-      <watt-button
-      variant="primary"
-      type="submit"
-      size="large"
-      (click)="openXmlInNewWindow()"
-      >{{ transloco('openXmlInNewWindow') }}</watt-button
-      >
 
-      <br/><br/>
 
-      <watt-button
-      variant="primary"
-      type="submit"
-      size="large"
-      (click)="onUpdateFormAndDto()"
-      >{{ transloco('updateXmlTemplateBeforeSendButton') }}</watt-button
-      >
-      <br/><br/>
+
 
       <watt-button
       variant="primary"
@@ -173,8 +196,8 @@ limitations under the License.
         />
       </watt-form-field> -->
       <!-- {{sendMessageTemplateDto.xmlTemplate}} -->
-  </watt-tab>
-</watt-tabs>
+  </mat-tab>
+</mat-tab-group>
 
 <br/>
 <br/><br/><br/>

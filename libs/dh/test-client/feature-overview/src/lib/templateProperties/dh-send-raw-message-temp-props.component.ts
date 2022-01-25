@@ -32,6 +32,10 @@ import { WattButtonModule, WattAutocompleteModule, WattFormFieldModule, WattTabs
 import { FormGroup, FormBuilder, ReactiveFormsModule, FormArray} from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
+import { MatTabChangeEvent } from '@angular/material/tabs/tab-group';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatButtonModule } from '@angular/material/button';
+
 
 // import { DhMeteringPointStatusBadgeScam } from '../status-badge/dh-metering-point-status-badge.component';
 //import { emDash } from '../'../shared/em-dash';
@@ -79,11 +83,18 @@ const formArray = this.formBuilder.array(formControlArray);
   });
   }
 
+  tabClick(event: MatTabChangeEvent) {
+    if(event.index === 1)
+    {
+      this.onUpdateFormAndDto();
+    }
+  }
+
   onUpdateAndSendMessage() {
 
     //(<FormControl>this.sendMessageTemplateForm.get('xmlTemplate')).value = this.sendMessageTemplateDto.xmlTemplate;
     this.onUpdateFormAndDto();
-    this.sendMessage.emit(this.sendMessageTemplateDto);
+    this.onSendMessage();
   }
 
   onSendMessage() {
@@ -93,24 +104,31 @@ const formArray = this.formBuilder.array(formControlArray);
   onUpdateFormAndDto()
   {
     const fieldValueformArray = (<FormArray>this.sendMessageTemplateForm.get('arrayList'));
+    this.sendMessageTemplateDto.xmlTemplate = this.sendMessageTemplateDto.xmlOriginal;
     fieldValueformArray.controls.forEach( (elem, index) =>
     {
       this.sendMessageTemplateDto.fieldList[index].value = elem.value;
       this.sendMessageTemplateDto.xmlTemplate = this.sendMessageTemplateDto.xmlTemplate.replace('{{'+this.sendMessageTemplateDto.fieldList[index].code+'}}',elem.value);
-      console.warn(elem.value);
       console.warn(this.sendMessageTemplateDto.fieldList[index].code);
+      console.warn(elem.value);
+
 
     }
     );
+    //console.warn(this.sendMessageTemplateDto.xmlTemplate);
+    //console.warn(this.sendMessageTemplateForm.get('xmlTemplate'));
     this.sendMessageTemplateForm.patchValue({xmlTemplate: this.sendMessageTemplateDto.xmlTemplate});
+    //this.sendMessageTemplateForm.get('xmlTemplate')?.setValue(this.sendMessageTemplateDto.xmlTemplate);
+    //console.warn(this.sendMessageTemplateDto.xmlTemplate);
+    //console.warn(this.sendMessageTemplateForm.get('xmlTemplate'));
   }
 
   openXmlInNewWindow() {
 
     const xmlTemplate =this.sendMessageTemplateDto.xmlTemplate;
     if(xmlTemplate !== undefined) {
-        const blob = new Blob([xmlTemplate], {type: 'text/xml'});
-        const url = URL.createObjectURL(blob);
+        const xml = new Blob([xmlTemplate], {type: 'text/xml'});
+        const url = URL.createObjectURL(xml);
         window.open(url);
         URL.revokeObjectURL(url);
     }
@@ -129,6 +147,7 @@ const formArray = this.formBuilder.array(formControlArray);
     TranslocoModule,
     MatSelectModule,
     MatInputModule,
+    MatTabsModule,
     //FormsModule,
     ReactiveFormsModule,
     CommonModule,],

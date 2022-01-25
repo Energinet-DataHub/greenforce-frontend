@@ -63,12 +63,12 @@ export class DhSendRawMessageSearchComponent implements OnInit {
 
     this.store.sendMessageTemplateList$.subscribe(dto => {
     this.sendMessageTemplateListDataSource.data = dto.templateList;
-    //this.store.getMessageMessageTemplateListSimple();
+    //this.store.getMessageMessageTemplateList();
       // this.dataSource.paginator = this.paginator;
       // this.dataSource.sort = this.sort;
   });
 
-     this.store.getMessageMessageTemplateList();
+    this.store.getMessageMessageTemplateList();
   }
 
   getChosenTemplate(template : SendMessageTemplateDTO)

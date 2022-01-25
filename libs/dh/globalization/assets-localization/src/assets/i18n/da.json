@@ -237,11 +237,11 @@
         },
       "overview":{
         "form":{
-          "sendMessageButton" : "Send besked",
+          "sendMessageButton" : "Send besked (uden at redigere i XML)",
           "updateXmlTemplateBeforeSendButton" : "Opdater XML fra felter",
           "sendMessageAfterEditButton" : "Send besked (efter redigering)",
           "enterValuesDescription" : "Udfyld felter og afsend besked. Evt. rediger XML inden afsendelse",
-          "openXmlInNewWindow" : "Åben XML i nyt vindue",
+          "openXmlInNewWindow" : "Åben XML i ny fane (for at se selve besked inden afsendelse)",
           "editXmlBeforeSendingDescription" : "Rediger XML før afsendelse af besked. Updater felter før redigering og brug 'Open XML in new window' knappen for at få et bedre overblik af besked inden afsendelse"
         }
       }
