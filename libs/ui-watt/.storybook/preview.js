@@ -16,5 +16,5 @@ export const parameters = {
   viewport: {
     viewports: INITIAL_VIEWPORTS,
   },
-  chromatic: { disableSnapshot: true }
+  chromatic: { disableSnapshot: false }
 };
