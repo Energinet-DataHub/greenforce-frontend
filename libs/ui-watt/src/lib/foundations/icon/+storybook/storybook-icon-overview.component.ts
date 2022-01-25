@@ -83,6 +83,7 @@ export class StorybookIconOverviewComponent {
       icons: [
         { name: 'E-mail', icon: 'email' },
         { name: 'Link', icon: 'link' },
+        { name: 'Open In New', icon: 'openInNew' },
       ],
     },
     {
