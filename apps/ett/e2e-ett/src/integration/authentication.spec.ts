@@ -33,7 +33,6 @@ describe('Authentication', () => {
       }
     );
     landingPage.navigateTo();
-    landingPage.findStartLink().click();
 
     loginPage.getNemidLink().click();
 
