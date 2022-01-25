@@ -26,7 +26,7 @@
     "affected:test": "nx affected:test --parallel",
     "build": "nx run-many --target=build --configuration=production --all --parallel",
     "ci": "npm run lint && npm run test && npm run build && npm run e2e -- --configuration=ci",
-    "designsystem:build": "npm run docs:json && npm run nx -- run ui-watt:build-storybook --outputPath=dist/designsystem",
+    "designsystem:build": "npm run docs:json && npm run nx -- run ui-watt:build-storybook",
     "designsystem:start": "npm run docs:json && npm run nx -- run ui-watt:storybook",
     "dep-graph": "nx dep-graph",
     "docs:json": "npx compodoc -p ./libs/ui-watt/tsconfig.json -e json -d ./libs/ui-watt",
