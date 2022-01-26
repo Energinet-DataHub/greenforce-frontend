@@ -21,18 +21,15 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { Observable, catchError, of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 import { LetModule } from '@rx-angular/template';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { LandingPageStore } from './eo-landing-page.store';
-import { HttpErrorResponse } from '@angular/common/http';
 
 const selector = 'eo-landing-page-header';
 
 @Component({
-  providers: [LandingPageStore],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   selector,
@@ -91,16 +88,9 @@ const selector = 'eo-landing-page-header';
   `,
 })
 export class EoLandingPageHeaderComponent {
-  loginUrl$: Observable<string> = this.landingPageStore.authenticationUrl$.pipe(
-    map((response) => response)
-  );
+  loginUrl$: Observable<string> = this.landingPageStore.authenticationUrl$;
 
   constructor(private readonly landingPageStore: LandingPageStore) {
-    /**
-     * Catch error from the ComponentStore - And do something:
-     * @todo Notify user?
-     */
-    this.loginUrl$.pipe(catchError((error: HttpErrorResponse) => of(error)));
   }
 }
 
