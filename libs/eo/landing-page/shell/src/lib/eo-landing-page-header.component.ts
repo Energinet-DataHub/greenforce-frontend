@@ -28,7 +28,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { LandingPageStore } from './eo-landing-page.store';
 import { HttpErrorResponse } from '@angular/common/http';
-import { AuthOidcLoginResponse } from '@energinet-datahub/ett/auth/data-access-api';
 
 const selector = 'eo-landing-page-header';
 
