@@ -82,16 +82,17 @@ const selector = 'eo-landing-page-header';
         mat-button
         mat-flat-button
         *rxLet="loginUrl$ as loginUrl"
-        [href]="loginUrl.next_url"
+        [href]="loginUrl"
         >Start</a
       >
     </mat-toolbar>
   `,
 })
 export class EoLandingPageHeaderComponent {
-  loginUrl$: Observable<AuthOidcLoginResponse> = this.landingPageStore.authenticationUrl$;
+  loginUrl$: Observable<string> = this.landingPageStore.authenticationUrl$;
 
-  constructor(private readonly landingPageStore: LandingPageStore) {}
+  constructor(private landingPageStore: LandingPageStore) {
+  }
 }
 
 @NgModule({

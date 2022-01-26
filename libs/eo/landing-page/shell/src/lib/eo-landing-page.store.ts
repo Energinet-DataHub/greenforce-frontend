@@ -17,28 +17,29 @@
 import { Injectable, Inject } from '@angular/core';
 import { APP_BASE_HREF } from '@angular/common';
 import { ComponentStore } from '@ngrx/component-store';
-import { Observable, switchMap } from 'rxjs';
-import { AuthHttp, AuthOidcLoginResponse } from '@energinet-datahub/ett/auth/data-access-api';
+import { map, Observable, switchMap } from 'rxjs';
+import { AuthHttp } from '@energinet-datahub/ett/auth/data-access-api';
 import { AbsoluteUrlGenerator } from '@energinet-datahub/ett/shared/util-browser';
 import { ettDashboardRoutePath } from '@energinet-datahub/ett/dashboard/routing';
 
 @Injectable()
 export class LandingPageStore extends ComponentStore<LandingPageStateInterface> {
-  private readonly absoluteReturnUrl = this.urlGenerator.fromCommands([
+  private absoluteReturnUrl = this.urlGenerator.fromCommands([
     ettDashboardRoutePath,
   ]);
 
-  readonly authenticationUrl$: Observable<AuthOidcLoginResponse> = this.select(() => {
+  authenticationUrl$: Observable<string> = this.select(() => {
     return this.authOidcHttpClient
     .getLogin(this.appBaseHref, this.absoluteReturnUrl);
   }).pipe(
-    switchMap(response => response)
+    switchMap(response => response),
+    map(response => response.next_url)
   );
 
   constructor(
-    private readonly authOidcHttpClient: AuthHttp,
-    private readonly urlGenerator: AbsoluteUrlGenerator,
-    @Inject(APP_BASE_HREF) private readonly appBaseHref: string
+    private authOidcHttpClient: AuthHttp,
+    private urlGenerator: AbsoluteUrlGenerator,
+    @Inject(APP_BASE_HREF) private appBaseHref: string
   ) {
     super(initialState);
   }
