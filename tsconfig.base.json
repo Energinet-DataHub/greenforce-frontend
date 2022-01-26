@@ -102,6 +102,9 @@
       "@energinet-datahub/eo/shared/environments": [
         "libs/eo/shared/environments/src/index.ts"
       ],
+      "@energinet-datahub/eo/shared/ui-shell": [
+        "libs/eo/shared/ui-shell/src/index.ts"
+      ],
       "@energinet-datahub/ett/auth/data-access-api": [
         "libs/ett/auth/data-access-api/src/index.ts"
       ],
