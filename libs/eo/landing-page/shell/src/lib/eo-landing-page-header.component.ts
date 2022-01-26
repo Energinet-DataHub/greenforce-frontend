@@ -89,7 +89,8 @@ const selector = 'eo-landing-page-header';
   `,
 })
 export class EoLandingPageHeaderComponent {
-  loginUrl$: Observable<AuthOidcLoginResponse> = this.landingPageStore.authenticationUrl$;
+  loginUrl$: Observable<AuthOidcLoginResponse> =
+    this.landingPageStore.authenticationUrl$;
 
   constructor(private readonly landingPageStore: LandingPageStore) {}
 }

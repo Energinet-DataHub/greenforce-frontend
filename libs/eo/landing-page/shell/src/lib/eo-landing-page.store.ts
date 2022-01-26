@@ -18,7 +18,10 @@ import { Injectable, Inject } from '@angular/core';
 import { APP_BASE_HREF } from '@angular/common';
 import { ComponentStore } from '@ngrx/component-store';
 import { Observable, switchMap } from 'rxjs';
-import { AuthHttp, AuthOidcLoginResponse } from '@energinet-datahub/ett/auth/data-access-api';
+import {
+  AuthHttp,
+  AuthOidcLoginResponse,
+} from '@energinet-datahub/ett/auth/data-access-api';
 import { AbsoluteUrlGenerator } from '@energinet-datahub/ett/shared/util-browser';
 import { ettDashboardRoutePath } from '@energinet-datahub/ett/dashboard/routing';
 
@@ -28,12 +31,14 @@ export class LandingPageStore extends ComponentStore<LandingPageStateInterface> 
     ettDashboardRoutePath,
   ]);
 
-  readonly authenticationUrl$: Observable<AuthOidcLoginResponse> = this.select(() => {
-    return this.authOidcHttpClient
-    .getLogin(this.appBaseHref, this.absoluteReturnUrl);
-  }).pipe(
-    switchMap(response => response)
-  );
+  readonly authenticationUrl$: Observable<AuthOidcLoginResponse> = this.select(
+    () => {
+      return this.authOidcHttpClient.getLogin(
+        this.appBaseHref,
+        this.absoluteReturnUrl
+      );
+    }
+  ).pipe(switchMap((response) => response));
 
   constructor(
     private readonly authOidcHttpClient: AuthHttp,
