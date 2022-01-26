@@ -26,6 +26,7 @@ import { LetModule } from '@rx-angular/template';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { LandingPageStore } from './eo-landing-page.store';
+import { AuthOidcLoginResponse } from '@energinet-datahub/ett/auth/data-access-api';
 
 const selector = 'eo-landing-page-header';
 
@@ -81,16 +82,19 @@ const selector = 'eo-landing-page-header';
         mat-button
         mat-flat-button
         *rxLet="loginUrl$ as loginUrl"
-        [href]="loginUrl"
+        [href]="loginUrl.next_url"
         >Start</a
       >
     </mat-toolbar>
   `,
 })
 export class EoLandingPageHeaderComponent {
-  loginUrl$: Observable<string> = this.landingPageStore.authenticationUrl$;
+  loginUrl$: Observable<AuthOidcLoginResponse> = this.landingPageStore.authenticationUrl$;
 
   constructor(private readonly landingPageStore: LandingPageStore) {
+    this.landingPageStore.authenticationUrl$.subscribe(data => {
+      console.log('****', data);
+    });
   }
 }
 
