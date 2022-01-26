@@ -3,7 +3,6 @@
   "compilerOptions": {
     "emitDecoratorMetadata": true
   },
-  "files": ["../../../apps/dh/app-dh/src/polyfills.ts"],
   "exclude": ["../**/*.spec.ts"],
   "include": ["../src/**/*", "*.js"]
 }
