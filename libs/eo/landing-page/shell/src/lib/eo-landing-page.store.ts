@@ -29,11 +29,13 @@ export class LandingPageStore extends ComponentStore<LandingPageStateInterface> 
   ]);
 
   authenticationUrl$: Observable<string> = this.select(() => {
-    return this.authOidcHttpClient
-    .getLogin(this.appBaseHref, this.absoluteReturnUrl);
+    return this.authOidcHttpClient.getLogin(
+      this.appBaseHref,
+      this.absoluteReturnUrl
+    );
   }).pipe(
-    switchMap(response => response),
-    map(response => response.next_url)
+    switchMap((response) => response),
+    map((response) => response.next_url)
   );
 
   constructor(
