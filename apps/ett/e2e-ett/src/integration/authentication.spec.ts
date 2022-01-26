@@ -33,8 +33,9 @@ describe('Authentication', () => {
       }
     );
     landingPage.navigateTo();
+    landingPage.findStartLink().click();
 
-    loginPage.getNemidLink().click();
+    loginPage.findNemidLink().click();
 
     dashboardPage.getTitle().should('exist');
   });
