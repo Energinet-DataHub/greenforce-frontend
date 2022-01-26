@@ -21,12 +21,19 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { Observable, catchError, of } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { LetModule } from '@rx-angular/template';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { LandingPageStore } from './eo-landing-page.store';
+import { HttpErrorResponse } from '@angular/common/http';
+import { AuthOidcLoginResponse } from '@energinet-datahub/ett/auth/data-access-api';
 
 const selector = 'eo-landing-page-header';
 
 @Component({
+  providers: [LandingPageStore],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   selector,
@@ -74,15 +81,33 @@ const selector = 'eo-landing-page-header';
       class="${selector}__toolbar watt-space-inset-squished-m"
     >
       <img src="assets/energyorigin-logo.svg" alt="EnergyOrigin" />
-      <a mat-button mat-flat-button routerLink="/login">Start</a>
+      <a
+        mat-button
+        mat-flat-button
+        *rxLet="loginUrl$ as loginUrl"
+        [href]="loginUrl"
+        >Start</a
+      >
     </mat-toolbar>
   `,
 })
-export class EoLandingPageHeaderComponent {}
+export class EoLandingPageHeaderComponent {
+  loginUrl$: Observable<string> = this.landingPageStore.authenticationUrl$.pipe(
+    map((response) => response)
+  );
+
+  constructor(private readonly landingPageStore: LandingPageStore) {
+    /**
+     * Catch error from the ComponentStore - And do something:
+     * @todo Notify user?
+     */
+    this.loginUrl$.pipe(catchError((error: HttpErrorResponse) => of(error)));
+  }
+}
 
 @NgModule({
   declarations: [EoLandingPageHeaderComponent],
   exports: [EoLandingPageHeaderComponent],
-  imports: [RouterModule, MatToolbarModule, MatButtonModule],
+  imports: [RouterModule, MatToolbarModule, MatButtonModule, LetModule],
 })
 export class EoLandingPageHeaderScam {}
