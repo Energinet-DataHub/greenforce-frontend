@@ -25,8 +25,9 @@
     "storybook": {
       "executor": "@nrwl/storybook:storybook",
       "options": {
-        "uiFramework": "@storybook/angular",
         "port": 4400,
+        "projectBuildConfig": "ui-watt:build-storybook",
+        "uiFramework": "@storybook/angular",
         "config": {
           "configFolder": "libs/ui-watt/.storybook"
         }
@@ -41,10 +42,22 @@
       "executor": "@nrwl/storybook:build",
       "outputs": ["{options.outputPath}"],
       "options": {
+        "outputPath": "dist/designsystem",
+        "projectBuildConfig": "ui-watt:build-storybook",
         "uiFramework": "@storybook/angular",
-        "outputPath": "dist/storybook/ui-watt",
         "config": {
           "configFolder": "libs/ui-watt/.storybook"
+        },
+        "assets": [
+          {
+            "input": "libs/ui-watt/src/assets",
+            "glob": "**/*",
+            "output": "assets/ui-watt"
+          }
+        ],
+        "styles": ["libs/ui-watt/.storybook/styles.scss"],
+        "stylePreprocessorOptions": {
+          "includePaths": ["libs/ui-watt/src/lib/styles"]
         }
       },
       "configurations": {

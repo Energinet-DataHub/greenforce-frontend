@@ -27,6 +27,7 @@ import {
 import { WattIconService } from './icon.service';
 import { WattIcon } from './icons';
 import { WattIconSize } from './watt-icon-size';
+import { WattIconState } from './watt-icon-state';
 
 @Component({
   selector: 'watt-icon',
@@ -43,9 +44,16 @@ export class WattIconComponent implements OnChanges {
    */
   @Input() label: string | null = null;
   @Input() size: WattIconSize = WattIconSize.Medium;
+  @Input() state?: WattIconState;
 
-  @HostBinding('class') get currentSize(): string[] {
-    return [`icon-size-${this.size}`];
+  @HostBinding('class') get _cssClass(): string[] {
+    const classesToAdd = [`icon-size-${this.size}`];
+
+    if (this.state) {
+      classesToAdd.push(`icon-state-${this.state}`);
+    }
+
+    return classesToAdd;
   }
 
   /**

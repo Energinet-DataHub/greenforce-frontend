@@ -14,9 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export { WattIcon } from './icons';
-export { WattIconModule } from './icon.module';
-export { WattIconComponent } from './icon.component';
-export { WattIconSize } from './watt-icon-size';
-export { WattIconState } from './watt-icon-state';
-export { WattIconService } from './icon.service';
+import { PlaywrightTestConfig } from '@playwright/test';
+import { config as baseConfig } from './playwright';
+
+const config: PlaywrightTestConfig = {
+  ...baseConfig,
+  globalSetup: undefined,
+  use: {
+    ...baseConfig.use,
+    headless: true,
+    storageState: undefined,
+  },
+};
+export default config;

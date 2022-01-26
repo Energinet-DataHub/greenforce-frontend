@@ -14,9 +14,5 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export { WattIcon } from './icons';
-export { WattIconModule } from './icon.module';
-export { WattIconComponent } from './icon.component';
-export { WattIconSize } from './watt-icon-size';
-export { WattIconState } from './watt-icon-state';
-export { WattIconService } from './icon.service';
+/* You can add global styles to this file, and also import other style files */
+@use '@energinet-datahub/watt';

@@ -34,4 +34,20 @@ watt-icon {
       @include icon-size($size);
     }
   }
+
+  &.icon-state-success .mat-icon {
+    color: var(--watt-color-state-success);
+  }
+
+  &.icon-state-danger .mat-icon {
+    color: var(--watt-color-state-danger);
+  }
+
+  &.icon-state-warning .mat-icon {
+    color: var(--watt-color-state-warning);
+  }
+
+  &.icon-state-info .mat-icon {
+    color: var(--watt-color-state-info);
+  }
 }

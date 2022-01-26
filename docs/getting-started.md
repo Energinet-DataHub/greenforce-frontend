@@ -60,7 +60,7 @@ To run the tests use following command:
 
 To debug E2E tests with the playwright inspector you can use following command (Windows PowerShell), you can find more information [here](https://playwright.dev/docs/debug):
 
-`$Env:PWDEBUG=1; npx playwright test apps/dh/e2e-dh/src --config=apps/dh/e2e-dh/playwright.ts --workers=1`
+`yarn nx run e2e-dh:e2e --debug`
 
 ### Generating new components
 

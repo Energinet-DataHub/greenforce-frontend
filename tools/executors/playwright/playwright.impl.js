@@ -431,23 +431,34 @@ function startDevServer(opts, context) {
 }
 function runPlaywright(baseUrl, opts, context) {
   return __awaiter(this, void 0, void 0, function () {
-    var projectname, sourceRoot, success;
+    var projectname, sourceRoot, playwrightCommand, success;
     return __generator(this, function (_a) {
       switch (_a.label) {
         case 0:
           projectname = context.projectName;
           sourceRoot = context.workspace.projects[projectname].sourceRoot;
+          playwrightCommand =
+            'playwright test ' +
+            sourceRoot +
+            ' --config=' +
+            opts.playwrightConfig;
+          if (opts.include) {
+            playwrightCommand += ' --grep="' + escapeRegExp(opts.include) + '"';
+          }
+          if (opts.exclude) {
+            playwrightCommand +=
+              ' --grep-invert="' + escapeRegExp(opts.exclude) + '"';
+          }
+          if (opts.debug) {
+            process.env.PWDEBUG = '1';
+            playwrightCommand += ' --workers=1';
+          }
           process.env.BASE_URL = baseUrl;
           return [
             4 /*yield*/,
             (0, run_commands_impl_1['default'])(
               {
-                commands: [
-                  'playwright test ' +
-                    sourceRoot +
-                    ' --config=' +
-                    opts.playwrightConfig,
-                ],
+                commands: [playwrightCommand],
                 parallel: true,
               },
               context
@@ -459,4 +470,7 @@ function runPlaywright(baseUrl, opts, context) {
       }
     });
   });
+}
+function escapeRegExp(string) {
+  return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
 }

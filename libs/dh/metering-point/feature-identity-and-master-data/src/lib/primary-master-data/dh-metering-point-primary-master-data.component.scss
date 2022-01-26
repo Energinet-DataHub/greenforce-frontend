@@ -26,14 +26,6 @@
     display: inline-block;
     color: var(--watt-color-primary-dark);
     margin-right: var(--watt-space-l);
-
-    &.success {
-      color: var(--watt-color-state-success);
-    }
-
-    &.warning {
-      color: var(--watt-color-state-warning);
-    }
   }
 }
 

@@ -30,6 +30,7 @@ const materialIcons = {
   time: 'schedule',
   email: 'email',
   link: 'link',
+  openInNew: 'open_in_new',
   monetization: 'monetization_on',
   forwardMessage: 'forward_to_inbox',
   menu: 'menu',
