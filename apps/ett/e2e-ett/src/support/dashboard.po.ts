@@ -14,5 +14,5 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export const getTitle = () =>
+export const findTitle = () =>
   cy.findByRole('heading', { level: 2, name: /dashboard/i });

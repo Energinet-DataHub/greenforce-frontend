@@ -22,6 +22,7 @@ describe('Authentication', () => {
   it(`Given a commercial user
     When NemID authentication is successful
     Then they are redirected to the dashboard page`, () => {
+    // Arrange
     cy.intercept(
       {
         hostname: 'localhost',
@@ -33,10 +34,12 @@ describe('Authentication', () => {
       }
     );
     landingPage.navigateTo();
-    landingPage.findStartLink().click();
 
+    // Act
+    landingPage.findStartLink().click();
     loginPage.findNemidLink().click();
 
-    dashboardPage.getTitle().should('exist');
+    // Assert
+    dashboardPage.findTitle().should('exist');
   });
 });
