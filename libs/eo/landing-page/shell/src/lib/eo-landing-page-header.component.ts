@@ -91,11 +91,7 @@ const selector = 'eo-landing-page-header';
 export class EoLandingPageHeaderComponent {
   loginUrl$: Observable<AuthOidcLoginResponse> = this.landingPageStore.authenticationUrl$;
 
-  constructor(private readonly landingPageStore: LandingPageStore) {
-    this.landingPageStore.authenticationUrl$.subscribe(data => {
-      console.log('****', data);
-    });
-  }
+  constructor(private readonly landingPageStore: LandingPageStore) {}
 }
 
 @NgModule({
