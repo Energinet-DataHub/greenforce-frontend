@@ -26,7 +26,6 @@ import { LetModule } from '@rx-angular/template';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { LandingPageStore } from './eo-landing-page.store';
-import { AuthOidcLoginResponse } from '@energinet-datahub/ett/auth/data-access-api';
 
 const selector = 'eo-landing-page-header';
 
