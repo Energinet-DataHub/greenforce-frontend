@@ -15,12 +15,14 @@
  * limitations under the License.
  */
 import * as dashboardPage from '../support/dashboard.po';
+import * as landingPage from '../support/landing-page.po';
 import * as loginPage from '../support/login.po';
 
 describe('Authentication', () => {
   it(`Given a commercial user
     When NemID authentication is successful
     Then they are redirected to the dashboard page`, () => {
+    // Arrange
     cy.intercept(
       {
         hostname: 'localhost',
@@ -31,10 +33,13 @@ describe('Authentication', () => {
         next_url: '/dashboard?success=1',
       }
     );
-    loginPage.navigateTo();
+    landingPage.navigateTo();
 
-    loginPage.getNemidLink().click();
+    // Act
+    landingPage.findStartLink().click();
+    loginPage.findNemidLink().click();
 
-    dashboardPage.getTitle().should('exist');
+    // Assert
+    dashboardPage.findTitle().should('exist');
   });
 });

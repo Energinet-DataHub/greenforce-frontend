@@ -14,12 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { getTitle } from '../support/app.po';
+import 'jest-preset-angular/setup-jest';
 
-describe('EnergyOrigin app', () => {
-  beforeEach(() => cy.visit('/'));
+import { addDomMatchers } from '@energinet-datahub/gf/test-util-matchers';
+import {
+  setUpAngularTestingLibrary,
+  setUpTestbed,
+} from '@energinet-datahub/gf/test-util-staging';
 
-  it('displays a title', () => {
-    getTitle().contains('EnergyOrigin');
-  });
-});
+addDomMatchers();
+setUpTestbed();
+setUpAngularTestingLibrary();

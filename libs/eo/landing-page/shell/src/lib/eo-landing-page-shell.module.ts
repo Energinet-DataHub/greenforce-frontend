@@ -14,5 +14,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export const findNemidLink = () => cy.findByRole('link', { name: /NemID/i });
-export const navigateTo = () => cy.visit('/login');
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import {
+  EoLandingPageShellComponent,
+  EoLandingPageShellScam,
+} from './eo-landing-page-shell.component';
+
+const routes: Routes = [
+  {
+    path: '',
+    component: EoLandingPageShellComponent,
+  },
+];
+
+@NgModule({
+  imports: [RouterModule.forChild(routes), EoLandingPageShellScam],
+})
+export class EoLandingPageShellModule {}

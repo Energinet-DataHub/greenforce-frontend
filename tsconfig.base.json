@@ -90,6 +90,9 @@
       "@energinet-datahub/dh/shared/ui-date-time": [
         "libs/dh/shared/ui-date-time/src/index.ts"
       ],
+      "@energinet-datahub/eo/landing-page/shell": [
+        "libs/eo/landing-page/shell/src/index.ts"
+      ],
       "@energinet-datahub/eo/shared/assets": [
         "libs/eo/shared/assets/src/index.ts"
       ],

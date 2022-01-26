@@ -20,9 +20,10 @@ import {
   NgModule,
   ViewEncapsulation,
 } from '@angular/core';
-import { RouterModule } from '@angular/router';
 
-const selector = 'ett-app';
+import { EoLandingPageHeaderScam } from './eo-landing-page-header.component';
+
+const selector = 'eo-landing-page-shell';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -32,17 +33,15 @@ const selector = 'ett-app';
     `
       ${selector} {
         display: block;
-        min-height: 100%;
-        background: var(--watt-color-neutral-grey-100);
       }
     `,
   ],
-  template: `<router-outlet></router-outlet>`,
+  template: `<eo-landing-page-header></eo-landing-page-header>`,
 })
-export class EnergyTrackAndTraceAppComponent {}
+export class EoLandingPageShellComponent {}
 
 @NgModule({
-  declarations: [EnergyTrackAndTraceAppComponent],
-  imports: [RouterModule],
+  declarations: [EoLandingPageShellComponent],
+  imports: [EoLandingPageHeaderScam],
 })
-export class EnergyTrackAndTraceAppScam {}
+export class EoLandingPageShellScam {}

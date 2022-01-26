@@ -31,7 +31,10 @@ const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: ettAuthRoutePath,
+    loadChildren: () =>
+      import('@energinet-datahub/eo/landing-page/shell').then(
+        (esModule) => esModule.EoLandingPageShellModule
+      ),
   },
   {
     path: ettAuthRoutePath,

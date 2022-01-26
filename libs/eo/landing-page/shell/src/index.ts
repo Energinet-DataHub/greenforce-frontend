@@ -14,5 +14,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export const findNemidLink = () => cy.findByRole('link', { name: /NemID/i });
-export const navigateTo = () => cy.visit('/login');
+export * from './lib/eo-landing-page-shell.module';
