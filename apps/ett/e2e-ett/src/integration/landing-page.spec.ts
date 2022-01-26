@@ -21,5 +21,6 @@ describe('Landing page', () => {
     landingPage.navigateTo();
 
     landingPage.findLogo().should('exist');
+    landingPage.findStartLink().should('exist');
   });
 });

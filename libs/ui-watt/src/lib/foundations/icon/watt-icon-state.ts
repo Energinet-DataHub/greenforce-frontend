@@ -14,14 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-<<<<<<< HEAD:libs/eo/landing-page/shell/src/index.ts
-export * from './lib/eo-landing-page-shell.module';
-=======
-
 export enum WattIconState {
   Success = 'success',
   Danger = 'danger',
   Warning = 'warning',
   Info = 'info',
 }
->>>>>>> main:libs/ui-watt/src/lib/foundations/icon/watt-icon-state.ts

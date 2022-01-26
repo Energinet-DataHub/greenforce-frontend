@@ -15,4 +15,5 @@
  * limitations under the License.
  */
 export const findStartLink = () => cy.findByRole('link', { name: /Start/i });
+export const findLogo = () => cy.findByRole('img');
 export const navigateTo = () => cy.visit('/');
