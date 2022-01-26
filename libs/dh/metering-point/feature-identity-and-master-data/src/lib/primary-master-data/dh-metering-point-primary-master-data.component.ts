@@ -33,6 +33,7 @@ import {
   WattIcon,
   WattIconModule,
   WattIconSize,
+  WattIconState,
 } from '@energinet-datahub/watt';
 import {
   DhEmDashFallbackPipeScam,
@@ -69,6 +70,7 @@ export class DhMeteringPointPrimaryMasterDataComponent implements OnChanges {
   address?: string;
   iconSizes = WattIconSize;
   isActualAddressIcon: WattIcon = 'success';
+  isActualAddressIconState?: WattIconState;
   actualAddressTranslationKey = 'actualAddress';
 
   get electricitySupplierSinceTranslationKey(): string | undefined {
@@ -92,9 +94,11 @@ export class DhMeteringPointPrimaryMasterDataComponent implements OnChanges {
       this.address = this.formatAddress(currentValue);
       if (currentValue.isActualAddress) {
         this.isActualAddressIcon = 'success';
+        this.isActualAddressIconState = WattIconState.Success;
         this.actualAddressTranslationKey = 'actualAddress';
       } else {
         this.isActualAddressIcon = 'warning';
+        this.isActualAddressIconState = WattIconState.Warning;
         this.actualAddressTranslationKey = 'notActualAddress';
       }
     }

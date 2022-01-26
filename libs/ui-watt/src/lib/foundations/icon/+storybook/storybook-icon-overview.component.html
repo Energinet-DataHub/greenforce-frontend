@@ -88,3 +88,27 @@ limitations under the License.
     <figcaption>XXLarge (128px)</figcaption>
   </figure>
 </section>
+
+<h2>States</h2>
+<section class="states">
+  <figure>
+    <watt-icon name="success"></watt-icon>
+    <figcaption>Default</figcaption>
+  </figure>
+  <figure>
+    <watt-icon name="success" [state]="iconState.Success"></watt-icon>
+    <figcaption>Success</figcaption>
+  </figure>
+  <figure>
+    <watt-icon name="success" [state]="iconState.Danger"></watt-icon>
+    <figcaption>Danger</figcaption>
+  </figure>
+  <figure>
+    <watt-icon name="success" [state]="iconState.Warning"></watt-icon>
+    <figcaption>Warning</figcaption>
+  </figure>
+  <figure>
+    <watt-icon name="success" [state]="iconState.Info"></watt-icon>
+    <figcaption>Info</figcaption>
+  </figure>
+</section>

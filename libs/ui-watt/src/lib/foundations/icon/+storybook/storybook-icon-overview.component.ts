@@ -18,6 +18,7 @@ import { Component } from '@angular/core';
 
 import { WattIcon } from '../icons';
 import { WattIconSize } from '../watt-icon-size';
+import { WattIconState } from '../watt-icon-state';
 
 interface Icon {
   name: string;
@@ -40,6 +41,10 @@ export class StorybookIconOverviewComponent {
    * @ignore
    */
   iconSize = WattIconSize;
+  /**
+   * @ignore
+   */
+  iconState = WattIconState;
 
   /**
    * @ignore

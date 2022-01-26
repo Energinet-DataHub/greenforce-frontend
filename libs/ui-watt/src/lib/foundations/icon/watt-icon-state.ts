@@ -14,9 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export { WattIcon } from './icons';
-export { WattIconModule } from './icon.module';
-export { WattIconComponent } from './icon.component';
-export { WattIconSize } from './watt-icon-size';
-export { WattIconState } from './watt-icon-state';
-export { WattIconService } from './icon.service';
+
+export enum WattIconState {
+  Success = 'success',
+  Danger = 'danger',
+  Warning = 'warning',
+  Info = 'info',
+}
