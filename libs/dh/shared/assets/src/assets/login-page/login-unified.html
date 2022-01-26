@@ -224,6 +224,30 @@ limitations under the License.
       button:hover {
         background-color: rgb(2, 82, 94);
       }
+
+      .template {
+        display: none;
+      }
+
+      #api .template {
+        display: block;
+      }
+
+      #signUpTemplate {
+        font-size: 14px;
+        margin-top: 8px;
+      }
+
+      #signUpTemplate a {
+        color: #00847c;
+        text-decoration: none;
+      }
+
+      #signUpTemplate a:hover,
+      #signUpTemplate a:visited,
+      #signUpTemplate a:active {
+        color: rgb(2, 82, 94);
+      }
     </style>
     <script>
       function waitFor(selector, callback) {
@@ -252,8 +276,25 @@ limitations under the License.
         });
       }
 
+      function appendSignUpTempate() {
+        var signUpTemplate = document.getElementById('signUpTemplate');
+
+        var signUpLinks = signUpTemplate.querySelectorAll('a');
+        var signUpUrl = document.location.href
+          .replace('signin', 'signup')
+          .replace('sign_in', 'signup');
+
+        signUpLinks.forEach((link) => {
+          link.setAttribute('href', signUpUrl);
+        });
+
+        var signUpContainer = document.querySelector('.buttons');
+        signUpContainer.appendChild(signUpTemplate);
+      }
+
       waitFor('button#next', function (element) {
         element.addEventListener('click', toggleErrorClasses);
+        appendSignUpTempate();
       });
     </script>
   </head>
@@ -269,5 +310,14 @@ limitations under the License.
         <div id="api"></div>
       </div>
     </div>
+
+    <p id="signUpTemplate" class="template">
+      <span class="imprint imprint-da">
+        Har du ikke en bruger? <a href="#">Opret dig her</a>
+      </span>
+      <span class="imprint imprint-en">
+        New to DataHub? <a href="#">Sign up now</a>
+      </span>
+    </p>
   </body>
 </html>
