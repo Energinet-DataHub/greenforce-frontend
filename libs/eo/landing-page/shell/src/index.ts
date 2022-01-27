@@ -15,4 +15,3 @@
  * limitations under the License.
  */
 export * from './lib/eo-landing-page-shell.module';
-export * from '../../routing/src/lib/eo-landing-page-relative-url';
