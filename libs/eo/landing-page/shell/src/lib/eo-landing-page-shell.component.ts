@@ -22,7 +22,7 @@ import {
 } from '@angular/core';
 
 import { EoLandingPageHeaderScam } from './eo-landing-page-header.component';
-import { LandingPageStore } from './eo-landing-page.store';
+import { EoLandingPageStore } from './eo-landing-page.store';
 
 const selector = 'eo-landing-page-shell';
 
@@ -44,6 +44,6 @@ export class EoLandingPageShellComponent {}
 @NgModule({
   declarations: [EoLandingPageShellComponent],
   imports: [EoLandingPageHeaderScam],
-  providers: [LandingPageStore],
+  providers: [EoLandingPageStore],
 })
 export class EoLandingPageShellScam {}

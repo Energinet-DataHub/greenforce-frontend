@@ -17,23 +17,28 @@
 import { Injectable, Inject } from '@angular/core';
 import { APP_BASE_HREF } from '@angular/common';
 import { ComponentStore } from '@ngrx/component-store';
-import { map, Observable, switchMap } from 'rxjs';
+import { Observable } from 'rxjs';
 import { AuthHttp } from '@energinet-datahub/ett/auth/data-access-api';
 import { AbsoluteUrlGenerator } from '@energinet-datahub/ett/shared/util-browser';
 import { ettDashboardRoutePath } from '@energinet-datahub/ett/dashboard/routing';
 
+
+// Disabling this check, as no internal state is needed for the store.
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+interface EoLandingPageState {
+
+}
+
 @Injectable()
-export class LandingPageStore extends ComponentStore<LandingPageStateInterface> {
-  private absoluteReturnUrl = this.urlGenerator.fromCommands([
+export class EoLandingPageStore extends ComponentStore<EoLandingPageState> {
+  #absoluteReturnUrl = this.urlGenerator.fromCommands([
     ettDashboardRoutePath,
   ]);
 
-  authenticationUrl$: Observable<string> = this.select(() => {
-    return this.authOidcHttpClient
-    .getLogin(this.appBaseHref, this.absoluteReturnUrl);
-  }).pipe(
-    switchMap(response => response),
-    map(response => response.next_url)
+  authenticationUrl$: Observable<string> = this.select(
+    this.authOidcHttpClient
+    .getLogin(this.appBaseHref, this.#absoluteReturnUrl),
+    response => response.next_url
   );
 
   constructor(
@@ -41,14 +46,6 @@ export class LandingPageStore extends ComponentStore<LandingPageStateInterface> 
     private urlGenerator: AbsoluteUrlGenerator,
     @Inject(APP_BASE_HREF) private appBaseHref: string
   ) {
-    super(initialState);
+    super({});
   }
 }
-
-export interface LandingPageStateInterface {
-  next_url: string;
-}
-
-const initialState: LandingPageStateInterface = {
-  next_url: '',
-};

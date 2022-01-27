@@ -25,7 +25,7 @@ import { Observable } from 'rxjs';
 import { LetModule } from '@rx-angular/template';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { LandingPageStore } from './eo-landing-page.store';
+import { EoLandingPageStore } from './eo-landing-page.store';
 
 const selector = 'eo-landing-page-header';
 
@@ -90,7 +90,7 @@ const selector = 'eo-landing-page-header';
 export class EoLandingPageHeaderComponent {
   loginUrl$: Observable<string> = this.landingPageStore.authenticationUrl$;
 
-  constructor(private landingPageStore: LandingPageStore) {
+  constructor(private landingPageStore: EoLandingPageStore) {
   }
 }
 
