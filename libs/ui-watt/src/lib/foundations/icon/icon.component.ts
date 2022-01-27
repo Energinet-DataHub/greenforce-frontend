@@ -19,8 +19,6 @@ import {
   Component,
   HostBinding,
   Input,
-  OnChanges,
-  SimpleChanges,
   ViewEncapsulation,
 } from '@angular/core';
 
@@ -36,24 +34,22 @@ import { WattIconState } from './watt-icon-state';
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
 })
-export class WattIconComponent implements OnChanges {
-  @Input() name?: WattIcon;
+export class WattIconComponent {
+  @Input() set name(value: WattIcon | undefined) {
+    this.setIcon(value);
+
+    this.state = this.getDefaultState(value);
+  }
 
   /**
    * @description used for `aria-label`
    */
   @Input() label: string | null = null;
   @Input() size: WattIconSize = WattIconSize.Medium;
-  @Input() state?: WattIconState;
+  @Input() state: WattIconState = WattIconState.Default;
 
   @HostBinding('class') get _cssClass(): string[] {
-    const classesToAdd = [`icon-size-${this.size}`];
-
-    if (this.state) {
-      classesToAdd.push(`icon-state-${this.state}`);
-    }
-
-    return classesToAdd;
+    return [`icon-size-${this.size}`, `icon-state-${this.state}`];
   }
 
   /**
@@ -69,18 +65,10 @@ export class WattIconComponent implements OnChanges {
 
   /**
    * @ignore
-   * @param changes
-   */
-  ngOnChanges(changes: SimpleChanges) {
-    this.setIcon(changes.name?.currentValue);
-  }
-
-  /**
-   * @ignore
    * @param name
    * @returns
    */
-  private setIcon(name: WattIcon) {
+  private setIcon(name?: WattIcon) {
     if (!name) {
       console.warn('No icon was provided!');
       return;
@@ -91,5 +79,25 @@ export class WattIconComponent implements OnChanges {
     this.iconService.isCustomIcon(name)
       ? (this.customIcon = iconName)
       : (this.icon = iconName);
+  }
+
+  /**
+   * @ignore
+   * @param name
+   * @returns
+   */
+  private getDefaultState(name?: WattIcon): WattIconState {
+    switch (name) {
+      case 'success':
+        return WattIconState.Success;
+      case 'danger':
+        return WattIconState.Danger;
+      case 'warning':
+        return WattIconState.Warning;
+      case 'info':
+        return WattIconState.Info;
+      default:
+        return WattIconState.Default;
+    }
   }
 }
