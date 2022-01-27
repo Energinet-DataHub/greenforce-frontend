@@ -90,8 +90,7 @@ const selector = 'eo-landing-page-header';
 export class EoLandingPageHeaderComponent {
   loginUrl$: Observable<string> = this.landingPageStore.authenticationUrl$;
 
-  constructor(private landingPageStore: EoLandingPageStore) {
-  }
+  constructor(private landingPageStore: EoLandingPageStore) {}
 }
 
 @NgModule({
