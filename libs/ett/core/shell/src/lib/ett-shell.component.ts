@@ -1,3 +1,10 @@
+import { ChangeDetectionStrategy, Component, NgModule, ViewEncapsulation } from '@angular/core';
+import { RouterModule } from '@angular/router';
+import { EoProductLogoScam } from '@energinet-datahub/eo/shared/ui-shell';
+import { WattShellModule } from '@energinet-datahub/watt';
+
+import { EttPrimaryNavigationScam } from './ett-primary-navigation.component';
+
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,17 +21,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  ChangeDetectionStrategy,
-  Component,
-  NgModule,
-  ViewEncapsulation,
-} from '@angular/core';
-import { RouterModule } from '@angular/router';
-import { WattShellModule } from '@energinet-datahub/watt';
-
-import { EttPrimaryNavigationScam } from './ett-primary-navigation.component';
-
 const selector = 'ett-shell';
 
 @Component({
@@ -45,7 +41,7 @@ const selector = 'ett-shell';
       </ng-container>
 
       <ng-container watt-shell-toolbar>
-        <h1>EnergyOrigin</h1>
+        <img eoProductLogo />
       </ng-container>
 
       <router-outlet></router-outlet>
@@ -56,6 +52,11 @@ export class EttShellComponent {}
 
 @NgModule({
   declarations: [EttShellComponent],
-  imports: [RouterModule, WattShellModule, EttPrimaryNavigationScam],
+  imports: [
+    RouterModule,
+    WattShellModule,
+    EttPrimaryNavigationScam,
+    EoProductLogoScam,
+  ],
 })
 export class EttShellScam {}
