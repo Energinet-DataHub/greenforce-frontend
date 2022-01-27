@@ -1,10 +1,3 @@
-import { ChangeDetectionStrategy, Component, NgModule, ViewEncapsulation } from '@angular/core';
-import { RouterModule } from '@angular/router';
-import { EoProductLogoScam } from '@energinet-datahub/eo/shared/ui-shell';
-import { WattShellModule } from '@energinet-datahub/watt';
-
-import { EttPrimaryNavigationScam } from './ett-primary-navigation.component';
-
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -21,6 +14,17 @@ import { EttPrimaryNavigationScam } from './ett-primary-navigation.component';
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import {
+  ChangeDetectionStrategy,
+  Component,
+  NgModule,
+  ViewEncapsulation,
+} from '@angular/core';
+import { RouterModule } from '@angular/router';
+import { EoProductLogoScam } from '@energinet-datahub/eo/shared/ui-shell';
+import { WattShellModule } from '@energinet-datahub/watt';
+
+import { EttPrimaryNavigationScam } from './ett-primary-navigation.component';
 const selector = 'ett-shell';
 
 @Component({
@@ -32,7 +36,7 @@ const selector = 'ett-shell';
       ${selector} {
         display: block;
 
-        watt-shell mat-sidenav {
+        watt-shell mat-sidenav.mat-drawer {
           color: var(--watt-color-primary-dark-contrast);
         }
 
