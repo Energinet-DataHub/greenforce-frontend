@@ -14,11 +14,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgModule } from '@angular/core';
-
-import { EttLoginProvidersScam } from './ett-login-providers.component';
-
-@NgModule({
-  exports: [EttLoginProvidersScam],
-})
-export class EttAuthFeatureLoginModule {}
+export const eoLandingPageRelativeUrl = '/';

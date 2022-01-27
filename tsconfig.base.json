@@ -90,6 +90,9 @@
       "@energinet-datahub/dh/shared/ui-date-time": [
         "libs/dh/shared/ui-date-time/src/index.ts"
       ],
+      "@energinet-datahub/eo/landing-page/routing": [
+        "libs/eo/landing-page/routing/src/index.ts"
+      ],
       "@energinet-datahub/eo/landing-page/shell": [
         "libs/eo/landing-page/shell/src/index.ts"
       ],
@@ -105,13 +108,9 @@
       "@energinet-datahub/ett/auth/data-access-security": [
         "libs/ett/auth/data-access-security/src/index.ts"
       ],
-      "@energinet-datahub/ett/auth/feature-login": [
-        "libs/ett/auth/feature-login/src/index.ts"
-      ],
       "@energinet-datahub/ett/auth/routing-security": [
         "libs/ett/auth/routing-security/src/index.ts"
       ],
-      "@energinet-datahub/ett/auth/shell": ["libs/ett/auth/shell/src/index.ts"],
       "@energinet-datahub/ett/core/shell": ["libs/ett/core/shell/src/index.ts"],
       "@energinet-datahub/ett/dashboard/routing": [
         "libs/ett/dashboard/routing/src/index.ts"

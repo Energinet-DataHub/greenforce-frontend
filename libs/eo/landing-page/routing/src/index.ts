@@ -14,22 +14,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-
-import {
-  EttAuthShellComponent,
-  EttAuthShellScam,
-} from './ett-auth-shell.component';
-
-const routes: Routes = [
-  {
-    path: '',
-    component: EttAuthShellComponent,
-  },
-];
-
-@NgModule({
-  imports: [RouterModule.forChild(routes), EttAuthShellScam],
-})
-export class EttAuthShellModule {}
+export * from './lib/eo-landing-page-relative-url';

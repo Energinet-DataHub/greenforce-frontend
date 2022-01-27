@@ -19,6 +19,7 @@ import {
   SpectacularFeatureTestingModule,
 } from '@ngworker/spectacular';
 import { render, screen } from '@testing-library/angular';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 import { EoLandingPageShellModule } from './eo-landing-page-shell.module';
 
@@ -33,6 +34,7 @@ describe('EnergyOrigin landing page', () => {
           featureModule: EoLandingPageShellModule,
           featurePath: '',
         }),
+        HttpClientTestingModule
       ],
     });
     await navigate('/');

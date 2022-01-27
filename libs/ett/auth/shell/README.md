@@ -1,1 +1,0 @@
-# EnergyOrigin auth shell
