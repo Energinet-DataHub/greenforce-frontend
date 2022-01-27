@@ -24,6 +24,10 @@ import { Observable } from 'rxjs';
 
 import { AuthOidcQueryParameterName } from './auth-oidc-query-parameter-name';
 
+export interface AuthLogoutResponse {
+  readonly success: boolean;
+}
+
 export interface AuthOidcLoginResponse {
   /**
    * The URL to redirect the user to in order to authenticate.
@@ -35,10 +39,14 @@ export interface AuthOidcLoginResponse {
   providedIn: 'root',
 })
 export class AuthHttp {
+  #apiBase: string;
+
   constructor(
     private http: HttpClient,
-    @Inject(eoApiEnvironmentToken) private apiEnvironment: EoApiEnvironment
-  ) {}
+    @Inject(eoApiEnvironmentToken) apiEnvironment: EoApiEnvironment
+  ) {
+    this.#apiBase = `${apiEnvironment.apiBase}/auth`;
+  }
 
   /**
    *
@@ -49,14 +57,17 @@ export class AuthHttp {
     feUrl: string,
     returnUrl: string
   ): Observable<AuthOidcLoginResponse> {
-    return this.http.get<AuthOidcLoginResponse>(
-      `${this.apiEnvironment.apiBase}/auth/oidc/login`,
-      {
-        params: {
-          [AuthOidcQueryParameterName.FeUrl]: feUrl,
-          [AuthOidcQueryParameterName.ReturnUrl]: returnUrl,
-        },
-      }
-    );
+    return this.http.get<AuthOidcLoginResponse>(`${this.#apiBase}/oidc/login`, {
+      params: {
+        [AuthOidcQueryParameterName.FeUrl]: feUrl,
+        [AuthOidcQueryParameterName.ReturnUrl]: returnUrl,
+      },
+    });
+  }
+
+  getLogout(): Observable<AuthLogoutResponse> {
+    return this.http.get<AuthLogoutResponse>(`${this.#apiBase}/logout`, {
+      withCredentials: true,
+    });
   }
 }

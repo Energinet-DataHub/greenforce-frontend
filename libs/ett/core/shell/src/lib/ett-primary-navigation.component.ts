@@ -14,9 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component, NgModule, ViewEncapsulation } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  NgModule,
+  ViewEncapsulation,
+} from '@angular/core';
 import { MatListModule } from '@angular/material/list';
 import { RouterModule } from '@angular/router';
+import { AuthHttp } from '@energinet-datahub/ett/auth/data-access-api';
+import { EoPrimaryNavigationStore } from './eo-primary-navigation.store';
 
 const selector = 'ett-primary-navigation';
 
@@ -66,10 +73,19 @@ const selector = 'ett-primary-navigation';
         <div class="active-indicator"></div>
         Dashboard
       </a>
+
+      <a mat-list-item href="#0" (click)="onLogOut()"> Log out </a>
     </mat-nav-list>
   `,
+  viewProviders: [EoPrimaryNavigationStore],
 })
-export class EttPrimaryNavigationComponent {}
+export class EttPrimaryNavigationComponent {
+  constructor(private store: EoPrimaryNavigationStore) {}
+
+  onLogOut(): void {
+    this.store.onLogOut();
+  }
+}
 
 @NgModule({
   declarations: [EttPrimaryNavigationComponent],
