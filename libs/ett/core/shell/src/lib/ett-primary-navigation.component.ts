@@ -26,16 +26,44 @@ const selector = 'ett-primary-navigation';
   selector,
   styles: [
     `
+      /**
+       * 1. Add active indicator to the active link.
+       * 2. Highlight the active link.
+       */
+
       ${selector} {
         display: block;
 
-        color: var(--watt-color-primary-contrast);
+        .active-indicator /* [1] */ {
+          --size: var(--watt-space-xs);
+          display: none;
+
+          width: var(--size);
+          height: 100%;
+          margin-right: calc(var(--watt-space-m) - var(--size));
+
+          background-color: var(--watt-color-focus);
+        }
+
+        a.is-active {
+          background-color: var(--watt-color-primary); // [2]
+          color: var(--watt-color-primary-contrast); // [2]
+
+          .active-indicator /* [1] */ {
+            display: block;
+          }
+
+          > .mat-list-item-content.mat-list-item-content /* [1] */ {
+            padding-left: 0;
+          }
+        }
       }
     `,
   ],
   template: `
     <mat-nav-list>
-      <a mat-list-item routerLink="/dashboard" routerLinkActive="active">
+      <a mat-list-item routerLink="/dashboard" routerLinkActive="is-active">
+        <div class="active-indicator"></div>
         Dashboard
       </a>
     </mat-nav-list>

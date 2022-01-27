@@ -32,6 +32,10 @@ const selector = 'ett-shell';
       ${selector} {
         display: block;
 
+        watt-shell mat-sidenav {
+          color: var(--watt-color-primary-dark-contrast);
+        }
+
         watt-shell .watt-toolbar watt-icon-button[icon='menu'] > button {
           // Remove menu toggle left padding to collapse with top app bar padding
           padding-left: 0;
