@@ -90,6 +90,7 @@ namespace Energinet.DataHub.WebApi.Controllers.TestClient
         public string XmlOriginal { get; set; }
 
         public List<SendMessageTemplateFieldDTO> FieldList { get; set; }
+        public List<SendMessageTemplateFieldDTO> GlobalFieldList { get; set; }
 
         public string Status { get; set; }
 
@@ -152,6 +153,11 @@ namespace Energinet.DataHub.WebApi.Controllers.TestClient
         public string DefaultValue { get; set; }
 
         public bool IsMandatory { get; set; }
+
+        /// <summary>
+        /// Empty=normal. Hide=dont show. Disable=show but disable
+        /// </summary>
+        public string UIState { get; set; }
 
         public string FieldType { get; set; }
 

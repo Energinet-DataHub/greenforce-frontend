@@ -38,7 +38,7 @@
 	 <SendMessageTemplateFieldDTO>
       <Id>47fd7258-bf98-4146-a04f-000000000002</Id>
       <Name>Metering point type</Name>
-	  <Code>MpType</Code>
+	  <Code>Code_MpType_MeteringPointType</Code>
       <Comment>ex E17</Comment>
 	  <DefaultValue>E17</DefaultValue>
      <Value></Value>
@@ -55,7 +55,7 @@
 		 <SendMessageTemplateFieldDTO>
       <Id>47fd7258-bf98-4146-a04f-000000000003</Id>
       <Name>Supply start</Name>
-	  <Code>SupplyStart</Code>
+	  <Code>Date_SupplyStart</Code>
       <Comment>Enter date of supply start</Comment>
 	  <DefaultValue>NOW</DefaultValue>
        <Value></Value>

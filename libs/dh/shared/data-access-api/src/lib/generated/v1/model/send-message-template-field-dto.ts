@@ -21,6 +21,10 @@ export interface SendMessageTemplateFieldDTO {
     comment: string;
     defaultValue: string;
     isMandatory: boolean;
+    /**
+     * Empty=normal. Hide=dont show. Disable=show but disable
+     */
+    uiState: string;
     fieldType: string;
     fieldTypeParam1: string;
     fieldTypeParam2: string;

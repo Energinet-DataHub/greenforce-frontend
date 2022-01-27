@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<SendMessageTemplateDTO xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">  
+  <Code></Code>
+  <Name>Create mp</Name>
+  <Description>Message for creating a meteringpoint</Description>
+  <Standard>CIM</Standard>
+  <Format>XML</Format>
+  <Domain>MeteringPoint</Domain>
+  <EndpointPostfix>Meterin</EndpointPostfix>
+  <RsmName>RSM-001</RsmName>
+  <MarketDocumentType></MarketDocumentType>
+  <MarketProcessType></MarketProcessType>
+  <MarketBusinessSectorType></MarketBusinessSectorType>
+  <BrsNameList>
+    <string>BRS-001</string>
+	<string>BRS-002</string>
+  </BrsNameList>    
+  <XmlTemplate></XmlTemplate>  
+  <FieldList>     
+   <SendMessageTemplateFieldDTO>
+      <Id>47fd7258-bf98-4146-9999-000000000001</Id>
+      <Name>Global Message Id</Name>
+	  <Code>GlobalMessageId</Code>
+      <Comment></Comment>
+	  <DefaultValue>#NEWGUID#</DefaultValue>
+     <Value></Value>
+     <ValueOriginal></ValueOriginal>
+      <IsMandatory>true</IsMandatory>
+	  <FieldType>Guid</FieldType>
+	  <FieldTypeParam1></FieldTypeParam1>
+	  <FieldTypeParam2></FieldTypeParam2>
+	  <FieldTypeParam3></FieldTypeParam3>
+	  <FieldTypeParam4></FieldTypeParam4>
+	  <FieldTypeParam5></FieldTypeParam5>
+      <FieldOrder>1</FieldOrder>    
+    </SendMessageTemplateFieldDTO>
+    <SendMessageTemplateFieldDTO>
+      <Id>47fd7258-bf98-4146-9999-000000000002</Id>
+      <Name>Global Transaction Id</Name>
+      <Code>GlobalTransactionId</Code>
+      <Comment></Comment>
+      <DefaultValue>#NEWGUID#</DefaultValue>
+      <Value></Value>
+      <ValueOriginal></ValueOriginal>
+      <IsMandatory>true</IsMandatory>
+      <FieldType>Guid</FieldType>
+      <FieldTypeParam1></FieldTypeParam1>
+      <FieldTypeParam2></FieldTypeParam2>
+      <FieldTypeParam3></FieldTypeParam3>
+      <FieldTypeParam4></FieldTypeParam4>
+      <FieldTypeParam5></FieldTypeParam5>
+      <FieldOrder>2</FieldOrder>
+    </SendMessageTemplateFieldDTO>
+    <SendMessageTemplateFieldDTO>
+      <Id>47fd7258-bf98-4146-9999-000000000003</Id>
+      <Name>Global Created</Name>
+      <Code>GlobalCreated</Code>
+      <Comment></Comment>
+      <DefaultValue>#NOW#</DefaultValue>
+      <Value></Value>
+      <ValueOriginal></ValueOriginal>
+      <IsMandatory>true</IsMandatory>
+      <FieldType>DateTime</FieldType>
+      <FieldTypeParam1></FieldTypeParam1>
+      <FieldTypeParam2></FieldTypeParam2>
+      <FieldTypeParam3></FieldTypeParam3>
+      <FieldTypeParam4></FieldTypeParam4>
+      <FieldTypeParam5></FieldTypeParam5>
+      <FieldOrder>3</FieldOrder>
+    </SendMessageTemplateFieldDTO>    
+  </FieldList>
+  <Status>New</Status>
+  <StatusComment>status comment</StatusComment>
+  <Created>2022-01-18T00:00:00</Created>
+  <CreatedBy>XIGA</CreatedBy>
+  <Modified>2022-01-18T00:00:00</Modified>
+  <ModifiedBy>XIGA</ModifiedBy>
+</SendMessageTemplateDTO>

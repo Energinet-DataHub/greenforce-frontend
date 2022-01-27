@@ -28,6 +28,7 @@ export interface SendMessageTemplateDTO {
     xmlTemplate: string;
     xmlOriginal: string;
     fieldList: Array<SendMessageTemplateFieldDTO>;
+    globalFieldList: Array<SendMessageTemplateFieldDTO>;
     status: string;
     statusComment: string;
     created: string;

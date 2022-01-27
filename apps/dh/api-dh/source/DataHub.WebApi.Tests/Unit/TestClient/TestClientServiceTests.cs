@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -53,6 +54,20 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
             var service = new TestClientService();
             var templateList = service.GetMessageTemplateList();
             Assert.Single(templateList.TemplateList.Where(x => x.Code == "CreateMp"));
+        }
+
+        [Fact]
+        public void GetSendMessageTemplateGlobalFieldsTest()
+        {
+            var service = new TestClientService();
+            var templ = service.GetMessageTemplate("47fd7258-bf98-4146-a04f-5014f0b1a324");
+            Assert.DoesNotContain("{{GlobalMessageId}}", templ.XmlTemplate);
+            Assert.DoesNotContain("{{GlobalMessageId}}", templ.XmlOriginal);
+            Assert.DoesNotContain("{{GlobalCreated}}", templ.XmlTemplate);
+            Assert.DoesNotContain("{{GlobalCreated}}", templ.XmlOriginal);
+            Assert.Equal(3, templ.GlobalFieldList.Count);
+            Guid guidParseResult;
+            Assert.True(Guid.TryParse(templ.GlobalFieldList.First(x => x.Code == "GlobalTransactionId").Value, out guidParseResult), "Global transaction id must be a GUID");
         }
     }
 }

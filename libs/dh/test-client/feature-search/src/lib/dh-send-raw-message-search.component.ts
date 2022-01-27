@@ -24,7 +24,7 @@ import { TranslocoModule } from '@ngneat/transloco';
 import { DhTestClientDataAccessApiStore } from '@energinet-datahub/dh/test-client/data-access-api';
 import { WattEmptyStateModule } from '@energinet-datahub/watt';
 
-import { DhSendRawMessageSearchFormScam } from './form/dh-send-raw-message-search-form.component';
+//import { DhSendRawMessageSearchFormScam } from './form/dh-send-raw-message-search-form.component';
 import { SendMessageTemplateDTO, SendMessageTemplateListDTO } from '@energinet-datahub/dh/shared/data-access-api';
 import { MatTable, MatTableDataSource, MatTableModule } from '@angular/material/table';
 @Component({
@@ -79,7 +79,6 @@ export class DhSendRawMessageSearchComponent implements OnInit {
 }
 @NgModule({
   imports: [
-    DhSendRawMessageSearchFormScam,
     MatTableModule,
     WattEmptyStateModule,
     TranslocoModule,

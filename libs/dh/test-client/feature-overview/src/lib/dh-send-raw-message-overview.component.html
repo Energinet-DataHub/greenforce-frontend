@@ -27,10 +27,247 @@ limitations under the License.
       <p>{{ sendMessageTemplate?.description }}</p>
 
 
-      <dh-send-raw-message-temp-props
-      [sendMessageTemplateDto]="sendMessageTemplate"
-      (sendMessage)="onSubmit($event)"
-    ></dh-send-raw-message-temp-props>
+
+<ng-container *transloco="let transloco; read: 'testClient.sendMessage.overview.form'">
+  <form [formGroup]="sendMessageTemplateForm"
+
+    name="dh-send-raw-message-temp-props"
+  >
+
+
+
+  <mat-tab-group [(selectedIndex)]="sendMessageTabIndex"
+  (selectedTabChange)="tabClick($event)"
+  >
+
+    <mat-tab label="Enter values" >
+      <!-- (click)="onChangeTab()" -->
+
+      <br/>
+      <span>{{transloco('enterValuesDescription')}}</span>
+      <br/><br/>
+      <watt-button
+      variant="primary"
+      type="submit"
+      size="normal"
+      (click)="onSendMessageBeforeEdit()"
+      >{{ transloco('sendMessageButton') }}</watt-button
+      >
+      &nbsp;&nbsp;&nbsp;&nbsp;
+      <watt-button
+      variant="primary"
+      type="submit"
+      size="normal"
+      (click)="openXmlInNewWindowBeforeEdit()"
+      >{{ transloco('openXmlInNewWindow') }}</watt-button
+      >
+
+      <br/><br/>
+
+  <!-- [loading]="loading" -->
+
+  <!--
+  <watt-form-field size="normal">
+    <watt-label class="watt-text-m">Xml template</watt-label>
+
+    <input
+      wattInput
+      type="text"
+      formControlName="xmlTemplate"
+    />
+  </watt-form-field> -->
+
+
+
+  <div formArrayName="arrayList">
+
+      <div *ngFor="let fieldItem of sendMessageTemplateDto.fieldList; let i=index">
+
+          <ng-container  [ngSwitch]="fieldItem.fieldType">
+            <div *ngSwitchCase="'String'" >
+              <!-- <h2>{{fieldItem.fieldType}}</h2> -->
+  <!-- <span>{{fieldItem.name}}</span>
+  <input
+  type="text"
+  [formControlName]="i"
+  />
+  <span>{{fieldItem.comment}}</span> -->
+          <watt-form-field size="normal">
+            <watt-label class="watt-text-m">{{fieldItem.name}}</watt-label>
+
+            <input
+              wattInput
+              type="text"
+              [formControlName]="i"
+            />
+
+
+            <watt-hint>{{fieldItem.comment}}</watt-hint>
+          </watt-form-field>
+        </div>
+
+        <div *ngSwitchCase="'DateTime'" >
+
+      <watt-form-field size="normal">
+        <watt-label class="watt-text-m">{{fieldItem.name}}</watt-label>
+
+        <input
+          wattInput
+          type="text"
+          [formControlName]="i"
+        />
+
+
+        <watt-hint>{{fieldItem.comment}}</watt-hint>
+      </watt-form-field>
+    </div>
+
+    <div *ngSwitchCase="'CodeList'" >
+
+
+  <mat-form-field size="large" style="width: 400px;">
+    <mat-label class="watt-text-m">{{fieldItem.name}}</mat-label>
+    <mat-select [formControlName]="i">
+      <!-- <mat-option>None</mat-option> -->
+      <mat-option *ngFor="let codeItem of fieldItem.codeItemList" [value]="codeItem.code">{{codeItem.codeAndTitle}}</mat-option>
+    </mat-select>
+    <mat-hint>{{fieldItem.comment}}</mat-hint>
+  </mat-form-field>
+  <br/><br/>
+  <br/><br/>
+  </div>
+
+        </ng-container>
+
+    </div>
+
+      </div>
+    </mat-tab >
+    <!-- <mat-tab label="Enter values (list format)" >
+
+          <br/>
+          <span>{{transloco('enterValuesDescription')}}</span>
+          <br/><br/>
+          <watt-button
+          variant="primary"
+          type="submit"
+          size="normal"
+          (click)="onSendMessageBeforeEdit()"
+          >{{ transloco('sendMessageButton') }}</watt-button
+          >
+          &nbsp;&nbsp;&nbsp;&nbsp;
+          <watt-button
+          variant="primary"
+          type="submit"
+          size="normal"
+          (click)="openXmlInNewWindowBeforeEdit()"
+          >{{ transloco('openXmlInNewWindow') }}</watt-button
+          >
+          <br/><br/>
+          <div formArrayName="arrayList">
+          <div *ngFor="let fieldItem of sendMessageTemplateDto.fieldList; let i=index">
+              <ng-container  [ngSwitch]="fieldItem.fieldType">
+                <div *ngSwitchCase="'String'" >
+                <span class="watt-text-m">{{fieldItem.name}}</span>
+                <input
+                  type="text"
+                  [formControlName]="i"
+                />
+                <span>{{fieldItem.comment}}</span>
+            </div>
+            <div *ngSwitchCase="'DateTime'" >
+            <span class="watt-text-m">{{fieldItem.name}}</span>
+            <input
+              type="text"
+              [formControlName]="i"
+            />
+            <span>{{fieldItem.comment}}</span>
+        </div>
+        <div *ngSwitchCase="'CodeList'" >
+        <span class="watt-text-m">{{fieldItem.name}}</span>
+        <select [formControlName]="i">
+        <ng-container *ngFor="let codeItem of fieldItem.codeItemList">
+          <option  [value]="codeItem.code">{{codeItem.codeAndTitle}}</option>
+        </ng-container>
+      </select>
+        <span>{{fieldItem.comment}}</span>
+      </div>
+            </ng-container>
+        </div>
+          </div>
+    </mat-tab> -->
+      <mat-tab  label="Edit XML before sending">
+        <br/>
+        <span>{{transloco('editXmlBeforeSendingDescription')}}</span>
+        <br/><br/>
+        <watt-button
+        variant="primary"
+        type="submit"
+        size="normal"
+        (click)="onSendMessageAfterEdit()"
+        >{{ transloco('sendMessageAfterEditButton') }}</watt-button
+        >
+        &nbsp;&nbsp;&nbsp;&nbsp;
+
+        <watt-button
+        variant="primary"
+        type="submit"
+        size="normal"
+        (click)="openXmlInNewWindowAfterEdit()"
+        >{{ transloco('openXmlInNewWindow') }}</watt-button
+        >
+        <br/><br/>
+        <!-- <mat-form-field class="example-full-width" style="width: 1200px; height: 400px;"> -->
+          <mat-form-field class="example-full-width" style="width: 1200px;">
+          <mat-label>XML template:</mat-label>
+          <textarea matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize"cdkAutosizeMinRows="1" cdkAutosizeMaxRows="500"
+          formControlName="xmlTemplate"></textarea>
+        </mat-form-field>
+        <!-- <mat-form-field class="example-full-width">
+          <mat-label>Enter Note:</mat-label>
+          <textarea matInput placeholder="Ex. this is example..."></textarea>
+      </mat-form-field> -->
+        <!-- <textarea style="width: 90%; height: 400px;" name="xmlTemplate"
+        [(ngModel)]="sendMessageTemplateDto.xmlTemplate"
+        #xmlTemplate='ngModel'
+        ></textarea> -->
+        <!-- <watt-form-field size="normal">
+          <watt-label class="watt-text-m">Xml template</watt-label>
+
+          <input
+            wattInput
+            type="text"
+            formControlName="xmlTemplate"
+            [(ngModel)]="sendMessageTemplateDto.xmlTemplate"
+          />
+        </watt-form-field> -->
+        <!-- {{sendMessageTemplateDto.xmlTemplate}} -->
+    </mat-tab>
+    <mat-tab  label="Result">
+      <ng-container *rxLet="sendMessageResult$ as sendMessageRes">
+        <h3>{{sendMessageRes.status}}</h3>
+        <p>({{sendMessageRes.xmlSentDate}})</p>
+      <br/><br/>
+        <mat-form-field class="example-full-width" style="width: 1200px;">
+          <mat-label>Afsendt XML:</mat-label>
+          <textarea matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize"cdkAutosizeMinRows="1" cdkAutosizeMaxRows="500"
+          >  {{sendMessageRes.xmlSent}}</textarea>
+        </mat-form-field>
+
+
+
+      </ng-container>
+    </mat-tab>
+  </mat-tab-group>
+
+  <br/>
+  <br/><br/><br/>
+
+
+
+  </form>
+  </ng-container>
+  {{ sendMessageTemplateForm?.getRawValue() | json }}
 
 <!--
     <dh-send-raw-message-overview-form

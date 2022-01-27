@@ -39,12 +39,29 @@ namespace Energinet.DataHub.WebApi.Controllers.TestClient
         public SendMessageTemplateDTO GetMessageTemplate(string templateId)
         {
             var codelists = GetCodeLists();
-            SendMessageTemplateDTO result = GetMessageTemplateFromXml(templateId);
-            result.XmlTemplate = GetResourceTextFileTemp("SendMessageTemplate-" + templateId + "-XMLTemplate");
+            SendMessageTemplateDTO mesTemplateDto = GetMessageTemplateFromXml(templateId);
+            SendMessageTemplateDTO globalFieldListDto = GetMessageTemplateFromXml("GlobalFieldList");
 
-            result.XmlOriginal = result.XmlTemplate;
+            globalFieldListDto.FieldList.ForEach(globalField => mesTemplateDto.GlobalFieldList.Add(globalField));
 
-            foreach (var field in result.FieldList)
+            mesTemplateDto.XmlTemplate = GetResourceTextFileTemp("SendMessageTemplate-" + templateId + "-XMLTemplate");
+
+            SetFieldListDefaults(mesTemplateDto.FieldList, codelists);
+            SetFieldListDefaults(mesTemplateDto.GlobalFieldList, codelists);
+
+            foreach(var globalField in mesTemplateDto.GlobalFieldList)
+            {
+                mesTemplateDto.XmlTemplate = mesTemplateDto.XmlTemplate.Replace("{{"+globalField.Code+"}}",globalField.Value);
+            }
+
+            mesTemplateDto.XmlOriginal = mesTemplateDto.XmlTemplate;
+
+            return mesTemplateDto;
+        }
+
+        private void SetFieldListDefaults(List<SendMessageTemplateFieldDTO> fieldList, List<CodeListDTO> codelists)
+        {
+            foreach (var field in fieldList)
             {
                 if (field.FieldType == "DateTime")
                 {
@@ -53,8 +70,17 @@ namespace Energinet.DataHub.WebApi.Controllers.TestClient
                     { }
                     if (field.DefaultValue == "#TODAY#")
                         tempDateTime = DateTime.Today;
-                    field.Value = tempDateTime.ToString("yyyy-MM-ddTHH:mm:ss");
+                    field.Value = tempDateTime.ToString("yyyy-MM-ddTHH:mm:ssZ");
 
+                }
+                if (field.FieldType == "Guid")
+                {
+                    if (string.IsNullOrEmpty(field.Value))
+                        field.Value = Guid.Empty.ToString();
+                    if (field.DefaultValue == "#NEWGUID#")
+                    {
+                        field.Value = Guid.NewGuid().ToString();
+                    }                   
                 }
                 if (field.FieldType == "CodeList")
                 {
@@ -64,9 +90,7 @@ namespace Energinet.DataHub.WebApi.Controllers.TestClient
                         field.CodeItemList = codeList.CodeItemList;
                 }
             }
-            result.FieldList.ForEach(x => x.ValueOriginal = x.Value);
-
-            return result;
+            fieldList.ForEach(x => x.ValueOriginal = x.Value);
         }
 
         public List<CodeListDTO> GetCodeLists()
@@ -103,8 +127,9 @@ namespace Energinet.DataHub.WebApi.Controllers.TestClient
             List<string> fileList = new List<string>();
             if(Directory.Exists(devPath))
                 fileList.AddRange( System.IO.Directory.GetFileSystemEntries(devPath));
-            var embedResList = GetListOfTemplateResourcesEmbedded();
-            fileList.AddRange(embedResList);
+            else
+                fileList.AddRange(GetListOfTemplateResourcesEmbedded());
+            
 
             foreach (var filename in fileList.Distinct())
             {

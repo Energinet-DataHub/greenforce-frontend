@@ -19,6 +19,7 @@ import {
   Component,
   NgModule,
   OnDestroy,
+  OnInit,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
@@ -27,7 +28,11 @@ import { LetModule,PushModule } from '@rx-angular/template';
 import { TranslocoModule } from '@ngneat/transloco';
 
 import { DhTestClientDataAccessApiStore } from '@energinet-datahub/dh/test-client/data-access-api';
-import { WattSpinnerModule, WattTabsModule } from '@energinet-datahub/watt';
+import { WattAutocompleteModule, WattButtonModule, WattIconModule, WattInputModule, WattSpinnerModule, WattFormFieldModule, WattTabsModule,  } from '@energinet-datahub/watt';
+import { MatTabsModule } from '@angular/material/tabs';
+
+//import { WattButtonModule, WattAutocompleteModule, WattFormFieldModule, WattTabsModule, WattIconModule, WattInputModule } from '@energinet-datahub/watt';
+//import { FormGroup, FormBuilder, ReactiveFormsModule, FormArray} from '@angular/forms';
 
 //import { DhSecondaryMasterDataComponentScam } from './secondary-master-data/dh-secondary-master-data.component';
 //import { DhBreadcrumbScam } from './breadcrumb/dh-breadcrumb.component';
@@ -40,9 +45,13 @@ import { dhSendRawMessageTemplateIdParam } from './routing/dh-send-raw-message-i
 // import { DhChildMeteringPointTabContentScam } from './child-test-client-tab-content/dh-child-test-client-tab-content.component';
 // import { DhIsParentPipeScam } from './shared/is-parent.pipe';
 
-import { DhSendRawMessageOverviewFormScam } from './form/dh-send-raw-message-overview-form.component';
-import { DhSendRawMessageTempPropsScam } from './templateProperties/dh-send-raw-message-temp-props.component';
+//import { DhSendRawMessageOverviewFormScam } from './form/dh-send-raw-message-overview-form.component';
+//import { DhSendRawMessageTempPropsScam } from './templateProperties/dh-send-raw-message-temp-props.component';
 import { SendMessageTemplateDTO } from '@energinet-datahub/dh/shared/data-access-api';
+import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { MatTabChangeEvent } from '@angular/material/tabs';
+import { MatSelectModule } from '@angular/material/select';
+import { MatInputModule } from '@angular/material/input';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -53,6 +62,9 @@ import { SendMessageTemplateDTO } from '@energinet-datahub/dh/shared/data-access
 })
 export class DhSendRawMessageOverviewComponent implements OnDestroy {
   private destroy$ = new Subject<void>();
+  sendMessageTemplateForm!: FormGroup;
+  sendMessageTemplateDto!: SendMessageTemplateDTO;
+  sendMessageTabIndex = 0;
 
   sendMessageTemplateId$ = this.route.params.pipe(
     map((params) => params[dhSendRawMessageTemplateIdParam] as string)
@@ -73,43 +85,34 @@ export class DhSendRawMessageOverviewComponent implements OnDestroy {
 
   constructor(
     private route: ActivatedRoute,
-    private store: DhTestClientDataAccessApiStore
+    private store: DhTestClientDataAccessApiStore,
+    private formBuilder: FormBuilder
   ) {
-    this.getSendMessageTemplate();
-    this.getSendMessageResult();
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.unsubscribe();
-  }
-
-  onSubmit(sendMessageTemplateDto: SendMessageTemplateDTO) {
-    console.warn('test submit overview:');
-    console.warn(sendMessageTemplateDto);
-
-    this.store.getSendMessage(sendMessageTemplateDto);
-
-    //const sendMesResult =
-    //this.store.sendMessageSimple(sendMessageTemplateDto);
-
-
-    //console.error(sendMesResult);
-
-  }
-
-  getSendMessageTemplate(): void {
     this.sendMessageTemplateId$
-      .pipe(
-        takeUntil(this.destroy$),
-        map((sendMessageTemplateId) =>
-          this.store.getSendMessageTemplate(sendMessageTemplateId)
-        )
+    .pipe(
+      takeUntil(this.destroy$),
+      map((sendMessageTemplateId) =>
+        this.store.getSendMessageTemplate(sendMessageTemplateId)
       )
-      .subscribe();
-  }
+    )
+    .subscribe();
+    this.store.sendMessageTemplate$ .pipe(
+      takeUntil(this.destroy$),
+      map((dto) =>
+      {
+      this.sendMessageTemplateDto = dto //this.store.getSendMessageTemplate(sendMessageTemplateId)
+       // create a form array for the groups
+    const formControlArray = this.sendMessageTemplateDto.fieldList.map(x => this.formBuilder.control(x.value));
+    const formArray = this.formBuilder.array(formControlArray);
 
-  getSendMessageResult(): void {
+      this.sendMessageTemplateForm = this.formBuilder.group({
+        xmlTemplate: this.sendMessageTemplateDto.xmlTemplate,
+        arrayList: formArray
+      });
+      }
+      )
+    )
+    .subscribe();
 
     this.sendMessageResult$.pipe(
       takeUntil(this.destroy$),
@@ -120,23 +123,122 @@ export class DhSendRawMessageOverviewComponent implements OnDestroy {
       }
       )
     ).subscribe();
-
-          // this.store.getSendMessage(sendMessageTemplateDto).pipe(
-          //   takeUntil(this.destroy$),
-          //   map((sendMessageResult) =>
-          //     console.warn(sendMessageResult)
-          //   )
-          // ).subscribe();
-
   }
+
+  // ngOnInit() {
+
+
+
+  //     }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.unsubscribe();
+  }
+
+  // onSubmit(sendMessageTemplateDto: SendMessageTemplateDTO) {
+  //   console.warn('test submit overview:');
+  //   console.warn(sendMessageTemplateDto);
+
+  //   this.store.getSendMessage(sendMessageTemplateDto);
+
+  //   //const sendMesResult =
+  //   //this.store.sendMessageSimple(sendMessageTemplateDto);
+
+
+  //   //console.error(sendMesResult);
+
+  // }
+
+  tabClick(event: MatTabChangeEvent) {
+    console.warn(event);
+    if(event.index === 1)
+    {
+      this.onUpdateFormAndDto();
+    }
+  }
+
+  onSendMessageBeforeEdit() {
+
+    //(<FormControl>this.sendMessageTemplateForm.get('xmlTemplate')).value = this.sendMessageTemplateDto.xmlTemplate;
+    this.onUpdateFormAndDto();
+    this.store.getSendMessage(this.sendMessageTemplateDto);
+    this.sendMessageTabIndex = 3;
+  }
+
+  onSendMessageAfterEdit() {
+    this.sendMessageTemplateDto.xmlTemplate = this.sendMessageTemplateForm.get('xmlTemplate')?.value;
+    this.store.getSendMessage(this.sendMessageTemplateDto);
+    //this.sendMessage.emit(this.sendMessageTemplateDto);
+  }
+
+  onUpdateFormAndDto()
+  {
+    this.updateXmlTemplateOnDto();
+    //console.warn(this.sendMessageTemplateDto.xmlTemplate);
+    //console.warn(this.sendMessageTemplateForm.get('xmlTemplate'));
+    this.sendMessageTemplateForm.patchValue({xmlTemplate: this.sendMessageTemplateDto.xmlTemplate});
+    //this.sendMessageTemplateForm.get('xmlTemplate')?.setValue(this.sendMessageTemplateDto.xmlTemplate);
+    //console.warn(this.sendMessageTemplateDto.xmlTemplate);
+    //console.warn(this.sendMessageTemplateForm.get('xmlTemplate'));
+  }
+
+updateXmlTemplateOnDto()
+{
+  const fieldValueformArray = (<FormArray>this.sendMessageTemplateForm.get('arrayList'));
+    this.sendMessageTemplateDto.xmlTemplate = this.sendMessageTemplateDto.xmlOriginal;
+    fieldValueformArray.controls.forEach( (elem, index) =>
+    {
+      this.sendMessageTemplateDto.fieldList[index].value = elem.value;
+      this.sendMessageTemplateDto.xmlTemplate = this.sendMessageTemplateDto.xmlTemplate.replace('{{'+this.sendMessageTemplateDto.fieldList[index].code+'}}',elem.value);
+      console.warn(this.sendMessageTemplateDto.fieldList[index].code);
+      console.warn(elem.value);
+
+
+    }
+    );
+}
+
+  openXmlInNewWindowBeforeEdit() {
+    this.updateXmlTemplateOnDto();
+    const xmlTemplate =this.sendMessageTemplateDto.xmlTemplate;
+    if(xmlTemplate !== undefined) {
+        const xml = new Blob([xmlTemplate], {type: 'text/xml'});
+        const url = URL.createObjectURL(xml);
+        window.open(url);
+        URL.revokeObjectURL(url);
+    }
+  }
+
+  openXmlInNewWindowAfterEdit() {
+
+    const xmlTemplate =this.sendMessageTemplateForm.get('xmlTemplate')?.value;
+    if(xmlTemplate !== undefined) {
+        const xml = new Blob([xmlTemplate], {type: 'text/xml'});
+        const url = URL.createObjectURL(xml);
+        window.open(url);
+        URL.revokeObjectURL(url);
+    }
+  }
+
+
 }
 
 @NgModule({
   declarations: [DhSendRawMessageOverviewComponent],
   imports: [
     CommonModule,
-    DhSendRawMessageOverviewFormScam,
-    DhSendRawMessageTempPropsScam,
+    //DhSendRawMessageOverviewFormScam,
+    //DhSendRawMessageTempPropsScam,
+    WattFormFieldModule,
+    WattInputModule,
+    WattAutocompleteModule,
+    WattButtonModule,
+    WattIconModule,
+    TranslocoModule,
+    MatSelectModule,
+    MatInputModule,
+    MatTabsModule,
     //DhBreadcrumbScam,
     // DhMeteringPointIdentityScam,
     // DhMeteringPointNotFoundScam,
@@ -146,10 +248,10 @@ export class DhSendRawMessageOverviewComponent implements OnDestroy {
     WattSpinnerModule,
     // DhSecondaryMasterDataComponentScam,
     // DhChargesScam,
-    WattTabsModule,
  //   DhChildMeteringPointTabContentScam,
  PushModule,
     TranslocoModule,
+    ReactiveFormsModule,
  //   DhIsParentPipeScam,
   ],
 })
