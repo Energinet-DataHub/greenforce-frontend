@@ -169,6 +169,7 @@ export class DhSendRawMessageOverviewComponent implements OnDestroy {
   onSendMessageAfterEdit() {
     this.sendMessageTemplateDto.xmlTemplate = this.sendMessageTemplateForm.get('xmlTemplate')?.value;
     this.store.getSendMessage(this.sendMessageTemplateDto);
+    this.sendMessageTabIndex = 3;
     //this.sendMessage.emit(this.sendMessageTemplateDto);
   }
 

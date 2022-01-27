@@ -26,11 +26,9 @@ namespace Energinet.DataHub.WebApi.Controllers.TestClient
 {
     public class TestClientService
     {
-#pragma warning disable
-
         public SendMessageTemplateListDTO GetMessageTemplateList()
         {
-            SendMessageTemplateListDTO dto = new SendMessageTemplateListDTO();
+            var dto = new SendMessageTemplateListDTO();
             dto.TemplateList = GetAllMessageTemplateListFromXml();
             dto.Result = dto.TemplateList.Count.ToString();
             return dto;
@@ -49,12 +47,16 @@ namespace Energinet.DataHub.WebApi.Controllers.TestClient
             SetFieldListDefaults(mesTemplateDto.FieldList, codelists);
             SetFieldListDefaults(mesTemplateDto.GlobalFieldList, codelists);
 
-            foreach(var globalField in mesTemplateDto.GlobalFieldList)
+            foreach (var globalField in mesTemplateDto.GlobalFieldList)
             {
                 if (globalField.UIState == "Hide")
+                {
                     mesTemplateDto.XmlTemplate = mesTemplateDto.XmlTemplate.Replace("{{" + globalField.Code + "}}", globalField.Value);
+                }
                 else
+                {
                     mesTemplateDto.FieldList.Add(globalField);
+                }
             }
 
             mesTemplateDto.FieldList = mesTemplateDto.FieldList.OrderBy(x => x.FieldOrder).ToList();
@@ -62,41 +64,6 @@ namespace Energinet.DataHub.WebApi.Controllers.TestClient
             mesTemplateDto.XmlOriginal = mesTemplateDto.XmlTemplate;
 
             return mesTemplateDto;
-        }
-
-        private void SetFieldListDefaults(List<SendMessageTemplateFieldDTO> fieldList, List<CodeListDTO> codelists)
-        {
-            foreach (var field in fieldList)
-            {
-                field.Value = field.DefaultValue;
-                if (field.FieldType == "DateTime")
-                {
-                    DateTime tempDateTime = DateTime.Now;
-                    if (field.DefaultValue == "#NOW#")
-                    { }
-                    if (field.DefaultValue == "#TODAY#")
-                        tempDateTime = DateTime.Today;
-                    field.Value = tempDateTime.ToString("yyyy-MM-ddTHH:mm:ssZ");
-
-                }
-                if (field.FieldType == "Guid")
-                {
-                    if (string.IsNullOrEmpty(field.Value))
-                        field.Value = Guid.Empty.ToString();
-                    if (field.DefaultValue == "#NEWGUID#")
-                    {
-                        field.Value = Guid.NewGuid().ToString();
-                    }                   
-                }
-                if (field.FieldType == "CodeList")
-                {
-                    string codeListName = field.FieldTypeParam1;
-                    var codeList = codelists.FirstOrDefault(x => x.CodeListNameAligned == codeListName);
-                    if (codeList != null)
-                        field.CodeItemList = codeList.CodeItemList;
-                }
-            }
-            fieldList.ForEach(x => x.ValueOriginal = x.Value);
         }
 
         public List<CodeListDTO> GetCodeLists()
@@ -110,104 +77,172 @@ namespace Energinet.DataHub.WebApi.Controllers.TestClient
             {
                 string alignname = codeItem.CodeListName;
                 if (alignname.StartsWith("Standard"))
+                {
                     alignname = alignname.RemoveLeft(8);
+                }
+
                 if (alignname.StartsWith("Local"))
+                {
                     alignname = alignname.RemoveLeft(5);
+                }
+
                 if (alignname.EndsWith("List"))
+                {
                     alignname = alignname.RemoveRight(4);
+                }
+
                 codeItem.CodeListNameAligned = alignname;
-                codeItem.CodeItemList.ForEach(x=>x.CodeAndTitle = $"{x.Code} - {x.Title}");
-                
+                codeItem.CodeItemList.ForEach(x => x.CodeAndTitle = $"{x.Code} - {x.Title}");
             }
+
             return codelists;
         }
 
+        private void SetFieldListDefaults(List<SendMessageTemplateFieldDTO> fieldList, List<CodeListDTO> codelists)
+        {
+            foreach (var field in fieldList)
+            {
+                field.Value = field.DefaultValue;
+                if (field.FieldType == "DateTime")
+                {
+                    DateTime tempDateTime = DateTime.Now;
+                    if (field.DefaultValue == "#NOW#")
+                    { }
+                    if (field.DefaultValue == "#TODAY#")
+                    {
+                        tempDateTime = DateTime.Today;
+                    }
+
+                    field.Value = tempDateTime.ToString("yyyy-MM-ddTHH:mm:ssZ");
+                }
+
+                if (field.FieldType == "Guid")
+                {
+                    if (string.IsNullOrEmpty(field.Value))
+                    {
+                        field.Value = Guid.Empty.ToString();
+                    }
+
+                    if (field.DefaultValue == "#NEWGUID#")
+                    {
+                        field.Value = Guid.NewGuid().ToString();
+                    }
+                }
+
+                if (field.FieldType == "CodeList")
+                {
+                    string codeListName = field.FieldTypeParam1;
+                    var codeList = codelists.FirstOrDefault(x => x.CodeListNameAligned == codeListName);
+                    if (codeList != null)
+                    {
+                        field.CodeItemList = codeList.CodeItemList;
+                    }
+                }
+            }
+
+            fieldList.ForEach(x => x.ValueOriginal = x.Value);
+        }
 
         private List<SendMessageTemplateDTO> GetAllMessageTemplateListFromXml()
         {
-            string currentFolder = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            List<SendMessageTemplateDTO> mesTempList = new List<SendMessageTemplateDTO>();
-            //string devPath = $@"C:\projects\DH30\greenforce-frontend\apps\dh\api-dh\source\DataHub.WebApi\Controllers\TestClient\XmlMocks";
+            string? currentFolder = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            var mesTempList = new List<SendMessageTemplateDTO>();
+            // string devPath = $@"C:\projects\DH30\greenforce-frontend\apps\dh\api-dh\source\DataHub.WebApi\Controllers\TestClient\XmlMocks";
             string curDir = Directory.GetCurrentDirectory();
             string devPath = $@"{curDir}\Controllers\TestClient\XmlMocks";
-            List<string> fileList = new List<string>();
-            if(Directory.Exists(devPath))
-                fileList.AddRange( System.IO.Directory.GetFileSystemEntries(devPath));
+            var fileList = new List<string>();
+            if (Directory.Exists(devPath))
+            {
+                fileList.AddRange(System.IO.Directory.GetFileSystemEntries(devPath));
+            }
             else
+            {
                 fileList.AddRange(GetListOfTemplateResourcesEmbedded());
-            
+            }
 
             foreach (var filename in fileList.Distinct())
             {
                 var fileInfo = new FileInfo(filename);
-                if(fileInfo.Name.StartsWith("SendMessageTemplate-") && !fileInfo.Name.Contains("XMLTemplate"))
-                    mesTempList.Add(GetMessageTemplateFromXml(fileInfo.Name.Replace("SendMessageTemplate-","").Replace(".xml","")));
+                if (fileInfo.Name.StartsWith("SendMessageTemplate-") && !fileInfo.Name.Contains("XMLTemplate"))
+                {
+                    var fileNameAltered = fileInfo.Name.Replace("SendMessageTemplate-", string.Empty).Replace(".xml", string.Empty);
+                    var fileDto = GetMessageTemplateFromXml(fileNameAltered);
+                    if (fileDto != null)
+                    {
+                        mesTempList.Add(fileDto);
+                    }
+                }
             }
 
             return mesTempList;
         }
 
-
         private SendMessageTemplateDTO GetMessageTemplateFromXml(string templateId)
         {
             var serializer = new XmlSerializer(typeof(SendMessageTemplateDTO));
-            SendMessageTemplateDTO resultObj;
+            SendMessageTemplateDTO? resultObj;
 
-            using (TextReader reader = new StringReader(GetResourceTextFileTemp("SendMessageTemplate-"+templateId)))
+            using (TextReader reader = new StringReader(GetResourceTextFileTemp("SendMessageTemplate-" + templateId)))
             {
-                resultObj = (SendMessageTemplateDTO)serializer.Deserialize(reader);
+                resultObj = serializer.Deserialize(reader) as SendMessageTemplateDTO;
             }
 
-            return resultObj;
+            return resultObj ?? throw new Exception("Template id not found:" + templateId);
         }
 
         private List<CodeListDTO> GetCodeLists(string filename)
         {
-            List<CodeListDTO> codeListDtoList = new List<CodeListDTO>();
-
-
-            XDocument xDoc = XDocument.Load(this.GetType().Assembly.GetManifestResourceStream($"Energinet.DataHub.WebApi.Controllers.TestClient.XmlMocks.{filename}.xsd"));
-            XNamespace xs = "http://www.w3.org/2001/XMLSchema";
-
-            var codelistList = xDoc.Descendants(xs + "simpleType");
-
-            foreach (XElement codelistItem in codelistList)
+            var codeListDtoList = new List<CodeListDTO>();
+            var name = $"Energinet.DataHub.WebApi.Controllers.TestClient.XmlMocks.{filename}.xsd";
+            using (Stream? stream = GetType().Assembly.GetManifestResourceStream(name))
             {
-                CodeListDTO dto = new CodeListDTO();
-
-                dto.CodeListName = codelistItem.FirstAttribute?.Value;
-                dto.CodeListUid = codelistItem.Descendants("Uid").FirstOrDefault()?.Value;
-                dto.CodeListDefinition = codelistItem.Descendants("Definition").FirstOrDefault()?.Value;
-
-                var enums = codelistItem.Descendants(xs + "enumeration");
-
-                foreach (XElement item in enums)
+                if (stream == null)
                 {
-                    CodeListItemDTO itemDto = new CodeListItemDTO();
-                    itemDto.Code = item.FirstAttribute?.Value;
-                    itemDto.Title = item.Descendants("Title").FirstOrDefault()?.Value;
-                    itemDto.Definition = item.Descendants("Definition").FirstOrDefault()?.Value;
-
-                    dto.CodeItemList.Add(itemDto);
+                    throw new Exception($"Codelist embedded resources non-existing: {name}");
                 }
-                codeListDtoList.Add(dto);
+
+                var document = XDocument.Load(stream);
+                XNamespace xs = "http://www.w3.org/2001/XMLSchema";
+
+                var codelistList = document.Descendants(xs + "simpleType");
+
+                foreach (XElement codelistItem in codelistList)
+                {
+                    var dto = new CodeListDTO();
+
+                    dto.CodeListName = codelistItem.FirstAttribute?.Value ?? string.Empty;
+                    dto.CodeListUid = codelistItem.Descendants("Uid").FirstOrDefault()?.Value ?? string.Empty;
+                    dto.CodeListDefinition = codelistItem.Descendants("Definition").FirstOrDefault()?.Value ?? string.Empty;
+
+                    var enums = codelistItem.Descendants(xs + "enumeration");
+
+                    foreach (XElement item in enums)
+                    {
+                        var itemDto = new CodeListItemDTO();
+                        itemDto.Code = item.FirstAttribute?.Value ?? string.Empty;
+                        itemDto.Title = item.Descendants("Title").FirstOrDefault()?.Value ?? string.Empty;
+                        itemDto.Definition = item.Descendants("Definition").FirstOrDefault()?.Value ?? string.Empty;
+
+                        dto.CodeItemList.Add(itemDto);
+                    }
+
+                    codeListDtoList.Add(dto);
+                }
             }
 
             return codeListDtoList;
-
-            //Console.WriteLine(enums.Count()); // Tested, outputs 3.
         }
 
         private List<string> GetListOfTemplateResourcesEmbedded()
         {
-            return this.GetType().Assembly.GetManifestResourceNames().Select(x=> x.Replace("Energinet.DataHub.WebApi.Controllers.TestClient.XmlMocks.","")).ToList();
+            return GetType().Assembly.GetManifestResourceNames().Select(x => x.Replace("Energinet.DataHub.WebApi.Controllers.TestClient.XmlMocks.", string.Empty)).ToList();
         }
 
         private string GetResourceTextFileTemp(string filename)
         {
             string result = string.Empty;
-            
-            //string devPath = $@"C:\projects\DH30\greenforce-frontend\apps\dh\api-dh\source\DataHub.WebApi\Controllers\TestClient\XmlMocks\{filename}.xml";
+
+            // string devPath = $@"C:\projects\DH30\greenforce-frontend\apps\dh\api-dh\source\DataHub.WebApi\Controllers\TestClient\XmlMocks\{filename}.xml";
             string curDir = Directory.GetCurrentDirectory();
             string devPath = $@"{curDir}\Controllers\TestClient\XmlMocks\{filename}.xml";
             if (System.IO.File.Exists(devPath))
@@ -215,17 +250,21 @@ namespace Energinet.DataHub.WebApi.Controllers.TestClient
                 return System.IO.File.ReadAllText(devPath);
             }
 
-            //otherwise use embedded xml
-            using (Stream stream = this.GetType().Assembly.
-                       GetManifestResourceStream("Energinet.DataHub.WebApi.Controllers.TestClient.XmlMocks." + filename + ".xml"))
+            // otherwise use embedded xml
+            using (Stream? stream = GetType().Assembly.GetManifestResourceStream("Energinet.DataHub.WebApi.Controllers.TestClient.XmlMocks." + filename + ".xml"))
             {
-                using (StreamReader sr = new StreamReader(stream))
+                if (stream == null)
+                {
+                    throw new Exception("Stream in GetResourceTextFileTemp is null. Embedded resource not found:" + filename);
+                }
+
+                using (var sr = new StreamReader(stream))
                 {
                     result = sr.ReadToEnd();
                 }
             }
+
             return result;
         }
-#pragma warning restore
     }
 }

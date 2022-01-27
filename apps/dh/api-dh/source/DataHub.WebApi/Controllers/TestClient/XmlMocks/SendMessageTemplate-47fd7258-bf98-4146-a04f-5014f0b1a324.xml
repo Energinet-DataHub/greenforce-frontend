@@ -26,8 +26,7 @@
 	  <DefaultValue>57xxxxx</DefaultValue>
      <Value></Value>
      <ValueOriginal></ValueOriginal>
-      <IsMandatory>true</IsMandatory>
-     <UIState></UIState>
+      <IsMandatory>true</IsMandatory>     
 	  <FieldType>String</FieldType>
 	  <FieldTypeParam1></FieldTypeParam1>
 	  <FieldTypeParam2></FieldTypeParam2>

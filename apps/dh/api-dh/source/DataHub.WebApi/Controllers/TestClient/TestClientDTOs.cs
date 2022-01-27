@@ -20,17 +20,28 @@ using ENDK.DataHub.Common.Extensions;
 
 namespace Energinet.DataHub.WebApi.Controllers.TestClient
 {
-#pragma warning disable
-
     public record SendMessageResultDTO
     {
+        public SendMessageResultDTO()
+        {
+            XmlSent = string.Empty;
+            Status = string.Empty;
+        }
+
         public string XmlSent { get; set; }
+
         public string Status { get; set; }
+
         public DateTime XmlSentDate { get; set; }
     }
 
     public record PeekAndDequeueMessageResultDTO
     {
+        public PeekAndDequeueMessageResultDTO()
+        {
+            Result = string.Empty;
+        }
+
         public string Result { get; set; }
     }
 
@@ -41,152 +52,125 @@ namespace Energinet.DataHub.WebApi.Controllers.TestClient
 
     public record SendMessageTemplateListDTO
     {
-    
-        public string Result { get; set; }
-
         public SendMessageTemplateListDTO()
         {
             TemplateList = new List<SendMessageTemplateDTO>();
+            Result = string.Empty;
         }
 
+        public string Result { get; set; }
+
         public List<SendMessageTemplateDTO> TemplateList { get; set; }
-        
     }
 
     public record SendMessageTemplateDTO
     {
-        public SendMessageTemplateDTO()
-        {
-            BrsNameList = new List<string>();
-            FieldList = new List<SendMessageTemplateFieldDTO>();
-        }
+        public Guid Id { get; set; } = Guid.Empty;
 
-        public Guid Id { get; set; }
+        public string Code { get; set; } = string.Empty;
 
-        public string Code { get; set; }
+        public string Name { get; set; } = string.Empty;
 
-        public string Name { get; set; }
+        public string Description { get; set; } = string.Empty;
 
-        public string Description { get; set; }
+        public string Format { get; set; } = string.Empty;
 
-        public string Format { get; set; }
+        public string Domain { get; set; } = string.Empty;
 
-        public string Domain { get; set; }
+        public string EndpointPostfix { get; set; } = string.Empty;
 
-        public string EndpointPostfix { get; set; }
+        public string RsmName { get; set; } = string.Empty;
 
-        public string RsmName { get; set; }
+        public string MarketDocumentType { get; set; } = string.Empty;
 
-        public string MarketDocumentType { get; set; }
+        public string MarketProcessType { get; set; } = string.Empty;
 
-        public string MarketProcessType { get; set; }
+        public string MarketBusinessSectorType { get; set; } = string.Empty;
 
-        public string MarketBusinessSectorType { get; set; }
+        public List<string> BrsNameList { get; set; } = new List<string>();
 
-        public List<string> BrsNameList { get; set; }
+        public string XmlTemplate { get; set; } = string.Empty;
 
-        public string XmlTemplate { get; set; }
+        public string XmlOriginal { get; set; } = string.Empty;
 
-        public string XmlOriginal { get; set; }
+        public List<SendMessageTemplateFieldDTO> FieldList { get; set; } = new List<SendMessageTemplateFieldDTO>();
 
-        public List<SendMessageTemplateFieldDTO> FieldList { get; set; }
-        public List<SendMessageTemplateFieldDTO> GlobalFieldList { get; set; }
+        public List<SendMessageTemplateFieldDTO> GlobalFieldList { get; set; } = new List<SendMessageTemplateFieldDTO>();
 
-        public string Status { get; set; }
+        public string Status { get; set; } = string.Empty;
 
-        public string StatusComment { get; set; }
+        public string StatusComment { get; set; } = string.Empty;
 
-        public DateTime Created { get; set; }
+        public DateTime Created { get; set; } = DateTime.Now;
 
-        public string CreatedBy { get; set; }
+        public string CreatedBy { get; set; } = string.Empty;
 
-        public DateTime Modified { get; set; }
+        public DateTime Modified { get; set; } = DateTime.Now;
 
-        public string ModifiedBy { get; set; }
+        public string ModifiedBy { get; set; } = string.Empty;
     }
 
     public record CodeListItemDTO
     {
-        public string Code { get; set; }
-        public string Title { get; set; }
-        public string Definition { get; set; }
+        public string Code { get; set; } = string.Empty;
 
-        public string CodeAndTitle { get; set; }
+        public string Title { get; set; } = string.Empty;
+
+        public string Definition { get; set; } = string.Empty;
+
+        public string CodeAndTitle { get; set; } = string.Empty;
     }
 
     public record CodeListDTO
     {
-        public CodeListDTO()
-        {
-            CodeItemList = new List<CodeListItemDTO>();
-        }
+        public string CodeListName { get; set; } = string.Empty;
 
+        public string CodeListNameAligned { get; set; } = string.Empty;
 
+        public string CodeListUid { get; set; } = string.Empty;
 
-        public string CodeListName { get; set; }
+        public string CodeListDefinition { get; set; } = string.Empty;
 
-        public string CodeListNameAligned { get; set; }
-
-        public string CodeListUid { get; set; }
-
-        public string CodeListDefinition { get; set; }
-
-        public List<CodeListItemDTO> CodeItemList { get; set; }
-
-
+        public List<CodeListItemDTO> CodeItemList { get; set; } = new List<CodeListItemDTO>();
     }
 
-
     public class SendMessageTemplateFieldDTO
-
     {
-        public Guid Id { get; set; }
+        public Guid Id { get; set; } = Guid.Empty;
 
-        public string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
 
-        public string Code { get; set; }
-        public string Value { get; set; }
-        public string ValueOriginal { get; set; }
+        public string Code { get; set; } = string.Empty;
 
-        public string Comment { get; set; }
+        public string Value { get; set; } = string.Empty;
 
-        public string DefaultValue { get; set; }
+        public string ValueOriginal { get; set; } = string.Empty;
 
-        public bool IsMandatory { get; set; }
+        public string Comment { get; set; } = string.Empty;
+
+        public string DefaultValue { get; set; } = string.Empty;
+
+        public bool IsMandatory { get; set; } = false;
 
         /// <summary>
         /// Empty=normal. Hide=dont show. Disable=show but disable
         /// </summary>
-        public string UIState { get; set; }
+        public string UIState { get; set; } = string.Empty;
 
-        public string FieldType { get; set; }
+        public string FieldType { get; set; } = string.Empty;
 
-        public string FieldTypeParam1 { get; set; }
+        public string FieldTypeParam1 { get; set; } = string.Empty;
 
-        public string FieldTypeParam2 { get; set; }
+        public string FieldTypeParam2 { get; set; } = string.Empty;
 
-        public string FieldTypeParam3 { get; set; }
+        public string FieldTypeParam3 { get; set; } = string.Empty;
 
-        public string FieldTypeParam4 { get; set; }
+        public string FieldTypeParam4 { get; set; } = string.Empty;
 
-        public string FieldTypeParam5 { get; set; }
+        public string FieldTypeParam5 { get; set; } = string.Empty;
 
-        //public List<string> FieldValueList { get; set; }
+        public int FieldOrder { get; set; } = 0;
 
-        public int FieldOrder { get; set; }
-
-        public List<CodeListItemDTO> CodeItemList { get; set; }
+        public List<CodeListItemDTO> CodeItemList { get; set; } = new List<CodeListItemDTO>();
     }
-    /*
-     DefaultValue
-IsMandatory
-DomainCodeListName
-ListValues
-Comment
-EmptyAction
-IgnoreListValues
-SelectGln
-DaysOffset
-     */
-#pragma warning restore
 }
