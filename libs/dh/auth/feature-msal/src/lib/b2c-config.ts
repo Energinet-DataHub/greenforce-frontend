@@ -46,13 +46,22 @@ export function MSALInstanceFactory(
     system: {
       loggerOptions: {
         loggerCallback: (logLevel: LogLevel, message: string) => {
-          console.log(message);
+          reloadOnLoginFailed(message);
         },
         logLevel: LogLevel.Error,
         piiLoggingEnabled: false,
       },
     },
   });
+}
+
+function reloadOnLoginFailed(error: string) {
+  const loginFailed = error.includes(
+    'Error - Guard - error while logging in, unable to activate'
+  );
+  if (loginFailed) {
+    window.location.reload();
+  }
 }
 
 export function MSALInterceptorConfigFactory(
