@@ -38,7 +38,7 @@ export class WattIconComponent {
   @Input() set name(value: WattIcon | undefined) {
     this.setIcon(value);
 
-    this.state = this.getDefaultState(value);
+    this.state = this.getDefaultStateForIcon(value);
   }
 
   /**
@@ -86,7 +86,7 @@ export class WattIconComponent {
    * @param name
    * @returns
    */
-  private getDefaultState(name?: WattIcon): WattIconState {
+  private getDefaultStateForIcon(name?: WattIcon): WattIconState {
     switch (name) {
       case 'success':
         return WattIconState.Success;
