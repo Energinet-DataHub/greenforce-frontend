@@ -27,7 +27,7 @@ import {
 import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { ettAuthRoutePath } from '@energinet-datahub/ett/auth/routing-security';
+import { eoLandingPageRelativeUrl } from '@energinet-datahub/eo/landing-page/routing';
 import { lastValueFrom } from 'rxjs';
 
 import {
@@ -51,7 +51,7 @@ describe(EttAuthenticationInterceptor.name, () => {
       imports: [
         HttpClientTestingModule,
         RouterTestingModule.withRoutes([
-          { path: ettAuthRoutePath, component: TestAuthComponent },
+          { path: '', component: TestAuthComponent },
         ]),
       ],
       providers: [ettAuthenticationInterceptorProvider],
@@ -105,7 +105,7 @@ describe(EttAuthenticationInterceptor.name, () => {
       respondWith401Unauthorized(dummyResponseErrorMessage);
 
       await whenResponse.catch(() =>
-        expect(appLocation.path()).toBe(`/${ettAuthRoutePath}`)
+        expect(appLocation.path()).toBe(eoLandingPageRelativeUrl)
       );
     });
   });
