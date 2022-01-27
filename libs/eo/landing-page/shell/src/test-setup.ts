@@ -20,7 +20,7 @@ import { addDomMatchers } from '@energinet-datahub/gf/test-util-matchers';
 import {
   setUpAngularTestingLibrary,
   setUpTestbed,
-  setUpNgMocks
+  setUpNgMocks,
 } from '@energinet-datahub/gf/test-util-staging';
 
 addDomMatchers();

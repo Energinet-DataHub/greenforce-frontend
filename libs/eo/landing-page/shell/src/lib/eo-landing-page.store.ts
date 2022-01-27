@@ -22,23 +22,17 @@ import { AuthHttp } from '@energinet-datahub/ett/auth/data-access-api';
 import { AbsoluteUrlGenerator } from '@energinet-datahub/ett/shared/util-browser';
 import { ettDashboardRoutePath } from '@energinet-datahub/ett/dashboard/routing';
 
-
 // Disabling this check, as no internal state is needed for the store.
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-interface EoLandingPageState {
-
-}
+interface EoLandingPageState {}
 
 @Injectable()
 export class EoLandingPageStore extends ComponentStore<EoLandingPageState> {
-  #absoluteReturnUrl = this.urlGenerator.fromCommands([
-    ettDashboardRoutePath,
-  ]);
+  #absoluteReturnUrl = this.urlGenerator.fromCommands([ettDashboardRoutePath]);
 
   authenticationUrl$: Observable<string> = this.select(
-    this.authOidcHttpClient
-    .getLogin(this.appBaseHref, this.#absoluteReturnUrl),
-    response => response.next_url
+    this.authOidcHttpClient.getLogin(this.appBaseHref, this.#absoluteReturnUrl),
+    (response) => response.next_url
   );
 
   constructor(

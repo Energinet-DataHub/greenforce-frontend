@@ -18,27 +18,29 @@ import { EoLandingPageStore } from './eo-landing-page.store';
 import { TestBed } from '@angular/core/testing';
 import { MockProvider } from 'ng-mocks';
 import { APP_BASE_HREF } from '@angular/common';
-import { AuthHttp, AuthOidcQueryParameterName } from '@energinet-datahub/ett/auth/data-access-api';
+import {
+  AuthHttp,
+  AuthOidcQueryParameterName,
+} from '@energinet-datahub/ett/auth/data-access-api';
 import { of, firstValueFrom } from 'rxjs';
 
 describe(EoLandingPageStore.name, () => {
-
   describe('Given the Auth API is available', () => {
-    beforeEach(async() => {
+    beforeEach(async () => {
       TestBed.configureTestingModule({
         providers: [
           EoLandingPageStore,
           MockProvider(AuthHttp, {
-           getLogin: (_feUrl, returnUrl) =>
-             of({
-               next_url: `${authenticationUrl}?${AuthOidcQueryParameterName.ReturnUrl}=${returnUrl}`,
-             }),
-         }),
+            getLogin: (_feUrl, returnUrl) =>
+              of({
+                next_url: `${authenticationUrl}?${AuthOidcQueryParameterName.ReturnUrl}=${returnUrl}`,
+              }),
+          }),
         ],
       });
 
       store = TestBed.inject(EoLandingPageStore);
-      actualUrl = new URL(await firstValueFrom(store.authenticationUrl$))
+      actualUrl = new URL(await firstValueFrom(store.authenticationUrl$));
     });
     const authenticationUrl = 'https://example.com/test-authentication';
     let actualUrl: URL;
@@ -56,5 +58,4 @@ describe(EoLandingPageStore.name, () => {
       ).toBe(`${baseHref}dashboard`);
     });
   });
-
 });
