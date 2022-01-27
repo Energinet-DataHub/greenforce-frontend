@@ -61,11 +61,15 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
         {
             var service = new TestClientService();
             var templ = service.GetMessageTemplate("47fd7258-bf98-4146-a04f-5014f0b1a324");
+            Assert.Equal("GlobalSenderGln", templ.FieldList.First().Code);
             Assert.DoesNotContain("{{GlobalMessageId}}", templ.XmlTemplate);
             Assert.DoesNotContain("{{GlobalMessageId}}", templ.XmlOriginal);
             Assert.DoesNotContain("{{GlobalCreated}}", templ.XmlTemplate);
             Assert.DoesNotContain("{{GlobalCreated}}", templ.XmlOriginal);
-            Assert.Equal(3, templ.GlobalFieldList.Count);
+            Assert.DoesNotContain("{{GlobalReceiverGln}}", templ.XmlTemplate);
+            Assert.DoesNotContain("{{GlobalReceiverGln}}", templ.XmlOriginal);
+            Assert.Equal(7, templ.GlobalFieldList.Count);
+            Assert.Equal(2, templ.FieldList.Where(x => x.Code.StartsWith("Global")).Count());
             Guid guidParseResult;
             Assert.True(Guid.TryParse(templ.GlobalFieldList.First(x => x.Code == "GlobalTransactionId").Value, out guidParseResult), "Global transaction id must be a GUID");
         }

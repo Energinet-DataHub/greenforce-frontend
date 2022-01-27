@@ -5,10 +5,10 @@
   <cim:type>E58</cim:type>
   <cim:process.processType>E02</cim:process.processType>
   <cim:businessSector.type>{{BusinessSectorType}}</cim:businessSector.type>
-  <cim:sender_MarketParticipant.mRID codingScheme="NFI">1234567890123</cim:sender_MarketParticipant.mRID>
-  <cim:sender_MarketParticipant.marketRole.type>DDM</cim:sender_MarketParticipant.marketRole.type>
-  <cim:receiver_MarketParticipant.mRID codingScheme="NLT">DHGLN</cim:receiver_MarketParticipant.mRID>
-  <cim:receiver_MarketParticipant.marketRole.type>DDZ</cim:receiver_MarketParticipant.marketRole.type>
+  <cim:sender_MarketParticipant.mRID codingScheme="NFI">{{GlobalSenderGln}}</cim:sender_MarketParticipant.mRID>
+  <cim:sender_MarketParticipant.marketRole.type>{{GlobalSenderRole}}</cim:sender_MarketParticipant.marketRole.type>
+  <cim:receiver_MarketParticipant.mRID codingScheme="NLT">{{GlobalReceiverGln}}</cim:receiver_MarketParticipant.mRID>
+  <cim:receiver_MarketParticipant.marketRole.type>{{GlobalReceiverRole}}</cim:receiver_MarketParticipant.marketRole.type>
   <cim:createdDateTime>{{GlobalCreated}}</cim:createdDateTime>
   <cim:MktActivityRecord>
     <cim:mRID>{{GlobalTransactionId}}</cim:mRID>

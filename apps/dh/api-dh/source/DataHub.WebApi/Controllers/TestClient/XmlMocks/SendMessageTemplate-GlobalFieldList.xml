@@ -26,6 +26,7 @@
      <Value></Value>
      <ValueOriginal></ValueOriginal>
       <IsMandatory>true</IsMandatory>
+     <UIState>Hide</UIState>
 	  <FieldType>Guid</FieldType>
 	  <FieldTypeParam1></FieldTypeParam1>
 	  <FieldTypeParam2></FieldTypeParam2>
@@ -43,6 +44,7 @@
       <Value></Value>
       <ValueOriginal></ValueOriginal>
       <IsMandatory>true</IsMandatory>
+      <UIState>Hide</UIState>
       <FieldType>Guid</FieldType>
       <FieldTypeParam1></FieldTypeParam1>
       <FieldTypeParam2></FieldTypeParam2>
@@ -60,6 +62,7 @@
       <Value></Value>
       <ValueOriginal></ValueOriginal>
       <IsMandatory>true</IsMandatory>
+      <UIState>Hide</UIState>
       <FieldType>DateTime</FieldType>
       <FieldTypeParam1></FieldTypeParam1>
       <FieldTypeParam2></FieldTypeParam2>
@@ -67,7 +70,79 @@
       <FieldTypeParam4></FieldTypeParam4>
       <FieldTypeParam5></FieldTypeParam5>
       <FieldOrder>3</FieldOrder>
-    </SendMessageTemplateFieldDTO>    
+    </SendMessageTemplateFieldDTO>
+    <SendMessageTemplateFieldDTO>
+      <Id>47fd7258-bf98-4146-9999-000000000004</Id>
+      <Name>Sender GLN</Name>
+      <Code>GlobalSenderGln</Code>
+      <Comment></Comment>
+      <DefaultValue>xxxxxxxxxxxxx</DefaultValue>
+      <Value></Value>
+      <ValueOriginal></ValueOriginal>
+      <IsMandatory>true</IsMandatory>
+      <UIState></UIState>
+      <FieldType>String</FieldType>
+      <FieldTypeParam1></FieldTypeParam1>
+      <FieldTypeParam2></FieldTypeParam2>
+      <FieldTypeParam3></FieldTypeParam3>
+      <FieldTypeParam4></FieldTypeParam4>
+      <FieldTypeParam5></FieldTypeParam5>
+      <FieldOrder>4</FieldOrder>
+    </SendMessageTemplateFieldDTO>
+    <SendMessageTemplateFieldDTO>
+      <Id>47fd7258-bf98-4146-9999-000000000005</Id>
+      <Name>Sender Role</Name>
+      <Code>GlobalSenderRole</Code>
+      <Comment></Comment>
+      <DefaultValue>DDZ</DefaultValue>
+      <Value></Value>
+      <ValueOriginal></ValueOriginal>
+      <IsMandatory>true</IsMandatory>
+      <UIState></UIState>
+      <FieldType>String</FieldType>
+      <FieldTypeParam1></FieldTypeParam1>
+      <FieldTypeParam2></FieldTypeParam2>
+      <FieldTypeParam3></FieldTypeParam3>
+      <FieldTypeParam4></FieldTypeParam4>
+      <FieldTypeParam5></FieldTypeParam5>
+      <FieldOrder>5</FieldOrder>
+    </SendMessageTemplateFieldDTO>
+    <SendMessageTemplateFieldDTO>
+      <Id>47fd7258-bf98-4146-9999-000000000006</Id>
+      <Name>Global Receiver</Name>
+      <Code>GlobalReceiverGln</Code>
+      <Comment></Comment>
+      <DefaultValue>5555555555555</DefaultValue>
+      <Value></Value>
+      <ValueOriginal></ValueOriginal>
+      <IsMandatory>true</IsMandatory>
+      <UIState>Hide</UIState>
+      <FieldType>String</FieldType>
+      <FieldTypeParam1></FieldTypeParam1>
+      <FieldTypeParam2></FieldTypeParam2>
+      <FieldTypeParam3></FieldTypeParam3>
+      <FieldTypeParam4></FieldTypeParam4>
+      <FieldTypeParam5></FieldTypeParam5>
+      <FieldOrder>6</FieldOrder>
+    </SendMessageTemplateFieldDTO>
+    <SendMessageTemplateFieldDTO>
+      <Id>47fd7258-bf98-4146-9999-000000000007</Id>
+      <Name>Global Receiver Role</Name>
+      <Code>GlobalReceiverRole</Code>
+      <Comment></Comment>
+      <DefaultValue>DDZ</DefaultValue>
+      <Value></Value>
+      <ValueOriginal></ValueOriginal>
+      <IsMandatory>true</IsMandatory>
+      <UIState>Hide</UIState>
+      <FieldType>String</FieldType>
+      <FieldTypeParam1></FieldTypeParam1>
+      <FieldTypeParam2></FieldTypeParam2>
+      <FieldTypeParam3></FieldTypeParam3>
+      <FieldTypeParam4></FieldTypeParam4>
+      <FieldTypeParam5></FieldTypeParam5>
+      <FieldOrder>7</FieldOrder>
+    </SendMessageTemplateFieldDTO>
   </FieldList>
   <Status>New</Status>
   <StatusComment>status comment</StatusComment>

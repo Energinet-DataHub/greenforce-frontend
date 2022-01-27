@@ -51,8 +51,13 @@ namespace Energinet.DataHub.WebApi.Controllers.TestClient
 
             foreach(var globalField in mesTemplateDto.GlobalFieldList)
             {
-                mesTemplateDto.XmlTemplate = mesTemplateDto.XmlTemplate.Replace("{{"+globalField.Code+"}}",globalField.Value);
+                if (globalField.UIState == "Hide")
+                    mesTemplateDto.XmlTemplate = mesTemplateDto.XmlTemplate.Replace("{{" + globalField.Code + "}}", globalField.Value);
+                else
+                    mesTemplateDto.FieldList.Add(globalField);
             }
+
+            mesTemplateDto.FieldList = mesTemplateDto.FieldList.OrderBy(x => x.FieldOrder).ToList();
 
             mesTemplateDto.XmlOriginal = mesTemplateDto.XmlTemplate;
 
@@ -63,6 +68,7 @@ namespace Energinet.DataHub.WebApi.Controllers.TestClient
         {
             foreach (var field in fieldList)
             {
+                field.Value = field.DefaultValue;
                 if (field.FieldType == "DateTime")
                 {
                     DateTime tempDateTime = DateTime.Now;
