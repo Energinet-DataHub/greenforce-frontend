@@ -16,6 +16,7 @@
  */
 import { render } from '@testing-library/angular';
 
+import { WattIcon } from './icons';
 import {
   WattIconComponent,
   WattIconModule,
@@ -24,10 +25,10 @@ import {
 } from './index';
 
 describe(WattIconComponent.name, () => {
-  it('has default size', async () => {
+  it('has default `size`', async () => {
     const view = await render(WattIconComponent, {
       componentProperties: {
-        name: 'success',
+        name: 'search',
       },
       imports: [WattIconModule],
     });
@@ -37,46 +38,123 @@ describe(WattIconComponent.name, () => {
     expect(component.size).toBe(WattIconSize.Medium);
   });
 
+  it('has default `state`', async () => {
+    const view = await render(WattIconComponent, {
+      componentProperties: {
+        name: 'search',
+      },
+      imports: [WattIconModule],
+    });
+
+    const component = view.fixture.componentInstance;
+
+    expect(component.state).toBe(WattIconState.Default);
+  });
+
   describe('host classes', () => {
-    it('has default `size` class', async () => {
-      const view = await render(WattIconComponent, {
-        componentProperties: {
-          name: 'success',
-        },
-        imports: [WattIconModule],
+    describe('`size` class', () => {
+      it('has default value', async () => {
+        const view = await render(WattIconComponent, {
+          componentProperties: {
+            name: 'search',
+          },
+          imports: [WattIconModule],
+        });
+
+        const actualClasses = Object.keys(view.fixture.debugElement.classes);
+
+        expect(actualClasses).toContain('icon-size-m');
       });
 
-      const actualClasses = Object.keys(view.fixture.debugElement.classes);
+      it('can be set', async () => {
+        const view = await render(WattIconComponent, {
+          componentProperties: {
+            name: 'search',
+            size: WattIconSize.Large,
+          },
+          imports: [WattIconModule],
+        });
 
-      expect(actualClasses).toContain('icon-size-m');
+        const actualClasses = Object.keys(view.fixture.debugElement.classes);
+
+        expect(actualClasses).toContain('icon-size-l');
+      });
     });
 
-    it('can set `size` class', async () => {
+    describe('`state` class', () => {
+      it('has default value', async () => {
+        const view = await render(WattIconComponent, {
+          componentProperties: {
+            name: 'search',
+          },
+          imports: [WattIconModule],
+        });
+
+        const actualClasses = Object.keys(view.fixture.debugElement.classes);
+
+        expect(actualClasses).toContain('icon-state-default');
+      });
+
+      it('can be set', async () => {
+        const view = await render(WattIconComponent, {
+          componentProperties: {
+            name: 'search',
+            state: WattIconState.Success,
+          },
+          imports: [WattIconModule],
+        });
+
+        const actualClasses = Object.keys(view.fixture.debugElement.classes);
+
+        expect(actualClasses).toContain('icon-state-success');
+      });
+    });
+  });
+
+  describe.each([
+    ['success', WattIconState.Success, 'icon-state-success'],
+    ['danger', WattIconState.Danger, 'icon-state-danger'],
+    ['warning', WattIconState.Warning, 'icon-state-warning'],
+    ['info', WattIconState.Info, 'icon-state-info'],
+  ])('%s icon', (icon, ownDefaultState, ownStateClass) => {
+    it('has own default state', async () => {
       const view = await render(WattIconComponent, {
         componentProperties: {
-          name: 'success',
-          size: WattIconSize.Large,
+          name: icon as WattIcon,
         },
         imports: [WattIconModule],
       });
 
-      const actualClasses = Object.keys(view.fixture.debugElement.classes);
+      const component = view.fixture.componentInstance;
 
-      expect(actualClasses).toContain('icon-size-l');
+      expect(component.state).toBe(ownDefaultState);
     });
 
-    it('can set `state` class', async () => {
+    it('has own default state class', async () => {
       const view = await render(WattIconComponent, {
         componentProperties: {
-          name: 'success',
-          state: WattIconState.Success,
+          name: icon as WattIcon,
         },
         imports: [WattIconModule],
       });
 
       const actualClasses = Object.keys(view.fixture.debugElement.classes);
 
-      expect(actualClasses).toContain('icon-state-success');
+      expect(actualClasses).toContain(ownStateClass);
+    });
+
+    it('cat be set to a different state', async () => {
+      const view = await render(WattIconComponent, {
+        componentProperties: {
+          name: icon as WattIcon,
+          state: WattIconState.Default,
+        },
+        imports: [WattIconModule],
+      });
+
+      const actualClasses = Object.keys(view.fixture.debugElement.classes);
+
+      expect(actualClasses).not.toContain(ownStateClass);
     });
   });
 });

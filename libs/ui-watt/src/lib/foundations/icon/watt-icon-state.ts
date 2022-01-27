@@ -16,6 +16,7 @@
  */
 
 export enum WattIconState {
+  Default = 'default',
   Success = 'success',
   Danger = 'danger',
   Warning = 'warning',
