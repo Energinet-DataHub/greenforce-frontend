@@ -16,10 +16,7 @@
  */
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import {
-  EttAuthenticationGuard,
-  ettAuthRoutePath,
-} from '@energinet-datahub/ett/auth/routing-security';
+import { EttAuthenticationGuard } from '@energinet-datahub/ett/auth/routing-security';
 import { ettDashboardRoutePath } from '@energinet-datahub/ett/dashboard/routing';
 import { GfBrowserConfigurationModule } from '@energinet-datahub/gf/util-browser';
 
@@ -34,13 +31,6 @@ const routes: Routes = [
     loadChildren: () =>
       import('@energinet-datahub/eo/landing-page/shell').then(
         (esModule) => esModule.EoLandingPageShellModule
-      ),
-  },
-  {
-    path: ettAuthRoutePath,
-    loadChildren: () =>
-      import('@energinet-datahub/ett/auth/shell').then(
-        (esModule) => esModule.EttAuthShellModule
       ),
   },
   {

@@ -16,7 +16,6 @@
  */
 import * as dashboardPage from '../support/dashboard.po';
 import * as landingPage from '../support/landing-page.po';
-import * as loginPage from '../support/login.po';
 
 describe('Authentication', () => {
   it(`Given a commercial user
@@ -37,7 +36,6 @@ describe('Authentication', () => {
 
     // Act
     landingPage.findStartLink().click();
-    loginPage.findNemidLink().click();
 
     // Assert
     dashboardPage.findTitle().should('exist');

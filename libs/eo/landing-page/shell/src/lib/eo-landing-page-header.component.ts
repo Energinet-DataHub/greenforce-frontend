@@ -21,8 +21,11 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { Observable } from 'rxjs';
+import { LetModule } from '@rx-angular/template';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { EoLandingPageStore } from './eo-landing-page.store';
 
 const selector = 'eo-landing-page-header';
 
@@ -74,15 +77,25 @@ const selector = 'eo-landing-page-header';
       class="${selector}__toolbar watt-space-inset-squished-m"
     >
       <img src="assets/energyorigin-logo.svg" alt="EnergyOrigin" />
-      <a mat-button mat-flat-button routerLink="/login">Start</a>
+      <a
+        mat-button
+        mat-flat-button
+        *rxLet="loginUrl$ as loginUrl"
+        [href]="loginUrl"
+        >Start</a
+      >
     </mat-toolbar>
   `,
 })
-export class EoLandingPageHeaderComponent {}
+export class EoLandingPageHeaderComponent {
+  loginUrl$: Observable<string> = this.landingPageStore.authenticationUrl$;
+
+  constructor(private landingPageStore: EoLandingPageStore) {}
+}
 
 @NgModule({
   declarations: [EoLandingPageHeaderComponent],
   exports: [EoLandingPageHeaderComponent],
-  imports: [RouterModule, MatToolbarModule, MatButtonModule],
+  imports: [RouterModule, MatToolbarModule, MatButtonModule, LetModule],
 })
 export class EoLandingPageHeaderScam {}
