@@ -14,17 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  ChangeDetectionStrategy,
-  Component,
-  NgModule,
-  ViewEncapsulation,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, NgModule, ViewEncapsulation } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { EoProductLogoScam } from '@energinet-datahub/eo/shared/ui-shell';
 import { WattShellModule } from '@energinet-datahub/watt';
 
 import { EttPrimaryNavigationScam } from './ett-primary-navigation.component';
+
 const selector = 'ett-shell';
 
 @Component({
