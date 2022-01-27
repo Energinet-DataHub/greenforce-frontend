@@ -16,9 +16,7 @@
  */
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import {
-  EttAuthenticationGuard,
-} from '@energinet-datahub/ett/auth/routing-security';
+import { EttAuthenticationGuard } from '@energinet-datahub/ett/auth/routing-security';
 import { ettDashboardRoutePath } from '@energinet-datahub/ett/dashboard/routing';
 import { GfBrowserConfigurationModule } from '@energinet-datahub/gf/util-browser';
 

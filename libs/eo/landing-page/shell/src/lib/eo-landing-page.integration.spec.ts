@@ -34,7 +34,7 @@ describe('EnergyOrigin landing page', () => {
           featureModule: EoLandingPageShellModule,
           featurePath: '',
         }),
-        HttpClientTestingModule
+        HttpClientTestingModule,
       ],
     });
     await navigate('/');
