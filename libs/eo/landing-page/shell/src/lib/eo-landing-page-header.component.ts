@@ -49,11 +49,6 @@ const selector = 'eo-landing-page-header';
         // Adjustment locally to contain a normal sized button
         height: var(--watt-space-xl);
 
-        img {
-          width: 150px;
-          height: 37px;
-        }
-
         a {
             // Default styles for button in WATT
             @include watt.typography-watt-button;
