@@ -50,22 +50,23 @@ const selector = 'eo-landing-page-header';
         height: var(--watt-space-xl);
 
         a {
-            // Default styles for button in WATT
-            @include watt.typography-watt-button;
+          // Default styles for button in WATT
+          @include watt.typography-watt-button;
 
-            // The following styles are following the "watt primary button"
-            background: var(--watt-color-primary);
-            color: var(--watt-color-primary-contrast);
+          // The following styles are following the "watt primary button"
+          background: var(--watt-color-primary);
+          color: var(--watt-color-primary-contrast);
 
-            // This is equivalent to a normal size watt button width
-            min-width: 6.25rem;
-            height: calc(5* var(--watt-space-s)); // 40px
-            padding: var(--watt-space-s) var(--watt-space-m) var(--watt-space-s) var(--watt-space-m); // 8px 16px 8px 16px
+          // This is equivalent to a normal size watt button width
+          min-width: 6.25rem;
+          height: calc(5 * var(--watt-space-s)); // 40px
+          padding: var(--watt-space-s) var(--watt-space-m) var(--watt-space-s)
+            var(--watt-space-m); // 8px 16px 8px 16px
 
-            // Adjustment locally to fit the position of the text vertically
-            line-height: calc(3* var(--watt-space-s)); // 24px;
+          // Adjustment locally to fit the position of the text vertically
+          line-height: calc(3 * var(--watt-space-s)); // 24px;
 
-            &:hover {
+          &:hover {
             text-decoration: none;
           }
         }
