@@ -118,7 +118,7 @@ jobs:
           if-no-files-found: error
 
   define_build:
-    name: Define build matrix 
+    name: Define build matrix
     runs-on: ubuntu-latest
     outputs:
       chart_version: ${{ steps.get_semver.outputs.semver }}
@@ -139,7 +139,7 @@ jobs:
 
   build_container_and_release_chart:
     name: Build containers
-    needs: 
+    needs:
       - define_build
       - app
     uses: Energinet-DataHub/.github/.github/workflows/build-containers-and-release-chart.yaml@main
@@ -153,7 +153,7 @@ jobs:
 
   update_environment:
     name: Update env
-    needs: 
+    needs:
       - build_container_and_release_chart
     #only on: push to main OR PR on 'feature/**' branch
     if: github.event_name == 'push' && github.ref_name == 'main' || github.event_name == 'pull_request' && startsWith(github.event.pull_request.head.ref, 'feature/')
