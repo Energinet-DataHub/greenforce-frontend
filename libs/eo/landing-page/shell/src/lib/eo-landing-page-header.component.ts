@@ -14,17 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  ChangeDetectionStrategy,
-  Component,
-  NgModule,
-  ViewEncapsulation,
-} from '@angular/core';
-import { RouterModule } from '@angular/router';
-import { Observable } from 'rxjs';
-import { LetModule } from '@rx-angular/template';
+import { ChangeDetectionStrategy, Component, NgModule, ViewEncapsulation } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { RouterModule } from '@angular/router';
+import { LetModule } from '@rx-angular/template';
+import { Observable } from 'rxjs';
+
 import { EoLandingPageStore } from './eo-landing-page.store';
 
 const selector = 'eo-landing-page-header';
@@ -49,24 +45,30 @@ const selector = 'eo-landing-page-header';
         // Adjustment locally to contain a normal sized button
         height: var(--watt-space-xl);
 
+        // 1. Primary Watt Button.
+        // 2. Normal size Watt Button.
+        // 3. Custom size for Watt Button in App bar.
+        // 4. Align text vertically.
         a {
-          // Default styles for button in WATT
-          @include watt.typography-watt-button;
+          @include watt.typography-watt-button; // [1]
 
-          // The following styles are following the "watt primary button"
-          background: var(--watt-color-primary);
-          color: var(--watt-color-primary-contrast);
+          --height: calc(10 * var(--watt-space-xs));
+          --inset-squish-m--x: var(--watt-space-m);
+          --inset-squish-m--y: var(--watt-space-s);
 
-          min-width: 6.25rem; // This is equivalent to a normal size watt button width
-          height: calc(10 * var(--watt-space-xs));
-          padding: var(--watt-space-s) var(--watt-space-m) var(--watt-space-s)
-            var(--watt-space-m); // This matches the inset-squish-m mixin
+          background: var(--watt-color-primary); // [1]
+          color: var(--watt-color-primary-contrast); // [1]
 
-          // Adjustment locally to fit the position of the text vertically
-          line-height: calc(3 * var(--watt-space-s));
+          min-width: 6.25rem; // [2]
+          height: var(--height); // [3]
+          padding: var(--inset-squish-m--y) var(--inset-squish-m--x); // [3]
+
+          line-height: calc(
+            var(--height) - 2 * var(--inset-squish-m--y)
+          ); // [3] [4]
 
           &:hover {
-            text-decoration: none;
+            text-decoration: none; // [1]
           }
         }
       }
