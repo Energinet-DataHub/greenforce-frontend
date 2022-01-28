@@ -1,6 +1,9 @@
 import { render, screen } from '@testing-library/angular';
 
-import { EoProductLogoDirective, EoProductLogoScam } from './eo-product-logo.directive';
+import {
+  EoProductLogoDirective,
+  EoProductLogoScam,
+} from './eo-product-logo.directive';
 
 describe(EoProductLogoDirective.name, () => {
   beforeEach(async () => {
