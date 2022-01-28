@@ -161,7 +161,7 @@ jobs:
     with:
       env_repository: ${{ github.repository_owner }}/eo-base-environment
       env_branch: ${{ github.event_name == 'push' && github.ref_name == 'main' || github.event.pull_request.head.ref }}
-      helm_repository: "https://${{ github.repository_owner }}.github.io/helm-charts/"
+      helm_repository: 'https://${{ github.repository_owner }}.github.io/helm-charts/'
       app_name: ${{ needs.build_container_and_release_chart.outputs.chart_name }}
       chart_name: ${{ needs.build_container_and_release_chart.outputs.chart_name }}
       chart_version: ${{ needs.build_container_and_release_chart.outputs.chart_version }}
