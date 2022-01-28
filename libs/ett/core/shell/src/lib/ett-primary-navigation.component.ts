@@ -69,7 +69,7 @@ const selector = 'ett-primary-navigation';
         Dashboard
       </a>
 
-      <a mat-list-item href="#0" (click)="onLogOut()"> Log out </a>
+      <a mat-list-item href="#0" (click)="onLogOut($event)"> Log out </a>
     </mat-nav-list>
   `,
   viewProviders: [EoPrimaryNavigationStore],
@@ -86,7 +86,10 @@ export class EttPrimaryNavigationComponent {
 
   constructor(private store: EoPrimaryNavigationStore) {}
 
-  onLogOut(): void {
+  onLogOut(event: Event): void {
+    // Prevent link from navigating
+    event.preventDefault();
+
     this.store.onLogOut();
   }
 }
