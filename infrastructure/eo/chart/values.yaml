@@ -5,7 +5,6 @@ eo-base-helm-chart:
       image:
         repository: ghcr.io/energinet-datahub/greenforce-frontend-ett-app
         tag: 'latest'
-        pullPolicy: Always
 
   service:
     deployment: app
