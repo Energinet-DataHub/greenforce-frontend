@@ -14,6 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import * as appShell from '../support/app-shell.po';
+import * as authApi from '../support/auth-api';
 import * as dashboardPage from '../support/dashboard.po';
 import * as landingPage from '../support/landing-page.po';
 
@@ -22,22 +24,32 @@ describe('Authentication', () => {
     When NemID authentication is successful
     Then they are redirected to the dashboard page`, () => {
     // Arrange
-    cy.intercept(
-      {
-        hostname: 'localhost',
-        method: 'GET',
-        pathname: '/api/auth/oidc/login',
-      },
-      {
-        next_url: '/dashboard?success=1',
-      }
-    );
+    authApi.allowAuthentication();
     landingPage.navigateTo();
 
     // Act
     landingPage.findStartLink().click();
 
     // Assert
-    dashboardPage.findTitle().should('exist');
+    dashboardPage.findTitle().should('be.visible');
+  });
+
+  it(`Given an authenticated commercial user
+    When the "Log out" menu item is clicked
+      And log out is successful
+    Then they are redirected to the landing page`, () => {
+    // Arrange
+    authApi.allowAuthentication();
+    authApi.allowLogOut();
+    landingPage.navigateTo();
+    landingPage.findStartLink().click();
+    appShell.findMenu().should('be.visible');
+
+    // Act
+    appShell.findLogOutMenuItem().click();
+    cy.wait('@authLogout');
+
+    // Assert
+    cy.url().should('eq', landingPage.url());
   });
 });
