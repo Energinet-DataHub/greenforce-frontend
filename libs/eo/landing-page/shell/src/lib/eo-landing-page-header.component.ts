@@ -50,12 +50,12 @@ const selector = 'eo-landing-page-header';
         height: var(--watt-space-xl);
 
         a {
-            // Default styles for button in WATT
-            @include watt.typography-watt-button;
+          // Default styles for button in WATT
+          @include watt.typography-watt-button;
 
-            // The following styles are following the "watt primary button"
-            background: var(--watt-color-primary);
-            color: var(--watt-color-primary-contrast);
+          // The following styles are following the "watt primary button"
+          background: var(--watt-color-primary);
+          color: var(--watt-color-primary-contrast);
 
             min-width: 6.25rem; // This is equivalent to a normal size watt button width
             height: calc(10 * var(--watt-space-xs));
@@ -64,7 +64,7 @@ const selector = 'eo-landing-page-header';
             // Adjustment locally to fit the position of the text vertically
             line-height: calc(3* var(--watt-space-s));
 
-            &:hover {
+          &:hover {
             text-decoration: none;
           }
         }
