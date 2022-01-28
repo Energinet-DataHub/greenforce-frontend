@@ -17,6 +17,7 @@ using System.IO;
 using System.Reflection;
 using System.Text.Json.Serialization;
 using Energinet.DataHub.Charges.Clients.Registration.ChargeLinks.ServiceCollectionExtensions;
+using Energinet.DataHub.Core.App.WebApp.Middleware;
 using Energinet.DataHub.MeteringPoints.Client.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -86,6 +87,14 @@ namespace Energinet.DataHub.WebApi
                 config.AddSecurityRequirement(securityRequirement);
             });
 
+            var tenantId = Configuration.GetValue<string>("B2C_TENANT_ID") ?? throw new InvalidOperationException(
+                "B2C tenant id not found.");
+
+            var audience = Configuration.GetValue<string>("FRONTEND_SERVICE_APP_ID") ?? throw new InvalidOperationException(
+                "Backend service app id not found.");
+
+            services.AddJwtTokenSecurity($"https://login.microsoftonline.com/{tenantId}/v2.0/.well-known/openid-configuration", audience);
+
             if (Environment.IsDevelopment())
             {
                 services.AddCors(options =>
@@ -120,6 +129,8 @@ namespace Energinet.DataHub.WebApi
             app.UseRouting();
 
             app.UseCors();
+
+            app.UseMiddleware<JwtTokenMiddleware>();
 
             app.UseAuthorization();
 

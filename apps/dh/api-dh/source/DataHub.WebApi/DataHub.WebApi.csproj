@@ -31,14 +31,16 @@ limitations under the License.
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
     <Exec Command="dotnet tool restore" />
-    <Exec Command="dotnet swagger tofile --output $(OutputPath)/swagger.json $(OutputPath)/$(AssemblyName).dll v1" />
+<!--    <Exec Command="dotnet swagger tofile &#45;&#45;output $(OutputPath)/swagger.json $(OutputPath)/$(AssemblyName).dll v1" />-->
   </Target>
 
   <ItemGroup>
     <PackageReference Include="Energinet.DataHub.Charges.Clients" Version="1.0.22" />
     <PackageReference Include="Energinet.DataHub.Charges.Clients.Registration" Version="0.1.3" />
-    <PackageReference Include="Energinet.DataHub.MeteringPoints.Client" Version="1.0.4" />
-    <PackageReference Include="Energinet.DataHub.MeteringPoints.Client.Abstractions" Version="1.0.4" />
+    <PackageReference Include="Energinet.DataHub.Core.App.Common.Security" Version="1.0.2" />
+    <PackageReference Include="Energinet.DataHub.Core.App.WebApp" Version="1.0.2" />
+    <PackageReference Include="Energinet.DataHub.MeteringPoints.Client" Version="2.0.0" />
+    <PackageReference Include="Energinet.DataHub.MeteringPoints.Client.Abstractions" Version="2.0.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.3">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
