@@ -57,13 +57,12 @@ const selector = 'eo-landing-page-header';
             background: var(--watt-color-primary);
             color: var(--watt-color-primary-contrast);
 
-            // This is equivalent to a normal size watt button width
-            min-width: 6.25rem;
-            height: calc(5* var(--watt-space-s)); // 40px
-            padding: var(--watt-space-s) var(--watt-space-m) var(--watt-space-s) var(--watt-space-m); // 8px 16px 8px 16px
+            min-width: 6.25rem; // This is equivalent to a normal size watt button width
+            height: calc(10 * var(--watt-space-xs));
+            padding: var(--watt-space-s) var(--watt-space-m) var(--watt-space-s) var(--watt-space-m); // This matches the inset-squish-m mixin
 
             // Adjustment locally to fit the position of the text vertically
-            line-height: calc(3* var(--watt-space-s)); // 24px;
+            line-height: calc(3* var(--watt-space-s));
 
             &:hover {
             text-decoration: none;
