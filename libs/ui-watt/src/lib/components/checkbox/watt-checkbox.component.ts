@@ -1,4 +1,4 @@
-import { Component, forwardRef } from '@angular/core';
+import { Component, forwardRef, ViewEncapsulation } from '@angular/core';
 import {
   ControlValueAccessor,
   FormControl,
@@ -12,8 +12,18 @@ const customValueAccessor = {
   useExisting: forwardRef(() => WattCheckboxComponent),
 };
 
+const selector = 'watt-checkbox';
+
 @Component({
-  selector: 'watt-checkbox',
+  encapsulation: ViewEncapsulation.None,
+  selector,
+  styles: [
+    `
+      ${selector} .mat-checkbox-frame {
+        border-color: var(--watt-color-primary);
+      }
+    `,
+  ],
   templateUrl: './watt-checkbox.component.html',
   providers: [customValueAccessor],
 })
