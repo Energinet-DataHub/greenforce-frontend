@@ -23,5 +23,6 @@ import {
 } from '@energinet-datahub/gf/test-util-staging';
 
 addDomMatchers();
+
 setUpTestbed();
 setUpAngularTestingLibrary();
