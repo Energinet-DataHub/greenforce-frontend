@@ -29,9 +29,8 @@ const selector = 'eo-landing-page-footer';
   selector,
   styles: [
     `
-    @todo: Get the line-height we should use - Overrides are used multiple places below in order to match with what is in Figma
-
     @use '@energinet-datahub/watt/utils' as watt;
+    // @todo: Get the line-height we should use - Overrides are used multiple places below in order to match with what is in Figma
     ${selector} {
 
       // General styles for the 'eo-landing-page-footer' tag
