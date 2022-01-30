@@ -29,12 +29,15 @@ const selector = 'eo-landing-page-footer';
   selector,
   styles: [
     `
+    @todo: Get the line-height we should use - Overrides are used multiple places below in order to match with what is in Figma
+
     @use '@energinet-datahub/watt/utils' as watt;
     ${selector} {
 
       // General styles for the 'eo-landing-page-footer' tag
       display: grid;
-      grid-template-columns: repeat(3, 1fr); // Column sizes(?)
+      // @todo: Get the column sizes from Kenneth
+      grid-template-columns: repeat(3, 1fr);
       width: 100%;
       position: absolute;
       bottom: 0;
@@ -51,6 +54,7 @@ const selector = 'eo-landing-page-footer';
           // line-height: 24px; // Override: This line-height corresponds to what is added in Figma(?)
         }
         img {
+          // @todo: Get the image dimensions from Kenneth
           display: block;
           width: 360px;
           height: 48px;
@@ -87,7 +91,7 @@ const selector = 'eo-landing-page-footer';
       section:nth-child(2), section:last-of-type {
         h5 {
           @include watt.typography-watt-text-m;
-          font-weight: 600; // Overrides the font-weight from 'watt.typography-watt-text-m' to match the Figma styles
+          font-weight: 600; // Overrides the font-weight from 'watt.typography-watt-text-m', in order to match the Figma styles
 
           // This is the mixin available in watt, for level 5 headings -> Does not match with the styles in Figma((font-size & line-height))...
           // ... But should be the one we can use for level 5 headings(?)
@@ -112,7 +116,7 @@ const selector = 'eo-landing-page-footer';
       </section>
       <section>
         <h5>Contact</h5>
-        <a href="mailto:datahub@energinet.dk">+45 88 44  66 33</a>
+        <a href="tel:+4588446633">+45 88 44  66 33</a>
         <a href="mailto:datahub@energinet.dk">datahub@energinet.dk</a>
       </section>
   `,
