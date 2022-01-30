@@ -20,8 +20,8 @@ import {
   NgModule,
   ViewEncapsulation,
 } from '@angular/core';
-
 import { EoLandingPageHeaderScam } from './eo-landing-page-header.component';
+import { EoLandingPageFooterScam } from './eo-landing-page-footer.component';
 import { EoLandingPageStore } from './eo-landing-page.store';
 
 const selector = 'eo-landing-page-shell';
@@ -37,13 +37,16 @@ const selector = 'eo-landing-page-shell';
       }
     `,
   ],
-  template: `<eo-landing-page-header></eo-landing-page-header>`,
+  template: `
+  <eo-landing-page-header></eo-landing-page-header>
+  <eo-landing-page-footer></eo-landing-page-footer>
+  `,
 })
 export class EoLandingPageShellComponent {}
 
 @NgModule({
   declarations: [EoLandingPageShellComponent],
-  imports: [EoLandingPageHeaderScam],
+  imports: [EoLandingPageHeaderScam, EoLandingPageFooterScam],
   providers: [EoLandingPageStore],
 })
 export class EoLandingPageShellScam {}
