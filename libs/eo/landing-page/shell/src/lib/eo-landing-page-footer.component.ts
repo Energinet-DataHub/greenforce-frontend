@@ -20,8 +20,6 @@
   NgModule,
   ViewEncapsulation,
 } from '@angular/core';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatGridListModule } from '@angular/material/grid-list';
 
 const selector = 'eo-landing-page-footer';
 
@@ -125,6 +123,6 @@ export class EoLandingPageFooterComponent {
 @NgModule({
   declarations: [EoLandingPageFooterComponent],
   exports: [EoLandingPageFooterComponent],
-  imports: [MatToolbarModule, MatGridListModule],
+  imports: [],
 })
 export class EoLandingPageFooterScam {}
