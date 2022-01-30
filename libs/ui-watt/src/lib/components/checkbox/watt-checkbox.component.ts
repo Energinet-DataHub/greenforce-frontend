@@ -35,6 +35,7 @@ export class WattCheckboxComponent implements ControlValueAccessor {
   }
 
   onValueChange(event: MatCheckboxChange) {
+    this.onTouched();
     this.onChange(event.checked);
   }
 
