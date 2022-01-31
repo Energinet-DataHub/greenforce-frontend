@@ -67,30 +67,44 @@ const selector = 'eo-landing-page-footer';
     `,
   ],
   template: `
-      <section>
-        <p class="${selector}__p--stack-xs watt-text-s">Powered by</p>
-        <img src="/assets/energinet-logo.svg" alt="Energinet" class="${selector}__img watt-space-stack-l" />
-      </section>
-      <section>
-        <h5 class="${selector}__h5">Address</h5>
-        <p class="${selector}__p--black watt-text-s">
-          Tonne Kjærsvej 65<br>
-          7000 Fredericia<br>
-          Danmark<br>
-          CVR: 28980671
-        </p>
-      </section>
-      <section>
-        <h5 class="${selector}__h5">Contact</h5>
-        <a href="tel:+4588446633" class="${selector}__link watt-text-s" aria-label="phone">+45 88 44  66 33</a><br>
-        <a href="mailto:datahub@energinet.dk" class="${selector}__link watt-text-s" aria-label="mail">datahub@energinet.dk</a>
-      </section>
+    <section>
+      <p class="${selector}__p--stack-xs watt-text-s">Powered by</p>
+      <img
+        src="/assets/energinet-logo.svg"
+        alt="Energinet"
+        class="${selector}__img watt-space-stack-l"
+      />
+    </section>
+    <section>
+      <h5 class="${selector}__h5">Address</h5>
+      <p class="${selector}__p--black watt-text-s">
+        Tonne Kjærsvej 65<br />
+        7000 Fredericia<br />
+        Danmark<br />
+        CVR: 28980671
+      </p>
+    </section>
+    <section>
+      <h5 class="${selector}__h5">Contact</h5>
+      <a
+        href="tel:+4588446633"
+        class="${selector}__link watt-text-s"
+        aria-label="phone"
+        >+45 88 44 66 33</a
+      ><br />
+      <a
+        href="mailto:datahub@energinet.dk"
+        class="${selector}__link watt-text-s"
+        aria-label="mail"
+        >datahub@energinet.dk</a
+      >
+    </section>
   `,
 })
 export class EoLandingPageFooterComponent {}
 
 @NgModule({
   declarations: [EoLandingPageFooterComponent],
-  exports: [EoLandingPageFooterComponent]
+  exports: [EoLandingPageFooterComponent],
 })
 export class EoLandingPageFooterScam {}
