@@ -1,0 +1,10 @@
+<watt-checkbox [formControl]="exampleFormControl"
+  >Keep me signed in</watt-checkbox
+>
+
+<p>Value: {{ exampleFormControl.value }}</p>
+<p>
+  <watt-button variant="primary" (click)="disableControl()">{{
+    exampleFormControl.enabled ? 'Disable' : 'Enable'
+  }}</watt-button>
+</p>
