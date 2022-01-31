@@ -93,7 +93,7 @@ namespace Energinet.DataHub.WebApi
             var audience = Configuration.GetValue<string>("FRONTEND_SERVICE_APP_ID") ?? throw new InvalidOperationException(
                 "Backend service app id not found.");
 
-            services.AddJwtTokenSecurity($"https://login.microsoftonline.com/{tenantId}/v2.0/.well-known/openid-configuration", audience);
+            services.AddJwtTokenSecurity($"https://devdatahubb2c.b2clogin.com/devDataHubB2C.onmicrosoft.com/B2C_1_u001_signin/v2.0/.well-known/openid-configuration", audience);
 
             if (Environment.IsDevelopment())
             {
