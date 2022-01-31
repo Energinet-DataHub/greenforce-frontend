@@ -34,7 +34,7 @@ describe('EnergyOrigin landing page', () => {
 
   const findFooterMailLink = () => screen.findByRole('link', { name: 'mail' });
 
-  it('displays the EnergyOrigin logo', async () => {
+  beforeEach(async () => {
     const { navigate } = await render(SpectacularAppComponent, {
       imports: [
         SpectacularFeatureTestingModule.withFeature({
@@ -45,52 +45,21 @@ describe('EnergyOrigin landing page', () => {
       ],
     });
     await navigate('/');
+  });
 
+  it('displays the EnergyOrigin logo', async () => {
     expect(await findEnergyOriginLogo()).toBeInTheDocument();
   });
 
   it('displays the EnergiNet logo', async () => {
-    const { navigate } = await render(SpectacularAppComponent, {
-      imports: [
-        SpectacularFeatureTestingModule.withFeature({
-          featureModule: EoLandingPageShellModule,
-          featurePath: '',
-        }),
-        HttpClientTestingModule,
-      ],
-    });
-    await navigate('/');
-
     expect(await findEnergiNetLogo()).toBeInTheDocument();
   });
 
   it('displays a telephone link', async () => {
-    const { navigate } = await render(SpectacularAppComponent, {
-      imports: [
-        SpectacularFeatureTestingModule.withFeature({
-          featureModule: EoLandingPageShellModule,
-          featurePath: '',
-        }),
-        HttpClientTestingModule,
-      ],
-    });
-    await navigate('/');
-
     expect(await findFooterTelLink()).toHaveAttribute('href');
   });
 
   it('displays an e-mail link', async () => {
-    const { navigate } = await render(SpectacularAppComponent, {
-      imports: [
-        SpectacularFeatureTestingModule.withFeature({
-          featureModule: EoLandingPageShellModule,
-          featurePath: '',
-        }),
-        HttpClientTestingModule,
-      ],
-    });
-    await navigate('/');
-
     expect(await findFooterMailLink()).toHaveAttribute('href');
   });
 });
