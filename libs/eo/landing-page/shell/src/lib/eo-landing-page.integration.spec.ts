@@ -30,11 +30,9 @@ describe('EnergyOrigin landing page', () => {
   const findEnergiNetLogo = () =>
     screen.findByRole('img', { name: 'EnergiNet' });
 
-  const findFooterTelLink = () =>
-    screen.findByRole('link', { name: 'phone'});
+  const findFooterTelLink = () => screen.findByRole('link', { name: 'phone' });
 
-  const findFooterMailLink = () =>
-    screen.findByRole('link', { name: 'mail'});
+  const findFooterMailLink = () => screen.findByRole('link', { name: 'mail' });
 
   it('displays the EnergyOrigin logo', async () => {
     const { navigate } = await render(SpectacularAppComponent, {
