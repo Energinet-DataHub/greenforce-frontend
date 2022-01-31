@@ -87,11 +87,9 @@ namespace Energinet.DataHub.WebApi
                 config.AddSecurityRequirement(securityRequirement);
             });
 
-            var openIdUrl = Configuration.GetValue<string>("FRONTEND_OPEN_ID_URL") ?? throw new InvalidOperationException(
-                "Frontend OpenID url not found.");
+            var openIdUrl = Configuration.GetValue<string>("FRONTEND_OPEN_ID_URL") ?? string.Empty;
 
-            var audience = Configuration.GetValue<string>("FRONTEND_SERVICE_APP_ID") ?? throw new InvalidOperationException(
-                "Frontend service app id not found.");
+            var audience = Configuration.GetValue<string>("FRONTEND_SERVICE_APP_ID") ?? string.Empty;
 
             services.AddJwtTokenSecurity(openIdUrl, audience);
 
