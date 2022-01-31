@@ -130,7 +130,6 @@ namespace Energinet.DataHub.WebApi
 
             app.UseCors();
 
-            app.UseMiddleware<HealthCheckMiddleware>();
             app.UseMiddleware<JwtTokenMiddleware>();
 
             app.UseAuthorization();
@@ -138,6 +137,7 @@ namespace Energinet.DataHub.WebApi
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHealthChecks("/health");
             });
         }
 
