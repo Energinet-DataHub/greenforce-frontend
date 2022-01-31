@@ -38,8 +38,7 @@ const selector = 'eo-landing-page-footer';
         background: var(--watt-color-neutral-white);
         padding: var(--watt-space-l) var(--watt-space-m); // No mixing exists for "space-inset-stretch-l", see: C:lib/foundations/spacing/_spacing.import.scss
 
-        .${selector}__a {
-          text-decoration: underline; // This overrides WATT styles (which removes the underline on a tags)
+        .${selector}__link {
           color: var(
             --watt-color-primary
           ); // This overrides the '--watt-color-primary-dark' color which is added by a class on the element
@@ -70,8 +69,7 @@ const selector = 'eo-landing-page-footer';
   template: `
       <section>
         <p class="${selector}__p--stack-xs watt-text-s">Powered by</p>
-        <img src="assets/energinet-logo.svg" alt="EnergiNet" class="${selector}__img watt-space-stack-l" />
-        <!--<a href="#" class="${selector}__a watt-text-s">Privacy Policy</a>-->
+        <img src="/assets/energinet-logo.svg" alt="Energinet" class="${selector}__img watt-space-stack-l" />
       </section>
       <section>
         <h5 class="${selector}__h5">Address</h5>
@@ -84,8 +82,8 @@ const selector = 'eo-landing-page-footer';
       </section>
       <section>
         <h5 class="${selector}__h5">Contact</h5>
-        <a href="tel:+4588446633" class="${selector}__a watt-text-s" aria-label="phone">+45 88 44  66 33</a><br>
-        <a href="mailto:datahub@energinet.dk" class="${selector}__a watt-text-s" aria-label="mail">datahub@energinet.dk</a>
+        <a href="tel:+4588446633" class="${selector}__link watt-text-s" aria-label="phone">+45 88 44  66 33</a><br>
+        <a href="mailto:datahub@energinet.dk" class="${selector}__link watt-text-s" aria-label="mail">datahub@energinet.dk</a>
       </section>
   `,
 })
@@ -93,7 +91,6 @@ export class EoLandingPageFooterComponent {}
 
 @NgModule({
   declarations: [EoLandingPageFooterComponent],
-  exports: [EoLandingPageFooterComponent],
-  imports: [],
+  exports: [EoLandingPageFooterComponent]
 })
 export class EoLandingPageFooterScam {}

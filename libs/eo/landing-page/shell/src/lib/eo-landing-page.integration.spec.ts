@@ -28,7 +28,7 @@ describe('EnergyOrigin landing page', () => {
     screen.findByRole('img', { name: 'EnergyOrigin' });
 
   const findEnergiNetLogo = () =>
-    screen.findByRole('img', { name: 'EnergiNet' });
+    screen.findByRole('img', { name: 'Energinet' });
 
   const findFooterTelLink = () =>
     screen.findByRole('link', { name: 'phone'});
