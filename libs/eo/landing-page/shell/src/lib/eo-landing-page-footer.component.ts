@@ -80,8 +80,8 @@ const selector = 'eo-landing-page-footer';
       </section>
       <section>
         <h5 class="${selector}__h5">Contact</h5>
-        <a href="tel:+4588446633" class="${selector}__a watt-text-s">+45 88 44  66 33</a><br>
-        <a href="mailto:datahub@energinet.dk" class="${selector}__a watt-text-s">datahub@energinet.dk</a>
+        <a href="tel:+4588446633" class="${selector}__a watt-text-s" aria-label="phone">+45 88 44  66 33</a><br>
+        <a href="mailto:datahub@energinet.dk" class="${selector}__a watt-text-s" aria-label="mail">datahub@energinet.dk</a>
       </section>
   `,
 })
