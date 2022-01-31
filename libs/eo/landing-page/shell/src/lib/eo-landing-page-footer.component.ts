@@ -67,7 +67,7 @@ const selector = 'eo-landing-page-footer';
       <section>
         <p class="${selector}__p--stack-xs watt-text-s">Powered by</p>
         <img src="assets/energinet-logo.svg" alt="EnergiNet" class="${selector}__img watt-space-stack-l" />
-        <a href="#" class="${selector}__a watt-text-s">Privacy Policy</a>
+        <!--<a href="#" class="${selector}__a watt-text-s">Privacy Policy</a>-->
       </section>
       <section>
         <h5 class="${selector}__h5">Address</h5>

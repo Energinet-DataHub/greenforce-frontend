@@ -27,6 +27,15 @@ describe('EnergyOrigin landing page', () => {
   const findEnergyOriginLogo = () =>
     screen.findByRole('img', { name: 'EnergyOrigin' });
 
+  const findEnergiNetLogo = () =>
+    screen.findByRole('img', { name: 'EnergiNet' });
+
+  const findFooterTelLink = () =>
+    screen.findByRole('a', { name: 'tel' });
+
+  const findFooterMailLink = () =>
+    screen.findByRole('a', { name: 'mail' });
+
   it('displays the EnergyOrigin logo', async () => {
     const { navigate } = await render(SpectacularAppComponent, {
       imports: [
@@ -40,5 +49,50 @@ describe('EnergyOrigin landing page', () => {
     await navigate('/');
 
     expect(await findEnergyOriginLogo()).toBeInTheDocument();
+  });
+
+  it('displays the EnergiNet logo', async () => {
+    const { navigate } = await render(SpectacularAppComponent, {
+      imports: [
+        SpectacularFeatureTestingModule.withFeature({
+          featureModule: EoLandingPageShellModule,
+          featurePath: '',
+        }),
+        HttpClientTestingModule,
+      ],
+    });
+    await navigate('/');
+
+    expect(await findEnergiNetLogo()).toBeInTheDocument();
+  });
+
+  it('displays a telephone link', async () => {
+    const { navigate } = await render(SpectacularAppComponent, {
+      imports: [
+        SpectacularFeatureTestingModule.withFeature({
+          featureModule: EoLandingPageShellModule,
+          featurePath: '',
+        }),
+        HttpClientTestingModule,
+      ],
+    });
+    await navigate('/');
+
+    expect(await findFooterTelLink()).toHaveAttribute('href');
+  });
+
+  it('displays an e-mail link', async () => {
+    const { navigate } = await render(SpectacularAppComponent, {
+      imports: [
+        SpectacularFeatureTestingModule.withFeature({
+          featureModule: EoLandingPageShellModule,
+          featurePath: '',
+        }),
+        HttpClientTestingModule,
+      ],
+    });
+    await navigate('/');
+
+    expect(await findFooterMailLink()).toHaveAttribute('href');
   });
 });
