@@ -50,6 +50,6 @@ describe('Authentication', () => {
     cy.wait('@authLogout');
 
     // Assert
-    cy.url().should('eq', landingPage.url());
+    cy.location('pathname').should('eq', landingPage.path);
   });
 });

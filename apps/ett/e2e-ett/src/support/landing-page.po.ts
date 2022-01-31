@@ -14,8 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import * as browser from './browser';
-
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -38,8 +36,4 @@ export const findProductLogo = () =>
   cy.findByRole('img', { name: 'EnergyOrigin' });
 export const findStartLink = () => cy.findByRole('link', { name: /Start/i });
 export const navigateTo = () => cy.visit(relativeUrl);
-export const url = () => {
-  const absoluteUrl = browser.absoluteUrl(relativeUrl);
-
-  return absoluteUrl + (absoluteUrl === browser.absoluteUrl('/') ? '/' : '');
-};
+export const path = '/';
