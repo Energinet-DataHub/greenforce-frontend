@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- import {
+import {
   ChangeDetectionStrategy,
   Component,
   NgModule,
@@ -29,64 +29,75 @@ const selector = 'eo-landing-page-footer';
   selector,
   styles: [
     `
-    @use '@energinet-datahub/watt/utils' as watt;
-    ${selector} {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      width: 100%;
-      box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
-      background: var(--watt-color-neutral-white);
-      padding: var(--watt-space-l) var(--watt-space-m); // No mixing exists for "space-inset-stretch-l", see: C:lib/foundations/spacing/_spacing.import.scss
+      @use '@energinet-datahub/watt/utils' as watt;
+      ${selector} {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        width: 100%;
+        box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+        background: var(--watt-color-neutral-white);
+        padding: var(--watt-space-l) var(--watt-space-m); // No mixing exists for "space-inset-stretch-l", see: C:lib/foundations/spacing/_spacing.import.scss
 
-      .${selector}__a {
-        text-decoration: underline; // This overrides WATT styles (which removes the underline on a tags)
-        color: var(--watt-color-primary); // This overrides the '--watt-color-primary-dark' color which is added by a class on the element
-      }
+        .${selector}__a {
+          text-decoration: underline; // This overrides WATT styles (which removes the underline on a tags)
+          color: var(
+            --watt-color-primary
+          ); // This overrides the '--watt-color-primary-dark' color which is added by a class on the element
+        }
 
-      .${selector}__p--black {
-        color: var(--watt-color-neutral-black); // This overrides the default '--watt-color-primary-dark' color
-      }
+        .${selector}__p--black {
+          color: var(
+            --watt-color-neutral-black
+          ); // This overrides the default '--watt-color-primary-dark' color
+        }
 
-      .${selector}__p--stack-xs {
-        @include watt.space-stack-xs; // This adds the spacing between the text and the Energinet logo
-      }
+        .${selector}__p--stack-xs {
+          @include watt.space-stack-xs; // This adds the spacing between the text and the Energinet logo
+        }
 
-      .${selector}__h5 {
-        @include watt.typography-watt-headline-5; // This overrides the styles applied from Angular Material on h5 tags
-      }
+        .${selector}__h5 {
+          @include watt.typography-watt-headline-5; // This overrides the styles applied from Angular Material on h5 tags
+        }
 
-      .${selector}__img {
-        display: block;
-        width: calc(90 * var(--watt-space-xs));
-        height: calc(12 * var(--watt-space-xs));
+        .${selector}__img {
+          display: block;
+          width: calc(90 * var(--watt-space-xs));
+          height: calc(12 * var(--watt-space-xs));
+        }
       }
-    }
     `,
   ],
   template: `
-      <section>
-        <p class="${selector}__p--stack-xs watt-text-s">Powered by</p>
-        <img src="assets/energinet-logo.svg" alt="EnergiNet" class="${selector}__img watt-space-stack-l" />
-        <!--<a href="#" class="${selector}__a watt-text-s">Privacy Policy</a>-->
-      </section>
-      <section>
-        <h5 class="${selector}__h5">Address</h5>
-        <p class="${selector}__p--black watt-text-s">
-          Tonne Kjærsvej 65<br>
-          7000 Fredericia<br>
-          Danmark<br>
-          CVR: 28980671
-        </p>
-      </section>
-      <section>
-        <h5 class="${selector}__h5">Contact</h5>
-        <a href="tel:+4588446633" class="${selector}__a watt-text-s">+45 88 44  66 33</a><br>
-        <a href="mailto:datahub@energinet.dk" class="${selector}__a watt-text-s">datahub@energinet.dk</a>
-      </section>
+    <section>
+      <p class="${selector}__p--stack-xs watt-text-s">Powered by</p>
+      <img
+        src="assets/energinet-logo.svg"
+        alt="EnergiNet"
+        class="${selector}__img watt-space-stack-l"
+      />
+      <!--<a href="#" class="${selector}__a watt-text-s">Privacy Policy</a>-->
+    </section>
+    <section>
+      <h5 class="${selector}__h5">Address</h5>
+      <p class="${selector}__p--black watt-text-s">
+        Tonne Kjærsvej 65<br />
+        7000 Fredericia<br />
+        Danmark<br />
+        CVR: 28980671
+      </p>
+    </section>
+    <section>
+      <h5 class="${selector}__h5">Contact</h5>
+      <a href="tel:+4588446633" class="${selector}__a watt-text-s"
+        >+45 88 44 66 33</a
+      ><br />
+      <a href="mailto:datahub@energinet.dk" class="${selector}__a watt-text-s"
+        >datahub@energinet.dk</a
+      >
+    </section>
   `,
 })
-export class EoLandingPageFooterComponent {
-}
+export class EoLandingPageFooterComponent {}
 
 @NgModule({
   declarations: [EoLandingPageFooterComponent],
