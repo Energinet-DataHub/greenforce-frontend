@@ -38,8 +38,8 @@ const selector = 'eo-landing-page-shell';
     `,
   ],
   template: `
-  <eo-landing-page-header></eo-landing-page-header>
-  <eo-landing-page-footer></eo-landing-page-footer>
+    <eo-landing-page-header></eo-landing-page-header>
+    <eo-landing-page-footer></eo-landing-page-footer>
   `,
 })
 export class EoLandingPageShellComponent {}
