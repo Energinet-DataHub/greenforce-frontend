@@ -12,8 +12,6 @@ async function startApiDh() {
     protocol: 'https',
     usedPortAction: 'error',
   });
-
-  console.log('HEYO dasd-.asd.-sadælasdæadæasldaæsldsaæld')
 }
 
 startApiDh().then(
@@ -25,5 +23,5 @@ startApiDh().then(
     error => {
       console.error(error);
 
-      process.exit(0)
+      process.exit(0);
     });
