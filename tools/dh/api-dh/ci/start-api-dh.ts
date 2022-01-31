@@ -8,10 +8,12 @@ async function startApiDh() {
     debug: true,
     launchTimeout: 60000,
     port: apiDhPort,
-    path: 'health',
+    //path: 'health',
     protocol: 'https',
     usedPortAction: 'error',
   });
+
+  console.log('HEYO dasd-.asd.-sadælasdæadæasldaæsldsaæld')
 }
 
 startApiDh().then(
