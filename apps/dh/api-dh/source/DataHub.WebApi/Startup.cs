@@ -87,13 +87,12 @@ namespace Energinet.DataHub.WebApi
                 config.AddSecurityRequirement(securityRequirement);
             });
 
-            var tenantId = Configuration.GetValue<string>("B2C_TENANT_ID") ?? throw new InvalidOperationException(
-                "B2C tenant id not found.");
-
-            var audience = Configuration.GetValue<string>("FRONTEND_SERVICE_APP_ID") ?? throw new InvalidOperationException(
-                "Backend service app id not found.");
-
-            services.AddJwtTokenSecurity($"https://devdatahubb2c.b2clogin.com/devDataHubB2C.onmicrosoft.com/B2C_1_u001_signin/v2.0/.well-known/openid-configuration", audience);
+            // var tenantId = Configuration.GetValue<string>("B2C_TENANT_ID") ?? throw new InvalidOperationException(
+            //     "B2C tenant id not found.");
+            //
+            // var audience = Configuration.GetValue<string>("FRONTEND_SERVICE_APP_ID") ?? throw new InvalidOperationException(
+            //     "Backend service app id not found.");
+            services.AddJwtTokenSecurity($"https://devdatahubb2c.b2clogin.com/devDataHubB2C.onmicrosoft.com/B2C_1_u001_signin/v2.0/.well-known/openid-configuration", "d91c10bb-1441-4ae5-9bf9-e6845567d018");
 
             if (Environment.IsDevelopment())
             {
