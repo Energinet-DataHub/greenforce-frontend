@@ -20,6 +20,7 @@ using Energinet.DataHub.Charges.Clients.Registration.ChargeLinks.ServiceCollecti
 using Energinet.DataHub.Core.App.WebApp.Middleware;
 using Energinet.DataHub.MeteringPoints.Client.Extensions;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -129,6 +130,7 @@ namespace Energinet.DataHub.WebApi
 
             app.UseCors();
 
+            app.UseMiddleware<HealthCheckMiddleware>();
             app.UseMiddleware<JwtTokenMiddleware>();
 
             app.UseAuthorization();
@@ -136,7 +138,6 @@ namespace Energinet.DataHub.WebApi
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                endpoints.MapHealthChecks("/health");
             });
         }
 
