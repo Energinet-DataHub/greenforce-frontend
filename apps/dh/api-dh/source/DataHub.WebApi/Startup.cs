@@ -137,7 +137,6 @@ namespace Energinet.DataHub.WebApi
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                endpoints.MapHealthChecks("/health");
             });
         }
 
