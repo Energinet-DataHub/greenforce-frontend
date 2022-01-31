@@ -17,8 +17,10 @@ using System.IO;
 using System.Reflection;
 using System.Text.Json.Serialization;
 using Energinet.DataHub.Charges.Clients.Registration.ChargeLinks.ServiceCollectionExtensions;
+using Energinet.DataHub.Core.App.WebApp.Middleware;
 using Energinet.DataHub.MeteringPoints.Client.Extensions;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -68,7 +70,30 @@ namespace Energinet.DataHub.WebApi
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 config.IncludeXmlComments(xmlPath);
+
+                var securitySchema = new OpenApiSecurityScheme
+                {
+                    Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+                    Name = "Authorization",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.Http,
+                    Scheme = "bearer",
+                    Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "Bearer", },
+                };
+
+                config.AddSecurityDefinition("Bearer", securitySchema);
+
+                var securityRequirement = new OpenApiSecurityRequirement { { securitySchema, new[] { "Bearer" } }, };
+
+                config.AddSecurityRequirement(securityRequirement);
             });
+
+            // var tenantId = Configuration.GetValue<string>("B2C_TENANT_ID") ?? throw new InvalidOperationException(
+            //     "B2C tenant id not found.");
+            //
+            // var audience = Configuration.GetValue<string>("FRONTEND_SERVICE_APP_ID") ?? throw new InvalidOperationException(
+            //     "Backend service app id not found.");
+            services.AddJwtTokenSecurity($"https://devdatahubb2c.b2clogin.com/devDataHubB2C.onmicrosoft.com/B2C_1_u001_signin/v2.0/.well-known/openid-configuration", "d91c10bb-1441-4ae5-9bf9-e6845567d018");
 
             if (Environment.IsDevelopment())
             {
@@ -105,12 +130,14 @@ namespace Energinet.DataHub.WebApi
 
             app.UseCors();
 
+            app.UseMiddleware<HealthCheckMiddleware>();
+            app.UseMiddleware<JwtTokenMiddleware>();
+
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                endpoints.MapHealthChecks("/health");
             });
         }
 
