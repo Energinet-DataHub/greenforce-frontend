@@ -23,5 +23,5 @@ startApiDh().then(
     error => {
       console.error(error);
 
-      process.exit(0);
+      process.exit(1)
     });
