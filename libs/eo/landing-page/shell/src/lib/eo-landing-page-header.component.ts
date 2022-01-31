@@ -20,9 +20,9 @@ import {
   NgModule,
   ViewEncapsulation,
 } from '@angular/core';
-import { MatButtonModule, MatButtonModule } from '@angular/material/button';
-import { MatToolbarModule, MatToolbarModule } from '@angular/material/toolbar';
-import { RouterModule, RouterModule } from '@angular/router';
+import { MatButtonModule } from '@angular/material/button';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { RouterModule } from '@angular/router';
 import { EoProductLogoScam } from '@energinet-datahub/eo/shared/ui-shell';
 import { LetModule } from '@rx-angular/template';
 import { Observable } from 'rxjs';
