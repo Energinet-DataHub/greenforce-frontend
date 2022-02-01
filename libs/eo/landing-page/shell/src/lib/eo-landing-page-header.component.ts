@@ -93,7 +93,6 @@ const selector = 'eo-landing-page-header';
         >Start</a
       >
     </mat-toolbar>
-    test
   `,
 })
 export class EoLandingPageHeaderComponent {
