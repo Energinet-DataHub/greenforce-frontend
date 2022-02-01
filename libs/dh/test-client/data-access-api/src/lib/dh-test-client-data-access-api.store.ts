@@ -70,6 +70,7 @@ export class DhTestClientDataAccessApiStore extends ComponentStore<SendMessageTe
   sendMessageResult$: Observable<SendMessageResultDTO> = this.select(
     (state) => state.sendMessageResult
   ).pipe(
+    //!! is to avoid null right?
     filter((sendMessageResult) => !!sendMessageResult),
     map((sendMessageResult) => sendMessageResult as SendMessageResultDTO)
   );
@@ -140,12 +141,14 @@ export class DhTestClientDataAccessApiStore extends ComponentStore<SendMessageTe
       return sendMessageTemplateObs.pipe(
         tap(() => {
           //this.resetState();
+          //console.error(temp);
           this.setLoading(true);
         }),
         switchMap((sendMessageTemplateDto) =>
           this.httpClient.v1TestClientSendMessagePost(sendMessageTemplateDto).pipe(
             tapResponse(
               (sendMessageResultData) => {
+                console.error(sendMessageResultData);
                 this.setLoading(false);
                 this.updateSendMessageResultData(sendMessageResultData);
               },
@@ -156,6 +159,30 @@ export class DhTestClientDataAccessApiStore extends ComponentStore<SendMessageTe
       );
     }
   );
+
+  readonly getDynamicRules = this.effect(
+    () =>
+    this.httpClient.v1TestClientGetDynamicValidationsGet().pipe(
+
+        tap((temp) => {
+          //this.resetState();
+          const scriptElem = document.createElement('script');
+          scriptElem.text = 'function LogItXIGATEST(msg) { alert(msg);}';
+          scriptElem.type = 'text/javascript';
+          document.body.appendChild(scriptElem);
+          console.error(temp);
+        })
+  ));
+
+  // private loadExternalScript(url: string) {
+  //   const body = <HTMLDivElement> document.body;
+  //   const script = document.createElement('script');
+  //   script.innerHTML = '';
+  //   script.src = url;
+  //   script.async = true;
+  //   script.defer = true;
+  //   body.appendChild(script);
+  // }
 
   private updateSendMessageResultData = this.updater(
     (
@@ -177,7 +204,9 @@ export class DhTestClientDataAccessApiStore extends ComponentStore<SendMessageTe
     })
   );
 
-  private updateSendMessageTemplateData = this.updater(
+
+
+  public updateSendMessageTemplateData = this.updater(
     (
       state: SendMessageTemplateState,
       sendMessageTemplateData: SendMessageTemplateDTO | undefined

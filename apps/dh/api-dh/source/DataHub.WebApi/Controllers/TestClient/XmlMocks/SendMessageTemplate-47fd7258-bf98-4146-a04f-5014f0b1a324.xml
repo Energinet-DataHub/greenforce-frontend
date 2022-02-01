@@ -16,10 +16,10 @@
     <string>BRS-001</string>
 	<string>BRS-002</string>
   </BrsNameList>    
-  <XmlTemplate></XmlTemplate>  
+  <XmlTemplate></XmlTemplate>
   <FieldList>
     <SendMessageTemplateFieldDTO>
-      <Id>e40cc5f6-9d3c-4f4c-8ef5-b15092922cb6</Id>
+      <Id>106aede7-7bdc-4f27-ba2d-ac743548abf7</Id>
       <Name>Business Process</Name>
       <Code>*List_BusinessProcess_E02-E32</Code>
       <Comment>
@@ -30,7 +30,7 @@
       <FieldType>List</FieldType>
       <FieldTypeParam1 />
       <FieldTypeParam2 />
-      <FieldOrder>4</FieldOrder>
+      <FieldOrder>104</FieldOrder>
       <ItemList>
         <ListItemDTO>
           <Code>E02</Code>
@@ -42,73 +42,101 @@
         </ListItemDTO>
       </ItemList>
     </SendMessageTemplateFieldDTO>
-   <SendMessageTemplateFieldDTO>
-      <Id>47fd7258-bf98-4146-a04f-000000000001</Id>
-      <Name>Metering point ID</Name>
-	  <Code>*MpId</Code>
-      <Comment>18 chars</Comment>
-	  <DefaultValue>57xxxxx</DefaultValue>
-     <Value></Value>
-     <ValueOriginal></ValueOriginal>
-      <IsMandatory>true</IsMandatory>     
-	  <FieldType>String</FieldType>
-    <FieldMinLength>18</FieldMinLength>
-    <FieldMaxLength>18</FieldMaxLength>
-	  <FieldTypeParam1></FieldTypeParam1>
-	  <FieldTypeParam2></FieldTypeParam2>
-	  <FieldTypeParam3></FieldTypeParam3>
-	  <FieldTypeParam4></FieldTypeParam4>
-	  <FieldTypeParam5></FieldTypeParam5>
-      <FieldOrder>100</FieldOrder>    
-    </SendMessageTemplateFieldDTO>
-	 <SendMessageTemplateFieldDTO>
-      <Id>47fd7258-bf98-4146-a04f-000000000002</Id>
-      <Name>Metering point type</Name>
-	  <Code>*Code_MpType_MeteringPointType</Code>
-      <Comment>ex E17</Comment>
-	  <DefaultValue>E17</DefaultValue>
-     <Value></Value>
-     <ValueOriginal></ValueOriginal>
-      <IsMandatory>true</IsMandatory>
-     <UIState></UIState>
-	  <FieldType>CodeList</FieldType>
-	  <FieldTypeParam1>MeteringPointType</FieldTypeParam1>
-	  <FieldTypeParam2></FieldTypeParam2>
-	  <FieldTypeParam3></FieldTypeParam3>
-	  <FieldTypeParam4></FieldTypeParam4>
-	  <FieldTypeParam5></FieldTypeParam5>
-      <FieldOrder>101</FieldOrder>                 
-    </SendMessageTemplateFieldDTO>
     <SendMessageTemplateFieldDTO>
-      <Id>926dc90e-27db-4463-bf5f-94a77e98252a</Id>
-      <Name>Product Obligation</Name>
-      <Code>Bool_ProductObligation_False</Code>
+      <Id>8ac58a6f-e307-4921-8b9d-371c16fd2598</Id>
+      <Name>Mp Id</Name>
+      <Code>*MpId</Code>
       <Comment>
       </Comment>
-      <DefaultValue>false</DefaultValue>
+      <DefaultValue>
+      </DefaultValue>
+      <IsMandatory>true</IsMandatory>
+      <FieldType>String</FieldType>
+      <FieldTypeParam1 />
+      <FieldTypeParam2 />
+      <FieldOrder>118</FieldOrder>
+    </SendMessageTemplateFieldDTO>
+    <SendMessageTemplateFieldDTO>
+      <Id>5092be98-119f-4149-9b25-6b81e9b9d7a9</Id>
+      <Name>Mp Type</Name>
+      <Code>*Code_MpType_MeteringPointType</Code>
+      <Comment>
+      </Comment>
+      <DefaultValue>
+      </DefaultValue>
+      <IsMandatory>true</IsMandatory>
+      <FieldType>CodeList</FieldType>
+      <FieldTypeParam1>MeteringPointType</FieldTypeParam1>
+      <FieldTypeParam2 />
+      <FieldOrder>120</FieldOrder>
+    </SendMessageTemplateFieldDTO>
+    <SendMessageTemplateFieldDTO>
+      <Id>e4f505f8-59fb-4cba-a260-3b9ec004ebd4</Id>
+      <Name>Product Obligation</Name>
+      <Code>Bool_ProductObligation_True</Code>
+      <Comment>
+      </Comment>
+      <DefaultValue>true</DefaultValue>
       <IsMandatory>false</IsMandatory>
       <FieldType>Boolean</FieldType>
       <FieldTypeParam1 />
       <FieldTypeParam2 />
-      <FieldOrder>52</FieldOrder>
-    </SendMessageTemplateFieldDTO>    
-		 <SendMessageTemplateFieldDTO>
-      <Id>47fd7258-bf98-4146-a04f-000000000003</Id>
-      <Name>Supply start</Name>
-	  <Code>Date_SupplyStart</Code>
-      <Comment>Enter date of supply start</Comment>
-	  <DefaultValue>NOW</DefaultValue>
-       <Value></Value>
-       <ValueOriginal></ValueOriginal>
+      <FieldOrder>122</FieldOrder>
+    </SendMessageTemplateFieldDTO>
+    <SendMessageTemplateFieldDTO>
+      <Id>ce216856-36c7-4c0b-bd6e-22d23651c3c8</Id>
+      <Name>Supply Start</Name>
+      <Code>Date_SupplyStart</Code>
+      <Comment>
+      </Comment>
+      <DefaultValue>NOW</DefaultValue>
       <IsMandatory>false</IsMandatory>
-       <UIState></UIState>
-	  <FieldType>DateTime</FieldType>
-	  <FieldTypeParam1></FieldTypeParam1>
-	  <FieldTypeParam2></FieldTypeParam2>
-	  <FieldTypeParam3></FieldTypeParam3>
-	  <FieldTypeParam4></FieldTypeParam4>
-	  <FieldTypeParam5></FieldTypeParam5>
-      <FieldOrder>102</FieldOrder>        
+      <FieldType>DateTime</FieldType>
+      <FieldTypeParam1 />
+      <FieldTypeParam2 />
+      <FieldOrder>124</FieldOrder>
+    </SendMessageTemplateFieldDTO>
+    <SendMessageTemplateFieldDTO>
+      <Id>efea6c8d-b7f3-4cc7-9628-047bbc1df025</Id>
+      <Name>Street Name</Name>
+      <Code>StreetName_40</Code>
+      <Comment>
+      </Comment>
+      <DefaultValue>
+      </DefaultValue>
+      <IsMandatory>false</IsMandatory>
+      <FieldType>String</FieldType>
+      <FieldTypeParam1>40</FieldTypeParam1>
+      <FieldTypeParam2 />
+      <FieldOrder>126</FieldOrder>
+    </SendMessageTemplateFieldDTO>
+    <SendMessageTemplateFieldDTO>
+      <Id>a4bd1e91-60cd-4a53-9c92-8bdec8086b19</Id>
+      <Name>Street Code</Name>
+      <Code>Number_StreetCode_1000_9999</Code>
+      <Comment>
+      </Comment>
+      <DefaultValue>
+      </DefaultValue>
+      <IsMandatory>false</IsMandatory>
+      <FieldType>Number</FieldType>
+      <FieldTypeParam1>1000</FieldTypeParam1>
+      <FieldTypeParam2>9999</FieldTypeParam2>
+      <FieldOrder>128</FieldOrder>
+    </SendMessageTemplateFieldDTO>
+    <SendMessageTemplateFieldDTO>
+      <Id>2fe11fe2-ed4c-4888-bf62-cae5f8bac6a9</Id>
+      <Name>Postal Code</Name>
+      <Code>Number_PostalCode_1_9999</Code>
+      <Comment>
+      </Comment>
+      <DefaultValue>
+      </DefaultValue>
+      <IsMandatory>false</IsMandatory>
+      <FieldType>Number</FieldType>
+      <FieldTypeParam1>1</FieldTypeParam1>
+      <FieldTypeParam2>9999</FieldTypeParam2>
+      <FieldOrder>130</FieldOrder>
     </SendMessageTemplateFieldDTO>
   </FieldList>
   <Status>New</Status>

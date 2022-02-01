@@ -47,7 +47,26 @@ namespace Energinet.DataHub.WebApi.Controllers
             return result == null ? NotFound() : Ok(result);
         }
 
-            [HttpGet("GetSendMessageTemplateDTO")]
+        [HttpGet("GetDynamicValidations")]
+        public async Task<string> GetDynamicValidations()
+        {
+            TestClientService service = new TestClientService();
+            var result = service.GetMessageTemplateList();
+            //result.TemplateList[0].Description = $"{Directory.GetCurrentDirectory()}|{Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}";
+            //"C:\projects\DH30\greenforce-frontend\apps\dh\api-dh\source\DataHub.WebApi|C:\projects\DH30\greenforce-frontend\apps\dh\api-dh\source\DataHub.WebApi\bin\Debug\net5.0"
+            var ddd = @"
+function validateDynamicFields () {
+  alert('from server');
+  }
+
+";
+            string curDir = Directory.GetCurrentDirectory();
+            string devPath = $@"{curDir}\Controllers\TestClient\XmlMocks\scripttest.txt";
+            return System.IO.File.ReadAllText(devPath);
+            //result == null ? NotFound() : Ok(result);
+        }
+
+        [HttpGet("GetSendMessageTemplateDTO")]
         public async Task<ActionResult<SendMessageTemplateDTO>> GetSendMessageTemplateDTO(string templateId)
         {
             //if (templateId == null)
@@ -66,7 +85,7 @@ namespace Energinet.DataHub.WebApi.Controllers
             //TODO: ordering of fields is done direct in xml right now
             //result.FieldList = result.FieldList
 
-            
+
 
             return result == null ? NotFound() : Ok(result); //xmlMessage == null ? NotFound() : Ok(xmlMessage + "FROM SERVER");
         }
@@ -95,7 +114,7 @@ namespace Energinet.DataHub.WebApi.Controllers
         }
         private void writeTestFile(SendMessageTemplateDTO dto)
         {
-            
+
             System.Xml.Serialization.XmlSerializer writer =
            new System.Xml.Serialization.XmlSerializer(typeof(SendMessageTemplateDTO));
 

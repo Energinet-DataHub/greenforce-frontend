@@ -110,7 +110,7 @@ namespace Energinet.DataHub.WebApi.Controllers.TestClient
         public string ModifiedBy { get; set; } = string.Empty;
     }
 
-    public record CodeListItemDTO
+    public record ListItemDTO
     {
         public string Code { get; set; } = string.Empty;
 
@@ -131,7 +131,7 @@ namespace Energinet.DataHub.WebApi.Controllers.TestClient
 
         public string CodeListDefinition { get; set; } = string.Empty;
 
-        public List<CodeListItemDTO> CodeItemList { get; set; } = new List<CodeListItemDTO>();
+        public List<ListItemDTO> CodeItemList { get; set; } = new List<ListItemDTO>();
     }
 
     public class SendMessageTemplateFieldDTO
@@ -171,6 +171,6 @@ namespace Energinet.DataHub.WebApi.Controllers.TestClient
 
         public int FieldOrder { get; set; } = 0;
 
-        public List<CodeListItemDTO> CodeItemList { get; set; } = new List<CodeListItemDTO>();
+        public List<ListItemDTO> ItemList { get; set; } = new List<ListItemDTO>();
     }
 }

@@ -106,9 +106,9 @@ namespace Energinet.DataHub.WebApi.Controllers.TestClient
                 if (field.FieldType == "DateTime")
                 {
                     DateTime tempDateTime = DateTime.Now;
-                    if (field.DefaultValue == "#NOW#")
+                    if (field.DefaultValue == "NOW")
                     { }
-                    if (field.DefaultValue == "#TODAY#")
+                    if (field.DefaultValue == "TODAY")
                     {
                         tempDateTime = DateTime.Today;
                     }
@@ -123,10 +123,15 @@ namespace Energinet.DataHub.WebApi.Controllers.TestClient
                         field.Value = Guid.Empty.ToString();
                     }
 
-                    if (field.DefaultValue == "#NEWGUID#")
+                    if (field.DefaultValue == "NEWGUID")
                     {
                         field.Value = Guid.NewGuid().ToString();
                     }
+                }
+
+                if (field.FieldType == "List")
+                {
+                    field.ItemList.ForEach(x => x.CodeAndTitle = $"{x.Code} - {x.Title}");
                 }
 
                 if (field.FieldType == "CodeList")
@@ -135,7 +140,7 @@ namespace Energinet.DataHub.WebApi.Controllers.TestClient
                     var codeList = codelists.FirstOrDefault(x => x.CodeListNameAligned == codeListName);
                     if (codeList != null)
                     {
-                        field.CodeItemList = codeList.CodeItemList;
+                        field.ItemList = codeList.CodeItemList;
                     }
                 }
             }
@@ -163,7 +168,7 @@ namespace Energinet.DataHub.WebApi.Controllers.TestClient
             foreach (var filename in fileList.Distinct())
             {
                 var fileInfo = new FileInfo(filename);
-                if (fileInfo.Name.StartsWith("SendMessageTemplate-") && !fileInfo.Name.Contains("XMLTemplate"))
+                if (fileInfo.Name.StartsWith("SendMessageTemplate-") && !fileInfo.Name.Contains("XMLTemplate") && !fileInfo.Name.Contains("GlobalFieldList"))
                 {
                     var fileNameAltered = fileInfo.Name.Replace("SendMessageTemplate-", string.Empty).Replace(".xml", string.Empty);
                     var fileDto = GetMessageTemplateFromXml(fileNameAltered);
@@ -218,7 +223,7 @@ namespace Energinet.DataHub.WebApi.Controllers.TestClient
 
                     foreach (XElement item in enums)
                     {
-                        var itemDto = new CodeListItemDTO();
+                        var itemDto = new ListItemDTO();
                         itemDto.Code = item.FirstAttribute?.Value ?? string.Empty;
                         itemDto.Title = item.Descendants("Title").FirstOrDefault()?.Value ?? string.Empty;
                         itemDto.Definition = item.Descendants("Definition").FirstOrDefault()?.Value ?? string.Empty;

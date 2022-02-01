@@ -30,7 +30,7 @@
       <cim:mPConnectionType>D02</cim:mPConnectionType>
       <cim:disconnectionMethod>D01</cim:disconnectionMethod>
       <cim:asset_MktPSRType.psrType>D12</cim:asset_MktPSRType.psrType>
-      <cim:productionObligation>{{Bool_ProductObligation_False}}</cim:productionObligation>
+      <cim:productionObligation>{{Bool_ProductObligation_True}}</cim:productionObligation>
       <cim:Series>
         <cim:product>8716867000030</cim:product>
         <cim:estimatedAnnualVolume_Quantity.quantity>0</cim:estimatedAnnualVolume_Quantity.quantity>

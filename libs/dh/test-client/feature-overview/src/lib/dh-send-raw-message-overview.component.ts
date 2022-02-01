@@ -53,11 +53,14 @@ import { MatTabChangeEvent } from '@angular/material/tabs';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 
+// let LogItXIGATEST: any;
+
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'dh-send-raw-message-overview',
   styleUrls: ['./dh-send-raw-message-overview.component.scss'],
   templateUrl: './dh-send-raw-message-overview.component.html',
+  //This means the store is accessable from child components. Automatically cleaned up
   providers: [DhTestClientDataAccessApiStore],
 })
 export class DhSendRawMessageOverviewComponent implements OnDestroy {
@@ -81,13 +84,16 @@ export class DhSendRawMessageOverviewComponent implements OnDestroy {
   isLoading$ = this.store.isLoading$;
   sendMessageTemplateNotFound$ = this.store.sendMessageNotFound$;
   hasError$ = this.store.hasError$;
-  childMeteringPointsCount = 0;
+  //childMeteringPointsCount = 0;
 
   constructor(
     private route: ActivatedRoute,
     private store: DhTestClientDataAccessApiStore,
     private formBuilder: FormBuilder
   ) {
+
+    //this.store.getDynamicRules();
+
     this.sendMessageTemplateId$
     .pipe(
       takeUntil(this.destroy$),
@@ -96,7 +102,10 @@ export class DhSendRawMessageOverviewComponent implements OnDestroy {
       )
     )
     .subscribe();
+    //using the pipe google says it is not necessary to use destroy. When do we need it?
     this.store.sendMessageTemplate$ .pipe(
+      //When using async | no need to call this.destroy as it will be done automatically
+      //Not sure I need it - I will leave it
       takeUntil(this.destroy$),
       map((dto) =>
       {
@@ -114,16 +123,16 @@ export class DhSendRawMessageOverviewComponent implements OnDestroy {
     )
     .subscribe();
 
-    this.sendMessageResult$.pipe(
-      takeUntil(this.destroy$),
-      map((sendMessageResult) =>
-      {
-        console.error('xxxx2');
-        console.error(sendMessageResult);
-      }
-      )
-    ).subscribe();
-  }
+  //   this.sendMessageResult$.pipe(
+  //     takeUntil(this.destroy$),
+  //     map((sendMessageResult) =>
+  //     {
+  //       console.error('xxxx2');
+  //       console.error(sendMessageResult);
+  //     }
+  //     )
+  //   ).subscribe();
+ }
 
   // ngOnInit() {
 
@@ -132,6 +141,7 @@ export class DhSendRawMessageOverviewComponent implements OnDestroy {
   //     }
 
   ngOnDestroy(): void {
+    console.warn('destroy called on overview form');
     this.destroy$.next();
     this.destroy$.unsubscribe();
   }
@@ -201,6 +211,7 @@ updateXmlTemplateOnDto()
 }
 
   openXmlInNewWindowBeforeEdit() {
+    // LogItXIGATEST('what.....');
     this.updateXmlTemplateOnDto();
     const xmlTemplate =this.sendMessageTemplateDto.xmlTemplate;
     if(xmlTemplate !== undefined) {

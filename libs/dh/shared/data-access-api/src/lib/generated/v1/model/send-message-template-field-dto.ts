@@ -9,7 +9,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { CodeListItemDTO } from './code-list-item-dto';
+import { ListItemDTO } from './list-item-dto';
 
 
 export interface SendMessageTemplateFieldDTO { 
@@ -32,7 +32,7 @@ export interface SendMessageTemplateFieldDTO {
     fieldTypeParam4: string;
     fieldTypeParam5: string;
     fieldOrder: number;
-    codeItemList: Array<CodeListItemDTO>;
+    itemList: Array<ListItemDTO>;
 }
 
 

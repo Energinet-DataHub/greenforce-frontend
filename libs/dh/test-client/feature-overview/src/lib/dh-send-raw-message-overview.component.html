@@ -129,7 +129,7 @@ limitations under the License.
     <mat-label class="watt-text-m">{{fieldItem.name}}</mat-label>
     <mat-select [formControlName]="i">
       <!-- <mat-option>None</mat-option> -->
-      <mat-option *ngFor="let codeItem of fieldItem.codeItemList" [value]="codeItem.code">{{codeItem.codeAndTitle}}</mat-option>
+      <mat-option *ngFor="let codeItem of fieldItem.itemList" [value]="codeItem.code">{{codeItem.codeAndTitle}}</mat-option>
     </mat-select>
     <mat-hint>{{fieldItem.comment}}</mat-hint>
   </mat-form-field>
@@ -244,6 +244,7 @@ limitations under the License.
         <!-- {{sendMessageTemplateDto.xmlTemplate}} -->
     </mat-tab>
     <mat-tab  label="Result">
+      <ng-container *ngIf="!isLoading">
       <ng-container *rxLet="sendMessageResult$ as sendMessageRes">
         <h3>{{sendMessageRes.status}}</h3>
         <p>({{sendMessageRes.xmlSentDate}})</p>
@@ -256,6 +257,7 @@ limitations under the License.
 
 
 
+      </ng-container>
       </ng-container>
     </mat-tab>
   </mat-tab-group>

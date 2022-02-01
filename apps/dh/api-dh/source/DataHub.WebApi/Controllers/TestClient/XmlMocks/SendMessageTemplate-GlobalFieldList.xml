@@ -22,7 +22,7 @@
       <Name>Global Message Id</Name>
 	  <Code>GlobalMessageId</Code>
       <Comment></Comment>
-	  <DefaultValue>#NEWGUID#</DefaultValue>
+	  <DefaultValue>NEWGUID</DefaultValue>
      <Value></Value>
      <ValueOriginal></ValueOriginal>
       <IsMandatory>true</IsMandatory>
@@ -40,7 +40,7 @@
       <Name>Global Transaction Id</Name>
       <Code>GlobalTransactionId</Code>
       <Comment></Comment>
-      <DefaultValue>#NEWGUID#</DefaultValue>
+      <DefaultValue>NEWGUID</DefaultValue>
       <Value></Value>
       <ValueOriginal></ValueOriginal>
       <IsMandatory>true</IsMandatory>
@@ -58,7 +58,7 @@
       <Name>Global Created</Name>
       <Code>GlobalCreated</Code>
       <Comment></Comment>
-      <DefaultValue>#NOW#</DefaultValue>
+      <DefaultValue>NOW</DefaultValue>
       <Value></Value>
       <ValueOriginal></ValueOriginal>
       <IsMandatory>true</IsMandatory>

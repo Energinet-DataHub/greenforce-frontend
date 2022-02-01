@@ -57,6 +57,22 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
         }
 
         [Fact]
+        public void GetSendMessageTemplateMandatoryAndListAndBoolTest()
+        {
+            var service = new TestClientService();
+            var templ = service.GetMessageTemplate("47fd7258-bf98-4146-a04f-5014f0b1a324");
+            Assert.Equal(templ.XmlTemplate.Count(f => f == '*'), templ.FieldList.Where(x => x.Code.StartsWith("*")).Count());
+            Assert.Single(templ.FieldList.Where(x => x.FieldType == "Boolean"));
+            var listItem = templ.FieldList.Where(x => x.FieldType == "List");
+            Assert.Single(listItem);
+            Assert.Equal("E02 - E02|E32 - E32", string.Join('|', listItem.Select(x => string.Join('|', x.ItemList.Select(y => y.CodeAndTitle)))));
+            Assert.Equal("true", templ.FieldList.First(x => x.Code == "Bool_ProductObligation_True").Value);
+            Assert.Equal("1000", templ.FieldList.First(x => x.Code == "Number_StreetCode_1000_9999").FieldTypeParam1);
+            Assert.Equal("9999", templ.FieldList.First(x => x.Code == "Number_StreetCode_1000_9999").FieldTypeParam2);
+            Assert.Equal("40", templ.FieldList.First(x => x.Code == "StreetName_40").FieldTypeParam1);
+        }
+
+        [Fact]
         public void GetSendMessageTemplateGlobalFieldsTest()
         {
             var service = new TestClientService();
