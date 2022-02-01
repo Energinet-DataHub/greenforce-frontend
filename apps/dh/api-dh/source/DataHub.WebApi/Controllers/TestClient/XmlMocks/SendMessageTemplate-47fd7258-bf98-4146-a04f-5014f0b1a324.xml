@@ -7,7 +7,7 @@
   <Standard>CIM</Standard>
   <Format>XML</Format>
   <Domain>MeteringPoint</Domain>
-  <EndpointPostfix>Meterin</EndpointPostfix>
+  <EndpointPostfix>/MeteringPoint</EndpointPostfix>
   <RsmName>RSM-021</RsmName>
   <MarketDocumentType></MarketDocumentType>
   <MarketProcessType></MarketProcessType>
@@ -17,17 +17,43 @@
 	<string>BRS-002</string>
   </BrsNameList>    
   <XmlTemplate></XmlTemplate>  
-  <FieldList>     
+  <FieldList>
+    <SendMessageTemplateFieldDTO>
+      <Id>e40cc5f6-9d3c-4f4c-8ef5-b15092922cb6</Id>
+      <Name>Business Process</Name>
+      <Code>*List_BusinessProcess_E02-E32</Code>
+      <Comment>
+      </Comment>
+      <DefaultValue>
+      </DefaultValue>
+      <IsMandatory>true</IsMandatory>
+      <FieldType>List</FieldType>
+      <FieldTypeParam1 />
+      <FieldTypeParam2 />
+      <FieldOrder>4</FieldOrder>
+      <ItemList>
+        <ListItemDTO>
+          <Code>E02</Code>
+          <Title>E02</Title>
+        </ListItemDTO>
+        <ListItemDTO>
+          <Code>E32</Code>
+          <Title>E32</Title>
+        </ListItemDTO>
+      </ItemList>
+    </SendMessageTemplateFieldDTO>
    <SendMessageTemplateFieldDTO>
       <Id>47fd7258-bf98-4146-a04f-000000000001</Id>
       <Name>Metering point ID</Name>
-	  <Code>MpId</Code>
+	  <Code>*MpId</Code>
       <Comment>18 chars</Comment>
 	  <DefaultValue>57xxxxx</DefaultValue>
      <Value></Value>
      <ValueOriginal></ValueOriginal>
       <IsMandatory>true</IsMandatory>     
 	  <FieldType>String</FieldType>
+    <FieldMinLength>18</FieldMinLength>
+    <FieldMaxLength>18</FieldMaxLength>
 	  <FieldTypeParam1></FieldTypeParam1>
 	  <FieldTypeParam2></FieldTypeParam2>
 	  <FieldTypeParam3></FieldTypeParam3>
@@ -38,7 +64,7 @@
 	 <SendMessageTemplateFieldDTO>
       <Id>47fd7258-bf98-4146-a04f-000000000002</Id>
       <Name>Metering point type</Name>
-	  <Code>Code_MpType_MeteringPointType</Code>
+	  <Code>*Code_MpType_MeteringPointType</Code>
       <Comment>ex E17</Comment>
 	  <DefaultValue>E17</DefaultValue>
      <Value></Value>
@@ -53,6 +79,19 @@
 	  <FieldTypeParam5></FieldTypeParam5>
       <FieldOrder>101</FieldOrder>                 
     </SendMessageTemplateFieldDTO>
+    <SendMessageTemplateFieldDTO>
+      <Id>926dc90e-27db-4463-bf5f-94a77e98252a</Id>
+      <Name>Product Obligation</Name>
+      <Code>Bool_ProductObligation_False</Code>
+      <Comment>
+      </Comment>
+      <DefaultValue>false</DefaultValue>
+      <IsMandatory>false</IsMandatory>
+      <FieldType>Boolean</FieldType>
+      <FieldTypeParam1 />
+      <FieldTypeParam2 />
+      <FieldOrder>52</FieldOrder>
+    </SendMessageTemplateFieldDTO>    
 		 <SendMessageTemplateFieldDTO>
       <Id>47fd7258-bf98-4146-a04f-000000000003</Id>
       <Name>Supply start</Name>

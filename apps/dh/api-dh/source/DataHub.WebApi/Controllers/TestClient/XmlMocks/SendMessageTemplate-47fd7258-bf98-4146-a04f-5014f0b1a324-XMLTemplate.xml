@@ -3,8 +3,7 @@
 <cim:AccountingPointcharacteristics_MarketDocument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cim="urn:ebix.org:structure:accountingpointcharacteristics:0:1" xsi:schemaLocation="urn:ebix.org:structure:accountingpointcharacteristics:0:1 urn-ediel-org-structure-accountingpointcharacteristics-0-1.xsd">
   <cim:mRID>{{GlobalMessageId}}</cim:mRID>
   <cim:type>E58</cim:type>
-  <cim:process.processType>E02</cim:process.processType>
-  <cim:businessSector.type>{{BusinessSectorType}}</cim:businessSector.type>
+  <cim:process.processType>{{*List_BusinessProcess_E02-E32}}</cim:process.processType>  
   <cim:sender_MarketParticipant.mRID codingScheme="NFI">{{GlobalSenderGln}}</cim:sender_MarketParticipant.mRID>
   <cim:sender_MarketParticipant.marketRole.type>{{GlobalSenderRole}}</cim:sender_MarketParticipant.marketRole.type>
   <cim:receiver_MarketParticipant.mRID codingScheme="NLT">{{GlobalReceiverGln}}</cim:receiver_MarketParticipant.mRID>
@@ -16,9 +15,9 @@
     <cim:originalTransactionIDReference_MktActivityRecord.mRID>String</cim:originalTransactionIDReference_MktActivityRecord.mRID>
     <cim:validityStart_DateAndOrTime.dateTime>2021-09-25T22:00:00Z</cim:validityStart_DateAndOrTime.dateTime>    
     <cim:MarketEvaluationPoint>
-      <cim:mRID codingScheme="NBA">{{MpId}}</cim:mRID>
+      <cim:mRID codingScheme="NBA">{{*MpId}}</cim:mRID>
       <cim:meteringPointResponsible_MarketParticipant.mRID codingScheme="NDE">a</cim:meteringPointResponsible_MarketParticipant.mRID>
-      <cim:type>{{Code_MpType_MeteringPointType}}</cim:type>
+      <cim:type>{{*Code_MpType_MeteringPointType}}</cim:type>
       <cim:settlementMethod>E02</cim:settlementMethod>
       <cim:meteringMethod>D02</cim:meteringMethod>
       <cim:connectionState>D03</cim:connectionState>
@@ -31,7 +30,7 @@
       <cim:mPConnectionType>D02</cim:mPConnectionType>
       <cim:disconnectionMethod>D01</cim:disconnectionMethod>
       <cim:asset_MktPSRType.psrType>D12</cim:asset_MktPSRType.psrType>
-      <cim:productionObligation>true</cim:productionObligation>
+      <cim:productionObligation>{{Bool_ProductObligation_False}}</cim:productionObligation>
       <cim:Series>
         <cim:product>8716867000030</cim:product>
         <cim:estimatedAnnualVolume_Quantity.quantity>0</cim:estimatedAnnualVolume_Quantity.quantity>
@@ -46,9 +45,9 @@
       <cim:usagePointLocation.mainAddress>
         <cim:streetDetail>
           <cim:number>123</cim:number>
-          <cim:name>Test Street</cim:name>
+          <cim:name>{{StreetName_40}}</cim:name>
           <cim:type>String</cim:type>
-          <cim:code>1234</cim:code>
+          <cim:code>{{Number_StreetCode_1000_9999}}</cim:code>
           <cim:buildingName>20</cim:buildingName>
           <cim:suiteNumber>21</cim:suiteNumber>
           <cim:floorIdentification>22</cim:floorIdentification>
@@ -66,7 +65,7 @@
           <cim:remark>String</cim:remark>
           <cim:reason>String</cim:reason>
         </cim:status>
-        <cim:postalCode>8000</cim:postalCode>
+        <cim:postalCode>{{Number_PostalCode_1_9999}}</cim:postalCode>
         <cim:poBox>5000</cim:poBox>
         <cim:language>Danish</cim:language>
       </cim:usagePointLocation.mainAddress>
