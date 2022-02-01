@@ -41,9 +41,14 @@ const selector = 'eo-landing-page-footer';
         padding: var(--watt-space-l) var(--watt-space-m); // No mixing exists for "space-inset-stretch-l", see: C:lib/foundations/spacing/_spacing.import.scss
 
         .${selector}__link {
+          display: block;
           color: var(
             --watt-color-primary
           ); // This overrides the '--watt-color-primary-dark' color which is added by a class on the element
+        }
+
+        .${selector}__link--stack-m {
+          @include watt.space-stack-s;
         }
 
         .${selector}__p--black {
@@ -90,10 +95,10 @@ const selector = 'eo-landing-page-footer';
       <h5 class="${selector}__h5">Contact</h5>
       <a
         href="tel:+4588446633"
-        class="${selector}__link watt-text-s"
+        class="${selector}__link ${selector}__link--stack-m watt-text-s"
         aria-label="phone"
         >+45 88 44 66 33</a
-      ><br />
+      >
       <a
         href="mailto:datahub@energinet.dk"
         class="${selector}__link watt-text-s"
