@@ -34,6 +34,14 @@ const routes: Routes = [
       ),
   },
   {
+    path: 'privacy-policy',
+    pathMatch: 'full',
+    loadChildren: () =>
+      import('@energinet-datahub/eo/privacy-page/shell').then(
+        (esModule) => esModule.EoPrivacyPageShellModule
+      ),
+  },
+  {
     path: '',
     component: EttShellComponent,
     canActivateChild: [EttAuthenticationGuard],
