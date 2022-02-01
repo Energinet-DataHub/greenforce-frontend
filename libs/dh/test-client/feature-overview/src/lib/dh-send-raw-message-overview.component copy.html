@@ -77,95 +77,71 @@ limitations under the License.
     />
   </watt-form-field> -->
 
-  <!-- <mat-table [dataSource]="sendMessageTemplateDto.fieldList" formArrayName="arrayList">
 
-    <ng-container [matColumnDef]="column" *ngFor="let column of displayedColumns">
-      <mat-header-cell *matHeaderCellDef> {{column}} </mat-header-cell>
-      <mat-cell *matCellDef="let emp"> {{emp[column]}} </mat-cell>
-  </ng-container>
 
-    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <div formArrayName="arrayList">
 
-    <mat-row *matRowDef="let temprow; columns: displayedColumns;" >{{temprow.Id}}</mat-row>
+      <div *ngFor="let fieldItem of sendMessageTemplateDto.fieldList; let i=index">
 
-  </mat-table> -->
+          <ng-container  [ngSwitch]="fieldItem.fieldType">
+            <div *ngSwitchCase="'String'" >
+              <!-- <h2>{{fieldItem.fieldType}}</h2> -->
+  <!-- <span>{{fieldItem.name}}</span>
+  <input
+  type="text"
+  [formControlName]="i"
+  />
+  <span>{{fieldItem.comment}}</span> -->
+          <watt-form-field size="normal">
+            <watt-label class="watt-text-m">{{fieldItem.name}}</watt-label>
 
-  <table mat-table [dataSource]="sendMessageTemplateDto.fieldList" formArrayName="arrayList">
-    <!-- Row definitions -->
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; let i = index; columns: displayedColumns;"></tr>
+            <input
+              wattInput
+              type="text"
+              [formControlName]="i"
+            />
 
-    <!-- Column definitions -->
-    <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef> Name </th>
-      <td mat-cell *matCellDef="let row; let index = index">
-        {{ row.name }}
-      </td>
-    </ng-container>
 
-    <!-- Column definitions -->
-    <ng-container matColumnDef="isMandatory">
-      <th mat-header-cell *matHeaderCellDef>*</th>
-      <td mat-cell *matCellDef="let row; let index = index">
-        <!-- {{ row.isMandatory }} -->
+            <watt-hint>{{fieldItem.comment}}</watt-hint>
+          </watt-form-field>
+        </div>
 
-        <mat-icon *ngIf="row.isMandatory" color="primary">label_important</mat-icon>
-        <!-- <mat-icon color="accent">label_important</mat-icon>
-        <mat-icon color="warn">label_important</mat-icon> -->
-      </td>
-    </ng-container>
+        <div *ngSwitchCase="'DateTime'" >
 
-        <!-- Column definitions -->
-        <ng-container matColumnDef="value">
-          <th mat-header-cell *matHeaderCellDef> Value </th>
-          <td mat-cell *matCellDef="let row; let i = index">
-            <ng-container  [ngSwitch]="row.fieldType">
-              <div *ngSwitchCase="'Number'" >
-                <input type="text" [formControlName]="i" style="width: 300px"/>
-                <span *ngIf="row.fieldTypeParam1 !== row.fieldTypeParam2" style="color:orange">({{ row.fieldTypeParam1 }}-{{ row.fieldTypeParam2}})</span>
-                <span *ngIf="row.fieldTypeParam1 === row.fieldTypeParam2" style="color:orange">({{ row.fieldTypeParam1 }})</span>
-              </div>
-              <div *ngSwitchCase="'String'" >
-                <input type="text" [formControlName]="i" style="width: 300px"/>
-                <span style="color:orange">(Max: {{ row.fieldTypeParam1 }})</span>
-              </div>
-              <div *ngSwitchCase="'DateTime'" >
-                <input type="text" [formControlName]="i"  style="width: 300px"/>
-              </div>
-              <div *ngSwitchCase="'CodeList'" >
-                <select [formControlName]="i"  style="width: 300px">
-                  <option *ngFor="let codeItem of row.itemList" [value]="codeItem.code">{{codeItem.codeAndTitle}}</option>
-                </select>
-              </div>
-              <div *ngSwitchCase="'List'" >
-                <select [formControlName]="i"  style="width: 300px">
-                  <option *ngFor="let codeItem of row.itemList" [value]="codeItem.code">{{codeItem.codeAndTitle}}</option>
-                </select>
-              </div>
-              <div *ngSwitchCase="'Boolean'" >
-                <input type="checkbox"  [formControlName]="i"/>
-              </div>
-              <div *ngSwitchCase="'Guid'" >
-                <input type="text" [formControlName]="i" style="width: 300px"/>
-                <span style="color:orange">(Guid)</span>
-              </div>
-            </ng-container>
-          </td>
+      <watt-form-field size="normal">
+        <watt-label class="watt-text-m">{{fieldItem.name}}</watt-label>
+
+        <input
+          wattInput
+          type="text"
+          [formControlName]="i"
+        />
+
+
+        <watt-hint>{{fieldItem.comment}}</watt-hint>
+      </watt-form-field>
+    </div>
+
+    <div *ngSwitchCase="'CodeList'" >
+
+
+  <mat-form-field size="large" style="width: 400px;">
+    <mat-label class="watt-text-m">{{fieldItem.name}}</mat-label>
+    <mat-select [formControlName]="i">
+      <!-- <mat-option>None</mat-option> -->
+      <mat-option *ngFor="let codeItem of fieldItem.itemList" [value]="codeItem.code">{{codeItem.codeAndTitle}}</mat-option>
+    </mat-select>
+    <mat-hint>{{fieldItem.comment}}</mat-hint>
+  </mat-form-field>
+  <br/><br/>
+  <br/><br/>
+  </div>
+
         </ng-container>
 
-          <!-- Column definitions -->
-    <ng-container matColumnDef="comment">
-      <th mat-header-cell *matHeaderCellDef> comment </th>
-      <td mat-cell *matCellDef="let row; let index = index">
-       <span style="color:grey"> {{ row.comment }}</span>
+    </div>
 
-      </td>
-    </ng-container>
-
-  </table>
-
-
-
+      </div>
     </mat-tab >
     <!-- <mat-tab label="Enter values (list format)" >
 

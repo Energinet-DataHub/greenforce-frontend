@@ -52,6 +52,8 @@ import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule } from '@angular
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
+import { MatTable, MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatIconModule } from '@angular/material/icon';
 
 // let LogItXIGATEST: any;
 
@@ -74,6 +76,9 @@ export class DhSendRawMessageOverviewComponent implements OnDestroy {
   );
   //Investigate further
   sendMessageTemplate$ = this.store.sendMessageTemplate$;
+  // sendMessageTemplateFieldArray$ = sendMessageTemplate$.pipe(
+  //   map((params) => params.ssen as string)
+  // )
   sendMessageResult$ = this.store.sendMessageResult$;
   //.pipe(
     // tap((meteringPoint) => {
@@ -85,6 +90,8 @@ export class DhSendRawMessageOverviewComponent implements OnDestroy {
   sendMessageTemplateNotFound$ = this.store.sendMessageNotFound$;
   hasError$ = this.store.hasError$;
   //childMeteringPointsCount = 0;
+
+  displayedColumns: string[] = ['name', 'isMandatory', 'value', 'comment'];
 
   constructor(
     private route: ActivatedRoute,
@@ -104,6 +111,26 @@ export class DhSendRawMessageOverviewComponent implements OnDestroy {
     .subscribe();
     //using the pipe google says it is not necessary to use destroy. When do we need it?
     this.store.sendMessageTemplate$ .pipe(
+      //When using async | no need to call this.destroy as it will be done automatically
+      //Not sure I need it - I will leave it
+      takeUntil(this.destroy$),
+      map((dto) =>
+      {
+      this.sendMessageTemplateDto = dto //this.store.getSendMessageTemplate(sendMessageTemplateId)
+       // create a form array for the groups
+    const formControlArray = this.sendMessageTemplateDto.fieldList.map(x => this.formBuilder.control(x.value));
+    const formArray = this.formBuilder.array(formControlArray);
+
+      this.sendMessageTemplateForm = this.formBuilder.group({
+        xmlTemplate: this.sendMessageTemplateDto.xmlTemplate,
+        arrayList: formArray
+      });
+      }
+      )
+    )
+    .subscribe();
+
+    this.store.sendMessageTemplate$.pipe(
       //When using async | no need to call this.destroy as it will be done automatically
       //Not sure I need it - I will leave it
       takeUntil(this.destroy$),
@@ -251,6 +278,8 @@ updateXmlTemplateOnDto()
     MatSelectModule,
     MatInputModule,
     MatTabsModule,
+    MatTableModule,
+    MatIconModule,
     //DhBreadcrumbScam,
     // DhMeteringPointIdentityScam,
     // DhMeteringPointNotFoundScam,
