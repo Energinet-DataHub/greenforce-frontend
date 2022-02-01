@@ -73,7 +73,7 @@ describe(DhMeteringPointOverviewComponent.name, () => {
   let featureRouter: SpectacularFeatureRouter;
   let featureLocation: SpectacularFeatureLocation;
 
-  it('displays a link to the Metering point URL', async () => {
+  xit('displays a link to the Metering point URL', async () => {
     await featureRouter.navigateByUrl(`~/${meteringPointId}`);
 
     await view.fixture.whenStable();
@@ -89,7 +89,7 @@ describe(DhMeteringPointOverviewComponent.name, () => {
   });
 
   describe('When a metering point exists', () => {
-    it('Then the metering point id is displayed in a heading', async () => {
+    xit('Then the metering point id is displayed in a heading', async () => {
       await featureRouter.navigateByUrl(`~/${meteringPointId}`);
 
       await view.fixture.whenStable();

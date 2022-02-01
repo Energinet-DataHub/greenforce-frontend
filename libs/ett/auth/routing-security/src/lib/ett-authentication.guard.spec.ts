@@ -22,7 +22,7 @@ import { AuthOidcQueryParameterName } from '@energinet-datahub/ett/auth/data-acc
 import { SpectacularAppComponent } from '@ngworker/spectacular';
 import { render, RenderResult } from '@testing-library/angular';
 
-import { ettAuthRoutePath } from './ett-auth-route-path';
+import { eoLandingPageRelativeUrl } from '@energinet-datahub/eo/landing-page/routing';
 import { EttAuthenticationGuard } from './ett-authentication.guard';
 
 describe(EttAuthenticationGuard.name, () => {
@@ -41,6 +41,11 @@ describe(EttAuthenticationGuard.name, () => {
       declarations: [TestGuardedComponent, TestLoginComponent],
       routes: [
         {
+          path: '',
+          pathMatch: 'full',
+          component: TestLoginComponent,
+        },
+        {
           canActivateChild: [EttAuthenticationGuard],
           path: '',
           children: [
@@ -54,10 +59,6 @@ describe(EttAuthenticationGuard.name, () => {
               ],
             },
           ],
-        },
-        {
-          path: ettAuthRoutePath,
-          component: TestLoginComponent,
         },
       ],
     });
@@ -82,7 +83,7 @@ describe(EttAuthenticationGuard.name, () => {
         [AuthOidcQueryParameterName.Success]: '0',
       });
       const expectedLoginUrl = router.serializeUrl(
-        router.createUrlTree([ettAuthRoutePath], {
+        router.createUrlTree([eoLandingPageRelativeUrl], {
           queryParams: {
             [AuthOidcQueryParameterName.Error]:
               authenticationError.error.replace(/ /g, '+'),

@@ -26,7 +26,7 @@ import {
 import { ClassProvider, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { catchError, from, Observable, switchMapTo, throwError } from 'rxjs';
-import { ettAuthRoutePath } from '@energinet-datahub/ett/auth/routing-security';
+import { eoLandingPageRelativeUrl } from '@energinet-datahub/eo/landing-page/routing';
 
 /**
  * Redirects to the login page when the user is not authenticated or their
@@ -62,7 +62,7 @@ export class EttAuthenticationInterceptor implements HttpInterceptor {
   }
 
   #navigateToLoginPage(): Observable<boolean> {
-    return from(this.router.navigate([ettAuthRoutePath]));
+    return from(this.router.navigateByUrl(eoLandingPageRelativeUrl));
   }
 }
 

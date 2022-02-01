@@ -1,0 +1,26 @@
+{
+  "projectType": "library",
+  "root": "libs/eo/landing-page/routing",
+  "sourceRoot": "libs/eo/landing-page/routing/src",
+  "prefix": "eo",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/eo/landing-page/routing"],
+      "options": {
+        "jestConfig": "libs/eo/landing-page/routing/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/eo/landing-page/routing/src/**/*.ts",
+          "libs/eo/landing-page/routing/src/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": ["product:eo", "domain:landing-page", "type:routing"]
+}

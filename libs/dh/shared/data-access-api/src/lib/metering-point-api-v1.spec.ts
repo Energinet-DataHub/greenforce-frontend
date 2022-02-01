@@ -72,7 +72,7 @@ const _testMeteringPointGsrnsU002 = [
   '579319933184852188',
 ];
 
-describe('Metering Point API v1', () => {
+xdescribe('Metering Point API v1', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientModule, DhApiModule.forRoot()],

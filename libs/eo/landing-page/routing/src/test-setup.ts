@@ -14,4 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export const getTitle = () => cy.get('h1');
+import 'jest-preset-angular/setup-jest';
+import { setUpTestbed } from '@energinet-datahub/gf/test-util-staging';
+
+setUpTestbed();
