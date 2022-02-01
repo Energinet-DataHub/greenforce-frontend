@@ -44,25 +44,43 @@ const selector = 'watt-checkbox';
   providers: [customValueAccessor],
 })
 export class WattCheckboxComponent implements ControlValueAccessor {
+  /**
+   * @ignore
+   */
   internalControl = new FormControl(false);
 
+  /**
+   * @ignore
+   */
   writeValue(value: boolean) {
     this.internalControl.setValue(value);
   }
 
+  /**
+   * @ignore
+   */
   onValueChange(event: MatCheckboxChange) {
     this.onTouched();
     this.onChange(event.checked);
   }
 
+  /**
+   * @ignore
+   */
   registerOnChange(onChangeFn: (isChecked: boolean) => void) {
     this.onChange = onChangeFn;
   }
 
+  /**
+   * @ignore
+   */
   registerOnTouched(onTouchFn: () => void) {
     this.onTouched = onTouchFn;
   }
 
+  /**
+   * @ignore
+   */
   setDisabledState(disabled: boolean) {
     if (disabled) {
       this.internalControl.disable({ emitEvent: false });
@@ -71,11 +89,17 @@ export class WattCheckboxComponent implements ControlValueAccessor {
     }
   }
 
+  /**
+   * @ignore
+   */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   onChange = (isChecked: boolean) => {
     // Intentionally left empty
   };
 
+  /**
+   * @ignore
+   */
   onTouched = () => {
     // Intentionally left empty
   };
