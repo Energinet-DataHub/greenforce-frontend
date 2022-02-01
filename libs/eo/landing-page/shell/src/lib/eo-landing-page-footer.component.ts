@@ -32,8 +32,10 @@ const selector = 'eo-landing-page-footer';
       @use '@energinet-datahub/watt/utils' as watt;
       ${selector} {
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: 428px 320px 1fr;
         width: 100%;
+        position: absolute;
+        bottom: 0;
         box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
         background: var(--watt-color-neutral-white);
         padding: var(--watt-space-l) var(--watt-space-m); // No mixing exists for "space-inset-stretch-l", see: C:lib/foundations/spacing/_spacing.import.scss
