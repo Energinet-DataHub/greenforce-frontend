@@ -43,6 +43,7 @@ describe('Authentication', () => {
     authApi.allowLogOut();
     landingPage.navigateTo();
     landingPage.findStartLink().click();
+    // Wait for animation to finish
     appShell.findMenu().should('be.visible');
 
     // Act
