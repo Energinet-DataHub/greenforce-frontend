@@ -27,6 +27,10 @@ export type WattValidationMessageType =
   | 'success'
   | 'danger';
 
+/**
+ * Usage:
+ * `import { WattValidationMessageModule } from '@energinet-datahub/watt';`
+ */
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'watt-validation-message',
