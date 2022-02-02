@@ -33,7 +33,6 @@ describe(EoProductLogoDirective.name, () => {
   let hostElement: HTMLImageElement;
 
   it('has an accessible name', () => {
-    screen.debug(hostElement);
     expect(hostElement).toHaveAccessibleName('EnergyOrigin');
   });
 
