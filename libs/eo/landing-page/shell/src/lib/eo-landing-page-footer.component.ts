@@ -63,6 +63,8 @@ const selector = 'eo-landing-page-footer';
 
         .${selector}__img {
           display: block;
+          width: 360px;
+          height: 48px;
         }
       }
     `,
