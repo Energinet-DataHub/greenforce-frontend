@@ -43,17 +43,6 @@ const selector = 'ett-primary-navigation';
       ${selector} {
         display: block;
 
-        .active-indicator /* [1] */ {
-          --size: var(--watt-space-xs);
-          display: none;
-
-          width: var(--size);
-          height: 100%;
-          margin-right: calc(var(--watt-space-m) - var(--size));
-
-          background-color: var(--watt-color-focus);
-        }
-
         a.is-active {
           --indicator-size: var(--watt-space-xs);
 
