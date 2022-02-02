@@ -34,7 +34,7 @@ export class EoPrimaryNavigationStore extends ComponentStore<EoPrimaryNavigation
   onLogOut = this.effect<void>((origin$) =>
     origin$.pipe(
       exhaustMap(() =>
-        this.authHttp.getLogout().pipe(
+        this.authHttp.postLogout().pipe(
           mergeMap((response) =>
             response.success === true
               ? of(undefined)
