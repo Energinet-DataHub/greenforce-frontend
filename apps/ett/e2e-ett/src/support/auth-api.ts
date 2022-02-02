@@ -33,7 +33,7 @@ export const allowLogOut = () =>
     .intercept(
       {
         hostname: 'localhost',
-        method: 'GET',
+        method: 'POST',
         pathname: '/api/auth/logout',
       },
       {
