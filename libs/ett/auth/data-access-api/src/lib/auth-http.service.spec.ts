@@ -15,13 +15,20 @@
  * limitations under the License.
  */
 import { HttpClient } from '@angular/common/http';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import {
+  HttpClientTestingModule,
+  HttpTestingController,
+} from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
 import { MockProvider } from 'ng-mocks';
 import { lastValueFrom } from 'rxjs';
 
-import { AuthHttp, AuthLogoutResponse, AuthOidcLoginResponse } from './auth-http.service';
+import {
+  AuthHttp,
+  AuthLogoutResponse,
+  AuthOidcLoginResponse,
+} from './auth-http.service';
 import { AuthOidcQueryParameterName } from './auth-oidc-query-parameter-name';
 
 /**
