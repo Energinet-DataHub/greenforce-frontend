@@ -14,26 +14,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import {
   SpectacularAppComponent,
   SpectacularFeatureTestingModule,
 } from '@ngworker/spectacular';
-import { render, screen } from '@testing-library/angular';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { render } from '@testing-library/angular';
 
 import { EoAuthFeatureTermsModule } from './eo-auth-feature-terms.module';
 
-describe('EnergyOrigin privacy page', () => {
+describe('EnergyOrigin terms', () => {
   it('*** Enter a good description of the first test here ***', async () => {
     const { navigate } = await render(SpectacularAppComponent, {
       imports: [
         SpectacularFeatureTestingModule.withFeature({
           featureModule: EoAuthFeatureTermsModule,
-          featurePath: '', // @todo: Should this also be the "/privacy-page" url
+          featurePath: '', // @todo: Should this also be the "/terms" url
         }),
         HttpClientTestingModule,
       ],
     });
-    await navigate('/privacy-policy');
+    await navigate('/terms');
   });
 });

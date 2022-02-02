@@ -4,7 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import {
   EoAuthFeatureTermsComponent,
   EoAuthFeatureTermsScam,
-} from './eo-privacy-page-shell.component';
+} from './eo-auth-feature-terms.component';
 
 const routes: Routes = [
   {
