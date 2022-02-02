@@ -45,10 +45,13 @@ describe(EoPrimaryNavigationStore.name, () => {
 
     it(`When log out is triggered
       Then the user is redirected to the landing page`, () => {
+      // Arrange
       const router = TestBed.inject(Router);
 
+      // Act
       store.onLogOut();
 
+      // Assert
       expect(router.navigateByUrl).toHaveBeenCalledWith(
         eoLandingPageRelativeUrl
       );

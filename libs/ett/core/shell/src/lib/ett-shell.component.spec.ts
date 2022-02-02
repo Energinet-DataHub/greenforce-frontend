@@ -37,10 +37,10 @@ describe(EttShellComponent.name, () => {
   let fixture: ComponentFixture<EttShellComponent>;
 
   it('displays the Watt shell', () => {
+    // Assert
     const wattShell = fixture.debugElement.query(
       By.directive(WattShellComponent)
     );
-
     expect(wattShell.componentInstance).toBeInstanceOf(WattShellComponent);
   });
 });
