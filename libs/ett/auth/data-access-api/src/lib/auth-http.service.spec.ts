@@ -47,28 +47,30 @@ describe(AuthHttp.name, () => {
   let client: AuthHttp;
   let server: HttpTestingController;
 
-  it('the redirect URI query parameter is the specified return URL', () => {
-    const fakeResponse: AuthOidcLoginResponse = {
-      next_url: 'https://example.com/authentication',
-    };
-    const expectedAuthAppBaseUrl = 'http://example.com/app';
-    const expectedReturnUrl = `${expectedAuthAppBaseUrl}/welcome`;
+  describe('getOidcLogin', () => {
+    it('the redirect URI query parameter is the specified return URL', () => {
+      const fakeResponse: AuthOidcLoginResponse = {
+        next_url: 'https://example.com/authentication',
+      };
+      const expectedAuthAppBaseUrl = 'http://example.com/app';
+      const expectedReturnUrl = `${expectedAuthAppBaseUrl}/welcome`;
 
-    lastValueFrom(
-      client.getOidcLogin(expectedAuthAppBaseUrl, expectedReturnUrl)
-    );
-    const response = server.expectOne(
-      (request) =>
-        request.url === `${apiEnvironment.apiBase}/auth/oidc/login` &&
-        request.method === 'GET'
-    );
-    response.flush(fakeResponse);
+      lastValueFrom(
+        client.getOidcLogin(expectedAuthAppBaseUrl, expectedReturnUrl)
+      );
+      const response = server.expectOne(
+        (request) =>
+          request.url === `${apiEnvironment.apiBase}/auth/oidc/login` &&
+          request.method === 'GET'
+      );
+      response.flush(fakeResponse);
 
-    expect(response.request.params.get(AuthOidcQueryParameterName.FeUrl)).toBe(
-      expectedAuthAppBaseUrl
-    );
-    expect(
-      response.request.params.get(AuthOidcQueryParameterName.ReturnUrl)
-    ).toBe(expectedReturnUrl);
+      expect(
+        response.request.params.get(AuthOidcQueryParameterName.FeUrl)
+      ).toBe(expectedAuthAppBaseUrl);
+      expect(
+        response.request.params.get(AuthOidcQueryParameterName.ReturnUrl)
+      ).toBe(expectedReturnUrl);
+    });
   });
 });
