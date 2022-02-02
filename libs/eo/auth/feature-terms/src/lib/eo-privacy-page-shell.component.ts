@@ -14,13 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- import {
+import {
   ChangeDetectionStrategy,
   Component,
   NgModule,
   ViewEncapsulation,
 } from '@angular/core';
-
 
 const selector = 'eo-privacy-page-shell';
 
@@ -37,9 +36,9 @@ const selector = 'eo-privacy-page-shell';
   ],
   template: `<h1>Hi from the privacy page</h1>`,
 })
-export class EoPrivacyPageShellComponent {}
+export class EoAuthFeatureTermsComponent {}
 
 @NgModule({
-  declarations: [EoPrivacyPageShellComponent]
+  declarations: [EoAuthFeatureTermsComponent],
 })
-export class EoPrivacyPageShellScam {}
+export class EoAuthFeatureTermsScam {}

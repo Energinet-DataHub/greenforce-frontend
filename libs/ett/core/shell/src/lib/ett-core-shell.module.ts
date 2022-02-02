@@ -34,10 +34,10 @@ const routes: Routes = [
       ),
   },
   {
-    path: 'privacy-policy',
+    path: 'terms',
     loadChildren: () =>
-      import('@energinet-datahub/eo/privacy-page/shell').then(
-        (esModule) => esModule.EoPrivacyPageShellModule
+      import('@energinet-datahub/eo/auth/feature-terms').then(
+        (esModule) => esModule.EoAuthFeatureTermsModule
       ),
   },
   {
