@@ -40,4 +40,40 @@ describe('Authentication', () => {
     // Assert
     dashboardPage.findTitle().should('exist');
   });
+
+  it(`Given a commercial user using NemID
+    When they successfully authenticate for the first time
+      And they accept the user terms
+    Then they are redirected to the dashboard page`, () => {
+    // Arrange
+    cy.intercept(
+      {
+        hostname: 'localhost',
+        method: 'GET',
+        pathname: '/api/auth/oidc/login',
+      },
+      {
+        next_url: '/terms',
+      }
+    );
+    cy.intercept(
+      {
+        hostname: 'localhost',
+        method: 'POST',
+        pathname: '/api/auth/terms_accept_url',
+      },
+      {
+        next_url: '/dashboard?success=1',
+      }
+    );
+    landingPage.navigateTo();
+
+    // Act
+    landingPage.findStartLink().click();
+    termsPage.findAcceptCheckbox().click();
+    termsPage.findAcceptButton().click();
+
+    // Assert
+    dashboardPage.findTitle().should('exist');
+  });
 });
