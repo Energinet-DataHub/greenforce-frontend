@@ -22,19 +22,19 @@
   display: flex;
   @include watt.space-inset-squish-s;
 
-  &.watt-validation-message-info {
+  &.watt-validation-message--info {
     background-color: var(--watt-color-state-info-light);
   }
 
-  &.watt-validation-message-warning {
+  &.watt-validation-message--warning {
     background-color: var(--watt-color-state-warning-light);
   }
 
-  &.watt-validation-message-success {
+  &.watt-validation-message--success {
     background-color: var(--watt-color-state-success-light);
   }
 
-  &.watt-validation-message-danger {
+  &.watt-validation-message--danger {
     background-color: var(--watt-color-state-danger-light);
   }
 }

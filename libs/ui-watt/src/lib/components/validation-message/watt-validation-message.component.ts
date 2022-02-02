@@ -46,6 +46,6 @@ export class WattValidationMessageComponent {
    * @ignore
    */
   @HostBinding('class') get cssClass() {
-    return `watt-validation-message-${this.type}`;
+    return `watt-validation-message--${this.type}`;
   }
 }
