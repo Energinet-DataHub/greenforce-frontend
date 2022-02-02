@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { WattShellComponent } from '@energinet-datahub/watt';
@@ -23,7 +24,11 @@ import { EttShellComponent, EttShellScam } from './ett-shell.component';
 describe(EttShellComponent.name, () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [EttShellScam],
+      imports: [
+        EttShellScam,
+        // Because of primary navigation relying on AuthHttp
+        HttpClientTestingModule,
+      ],
     });
 
     fixture = TestBed.createComponent(EttShellComponent);
