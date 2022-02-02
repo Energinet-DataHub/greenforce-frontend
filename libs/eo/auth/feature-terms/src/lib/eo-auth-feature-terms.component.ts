@@ -21,7 +21,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 
-const selector = 'eo-privacy-page-shell';
+const selector = 'eo-auth-terms';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
