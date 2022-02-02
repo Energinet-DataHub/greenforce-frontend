@@ -37,6 +37,7 @@ const selector = 'ett-primary-navigation';
       /**
        * 1. Add active indicator to the active link.
        * 2. Highlight the active link.
+       * 3. Increase specificity to override Angular Material.
        */
 
       ${selector} {
@@ -54,11 +55,15 @@ const selector = 'ett-primary-navigation';
         }
 
         a.is-active {
+          --indicator-size: var(--watt-space-xs);
+
+          border-left: var(--indicator-size) solid var(--watt-color-focus); // [1]
+
           background-color: var(--watt-color-primary); // [2]
           color: var(--watt-color-primary-contrast); // [2]
 
-          .active-indicator /* [1] */ {
-            display: block;
+          &.is-active /* [1][3] */ {
+            padding-left: calc(var(--watt-space-m) - var(--indicator-size));
           }
 
           > .mat-list-item-content.mat-list-item-content /* [1] */ {
@@ -71,7 +76,6 @@ const selector = 'ett-primary-navigation';
   template: `
     <mat-nav-list>
       <a mat-list-item routerLink="/dashboard" routerLinkActive="is-active">
-        <div class="active-indicator"></div>
         Dashboard
       </a>
 
