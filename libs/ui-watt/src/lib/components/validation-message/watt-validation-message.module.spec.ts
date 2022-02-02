@@ -16,9 +16,11 @@
  */
 
 import { render } from '@testing-library/angular';
-import { WattValidationMessageType } from '.';
 
-import { WattValidationMessageComponent } from './watt-validation-message.component';
+import {
+  WattValidationMessageComponent,
+  WattValidationMessageType,
+} from './watt-validation-message.component';
 import { WattValidationMessageModule } from './watt-validation-message.module';
 
 describe(WattValidationMessageComponent.name, () => {
