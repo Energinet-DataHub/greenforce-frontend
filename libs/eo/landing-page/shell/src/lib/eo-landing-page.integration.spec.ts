@@ -27,12 +27,12 @@ describe('EnergyOrigin landing page', () => {
   const findEnergyOriginLogo = () =>
     screen.findByRole('img', { name: 'EnergyOrigin' });
 
-  const findEnergiNetLogo = () =>
+  const findEnerginetLogo = () =>
     screen.findByRole('img', { name: 'Energinet' });
 
-  const findFooterTelLink = () => screen.findByRole('link', { name: 'Phone' });
+  const findPhoneLink = () => screen.findByRole('link', { name: /phone/i });
 
-  const findFooterMailLink = () => screen.findByRole('link', { name: 'Email' });
+  const findEmailLink = () => screen.findByRole('link', { name: /email/i });
 
   beforeEach(async () => {
     const { navigate } = await render(SpectacularAppComponent, {
@@ -51,15 +51,15 @@ describe('EnergyOrigin landing page', () => {
     expect(await findEnergyOriginLogo()).toBeInTheDocument();
   });
 
-  it('displays the EnergiNet logo', async () => {
-    expect(await findEnergiNetLogo()).toBeInTheDocument();
+  it('displays the Energinet logo', async () => {
+    expect(await findEnerginetLogo()).toBeInTheDocument();
   });
 
   it('displays a telephone link', async () => {
-    expect(await findFooterTelLink()).toHaveAttribute('href');
+    expect(await findPhoneLink()).toHaveAttribute('href');
   });
 
   it('displays an e-mail link', async () => {
-    expect(await findFooterMailLink()).toHaveAttribute('href');
+    expect(await findEmailLink()).toHaveAttribute('href');
   });
 });
