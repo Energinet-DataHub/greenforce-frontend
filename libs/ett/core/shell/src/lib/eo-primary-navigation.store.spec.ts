@@ -32,7 +32,7 @@ describe(EoPrimaryNavigationStore.name, () => {
         providers: [
           EoPrimaryNavigationStore,
           MockProvider(AuthHttp, {
-            getLogout: () => of({ success: true }),
+            postLogout: () => of({ success: true }),
           }),
           MockProvider(Router),
         ],

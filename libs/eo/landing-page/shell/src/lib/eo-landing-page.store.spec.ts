@@ -14,15 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { EoLandingPageStore } from './eo-landing-page.store';
-import { TestBed } from '@angular/core/testing';
-import { MockProvider } from 'ng-mocks';
 import { APP_BASE_HREF } from '@angular/common';
+import { TestBed } from '@angular/core/testing';
 import {
   AuthHttp,
   AuthOidcQueryParameterName,
 } from '@energinet-datahub/ett/auth/data-access-api';
-import { of, firstValueFrom } from 'rxjs';
+import { MockProvider } from 'ng-mocks';
+import { firstValueFrom, of } from 'rxjs';
+
+import { EoLandingPageStore } from './eo-landing-page.store';
 
 describe(EoLandingPageStore.name, () => {
   describe('Given the Auth API is available', () => {
@@ -31,7 +32,7 @@ describe(EoLandingPageStore.name, () => {
         providers: [
           EoLandingPageStore,
           MockProvider(AuthHttp, {
-            getLogin: (_feUrl, returnUrl) =>
+            getOidcLogin: (_feUrl, returnUrl) =>
               of({
                 next_url: `${authenticationUrl}?${AuthOidcQueryParameterName.ReturnUrl}=${returnUrl}`,
               }),
