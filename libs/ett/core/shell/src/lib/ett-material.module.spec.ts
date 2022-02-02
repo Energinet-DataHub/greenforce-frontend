@@ -17,7 +17,10 @@
 import { TestBed } from '@angular/core/testing';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-import { EttMaterialModule, EttMaterialRootModule } from './ett-material.module';
+import {
+  EttMaterialModule,
+  EttMaterialRootModule,
+} from './ett-material.module';
 
 describe(EttMaterialModule.name, () => {
   it(`provides ${MatSnackBar.name}`, () => {
