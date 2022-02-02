@@ -44,7 +44,7 @@ const selector = 'eo-landing-page-footer';
           display: block;
           color: var(
             --watt-color-primary
-          ); // This overrides the '--watt-color-primary-dark' color which is added by a class on the element
+          ); // This overrides the '--watt-color-primary-dark' color which is currently added by the watt-text-s class
         }
 
         .${selector}__p--black {
@@ -63,22 +63,20 @@ const selector = 'eo-landing-page-footer';
 
         .${selector}__img {
           display: block;
-          width: calc(90 * var(--watt-space-xs));
-          height: calc(12 * var(--watt-space-xs));
         }
       }
     `,
   ],
   template: `
-    <section>
+    <div>
       <p class="${selector}__p--stack-xs watt-text-s">Powered by</p>
       <img
         src="/assets/energinet-logo.svg"
         alt="Energinet"
         class="${selector}__img watt-space-stack-l"
       />
-    </section>
-    <section>
+    </div>
+    <div>
       <h5 class="${selector}__h5">Address</h5>
       <p class="${selector}__p--black watt-text-s">
         Tonne Kjærsvej 65<br />
@@ -86,8 +84,8 @@ const selector = 'eo-landing-page-footer';
         Danmark<br />
         CVR: 28980671
       </p>
-    </section>
-    <section>
+    </div>
+    <div>
       <h5 class="${selector}__h5">Contact</h5>
       <a
         href="tel:+4588446633"
@@ -101,7 +99,7 @@ const selector = 'eo-landing-page-footer';
         aria-label="Email"
         >datahub@energinet.dk</a
       >
-    </section>
+    </div>
   `,
 })
 export class EoLandingPageFooterComponent {}

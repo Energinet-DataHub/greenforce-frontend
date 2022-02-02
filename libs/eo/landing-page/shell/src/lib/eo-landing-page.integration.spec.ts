@@ -56,10 +56,10 @@ describe('EnergyOrigin landing page', () => {
   });
 
   it('displays a telephone link', async () => {
-    expect(await findPhoneLink()).toHaveAttribute('href');
+    expect((await findPhoneLink()).getAttribute('href')).toMatch(/^tel:/);
   });
 
   it('displays an e-mail link', async () => {
-    expect(await findEmailLink()).toHaveAttribute('href');
+    expect((await findEmailLink()).getAttribute('href')).toMatch(/^mailto:/);
   });
 });
