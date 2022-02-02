@@ -43,6 +43,7 @@ describe(EoLandingPageStore.name, () => {
       store = TestBed.inject(EoLandingPageStore);
       actualUrl = new URL(await firstValueFrom(store.authenticationUrl$));
     });
+
     const authenticationUrl = 'https://example.com/test-authentication';
     let actualUrl: URL;
     let store: EoLandingPageStore;
