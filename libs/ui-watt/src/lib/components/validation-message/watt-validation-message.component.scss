@@ -1,0 +1,43 @@
+@use '@energinet-datahub/watt/utils' as watt;
+
+:host {
+  border-radius: 4px;
+  display: block;
+  @include watt.space-inset-squish-xs;
+
+  &.watt-validation-message-info {
+    background-color: var(--watt-color-state-info-light);
+
+    & .watt-label,
+    & .watt-text-xs {
+      color: var(--watt-color-state-info);
+    }
+  }
+
+  &.watt-validation-message-warning {
+    background-color: var(--watt-color-state-warning-light);
+
+    & .watt-label,
+    & .watt-text-xs {
+      color: var(--watt-color-state-warning);
+    }
+  }
+
+  &.watt-validation-message-success {
+    background-color: var(--watt-color-state-success-light);
+
+    & .watt-label,
+    & .watt-text-xs {
+      color: var(--watt-color-state-success);
+    }
+  }
+
+  &.watt-validation-message-danger {
+    background-color: var(--watt-color-state-danger-light);
+
+    & .watt-label,
+    & .watt-text-xs {
+      color: var(--watt-color-state-danger);
+    }
+  }
+}
