@@ -4,7 +4,7 @@ import { WattValidationMessageComponent } from './watt-validation-message.compon
 import { WattValidationMessageModule } from './watt-validation-message.module';
 
 export default {
-  title: 'Components/Validation message',
+  title: 'Components/Validation Message',
   component: WattValidationMessageComponent,
   decorators: [
     moduleMetadata({
@@ -24,17 +24,19 @@ import { ${WattValidationMessageModule.name} } from '@energinet-datahub/watt';
 
 <watt-validation-message label="Label" message="Message" type="danger"></watt-validation-message>`;
 
-export const overview: Story<WattValidationMessageComponent> = (args) => ({
+export const validationMessage: Story<WattValidationMessageComponent> = (
+  args
+) => ({
   props: args,
 });
-overview.parameters = {
+validationMessage.parameters = {
   docs: {
     source: {
       code: howToUseGuideBasic,
     },
   },
 };
-overview.args = {
+validationMessage.args = {
   label: 'Info:',
   message: 'The metering point is not active',
   type: 'info',
