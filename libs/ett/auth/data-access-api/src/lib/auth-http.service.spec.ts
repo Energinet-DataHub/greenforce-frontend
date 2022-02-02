@@ -54,7 +54,9 @@ describe(AuthHttp.name, () => {
     const expectedAuthAppBaseUrl = 'http://example.com/app';
     const expectedReturnUrl = `${expectedAuthAppBaseUrl}/welcome`;
 
-    lastValueFrom(client.getLogin(expectedAuthAppBaseUrl, expectedReturnUrl));
+    lastValueFrom(
+      client.getOidcLogin(expectedAuthAppBaseUrl, expectedReturnUrl)
+    );
     const response = server.expectOne(
       (request) =>
         request.url === `${apiEnvironment.apiBase}/auth/oidc/login` &&

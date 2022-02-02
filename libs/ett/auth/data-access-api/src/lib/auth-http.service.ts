@@ -21,7 +21,6 @@ import {
   eoApiEnvironmentToken,
 } from '@energinet-datahub/eo/shared/environments';
 import { Observable } from 'rxjs';
-
 import { AuthOidcQueryParameterName } from './auth-oidc-query-parameter-name';
 
 export interface AuthLogoutResponse {
@@ -53,7 +52,7 @@ export class AuthHttp {
    * @param feUrl Base URL for authentication web app.
    * @param returnUrl Absolute URL to return to after authentication.
    */
-  getLogin(
+  getOidcLogin(
     feUrl: string,
     returnUrl: string
   ): Observable<AuthOidcLoginResponse> {
