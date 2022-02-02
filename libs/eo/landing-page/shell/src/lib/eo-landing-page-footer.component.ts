@@ -47,10 +47,6 @@ const selector = 'eo-landing-page-footer';
           ); // This overrides the '--watt-color-primary-dark' color which is added by a class on the element
         }
 
-        .${selector}__link--stack-m {
-          @include watt.space-stack-s;
-        }
-
         .${selector}__p--black {
           color: var(
             --watt-color-neutral-black
@@ -58,7 +54,7 @@ const selector = 'eo-landing-page-footer';
         }
 
         .${selector}__p--stack-xs {
-          @include watt.space-stack-xs; // This adds the spacing between the text and the Energinet logo
+          @include watt.space-stack-xs; // This adds the spacing between the text and the Energinet logo - Overrides Angular Material style for margin
         }
 
         .${selector}__h5 {
@@ -95,14 +91,14 @@ const selector = 'eo-landing-page-footer';
       <h5 class="${selector}__h5">Contact</h5>
       <a
         href="tel:+4588446633"
-        class="${selector}__link ${selector}__link--stack-m watt-text-s"
-        aria-label="phone"
+        class="${selector}__link watt-space-stack-m watt-text-s"
+        aria-label="Phone"
         >+45 88 44 66 33</a
       >
       <a
         href="mailto:datahub@energinet.dk"
         class="${selector}__link watt-text-s"
-        aria-label="mail"
+        aria-label="Email"
         >datahub@energinet.dk</a
       >
     </section>
