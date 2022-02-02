@@ -1,9 +1,10 @@
 @use '@energinet-datahub/watt/utils' as watt;
 
 :host {
+  align-items: center;
   border-radius: 4px;
-  display: block;
-  @include watt.space-inset-squish-xs;
+  display: flex;
+  @include watt.space-inset-squish-s;
 
   &.watt-validation-message-info {
     background-color: var(--watt-color-state-info-light);
