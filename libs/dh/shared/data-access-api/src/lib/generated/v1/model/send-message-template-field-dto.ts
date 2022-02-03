@@ -16,6 +16,7 @@ export interface SendMessageTemplateFieldDTO {
     id: string;
     name: string;
     code: string;
+    codeShort: string;
     value: string;
     valueOriginal: string;
     comment: string;

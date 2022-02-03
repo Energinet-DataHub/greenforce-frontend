@@ -153,6 +153,8 @@ namespace Energinet.DataHub.WebApi.Controllers.TestClient
 
         public string Code { get; set; } = string.Empty;
 
+        public string CodeShort { get; set; } = string.Empty;
+
         public string Value { get; set; } = string.Empty;
 
         public string ValueOriginal { get; set; } = string.Empty;

@@ -22,7 +22,7 @@
       <cim:meteringMethod>D02</cim:meteringMethod>
       <cim:connectionState>D03</cim:connectionState>
       <cim:readCycle>PT1H</cim:readCycle>
-      <cim:netSettlementGroup>6</cim:netSettlementGroup>
+      <cim:netSettlementGroup>{{*Number_NetSettlementMethod_0_99}}</cim:netSettlementGroup>
       <cim:nextReadingDate>0101</cim:nextReadingDate>
       <cim:meteringGridArea_Domain.mRID codingScheme="NIE">870</cim:meteringGridArea_Domain.mRID>
       <cim:linked_MarketEvaluationPoint.mRID codingScheme="NAZ">575774240560385464</cim:linked_MarketEvaluationPoint.mRID>

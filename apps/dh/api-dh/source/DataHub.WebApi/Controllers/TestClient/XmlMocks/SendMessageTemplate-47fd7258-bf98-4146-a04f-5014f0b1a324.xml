@@ -19,17 +19,18 @@
   <XmlTemplate></XmlTemplate>
   <FieldList>
     <SendMessageTemplateFieldDTO>
-      <Id>106aede7-7bdc-4f27-ba2d-ac743548abf7</Id>
+      <Id>015fce4e-ab89-4a4a-9f5d-5ff7dfb11d94</Id>
       <Name>Business Process</Name>
       <Code>*List_BusinessProcess_E02-E32</Code>
+      <CodeShort>BusinessProcess</CodeShort>
       <Comment>
       </Comment>
-      <DefaultValue>
-      </DefaultValue>
+      <DefaultValue />
       <IsMandatory>true</IsMandatory>
       <FieldType>List</FieldType>
       <FieldTypeParam1 />
       <FieldTypeParam2 />
+      <FieldTypeParam3 />
       <FieldOrder>104</FieldOrder>
       <ItemList>
         <ListItemDTO>
@@ -43,37 +44,55 @@
       </ItemList>
     </SendMessageTemplateFieldDTO>
     <SendMessageTemplateFieldDTO>
-      <Id>8ac58a6f-e307-4921-8b9d-371c16fd2598</Id>
+      <Id>1479b61d-f141-4dd6-9ae5-46271d71db40</Id>
       <Name>Mp Id</Name>
       <Code>*MpId</Code>
+      <CodeShort>MpId</CodeShort>
       <Comment>
       </Comment>
-      <DefaultValue>
-      </DefaultValue>
+      <DefaultValue />
       <IsMandatory>true</IsMandatory>
       <FieldType>String</FieldType>
       <FieldTypeParam1 />
       <FieldTypeParam2 />
+      <FieldTypeParam3 />
       <FieldOrder>118</FieldOrder>
     </SendMessageTemplateFieldDTO>
     <SendMessageTemplateFieldDTO>
-      <Id>5092be98-119f-4149-9b25-6b81e9b9d7a9</Id>
+      <Id>0418f322-53b5-45ee-8b5f-3d6f367a6342</Id>
       <Name>Mp Type</Name>
       <Code>*Code_MpType_MeteringPointType</Code>
+      <CodeShort>MpType</CodeShort>
       <Comment>
       </Comment>
-      <DefaultValue>
-      </DefaultValue>
+      <DefaultValue />
       <IsMandatory>true</IsMandatory>
       <FieldType>CodeList</FieldType>
       <FieldTypeParam1>MeteringPointType</FieldTypeParam1>
       <FieldTypeParam2 />
+      <FieldTypeParam3 />
       <FieldOrder>120</FieldOrder>
     </SendMessageTemplateFieldDTO>
     <SendMessageTemplateFieldDTO>
-      <Id>e4f505f8-59fb-4cba-a260-3b9ec004ebd4</Id>
+      <Id>3dfcfe7b-ae12-426f-b4f4-549be90c8391</Id>
+      <Name>Net Settlement Method</Name>
+      <Code>*Number_NetSettlementMethod_0_99</Code>
+      <CodeShort>NetSettlementMethod</CodeShort>
+      <Comment>
+      </Comment>
+      <DefaultValue />
+      <IsMandatory>true</IsMandatory>
+      <FieldType>Number</FieldType>
+      <FieldTypeParam1>0</FieldTypeParam1>
+      <FieldTypeParam2>99</FieldTypeParam2>
+      <FieldTypeParam3 />
+      <FieldOrder>121</FieldOrder>
+    </SendMessageTemplateFieldDTO>
+    <SendMessageTemplateFieldDTO>
+      <Id>ee37fd83-bb8c-485f-98af-c604a513aae7</Id>
       <Name>Product Obligation</Name>
       <Code>Bool_ProductObligation_True</Code>
+      <CodeShort>ProductObligation</CodeShort>
       <Comment>
       </Comment>
       <DefaultValue>true</DefaultValue>
@@ -81,12 +100,14 @@
       <FieldType>Boolean</FieldType>
       <FieldTypeParam1 />
       <FieldTypeParam2 />
+      <FieldTypeParam3 />
       <FieldOrder>122</FieldOrder>
     </SendMessageTemplateFieldDTO>
     <SendMessageTemplateFieldDTO>
-      <Id>ce216856-36c7-4c0b-bd6e-22d23651c3c8</Id>
+      <Id>aea6cb53-113e-43b9-bb86-8e60662d614e</Id>
       <Name>Supply Start</Name>
       <Code>Date_SupplyStart</Code>
+      <CodeShort>SupplyStart</CodeShort>
       <Comment>
       </Comment>
       <DefaultValue>NOW</DefaultValue>
@@ -94,56 +115,60 @@
       <FieldType>DateTime</FieldType>
       <FieldTypeParam1 />
       <FieldTypeParam2 />
+      <FieldTypeParam3 />
       <FieldOrder>124</FieldOrder>
     </SendMessageTemplateFieldDTO>
     <SendMessageTemplateFieldDTO>
-      <Id>efea6c8d-b7f3-4cc7-9628-047bbc1df025</Id>
+      <Id>bc6f9710-9587-4067-bcab-b3c3ec256aeb</Id>
       <Name>Street Name</Name>
       <Code>StreetName_40</Code>
+      <CodeShort>StreetName</CodeShort>
       <Comment>
       </Comment>
-      <DefaultValue>
-      </DefaultValue>
+      <DefaultValue />
       <IsMandatory>false</IsMandatory>
       <FieldType>String</FieldType>
       <FieldTypeParam1>40</FieldTypeParam1>
       <FieldTypeParam2 />
+      <FieldTypeParam3 />
       <FieldOrder>126</FieldOrder>
     </SendMessageTemplateFieldDTO>
     <SendMessageTemplateFieldDTO>
-      <Id>a4bd1e91-60cd-4a53-9c92-8bdec8086b19</Id>
+      <Id>28bb5315-5ffc-474e-9c02-6a1cd9aff789</Id>
       <Name>Street Code</Name>
       <Code>Number_StreetCode_1000_9999</Code>
+      <CodeShort>StreetCode</CodeShort>
       <Comment>
       </Comment>
-      <DefaultValue>
-      </DefaultValue>
+      <DefaultValue />
       <IsMandatory>false</IsMandatory>
       <FieldType>Number</FieldType>
       <FieldTypeParam1>1000</FieldTypeParam1>
       <FieldTypeParam2>9999</FieldTypeParam2>
+      <FieldTypeParam3 />
       <FieldOrder>128</FieldOrder>
     </SendMessageTemplateFieldDTO>
     <SendMessageTemplateFieldDTO>
-      <Id>2fe11fe2-ed4c-4888-bf62-cae5f8bac6a9</Id>
+      <Id>d6c8e560-4369-4487-9375-ad998d56b252</Id>
       <Name>Postal Code</Name>
       <Code>Number_PostalCode_1_9999</Code>
+      <CodeShort>PostalCode</CodeShort>
       <Comment>
       </Comment>
-      <DefaultValue>
-      </DefaultValue>
+      <DefaultValue />
       <IsMandatory>false</IsMandatory>
       <FieldType>Number</FieldType>
       <FieldTypeParam1>1</FieldTypeParam1>
       <FieldTypeParam2>9999</FieldTypeParam2>
+      <FieldTypeParam3 />
       <FieldOrder>130</FieldOrder>
     </SendMessageTemplateFieldDTO>
   </FieldList>
   <ValidationRuleList>
     <SendMessageTemplateValidationRuleDTO>
-      <Rule>{{MpType}} = 'D04' AND {{MeteringPointSubtype}} != 'D03'</Rule>
+      <Rule>{{MpType}} != 'E17' AND {{MpType}} != 'E18' AND {{NetSettlementMethod}} != ''</Rule>
       <Action>ignore</Action>
-      <Text>Mp type D04 - then Subtype must be D03</Text>
+      <Text>Net sett. Group skal kun udfyldes for E17 og E18</Text>
     </SendMessageTemplateValidationRuleDTO>
   </ValidationRuleList>
   <Status>New</Status>

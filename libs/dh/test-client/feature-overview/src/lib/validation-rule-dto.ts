@@ -32,7 +32,7 @@ export interface ValidationRuleResultDto {
 }
 
 export interface ValidationRuleResultItemDto {
-  fieldName: string;
-  action: string;
-    text: string;
+  fieldNameArray: Array<string>;
+  ruleItem: ValidationRuleItemDto;
+  ruleReplaced: string;
 }

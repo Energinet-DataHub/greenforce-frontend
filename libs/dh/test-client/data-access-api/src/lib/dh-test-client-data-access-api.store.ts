@@ -160,24 +160,24 @@ export class DhTestClientDataAccessApiStore extends ComponentStore<SendMessageTe
     }
   );
 
-  readonly getDynamicRules = this.effect(
-    () =>
-    this.httpClient.v1TestClientGetDynamicValidationsGet().pipe(
+  // readonly getDynamicRules = this.effect(
+  //   () =>
+  //   this.httpClient.v1TestClientGetDynamicValidationsGet().pipe(
 
-        tap((temp) => {
-          //this.resetState();
-          const scriptElem = document.createElement('script');
-          scriptElem.text = "function LogItXIGATEST() { alert('called');}";
-          scriptElem.type = 'text/javascript';
-          document.body.appendChild(scriptElem);
-          console.error('added script');
-        }),
-        tap(() => {
-          console.error('temp ttttt');
-          //eval('LogItXIGATEST()');
-          //LogItXIGATEST('called');
-        })
-  ));
+  //       tap((temp) => {
+  //         //this.resetState();
+  //         const scriptElem = document.createElement('script');
+  //         scriptElem.text = "function LogItXIGATEST() { alert('called');}";
+  //         scriptElem.type = 'text/javascript';
+  //         document.body.appendChild(scriptElem);
+  //         console.error('added script');
+  //       }),
+  //       tap(() => {
+  //         console.error('temp ttttt');
+  //         //eval('LogItXIGATEST()');
+  //         //LogItXIGATEST('called');
+  //       })
+  // ));
 
   // private loadExternalScript(url: string) {
   //   const body = <HTMLDivElement> document.body;

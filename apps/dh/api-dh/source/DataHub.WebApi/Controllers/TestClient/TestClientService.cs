@@ -60,8 +60,9 @@ namespace Energinet.DataHub.WebApi.Controllers.TestClient
             }
 
             mesTemplateDto.FieldList = mesTemplateDto.FieldList.OrderBy(x => x.FieldOrder).ToList();
-
             mesTemplateDto.XmlOriginal = mesTemplateDto.XmlTemplate;
+
+            mesTemplateDto.ValidationRuleList.ForEach(x => x.Rule = x.Rule.Replace("AND", "&&"));
 
             return mesTemplateDto;
         }

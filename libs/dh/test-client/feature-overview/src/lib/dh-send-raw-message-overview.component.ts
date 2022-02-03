@@ -54,7 +54,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { MatTable, MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
-import { ValidationRuleDto, ValidationRuleItemDto } from './validation-rule-dto';
+import { ValidationRuleDto, ValidationRuleItemDto, ValidationRuleResultDto, ValidationRuleResultItemDto } from './validation-rule-dto';
 
 // let LogItXIGATEST: any;
 
@@ -146,17 +146,91 @@ export class DhSendRawMessageOverviewComponent implements OnDestroy {
         control => {
             control.valueChanges.subscribe(
                  (data) => {
+
+                  const valRuleResult : ValidationRuleResultDto = {
+                    status : 'OK',
+                    statusText : '',
+                    alertMessage : '',
+                    resultArray : []
+                  }
+                    //     name : 'SubTypeValidation',
+                    //     description :'desc',
+                    //     ruleArray : [
+                    //       { rule : '{{MpType}}=="E17"', action : 'ignore', text : 'equals E17'},
+                    //   ]
+                    //   };
+
+
                   const ctrlIndex = formArray.controls.indexOf(control);
-                  const code = this.sendMessageTemplateDto.fieldList[ctrlIndex].code;
-                console.log(code); // logs index of changed item in form array
+                  const codeShortCurrent = this.sendMessageTemplateDto.fieldList[ctrlIndex].codeShort;
+                console.log(codeShortCurrent); // logs index of changed item in form array
                 console.log(data);
-                this.sendMessageTemplateDto.validationRuleList.forEach( (rule) =>
-                {
-                  const strippedCode = 
-                  console.warn(rule);
-                  // this.sendMessageTemplateDto.fieldList[index].value = elem.value;
-                  // this.sendMessageTemplateDto.xmlTemplate = this.sendMessageTemplateDto.xmlTemplate.replace('{{'+this.sendMessageTemplateDto.fieldList[index].code+'}}',elem.value);
-                });
+                const codeShortAndValueMap = this.getFormCodeShortAndValueMap();
+
+                // const fieldValueformArray = (<FormArray>this.sendMessageTemplateForm.get('arrayList'));
+                // this.sendMessageTemplateDto.xmlTemplate = this.sendMessageTemplateDto.xmlOriginal;
+                // fieldValueformArray.controls.forEach( (elem, index) =>
+                // {
+                //   const codeShort = this.sendMessageTemplateDto.fieldList[index].codeShort;// = elem.value;
+                //   this.sendMessageTemplateDto.xmlTemplate = this.sendMessageTemplateDto.xmlTemplate.replace('{{'+this.sendMessageTemplateDto.fieldList[index].code+'}}',elem.value);
+
+                const fieldValueformArray = (<FormArray>this.sendMessageTemplateForm.get('arrayList'));
+                  this.sendMessageTemplateDto.validationRuleList.forEach( (ruleItem) =>
+                  {
+                    const valRuleResultItem : ValidationRuleResultItemDto = {
+                      ruleItem : ruleItem,
+                      fieldNameArray : [],
+                      ruleReplaced:''
+                    }
+
+                    let ruleReplaced = ruleItem.rule;
+                    codeShortAndValueMap.forEach(( fieldDto: SendMessageTemplateFieldDTO, code: string) =>
+                    {
+                      //const code = fieldDto.codeShort;
+                      if(ruleItem.rule.indexOf('{{'+code+'}}') !== -1)
+                      {
+                        valRuleResultItem.fieldNameArray.push(code);
+                        const valueFromForm = codeShortAndValueMap.get(code);
+                        // replace does not replace all instances - this is a workaround
+                        ruleReplaced = ruleReplaced.split('{{'+code+'}}').join("'"+(valueFromForm?.value??'')+"'");
+                        ;
+                      }
+                    });
+                    valRuleResultItem.ruleReplaced = ruleReplaced;
+                    if(eval(ruleReplaced))
+                    {
+                      valRuleResultItem.fieldNameArray.forEach((codeShort) =>
+                      {
+                        const fieldDto = codeShortAndValueMap.get(codeShort);
+                        const fieldIndex = this.sendMessageTemplateDto.fieldList.findIndex((dto) => dto.codeShort === codeShort);
+                        //if()
+                        console.error(codeShort);
+                        console.error(fieldDto);
+                        console.warn(fieldIndex);
+                        const formControlFromCode = fieldValueformArray.controls[fieldIndex];
+                        formControlFromCode?.setErrors({ 'rule' : valRuleResultItem.ruleItem.text});
+                        formControlFromCode?.markAsTouched();
+                        //formControlFromCode?.status = 'NOTVALID';
+                        console.error(formControlFromCode);
+                        console.error(formControlFromCode?.status);
+                        console.error(formControlFromCode?.valid);
+                        console.log(valRuleResultItem.ruleItem.text);
+                        //console.log(valRuleResultItem.ruleItem.action);
+                      });
+
+                    }
+
+                    // if(ruleItem.rule.search('sdf'))
+                    // {
+
+                    // }
+                    valRuleResult.resultArray.push(valRuleResultItem);
+                  });
+              //  });
+              //console.warn(valRuleResult);
+
+
+
                       //if()
 
                  }
@@ -249,6 +323,20 @@ export class DhSendRawMessageOverviewComponent implements OnDestroy {
   //   //console.error(sendMesResult);
 
   // }
+
+private getFormCodeShortAndValueMap() : Map<string, SendMessageTemplateFieldDTO>
+{
+  const codeValueMap = new Map<string, SendMessageTemplateFieldDTO>();
+
+  const fieldValueformArray = (<FormArray>this.sendMessageTemplateForm.get('arrayList'));
+    fieldValueformArray.controls.forEach( (elem, index) =>
+    {
+      const fieldDto = this.sendMessageTemplateDto.fieldList[index];
+      fieldDto.value = elem.value;
+      codeValueMap.set(fieldDto.codeShort, fieldDto);
+    });
+return codeValueMap;
+}
 
   private getValidatorArray(dto : SendMessageTemplateFieldDTO, index : number) : ValidatorFn []
   {
