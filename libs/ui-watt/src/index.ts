@@ -20,7 +20,6 @@ export { WattColor } from './lib/foundations/color/colors';
 export { WattColorHelperService } from './lib/foundations/color/color-helper.service';
 export { WattFormFieldModule } from './lib/components/form-field/form-field.module';
 export { WattInputModule } from './lib/components/input/input.module';
-export { WattModule } from './lib/ui-watt.module';
 export { WattShellComponent } from './lib/components/shell/shell.component';
 export { WattShellModule } from './lib/components/shell/shell.module';
 
