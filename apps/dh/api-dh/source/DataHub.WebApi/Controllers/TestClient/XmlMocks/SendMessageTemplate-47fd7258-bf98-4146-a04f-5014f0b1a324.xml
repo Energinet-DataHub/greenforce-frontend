@@ -139,6 +139,13 @@
       <FieldOrder>130</FieldOrder>
     </SendMessageTemplateFieldDTO>
   </FieldList>
+  <ValidationRuleList>
+    <SendMessageTemplateValidationRuleDTO>
+      <Rule>{{MpType}} = 'D04' AND {{MeteringPointSubtype}} != 'D03'</Rule>
+      <Action>ignore</Action>
+      <Text>Mp type D04 - then Subtype must be D03</Text>
+    </SendMessageTemplateValidationRuleDTO>
+  </ValidationRuleList>
   <Status>New</Status>
   <StatusComment>status comment</StatusComment>
   <Created>2022-01-18T00:00:00</Created>

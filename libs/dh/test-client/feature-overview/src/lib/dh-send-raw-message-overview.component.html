@@ -29,6 +29,7 @@ limitations under the License.
 
 
 <ng-container *transloco="let transloco; read: 'testClient.sendMessage.overview.form'">
+<ng-container *ngIf="sendMessageTemplateForm">
   <form [formGroup]="sendMessageTemplateForm"
 
     name="dh-send-raw-message-temp-props"
@@ -105,10 +106,8 @@ limitations under the License.
 
     <!-- Column definitions -->
     <ng-container matColumnDef="isMandatory">
-      <th mat-header-cell *matHeaderCellDef>*</th>
-      <td mat-cell *matCellDef="let row; let index = index">
-        <!-- {{ row.isMandatory }} -->
-
+      <th mat-header-cell *matHeaderCellDef><mat-icon>label_important</mat-icon></th>
+      <td mat-cell *matCellDef="let row; let i = index">
         <mat-icon *ngIf="row.isMandatory" color="primary">label_important</mat-icon>
         <!-- <mat-icon color="accent">label_important</mat-icon>
         <mat-icon color="warn">label_important</mat-icon> -->
@@ -122,12 +121,9 @@ limitations under the License.
             <ng-container  [ngSwitch]="row.fieldType">
               <div *ngSwitchCase="'Number'" >
                 <input type="text" [formControlName]="i" style="width: 300px"/>
-                <span *ngIf="row.fieldTypeParam1 !== row.fieldTypeParam2" style="color:orange">({{ row.fieldTypeParam1 }}-{{ row.fieldTypeParam2}})</span>
-                <span *ngIf="row.fieldTypeParam1 === row.fieldTypeParam2" style="color:orange">({{ row.fieldTypeParam1 }})</span>
               </div>
               <div *ngSwitchCase="'String'" >
-                <input type="text" [formControlName]="i" style="width: 300px"/>
-                <span style="color:orange">(Max: {{ row.fieldTypeParam1 }})</span>
+                <input type="text" id="i" [formControlName]="i" style="width: 300px"/>
               </div>
               <div *ngSwitchCase="'DateTime'" >
                 <input type="text" [formControlName]="i"  style="width: 300px"/>
@@ -147,18 +143,76 @@ limitations under the License.
               </div>
               <div *ngSwitchCase="'Guid'" >
                 <input type="text" [formControlName]="i" style="width: 300px"/>
-                <span style="color:orange">(Guid)</span>
               </div>
             </ng-container>
           </td>
         </ng-container>
 
+         <!-- Column definitions -->
+    <ng-container matColumnDef="validationIcon">
+      <th mat-header-cell *matHeaderCellDef><mat-icon>label_important</mat-icon></th>
+      <td mat-cell *matCellDef="let row; let i = index">
+        <mat-icon *ngIf="!getValidity(i)" color="warn">label_important</mat-icon>
+      </td>
+    </ng-container>
+
+
+  <!-- Column definitions -->
+  <ng-container matColumnDef="valueHint">
+    <th mat-header-cell *matHeaderCellDef> Hint </th>
+    <td mat-cell *matCellDef="let row; let i = index">
+      <!-- {{ formControlArray[i] | json}} -->
+      <ng-container  [ngSwitch]="row.fieldType">
+        <div *ngSwitchCase="'Number'" >
+          <span *ngIf="row.fieldTypeParam1 && row.fieldTypeParam2" style="color:orange">({{ row.fieldTypeParam1 }}-{{ row.fieldTypeParam2}})</span>
+          <span *ngIf="row.fieldTypeParam3" style="color:orange">(Max length: {{ row.fieldTypeParam3 }})</span>
+          <br/>
+          <span style="color:grey"> {{ row.comment }}</span>
+        </div>
+        <div *ngSwitchCase="'String'" >
+          <span style="color:orange">(Max length: {{ row.fieldTypeParam1 }})</span>
+        </div>
+        <div *ngSwitchCase="'DateTime'" >
+        </div>
+        <div *ngSwitchCase="'CodeList'" >
+        </div>
+        <div *ngSwitchCase="'List'" >
+        </div>
+        <div *ngSwitchCase="'Boolean'" >
+        </div>
+        <div *ngSwitchCase="'Guid'" >
+          <span style="color:orange">(Guid)</span>
+        </div>
+      </ng-container>
+    </td>
+  </ng-container>
+
           <!-- Column definitions -->
-    <ng-container matColumnDef="comment">
+    <!-- <ng-container matColumnDef="comment">
       <th mat-header-cell *matHeaderCellDef> comment </th>
       <td mat-cell *matCellDef="let row; let index = index">
        <span style="color:grey"> {{ row.comment }}</span>
 
+      </td>
+    </ng-container> -->
+
+    <ng-container matColumnDef="validation">
+      <th mat-header-cell *matHeaderCellDef> validation </th>
+      <td mat-cell *matCellDef="let row; let i = index">
+        <!-- formControlArray[i].errors -->
+        <span *ngIf="!getValidity(i)" style="color:red">
+        {{ (formControlArray[i].errors | json).substring(1,(formControlArray[i].errors | json).length-1).split('"').join('') }}
+      </span>
+        <!-- <div *ngIf="name.invalid && (name.dirty || name.touched)"
+        class="alert alert-danger">
+
+      <div *ngIf="name.errors?.['required']">
+        Name is required.
+      </div>
+      <div *ngIf="name.errors?.['minlength']">
+        Name must be at least 4 characters long.
+      </div>
+    </div> -->
       </td>
     </ng-container>
 
@@ -292,7 +346,11 @@ limitations under the License.
 
 
   </form>
+</ng-container>
   </ng-container>
+
+  
+
   {{ sendMessageTemplateForm?.getRawValue() | json }}
 
 <!--

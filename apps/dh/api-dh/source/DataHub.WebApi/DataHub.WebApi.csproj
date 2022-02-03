@@ -37,8 +37,8 @@ limitations under the License.
   <ItemGroup>
     <None Remove="Controllers\TestClient\XmlMocks\SendMessageTemplate-47fd7258-bf98-4146-a04f-5014f0b1a324-XMLTemplate.xml" />
     <None Remove="Controllers\TestClient\XmlMocks\SendMessageTemplate-47fd7258-bf98-4146-a04f-5014f0b1a324.xml" />
-    <None Remove="Controllers\TestClient\XmlMocks\SendMessageTemplate-8016d776-9cf6-45a3-b3d2-3bf86c3ad570-XMLTemplate.xml" />
-    <None Remove="Controllers\TestClient\XmlMocks\SendMessageTemplate-8016d776-9cf6-45a3-b3d2-3bf86c3ad570.xml" />
+    <None Remove="Controllers\TestClient\XmlMocks\SendMessageTemplate-5b0eaa5c-a747-4513-9ee7-9d1589f7fd2e-XMLTemplate.xml" />
+    <None Remove="Controllers\TestClient\XmlMocks\SendMessageTemplate-5b0eaa5c-a747-4513-9ee7-9d1589f7fd2e.xml" />
     <None Remove="Controllers\TestClient\XmlMocks\SendMessageTemplate-GlobalFieldList.xml" />
     <None Remove="Controllers\TestClient\XmlMocks\testclient-codelists.xsd" />
     <None Remove="Controllers\TestClient\XmlMocks\urn-ediel-org-codelists.xsd" />
@@ -47,8 +47,8 @@ limitations under the License.
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Controllers\TestClient\XmlMocks\SendMessageTemplate-8016d776-9cf6-45a3-b3d2-3bf86c3ad570.xml" />
-    <EmbeddedResource Include="Controllers\TestClient\XmlMocks\SendMessageTemplate-8016d776-9cf6-45a3-b3d2-3bf86c3ad570-XMLTemplate.xml" />
+    <EmbeddedResource Include="Controllers\TestClient\XmlMocks\SendMessageTemplate-5b0eaa5c-a747-4513-9ee7-9d1589f7fd2e.xml" />
+    <EmbeddedResource Include="Controllers\TestClient\XmlMocks\SendMessageTemplate-5b0eaa5c-a747-4513-9ee7-9d1589f7fd2e-XMLTemplate.xml" />
     <EmbeddedResource Include="Controllers\TestClient\XmlMocks\SendMessageTemplate-GlobalFieldList.xml" />
     <EmbeddedResource Include="Controllers\TestClient\XmlMocks\SendMessageTemplate-47fd7258-bf98-4146-a04f-5014f0b1a324-XMLTemplate.xml" />
     <EmbeddedResource Include="Controllers\TestClient\XmlMocks\SendMessageTemplate-47fd7258-bf98-4146-a04f-5014f0b1a324.xml" />

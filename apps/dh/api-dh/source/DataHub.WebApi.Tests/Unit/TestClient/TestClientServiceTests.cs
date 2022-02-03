@@ -73,6 +73,15 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
         }
 
         [Fact]
+        public void GetSendMessageTemplateValidationRule()
+        {
+            var service = new TestClientService();
+            var templ = service.GetMessageTemplate("47fd7258-bf98-4146-a04f-5014f0b1a324");
+            Assert.Single(templ.ValidationRuleList);
+            Assert.Equal("{{MpType}} = 'D04' AND {{MeteringPointSubtype}} != 'D03'", templ.ValidationRuleList.First().Rule);
+        }
+
+        [Fact]
         public void GetSendMessageTemplateGlobalFieldsTest()
         {
             var service = new TestClientService();

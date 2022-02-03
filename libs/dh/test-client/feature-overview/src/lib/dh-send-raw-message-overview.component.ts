@@ -47,13 +47,14 @@ import { dhSendRawMessageTemplateIdParam } from './routing/dh-send-raw-message-i
 
 //import { DhSendRawMessageOverviewFormScam } from './form/dh-send-raw-message-overview-form.component';
 //import { DhSendRawMessageTempPropsScam } from './templateProperties/dh-send-raw-message-temp-props.component';
-import { SendMessageTemplateDTO } from '@energinet-datahub/dh/shared/data-access-api';
-import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { SendMessageTemplateDTO, SendMessageTemplateFieldDTO } from '@energinet-datahub/dh/shared/data-access-api';
+import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { MatTable, MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
+import { ValidationRuleDto, ValidationRuleItemDto } from './validation-rule-dto';
 
 // let LogItXIGATEST: any;
 
@@ -67,7 +68,8 @@ import { MatIconModule } from '@angular/material/icon';
 })
 export class DhSendRawMessageOverviewComponent implements OnDestroy {
   private destroy$ = new Subject<void>();
-  sendMessageTemplateForm!: FormGroup;
+  sendMessageTemplateForm: FormGroup = this.formBuilder.group([]);
+  formControlArray!: FormControl[];
   sendMessageTemplateDto!: SendMessageTemplateDTO;
   sendMessageTabIndex = 0;
 
@@ -91,7 +93,8 @@ export class DhSendRawMessageOverviewComponent implements OnDestroy {
   hasError$ = this.store.hasError$;
   //childMeteringPointsCount = 0;
 
-  displayedColumns: string[] = ['name', 'isMandatory', 'value', 'comment'];
+  displayedColumns: string[] = ['name', 'isMandatory', 'value','validationIcon','valueHint', /*'comment',*/ 'validation'];
+  validationControlHints: Array<string> = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -100,6 +103,13 @@ export class DhSendRawMessageOverviewComponent implements OnDestroy {
   ) {
 
     //this.store.getDynamicRules();
+
+
+
+
+
+
+
 
     this.sendMessageTemplateId$
     .pipe(
@@ -118,33 +128,42 @@ export class DhSendRawMessageOverviewComponent implements OnDestroy {
       {
       this.sendMessageTemplateDto = dto //this.store.getSendMessageTemplate(sendMessageTemplateId)
        // create a form array for the groups
-    const formControlArray = this.sendMessageTemplateDto.fieldList.map(x => this.formBuilder.control(x.value));
-    const formArray = this.formBuilder.array(formControlArray);
+    this.formControlArray = this.sendMessageTemplateDto.fieldList.map((x,index) => this.formBuilder.control(x.value,this.getValidatorArray(x,index)));
+    //console.error('form array test');
+    const formArray = this.formBuilder.array(this.formControlArray);
 
       this.sendMessageTemplateForm = this.formBuilder.group({
         xmlTemplate: this.sendMessageTemplateDto.xmlTemplate,
         arrayList: formArray
       });
-      }
-      )
-    )
-    .subscribe();
 
-    this.store.sendMessageTemplate$.pipe(
-      //When using async | no need to call this.destroy as it will be done automatically
-      //Not sure I need it - I will leave it
-      takeUntil(this.destroy$),
-      map((dto) =>
-      {
-      this.sendMessageTemplateDto = dto //this.store.getSendMessageTemplate(sendMessageTemplateId)
-       // create a form array for the groups
-    const formControlArray = this.sendMessageTemplateDto.fieldList.map(x => this.formBuilder.control(x.value));
-    const formArray = this.formBuilder.array(formControlArray);
+      //formArray.valueChanges.subscribe( (data,index) => {console.warn(data)});
+      //formArray.setValidators(this.comparisonValidatorTwo());
 
-      this.sendMessageTemplateForm = this.formBuilder.group({
-        xmlTemplate: this.sendMessageTemplateDto.xmlTemplate,
-        arrayList: formArray
-      });
+
+
+      formArray.controls.forEach(
+        control => {
+            control.valueChanges.subscribe(
+                 (data) => {
+                  const ctrlIndex = formArray.controls.indexOf(control);
+                  const code = this.sendMessageTemplateDto.fieldList[ctrlIndex].code;
+                console.log(code); // logs index of changed item in form array
+                console.log(data);
+                this.sendMessageTemplateDto.validationRuleList.forEach( (rule) =>
+                {
+                  const strippedCode = 
+                  console.warn(rule);
+                  // this.sendMessageTemplateDto.fieldList[index].value = elem.value;
+                  // this.sendMessageTemplateDto.xmlTemplate = this.sendMessageTemplateDto.xmlTemplate.replace('{{'+this.sendMessageTemplateDto.fieldList[index].code+'}}',elem.value);
+                });
+                      //if()
+
+                 }
+            )
+        }
+   )
+
       }
       )
     )
@@ -159,11 +178,55 @@ export class DhSendRawMessageOverviewComponent implements OnDestroy {
   //     }
   //     )
   //   ).subscribe();
+
+  const codeValueMap = new Map<string, string>();
+
+  // Test dictionary
+  codeValueMap.set("MpType", "E17");
+  codeValueMap.set("MeteringPointSubtype", "D03");
+  console.warn(codeValueMap.get('PO1'));
+
+  // const ruleArray: Array<ValidationRuleItemDto> = new Array<ValidationRuleItemDto>();
+  // ruleArray.push(new ValidationRuleItemDto());
+
+  const valRule : ValidationRuleDto = {
+    name : 'SubTypeValidation',
+    description :'desc',
+    ruleArray : [
+      { rule : '{{MpType}}=="E17"', action : 'ignore', text : 'equals E17'},
+  ]
+  };
+  console.log(valRule);
+
+  const servletAnswer = "<script type=\"text/javascript\">function dynamicResult_TemplateCreateUpdateMp(valRuleDto){    console.log(valRuleDto.name);}</script>";
+
+  const chatScript = document.createElement("script");
+  chatScript.type = "text/javascript";
+  chatScript.text = servletAnswer;
+  //chatScript.async = true;
+  //chatScript.src = "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js";
+  //document.body.appendChild(chatScript);
+
+  console.log(eval("'D04' == 'D04' & 'D04' != 'D03'"));
+
+  // eslint-disable-next-line no-with
+  // with (valRule) const res = eval('dynamicResult_TemplateCreateUpdateMp');
+  // eval('dynamicResult_TemplateCreateUpdateMp()');
+  //const result = dynamicResult_TemplateCreateUpdateMp()
  }
 
   // ngOnInit() {
 
+    // private dynamicResult_TemplateCreateUpdateMp(valRuleDto : ValidationRuleDto, codeValueMap : Map<string, string>) : ValidationRuleResultDto {
+    //   const valRuleResult : ValidationRuleResultDto = {
+    //     name : 'SubTypeValidation',
+    //     description :'desc',
+    //     ruleArray : [
+    //       { rule : '{{MpType}}=="E17"', action : 'ignore', text : 'equals E17'},
+    //   ]
+    //   };
 
+    //   }
 
   //     }
 
@@ -185,6 +248,138 @@ export class DhSendRawMessageOverviewComponent implements OnDestroy {
 
   //   //console.error(sendMesResult);
 
+  // }
+
+  private getValidatorArray(dto : SendMessageTemplateFieldDTO, index : number) : ValidatorFn []
+  {
+    //this.validationControlHints.push
+    const validators : Array<ValidatorFn> = [];
+    if(dto.isMandatory)
+    {
+      validators.push(Validators.required);
+    }
+    //https://developer.mozilla.org/en-US/docs/Glossary/Falsy
+    switch (dto.fieldType) {
+      case "String":
+        if(dto.fieldTypeParam1)
+        {
+          // !dto.fieldTypeParam1 || dto.fieldTypeParam1.length === 0
+          validators.push(Validators.maxLength(+dto.fieldTypeParam1));
+          //validators.push(this.ValidateDynamicRules);
+
+        }
+        break;
+        case "Number":
+          validators.push(Validators.pattern("^[0-9]*$"))
+        if(dto.fieldTypeParam1)
+        {
+          validators.push(Validators.min(+dto.fieldTypeParam1));
+        }
+        if(dto.fieldTypeParam2)
+        {
+          validators.push(Validators.max(+dto.fieldTypeParam2));
+        }
+        if(dto.fieldTypeParam3)
+        {
+          validators.push(Validators.maxLength(+dto.fieldTypeParam3));
+          validators.push(Validators.minLength(+dto.fieldTypeParam3));
+        }
+        break;
+    }
+  return validators;
+  }
+
+  public comparisonValidator() : ValidatorFn {
+    console.error('called');
+    //const controlFormArray = this.sendMessageTemplateForm.get('arrayList');
+    //controlFormArray.controls[2];
+    const cottt = (<FormArray>this.sendMessageTemplateForm.get('arrayList')).controls[1];
+    console.error(cottt);
+    return Validators.required;
+//     return (group: FormGroup): ValidationErrors => {
+//        const control1 = group.controls['myControl1'];
+//        const control2 = group.controls['myControl2'];
+//        if (control1.value !== control2.value) {
+//           control2.setErrors({notEquivalent: true});
+//        } else {
+//           control2.setErrors(null);
+//        }
+//        return null;
+//  };
+}
+
+// : ValidationErrors
+public comparisonValidatorTwo() : ValidationErrors{
+  return (group: FormArray)  : ValidationErrors | null => {
+    console.warn('ddd');
+    return null;
+    // return Validators.required;
+    //  const control1 = group.controls['myControl1'];
+    //  const control2 = group.controls['myControl2'];
+    //  if (control1.value !== control2.value) {
+    //     control2.setErrors({notEquivalent: true});
+    //  } else {
+    //     control2.setErrors(null);
+    //  }
+    //  // eslint-disable-next-line sonarjs/no-redundant-jump
+    //  return;
+};
+}
+
+  ValidateDynamicRules(control: AbstractControl) {
+    const validationTextArray : Array<string> = [];
+    console.error('one');
+
+    console.error(this.sendMessageTemplateForm.controls);
+    console.error('two');
+    //const controlFormArray = this.sendMessageTemplateForm.get('arrayList');
+
+    // if(!controlFormArray)
+    // {
+    //    return null;
+    // }
+    // console.error('three');
+    // console.error(controlFormArray);
+    // const fieldValueformArray = (<FormArray>controlFormArray);
+    // fieldValueformArray.controls.forEach( (elem, index) =>
+    // {
+    //   const ddd = elem.value;
+    // });
+    //if (true) {
+      return { dependencyValidation: {message: "your message here"} };
+    //}
+    return null;
+  }
+
+  getValidityCheck(i: number) {
+    const invalid = (<FormArray>this.sendMessageTemplateForm.get('arrayList')).controls[i].invalid;
+    const dirty = (<FormArray>this.sendMessageTemplateForm.get('arrayList')).controls[i].dirty;
+    const touched = (<FormArray>this.sendMessageTemplateForm.get('arrayList')).controls[i].touched;
+    return `invalid. ${invalid}. Dirty. ${dirty}. Touched. ${touched}`;
+  }
+
+// getArrayControl(i: number)
+// {
+
+// }
+
+  getValidity(i: number) : boolean {
+    const validControl = (<FormArray>this.sendMessageTemplateForm.get('arrayList')).controls[i];
+    if(validControl.invalid && (validControl.dirty || validControl.touched))
+    {
+      return false;
+    }
+    return true;
+  }
+
+  // getValidityItem(i: number) : Array<string | boolean> {
+  //   const validControl = (<FormArray>this.sendMessageTemplateForm.get('arrayList')).controls[i];
+  //   let validArray : Array<string | boolean> = [];
+  //   if(validControl.invalid && (validControl.dirty || validControl.touched))
+  //   {
+  //     return  ;
+  //   }
+  //   return true;
   // }
 
   tabClick(event: MatTabChangeEvent) {
@@ -223,18 +418,17 @@ export class DhSendRawMessageOverviewComponent implements OnDestroy {
 
 updateXmlTemplateOnDto()
 {
+  if(this.sendMessageTemplateForm === undefined)
+{
+  return;
+}
   const fieldValueformArray = (<FormArray>this.sendMessageTemplateForm.get('arrayList'));
     this.sendMessageTemplateDto.xmlTemplate = this.sendMessageTemplateDto.xmlOriginal;
     fieldValueformArray.controls.forEach( (elem, index) =>
     {
       this.sendMessageTemplateDto.fieldList[index].value = elem.value;
       this.sendMessageTemplateDto.xmlTemplate = this.sendMessageTemplateDto.xmlTemplate.replace('{{'+this.sendMessageTemplateDto.fieldList[index].code+'}}',elem.value);
-      console.warn(this.sendMessageTemplateDto.fieldList[index].code);
-      console.warn(elem.value);
-
-
-    }
-    );
+    });
 }
 
   openXmlInNewWindowBeforeEdit() {

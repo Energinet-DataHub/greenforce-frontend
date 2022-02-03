@@ -97,6 +97,8 @@ namespace Energinet.DataHub.WebApi.Controllers.TestClient
 
         public List<SendMessageTemplateFieldDTO> GlobalFieldList { get; set; } = new List<SendMessageTemplateFieldDTO>();
 
+        public List<SendMessageTemplateValidationRuleDTO> ValidationRuleList { get; set; } = new List<SendMessageTemplateValidationRuleDTO>();
+
         public string Status { get; set; } = string.Empty;
 
         public string StatusComment { get; set; } = string.Empty;
@@ -134,7 +136,16 @@ namespace Energinet.DataHub.WebApi.Controllers.TestClient
         public List<ListItemDTO> CodeItemList { get; set; } = new List<ListItemDTO>();
     }
 
-    public class SendMessageTemplateFieldDTO
+    public record SendMessageTemplateValidationRuleDTO
+    {
+        public string Rule { get; set; } = string.Empty;
+
+        public string Action { get; set; } = string.Empty;
+
+        public string Text { get; set; } = string.Empty;
+    }
+
+    public record SendMessageTemplateFieldDTO
     {
         public Guid Id { get; set; } = Guid.Empty;
 

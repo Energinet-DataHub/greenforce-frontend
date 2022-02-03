@@ -14,7 +14,7 @@
   <cim:mRID>{{GlobalTransactionId}}</cim:mRID>
     <cim:validityStart_DateAndOrTime.dateTime>{{*Date_EffectuationDate}}</cim:validityStart_DateAndOrTime.dateTime>
     <cim:MarketEvaluationPoint>
-      <cim:mRID codingScheme="A10">{{*Number_MeteringPointId_18}}</cim:mRID>
+      <cim:mRID codingScheme="A10">{{*Number_MeteringPointId_L18}}</cim:mRID>
       <cim:type>{{*Code_MpType_MeteringPointType}}</cim:type>
       <cim:settlementMethod>{{Code_SettlementMethod_SettlementMethodType}}</cim:settlementMethod>
       <cim:meteringMethod>{{Code_MeteringMethodType_MeteringMethodType}}</cim:meteringMethod>
@@ -26,12 +26,12 @@
       <cim:netSettlementGroup>{{Number_NetSettlementMethod_0_99}}</cim:netSettlementGroup>
       <cim:nextReadingDate>{{ReadingDate}}</cim:nextReadingDate>
       <!-- Medsendes kun for nettoafregningsgruppe 6, format: MM01 skrives for den første dec. format 2bindestreger forrest og så ex 12-17 -->
-      <cim:meteringGridArea_Domain.mRID codingScheme="NDK">{{Number_MeteringGridArea_3}}</cim:meteringGridArea_Domain.mRID>
-      <cim:inMeteringGridArea_Domain.mRID codingScheme="NDK">{{Number_InMeteringGridArea_3}}</cim:inMeteringGridArea_Domain.mRID>
+      <cim:meteringGridArea_Domain.mRID codingScheme="NDK">{{Number_MeteringGridArea_L3}}</cim:meteringGridArea_Domain.mRID>
+      <cim:inMeteringGridArea_Domain.mRID codingScheme="NDK">{{Number_InMeteringGridArea_L3}}</cim:inMeteringGridArea_Domain.mRID>
       <!-- Kun udvekslingsmålepunkt -->
-      <cim:outMeteringGridArea_Domain.mRID codingScheme="NDK">{{Number_OutMeteringGridArea_3}}</cim:outMeteringGridArea_Domain.mRID>
+      <cim:outMeteringGridArea_Domain.mRID codingScheme="NDK">{{Number_OutMeteringGridArea_L3}}</cim:outMeteringGridArea_Domain.mRID>
       <!-- Kun udvekslingsmålepunkt -->
-      <cim:linked_MarketEvaluationPoint.mRID codingScheme="A10">{{Number_MarketEvalMpId_18}}</cim:linked_MarketEvaluationPoint.mRID>
+      <cim:linked_MarketEvaluationPoint.mRID codingScheme="A10">{{Number_MarketEvalMpId_L18}}</cim:linked_MarketEvaluationPoint.mRID>
       <!-- Værks-GSRN -->
       <cim:physicalConnectionCapacity unit="KWT">{{Number_PhysicalConnectionCapacity_0_999999}}</cim:physicalConnectionCapacity>
       <!-- Anlægskapacitet -->
@@ -61,7 +61,7 @@
       <!-- DAR reference -->
       <cim:usagePointLocation.mainAddress>
         <cim:streetDetail>
-          <cim:code>{{Number_StreetCode_1000_9999}}</cim:code>
+          <cim:code>{{Number_StreetCode_L4}}</cim:code>
           <!-- Vejkode -->
           <cim:name>{{StreetName_40}}</cim:name>
           <!-- Vejnavn -->
@@ -82,12 +82,12 @@
           <cim:country>{{CountryName_2_DK}}</cim:country>
           <!-- Målepunktskommentar -->
         </cim:townDetail>
-        <cim:postalCode>{{Number_PostalCode_1_9999}}</cim:postalCode>
+        <cim:postalCode>{{Number_PostalCode_L4}}</cim:postalCode>
         <!-- Postnummer -->
       </cim:usagePointLocation.mainAddress>
       <cim:usagePointLocation.actualAddressIndicator>{{Bool_ActualAddress_False}}</cim:usagePointLocation.actualAddressIndicator>
       <!-- Faktisk målepunktsadresse (tidligere vaskbar) -->
-      <cim:parent_MarketEvaluationPoint.mRID codingScheme="A10">{{Number_ParentMeteringPoint_18}}</cim:parent_MarketEvaluationPoint.mRID>
+      <cim:parent_MarketEvaluationPoint.mRID codingScheme="A10">{{Number_ParentMeteringPoint_L18}}</cim:parent_MarketEvaluationPoint.mRID>
       <!-- Parent målepunkt -->
     </cim:MarketEvaluationPoint>
   </cim:MktActivityRecord>

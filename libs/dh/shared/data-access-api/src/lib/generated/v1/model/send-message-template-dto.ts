@@ -9,6 +9,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { SendMessageTemplateValidationRuleDTO } from './send-message-template-validation-rule-dto';
 import { SendMessageTemplateFieldDTO } from './send-message-template-field-dto';
 
 
@@ -29,6 +30,7 @@ export interface SendMessageTemplateDTO {
     xmlOriginal: string;
     fieldList: Array<SendMessageTemplateFieldDTO>;
     globalFieldList: Array<SendMessageTemplateFieldDTO>;
+    validationRuleList: Array<SendMessageTemplateValidationRuleDTO>;
     status: string;
     statusComment: string;
     created: string;

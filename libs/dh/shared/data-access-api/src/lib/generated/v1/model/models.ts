@@ -18,5 +18,6 @@ export * from './send-message-result-dto';
 export * from './send-message-template-dto';
 export * from './send-message-template-field-dto';
 export * from './send-message-template-list-dto';
+export * from './send-message-template-validation-rule-dto';
 export * from './settlement-method';
 export * from './unit';

@@ -167,10 +167,15 @@ export class DhTestClientDataAccessApiStore extends ComponentStore<SendMessageTe
         tap((temp) => {
           //this.resetState();
           const scriptElem = document.createElement('script');
-          scriptElem.text = 'function LogItXIGATEST(msg) { alert(msg);}';
+          scriptElem.text = "function LogItXIGATEST() { alert('called');}";
           scriptElem.type = 'text/javascript';
           document.body.appendChild(scriptElem);
-          console.error(temp);
+          console.error('added script');
+        }),
+        tap(() => {
+          console.error('temp ttttt');
+          //eval('LogItXIGATEST()');
+          //LogItXIGATEST('called');
         })
   ));
 
