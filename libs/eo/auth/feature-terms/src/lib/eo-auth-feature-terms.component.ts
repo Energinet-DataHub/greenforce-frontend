@@ -32,7 +32,7 @@ const selector = 'eo-auth-terms';
   selector,
   styles: [
     `
-    @use '@energinet-datahub/watt/utils' as watt;
+      @use '@energinet-datahub/watt/utils' as watt;
       ${selector} {
         display: flex;
         justify-content: center;
@@ -76,15 +76,15 @@ const selector = 'eo-auth-terms';
             overflow-y: scroll;
             padding-right: calc(4 * var(--watt-space-xs));
             &::-webkit-scrollbar {
-                width: 6px;
+              width: 6px;
             }
             &::-webkit-scrollbar-track {
-                background: var(--watt-color-neutral-white);
-                border-radius: 50px;
+              background: var(--watt-color-neutral-white);
+              border-radius: 50px;
             }
             &::-webkit-scrollbar-thumb {
-                background-color: var(--watt-color-primary);
-                border-radius: 50px;
+              background-color: var(--watt-color-primary);
+              border-radius: 50px;
             }
           }
 
@@ -93,65 +93,63 @@ const selector = 'eo-auth-terms';
             text-transform: none; // Override .watt-label, which uppercases labels
           }
 
-          watt-button[variant="secondary"] {
+          watt-button[variant='secondary'] {
             margin-right: calc(2 * var(--watt-space-xs));
           }
-
         }
       }
     `,
   ],
   template: `
-  <section>
-    <h1 class="${selector}__heading">Read and accept our privacy policy</h1>
-    <div class="watt-space-inset-m watt-space-stack-l ${selector}__content">
-      <article>
-        <h3 class="${selector}__heading--level3">Privacy Policy</h3>
-        <p>
-        longwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongword.
-        </p>
-        <p>
-        longwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongword.
-        </p>
-        <p>
-        longwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongword.
-        </p>
-        <p>
-        longwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongword.
-        </p>
-        <p>
-        longwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongword.
-        </p>
-        <p>
-        longwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongword.
-        </p>
-        <p>
-        longwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongword.
-        </p>
-        <p>
-        longwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongword.
-        </p>
-      </article>
-    </div>
+    <section>
+      <h1 class="${selector}__heading">Read and accept our privacy policy</h1>
+      <div class="watt-space-inset-m watt-space-stack-l ${selector}__content">
+        <article>
+          <h3 class="${selector}__heading--level3">Privacy Policy</h3>
+          <p>
+            longwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongword.
+          </p>
+          <p>
+            longwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongword.
+          </p>
+          <p>
+            longwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongword.
+          </p>
+          <p>
+            longwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongword.
+          </p>
+          <p>
+            longwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongword.
+          </p>
+          <p>
+            longwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongword.
+          </p>
+          <p>
+            longwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongword.
+          </p>
+          <p>
+            longwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongword.
+          </p>
+        </article>
+      </div>
 
-    <div class="watt-space-stack-l">
-      <watt-checkbox [(ngModel)]="hasAcceptedTerms">I have seen the privacy policy</watt-checkbox>
-    </div>
+      <div class="watt-space-stack-l">
+        <watt-checkbox [(ngModel)]="hasAcceptedTerms"
+          >I have seen the privacy policy</watt-checkbox
+        >
+      </div>
 
-    <watt-button variant="secondary">Back</watt-button>
-    <watt-button variant="primary">Accept terms</watt-button>
-
-  </section>
+      <watt-button variant="secondary">Back</watt-button>
+      <watt-button variant="primary">Accept terms</watt-button>
+    </section>
   `,
 })
 export class EoAuthFeatureTermsComponent {
-
   hasAcceptedTerms = false;
-
 }
 
 @NgModule({
   declarations: [EoAuthFeatureTermsComponent],
-  imports: [FormsModule, WattButtonModule, WattCheckboxModule]
+  imports: [FormsModule, WattButtonModule, WattCheckboxModule],
 })
 export class EoAuthFeatureTermsScam {}
