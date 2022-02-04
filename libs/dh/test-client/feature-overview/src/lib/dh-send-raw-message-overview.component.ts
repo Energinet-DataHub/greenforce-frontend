@@ -55,6 +55,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatTable, MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
 import { ValidationRuleDto, ValidationRuleItemDto, ValidationRuleResultDto, ValidationRuleResultItemDto } from './validation-rule-dto';
+import { JsonpClientBackend } from '@angular/common/http';
 
 // let LogItXIGATEST: any;
 
@@ -153,27 +154,12 @@ export class DhSendRawMessageOverviewComponent implements OnDestroy {
                     alertMessage : '',
                     resultArray : []
                   }
-                    //     name : 'SubTypeValidation',
-                    //     description :'desc',
-                    //     ruleArray : [
-                    //       { rule : '{{MpType}}=="E17"', action : 'ignore', text : 'equals E17'},
-                    //   ]
-                    //   };
-
 
                   const ctrlIndex = formArray.controls.indexOf(control);
                   const codeShortCurrent = this.sendMessageTemplateDto.fieldList[ctrlIndex].codeShort;
                 console.log(codeShortCurrent); // logs index of changed item in form array
                 console.log(data);
                 const codeShortAndValueMap = this.getFormCodeShortAndValueMap();
-
-                // const fieldValueformArray = (<FormArray>this.sendMessageTemplateForm.get('arrayList'));
-                // this.sendMessageTemplateDto.xmlTemplate = this.sendMessageTemplateDto.xmlOriginal;
-                // fieldValueformArray.controls.forEach( (elem, index) =>
-                // {
-                //   const codeShort = this.sendMessageTemplateDto.fieldList[index].codeShort;// = elem.value;
-                //   this.sendMessageTemplateDto.xmlTemplate = this.sendMessageTemplateDto.xmlTemplate.replace('{{'+this.sendMessageTemplateDto.fieldList[index].code+'}}',elem.value);
-
                 const fieldValueformArray = (<FormArray>this.sendMessageTemplateForm.get('arrayList'));
                   this.sendMessageTemplateDto.validationRuleList.forEach( (ruleItem) =>
                   {
@@ -204,35 +190,25 @@ export class DhSendRawMessageOverviewComponent implements OnDestroy {
                         const fieldDto = codeShortAndValueMap.get(codeShort);
                         const fieldIndex = this.sendMessageTemplateDto.fieldList.findIndex((dto) => dto.codeShort === codeShort);
                         //if()
-                        console.error(codeShort);
-                        console.error(fieldDto);
-                        console.warn(fieldIndex);
+                        // console.error(codeShort);
+                        // console.error(fieldDto);
+                        // console.warn(fieldIndex);
                         const formControlFromCode = fieldValueformArray.controls[fieldIndex];
-                        formControlFromCode?.setErrors({ 'rule' : valRuleResultItem.ruleItem.text});
+                        console.error(formControlFromCode.errors);
+                        formControlFromCode?.setErrors(formControlFromCode.errors || { 'rule' : valRuleResultItem.ruleItem.text});
+                        console.error(formControlFromCode.errors);
                         formControlFromCode?.markAsTouched();
                         //formControlFromCode?.status = 'NOTVALID';
-                        console.error(formControlFromCode);
-                        console.error(formControlFromCode?.status);
-                        console.error(formControlFromCode?.valid);
-                        console.log(valRuleResultItem.ruleItem.text);
+                        // console.error(formControlFromCode);
+                        // console.error(formControlFromCode?.status);
+                        // console.error(formControlFromCode?.valid);
+                        // console.log(valRuleResultItem.ruleItem.text);
                         //console.log(valRuleResultItem.ruleItem.action);
                       });
 
                     }
-
-                    // if(ruleItem.rule.search('sdf'))
-                    // {
-
-                    // }
                     valRuleResult.resultArray.push(valRuleResultItem);
                   });
-              //  });
-              //console.warn(valRuleResult);
-
-
-
-                      //if()
-
                  }
             )
         }
@@ -455,11 +431,69 @@ public comparisonValidatorTwo() : ValidationErrors{
     const validControl = (<FormArray>this.sendMessageTemplateForm.get('arrayList')).controls[i];
     if(validControl.invalid && (validControl.dirty || validControl.touched))
     {
+      // console.warn('getval:');
+      // console.warn(validControl);// object.required
+      // console.warn(validControl.errors);// object.required
+      // if (validControl.errors != null) {
+      //   Object.keys(validControl.errors).forEach(keyError => {
+      //     //keyError??''
+      //     if (validControl.errors != null) {
+      //    console.log('Key control: ' + ', keyError: ' + keyError + ', err value: ', validControl.errors[keyError]);
+      //     }
+      //   });
+      // }
+
       return false;
     }
     return true;
   }
 
+  getValidationMessages(i: number) : Array<string> {
+    const validControl = (<FormArray>this.sendMessageTemplateForm.get('arrayList')).controls[i];
+    const errorMessageArray :  Array<string> = [];
+    if(validControl.invalid && (validControl.dirty || validControl.touched))
+    {
+      // console.warn('getval:');
+      // console.warn(validControl);// object.required
+      // console.warn(validControl.errors);// object.required
+      if (validControl.errors != null) {
+        Object.keys(validControl.errors).forEach(keyError => {
+          //keyError??''
+          if (validControl.errors != null) {
+              switch (keyError) {
+                case 'pattern':
+                  //console.warn(JSON.stringify( validControl.errors[keyError] ));
+                  if(JSON.stringify( validControl.errors[keyError] ).indexOf('^[0-9]*$') > 0)
+                  {
+                    errorMessageArray.push('Must be a number');
+                  }
+                  else
+                  {
+                    errorMessageArray.push(this.prettyfyJsonErrorMessage(JSON.stringify( validControl.errors[keyError] )));
+                  }
+                  //errorMessageArray.push(this.prettyfyJsonErrorMessage(JSON.stringify( validControl.errors[keyError] )).replace('requiredPattern:^[0-9]*$','Must be a number'));
+                  break;
+                  case 'minlength':
+                    //let minLengthErrorMessage = ;
+
+                    errorMessageArray.push(this.prettyfyJsonErrorMessage(JSON.stringify( validControl.errors[keyError] )).replace('requiredLength','Required').replace('actualLength','Actual'));
+                      //.substring(1,validControl.errors[keyError].split('"').join('').replace('requiredLength','Required:'));
+                    // Object.keys(validControl.errors).forEach(keyError => {
+                    //   errorMessageArray.push(validControl.errors[keyError]);
+                    // });
+                    break;
+                default:
+                  errorMessageArray.push(this.prettyfyJsonErrorMessage(JSON.stringify( validControl.errors[keyError] )));
+                  break;
+              }
+         //console.log('Key control: ' + ', keyError: ' + keyError + ', err value: ', validControl.errors[keyError]);
+
+          }
+        });
+      }
+    }
+    return errorMessageArray;
+  }
   // getValidityItem(i: number) : Array<string | boolean> {
   //   const validControl = (<FormArray>this.sendMessageTemplateForm.get('arrayList')).controls[i];
   //   let validArray : Array<string | boolean> = [];
@@ -469,6 +503,10 @@ public comparisonValidatorTwo() : ValidationErrors{
   //   }
   //   return true;
   // }
+
+  private prettyfyJsonErrorMessage(jsonErrorMessage : string) : string {
+    return jsonErrorMessage.substring(1,jsonErrorMessage.length-1).split('"').join('');
+  }
 
   tabClick(event: MatTabChangeEvent) {
     console.warn(event);

@@ -17,7 +17,7 @@
       <cim:mRID codingScheme="A10">{{*Number_MeteringPointId_L18}}</cim:mRID>
       <cim:type>{{*Code_MpType_MeteringPointType}}</cim:type>
       <cim:settlementMethod>{{Code_SettlementMethod_SettlementMethodType}}</cim:settlementMethod>
-      <cim:meteringMethod>{{Code_MeteringMethodType_MeteringMethodType}}</cim:meteringMethod>
+      <cim:meteringMethod>{{Code_SubType_MeteringMethodType}}</cim:meteringMethod>
       <!-- målepunktsart -->
       <cim:connectionState>{{*Code_ConnectionState_PhysicalStatusType}}</cim:connectionState>
       <!-- tilslutningsstatus -->

@@ -201,7 +201,13 @@ limitations under the License.
       <td mat-cell *matCellDef="let row; let i = index">
         <!-- formControlArray[i].errors -->
         <span *ngIf="!getValidity(i)" style="color:red">
-        {{ (formControlArray[i].errors | json).substring(1,(formControlArray[i].errors | json).length-1).split('"').join('') }}
+          <ul>
+            <li *ngFor="let item of getValidationMessages(i)">
+              {{item}}
+            </li>
+          </ul>
+          <!-- {{getValidationMessages(i)}} -->
+        <!-- {{ (formControlArray[i].errors | json).substring(1,(formControlArray[i].errors | json).length-1).split('"').join('') }} -->
       </span>
         <!-- <div *ngIf="name.invalid && (name.dirty || name.touched)"
         class="alert alert-danger">
@@ -349,9 +355,9 @@ limitations under the License.
 </ng-container>
   </ng-container>
 
-  
 
-  {{ sendMessageTemplateForm?.getRawValue() | json }}
+
+  <!-- <pre> {{ sendMessageTemplateForm?.getRawValue() | json }} </pre> -->
 
 <!--
     <dh-send-raw-message-overview-form

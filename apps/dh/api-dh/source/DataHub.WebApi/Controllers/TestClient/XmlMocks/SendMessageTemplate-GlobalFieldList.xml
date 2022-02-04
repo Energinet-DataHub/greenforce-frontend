@@ -1,19 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <SendMessageTemplateDTO xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">  
-  <Code></Code>
-  <Name>Create mp</Name>
-  <Description>Message for creating a meteringpoint</Description>
+  <Code>GlobalFieldsList</Code>
+  <Name>Global fields list</Name>
+  <Description>Contains definitions for global fields</Description>
   <Standard>CIM</Standard>
   <Format>XML</Format>
-  <Domain>MeteringPoint</Domain>
-  <EndpointPostfix>Meterin</EndpointPostfix>
-  <RsmName>RSM-001</RsmName>
+  <Domain>none</Domain>
+  <EndpointPostfix>none</EndpointPostfix>
+  <RsmName>none</RsmName>
   <MarketDocumentType></MarketDocumentType>
   <MarketProcessType></MarketProcessType>
   <MarketBusinessSectorType></MarketBusinessSectorType>
   <BrsNameList>
-    <string>BRS-001</string>
-	<string>BRS-002</string>
   </BrsNameList>    
   <XmlTemplate></XmlTemplate>  
   <FieldList>     
@@ -76,15 +74,15 @@
       <Name>Sender GLN</Name>
       <Code>GlobalSenderGln</Code>
       <Comment></Comment>
-      <DefaultValue>xxxxxxxxxxxxx</DefaultValue>
+      <DefaultValue></DefaultValue>
       <Value></Value>
       <ValueOriginal></ValueOriginal>
       <IsMandatory>true</IsMandatory>
       <UIState></UIState>
-      <FieldType>String</FieldType>
+      <FieldType>Number</FieldType>
       <FieldTypeParam1></FieldTypeParam1>
       <FieldTypeParam2></FieldTypeParam2>
-      <FieldTypeParam3></FieldTypeParam3>
+      <FieldTypeParam3>13</FieldTypeParam3>
       <FieldTypeParam4></FieldTypeParam4>
       <FieldTypeParam5></FieldTypeParam5>
       <FieldOrder>4</FieldOrder>
@@ -117,10 +115,10 @@
       <ValueOriginal></ValueOriginal>
       <IsMandatory>true</IsMandatory>
       <UIState>Hide</UIState>
-      <FieldType>String</FieldType>
+      <FieldType>Number</FieldType>
       <FieldTypeParam1></FieldTypeParam1>
       <FieldTypeParam2></FieldTypeParam2>
-      <FieldTypeParam3></FieldTypeParam3>
+      <FieldTypeParam3>13</FieldTypeParam3>
       <FieldTypeParam4></FieldTypeParam4>
       <FieldTypeParam5></FieldTypeParam5>
       <FieldOrder>6</FieldOrder>
