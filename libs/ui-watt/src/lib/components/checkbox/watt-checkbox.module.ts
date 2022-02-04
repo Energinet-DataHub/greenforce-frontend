@@ -15,11 +15,14 @@
  * limitations under the License.
  */
 import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
-import { WattAutocompleteModule } from './components/autocomplete/autocomplete.module';
-import { WattShellModule } from './components/shell/shell.module';
+import { WattCheckboxComponent } from './watt-checkbox.component';
 
 @NgModule({
-  exports: [WattAutocompleteModule, WattShellModule],
+  declarations: [WattCheckboxComponent],
+  exports: [WattCheckboxComponent],
+  imports: [MatCheckboxModule, ReactiveFormsModule],
 })
-export class WattModule {}
+export class WattCheckboxModule {}

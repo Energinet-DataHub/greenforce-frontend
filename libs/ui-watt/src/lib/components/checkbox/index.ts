@@ -14,13 +14,5 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@use '@energinet-datahub/watt' as watt;
-
-html,
-body {
-  min-height: 100%;
-}
-
-a {
-  text-decoration: underline; // This overrides WATT styles (which removes the underline on a tags)
-}
+export { WattCheckboxComponent } from './watt-checkbox.component';
+export { WattCheckboxModule } from './watt-checkbox.module';

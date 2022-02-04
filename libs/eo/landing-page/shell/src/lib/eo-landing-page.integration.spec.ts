@@ -27,7 +27,14 @@ describe('EnergyOrigin landing page', () => {
   const findEnergyOriginLogo = () =>
     screen.findByRole('img', { name: 'EnergyOrigin' });
 
-  it('displays the EnergyOrigin logo', async () => {
+  const findEnerginetLogo = () =>
+    screen.findByRole('img', { name: 'Energinet' });
+
+  const findPhoneLink = () => screen.findByRole('link', { name: /phone/i });
+
+  const findEmailLink = () => screen.findByRole('link', { name: /email/i });
+
+  beforeEach(async () => {
     const { navigate } = await render(SpectacularAppComponent, {
       imports: [
         SpectacularFeatureTestingModule.withFeature({
@@ -38,7 +45,21 @@ describe('EnergyOrigin landing page', () => {
       ],
     });
     await navigate('/');
+  });
 
+  it('displays the EnergyOrigin logo', async () => {
     expect(await findEnergyOriginLogo()).toBeInTheDocument();
+  });
+
+  it('displays the Energinet logo', async () => {
+    expect(await findEnerginetLogo()).toBeInTheDocument();
+  });
+
+  it('displays a telephone link', async () => {
+    expect((await findPhoneLink()).getAttribute('href')).toMatch(/^tel:/);
+  });
+
+  it('displays an e-mail link', async () => {
+    expect((await findEmailLink()).getAttribute('href')).toMatch(/^mailto:/);
   });
 });
