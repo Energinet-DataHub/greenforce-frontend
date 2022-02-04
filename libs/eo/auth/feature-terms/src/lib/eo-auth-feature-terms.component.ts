@@ -21,6 +21,8 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { WattButtonModule } from '@energinet-datahub/watt';
+import { WattCheckboxModule } from '@energinet-datahub/watt';
+import { FormsModule } from '@angular/forms';
 
 const selector = 'eo-auth-terms';
 
@@ -133,10 +135,7 @@ const selector = 'eo-auth-terms';
     </div>
 
     <div class="watt-space-stack-l">
-      <input type="checkbox" id="acceptTerms" />
-      <label for="acceptTerms" class="watt-text-m">
-        I have seen the privacy policy
-      </label>
+      <watt-checkbox [(ngModel)]="hasAcceptedTerms">I have seen the privacy policy</watt-checkbox>
     </div>
 
     <watt-button variant="secondary">Back</watt-button>
@@ -145,10 +144,14 @@ const selector = 'eo-auth-terms';
   </section>
   `,
 })
-export class EoAuthFeatureTermsComponent {}
+export class EoAuthFeatureTermsComponent {
+
+  hasAcceptedTerms = false;
+
+}
 
 @NgModule({
   declarations: [EoAuthFeatureTermsComponent],
-  imports: [WattButtonModule]
+  imports: [FormsModule, WattButtonModule, WattCheckboxModule]
 })
 export class EoAuthFeatureTermsScam {}
