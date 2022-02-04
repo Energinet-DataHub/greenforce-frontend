@@ -20,10 +20,7 @@ import {
   NgModule,
   ViewEncapsulation,
 } from '@angular/core';
-import {
-  WattButtonModule,
-  WattCheckboxModule
-} from '@energinet-datahub/watt';
+import { WattButtonModule, WattCheckboxModule } from '@energinet-datahub/watt';
 import { FormsModule } from '@angular/forms';
 
 const selector = 'eo-auth-terms';
