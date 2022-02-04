@@ -84,16 +84,16 @@ const selector = 'eo-landing-page-footer';
         Tonne Kjærsvej 65<br />
         7000 Fredericia<br />
         Danmark<br />
-        CVR: 28980671
+        CVR: 39315041
       </p>
     </div>
     <div>
       <h5 class="${selector}__h5">Contact</h5>
       <a
-        href="tel:+4588446633"
+        href="tel:+4570222810 "
         class="${selector}__link watt-space-stack-m watt-text-s"
         aria-label="Phone"
-        >+45 88 44 66 33</a
+        >+45 70 22 28 10 </a
       >
       <a
         href="mailto:datahub@energinet.dk"
