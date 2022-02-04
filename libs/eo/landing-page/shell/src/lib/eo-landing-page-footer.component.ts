@@ -93,8 +93,8 @@ const selector = 'eo-landing-page-footer';
         href="tel:+4570222810 "
         class="${selector}__link watt-space-stack-m watt-text-s"
         aria-label="Phone"
-        >+45 70 22 28 10 </a
-      >
+        >+45 70 22 28 10
+      </a>
       <a
         href="mailto:datahub@energinet.dk"
         class="${selector}__link watt-text-s"
