@@ -22,7 +22,7 @@ import {
 } from '@angular/core';
 import { WattButtonModule } from '@energinet-datahub/watt';
 
-const selector = 'eo-privacy-page-shell';
+const selector = 'eo-auth-terms';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
