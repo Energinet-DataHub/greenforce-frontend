@@ -20,6 +20,7 @@ import {
   NgModule,
   ViewEncapsulation,
 } from '@angular/core';
+import { WattButtonModule } from '@energinet-datahub/watt';
 
 const selector = 'eo-privacy-page-shell';
 
@@ -29,16 +30,125 @@ const selector = 'eo-privacy-page-shell';
   selector,
   styles: [
     `
+    @use '@energinet-datahub/watt/utils' as watt;
       ${selector} {
-        display: block;
+        display: flex;
+        justify-content: center;
+        section {
+          .${selector}__heading {
+            // Figma says it is type: headline-3, with the following styles in Figma:
+            // font-size: 32px;
+            // line-height: 42px;
+            // font-weight: 600;
+
+            // We should then use: watt.typography-watt-headline-3
+            @include watt.typography-watt-headline-1; // Mis-match with styles in Figma(?)
+            text-transform: none; // Override .watt-headline-1
+            // font-size: 36px;
+            // line-height: 54px;
+            // font-weight: 600;
+          }
+          .${selector}__heading--level3 {
+            // Figma says it is type: headline-3, with the following styles in Figma:
+            // font-size: 16px;
+            // line-height: 24px;
+            // font-weight: 600;
+
+            // We should then use: watt.typography-watt-headline-3
+            @include watt.typography-watt-headline-3; // Mis-match with styles in Figma(?)
+            // But that adds:
+            // font-size: 28px;
+            // line-height: 42px;
+            // font-weight: 600;
+          }
+
+          .${selector}__content {
+            background: var(--watt-color-neutral-white);
+            border-radius: var(--watt-space-xs);
+          }
+
+          article {
+            height: calc(100 * var(--watt-space-xs));
+            width: calc(200 * var(--watt-space-xs));
+            word-break: break-word;
+            overflow-y: scroll;
+            padding-right: calc(4 * var(--watt-space-xs));
+            &::-webkit-scrollbar {
+                width: 6px;
+            }
+            &::-webkit-scrollbar-track {
+                background: var(--watt-color-neutral-white);
+                border-radius: 50px;
+            }
+            &::-webkit-scrollbar-thumb {
+                background-color: var(--watt-color-primary);
+                border-radius: 50px;
+            }
+          }
+
+          label {
+            cursor: pointer;
+            text-transform: none; // Override .watt-label, which uppercases labels
+          }
+
+          watt-button[variant="secondary"] {
+            margin-right: calc(2 * var(--watt-space-xs));
+          }
+
+        }
       }
     `,
   ],
-  template: `<h1>Hi from the privacy page</h1>`,
+  template: `
+  <section>
+    <h1 class="${selector}__heading">Read and accept our privacy policy</h1>
+    <div class="watt-space-inset-m watt-space-stack-l ${selector}__content">
+      <article>
+        <h3 class="${selector}__heading--level3">Privacy Policy</h3>
+        <p>
+        longwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongword.
+        </p>
+        <p>
+        longwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongword.
+        </p>
+        <p>
+        longwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongword.
+        </p>
+        <p>
+        longwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongword.
+        </p>
+        <p>
+        longwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongword.
+        </p>
+        <p>
+        longwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongword.
+        </p>
+        <p>
+        longwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongword.
+        </p>
+        <p>
+        longwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongword.
+        </p>
+      </article>
+    </div>
+
+    <div class="watt-space-stack-l">
+      <input type="checkbox" id="acceptTerms" />
+      <label for="acceptTerms" class="watt-text-m">
+        I have seen the privacy policy
+      </label>
+    </div>
+
+    <watt-button variant="secondary">Back</watt-button>
+    <watt-button variant="primary">Accept terms</watt-button>
+
+  </section>
+  `,
 })
 export class EoAuthFeatureTermsComponent {}
 
 @NgModule({
   declarations: [EoAuthFeatureTermsComponent],
+  imports: [WattButtonModule]
 })
 export class EoAuthFeatureTermsScam {}
