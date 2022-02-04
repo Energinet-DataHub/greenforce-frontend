@@ -16,7 +16,7 @@ export interface ChargeLinkDto {
     chargeType: ChargeType;
     chargeId?: string | null;
     chargeName?: string | null;
-    chargeOwner?: string | null;
+    chargeOwnerIdentificationNumber?: string | null;
     chargeOwnerName?: string | null;
     taxIndicator: boolean;
     transparentInvoicing: boolean;
