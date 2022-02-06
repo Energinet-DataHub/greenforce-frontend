@@ -161,6 +161,7 @@ export class DhSendRawMessageOverviewComponent implements OnDestroy {
                 console.log(data);
                 const codeShortAndValueMap = this.getFormCodeShortAndValueMap();
                 const fieldValueformArray = (<FormArray>this.sendMessageTemplateForm.get('arrayList'));
+
                   this.sendMessageTemplateDto.validationRuleList.forEach( (ruleItem) =>
                   {
                     const valRuleResultItem : ValidationRuleResultItemDto = {
@@ -187,16 +188,16 @@ export class DhSendRawMessageOverviewComponent implements OnDestroy {
                     {
                       valRuleResultItem.fieldNameArray.forEach((codeShort) =>
                       {
-                        const fieldDto = codeShortAndValueMap.get(codeShort);
+                        //const fieldDto = codeShortAndValueMap.get(codeShort);
                         const fieldIndex = this.sendMessageTemplateDto.fieldList.findIndex((dto) => dto.codeShort === codeShort);
                         //if()
                         // console.error(codeShort);
                         // console.error(fieldDto);
                         // console.warn(fieldIndex);
                         const formControlFromCode = fieldValueformArray.controls[fieldIndex];
-                        console.error(formControlFromCode.errors);
-                        formControlFromCode?.setErrors(formControlFromCode.errors || { 'rule' : valRuleResultItem.ruleItem.text});
-                        console.error(formControlFromCode.errors);
+                        // formControlFromCode?.setErrors(formControlFromCode.errors || { 'dynamicrule' : { 'text' : valRuleResultItem.ruleItem.text, 'action' : valRuleResultItem.ruleItem.action}});
+                        const ruleObj = { 'dynamicrule' : valRuleResultItem.ruleItem.action + '|' + valRuleResultItem.ruleItem.text};
+                        formControlFromCode?.setErrors( { ...formControlFromCode.errors , ...ruleObj});
                         formControlFromCode?.markAsTouched();
                         //formControlFromCode?.status = 'NOTVALID';
                         // console.error(formControlFromCode);
@@ -205,6 +206,10 @@ export class DhSendRawMessageOverviewComponent implements OnDestroy {
                         // console.log(valRuleResultItem.ruleItem.text);
                         //console.log(valRuleResultItem.ruleItem.action);
                       });
+
+                    }
+                    else
+                    {
 
                     }
                     valRuleResult.resultArray.push(valRuleResultItem);
@@ -431,18 +436,6 @@ public comparisonValidatorTwo() : ValidationErrors{
     const validControl = (<FormArray>this.sendMessageTemplateForm.get('arrayList')).controls[i];
     if(validControl.invalid && (validControl.dirty || validControl.touched))
     {
-      // console.warn('getval:');
-      // console.warn(validControl);// object.required
-      // console.warn(validControl.errors);// object.required
-      // if (validControl.errors != null) {
-      //   Object.keys(validControl.errors).forEach(keyError => {
-      //     //keyError??''
-      //     if (validControl.errors != null) {
-      //    console.log('Key control: ' + ', keyError: ' + keyError + ', err value: ', validControl.errors[keyError]);
-      //     }
-      //   });
-      // }
-
       return false;
     }
     return true;
@@ -473,7 +466,7 @@ public comparisonValidatorTwo() : ValidationErrors{
                   }
                   //errorMessageArray.push(this.prettyfyJsonErrorMessage(JSON.stringify( validControl.errors[keyError] )).replace('requiredPattern:^[0-9]*$','Must be a number'));
                   break;
-                  case 'minlength':
+                case 'minlength':
                     //let minLengthErrorMessage = ;
 
                     errorMessageArray.push(this.prettyfyJsonErrorMessage(JSON.stringify( validControl.errors[keyError] )).replace('requiredLength','Required').replace('actualLength','Actual'));
@@ -482,6 +475,10 @@ public comparisonValidatorTwo() : ValidationErrors{
                     //   errorMessageArray.push(validControl.errors[keyError]);
                     // });
                     break;
+                case 'dynamicrule':
+                  //Object.keys(validControl.errors)
+                  errorMessageArray.push(this.prettyfyJsonErrorMessage(JSON.stringify( validControl.errors[keyError] ))); //.replace('dynamicrule','Required').replace('actualLength','Actual'));
+                  break;
                 default:
                   errorMessageArray.push(this.prettyfyJsonErrorMessage(JSON.stringify( validControl.errors[keyError] )));
                   break;

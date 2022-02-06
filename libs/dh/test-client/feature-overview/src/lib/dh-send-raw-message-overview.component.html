@@ -200,7 +200,8 @@ limitations under the License.
       <th mat-header-cell *matHeaderCellDef> validation </th>
       <td mat-cell *matCellDef="let row; let i = index">
         <!-- formControlArray[i].errors -->
-        <span *ngIf="!getValidity(i)" style="color:red">
+        <!-- <span *ngIf="!getValidity(i)" style="color:red"></span> -->
+        <span style="color:red">
           <ul>
             <li *ngFor="let item of getValidationMessages(i)">
               {{item}}
