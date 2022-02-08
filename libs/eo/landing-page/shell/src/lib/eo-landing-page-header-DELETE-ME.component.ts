@@ -26,7 +26,7 @@ import { RouterModule } from '@angular/router';
 import { LetModule } from '@rx-angular/template';
 import { Observable } from 'rxjs';
 
-import { EoLandingPageStore } from './eo-landing-page.store';
+import { EoLandingPageStore } from './eo-landing-page-DELETE-ME.store';
 
 const selector = 'eo-landing-page-header';
 

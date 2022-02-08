@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { EoLandingPageStore } from './eo-landing-page.store';
+import { EoLandingPageStore } from './eo-landing-page-DELETE-ME.store';
 import { TestBed } from '@angular/core/testing';
 import { MockProvider } from 'ng-mocks';
 import { APP_BASE_HREF } from '@angular/common';

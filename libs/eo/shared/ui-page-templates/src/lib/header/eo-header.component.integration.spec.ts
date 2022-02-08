@@ -14,26 +14,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { EoFooterComponent } from './eo-footer.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { render, screen } from '@testing-library/angular'
+import { EoHeaderStore } from './eo-header.store';
+import { EoHeaderComponent } from './eo-header.component';
 
-describe('EoFooterComponent', () => {
-  let component: EoFooterComponent;
-  let fixture: ComponentFixture<EoFooterComponent>;
+describe(EoHeaderComponent.name, () => {
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [EoFooterComponent],
-    }).compileComponents();
+  const findEnergyOriginLogo = () => screen.findByRole('img', { name: 'EnergyOrigin' });
+
+  it('displays the EnergyOrigin logo', async () => {
+    await render(EoHeaderComponent, {
+      imports: [HttpClientTestingModule],
+      providers: [EoHeaderStore]
+    });
+    expect(await findEnergyOriginLogo()).toBeInTheDocument();
   });
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(EoFooterComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
 });
