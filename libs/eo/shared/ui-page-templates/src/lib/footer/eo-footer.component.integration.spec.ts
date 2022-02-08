@@ -17,6 +17,8 @@
 import { render, screen } from '@testing-library/angular'
 import { EoFooterComponent } from './eo-footer.component';
 
+// @todo - Set up these tests in "the proper way"
+
 describe(EoFooterComponent.name, () => {
 
   const findEnerginetLogo = () => screen.findByRole('img', { name: 'Energinet' });

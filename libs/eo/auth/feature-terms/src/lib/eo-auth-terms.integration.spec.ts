@@ -23,6 +23,8 @@ import { render } from '@testing-library/angular';
 
 import { EoAuthFeatureTermsModule } from './eo-auth-feature-terms.module';
 
+// @todo set this test up
+
 describe('EnergyOrigin terms', () => {
   it('*** Enter a good description of the first test here ***', async () => {
     const { navigate } = await render(SpectacularAppComponent, {

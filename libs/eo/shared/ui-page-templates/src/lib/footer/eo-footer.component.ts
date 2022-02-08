@@ -34,8 +34,6 @@ const selector = 'eo-footer';
         display: grid;
         grid-template-columns: 428px 320px 1fr;
         width: 100%;
-        position: absolute;
-        bottom: 0;
         box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
         background: var(--watt-color-neutral-white);
         padding: var(--watt-space-l) var(--watt-space-m); // No mixing exists for "space-inset-stretch-l", see: C:lib/foundations/spacing/_spacing.import.scss

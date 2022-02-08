@@ -19,6 +19,8 @@ import { render, screen } from '@testing-library/angular'
 import { EoHeaderStore } from './eo-header.store';
 import { EoHeaderComponent } from './eo-header.component';
 
+// @todo - Set up these tests in "the proper way"
+
 describe(EoHeaderComponent.name, () => {
 
   const findEnergyOriginLogo = () => screen.findByRole('img', { name: 'EnergyOrigin' });
