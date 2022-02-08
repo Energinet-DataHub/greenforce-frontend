@@ -38,6 +38,29 @@ export class EoAuthTermsStore extends ComponentStore<EoAuthTermsState> {
     super({});
   }
 
+  /*
+  onLogOut = this.effect<void>((origin$) =>
+    origin$.pipe(
+      exhaustMap(() =>
+        this.authHttp.postLogout().pipe(
+          mergeMap((response) =>
+            response.success === true
+              ? of(undefined)
+              : throwError(() => new Error('Log out failed'))
+          ),
+          tapResponse(
+            () => this.router.navigateByUrl(eoLandingPageRelativeUrl),
+            (error) => {
+              // We only support the happy path for now
+              throw error;
+            }
+          )
+        )
+      )
+    )
+  );
+  */
+
   onAcceptTerms = this.effect<void>((origin$) =>
     origin$.pipe(
       exhaustMap(() =>

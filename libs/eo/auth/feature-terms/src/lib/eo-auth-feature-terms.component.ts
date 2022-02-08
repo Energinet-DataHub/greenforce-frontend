@@ -141,11 +141,13 @@ export class EoAuthFeatureTermsComponent {
   constructor(private store: EoAuthTermsStore) { }
 
   onCancel(): void {
+    // this.store.onLogOut...
     alert('Cancelled - Log out & Navigate to landing page');
   }
 
   onAccept(): void {
     if (this.hasAcceptedTerms) {
+      // this.store.onAcceptTerms...
       alert('Accepted - Navigate to the dashboard page');
     }
     else {
