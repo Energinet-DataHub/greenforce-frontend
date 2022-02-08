@@ -75,7 +75,7 @@ const selector = 'eo-header';
           }
         }
       }
-    `
+    `,
   ],
   template: `
     <mat-toolbar
@@ -91,7 +91,7 @@ const selector = 'eo-header';
         >Start</a
       >
     </mat-toolbar>
-  `
+  `,
 })
 export class EoHeaderComponent {
   loginUrl$: Observable<string> = this.headerStore.authenticationUrl$;
@@ -102,6 +102,6 @@ export class EoHeaderComponent {
   declarations: [EoHeaderComponent],
   exports: [EoHeaderComponent],
   imports: [MatToolbarModule, MatButtonModule, LetModule],
-  providers: [EoHeaderStore]
+  providers: [EoHeaderStore],
 })
 export class EoHeaderComponentScam {}

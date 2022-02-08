@@ -14,48 +14,48 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- import { EoHeaderStore } from './eo-header.store';
- import { TestBed } from '@angular/core/testing';
- import { MockProvider } from 'ng-mocks';
- import { APP_BASE_HREF } from '@angular/common';
- import {
-   AuthHttp,
-   AuthOidcQueryParameterName,
- } from '@energinet-datahub/ett/auth/data-access-api';
- import { of, firstValueFrom } from 'rxjs';
+import { EoHeaderStore } from './eo-header.store';
+import { TestBed } from '@angular/core/testing';
+import { MockProvider } from 'ng-mocks';
+import { APP_BASE_HREF } from '@angular/common';
+import {
+  AuthHttp,
+  AuthOidcQueryParameterName,
+} from '@energinet-datahub/ett/auth/data-access-api';
+import { of, firstValueFrom } from 'rxjs';
 
- describe(EoHeaderStore.name, () => {
-   describe('Given the Auth API is available', () => {
-     beforeEach(async () => {
-       TestBed.configureTestingModule({
-         providers: [
+describe(EoHeaderStore.name, () => {
+  describe('Given the Auth API is available', () => {
+    beforeEach(async () => {
+      TestBed.configureTestingModule({
+        providers: [
           EoHeaderStore,
-           MockProvider(AuthHttp, {
-             getLogin: (_feUrl, returnUrl) =>
-               of({
-                 next_url: `${authenticationUrl}?${AuthOidcQueryParameterName.ReturnUrl}=${returnUrl}`,
-               }),
-           }),
-         ],
-       });
+          MockProvider(AuthHttp, {
+            getLogin: (_feUrl, returnUrl) =>
+              of({
+                next_url: `${authenticationUrl}?${AuthOidcQueryParameterName.ReturnUrl}=${returnUrl}`,
+              }),
+          }),
+        ],
+      });
 
-       store = TestBed.inject(EoHeaderStore);
-       actualUrl = new URL(await firstValueFrom(store.authenticationUrl$));
-     });
-     const authenticationUrl = 'https://example.com/test-authentication';
-     let actualUrl: URL;
-     let store: EoHeaderStore;
+      store = TestBed.inject(EoHeaderStore);
+      actualUrl = new URL(await firstValueFrom(store.authenticationUrl$));
+    });
+    const authenticationUrl = 'https://example.com/test-authentication';
+    let actualUrl: URL;
+    let store: EoHeaderStore;
 
-     it('Then a link to the authentication URL is displayed', async () => {
-       expect(actualUrl.origin + actualUrl.pathname).toBe(authenticationUrl);
-     });
+    it('Then a link to the authentication URL is displayed', async () => {
+      expect(actualUrl.origin + actualUrl.pathname).toBe(authenticationUrl);
+    });
 
-     it(`Then the specified return url is equal to the dashboard page`, async () => {
-       const baseHref = TestBed.inject(APP_BASE_HREF);
+    it(`Then the specified return url is equal to the dashboard page`, async () => {
+      const baseHref = TestBed.inject(APP_BASE_HREF);
 
-       expect(
-         actualUrl.searchParams.get(AuthOidcQueryParameterName.ReturnUrl)
-       ).toBe(`${baseHref}dashboard`);
-     });
-   });
- });
+      expect(
+        actualUrl.searchParams.get(AuthOidcQueryParameterName.ReturnUrl)
+      ).toBe(`${baseHref}dashboard`);
+    });
+  });
+});

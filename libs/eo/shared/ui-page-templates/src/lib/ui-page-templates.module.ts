@@ -17,21 +17,15 @@
 import { NgModule } from '@angular/core';
 import {
   EoHeaderComponentScam,
-  EoHeaderComponent
+  EoHeaderComponent,
 } from './header/eo-header.component';
 import {
   EoFooterComponentScam,
-  EoFooterComponent
+  EoFooterComponent,
 } from './footer/eo-footer.component';
 
 @NgModule({
-  imports: [
-    EoHeaderComponentScam,
-    EoFooterComponentScam
-  ],
-  exports: [
-    EoHeaderComponent,
-    EoFooterComponent
-  ]
+  imports: [EoHeaderComponentScam, EoFooterComponentScam],
+  exports: [EoHeaderComponent, EoFooterComponent],
 })
 export class UiPageTemplatesModule {}
