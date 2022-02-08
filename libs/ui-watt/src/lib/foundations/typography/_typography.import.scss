@@ -16,95 +16,97 @@
  */
 @mixin watt-headline-1 {
   color: var(--watt-color-primary-dark);
-  font-size: 2.25rem;
-  font-weight: 600;
+  font: var(--watt-font-size-xxl);
+  font-weight: var(--watt-font-weight-bold);
   letter-spacing: 0;
-  line-height: 1.5;
-  text-transform: uppercase;
 }
 
 @mixin watt-headline-2 {
   color: var(--watt-color-primary-dark);
-  font-size: 2rem;
-  font-weight: 600;
+  font: var(--watt-font-size-xl);
+  font-weight: var(--watt-font-weight-bold);
   letter-spacing: 0;
-  line-height: 1.5;
-  text-transform: uppercase;
 }
 
 @mixin watt-headline-3 {
   color: var(--watt-color-primary-dark);
-  font-size: 1.75rem;
-  font-weight: 600;
+  font: var(--watt-font-size-m);
+  font-weight: var(--watt-font-weight-bold);
   letter-spacing: 0;
-  line-height: 1.5;
-  text-transform: uppercase;
 }
 
 @mixin watt-headline-4 {
   color: var(--watt-color-primary-dark);
-  font-size: 1.5rem;
-  font-weight: 600;
+  font: var(--watt-font-size-m);
+  font-weight: var(--watt-font-weight-bold);
   letter-spacing: 0;
-  line-height: 1.5;
-  text-transform: uppercase;
 }
 
 @mixin watt-headline-5 {
   color: var(--watt-color-primary-dark);
-  font-size: 1.25rem;
-  font-weight: 600;
+  font: var(--watt-font-size-m);
+  font-weight: var(--watt-font-weight-bold);
   letter-spacing: 0;
-  line-height: 1.5;
-  text-transform: uppercase;
 }
 
 @mixin watt-text-l {
-  color: var(--watt-color-primary-dark);
-  font-size: 1.125rem;
-  font-weight: 600;
+  font: var(--watt-font-size-l);
+  font-weight: var(--watt-font-weight-regular);
   letter-spacing: 0;
-  line-height: 1.5;
 }
 
 @mixin watt-text-m {
-  color: var(--watt-color-primary-dark);
-  font-size: 1rem;
-  font-weight: 400;
+  font: var(--watt-font-size-m);
+  font-weight: var(--watt-font-weight-regular);
   letter-spacing: 0;
-  line-height: 1.5;
 }
 
 @mixin watt-text-s {
-  color: var(--watt-color-primary-dark);
-  font-size: 0.875rem;
-  font-weight: 400;
+  font: var(--watt-font-size-s);
+  font-weight: var(--watt-font-weight-regular);
   letter-spacing: 0;
-  line-height: 1.5;
 }
 
-@mixin watt-text-xs {
-  color: var(--watt-color-primary-dark);
-  font-size: 0.75rem;
-  font-weight: 400;
-  letter-spacing: 0;
-  line-height: 1.5;
+@mixin watt-text-l-highlighted {
+  @include watt-text-l;
+  font-weight: var(--watt-font-weight-bold);
+}
+
+@mixin watt-text-m-highlighted {
+  @include watt-text-m;
+  font-weight: var(--watt-font-weight-bold);
+}
+
+@mixin watt-text-s-highlighted {
+  @include watt-text-s;
+  font-weight: var(--watt-font-weight-bold);
 }
 
 @mixin watt-button {
   color: var(--watt-color-primary);
-  font-size: 0.875rem;
-  font-weight: 600;
-  letter-spacing: 1.25px;
-  line-height: 1;
-  text-transform: uppercase;
+  font: var(--watt-font-size-m);
+  font-weight: var(--watt-font-weight-bold);
+  letter-spacing: 0;
 }
 
 @mixin watt-label {
   color: var(--watt-color-primary-dark);
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 1.5px;
-  line-height: 1.2;
+  font: var(--watt-font-size-s);
+  font-weight: var(--watt-font-weight-bold);
+  letter-spacing: 1.25px;
   text-transform: uppercase;
+}
+
+@mixin watt-link {
+  color: var(--watt-color-primary-dark);
+  font: var(--watt-font-size-m);
+  font-weight: var(--watt-font-weight-regular);
+  letter-spacing: 0;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+@mixin watt-link-s {
+  @include watt-link;
+  font: var(--watt-font-size-s);
 }

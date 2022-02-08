@@ -19,18 +19,46 @@ limitations under the License.
 </mat-card>
 
 <mat-card>
-  <h3>Font</h3>
-  <p>
-    <strong>Open Sans</strong> is the typeface used in the Watt Design System.
-  </p>
+  <h3>Font Family Options</h3>
+  <ul>
+    <li>Primary: <strong>Open Sans</strong></li>
+    <li>Secondary: <strong>Open Sans</strong></li>
+  </ul>
 </mat-card>
 
 <mat-card>
-  <h3>Type Scale</h3>
-  <p>
-    Font sizes are smaller on mobile and scale up at the md breakpoint to be
-    larger on desktop.
-  </p>
+  <h3>Font Weight Options</h3>
+  <ul>
+    <li>Light: 300</li>
+    <li>Regular: 400</li>
+    <li>Semi-bold: 600</li>
+    <li>Bold: 700</li>
+  </ul>
+</mat-card>
+
+<mat-card style="display: flex; gap: 64px;">
+  <section>
+    <h3>Font Size Options</h3>
+    <p>size (line-height)</p>
+    <ul>
+      <li class="font-size-xxl">XXL: 32 px (42)</li>
+      <li class="font-size-xl">XL: 26 px (36)</li>
+      <li class="font-size-l">L: 20 px (28)</li>
+      <li class="font-size-m">M: 16 px (24)</li>
+      <li class="font-size-s">S: 14 px (20)</li>
+    </ul>
+  </section>
+  <section>
+    <h3>Letter Spacing Options</h3>
+    <ul>
+      <li>0</li>
+      <li>1,25</li>
+    </ul>
+  </section>
+</mat-card>
+
+<mat-card>
+  <h3>LARGE SCREEN - Usage</h3>
 
   <table mat-table [dataSource]="dataSource" style="width: 100%">
     <!--- Note that these columns can be defined in any order.
@@ -79,9 +107,4 @@ limitations under the License.
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
   </table>
-
-  <p>
-    * Line height is set to the recommended minimum of 1.5 times the font size
-    by WCAG 2.1.
-  </p>
 </mat-card>

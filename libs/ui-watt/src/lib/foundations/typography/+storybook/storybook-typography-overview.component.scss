@@ -24,4 +24,30 @@
 
 mat-card {
   margin-bottom: 8px;
+  max-width: 880px;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+.font-size-xxl {
+  font: var(--watt-font-size-xxl);
+}
+
+.font-size-xl {
+  font: var(--watt-font-size-xl);
+}
+
+.font-size-l {
+  font: var(--watt-font-size-l);
+}
+
+.font-size-m {
+  font: var(--watt-font-size-m);
+}
+
+.font-size-s {
+  font: var(--watt-font-size-s);
 }
