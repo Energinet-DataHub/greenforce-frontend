@@ -14,32 +14,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- import { Injectable, Inject } from '@angular/core';
- import { APP_BASE_HREF } from '@angular/common';
- import { ComponentStore } from '@ngrx/component-store';
- import { Observable } from 'rxjs';
- import { AuthHttp } from '@energinet-datahub/ett/auth/data-access-api';
- import { AbsoluteUrlGenerator } from '@energinet-datahub/ett/shared/util-browser';
- import { ettDashboardRoutePath } from '@energinet-datahub/ett/dashboard/routing';
+import { Injectable, Inject } from '@angular/core';
+import { APP_BASE_HREF } from '@angular/common';
+import { ComponentStore } from '@ngrx/component-store';
+import { Observable } from 'rxjs';
+import { AuthHttp } from '@energinet-datahub/ett/auth/data-access-api';
+import { AbsoluteUrlGenerator } from '@energinet-datahub/ett/shared/util-browser';
+import { ettDashboardRoutePath } from '@energinet-datahub/ett/dashboard/routing';
 
- // Disabling this check, as no internal state is needed for the store.
- // eslint-disable-next-line @typescript-eslint/no-empty-interface
- interface EoHeaderState {}
+// Disabling this check, as no internal state is needed for the store.
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+interface EoHeaderState {}
 
- @Injectable()
- export class EoHeaderStore extends ComponentStore<EoHeaderState> {
-   #absoluteReturnUrl = this.urlGenerator.fromCommands([ettDashboardRoutePath]);
+@Injectable()
+export class EoHeaderStore extends ComponentStore<EoHeaderState> {
+  #absoluteReturnUrl = this.urlGenerator.fromCommands([ettDashboardRoutePath]);
 
-   authenticationUrl$: Observable<string> = this.select(
-     this.authOidcHttpClient.getLogin(this.appBaseHref, this.#absoluteReturnUrl),
-     (response) => response.next_url
-   );
+  authenticationUrl$: Observable<string> = this.select(
+    this.authOidcHttpClient.getLogin(this.appBaseHref, this.#absoluteReturnUrl),
+    (response) => response.next_url
+  );
 
-   constructor(
-     private authOidcHttpClient: AuthHttp,
-     private urlGenerator: AbsoluteUrlGenerator,
-     @Inject(APP_BASE_HREF) private appBaseHref: string
-   ) {
-     super({});
-   }
- }
+  constructor(
+    private authOidcHttpClient: AuthHttp,
+    private urlGenerator: AbsoluteUrlGenerator,
+    @Inject(APP_BASE_HREF) private appBaseHref: string
+  ) {
+    super({});
+  }
+}

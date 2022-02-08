@@ -46,6 +46,6 @@ export class EoLandingPageShellComponent {}
 
 @NgModule({
   declarations: [EoLandingPageShellComponent],
-  imports: [UiPageTemplatesModule]
+  imports: [UiPageTemplatesModule],
 })
 export class EoLandingPageShellScam {}

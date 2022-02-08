@@ -67,7 +67,7 @@ const selector = 'eo-footer';
           height: 48px;
         }
       }
-    `
+    `,
   ],
   template: `
     <div>
@@ -102,7 +102,7 @@ const selector = 'eo-footer';
         >datahub@energinet.dk</a
       >
     </div>
-  `
+  `,
 })
 export class EoFooterComponent {}
 
