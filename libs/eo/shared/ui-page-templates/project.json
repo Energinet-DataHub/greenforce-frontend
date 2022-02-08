@@ -1,0 +1,26 @@
+{
+  "projectType": "library",
+  "root": "libs/eo/shared/ui-page-templates",
+  "sourceRoot": "libs/eo/shared/ui-page-templates/src",
+  "prefix": "energinet-datahub",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/eo/shared/ui-page-templates"],
+      "options": {
+        "jestConfig": "libs/eo/shared/ui-page-templates/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/eo/shared/ui-page-templates/src/**/*.ts",
+          "libs/eo/shared/ui-page-templates/src/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": []
+}

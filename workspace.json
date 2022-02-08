@@ -36,6 +36,7 @@
     "eo-landing-page-shell": "libs/eo/landing-page/shell",
     "eo-shared-assets": "libs/eo/shared/assets",
     "eo-shared-environments": "libs/eo/shared/environments",
+    "eo-shared-ui-page-templates": "libs/eo/shared/ui-page-templates",
     "ett-auth-data-access-api": "libs/ett/auth/data-access-api",
     "ett-auth-data-access-security": "libs/ett/auth/data-access-security",
     "ett-auth-routing-security": "libs/ett/auth/routing-security",
