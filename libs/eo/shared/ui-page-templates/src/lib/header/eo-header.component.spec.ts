@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { EoHeaderComponent } from './header.component';
+import { EoHeaderComponent } from './eo-header.component';
 
 describe('EoHeaderComponent', () => {
   let component: EoHeaderComponent;
