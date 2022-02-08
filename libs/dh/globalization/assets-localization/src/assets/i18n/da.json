@@ -5,6 +5,11 @@
   "shell": {
     "logout": "Log ud"
   },
+  "sidebar": {
+    "navigation": {
+      "meteringPoints": "Målepunkter"
+    }
+  },
   "meteringPoint": {
     "search": {
       "title": "Søg målepunkter",

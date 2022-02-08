@@ -24,14 +24,16 @@ limitations under the License.
       />
     </div>
 
-    <watt-nav-list>
-      <a
-        watt-nav-list-item
-        routerLink="/metering-point"
-        routerLinkActive="active"
-        >Metering points</a
-      >
-    </watt-nav-list>
+    <ng-container *transloco="let transloco; read: 'sidebar.navigation'">
+      <watt-nav-list>
+        <a
+          watt-nav-list-item
+          routerLink="/metering-point"
+          routerLinkActive="active"
+          >{{ transloco('meteringPoints') }}</a
+        >
+      </watt-nav-list>
+    </ng-container>
   </ng-container>
 
   <ng-container watt-shell-toolbar>

@@ -5,6 +5,11 @@
   "shell": {
     "logout": "Sign out"
   },
+  "sidebar": {
+    "navigation": {
+      "meteringPoints": "Metering points"
+    }
+  },
   "meteringPoint": {
     "search": {
       "title": "Search metering points",
