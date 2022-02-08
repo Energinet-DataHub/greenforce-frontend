@@ -18,7 +18,11 @@ import { Component, NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { MsalService } from '@energinet-datahub/dh/auth/msal';
 import { DhLanguagePickerModule } from '@energinet-datahub/dh/globalization/feature-language-picker';
-import { WattButtonModule, WattShellModule } from '@energinet-datahub/watt';
+import {
+  WattButtonModule,
+  WattShellModule,
+  WattNavListModule,
+} from '@energinet-datahub/watt';
 import { TranslocoModule } from '@ngneat/transloco';
 
 @Component({
@@ -41,6 +45,7 @@ export class DhCoreShellComponent {
     DhLanguagePickerModule,
     RouterModule,
     WattShellModule,
+    WattNavListModule,
     WattButtonModule,
   ],
 })
