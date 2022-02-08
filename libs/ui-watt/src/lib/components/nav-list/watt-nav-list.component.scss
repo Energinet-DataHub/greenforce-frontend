@@ -1,0 +1,15 @@
+watt-nav-list {
+  --watt-nav-list-color-secondary: #f8ad3c;
+
+  .mat-nav-list .mat-list-item {
+    border-left: var(--watt-space-xs) solid transparent;
+    color: var(--watt-color-neutral-white);
+    height: calc(10 * var(--watt-space-xs));
+
+    &:hover,
+    &.active {
+      background-color: var(--watt-color-primary);
+      border-left-color: var(--watt-nav-list-color-secondary);
+    }
+  }
+}
