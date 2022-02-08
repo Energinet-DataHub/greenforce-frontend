@@ -19,9 +19,6 @@ import { EoHeaderComponentScam } from './header/eo-header.component';
 import { EoFooterComponentScam } from './footer/eo-footer.component';
 
 @NgModule({
-  imports: [
-    EoHeaderComponentScam,
-    EoFooterComponentScam
-  ]
+  imports: [EoHeaderComponentScam, EoFooterComponentScam],
 })
 export class UiPageTemplatesModule {}

@@ -11,16 +11,10 @@ const selector = 'eo-footer';
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   selector,
-  template: `
-    <p>
-      footer works!
-    </p>
-  `,
-  styles: [`
-
-  `]
+  template: ` <p>footer works!</p> `,
+  styles: [``],
 })
-export class EoFooterComponent { }
+export class EoFooterComponent {}
 
 @NgModule({
   declarations: [EoFooterComponent],

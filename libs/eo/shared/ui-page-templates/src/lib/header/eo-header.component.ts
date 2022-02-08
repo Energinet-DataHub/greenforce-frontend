@@ -11,16 +11,10 @@ const selector = 'eo-header';
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   selector,
-  template: `
-    <p>
-      header works!
-    </p>
-  `,
-  styles: [`
-
-  `]
+  template: ` <p>header works!</p> `,
+  styles: [``],
 })
-export class EoHeaderComponent { }
+export class EoHeaderComponent {}
 
 @NgModule({
   declarations: [EoHeaderComponent],

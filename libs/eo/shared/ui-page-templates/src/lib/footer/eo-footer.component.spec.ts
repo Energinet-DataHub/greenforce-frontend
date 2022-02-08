@@ -23,9 +23,8 @@ describe('EoFooterComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ EoFooterComponent ]
-    })
-    .compileComponents();
+      declarations: [EoFooterComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {
