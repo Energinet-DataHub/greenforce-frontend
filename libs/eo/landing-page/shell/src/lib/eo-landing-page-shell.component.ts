@@ -20,8 +20,6 @@ import {
   NgModule,
   ViewEncapsulation,
 } from '@angular/core';
-import { EoLandingPageFooterScam } from './eo-landing-page-footer.component';
-import { EoLandingPageStore } from './eo-landing-page.store';
 
 // @todo: Do we import the whole module, or just the scam for the header component?
 import { UiPageTemplatesModule } from '@energinet-datahub/eo/shared/ui-page-templates';
@@ -41,14 +39,13 @@ const selector = 'eo-landing-page-shell';
   ],
   template: `
     <eo-header></eo-header>
-    <eo-landing-page-footer></eo-landing-page-footer>
+    <eo-footer></eo-footer>
   `,
 })
 export class EoLandingPageShellComponent {}
 
 @NgModule({
   declarations: [EoLandingPageShellComponent],
-  imports: [UiPageTemplatesModule, EoLandingPageFooterScam],
-  providers: [EoLandingPageStore],
+  imports: [UiPageTemplatesModule]
 })
 export class EoLandingPageShellScam {}
