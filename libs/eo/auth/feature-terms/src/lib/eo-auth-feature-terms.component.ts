@@ -21,7 +21,9 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Observable } from 'rxjs';
 import { WattButtonModule, WattCheckboxModule } from '@energinet-datahub/watt';
+import { EoAuthTermsStore } from './eo-auth-terms.store';
 
 // @todo: Do we import the whole module, or just the scam for the header component?
 import { UiPageTemplatesModule } from '@energinet-datahub/eo/shared/ui-page-templates';
@@ -48,13 +50,14 @@ const selector = 'eo-auth-terms';
           margin-bottom: var(--watt-space-l);
         }
 
-        // This is the contents of the privacy policy
+        // This is the wrapper for the privacy policy
         .${selector}__content {
           border-radius: var(--watt-space-xs);
           word-break: break-word;
           background: var(--watt-color-neutral-white);
         }
 
+        // This is the contents of the privacy policy with the custom scrollbar
         article {
           max-height: calc(100 * var(--watt-space-xs));
           word-break: break-word;
@@ -124,18 +127,35 @@ const selector = 'eo-auth-terms';
         >
       </div>
 
-      <watt-button variant="secondary">Back</watt-button>
-      <watt-button variant="primary">Accept terms</watt-button>
+      <watt-button variant="secondary" (click)="onCancel()">Back</watt-button>
+      <watt-button variant="primary" (click)="onAccept()">Accept terms</watt-button>
 
     </div>
     <eo-footer></eo-footer>
   `,
 })
 export class EoAuthFeatureTermsComponent {
+  terms: Observable<string> = this.store.getTerms$;
   hasAcceptedTerms = false;
+
+  constructor(private store: EoAuthTermsStore) { }
+
+  onCancel(): void {
+    alert('Cancelled - Log out & Navigate to landing page');
+  }
+
+  onAccept(): void {
+    if (this.hasAcceptedTerms) {
+      alert('Accepted - Navigate to the dashboard page');
+    }
+    else {
+      alert('FAIL - You need to check the checkbox');
+    }
+  }
 }
 
 @NgModule({
+  providers: [EoAuthTermsStore],
   declarations: [EoAuthFeatureTermsComponent],
   imports: [
     FormsModule,

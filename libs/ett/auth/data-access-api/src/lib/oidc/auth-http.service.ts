@@ -59,4 +59,14 @@ export class AuthHttp {
       }
     );
   }
+
+  getTerms(): Observable<string> {
+    return this.http.get<string>(`${this.apiEnvironment.apiBase}/terms`);
+  }
+
+  // @todo: Remove <any> -> Return type for this request?
+  // @todo: Expected payload for this request?
+  acceptTerms(): Observable<any> {
+    return this.http.post(`${this.apiEnvironment.apiBase}/terms/accept`, {});
+  }
 }
