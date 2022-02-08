@@ -15,3 +15,7 @@
  * limitations under the License.
  */
 export * from './lib/ui-page-templates.module';
+
+// @todo: JK, understand -> Do we want to export these independently, or make them available ony via the module above?
+// export * from './lib/header/eo-header.component';
+// export * from './lib/header/eo-footer.component';

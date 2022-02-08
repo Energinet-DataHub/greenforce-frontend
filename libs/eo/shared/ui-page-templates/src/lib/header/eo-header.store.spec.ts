@@ -1,0 +1,61 @@
+/**
+ * @license
+ * Copyright 2020 Energinet DataHub A/S
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License2");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+ import { EoHeaderStore } from './eo-header.store';
+ import { TestBed } from '@angular/core/testing';
+ import { MockProvider } from 'ng-mocks';
+ import { APP_BASE_HREF } from '@angular/common';
+ import {
+   AuthHttp,
+   AuthOidcQueryParameterName,
+ } from '@energinet-datahub/ett/auth/data-access-api';
+ import { of, firstValueFrom } from 'rxjs';
+
+ describe(EoHeaderStore.name, () => {
+   describe('Given the Auth API is available', () => {
+     beforeEach(async () => {
+       TestBed.configureTestingModule({
+         providers: [
+          EoHeaderStore,
+           MockProvider(AuthHttp, {
+             getLogin: (_feUrl, returnUrl) =>
+               of({
+                 next_url: `${authenticationUrl}?${AuthOidcQueryParameterName.ReturnUrl}=${returnUrl}`,
+               }),
+           }),
+         ],
+       });
+
+       store = TestBed.inject(EoHeaderStore);
+       actualUrl = new URL(await firstValueFrom(store.authenticationUrl$));
+     });
+     const authenticationUrl = 'https://example.com/test-authentication';
+     let actualUrl: URL;
+     let store: EoHeaderStore;
+
+     it('Then a link to the authentication URL is displayed', async () => {
+       expect(actualUrl.origin + actualUrl.pathname).toBe(authenticationUrl);
+     });
+
+     it(`Then the specified return url is equal to the dashboard page`, async () => {
+       const baseHref = TestBed.inject(APP_BASE_HREF);
+
+       expect(
+         actualUrl.searchParams.get(AuthOidcQueryParameterName.ReturnUrl)
+       ).toBe(`${baseHref}dashboard`);
+     });
+   });
+ });

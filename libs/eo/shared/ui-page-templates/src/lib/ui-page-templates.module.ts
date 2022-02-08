@@ -15,13 +15,23 @@
  * limitations under the License.
  */
 import { NgModule } from '@angular/core';
-import { EoHeaderComponentScam } from './header/eo-header.component';
-import { EoFooterComponentScam } from './footer/eo-footer.component';
+import {
+  EoHeaderComponentScam,
+  EoHeaderComponent
+} from './header/eo-header.component';
+import {
+  EoFooterComponentScam,
+  EoFooterComponent
+} from './footer/eo-footer.component';
 
 @NgModule({
   imports: [
     EoHeaderComponentScam,
     EoFooterComponentScam
+  ],
+  exports: [
+    EoHeaderComponent,
+    EoFooterComponent
   ]
 })
 export class UiPageTemplatesModule {}
