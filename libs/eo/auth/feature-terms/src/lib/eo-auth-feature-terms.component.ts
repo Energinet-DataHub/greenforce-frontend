@@ -56,7 +56,7 @@ const selector = 'eo-auth-terms';
         }
 
         article {
-          height: calc(100 * var(--watt-space-xs));
+          max-height: calc(100 * var(--watt-space-xs));
           word-break: break-word;
           overflow-y: scroll;
           padding-right: calc(4 * var(--watt-space-xs));
