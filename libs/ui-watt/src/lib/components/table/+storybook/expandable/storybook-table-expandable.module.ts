@@ -19,9 +19,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
 
-import { WattIconModule } from '../../../foundations/icon';
-import { StorybookTableOverviewComponent } from './storybook-table-overview.component';
-import { StorybookTableExpandableModule } from './expandable/storybook-table-expandable.module';
+import { WattIconModule } from '../../../../foundations/icon';
+import { StorybookTableExpandableComponent } from './storybook-table-expandable.component';
+import { WattTableExpandControlScam } from './expand-control/expand-control.component';
 
 @NgModule({
   imports: [
@@ -29,9 +29,9 @@ import { StorybookTableExpandableModule } from './expandable/storybook-table-exp
     WattIconModule,
     MatSortModule,
     BrowserAnimationsModule,
-    StorybookTableExpandableModule
+    WattTableExpandControlScam
   ],
-  declarations: [StorybookTableOverviewComponent],
-  exports: [StorybookTableOverviewComponent],
+  declarations: [StorybookTableExpandableComponent],
+  exports: [StorybookTableExpandableComponent],
 })
-export class StorybookTableOverviewModule {}
+export class StorybookTableExpandableModule {}

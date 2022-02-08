@@ -1,0 +1,12 @@
+.control-cell-header,
+.control-cell {
+  flex: 0 1 calc(var(--cell-padding) * 3);
+}
+
+.control-cell watt-icon {
+  transition: transform .2s linear;
+
+  &.expanded {
+    transform: rotate(90deg);
+  }
+}
