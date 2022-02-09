@@ -1,0 +1,10 @@
+<ng-container *transloco="let transloco; read: 'sidebar.navigation'">
+  <watt-nav-list>
+    <a
+      watt-nav-list-item
+      routerLink="/metering-point"
+      routerLinkActive="active"
+      >{{ transloco('meteringPoints') }}</a
+    >
+  </watt-nav-list>
+</ng-container>
