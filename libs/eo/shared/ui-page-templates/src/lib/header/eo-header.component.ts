@@ -19,7 +19,9 @@ import {
   Component,
   NgModule,
   ViewEncapsulation,
+  Input
 } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { LetModule } from '@rx-angular/template';
@@ -83,17 +85,21 @@ const selector = 'eo-header';
       class="${selector}__toolbar watt-space-inset-squished-m"
     >
       <img src="assets/energyorigin-logo.svg" alt="EnergyOrigin" />
-      <a
-        mat-button
-        mat-flat-button
-        *rxLet="loginUrl$ as loginUrl"
-        [href]="loginUrl"
-        >Start</a
-      >
+      <ng-container *ngIf="showStartButton">
+        <a
+          mat-button
+          mat-flat-button
+          *rxLet="loginUrl$ as loginUrl"
+          [href]="loginUrl"
+          >Start</a
+        >
+      </ng-container>
     </mat-toolbar>
   `,
 })
 export class EoHeaderComponent {
+  @Input() showStartButton = true;
+
   loginUrl$: Observable<string> = this.headerStore.authenticationUrl$;
   constructor(private headerStore: EoHeaderStore) {}
 }
@@ -101,7 +107,7 @@ export class EoHeaderComponent {
 @NgModule({
   declarations: [EoHeaderComponent],
   exports: [EoHeaderComponent],
-  imports: [MatToolbarModule, MatButtonModule, LetModule],
+  imports: [CommonModule, MatToolbarModule, MatButtonModule, LetModule],
   providers: [EoHeaderStore],
 })
 export class EoHeaderComponentScam {}

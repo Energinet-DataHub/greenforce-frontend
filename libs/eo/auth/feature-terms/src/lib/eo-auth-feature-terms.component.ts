@@ -88,7 +88,7 @@ const selector = 'eo-auth-terms';
     `,
   ],
   template: `
-    <eo-header></eo-header>
+    <eo-header [showStartButton]="false"></eo-header>
     <div class="${selector}__page">
       <h1>Read and accept our privacy policy</h1>
       <div class="watt-space-inset-m watt-space-stack-l ${selector}__content">
