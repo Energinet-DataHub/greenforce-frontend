@@ -67,7 +67,7 @@ $font-sizes: (
   @include font-weight('bold');
   letter-spacing: 0;
 
-  @include breakpoints.media(">=Large") {
+  @include breakpoints.media('>=Large') {
     @include font-size('xxl');
   }
 }
@@ -78,7 +78,7 @@ $font-sizes: (
   @include font-weight('bold');
   letter-spacing: 0;
 
-  @include breakpoints.media(">=Large") {
+  @include breakpoints.media('>=Large') {
     @include font-size('xl');
   }
 }
