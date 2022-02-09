@@ -21,8 +21,22 @@ import {
   eoApiEnvironmentToken,
 } from '@energinet-datahub/eo/shared/environments';
 import { Observable } from 'rxjs';
-
 import { AuthOidcQueryParameterName } from './auth-oidc-query-parameter-name';
+
+export interface AuthTermsResponse {
+  /**
+   * A single line of raw text
+   */
+  readonly headline: string;
+  /**
+   * A string containing safe HTML
+   */
+  readonly terms: string;
+  /**
+   * A string: I.eg: "0.1"
+   */
+  readonly version: string;
+}
 
 export interface AuthOidcLoginResponse {
   /**
@@ -60,15 +74,15 @@ export class AuthHttp {
     );
   }
 
-  getTerms(): Observable<string> {
-    return this.http.get<string>(`${this.apiEnvironment.apiBase}/terms`);
+  getTerms(endpointUrl: string): Observable<AuthTermsResponse> {
+    return this.http.get<AuthTermsResponse>(endpointUrl);
   }
 
   // @todo: Remove <any> -> Return type for this request?
   // @todo: Expected payload for this request?
   /*
-  acceptTerms(): Observable<any> {
-    return this.http.post(`${this.apiEnvironment.apiBase}/terms/accept`, {});
+  acceptTerms(endpointUrl: string): Observable<any> {
+    return this.http.post(endpointUrl, {});
   }
   */
 }

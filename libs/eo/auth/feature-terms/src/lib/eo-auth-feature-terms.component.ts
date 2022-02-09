@@ -20,6 +20,7 @@ import {
   NgModule,
   ViewEncapsulation,
 } from '@angular/core';
+import { PushModule } from '@rx-angular/template';
 import { FormsModule } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { WattButtonModule, WattCheckboxModule } from '@energinet-datahub/watt';
@@ -92,35 +93,9 @@ const selector = 'eo-auth-terms';
     <eo-header></eo-header>
 
     <div class="${selector}__page">
-      <h1>Read and accept our privacy policy</h1>
+      <h1>{{ headline$ | push}}</h1>
       <div class="watt-space-inset-m watt-space-stack-l ${selector}__content">
-        <article>
-          <h3>Privacy Policy</h3>
-          <p>
-            longwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongword.
-          </p>
-          <p>
-            longwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongword.
-          </p>
-          <p>
-            longwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongword.
-          </p>
-          <p>
-            longwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongword.
-          </p>
-          <p>
-            longwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongword.
-          </p>
-          <p>
-            longwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongword.
-          </p>
-          <p>
-            longwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongword.
-          </p>
-          <p>
-            longwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongwordlongword.
-          </p>
-        </article>
+        <article [innerHTML]="terms$ | push"></article>
       </div>
 
       <div class="watt-space-stack-l">
@@ -137,7 +112,8 @@ const selector = 'eo-auth-terms';
   `,
 })
 export class EoAuthFeatureTermsComponent {
-  terms: Observable<string> = this.store.getTerms$;
+  headline$: Observable<string> = this.store.headline$;
+  terms$: Observable<string> = this.store.terms$;
   hasAcceptedTerms = false;
 
   constructor(private store: EoAuthTermsStore) { }
@@ -166,7 +142,8 @@ export class EoAuthFeatureTermsComponent {
     WattButtonModule,
     WattCheckboxModule,
     EoFooterScam,
-    EoHeaderScam
+    EoHeaderScam,
+    PushModule
   ],
 })
 export class EoAuthFeatureTermsScam {}

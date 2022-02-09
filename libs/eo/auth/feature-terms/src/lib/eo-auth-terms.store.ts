@@ -15,16 +15,17 @@
  * limitations under the License.
  */
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ComponentStore, tapResponse  } from '@ngrx/component-store';
 import {
   Observable,
   exhaustMap,
+  switchMap,
   mergeMap,
   of,
   throwError
 } from 'rxjs';
-import { AuthHttp } from '@energinet-datahub/ett/auth/data-access-api';
+import { AuthHttp, AuthTermsResponse } from '@energinet-datahub/ett/auth/data-access-api';
 
 // Disabling this check, as no internal state is needed for the store.
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -32,9 +33,15 @@ interface EoAuthTermsState {}
 
 @Injectable()
 export class EoAuthTermsStore extends ComponentStore<EoAuthTermsState> {
-  getTerms$: Observable<string> = this.select(this.authHttp.getTerms(), (response) => response);
+  #termsUrl: Observable<string> = this.select(this.route.queryParams, params => params.terms_url);
+  #termsResponse: Observable<AuthTermsResponse> = this.select(this.#termsUrl.pipe(
+    switchMap(termsUrl => this.authHttp.getTerms(termsUrl))
+  ), authTermsResponse => authTermsResponse);
 
-  constructor(private authHttp: AuthHttp, private router: Router) {
+  headline$: Observable<string> = this.select(this.#termsResponse, (response) => response.headline);
+  terms$: Observable<string> = this.select(this.#termsResponse, (response) => response.terms);
+
+  constructor(private authHttp: AuthHttp, private router: Router, private route: ActivatedRoute) {
     super({});
   }
 

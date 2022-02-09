@@ -27,14 +27,14 @@ import { of, firstValueFrom } from 'rxjs';
         providers: [
           EoAuthTermsStore,
           MockProvider(AuthHttp, {
-            getTerms: () =>
-              of('Privacy policy string here'), // @todo - Response format?
+            getTerms: (endpointUrl) =>
+              of({terms: 'Terms comes here', version: '1.0', headline: 'Read the terms'}), // @todo - Response format?
           }),
         ],
       });
 
       store = TestBed.inject(EoAuthTermsStore);
-      privacyPolicy = await firstValueFrom(store.getTerms$);
+      privacyPolicy = await firstValueFrom(store.terms$);
     });
     let privacyPolicy: string;
     let store: EoAuthTermsStore;
