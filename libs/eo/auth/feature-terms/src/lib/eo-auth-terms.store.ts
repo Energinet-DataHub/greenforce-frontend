@@ -18,32 +18,57 @@ import { Injectable } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ComponentStore, tapResponse  } from '@ngrx/component-store';
 import {
-  Observable,
-  exhaustMap,
-  switchMap,
+  combineLatest,
+  filter,
+  map,
   mergeMap,
-  of,
-  throwError
-} from 'rxjs';
-import { AuthHttp, AuthTermsResponse } from '@energinet-datahub/ett/auth/data-access-api';
+  take,
+  Observable,
+  switchMap } from 'rxjs';
+import { AuthHttp } from '@energinet-datahub/ett/auth/data-access-api';
 
-// Disabling this check, as no internal state is needed for the store.
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-interface EoAuthTermsState {}
-
+interface EoAuthTermsState {
+  readonly headline: string | null;
+  readonly terms: string | null;
+  readonly version: string | null;
+}
 @Injectable()
 export class EoAuthTermsStore extends ComponentStore<EoAuthTermsState> {
   #termsUrl: Observable<string> = this.select(this.route.queryParams, params => params.terms_url);
-  #termsResponse: Observable<AuthTermsResponse> = this.select(this.#termsUrl.pipe(
-    switchMap(termsUrl => this.authHttp.getTerms(termsUrl))
-  ), authTermsResponse => authTermsResponse);
+  #acceptTermsUrl: Observable<string> = this.select(this.route.queryParams, params => params.accept_terms_url);
 
-  headline$: Observable<string> = this.select(this.#termsResponse, (response) => response.headline);
-  terms$: Observable<string> = this.select(this.#termsResponse, (response) => response.terms);
+  #version$: Observable<string> = this.select(state => state.version).pipe(
+    filter(version => version !== null),
+    map(version => version as string)
+  );
+
+  headline$: Observable<string> = this.select(state => state.headline).pipe(
+    filter(headline => headline !== null),
+    map(headline => headline as string)
+  );
+  terms$: Observable<string> = this.select(state => state.terms).pipe(
+    filter(terms => terms !== null),
+    map(terms => terms as string)
+  );
 
   constructor(private authHttp: AuthHttp, private router: Router, private route: ActivatedRoute) {
-    super({});
+    super(initialState);
+    this.#getTerms(this.#termsUrl);
   }
+
+  #getTerms = this.effect<string>((termsUrl$) =>
+    termsUrl$.pipe(
+      switchMap(termsUrl => this.authHttp.getTerms(termsUrl).pipe(
+        tapResponse(
+          (response) => this.patchState({headline: response.headline, terms: response.terms, version: response.version}),
+          (error) => {
+            // We only support the happy path for now
+            throw error;
+          }
+        )
+      ))
+    )
+  );
 
   /*
   onLogOut = this.effect<void>((origin$) =>
@@ -68,26 +93,31 @@ export class EoAuthTermsStore extends ComponentStore<EoAuthTermsState> {
   );
   */
 
-  /*
+  // Send over "state": ?, "version": this.state.version, "accepted": boolean
   onAcceptTerms = this.effect<void>((origin$) =>
-    origin$.pipe(
-      exhaustMap(() =>
-        this.authHttp.acceptTerms().pipe(
-          mergeMap((response) =>
-            response.success === true
-              ? of(undefined) // @todo: Update the success response handling below -> Remove 'undefined' if we actually get a response object(?)
-              : throwError(() => new Error('Log out failed'))
-          ),
-          tapResponse(
-            () => this.router.navigateByUrl(''), // @todo: Import path to the dashboard here
-            (error) => {
-              // We only support the happy path for now
-              throw error;
-            }
-          )
-        )
-      )
+    combineLatest([
+      this.#acceptTermsUrl,
+      this.#version$
+    ]).pipe(
+      take(1),
+      mergeMap(([acceptTermsUrl, version]) => this.authHttp.postAcceptTerms(acceptTermsUrl, {
+        version,
+        accepted: true,
+        state: ''
+      }),
+      tapResponse(
+        (response) => location.href = response.next_url,
+        (error) => {
+          // We only support the happy path for now
+          throw error;
+        }
+      ))
     )
   );
-  */
+}
+
+const initialState: EoAuthTermsState = {
+  headline: null,
+  terms: null,
+  version: null
 }

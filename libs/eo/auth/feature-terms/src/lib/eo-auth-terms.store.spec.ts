@@ -28,19 +28,23 @@ import { of, firstValueFrom } from 'rxjs';
           EoAuthTermsStore,
           MockProvider(AuthHttp, {
             getTerms: (endpointUrl) =>
-              of({terms: 'Terms comes here', version: '1.0', headline: 'Read the terms'}), // @todo - Response format?
+              of({terms: '<p>Terms comes here</p>', version: '1.0', headline: 'Read the terms'})
           }),
         ],
       });
-
       store = TestBed.inject(EoAuthTermsStore);
-      privacyPolicy = await firstValueFrom(store.terms$);
     });
-    let privacyPolicy: string;
+
     let store: EoAuthTermsStore;
 
-    it('Then the privacy policy is retuned from the API as a string', async () => {
-      expect(privacyPolicy).toMatch('/.+?/g'); // @todo - Match any string?
+    it('Then the terms are emitted', async () => {
+      const terms = await firstValueFrom(store.terms$);
+      expect(terms).toBe('<p>Terms comes here</p>');
+    });
+
+    it('Then the headline is emitted', async () => {
+      const headline = await firstValueFrom(store.headline$);
+      expect(headline).toBe('Read the terms');
     });
   });
 });

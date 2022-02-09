@@ -80,9 +80,7 @@ export class AuthHttp {
 
   // @todo: Remove <any> -> Return type for this request?
   // @todo: Expected payload for this request?
-  /*
-  acceptTerms(endpointUrl: string): Observable<any> {
+  postAcceptTerms(endpointUrl: string): Observable<any> {
     return this.http.post(endpointUrl, {});
   }
-  */
 }
