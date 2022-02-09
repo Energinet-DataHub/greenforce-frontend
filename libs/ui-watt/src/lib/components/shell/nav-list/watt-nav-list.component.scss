@@ -1,6 +1,8 @@
 watt-nav-list {
   --watt-nav-list-color-secondary: #f8ad3c;
 
+  display: block;
+
   .mat-nav-list .mat-list-item {
     border-left: var(--watt-space-xs) solid transparent;
     color: var(--watt-color-neutral-white);
