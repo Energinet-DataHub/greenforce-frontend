@@ -1,6 +1,7 @@
 watt-nav-list {
   --watt-nav-list-color-secondary: #f8ad3c;
 
+  background-color: var(--watt-color-primary-dark);
   display: block;
 
   .mat-nav-list .mat-list-item {
