@@ -14,7 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-:host {
+@use '../typography.import' as typography;
+
+storybook-typography-overview {
   background: #e5e5e5;
   display: block;
   width: 100%;
@@ -33,21 +35,47 @@ ul {
 }
 
 .font-size-xxl {
-  font: var(--watt-font-size-xxl);
+  @include typography.font-size("xxl");
 }
 
 .font-size-xl {
-  font: var(--watt-font-size-xl);
+  @include typography.font-size("xl");
 }
 
 .font-size-l {
-  font: var(--watt-font-size-l);
+  @include typography.font-size("l");
 }
 
 .font-size-m {
-  font: var(--watt-font-size-m);
+  @include typography.font-size("m");
 }
 
 .font-size-s {
-  font: var(--watt-font-size-s);
+  @include typography.font-size("s");
+}
+
+.font-weight-light {
+  @include typography.font-weight("light");
+}
+
+.font-weight-regular {
+  @include typography.font-weight("regular");
+}
+
+.font-weight-semi-bold {
+  @include typography.font-weight("semi-bold");
+}
+
+.font-weight-bold {
+  @include typography.font-weight("bold");
+}
+
+.small-screen {
+  h1 {
+    @include typography.font-size("xl");
+  }
+
+  h2 {
+    @include typography.font-size("l");
+  }
 }

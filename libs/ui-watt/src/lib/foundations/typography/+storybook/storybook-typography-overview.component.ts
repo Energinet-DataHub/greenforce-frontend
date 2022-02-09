@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 
 import { typographyHtmlSnippets } from './shared/typography-html-snippets';
 
@@ -27,7 +27,7 @@ interface Typography {
   letterSpacing: string;
 }
 
-const typeScale: Typography[] = [
+const typeScaleLarge: Typography[] = [
   {
     name: 'headline 1',
     html: typographyHtmlSnippets.h1.tag,
@@ -150,11 +150,31 @@ const typeScale: Typography[] = [
   },
 ];
 
+const typeScaleSmall: Typography[] = [
+  {
+    name: 'headline 1',
+    html: typographyHtmlSnippets.h1.tag,
+    size: 'XL',
+    weight: 'Bold',
+    letterCase: 'Sentence',
+    letterSpacing: '0'
+  },
+  {
+    name: 'Headline 2',
+    html: typographyHtmlSnippets.h2.tag,
+    size: 'L',
+    weight: 'Bold',
+    letterCase: 'Sentence',
+    letterSpacing: '0'
+  },
+];
+
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'storybook-typography-overview',
   templateUrl: './storybook-typography-overview.component.html',
   styleUrls: ['./storybook-typography-overview.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class StorybookTypographyOverviewComponent {
   /**
@@ -170,5 +190,9 @@ export class StorybookTypographyOverviewComponent {
   /**
    * @ignore
    */
-  dataSource = typeScale;
+  dataSourceLarge = typeScaleLarge;
+  /**
+   * @ignore
+   */
+   dataSourceSmall = typeScaleSmall;
 }
