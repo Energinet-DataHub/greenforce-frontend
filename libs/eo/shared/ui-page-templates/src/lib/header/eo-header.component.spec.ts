@@ -14,12 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { render, screen } from '@testing-library/angular'
-import { EoHeaderStore } from './eo-header.store';
-import { EoHeaderComponent } from './eo-header.component';
-
-// @todo - Set up these tests in "the proper way"
+import { EoHeaderScam, EoHeaderComponent } from './eo-header.component';
 
 describe(EoHeaderComponent.name, () => {
 
@@ -27,10 +23,16 @@ describe(EoHeaderComponent.name, () => {
 
   it('displays the EnergyOrigin logo', async () => {
     await render(EoHeaderComponent, {
-      imports: [HttpClientTestingModule],
-      providers: [EoHeaderStore]
+      imports: [EoHeaderScam]
     });
     expect(await findEnergyOriginLogo()).toBeInTheDocument();
+  });
+
+  it('Inserts content into ng-content', async () => {
+    await render(`<eo-header><p>test</p></eo-header>`, {
+      imports: [EoHeaderScam]
+    });
+    expect(await screen.findByText('test')).toBeInTheDocument();
   });
 
 });

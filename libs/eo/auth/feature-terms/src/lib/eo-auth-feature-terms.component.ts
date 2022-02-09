@@ -24,9 +24,10 @@ import { FormsModule } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { WattButtonModule, WattCheckboxModule } from '@energinet-datahub/watt';
 import { EoAuthTermsStore } from './eo-auth-terms.store';
-
-// @todo: Do we import the whole module, or just the scam for the header component?
-import { UiPageTemplatesModule } from '@energinet-datahub/eo/shared/ui-page-templates';
+import {
+  EoFooterScam,
+  EoHeaderScam
+} from '@energinet-datahub/eo/shared/ui-page-templates';
 
 const selector = 'eo-auth-terms';
 
@@ -88,7 +89,8 @@ const selector = 'eo-auth-terms';
     `,
   ],
   template: `
-    <eo-header [showStartButton]="false"></eo-header>
+    <eo-header></eo-header>
+
     <div class="${selector}__page">
       <h1>Read and accept our privacy policy</h1>
       <div class="watt-space-inset-m watt-space-stack-l ${selector}__content">
@@ -163,7 +165,8 @@ export class EoAuthFeatureTermsComponent {
     FormsModule,
     WattButtonModule,
     WattCheckboxModule,
-    UiPageTemplatesModule
+    EoFooterScam,
+    EoHeaderScam
   ],
 })
 export class EoAuthFeatureTermsScam {}

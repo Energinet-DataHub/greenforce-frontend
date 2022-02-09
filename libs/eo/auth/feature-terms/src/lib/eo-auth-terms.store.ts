@@ -61,6 +61,7 @@ export class EoAuthTermsStore extends ComponentStore<EoAuthTermsState> {
   );
   */
 
+  /*
   onAcceptTerms = this.effect<void>((origin$) =>
     origin$.pipe(
       exhaustMap(() =>
@@ -81,4 +82,5 @@ export class EoAuthTermsStore extends ComponentStore<EoAuthTermsState> {
       )
     )
   );
+  */
 }

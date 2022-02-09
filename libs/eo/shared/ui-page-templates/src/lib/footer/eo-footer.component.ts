@@ -108,4 +108,4 @@ export class EoFooterComponent {}
   declarations: [EoFooterComponent],
   exports: [EoFooterComponent],
 })
-export class EoFooterComponentScam {}
+export class EoFooterScam {}

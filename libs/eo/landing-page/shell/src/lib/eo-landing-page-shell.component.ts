@@ -20,13 +20,16 @@ import {
   NgModule,
   ViewEncapsulation,
 } from '@angular/core';
-
-// @todo: Do we import the whole module, or just the scam for the header component?
-import { UiPageTemplatesModule } from '@energinet-datahub/eo/shared/ui-page-templates';
+import { MatButtonModule } from '@angular/material/button';
+import { LetModule } from '@rx-angular/template';
+import { EoLandingPageHeaderScam } from './eo-landing-page-header.component';
+import { EoFooterScam } from '@energinet-datahub/eo/shared/ui-page-templates';
+import { EoLandingPageStore } from './eo-landing-page.store';
 
 const selector = 'eo-landing-page-shell';
 
 @Component({
+  providers: [EoLandingPageStore],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   selector,
@@ -38,7 +41,7 @@ const selector = 'eo-landing-page-shell';
     `,
   ],
   template: `
-    <eo-header></eo-header>
+    <eo-landing-page-header></eo-landing-page-header>
     <eo-footer></eo-footer>
   `,
 })
@@ -46,6 +49,6 @@ export class EoLandingPageShellComponent {}
 
 @NgModule({
   declarations: [EoLandingPageShellComponent],
-  imports: [UiPageTemplatesModule]
+  imports: [MatButtonModule, LetModule, EoLandingPageHeaderScam, EoFooterScam]
 })
 export class EoLandingPageShellScam {}
