@@ -14,3 +14,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { TestBed } from '@angular/core/testing';
+import { MockProvider } from 'ng-mocks';
+import { AuthHttp } from '@energinet-datahub/ett/auth/data-access-api';
+import { EoAuthTermsStore } from './eo-auth-terms.store';
+import { of, firstValueFrom } from 'rxjs';
+
+ describe(EoAuthTermsStore.name, () => {
+  describe('Given the Auth API is available', () => {
+    beforeEach(async () => {
+      TestBed.configureTestingModule({
+        providers: [
+          EoAuthTermsStore,
+          MockProvider(AuthHttp, {
+            getTerms: () =>
+              of('Privacy policy string here'), // @todo - Response format?
+          }),
+        ],
+      });
+
+      store = TestBed.inject(EoAuthTermsStore);
+      privacyPolicy = await firstValueFrom(store.getTerms$);
+    });
+    let privacyPolicy: string;
+    let store: EoAuthTermsStore;
+
+    it('Then the privacy policy is retuned from the API as a string', async () => {
+      expect(privacyPolicy).toMatch('/.+?/g'); // @todo - Match any string?
+    });
+  });
+});
