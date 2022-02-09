@@ -16,6 +16,8 @@
  */
 @use 'sass:map';
 
+@use '../breakpoints/breakpoints.import' as breakpoints;
+
 $primary-font-family: 'Open Sans', sans-serif;
 $secondary-font-family: 'Open Sans', sans-serif;
 
@@ -61,16 +63,24 @@ $font-sizes: (
 
 @mixin watt-headline-1 {
   color: var(--watt-color-primary-dark);
-  @include font-size('xxl');
-  font-weight: var(--watt-font-weight-bold);
+  @include font-size('xl');
+  @include font-weight('bold');
   letter-spacing: 0;
+
+  @include breakpoints.media(">=Large") {
+    @include font-size('xxl');
+  }
 }
 
 @mixin watt-headline-2 {
   color: var(--watt-color-primary-dark);
-  @include font-size('xl');
+  @include font-size('l');
   @include font-weight('bold');
   letter-spacing: 0;
+
+  @include breakpoints.media(">=Large") {
+    @include font-size('xl');
+  }
 }
 
 @mixin watt-headline-3 {
