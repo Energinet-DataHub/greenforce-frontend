@@ -39,47 +39,47 @@ table caption {
 }
 
 .font-size-xxl {
-  @include typography.font-size("xxl");
+  @include typography.font-size('xxl');
 }
 
 .font-size-xl {
-  @include typography.font-size("xl");
+  @include typography.font-size('xl');
 }
 
 .font-size-l {
-  @include typography.font-size("l");
+  @include typography.font-size('l');
 }
 
 .font-size-m {
-  @include typography.font-size("m");
+  @include typography.font-size('m');
 }
 
 .font-size-s {
-  @include typography.font-size("s");
+  @include typography.font-size('s');
 }
 
 .font-weight-light {
-  @include typography.font-weight("light");
+  @include typography.font-weight('light');
 }
 
 .font-weight-regular {
-  @include typography.font-weight("regular");
+  @include typography.font-weight('regular');
 }
 
 .font-weight-semi-bold {
-  @include typography.font-weight("semi-bold");
+  @include typography.font-weight('semi-bold');
 }
 
 .font-weight-bold {
-  @include typography.font-weight("bold");
+  @include typography.font-weight('bold');
 }
 
 .small-screen {
   h1 {
-    @include typography.font-size("xl");
+    @include typography.font-size('xl');
   }
 
   h2 {
-    @include typography.font-size("l");
+    @include typography.font-size('l');
   }
 }
