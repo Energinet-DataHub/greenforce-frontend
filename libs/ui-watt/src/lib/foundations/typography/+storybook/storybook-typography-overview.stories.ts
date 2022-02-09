@@ -209,6 +209,9 @@ const textSCodeExample = `
 Recommended
 ${typographyHtmlSnippets.textS.tag}
 
+Alternative (CSS class)
+${typographyHtmlSnippets.textS.class}
+
 Alternative (SCSS mixin)
 ${typographyHtmlSnippets.textS.mixin}
 `;
@@ -271,6 +274,9 @@ bodyTextMHighlighted.parameters = {
 const textSHightlightedCodeExample = `
 Recommended
 ${typographyHtmlSnippets.textSHighlighted.tag}
+
+Alternative (CSS class)
+${typographyHtmlSnippets.textSHighlighted.class}
 
 Alternative (SCSS mixin)
 ${typographyHtmlSnippets.textSHighlighted.mixin}

@@ -17,6 +17,7 @@
 @use 'sass:map';
 
 @use '../breakpoints/breakpoints.import' as breakpoints;
+@use '../../utils/rem' as utils;
 
 $primary-font-family: 'Open Sans', sans-serif;
 $secondary-font-family: 'Open Sans', sans-serif;
@@ -30,24 +31,24 @@ $font-weights: (
 
 $font-sizes: (
   'xxl': (
-    'font-size': 32px,
-    'line-height': 42px,
+    'font-size': utils.rem(32px),
+    'line-height': utils.rem(42px),
   ),
   'xl': (
-    'font-size': 26px,
-    'line-height': 36px,
+    'font-size': utils.rem(26px),
+    'line-height': utils.rem(36px),
   ),
   'l': (
-    'font-size': 20px,
-    'line-height': 28px,
+    'font-size': utils.rem(20px),
+    'line-height': utils.rem(28px),
   ),
   'm': (
-    'font-size': 16px,
-    'line-height': 24px,
+    'font-size': utils.rem(16px),
+    'line-height': utils.rem(24px),
   ),
   's': (
-    'font-size': 14px,
-    'line-height': 20px,
+    'font-size': utils.rem(14px),
+    'line-height': utils.rem(20px),
   ),
 );
 

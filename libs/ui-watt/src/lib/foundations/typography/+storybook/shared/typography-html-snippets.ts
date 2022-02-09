@@ -57,6 +57,7 @@ export const typographyHtmlSnippets = {
   },
   textS: {
     tag: '<p><small>small</small></p>',
+    class: '<p class="watt-text-s">small</p>',
     mixin: mixinSnippet('text-s'),
   },
   textLHighlighted: {
@@ -70,6 +71,7 @@ export const typographyHtmlSnippets = {
   },
   textSHighlighted: {
     tag: '<p><small class="watt-text-s-highlighted">small-highlighted</small></p>',
+    class: '<p class="watt-text-s-highlighted">small-highlighted</p>',
     mixin: mixinSnippet('text-s-highlighted'),
   },
   button: {
