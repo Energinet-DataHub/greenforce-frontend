@@ -31,31 +31,31 @@ $font-weights: (
 
 $font-sizes: (
   'xxl': (
-    'font-size': utils.rem(32px),
-    'line-height': utils.rem(42px),
+    'font-size': 32px,
+    'line-height': 42px,
   ),
   'xl': (
-    'font-size': utils.rem(26px),
-    'line-height': utils.rem(36px),
+    'font-size': 26px,
+    'line-height': 36px,
   ),
   'l': (
-    'font-size': utils.rem(20px),
-    'line-height': utils.rem(28px),
+    'font-size': 20px,
+    'line-height': 28px,
   ),
   'm': (
-    'font-size': utils.rem(16px),
-    'line-height': utils.rem(24px),
+    'font-size': 16px,
+    'line-height': 24px,
   ),
   's': (
-    'font-size': utils.rem(14px),
-    'line-height': utils.rem(20px),
+    'font-size': 14px,
+    'line-height': 20px,
   ),
 );
 
 @mixin font-size($size) {
   $sizes: map.get($font-sizes, $size);
-  font-size: map.get($sizes, 'font-size');
-  line-height: map.get($sizes, 'line-height');
+  font-size: utils.rem(map.get($sizes, 'font-size'));
+  line-height: utils.rem(map.get($sizes, 'line-height'));
 }
 
 @mixin font-weight($weight) {
