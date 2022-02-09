@@ -58,9 +58,8 @@ limitations under the License.
 </mat-card>
 
 <mat-card>
-  <h3>LARGE SCREEN - Usage</h3>
-
   <table mat-table [dataSource]="dataSourceLarge" style="width: 100%">
+    <caption><h3>LARGE SCREEN - Usage</h3></caption>
     <!--- Note that these columns can be defined in any order.
             The actual rendered columns are set as a property on the row definition" -->
 
@@ -110,9 +109,10 @@ limitations under the License.
 </mat-card>
 
 <mat-card class="small-screen">
-  <h3>SMALL SCREEN - Usage (differences)</h3>
-
   <table mat-table [dataSource]="dataSourceSmall" style="width: 100%">
+    <caption>
+      <h3>SMALL SCREEN - Usage (differences)</h3>
+    </caption>
     <!--- Note that these columns can be defined in any order.
             The actual rendered columns are set as a property on the row definition" -->
 

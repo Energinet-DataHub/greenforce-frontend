@@ -34,6 +34,10 @@ ul {
   padding: 0;
 }
 
+table caption {
+  text-align: left;
+}
+
 .font-size-xxl {
   @include typography.font-size("xxl");
 }
