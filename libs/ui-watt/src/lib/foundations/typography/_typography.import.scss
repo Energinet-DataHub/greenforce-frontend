@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@use "sass:map";
+@use 'sass:map';
 
 $primary-font-family: 'Open Sans', sans-serif;
 $secondary-font-family: 'Open Sans', sans-serif;
@@ -61,91 +61,91 @@ $font-sizes: (
 
 @mixin watt-headline-1 {
   color: var(--watt-color-primary-dark);
-  @include font-size("xxl");
+  @include font-size('xxl');
   font-weight: var(--watt-font-weight-bold);
   letter-spacing: 0;
 }
 
 @mixin watt-headline-2 {
   color: var(--watt-color-primary-dark);
-  @include font-size("xl");
-  @include font-weight("bold");
+  @include font-size('xl');
+  @include font-weight('bold');
   letter-spacing: 0;
 }
 
 @mixin watt-headline-3 {
   color: var(--watt-color-primary-dark);
-  @include font-size("m");
-  @include font-weight("bold");
+  @include font-size('m');
+  @include font-weight('bold');
   letter-spacing: 0;
 }
 
 @mixin watt-headline-4 {
   color: var(--watt-color-primary-dark);
-  @include font-size("m");
-  @include font-weight("bold");
+  @include font-size('m');
+  @include font-weight('bold');
   letter-spacing: 0;
 }
 
 @mixin watt-headline-5 {
   color: var(--watt-color-primary-dark);
-  @include font-size("m");
-  @include font-weight("bold");
+  @include font-size('m');
+  @include font-weight('bold');
   letter-spacing: 0;
 }
 
 @mixin watt-text-l {
-  @include font-size("l");
-  @include font-weight("regular");
+  @include font-size('l');
+  @include font-weight('regular');
   letter-spacing: 0;
 }
 
 @mixin watt-text-m {
-  @include font-size("m");
-  @include font-weight("regular");
+  @include font-size('m');
+  @include font-weight('regular');
   letter-spacing: 0;
 }
 
 @mixin watt-text-s {
-  @include font-size("s");
-  @include font-weight("regular");
+  @include font-size('s');
+  @include font-weight('regular');
   letter-spacing: 0;
 }
 
 @mixin watt-text-l-highlighted {
-  @include font-size("l");
-  @include font-weight("bold");
+  @include font-size('l');
+  @include font-weight('bold');
 }
 
 @mixin watt-text-m-highlighted {
   @include watt-text-m;
-  @include font-weight("bold");
+  @include font-weight('bold');
 }
 
 @mixin watt-text-s-highlighted {
   @include watt-text-s;
-  @include font-weight("bold");
+  @include font-weight('bold');
 }
 
 @mixin watt-button {
   color: var(--watt-color-primary);
-  @include font-size("m");
-  @include font-weight("bold");
+  @include font-size('m');
+  @include font-weight('bold');
   letter-spacing: 0;
 }
 
 @mixin watt-label {
   color: var(--watt-color-primary-dark);
-  @include font-size("s");
-  @include font-weight("bold");
+  @include font-size('s');
+  @include font-weight('bold');
   letter-spacing: 1.25px;
   text-transform: uppercase;
 }
 
 @mixin watt-link {
   color: var(--watt-color-primary-dark);
-  @include font-size("m");
-  @include font-weight("regular");
+  @include font-size('m');
+  @include font-weight('regular');
   letter-spacing: 0;
   text-decoration: underline;
   cursor: pointer;
@@ -153,5 +153,5 @@ $font-sizes: (
 
 @mixin watt-link-s {
   @include watt-link;
-  @include font-size("s");
+  @include font-size('s');
 }

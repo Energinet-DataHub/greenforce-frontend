@@ -16,7 +16,8 @@
  */
 @use './typography/typography.import' as typography;
 
-mat-table, .mat-table {
+mat-table,
+.mat-table {
   .mat-header-row {
     min-height: 34px;
   }

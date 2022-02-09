@@ -34,7 +34,7 @@ const typeScaleLarge: Typography[] = [
     size: 'XXL',
     weight: 'Bold',
     letterCase: 'Sentence',
-    letterSpacing: '0'
+    letterSpacing: '0',
   },
   {
     name: 'Headline 2',
@@ -42,7 +42,7 @@ const typeScaleLarge: Typography[] = [
     size: 'XL',
     weight: 'Bold',
     letterCase: 'Sentence',
-    letterSpacing: '0'
+    letterSpacing: '0',
   },
   {
     name: 'Headline 3',
@@ -50,7 +50,7 @@ const typeScaleLarge: Typography[] = [
     size: 'M',
     weight: 'Bold',
     letterCase: 'Sentence',
-    letterSpacing: '0'
+    letterSpacing: '0',
   },
   {
     name: 'Headline 4',
@@ -58,7 +58,7 @@ const typeScaleLarge: Typography[] = [
     size: 'M',
     weight: 'Bold',
     letterCase: 'Sentence',
-    letterSpacing: '0'
+    letterSpacing: '0',
   },
   {
     name: 'Headline 5',
@@ -66,7 +66,7 @@ const typeScaleLarge: Typography[] = [
     size: 'M',
     weight: 'Bold',
     letterCase: 'Sentence',
-    letterSpacing: '0'
+    letterSpacing: '0',
   },
   {
     name: 'large',
@@ -157,7 +157,7 @@ const typeScaleSmall: Typography[] = [
     size: 'XL',
     weight: 'Bold',
     letterCase: 'Sentence',
-    letterSpacing: '0'
+    letterSpacing: '0',
   },
   {
     name: 'Headline 2',
@@ -165,7 +165,7 @@ const typeScaleSmall: Typography[] = [
     size: 'L',
     weight: 'Bold',
     letterCase: 'Sentence',
-    letterSpacing: '0'
+    letterSpacing: '0',
   },
 ];
 
@@ -174,7 +174,7 @@ const typeScaleSmall: Typography[] = [
   selector: 'storybook-typography-overview',
   templateUrl: './storybook-typography-overview.component.html',
   styleUrls: ['./storybook-typography-overview.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
 })
 export class StorybookTypographyOverviewComponent {
   /**
@@ -194,5 +194,5 @@ export class StorybookTypographyOverviewComponent {
   /**
    * @ignore
    */
-   dataSourceSmall = typeScaleSmall;
+  dataSourceSmall = typeScaleSmall;
 }
