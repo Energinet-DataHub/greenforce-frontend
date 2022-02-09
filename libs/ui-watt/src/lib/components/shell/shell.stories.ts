@@ -14,11 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { moduleMetadata, Story, Meta } from '@storybook/angular';
+import { RouterModule } from '@angular/router';
+import { Component } from '@angular/core';
+import { APP_BASE_HREF } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { moduleMetadata, Story, Meta } from '@storybook/angular';
 
 import { WattShellComponent } from './shell.component';
 import { WattShellModule } from './shell.module';
+import { WattNavListModule } from './nav-list';
 
 export default {
   title: 'Components/Shell',
@@ -61,6 +65,78 @@ withContent.parameters = {
   docs: {
     source: {
       code: withContentTemplate,
+    },
+  },
+};
+
+const withSidebarNavigationTemplate = `
+<watt-shell>
+  <ng-container watt-shell-sidenav>
+    <watt-nav-list>
+      <a
+        watt-nav-list-item
+        routerLink="/menu-1"
+        routerLinkActive="active"
+        >Menu 1</a
+      >
+      <a
+        watt-nav-list-item
+        routerLink="/menu-2"
+        routerLinkActive="active"
+        >Menu 2</a
+      >
+    </watt-nav-list>
+  </ng-container>
+
+  <ng-container watt-shell-toolbar>
+    Toolbar
+  </ng-container>
+
+  <router-outlet></router-outlet>
+</watt-shell>
+`;
+
+@Component({
+  template: 'Menu 1',
+})
+class StorybookMenu1Component {}
+
+@Component({
+  template: 'Menu 2',
+})
+class StorybookMenu2Component {}
+
+export const withSidebarNavigation = () => ({
+  template: withSidebarNavigationTemplate,
+});
+withSidebarNavigation.storyName = 'With sidebar navigation';
+withSidebarNavigation.decorators = [
+  moduleMetadata({
+    imports: [
+      RouterModule.forRoot(
+        [
+          { path: '', redirectTo: 'menu-1', pathMatch: 'full' },
+          { path: 'menu-1', component: StorybookMenu1Component },
+          { path: 'menu-2', component: StorybookMenu2Component },
+        ],
+        {
+          useHash: true,
+        }
+      ),
+      WattNavListModule,
+    ],
+    providers: [
+      {
+        provide: APP_BASE_HREF,
+        useValue: '/iframe.html/',
+      },
+    ],
+  }),
+];
+withSidebarNavigation.parameters = {
+  docs: {
+    source: {
+      code: withSidebarNavigationTemplate,
     },
   },
 };
