@@ -85,6 +85,12 @@ const withSidebarNavigationTemplate = `
         routerLinkActive="active"
         >Menu 2</a
       >
+      <a
+        watt-nav-list-item
+        routerLink="/menu-3"
+        routerLinkActive="active"
+        >Menu 3</a
+      >
     </watt-nav-list>
   </ng-container>
 
@@ -97,14 +103,19 @@ const withSidebarNavigationTemplate = `
 `;
 
 @Component({
-  template: 'Menu 1',
+  template: 'Page 1',
 })
-class StorybookMenu1Component {}
+class StorybookPage1Component {}
 
 @Component({
-  template: 'Menu 2',
+  template: 'Page 2',
 })
-class StorybookMenu2Component {}
+class StorybookPage2Component {}
+
+@Component({
+  template: 'Page 3',
+})
+class StorybookPage3Component {}
 
 export const withSidebarNavigation = () => ({
   template: withSidebarNavigationTemplate,
@@ -115,9 +126,10 @@ withSidebarNavigation.decorators = [
     imports: [
       RouterModule.forRoot(
         [
-          { path: '', redirectTo: 'menu-1', pathMatch: 'full' },
-          { path: 'menu-1', component: StorybookMenu1Component },
-          { path: 'menu-2', component: StorybookMenu2Component },
+          { path: '', redirectTo: 'menu-2', pathMatch: 'full' },
+          { path: 'menu-1', component: StorybookPage1Component },
+          { path: 'menu-2', component: StorybookPage2Component },
+          { path: 'menu-3', component: StorybookPage3Component },
         ],
         {
           useHash: true,
