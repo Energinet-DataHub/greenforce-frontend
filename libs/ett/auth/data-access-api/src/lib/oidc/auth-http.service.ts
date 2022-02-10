@@ -38,6 +38,28 @@ export interface AuthTermsResponse {
   readonly version: string;
 }
 
+export interface AuthAcceptTermsResponse {
+  /**
+   * A string
+   */
+  readonly next_url: string;
+}
+
+export interface AuthTermsAcceptRequest {
+  /**
+   * A boolean
+   */
+  accepted: boolean;
+  /**
+   * A string: I.eg: "0.1"
+   */
+  version: string;
+  /**
+   * ?
+   */
+  state: string;
+}
+
 export interface AuthOidcLoginResponse {
   /**
    * The URL to redirect the user to in order to authenticate.
@@ -80,7 +102,8 @@ export class AuthHttp {
 
   // @todo: Remove <any> -> Return type for this request?
   // @todo: Expected payload for this request?
-  postAcceptTerms(endpointUrl: string): Observable<any> {
-    return this.http.post(endpointUrl, {});
+  postAcceptTerms(endpointUrl: string, payload: AuthTermsAcceptRequest): Observable<AuthAcceptTermsResponse> {
+    return this.http.post<AuthAcceptTermsResponse>(endpointUrl, payload);
   }
 }
+

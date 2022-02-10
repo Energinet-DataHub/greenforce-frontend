@@ -104,14 +104,14 @@ export class EoAuthTermsStore extends ComponentStore<EoAuthTermsState> {
         version,
         accepted: true,
         state: ''
-      }),
+      })),
       tapResponse(
         (response) => location.href = response.next_url,
         (error) => {
           // We only support the happy path for now
           throw error;
         }
-      ))
+      )
     )
   );
 }
