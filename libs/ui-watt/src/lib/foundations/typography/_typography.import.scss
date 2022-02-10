@@ -62,7 +62,7 @@ $font-sizes: (
 }
 
 @mixin watt-headline-1 {
-  color: var(--watt-color-primary-dark);
+  color: var(--watt-typography-headline-color);
   @include font-size('xl');
   @include font-weight('semi-bold');
   letter-spacing: 0;
@@ -73,7 +73,7 @@ $font-sizes: (
 }
 
 @mixin watt-headline-2 {
-  color: var(--watt-color-primary-dark);
+  color: var(--watt-typography-headline-color);
   @include font-size('l');
   @include font-weight('semi-bold');
   letter-spacing: 0;
@@ -84,21 +84,21 @@ $font-sizes: (
 }
 
 @mixin watt-headline-3 {
-  color: var(--watt-color-primary-dark);
+  color: var(--watt-typography-headline-color);
   @include font-size('m');
   @include font-weight('semi-bold');
   letter-spacing: 0;
 }
 
 @mixin watt-headline-4 {
-  color: var(--watt-color-primary-dark);
+  color: var(--watt-typography-headline-color);
   @include font-size('m');
   @include font-weight('semi-bold');
   letter-spacing: 0;
 }
 
 @mixin watt-headline-5 {
-  color: var(--watt-color-primary-dark);
+  color: var(--watt-typography-headline-color);
   @include font-size('m');
   @include font-weight('semi-bold');
   letter-spacing: 0;
@@ -138,14 +138,14 @@ $font-sizes: (
 }
 
 @mixin watt-button {
-  color: var(--watt-color-primary);
+  color: var(--watt-typography-button-color);
   @include font-size('m');
   @include font-weight('bold');
   letter-spacing: 0;
 }
 
 @mixin watt-label {
-  color: var(--watt-color-primary-dark);
+  color: var(--watt-typography-label-color);
   @include font-size('s');
   @include font-weight('bold');
   letter-spacing: 1.25px;
@@ -153,7 +153,7 @@ $font-sizes: (
 }
 
 @mixin watt-link {
-  color: var(--watt-color-primary-dark);
+  color: var(--watt-typography-link-color);
   @include font-size('m');
   @include font-weight('regular');
   letter-spacing: 0;
