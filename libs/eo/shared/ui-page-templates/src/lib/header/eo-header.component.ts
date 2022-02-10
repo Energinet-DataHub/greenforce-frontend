@@ -21,6 +21,7 @@ import {
   ViewEncapsulation
 } from '@angular/core';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { EoProductLogoScam } from '@energinet-datahub/eo/shared/ui-shell';
 
 const selector = 'eo-header';
 
@@ -49,7 +50,7 @@ const selector = 'eo-header';
       role="heading"
       class="${selector}__toolbar watt-space-inset-squished-m"
     >
-      <img src="assets/energyorigin-logo.svg" alt="EnergyOrigin" />
+      <img eoProductLogo />
       <ng-content></ng-content>
     </mat-toolbar>
   `,
@@ -59,6 +60,6 @@ export class EoHeaderComponent { }
 @NgModule({
   declarations: [EoHeaderComponent],
   exports: [EoHeaderComponent],
-  imports: [MatToolbarModule]
+  imports: [MatToolbarModule, EoProductLogoScam]
 })
 export class EoHeaderScam {}

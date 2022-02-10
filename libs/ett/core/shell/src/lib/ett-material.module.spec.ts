@@ -24,22 +24,27 @@ import {
 
 describe(EttMaterialModule.name, () => {
   it(`provides ${MatSnackBar.name}`, () => {
+    // Arrange
     TestBed.configureTestingModule({
       imports: [EttMaterialModule.forRoot()],
     });
 
+    // Act
     const snackBar = TestBed.inject(MatSnackBar, null);
 
+    // Assert
     expect(snackBar).not.toBeNull();
   });
 
   it('guards against direct import', () => {
+    // Assert
     expect(EttMaterialModule).toGuardAgainstDirectImport();
   });
 });
 
 describe(EttMaterialRootModule.name, () => {
   it('guards against being registered in multiple injectors', () => {
+    // Assert
     expect(EttMaterialRootModule).toGuardAgainstMultipleInjectorRegistration();
   });
 });

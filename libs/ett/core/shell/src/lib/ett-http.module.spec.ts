@@ -21,22 +21,27 @@ import { EttHttpModule, EttHttpRootModule } from './ett-http.module';
 
 describe(EttHttpModule.name, () => {
   it(`provides ${HttpClient.name}`, () => {
+    // Arrange
     TestBed.configureTestingModule({
       imports: [EttHttpModule.forRoot()],
     });
 
+    // Act
     const http = TestBed.inject(HttpClient, null);
 
+    // Assert
     expect(http).not.toBeNull();
   });
 
   it('guards against direct import', () => {
+    // Assert
     expect(EttHttpModule).toGuardAgainstDirectImport();
   });
 });
 
 describe(EttHttpRootModule.name, () => {
   it('guards against being registered in multiple injectors', () => {
+    // Assert
     expect(EttHttpRootModule).toGuardAgainstMultipleInjectorRegistration();
   });
 });

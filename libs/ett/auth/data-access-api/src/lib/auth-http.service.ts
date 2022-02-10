@@ -59,6 +59,9 @@ export interface AuthTermsAcceptRequest {
    */
   state: string;
 }
+export interface AuthLogoutResponse {
+  readonly success: boolean;
+}
 
 export interface AuthOidcLoginResponse {
   /**
@@ -71,29 +74,36 @@ export interface AuthOidcLoginResponse {
   providedIn: 'root',
 })
 export class AuthHttp {
+  #apiBase: string;
+
   constructor(
     private http: HttpClient,
-    @Inject(eoApiEnvironmentToken) private apiEnvironment: EoApiEnvironment
-  ) {}
+    @Inject(eoApiEnvironmentToken) apiEnvironment: EoApiEnvironment
+  ) {
+    this.#apiBase = `${apiEnvironment.apiBase}/auth`;
+  }
 
   /**
    *
    * @param feUrl Base URL for authentication web app.
    * @param returnUrl Absolute URL to return to after authentication.
    */
-  getLogin(
+  getOidcLogin(
     feUrl: string,
     returnUrl: string
   ): Observable<AuthOidcLoginResponse> {
-    return this.http.get<AuthOidcLoginResponse>(
-      `${this.apiEnvironment.apiBase}/auth/oidc/login`,
-      {
-        params: {
-          [AuthOidcQueryParameterName.FeUrl]: feUrl,
-          [AuthOidcQueryParameterName.ReturnUrl]: returnUrl,
-        },
-      }
-    );
+    return this.http.get<AuthOidcLoginResponse>(`${this.#apiBase}/oidc/login`, {
+      params: {
+        [AuthOidcQueryParameterName.FeUrl]: feUrl,
+        [AuthOidcQueryParameterName.ReturnUrl]: returnUrl,
+      },
+    });
+  }
+
+  postLogout(): Observable<AuthLogoutResponse> {
+    return this.http.post<AuthLogoutResponse>(`${this.#apiBase}/logout`, {
+      withCredentials: true,
+    });
   }
 
   getTerms(endpointUrl: string): Observable<AuthTermsResponse> {
@@ -104,4 +114,3 @@ export class AuthHttp {
     return this.http.post<AuthTermsAcceptResponse>(endpointUrl, payload);
   }
 }
-

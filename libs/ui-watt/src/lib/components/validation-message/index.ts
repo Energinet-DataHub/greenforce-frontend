@@ -14,6 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-// OIDC
-export * from './lib/auth-http.service';
-export * from './lib/auth-oidc-query-parameter-name';
+export {
+  WattValidationMessageComponent,
+  WattValidationMessageType,
+} from './watt-validation-message.component';
+export { WattValidationMessageModule } from './watt-validation-message.module';

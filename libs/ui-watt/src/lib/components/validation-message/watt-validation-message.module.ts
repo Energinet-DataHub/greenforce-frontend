@@ -14,6 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-// OIDC
-export * from './lib/auth-http.service';
-export * from './lib/auth-oidc-query-parameter-name';
+import { NgModule } from '@angular/core';
+
+import { WattValidationMessageComponent } from './watt-validation-message.component';
+
+@NgModule({
+  declarations: [WattValidationMessageComponent],
+  exports: [WattValidationMessageComponent],
+})
+export class WattValidationMessageModule {}
