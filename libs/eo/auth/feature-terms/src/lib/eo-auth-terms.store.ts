@@ -31,11 +31,13 @@ interface EoAuthTermsState {
   readonly headline: string | null;
   readonly terms: string | null;
   readonly version: string | null;
+  readonly state: string | null;
 }
 @Injectable()
 export class EoAuthTermsStore extends ComponentStore<EoAuthTermsState> {
-  #termsUrl: Observable<string> = this.select(this.route.queryParams, params => params.terms_url);
-  #acceptTermsUrl: Observable<string> = this.select(this.route.queryParams, params => params.accept_terms_url);
+  #termsUrl$: Observable<string> = this.select(this.route.queryParams, params => params.terms_url);
+  #acceptTermsUrl$: Observable<string> = this.select(this.route.queryParams, params => params.terms_accept_url);
+  #state$: Observable<string> = this.select(this.route.queryParams, params => params.state);
 
   #version$: Observable<string> = this.select(state => state.version).pipe(
     filter(version => version !== null),
@@ -53,14 +55,18 @@ export class EoAuthTermsStore extends ComponentStore<EoAuthTermsState> {
 
   constructor(private authHttp: AuthHttp, private router: Router, private route: ActivatedRoute) {
     super(initialState);
-    this.#getTerms(this.#termsUrl);
+    this.#getTerms(this.#termsUrl$);
   }
 
   #getTerms = this.effect<string>((termsUrl$) =>
     termsUrl$.pipe(
       switchMap(termsUrl => this.authHttp.getTerms(termsUrl).pipe(
         tapResponse(
-          (response) => this.patchState({headline: response.headline, terms: response.terms, version: response.version}),
+          (response) => this.patchState({
+            headline: response.headline,
+            terms: response.terms,
+            version: response.version
+          }),
           (error) => {
             // We only support the happy path for now
             throw error;
@@ -96,14 +102,15 @@ export class EoAuthTermsStore extends ComponentStore<EoAuthTermsState> {
   // Send over "state": ?, "version": this.state.version, "accepted": boolean
   onAcceptTerms = this.effect<void>((origin$) =>
     combineLatest([
-      this.#acceptTermsUrl,
-      this.#version$
+      this.#acceptTermsUrl$,
+      this.#version$,
+      this.#state$
     ]).pipe(
       take(1),
-      mergeMap(([acceptTermsUrl, version]) => this.authHttp.postAcceptTerms(acceptTermsUrl, {
+      mergeMap(([acceptTermsUrl, version, state]) => this.authHttp.postAcceptTerms(acceptTermsUrl, {
         version,
         accepted: true,
-        state: ''
+        state
       })),
       tapResponse(
         (response) => location.href = response.next_url,
@@ -119,5 +126,6 @@ export class EoAuthTermsStore extends ComponentStore<EoAuthTermsState> {
 const initialState: EoAuthTermsState = {
   headline: null,
   terms: null,
-  version: null
+  version: null,
+  state: null
 }

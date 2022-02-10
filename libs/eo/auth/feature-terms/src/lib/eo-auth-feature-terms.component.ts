@@ -125,11 +125,10 @@ export class EoAuthFeatureTermsComponent {
 
   onAccept(): void {
     if (this.hasAcceptedTerms) {
-      // this.store.onAcceptTerms...
-      alert('Accepted - Navigate to the dashboard page');
+      this.store.onAcceptTerms();
     }
     else {
-      alert('FAIL - You need to check the checkbox');
+      // Error handling - Let the user know that the checkbox needs to be checked before terms can be accepted
     }
   }
 }
