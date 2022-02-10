@@ -56,10 +56,10 @@ limitations under the License.
   </section>
 </mat-card>
 
-<mat-card>
+<mat-card class="small-screen">
   <table mat-table [dataSource]="dataSourceLarge" style="width: 100%">
     <caption>
-      <h3>LARGE SCREEN - Usage</h3>
+      <h3>SMALL SCREEN - Usage</h3>
     </caption>
     <!--- Note that these columns can be defined in any order.
             The actual rendered columns are set as a property on the row definition" -->
@@ -109,10 +109,10 @@ limitations under the License.
   </table>
 </mat-card>
 
-<mat-card class="small-screen">
+<mat-card>
   <table mat-table [dataSource]="dataSourceSmall" style="width: 100%">
     <caption>
-      <h3>SMALL SCREEN - Usage (differences)</h3>
+      <h3>LARGE SCREEN - Usage (differences)</h3>
     </caption>
     <!--- Note that these columns can be defined in any order.
             The actual rendered columns are set as a property on the row definition" -->
@@ -121,7 +121,6 @@ limitations under the License.
     <ng-container matColumnDef="name">
       <th mat-header-cell *matHeaderCellDef>Name</th>
       <td
-        class="small-screen"
         mat-cell
         *matCellDef="let element"
         innerHTML="{{ element.html }}"
