@@ -24,7 +24,8 @@ import {
   mergeMap,
   take,
   Observable,
-  switchMap } from 'rxjs';
+  switchMap,
+} from 'rxjs';
 import { AuthHttp } from '@energinet-datahub/ett/auth/data-access-api';
 
 interface EoAuthTermsState {
@@ -77,7 +78,7 @@ export class EoAuthTermsStore extends ComponentStore<EoAuthTermsState> {
   );
 
   /*
-  onLogOut = this.effect<void>((origin$) =>
+  onCancel = this.effect<void>((origin$) =>
     origin$.pipe(
       exhaustMap(() =>
         this.authHttp.postLogout().pipe(

@@ -27,24 +27,37 @@ import { of, firstValueFrom } from 'rxjs';
         providers: [
           EoAuthTermsStore,
           MockProvider(AuthHttp, {
-            getTerms: (endpointUrl) =>
-              of({terms: '<p>Terms comes here</p>', version: '1.0', headline: 'Read the terms'})
+            getTerms: (endpointUrl) => of({terms, version, headline }),
+            postAcceptTerms: (endpointUrl, payload) => of({next_url: 'https://domain.com'})
           }),
         ],
       });
       store = TestBed.inject(EoAuthTermsStore);
     });
 
+    const terms = '<p>Terms comes here</p>';
+    const version = '1.0';
+    const headline = 'Read the terms';
     let store: EoAuthTermsStore;
 
     it('Then the terms are emitted', async () => {
       const terms = await firstValueFrom(store.terms$);
-      expect(terms).toBe('<p>Terms comes here</p>');
+      expect(terms).toBe(terms);
     });
 
     it('Then the headline is emitted', async () => {
       const headline = await firstValueFrom(store.headline$);
-      expect(headline).toBe('Read the terms');
+      expect(headline).toBe(headline);
     });
+
+    it('Then the "next_url" is received after accepting the terms', async () => {
+
+      // Accept the terms
+      // store.onAcceptTerms();
+
+      // Expect a redirect -> Shouldn't this test just be handled inside an end-to-end test with cypress?
+      // ..
+    });
+
   });
 });

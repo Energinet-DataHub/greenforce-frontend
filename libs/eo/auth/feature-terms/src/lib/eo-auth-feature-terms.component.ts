@@ -120,7 +120,6 @@ export class EoAuthFeatureTermsComponent {
 
   onCancel(): void {
     // this.store.onLogOut...
-    alert('Cancelled - Log out & Navigate to landing page');
   }
 
   onAccept(): void {

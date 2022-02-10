@@ -38,7 +38,7 @@ export interface AuthTermsResponse {
   readonly version: string;
 }
 
-export interface AuthAcceptTermsResponse {
+export interface AuthTermsAcceptResponse {
   /**
    * A string
    */
@@ -100,10 +100,8 @@ export class AuthHttp {
     return this.http.get<AuthTermsResponse>(endpointUrl);
   }
 
-  // @todo: Remove <any> -> Return type for this request?
-  // @todo: Expected payload for this request?
-  postAcceptTerms(endpointUrl: string, payload: AuthTermsAcceptRequest): Observable<AuthAcceptTermsResponse> {
-    return this.http.post<AuthAcceptTermsResponse>(endpointUrl, payload);
+  postAcceptTerms(endpointUrl: string, payload: AuthTermsAcceptRequest): Observable<AuthTermsAcceptResponse> {
+    return this.http.post<AuthTermsAcceptResponse>(endpointUrl, payload);
   }
 }
 
