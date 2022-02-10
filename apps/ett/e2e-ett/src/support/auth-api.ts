@@ -14,6 +14,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-// OIDC
-export * from './lib/auth-http.service';
-export * from './lib/auth-oidc-query-parameter-name';
+export const allowAuthentication = () =>
+  cy
+    .intercept(
+      {
+        hostname: 'localhost',
+        method: 'GET',
+        pathname: '/api/auth/oidc/login',
+      },
+      {
+        next_url: '/dashboard?success=1',
+      }
+    )
+    .as('authOidcLogin');
+
+export const allowLogOut = () =>
+  cy
+    .intercept(
+      {
+        hostname: 'localhost',
+        method: 'POST',
+        pathname: '/api/auth/logout',
+      },
+      {
+        success: true,
+      }
+    )
+    .as('authLogout');
