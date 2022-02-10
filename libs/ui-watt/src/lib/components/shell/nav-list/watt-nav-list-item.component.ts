@@ -27,7 +27,7 @@ import { MatListModule } from '@angular/material/list';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'watt-nav-list-item',
-  template: ` <a
+  template: `<a
     mat-list-item
     mat-ripple
     [routerLink]="link"
@@ -36,7 +36,7 @@ import { MatListModule } from '@angular/material/list';
   ></a>`,
 })
 export class WattNavListItemComponent {
-  @Input() link = '/';
+  @Input() link: string | null = null;
 }
 
 @NgModule({
