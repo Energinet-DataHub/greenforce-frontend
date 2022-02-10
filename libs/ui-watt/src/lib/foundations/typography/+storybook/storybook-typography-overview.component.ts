@@ -19,7 +19,6 @@ import { Component, ViewEncapsulation } from '@angular/core';
 import { typographyHtmlSnippets } from './shared/typography-html-snippets';
 
 interface Typography {
-  name: string;
   html: string;
   size: string;
   weight: string;
@@ -27,49 +26,43 @@ interface Typography {
   letterSpacing: string;
 }
 
-const typeScaleLarge: Typography[] = [
+const typeScaleSmall: Typography[] = [
   {
-    name: 'headline 1',
     html: typographyHtmlSnippets.h1.tag,
     size: 'XXL',
-    weight: 'Bold',
+    weight: 'Semi-bold',
     letterCase: 'Sentence',
     letterSpacing: '0',
   },
   {
-    name: 'headline 2',
     html: typographyHtmlSnippets.h2.tag,
     size: 'XL',
-    weight: 'Bold',
+    weight: 'Semi-bold',
     letterCase: 'Sentence',
     letterSpacing: '0',
   },
   {
-    name: 'headline 3',
     html: typographyHtmlSnippets.h3.tag,
     size: 'M',
-    weight: 'Bold',
+    weight: 'Semi-bold',
     letterCase: 'Sentence',
     letterSpacing: '0',
   },
   {
-    name: 'headline 4',
     html: typographyHtmlSnippets.h4.tag,
     size: 'M',
-    weight: 'Bold',
+    weight: 'Semi-bold',
     letterCase: 'Sentence',
     letterSpacing: '0',
   },
   {
-    name: 'headline 5',
     html: typographyHtmlSnippets.h5.tag,
     size: 'M',
-    weight: 'Bold',
+    weight: 'Semi-bold',
     letterCase: 'Sentence',
     letterSpacing: '0',
   },
   {
-    name: 'large',
     html: typographyHtmlSnippets.textL.class,
     size: 'L',
     weight: 'Regular',
@@ -77,7 +70,6 @@ const typeScaleLarge: Typography[] = [
     letterSpacing: '0',
   },
   {
-    name: 'normal',
     html: typographyHtmlSnippets.bodyTextM.tag,
     size: 'M',
     weight: 'Regular',
@@ -85,7 +77,6 @@ const typeScaleLarge: Typography[] = [
     letterSpacing: '0',
   },
   {
-    name: 'small',
     html: typographyHtmlSnippets.textS.tag,
     size: 'S',
     weight: 'Regular',
@@ -93,7 +84,6 @@ const typeScaleLarge: Typography[] = [
     letterSpacing: '0',
   },
   {
-    name: 'large-highlighted',
     html: typographyHtmlSnippets.textLHighlighted.class,
     size: 'L',
     weight: 'Bold',
@@ -101,7 +91,6 @@ const typeScaleLarge: Typography[] = [
     letterSpacing: '0',
   },
   {
-    name: 'normal-highlighted',
     html: typographyHtmlSnippets.bodyTextMHighlighted.tag,
     size: 'M',
     weight: 'Bold',
@@ -109,7 +98,6 @@ const typeScaleLarge: Typography[] = [
     letterSpacing: '0',
   },
   {
-    name: 'small-highlighted',
     html: typographyHtmlSnippets.textSHighlighted.tag,
     size: 'S',
     weight: 'Bold',
@@ -117,7 +105,6 @@ const typeScaleLarge: Typography[] = [
     letterSpacing: '0',
   },
   {
-    name: 'button',
     html: typographyHtmlSnippets.button.storybook,
     size: 'M',
     weight: 'Bold',
@@ -125,7 +112,6 @@ const typeScaleLarge: Typography[] = [
     letterSpacing: '0',
   },
   {
-    name: 'label',
     html: typographyHtmlSnippets.label.class,
     size: 'S',
     weight: 'Bold',
@@ -133,7 +119,6 @@ const typeScaleLarge: Typography[] = [
     letterSpacing: '1.25px',
   },
   {
-    name: 'normal link',
     html: typographyHtmlSnippets.link.class,
     size: 'M',
     weight: 'Regular',
@@ -141,7 +126,6 @@ const typeScaleLarge: Typography[] = [
     letterSpacing: '0',
   },
   {
-    name: 'small link',
     html: typographyHtmlSnippets.linkS.class,
     size: 'S',
     weight: 'Regular',
@@ -150,20 +134,18 @@ const typeScaleLarge: Typography[] = [
   },
 ];
 
-const typeScaleSmall: Typography[] = [
+const typeScaleLarge: Typography[] = [
   {
-    name: 'headline 1',
     html: typographyHtmlSnippets.h1.tag,
     size: 'XL',
-    weight: 'Bold',
+    weight: 'Semi-bold',
     letterCase: 'Sentence',
     letterSpacing: '0',
   },
   {
-    name: 'headline 2',
     html: typographyHtmlSnippets.h2.tag,
     size: 'L',
-    weight: 'Bold',
+    weight: 'Semi-bold',
     letterCase: 'Sentence',
     letterSpacing: '0',
   },

@@ -64,7 +64,7 @@ $font-sizes: (
 @mixin watt-headline-1 {
   color: var(--watt-color-primary-dark);
   @include font-size('xl');
-  @include font-weight('bold');
+  @include font-weight('semi-bold');
   letter-spacing: 0;
 
   @include breakpoints.media('>=Large') {
@@ -75,7 +75,7 @@ $font-sizes: (
 @mixin watt-headline-2 {
   color: var(--watt-color-primary-dark);
   @include font-size('l');
-  @include font-weight('bold');
+  @include font-weight('semi-bold');
   letter-spacing: 0;
 
   @include breakpoints.media('>=Large') {
@@ -86,21 +86,21 @@ $font-sizes: (
 @mixin watt-headline-3 {
   color: var(--watt-color-primary-dark);
   @include font-size('m');
-  @include font-weight('bold');
+  @include font-weight('semi-bold');
   letter-spacing: 0;
 }
 
 @mixin watt-headline-4 {
   color: var(--watt-color-primary-dark);
   @include font-size('m');
-  @include font-weight('bold');
+  @include font-weight('semi-bold');
   letter-spacing: 0;
 }
 
 @mixin watt-headline-5 {
   color: var(--watt-color-primary-dark);
   @include font-size('m');
-  @include font-weight('bold');
+  @include font-weight('semi-bold');
   letter-spacing: 0;
 }
 
