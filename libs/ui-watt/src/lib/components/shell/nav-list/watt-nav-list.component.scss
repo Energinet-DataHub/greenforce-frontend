@@ -30,8 +30,6 @@ watt-nav-list {
     border-left: var(--watt-space-xs) solid transparent;
     color: var(--watt-color-neutral-white);
     height: auto;
-    overflow: hidden;
-    white-space: nowrap;
 
     &:hover,
     &.active {
