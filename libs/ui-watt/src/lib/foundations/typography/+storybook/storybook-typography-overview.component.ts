@@ -29,14 +29,14 @@ interface Typography {
 const typeScaleSmall: Typography[] = [
   {
     html: typographyHtmlSnippets.h1.tag,
-    size: 'XXL',
+    size: 'XL',
     weight: 'Semi-bold',
     letterCase: 'Sentence',
     letterSpacing: '0',
   },
   {
     html: typographyHtmlSnippets.h2.tag,
-    size: 'XL',
+    size: 'L',
     weight: 'Semi-bold',
     letterCase: 'Sentence',
     letterSpacing: '0',
@@ -137,14 +137,14 @@ const typeScaleSmall: Typography[] = [
 const typeScaleLarge: Typography[] = [
   {
     html: typographyHtmlSnippets.h1.tag,
-    size: 'XL',
+    size: 'XXL',
     weight: 'Semi-bold',
     letterCase: 'Sentence',
     letterSpacing: '0',
   },
   {
     html: typographyHtmlSnippets.h2.tag,
-    size: 'L',
+    size: 'XL',
     weight: 'Semi-bold',
     letterCase: 'Sentence',
     letterSpacing: '0',
