@@ -18,7 +18,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   NgModule,
-  ViewEncapsulation
+  ViewEncapsulation,
 } from '@angular/core';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { EoProductLogoScam } from '@energinet-datahub/eo/shared/ui-shell';
@@ -55,11 +55,11 @@ const selector = 'eo-header';
     </mat-toolbar>
   `,
 })
-export class EoHeaderComponent { }
+export class EoHeaderComponent {}
 
 @NgModule({
   declarations: [EoHeaderComponent],
   exports: [EoHeaderComponent],
-  imports: [MatToolbarModule, EoProductLogoScam]
+  imports: [MatToolbarModule, EoProductLogoScam],
 })
 export class EoHeaderScam {}

@@ -27,7 +27,7 @@ import { WattButtonModule, WattCheckboxModule } from '@energinet-datahub/watt';
 import { EoAuthTermsStore } from './eo-auth-terms.store';
 import {
   EoFooterScam,
-  EoHeaderScam
+  EoHeaderScam,
 } from '@energinet-datahub/eo/shared/ui-page-templates';
 
 const selector = 'eo-auth-terms';
@@ -93,7 +93,7 @@ const selector = 'eo-auth-terms';
     <eo-header></eo-header>
 
     <div class="${selector}__page">
-      <h1>{{ headline$ | push}}</h1>
+      <h1>{{ headline$ | push }}</h1>
       <div class="watt-space-inset-m watt-space-stack-l ${selector}__content">
         <article [innerHTML]="terms$ | push"></article>
       </div>
@@ -105,8 +105,9 @@ const selector = 'eo-auth-terms';
       </div>
 
       <watt-button variant="secondary" (click)="onCancel()">Back</watt-button>
-      <watt-button variant="primary" (click)="onAccept()">Accept terms</watt-button>
-
+      <watt-button variant="primary" (click)="onAccept()"
+        >Accept terms</watt-button
+      >
     </div>
     <eo-footer></eo-footer>
   `,
@@ -116,7 +117,7 @@ export class EoAuthFeatureTermsComponent {
   terms$: Observable<string> = this.store.terms$;
   hasAcceptedTerms = false;
 
-  constructor(private store: EoAuthTermsStore) { }
+  constructor(private store: EoAuthTermsStore) {}
 
   onCancel(): void {
     // this.store.onLogOut...
@@ -125,8 +126,7 @@ export class EoAuthFeatureTermsComponent {
   onAccept(): void {
     if (this.hasAcceptedTerms) {
       this.store.onAcceptTerms();
-    }
-    else {
+    } else {
       // Error handling - Let the user know that the checkbox needs to be checked before terms can be accepted
     }
   }
@@ -141,7 +141,7 @@ export class EoAuthFeatureTermsComponent {
     WattCheckboxModule,
     EoFooterScam,
     EoHeaderScam,
-    PushModule
+    PushModule,
   ],
 })
 export class EoAuthFeatureTermsScam {}

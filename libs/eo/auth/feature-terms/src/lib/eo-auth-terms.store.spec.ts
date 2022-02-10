@@ -20,15 +20,16 @@ import { AuthHttp } from '@energinet-datahub/ett/auth/data-access-api';
 import { EoAuthTermsStore } from './eo-auth-terms.store';
 import { of, firstValueFrom } from 'rxjs';
 
- describe(EoAuthTermsStore.name, () => {
+describe(EoAuthTermsStore.name, () => {
   describe('Given the Auth API is available', () => {
     beforeEach(async () => {
       TestBed.configureTestingModule({
         providers: [
           EoAuthTermsStore,
           MockProvider(AuthHttp, {
-            getTerms: (endpointUrl) => of({terms, version, headline }),
-            postAcceptTerms: (endpointUrl, payload) => of({next_url: 'https://domain.com'})
+            getTerms: (endpointUrl) => of({ terms, version, headline }),
+            postAcceptTerms: (endpointUrl, payload) =>
+              of({ next_url: 'https://domain.com' }),
           }),
         ],
       });
@@ -51,13 +52,10 @@ import { of, firstValueFrom } from 'rxjs';
     });
 
     it('Then the "next_url" is received after accepting the terms', async () => {
-
       // Accept the terms
       // store.onAcceptTerms();
-
       // Expect a redirect -> Shouldn't this test just be handled inside an end-to-end test with cypress?
       // ..
     });
-
   });
 });

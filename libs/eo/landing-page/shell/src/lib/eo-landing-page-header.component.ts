@@ -70,14 +70,14 @@ const selector = 'eo-landing-page-header';
   ],
   template: `
     <eo-header>
-    <a
-      class="${selector}__link"
-      mat-button
-      mat-flat-button
-      *rxLet="loginUrl$ as loginUrl"
-      [href]="loginUrl"
-      >Start</a
-    >
+      <a
+        class="${selector}__link"
+        mat-button
+        mat-flat-button
+        *rxLet="loginUrl$ as loginUrl"
+        [href]="loginUrl"
+        >Start</a
+      >
     </eo-header>
   `,
 })

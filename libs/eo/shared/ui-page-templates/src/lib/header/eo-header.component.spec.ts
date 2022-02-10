@@ -14,25 +14,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { render, screen } from '@testing-library/angular'
+import { render, screen } from '@testing-library/angular';
 import { EoHeaderScam, EoHeaderComponent } from './eo-header.component';
 
 describe(EoHeaderComponent.name, () => {
-
-  const findEnergyOriginLogo = () => screen.findByRole('img', { name: 'EnergyOrigin' });
+  const findEnergyOriginLogo = () =>
+    screen.findByRole('img', { name: 'EnergyOrigin' });
 
   it('displays the EnergyOrigin logo', async () => {
     await render(EoHeaderComponent, {
-      imports: [EoHeaderScam]
+      imports: [EoHeaderScam],
     });
     expect(await findEnergyOriginLogo()).toBeInTheDocument();
   });
 
   it('Inserts content into ng-content', async () => {
     await render(`<eo-header><p>test</p></eo-header>`, {
-      imports: [EoHeaderScam]
+      imports: [EoHeaderScam],
     });
     expect(await screen.findByText('test')).toBeInTheDocument();
   });
-
 });
