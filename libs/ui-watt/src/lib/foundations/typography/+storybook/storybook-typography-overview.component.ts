@@ -37,7 +37,7 @@ const typeScaleLarge: Typography[] = [
     letterSpacing: '0',
   },
   {
-    name: 'Headline 2',
+    name: 'headline 2',
     html: typographyHtmlSnippets.h2.tag,
     size: 'XL',
     weight: 'Bold',
@@ -45,7 +45,7 @@ const typeScaleLarge: Typography[] = [
     letterSpacing: '0',
   },
   {
-    name: 'Headline 3',
+    name: 'headline 3',
     html: typographyHtmlSnippets.h3.tag,
     size: 'M',
     weight: 'Bold',
@@ -53,7 +53,7 @@ const typeScaleLarge: Typography[] = [
     letterSpacing: '0',
   },
   {
-    name: 'Headline 4',
+    name: 'headline 4',
     html: typographyHtmlSnippets.h4.tag,
     size: 'M',
     weight: 'Bold',
@@ -61,7 +61,7 @@ const typeScaleLarge: Typography[] = [
     letterSpacing: '0',
   },
   {
-    name: 'Headline 5',
+    name: 'headline 5',
     html: typographyHtmlSnippets.h5.tag,
     size: 'M',
     weight: 'Bold',
@@ -117,7 +117,7 @@ const typeScaleLarge: Typography[] = [
     letterSpacing: '0',
   },
   {
-    name: 'Button',
+    name: 'button',
     html: typographyHtmlSnippets.button.storybook,
     size: 'M',
     weight: 'Bold',
@@ -125,7 +125,7 @@ const typeScaleLarge: Typography[] = [
     letterSpacing: '0',
   },
   {
-    name: 'Label',
+    name: 'label',
     html: typographyHtmlSnippets.label.class,
     size: 'S',
     weight: 'Bold',
@@ -133,7 +133,7 @@ const typeScaleLarge: Typography[] = [
     letterSpacing: '1.25px',
   },
   {
-    name: 'Normal Link',
+    name: 'normal link',
     html: typographyHtmlSnippets.link.class,
     size: 'M',
     weight: 'Regular',
@@ -141,7 +141,7 @@ const typeScaleLarge: Typography[] = [
     letterSpacing: '0',
   },
   {
-    name: 'Small Link',
+    name: 'small link',
     html: typographyHtmlSnippets.linkS.class,
     size: 'S',
     weight: 'Regular',
@@ -160,7 +160,7 @@ const typeScaleSmall: Typography[] = [
     letterSpacing: '0',
   },
   {
-    name: 'Headline 2',
+    name: 'headline 2',
     html: typographyHtmlSnippets.h2.tag,
     size: 'L',
     weight: 'Bold',

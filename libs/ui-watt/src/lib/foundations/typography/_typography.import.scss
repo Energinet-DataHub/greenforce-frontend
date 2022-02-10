@@ -23,7 +23,6 @@ $primary-font-family: 'Open Sans', sans-serif;
 $secondary-font-family: 'Open Sans', sans-serif;
 
 $font-weights: (
-  'light': 300,
   'regular': 400,
   'semi-bold': 600,
   'bold': 700,
@@ -124,7 +123,7 @@ $font-sizes: (
 }
 
 @mixin watt-text-l-highlighted {
-  @include font-size('l');
+  @include watt-text-l;
   @include font-weight('bold');
 }
 

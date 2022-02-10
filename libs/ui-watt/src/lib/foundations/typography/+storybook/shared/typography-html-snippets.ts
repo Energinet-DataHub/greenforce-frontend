@@ -27,22 +27,22 @@ export const typographyHtmlSnippets = {
     mixin: mixinSnippet('headline-1'),
   },
   h2: {
-    tag: '<h2>Headline-2</h2>',
+    tag: '<h2>headline-2</h2>',
     class: '<p class="watt-headline-2">Headline-2</p>',
     mixin: mixinSnippet('headline-2'),
   },
   h3: {
-    tag: '<h3>Headline-3</h3>',
+    tag: '<h3>headline-3</h3>',
     class: '<p class="watt-headline-3">Headline-3</p>',
     mixin: mixinSnippet('headline-3'),
   },
   h4: {
-    tag: '<h4>Headline-4</h4>',
+    tag: '<h4>headline-4</h4>',
     class: '<p class="watt-headline-4">Headline-4</p>',
     mixin: mixinSnippet('headline-4'),
   },
   h5: {
-    tag: '<h5>Headline-5</h5>',
+    tag: '<h5>headline-5</h5>',
     class: '<p class="watt-headline-5">Headline-5</p>',
     mixin: mixinSnippet('headline-5'),
   },
@@ -75,24 +75,24 @@ export const typographyHtmlSnippets = {
     mixin: mixinSnippet('text-s-highlighted'),
   },
   button: {
-    storybook: '<p class="watt-button">Button</p>',
+    storybook: '<p class="watt-button">button</p>',
     tag: '<button type="button">Button</button>',
     class: '<a class="watt-button" href="#">Button</a>',
     mixin: mixinSnippet('button'),
   },
   label: {
-    tag: '<label>Label</label>',
-    class: '<p class="watt-label">Label</p>',
+    tag: '<label>label</label>',
+    class: '<p class="watt-label">label</p>',
     mixin: mixinSnippet('label'),
   },
   link: {
     tag: '<a>Normal Link</a>',
-    class: '<p class="watt-link">Normal Link</p>',
+    class: '<p class="watt-link">normal link</p>',
     mixin: mixinSnippet('link'),
   },
   linkS: {
     tag: '<small><a>Small Link</a></small>',
-    class: '<p class="watt-link-s">Small Link</p>',
+    class: '<p class="watt-link-s">small link</p>',
     mixin: mixinSnippet('link-s'),
   },
 };
