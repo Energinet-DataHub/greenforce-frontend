@@ -14,31 +14,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, ElementRef, HostBinding, NgModule } from '@angular/core';
+import { Component, Input, NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import { MatRippleModule } from '@angular/material/core';
+import { MatListModule } from '@angular/material/list';
 
 @Component({
-  // eslint-disable-next-line @angular-eslint/component-selector
-  selector: 'a[watt-nav-list-item]',
-  exportAs: 'wattNavListItem',
-  templateUrl: './watt-nav-list-item.component.html',
+  selector: 'watt-nav-list-item',
+  template: ` <a
+    mat-list-item
+    mat-ripple
+    [routerLink]="link"
+    routerLinkActive="active"
+    ><ng-content></ng-content
+  ></a>`,
 })
 export class WattNavListItemComponent {
-  @HostBinding('class') get baseClass() {
-    return 'mat-list-item mat-focus-indicator';
-  }
-
-  constructor(private element: ElementRef<HTMLElement>) {}
-
-  /** Retrieves the DOM element of the component host. */
-  getHostElement(): HTMLElement {
-    return this.element.nativeElement;
-  }
+  @Input() link = '/';
 }
 
 @NgModule({
   declarations: [WattNavListItemComponent],
   exports: [WattNavListItemComponent],
-  imports: [MatRippleModule],
+  imports: [RouterModule, MatListModule, MatRippleModule],
 })
 export class WattNavListItemScam {}

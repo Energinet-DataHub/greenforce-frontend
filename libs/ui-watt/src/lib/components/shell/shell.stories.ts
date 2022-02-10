@@ -73,24 +73,9 @@ const withSidebarNavigationTemplate = `
 <watt-shell>
   <ng-container watt-shell-sidenav>
     <watt-nav-list>
-      <a
-        watt-nav-list-item
-        routerLink="/menu-1"
-        routerLinkActive="active"
-        >Menu 1</a
-      >
-      <a
-        watt-nav-list-item
-        routerLink="/menu-2"
-        routerLinkActive="active"
-        >Menu 2</a
-      >
-      <a
-        watt-nav-list-item
-        routerLink="/menu-3"
-        routerLinkActive="active"
-        >Menu 3</a
-      >
+      <watt-nav-list-item link="/menu-1">Menu 1</watt-nav-list-item>
+      <watt-nav-list-item link="/menu-2">Menu 2</watt-nav-list-item>
+      <watt-nav-list-item link="/menu-3">Menu 2</watt-nav-list-item>
     </watt-nav-list>
   </ng-container>
 
