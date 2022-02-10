@@ -75,7 +75,7 @@ const withSidebarNavigationTemplate = `
     <watt-nav-list>
       <watt-nav-list-item link="/menu-1">Menu 1</watt-nav-list-item>
       <watt-nav-list-item link="/menu-2">Menu 2</watt-nav-list-item>
-      <watt-nav-list-item link="/menu-3">Menu 2</watt-nav-list-item>
+      <watt-nav-list-item link="/menu-3">Menu 3</watt-nav-list-item>
     </watt-nav-list>
   </ng-container>
 
