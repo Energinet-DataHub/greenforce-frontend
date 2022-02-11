@@ -25,7 +25,7 @@ describe('Authentication', () => {
     When NemID authentication is successful
     Then they are redirected to the dashboard page`, () => {
     // Arrange
-    authApi.allowAuthentication();
+    authApi.allowExistingUserAuthentication();
     landingPage.navigateTo();
 
     // Act
@@ -40,7 +40,7 @@ describe('Authentication', () => {
       And log out is successful
     Then they are redirected to the landing page`, () => {
     // Arrange
-    authApi.allowAuthentication();
+    authApi.allowExistingUserAuthentication();
     authApi.allowLogOut();
     landingPage.navigateTo();
     landingPage.findStartLink().click();
@@ -60,21 +60,26 @@ describe('Authentication', () => {
       And they accept the user terms
     Then they are redirected to the dashboard page`, () => {
     // Arrange
+    authApi.allowFirstTimeAuthentication();
+
     cy.intercept(
       {
         hostname: 'localhost',
         method: 'GET',
-        pathname: '/api/auth/oidc/login',
+        pathname: '/api/auth/terms',
       },
       {
-        next_url: '/terms',
+        headline: 'headline',
+        terms: '<h1>terms</h1>',
+        version: '1.0',
       }
     );
+
     cy.intercept(
       {
         hostname: 'localhost',
         method: 'POST',
-        pathname: '/api/auth/terms_accept_url',
+        pathname: '/api/auth/terms/accept',
       },
       {
         next_url: '/dashboard?success=1',
@@ -85,11 +90,14 @@ describe('Authentication', () => {
     // Act
     landingPage.findStartLink().click();
 
-    termsPage.findAcceptCheckbox().click();
+    termsPage.findAcceptCheckbox().click({ force: true });
     termsPage.findAcceptButton().click();
-    termsPage.navigateToOnAccept(); // Needed at all OR intercepted by Cypress above..?
 
     // Assert
     dashboardPage.findTitle().should('exist');
   });
+
+  // Next: Test where we click on submit and have NOT marked the checkbox
+
+  // Next: Test where the user logs out = hits the "Cancel" button
 });

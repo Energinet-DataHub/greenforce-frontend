@@ -19,6 +19,7 @@ import { MockProvider } from 'ng-mocks';
 import { AuthHttp } from '@energinet-datahub/ett/auth/data-access-api';
 import { EoAuthTermsStore } from './eo-auth-terms.store';
 import { of, firstValueFrom } from 'rxjs';
+import { browserLocationToken } from './browser-location.token';
 
 describe(EoAuthTermsStore.name, () => {
   describe('Given the Auth API is available', () => {
@@ -26,10 +27,13 @@ describe(EoAuthTermsStore.name, () => {
       TestBed.configureTestingModule({
         providers: [
           EoAuthTermsStore,
+          MockProvider(browserLocationToken, {
+            replace: jest.fn()
+          }),
           MockProvider(AuthHttp, {
-            getTerms: (endpointUrl) => of({ terms, version, headline }),
-            postAcceptTerms: (endpointUrl, payload) =>
-              of({ next_url: 'https://domain.com' }),
+            getTerms: () => of({ terms, version, headline }),
+            postAcceptTerms: () =>
+              of({ next_url: '/dashboard?success=1' }),
           }),
         ],
       });
@@ -52,10 +56,11 @@ describe(EoAuthTermsStore.name, () => {
     });
 
     it('Then the "next_url" is received after accepting the terms', async () => {
-      // Accept the terms
-      // store.onAcceptTerms();
-      // Expect a redirect -> Shouldn't this test just be handled inside an end-to-end test with cypress?
-      // ..
+      const location = TestBed.inject(browserLocationToken);
+      store.onAcceptTerms();
+      expect(location.replace).toHaveBeenCalledWith('/dashboard?success=1');
+      expect(location.replace).toHaveBeenCalledTimes(1);
     });
+
   });
 });

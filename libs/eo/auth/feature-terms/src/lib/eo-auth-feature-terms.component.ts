@@ -99,11 +99,7 @@ const selector = 'eo-auth-terms';
       </div>
 
       <div class="watt-space-stack-l">
-        <watt-checkbox
-        aria-labelledby="Accept terms checkbox"
-        aria-checked="false"
-        tabindex="0"
-        [(ngModel)]="hasAcceptedTerms"
+        <watt-checkbox [(ngModel)]="hasAcceptedTerms"
           >I have seen the privacy policy</watt-checkbox
         >
       </div>

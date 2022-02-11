@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import {
@@ -31,6 +31,7 @@ import {
 } from 'rxjs';
 import { eoLandingPageRelativeUrl } from '@energinet-datahub/eo/landing-page/routing';
 import { AuthHttp,  } from '@energinet-datahub/ett/auth/data-access-api';
+import { browserLocationToken } from './browser-location.token';
 
 interface EoAuthTermsState {
   readonly headline: string | null;
@@ -70,7 +71,8 @@ export class EoAuthTermsStore extends ComponentStore<EoAuthTermsState> {
   constructor(
     private authHttp: AuthHttp,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    @Inject(browserLocationToken) private location: Location
   ) {
     super(initialState);
     this.#getTerms(this.#termsUrl$);
@@ -118,23 +120,26 @@ export class EoAuthTermsStore extends ComponentStore<EoAuthTermsState> {
     )
   );
 
-  // Send over "state": ?, "version": this.state.version, "accepted": boolean
   onAcceptTerms = this.effect<void>((origin$) =>
-    combineLatest([this.#acceptTermsUrl$, this.#version$, this.#state$]).pipe(
-      take(1),
-      mergeMap(([acceptTermsUrl, version, state]) =>
-        this.authHttp.postAcceptTerms(acceptTermsUrl, {
-          version,
-          accepted: true,
-          state,
-        })
-      ),
-      tapResponse(
-        (response) => (location.href = response.next_url),
-        (error) => {
-          // We only support the happy path for now
-          throw error;
-        }
+    origin$.pipe(
+      exhaustMap(() =>
+        combineLatest([this.#acceptTermsUrl$, this.#version$, this.#state$]).pipe(
+          take(1),
+          mergeMap(([acceptTermsUrl, version, state]) =>
+            this.authHttp.postAcceptTerms(acceptTermsUrl, {
+              version,
+              accepted: true,
+              state,
+            })
+          ),
+          tapResponse(
+            (response) => (this.location.replace(response.next_url)),
+            (error) => {
+              // We only support the happy path for now
+              throw error;
+            }
+          )
+        )
       )
     )
   );
