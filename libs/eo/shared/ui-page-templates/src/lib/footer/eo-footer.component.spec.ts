@@ -14,12 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { render, screen } from '@testing-library/angular'
+import { render, screen } from '@testing-library/angular';
 import { EoFooterScam, EoFooterComponent } from './eo-footer.component';
 
 describe(EoFooterComponent.name, () => {
-
-  const findEnerginetLogo = () => screen.findByRole('img', { name: 'Energinet' });
+  const findEnerginetLogo = () =>
+    screen.findByRole('img', { name: 'Energinet' });
 
   const findPhoneLink = () => screen.findByRole('link', { name: /phone/i });
 
@@ -27,7 +27,7 @@ describe(EoFooterComponent.name, () => {
 
   beforeEach(async () => {
     await render(EoFooterComponent, {
-      imports: [EoFooterScam]
+      imports: [EoFooterScam],
     });
   });
 
@@ -42,5 +42,4 @@ describe(EoFooterComponent.name, () => {
   it('displays an e-mail link', async () => {
     expect((await findEmailLink()).getAttribute('href')).toMatch(/^mailto:/);
   });
-
 });

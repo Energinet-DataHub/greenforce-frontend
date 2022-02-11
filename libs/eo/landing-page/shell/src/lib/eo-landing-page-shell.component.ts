@@ -49,6 +49,6 @@ export class EoLandingPageShellComponent {}
 
 @NgModule({
   declarations: [EoLandingPageShellComponent],
-  imports: [MatButtonModule, LetModule, EoLandingPageHeaderScam, EoFooterScam]
+  imports: [MatButtonModule, LetModule, EoLandingPageHeaderScam, EoFooterScam],
 })
 export class EoLandingPageShellScam {}

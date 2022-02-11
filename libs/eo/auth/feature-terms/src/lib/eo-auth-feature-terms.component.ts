@@ -27,7 +27,7 @@ import { WattButtonModule, WattCheckboxModule } from '@energinet-datahub/watt';
 import { EoAuthTermsStore } from './eo-auth-terms.store';
 import {
   EoFooterScam,
-  EoHeaderScam
+  EoHeaderScam,
 } from '@energinet-datahub/eo/shared/ui-page-templates';
 
 const selector = 'eo-auth-terms';
@@ -93,7 +93,7 @@ const selector = 'eo-auth-terms';
     <eo-header></eo-header>
 
     <div class="${selector}__page">
-      <h1>{{ headline$ | push}}</h1>
+      <h1>{{ headline$ | push }}</h1>
       <div class="watt-space-inset-m watt-space-stack-l ${selector}__content">
         <article [innerHTML]="terms$ | push"></article>
       </div>
@@ -102,7 +102,8 @@ const selector = 'eo-auth-terms';
         <watt-checkbox
         aria-labelledby="Accept terms checkbox"
         aria-checked="false"
-        tabindex="0" [(ngModel)]="hasAcceptedTerms"
+        tabindex="0"
+        [(ngModel)]="hasAcceptedTerms"
           >I have seen the privacy policy</watt-checkbox
         >
       </div>
@@ -119,7 +120,7 @@ export class EoAuthFeatureTermsComponent {
   terms$: Observable<string> = this.store.terms$;
   hasAcceptedTerms = false;
 
-  constructor(private store: EoAuthTermsStore) { }
+  constructor(private store: EoAuthTermsStore) {}
 
   onCancel(): void {
     this.store.onCancel();
@@ -128,8 +129,7 @@ export class EoAuthFeatureTermsComponent {
   onAccept(): void {
     if (this.hasAcceptedTerms) {
       this.store.onAcceptTerms();
-    }
-    else {
+    } else {
       // Error handling - Let the user know that the checkbox needs to be checked before terms can be accepted
     }
   }
@@ -144,7 +144,7 @@ export class EoAuthFeatureTermsComponent {
     WattCheckboxModule,
     EoFooterScam,
     EoHeaderScam,
-    PushModule
+    PushModule,
   ],
 })
 export class EoAuthFeatureTermsScam {}

@@ -110,7 +110,10 @@ export class AuthHttp {
     return this.http.get<AuthTermsResponse>(endpointUrl);
   }
 
-  postAcceptTerms(endpointUrl: string, payload: AuthTermsAcceptRequest): Observable<AuthTermsAcceptResponse> {
+  postAcceptTerms(
+    endpointUrl: string,
+    payload: AuthTermsAcceptRequest
+  ): Observable<AuthTermsAcceptResponse> {
     return this.http.post<AuthTermsAcceptResponse>(endpointUrl, payload);
   }
 }
