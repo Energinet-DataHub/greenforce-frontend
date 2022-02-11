@@ -14,10 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { RouterModule } from '@angular/router';
-import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { APP_INITIALIZER, Component } from '@angular/core';
 import { APP_BASE_HREF } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { RouterTestingModule } from '@angular/router/testing';
 import { moduleMetadata, Story, Meta } from '@storybook/angular';
 
 import { WattShellComponent } from './shell.component';
@@ -109,9 +110,8 @@ withSidebarNavigation.storyName = 'With sidebar navigation';
 withSidebarNavigation.decorators = [
   moduleMetadata({
     imports: [
-      RouterModule.forRoot(
+      RouterTestingModule.withRoutes(
         [
-          { path: '', redirectTo: 'menu-2', pathMatch: 'full' },
           { path: 'menu-1', component: StorybookPage1Component },
           { path: 'menu-2', component: StorybookPage2Component },
           { path: 'menu-3', component: StorybookPage3Component },
@@ -126,6 +126,13 @@ withSidebarNavigation.decorators = [
       {
         provide: APP_BASE_HREF,
         useValue: '/iframe.html/',
+      },
+      // Initial navigation. Using a redirect in the route definition doesn't work
+      {
+        provide: APP_INITIALIZER,
+        useFactory: (router: Router) => () => router.navigate(['/menu-2']),
+        deps: [Router],
+        multi: true,
       },
     ],
   }),
