@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Energinet.DataHub.MeteringPoints.Client.Abstractions;
 using Energinet.DataHub.MeteringPoints.Client.Abstractions.Models;
@@ -43,6 +44,20 @@ namespace Energinet.DataHub.WebApi.Controllers
             var result = await _meteringPointClient.GetMeteringPointByGsrnAsync(gsrnNumber);
 
             return result == null ? NotFound() : Ok(result);
+        }
+
+        /// <summary>
+        /// Get metering point process overview by GSRN number.
+        /// </summary>
+        /// <param name="gsrnNumber">Public identifier of a metering point.</param>
+        /// <returns>A list of processes for a given metering point.</returns>
+        /// <response code="200">Returns a list of processes.</response>
+        [HttpGet("GetProcessesByGsrn")]
+        public async Task<ActionResult<List<Process>>> GetProcessesByGsrnAsync(string gsrnNumber)
+        {
+            var result = await _meteringPointClient.GetProcessesByGsrnAsync(gsrnNumber);
+
+            return Ok(result);
         }
     }
 }

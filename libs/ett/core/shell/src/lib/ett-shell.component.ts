@@ -21,6 +21,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { EoProductLogoScam } from '@energinet-datahub/eo/shared/ui-shell';
 import { WattShellModule } from '@energinet-datahub/watt';
 
 import { EttPrimaryNavigationScam } from './ett-primary-navigation.component';
@@ -35,6 +36,15 @@ const selector = 'ett-shell';
     `
       ${selector} {
         display: block;
+
+        watt-shell mat-sidenav.mat-drawer {
+          color: var(--watt-color-primary-dark-contrast);
+        }
+
+        watt-shell .watt-toolbar watt-icon-button[icon='menu'] > button {
+          // Remove menu toggle left padding to collapse with top app bar padding
+          padding-left: 0;
+        }
       }
     `,
   ],
@@ -45,7 +55,7 @@ const selector = 'ett-shell';
       </ng-container>
 
       <ng-container watt-shell-toolbar>
-        <h1>EnergyOrigin</h1>
+        <img eoProductLogo />
       </ng-container>
 
       <router-outlet></router-outlet>
@@ -56,6 +66,11 @@ export class EttShellComponent {}
 
 @NgModule({
   declarations: [EttShellComponent],
-  imports: [RouterModule, WattShellModule, EttPrimaryNavigationScam],
+  imports: [
+    RouterModule,
+    WattShellModule,
+    EttPrimaryNavigationScam,
+    EoProductLogoScam,
+  ],
 })
 export class EttShellScam {}
