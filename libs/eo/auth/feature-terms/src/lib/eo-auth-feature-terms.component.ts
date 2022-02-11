@@ -100,17 +100,26 @@ const selector = 'eo-auth-terms';
 
       <div class="watt-space-stack-l">
         <watt-checkbox
-        aria-labelledby="Accept terms checkbox"
-        aria-checked="false"
-        tabindex="0"
-        [(ngModel)]="hasAcceptedTerms"
+          aria-labelledby="Accept terms checkbox"
+          aria-checked="false"
+          tabindex="0"
+          [(ngModel)]="hasAcceptedTerms"
           >I have seen the privacy policy</watt-checkbox
         >
       </div>
 
-      <watt-button variant="secondary" aria-labelledby="Cancel" (click)="onCancel()">Back</watt-button>
-      <watt-button variant="primary" aria-labelledby="Accept" (click)="onAccept()">Accept terms</watt-button>
-
+      <watt-button
+        variant="secondary"
+        aria-labelledby="Cancel"
+        (click)="onCancel()"
+        >Back</watt-button
+      >
+      <watt-button
+        variant="primary"
+        aria-labelledby="Accept"
+        (click)="onAccept()"
+        >Accept terms</watt-button
+      >
     </div>
     <eo-footer></eo-footer>
   `,

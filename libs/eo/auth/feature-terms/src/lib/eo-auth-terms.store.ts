@@ -27,10 +27,10 @@ import {
   switchMap,
   exhaustMap,
   of,
-  throwError
+  throwError,
 } from 'rxjs';
 import { eoLandingPageRelativeUrl } from '@energinet-datahub/eo/landing-page/routing';
-import { AuthHttp,  } from '@energinet-datahub/ett/auth/data-access-api';
+import { AuthHttp } from '@energinet-datahub/ett/auth/data-access-api';
 
 interface EoAuthTermsState {
   readonly headline: string | null;
