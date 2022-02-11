@@ -53,6 +53,12 @@ watt-button {
     }
   }
 
+  &.watt-button-disabled {
+    // NOTE(xdzus)
+    // Prevents emitting a click event in Chrome/Edge/Safari when a disabled button is clicked
+    pointer-events: none;
+  }
+
   .content-grid {
     align-items: center;
     display: flex;
