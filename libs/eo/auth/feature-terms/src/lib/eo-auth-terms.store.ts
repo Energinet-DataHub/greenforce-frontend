@@ -25,8 +25,12 @@ import {
   take,
   Observable,
   switchMap,
+  exhaustMap,
+  of,
+  throwError
 } from 'rxjs';
-import { AuthHttp } from '@energinet-datahub/ett/auth/data-access-api';
+import { eoLandingPageRelativeUrl } from '@energinet-datahub/eo/landing-page/routing';
+import { AuthHttp,  } from '@energinet-datahub/ett/auth/data-access-api';
 
 interface EoAuthTermsState {
   readonly headline: string | null;
@@ -77,7 +81,6 @@ export class EoAuthTermsStore extends ComponentStore<EoAuthTermsState> {
     )
   );
 
-  /*
   onCancel = this.effect<void>((origin$) =>
     origin$.pipe(
       exhaustMap(() =>
@@ -98,7 +101,6 @@ export class EoAuthTermsStore extends ComponentStore<EoAuthTermsState> {
       )
     )
   );
-  */
 
   // Send over "state": ?, "version": this.state.version, "accepted": boolean
   onAcceptTerms = this.effect<void>((origin$) =>

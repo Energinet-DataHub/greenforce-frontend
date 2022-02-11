@@ -18,6 +18,7 @@ import * as appShell from '../support/app-shell.po';
 import * as authApi from '../support/auth-api';
 import * as dashboardPage from '../support/dashboard.po';
 import * as landingPage from '../support/landing-page.po';
+import * as termsPage from '../support/terms-page.po';
 
 describe('Authentication', () => {
   it(`Given a commercial user
@@ -84,9 +85,9 @@ describe('Authentication', () => {
     // Act
     landingPage.findStartLink().click();
 
-    // Comment terms page tests out for now, in order not to break tests - As the terms page is work in progress:
-    // termsPage.findAcceptCheckbox().click();
-    // termsPage.findAcceptButton().click();
+    termsPage.findAcceptCheckbox().click();
+    termsPage.findAcceptButton().click();
+    termsPage.navigateToOnAccept(); // Needed at all OR intercepted by Cypress above..?
 
     // Assert
     dashboardPage.findTitle().should('exist');

@@ -14,7 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export const findProductLogo = () => cy.findByRole('img', { name: 'EnergyOrigin' });
-export const findStartLink = () => cy.findByRole('link', { name: /Start/i });
-export const navigateTo = () => cy.visit(path);
-export const path = '/';
+export const findAcceptCheckbox = () => cy.findByRole('checkbox', { name: /Accept terms checkbox/i });
+export const findAcceptButton = () => cy.findByRole('button', { name: /Accept/i });
+export const findCancelButton = () => cy.findByRole('button', { name: /Cancel/i });
+export const navigateToOnAccept = () => cy.visit(acceptPath);
+export const navigateToOnCancel = () => cy.visit(cancelPath);
+export const acceptPath = '/dashboard?success=1';
+export const cancelPath = '/';

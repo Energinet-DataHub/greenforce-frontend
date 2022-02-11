@@ -71,6 +71,7 @@ const selector = 'eo-landing-page-header';
   template: `
     <eo-header>
     <a
+      aria-labelledby="Start"
       class="${selector}__link"
       mat-button
       mat-flat-button
