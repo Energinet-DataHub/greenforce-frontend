@@ -34,7 +34,9 @@ describe(EoLogOutStore.name, () => {
           MockProvider(AuthHttp, {
             postLogout: () => of({ success: true }),
           }),
-          MockProvider(Router),
+          MockProvider(Router, {
+            navigateByUrl: jest.fn()
+          }),
         ],
       });
 
