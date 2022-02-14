@@ -1,0 +1,54 @@
+<!--
+@license
+Copyright 2020 Energinet DataHub A/S
+
+Licensed under the Apache License, Version 2.0 (the "License2");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<ng-container *rxLet="isLoading$ as isLoading">
+  <div *ngIf="isLoading" class="spinner">
+    <watt-spinner></watt-spinner>
+  </div>
+  <ng-container *ngIf="!isLoading">
+    <h1>Work in Progress</h1>
+          <ng-container *rxLet="processes$ as processes">
+            <table border='1'>
+              <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>createdDate</th>
+                <th>effectiveDate</th>
+                <th>status</th>
+              </tr>
+              <tr *ngFor="let process of processes">
+                <th>{{ process.id }}</th>
+                <th>{{ process.name }}</th>
+                <th>{{ process.createdDate }}</th>
+                <th>{{ process.effectiveDate }}</th>
+                <th>{{ process.status }}</th>
+              </tr>
+            </table>
+          </ng-container>
+  </ng-container>
+
+  <ng-container *rxLet="processesNotFound$ as chargesNotFound">
+<!--    <div *ngIf="chargesNotFound">-->
+<!--      <dh-processes-not-found></dh-processes-not-found>-->
+<!--    </div>-->
+  </ng-container>
+
+  <ng-container *rxLet="hasGeneralError$ as hasGeneralError">
+<!--    <div *ngIf="hasGeneralError">-->
+<!--      <dh-processes-general-error></dh-processes-general-error>-->
+<!--    </div>-->
+  </ng-container>
+</ng-container>

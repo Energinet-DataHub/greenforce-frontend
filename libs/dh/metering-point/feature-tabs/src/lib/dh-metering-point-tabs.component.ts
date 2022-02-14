@@ -26,6 +26,7 @@ import { DhMeteringPointDataAccessApiStore } from '@energinet-datahub/dh/meterin
 
 import { DhChargesTabContentScam } from './charges-tab-content/dh-charges-tab-content.component';
 import { DhChildMeteringPointsTabContentScam } from './child-metering-points-tab-content/dh-child-metering-points-tab-content.component';
+import { DhProcessesTabContentScam } from './processes-tab-content/dh-processes-tab-content.component';
 
 @Component({
   selector: 'dh-metering-point-tabs',
@@ -33,6 +34,8 @@ import { DhChildMeteringPointsTabContentScam } from './child-metering-points-tab
 })
 export class DhMeteringPointTabsComponent {
   childMeteringPointsCount = 0;
+
+  processTabFeatureFlag = sessionStorage.getItem('processTab') === 'show' // TODO: Remove this when the feature is done
 
   meteringPoint$ = this.store.meteringPoint$.pipe(
     tap((meteringPoint) => {
@@ -54,6 +57,7 @@ export class DhMeteringPointTabsComponent {
     TranslocoModule,
     DhIsParentPipeScam,
     DhChargesTabContentScam,
+    DhProcessesTabContentScam,
     DhChildMeteringPointsTabContentScam,
   ],
 })

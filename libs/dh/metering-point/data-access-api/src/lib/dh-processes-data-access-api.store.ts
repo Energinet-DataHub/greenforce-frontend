@@ -44,7 +44,7 @@ const initialState: ProcessesState = {
 };
 
 @Injectable()
-export class DhProcessDataAccessApiStore extends ComponentStore<ProcessesState> {
+export class DhProcessesDataAccessApiStore extends ComponentStore<ProcessesState> {
   processes$: Observable<Process[]> = this.select(
     (state) => state.processes
   ).pipe(
