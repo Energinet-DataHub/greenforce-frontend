@@ -127,7 +127,10 @@ export class EoAuthFeatureTermsComponent {
   terms$: Observable<string> = this.store.terms$;
   hasAcceptedTerms = false;
 
-  constructor(private store: EoAuthTermsStore, private logOutStore: EoLogOutStore) {}
+  constructor(
+    private store: EoAuthTermsStore,
+    private logOutStore: EoLogOutStore
+  ) {}
 
   onCancel(): void {
     this.logOutStore.onLogOut();

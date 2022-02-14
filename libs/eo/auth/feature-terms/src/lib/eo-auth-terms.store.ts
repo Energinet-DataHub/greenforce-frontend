@@ -25,9 +25,9 @@ import {
   take,
   Observable,
   switchMap,
-  exhaustMap
+  exhaustMap,
 } from 'rxjs';
-import { AuthHttp,  } from '@energinet-datahub/ett/auth/data-access-api';
+import { AuthHttp } from '@energinet-datahub/ett/auth/data-access-api';
 import { browserLocationToken } from './browser-location.token';
 
 interface EoAuthTermsState {
@@ -98,7 +98,11 @@ export class EoAuthTermsStore extends ComponentStore<EoAuthTermsState> {
   onAcceptTerms = this.effect<void>((origin$) =>
     origin$.pipe(
       exhaustMap(() =>
-        combineLatest([this.#acceptTermsUrl$, this.#version$, this.#state$]).pipe(
+        combineLatest([
+          this.#acceptTermsUrl$,
+          this.#version$,
+          this.#state$,
+        ]).pipe(
           take(1),
           mergeMap(([acceptTermsUrl, version, state]) =>
             this.authHttp.postAcceptTerms(acceptTermsUrl, {
@@ -108,7 +112,7 @@ export class EoAuthTermsStore extends ComponentStore<EoAuthTermsState> {
             })
           ),
           tapResponse(
-            (response) => (this.location.replace(response.next_url)),
+            (response) => this.location.replace(response.next_url),
             (error) => {
               // We only support the happy path for now
               throw error;
