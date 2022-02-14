@@ -20,3 +20,7 @@ html,
 body {
   min-height: 100%;
 }
+
+a {
+  text-decoration: underline; // This overrides WATT styles (which removes the underline on a tags)
+}
