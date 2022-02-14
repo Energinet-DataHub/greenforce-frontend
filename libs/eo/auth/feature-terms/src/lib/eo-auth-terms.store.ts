@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { Inject, Injectable } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import {
   combineLatest,
@@ -25,11 +25,8 @@ import {
   take,
   Observable,
   switchMap,
-  exhaustMap,
-  of,
-  throwError
+  exhaustMap
 } from 'rxjs';
-import { eoLandingPageRelativeUrl } from '@energinet-datahub/eo/landing-page/routing';
 import { AuthHttp,  } from '@energinet-datahub/ett/auth/data-access-api';
 import { browserLocationToken } from './browser-location.token';
 
@@ -70,7 +67,6 @@ export class EoAuthTermsStore extends ComponentStore<EoAuthTermsState> {
 
   constructor(
     private authHttp: AuthHttp,
-    private router: Router,
     private route: ActivatedRoute,
     @Inject(browserLocationToken) private location: Location
   ) {
@@ -89,27 +85,6 @@ export class EoAuthTermsStore extends ComponentStore<EoAuthTermsState> {
                 terms: response.terms,
                 version: response.version,
               }),
-            (error) => {
-              // We only support the happy path for now
-              throw error;
-            }
-          )
-        )
-      )
-    )
-  );
-
-  onCancel = this.effect<void>((origin$) =>
-    origin$.pipe(
-      exhaustMap(() =>
-        this.authHttp.postLogout().pipe(
-          mergeMap((response) =>
-            response.success === true
-              ? of(undefined)
-              : throwError(() => new Error('Log out failed'))
-          ),
-          tapResponse(
-            () => this.router.navigateByUrl(eoLandingPageRelativeUrl),
             (error) => {
               // We only support the happy path for now
               throw error;

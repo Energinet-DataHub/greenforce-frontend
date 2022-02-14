@@ -23,10 +23,10 @@ import { exhaustMap, mergeMap, of, throwError } from 'rxjs';
 
 // No internal state needed
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-interface EoPrimaryNavigationState {}
+interface EoLogOutState {}
 
 @Injectable()
-export class EoPrimaryNavigationStore extends ComponentStore<EoPrimaryNavigationState> {
+export class EoLogOutStore extends ComponentStore<EoLogOutState> {
   constructor(private authHttp: AuthHttp, private router: Router) {
     super({});
   }

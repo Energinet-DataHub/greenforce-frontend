@@ -10,5 +10,5 @@
     "lib": ["dom", "es2018"]
   },
   "exclude": ["src/test-setup.ts", "**/*.spec.ts"],
-  "include": ["**/*.ts"]
+  "include": ["**/*.ts", "../../auth/data-access-security/src/lib/authentication/eo-primary-navigation.store.spec.ts"]
 }

@@ -22,15 +22,15 @@ import { AuthHttp } from '@energinet-datahub/ett/auth/data-access-api';
 import { MockProvider } from 'ng-mocks';
 import { of } from 'rxjs';
 
-import { EoPrimaryNavigationStore } from './eo-primary-navigation.store';
+import { EoLogOutStore } from './eo-log-out.store';
 
-describe(EoPrimaryNavigationStore.name, () => {
+describe(EoLogOutStore.name, () => {
   describe('Given Auth API accepts log out', () => {
     beforeEach(() => {
       TestBed.configureTestingModule({
         imports: [RouterTestingModule],
         providers: [
-          EoPrimaryNavigationStore,
+          EoLogOutStore,
           MockProvider(AuthHttp, {
             postLogout: () => of({ success: true }),
           }),
@@ -38,10 +38,10 @@ describe(EoPrimaryNavigationStore.name, () => {
         ],
       });
 
-      store = TestBed.inject(EoPrimaryNavigationStore);
+      store = TestBed.inject(EoLogOutStore);
     });
 
-    let store: EoPrimaryNavigationStore;
+    let store: EoLogOutStore;
 
     it(`When log out is triggered
       Then the user is redirected to the landing page`, () => {

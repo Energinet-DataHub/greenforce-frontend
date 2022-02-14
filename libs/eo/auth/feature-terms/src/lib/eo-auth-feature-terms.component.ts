@@ -29,10 +29,12 @@ import {
   EoFooterScam,
   EoHeaderScam,
 } from '@energinet-datahub/eo/shared/ui-page-templates';
+import { EoLogOutStore } from '@energinet-datahub/ett/auth/data-access-security';
 
 const selector = 'eo-auth-terms';
 
 @Component({
+  providers: [EoLogOutStore],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   selector,
@@ -116,10 +118,10 @@ export class EoAuthFeatureTermsComponent {
   terms$: Observable<string> = this.store.terms$;
   hasAcceptedTerms = false;
 
-  constructor(private store: EoAuthTermsStore) {}
+  constructor(private store: EoAuthTermsStore, private logOutStore: EoLogOutStore) {}
 
   onCancel(): void {
-    this.store.onCancel();
+    this.logOutStore.onLogOut();
   }
 
   onAccept(): void {
