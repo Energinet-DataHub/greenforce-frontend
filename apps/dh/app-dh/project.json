@@ -35,6 +35,11 @@
             "input": "libs/ui-watt/src/assets",
             "glob": "**/*",
             "output": "assets/ui-watt"
+          },
+          {
+            "input": "libs/dh/shared/environments/src/lib/mocks",
+            "glob": "mockServiceWorker.js",
+            "output": ""
           }
         ],
         "styles": ["apps/dh/app-dh/src/styles.scss"],
