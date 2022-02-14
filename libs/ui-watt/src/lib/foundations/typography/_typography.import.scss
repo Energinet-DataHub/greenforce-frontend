@@ -65,6 +65,7 @@ $font-sizes: (
   color: var(--watt-typography-headline-color);
   @include font-size('xl');
   @include font-weight('semi-bold');
+  text-transform: none;
   letter-spacing: 0;
 
   @include breakpoints.media('>=Large') {
@@ -76,6 +77,7 @@ $font-sizes: (
   color: var(--watt-typography-headline-color);
   @include font-size('l');
   @include font-weight('semi-bold');
+  text-transform: none;
   letter-spacing: 0;
 
   @include breakpoints.media('>=Large') {
@@ -87,6 +89,7 @@ $font-sizes: (
   color: var(--watt-typography-headline-color);
   @include font-size('m');
   @include font-weight('semi-bold');
+  text-transform: none;
   letter-spacing: 0;
 }
 
@@ -94,6 +97,7 @@ $font-sizes: (
   color: var(--watt-typography-headline-color);
   @include font-size('m');
   @include font-weight('semi-bold');
+  text-transform: none;
   letter-spacing: 0;
 }
 
@@ -101,29 +105,36 @@ $font-sizes: (
   color: var(--watt-typography-headline-color);
   @include font-size('m');
   @include font-weight('semi-bold');
-  letter-spacing: 0;
-}
-
-@mixin watt-text-l {
-  @include font-size('l');
-  @include font-weight('regular');
-  letter-spacing: 0;
-}
-
-@mixin watt-text-m {
-  @include font-size('m');
-  @include font-weight('regular');
+  text-transform: none;
   letter-spacing: 0;
 }
 
 @mixin watt-text-s {
+  color: var(--watt-typography-text-color);
   @include font-size('s');
   @include font-weight('regular');
+  text-transform: none;
   letter-spacing: 0;
 }
 
-@mixin watt-text-l-highlighted {
-  @include watt-text-l;
+@mixin watt-text-m {
+  color: var(--watt-typography-text-color);
+  @include font-size('m');
+  @include font-weight('regular');
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+@mixin watt-text-l {
+  color: var(--watt-typography-text-color);
+  @include font-size('l');
+  @include font-weight('regular');
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+@mixin watt-text-s-highlighted {
+  @include watt-text-s;
   @include font-weight('bold');
 }
 
@@ -132,8 +143,8 @@ $font-sizes: (
   @include font-weight('bold');
 }
 
-@mixin watt-text-s-highlighted {
-  @include watt-text-s;
+@mixin watt-text-l-highlighted {
+  @include watt-text-l;
   @include font-weight('bold');
 }
 
@@ -141,6 +152,7 @@ $font-sizes: (
   color: var(--watt-typography-button-color);
   @include font-size('m');
   @include font-weight('bold');
+  text-transform: none;
   letter-spacing: 0;
 }
 
@@ -148,14 +160,15 @@ $font-sizes: (
   color: var(--watt-typography-label-color);
   @include font-size('s');
   @include font-weight('bold');
-  letter-spacing: 1.25px;
   text-transform: uppercase;
+  letter-spacing: 1.25px;
 }
 
 @mixin watt-link {
   color: var(--watt-typography-link-color);
   @include font-size('m');
   @include font-weight('regular');
+  text-transform: none;
   letter-spacing: 0;
   text-decoration: underline;
   cursor: pointer;
