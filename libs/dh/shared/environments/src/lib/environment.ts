@@ -22,27 +22,32 @@ import { DhEnvironment } from './dh-environment';
 /**
  * MSW
  */
-import { worker } from './mocks/browser';
+const isBrowser =
+  typeof window !== 'undefined' && typeof window.document !== 'undefined';
 
-worker.start({
-  onUnhandledRequest: (req: MockedRequest) => {
-    if (
-      req.url.pathname.startsWith('/assets') ||
-      req.url.host === 'fonts.gstatic.com' ||
-      req.url.host.endsWith('.b2clogin.com')
-    )
-      return;
+if (isBrowser) {
+  import('./mocks/browser').then(({ worker }) => {
+    worker.start({
+      onUnhandledRequest: (req: MockedRequest) => {
+        if (
+          req.url.pathname.startsWith('/assets') ||
+          req.url.host === 'fonts.gstatic.com' ||
+          req.url.host.endsWith('.b2clogin.com')
+        )
+          return;
 
-    const msg = `[MSW] Warning: captured a request without a matching request handler:
+        const msg = `[MSW] Warning: captured a request without a matching request handler:
 
-    • ${req.method} ${req.url.href}
+        • ${req.method} ${req.url.href}
 
-  If you still wish to intercept this unhandled request, please create a request handler for it.
-  Read more: https://mswjs.io/docs/getting-started/mocks`;
+      If you still wish to intercept this unhandled request, please create a request handler for it.
+      Read more: https://mswjs.io/docs/getting-started/mocks`;
 
-    console.warn(msg);
-  },
-});
+        console.warn(msg);
+      },
+    });
+  });
+}
 
 /*
  * For easier debugging in development mode, you can import the following file
