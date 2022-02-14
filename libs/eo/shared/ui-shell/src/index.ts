@@ -14,6 +14,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-// OIDC
-export * from './lib/auth-http.service';
-export * from './lib/auth-oidc-query-parameter-name';
+export * from './lib/eo-product-logo.directive';

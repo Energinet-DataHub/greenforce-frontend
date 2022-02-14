@@ -14,6 +14,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-// OIDC
-export * from './lib/auth-http.service';
-export * from './lib/auth-oidc-query-parameter-name';
+import { Directive, HostBinding, NgModule } from '@angular/core';
+
+const selector = 'eoProductLogo';
+
+@Directive({
+  exportAs: selector,
+  selector: 'img[' + selector + ']',
+})
+export class EoProductLogoDirective {
+  @HostBinding('attr.alt')
+  get altAttribute(): string {
+    return 'EnergyOrigin';
+  }
+  @HostBinding('attr.src')
+  get srcAttribute(): string {
+    return '/assets/images/energyorigin-logo.svg';
+  }
+}
+
+@NgModule({
+  declarations: [EoProductLogoDirective],
+  exports: [EoProductLogoDirective],
+})
+export class EoProductLogoScam {}

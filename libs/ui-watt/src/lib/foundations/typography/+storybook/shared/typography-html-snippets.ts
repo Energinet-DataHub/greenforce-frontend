@@ -22,8 +22,8 @@ function mixinSnippet(name: string) {
 
 export const typographyHtmlSnippets = {
   h1: {
-    tag: '<h1>headline 1</h1>',
-    class: '<p class="watt-headline-1">headline 1</p>',
+    tag: '<h1>headline-1</h1>',
+    class: '<p class="watt-headline-1">headline-1</p>',
     mixin: mixinSnippet('headline-1'),
   },
   h2: {

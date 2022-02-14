@@ -57,6 +57,11 @@ export class WattButtonComponent {
     return this.loading;
   }
 
+  @HostBinding('class.watt-button-disabled')
+  get buttonDisabledState() {
+    return this.disabled;
+  }
+
   @Input() icon?: WattIcon;
   @Input() type: WattButtonType = 'button';
 
