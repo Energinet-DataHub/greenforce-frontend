@@ -8,8 +8,13 @@
   <!--- Note that these columns can be defined in any order.
         The actual rendered columns are set as a property on the row definition" -->
 
-  <!-- Watt expand control column -->
-  <watt-table-expand-control></watt-table-expand-control>
+  <!-- Expand control column -->
+  <ng-container matColumnDef="tableExpandControl">
+    <mat-header-cell *matHeaderCellDef class="control-cell-header"></mat-header-cell>
+    <mat-cell *matCellDef="let element" class="control-cell">
+      <watt-icon name="right" [ngClass]="{'expanded': element.expanded}"></watt-icon>
+    </mat-cell>
+  </ng-container>
 
   <!-- Beskrivelse column -->
   <ng-container matColumnDef="beskrivelse">

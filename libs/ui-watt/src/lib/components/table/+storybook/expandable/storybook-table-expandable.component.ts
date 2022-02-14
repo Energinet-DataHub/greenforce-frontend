@@ -61,7 +61,7 @@ export const data: Process[] = [
   ],
 })
 export class StorybookTableExpandableComponent implements AfterViewInit {
-  columnsToDisplay : string[] = ['WattTableExpandControl', 'beskrivelse', 'indsendt', 'skaeringsdato', 'status'];
+  columnsToDisplay : string[] = ['tableExpandControl', 'beskrivelse', 'indsendt', 'skaeringsdato', 'status'];
   sortedData = new MatTableDataSource(data);
   iconSize = WattIconSize;
 

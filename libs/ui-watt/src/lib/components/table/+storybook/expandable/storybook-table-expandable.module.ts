@@ -21,7 +21,6 @@ import { MatSortModule } from '@angular/material/sort';
 
 import { WattIconModule } from '../../../../foundations/icon';
 import { StorybookTableExpandableComponent } from './storybook-table-expandable.component';
-import { WattTableExpandControlScam } from './expand-control/expand-control.component';
 
 @NgModule({
   imports: [
@@ -29,7 +28,6 @@ import { WattTableExpandControlScam } from './expand-control/expand-control.comp
     WattIconModule,
     MatSortModule,
     BrowserAnimationsModule,
-    WattTableExpandControlScam
   ],
   declarations: [StorybookTableExpandableComponent],
   exports: [StorybookTableExpandableComponent],

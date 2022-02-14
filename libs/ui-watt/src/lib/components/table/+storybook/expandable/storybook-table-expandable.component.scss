@@ -10,6 +10,22 @@ mat-row {
 }
 
 /*
+ * Expand control
+ */
+.control-cell-header,
+.control-cell {
+  flex: 0 1 calc(var(--cell-padding) * 3);
+}
+
+.control-cell watt-icon {
+  transition: transform 0.2s linear;
+
+  &.expanded {
+    transform: rotate(90deg);
+  }
+}
+
+/*
  * Child rows
  */
 .expandable {
@@ -37,11 +53,11 @@ mat-row {
 
   --row-state-color: var(--watt-color-neutral-grey-400);
 
-  &[state="success"] {
+  &[state='success'] {
     --row-state-color: var(--watt-color-state-success);
   }
 
-  &[state="danger"] {
+  &[state='danger'] {
     --row-state-color: var(--watt-color-state-danger);
   }
 
