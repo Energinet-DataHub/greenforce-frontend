@@ -38,7 +38,7 @@ const testData: ChargeLinkDto[] = [
     transparentInvoicing: true,
     chargeId: '123',
     chargeName: 'entotre',
-    chargeOwner: 'owner',
+    chargeOwnerIdentificationNumber: 'owner',
     chargeOwnerName: 'ownerName',
   },
 ];

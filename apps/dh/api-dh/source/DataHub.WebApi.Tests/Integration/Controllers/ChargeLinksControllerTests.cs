@@ -50,14 +50,14 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
             .CreateClient();
         }
 
-        [Fact(Skip = "Aquire token for B2C user must be added for test to work")]
+        [Fact(Skip = "Acquire token for B2C user must be added for test to work")]
         public async Task GetAsync_WhenMeteringPointIdHasChargeLinks_ReturnsOk()
         {
             // Arrange
             var meteringPointId = "571313180000000000";
             var requestUrl = $"/v1/ChargeLinks?meteringPointId={meteringPointId}";
-            var list = new List<ChargeLinkDto>();
-            var dto = Fixture.Create<ChargeLinkDto>();
+            var list = new List<ChargeLinkV2Dto>();
+            var dto = Fixture.Create<ChargeLinkV2Dto>();
             list.Add(dto);
 
             ApiClientMock
@@ -71,13 +71,13 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
             actual.StatusCode.Should().Be(HttpStatusCode.OK);
         }
 
-        [Fact(Skip = "Aquire token for B2C user must be added for test to work")]
+        [Fact(Skip = "Acquire token for B2C user must be added for test to work")]
         public async Task GetAsync_WhenMeteringPointIdHasNoChargeLink_ReturnsNotFound()
         {
             // Arrange
             var meteringPointId = "metering-point-has-no-links";
             var requestUrl = $"/v1/ChargeLinks?meteringPointId={meteringPointId}";
-            var list = new List<ChargeLinkDto>();
+            var list = new List<ChargeLinkV2Dto>();
 
             ApiClientMock
                 .Setup(m => m.GetAsync(meteringPointId))

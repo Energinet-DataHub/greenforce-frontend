@@ -215,7 +215,7 @@
       "D02": "Fee",
       "D03": "Tariff"
     },
-    "chargeOwner": "Owner",
+    "chargeOwnerIdentificationNumber": "Owner",
     "startDate": "Date",
     "transparentInvoicing": "Transparent Invoicing",
     "quantity": "Quantity",

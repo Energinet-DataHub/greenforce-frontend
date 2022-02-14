@@ -35,7 +35,7 @@ limitations under the License.
 
     <ng-container matColumnDef="owner">
       <mat-header-cell *matHeaderCellDef class="header-cell watt-label">
-        {{ 'charges.chargeOwner' | transloco }}
+        {{ 'charges.chargeOwnerIdentificationNumber' | transloco }}
       </mat-header-cell>
       <mat-cell *matCellDef="let row">
         <div class="multi-line-cell">
@@ -43,7 +43,7 @@ limitations under the License.
             {{ row.chargeOwnerName }}
           </div>
           <div class="watt-text-xs secondary-text">
-            {{ row.chargeOwner }}
+            {{ row.chargeOwnerIdentificationNumber }}
           </div>
         </div>
       </mat-cell>

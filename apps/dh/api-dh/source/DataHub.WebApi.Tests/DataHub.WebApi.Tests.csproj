@@ -30,6 +30,7 @@ limitations under the License.
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Energinet.DataHub.Charges.Clients" Version="2.0.0-alpha-20220205T073145" />
     <PackageReference Include="Energinet.DataHub.Core.App.WebApp" Version="1.0.4" />
     <PackageReference Include="Energinet.DataHub.Core.TestCommon" Version="0.0.1" />
     <PackageReference Include="FluentAssertions" Version="6.2.0" />

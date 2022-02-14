@@ -15,8 +15,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Energinet.Charges.Contracts.ChargeLink;
 using Energinet.DataHub.Charges.Clients.ChargeLinks;
+using Energinet.DataHub.WebApi.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Energinet.DataHub.WebApi.Controllers
@@ -43,7 +43,21 @@ namespace Energinet.DataHub.WebApi.Controllers
         [HttpGet]
         public async Task<ActionResult<IList<ChargeLinkDto>>> GetAsync(string meteringPointId)
         {
-            var result = await _chargeLinksClient.GetAsync(meteringPointId);
+            var chargeLinks = await _chargeLinksClient.GetAsync(meteringPointId);
+
+            // TODO: Enrich result with actor data from the actor register
+            var result = chargeLinks
+                .Select(l => new ChargeLinkDto(
+                    l.ChargeType,
+                    l.ChargeId,
+                    l.ChargeName,
+                    "<IdentificationNumber>",
+                    "<OwnerName>",
+                    l.TaxIndicator,
+                    l.TransparentInvoicing,
+                    l.Quantity,
+                    l.StartDate,
+                    l.EndDate));
 
             return result.Any() ? Ok(result) : NotFound();
         }

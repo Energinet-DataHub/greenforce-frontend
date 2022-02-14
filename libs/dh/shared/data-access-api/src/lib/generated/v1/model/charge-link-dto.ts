@@ -12,12 +12,15 @@
 import { ChargeType } from './charge-type';
 
 
+/**
+ * Represents a Charge Link
+ */
 export interface ChargeLinkDto { 
     chargeType: ChargeType;
-    chargeId?: string | null;
-    chargeName?: string | null;
-    chargeOwner?: string | null;
-    chargeOwnerName?: string | null;
+    chargeId: string;
+    chargeName: string;
+    chargeOwnerIdentificationNumber: string;
+    chargeOwnerName: string;
     taxIndicator: boolean;
     transparentInvoicing: boolean;
     quantity: number;

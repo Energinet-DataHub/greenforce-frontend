@@ -215,7 +215,7 @@
       "D02": "Gebyr",
       "D03": "Tarif"
     },
-    "chargeOwner": "Tarif ejer",
+    "chargeOwnerIdentificationNumber": "Tarif ejer",
     "startDate": "Dato",
     "transparentInvoicing": "Viderefakturering",
     "quantity": "Antal",
