@@ -106,9 +106,18 @@ const selector = 'eo-auth-terms';
         >
       </div>
 
-      <watt-button variant="secondary" aria-labelledby="Cancel" (click)="onCancel()">Back</watt-button>
-      <watt-button variant="primary" aria-labelledby="Accept" (click)="onAccept()">Accept terms</watt-button>
-
+      <watt-button
+        variant="secondary"
+        aria-labelledby="Cancel"
+        (click)="onCancel()"
+        >Back</watt-button
+      >
+      <watt-button
+        variant="primary"
+        aria-labelledby="Accept"
+        (click)="onAccept()"
+        >Accept terms</watt-button
+      >
     </div>
     <eo-footer></eo-footer>
   `,
