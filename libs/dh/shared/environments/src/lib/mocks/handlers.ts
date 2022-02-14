@@ -8,7 +8,7 @@ export const handlers = [
         ctx.status(200),
         ctx.json({
           ...getByGsrn,
-          gsrnNumber: req.url.searchParams.get('gsrnNumber')
+          gsrnNumber: req.url.searchParams.get('gsrnNumber'),
         })
       );
     }
@@ -16,9 +16,7 @@ export const handlers = [
   rest.get(
     'https://localhost:5001/v1/ChargeLinks?meteringPointId=575391908025497398',
     (req, res, ctx) => {
-      return res(
-        ctx.status(404),
-      );
+      return res(ctx.status(404));
     }
   ),
 ];
