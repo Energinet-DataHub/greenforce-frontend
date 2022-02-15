@@ -14,7 +14,6 @@
 
 using System.Net;
 using System.Net.Http;
-using System.Threading;
 using System.Threading.Tasks;
 using AutoFixture;
 using Energinet.DataHub.MeteringPoints.Client.Abstractions;
@@ -50,7 +49,7 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
 
         private HttpClient HttpClient { get; }
 
-        [Fact(Skip = "Aquire token for B2C user must be added for test to work")]
+        [Fact(Skip = "Acquire token for B2C user must be added for test to work")]
         public async Task When_MeteringPoint_Requested_And_Found_Then_StatusCode_IsOK()
         {
             // Arrange
@@ -69,7 +68,7 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
             actual.StatusCode.Should().Be(HttpStatusCode.OK);
         }
 
-        [Fact(Skip = "Aquire token for B2C user must be added for test to work")]
+        [Fact(Skip = "Acquire token for B2C user must be added for test to work")]
         public async Task When_MeteringPoint_Requested_And_Not_Found_Then_StatusCode_IsNotFound()
         {
             // Arrange
