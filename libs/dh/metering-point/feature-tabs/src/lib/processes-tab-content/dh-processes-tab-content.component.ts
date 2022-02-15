@@ -26,7 +26,6 @@ import { LetModule } from '@rx-angular/template';
 import { map, Observable, Subject, takeUntil } from 'rxjs';
 import { DhProcessesDataAccessApiStore } from '../../../../data-access-api/src/lib/dh-processes-data-access-api.store';
 
-
 @Component({
   selector: 'dh-processes-tab-content',
   templateUrl: './dh-processes-tab-content.component.html',
@@ -69,12 +68,7 @@ export class DhProcessesTabContentComponent implements OnDestroy {
 
 @NgModule({
   declarations: [DhProcessesTabContentComponent],
-  imports: [
-    CommonModule,
-    WattSpinnerModule,
-    LetModule,
-    TranslocoModule,
-  ],
+  imports: [CommonModule, WattSpinnerModule, LetModule, TranslocoModule],
   exports: [DhProcessesTabContentComponent],
 })
 export class DhProcessesTabContentScam {}
