@@ -12,7 +12,7 @@
 import { ChargeType } from './charge-type';
 
 
-export interface ChargeLinkV2Dto {
+export interface ChargeLinkV1Dto {
     chargeType: ChargeType;
     chargeId?: string | null;
     chargeName?: string | null;
