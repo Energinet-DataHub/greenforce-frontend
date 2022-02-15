@@ -51,7 +51,8 @@ export class DhChargesTabContentComponent implements OnDestroy {
   }
 
   tariffs$: Observable<Array<ChargeLinkV2Dto>> = this.store.tariffs$;
-  subscriptions$: Observable<Array<ChargeLinkV2Dto>> = this.store.subscriptions$;
+  subscriptions$: Observable<Array<ChargeLinkV2Dto>> =
+    this.store.subscriptions$;
   fees$: Observable<Array<ChargeLinkV2Dto>> = this.store.fees$;
   isLoading$ = this.store.isLoading$;
   chargesNotFound$ = this.store.chargesNotFound$;
