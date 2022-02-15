@@ -119,6 +119,7 @@ jobs:
 
   define_build:
     name: Define build matrix
+    needs: affected
     runs-on: ubuntu-latest
     outputs:
       chart_version: ${{ steps.get_semver.outputs.semver }}
@@ -159,7 +160,7 @@ jobs:
     uses: Energinet-DataHub/.github/.github/workflows/version-increment-check.yaml@update-eo-workflows
     with:
       yaml_file: infrastructure/eo/chart/values.yaml
-      yaml_path: eo-base-helm-chart.deployments.api.image.tag
+      yaml_path: eo-base-helm-chart.deployments.app.image.tag
 
   build_container_and_release_chart:
     name: Build containers
