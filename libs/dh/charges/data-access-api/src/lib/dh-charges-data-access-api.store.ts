@@ -20,7 +20,7 @@ import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { filter, map, Observable, switchMap, tap } from 'rxjs';
 
 import {
-  ChargeLinkDto,
+  ChargeLinkV1Dto,
   ChargeLinksHttp,
   ChargeType,
 } from '@energinet-datahub/dh/shared/data-access-api';
@@ -37,7 +37,7 @@ export const enum ErrorState {
 }
 
 interface ChargesState {
-  readonly charges?: Array<ChargeLinkDto>;
+  readonly charges?: Array<ChargeLinkV1Dto>;
   readonly requestState: LoadingState | ErrorState;
 }
 
@@ -48,31 +48,31 @@ const initialState: ChargesState = {
 
 @Injectable()
 export class DhChargesDataAccessApiStore extends ComponentStore<ChargesState> {
-  tariffs$: Observable<Array<ChargeLinkDto>> = this.select(
+  tariffs$: Observable<Array<ChargeLinkV1Dto>> = this.select(
     (state) => state.charges
   ).pipe(
     filter((charges) => !!charges),
-    map((charges) => charges as Array<ChargeLinkDto>),
+    map((charges) => charges as Array<ChargeLinkV1Dto>),
     map((charges) =>
       charges.filter((charge) => charge.chargeType === ChargeType.D03)
     )
   );
 
-  subscriptions$: Observable<Array<ChargeLinkDto>> = this.select(
+  subscriptions$: Observable<Array<ChargeLinkV1Dto>> = this.select(
     (state) => state.charges
   ).pipe(
     filter((charges) => !!charges),
-    map((charges) => charges as Array<ChargeLinkDto>),
+    map((charges) => charges as Array<ChargeLinkV1Dto>),
     map((charges) =>
       charges.filter((charge) => charge.chargeType === ChargeType.D01)
     )
   );
 
-  fees$: Observable<Array<ChargeLinkDto>> = this.select(
+  fees$: Observable<Array<ChargeLinkV1Dto>> = this.select(
     (state) => state.charges
   ).pipe(
     filter((charges) => !!charges),
-    map((charges) => charges as Array<ChargeLinkDto>),
+    map((charges) => charges as Array<ChargeLinkV1Dto>),
     map((charges) =>
       charges.filter((charge) => charge.chargeType === ChargeType.D02)
     )
@@ -123,7 +123,7 @@ export class DhChargesDataAccessApiStore extends ComponentStore<ChargesState> {
   private updateChargesData = this.updater(
     (
       state: ChargesState,
-      chargesData: Array<ChargeLinkDto> | undefined
+      chargesData: Array<ChargeLinkV1Dto> | undefined
     ): ChargesState => ({
       ...state,
       charges: chargesData,

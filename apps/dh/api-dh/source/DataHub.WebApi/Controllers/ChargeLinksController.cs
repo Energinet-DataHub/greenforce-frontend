@@ -41,7 +41,7 @@ namespace Energinet.DataHub.WebApi.Controllers
         /// <response code="400">When no metering point id is provided</response>
         /// <response code="404">When no charge links found</response>
         [HttpGet]
-        public async Task<ActionResult<IList<ChargeLinkDto>>> GetAsync(string meteringPointId)
+        public async Task<ActionResult<IList<ChargeLinkV1Dto>>> GetAsync(string meteringPointId)
         {
             var result = await _chargeLinksClient.GetAsync(meteringPointId);
 
