@@ -21,14 +21,14 @@ export const handlers = [
     'https://localhost:5001/v1/MeteringPoint/GetByGsrn',
     (req, res, ctx) => {
       const gsrnNumber = req.url.searchParams.get('gsrnNumber');
-      if(gsrnNumber === '000000000000000000') {
+      if (gsrnNumber === '000000000000000000') {
         return res(ctx.status(404));
       } else {
         return res(
           ctx.status(200),
           ctx.json({
             ...getByGsrn,
-            gsrnNumber
+            gsrnNumber,
           })
         );
       }
