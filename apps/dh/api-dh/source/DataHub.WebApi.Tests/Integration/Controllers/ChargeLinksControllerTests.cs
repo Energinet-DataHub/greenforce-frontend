@@ -56,8 +56,8 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
             // Arrange
             var meteringPointId = "571313180000000000";
             var requestUrl = $"/v1/ChargeLinks?meteringPointId={meteringPointId}";
-            var list = new List<ChargeLinkV2Dto>();
-            var dto = Fixture.Create<ChargeLinkV2Dto>();
+            var list = new List<ChargeLinkV1Dto>();
+            var dto = Fixture.Create<ChargeLinkV1Dto>();
             list.Add(dto);
 
             ApiClientMock
@@ -77,7 +77,7 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
             // Arrange
             var meteringPointId = "metering-point-has-no-links";
             var requestUrl = $"/v1/ChargeLinks?meteringPointId={meteringPointId}";
-            var list = new List<ChargeLinkV2Dto>();
+            var list = new List<ChargeLinkV1Dto>();
 
             ApiClientMock
                 .Setup(m => m.GetAsync(meteringPointId))
