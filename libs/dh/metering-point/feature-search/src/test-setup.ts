@@ -23,7 +23,25 @@ import {
   setUpTestbed,
 } from '@energinet-datahub/gf/test-util-staging';
 
+// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
+import { server } from 'libs/dh/shared/environments/src/lib/mocks/server';
+
 addDomMatchers();
 setUpTestbed();
 setUpAngularTestingLibrary();
 setUpNgMocks();
+
+beforeAll(() => {
+  // Enable the mocking in tests.
+  server.listen();
+});
+
+afterEach(() => {
+  // Reset any runtime handlers tests may use.
+  server.resetHandlers();
+});
+
+afterAll(() => {
+  // Clean up once the tests are done.
+  server.close();
+});
