@@ -148,7 +148,7 @@ jobs:
   helm_chart_version_check:
     name: Helm chart check version
     needs: affected
-    uses: Energinet-DataHub/.github/.github/workflows/version-increment-check.yaml@main
+    uses: Energinet-DataHub/.github/.github/workflows/version-increment-check.yaml@update-eo-workflows
     with:
       yaml_file: infrastructure/eo/chart/Chart.yaml
       yaml_path: version
@@ -156,7 +156,7 @@ jobs:
   app_version_increment_check:
     name: API check version
     needs: affected
-    uses: Energinet-DataHub/.github/.github/workflows/version-increment-check.yaml@main
+    uses: Energinet-DataHub/.github/.github/workflows/version-increment-check.yaml@update-eo-workflows
     with:
       yaml_file: infrastructure/eo/chart/values.yaml
       yaml_path: eo-base-helm-chart.deployments.api.image.tag
