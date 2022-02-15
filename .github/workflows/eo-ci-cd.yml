@@ -127,19 +127,45 @@ jobs:
           { 
             "deployment_name": "app", 
             "dockerfile": "infrastructure/eo/host/Dockerfile", 
-            "tag": "${{ steps.get_semver.outputs.semver }}"
+            "tag": "${{ steps.get_container_version.outputs.semver }}"
           }
         ]
     steps:
       - name: Get chart version
         id: get_semver
-        uses: Energinet-DataHub/.github/.github/actions/get-chart-semver@main
+        uses: Energinet-DataHub/.github/.github/actions/get-semver@main
         with:
-          chart_folder: infrastructure/eo/chart
+          yaml_file: infrastructure/eo/chart/Chart.yaml
+          yaml_path: version
+
+      - name: Get container version
+        id: get_container_version
+        uses: Energinet-DataHub/.github/.github/actions/get-semver@main
+        with:
+          yaml_file: infrastructure/eo/chart/values.yaml
+          yaml_path: eo-base-helm-chart.deployments.app.image.tag
+
+  helm_chart_version_check:
+    name: Helm chart check version
+    needs: affected
+    uses: Energinet-DataHub/.github/.github/workflows/version-increment-check.yaml@main
+    with:
+      yaml_file: infrastructure/eo/chart/Chart.yaml
+      yaml_path: version
+
+  app_version_increment_check:
+    name: API check version
+    needs: affected
+    uses: Energinet-DataHub/.github/.github/workflows/version-increment-check.yaml@main
+    with:
+      yaml_file: infrastructure/eo/chart/values.yaml
+      yaml_path: eo-base-helm-chart.deployments.api.image.tag
 
   build_container_and_release_chart:
     name: Build containers
     needs:
+      - helm_chart_version_check
+      - app_version_check
       - define_build
       - app
     uses: Energinet-DataHub/.github/.github/workflows/build-containers-and-release-chart.yaml@main
