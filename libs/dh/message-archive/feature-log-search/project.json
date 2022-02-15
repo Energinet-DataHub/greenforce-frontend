@@ -1,0 +1,26 @@
+{
+  "projectType": "library",
+  "root": "libs/dh/message-archive/feature-log-search",
+  "sourceRoot": "libs/dh/message-archive/feature-log-search/src",
+  "prefix": "dh",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/dh/message-archive/feature-log-search"],
+      "options": {
+        "jestConfig": "libs/dh/message-archive/feature-log-search/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/dh/message-archive/feature-log-search/src/**/*.ts",
+          "libs/dh/message-archive/feature-log-search/src/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": ["product:dh domain:message-archive type:feature"]
+}
