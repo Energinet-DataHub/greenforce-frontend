@@ -89,7 +89,6 @@ describe('Authentication', () => {
     And they try to accept the user terms
     without having checked the checkbox
     Then they are not logged in`, () => {
-
     // Arrange
     authApi.allowFirstTimeAuthentication();
     authApi.allowGetTerms();
@@ -108,7 +107,6 @@ describe('Authentication', () => {
     When they successfully authenticate for the first time
       And they do not accept the user terms
     Then they are loged out and redirected to the landing page`, () => {
-
     // Arrange
     authApi.allowFirstTimeAuthentication();
     authApi.allowLogOut();
