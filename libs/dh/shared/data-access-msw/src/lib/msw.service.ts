@@ -23,7 +23,11 @@ export class MSWService {
 
   async addMocks(lazyMocks: () => Promise<RestHandler[]>) {
     const mocks = await lazyMocks();
-    this.worker ? this.worker.use(...mocks) : [...this.mocks, ...mocks];
+    if(this.worker) {
+      this.worker.use(...mocks)
+    } else {
+      this.mocks = [...this.mocks, ...mocks];
+    }
   }
 
   private onUnhandledRequest(req: MockedRequest) {
