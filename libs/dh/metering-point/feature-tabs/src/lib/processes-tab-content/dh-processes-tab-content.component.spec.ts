@@ -15,10 +15,7 @@
  * limitations under the License.
  */
 import { Process } from '@energinet-datahub/dh/shared/data-access-api';
-import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
-import { runOnPushChangeDetection } from '@energinet-datahub/dh/shared/test-util-metering-point';
-import { render } from '@testing-library/angular';
-import { DhProcessesTabContentComponent, DhProcessesTabContentScam } from './dh-processes-tab-content.component';
+import { DhProcessesTabContentComponent } from './dh-processes-tab-content.component';
 
 const processId = "2c4024f5-762d-4a41-a75e-d045c0ed6572";
 const mpGsrn = "577512493148035787";

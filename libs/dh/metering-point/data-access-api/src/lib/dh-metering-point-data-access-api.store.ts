@@ -22,17 +22,7 @@ import {
   MeteringPointHttp,
 } from '@energinet-datahub/dh/shared/data-access-api';
 import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
-
-export const enum LoadingState {
-  INIT = 'INIT',
-  LOADING = 'LOADING',
-  LOADED = 'LOADED',
-}
-
-export const enum ErrorState {
-  NOT_FOUND_ERROR = 'NOT_FOUND_ERROR',
-  GENERAL_ERROR = 'GENERAL_ERROR',
-}
+import { ErrorState, LoadingState } from './states';
 
 interface MeteringPointState {
   readonly meteringPoint?: MeteringPointCimDto;
