@@ -24,7 +24,7 @@ import { WattSpinnerModule } from '@energinet-datahub/watt';
 import { TranslocoModule } from '@ngneat/transloco';
 import { LetModule } from '@rx-angular/template';
 import { map, Observable, Subject, takeUntil } from 'rxjs';
-import { DhProcessesDataAccessApiStore } from '../../../../data-access-api/src/lib/dh-processes-data-access-api.store';
+import { DhProcessesDataAccessApiStore } from '@energinet-datahub/dh/metering-point/data-access-api';
 
 @Component({
   selector: 'dh-processes-tab-content',
