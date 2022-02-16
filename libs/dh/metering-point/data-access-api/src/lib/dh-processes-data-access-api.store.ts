@@ -18,7 +18,8 @@ import { Injectable } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { filter, map, Observable, switchMap, tap } from 'rxjs';
 import {
-  MeteringPointHttp, Process
+  MeteringPointHttp,
+  Process,
 } from '@energinet-datahub/dh/shared/data-access-api';
 import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 
@@ -94,10 +95,7 @@ export class DhProcessesDataAccessApiStore extends ComponentStore<ProcessesState
   );
 
   private updateProcessesData = this.updater(
-    (
-      state: ProcessesState,
-      processesData: Process[]
-    ): ProcessesState => ({
+    (state: ProcessesState, processesData: Process[]): ProcessesState => ({
       ...state,
       processes: processesData,
     })

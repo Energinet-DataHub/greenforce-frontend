@@ -20,35 +20,35 @@ limitations under the License.
   </div>
   <ng-container *ngIf="!isLoading">
     <h1>Work in Progress</h1>
-          <ng-container *rxLet="processes$ as processes">
-            <table border='1'>
-              <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>createdDate</th>
-                <th>effectiveDate</th>
-                <th>status</th>
-              </tr>
-              <tr *ngFor="let process of processes">
-                <th>{{ process.id }}</th>
-                <th>{{ process.name }}</th>
-                <th>{{ process.createdDate }}</th>
-                <th>{{ process.effectiveDate }}</th>
-                <th>{{ process.status }}</th>
-              </tr>
-            </table>
-          </ng-container>
+    <ng-container *rxLet="processes$ as processes">
+      <table border="1">
+        <tr>
+          <th>Id</th>
+          <th>Name</th>
+          <th>createdDate</th>
+          <th>effectiveDate</th>
+          <th>status</th>
+        </tr>
+        <tr *ngFor="let process of processes">
+          <th>{{ process.id }}</th>
+          <th>{{ process.name }}</th>
+          <th>{{ process.createdDate }}</th>
+          <th>{{ process.effectiveDate }}</th>
+          <th>{{ process.status }}</th>
+        </tr>
+      </table>
+    </ng-container>
   </ng-container>
 
   <ng-container *rxLet="processesNotFound$ as chargesNotFound">
-<!--    <div *ngIf="chargesNotFound">-->
-<!--      <dh-processes-not-found></dh-processes-not-found>-->
-<!--    </div>-->
+    <!--    <div *ngIf="chargesNotFound">-->
+    <!--      <dh-processes-not-found></dh-processes-not-found>-->
+    <!--    </div>-->
   </ng-container>
 
   <ng-container *rxLet="hasGeneralError$ as hasGeneralError">
-<!--    <div *ngIf="hasGeneralError">-->
-<!--      <dh-processes-general-error></dh-processes-general-error>-->
-<!--    </div>-->
+    <!--    <div *ngIf="hasGeneralError">-->
+    <!--      <dh-processes-general-error></dh-processes-general-error>-->
+    <!--    </div>-->
   </ng-container>
 </ng-container>

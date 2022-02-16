@@ -15,7 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <watt-tabs *transloco="let t; read: 'meteringPoint.overview.tabs'">
-  <watt-tab [label]="t('processes')" *ngIf='processTabFeatureFlag'>
+  <watt-tab [label]="t('processes')" *ngIf="processTabFeatureFlag">
     <dh-processes-tab-content></dh-processes-tab-content>
   </watt-tab>
   <watt-tab [label]="t('prices')">
