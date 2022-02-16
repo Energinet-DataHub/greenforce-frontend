@@ -54,11 +54,6 @@ variable subnet_internal_private_endpoints_address_space {
   description   = "Address space of the subnet for internal private endpoints"
 }
 
-variable subnet_external_private_endpoints_address_space {
-  type          = string
-  description   = "Address space of the subnet for external private endpoints"
-}
-
 variable subnet_vnet_integrations_webapi_address_space {
   type          = string
   description   = "Address space of the subnet for Virtual Network Integrations of WebAPIs"
