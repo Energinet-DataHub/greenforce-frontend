@@ -31,14 +31,6 @@ module "app_bff" {
     "FRONTEND_SERVICE_APP_ID"                 = data.azurerm_key_vault_secret.frontend_service_app_id.value
   }
 
-  connection_strings = [
-    {
-      name  = "METERINGPOINT_DB_CONNECTION_STRING"
-      type  = "SQLServer"
-      value = local.MS_METERING_POINT_CONNECTION_STRING
-    }
-  ]
-
   tags                                      = azurerm_resource_group.this.tags
 }
 
