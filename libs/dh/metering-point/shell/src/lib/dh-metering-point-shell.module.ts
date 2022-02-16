@@ -38,7 +38,9 @@ const routes: Routes = [
   imports: [
     DhMeteringPointSearchScam,
     RouterModule.forChild(routes),
-    MSWModule.forFeature(() => import('./dh-metering-point-mocks').then(m => m.mocks))
+    MSWModule.forFeature(() =>
+      import('./dh-metering-point-mocks').then((m) => m.mocks)
+    ),
   ],
 })
 export class DhMeteringPointShellModule {}
