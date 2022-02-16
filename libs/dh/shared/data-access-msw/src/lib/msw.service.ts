@@ -14,18 +14,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Inject, Injectable } from "@angular/core";
-import { setupWorker, MockedRequest, RequestHandler, RestHandler, SetupWorkerApi } from "msw";
-import { INITIAL_MOCKS } from "..";
+import { Inject, Injectable } from '@angular/core';
+import {
+  setupWorker,
+  MockedRequest,
+  RequestHandler,
+  RestHandler,
+  SetupWorkerApi,
+} from 'msw';
+import { INITIAL_MOCKS } from '..';
 
 @Injectable()
 export class MSWService {
   private mocks: RequestHandler[] = [];
   private worker?: SetupWorkerApi;
   private isBrowser =
-  typeof window !== 'undefined' && typeof window.document !== 'undefined';
+    typeof window !== 'undefined' && typeof window.document !== 'undefined';
 
-  constructor(@Inject(INITIAL_MOCKS) initialMocks: RequestHandler[] = []){
+  constructor(@Inject(INITIAL_MOCKS) initialMocks: RequestHandler[] = []) {
     this.mocks = [...this.mocks, ...initialMocks];
     this.init();
   }
@@ -33,7 +39,7 @@ export class MSWService {
   init() {
     if (this.isBrowser) {
       this.worker = setupWorker(...this.mocks);
-      this.worker.start({onUnhandledRequest: this.onUnhandledRequest});
+      this.worker.start({ onUnhandledRequest: this.onUnhandledRequest });
     }
   }
 

@@ -32,9 +32,7 @@ export const INITIAL_MOCKS = new InjectionToken('MSW Initial Mocks');
 export const FEATURE_MOCKS = new InjectionToken('MSW Feature Mocks');
 
 @NgModule({
-  providers: [
-    MSWService
-  ]
+  providers: [MSWService],
 })
 export class MSWRootModule {
   constructor(
@@ -53,7 +51,10 @@ export class MSWRootModule {
 
 @NgModule({})
 export class MSWFeatureModule {
-  constructor(@Inject(FEATURE_MOCKS) featureMocks: () => Promise<RestHandler[]>, msw: MSWService) {
+  constructor(
+    @Inject(FEATURE_MOCKS) featureMocks: () => Promise<RestHandler[]>,
+    msw: MSWService
+  ) {
     console.log('FEATURE MODULE');
     msw.addMocks(featureMocks);
   }
@@ -61,9 +62,13 @@ export class MSWFeatureModule {
 
 @NgModule({})
 export class MSWModule {
-  static forRoot(mocks?: () => Promise<RestHandler[]>): ModuleWithProviders<MSWRootModule> {
+  static forRoot(
+    mocks?: () => Promise<RestHandler[]>
+  ): ModuleWithProviders<MSWRootModule> {
     return {
-      ngModule: !environment.production ? MSWRootModule : [] as unknown as Type<MSWRootModule>,
+      ngModule: !environment.production
+        ? MSWRootModule
+        : ([] as unknown as Type<MSWRootModule>),
       providers: [
         {
           provide: INITIAL_MOCKS,
@@ -76,9 +81,11 @@ export class MSWModule {
   static forFeature(
     mocks: () => Promise<RestHandler[]>
   ): ModuleWithProviders<MSWFeatureModule> {
-    console.log('FOR FEATURE')
+    console.log('FOR FEATURE');
     return {
-      ngModule: !environment.production ? MSWFeatureModule : [] as unknown as Type<MSWFeatureModule>,
+      ngModule: !environment.production
+        ? MSWFeatureModule
+        : ([] as unknown as Type<MSWFeatureModule>),
       providers: [
         {
           provide: FEATURE_MOCKS,

@@ -34,12 +34,9 @@ export const mocks = [
       }
     }
   ),
-  rest.get(
-    'https://localhost:5001/v1/ChargeLinks',
-    (req, res, ctx) => {
-      return res(ctx.status(404));
-    }
-  ),
+  rest.get('https://localhost:5001/v1/ChargeLinks', (req, res, ctx) => {
+    return res(ctx.status(404));
+  }),
 ];
 
 const getByGsrn = {
