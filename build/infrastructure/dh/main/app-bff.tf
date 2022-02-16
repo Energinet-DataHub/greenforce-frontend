@@ -11,37 +11,35 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-resource "azurerm_app_service" "bff" {
-  name                = "app-bff-${lower(var.domain_name_short)}-${lower(var.environment_short)}-${lower(var.environment_instance)}"
-  location            = azurerm_resource_group.this.location
-  resource_group_name = azurerm_resource_group.this.name
-  app_service_plan_id = module.plan_bff.id
+module "app_bff" {
+  source                                    = "git::https://github.com/Energinet-DataHub/geh-terraform-modules.git//azure/app-service?ref=6.0.0"
 
-  site_config {
-    linux_fx_version = "DOTNETCORE|5.0"
-    dotnet_framework_version = "v5.0"
-    cors {
-      allowed_origins = ["*"]
-    }
-  }
+  name                                      = "bff"
+  project_name                              = var.domain_name_short
+  environment_short                         = var.environment_short
+  environment_instance                      = var.environment_instance
+  resource_group_name                       = azurerm_resource_group.this.name
+  location                                  = azurerm_resource_group.this.location
+  vnet_integration_subnet_id                = module.vnet_integrations_webapi.id
+  app_service_plan_id                       = module.plan_bff.id
+  application_insights_instrumentation_key  = data.azurerm_key_vault_secret.appi_instrumentation_key.value
 
   app_settings = {
-    ApiClientSettings__MeteringPointBaseUrl = data.azurerm_key_vault_secret.app_metering_point_webapi_base_url.value
-    ApiClientSettings__ChargesBaseUrl       = data.azurerm_key_vault_secret.app_charges_webapi_base_url.value
-    APPINSIGHTS_INSTRUMENTATIONKEY          = data.azurerm_key_vault_secret.appi_instrumentation_key.value
-    FRONTEND_OPEN_ID_URL                    = data.azurerm_key_vault_secret.frontend_open_id_url.value
-    FRONTEND_SERVICE_APP_ID                 = data.azurerm_key_vault_secret.frontend_service_app_id.value
+    "ApiClientSettings__MeteringPointBaseUrl" = data.azurerm_key_vault_secret.app_metering_point_webapi_base_url.value
+    "ApiClientSettings__ChargesBaseUrl"       = data.azurerm_key_vault_secret.app_charges_webapi_base_url.value
+    "FRONTEND_OPEN_ID_URL"                    = data.azurerm_key_vault_secret.frontend_open_id_url.value
+    "FRONTEND_SERVICE_APP_ID"                 = data.azurerm_key_vault_secret.frontend_service_app_id.value
   }
 
-  tags                = azurerm_resource_group.this.tags
+  connection_strings = [
+    {
+      name  = "METERINGPOINT_DB_CONNECTION_STRING"
+      type  = "SQLServer"
+      value = local.MS_METERING_POINT_CONNECTION_STRING
+    }
+  ]
 
-  lifecycle {
-    ignore_changes = [
-      # Ignore changes to tags, e.g. because a management agent
-      # updates these based on some ruleset managed elsewhere.
-      tags,
-    ]
-  }
+  tags                                      = azurerm_resource_group.this.tags
 }
 
 module "plan_bff" {
