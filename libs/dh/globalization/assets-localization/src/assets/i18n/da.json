@@ -49,6 +49,7 @@
         "meterNumber": "Målernummer"
       },
       "tabs": {
+        "processes": "Processer",
         "prices": "Priser",
         "childMeteringPoints": "Child Målepunkter ({{ count }})"
       },
@@ -204,6 +205,9 @@
       "PT1H": "Aflæses pr. time",
       "P1M": "Aflæses pr. måned",
       "P1Y": "Aflæses pr. år"
+    },
+    "processes": {
+      "noProcessesFound": "Vi fandt desværre ingen processer."
     }
   },
   "charges": {
