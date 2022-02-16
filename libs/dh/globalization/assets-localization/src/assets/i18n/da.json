@@ -61,6 +61,16 @@
         },
         "noChildMeteringPointsTitle": "Ingen child målepunkter",
         "noChildMeteringPointsText": "Vi fandt ingen child målepunkter til dette målepunkt"
+      },
+      "processesTab": {
+        "headers": {
+          "name": "Beskrivelse",
+          "createdDate":"Indsendt",
+          "effectiveDate": "Skæringsdato",
+          "status": "Status"
+        },
+        "noProcessesFound": "Vi fandt desværre ingen processer.",
+        "noProcessesText": "Vi fandt ingen processer til dette målepunkt"
       }
     },
     "secondaryMasterData": {
@@ -205,9 +215,6 @@
       "PT1H": "Aflæses pr. time",
       "P1M": "Aflæses pr. måned",
       "P1Y": "Aflæses pr. år"
-    },
-    "processes": {
-      "noProcessesFound": "Vi fandt desværre ingen processer."
     }
   },
   "charges": {
