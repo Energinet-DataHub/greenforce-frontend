@@ -61,19 +61,7 @@ describe('Authentication', () => {
     Then they are redirected to the dashboard page`, () => {
     // Arrange
     authApi.allowFirstTimeAuthentication();
-
-    cy.intercept(
-      {
-        hostname: 'localhost',
-        method: 'GET',
-        pathname: '/api/auth/terms',
-      },
-      {
-        headline: 'headline',
-        terms: '<h1>terms</h1>',
-        version: '1.0',
-      }
-    );
+    authApi.allowGetTerms();
 
     cy.intercept(
       {
@@ -89,7 +77,6 @@ describe('Authentication', () => {
 
     // Act
     landingPage.findStartLink().click();
-
     termsPage.findAcceptCheckbox().click({ force: true });
     termsPage.findAcceptButton().click();
 
@@ -97,7 +84,43 @@ describe('Authentication', () => {
     dashboardPage.findTitle().should('exist');
   });
 
-  // Next: Test where we click on submit and have NOT marked the checkbox
+  it(`Given a commercial user using NemID
+    When they successfully authenticate for the first time
+    And they try to accept the user terms
+    without having checked the checkbox
+    Then they are not logged in`, () => {
+
+    // Arrange
+    authApi.allowFirstTimeAuthentication();
+    authApi.allowGetTerms();
+    landingPage.navigateTo();
+
+    // Act
+    landingPage.findStartLink().click();
+    termsPage.findAcceptButton().click();
+
+    // Assert (Happy path -> Nothing happens - Asserting we are still on the terms page)
+    termsPage.findAcceptButton().should('exist');
+  });
 
   // Next: Test where the user logs out = hits the "Cancel" button
+  it(`Given a commercial user using NemID
+    When they successfully authenticate for the first time
+      And they do not accept the user terms
+    Then they are loged out and redirected to the landing page`, () => {
+
+    // Arrange
+    authApi.allowFirstTimeAuthentication();
+    authApi.allowLogOut();
+    authApi.allowGetTerms();
+    landingPage.navigateTo();
+
+    // Act
+    landingPage.findStartLink().click();
+    termsPage.findCancelButton().click();
+    cy.wait('@authLogout');
+
+    // Assert
+    cy.location('pathname').should('eq', landingPage.path);
+  });
 });

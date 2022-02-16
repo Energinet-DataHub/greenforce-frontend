@@ -56,3 +56,18 @@ export const allowLogOut = () =>
       }
     )
     .as('authLogout');
+
+export const allowGetTerms = () => {
+  cy.intercept(
+    {
+      hostname: 'localhost',
+      method: 'GET',
+      pathname: '/api/auth/terms',
+    },
+    {
+      headline: 'headline',
+      terms: '<h1>terms</h1>',
+      version: '1.0',
+    }
+  );
+}

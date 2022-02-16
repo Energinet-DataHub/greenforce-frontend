@@ -17,6 +17,6 @@
 export const findAcceptCheckbox = () =>
   cy.findByRole('checkbox', { name: /I have seen the privacy policy/i });
 export const findAcceptButton = () =>
-  cy.findByRole('button', { name: /Accept/i });
+  cy.findByRole('button', { name: /Accept terms/i });
 export const findCancelButton = () =>
-  cy.findByRole('button', { name: /Cancel/i });
+  cy.findByRole('button', { name: /Back/i });
