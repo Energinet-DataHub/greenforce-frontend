@@ -16,26 +16,26 @@
  */
 import { rest } from 'msw';
 
-export const handlers = [
+export const mocks = [
   rest.get(
     'https://localhost:5001/v1/MeteringPoint/GetByGsrn',
     (req, res, ctx) => {
       const gsrnNumber = req.url.searchParams.get('gsrnNumber');
-      if(gsrnNumber === '000000000000000000') {
+      if (gsrnNumber === '000000000000000000') {
         return res(ctx.status(404));
       } else {
         return res(
           ctx.status(200),
           ctx.json({
             ...getByGsrn,
-            gsrnNumber
+            gsrnNumber,
           })
         );
       }
     }
   ),
   rest.get(
-    'https://localhost:5001/v1/ChargeLinks?meteringPointId=575391908025497398',
+    'https://localhost:5001/v1/ChargeLinks',
     (req, res, ctx) => {
       return res(ctx.status(404));
     }
@@ -45,7 +45,7 @@ export const handlers = [
 const getByGsrn = {
   meteringPointId: '10e01f8d-be5f-4253-80a2-37082baa950b',
   gsrnNumber: '573876630161457173',
-  streetName: 'Vestergade',
+  streetName: 'Vestergade!!',
   postalCode: '5500',
   cityName: 'Middelfart',
   countryCode: 'DK',
