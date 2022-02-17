@@ -75,6 +75,13 @@ const selector = 'ett-shell';
             @include watt.space-inset-l;
           }
         }
+
+        .${selector}__link {
+          display: block;
+          color: var(
+            --watt-color-primary
+          ); // This overrides the '--watt-color-primary-dark' color which is currently added by the watt-text-s class
+        }
       }
     `,
   ],
@@ -90,7 +97,14 @@ const selector = 'ett-shell';
 
       <router-outlet></router-outlet>
 
-      <eo-footer></eo-footer>
+      <eo-footer>
+        <a
+          routerLink="/privacy-policy"
+          class="${selector}__link watt-space-stack-m watt-text-s"
+          aria-label="Privacy policy"
+          >Privacy policy
+        </a>
+      </eo-footer>
 
     </watt-shell>
   `,

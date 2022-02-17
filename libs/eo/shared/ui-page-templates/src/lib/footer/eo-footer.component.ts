@@ -78,12 +78,7 @@ const selector = 'eo-footer';
         alt="Energinet"
         class="${selector}__img watt-space-stack-l"
       />
-      <a
-        routerLink="/"
-        class="${selector}__link watt-space-stack-m watt-text-s"
-        aria-label="Privacy policy"
-        >Privacy policy
-      </a>
+      <ng-content></ng-content>
     </div>
     <div>
       <h5 class="${selector}__h5">Address</h5>
