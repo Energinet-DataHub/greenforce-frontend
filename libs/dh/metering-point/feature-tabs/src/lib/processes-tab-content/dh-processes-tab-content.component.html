@@ -1,0 +1,42 @@
+<!--
+@license
+Copyright 2020 Energinet DataHub A/S
+
+Licensed under the Apache License, Version 2.0 (the "License2");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<ng-container *rxLet="isLoading$ as isLoading">
+  <div *ngIf="isLoading" class="spinner">
+    <watt-spinner></watt-spinner>
+  </div>
+  <ng-container *ngIf="!isLoading">
+    <h1>Work in Progress</h1>
+    <ng-container *rxLet="processes$ as processes">
+      <table aria-label="Hello world" border="1">
+        <tr>
+          <th scope="col">Id</th>
+          <th scope="col">Name</th>
+          <th scope="col">createdDate</th>
+          <th scope="col">effectiveDate</th>
+          <th scope="col">status</th>
+        </tr>
+        <tr *ngFor="let process of processes">
+          <td>{{ process.id }}</td>
+          <td>{{ process.name }}</td>
+          <td>{{ process.createdDate }}</td>
+          <td>{{ process.effectiveDate }}</td>
+          <td>{{ process.status }}</td>
+        </tr>
+      </table>
+    </ng-container>
+  </ng-container>
+</ng-container>

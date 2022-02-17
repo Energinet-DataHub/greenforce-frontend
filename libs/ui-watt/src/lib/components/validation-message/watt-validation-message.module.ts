@@ -16,10 +16,10 @@
  */
 import { NgModule } from '@angular/core';
 
-import { WattAutocompleteModule } from './components/autocomplete/autocomplete.module';
-import { WattShellModule } from './components/shell/shell.module';
+import { WattValidationMessageComponent } from './watt-validation-message.component';
 
 @NgModule({
-  exports: [WattAutocompleteModule, WattShellModule],
+  declarations: [WattValidationMessageComponent],
+  exports: [WattValidationMessageComponent],
 })
-export class WattModule {}
+export class WattValidationMessageModule {}

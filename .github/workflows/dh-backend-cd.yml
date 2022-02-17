@@ -25,13 +25,13 @@ on:
 
 jobs:
   publish_release:
-    uses: Energinet-DataHub/.github/.github/workflows/publish-release.yml@2.7.0
+    uses: Energinet-DataHub/.github/.github/workflows/publish-release.yml@4.0.0
     secrets:
       PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
 
   dispatch_deployment_request:
     needs: publish_release
-    uses: Energinet-DataHub/.github/.github/workflows/dispatch-deployment-request.yml@2.7.0
+    uses: Energinet-DataHub/.github/.github/workflows/dispatch-deployment-request.yml@4.0.0
     with:
       CALLER_REPOSITORY_NAME: greenforce-frontend
       CALLER_REPOSITORY_PATH: Energinet-DataHub/greenforce-frontend

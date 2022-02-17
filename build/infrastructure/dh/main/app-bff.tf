@@ -29,6 +29,8 @@ resource "azurerm_app_service" "bff" {
     ApiClientSettings__MeteringPointBaseUrl = data.azurerm_key_vault_secret.app_metering_point_webapi_base_url.value
     ApiClientSettings__ChargesBaseUrl       = data.azurerm_key_vault_secret.app_charges_webapi_base_url.value
     APPINSIGHTS_INSTRUMENTATIONKEY          = data.azurerm_key_vault_secret.appi_instrumentation_key.value
+    FRONTEND_OPEN_ID_URL                    = data.azurerm_key_vault_secret.frontend_open_id_url.value
+    FRONTEND_SERVICE_APP_ID                 = data.azurerm_key_vault_secret.frontend_service_app_id.value
   }
 
   tags                = azurerm_resource_group.this.tags

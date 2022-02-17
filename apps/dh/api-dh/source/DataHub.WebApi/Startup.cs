@@ -17,6 +17,7 @@ using System.IO;
 using System.Reflection;
 using System.Text.Json.Serialization;
 using Energinet.DataHub.Charges.Clients.Registration.ChargeLinks.ServiceCollectionExtensions;
+using Energinet.DataHub.Core.App.WebApp.Middleware;
 using Energinet.DataHub.MeteringPoints.Client.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -68,7 +69,29 @@ namespace Energinet.DataHub.WebApi
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 config.IncludeXmlComments(xmlPath);
+
+                var securitySchema = new OpenApiSecurityScheme
+                {
+                    Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+                    Name = "Authorization",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.Http,
+                    Scheme = "bearer",
+                    Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "Bearer", },
+                };
+
+                config.AddSecurityDefinition("Bearer", securitySchema);
+
+                var securityRequirement = new OpenApiSecurityRequirement { { securitySchema, new[] { "Bearer" } }, };
+
+                config.AddSecurityRequirement(securityRequirement);
             });
+
+            var openIdUrl = Configuration.GetValue<string>("FRONTEND_OPEN_ID_URL") ?? string.Empty;
+
+            var audience = Configuration.GetValue<string>("FRONTEND_SERVICE_APP_ID") ?? string.Empty;
+
+            services.AddJwtTokenSecurity(openIdUrl, audience);
 
             if (Environment.IsDevelopment())
             {
@@ -105,12 +128,14 @@ namespace Energinet.DataHub.WebApi
 
             app.UseCors();
 
+            app.UseMiddleware<JwtTokenMiddleware>();
+
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                endpoints.MapHealthChecks("/health");
+                endpoints.MapHealthChecks("/health").AllowAnonymous();
             });
         }
 
