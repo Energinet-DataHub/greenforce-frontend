@@ -14,12 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 import {
   ChangeDetectionStrategy,
   Component,
   NgModule,
   ViewEncapsulation,
 } from '@angular/core';
+
+import { RouterModule } from '@angular/router';
 
 const selector = 'eo-footer';
 
@@ -75,6 +78,12 @@ const selector = 'eo-footer';
         alt="Energinet"
         class="${selector}__img watt-space-stack-l"
       />
+      <a
+        routerLink="/"
+        class="${selector}__link watt-space-stack-m watt-text-s"
+        aria-label="Privacy policy"
+        >Privacy policy
+      </a>
     </div>
     <div>
       <h5 class="${selector}__h5">Address</h5>
@@ -107,5 +116,6 @@ export class EoFooterComponent {}
 @NgModule({
   declarations: [EoFooterComponent],
   exports: [EoFooterComponent],
+  imports: [RouterModule]
 })
 export class EoFooterScam {}

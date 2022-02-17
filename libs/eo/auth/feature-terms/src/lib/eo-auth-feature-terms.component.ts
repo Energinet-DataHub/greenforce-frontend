@@ -20,16 +20,17 @@ import {
   NgModule,
   ViewEncapsulation,
 } from '@angular/core';
-import { PushModule } from '@rx-angular/template';
-import { FormsModule } from '@angular/forms';
-import { Observable } from 'rxjs';
-import { WattButtonModule, WattCheckboxModule } from '@energinet-datahub/watt';
-import { EoAuthTermsStore } from './eo-auth-terms.store';
 import {
   EoFooterScam,
   EoHeaderScam,
 } from '@energinet-datahub/eo/shared/ui-page-templates';
+import { WattButtonModule, WattCheckboxModule } from '@energinet-datahub/watt';
+
+import { EoAuthTermsStore } from './eo-auth-terms.store';
 import { EoLogOutStore } from '@energinet-datahub/ett/auth/data-access-security';
+import { FormsModule } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { PushModule } from '@rx-angular/template';
 
 const selector = 'eo-auth-terms';
 
