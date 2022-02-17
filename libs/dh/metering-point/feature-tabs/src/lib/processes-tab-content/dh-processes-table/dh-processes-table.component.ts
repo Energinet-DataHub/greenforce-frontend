@@ -56,8 +56,8 @@ export class DhProcessesTableComponent implements AfterViewInit {
   displayedColumns: string[] = [
     'name',
     'createdDate',
-    // 'effectiveDate',
-    // 'status',
+    'effectiveDate',
+    'status',
   ];
   iconSize = WattIconSize;
   sortedData: Process[] = [];

@@ -15,99 +15,100 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <ng-container
-  *ngIf="processes && processes.length > 0; else emptyTab"
+  *ngIf='processes && processes.length > 0; else emptyTab'
 >
   <mat-table
     #matTable
-    [dataSource]="sortedData"
+    [dataSource]='sortedData'
     matSort
-    (matSortChange)="sortData($event)"
+    (matSortChange)='sortData($event)'
   >
     <!-- Name Definition -->
-    <ng-container matColumnDef="name">
+    <ng-container matColumnDef='name'>
       <mat-header-cell
         *matHeaderCellDef
         mat-sort-header
-        sortActionDescription="Sort by name"
-        class="header-cell watt-label"
-        >{{
-          'meteringPoint.overview.processesTab.headers.name'
-            | transloco
+        sortActionDescription='Sort by name'
+        class='header-cell watt-label'
+      >{{
+        'meteringPoint.overview.processesTab.headers.name'
+          | transloco
         }}</mat-header-cell
       >
-      <mat-cell *matCellDef="let row">
-        <div class="multi-line-cell">
-          <div class="watt-text-s">
-            {{ row.name }}
-          </div>
+      <mat-cell *matCellDef='let row'>
+        <div class='watt-text-s'>
+          {{ row.name }}
         </div>
       </mat-cell>
     </ng-container>
 
     <!-- Created Date Definition -->
-    <ng-container matColumnDef="createdDate">
+    <ng-container matColumnDef='createdDate'>
       <mat-header-cell
         *matHeaderCellDef
         mat-sort-header
-        sortActionDescription="Sort by number"
-        class="header-cell watt-label"
-        >{{
-          'meteringPoint.overview.processesTab.headers.createdDate'
-            | transloco
+        [sortActionDescription]="'meteringPoint.overview.processesTab.sortDescription.createdDate' | transloco"
+        class='header-cell watt-label'
+      >{{
+        'meteringPoint.overview.processesTab.headers.createdDate'
+          | transloco
         }}</mat-header-cell
       >
-      <mat-cell *matCellDef="let row">
+      <mat-cell *matCellDef='let row'>
         <watt-icon
-          name="date"
-          [size]="iconSize.Small"
-          class="date-icon"
+          name='date'
+          [size]='iconSize.Small'
+          class='date-icon'
         ></watt-icon>
-        <span class="watt-text-s">{{ row.createdDate | dhDate }} - </span>
+        <span class='watt-text-s'>{{ row.createdDate | dhDate }} - </span>
       </mat-cell>
     </ng-container>
 
     <!-- Effective Date Definition -->
-    <ng-container matColumnDef="effectiveDate">
+    <ng-container matColumnDef='effectiveDate'>
       <mat-header-cell
         *matHeaderCellDef
         mat-sort-header
-        sortActionDescription="Sort by number"
-        class="header-cell watt-label"
-        >{{
-          'meteringPoint.overview.processTab.headers.effectiveDate'
-            | transloco
+        sortActionDescription='Sort by effective date'
+        class='header-cell watt-label'
+      >{{
+        'meteringPoint.overview.processesTab.headers.effectiveDate'
+          | transloco
         }}</mat-header-cell
       >
-      <mat-cell *matCellDef="let row">
-        <dh-status-badge
-          [connectionState]="row.connectionState"
-        ></dh-status-badge>
+      <mat-cell *matCellDef='let row'>
+        <watt-icon
+          name='date'
+          [size]='iconSize.Small'
+          class='date-icon'
+        ></watt-icon>
+        <span class='watt-text-s'>{{ row.effectiveDate | dhDate }} - </span>
       </mat-cell>
     </ng-container>
 
     <!-- Status Definition -->
-    <ng-container matColumnDef="status">
+    <ng-container matColumnDef='status'>
       <mat-header-cell
         *matHeaderCellDef
         mat-sort-header
-        sortActionDescription="Sort by number"
-        class="header-cell watt-label"
-        >{{
-          'meteringPoint.overview.processTab.headers.status'
-            | transloco
+        sortActionDescription='Sort by status'
+        class='header-cell watt-label'
+      >{{
+        'meteringPoint.overview.processesTab.headers.status'
+          | transloco
         }}</mat-header-cell
       >
-      <mat-cell *matCellDef="let row">
-        <dh-status-badge
-          [connectionState]="row.connectionState"
-        ></dh-status-badge>
+      <mat-cell *matCellDef='let row'>
+        <div class='watt-text-s'>
+          {{ row.status }}
+        </div>
       </mat-cell>
     </ng-container>
 
     <!-- Header and Row Declarations -->
-    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-header-row *matHeaderRowDef='displayedColumns'></mat-header-row>
     <mat-row
-      *matRowDef="let row; columns: displayedColumns"
+      *matRowDef='let row; columns: displayedColumns'
     >
     </mat-row>
   </mat-table>
@@ -115,7 +116,7 @@ limitations under the License.
 
 <ng-template #emptyTab> <!-- TODO: Move this to the parent component and use the not-found component instead -->
   <watt-empty-state
-    size="small"
+    size='small'
     [title]="
       'meteringPoint.processes.noProcessesFound'
         | transloco
