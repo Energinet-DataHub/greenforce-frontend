@@ -18,7 +18,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-import { ModuleWithProviders, NgModule } from "@angular/core";
+import { ModuleWithProviders, NgModule } from '@angular/core';
 
 /**
  * @license
@@ -40,12 +40,12 @@ import { ModuleWithProviders, NgModule } from "@angular/core";
 export class MSWModule {
   static forRoot(_?: any): ModuleWithProviders<MSWModule> {
     return {
-      ngModule: MSWModule
-    }
+      ngModule: MSWModule,
+    };
   }
   static forFeature(_: any): ModuleWithProviders<MSWModule> {
     return {
-      ngModule: MSWModule
-    }
+      ngModule: MSWModule,
+    };
   }
 }
