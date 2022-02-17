@@ -1,3 +1,7 @@
+import { ComponentStore, tapResponse } from '@ngrx/component-store';
+import { exhaustMap, mergeMap, of, throwError } from 'rxjs';
+
+import { AuthHttp } from '@energinet-datahub/ett/auth/data-access-api';
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -17,9 +21,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { eoLandingPageRelativeUrl } from '@energinet-datahub/eo/landing-page/routing';
-import { AuthHttp } from '@energinet-datahub/ett/auth/data-access-api';
-import { ComponentStore, tapResponse } from '@ngrx/component-store';
-import { exhaustMap, mergeMap, of, throwError } from 'rxjs';
 
 // No internal state needed
 // eslint-disable-next-line @typescript-eslint/no-empty-interface

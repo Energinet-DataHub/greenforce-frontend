@@ -20,11 +20,12 @@ import {
   NgModule,
   ViewEncapsulation,
 } from '@angular/core';
-import { RouterModule } from '@angular/router';
-import { EoProductLogoScam } from '@energinet-datahub/eo/shared/ui-shell';
-import { WattShellModule } from '@energinet-datahub/watt';
 
+import { EoFooterScam } from '@energinet-datahub/eo/shared/ui-page-templates';
+import { EoProductLogoScam } from '@energinet-datahub/eo/shared/ui-shell';
 import { EttPrimaryNavigationScam } from './ett-primary-navigation.component';
+import { RouterModule } from '@angular/router';
+import { WattShellModule } from '@energinet-datahub/watt';
 
 const selector = 'ett-shell';
 
@@ -34,6 +35,8 @@ const selector = 'ett-shell';
   selector,
   styles: [
     `
+      @use '@energinet-datahub/watt/utils' as watt;
+
       ${selector} {
         display: block;
 
@@ -44,6 +47,33 @@ const selector = 'ett-shell';
         watt-shell .watt-toolbar watt-icon-button[icon='menu'] > button {
           // Remove menu toggle left padding to collapse with top app bar padding
           padding-left: 0;
+        }
+
+        .watt-main-content {
+          min-height: calc(100% - 48px); // 48px is = available screen height minus the top bar
+          padding: 0 !important; // We remove the padding, so we can stretch the footer out in full width
+
+          /**
+           * We have 3 items in the content area:
+           * 1) The Angular router-outlet
+           * 2) The page/component being rendered below the router outlet
+           * 3) The footer
+           *
+           * Display grid considers the above 3 elements, when positioning them on the screen
+           * This allows us to set the router outlet height = 0, the page content to what ever height it might have, the footer to the height it has
+          */
+          display: grid;
+          grid-template-rows: 0 1fr auto;
+        }
+
+        // This is the feature page/component
+        // The padding on this element has been copied from: libs/ui-watt/src/lib/components/shell/shell.component.scss
+        .watt-main-content > :nth-child(2) {
+          @include watt.space-inset-m;
+
+          @include watt.media('>Large') {
+            @include watt.space-inset-l;
+          }
         }
       }
     `,
@@ -59,6 +89,9 @@ const selector = 'ett-shell';
       </ng-container>
 
       <router-outlet></router-outlet>
+
+      <eo-footer></eo-footer>
+
     </watt-shell>
   `,
 })
@@ -71,6 +104,7 @@ export class EttShellComponent {}
     WattShellModule,
     EttPrimaryNavigationScam,
     EoProductLogoScam,
+    EoFooterScam
   ],
 })
 export class EttShellScam {}
