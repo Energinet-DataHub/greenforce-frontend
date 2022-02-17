@@ -3,7 +3,7 @@ eo-base-helm-chart:
     app:
       replicaCount: 2
       image:
-        repository: ghcr.io/energinet-datahub/greenforce-frontend-ett-app
+        repository: ghcr.io/energinet-datahub/eo-frontend-app
         tag: 0.2.0
   service:
     deployment: app
