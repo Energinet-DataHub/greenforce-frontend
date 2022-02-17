@@ -128,7 +128,7 @@ jobs:
           { 
             "deployment_name": "app", 
             "dockerfile": "infrastructure/eo/host/Dockerfile", 
-            "image_name": "eo-frontend-app"
+            "image_name": "eo-frontend-app",
             "image_tag": "${{ steps.get_container_version.outputs.semver }}"
           }
         ]
