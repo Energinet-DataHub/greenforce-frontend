@@ -19,11 +19,7 @@
   padding: var(--watt-space-l) 0;
 }
 
-.grey-text {
-  color: var(--watt-color-neutral-grey-600);
-}
-
-.date-icon {
-  color: var(--watt-color-primary);
-  margin-right: 0.5rem;
+.mat-column-expand, .mat-column-hasErrors {
+  max-width: 52px;
+  padding: 10px;
 }

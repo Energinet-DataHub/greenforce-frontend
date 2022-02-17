@@ -23,6 +23,22 @@ limitations under the License.
     matSort
     (matSortChange)='sortData($event)'
   >
+    <!-- Expand Definition -->
+    <ng-container matColumnDef='expand'>
+      <mat-header-cell
+        *matHeaderCellDef
+        class='header-cell watt-label column-expand'>
+      </mat-header-cell>
+      <mat-cell *matCellDef='let row'>
+        <div class='watt-text-s'>
+          <watt-icon
+            name='right'
+            [size]='iconSize.Large'
+          ></watt-icon>
+        </div>
+      </mat-cell>
+    </ng-container>
+
     <!-- Name Definition -->
     <ng-container matColumnDef='name'>
       <mat-header-cell
@@ -93,15 +109,18 @@ limitations under the License.
       </mat-cell>
     </ng-container>
 
-    <!-- Status Definition -->
-    <ng-container matColumnDef='status'>
+    <!-- Has Errors Definition -->
+    <ng-container matColumnDef='hasErrors'>
       <mat-header-cell
         *matHeaderCellDef
         class='header-cell watt-label'>
       </mat-header-cell>
       <mat-cell *matCellDef='let row'>
         <div class='watt-text-s'>
-          {{ row.status }}
+            <watt-icon
+              [name]='row.hasErrors() ? "danger" : "success"'
+              [size]='iconSize.Medium'
+            ></watt-icon>
         </div>
       </mat-cell>
     </ng-container>

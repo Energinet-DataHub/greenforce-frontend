@@ -54,6 +54,7 @@ import { DhDatePipe } from '../../../../../../shared/ui-date-time/src/lib/dh-dat
 })
 export class DhProcessesTableComponent implements AfterViewInit {
   displayedColumns: string[] = [
+    'expand',
     'name',
     'createdDate',
     'effectiveDate',
