@@ -44,6 +44,7 @@ import {
   MeteringPointSimpleCimDto,
   Process,
 } from '@energinet-datahub/dh/shared/data-access-api';
+import { DhDatePipe } from '../../../../../../shared/ui-date-time/src/lib/dh-date.pipe';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -54,14 +55,14 @@ import {
 export class DhProcessesTableComponent implements AfterViewInit {
   displayedColumns: string[] = [
     'name',
-    // 'createdDate',
+    'createdDate',
     // 'effectiveDate',
     // 'status',
   ];
   iconSize = WattIconSize;
   sortedData: Process[] = [];
   @Input()
-  processes: Process[] | null | undefined;
+  processes?: Process[];
 
   @ViewChild(MatSort) matSort?: MatSort;
 

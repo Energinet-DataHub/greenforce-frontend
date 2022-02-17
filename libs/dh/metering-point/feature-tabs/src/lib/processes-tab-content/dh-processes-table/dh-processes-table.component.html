@@ -44,66 +44,65 @@ limitations under the License.
       </mat-cell>
     </ng-container>
 
-<!--    &lt;!&ndash; Created Date Definition &ndash;&gt;-->
-<!--    <ng-container matColumnDef="createdDate">-->
-<!--      <mat-header-cell-->
-<!--        *matHeaderCellDef-->
-<!--        mat-sort-header-->
-<!--        sortActionDescription="Sort by number"-->
-<!--        class="header-cell watt-label"-->
-<!--        >{{-->
-<!--          'meteringPoint.overview.processTab.headers.createdDate'-->
-<!--            | transloco-->
-<!--        }}</mat-header-cell-->
-<!--      >-->
-<!--      <mat-cell *matCellDef="let row">-->
-<!--        <watt-icon-->
-<!--          name="date"-->
-<!--          [size]="iconSize.Small"-->
-<!--          class="date-icon"-->
-<!--        ></watt-icon>-->
+    <!-- Created Date Definition -->
+    <ng-container matColumnDef="createdDate">
+      <mat-header-cell
+        *matHeaderCellDef
+        mat-sort-header
+        sortActionDescription="Sort by number"
+        class="header-cell watt-label"
+        >{{
+          'meteringPoint.overview.processesTab.headers.createdDate'
+            | transloco
+        }}</mat-header-cell
+      >
+      <mat-cell *matCellDef="let row">
+        <watt-icon
+          name="date"
+          [size]="iconSize.Small"
+          class="date-icon"
+        ></watt-icon>
+        <span class="watt-text-s">{{ row.createdDate | dhDate }} - </span>
+      </mat-cell>
+    </ng-container>
 
-<!--        <span class="watt-text-s">{{ row.effectiveDate | dhDate }} - </span>-->
-<!--      </mat-cell>-->
-<!--    </ng-container>-->
+    <!-- Effective Date Definition -->
+    <ng-container matColumnDef="effectiveDate">
+      <mat-header-cell
+        *matHeaderCellDef
+        mat-sort-header
+        sortActionDescription="Sort by number"
+        class="header-cell watt-label"
+        >{{
+          'meteringPoint.overview.processTab.headers.effectiveDate'
+            | transloco
+        }}</mat-header-cell
+      >
+      <mat-cell *matCellDef="let row">
+        <dh-status-badge
+          [connectionState]="row.connectionState"
+        ></dh-status-badge>
+      </mat-cell>
+    </ng-container>
 
-<!--    &lt;!&ndash; Effective Date Definition &ndash;&gt;-->
-<!--    <ng-container matColumnDef="effectiveDate">-->
-<!--      <mat-header-cell-->
-<!--        *matHeaderCellDef-->
-<!--        mat-sort-header-->
-<!--        sortActionDescription="Sort by number"-->
-<!--        class="header-cell watt-label"-->
-<!--        >{{-->
-<!--          'meteringPoint.overview.processTab.headers.effectiveDate'-->
-<!--            | transloco-->
-<!--        }}</mat-header-cell-->
-<!--      >-->
-<!--      <mat-cell *matCellDef="let row">-->
-<!--        <dh-status-badge-->
-<!--          [connectionState]="row.connectionState"-->
-<!--        ></dh-status-badge>-->
-<!--      </mat-cell>-->
-<!--    </ng-container>-->
-
-<!--    &lt;!&ndash; Status Definition &ndash;&gt;-->
-<!--    <ng-container matColumnDef="status">-->
-<!--      <mat-header-cell-->
-<!--        *matHeaderCellDef-->
-<!--        mat-sort-header-->
-<!--        sortActionDescription="Sort by number"-->
-<!--        class="header-cell watt-label"-->
-<!--        >{{-->
-<!--          'meteringPoint.overview.processTab.headers.status'-->
-<!--            | transloco-->
-<!--        }}</mat-header-cell-->
-<!--      >-->
-<!--      <mat-cell *matCellDef="let row">-->
-<!--        <dh-status-badge-->
-<!--          [connectionState]="row.connectionState"-->
-<!--        ></dh-status-badge>-->
-<!--      </mat-cell>-->
-<!--    </ng-container>-->
+    <!-- Status Definition -->
+    <ng-container matColumnDef="status">
+      <mat-header-cell
+        *matHeaderCellDef
+        mat-sort-header
+        sortActionDescription="Sort by number"
+        class="header-cell watt-label"
+        >{{
+          'meteringPoint.overview.processTab.headers.status'
+            | transloco
+        }}</mat-header-cell
+      >
+      <mat-cell *matCellDef="let row">
+        <dh-status-badge
+          [connectionState]="row.connectionState"
+        ></dh-status-badge>
+      </mat-cell>
+    </ng-container>
 
     <!-- Header and Row Declarations -->
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>

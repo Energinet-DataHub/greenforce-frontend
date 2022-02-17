@@ -70,7 +70,15 @@ export class DhProcessesDataAccessApiStore extends ComponentStore<ProcessesState
               (processesData) => {
                 this.setLoading(false);
 
-                this.updateProcessesData(processesData);
+                // TODO: Remove this when the API has been updated to respect timezones
+                // Currently the API doesn't provide any timezone info which results in the date pipe treating the date and time as the current timezone
+                const modifiedValues = processesData.map((process) => ({
+                  ...process,
+                  effectiveDate: process.effectiveDate + 'Z',
+                  createdDate: process.createdDate + 'Z',
+                }));
+
+                this.updateProcessesData(modifiedValues);
               },
               (error: HttpErrorResponse) => {
                 this.setLoading(false);
