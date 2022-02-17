@@ -14,136 +14,134 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<ng-container
-  *ngIf='processes && processes.length > 0; else emptyTab'
->
+<ng-container *ngIf="processes && processes.length > 0; else emptyTab">
   <mat-table
     #matTable
-    [dataSource]='sortedData'
+    [dataSource]="sortedData"
     matSort
-    (matSortChange)='sortData($event)'
+    (matSortChange)="sortData($event)"
   >
     <!-- Expand Definition -->
-    <ng-container matColumnDef='expand'>
+    <ng-container matColumnDef="expand">
       <mat-header-cell
         *matHeaderCellDef
-        class='header-cell watt-label column-expand'>
+        class="header-cell watt-label column-expand"
+      >
       </mat-header-cell>
-      <mat-cell *matCellDef='let row'>
-        <div class='watt-text-s'>
-          <watt-icon
-            name='right'
-            [size]='iconSize.Large'
-          ></watt-icon>
+      <mat-cell *matCellDef="let row">
+        <div class="watt-text-s">
+          <watt-icon name="right" [size]="iconSize.Large"></watt-icon>
         </div>
       </mat-cell>
     </ng-container>
 
     <!-- Name Definition -->
-    <ng-container matColumnDef='name'>
+    <ng-container matColumnDef="name">
       <mat-header-cell
         *matHeaderCellDef
         mat-sort-header
-        sortActionDescription='Sort by name'
-        class='header-cell watt-label'>
-          {{ 'meteringPoint.overview.processesTab.headers.name' | transloco }}
+        sortActionDescription="Sort by name"
+        class="header-cell watt-label"
+      >
+        {{ 'meteringPoint.overview.processesTab.headers.name' | transloco }}
       </mat-header-cell>
-      <mat-cell *matCellDef='let row'>
-        <div class='watt-text-s'>
+      <mat-cell *matCellDef="let row">
+        <div class="watt-text-s">
           {{ row.name }}
         </div>
       </mat-cell>
     </ng-container>
 
     <!-- Created Date Definition -->
-    <ng-container matColumnDef='createdDate'>
+    <ng-container matColumnDef="createdDate">
       <mat-header-cell
         *matHeaderCellDef
         mat-sort-header
-        [sortActionDescription]="'meteringPoint.overview.processesTab.sortDescription.createdDate' | transloco"
-        class='header-cell watt-label'>
-          {{ 'meteringPoint.overview.processesTab.headers.createdDate' | transloco}}
+        [sortActionDescription]="
+          'meteringPoint.overview.processesTab.sortDescription.createdDate'
+            | transloco
+        "
+        class="header-cell watt-label"
+      >
+        {{
+          'meteringPoint.overview.processesTab.headers.createdDate' | transloco
+        }}
       </mat-header-cell>
-      <mat-cell *matCellDef='let row'>
+      <mat-cell *matCellDef="let row">
         <watt-icon
-          name='date'
-          [size]='iconSize.Small'
-          class='date-icon'
+          name="date"
+          [size]="iconSize.Small"
+          class="date-icon"
         ></watt-icon>
-        <span class='watt-text-s'>{{ row.createdDate | dhDate:true }} </span>
+        <span class="watt-text-s">{{ row.createdDate | dhDate: true }} </span>
       </mat-cell>
     </ng-container>
 
     <!-- Effective Date Definition -->
-    <ng-container matColumnDef='effectiveDate'>
+    <ng-container matColumnDef="effectiveDate">
       <mat-header-cell
         *matHeaderCellDef
         mat-sort-header
-        sortActionDescription='Sort by effective date'
-        class='header-cell watt-label'>
-          {{ 'meteringPoint.overview.processesTab.headers.effectiveDate' | transloco }}
+        sortActionDescription="Sort by effective date"
+        class="header-cell watt-label"
+      >
+        {{
+          'meteringPoint.overview.processesTab.headers.effectiveDate'
+            | transloco
+        }}
       </mat-header-cell>
-      <mat-cell *matCellDef='let row'>
+      <mat-cell *matCellDef="let row">
         <watt-icon
-          name='date'
-          [size]='iconSize.Small'
-          class='date-icon'
+          name="date"
+          [size]="iconSize.Small"
+          class="date-icon"
         ></watt-icon>
-        <span class='watt-text-s'>{{ row.effectiveDate | dhDate }} </span>
+        <span class="watt-text-s">{{ row.effectiveDate | dhDate }} </span>
       </mat-cell>
     </ng-container>
 
     <!-- Status Definition -->
-    <ng-container matColumnDef='status'>
+    <ng-container matColumnDef="status">
       <mat-header-cell
         *matHeaderCellDef
         mat-sort-header
-        sortActionDescription='Sort by status'
-        class='header-cell watt-label'>
-          {{ 'meteringPoint.overview.processesTab.headers.status' | transloco }}
+        sortActionDescription="Sort by status"
+        class="header-cell watt-label"
+      >
+        {{ 'meteringPoint.overview.processesTab.headers.status' | transloco }}
       </mat-header-cell>
-      <mat-cell *matCellDef='let row'>
-        <div class='watt-text-s'>
+      <mat-cell *matCellDef="let row">
+        <div class="watt-text-s">
           {{ row.status }}
         </div>
       </mat-cell>
     </ng-container>
 
     <!-- Has Errors Definition -->
-    <ng-container matColumnDef='hasErrors'>
-      <mat-header-cell
-        *matHeaderCellDef
-        class='header-cell watt-label'>
+    <ng-container matColumnDef="hasErrors">
+      <mat-header-cell *matHeaderCellDef class="header-cell watt-label">
       </mat-header-cell>
-      <mat-cell *matCellDef='let row'>
-        <div class='watt-text-s'>
-            <watt-icon
-              [name]='row.hasErrors() ? "danger" : "success"'
-              [size]='iconSize.Medium'
-            ></watt-icon>
+      <mat-cell *matCellDef="let row">
+        <div class="watt-text-s">
+          <watt-icon
+            [name]="row.hasErrors() ? 'danger' : 'success'"
+            [size]="iconSize.Medium"
+          ></watt-icon>
         </div>
       </mat-cell>
     </ng-container>
 
     <!-- Header and Row Declarations -->
-    <mat-header-row *matHeaderRowDef='displayedColumns'></mat-header-row>
-    <mat-row
-      *matRowDef='let row; columns: displayedColumns'
-    >
-    </mat-row>
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns"> </mat-row>
   </mat-table>
 </ng-container>
 
-<ng-template #emptyTab> <!-- TODO: Move this to the parent component and use the not-found component instead -->
+<ng-template #emptyTab>
+  <!-- TODO: Move this to the parent component and use the not-found component instead -->
   <watt-empty-state
-    size='small'
-    [title]="
-      'meteringPoint.processes.noProcessesFound'
-        | transloco
-    "
-    [message]="
-            'meteringPoint.processes.noProcessesText'
-        | transloco
-    "
+    size="small"
+    [title]="'meteringPoint.processes.noProcessesFound' | transloco"
+    [message]="'meteringPoint.processes.noProcessesText' | transloco"
   ></watt-empty-state>
 </ng-template>
