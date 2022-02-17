@@ -29,12 +29,9 @@ limitations under the License.
         *matHeaderCellDef
         mat-sort-header
         sortActionDescription='Sort by name'
-        class='header-cell watt-label'
-      >{{
-        'meteringPoint.overview.processesTab.headers.name'
-          | transloco
-        }}</mat-header-cell
-      >
+        class='header-cell watt-label'>
+          {{ 'meteringPoint.overview.processesTab.headers.name' | transloco }}
+      </mat-header-cell>
       <mat-cell *matCellDef='let row'>
         <div class='watt-text-s'>
           {{ row.name }}
@@ -48,19 +45,16 @@ limitations under the License.
         *matHeaderCellDef
         mat-sort-header
         [sortActionDescription]="'meteringPoint.overview.processesTab.sortDescription.createdDate' | transloco"
-        class='header-cell watt-label'
-      >{{
-        'meteringPoint.overview.processesTab.headers.createdDate'
-          | transloco
-        }}</mat-header-cell
-      >
+        class='header-cell watt-label'>
+          {{ 'meteringPoint.overview.processesTab.headers.createdDate' | transloco}}
+      </mat-header-cell>
       <mat-cell *matCellDef='let row'>
         <watt-icon
           name='date'
           [size]='iconSize.Small'
           class='date-icon'
         ></watt-icon>
-        <span class='watt-text-s'>{{ row.createdDate | dhDate }} - </span>
+        <span class='watt-text-s'>{{ row.createdDate | dhDate:true }} </span>
       </mat-cell>
     </ng-container>
 
@@ -70,19 +64,16 @@ limitations under the License.
         *matHeaderCellDef
         mat-sort-header
         sortActionDescription='Sort by effective date'
-        class='header-cell watt-label'
-      >{{
-        'meteringPoint.overview.processesTab.headers.effectiveDate'
-          | transloco
-        }}</mat-header-cell
-      >
+        class='header-cell watt-label'>
+          {{ 'meteringPoint.overview.processesTab.headers.effectiveDate' | transloco }}
+      </mat-header-cell>
       <mat-cell *matCellDef='let row'>
         <watt-icon
           name='date'
           [size]='iconSize.Small'
           class='date-icon'
         ></watt-icon>
-        <span class='watt-text-s'>{{ row.effectiveDate | dhDate }} - </span>
+        <span class='watt-text-s'>{{ row.effectiveDate | dhDate }} </span>
       </mat-cell>
     </ng-container>
 
@@ -92,12 +83,9 @@ limitations under the License.
         *matHeaderCellDef
         mat-sort-header
         sortActionDescription='Sort by status'
-        class='header-cell watt-label'
-      >{{
-        'meteringPoint.overview.processesTab.headers.status'
-          | transloco
-        }}</mat-header-cell
-      >
+        class='header-cell watt-label'>
+          {{ 'meteringPoint.overview.processesTab.headers.status' | transloco }}
+      </mat-header-cell>
       <mat-cell *matCellDef='let row'>
         <div class='watt-text-s'>
           {{ row.status }}

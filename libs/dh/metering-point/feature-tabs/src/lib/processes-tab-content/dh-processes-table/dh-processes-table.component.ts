@@ -103,9 +103,11 @@ export class DhProcessesTableComponent implements AfterViewInit {
   }
 
   setDefaultSorting() {
-    this.matSort?.sort(
-      this.matSort.sortables.get('createdDate') as MatSortable
-    );
+    if (this.matSort === undefined) return;
+
+    const sortable = this.matSort.sortables.get('createdDate') as MatSortable;
+    sortable.start = 'desc';
+    this.matSort.sort(sortable);
   }
 
   compare(a: number | string, b: number | string, isAsc: boolean) {

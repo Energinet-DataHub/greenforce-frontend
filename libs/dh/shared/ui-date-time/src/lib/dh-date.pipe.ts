@@ -22,7 +22,7 @@ export const pipeName = 'dhDate';
 
 const danishTimeZoneIdentifier = 'Europe/Copenhagen';
 const dateFormat = 'dd-MM-yyyy';
-const dateTimeFormat = 'dd-MM-yyyy hh:mm:ss';
+const dateTimeFormat = 'dd-MM-yyyy HH:mm:ss';
 
 @Pipe({
   name: pipeName,
@@ -33,7 +33,7 @@ export class DhDatePipe implements PipeTransform {
    * @param maybeIso8601DateTime Date time in ISO 8601 format (e.g. 2021-12-01T23:00:00Z)
    * @returns
    */
-  transform(maybeIso8601DateTime: TValue, includeTime = true): string | null {
+  transform(maybeIso8601DateTime: TValue, includeTime = false): string | null {
     if (maybeIso8601DateTime == null) {
       return null;
     }
@@ -41,7 +41,7 @@ export class DhDatePipe implements PipeTransform {
     return formatInTimeZone(
       maybeIso8601DateTime,
       danishTimeZoneIdentifier,
-      dateTimeFormat ? dateTimeFormat : dateFormat
+      includeTime ? dateTimeFormat : dateFormat
     );
   }
 }
