@@ -59,4 +59,31 @@ describe(DhDatePipe, () => {
       expect(harness.text).toBe('01-01-2022');
     });
   });
+
+  describe('Is able to hide and show time', () => {
+    const dateToTestFormatWith = '2015-09-21T03:14:15Z';
+
+    it('displays only date as default', () => {
+      harness.value = dateToTestFormatWith;
+
+      expect(harness.text).toBe('21-09-2015');
+    });
+
+    it('displays date and time', () => {
+      harness.template = '{{ value | dhDate: true }}';
+      harness.value = dateToTestFormatWith;
+
+      expect(harness.text).toEqual(
+        expect.stringMatching(/\d{2}-\d{2}-\d{4} \d{2}:\d{2}:\d{2}/)
+      );
+    });
+
+    it('respects the Danish timezone when formatting', () => {
+      harness.template = '{{ value | dhDate: true }}';
+      harness.value = dateToTestFormatWith;
+
+      // We're at UTC+2 at the given date which is why it's 2 hours ahead of the initial date after formatting.
+      expect(harness.text).toBe('21-09-2015 05:14:15');
+    });
+  });
 });
