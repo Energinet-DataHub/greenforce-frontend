@@ -18,34 +18,34 @@ import { Injectable } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { filter, map, Observable, switchMap, tap } from 'rxjs';
 import {
-  MeteringPointCimDto,
   MeteringPointHttp,
+  Process,
 } from '@energinet-datahub/dh/shared/data-access-api';
 import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { ErrorState, LoadingState } from './states';
 
-interface MeteringPointState {
-  readonly meteringPoint?: MeteringPointCimDto;
+interface ProcessesState {
+  readonly processes: Process[];
   readonly requestState: LoadingState | ErrorState;
 }
 
-const initialState: MeteringPointState = {
-  meteringPoint: undefined,
+const initialState: ProcessesState = {
+  processes: [],
   requestState: LoadingState.INIT,
 };
 
 @Injectable()
-export class DhMeteringPointDataAccessApiStore extends ComponentStore<MeteringPointState> {
-  meteringPoint$: Observable<MeteringPointCimDto> = this.select(
-    (state) => state.meteringPoint
+export class DhProcessesDataAccessApiStore extends ComponentStore<ProcessesState> {
+  processes$: Observable<Process[]> = this.select(
+    (state) => state.processes
   ).pipe(
-    filter((meteringPoint) => !!meteringPoint),
-    map((meteringPoint) => meteringPoint as MeteringPointCimDto)
+    filter((processes) => !!processes),
+    map((processes) => processes as Process[])
   );
   isLoading$ = this.select(
     (state) => state.requestState === LoadingState.LOADING
   );
-  meteringPointNotFound$ = this.select(
+  processesNotFound$ = this.select(
     (state) => state.requestState === ErrorState.NOT_FOUND_ERROR
   );
   hasGeneralError$ = this.select(
@@ -56,7 +56,7 @@ export class DhMeteringPointDataAccessApiStore extends ComponentStore<MeteringPo
     super(initialState);
   }
 
-  readonly loadMeteringPointData = this.effect(
+  readonly loadProcessData = this.effect(
     (meteringPointId: Observable<string>) => {
       return meteringPointId.pipe(
         tap(() => {
@@ -65,12 +65,12 @@ export class DhMeteringPointDataAccessApiStore extends ComponentStore<MeteringPo
           this.setLoading(true);
         }),
         switchMap((id) =>
-          this.httpClient.v1MeteringPointGetByGsrnGet(id).pipe(
+          this.httpClient.v1MeteringPointGetProcessesByGsrnGet(id).pipe(
             tapResponse(
-              (meteringPointData) => {
+              (processesData) => {
                 this.setLoading(false);
 
-                this.updateMeteringPointData(meteringPointData);
+                this.updateProcessesData(processesData);
               },
               (error: HttpErrorResponse) => {
                 this.setLoading(false);
@@ -84,26 +84,23 @@ export class DhMeteringPointDataAccessApiStore extends ComponentStore<MeteringPo
     }
   );
 
-  private updateMeteringPointData = this.updater(
-    (
-      state: MeteringPointState,
-      meteringPointData: MeteringPointCimDto | undefined
-    ): MeteringPointState => ({
+  private updateProcessesData = this.updater(
+    (state: ProcessesState, processesData: Process[]): ProcessesState => ({
       ...state,
-      meteringPoint: meteringPointData,
+      processes: processesData,
     })
   );
 
   private setLoading = this.updater(
-    (state, isLoading: boolean): MeteringPointState => ({
+    (state, isLoading: boolean): ProcessesState => ({
       ...state,
       requestState: isLoading ? LoadingState.LOADING : LoadingState.LOADED,
     })
   );
 
   private handleError = (error: HttpErrorResponse) => {
-    const meteringPointData = undefined;
-    this.updateMeteringPointData(meteringPointData);
+    const processesData: Process[] = [];
+    this.updateProcessesData(processesData);
 
     const requestError =
       error.status === HttpStatusCode.NotFound
