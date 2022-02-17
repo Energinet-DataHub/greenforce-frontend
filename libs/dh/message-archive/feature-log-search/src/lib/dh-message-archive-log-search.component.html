@@ -22,7 +22,7 @@ limitations under the License.
     <watt-label class="watt-text-m">Message Id</watt-label>
     <watt-icon name="search" wattPrefix></watt-icon>
     <input
-      #searchInput
+      #searchInputMessageId
       wattInput
       type="text"
       inputmode="numeric"
@@ -43,9 +43,16 @@ limitations under the License.
 <div><hr /></div>
 
 
-<div>
-  <li *ngFor="let log of searchResult$">
-    <span>{{log}}</span>
-  </li>
-</div>
+<ng-container *rxLet="searchResult$ as searchResult">
+  <div *ngFor="let log of this.searchResultsDtos">
+    <div>messageId: {{log.messageId}}</div>
+    <div>traceId: {{log.traceId}}</div>
+    <div>senderGln: {{log.senderGln}}</div>
+    <div>blobContentUri: <a target="_blank" href="{{log.blobContentUri}}">BLOB link</a></div>
+    <hr />
+  </div>
+</ng-container>
+<ng-container *rxLet="searchResult$ as searchResult" >
+  <div *ngIf="this.searchResultsDtos.length === 0">No logs found</div>
+</ng-container>
 

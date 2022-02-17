@@ -17,28 +17,58 @@
 
  import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
  import { CommonModule } from '@angular/common';
- import { ChangeDetectionStrategy, Component, NgModule } from "@angular/core";
+ import { ChangeDetectionStrategy, Component, NgModule, ViewChild, ElementRef } from "@angular/core";
  import {
   WattButtonModule,
   WattFormFieldModule,
   WattIconModule,
   WattInputModule,
  } from '@energinet-datahub/watt';
+ import { DhMessageArchiveDataAccessApiModule } from '@energinet-datahub/dh/message-archive/data-access-api'
+ import { BaseParsedDto } from '@energinet-datahub/dh/shared/data-access-api';
+ import { LetModule } from '@rx-angular/template';
 
  @Component({
    changeDetection: ChangeDetectionStrategy.OnPush,
    selector: 'dh-message-archive-log-search',
    styleUrls: ['./dh-message-archive-log-search.component.scss'],
    templateUrl: './dh-message-archive-log-search.component.html',
+   providers: [DhMessageArchiveDataAccessApiModule],
+
  })
  export class DhMessageArchiveLogSearchComponent {
-   searchResult$: string[] = ["result1", "result2", "result3"];
-   searchControl = new FormControl();
+   searchResult$ = this.searchApi.searchResult$;
+   searchResultsDtos: Array<BaseParsedDto> = [];
 
-   onSubmit() {
-     console.log("Triggerd");
-   }
- }
+   searchControl = new FormControl();
+   @ViewChild('searchInputMessageId') searchInputMessageId?: ElementRef;
+
+   constructor(private searchApi: DhMessageArchiveDataAccessApiModule) {
+    this.searchApi.searchResult$.subscribe((searchResult) => {
+      this.searchResultsDtos = searchResult;
+    })
+  }
+
+  onSubmit() {
+    console.log("submit triggered");
+    if(this.validateSearchParams()) {
+      const id = this.searchInputMessageId?.nativeElement.value;
+      this.searchApi.searchLogs(id)
+    }
+  }
+
+  validateSearchParams(): boolean {
+    const id = this.searchInputMessageId?.nativeElement.value;
+    return id != "";
+  }
+
+  ngAfterViewInit() {
+    if(this.searchInputMessageId) {
+      this.searchInputMessageId.nativeElement.value = "253698245";
+      this.searchInputMessageId.nativeElement.focus();
+    }
+  }
+}
  @NgModule({
    imports: [
     WattFormFieldModule,
@@ -48,6 +78,7 @@
     FormsModule,
     ReactiveFormsModule,
     CommonModule,
+    LetModule
    ],
    declarations: [DhMessageArchiveLogSearchComponent],
  })
