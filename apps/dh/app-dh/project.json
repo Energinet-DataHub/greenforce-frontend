@@ -74,6 +74,10 @@
             {
               "replace": "libs/dh/shared/environments/src/lib/environment.ts",
               "with": "libs/dh/shared/environments/src/lib/environment.prod.ts"
+            },
+            {
+              "replace": "libs/dh/shared/data-access-msw/src/lib/msw.module.ts",
+              "with": "libs/dh/shared/data-access-msw/src/lib/msw.module.prod.ts"
             }
           ],
           "outputHashing": "all"
