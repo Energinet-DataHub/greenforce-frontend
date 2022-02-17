@@ -93,6 +93,19 @@ limitations under the License.
       </mat-cell>
     </ng-container>
 
+    <!-- Status Definition -->
+    <ng-container matColumnDef='status'>
+      <mat-header-cell
+        *matHeaderCellDef
+        class='header-cell watt-label'>
+      </mat-header-cell>
+      <mat-cell *matCellDef='let row'>
+        <div class='watt-text-s'>
+          {{ row.status }}
+        </div>
+      </mat-cell>
+    </ng-container>
+
     <!-- Header and Row Declarations -->
     <mat-header-row *matHeaderRowDef='displayedColumns'></mat-header-row>
     <mat-row
