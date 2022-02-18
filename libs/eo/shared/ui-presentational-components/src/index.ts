@@ -1,1 +1,1 @@
-export * from './lib/eo-shared-ui-presentational-components.module';
+export * from './lib/scroll-view/scroll-view.component';

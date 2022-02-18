@@ -22,8 +22,6 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 
-import { RouterModule } from '@angular/router';
-
 const selector = 'eo-footer';
 
 @Component({
@@ -110,7 +108,6 @@ export class EoFooterComponent {}
 
 @NgModule({
   declarations: [EoFooterComponent],
-  exports: [EoFooterComponent],
-  imports: [RouterModule]
+  exports: [EoFooterComponent]
 })
 export class EoFooterScam {}
