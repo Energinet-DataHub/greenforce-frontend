@@ -32,13 +32,12 @@ const selector = 'eo-privacy-policy-shell';
         > div:nth-of-type(1) {
           display: block;
           width: calc(200 * var(--watt-space-xs));
-          margin: 0 auto;
+          // margin: 0 auto;
           margin-bottom: var(--watt-space-l);
 
           > h1 {
             @include watt.typography-watt-headline-1; // Mis-match with styles in Figma(?)
             text-transform: none; // Override .watt-headline-1
-            margin-top: var(--watt-space-l);
             margin-bottom: var(--watt-space-l);
           }
         }
@@ -47,9 +46,6 @@ const selector = 'eo-privacy-policy-shell';
   ]
 })
 export class EoPrivacyPolicyShellComponent {
-  headline$: Observable<string> = this.store.headline$;
-  terms$: Observable<string> = this.store.terms$;
-
   constructor(private store: EoPrivacyPolicyStore) {}
 }
 
