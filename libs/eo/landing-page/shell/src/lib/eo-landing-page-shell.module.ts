@@ -1,3 +1,9 @@
+import {
+  EoLandingPageShellComponent,
+  EoLandingPageShellScam,
+} from './eo-landing-page-shell.component';
+import { RouterModule, Routes } from '@angular/router';
+
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -15,11 +21,6 @@
  * limitations under the License.
  */
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import {
-  EoLandingPageShellComponent,
-  EoLandingPageShellScam,
-} from './eo-landing-page-shell.component';
 
 const routes: Routes = [
   {
