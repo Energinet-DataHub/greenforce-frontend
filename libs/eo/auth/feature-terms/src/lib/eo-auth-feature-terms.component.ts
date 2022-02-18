@@ -64,7 +64,6 @@ const selector = 'eo-auth-terms';
         watt-button[variant='secondary'] {
           margin-right: calc(2 * var(--watt-space-xs));
         }
-
       }
     `,
   ],

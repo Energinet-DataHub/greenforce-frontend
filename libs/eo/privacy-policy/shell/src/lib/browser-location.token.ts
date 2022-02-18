@@ -14,22 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  EoAuthFeatureTermsComponent,
-  EoAuthFeatureTermsScam,
-} from './eo-auth-feature-terms.component';
-import { RouterModule, Routes } from '@angular/router';
+import { InjectionToken } from '@angular/core';
 
-import { NgModule } from '@angular/core';
-
-const routes: Routes = [
+export const browserLocationToken = new InjectionToken<Location>(
+  'browserLocationToken',
   {
-    path: '',
-    component: EoAuthFeatureTermsComponent,
-  },
-];
-
-@NgModule({
-  imports: [RouterModule.forChild(routes), EoAuthFeatureTermsScam],
-})
-export class EoAuthFeatureTermsModule {}
+    factory: () => location,
+    providedIn: 'platform',
+  }
+);

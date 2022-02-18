@@ -12,7 +12,7 @@ const selector = 'eo-scroll-view';
   encapsulation: ViewEncapsulation.None,
   selector,
   template: `
-    <article>
+    <article class="${selector}__content">
       <ng-content></ng-content>
     </article>
   `,
@@ -28,7 +28,7 @@ const selector = 'eo-scroll-view';
       word-break: break-word;
 
       // This is the contents of the privacy policy with the custom scrollbar
-      article {
+      .${selector}__content {
         max-height: calc(100 * var(--watt-space-xs));
         word-break: break-word;
         overflow-y: scroll;

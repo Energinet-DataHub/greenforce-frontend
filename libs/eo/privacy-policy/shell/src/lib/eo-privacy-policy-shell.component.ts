@@ -5,20 +5,40 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 
+import { EoScrollViewScam } from '@energinet-datahub/eo/shared/ui-presentational-components';
+
 const selector = 'eo-privacy-policy-shell';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   selector,
   template: `
-    <p>
-      eo-privacy-policy-shell works!
-    </p>
+    <div>
+      <h1>Read our privacy policy</h1>
+      <eo-scroll-view>
+        <div [innerHTML]="'<h3>Privacy policy section header</h3><p>Content of section one goes here..</p>'"></div>
+      </eo-scroll-view>
+    </div>
   `,
   styles: [
     `
+      @use '@energinet-datahub/watt/utils' as watt;
+
       ${selector} {
         display: block;
+        > div:nth-of-type(1) {
+          display: block;
+          width: calc(200 * var(--watt-space-xs));
+          margin: 0 auto;
+          margin-bottom: var(--watt-space-l);
+
+          > h1 {
+            @include watt.typography-watt-headline-1; // Mis-match with styles in Figma(?)
+            text-transform: none; // Override .watt-headline-1
+            margin-top: var(--watt-space-l);
+            margin-bottom: var(--watt-space-l);
+          }
+        }
       }
     `
   ]
@@ -26,6 +46,7 @@ const selector = 'eo-privacy-policy-shell';
 export class EoPrivacyPolicyShellComponent { }
 
 @NgModule({
-  declarations: [EoPrivacyPolicyShellComponent]
+  declarations: [EoPrivacyPolicyShellComponent],
+  imports: [EoScrollViewScam]
 })
 export class EoPrivacyPolicyShellScam {}
