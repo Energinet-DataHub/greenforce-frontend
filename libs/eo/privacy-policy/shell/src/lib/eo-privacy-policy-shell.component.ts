@@ -5,7 +5,10 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 
+import { EoPrivacyPolicyStore } from './eo-privacy-policy.store';
 import { EoScrollViewScam } from '@energinet-datahub/eo/shared/ui-presentational-components';
+import { Observable } from 'rxjs';
+import { PushModule } from '@rx-angular/template';
 
 const selector = 'eo-privacy-policy-shell';
 @Component({
@@ -43,9 +46,15 @@ const selector = 'eo-privacy-policy-shell';
     `
   ]
 })
-export class EoPrivacyPolicyShellComponent { }
+export class EoPrivacyPolicyShellComponent {
+  headline$: Observable<string> = this.store.headline$;
+  terms$: Observable<string> = this.store.terms$;
+
+  constructor(private store: EoPrivacyPolicyStore) {}
+}
 
 @NgModule({
+  providers: [EoPrivacyPolicyStore],
   declarations: [EoPrivacyPolicyShellComponent],
   imports: [EoScrollViewScam]
 })
