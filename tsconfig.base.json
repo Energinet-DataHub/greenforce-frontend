@@ -111,6 +111,9 @@
       "@energinet-datahub/eo/shared/ui-page-templates": [
         "libs/eo/shared/ui-page-templates/src/index.ts"
       ],
+      "@energinet-datahub/eo/shared/ui-presentational-components": [
+        "libs/eo/shared/ui-presentational-components/src/index.ts"
+      ],
       "@energinet-datahub/eo/shared/ui-shell": [
         "libs/eo/shared/ui-shell/src/index.ts"
       ],
