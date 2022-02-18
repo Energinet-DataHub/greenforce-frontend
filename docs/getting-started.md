@@ -1,6 +1,6 @@
 # Prerequisites
 
-- [We highly recommend using VOLTA to manage your JavaScript command-line tools like Node.js® and Yarn](volta.sh)
+- [We highly recommend using VOLTA to manage your JavaScript command-line tools like Node.js® and Yarn](https://volta.sh)
 
 ## Visual Studio Code - recommended extensions
 
