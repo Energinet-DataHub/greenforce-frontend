@@ -1,17 +1,14 @@
-import { CommonModule } from '@angular/common';
+import { EoPrivacyPolicyShellComponent, EoPrivacyPolicyShellScam } from './eo-privacy-policy-shell.component';
+import { RouterModule, Routes } from '@angular/router';
+
 import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
-import { EoPrivacyPageShellComponent } from './eo-privacy-page-shell.component';
+
+const routes: Routes = [{
+  path: '',
+  component: EoPrivacyPolicyShellComponent
+}];
 
 @NgModule({
-  imports: [
-    CommonModule,
-    RouterModule.forChild([
-      /* {path: '', pathMatch: 'full', component: InsertYourComponentHere} */
-    ]),
-  ],
-  declarations: [
-    EoPrivacyPageShellComponent
-  ],
+  imports: [RouterModule.forChild(routes), EoPrivacyPolicyShellScam]
 })
 export class EoPrivacyPolicyShellModule {}

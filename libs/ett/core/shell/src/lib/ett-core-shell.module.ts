@@ -1,3 +1,10 @@
+import { EttShellComponent, EttShellScam } from './ett-shell.component';
+import { RouterModule, Routes } from '@angular/router';
+
+import { EttAuthenticationGuard } from '@energinet-datahub/ett/auth/routing-security';
+import { EttHttpModule } from './ett-http.module';
+import { EttMaterialModule } from './ett-material.module';
+import { GfBrowserConfigurationModule } from '@energinet-datahub/gf/util-browser';
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -15,14 +22,7 @@
  * limitations under the License.
  */
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { EttAuthenticationGuard } from '@energinet-datahub/ett/auth/routing-security';
 import { ettDashboardRoutePath } from '@energinet-datahub/ett/dashboard/routing';
-import { GfBrowserConfigurationModule } from '@energinet-datahub/gf/util-browser';
-
-import { EttHttpModule } from './ett-http.module';
-import { EttMaterialModule } from './ett-material.module';
-import { EttShellComponent, EttShellScam } from './ett-shell.component';
 
 const routes: Routes = [
   {
@@ -52,6 +52,10 @@ const routes: Routes = [
             (esModule) => esModule.EttDashboardShellModule
           ),
       },
+      {
+        path: 'privacy-policy',
+        loadChildren: () => import('@energinet-datahub/eo/privacy-policy/shell').then(esModule => esModule.EoPrivacyPolicyShellModule)
+      }
     ],
   },
 ];
