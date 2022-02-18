@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ScrollViewComponent } from './scroll-view.component';
+import { EoScrollViewComponent } from './scroll-view.component';
 
 describe('ScrollViewComponent', () => {
-  let component: ScrollViewComponent;
-  let fixture: ComponentFixture<ScrollViewComponent>;
+  let component: EoScrollViewComponent;
+  let fixture: ComponentFixture<EoScrollViewComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ScrollViewComponent ]
+      declarations: [EoScrollViewComponent]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ScrollViewComponent);
+    fixture = TestBed.createComponent(EoScrollViewComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

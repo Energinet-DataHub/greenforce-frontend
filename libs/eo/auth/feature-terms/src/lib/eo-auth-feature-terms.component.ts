@@ -28,6 +28,7 @@ import { WattButtonModule, WattCheckboxModule } from '@energinet-datahub/watt';
 
 import { EoAuthTermsStore } from './eo-auth-terms.store';
 import { EoLogOutStore } from '@energinet-datahub/ett/auth/data-access-security';
+import { EoScrollViewScam } from '@energinet-datahub/eo/shared/ui-presentational-components';
 import { FormsModule } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { PushModule } from '@rx-angular/template';
@@ -55,32 +56,6 @@ const selector = 'eo-auth-terms';
           margin-bottom: var(--watt-space-l);
         }
 
-        // This is the wrapper for the privacy policy
-        .${selector}__content {
-          border-radius: var(--watt-space-xs);
-          word-break: break-word;
-          background: var(--watt-color-neutral-white);
-        }
-
-        // This is the contents of the privacy policy with the custom scrollbar
-        article {
-          max-height: calc(100 * var(--watt-space-xs));
-          word-break: break-word;
-          overflow-y: scroll;
-          padding-right: calc(4 * var(--watt-space-xs));
-          &::-webkit-scrollbar {
-            width: 6px;
-          }
-          &::-webkit-scrollbar-track {
-            background: var(--watt-color-neutral-white);
-            border-radius: 50px;
-          }
-          &::-webkit-scrollbar-thumb {
-            background-color: var(--watt-color-primary);
-            border-radius: 50px;
-          }
-        }
-
         label {
           cursor: pointer;
           text-transform: none; // Override .watt-label, which uppercases labels
@@ -89,6 +64,7 @@ const selector = 'eo-auth-terms';
         watt-button[variant='secondary'] {
           margin-right: calc(2 * var(--watt-space-xs));
         }
+
       }
     `,
   ],
@@ -97,9 +73,10 @@ const selector = 'eo-auth-terms';
 
     <div class="${selector}__page">
       <h1>{{ headline$ | push }}</h1>
-      <div class="watt-space-inset-m watt-space-stack-l ${selector}__content">
-        <article [innerHTML]="terms$ | push"></article>
-      </div>
+
+      <eo-scroll-view>
+        <div [innerHTML]="terms$ | push"></div>
+      </eo-scroll-view>
 
       <div class="watt-space-stack-l">
         <watt-checkbox [(ngModel)]="hasAcceptedTerms"
@@ -155,6 +132,7 @@ export class EoAuthFeatureTermsComponent {
     WattCheckboxModule,
     EoFooterScam,
     EoHeaderScam,
+    EoScrollViewScam,
     PushModule,
   ],
 })
