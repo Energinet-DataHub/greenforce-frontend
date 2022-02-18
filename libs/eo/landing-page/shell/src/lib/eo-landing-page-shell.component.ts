@@ -20,13 +20,16 @@ import {
   NgModule,
   ViewEncapsulation,
 } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { LetModule } from '@rx-angular/template';
 import { EoLandingPageHeaderScam } from './eo-landing-page-header.component';
-import { EoLandingPageFooterScam } from './eo-landing-page-footer.component';
+import { EoFooterScam } from '@energinet-datahub/eo/shared/ui-page-templates';
 import { EoLandingPageStore } from './eo-landing-page.store';
 
 const selector = 'eo-landing-page-shell';
 
 @Component({
+  providers: [EoLandingPageStore],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   selector,
@@ -39,14 +42,13 @@ const selector = 'eo-landing-page-shell';
   ],
   template: `
     <eo-landing-page-header></eo-landing-page-header>
-    <eo-landing-page-footer></eo-landing-page-footer>
+    <eo-footer></eo-footer>
   `,
 })
 export class EoLandingPageShellComponent {}
 
 @NgModule({
   declarations: [EoLandingPageShellComponent],
-  imports: [EoLandingPageHeaderScam, EoLandingPageFooterScam],
-  providers: [EoLandingPageStore],
+  imports: [MatButtonModule, LetModule, EoLandingPageHeaderScam, EoFooterScam],
 })
 export class EoLandingPageShellScam {}

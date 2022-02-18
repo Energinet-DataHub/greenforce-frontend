@@ -23,6 +23,42 @@ import {
 import { Observable } from 'rxjs';
 import { AuthOidcQueryParameterName } from './auth-oidc-query-parameter-name';
 
+export interface AuthTermsResponse {
+  /**
+   * A single line of raw text
+   */
+  readonly headline: string;
+  /**
+   * A string containing safe HTML
+   */
+  readonly terms: string;
+  /**
+   * A string: I.eg: "0.1"
+   */
+  readonly version: string;
+}
+
+export interface AuthTermsAcceptResponse {
+  /**
+   * A string
+   */
+  readonly next_url: string;
+}
+
+export interface AuthTermsAcceptRequest {
+  /**
+   * A boolean
+   */
+  accepted: boolean;
+  /**
+   * A string: I.eg: "0.1"
+   */
+  version: string;
+  /**
+   * ?
+   */
+  state: string;
+}
 export interface AuthLogoutResponse {
   readonly success: boolean;
 }
@@ -68,5 +104,16 @@ export class AuthHttp {
     return this.http.post<AuthLogoutResponse>(`${this.#apiBase}/logout`, {
       withCredentials: true,
     });
+  }
+
+  getTerms(endpointUrl: string): Observable<AuthTermsResponse> {
+    return this.http.get<AuthTermsResponse>(endpointUrl);
+  }
+
+  postAcceptTerms(
+    endpointUrl: string,
+    payload: AuthTermsAcceptRequest
+  ): Observable<AuthTermsAcceptResponse> {
+    return this.http.post<AuthTermsAcceptResponse>(endpointUrl, payload);
   }
 }

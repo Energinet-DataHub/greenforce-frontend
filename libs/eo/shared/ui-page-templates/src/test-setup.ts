@@ -14,9 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-// Authentication
-export * from './lib/authentication/ett-authentication.interceptor';
-export * from './lib/authentication/eo-log-out.store';
+import 'jest-preset-angular/setup-jest';
+import { addDomMatchers } from '@energinet-datahub/gf/test-util-matchers';
+import {
+  setUpTestbed,
+  setUpAngularTestingLibrary,
+} from '@energinet-datahub/gf/test-util-staging';
 
-// Authorization
-export * from './lib/authorization/ett-authorization.interceptor';
+addDomMatchers();
+setUpTestbed();
+setUpAngularTestingLibrary();
