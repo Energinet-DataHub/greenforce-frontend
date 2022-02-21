@@ -28,6 +28,21 @@ import { DhEnvironment } from './dh-environment';
  */
 import 'zone.js/plugins/zone-error';
 
+/**
+ * Mock Service Worker
+ */
+const isNode = typeof process !== 'undefined' && process.versions != null && process.versions.node != null;
+if (!isNode) {
+  import('@energinet-datahub/dh/shared/util-msw').then(({ worker, onUnhandledRequest }) => {
+    worker.start({
+      onUnhandledRequest
+    });
+  });
+}
+
+/**
+ * Environment
+ */
 export const environment: DhEnvironment = {
   production: false,
 };

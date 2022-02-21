@@ -43,7 +43,6 @@ import {
   DhCoreShellComponent,
   DhCoreShellScam,
 } from './dh-core-shell.component';
-import { MSWModule } from '@energinet-datahub/dh/shared/data-access-msw';
 
 const routes: Routes = [
   {
@@ -73,7 +72,6 @@ const routes: Routes = [
   exports: [RouterModule],
   imports: [
     DhApiModule.forRoot(),
-    MSWModule.forRoot(),
     DhCoreShellScam,
     DhTranslocoModule.forRoot(),
     HttpClientModule,

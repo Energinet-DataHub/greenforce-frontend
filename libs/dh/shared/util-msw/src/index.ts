@@ -1,9 +1,3 @@
-/* eslint-disable sonarjs/no-identical-functions */
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-unused-vars */
-
-import { ModuleWithProviders, NgModule } from "@angular/core";
-
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -20,16 +14,5 @@ import { ModuleWithProviders, NgModule } from "@angular/core";
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@NgModule({})
-export class MSWModule {
-  static forRoot(_?: any): ModuleWithProviders<MSWModule> {
-    return {
-      ngModule: MSWModule
-    }
-  }
-  static forFeature(_: any): ModuleWithProviders<MSWModule> {
-    return {
-      ngModule: MSWModule
-    }
-  }
-}
+export * from './lib/browser';
+export * from './lib/handlers';

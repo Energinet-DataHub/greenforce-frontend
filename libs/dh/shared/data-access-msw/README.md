@@ -1,1 +1,0 @@
-# DataHub Mock Service Worker

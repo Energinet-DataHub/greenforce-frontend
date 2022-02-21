@@ -17,6 +17,7 @@
 import { render } from '@testing-library/angular';
 
 import { MsalServiceFake } from '@energinet-datahub/dh/shared/test-util-auth';
+import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
 
 import { DataHubAppComponent } from './datahub-app.component';
 import { DataHubAppModule } from './datahub-app.module';
@@ -24,7 +25,7 @@ import { DataHubAppModule } from './datahub-app.module';
 describe('Application smoke test', () => {
   it('navigation works', async () => {
     const { navigate } = await render(DataHubAppComponent, {
-      imports: [DataHubAppModule],
+      imports: [getTranslocoTestingModule(), DataHubAppModule],
       providers: [MsalServiceFake],
     });
 

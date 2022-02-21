@@ -1,0 +1,26 @@
+{
+  "projectType": "library",
+  "root": "libs/dh/shared/util-msw",
+  "sourceRoot": "libs/dh/shared/util-msw/src",
+  "prefix": "dh",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/dh/shared/util-msw"],
+      "options": {
+        "jestConfig": "libs/dh/shared/util-msw/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/dh/shared/util-msw/src/**/*.ts",
+          "libs/dh/shared/util-msw/src/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": ["product:dh", "scope:shared", "type:util"]
+}

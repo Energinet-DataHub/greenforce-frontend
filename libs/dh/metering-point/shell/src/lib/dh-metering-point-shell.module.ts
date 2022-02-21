@@ -23,7 +23,6 @@ import {
   DhMeteringPointSearchScam,
 } from '@energinet-datahub/dh/metering-point/feature-search';
 import { dhMeteringPointSearchPath } from '@energinet-datahub/dh/metering-point/routing';
-import { MSWModule } from '@energinet-datahub/dh/shared/data-access-msw';
 
 const routes: Routes = [
   { path: '', redirectTo: dhMeteringPointSearchPath, pathMatch: 'full' },
@@ -37,10 +36,7 @@ const routes: Routes = [
 @NgModule({
   imports: [
     DhMeteringPointSearchScam,
-    RouterModule.forChild(routes),
-    MSWModule.forFeature(() =>
-      import('./dh-metering-point-mocks').then((m) => m.mocks)
-    ),
+    RouterModule.forChild(routes)
   ],
 })
 export class DhMeteringPointShellModule {}
