@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { setupWorker } from "msw";
-import { handlers } from "./handlers";
+import { setupWorker } from 'msw';
+import { handlers } from './handlers';
 
 export const worker = setupWorker(...handlers);

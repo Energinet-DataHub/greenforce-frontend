@@ -78,12 +78,6 @@
       "@energinet-datahub/dh/shared/data-access-api": [
         "libs/dh/shared/data-access-api/src/index.ts"
       ],
-      "@energinet-datahub/dh/shared/util-msw": [
-        "libs/dh/shared/util-msw/src/index.ts"
-      ],
-      "@energinet-datahub/dh/shared/test-util-msw": [
-        "libs/dh/shared/test-util-msw/src/index.ts"
-      ],
       "@energinet-datahub/dh/shared/environments": [
         "libs/dh/shared/environments/src/index.ts"
       ],
@@ -96,8 +90,14 @@
       "@energinet-datahub/dh/shared/test-util-metering-point": [
         "libs/dh/shared/test-util-metering-point/src/index.ts"
       ],
+      "@energinet-datahub/dh/shared/test-util-msw": [
+        "libs/dh/shared/test-util-msw/src/index.ts"
+      ],
       "@energinet-datahub/dh/shared/ui-date-time": [
         "libs/dh/shared/ui-date-time/src/index.ts"
+      ],
+      "@energinet-datahub/dh/shared/util-msw": [
+        "libs/dh/shared/util-msw/src/index.ts"
       ],
       "@energinet-datahub/eo/landing-page/routing": [
         "libs/eo/landing-page/routing/src/index.ts"

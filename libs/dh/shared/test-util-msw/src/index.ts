@@ -20,7 +20,7 @@ import { server } from './lib/server';
 
 beforeAll(() => {
   // Enable the mocking in tests.
-  server.listen({onUnhandledRequest});
+  server.listen({ onUnhandledRequest });
 });
 
 afterEach(() => {

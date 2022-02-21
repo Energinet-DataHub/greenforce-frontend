@@ -31,13 +31,18 @@ import 'zone.js/plugins/zone-error';
 /**
  * Mock Service Worker
  */
-const isNode = typeof process !== 'undefined' && process.versions != null && process.versions.node != null;
+const isNode =
+  typeof process !== 'undefined' &&
+  process.versions != null &&
+  process.versions.node != null;
 if (!isNode) {
-  import('@energinet-datahub/dh/shared/util-msw').then(({ worker, onUnhandledRequest }) => {
-    worker.start({
-      onUnhandledRequest
-    });
-  });
+  import('@energinet-datahub/dh/shared/util-msw').then(
+    ({ worker, onUnhandledRequest }) => {
+      worker.start({
+        onUnhandledRequest,
+      });
+    }
+  );
 }
 
 /**
