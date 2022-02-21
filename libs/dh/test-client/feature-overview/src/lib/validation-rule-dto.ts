@@ -36,3 +36,7 @@ export interface ValidationRuleResultItemDto {
   ruleItem: ValidationRuleItemDto;
   ruleReplaced: string;
 }
+
+export interface DynamicValidationErrorDto {
+  dynamicrule: Array<string>;
+}

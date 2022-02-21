@@ -163,7 +163,7 @@ namespace Energinet.DataHub.WebApi.Controllers.TestClient
 
         public string DefaultValue { get; set; } = string.Empty;
 
-        public bool IsMandatory { get; set; } = false;
+        public bool? IsMandatory { get; set; } = false;
 
         /// <summary>
         /// Empty=normal. Hide=dont show. Disable=show but disable
@@ -182,7 +182,7 @@ namespace Energinet.DataHub.WebApi.Controllers.TestClient
 
         public string FieldTypeParam5 { get; set; } = string.Empty;
 
-        public int FieldOrder { get; set; } = 0;
+        public int? FieldOrder { get; set; } = 0;
 
         public List<ListItemDTO> ItemList { get; set; } = new List<ListItemDTO>();
     }

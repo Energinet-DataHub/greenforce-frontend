@@ -21,7 +21,7 @@ export interface SendMessageTemplateFieldDTO {
     valueOriginal: string;
     comment: string;
     defaultValue: string;
-    isMandatory: boolean;
+    isMandatory?: boolean | null;
     /**
      * Empty=normal. Hide=dont show. Disable=show but disable
      */
@@ -32,7 +32,7 @@ export interface SendMessageTemplateFieldDTO {
     fieldTypeParam3: string;
     fieldTypeParam4: string;
     fieldTypeParam5: string;
-    fieldOrder: number;
+    fieldOrder?: number | null;
     itemList: Array<ListItemDTO>;
 }
 

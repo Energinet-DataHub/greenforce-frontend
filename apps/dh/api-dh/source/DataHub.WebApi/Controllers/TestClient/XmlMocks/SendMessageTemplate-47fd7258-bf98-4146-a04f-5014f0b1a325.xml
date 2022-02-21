@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<SendMessageTemplateDTO xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Id>47fd7258-bf98-4146-a04f-5014f0b1a324</Id>
+  <Code>CreateMpGenerated</Code>
+  <Name>Create mp generated</Name>
+  <Description>Message for creating a meteringpoint</Description>
+  <Standard>CIM</Standard>
+  <Format>XML</Format>
+  <Domain>MeteringPoint</Domain>
+  <EndpointPostfix>/MeteringPoint</EndpointPostfix>
+  <RsmName>RSM-021</RsmName>
+  <MarketDocumentType></MarketDocumentType>
+  <MarketProcessType></MarketProcessType>
+  <MarketBusinessSectorType></MarketBusinessSectorType>
+  <BrsNameList>
+    <string>BRS-001</string>
+	<string>BRS-002</string>
+  </BrsNameList>    
+  <XmlTemplate></XmlTemplate>
+  <FieldList>
+    <SendMessageTemplateFieldDTO>     
+      <Code>*Code_MpType_MeteringPointType</Code>
+      <Comment>Only when inserting new mp - not updating</Comment>
+      <DefaultValue />
+      <IsMandatory>true</IsMandatory>      
+      <FieldTypeParam2 />
+      <FieldTypeParam3 />
+      <FieldOrder>120</FieldOrder>
+    </SendMessageTemplateFieldDTO>
+  </FieldList>
+  <ValidationRuleList>
+    <SendMessageTemplateValidationRuleDTO>
+      <Rule>{{MpType}} != 'E17' AND {{MpType}} != 'E18' AND {{NetSettlementMethod}} != ''</Rule>
+      <Action>ignore</Action>
+      <Text>Net sett. Group skal kun udfyldes for E17 og E18</Text>
+    </SendMessageTemplateValidationRuleDTO>
+  </ValidationRuleList>
+  <Status>New</Status>
+  <StatusComment>status comment</StatusComment>
+  <Created>2022-01-18T00:00:00</Created>
+  <CreatedBy>XIGA</CreatedBy>
+  <Modified>2022-01-18T00:00:00</Modified>
+  <ModifiedBy>XIGA</ModifiedBy>
+</SendMessageTemplateDTO>

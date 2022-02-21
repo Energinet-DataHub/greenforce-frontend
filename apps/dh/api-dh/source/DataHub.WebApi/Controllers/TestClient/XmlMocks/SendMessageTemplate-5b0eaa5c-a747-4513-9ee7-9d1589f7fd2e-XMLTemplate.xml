@@ -31,7 +31,7 @@
       <!-- Kun udvekslingsmålepunkt -->
       <cim:outMeteringGridArea_Domain.mRID codingScheme="NDK">{{Number_OutMeteringGridArea_L3}}</cim:outMeteringGridArea_Domain.mRID>
       <!-- Kun udvekslingsmålepunkt -->
-      <cim:linked_MarketEvaluationPoint.mRID codingScheme="A10">{{Number_MarketEvalMpId_L18}}</cim:linked_MarketEvaluationPoint.mRID>
+      <cim:linked_MarketEvaluationPoint.mRID codingScheme="A10">{{Number_PowerplantGsrn_L18}}</cim:linked_MarketEvaluationPoint.mRID>
       <!-- Værks-GSRN -->
       <cim:physicalConnectionCapacity unit="KWT">{{Number_PhysicalConnectionCapacity_0_999999}}</cim:physicalConnectionCapacity>
       <!-- Anlægskapacitet -->
@@ -52,7 +52,7 @@
       <cim:Series>
         <cim:product>{{Code_EnergyProductCode_EnergyProductType_8716867000030}}</cim:product>
         <!-- Produkt kode -->
-        <cim:quantity_Measure_Unit.name>{{MeasureUnitType_3_KWH}}</cim:quantity_Measure_Unit.name>
+        <cim:quantity_Measure_Unit.name>{{UnitType_3_KWH}}</cim:quantity_Measure_Unit.name>
         <!-- Enhed -->
       </cim:Series>
       <cim:description>{{LocationDescription_60}}</cim:description>

@@ -50,26 +50,19 @@ namespace ENDK.DataHub.Common.Extensions
         #endregion
 
 
-        private static readonly Dictionary<RuntimeTypeHandle, XmlSerializer> ms_serializers = new Dictionary<RuntimeTypeHandle, XmlSerializer>();
+        private static readonly Dictionary<RuntimeTypeHandle, XmlSerializer> ms_serializers = new Dictionary<RuntimeTypeHandle, XmlSerializer>();              
 
-        /// <summary>
-        ///   Serialize object to xml string by <see cref = "XmlSerializer" />
-        /// </summary>
-        /// <typeparam name = "T"></typeparam>
-        /// <param name = "value"></param>
-        /// <returns></returns>
-        public static string ToXml<T>(this T value, XmlAttributeOverrides overrides = null)
-            where T : new()
+        public static string ToXml<T>(this T obj)
+             where T : new()
         {
-            var _serializer = GetXmlSerializer(typeof(T), overrides);
-            using (var _stream = new MemoryStream())
+            using (StringWriter stringWriter = new StringWriter(new StringBuilder()))
             {
-                using (var _writer = new XmlTextWriter(_stream, new UTF8Encoding()))
-                {
-                    return Encoding.UTF8.GetString(_stream.ToArray());
-                }
+                XmlSerializer xmlSerializer = new XmlSerializer(typeof(T));
+                xmlSerializer.Serialize(stringWriter, obj);
+                return stringWriter.ToString();
             }
         }
+
 
         /// <summary>
         ///   Serialize object to stream by <see cref = "XmlSerializer" />
@@ -115,6 +108,29 @@ namespace ENDK.DataHub.Common.Extensions
             return _serializer;
         }
 
+        public static string SplitCamelCase(this string input)
+        {
+            return System.Text.RegularExpressions.Regex.Replace(input, "([A-Z])", " $1", System.Text.RegularExpressions.RegexOptions.Compiled).Trim();
+        }
+
+        public static string ReplaceFirst(this string text, string search, string replace)
+        {
+            int pos = text.IndexOf(search);
+            if (pos < 0)
+            {
+                return text;
+            }
+            return text.Substring(0, pos) + replace + text.Substring(pos + search.Length);
+        }
+
+        public static string SplitAndGetSafe(this string src, char separator, int index)
+        {
+            string[] values = src.Split(new char[] { separator });
+            if (index + 1 > values.Length)
+                return "";
+
+            return values[index];
+        }
 
         /// <summary>
         /// Formats supported "yyyy-MM-dd" - "dd-MM-yyyy"

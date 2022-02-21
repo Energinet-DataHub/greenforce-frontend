@@ -63,8 +63,7 @@
       <Name>Mp Type</Name>
       <Code>*Code_MpType_MeteringPointType</Code>
       <CodeShort>MpType</CodeShort>
-      <Comment>
-      </Comment>
+      <Comment>Only when inserting new mp - not updating</Comment>
       <DefaultValue />
       <IsMandatory>true</IsMandatory>
       <FieldType>CodeList</FieldType>
@@ -86,7 +85,7 @@
       <FieldTypeParam1>0</FieldTypeParam1>
       <FieldTypeParam2>99</FieldTypeParam2>
       <FieldTypeParam3 />
-      <FieldOrder>121</FieldOrder>
+      <FieldOrder>122</FieldOrder>
     </SendMessageTemplateFieldDTO>
     <SendMessageTemplateFieldDTO>
       <Id>ee37fd83-bb8c-485f-98af-c604a513aae7</Id>
@@ -101,22 +100,22 @@
       <FieldTypeParam1 />
       <FieldTypeParam2 />
       <FieldTypeParam3 />
-      <FieldOrder>122</FieldOrder>
+      <FieldOrder>124</FieldOrder>
     </SendMessageTemplateFieldDTO>
     <SendMessageTemplateFieldDTO>
       <Id>aea6cb53-113e-43b9-bb86-8e60662d614e</Id>
       <Name>Supply Start</Name>
-      <Code>Date_SupplyStart</Code>
+      <Code>Date_SupplyStart_TODAY</Code>
       <CodeShort>SupplyStart</CodeShort>
       <Comment>
       </Comment>
-      <DefaultValue>NOW</DefaultValue>
+      <DefaultValue>TODAY</DefaultValue>
       <IsMandatory>false</IsMandatory>
       <FieldType>DateTime</FieldType>
       <FieldTypeParam1 />
       <FieldTypeParam2 />
       <FieldTypeParam3 />
-      <FieldOrder>124</FieldOrder>
+      <FieldOrder>126</FieldOrder>
     </SendMessageTemplateFieldDTO>
     <SendMessageTemplateFieldDTO>
       <Id>bc6f9710-9587-4067-bcab-b3c3ec256aeb</Id>
@@ -131,7 +130,7 @@
       <FieldTypeParam1>40</FieldTypeParam1>
       <FieldTypeParam2 />
       <FieldTypeParam3 />
-      <FieldOrder>126</FieldOrder>
+      <FieldOrder>128</FieldOrder>
     </SendMessageTemplateFieldDTO>
     <SendMessageTemplateFieldDTO>
       <Id>28bb5315-5ffc-474e-9c02-6a1cd9aff789</Id>
@@ -146,7 +145,7 @@
       <FieldTypeParam1>1000</FieldTypeParam1>
       <FieldTypeParam2>9999</FieldTypeParam2>
       <FieldTypeParam3 />
-      <FieldOrder>128</FieldOrder>
+      <FieldOrder>130</FieldOrder>
     </SendMessageTemplateFieldDTO>
     <SendMessageTemplateFieldDTO>
       <Id>d6c8e560-4369-4487-9375-ad998d56b252</Id>
@@ -161,14 +160,14 @@
       <FieldTypeParam1>1</FieldTypeParam1>
       <FieldTypeParam2>9999</FieldTypeParam2>
       <FieldTypeParam3 />
-      <FieldOrder>130</FieldOrder>
+      <FieldOrder>132</FieldOrder>
     </SendMessageTemplateFieldDTO>
   </FieldList>
   <ValidationRuleList>
     <SendMessageTemplateValidationRuleDTO>
-      <Rule>{{MpType}} != 'E17' AND {{MpType}} != 'E18' AND {{NetSettlementMethod}} != ''</Rule>
-      <Action>ignore</Action>
-      <Text>Net sett. Group skal kun udfyldes for E17 og E18</Text>
+      <Rule>{{MpType}} != 'E20' AND ( {{InMeteringGridArea}} != '' OR {{OutMeteringGridArea}} != '' )</Rule>
+      <Action>error</Action>
+      <Text>Reading date skal kun udfyldes for E17</Text>
     </SendMessageTemplateValidationRuleDTO>
   </ValidationRuleList>
   <Status>New</Status>

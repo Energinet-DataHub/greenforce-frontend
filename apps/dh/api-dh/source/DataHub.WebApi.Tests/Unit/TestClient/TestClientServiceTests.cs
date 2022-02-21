@@ -19,6 +19,7 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoFixture;
+using ENDK.DataHub.Common.Extensions;
 using Energinet.DataHub.MeteringPoints.Client.Abstractions;
 using Energinet.DataHub.MeteringPoints.Client.Abstractions.Models;
 using Energinet.DataHub.WebApi.Controllers.TestClient;
@@ -65,7 +66,7 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
             Assert.Single(templ.FieldList.Where(x => x.FieldType == "Boolean"));
             var listItem = templ.FieldList.Where(x => x.FieldType == "List");
             Assert.Single(listItem);
-            Assert.Equal("E02 - E02|E32 - E32", string.Join('|', listItem.Select(x => string.Join('|', x.ItemList.Select(y => y.CodeAndTitle)))));
+            Assert.Equal("None|E02 - E02|E32 - E32", string.Join('|', listItem.Select(x => string.Join('|', x.ItemList.Select(y => y.CodeAndTitle)))));
             Assert.Equal("true", templ.FieldList.First(x => x.Code == "Bool_ProductObligation_True").Value);
             Assert.Equal("1000", templ.FieldList.First(x => x.Code == "Number_StreetCode_1000_9999").FieldTypeParam1);
             Assert.Equal("9999", templ.FieldList.First(x => x.Code == "Number_StreetCode_1000_9999").FieldTypeParam2);
@@ -80,16 +81,22 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
             Assert.Single(templ.FieldList.Where(x => x.CodeShort == "BusinessProcess"));
             Assert.Single(templ.FieldList.Where(x => x.CodeShort == "ProductObligation"));
             Assert.Single(templ.FieldList.Where(x => x.CodeShort == "SupplyStart"));
-            Assert.Equal("{{MpType}} == 'D04' && {{MeteringPointSubtype}} != 'D03'", templ.ValidationRuleList.First().Rule);
+            Assert.Equal("{{MpType}} != 'E20' && ( {{InMeteringGridArea}} != '' || {{OutMeteringGridArea}} != '' )", templ.ValidationRuleList.First().Rule);
         }
 
         [Fact]
-        public void GetSendMessageTemplateValidationRule()
+        public void GetSendMessageTemplateGenerated()
         {
             var service = new TestClientService();
-            var templ = service.GetMessageTemplate("47fd7258-bf98-4146-a04f-5014f0b1a324");
-            Assert.Single(templ.ValidationRuleList);
-            Assert.Equal("{{MpType}} = 'D04' AND {{MeteringPointSubtype}} != 'D03'", templ.ValidationRuleList.First().Rule);
+            var templDefined = service.GetMessageTemplate("47fd7258-bf98-4146-a04f-5014f0b1a324");
+            var templGenerated = service.GetMessageTemplate("47fd7258-bf98-4146-a04f-5014f0b1a325");
+            // templGenerated.Code = templDefined.Code;
+            // templGenerated.Name = templDefined.Name;
+            templDefined.FieldList.ForEach(x => x.Id = Guid.Empty);
+            templGenerated.FieldList.ForEach(x => x.Id = Guid.Empty);
+            var definedXml = templDefined.FieldList.ToXml();
+            var generatedXml = templGenerated.FieldList.ToXml();
+            Assert.Equal(definedXml, generatedXml);
         }
 
         [Fact]

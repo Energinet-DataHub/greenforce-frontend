@@ -54,7 +54,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { MatTable, MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
-import { ValidationRuleDto, ValidationRuleItemDto, ValidationRuleResultDto, ValidationRuleResultItemDto } from './validation-rule-dto';
+import { DynamicValidationErrorDto, ValidationRuleDto, ValidationRuleItemDto, ValidationRuleResultDto, ValidationRuleResultItemDto } from './validation-rule-dto';
 import { JsonpClientBackend } from '@angular/common/http';
 
 // let LogItXIGATEST: any;
@@ -94,7 +94,7 @@ export class DhSendRawMessageOverviewComponent implements OnDestroy {
   hasError$ = this.store.hasError$;
   //childMeteringPointsCount = 0;
 
-  displayedColumns: string[] = ['name', 'isMandatory', 'value','validationIcon','valueHint', /*'comment',*/ 'validation'];
+  displayedColumns: string[] = ['name', 'isMandatory', 'value',/*'validationIcon',*/'valueHint', /*'comment', 'validation'*/];
   validationControlHints: Array<string> = [];
 
   constructor(
@@ -157,12 +157,22 @@ export class DhSendRawMessageOverviewComponent implements OnDestroy {
 
                   const ctrlIndex = formArray.controls.indexOf(control);
                   const codeShortCurrent = this.sendMessageTemplateDto.fieldList[ctrlIndex].codeShort;
-                console.log(codeShortCurrent); // logs index of changed item in form array
-                console.log(data);
+                //console.log(codeShortCurrent); // logs index of changed item in form array
+                //console.log(data);
                 const codeShortAndValueMap = this.getFormCodeShortAndValueMap();
                 const fieldValueformArray = (<FormArray>this.sendMessageTemplateForm.get('arrayList'));
 
-                  this.sendMessageTemplateDto.validationRuleList.forEach( (ruleItem) =>
+                fieldValueformArray.controls.forEach( (formControlResetValidation) =>
+                {
+                  console.log('test xiga');
+                  if(formControlResetValidation.errors != null)
+                  {
+                    console.log('before delete',formControlResetValidation.errors);
+                    delete formControlResetValidation.errors['dynamicrule'];
+                    console.log('after delete',formControlResetValidation.errors);
+                  }
+                });
+                  this.sendMessageTemplateDto.validationRuleList.forEach( (ruleItem,index) =>
                   {
                     const valRuleResultItem : ValidationRuleResultItemDto = {
                       ruleItem : ruleItem,
@@ -184,34 +194,87 @@ export class DhSendRawMessageOverviewComponent implements OnDestroy {
                       }
                     });
                     valRuleResultItem.ruleReplaced = ruleReplaced;
-                    if(eval(ruleReplaced))
+
+                    valRuleResultItem.fieldNameArray.forEach((codeShort) =>
                     {
-                      valRuleResultItem.fieldNameArray.forEach((codeShort) =>
+                      const fieldIndex = this.sendMessageTemplateDto.fieldList.findIndex((dto) => dto.codeShort === codeShort);
+                      const formControlFromCode = fieldValueformArray.controls[fieldIndex];
+                      //console.error('ruleReplaced test',ruleReplaced);
+                      let evalResult : unknown | undefined;
+                      let ruleObjArray = [valRuleResultItem.ruleItem.action + '|' + valRuleResultItem.ruleItem.text];
+                      try
                       {
+                        evalResult = eval(ruleReplaced);
+                      }
+                      catch(e){
+                        //result = e.message; // error under useUnknownInCatchVariables
+                        let errorDetails = "";
+                        if (typeof e === "string") {
+                          errorDetails = e.toUpperCase(); // works, `e` narrowed to string
+                        } else if (e instanceof Error) {
+                          errorDetails = e.message; // works, `e` narrowed to Error
+                        }
+                        console.error('errorDetails',errorDetails);
+                        evalResult = true;
+                        ruleObjArray = ['error|This rule is not formatted correct: "' + valRuleResultItem.ruleItem.rule + '" (' + valRuleResultItem.ruleItem.text + '). Details: ' + errorDetails];
+                      }
+                      if(evalResult)
+                      {
+
                         //const fieldDto = codeShortAndValueMap.get(codeShort);
-                        const fieldIndex = this.sendMessageTemplateDto.fieldList.findIndex((dto) => dto.codeShort === codeShort);
+
                         //if()
                         // console.error(codeShort);
                         // console.error(fieldDto);
                         // console.warn(fieldIndex);
-                        const formControlFromCode = fieldValueformArray.controls[fieldIndex];
+
                         // formControlFromCode?.setErrors(formControlFromCode.errors || { 'dynamicrule' : { 'text' : valRuleResultItem.ruleItem.text, 'action' : valRuleResultItem.ruleItem.action}});
-                        const ruleObj = { 'dynamicrule' : valRuleResultItem.ruleItem.action + '|' + valRuleResultItem.ruleItem.text};
+
+
+                          // if('dynamicrule' in formControlFromCode?.errors)
+                          // {
+
+                          // }
+
+                        //  formControlFromCode?.errors["dynamicrule"] = '';
+
+                        //const ruleObjsdfs = { 'dynamicrule' : ['one']};
+                        //const ruleObjsdfsddd = { 'dynamicrule' : ['two']};
+                        /*const ruleObjsdfs =  ['one'];
+                        const ruleObjsdfsddd =  ['two'];
+                        const tttt = [...ruleObjsdfs , ...ruleObjsdfsddd]
+                        */
+                        // console.error(ruleObjsdfs);
+                        // console.error(ruleObjsdfsddd);
+                        // console.error('tttt',tttt);
+
+
+
+                        if(formControlFromCode.errors != null)
+                        {
+                          //console.error('before test');
+                          const existingruleObj : Array<string> = formControlFromCode.errors['dynamicrule'];
+                          //console.error('after test');
+                          //console.error('existingruleObj',existingruleObj);
+                          if(existingruleObj != null)
+                          {
+                            ruleObjArray = [ ...existingruleObj, ...ruleObjArray];
+                            //console.error('ruleObjArray',ruleObjArray);
+                          }
+
+                        }
+                        const ruleObj = { dynamicrule : ruleObjArray };
                         formControlFromCode?.setErrors( { ...formControlFromCode.errors , ...ruleObj});
-                        formControlFromCode?.markAsTouched();
+
                         //formControlFromCode?.status = 'NOTVALID';
-                        // console.error(formControlFromCode);
+                        //console.error('formControlFromCode.errors',formControlFromCode.errors);
                         // console.error(formControlFromCode?.status);
                         // console.error(formControlFromCode?.valid);
                         // console.log(valRuleResultItem.ruleItem.text);
-                        //console.log(valRuleResultItem.ruleItem.action);
-                      });
+                      }
+                      formControlFromCode?.markAsTouched();
+                    });
 
-                    }
-                    else
-                    {
-
-                    }
                     valRuleResult.resultArray.push(valRuleResultItem);
                   });
                  }
@@ -443,7 +506,7 @@ public comparisonValidatorTwo() : ValidationErrors{
 
   getValidationMessages(i: number) : Array<string> {
     const validControl = (<FormArray>this.sendMessageTemplateForm.get('arrayList')).controls[i];
-    const errorMessageArray :  Array<string> = [];
+    let errorMessageArray :  Array<string> = [];
     if(validControl.invalid && (validControl.dirty || validControl.touched))
     {
       // console.warn('getval:');
@@ -476,8 +539,17 @@ public comparisonValidatorTwo() : ValidationErrors{
                     // });
                     break;
                 case 'dynamicrule':
+                  errorMessageArray = [...errorMessageArray,...<Array<string>> validControl.errors[keyError]];//.push.apply(errorMessageArray, <Array<string>> validControl.errors[keyError]); // (<Array<string>> formControlFromCode.errors['dynamicrule']);
                   //Object.keys(validControl.errors)
-                  errorMessageArray.push(this.prettyfyJsonErrorMessage(JSON.stringify( validControl.errors[keyError] ))); //.replace('dynamicrule','Required').replace('actualLength','Actual'));
+                  //const existingruleObj : Array<string> = formControlFromCode.errors['dynamicrule'];
+                  // console.error('after test');
+                  // console.error('yyyydd',existingruleObj);
+                  // if(existingruleObj != null)
+                  // {
+                  //   ruleObjArray = [ ...existingruleObj, ...ruleObjArray];
+                  //   console.error('yyyy',ruleObjArray);
+                  // }
+                  // errorMessageArray.push(this.prettyfyJsonErrorMessage(JSON.stringify( validControl.errors[keyError] ))); //.replace('dynamicrule','Required').replace('actualLength','Actual'));
                   break;
                 default:
                   errorMessageArray.push(this.prettyfyJsonErrorMessage(JSON.stringify( validControl.errors[keyError] )));

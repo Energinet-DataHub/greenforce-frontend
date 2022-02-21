@@ -17,9 +17,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using System.Xml.Serialization;
+using ENDK.DataHub.Common.Exceptions;
 using ENDK.DataHub.Common.Extensions;
 
 namespace Energinet.DataHub.WebApi.Controllers.TestClient
@@ -44,6 +46,100 @@ namespace Energinet.DataHub.WebApi.Controllers.TestClient
 
             mesTemplateDto.XmlTemplate = GetResourceTextFileTemp("SendMessageTemplate-" + templateId + "-XMLTemplate");
 
+            var fieldListGeneratedFromXml = GetFieldDtosFromXml(mesTemplateDto.XmlTemplate);
+            foreach (var genFieldItem in fieldListGeneratedFromXml)
+            {
+                var foundInFieldList = mesTemplateDto.FieldList.SingleOrDefault(x => x.Code == genFieldItem.Code);
+
+                if (foundInFieldList == null)
+                {
+                    mesTemplateDto.FieldList.Add(genFieldItem);
+                }
+                else
+                {
+                    // Found. Now use generated or overrides
+                    if (string.IsNullOrEmpty(foundInFieldList.CodeShort))
+                    {
+                        foundInFieldList.CodeShort = genFieldItem.CodeShort;
+                    }
+
+                    if (string.IsNullOrEmpty(foundInFieldList.Comment))
+                    {
+                        foundInFieldList.Comment = genFieldItem.Comment;
+                    }
+
+                    if (string.IsNullOrEmpty(foundInFieldList.DefaultValue))
+                    {
+                        foundInFieldList.DefaultValue = genFieldItem.DefaultValue;
+                    }
+
+                    if (foundInFieldList.FieldOrder == 0)
+                    {
+                        foundInFieldList.FieldOrder = genFieldItem.FieldOrder;
+                    }
+
+                    if (string.IsNullOrEmpty(foundInFieldList.FieldType))
+                    {
+                        foundInFieldList.FieldType = genFieldItem.FieldType;
+                    }
+
+                    if (string.IsNullOrEmpty(foundInFieldList.FieldTypeParam1))
+                    {
+                        foundInFieldList.FieldTypeParam1 = genFieldItem.FieldTypeParam1;
+                    }
+
+                    if (string.IsNullOrEmpty(foundInFieldList.FieldTypeParam2))
+                    {
+                        foundInFieldList.FieldTypeParam2 = genFieldItem.FieldTypeParam2;
+                    }
+
+                    if (string.IsNullOrEmpty(foundInFieldList.FieldTypeParam3))
+                    {
+                        foundInFieldList.FieldTypeParam3 = genFieldItem.FieldTypeParam3;
+                    }
+
+                    if (string.IsNullOrEmpty(foundInFieldList.FieldTypeParam4))
+                    {
+                        foundInFieldList.FieldTypeParam4 = genFieldItem.FieldTypeParam4;
+                    }
+
+                    if (string.IsNullOrEmpty(foundInFieldList.FieldTypeParam5))
+                    {
+                        foundInFieldList.FieldTypeParam5 = genFieldItem.FieldTypeParam5;
+                    }
+
+                    if (!foundInFieldList.IsMandatory.HasValue)
+                    {
+                        foundInFieldList.IsMandatory = genFieldItem.IsMandatory;
+                    }
+
+                    if (foundInFieldList.ItemList.Count != 0)
+                    {
+                        foundInFieldList.ItemList = genFieldItem.ItemList;
+                    }
+
+                    if (string.IsNullOrEmpty(foundInFieldList.Name))
+                    {
+                        foundInFieldList.Name = genFieldItem.Name;
+                    }
+
+                    if (string.IsNullOrEmpty(foundInFieldList.UIState))
+                    {
+                        foundInFieldList.UIState = genFieldItem.UIState;
+                    }
+
+                    if (string.IsNullOrEmpty(foundInFieldList.Value))
+                    {
+                        foundInFieldList.Value = genFieldItem.Value;
+                    }
+
+                    if (string.IsNullOrEmpty(foundInFieldList.ValueOriginal))
+                    {
+                        foundInFieldList.ValueOriginal = genFieldItem.ValueOriginal;
+                    }
+                }
+            }
+
             SetFieldListDefaults(mesTemplateDto.FieldList, codelists);
             SetFieldListDefaults(mesTemplateDto.GlobalFieldList, codelists);
 
@@ -63,6 +159,7 @@ namespace Energinet.DataHub.WebApi.Controllers.TestClient
             mesTemplateDto.XmlOriginal = mesTemplateDto.XmlTemplate;
 
             mesTemplateDto.ValidationRuleList.ForEach(x => x.Rule = x.Rule.Replace("AND", "&&"));
+            mesTemplateDto.ValidationRuleList.ForEach(x => x.Rule = x.Rule.Replace("OR", "||"));
 
             return mesTemplateDto;
         }
@@ -99,6 +196,152 @@ namespace Energinet.DataHub.WebApi.Controllers.TestClient
             return codelists;
         }
 
+        private List<SendMessageTemplateFieldDTO> GetFieldDtosFromXml(string xmlTemplate)
+        {
+            MatchCollection? allMatchResults = null;
+            var regexObj = new Regex("{{.*?}}");
+            allMatchResults = regexObj.Matches(xmlTemplate);
+            var matchResultList = allMatchResults.Cast<System.Text.RegularExpressions.Match>().Select(m => m.Value).ToList();
+
+            var fieldDtoList = new List<SendMessageTemplateFieldDTO>();
+            int fieldOrder = 100; // Make sure to start higher than global fields
+            foreach (var matchWithBrackets in matchResultList)
+            {
+                fieldOrder++;
+                fieldOrder++; // Best to have spaces between this index for easier adding a field later in the middle
+
+                string match = matchWithBrackets.Trim('{', '}');
+                if (match.StartsWith("Global"))
+                {
+                    continue;
+                }
+
+                string code = match;
+
+                bool isMandatory = match.StartsWith("*");
+                match = match.TrimStart('*');
+
+                // string codeShort = match;//* removed already
+                string fieldType = "String";
+                string fieldTypeParam1 = string.Empty;
+                string fieldTypeParam2 = string.Empty;
+                string? fieldTypeParam3 = string.Empty;
+                string? defaultValue = string.Empty;
+                var itemList = new List<ListItemDTO>();
+                if (match.StartsWith("Date_"))
+                {
+                    fieldType = "DateTime";
+                    match = match.ReplaceFirst("Date_", string.Empty);
+                    var dateTimeDefValue = match.SplitAndGetSafe('_', 1);
+                    if (!string.IsNullOrEmpty(dateTimeDefValue))
+                    {
+                        defaultValue = dateTimeDefValue;
+                    }
+                    else
+                    {
+                        defaultValue = "NOW";
+                    }
+
+                    match = match.SplitAndGetSafe('_', 0);
+                }
+                else if (match.StartsWith("Bool_"))
+                {
+                    fieldType = "Boolean";
+                    match = match.ReplaceFirst("Bool_", string.Empty);
+                    defaultValue = match.SplitAndGetSafe('_', 1)?.ToLower();
+                    match = match.SplitAndGetSafe('_', 0);
+                }
+                else if (match.StartsWith("Guid_"))
+                {
+                    fieldType = "Guid";
+                    match = match.ReplaceFirst("Guid_", string.Empty);
+                    defaultValue = match.SplitAndGetSafe('_', 1);
+                    if (string.IsNullOrEmpty(defaultValue))
+                    {
+                        defaultValue = "NEWGUID";
+                    }
+
+                    match = match.SplitAndGetSafe('_', 0);
+                }
+                else if (match.StartsWith("Number_"))
+                {
+                    fieldType = "Number";
+                    match = match.ReplaceFirst("Number_", string.Empty);
+                    var isLenghtDefined = match.SplitAndGetSafe('_', 1)?.StartsWith("L");
+                    var firstDigit = string.Empty;
+                    var secondDigit = string.Empty;
+                    if (isLenghtDefined == true)
+                    {
+                        fieldTypeParam3 = match.SplitAndGetSafe('_', 1)?.TrimStart('L');
+                    }
+                    else
+                    {
+                        firstDigit = match.SplitAndGetSafe('_', 1);
+                        secondDigit = match.SplitAndGetSafe('_', 2);
+                        if (string.IsNullOrEmpty(secondDigit))
+                        {
+                            // 1 digit after name means max value. 2 digits after name means min as the first and max as second
+                            secondDigit = firstDigit;
+                        }
+                    }
+
+                    defaultValue = match.SplitAndGetSafe('_', 3);
+                    fieldTypeParam1 = firstDigit;
+                    fieldTypeParam2 = secondDigit;
+                    match = match.SplitAndGetSafe('_', 0);
+                }
+                else if (match.StartsWith("List_"))
+                {
+                    fieldType = "List";
+                    match = match.ReplaceFirst("List_", string.Empty);
+                    var listValuesCsv = match.SplitAndGetSafe('_', 1);
+                    var listValues = listValuesCsv.Split('-');
+                    itemList = new List<ListItemDTO>();
+                    foreach (var value in listValues)
+                    {
+                        itemList.Add(new ListItemDTO() { Code = value, Title = value });
+                    }
+
+                    defaultValue = match.SplitAndGetSafe('_', 2);
+                    match = match.SplitAndGetSafe('_', 0);
+                }
+                else if (match.StartsWith("Code_"))
+                {
+                    fieldType = "CodeList";
+                    match = match.ReplaceFirst("Code_", string.Empty);
+                    fieldTypeParam1 = match.SplitAndGetSafe('_', 1);
+                    defaultValue = match.SplitAndGetSafe('_', 2);
+                    match = match.SplitAndGetSafe('_', 0);
+                }
+                else
+                {
+                    // its just a string
+                    fieldTypeParam1 = match.SplitAndGetSafe('_', 1);
+                    defaultValue = match.SplitAndGetSafe('_', 2);
+                    match = match.SplitAndGetSafe('_', 0);
+                }
+
+                fieldDtoList.Add(new SendMessageTemplateFieldDTO()
+                {
+                    Id = Guid.NewGuid(),
+                    Code = code,
+                    CodeShort = match,
+                    FieldOrder = fieldOrder,
+                    FieldType = fieldType,
+                    FieldTypeParam1 = fieldTypeParam1,
+                    FieldTypeParam2 = fieldTypeParam2,
+                    FieldTypeParam3 = fieldTypeParam3 ?? string.Empty,
+                    Name = match.SplitCamelCase(),
+                    DefaultValue = defaultValue ?? string.Empty,
+                    ItemList = itemList,
+                    IsMandatory = isMandatory,
+                    Comment = " ",
+                });
+            }
+
+            return fieldDtoList;
+        }
+
         private void SetFieldListDefaults(List<SendMessageTemplateFieldDTO> fieldList, List<CodeListDTO> codelists)
         {
             foreach (var field in fieldList)
@@ -133,6 +376,7 @@ namespace Energinet.DataHub.WebApi.Controllers.TestClient
                 if (field.FieldType == "List")
                 {
                     field.ItemList.ForEach(x => x.CodeAndTitle = $"{x.Code} - {x.Title}");
+                    field.ItemList.Insert(0, new ListItemDTO() { Code = string.Empty, CodeAndTitle = "None", Definition = "None", Title = "None" });
                 }
 
                 if (field.FieldType == "CodeList")
@@ -142,6 +386,7 @@ namespace Energinet.DataHub.WebApi.Controllers.TestClient
                     if (codeList != null)
                     {
                         field.ItemList = codeList.CodeItemList;
+                        field.ItemList.Insert(0, new ListItemDTO() { Code = string.Empty, CodeAndTitle = "None", Definition = "None", Title = "None" });
                     }
                 }
             }

@@ -149,12 +149,12 @@ limitations under the License.
         </ng-container>
 
          <!-- Column definitions -->
-    <ng-container matColumnDef="validationIcon">
+    <!-- <ng-container matColumnDef="validationIcon">
       <th mat-header-cell *matHeaderCellDef><mat-icon>label_important</mat-icon></th>
       <td mat-cell *matCellDef="let row; let i = index">
         <mat-icon *ngIf="!getValidity(i)" color="warn">label_important</mat-icon>
       </td>
-    </ng-container>
+    </ng-container> -->
 
 
   <!-- Column definitions -->
@@ -166,8 +166,6 @@ limitations under the License.
         <div *ngSwitchCase="'Number'" >
           <span *ngIf="row.fieldTypeParam1 && row.fieldTypeParam2" style="color:orange">({{ row.fieldTypeParam1 }}-{{ row.fieldTypeParam2}})</span>
           <span *ngIf="row.fieldTypeParam3" style="color:orange">(Max length: {{ row.fieldTypeParam3 }})</span>
-          <br/>
-          <span style="color:grey"> {{ row.comment }}</span>
         </div>
         <div *ngSwitchCase="'String'" >
           <span style="color:orange">(Max length: {{ row.fieldTypeParam1 }})</span>
@@ -183,6 +181,16 @@ limitations under the License.
         <div *ngSwitchCase="'Guid'" >
           <span style="color:orange">(Guid)</span>
         </div>
+          <span style="color:grey"> {{ row.comment }}</span>
+          <span style="color:red">
+            <ul>
+              <li *ngFor="let item of getValidationMessages(i)">
+                {{item}}
+              </li>
+            </ul>
+            <!-- {{getValidationMessages(i)}} -->
+          <!-- {{ (formControlArray[i].errors | json).substring(1,(formControlArray[i].errors | json).length-1).split('"').join('') }} -->
+        </span>
       </ng-container>
     </td>
   </ng-container>
@@ -196,32 +204,19 @@ limitations under the License.
       </td>
     </ng-container> -->
 
-    <ng-container matColumnDef="validation">
+    <!-- <ng-container matColumnDef="validation">
       <th mat-header-cell *matHeaderCellDef> validation </th>
       <td mat-cell *matCellDef="let row; let i = index">
-        <!-- formControlArray[i].errors -->
-        <!-- <span *ngIf="!getValidity(i)" style="color:red"></span> -->
         <span style="color:red">
           <ul>
             <li *ngFor="let item of getValidationMessages(i)">
               {{item}}
             </li>
           </ul>
-          <!-- {{getValidationMessages(i)}} -->
-        <!-- {{ (formControlArray[i].errors | json).substring(1,(formControlArray[i].errors | json).length-1).split('"').join('') }} -->
       </span>
-        <!-- <div *ngIf="name.invalid && (name.dirty || name.touched)"
-        class="alert alert-danger">
 
-      <div *ngIf="name.errors?.['required']">
-        Name is required.
-      </div>
-      <div *ngIf="name.errors?.['minlength']">
-        Name must be at least 4 characters long.
-      </div>
-    </div> -->
       </td>
-    </ng-container>
+    </ng-container> -->
 
   </table>
 
