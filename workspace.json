@@ -6,6 +6,7 @@
     "app-ett": "apps/ett/app-ett",
     "dh-auth-feature-msal": "libs/dh/auth/feature-msal",
     "dh-charges-data-access-api": "libs/dh/charges/data-access-api",
+    "dh-charges-data-access-mocks": "libs/dh/charges/data-access-mocks",
     "dh-core-shell": "libs/dh/core/shell",
     "dh-globalization-assets-localization": "libs/dh/globalization/assets-localization",
     "dh-globalization-configuration-localization": "libs/dh/globalization/configuration-localization",

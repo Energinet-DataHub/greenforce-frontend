@@ -1,7 +1,9 @@
 import { MockedRequest, RequestHandler } from 'msw';
+
+import { chargesMocks } from '@energinet-datahub/dh/charges/data-access-mocks';
 import { meteringPointMocks } from '@energinet-datahub/dh/metering-point/data-access-mocks';
 
-export const handlers: RequestHandler[] = [...meteringPointMocks];
+export const handlers: RequestHandler[] = [...chargesMocks, ...meteringPointMocks];
 
 export function onUnhandledRequest(req: MockedRequest) {
   if (
