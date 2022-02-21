@@ -16,12 +16,12 @@
  */
 import { CommonModule } from '@angular/common';
 import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
   Component,
   Input,
   NgModule,
   ViewChild,
-  AfterViewInit,
-  ChangeDetectionStrategy,
 } from '@angular/core';
 import {
   MatSort,
@@ -30,21 +30,17 @@ import {
   Sort,
 } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
-import { TranslocoModule } from '@ngneat/transloco';
 import { RouterModule } from '@angular/router';
+import { DhMeteringPointStatusBadgeScam } from '@energinet-datahub/dh/metering-point/ui-status-badge';
+import { Process } from '@energinet-datahub/dh/shared/data-access-api';
+import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 
 import {
+  WattEmptyStateModule,
   WattIconModule,
   WattIconSize,
-  WattEmptyStateModule,
 } from '@energinet-datahub/watt';
-import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
-import { DhMeteringPointStatusBadgeScam } from '@energinet-datahub/dh/metering-point/ui-status-badge';
-import {
-  MeteringPointSimpleCimDto,
-  Process,
-} from '@energinet-datahub/dh/shared/data-access-api';
-import { DhDatePipe } from '../../../../../../shared/ui-date-time/src/lib/dh-date.pipe';
+import { TranslocoModule } from '@ngneat/transloco';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
