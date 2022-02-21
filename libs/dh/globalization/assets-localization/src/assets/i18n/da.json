@@ -70,13 +70,13 @@
       "processesTab": {
         "headers": {
           "name": "Beskrivelse",
-          "createdDate":"Indsendt",
+          "createdDate": "Indsendt",
           "effectiveDate": "Skæringsdato",
           "status": "Status"
         },
         "sortDescription": {
           "name": "Sorter efter beskrivelse",
-          "createdDate":"Sorter efter indsendelsesdato",
+          "createdDate": "Sorter efter indsendelsesdato",
           "effectiveDate": "Sorter efter skæringsdato",
           "status": "Sorter efter status"
         },
