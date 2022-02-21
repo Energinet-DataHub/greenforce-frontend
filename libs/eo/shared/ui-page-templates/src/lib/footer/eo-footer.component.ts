@@ -21,7 +21,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 
-const selector = 'eo-landing-page-footer';
+const selector = 'eo-footer';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -34,8 +34,6 @@ const selector = 'eo-landing-page-footer';
         display: grid;
         grid-template-columns: 428px 320px 1fr;
         width: 100%;
-        position: absolute;
-        bottom: 0;
         box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
         background: var(--watt-color-neutral-white);
         padding: var(--watt-space-l) var(--watt-space-m); // No mixing exists for "space-inset-stretch-l", see: C:lib/foundations/spacing/_spacing.import.scss
@@ -104,10 +102,10 @@ const selector = 'eo-landing-page-footer';
     </div>
   `,
 })
-export class EoLandingPageFooterComponent {}
+export class EoFooterComponent {}
 
 @NgModule({
-  declarations: [EoLandingPageFooterComponent],
-  exports: [EoLandingPageFooterComponent],
+  declarations: [EoFooterComponent],
+  exports: [EoFooterComponent],
 })
-export class EoLandingPageFooterScam {}
+export class EoFooterScam {}

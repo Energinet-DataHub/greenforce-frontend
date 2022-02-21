@@ -14,9 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-// Authentication
-export * from './lib/authentication/ett-authentication.interceptor';
-export * from './lib/authentication/eo-log-out.store';
-
-// Authorization
-export * from './lib/authorization/ett-authorization.interceptor';
+export const findAcceptCheckbox = () =>
+  cy.findByRole('checkbox', { name: /I have seen the privacy policy/i });
+export const findAcceptButton = () =>
+  cy.findByRole('button', { name: /Accept terms/i });
+export const findCancelButton = () =>
+  cy.findByRole('button', { name: /Back/i });

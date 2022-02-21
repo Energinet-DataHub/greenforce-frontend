@@ -14,9 +14,5 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-// Authentication
-export * from './lib/authentication/ett-authentication.interceptor';
-export * from './lib/authentication/eo-log-out.store';
-
-// Authorization
-export * from './lib/authorization/ett-authorization.interceptor';
+export * from './lib/header/eo-header.component';
+export * from './lib/footer/eo-footer.component';

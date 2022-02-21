@@ -18,13 +18,14 @@ import * as appShell from '../support/app-shell.po';
 import * as authApi from '../support/auth-api';
 import * as dashboardPage from '../support/dashboard.po';
 import * as landingPage from '../support/landing-page.po';
+import * as termsPage from '../support/terms-page.po';
 
 describe('Authentication', () => {
   it(`Given a commercial user
     When NemID authentication is successful
     Then they are redirected to the dashboard page`, () => {
     // Arrange
-    authApi.allowAuthentication();
+    authApi.allowExistingUserAuthentication();
     landingPage.navigateTo();
 
     // Act
@@ -39,7 +40,7 @@ describe('Authentication', () => {
       And log out is successful
     Then they are redirected to the landing page`, () => {
     // Arrange
-    authApi.allowAuthentication();
+    authApi.allowExistingUserAuthentication();
     authApi.allowLogOut();
     landingPage.navigateTo();
     landingPage.findStartLink().click();
@@ -48,6 +49,73 @@ describe('Authentication', () => {
 
     // Act
     appShell.findLogOutMenuItem().click();
+    cy.wait('@authLogout');
+
+    // Assert
+    cy.location('pathname').should('eq', landingPage.path);
+  });
+
+  it(`Given a commercial user using NemID
+    When they successfully authenticate for the first time
+      And they accept the user terms
+    Then they are redirected to the dashboard page`, () => {
+    // Arrange
+    authApi.allowFirstTimeAuthentication();
+    authApi.allowGetTerms();
+
+    cy.intercept(
+      {
+        hostname: 'localhost',
+        method: 'POST',
+        pathname: '/api/auth/terms/accept',
+      },
+      {
+        next_url: '/dashboard?success=1',
+      }
+    );
+    landingPage.navigateTo();
+
+    // Act
+    landingPage.findStartLink().click();
+    termsPage.findAcceptCheckbox().click({ force: true });
+    termsPage.findAcceptButton().click();
+
+    // Assert
+    dashboardPage.findTitle().should('exist');
+  });
+
+  it(`Given a commercial user using NemID
+    When they successfully authenticate for the first time
+    And they try to accept the user terms
+    without having checked the checkbox
+    Then they are not logged in`, () => {
+    // Arrange
+    authApi.allowFirstTimeAuthentication();
+    authApi.allowGetTerms();
+    landingPage.navigateTo();
+
+    // Act
+    landingPage.findStartLink().click();
+    termsPage.findAcceptButton().click();
+
+    // Assert (Happy path -> Nothing happens - Asserting we are still on the terms page)
+    termsPage.findAcceptButton().should('exist');
+  });
+
+  // Next: Test where the user logs out = hits the "Cancel" button
+  it(`Given a commercial user using NemID
+    When they successfully authenticate for the first time
+      And they do not accept the user terms
+    Then they are loged out and redirected to the landing page`, () => {
+    // Arrange
+    authApi.allowFirstTimeAuthentication();
+    authApi.allowLogOut();
+    authApi.allowGetTerms();
+    landingPage.navigateTo();
+
+    // Act
+    landingPage.findStartLink().click();
+    termsPage.findCancelButton().click();
     cy.wait('@authLogout');
 
     // Assert

@@ -14,9 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-// Authentication
-export * from './lib/authentication/ett-authentication.interceptor';
-export * from './lib/authentication/eo-log-out.store';
+import { InjectionToken } from '@angular/core';
 
-// Authorization
-export * from './lib/authorization/ett-authorization.interceptor';
+export const browserLocationToken = new InjectionToken<Location>(
+  'browserLocationToken',
+  {
+    factory: () => location,
+    providedIn: 'platform',
+  }
+);

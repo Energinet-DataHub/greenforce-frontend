@@ -14,9 +14,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-// Authentication
-export * from './lib/authentication/ett-authentication.interceptor';
-export * from './lib/authentication/eo-log-out.store';
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
 
-// Authorization
-export * from './lib/authorization/ett-authorization.interceptor';
+import {
+  EoAuthFeatureTermsComponent,
+  EoAuthFeatureTermsScam,
+} from './eo-auth-feature-terms.component';
+
+const routes: Routes = [
+  {
+    path: '',
+    component: EoAuthFeatureTermsComponent,
+  },
+];
+
+@NgModule({
+  imports: [RouterModule.forChild(routes), EoAuthFeatureTermsScam],
+})
+export class EoAuthFeatureTermsModule {}
