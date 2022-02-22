@@ -1,1 +1,1 @@
-export * from './lib/atoms.module';
+export * from './lib/eo-scroll-view/eo-scroll-view.component';

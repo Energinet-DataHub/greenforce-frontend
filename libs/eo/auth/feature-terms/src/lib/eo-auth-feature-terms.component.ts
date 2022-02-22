@@ -20,7 +20,7 @@ import {WattButtonModule, WattCheckboxModule} from '@energinet-datahub/watt';
 
 import {EoAuthTermsStore} from './eo-auth-terms.store';
 import {EoLogOutStore} from '@energinet-datahub/ett/auth/data-access-security';
-import {EoScrollViewScam} from '@energinet-datahub/eo/shared/atomic-design/molecules';
+import {EoScrollViewScam} from '@energinet-datahub/eo/shared/atomic-design/atoms';
 import {FormsModule} from '@angular/forms';
 import {Observable} from 'rxjs';
 import {PushModule} from '@rx-angular/template';

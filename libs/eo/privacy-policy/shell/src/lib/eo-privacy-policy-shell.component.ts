@@ -6,7 +6,7 @@ import {
 } from '@angular/core';
 
 import { EoPrivacyPolicyStore } from './eo-privacy-policy.store';
-import { EoScrollViewScam } from '@energinet-datahub/eo/shared/atomic-design/molecules';
+import { EoScrollViewScam } from '@energinet-datahub/eo/shared/atomic-design/atoms';
 import { Observable } from 'rxjs';
 import { PushModule } from '@rx-angular/template';
 
