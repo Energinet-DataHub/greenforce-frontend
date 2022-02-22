@@ -14,11 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {ChangeDetectionStrategy, Component, NgModule, ViewEncapsulation,} from '@angular/core';
-import {EoPrivacyPolicyStore} from './eo-privacy-policy.store';
-import {EoScrollViewScam} from '@energinet-datahub/eo/shared/atomic-design/atoms';
-import {Observable} from 'rxjs';
-import {PushModule} from '@rx-angular/template';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  NgModule,
+  ViewEncapsulation,
+} from '@angular/core';
+import { EoPrivacyPolicyStore } from './eo-privacy-policy.store';
+import { EoScrollViewScam } from '@energinet-datahub/eo/shared/atomic-design/atoms';
+import { Observable } from 'rxjs';
+import { PushModule } from '@rx-angular/template';
 
 const selector = 'eo-privacy-policy';
 

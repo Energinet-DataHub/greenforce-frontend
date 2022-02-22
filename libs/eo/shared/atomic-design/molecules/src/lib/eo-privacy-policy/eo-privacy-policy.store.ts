@@ -14,11 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {Inject, Injectable} from '@angular/core';
-import {ComponentStore, tapResponse} from '@ngrx/component-store';
-import {filter, map, Observable, of, switchMap} from 'rxjs';
-import {AuthHttp} from '@energinet-datahub/ett/auth/data-access-api';
-import {browserLocationToken} from './browser-location.token';
+import { Inject, Injectable } from '@angular/core';
+import { ComponentStore, tapResponse } from '@ngrx/component-store';
+import { filter, map, Observable, of, switchMap } from 'rxjs';
+import { AuthHttp } from '@energinet-datahub/ett/auth/data-access-api';
+import { browserLocationToken } from './browser-location.token';
 
 interface EoPrivacyPolicyState {
   readonly headline: string | null;
