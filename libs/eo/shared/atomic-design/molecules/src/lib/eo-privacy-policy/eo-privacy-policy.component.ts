@@ -14,11 +14,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {ChangeDetectionStrategy, Component, NgModule, ViewEncapsulation, Output, EventEmitter, OnDestroy} from '@angular/core';
-import {EoPrivacyPolicyStore} from './eo-privacy-policy.store';
-import {EoScrollViewScam} from '@energinet-datahub/eo/shared/atomic-design/atoms';
-import {Observable, Subscription} from 'rxjs';
-import {PushModule} from '@rx-angular/template';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  NgModule,
+  ViewEncapsulation,
+  Output,
+  EventEmitter,
+  OnDestroy,
+} from '@angular/core';
+import { EoPrivacyPolicyStore } from './eo-privacy-policy.store';
+import { EoScrollViewScam } from '@energinet-datahub/eo/shared/atomic-design/atoms';
+import { Observable, Subscription } from 'rxjs';
+import { PushModule } from '@rx-angular/template';
 
 const selector = 'eo-privacy-policy';
 
@@ -63,7 +71,9 @@ export class EoPrivacyPolicyComponent implements OnDestroy {
 
   constructor(private store: EoPrivacyPolicyStore) {
     this.subscription.add(
-      this.store.version$.subscribe(version => this.versionEmitter.emit(version))
+      this.store.version$.subscribe((version) =>
+        this.versionEmitter.emit(version)
+      )
     );
   }
 

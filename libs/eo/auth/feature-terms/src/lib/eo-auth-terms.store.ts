@@ -14,12 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {Inject, Injectable} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
-import {ComponentStore, tapResponse} from '@ngrx/component-store';
-import {combineLatest, exhaustMap, mergeMap, Observable, take} from 'rxjs';
-import {AuthHttp} from '@energinet-datahub/ett/auth/data-access-api';
-import {browserLocationToken} from './browser-location.token';
+import { Inject, Injectable } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { ComponentStore, tapResponse } from '@ngrx/component-store';
+import { combineLatest, exhaustMap, mergeMap, Observable, take } from 'rxjs';
+import { AuthHttp } from '@energinet-datahub/ett/auth/data-access-api';
+import { browserLocationToken } from './browser-location.token';
 
 interface EoAuthTermsState {
   readonly version: string | null;
@@ -48,11 +48,7 @@ export class EoAuthTermsStore extends ComponentStore<EoAuthTermsState> {
   onAcceptTerms = this.effect<string>((version$) =>
     version$.pipe(
       exhaustMap(() =>
-        combineLatest([
-          this.#acceptTermsUrl$,
-          version$,
-          this.#state$,
-        ]).pipe(
+        combineLatest([this.#acceptTermsUrl$, version$, this.#state$]).pipe(
           take(1),
           mergeMap(([acceptTermsUrl, version, state]) =>
             this.authHttp.postAcceptTerms(acceptTermsUrl, {

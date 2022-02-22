@@ -14,13 +14,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {ChangeDetectionStrategy, Component, NgModule, ViewEncapsulation,} from '@angular/core';
-import {EoFooterScam, EoHeaderScam,} from '@energinet-datahub/eo/shared/ui-page-templates';
-import {WattButtonModule, WattCheckboxModule} from '@energinet-datahub/watt';
-import {EoAuthTermsStore} from './eo-auth-terms.store';
-import {EoLogOutStore} from '@energinet-datahub/ett/auth/data-access-security';
-import {FormsModule} from '@angular/forms';
-import {EoPrivacyPolicyScam} from '@energinet-datahub/eo/shared/atomic-design/molecules';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  NgModule,
+  ViewEncapsulation,
+} from '@angular/core';
+import {
+  EoFooterScam,
+  EoHeaderScam,
+} from '@energinet-datahub/eo/shared/ui-page-templates';
+import { WattButtonModule, WattCheckboxModule } from '@energinet-datahub/watt';
+import { EoAuthTermsStore } from './eo-auth-terms.store';
+import { EoLogOutStore } from '@energinet-datahub/ett/auth/data-access-security';
+import { FormsModule } from '@angular/forms';
+import { EoPrivacyPolicyScam } from '@energinet-datahub/eo/shared/atomic-design/molecules';
 
 const selector = 'eo-auth-terms';
 
@@ -50,27 +58,27 @@ const selector = 'eo-auth-terms';
     <eo-header></eo-header>
 
     <div class="${selector}__content">
-
       <!-- @todo Should we pass in the "terms_url" to this component - It does not make sense to have it as a dynamic value? Just use "/terms" -->
       <eo-privacy-policy (versionEmitter)="versionHandler($event)">
         <div class="watt-space-stack-l">
-          <watt-checkbox [(ngModel)]="hasAcceptedTerms">I have seen the privacy policy</watt-checkbox>
+          <watt-checkbox [(ngModel)]="hasAcceptedTerms"
+            >I have seen the privacy policy</watt-checkbox
+          >
         </div>
 
         <watt-button
           variant="secondary"
           aria-labelledby="Cancel"
           (click)="onCancel()"
-        >Back</watt-button
+          >Back</watt-button
         >
         <watt-button
           variant="primary"
           aria-labelledby="Accept"
           (click)="onAccept()"
-        >Accept terms</watt-button
+          >Accept terms</watt-button
         >
       </eo-privacy-policy>
-
     </div>
     <eo-footer></eo-footer>
   `,
@@ -110,7 +118,7 @@ export class EoAuthFeatureTermsComponent {
     WattCheckboxModule,
     EoFooterScam,
     EoHeaderScam,
-    EoPrivacyPolicyScam
+    EoPrivacyPolicyScam,
   ],
 })
 export class EoAuthFeatureTermsScam {}

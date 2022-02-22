@@ -14,10 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {Injectable} from '@angular/core';
-import {ComponentStore, tapResponse} from '@ngrx/component-store';
-import {filter, map, Observable, of, switchMap} from 'rxjs';
-import {AuthHttp} from '@energinet-datahub/ett/auth/data-access-api';
+import { Injectable } from '@angular/core';
+import { ComponentStore, tapResponse } from '@ngrx/component-store';
+import { filter, map, Observable, of, switchMap } from 'rxjs';
+import { AuthHttp } from '@energinet-datahub/ett/auth/data-access-api';
 
 interface EoPrivacyPolicyState {
   readonly headline: string | null;
@@ -48,9 +48,7 @@ export class EoPrivacyPolicyStore extends ComponentStore<EoPrivacyPolicyState> {
     map((privacyPolicy) => privacyPolicy as string)
   );
 
-  constructor(
-    private authHttp: AuthHttp
-  ) {
+  constructor(private authHttp: AuthHttp) {
     super(initialState);
     this.#getPrivacyPolicy(this.#privacyPolicyUrl$); // @todo (1)
   }
@@ -80,5 +78,5 @@ export class EoPrivacyPolicyStore extends ComponentStore<EoPrivacyPolicyState> {
 const initialState: EoPrivacyPolicyState = {
   headline: null,
   privacyPolicy: null,
-  version: null
+  version: null,
 };
