@@ -1,0 +1,26 @@
+{
+  "projectType": "library",
+  "root": "libs/eo/shared/atomic-design/atoms",
+  "sourceRoot": "libs/eo/shared/atomic-design/atoms/src",
+  "prefix": "eo",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/eo/shared/atomic-design/atoms"],
+      "options": {
+        "jestConfig": "libs/eo/shared/atomic-design/atoms/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/eo/shared/atomic-design/atoms/src/**/*.ts",
+          "libs/eo/shared/atomic-design/atoms/src/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": ["product:eo", "domain:shared", "type:ui"]
+}
