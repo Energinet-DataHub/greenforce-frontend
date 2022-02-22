@@ -14,13 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { TestBed } from '@angular/core/testing';
-import { MockProvider } from 'ng-mocks';
-import { ActivatedRoute } from '@angular/router';
-import { AuthHttp } from '@energinet-datahub/ett/auth/data-access-api';
-import { EoPrivacyPolicyStore } from './eo-privacy-policy.store';
-import { of, firstValueFrom } from 'rxjs';
-import { browserLocationToken } from './browser-location.token';
+import {TestBed} from '@angular/core/testing';
+import {MockProvider} from 'ng-mocks';
+import {ActivatedRoute} from '@angular/router';
+import {AuthHttp} from '@energinet-datahub/ett/auth/data-access-api';
+import {EoPrivacyPolicyStore} from './eo-privacy-policy.store';
+import {firstValueFrom, of} from 'rxjs';
+import {browserLocationToken} from './browser-location.token';
 
 describe(EoPrivacyPolicyStore.name, () => {
   describe('Given the Auth API is available', () => {
