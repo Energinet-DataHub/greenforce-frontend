@@ -110,16 +110,12 @@ withSidebarNavigation.storyName = 'With sidebar navigation';
 withSidebarNavigation.decorators = [
   moduleMetadata({
     imports: [
-      RouterTestingModule.withRoutes(
-        [
-          { path: 'menu-1', component: StorybookPage1Component },
-          { path: 'menu-2', component: StorybookPage2Component },
-          { path: 'menu-3', component: StorybookPage3Component },
-        ],
-        {
-          useHash: true,
-        }
-      ),
+      RouterTestingModule.withRoutes([
+        { path: '', redirectTo: 'menu-2', pathMatch: 'full' },
+        { path: 'menu-1', component: StorybookPage1Component },
+        { path: 'menu-2', component: StorybookPage2Component },
+        { path: 'menu-3', component: StorybookPage3Component },
+      ]),
       WattNavListModule,
     ],
     providers: [
@@ -127,10 +123,10 @@ withSidebarNavigation.decorators = [
         provide: APP_BASE_HREF,
         useValue: '/iframe.html/',
       },
-      // Initial navigation. Using a redirect in the route definition doesn't work
+      // Perform the initial navigation. Without it the redirect in the route definition will not happen
       {
         provide: APP_INITIALIZER,
-        useFactory: (router: Router) => () => router.navigate(['/menu-2']),
+        useFactory: (router: Router) => () => router.initialNavigation(),
         deps: [Router],
         multi: true,
       },
