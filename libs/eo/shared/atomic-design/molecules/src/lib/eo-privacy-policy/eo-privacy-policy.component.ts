@@ -42,7 +42,8 @@ const selector = 'eo-privacy-policy';
       ${selector} {
         display: block;
         width: calc(200 * var(--watt-space-xs));
-        > .${selector}__heading { // Overrides Angular Material styles for the h1 element
+        > .${selector}__heading {
+          // Overrides Angular Material styles for the h1 element
           @include watt.typography-watt-headline-1;
           text-transform: none; // Override .watt-headline-1
         }
