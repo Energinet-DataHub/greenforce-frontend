@@ -14,17 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {Inject, Injectable} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {ComponentStore, tapResponse} from '@ngrx/component-store';
 import {filter, map, Observable, of, switchMap} from 'rxjs';
 import {AuthHttp} from '@energinet-datahub/ett/auth/data-access-api';
-import {browserLocationToken} from './browser-location.token';
 
 interface EoPrivacyPolicyState {
   readonly headline: string | null;
   readonly privacyPolicy: string | null;
   readonly version: string | null;
-  readonly state: string | null;
 }
 @Injectable()
 export class EoPrivacyPolicyStore extends ComponentStore<EoPrivacyPolicyState> {
@@ -46,13 +44,12 @@ export class EoPrivacyPolicyStore extends ComponentStore<EoPrivacyPolicyState> {
   privacyPolicy$: Observable<string> = this.select(
     (state) => state.privacyPolicy
   ).pipe(
-    filter((terms) => terms !== null),
-    map((terms) => terms as string)
+    filter((privacyPolicy) => privacyPolicy !== null),
+    map((privacyPolicy) => privacyPolicy as string)
   );
 
   constructor(
-    private authHttp: AuthHttp,
-    @Inject(browserLocationToken) private location: Location
+    private authHttp: AuthHttp
   ) {
     super(initialState);
     this.#getPrivacyPolicy(this.#privacyPolicyUrl$); // @todo (1)
@@ -83,6 +80,5 @@ export class EoPrivacyPolicyStore extends ComponentStore<EoPrivacyPolicyState> {
 const initialState: EoPrivacyPolicyState = {
   headline: null,
   privacyPolicy: null,
-  version: null,
-  state: null,
+  version: null
 };

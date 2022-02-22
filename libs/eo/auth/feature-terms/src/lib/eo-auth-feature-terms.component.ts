@@ -14,24 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  ChangeDetectionStrategy,
-  Component,
-  NgModule,
-  ViewEncapsulation,
-} from '@angular/core';
-import {
-  EoFooterScam,
-  EoHeaderScam,
-} from '@energinet-datahub/eo/shared/ui-page-templates';
-import { WattButtonModule, WattCheckboxModule } from '@energinet-datahub/watt';
-
-import { EoAuthTermsStore } from './eo-auth-terms.store';
-import { EoLogOutStore } from '@energinet-datahub/ett/auth/data-access-security';
-import { EoScrollViewScam } from '@energinet-datahub/eo/shared/atomic-design/atoms';
-import { FormsModule } from '@angular/forms';
-import { Observable } from 'rxjs';
-import { PushModule } from '@rx-angular/template';
+import {ChangeDetectionStrategy, Component, NgModule, ViewEncapsulation,} from '@angular/core';
+import {EoFooterScam, EoHeaderScam,} from '@energinet-datahub/eo/shared/ui-page-templates';
+import {WattButtonModule, WattCheckboxModule} from '@energinet-datahub/watt';
+import {EoAuthTermsStore} from './eo-auth-terms.store';
+import {EoLogOutStore} from '@energinet-datahub/ett/auth/data-access-security';
+import {FormsModule} from '@angular/forms';
+import {EoPrivacyPolicyScam} from '@energinet-datahub/eo/shared/atomic-design/molecules';
 
 const selector = 'eo-auth-terms';
 
@@ -43,24 +32,14 @@ const selector = 'eo-auth-terms';
   styles: [
     `
       @use '@energinet-datahub/watt/utils' as watt;
-      .${selector}__page {
-        display: block;
-        width: calc(200 * var(--watt-space-xs));
-        margin: 0 auto;
-        margin-bottom: var(--watt-space-l);
+      .${selector}__content {
+        eo-privacy-policy {
+          margin: var(--watt-space-l) auto;
 
-        > h1 {
-          @include watt.typography-watt-headline-1; // Mis-match with styles in Figma(?)
-          text-transform: none; // Override .watt-headline-1
-          margin-top: var(--watt-space-l);
-          margin-bottom: var(--watt-space-l);
+          eo-scroll-view {
+            margin-bottom: var(--watt-space-l);
+          }
         }
-
-        label {
-          cursor: pointer;
-          text-transform: none; // Override .watt-label, which uppercases labels
-        }
-
         watt-button[variant='secondary'] {
           margin-right: calc(2 * var(--watt-space-xs));
         }
@@ -70,38 +49,34 @@ const selector = 'eo-auth-terms';
   template: `
     <eo-header></eo-header>
 
-    <div class="${selector}__page">
-      <h1>{{ headline$ | push }}</h1>
+    <div class="${selector}__content">
 
-      <eo-scroll-view>
-        <div [innerHTML]="terms$ | push"></div>
-      </eo-scroll-view>
+      <!-- @todo Should we pass in the "terms_url" to this component - It does not make sense to have it as a dynamic value? Just use "/terms" -->
+      <eo-privacy-policy (versionEmitter)="versionHandler($event)">
+        <div class="watt-space-stack-l">
+          <watt-checkbox [(ngModel)]="hasAcceptedTerms">I have seen the privacy policy</watt-checkbox>
+        </div>
 
-      <div class="watt-space-stack-l">
-        <watt-checkbox [(ngModel)]="hasAcceptedTerms"
-          >I have seen the privacy policy</watt-checkbox
-        >
-      </div>
-
-      <watt-button
-        variant="secondary"
-        aria-labelledby="Cancel"
-        (click)="onCancel()"
+        <watt-button
+          variant="secondary"
+          aria-labelledby="Cancel"
+          (click)="onCancel()"
         >Back</watt-button
-      >
-      <watt-button
-        variant="primary"
-        aria-labelledby="Accept"
-        (click)="onAccept()"
+        >
+        <watt-button
+          variant="primary"
+          aria-labelledby="Accept"
+          (click)="onAccept()"
         >Accept terms</watt-button
-      >
+        >
+      </eo-privacy-policy>
+
     </div>
     <eo-footer></eo-footer>
   `,
 })
 export class EoAuthFeatureTermsComponent {
-  headline$: Observable<string> = this.store.headline$;
-  terms$: Observable<string> = this.store.terms$;
+  #version = '';
   hasAcceptedTerms = false;
 
   constructor(
@@ -109,13 +84,17 @@ export class EoAuthFeatureTermsComponent {
     private logOutStore: EoLogOutStore
   ) {}
 
+  versionHandler(version: string): void {
+    this.#version = version;
+  }
+
   onCancel(): void {
     this.logOutStore.onLogOut();
   }
 
   onAccept(): void {
     if (this.hasAcceptedTerms) {
-      this.store.onAcceptTerms();
+      this.store.onAcceptTerms(this.#version);
     } else {
       // Error handling - Let the user know that the checkbox needs to be checked before terms can be accepted
     }
@@ -131,8 +110,7 @@ export class EoAuthFeatureTermsComponent {
     WattCheckboxModule,
     EoFooterScam,
     EoHeaderScam,
-    EoScrollViewScam,
-    PushModule,
+    EoPrivacyPolicyScam
   ],
 })
 export class EoAuthFeatureTermsScam {}
