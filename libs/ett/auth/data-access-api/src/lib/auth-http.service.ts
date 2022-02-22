@@ -114,6 +114,9 @@ export class AuthHttp {
     endpointUrl: string,
     payload: AuthTermsAcceptRequest
   ): Observable<AuthTermsAcceptResponse> {
-    return this.http.post<AuthTermsAcceptResponse>(`${this.#apiBase}/${endpointUrl}`, payload);
+    return this.http.post<AuthTermsAcceptResponse>(
+      `${this.#apiBase}/${endpointUrl}`,
+      payload
+    );
   }
 }
