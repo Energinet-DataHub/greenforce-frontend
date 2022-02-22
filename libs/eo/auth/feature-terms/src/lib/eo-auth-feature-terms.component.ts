@@ -14,24 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  ChangeDetectionStrategy,
-  Component,
-  NgModule,
-  ViewEncapsulation,
-} from '@angular/core';
-import {
-  EoFooterScam,
-  EoHeaderScam,
-} from '@energinet-datahub/eo/shared/ui-page-templates';
-import { WattButtonModule, WattCheckboxModule } from '@energinet-datahub/watt';
+import {ChangeDetectionStrategy, Component, NgModule, ViewEncapsulation,} from '@angular/core';
+import {EoFooterScam, EoHeaderScam,} from '@energinet-datahub/eo/shared/ui-page-templates';
+import {WattButtonModule, WattCheckboxModule} from '@energinet-datahub/watt';
 
-import { EoAuthTermsStore } from './eo-auth-terms.store';
-import { EoLogOutStore } from '@energinet-datahub/ett/auth/data-access-security';
-import { EoScrollViewScam } from '@energinet-datahub/eo/shared/ui-presentational-components';
-import { FormsModule } from '@angular/forms';
-import { Observable } from 'rxjs';
-import { PushModule } from '@rx-angular/template';
+import {EoAuthTermsStore} from './eo-auth-terms.store';
+import {EoLogOutStore} from '@energinet-datahub/ett/auth/data-access-security';
+import {EoScrollViewScam} from '@energinet-datahub/eo/shared/atomic-design/molecules';
+import {FormsModule} from '@angular/forms';
+import {Observable} from 'rxjs';
+import {PushModule} from '@rx-angular/template';
 
 const selector = 'eo-auth-terms';
 

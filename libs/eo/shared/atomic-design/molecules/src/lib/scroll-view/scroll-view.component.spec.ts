@@ -1,8 +1,7 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {EoScrollViewComponent} from './scroll-view.component';
 
-import { EoScrollViewComponent } from './scroll-view.component';
-
-describe('ScrollViewComponent', () => {
+describe(EoScrollViewComponent.name, () => {
   let component: EoScrollViewComponent;
   let fixture: ComponentFixture<EoScrollViewComponent>;
 

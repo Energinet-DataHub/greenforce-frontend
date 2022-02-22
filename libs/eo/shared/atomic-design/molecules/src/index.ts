@@ -1,1 +1,1 @@
-export * from './lib/molecules.module';
+export * from './lib/scroll-view/scroll-view.component';
