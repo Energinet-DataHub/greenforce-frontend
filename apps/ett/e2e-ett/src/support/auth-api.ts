@@ -70,4 +70,4 @@ export const allowGetTerms = () => {
       version: '1.0',
     }
   );
-}
+};

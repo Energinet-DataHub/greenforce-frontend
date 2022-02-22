@@ -14,4 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './lib/dh-metering-point-shell.module';
+export {
+  WattNavListComponent,
+  WattNavListModule,
+} from './watt-nav-list.component';
+export { WattNavListItemComponent } from './watt-nav-list-item.component';

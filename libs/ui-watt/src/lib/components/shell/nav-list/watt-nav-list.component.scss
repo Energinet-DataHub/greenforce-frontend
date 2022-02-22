@@ -14,4 +14,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './lib/dh-metering-point-shell.module';
+@use '@energinet-datahub/watt/utils' as watt;
+
+watt-nav-list {
+  --watt-nav-list-color-secondary: #f8ad3c;
+
+  background-color: var(--watt-color-primary-dark);
+  display: block;
+
+  .mat-list-base {
+    padding-top: 0;
+  }
+
+  .mat-nav-list .mat-list-item {
+    border-left: var(--watt-space-xs) solid transparent;
+    color: var(--watt-color-primary-contrast);
+    height: auto;
+
+    &:hover,
+    &.active {
+      background-color: var(--watt-color-primary);
+      border-left-color: var(--watt-nav-list-color-secondary);
+    }
+
+    .mat-list-item-content {
+      @include watt.space-inset-squish-m;
+    }
+  }
+}

@@ -14,13 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+
 import {
   EoAuthFeatureTermsComponent,
   EoAuthFeatureTermsScam,
 } from './eo-auth-feature-terms.component';
-import { RouterModule, Routes } from '@angular/router';
-
-import { NgModule } from '@angular/core';
 
 const routes: Routes = [
   {

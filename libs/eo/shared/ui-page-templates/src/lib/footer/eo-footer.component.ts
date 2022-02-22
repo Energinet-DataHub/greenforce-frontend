@@ -108,6 +108,6 @@ export class EoFooterComponent {}
 
 @NgModule({
   declarations: [EoFooterComponent],
-  exports: [EoFooterComponent]
+  exports: [EoFooterComponent],
 })
 export class EoFooterScam {}
