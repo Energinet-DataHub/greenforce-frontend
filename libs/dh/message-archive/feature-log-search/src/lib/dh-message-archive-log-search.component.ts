@@ -25,7 +25,7 @@
   WattInputModule,
  } from '@energinet-datahub/watt';
  import { DhMessageArchiveDataAccessApiModule } from '@energinet-datahub/dh/message-archive/data-access-api'
- import { BaseParsedDto } from '@energinet-datahub/dh/shared/data-access-api';
+ import { SearchCriteria, SearchResultItemDto } from '@energinet-datahub/dh/shared/data-access-api';
  import { LetModule } from '@rx-angular/template';
 
  @Component({
@@ -38,7 +38,7 @@
  })
  export class DhMessageArchiveLogSearchComponent {
    searchResult$ = this.searchApi.searchResult$;
-   searchResultsDtos: Array<BaseParsedDto> = [];
+   searchResultsDtos: Array<SearchResultItemDto> = [];
 
    searchControl = new FormControl();
    @ViewChild('searchInputMessageId') searchInputMessageId?: ElementRef;
@@ -53,7 +53,8 @@
     console.log("submit triggered");
     if(this.validateSearchParams()) {
       const id = this.searchInputMessageId?.nativeElement.value;
-      this.searchApi.searchLogs(id)
+      const searchCriteria:SearchCriteria = { messageId: id };
+      this.searchApi.searchLogs(searchCriteria)
     }
   }
 
