@@ -20,7 +20,7 @@ const selector = 'eo-privacy-policy';
       ${selector} {
         display: block;
         width: calc(200 * var(--watt-space-xs));
-        > .${selector}__heading {
+        > .${selector}__heading { // Overrides Angular Material styles for the h1 element
           text-transform: none; // Override .watt-headline-1
           margin-bottom: var(--watt-space-l);
         }

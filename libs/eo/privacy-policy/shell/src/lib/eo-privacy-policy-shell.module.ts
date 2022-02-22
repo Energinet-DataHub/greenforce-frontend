@@ -1,7 +1,7 @@
-import { EoPrivacyPolicyShellComponent, EoPrivacyPolicyShellScam } from './eo-privacy-policy-shell.component';
-import { RouterModule, Routes } from '@angular/router';
+import {EoPrivacyPolicyShellComponent, EoPrivacyPolicyShellScam} from './eo-privacy-policy-shell.component';
+import {RouterModule, Routes} from '@angular/router';
 
-import { NgModule } from '@angular/core';
+import {NgModule} from '@angular/core';
 
 const routes: Routes = [{
   path: '',
