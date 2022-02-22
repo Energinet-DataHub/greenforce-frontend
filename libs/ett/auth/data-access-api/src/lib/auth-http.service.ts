@@ -106,14 +106,24 @@ export class AuthHttp {
     });
   }
 
+  /**
+   * @todo Why not use a fixed endpoint value on our own API? Instead of: "endpointUrl", I.eg: /terms
+   */
   getTerms(endpointUrl: string): Observable<AuthTermsResponse> {
-    return this.http.get<AuthTermsResponse>(endpointUrl);
+    console.log('***');
+    console.log(`${this.#apiBase}`);
+    console.log(`${this.#apiBase}/${endpointUrl}`);
+    console.log('***');
+    return this.http.get<AuthTermsResponse>(`api/${endpointUrl}`);
   }
 
+  /**
+   * @todo Why not use a fixed endpoint value on our own API? Instead of: "endpointUrl", I.eg: /terms/accept
+   */
   postAcceptTerms(
     endpointUrl: string,
     payload: AuthTermsAcceptRequest
   ): Observable<AuthTermsAcceptResponse> {
-    return this.http.post<AuthTermsAcceptResponse>(endpointUrl, payload);
+    return this.http.post<AuthTermsAcceptResponse>(`${this.#apiBase}/${endpointUrl}`, payload);
   }
 }

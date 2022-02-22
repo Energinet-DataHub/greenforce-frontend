@@ -20,9 +20,7 @@ const selector = 'eo-scroll-view';
     `
     ${selector} {
       display: block;
-      width: calc(200 * var(--watt-space-xs));
       padding: calc(4 * var(--watt-space-xs));
-      margin-bottom: var(--watt-space-l);
       background: var(--watt-color-neutral-white);
       border-radius: var(--watt-space-xs);
       word-break: break-word;

@@ -14,11 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import 'jest-preset-angular/setup-jest';
-import {
-  setUpTestbed,
-  setUpNgMocks,
-} from '@energinet-datahub/gf/test-util-staging';
+import { InjectionToken } from '@angular/core';
 
-setUpTestbed();
-setUpNgMocks();
+export const browserLocationToken = new InjectionToken<Location>(
+  'browserLocationToken',
+  {
+    factory: () => location,
+    providedIn: 'platform',
+  }
+);

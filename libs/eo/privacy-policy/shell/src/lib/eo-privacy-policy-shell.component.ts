@@ -1,56 +1,29 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  NgModule,
-  ViewEncapsulation,
-} from '@angular/core';
-
-import { EoPrivacyPolicyStore } from './eo-privacy-policy.store';
-import { EoScrollViewScam } from '@energinet-datahub/eo/shared/atomic-design/atoms';
-import { Observable } from 'rxjs';
-import { PushModule } from '@rx-angular/template';
+import {ChangeDetectionStrategy, Component, NgModule, ViewEncapsulation,} from '@angular/core';
+import {EoPrivacyPolicyScam} from '@energinet-datahub/eo/shared/atomic-design/molecules';
 
 const selector = 'eo-privacy-policy-shell';
+
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   selector,
-  template: `
-    <div>
-      <h1>Read our privacy policy</h1>
-      <eo-scroll-view>
-        <div [innerHTML]="'<h3>Privacy policy section header</h3><p>Content of section one goes here..</p>'"></div>
-      </eo-scroll-view>
-    </div>
-  `,
+  template: `<eo-privacy-policy></eo-privacy-policy>`,
   styles: [
     `
       @use '@energinet-datahub/watt/utils' as watt;
-
       ${selector} {
         display: block;
-        > div:nth-of-type(1) {
-          display: block;
-          width: calc(200 * var(--watt-space-xs));
+        > eo-privacy-policy {
           margin-bottom: var(--watt-space-l);
-
-          > h1 {
-            @include watt.typography-watt-headline-1; // Mis-match with styles in Figma(?)
-            text-transform: none; // Override .watt-headline-1
-            margin-bottom: var(--watt-space-l);
-          }
         }
       }
     `
   ]
 })
-export class EoPrivacyPolicyShellComponent {
-  constructor(private store: EoPrivacyPolicyStore) {}
-}
+export class EoPrivacyPolicyShellComponent {}
 
 @NgModule({
-  providers: [EoPrivacyPolicyStore],
-  declarations: [EoPrivacyPolicyShellComponent],
-  imports: [EoScrollViewScam]
+  imports: [EoPrivacyPolicyScam],
+  declarations: [EoPrivacyPolicyShellComponent]
 })
 export class EoPrivacyPolicyShellScam {}
