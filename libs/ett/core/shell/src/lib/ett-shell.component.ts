@@ -50,7 +50,9 @@ const selector = 'ett-shell';
         }
 
         .watt-main-content {
-          min-height: calc(100% - 48px); // 48px is = available screen height minus the top bar
+          min-height: calc(
+            100% - 48px
+          ); // 48px is = available screen height minus the top bar
           padding: 0 !important; // We remove the padding, so we can stretch the footer out in full width
 
           /**
@@ -105,7 +107,6 @@ const selector = 'ett-shell';
           >Privacy policy
         </a>
       </eo-footer>
-
     </watt-shell>
   `,
 })
@@ -118,7 +119,7 @@ export class EttShellComponent {}
     WattShellModule,
     EttPrimaryNavigationScam,
     EoProductLogoScam,
-    EoFooterScam
+    EoFooterScam,
   ],
 })
 export class EttShellScam {}

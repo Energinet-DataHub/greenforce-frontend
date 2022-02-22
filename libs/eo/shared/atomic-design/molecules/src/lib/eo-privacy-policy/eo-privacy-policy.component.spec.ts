@@ -16,20 +16,20 @@
  */
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { EoPrivacyPolicyShellComponent } from './eo-privacy-policy-shell.component';
+import { EoPrivacyPolicyComponent } from './eo-privacy-policy.component';
 
-describe('EoPrivacyPageShellComponent', () => {
-  let component: EoPrivacyPolicyShellComponent;
-  let fixture: ComponentFixture<EoPrivacyPolicyShellComponent>;
+describe(EoPrivacyPolicyComponent.name, () => {
+  let component: EoPrivacyPolicyComponent;
+  let fixture: ComponentFixture<EoPrivacyPolicyComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [EoPrivacyPolicyShellComponent],
+      declarations: [EoPrivacyPolicyComponent],
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(EoPrivacyPolicyShellComponent);
+    fixture = TestBed.createComponent(EoPrivacyPolicyComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
