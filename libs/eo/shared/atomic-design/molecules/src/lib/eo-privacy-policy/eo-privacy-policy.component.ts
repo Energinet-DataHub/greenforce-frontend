@@ -11,7 +11,8 @@ const selector = 'eo-privacy-policy';
   template: `
     <h1 class="${selector}__heading">{{ headline$ | push }}</h1>
     <eo-scroll-view>
-      <div [innerHTML]="terms$ | push"></div>
+      <p class="${selector}__paragraph">Version {{ version$ | push }}</p>
+      <div [innerHTML]="privacyPolicy$ | push"></div>
     </eo-scroll-view>
   `,
   styles: [
@@ -21,8 +22,12 @@ const selector = 'eo-privacy-policy';
         display: block;
         width: calc(200 * var(--watt-space-xs));
         > .${selector}__heading { // Overrides Angular Material styles for the h1 element
+          @include watt.typography-watt-headline-1;
           text-transform: none; // Override .watt-headline-1
-          margin-bottom: var(--watt-space-l);
+        }
+        .${selector}__paragraph {
+          @include watt.typography-watt-text-s;
+          color: var(--watt-color-neutral-grey-600);
         }
       }
     `
@@ -31,9 +36,9 @@ const selector = 'eo-privacy-policy';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EoPrivacyPolicyComponent {
-  version$: Observable<string> = this.store.version$;
   headline$: Observable<string> = this.store.headline$;
-  terms$: Observable<string> = this.store.privacyPolicy$;
+  version$: Observable<string> = this.store.version$;
+  privacyPolicy$: Observable<string> = this.store.privacyPolicy$;
 
   constructor(private store: EoPrivacyPolicyStore) { }
 }

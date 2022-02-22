@@ -10,12 +10,8 @@ const selector = 'eo-privacy-policy-shell';
   template: `<eo-privacy-policy></eo-privacy-policy>`,
   styles: [
     `
-      @use '@energinet-datahub/watt/utils' as watt;
       ${selector} {
         display: block;
-        > eo-privacy-policy {
-          margin-bottom: var(--watt-space-l);
-        }
       }
     `
   ]
