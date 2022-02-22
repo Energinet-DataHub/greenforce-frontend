@@ -14,11 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {Inject, Injectable} from '@angular/core';
-import {ComponentStore, tapResponse} from '@ngrx/component-store';
-import {filter, map, Observable, of, switchMap,} from 'rxjs';
-import {AuthHttp} from '@energinet-datahub/ett/auth/data-access-api';
-import {browserLocationToken} from './browser-location.token';
+import { Inject, Injectable } from '@angular/core';
+import { ComponentStore, tapResponse } from '@ngrx/component-store';
+import { filter, map, Observable, of, switchMap } from 'rxjs';
+import { AuthHttp } from '@energinet-datahub/ett/auth/data-access-api';
+import { browserLocationToken } from './browser-location.token';
 
 interface EoPrivacyPolicyState {
   readonly headline: string | null;
@@ -28,7 +28,6 @@ interface EoPrivacyPolicyState {
 }
 @Injectable()
 export class EoPrivacyPolicyStore extends ComponentStore<EoPrivacyPolicyState> {
-
   /**
    * @todo (1) Discuss with backend if can use a fixed endpoint value inside the AuthHttp client here - What benefit do we have by parsing this in as a dynamic value?
    */
@@ -44,7 +43,9 @@ export class EoPrivacyPolicyStore extends ComponentStore<EoPrivacyPolicyState> {
     map((headline) => headline as string)
   );
 
-  privacyPolicy$: Observable<string> = this.select((state) => state.privacyPolicy).pipe(
+  privacyPolicy$: Observable<string> = this.select(
+    (state) => state.privacyPolicy
+  ).pipe(
     filter((terms) => terms !== null),
     map((terms) => terms as string)
   );

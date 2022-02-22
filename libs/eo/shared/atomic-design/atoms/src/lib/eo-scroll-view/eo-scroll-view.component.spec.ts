@@ -1,5 +1,5 @@
-import {ComponentFixture, TestBed} from '@angular/core/testing';
-import {EoScrollViewComponent} from './eo-scroll-view.component';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { EoScrollViewComponent } from './eo-scroll-view.component';
 
 describe(EoScrollViewComponent.name, () => {
   let component: EoScrollViewComponent;
@@ -7,9 +7,8 @@ describe(EoScrollViewComponent.name, () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [EoScrollViewComponent]
-    })
-    .compileComponents();
+      declarations: [EoScrollViewComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

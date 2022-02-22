@@ -1,5 +1,10 @@
-import {ChangeDetectionStrategy, Component, NgModule, ViewEncapsulation,} from '@angular/core';
-import {EoPrivacyPolicyScam} from '@energinet-datahub/eo/shared/atomic-design/molecules';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  NgModule,
+  ViewEncapsulation,
+} from '@angular/core';
+import { EoPrivacyPolicyScam } from '@energinet-datahub/eo/shared/atomic-design/molecules';
 
 const selector = 'eo-privacy-policy-shell';
 
@@ -17,13 +22,13 @@ const selector = 'eo-privacy-policy-shell';
           margin-bottom: var(--watt-space-l);
         }
       }
-    `
-  ]
+    `,
+  ],
 })
 export class EoPrivacyPolicyShellComponent {}
 
 @NgModule({
   imports: [EoPrivacyPolicyScam],
-  declarations: [EoPrivacyPolicyShellComponent]
+  declarations: [EoPrivacyPolicyShellComponent],
 })
 export class EoPrivacyPolicyShellScam {}

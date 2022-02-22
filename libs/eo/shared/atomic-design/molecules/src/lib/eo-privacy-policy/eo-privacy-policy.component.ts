@@ -1,8 +1,13 @@
-import {ChangeDetectionStrategy, Component, NgModule, ViewEncapsulation} from '@angular/core';
-import {EoPrivacyPolicyStore} from './eo-privacy-policy.store';
-import {EoScrollViewScam} from '@energinet-datahub/eo/shared/atomic-design/atoms';
-import {Observable} from 'rxjs';
-import {PushModule} from '@rx-angular/template';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  NgModule,
+  ViewEncapsulation,
+} from '@angular/core';
+import { EoPrivacyPolicyStore } from './eo-privacy-policy.store';
+import { EoScrollViewScam } from '@energinet-datahub/eo/shared/atomic-design/atoms';
+import { Observable } from 'rxjs';
+import { PushModule } from '@rx-angular/template';
 
 const selector = 'eo-privacy-policy';
 
@@ -20,28 +25,29 @@ const selector = 'eo-privacy-policy';
       ${selector} {
         display: block;
         width: calc(200 * var(--watt-space-xs));
-        > .${selector}__heading { // Overrides Angular Material styles for the h1 element
+        > .${selector}__heading {
+          // Overrides Angular Material styles for the h1 element
           text-transform: none; // Override .watt-headline-1
           margin-bottom: var(--watt-space-l);
         }
       }
-    `
+    `,
   ],
   encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EoPrivacyPolicyComponent {
   version$: Observable<string> = this.store.version$;
   headline$: Observable<string> = this.store.headline$;
   terms$: Observable<string> = this.store.privacyPolicy$;
 
-  constructor(private store: EoPrivacyPolicyStore) { }
+  constructor(private store: EoPrivacyPolicyStore) {}
 }
 
 @NgModule({
   imports: [EoScrollViewScam, PushModule],
   providers: [EoPrivacyPolicyStore],
   declarations: [EoPrivacyPolicyComponent],
-  exports: [EoPrivacyPolicyComponent]
+  exports: [EoPrivacyPolicyComponent],
 })
 export class EoPrivacyPolicyScam {}

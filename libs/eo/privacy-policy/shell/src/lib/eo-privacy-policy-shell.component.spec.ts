@@ -8,9 +8,8 @@ describe('EoPrivacyPageShellComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ EoPrivacyPolicyShellComponent ]
-    })
-    .compileComponents();
+      declarations: [EoPrivacyPolicyShellComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

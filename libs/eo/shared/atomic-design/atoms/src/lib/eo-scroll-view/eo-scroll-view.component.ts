@@ -18,39 +18,39 @@ const selector = 'eo-scroll-view';
   `,
   styles: [
     `
-    ${selector} {
-      display: block;
-      padding: calc(4 * var(--watt-space-xs));
-      background: var(--watt-color-neutral-white);
-      border-radius: var(--watt-space-xs);
-      word-break: break-word;
-
-      // This is the contents of the privacy policy with the custom scrollbar
-      article {
-        max-height: calc(100 * var(--watt-space-xs));
+      ${selector} {
+        display: block;
+        padding: calc(4 * var(--watt-space-xs));
+        background: var(--watt-color-neutral-white);
+        border-radius: var(--watt-space-xs);
         word-break: break-word;
-        overflow-y: scroll;
-        padding-right: calc(4 * var(--watt-space-xs));
-        &::-webkit-scrollbar {
-          width: 6px;
-        }
-        &::-webkit-scrollbar-track {
-          background: var(--watt-color-neutral-white);
-          border-radius: 50px;
-        }
-        &::-webkit-scrollbar-thumb {
-          background-color: var(--watt-color-primary);
-          border-radius: 50px;
+
+        // This is the contents of the privacy policy with the custom scrollbar
+        article {
+          max-height: calc(100 * var(--watt-space-xs));
+          word-break: break-word;
+          overflow-y: scroll;
+          padding-right: calc(4 * var(--watt-space-xs));
+          &::-webkit-scrollbar {
+            width: 6px;
+          }
+          &::-webkit-scrollbar-track {
+            background: var(--watt-color-neutral-white);
+            border-radius: 50px;
+          }
+          &::-webkit-scrollbar-thumb {
+            background-color: var(--watt-color-primary);
+            border-radius: 50px;
+          }
         }
       }
-    }
-    `
-  ]
+    `,
+  ],
 })
-export class EoScrollViewComponent  {}
+export class EoScrollViewComponent {}
 
 @NgModule({
   declarations: [EoScrollViewComponent],
-  exports: [EoScrollViewComponent]
+  exports: [EoScrollViewComponent],
 })
 export class EoScrollViewScam {}

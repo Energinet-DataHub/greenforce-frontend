@@ -54,8 +54,11 @@ const routes: Routes = [
       },
       {
         path: 'privacy-policy',
-        loadChildren: () => import('@energinet-datahub/eo/privacy-policy/shell').then(esModule => esModule.EoPrivacyPolicyShellModule)
-      }
+        loadChildren: () =>
+          import('@energinet-datahub/eo/privacy-policy/shell').then(
+            (esModule) => esModule.EoPrivacyPolicyShellModule
+          ),
+      },
     ],
   },
 ];
