@@ -40,7 +40,9 @@ limitations under the License.
       <mat-header-cell
         *matHeaderCellDef
         mat-sort-header
-        [sortActionDescription]="'meteringPoint.overview.processesTab.sortDescription.name' | transloco"
+        [sortActionDescription]="
+          'meteringPoint.overview.processesTab.sortDescription.name' | transloco
+        "
         class="header-cell watt-label"
       >
         {{ 'meteringPoint.overview.processesTab.headers.name' | transloco }}
@@ -63,7 +65,9 @@ limitations under the License.
         "
         class="header-cell watt-label"
       >
-        {{ 'meteringPoint.overview.processesTab.headers.createdDate' | transloco }}
+        {{
+          'meteringPoint.overview.processesTab.headers.createdDate' | transloco
+        }}
       </mat-header-cell>
       <mat-cell *matCellDef="let row">
         <watt-icon
@@ -80,10 +84,16 @@ limitations under the License.
       <mat-header-cell
         *matHeaderCellDef
         mat-sort-header
-        [sortActionDescription]="'meteringPoint.overview.processesTab.sortDescription.effectiveDate' | transloco"
+        [sortActionDescription]="
+          'meteringPoint.overview.processesTab.sortDescription.effectiveDate'
+            | transloco
+        "
         class="header-cell watt-label"
       >
-        {{ 'meteringPoint.overview.processesTab.headers.effectiveDate' | transloco }}
+        {{
+          'meteringPoint.overview.processesTab.headers.effectiveDate'
+            | transloco
+        }}
       </mat-header-cell>
       <mat-cell *matCellDef="let row">
         <watt-icon
@@ -100,7 +110,10 @@ limitations under the License.
       <mat-header-cell
         *matHeaderCellDef
         mat-sort-header
-        [sortActionDescription]="'meteringPoint.overview.processesTab.sortDescription.status' | transloco"
+        [sortActionDescription]="
+          'meteringPoint.overview.processesTab.sortDescription.status'
+            | transloco
+        "
         class="header-cell watt-label"
       >
         {{ 'meteringPoint.overview.processesTab.headers.status' | transloco }}
