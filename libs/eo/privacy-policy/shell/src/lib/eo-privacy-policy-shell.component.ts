@@ -20,7 +20,7 @@ import {
   NgModule,
   ViewEncapsulation,
 } from '@angular/core';
-import { EoPrivacyPolicyScam } from '@energinet-datahub/eo/shared/atomic-design/molecules';
+import { EoPrivacyPolicyScam } from '@energinet-datahub/eo-shared-atomic-design-feature-molecules';
 
 const selector = 'eo-privacy-policy-shell';
 

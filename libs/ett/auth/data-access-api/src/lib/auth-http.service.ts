@@ -106,16 +106,15 @@ export class AuthHttp {
     });
   }
 
-  getTerms(endpointUrl: string): Observable<AuthTermsResponse> {
-    return this.http.get<AuthTermsResponse>(`${this.#apiBase}/${endpointUrl}`);
+  getTerms(): Observable<AuthTermsResponse> {
+    return this.http.get<AuthTermsResponse>(`${this.#apiBase}/terms`);
   }
 
   postAcceptTerms(
-    endpointUrl: string,
     payload: AuthTermsAcceptRequest
   ): Observable<AuthTermsAcceptResponse> {
     return this.http.post<AuthTermsAcceptResponse>(
-      `${this.#apiBase}/${endpointUrl}`,
+      `${this.#apiBase}/terms/accept`,
       payload
     );
   }

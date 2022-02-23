@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 module.exports = {
-  displayName: 'eo-shared-atomic-design-molecules',
+  displayName: 'eo-shared-atomic-design-feature-molecules',
   preset: '../../../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   globals: {
@@ -25,7 +25,7 @@ module.exports = {
     },
   },
   coverageDirectory:
-    '../../../../../coverage/libs/eo/shared/atomic-design/molecules',
+    '../../../../../coverage/libs/eo/shared/atomic-design/feature-molecules',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': 'jest-preset-angular',
   },

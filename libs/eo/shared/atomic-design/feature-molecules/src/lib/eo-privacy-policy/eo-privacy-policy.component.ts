@@ -14,15 +14,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {ChangeDetectionStrategy, Component, NgModule, ViewEncapsulation, Output, EventEmitter, OnDestroy} from '@angular/core';
-import {EoPrivacyPolicyStore} from './eo-privacy-policy.store';
-import {EoScrollViewScam} from '@energinet-datahub/eo/shared/atomic-design/atoms';
-import {Observable, Subscription} from 'rxjs';
-import {PushModule} from '@rx-angular/template';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  NgModule,
+  ViewEncapsulation,
+  Output,
+} from '@angular/core';
+import { EoPrivacyPolicyStore } from './eo-privacy-policy.store';
+import { EoScrollViewScam } from '@energinet-datahub/eo-shared-atomic-design-ui-atoms';
+import { Observable } from 'rxjs';
+import { PushModule } from '@rx-angular/template';
 
 const selector = 'eo-privacy-policy';
 
 @Component({
+  providers: [EoPrivacyPolicyStore],
   selector,
   template: `
     <h1 class="${selector}__heading">{{ headline$ | push }}</h1>
@@ -30,7 +37,6 @@ const selector = 'eo-privacy-policy';
       <p class="${selector}__paragraph">Version {{ version$ | push }}</p>
       <div [innerHTML]="privacyPolicy$ | push"></div>
     </eo-scroll-view>
-    <ng-content></ng-content>
   `,
   styles: [
     `
@@ -53,28 +59,18 @@ const selector = 'eo-privacy-policy';
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class EoPrivacyPolicyComponent implements OnDestroy {
-  subscription: Subscription = new Subscription();
+export class EoPrivacyPolicyComponent {
   headline$: Observable<string> = this.store.headline$;
   version$: Observable<string> = this.store.version$;
   privacyPolicy$: Observable<string> = this.store.privacyPolicy$;
 
-  @Output() versionEmitter = new EventEmitter<string>();
+  @Output() versionChange = this.store.version$;
 
-  constructor(private store: EoPrivacyPolicyStore) {
-    this.subscription.add(
-      this.store.version$.subscribe(version => this.versionEmitter.emit(version))
-    );
-  }
-
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
-  }
+  constructor(private store: EoPrivacyPolicyStore) {}
 }
 
 @NgModule({
   imports: [EoScrollViewScam, PushModule],
-  providers: [EoPrivacyPolicyStore],
   declarations: [EoPrivacyPolicyComponent],
   exports: [EoPrivacyPolicyComponent],
 })

@@ -90,6 +90,12 @@
       "@energinet-datahub/dh/shared/ui-date-time": [
         "libs/dh/shared/ui-date-time/src/index.ts"
       ],
+      "@energinet-datahub/eo-shared-atomic-design-feature-molecules": [
+        "libs/eo/shared/atomic-design/feature-molecules/src/index.ts"
+      ],
+      "@energinet-datahub/eo-shared-atomic-design-ui-atoms": [
+        "libs/eo/shared/atomic-design/ui-atoms/src/index.ts"
+      ],
       "@energinet-datahub/eo/auth/feature-terms": [
         "libs/eo/auth/feature-terms/src/index.ts"
       ],
@@ -104,12 +110,6 @@
       ],
       "@energinet-datahub/eo/shared/assets": [
         "libs/eo/shared/assets/src/index.ts"
-      ],
-      "@energinet-datahub/eo/shared/atomic-design/atoms": [
-        "libs/eo/shared/atomic-design/atoms/src/index.ts"
-      ],
-      "@energinet-datahub/eo/shared/atomic-design/molecules": [
-        "libs/eo/shared/atomic-design/molecules/src/index.ts"
       ],
       "@energinet-datahub/eo/shared/atomic-design/organisms": [
         "libs/eo/shared/atomic-design/organisms/src/index.ts"

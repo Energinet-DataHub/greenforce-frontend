@@ -33,9 +33,6 @@ describe(EoAuthTermsStore.name, () => {
           }),
           MockProvider(ActivatedRoute, {
             queryParams: of({
-              terms_url: 'https://energioprindelse.dk/api/auth/terms',
-              terms_accept_url:
-                'https://energioprindelse.dk/api/auth/terms/accept',
               state,
             }),
           }),
@@ -56,7 +53,8 @@ describe(EoAuthTermsStore.name, () => {
 
     it('Then "version", "accepted" & "state" is added to the accept terms request', async () => {
       const authHttp = TestBed.inject(AuthHttp);
-      store.onAcceptTerms(version);
+      store.onVersionChange(version);
+      store.onAcceptTerms();
       expect(authHttp.postAcceptTerms).toHaveBeenCalledWith(
         'https://energioprindelse.dk/api/auth/terms/accept',
         {
@@ -70,7 +68,8 @@ describe(EoAuthTermsStore.name, () => {
 
     it('Then the "next_url" is received after accepting the terms', async () => {
       const location = TestBed.inject(browserLocationToken);
-      store.onAcceptTerms(version);
+      store.onVersionChange(version);
+      store.onAcceptTerms();
       expect(location.replace).toHaveBeenCalledWith('/dashboard?success=1');
       expect(location.replace).toHaveBeenCalledTimes(1);
     });

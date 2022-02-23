@@ -17,24 +17,25 @@
 import {Inject, Injectable} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {ComponentStore, tapResponse} from '@ngrx/component-store';
-import {combineLatest, exhaustMap, mergeMap, Observable, take} from 'rxjs';
+import {combineLatest, exhaustMap, filter, map, mergeMap, Observable, take} from 'rxjs';
 import {AuthHttp} from '@energinet-datahub/ett/auth/data-access-api';
 import {browserLocationToken} from './browser-location.token';
 
 interface EoAuthTermsState {
   readonly version: string | null;
-  readonly state: string | null;
 }
 @Injectable()
 export class EoAuthTermsStore extends ComponentStore<EoAuthTermsState> {
-  #acceptTermsUrl$: Observable<string> = this.select(
-    this.route.queryParams,
-    (params) => params.terms_accept_url
-  );
-  #state$: Observable<string> = this.select(
+  #authState$: Observable<string> = this.select(
     this.route.queryParams,
     (params) => params.state
   );
+
+  #version$: Observable<string> = this.select(state => state.version)
+    .pipe(
+      filter(version => version !== null),
+      map(version => version as string)
+    );
 
   constructor(
     private authHttp: AuthHttp,
@@ -44,18 +45,20 @@ export class EoAuthTermsStore extends ComponentStore<EoAuthTermsState> {
     super(initialState);
   }
 
-  // @todo This is triggered every second time now(?)
-  onAcceptTerms = this.effect<string>((version$) =>
-    version$.pipe(
+  onVersionChange = this.updater<string>((state, version): EoAuthTermsState => ({
+    ...state, version
+  }));
+
+  onAcceptTerms = this.effect<void>((origin$) =>
+    origin$.pipe(
       exhaustMap(() =>
         combineLatest([
-          this.#acceptTermsUrl$,
-          version$,
-          this.#state$,
+          this.#authState$,
+          this.#version$
         ]).pipe(
           take(1),
-          mergeMap(([acceptTermsUrl, version, state]) =>
-            this.authHttp.postAcceptTerms(acceptTermsUrl, {
+          mergeMap(([version, state]) =>
+            this.authHttp.postAcceptTerms({
               version,
               accepted: true,
               state,
@@ -76,5 +79,4 @@ export class EoAuthTermsStore extends ComponentStore<EoAuthTermsState> {
 
 const initialState: EoAuthTermsState = {
   version: null,
-  state: null,
 };
