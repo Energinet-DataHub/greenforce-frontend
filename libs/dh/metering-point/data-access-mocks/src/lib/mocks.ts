@@ -17,9 +17,7 @@
 import { MeteringPointCimDto } from '@energinet-datahub/dh/shared/data-access-api';
 import { rest } from 'msw';
 
-export const meteringPointMocks = [
-  getByGsrn()
-];
+export const meteringPointMocks = [getByGsrn()];
 
 function getByGsrn() {
   return rest.get(
