@@ -19,7 +19,10 @@ import { TestBed } from '@angular/core/testing';
 import { lastValueFrom } from 'rxjs';
 
 import { DhApiModule } from './dh-api.module';
-import { MeteringPointCimDto, MeteringPointHttp } from '@energinet-datahub/dh/shared/domain';
+import {
+  MeteringPointCimDto,
+  MeteringPointHttp,
+} from '@energinet-datahub/dh/shared/domain';
 
 const nullGsrn = '000000000000000000';
 
