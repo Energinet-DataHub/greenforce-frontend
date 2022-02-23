@@ -17,28 +17,28 @@
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { Meta, moduleMetadata, Story } from '@storybook/angular';
 
-import { WattAutocompleteComponent } from './autocomplete.component';
-import { WattAutocompleteModule } from './autocomplete.module';
+import { WattDropdownComponent } from './watt-dropdown.component';
+import { WattDropdownModule } from './watt-dropdown.module';
 
 export default {
-  title: 'Components/Autocomplete',
-  component: WattAutocompleteComponent,
+  title: 'Components/Dropdown',
+  component: WattDropdownComponent,
   decorators: [
     moduleMetadata({
-      imports: [NoopAnimationsModule, WattAutocompleteModule],
+      imports: [NoopAnimationsModule, WattDropdownModule],
     }),
   ],
-} as Meta<WattAutocompleteComponent>;
+} as Meta<WattDropdownComponent>;
 
 //👇 We create a “template” of how args map to rendering
-const Template: Story<WattAutocompleteComponent> = (args) => ({
+const Template: Story<WattDropdownComponent> = (args) => ({
   props: args,
 });
 
 //👇 Each story then reuses that template
-export const Autocomplete = Template.bind({});
+export const Dropdown = Template.bind({});
 
-Autocomplete.args = {
+Dropdown.args = {
   label: 'Numbers',
   placeholder: 'Pick a number',
   options: ['1', '2', '3'],

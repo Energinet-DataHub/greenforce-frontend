@@ -21,11 +21,11 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 
-import { WattAutocompleteComponent } from './autocomplete.component';
+import { WattDropdownComponent } from './watt-dropdown.component';
 
 @NgModule({
-  declarations: [WattAutocompleteComponent],
-  exports: [WattAutocompleteComponent],
+  declarations: [WattDropdownComponent],
+  exports: [WattDropdownComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -34,4 +34,4 @@ import { WattAutocompleteComponent } from './autocomplete.component';
     MatInputModule,
   ],
 })
-export class WattAutocompleteModule {}
+export class WattDropdownModule {}

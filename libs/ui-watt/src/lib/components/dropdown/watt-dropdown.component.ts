@@ -18,31 +18,31 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
 @Component({
-  selector: 'watt-autocomplete',
-  templateUrl: './autocomplete.component.html',
-  styleUrls: ['./autocomplete.component.scss'],
+  selector: 'watt-dropdown',
+  templateUrl: './watt-dropdown.component.html',
+  styleUrls: ['./watt-dropdown.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class WattAutocompleteComponent {
+export class WattDropdownComponent {
   /**
    * @ignore
    */
   myControl = new FormControl();
   /**
-   * Sets the label for the autocomplete.
+   * Sets the label for the dropdown.
    *
    * @required
    */
   @Input() label = '';
   /**
-   * Sets the placeholder for the autocomplete.
+   * Sets the placeholder for the dropdown.
    *
    * @required
    */
   @Input() placeholder = '';
   /**
    *
-   * Sets the options for the autocomplete.
+   * Sets the options for the dropdown.
    */
   @Input() options: string[] = [];
 }
