@@ -149,6 +149,7 @@ jobs:
 
   helm_chart_version_increment_check:
     name: Helm chart check version
+    if: github.event_name == 'pull_request'
     needs: affected
     uses: Energinet-DataHub/.github/.github/workflows/version-increment-check.yaml@main
     with:
@@ -157,6 +158,7 @@ jobs:
 
   app_version_increment_check:
     name: API check version
+    if: github.event_name == 'pull_request'
     needs: affected
     uses: Energinet-DataHub/.github/.github/workflows/version-increment-check.yaml@main
     with:
@@ -166,8 +168,6 @@ jobs:
   build_container_and_release_chart:
     name: Build containers
     needs:
-      - helm_chart_version_increment_check
-      - app_version_increment_check
       - define_build
       - app
     uses: Energinet-DataHub/.github/.github/workflows/build-containers-and-release-chart.yaml@main
