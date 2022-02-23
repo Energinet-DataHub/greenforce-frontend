@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- module.exports = {
+module.exports = {
   displayName: 'dh-charges-data-access-mocks',
   preset: '../../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
@@ -24,8 +24,7 @@
       stringifyContentPathRegex: '\\.(html|svg)$',
     },
   },
-  coverageDirectory:
-    '../../../../coverage/libs/dh/charges/data-access-mocks',
+  coverageDirectory: '../../../../coverage/libs/dh/charges/data-access-mocks',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': 'jest-preset-angular',
   },
