@@ -17,91 +17,123 @@
 import { render, screen } from '@testing-library/angular';
 import { MatcherOptions } from '@testing-library/dom';
 
-import {
-  ConnectionState,
-  MeteringPointSimpleCimDto,
-  MeteringPointType,
-} from '@energinet-datahub/dh/shared/data-access-api';
+import { Process } from '@energinet-datahub/dh/shared/data-access-api';
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
 import { runOnPushChangeDetection } from '@energinet-datahub/dh/shared/test-util-metering-point';
 
 import {
   DhProcessesTableComponent,
-  DhChildMeteringPointsTabContentScam,
+  DhProcessesTableScam,
 } from './dh-processes-table.component';
+import { DHProcess } from '../../../../../data-access-api/src/model/dh-process';
 
-const testData: MeteringPointSimpleCimDto[] = [
-  {
-    gsrnNumber: '570263739584198159',
-    effectiveDate: '2020-01-03T00:00:00Z',
-    connectionState: ConnectionState.E22,
-    meteringPointId: '10',
-    meteringPointType: MeteringPointType.D09,
-  },
-  {
-    gsrnNumber: '574289323666998780',
-    effectiveDate: '2020-01-02T00:00:00Z',
-    connectionState: ConnectionState.D03,
-    meteringPointId: '20',
-    meteringPointType: MeteringPointType.D01,
-  },
-  {
-    gsrnNumber: '579702678493999563',
-    effectiveDate: '2020-04-01T00:00:00Z',
-    connectionState: ConnectionState.D02,
-    meteringPointId: '30',
-    meteringPointType: MeteringPointType.D02,
-  },
-];
+const succeededProcessId = '2c4024f5-762d-4a41-a75e-d045c0ed6572';
+const failedProcessId = '2c4024f5-762d-4a41-a75e-d045c0ed6573';
+const mpGsrn = '577512493148035787';
+const process = {
+  id: succeededProcessId,
+  meteringPointGsrn: mpGsrn,
+  name: 'BRS-004',
+  createdDate: '2022-02-15T13:46:59.4781826',
+  effectiveDate: '2021-09-25T23:00:00',
+  status: 'Completed',
+  details: [
+    {
+      id: 'de567425-a420-48da-9391-0696cd036391',
+      processId: succeededProcessId,
+      name: 'RequestCreateMeteringPoint',
+      sender: '1',
+      receiver: '2',
+      createdDate: '2022-02-15T13:46:59.4781826',
+      effectiveDate: '2021-09-25T23:00:00',
+      status: 'Received',
+      errors: [],
+    },
+    {
+      id: 'be684c80-c78f-41ae-b47c-90f09fa54415',
+      processId: succeededProcessId,
+      name: 'ConfirmCreateMeteringPoint',
+      sender: '1',
+      receiver: '2',
+      createdDate: '2022-02-15T13:46:59.4782634',
+      effectiveDate: null,
+      status: 'Sent',
+      errors: [],
+    },
+  ],
+} as Process;
+
+const successProcess = new DHProcess(process);
+const failedProcess = new DHProcess({
+  ...process,
+  id: failedProcessId,
+  details: [
+    {
+      ...process.details[0],
+      processId: failedProcessId,
+    },
+    {
+      ...process.details[1],
+      processId: failedProcessId,
+      name: 'RejectCreateMeteringPoint',
+      errors: [
+        {
+          id: '504683c2-c12d-401e-4324-08d9f14626c5',
+          processDetailId: '28d76085-19f8-4a29-8e8f-213b0d349a41',
+          code: 'D16',
+          description:
+            'GSRN number 572330206146502471 not allowed: The specified metering point is currently not connected nor disconnected (physical status Disconnected)',
+        },
+      ],
+    },
+  ],
+});
+const testData: DHProcess[] = [successProcess, failedProcess];
 
 describe(DhProcessesTableComponent.name, () => {
-  async function setup(childMeteringPoints?: Array<MeteringPointSimpleCimDto>) {
+  async function setup(processes?: DHProcess[]) {
     const { fixture } = await render(DhProcessesTableComponent, {
       componentProperties: {
-        sortedData: childMeteringPoints,
-        childMeteringPoints,
+        processes: processes,
       },
-      imports: [
-        getTranslocoTestingModule(),
-        DhChildMeteringPointsTabContentScam,
-      ],
+      imports: [getTranslocoTestingModule(), DhProcessesTableScam],
     });
 
-    runOnPushChangeDetection(fixture);
+    await runOnPushChangeDetection(fixture);
+    fixture.componentInstance.ngAfterViewInit();
+    await runOnPushChangeDetection(fixture); // Yes, this needs to be here as well since ngAfterViewInit results in a property being updated
   }
 
-  it(`Given child metering points data,
-      Then each child metering point is displayed in a separate table row`, async () => {
+  it(`Should show a single row of process data`, async () => {
     await setup(testData);
 
     const disableQuerySuggestions: MatcherOptions = { suggest: false };
-    const actualGsrnNumbers = screen.getAllByTestId(
-      'gsrn',
+    const actualProcessNames = screen.getAllByTestId(
+      'processName',
       disableQuerySuggestions
     );
 
-    expect(actualGsrnNumbers.length).toBe(testData.length);
+    expect(actualProcessNames.length).toBe(testData.length);
 
-    actualGsrnNumbers.forEach((gsrnNumber, index) => {
-      expect(gsrnNumber.textContent?.trim()).toBe(testData[index].gsrnNumber);
+    actualProcessNames.forEach((processName, index) => {
+      expect(processName.textContent?.trim()).toBe(testData[index].name);
     });
   });
 
-  it(`Given child metering points data is empty,
-    Then empty state is displayed`, async () => {
-    await setup([]);
+  it(`Should contain one successful and one failed process`, async () => {
+    await setup(testData);
 
-    const heading = screen.getByRole('heading', { level: 5 });
+    const disableQuerySuggestions: MatcherOptions = { suggest: false };
+    const processes = screen.getAllByTestId(
+      'processHasErrors',
+      disableQuerySuggestions
+    );
 
-    expect(heading).toBeInTheDocument();
-  });
-
-  it(`Given child metering points data is "undefined",
-    Then empty state is displayed`, async () => {
-    await setup(undefined);
-
-    const heading = screen.getByRole('heading', { level: 5 });
-
-    expect(heading).toBeInTheDocument();
+    expect(processes[0].getElementsByTagName('mat-icon')[0].innerHTML).toBe(
+      'dangerous'
+    );
+    expect(processes[1].getElementsByTagName('mat-icon')[0].innerHTML).toBe(
+      'check_circle'
+    );
   });
 });

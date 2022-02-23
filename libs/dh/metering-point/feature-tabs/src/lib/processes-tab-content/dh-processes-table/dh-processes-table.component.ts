@@ -128,4 +128,4 @@ export class DhProcessesTableComponent implements AfterViewInit {
   ],
   exports: [DhProcessesTableComponent],
 })
-export class DhProcessTableScam {}
+export class DhProcessesTableScam {}

@@ -25,7 +25,7 @@ import { TranslocoModule } from '@ngneat/transloco';
 import { LetModule } from '@rx-angular/template';
 import { map, Observable, Subject, takeUntil } from 'rxjs';
 import { DhProcessesDataAccessApiStore } from '@energinet-datahub/dh/metering-point/data-access-api';
-import { DhProcessTableScam } from './dh-processes-table/dh-processes-table.component';
+import { DhProcessesTableScam } from './dh-processes-table/dh-processes-table.component';
 
 @Component({
   selector: 'dh-processes-tab-content',
@@ -74,7 +74,7 @@ export class DhProcessesTabContentComponent implements OnDestroy {
     WattSpinnerModule,
     LetModule,
     TranslocoModule,
-    DhProcessTableScam,
+    DhProcessesTableScam,
   ],
   exports: [DhProcessesTabContentComponent],
 })

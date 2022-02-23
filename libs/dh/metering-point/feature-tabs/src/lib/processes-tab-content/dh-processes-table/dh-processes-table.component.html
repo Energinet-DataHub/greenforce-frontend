@@ -40,12 +40,12 @@ limitations under the License.
       <mat-header-cell
         *matHeaderCellDef
         mat-sort-header
-        sortActionDescription="Sort by name"
+        [sortActionDescription]="'meteringPoint.overview.processesTab.sortDescription.name' | transloco"
         class="header-cell watt-label"
       >
         {{ 'meteringPoint.overview.processesTab.headers.name' | transloco }}
       </mat-header-cell>
-      <mat-cell *matCellDef="let row">
+      <mat-cell *matCellDef="let row" data-testId="processName">
         <div class="watt-text-s">
           {{ row.name }}
         </div>
@@ -63,9 +63,7 @@ limitations under the License.
         "
         class="header-cell watt-label"
       >
-        {{
-          'meteringPoint.overview.processesTab.headers.createdDate' | transloco
-        }}
+        {{ 'meteringPoint.overview.processesTab.headers.createdDate' | transloco }}
       </mat-header-cell>
       <mat-cell *matCellDef="let row">
         <watt-icon
@@ -82,13 +80,10 @@ limitations under the License.
       <mat-header-cell
         *matHeaderCellDef
         mat-sort-header
-        sortActionDescription="Sort by effective date"
+        [sortActionDescription]="'meteringPoint.overview.processesTab.sortDescription.effectiveDate' | transloco"
         class="header-cell watt-label"
       >
-        {{
-          'meteringPoint.overview.processesTab.headers.effectiveDate'
-            | transloco
-        }}
+        {{ 'meteringPoint.overview.processesTab.headers.effectiveDate' | transloco }}
       </mat-header-cell>
       <mat-cell *matCellDef="let row">
         <watt-icon
@@ -105,7 +100,7 @@ limitations under the License.
       <mat-header-cell
         *matHeaderCellDef
         mat-sort-header
-        sortActionDescription="Sort by status"
+        [sortActionDescription]="'meteringPoint.overview.processesTab.sortDescription.status' | transloco"
         class="header-cell watt-label"
       >
         {{ 'meteringPoint.overview.processesTab.headers.status' | transloco }}
@@ -126,6 +121,7 @@ limitations under the License.
           <watt-icon
             [name]="row.hasErrors() ? 'danger' : 'success'"
             [size]="iconSize.Medium"
+            data-testId="processHasErrors"
           ></watt-icon>
         </div>
       </mat-cell>
