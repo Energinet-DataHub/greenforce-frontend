@@ -62,6 +62,14 @@ const routes: Routes = [
           ),
         canActivate: [MsalGuard],
       },
+      {
+        path: 'message-archive',
+        loadChildren: () =>
+          import('@energinet-datahub/dh/message-archive/shell').then(
+            (esModule) => esModule.DhMessageArchiveShellModule
+          ),
+        canActivate: [MsalGuard],
+      }
     ],
   },
   // Used by MSAL (B2C)
