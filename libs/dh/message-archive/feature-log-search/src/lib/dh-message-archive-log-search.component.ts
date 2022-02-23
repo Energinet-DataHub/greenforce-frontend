@@ -15,9 +15,9 @@
  * limitations under the License.
  */
 
- import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
  import { CommonModule } from '@angular/common';
- import { ChangeDetectionStrategy, Component, NgModule, ViewChild, ElementRef } from "@angular/core";
+ import { ChangeDetectionStrategy, Component, NgModule } from "@angular/core";
  import {
   WattButtonModule,
   WattFormFieldModule,
@@ -29,6 +29,7 @@
  import { LetModule } from '@rx-angular/template';
  import { TranslocoModule } from '@ngneat/transloco';
  import { DhMessageArchiveLogSearchResultScam } from './searchresult/dh-message-archive-log-search-result.component';
+ import { BusinessReasonCodes } from '../../../models/businessReasonCodes'
 
  @Component({
    changeDetection: ChangeDetectionStrategy.OnPush,
@@ -41,9 +42,9 @@
  export class DhMessageArchiveLogSearchComponent {
    searchResult$ = this.store.searchResult$;
    searchResultsDtos: Array<SearchResultItemDto> = [];
+   businessReasonCodes = BusinessReasonCodes;
 
-   searchControl = new FormControl();
-   @ViewChild('searchInputMessageId') searchInputMessageId?: ElementRef;
+   searchCriteria: SearchCriteria = { messageId: "253698245", reasonCode: null, dateTimeFrom: "2021-12-01", dateTimeTo: "2022-02-24" };
 
    constructor(private store: DhMessageArchiveDataAccessApiModule) {
     this.store.searchResult$.subscribe((searchResult) => {
@@ -54,22 +55,13 @@
   onSubmit() {
     console.log("submit triggered");
     if(this.validateSearchParams()) {
-      const id = this.searchInputMessageId?.nativeElement.value;
-      const searchCriteria:SearchCriteria = { messageId: id };
-      this.store.searchLogs(searchCriteria)
+      this.store.searchLogs(this.searchCriteria)
     }
   }
 
   validateSearchParams(): boolean {
-    const id = this.searchInputMessageId?.nativeElement.value;
-    return id != "";
-  }
-
-  ngAfterViewInit() {
-    if(this.searchInputMessageId) {
-      this.searchInputMessageId.nativeElement.value = "253698245";
-      this.searchInputMessageId.nativeElement.focus();
-    }
+    return (this.searchCriteria.dateTimeFrom != null && this.searchCriteria.dateTimeTo != null)
+     && (this.searchCriteria.dateTimeFrom.length === 10 && this.searchCriteria.dateTimeTo.length === 10);
   }
 }
  @NgModule({

@@ -16,26 +16,71 @@ limitations under the License.
 -->
 <ng-container *transloco="let transloco; read: 'messageArchive.search'">
   <h1>{{ transloco("title") }}</h1>
-  <form name="log-search-form" (ngSubmit)="onSubmit()">
-  <watt-form-field size="large">
-    <watt-label class="watt-text-m">{{ transloco("messageId") }}</watt-label>
-    <watt-icon name="search" wattPrefix></watt-icon>
-    <input
-      #searchInputMessageId
-      wattInput
-      type="text"
-      inputmode="numeric"
-      [formControl]="searchControl"/>
-    <watt-icon-button
-      icon="close"
-      type="reset"
-      wattSuffix
-    ></watt-icon-button>
-  </watt-form-field>
-  <watt-button
-    variant="primary"
-    type="submit"
-    size="normal">{{ transloco("startSearch") }}</watt-button>
+  <form #searchForm name="log-search-form" (ngSubmit)="onSubmit()">
+
+    <watt-form-field size="normal">
+
+      <watt-label class="watt-text-m">{{ transloco("messageId") }}</watt-label>
+
+      <input
+        #searchInputMessageId
+        [(ngModel)]="this.searchCriteria.messageId"
+        wattInput
+        type="text"
+        name="messageId"/>
+
+    </watt-form-field>
+
+    <watt-form-field size="normal">
+
+      <watt-label class="watt-text-m">Forretningsårgsag</watt-label>
+
+      <select
+        #searchInputBusinessReasonCode
+        wattInput
+        name="reasonCode"
+        [(ngModel)]="this.searchCriteria.reasonCode">
+        <option selected [ngValue]="null">Vælg forretningsårgsag</option>
+        <option
+        *ngFor="let businessReasonCode of this.businessReasonCodes | keyvalue"
+        [ngValue]="businessReasonCode['value']" value="{{businessReasonCode['value']}}">{{businessReasonCode['key'] + " - " + businessReasonCode['value']}}</option>
+      </select>
+
+    </watt-form-field>
+
+    <watt-form-field size="normal">
+
+      <watt-label class="watt-text-m">Dato fra</watt-label>
+
+      <input
+        #searchInputDateTimeFrom
+        [(ngModel)]="this.searchCriteria.dateTimeFrom"
+        wattInput
+        type="text"
+        name="dateTimeFrom"/>
+
+    </watt-form-field>
+
+    <watt-form-field size="normal">
+
+      <watt-label class="watt-text-m">Dato til</watt-label>
+
+      <input
+        #searchInputDateTimeTo
+        [(ngModel)]="this.searchCriteria.dateTimeTo"
+        wattInput
+        type="text"
+        name="dateTimeTo"/>
+
+    </watt-form-field>
+
+    <!-- Search -->
+    <watt-button
+    [disabled]="!validateSearchParams()"
+      variant="primary"
+      type="submit"
+      size="normal">{{ transloco("startSearch") }}</watt-button>
+
   </form>
   <hr />
   <dh-message-archive-log-search-result></dh-message-archive-log-search-result>

@@ -1,6 +1,7 @@
 <ng-container *transloco="let transloco; read: 'messageArchive.search'">
   <ng-container *rxLet="searchResult$ as searchResult">
   <div *ngFor="let log of this.searchResultsDtos">
+    <div>timeStamp: {{log.logCreatedDate}}</div>
     <div>messageId: {{log.messageId}}</div>
     <div>traceId: {{log.traceId}}</div>
     <div>senderGln: {{log.senderGln}}</div>
