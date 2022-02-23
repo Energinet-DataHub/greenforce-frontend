@@ -1,0 +1,15 @@
+<ng-container *transloco="let transloco; read: 'messageArchive.search'">
+  <ng-container *rxLet="searchResult$ as searchResult">
+  <div *ngFor="let log of this.searchResultsDtos">
+    <div>messageId: {{log.messageId}}</div>
+    <div>traceId: {{log.traceId}}</div>
+    <div>senderGln: {{log.senderGln}}</div>
+    <div>blobContentUri: <a target="_blank" href="{{log.blobContentUri}}">BLOB link</a></div>
+    <hr />
+  </div>
+</ng-container>
+  <ng-container *rxLet="searchResult$ as searchResult" >
+    <div *ngIf="this.searchResultsDtos.length === 0">{{ transloco("NoResultsFound") }}</div>
+  </ng-container>
+</ng-container>
+

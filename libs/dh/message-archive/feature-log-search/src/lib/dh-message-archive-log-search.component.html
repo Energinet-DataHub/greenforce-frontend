@@ -37,19 +37,6 @@ limitations under the License.
     type="submit"
     size="normal">{{ transloco("startSearch") }}</watt-button>
   </form>
-
-  <div><hr /></div>
-
-  <ng-container *rxLet="searchResult$ as searchResult">
-    <div *ngFor="let log of this.searchResultsDtos">
-      <div>messageId: {{log.messageId}}</div>
-      <div>traceId: {{log.traceId}}</div>
-      <div>senderGln: {{log.senderGln}}</div>
-      <div>blobContentUri: <a target="_blank" href="{{log.blobContentUri}}">BLOB link</a></div>
-      <hr />
-    </div>
-  </ng-container>
-  <ng-container *rxLet="searchResult$ as searchResult" >
-    <div *ngIf="this.searchResultsDtos.length === 0">{{ transloco("NoResultsFound") }}</div>
-  </ng-container>
+  <hr />
+  <dh-message-archive-log-search-result></dh-message-archive-log-search-result>
 </ng-container>

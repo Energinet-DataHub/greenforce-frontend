@@ -28,6 +28,7 @@
  import { SearchCriteria, SearchResultItemDto } from '@energinet-datahub/dh/shared/data-access-api';
  import { LetModule } from '@rx-angular/template';
  import { TranslocoModule } from '@ngneat/transloco';
+ import { DhMessageArchiveLogSearchResultScam } from './searchresult/dh-message-archive-log-search-result.component';
 
  @Component({
    changeDetection: ChangeDetectionStrategy.OnPush,
@@ -81,7 +82,8 @@
     ReactiveFormsModule,
     CommonModule,
     LetModule,
-    TranslocoModule
+    TranslocoModule,
+    DhMessageArchiveLogSearchResultScam,
    ],
    declarations: [DhMessageArchiveLogSearchComponent],
  })
