@@ -1,5 +1,5 @@
 export * from './asset-type';
-export * from './charge-link-dto';
+export * from './charge-link-v1-dto';
 export * from './charge-type';
 export * from './connection-state';
 export * from './connection-type';

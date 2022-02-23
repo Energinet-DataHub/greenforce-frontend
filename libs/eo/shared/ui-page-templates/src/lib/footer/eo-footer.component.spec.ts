@@ -14,19 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  SpectacularAppComponent,
-  SpectacularFeatureTestingModule,
-} from '@ngworker/spectacular';
 import { render, screen } from '@testing-library/angular';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { EoFooterScam, EoFooterComponent } from './eo-footer.component';
 
-import { EoLandingPageShellModule } from './eo-landing-page-shell.module';
-
-describe('EnergyOrigin landing page', () => {
-  const findEnergyOriginLogo = () =>
-    screen.findByRole('img', { name: 'EnergyOrigin' });
-
+describe(EoFooterComponent.name, () => {
   const findEnerginetLogo = () =>
     screen.findByRole('img', { name: 'Energinet' });
 
@@ -35,20 +26,9 @@ describe('EnergyOrigin landing page', () => {
   const findEmailLink = () => screen.findByRole('link', { name: /email/i });
 
   beforeEach(async () => {
-    const { navigate } = await render(SpectacularAppComponent, {
-      imports: [
-        SpectacularFeatureTestingModule.withFeature({
-          featureModule: EoLandingPageShellModule,
-          featurePath: '',
-        }),
-        HttpClientTestingModule,
-      ],
+    await render(EoFooterComponent, {
+      imports: [EoFooterScam],
     });
-    await navigate('/');
-  });
-
-  it('displays the EnergyOrigin logo', async () => {
-    expect(await findEnergyOriginLogo()).toBeInTheDocument();
   });
 
   it('displays the Energinet logo', async () => {

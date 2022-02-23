@@ -22,7 +22,7 @@ import { map, Observable, Subject, takeUntil } from 'rxjs';
 import { TranslocoModule } from '@ngneat/transloco';
 
 import { DhChargesDataAccessApiStore } from '@energinet-datahub/dh/charges/data-access-api';
-import { ChargeLinkDto } from '@energinet-datahub/dh/shared/data-access-api';
+import { ChargeLinkV1Dto } from '@energinet-datahub/dh/shared/data-access-api';
 import { dhMeteringPointIdParam } from '@energinet-datahub/dh/metering-point/routing';
 import { WattSpinnerModule } from '@energinet-datahub/watt';
 
@@ -50,9 +50,10 @@ export class DhChargesTabContentComponent implements OnDestroy {
     this.loadChargesData();
   }
 
-  tariffs$: Observable<Array<ChargeLinkDto>> = this.store.tariffs$;
-  subscriptions$: Observable<Array<ChargeLinkDto>> = this.store.subscriptions$;
-  fees$: Observable<Array<ChargeLinkDto>> = this.store.fees$;
+  tariffs$: Observable<Array<ChargeLinkV1Dto>> = this.store.tariffs$;
+  subscriptions$: Observable<Array<ChargeLinkV1Dto>> =
+    this.store.subscriptions$;
+  fees$: Observable<Array<ChargeLinkV1Dto>> = this.store.fees$;
   isLoading$ = this.store.isLoading$;
   chargesNotFound$ = this.store.chargesNotFound$;
   hasGeneralError$ = this.store.hasGeneralError$;
