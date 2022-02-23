@@ -26,6 +26,7 @@
     "dh-metering-point-ui-status-badge": "libs/dh/metering-point/ui-status-badge",
     "dh-shared-assets": "libs/dh/shared/assets",
     "dh-shared-data-access-api": "libs/dh/shared/data-access-api",
+    "dh-shared-domain": "libs/dh/shared/domain",
     "dh-shared-environments": "libs/dh/shared/environments",
     "dh-shared-test-util-auth": "libs/dh/shared/test-util-auth",
     "dh-shared-test-util-i18n": "libs/dh/shared/test-util-i18n",

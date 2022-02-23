@@ -81,6 +81,9 @@
       "@energinet-datahub/dh/shared/data-access-api": [
         "libs/dh/shared/data-access-api/src/index.ts"
       ],
+      "@energinet-datahub/dh/shared/domain": [
+        "libs/dh/shared/domain/src/index.ts"
+      ],
       "@energinet-datahub/dh/shared/environments": [
         "libs/dh/shared/environments/src/index.ts"
       ],

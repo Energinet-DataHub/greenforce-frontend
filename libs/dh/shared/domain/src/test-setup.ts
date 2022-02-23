@@ -14,26 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgModule, Pipe, PipeTransform } from '@angular/core';
-import { MeteringPointType } from '@energinet-datahub/dh/shared/domain';
+import 'jest-preset-angular/setup-jest';
 
-@Pipe({
-  name: 'dhIsParent',
-})
-export class DhIsParentPipe implements PipeTransform {
-  transform(value: MeteringPointType | undefined): boolean {
-    if (
-      value === MeteringPointType.E17 ||
-      value === MeteringPointType.E18 ||
-      value === MeteringPointType.E20
-    )
-      return true;
-    return false;
-  }
-}
+import { setUpTestbed } from '@energinet-datahub/gf/test-util-staging';
 
-@NgModule({
-  declarations: [DhIsParentPipe],
-  exports: [DhIsParentPipe],
-})
-export class DhIsParentPipeScam {}
+setUpTestbed();

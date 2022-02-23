@@ -14,26 +14,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgModule, Pipe, PipeTransform } from '@angular/core';
-import { MeteringPointType } from '@energinet-datahub/dh/shared/domain';
-
-@Pipe({
-  name: 'dhIsParent',
-})
-export class DhIsParentPipe implements PipeTransform {
-  transform(value: MeteringPointType | undefined): boolean {
-    if (
-      value === MeteringPointType.E17 ||
-      value === MeteringPointType.E18 ||
-      value === MeteringPointType.E20
-    )
-      return true;
-    return false;
-  }
-}
-
-@NgModule({
-  declarations: [DhIsParentPipe],
-  exports: [DhIsParentPipe],
-})
-export class DhIsParentPipeScam {}
+export * from './lib/generated/v1';

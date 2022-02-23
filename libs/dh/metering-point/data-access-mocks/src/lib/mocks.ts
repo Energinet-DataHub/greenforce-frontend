@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { MeteringPointCimDto } from '@energinet-datahub/dh/shared/data-access-api';
+import { MeteringPointCimDto } from '@energinet-datahub/dh/shared/domain';
 import { rest } from 'msw';
 
 export const meteringPointMocks = [getByGsrn()];
