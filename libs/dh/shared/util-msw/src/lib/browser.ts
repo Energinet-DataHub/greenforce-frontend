@@ -19,6 +19,6 @@ import { handlers, onUnhandledRequest } from './handlers';
 
 try {
   const worker = setupWorker(...handlers);
-  worker.start({onUnhandledRequest});
+  worker.start({ onUnhandledRequest });
   // eslint-disable-next-line no-empty
 } catch (error) {}
