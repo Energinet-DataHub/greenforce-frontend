@@ -22,5 +22,5 @@
       }
     }
   },
-  "tags": ["product:dh", "scope:shared", "type:util"]
+  "tags": ["product:dh", "scope:shared", "type:data-access"]
 }
