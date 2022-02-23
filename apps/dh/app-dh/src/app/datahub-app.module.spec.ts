@@ -16,6 +16,7 @@
  */
 import { render } from '@testing-library/angular';
 
+import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
 import { MsalServiceFake } from '@energinet-datahub/dh/shared/test-util-auth';
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
 

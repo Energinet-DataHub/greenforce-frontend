@@ -102,6 +102,9 @@
       "@energinet-datahub/dh/shared/util-msw": [
         "libs/dh/shared/util-msw/src/index.ts"
       ],
+      "@energinet-datahub/eo/auth/feature-terms": [
+        "libs/eo/auth/feature-terms/src/index.ts"
+      ],
       "@energinet-datahub/eo/landing-page/routing": [
         "libs/eo/landing-page/routing/src/index.ts"
       ],
@@ -113,6 +116,9 @@
       ],
       "@energinet-datahub/eo/shared/environments": [
         "libs/eo/shared/environments/src/index.ts"
+      ],
+      "@energinet-datahub/eo/shared/ui-page-templates": [
+        "libs/eo/shared/ui-page-templates/src/index.ts"
       ],
       "@energinet-datahub/eo/shared/ui-shell": [
         "libs/eo/shared/ui-shell/src/index.ts"
