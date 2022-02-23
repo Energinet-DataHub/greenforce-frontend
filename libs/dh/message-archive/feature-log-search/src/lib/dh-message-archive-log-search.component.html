@@ -14,20 +14,18 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<form
-  name="log-search-form"
-  (ngSubmit)="onSubmit()"
-  >
+<ng-container *transloco="let transloco; read: 'messageArchive.search'">
+  <h1>{{ transloco("title") }}</h1>
+  <form name="log-search-form" (ngSubmit)="onSubmit()">
   <watt-form-field size="large">
-    <watt-label class="watt-text-m">Message Id</watt-label>
+    <watt-label class="watt-text-m">{{ transloco("messageId") }}</watt-label>
     <watt-icon name="search" wattPrefix></watt-icon>
     <input
       #searchInputMessageId
       wattInput
       type="text"
       inputmode="numeric"
-      [formControl]="searchControl"
-    />
+      [formControl]="searchControl"/>
     <watt-icon-button
       icon="close"
       type="reset"
@@ -37,22 +35,21 @@ limitations under the License.
   <watt-button
     variant="primary"
     type="submit"
-    size="normal">SØG</watt-button>
-</form>
+    size="normal">{{ transloco("startSearch") }}</watt-button>
+  </form>
 
-<div><hr /></div>
+  <div><hr /></div>
 
-
-<ng-container *rxLet="searchResult$ as searchResult">
-  <div *ngFor="let log of this.searchResultsDtos">
-    <div>messageId: {{log.messageId}}</div>
-    <div>traceId: {{log.traceId}}</div>
-    <div>senderGln: {{log.senderGln}}</div>
-    <div>blobContentUri: <a target="_blank" href="{{log.blobContentUri}}">BLOB link</a></div>
-    <hr />
-  </div>
+  <ng-container *rxLet="searchResult$ as searchResult">
+    <div *ngFor="let log of this.searchResultsDtos">
+      <div>messageId: {{log.messageId}}</div>
+      <div>traceId: {{log.traceId}}</div>
+      <div>senderGln: {{log.senderGln}}</div>
+      <div>blobContentUri: <a target="_blank" href="{{log.blobContentUri}}">BLOB link</a></div>
+      <hr />
+    </div>
+  </ng-container>
+  <ng-container *rxLet="searchResult$ as searchResult" >
+    <div *ngIf="this.searchResultsDtos.length === 0">{{ transloco("NoResultsFound") }}</div>
+  </ng-container>
 </ng-container>
-<ng-container *rxLet="searchResult$ as searchResult" >
-  <div *ngIf="this.searchResultsDtos.length === 0">No logs found</div>
-</ng-container>
-

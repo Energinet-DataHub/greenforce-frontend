@@ -234,5 +234,13 @@
       "title": "Oops! There was an error",
       "message": "Unfortunately, an error occurred while retrieving the necessary information."
     }
+  },
+  "messageArchive": {
+    "search": {
+      "title": "Search in request and response messages",
+      "messageId": "Message Id",
+      "startSearch": "Search",
+      "NoResultsFound": "No result"
+    }
   }
 }

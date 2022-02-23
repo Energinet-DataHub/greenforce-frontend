@@ -238,5 +238,13 @@
       "title": "Ups! Der opstod en fejl",
       "message": "Der opstod desværre en fejl, da vi skulle hente de nødvendige oplysninger."
     }
+  },
+  "messageArchive": {
+    "search": {
+      "title": "Fremsøg indgående og udgående meddelser",
+      "messageId": "Besked Id",
+      "startSearch": "Søg",
+      "NoResultsFound": "Intet resultat"
+    }
   }
 }
