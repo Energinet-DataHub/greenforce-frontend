@@ -14,13 +14,13 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<mat-form-field appearance="fill">
-  <mat-label>{{ label }}</mat-label>
+<watt-form-field>
+  <watt-label>{{ label }}</watt-label>
   <input
     type="text"
     [placeholder]="placeholder"
     [attr.aria-label]="label"
-    matInput
+    wattInput
     [formControl]="myControl"
     [matAutocomplete]="auto"
   />
@@ -29,4 +29,4 @@ limitations under the License.
       {{ option }}
     </mat-option>
   </mat-autocomplete>
-</mat-form-field>
+</watt-form-field>
