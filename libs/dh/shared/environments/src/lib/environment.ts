@@ -19,6 +19,11 @@
 // The list of file replacements can be found in `workspace.json`.
 import { DhEnvironment } from './dh-environment';
 
+/**
+ * Mock Service Worker
+ */
+import '@energinet-datahub/dh/shared/util-msw';
+
 /*
  * For easier debugging in development mode, you can import the following file
  * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.
@@ -27,23 +32,6 @@ import { DhEnvironment } from './dh-environment';
  * on performance if an error is thrown.
  */
 import 'zone.js/plugins/zone-error';
-
-/**
- * Mock Service Worker
- */
-const isNode =
-  typeof process !== 'undefined' &&
-  process.versions != null &&
-  process.versions.node != null;
-if (!isNode) {
-  import('@energinet-datahub/dh/shared/util-msw').then(
-    ({ worker, onUnhandledRequest }) => {
-      worker.start({
-        onUnhandledRequest,
-      });
-    }
-  );
-}
 
 /**
  * Environment

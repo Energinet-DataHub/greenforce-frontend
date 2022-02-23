@@ -15,6 +15,10 @@
  * limitations under the License.
  */
 import { setupWorker } from 'msw';
-import { handlers } from './handlers';
+import { handlers, onUnhandledRequest } from './handlers';
 
-export const worker = setupWorker(...handlers);
+try {
+  const worker = setupWorker(...handlers);
+  worker.start({onUnhandledRequest});
+  // eslint-disable-next-line no-empty
+} catch (error) {}
