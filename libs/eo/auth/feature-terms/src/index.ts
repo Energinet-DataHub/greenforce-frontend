@@ -14,4 +14,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './lib/dh-metering-point-shell.module';
+export * from './lib/eo-auth-feature-terms.module';

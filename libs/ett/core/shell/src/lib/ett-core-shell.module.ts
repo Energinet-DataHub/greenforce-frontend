@@ -34,6 +34,13 @@ const routes: Routes = [
       ),
   },
   {
+    path: 'terms',
+    loadChildren: () =>
+      import('@energinet-datahub/eo/auth/feature-terms').then(
+        (esModule) => esModule.EoAuthFeatureTermsModule
+      ),
+  },
+  {
     path: '',
     component: EttShellComponent,
     canActivateChild: [EttAuthenticationGuard],

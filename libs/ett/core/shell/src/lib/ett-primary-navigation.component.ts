@@ -23,8 +23,7 @@ import {
 } from '@angular/core';
 import { MatListModule } from '@angular/material/list';
 import { RouterModule } from '@angular/router';
-
-import { EoPrimaryNavigationStore } from './eo-primary-navigation.store';
+import { EoLogOutStore } from '@energinet-datahub/ett/auth/data-access-security';
 
 const selector = 'ett-primary-navigation';
 
@@ -71,7 +70,7 @@ const selector = 'ett-primary-navigation';
       <a mat-list-item href="#0" (click)="onLogOut($event)">Log out</a>
     </mat-nav-list>
   `,
-  viewProviders: [EoPrimaryNavigationStore],
+  viewProviders: [EoLogOutStore],
 })
 export class EttPrimaryNavigationComponent {
   @HostBinding('attr.role')
@@ -83,7 +82,7 @@ export class EttPrimaryNavigationComponent {
     return 'Menu';
   }
 
-  constructor(private store: EoPrimaryNavigationStore) {}
+  constructor(private store: EoLogOutStore) {}
 
   onLogOut(event: Event): void {
     // Prevent link from navigating

@@ -25,7 +25,7 @@ import {
   DhConfigurationLocalizationModule,
   DhTranslocoModule,
 } from '@energinet-datahub/dh/globalization/configuration-localization';
-import { dhMeteringPointPath } from '@energinet-datahub/dh/metering-point/shell';
+import { dhMeteringPointPath } from '@energinet-datahub/dh/metering-point/routing';
 import {
   MSAL_GUARD_CONFIG,
   MSAL_INSTANCE,

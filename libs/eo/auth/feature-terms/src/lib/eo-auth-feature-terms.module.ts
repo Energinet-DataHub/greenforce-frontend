@@ -14,4 +14,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './lib/dh-metering-point-shell.module';
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+
+import {
+  EoAuthFeatureTermsComponent,
+  EoAuthFeatureTermsScam,
+} from './eo-auth-feature-terms.component';
+
+const routes: Routes = [
+  {
+    path: '',
+    component: EoAuthFeatureTermsComponent,
+  },
+];
+
+@NgModule({
+  imports: [RouterModule.forChild(routes), EoAuthFeatureTermsScam],
+})
+export class EoAuthFeatureTermsModule {}
