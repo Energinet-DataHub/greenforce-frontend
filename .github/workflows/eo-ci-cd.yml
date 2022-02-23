@@ -1,0 +1,197 @@
+name: EnergyOrigin
+
+env:
+  app-name: app-ett
+  BASE_BRANCH: ${{ github.event.pull_request.base.ref }}
+  is-main-branch: ${{ github.ref == 'refs/heads/main' }}
+  is-pull-request: ${{ github.event_name  == 'pull_request' }}
+  NODE_OPTIONS: --max-old-space-size=6144
+  node-version: 14.x
+  NX_MAX_PARALLEL: 2
+
+  # Nx Cloud
+  NX_BRANCH: ${{ github.event.number }}
+  NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
+  NX_RUN_GROUP: ${{ github.run_id }}
+
+on:
+  push:
+    branches:
+      - main
+  pull_request: {}
+  workflow_dispatch: {}
+
+jobs:
+  affected:
+    name: Is affected?
+    runs-on: ubuntu-latest
+
+    outputs:
+      is-affected: ${{ steps.affected.outputs.is-affected }}
+
+    steps:
+      # needed for nx affected command
+      - name: Check out source code with current branch Git history
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      # needed for nx affected command
+      - name: 'PR: Fetch base branch Git history'
+        if: ${{ env.is-pull-request == 'true' }}
+        run: git fetch --no-tags origin $BASE_BRANCH
+
+      - name: Use Node.js ${{ env.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ env.node-version }}
+
+      - name: Variable-Yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+      - name: Cache Yarn cache directory
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-node-${{ env.node-version }}-yarn-${{
+            hashFiles('yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-node-${{ env.node-version }}
+            ${{ runner.os }}
+      - name: Disable workspace NGCC run
+        uses: ./.github/actions/setup-postinstall
+        with:
+          ngcc: false
+      - name: Install package dependencies
+        run: yarn install --frozen-lockfile --non-interactive
+
+      - name: Is affected?
+        id: affected
+        uses: ./.github/actions/affected
+        with:
+          base: ${{ env.is-main-branch == 'true' && 'HEAD~1' || format('origin/{0}', env.BASE_BRANCH) }}
+          project: ${{ env.app-name }}
+
+  app:
+    name: Build app
+    if: ${{ needs.affected.outputs.is-affected == 'true' }}
+    needs: affected
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Node.js ${{ env.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ env.node-version }}
+
+      - name: Variable-Yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+      - name: Cache Yarn cache directory
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-node-${{ env.node-version }}-yarn-${{
+            hashFiles('yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-node-${{ env.node-version }}
+            ${{ runner.os }}
+      - name: Disable workspace NGCC run
+        uses: ./.github/actions/setup-postinstall
+        with:
+          ngcc: false
+      - name: Install package dependencies
+        run: yarn install --frozen-lockfile --non-interactive
+
+      - name: Angular Compatibility Compiler
+        run: npm run ngcc:ett
+
+      - name: Production build
+        run: yarn nx build ${{ env.app-name }} --max-parallel=$NX_MAX_PARALLEL
+
+      - name: Upload web app build artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ env.app-name }}
+          path: ./dist/apps/ett/${{ env.app-name }}/
+          if-no-files-found: error
+
+  define_build:
+    name: Define build matrix
+    needs: affected
+    runs-on: ubuntu-latest
+    outputs:
+      chart_version: ${{ steps.get_semver.outputs.semver }}
+      containers: >-
+        [
+          { 
+            "deployment_name": "app", 
+            "dockerfile": "build/infrastructure/eo/host/Dockerfile", 
+            "image_name": "eo-frontend-app",
+            "image_tag": "${{ steps.get_container_version.outputs.semver }}"
+          }
+        ]
+    steps:
+      - name: Get chart version
+        id: get_semver
+        uses: Energinet-DataHub/.github/.github/actions/get-semver@main
+        with:
+          yaml_file: build/infrastructure/eo/chart/Chart.yaml
+          yaml_path: version
+
+      - name: Get container version
+        id: get_container_version
+        uses: Energinet-DataHub/.github/.github/actions/get-semver@main
+        with:
+          yaml_file: build/infrastructure/eo/chart/values.yaml
+          yaml_path: eo-base-helm-chart.deployments.app.image.tag
+
+  helm_chart_version_increment_check:
+    name: Helm chart check version
+    needs: affected
+    uses: Energinet-DataHub/.github/.github/workflows/version-increment-check.yaml@main
+    with:
+      yaml_file: build/infrastructure/eo/chart/Chart.yaml
+      yaml_path: version
+
+  app_version_increment_check:
+    name: API check version
+    needs: affected
+    uses: Energinet-DataHub/.github/.github/workflows/version-increment-check.yaml@main
+    with:
+      yaml_file: build/infrastructure/eo/chart/values.yaml
+      yaml_path: eo-base-helm-chart.deployments.app.image.tag
+
+  build_container_and_release_chart:
+    name: Build containers
+    needs:
+      - helm_chart_version_increment_check
+      - app_version_increment_check
+      - define_build
+      - app
+    uses: Energinet-DataHub/.github/.github/workflows/build-containers-and-release-chart.yaml@main
+    with:
+      helm_repository: ${{ github.repository_owner }}/helm-charts
+      chart_folder: build/infrastructure/eo/chart
+      chart_version: ${{ needs.define_build.outputs.chart_version }}
+      containers: ${{ needs.define_build.outputs.containers }}
+    secrets:
+      RELEASE_CHART_TOKEN: ${{ secrets.RELEASE_CHART_TOKEN }}
+
+  update_environment:
+    name: Update env
+    needs:
+      - build_container_and_release_chart
+    #only on: push to main OR PR on 'feature/**' branch
+    if: github.event_name == 'push' && github.ref_name == 'main' || github.event_name == 'pull_request' && startsWith(github.event.pull_request.head.ref, 'feature/')
+    uses: Energinet-DataHub/.github/.github/workflows/update-chart-in-env.yaml@main
+    with:
+      env_repository: ${{ github.repository_owner }}/eo-base-environment
+      env_branch: ${{ github.event_name == 'push' && github.ref_name == 'main' && 'main' || github.event.pull_request.head.ref }}
+      helm_repository: 'https://${{ github.repository_owner }}.github.io/helm-charts/'
+      app_name: ${{ needs.build_container_and_release_chart.outputs.chart_name }}
+      chart_name: ${{ needs.build_container_and_release_chart.outputs.chart_name }}
+      chart_version: ${{ needs.build_container_and_release_chart.outputs.chart_version }}
+    secrets:
+      UPDATE_ENV_TOKEN: ${{ secrets.UPDATE_ENV_TOKEN }}
