@@ -37,7 +37,7 @@
             "output": "assets/ui-watt"
           },
           {
-            "input": "libs/dh/shared/util-msw",
+            "input": "libs/dh/shared/data-access-msw",
             "glob": "mockServiceWorker.js",
             "output": ""
           }

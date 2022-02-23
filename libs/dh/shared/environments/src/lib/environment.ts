@@ -22,7 +22,7 @@ import { DhEnvironment } from './dh-environment';
 /**
  * Mock Service Worker
  */
-import '@energinet-datahub/dh/shared/util-msw';
+import '@energinet-datahub/dh/shared/data-access-msw';
 
 /*
  * For easier debugging in development mode, you can import the following file
