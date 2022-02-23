@@ -23,7 +23,7 @@ import {
   setUpTestbed,
 } from '@energinet-datahub/gf/test-util-staging';
 
-import '@energinet-datahub/dh/shared/test-data-access-msw';
+import '@energinet-datahub/dh/shared/test-util-msw';
 
 addDomMatchers();
 setUpTestbed();

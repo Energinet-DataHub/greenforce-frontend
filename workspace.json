@@ -31,7 +31,7 @@
     "dh-shared-test-util-auth": "libs/dh/shared/test-util-auth",
     "dh-shared-test-util-i18n": "libs/dh/shared/test-util-i18n",
     "dh-shared-test-util-metering-point": "libs/dh/shared/test-util-metering-point",
-    "dh-shared-test-data-access-msw": "libs/dh/shared/test-data-access-msw",
+    "dh-shared-test-util-msw": "libs/dh/shared/test-util-msw",
     "dh-shared-ui-date-time": "libs/dh/shared/ui-date-time",
     "dh-shared-data-access-msw": "libs/dh/shared/data-access-msw",
     "e2e-dh": "apps/dh/e2e-dh",
