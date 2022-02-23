@@ -38,14 +38,14 @@
 
  })
  export class DhMessageArchiveLogSearchComponent {
-   searchResult$ = this.searchApi.searchResult$;
+   searchResult$ = this.store.searchResult$;
    searchResultsDtos: Array<SearchResultItemDto> = [];
 
    searchControl = new FormControl();
    @ViewChild('searchInputMessageId') searchInputMessageId?: ElementRef;
 
-   constructor(private searchApi: DhMessageArchiveDataAccessApiModule) {
-    this.searchApi.searchResult$.subscribe((searchResult) => {
+   constructor(private store: DhMessageArchiveDataAccessApiModule) {
+    this.store.searchResult$.subscribe((searchResult) => {
       this.searchResultsDtos = searchResult;
     })
   }
@@ -55,7 +55,7 @@
     if(this.validateSearchParams()) {
       const id = this.searchInputMessageId?.nativeElement.value;
       const searchCriteria:SearchCriteria = { messageId: id };
-      this.searchApi.searchLogs(searchCriteria)
+      this.store.searchLogs(searchCriteria)
     }
   }
 
