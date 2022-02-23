@@ -23,5 +23,5 @@
       }
     }
   },
-  "tags": ["product:dh", "scope:shared", "type:data-access", "type:open-api"]
+  "tags": ["product:dh", "scope:shared", "type:domain"]
 }
