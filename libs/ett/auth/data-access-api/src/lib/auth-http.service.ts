@@ -102,6 +102,9 @@ export class AuthHttp {
 
   postLogout(): Observable<AuthLogoutResponse> {
     return this.http.post<AuthLogoutResponse>(`${this.#apiBase}/logout`, {
+      // empty body
+    },
+    {
       withCredentials: true,
     });
   }
