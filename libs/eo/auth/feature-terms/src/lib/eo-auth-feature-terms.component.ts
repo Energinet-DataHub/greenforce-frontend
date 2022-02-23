@@ -64,7 +64,6 @@ const selector = 'eo-auth-terms';
     <eo-header></eo-header>
 
     <div class="${selector}__content">
-      <!-- @todo Should we pass in the "terms_url" to this component - It does not make sense to have it as a dynamic value? Just use "/terms" -->
       <eo-privacy-policy
         (versionChange)="onVersionChange($event)"
       ></eo-privacy-policy>
