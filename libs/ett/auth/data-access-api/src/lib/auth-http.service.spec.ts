@@ -168,7 +168,8 @@ describe(AuthHttp.name, () => {
 
       const whenResponse = lastValueFrom(client.getTerms());
       const response = server.expectOne(
-        (request) => request.url.includes(endpointUrl) && request.method === 'GET'
+        (request) =>
+          request.url.includes(endpointUrl) && request.method === 'GET'
       );
       response.flush(fakeResponse);
 
@@ -192,11 +193,10 @@ describe(AuthHttp.name, () => {
         version: '1.0',
       };
 
-      const whenResponse = lastValueFrom(
-        client.postAcceptTerms(payload)
-      );
+      const whenResponse = lastValueFrom(client.postAcceptTerms(payload));
       const response = server.expectOne(
-        (request) => request.url.includes(endpointUrl) && request.method === 'POST'
+        (request) =>
+          request.url.includes(endpointUrl) && request.method === 'POST'
       );
       response.flush(fakeResponse);
 

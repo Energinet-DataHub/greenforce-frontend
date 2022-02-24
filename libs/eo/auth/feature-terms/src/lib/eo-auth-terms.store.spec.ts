@@ -55,13 +55,11 @@ describe(EoAuthTermsStore.name, () => {
       const authHttp = TestBed.inject(AuthHttp);
       store.onVersionChange(version);
       store.onAcceptTerms();
-      expect(authHttp.postAcceptTerms).toHaveBeenCalledWith(
-        {
-          state,
-          version,
-          accepted: true,
-        }
-      );
+      expect(authHttp.postAcceptTerms).toHaveBeenCalledWith({
+        state,
+        version,
+        accepted: true,
+      });
       expect(authHttp.postAcceptTerms).toHaveBeenCalledTimes(1);
     });
 
