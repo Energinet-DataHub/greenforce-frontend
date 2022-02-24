@@ -56,11 +56,10 @@ describe(EoAuthTermsStore.name, () => {
       store.onVersionChange(version);
       store.onAcceptTerms();
       expect(authHttp.postAcceptTerms).toHaveBeenCalledWith(
-        'https://energioprindelse.dk/api/auth/terms/accept',
         {
+          state,
           version,
           accepted: true,
-          state,
         }
       );
       expect(authHttp.postAcceptTerms).toHaveBeenCalledTimes(1);

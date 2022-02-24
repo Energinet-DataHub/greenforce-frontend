@@ -57,11 +57,11 @@ export class EoAuthTermsStore extends ComponentStore<EoAuthTermsState> {
           this.#version$
         ]).pipe(
           take(1),
-          mergeMap(([version, state]) =>
+          mergeMap(([state, version]) =>
             this.authHttp.postAcceptTerms({
+              state,
               version,
               accepted: true,
-              state,
             })
           ),
           tapResponse(
