@@ -101,9 +101,15 @@ export class AuthHttp {
   }
 
   postLogout(): Observable<AuthLogoutResponse> {
-    return this.http.post<AuthLogoutResponse>(`${this.#apiBase}/auth/logout`, {
-      withCredentials: true,
-    });
+    return this.http.post<AuthLogoutResponse>(
+      `${this.#apiBase}/auth/logout`,
+      {
+        // empty body
+      },
+      {
+        withCredentials: true,
+      }
+    );
   }
 
   getTerms(): Observable<AuthTermsResponse> {
@@ -115,7 +121,9 @@ export class AuthHttp {
   ): Observable<AuthTermsAcceptResponse> {
     return this.http.post<AuthTermsAcceptResponse>(
       `${this.#apiBase}/terms/accept`,
-      payload
+      payload, {
+        withCredentials: true,
+      }
     );
   }
 }

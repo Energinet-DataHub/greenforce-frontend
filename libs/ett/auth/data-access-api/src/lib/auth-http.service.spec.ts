@@ -131,6 +131,7 @@ describe(AuthHttp.name, () => {
 
       expect(angularHttp.post).toHaveBeenCalledWith(
         expect.any(String),
+        expect.objectContaining({}),
         expect.objectContaining({
           withCredentials: true,
         })
