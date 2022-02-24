@@ -80,7 +80,7 @@ export class AuthHttp {
     private http: HttpClient,
     @Inject(eoApiEnvironmentToken) apiEnvironment: EoApiEnvironment
   ) {
-    this.#apiBase = `${apiEnvironment.apiBase}/auth`;
+    this.#apiBase = `${apiEnvironment.apiBase}`;
   }
 
   /**
@@ -92,7 +92,7 @@ export class AuthHttp {
     feUrl: string,
     returnUrl: string
   ): Observable<AuthOidcLoginResponse> {
-    return this.http.get<AuthOidcLoginResponse>(`${this.#apiBase}/oidc/login`, {
+    return this.http.get<AuthOidcLoginResponse>(`${this.#apiBase}/auth/oidc/login`, {
       params: {
         [AuthOidcQueryParameterName.FeUrl]: feUrl,
         [AuthOidcQueryParameterName.ReturnUrl]: returnUrl,
@@ -101,7 +101,7 @@ export class AuthHttp {
   }
 
   postLogout(): Observable<AuthLogoutResponse> {
-    return this.http.post<AuthLogoutResponse>(`${this.#apiBase}/logout`, {
+    return this.http.post<AuthLogoutResponse>(`${this.#apiBase}/auth/logout`, {
       withCredentials: true,
     });
   }
