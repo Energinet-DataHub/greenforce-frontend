@@ -17,13 +17,13 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { DhDatetimeFormatService, TValue } from './dh-datetime-format-service';
 
-export const pipeName = 'dhDate';
+export const pipeName = 'dhDateTime';
 
 @Pipe({
   name: pipeName,
 })
-export class DhDatePipe implements PipeTransform {
-  private dateFormat = 'dd-MM-yyyy';
+export class DhDateTimePipe implements PipeTransform {
+  private dateTimeFormat = 'dd-MM-yyyy HH:mm:ss';
 
   /**
    *
@@ -33,7 +33,7 @@ export class DhDatePipe implements PipeTransform {
   transform(maybeIso8601DateTime: TValue): string | null {
     return DhDatetimeFormatService.format(
       maybeIso8601DateTime,
-      this.dateFormat
+      this.dateTimeFormat
     );
   }
 }

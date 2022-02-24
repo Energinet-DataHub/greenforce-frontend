@@ -1,5 +1,7 @@
 {
-  "clientId": "88e5d356-0c71-49e9-b260-d0629f3c0445",
-  "authority": "https://dev002DataHubB2C.b2clogin.com/dev002DataHubB2C.onmicrosoft.com/B2C_1_sign_in_experiments",
-  "knownAuthorities": ["dev002DataHubB2C.b2clogin.com"]
+  "clientId": "d91c10bb-1441-4ae5-9bf9-e6845567d018",
+  "authority": "https://devDataHubB2C.b2clogin.com/devDataHubB2C.onmicrosoft.com/B2C_1_u001_signin",
+  "knownAuthorities": [
+    "devDataHubB2C.b2clogin.com"
+  ]
 }
