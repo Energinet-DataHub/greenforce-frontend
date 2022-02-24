@@ -121,7 +121,8 @@ export class AuthHttp {
   ): Observable<AuthTermsAcceptResponse> {
     return this.http.post<AuthTermsAcceptResponse>(
       `${this.#apiBase}/terms/accept`,
-      payload, {
+      payload,
+      {
         withCredentials: true,
       }
     );
