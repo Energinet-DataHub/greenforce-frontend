@@ -14,13 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {Injectable} from '@angular/core';
-import {ComponentStore, tapResponse} from '@ngrx/component-store';
-import {Observable} from 'rxjs';
-import {AuthHttp} from '@energinet-datahub/ett/auth/data-access-api';
+import { Injectable } from '@angular/core';
+import { ComponentStore, tapResponse } from '@ngrx/component-store';
+import { Observable } from 'rxjs';
+import { AuthHttp } from '@energinet-datahub/ett/auth/data-access-api';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-interface EoPrivacyPolicyState { }
+interface EoPrivacyPolicyState {}
 
 @Injectable()
 export class EoPrivacyPolicyStore extends ComponentStore<EoPrivacyPolicyState> {
@@ -34,11 +34,21 @@ export class EoPrivacyPolicyStore extends ComponentStore<EoPrivacyPolicyState> {
         }
       )
     ),
-    (resp) => resp);
+    (resp) => resp
+  );
 
-  version$: Observable<string> = this.select(this.#response,(response) => response.version);
-  headline$: Observable<string> = this.select(this.#response,(response) => response.headline);
-  privacyPolicy$: Observable<string> = this.select(this.#response,(response) => response.terms);
+  version$: Observable<string> = this.select(
+    this.#response,
+    (response) => response.version
+  );
+  headline$: Observable<string> = this.select(
+    this.#response,
+    (response) => response.headline
+  );
+  privacyPolicy$: Observable<string> = this.select(
+    this.#response,
+    (response) => response.terms
+  );
 
   constructor(private authHttp: AuthHttp) {
     super(initialState);

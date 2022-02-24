@@ -14,12 +14,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {Inject, Injectable} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
-import {ComponentStore, tapResponse} from '@ngrx/component-store';
-import {combineLatest, exhaustMap, filter, map, mergeMap, Observable, take} from 'rxjs';
-import {AuthHttp} from '@energinet-datahub/ett/auth/data-access-api';
-import {browserLocationToken} from './browser-location.token';
+import { Inject, Injectable } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { ComponentStore, tapResponse } from '@ngrx/component-store';
+import {
+  combineLatest,
+  exhaustMap,
+  filter,
+  map,
+  mergeMap,
+  Observable,
+  take,
+} from 'rxjs';
+import { AuthHttp } from '@energinet-datahub/ett/auth/data-access-api';
+import { browserLocationToken } from './browser-location.token';
 
 interface EoAuthTermsState {
   readonly version: string | null;
@@ -31,11 +39,10 @@ export class EoAuthTermsStore extends ComponentStore<EoAuthTermsState> {
     (params) => params.state
   );
 
-  #version$: Observable<string> = this.select(state => state.version)
-    .pipe(
-      filter(version => version !== null),
-      map(version => version as string)
-    );
+  #version$: Observable<string> = this.select((state) => state.version).pipe(
+    filter((version) => version !== null),
+    map((version) => version as string)
+  );
 
   constructor(
     private authHttp: AuthHttp,
@@ -45,17 +52,17 @@ export class EoAuthTermsStore extends ComponentStore<EoAuthTermsState> {
     super(initialState);
   }
 
-  onVersionChange = this.updater<string>((state, version): EoAuthTermsState => ({
-    ...state, version
-  }));
+  onVersionChange = this.updater<string>(
+    (state, version): EoAuthTermsState => ({
+      ...state,
+      version,
+    })
+  );
 
   onAcceptTerms = this.effect<void>((origin$) =>
     origin$.pipe(
       exhaustMap(() =>
-        combineLatest([
-          this.#authState$,
-          this.#version$
-        ]).pipe(
+        combineLatest([this.#authState$, this.#version$]).pipe(
           take(1),
           mergeMap(([state, version]) =>
             this.authHttp.postAcceptTerms({
