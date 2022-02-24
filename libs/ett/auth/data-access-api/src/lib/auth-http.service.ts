@@ -92,12 +92,15 @@ export class AuthHttp {
     feUrl: string,
     returnUrl: string
   ): Observable<AuthOidcLoginResponse> {
-    return this.http.get<AuthOidcLoginResponse>(`${this.#apiBase}/auth/oidc/login`, {
-      params: {
-        [AuthOidcQueryParameterName.FeUrl]: feUrl,
-        [AuthOidcQueryParameterName.ReturnUrl]: returnUrl,
-      },
-    });
+    return this.http.get<AuthOidcLoginResponse>(
+      `${this.#apiBase}/auth/oidc/login`,
+      {
+        params: {
+          [AuthOidcQueryParameterName.FeUrl]: feUrl,
+          [AuthOidcQueryParameterName.ReturnUrl]: returnUrl,
+        },
+      }
+    );
   }
 
   postLogout(): Observable<AuthLogoutResponse> {
@@ -121,7 +124,8 @@ export class AuthHttp {
   ): Observable<AuthTermsAcceptResponse> {
     return this.http.post<AuthTermsAcceptResponse>(
       `${this.#apiBase}/terms/accept`,
-      payload, {
+      payload,
+      {
         withCredentials: true,
       }
     );
