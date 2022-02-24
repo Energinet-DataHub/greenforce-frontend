@@ -32,7 +32,8 @@ watt-form-field {
       height: 56px;
     }
 
-    [wattPrefix], [wattSuffix] {
+    [wattPrefix],
+    [wattSuffix] {
       .watt-icon-button {
         height: 52px;
       }
@@ -84,7 +85,8 @@ watt-form-field {
     display: none;
   }
 
-  [wattPrefix], [wattSuffix] {
+  [wattPrefix],
+  [wattSuffix] {
     .watt-icon-button {
       height: 40px;
     }
