@@ -118,7 +118,6 @@ export class DhProcessesTableComponent implements AfterViewInit {
   imports: [
     MatTableModule,
     TranslocoModule,
-    DhMeteringPointStatusBadgeScam,
     WattIconModule,
     MatSortModule,
     CommonModule,

@@ -119,7 +119,7 @@ limitations under the License.
       <mat-cell *matCellDef="let row">
         <div class="watt-text-s">
           <watt-icon
-            [name]="row.hasErrors() ? 'danger' : 'success'"
+            [name]="row.hasErrors ? 'danger' : 'success'"
             [size]="iconSize.Medium"
             data-testId="processHasErrors"
           ></watt-icon>

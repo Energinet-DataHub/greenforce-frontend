@@ -19,11 +19,11 @@ import { Injectable } from '@angular/core';
 import { MeteringPointHttp } from '@energinet-datahub/dh/shared/data-access-api';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { filter, map, Observable, switchMap, tap } from 'rxjs';
-import { DHProcess } from '../model/dh-process';
+import { DhProcess } from '../model/dh-process';
 import { ErrorState, LoadingState } from './states';
 
 interface ProcessesState {
-  readonly processes: DHProcess[];
+  readonly processes: DhProcess[];
   readonly requestState: LoadingState | ErrorState;
 }
 
@@ -34,11 +34,11 @@ const initialState: ProcessesState = {
 
 @Injectable()
 export class DhProcessesDataAccessApiStore extends ComponentStore<ProcessesState> {
-  processes$: Observable<DHProcess[]> = this.select(
+  processes$: Observable<DhProcess[]> = this.select(
     (state) => state.processes
   ).pipe(
     filter((processes) => !!processes),
-    map((processes) => processes as DHProcess[])
+    map((processes) => processes as DhProcess[])
   );
   isLoading$ = this.select(
     (state) => state.requestState === LoadingState.LOADING
@@ -69,14 +69,20 @@ export class DhProcessesDataAccessApiStore extends ComponentStore<ProcessesState
                 this.setLoading(false);
 
                 const dhProcesses = processesData.map(
-                  (process) => new DHProcess(process)
+                  (process) =>
+                    ({
+                      ...process,
+                      hasErrors: process.details.some(
+                        (detail) => detail.errors.length > 0
+                      ),
+                    } as DhProcess)
                 );
 
                 // TODO: Remove this when the API has been updated to respect timezones
-                dhProcesses.forEach((process) => {
-                  process.effectiveDate = process.effectiveDate + 'Z';
-                  process.createdDate = process.createdDate + 'Z';
-                });
+                // dhProcesses.forEach((process) => {
+                //   process.effectiveDate = process.effectiveDate + 'Z';
+                //   process.createdDate = process.createdDate + 'Z';
+                // });
 
                 this.updateProcessesData(dhProcesses);
               },
@@ -93,7 +99,7 @@ export class DhProcessesDataAccessApiStore extends ComponentStore<ProcessesState
   );
 
   private updateProcessesData = this.updater(
-    (state: ProcessesState, processesData: DHProcess[]): ProcessesState => ({
+    (state: ProcessesState, processesData: DhProcess[]): ProcessesState => ({
       ...state,
       processes: processesData,
     })
@@ -107,7 +113,7 @@ export class DhProcessesDataAccessApiStore extends ComponentStore<ProcessesState
   );
 
   private handleError = (error: HttpErrorResponse) => {
-    const processesData: DHProcess[] = [];
+    const processesData: DhProcess[] = [];
     this.updateProcessesData(processesData);
 
     const requestError =
