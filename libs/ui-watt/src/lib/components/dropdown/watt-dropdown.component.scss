@@ -14,6 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-:host {
+watt-dropdown {
   display: block;
+}
+
+.watt-dropdown-autocomplete-panel {
+  border-radius: 3px;
+
+  .mat-option {
+    color: var(--watt-color-primary-dark);
+  }
 }

@@ -24,7 +24,10 @@ limitations under the License.
     [formControl]="internalControl"
     [matAutocomplete]="auto"
   />
-  <mat-autocomplete #auto="matAutocomplete">
+  <mat-autocomplete
+    #auto="matAutocomplete"
+    class="watt-dropdown-autocomplete-panel"
+  >
     <mat-option *ngFor="let option of options" [value]="option">
       {{ option }}
     </mat-option>

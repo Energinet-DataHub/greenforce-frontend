@@ -14,7 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  ViewEncapsulation,
+} from '@angular/core';
 import { FormControl } from '@angular/forms';
 
 @Component({
@@ -22,6 +27,7 @@ import { FormControl } from '@angular/forms';
   templateUrl: './watt-dropdown.component.html',
   styleUrls: ['./watt-dropdown.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
 })
 export class WattDropdownComponent {
   /**
