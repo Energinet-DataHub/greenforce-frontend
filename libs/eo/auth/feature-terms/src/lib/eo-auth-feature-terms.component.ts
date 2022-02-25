@@ -63,7 +63,8 @@ const selector = 'eo-auth-terms';
     <eo-header></eo-header>
 
     <div class="${selector}__content">
-      <eo-privacy-policy class="watt-space-stack-l"
+      <eo-privacy-policy
+        class="watt-space-stack-l"
         (versionChange)="onVersionChange($event)"
       ></eo-privacy-policy>
 
