@@ -16,8 +16,8 @@
  */
 import { MockedRequest, RequestHandler } from 'msw';
 
-import { chargesMocks } from '@energinet-datahub/dh/charges/data-access-mocks';
-import { meteringPointMocks } from '@energinet-datahub/dh/metering-point/data-access-mocks';
+import { chargesMocks } from './mocks/charges';
+import { meteringPointMocks } from './mocks/metering-point';
 
 export const handlers: RequestHandler[] = [
   ...chargesMocks,

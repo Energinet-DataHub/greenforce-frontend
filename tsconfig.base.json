@@ -23,9 +23,6 @@
       "@energinet-datahub/dh/charges/data-access-api": [
         "libs/dh/charges/data-access-api/src/index.ts"
       ],
-      "@energinet-datahub/dh/charges/data-access-mocks": [
-        "libs/dh/charges/data-access-mocks/src/index.ts"
-      ],
       "@energinet-datahub/dh/core/shell": ["libs/dh/core/shell/src/index.ts"],
       "@energinet-datahub/dh/globalization/assets-localization": [
         "libs/dh/globalization/assets-localization/src/index.ts"
@@ -44,9 +41,6 @@
       ],
       "@energinet-datahub/dh/metering-point/data-access-api": [
         "libs/dh/metering-point/data-access-api/src/index.ts"
-      ],
-      "@energinet-datahub/dh/metering-point/data-access-mocks": [
-        "libs/dh/metering-point/data-access-mocks/src/index.ts"
       ],
       "@energinet-datahub/dh/metering-point/domain": [
         "libs/dh/metering-point/domain/src/index.ts"
