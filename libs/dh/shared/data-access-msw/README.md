@@ -1,1 +1,1 @@
-# Shared util Mock Service Worker
+# Shared Mock Service Worker data-access
