@@ -18,8 +18,6 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
 
 import { WattFormFieldModule } from '../form-field/form-field.module';
 import { WattInputModule } from '../input/input.module';
@@ -32,8 +30,6 @@ import { WattDropdownComponent } from './watt-dropdown.component';
     CommonModule,
     ReactiveFormsModule,
     MatAutocompleteModule,
-    MatFormFieldModule,
-    MatInputModule,
     WattFormFieldModule,
     WattInputModule,
   ],
