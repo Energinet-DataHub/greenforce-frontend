@@ -78,12 +78,6 @@ export class DhProcessesDataAccessApiStore extends ComponentStore<ProcessesState
                     } as DhProcess)
                 );
 
-                // TODO: Remove this when the API has been updated to respect timezones
-                // dhProcesses.forEach((process) => {
-                //   process.effectiveDate = process.effectiveDate + 'Z';
-                //   process.createdDate = process.createdDate + 'Z';
-                // });
-
                 this.updateProcessesData(dhProcesses);
               },
               (error: HttpErrorResponse) => {
