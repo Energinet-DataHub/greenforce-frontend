@@ -27,7 +27,7 @@ export class WattDropdownComponent {
   /**
    * @ignore
    */
-  myControl = new FormControl();
+  internalControl = new FormControl();
   /**
    * Sets the label for the dropdown.
    *
