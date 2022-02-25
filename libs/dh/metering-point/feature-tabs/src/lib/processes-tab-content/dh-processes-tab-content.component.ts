@@ -17,14 +17,13 @@
 import { CommonModule } from '@angular/common';
 import { Component, NgModule, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-
+import { DhProcessesDataAccessApiStore } from '@energinet-datahub/dh/metering-point/data-access-api';
 import { dhMeteringPointIdParam } from '@energinet-datahub/dh/metering-point/routing';
 import { Process } from '@energinet-datahub/dh/shared/data-access-api';
 import { WattSpinnerModule } from '@energinet-datahub/watt';
 import { TranslocoModule } from '@ngneat/transloco';
 import { LetModule } from '@rx-angular/template';
 import { map, Observable, Subject, takeUntil } from 'rxjs';
-import { DhProcessesDataAccessApiStore } from '@energinet-datahub/dh/metering-point/data-access-api';
 import { DhProcessesTableScam } from './dh-processes-table/dh-processes-table.component';
 
 @Component({
