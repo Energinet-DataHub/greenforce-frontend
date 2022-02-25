@@ -206,12 +206,6 @@ jobs:
         run: yarn install --frozen-lockfile --non-interactive
       - name: Install Playwright
         run: npx playwright install --with-deps
-      - name: 'DH: Start API'
-        if: ${{ env.is-main-branch == 'true' || needs.dh-affected.outputs.is-affected == 'true' }}
-        run: |
-          yarn nx run api-dh:ci-configuration
-          yarn nx serve api-dh:serve:ci
-
       - name: 'PR: End-to-end test affected products'
         if: ${{ env.is-pull-request == 'true' }}
         run: yarn affected:e2e --configuration=ci --base=origin/$BASE_BRANCH
@@ -378,12 +372,6 @@ jobs:
             ${{ runner.os }}
       - name: Install package dependencies
         run: yarn install --frozen-lockfile --non-interactive
-
-      - name: 'DH: Start API'
-        if: ${{ env.is-main-branch == 'true' || needs.dh-affected.outputs.is-affected == 'true' }}
-        run: |
-          yarn nx run api-dh:ci-configuration
-          yarn nx serve api-dh:serve:ci
 
       - name: 'PR: Test affected projects'
         if: ${{ env.is-pull-request == 'true' }}
