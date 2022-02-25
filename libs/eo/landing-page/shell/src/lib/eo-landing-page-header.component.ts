@@ -24,7 +24,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { LetModule } from '@rx-angular/template';
 import { Observable } from 'rxjs';
 import { EoLandingPageStore } from './eo-landing-page.store';
-import {EoHeaderScam} from '@energinet-datahub/eo/shared/atomic-design/ui-organisms';
+import { EoHeaderScam } from '@energinet-datahub/eo/shared/atomic-design/ui-organisms';
 
 const selector = 'eo-landing-page-header';
 
