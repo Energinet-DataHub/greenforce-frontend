@@ -20,8 +20,7 @@ import {
   NgModule,
   ViewEncapsulation,
 } from '@angular/core';
-
-import { EoFooterScam } from '@energinet-datahub/eo/shared/ui-page-templates';
+import { EoFooterScam } from '@energinet-datahub/eo/shared/atomic-design/ui-organisms';
 import { EoProductLogoScam } from '@energinet-datahub/eo/shared/ui-shell';
 import { EttPrimaryNavigationScam } from './ett-primary-navigation.component';
 import { RouterModule } from '@angular/router';

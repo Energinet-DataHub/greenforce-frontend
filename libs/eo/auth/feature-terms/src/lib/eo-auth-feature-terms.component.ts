@@ -23,12 +23,12 @@ import {
 import {
   EoFooterScam,
   EoHeaderScam,
-} from '@energinet-datahub/eo/shared/ui-page-templates';
+} from '@energinet-datahub/eo/shared/atomic-design/ui-organisms';
 import { WattButtonModule, WattCheckboxModule } from '@energinet-datahub/watt';
 import { EoAuthTermsStore } from './eo-auth-terms.store';
 import { EoLogOutStore } from '@energinet-datahub/ett/auth/data-access-security';
 import { FormsModule } from '@angular/forms';
-import { EoPrivacyPolicyScam } from '@energinet-datahub/eo-shared-atomic-design-feature-molecules';
+import { EoPrivacyPolicyScam } from '@energinet-datahub/eo/shared/atomic-design/feature-molecules';
 
 const selector = 'eo-auth-terms';
 
@@ -49,13 +49,12 @@ const selector = 'eo-auth-terms';
           }
         }
 
-        > div {
+        .${selector}__actions {
           width: calc(200 * var(--watt-space-xs));
           margin: 0 auto var(--watt-space-l);
-
-          watt-button[variant='secondary'] {
-            margin-right: calc(2 * var(--watt-space-xs));
-          }
+        }
+        .${selector}__button-cancel {
+          margin-right: calc(2 * var(--watt-space-xs));
         }
       }
     `,
@@ -64,11 +63,11 @@ const selector = 'eo-auth-terms';
     <eo-header></eo-header>
 
     <div class="${selector}__content">
-      <eo-privacy-policy
+      <eo-privacy-policy class="watt-space-stack-l"
         (versionChange)="onVersionChange($event)"
       ></eo-privacy-policy>
 
-      <div>
+      <div class="${selector}__actions">
         <div class="watt-space-stack-l">
           <watt-checkbox [(ngModel)]="hasAcceptedTerms"
             >I have seen the privacy policy</watt-checkbox
@@ -76,6 +75,7 @@ const selector = 'eo-auth-terms';
         </div>
 
         <watt-button
+          class="${selector}__button-cancel"
           variant="secondary"
           aria-labelledby="Cancel"
           (click)="onCancel()"

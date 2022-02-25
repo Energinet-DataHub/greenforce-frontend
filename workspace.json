@@ -40,7 +40,6 @@
     "eo-shared-atomic-design-ui-atoms": "libs/eo/shared/atomic-design/ui-atoms",
     "eo-shared-atomic-design-ui-organisms": "libs/eo/shared/atomic-design/ui-organisms",
     "eo-shared-environments": "libs/eo/shared/environments",
-    "eo-shared-ui-page-templates": "libs/eo/shared/ui-page-templates",
     "eo-shared-ui-shell": "libs/eo/shared/ui-shell",
     "ett-auth-data-access-api": "libs/ett/auth/data-access-api",
     "ett-auth-data-access-security": "libs/ett/auth/data-access-security",

@@ -41,10 +41,6 @@ export class EoPrivacyPolicyStore extends ComponentStore<EoPrivacyPolicyState> {
     this.#response,
     (response) => response.version
   );
-  headline$: Observable<string> = this.select(
-    this.#response,
-    (response) => response.headline
-  );
   privacyPolicy$: Observable<string> = this.select(
     this.#response,
     (response) => response.terms

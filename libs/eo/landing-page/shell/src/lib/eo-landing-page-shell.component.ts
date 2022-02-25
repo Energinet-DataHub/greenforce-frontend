@@ -23,7 +23,7 @@ import {
 import { MatButtonModule } from '@angular/material/button';
 import { LetModule } from '@rx-angular/template';
 import { EoLandingPageHeaderScam } from './eo-landing-page-header.component';
-import { EoFooterScam } from '@energinet-datahub/eo/shared/ui-page-templates';
+import {EoFooterScam} from '@energinet-datahub/eo/shared/atomic-design/ui-organisms';
 import { EoLandingPageStore } from './eo-landing-page.store';
 
 const selector = 'eo-landing-page-shell';

@@ -28,7 +28,7 @@ const selector = 'eo-scroll-view';
   encapsulation: ViewEncapsulation.None,
   selector,
   template: `
-    <div>
+    <div class="${selector}__content">
       <ng-content></ng-content>
     </div>
   `,
@@ -42,11 +42,13 @@ const selector = 'eo-scroll-view';
         word-break: break-word;
 
         // This is the contents of the privacy policy with the custom scrollbar
-        > div {
+        .${selector}__content {
           max-height: calc(100 * var(--watt-space-xs));
           word-break: break-word;
           overflow-y: scroll;
           padding-right: calc(4 * var(--watt-space-xs));
+
+          // As we do not have sufficient styling options for the scrollbar in Firefox - We are targeting webkit only
           &::-webkit-scrollbar {
             width: 6px;
           }

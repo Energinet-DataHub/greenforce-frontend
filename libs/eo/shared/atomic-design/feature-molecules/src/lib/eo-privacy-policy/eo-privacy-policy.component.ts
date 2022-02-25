@@ -22,7 +22,7 @@ import {
   Output,
 } from '@angular/core';
 import { EoPrivacyPolicyStore } from './eo-privacy-policy.store';
-import { EoScrollViewScam } from '@energinet-datahub/eo-shared-atomic-design-ui-atoms';
+import { EoScrollViewScam } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 import { Observable } from 'rxjs';
 import { PushModule } from '@rx-angular/template';
 
@@ -32,7 +32,7 @@ const selector = 'eo-privacy-policy';
   providers: [EoPrivacyPolicyStore],
   selector,
   template: `
-    <h1 class="${selector}__heading">{{ headline$ | push }}</h1>
+    <h1 class="${selector}__heading">Privacy Policy</h1>
     <eo-scroll-view>
       <p class="${selector}__paragraph">Version {{ version$ | push }}</p>
       <div [innerHTML]="privacyPolicy$ | push"></div>
@@ -60,7 +60,6 @@ const selector = 'eo-privacy-policy';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EoPrivacyPolicyComponent {
-  headline$: Observable<string> = this.store.headline$;
   version$: Observable<string> = this.store.version$;
   privacyPolicy$: Observable<string> = this.store.privacyPolicy$;
 

@@ -27,7 +27,7 @@ describe(EoPrivacyPolicyStore.name, () => {
         providers: [
           EoPrivacyPolicyStore,
           MockProvider(AuthHttp, {
-            getTerms: () => of({ terms, version, headline }),
+            getTerms: () => of({ terms, version, headline: 'Privacy Policy' }),
           }),
         ],
       });
@@ -36,17 +36,11 @@ describe(EoPrivacyPolicyStore.name, () => {
 
     const terms = '<p>Terms comes here</p>';
     const version = '1.0';
-    const headline = 'Read the terms';
     let store: EoPrivacyPolicyStore;
 
     it('Then the privacy policy is emitted', async () => {
       const terms = await firstValueFrom(store.privacyPolicy$);
       expect(terms).toBe(terms);
-    });
-
-    it('Then the headline is emitted', async () => {
-      const headline = await firstValueFrom(store.headline$);
-      expect(headline).toBe(headline);
     });
 
     it('Then the version is emitted', async () => {
