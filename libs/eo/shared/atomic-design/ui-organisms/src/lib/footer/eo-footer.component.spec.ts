@@ -46,7 +46,7 @@ describe(EoFooterComponent.name, () => {
 
 describe(`${EoFooterScam.name} - Component API, Content projection`, () => {
   it('Inserts content into ng-content', async () => {
-    await render(`<eo-footer><a href="#">test</a></eo-footer>`, {
+    await render(`<eo-footer><p>test</p></eo-footer>`, {
       imports: [EoFooterScam],
     });
     expect(await screen.findByText('test')).toBeInTheDocument();
