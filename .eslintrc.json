@@ -141,7 +141,6 @@
               {
                 "sourceTag": "type:environments",
                 "onlyDependOnLibsWithTags": [
-                  "type:data-access",
                   "type:util",
                   "type:test-util",
                   "type:environments",

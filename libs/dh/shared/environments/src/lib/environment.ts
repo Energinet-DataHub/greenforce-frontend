@@ -22,6 +22,7 @@ import { DhEnvironment } from './dh-environment';
 /**
  * Mock Service Worker
  */
+// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import '@energinet-datahub/dh/shared/data-access-msw';
 
 /*
