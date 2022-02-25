@@ -21,7 +21,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { EoProductLogoScam } from '@energinet-datahub/eo/shared/ui-shell';
+import { EoProductLogoScam } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 
 const selector = 'eo-header';
 

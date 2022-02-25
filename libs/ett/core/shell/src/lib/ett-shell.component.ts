@@ -21,7 +21,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { EoFooterScam } from '@energinet-datahub/eo/shared/atomic-design/ui-organisms';
-import { EoProductLogoScam } from '@energinet-datahub/eo/shared/ui-shell';
+import { EoProductLogoScam } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 import { EttPrimaryNavigationScam } from './ett-primary-navigation.component';
 import { RouterModule } from '@angular/router';
 import { WattShellModule } from '@energinet-datahub/watt';
