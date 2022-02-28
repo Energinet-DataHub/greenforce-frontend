@@ -23,7 +23,7 @@ import {
   TemplateRef,
   ViewContainerRef,
 } from '@angular/core';
-import { MeteringPointType } from '@energinet-datahub/dh/shared/data-access-api';
+import { MeteringPointType } from '@energinet-datahub/dh/shared/domain';
 
 import {
   allMeteringPointTypes,

@@ -21,6 +21,12 @@ body {
   min-height: 100%;
 }
 
-a {
+a,
+[routerLink] {
   text-decoration: underline; // This overrides WATT styles (which removes the underline on a tags)
+  cursor: pointer; // This makes Angular routerLinks hoverable with a pointer
+}
+
+label {
+  text-transform: none; // Override .watt-label, which uppercases labels
 }

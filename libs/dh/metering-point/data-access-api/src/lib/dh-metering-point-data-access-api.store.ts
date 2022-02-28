@@ -20,7 +20,7 @@ import { filter, map, Observable, switchMap, tap } from 'rxjs';
 import {
   MeteringPointCimDto,
   MeteringPointHttp,
-} from '@energinet-datahub/dh/shared/data-access-api';
+} from '@energinet-datahub/dh/shared/domain';
 import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { ErrorState, LoadingState } from './states';
 

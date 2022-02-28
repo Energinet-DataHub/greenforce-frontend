@@ -78,7 +78,7 @@ jobs:
     needs: bff_ci
     runs-on: ubuntu-latest
     env:
-      output-path: libs/dh/shared/data-access-api/src/lib/generated/v1/
+      output-path: libs/dh/shared/domain/src/lib/generated/v1/
 
     steps:
       # needed to push to origin

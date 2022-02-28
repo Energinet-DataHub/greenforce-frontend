@@ -19,7 +19,7 @@ import { CommonModule } from '@angular/common';
 import {
   ChargeLinkV1Dto,
   ChargeType,
-} from '@energinet-datahub/dh/shared/data-access-api';
+} from '@energinet-datahub/dh/shared/domain';
 import { TranslocoModule } from '@ngneat/transloco';
 import {
   WattEmptyStateModule,

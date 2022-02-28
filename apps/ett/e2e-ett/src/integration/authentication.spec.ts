@@ -49,7 +49,6 @@ describe('Authentication', () => {
 
     // Act
     appShell.findLogOutMenuItem().click();
-    cy.wait('@authLogout');
 
     // Assert
     cy.location('pathname').should('eq', landingPage.path);
@@ -72,13 +71,13 @@ describe('Authentication', () => {
       {
         next_url: '/dashboard?success=1',
       }
-    );
+    ).as('authPostTerms');
     landingPage.navigateTo();
 
     // Act
     landingPage.findStartLink().click();
     termsPage.findAcceptCheckbox().click({ force: true });
-    termsPage.findAcceptButton().click();
+    termsPage.findAcceptButton().click({ force: true });
 
     // Assert
     dashboardPage.findTitle().should('exist');
@@ -116,7 +115,6 @@ describe('Authentication', () => {
     // Act
     landingPage.findStartLink().click();
     termsPage.findCancelButton().click();
-    cy.wait('@authLogout');
 
     // Assert
     cy.location('pathname').should('eq', landingPage.path);

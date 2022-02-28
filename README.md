@@ -79,7 +79,6 @@ Only libraries of type `data-access` may have dependencies to apps, and only app
 - feature
 - ui
 - data-access
-- open-api
 - routing
 - util
 - test-util
@@ -99,17 +98,12 @@ Allowed dependencies to: `feature`, `ui`, `data-access`, `routing`, `util`, `tes
 ### UI libraries
 
 A UI library contains only presentational logic (presentational components, pipes, presentational services, directives).
-Allowed dependencies to: `ui`, `open-api`, `util`, `test-util`, `domain`, `assets`, `styles`.
+Allowed dependencies to: `ui`, `util`, `test-util`, `domain`, `assets`, `styles`.
 
 ### Data-access libraries
 
 A data-access library contains code for interacting with a back-end system. It also includes all the code related to state management, routing and HTTP interceptors.
 Allowed dependencies to: `data-access`, `routing`, `util`, `test-util`, `domain`, `environments`.
-
-### Open API libraries
-
-An open-api library is a data-acces library that contains code for interacting with a back-end system. However, it also contains DTOs/models that are auto-generated using OpenAPI Generator.
-Allowed dependencies to: `environments`, `test-util`.
 
 ### Routing libraries
 
