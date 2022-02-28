@@ -75,6 +75,12 @@
       "@energinet-datahub/dh/shared/data-access-api": [
         "libs/dh/shared/data-access-api/src/index.ts"
       ],
+      "@energinet-datahub/dh/shared/data-access-msw": [
+        "libs/dh/shared/data-access-msw/src/index.ts"
+      ],
+      "@energinet-datahub/dh/shared/domain": [
+        "libs/dh/shared/domain/src/index.ts"
+      ],
       "@energinet-datahub/dh/shared/environments": [
         "libs/dh/shared/environments/src/index.ts"
       ],
@@ -86,6 +92,9 @@
       ],
       "@energinet-datahub/dh/shared/test-util-metering-point": [
         "libs/dh/shared/test-util-metering-point/src/index.ts"
+      ],
+      "@energinet-datahub/dh/shared/test-util-msw": [
+        "libs/dh/shared/test-util-msw/src/index.ts"
       ],
       "@energinet-datahub/dh/shared/ui-date-time": [
         "libs/dh/shared/ui-date-time/src/index.ts"

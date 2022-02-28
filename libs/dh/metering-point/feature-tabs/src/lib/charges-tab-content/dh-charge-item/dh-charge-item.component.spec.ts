@@ -18,7 +18,7 @@ import { render, screen } from '@testing-library/angular';
 import {
   ChargeLinkV1Dto,
   ChargeType,
-} from '@energinet-datahub/dh/shared/data-access-api';
+} from '@energinet-datahub/dh/shared/domain';
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
 import { runOnPushChangeDetection } from '@energinet-datahub/dh/shared/test-util-metering-point';
 import { en as enTranslations } from '@energinet-datahub/dh/globalization/assets-localization';
