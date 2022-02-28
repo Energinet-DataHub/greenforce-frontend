@@ -1,36 +1,7 @@
 {
   "projectType": "application",
   "root": "apps/ett/app-ett",
-  "sourceRoot": "apps/ett/app-ett/src",
-  "prefix": "ett",
-  "targets": {
-    "build": {
-      "executor": "@angular-devkit/build-angular:browser",
-      "outputs": ["{options.outputPath}"],
-      "options": {
-        "assets": [
-          {
-            "glob": "favicon.ico",
-            "input": "libs/eo/shared/assets/src",
-            "output": ""
-          },
-          {
-            "glob": "**/*",
-            "input": "libs/eo/shared/assets/src/assets",
-            "output": "assets"
-          },
-          {
-            "input": "libs/ui-watt/src/assets",
-            "glob": "**/*",
-            "output": "assets/ui-watt"
-          }
-        ],
-        "baseHref": "/",
-        "commonChunk": false,
-        "index": "apps/ett/app-ett/src/index.html",
-        "inlineStyleLanguage": "scss",
-        "main": "apps/ett/app-ett/src/main.ts",
-        "outputPath": "dist/apps/ett/app-ett",
+  "sour
         "polyfills": "apps/ett/app-ett/src/polyfills.ts",
         "scripts": [],
         "stylePreprocessorOptions": {
