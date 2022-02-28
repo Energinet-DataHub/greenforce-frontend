@@ -28,6 +28,7 @@ watt-form-field {
     .mat-input-element {
       @include watt.typography-watt-text-m;
     }
+
     .mat-form-field-flex {
       height: 56px;
     }
@@ -51,9 +52,7 @@ watt-form-field {
     margin-top: var(--label-margin-bottom);
     border-radius: 4px;
     background: var(--input-background);
-    border-width: 1px;
-    border-style: solid;
-    border-color: var(--input-border-color);
+    border: 1px solid var(--input-border-color);
     height: 44px;
     padding: 0 12px;
   }
