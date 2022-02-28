@@ -1,0 +1,26 @@
+{
+  "projectType": "library",
+  "root": "libs/eo/shared/atomic-design/feature-molecules",
+  "sourceRoot": "libs/eo/shared/atomic-design/feature-molecules/src",
+  "prefix": "eo",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/eo/shared/atomic-design/feature-molecules"],
+      "options": {
+        "jestConfig": "libs/eo/shared/atomic-design/feature-molecules/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/eo/shared/atomic-design/feature-molecules/src/**/*.ts",
+          "libs/eo/shared/atomic-design/feature-molecules/src/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": ["product:eo", "domain:shared", "type:feature"]
+}

@@ -14,23 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+import 'jest-preset-angular/setup-jest';
 import {
-  EoLandingPageShellComponent,
-  EoLandingPageShellScam,
-} from './eo-landing-page-shell.component';
-import { RouterModule, Routes } from '@angular/router';
+  setUpTestbed,
+  setUpNgMocks,
+} from '@energinet-datahub/gf/test-util-staging';
 
-import { NgModule } from '@angular/core';
-
-const routes: Routes = [
-  {
-    path: '',
-    component: EoLandingPageShellComponent,
-  },
-];
-
-@NgModule({
-  imports: [RouterModule.forChild(routes), EoLandingPageShellScam],
-})
-export class EoLandingPageShellModule {}
+setUpTestbed();
+setUpNgMocks();

@@ -20,16 +20,15 @@ import {
   NgModule,
   ViewEncapsulation,
 } from '@angular/core';
-import { PushModule } from '@rx-angular/template';
-import { FormsModule } from '@angular/forms';
-import { Observable } from 'rxjs';
-import { WattButtonModule, WattCheckboxModule } from '@energinet-datahub/watt';
-import { EoAuthTermsStore } from './eo-auth-terms.store';
 import {
   EoFooterScam,
   EoHeaderScam,
-} from '@energinet-datahub/eo/shared/ui-page-templates';
+} from '@energinet-datahub/eo/shared/atomic-design/ui-organisms';
+import { WattButtonModule, WattCheckboxModule } from '@energinet-datahub/watt';
+import { EoAuthTermsStore } from './eo-auth-terms.store';
 import { EoLogOutStore } from '@energinet-datahub/ett/auth/data-access-security';
+import { FormsModule } from '@angular/forms';
+import { EoPrivacyPolicyScam } from '@energinet-datahub/eo/shared/atomic-design/feature-molecules';
 
 const selector = 'eo-auth-terms';
 
@@ -41,51 +40,20 @@ const selector = 'eo-auth-terms';
   styles: [
     `
       @use '@energinet-datahub/watt/utils' as watt;
-      .${selector}__page {
-        display: block;
-        width: calc(200 * var(--watt-space-xs));
-        margin: 0 auto;
-        margin-bottom: var(--watt-space-l);
+      .${selector}__content {
+        eo-privacy-policy {
+          margin: var(--watt-space-l) auto;
 
-        > h1 {
-          @include watt.typography-watt-headline-1; // Mis-match with styles in Figma(?)
-          text-transform: none; // Override .watt-headline-1
-          margin-top: var(--watt-space-l);
-          margin-bottom: var(--watt-space-l);
-        }
-
-        // This is the wrapper for the privacy policy
-        .${selector}__content {
-          border-radius: var(--watt-space-xs);
-          word-break: break-word;
-          background: var(--watt-color-neutral-white);
-        }
-
-        // This is the contents of the privacy policy with the custom scrollbar
-        article {
-          max-height: calc(100 * var(--watt-space-xs));
-          word-break: break-word;
-          overflow-y: scroll;
-          padding-right: calc(4 * var(--watt-space-xs));
-          &::-webkit-scrollbar {
-            width: 6px;
-          }
-          &::-webkit-scrollbar-track {
-            background: var(--watt-color-neutral-white);
-            border-radius: 50px;
-          }
-          &::-webkit-scrollbar-thumb {
-            background-color: var(--watt-color-primary);
-            border-radius: 50px;
+          eo-scroll-view {
+            margin-bottom: var(--watt-space-l);
           }
         }
 
-        label {
-          cursor: pointer;
-          text-transform: none; // Override .watt-label, which uppercases labels
+        .${selector}__actions {
+          width: calc(200 * var(--watt-space-xs));
+          margin: 0 auto var(--watt-space-l);
         }
-
-        watt-button[variant='secondary'] {
+        .${selector}__button-cancel {
           margin-right: calc(2 * var(--watt-space-xs));
         }
       }
@@ -94,43 +62,48 @@ const selector = 'eo-auth-terms';
   template: `
     <eo-header></eo-header>
 
-    <div class="${selector}__page">
-      <h1>{{ headline$ | push }}</h1>
-      <div class="watt-space-inset-m watt-space-stack-l ${selector}__content">
-        <article [innerHTML]="terms$ | push"></article>
-      </div>
+    <div class="${selector}__content">
+      <eo-privacy-policy
+        class="watt-space-stack-l"
+        (versionChange)="onVersionChange($event)"
+      ></eo-privacy-policy>
 
-      <div class="watt-space-stack-l">
-        <watt-checkbox [(ngModel)]="hasAcceptedTerms"
-          >I have seen the privacy policy</watt-checkbox
-        >
-      </div>
+      <div class="${selector}__actions">
+        <div class="watt-space-stack-l">
+          <watt-checkbox [(ngModel)]="hasAcceptedTerms"
+            >I have seen the privacy policy</watt-checkbox
+          >
+        </div>
 
-      <watt-button
-        variant="secondary"
-        aria-labelledby="Cancel"
-        (click)="onCancel()"
-        >Back</watt-button
-      >
-      <watt-button
-        variant="primary"
-        aria-labelledby="Accept"
-        (click)="onAccept()"
-        >Accept terms</watt-button
-      >
+        <watt-button
+          class="${selector}__button-cancel"
+          variant="secondary"
+          aria-labelledby="Cancel"
+          (click)="onCancel()"
+          >Back
+        </watt-button>
+        <watt-button
+          variant="primary"
+          aria-labelledby="Accept"
+          (click)="onAccept()"
+          >Accept terms
+        </watt-button>
+      </div>
     </div>
     <eo-footer></eo-footer>
   `,
 })
 export class EoAuthFeatureTermsComponent {
-  headline$: Observable<string> = this.store.headline$;
-  terms$: Observable<string> = this.store.terms$;
   hasAcceptedTerms = false;
 
   constructor(
     private store: EoAuthTermsStore,
     private logOutStore: EoLogOutStore
   ) {}
+
+  onVersionChange(version: string): void {
+    this.store.onVersionChange(version);
+  }
 
   onCancel(): void {
     this.logOutStore.onLogOut();
@@ -154,7 +127,7 @@ export class EoAuthFeatureTermsComponent {
     WattCheckboxModule,
     EoFooterScam,
     EoHeaderScam,
-    PushModule,
+    EoPrivacyPolicyScam,
   ],
 })
 export class EoAuthFeatureTermsScam {}

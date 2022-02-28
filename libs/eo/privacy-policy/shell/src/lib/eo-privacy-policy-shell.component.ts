@@ -20,19 +20,15 @@ import {
   NgModule,
   ViewEncapsulation,
 } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
-import { LetModule } from '@rx-angular/template';
-import { EoLandingPageHeaderScam } from './eo-landing-page-header.component';
-import { EoFooterScam } from '@energinet-datahub/eo/shared/atomic-design/ui-organisms';
-import { EoLandingPageStore } from './eo-landing-page.store';
+import { EoPrivacyPolicyScam } from '@energinet-datahub/eo/shared/atomic-design/feature-molecules';
 
-const selector = 'eo-landing-page-shell';
+const selector = 'eo-privacy-policy-shell';
 
 @Component({
-  providers: [EoLandingPageStore],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   selector,
+  template: `<eo-privacy-policy></eo-privacy-policy>`,
   styles: [
     `
       ${selector} {
@@ -40,15 +36,11 @@ const selector = 'eo-landing-page-shell';
       }
     `,
   ],
-  template: `
-    <eo-landing-page-header></eo-landing-page-header>
-    <eo-footer></eo-footer>
-  `,
 })
-export class EoLandingPageShellComponent {}
+export class EoPrivacyPolicyShellComponent {}
 
 @NgModule({
-  declarations: [EoLandingPageShellComponent],
-  imports: [MatButtonModule, LetModule, EoLandingPageHeaderScam, EoFooterScam],
+  imports: [EoPrivacyPolicyScam],
+  declarations: [EoPrivacyPolicyShellComponent],
 })
-export class EoLandingPageShellScam {}
+export class EoPrivacyPolicyShellScam {}

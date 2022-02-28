@@ -14,11 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 import {
-  EoLandingPageShellComponent,
-  EoLandingPageShellScam,
-} from './eo-landing-page-shell.component';
+  EoPrivacyPolicyShellComponent,
+  EoPrivacyPolicyShellScam,
+} from './eo-privacy-policy-shell.component';
 import { RouterModule, Routes } from '@angular/router';
 
 import { NgModule } from '@angular/core';
@@ -26,11 +25,11 @@ import { NgModule } from '@angular/core';
 const routes: Routes = [
   {
     path: '',
-    component: EoLandingPageShellComponent,
+    component: EoPrivacyPolicyShellComponent,
   },
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes), EoLandingPageShellScam],
+  imports: [RouterModule.forChild(routes), EoPrivacyPolicyShellScam],
 })
-export class EoLandingPageShellModule {}
+export class EoPrivacyPolicyShellModule {}
