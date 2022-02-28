@@ -173,7 +173,7 @@ jobs:
     uses: Energinet-DataHub/.github/.github/workflows/build-containers-and-release-chart.yaml@main
     with:
       helm_repository: ${{ github.repository_owner }}/helm-charts
-      chart_folder: build/infrastructure/eo/chart
+      chart_folder: infrastructure/eo/chart
       chart_version: ${{ needs.define_build.outputs.chart_version }}
       containers: ${{ needs.define_build.outputs.containers }}
     secrets:
