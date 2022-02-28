@@ -36,9 +36,6 @@ import {
   DhMeteringPointSearchScam,
 } from './dh-metering-point-search.component';
 import { DhApiModule } from '@energinet-datahub/dh/shared/data-access-api';
-import { rest } from 'msw';
-
-import { server } from '@energinet-datahub/dh/shared/test-util-msw';
 
 @Component({
   template: `nothing to see here`,
