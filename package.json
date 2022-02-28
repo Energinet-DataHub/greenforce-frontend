@@ -128,6 +128,7 @@
     "jest-dev-server": "^6.0.0",
     "jest-preset-angular": "11.0.0",
     "kill-port-process": "^3.0.1",
+    "msw": "^0.38.1",
     "ng-mocks": "^12.5.0",
     "ng-packagr": "13.0.8",
     "postcss": "^8.3.9",

@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { NgModule, Pipe, PipeTransform } from '@angular/core';
-import { MeteringPointType } from '@energinet-datahub/dh/shared/data-access-api';
+import { MeteringPointType } from '@energinet-datahub/dh/shared/domain';
 
 @Pipe({
   name: 'dhIsParent',

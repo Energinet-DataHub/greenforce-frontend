@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Process } from '@energinet-datahub/dh/shared/data-access-api';
+import { Process } from '@energinet-datahub/dh/shared/domain';
 import { DhProcessesTabContentComponent } from './dh-processes-tab-content.component';
 
 const processId = '2c4024f5-762d-4a41-a75e-d045c0ed6572';

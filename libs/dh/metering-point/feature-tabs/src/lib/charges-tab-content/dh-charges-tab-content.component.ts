@@ -22,7 +22,7 @@ import { map, Observable, Subject, takeUntil } from 'rxjs';
 import { TranslocoModule } from '@ngneat/transloco';
 
 import { DhChargesDataAccessApiStore } from '@energinet-datahub/dh/charges/data-access-api';
-import { ChargeLinkV1Dto } from '@energinet-datahub/dh/shared/data-access-api';
+import { ChargeLinkV1Dto } from '@energinet-datahub/dh/shared/domain';
 import { dhMeteringPointIdParam } from '@energinet-datahub/dh/metering-point/routing';
 import { WattSpinnerModule } from '@energinet-datahub/watt';
 

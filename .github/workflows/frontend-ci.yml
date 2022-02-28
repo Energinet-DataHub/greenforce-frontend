@@ -158,7 +158,7 @@ jobs:
             -Dsonar.projectKey=geh-frontend-app
             -Dsonar.organization=energinet-datahub
             -Dsonar.sources=apps/dh/app-dh,libs/dh,libs/ui-watt,libs/gf
-            -Dsonar.exclusions=**/*.spec.ts
+            -Dsonar.exclusions=**/*.spec.ts,libs/dh/shared/data-access-msw/src/assets/mockServiceWorker.js
             -Dsonar.coverage.exclusions=libs/ui-watt/**/+storybook/*,libs/ui-watt/**/*.stories.ts,
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
@@ -206,12 +206,6 @@ jobs:
         run: yarn install --frozen-lockfile --non-interactive
       - name: Install Playwright
         run: npx playwright install --with-deps
-      - name: 'DH: Start API'
-        if: ${{ env.is-main-branch == 'true' || needs.dh-affected.outputs.is-affected == 'true' }}
-        run: |
-          yarn nx run api-dh:ci-configuration
-          yarn nx serve api-dh:serve:ci
-
       - name: 'PR: End-to-end test affected products'
         if: ${{ env.is-pull-request == 'true' }}
         run: yarn affected:e2e --configuration=ci --base=origin/$BASE_BRANCH
@@ -378,13 +372,6 @@ jobs:
             ${{ runner.os }}
       - name: Install package dependencies
         run: yarn install --frozen-lockfile --non-interactive
-
-      - name: 'DH: Start API'
-        if: ${{ env.is-main-branch == 'true' || needs.dh-affected.outputs.is-affected == 'true' }}
-        run: |
-          yarn nx run api-dh:ci-configuration
-          yarn nx serve api-dh:serve:ci
-
       - name: 'PR: Test affected projects'
         if: ${{ env.is-pull-request == 'true' }}
         run: yarn affected:test --base=origin/$BASE_BRANCH
