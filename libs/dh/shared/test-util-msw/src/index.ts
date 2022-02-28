@@ -14,21 +14,5 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { onUnhandledRequest } from '@energinet-datahub/dh/shared/data-access-msw';
-
-import { server } from './lib/server';
-
-beforeAll(() => {
-  // Enable the mocking in tests.
-  server.listen({ onUnhandledRequest });
-});
-
-afterEach(() => {
-  // Reset any runtime handlers tests may use.
-  server.resetHandlers();
-});
-
-afterAll(() => {
-  // Clean up once the tests are done.
-  server.close();
-});
+export * from './lib/server';
+export * from './lib/setup-msw';

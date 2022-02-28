@@ -14,19 +14,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import 'jest-preset-angular/setup-jest';
+import { onUnhandledRequest } from '@energinet-datahub/dh/shared/data-access-msw';
 
-import { addDomMatchers } from '@energinet-datahub/gf/test-util-matchers';
-import {
-  setUpAngularTestingLibrary,
-  setUpNgMocks,
-  setUpTestbed,
-} from '@energinet-datahub/gf/test-util-staging';
+import { server } from './server';
 
-import { setupMSW } from '@energinet-datahub/dh/shared/test-util-msw';
+export function setupMSW() {
+  beforeAll(() => {
+    // Enable the mocking in tests.
+    server.listen({ onUnhandledRequest });
+  });
 
-setupMSW();
-addDomMatchers();
-setUpTestbed();
-setUpAngularTestingLibrary();
-setUpNgMocks();
+  afterEach(() => {
+    // Reset any runtime handlers tests may use.
+    server.resetHandlers();
+  });
+
+  afterAll(() => {
+    // Clean up once the tests are done.
+    server.close();
+  });
+}
