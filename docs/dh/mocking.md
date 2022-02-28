@@ -20,7 +20,7 @@ You can find more information of how to define mocks [here](https://mswjs.io/doc
 
 ## Testing
 
-Mocks are shared between the app and testing environment. This means that you usually don't need specific mocks in your tests as these should be testable manually aswell by running the application.
+Mocks are shared between the development and testing environment. This means that you usually don't need specific mocks in your tests as these should be testable manually as well by running the application.
 
 If you however need specific mocks for your tests you are able to overwrite the existing mocks or adding new ones by adding a [runtime request handler](https://mswjs.io/docs/api/setup-server/use).
 
