@@ -19,6 +19,12 @@
 // The list of file replacements can be found in `workspace.json`.
 import { DhEnvironment } from './dh-environment';
 
+/**
+ * Mock Service Worker
+ */
+// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
+import '@energinet-datahub/dh/shared/data-access-msw';
+
 /*
  * For easier debugging in development mode, you can import the following file
  * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.
