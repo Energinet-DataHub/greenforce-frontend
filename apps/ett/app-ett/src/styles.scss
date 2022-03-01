@@ -30,3 +30,18 @@ a,
 label {
   text-transform: none; // Override .watt-label, which uppercases labels
 }
+
+.eo-text-center {
+  text-align: center;
+}
+
+// One sided spacings & spacing reset helpers
+.eo-padding-left-none {
+  padding-left: 0;
+}
+.eo-padding-top-xl {
+  padding-top: var(--watt-space-xl);
+}
+.eo-padding-bottom-xl {
+  padding-bottom: var(--watt-space-xl);
+}
