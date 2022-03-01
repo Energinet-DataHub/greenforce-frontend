@@ -39,6 +39,7 @@ const selector = 'eo-landing-page-shell';
       @use '@energinet-datahub/watt/utils' as watt;
 
       ${selector} {
+        position: relative;
         display: block;
 
         ul {
@@ -135,6 +136,28 @@ const selector = 'eo-landing-page-shell';
           width: 100%;
           height: auto;
         }
+
+        .${selector}__footer-mesh {
+          width: 35%;
+          position: absolute;
+          bottom : 200px; // Position the image just above the footer
+        }
+
+        .video-embed-container {
+          position: relative;
+          padding-bottom: 56.25%;
+          height: 0;
+          overflow: hidden;
+          max-width: 100%;
+
+          iframe {
+            border: 0;
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%;
+            height: 100%;
+          }
+        }
      }
     `,
   ],
@@ -175,7 +198,9 @@ const selector = 'eo-landing-page-shell';
                   The first release of the platform offers business login only. Private login via NemID/MitID is intended to be part of one of the next releases.</p>
                 <a href="https://en.energinet.dk/Electricity/DataHub/Energy-Origin" target="_blank" class="${selector}__link">Read more about Project Energy Origin</a>
                 <br><br>
-                <h4>-- VIDEO HERE --</h4>
+                <div class="video-embed-container">
+                    <iframe src="https://player.vimeo.com/video/642352286?h=91e1a8b63c"></iframe>
+                </div>
               </div>
             </div>
         </div>
@@ -234,6 +259,8 @@ const selector = 'eo-landing-page-shell';
           >
         </div>
       </div>
+
+      <img src="/assets/landing-page-mesh-bottom.png" class="${selector}__footer-mesh" />
 
       <eo-footer></eo-footer>
   `,
