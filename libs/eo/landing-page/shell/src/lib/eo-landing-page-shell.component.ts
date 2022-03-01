@@ -39,20 +39,19 @@ const selector = 'eo-landing-page-shell';
       @use '@energinet-datahub/watt/utils' as watt;
 
       ${selector} {
-        --content-width: 1280px; // Defined in Figma
         position: relative;
         display: block;
 
         .${selector}__wrapper {
           position: relative;
           width: 100%; // This is used for styling 100% of the available screen width, with i.eg a background color
+            &.wave {
+                height: 250px;
+                background: url('/assets/landing-page-wave.svg') no-repeat bottom;
+                background-size: contain;
+          }
         }
-        .${selector}__wrapper--wave {
-          position: relative;
-          height: 250px;
-          background: url('/assets/landing-page-wave.svg') no-repeat bottom;
-          background-size: contain;
-        }
+
         .${selector}__wrapper--highlighted {
           background: var(--watt-color-focus-selection); // This is the light-blue-ish background color
         }
@@ -65,7 +64,7 @@ const selector = 'eo-landing-page-shell';
         .${selector}__content { // This is the rows which contain either on or two columns
           position: relative;
           width: 100%;
-          max-width: var(--content-width);
+          max-width: 1280px; // Defined in Figma
           margin: 0 auto;
 
           &.space-xl {
@@ -204,7 +203,7 @@ const selector = 'eo-landing-page-shell';
         </div>
       </div>
 
-      <div class="${selector}__wrapper ${selector}__wrapper--wave"></div>
+      <div class="${selector}__wrapper wave"></div>
 
       <div class="${selector}__wrapper ${selector}__wrapper--highlighted">
         <div class="${selector}__content">
