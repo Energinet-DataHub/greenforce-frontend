@@ -33,6 +33,23 @@ limitations under the License.
 
     <watt-form-field size="normal">
 
+      <watt-label class="watt-text-m">Dokumenttype:</watt-label>
+
+      <select
+        #searchInputDocumentType
+        wattInput
+        name="documentType"
+        [(ngModel)]="this.searchCriteria.messageType">
+        <option selected [ngValue]="null">Vælg dokumenttype</option>
+        <option
+          *ngFor="let documentType of this.documentTypes | keyvalue"
+          [ngValue]="documentType['value']" value="{{documentType['value']}}">{{documentType['key'] + " - " + documentType['value']}}</option>
+      </select>
+
+    </watt-form-field>
+
+    <watt-form-field size="normal">
+
       <watt-label class="watt-text-m">Forretningsårgsag</watt-label>
 
       <select
@@ -45,6 +62,31 @@ limitations under the License.
         *ngFor="let businessReasonCode of this.businessReasonCodes | keyvalue"
         [ngValue]="businessReasonCode['value']" value="{{businessReasonCode['value']}}">{{businessReasonCode['key'] + " - " + businessReasonCode['value']}}</option>
       </select>
+
+    </watt-form-field>
+
+    <watt-form-field size="normal">
+
+      <watt-label class="watt-text-m">Afsender Id</watt-label>
+
+      <input
+        #searchInputSenderId
+        [(ngModel)]="this.searchCriteria.senderId"
+        wattInput
+        type="text"
+        name="senderId"/>
+
+    </watt-form-field>
+
+    <watt-form-field size="normal">
+
+      <watt-label class="watt-text-m">Modtager Id</watt-label>
+
+      <input
+        #searchInputReceiverId
+        wattInput
+        type="text"
+        name="receiverId"/>
 
     </watt-form-field>
 

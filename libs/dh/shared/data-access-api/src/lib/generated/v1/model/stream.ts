@@ -9,11 +9,17 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { SearchResultItemDto } from './search-result-item-dto';
 
 
-export interface SearchResultsDto { 
-    result: Array<SearchResultItemDto>;
+export interface Stream { 
+    readonly canRead: boolean;
+    readonly canSeek: boolean;
+    readonly canTimeout: boolean;
+    readonly canWrite: boolean;
+    readonly length: number;
+    position: number;
+    readTimeout: number;
+    writeTimeout: number;
 }
 
 

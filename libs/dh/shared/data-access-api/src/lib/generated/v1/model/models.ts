@@ -20,4 +20,5 @@ export * from './search-result-item-dto';
 export * from './search-result-item-error-dto';
 export * from './search-results-dto';
 export * from './settlement-method';
+export * from './stream';
 export * from './unit';

@@ -30,6 +30,7 @@
  import { TranslocoModule } from '@ngneat/transloco';
  import { DhMessageArchiveLogSearchResultScam } from './searchresult/dh-message-archive-log-search-result.component';
  import { BusinessReasonCodes } from '../../../models/businessReasonCodes'
+ import { DocumentTypes } from '../../../models/documentTypes'
 
  @Component({
    changeDetection: ChangeDetectionStrategy.OnPush,
@@ -43,8 +44,15 @@
    searchResult$ = this.store.searchResult$;
    searchResultsDtos: Array<SearchResultItemDto> = [];
    businessReasonCodes = BusinessReasonCodes;
+   documentTypes = DocumentTypes
 
-   searchCriteria: SearchCriteria = { messageId: "253698245", reasonCode: null, dateTimeFrom: "2021-12-01", dateTimeTo: "2022-02-24" };
+   searchCriteria: SearchCriteria = {
+     messageId: "253698245",
+     reasonCode: null,
+     dateTimeFrom: "2021-12-01T00:00:00Z",
+     dateTimeTo: "2022-03-01T23:59:59Z",
+     messageType: null,
+    };
 
    constructor(private store: DhMessageArchiveDataAccessApiModule) {
     this.store.searchResult$.subscribe((searchResult) => {
@@ -61,7 +69,7 @@
 
   validateSearchParams(): boolean {
     return (this.searchCriteria.dateTimeFrom != null && this.searchCriteria.dateTimeTo != null)
-     && (this.searchCriteria.dateTimeFrom.length === 10 && this.searchCriteria.dateTimeTo.length === 10);
+     && (this.searchCriteria.dateTimeFrom.length === 20 && this.searchCriteria.dateTimeTo.length === 20);
   }
 }
  @NgModule({

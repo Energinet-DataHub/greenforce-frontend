@@ -13,6 +13,7 @@
 // limitations under the License.
 
 using System;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Energinet.DataHub.MessageArchive.Client.Abstractions;
@@ -43,6 +44,19 @@ namespace Energinet.DataHub.WebApi.Controllers
             var result = await _messageArchiveClient.SearchLogsAsync(searchCriteria).ConfigureAwait(false);
 
             return result == null || !result.Result.Any() ? NoContent() : Ok(result);
+        }
+
+        /// <summary>
+        /// Download log content as stream
+        /// </summary>
+        /// <param name="blobName">blob name</param>
+        /// <returns>log content</returns>
+        [HttpPost("DownloadRequestResponseLogContent")]
+        public async Task<ActionResult<Stream>> DownloadRequestResponseLogContentAsync(string blobName)
+        {
+            var stream = await _messageArchiveClient.GetStreamFromStorageAsync(blobName).ConfigureAwait(false);
+
+            return Ok(stream);
         }
     }
 }
