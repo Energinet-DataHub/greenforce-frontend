@@ -17,8 +17,9 @@ limitations under the License.
 
 <ng-container *transloco="let transloco; read: 'messageArchive.search'">
   <h1>{{ transloco("title") }}</h1>
-  <form #searchForm name="log-search-form" (ngSubmit)="onSubmit()">
-
+  <form #searchForm
+    name="log-search-form"
+    (ngSubmit)="onSubmit()">
 
     <div class="wrapper">
 
@@ -34,7 +35,7 @@ limitations under the License.
           <option selected [ngValue]="null">{{ transloco("ChooseDocumentType") }}</option>
           <option
             *ngFor="let documentType of this.documentTypes | keyvalue"
-            [ngValue]="documentType['value']" value="{{documentType['value']}}">{{documentType['key'] + " - " + documentType['value']}}</option>
+            [ngValue]="documentType['key']" value="{{documentType['value']}}">{{documentType['key'] + " - " + documentType['value']}}</option>
         </select>
 
       </watt-form-field>
@@ -63,7 +64,7 @@ limitations under the License.
           <option selected [ngValue]="null">{{ transloco("ChooseRole") }}</option>
           <option
             *ngFor="let roleType of this.roleTypes | keyvalue"
-            [ngValue]="roleType['value']" value="{{roleType['value']}}">{{roleType['key'] + " - " + roleType['value']}}</option>
+            [ngValue]="roleType['key']" value="{{roleType['value']}}">{{roleType['key'] + " - " + roleType['value']}}</option>
         </select>
 
       </watt-form-field>
@@ -106,7 +107,7 @@ limitations under the License.
           <option selected [ngValue]="null">{{ transloco("ChooseBusinessRole") }}</option>
           <option
           *ngFor="let businessReasonCode of this.businessReasonCodes | keyvalue"
-          [ngValue]="businessReasonCode['value']" value="{{businessReasonCode['value']}}">{{businessReasonCode['key'] + " - " + businessReasonCode['value']}}</option>
+          [ngValue]="businessReasonCode['key']" value="{{businessReasonCode['value']}}">{{businessReasonCode['key'] + " - " + businessReasonCode['value']}}</option>
         </select>
 
       </watt-form-field>
@@ -151,5 +152,5 @@ limitations under the License.
 
   </form>
   <hr />
-  <dh-message-archive-log-search-result></dh-message-archive-log-search-result>
+  <dh-message-archive-log-search-result (downloadLog)="downloadBlob($event)" ></dh-message-archive-log-search-result>
 </ng-container>

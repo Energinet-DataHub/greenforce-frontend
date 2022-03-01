@@ -14,5 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './lib/dh-message-archive-data-access-api.module';
-export * from './lib/states';
+ export const enum SearchingState {
+  INIT = 'INIT',
+  SEARCHING = 'SEARCHING',
+  DONE = 'DONE',
+}
+
+export const enum ErrorState {
+  NOT_FOUND_ERROR = 'NOT_FOUND_ERROR',
+  GENERAL_ERROR = 'GENERAL_ERROR',
+}

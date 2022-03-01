@@ -14,5 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './lib/dh-message-archive-data-access-api.module';
-export * from './lib/states';
+
+ export enum RoleTypes
+ {
+  DDK = "Balance responsible party",
+  DDM = "Grid access provider",
+  DDQ = "Balance power supplier",
+  DDX = "Imbalance settlement responsible",
+  DDZ = "Metering Point Administrator",
+  DEA = "Metered data aggregator",
+  EZ = "System Operator",
+  MDR = "Metered data responsible",
+  STS = "Energistyrelsen",
+  DGL = "Metering Data Administrator",
+ }

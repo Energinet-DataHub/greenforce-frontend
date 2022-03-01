@@ -15,10 +15,12 @@
 using System;
 using System.IO;
 using System.Linq;
+using System.Net.Mime;
 using System.Threading.Tasks;
 using Energinet.DataHub.MessageArchive.Client.Abstractions;
 using Energinet.DataHub.MessageArchive.Client.Abstractions.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Formatters;
 
 namespace Energinet.DataHub.WebApi.Controllers
 {
@@ -56,7 +58,7 @@ namespace Energinet.DataHub.WebApi.Controllers
         {
             var stream = await _messageArchiveClient.GetStreamFromStorageAsync(blobName).ConfigureAwait(false);
 
-            return Ok(stream);
+            return File(stream, MediaTypeNames.Text.Plain);
         }
     }
 }

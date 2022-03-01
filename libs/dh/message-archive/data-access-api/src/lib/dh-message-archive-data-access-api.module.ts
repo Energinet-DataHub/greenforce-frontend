@@ -19,16 +19,10 @@
  import { filter, map, Observable, switchMap, tap } from 'rxjs';
  import { MessageArchiveHttp, SearchCriteria, SearchResultItemDto } from '@energinet-datahub/dh/shared/data-access-api';
  import { HttpErrorResponse } from '@angular/common/http';
-
+ import { SearchingState } from './states';
 interface SearchResultState {
   readonly searchResult?: Array<SearchResultItemDto>;
   readonly searchingState: SearchingState;
-}
-
-export const enum SearchingState {
-  INIT = 'INIT',
-  SEARCHING = 'SEARCHING',
-  DONE = 'DONE',
 }
 
 const initialState: SearchResultState = {
@@ -66,6 +60,31 @@ export class DhMessageArchiveDataAccessApiModule extends ComponentStore<SearchRe
                 else {
                   this.updateSearchResult(new Array<SearchResultItemDto>());
                 }
+            },
+              (error: HttpErrorResponse) => {
+                //this.setLoading(false);
+                console.error(error);
+                //this.handleError(error);
+              }
+            )
+          )
+        )
+      );
+    }
+  );
+
+  // eslint-disable-next-line @typescript-eslint/member-ordering
+  readonly downloadLog = this.effect(
+    (blobName: Observable<string>) => {
+      return blobName.pipe(
+        tap(() => {
+          console.log("tap tap ?? ");
+        }),
+        switchMap((blobName) =>
+          this.httpClient.v1MessageArchiveDownloadRequestResponseLogContentPost(blobName, "body", false, { httpHeaderAccept: "text/plain" }).pipe(
+            tapResponse(
+              (blobContent) => {
+                alert(blobContent);
             },
               (error: HttpErrorResponse) => {
                 //this.setLoading(false);

@@ -15,7 +15,7 @@
  * limitations under the License.
  */
  import { CommonModule } from "@angular/common";
- import { ChangeDetectionStrategy, Component, NgModule } from "@angular/core";
+ import { ChangeDetectionStrategy, Component, EventEmitter, NgModule, Output } from "@angular/core";
  import { DhMessageArchiveDataAccessApiModule } from "@energinet-datahub/dh/message-archive/data-access-api";
  import { SearchResultItemDto } from "@energinet-datahub/dh/shared/data-access-api";
  import { TranslocoModule } from '@ngneat/transloco';
@@ -31,11 +31,18 @@ styleUrls: ['./dh-message-archive-log-search-result.component.scss'],
 export class DhMessageArchiveLogSearchResultComponent {
   searchResult$ = this.store.searchResult$;
   searchResultsDtos: Array<SearchResultItemDto> = [];
+  @Output() downloadLog = new EventEmitter<SearchResultItemDto>();
 
   constructor(private store: DhMessageArchiveDataAccessApiModule) {
     this.store.searchResult$.subscribe((searchResult) => {
       this.searchResultsDtos = searchResult;
     });
+  }
+
+  emitDownloadLog(log: SearchResultItemDto)
+  {
+    console.log("hej");
+    this.downloadLog.emit(log);
   }
 }
 

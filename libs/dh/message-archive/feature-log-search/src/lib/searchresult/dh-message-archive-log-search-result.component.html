@@ -6,6 +6,7 @@
     <div>traceId: {{log.traceId}}</div>
     <div>senderGln: {{log.senderGln}}</div>
     <div>blobContentUri: <a target="_blank" href="{{log.blobContentUri}}">BLOB link</a></div>
+    <div>: <button (click)="emitDownloadLog(log)">Log download</button></div>
     <hr />
   </div>
 </ng-container>
