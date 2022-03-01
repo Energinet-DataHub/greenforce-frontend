@@ -27,6 +27,7 @@ import {
   MatFormField,
   MatFormFieldControl,
 } from '@angular/material/form-field';
+import { MatSelect } from '@angular/material/select';
 
 import { WattInputDirective } from '../input/input.directive';
 
@@ -46,14 +47,19 @@ export class FormFieldComponent implements AfterViewInit {
   beforeViewInit = true; // Used to remove placeholder control
 
   @ContentChild(WattInputDirective)
-  control!: MatFormFieldControl<unknown>;
+  inputControl!: MatFormFieldControl<unknown>;
+
+  @ContentChild(MatSelect)
+  selectControl!: MatFormFieldControl<unknown>;
 
   @ViewChild(MatFormField)
   matFormField!: MatFormField;
 
   ngAfterViewInit() {
+    const control = this.inputControl || this.selectControl;
+
     if (this.beforeViewInit) {
-      this.matFormField._control = this.control;
+      this.matFormField._control = control;
       this.matFormField.ngAfterContentInit();
       this.beforeViewInit = false;
     }
