@@ -14,114 +14,140 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
+
 <ng-container *transloco="let transloco; read: 'messageArchive.search'">
   <h1>{{ transloco("title") }}</h1>
   <form #searchForm name="log-search-form" (ngSubmit)="onSubmit()">
 
-    <watt-form-field size="normal">
 
-      <watt-label class="watt-text-m">{{ transloco("messageId") }}</watt-label>
+    <div class="wrapper">
 
-      <input
-        #searchInputMessageId
-        [(ngModel)]="this.searchCriteria.messageId"
-        wattInput
-        type="text"
-        name="messageId"/>
+      <watt-form-field size="normal">
 
-    </watt-form-field>
+        <watt-label class="watt-text-m">{{ transloco("documenttype") }}</watt-label>
 
-    <watt-form-field size="normal">
+        <select
+          #searchInputDocumentType
+          wattInput
+          name="documentType"
+          [(ngModel)]="this.searchCriteria.messageType">
+          <option selected [ngValue]="null">{{ transloco("ChooseDocumentType") }}</option>
+          <option
+            *ngFor="let documentType of this.documentTypes | keyvalue"
+            [ngValue]="documentType['value']" value="{{documentType['value']}}">{{documentType['key'] + " - " + documentType['value']}}</option>
+        </select>
 
-      <watt-label class="watt-text-m">Dokumenttype:</watt-label>
+      </watt-form-field>
 
-      <select
-        #searchInputDocumentType
-        wattInput
-        name="documentType"
-        [(ngModel)]="this.searchCriteria.messageType">
-        <option selected [ngValue]="null">Vælg dokumenttype</option>
-        <option
-          *ngFor="let documentType of this.documentTypes | keyvalue"
-          [ngValue]="documentType['value']" value="{{documentType['value']}}">{{documentType['key'] + " - " + documentType['value']}}</option>
-      </select>
+      <watt-form-field size="normal">
 
-    </watt-form-field>
+        <watt-label class="watt-text-m">{{ transloco("senderId") }}</watt-label>
 
-    <watt-form-field size="normal">
+        <input
+          #searchInputSenderId
+          [(ngModel)]="this.searchCriteria.senderId"
+          wattInput
+          type="text"
+          name="senderId"/>
 
-      <watt-label class="watt-text-m">Forretningsårgsag</watt-label>
+      </watt-form-field>
 
-      <select
-        #searchInputBusinessReasonCode
-        wattInput
-        name="reasonCode"
-        [(ngModel)]="this.searchCriteria.reasonCode">
-        <option selected [ngValue]="null">Vælg forretningsårgsag</option>
-        <option
-        *ngFor="let businessReasonCode of this.businessReasonCodes | keyvalue"
-        [ngValue]="businessReasonCode['value']" value="{{businessReasonCode['value']}}">{{businessReasonCode['key'] + " - " + businessReasonCode['value']}}</option>
-      </select>
+      <watt-form-field size="normal">
 
-    </watt-form-field>
+        <watt-label class="watt-text-m">{{ transloco("role") }}</watt-label>
 
-    <watt-form-field size="normal">
+        <select
+          #searchInputRole
+          wattInput
+          name="role">
+          <option selected [ngValue]="null">{{ transloco("ChooseRole") }}</option>
+          <option
+            *ngFor="let roleType of this.roleTypes | keyvalue"
+            [ngValue]="roleType['value']" value="{{roleType['value']}}">{{roleType['key'] + " - " + roleType['value']}}</option>
+        </select>
 
-      <watt-label class="watt-text-m">Afsender Id</watt-label>
+      </watt-form-field>
 
-      <input
-        #searchInputSenderId
-        [(ngModel)]="this.searchCriteria.senderId"
-        wattInput
-        type="text"
-        name="senderId"/>
+      <watt-form-field size="normal">
 
-    </watt-form-field>
+        <watt-label class="watt-text-m">{{ transloco("messageId") }}</watt-label>
 
-    <watt-form-field size="normal">
+        <input
+          #searchInputMessageId
+          [(ngModel)]="this.searchCriteria.messageId"
+          wattInput
+          type="text"
+          name="messageId"/>
 
-      <watt-label class="watt-text-m">Modtager Id</watt-label>
+      </watt-form-field>
 
-      <input
-        #searchInputReceiverId
-        wattInput
-        type="text"
-        name="receiverId"/>
+      <watt-form-field size="normal">
 
-    </watt-form-field>
+        <watt-label class="watt-text-m">{{ transloco("receiverId") }}</watt-label>
 
-    <watt-form-field size="normal">
+        <input
+          #searchInputReceiverId
+          [(ngModel)]="this.searchCriteria.receiverId"
+          wattInput
+          type="text"
+          name="receiverId"/>
 
-      <watt-label class="watt-text-m">Dato fra</watt-label>
+      </watt-form-field>
 
-      <input
-        #searchInputDateTimeFrom
-        [(ngModel)]="this.searchCriteria.dateTimeFrom"
-        wattInput
-        type="text"
-        name="dateTimeFrom"/>
+      <watt-form-field size="normal">
 
-    </watt-form-field>
+        <watt-label class="watt-text-m">{{ transloco("businessReason") }}</watt-label>
 
-    <watt-form-field size="normal">
+        <select
+          #searchInputBusinessReasonCode
+          wattInput
+          name="reasonCode"
+          [(ngModel)]="this.searchCriteria.reasonCode">
+          <option selected [ngValue]="null">{{ transloco("ChooseBusinessRole") }}</option>
+          <option
+          *ngFor="let businessReasonCode of this.businessReasonCodes | keyvalue"
+          [ngValue]="businessReasonCode['value']" value="{{businessReasonCode['value']}}">{{businessReasonCode['key'] + " - " + businessReasonCode['value']}}</option>
+        </select>
 
-      <watt-label class="watt-text-m">Dato til</watt-label>
+      </watt-form-field>
 
-      <input
-        #searchInputDateTimeTo
-        [(ngModel)]="this.searchCriteria.dateTimeTo"
-        wattInput
-        type="text"
-        name="dateTimeTo"/>
+      <watt-form-field size="normal">
 
-    </watt-form-field>
+        <watt-label class="watt-text-m">{{ transloco("dateFrom") }}</watt-label>
 
-    <!-- Search -->
-    <watt-button
-    [disabled]="!validateSearchParams()"
-      variant="primary"
-      type="submit"
-      size="normal">{{ transloco("startSearch") }}</watt-button>
+        <input
+          #searchInputDateTimeFrom
+          [(ngModel)]="this.searchCriteria.dateTimeFrom"
+          wattInput
+          type="text"
+          name="dateTimeFrom"/>
+
+      </watt-form-field>
+
+      <watt-form-field size="normal">
+
+        <watt-label class="watt-text-m">{{ transloco("dateTo") }}</watt-label>
+
+        <input
+          #searchInputDateTimeTo
+          [(ngModel)]="this.searchCriteria.dateTimeTo"
+          wattInput
+          type="text"
+          name="dateTimeTo"/>
+
+      </watt-form-field>
+
+      <!-- Search -->
+      <watt-button
+        [disabled]="!validateSearchParams()"
+        variant="primary"
+        type="submit"
+        icon="search"
+        size="normal">{{ transloco("startSearch") }}</watt-button>
+
+  </div>
+
+
 
   </form>
   <hr />

@@ -241,10 +241,20 @@
   },
   "messageArchive": {
     "search": {
-      "title": "Fremsøg indgående og udgående meddelser",
+      "title": "Fremsøg forretningsbesked",
+      "documenttype": "Dokumenttype",
+      "senderId": "Afsender Id",
       "messageId": "Besked Id",
-      "startSearch": "Søg",
-      "NoResultsFound": "Intet resultat"
+      "role": "Rolle",
+      "receiverId": "Modtager Id",
+      "businessReason": "Forretningsårgsag",
+      "dateFrom": "Dato fra",
+      "dateTo": "Dato til",
+      "startSearch": "Fremsøg besked",
+      "NoResultsFound": "Intet resultat",
+      "ChooseRole": "Vælg rolle",
+      "ChooseBusinessRole": "Vælg forretningsårgsag",
+      "ChooseDocumentType": "Vælg dokumenttype"
     }
   }
 }

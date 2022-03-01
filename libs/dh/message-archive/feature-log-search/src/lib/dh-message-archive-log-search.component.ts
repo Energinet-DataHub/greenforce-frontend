@@ -44,7 +44,8 @@
    searchResult$ = this.store.searchResult$;
    searchResultsDtos: Array<SearchResultItemDto> = [];
    businessReasonCodes = BusinessReasonCodes;
-   documentTypes = DocumentTypes
+   documentTypes = DocumentTypes;
+   roleTypes = DocumentTypes;
 
    searchCriteria: SearchCriteria = {
      messageId: "253698245",
