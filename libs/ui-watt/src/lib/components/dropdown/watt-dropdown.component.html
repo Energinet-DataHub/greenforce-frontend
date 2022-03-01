@@ -27,9 +27,10 @@ limitations under the License.
   <mat-autocomplete
     #auto="matAutocomplete"
     class="watt-dropdown-autocomplete-panel"
+    [displayWith]="displayFn"
   >
-    <mat-option *ngFor="let option of options" [value]="option">
-      {{ option }}
+    <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+      {{ option.displayValue }}
     </mat-option>
   </mat-autocomplete>
 </watt-form-field>

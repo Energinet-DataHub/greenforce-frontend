@@ -41,5 +41,9 @@ export const Dropdown = Template.bind({});
 Dropdown.args = {
   label: 'Numbers',
   placeholder: 'Pick a number',
-  options: ['1', '2', '3'],
+  options: [
+    { value: '1', displayValue: '1' },
+    { value: '2', displayValue: '2' },
+    { value: '3', displayValue: '3' },
+  ],
 };

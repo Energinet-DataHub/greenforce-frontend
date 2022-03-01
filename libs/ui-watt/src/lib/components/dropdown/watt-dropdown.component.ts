@@ -18,9 +18,16 @@ import {
   ChangeDetectionStrategy,
   Component,
   Input,
+  OnInit,
   ViewEncapsulation,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { map, Observable, of, startWith } from 'rxjs';
+
+export interface WattDropdownOption {
+  value: string;
+  displayValue: string;
+}
 
 @Component({
   selector: 'watt-dropdown',
@@ -29,26 +36,53 @@ import { FormControl } from '@angular/forms';
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
 })
-export class WattDropdownComponent {
+export class WattDropdownComponent implements OnInit {
   /**
    * @ignore
    */
   internalControl = new FormControl();
+
+  filteredOptions: Observable<WattDropdownOption[]> = of([]);
+
   /**
    * Sets the label for the dropdown.
    *
    * @required
    */
   @Input() label = '';
+
   /**
    * Sets the placeholder for the dropdown.
    *
    * @required
    */
   @Input() placeholder = '';
+
   /**
    *
    * Sets the options for the dropdown.
    */
-  @Input() options: string[] = [];
+  @Input() options: WattDropdownOption[] = [];
+
+  ngOnInit() {
+    this.filteredOptions = this.internalControl.valueChanges.pipe(
+      startWith(''),
+      map((value: string | WattDropdownOption) =>
+        typeof value === 'string' ? value.trim() : value.displayValue
+      ),
+      map((name) => (name ? this.filter(name) : this.options.slice()))
+    );
+  }
+
+  displayFn(option: WattDropdownOption | null): string {
+    return option?.displayValue ?? '';
+  }
+
+  private filter(value: string): WattDropdownOption[] {
+    const filterValue = value.toLowerCase();
+
+    return this.options.filter((option) =>
+      option.displayValue.toLowerCase().includes(filterValue)
+    );
+  }
 }
