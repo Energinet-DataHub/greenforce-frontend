@@ -16,6 +16,6 @@
  */
 export const findProductLogo = () =>
   cy.findByRole('img', { name: 'EnergyOrigin' });
-export const findStartLink = () => cy.findByRole('link', { name: /Start/i });
+export const findStartLink = () => cy.get('eo-header').findByRole('link', { name: /Start/i });
 export const navigateTo = () => cy.visit(path);
 export const path = '/';
