@@ -15,29 +15,13 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  NgModule,
-  ViewChild,
-} from '@angular/core';
-import {
-  MatSort,
-  MatSortable,
-  MatSortModule,
-  Sort,
-} from '@angular/material/sort';
+import { AfterViewInit, ChangeDetectionStrategy, Component, Input, NgModule, ViewChild } from '@angular/core';
+import { MatSort, MatSortable, MatSortModule, Sort } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { RouterModule } from '@angular/router';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 
-import {
-  WattEmptyStateModule,
-  WattIconModule,
-  WattIconSize,
-} from '@energinet-datahub/watt';
+import { WattEmptyStateModule, WattIconModule, WattIconSize } from '@energinet-datahub/watt';
 import { TranslocoModule } from '@ngneat/transloco';
 import { DhProcess } from '@energinet-datahub/dh/metering-point/data-access-api';
 
@@ -45,7 +29,7 @@ import { DhProcess } from '@energinet-datahub/dh/metering-point/data-access-api'
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'dh-processes-table',
   templateUrl: './dh-processes-table.component.html',
-  styleUrls: ['./dh-processes-table.scss'],
+  styleUrls: ['./dh-processes-table.scss']
 })
 export class DhProcessesTableComponent implements AfterViewInit {
   displayedColumns: string[] = [
@@ -54,7 +38,7 @@ export class DhProcessesTableComponent implements AfterViewInit {
     'createdDate',
     'effectiveDate',
     'status',
-    'hasErrors',
+    'hasErrors'
   ];
   iconSize = WattIconSize;
   sortedData: DhProcess[] = [];
@@ -122,8 +106,9 @@ export class DhProcessesTableComponent implements AfterViewInit {
     CommonModule,
     WattEmptyStateModule,
     RouterModule,
-    DhSharedUiDateTimeModule,
+    DhSharedUiDateTimeModule
   ],
-  exports: [DhProcessesTableComponent],
+  exports: [DhProcessesTableComponent]
 })
-export class DhProcessesTableScam {}
+export class DhProcessesTableScam {
+}

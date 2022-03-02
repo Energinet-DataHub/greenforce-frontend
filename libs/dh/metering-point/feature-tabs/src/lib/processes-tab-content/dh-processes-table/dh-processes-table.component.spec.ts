@@ -14,17 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { DhProcess } from '../../../../../data-access-api/src/model/dh-process';
+import { DhProcessesTableComponent, DhProcessesTableScam } from './dh-processes-table.component';
+import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
+import { runOnPushChangeDetection } from '@energinet-datahub/dh/shared/test-util-metering-point';
 import { render, screen } from '@testing-library/angular';
 import { MatcherOptions } from '@testing-library/dom';
 
-import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
-import { runOnPushChangeDetection } from '@energinet-datahub/dh/shared/test-util-metering-point';
-
-import {
-  DhProcessesTableComponent,
-  DhProcessesTableScam,
-} from './dh-processes-table.component';
-import { DhProcess } from '../../../../../data-access-api/src/model/dh-process';
 
 const succeededProcessId = '2c4024f5-762d-4a41-a75e-d045c0ed6572';
 const failedProcessId = '2c4024f5-762d-4a41-a75e-d045c0ed6573';
