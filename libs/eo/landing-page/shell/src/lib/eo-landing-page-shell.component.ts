@@ -186,7 +186,7 @@ const selector = 'eo-landing-page-shell';
             font-size: 30px;
           }
         }
-     }
+      }
     `,
   ],
   template: `
