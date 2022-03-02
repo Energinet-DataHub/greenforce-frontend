@@ -191,32 +191,45 @@ const selector = 'eo-landing-page-shell';
     `,
   ],
   template: `
-      <eo-landing-page-header></eo-landing-page-header>
+    <eo-landing-page-header></eo-landing-page-header>
 
-      <img src="/assets/landing-page-mesh-top.png" class="${selector}__header-mesh" />
+    <img
+      src="/assets/landing-page-mesh-top.png"
+      class="${selector}__header-mesh"
+    />
 
-      <div class="${selector}__wrapper">
-        <div class="${selector}__content ${selector}__display-flex eo-padding-top-xl eo-padding-bottom-xl">
-            <div class="${selector}__column--large">
-              <h1 class="${selector}__h1">Access <span class="font-primary-color">your emissions and<br>energy origin</span> overview</h1>
-              <div style="height: 403px; background: #CCC;">
-                <!-- -- Placeholder for Image -- -->
-              </div>
-            </div>
-            <div class="${selector}__column--small ${selector}__content--centered watt-space-inset-l">
-              <h2 class="${selector}__h2">Login with your business NemID</h2>
-              <a
-                aria-labelledby="Start"
-                class="${selector}__login-link"
-                mat-button
-                mat-flat-button
-                *rxLet="loginUrl$ as loginUrl"
-                [href]="loginUrl"
-              >Start</a
-              >
-            </div>
+    <div class="${selector}__wrapper">
+      <div
+        class="${selector}__content ${selector}__display-flex eo-padding-top-xl eo-padding-bottom-xl"
+      >
+        <div class="${selector}__column--large">
+          <h1 class="${selector}__h1">
+            Access
+            <span class="font-primary-color"
+              >your emissions and<br />energy origin</span
+            >
+            overview
+          </h1>
+          <div style="height: 403px; background: #CCC;">
+            <!-- -- Placeholder for Image -- -->
+          </div>
+        </div>
+        <div
+          class="${selector}__column--small ${selector}__content--centered watt-space-inset-l"
+        >
+          <h2 class="${selector}__h2">Login with your business NemID</h2>
+          <a
+            aria-labelledby="Start"
+            class="${selector}__login-link"
+            mat-button
+            mat-flat-button
+            *rxLet="loginUrl$ as loginUrl"
+            [href]="loginUrl"
+            >Start</a
+          >
         </div>
       </div>
+    </div>
 
     <div class="${selector}__wrapper wave"></div>
 
