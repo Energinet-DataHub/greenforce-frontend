@@ -28,3 +28,8 @@
 .mat-column-expand watt-icon {
   cursor: not-allowed; // TODO: Change this when the expand functionality has been implemented
 }
+
+// Add margin left for any span following a watt-icon
+watt-icon+span {
+  margin-left: var(--watt-space-s);
+}
