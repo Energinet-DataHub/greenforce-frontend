@@ -25,7 +25,7 @@ limitations under the License.
     <ng-container matColumnDef="expand">
       <mat-header-cell
         *matHeaderCellDef
-        class="header-cell watt-label column-expand"
+        class="watt-label column-expand"
       >
       </mat-header-cell>
       <mat-cell *matCellDef="let row">
@@ -41,7 +41,7 @@ limitations under the License.
         [sortActionDescription]="
           'meteringPoint.overview.processesTab.sortDescription.name' | transloco
         "
-        class="header-cell watt-label"
+        class="watt-label"
       >
         {{ 'meteringPoint.overview.processesTab.headers.name' | transloco }}
       </mat-header-cell>
@@ -61,7 +61,7 @@ limitations under the License.
           'meteringPoint.overview.processesTab.sortDescription.createdDate'
             | transloco
         "
-        class="header-cell watt-label"
+        class="watt-label"
       >
         {{
           'meteringPoint.overview.processesTab.headers.createdDate' | transloco
@@ -86,7 +86,7 @@ limitations under the License.
           'meteringPoint.overview.processesTab.sortDescription.effectiveDate'
             | transloco
         "
-        class="header-cell watt-label"
+        class="watt-label"
       >
         {{
           'meteringPoint.overview.processesTab.headers.effectiveDate'
@@ -112,7 +112,7 @@ limitations under the License.
           'meteringPoint.overview.processesTab.sortDescription.status'
             | transloco
         "
-        class="header-cell watt-label"
+        class="watt-label"
       >
         {{ 'meteringPoint.overview.processesTab.headers.status' | transloco }}
       </mat-header-cell>
@@ -125,7 +125,7 @@ limitations under the License.
 
     <!-- Has Errors Definition -->
     <ng-container matColumnDef="hasErrors">
-      <mat-header-cell *matHeaderCellDef class="header-cell watt-label">
+      <mat-header-cell *matHeaderCellDef class="watt-label">
       </mat-header-cell>
       <mat-cell *matCellDef="let row">
         <div class="watt-text-s">
