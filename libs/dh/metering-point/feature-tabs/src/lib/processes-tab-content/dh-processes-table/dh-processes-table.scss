@@ -30,6 +30,6 @@
 }
 
 // Add margin left for any span following a watt-icon
-watt-icon+span {
+watt-icon + span {
   margin-left: var(--watt-space-s);
 }
