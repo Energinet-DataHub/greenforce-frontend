@@ -23,10 +23,7 @@ limitations under the License.
   >
     <!-- Expand Definition -->
     <ng-container matColumnDef="expand">
-      <mat-header-cell
-        *matHeaderCellDef
-        class="watt-label column-expand"
-      >
+      <mat-header-cell *matHeaderCellDef class="watt-label column-expand">
       </mat-header-cell>
       <mat-cell *matCellDef="let row">
         <watt-icon name="right" [size]="iconSize.Large"></watt-icon>
@@ -125,8 +122,7 @@ limitations under the License.
 
     <!-- Has Errors Definition -->
     <ng-container matColumnDef="hasErrors">
-      <mat-header-cell *matHeaderCellDef class="watt-label">
-      </mat-header-cell>
+      <mat-header-cell *matHeaderCellDef class="watt-label"> </mat-header-cell>
       <mat-cell *matCellDef="let row">
         <div class="watt-text-s">
           <watt-icon
