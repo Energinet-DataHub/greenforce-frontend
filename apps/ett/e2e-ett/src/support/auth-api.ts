@@ -57,7 +57,7 @@ export const allowLogOut = () =>
     )
     .as('authLogout');
 
-export const allowGetTerms = () => {
+export const allowGetTerms = () =>
   cy.intercept(
     {
       hostname: 'localhost',
@@ -70,4 +70,3 @@ export const allowGetTerms = () => {
       version: '1.0',
     }
   );
-};

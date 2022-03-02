@@ -19,7 +19,7 @@ import { Component, NgModule, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { dhMeteringPointIdParam } from '@energinet-datahub/dh/metering-point/routing';
-import { Process } from '@energinet-datahub/dh/shared/data-access-api';
+import { Process } from '@energinet-datahub/dh/shared/domain';
 import { WattSpinnerModule } from '@energinet-datahub/watt';
 import { TranslocoModule } from '@ngneat/transloco';
 import { LetModule } from '@rx-angular/template';
