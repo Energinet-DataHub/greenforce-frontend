@@ -16,15 +16,11 @@
  */
 import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { MeteringPointHttp } from '@energinet-datahub/dh/shared/data-access-api';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { filter, map, Observable, switchMap, tap } from 'rxjs';
-import {
-  MeteringPointHttp,
-  Process,
-} from '@energinet-datahub/dh/shared/domain';
-import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
+import { MeteringPointHttp } from '@energinet-datahub/dh/shared/domain';
 import { ErrorState, LoadingState } from './states';
+import { DhProcess } from '../model/dh-process';
 
 interface ProcessesState {
   readonly processes: DhProcess[];
