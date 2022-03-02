@@ -18,7 +18,11 @@ import { CommonModule } from '@angular/common';
 import { Component, Input, NgModule } from '@angular/core';
 import { MatTableModule } from '@angular/material/table';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
-import { WattEmptyStateModule, WattIconModule, WattIconSize } from '@energinet-datahub/watt';
+import {
+  WattEmptyStateModule,
+  WattIconModule,
+  WattIconSize,
+} from '@energinet-datahub/watt';
 import { TranslocoModule } from '@ngneat/transloco';
 import { DhProcess } from '@energinet-datahub/dh/metering-point/data-access-api';
 
