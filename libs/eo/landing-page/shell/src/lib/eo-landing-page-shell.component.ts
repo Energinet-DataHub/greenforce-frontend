@@ -20,11 +20,12 @@ import {
   NgModule,
   ViewEncapsulation,
 } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
-import { LetModule } from '@rx-angular/template';
-import { EoLandingPageHeaderScam } from './eo-landing-page-header.component';
+
 import { EoFooterScam } from '@energinet-datahub/eo/shared/atomic-design/ui-organisms';
+import { EoLandingPageHeaderScam } from './eo-landing-page-header.component';
 import { EoLandingPageStore } from './eo-landing-page.store';
+import { LetModule } from '@rx-angular/template';
+import { MatButtonModule } from '@angular/material/button';
 import { Observable } from 'rxjs';
 
 const selector = 'eo-landing-page-shell';
@@ -147,17 +148,17 @@ const selector = 'eo-landing-page-shell';
           height: auto;
         }
 
+        .${selector}__footer-mesh {
+          width: 35%;
+          position: absolute;
+          bottom: 200px; // Position the image just above the footer
+        }
+
         .${selector}__header-mesh {
           width: 35%;
           position: absolute;
           top: 64px; // Position the image just below the header
           right: 0;
-        }
-
-        .${selector}__footer-mesh {
-          width: 35%;
-          position: absolute;
-          bottom: 200px; // Position the image just above the footer
         }
 
         .${selector}__development-notification {
@@ -190,45 +191,32 @@ const selector = 'eo-landing-page-shell';
     `,
   ],
   template: `
-    <eo-landing-page-header></eo-landing-page-header>
+      <eo-landing-page-header></eo-landing-page-header>
 
-    <img
-      src="/assets/landing-page-mesh-top.png"
-      class="${selector}__header-mesh"
-    />
+      <img src="/assets/landing-page-mesh-top.png" class="${selector}__header-mesh" />
 
-    <div class="${selector}__wrapper">
-      <div
-        class="${selector}__content ${selector}__display-flex eo-padding-top-xl eo-padding-bottom-xl"
-      >
-        <div class="${selector}__column--large">
-          <h1 class="${selector}__h1">
-            Access
-            <span class="font-primary-color"
-              >your emissions and<br />energy origin</span
-            >
-            overview
-          </h1>
-          <div style="height: 403px; background: #CCC;">
-            <!-- -- Placeholder for Image -- -->
-          </div>
-        </div>
-        <div
-          class="${selector}__column--small ${selector}__content--centered watt-space-inset-l"
-        >
-          <h2 class="${selector}__h2">Login with your business NemID</h2>
-          <a
-            aria-labelledby="Start"
-            class="${selector}__login-link"
-            mat-button
-            mat-flat-button
-            *rxLet="loginUrl$ as loginUrl"
-            [href]="loginUrl"
-            >Start</a
-          >
+      <div class="${selector}__wrapper">
+        <div class="${selector}__content ${selector}__display-flex eo-padding-top-xl eo-padding-bottom-xl">
+            <div class="${selector}__column--large">
+              <h1 class="${selector}__h1">Access <span class="font-primary-color">your emissions and<br>energy origin</span> overview</h1>
+              <div style="height: 403px; background: #CCC;">
+                <!-- -- Placeholder for Image -- -->
+              </div>
+            </div>
+            <div class="${selector}__column--small ${selector}__content--centered watt-space-inset-l">
+              <h2 class="${selector}__h2">Login with your business NemID</h2>
+              <a
+                aria-labelledby="Start"
+                class="${selector}__login-link"
+                mat-button
+                mat-flat-button
+                *rxLet="loginUrl$ as loginUrl"
+                [href]="loginUrl"
+              >Start</a
+              >
+            </div>
         </div>
       </div>
-    </div>
 
     <div class="${selector}__wrapper wave"></div>
 
