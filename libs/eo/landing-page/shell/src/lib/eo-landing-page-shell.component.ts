@@ -144,7 +144,14 @@ const selector = 'eo-landing-page-shell';
         .${selector}__footer-mesh {
           width: 35%;
           position: absolute;
-          bottom : 200px; // Position the image just above the footer
+          bottom: 200px; // Position the image just above the footer
+        }
+
+        .${selector}__header-mesh {
+          width: 35%;
+          position: absolute;
+          top: 64px; // Position the image just below the header
+          right: 0;
         }
 
         .${selector}__development-notification {
@@ -173,12 +180,13 @@ const selector = 'eo-landing-page-shell';
              font-size: 30px;
            }
       }
-
      }
     `,
   ],
   template: `
       <eo-landing-page-header></eo-landing-page-header>
+
+      <img src="/assets/landing-page-mesh-top.png" class="${selector}__header-mesh" />
 
       <div class="${selector}__wrapper">
         <div class="${selector}__content ${selector}__display-flex eo-padding-top-xl eo-padding-bottom-xl">
