@@ -45,12 +45,13 @@ const selector = 'eo-landing-page-shell';
         .${selector}__wrapper {
           position: relative;
           width: 100%; // This is used for styling 100% of the available screen width, with i.eg a background color
-          &.wave {
-            height: 250px;
-            background: url('/assets/landing-page-wave.svg') no-repeat bottom;
-            background-size: contain;
-          }
         }
+        .${selector}__wrapper--wave {
+          height: 250px;
+          background: url('/assets/landing-page/landing-page-wave.svg') no-repeat bottom;
+          background-size: contain;
+        }
+
 
         .${selector}__wrapper--highlighted {
           background: var(
@@ -167,10 +168,6 @@ const selector = 'eo-landing-page-shell';
           height: 80px;
           position: absolute;
 
-          > p {
-            margin-left: 75px;
-          }
-
           &::before {
             display: block;
             content: ' i ';
@@ -186,6 +183,10 @@ const selector = 'eo-landing-page-shell';
             font-size: 30px;
           }
         }
+
+        .${selector}__development-notification-p {
+          margin-left: 75px;
+        }
       }
     `,
   ],
@@ -193,7 +194,7 @@ const selector = 'eo-landing-page-shell';
     <eo-landing-page-header></eo-landing-page-header>
 
     <img
-      src="/assets/landing-page-mesh-top.png"
+      src="/assets/landing-page/landing-page-mesh-top.png"
       class="${selector}__header-mesh"
     />
 
@@ -209,7 +210,7 @@ const selector = 'eo-landing-page-shell';
             >
             overview
           </h1>
-          <div style="height: 403px; background: #CCC;">
+          <div style="height: 403px; background: #ccc;">
             <!-- -- Placeholder for Image -- -->
           </div>
         </div>
@@ -218,7 +219,6 @@ const selector = 'eo-landing-page-shell';
         >
           <h2 class="${selector}__h2">Login with your business NemID</h2>
           <a
-            aria-labelledby="Start"
             class="${selector}__login-link"
             mat-button
             mat-flat-button
@@ -230,13 +230,13 @@ const selector = 'eo-landing-page-shell';
       </div>
     </div>
 
-    <div class="${selector}__wrapper wave"></div>
+    <div class="${selector}__wrapper ${selector}__wrapper--wave"></div>
 
     <div class="${selector}__wrapper ${selector}__wrapper--highlighted">
       <div class="${selector}__content">
         <!-- Development notification -->
         <div class="${selector}__development-notification watt-space-inset-m">
-          <p class="${selector}__p">
+          <p class="${selector}__p ${selector}__development-notification-p">
             The Energy Origin Platform is under development and new
             functionalities will be released continuously. The first release of
             the platform offers business login only. Private login via
@@ -289,7 +289,7 @@ const selector = 'eo-landing-page-shell';
       <div class="${selector}__column--large">
         <img
           class="${selector}__img"
-          src="/assets/graph-of-energy-with-dashboard.png"
+          src="/assets/landing-page/landing-page-graph-of-energy-with-dashboard.png"
           alt="EnergyOrigin graph of energy"
         />
       </div>
@@ -299,7 +299,7 @@ const selector = 'eo-landing-page-shell';
       <div class="${selector}__column--large">
         <img
           class="${selector}__img"
-          src="/assets/landing-page-office-people.jpg"
+          src="/assets/landing-page/landing-page-office-people.jpg"
           alt="EnergyOrigin"
         />
       </div>
@@ -333,7 +333,7 @@ const selector = 'eo-landing-page-shell';
       <div class="${selector}__column--large">
         <img
           class="${selector}__img"
-          src="/assets/landing-page-energy-origin-energi-huset.jpg"
+          src="/assets/landing-page/landing-page-energy-origin-energi-huset.jpg"
           alt="EnergyOrigin - Energihuset"
         />
       </div>
@@ -355,7 +355,7 @@ const selector = 'eo-landing-page-shell';
     </div>
 
     <img
-      src="/assets/landing-page-mesh-bottom.png"
+      src="/assets/landing-page/landing-page-mesh-bottom.png"
       class="${selector}__footer-mesh"
     />
 

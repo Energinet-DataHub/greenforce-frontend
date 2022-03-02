@@ -48,7 +48,7 @@ label {
 
 ul {
   list-style-type: none;
-  li:before {
+  li::before {
     display: inline-block;
     content: '';
     border-radius: 50%;
