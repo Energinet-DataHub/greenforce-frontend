@@ -31,8 +31,6 @@ import {
 } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { RouterModule } from '@angular/router';
-import { DhMeteringPointStatusBadgeScam } from '@energinet-datahub/dh/metering-point/ui-status-badge';
-import { Process } from '@energinet-datahub/dh/shared/data-access-api';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 
 import {
@@ -41,6 +39,7 @@ import {
   WattIconSize,
 } from '@energinet-datahub/watt';
 import { TranslocoModule } from '@ngneat/transloco';
+import { DhProcess } from '@energinet-datahub/dh/metering-point/data-access-api';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -58,9 +57,9 @@ export class DhProcessesTableComponent implements AfterViewInit {
     'hasErrors',
   ];
   iconSize = WattIconSize;
-  sortedData: Process[] = [];
+  sortedData: DhProcess[] = [];
   @Input()
-  processes?: Process[];
+  processes?: DhProcess[];
 
   @ViewChild(MatSort) matSort?: MatSort;
 
