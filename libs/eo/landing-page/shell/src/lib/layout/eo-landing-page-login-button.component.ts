@@ -28,7 +28,6 @@ import { Observable } from 'rxjs';
 const selector = 'eo-landing-page-login-button';
 
 @Component({
-  providers: [EoLandingPageStore],
   selector,
   styles: [
     `
