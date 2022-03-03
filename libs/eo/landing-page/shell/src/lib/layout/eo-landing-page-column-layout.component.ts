@@ -59,12 +59,17 @@ const selector = 'eo-landing-page-column-layout';
   ],
   template: `
     <ng-container [ngSwitch]="layoutType">
-
-      <div class="${selector}__content watt-space-inset-xl" *ngSwitchCase="'full'">
+      <div
+        class="${selector}__content watt-space-inset-xl"
+        *ngSwitchCase="'full'"
+      >
         <ng-content></ng-content>
       </div>
 
-      <div class="${selector}__content ${selector}__display-flex" *ngSwitchCase="'smallFirst'">
+      <div
+        class="${selector}__content ${selector}__display-flex"
+        *ngSwitchCase="'smallFirst'"
+      >
         <div
           class="${selector}__column--small watt-space-inset-l eo-padding-left-none"
         >
@@ -75,7 +80,10 @@ const selector = 'eo-landing-page-column-layout';
         </div>
       </div>
 
-      <div class="${selector}__content ${selector}__display-flex" *ngSwitchCase="'largeFirst'">
+      <div
+        class="${selector}__content ${selector}__display-flex"
+        *ngSwitchCase="'largeFirst'"
+      >
         <div class="${selector}__column--large">
           <ng-content select="[contentLeftLarge]"></ng-content>
         </div>
@@ -83,7 +91,6 @@ const selector = 'eo-landing-page-column-layout';
           <ng-content select="[contentRightSmall]"></ng-content>
         </div>
       </div>
-
     </ng-container>
   `,
   encapsulation: ViewEncapsulation.None,
