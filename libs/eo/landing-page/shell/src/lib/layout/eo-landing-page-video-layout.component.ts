@@ -96,18 +96,17 @@ const selector = 'eo-landing-page-video-layout';
 
         <p class="${selector}__p">
           Energy Origin is a platform which provides you with access to data
-          about the origins of your energy and the corresponding
-          emissions.<br /><br />
-          The first release of the platform offers business login only.
-          Private login via NemID/MitID is intended to be part of one of the
-          next releases.
+          about the origins of your energy and the corresponding emissions.<br /><br />
+          The first release of the platform offers business login only. Private
+          login via NemID/MitID is intended to be part of one of the next
+          releases.
         </p>
 
         <a
           href="https://en.energinet.dk/Electricity/DataHub/Energy-Origin"
           target="_blank"
           class="${selector}__link"
-        >Read more about Project Energy Origin</a
+          >Read more about Project Energy Origin</a
         >
 
         <br /><br />
