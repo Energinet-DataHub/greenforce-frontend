@@ -32,10 +32,10 @@ const selector = 'eo-landing-page-video-layout';
 
       .${selector}__development-notification {
         background: rgba(223, 235, 218, 0.9);
-        top: -40px;
+        top: calc(-10 * var(--watt-space-xs));
+        height: calc(20 * var(--watt-space-xs));
         width: 100%;
-        height: 80px;
-        padding-left: 85px;
+        padding-left: calc(20 * var(--watt-space-xs));
         position: absolute;
 
         &::before {
