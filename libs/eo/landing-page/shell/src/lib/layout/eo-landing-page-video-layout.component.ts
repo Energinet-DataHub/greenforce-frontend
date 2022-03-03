@@ -107,7 +107,7 @@ const selector = 'eo-landing-page-video-layout';
           href="https://en.energinet.dk/Electricity/DataHub/Energy-Origin"
           target="_blank"
           class="${selector}__link"
-        >Read more about Project Energy Origin</a
+          >Read more about Project Energy Origin</a
         >
 
         <br /><br />
