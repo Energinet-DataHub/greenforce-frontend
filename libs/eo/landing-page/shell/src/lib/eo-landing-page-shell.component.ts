@@ -81,7 +81,7 @@ const selector = 'eo-landing-page-shell';
     <eo-landing-page-header></eo-landing-page-header>
 
     <img
-      src="/assets/landing-page/landing-page-mesh-top.png"
+      src="/assets/images/landing-page/landing-page-mesh-top.png"
       class="${selector}__header-mesh"
     />
 
@@ -100,7 +100,7 @@ const selector = 'eo-landing-page-shell';
     </div>
 
     <img
-      src="/assets/landing-page/landing-page-mesh-bottom.png"
+      src="/assets/images/landing-page/landing-page-mesh-bottom.png"
       class="${selector}__footer-mesh"
     />
 

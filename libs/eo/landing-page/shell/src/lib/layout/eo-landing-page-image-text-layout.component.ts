@@ -84,7 +84,7 @@ const selector = 'eo-landing-page-image-text-layout';
       <ng-container contentRightLarge>
         <img
           class="${selector}__img"
-          src="/assets/landing-page/landing-page-graph-of-energy-with-dashboard.png"
+          src="/assets/images/landing-page/landing-page-graph-of-energy-with-dashboard.png"
           alt="EnergyOrigin graph of energy"
         />
       </ng-container>
@@ -94,7 +94,7 @@ const selector = 'eo-landing-page-image-text-layout';
       <ng-container contentLeftLarge>
         <img
           class="${selector}__img"
-          src="/assets/landing-page/landing-page-office-people.jpg"
+          src="/assets/images/landing-page/landing-page-office-people.jpg"
           alt="EnergyOrigin"
         />
       </ng-container>
@@ -129,7 +129,7 @@ const selector = 'eo-landing-page-image-text-layout';
       <ng-container contentRightLarge>
         <img
           class="${selector}__img"
-          src="/assets/landing-page/landing-page-energy-origin-energi-huset.jpg"
+          src="/assets/images/landing-page/landing-page-energy-origin-energi-huset.jpg"
           alt="EnergyOrigin - Energihuset"
         />
       </ng-container>
