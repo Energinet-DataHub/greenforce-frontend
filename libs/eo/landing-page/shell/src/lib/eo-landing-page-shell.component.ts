@@ -20,11 +20,14 @@ import {
   NgModule,
   ViewEncapsulation,
 } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
-import { LetModule } from '@rx-angular/template';
 import { EoLandingPageHeaderScam } from './eo-landing-page-header.component';
 import { EoFooterScam } from '@energinet-datahub/eo/shared/atomic-design/ui-organisms';
 import { EoLandingPageStore } from './eo-landing-page.store';
+import { EoLandingPageTopLayoutScam } from './layout/eo-landing-page-top-layout.component';
+import { EoLandingPageVideoLayoutScam } from './layout/eo-landing-page-video-layout.component';
+import { EoLandingPageImageTextLayoutScam } from './layout/eo-landing-page-image-text-layout.component';
+import { EoLandingPageLogInButtonScam } from './layout/eo-landing-page-login-button.component';
+import { EoLandingPageBottomLayoutScam } from './layout/eo-landing-page-bottom.component';
 
 const selector = 'eo-landing-page-shell';
 
@@ -35,20 +38,81 @@ const selector = 'eo-landing-page-shell';
   selector,
   styles: [
     `
+      @use '@energinet-datahub/watt/utils' as watt;
+
       ${selector} {
+        position: relative; // So we can use position absolute for the mesh illustrations at the top and bottom of the page
         display: block;
+
+        .${selector}__wrapper {
+          position: relative;
+          width: 100%; // This is used for styling 100% of the available screen width, with i.eg a background color
+        }
+
+        .${selector}__wrapper--highlighted {
+          background: var(
+            --watt-color-focus-selection
+          ); // This is the light-blue-ish background color
+        }
+
+        .${selector}__wrapper--wave {
+          height: 250px;
+          background: url('/assets/landing-page/landing-page-wave.svg') no-repeat bottom;
+          background-size: contain;
+        }
+
+        .${selector}__footer-mesh {
+          width: 35%;
+          position: absolute;
+          bottom: 200px; // Position the image just above the footer
+        }
+
+        .${selector}__header-mesh {
+          width: 35%;
+          position: absolute;
+          top: 64px; // Position the image just below the header
+          right: 0;
+        }
       }
     `,
   ],
   template: `
     <eo-landing-page-header></eo-landing-page-header>
+
+    <img src="/assets/landing-page/landing-page-mesh-top.png" class="${selector}__header-mesh" />
+
+    <eo-landing-page-top-layout></eo-landing-page-top-layout>
+
+    <div class="${selector}__wrapper ${selector}__wrapper--wave"></div>
+
+    <div class="${selector}__wrapper ${selector}__wrapper--highlighted">
+      <eo-landing-page-video-layout></eo-landing-page-video-layout>
+    </div>
+
+    <eo-landing-page-image-text-layout></eo-landing-page-image-text-layout>
+
+    <div class="${selector}__wrapper ${selector}__wrapper--highlighted">
+      <eo-landing-page-bottom-layout></eo-landing-page-bottom-layout>
+    </div>
+
+    <img src="/assets/landing-page/landing-page-mesh-bottom.png" class="${selector}__footer-mesh" />
+
     <eo-footer></eo-footer>
   `,
 })
-export class EoLandingPageShellComponent {}
+export class EoLandingPageShellComponent {
+}
 
 @NgModule({
   declarations: [EoLandingPageShellComponent],
-  imports: [MatButtonModule, LetModule, EoLandingPageHeaderScam, EoFooterScam],
+  imports: [
+    EoLandingPageHeaderScam,
+    EoFooterScam,
+    EoLandingPageTopLayoutScam,
+    EoLandingPageVideoLayoutScam,
+    EoLandingPageImageTextLayoutScam,
+    EoLandingPageLogInButtonScam,
+    EoLandingPageBottomLayoutScam
+  ],
 })
 export class EoLandingPageShellScam {}
