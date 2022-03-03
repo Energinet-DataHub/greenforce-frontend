@@ -56,7 +56,7 @@ const selector = 'eo-landing-page-shell';
 
         .${selector}__wrapper--wave {
           height: 250px;
-          background: url('/assets/landing-page/landing-page-wave.svg')
+          background: url('/assets/images/landing-page/landing-page-wave.svg')
             no-repeat bottom;
           background-size: contain;
         }
