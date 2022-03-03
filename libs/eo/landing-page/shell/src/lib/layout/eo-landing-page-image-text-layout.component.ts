@@ -106,7 +106,10 @@ const selector = 'eo-landing-page-image-text-layout';
         </p>
         <ul>
           <li>Compiling an emissions overview for your annual ECG report</li>
-          <li>Gaining an overview of the renewables share of your energy consumption</li>
+          <li>
+            Gaining an overview of the renewables share of your energy
+            consumption
+          </li>
         </ul>
       </ng-container>
     </eo-landing-page-column-layout>
