@@ -26,6 +26,7 @@ const selector = 'eo-landing-page-top-layout';
         .${selector}__h2 {
           @include watt.typography-watt-headline-2; // This overrides the styles applied from Angular Material on h2 tags
           text-transform: none; // This overrides the uppercased styling from watt
+          text-align: center;
         }
       }
     `
@@ -45,7 +46,7 @@ const selector = 'eo-landing-page-top-layout';
         </div>
       </ng-container>
       <ng-container contentRightSmall>
-        <h2 class="${selector}__h2 eo-text-center">Login with your business NemID</h2>
+        <h2 class="${selector}__h2">Login with your business NemID</h2>
         <eo-landing-page-login-button class="eo-text-center"></eo-landing-page-login-button>
       </ng-container>
     </eo-landing-page-column-layout>
