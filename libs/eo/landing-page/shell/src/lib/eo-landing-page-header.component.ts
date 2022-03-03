@@ -44,7 +44,7 @@ const selector = 'eo-landing-page-header';
       // 2. Normal size Watt Button.
       // 3. Custom size for Watt Button in App bar.
       // 4. Align text vertically.
-      .${selector}__link {
+      .${selector}__link.${selector}__link {
         @include watt.typography-watt-button; // [1]
 
         --height: calc(10 * var(--watt-space-xs));
