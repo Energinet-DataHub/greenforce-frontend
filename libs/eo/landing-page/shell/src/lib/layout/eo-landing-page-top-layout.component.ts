@@ -45,8 +45,8 @@ const selector = 'eo-landing-page-top-layout';
         </div>
       </ng-container>
       <ng-container contentRightSmall>
-        <h2 class="${selector}__h2">Login with your business NemID</h2>
-        <eo-landing-page-login-button></eo-landing-page-login-button>
+        <h2 class="${selector}__h2 eo-text-center">Login with your business NemID</h2>
+        <eo-landing-page-login-button class="eo-text-center"></eo-landing-page-login-button>
       </ng-container>
     </eo-landing-page-column-layout>
   `,
