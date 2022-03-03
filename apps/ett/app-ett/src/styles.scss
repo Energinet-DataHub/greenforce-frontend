@@ -51,6 +51,7 @@ label {
 
 ul {
   list-style-type: none;
+  padding: 0;
   li::before {
     display: inline-block;
     content: '';
