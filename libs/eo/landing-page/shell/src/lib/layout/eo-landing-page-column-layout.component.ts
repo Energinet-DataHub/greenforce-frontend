@@ -57,38 +57,31 @@ const selector = 'eo-landing-page-column-layout';
     `,
   ],
   template: `
-
     <ng-container [ngSwitch]="layoutType">
 
-      <ng-container *ngSwitchCase="'full'">
-        <div class="${selector}__content watt-space-inset-xl">
-          <ng-content></ng-content>
-        </div>
-      </ng-container>
+      <div class="${selector}__content watt-space-inset-xl" *ngSwitchCase="'full'">
+        <ng-content></ng-content>
+      </div>
 
-      <ng-container *ngSwitchCase="'smallFirst'">
-        <div class="${selector}__content ${selector}__display-flex">
-          <div
-            class="${selector}__column--small watt-space-inset-l eo-padding-left-none"
-          >
-            <ng-content select="[contentLeftSmall]"></ng-content>
-          </div>
-          <div class="${selector}__column--large">
-            <ng-content select="[contentRightLarge]"></ng-content>
-          </div>
+      <div class="${selector}__content ${selector}__display-flex" *ngSwitchCase="'smallFirst'">
+        <div
+          class="${selector}__column--small watt-space-inset-l eo-padding-left-none"
+        >
+          <ng-content select="[contentLeftSmall]"></ng-content>
         </div>
-      </ng-container>
+        <div class="${selector}__column--large">
+          <ng-content select="[contentRightLarge]"></ng-content>
+        </div>
+      </div>
 
-      <ng-container *ngSwitchCase="'largeFirst'">
-        <div class="${selector}__content ${selector}__display-flex">
-          <div class="${selector}__column--large">
-            <ng-content select="[contentLeftLarge]"></ng-content>
-          </div>
-          <div class="${selector}__column--small watt-space-inset-l">
-            <ng-content select="[contentRightSmall]"></ng-content>
-          </div>
+      <div class="${selector}__content ${selector}__display-flex" *ngSwitchCase="'largeFirst'">
+        <div class="${selector}__column--large">
+          <ng-content select="[contentLeftLarge]"></ng-content>
         </div>
-      </ng-container>
+        <div class="${selector}__column--small watt-space-inset-l">
+          <ng-content select="[contentRightSmall]"></ng-content>
+        </div>
+      </div>
 
     </ng-container>
   `,
