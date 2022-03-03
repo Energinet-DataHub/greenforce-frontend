@@ -21,8 +21,7 @@ import {
   ChangeDetectionStrategy,
 } from '@angular/core';
 import {
-  EoLandingPageColumnLayoutScam,
-  layoutTypeEnum,
+  EoLandingPageColumnLayoutScam
 } from './eo-landing-page-column-layout.component';
 
 const selector = 'eo-landing-page-image-text-layout';
@@ -68,14 +67,14 @@ const selector = 'eo-landing-page-image-text-layout';
   template: `
     <eo-landing-page-column-layout
       class="${selector}__space-stack-xl-double"
-      [layoutType]="layoutTypeEnum.SMALL_FIRST"
+      [layoutType]="'smallFirst'"
     >
       <ng-container contentLeftSmall>
         <h2 class="${selector}__h2">View the origin of your energy</h2>
         <p class="${selector}__p">
           Imagine if we all knew, where our energy came from, at all times, and
           were able to choose the green energy by the hour. That is the vision,
-          we are working for with the platform Energy Origin. <br /><br />
+          we are working for with the platform Energy Origin. <br/><br/>
           Simultaneity between production of sustainable energy and consumption
           of energy will be a real factor in the green transition and therefore
           has great potential for future green solutions.
@@ -90,7 +89,7 @@ const selector = 'eo-landing-page-image-text-layout';
       </ng-container>
     </eo-landing-page-column-layout>
 
-    <eo-landing-page-column-layout [layoutType]="layoutTypeEnum.LARGE_FIRST">
+    <eo-landing-page-column-layout [layoutType]="'largeFirst'">
       <ng-container contentLeftLarge>
         <img
           class="${selector}__img"
@@ -106,8 +105,7 @@ const selector = 'eo-landing-page-image-text-layout';
         </p>
         <ul>
           <li>Compiling an emissions overview for your annual ECG report</li>
-          <li>
-            Gaining an overview of the renewables share of your energy
+          <li>Gaining an overview of the renewables share of your energy
             consumption
           </li>
         </ul>
@@ -116,7 +114,7 @@ const selector = 'eo-landing-page-image-text-layout';
 
     <eo-landing-page-column-layout
       class="${selector}__space-stack-xl-double"
-      [layoutType]="layoutTypeEnum.SMALL_FIRST"
+      [layoutType]="'smallFirst'"
     >
       <ng-container contentLeftSmall>
         <h2 class="${selector}__h2">Who are we</h2>
@@ -138,9 +136,7 @@ const selector = 'eo-landing-page-image-text-layout';
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class EoLandingPageImageTextLayoutComponent {
-  layoutTypeEnum = layoutTypeEnum;
-}
+export class EoLandingPageImageTextLayoutComponent {}
 
 @NgModule({
   declarations: [EoLandingPageImageTextLayoutComponent],

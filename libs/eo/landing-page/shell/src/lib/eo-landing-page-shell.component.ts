@@ -46,7 +46,6 @@ const selector = 'eo-landing-page-shell';
 
         .${selector}__wrapper {
           position: relative;
-          width: 100%; // This is used for styling 100% of the available screen width, with i.eg a background color
         }
 
         .${selector}__wrapper--highlighted {

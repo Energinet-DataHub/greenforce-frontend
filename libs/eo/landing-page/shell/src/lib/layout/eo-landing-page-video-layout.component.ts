@@ -21,8 +21,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import {
-  EoLandingPageColumnLayoutScam,
-  layoutTypeEnum,
+  EoLandingPageColumnLayoutScam
 } from './eo-landing-page-column-layout.component';
 
 const selector = 'eo-landing-page-video-layout';
@@ -58,7 +57,6 @@ const selector = 'eo-landing-page-video-layout';
         background: rgba(223, 235, 218, 0.9);
         top: calc(-10 * var(--watt-space-xs));
         height: calc(20 * var(--watt-space-xs));
-        width: 100%;
         padding-left: calc(20 * var(--watt-space-xs));
         position: absolute;
 
@@ -80,7 +78,7 @@ const selector = 'eo-landing-page-video-layout';
     `,
   ],
   template: `
-    <eo-landing-page-column-layout [layoutType]="layoutTypeEnum.FULL">
+    <eo-landing-page-column-layout [layoutType]="'full'">
       <!-- Development notification -->
       <div class="${selector}__development-notification watt-space-inset-m">
         <p class="${selector}__p">
@@ -96,7 +94,7 @@ const selector = 'eo-landing-page-video-layout';
 
         <p class="${selector}__p">
           Energy Origin is a platform which provides you with access to data
-          about the origins of your energy and the corresponding emissions.<br /><br />
+          about the origins of your energy and the corresponding emissions.<br/><br/>
           The first release of the platform offers commercial log in only.
           Private log in via NemID/MitID is intended to be part of one of the
           next releases.
@@ -106,10 +104,10 @@ const selector = 'eo-landing-page-video-layout';
           href="https://en.energinet.dk/Electricity/DataHub/Energy-Origin"
           target="_blank"
           class="${selector}__link"
-          >Read more about Project Energy Origin</a
+        >Read more about Project Energy Origin</a
         >
 
-        <br /><br />
+        <br/><br/>
 
         <div class="eo-video-embed-container">
           <iframe
@@ -122,9 +120,7 @@ const selector = 'eo-landing-page-video-layout';
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class EoLandingPageVideoLayoutComponent {
-  layoutTypeEnum = layoutTypeEnum;
-}
+export class EoLandingPageVideoLayoutComponent { }
 
 @NgModule({
   declarations: [EoLandingPageVideoLayoutComponent],

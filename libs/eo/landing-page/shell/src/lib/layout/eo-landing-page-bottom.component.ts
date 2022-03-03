@@ -21,8 +21,7 @@ import {
   ChangeDetectionStrategy,
 } from '@angular/core';
 import {
-  EoLandingPageColumnLayoutScam,
-  layoutTypeEnum,
+  EoLandingPageColumnLayoutScam
 } from './eo-landing-page-column-layout.component';
 import { EoLandingPageLogInButtonScam } from './eo-landing-page-login-button.component';
 
@@ -47,7 +46,7 @@ const selector = 'eo-landing-page-bottom-layout';
     `,
   ],
   template: `
-    <eo-landing-page-column-layout [layoutType]="layoutTypeEnum.FULL">
+    <eo-landing-page-column-layout [layoutType]="'full'">
       <h2 class="${selector}__h2">Log in with your commercial NemID</h2>
       <eo-landing-page-login-button></eo-landing-page-login-button>
     </eo-landing-page-column-layout>
@@ -55,9 +54,7 @@ const selector = 'eo-landing-page-bottom-layout';
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class EoLandingPageBottomLayoutComponent {
-  layoutTypeEnum = layoutTypeEnum;
-}
+export class EoLandingPageBottomLayoutComponent {}
 
 @NgModule({
   declarations: [EoLandingPageBottomLayoutComponent],

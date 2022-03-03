@@ -21,8 +21,7 @@ import {
   ChangeDetectionStrategy,
 } from '@angular/core';
 import {
-  EoLandingPageColumnLayoutScam,
-  layoutTypeEnum,
+  EoLandingPageColumnLayoutScam
 } from './eo-landing-page-column-layout.component';
 import { EoLandingPageLogInButtonScam } from './eo-landing-page-login-button.component';
 
@@ -55,12 +54,12 @@ const selector = 'eo-landing-page-top-layout';
     `,
   ],
   template: `
-    <eo-landing-page-column-layout [layoutType]="layoutTypeEnum.LARGE_FIRST">
+    <eo-landing-page-column-layout [layoutType]="'largeFirst'">
       <ng-container contentLeftLarge>
         <h1 class="${selector}__h1">
           Access
           <span class="font-primary-color"
-            >your emissions and<br />energy origin</span
+          >your emissions and<br/>energy origin</span
           >
           overview
         </h1>
@@ -79,9 +78,7 @@ const selector = 'eo-landing-page-top-layout';
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class EoLandingPageTopLayoutComponent {
-  layoutTypeEnum = layoutTypeEnum;
-}
+export class EoLandingPageTopLayoutComponent { }
 
 @NgModule({
   declarations: [EoLandingPageTopLayoutComponent],
