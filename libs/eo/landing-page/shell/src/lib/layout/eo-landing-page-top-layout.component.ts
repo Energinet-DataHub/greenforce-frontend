@@ -69,7 +69,7 @@ const selector = 'eo-landing-page-top-layout';
         </div>
       </ng-container>
       <ng-container contentRightSmall>
-        <h2 class="${selector}__h2">Login with your business NemID</h2>
+        <h2 class="${selector}__h2">Log in with your commercial NemID</h2>
         <eo-landing-page-login-button
           class="eo-text-center"
         ></eo-landing-page-login-button>

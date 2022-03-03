@@ -48,7 +48,7 @@ const selector = 'eo-landing-page-bottom-layout';
   ],
   template: `
     <eo-landing-page-column-layout [layoutType]="layoutTypeEnum.FULL">
-      <h2 class="${selector}__h2">Login with your business NemId</h2>
+      <h2 class="${selector}__h2">Log in with your commercial NemID</h2>
       <eo-landing-page-login-button></eo-landing-page-login-button>
     </eo-landing-page-column-layout>
   `,

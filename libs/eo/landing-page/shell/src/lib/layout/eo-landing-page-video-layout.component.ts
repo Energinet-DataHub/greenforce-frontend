@@ -86,19 +86,19 @@ const selector = 'eo-landing-page-video-layout';
         <p class="${selector}__p">
           The Energy Origin Platform is under development and new
           functionalities will be released continuously. The first release of
-          the platform offers business login only. Private login via NemID/MitID
+          the platform offers commercial login only. Private login via NemID/MitID
           is intended to form part of one of the next releases.
         </p>
       </div>
 
       <div class="watt-space-inset-xl eo-padding-top-none">
-        <h2 class="${selector}__h2">What is energy origin</h2>
+        <h2 class="${selector}__h2">What is Energy Origin</h2>
 
         <p class="${selector}__p">
           Energy Origin is a platform which provides you with access to data
           about the origins of your energy and the corresponding
           emissions.<br /><br />
-          The first release of the platform offers business login only.
+          The first release of the platform offers commercial login only.
           Private login via NemID/MitID is intended to be part of one of the
           next releases.
         </p>
