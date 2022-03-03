@@ -1,5 +1,13 @@
-import {Component, NgModule, ViewEncapsulation, ChangeDetectionStrategy} from '@angular/core';
-import {EoLandingPageColumnLayoutScam, layoutTypeEnum} from './eo-landing-page-column-layout.component';
+import {
+  Component,
+  NgModule,
+  ViewEncapsulation,
+  ChangeDetectionStrategy,
+} from '@angular/core';
+import {
+  EoLandingPageColumnLayoutScam,
+  layoutTypeEnum,
+} from './eo-landing-page-column-layout.component';
 
 const selector = 'eo-landing-page-image-text-layout';
 
@@ -39,10 +47,13 @@ const selector = 'eo-landing-page-image-text-layout';
           --watt-color-primary
         ); // This overrides the '--watt-color-primary-dark' color which is currently added by the watt-text-s class
       }
-    `
+    `,
   ],
   template: `
-    <eo-landing-page-column-layout class="${selector}__space-stack-xl-double" [layoutType]="layoutTypeEnum.SMALL_FIRST">
+    <eo-landing-page-column-layout
+      class="${selector}__space-stack-xl-double"
+      [layoutType]="layoutTypeEnum.SMALL_FIRST"
+    >
       <ng-container contentLeftSmall>
         <h2 class="${selector}__h2">View the origin of your energy</h2>
         <p class="${selector}__p">
@@ -87,7 +98,10 @@ const selector = 'eo-landing-page-image-text-layout';
       </ng-container>
     </eo-landing-page-column-layout>
 
-    <eo-landing-page-column-layout class="${selector}__space-stack-xl-double" [layoutType]="layoutTypeEnum.SMALL_FIRST">
+    <eo-landing-page-column-layout
+      class="${selector}__space-stack-xl-double"
+      [layoutType]="layoutTypeEnum.SMALL_FIRST"
+    >
       <ng-container contentLeftSmall>
         <h2 class="${selector}__h2">Who are we</h2>
         <p class="${selector}__p">
@@ -106,7 +120,7 @@ const selector = 'eo-landing-page-image-text-layout';
     </eo-landing-page-column-layout>
   `,
   encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EoLandingPageImageTextLayoutComponent {
   layoutTypeEnum = layoutTypeEnum;
@@ -115,6 +129,6 @@ export class EoLandingPageImageTextLayoutComponent {
 @NgModule({
   declarations: [EoLandingPageImageTextLayoutComponent],
   exports: [EoLandingPageImageTextLayoutComponent],
-  imports: [EoLandingPageColumnLayoutScam]
+  imports: [EoLandingPageColumnLayoutScam],
 })
 export class EoLandingPageImageTextLayoutScam {}

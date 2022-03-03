@@ -57,7 +57,8 @@ const selector = 'eo-landing-page-shell';
 
         .${selector}__wrapper--wave {
           height: 250px;
-          background: url('/assets/landing-page/landing-page-wave.svg') no-repeat bottom;
+          background: url('/assets/landing-page/landing-page-wave.svg')
+            no-repeat bottom;
           background-size: contain;
         }
 
@@ -79,7 +80,10 @@ const selector = 'eo-landing-page-shell';
   template: `
     <eo-landing-page-header></eo-landing-page-header>
 
-    <img src="/assets/landing-page/landing-page-mesh-top.png" class="${selector}__header-mesh" />
+    <img
+      src="/assets/landing-page/landing-page-mesh-top.png"
+      class="${selector}__header-mesh"
+    />
 
     <eo-landing-page-top-layout></eo-landing-page-top-layout>
 
@@ -95,13 +99,15 @@ const selector = 'eo-landing-page-shell';
       <eo-landing-page-bottom-layout></eo-landing-page-bottom-layout>
     </div>
 
-    <img src="/assets/landing-page/landing-page-mesh-bottom.png" class="${selector}__footer-mesh" />
+    <img
+      src="/assets/landing-page/landing-page-mesh-bottom.png"
+      class="${selector}__footer-mesh"
+    />
 
     <eo-footer></eo-footer>
   `,
 })
-export class EoLandingPageShellComponent {
-}
+export class EoLandingPageShellComponent {}
 
 @NgModule({
   declarations: [EoLandingPageShellComponent],
@@ -112,7 +118,7 @@ export class EoLandingPageShellComponent {
     EoLandingPageVideoLayoutScam,
     EoLandingPageImageTextLayoutScam,
     EoLandingPageLogInButtonScam,
-    EoLandingPageBottomLayoutScam
+    EoLandingPageBottomLayoutScam,
   ],
 })
 export class EoLandingPageShellScam {}

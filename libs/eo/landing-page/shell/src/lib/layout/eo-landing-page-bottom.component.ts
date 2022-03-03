@@ -1,7 +1,14 @@
-import {Component, NgModule, ViewEncapsulation, ChangeDetectionStrategy} from '@angular/core';
-import {EoLandingPageColumnLayoutScam, layoutTypeEnum} from './eo-landing-page-column-layout.component';
+import {
+  Component,
+  NgModule,
+  ViewEncapsulation,
+  ChangeDetectionStrategy,
+} from '@angular/core';
+import {
+  EoLandingPageColumnLayoutScam,
+  layoutTypeEnum,
+} from './eo-landing-page-column-layout.component';
 import { EoLandingPageLogInButtonScam } from './eo-landing-page-login-button.component';
-
 
 const selector = 'eo-landing-page-bottom-layout';
 
@@ -21,7 +28,7 @@ const selector = 'eo-landing-page-bottom-layout';
           text-transform: none; // This overrides the uppercased styling from watt
         }
       }
-    `
+    `,
   ],
   template: `
     <eo-landing-page-column-layout [layoutType]="layoutTypeEnum.FULL">
@@ -30,7 +37,7 @@ const selector = 'eo-landing-page-bottom-layout';
     </eo-landing-page-column-layout>
   `,
   encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EoLandingPageBottomLayoutComponent {
   layoutTypeEnum = layoutTypeEnum;
@@ -39,6 +46,6 @@ export class EoLandingPageBottomLayoutComponent {
 @NgModule({
   declarations: [EoLandingPageBottomLayoutComponent],
   exports: [EoLandingPageBottomLayoutComponent],
-  imports: [EoLandingPageColumnLayoutScam, EoLandingPageLogInButtonScam]
+  imports: [EoLandingPageColumnLayoutScam, EoLandingPageLogInButtonScam],
 })
 export class EoLandingPageBottomLayoutScam {}

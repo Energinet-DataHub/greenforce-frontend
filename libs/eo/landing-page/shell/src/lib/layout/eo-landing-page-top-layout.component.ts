@@ -1,7 +1,14 @@
-import {Component, NgModule, ViewEncapsulation, ChangeDetectionStrategy} from '@angular/core';
-import {EoLandingPageColumnLayoutScam, layoutTypeEnum} from './eo-landing-page-column-layout.component';
+import {
+  Component,
+  NgModule,
+  ViewEncapsulation,
+  ChangeDetectionStrategy,
+} from '@angular/core';
+import {
+  EoLandingPageColumnLayoutScam,
+  layoutTypeEnum,
+} from './eo-landing-page-column-layout.component';
 import { EoLandingPageLogInButtonScam } from './eo-landing-page-login-button.component';
-
 
 const selector = 'eo-landing-page-top-layout';
 
@@ -16,7 +23,7 @@ const selector = 'eo-landing-page-top-layout';
         margin-top: var(--watt-space-xl);
 
         .${selector}__h1 {
-            @include watt.typography-watt-headline-1; // This overrides the styles applied from Angular Material on h1 tags
+          @include watt.typography-watt-headline-1; // This overrides the styles applied from Angular Material on h1 tags
 
           > span {
             color: var(--watt-color-primary);
@@ -29,7 +36,7 @@ const selector = 'eo-landing-page-top-layout';
           text-align: center;
         }
       }
-    `
+    `,
   ],
   template: `
     <eo-landing-page-column-layout [layoutType]="layoutTypeEnum.LARGE_FIRST">
@@ -37,7 +44,7 @@ const selector = 'eo-landing-page-top-layout';
         <h1 class="${selector}__h1">
           Access
           <span class="font-primary-color"
-          >your emissions and<br />energy origin</span
+            >your emissions and<br />energy origin</span
           >
           overview
         </h1>
@@ -47,12 +54,14 @@ const selector = 'eo-landing-page-top-layout';
       </ng-container>
       <ng-container contentRightSmall>
         <h2 class="${selector}__h2">Login with your business NemID</h2>
-        <eo-landing-page-login-button class="eo-text-center"></eo-landing-page-login-button>
+        <eo-landing-page-login-button
+          class="eo-text-center"
+        ></eo-landing-page-login-button>
       </ng-container>
     </eo-landing-page-column-layout>
   `,
   encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EoLandingPageTopLayoutComponent {
   layoutTypeEnum = layoutTypeEnum;
@@ -61,6 +70,6 @@ export class EoLandingPageTopLayoutComponent {
 @NgModule({
   declarations: [EoLandingPageTopLayoutComponent],
   exports: [EoLandingPageTopLayoutComponent],
-  imports: [EoLandingPageColumnLayoutScam, EoLandingPageLogInButtonScam]
+  imports: [EoLandingPageColumnLayoutScam, EoLandingPageLogInButtonScam],
 })
 export class EoLandingPageTopLayoutScam {}

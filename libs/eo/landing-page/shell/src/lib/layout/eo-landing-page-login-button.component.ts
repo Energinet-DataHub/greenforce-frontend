@@ -1,4 +1,9 @@
-import {Component, NgModule, ViewEncapsulation, ChangeDetectionStrategy} from '@angular/core';
+import {
+  Component,
+  NgModule,
+  ViewEncapsulation,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { LetModule } from '@rx-angular/template';
 import { EoLandingPageStore } from './../eo-landing-page.store';
@@ -35,15 +40,15 @@ const selector = 'eo-landing-page-login-button';
           padding: var(--inset-squish-m--y) var(--inset-squish-m--x); // [3]
 
           line-height: calc(
-          var(--height) - 2 * var(--inset-squish-m--y)
+            var(--height) - 2 * var(--inset-squish-m--y)
           ); // [3] [4]
 
           &:hover {
-             text-decoration: none; // [1]
+            text-decoration: none; // [1]
           }
         }
       }
-    `
+    `,
   ],
   template: `
     <a
@@ -52,11 +57,11 @@ const selector = 'eo-landing-page-login-button';
       mat-flat-button
       *rxLet="loginUrl$ as loginUrl"
       [href]="loginUrl"
-    >Start</a
+      >Start</a
     >
   `,
   encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EoLandingPageLogInButtonComponent {
   loginUrl$: Observable<string> = this.landingPageStore.authenticationUrl$;
@@ -66,6 +71,6 @@ export class EoLandingPageLogInButtonComponent {
 @NgModule({
   declarations: [EoLandingPageLogInButtonComponent],
   exports: [EoLandingPageLogInButtonComponent],
-  imports: [MatButtonModule, LetModule]
+  imports: [MatButtonModule, LetModule],
 })
 export class EoLandingPageLogInButtonScam {}

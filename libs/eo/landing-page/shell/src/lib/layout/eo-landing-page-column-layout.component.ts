@@ -1,5 +1,11 @@
-import {Component, NgModule, ViewEncapsulation, ChangeDetectionStrategy, Input} from '@angular/core';
-import {CommonModule } from '@angular/common';
+import {
+  Component,
+  NgModule,
+  ViewEncapsulation,
+  ChangeDetectionStrategy,
+  Input,
+} from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 export enum layoutTypeEnum {
   FULL = 'full',
@@ -20,7 +26,7 @@ const selector = 'eo-landing-page-column-layout';
       .${selector}__display-flex {
         display: flex;
         align-items: center;
-       }
+      }
 
       .${selector}__content {
         // This is the rows which contain either on or two columns
@@ -37,7 +43,7 @@ const selector = 'eo-landing-page-column-layout';
         width: 40%;
         display: inline-block;
       }
-    `
+    `,
   ],
   template: `
     <ng-container *ngIf="layoutType === layoutTypeEnum.FULL">
@@ -48,7 +54,9 @@ const selector = 'eo-landing-page-column-layout';
 
     <ng-container *ngIf="layoutType === layoutTypeEnum.SMALL_FIRST">
       <div class="${selector}__content ${selector}__display-flex">
-        <div class="${selector}__column--small watt-space-inset-l eo-padding-left-none">
+        <div
+          class="${selector}__column--small watt-space-inset-l eo-padding-left-none"
+        >
           <ng-content select="[contentLeftSmall]"></ng-content>
         </div>
         <div class="${selector}__column--large">
@@ -57,7 +65,7 @@ const selector = 'eo-landing-page-column-layout';
       </div>
     </ng-container>
 
-    <ng-container *ngIf="layoutType ===  layoutTypeEnum.LARGE_FIRST">
+    <ng-container *ngIf="layoutType === layoutTypeEnum.LARGE_FIRST">
       <div class="${selector}__content ${selector}__display-flex">
         <div class="${selector}__column--large">
           <ng-content select="[contentLeftLarge]"></ng-content>
@@ -69,7 +77,7 @@ const selector = 'eo-landing-page-column-layout';
     </ng-container>
   `,
   encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EoLandingPageColumnLayoutComponent {
   @Input()
@@ -81,6 +89,6 @@ export class EoLandingPageColumnLayoutComponent {
 @NgModule({
   declarations: [EoLandingPageColumnLayoutComponent],
   exports: [EoLandingPageColumnLayoutComponent],
-  imports: [CommonModule]
+  imports: [CommonModule],
 })
 export class EoLandingPageColumnLayoutScam {}
