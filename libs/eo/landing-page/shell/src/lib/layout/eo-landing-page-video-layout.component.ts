@@ -1,5 +1,29 @@
-import {Component, NgModule, ViewEncapsulation, ChangeDetectionStrategy} from '@angular/core';
-import {EoLandingPageColumnLayoutScam, layoutTypeEnum} from './eo-landing-page-column-layout.component';
+/**
+ * @license
+ * Copyright 2020 Energinet DataHub A/S
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License2");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+import {
+  ChangeDetectionStrategy,
+  Component,
+  NgModule,
+  ViewEncapsulation,
+} from '@angular/core';
+import {
+  EoLandingPageColumnLayoutScam,
+  layoutTypeEnum,
+} from './eo-landing-page-column-layout.component';
 
 const selector = 'eo-landing-page-video-layout';
 
@@ -39,32 +63,31 @@ const selector = 'eo-landing-page-video-layout';
         position: absolute;
 
         &::before {
-         display: block;
-         content: ' i ';
-         width: 50px;
-         height: 50px;
-         border-radius: 50%;
-         background: var(--watt-color-primary-dark);
-         color: #fff;
-         position: absolute;
-         left: 16px;
-         text-align: center;
-         line-height: 50px;
-         font-size: 30px;
-       }
+          display: block;
+          content: ' i ';
+          width: 50px;
+          height: 50px;
+          border-radius: 50%;
+          background: var(--watt-color-primary-dark);
+          color: #fff;
+          position: absolute;
+          left: 16px;
+          text-align: center;
+          line-height: 50px;
+          font-size: 30px;
+        }
       }
-    `
+    `,
   ],
   template: `
     <eo-landing-page-column-layout [layoutType]="layoutTypeEnum.FULL">
-
       <!-- Development notification -->
       <div class="${selector}__development-notification watt-space-inset-m">
         <p class="${selector}__p">
           The Energy Origin Platform is under development and new
           functionalities will be released continuously. The first release of
-          the platform offers business login only. Private login via
-          NemID/MitID is intended to form part of one of the next releases.
+          the platform offers business login only. Private login via NemID/MitID
+          is intended to form part of one of the next releases.
         </p>
       </div>
 
@@ -95,11 +118,10 @@ const selector = 'eo-landing-page-video-layout';
           ></iframe>
         </div>
       </div>
-
     </eo-landing-page-column-layout>
   `,
   encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EoLandingPageVideoLayoutComponent {
   layoutTypeEnum = layoutTypeEnum;
@@ -108,6 +130,6 @@ export class EoLandingPageVideoLayoutComponent {
 @NgModule({
   declarations: [EoLandingPageVideoLayoutComponent],
   exports: [EoLandingPageVideoLayoutComponent],
-  imports: [EoLandingPageColumnLayoutScam]
+  imports: [EoLandingPageColumnLayoutScam],
 })
 export class EoLandingPageVideoLayoutScam {}

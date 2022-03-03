@@ -1,4 +1,25 @@
-import {Component, NgModule, ViewEncapsulation, ChangeDetectionStrategy} from '@angular/core';
+/**
+ * @license
+ * Copyright 2020 Energinet DataHub A/S
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License2");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+import {
+  Component,
+  NgModule,
+  ViewEncapsulation,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { LetModule } from '@rx-angular/template';
 import { EoLandingPageStore } from './../eo-landing-page.store';
@@ -35,15 +56,15 @@ const selector = 'eo-landing-page-login-button';
           padding: var(--inset-squish-m--y) var(--inset-squish-m--x); // [3]
 
           line-height: calc(
-          var(--height) - 2 * var(--inset-squish-m--y)
+            var(--height) - 2 * var(--inset-squish-m--y)
           ); // [3] [4]
 
           &:hover {
-             text-decoration: none; // [1]
+            text-decoration: none; // [1]
           }
         }
       }
-    `
+    `,
   ],
   template: `
     <a
@@ -52,11 +73,11 @@ const selector = 'eo-landing-page-login-button';
       mat-flat-button
       *rxLet="loginUrl$ as loginUrl"
       [href]="loginUrl"
-    >Start</a
+      >Start</a
     >
   `,
   encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EoLandingPageLogInButtonComponent {
   loginUrl$: Observable<string> = this.landingPageStore.authenticationUrl$;
@@ -66,6 +87,6 @@ export class EoLandingPageLogInButtonComponent {
 @NgModule({
   declarations: [EoLandingPageLogInButtonComponent],
   exports: [EoLandingPageLogInButtonComponent],
-  imports: [MatButtonModule, LetModule]
+  imports: [MatButtonModule, LetModule],
 })
 export class EoLandingPageLogInButtonScam {}
