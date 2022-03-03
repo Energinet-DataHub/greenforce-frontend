@@ -68,30 +68,32 @@ const selector = 'eo-landing-page-video-layout';
         </p>
       </div>
 
-      <h2 class="${selector}__h2">What is energy origin</h2>
+      <div class="watt-space-inset-xl eo-padding-top-none">
+        <h2 class="${selector}__h2">What is energy origin</h2>
 
-      <p class="${selector}__p">
-        Energy Origin is a platform which provides you with access to data
-        about the origins of your energy and the corresponding
-        emissions.<br /><br />
-        The first release of the platform offers business login only.
-        Private login via NemID/MitID is intended to be part of one of the
-        next releases.
-      </p>
+        <p class="${selector}__p">
+          Energy Origin is a platform which provides you with access to data
+          about the origins of your energy and the corresponding
+          emissions.<br /><br />
+          The first release of the platform offers business login only.
+          Private login via NemID/MitID is intended to be part of one of the
+          next releases.
+        </p>
 
-      <a
-        href="https://en.energinet.dk/Electricity/DataHub/Energy-Origin"
-        target="_blank"
-        class="${selector}__link"
+        <a
+          href="https://en.energinet.dk/Electricity/DataHub/Energy-Origin"
+          target="_blank"
+          class="${selector}__link"
         >Read more about Project Energy Origin</a
-      >
+        >
 
-      <br /><br />
+        <br /><br />
 
-      <div class="eo-video-embed-container">
-        <iframe
-          src="https://player.vimeo.com/video/642352286?h=91e1a8b63c&badge=0&autopause=0&player_id=0&app_id=58479"
-        ></iframe>
+        <div class="eo-video-embed-container">
+          <iframe
+            src="https://player.vimeo.com/video/642352286?h=91e1a8b63c&badge=0&autopause=0&player_id=0&app_id=58479"
+          ></iframe>
+        </div>
       </div>
 
     </eo-landing-page-column-layout>
