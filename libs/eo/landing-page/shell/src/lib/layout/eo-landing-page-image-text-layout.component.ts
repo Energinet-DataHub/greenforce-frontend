@@ -20,9 +20,7 @@ import {
   ViewEncapsulation,
   ChangeDetectionStrategy,
 } from '@angular/core';
-import {
-  EoLandingPageColumnLayoutScam
-} from './eo-landing-page-column-layout.component';
+import { EoLandingPageColumnLayoutScam } from './eo-landing-page-column-layout.component';
 
 const selector = 'eo-landing-page-image-text-layout';
 
@@ -74,7 +72,7 @@ const selector = 'eo-landing-page-image-text-layout';
         <p class="${selector}__p">
           Imagine if we all knew, where our energy came from, at all times, and
           were able to choose the green energy by the hour. That is the vision,
-          we are working for with the platform Energy Origin. <br/><br/>
+          we are working for with the platform Energy Origin. <br /><br />
           Simultaneity between production of sustainable energy and consumption
           of energy will be a real factor in the green transition and therefore
           has great potential for future green solutions.
@@ -105,7 +103,8 @@ const selector = 'eo-landing-page-image-text-layout';
         </p>
         <ul>
           <li>Compiling an emissions overview for your annual ECG report</li>
-          <li>Gaining an overview of the renewables share of your energy
+          <li>
+            Gaining an overview of the renewables share of your energy
             consumption
           </li>
         </ul>

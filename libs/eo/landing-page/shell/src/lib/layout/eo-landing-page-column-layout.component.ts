@@ -15,12 +15,13 @@
  * limitations under the License.
  */
 import {
+  ChangeDetectionStrategy,
   Component,
+  Input,
   NgModule,
   ViewEncapsulation,
-  ChangeDetectionStrategy,
-  Input,
 } from '@angular/core';
+
 import { CommonModule } from '@angular/common';
 
 export type LayoutType = 'full' | 'smallFirst' | 'largeFirst';

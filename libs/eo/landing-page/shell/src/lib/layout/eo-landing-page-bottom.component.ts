@@ -20,9 +20,7 @@ import {
   ViewEncapsulation,
   ChangeDetectionStrategy,
 } from '@angular/core';
-import {
-  EoLandingPageColumnLayoutScam
-} from './eo-landing-page-column-layout.component';
+import { EoLandingPageColumnLayoutScam } from './eo-landing-page-column-layout.component';
 import { EoLandingPageLogInButtonScam } from './eo-landing-page-login-button.component';
 
 const selector = 'eo-landing-page-bottom-layout';
