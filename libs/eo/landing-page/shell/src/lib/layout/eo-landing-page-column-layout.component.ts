@@ -57,9 +57,7 @@ const selector = 'eo-landing-page-column-layout';
     `,
   ],
   template: `
-
     <ng-container [ngSwitch]="layoutType">
-
       <ng-container *ngSwitchCase="'full'">
         <div class="${selector}__content watt-space-inset-xl">
           <ng-content></ng-content>
@@ -89,7 +87,6 @@ const selector = 'eo-landing-page-column-layout';
           </div>
         </div>
       </ng-container>
-
     </ng-container>
   `,
   encapsulation: ViewEncapsulation.None,
