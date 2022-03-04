@@ -102,8 +102,16 @@ const selector = 'eo-landing-page-image-text-layout';
           can be used for e.g.:
         </p>
         <ul>
-          <li [innerText]="'Compiling an emissions overview for your annual ECG report'"></li>
-          <li [innerText]="'Gaining an overview of the renewables share of your energy consumption'"></li>
+          <li
+            [innerText]="
+              'Compiling an emissions overview for your annual ECG report'
+            "
+          ></li>
+          <li
+            [innerText]="
+              'Gaining an overview of the renewables share of your energy consumption'
+            "
+          ></li>
         </ul>
       </ng-container>
     </eo-landing-page-column-layout>
