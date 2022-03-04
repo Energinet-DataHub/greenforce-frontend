@@ -67,7 +67,10 @@ const selector = 'eo-landing-page-top-layout';
           >
           overview
         </h1>
-        <img class="${selector}__img" src="/assets/images/landing-page/landing-page-energy-flow-illustration.png" />
+        <img
+          class="${selector}__img"
+          src="/assets/images/landing-page/landing-page-energy-flow-illustration.png"
+        />
       </ng-container>
       <ng-container contentRightSmall>
         <h2 class="${selector}__h2">Log in with your commercial NemID</h2>
