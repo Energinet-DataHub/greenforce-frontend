@@ -45,7 +45,7 @@ import { DhProcess } from '@energinet-datahub/dh/metering-point/data-access-api'
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'dh-processes-table',
   templateUrl: './dh-processes-table.component.html',
-  styleUrls: ['./dh-processes-table.scss'],
+  styleUrls: ['./dh-processes-table.component.scss'],
 })
 export class DhProcessesTableComponent implements AfterViewInit {
   displayedColumns: string[] = [
