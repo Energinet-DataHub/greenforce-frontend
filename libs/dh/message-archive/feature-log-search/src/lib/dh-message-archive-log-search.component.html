@@ -148,9 +148,13 @@ limitations under the License.
 
   </div>
 
-
-
   </form>
   <hr />
-  <dh-message-archive-log-search-result (downloadLog)="downloadBlob($event)" ></dh-message-archive-log-search-result>
+
+  <dh-message-archive-log-search-result
+    *rxLet="searchResult$ as searchResult"
+    [searchResult]="searchResultsDtos"
+    (downloadLog)="downloadBlob($event)">
+  </dh-message-archive-log-search-result>
+
 </ng-container>

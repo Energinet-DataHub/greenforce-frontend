@@ -15,12 +15,11 @@
  * limitations under the License.
  */
  import { CommonModule } from "@angular/common";
- import { ChangeDetectionStrategy, Component, EventEmitter, NgModule, Output } from "@angular/core";
- import { DhMessageArchiveDataAccessApiModule } from "@energinet-datahub/dh/message-archive/data-access-api";
+ import { ChangeDetectionStrategy, Component, EventEmitter, Input, NgModule, Output } from "@angular/core";
  import { SearchResultItemDto } from "@energinet-datahub/dh/shared/data-access-api";
  import { TranslocoModule } from '@ngneat/transloco';
  import { LetModule } from '@rx-angular/template';
-
+ import { MatTableModule } from '@angular/material/table';
 
 @Component({
 changeDetection: ChangeDetectionStrategy.OnPush,
@@ -29,15 +28,9 @@ templateUrl: "./dh-message-archive-log-search-result.component.html",
 styleUrls: ['./dh-message-archive-log-search-result.component.scss'],
 })
 export class DhMessageArchiveLogSearchResultComponent {
-  searchResult$ = this.store.searchResult$;
-  searchResultsDtos: Array<SearchResultItemDto> = [];
+  @Input() searchResult: Array<SearchResultItemDto> = [];
   @Output() downloadLog = new EventEmitter<SearchResultItemDto>();
-
-  constructor(private store: DhMessageArchiveDataAccessApiModule) {
-    this.store.searchResult$.subscribe((searchResult) => {
-      this.searchResultsDtos = searchResult;
-    });
-  }
+  displayedColumns: string[] = ['messageId', 'sender', 'logcreateddate', 'traceid', 'loglink', 'logshow'];
 
   emitDownloadLog(log: SearchResultItemDto)
   {
@@ -53,6 +46,7 @@ export class DhMessageArchiveLogSearchResultComponent {
     CommonModule,
     TranslocoModule,
     LetModule,
+    MatTableModule
   ],
 })
 export class DhMessageArchiveLogSearchResultScam {}

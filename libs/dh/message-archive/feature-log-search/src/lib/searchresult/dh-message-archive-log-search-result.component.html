@@ -1,16 +1,50 @@
 <ng-container *transloco="let transloco; read: 'messageArchive.search'">
-  <ng-container *rxLet="searchResult$ as searchResult">
-  <div *ngFor="let log of this.searchResultsDtos">
-    <div>timeStamp: {{log.logCreatedDate}}</div>
-    <div>messageId: {{log.messageId}}</div>
-    <div>traceId: {{log.traceId}}</div>
-    <div>senderGln: {{log.senderGln}}</div>
-    <div>: <button (click)="emitDownloadLog(log)">Log download</button></div>
-    <hr />
-  </div>
-</ng-container>
-  <ng-container *rxLet="searchResult$ as searchResult" >
-    <div *ngIf="this.searchResultsDtos.length === 0">{{ transloco("NoResultsFound") }}</div>
+
+  <table mat-table [dataSource]="this.searchResult" class="mat-elevation-z8">
+
+    <!-- message id Column -->
+    <ng-container matColumnDef="messageId">
+      <th mat-header-cell *matHeaderCellDef> Besked id </th>
+      <td mat-cell *matCellDef="let element"> {{element.messageId}} </td>
+    </ng-container>
+
+    <!-- sender gln -->
+    <ng-container matColumnDef="sender">
+      <th mat-header-cell *matHeaderCellDef> Afsender </th>
+      <td mat-cell *matCellDef="let element"> {{element.senderGln}} </td>
+    </ng-container>
+
+    <!-- timestamp gln -->
+    <ng-container matColumnDef="logcreateddate">
+      <th mat-header-cell *matHeaderCellDef> Tid </th>
+      <td mat-cell *matCellDef="let element"> {{element.logCreatedDate}} </td>
+    </ng-container>
+
+    <!-- timestamp gln -->
+    <ng-container matColumnDef="traceid">
+      <th mat-header-cell *matHeaderCellDef> Trace Id </th>
+      <td mat-cell *matCellDef="let element"> {{element.traceId}} </td>
+    </ng-container>
+
+    <!-- log link -->
+    <ng-container matColumnDef="loglink">
+      <th mat-header-cell *matHeaderCellDef> Download log </th>
+      <td mat-cell *matCellDef="let element"> <a target="_blank" rel="noopener noreferrer" [href]="">Link til XML fil</a> </td>
+    </ng-container>
+
+    <!-- log show -->
+    <ng-container matColumnDef="logshow">
+      <th mat-header-cell *matHeaderCellDef> Vis log </th>
+      <td mat-cell *matCellDef="let element"> <button (click)="emitDownloadLog(element)">Log download</button> </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+
+  <ng-container>
+    <div *ngIf="this.searchResult.length === 0">{{ transloco("NoResultsFound") }}</div>
   </ng-container>
+
 </ng-container>
 

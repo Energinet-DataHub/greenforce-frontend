@@ -56,8 +56,8 @@ import { Subject } from 'rxjs';
    searchCriteria: SearchCriteria = {
      messageId: "253698245",
      reasonCode: null,
-     dateTimeFrom: "2021-12-01T00:00:00Z",
-     dateTimeTo: "2022-03-01T23:59:59Z",
+     dateTimeFrom: "2022-03-04T00:00:00Z",
+     dateTimeTo: "2022-03-04T23:59:59Z",
      messageType: null,
     };
 
