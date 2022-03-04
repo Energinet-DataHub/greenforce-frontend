@@ -20,7 +20,6 @@ using System.Threading.Tasks;
 using Energinet.DataHub.MessageArchive.Client.Abstractions;
 using Energinet.DataHub.MessageArchive.Client.Abstractions.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Formatters;
 
 namespace Energinet.DataHub.WebApi.Controllers
 {
