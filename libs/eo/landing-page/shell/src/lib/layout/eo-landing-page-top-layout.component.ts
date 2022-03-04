@@ -35,6 +35,11 @@ const selector = 'eo-landing-page-top-layout';
         display: block;
         margin-top: var(--watt-space-xl);
 
+        .${selector}__img {
+          width: 100%;
+          height: auto;
+        }
+
         .${selector}__h1 {
           @include watt.typography-watt-headline-1; // This overrides the styles applied from Angular Material on h1 tags
 
@@ -62,9 +67,7 @@ const selector = 'eo-landing-page-top-layout';
           >
           overview
         </h1>
-        <div style="height: 403px; background: #ccc;">
-          <!-- -- Placeholder for Image -- -->
-        </div>
+        <img class="${selector}__img" src="/assets/images/landing-page/landing-page-energy-flow-illustration.png" />
       </ng-container>
       <ng-container contentRightSmall>
         <h2 class="${selector}__h2">Log in with your commercial NemID</h2>

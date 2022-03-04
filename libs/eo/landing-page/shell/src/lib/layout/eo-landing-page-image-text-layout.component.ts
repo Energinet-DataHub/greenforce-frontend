@@ -81,7 +81,7 @@ const selector = 'eo-landing-page-image-text-layout';
       <ng-container contentRightLarge>
         <img
           class="${selector}__img"
-          src="/assets/images/landing-page/landing-page-graph-of-energy-with-dashboard.svg"
+          src="/assets/images/landing-page/landing-page-graph-of-energy-with-dashboard.png"
           alt="EnergyOrigin graph of energy"
         />
       </ng-container>
