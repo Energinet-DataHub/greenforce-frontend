@@ -52,7 +52,7 @@ namespace Energinet.DataHub.WebApi.Controllers
         /// </summary>
         /// <param name="blobName">blob name</param>
         /// <returns>log content</returns>
-        [HttpPost("DownloadRequestResponseLogContent")]
+        [HttpGet("DownloadRequestResponseLogContent")]
         public async Task<ActionResult<Stream>> DownloadRequestResponseLogContentAsync(string blobName)
         {
             var stream = await _messageArchiveClient.GetStreamFromStorageAsync(blobName).ConfigureAwait(false);

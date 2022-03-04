@@ -45,7 +45,7 @@ export class DhMessageArchiveDataAccessBlobApiModule extends ComponentStore<Down
           console.log("tap tap ?? ");
         }),
         switchMap((blobName) =>
-          this.httpClient.v1MessageArchiveDownloadRequestResponseLogContentPost(blobName, "body", false, { httpHeaderAccept: "text/plain" }).pipe(
+          this.httpClient.v1MessageArchiveDownloadRequestResponseLogContentGet(blobName, "body", false, { httpHeaderAccept: "text/plain" }).pipe(
             tapResponse(
               (blobContent) => {
                 alert(blobContent);
