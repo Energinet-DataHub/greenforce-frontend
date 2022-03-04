@@ -23,11 +23,11 @@ import {
 import { EoLandingPageHeaderScam } from './eo-landing-page-header.component';
 import { EoFooterScam } from '@energinet-datahub/eo/shared/atomic-design/ui-organisms';
 import { EoLandingPageStore } from './eo-landing-page.store';
-import { EoLandingPageTopLayoutScam } from './layout/eo-landing-page-top-layout.component';
+import { EoLandingPageHeroScam } from './layout/eo-landing-page-hero.component';
 import { EoLandingPageVideoLayoutScam } from './layout/eo-landing-page-video-layout.component';
 import { EoLandingPageImageTextLayoutScam } from './layout/eo-landing-page-image-text-layout.component';
-import { EoLandingPageLogInButtonScam } from './layout/eo-landing-page-login-button.component';
-import { EoLandingPageBottomLayoutScam } from './layout/eo-landing-page-bottom.component';
+import { EoLandingPageLoginButtonScam } from './layout/eo-landing-page-login-button.component';
+import { EoLandingPageCallToActionScam } from './layout/eo-landing-page-call-to-action.component';
 
 const selector = 'eo-landing-page-shell';
 
@@ -84,7 +84,7 @@ const selector = 'eo-landing-page-shell';
       class="${selector}__header-mesh"
     />
 
-    <eo-landing-page-top-layout></eo-landing-page-top-layout>
+    <eo-landing-page-hero></eo-landing-page-hero>
 
     <div class="${selector}__wrapper ${selector}__wrapper--wave"></div>
 
@@ -95,7 +95,7 @@ const selector = 'eo-landing-page-shell';
     <eo-landing-page-image-text-layout></eo-landing-page-image-text-layout>
 
     <div class="${selector}__wrapper ${selector}__wrapper--highlighted">
-      <eo-landing-page-bottom-layout></eo-landing-page-bottom-layout>
+      <eo-landing-page-call-to-action></eo-landing-page-call-to-action>
     </div>
 
     <img
@@ -113,11 +113,11 @@ export class EoLandingPageShellComponent {}
   imports: [
     EoLandingPageHeaderScam,
     EoFooterScam,
-    EoLandingPageTopLayoutScam,
+    EoLandingPageHeroScam,
     EoLandingPageVideoLayoutScam,
     EoLandingPageImageTextLayoutScam,
-    EoLandingPageLogInButtonScam,
-    EoLandingPageBottomLayoutScam,
+    EoLandingPageLoginButtonScam,
+    EoLandingPageCallToActionScam,
   ],
 })
 export class EoLandingPageShellScam {}

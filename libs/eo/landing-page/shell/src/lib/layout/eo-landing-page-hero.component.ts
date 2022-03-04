@@ -21,9 +21,9 @@ import {
   ChangeDetectionStrategy,
 } from '@angular/core';
 import { EoLandingPageColumnLayoutScam } from './eo-landing-page-column-layout.component';
-import { EoLandingPageLogInButtonScam } from './eo-landing-page-login-button.component';
+import { EoLandingPageLoginButtonScam } from './eo-landing-page-login-button.component';
 
-const selector = 'eo-landing-page-top-layout';
+const selector = 'eo-landing-page-hero';
 
 @Component({
   selector,
@@ -73,7 +73,7 @@ const selector = 'eo-landing-page-top-layout';
         />
       </ng-container>
       <ng-container contentRightSmall>
-        <h2 class="${selector}__h2">Log in with your commercial NemID</h2>
+        <h2 class="${selector}__h2">Log in with your company NemID</h2>
         <eo-landing-page-login-button
           class="eo-text-center"
         ></eo-landing-page-login-button>
@@ -83,11 +83,11 @@ const selector = 'eo-landing-page-top-layout';
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class EoLandingPageTopLayoutComponent {}
+export class EoLandingPageHeroComponent {}
 
 @NgModule({
-  declarations: [EoLandingPageTopLayoutComponent],
-  exports: [EoLandingPageTopLayoutComponent],
-  imports: [EoLandingPageColumnLayoutScam, EoLandingPageLogInButtonScam],
+  declarations: [EoLandingPageHeroComponent],
+  exports: [EoLandingPageHeroComponent],
+  imports: [EoLandingPageColumnLayoutScam, EoLandingPageLoginButtonScam],
 })
-export class EoLandingPageTopLayoutScam {}
+export class EoLandingPageHeroScam {}

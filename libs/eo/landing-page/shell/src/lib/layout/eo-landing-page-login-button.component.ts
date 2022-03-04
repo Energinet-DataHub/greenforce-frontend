@@ -78,14 +78,14 @@ const selector = 'eo-landing-page-login-button';
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class EoLandingPageLogInButtonComponent {
+export class EoLandingPageLoginButtonComponent {
   loginUrl$: Observable<string> = this.landingPageStore.authenticationUrl$;
   constructor(private landingPageStore: EoLandingPageStore) {}
 }
 
 @NgModule({
-  declarations: [EoLandingPageLogInButtonComponent],
-  exports: [EoLandingPageLogInButtonComponent],
+  declarations: [EoLandingPageLoginButtonComponent],
+  exports: [EoLandingPageLoginButtonComponent],
   imports: [MatButtonModule, LetModule],
 })
-export class EoLandingPageLogInButtonScam {}
+export class EoLandingPageLoginButtonScam {}

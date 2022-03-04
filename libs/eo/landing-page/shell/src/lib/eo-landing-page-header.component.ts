@@ -21,7 +21,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { EoHeaderScam } from '@energinet-datahub/eo/shared/atomic-design/ui-organisms';
-import { EoLandingPageLogInButtonScam } from './layout/eo-landing-page-login-button.component';
+import { EoLandingPageLoginButtonScam } from './layout/eo-landing-page-login-button.component';
 
 const selector = 'eo-landing-page-header';
 
@@ -47,6 +47,6 @@ export class EoLandingPageHeaderComponent {}
 @NgModule({
   declarations: [EoLandingPageHeaderComponent],
   exports: [EoLandingPageHeaderComponent],
-  imports: [EoHeaderScam, EoLandingPageLogInButtonScam],
+  imports: [EoHeaderScam, EoLandingPageLoginButtonScam],
 })
 export class EoLandingPageHeaderScam {}
