@@ -44,7 +44,7 @@ const selector = 'eo-header';
         height: var(--watt-space-xl);
       }
       .${selector}__logo {
-        width: calc(70 * var(--watt-space-xs));
+        height: calc(8 * var(--watt-space-xs));
       }
     `,
   ],
