@@ -43,6 +43,9 @@ const selector = 'eo-header';
         // Adjustment locally to contain a normal sized button
         height: var(--watt-space-xl);
       }
+      .${selector}__logo {
+        height: calc(8 * var(--watt-space-xs));
+      }
     `,
   ],
   template: `
@@ -50,7 +53,7 @@ const selector = 'eo-header';
       role="heading"
       class="${selector}__toolbar watt-space-inset-squished-m"
     >
-      <img eoProductLogo />
+      <img eoProductLogo class="${selector}__logo" />
       <ng-content></ng-content>
     </mat-toolbar>
   `,

@@ -32,6 +32,8 @@ const selector = 'eo-footer';
     `
       @use '@energinet-datahub/watt/utils' as watt;
       ${selector} {
+        position: relative;
+        z-index: 100;
         display: grid;
         grid-template-columns: 428px 320px 1fr;
         width: 100%;
