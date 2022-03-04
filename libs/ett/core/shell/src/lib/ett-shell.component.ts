@@ -77,6 +77,10 @@ const selector = 'ett-shell';
           }
         }
 
+        .${selector}__logo {
+          height: calc(8 * var(--watt-space-xs));
+        }
+
         .${selector}__link {
           display: block;
           color: var(
@@ -93,7 +97,7 @@ const selector = 'ett-shell';
       </ng-container>
 
       <ng-container watt-shell-toolbar>
-        <img eoProductLogo />
+        <img class="${selector}__logo" eoProductLogo />
       </ng-container>
 
       <router-outlet></router-outlet>
