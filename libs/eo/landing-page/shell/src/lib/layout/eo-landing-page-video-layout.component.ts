@@ -52,7 +52,7 @@ const selector = 'eo-landing-page-video-layout';
       }
 
       .${selector}__development-notification {
-        background: rgba(223, 235, 218, 0.9);
+        background: var(--watt-color-neutral-white);
         top: calc(-10 * var(--watt-space-xs));
         height: calc(20 * var(--watt-space-xs));
         padding-left: calc(20 * var(--watt-space-xs));
