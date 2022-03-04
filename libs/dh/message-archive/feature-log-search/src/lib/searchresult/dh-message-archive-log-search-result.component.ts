@@ -34,11 +34,9 @@ export class DhMessageArchiveLogSearchResultComponent {
 
   emitDownloadLog(log: SearchResultItemDto)
   {
-    console.log("hej");
     this.downloadLog.emit(log);
   }
 }
-
 @NgModule({
   declarations: [DhMessageArchiveLogSearchResultComponent],
   exports: [DhMessageArchiveLogSearchResultComponent],

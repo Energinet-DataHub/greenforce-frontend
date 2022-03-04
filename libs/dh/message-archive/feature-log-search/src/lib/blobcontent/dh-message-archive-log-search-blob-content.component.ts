@@ -16,7 +16,8 @@
  */
  import { CommonModule } from "@angular/common";
  import { ChangeDetectionStrategy, Component, NgModule } from "@angular/core";
- import { DhMessageArchiveDataAccessApiModule } from "@energinet-datahub/dh/message-archive/data-access-api";
+import { ActivatedRoute } from "@angular/router";
+ import { DhMessageArchiveDataAccessBlobApiModule } from "@energinet-datahub/dh/message-archive/data-access-api";
  import { TranslocoModule } from '@ngneat/transloco';
  import { LetModule } from '@rx-angular/template';
 
@@ -25,22 +26,32 @@ changeDetection: ChangeDetectionStrategy.OnPush,
 selector: "dh-message-archive-log-search-blob-content",
 templateUrl: "./dh-message-archive-log-search-blob-content.component.html",
 styleUrls: ['./dh-message-archive-log-search-blob-content.component.scss'],
+providers: [DhMessageArchiveDataAccessBlobApiModule]
 })
-export class DhMessageArchiveLogSearchBlolbContentComponent {
+export class DhMessageArchiveLogSearchBlobContentComponent {
 
-  constructor(private store: DhMessageArchiveDataAccessApiModule) {
+  blobContent$ = this.blobStore.blobContent$;
 
+  constructor(
+    private blobStore: DhMessageArchiveDataAccessBlobApiModule,
+    private route: ActivatedRoute) {
+
+      this.route.params.subscribe( params => {
+        const logName = params["logname"];
+        const decodedLobName = decodeURIComponent(logName);
+        this.blobStore.downloadLog(decodedLobName);
+      });
   }
 
 }
 
 @NgModule({
-  declarations: [DhMessageArchiveLogSearchBlolbContentComponent],
-  exports: [DhMessageArchiveLogSearchBlolbContentComponent],
+  declarations: [DhMessageArchiveLogSearchBlobContentComponent],
+  exports: [DhMessageArchiveLogSearchBlobContentComponent],
   imports: [
     CommonModule,
     TranslocoModule,
     LetModule,
   ],
 })
-export class DhMessageArchiveLogSearchBlolbContentScam {}
+export class DhMessageArchiveLogSearchBlobContentScam {}

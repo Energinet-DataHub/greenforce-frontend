@@ -19,6 +19,8 @@ export interface SearchCriteria {
     dateTimeTo?: string | null;
     senderId?: string | null;
     receiverId?: string | null;
+    senderRoleType?: string | null;
+    receiverRoleType?: string | null;
     businessSectorType?: string | null;
     reasonCode?: string | null;
     invocationId?: string | null;

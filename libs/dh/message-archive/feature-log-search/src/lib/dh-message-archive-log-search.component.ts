@@ -33,6 +33,7 @@
  import { DocumentTypes } from '../../../models/documentTypes'
  import { RoleTypes } from '../../../models/roleTypes'
 import { Subject } from 'rxjs';
+import { Router } from '@angular/router';
 
  @Component({
    changeDetection: ChangeDetectionStrategy.OnPush,
@@ -59,11 +60,12 @@ import { Subject } from 'rxjs';
      dateTimeFrom: "2022-03-04T00:00:00Z",
      dateTimeTo: "2022-03-04T23:59:59Z",
      messageType: null,
+     senderRoleType: null,
     };
 
    constructor(
      private store: DhMessageArchiveDataAccessApiModule,
-     private blobStore: DhMessageArchiveDataAccessBlobApiModule)
+     private router: Router)
   {
     this.store.searchResult$.subscribe((searchResult) => {
       this.searchResultsDtos = searchResult;
@@ -79,8 +81,9 @@ import { Subject } from 'rxjs';
 
   downloadBlob(resultItem: SearchResultItemDto) {
     const blobName = this.findBlobName(resultItem.blobContentUri);
-    console.log(blobName);
-    this.blobStore.downloadLog(blobName);
+    const encodedBlobName = encodeURIComponent(blobName);
+    const url = this.router.serializeUrl(this.router.createUrlTree([`/message-archive/${encodedBlobName}`]));
+    window.open(url, '_blank');
   }
 
   validateSearchParams(): boolean {
