@@ -25,6 +25,7 @@ import { EoLandingPageColumnLayoutScam } from './eo-landing-page-column-layout.c
 const selector = 'eo-landing-page-image-text-layout';
 
 @Component({
+  preserveWhitespaces: false,
   selector,
   styles: [
     `
