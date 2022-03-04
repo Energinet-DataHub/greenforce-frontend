@@ -20,6 +20,12 @@
   DONE = 'DONE',
 }
 
+export const enum DownloadingState {
+  INIT = 'INIT',
+  SEARCHING = 'DOWNLOADING',
+  DONE = 'DONE',
+}
+
 export const enum ErrorState {
   NOT_FOUND_ERROR = 'NOT_FOUND_ERROR',
   GENERAL_ERROR = 'GENERAL_ERROR',

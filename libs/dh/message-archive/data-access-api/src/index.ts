@@ -15,4 +15,5 @@
  * limitations under the License.
  */
 export * from './lib/dh-message-archive-data-access-api.module';
+export * from './lib/dh-message-archive-data-access-api-blob.module';
 export * from './lib/states';

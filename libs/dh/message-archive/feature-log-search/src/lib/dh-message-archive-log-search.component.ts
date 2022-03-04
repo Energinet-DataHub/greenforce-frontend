@@ -17,14 +17,14 @@
 
  import { FormsModule, ReactiveFormsModule } from '@angular/forms';
  import { CommonModule } from '@angular/common';
- import { ChangeDetectionStrategy, Component, NgModule } from "@angular/core";
+ import { ChangeDetectionStrategy, Component, NgModule, OnDestroy } from "@angular/core";
  import {
   WattButtonModule,
   WattFormFieldModule,
   WattIconModule,
   WattInputModule,
  } from '@energinet-datahub/watt';
- import { DhMessageArchiveDataAccessApiModule } from '@energinet-datahub/dh/message-archive/data-access-api'
+ import { DhMessageArchiveDataAccessApiModule, DhMessageArchiveDataAccessBlobApiModule } from '@energinet-datahub/dh/message-archive/data-access-api'
  import { SearchCriteria, SearchResultItemDto } from '@energinet-datahub/dh/shared/data-access-api';
  import { LetModule } from '@rx-angular/template';
  import { TranslocoModule } from '@ngneat/transloco';
@@ -32,22 +32,25 @@
  import { BusinessReasonCodes } from '../../../models/businessReasonCodes'
  import { DocumentTypes } from '../../../models/documentTypes'
  import { RoleTypes } from '../../../models/roleTypes'
+import { Subject } from 'rxjs';
 
  @Component({
    changeDetection: ChangeDetectionStrategy.OnPush,
    selector: 'dh-message-archive-log-search',
    styleUrls: ['./dh-message-archive-log-search.component.scss'],
    templateUrl: './dh-message-archive-log-search.component.html',
-   providers: [DhMessageArchiveDataAccessApiModule],
+   providers: [DhMessageArchiveDataAccessApiModule, DhMessageArchiveDataAccessBlobApiModule],
 
  })
- export class DhMessageArchiveLogSearchComponent {
-   searchResult$ = this.store.searchResult$;
-   searchResultsDtos: Array<SearchResultItemDto> = [];
-   businessReasonCodes = BusinessReasonCodes;
-   documentTypes = DocumentTypes;
-   roleTypes = RoleTypes;
-   private regexBlobName = new RegExp(/\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])\/.*/);
+ export class DhMessageArchiveLogSearchComponent implements OnDestroy {
+    private destroy$ = new Subject<void>();
+
+    searchResult$ = this.store.searchResult$;
+    searchResultsDtos: Array<SearchResultItemDto> = [];
+    businessReasonCodes = BusinessReasonCodes;
+    documentTypes = DocumentTypes;
+    roleTypes = RoleTypes;
+    private regexBlobName = new RegExp(/\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])\/.*/);
 
 
    searchCriteria: SearchCriteria = {
@@ -58,7 +61,10 @@
      messageType: null,
     };
 
-   constructor(private store: DhMessageArchiveDataAccessApiModule) {
+   constructor(
+     private store: DhMessageArchiveDataAccessApiModule,
+     private blobStore: DhMessageArchiveDataAccessBlobApiModule)
+  {
     this.store.searchResult$.subscribe((searchResult) => {
       this.searchResultsDtos = searchResult;
     })
@@ -74,7 +80,7 @@
   downloadBlob(resultItem: SearchResultItemDto) {
     const blobName = this.findBlobName(resultItem.blobContentUri);
     console.log(blobName);
-    this.store.downloadLog(blobName);
+    this.blobStore.downloadLog(blobName);
   }
 
   validateSearchParams(): boolean {
@@ -88,6 +94,11 @@
       return match != null ? match[0] : "";
     }
     return "";
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.unsubscribe();
   }
 }
  @NgModule({

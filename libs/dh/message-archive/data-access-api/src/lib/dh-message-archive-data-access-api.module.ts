@@ -74,31 +74,6 @@ export class DhMessageArchiveDataAccessApiModule extends ComponentStore<SearchRe
   );
 
   // eslint-disable-next-line @typescript-eslint/member-ordering
-  readonly downloadLog = this.effect(
-    (blobName: Observable<string>) => {
-      return blobName.pipe(
-        tap(() => {
-          console.log("tap tap ?? ");
-        }),
-        switchMap((blobName) =>
-          this.httpClient.v1MessageArchiveDownloadRequestResponseLogContentPost(blobName, "body", false, { httpHeaderAccept: "text/plain" }).pipe(
-            tapResponse(
-              (blobContent) => {
-                alert(blobContent);
-            },
-              (error: HttpErrorResponse) => {
-                //this.setLoading(false);
-                console.error(error);
-                //this.handleError(error);
-              }
-            )
-          )
-        )
-      );
-    }
-  );
-
-  // eslint-disable-next-line @typescript-eslint/member-ordering
   private updateSearchResult = this.updater(
     (
       state: SearchResultState,
