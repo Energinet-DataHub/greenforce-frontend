@@ -52,7 +52,7 @@ const selector = 'eo-landing-page-top-layout';
           @include watt.typography-watt-headline-2; // This overrides the styles applied from Angular Material on h2 tags
           text-align: center;
           text-transform: none;
-          margin-top: calc( 30 * var(--watt-space-xs));
+          margin-top: calc(30 * var(--watt-space-xs));
         }
       }
     `,
