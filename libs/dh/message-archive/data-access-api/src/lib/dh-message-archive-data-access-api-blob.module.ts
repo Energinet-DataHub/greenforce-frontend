@@ -37,6 +37,13 @@ export class DhMessageArchiveDataAccessBlobApiModule extends ComponentStore<Down
     super(initialState);
   }
 
+  blobContent$: Observable<Stream> = this.select(
+    (state) => state.blobContent
+  ).pipe(
+    filter((searchResult) => !!searchResult),
+    map((blobContent) => blobContent as Stream)
+  );
+
   // eslint-disable-next-line @typescript-eslint/member-ordering
   readonly downloadLog = this.effect(
     (blobName: Observable<string>) => {
@@ -48,7 +55,6 @@ export class DhMessageArchiveDataAccessBlobApiModule extends ComponentStore<Down
           this.httpClient.v1MessageArchiveDownloadRequestResponseLogContentGet(blobName, "body", false, { httpHeaderAccept: "text/plain" }).pipe(
             tapResponse(
               (blobContent) => {
-                alert(blobContent);
                 this.updateDownloadResult(blobContent);
             },
               (error: HttpErrorResponse) => {
