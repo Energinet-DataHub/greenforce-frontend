@@ -20,7 +20,6 @@
 @use '../../utils/rem' as utils;
 
 $primary-font-family: 'Open Sans', sans-serif;
-$secondary-font-family: 'Open Sans', sans-serif;
 
 $font-weights: (
   'regular': 400,
@@ -151,7 +150,7 @@ $font-sizes: (
 @mixin watt-button {
   color: var(--watt-typography-button-color);
   @include font-size('m');
-  @include font-weight('bold');
+  @include font-weight('semi-bold');
   text-transform: none;
   letter-spacing: 0;
 }
@@ -159,7 +158,7 @@ $font-sizes: (
 @mixin watt-label {
   color: var(--watt-typography-label-color);
   @include font-size('s');
-  @include font-weight('bold');
+  @include font-weight('semi-bold');
   text-transform: uppercase;
   letter-spacing: 1.25px;
 }
