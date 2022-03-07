@@ -16,5 +16,4 @@
  */
 export * from './lib/dh-metering-point-data-access-api.store';
 export * from './lib/dh-processes-data-access-api.store';
-export * from './model/dh-process';
 export * from './lib/states';

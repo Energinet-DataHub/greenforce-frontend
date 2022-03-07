@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { DhProcess } from '../../../../../data-access-api/src/model/dh-process';
+import { DhProcess } from '../../../../../domain/src/model/dh-process';
 import {
   DhProcessesTableComponent,
   DhProcessesTableScam,

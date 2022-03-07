@@ -31,6 +31,7 @@ import {
 } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { RouterModule } from '@angular/router';
+import { DhProcess } from '@energinet-datahub/dh/metering-point/domain';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 
 import {
@@ -39,7 +40,6 @@ import {
   WattIconSize,
 } from '@energinet-datahub/watt';
 import { TranslocoModule } from '@ngneat/transloco';
-import { DhProcess } from '@energinet-datahub/dh/metering-point/data-access-api';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

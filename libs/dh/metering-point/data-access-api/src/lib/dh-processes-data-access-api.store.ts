@@ -20,7 +20,7 @@ import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { filter, map, Observable, switchMap, tap } from 'rxjs';
 import { MeteringPointHttp } from '@energinet-datahub/dh/shared/domain';
 import { ErrorState, LoadingState } from './states';
-import { DhProcess } from '../model/dh-process';
+import { DhProcess } from '../../../domain/src/model/dh-process';
 
 interface ProcessesState {
   readonly processes: DhProcess[];
