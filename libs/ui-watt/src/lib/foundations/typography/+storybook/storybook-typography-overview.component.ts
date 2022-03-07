@@ -107,14 +107,14 @@ const typeScaleSmall: Typography[] = [
   {
     html: typographyHtmlSnippets.button.storybook,
     size: 'M',
-    weight: 'Bold',
+    weight: 'Semi-bold',
     letterCase: 'Sentence',
     letterSpacing: '0',
   },
   {
     html: typographyHtmlSnippets.label.class,
     size: 'S',
-    weight: 'Bold',
+    weight: 'Semi-bold',
     letterCase: 'All caps',
     letterSpacing: '1.25px',
   },
