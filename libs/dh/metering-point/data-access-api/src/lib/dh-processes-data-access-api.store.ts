@@ -68,14 +68,14 @@ export class DhProcessesDataAccessApiStore extends ComponentStore<ProcessesState
               (processesData) => {
                 this.setLoading(false);
 
-                const dhProcesses = processesData.map(
+                const dhProcesses: DhProcess[] = processesData.map(
                   (process) =>
                     ({
                       ...process,
                       hasErrors: process.details.some(
                         (detail) => detail.errors.length > 0
                       ),
-                    } as DhProcess)
+                    })
                 );
 
                 this.updateProcessesData(dhProcesses);
