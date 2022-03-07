@@ -26,6 +26,9 @@ export const handlers: RequestHandler[] = [
 
 export function onUnhandledRequest(req: MockedRequest) {
   if (
+    req.url.pathname.endsWith('.js') ||
+    req.url.pathname.endsWith('.css') ||
+    req.url.pathname.endsWith('.json') ||
     req.url.pathname.startsWith('/assets') ||
     req.url.host === 'fonts.gstatic.com' ||
     req.url.host.endsWith('.b2clogin.com')
