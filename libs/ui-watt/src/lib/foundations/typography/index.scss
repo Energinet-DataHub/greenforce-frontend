@@ -55,8 +55,17 @@ small,
   @include typography.watt-text-s;
 }
 
-.watt-text-xs {
-  @include typography.watt-text-xs;
+.watt-text-l-highlighted {
+  @include typography.watt-text-l-highlighted;
+}
+
+body strong,
+.watt-text-m-highlighted {
+  @include typography.watt-text-m-highlighted;
+}
+
+.watt-text-s-highlighted {
+  @include typography.watt-text-s-highlighted;
 }
 
 .watt-button {
@@ -68,11 +77,12 @@ label,
   @include typography.watt-label;
 }
 
-a {
-  @include typography.watt-text-m;
-  text-decoration: none;
+a,
+.watt-link {
+  @include typography.watt-link;
+}
 
-  &:hover {
-    text-decoration: underline;
-  }
+small a,
+.watt-link-s {
+  @include typography.watt-link-s;
 }
