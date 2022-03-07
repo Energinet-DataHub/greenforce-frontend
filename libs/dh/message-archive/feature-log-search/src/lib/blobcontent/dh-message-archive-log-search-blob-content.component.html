@@ -1,3 +1,10 @@
 <ng-container *rxLet="blobContent$ as blobContent">
+  <p class="watt-text-l" *transloco="let transloco; read: 'messageArchive.search'">
+    {{ transloco("messageId") }}: {{messageId}}
+  </p>
   <pre >{{blobContent}}</pre>
 </ng-container>
+
+<div *ngIf="isDownloading$ | async">
+  <watt-spinner [diameter]="60"></watt-spinner>
+</div>

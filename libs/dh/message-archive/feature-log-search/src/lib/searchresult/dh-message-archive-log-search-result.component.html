@@ -42,9 +42,19 @@
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
 
-  <ng-container>
-    <div *ngIf="this.searchResult.length === 0">{{ transloco("NoResultsFound") }}</div>
+  <ng-container *ngIf="!isSearching && searchResult.length === 0 && searchResult">
+    <watt-empty-state
+      class="no-result-div"
+      icon="explore"
+      size="large"
+      title='{{ transloco("NoResultsFound") }}'
+      message="Try adjusting your search or filter to find what you are looking for.">
+    </watt-empty-state>
   </ng-container>
+
+  <div *ngIf="isSearching" class="searching_spinner">
+    <watt-spinner [diameter]="60"></watt-spinner>
+  </div>
 
 </ng-container>
 

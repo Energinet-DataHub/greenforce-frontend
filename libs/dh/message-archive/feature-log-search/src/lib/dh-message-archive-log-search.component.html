@@ -35,7 +35,7 @@ limitations under the License.
           <option selected [ngValue]="null">{{ transloco("ChooseDocumentType") }}</option>
           <option
             *ngFor="let documentType of this.documentTypes | keyvalue"
-            [ngValue]="documentType['key']" value="{{documentType['value']}}">{{documentType['key'] + " - " + documentType['value']}}</option>
+            [ngValue]="documentType['key']" value="{{documentType['value']}}">{{documentType['key'] + " " + documentType['value']}}</option>
         </select>
 
       </watt-form-field>
@@ -155,6 +155,7 @@ limitations under the License.
   <dh-message-archive-log-search-result
     *rxLet="searchResult$ as searchResult"
     [searchResult]="searchResultsDtos"
+    [isSearching]="searching$ | async"
     (downloadLog)="downloadBlob($event)">
   </dh-message-archive-log-search-result>
 

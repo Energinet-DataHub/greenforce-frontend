@@ -18,11 +18,11 @@
  import { ComponentStore, tapResponse } from '@ngrx/component-store';
  import { filter, map, Observable, switchMap, tap } from 'rxjs';
  import { MessageArchiveHttp, SearchCriteria, SearchResultItemDto } from '@energinet-datahub/dh/shared/data-access-api';
- import { HttpErrorResponse } from '@angular/common/http';
- import { SearchingState } from './states';
+ import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
+ import { ErrorState, SearchingState } from './states';
 interface SearchResultState {
   readonly searchResult?: Array<SearchResultItemDto>;
-  readonly searchingState: SearchingState;
+  readonly searchingState: SearchingState | ErrorState;
 }
 
 const initialState: SearchResultState = {
@@ -42,18 +42,26 @@ export class DhMessageArchiveDataAccessApiModule extends ComponentStore<SearchRe
     filter((searchResult) => !!searchResult),
     map((searchResult) => searchResult as Array<SearchResultItemDto>)
   );
+  isSearching$ = this.select(
+    (state) => state.searchingState === SearchingState.SEARCHING
+  );
+  hasGeneralError$ = this.select(
+    (state) => state.searchingState === ErrorState.GENERAL_ERROR
+  );
 
   // eslint-disable-next-line @typescript-eslint/member-ordering
   readonly searchLogs = this.effect(
     (searchCriteria: Observable<SearchCriteria>) => {
       return searchCriteria.pipe(
         tap(() => {
-          console.log("tap tap ?? ");
+          this.resetState();
+          this.setLoading(true);
         }),
         switchMap((searchCriteria) =>
           this.httpClient.v1MessageArchiveSearchRequestResponseLogsPost(searchCriteria).pipe(
             tapResponse(
               (searchResult) => {
+                this.setLoading(false);
                 if(searchResult && searchResult.result) {
                   this.updateSearchResult(searchResult.result);
                 }
@@ -62,9 +70,8 @@ export class DhMessageArchiveDataAccessApiModule extends ComponentStore<SearchRe
                 }
             },
               (error: HttpErrorResponse) => {
-                //this.setLoading(false);
-                console.error(error);
-                //this.handleError(error);
+                this.setLoading(false);
+                this.handleError(error);
               }
             )
           )
@@ -84,4 +91,23 @@ export class DhMessageArchiveDataAccessApiModule extends ComponentStore<SearchRe
     })
   );
 
+  private setLoading = this.updater(
+    (state, isLoading: boolean): SearchResultState => ({
+      ...state,
+      searchingState: isLoading ? SearchingState.SEARCHING : SearchingState.DONE,
+    })
+  );
+
+  private handleError = (error: HttpErrorResponse) => {
+    this.updateSearchResult([]);
+
+    const requestError =
+      error.status === HttpStatusCode.NotFound
+        ? ErrorState.NOT_FOUND_ERROR
+        : ErrorState.GENERAL_ERROR;
+
+    this.patchState({ searchingState: requestError });
+  };
+
+  private resetState = () => this.setState(initialState);
 }

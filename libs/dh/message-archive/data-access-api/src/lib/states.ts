@@ -22,7 +22,7 @@
 
 export const enum DownloadingState {
   INIT = 'INIT',
-  SEARCHING = 'DOWNLOADING',
+  DOWNLOADING = 'DOWNLOADING',
   DONE = 'DONE',
 }
 

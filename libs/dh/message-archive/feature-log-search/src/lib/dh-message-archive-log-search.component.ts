@@ -47,12 +47,14 @@ import { Router } from '@angular/router';
     private destroy$ = new Subject<void>();
 
     searchResult$ = this.store.searchResult$;
+    searching$ = this.store.isSearching$;
+
     searchResultsDtos: Array<SearchResultItemDto> = [];
     businessReasonCodes = BusinessReasonCodes;
     documentTypes = DocumentTypes;
     roleTypes = RoleTypes;
-    private regexBlobName = new RegExp(/\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])\/.*/);
 
+    private regexBlobName = new RegExp(/\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])\/.*/);
 
    searchCriteria: SearchCriteria = {
      messageId: "253698245",
@@ -73,7 +75,6 @@ import { Router } from '@angular/router';
   }
 
   onSubmit() {
-    console.log("submit triggered");
     if(this.validateSearchParams()) {
       this.store.searchLogs(this.searchCriteria)
     }
@@ -83,7 +84,8 @@ import { Router } from '@angular/router';
     const blobName = this.findBlobName(resultItem.blobContentUri);
     const encodedBlobName = encodeURIComponent(blobName);
     const url = this.router.serializeUrl(this.router.createUrlTree([`/message-archive/${encodedBlobName}`]));
-    window.open(url, '_blank');
+    const blobViewWindow = window.open(url, '_blank');
+    blobViewWindow?.localStorage.setItem("messageId", resultItem.messageId ?? "");
   }
 
   validateSearchParams(): boolean {

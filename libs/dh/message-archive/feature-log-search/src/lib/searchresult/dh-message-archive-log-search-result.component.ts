@@ -20,6 +20,12 @@
  import { TranslocoModule } from '@ngneat/transloco';
  import { LetModule } from '@rx-angular/template';
  import { MatTableModule } from '@angular/material/table';
+ import {
+  WattIconModule,
+  WattIconSize,
+  WattSpinnerModule,
+  WattEmptyStateModule
+ } from '@energinet-datahub/watt';
 
 @Component({
 changeDetection: ChangeDetectionStrategy.OnPush,
@@ -31,6 +37,8 @@ export class DhMessageArchiveLogSearchResultComponent {
   @Input() searchResult: Array<SearchResultItemDto> = [];
   @Output() downloadLog = new EventEmitter<SearchResultItemDto>();
   displayedColumns: string[] = ['messageId', 'sender', 'logcreateddate', 'traceid', 'loglink', 'logshow'];
+  iconSizes = WattIconSize;
+  @Input() isSearching: boolean | null = false;
 
   emitDownloadLog(log: SearchResultItemDto)
   {
@@ -44,7 +52,10 @@ export class DhMessageArchiveLogSearchResultComponent {
     CommonModule,
     TranslocoModule,
     LetModule,
-    MatTableModule
+    MatTableModule,
+    WattIconModule,
+    WattSpinnerModule,
+    WattEmptyStateModule
   ],
 })
 export class DhMessageArchiveLogSearchResultScam {}

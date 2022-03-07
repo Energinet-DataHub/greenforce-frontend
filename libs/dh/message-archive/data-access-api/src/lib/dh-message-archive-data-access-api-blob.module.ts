@@ -16,14 +16,14 @@
  */
 import { Injectable } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
-import { HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { MessageArchiveHttp, Stream,  } from '@energinet-datahub/dh/shared/data-access-api';
-import { DownloadingState } from './states';
+import { DownloadingState, ErrorState } from './states';
 import { filter, map, Observable, switchMap, tap } from 'rxjs';
 
 interface DownloadBlobResultState {
   readonly blobContent?: Stream | null;
-  readonly downloadingState: DownloadingState;
+  readonly downloadingState: DownloadingState | ErrorState;
 }
 
 const initialState: DownloadBlobResultState = {
@@ -43,24 +43,31 @@ export class DhMessageArchiveDataAccessBlobApiModule extends ComponentStore<Down
     filter((searchResult) => !!searchResult),
     map((blobContent) => blobContent as Stream)
   );
+  isDownloading$ = this.select(
+    (state) => state.downloadingState === DownloadingState.DOWNLOADING
+  );
+  hasGeneralError$ = this.select(
+    (state) => state.downloadingState === ErrorState.GENERAL_ERROR
+  );
 
   // eslint-disable-next-line @typescript-eslint/member-ordering
   readonly downloadLog = this.effect(
     (blobName: Observable<string>) => {
       return blobName.pipe(
         tap(() => {
-          console.log("tap tap ?? ");
+          this.resetState();
+          this.setLoading(true);
         }),
         switchMap((blobName) =>
           this.httpClient.v1MessageArchiveDownloadRequestResponseLogContentGet(blobName, "body", false, { httpHeaderAccept: "text/plain" }).pipe(
             tapResponse(
               (blobContent) => {
+                this.setLoading(false);
                 this.updateDownloadResult(blobContent);
             },
               (error: HttpErrorResponse) => {
-                //this.setLoading(false);
-                console.error(error);
-                //this.handleError(error);
+                this.setLoading(false);
+                this.handleError(error);
               }
             )
           )
@@ -79,4 +86,24 @@ export class DhMessageArchiveDataAccessBlobApiModule extends ComponentStore<Down
       blobContent: downloadResult,
     })
   );
+
+  private setLoading = this.updater(
+    (state, isLoading: boolean): DownloadBlobResultState => ({
+      ...state,
+      downloadingState: isLoading ? DownloadingState.DOWNLOADING : DownloadingState.DONE,
+    })
+  );
+
+  private handleError = (error: HttpErrorResponse) => {
+    this.updateDownloadResult(null);
+
+    const requestError =
+      error.status === HttpStatusCode.NotFound
+        ? ErrorState.NOT_FOUND_ERROR
+        : ErrorState.GENERAL_ERROR;
+
+    this.patchState({ downloadingState: requestError });
+  };
+
+  private resetState = () => this.setState(initialState);
 }

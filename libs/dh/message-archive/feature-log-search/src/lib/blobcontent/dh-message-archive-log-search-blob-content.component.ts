@@ -16,8 +16,10 @@
  */
  import { CommonModule } from "@angular/common";
  import { ChangeDetectionStrategy, Component, NgModule } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
+import { Title } from "@angular/platform-browser";
+ import { ActivatedRoute } from "@angular/router";
  import { DhMessageArchiveDataAccessBlobApiModule } from "@energinet-datahub/dh/message-archive/data-access-api";
+ import { WattSpinnerModule } from "@energinet-datahub/watt";
  import { TranslocoModule } from '@ngneat/transloco';
  import { LetModule } from '@rx-angular/template';
 
@@ -31,18 +33,23 @@ providers: [DhMessageArchiveDataAccessBlobApiModule]
 export class DhMessageArchiveLogSearchBlobContentComponent {
 
   blobContent$ = this.blobStore.blobContent$;
+  isDownloading$ = this.blobStore.isDownloading$;
+  messageId = "";
 
   constructor(
     private blobStore: DhMessageArchiveDataAccessBlobApiModule,
-    private route: ActivatedRoute) {
+    private route: ActivatedRoute,
+    private title: Title) {
 
       this.route.params.subscribe( params => {
         const logName = params["logname"];
         const decodedLobName = decodeURIComponent(logName);
         this.blobStore.downloadLog(decodedLobName);
       });
-  }
 
+      this.messageId = localStorage.getItem("messageId") ?? "...";
+      this.title.setTitle(this.messageId);
+  }
 }
 
 @NgModule({
@@ -52,6 +59,7 @@ export class DhMessageArchiveLogSearchBlobContentComponent {
     CommonModule,
     TranslocoModule,
     LetModule,
+    WattSpinnerModule
   ],
 })
 export class DhMessageArchiveLogSearchBlobContentScam {}
