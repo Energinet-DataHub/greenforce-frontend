@@ -64,6 +64,9 @@ export class WattDropdownComponent implements OnInit {
    */
   @Input() options: WattDropdownOption[] = [];
 
+  /**
+   * @ignore
+   */
   ngOnInit() {
     this.filteredOptions = this.internalControl.valueChanges.pipe(
       startWith(''),
@@ -74,10 +77,16 @@ export class WattDropdownComponent implements OnInit {
     );
   }
 
+  /**
+   * @ignore
+   */
   displayFn(option: WattDropdownOption | null): string {
     return option?.displayValue ?? '';
   }
 
+  /**
+   * @ignore
+   */
   private filter(value: string): WattDropdownOption[] {
     const filterValue = value.toLowerCase();
 
