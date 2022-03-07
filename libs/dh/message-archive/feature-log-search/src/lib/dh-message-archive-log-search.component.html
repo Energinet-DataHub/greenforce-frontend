@@ -156,7 +156,8 @@ limitations under the License.
     *rxLet="searchResult$ as searchResult"
     [searchResult]="searchResultsDtos"
     [isSearching]="searching$ | async"
-    (downloadLog)="downloadBlob($event)">
+    (downloadLogFile)="downloadLog($event)"
+    (showLogDownloadPage)="redirectToDownloadLogPage($event)">
   </dh-message-archive-log-search-result>
 
 </ng-container>

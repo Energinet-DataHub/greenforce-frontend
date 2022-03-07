@@ -21,10 +21,12 @@
  import { LetModule } from '@rx-angular/template';
  import { MatTableModule } from '@angular/material/table';
  import {
+  WattButtonModule,
   WattIconModule,
   WattIconSize,
   WattSpinnerModule,
-  WattEmptyStateModule
+  WattEmptyStateModule,
+  WattIcon
  } from '@energinet-datahub/watt';
 
 @Component({
@@ -35,14 +37,22 @@ styleUrls: ['./dh-message-archive-log-search-result.component.scss'],
 })
 export class DhMessageArchiveLogSearchResultComponent {
   @Input() searchResult: Array<SearchResultItemDto> = [];
-  @Output() downloadLog = new EventEmitter<SearchResultItemDto>();
-  displayedColumns: string[] = ['messageId', 'sender', 'logcreateddate', 'traceid', 'loglink', 'logshow'];
-  iconSizes = WattIconSize;
+  @Output() showLogDownloadPage = new EventEmitter<SearchResultItemDto>();
+  @Output() downloadLogFile = new EventEmitter<SearchResultItemDto>();
   @Input() isSearching: boolean | null = false;
+  displayedColumns: string[] = ['messageId', 'sender', 'logcreateddate', 'traceid', 'logoptions'];
+  iconSizes = WattIconSize;
+  iconDownload: WattIcon = 'download';
+  iconOpenInNew: WattIcon = 'openInNew';
 
-  emitDownloadLog(log: SearchResultItemDto)
+  emitShowLogDownloadPage(log: SearchResultItemDto)
   {
-    this.downloadLog.emit(log);
+    this.showLogDownloadPage.emit(log);
+  }
+
+  emitDownlogLogFile(log: SearchResultItemDto)
+  {
+    this.downloadLogFile.emit(log);
   }
 }
 @NgModule({
@@ -55,7 +65,8 @@ export class DhMessageArchiveLogSearchResultComponent {
     MatTableModule,
     WattIconModule,
     WattSpinnerModule,
-    WattEmptyStateModule
+    WattEmptyStateModule,
+    WattButtonModule
   ],
 })
 export class DhMessageArchiveLogSearchResultScam {}

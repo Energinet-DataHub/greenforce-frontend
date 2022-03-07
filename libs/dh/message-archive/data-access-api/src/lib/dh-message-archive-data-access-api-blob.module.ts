@@ -76,6 +76,22 @@ export class DhMessageArchiveDataAccessBlobApiModule extends ComponentStore<Down
     }
   );
 
+  downloadLogFile(blobName: string) {
+    const dd = this.httpClient.v1MessageArchiveDownloadRequestResponseLogContentGet(blobName, "body", false, { httpHeaderAccept: "text/plain" });
+    dd.subscribe(
+      (response: any) => {
+          const dataType = response.type;
+          const binaryData = [];
+          binaryData.push(response);
+          const downloadLink = document.createElement('a');
+          downloadLink.href = window.URL.createObjectURL(new Blob(binaryData, {type: dataType}));
+          if (blobName)
+              downloadLink.setAttribute('download', blobName);
+          document.body.appendChild(downloadLink);
+          downloadLink.click();
+      })
+  };
+
   // eslint-disable-next-line @typescript-eslint/member-ordering
   private updateDownloadResult = this.updater(
     (
@@ -87,6 +103,7 @@ export class DhMessageArchiveDataAccessBlobApiModule extends ComponentStore<Down
     })
   );
 
+  // eslint-disable-next-line @typescript-eslint/member-ordering
   private setLoading = this.updater(
     (state, isLoading: boolean): DownloadBlobResultState => ({
       ...state,

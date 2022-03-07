@@ -67,7 +67,8 @@ import { Router } from '@angular/router';
 
    constructor(
      private store: DhMessageArchiveDataAccessApiModule,
-     private router: Router)
+     private router: Router,
+     private logStore: DhMessageArchiveDataAccessBlobApiModule)
   {
     this.store.searchResult$.subscribe((searchResult) => {
       this.searchResultsDtos = searchResult;
@@ -80,13 +81,18 @@ import { Router } from '@angular/router';
     }
   }
 
-  downloadBlob(resultItem: SearchResultItemDto) {
+  redirectToDownloadLogPage(resultItem: SearchResultItemDto) {
     const blobName = this.findBlobName(resultItem.blobContentUri);
     const encodedBlobName = encodeURIComponent(blobName);
     const url = this.router.serializeUrl(this.router.createUrlTree([`/message-archive/${encodedBlobName}`]));
     const blobViewWindow = window.open(url, '_blank');
     blobViewWindow?.localStorage.setItem("messageId", resultItem.messageId ?? "");
-  }
+  };
+
+  downloadLog(resultItem: SearchResultItemDto) {
+    const blobName = this.findBlobName(resultItem.blobContentUri);
+    this.logStore.downloadLogFile(blobName);
+  };
 
   validateSearchParams(): boolean {
     return (this.searchCriteria.dateTimeFrom != null && this.searchCriteria.dateTimeTo != null)
