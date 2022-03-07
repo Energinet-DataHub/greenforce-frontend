@@ -54,7 +54,7 @@ export class DhProcessesTableComponent implements AfterViewInit {
     'createdDate',
     'effectiveDate',
     'status',
-    'hasErrors',
+    'hasDetailsErrors',
   ];
   iconSize = WattIconSize;
   sortedData: DhProcess[] = [];

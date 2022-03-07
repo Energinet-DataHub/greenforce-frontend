@@ -34,7 +34,7 @@ const process = {
   createdDate: '2022-02-15T13:46:59.4781826',
   effectiveDate: '2021-09-25T23:00:00',
   status: 'Completed',
-  hasErrors: false,
+  hasDetailsErrors: false,
   details: [
     {
       id: 'de567425-a420-48da-9391-0696cd036391',
@@ -65,7 +65,7 @@ const successProcess: DhProcess = { ...process };
 const failedProcess: DhProcess = {
   ...process,
   id: failedProcessId,
-  hasErrors: true,
+  hasDetailsErrors: true,
   details: [
     {
       ...process.details[0],
@@ -124,7 +124,7 @@ describe(DhProcessesTableComponent.name, () => {
 
     const disableQuerySuggestions: MatcherOptions = { suggest: false };
     const processes = screen.getAllByTestId(
-      'processHasErrors',
+      'processhasDetailsErrors',
       disableQuerySuggestions
     );
 

@@ -121,14 +121,14 @@ limitations under the License.
     </ng-container>
 
     <!-- Has Errors Definition -->
-    <ng-container matColumnDef="hasErrors">
+    <ng-container matColumnDef="hasDetailsErrors">
       <mat-header-cell *matHeaderCellDef class="watt-label"> </mat-header-cell>
       <mat-cell *matCellDef="let row">
         <div class="watt-text-s">
           <watt-icon
-            [name]="row.hasErrors ? 'danger' : 'success'"
+            [name]="row.hasDetailsErrors ? 'danger' : 'success'"
             [size]="iconSize.Medium"
-            data-testId="processHasErrors"
+            data-testId="processhasDetailsErrors"
           ></watt-icon>
         </div>
       </mat-cell>
