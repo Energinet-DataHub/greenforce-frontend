@@ -40,7 +40,7 @@ import {
 } from '@energinet-datahub/watt';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import { DhMeteringPointStatusBadgeScam } from '@energinet-datahub/dh/metering-point/ui-status-badge';
-import { MeteringPointSimpleCimDto } from '@energinet-datahub/dh/shared/data-access-api';
+import { MeteringPointSimpleCimDto } from '@energinet-datahub/dh/shared/domain';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

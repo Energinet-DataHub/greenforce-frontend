@@ -31,6 +31,13 @@ watt-form-field {
     .mat-form-field-flex {
       height: 56px;
     }
+
+    [wattPrefix],
+    [wattSuffix] {
+      .watt-icon-button {
+        height: 52px;
+      }
+    }
   }
 
   .mat-input-element {
@@ -78,12 +85,27 @@ watt-form-field {
     display: none;
   }
 
+  [wattPrefix],
+  [wattSuffix] {
+    .watt-icon-button {
+      height: 40px;
+    }
+  }
+
   [wattPrefix] {
     margin-right: 8px;
   }
 
   [wattSuffix] {
     margin-left: 8px;
+  }
+
+  watt-icon-button[wattPrefix] {
+    margin-left: -12px;
+  }
+
+  watt-icon-button[wattSuffix] {
+    margin-right: -12px;
   }
 
   mat-form-field.mat-form-field-disabled {

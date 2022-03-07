@@ -14,18 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { render, screen } from '@testing-library/angular';
-import { MatcherOptions } from '@testing-library/dom';
-
-import { Process } from '@energinet-datahub/dh/shared/data-access-api';
-import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
-import { runOnPushChangeDetection } from '@energinet-datahub/dh/shared/test-util-metering-point';
-
+import { DhProcess } from '../../../../../data-access-api/src/model/dh-process';
 import {
   DhProcessesTableComponent,
   DhProcessesTableScam,
 } from './dh-processes-table.component';
-import { DHProcess } from '../../../../../data-access-api/src/model/dh-process';
+import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
+import { runOnPushChangeDetection } from '@energinet-datahub/dh/shared/test-util-metering-point';
+import { render, screen } from '@testing-library/angular';
+import { MatcherOptions } from '@testing-library/dom';
 
 const succeededProcessId = '2c4024f5-762d-4a41-a75e-d045c0ed6572';
 const failedProcessId = '2c4024f5-762d-4a41-a75e-d045c0ed6573';
@@ -37,6 +34,7 @@ const process = {
   createdDate: '2022-02-15T13:46:59.4781826',
   effectiveDate: '2021-09-25T23:00:00',
   status: 'Completed',
+  hasErrors: false,
   details: [
     {
       id: 'de567425-a420-48da-9391-0696cd036391',
@@ -61,12 +59,13 @@ const process = {
       errors: [],
     },
   ],
-} as Process;
+} as DhProcess;
 
-const successProcess = new DHProcess(process);
-const failedProcess = new DHProcess({
+const successProcess: DhProcess = { ...process };
+const failedProcess: DhProcess = {
   ...process,
   id: failedProcessId,
+  hasErrors: true,
   details: [
     {
       ...process.details[0],
@@ -87,11 +86,11 @@ const failedProcess = new DHProcess({
       ],
     },
   ],
-});
-const testData: DHProcess[] = [successProcess, failedProcess];
+};
+const testData: DhProcess[] = [successProcess, failedProcess];
 
 describe(DhProcessesTableComponent.name, () => {
-  async function setup(processes?: DHProcess[]) {
+  async function setup(processes?: DhProcess[]) {
     const { fixture } = await render(DhProcessesTableComponent, {
       componentProperties: {
         processes: processes,
