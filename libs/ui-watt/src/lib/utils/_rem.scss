@@ -14,11 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-:host-context(.mat-form-field-invalid.ng-dirty),
-:host-context(.ng-submitted .mat-form-field-invalid) {
-  color: var(--watt-color-state-danger);
+@use 'sass:math';
+$html-font-size: 16px;
+
+@function stripUnit($value) {
+  @return math.div($value, $value * 0 + 1);
 }
 
-:host-context(.mat-form-field-disabled) {
-  color: var(--watt-color-neutral-grey-500);
+@function rem($pxValue) {
+  $remValue: math.div(stripUnit($pxValue), stripUnit($html-font-size));
+  @return #{$remValue}rem;
 }

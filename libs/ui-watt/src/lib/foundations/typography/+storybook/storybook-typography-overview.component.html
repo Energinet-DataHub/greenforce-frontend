@@ -19,20 +19,48 @@ limitations under the License.
 </mat-card>
 
 <mat-card>
-  <h3>Font</h3>
-  <p>
-    <strong>Open Sans</strong> is the typeface used in the Watt Design System.
-  </p>
+  <h3>Font Family Options</h3>
+  <ul>
+    <li>Primary: <strong>Open Sans</strong></li>
+    <li>Secondary: <strong>Open Sans</strong></li>
+  </ul>
 </mat-card>
 
 <mat-card>
-  <h3>Type Scale</h3>
-  <p>
-    Font sizes are smaller on mobile and scale up at the md breakpoint to be
-    larger on desktop.
-  </p>
+  <h3>Font Weight Options</h3>
+  <ul>
+    <li class="font-weight-regular">Regular: 400</li>
+    <li class="font-weight-semi-bold">Semi-bold: 600</li>
+    <li class="font-weight-bold">Bold: 700</li>
+  </ul>
+</mat-card>
 
-  <table mat-table [dataSource]="dataSource" style="width: 100%">
+<mat-card style="display: flex; gap: 64px">
+  <section>
+    <h3>Font Size Options</h3>
+    <p>(font-size/line-height)</p>
+    <ul>
+      <li class="font-size-xxl">XXL: 32 px / 42 px</li>
+      <li class="font-size-xl">XL: 26 px / 36 px</li>
+      <li class="font-size-l">L: 20 px / 28 px</li>
+      <li class="font-size-m">M: 16 px / 24 px</li>
+      <li class="font-size-s">S: 14 px / 20 px</li>
+    </ul>
+  </section>
+  <section>
+    <h3>Letter Spacing Options</h3>
+    <ul>
+      <li>0</li>
+      <li>1,25</li>
+    </ul>
+  </section>
+</mat-card>
+
+<mat-card class="small-screen">
+  <table mat-table [dataSource]="dataSourceSmall" style="width: 100%">
+    <caption>
+      <h3>SMALL SCREEN - Usage</h3>
+    </caption>
     <!--- Note that these columns can be defined in any order.
             The actual rendered columns are set as a property on the row definition" -->
 
@@ -79,9 +107,57 @@ limitations under the License.
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
   </table>
+</mat-card>
 
-  <p>
-    * Line height is set to the recommended minimum of 1.5 times the font size
-    by WCAG 2.1.
-  </p>
+<mat-card>
+  <table mat-table [dataSource]="dataSourceLarge" style="width: 100%">
+    <caption>
+      <h3>LARGE SCREEN - Usage (differences)</h3>
+    </caption>
+    <!--- Note that these columns can be defined in any order.
+            The actual rendered columns are set as a property on the row definition" -->
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef>Name</th>
+      <td
+        mat-cell
+        *matCellDef="let element"
+        innerHTML="{{ element.html }}"
+      ></td>
+    </ng-container>
+
+    <!-- Size Column -->
+    <ng-container matColumnDef="size">
+      <th mat-header-cell *matHeaderCellDef>Size</th>
+      <td mat-cell *matCellDef="let element">{{ element.size }}</td>
+    </ng-container>
+
+    <!-- Weight Column -->
+    <ng-container matColumnDef="weight">
+      <th mat-header-cell *matHeaderCellDef>Weight</th>
+      <td mat-cell *matCellDef="let element">{{ element.weight }}</td>
+    </ng-container>
+
+    <!-- Letter Case Column -->
+    <ng-container matColumnDef="letterCase">
+      <th mat-header-cell *matHeaderCellDef>Letter Case</th>
+      <td mat-cell *matCellDef="let element">{{ element.letterCase }}</td>
+    </ng-container>
+
+    <!-- Letter Spacing Column -->
+    <ng-container matColumnDef="letterSpacing">
+      <th mat-header-cell *matHeaderCellDef>Letter Spacing</th>
+      <td mat-cell *matCellDef="let element">{{ element.letterSpacing }}</td>
+    </ng-container>
+
+    <!-- Line height Column -->
+    <ng-container matColumnDef="lineHeight">
+      <th mat-header-cell *matHeaderCellDef>Line Height</th>
+      <td mat-cell *matCellDef="let element">{{ element.lineHeight }}</td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
 </mat-card>
