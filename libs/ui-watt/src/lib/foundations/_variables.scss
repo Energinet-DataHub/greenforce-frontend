@@ -69,4 +69,11 @@
   --watt-color-state-info-contrast: var(--watt-color-neutral-black);
   --watt-color-state-info-light: #d6f1f4;
   --watt-color-state-info-light-contrast: var(--watt-color-neutral-black);
+
+  // Typography
+  --watt-typography-headline-color: var(--watt-color-primary-dark);
+  --watt-typography-text-color: var(--watt-color-neutral-black);
+  --watt-typography-button-color: var(--watt-color-primary);
+  --watt-typography-label-color: var(--watt-color-primary-dark);
+  --watt-typography-link-color: var(--watt-color-primary-dark);
 }
