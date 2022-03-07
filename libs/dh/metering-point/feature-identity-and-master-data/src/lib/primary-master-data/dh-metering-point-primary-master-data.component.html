@@ -42,18 +42,18 @@ limitations under the License.
             [size]="iconSizes.XSmall"
           ></watt-icon>
         </dt>
-        <dd class="watt-text-xs">
+        <dd class="watt-text-s">
           {{ transloco(actualAddressTranslationKey) }}
         </dd>
 
-        <dt class="watt-text-xs">{{ transloco('locationDescription') }}:</dt>
-        <dd class="watt-text-xs">
+        <dt class="watt-text-s">{{ transloco('locationDescription') }}:</dt>
+        <dd class="watt-text-s">
           {{ primaryMasterData?.locationDescription | dhEmDashFallback }}
         </dd>
-        <dt class="watt-text-xs text-dimmed">
+        <dt class="watt-text-s text-dimmed">
           {{ transloco('geoInfoReference') }}:
         </dt>
-        <dd class="watt-text-xs text-dimmed">
+        <dd class="watt-text-s text-dimmed">
           {{ primaryMasterData?.darReference | dhEmDashFallback }}
         </dd>
       </dl>
@@ -80,7 +80,7 @@ limitations under the License.
         <dd>
           {{ isSupplyStartSet | dhYesNo }}
         </dd>
-        <dd class="watt-text-xs text-dimmed full-width">
+        <dd class="watt-text-s text-dimmed full-width">
           {{
             electricitySupplierSinceTranslationKey
               | transloco: { date: primaryMasterData?.supplyStart | dhDate }
