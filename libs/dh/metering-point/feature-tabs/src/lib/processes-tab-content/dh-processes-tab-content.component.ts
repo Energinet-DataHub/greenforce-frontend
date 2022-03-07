@@ -20,7 +20,6 @@ import { ActivatedRoute } from '@angular/router';
 
 import { dhMeteringPointIdParam } from '@energinet-datahub/dh/metering-point/routing';
 import { WattSpinnerModule } from '@energinet-datahub/watt';
-import { TranslocoModule } from '@ngneat/transloco';
 import { LetModule } from '@rx-angular/template';
 import { map, Subject, takeUntil } from 'rxjs';
 import { DhProcessesDataAccessApiStore } from '@energinet-datahub/dh/metering-point/data-access-api';
@@ -48,7 +47,6 @@ export class DhProcessesTabContentComponent implements OnDestroy {
 
   processes$ = this.store.processes$;
   isLoading$ = this.store.isLoading$;
-  hasGeneralError$ = this.store.hasGeneralError$;
 
   ngOnDestroy(): void {
     this.destroy$.next();
@@ -71,7 +69,6 @@ export class DhProcessesTabContentComponent implements OnDestroy {
     CommonModule,
     WattSpinnerModule,
     LetModule,
-    TranslocoModule,
     DhProcessesTableScam,
   ],
   exports: [DhProcessesTabContentComponent],
