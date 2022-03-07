@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export const allowAuthentication = () =>
+export const allowExistingUserAuthentication = () =>
   cy
     .intercept(
       {
@@ -24,6 +24,21 @@ export const allowAuthentication = () =>
       },
       {
         next_url: '/dashboard?success=1',
+      }
+    )
+    .as('authOidcLogin');
+
+export const allowFirstTimeAuthentication = () =>
+  cy
+    .intercept(
+      {
+        hostname: 'localhost',
+        method: 'GET',
+        pathname: '/api/auth/oidc/login',
+      },
+      {
+        next_url:
+          '/terms?state=secret&terms_url=/api/auth/terms&terms_accept_url=/api/auth/terms/accept',
       }
     )
     .as('authOidcLogin');
@@ -41,3 +56,17 @@ export const allowLogOut = () =>
       }
     )
     .as('authLogout');
+
+export const allowGetTerms = () =>
+  cy.intercept(
+    {
+      hostname: 'localhost',
+      method: 'GET',
+      pathname: '/api/auth/terms',
+    },
+    {
+      headline: 'headline',
+      terms: '<h1>terms</h1>',
+      version: '1.0',
+    }
+  );

@@ -21,7 +21,7 @@ import {
   ConnectionState,
   MeteringPointSimpleCimDto,
   MeteringPointType,
-} from '@energinet-datahub/dh/shared/data-access-api';
+} from '@energinet-datahub/dh/shared/domain';
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
 import { runOnPushChangeDetection } from '@energinet-datahub/dh/shared/test-util-metering-point';
 

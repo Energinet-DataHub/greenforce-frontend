@@ -16,9 +16,9 @@
  */
 import { render, screen } from '@testing-library/angular';
 import {
-  ChargeLinkDto,
+  ChargeLinkV1Dto,
   ChargeType,
-} from '@energinet-datahub/dh/shared/data-access-api';
+} from '@energinet-datahub/dh/shared/domain';
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
 import { runOnPushChangeDetection } from '@energinet-datahub/dh/shared/test-util-metering-point';
 import { en as enTranslations } from '@energinet-datahub/dh/globalization/assets-localization';
@@ -28,7 +28,7 @@ import {
   DhChargeItemScam,
 } from './dh-charge-item.component';
 
-const testData: ChargeLinkDto[] = [
+const testData: ChargeLinkV1Dto[] = [
   {
     chargeType: ChargeType.D01,
     quantity: 1,
@@ -44,7 +44,7 @@ const testData: ChargeLinkDto[] = [
 ];
 
 describe(DhChargeItemComponent.name, () => {
-  async function setup(charges: Array<ChargeLinkDto>, title?: string) {
+  async function setup(charges: Array<ChargeLinkV1Dto>, title?: string) {
     const { fixture } = await render(DhChargeItemComponent, {
       componentProperties: {
         charges: charges,

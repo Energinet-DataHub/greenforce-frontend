@@ -17,9 +17,9 @@
 import { Component, Input, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
-  ChargeLinkDto,
+  ChargeLinkV1Dto,
   ChargeType,
-} from '@energinet-datahub/dh/shared/data-access-api';
+} from '@energinet-datahub/dh/shared/domain';
 import { TranslocoModule } from '@ngneat/transloco';
 import {
   WattEmptyStateModule,
@@ -35,7 +35,7 @@ import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-t
   styleUrls: ['./dh-charge-item.component.scss'],
 })
 export class DhChargeItemComponent {
-  @Input() charges: Array<ChargeLinkDto> = [];
+  @Input() charges: Array<ChargeLinkV1Dto> = [];
   @Input() title = '';
   chargeTypes = ChargeType;
   iconSize = WattIconSize;

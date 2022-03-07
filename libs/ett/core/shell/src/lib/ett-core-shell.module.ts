@@ -14,15 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgModule } from '@angular/core';
+import { EttShellComponent, EttShellScam } from './ett-shell.component';
 import { RouterModule, Routes } from '@angular/router';
 import { EttAuthenticationGuard } from '@energinet-datahub/ett/auth/routing-security';
-import { ettDashboardRoutePath } from '@energinet-datahub/ett/dashboard/routing';
-import { GfBrowserConfigurationModule } from '@energinet-datahub/gf/util-browser';
-
 import { EttHttpModule } from './ett-http.module';
 import { EttMaterialModule } from './ett-material.module';
-import { EttShellComponent, EttShellScam } from './ett-shell.component';
+import { GfBrowserConfigurationModule } from '@energinet-datahub/gf/util-browser';
+import { NgModule } from '@angular/core';
+import { ettDashboardRoutePath } from '@energinet-datahub/ett/dashboard/routing';
 
 const routes: Routes = [
   {
@@ -31,6 +30,13 @@ const routes: Routes = [
     loadChildren: () =>
       import('@energinet-datahub/eo/landing-page/shell').then(
         (esModule) => esModule.EoLandingPageShellModule
+      ),
+  },
+  {
+    path: 'terms',
+    loadChildren: () =>
+      import('@energinet-datahub/eo/auth/feature-terms').then(
+        (esModule) => esModule.EoAuthFeatureTermsModule
       ),
   },
   {
@@ -43,6 +49,13 @@ const routes: Routes = [
         loadChildren: () =>
           import('@energinet-datahub/ett/dashboard/shell').then(
             (esModule) => esModule.EttDashboardShellModule
+          ),
+      },
+      {
+        path: 'privacy-policy',
+        loadChildren: () =>
+          import('@energinet-datahub/eo/privacy-policy/shell').then(
+            (esModule) => esModule.EoPrivacyPolicyShellModule
           ),
       },
     ],
