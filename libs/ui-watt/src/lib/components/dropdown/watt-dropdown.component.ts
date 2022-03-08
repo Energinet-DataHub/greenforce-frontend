@@ -15,14 +15,18 @@
  * limitations under the License.
  */
 import {
-  ChangeDetectionStrategy,
+  AfterViewInit,
   Component,
   Input,
+  OnDestroy,
   OnInit,
-  ViewEncapsulation,
+  ViewChild,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { map, Observable, of, startWith } from 'rxjs';
+import { MatFormFieldControl } from '@angular/material/form-field';
+import { MatSelect } from '@angular/material/select';
+import { ReplaySubject, Subject } from 'rxjs';
+import { take, takeUntil } from 'rxjs/operators';
 
 export interface WattDropdownOption {
   value: string;
@@ -33,23 +37,27 @@ export interface WattDropdownOption {
   selector: 'watt-dropdown',
   templateUrl: './watt-dropdown.component.html',
   styleUrls: ['./watt-dropdown.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None,
 })
-export class WattDropdownComponent implements OnInit {
-  /**
-   * @ignore
-   */
-  internalControl = new FormControl();
+export class WattDropdownComponent implements OnInit, AfterViewInit, OnDestroy {
+  /** control for the selected bank */
+  public internalControl: FormControl = new FormControl();
 
-  filteredOptions: Observable<WattDropdownOption[]> = of([]);
+  /** control for the MatSelect filter keyword */
+  public internalFilterControl: FormControl = new FormControl();
+
+  /** list of banks filtered by search keyword */
+  public filteredOptions: ReplaySubject<WattDropdownOption[]> =
+    new ReplaySubject<WattDropdownOption[]>(1);
+
+  @ViewChild('singleSelect', { static: true }) singleSelect?: MatSelect;
+
+  /** Subject that emits when the component has been destroyed. */
+  protected _onDestroy = new Subject<void>();
 
   /**
-   * Sets the label for the dropdown.
-   *
-   * @required
+   * Sets support for selecting multiple dropdown options.
    */
-  @Input() label = '';
+  @Input() multiple = false;
 
   /**
    * Sets the placeholder for the dropdown.
@@ -64,34 +72,75 @@ export class WattDropdownComponent implements OnInit {
    */
   @Input() options: WattDropdownOption[] = [];
 
-  /**
-   * @ignore
-   */
+  @ViewChild(MatSelect)
+  selectControl!: MatFormFieldControl<unknown>;
+
   ngOnInit() {
-    this.filteredOptions = this.internalControl.valueChanges.pipe(
-      startWith(''),
-      map((value: string | WattDropdownOption) =>
-        typeof value === 'string' ? value.trim() : value.displayValue
-      ),
-      map((name) => (name ? this.filter(name) : this.options.slice()))
-    );
+    // set initial selection
+    // this.bankCtrl.setValue(this.banks[10]);
+
+    // load the initial bank list
+    this.filteredOptions.next(this.options.slice());
+
+    // listen for search field value changes
+    this.internalFilterControl.valueChanges
+      .pipe(takeUntil(this._onDestroy))
+      .subscribe(() => {
+        this.filterBanks();
+      });
+  }
+
+  constructor() {
+    console.log('Initialization dropdown');
+  }
+
+  ngAfterViewInit() {
+    this.setInitialValue();
+  }
+
+  ngOnDestroy() {
+    this._onDestroy.next();
+    this._onDestroy.complete();
   }
 
   /**
-   * @ignore
+   * Sets the initial value after the filteredBanks are loaded initially
    */
-  displayFn(option: WattDropdownOption | null): string {
-    return option?.displayValue ?? '';
+  protected setInitialValue() {
+    this.filteredOptions
+      .pipe(take(1), takeUntil(this._onDestroy))
+      .subscribe(() => {
+        // setting the compareWith property to a comparison function
+        // triggers initializing the selection according to the initial value of
+        // the form control (i.e. _initializeSelection())
+        // this needs to be done after the filteredOptions are loaded initially
+        // and after the mat-option elements are available
+        if (this.singleSelect) {
+          this.singleSelect.compareWith = (
+            a: WattDropdownOption,
+            b: WattDropdownOption
+          ) => a && b && a.value === b.value;
+        }
+      });
   }
 
-  /**
-   * @ignore
-   */
-  private filter(value: string): WattDropdownOption[] {
-    const filterValue = value.toLowerCase();
-
-    return this.options.filter((option) =>
-      option.displayValue.toLowerCase().includes(filterValue)
+  protected filterBanks() {
+    if (!this.options) {
+      return;
+    }
+    // get the search keyword
+    let search = this.internalFilterControl.value;
+    if (!search) {
+      this.filteredOptions.next(this.options.slice());
+      return;
+    } else {
+      search = search.toLowerCase();
+    }
+    // filter the banks
+    this.filteredOptions.next(
+      this.options.filter(
+        (option) => option.displayValue.toLowerCase().indexOf(search) > -1
+      )
     );
   }
 }

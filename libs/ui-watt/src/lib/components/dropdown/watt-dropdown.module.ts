@@ -17,21 +17,19 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatSelectModule } from '@angular/material/select';
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 
-import { WattFormFieldModule } from '../form-field/form-field.module';
-import { WattInputModule } from '../input/input.module';
 import { WattDropdownComponent } from './watt-dropdown.component';
 
 @NgModule({
   declarations: [WattDropdownComponent],
   exports: [WattDropdownComponent],
   imports: [
+    MatSelectModule,
     CommonModule,
     ReactiveFormsModule,
-    MatAutocompleteModule,
-    WattFormFieldModule,
-    WattInputModule,
+    NgxMatSelectSearchModule,
   ],
 })
 export class WattDropdownModule {}

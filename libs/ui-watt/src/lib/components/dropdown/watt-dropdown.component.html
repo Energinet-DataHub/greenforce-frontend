@@ -14,23 +14,20 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<watt-form-field>
-  <watt-label>{{ label }}</watt-label>
-  <input
-    type="text"
-    [placeholder]="placeholder"
-    [attr.aria-label]="label"
-    wattInput
-    [formControl]="internalControl"
-    [matAutocomplete]="auto"
-  />
-  <mat-autocomplete
-    #auto="matAutocomplete"
-    class="watt-dropdown-autocomplete-panel"
-    [displayWith]="displayFn"
-  >
-    <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-      {{ option.displayValue }}
-    </mat-option>
-  </mat-autocomplete>
-</watt-form-field>
+<mat-select
+  [formControl]="internalControl"
+  [placeholder]="placeholder"
+  #singleSelect
+  [multiple]="multiple"
+  [disableOptionCentering]="true"
+>
+  <mat-option>
+    <ngx-mat-select-search
+      [formControl]="internalFilterControl"
+    ></ngx-mat-select-search>
+  </mat-option>
+
+  <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+    {{ option.displayValue }}
+  </mat-option>
+</mat-select>
