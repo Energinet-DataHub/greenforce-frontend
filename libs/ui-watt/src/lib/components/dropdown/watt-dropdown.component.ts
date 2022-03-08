@@ -85,10 +85,6 @@ export class WattDropdownComponent implements OnInit, AfterViewInit, OnDestroy {
       });
   }
 
-  constructor() {
-    console.log('Initialization dropdown');
-  }
-
   ngAfterViewInit() {
     this.setInitialValue();
   }
