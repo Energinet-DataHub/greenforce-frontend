@@ -52,8 +52,9 @@ const selector = 'eo-landing-page-hero';
 
         .${selector}__call-to-action {
           text-align: center;
-          background: #BED7D9;
+          background: var(--watt-color-primary-dark); // #BED7D9;
           outline: 1px solid #BED7D9;
+          padding-top: var(--watt-space-l);
           padding-bottom: var(--watt-space-l);
 
           > * {
@@ -67,6 +68,7 @@ const selector = 'eo-landing-page-hero';
             @include watt.typography-watt-headline-2; // This overrides the styles applied from Angular Material on h2 tags
             text-transform: none;
             color: var(--watt-color-neutral-black);
+            color: #FFF;
           }
         }
       }
