@@ -23,7 +23,6 @@ import {
   ViewChild,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { MatFormFieldControl } from '@angular/material/form-field';
 import { MatSelect } from '@angular/material/select';
 import { ReplaySubject, Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
@@ -39,20 +38,19 @@ export interface WattDropdownOption {
   styleUrls: ['./watt-dropdown.component.scss'],
 })
 export class WattDropdownComponent implements OnInit, AfterViewInit, OnDestroy {
+  /** Subject that emits when the component has been destroyed. */
+  private destroy$ = new Subject<void>();
+
   /** control for the selected bank */
-  public internalControl: FormControl = new FormControl();
+  internalControl = new FormControl();
 
   /** control for the MatSelect filter keyword */
-  public internalFilterControl: FormControl = new FormControl();
+  internalFilterControl = new FormControl();
 
   /** list of banks filtered by search keyword */
-  public filteredOptions: ReplaySubject<WattDropdownOption[]> =
-    new ReplaySubject<WattDropdownOption[]>(1);
+  filteredOptions = new ReplaySubject<WattDropdownOption[]>(1);
 
-  @ViewChild('singleSelect', { static: true }) singleSelect?: MatSelect;
-
-  /** Subject that emits when the component has been destroyed. */
-  protected _onDestroy = new Subject<void>();
+  @ViewChild('matSelect', { static: true }) matSelect?: MatSelect;
 
   /**
    * Sets support for selecting multiple dropdown options.
@@ -72,9 +70,6 @@ export class WattDropdownComponent implements OnInit, AfterViewInit, OnDestroy {
    */
   @Input() options: WattDropdownOption[] = [];
 
-  @ViewChild(MatSelect)
-  selectControl!: MatFormFieldControl<unknown>;
-
   ngOnInit() {
     // set initial selection
     // this.bankCtrl.setValue(this.banks[10]);
@@ -84,7 +79,7 @@ export class WattDropdownComponent implements OnInit, AfterViewInit, OnDestroy {
 
     // listen for search field value changes
     this.internalFilterControl.valueChanges
-      .pipe(takeUntil(this._onDestroy))
+      .pipe(takeUntil(this.destroy$))
       .subscribe(() => {
         this.filterBanks();
       });
@@ -99,8 +94,8 @@ export class WattDropdownComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this._onDestroy.next();
-    this._onDestroy.complete();
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   /**
@@ -108,15 +103,15 @@ export class WattDropdownComponent implements OnInit, AfterViewInit, OnDestroy {
    */
   protected setInitialValue() {
     this.filteredOptions
-      .pipe(take(1), takeUntil(this._onDestroy))
+      .pipe(take(1), takeUntil(this.destroy$))
       .subscribe(() => {
         // setting the compareWith property to a comparison function
         // triggers initializing the selection according to the initial value of
         // the form control (i.e. _initializeSelection())
         // this needs to be done after the filteredOptions are loaded initially
         // and after the mat-option elements are available
-        if (this.singleSelect) {
-          this.singleSelect.compareWith = (
+        if (this.matSelect) {
+          this.matSelect.compareWith = (
             a: WattDropdownOption,
             b: WattDropdownOption
           ) => a && b && a.value === b.value;
