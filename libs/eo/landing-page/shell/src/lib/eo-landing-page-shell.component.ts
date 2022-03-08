@@ -28,6 +28,10 @@ import { EoLandingPageVideoLayoutScam } from './layout/eo-landing-page-video-lay
 import { EoLandingPageImageTextLayoutScam } from './layout/eo-landing-page-image-text-layout.component';
 import { EoLandingPageLoginButtonScam } from './layout/eo-landing-page-login-button.component';
 import { EoLandingPageCallToActionScam } from './layout/eo-landing-page-call-to-action.component';
+import {
+  EoLandingPageNotificationComponent,
+  EoLandingPageNotificationScam
+} from './layout/eo-landing-page-notification.component';
 
 const selector = 'eo-landing-page-shell';
 
@@ -66,23 +70,13 @@ const selector = 'eo-landing-page-shell';
           position: absolute;
           bottom: 200px; // Position the image just above the footer
         }
-
-        .${selector}__header-mesh {
-          width: 35%;
-          position: absolute;
-          top: 64px; // Position the image just below the header
-          right: 0;
-        }
       }
     `,
   ],
   template: `
     <eo-landing-page-header></eo-landing-page-header>
 
-    <img
-      src="/assets/images/landing-page/landing-page-mesh-top.png"
-      class="${selector}__header-mesh"
-    />
+    <eo-landing-page-notification></eo-landing-page-notification>
 
     <eo-landing-page-hero></eo-landing-page-hero>
 
@@ -118,6 +112,7 @@ export class EoLandingPageShellComponent {}
     EoLandingPageImageTextLayoutScam,
     EoLandingPageLoginButtonScam,
     EoLandingPageCallToActionScam,
+    EoLandingPageNotificationScam
   ],
 })
 export class EoLandingPageShellScam {}
