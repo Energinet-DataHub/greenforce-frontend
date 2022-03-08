@@ -29,6 +29,7 @@ import {
 } from '@angular/material/form-field';
 import { MatSelect } from '@angular/material/select';
 
+import { WattDropdownComponent } from '../dropdown/watt-dropdown.component';
 import { WattInputDirective } from '../input/input.directive';
 
 @Component({
@@ -52,11 +53,17 @@ export class FormFieldComponent implements AfterViewInit {
   @ContentChild(MatSelect)
   selectControl!: MatFormFieldControl<unknown>;
 
+  @ContentChild(WattDropdownComponent)
+  wattDropdown?: WattDropdownComponent;
+
   @ViewChild(MatFormField)
   matFormField!: MatFormField;
 
   ngAfterViewInit() {
-    const control = this.inputControl || this.selectControl;
+    const control =
+      this.inputControl ||
+      this.selectControl ||
+      this.wattDropdown?.selectControl;
 
     if (this.beforeViewInit) {
       this.matFormField._control = control;
