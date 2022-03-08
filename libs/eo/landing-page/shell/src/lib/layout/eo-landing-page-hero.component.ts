@@ -33,52 +33,64 @@ const selector = 'eo-landing-page-hero';
 
       ${selector} {
         display: block;
-        margin-top: var(--watt-space-xl);
-
-        .${selector}__img {
-          width: 100%;
-          height: auto;
-        }
+        margin-bottom: calc(2 * var(--watt-space-xl));
 
         .${selector}__h1 {
           @include watt.typography-watt-headline-1; // This overrides the styles applied from Angular Material on h1 tags
+          text-transform: uppercase;
+          margin-left: var(--watt-space-m);
 
           > span {
             color: var(--watt-color-primary);
           }
         }
 
-        .${selector}__h2 {
-          @include watt.typography-watt-headline-2; // This overrides the styles applied from Angular Material on h2 tags
+        .${selector}__img {
+          width: 100%;
+          display: block;
+        }
+
+        .${selector}__call-to-action {
           text-align: center;
-          text-transform: none;
-          margin-top: calc(30 * var(--watt-space-xs));
+          background: #bed7d9;
+          padding-bottom: var(--watt-space-l);
+
+          > * {
+            display: inline-block;
+          }
+
+          eo-landing-page-login-button {
+            margin-left: var(--watt-space-xl);
+          }
+          .${selector}__h2 {
+            @include watt.typography-watt-headline-2; // This overrides the styles applied from Angular Material on h2 tags
+            text-transform: none;
+            color: var(--watt-color-neutral-black);
+          }
         }
       }
     `,
   ],
   template: `
-    <eo-landing-page-column-layout [layoutType]="'largeFirst'">
-      <ng-container contentLeftLarge>
-        <h1 class="${selector}__h1">
-          Access
-          <span class="font-primary-color"
-            >your emissions and<br />energy origin</span
-          >
-          overview
-        </h1>
-        <img
-          class="${selector}__img"
-          src="/assets/images/landing-page/landing-page-energy-flow-illustration.png"
-        />
-      </ng-container>
-      <ng-container contentRightSmall>
-        <h2 class="${selector}__h2">Log in with your company NemID</h2>
-        <eo-landing-page-login-button
-          class="eo-text-center"
-        ></eo-landing-page-login-button>
-      </ng-container>
-    </eo-landing-page-column-layout>
+    <h1 class="${selector}__h1">
+      Access
+      <span class="font-primary-color"
+        >your emissions and<br />energy origin</span
+      >
+      overview
+    </h1>
+
+    <img
+      class="${selector}__img"
+      src="/assets/images/landing-page/landing-page-hero-illustration.png"
+    />
+
+    <div class="${selector}__call-to-action">
+      <h2 class="${selector}__h2">Log in with your company NemID</h2>
+      <eo-landing-page-login-button
+        class="eo-text-center watt-space-stack-l"
+      ></eo-landing-page-login-button>
+    </div>
   `,
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
