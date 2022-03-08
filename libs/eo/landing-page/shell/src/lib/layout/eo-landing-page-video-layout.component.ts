@@ -33,28 +33,28 @@ const selector = 'eo-landing-page-video-layout';
       ${selector} {
         display: block;
       }
-
       .${selector}__p {
         @include watt.typography-watt-text-m; // This overrides the styles applied from Angular Material on p tags
       }
-
       .${selector}__h2.${selector}__h2 {
         @include watt.typography-watt-headline-2; // This overrides the styles applied from Angular Material on h2 tags
         text-transform: none; // This overrides the uppercased styling from watt
       }
-
       .${selector}__link.${selector}__link {
         display: inline-block;
         color: var(
           --watt-color-primary
         ); // This overrides the '--watt-color-primary-dark' color which is currently added by the watt-text-s class
       }
+      .${selector}__embedded {
+        width: 640px; // Figma
+        margin: 0 auto;
+      }
     `,
   ],
   template: `
     <eo-landing-page-column-layout [layoutType]="'full'">
 
-      <div class="watt-space-inset-xl eo-padding-top-none">
         <h2 class="${selector}__h2">What is Energy Origin?</h2>
 
         <p class="${selector}__p">Energy Origin is a platform which provides you with access to <b>data</b> about the
@@ -68,18 +68,18 @@ const selector = 'eo-landing-page-video-layout';
         <a
           href="https://en.energinet.dk/Electricity/DataHub/Energy-Origin"
           target="_blank"
-          class="${selector}__link"
+          class="${selector}__link watt-space-stack-l"
           >Read more about Project Energy Origin</a
         >
 
-        <br /><br />
-
-        <div class="eo-video-embed-container">
-          <iframe
-            src="https://player.vimeo.com/video/642352286?h=91e1a8b63c&badge=0&autopause=0&player_id=0&app_id=58479"
-          ></iframe>
+        <div class="${selector}__embedded">
+          <div class="eo-video-embed-container">
+            <iframe
+              src="https://player.vimeo.com/video/642352286?h=91e1a8b63c&badge=0&autopause=0&player_id=0&app_id=58479"
+            ></iframe>
+          </div>
         </div>
-      </div>
+
     </eo-landing-page-column-layout>
   `,
   encapsulation: ViewEncapsulation.None,

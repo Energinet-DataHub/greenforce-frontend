@@ -35,24 +35,22 @@ const selector = 'eo-landing-page-column-layout';
       ${selector} {
         display: block;
       }
-
       .${selector}__display-flex {
         display: flex;
         align-items: center;
       }
-
       .${selector}__content {
         // This is the rows which contain either on or two columns
         position: relative;
-        max-width: 1280px; // Defined in Figma
+        max-width: 960px; // Defined in Figma
         margin: 0 auto;
       }
       .${selector}__column--large {
-        width: 60%;
+        width: 560px;
         display: inline-block;
       }
       .${selector}__column--small {
-        width: 40%;
+        width: 400px;
         display: inline-block;
       }
     `,
@@ -60,7 +58,7 @@ const selector = 'eo-landing-page-column-layout';
   template: `
     <ng-container [ngSwitch]="layoutType">
       <div
-        class="${selector}__content watt-space-inset-xl"
+        class="${selector}__content"
         *ngSwitchCase="'full'"
       >
         <ng-content></ng-content>
@@ -71,7 +69,7 @@ const selector = 'eo-landing-page-column-layout';
         *ngSwitchCase="'smallFirst'"
       >
         <div
-          class="${selector}__column--small watt-space-inset-l eo-padding-left-none"
+          class="${selector}__column--small"
         >
           <ng-content select="[contentLeftSmall]"></ng-content>
         </div>
@@ -87,7 +85,7 @@ const selector = 'eo-landing-page-column-layout';
         <div class="${selector}__column--large">
           <ng-content select="[contentLeftLarge]"></ng-content>
         </div>
-        <div class="${selector}__column--small watt-space-inset-l">
+        <div class="${selector}__column--small">
           <ng-content select="[contentRightSmall]"></ng-content>
         </div>
       </div>

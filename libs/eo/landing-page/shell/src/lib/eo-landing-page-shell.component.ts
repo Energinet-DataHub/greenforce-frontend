@@ -48,25 +48,12 @@ const selector = 'eo-landing-page-shell';
         position: relative; // So we can use position absolute for the mesh illustrations at the top and bottom of the page
         display: block;
 
-        .${selector}__wrapper {
-          position: relative;
-        }
-
-        .${selector}__wrapper--highlighted {
-          background: var(
-            --watt-color-focus-selection
-          ); // This is the light-blue-ish background color
-        }
-
-        .${selector}__wrapper--wave {
-          height: 250px;
-          background: url('/assets/images/landing-page/landing-page-wave.svg')
-            no-repeat bottom;
-          background-size: contain;
+        .margin-bottom-xxl {
+          margin-bottom: calc(2 * var(--watt-space-xl));
         }
 
         .${selector}__footer-mesh {
-          width: 35%;
+          width: 30%;
           position: absolute;
           bottom: 200px; // Position the image just above the footer
         }
@@ -78,19 +65,13 @@ const selector = 'eo-landing-page-shell';
 
     <eo-landing-page-notification></eo-landing-page-notification>
 
-    <eo-landing-page-hero></eo-landing-page-hero>
+    <eo-landing-page-hero class="margin-bottom-xxl"></eo-landing-page-hero>
 
-    <div class="${selector}__wrapper ${selector}__wrapper--wave"></div>
-
-    <div class="${selector}__wrapper ${selector}__wrapper--highlighted">
-      <eo-landing-page-video-layout></eo-landing-page-video-layout>
-    </div>
+    <eo-landing-page-video-layout class="margin-bottom-xxl"></eo-landing-page-video-layout>
 
     <eo-landing-page-image-text-layout></eo-landing-page-image-text-layout>
 
-    <div class="${selector}__wrapper ${selector}__wrapper--highlighted">
-      <eo-landing-page-call-to-action></eo-landing-page-call-to-action>
-    </div>
+    <eo-landing-page-call-to-action></eo-landing-page-call-to-action>
 
     <img
       src="/assets/images/landing-page/landing-page-mesh-bottom.png"

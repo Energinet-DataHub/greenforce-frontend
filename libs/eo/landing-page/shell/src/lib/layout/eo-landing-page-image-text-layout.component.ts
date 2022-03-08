@@ -34,37 +34,44 @@ const selector = 'eo-landing-page-image-text-layout';
         display: block;
         position: relative;
       }
-
       .${selector}__img {
         width: 100%;
         height: auto;
       }
-
-      .${selector}__space-stack-xl-double {
-        margin-top: calc(2 * var(--watt-space-xl));
+      .margin-bottom-xxl {
         margin-bottom: calc(2 * var(--watt-space-xl));
       }
-
+      .padding-left {
+        padding-left: calc(10 * var(--watt-space-xs));
+      }
+      .padding-right-xl {
+        padding-right: calc(25 * var(--watt-space-xs));
+      }
       .${selector}__p {
         @include watt.typography-watt-text-m; // This overrides the styles applied from Angular Material on p tags
       }
-
       .${selector}__h2.${selector}__h2 {
         @include watt.typography-watt-headline-2; // This overrides the styles applied from Angular Material on h2 tags
         text-transform: none; // This overrides the uppercased styling from watt
       }
-
       .${selector}__link.${selector}__link {
         display: inline-block;
         color: var(
           --watt-color-primary
         ); // This overrides the '--watt-color-primary-dark' color which is currently added by the watt-text-s class
       }
+      .${selector}__full-width-wrapper {
+        padding: calc(2 * var(--watt-space-xl));
+        margin-bottom: calc(2 * var(--watt-space-xl));
+        background: var(
+          --watt-color-focus-selection
+        ); // This is the light-blue-ish background color
+      }
     `,
   ],
   template: `
     <eo-landing-page-column-layout
-      class="${selector}__space-stack-xl-double"
+      class="margin-bottom-xxl"
       [layoutType]="'smallFirst'"
     >
       <ng-container contentLeftSmall>
@@ -79,33 +86,38 @@ const selector = 'eo-landing-page-image-text-layout';
         </p>
       </ng-container>
       <ng-container contentRightLarge>
-        <img
-          class="${selector}__img"
-          src="/assets/images/landing-page/landing-page-graph-of-energy-with-dashboard.png"
-          alt="EnergyOrigin graph of energy"
-        />
+        <div class="padding-left">
+          <img
+            class="${selector}__img"
+            src="/assets/images/landing-page/landing-page-graph-of-energy-with-dashboard.png"
+            alt="EnergyOrigin graph of energy"
+          />
+        </div>
       </ng-container>
     </eo-landing-page-column-layout>
 
-    <eo-landing-page-column-layout [layoutType]="'largeFirst'">
-      <ng-container contentLeftLarge>
-        <img
-          class="${selector}__img"
-          src="/assets/images/landing-page/landing-page-office-people.png"
-          alt="EnergyOrigin"
-        />
-      </ng-container>
-      <ng-container contentRightSmall>
-        <h2 class="${selector}__h2">Who is it for?</h2>
-        <p class="${selector}__p">
-          This first version of Energy Origin is for <b>companies in Denmark</b>.
-          Later it will be available for private individuals as well.
-        </p>
-      </ng-container>
-    </eo-landing-page-column-layout>
+    <div class="${selector}__full-width-wrapper">
+      <eo-landing-page-column-layout [layoutType]="'largeFirst'">
+        <ng-container contentLeftLarge>
+          <div class="padding-right-xl">
+            <img
+              class="${selector}__img"
+              src="/assets/images/landing-page/landing-page-office-people.png"
+              alt="EnergyOrigin"
+            />
+          </div>
+        </ng-container>
+        <ng-container contentRightSmall>
+          <h2 class="${selector}__h2">Who is it for?</h2>
+          <p class="${selector}__p">
+            This first version of Energy Origin is for <b>companies in Denmark</b>.
+            Later it will be available for private individuals as well.
+          </p>
+        </ng-container>
+      </eo-landing-page-column-layout>
+    </div>
 
-    <eo-landing-page-column-layout
-      class="${selector}__space-stack-xl-double"
+    <eo-landing-page-column-layout class="margin-bottom-xxl"
       [layoutType]="'smallFirst'"
     >
       <ng-container contentLeftSmall>
@@ -116,11 +128,13 @@ const selector = 'eo-landing-page-image-text-layout';
         </p>
       </ng-container>
       <ng-container contentRightLarge>
-        <img
-          class="${selector}__img"
-          src="/assets/images/landing-page/landing-page-energy-origin-energi-huset.jpg"
-          alt="EnergyOrigin - Energihuset"
-        />
+        <div class="padding-left">
+          <img
+            class="${selector}__img"
+            src="/assets/images/landing-page/landing-page-energy-origin-energi-huset.jpg"
+            alt="EnergyOrigin - Energihuset"
+          />
+        </div>
       </ng-container>
     </eo-landing-page-column-layout>
   `,
