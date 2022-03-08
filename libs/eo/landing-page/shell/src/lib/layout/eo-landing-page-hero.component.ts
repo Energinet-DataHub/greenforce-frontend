@@ -67,7 +67,7 @@ const selector = 'eo-landing-page-hero';
             @include watt.typography-watt-headline-2; // This overrides the styles applied from Angular Material on h2 tags
             text-transform: none;
             color: var(--watt-color-neutral-black);
-            color: #FFF;
+            color: #fff;
           }
         }
       }
