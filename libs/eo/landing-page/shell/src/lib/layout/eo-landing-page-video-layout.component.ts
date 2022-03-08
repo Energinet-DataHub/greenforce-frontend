@@ -55,32 +55,38 @@ const selector = 'eo-landing-page-video-layout';
   ],
   template: `
     <eo-landing-page-column-layout [layoutType]="'full'">
+      <h2 class="${selector}__h2">What is Energy Origin?</h2>
 
-        <h2 class="${selector}__h2">What is Energy Origin?</h2>
+      <p class="${selector}__p">
+        Energy Origin is a platform which provides you with access to
+        <b>data</b> about the <b>origins of your energy</b> and the
+        corresponding <b>emissions</b>. This first version of Energy Origin is
+        for companies in Denmark and can be used for e.g.:
+      </p>
+      <ul class="watt-space-stack-l">
+        <li>
+          Compiling an <b>emissions overview</b> for your annual ECG report
+        </li>
+        <li>
+          Gaining an overview of the <b>renewables share</b> of your energy
+          consumption
+        </li>
+      </ul>
 
-        <p class="${selector}__p">Energy Origin is a platform which provides you with access to <b>data</b> about the
-          <b>origins of your energy</b> and the corresponding <b>emissions</b>.
-          This first version of Energy Origin is for companies in Denmark and can be used for e.g.: </p>
-        <ul class="watt-space-stack-l">
-          <li>Compiling an <b>emissions overview</b> for your annual ECG report</li>
-          <li>Gaining an overview of the <b>renewables share</b> of your energy consumption </li>
-        </ul>
+      <a
+        href="https://en.energinet.dk/Electricity/DataHub/Energy-Origin"
+        target="_blank"
+        class="${selector}__link watt-space-stack-l"
+        >Read more about Project Energy Origin</a
+      >
 
-        <a
-          href="https://en.energinet.dk/Electricity/DataHub/Energy-Origin"
-          target="_blank"
-          class="${selector}__link watt-space-stack-l"
-          >Read more about Project Energy Origin</a
-        >
-
-        <div class="${selector}__embedded">
-          <div class="eo-video-embed-container">
-            <iframe
-              src="https://player.vimeo.com/video/642352286?h=91e1a8b63c&badge=0&autopause=0&player_id=0&app_id=58479"
-            ></iframe>
-          </div>
+      <div class="${selector}__embedded">
+        <div class="eo-video-embed-container">
+          <iframe
+            src="https://player.vimeo.com/video/642352286?h=91e1a8b63c&badge=0&autopause=0&player_id=0&app_id=58479"
+          ></iframe>
         </div>
-
+      </div>
     </eo-landing-page-column-layout>
   `,
   encapsulation: ViewEncapsulation.None,

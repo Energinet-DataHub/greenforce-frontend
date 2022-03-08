@@ -57,10 +57,7 @@ const selector = 'eo-landing-page-column-layout';
   ],
   template: `
     <ng-container [ngSwitch]="layoutType">
-      <div
-        class="${selector}__content"
-        *ngSwitchCase="'full'"
-      >
+      <div class="${selector}__content" *ngSwitchCase="'full'">
         <ng-content></ng-content>
       </div>
 
@@ -68,9 +65,7 @@ const selector = 'eo-landing-page-column-layout';
         class="${selector}__content ${selector}__display-flex"
         *ngSwitchCase="'smallFirst'"
       >
-        <div
-          class="${selector}__column--small"
-        >
+        <div class="${selector}__column--small">
           <ng-content select="[contentLeftSmall]"></ng-content>
         </div>
         <div class="${selector}__column--large">

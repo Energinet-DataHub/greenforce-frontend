@@ -79,7 +79,7 @@ export class EoLandingPageShellComponent {}
     EoLandingPageImageTextLayoutScam,
     EoLandingPageLoginButtonScam,
     EoLandingPageCallToActionScam,
-    EoLandingPageNotificationScam
+    EoLandingPageNotificationScam,
   ],
 })
 export class EoLandingPageShellScam {}

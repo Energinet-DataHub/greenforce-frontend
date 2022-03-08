@@ -70,8 +70,10 @@ const selector = 'eo-landing-page-notification';
       </div>
       <div>
         <p class="${selector}__p">
-          The Energy Origin Platform is <b>under development</b> and new functionalities will be released continuously.
-          The first release of the platform offers <b>company login only</b>. Private login via NemID/MitID is intended to form part of one of the next releases.
+          The Energy Origin Platform is <b>under development</b> and new
+          functionalities will be released continuously. The first release of
+          the platform offers <b>company login only</b>. Private login via
+          NemID/MitID is intended to form part of one of the next releases.
         </p>
       </div>
     </div>
