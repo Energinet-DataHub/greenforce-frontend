@@ -45,15 +45,10 @@ const selector = 'eo-landing-page-notification';
       }
 
       .${selector}__icon {
+        display: block;
         width: calc(12 * var(--watt-space-xs));
         height: calc(12 * var(--watt-space-xs));
         border-radius: 50%;
-        background: var(--watt-color-primary-dark);
-        color: var(--watt-color-neutral-white);
-        text-align: center;
-        line-height: calc(12 * var(--watt-space-xs));
-        font-size: calc(7 * var(--watt-space-xs));
-        font-weight: bold;
         margin: 0 auto;
       }
 
@@ -67,7 +62,11 @@ const selector = 'eo-landing-page-notification';
   template: `
     <div class="${selector}__content">
       <div>
-        <div class="${selector}__icon">i</div>
+        <img
+          class="${selector}__icon"
+          src="/assets/images/icons/primary-info-icon.svg"
+          alt="EnergyOrigin information"
+        />
       </div>
       <div>
         <p class="${selector}__p">

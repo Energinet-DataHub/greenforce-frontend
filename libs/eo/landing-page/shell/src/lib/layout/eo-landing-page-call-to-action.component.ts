@@ -39,6 +39,7 @@ const selector = 'eo-landing-page-call-to-action';
       .${selector}__h2 {
         @include watt.typography-watt-headline-2; // This overrides the styles applied from Angular Material on h2 tags
         text-transform: none; // This overrides the uppercased styling from watt
+        display: inline-block;
       }
       .${selector}__call-to-action-wrapper {
         padding: calc(2 * var(--watt-space-xl));
@@ -46,12 +47,25 @@ const selector = 'eo-landing-page-call-to-action';
           --watt-color-focus-selection
         ); // This is the light-blue-ish background color
       }
+      .${selector}__link-icon {
+        width: 24px;
+        height: 24px;
+        margin-left: calc(2.5 * var(--watt-space-xs));
+        cursor: pointer;
+      }
     `,
   ],
   template: `
     <div class="${selector}__call-to-action-wrapper">
       <eo-landing-page-column-layout [layoutType]="'full'">
         <h2 class="${selector}__h2">Log in with your company NemID</h2>
+        <a href="https://www.nemid.nu/dk-en/about_nemid/index.html" target="_blank">
+          <img
+            class="${selector}__link-icon"
+            src="/assets/images/icons/primary-info-icon.svg"
+            alt="EnergyOrigin NemID log in"
+          />
+        </a>
         <eo-landing-page-login-button></eo-landing-page-login-button>
       </eo-landing-page-column-layout>
     </div>

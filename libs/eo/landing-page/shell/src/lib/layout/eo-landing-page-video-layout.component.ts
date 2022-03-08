@@ -32,6 +32,7 @@ const selector = 'eo-landing-page-video-layout';
 
       ${selector} {
         display: block;
+        margin-bottom: calc(2 * var(--watt-space-xl));
       }
       .${selector}__p {
         @include watt.typography-watt-text-m; // This overrides the styles applied from Angular Material on p tags

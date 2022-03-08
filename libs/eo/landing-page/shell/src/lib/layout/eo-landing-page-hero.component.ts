@@ -33,6 +33,7 @@ const selector = 'eo-landing-page-hero';
 
       ${selector} {
         display: block;
+        margin-bottom: calc(2 * var(--watt-space-xl));
 
         .${selector}__h1 {
           @include watt.typography-watt-headline-1; // This overrides the styles applied from Angular Material on h1 tags
@@ -83,6 +84,7 @@ const selector = 'eo-landing-page-hero';
       class="${selector}__img"
       src="/assets/images/landing-page/landing-page-hero-illustration.png"
     />
+
     <div class="${selector}__call-to-action">
       <h2 class="${selector}__h2">Log in with your company NemID</h2>
       <eo-landing-page-login-button

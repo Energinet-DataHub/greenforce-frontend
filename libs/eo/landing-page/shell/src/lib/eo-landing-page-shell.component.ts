@@ -28,10 +28,7 @@ import { EoLandingPageVideoLayoutScam } from './layout/eo-landing-page-video-lay
 import { EoLandingPageImageTextLayoutScam } from './layout/eo-landing-page-image-text-layout.component';
 import { EoLandingPageLoginButtonScam } from './layout/eo-landing-page-login-button.component';
 import { EoLandingPageCallToActionScam } from './layout/eo-landing-page-call-to-action.component';
-import {
-  EoLandingPageNotificationComponent,
-  EoLandingPageNotificationScam
-} from './layout/eo-landing-page-notification.component';
+import { EoLandingPageNotificationScam } from './layout/eo-landing-page-notification.component';
 
 const selector = 'eo-landing-page-shell';
 
@@ -48,10 +45,6 @@ const selector = 'eo-landing-page-shell';
         position: relative; // So we can use position absolute for the mesh illustrations at the top and bottom of the page
         display: block;
 
-        .margin-bottom-xxl {
-          margin-bottom: calc(2 * var(--watt-space-xl));
-        }
-
         .${selector}__footer-mesh {
           width: 30%;
           position: absolute;
@@ -62,22 +55,15 @@ const selector = 'eo-landing-page-shell';
   ],
   template: `
     <eo-landing-page-header></eo-landing-page-header>
-
     <eo-landing-page-notification></eo-landing-page-notification>
-
-    <eo-landing-page-hero class="margin-bottom-xxl"></eo-landing-page-hero>
-
-    <eo-landing-page-video-layout class="margin-bottom-xxl"></eo-landing-page-video-layout>
-
+    <eo-landing-page-hero></eo-landing-page-hero>
+    <eo-landing-page-video-layout></eo-landing-page-video-layout>
     <eo-landing-page-image-text-layout></eo-landing-page-image-text-layout>
-
     <eo-landing-page-call-to-action></eo-landing-page-call-to-action>
-
     <img
       src="/assets/images/landing-page/landing-page-mesh-bottom.png"
       class="${selector}__footer-mesh"
     />
-
     <eo-footer></eo-footer>
   `,
 })
