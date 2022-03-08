@@ -53,7 +53,6 @@ const selector = 'eo-landing-page-hero';
         .${selector}__call-to-action {
           text-align: center;
           background: var(--watt-color-primary-dark); // #BED7D9;
-          outline: 1px solid #BED7D9;
           padding-top: var(--watt-space-l);
           padding-bottom: var(--watt-space-l);
 
