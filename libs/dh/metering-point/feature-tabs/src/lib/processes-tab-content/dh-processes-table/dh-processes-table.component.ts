@@ -59,7 +59,7 @@ export class DhProcessesTableComponent implements AfterViewInit {
   iconSize = WattIconSize;
   sortedData: DhProcess[] = [];
   @Input()
-  processes?: DhProcess[];
+  processes: DhProcess[] = [];
 
   @ViewChild(MatSort) matSort?: MatSort;
 
