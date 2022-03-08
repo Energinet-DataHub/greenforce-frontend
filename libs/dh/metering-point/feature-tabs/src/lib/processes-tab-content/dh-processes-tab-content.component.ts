@@ -65,12 +65,7 @@ export class DhProcessesTabContentComponent implements OnDestroy {
 
 @NgModule({
   declarations: [DhProcessesTabContentComponent],
-  imports: [
-    CommonModule,
-    WattSpinnerModule,
-    LetModule,
-    DhProcessesTableScam,
-  ],
+  imports: [CommonModule, WattSpinnerModule, LetModule, DhProcessesTableScam],
   exports: [DhProcessesTabContentComponent],
 })
 export class DhProcessesTabContentScam {}
