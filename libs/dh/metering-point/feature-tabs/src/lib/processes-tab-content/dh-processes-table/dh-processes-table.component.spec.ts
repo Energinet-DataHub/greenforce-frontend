@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { DhProcess } from '../../../../../domain/src/model/dh-process';
+import { DhProcess } from '@energinet-datahub/dh/metering-point/domain';
 import {
   DhProcessesTableComponent,
   DhProcessesTableScam,
