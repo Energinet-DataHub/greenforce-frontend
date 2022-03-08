@@ -52,7 +52,7 @@ const selector = 'eo-landing-page-hero';
 
         .${selector}__call-to-action {
           text-align: center;
-          background: #BED7D9;
+          background: #bed7d9;
           padding-bottom: var(--watt-space-l);
 
           > * {
@@ -75,7 +75,7 @@ const selector = 'eo-landing-page-hero';
     <h1 class="${selector}__h1">
       Access
       <span class="font-primary-color"
-      >your emissions and<br />energy origin</span
+        >your emissions and<br />energy origin</span
       >
       overview
     </h1>
