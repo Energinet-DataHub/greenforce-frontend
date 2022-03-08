@@ -79,6 +79,7 @@ export class DhMessageArchiveDataAccessBlobApiModule extends ComponentStore<Down
   downloadLogFile(blobName: string) {
     const dd = this.httpClient.v1MessageArchiveDownloadRequestResponseLogContentGet(blobName, "body", false, { httpHeaderAccept: "text/plain" });
     dd.subscribe(
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (response: any) => {
           const dataType = response.type;
           const binaryData = [];
@@ -89,7 +90,7 @@ export class DhMessageArchiveDataAccessBlobApiModule extends ComponentStore<Down
               downloadLink.setAttribute('download', blobName);
           document.body.appendChild(downloadLink);
           downloadLink.click();
-      })
+      });
   };
 
   // eslint-disable-next-line @typescript-eslint/member-ordering

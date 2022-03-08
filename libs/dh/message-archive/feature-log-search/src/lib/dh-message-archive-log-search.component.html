@@ -31,7 +31,7 @@ limitations under the License.
           #searchInputDocumentType
           wattInput
           name="documentType"
-          [(ngModel)]="this.searchCriteria.messageType">
+          [(ngModel)]="this.searchCriteria.rsmName">
           <option selected [ngValue]="null">{{ transloco("ChooseDocumentType") }}</option>
           <option
             *ngFor="let documentType of this.documentTypes | keyvalue"

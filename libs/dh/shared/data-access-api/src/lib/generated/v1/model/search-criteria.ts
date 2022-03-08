@@ -27,6 +27,7 @@ export interface SearchCriteria {
     functionName?: string | null;
     traceId?: string | null;
     referenceId?: string | null;
+    rsmName?: string | null;
 }
 
 

@@ -32,6 +32,7 @@ export interface SearchResultItemDto {
     traceParent?: string | null;
     responseStatus?: string | null;
     originalTransactionIDReferenceId?: string | null;
+    rsmName?: string | null;
     data?: { [key: string]: string; } | null;
     errors?: Array<SearchResultItemErrorDto> | null;
 }

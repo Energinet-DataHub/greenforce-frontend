@@ -61,8 +61,8 @@ import { Router } from '@angular/router';
      reasonCode: null,
      dateTimeFrom: "2022-03-04T00:00:00Z",
      dateTimeTo: "2022-03-04T23:59:59Z",
-     messageType: null,
      senderRoleType: null,
+     rsmName: null,
     };
 
    constructor(

@@ -24,6 +24,12 @@ limitations under the License.
       <td mat-cell *matCellDef="let element"> {{element.messageId}} </td>
     </ng-container>
 
+    <!-- message id Column -->
+    <ng-container matColumnDef="rsmName">
+      <th mat-header-cell *matHeaderCellDef> RSM </th>
+      <td mat-cell *matCellDef="let element"> {{element.rsmName}} </td>
+    </ng-container>
+
     <!-- sender gln -->
     <ng-container matColumnDef="sender">
       <th mat-header-cell *matHeaderCellDef> Afsender </th>
