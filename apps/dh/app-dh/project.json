@@ -98,6 +98,10 @@
               "replace": "libs/dh/shared/environments/src/lib/environment.ts",
               "with": "libs/dh/shared/environments/src/lib/environment.mocked.ts"
             }
+          ],
+          "allowedCommonJsDependencies": [
+            "@mswjs/cookies",
+            "@mswjs/interceptors"
           ]
         }
       },
