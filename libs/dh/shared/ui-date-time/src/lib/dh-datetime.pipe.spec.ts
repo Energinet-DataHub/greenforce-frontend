@@ -14,13 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { DhDateTimePipe, pipeName } from './dh-datetime.pipe';
+import { TValue } from './dh-format-danish-datetime';
 import {
   createPipeHarness,
   SpectacularPipeHarness,
 } from '@ngworker/spectacular';
-
-import { TValue } from './dh-datetime-format-service';
-import { DhDateTimePipe, pipeName } from './dh-datetime.pipe';
 
 describe(DhDateTimePipe, () => {
   beforeEach(() => {

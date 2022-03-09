@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { Pipe, PipeTransform } from '@angular/core';
-import { DhDatetimeFormatService, TValue } from './dh-datetime-format-service';
+import { dhFormatDanishDatetime, TValue } from './dh-format-danish-datetime';
 
 export const pipeName = 'dhDateTime';
 
@@ -31,7 +31,7 @@ export class DhDateTimePipe implements PipeTransform {
    * @returns
    */
   transform(maybeIso8601DateTime: TValue): string | null {
-    return DhDatetimeFormatService.format(
+    return dhFormatDanishDatetime(
       maybeIso8601DateTime,
       this.dateTimeFormat
     );
