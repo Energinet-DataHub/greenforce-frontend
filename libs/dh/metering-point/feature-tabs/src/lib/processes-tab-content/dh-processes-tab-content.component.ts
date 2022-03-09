@@ -19,12 +19,11 @@ import { Component, NgModule, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { dhMeteringPointIdParam } from '@energinet-datahub/dh/metering-point/routing';
-import { Process } from '@energinet-datahub/dh/shared/domain';
 import { WattSpinnerModule } from '@energinet-datahub/watt';
-import { TranslocoModule } from '@ngneat/transloco';
 import { LetModule } from '@rx-angular/template';
-import { map, Observable, Subject, takeUntil } from 'rxjs';
+import { map, Subject, takeUntil } from 'rxjs';
 import { DhProcessesDataAccessApiStore } from '@energinet-datahub/dh/metering-point/data-access-api';
+import { DhProcessesTableScam } from './dh-processes-table/dh-processes-table.component';
 
 @Component({
   selector: 'dh-processes-tab-content',
@@ -46,10 +45,8 @@ export class DhProcessesTabContentComponent implements OnDestroy {
     this.loadProcessData();
   }
 
-  processes$: Observable<Process[]> = this.store.processes$;
+  processes$ = this.store.processes$;
   isLoading$ = this.store.isLoading$;
-  processesNotFound$ = this.store.processesNotFound$;
-  hasGeneralError$ = this.store.hasGeneralError$;
 
   ngOnDestroy(): void {
     this.destroy$.next();
@@ -68,7 +65,7 @@ export class DhProcessesTabContentComponent implements OnDestroy {
 
 @NgModule({
   declarations: [DhProcessesTabContentComponent],
-  imports: [CommonModule, WattSpinnerModule, LetModule, TranslocoModule],
+  imports: [CommonModule, WattSpinnerModule, LetModule, DhProcessesTableScam],
   exports: [DhProcessesTabContentComponent],
 })
 export class DhProcessesTabContentScam {}

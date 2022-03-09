@@ -14,5 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './lib/is-valid-metering-point-id';
-export * from './model/dh-process';
+import { Process } from '@energinet-datahub/dh/shared/domain';
+
+export interface DhProcess extends Process {
+  hasDetailsErrors: boolean;
+}

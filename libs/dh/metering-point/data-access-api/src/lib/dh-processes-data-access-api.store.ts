@@ -14,18 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { filter, map, Observable, switchMap, tap } from 'rxjs';
-import {
-  MeteringPointHttp,
-  Process,
-} from '@energinet-datahub/dh/shared/domain';
-import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
+import { MeteringPointHttp } from '@energinet-datahub/dh/shared/domain';
 import { ErrorState, LoadingState } from './states';
+import { DhProcess } from '@energinet-datahub/dh/metering-point/domain';
 
 interface ProcessesState {
-  readonly processes: Process[];
+  readonly processes: DhProcess[];
   readonly requestState: LoadingState | ErrorState;
 }
 
@@ -36,11 +34,11 @@ const initialState: ProcessesState = {
 
 @Injectable()
 export class DhProcessesDataAccessApiStore extends ComponentStore<ProcessesState> {
-  processes$: Observable<Process[]> = this.select(
+  processes$: Observable<DhProcess[]> = this.select(
     (state) => state.processes
   ).pipe(
     filter((processes) => !!processes),
-    map((processes) => processes as Process[])
+    map((processes) => processes as DhProcess[])
   );
   isLoading$ = this.select(
     (state) => state.requestState === LoadingState.LOADING
@@ -70,7 +68,16 @@ export class DhProcessesDataAccessApiStore extends ComponentStore<ProcessesState
               (processesData) => {
                 this.setLoading(false);
 
-                this.updateProcessesData(processesData);
+                const dhProcesses: DhProcess[] = processesData.map(
+                  (process) => ({
+                    ...process,
+                    hasDetailsErrors: process.details.some(
+                      (detail) => detail.errors.length > 0
+                    ),
+                  })
+                );
+
+                this.updateProcessesData(dhProcesses);
               },
               (error: HttpErrorResponse) => {
                 this.setLoading(false);
@@ -85,7 +92,7 @@ export class DhProcessesDataAccessApiStore extends ComponentStore<ProcessesState
   );
 
   private updateProcessesData = this.updater(
-    (state: ProcessesState, processesData: Process[]): ProcessesState => ({
+    (state: ProcessesState, processesData: DhProcess[]): ProcessesState => ({
       ...state,
       processes: processesData,
     })
@@ -99,7 +106,7 @@ export class DhProcessesDataAccessApiStore extends ComponentStore<ProcessesState
   );
 
   private handleError = (error: HttpErrorResponse) => {
-    const processesData: Process[] = [];
+    const processesData: DhProcess[] = [];
     this.updateProcessesData(processesData);
 
     const requestError =
