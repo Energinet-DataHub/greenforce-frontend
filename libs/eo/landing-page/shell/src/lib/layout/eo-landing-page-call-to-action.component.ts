@@ -65,16 +65,16 @@ const selector = 'eo-landing-page-call-to-action';
     <div class="${selector}__call-to-action-wrapper">
       <eo-landing-page-column-layout [layoutType]="'full'">
         <h2 class="${selector}__h2">Log in with your company NemID</h2>
-        <a
-          href="https://www.nemid.nu/dk-en/about_nemid/index.html"
-        >
+        <a href="https://www.nemid.nu/dk-en/about_nemid/index.html">
           <img
             class="${selector}__link-icon"
             src="/assets/images/icons/primary-info-icon.svg"
             alt="EnergyOrigin NemID log in"
           />
         </a>
-        <eo-landing-page-login-button class="${selector}__login-button"></eo-landing-page-login-button>
+        <eo-landing-page-login-button
+          class="${selector}__login-button"
+        ></eo-landing-page-login-button>
       </eo-landing-page-column-layout>
     </div>
   `,
