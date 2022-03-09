@@ -17,7 +17,7 @@
 import { Injectable } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
-import { MessageArchiveHttp, Stream,  } from '@energinet-datahub/dh/shared/data-access-api';
+import { MessageArchiveHttp, Stream,  } from '@energinet-datahub/dh/shared/domain';
 import { DownloadingState, ErrorState } from './states';
 import { filter, map, Observable, switchMap, tap } from 'rxjs';
 

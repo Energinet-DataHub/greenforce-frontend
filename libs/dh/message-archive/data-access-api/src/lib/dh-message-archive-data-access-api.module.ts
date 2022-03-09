@@ -17,7 +17,7 @@
  import { Injectable } from '@angular/core';
  import { ComponentStore, tapResponse } from '@ngrx/component-store';
  import { filter, map, Observable, switchMap, tap } from 'rxjs';
- import { MessageArchiveHttp, SearchCriteria, SearchResultItemDto } from '@energinet-datahub/dh/shared/data-access-api';
+ import { MessageArchiveHttp, SearchCriteria, SearchResultItemDto } from '@energinet-datahub/dh/shared/domain';
  import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
  import { ErrorState, SearchingState } from './states';
 interface SearchResultState {

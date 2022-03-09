@@ -16,7 +16,7 @@
  */
  import { CommonModule } from "@angular/common";
  import { ChangeDetectionStrategy, Component, EventEmitter, Input, NgModule, Output } from "@angular/core";
- import { SearchResultItemDto } from "@energinet-datahub/dh/shared/data-access-api";
+ import { SearchResultItemDto } from "@energinet-datahub/dh/shared/domain";
  import { TranslocoModule } from '@ngneat/transloco';
  import { LetModule } from '@rx-angular/template';
  import { MatTableModule } from '@angular/material/table';

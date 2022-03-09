@@ -27,7 +27,7 @@
   WattBadgeModule,
  } from '@energinet-datahub/watt';
  import { DhMessageArchiveDataAccessApiModule, DhMessageArchiveDataAccessBlobApiModule } from '@energinet-datahub/dh/message-archive/data-access-api'
- import { SearchCriteria, SearchResultItemDto } from '@energinet-datahub/dh/shared/data-access-api';
+ import { SearchCriteria, SearchResultItemDto } from '@energinet-datahub/dh/shared/domain';
  import { LetModule } from '@rx-angular/template';
  import { TranslocoModule } from '@ngneat/transloco';
  import { DhMessageArchiveLogSearchResultScam } from './searchresult/dh-message-archive-log-search-result.component';
