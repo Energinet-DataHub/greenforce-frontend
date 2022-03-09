@@ -35,6 +35,11 @@
             "input": "libs/ui-watt/src/assets",
             "glob": "**/*",
             "output": "assets/ui-watt"
+          },
+          {
+            "input": "libs/dh/shared/data-access-msw/src/assets",
+            "glob": "mockServiceWorker.js",
+            "output": ""
           }
         ],
         "styles": ["apps/dh/app-dh/src/styles.scss"],
@@ -80,6 +85,24 @@
           "extractLicenses": false,
           "sourceMap": true,
           "namedChunks": true
+        },
+        "mocked": {
+          "buildOptimizer": false,
+          "optimization": false,
+          "vendorChunk": true,
+          "extractLicenses": false,
+          "sourceMap": true,
+          "namedChunks": true,
+          "fileReplacements": [
+            {
+              "replace": "libs/dh/shared/environments/src/lib/environment.ts",
+              "with": "libs/dh/shared/environments/src/lib/environment.mocked.ts"
+            }
+          ],
+          "allowedCommonJsDependencies": [
+            "@mswjs/cookies",
+            "@mswjs/interceptors"
+          ]
         }
       },
       "defaultConfiguration": "production"
@@ -95,9 +118,14 @@
           "browserTarget": "app-dh:build:development",
           "hmr": true,
           "ssl": true
+        },
+        "mocked": {
+          "browserTarget": "app-dh:build:mocked",
+          "hmr": true,
+          "ssl": true
         }
       },
-      "defaultConfiguration": "development"
+      "defaultConfiguration": "mocked"
     },
     "lint": {
       "executor": "@nrwl/linter:eslint",

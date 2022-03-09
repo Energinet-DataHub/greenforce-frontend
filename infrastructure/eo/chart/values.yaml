@@ -3,10 +3,8 @@ eo-base-helm-chart:
     app:
       replicaCount: 2
       image:
-        repository: ghcr.io/energinet-datahub/greenforce-frontend-ett-app
-        tag: 'latest'
-        pullPolicy: Always
-
+        repository: ghcr.io/energinet-datahub/eo-frontend-app
+        tag: 0.2.2
   service:
     deployment: app
     type: ClusterIP
