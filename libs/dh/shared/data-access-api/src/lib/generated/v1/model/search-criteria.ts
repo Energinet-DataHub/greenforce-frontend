@@ -26,7 +26,7 @@ export interface SearchCriteria {
     invocationId?: string | null;
     functionName?: string | null;
     traceId?: string | null;
-    referenceId?: string | null;
+    includeRelated: boolean;
     rsmName?: string | null;
 }
 

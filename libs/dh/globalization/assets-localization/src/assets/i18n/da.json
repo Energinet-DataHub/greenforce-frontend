@@ -240,6 +240,7 @@
     }
   },
   "messageArchive": {
+    "unknowenError": "Ukendt fejl",
     "search": {
       "title": "Fremsøg forretningsbesked",
       "documenttype": "Dokumenttype",

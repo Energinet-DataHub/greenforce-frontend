@@ -236,6 +236,7 @@
     }
   },
   "messageArchive": {
+    "unknowenError": "Unknowen error",
     "search": {
       "title": "Search in request and response messages",
       "documenttype": "Document type",

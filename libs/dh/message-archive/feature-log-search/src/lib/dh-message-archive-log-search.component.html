@@ -139,6 +139,15 @@ limitations under the License.
 
       </watt-form-field>
 
+      <!-- Reference id -->
+      <watt-form-field size="normal">
+        <watt-checkbox
+          #searchInputReferenceId
+          [(ngModel)]="this.searchCriteria.includeRelated"
+          wattInput
+          name="reference-id">Inkluder relateret besked</watt-checkbox>
+      </watt-form-field>
+
       <!-- Search -->
       <watt-button
         [disabled]="!validateSearchParams()"
@@ -150,6 +159,11 @@ limitations under the License.
   </div>
 
   </form>
+
+  <div *transloco="let transloco; read: 'messageArchive'">
+    <watt-badge *ngIf="hasSearchError$ | async" type="danger">{{ transloco("unknowenError") }}</watt-badge>
+  </div>
+
   <hr />
 
   <dh-message-archive-log-search-result

@@ -40,7 +40,7 @@ export class DhMessageArchiveLogSearchResultComponent {
   @Output() showLogDownloadPage = new EventEmitter<SearchResultItemDto>();
   @Output() downloadLogFile = new EventEmitter<SearchResultItemDto>();
   @Input() isSearching: boolean | null = false;
-  displayedColumns: string[] = ['messageId', 'rsmName', 'sender', 'logcreateddate', 'traceid', 'logoptions'];
+  displayedColumns: string[] = ['messageId', 'rsmName', 'sender', 'logcreateddate', 'logoptions'];
   iconSizes = WattIconSize;
   iconDownload: WattIcon = 'download';
   iconOpenInNew: WattIcon = 'openInNew';

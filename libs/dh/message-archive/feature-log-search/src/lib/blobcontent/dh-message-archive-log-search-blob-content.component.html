@@ -24,3 +24,7 @@ limitations under the License.
 <div *ngIf="isDownloading$ | async">
   <watt-spinner [diameter]="60"></watt-spinner>
 </div>
+
+<div *transloco="let transloco; read: 'messageArchive'">
+  <watt-badge *ngIf="hasGeneralError$ | async" type="danger">{{ transloco("unknowenError") }}</watt-badge>
+</div>
