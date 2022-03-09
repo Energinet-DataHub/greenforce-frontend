@@ -15,7 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <mat-select
-  [formControl]="internalMatSelectControl"
+  [formControl]="matSelectControl"
   [placeholder]="placeholder"
   #matSelect
   [multiple]="multiple"
@@ -23,7 +23,7 @@ limitations under the License.
 >
   <mat-option>
     <ngx-mat-select-search
-      [formControl]="internalFilterControl"
+      [formControl]="filterControl"
       [placeholderLabel]="placeholderLabel"
       [noEntriesFoundLabel]="noEntriesFoundLabel"
     ></ngx-mat-select-search>

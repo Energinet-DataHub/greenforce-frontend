@@ -58,14 +58,14 @@ export class WattDropdownComponent
   /**
    * @ignore
    */
-  internalMatSelectControl = new FormControl();
+  matSelectControl = new FormControl();
 
   /**
    * Control for the MatSelect filter keyword
    *
    * @ignore
    */
-  internalFilterControl = new FormControl();
+  filterControl = new FormControl();
 
   /**
    * List of options filtered by search keyword
@@ -111,8 +111,8 @@ export class WattDropdownComponent
   /**
    * @ignore
    */
-  writeValue(value: WattDropdownOption | WattDropdownOption[]): void {
-    this.internalMatSelectControl.setValue(value);
+  writeValue(value: WattDropdownOption | WattDropdownOption[] | null): void {
+    this.matSelectControl.setValue(value);
   }
 
   /**
@@ -149,7 +149,7 @@ export class WattDropdownComponent
     this.filteredOptions.next(this.options.slice());
 
     // listen for search field value changes
-    this.internalFilterControl.valueChanges
+    this.filterControl.valueChanges
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => {
         this.filterOptions();
@@ -167,7 +167,7 @@ export class WattDropdownComponent
   }
 
   private onMatSelectValueChange() {
-    this.internalMatSelectControl.valueChanges
+    this.matSelectControl.valueChanges
       .pipe(takeUntil(this.destroy$))
       .subscribe((value: WattDropdownOption) => {
         this.onTouched();
@@ -202,7 +202,7 @@ export class WattDropdownComponent
     }
 
     // get the search keyword
-    let search = this.internalFilterControl.value;
+    let search = this.filterControl.value;
 
     if (!search) {
       this.filteredOptions.next(this.options.slice());
