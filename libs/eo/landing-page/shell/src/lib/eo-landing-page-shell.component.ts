@@ -46,7 +46,8 @@ const selector = 'eo-landing-page-shell';
         display: block;
 
         .${selector}__footer-mesh {
-          width: 30%;
+          width: 360px;
+          height: 360px;
           position: absolute;
           bottom: 200px; // Position the image just above the footer
         }
