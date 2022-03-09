@@ -41,13 +41,23 @@ export class WattDropdownComponent implements OnInit, AfterViewInit, OnDestroy {
   /** Subject that emits when the component has been destroyed. */
   private destroy$ = new Subject<void>();
 
-  /** control for the selected bank */
-  internalControl = new FormControl();
+  /**
+   * @ignore
+   */
+  internalMatSelectControl = new FormControl();
 
-  /** control for the MatSelect filter keyword */
+  /**
+   * Control for the MatSelect filter keyword
+   *
+   * @ignore
+   */
   internalFilterControl = new FormControl();
 
-  /** list of banks filtered by search keyword */
+  /**
+   * List of options filtered by search keyword
+   *
+   * @ignore
+   */
   filteredOptions = new ReplaySubject<WattDropdownOption[]>(1);
 
   @ViewChild('matSelect', { static: true }) matSelect?: MatSelect;
