@@ -63,6 +63,12 @@ export class WattDropdownComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('matSelect', { static: true }) matSelect?: MatSelect;
 
   /**
+   *
+   * Sets the options for the dropdown.
+   */
+  @Input() options: WattDropdownOption[] = [];
+
+  /**
    * Sets support for selecting multiple dropdown options.
    */
   @Input() multiple = false;
@@ -75,23 +81,28 @@ export class WattDropdownComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() placeholder = '';
 
   /**
+   * Sets the placeholder for the filter input.
    *
-   * Sets the options for the dropdown.
+   * @required
    */
-  @Input() options: WattDropdownOption[] = [];
+  @Input() placeholderLabel = '';
+
+  /**
+   * Label to be shown when no entries are found.
+   *
+   * @required
+   */
+  @Input() noEntriesFoundLabel = '';
 
   ngOnInit() {
-    // set initial selection
-    // this.bankCtrl.setValue(this.banks[10]);
-
-    // load the initial bank list
+    // load the initial list of options
     this.filteredOptions.next(this.options.slice());
 
     // listen for search field value changes
     this.internalFilterControl.valueChanges
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => {
-        this.filterBanks();
+        this.filterOptions();
       });
   }
 
@@ -105,9 +116,9 @@ export class WattDropdownComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   /**
-   * Sets the initial value after the filteredBanks are loaded initially
+   * Sets the initial value after the filteredOptions are loaded initially
    */
-  protected setInitialValue() {
+  private setInitialValue() {
     this.filteredOptions
       .pipe(take(1), takeUntil(this.destroy$))
       .subscribe(() => {
@@ -125,19 +136,22 @@ export class WattDropdownComponent implements OnInit, AfterViewInit, OnDestroy {
       });
   }
 
-  protected filterBanks() {
+  private filterOptions() {
     if (!this.options) {
       return;
     }
+
     // get the search keyword
     let search = this.internalFilterControl.value;
+
     if (!search) {
       this.filteredOptions.next(this.options.slice());
       return;
     } else {
       search = search.toLowerCase();
     }
-    // filter the banks
+
+    // filter the options
     this.filteredOptions.next(
       this.options.filter(
         (option) => option.displayValue.toLowerCase().indexOf(search) > -1
