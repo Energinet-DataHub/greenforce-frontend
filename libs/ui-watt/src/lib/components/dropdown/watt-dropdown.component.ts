@@ -17,15 +17,26 @@
 import {
   AfterViewInit,
   Component,
+  forwardRef,
   Input,
   OnDestroy,
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import {
+  ControlValueAccessor,
+  FormControl,
+  NG_VALUE_ACCESSOR,
+} from '@angular/forms';
 import { MatSelect } from '@angular/material/select';
 import { ReplaySubject, Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
+
+const customValueAccessor = {
+  multi: true,
+  provide: NG_VALUE_ACCESSOR,
+  useExisting: forwardRef(() => WattDropdownComponent),
+};
 
 export interface WattDropdownOption {
   value: string;
@@ -36,8 +47,11 @@ export interface WattDropdownOption {
   selector: 'watt-dropdown',
   templateUrl: './watt-dropdown.component.html',
   styleUrls: ['./watt-dropdown.component.scss'],
+  providers: [customValueAccessor],
 })
-export class WattDropdownComponent implements OnInit, AfterViewInit, OnDestroy {
+export class WattDropdownComponent
+  implements ControlValueAccessor, OnInit, AfterViewInit, OnDestroy
+{
   /** Subject that emits when the component has been destroyed. */
   private destroy$ = new Subject<void>();
 
@@ -94,6 +108,42 @@ export class WattDropdownComponent implements OnInit, AfterViewInit, OnDestroy {
    */
   @Input() noEntriesFoundLabel = '';
 
+  /**
+   * @ignore
+   */
+  writeValue(value: WattDropdownOption | WattDropdownOption[]): void {
+    this.internalMatSelectControl.setValue(value);
+  }
+
+  /**
+   * @ignore
+   */
+  registerOnChange(onChangeFn: (value: WattDropdownOption) => void) {
+    this.onChange = onChangeFn;
+  }
+
+  /**
+   * @ignore
+   */
+  registerOnTouched(onTouchFn: () => void) {
+    this.onTouched = onTouchFn;
+  }
+
+  /**
+   * @ignore
+   */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  onChange = (value: WattDropdownOption) => {
+    // Intentionally left empty
+  };
+
+  /**
+   * @ignore
+   */
+  onTouched = () => {
+    // Intentionally left empty
+  };
+
   ngOnInit() {
     // load the initial list of options
     this.filteredOptions.next(this.options.slice());
@@ -108,11 +158,21 @@ export class WattDropdownComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngAfterViewInit() {
     this.setInitialValue();
+    this.onMatSelectValueChange();
   }
 
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
+  }
+
+  private onMatSelectValueChange() {
+    this.internalMatSelectControl.valueChanges
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((value: WattDropdownOption) => {
+        this.onTouched();
+        this.onChange(value);
+      });
   }
 
   /**
