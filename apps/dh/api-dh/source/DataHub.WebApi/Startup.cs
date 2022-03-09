@@ -172,7 +172,7 @@ namespace Energinet.DataHub.WebApi
         private static void AddMessageArchiveClient(IServiceCollection services, ApiClientSettings? apiClientSettings)
         {
             string emptyUrl = "https://empty";
-            Uri messageArchiveBaseUrl = Uri.TryCreate(apiClientSettings?.MessageArchiveBaseUrl, UriKind.RelativeOrAbsolute, out var url)
+            Uri messageArchiveBaseUrl = Uri.TryCreate(apiClientSettings?.MessageArchiveBaseUrl, UriKind.Absolute, out var url)
                 ? url
                 : new Uri(emptyUrl);
 
