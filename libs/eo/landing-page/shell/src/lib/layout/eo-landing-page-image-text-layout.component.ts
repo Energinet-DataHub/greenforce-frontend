@@ -38,6 +38,9 @@ const selector = 'eo-landing-page-image-text-layout';
         width: 100%;
         height: auto;
       }
+      .${selector}__img--small {
+        width: 400px;
+      }
       .margin-bottom-xxl {
         margin-bottom: calc(2 * var(--watt-space-xl));
       }
@@ -61,8 +64,12 @@ const selector = 'eo-landing-page-image-text-layout';
         ); // This overrides the '--watt-color-primary-dark' color which is currently added by the watt-text-s class
       }
       .${selector}__full-width-wrapper {
-        padding: calc(2 * var(--watt-space-xl));
+        // padding: calc(2 * var(--watt-space-xl));
+        height: calc(92 * var(--watt-space-xs));
         margin-bottom: calc(2 * var(--watt-space-xl));
+        display: flex;
+        align-items: center;
+        justify-content: center;
         background: var(
           --watt-color-focus-selection
         ); // This is the light-blue-ish background color
@@ -103,13 +110,11 @@ const selector = 'eo-landing-page-image-text-layout';
     <div class="${selector}__full-width-wrapper">
       <eo-landing-page-column-layout [layoutType]="'largeFirst'">
         <ng-container contentLeftLarge>
-          <div class="padding-right-xl">
-            <img
-              class="${selector}__img"
-              src="/assets/images/landing-page/landing-page-office-people.png"
-              alt="EnergyOrigin"
-            />
-          </div>
+          <img
+            class="${selector}__img ${selector}__img--small"
+            src="/assets/images/landing-page/landing-page-office-people.png"
+            alt="EnergyOrigin"
+          />
         </ng-container>
         <ng-container contentRightSmall>
           <h2 class="${selector}__h2">Who is it for?</h2>

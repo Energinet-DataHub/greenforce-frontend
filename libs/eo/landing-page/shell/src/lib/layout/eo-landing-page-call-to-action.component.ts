@@ -41,16 +41,23 @@ const selector = 'eo-landing-page-call-to-action';
         display: inline-block;
       }
       .${selector}__call-to-action-wrapper {
-        padding: calc(2 * var(--watt-space-xl));
+        height: calc(75 * var(--watt-space-xs));
         background: var(
           --watt-color-focus-selection
         ); // This is the light-blue-ish background color
+        display: flex;
+        align-items: center;
+        justify-content: center;
       }
       .${selector}__link-icon {
         width: 24px;
         height: 24px;
         margin-left: calc(2.5 * var(--watt-space-xs));
         cursor: pointer;
+      }
+
+      .${selector}__login-button > a {
+        width: calc(40 * var(--watt-space-xs));
       }
     `,
   ],
@@ -60,7 +67,6 @@ const selector = 'eo-landing-page-call-to-action';
         <h2 class="${selector}__h2">Log in with your company NemID</h2>
         <a
           href="https://www.nemid.nu/dk-en/about_nemid/index.html"
-          target="_blank"
         >
           <img
             class="${selector}__link-icon"
@@ -68,7 +74,7 @@ const selector = 'eo-landing-page-call-to-action';
             alt="EnergyOrigin NemID log in"
           />
         </a>
-        <eo-landing-page-login-button></eo-landing-page-login-button>
+        <eo-landing-page-login-button class="${selector}__login-button"></eo-landing-page-login-button>
       </eo-landing-page-column-layout>
     </div>
   `,

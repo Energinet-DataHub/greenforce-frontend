@@ -33,12 +33,13 @@ const selector = 'eo-landing-page-hero';
 
       ${selector} {
         display: block;
-        margin-bottom: calc(2 * var(--watt-space-xl));
+        margin-bottom: calc(24 * var(--watt-space-xs));
 
         .${selector}__h1 {
           @include watt.typography-watt-headline-1; // This overrides the styles applied from Angular Material on h1 tags
           text-transform: uppercase;
           margin-left: var(--watt-space-m);
+          color: var(--watt-color-neutral-black);
 
           > span {
             color: var(--watt-color-primary);
@@ -52,7 +53,7 @@ const selector = 'eo-landing-page-hero';
 
         .${selector}__call-to-action {
           text-align: center;
-          background: var(--watt-color-primary-dark); // #BED7D9;
+          background: #BED7D9;
           padding-top: var(--watt-space-l);
           padding-bottom: var(--watt-space-l);
 
@@ -60,14 +61,17 @@ const selector = 'eo-landing-page-hero';
             display: inline-block;
           }
 
-          eo-landing-page-login-button {
+          > eo-landing-page-login-button {
             margin-left: var(--watt-space-xl);
+
+            > a {
+              width: calc(40 * var(--watt-space-xs));
+            }
           }
           .${selector}__h2 {
             @include watt.typography-watt-headline-2; // This overrides the styles applied from Angular Material on h2 tags
             text-transform: none;
             color: var(--watt-color-neutral-black);
-            color: #FFF;
           }
         }
       }
@@ -76,8 +80,7 @@ const selector = 'eo-landing-page-hero';
   template: `
     <h1 class="${selector}__h1">
       Access
-      <span class="font-primary-color"
-        >your emissions and<br />energy origin</span
+      <span>your emissions and<br />energy origin</span
       >
       overview
     </h1>
