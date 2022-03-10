@@ -8,9 +8,8 @@ describe(EoVimeoPlayerComponent.name, () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ EoVimeoPlayerComponent ]
-    })
-    .compileComponents();
+      declarations: [EoVimeoPlayerComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {
