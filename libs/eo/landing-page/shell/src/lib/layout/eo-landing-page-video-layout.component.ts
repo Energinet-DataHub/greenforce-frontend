@@ -21,6 +21,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { EoLandingPageColumnLayoutScam } from './eo-landing-page-column-layout.component';
+import { EoVimeoPlayerScam } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 
 const selector = 'eo-landing-page-video-layout';
 
@@ -81,12 +82,9 @@ const selector = 'eo-landing-page-video-layout';
       >
 
       <div class="${selector}__embedded">
-        <div class="eo-video-embed-container">
-          <iframe
-            src="https://player.vimeo.com/video/642352286?h=91e1a8b63c&badge=0&autopause=0&player_id=0&app_id=58479"
-          ></iframe>
-        </div>
+        <eo-vimeo-player [url]="'https://player.vimeo.com/video/642352286?h=91e1a8b63c&badge=0&autopause=0&player_id=0&app_id=58479'"></eo-vimeo-player>
       </div>
+
     </eo-landing-page-column-layout>
   `,
   encapsulation: ViewEncapsulation.None,
@@ -97,6 +95,6 @@ export class EoLandingPageVideoLayoutComponent {}
 @NgModule({
   declarations: [EoLandingPageVideoLayoutComponent],
   exports: [EoLandingPageVideoLayoutComponent],
-  imports: [EoLandingPageColumnLayoutScam],
+  imports: [EoLandingPageColumnLayoutScam, EoVimeoPlayerScam],
 })
 export class EoLandingPageVideoLayoutScam {}
