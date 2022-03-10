@@ -14,5 +14,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './lib/is-valid-metering-point-id';
-export * from './model/dh-process';
+import { Pipe, PipeTransform } from '@angular/core';
+import { dhFormatDanishDatetime, TValue } from './dh-format-danish-datetime';
+
+export const pipeName = 'dhDateTime';
+
+@Pipe({
+  name: pipeName,
+})
+export class DhDateTimePipe implements PipeTransform {
+  private dateTimeFormat = 'dd-MM-yyyy HH:mm:ss';
+
+  /**
+   *
+   * @param maybeIso8601DateTime Date time in ISO 8601 format (e.g. 2021-12-01T23:00:00Z)
+   * @returns
+   */
+  transform(maybeIso8601DateTime: TValue): string | null {
+    return dhFormatDanishDatetime(maybeIso8601DateTime, this.dateTimeFormat);
+  }
+}
