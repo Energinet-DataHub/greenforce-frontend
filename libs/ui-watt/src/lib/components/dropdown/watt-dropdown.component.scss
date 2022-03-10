@@ -14,42 +14,74 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 watt-dropdown {
   display: block;
   width: 100%;
-
-  // watt-form-field {
-  //   .mat-form-field-flex {
-  //     height: 40px;
-  //   }
-  // }
 }
 
-// .watt-dropdown-autocomplete-panel {
-//   border-radius: 3px;
-//   padding: var(--watt-space-s) 0;
-//   top: 14px;
+.mat-select-trigger {
+  padding: 16px;
+}
 
-//   // Note: Used for increasing the specificity
-//   // e.g. `.my-class.my-class`
-//   &#{&} {
-//     box-shadow: 0px 3px 5px rgba(9, 30, 66, 0.2),
-//       0px 0px 1px rgba(9, 30, 66, 0.31);
-//   }
+.mat-select-search-inner {
+  border-radius: 4px !important;
 
-//   .mat-option {
-//     color: var(--watt-color-primary-dark);
-//     height: var(--watt-space-l);
+  .mat-select-search-input {
+    height: 44px !important;
+  }
+}
 
-//     &.mat-selected,
-//     &.mat-selected:not(.mat-option-multiple):not(.mat-option-disabled),
-//     &.mat-selected:not(.mat-active):not(:hover),
-//     &:hover:not(.mat-option-disabled) {
-//       background-color: var(--watt-color-primary-light);
-//     }
+.mat-select-search-inner {
+  margin-top: 2px;
+  border-bottom-width: 0px !important;
+}
 
-//     &.mat-selected:not(.mat-active):not(:hover):not(.mat-option-disabled) {
-//       color: var(--watt-color-primary-dark);
-//     }
-//   }
-// }
+.myPanelClass {
+  margin-top: calc(48px + 8px);
+  min-width: calc(100% + 2px) !important;
+  margin-left: 15px;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  .mat-option.contains-mat-select-search {
+    position: absolute !important;
+    top: 2px;
+    width: 100%;
+    border-radius: 4px;
+    height: 46px !important;
+  }
+}
+
+.mat-select-search-input {
+  border: 1px solid var(--watt-color-primary) !important;
+  border-radius: 4px;
+}
+
+.mat-select-search-clear {
+  top: 0 !important;
+  height: 42px !important;
+}
+
+.mat-select-search-no-entries-found {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+.mat-select-search-input.mat-select-search-hidden {
+  display: none;
+}
+
+.contains-mat-select-search.mat-select-search-no-entries-found {
+  height: auto !important;
+}
+
+.mat-select-search-no-entries-found {
+  text-align: center;
+}
+
+// TODO: RENAME myPanelClass to watt-dropdown-panel
+// TODO: Fix styling for no results
