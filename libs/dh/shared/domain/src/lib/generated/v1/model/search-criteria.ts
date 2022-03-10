@@ -28,6 +28,8 @@ export interface SearchCriteria {
     traceId?: string | null;
     includeRelated: boolean;
     rsmName?: string | null;
+    continuationToken?: string | null;
+    maxItemCount: number;
 }
 
 

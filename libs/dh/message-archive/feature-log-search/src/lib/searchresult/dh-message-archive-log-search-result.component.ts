@@ -26,7 +26,8 @@
   WattIconSize,
   WattSpinnerModule,
   WattEmptyStateModule,
-  WattIcon
+  WattIcon,
+  WattBadgeModule
  } from '@energinet-datahub/watt';
 
 @Component({
@@ -40,7 +41,7 @@ export class DhMessageArchiveLogSearchResultComponent {
   @Output() showLogDownloadPage = new EventEmitter<SearchResultItemDto>();
   @Output() downloadLogFile = new EventEmitter<SearchResultItemDto>();
   @Input() isSearching: boolean | null = false;
-  displayedColumns: string[] = ['messageId', 'rsmName', 'sender', 'logcreateddate', 'logoptions'];
+  displayedColumns: string[] = ['messageId', 'rsmName', 'sender', 'logcreateddate', 'status', 'logoptions'];
   iconSizes = WattIconSize;
   iconDownload: WattIcon = 'download';
   iconOpenInNew: WattIcon = 'openInNew';
@@ -66,7 +67,8 @@ export class DhMessageArchiveLogSearchResultComponent {
     WattIconModule,
     WattSpinnerModule,
     WattEmptyStateModule,
-    WattButtonModule
+    WattButtonModule,
+    WattBadgeModule
   ],
 })
 export class DhMessageArchiveLogSearchResultScam {}

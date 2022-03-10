@@ -14,6 +14,7 @@ import { SearchResultItemDto } from './search-result-item-dto';
 
 export interface SearchResultsDto { 
     result: Array<SearchResultItemDto>;
+    continuationToken?: string | null;
 }
 
 

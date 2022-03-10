@@ -156,6 +156,28 @@ limitations under the License.
         icon="search"
         size="normal">{{ transloco("startSearch") }}</watt-button>
 
+      <!-- Pager -->
+      <watt-form-field size="normal">
+
+        <watt-label class="watt-text-m">Maks resulater per side</watt-label>
+
+        <select
+          #searchInputPageSize
+          wattInput
+          name="pageSize"
+          [(ngModel)]="this.searchCriteria.maxItemCount">
+          <option
+          *ngFor="let pageSize of this.pageSizes"
+          [ngValue]="pageSize" value="{{pageSize}}">{{pageSize}}</option>
+        </select>
+
+      </watt-form-field>
+
+      <div>
+        <watt-label class="watt-text-m">Side {{this.pageNumber}}</watt-label>
+        <watt-button [disabled]="(continuationToken$ | async) === null" type="button" (click)="nextPage()">Næste side</watt-button>
+      </div>
+
   </div>
 
   </form>

@@ -47,31 +47,45 @@ import { ActivatedRoute, Router } from '@angular/router';
  })
  export class DhMessageArchiveLogSearchComponent implements OnDestroy {
     private destroy$ = new Subject<void>();
+    private regexBlobName = new RegExp(/\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])\/.*/);
 
     searchResult$ = this.store.searchResult$;
     searching$ = this.store.isSearching$;
     hasSearchError$ = this.store.hasGeneralError$;
+    continuationToken$ = this.store.continuationToken$;
 
     searchResultsDtos: Array<SearchResultItemDto> = [];
     businessReasonCodes = BusinessReasonCodes;
     documentTypes = DocumentTypes;
     roleTypes = RoleTypes;
+    pageSizes = [250, 500, 750, 1000];
+    pageNumber = 1;
 
-    private regexBlobName = new RegExp(/\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])\/.*/);
+    private initDateFrom = ():Date => {
+      const from = new Date();
+      from.setUTCMonth(new Date().getMonth() - 1);
+      from.setUTCHours(0, 0 ,0);
+      return from;
+    };
+    private initDateTo = ():Date => {
+      const to = new Date();
+      to.setUTCHours(23, 59, 59);
+      return to;
+    };
 
-    tempCheckedValue = false;
-
+   // eslint-disable-next-line @typescript-eslint/member-ordering
    searchCriteria: SearchCriteria = {
-     messageId: "253698245",
+     messageId: null,
      reasonCode: null,
-     dateTimeFrom: "2022-03-04T00:00:00Z",
-     dateTimeTo: "2022-03-04T23:59:59Z",
+     dateTimeFrom: this.initDateFrom().toISOString().split('.')[0]+"Z",
+     dateTimeTo: this.initDateTo().toISOString().split('.')[0]+"Z",
      senderRoleType: null,
      rsmName: null,
      includeRelated: false,
      traceId: null,
      functionName: null,
      invocationId: null,
+     maxItemCount: 250,
     };
 
    constructor(
@@ -82,7 +96,10 @@ import { ActivatedRoute, Router } from '@angular/router';
   {
     this.store.searchResult$.subscribe((searchResult) => {
       this.searchResultsDtos = searchResult;
-    })
+    });
+    this.store.continuationToken$.subscribe((token) => {
+      this.searchCriteria.continuationToken = token;
+    });
 
     this.currentRoute.queryParamMap.subscribe(q => {
         this.searchCriteria.traceId = q.has("traceId") ? q.get("traceId") : null;
@@ -92,12 +109,22 @@ import { ActivatedRoute, Router } from '@angular/router';
   }
 
   onSubmit() {
+    this.searchCriteria.continuationToken = null;
+    this.pageNumber = 1;
+
     if (!this.searchCriteria.messageId) {
       this.searchCriteria.includeRelated = false;
     }
 
     if(this.validateSearchParams()) {
       this.store.searchLogs(this.searchCriteria)
+    }
+  }
+
+  nextPage() {
+    if(this.validateSearchParams()) {
+      this.store.searchLogs(this.searchCriteria);
+      this.pageNumber++;
     }
   }
 

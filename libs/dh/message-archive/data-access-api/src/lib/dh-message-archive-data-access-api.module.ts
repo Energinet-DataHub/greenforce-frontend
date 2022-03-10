@@ -23,11 +23,13 @@
 interface SearchResultState {
   readonly searchResult?: Array<SearchResultItemDto>;
   readonly searchingState: SearchingState | ErrorState;
+  readonly continuationToken: string | null | undefined;
 }
 
 const initialState: SearchResultState = {
   searchResult: [],
   searchingState: SearchingState.INIT,
+  continuationToken: null,
 };
 
 @Injectable()
@@ -42,6 +44,9 @@ export class DhMessageArchiveDataAccessApiModule extends ComponentStore<SearchRe
     filter((searchResult) => !!searchResult),
     map((searchResult) => searchResult as Array<SearchResultItemDto>)
   );
+  continuationToken$: Observable<string | null | undefined> = this.select(
+    (state) => state.continuationToken
+  );
   isSearching$ = this.select(
     (state) => state.searchingState === SearchingState.SEARCHING
   );
@@ -53,8 +58,12 @@ export class DhMessageArchiveDataAccessApiModule extends ComponentStore<SearchRe
   readonly searchLogs = this.effect(
     (searchCriteria: Observable<SearchCriteria>) => {
       return searchCriteria.pipe(
-        tap(() => {
-          this.resetState();
+        tap((e) => {
+          this.setState({
+            searchResult: [],
+            searchingState: SearchingState.INIT,
+            continuationToken: e.continuationToken
+          });
           this.setLoading(true);
         }),
         switchMap((searchCriteria) =>
@@ -63,6 +72,7 @@ export class DhMessageArchiveDataAccessApiModule extends ComponentStore<SearchRe
               (searchResult) => {
                 this.setLoading(false);
                 if(searchResult && searchResult.result) {
+                  this.updateContinuationToken(searchResult.continuationToken);
                   this.updateSearchResult(searchResult.result);
                 }
                 else {
@@ -88,6 +98,17 @@ export class DhMessageArchiveDataAccessApiModule extends ComponentStore<SearchRe
     ): SearchResultState => ({
       ...state,
       searchResult: searchResult,
+    })
+  );
+
+  private updateContinuationToken = this.updater(
+    (
+      state: SearchResultState,
+      continuationToken: string | null | undefined
+    ): SearchResultState => (
+    {
+      ...state,
+      continuationToken: continuationToken,
     })
   );
 
