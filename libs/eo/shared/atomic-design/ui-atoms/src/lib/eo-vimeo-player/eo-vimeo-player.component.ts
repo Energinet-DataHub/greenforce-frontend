@@ -108,7 +108,6 @@ export class EoVimeoPlayerComponent implements OnInit {
     });
 
     player.ready().then(() => {
-
       player.play();
     });
 
