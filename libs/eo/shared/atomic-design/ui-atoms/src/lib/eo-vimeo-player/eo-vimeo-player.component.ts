@@ -1,4 +1,20 @@
-import {CommonModule} from '@angular/common';
+/**
+ * @license
+ * Copyright 2020 Energinet DataHub A/S
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License2");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -10,7 +26,7 @@ import {
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
-import {DomSanitizer} from '@angular/platform-browser';
+import { DomSanitizer } from '@angular/platform-browser';
 import Player from '@vimeo/player';
 
 const selector = 'eo-vimeo-player';
@@ -20,7 +36,7 @@ const selector = 'eo-vimeo-player';
     <div class="${selector}__embed-container">
       <img
         class="${selector}__poster-image"
-        *ngIf="showPosterImage;"
+        *ngIf="showPosterImage"
         [src]="posterImage"
         (click)="onVideoPlay($event)"
       />
@@ -53,13 +69,12 @@ const selector = 'eo-vimeo-player';
           height: 100%;
         }
       }
-    `
+    `,
   ],
   encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EoVimeoPlayerComponent implements OnInit {
-
   showPosterImage = true;
 
   @ViewChild('vimeoEmbedContainer')
@@ -75,10 +90,13 @@ export class EoVimeoPlayerComponent implements OnInit {
   // We need 'string | null' for the video player 'url' property, instead of 'SafeResourceUrl' from 'bypassSecurityTrustResourceUrl'
   safeUrl: string | null = '';
 
-  constructor(private sanitizer: DomSanitizer) { }
+  constructor(private sanitizer: DomSanitizer) {}
 
   ngOnInit() {
-    this.safeUrl = this.sanitizer.sanitize(SecurityContext.RESOURCE_URL, this.sanitizer.bypassSecurityTrustResourceUrl(this.url));
+    this.safeUrl = this.sanitizer.sanitize(
+      SecurityContext.RESOURCE_URL,
+      this.sanitizer.bypassSecurityTrustResourceUrl(this.url)
+    );
   }
 
   onVideoPlay(event: Event) {
@@ -89,18 +107,18 @@ export class EoVimeoPlayerComponent implements OnInit {
       url: this.safeUrl as string,
     });
 
-    this.showPosterImage = false;
-
     player.ready().then(() => {
+
       player.play();
     });
-  }
 
+    this.showPosterImage = false;
+  }
 }
 
 @NgModule({
   imports: [CommonModule],
   declarations: [EoVimeoPlayerComponent],
-  exports: [EoVimeoPlayerComponent]
+  exports: [EoVimeoPlayerComponent],
 })
 export class EoVimeoPlayerScam {}

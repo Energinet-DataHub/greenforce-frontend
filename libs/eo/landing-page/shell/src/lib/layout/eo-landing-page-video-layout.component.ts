@@ -82,9 +82,12 @@ const selector = 'eo-landing-page-video-layout';
       >
 
       <div class="${selector}__embedded">
-        <eo-vimeo-player [url]="'https://player.vimeo.com/video/642352286?h=91e1a8b63c&badge=0&autopause=0&player_id=0&app_id=58479'"></eo-vimeo-player>
+        <eo-vimeo-player
+          [url]="
+            'https://player.vimeo.com/video/642352286?h=91e1a8b63c&badge=0&autopause=0&player_id=0&app_id=58479'
+          "
+        ></eo-vimeo-player>
       </div>
-
     </eo-landing-page-column-layout>
   `,
   encapsulation: ViewEncapsulation.None,
