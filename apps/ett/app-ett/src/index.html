@@ -21,7 +21,9 @@ limitations under the License.
     <meta
       http-equiv="Content-Security-Policy"
       content="
-      frame-src https://player.vimeo.com";
+      script-src 'self' https://player.vimeo.com;
+      style-src 'self' 'unsafe-inline'
+      frame-src 'unsafe-inline' https://player.vimeo.com";
     />
     <title>EnergyOrigin</title>
     <base href="/" />
