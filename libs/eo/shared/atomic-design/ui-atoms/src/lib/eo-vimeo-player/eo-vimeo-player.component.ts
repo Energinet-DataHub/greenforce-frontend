@@ -82,16 +82,18 @@ export class EoVimeoPlayerComponent implements OnInit {
   }
 
   onVideoPlay(event: Event) {
-    this.showPosterImage = false;
-
     const vimeoEmbedContainerRef = this.vimeoEmbedContainer.nativeElement;
     vimeoEmbedContainerRef.classList.add(`${selector}__embed-container`);
 
     const player = new Player(vimeoEmbedContainerRef, {
-      url: this.safeUrl as string
+      url: this.safeUrl as string,
     });
 
-    player.on('loaded', () => player.play())
+    this.showPosterImage = false;
+
+    player.ready().then(() => {
+      player.play();
+    });
   }
 
 }
