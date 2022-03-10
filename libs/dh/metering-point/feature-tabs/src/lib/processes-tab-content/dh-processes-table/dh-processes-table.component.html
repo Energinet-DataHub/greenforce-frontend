@@ -19,15 +19,16 @@ limitations under the License.
     #matTable
     [dataSource]="sortedData"
     matSort
+    multiTemplateDataRows
     (matSortChange)="sortData($event)"
     *transloco="let transloco; read: 'meteringPoint.overview.processesTab'"
   >
     <!-- Expand Definition -->
-    <ng-container matColumnDef="expand">
-      <mat-header-cell *matHeaderCellDef class="watt-label column-expand">
+    <ng-container matColumnDef="tableExpandControl">
+      <mat-header-cell *matHeaderCellDef class="control-cell-header">
       </mat-header-cell>
-      <mat-cell *matCellDef="let row">
-        <watt-icon name="right" [size]="iconSize.Large"></watt-icon>
+      <mat-cell *matCellDef="let row" class="control-cell">
+        <watt-icon name="right" [size]="iconSize.Large" [ngClass]="{'expanded': row.expanded}"></watt-icon>
       </mat-cell>
     </ng-container>
 
@@ -94,7 +95,6 @@ limitations under the License.
         *matHeaderCellDef
         mat-sort-header
         [sortActionDescription]="transloco('sortDescription.status')"
-        class="watt-label"
       >
         {{ transloco('headers.status') }}
       </mat-header-cell>
@@ -105,10 +105,10 @@ limitations under the License.
       </mat-cell>
     </ng-container>
 
-    <!-- Has Errors Definition -->
+    <!-- Has Details Errors Definition -->
     <ng-container matColumnDef="hasDetailsErrors">
-      <mat-header-cell *matHeaderCellDef></mat-header-cell>
-      <mat-cell *matCellDef="let row">
+      <mat-header-cell *matHeaderCellDef class="status-cell-header"></mat-header-cell>
+      <mat-cell *matCellDef="let row" class="status-cell">
         <div class="watt-text-s">
           <watt-icon
             [name]="row.hasDetailsErrors ? 'danger' : 'success'"
@@ -119,9 +119,63 @@ limitations under the License.
       </mat-cell>
     </ng-container>
 
+    <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
+    <ng-container matColumnDef="expandedDetail">
+      <mat-header-cell *matHeaderCellDef></mat-header-cell>
+      <mat-cell
+        mat-cell
+        *matCellDef="let row"
+        [attr.colspan]="displayedColumns.length"
+        [@detailExpand]="row.expanded ? 'expanded' : 'collapsed'"
+      >
+        <div class="child-row" state="success">
+          <div class="child-cell">hej</div>
+          <div class="child-cell">hej</div>
+          <div class="child-cell">med</div>
+          <div class="child-cell">dig</div>
+          <div class="child-cell">what</div>
+        </div>
+
+        <div class="child-row" state="danger">
+          <div class="child-cell">hej</div>
+          <div class="child-cell">hej</div>
+          <div class="child-cell">med</div>
+          <div class="child-cell">dig</div>
+          <div class="child-cell">what</div>
+          <div class="child-cell full-width">AFVIST: Landenavn SE for målepunkt har forkert værdi</div>
+        </div>
+
+        <div class="child-row">
+          <div class="child-cell">hej</div>
+          <div class="child-cell">hej</div>
+          <div class="child-cell">med</div>
+          <div class="child-cell">dig</div>
+          <div class="child-cell">what</div>
+        </div>
+
+        <div class="child-row">
+          <div class="child-cell">hej</div>
+          <div class="child-cell">hej</div>
+          <div class="child-cell">med</div>
+          <div class="child-cell">dig</div>
+          <div class="child-cell">what</div>
+        </div>
+      </mat-cell>
+    </ng-container>
+
     <!-- Header and Row Declarations -->
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+<!--    <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>-->
+    <mat-row
+      *matRowDef="let row; columns: displayedColumns"
+      wattExpandOnClick
+      [class.expanded]="row.expanded"
+      (click)="row.expanded = !row.expanded"
+    ></mat-row>
+    <mat-row
+      *matRowDef="let row; columns: ['expandedDetail']"
+      class="expandable"
+    ></mat-row>
   </mat-table>
 </ng-container>
 

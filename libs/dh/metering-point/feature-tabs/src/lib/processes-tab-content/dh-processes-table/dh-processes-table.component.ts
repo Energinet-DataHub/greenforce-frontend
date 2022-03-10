@@ -21,13 +21,13 @@ import {
   Component,
   Input,
   NgModule,
-  ViewChild,
+  ViewChild
 } from '@angular/core';
 import {
   MatSort,
   MatSortable,
   MatSortModule,
-  Sort,
+  Sort
 } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { RouterModule } from '@angular/router';
@@ -37,19 +37,28 @@ import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-t
 import {
   WattEmptyStateModule,
   WattIconModule,
-  WattIconSize,
+  WattIconSize
 } from '@energinet-datahub/watt';
 import { TranslocoModule } from '@ngneat/transloco';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'dh-processes-table',
   templateUrl: './dh-processes-table.component.html',
   styleUrls: ['./dh-processes-table.component.scss'],
+  animations: [
+    trigger('detailExpand', [
+      state('collapsed, void', style({ height: '0px', minHeight: '0' })),
+      state('expanded', style({ height: '*' })),
+      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+      transition('expanded <=> void', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)'))
+    ])
+  ]
 })
 export class DhProcessesTableComponent implements AfterViewInit {
   displayedColumns: string[] = [
-    'expand',
+    'tableExpandControl',
     'name',
     'createdDate',
     'effectiveDate',
@@ -122,8 +131,9 @@ export class DhProcessesTableComponent implements AfterViewInit {
     CommonModule,
     WattEmptyStateModule,
     RouterModule,
-    DhSharedUiDateTimeModule,
+    DhSharedUiDateTimeModule
   ],
-  exports: [DhProcessesTableComponent],
+  exports: [DhProcessesTableComponent]
 })
-export class DhProcessesTableScam {}
+export class DhProcessesTableScam {
+}

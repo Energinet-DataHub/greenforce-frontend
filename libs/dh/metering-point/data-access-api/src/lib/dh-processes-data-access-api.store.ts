@@ -71,6 +71,7 @@ export class DhProcessesDataAccessApiStore extends ComponentStore<ProcessesState
                 const dhProcesses: DhProcess[] = processesData.map(
                   (process) => ({
                     ...process,
+                    expanded: false,
                     hasDetailsErrors: process.details.some(
                       (detail) => detail.errors.length > 0
                     ),
