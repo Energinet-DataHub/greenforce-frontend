@@ -86,8 +86,9 @@ export class EoVimeoPlayerComponent implements OnInit {
   @Input()
   url = '';
 
-  // Type of DomSanitizer.sanitize return value.
-  // We need 'string | null' for the video player 'url' property, instead of 'SafeResourceUrl' from 'bypassSecurityTrustResourceUrl'
+  // Type of DomSanitizer.sanitize return value: 'string | null'.
+  // We need 'string' for the video player 'url' property
+  // Instead of 'SafeResourceUrl' from 'DomSanitizer.bypassSecurityTrustResourceUrl', which returns an object
   safeUrl: string | null = '';
 
   constructor(private sanitizer: DomSanitizer) {}
