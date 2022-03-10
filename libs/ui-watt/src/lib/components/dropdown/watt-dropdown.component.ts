@@ -22,6 +22,7 @@ import {
   OnDestroy,
   OnInit,
   ViewChild,
+  ViewEncapsulation,
 } from '@angular/core';
 import {
   ControlValueAccessor,
@@ -48,6 +49,7 @@ export interface WattDropdownOption {
   templateUrl: './watt-dropdown.component.html',
   styleUrls: ['./watt-dropdown.component.scss'],
   providers: [customValueAccessor],
+  encapsulation: ViewEncapsulation.None
 })
 export class WattDropdownComponent
   implements ControlValueAccessor, OnInit, AfterViewInit, OnDestroy

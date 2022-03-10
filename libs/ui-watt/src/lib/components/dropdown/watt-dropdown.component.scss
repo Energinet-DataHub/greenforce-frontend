@@ -36,7 +36,7 @@ watt-dropdown {
   border-bottom-width: 0px !important;
 }
 
-.myPanelClass {
+.watt-dropdown-panel {
   margin-top: calc(48px + 8px);
   min-width: calc(100% + 2px) !important;
   margin-left: 15px;
@@ -82,5 +82,4 @@ watt-dropdown {
   text-align: center;
 }
 
-// TODO: RENAME myPanelClass to watt-dropdown-panel
 // TODO: Fix styling for no results
