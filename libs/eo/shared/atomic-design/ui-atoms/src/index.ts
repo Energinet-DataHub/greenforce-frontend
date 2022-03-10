@@ -16,3 +16,4 @@
  */
 export * from './lib/eo-product-logo/eo-product-logo.directive';
 export * from './lib/eo-scroll-view/eo-scroll-view.component';
+export * from './lib/eo-vimeo-player/eo-vimeo-player.component';
