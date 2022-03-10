@@ -21,6 +21,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { EoLandingPageColumnLayoutScam } from './eo-landing-page-column-layout.component';
+import { EoVimeoPlayerScam } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 
 const selector = 'eo-landing-page-video-layout';
 
@@ -32,89 +33,58 @@ const selector = 'eo-landing-page-video-layout';
 
       ${selector} {
         display: block;
-        position: relative;
+        margin-bottom: calc(2 * var(--watt-space-xl));
       }
-
       .${selector}__p {
         @include watt.typography-watt-text-m; // This overrides the styles applied from Angular Material on p tags
       }
-
       .${selector}__h2.${selector}__h2 {
         @include watt.typography-watt-headline-2; // This overrides the styles applied from Angular Material on h2 tags
         text-transform: none; // This overrides the uppercased styling from watt
       }
-
       .${selector}__link.${selector}__link {
         display: inline-block;
         color: var(
           --watt-color-primary
         ); // This overrides the '--watt-color-primary-dark' color which is currently added by the watt-text-s class
       }
-
-      .${selector}__development-notification {
-        background: var(--watt-color-neutral-white);
-        top: calc(-10 * var(--watt-space-xs));
-        height: calc(20 * var(--watt-space-xs));
-        padding-left: calc(20 * var(--watt-space-xs));
-        position: absolute;
-
-        &::before {
-          display: block;
-          content: ' i ';
-          width: 50px;
-          height: 50px;
-          border-radius: 50%;
-          background: var(--watt-color-primary-dark);
-          color: #fff;
-          position: absolute;
-          left: 16px;
-          text-align: center;
-          line-height: 50px;
-          font-size: 30px;
-        }
+      .${selector}__embedded {
+        width: 640px; // Figma
+        margin: 0 auto;
       }
     `,
   ],
   template: `
     <eo-landing-page-column-layout [layoutType]="'full'">
-      <!-- Development notification -->
-      <div class="${selector}__development-notification watt-space-inset-m">
-        <p class="${selector}__p">
-          The Energy Origin Platform is under development and new
-          functionalities will be released continuously. The first release of
-          the platform offers company login only. Private login via NemID/MitID
-          is intended to form part of one of the next releases.
-        </p>
+      <h2 class="${selector}__h2">What is Energy Origin?</h2>
+
+      <p class="${selector}__p">
+        Energy Origin is a platform which provides you with access to
+        <b>data</b> about the <b>origins of your energy</b> and the
+        corresponding <b>emissions</b>. This first version of Energy Origin is
+        for companies in Denmark and can be used for e.g.:
+      </p>
+      <ul class="watt-space-stack-l">
+        <li>
+          Compiling an <b>emissions overview</b> for your annual ECG report
+        </li>
+        <li>
+          Gaining an overview of the <b>renewables share</b> of your energy
+          consumption
+        </li>
+      </ul>
+
+      <a
+        href="https://en.energinet.dk/Electricity/DataHub/Energy-Origin"
+        target="_blank"
+        class="${selector}__link watt-space-stack-l"
+        >Read more about Project Energy Origin</a
+      >
+
+      <div class="${selector}__embedded">
+        <eo-vimeo-player [url]="'https://player.vimeo.com/video/642352286?h=91e1a8b63c&badge=0&autopause=0&player_id=0&app_id=58479'"></eo-vimeo-player>
       </div>
 
-      <div class="watt-space-inset-xl eo-padding-top-none">
-        <h2 class="${selector}__h2">What is Energy Origin</h2>
-
-        <p class="${selector}__p">
-          Energy Origin is a platform which provides you with access to data
-          about the origins of your energy and the corresponding emissions.
-        </p>
-        <p class="${selector}__p">
-          The first release of the platform offers company login only. Private
-          login via NemID/MitID is intended to be part of one of the next
-          releases.
-        </p>
-
-        <a
-          href="https://en.energinet.dk/Electricity/DataHub/Energy-Origin"
-          target="_blank"
-          class="${selector}__link"
-          >Read more about Project Energy Origin</a
-        >
-
-        <br /><br />
-
-        <div class="eo-video-embed-container">
-          <iframe
-            src="https://player.vimeo.com/video/642352286?h=91e1a8b63c&badge=0&autopause=0&player_id=0&app_id=58479"
-          ></iframe>
-        </div>
-      </div>
     </eo-landing-page-column-layout>
   `,
   encapsulation: ViewEncapsulation.None,
@@ -125,6 +95,6 @@ export class EoLandingPageVideoLayoutComponent {}
 @NgModule({
   declarations: [EoLandingPageVideoLayoutComponent],
   exports: [EoLandingPageVideoLayoutComponent],
-  imports: [EoLandingPageColumnLayoutScam],
+  imports: [EoLandingPageColumnLayoutScam, EoVimeoPlayerScam],
 })
 export class EoLandingPageVideoLayoutScam {}
