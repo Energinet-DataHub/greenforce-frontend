@@ -61,9 +61,7 @@ export class FormFieldComponent implements AfterViewInit {
 
   ngAfterViewInit() {
     const control =
-      this.inputControl ||
-      this.selectControl ||
-      this.wattDropdown?.selectControl;
+      this.inputControl || this.selectControl || this.wattDropdown?.matSelect;
 
     if (this.beforeViewInit) {
       this.matFormField._control = control;

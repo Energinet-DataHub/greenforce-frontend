@@ -39,8 +39,8 @@ const Template: Story<WattDropdownComponent> = (args) => ({
 export const Dropdown = Template.bind({});
 
 Dropdown.args = {
-  label: 'Numbers',
   placeholder: 'Pick a number',
+  multiple: false,
   options: [
     { value: '1', displayValue: '1' },
     { value: '2', displayValue: '2' },
