@@ -38,7 +38,7 @@ const selector = 'eo-vimeo-player';
         class="${selector}__poster-image"
         *ngIf="showPosterImage"
         [src]="posterImage"
-        (click)="onVideoPlay($event)"
+        (click)="onVideoPlay()"
       />
       <div #vimeoEmbedContainer></div>
     </div>
@@ -100,7 +100,7 @@ export class EoVimeoPlayerComponent implements OnInit {
     );
   }
 
-  onVideoPlay(event: Event) {
+  onVideoPlay() {
     const vimeoEmbedContainerRef = this.vimeoEmbedContainer.nativeElement;
     vimeoEmbedContainerRef.classList.add(`${selector}__embed-container`);
 
