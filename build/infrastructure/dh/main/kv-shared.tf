@@ -22,7 +22,7 @@ data "azurerm_key_vault_secret" "appi_instrumentation_key" {
 }
 
 data "azurerm_key_vault_secret" "app_message_archive_api_base_url" {
-  name         = "app-message_archive-api-base-url"
+  name         = "app-message-archive-api-base-url"
   key_vault_id = data.azurerm_key_vault.kv_shared_resources.id
 }
 
