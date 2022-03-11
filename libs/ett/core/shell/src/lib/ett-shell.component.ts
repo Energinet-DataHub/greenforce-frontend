@@ -78,7 +78,11 @@ const selector = 'ett-shell';
         }
 
         .${selector}__logo {
-          height: calc(8 * var(--watt-space-xs));
+          width: 90%;
+          display: block;
+          margin: calc(2.5 * var(watt-space-xs)) auto
+            calc(5 * var(watt-space-xs)) auto;
+          filter: brightness(0) invert(1); // Waiting for the logo in white
         }
 
         .${selector}__link {
@@ -93,12 +97,11 @@ const selector = 'ett-shell';
   template: `
     <watt-shell>
       <ng-container watt-shell-sidenav>
+        <img class="${selector}__logo" eoProductLogo />
         <ett-primary-navigation></ett-primary-navigation>
       </ng-container>
 
-      <ng-container watt-shell-toolbar>
-        <img class="${selector}__logo" eoProductLogo />
-      </ng-container>
+      <ng-container watt-shell-toolbar> </ng-container>
 
       <router-outlet></router-outlet>
 
