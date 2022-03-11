@@ -36,8 +36,6 @@ const selector = 'ett-dashboard-shell';
     `,
   ],
   template: `
-    <h2>Dashboard</h2>
-
     <router-outlet></router-outlet>
   `,
 })

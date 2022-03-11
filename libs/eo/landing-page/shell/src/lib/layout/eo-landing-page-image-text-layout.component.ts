@@ -47,9 +47,6 @@ const selector = 'eo-landing-page-image-text-layout';
       .padding-left {
         padding-left: calc(10 * var(--watt-space-xs));
       }
-      .padding-right-xl {
-        padding-right: calc(25 * var(--watt-space-xs));
-      }
       .${selector}__p {
         @include watt.typography-watt-text-m; // This overrides the styles applied from Angular Material on p tags
       }
