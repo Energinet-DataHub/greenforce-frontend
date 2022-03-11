@@ -23,8 +23,6 @@ limitations under the License.
     <ProjectGuid>{845192D8-844B-4F74-BB51-AB80617FF6C1}</ProjectGuid>
     <AssemblyName>Energinet.DataHub.WebApi</AssemblyName>
     <RootNamespace>Energinet.DataHub.WebApi</RootNamespace>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <WarningsAsErrors />
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <IsPackable>false</IsPackable>
   </PropertyGroup>

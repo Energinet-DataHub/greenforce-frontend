@@ -133,7 +133,6 @@ export class DhMessageArchiveLogSearchComponent implements OnDestroy {
 
   onSubmit() {
     if (!this.searching && this.validateSearchParams()) {
-
       this.searchCriteria.continuationToken = null;
       this.pageNumber = 1;
 
