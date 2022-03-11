@@ -64,7 +64,6 @@ const selector = 'eo-landing-page-image-text-layout';
         ); // This overrides the '--watt-color-primary-dark' color which is currently added by the watt-text-s class
       }
       .${selector}__full-width-wrapper {
-        // padding: calc(2 * var(--watt-space-xl));
         height: calc(92 * var(--watt-space-xs));
         margin-bottom: calc(2 * var(--watt-space-xl));
         display: flex;
