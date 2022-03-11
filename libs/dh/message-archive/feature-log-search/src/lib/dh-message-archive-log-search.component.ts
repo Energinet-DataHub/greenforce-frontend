@@ -117,7 +117,6 @@ export class DhMessageArchiveLogSearchComponent implements OnDestroy {
       this.searchCriteria.continuationToken = token;
     });
     this.store.isSearching$.subscribe((value) => {
-      console.log("searching: " + value);
       this.searching = value;
     });
 
