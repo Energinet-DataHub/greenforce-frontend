@@ -117,7 +117,7 @@ export class DhMessageArchiveLogSearchComponent implements OnDestroy {
       this.searchCriteria.continuationToken = token;
     });
     this.store.isSearching$.subscribe((value) => {
-      console.log("searching: " + value);
+      console.log('searching: ' + value);
       this.searching = value;
     });
 
@@ -134,7 +134,6 @@ export class DhMessageArchiveLogSearchComponent implements OnDestroy {
 
   onSubmit() {
     if (!this.searching && this.validateSearchParams()) {
-
       this.searchCriteria.continuationToken = null;
       this.pageNumber = 1;
 
