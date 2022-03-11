@@ -100,8 +100,7 @@ const selector = 'ett-shell';
         <ett-primary-navigation></ett-primary-navigation>
       </ng-container>
 
-      <ng-container watt-shell-toolbar>
-      </ng-container>
+      <ng-container watt-shell-toolbar> </ng-container>
 
       <router-outlet></router-outlet>
 
