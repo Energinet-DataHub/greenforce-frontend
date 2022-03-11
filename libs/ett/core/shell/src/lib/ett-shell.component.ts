@@ -77,11 +77,6 @@ const selector = 'ett-shell';
           }
         }
 
-        .${selector}__h2 {
-          @include watt.typography-watt-headline-2; // This overrides the styles applied from Angular Material on h2 tags
-          margin-left: var(--watt-space-m);
-        }
-
         .${selector}__logo {
           width: 90%;
           margin: 10px auto 20px auto;
@@ -106,7 +101,6 @@ const selector = 'ett-shell';
       </ng-container>
 
       <ng-container watt-shell-toolbar>
-        <h1 class="${selector}__h2">Dashboard</h1>
       </ng-container>
 
       <router-outlet></router-outlet>
