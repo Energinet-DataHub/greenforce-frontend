@@ -23,12 +23,13 @@ watt-dropdown {
   padding: 16px;
 }
 
+.mat-select-value {
+  color: var(--watt-color-primary-dark)
+}
+
 .mat-select-search-inner {
   border-radius: 4px !important;
-
-  .mat-select-search-input {
-    height: 44px !important;
-  }
+  background: transparent;
 }
 
 .mat-select-search-inner {
@@ -46,6 +47,35 @@ watt-dropdown {
     display: none;
   }
 
+  .mat-pseudo-checkbox {
+    color: var(--watt-color-primary);
+  }
+
+  .mat-option {
+    color: var(--watt-color-primary-dark);
+    &.mat-active,
+    &.mat-selected:not(.mat-option-multiple),
+    &:hover:not(.mat-option-disabled),
+    &:focus:not(.mat-option-disabled) {
+      background: var(--watt-color-primary-light);
+    }
+  }
+
+  .mat-option.contains-mat-select-search.mat-select-search-no-entries-found {
+    position: static !important;
+    input {
+      margin-top: 2px !important;
+    }
+
+    .mat-select-search-clear {
+      top: 2px !important;
+    }
+  }
+
+  div.mat-select-search-no-entries-found {
+    text-align: center;
+  }
+
   .mat-option.contains-mat-select-search {
     position: absolute !important;
     top: 2px;
@@ -56,30 +86,22 @@ watt-dropdown {
 }
 
 .mat-select-search-input {
-  border: 1px solid var(--watt-color-primary) !important;
+  width: calc(100% - 32px) !important;
   border-radius: 4px;
+  background: var(--watt-color-neutral-white) !important;
+  height: 42px !important;
+  color: var(--watt-color-primary-dark);
+  margin-top: 0px !important;
+  margin-left: 1px !important;
 }
 
 .mat-select-search-clear {
   top: 0 !important;
+  right: 36px !important;
   height: 42px !important;
-}
-
-.mat-select-search-no-entries-found {
-  padding-top: 0 !important;
-  padding-bottom: 0 !important;
+  color: var(--watt-color-neutral-grey-400);
 }
 
 .mat-select-search-input.mat-select-search-hidden {
   display: none;
 }
-
-.contains-mat-select-search.mat-select-search-no-entries-found {
-  height: auto !important;
-}
-
-.mat-select-search-no-entries-found {
-  text-align: center;
-}
-
-// TODO: Fix styling for no results
