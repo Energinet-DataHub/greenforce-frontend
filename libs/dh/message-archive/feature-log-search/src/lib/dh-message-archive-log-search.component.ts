@@ -71,6 +71,7 @@ export class DhMessageArchiveLogSearchComponent implements OnDestroy {
 
   searchResultsDtos: Array<SearchResultItemDto> = [];
   businessReasonCodes = BusinessReasonCodes;
+  searching = false;
   documentTypes = DocumentTypes;
   roleTypes = RoleTypes;
   pageSizes = [250, 500, 750, 1000];
@@ -115,6 +116,10 @@ export class DhMessageArchiveLogSearchComponent implements OnDestroy {
     this.store.continuationToken$.subscribe((token) => {
       this.searchCriteria.continuationToken = token;
     });
+    this.store.isSearching$.subscribe((value) => {
+      console.log("searching: " + value);
+      this.searching = value;
+    });
 
     this.currentRoute.queryParamMap.subscribe((q) => {
       this.searchCriteria.traceId = q.has('traceId') ? q.get('traceId') : null;
@@ -128,20 +133,21 @@ export class DhMessageArchiveLogSearchComponent implements OnDestroy {
   }
 
   onSubmit() {
-    this.searchCriteria.continuationToken = null;
-    this.pageNumber = 1;
+    if (!this.searching && this.validateSearchParams()) {
 
-    if (!this.searchCriteria.messageId) {
-      this.searchCriteria.includeRelated = false;
-    }
+      this.searchCriteria.continuationToken = null;
+      this.pageNumber = 1;
 
-    if (this.validateSearchParams()) {
+      if (!this.searchCriteria.messageId) {
+        this.searchCriteria.includeRelated = false;
+      }
+
       this.store.searchLogs(this.searchCriteria);
     }
   }
 
   nextPage() {
-    if (this.validateSearchParams()) {
+    if (!this.searching && this.validateSearchParams()) {
       this.store.searchLogs(this.searchCriteria);
       this.pageNumber++;
     }
