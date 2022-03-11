@@ -41,8 +41,14 @@ const selector = 'ett-dashboard-shell';
   ],
   template: `
     <h2>Dashboard</h2>
-    <p class="${selector}__p">Currently you can view a list of your Metering Points and not much more.</p>
-    <p class="${selector}__p">More functionality will be released on an ongoing basis. If you want to influence the new functionality, please send an email to <a href="mailto: xkeka@energinet.dk">xkeka@energinet.dk</a>.</p>
+    <p class="${selector}__p">
+      Currently you can view a list of your Metering Points and not much more.
+    </p>
+    <p class="${selector}__p">
+      More functionality will be released on an ongoing basis. If you want to
+      influence the new functionality, please send an email to
+      <a href="mailto: xkeka@energinet.dk">xkeka@energinet.dk</a>.
+    </p>
   `,
 })
 export class EttDashboardShellComponent {}
