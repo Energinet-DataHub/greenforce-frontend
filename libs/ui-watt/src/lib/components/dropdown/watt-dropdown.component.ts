@@ -17,7 +17,7 @@
 import {
   AfterViewInit,
   Component,
-  forwardRef,
+  Host,
   Input,
   OnDestroy,
   OnInit,
@@ -25,19 +25,23 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import {
+  AsyncValidatorFn,
   ControlValueAccessor,
   FormControl,
-  NG_VALUE_ACCESSOR,
+  NgControl,
+  ValidationErrors,
+  ValidatorFn,
 } from '@angular/forms';
 import { MatSelect } from '@angular/material/select';
-import { ReplaySubject, Subject } from 'rxjs';
-import { take, takeUntil } from 'rxjs/operators';
-
-const customValueAccessor = {
-  multi: true,
-  provide: NG_VALUE_ACCESSOR,
-  useExisting: forwardRef(() => WattDropdownComponent),
-};
+import {
+  of,
+  ReplaySubject,
+  Subject,
+  distinctUntilChanged,
+  map,
+  take,
+  takeUntil,
+} from 'rxjs';
 
 export interface WattDropdownOption {
   value: string;
@@ -48,19 +52,21 @@ export interface WattDropdownOption {
   selector: 'watt-dropdown',
   templateUrl: './watt-dropdown.component.html',
   styleUrls: ['./watt-dropdown.component.scss'],
-  providers: [customValueAccessor],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
 })
 export class WattDropdownComponent
   implements ControlValueAccessor, OnInit, AfterViewInit, OnDestroy
 {
   /** Subject that emits when the component has been destroyed. */
   private destroy$ = new Subject<void>();
+  private parentControl?: FormControl;
+  private validateParent?: ValidatorFn;
+  private validateParentAsync?: AsyncValidatorFn;
 
   /**
    * @ignore
    */
-  matSelectControl = new FormControl();
+  matSelectControl = new FormControl(null, { updateOn: 'blur' });
 
   /**
    * Control for the MatSelect filter keyword
@@ -110,6 +116,31 @@ export class WattDropdownComponent
    */
   @Input() noEntriesFoundLabel = '';
 
+  constructor(@Host() private parentControlDirective: NgControl) {
+    this.parentControlDirective.valueAccessor = this;
+  }
+
+  ngOnInit(): void {
+    this.unsetMaterialXOffset();
+
+    // load the initial list of options
+    this.filteredOptions.next(this.options.slice());
+
+    this.listenForSearchFieldValueChanges();
+    this.initializePropertiesFromParent();
+    this.bindParentValidatorsToControl();
+    this.bindControlToParent();
+  }
+
+  ngAfterViewInit(): void {
+    this.setInitialValue();
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
   /**
    * @ignore
    */
@@ -120,54 +151,23 @@ export class WattDropdownComponent
   /**
    * @ignore
    */
-  registerOnChange(onChangeFn: (value: WattDropdownOption) => void) {
-    this.onChange = onChangeFn;
+  registerOnChange(onChangeFn: (value: WattDropdownOption) => void): void {
+    this.changeParentValue = onChangeFn;
   }
 
   /**
    * @ignore
    */
   registerOnTouched(onTouchFn: () => void) {
-    this.onTouched = onTouchFn;
+    this.markParentControlAsTouched = onTouchFn;
   }
 
-  /**
-   * @ignore
-   */
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  onChange = (value: WattDropdownOption) => {
-    // Intentionally left empty
-  };
-
-  /**
-   * @ignore
-   */
-  onTouched = () => {
-    // Intentionally left empty
-  };
-
-  ngOnInit() {
-    this.unsetMaterialXOffset();
-
-    // load the initial list of options
-    this.filteredOptions.next(this.options.slice());
-
-    // listen for search field value changes
-    this.filterControl.valueChanges
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(() => {
-        this.filterOptions();
-      });
-  }
-
-  ngAfterViewInit() {
-    this.setInitialValue();
-    this.onMatSelectValueChange();
-  }
-
-  ngOnDestroy() {
-    this.destroy$.next();
-    this.destroy$.complete();
+  setDisabledState(shouldDisable: boolean): void {
+    if (shouldDisable) {
+      this.matSelectControl.disable();
+    } else {
+      this.matSelectControl.enable();
+    }
   }
 
   private unsetMaterialXOffset() {
@@ -177,12 +177,98 @@ export class WattDropdownComponent
     select._positioningSettled = () => {};
   }
 
-  private onMatSelectValueChange() {
-    this.matSelectControl.valueChanges
+  private listenForSearchFieldValueChanges() {
+    // listen for search field value changes
+    this.filterControl.valueChanges
       .pipe(takeUntil(this.destroy$))
-      .subscribe((value: WattDropdownOption) => {
-        this.onTouched();
-        this.onChange(value);
+      .subscribe(() => this.filterOptions());
+  }
+
+  /**
+   * @ignore
+   */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  private changeParentValue = (value: WattDropdownOption): void => {
+    // Intentionally left empty
+  };
+
+  /**
+   * @ignore
+   */
+  private markParentControlAsTouched = (): void => {
+    // Intentionally left empty
+  };
+
+  /**
+   * Store the parent control, its validators and async validators in properties
+   * of this component.
+   */
+  private initializePropertiesFromParent(): void {
+    this.parentControl = this.parentControlDirective.control as FormControl;
+
+    this.validateParent =
+      (this.parentControl.validator &&
+        this.parentControl.validator.bind(this.parentControl)) ||
+      (() => null);
+
+    this.validateParentAsync =
+      (this.parentControl.asyncValidator &&
+        this.parentControl.asyncValidator.bind(this.parentControl)) ||
+      (() => of(null));
+  }
+
+  /**
+   * Inherit validators from parent form control.
+   */
+  private bindParentValidatorsToControl(): void {
+    const validators = !this.matSelectControl.validator
+      ? [this.validateParent]
+      : Array.isArray(this.matSelectControl.validator)
+      ? [...this.matSelectControl.validator, this.validateParent]
+      : [this.matSelectControl.validator, this.validateParent];
+    this.matSelectControl.setValidators(validators);
+
+    const asyncValidators = !this.matSelectControl.asyncValidator
+      ? [this.validateParentAsync]
+      : Array.isArray(this.matSelectControl.asyncValidator)
+      ? [...this.matSelectControl.asyncValidator, this.validateParentAsync]
+      : [this.matSelectControl.asyncValidator, this.validateParentAsync];
+    this.matSelectControl.setAsyncValidators(asyncValidators);
+
+    this.matSelectControl.updateValueAndValidity();
+  }
+
+  /**
+   * Emit values to the parent form control when our form control's value
+   * changes.
+   *
+   * Reflect parent validation errors in our form control.
+   */
+  private bindControlToParent(): void {
+    this.matSelectControl.valueChanges
+      .pipe(
+        map((value) => (value === undefined ? null : value)),
+        distinctUntilChanged(),
+        takeUntil(this.destroy$)
+      )
+      .subscribe((value) => {
+        this.markParentControlAsTouched();
+        this.changeParentValue(value);
+      });
+
+    this.parentControl?.statusChanges
+      .pipe(
+        map(
+          () =>
+            ({
+              ...this.parentControl?.errors,
+            } as ValidationErrors)
+        ),
+        map((errors) => (Object.keys(errors).length > 0 ? errors : null)),
+        takeUntil(this.destroy$)
+      )
+      .subscribe((errors) => {
+        this.matSelectControl.setErrors(errors);
       });
   }
 
