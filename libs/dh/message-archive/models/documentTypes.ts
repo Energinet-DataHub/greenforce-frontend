@@ -15,8 +15,7 @@
  * limitations under the License.
  */
 
-export enum DocumentTypes
-{
+export enum DocumentTypes {
   ConfirmRequestChangeOfSupplier = 'RSM-001',
   RejectRequestChangeOfSupplier = 'RSM-001',
   RequestChangeOfSupplier = 'RSM-001',

@@ -15,16 +15,15 @@
  * limitations under the License.
  */
 
- export enum RoleTypes
- {
-  DDK = "Balance responsible party",
-  DDM = "Grid access provider",
-  DDQ = "Balance power supplier",
-  DDX = "Imbalance settlement responsible",
-  DDZ = "Metering Point Administrator",
-  DEA = "Metered data aggregator",
-  EZ = "System Operator",
-  MDR = "Metered data responsible",
-  STS = "Energistyrelsen",
-  DGL = "Metering Data Administrator",
- }
+export enum RoleTypes {
+  DDK = 'Balance responsible party',
+  DDM = 'Grid access provider',
+  DDQ = 'Balance power supplier',
+  DDX = 'Imbalance settlement responsible',
+  DDZ = 'Metering Point Administrator',
+  DEA = 'Metered data aggregator',
+  EZ = 'System Operator',
+  MDR = 'Metered data responsible',
+  STS = 'Energistyrelsen',
+  DGL = 'Metering Data Administrator',
+}

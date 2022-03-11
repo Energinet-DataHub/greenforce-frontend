@@ -14,45 +14,57 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- import { CommonModule } from "@angular/common";
- import { ChangeDetectionStrategy, Component, EventEmitter, Input, NgModule, Output } from "@angular/core";
- import { SearchResultItemDto } from "@energinet-datahub/dh/shared/domain";
- import { TranslocoModule } from '@ngneat/transloco';
- import { LetModule } from '@rx-angular/template';
- import { MatTableModule } from '@angular/material/table';
- import {
+import { CommonModule } from '@angular/common';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  NgModule,
+  Output,
+} from '@angular/core';
+import { SearchResultItemDto } from '@energinet-datahub/dh/shared/domain';
+import { TranslocoModule } from '@ngneat/transloco';
+import { LetModule } from '@rx-angular/template';
+import { MatTableModule } from '@angular/material/table';
+import {
   WattButtonModule,
   WattIconModule,
   WattIconSize,
   WattSpinnerModule,
   WattEmptyStateModule,
   WattIcon,
-  WattBadgeModule
- } from '@energinet-datahub/watt';
+  WattBadgeModule,
+} from '@energinet-datahub/watt';
 
 @Component({
-changeDetection: ChangeDetectionStrategy.OnPush,
-selector: "dh-message-archive-log-search-result",
-templateUrl: "./dh-message-archive-log-search-result.component.html",
-styleUrls: ['./dh-message-archive-log-search-result.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: 'dh-message-archive-log-search-result',
+  templateUrl: './dh-message-archive-log-search-result.component.html',
+  styleUrls: ['./dh-message-archive-log-search-result.component.scss'],
 })
 export class DhMessageArchiveLogSearchResultComponent {
   @Input() searchResult: Array<SearchResultItemDto> = [];
   @Output() showLogDownloadPage = new EventEmitter<SearchResultItemDto>();
   @Output() downloadLogFile = new EventEmitter<SearchResultItemDto>();
   @Input() isSearching: boolean | null = false;
-  displayedColumns: string[] = ['messageId', 'rsmName', 'sender', 'logcreateddate', 'status', 'logoptions'];
+  displayedColumns: string[] = [
+    'messageId',
+    'rsmName',
+    'sender',
+    'logcreateddate',
+    'status',
+    'logoptions',
+  ];
   iconSizes = WattIconSize;
   iconDownload: WattIcon = 'download';
   iconOpenInNew: WattIcon = 'openInNew';
 
-  emitShowLogDownloadPage(log: SearchResultItemDto)
-  {
+  emitShowLogDownloadPage(log: SearchResultItemDto) {
     this.showLogDownloadPage.emit(log);
   }
 
-  emitDownlogLogFile(log: SearchResultItemDto)
-  {
+  emitDownlogLogFile(log: SearchResultItemDto) {
     this.downloadLogFile.emit(log);
   }
 }
@@ -68,7 +80,7 @@ export class DhMessageArchiveLogSearchResultComponent {
     WattSpinnerModule,
     WattEmptyStateModule,
     WattButtonModule,
-    WattBadgeModule
+    WattBadgeModule,
   ],
 })
 export class DhMessageArchiveLogSearchResultScam {}

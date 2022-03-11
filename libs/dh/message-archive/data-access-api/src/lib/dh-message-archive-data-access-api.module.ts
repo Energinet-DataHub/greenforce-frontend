@@ -14,12 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- import { Injectable } from '@angular/core';
- import { ComponentStore, tapResponse } from '@ngrx/component-store';
- import { filter, map, Observable, switchMap, tap } from 'rxjs';
- import { MessageArchiveHttp, SearchCriteria, SearchResultItemDto } from '@energinet-datahub/dh/shared/domain';
- import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
- import { ErrorState, SearchingState } from './states';
+import { Injectable } from '@angular/core';
+import { ComponentStore, tapResponse } from '@ngrx/component-store';
+import { filter, map, Observable, switchMap, tap } from 'rxjs';
+import {
+  MessageArchiveHttp,
+  SearchCriteria,
+  SearchResultItemDto,
+} from '@energinet-datahub/dh/shared/domain';
+import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
+import { ErrorState, SearchingState } from './states';
 interface SearchResultState {
   readonly searchResult?: Array<SearchResultItemDto>;
   readonly searchingState: SearchingState | ErrorState;
@@ -62,29 +66,32 @@ export class DhMessageArchiveDataAccessApiModule extends ComponentStore<SearchRe
           this.setState({
             searchResult: [],
             searchingState: SearchingState.INIT,
-            continuationToken: e.continuationToken
+            continuationToken: e.continuationToken,
           });
           this.setLoading(true);
         }),
         switchMap((searchCriteria) =>
-          this.httpClient.v1MessageArchiveSearchRequestResponseLogsPost(searchCriteria).pipe(
-            tapResponse(
-              (searchResult) => {
-                this.setLoading(false);
-                if(searchResult && searchResult.result) {
-                  this.updateContinuationToken(searchResult.continuationToken);
-                  this.updateSearchResult(searchResult.result);
+          this.httpClient
+            .v1MessageArchiveSearchRequestResponseLogsPost(searchCriteria)
+            .pipe(
+              tapResponse(
+                (searchResult) => {
+                  this.setLoading(false);
+                  if (searchResult && searchResult.result) {
+                    this.updateContinuationToken(
+                      searchResult.continuationToken
+                    );
+                    this.updateSearchResult(searchResult.result);
+                  } else {
+                    this.updateSearchResult(new Array<SearchResultItemDto>());
+                  }
+                },
+                (error: HttpErrorResponse) => {
+                  this.setLoading(false);
+                  this.handleError(error);
                 }
-                else {
-                  this.updateSearchResult(new Array<SearchResultItemDto>());
-                }
-            },
-              (error: HttpErrorResponse) => {
-                this.setLoading(false);
-                this.handleError(error);
-              }
+              )
             )
-          )
         )
       );
     }
@@ -105,8 +112,7 @@ export class DhMessageArchiveDataAccessApiModule extends ComponentStore<SearchRe
     (
       state: SearchResultState,
       continuationToken: string | null | undefined
-    ): SearchResultState => (
-    {
+    ): SearchResultState => ({
       ...state,
       continuationToken: continuationToken,
     })
@@ -115,7 +121,9 @@ export class DhMessageArchiveDataAccessApiModule extends ComponentStore<SearchRe
   private setLoading = this.updater(
     (state, isLoading: boolean): SearchResultState => ({
       ...state,
-      searchingState: isLoading ? SearchingState.SEARCHING : SearchingState.DONE,
+      searchingState: isLoading
+        ? SearchingState.SEARCHING
+        : SearchingState.DONE,
     })
   );
 

@@ -15,10 +15,13 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <ng-container *rxLet="blobContent$ as blobContent">
-  <p class="watt-text-l" *transloco="let transloco; read: 'messageArchive.search'">
-    {{ transloco("messageId") }}: {{messageId}}
+  <p
+    class="watt-text-l"
+    *transloco="let transloco; read: 'messageArchive.search'"
+  >
+    {{ transloco('messageId') }}: {{ messageId }}
   </p>
-  <pre >{{blobContent}}</pre>
+  <pre>{{ blobContent }}</pre>
 </ng-container>
 
 <div *ngIf="isDownloading$ | async">
@@ -26,5 +29,7 @@ limitations under the License.
 </div>
 
 <div *transloco="let transloco; read: 'messageArchive'">
-  <watt-badge *ngIf="hasGeneralError$ | async" type="danger">{{ transloco("unknowenError") }}</watt-badge>
+  <watt-badge *ngIf="hasGeneralError$ | async" type="danger">{{
+    transloco('unknowenError')
+  }}</watt-badge>
 </div>

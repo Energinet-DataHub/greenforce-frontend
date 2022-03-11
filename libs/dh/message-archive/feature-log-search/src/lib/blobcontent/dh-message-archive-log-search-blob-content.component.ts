@@ -14,42 +14,41 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- import { CommonModule } from "@angular/common";
- import { ChangeDetectionStrategy, Component, NgModule } from "@angular/core";
- import { Title } from "@angular/platform-browser";
- import { ActivatedRoute } from "@angular/router";
- import { DhMessageArchiveDataAccessBlobApiModule } from "@energinet-datahub/dh/message-archive/data-access-api";
- import { WattSpinnerModule, WattBadgeModule } from "@energinet-datahub/watt";
- import { TranslocoModule } from '@ngneat/transloco';
- import { LetModule } from '@rx-angular/template';
+import { CommonModule } from '@angular/common';
+import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
+import { Title } from '@angular/platform-browser';
+import { ActivatedRoute } from '@angular/router';
+import { DhMessageArchiveDataAccessBlobApiModule } from '@energinet-datahub/dh/message-archive/data-access-api';
+import { WattSpinnerModule, WattBadgeModule } from '@energinet-datahub/watt';
+import { TranslocoModule } from '@ngneat/transloco';
+import { LetModule } from '@rx-angular/template';
 
 @Component({
-changeDetection: ChangeDetectionStrategy.OnPush,
-selector: "dh-message-archive-log-search-blob-content",
-templateUrl: "./dh-message-archive-log-search-blob-content.component.html",
-styleUrls: ['./dh-message-archive-log-search-blob-content.component.scss'],
-providers: [DhMessageArchiveDataAccessBlobApiModule]
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: 'dh-message-archive-log-search-blob-content',
+  templateUrl: './dh-message-archive-log-search-blob-content.component.html',
+  styleUrls: ['./dh-message-archive-log-search-blob-content.component.scss'],
+  providers: [DhMessageArchiveDataAccessBlobApiModule],
 })
 export class DhMessageArchiveLogSearchBlobContentComponent {
-
   blobContent$ = this.blobStore.blobContent$;
   isDownloading$ = this.blobStore.isDownloading$;
   hasGeneralError$ = this.blobStore.hasGeneralError$;
-  messageId = "";
+  messageId = '';
 
   constructor(
     private blobStore: DhMessageArchiveDataAccessBlobApiModule,
     private route: ActivatedRoute,
-    private title: Title) {
+    private title: Title
+  ) {
+    this.route.params.subscribe((params) => {
+      const logName = params['logname'];
+      const decodedLobName = decodeURIComponent(logName);
+      this.blobStore.downloadLog(decodedLobName);
+    });
 
-      this.route.params.subscribe( params => {
-        const logName = params["logname"];
-        const decodedLobName = decodeURIComponent(logName);
-        this.blobStore.downloadLog(decodedLobName);
-      });
-
-      this.messageId = sessionStorage.getItem("messageId") ?? "...";
-      this.title.setTitle(this.messageId);
+    this.messageId = sessionStorage.getItem('messageId') ?? '...';
+    this.title.setTitle(this.messageId);
   }
 }
 
@@ -61,7 +60,7 @@ export class DhMessageArchiveLogSearchBlobContentComponent {
     TranslocoModule,
     LetModule,
     WattSpinnerModule,
-    WattBadgeModule
+    WattBadgeModule,
   ],
 })
 export class DhMessageArchiveLogSearchBlobContentScam {}

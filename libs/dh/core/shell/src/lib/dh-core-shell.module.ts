@@ -69,7 +69,7 @@ const routes: Routes = [
             (esModule) => esModule.DhMessageArchiveShellModule
           ),
         canActivate: [MsalGuard],
-      }
+      },
     ],
   },
   // Used by MSAL (B2C)

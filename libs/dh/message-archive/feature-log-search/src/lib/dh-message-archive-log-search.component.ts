@@ -15,85 +15,100 @@
  * limitations under the License.
  */
 
- import { FormsModule, ReactiveFormsModule } from '@angular/forms';
- import { CommonModule } from '@angular/common';
- import { ChangeDetectionStrategy, Component, NgModule, OnDestroy } from "@angular/core";
- import {
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  NgModule,
+  OnDestroy,
+} from '@angular/core';
+import {
   WattButtonModule,
   WattFormFieldModule,
   WattIconModule,
   WattInputModule,
   WattCheckboxModule,
   WattBadgeModule,
- } from '@energinet-datahub/watt';
- import { DhMessageArchiveDataAccessApiModule, DhMessageArchiveDataAccessBlobApiModule } from '@energinet-datahub/dh/message-archive/data-access-api'
- import { SearchCriteria, SearchResultItemDto } from '@energinet-datahub/dh/shared/domain';
- import { LetModule } from '@rx-angular/template';
- import { TranslocoModule } from '@ngneat/transloco';
- import { DhMessageArchiveLogSearchResultScam } from './searchresult/dh-message-archive-log-search-result.component';
- import { BusinessReasonCodes } from '../../../models/businessReasonCodes'
- import { DocumentTypes } from '../../../models/documentTypes'
- import { RoleTypes } from '../../../models/roleTypes'
+} from '@energinet-datahub/watt';
+import {
+  DhMessageArchiveDataAccessApiModule,
+  DhMessageArchiveDataAccessBlobApiModule,
+} from '@energinet-datahub/dh/message-archive/data-access-api';
+import {
+  SearchCriteria,
+  SearchResultItemDto,
+} from '@energinet-datahub/dh/shared/domain';
+import { LetModule } from '@rx-angular/template';
+import { TranslocoModule } from '@ngneat/transloco';
+import { DhMessageArchiveLogSearchResultScam } from './searchresult/dh-message-archive-log-search-result.component';
+import { BusinessReasonCodes } from '../../../models/businessReasonCodes';
+import { DocumentTypes } from '../../../models/documentTypes';
+import { RoleTypes } from '../../../models/roleTypes';
 import { Subject } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 
- @Component({
-   changeDetection: ChangeDetectionStrategy.OnPush,
-   selector: 'dh-message-archive-log-search',
-   styleUrls: ['./dh-message-archive-log-search.component.scss'],
-   templateUrl: './dh-message-archive-log-search.component.html',
-   providers: [DhMessageArchiveDataAccessApiModule, DhMessageArchiveDataAccessBlobApiModule],
+@Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: 'dh-message-archive-log-search',
+  styleUrls: ['./dh-message-archive-log-search.component.scss'],
+  templateUrl: './dh-message-archive-log-search.component.html',
+  providers: [
+    DhMessageArchiveDataAccessApiModule,
+    DhMessageArchiveDataAccessBlobApiModule,
+  ],
+})
+export class DhMessageArchiveLogSearchComponent implements OnDestroy {
+  private destroy$ = new Subject<void>();
+  private regexBlobName = new RegExp(
+    /\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])\/.*/
+  );
 
- })
- export class DhMessageArchiveLogSearchComponent implements OnDestroy {
-    private destroy$ = new Subject<void>();
-    private regexBlobName = new RegExp(/\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])\/.*/);
+  searchResult$ = this.store.searchResult$;
+  searching$ = this.store.isSearching$;
+  hasSearchError$ = this.store.hasGeneralError$;
+  continuationToken$ = this.store.continuationToken$;
 
-    searchResult$ = this.store.searchResult$;
-    searching$ = this.store.isSearching$;
-    hasSearchError$ = this.store.hasGeneralError$;
-    continuationToken$ = this.store.continuationToken$;
+  searchResultsDtos: Array<SearchResultItemDto> = [];
+  businessReasonCodes = BusinessReasonCodes;
+  documentTypes = DocumentTypes;
+  roleTypes = RoleTypes;
+  pageSizes = [250, 500, 750, 1000];
+  pageNumber = 1;
 
-    searchResultsDtos: Array<SearchResultItemDto> = [];
-    businessReasonCodes = BusinessReasonCodes;
-    documentTypes = DocumentTypes;
-    roleTypes = RoleTypes;
-    pageSizes = [250, 500, 750, 1000];
-    pageNumber = 1;
+  private initDateFrom = (): Date => {
+    const from = new Date();
+    from.setUTCMonth(new Date().getMonth() - 1);
+    from.setUTCHours(0, 0, 0);
+    return from;
+  };
+  private initDateTo = (): Date => {
+    const to = new Date();
+    to.setUTCHours(23, 59, 59);
+    return to;
+  };
 
-    private initDateFrom = ():Date => {
-      const from = new Date();
-      from.setUTCMonth(new Date().getMonth() - 1);
-      from.setUTCHours(0, 0 ,0);
-      return from;
-    };
-    private initDateTo = ():Date => {
-      const to = new Date();
-      to.setUTCHours(23, 59, 59);
-      return to;
-    };
+  // eslint-disable-next-line @typescript-eslint/member-ordering
+  searchCriteria: SearchCriteria = {
+    messageId: null,
+    reasonCode: null,
+    dateTimeFrom: this.initDateFrom().toISOString().split('.')[0] + 'Z',
+    dateTimeTo: this.initDateTo().toISOString().split('.')[0] + 'Z',
+    senderRoleType: null,
+    rsmName: null,
+    includeRelated: false,
+    traceId: null,
+    functionName: null,
+    invocationId: null,
+    maxItemCount: 250,
+  };
 
-   // eslint-disable-next-line @typescript-eslint/member-ordering
-   searchCriteria: SearchCriteria = {
-     messageId: null,
-     reasonCode: null,
-     dateTimeFrom: this.initDateFrom().toISOString().split('.')[0]+"Z",
-     dateTimeTo: this.initDateTo().toISOString().split('.')[0]+"Z",
-     senderRoleType: null,
-     rsmName: null,
-     includeRelated: false,
-     traceId: null,
-     functionName: null,
-     invocationId: null,
-     maxItemCount: 250,
-    };
-
-   constructor(
-     private store: DhMessageArchiveDataAccessApiModule,
-     private router: Router,
-     private currentRoute: ActivatedRoute,
-     private logStore: DhMessageArchiveDataAccessBlobApiModule)
-  {
+  constructor(
+    private store: DhMessageArchiveDataAccessApiModule,
+    private router: Router,
+    private currentRoute: ActivatedRoute,
+    private logStore: DhMessageArchiveDataAccessBlobApiModule
+  ) {
     this.store.searchResult$.subscribe((searchResult) => {
       this.searchResultsDtos = searchResult;
     });
@@ -101,10 +116,14 @@ import { ActivatedRoute, Router } from '@angular/router';
       this.searchCriteria.continuationToken = token;
     });
 
-    this.currentRoute.queryParamMap.subscribe(q => {
-        this.searchCriteria.traceId = q.has("traceId") ? q.get("traceId") : null;
-        this.searchCriteria.functionName = q.has("functionName") ? q.get("functionName") : null;
-        this.searchCriteria.invocationId = q.has("invocationId") ? q.get("invocationId") : null;
+    this.currentRoute.queryParamMap.subscribe((q) => {
+      this.searchCriteria.traceId = q.has('traceId') ? q.get('traceId') : null;
+      this.searchCriteria.functionName = q.has('functionName')
+        ? q.get('functionName')
+        : null;
+      this.searchCriteria.invocationId = q.has('invocationId')
+        ? q.get('invocationId')
+        : null;
     });
   }
 
@@ -116,13 +135,13 @@ import { ActivatedRoute, Router } from '@angular/router';
       this.searchCriteria.includeRelated = false;
     }
 
-    if(this.validateSearchParams()) {
-      this.store.searchLogs(this.searchCriteria)
+    if (this.validateSearchParams()) {
+      this.store.searchLogs(this.searchCriteria);
     }
   }
 
   nextPage() {
-    if(this.validateSearchParams()) {
+    if (this.validateSearchParams()) {
       this.store.searchLogs(this.searchCriteria);
       this.pageNumber++;
     }
@@ -131,27 +150,36 @@ import { ActivatedRoute, Router } from '@angular/router';
   redirectToDownloadLogPage(resultItem: SearchResultItemDto) {
     const blobName = this.findBlobName(resultItem.blobContentUri);
     const encodedBlobName = encodeURIComponent(blobName);
-    const url = this.router.serializeUrl(this.router.createUrlTree([`/message-archive/${encodedBlobName}`]));
+    const url = this.router.serializeUrl(
+      this.router.createUrlTree([`/message-archive/${encodedBlobName}`])
+    );
     const blobViewWindow = window.open(url, '_blank');
-    blobViewWindow?.sessionStorage.setItem("messageId", resultItem.messageId ?? "");
-  };
+    blobViewWindow?.sessionStorage.setItem(
+      'messageId',
+      resultItem.messageId ?? ''
+    );
+  }
 
   downloadLog(resultItem: SearchResultItemDto) {
     const blobName = this.findBlobName(resultItem.blobContentUri);
     this.logStore.downloadLogFile(blobName);
-  };
+  }
 
   validateSearchParams(): boolean {
-    return (this.searchCriteria.dateTimeFrom != null && this.searchCriteria.dateTimeTo != null)
-     && (this.searchCriteria.dateTimeFrom.length === 20 && this.searchCriteria.dateTimeTo.length === 20);
+    return (
+      this.searchCriteria.dateTimeFrom != null &&
+      this.searchCriteria.dateTimeTo != null &&
+      this.searchCriteria.dateTimeFrom.length === 20 &&
+      this.searchCriteria.dateTimeTo.length === 20
+    );
   }
 
   findBlobName(blobUrl: string): string {
     if (this.regexBlobName.test(blobUrl)) {
       const match = this.regexBlobName.exec(blobUrl);
-      return match != null ? match[0] : "";
+      return match != null ? match[0] : '';
     }
-    return "";
+    return '';
   }
 
   ngOnDestroy(): void {
@@ -159,8 +187,8 @@ import { ActivatedRoute, Router } from '@angular/router';
     this.destroy$.unsubscribe();
   }
 }
- @NgModule({
-   imports: [
+@NgModule({
+  imports: [
     WattFormFieldModule,
     WattInputModule,
     WattButtonModule,
@@ -172,8 +200,8 @@ import { ActivatedRoute, Router } from '@angular/router';
     LetModule,
     TranslocoModule,
     DhMessageArchiveLogSearchResultScam,
-    WattBadgeModule
-   ],
-   declarations: [DhMessageArchiveLogSearchComponent],
- })
- export class DhMessageArchiveLogSearchScam {}
+    WattBadgeModule,
+  ],
+  declarations: [DhMessageArchiveLogSearchComponent],
+})
+export class DhMessageArchiveLogSearchScam {}

@@ -17,7 +17,10 @@
 import { Injectable } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
-import { MessageArchiveHttp, Stream,  } from '@energinet-datahub/dh/shared/domain';
+import {
+  MessageArchiveHttp,
+  Stream,
+} from '@energinet-datahub/dh/shared/domain';
 import { DownloadingState, ErrorState } from './states';
 import { filter, map, Observable, switchMap, tap } from 'rxjs';
 
@@ -51,47 +54,60 @@ export class DhMessageArchiveDataAccessBlobApiModule extends ComponentStore<Down
   );
 
   // eslint-disable-next-line @typescript-eslint/member-ordering
-  readonly downloadLog = this.effect(
-    (blobName: Observable<string>) => {
-      return blobName.pipe(
-        tap(() => {
-          this.resetState();
-          this.setLoading(true);
-        }),
-        switchMap((blobName) =>
-          this.httpClient.v1MessageArchiveDownloadRequestResponseLogContentGet(blobName, "body", false, { httpHeaderAccept: "text/plain" }).pipe(
+  readonly downloadLog = this.effect((blobName: Observable<string>) => {
+    return blobName.pipe(
+      tap(() => {
+        this.resetState();
+        this.setLoading(true);
+      }),
+      switchMap((blobName) =>
+        this.httpClient
+          .v1MessageArchiveDownloadRequestResponseLogContentGet(
+            blobName,
+            'body',
+            false,
+            { httpHeaderAccept: 'text/plain' }
+          )
+          .pipe(
             tapResponse(
               (blobContent) => {
                 this.setLoading(false);
                 this.updateDownloadResult(blobContent);
-            },
+              },
               (error: HttpErrorResponse) => {
                 this.setLoading(false);
                 this.handleError(error);
               }
             )
           )
-        )
-      );
-    }
-  );
+      )
+    );
+  });
 
   downloadLogFile(blobName: string) {
-    const dd = this.httpClient.v1MessageArchiveDownloadRequestResponseLogContentGet(blobName, "body", false, { httpHeaderAccept: "text/plain" });
+    const dd =
+      this.httpClient.v1MessageArchiveDownloadRequestResponseLogContentGet(
+        blobName,
+        'body',
+        false,
+        { httpHeaderAccept: 'text/plain' }
+      );
     dd.subscribe(
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (response: any) => {
-          const dataType = response.type;
-          const binaryData = [];
-          binaryData.push(response);
-          const downloadLink = document.createElement('a');
-          downloadLink.href = window.URL.createObjectURL(new Blob(binaryData, {type: dataType}));
-          if (blobName)
-              downloadLink.setAttribute('download', blobName);
-          document.body.appendChild(downloadLink);
-          downloadLink.click();
-      });
-  };
+        const dataType = response.type;
+        const binaryData = [];
+        binaryData.push(response);
+        const downloadLink = document.createElement('a');
+        downloadLink.href = window.URL.createObjectURL(
+          new Blob(binaryData, { type: dataType })
+        );
+        if (blobName) downloadLink.setAttribute('download', blobName);
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+      }
+    );
+  }
 
   // eslint-disable-next-line @typescript-eslint/member-ordering
   private updateDownloadResult = this.updater(
@@ -108,7 +124,9 @@ export class DhMessageArchiveDataAccessBlobApiModule extends ComponentStore<Down
   private setLoading = this.updater(
     (state, isLoading: boolean): DownloadBlobResultState => ({
       ...state,
-      downloadingState: isLoading ? DownloadingState.DOWNLOADING : DownloadingState.DONE,
+      downloadingState: isLoading
+        ? DownloadingState.DOWNLOADING
+        : DownloadingState.DONE,
     })
   );
 

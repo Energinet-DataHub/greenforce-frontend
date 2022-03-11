@@ -16,11 +16,18 @@
  */
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { DhMessageArchiveLogSearchBlobContentComponent, DhMessageArchiveLogSearchComponent, DhMessageArchiveLogSearchScam } from '@energinet-datahub/dh/message-archive/feature-log-search';
+import {
+  DhMessageArchiveLogSearchBlobContentComponent,
+  DhMessageArchiveLogSearchComponent,
+  DhMessageArchiveLogSearchScam,
+} from '@energinet-datahub/dh/message-archive/feature-log-search';
 
 const routes: Routes = [
   { path: '', component: DhMessageArchiveLogSearchComponent },
-  { path: ':logname', component: DhMessageArchiveLogSearchBlobContentComponent },
+  {
+    path: ':logname',
+    component: DhMessageArchiveLogSearchBlobContentComponent,
+  },
 ];
 
 @NgModule({
