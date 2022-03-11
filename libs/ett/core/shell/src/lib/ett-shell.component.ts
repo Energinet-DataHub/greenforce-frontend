@@ -77,12 +77,15 @@ const selector = 'ett-shell';
           }
         }
 
+        .${selector}__logo-container {
+          height: calc(12 * var(--watt-space-xs));
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
         .${selector}__logo {
-          width: 90%;
-          display: block;
-          margin: calc(2.5 * var(watt-space-xs)) auto
-            calc(5 * var(watt-space-xs)) auto;
-          filter: brightness(0) invert(1); // Waiting for the logo in white
+          height: calc(6.5 * var(--watt-space-xs));
+          width: calc(52 * var(--watt-space-xs));
         }
 
         .${selector}__link {
@@ -97,7 +100,9 @@ const selector = 'ett-shell';
   template: `
     <watt-shell>
       <ng-container watt-shell-sidenav>
-        <img class="${selector}__logo" eoProductLogo />
+        <div class="${selector}__logo-container">
+            <img class="${selector}__logo" src="/assets/images/energyorigin-logo-secondary.svg" />
+        </div>
         <ett-primary-navigation></ett-primary-navigation>
       </ng-container>
 
