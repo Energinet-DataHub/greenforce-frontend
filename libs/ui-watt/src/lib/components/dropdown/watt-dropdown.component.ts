@@ -147,6 +147,8 @@ export class WattDropdownComponent
   };
 
   ngOnInit() {
+    this.unsetMaterialXOffset();
+
     // load the initial list of options
     this.filteredOptions.next(this.options.slice());
 
@@ -166,6 +168,13 @@ export class WattDropdownComponent
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
+  }
+
+  private unsetMaterialXOffset() {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const select: any = this.matSelect;
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    select._positioningSettled = () => {};
   }
 
   private onMatSelectValueChange() {
