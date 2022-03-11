@@ -80,7 +80,8 @@ const selector = 'ett-shell';
         .${selector}__logo {
           width: 90%;
           display: block;
-          margin: calc(2.5 * var(watt-space-xs)) auto calc(5 * var(watt-space-xs)) auto;
+          margin: calc(2.5 * var(watt-space-xs)) auto
+            calc(5 * var(watt-space-xs)) auto;
           filter: brightness(0) invert(1); // Waiting for the logo in white
         }
 
