@@ -77,8 +77,16 @@ const selector = 'ett-shell';
           }
         }
 
+        .${selector}__h2 {
+          @include watt.typography-watt-headline-2; // This overrides the styles applied from Angular Material on h2 tags
+          margin-left: var(--watt-space-m);
+        }
+
         .${selector}__logo {
-          height: calc(8 * var(--watt-space-xs));
+          width: 90%;
+          margin: 10px auto 20px auto;
+          display: block;
+          filter: brightness(0) invert(1);
         }
 
         .${selector}__link {
@@ -93,11 +101,12 @@ const selector = 'ett-shell';
   template: `
     <watt-shell>
       <ng-container watt-shell-sidenav>
+        <img class="${selector}__logo" eoProductLogo />
         <ett-primary-navigation></ett-primary-navigation>
       </ng-container>
 
       <ng-container watt-shell-toolbar>
-        <img class="${selector}__logo" eoProductLogo />
+        <h1 class="${selector}__h2">Dashboard</h1>
       </ng-container>
 
       <router-outlet></router-outlet>
