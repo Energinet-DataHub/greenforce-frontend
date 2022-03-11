@@ -145,7 +145,7 @@ limitations under the License.
           #searchInputReferenceId
           [(ngModel)]="this.searchCriteria.includeRelated"
           wattInput
-          name="reference-id">Inkluder relateret besked</watt-checkbox>
+          name="reference-id">{{ transloco("includeRelatedMessage") }}</watt-checkbox>
       </watt-form-field>
 
       <!-- Search -->
@@ -159,7 +159,7 @@ limitations under the License.
       <!-- Pager -->
       <watt-form-field size="normal">
 
-        <watt-label class="watt-text-m">Maks resulater per side</watt-label>
+        <watt-label class="watt-text-m">{{ transloco("pageSize") }}</watt-label>
 
         <select
           #searchInputPageSize
@@ -174,8 +174,8 @@ limitations under the License.
       </watt-form-field>
 
       <div>
-        <watt-label class="watt-text-m">Side {{this.pageNumber}}</watt-label>
-        <watt-button [disabled]="(continuationToken$ | async) === null" type="button" (click)="nextPage()">Næste side</watt-button>
+        <watt-label class="watt-text-m">{{ transloco("page") }} {{this.pageNumber}}</watt-label>
+        <watt-button [disabled]="(continuationToken$ | async) === null" type="button" (click)="nextPage()">{{ transloco("nextPage") }}</watt-button>
       </div>
 
   </div>

@@ -255,7 +255,20 @@
       "NoResultsFound": "Intet resultat",
       "ChooseRole": "Vælg rolle",
       "ChooseBusinessRole": "Vælg forretningsårgsag",
-      "ChooseDocumentType": "Vælg dokumenttype"
+      "ChooseDocumentType": "Vælg dokumenttype",
+      "includeRelatedMessage": "Inkluder relateret besked",
+      "pageSize": "Resultater per side",
+      "nextPage": "Næste side",
+      "page": "Side",
+      "rsm": "RSM",
+      "sender": "Afsender",
+      "timeStamp": "Tid",
+      "status": "Status",
+      "sent": "Sendt",
+      "received": "Modtaget",
+      "download": "Download",
+      "show": "Vis",
+      "noResultsHelperText": "Prøv at ændring dine søge indstillinger"
     }
   }
 }
