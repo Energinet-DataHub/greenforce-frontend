@@ -79,9 +79,9 @@ const selector = 'ett-shell';
 
         .${selector}__logo {
           width: 90%;
-          margin: 10px auto 20px auto;
           display: block;
-          filter: brightness(0) invert(1);
+          margin: calc(2.5 * var(watt-space-xs)) auto calc(5 * var(watt-space-xs)) auto;
+          filter: brightness(0) invert(1); // Waiting for the logo in white
         }
 
         .${selector}__link {
