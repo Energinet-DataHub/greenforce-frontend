@@ -18,6 +18,33 @@ limitations under the License.
 <html lang="en">
   <head>
     <meta charset="utf-8" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="
+      script-src
+        'self'
+        https://player.vimeo.com
+        https://www.vimeo.com
+        https://f.vimeocdn.com;
+      frame-src
+        *.vimeo.com
+        vimeo.com;
+      child-src
+        *.vimeo.com
+        vimeo.com;
+      img-src
+        'self'
+        *.vimeocdn.com
+        *.vimeo.com;
+      connect-src
+        'self'
+        https://eo-u-landingpage.westeurope.cloudapp.azure.com
+        vimeo.com;
+      media-src
+        *.vimeo.com
+        vimeo.com;
+      ";
+    />
     <title>EnergyOrigin</title>
     <base href="/" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -36,6 +63,5 @@ limitations under the License.
   </head>
   <body>
     <ett-app></ett-app>
-    <!-- Lars was here -->
   </body>
 </html>
