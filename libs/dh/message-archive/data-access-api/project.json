@@ -22,5 +22,5 @@
       }
     }
   },
-  "tags": ["product:dh domain:message-archive type:data-access"]
+  "tags": ["product:dh", "domain:message-archive", "type:data-access"]
 }
