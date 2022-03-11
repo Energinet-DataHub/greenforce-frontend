@@ -66,6 +66,22 @@
         },
         "noChildMeteringPointsTitle": "Ingen child målepunkter",
         "noChildMeteringPointsText": "Vi fandt ingen child målepunkter til dette målepunkt"
+      },
+      "processesTab": {
+        "headers": {
+          "name": "Beskrivelse",
+          "createdDate": "Indsendt",
+          "effectiveDate": "Skæringsdato",
+          "status": "Status"
+        },
+        "sortDescription": {
+          "name": "Sorter efter beskrivelse",
+          "createdDate": "Sorter efter indsendelsesdato",
+          "effectiveDate": "Sorter efter skæringsdato",
+          "status": "Sorter efter status"
+        },
+        "noProcessesFound": "Vi fandt desværre ingen processer.",
+        "noProcessesText": "Vi fandt ingen processer til dette målepunkt"
       }
     },
     "secondaryMasterData": {

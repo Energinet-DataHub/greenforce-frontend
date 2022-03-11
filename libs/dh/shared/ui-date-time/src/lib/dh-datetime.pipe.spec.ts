@@ -14,17 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { DhDatePipe, pipeName } from './dh-date.pipe';
+import { DhDateTimePipe, pipeName } from './dh-datetime.pipe';
 import { TValue } from './dh-format-danish-datetime';
 import {
   createPipeHarness,
   SpectacularPipeHarness,
 } from '@ngworker/spectacular';
 
-describe(DhDatePipe, () => {
+describe(DhDateTimePipe, () => {
   beforeEach(() => {
     harness = createPipeHarness({
-      pipe: DhDatePipe,
+      pipe: DhDateTimePipe,
       pipeName: pipeName,
       value: undefined,
     });
@@ -32,12 +32,12 @@ describe(DhDatePipe, () => {
 
   let harness: SpectacularPipeHarness<TValue>;
 
-  describe('Validate date format', () => {
+  describe('Validate date time format', () => {
     test.each([
       [undefined, ''],
       [null, ''],
-      ['2021-12-31T23:00:00Z', '01-01-2022'], // Standard / Winter time
-      ['2021-06-30T22:00:00Z', '01-07-2021'], // Summer time
+      ['2015-01-24T03:14:15Z', '24-01-2015 04:14:15'], // Standard / Winter time
+      ['2015-09-21T03:14:15Z', '21-09-2015 05:14:15'], // Summer time
     ])(
       '"%s" returns "%s" when formatted',
       async (value: undefined | null | string, result: string) => {
