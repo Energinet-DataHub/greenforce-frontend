@@ -44,7 +44,7 @@ import {
   styleUrls: ['./dh-message-archive-log-search-result.component.scss'],
 })
 export class DhMessageArchiveLogSearchResultComponent {
-  @Input() searchResult: Array<SearchResultItemDto> = [];
+  @Input() searchResult: Array<SearchResultItemDto> | null = [];
   @Output() showLogDownloadPage = new EventEmitter<SearchResultItemDto>();
   @Output() downloadLogFile = new EventEmitter<SearchResultItemDto>();
   @Input() isSearching: boolean | null = false;

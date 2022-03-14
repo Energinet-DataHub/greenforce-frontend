@@ -14,6 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './lib/dh-message-archive-data-access-api.module';
-export * from './lib/dh-message-archive-data-access-api-blob.module';
+export * from './lib/dh-message-archive-data-access-api.store';
+export * from './lib/dh-message-archive-data-access-api-blob.store';
 export * from './lib/states';

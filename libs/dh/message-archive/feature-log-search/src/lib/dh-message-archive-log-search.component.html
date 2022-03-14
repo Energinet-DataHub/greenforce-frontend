@@ -222,8 +222,8 @@ limitations under the License.
 
   <dh-message-archive-log-search-result
     *rxLet="searchResult$ as searchResult"
-    [searchResult]="searchResultsDtos"
-    [isSearching]="searching$ | async"
+    [searchResult]="this.searchResult$ | async"
+    [isSearching]="this.searching$ | async"
     (downloadLogFile)="downloadLog($event)"
     (showLogDownloadPage)="redirectToDownloadLogPage($event)"
   >

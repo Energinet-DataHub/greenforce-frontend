@@ -35,7 +35,7 @@ const initialState: DownloadBlobResultState = {
 };
 
 @Injectable()
-export class DhMessageArchiveDataAccessBlobApiModule extends ComponentStore<DownloadBlobResultState> {
+export class DhMessageArchiveDataAccessBlobApiStore extends ComponentStore<DownloadBlobResultState> {
   constructor(private httpClient: MessageArchiveHttp) {
     super(initialState);
   }
@@ -53,7 +53,6 @@ export class DhMessageArchiveDataAccessBlobApiModule extends ComponentStore<Down
     (state) => state.downloadingState === ErrorState.GENERAL_ERROR
   );
 
-  // eslint-disable-next-line @typescript-eslint/member-ordering
   readonly downloadLog = this.effect((blobName: Observable<string>) => {
     return blobName.pipe(
       tap(() => {
@@ -85,14 +84,14 @@ export class DhMessageArchiveDataAccessBlobApiModule extends ComponentStore<Down
   });
 
   downloadLogFile(blobName: string) {
-    const dd =
+    const clientObservable =
       this.httpClient.v1MessageArchiveDownloadRequestResponseLogContentGet(
         blobName,
         'body',
         false,
         { httpHeaderAccept: 'text/plain' }
       );
-    dd.subscribe(
+    clientObservable.subscribe(
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (response: any) => {
         const dataType = response.type;

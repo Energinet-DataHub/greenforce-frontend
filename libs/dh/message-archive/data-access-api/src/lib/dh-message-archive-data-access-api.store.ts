@@ -37,7 +37,7 @@ const initialState: SearchResultState = {
 };
 
 @Injectable()
-export class DhMessageArchiveDataAccessApiModule extends ComponentStore<SearchResultState> {
+export class DhMessageArchiveDataAccessApiStore extends ComponentStore<SearchResultState> {
   constructor(private httpClient: MessageArchiveHttp) {
     super(initialState);
   }
@@ -58,7 +58,6 @@ export class DhMessageArchiveDataAccessApiModule extends ComponentStore<SearchRe
     (state) => state.searchingState === ErrorState.GENERAL_ERROR
   );
 
-  // eslint-disable-next-line @typescript-eslint/member-ordering
   readonly searchLogs = this.effect(
     (searchCriteria: Observable<SearchCriteria>) => {
       return searchCriteria.pipe(
@@ -97,7 +96,6 @@ export class DhMessageArchiveDataAccessApiModule extends ComponentStore<SearchRe
     }
   );
 
-  // eslint-disable-next-line @typescript-eslint/member-ordering
   private updateSearchResult = this.updater(
     (
       state: SearchResultState,

@@ -18,7 +18,7 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
-import { DhMessageArchiveDataAccessBlobApiModule } from '@energinet-datahub/dh/message-archive/data-access-api';
+import { DhMessageArchiveDataAccessBlobApiStore } from '@energinet-datahub/dh/message-archive/data-access-api';
 import { WattSpinnerModule, WattBadgeModule } from '@energinet-datahub/watt';
 import { TranslocoModule } from '@ngneat/transloco';
 import { LetModule } from '@rx-angular/template';
@@ -27,8 +27,7 @@ import { LetModule } from '@rx-angular/template';
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'dh-message-archive-log-search-blob-content',
   templateUrl: './dh-message-archive-log-search-blob-content.component.html',
-  styleUrls: ['./dh-message-archive-log-search-blob-content.component.scss'],
-  providers: [DhMessageArchiveDataAccessBlobApiModule],
+  providers: [DhMessageArchiveDataAccessBlobApiStore],
 })
 export class DhMessageArchiveLogSearchBlobContentComponent {
   blobContent$ = this.blobStore.blobContent$;
@@ -37,7 +36,7 @@ export class DhMessageArchiveLogSearchBlobContentComponent {
   messageId = '';
 
   constructor(
-    private blobStore: DhMessageArchiveDataAccessBlobApiModule,
+    private blobStore: DhMessageArchiveDataAccessBlobApiStore,
     private route: ActivatedRoute,
     private title: Title
   ) {

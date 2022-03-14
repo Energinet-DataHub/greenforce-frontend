@@ -18,7 +18,7 @@ limitations under the License.
   <table
     aria-label="request response log search"
     mat-table
-    [dataSource]="this.searchResult"
+    [dataSource]="this.searchResult ?? []"
     class="mat-elevation-z8"
   >
     <!-- message id Column -->
@@ -85,7 +85,7 @@ limitations under the License.
   </table>
 
   <ng-container
-    *ngIf="!isSearching && searchResult.length === 0 && searchResult"
+    *ngIf="!isSearching && searchResult && searchResult.length === 0"
   >
     <watt-empty-state
       class="no-result-div"

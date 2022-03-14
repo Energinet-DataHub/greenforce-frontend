@@ -32,8 +32,8 @@ import {
   WattBadgeModule,
 } from '@energinet-datahub/watt';
 import {
-  DhMessageArchiveDataAccessApiModule,
-  DhMessageArchiveDataAccessBlobApiModule,
+  DhMessageArchiveDataAccessApiStore,
+  DhMessageArchiveDataAccessBlobApiStore,
 } from '@energinet-datahub/dh/message-archive/data-access-api';
 import {
   SearchCriteria,
@@ -54,8 +54,8 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./dh-message-archive-log-search.component.scss'],
   templateUrl: './dh-message-archive-log-search.component.html',
   providers: [
-    DhMessageArchiveDataAccessApiModule,
-    DhMessageArchiveDataAccessBlobApiModule,
+    DhMessageArchiveDataAccessApiStore,
+    DhMessageArchiveDataAccessBlobApiStore,
   ],
 })
 export class DhMessageArchiveLogSearchComponent implements OnDestroy {
@@ -105,21 +105,11 @@ export class DhMessageArchiveLogSearchComponent implements OnDestroy {
   };
 
   constructor(
-    private store: DhMessageArchiveDataAccessApiModule,
+    private store: DhMessageArchiveDataAccessApiStore,
     private router: Router,
     private currentRoute: ActivatedRoute,
-    private logStore: DhMessageArchiveDataAccessBlobApiModule
+    private logStore: DhMessageArchiveDataAccessBlobApiStore
   ) {
-    this.store.searchResult$.subscribe((searchResult) => {
-      this.searchResultsDtos = searchResult;
-    });
-    this.store.continuationToken$.subscribe((token) => {
-      this.searchCriteria.continuationToken = token;
-    });
-    this.store.isSearching$.subscribe((value) => {
-      this.searching = value;
-    });
-
     this.currentRoute.queryParamMap.subscribe((q) => {
       this.searchCriteria.traceId = q.has('traceId') ? q.get('traceId') : null;
       this.searchCriteria.functionName = q.has('functionName')
