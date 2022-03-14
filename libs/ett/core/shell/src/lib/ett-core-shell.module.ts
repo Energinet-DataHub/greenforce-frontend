@@ -63,8 +63,8 @@ const routes: Routes = [
         loadChildren: () =>
           import('@energinet-datahub/eo/metering-points/shell').then(
             (esModule) => esModule.EoMeteringPointsShellModule
-          )
-      }
+          ),
+      },
     ],
   },
 ];

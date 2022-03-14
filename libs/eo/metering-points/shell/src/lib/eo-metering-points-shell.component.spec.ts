@@ -24,9 +24,8 @@ describe('EoMeteringPointsShellComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ EoMeteringPointsShellComponent ]
-    })
-    .compileComponents();
+      declarations: [EoMeteringPointsShellComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

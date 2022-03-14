@@ -14,17 +14,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, ViewEncapsulation, ChangeDetectionStrategy, NgModule } from '@angular/core';
+import {
+  Component,
+  ViewEncapsulation,
+  ChangeDetectionStrategy,
+  NgModule,
+} from '@angular/core';
 
 const selector = 'eo-metering-points-shell';
 
 @Component({
   selector,
-  template: `
-    <h1>
-      Metering points
-    </h1>
-  `,
+  template: ` <h1>Metering points</h1> `,
   styles: [
     `
       @use '@energinet-datahub/watt/utils' as watt;
@@ -32,15 +33,15 @@ const selector = 'eo-metering-points-shell';
       ${selector} {
         display: block;
       }
-    `
+    `,
   ],
   encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class EoMeteringPointsShellComponent { }
+export class EoMeteringPointsShellComponent {}
 
 @NgModule({
   declarations: [EoMeteringPointsShellComponent],
-  exports: [EoMeteringPointsShellComponent]
+  exports: [EoMeteringPointsShellComponent],
 })
 export class EoMeteringPointsShellScam {}

@@ -15,8 +15,11 @@
  * limitations under the License.
  */
 import { NgModule } from '@angular/core';
-import {RouterModule, Routes} from '@angular/router';
-import {EoMeteringPointsShellScam, EoMeteringPointsShellComponent} from './eo-metering-points-shell.component';
+import { RouterModule, Routes } from '@angular/router';
+import {
+  EoMeteringPointsShellScam,
+  EoMeteringPointsShellComponent,
+} from './eo-metering-points-shell.component';
 
 const routes: Routes = [
   {
@@ -26,9 +29,6 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [
-    RouterModule.forChild(routes),
-    EoMeteringPointsShellScam
-  ],
+  imports: [RouterModule.forChild(routes), EoMeteringPointsShellScam],
 })
 export class EoMeteringPointsShellModule {}
