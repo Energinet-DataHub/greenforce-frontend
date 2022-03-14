@@ -37,6 +37,7 @@
     "eo-auth-feature-terms": "libs/eo/auth/feature-terms",
     "eo-landing-page-routing": "libs/eo/landing-page/routing",
     "eo-landing-page-shell": "libs/eo/landing-page/shell",
+    "eo-metering-points-shell": "libs/eo/metering-points/shell",
     "eo-privacy-policy-shell": "libs/eo/privacy-policy/shell",
     "eo-shared-assets": "libs/eo/shared/assets",
     "eo-shared-atomic-design-feature-molecules": "libs/eo/shared/atomic-design/feature-molecules",
