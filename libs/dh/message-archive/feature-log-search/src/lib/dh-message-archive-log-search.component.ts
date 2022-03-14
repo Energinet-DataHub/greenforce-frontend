@@ -69,7 +69,6 @@ export class DhMessageArchiveLogSearchComponent implements OnDestroy {
   hasSearchError$ = this.store.hasGeneralError$;
   continuationToken$ = this.store.continuationToken$;
 
-  searchResultsDtos: Array<MessageArchiveSearchResultItemDto> = [];
   businessReasonCodes = BusinessReasonCodes;
   searching = false;
   documentTypes = DocumentTypes;
