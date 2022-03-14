@@ -134,7 +134,7 @@ const selector = 'ett-shell';
   `,
 })
 export class EttShellComponent {
-  
+
 }
 
 @NgModule({
