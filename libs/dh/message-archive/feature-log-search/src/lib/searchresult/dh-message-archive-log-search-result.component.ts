@@ -45,8 +45,10 @@ import {
 })
 export class DhMessageArchiveLogSearchResultComponent {
   @Input() searchResult: Array<MessageArchiveSearchResultItemDto> | null = [];
-  @Output() showLogDownloadPage = new EventEmitter<MessageArchiveSearchResultItemDto>();
-  @Output() downloadLogFile = new EventEmitter<MessageArchiveSearchResultItemDto>();
+  @Output() showLogDownloadPage =
+    new EventEmitter<MessageArchiveSearchResultItemDto>();
+  @Output() downloadLogFile =
+    new EventEmitter<MessageArchiveSearchResultItemDto>();
   @Input() isSearching: boolean | null = false;
   displayedColumns: string[] = [
     'messageId',

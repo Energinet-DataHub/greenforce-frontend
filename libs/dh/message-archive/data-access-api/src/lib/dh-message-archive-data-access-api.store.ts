@@ -42,12 +42,14 @@ export class DhMessageArchiveDataAccessApiStore extends ComponentStore<SearchRes
     super(initialState);
   }
 
-  searchResult$: Observable<Array<MessageArchiveSearchResultItemDto>> = this.select(
-    (state) => state.searchResult
-  ).pipe(
-    filter((searchResult) => !!searchResult),
-    map((searchResult) => searchResult as Array<MessageArchiveSearchResultItemDto>)
-  );
+  searchResult$: Observable<Array<MessageArchiveSearchResultItemDto>> =
+    this.select((state) => state.searchResult).pipe(
+      filter((searchResult) => !!searchResult),
+      map(
+        (searchResult) =>
+          searchResult as Array<MessageArchiveSearchResultItemDto>
+      )
+    );
   continuationToken$: Observable<string | null | undefined> = this.select(
     (state) => state.continuationToken
   );
@@ -82,7 +84,9 @@ export class DhMessageArchiveDataAccessApiStore extends ComponentStore<SearchRes
                     );
                     this.updateSearchResult(searchResult.result);
                   } else {
-                    this.updateSearchResult(new Array<MessageArchiveSearchResultItemDto>());
+                    this.updateSearchResult(
+                      new Array<MessageArchiveSearchResultItemDto>()
+                    );
                   }
                 },
                 (error: HttpErrorResponse) => {
