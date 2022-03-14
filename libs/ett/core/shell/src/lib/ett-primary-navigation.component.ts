@@ -66,6 +66,9 @@ const selector = 'ett-primary-navigation';
       <a mat-list-item routerLink="/dashboard" routerLinkActive="is-active">
         Dashboard
       </a>
+      <a mat-list-item routerLink="/metering-points" routerLinkActive="is-active">
+        Metering points
+      </a>
 
       <a mat-list-item href="#0" (click)="onLogOut($event)">Log out</a>
     </mat-nav-list>
