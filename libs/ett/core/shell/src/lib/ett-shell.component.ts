@@ -48,6 +48,14 @@ const selector = 'ett-shell';
           padding-left: 0;
         }
 
+        watt-shell .mat-nav-list {
+          padding-top: 0;
+        }
+
+        watt-shell .watt-toolbar.watt-toolbar {
+          height: var(--watt-space-xl);
+        }
+
         .watt-main-content {
           min-height: calc(
             100% - 48px
@@ -78,7 +86,7 @@ const selector = 'ett-shell';
         }
 
         .${selector}__logo-container {
-          height: calc(12 * var(--watt-space-xs));
+          height: var(--watt-space-xl);
           display: flex;
           align-items: center;
           justify-content: center;
