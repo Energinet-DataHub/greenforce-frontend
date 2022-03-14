@@ -126,7 +126,7 @@ export class WattDropdownComponent
     // load the initial list of options
     this.filteredOptions.next(this.options.slice());
 
-    this.listenForSearchFieldValueChanges();
+    this.listenForFilterFieldValueChanges();
     this.initializePropertiesFromParent();
     this.bindParentValidatorsToControl();
     this.bindControlToParent();
@@ -151,7 +151,11 @@ export class WattDropdownComponent
   /**
    * @ignore
    */
-  registerOnChange(onChangeFn: (value: WattDropdownOption) => void): void {
+  registerOnChange(
+    onChangeFn: (
+      value: WattDropdownOption | WattDropdownOption[] | null
+    ) => void
+  ): void {
     this.changeParentValue = onChangeFn;
   }
 
@@ -177,8 +181,7 @@ export class WattDropdownComponent
     select._positioningSettled = () => {};
   }
 
-  private listenForSearchFieldValueChanges() {
-    // listen for search field value changes
+  private listenForFilterFieldValueChanges() {
     this.filterControl.valueChanges
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => this.filterOptions());
@@ -187,8 +190,10 @@ export class WattDropdownComponent
   /**
    * @ignore
    */
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  private changeParentValue = (value: WattDropdownOption): void => {
+  private changeParentValue = (
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    value: WattDropdownOption | WattDropdownOption[] | null
+  ): void => {
     // Intentionally left empty
   };
 
@@ -251,7 +256,7 @@ export class WattDropdownComponent
         distinctUntilChanged(),
         takeUntil(this.destroy$)
       )
-      .subscribe((value) => {
+      .subscribe((value: WattDropdownOption | WattDropdownOption[] | null) => {
         this.markParentControlAsTouched();
         this.changeParentValue(value);
       });
@@ -299,13 +304,12 @@ export class WattDropdownComponent
     }
 
     // get the search keyword
-    let search = this.filterControl.value;
+    let search = (this.filterControl.value as string).trim();
 
-    if (!search) {
-      this.filteredOptions.next(this.options.slice());
-      return;
-    } else {
+    if (search) {
       search = search.toLowerCase();
+    } else {
+      return this.filteredOptions.next(this.options.slice());
     }
 
     // filter the options
