@@ -109,7 +109,10 @@ const selector = 'ett-shell';
     <watt-shell>
       <ng-container watt-shell-sidenav>
         <div class="${selector}__logo-container">
-            <img class="${selector}__logo" src="/assets/images/energyorigin-logo-secondary.svg" />
+          <img
+            class="${selector}__logo"
+            src="/assets/images/energyorigin-logo-secondary.svg"
+          />
         </div>
         <ett-primary-navigation></ett-primary-navigation>
       </ng-container>
