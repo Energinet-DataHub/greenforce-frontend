@@ -66,7 +66,11 @@ const selector = 'ett-primary-navigation';
       <a mat-list-item routerLink="/dashboard" routerLinkActive="is-active">
         Dashboard
       </a>
-      <a mat-list-item routerLink="/metering-points" routerLinkActive="is-active">
+      <a
+        mat-list-item
+        routerLink="/metering-points"
+        routerLinkActive="is-active"
+      >
         Metering points
       </a>
 

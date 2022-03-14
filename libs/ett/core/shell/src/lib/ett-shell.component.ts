@@ -133,9 +133,7 @@ const selector = 'ett-shell';
     </watt-shell>
   `,
 })
-export class EttShellComponent {
-
-}
+export class EttShellComponent {}
 
 @NgModule({
   declarations: [EttShellComponent],

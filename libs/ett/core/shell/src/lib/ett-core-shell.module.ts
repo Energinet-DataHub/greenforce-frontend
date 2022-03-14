@@ -61,7 +61,7 @@ const routes: Routes = [
       {
         path: 'metering-points',
         data: {
-          title: 'Metering points'
+          title: 'Metering points',
         },
         loadChildren: () =>
           import('@energinet-datahub/eo/metering-points/shell').then(
