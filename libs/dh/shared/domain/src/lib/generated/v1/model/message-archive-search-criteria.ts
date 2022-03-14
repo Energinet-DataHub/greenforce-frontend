@@ -11,7 +11,7 @@
  */
 
 
-export interface SearchCriteria { 
+export interface MessageArchiveSearchCriteria { 
     messageId?: string | null;
     messageType?: string | null;
     processType?: string | null;

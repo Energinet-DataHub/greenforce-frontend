@@ -9,17 +9,12 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { MessageArchiveSearchResultItemDto } from './message-archive-search-result-item-dto';
 
 
-export interface Stream { 
-    readonly canRead: boolean;
-    readonly canSeek: boolean;
-    readonly canTimeout: boolean;
-    readonly canWrite: boolean;
-    readonly length: number;
-    position: number;
-    readTimeout: number;
-    writeTimeout: number;
+export interface MessageArchiveSearchResultsDto { 
+    result: Array<MessageArchiveSearchResultItemDto>;
+    continuationToken?: string | null;
 }
 
 

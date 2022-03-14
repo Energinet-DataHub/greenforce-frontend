@@ -40,7 +40,7 @@ namespace Energinet.DataHub.WebApi.Controllers
         /// <param name="searchCriteria">search criteria input</param>
         /// <returns>Search result.</returns>
         [HttpPost("SearchRequestResponseLogs")]
-        public async Task<ActionResult<SearchResultsDto>> SearchRequestResponseLogsAsync(SearchCriteria searchCriteria)
+        public async Task<ActionResult<MessageArchiveSearchResultsDto>> SearchRequestResponseLogsAsync(MessageArchiveSearchCriteria searchCriteria)
         {
             var result = await _messageArchiveClient.SearchLogsAsync(searchCriteria).ConfigureAwait(false);
 

@@ -9,10 +9,10 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { SearchResultItemErrorDto } from './search-result-item-error-dto';
+import { MessageArchiveSearchResultItemErrorDto } from './message-archive-search-result-item-error-dto';
 
 
-export interface SearchResultItemDto { 
+export interface MessageArchiveSearchResultItemDto { 
     messageId?: string | null;
     messageType?: string | null;
     processType?: string | null;
@@ -34,7 +34,7 @@ export interface SearchResultItemDto {
     originalTransactionIDReferenceId?: string | null;
     rsmName?: string | null;
     data?: { [key: string]: string; } | null;
-    errors?: Array<SearchResultItemErrorDto> | null;
+    errors?: Array<MessageArchiveSearchResultItemErrorDto> | null;
 }
 
 

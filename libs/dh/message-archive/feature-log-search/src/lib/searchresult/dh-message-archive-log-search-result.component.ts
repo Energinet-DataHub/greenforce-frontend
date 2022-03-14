@@ -23,7 +23,7 @@ import {
   NgModule,
   Output,
 } from '@angular/core';
-import { SearchResultItemDto } from '@energinet-datahub/dh/shared/domain';
+import { MessageArchiveSearchResultItemDto } from '@energinet-datahub/dh/shared/domain';
 import { TranslocoModule } from '@ngneat/transloco';
 import { LetModule } from '@rx-angular/template';
 import { MatTableModule } from '@angular/material/table';
@@ -44,9 +44,9 @@ import {
   styleUrls: ['./dh-message-archive-log-search-result.component.scss'],
 })
 export class DhMessageArchiveLogSearchResultComponent {
-  @Input() searchResult: Array<SearchResultItemDto> | null = [];
-  @Output() showLogDownloadPage = new EventEmitter<SearchResultItemDto>();
-  @Output() downloadLogFile = new EventEmitter<SearchResultItemDto>();
+  @Input() searchResult: Array<MessageArchiveSearchResultItemDto> | null = [];
+  @Output() showLogDownloadPage = new EventEmitter<MessageArchiveSearchResultItemDto>();
+  @Output() downloadLogFile = new EventEmitter<MessageArchiveSearchResultItemDto>();
   @Input() isSearching: boolean | null = false;
   displayedColumns: string[] = [
     'messageId',
@@ -60,11 +60,11 @@ export class DhMessageArchiveLogSearchResultComponent {
   iconDownload: WattIcon = 'download';
   iconOpenInNew: WattIcon = 'openInNew';
 
-  emitShowLogDownloadPage(log: SearchResultItemDto) {
+  emitShowLogDownloadPage(log: MessageArchiveSearchResultItemDto) {
     this.showLogDownloadPage.emit(log);
   }
 
-  emitDownlogLogFile(log: SearchResultItemDto) {
+  emitDownlogLogFile(log: MessageArchiveSearchResultItemDto) {
     this.downloadLogFile.emit(log);
   }
 }

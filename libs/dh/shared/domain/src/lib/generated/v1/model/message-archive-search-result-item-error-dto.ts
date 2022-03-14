@@ -9,11 +9,11 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { SearchResultItemDto } from './search-result-item-dto';
 
 
-export interface SearchResultsDto { 
-    result: Array<SearchResultItemDto>;
+export interface MessageArchiveSearchResultItemErrorDto { 
+    code: string;
+    message: string;
 }
 
 

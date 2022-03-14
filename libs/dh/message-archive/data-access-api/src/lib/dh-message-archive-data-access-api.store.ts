@@ -19,13 +19,13 @@ import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { filter, map, Observable, switchMap, tap } from 'rxjs';
 import {
   MessageArchiveHttp,
-  SearchCriteria,
-  SearchResultItemDto,
+  MessageArchiveSearchCriteria,
+  MessageArchiveSearchResultItemDto,
 } from '@energinet-datahub/dh/shared/domain';
 import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { ErrorState, SearchingState } from './states';
 interface SearchResultState {
-  readonly searchResult?: Array<SearchResultItemDto>;
+  readonly searchResult?: Array<MessageArchiveSearchResultItemDto>;
   readonly searchingState: SearchingState | ErrorState;
   readonly continuationToken: string | null | undefined;
 }
@@ -42,11 +42,11 @@ export class DhMessageArchiveDataAccessApiStore extends ComponentStore<SearchRes
     super(initialState);
   }
 
-  searchResult$: Observable<Array<SearchResultItemDto>> = this.select(
+  searchResult$: Observable<Array<MessageArchiveSearchResultItemDto>> = this.select(
     (state) => state.searchResult
   ).pipe(
     filter((searchResult) => !!searchResult),
-    map((searchResult) => searchResult as Array<SearchResultItemDto>)
+    map((searchResult) => searchResult as Array<MessageArchiveSearchResultItemDto>)
   );
   continuationToken$: Observable<string | null | undefined> = this.select(
     (state) => state.continuationToken
@@ -59,7 +59,7 @@ export class DhMessageArchiveDataAccessApiStore extends ComponentStore<SearchRes
   );
 
   readonly searchLogs = this.effect(
-    (searchCriteria: Observable<SearchCriteria>) => {
+    (searchCriteria: Observable<MessageArchiveSearchCriteria>) => {
       return searchCriteria.pipe(
         tap((e) => {
           this.setState({
@@ -82,7 +82,7 @@ export class DhMessageArchiveDataAccessApiStore extends ComponentStore<SearchRes
                     );
                     this.updateSearchResult(searchResult.result);
                   } else {
-                    this.updateSearchResult(new Array<SearchResultItemDto>());
+                    this.updateSearchResult(new Array<MessageArchiveSearchResultItemDto>());
                   }
                 },
                 (error: HttpErrorResponse) => {
@@ -99,7 +99,7 @@ export class DhMessageArchiveDataAccessApiStore extends ComponentStore<SearchRes
   private updateSearchResult = this.updater(
     (
       state: SearchResultState,
-      searchResult: Array<SearchResultItemDto> | []
+      searchResult: Array<MessageArchiveSearchResultItemDto> | []
     ): SearchResultState => ({
       ...state,
       searchResult: searchResult,

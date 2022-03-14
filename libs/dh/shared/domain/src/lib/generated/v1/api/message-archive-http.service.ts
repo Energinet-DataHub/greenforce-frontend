@@ -18,8 +18,8 @@ import { HttpClient, HttpHeaders, HttpParams,
 import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
 
-import { SearchCriteria } from '../model/models';
-import { SearchResultsDto } from '../model/models';
+import { MessageArchiveSearchCriteria } from '../model/models';
+import { MessageArchiveSearchResultsDto } from '../model/models';
 import { Stream } from '../model/models';
 
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
@@ -153,14 +153,14 @@ export class MessageArchiveHttp {
 
     /**
      * Get saved request and response logs
-     * @param searchCriteria search criteria input
+     * @param messageArchiveSearchCriteria search criteria input
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public v1MessageArchiveSearchRequestResponseLogsPost(searchCriteria?: SearchCriteria, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<SearchResultsDto>;
-    public v1MessageArchiveSearchRequestResponseLogsPost(searchCriteria?: SearchCriteria, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<SearchResultsDto>>;
-    public v1MessageArchiveSearchRequestResponseLogsPost(searchCriteria?: SearchCriteria, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<SearchResultsDto>>;
-    public v1MessageArchiveSearchRequestResponseLogsPost(searchCriteria?: SearchCriteria, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
+    public v1MessageArchiveSearchRequestResponseLogsPost(messageArchiveSearchCriteria?: MessageArchiveSearchCriteria, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<MessageArchiveSearchResultsDto>;
+    public v1MessageArchiveSearchRequestResponseLogsPost(messageArchiveSearchCriteria?: MessageArchiveSearchCriteria, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<MessageArchiveSearchResultsDto>>;
+    public v1MessageArchiveSearchRequestResponseLogsPost(messageArchiveSearchCriteria?: MessageArchiveSearchCriteria, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<MessageArchiveSearchResultsDto>>;
+    public v1MessageArchiveSearchRequestResponseLogsPost(messageArchiveSearchCriteria?: MessageArchiveSearchCriteria, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
 
         let localVarHeaders = this.defaultHeaders;
 
@@ -207,8 +207,8 @@ export class MessageArchiveHttp {
             responseType_ = 'text';
         }
 
-        return this.httpClient.post<SearchResultsDto>(`${this.configuration.basePath}/v1/MessageArchive/SearchRequestResponseLogs`,
-            searchCriteria,
+        return this.httpClient.post<MessageArchiveSearchResultsDto>(`${this.configuration.basePath}/v1/MessageArchive/SearchRequestResponseLogs`,
+            messageArchiveSearchCriteria,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,

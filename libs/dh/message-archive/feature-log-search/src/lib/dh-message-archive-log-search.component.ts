@@ -36,8 +36,8 @@ import {
   DhMessageArchiveDataAccessBlobApiStore,
 } from '@energinet-datahub/dh/message-archive/data-access-api';
 import {
-  SearchCriteria,
-  SearchResultItemDto,
+  MessageArchiveSearchCriteria,
+  MessageArchiveSearchResultItemDto,
 } from '@energinet-datahub/dh/shared/domain';
 import { LetModule } from '@rx-angular/template';
 import { TranslocoModule } from '@ngneat/transloco';
@@ -69,7 +69,7 @@ export class DhMessageArchiveLogSearchComponent implements OnDestroy {
   hasSearchError$ = this.store.hasGeneralError$;
   continuationToken$ = this.store.continuationToken$;
 
-  searchResultsDtos: Array<SearchResultItemDto> = [];
+  searchResultsDtos: Array<MessageArchiveSearchResultItemDto> = [];
   businessReasonCodes = BusinessReasonCodes;
   searching = false;
   documentTypes = DocumentTypes;
@@ -90,7 +90,7 @@ export class DhMessageArchiveLogSearchComponent implements OnDestroy {
   };
 
   // eslint-disable-next-line @typescript-eslint/member-ordering
-  searchCriteria: SearchCriteria = {
+  searchCriteria: MessageArchiveSearchCriteria = {
     messageId: null,
     reasonCode: null,
     dateTimeFrom: this.initDateFrom().toISOString().split('.')[0] + 'Z',
@@ -141,7 +141,7 @@ export class DhMessageArchiveLogSearchComponent implements OnDestroy {
     }
   }
 
-  redirectToDownloadLogPage(resultItem: SearchResultItemDto) {
+  redirectToDownloadLogPage(resultItem: MessageArchiveSearchResultItemDto) {
     const blobName = this.findBlobName(resultItem.blobContentUri);
     const encodedBlobName = encodeURIComponent(blobName);
     const url = this.router.serializeUrl(
@@ -154,7 +154,7 @@ export class DhMessageArchiveLogSearchComponent implements OnDestroy {
     );
   }
 
-  downloadLog(resultItem: SearchResultItemDto) {
+  downloadLog(resultItem: MessageArchiveSearchResultItemDto) {
     const blobName = this.findBlobName(resultItem.blobContentUri);
     this.logStore.downloadLogFile(blobName);
   }
