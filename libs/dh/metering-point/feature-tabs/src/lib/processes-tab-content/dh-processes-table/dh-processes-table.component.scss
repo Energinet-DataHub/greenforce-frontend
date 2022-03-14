@@ -106,7 +106,6 @@ mat-row {
     align-items: center;
     overflow: hidden;
     word-wrap: break-word;
-    min-height: inherit;
     min-height: 48px;
     min-width: 1px;
 
@@ -114,6 +113,10 @@ mat-row {
       flex: 1 1 100%;
       margin-top: -1px;
     }
+  }
+
+  .details-status {
+    flex: 0 1 calc(var(--cell-padding) * 2);
   }
 }
 //:host {
