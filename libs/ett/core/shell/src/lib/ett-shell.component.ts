@@ -77,12 +77,13 @@ const selector = 'ett-shell';
 
         // This is the feature page/component
         // The padding on this element has been copied from: libs/ui-watt/src/lib/components/shell/shell.component.scss
-        .watt-main-content > :nth-child(2) {
+        .watt-main-content.watt-main-content > :nth-child(2) {
           @include watt.space-inset-m;
 
           @include watt.media('>Large') {
             @include watt.space-inset-l;
           }
+          padding-top: 0 !important;
         }
 
         .${selector}__logo-container {
