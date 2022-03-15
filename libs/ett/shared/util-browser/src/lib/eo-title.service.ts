@@ -14,8 +14,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import 'jest-preset-angular/setup-jest';
+import { Injectable } from '@angular/core';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { Title } from '@angular/platform-browser';
 
-import { setUpTestbed } from '@energinet-datahub/gf/test-util-staging';
+@Injectable({
+  providedIn: 'root',
+})
+export class EoTitle {
+  private titleSubject = new BehaviorSubject<string>('');
+  title$!: Observable<string>;
 
-setUpTestbed();
+  constructor(private titleService: Title) {
+    this.title$ = this.titleSubject.asObservable();
+  }
+
+  setTitle(title: string): void {
+    // Updates the meta title
+    this.titleService.setTitle(title);
+
+    // Notify subscribers of this.#title$
+    this.titleSubject.next(title);
+  }
+}
