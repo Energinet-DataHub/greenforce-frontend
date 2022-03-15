@@ -14,4 +14,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export const ettDashboardRoutePath = 'dashboard';
+export * from './lib/eo-metering-points-shell.module';

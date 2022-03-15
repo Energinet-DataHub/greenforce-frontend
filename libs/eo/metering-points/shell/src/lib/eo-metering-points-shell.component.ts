@@ -20,16 +20,13 @@ import {
   NgModule,
   ViewEncapsulation,
 } from '@angular/core';
-import { EoPrivacyPolicyScam } from '@energinet-datahub/eo/shared/atomic-design/feature-molecules';
+
 import { EoTitle } from '@energinet-datahub/ett/shared/util-browser';
 
-const selector = 'eo-privacy-policy-shell';
+const selector = 'eo-metering-points-shell';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None,
   selector,
-  template: `<eo-privacy-policy></eo-privacy-policy>`,
   styles: [
     `
       ${selector} {
@@ -37,15 +34,18 @@ const selector = 'eo-privacy-policy-shell';
       }
     `,
   ],
+  template: ``,
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class EoPrivacyPolicyShellComponent {
+export class EoMeteringPointsShellComponent {
   constructor(private eoTitleService: EoTitle) {
-    this.eoTitleService.setTitle('Privacy policy');
+    this.eoTitleService.setTitle('Metering points');
   }
 }
 
 @NgModule({
-  imports: [EoPrivacyPolicyScam],
-  declarations: [EoPrivacyPolicyShellComponent],
+  declarations: [EoMeteringPointsShellComponent],
+  exports: [EoMeteringPointsShellComponent],
 })
-export class EoPrivacyPolicyShellScam {}
+export class EoMeteringPointsShellScam {}
