@@ -57,7 +57,7 @@ describe(EoLandingPageStore.name, () => {
 
       expect(
         actualUrl.searchParams.get(AuthOidcQueryParameterName.ReturnUrl)
-      ).toBe(`${baseHref}dashboard`);
+      ).toBe(`${baseHref}metering-points`);
     });
   });
 });
