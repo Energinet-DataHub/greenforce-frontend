@@ -67,7 +67,7 @@ const selector = 'ett-shell';
 
         .watt-main-content {
           min-height: calc(
-            100% - 48px
+            100% - 64px - var(--watt-space-l)
           ); // 48px is = available screen height minus the top bar
           padding: 0 !important; // We remove the padding, so we can stretch the footer out in full width
           margin-top: var(--watt-space-l);
