@@ -254,5 +254,37 @@
       "title": "Ups! Der opstod en fejl",
       "message": "Der opstod desværre en fejl, da vi skulle hente de nødvendige oplysninger."
     }
+  },
+  "messageArchive": {
+    "unknowenError": "Ukendt fejl",
+    "search": {
+      "title": "Fremsøg forretningsbesked",
+      "documenttype": "Dokumenttype",
+      "senderId": "Afsender Id",
+      "messageId": "Besked Id",
+      "role": "Rolle",
+      "receiverId": "Modtager Id",
+      "businessReason": "Forretningsårgsag",
+      "dateFrom": "Dato fra",
+      "dateTo": "Dato til",
+      "startSearch": "Fremsøg besked",
+      "NoResultsFound": "Intet resultat",
+      "ChooseRole": "Vælg rolle",
+      "ChooseBusinessRole": "Vælg forretningsårgsag",
+      "ChooseDocumentType": "Vælg dokumenttype",
+      "includeRelatedMessage": "Inkluder relateret besked",
+      "pageSize": "Resultater per side",
+      "nextPage": "Næste side",
+      "page": "Side",
+      "rsm": "RSM",
+      "sender": "Afsender",
+      "timeStamp": "Tid",
+      "status": "Status",
+      "sent": "Sendt",
+      "received": "Modtaget",
+      "download": "Download",
+      "show": "Vis",
+      "noResultsHelperText": "Prøv at ændring dine søge indstillinger"
+    }
   }
 }
