@@ -42,6 +42,9 @@
       "@energinet-datahub/dh/message-archive/data-access-api": [
         "libs/dh/message-archive/data-access-api/src/index.ts"
       ],
+      "@energinet-datahub/dh/message-archive/domain": [
+        "libs/dh/message-archive/domain/src/index.ts"
+      ],
       "@energinet-datahub/dh/message-archive/feature-log-search": [
         "libs/dh/message-archive/feature-log-search/src/index.ts"
       ],

@@ -42,9 +42,9 @@ import {
 import { LetModule } from '@rx-angular/template';
 import { TranslocoModule } from '@ngneat/transloco';
 import { DhMessageArchiveLogSearchResultScam } from './searchresult/dh-message-archive-log-search-result.component';
-import { BusinessReasonCodes } from '../../../models/businessReasonCodes';
-import { DocumentTypes } from '../../../models/documentTypes';
-import { RoleTypes } from '../../../models/roleTypes';
+import { BusinessReasonCodes } from '../../../domain/src/lib/businessReasonCodes';
+import { DocumentTypes } from '@energinet-datahub/dh/message-archive/domain';
+import { RoleTypes } from '@energinet-datahub/dh/message-archive/domain';
 import { Subject } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 
