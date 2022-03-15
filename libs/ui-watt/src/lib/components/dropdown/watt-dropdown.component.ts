@@ -118,13 +118,6 @@ export class WattDropdownComponent
   @Input() placeholder = '';
 
   /**
-   * Sets the placeholder for the filter input.
-   *
-   * @required
-   */
-  @Input() filterPlaceholder = '';
-
-  /**
    * Label to be shown when no entries are found.
    *
    * @required
