@@ -1,0 +1,231 @@
+<!--
+@license
+Copyright 2020 Energinet DataHub A/S
+
+Licensed under the Apache License, Version 2.0 (the "License2");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<ng-container *transloco="let transloco; read: 'messageArchive.search'">
+  <h1>{{ transloco('title') }}</h1>
+  <form #searchForm name="log-search-form" (ngSubmit)="onSubmit()">
+    <div class="wrapper">
+      <watt-form-field size="normal">
+        <watt-label class="watt-text-m">{{
+          transloco('documenttype')
+        }}</watt-label>
+
+        <select
+          #searchInputDocumentType
+          wattInput
+          name="documentType"
+          [(ngModel)]="this.searchCriteria.rsmName"
+        >
+          <option selected [ngValue]="null">
+            {{ transloco('ChooseDocumentType') }}
+          </option>
+          <option
+            *ngFor="let documentType of this.documentTypes | keyvalue"
+            [ngValue]="documentType['key']"
+            value="{{ documentType['value'] }}"
+          >
+            {{ documentType['key'] + ' ' + documentType['value'] }}
+          </option>
+        </select>
+      </watt-form-field>
+
+      <watt-form-field size="normal">
+        <watt-label class="watt-text-m">{{ transloco('senderId') }}</watt-label>
+
+        <input
+          #searchInputSenderId
+          [(ngModel)]="this.searchCriteria.senderId"
+          wattInput
+          type="text"
+          name="senderId"
+        />
+      </watt-form-field>
+
+      <watt-form-field size="normal">
+        <watt-label class="watt-text-m">{{ transloco('role') }}</watt-label>
+
+        <select
+          #searchInputRole
+          wattInput
+          [(ngModel)]="this.searchCriteria.senderRoleType"
+          name="role"
+        >
+          <option selected [ngValue]="null">
+            {{ transloco('ChooseRole') }}
+          </option>
+          <option
+            *ngFor="let roleType of this.roleTypes | keyvalue"
+            [ngValue]="roleType['key']"
+            value="{{ roleType['value'] }}"
+          >
+            {{ roleType['key'] + ' - ' + roleType['value'] }}
+          </option>
+        </select>
+      </watt-form-field>
+
+      <watt-form-field size="normal">
+        <watt-label class="watt-text-m">{{
+          transloco('messageId')
+        }}</watt-label>
+
+        <input
+          #searchInputMessageId
+          [(ngModel)]="this.searchCriteria.messageId"
+          wattInput
+          type="text"
+          name="messageId"
+        />
+      </watt-form-field>
+
+      <watt-form-field size="normal">
+        <watt-label class="watt-text-m">{{
+          transloco('receiverId')
+        }}</watt-label>
+
+        <input
+          #searchInputReceiverId
+          [(ngModel)]="this.searchCriteria.receiverId"
+          wattInput
+          type="text"
+          name="receiverId"
+        />
+      </watt-form-field>
+
+      <watt-form-field size="normal">
+        <watt-label class="watt-text-m">{{
+          transloco('businessReason')
+        }}</watt-label>
+
+        <select
+          #searchInputBusinessReasonCode
+          wattInput
+          name="reasonCode"
+          [(ngModel)]="this.searchCriteria.reasonCode"
+        >
+          <option selected [ngValue]="null">
+            {{ transloco('ChooseBusinessRole') }}
+          </option>
+          <option
+            *ngFor="
+              let businessReasonCode of this.businessReasonCodes | keyvalue
+            "
+            [ngValue]="businessReasonCode['key']"
+            value="{{ businessReasonCode['value'] }}"
+          >
+            {{
+              businessReasonCode['key'] + ' - ' + businessReasonCode['value']
+            }}
+          </option>
+        </select>
+      </watt-form-field>
+
+      <watt-form-field size="normal">
+        <watt-label class="watt-text-m">{{ transloco('dateFrom') }}</watt-label>
+
+        <input
+          #searchInputDateTimeFrom
+          [(ngModel)]="this.searchCriteria.dateTimeFrom"
+          wattInput
+          type="text"
+          name="dateTimeFrom"
+        />
+      </watt-form-field>
+
+      <watt-form-field size="normal">
+        <watt-label class="watt-text-m">{{ transloco('dateTo') }}</watt-label>
+
+        <input
+          #searchInputDateTimeTo
+          [(ngModel)]="this.searchCriteria.dateTimeTo"
+          wattInput
+          type="text"
+          name="dateTimeTo"
+        />
+      </watt-form-field>
+
+      <!-- Reference id -->
+      <watt-form-field size="normal">
+        <watt-checkbox
+          #searchInputReferenceId
+          [(ngModel)]="this.searchCriteria.includeRelated"
+          wattInput
+          name="reference-id"
+          >{{ transloco('includeRelatedMessage') }}</watt-checkbox
+        >
+      </watt-form-field>
+
+      <!-- Search -->
+      <watt-button
+        [disabled]="!validateSearchParams()"
+        variant="primary"
+        type="submit"
+        icon="search"
+        size="normal"
+        >{{ transloco('startSearch') }}</watt-button
+      >
+
+      <!-- Pager -->
+      <watt-form-field size="normal">
+        <watt-label class="watt-text-m">{{ transloco('pageSize') }}</watt-label>
+
+        <select
+          #searchInputPageSize
+          wattInput
+          name="pageSize"
+          [(ngModel)]="this.searchCriteria.maxItemCount"
+        >
+          <option
+            *ngFor="let pageSize of this.pageSizes"
+            [ngValue]="pageSize"
+            value="{{ pageSize }}"
+          >
+            {{ pageSize }}
+          </option>
+        </select>
+      </watt-form-field>
+
+      <div>
+        <watt-label class="watt-text-m"
+          >{{ transloco('page') }} {{ this.pageNumber }}</watt-label
+        >
+        <watt-button
+          [disabled]="(continuationToken$ | async) === null"
+          type="button"
+          (click)="nextPage()"
+          >{{ transloco('nextPage') }}</watt-button
+        >
+      </div>
+    </div>
+  </form>
+
+  <div *transloco="let transloco; read: 'messageArchive'">
+    <watt-badge *ngIf="hasSearchError$ | async" type="danger">{{
+      transloco('unknowenError')
+    }}</watt-badge>
+  </div>
+
+  <hr />
+
+  <dh-message-archive-log-search-result
+    *rxLet="searchResult$ as searchResult"
+    [searchResult]="this.searchResult$ | async"
+    [isSearching]="this.searching$ | async"
+    (downloadLogFile)="downloadLog($event)"
+    (showLogDownloadPage)="redirectToDownloadLogPage($event)"
+  >
+  </dh-message-archive-log-search-result>
+</ng-container>
