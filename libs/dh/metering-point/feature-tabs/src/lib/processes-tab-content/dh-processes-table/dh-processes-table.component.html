@@ -14,83 +14,83 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<ng-container *ngIf="processes && processes.length > 0; else emptyTab">
+<ng-container *ngIf='processes && processes.length > 0; else emptyTab'>
   <mat-table
     #matTable
-    [dataSource]="sortedData"
+    [dataSource]='sortedData'
     matSort
     multiTemplateDataRows
-    (matSortChange)="sortData($event)"
+    (matSortChange)='sortData($event)'
     *transloco="let transloco; read: 'meteringPoint.overview.processesTab'"
   >
     <!-- Expand Definition -->
-    <ng-container matColumnDef="tableExpandControl">
-      <mat-header-cell *matHeaderCellDef class="control-cell-header">
+    <ng-container matColumnDef='tableExpandControl'>
+      <mat-header-cell *matHeaderCellDef class='control-cell-header'>
       </mat-header-cell>
-      <mat-cell *matCellDef="let row" class="control-cell">
-        <watt-icon name="right" [size]="iconSize.Large" [ngClass]="{'expanded': row.expanded}"></watt-icon>
+      <mat-cell *matCellDef='let row' class='control-cell'>
+        <watt-icon name='right' [size]='iconSize.Large' [ngClass]="{'expanded': row.expanded}"></watt-icon>
       </mat-cell>
     </ng-container>
 
     <!-- Name Definition -->
-    <ng-container matColumnDef="name">
+    <ng-container matColumnDef='name'>
       <mat-header-cell
         *matHeaderCellDef
         mat-sort-header
         [sortActionDescription]="transloco('sortDescription.name')"
-        class="watt-label"
+        class='watt-label'
       >
         {{ transloco('headers.name') }}
       </mat-header-cell>
-      <mat-cell *matCellDef="let row" data-testId="processName">
-        <div class="watt-text-s">
+      <mat-cell *matCellDef='let row' data-testId='processName'>
+        <div class='watt-text-s'>
           {{ row.name }}
         </div>
       </mat-cell>
     </ng-container>
 
     <!-- Created Date Definition -->
-    <ng-container matColumnDef="createdDate">
+    <ng-container matColumnDef='createdDate'>
       <mat-header-cell
         *matHeaderCellDef
         mat-sort-header
         [sortActionDescription]="transloco('sortDescription.createdDate')"
-        class="watt-label"
+        class='watt-label'
       >
         {{ transloco('headers.createdDate') }}
       </mat-header-cell>
-      <mat-cell *matCellDef="let row">
+      <mat-cell *matCellDef='let row'>
         <watt-icon
-          name="date"
-          [size]="iconSize.Small"
-          class="date-icon"
+          name='date'
+          [size]='iconSize.Small'
+          class='date-icon'
         ></watt-icon>
-        <span class="watt-text-s">{{ row.createdDate | dhDateTime }} </span>
+        <span class='watt-text-s'>{{ row.createdDate | dhDateTime }} </span>
       </mat-cell>
     </ng-container>
 
     <!-- Effective Date Definition -->
-    <ng-container matColumnDef="effectiveDate">
+    <ng-container matColumnDef='effectiveDate'>
       <mat-header-cell
         *matHeaderCellDef
         mat-sort-header
         [sortActionDescription]="transloco('sortDescription.effectiveDate')"
-        class="watt-label"
+        class='watt-label'
       >
         {{ transloco('headers.effectiveDate') }}
       </mat-header-cell>
-      <mat-cell *matCellDef="let row">
+      <mat-cell *matCellDef='let row'>
         <watt-icon
-          name="date"
-          [size]="iconSize.Small"
-          class="date-icon"
+          name='date'
+          [size]='iconSize.Small'
+          class='date-icon'
         ></watt-icon>
-        <span class="watt-text-s">{{ row.effectiveDate | dhDate }} </span>
+        <span class='watt-text-s'>{{ row.effectiveDate | dhDate }} </span>
       </mat-cell>
     </ng-container>
 
     <!-- Status Definition -->
-    <ng-container matColumnDef="status">
+    <ng-container matColumnDef='status'>
       <mat-header-cell
         *matHeaderCellDef
         mat-sort-header
@@ -98,83 +98,51 @@ limitations under the License.
       >
         {{ transloco('headers.status') }}
       </mat-header-cell>
-      <mat-cell *matCellDef="let row">
-        <div class="watt-text-s">
+      <mat-cell *matCellDef='let row'>
+        <div class='watt-text-s'>
           {{ row.status }}
         </div>
       </mat-cell>
     </ng-container>
 
     <!-- Has Details Errors Definition -->
-    <ng-container matColumnDef="hasDetailsErrors">
-      <mat-header-cell *matHeaderCellDef class="status-cell-header"></mat-header-cell>
-      <mat-cell *matCellDef="let row" class="status-cell">
-        <div class="watt-text-s">
+    <ng-container matColumnDef='hasDetailsErrors'>
+      <mat-header-cell *matHeaderCellDef class='status-cell-header'></mat-header-cell>
+      <mat-cell *matCellDef='let row' class='status-cell'>
+        <div class='watt-text-s'>
           <watt-icon
             [name]="row.hasDetailsErrors ? 'danger' : 'success'"
-            [size]="iconSize.Medium"
-            data-testId="processhasDetailsErrors"
+            [size]='iconSize.Medium'
+            data-testId='processhasDetailsErrors'
           ></watt-icon>
         </div>
       </mat-cell>
     </ng-container>
 
     <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
-    <ng-container matColumnDef="expandedDetail">
+    <ng-container matColumnDef='expandedDetail'>
       <mat-header-cell *matHeaderCellDef></mat-header-cell>
       <mat-cell
         mat-cell
-        *matCellDef="let row"
-        [attr.colspan]="displayedColumns.length"
+        *matCellDef='let row'
+        [attr.colspan]='displayedColumns.length'
         [@detailExpand]="row.expanded ? 'expanded' : 'collapsed'"
       >
-        <div class="child-row" state="success">
-          <div class="child-cell">hej</div>
-          <div class="child-cell">hej</div>
-          <div class="child-cell">med</div>
-          <div class="child-cell">dig</div>
-          <div class="child-cell details-status">what</div>
-        </div>
-
-        <div class="child-row" state="danger">
-          <div class="child-cell">hej</div>
-          <div class="child-cell">hej</div>
-          <div class="child-cell">med</div>
-          <div class="child-cell">dig</div>
-          <div class="child-cell details-status">what</div>
-          <div class="child-cell full-width">AFVIST: Landenavn SE for målepunkt har forkert værdi</div>
-        </div>
-
-        <div class="child-row">
-          <div class="child-cell">hej</div>
-          <div class="child-cell">hej</div>
-          <div class="child-cell">med</div>
-          <div class="child-cell">dig</div>
-          <div class="child-cell details-status">what</div>
-        </div>
-
-        <div class="child-row">
-          <div class="child-cell">hej</div>
-          <div class="child-cell">hej</div>
-          <div class="child-cell">med</div>
-          <div class="child-cell">dig</div>
-          <div class="child-cell details-status">what</div>
-        </div>
+        <dh-processes-detail-item *ngFor="let detail of row.details" [detail]="detail"></dh-processes-detail-item>
       </mat-cell>
     </ng-container>
 
     <!-- Header and Row Declarations -->
-    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-<!--    <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>-->
+    <mat-header-row *matHeaderRowDef='displayedColumns'></mat-header-row>
     <mat-row
-      *matRowDef="let row; columns: displayedColumns"
+      *matRowDef='let row; columns: displayedColumns'
       wattExpandOnClick
-      [class.expanded]="row.expanded"
-      (click)="row.expanded = !row.expanded"
+      [class.expanded]='row.expanded'
+      (click)='row.expanded = !row.expanded'
     ></mat-row>
     <mat-row
       *matRowDef="let row; columns: ['expandedDetail']"
-      class="expandable"
+      class='expandable'
     ></mat-row>
   </mat-table>
 </ng-container>
@@ -183,7 +151,7 @@ limitations under the License.
   <ng-container *transloco="let transloco; read: 'meteringPoint.processes'">
     <!-- TODO: Move this to the parent component and use the not-found component instead -->
     <watt-empty-state
-      size="small"
+      size='small'
       [title]="transloco('noProcessesFound')"
       [message]="transloco('noProcessesText')"
     ></watt-empty-state>

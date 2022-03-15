@@ -41,6 +41,7 @@ import {
 } from '@energinet-datahub/watt';
 import { TranslocoModule } from '@ngneat/transloco';
 import { animate, state, style, transition, trigger } from '@angular/animations';
+import { DhProcessesDetailItemScam } from '../dh-processes-detail-item/dh-processes-detail-item.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -131,7 +132,8 @@ export class DhProcessesTableComponent implements AfterViewInit {
     CommonModule,
     WattEmptyStateModule,
     RouterModule,
-    DhSharedUiDateTimeModule
+    DhSharedUiDateTimeModule,
+    DhProcessesDetailItemScam
   ],
   exports: [DhProcessesTableComponent]
 })
