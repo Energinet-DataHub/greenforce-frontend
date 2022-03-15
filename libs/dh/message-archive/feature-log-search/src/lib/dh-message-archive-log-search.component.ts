@@ -75,6 +75,17 @@ export class DhMessageArchiveLogSearchComponent implements OnDestroy {
   roleTypes = RoleTypes;
   pageSizes = [250, 500, 750, 1000];
   pageNumber = 1;
+  searchCriteria: MessageArchiveSearchCriteria = {
+    messageId: null,
+    reasonCode: null,
+    senderRoleType: null,
+    rsmName: null,
+    includeRelated: false,
+    traceId: null,
+    functionName: null,
+    invocationId: null,
+    maxItemCount: 250,
+  };
 
   private initDateFrom = (): Date => {
     const from = new Date();
@@ -86,21 +97,6 @@ export class DhMessageArchiveLogSearchComponent implements OnDestroy {
     const to = new Date();
     to.setUTCHours(23, 59, 59);
     return to;
-  };
-
-  // eslint-disable-next-line @typescript-eslint/member-ordering
-  searchCriteria: MessageArchiveSearchCriteria = {
-    messageId: null,
-    reasonCode: null,
-    dateTimeFrom: this.initDateFrom().toISOString().split('.')[0] + 'Z',
-    dateTimeTo: this.initDateTo().toISOString().split('.')[0] + 'Z',
-    senderRoleType: null,
-    rsmName: null,
-    includeRelated: false,
-    traceId: null,
-    functionName: null,
-    invocationId: null,
-    maxItemCount: 250,
   };
 
   constructor(
@@ -118,6 +114,9 @@ export class DhMessageArchiveLogSearchComponent implements OnDestroy {
         ? q.get('invocationId')
         : null;
     });
+
+    this.searchCriteria.dateTimeFrom = this.initDateFrom().toISOString().split('.')[0] + 'Z';
+    this.searchCriteria.dateTimeTo = this.initDateTo().toISOString().split('.')[0] + 'Z';
   }
 
   onSubmit() {
