@@ -107,7 +107,7 @@ export class WattDropdownComponent
    *
    * @required
    */
-  @Input() placeholderLabel = '';
+  @Input() filterPlaceholder = '';
 
   /**
    * Label to be shown when no entries are found.
