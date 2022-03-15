@@ -18,7 +18,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   NgModule,
-  ViewEncapsulation
+  ViewEncapsulation,
 } from '@angular/core';
 import { EoFooterScam } from '@energinet-datahub/eo/shared/atomic-design/ui-organisms';
 import { EoProductLogoScam } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';

@@ -14,12 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {Injectable} from '@angular/core';
-import {BehaviorSubject, Observable} from 'rxjs';
-import {Title} from '@angular/platform-browser';
+import { Injectable } from '@angular/core';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { Title } from '@angular/platform-browser';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class EoTitle {
   private titleSubject = new BehaviorSubject<string>('');
@@ -36,5 +36,4 @@ export class EoTitle {
     // Notify subscribers of this.#title$
     this.titleSubject.next(title);
   }
-
 }

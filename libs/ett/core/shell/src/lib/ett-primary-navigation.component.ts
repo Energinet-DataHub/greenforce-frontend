@@ -64,7 +64,11 @@ const selector = 'ett-primary-navigation';
   ],
   template: `
     <mat-nav-list>
-      <a mat-list-item routerLink="/metering-points" routerLinkActive="is-active">
+      <a
+        mat-list-item
+        routerLink="/metering-points"
+        routerLinkActive="is-active"
+      >
         Metering points
       </a>
 
