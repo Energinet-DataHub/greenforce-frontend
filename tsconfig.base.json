@@ -139,12 +139,6 @@
         "libs/ett/auth/routing-security/src/index.ts"
       ],
       "@energinet-datahub/ett/core/shell": ["libs/ett/core/shell/src/index.ts"],
-      "@energinet-datahub/ett/dashboard/routing": [
-        "libs/ett/dashboard/routing/src/index.ts"
-      ],
-      "@energinet-datahub/ett/dashboard/shell": [
-        "libs/ett/dashboard/shell/src/index.ts"
-      ],
       "@energinet-datahub/ett/shared/util-browser": [
         "libs/ett/shared/util-browser/src/index.ts"
       ],
