@@ -240,7 +240,7 @@
       "D02": "Gebyr",
       "D03": "Tarif"
     },
-    "chargeOwner": "Tarif ejer",
+    "chargeOwner": "Ejer",
     "startDate": "Dato",
     "transparentInvoicing": "Viderefakturering",
     "quantity": "Antal",
