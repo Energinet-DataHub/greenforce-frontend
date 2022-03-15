@@ -16,14 +16,14 @@
  */
 import * as appShell from '../support/app-shell.po';
 import * as authApi from '../support/auth-api';
-import * as dashboardPage from '../support/dashboard.po';
+import * as meteringPointsPage from '../support/metering-points.po';
 import * as landingPage from '../support/landing-page.po';
 import * as termsPage from '../support/terms-page.po';
 
 describe('Authentication', () => {
   it(`Given a commercial user
     When NemID authentication is successful
-    Then they are redirected to the dashboard page`, () => {
+    Then they are redirected to the metering points page`, () => {
     // Arrange
     authApi.allowExistingUserAuthentication();
     landingPage.navigateTo();
@@ -32,7 +32,7 @@ describe('Authentication', () => {
     landingPage.findStartLink().click();
 
     // Assert
-    dashboardPage.findTitle().should('be.visible');
+    meteringPointsPage.findTitle().should('be.visible');
   });
 
   it(`Given an authenticated commercial user
@@ -57,7 +57,7 @@ describe('Authentication', () => {
   it(`Given a commercial user using NemID
     When they successfully authenticate for the first time
       And they accept the user terms
-    Then they are redirected to the dashboard page`, () => {
+    Then they are redirected to the metering points page`, () => {
     // Arrange
     authApi.allowFirstTimeAuthentication();
     authApi.allowGetTerms();
@@ -69,7 +69,7 @@ describe('Authentication', () => {
         pathname: '/api/auth/terms/accept',
       },
       {
-        next_url: '/dashboard?success=1',
+        next_url: '/metering-points?success=1',
       }
     ).as('authPostTerms');
     landingPage.navigateTo();
@@ -80,7 +80,7 @@ describe('Authentication', () => {
     termsPage.findAcceptButton().click({ force: true });
 
     // Assert
-    dashboardPage.findTitle().should('exist');
+    meteringPointsPage.findTitle().should('exist');
   });
 
   it(`Given a commercial user using NemID

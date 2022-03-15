@@ -52,12 +52,12 @@ describe(EoLandingPageStore.name, () => {
       expect(actualUrl.origin + actualUrl.pathname).toBe(authenticationUrl);
     });
 
-    it(`Then the specified return url is equal to the dashboard page`, async () => {
+    it(`Then the specified return url is equal to the metering points page`, async () => {
       const baseHref = TestBed.inject(APP_BASE_HREF);
 
       expect(
         actualUrl.searchParams.get(AuthOidcQueryParameterName.ReturnUrl)
-      ).toBe(`${baseHref}dashboard`);
+      ).toBe(`${baseHref}metering-points`);
     });
   });
 });

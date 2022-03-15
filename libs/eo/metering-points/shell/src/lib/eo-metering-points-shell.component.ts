@@ -20,38 +20,44 @@ import {
   NgModule,
   ViewEncapsulation,
 } from '@angular/core';
-import { RouterModule } from '@angular/router';
 
-const selector = 'ett-dashboard-shell';
+import { EoTitle } from '@energinet-datahub/ett/shared/util-browser';
+
+const selector = 'eo-metering-points-shell';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None,
   selector,
   styles: [
     `
       @use '@energinet-datahub/watt/utils' as watt;
+
       ${selector} {
         display: block;
       }
       .${selector}__p {
         @include watt.typography-watt-text-m; // This overrides the styles applied from Angular Material on p tags
+        margin-top: 0;
       }
     `,
   ],
   template: `
-    <h2>Dashboard</h2>
     <p class="${selector}__p">
       More functionality will be released on an ongoing basis. If you want to
       influence the new functionality, please send an email to
       <a href="mailto:xkeka@energinet.dk">xkeka@energinet.dk</a>.
     </p>
   `,
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class EttDashboardShellComponent {}
+export class EoMeteringPointsShellComponent {
+  constructor(private eoTitleService: EoTitle) {
+    this.eoTitleService.setTitle('Metering points');
+  }
+}
 
 @NgModule({
-  declarations: [EttDashboardShellComponent],
-  imports: [RouterModule],
+  declarations: [EoMeteringPointsShellComponent],
+  exports: [EoMeteringPointsShellComponent],
 })
-export class EttDashboardShellScam {}
+export class EoMeteringPointsShellScam {}
