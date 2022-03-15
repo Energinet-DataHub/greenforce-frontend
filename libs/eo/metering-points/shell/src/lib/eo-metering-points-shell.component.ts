@@ -14,10 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component, NgModule, ViewEncapsulation } from '@angular/core';
-
-import {ActivatedRoute} from '@angular/router';
-import {Title} from '@angular/platform-browser';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  NgModule,
+  ViewEncapsulation,
+} from '@angular/core';
+import { EoTitle } from '@energinet-datahub/ett/shared/util-browser';
 
 const selector = 'eo-metering-points-shell';
 
@@ -32,8 +35,9 @@ const selector = 'eo-metering-points-shell';
       }
       .${selector}__p {
         @include watt.typography-watt-text-m; // This overrides the styles applied from Angular Material on p tags
+        margin-top: 0;
       }
-    `
+    `,
   ],
   template: `
     <p class="${selector}__p">
@@ -46,10 +50,8 @@ const selector = 'eo-metering-points-shell';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EoMeteringPointsShellComponent {
-  constructor(private titleService: Title, private activatedRoute: ActivatedRoute) {
-    this.activatedRoute.data.subscribe(data => {
-      this.titleService.setTitle(data.title);
-    });
+  constructor(private eoTitleService: EoTitle) {
+    this.eoTitleService.setTitle('Metering points');
   }
 }
 

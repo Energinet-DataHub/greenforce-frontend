@@ -18,13 +18,16 @@ import {
   ChangeDetectionStrategy,
   Component,
   NgModule,
-  ViewEncapsulation,
+  ViewEncapsulation
 } from '@angular/core';
 import { EoFooterScam } from '@energinet-datahub/eo/shared/atomic-design/ui-organisms';
 import { EoProductLogoScam } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 import { EttPrimaryNavigationScam } from './ett-primary-navigation.component';
 import { RouterModule } from '@angular/router';
 import { WattShellModule } from '@energinet-datahub/watt';
+import { EoTitle } from '@energinet-datahub/ett/shared/util-browser';
+import { Observable } from 'rxjs';
+import { PushModule } from '@rx-angular/template';
 
 const selector = 'ett-shell';
 
@@ -38,6 +41,12 @@ const selector = 'ett-shell';
 
       ${selector} {
         display: block;
+
+        .${selector}__h2 {
+          @include watt.typography-watt-headline-2; // This overrides the styles applied from Angular Material on h2 tags
+          margin-left: var(--watt-space-m);
+          color: var(--watt-color-neutral-black);
+        }
 
         watt-shell mat-sidenav.mat-drawer {
           color: var(--watt-color-primary-dark-contrast);
@@ -61,6 +70,7 @@ const selector = 'ett-shell';
             100% - 48px
           ); // 48px is = available screen height minus the top bar
           padding: 0 !important; // We remove the padding, so we can stretch the footer out in full width
+          margin-top: var(--watt-space-l);
 
           /**
            * We have 3 items in the content area:
@@ -118,7 +128,9 @@ const selector = 'ett-shell';
         <ett-primary-navigation></ett-primary-navigation>
       </ng-container>
 
-      <ng-container watt-shell-toolbar> </ng-container>
+      <ng-container watt-shell-toolbar>
+        <h2 class="${selector}__h2">{{ title$ | push }}</h2>
+      </ng-container>
 
       <router-outlet></router-outlet>
 
@@ -134,7 +146,8 @@ const selector = 'ett-shell';
   `,
 })
 export class EttShellComponent {
-
+  title$: Observable<string> = this.eoTitleService.title$;
+  constructor(private eoTitleService: EoTitle) {}
 }
 
 @NgModule({
@@ -145,6 +158,7 @@ export class EttShellComponent {
     EttPrimaryNavigationScam,
     EoProductLogoScam,
     EoFooterScam,
+    PushModule,
   ],
 })
 export class EttShellScam {}

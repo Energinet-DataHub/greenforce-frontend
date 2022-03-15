@@ -21,7 +21,6 @@ import { EttHttpModule } from './ett-http.module';
 import { EttMaterialModule } from './ett-material.module';
 import { GfBrowserConfigurationModule } from '@energinet-datahub/gf/util-browser';
 import { NgModule } from '@angular/core';
-import { ettDashboardRoutePath } from '@energinet-datahub/ett/dashboard/routing';
 
 const routes: Routes = [
   {
@@ -45,13 +44,6 @@ const routes: Routes = [
     canActivateChild: [EttAuthenticationGuard],
     children: [
       {
-        path: ettDashboardRoutePath,
-        loadChildren: () =>
-          import('@energinet-datahub/ett/dashboard/shell').then(
-            (esModule) => esModule.EttDashboardShellModule
-          ),
-      },
-      {
         path: 'privacy-policy',
         loadChildren: () =>
           import('@energinet-datahub/eo/privacy-policy/shell').then(
@@ -60,9 +52,6 @@ const routes: Routes = [
       },
       {
         path: 'metering-points',
-        data: {
-          title: 'Metering points'
-        },
         loadChildren: () =>
           import('@energinet-datahub/eo/metering-points/shell').then(
             (esModule) => esModule.EoMeteringPointsShellModule

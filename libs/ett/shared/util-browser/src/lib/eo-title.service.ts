@@ -14,4 +14,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export const ettDashboardRoutePath = 'dashboard';
+import {Injectable} from '@angular/core';
+import {BehaviorSubject, Observable} from 'rxjs';
+import {Title} from '@angular/platform-browser';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class EoTitle {
+  private titleSubject = new BehaviorSubject<string>('');
+  title$!: Observable<string>;
+
+  constructor(private titleService: Title) {
+    this.title$ = this.titleSubject.asObservable();
+  }
+
+  setTitle(title: string): void {
+    // Updates the meta title
+    this.titleService.setTitle(title);
+
+    // Notify subscribers of this.#title$
+    this.titleSubject.next(title);
+  }
+
+}
