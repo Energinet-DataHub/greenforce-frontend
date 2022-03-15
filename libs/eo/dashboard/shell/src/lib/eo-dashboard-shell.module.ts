@@ -14,8 +14,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import 'jest-preset-angular/setup-jest';
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { EoDashboardShellScam, EoDashboardShellComponent } from './eo-dashboard-shell.component';
 
-import { setUpTestbed } from '@energinet-datahub/gf/test-util-staging';
+const routes: Routes = [
+  {
+    path: '',
+    component: EoDashboardShellComponent,
+  },
+];
 
-setUpTestbed();
+@NgModule({
+  imports: [RouterModule.forChild(routes), EoDashboardShellScam],
+})
+export class EoDashboardShellModule {}

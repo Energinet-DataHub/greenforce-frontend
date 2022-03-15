@@ -20,13 +20,11 @@ import {
   NgModule,
   ViewEncapsulation,
 } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { EoTitle } from '@energinet-datahub/ett/shared/util-browser';
 
-const selector = 'ett-dashboard-shell';
+const selector = 'eo-dashboard-shell';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None,
   selector,
   styles: [
     `
@@ -40,18 +38,23 @@ const selector = 'ett-dashboard-shell';
     `,
   ],
   template: `
-    <h2>Dashboard</h2>
     <p class="${selector}__p">
       More functionality will be released on an ongoing basis. If you want to
-      influence the new functionality, please send an email to
-      <a href="mailto:xkeka@energinet.dk">xkeka@energinet.dk</a>.
+      influence the new functionality, join us at our
+      <a href="https://www.linkedin.com/groups/12643238/" target="_blank">LinkedIn group</a>.
     </p>
   `,
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class EttDashboardShellComponent {}
+export class EoDashboardShellComponent {
+  constructor(private eoTitleService: EoTitle) {
+    this.eoTitleService.setTitle('Dashboard');
+  }
+}
 
 @NgModule({
-  declarations: [EttDashboardShellComponent],
-  imports: [RouterModule],
+  declarations: [EoDashboardShellComponent],
+  exports: [EoDashboardShellComponent],
 })
-export class EttDashboardShellScam {}
+export class EoDashboardShellScam {}

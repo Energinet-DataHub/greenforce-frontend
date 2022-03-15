@@ -21,9 +21,10 @@ import {
   NgModule,
   ViewEncapsulation,
 } from '@angular/core';
+
+import { EoLogOutStore } from '@energinet-datahub/ett/auth/data-access-security';
 import { MatListModule } from '@angular/material/list';
 import { RouterModule } from '@angular/router';
-import { EoLogOutStore } from '@energinet-datahub/ett/auth/data-access-security';
 
 const selector = 'ett-primary-navigation';
 
@@ -63,8 +64,19 @@ const selector = 'ett-primary-navigation';
   ],
   template: `
     <mat-nav-list>
-      <a mat-list-item routerLink="/dashboard" routerLinkActive="is-active">
+      <a
+        mat-list-item
+        routerLink="/dashboard"
+        routerLinkActive="is-active"
+      >
         Dashboard
+      </a>
+      <a
+        mat-list-item
+        routerLink="/metering-points"
+        routerLinkActive="is-active"
+      >
+        Metering points
       </a>
 
       <a mat-list-item href="#0" (click)="onLogOut($event)">Log out</a>
