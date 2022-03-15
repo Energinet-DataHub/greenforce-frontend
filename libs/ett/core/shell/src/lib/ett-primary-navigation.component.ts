@@ -64,11 +64,7 @@ const selector = 'ett-primary-navigation';
   ],
   template: `
     <mat-nav-list>
-      <a
-        mat-list-item
-        routerLink="/dashboard"
-        routerLinkActive="is-active"
-      >
+      <a mat-list-item routerLink="/dashboard" routerLinkActive="is-active">
         Dashboard
       </a>
       <a

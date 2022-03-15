@@ -41,7 +41,9 @@ const selector = 'eo-dashboard-shell';
     <p class="${selector}__p">
       More functionality will be released on an ongoing basis. If you want to
       influence the new functionality, join us at our
-      <a href="https://www.linkedin.com/groups/12643238/" target="_blank">LinkedIn group</a>.
+      <a href="https://www.linkedin.com/groups/12643238/" target="_blank"
+        >LinkedIn group</a
+      >.
     </p>
   `,
   encapsulation: ViewEncapsulation.None,

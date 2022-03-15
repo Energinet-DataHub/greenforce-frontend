@@ -16,7 +16,10 @@
  */
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { EoDashboardShellScam, EoDashboardShellComponent } from './eo-dashboard-shell.component';
+import {
+  EoDashboardShellScam,
+  EoDashboardShellComponent,
+} from './eo-dashboard-shell.component';
 
 const routes: Routes = [
   {
