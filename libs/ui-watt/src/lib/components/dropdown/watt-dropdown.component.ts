@@ -58,9 +58,21 @@ export class WattDropdownComponent
   implements ControlValueAccessor, OnInit, AfterViewInit, OnDestroy
 {
   /** Subject that emits when the component has been destroyed. */
+  /**
+   * @ignore
+   */
   private destroy$ = new Subject<void>();
+  /**
+   * @ignore
+   */
   private parentControl?: FormControl;
+  /**
+   * @ignore
+   */
   private validateParent?: ValidatorFn;
+  /**
+   * @ignore
+   */
   private validateParentAsync?: AsyncValidatorFn;
 
   /**
@@ -82,6 +94,9 @@ export class WattDropdownComponent
    */
   filteredOptions = new ReplaySubject<WattDropdownOption[]>(1);
 
+  /**
+   * @ignore
+   */
   @ViewChild('matSelect', { static: true }) matSelect?: MatSelect;
 
   /**
@@ -120,6 +135,9 @@ export class WattDropdownComponent
     this.parentControlDirective.valueAccessor = this;
   }
 
+  /**
+   * @ignore
+   */
   ngOnInit(): void {
     this.unsetMaterialXOffset();
 
@@ -132,10 +150,16 @@ export class WattDropdownComponent
     this.bindControlToParent();
   }
 
+  /**
+   * @ignore
+   */
   ngAfterViewInit(): void {
     this.setInitialValue();
   }
 
+  /**
+   * @ignore
+   */
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
@@ -166,6 +190,9 @@ export class WattDropdownComponent
     this.markParentControlAsTouched = onTouchFn;
   }
 
+  /**
+   * @ignore
+   */
   setDisabledState(shouldDisable: boolean): void {
     if (shouldDisable) {
       this.matSelectControl.disable();
@@ -174,6 +201,9 @@ export class WattDropdownComponent
     }
   }
 
+  /**
+   * @ignore
+   */
   private unsetMaterialXOffset() {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const select: any = this.matSelect;
@@ -181,6 +211,9 @@ export class WattDropdownComponent
     select._positioningSettled = () => {};
   }
 
+  /**
+   * @ignore
+   */
   private listenForFilterFieldValueChanges() {
     this.filterControl.valueChanges
       .pipe(takeUntil(this.destroy$))
@@ -205,6 +238,8 @@ export class WattDropdownComponent
   };
 
   /**
+   * @ignore
+   *
    * Store the parent control, its validators and async validators in properties
    * of this component.
    */
@@ -223,6 +258,8 @@ export class WattDropdownComponent
   }
 
   /**
+   * @ignore
+   *
    * Inherit validators from parent form control.
    */
   private bindParentValidatorsToControl(): void {
@@ -244,6 +281,8 @@ export class WattDropdownComponent
   }
 
   /**
+   * @ignore
+   *
    * Emit values to the parent form control when our form control's value
    * changes.
    *
@@ -278,6 +317,8 @@ export class WattDropdownComponent
   }
 
   /**
+   * @ignore
+   *
    * Sets the initial value after the filteredOptions are loaded initially
    */
   private setInitialValue() {
@@ -298,6 +339,9 @@ export class WattDropdownComponent
       });
   }
 
+  /**
+   * @ignore
+   */
   private filterOptions() {
     if (!this.options) {
       return;
