@@ -14,4 +14,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './lib/ett-dashboard-route-path';
+export * from './lib/eo-metering-points-shell.module';
