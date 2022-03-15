@@ -20,6 +20,7 @@ import {
   NgModule,
   ViewEncapsulation,
 } from '@angular/core';
+
 import { EoTitle } from '@energinet-datahub/ett/shared/util-browser';
 
 const selector = 'eo-metering-points-shell';

@@ -16,6 +16,7 @@
  */
 import { EttShellComponent, EttShellScam } from './ett-shell.component';
 import { RouterModule, Routes } from '@angular/router';
+
 import { EttAuthenticationGuard } from '@energinet-datahub/ett/auth/routing-security';
 import { EttHttpModule } from './ett-http.module';
 import { EttMaterialModule } from './ett-material.module';

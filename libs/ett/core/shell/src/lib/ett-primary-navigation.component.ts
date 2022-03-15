@@ -21,9 +21,10 @@ import {
   NgModule,
   ViewEncapsulation,
 } from '@angular/core';
+
+import { EoLogOutStore } from '@energinet-datahub/ett/auth/data-access-security';
 import { MatListModule } from '@angular/material/list';
 import { RouterModule } from '@angular/router';
-import { EoLogOutStore } from '@energinet-datahub/ett/auth/data-access-security';
 
 const selector = 'ett-primary-navigation';
 
