@@ -16,12 +16,12 @@
  */
 import { EttShellComponent, EttShellScam } from './ett-shell.component';
 import { RouterModule, Routes } from '@angular/router';
+
 import { EttAuthenticationGuard } from '@energinet-datahub/ett/auth/routing-security';
 import { EttHttpModule } from './ett-http.module';
 import { EttMaterialModule } from './ett-material.module';
 import { GfBrowserConfigurationModule } from '@energinet-datahub/gf/util-browser';
 import { NgModule } from '@angular/core';
-import { ettDashboardRoutePath } from '@energinet-datahub/ett/dashboard/routing';
 
 const routes: Routes = [
   {
@@ -45,17 +45,17 @@ const routes: Routes = [
     canActivateChild: [EttAuthenticationGuard],
     children: [
       {
-        path: ettDashboardRoutePath,
-        loadChildren: () =>
-          import('@energinet-datahub/ett/dashboard/shell').then(
-            (esModule) => esModule.EttDashboardShellModule
-          ),
-      },
-      {
         path: 'privacy-policy',
         loadChildren: () =>
           import('@energinet-datahub/eo/privacy-policy/shell').then(
             (esModule) => esModule.EoPrivacyPolicyShellModule
+          ),
+      },
+      {
+        path: 'metering-points',
+        loadChildren: () =>
+          import('@energinet-datahub/eo/metering-points/shell').then(
+            (esModule) => esModule.EoMeteringPointsShellModule
           ),
       },
     ],
