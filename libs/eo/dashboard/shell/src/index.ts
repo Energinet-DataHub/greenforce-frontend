@@ -14,5 +14,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export const findTitle = () =>
-  cy.findByRole('heading', { level: 2, name: /metering points/i });
+export * from './lib/eo-dashboard-shell.module';

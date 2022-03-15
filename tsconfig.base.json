@@ -111,6 +111,9 @@
       "@energinet-datahub/eo/auth/feature-terms": [
         "libs/eo/auth/feature-terms/src/index.ts"
       ],
+      "@energinet-datahub/eo/dashboard/shell": [
+        "libs/eo/dashboard/shell/src/index.ts"
+      ],
       "@energinet-datahub/eo/landing-page/routing": [
         "libs/eo/landing-page/routing/src/index.ts"
       ],

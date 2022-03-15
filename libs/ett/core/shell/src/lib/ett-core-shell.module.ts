@@ -45,10 +45,10 @@ const routes: Routes = [
     canActivateChild: [EttAuthenticationGuard],
     children: [
       {
-        path: 'privacy-policy',
+        path: 'dashboard',
         loadChildren: () =>
-          import('@energinet-datahub/eo/privacy-policy/shell').then(
-            (esModule) => esModule.EoPrivacyPolicyShellModule
+          import('@energinet-datahub/eo/dashboard/shell').then(
+            (esModule) => esModule.EoDashboardShellModule
           ),
       },
       {
@@ -56,6 +56,13 @@ const routes: Routes = [
         loadChildren: () =>
           import('@energinet-datahub/eo/metering-points/shell').then(
             (esModule) => esModule.EoMeteringPointsShellModule
+          ),
+      },
+      {
+        path: 'privacy-policy',
+        loadChildren: () =>
+          import('@energinet-datahub/eo/privacy-policy/shell').then(
+            (esModule) => esModule.EoPrivacyPolicyShellModule
           ),
       },
     ],

@@ -23,7 +23,7 @@ export const allowExistingUserAuthentication = () =>
         pathname: '/api/auth/oidc/login',
       },
       {
-        next_url: '/metering-points?success=1',
+        next_url: '/dashboard?success=1',
       }
     )
     .as('authOidcLogin');

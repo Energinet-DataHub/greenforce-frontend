@@ -27,7 +27,7 @@ interface EoLandingPageState {}
 
 @Injectable()
 export class EoLandingPageStore extends ComponentStore<EoLandingPageState> {
-  #absoluteReturnUrl = this.urlGenerator.fromCommands(['metering-points']);
+  #absoluteReturnUrl = this.urlGenerator.fromCommands(['dashboard']);
 
   authenticationUrl$: Observable<string> = this.select(
     this.authHttp.getOidcLogin(this.appBaseHref, this.#absoluteReturnUrl),
