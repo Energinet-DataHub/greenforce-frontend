@@ -14,14 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
-import { Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
+import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { LetModule } from '@rx-angular/template';
+import { Title } from '@angular/platform-browser';
+import { TranslocoModule } from '@ngneat/transloco';
+
 import { DhMessageArchiveDataAccessBlobApiStore } from '@energinet-datahub/dh/message-archive/data-access-api';
 import { WattSpinnerModule, WattBadgeModule } from '@energinet-datahub/watt';
-import { TranslocoModule } from '@ngneat/transloco';
-import { LetModule } from '@rx-angular/template';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
