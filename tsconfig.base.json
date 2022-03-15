@@ -117,6 +117,9 @@
       "@energinet-datahub/eo/landing-page/shell": [
         "libs/eo/landing-page/shell/src/index.ts"
       ],
+      "@energinet-datahub/eo/metering-points/shell": [
+        "libs/eo/metering-points/shell/src/index.ts"
+      ],
       "@energinet-datahub/eo/privacy-policy/shell": [
         "libs/eo/privacy-policy/shell/src/index.ts"
       ],
