@@ -115,8 +115,10 @@ export class DhMessageArchiveLogSearchComponent implements OnDestroy {
         : null;
     });
 
-    this.searchCriteria.dateTimeFrom = this.initDateFrom().toISOString().split('.')[0] + 'Z';
-    this.searchCriteria.dateTimeTo = this.initDateTo().toISOString().split('.')[0] + 'Z';
+    this.searchCriteria.dateTimeFrom =
+      this.initDateFrom().toISOString().split('.')[0] + 'Z';
+    this.searchCriteria.dateTimeTo =
+      this.initDateTo().toISOString().split('.')[0] + 'Z';
   }
 
   onSubmit() {
