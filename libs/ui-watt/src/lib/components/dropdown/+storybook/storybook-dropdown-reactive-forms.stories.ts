@@ -76,14 +76,74 @@ const howToUseGuideBasic = `
 
 export const withFormControl: Story<WattDropdownComponent> = () => ({
   props: {
-    exampleFormControl: new FormControl(true),
-    options: dropdownOptions,
+    exampleFormControl: new FormControl(null),
+  },
+  template: `<watt-form-field>
+    <watt-dropdown [formControl]="exampleFormControl"></watt-dropdown>
+  </watt-form-field>`,
+});
+withFormControl.parameters = {
+  docs: {
+    source: {
+      code: howToUseGuideBasic,
+    },
+  },
+};
+
+export const withOptions: Story<WattDropdownComponent> = (
+  args: Partial<WattDropdownComponent>
+) => ({
+  props: {
+    exampleFormControl: new FormControl(null),
+    options: args.options,
   },
   template: `<watt-form-field>
     <watt-dropdown [formControl]="exampleFormControl" [options]="options"></watt-dropdown>
   </watt-form-field>`,
 });
-withFormControl.parameters = {
+withOptions.args = {
+  options: dropdownOptions,
+};
+withOptions.parameters = {
+  docs: {
+    source: {
+      code: howToUseGuideBasic,
+    },
+  },
+};
+
+export const withLabel: Story<WattDropdownComponent> = () => ({
+  props: {
+    exampleFormControl: new FormControl(null),
+  },
+  template: `<watt-form-field>
+    <watt-label>Label</watt-label>
+    <watt-dropdown [formControl]="exampleFormControl"></watt-dropdown>
+  </watt-form-field>`,
+});
+withLabel.parameters = {
+  docs: {
+    source: {
+      code: howToUseGuideBasic,
+    },
+  },
+};
+
+export const withPlaceholder: Story<WattDropdownComponent> = (
+  args: Partial<WattDropdownComponent>
+) => ({
+  props: {
+    exampleFormControl: new FormControl(null),
+    placeholder: args.placeholder,
+  },
+  template: `<watt-form-field>
+    <watt-dropdown [formControl]="exampleFormControl" [placeholder]="placeholder"></watt-dropdown>
+  </watt-form-field>`,
+});
+withPlaceholder.args = {
+  placeholder: 'Select team',
+};
+withPlaceholder.parameters = {
   docs: {
     source: {
       code: howToUseGuideBasic,
