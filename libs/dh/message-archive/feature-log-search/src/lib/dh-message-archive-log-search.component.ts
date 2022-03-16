@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import {
@@ -23,6 +22,11 @@ import {
   NgModule,
   OnDestroy,
 } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { LetModule } from '@rx-angular/template';
+import { Subject } from 'rxjs';
+import { TranslocoModule } from '@ngneat/transloco';
+
 import {
   WattButtonModule,
   WattFormFieldModule,
@@ -39,14 +43,13 @@ import {
   MessageArchiveSearchCriteria,
   MessageArchiveSearchResultItemDto,
 } from '@energinet-datahub/dh/shared/domain';
-import { LetModule } from '@rx-angular/template';
-import { TranslocoModule } from '@ngneat/transloco';
+import {
+  BusinessReasonCodes,
+  DocumentTypes,
+  RoleTypes,
+} from '@energinet-datahub/dh/message-archive/domain';
+
 import { DhMessageArchiveLogSearchResultScam } from './searchresult/dh-message-archive-log-search-result.component';
-import { BusinessReasonCodes } from '../../../models/businessReasonCodes';
-import { DocumentTypes } from '../../../models/documentTypes';
-import { RoleTypes } from '../../../models/roleTypes';
-import { Subject } from 'rxjs';
-import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -23,10 +23,11 @@ import {
   NgModule,
   Output,
 } from '@angular/core';
-import { MessageArchiveSearchResultItemDto } from '@energinet-datahub/dh/shared/domain';
-import { TranslocoModule } from '@ngneat/transloco';
 import { LetModule } from '@rx-angular/template';
 import { MatTableModule } from '@angular/material/table';
+import { TranslocoModule } from '@ngneat/transloco';
+
+import { MessageArchiveSearchResultItemDto } from '@energinet-datahub/dh/shared/domain';
 import {
   WattButtonModule,
   WattIconModule,
