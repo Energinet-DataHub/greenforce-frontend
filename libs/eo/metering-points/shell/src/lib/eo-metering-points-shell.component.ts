@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 import {
   ChangeDetectionStrategy,
   Component,
@@ -29,12 +30,18 @@ const selector = 'eo-metering-points-shell';
   selector,
   styles: [
     `
+      @use '@energinet-datahub/watt/utils' as watt;
       ${selector} {
         display: block;
       }
+      .${selector}__p {
+        @include watt.typography-watt-text-m;
+      }
     `,
   ],
-  template: ``,
+  template: `
+    <p class="${selector}__p">You do not have any metering points.</p>
+  `,
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

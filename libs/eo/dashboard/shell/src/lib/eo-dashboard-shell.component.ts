@@ -14,12 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 import {
   ChangeDetectionStrategy,
   Component,
   NgModule,
   ViewEncapsulation,
 } from '@angular/core';
+
+import { EoInlineMessageScam } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 import { EoTitle } from '@energinet-datahub/ett/shared/util-browser';
 
 const selector = 'eo-dashboard-shell';
@@ -35,9 +38,19 @@ const selector = 'eo-dashboard-shell';
       .${selector}__p {
         @include watt.typography-watt-text-m; // This overrides the styles applied from Angular Material on p tags
       }
+      .${selector}__eo-inline-message {
+        margin-bottom: var(--watt-space-l);
+      }
     `,
   ],
   template: `
+    <eo-inline-message icon="/assets/images/icons/primary-info-icon.svg" type="warning" class="${selector}__eo-inline-message">
+      <p>
+        The Energy Origin Platform is <b>under development</b> and new functionalities will be released continuously.
+        The first release of the platform offers <b>business login only</b>. Private login via NemID/MitID is intended to form part of one of the next releases.
+      </p>
+    </eo-inline-message>
+
     <p class="${selector}__p">
       More functionality will be released on an ongoing basis. If you want to
       influence the new functionality, join us at our
@@ -56,6 +69,7 @@ export class EoDashboardShellComponent {
 }
 
 @NgModule({
+  imports: [EoInlineMessageScam],
   declarations: [EoDashboardShellComponent],
   exports: [EoDashboardShellComponent],
 })
