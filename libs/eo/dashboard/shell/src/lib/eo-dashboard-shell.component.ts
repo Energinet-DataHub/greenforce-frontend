@@ -14,36 +14,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-import {
-  ChangeDetectionStrategy,
-  Component,
-  NgModule,
-  ViewEncapsulation,
-} from '@angular/core';
-
+import { ChangeDetectionStrategy, Component, NgModule, ViewEncapsulation } from '@angular/core';
 import { EoInlineMessageScam } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 
-const selector = 'eo-landing-page-notification';
+
+const selector = 'eo-dashboard-shell';
 
 @Component({
   selector,
   styles: [
     `
       @use '@energinet-datahub/watt/utils' as watt;
-
       ${selector} {
         display: block;
       }
+      .${selector}__p {
+        @include watt.typography-watt-text-m; // This overrides the styles applied from Angular Material on p tags
+      }
       .${selector}__eo-inline-message {
-        margin: var(--watt-space-m) auto;
-        width: calc(259 * var(--watt-space-xs));
+        margin-bottom: var(--watt-space-l);
       }
     `,
   ],
   template: `
     <eo-inline-message
       icon="/assets/images/icons/primary-info-icon.svg"
+      type="warning"
       class="${selector}__eo-inline-message"
     >
       <p>
@@ -53,15 +49,23 @@ const selector = 'eo-landing-page-notification';
         NemID/MitID is intended to form part of one of the next releases.
       </p>
     </eo-inline-message>
+
+    <p class="${selector}__p">
+      More functionality will be released on an ongoing basis. If you want to
+      influence the new functionality, join us at our
+      <a href="https://www.linkedin.com/groups/12643238/" target="_blank"
+        >LinkedIn group</a
+      >.
+    </p>
   `,
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class EoLandingPageNotificationComponent {}
+export class EoDashboardShellComponent {}
 
 @NgModule({
-  declarations: [EoLandingPageNotificationComponent],
-  exports: [EoLandingPageNotificationComponent],
   imports: [EoInlineMessageScam],
+  declarations: [EoDashboardShellComponent],
+  exports: [EoDashboardShellComponent],
 })
-export class EoLandingPageNotificationScam {}
+export class EoDashboardShellScam {}
