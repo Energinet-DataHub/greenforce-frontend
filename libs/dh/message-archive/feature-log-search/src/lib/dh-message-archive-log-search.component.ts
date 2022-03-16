@@ -23,7 +23,6 @@ import {
   OnDestroy,
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DhMessageArchiveLogSearchResultScam } from './searchresult/dh-message-archive-log-search-result.component';
 import { LetModule } from '@rx-angular/template';
 import { Subject } from 'rxjs';
 import { TranslocoModule } from '@ngneat/transloco';
@@ -44,9 +43,9 @@ import {
   MessageArchiveSearchCriteria,
   MessageArchiveSearchResultItemDto,
 } from '@energinet-datahub/dh/shared/domain';
-import { BusinessReasonCodes } from '@energinet-datahub/dh/message-archive/domain';
-import { DocumentTypes } from '@energinet-datahub/dh/message-archive/domain';
-import { RoleTypes } from '@energinet-datahub/dh/message-archive/domain';
+import { BusinessReasonCodes, DocumentTypes, RoleTypes } from '@energinet-datahub/dh/message-archive/domain';
+
+import { DhMessageArchiveLogSearchResultScam } from './searchresult/dh-message-archive-log-search-result.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
