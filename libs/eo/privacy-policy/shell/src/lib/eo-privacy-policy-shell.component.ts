@@ -21,6 +21,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { EoPrivacyPolicyScam } from '@energinet-datahub/eo/shared/atomic-design/feature-molecules';
+import { EoTitle } from '@energinet-datahub/ett/shared/util-browser';
 
 const selector = 'eo-privacy-policy-shell';
 
@@ -37,7 +38,11 @@ const selector = 'eo-privacy-policy-shell';
     `,
   ],
 })
-export class EoPrivacyPolicyShellComponent {}
+export class EoPrivacyPolicyShellComponent {
+  constructor(private eoTitleService: EoTitle) {
+    this.eoTitleService.setTitle('Privacy policy');
+  }
+}
 
 @NgModule({
   imports: [EoPrivacyPolicyScam],
