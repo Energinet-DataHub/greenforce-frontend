@@ -16,7 +16,7 @@
  */
 import * as appShell from '../support/app-shell.po';
 import * as authApi from '../support/auth-api';
-import * as dashboardPage from '../support/dashboard.po';
+import * as dashboardPage from '../support/dashboard-page.po';
 import * as landingPage from '../support/landing-page.po';
 import * as termsPage from '../support/terms-page.po';
 
