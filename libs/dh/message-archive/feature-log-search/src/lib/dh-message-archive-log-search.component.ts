@@ -43,7 +43,11 @@ import {
   MessageArchiveSearchCriteria,
   MessageArchiveSearchResultItemDto,
 } from '@energinet-datahub/dh/shared/domain';
-import { BusinessReasonCodes, DocumentTypes, RoleTypes } from '@energinet-datahub/dh/message-archive/domain';
+import {
+  BusinessReasonCodes,
+  DocumentTypes,
+  RoleTypes,
+} from '@energinet-datahub/dh/message-archive/domain';
 
 import { DhMessageArchiveLogSearchResultScam } from './searchresult/dh-message-archive-log-search-result.component';
 
