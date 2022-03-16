@@ -14,13 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 import {
+  ChangeDetectionStrategy,
   Component,
   NgModule,
   ViewEncapsulation,
-  ChangeDetectionStrategy,
 } from '@angular/core';
-import { EoLandingPageColumnLayoutScam } from './eo-landing-page-column-layout.component';
+
+import { EoInlineMessageScam } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 
 const selector = 'eo-landing-page-notification';
 
@@ -33,50 +35,19 @@ const selector = 'eo-landing-page-notification';
       ${selector} {
         display: block;
       }
-
-      .${selector}__content {
-        display: grid;
-        grid-template-columns: 80px 1fr;
-        align-items: center;
-        background: var(--watt-color-neutral-white);
+      .${selector}__eo-inline-message {
         margin: var(--watt-space-m) auto;
         width: calc(259 * var(--watt-space-xs));
-        box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.08);
-      }
-
-      .${selector}__icon {
-        display: block;
-        width: calc(12 * var(--watt-space-xs));
-        height: calc(12 * var(--watt-space-xs));
-        border-radius: 50%;
-        margin: 0 auto;
-      }
-
-      .${selector}__p {
-        @include watt.typography-watt-text-m; // This overrides the styles applied from Angular Material on p tags
-        padding-right: calc(4 * var(--watt-space-xs));
-        color: var(--watt-color-primary-dark);
       }
     `,
   ],
   template: `
-    <div class="${selector}__content">
-      <div>
-        <img
-          class="${selector}__icon"
-          src="/assets/images/icons/primary-info-icon.svg"
-          alt="EnergyOrigin information"
-        />
-      </div>
-      <div>
-        <p class="${selector}__p">
-          The Energy Origin Platform is <b>under development</b> and new
-          functionalities will be released continuously. The first release of
-          the platform offers <b>company login only</b>. Private login via
-          NemID/MitID is intended to form part of one of the next releases.
-        </p>
-      </div>
-    </div>
+    <eo-inline-message icon="/assets/images/icons/primary-info-icon.svg" class="${selector}__eo-inline-message">
+      <p>
+        The Energy Origin Platform is <b>under development</b> and new functionalities will be released continuously.
+        The first release of the platform offers <b>business login only</b>. Private login via NemID/MitID is intended to form part of one of the next releases.
+      </p>
+    </eo-inline-message>
   `,
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -86,6 +57,6 @@ export class EoLandingPageNotificationComponent {}
 @NgModule({
   declarations: [EoLandingPageNotificationComponent],
   exports: [EoLandingPageNotificationComponent],
-  imports: [EoLandingPageColumnLayoutScam],
+  imports: [EoInlineMessageScam],
 })
 export class EoLandingPageNotificationScam {}
