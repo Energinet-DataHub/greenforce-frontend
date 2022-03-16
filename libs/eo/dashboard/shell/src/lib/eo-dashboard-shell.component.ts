@@ -15,14 +15,9 @@
  * limitations under the License.
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  NgModule,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
 
 import { EoInlineMessageScam } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
-import { EoTitle } from '@energinet-datahub/ett/shared/util-browser';
 
 const selector = 'eo-dashboard-shell';
 
@@ -66,11 +61,7 @@ const selector = 'eo-dashboard-shell';
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class EoDashboardShellComponent {
-  constructor(private eoTitleService: EoTitle) {
-    this.eoTitleService.setTitle('Dashboard');
-  }
-}
+export class EoDashboardShellComponent {}
 
 @NgModule({
   imports: [EoInlineMessageScam],

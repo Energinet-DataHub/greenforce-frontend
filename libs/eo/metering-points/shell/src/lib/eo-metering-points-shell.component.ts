@@ -15,16 +15,9 @@
  * limitations under the License.
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  NgModule,
-} from '@angular/core';
-
-import { EoTitle } from '@energinet-datahub/ett/shared/util-browser';
+import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
 
 const selector = 'eo-metering-points-shell';
-
 @Component({
   selector,
   styles: [
@@ -43,11 +36,7 @@ const selector = 'eo-metering-points-shell';
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class EoMeteringPointsShellComponent {
-  constructor(private eoTitleService: EoTitle) {
-    this.eoTitleService.setTitle('Metering points');
-  }
-}
+export class EoMeteringPointsShellComponent {}
 
 @NgModule({
   declarations: [EoMeteringPointsShellComponent],

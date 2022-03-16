@@ -14,14 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { EttShellComponent, EttShellScam } from './ett-shell.component';
+import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-
 import { EttAuthenticationGuard } from '@energinet-datahub/ett/auth/routing-security';
+import { GfBrowserConfigurationModule } from '@energinet-datahub/gf/util-browser';
+
 import { EttHttpModule } from './ett-http.module';
 import { EttMaterialModule } from './ett-material.module';
-import { GfBrowserConfigurationModule } from '@energinet-datahub/gf/util-browser';
-import { NgModule } from '@angular/core';
+import { EttShellComponent, EttShellScam } from './ett-shell.component';
 
 const routes: Routes = [
   {
@@ -46,6 +46,9 @@ const routes: Routes = [
     children: [
       {
         path: 'dashboard',
+        data: {
+          title: 'Dashboard',
+        },
         loadChildren: () =>
           import('@energinet-datahub/eo/dashboard/shell').then(
             (esModule) => esModule.EoDashboardShellModule
@@ -53,6 +56,9 @@ const routes: Routes = [
       },
       {
         path: 'metering-points',
+        data: {
+          title: 'Metering points',
+        },
         loadChildren: () =>
           import('@energinet-datahub/eo/metering-points/shell').then(
             (esModule) => esModule.EoMeteringPointsShellModule
@@ -60,6 +66,9 @@ const routes: Routes = [
       },
       {
         path: 'privacy-policy',
+        data: {
+          title: 'Privacy Policy',
+        },
         loadChildren: () =>
           import('@energinet-datahub/eo/privacy-policy/shell').then(
             (esModule) => esModule.EoPrivacyPolicyShellModule
