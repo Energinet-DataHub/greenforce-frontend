@@ -14,20 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  ChangeDetectionStrategy,
-  Component,
-  NgModule,
-  ViewEncapsulation,
-} from '@angular/core';
-import { EoFooterScam } from '@energinet-datahub/eo/shared/atomic-design/ui-organisms';
-import { EoProductLogoScam } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
-import { EttPrimaryNavigationScam } from './ett-primary-navigation.component';
+import { ChangeDetectionStrategy, Component, NgModule, ViewEncapsulation } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { EoProductLogoScam } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
+import { EoFooterScam } from '@energinet-datahub/eo/shared/atomic-design/ui-organisms';
+import { EoTitleStore } from '@energinet-datahub/ett/shared/util-browser';
 import { WattShellModule } from '@energinet-datahub/watt';
-import { EoTitle } from '@energinet-datahub/ett/shared/util-browser';
-import { Observable } from 'rxjs';
 import { PushModule } from '@rx-angular/template';
+import { Observable } from 'rxjs';
+
+import { EttPrimaryNavigationScam } from './ett-primary-navigation.component';
 
 const selector = 'ett-shell';
 
@@ -146,8 +142,9 @@ const selector = 'ett-shell';
   `,
 })
 export class EttShellComponent {
-  title$: Observable<string> = this.eoTitleService.title$;
-  constructor(private eoTitleService: EoTitle) {}
+  title$: Observable<string> = this.title.routeTitle$;
+
+  constructor(private title: EoTitleStore) {}
 }
 
 @NgModule({

@@ -14,14 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  ChangeDetectionStrategy,
-  Component,
-  NgModule,
-  ViewEncapsulation,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, NgModule, ViewEncapsulation } from '@angular/core';
 import { EoPrivacyPolicyScam } from '@energinet-datahub/eo/shared/atomic-design/feature-molecules';
-import { EoTitle } from '@energinet-datahub/ett/shared/util-browser';
 
 const selector = 'eo-privacy-policy-shell';
 
@@ -38,11 +32,7 @@ const selector = 'eo-privacy-policy-shell';
     `,
   ],
 })
-export class EoPrivacyPolicyShellComponent {
-  constructor(private eoTitleService: EoTitle) {
-    this.eoTitleService.setTitle('Privacy policy');
-  }
-}
+export class EoPrivacyPolicyShellComponent {}
 
 @NgModule({
   imports: [EoPrivacyPolicyScam],
