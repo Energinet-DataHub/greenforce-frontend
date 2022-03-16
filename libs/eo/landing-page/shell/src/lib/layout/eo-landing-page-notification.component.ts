@@ -42,10 +42,15 @@ const selector = 'eo-landing-page-notification';
     `,
   ],
   template: `
-    <eo-inline-message icon="/assets/images/icons/primary-info-icon.svg" class="${selector}__eo-inline-message">
+    <eo-inline-message
+      icon="/assets/images/icons/primary-info-icon.svg"
+      class="${selector}__eo-inline-message"
+    >
       <p>
-        The Energy Origin Platform is <b>under development</b> and new functionalities will be released continuously.
-        The first release of the platform offers <b>business login only</b>. Private login via NemID/MitID is intended to form part of one of the next releases.
+        The Energy Origin Platform is <b>under development</b> and new
+        functionalities will be released continuously. The first release of the
+        platform offers <b>business login only</b>. Private login via
+        NemID/MitID is intended to form part of one of the next releases.
       </p>
     </eo-inline-message>
   `,
