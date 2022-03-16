@@ -20,12 +20,11 @@ import {
   Component,
   Input,
   NgModule,
-  ViewEncapsulation,
 } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
 
-export type inlineMessageType =
+export type InlineMessageType =
   | 'info'
   | 'success'
   | 'danger'
@@ -79,15 +78,7 @@ const selector = 'eo-inline-message';
   ],
   template: `
     <div
-      class="${selector}__container"
-      [ngClass]="{
-        info: type === 'info',
-        success: type === 'success',
-        danger: type === 'danger',
-        warning: type === 'warning',
-        default: type === 'default'
-      }"
-    >
+      class="${selector}__container {{ type }}">
       <div>
         <img
           *ngIf="icon"
@@ -102,14 +93,13 @@ const selector = 'eo-inline-message';
     </div>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None,
 })
 export class EoInlineMessageComponent {
   @Input()
   icon!: string;
 
   @Input()
-  type: inlineMessageType = 'default';
+  type: InlineMessageType = 'default';
 }
 
 @NgModule({

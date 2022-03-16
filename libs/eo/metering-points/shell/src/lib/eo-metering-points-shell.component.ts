@@ -19,7 +19,6 @@ import {
   ChangeDetectionStrategy,
   Component,
   NgModule,
-  ViewEncapsulation,
 } from '@angular/core';
 
 import { EoTitle } from '@energinet-datahub/ett/shared/util-browser';
@@ -42,7 +41,6 @@ const selector = 'eo-metering-points-shell';
   template: `
     <p class="${selector}__p">You do not have any metering points.</p>
   `,
-  encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EoMeteringPointsShellComponent {

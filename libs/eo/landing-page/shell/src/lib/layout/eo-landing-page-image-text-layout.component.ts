@@ -14,12 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 import {
+  ChangeDetectionStrategy,
   Component,
   NgModule,
   ViewEncapsulation,
-  ChangeDetectionStrategy,
 } from '@angular/core';
+
 import { EoLandingPageColumnLayoutScam } from './eo-landing-page-column-layout.component';
 
 const selector = 'eo-landing-page-image-text-layout';
@@ -82,13 +84,13 @@ const selector = 'eo-landing-page-image-text-layout';
         <p class="${selector}__p">
           Imagine if we all knew, where our energy came from, at all times, and
           were able to
-          <b>choose the green energy</b> by the hour. That is the vision, we are
+          <strong>choose the green energy</strong> by the hour. That is the vision, we are
           working for with the platform Energy Origin.
         </p>
         <p class="${selector}__p">
-          Simultaneity between <b>production</b> of sustainable energy and
-          <b>consumption</b> of energy will be a real factor in the
-          <b>green transition</b> and therefore has great potential for future
+          Simultaneity between <strong>production</strong> of sustainable energy and
+          <strong>consumption</strong> of energy will be a real factor in the
+          <strong>green transition</strong> and therefore has great potential for future
           green solutions.
         </p>
       </ng-container>
@@ -116,7 +118,7 @@ const selector = 'eo-landing-page-image-text-layout';
           <h2 class="${selector}__h2">Who is it for?</h2>
           <p class="${selector}__p">
             This first version of Energy Origin is for
-            <b>companies in Denmark</b>. Later it will be available for private
+            <strong>companies in Denmark</strong>. Later it will be available for private
             individuals as well.
           </p>
         </ng-container>
@@ -130,7 +132,7 @@ const selector = 'eo-landing-page-image-text-layout';
       <ng-container contentLeftSmall>
         <h2 class="${selector}__h2">Who are we?</h2>
         <p class="${selector}__p">
-          Energinet is an <b>independent public enterprise</b> owned by the
+          Energinet is an <strong>independent public enterprise</strong> owned by the
           Danish Ministry of Climate and Energy. We own, operate and develop the
           transmission systems for electricity and natural gas in Denmark.
         </p>

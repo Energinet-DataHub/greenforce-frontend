@@ -19,7 +19,6 @@ import {
   ChangeDetectionStrategy,
   Component,
   NgModule,
-  ViewEncapsulation,
 } from '@angular/core';
 
 import { EoInlineMessageScam } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
@@ -50,9 +49,9 @@ const selector = 'eo-dashboard-shell';
       class="${selector}__eo-inline-message"
     >
       <p>
-        The Energy Origin Platform is <b>under development</b> and new
+        The Energy Origin Platform is <strong>under development</strong> and new
         functionalities will be released continuously. The first release of the
-        platform offers <b>business login only</b>. Private login via
+        platform offers <strong>business login only</strong>. Private login via
         NemID/MitID is intended to form part of one of the next releases.
       </p>
     </eo-inline-message>
@@ -65,7 +64,6 @@ const selector = 'eo-dashboard-shell';
       >.
     </p>
   `,
-  encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EoDashboardShellComponent {

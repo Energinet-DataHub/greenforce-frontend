@@ -14,12 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 import {
   ChangeDetectionStrategy,
   Component,
   NgModule,
   ViewEncapsulation,
 } from '@angular/core';
+
 import { EoLandingPageColumnLayoutScam } from './eo-landing-page-column-layout.component';
 import { EoVimeoPlayerScam } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 
@@ -60,16 +62,16 @@ const selector = 'eo-landing-page-video-layout';
 
       <p class="${selector}__p">
         Energy Origin is a platform which provides you with access to
-        <b>data</b> about the <b>origins of your energy</b> and the
-        corresponding <b>emissions</b>. This first version of Energy Origin is
+        <strong>data</strong> about the <strong>origins of your energy</strong> and the
+        corresponding <strong>emissions</strong>. This first version of Energy Origin is
         for companies in Denmark and can be used for e.g.:
       </p>
       <ul class="watt-space-stack-l">
         <li>
-          Compiling an <b>emissions overview</b> for your annual ECG report
+          Compiling an <strong>emissions overview</strong> for your annual ECG report
         </li>
         <li>
-          Gaining an overview of the <b>renewables share</b> of your energy
+          Gaining an overview of the <strong>renewables share</strong> of your energy
           consumption
         </li>
       </ul>
