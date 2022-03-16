@@ -2,6 +2,8 @@ import { ChangeDetectionStrategy, Component, Input, NgModule, ViewEncapsulation 
 
 import { CommonModule } from '@angular/common';
 
+export type inlineMessageType = 'info' | 'success' | 'danger' | 'warning' | 'default';
+
 const selector = 'eo-inline-message';
 
 @Component({
@@ -77,7 +79,7 @@ export class EoInlineMessageComponent {
   icon!: string;
 
   @Input()
-  type: 'info' | 'success' | 'danger' | 'warning' | 'default' = 'default';
+  type: inlineMessageType = 'default';
 
 }
 
