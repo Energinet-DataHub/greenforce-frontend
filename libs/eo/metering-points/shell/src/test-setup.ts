@@ -14,26 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
 
-import {
-  EttDashboardShellComponent,
-  EttDashboardShellScam,
-} from './ett-dashboard-shell.component';
+import 'jest-preset-angular/setup-jest';
 
-const routes: Routes = [
-  {
-    path: '',
-    component: EttDashboardShellComponent,
-    children: [
-      // Lazy feature routes
-    ],
-  },
-];
+import { setUpTestbed } from '@energinet-datahub/gf/test-util-staging';
 
-@NgModule({
-  exports: [RouterModule],
-  imports: [RouterModule.forChild(routes), EttDashboardShellScam],
-})
-export class EttDashboardShellModule {}
+setUpTestbed();
