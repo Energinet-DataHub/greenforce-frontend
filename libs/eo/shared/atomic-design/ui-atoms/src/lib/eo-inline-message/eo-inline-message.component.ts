@@ -25,7 +25,12 @@ import {
 
 import { CommonModule } from '@angular/common';
 
-export type inlineMessageType = 'info' | 'success' | 'danger' | 'warning' | 'default';
+export type inlineMessageType =
+  | 'info'
+  | 'success'
+  | 'danger'
+  | 'warning'
+  | 'default';
 
 const selector = 'eo-inline-message';
 
@@ -105,7 +110,6 @@ export class EoInlineMessageComponent {
 
   @Input()
   type: inlineMessageType = 'default';
-
 }
 
 @NgModule({
