@@ -94,6 +94,8 @@ const selector = 'ett-shell';
             @include watt.space-inset-l;
           }
           padding-top: 0 !important;
+          width: 100%;
+          max-width: calc(240 * var(--watt-space-xs));
         }
 
         .${selector}__logo-container {
