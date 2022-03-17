@@ -35,7 +35,7 @@ import { EoLandingPageColumnLayoutScam } from './eo-landing-page-column-layout.c
         display: block;
       }
 
-      eo-landing-page-login-button ::ng-deep a {
+      eo-landing-page-login-button {
         min-width: 160px; // Magic number by designer
       }
 
