@@ -13,6 +13,7 @@
     "dh-globalization-domain": "libs/dh/globalization/domain",
     "dh-globalization-feature-language-picker": "libs/dh/globalization/feature-language-picker",
     "dh-market-participant-feature-organization": "libs/dh/market-participant/feature-organization",
+    "dh-market-participant-shell": "libs/dh/market-participant/shell",
     "dh-message-archive-data-access-api": "libs/dh/message-archive/data-access-api",
     "dh-message-archive-domain": "libs/dh/message-archive/domain",
     "dh-message-archive-feature-log-search": "libs/dh/message-archive/feature-log-search",
