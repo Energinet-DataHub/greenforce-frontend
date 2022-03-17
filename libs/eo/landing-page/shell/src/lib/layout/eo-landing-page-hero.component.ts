@@ -14,89 +14,61 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  Component,
-  NgModule,
-  ViewEncapsulation,
-  ChangeDetectionStrategy,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
+
 import { EoLandingPageColumnLayoutScam } from './eo-landing-page-column-layout.component';
 import { EoLandingPageLoginButtonScam } from './eo-landing-page-login-button.component';
 
-const selector = 'eo-landing-page-hero';
-
 @Component({
-  selector,
+  selector: 'eo-landing-page-hero',
   styles: [
     `
+      @use 'sass:color';
       @use '@energinet-datahub/watt/utils' as watt;
 
-      ${selector} {
+      :host {
         display: block;
-        margin-bottom: calc(24 * var(--watt-space-xs));
+      }
 
-        .${selector}__h1 {
-          @include watt.typography-watt-headline-1; // This overrides the styles applied from Angular Material on h1 tags
-          text-transform: uppercase;
-          margin-left: var(--watt-space-m);
-          color: var(--watt-color-neutral-black);
+      img {
+        width: 100%;
+        display: block;
+      }
 
-          > span {
-            color: var(--watt-color-primary);
-          }
-        }
+      eo-landing-page-login-button ::ng-deep a {
+        min-width: 160px; // Magic number by designer
+      }
 
-        .${selector}__img {
-          width: 100%;
-          display: block;
-        }
+      .call-to-action {
+        display: flex;
+        justify-content: center;
+        align-content: space-around;
 
-        .${selector}__call-to-action {
-          text-align: center;
-          background: #bed7d9;
-          padding-top: var(--watt-space-l);
-          padding-bottom: var(--watt-space-l);
-
-          > * {
-            display: inline-block;
-          }
-
-          > eo-landing-page-login-button {
-            margin-left: var(--watt-space-xl);
-
-            > a {
-              width: calc(40 * var(--watt-space-xs));
-            }
-          }
-          .${selector}__h2 {
-            @include watt.typography-watt-headline-2; // This overrides the styles applied from Angular Material on h2 tags
-            text-transform: none;
-            color: var(--watt-color-neutral-black);
-          }
-        }
+        background-color: #c1d6d9; // Match bottom color from hero illustration
       }
     `,
   ],
   template: `
-    <h1 class="${selector}__h1">
-      Access
-      <span>your emissions and<br />energy origin</span>
-      overview
-    </h1>
+    <div class="eo-space-inset-stretched-l">
+      <h1 class="eo-text-promotional">
+        Access
+        <span class="eo-text-primary"
+          >your emissions and<br />energy origin</span
+        >
+        overview
+      </h1>
+    </div>
 
-    <img
-      class="${selector}__img"
-      src="/assets/images/landing-page/landing-page-hero-illustration.png"
-    />
+    <img src="/assets/images/landing-page/landing-page-hero-illustration.svg" />
 
-    <div class="${selector}__call-to-action">
-      <h2 class="${selector}__h2">Log in with your company NemID</h2>
-      <eo-landing-page-login-button
-        class="eo-text-center watt-space-stack-l"
-      ></eo-landing-page-login-button>
+    <div class="call-to-action watt-space-inset-l">
+      <h2 class="eo-text-primary-contrast">Log in with your company NemID</h2>
+
+      <div class="eo-margin-left-xl">
+        <eo-landing-page-login-button></eo-landing-page-login-button>
+      </div>
     </div>
   `,
-  encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EoLandingPageHeroComponent {}
