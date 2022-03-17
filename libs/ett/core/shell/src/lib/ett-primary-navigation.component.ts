@@ -42,9 +42,7 @@ const selector = 'ett-primary-navigation';
   ],
   template: `
     <watt-nav-list>
-      <watt-nav-list-item link="/dashboard">
-        Dashboard
-      </watt-nav-list-item>
+      <watt-nav-list-item link="/dashboard"> Dashboard </watt-nav-list-item>
       <watt-nav-list-item link="/metering-points">
         Metering points
       </watt-nav-list-item>

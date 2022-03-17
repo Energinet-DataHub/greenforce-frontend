@@ -15,21 +15,30 @@
  * limitations under the License.
  */
 
-import { EoInlineMessageComponent, EoInlineMessageScam } from './eo-inline-message.component';
+import {
+  EoInlineMessageComponent,
+  EoInlineMessageScam,
+} from './eo-inline-message.component';
 import { render, screen } from '@testing-library/angular';
 
 describe(`${EoInlineMessageComponent.name} - Component API, Content projection`, () => {
   it('Inserts an image content into the ng-content "icon" slot', async () => {
-    await render(`<eo-inline-message><img src="" icon alt="EnergyOrigin"/></eo-inline-message>`, {
-      imports: [EoInlineMessageScam],
-    });
+    await render(
+      `<eo-inline-message><img src="" icon alt="EnergyOrigin"/></eo-inline-message>`,
+      {
+        imports: [EoInlineMessageScam],
+      }
+    );
     expect(await screen.findByAltText('EnergyOrigin')).toBeInTheDocument();
   });
 
   it('Inserts content into the ng-content "content" slot', async () => {
-    await render(`<eo-inline-message><p content>Content</p></eo-inline-message>`, {
-      imports: [EoInlineMessageScam],
-    });
+    await render(
+      `<eo-inline-message><p content>Content</p></eo-inline-message>`,
+      {
+        imports: [EoInlineMessageScam],
+      }
+    );
     expect(await screen.findByText('Content')).toBeInTheDocument();
   });
 });

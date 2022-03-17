@@ -15,11 +15,7 @@
  * limitations under the License.
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  NgModule,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
 
 import { EoInlineMessageScam } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 import { WattIconModule } from '@energinet-datahub/watt';
@@ -47,14 +43,15 @@ const selector = 'eo-dashboard-shell';
     <eo-inline-message type="warning" class="${selector}__eo-inline-message">
       <watt-icon name="primary_info_icon" icon></watt-icon>
       <p class="${selector}__p" content>
-      The Energy Origin Platform is <strong>under development</strong> and new functionalities will be released continuously.
-      The first release of the platform only offers <strong>data for companies</strong>.
-      Data for private users is intended to form part of one of the next releases.
-      More functionality will be released on an ongoing basis. If you want to
-      influence the new functionality, join us at our
-      <a href="https://www.linkedin.com/groups/12643238/" target="_blank"
-        >LinkedIn group</a
-      >.
+        The Energy Origin Platform is <strong>under development</strong> and new
+        functionalities will be released continuously. The first release of the
+        platform only offers <strong>data for companies</strong>. Data for
+        private users is intended to form part of one of the next releases. More
+        functionality will be released on an ongoing basis. If you want to
+        influence the new functionality, join us at our
+        <a href="https://www.linkedin.com/groups/12643238/" target="_blank"
+          >LinkedIn group</a
+        >.
       </p>
     </eo-inline-message>
   `,

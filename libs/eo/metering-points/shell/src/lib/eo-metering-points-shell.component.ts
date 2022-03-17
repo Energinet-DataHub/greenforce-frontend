@@ -15,11 +15,7 @@
  * limitations under the License.
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  NgModule,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
 
 const selector = 'eo-metering-points-shell';
 @Component({

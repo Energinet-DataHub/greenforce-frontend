@@ -26,10 +26,6 @@ import { invalidMeteringPointId } from './../../../../../../../dh/shared/test-ut
  * limitations under the License.
  */
 
-
-
-
-
 export type InlineMessageType =
   | 'info'
   | 'success'
