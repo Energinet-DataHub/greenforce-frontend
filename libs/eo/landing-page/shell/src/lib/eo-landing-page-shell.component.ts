@@ -14,12 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  ChangeDetectionStrategy,
-  Component,
-  NgModule,
-  ViewEncapsulation,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
 import { EoFooterScam } from '@energinet-datahub/eo/shared/atomic-design/ui-organisms';
 
 import { EoLandingPageHeaderScam } from './eo-landing-page-header.component';
@@ -31,41 +26,45 @@ import { EoLandingPageImageTextLayoutScam } from './layout/eo-landing-page-image
 import { EoLandingPageNotificationScam } from './layout/eo-landing-page-notification.component';
 import { EoLandingPageVideoLayoutScam } from './layout/eo-landing-page-video-layout.component';
 
-const selector = 'eo-landing-page-shell';
-
 @Component({
   providers: [EoLandingPageStore],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None,
-  selector,
+  selector: 'eo-landing-page-shell',
   styles: [
     `
-      @use '@energinet-datahub/watt/utils' as watt;
-
-      ${selector} {
-        position: relative; // So we can use position absolute for the mesh illustrations at the top and bottom of the page
+      :host {
         display: block;
+      }
 
-        .${selector}__footer-mesh {
-          width: 360px;
-          height: 360px;
-          position: absolute;
-          bottom: 200px; // Position the image just above the footer
-        }
+      img {
+        display: block;
+      }
+
+      .positioning-context {
+        position: relative;
+      }
+
+      .snap-bottom {
+        position: absolute;
+        bottom: 0;
       }
     `,
   ],
   template: `
     <eo-landing-page-header></eo-landing-page-header>
-    <eo-landing-page-notification></eo-landing-page-notification>
-    <eo-landing-page-hero></eo-landing-page-hero>
-    <eo-landing-page-video-layout></eo-landing-page-video-layout>
-    <eo-landing-page-image-text-layout></eo-landing-page-image-text-layout>
-    <eo-landing-page-call-to-action></eo-landing-page-call-to-action>
-    <img
-      src="/assets/images/landing-page/landing-page-mesh-bottom.png"
-      class="${selector}__footer-mesh"
-    />
+
+    <div class="positioning-context">
+      <eo-landing-page-notification></eo-landing-page-notification>
+      <eo-landing-page-hero></eo-landing-page-hero>
+      <eo-landing-page-video-layout></eo-landing-page-video-layout>
+      <eo-landing-page-image-text-layout></eo-landing-page-image-text-layout>
+      <eo-landing-page-call-to-action></eo-landing-page-call-to-action>
+
+      <div class="snap-bottom">
+        <img src="/assets/images/landing-page/landing-page-mesh-bottom.png" />
+      </div>
+    </div>
+
     <eo-footer></eo-footer>
   `,
 })
