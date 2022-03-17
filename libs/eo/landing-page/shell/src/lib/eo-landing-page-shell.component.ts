@@ -21,9 +21,9 @@ import { EoLandingPageCallToActionScam } from './eo-landing-page-call-to-action.
 import { EoLandingPageHeaderScam } from './eo-landing-page-header.component';
 import { EoLandingPageHeroScam } from './eo-landing-page-hero.component';
 import { EoLandingPageLoginButtonScam } from './eo-landing-page-login-button.component';
+import { EoLandingPageNotificationScam } from './eo-landing-page-notification.component';
 import { EoLandingPageStore } from './eo-landing-page.store';
 import { EoLandingPageImageTextLayoutScam } from './layout/eo-landing-page-image-text-layout.component';
-import { EoLandingPageNotificationScam } from './layout/eo-landing-page-notification.component';
 import { EoLandingPageVideoLayoutScam } from './layout/eo-landing-page-video-layout.component';
 
 @Component({

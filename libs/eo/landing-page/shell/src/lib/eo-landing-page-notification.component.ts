@@ -16,7 +16,7 @@
  */
 import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
 
-import { EoLandingPageColumnLayoutScam } from './eo-landing-page-column-layout.component';
+import { EoLandingPageColumnLayoutScam } from './layout/eo-landing-page-column-layout.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
