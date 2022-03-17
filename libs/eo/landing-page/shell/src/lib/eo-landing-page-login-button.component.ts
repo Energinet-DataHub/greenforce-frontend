@@ -24,7 +24,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { LetModule } from '@rx-angular/template';
 import { Observable } from 'rxjs';
 
-import { EoLandingPageStore } from './../eo-landing-page.store';
+import { EoLandingPageStore } from './eo-landing-page.store';
 
 const selector = 'eo-landing-page-login-button';
 

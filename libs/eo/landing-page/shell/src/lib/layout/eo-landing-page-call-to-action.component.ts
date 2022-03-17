@@ -16,8 +16,8 @@
  */
 import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
 
+import { EoLandingPageLoginButtonScam } from '../eo-landing-page-login-button.component';
 import { EoLandingPageColumnLayoutScam } from './eo-landing-page-column-layout.component';
-import { EoLandingPageLoginButtonScam } from './eo-landing-page-login-button.component';
 
 @Component({
   selector: 'eo-landing-page-call-to-action',
