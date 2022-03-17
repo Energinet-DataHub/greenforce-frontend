@@ -35,6 +35,11 @@ import { EoLandingPageColumnLayoutScam } from './layout/eo-landing-page-column-l
         display: block;
       }
 
+      h1 {
+        font-size: 44px; // Magic number by designer
+        line-height: 54px; // Magic number by designer
+      }
+
       eo-landing-page-login-button {
         min-width: 160px; // Magic number by designer
       }

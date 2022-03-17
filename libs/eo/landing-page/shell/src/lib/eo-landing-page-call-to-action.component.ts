@@ -53,7 +53,7 @@ import { EoLandingPageColumnLayoutScam } from './layout/eo-landing-page-column-l
     <div class="call-to-action-wrapper">
       <eo-landing-page-column-layout [layoutType]="'full'">
         <div class="watt-space-stack-m">
-          <h2>
+          <h1>
             Log in with your company NemID
             <a
               href="https://www.nemid.nu/dk-en/about_nemid/index.html"
@@ -67,7 +67,7 @@ import { EoLandingPageColumnLayoutScam } from './layout/eo-landing-page-column-l
                 alt="EnergyOrigin NemID log in"
               />
             </a>
-          </h2>
+          </h1>
         </div>
         <eo-landing-page-login-button></eo-landing-page-login-button>
       </eo-landing-page-column-layout>
