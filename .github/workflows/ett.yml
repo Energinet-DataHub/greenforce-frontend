@@ -149,7 +149,7 @@ jobs:
 
   helm_chart_version_increment_check:
     name: Helm chart check version
-    if: github.event_name == 'pull_request'
+    if: ${{ github.event_name == 'pull_request' && needs.affected.outputs.is-affected == 'true' }}
     needs: affected
     uses: Energinet-DataHub/.github/.github/workflows/version-increment-check.yaml@main
     with:
@@ -158,7 +158,7 @@ jobs:
 
   app_version_increment_check:
     name: App check version
-    if: github.event_name == 'pull_request'
+    if: ${{ github.event_name == 'pull_request' && needs.affected.outputs.is-affected == 'true' }}
     needs: affected
     uses: Energinet-DataHub/.github/.github/workflows/version-increment-check.yaml@main
     with:

@@ -48,6 +48,14 @@ const selector = 'ett-shell';
           padding-left: 0;
         }
 
+        watt-shell .mat-nav-list {
+          padding-top: 0;
+        }
+
+        watt-shell .watt-toolbar.watt-toolbar {
+          height: var(--watt-space-xl);
+        }
+
         .watt-main-content {
           min-height: calc(
             100% - 48px
@@ -69,16 +77,24 @@ const selector = 'ett-shell';
 
         // This is the feature page/component
         // The padding on this element has been copied from: libs/ui-watt/src/lib/components/shell/shell.component.scss
-        .watt-main-content > :nth-child(2) {
+        .watt-main-content.watt-main-content > :nth-child(2) {
           @include watt.space-inset-m;
 
           @include watt.media('>Large') {
             @include watt.space-inset-l;
           }
+          padding-top: 0 !important;
         }
 
+        .${selector}__logo-container {
+          height: var(--watt-space-xl);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
         .${selector}__logo {
-          height: calc(8 * var(--watt-space-xs));
+          height: calc(6.5 * var(--watt-space-xs));
+          width: calc(52 * var(--watt-space-xs));
         }
 
         .${selector}__link {
@@ -93,12 +109,16 @@ const selector = 'ett-shell';
   template: `
     <watt-shell>
       <ng-container watt-shell-sidenav>
+        <div class="${selector}__logo-container">
+          <img
+            class="${selector}__logo"
+            src="/assets/images/energyorigin-logo-secondary.svg"
+          />
+        </div>
         <ett-primary-navigation></ett-primary-navigation>
       </ng-container>
 
-      <ng-container watt-shell-toolbar>
-        <img class="${selector}__logo" eoProductLogo />
-      </ng-container>
+      <ng-container watt-shell-toolbar> </ng-container>
 
       <router-outlet></router-outlet>
 
