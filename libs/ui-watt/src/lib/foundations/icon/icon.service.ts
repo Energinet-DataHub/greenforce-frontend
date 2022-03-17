@@ -14,11 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+import { WattCustomIcon, WattIcon, allIcons, customIcons } from './icons';
+
+import { DomSanitizer } from '@angular/platform-browser';
 import { Injectable } from '@angular/core';
 import { MatIconRegistry } from '@angular/material/icon';
-import { DomSanitizer } from '@angular/platform-browser';
-
-import { WattIcon, allIcons, customIcons, WattCustomIcon } from './icons';
 
 @Injectable({ providedIn: 'root' })
 export class WattIconService {
@@ -42,6 +43,7 @@ export class WattIconService {
     this.addSvgIcon('power', '/assets/ui-watt/icons/power.svg');
     this.addSvgIcon('meter', '/assets/ui-watt/icons/meter.svg');
     this.addSvgIcon('map_marker', '/assets/ui-watt/icons/mapMarker.svg');
+    this.addSvgIcon('primary_info_icon', '/assets/ui-watt/icons/primaryInfoIcon.svg');
   }
 
   private addSvgIcon(icon: WattCustomIcon, url: string) {

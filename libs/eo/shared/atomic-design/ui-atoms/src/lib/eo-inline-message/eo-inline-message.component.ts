@@ -1,3 +1,13 @@
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  NgModule,
+} from '@angular/core';
+
+import { CommonModule } from '@angular/common';
+import { invalidMeteringPointId } from './../../../../../../../dh/shared/test-util-metering-point/src/lib/invalid-metering-point-id';
+
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -15,14 +25,9 @@
  * limitations under the License.
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  NgModule,
-} from '@angular/core';
 
-import { CommonModule } from '@angular/common';
+
+
 
 export type InlineMessageType =
   | 'info'
@@ -66,7 +71,10 @@ const selector = 'eo-inline-message';
           color: var(--watt-color-primary-dark);
         }
       }
-      .${selector}__icon {
+      :host ::ng-deep watt-icon {
+        display: block; // Override watt display flex styles
+      }
+      :host ::ng-deep watt-icon mat-icon svg {
         width: calc(8 * var(--watt-space-xs));
         height: calc(8 * var(--watt-space-xs));
         margin: calc(4 * var(--watt-space-xs));
@@ -77,18 +85,12 @@ const selector = 'eo-inline-message';
     `,
   ],
   template: `
-    <div
-      class="${selector}__container {{ type }}">
+    <div class="${selector}__container {{ type }}">
       <div>
-        <img
-          *ngIf="icon"
-          class="${selector}__icon"
-          src="{{ icon }}"
-          alt="EnergyOrigin"
-        />
+        <ng-content select="[icon]"></ng-content>
       </div>
       <div class="${selector}__content">
-        <ng-content></ng-content>
+        <ng-content select="[content]"></ng-content>
       </div>
     </div>
   `,

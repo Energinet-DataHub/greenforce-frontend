@@ -22,6 +22,7 @@ import {
 } from '@angular/core';
 
 import { EoInlineMessageScam } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
+import { WattIconModule } from '@energinet-datahub/watt';
 
 const selector = 'eo-dashboard-shell';
 
@@ -37,17 +38,15 @@ const selector = 'eo-dashboard-shell';
         @include watt.typography-watt-text-m; // This overrides the styles applied from Angular Material on p tags
       }
       .${selector}__eo-inline-message {
+        display: block;
         margin-bottom: var(--watt-space-l);
       }
     `,
   ],
   template: `
-    <eo-inline-message
-      icon="/assets/images/icons/primary-info-icon.svg"
-      type="warning"
-      class="${selector}__eo-inline-message"
-    >
-      <p>
+    <eo-inline-message type="warning" class="${selector}__eo-inline-message">
+      <watt-icon name="primary_info_icon" icon></watt-icon>
+      <p content>
         The Energy Origin Platform is <strong>under development</strong> and new
         functionalities will be released continuously. The first release of the
         platform offers <strong>business login only</strong>. Private login via
@@ -68,7 +67,7 @@ const selector = 'eo-dashboard-shell';
 export class EoDashboardShellComponent {}
 
 @NgModule({
-  imports: [EoInlineMessageScam],
+  imports: [WattIconModule, EoInlineMessageScam],
   declarations: [EoDashboardShellComponent],
   exports: [EoDashboardShellComponent],
 })

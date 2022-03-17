@@ -30,6 +30,9 @@ const selector = 'eo-metering-points-shell';
       ${selector} {
         display: block;
       }
+      .${selector}__p:first-of-type {
+        margin-top: 0;
+      }
       .${selector}__p {
         @include watt.typography-watt-text-m;
       }

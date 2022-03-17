@@ -60,6 +60,7 @@ export const customIcons = {
   explore: 'explore',
   meter: 'meter',
   map_marker: 'map_marker',
+  primary_info_icon: 'primary_info_icon',
 };
 
 export const allIcons = { ...materialIcons, ...customIcons };
