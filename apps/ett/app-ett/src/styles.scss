@@ -53,8 +53,12 @@ label {
   color: var(--watt-color-primary-contrast);
 }
 
+.eo-space-inset-squished-m {
+  padding: var(--watt-space-s) var(--watt-space-m) !important; // .watt-space-inset-squish-m does not have !important
+}
+
 .eo-space-inset-stretched-l {
-  padding: var(--watt-space-l) var(--watt-space-m);
+  padding: var(--watt-space-l) var(--watt-space-m) !important; // .watt-space-inset-squish-l is not declared yet
 }
 
 // One sided spacings & spacing reset helpers
