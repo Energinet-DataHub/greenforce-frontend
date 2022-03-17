@@ -43,7 +43,10 @@ export class WattIconService {
     this.addSvgIcon('power', '/assets/ui-watt/icons/power.svg');
     this.addSvgIcon('meter', '/assets/ui-watt/icons/meter.svg');
     this.addSvgIcon('map_marker', '/assets/ui-watt/icons/mapMarker.svg');
-    this.addSvgIcon('primary_info_icon', '/assets/ui-watt/icons/primaryInfoIcon.svg');
+    this.addSvgIcon(
+      'primary_info_icon',
+      '/assets/ui-watt/icons/primaryInfoIcon.svg'
+    );
   }
 
   private addSvgIcon(icon: WattCustomIcon, url: string) {

@@ -48,8 +48,9 @@ const selector = 'eo-landing-page-notification';
       <watt-icon name="primary_info_icon" icon></watt-icon>
       <p content>
         The Energy Origin Platform is <strong>under development</strong> and new
-        functionalities will be released continuously. For now there is <strong>only this page</strong>,
-        soon it will be possible for companies to login, to see the first bit of functionality.
+        functionalities will be released continuously. For now there is
+        <strong>only this page</strong>, soon it will be possible for companies
+        to login, to see the first bit of functionality.
       </p>
     </eo-inline-message>
   `,

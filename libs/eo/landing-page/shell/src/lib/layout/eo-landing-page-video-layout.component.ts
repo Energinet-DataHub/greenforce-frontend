@@ -62,17 +62,19 @@ const selector = 'eo-landing-page-video-layout';
 
       <p class="${selector}__p">
         Energy Origin is a platform which provides you with access to
-        <strong>data</strong> about the <strong>origins of your energy</strong> and the
-        corresponding <strong>emissions</strong>. This first version of Energy Origin is
-        for companies in Denmark and can be used for e.g.:
+        <strong>data</strong> about the
+        <strong>origins of your energy</strong> and the corresponding
+        <strong>emissions</strong>. This first version of Energy Origin is for
+        companies in Denmark and can be used for e.g.:
       </p>
       <ul class="watt-space-stack-l">
         <li>
-          Compiling an <strong>emissions overview</strong> for your annual ECG report
+          Compiling an <strong>emissions overview</strong> for your annual ECG
+          report
         </li>
         <li>
-          Gaining an overview of the <strong>renewables share</strong> of your energy
-          consumption
+          Gaining an overview of the <strong>renewables share</strong> of your
+          energy consumption
         </li>
       </ul>
 
