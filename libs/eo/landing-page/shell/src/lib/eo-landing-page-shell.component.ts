@@ -23,10 +23,10 @@ import {
 import { EoFooterScam } from '@energinet-datahub/eo/shared/atomic-design/ui-organisms';
 
 import { EoLandingPageHeaderScam } from './eo-landing-page-header.component';
+import { EoLandingPageHeroScam } from './eo-landing-page-hero.component';
 import { EoLandingPageLoginButtonScam } from './eo-landing-page-login-button.component';
 import { EoLandingPageStore } from './eo-landing-page.store';
 import { EoLandingPageCallToActionScam } from './layout/eo-landing-page-call-to-action.component';
-import { EoLandingPageHeroScam } from './layout/eo-landing-page-hero.component';
 import { EoLandingPageImageTextLayoutScam } from './layout/eo-landing-page-image-text-layout.component';
 import { EoLandingPageNotificationScam } from './layout/eo-landing-page-notification.component';
 import { EoLandingPageVideoLayoutScam } from './layout/eo-landing-page-video-layout.component';
