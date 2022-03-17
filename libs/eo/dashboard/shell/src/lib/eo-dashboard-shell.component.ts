@@ -19,48 +19,52 @@ import {
   ChangeDetectionStrategy,
   Component,
   NgModule,
-  ViewEncapsulation,
 } from '@angular/core';
 
 import { EoInlineMessageScam } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 import { WattIconModule } from '@energinet-datahub/watt';
 
-const selector = 'eo-landing-page-notification';
+const selector = 'eo-dashboard-shell';
 
 @Component({
   selector,
   styles: [
     `
       @use '@energinet-datahub/watt/utils' as watt;
-
       ${selector} {
         display: block;
       }
+      .${selector}__p {
+        @include watt.typography-watt-text-m; // This overrides the styles applied from Angular Material on p tags
+      }
       .${selector}__eo-inline-message {
         display: block;
-        margin: var(--watt-space-m) auto;
-        width: calc(259 * var(--watt-space-xs));
+        margin-bottom: var(--watt-space-l);
       }
     `,
   ],
   template: `
-    <eo-inline-message class="${selector}__eo-inline-message">
+    <eo-inline-message type="warning" class="${selector}__eo-inline-message">
       <watt-icon name="primary_info_icon" icon></watt-icon>
-      <p content>
-        The Energy Origin Platform is <strong>under development</strong> and new
-        functionalities will be released continuously. For now there is <strong>only this page</strong>,
-        soon it will be possible for companies to login, to see the first bit of functionality.
+      <p class="${selector}__p" content>
+      The Energy Origin Platform is <strong>under development</strong> and new functionalities will be released continuously.
+      The first release of the platform only offers <strong>data for companies</strong>.
+      Data for private users is intended to form part of one of the next releases.
+      More functionality will be released on an ongoing basis. If you want to
+      influence the new functionality, join us at our
+      <a href="https://www.linkedin.com/groups/12643238/" target="_blank"
+        >LinkedIn group</a
+      >.
       </p>
     </eo-inline-message>
   `,
-  encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class EoLandingPageNotificationComponent {}
+export class EoDashboardShellComponent {}
 
 @NgModule({
-  declarations: [EoLandingPageNotificationComponent],
-  exports: [EoLandingPageNotificationComponent],
   imports: [WattIconModule, EoInlineMessageScam],
+  declarations: [EoDashboardShellComponent],
+  exports: [EoDashboardShellComponent],
 })
-export class EoLandingPageNotificationScam {}
+export class EoDashboardShellScam {}
