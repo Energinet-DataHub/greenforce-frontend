@@ -36,6 +36,10 @@ import { EoLandingPageColumnLayoutScam } from './layout/eo-landing-page-column-l
         ); // This is the light-blue-ish background color
       }
 
+      eo-landing-page-login-button {
+        min-width: 120px; // Magic number by designer
+      }
+
       .icon-link {
         display: inline-block;
         vertical-align: middle;
