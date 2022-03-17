@@ -24,7 +24,6 @@ import { EoLandingPageColumnLayoutScam } from './layout/eo-landing-page-column-l
   styles: [
     `
       @use 'sass:color';
-      @use '@energinet-datahub/watt/utils' as watt;
 
       :host {
         display: block;

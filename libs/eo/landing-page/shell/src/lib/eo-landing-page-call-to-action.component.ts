@@ -23,8 +23,6 @@ import { EoLandingPageColumnLayoutScam } from './layout/eo-landing-page-column-l
   selector: 'eo-landing-page-call-to-action',
   styles: [
     `
-      @use '@energinet-datahub/watt/utils' as watt;
-
       :host {
         display: flex;
         height: 300px; // Magic number by designer
