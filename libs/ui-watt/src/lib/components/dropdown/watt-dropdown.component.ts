@@ -43,10 +43,10 @@ import {
   takeUntil,
 } from 'rxjs';
 
-export interface WattDropdownOption {
-  value: string;
-  displayValue: string;
-}
+import {
+  WattDropdownOption,
+  WattDropdownOptions,
+} from './watt-dropdown-option';
 
 @Component({
   selector: 'watt-dropdown',
@@ -92,7 +92,7 @@ export class WattDropdownComponent
    *
    * @ignore
    */
-  filteredOptions = new ReplaySubject<WattDropdownOption[]>(1);
+  filteredOptions = new ReplaySubject<WattDropdownOptions>(1);
 
   /**
    * @ignore
@@ -103,7 +103,7 @@ export class WattDropdownComponent
    *
    * Sets the options for the dropdown.
    */
-  @Input() options: WattDropdownOption[] = [];
+  @Input() options: WattDropdownOptions = [];
 
   /**
    * Sets support for selecting multiple dropdown options.
@@ -157,7 +157,7 @@ export class WattDropdownComponent
   /**
    * @ignore
    */
-  writeValue(value: WattDropdownOption | WattDropdownOption[] | null): void {
+  writeValue(value: WattDropdownOption | WattDropdownOptions | null): void {
     this.matSelectControl.setValue(value);
   }
 
@@ -165,9 +165,7 @@ export class WattDropdownComponent
    * @ignore
    */
   registerOnChange(
-    onChangeFn: (
-      value: WattDropdownOption | WattDropdownOption[] | null
-    ) => void
+    onChangeFn: (value: WattDropdownOption | WattDropdownOptions | null) => void
   ): void {
     this.changeParentValue = onChangeFn;
   }
@@ -214,7 +212,7 @@ export class WattDropdownComponent
    */
   private changeParentValue = (
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    value: WattDropdownOption | WattDropdownOption[] | null
+    value: WattDropdownOption | WattDropdownOptions | null
   ): void => {
     // Intentionally left empty
   };
@@ -284,7 +282,7 @@ export class WattDropdownComponent
         distinctUntilChanged(),
         takeUntil(this.destroy$)
       )
-      .subscribe((value: WattDropdownOption | WattDropdownOption[] | null) => {
+      .subscribe((value: WattDropdownOption | WattDropdownOptions | null) => {
         this.markParentControlAsTouched();
         this.changeParentValue(value);
       });
