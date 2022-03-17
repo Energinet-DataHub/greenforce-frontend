@@ -3,6 +3,7 @@ import {
   Component,
   Input,
   NgModule,
+  ViewEncapsulation,
 } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
@@ -74,10 +75,11 @@ const selector = 'eo-inline-message';
       :host ::ng-deep watt-icon {
         display: block; // Override watt display flex styles
       }
-      :host ::ng-deep watt-icon mat-icon svg {
+      watt-icon mat-icon svg {
         width: calc(8 * var(--watt-space-xs));
         height: calc(8 * var(--watt-space-xs));
-        margin: calc(4 * var(--watt-space-xs));
+        margin-top: calc(4 * var(--watt-space-xs));
+        margin-left: (calc(-2 * var(--watt-space-xs)));
       }
       .${selector}__content {
         padding-right: var(--watt-space-m);
@@ -94,6 +96,7 @@ const selector = 'eo-inline-message';
       </div>
     </div>
   `,
+  encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EoInlineMessageComponent {

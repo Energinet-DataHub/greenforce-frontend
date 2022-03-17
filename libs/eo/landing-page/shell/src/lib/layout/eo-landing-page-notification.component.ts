@@ -48,9 +48,8 @@ const selector = 'eo-landing-page-notification';
       <watt-icon name="primary_info_icon" icon></watt-icon>
       <p content>
         The Energy Origin Platform is <strong>under development</strong> and new
-        functionalities will be released continuously. The first release of the
-        platform offers <strong>business login only</strong>. Private login via
-        NemID/MitID is intended to form part of one of the next releases.
+        functionalities will be released continuously. For now there is <strong>only this page</strong>,
+        soon it will be possible for companies to login, to see the first bit of functionality.
       </p>
     </eo-inline-message>
   `,

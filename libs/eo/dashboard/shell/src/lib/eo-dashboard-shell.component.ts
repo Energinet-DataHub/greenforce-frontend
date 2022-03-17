@@ -46,21 +46,17 @@ const selector = 'eo-dashboard-shell';
   template: `
     <eo-inline-message type="warning" class="${selector}__eo-inline-message">
       <watt-icon name="primary_info_icon" icon></watt-icon>
-      <p content>
-        The Energy Origin Platform is <strong>under development</strong> and new
-        functionalities will be released continuously. The first release of the
-        platform offers <strong>business login only</strong>. Private login via
-        NemID/MitID is intended to form part of one of the next releases.
-      </p>
-    </eo-inline-message>
-
-    <p class="${selector}__p">
+      <p class="${selector}__p" content>
+      The Energy Origin Platform is <strong>under development</strong> and new functionalities will be released continuously.
+      The first release of the platform only offers <strong>data for companies</strong>.
+      Data for private users is intended to form part of one of the next releases.
       More functionality will be released on an ongoing basis. If you want to
       influence the new functionality, join us at our
       <a href="https://www.linkedin.com/groups/12643238/" target="_blank"
         >LinkedIn group</a
       >.
-    </p>
+      </p>
+    </eo-inline-message>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
