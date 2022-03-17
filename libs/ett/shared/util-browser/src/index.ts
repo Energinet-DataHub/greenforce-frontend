@@ -15,4 +15,4 @@
  * limitations under the License.
  */
 export * from './lib/absolute-url-generator.service';
-export * from './lib/eo-title.store';
+export * from './lib/title/eo-title.store';
