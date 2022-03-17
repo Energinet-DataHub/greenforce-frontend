@@ -14,15 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { EttAuthenticationGuard } from '@energinet-datahub/ett/auth/routing-security';
-import { EoTitleStore } from '@energinet-datahub/ett/shared/util-browser';
-import { GfBrowserConfigurationModule } from '@energinet-datahub/gf/util-browser';
 
+import { EttShellComponent, EttShellScam } from './ett-shell.component';
+import { RouterModule, Routes } from '@angular/router';
+
+import { EoTitleStore } from '@energinet-datahub/ett/shared/util-browser';
+import { EttAuthenticationGuard } from '@energinet-datahub/ett/auth/routing-security';
 import { EttHttpModule } from './ett-http.module';
 import { EttMaterialModule } from './ett-material.module';
-import { EttShellComponent, EttShellScam } from './ett-shell.component';
+import { GfBrowserConfigurationModule } from '@energinet-datahub/gf/util-browser';
+import { NgModule } from '@angular/core';
+import { eoDashboardRoutePath } from '@energinet-datahub/eo-dashboard-routing';
 
 const routes: Routes = [
   {
@@ -52,7 +54,7 @@ const routes: Routes = [
     canActivateChild: [EttAuthenticationGuard],
     children: [
       {
-        path: 'dashboard',
+        path: eoDashboardRoutePath,
         data: {
           title: 'Dashboard',
         },

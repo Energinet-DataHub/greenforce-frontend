@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 import {
   ChangeDetectionStrategy,
   Component,
@@ -23,8 +24,8 @@ import {
 } from '@angular/core';
 
 import { EoLogOutStore } from '@energinet-datahub/ett/auth/data-access-security';
-import { MatListModule } from '@angular/material/list';
 import { RouterModule } from '@angular/router';
+import { WattNavListModule } from '@energinet-datahub/watt';
 
 const selector = 'ett-primary-navigation';
 
@@ -34,49 +35,23 @@ const selector = 'ett-primary-navigation';
   selector,
   styles: [
     `
-      /**
-       * 1. Add active indicator to the active link.
-       * 2. Highlight the active link.
-       * 3. Increase specificity to override Angular Material.
-       */
-
       ${selector} {
         display: block;
-
-        a.is-active {
-          --indicator-size: var(--watt-space-xs);
-
-          border-left: var(--indicator-size) solid var(--watt-color-focus); // [1]
-
-          background-color: var(--watt-color-primary); // [2]
-          color: var(--watt-color-primary-contrast); // [2]
-
-          &.is-active /* [1][3] */ {
-            padding-left: calc(var(--watt-space-m) - var(--indicator-size));
-          }
-
-          > .mat-list-item-content.mat-list-item-content /* [1] */ {
-            padding-left: 0;
-          }
-        }
       }
     `,
   ],
   template: `
-    <mat-nav-list>
-      <a mat-list-item routerLink="/dashboard" routerLinkActive="is-active">
+    <watt-nav-list>
+      <watt-nav-list-item link="/dashboard">
         Dashboard
-      </a>
-      <a
-        mat-list-item
-        routerLink="/metering-points"
-        routerLinkActive="is-active"
-      >
+      </watt-nav-list-item>
+      <watt-nav-list-item link="/metering-points">
         Metering points
-      </a>
-
-      <a mat-list-item href="#0" (click)="onLogOut($event)">Log out</a>
-    </mat-nav-list>
+      </watt-nav-list-item>
+      <watt-nav-list-item (click)="onLogOut($event)">
+        Log out
+      </watt-nav-list-item>
+    </watt-nav-list>
   `,
   viewProviders: [EoLogOutStore],
 })
@@ -93,9 +68,6 @@ export class EttPrimaryNavigationComponent {
   constructor(private store: EoLogOutStore) {}
 
   onLogOut(event: Event): void {
-    // Prevent link from navigating
-    event.preventDefault();
-
     this.store.onLogOut();
   }
 }
@@ -103,6 +75,6 @@ export class EttPrimaryNavigationComponent {
 @NgModule({
   declarations: [EttPrimaryNavigationComponent],
   exports: [EttPrimaryNavigationComponent],
-  imports: [RouterModule, MatListModule],
+  imports: [WattNavListModule, RouterModule],
 })
 export class EttPrimaryNavigationScam {}

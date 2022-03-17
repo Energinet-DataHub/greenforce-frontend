@@ -101,9 +101,6 @@ const selector = 'eo-inline-message';
 })
 export class EoInlineMessageComponent {
   @Input()
-  icon!: string;
-
-  @Input()
   type: InlineMessageType = 'default';
 }
 
