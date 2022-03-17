@@ -74,15 +74,29 @@ const howToUseGuideBasic = `
   <watt-dropdown [formControl]="exampleFormControl" [options]="options"></watt-dropdown>
  </watt-form-field>`;
 
-export const withFormControl: Story<WattDropdownComponent> = () => ({
+export const singleSelect: Story<WattDropdownComponent> = (
+  args: Partial<WattDropdownComponent>
+) => ({
   props: {
     exampleFormControl: new FormControl(null),
+    options: args.options,
+    placeholder: args.placeholder,
+    noEntriesFoundLabel: args.noEntriesFoundLabel,
   },
   template: `<watt-form-field>
-    <watt-dropdown [formControl]="exampleFormControl"></watt-dropdown>
+    <watt-dropdown
+      [formControl]="exampleFormControl"
+      [placeholder]="placeholder"
+      [noEntriesFoundLabel]="noEntriesFoundLabel"
+      [options]="options"></watt-dropdown>
   </watt-form-field>`,
 });
-withFormControl.parameters = {
+singleSelect.args = {
+  options: dropdownOptions,
+  placeholder: 'Select a team',
+  noEntriesFoundLabel: 'No team found',
+};
+singleSelect.parameters = {
   docs: {
     source: {
       code: howToUseGuideBasic,
@@ -90,21 +104,30 @@ withFormControl.parameters = {
   },
 };
 
-export const withOptions: Story<WattDropdownComponent> = (
+export const multiSelect: Story<WattDropdownComponent> = (
   args: Partial<WattDropdownComponent>
 ) => ({
   props: {
     exampleFormControl: new FormControl(null),
     options: args.options,
+    placeholder: args.placeholder,
+    noEntriesFoundLabel: args.noEntriesFoundLabel,
   },
   template: `<watt-form-field>
-    <watt-dropdown [formControl]="exampleFormControl" [options]="options"></watt-dropdown>
+    <watt-dropdown
+      [multiple]="true"
+      [formControl]="exampleFormControl"
+      [placeholder]="placeholder"
+      [noEntriesFoundLabel]="noEntriesFoundLabel"
+      [options]="options"></watt-dropdown>
   </watt-form-field>`,
 });
-withOptions.args = {
+multiSelect.args = {
   options: dropdownOptions,
+  placeholder: 'Select a team',
+  noEntriesFoundLabel: 'No team found.',
 };
-withOptions.parameters = {
+multiSelect.parameters = {
   docs: {
     source: {
       code: howToUseGuideBasic,
@@ -122,28 +145,6 @@ export const withLabel: Story<WattDropdownComponent> = () => ({
   </watt-form-field>`,
 });
 withLabel.parameters = {
-  docs: {
-    source: {
-      code: howToUseGuideBasic,
-    },
-  },
-};
-
-export const withPlaceholder: Story<WattDropdownComponent> = (
-  args: Partial<WattDropdownComponent>
-) => ({
-  props: {
-    exampleFormControl: new FormControl(null),
-    placeholder: args.placeholder,
-  },
-  template: `<watt-form-field>
-    <watt-dropdown [formControl]="exampleFormControl" [placeholder]="placeholder"></watt-dropdown>
-  </watt-form-field>`,
-});
-withPlaceholder.args = {
-  placeholder: 'Select team',
-};
-withPlaceholder.parameters = {
   docs: {
     source: {
       code: howToUseGuideBasic,
