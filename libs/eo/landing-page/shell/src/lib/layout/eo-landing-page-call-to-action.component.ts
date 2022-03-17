@@ -14,34 +14,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  ChangeDetectionStrategy,
-  Component,
-  NgModule,
-  ViewEncapsulation,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
 
 import { EoLandingPageColumnLayoutScam } from './eo-landing-page-column-layout.component';
 import { EoLandingPageLoginButtonScam } from './eo-landing-page-login-button.component';
 
-const selector = 'eo-landing-page-call-to-action';
-
 @Component({
-  selector,
+  selector: 'eo-landing-page-call-to-action',
   styles: [
     `
       @use '@energinet-datahub/watt/utils' as watt;
 
-      ${selector} {
+      :host {
         display: block;
         text-align: center;
       }
-      .${selector}__h2 {
-        @include watt.typography-watt-headline-2; // This overrides the styles applied from Angular Material on h2 tags
-        text-transform: none; // This overrides the uppercased styling from watt
+
+      h2 {
         display: inline-block;
       }
-      .${selector}__call-to-action-wrapper {
+
+      .call-to-action-wrapper {
         height: calc(75 * var(--watt-space-xs));
         background: var(
           --watt-color-focus-selection
@@ -50,40 +43,34 @@ const selector = 'eo-landing-page-call-to-action';
         align-items: center;
         justify-content: center;
       }
-      .${selector}__link-icon {
+
+      .link-icon {
         width: 24px;
         height: 24px;
         margin-left: calc(2.5 * var(--watt-space-xs));
         cursor: pointer;
       }
-
-      .${selector}__login-button > a {
-        width: calc(40 * var(--watt-space-xs));
-      }
     `,
   ],
   template: `
-    <div class="${selector}__call-to-action-wrapper">
+    <div class="call-to-action-wrapper">
       <eo-landing-page-column-layout [layoutType]="'full'">
-        <h2 class="${selector}__h2">Log in with your company NemID</h2>
+        <h2>Log in with your company NemID</h2>
         <a
           href="https://www.nemid.nu/dk-en/about_nemid/index.html"
           target="_blank"
           rel="nofollow noopener"
         >
           <img
-            class="${selector}__link-icon"
+            class="link-icon"
             src="/assets/images/icons/primary-info-icon.svg"
             alt="EnergyOrigin NemID log in"
           />
         </a>
-        <eo-landing-page-login-button
-          class="${selector}__login-button"
-        ></eo-landing-page-login-button>
+        <eo-landing-page-login-button></eo-landing-page-login-button>
       </eo-landing-page-column-layout>
     </div>
   `,
-  encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EoLandingPageCallToActionComponent {}
