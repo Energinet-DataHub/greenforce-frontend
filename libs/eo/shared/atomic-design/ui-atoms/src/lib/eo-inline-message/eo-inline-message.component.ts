@@ -1,14 +1,3 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  NgModule,
-  ViewEncapsulation,
-} from '@angular/core';
-
-import { CommonModule } from '@angular/common';
-import { invalidMeteringPointId } from './../../../../../../../dh/shared/test-util-metering-point/src/lib/invalid-metering-point-id';
-
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -26,9 +15,15 @@ import { invalidMeteringPointId } from './../../../../../../../dh/shared/test-ut
  * limitations under the License.
  */
 
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  NgModule,
+  ViewEncapsulation,
+} from '@angular/core';
 
-
-
+import { CommonModule } from '@angular/common';
 
 export type InlineMessageType =
   | 'info'

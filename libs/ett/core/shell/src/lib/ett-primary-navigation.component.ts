@@ -48,7 +48,7 @@ const selector = 'ett-primary-navigation';
       <watt-nav-list-item link="/metering-points">
         Metering points
       </watt-nav-list-item>
-      <watt-nav-list-item (click)="onLogOut($event)">
+      <watt-nav-list-item (click)="onLogOut($event)" role="link">
         Log out
       </watt-nav-list-item>
     </watt-nav-list>
