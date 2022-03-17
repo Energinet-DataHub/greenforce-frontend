@@ -15,15 +15,16 @@
  * limitations under the License.
  */
 import {
+  ChangeDetectionStrategy,
   Component,
   NgModule,
   ViewEncapsulation,
-  ChangeDetectionStrategy,
 } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { LetModule } from '@rx-angular/template';
-import { EoLandingPageStore } from './../eo-landing-page.store';
 import { Observable } from 'rxjs';
+
+import { EoLandingPageStore } from './../eo-landing-page.store';
 
 const selector = 'eo-landing-page-login-button';
 
@@ -34,7 +35,7 @@ const selector = 'eo-landing-page-login-button';
       @use '@energinet-datahub/watt/utils' as watt;
 
       ${selector} {
-        display: block;
+        display: inline-block;
 
         // 1. Primary Watt Button.
         // 2. Normal size Watt Button.
