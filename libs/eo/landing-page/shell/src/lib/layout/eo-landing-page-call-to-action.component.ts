@@ -26,47 +26,49 @@ import { EoLandingPageLoginButtonScam } from './eo-landing-page-login-button.com
       @use '@energinet-datahub/watt/utils' as watt;
 
       :host {
-        display: block;
+        display: flex;
+        height: 300px; // Magic number by designer
+        align-items: center;
+        justify-content: center;
+
         text-align: center;
-      }
 
-      h2 {
-        display: inline-block;
-      }
-
-      .call-to-action-wrapper {
-        height: calc(75 * var(--watt-space-xs));
         background: var(
           --watt-color-focus-selection
         ); // This is the light-blue-ish background color
-        display: flex;
-        align-items: center;
-        justify-content: center;
       }
 
-      .link-icon {
+      .icon-link {
+        display: inline-block;
+        vertical-align: middle;
+      }
+
+      .icon {
         width: 24px;
         height: 24px;
-        margin-left: calc(2.5 * var(--watt-space-xs));
-        cursor: pointer;
       }
     `,
   ],
   template: `
     <div class="call-to-action-wrapper">
       <eo-landing-page-column-layout [layoutType]="'full'">
-        <h2>Log in with your company NemID</h2>
-        <a
-          href="https://www.nemid.nu/dk-en/about_nemid/index.html"
-          target="_blank"
-          rel="nofollow noopener"
-        >
-          <img
-            class="link-icon"
-            src="/assets/images/icons/primary-info-icon.svg"
-            alt="EnergyOrigin NemID log in"
-          />
-        </a>
+        <div class="watt-space-stack-m">
+          <h2>
+            Log in with your company NemID
+            <a
+              href="https://www.nemid.nu/dk-en/about_nemid/index.html"
+              target="_blank"
+              rel="nofollow noopener"
+              class="icon-link"
+            >
+              <img
+                class="icon"
+                src="/assets/images/icons/primary-info-icon.svg"
+                alt="EnergyOrigin NemID log in"
+              />
+            </a>
+          </h2>
+        </div>
         <eo-landing-page-login-button></eo-landing-page-login-button>
       </eo-landing-page-column-layout>
     </div>
