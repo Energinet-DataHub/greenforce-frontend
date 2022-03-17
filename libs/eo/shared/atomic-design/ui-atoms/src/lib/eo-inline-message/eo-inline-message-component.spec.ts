@@ -29,7 +29,7 @@ describe(`${EoInlineMessageComponent.name} - Component API, Content projection`,
         imports: [EoInlineMessageScam],
       }
     );
-    expect(await screen.findByAltText('EnergyOrigin')).toBeInTheDocument();
+    expect(await screen.findByRole('img', { name: /energyorigin/i })).toBeInTheDocument()
   });
 
   it('Inserts content into the ng-content "content" slot', async () => {
