@@ -17,6 +17,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { EttAuthenticationGuard } from '@energinet-datahub/ett/auth/routing-security';
+import { EoTitleStore } from '@energinet-datahub/ett/shared/util-browser';
 import { GfBrowserConfigurationModule } from '@energinet-datahub/gf/util-browser';
 
 import { EttHttpModule } from './ett-http.module';
@@ -27,6 +28,9 @@ const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
+    data: {
+      title: 'Energy Origin',
+    },
     loadChildren: () =>
       import('@energinet-datahub/eo/landing-page/shell').then(
         (esModule) => esModule.EoLandingPageShellModule
@@ -34,6 +38,9 @@ const routes: Routes = [
   },
   {
     path: 'terms',
+    data: {
+      title: 'Terms',
+    },
     loadChildren: () =>
       import('@energinet-datahub/eo/auth/feature-terms').then(
         (esModule) => esModule.EoAuthFeatureTermsModule
@@ -92,4 +99,12 @@ const routes: Routes = [
     EttShellScam,
   ],
 })
-export class EttCoreShellModule {}
+export class EttCoreShellModule {
+  constructor(
+    // We need an instance to kick off effects
+    // Can be removed in Angular 14
+    eoTitle: EoTitleStore
+    // See comment about EoTitleStore
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+  ) {}
+}

@@ -16,9 +16,11 @@
  */
 import { Injectable } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { ActivationEnd, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { ComponentStore } from '@ngrx/component-store';
 import { filter, map, Observable, tap } from 'rxjs';
+
+import { mapToRouteTitle } from './map-to-route-title.operator';
 
 interface EoTitleState {
   readonly routeTitle: string | null;
@@ -38,17 +40,7 @@ export class EoTitleStore extends ComponentStore<EoTitleState> {
   constructor(private documentTitle: Title, private router: Router) {
     super(initialState);
 
-    this.#updateRouteTitle(
-      this.router.events.pipe(
-        filter((event) => event instanceof ActivationEnd),
-        map(
-          (event) =>
-            (event as ActivationEnd).snapshot.data.title as string | undefined
-        ),
-        filter((title) => title !== undefined),
-        map((title) => title as string)
-      )
-    );
+    this.#updateRouteTitle(this.router.events.pipe(mapToRouteTitle));
     this.#synchronizeToDocumentTitle(this.routeTitle$);
   }
 
