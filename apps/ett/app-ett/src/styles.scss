@@ -27,6 +27,10 @@ body {
   min-height: 100%;
 }
 
+body strong {
+  color: inherit; // Override Watt styles
+}
+
 a,
 [routerLink] {
   text-decoration: underline; // This overrides WATT styles (which removes the underline on a tags)
@@ -78,6 +82,10 @@ label {
   padding-bottom: var(--watt-space-xl);
 }
 
+.eo-margin-left-m {
+  margin-left: var(--watt-space-m) !important;
+}
+
 .eo-margin-left-xl {
-  margin-left: var(--watt-space-xl);
+  margin-left: var(--watt-space-xl) !important;
 }
