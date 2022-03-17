@@ -48,13 +48,19 @@ import { EoLandingPageVideoLayoutScam } from './layout/eo-landing-page-video-lay
         position: absolute;
         bottom: 0;
       }
+
+      .collapse-bottom {
+        padding-bottom: 0 !important;
+      }
     `,
   ],
   template: `
     <eo-landing-page-header></eo-landing-page-header>
 
     <div class="positioning-context">
-      <eo-landing-page-notification></eo-landing-page-notification>
+      <eo-landing-page-notification
+        class="collapse-bottom"
+      ></eo-landing-page-notification>
       <eo-landing-page-hero></eo-landing-page-hero>
       <eo-landing-page-video-layout></eo-landing-page-video-layout>
       <eo-landing-page-image-text-layout></eo-landing-page-image-text-layout>
