@@ -23,14 +23,28 @@ import { WattIconModule, WattIconSize } from '@energinet-datahub/watt';
   selector: 'eo-landing-page-notification',
   styles: [
     `
-      :host {
-        display: block;
+      @use '@energinet-datahub/watt/utils' as watt;
 
-        padding: var(--watt-space-m) calc(2 * var(--watt-space-xl));
+      :host {
+        @include watt.space-inset-m;
+
+        display: flex;
+        justify-content: center;
+
+        @include watt.media('>Large') {
+          --inset-x: calc(2 * var(--watt-space-xl));
+
+          padding-right: var(--inset-x);
+          padding-left: var(--inset-x);
+        }
       }
 
       p {
         margin: 0; // Remove this rule when CSS reset (#402) is merged
+      }
+
+      eo-inline-message {
+        max-width: 960px; // Magic number by designer
       }
     `,
   ],
