@@ -14,7 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  HostBinding,
+  NgModule,
+} from '@angular/core';
 import { eoDashboardRoutePath } from '@energinet-datahub/eo/dashboard/routing';
 import { eoMeteringPointsRoutePath } from '@energinet-datahub/eo/metering-points/routing';
 import { EoLogOutStore } from '@energinet-datahub/ett/auth/data-access-security';
@@ -50,6 +55,11 @@ import { WattNavListModule } from '@energinet-datahub/watt';
   viewProviders: [EoLogOutStore],
 })
 export class EoPrimaryNavigationComponent {
+  @HostBinding('attr.aria-label')
+  get ariaLabelAttribute(): string {
+    return 'Menu';
+  }
+
   constructor(private store: EoLogOutStore) {}
 
   onLogOut(): void {
