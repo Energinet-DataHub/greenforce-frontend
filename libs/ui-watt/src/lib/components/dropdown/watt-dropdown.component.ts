@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 import {
-  AfterViewInit,
   Component,
   Host,
   Input,
@@ -39,14 +38,10 @@ import {
   Subject,
   distinctUntilChanged,
   map,
-  take,
   takeUntil,
 } from 'rxjs';
 
-import {
-  WattDropdownOption,
-  WattDropdownOptions,
-} from './watt-dropdown-option';
+import { WattDropdownOptions } from './watt-dropdown-option';
 
 @Component({
   selector: 'watt-dropdown',
@@ -55,7 +50,7 @@ import {
   encapsulation: ViewEncapsulation.None,
 })
 export class WattDropdownComponent
-  implements ControlValueAccessor, OnInit, AfterViewInit, OnDestroy
+  implements ControlValueAccessor, OnInit, OnDestroy
 {
   /** Subject that emits when the component has been destroyed. */
   /**
@@ -142,13 +137,6 @@ export class WattDropdownComponent
   /**
    * @ignore
    */
-  ngAfterViewInit(): void {
-    this.setInitialValue();
-  }
-
-  /**
-   * @ignore
-   */
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
@@ -157,7 +145,7 @@ export class WattDropdownComponent
   /**
    * @ignore
    */
-  writeValue(value: WattDropdownOption | WattDropdownOptions | null): void {
+  writeValue(value: string | string[] | null): void {
     this.matSelectControl.setValue(value);
   }
 
@@ -165,7 +153,7 @@ export class WattDropdownComponent
    * @ignore
    */
   registerOnChange(
-    onChangeFn: (value: WattDropdownOption | WattDropdownOptions | null) => void
+    onChangeFn: (value: string | string[] | null) => void
   ): void {
     this.changeParentValue = onChangeFn;
   }
@@ -210,10 +198,8 @@ export class WattDropdownComponent
   /**
    * @ignore
    */
-  private changeParentValue = (
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    value: WattDropdownOption | WattDropdownOptions | null
-  ): void => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  private changeParentValue = (value: string | string[] | null): void => {
     // Intentionally left empty
   };
 
@@ -282,7 +268,7 @@ export class WattDropdownComponent
         distinctUntilChanged(),
         takeUntil(this.destroy$)
       )
-      .subscribe((value: WattDropdownOption | WattDropdownOptions | null) => {
+      .subscribe((value: string | string[] | null) => {
         this.markParentControlAsTouched();
         this.changeParentValue(value);
       });
@@ -300,29 +286,6 @@ export class WattDropdownComponent
       )
       .subscribe((errors) => {
         this.matSelectControl.setErrors(errors);
-      });
-  }
-
-  /**
-   * @ignore
-   *
-   * Sets the initial value after the filteredOptions are loaded initially
-   */
-  private setInitialValue() {
-    this.filteredOptions
-      .pipe(take(1), takeUntil(this.destroy$))
-      .subscribe(() => {
-        // setting the compareWith property to a comparison function
-        // triggers initializing the selection according to the initial value of
-        // the form control (i.e. _initializeSelection())
-        // this needs to be done after the filteredOptions are loaded initially
-        // and after the mat-option elements are available
-        if (this.matSelect) {
-          this.matSelect.compareWith = (
-            a: WattDropdownOption,
-            b: WattDropdownOption
-          ) => a && b && a.value === b.value;
-        }
       });
   }
 

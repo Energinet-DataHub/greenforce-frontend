@@ -32,7 +32,10 @@ limitations under the License.
 
   <mat-option *ngIf="!multiple">—</mat-option>
 
-  <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+  <mat-option
+    *ngFor="let option of filteredOptions | async"
+    [value]="option.value"
+  >
     {{ option.displayValue }}
   </mat-option>
 </mat-select>
