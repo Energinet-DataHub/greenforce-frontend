@@ -15,11 +15,12 @@
  * limitations under the License.
  */
 import {
+  ChangeDetectionStrategy,
   Component,
   NgModule,
   ViewEncapsulation,
-  ChangeDetectionStrategy,
 } from '@angular/core';
+
 import { EoLandingPageColumnLayoutScam } from './eo-landing-page-column-layout.component';
 import { EoLandingPageLoginButtonScam } from './eo-landing-page-login-button.component';
 
