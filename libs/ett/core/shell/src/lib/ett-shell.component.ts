@@ -71,7 +71,6 @@ const selector = 'ett-shell';
             100% - 64px - var(--watt-space-l)
           ); // 48px is = available screen height minus the top bar
           padding: 0 !important; // We remove the padding, so we can stretch the footer out in full width
-          margin-top: var(--watt-space-l);
 
           /**
            * We have 3 items in the content area:
@@ -86,17 +85,9 @@ const selector = 'ett-shell';
           grid-template-rows: 0 1fr auto;
         }
 
-        // This is the feature page/component
-        // The padding on this element has been copied from: libs/ui-watt/src/lib/components/shell/shell.component.scss
+        // This is the feature/page component
         .watt-main-content.watt-main-content > :nth-child(2) {
-          @include watt.space-inset-m;
-
-          @include watt.media('>Large') {
-            @include watt.space-inset-l;
-          }
-          padding-top: 0 !important;
-          width: 100%;
-          max-width: calc(240 * var(--watt-space-xs));
+          @include watt.space-inset-l;
         }
 
         .${selector}__logo-container {
