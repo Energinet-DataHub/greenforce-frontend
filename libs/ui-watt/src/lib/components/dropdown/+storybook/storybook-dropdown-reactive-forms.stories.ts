@@ -20,10 +20,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { WattFormFieldModule } from '../../form-field/form-field.module';
 import { WattDropdownModule } from '../watt-dropdown.module';
-import {
-  WattDropdownComponent,
-  WattDropdownOption,
-} from '../watt-dropdown.component';
+import { WattDropdownComponent } from '../watt-dropdown.component';
+import { WattDropdownOption } from '../watt-dropdown-option';
 
 const dropdownOptions: WattDropdownOption[] = [
   { value: 'mightyDucks', displayValue: 'Mighty Ducks' },
