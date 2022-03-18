@@ -23,8 +23,6 @@ import { WattIconModule, WattIconSize } from '@energinet-datahub/watt';
   selector: 'eo-dashboard-shell',
   styles: [
     `
-      @use '@energinet-datahub/watt/utils' as watt;
-
       :host {
         display: block;
       }

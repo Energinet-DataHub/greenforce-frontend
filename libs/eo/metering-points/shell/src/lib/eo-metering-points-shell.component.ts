@@ -14,30 +14,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
 
-const selector = 'eo-metering-points-shell';
 @Component({
-  selector,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: 'eo-metering-points-shell',
   styles: [
     `
-      @use '@energinet-datahub/watt/utils' as watt;
-      ${selector} {
+      :host {
         display: block;
       }
-      .${selector}__p:first-of-type {
-        margin-top: 0;
-      }
-      .${selector}__p {
-        @include watt.typography-watt-text-m;
+
+      p {
+        margin: 0; // Remove this rule when CSS reset (#402) is merged
       }
     `,
   ],
-  template: `
-    <p class="${selector}__p">You do not have any metering points.</p>
-  `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: `<p>You do not have any metering points.</p>`,
 })
 export class EoMeteringPointsShellComponent {}
 
