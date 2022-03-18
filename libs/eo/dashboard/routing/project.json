@@ -1,0 +1,26 @@
+{
+  "projectType": "library",
+  "root": "libs/eo/dashboard/routing",
+  "sourceRoot": "libs/eo/dashboard/routing/src",
+  "prefix": "energinet-datahub",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/eo/dashboard/routing"],
+      "options": {
+        "jestConfig": "libs/eo/dashboard/routing/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/eo/dashboard/routing/src/**/*.ts",
+          "libs/eo/dashboard/routing/src/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": ["product:eo", "domain:dashboard", "type:routing"]
+}
