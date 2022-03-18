@@ -1,12 +1,3 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  HostBinding,
-  Input,
-  NgModule,
-  ViewEncapsulation,
-} from '@angular/core';
-
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -23,6 +14,15 @@ import {
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import {
+  ChangeDetectionStrategy,
+  Component,
+  HostBinding,
+  Input,
+  NgModule,
+  ViewEncapsulation,
+} from '@angular/core';
+
 export type InlineMessageType =
   | 'danger'
   | 'default'
