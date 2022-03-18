@@ -20,9 +20,11 @@ import { WattIconModule, WattIconSize } from '@energinet-datahub/watt';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'eo-landing-page-notification',
+  selector: 'eo-dashboard-shell',
   styles: [
     `
+      @use '@energinet-datahub/watt/utils' as watt;
+
       :host {
         display: block;
       }
@@ -30,34 +32,33 @@ import { WattIconModule, WattIconSize } from '@energinet-datahub/watt';
       p {
         margin: 0; // Remove this rule when CSS reset (#402) is merged
       }
-
-      eo-inline-message {
-        /* display: block; */
-        /* margin: var(--watt-space-m) auto; */
-        /* width: calc(259 * var(--watt-space-xs)); */
-      }
     `,
   ],
   template: `
-    <eo-inline-message>
+    <eo-inline-message type="warning">
       <watt-icon name="primary_info_icon" [size]="iconSize.Large"></watt-icon>
 
       <p>
         The Energy Origin Platform is <strong>under development</strong> and new
-        functionalities will be released continuously. For now there is
-        <strong>only this page</strong>, soon it will be possible for companies
-        to login, to see the first bit of functionality.
+        functionalities will be released continuously. The first release of the
+        platform only offers <strong>data for companies</strong>. Data for
+        private users is intended to form part of one of the next releases. More
+        functionality will be released on an ongoing basis. If you want to
+        influence the new functionality, join us at our
+        <a href="https://www.linkedin.com/groups/12643238/" target="_blank"
+          >LinkedIn group</a
+        >.
       </p>
     </eo-inline-message>
   `,
 })
-export class EoLandingPageNotificationComponent {
+export class EoDashboardShellComponent {
   iconSize = WattIconSize;
 }
 
 @NgModule({
-  declarations: [EoLandingPageNotificationComponent],
-  exports: [EoLandingPageNotificationComponent],
+  declarations: [EoDashboardShellComponent],
+  exports: [EoDashboardShellComponent],
   imports: [WattIconModule, EoInlineMessageScam],
 })
-export class EoLandingPageNotificationScam {}
+export class EoDashboardShellScam {}
