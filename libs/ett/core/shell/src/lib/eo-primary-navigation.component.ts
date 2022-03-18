@@ -40,7 +40,7 @@ import { WattNavListModule } from '@energinet-datahub/watt';
       <watt-nav-list-item link="/dashboard">Dashboard</watt-nav-list-item>
 
       <watt-nav-list-item link="/metering-points"
-        >Metering points</watt-nav-list-item
+        >Metering Points</watt-nav-list-item
       >
 
       <watt-nav-list-item (click)="onLogOut()" role="link">

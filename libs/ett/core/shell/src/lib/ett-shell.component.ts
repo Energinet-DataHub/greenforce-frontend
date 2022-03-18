@@ -142,7 +142,7 @@ const selector = 'ett-shell';
         <a
           routerLink="/privacy-policy"
           class="${selector}__link watt-space-stack-m watt-text-s"
-          >Privacy policy</a
+          >Privacy Policy</a
         >
       </eo-footer>
     </watt-shell>
