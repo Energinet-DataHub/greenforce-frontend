@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 import {
   ChangeDetectionStrategy,
   Component,
@@ -22,8 +23,8 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 
-import { WattIconService } from './icon.service';
 import { WattIcon } from './icons';
+import { WattIconService } from './icon.service';
 import { WattIconSize } from './watt-icon-size';
 import { WattIconState } from './watt-icon-state';
 
