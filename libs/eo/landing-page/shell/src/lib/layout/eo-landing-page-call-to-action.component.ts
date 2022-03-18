@@ -31,8 +31,6 @@ const selector = 'eo-landing-page-call-to-action';
   selector,
   styles: [
     `
-      @use '@energinet-datahub/watt/utils' as watt;
-
       ${selector} {
         display: block;
         text-align: center;
@@ -55,12 +53,6 @@ const selector = 'eo-landing-page-call-to-action';
         display: flex;
         align-items: center;
         justify-content: center;
-      }
-      .${selector}__link-icon {
-        width: 24px;
-        height: 24px;
-        margin-left: calc(2.5 * var(--watt-space-xs));
-        cursor: pointer;
       }
 
       .${selector}__login-button > a {
