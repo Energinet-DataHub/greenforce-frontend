@@ -14,19 +14,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 import { EttShellComponent, EttShellScam } from './ett-shell.component';
 import { RouterModule, Routes } from '@angular/router';
+
+import { EoTitleStore } from '@energinet-datahub/ett/shared/util-browser';
 import { EttAuthenticationGuard } from '@energinet-datahub/ett/auth/routing-security';
 import { EttHttpModule } from './ett-http.module';
 import { EttMaterialModule } from './ett-material.module';
 import { GfBrowserConfigurationModule } from '@energinet-datahub/gf/util-browser';
 import { NgModule } from '@angular/core';
-import { ettDashboardRoutePath } from '@energinet-datahub/ett/dashboard/routing';
+import { eoDashboardRoutePath } from '@energinet-datahub/eo-dashboard-routing';
 
 const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
+    data: {
+      title: 'Energy Origin',
+    },
     loadChildren: () =>
       import('@energinet-datahub/eo/landing-page/shell').then(
         (esModule) => esModule.EoLandingPageShellModule
@@ -34,6 +40,9 @@ const routes: Routes = [
   },
   {
     path: 'terms',
+    data: {
+      title: 'Terms',
+    },
     loadChildren: () =>
       import('@energinet-datahub/eo/auth/feature-terms').then(
         (esModule) => esModule.EoAuthFeatureTermsModule
@@ -45,14 +54,30 @@ const routes: Routes = [
     canActivateChild: [EttAuthenticationGuard],
     children: [
       {
-        path: ettDashboardRoutePath,
+        path: eoDashboardRoutePath,
+        data: {
+          title: 'Dashboard',
+        },
         loadChildren: () =>
-          import('@energinet-datahub/ett/dashboard/shell').then(
-            (esModule) => esModule.EttDashboardShellModule
+          import('@energinet-datahub/eo/dashboard/shell').then(
+            (esModule) => esModule.EoDashboardShellModule
+          ),
+      },
+      {
+        path: 'metering-points',
+        data: {
+          title: 'Metering points',
+        },
+        loadChildren: () =>
+          import('@energinet-datahub/eo/metering-points/shell').then(
+            (esModule) => esModule.EoMeteringPointsShellModule
           ),
       },
       {
         path: 'privacy-policy',
+        data: {
+          title: 'Privacy Policy',
+        },
         loadChildren: () =>
           import('@energinet-datahub/eo/privacy-policy/shell').then(
             (esModule) => esModule.EoPrivacyPolicyShellModule
@@ -76,4 +101,12 @@ const routes: Routes = [
     EttShellScam,
   ],
 })
-export class EttCoreShellModule {}
+export class EttCoreShellModule {
+  constructor(
+    // We need an instance to kick off effects
+    // Can be removed in Angular 14
+    eoTitle: EoTitleStore
+    // See comment about EoTitleStore
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+  ) {}
+}
