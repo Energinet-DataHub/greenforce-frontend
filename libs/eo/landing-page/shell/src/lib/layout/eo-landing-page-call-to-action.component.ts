@@ -15,11 +15,13 @@
  * limitations under the License.
  */
 import {
+  ChangeDetectionStrategy,
   Component,
   NgModule,
   ViewEncapsulation,
-  ChangeDetectionStrategy,
 } from '@angular/core';
+import { WattIconModule, WattIconSize } from '@energinet-datahub/watt';
+
 import { EoLandingPageColumnLayoutScam } from './eo-landing-page-column-layout.component';
 import { EoLandingPageLoginButtonScam } from './eo-landing-page-login-button.component';
 
@@ -29,16 +31,19 @@ const selector = 'eo-landing-page-call-to-action';
   selector,
   styles: [
     `
-      @use '@energinet-datahub/watt/utils' as watt;
-
       ${selector} {
         display: block;
         text-align: center;
+
+        a {
+          display: inline-block;
+
+          margin-left: var(--watt-space-s);
+        }
       }
       .${selector}__h2 {
-        @include watt.typography-watt-headline-2; // This overrides the styles applied from Angular Material on h2 tags
-        text-transform: none; // This overrides the uppercased styling from watt
-        display: inline-block;
+        display: flex;
+        align-items: center;
       }
       .${selector}__call-to-action-wrapper {
         height: calc(75 * var(--watt-space-xs));
@@ -49,12 +54,6 @@ const selector = 'eo-landing-page-call-to-action';
         align-items: center;
         justify-content: center;
       }
-      .${selector}__link-icon {
-        width: 24px;
-        height: 24px;
-        margin-left: calc(2.5 * var(--watt-space-xs));
-        cursor: pointer;
-      }
 
       .${selector}__login-button > a {
         width: calc(40 * var(--watt-space-xs));
@@ -64,14 +63,20 @@ const selector = 'eo-landing-page-call-to-action';
   template: `
     <div class="${selector}__call-to-action-wrapper">
       <eo-landing-page-column-layout [layoutType]="'full'">
-        <h2 class="${selector}__h2">Log in with your company NemID</h2>
-        <a href="https://www.nemid.nu/dk-en/about_nemid/index.html">
-          <img
-            class="${selector}__link-icon"
-            src="/assets/images/icons/primary-info-icon.svg"
-            alt="EnergyOrigin NemID log in"
-          />
-        </a>
+        <h2 class="${selector}__h2">
+          Log in with your company NemID
+          <a
+            href="https://www.nemid.nu/dk-en/about_nemid/index.html"
+            target="_blank"
+            rel="nofollow noopener"
+          >
+            <watt-icon
+              name="primary_info_icon"
+              [size]="iconSize.Large"
+            ></watt-icon>
+          </a>
+        </h2>
+
         <eo-landing-page-login-button
           class="${selector}__login-button"
         ></eo-landing-page-login-button>
@@ -81,11 +86,17 @@ const selector = 'eo-landing-page-call-to-action';
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class EoLandingPageCallToActionComponent {}
+export class EoLandingPageCallToActionComponent {
+  iconSize = WattIconSize;
+}
 
 @NgModule({
   declarations: [EoLandingPageCallToActionComponent],
   exports: [EoLandingPageCallToActionComponent],
-  imports: [EoLandingPageColumnLayoutScam, EoLandingPageLoginButtonScam],
+  imports: [
+    WattIconModule,
+    EoLandingPageColumnLayoutScam,
+    EoLandingPageLoginButtonScam,
+  ],
 })
 export class EoLandingPageCallToActionScam {}
