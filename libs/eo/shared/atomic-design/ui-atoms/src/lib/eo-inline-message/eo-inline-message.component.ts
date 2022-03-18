@@ -14,93 +14,84 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 import {
   ChangeDetectionStrategy,
   Component,
   Input,
   NgModule,
-  ViewEncapsulation,
 } from '@angular/core';
 
-import { CommonModule } from '@angular/common';
-
 export type InlineMessageType =
+  | 'danger'
+  | 'default'
   | 'info'
   | 'success'
-  | 'danger'
-  | 'warning'
-  | 'default';
-
-const selector = 'eo-inline-message';
+  | 'warning';
 
 @Component({
-  selector,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: 'eo-inline-message',
   styles: [
     `
-      ${selector} {
+      :host {
         display: block;
       }
-      .${selector}__container {
-        display: grid;
-        grid-template-columns: 70px 1fr;
-        box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.08);
 
-        &.default {
-          background: var(--watt-color-neutral-white);
-          color: var(--watt-color-primary-dark);
-        }
-        &.info {
+      .container {
+        display: flex;
+
+        background: var(--watt-color-neutral-white);
+        box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.08);
+        color: var(--watt-color-primary-dark);
+
+        &--info {
           background: var(--watt-color-state-info);
           color: var(--watt-color-neutral-white);
         }
-        &.success {
+
+        &--success {
           background: var(--watt-color-state-success);
           color: var(--watt-color-neutral-white);
         }
-        &.danger {
+
+        &--danger {
           background: var(--watt-color-state-danger);
           color: var(--watt-color-neutral-white);
         }
-        &.warning {
+
+        &--warning {
           background: #fef5d5; // var(--watt-color-state-warning); // Wrong yellow watt vs Figma
           color: var(--watt-color-primary-dark);
         }
-      }
-      :host ::ng-deep watt-icon {
-        display: block; // Override watt display flex styles
-      }
-      watt-icon mat-icon svg {
-        width: calc(8 * var(--watt-space-xs));
-        height: calc(8 * var(--watt-space-xs));
-        margin-top: calc(4 * var(--watt-space-xs));
-        margin-left: (calc(-2 * var(--watt-space-xs)));
-      }
-      .${selector}__content {
-        padding-right: var(--watt-space-m);
+
+        ::ng-deep watt-icon {
+          margin-right: var(--watt-space-l);
+        }
       }
     `,
   ],
   template: `
-    <div class="${selector}__container {{ type }}">
+    <div class="container {{ containerModifier }} watt-space-inset-m">
       <div>
-        <ng-content select="[icon]"></ng-content>
+        <ng-content select="watt-icon"></ng-content>
       </div>
-      <div class="${selector}__content">
-        <ng-content select="[content]"></ng-content>
+
+      <div class="content">
+        <ng-content></ng-content>
       </div>
     </div>
   `,
-  encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EoInlineMessageComponent {
+  get containerModifier(): string {
+    return this.type === 'default' ? '' : `container--${this.type}`;
+  }
+
   @Input()
   type: InlineMessageType = 'default';
 }
 
 @NgModule({
-  imports: [CommonModule],
   declarations: [EoInlineMessageComponent],
   exports: [EoInlineMessageComponent],
 })

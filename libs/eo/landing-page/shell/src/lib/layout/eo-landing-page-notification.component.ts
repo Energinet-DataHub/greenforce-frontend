@@ -14,39 +14,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-import {
-  ChangeDetectionStrategy,
-  Component,
-  NgModule,
-  ViewEncapsulation,
-} from '@angular/core';
-
+import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
 import { EoInlineMessageScam } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
-import { WattIconModule } from '@energinet-datahub/watt';
-
-const selector = 'eo-landing-page-notification';
+import { WattIconModule, WattIconSize } from '@energinet-datahub/watt';
 
 @Component({
-  selector,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: 'eo-landing-page-notification',
   styles: [
     `
-      @use '@energinet-datahub/watt/utils' as watt;
-
-      ${selector} {
+      :host {
         display: block;
       }
-      .${selector}__eo-inline-message {
-        display: block;
-        margin: var(--watt-space-m) auto;
-        width: calc(259 * var(--watt-space-xs));
+
+      p {
+        margin: 0; // Remove this rule when CSS reset (#402) is merged
+      }
+
+      eo-inline-message {
+        /* display: block; */
+        /* margin: var(--watt-space-m) auto; */
+        /* width: calc(259 * var(--watt-space-xs)); */
       }
     `,
   ],
   template: `
-    <eo-inline-message class="${selector}__eo-inline-message">
-      <watt-icon name="primary_info_icon" icon></watt-icon>
-      <p content>
+    <eo-inline-message>
+      <watt-icon name="primary_info_icon" [size]="iconSize.Large"></watt-icon>
+
+      <p>
         The Energy Origin Platform is <strong>under development</strong> and new
         functionalities will be released continuously. For now there is
         <strong>only this page</strong>, soon it will be possible for companies
@@ -54,10 +50,10 @@ const selector = 'eo-landing-page-notification';
       </p>
     </eo-inline-message>
   `,
-  encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class EoLandingPageNotificationComponent {}
+export class EoLandingPageNotificationComponent {
+  iconSize = WattIconSize;
+}
 
 @NgModule({
   declarations: [EoLandingPageNotificationComponent],

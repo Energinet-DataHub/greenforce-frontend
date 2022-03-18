@@ -14,35 +14,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
-
 import { EoInlineMessageScam } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
-import { WattIconModule } from '@energinet-datahub/watt';
-
-const selector = 'eo-dashboard-shell';
+import { WattIconModule, WattIconSize } from '@energinet-datahub/watt';
 
 @Component({
-  selector,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: 'eo-dashboard-shell',
   styles: [
     `
       @use '@energinet-datahub/watt/utils' as watt;
-      ${selector} {
+
+      :host {
         display: block;
       }
-      .${selector}__p {
-        @include watt.typography-watt-text-m; // This overrides the styles applied from Angular Material on p tags
-      }
-      .${selector}__eo-inline-message {
-        display: block;
-        margin-bottom: var(--watt-space-l);
+
+      p {
+        margin: 0; // Remove this rule when CSS reset (#402) is merged
       }
     `,
   ],
   template: `
-    <eo-inline-message type="warning" class="${selector}__eo-inline-message">
-      <watt-icon name="primary_info_icon" icon></watt-icon>
-      <p class="${selector}__p" content>
+    <eo-inline-message type="warning">
+      <watt-icon name="primary_info_icon" [size]="iconSize.Large"></watt-icon>
+
+      <p>
         The Energy Origin Platform is <strong>under development</strong> and new
         functionalities will be released continuously. The first release of the
         platform only offers <strong>data for companies</strong>. Data for
@@ -55,13 +51,14 @@ const selector = 'eo-dashboard-shell';
       </p>
     </eo-inline-message>
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class EoDashboardShellComponent {}
+export class EoDashboardShellComponent {
+  iconSize = WattIconSize;
+}
 
 @NgModule({
-  imports: [WattIconModule, EoInlineMessageScam],
   declarations: [EoDashboardShellComponent],
   exports: [EoDashboardShellComponent],
+  imports: [WattIconModule, EoInlineMessageScam],
 })
 export class EoDashboardShellScam {}

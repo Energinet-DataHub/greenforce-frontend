@@ -14,33 +14,41 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { WattIconModule } from '@energinet-datahub/watt';
+import { render, screen } from '@testing-library/angular';
 
 import {
   EoInlineMessageComponent,
   EoInlineMessageScam,
 } from './eo-inline-message.component';
-import { render, screen } from '@testing-library/angular';
 
-describe(`${EoInlineMessageComponent.name} - Component API, Content projection`, () => {
-  it('Inserts an image content into the ng-content "icon" slot', async () => {
+describe(`${EoInlineMessageComponent.name} component API`, () => {
+  it('projects a Watt Icon', async () => {
+    // Arrange
     await render(
-      `<eo-inline-message><img src="" icon alt="EnergyOrigin"/></eo-inline-message>`,
+      `<eo-inline-message><watt-icon name="primary_info_icon" label="Test icon"></watt-icon></eo-inline-message>`,
       {
-        imports: [EoInlineMessageScam],
+        imports: [EoInlineMessageScam, WattIconModule],
       }
     );
+
+    // Act
+
+    // Assert
     expect(
-      await screen.findByRole('img', { name: /energyorigin/i })
+      await screen.findByRole('img', { name: /test icon/i })
     ).toBeInTheDocument();
   });
 
-  it('Inserts content into the ng-content "content" slot', async () => {
-    await render(
-      `<eo-inline-message><p content>Content</p></eo-inline-message>`,
-      {
-        imports: [EoInlineMessageScam],
-      }
-    );
-    expect(await screen.findByText('Content')).toBeInTheDocument();
+  it('projects content', async () => {
+    // Arrange
+    await render(`<eo-inline-message><p>Test content</p></eo-inline-message>`, {
+      imports: [EoInlineMessageScam],
+    });
+
+    // Act
+
+    // Assert
+    expect(await screen.findByText(/test content/i)).toBeInTheDocument();
   });
 });
