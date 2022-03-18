@@ -265,6 +265,13 @@ export class WattDropdownComponent
     this.matSelectControl.valueChanges
       .pipe(
         map((value) => (value === undefined ? null : value)),
+        map((value: string | string[] | null) => {
+          if (Array.isArray(value) && value.length === 0) {
+            return null;
+          }
+
+          return value;
+        }),
         distinctUntilChanged(),
         takeUntil(this.destroy$)
       )
