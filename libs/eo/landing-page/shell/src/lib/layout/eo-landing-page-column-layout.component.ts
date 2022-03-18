@@ -14,42 +14,43 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   Input,
   NgModule,
-  ViewEncapsulation,
 } from '@angular/core';
-
-import { CommonModule } from '@angular/common';
 
 export type LayoutType = 'full' | 'smallFirst' | 'largeFirst';
 
-const selector = 'eo-landing-page-column-layout';
-
 @Component({
-  selector,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: 'eo-landing-page-column-layout',
   styles: [
     `
-      ${selector} {
+      :host {
         display: block;
       }
-      .${selector}__display-flex {
+
+      .display-flex {
         display: flex;
         align-items: center;
       }
-      .${selector}__content {
+
+      .content {
         // This is the rows which contain either on or two columns
         position: relative;
-        max-width: 960px; // Defined in Figma
+        max-width: 960px; // Magic number by designer
         margin: 0 auto;
       }
-      .${selector}__column--large {
+
+      .column--large {
         width: 560px;
         display: inline-block;
       }
-      .${selector}__column--small {
+
+      .column--small {
         width: 400px;
         display: inline-block;
       }
@@ -57,37 +58,31 @@ const selector = 'eo-landing-page-column-layout';
   ],
   template: `
     <ng-container [ngSwitch]="layoutType">
-      <div class="${selector}__content" *ngSwitchCase="'full'">
+      <div *ngSwitchCase="'full'" class="content">
         <ng-content></ng-content>
       </div>
 
-      <div
-        class="${selector}__content ${selector}__display-flex"
-        *ngSwitchCase="'smallFirst'"
-      >
-        <div class="${selector}__column--small">
+      <div *ngSwitchCase="'smallFirst'" class="content display-flex">
+        <div class="column--small">
           <ng-content select="[contentLeftSmall]"></ng-content>
         </div>
-        <div class="${selector}__column--large">
+
+        <div class="column--large">
           <ng-content select="[contentRightLarge]"></ng-content>
         </div>
       </div>
 
-      <div
-        class="${selector}__content ${selector}__display-flex"
-        *ngSwitchCase="'largeFirst'"
-      >
-        <div class="${selector}__column--large">
+      <div *ngSwitchCase="'largeFirst'" class="content display-flex">
+        <div class="column--large">
           <ng-content select="[contentLeftLarge]"></ng-content>
         </div>
-        <div class="${selector}__column--small">
+
+        <div class="column--small">
           <ng-content select="[contentRightSmall]"></ng-content>
         </div>
       </div>
     </ng-container>
   `,
-  encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EoLandingPageColumnLayoutComponent {
   @Input()

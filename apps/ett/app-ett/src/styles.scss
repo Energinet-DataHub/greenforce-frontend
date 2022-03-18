@@ -57,6 +57,10 @@ label {
   color: var(--watt-color-primary-contrast);
 }
 
+.eo-space-inset-xxl {
+  padding: calc(2 * var(--watt-space-xl)) !important;
+}
+
 .eo-space-inset-squished-m {
   padding: var(--watt-space-s) var(--watt-space-m) !important; // .watt-space-inset-squish-m does not have !important
 }
