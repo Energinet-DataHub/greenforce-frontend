@@ -14,46 +14,43 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 import {
   ChangeDetectionStrategy,
   Component,
   HostBinding,
   NgModule,
-  ViewEncapsulation,
 } from '@angular/core';
-
 import { EoLogOutStore } from '@energinet-datahub/ett/auth/data-access-security';
-import { RouterModule } from '@angular/router';
 import { WattNavListModule } from '@energinet-datahub/watt';
-
-const selector = 'ett-primary-navigation';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None,
-  selector,
+  // We're transitioning to `eo` prefix instead of `ett`
+  // eslint-disable-next-line @angular-eslint/component-selector
+  selector: 'eo-primary-navigation',
   styles: [
     `
-      ${selector} {
+      :host {
         display: block;
       }
     `,
   ],
   template: `
     <watt-nav-list>
-      <watt-nav-list-item link="/dashboard"> Dashboard </watt-nav-list-item>
-      <watt-nav-list-item link="/metering-points">
-        Metering points
-      </watt-nav-list-item>
-      <watt-nav-list-item (click)="onLogOut($event)" role="link">
+      <watt-nav-list-item link="/dashboard">Dashboard</watt-nav-list-item>
+
+      <watt-nav-list-item link="/metering-points"
+        >Metering points</watt-nav-list-item
+      >
+
+      <watt-nav-list-item (click)="onLogOut()" role="link">
         Log out
       </watt-nav-list-item>
     </watt-nav-list>
   `,
   viewProviders: [EoLogOutStore],
 })
-export class EttPrimaryNavigationComponent {
+export class EoPrimaryNavigationComponent {
   @HostBinding('attr.role')
   get roleAttribute(): string {
     return 'navigation';
@@ -65,14 +62,14 @@ export class EttPrimaryNavigationComponent {
 
   constructor(private store: EoLogOutStore) {}
 
-  onLogOut(event: Event): void {
+  onLogOut(): void {
     this.store.onLogOut();
   }
 }
 
 @NgModule({
-  declarations: [EttPrimaryNavigationComponent],
-  exports: [EttPrimaryNavigationComponent],
-  imports: [WattNavListModule, RouterModule],
+  declarations: [EoPrimaryNavigationComponent],
+  exports: [EoPrimaryNavigationComponent],
+  imports: [WattNavListModule],
 })
-export class EttPrimaryNavigationScam {}
+export class EoPrimaryNavigationScam {}

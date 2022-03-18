@@ -14,17 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-import { EttShellComponent, EttShellScam } from './ett-shell.component';
+import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-
-import { EoTitleStore } from '@energinet-datahub/ett/shared/util-browser';
+import { eoDashboardRoutePath } from '@energinet-datahub/eo-dashboard-routing';
 import { EttAuthenticationGuard } from '@energinet-datahub/ett/auth/routing-security';
+import { EoTitleStore } from '@energinet-datahub/ett/shared/util-browser';
+import { GfBrowserConfigurationModule } from '@energinet-datahub/gf/util-browser';
+
 import { EttHttpModule } from './ett-http.module';
 import { EttMaterialModule } from './ett-material.module';
-import { GfBrowserConfigurationModule } from '@energinet-datahub/gf/util-browser';
-import { NgModule } from '@angular/core';
-import { eoDashboardRoutePath } from '@energinet-datahub/eo-dashboard-routing';
+import { EttShellComponent, EttShellScam } from './ett-shell.component';
 
 const routes: Routes = [
   {
@@ -105,6 +104,7 @@ export class EttCoreShellModule {
   constructor(
     // We need an instance to kick off effects
     // Can be removed in Angular 14
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     eoTitle: EoTitleStore
     // See comment about EoTitleStore
     // eslint-disable-next-line @typescript-eslint/no-empty-function

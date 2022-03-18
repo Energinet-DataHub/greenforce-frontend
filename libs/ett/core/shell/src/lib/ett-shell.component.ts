@@ -28,7 +28,7 @@ import { WattShellModule } from '@energinet-datahub/watt';
 import { PushModule } from '@rx-angular/template';
 import { Observable } from 'rxjs';
 
-import { EttPrimaryNavigationScam } from './ett-primary-navigation.component';
+import { EoPrimaryNavigationScam } from './eo-primary-navigation.component';
 
 const selector = 'ett-shell';
 
@@ -128,7 +128,8 @@ const selector = 'ett-shell';
             src="/assets/images/energyorigin-logo-secondary.svg"
           />
         </div>
-        <ett-primary-navigation></ett-primary-navigation>
+
+        <eo-primary-navigation></eo-primary-navigation>
       </ng-container>
 
       <ng-container watt-shell-toolbar>
@@ -141,9 +142,8 @@ const selector = 'ett-shell';
         <a
           routerLink="/privacy-policy"
           class="${selector}__link watt-space-stack-m watt-text-s"
-          aria-label="Privacy policy"
-          >Privacy policy
-        </a>
+          >Privacy policy</a
+        >
       </eo-footer>
     </watt-shell>
   `,
@@ -159,7 +159,7 @@ export class EttShellComponent {
   imports: [
     RouterModule,
     WattShellModule,
-    EttPrimaryNavigationScam,
+    EoPrimaryNavigationScam,
     EoProductLogoScam,
     EoFooterScam,
     PushModule,
