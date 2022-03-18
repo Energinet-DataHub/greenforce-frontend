@@ -14,12 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  ChangeDetectionStrategy,
-  Component,
-  HostBinding,
-  NgModule,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
+import { eoDashboardRoutePath } from '@energinet-datahub/eo/dashboard/routing';
+import { eoMeteringPointsRoutePath } from '@energinet-datahub/eo/metering-points/routing';
 import { EoLogOutStore } from '@energinet-datahub/ett/auth/data-access-security';
 import { WattNavListModule } from '@energinet-datahub/watt';
 
@@ -37,9 +34,11 @@ import { WattNavListModule } from '@energinet-datahub/watt';
   ],
   template: `
     <watt-nav-list>
-      <watt-nav-list-item link="/dashboard">Dashboard</watt-nav-list-item>
+      <watt-nav-list-item link="/${eoDashboardRoutePath}"
+        >Dashboard</watt-nav-list-item
+      >
 
-      <watt-nav-list-item link="/metering-points"
+      <watt-nav-list-item link="/${eoMeteringPointsRoutePath}"
         >Metering Points</watt-nav-list-item
       >
 
@@ -51,15 +50,6 @@ import { WattNavListModule } from '@energinet-datahub/watt';
   viewProviders: [EoLogOutStore],
 })
 export class EoPrimaryNavigationComponent {
-  @HostBinding('attr.role')
-  get roleAttribute(): string {
-    return 'navigation';
-  }
-  @HostBinding('attr.aria-label')
-  get ariaLabelAttribute(): string {
-    return 'Menu';
-  }
-
   constructor(private store: EoLogOutStore) {}
 
   onLogOut(): void {

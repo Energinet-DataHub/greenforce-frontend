@@ -108,11 +108,11 @@
       "@energinet-datahub/dh/shared/ui-date-time": [
         "libs/dh/shared/ui-date-time/src/index.ts"
       ],
-      "@energinet-datahub/eo-dashboard-routing": [
-        "libs/eo/dashboard/routing/src/index.ts"
-      ],
       "@energinet-datahub/eo/auth/feature-terms": [
         "libs/eo/auth/feature-terms/src/index.ts"
+      ],
+      "@energinet-datahub/eo/dashboard/routing": [
+        "libs/eo/dashboard/routing/src/index.ts"
       ],
       "@energinet-datahub/eo/dashboard/shell": [
         "libs/eo/dashboard/shell/src/index.ts"
@@ -123,8 +123,14 @@
       "@energinet-datahub/eo/landing-page/shell": [
         "libs/eo/landing-page/shell/src/index.ts"
       ],
+      "@energinet-datahub/eo/metering-points/routing": [
+        "libs/eo/metering-points/routing/src/index.ts"
+      ],
       "@energinet-datahub/eo/metering-points/shell": [
         "libs/eo/metering-points/shell/src/index.ts"
+      ],
+      "@energinet-datahub/eo/privacy-policy/routing": [
+        "libs/eo/privacy-policy/routing/src/index.ts"
       ],
       "@energinet-datahub/eo/privacy-policy/shell": [
         "libs/eo/privacy-policy/shell/src/index.ts"

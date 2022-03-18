@@ -1,1 +1,1 @@
-# Eo dashboard page routing
+# Dashboard routing
