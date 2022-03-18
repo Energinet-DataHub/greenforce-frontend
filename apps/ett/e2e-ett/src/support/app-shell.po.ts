@@ -19,5 +19,5 @@ export const findLogOutMenuItem = () =>
   cy.findByRole('link', { name: /Log out/i });
 export const findMenu = () =>
   cy.findByLabelText(/Menu/i, {
-    selector: 'mat-sidenav:not(.ng-animating) [role="navigation"]',
+    selector: 'mat-sidenav:not(.ng-animating) *',
   });
