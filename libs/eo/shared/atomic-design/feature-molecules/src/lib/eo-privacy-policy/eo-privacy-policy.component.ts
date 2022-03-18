@@ -32,7 +32,6 @@ const selector = 'eo-privacy-policy';
   providers: [EoPrivacyPolicyStore],
   selector,
   template: `
-    <h1 class="${selector}__heading">Privacy Policy</h1>
     <eo-scroll-view>
       <p class="${selector}__paragraph">Version {{ version$ | push }}</p>
       <div [innerHTML]="privacyPolicy$ | push"></div>
@@ -44,11 +43,6 @@ const selector = 'eo-privacy-policy';
       ${selector} {
         display: block;
         width: calc(200 * var(--watt-space-xs));
-        > .${selector}__heading {
-          // Overrides Angular Material styles for the h1 element
-          @include watt.typography-watt-headline-1;
-          text-transform: none; // Override .watt-headline-1
-        }
         .${selector}__paragraph {
           @include watt.typography-watt-text-s;
           color: var(--watt-color-neutral-grey-600);
