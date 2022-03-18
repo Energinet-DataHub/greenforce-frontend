@@ -25,16 +25,12 @@ import { WattIconModule, WattIconSize } from '@energinet-datahub/watt';
     `
       :host {
         display: block;
+
+        padding: var(--watt-space-m) calc(2 * var(--watt-space-xl));
       }
 
       p {
         margin: 0; // Remove this rule when CSS reset (#402) is merged
-      }
-
-      eo-inline-message {
-        /* display: block; */
-        /* margin: var(--watt-space-m) auto; */
-        /* width: calc(259 * var(--watt-space-xs)); */
       }
     `,
   ],
