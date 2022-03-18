@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export { WattDropdownModule } from './lib/components/dropdown/watt-dropdown.module';
 export { WattColor } from './lib/foundations/color/colors';
 export { WattColorHelperService } from './lib/foundations/color/color-helper.service';
 export { WattFormFieldModule } from './lib/components/form-field/form-field.module';
