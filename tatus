@@ -1,0 +1,320 @@
+warning: LF will be replaced by CRLF in .vscode/extensions.json.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in apps/dh/api-dh/project.json.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in apps/dh/app-dh/project.json.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in apps/dh/e2e-dh/project.json.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in apps/ett/app-ett/project.json.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in apps/ett/e2e-ett/project.json.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in libs/dh/auth/feature-msal/project.json.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in libs/dh/charges/data-access-api/project.json.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in libs/dh/core/shell/project.json.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in libs/dh/globalization/assets-localization/project.json.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in libs/dh/globalization/configuration-localization/project.json.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in libs/dh/globalization/data-access-localization/project.json.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in libs/dh/globalization/domain/project.json.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in libs/dh/globalization/feature-language-picker/project.json.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in libs/dh/message-archive/data-access-api/project.json.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in libs/dh/message-archive/feature-log-search/project.json.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in libs/dh/message-archive/shell/project.json.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in libs/dh/metering-point/data-access-api/project.json.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in libs/dh/metering-point/domain/project.json.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in libs/dh/metering-point/feature-identity-and-master-data/project.json.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in libs/dh/metering-point/feature-overview/project.json.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in libs/dh/metering-point/feature-search/project.json.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in libs/dh/metering-point/feature-tabs/project.json.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in libs/dh/metering-point/routing/project.json.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in libs/dh/metering-point/shared/ui-util/project.json.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in libs/dh/metering-point/shell/project.json.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in libs/dh/metering-point/ui-status-badge/project.json.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in libs/dh/shared/assets/project.json.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in libs/dh/shared/data-access-api/project.json.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in libs/dh/shared/data-access-msw/project.json.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in libs/dh/shared/domain/project.json.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in libs/dh/shared/environments/project.json.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in libs/dh/shared/test-util-auth/project.json.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in libs/dh/shared/test-util-i18n/project.json.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in libs/dh/shared/test-util-metering-point/project.json.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in libs/dh/shared/test-util-msw/project.json.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in libs/dh/shared/ui-date-time/project.json.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in libs/eo/auth/feature-terms/project.json.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in libs/eo/dashboard/shell/project.json.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in libs/eo/landing-page/routing/project.json.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in libs/eo/landing-page/shell/project.json.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in libs/eo/metering-points/shell/project.json.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in libs/eo/privacy-policy/shell/project.json.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in libs/eo/shared/assets/project.json.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in libs/eo/shared/atomic-design/feature-molecules/project.json.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in libs/eo/shared/atomic-design/ui-atoms/project.json.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in libs/eo/shared/atomic-design/ui-organisms/project.json.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in libs/eo/shared/environments/project.json.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in libs/ett/auth/data-access-api/project.json.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in libs/ett/auth/data-access-security/project.json.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in libs/ett/auth/routing-security/project.json.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in libs/ett/core/shell/project.json.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in libs/ett/shared/util-browser/project.json.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in libs/gf/test-util-matchers/project.json.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in libs/gf/test-util-staging/project.json.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in libs/gf/util-browser/project.json.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in libs/ui-watt/project.json.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in nx.json.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in package.json.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in tools/project.json.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in tsconfig.base.json.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in workspace.json.
+The file will have its original line endings in your working directory
+[1mdiff --git a/libs/eo/landing-page/shell/src/lib/eo-landing-page.store.ts b/libs/eo/landing-page/shell/src/lib/eo-landing-page.store.ts[m
+[1mindex 7b6beb3..4caacd6 100644[m
+[1m--- a/libs/eo/landing-page/shell/src/lib/eo-landing-page.store.ts[m
+[1m+++ b/libs/eo/landing-page/shell/src/lib/eo-landing-page.store.ts[m
+[36m@@ -20,6 +20,7 @@[m [mimport { AuthHttp } from '@energinet-datahub/ett/auth/data-access-api';[m
+ import { AbsoluteUrlGenerator } from '@energinet-datahub/ett/shared/util-browser';[m
+ import { ComponentStore } from '@ngrx/component-store';[m
+ import { Observable } from 'rxjs';[m
+[32m+[m[32mimport { eoDashboardRoutePath } from '@energinet-datahub/eo-dashboard-routing';[m
+ [m
+ // Disabling this check, as no internal state is needed for the store.[m
+ // eslint-disable-next-line @typescript-eslint/no-empty-interface[m
+[36m@@ -27,7 +28,7 @@[m [minterface EoLandingPageState {}[m
+ [m
+ @Injectable()[m
+ export class EoLandingPageStore extends ComponentStore<EoLandingPageState> {[m
+[31m-  #absoluteReturnUrl = this.urlGenerator.fromCommands(['dashboard']);[m
+[32m+[m[32m  #absoluteReturnUrl = this.urlGenerator.fromCommands([eoDashboardRoutePath]);[m
+ [m
+   authenticationUrl$: Observable<string> = this.select([m
+     this.authHttp.getOidcLogin(this.appBaseHref, this.#absoluteReturnUrl),[m
+[1mdiff --git a/libs/eo/shared/atomic-design/ui-atoms/src/lib/eo-inline-message/eo-inline-message.component.ts b/libs/eo/shared/atomic-design/ui-atoms/src/lib/eo-inline-message/eo-inline-message.component.ts[m
+[1mindex cc56e56..b44c899 100644[m
+[1m--- a/libs/eo/shared/atomic-design/ui-atoms/src/lib/eo-inline-message/eo-inline-message.component.ts[m
+[1m+++ b/libs/eo/shared/atomic-design/ui-atoms/src/lib/eo-inline-message/eo-inline-message.component.ts[m
+[36m@@ -100,9 +100,6 @@[m [mconst selector = 'eo-inline-message';[m
+   changeDetection: ChangeDetectionStrategy.OnPush,[m
+ })[m
+ export class EoInlineMessageComponent {[m
+[31m-  @Input()[m
+[31m-  icon!: string;[m
+[31m-[m
+   @Input()[m
+   type: InlineMessageType = 'default';[m
+ }[m
+[1mdiff --git a/libs/ett/core/shell/src/lib/ett-core-shell.module.ts b/libs/ett/core/shell/src/lib/ett-core-shell.module.ts[m
+[1mindex ee67472..5e2544a 100644[m
+[1m--- a/libs/ett/core/shell/src/lib/ett-core-shell.module.ts[m
+[1m+++ b/libs/ett/core/shell/src/lib/ett-core-shell.module.ts[m
+[36m@@ -14,15 +14,17 @@[m
+  * See the License for the specific language governing permissions and[m
+  * limitations under the License.[m
+  */[m
+[31m-import { NgModule } from '@angular/core';[m
+[32m+[m
+[32m+[m[32mimport { EttShellComponent, EttShellScam } from './ett-shell.component';[m
+ import { RouterModule, Routes } from '@angular/router';[m
+[31m-import { EttAuthenticationGuard } from '@energinet-datahub/ett/auth/routing-security';[m
+[31m-import { EoTitleStore } from '@energinet-datahub/ett/shared/util-browser';[m
+[31m-import { GfBrowserConfigurationModule } from '@energinet-datahub/gf/util-browser';[m
+ [m
+[32m+[m[32mimport { EoTitleStore } from '@energinet-datahub/ett/shared/util-browser';[m
+[32m+[m[32mimport { EttAuthenticationGuard } from '@energinet-datahub/ett/auth/routing-security';[m
+ import { EttHttpModule } from './ett-http.module';[m
+ import { EttMaterialModule } from './ett-material.module';[m
+[31m-import { EttShellComponent, EttShellScam } from './ett-shell.component';[m
+[32m+[m[32mimport { GfBrowserConfigurationModule } from '@energinet-datahub/gf/util-browser';[m
+[32m+[m[32mimport { NgModule } from '@angular/core';[m
+[32m+[m[32mimport { eoDashboardRoutePath } from '@energinet-datahub/eo-dashboard-routing';[m
+ [m
+ const routes: Routes = [[m
+   {[m
+[36m@@ -52,7 +54,7 @@[m [mconst routes: Routes = [[m
+     canActivateChild: [EttAuthenticationGuard],[m
+     children: [[m
+       {[m
+[31m-        path: 'dashboard',[m
+[32m+[m[32m        path: eoDashboardRoutePath,[m
+         data: {[m
+           title: 'Dashboard',[m
+         },[m
+[1mdiff --git a/libs/ett/core/shell/src/lib/ett-primary-navigation.component.ts b/libs/ett/core/shell/src/lib/ett-primary-navigation.component.ts[m
+[1mindex 4f8d9ed..0947e86 100644[m
+[1m--- a/libs/ett/core/shell/src/lib/ett-primary-navigation.component.ts[m
+[1m+++ b/libs/ett/core/shell/src/lib/ett-primary-navigation.component.ts[m
+[36m@@ -14,6 +14,7 @@[m
+  * See the License for the specific language governing permissions and[m
+  * limitations under the License.[m
+  */[m
+[32m+[m
+ import {[m
+   ChangeDetectionStrategy,[m
+   Component,[m
+[36m@@ -23,8 +24,8 @@[m [mimport {[m
+ } from '@angular/core';[m
+ [m
+ import { EoLogOutStore } from '@energinet-datahub/ett/auth/data-access-security';[m
+[31m-import { MatListModule } from '@angular/material/list';[m
+ import { RouterModule } from '@angular/router';[m
+[32m+[m[32mimport { WattNavListModule } from '@energinet-datahub/watt';[m
+ [m
+ const selector = 'ett-primary-navigation';[m
+ [m
+[36m@@ -34,49 +35,23 @@[m [mconst selector = 'ett-primary-navigation';[m
+   selector,[m
+   styles: [[m
+     `[m
+[31m-      /**[m
+[31m-       * 1. Add active indicator to the active link.[m
+[31m-       * 2. Highlight the active link.[m
+[31m-       * 3. Increase specificity to override Angular Material.[m
+[31m-       */[m
+[31m-[m
+       ${selector} {[m
+         display: block;[m
+[31m-[m
+[31m-        a.is-active {[m
+[31m-          --indicator-size: var(--watt-space-xs);[m
+[31m-[m
+[31m-          border-left: var(--indicator-size) solid var(--watt-color-focus); // [1][m
+[31m-[m
+[31m-          background-color: var(--watt-color-primary); // [2][m
+[31m-          color: var(--watt-color-primary-contrast); // [2][m
+[31m-[m
+[31m-          &.is-active /* [1][3] */ {[m
+[31m-            padding-left: calc(var(--watt-space-m) - var(--indicator-size));[m
+[31m-          }[m
+[31m-[m
+[31m-          > .mat-list-item-content.mat-list-item-content /* [1] */ {[m
+[31m-            padding-left: 0;[m
+[31m-          }[m
+[31m-        }[m
+       }[m
+     `,[m
+   ],[m
+   template: `[m
+[31m-    <mat-nav-list>[m
+[31m-      <a mat-list-item routerLink="/dashboard" routerLinkActive="is-active">[m
+[32m+[m[32m    <watt-nav-list>[m
+[32m+[m[32m      <watt-nav-list-item link="/dashboard">[m
+         Dashboard[m
+[31m-      </a>[m
+[31m-      <a[m
+[31m-        mat-list-item[m
+[31m-        routerLink="/metering-points"[m
+[31m-        routerLinkActive="is-active"[m
+[31m-      >[m
+[32m+[m[32m      </watt-nav-list-item>[m
+[32m+[m[32m      <watt-nav-list-item link="/metering-points">[m
+         Metering points[m
+[31m-      </a>[m
+[31m-[m
+[31m-      <a mat-list-item href="#0" (click)="onLogOut($event)">Log out</a>[m
+[31m-    </mat-nav-list>[m
+[32m+[m[32m      </watt-nav-list-item>[m
+[32m+[m[32m      <watt-nav-list-item (click)="onLogOut($event)">[m
+[32m+[m[32m        Log out[m
+[32m+[m[32m      </watt-nav-list-item>[m
+[32m+[m[32m    </watt-nav-list>[m
+   `,[m
+   viewProviders: [EoLogOutStore],[m
+ })[m
+[36m@@ -93,9 +68,6 @@[m [mexport class EttPrimaryNavigationComponent {[m
+   constructor(private store: EoLogOutStore) {}[m
+ [m
+   onLogOut(event: Event): void {[m
+[31m-    // Prevent link from navigating[m
+[31m-    event.preventDefault();[m
+[31m-[m
+     this.store.onLogOut();[m
+   }[m
+ }[m
+[36m@@ -103,6 +75,6 @@[m [mexport class EttPrimaryNavigationComponent {[m
+ @NgModule({[m
+   declarations: [EttPrimaryNavigationComponent],[m
+   exports: [EttPrimaryNavigationComponent],[m
+[31m-  imports: [RouterModule, MatListModule],[m
+[32m+[m[32m  imports: [WattNavListModule, RouterModule],[m
+ })[m
+ export class EttPrimaryNavigationScam {}[m
+[1mdiff --git a/tsconfig.base.json b/tsconfig.base.json[m
+[1mindex 487fda1..3892444 100644[m
+[1m--- a/tsconfig.base.json[m
+[1m+++ b/tsconfig.base.json[m
+[36m@@ -108,6 +108,9 @@[m
+       "@energinet-datahub/dh/shared/ui-date-time": [[m
+         "libs/dh/shared/ui-date-time/src/index.ts"[m
+       ],[m
+[32m+[m[32m      "@energinet-datahub/eo-dashboard-routing": [[m
+[32m+[m[32m        "libs/eo/dashboard/routing/src/index.ts"[m
+[32m+[m[32m      ],[m
+       "@energinet-datahub/eo/auth/feature-terms": [[m
+         "libs/eo/auth/feature-terms/src/index.ts"[m
+       ],[m
+[1mdiff --git a/workspace.json b/workspace.json[m
+[1mindex d65f468..954bebc 100644[m
+[1m--- a/workspace.json[m
+[1m+++ b/workspace.json[m
+[36m@@ -38,6 +38,7 @@[m
+     "e2e-dh": "apps/dh/e2e-dh",[m
+     "e2e-ett": "apps/ett/e2e-ett",[m
+     "eo-auth-feature-terms": "libs/eo/auth/feature-terms",[m
+[32m+[m[32m    "eo-dashboard-routing": "libs/eo/dashboard/routing",[m
+     "eo-dashboard-shell": "libs/eo/dashboard/shell",[m
+     "eo-landing-page-routing": "libs/eo/landing-page/routing",[m
+     "eo-landing-page-shell": "libs/eo/landing-page/shell",[m

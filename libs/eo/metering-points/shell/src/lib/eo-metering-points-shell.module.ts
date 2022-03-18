@@ -14,5 +14,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './lib/absolute-url-generator.service';
-export * from './lib/title/eo-title.store';
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import {
+  EoMeteringPointsShellScam,
+  EoMeteringPointsShellComponent,
+} from './eo-metering-points-shell.component';
+
+const routes: Routes = [
+  {
+    path: '',
+    component: EoMeteringPointsShellComponent,
+  },
+];
+
+@NgModule({
+  imports: [RouterModule.forChild(routes), EoMeteringPointsShellScam],
+})
+export class EoMeteringPointsShellModule {}
