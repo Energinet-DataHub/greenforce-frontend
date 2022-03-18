@@ -36,7 +36,7 @@ import { WattIconModule, WattIconSize } from '@energinet-datahub/watt';
   ],
   template: `
     <eo-inline-message type="warning">
-      <watt-icon name="primary_info_icon" [size]="iconSize.Large"></watt-icon>
+      <watt-icon name="primary_info" [size]="iconSize.Large"></watt-icon>
 
       <p>
         The Energy Origin Platform is <strong>under development</strong> and new

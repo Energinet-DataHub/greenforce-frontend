@@ -70,10 +70,7 @@ const selector = 'eo-landing-page-call-to-action';
             target="_blank"
             rel="nofollow noopener"
           >
-            <watt-icon
-              name="primary_info_icon"
-              [size]="iconSize.Large"
-            ></watt-icon>
+            <watt-icon name="primary_info" [size]="iconSize.Large"></watt-icon>
           </a>
         </h2>
 
