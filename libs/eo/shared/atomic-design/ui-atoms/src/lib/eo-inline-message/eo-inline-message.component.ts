@@ -17,6 +17,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  HostBinding,
   Input,
   NgModule,
 } from '@angular/core';
@@ -28,63 +29,64 @@ export type InlineMessageType =
   | 'success'
   | 'warning';
 
+const selector = 'eo-inline-message';
+
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'eo-inline-message',
+  selector,
   styles: [
     `
-      :host {
-        display: block;
-      }
+      @use '@energinet-datahub/watt/utils' as watt;
 
-      .container {
+      :host {
+        @include watt.space-inset-m;
+
         display: flex;
 
         background: var(--watt-color-neutral-white);
         box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.08);
         color: var(--watt-color-primary-dark);
 
-        &--info {
-          background: var(--watt-color-state-info);
-          color: var(--watt-color-neutral-white);
-        }
-
-        &--success {
-          background: var(--watt-color-state-success);
-          color: var(--watt-color-neutral-white);
-        }
-
-        &--danger {
-          background: var(--watt-color-state-danger);
-          color: var(--watt-color-neutral-white);
-        }
-
-        &--warning {
-          background: #fef5d5; // var(--watt-color-state-warning); // Wrong yellow watt vs Figma
-          color: var(--watt-color-primary-dark);
-        }
-
         ::ng-deep watt-icon {
           margin-right: var(--watt-space-l);
         }
       }
+
+      .${selector}--info {
+        background: var(--watt-color-state-info);
+        color: var(--watt-color-neutral-white);
+      }
+
+      .${selector}--success {
+        background: var(--watt-color-state-success);
+        color: var(--watt-color-neutral-white);
+      }
+
+      .${selector}--danger {
+        background: var(--watt-color-state-danger);
+        color: var(--watt-color-neutral-white);
+      }
+
+      .${selector}--warning {
+        background: #fef5d5; // var(--watt-color-state-warning); // Wrong yellow watt vs Figma
+        color: var(--watt-color-primary-dark);
+      }
     `,
   ],
   template: `
-    <div class="container {{ containerModifier }} watt-space-inset-m">
-      <div>
-        <ng-content select="watt-icon"></ng-content>
-      </div>
+    <div>
+      <ng-content select="watt-icon"></ng-content>
+    </div>
 
-      <div class="content">
-        <ng-content></ng-content>
-      </div>
+    <div>
+      <ng-content></ng-content>
     </div>
   `,
 })
 export class EoInlineMessageComponent {
-  get containerModifier(): string {
-    return this.type === 'default' ? '' : `container--${this.type}`;
+  @HostBinding('className')
+  get modifierClassName(): string {
+    return this.type === 'default' ? '' : `${selector}--${this.type}`;
   }
 
   @Input()
