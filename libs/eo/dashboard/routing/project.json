@@ -2,7 +2,7 @@
   "projectType": "library",
   "root": "libs/eo/dashboard/routing",
   "sourceRoot": "libs/eo/dashboard/routing/src",
-  "prefix": "energinet-datahub",
+  "prefix": "eo",
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",

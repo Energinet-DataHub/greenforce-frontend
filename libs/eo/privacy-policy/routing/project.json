@@ -2,7 +2,7 @@
   "projectType": "library",
   "root": "libs/eo/privacy-policy/routing",
   "sourceRoot": "libs/eo/privacy-policy/routing/src",
-  "prefix": "energinet-datahub",
+  "prefix": "eo",
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",

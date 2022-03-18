@@ -2,7 +2,7 @@
   "projectType": "library",
   "root": "libs/eo/metering-points/routing",
   "sourceRoot": "libs/eo/metering-points/routing/src",
-  "prefix": "energinet-datahub",
+  "prefix": "eo",
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
