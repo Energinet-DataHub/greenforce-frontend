@@ -68,9 +68,9 @@ const selector = 'ett-shell';
         }
 
         .watt-main-content {
-          min-height: calc(
-            100% - 64px - var(--watt-space-l)
-          ); // 48px is = available screen height minus the top bar
+          --top-app-bar-height: var(--watt-space-xl);
+
+          min-height: calc(100% - var(--top-app-bar-height));
           padding: 0 !important; // We remove the padding, so we can stretch the footer out in full width
 
           /**
