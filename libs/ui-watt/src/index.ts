@@ -14,8 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export { WattAutocompleteComponent } from './lib/components/autocomplete/autocomplete.component';
-export { WattAutocompleteModule } from './lib/components/autocomplete/autocomplete.module';
+export { WattDropdownModule } from './lib/components/dropdown/watt-dropdown.module';
 export { WattColor } from './lib/foundations/color/colors';
 export { WattColorHelperService } from './lib/foundations/color/color-helper.service';
 export { WattFormFieldModule } from './lib/components/form-field/form-field.module';
@@ -26,6 +25,7 @@ export { WattShellModule } from './lib/components/shell/shell.module';
 export * from './lib/components/badge';
 export * from './lib/components/button';
 export * from './lib/components/checkbox';
+export * from './lib/components/dropdown';
 export * from './lib/components/empty-state';
 export * from './lib/components/expansion';
 export * from './lib/components/shell/nav-list';
