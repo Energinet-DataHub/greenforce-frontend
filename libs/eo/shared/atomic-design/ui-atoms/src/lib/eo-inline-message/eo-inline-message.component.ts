@@ -1,3 +1,12 @@
+import {
+  ChangeDetectionStrategy,
+  Component,
+  HostBinding,
+  Input,
+  NgModule,
+  ViewEncapsulation,
+} from '@angular/core';
+
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,14 +23,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  ChangeDetectionStrategy,
-  Component,
-  HostBinding,
-  Input,
-  NgModule,
-} from '@angular/core';
-
 export type InlineMessageType =
   | 'danger'
   | 'default'
@@ -33,12 +34,13 @@ const selector = 'eo-inline-message';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
   selector,
   styles: [
     `
       @use '@energinet-datahub/watt/utils' as watt;
 
-      :host {
+      .${selector} {
         @include watt.space-inset-m;
 
         display: flex;
@@ -47,7 +49,7 @@ const selector = 'eo-inline-message';
         box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.08);
         color: var(--watt-color-primary-dark);
 
-        ::ng-deep watt-icon {
+        watt-icon {
           margin-right: var(--watt-space-l);
         }
       }
@@ -86,7 +88,10 @@ const selector = 'eo-inline-message';
 export class EoInlineMessageComponent {
   @HostBinding('className')
   get modifierClassName(): string {
-    return this.type === 'default' ? '' : `${selector}--${this.type}`;
+    return [
+      selector,
+      this.type === 'default' ? '' : `${selector}--${this.type}`,
+    ].join(' ');
   }
 
   @Input()
