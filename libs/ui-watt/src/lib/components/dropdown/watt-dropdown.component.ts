@@ -112,6 +112,8 @@ export class WattDropdownComponent
 
   /**
    * Label to be shown when no entries are found.
+   *
+   * Note: The label is visible in "multiple" mode only.
    */
   @Input() noEntriesFoundLabel = '';
 
