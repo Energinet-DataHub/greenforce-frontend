@@ -109,7 +109,7 @@ export const multiSelect: Story<WattDropdownComponent> = (
   args: Partial<WattDropdownComponent>
 ) => ({
   props: {
-    singleSelectionModel: null,
+    multiSelectionModel: null,
     options: args.options,
     placeholder: args.placeholder,
     noEntriesFoundLabel: args.noEntriesFoundLabel,
@@ -117,7 +117,7 @@ export const multiSelect: Story<WattDropdownComponent> = (
   template: `<watt-form-field>
     <watt-dropdown
       [multiple]="true"
-      [(ngModel)]="singleSelectionModel"
+      [(ngModel)]="multiSelectionModel"
       [placeholder]="placeholder"
       [noEntriesFoundLabel]="noEntriesFoundLabel"
       [options]="options"></watt-dropdown>
