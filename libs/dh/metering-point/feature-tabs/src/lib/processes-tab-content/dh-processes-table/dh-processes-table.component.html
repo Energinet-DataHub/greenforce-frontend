@@ -140,10 +140,12 @@ limitations under the License.
       [class.expanded]='row.expanded'
       (click)='row.expanded = !row.expanded'
       class='clickable'
+      data-testid='processRow'
     ></mat-row>
     <mat-row
       *matRowDef="let row; columns: ['expandedDetail']"
       class='expandable'
+      data-testid='detailRow'
     ></mat-row>
   </mat-table>
 </ng-container>

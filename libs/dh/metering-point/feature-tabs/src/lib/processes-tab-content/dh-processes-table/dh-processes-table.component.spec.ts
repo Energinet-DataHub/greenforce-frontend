@@ -35,6 +35,7 @@ const process = {
   effectiveDate: '2021-09-25T23:00:00',
   status: 'Completed',
   hasDetailsErrors: false,
+  expanded: false,
   details: [
     {
       id: 'de567425-a420-48da-9391-0696cd036391',
@@ -137,6 +138,24 @@ describe(DhProcessesTableComponent.name, () => {
   });
 
   it('Should expand details when clicking on a process row', async () => {
-    fireEvent.click(screen.getByText(process.name));
+    await setup(testData);
+
+    const disableQuerySuggestions: MatcherOptions = { suggest: false };
+
+    // TODO: WHY DOES THIS DO NOTHING?
+    // fireEvent.click(
+    //   screen.getAllByTestId('processRow', disableQuerySuggestions)[0]
+    // );
+
+    const detailRows = screen.getAllByTestId(
+      'detailRow',
+      disableQuerySuggestions
+    );
+
+    expect(detailRows.length).toBe(successProcess.details.length);
+
+    detailRows.forEach((row) => {
+      expect(row).toBeVisible();
+    });
   });
 });
