@@ -124,7 +124,7 @@ describe(DhProcessesDetailItemComponent.name, () => {
 
     const disableQuerySuggestions: MatcherOptions = { suggest: false };
     const processes = screen.getAllByTestId(
-      'processhasDetailsErrors',
+      'processHasDetailsErrors',
       disableQuerySuggestions
     );
 

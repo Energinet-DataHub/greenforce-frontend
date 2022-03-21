@@ -21,7 +21,7 @@ import {
 } from './dh-processes-table.component';
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
 import { runOnPushChangeDetection } from '@energinet-datahub/dh/shared/test-util-metering-point';
-import { render, screen } from '@testing-library/angular';
+import { fireEvent, render, screen } from '@testing-library/angular';
 import { MatcherOptions } from '@testing-library/dom';
 
 const succeededProcessId = '2c4024f5-762d-4a41-a75e-d045c0ed6572';
@@ -124,7 +124,7 @@ describe(DhProcessesTableComponent.name, () => {
 
     const disableQuerySuggestions: MatcherOptions = { suggest: false };
     const processes = screen.getAllByTestId(
-      'processhasDetailsErrors',
+      'processHasDetailsErrors',
       disableQuerySuggestions
     );
 
@@ -134,5 +134,9 @@ describe(DhProcessesTableComponent.name, () => {
     expect(processes[1].getElementsByTagName('mat-icon')[0].innerHTML).toBe(
       'check_circle'
     );
+  });
+
+  it('Should expand details when clicking on a process row', async () => {
+    fireEvent.click(screen.getByText(process.name));
   });
 });
