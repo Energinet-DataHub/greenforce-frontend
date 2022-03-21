@@ -65,11 +65,11 @@ const howToUseGuideBasic = `
  
  options: WattDropdownOption[] = [{ value: 'example', displayValue: 'Example' }]
  
- 3. Assign the model and options to the dropdown component
+ 4. Assign the model and options to the dropdown component
  
  <watt-dropdown [(ngModel)]="singleSelectionModel" [options]="options"></watt-dropdown>
  
- 4. Wrap the dropdown component in a "watt-form-field"
+ 5. Wrap the dropdown component in a "watt-form-field"
 
  <watt-form-field>
   <watt-dropdown [(ngModel)]="singleSelectionModel" [options]="options"></watt-dropdown>
