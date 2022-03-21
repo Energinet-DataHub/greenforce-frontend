@@ -111,21 +111,21 @@ export const multiSelect: Story<WattDropdownComponent> = (
     exampleFormControl: new FormControl(null),
     options: args.options,
     placeholder: args.placeholder,
-    noEntriesFoundLabel: args.noEntriesFoundLabel,
+    noOptionsFoundLabel: args.noOptionsFoundLabel,
   },
   template: `<watt-form-field>
     <watt-dropdown
       [multiple]="true"
       [formControl]="exampleFormControl"
       [placeholder]="placeholder"
-      [noEntriesFoundLabel]="noEntriesFoundLabel"
+      [noOptionsFoundLabel]="noOptionsFoundLabel"
       [options]="options"></watt-dropdown>
   </watt-form-field>`,
 });
 multiSelect.args = {
   options: dropdownOptions,
   placeholder: 'Select a team',
-  noEntriesFoundLabel: 'No team found.',
+  noOptionsFoundLabel: 'No team found.',
 };
 multiSelect.parameters = {
   docs: {

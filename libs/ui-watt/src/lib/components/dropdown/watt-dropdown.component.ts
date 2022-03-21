@@ -111,11 +111,11 @@ export class WattDropdownComponent
   @Input() placeholder = '';
 
   /**
-   * Label to be shown when no entries are found.
+   * Label to be shown when no options are found after filtering.
    *
    * Note: The label is visible in "multiple" mode only.
    */
-  @Input() noEntriesFoundLabel = '';
+  @Input() noOptionsFoundLabel = '';
 
   constructor(@Host() private parentControlDirective: NgControl) {
     this.parentControlDirective.valueAccessor = this;
