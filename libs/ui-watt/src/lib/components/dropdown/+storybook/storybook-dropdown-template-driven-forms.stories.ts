@@ -15,12 +15,7 @@
  * limitations under the License.
  */
 import { Meta, moduleMetadata, Story } from '@storybook/angular';
-import {
-  FormControl,
-  FormsModule,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { WattFormFieldModule } from '../../form-field/form-field.module';
@@ -37,13 +32,12 @@ const dropdownOptions: WattDropdownOption[] = [
 ];
 
 export default {
-  title: 'Components/Dropdown/Reactive Forms',
+  title: 'Components/Dropdown/Template-driven Forms',
   component: WattDropdownComponent,
   decorators: [
     moduleMetadata({
       imports: [
         FormsModule,
-        ReactiveFormsModule,
         BrowserAnimationsModule,
         WattDropdownModule,
         WattFormFieldModule,
@@ -59,36 +53,40 @@ const howToUseGuideBasic = `
  
  import { ${WattDropdownModule.name} } from '@energinet-datahub/watt';
 
- 2a. Create FormControl in a component and define dropdown options.
+ 2a. Create model in a component for single selection
  
- exampleFormControl = new FormControl(null);
+ singleSelectionModel = '';
 
- 2b. Define dropdown options by using the WattDropdownOption interface
-
+ 2b. Create model in a component for multi selection
+ 
+ multiSelectionModel: string[] | null = null;
+ 
+ 3. Define dropdown options by using the WattDropdownOption interface
+ 
  options: WattDropdownOption[] = [{ value: 'example', displayValue: 'Example' }]
  
- 3. Assign the FormControl and options to the dropdown component
+ 3. Assign the model and options to the dropdown component
  
- <watt-dropdown [formControl]="exampleFormControl" [options]="options"></watt-dropdown>
+ <watt-dropdown [(ngModel)]="singleSelectionModel" [options]="options"></watt-dropdown>
  
  4. Wrap the dropdown component in a "watt-form-field"
 
  <watt-form-field>
-  <watt-dropdown [formControl]="exampleFormControl" [options]="options"></watt-dropdown>
+  <watt-dropdown [(ngModel)]="singleSelectionModel" [options]="options"></watt-dropdown>
  </watt-form-field>`;
 
 export const singleSelect: Story<WattDropdownComponent> = (
   args: Partial<WattDropdownComponent>
 ) => ({
   props: {
-    exampleFormControl: new FormControl(null),
+    singleSelectionModel: '',
     options: args.options,
     placeholder: args.placeholder,
     noEntriesFoundLabel: args.noEntriesFoundLabel,
   },
   template: `<watt-form-field>
     <watt-dropdown
-      [formControl]="exampleFormControl"
+      [(ngModel)]="singleSelectionModel"
       [placeholder]="placeholder"
       [noEntriesFoundLabel]="noEntriesFoundLabel"
       [options]="options"></watt-dropdown>
@@ -111,7 +109,7 @@ export const multiSelect: Story<WattDropdownComponent> = (
   args: Partial<WattDropdownComponent>
 ) => ({
   props: {
-    exampleFormControl: new FormControl(null),
+    singleSelectionModel: null,
     options: args.options,
     placeholder: args.placeholder,
     noEntriesFoundLabel: args.noEntriesFoundLabel,
@@ -119,7 +117,7 @@ export const multiSelect: Story<WattDropdownComponent> = (
   template: `<watt-form-field>
     <watt-dropdown
       [multiple]="true"
-      [formControl]="exampleFormControl"
+      [(ngModel)]="singleSelectionModel"
       [placeholder]="placeholder"
       [noEntriesFoundLabel]="noEntriesFoundLabel"
       [options]="options"></watt-dropdown>
@@ -140,11 +138,11 @@ multiSelect.parameters = {
 
 export const withLabel: Story<WattDropdownComponent> = () => ({
   props: {
-    exampleFormControl: new FormControl(null),
+    singleSelectionModel: '',
   },
   template: `<watt-form-field>
     <watt-label>Label</watt-label>
-    <watt-dropdown [formControl]="exampleFormControl"></watt-dropdown>
+    <watt-dropdown [(ngModel)]="singleSelectionModel"></watt-dropdown>
   </watt-form-field>`,
 });
 withLabel.parameters = {
@@ -157,15 +155,19 @@ withLabel.parameters = {
 
 export const withValidation: Story<WattDropdownComponent> = () => ({
   props: {
-    exampleFormControl: new FormControl(null, Validators.required),
+    singleSelectionModel: '',
     options: dropdownOptions,
   },
   template: `<watt-form-field>
     <watt-label>Label</watt-label>
+
+    <watt-dropdown
+      #singleSelection="ngModel"
+      [(ngModel)]="singleSelectionModel"
+      required
+      [options]="options"></watt-dropdown>
     
-    <watt-dropdown [formControl]="exampleFormControl" [options]="options"></watt-dropdown>
-    
-    <watt-error *ngIf="exampleFormControl.errors?.required">
+    <watt-error *ngIf="singleSelection.errors?.required">
       Field is required
     </watt-error>
   </watt-form-field>`,
