@@ -18,6 +18,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
+import { PushModule } from '@rx-angular/template';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 
 import { WattDropdownComponent } from './watt-dropdown.component';
@@ -28,6 +29,7 @@ import { WattDropdownComponent } from './watt-dropdown.component';
   imports: [
     MatSelectModule,
     CommonModule,
+    PushModule,
     ReactiveFormsModule,
     NgxMatSelectSearchModule,
   ],
