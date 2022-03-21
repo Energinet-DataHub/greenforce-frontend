@@ -84,20 +84,17 @@ export const singleSelect: Story<WattDropdownComponent> = (
     exampleFormControl: new FormControl(null),
     options: args.options,
     placeholder: args.placeholder,
-    noEntriesFoundLabel: args.noEntriesFoundLabel,
   },
   template: `<watt-form-field>
     <watt-dropdown
       [formControl]="exampleFormControl"
       [placeholder]="placeholder"
-      [noEntriesFoundLabel]="noEntriesFoundLabel"
       [options]="options"></watt-dropdown>
   </watt-form-field>`,
 });
 singleSelect.args = {
   options: dropdownOptions,
   placeholder: 'Select a team',
-  noEntriesFoundLabel: 'No team found',
 };
 singleSelect.parameters = {
   docs: {
