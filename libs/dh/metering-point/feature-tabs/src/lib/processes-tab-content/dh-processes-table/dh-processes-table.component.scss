@@ -64,61 +64,18 @@ mat-row {
   min-height: 0;
 
   mat-cell {
+    display: flex;
     flex-wrap: wrap;
     padding-left: 0;
     padding-right: 0;
   }
 }
 
-.child-row {
-  position: relative;
-  display: flex;
-  flex-wrap: wrap;
-  width: 100%;
-  margin-left: calc(var(--cell-padding) * 2);
-  padding-left: var(--cell-padding);
-  padding-right: var(--cell-padding);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
-
-  --row-state-color: var(--watt-color-neutral-grey-400);
-
-  &[state='success'] {
-    --row-state-color: var(--watt-color-state-success);
-  }
-
-  &[state='danger'] {
-    --row-state-color: var(--watt-color-state-danger);
-  }
-
-  &::before {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: calc(100% + 1px);
-    width: 4px;
-    content: '';
-    background: var(--row-state-color);
-  }
-
-  .child-cell {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    overflow: hidden;
-    word-wrap: break-word;
-    min-height: 48px;
-    min-width: 1px;
-
-    &.full-width {
-      flex: 1 1 100%;
-      margin-top: -1px;
-    }
-  }
-
-  .details-status {
-    flex: 0 1 calc(var(--cell-padding) * 2);
-  }
+dh-processes-detail-item {
+  flex: 1 0 100%;
 }
+
+
 //:host {
 //  display: block;
 //  //padding: var(--watt-space-l) 0;

@@ -139,6 +139,7 @@ limitations under the License.
       wattExpandOnClick
       [class.expanded]='row.expanded'
       (click)='row.expanded = !row.expanded'
+      class='clickable'
     ></mat-row>
     <mat-row
       *matRowDef="let row; columns: ['expandedDetail']"
