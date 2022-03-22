@@ -35,7 +35,7 @@ import { RouterModule } from '@angular/router';
 })
 export class WattNavListExternalItemComponent {
   @Input() href: string | null = null;
-  @Input() target: string | null = '_self';
+  @Input() target: '_self' | '_blank' = '_self';
 }
 
 @NgModule({

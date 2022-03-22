@@ -14,13 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+import { render } from '@testing-library/angular';
 import {
   WattNavListExternalItemComponent,
   WattNavListExternalItemScam,
 } from './watt-nav-list-external-item.component';
-
-import { render } from '@testing-library/angular';
 
 describe(WattNavListExternalItemComponent.name, () => {
   it('`href` input property is `null` by default', async () => {
