@@ -3,6 +3,7 @@ import { Configuration } from './configuration';
 import { HttpClient } from '@angular/common/http';
 
 import { ChargeLinksHttp } from './api/charge-links-http.service';
+import { MarketParticipantHttp } from './api/market-participant-http.service';
 import { MessageArchiveHttp } from './api/message-archive-http.service';
 import { MeteringPointHttp } from './api/metering-point-http.service';
 
