@@ -15,14 +15,14 @@
  * limitations under the License.
  */
 import { DhProcess } from '@energinet-datahub/dh/metering-point/domain';
-import {
-  DhProcessesTableComponent,
-  DhProcessesTableScam,
-} from './dh-processes-table.component';
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
 import { runOnPushChangeDetection } from '@energinet-datahub/dh/shared/test-util-metering-point';
 import { fireEvent, render, screen } from '@testing-library/angular';
 import { MatcherOptions } from '@testing-library/dom';
+import {
+  DhProcessesTableComponent,
+  DhProcessesTableScam,
+} from './dh-processes-table.component';
 
 const disableQuerySuggestions: MatcherOptions = { suggest: false };
 const succeededProcessId = '2c4024f5-762d-4a41-a75e-d045c0ed6572';
@@ -165,8 +165,4 @@ describe(DhProcessesTableComponent.name, () => {
     expect(successProcess.expanded).toBe(false);
     expect(detailsRow.getAttribute('style')).toContain('height:0px');
   });
-
-  // it('Should still have expanded rows after sorting', async () => {
-  //   expect(true).toBe(false);
-  // });
 });

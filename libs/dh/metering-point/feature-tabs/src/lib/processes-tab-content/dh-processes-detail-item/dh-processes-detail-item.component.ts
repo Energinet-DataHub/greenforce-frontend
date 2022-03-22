@@ -16,32 +16,15 @@
  */
 import { CommonModule } from '@angular/common';
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   Input,
   NgModule,
-  ViewChild
 } from '@angular/core';
-import {
-  MatSort,
-  MatSortable,
-  MatSortModule,
-  Sort
-} from '@angular/material/sort';
-import { MatTableModule } from '@angular/material/table';
-import { RouterModule } from '@angular/router';
-import { DhProcess } from '@energinet-datahub/dh/metering-point/domain';
+import { ProcessDetail } from '@energinet-datahub/dh/shared/domain';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 
-import {
-  WattEmptyStateModule,
-  WattIconModule,
-  WattIconSize
-} from '@energinet-datahub/watt';
-import { TranslocoModule } from '@ngneat/transloco';
-import { animate, state, style, transition, trigger } from '@angular/animations';
-import { ProcessDetail } from '@energinet-datahub/dh/shared/domain';
+import { WattIconModule, WattIconSize } from '@energinet-datahub/watt';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -57,12 +40,7 @@ export class DhProcessesDetailItemComponent {
 
 @NgModule({
   declarations: [DhProcessesDetailItemComponent],
-  imports: [
-    WattIconModule,
-    CommonModule,
-    DhSharedUiDateTimeModule
-  ],
-  exports: [DhProcessesDetailItemComponent]
+  imports: [WattIconModule, CommonModule, DhSharedUiDateTimeModule],
+  exports: [DhProcessesDetailItemComponent],
 })
-export class DhProcessesDetailItemScam {
-}
+export class DhProcessesDetailItemScam {}

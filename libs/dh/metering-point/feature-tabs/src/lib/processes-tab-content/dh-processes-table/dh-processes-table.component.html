@@ -16,7 +16,6 @@ limitations under the License.
 -->
 <ng-container *ngIf='processes && processes.length > 0; else emptyTab'>
   <mat-table
-    #matTable
     [dataSource]='sortedData'
     matSort
     multiTemplateDataRows
@@ -113,7 +112,7 @@ limitations under the License.
           <watt-icon
             [name]="row.hasDetailsErrors ? 'danger' : 'success'"
             [size]='iconSize.Medium'
-            data-testId='processhasDetailsErrors'
+            data-testId='processHasDetailsErrors'
           ></watt-icon>
         </div>
       </mat-cell>
