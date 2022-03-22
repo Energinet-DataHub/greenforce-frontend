@@ -14,17 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { DhProcess } from '@energinet-datahub/dh/metering-point/domain';
 import {
-  DhProcessesTableComponent,
+  DhProcessesDetailItemComponent,
   DhProcessesTableScam,
-} from './dh-processes-table.component';
+} from './dh-processes-detail-item.component';
+import { DhProcess } from '@energinet-datahub/dh/metering-point/domain';
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
 import { runOnPushChangeDetection } from '@energinet-datahub/dh/shared/test-util-metering-point';
-import { fireEvent, render, screen } from '@testing-library/angular';
+import { render, screen } from '@testing-library/angular';
 import { MatcherOptions } from '@testing-library/dom';
 
-const disableQuerySuggestions: MatcherOptions = { suggest: false };
 const succeededProcessId = '2c4024f5-762d-4a41-a75e-d045c0ed6572';
 const failedProcessId = '2c4024f5-762d-4a41-a75e-d045c0ed6573';
 const mpGsrn = '577512493148035787';
@@ -36,7 +35,6 @@ const process = {
   effectiveDate: '2021-09-25T23:00:00',
   status: 'Completed',
   hasDetailsErrors: false,
-  expanded: false,
   details: [
     {
       id: 'de567425-a420-48da-9391-0696cd036391',
@@ -91,9 +89,9 @@ const failedProcess: DhProcess = {
 };
 const testData: DhProcess[] = [successProcess, failedProcess];
 
-describe(DhProcessesTableComponent.name, () => {
+describe(DhProcessesDetailItemComponent.name, () => {
   async function setup(processes?: DhProcess[]) {
-    const { fixture } = await render(DhProcessesTableComponent, {
+    const { fixture } = await render(DhProcessesDetailItemComponent, {
       componentProperties: {
         processes: processes,
       },
@@ -108,6 +106,7 @@ describe(DhProcessesTableComponent.name, () => {
   it(`Should show a single row of process data`, async () => {
     await setup(testData);
 
+    const disableQuerySuggestions: MatcherOptions = { suggest: false };
     const actualProcessNames = screen.getAllByTestId(
       'processName',
       disableQuerySuggestions
@@ -136,37 +135,4 @@ describe(DhProcessesTableComponent.name, () => {
       'check_circle'
     );
   });
-
-  it('Should be able to expand and collapse details by clicking on the process row', async () => {
-    await setup(testData);
-
-    const processRow = screen.getByTestId(
-      'processRow-' + succeededProcessId,
-      disableQuerySuggestions
-    );
-
-    const detailsRow = screen
-      .getByTestId('detailsRow-' + succeededProcessId, disableQuerySuggestions)
-      .getElementsByTagName('mat-cell')[0];
-
-    // Verify that the success row is set to collapsed and has height 0
-    expect(successProcess.expanded).toBe(false);
-    expect(detailsRow.getAttribute('style')).toContain('height:0px');
-
-    fireEvent.click(processRow);
-
-    // Verify that the success row is set to expanded and no longer has height 0
-    expect(successProcess.expanded).toBe(true);
-    expect(detailsRow.getAttribute('style')).not.toContain('height');
-
-    fireEvent.click(processRow);
-
-    // Verify that the success row is set to collapsed and has height 0
-    expect(successProcess.expanded).toBe(false);
-    expect(detailsRow.getAttribute('style')).toContain('height:0px');
-  });
-
-  // it('Should still have expanded rows after sorting', async () => {
-  //   expect(true).toBe(false);
-  // });
 });
