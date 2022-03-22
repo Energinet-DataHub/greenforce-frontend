@@ -20,11 +20,16 @@ import {
   NgModule,
   ViewEncapsulation,
 } from '@angular/core';
-import { EoFooterScam } from '@energinet-datahub/eo/shared/atomic-design/ui-organisms';
-import { EoProductLogoScam } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
-import { EttPrimaryNavigationScam } from './ett-primary-navigation.component';
 import { RouterModule } from '@angular/router';
+import { eoPrivacyPolicyRoutePath } from '@energinet-datahub/eo/privacy-policy/routing';
+import { EoProductLogoScam } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
+import { EoFooterScam } from '@energinet-datahub/eo/shared/atomic-design/ui-organisms';
+import { EoTitleStore } from '@energinet-datahub/ett/shared/util-browser';
 import { WattShellModule } from '@energinet-datahub/watt';
+import { PushModule } from '@rx-angular/template';
+import { Observable } from 'rxjs';
+
+import { EoPrimaryNavigationScam } from './eo-primary-navigation.component';
 
 const selector = 'ett-shell';
 
@@ -39,6 +44,12 @@ const selector = 'ett-shell';
       ${selector} {
         display: block;
 
+        .${selector}__h2 {
+          @include watt.typography-watt-headline-2; // This overrides the styles applied from Angular Material on h2 tags
+          margin-left: var(--watt-space-m);
+          color: var(--watt-color-neutral-black);
+        }
+
         watt-shell mat-sidenav.mat-drawer {
           color: var(--watt-color-primary-dark-contrast);
         }
@@ -48,10 +59,18 @@ const selector = 'ett-shell';
           padding-left: 0;
         }
 
+        watt-shell .mat-nav-list {
+          padding-top: 0;
+        }
+
+        watt-shell .watt-toolbar.watt-toolbar {
+          height: var(--watt-space-xl);
+        }
+
         .watt-main-content {
-          min-height: calc(
-            100% - 48px
-          ); // 48px is = available screen height minus the top bar
+          --top-app-bar-height: var(--watt-space-xl);
+
+          min-height: calc(100% - var(--top-app-bar-height));
           padding: 0 !important; // We remove the padding, so we can stretch the footer out in full width
 
           /**
@@ -67,18 +86,20 @@ const selector = 'ett-shell';
           grid-template-rows: 0 1fr auto;
         }
 
-        // This is the feature page/component
-        // The padding on this element has been copied from: libs/ui-watt/src/lib/components/shell/shell.component.scss
-        .watt-main-content > :nth-child(2) {
-          @include watt.space-inset-m;
-
-          @include watt.media('>Large') {
-            @include watt.space-inset-l;
-          }
+        // This is the feature/page component
+        .watt-main-content.watt-main-content > :nth-child(2) {
+          @include watt.space-inset-l;
         }
 
+        .${selector}__logo-container {
+          height: var(--watt-space-xl);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
         .${selector}__logo {
-          height: calc(8 * var(--watt-space-xs));
+          height: calc(6.5 * var(--watt-space-xs));
+          width: calc(52 * var(--watt-space-xs));
         }
 
         .${selector}__link {
@@ -93,36 +114,47 @@ const selector = 'ett-shell';
   template: `
     <watt-shell>
       <ng-container watt-shell-sidenav>
-        <ett-primary-navigation></ett-primary-navigation>
+        <div class="${selector}__logo-container">
+          <img
+            class="${selector}__logo"
+            src="/assets/images/energyorigin-logo-secondary.svg"
+          />
+        </div>
+
+        <eo-primary-navigation></eo-primary-navigation>
       </ng-container>
 
       <ng-container watt-shell-toolbar>
-        <img class="${selector}__logo" eoProductLogo />
+        <h2 class="${selector}__h2">{{ title$ | push }}</h2>
       </ng-container>
 
       <router-outlet></router-outlet>
 
       <eo-footer>
         <a
-          routerLink="/privacy-policy"
+          routerLink="/${eoPrivacyPolicyRoutePath}"
           class="${selector}__link watt-space-stack-m watt-text-s"
-          aria-label="Privacy policy"
-          >Privacy policy
-        </a>
+          >Privacy Policy</a
+        >
       </eo-footer>
     </watt-shell>
   `,
 })
-export class EttShellComponent {}
+export class EttShellComponent {
+  title$: Observable<string> = this.title.routeTitle$;
+
+  constructor(private title: EoTitleStore) {}
+}
 
 @NgModule({
   declarations: [EttShellComponent],
   imports: [
     RouterModule,
     WattShellModule,
-    EttPrimaryNavigationScam,
+    EoPrimaryNavigationScam,
     EoProductLogoScam,
     EoFooterScam,
+    PushModule,
   ],
 })
 export class EttShellScam {}

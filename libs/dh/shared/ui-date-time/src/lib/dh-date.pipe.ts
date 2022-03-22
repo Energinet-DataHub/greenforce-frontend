@@ -31,9 +31,6 @@ export class DhDatePipe implements PipeTransform {
    * @returns
    */
   transform(maybeIso8601DateTime: TValue): string | null {
-    return dhFormatDanishDatetime(
-      maybeIso8601DateTime,
-      this.dateFormat
-    );
+    return dhFormatDanishDatetime(maybeIso8601DateTime, this.dateFormat);
   }
 }
