@@ -18,4 +18,5 @@ import { Process } from '@energinet-datahub/dh/shared/domain';
 
 export interface DhProcess extends Process {
   hasDetailsErrors: boolean;
+  expanded: boolean;
 }
