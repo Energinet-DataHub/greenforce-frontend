@@ -14,13 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- import { NgModule } from '@angular/core';
- import { RouterModule, Routes } from '@angular/router';
-import { DhMarketParticipantOrganizationComponent, DhMarketParticipantOrganizationScam } from 'libs/dh/market-participant/feature-organization/src';
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import {
+  DhMarketParticipantOrganizationComponent,
+  DhMarketParticipantOrganizationScam,
+} from 'libs/dh/market-participant/feature-organization/src';
 
- const routes: Routes = [
-   { path: '', component: DhMarketParticipantOrganizationComponent },
- ];
+const routes: Routes = [
+  { path: '', component: DhMarketParticipantOrganizationComponent },
+];
 
 @NgModule({
   imports: [DhMarketParticipantOrganizationScam, RouterModule.forChild(routes)],
