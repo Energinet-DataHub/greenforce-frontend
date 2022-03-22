@@ -19,7 +19,7 @@ import { RouterModule, Routes } from '@angular/router';
 import {
   DhMarketParticipantOrganizationComponent,
   DhMarketParticipantOrganizationScam,
-} from 'libs/dh/market-participant/feature-organization/src';
+} from '@energinet-datahub/dh/market-participant/feature-organization';
 
 const routes: Routes = [
   { path: '', component: DhMarketParticipantOrganizationComponent },

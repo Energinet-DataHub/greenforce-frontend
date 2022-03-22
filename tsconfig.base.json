@@ -39,7 +39,7 @@
       "@energinet-datahub/dh/globalization/feature-language-picker": [
         "libs/dh/globalization/feature-language-picker/src/index.ts"
       ],
-      "@energinet-datahub/dh/market-participant/": [
+      "@energinet-datahub/dh/market-participant/feature-organization": [
         "libs/dh/market-participant/feature-organization/src/index.ts"
       ],
       "@energinet-datahub/dh/market-participant/data-access-api": [
