@@ -24,6 +24,7 @@ import { runOnPushChangeDetection } from '@energinet-datahub/dh/shared/test-util
 import { fireEvent, render, screen } from '@testing-library/angular';
 import { MatcherOptions } from '@testing-library/dom';
 
+const disableQuerySuggestions: MatcherOptions = { suggest: false };
 const succeededProcessId = '2c4024f5-762d-4a41-a75e-d045c0ed6572';
 const failedProcessId = '2c4024f5-762d-4a41-a75e-d045c0ed6573';
 const mpGsrn = '577512493148035787';
@@ -107,7 +108,6 @@ describe(DhProcessesTableComponent.name, () => {
   it(`Should show a single row of process data`, async () => {
     await setup(testData);
 
-    const disableQuerySuggestions: MatcherOptions = { suggest: false };
     const actualProcessNames = screen.getAllByTestId(
       'processName',
       disableQuerySuggestions
@@ -137,25 +137,36 @@ describe(DhProcessesTableComponent.name, () => {
     );
   });
 
-  it('Should expand details when clicking on a process row', async () => {
+  it('Should be able to expand and collapse details by clicking on the process row', async () => {
     await setup(testData);
 
-    const disableQuerySuggestions: MatcherOptions = { suggest: false };
-
-    // TODO: WHY DOES THIS DO NOTHING?
-    // fireEvent.click(
-    //   screen.getAllByTestId('processRow', disableQuerySuggestions)[0]
-    // );
-
-    const detailRows = screen.getAllByTestId(
-      'detailRow',
+    const processRow = screen.getByTestId(
+      'processRow-' + succeededProcessId,
       disableQuerySuggestions
     );
 
-    expect(detailRows.length).toBe(successProcess.details.length);
+    const detailsRow = screen
+      .getByTestId('detailsRow-' + succeededProcessId, disableQuerySuggestions)
+      .getElementsByTagName('mat-cell')[0];
 
-    detailRows.forEach((row) => {
-      expect(row).toBeVisible();
-    });
+    // Verify that the success row is set to collapsed and has height 0
+    expect(successProcess.expanded).toBe(false);
+    expect(detailsRow.getAttribute('style')).toContain('height:0px');
+
+    fireEvent.click(processRow);
+
+    // Verify that the success row is set to expanded and no longer has height 0
+    expect(successProcess.expanded).toBe(true);
+    expect(detailsRow.getAttribute('style')).not.toContain('height');
+
+    fireEvent.click(processRow);
+
+    // Verify that the success row is set to collapsed and has height 0
+    expect(successProcess.expanded).toBe(false);
+    expect(detailsRow.getAttribute('style')).toContain('height:0px');
   });
+
+  // it('Should still have expanded rows after sorting', async () => {
+  //   expect(true).toBe(false);
+  // });
 });
