@@ -18,6 +18,7 @@ using System.Reflection;
 using System.Text.Json.Serialization;
 using Energinet.DataHub.Charges.Clients.Registration.ChargeLinks.ServiceCollectionExtensions;
 using Energinet.DataHub.Core.App.WebApp.Middleware;
+using Energinet.DataHub.MarketParticipant.Client;
 using Energinet.DataHub.MessageArchive.Client.Extensions;
 using Energinet.DataHub.MeteringPoints.Client.Extensions;
 using Microsoft.AspNetCore.Builder;
@@ -147,6 +148,7 @@ namespace Energinet.DataHub.WebApi
             AddMeteringPointClient(services, apiClientSettings);
             AddChargeLinksClient(services, apiClientSettings);
             AddMessageArchiveClient(services, apiClientSettings);
+            AddMarketParticipantClient(services, apiClientSettings);
         }
 
         private static void AddChargeLinksClient(IServiceCollection services, ApiClientSettings apiClientSettings)
@@ -177,6 +179,16 @@ namespace Energinet.DataHub.WebApi
                 : new Uri(emptyUrl);
 
             services.AddMessageArchiveClient(messageArchiveBaseUrl);
+        }
+
+        private static void AddMarketParticipantClient(IServiceCollection services, ApiClientSettings? apiClientSettings)
+        {
+            string emptyUrl = "https://empty";
+            Uri messageArchiveBaseUrl = Uri.TryCreate(apiClientSettings?.MarketParticipantBaseUrl, UriKind.Absolute, out var url)
+                ? url
+                : new Uri(emptyUrl);
+
+            services.AddMarketParticipantClient(messageArchiveBaseUrl);
         }
     }
 }
