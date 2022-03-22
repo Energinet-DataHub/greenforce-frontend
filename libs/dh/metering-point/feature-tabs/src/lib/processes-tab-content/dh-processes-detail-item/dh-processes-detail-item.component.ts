@@ -21,13 +21,13 @@ import {
   Component,
   Input,
   NgModule,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
 import {
   MatSort,
   MatSortable,
   MatSortModule,
-  Sort
+  Sort,
 } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { RouterModule } from '@angular/router';
@@ -37,10 +37,16 @@ import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-t
 import {
   WattEmptyStateModule,
   WattIconModule,
-  WattIconSize
+  WattIconSize,
 } from '@energinet-datahub/watt';
 import { TranslocoModule } from '@ngneat/transloco';
-import { animate, state, style, transition, trigger } from '@angular/animations';
+import {
+  animate,
+  state,
+  style,
+  transition,
+  trigger,
+} from '@angular/animations';
 import { ProcessDetail } from '@energinet-datahub/dh/shared/domain';
 
 @Component({
@@ -57,12 +63,7 @@ export class DhProcessesDetailItemComponent {
 
 @NgModule({
   declarations: [DhProcessesDetailItemComponent],
-  imports: [
-    WattIconModule,
-    CommonModule,
-    DhSharedUiDateTimeModule
-  ],
-  exports: [DhProcessesDetailItemComponent]
+  imports: [WattIconModule, CommonModule, DhSharedUiDateTimeModule],
+  exports: [DhProcessesDetailItemComponent],
 })
-export class DhProcessesDetailItemScam {
-}
+export class DhProcessesDetailItemScam {}
