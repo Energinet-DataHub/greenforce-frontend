@@ -23,15 +23,15 @@ import {
 import { render } from '@testing-library/angular';
 
 describe(WattNavListExternalItemComponent.name, () => {
-   it('`href` input property is `null` by default', async () => {
-     const view = await render(WattNavListExternalItemComponent, {
-       imports: [WattNavListExternalItemScam],
-     });
-     const component = view.fixture.componentInstance;
-     expect(component.href).toBeNull();
-   });
+  it('`href` input property is `null` by default', async () => {
+    const view = await render(WattNavListExternalItemComponent, {
+      imports: [WattNavListExternalItemScam],
+    });
+    const component = view.fixture.componentInstance;
+    expect(component.href).toBeNull();
+  });
 
-   it('`target` input property is `_self` by default', async () => {
+  it('`target` input property is `_self` by default', async () => {
     const view = await render(WattNavListExternalItemComponent, {
       imports: [WattNavListExternalItemScam],
     });
