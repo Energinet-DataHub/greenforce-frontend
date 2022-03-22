@@ -50,7 +50,9 @@ import { eoMeteringPointsRoutePath } from '@energinet-datahub/eo/metering-points
         >Metering Points</watt-nav-list-item
       >
 
-      <watt-nav-list-external-item href="https://www.figma.com/proto/GvFueW0dNEAF4vUBonZqtv/Energioprindelse.dk?page-id=1%3A7&node-id=732%3A2369&viewport=257%2C48%2C0.09&scaling=min-zoom&starting-point-node-id=732%3A2369&hotspot-hints=0&hide-ui=1">
+      <watt-nav-list-external-item
+        href="https://www.figma.com/proto/GvFueW0dNEAF4vUBonZqtv/Energioprindelse.dk?page-id=1%3A7&node-id=732%3A2369&viewport=257%2C48%2C0.09&scaling=min-zoom&starting-point-node-id=732%3A2369&hotspot-hints=0&hide-ui=1"
+      >
         FAQ</watt-nav-list-external-item
       >
 

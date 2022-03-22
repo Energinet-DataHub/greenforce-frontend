@@ -29,11 +29,7 @@ import { RouterModule } from '@angular/router';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'watt-nav-list-external-item',
-  template: `<a
-    mat-list-item
-    mat-ripple
-    [href]="href"
-    [target]="target"
+  template: `<a mat-list-item mat-ripple [href]="href" [target]="target"
     ><ng-content></ng-content
   ></a>`,
 })
