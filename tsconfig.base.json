@@ -42,6 +42,9 @@
       "@energinet-datahub/dh/market-participant/": [
         "libs/dh/market-participant/feature-organization/src/index.ts"
       ],
+      "@energinet-datahub/dh/market-participant/data-access-api": [
+        "libs/dh/market-participant/data-access-api/src/index.ts"
+      ],
       "@energinet-datahub/dh/market-participant/shell": [
         "libs/dh/market-participant/shell/src/index.ts"
       ],
