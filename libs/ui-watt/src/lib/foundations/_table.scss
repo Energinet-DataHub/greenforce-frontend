@@ -27,7 +27,7 @@ mat-table,
     @include typography.watt-label;
   }
 
-  mat-row:hover {
+  mat-row.clickable {
     cursor: pointer;
   }
 
