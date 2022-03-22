@@ -23,7 +23,6 @@ import {
 } from '@angular/core';
 
 import { EoLogOutStore } from '@energinet-datahub/ett/auth/data-access-security';
-import { MatListModule } from '@angular/material/list';
 import { WattNavListModule } from '@energinet-datahub/watt';
 import { eoDashboardRoutePath } from '@energinet-datahub/eo/dashboard/routing';
 import { eoMeteringPointsRoutePath } from '@energinet-datahub/eo/metering-points/routing';
@@ -77,6 +76,6 @@ export class EoPrimaryNavigationComponent {
 @NgModule({
   declarations: [EoPrimaryNavigationComponent],
   exports: [EoPrimaryNavigationComponent],
-  imports: [MatListModule, WattNavListModule],
+  imports: [WattNavListModule],
 })
 export class EoPrimaryNavigationScam {}
