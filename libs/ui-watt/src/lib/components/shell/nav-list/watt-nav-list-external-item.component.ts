@@ -18,30 +18,29 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  Input,
   NgModule,
-  ViewEncapsulation,
 } from '@angular/core';
 
 import { MatListModule } from '@angular/material/list';
-import { WattNavListExternalItemScam } from './watt-nav-list-external-item.component';
-import { WattNavListItemScam } from './watt-nav-list-item.component';
+import { MatRippleModule } from '@angular/material/core';
+import { RouterModule } from '@angular/router';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None,
-  selector: 'watt-nav-list',
-  styleUrls: ['./watt-nav-list.component.scss'],
-  template: `<mat-nav-list><ng-content></ng-content></mat-nav-list>`,
+  selector: 'watt-nav-list-external-item',
+  template: `<a mat-list-item mat-ripple [href]="href" [target]="target"
+    ><ng-content></ng-content
+  ></a>`,
 })
-export class WattNavListComponent {}
+export class WattNavListExternalItemComponent {
+  @Input() href: string | null = null;
+  @Input() target: '_self' | '_blank' = '_self';
+}
 
 @NgModule({
-  declarations: [WattNavListComponent],
-  exports: [
-    WattNavListComponent,
-    WattNavListItemScam,
-    WattNavListExternalItemScam,
-  ],
-  imports: [MatListModule],
+  declarations: [WattNavListExternalItemComponent],
+  exports: [WattNavListExternalItemComponent],
+  imports: [RouterModule, MatListModule, MatRippleModule],
 })
-export class WattNavListModule {}
+export class WattNavListExternalItemScam {}

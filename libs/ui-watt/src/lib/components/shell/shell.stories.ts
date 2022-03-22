@@ -14,16 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Router } from '@angular/router';
+
 import { APP_INITIALIZER, Component } from '@angular/core';
+import { Meta, Story, moduleMetadata } from '@storybook/angular';
+
 import { APP_BASE_HREF } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { moduleMetadata, Story, Meta } from '@storybook/angular';
-
+import { WattNavListModule } from './nav-list';
 import { WattShellComponent } from './shell.component';
 import { WattShellModule } from './shell.module';
-import { WattNavListModule } from './nav-list';
 
 export default {
   title: 'Components/Shell',
@@ -77,6 +78,7 @@ const withSidebarNavigationTemplate = `
       <watt-nav-list-item link="/menu-1">Menu 1</watt-nav-list-item>
       <watt-nav-list-item link="/menu-2">Menu 2</watt-nav-list-item>
       <watt-nav-list-item link="/menu-3">Menu 3</watt-nav-list-item>
+      <watt-nav-list-external-item href="https://angular.io/" target="_blank">External link (angular.io)</watt-nav-list-external-item>
     </watt-nav-list>
   </ng-container>
 

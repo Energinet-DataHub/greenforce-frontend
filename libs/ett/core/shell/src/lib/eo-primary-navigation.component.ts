@@ -14,16 +14,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 import {
   ChangeDetectionStrategy,
   Component,
   HostBinding,
   NgModule,
 } from '@angular/core';
-import { eoDashboardRoutePath } from '@energinet-datahub/eo/dashboard/routing';
-import { eoMeteringPointsRoutePath } from '@energinet-datahub/eo/metering-points/routing';
+
 import { EoLogOutStore } from '@energinet-datahub/ett/auth/data-access-security';
 import { WattNavListModule } from '@energinet-datahub/watt';
+import { eoDashboardRoutePath } from '@energinet-datahub/eo/dashboard/routing';
+import { eoMeteringPointsRoutePath } from '@energinet-datahub/eo/metering-points/routing';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -45,6 +47,12 @@ import { WattNavListModule } from '@energinet-datahub/watt';
 
       <watt-nav-list-item link="/${eoMeteringPointsRoutePath}"
         >Metering Points</watt-nav-list-item
+      >
+
+      <watt-nav-list-external-item
+        href="https://www.figma.com/proto/GvFueW0dNEAF4vUBonZqtv/Energioprindelse.dk?page-id=1%3A7&node-id=732%3A2369&viewport=257%2C48%2C0.09&scaling=min-zoom&starting-point-node-id=732%3A2369&hotspot-hints=0&hide-ui=1"
+      >
+        FAQ</watt-nav-list-external-item
       >
 
       <watt-nav-list-item (click)="onLogOut()" role="link">
