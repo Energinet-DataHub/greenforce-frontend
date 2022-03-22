@@ -22,5 +22,5 @@
       }
     }
   },
-  "tags": ["product:dh domain:market-participant type:feature"]
+  "tags": ["product:dh", "domain:market-participant", "type:feature"]
 }
