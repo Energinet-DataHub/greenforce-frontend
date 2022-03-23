@@ -36,7 +36,6 @@ const process = {
   effectiveDate: '2021-09-25T23:00:00',
   status: 'Completed',
   hasDetailsErrors: false,
-  expanded: false,
   details: [
     {
       id: 'de567425-a420-48da-9391-0696cd036391',

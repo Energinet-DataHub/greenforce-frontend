@@ -14,13 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  animate,
-  state,
-  style,
-  transition,
-  trigger,
-} from '@angular/animations';
 import { CommonModule } from '@angular/common';
 import {
   AfterViewInit,
@@ -48,28 +41,13 @@ import {
 } from '@energinet-datahub/watt';
 import { TranslocoModule } from '@ngneat/transloco';
 import { DhProcessesDetailItemScam } from '../dh-processes-detail-item/dh-processes-detail-item.component';
+import { DhProcessesTableRow } from './dh-processes-table-row';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'dh-processes-table',
   templateUrl: './dh-processes-table.component.html',
   styleUrls: ['./dh-processes-table.component.scss'],
-  animations: [
-    // TODO: This currently breaks when sorting the table after expanding some rows. The solution might be to switch to a pure CSS solution.
-    //   https://localcoder.org/matsort-breaks-mattable-detail-row-animations
-    trigger('detailExpand', [
-      state('collapsed, void', style({ height: '0px', minHeight: '0' })),
-      state('expanded', style({ height: '*' })),
-      transition(
-        'expanded <=> collapsed',
-        animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')
-      ),
-      transition(
-        'expanded <=> void',
-        animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')
-      ),
-    ]),
-  ],
 })
 export class DhProcessesTableComponent implements AfterViewInit {
   displayedColumns: string[] = [
@@ -81,11 +59,31 @@ export class DhProcessesTableComponent implements AfterViewInit {
     'hasDetailsErrors',
   ];
   iconSize = WattIconSize;
-  sortedData: DhProcess[] = [];
+  sortedData: DhProcessesTableRow[] = [];
   @Input()
   processes: DhProcess[] = [];
 
   @ViewChild(MatSort) matSort?: MatSort;
+
+  private static wrapInTableRow(data: DhProcess[]): DhProcessesTableRow[] {
+    return data.map((process) => ({
+      data: process,
+      expanded: false,
+      height: 0,
+    }));
+  }
+
+  private setDefaultSorting() {
+    if (this.matSort === undefined) return;
+
+    const sortable = this.matSort.sortables.get('createdDate') as MatSortable;
+    sortable.start = 'desc';
+    this.matSort.sort(sortable);
+  }
+
+  private compare(a: number | string, b: number | string, isAsc: boolean) {
+    return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
+  }
 
   ngAfterViewInit(): void {
     if (this.processes != undefined) {
@@ -95,7 +93,9 @@ export class DhProcessesTableComponent implements AfterViewInit {
 
   sortData(sort: Sort) {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const data = this.processes!.slice();
+    const data = DhProcessesTableComponent.wrapInTableRow(
+      this.processes?.slice()
+    );
     if (!sort.active || sort.direction === '') {
       this.sortedData = data;
       this.setDefaultSorting();
@@ -106,33 +106,28 @@ export class DhProcessesTableComponent implements AfterViewInit {
       const isAsc = sort.direction === 'asc';
       switch (sort.active) {
         case 'name':
-          return this.compare(a.name, b.name, isAsc);
+          return this.compare(a.data.name, b.data.name, isAsc);
         case 'createdDate':
-          return this.compare(a.createdDate, b.createdDate, isAsc);
+          return this.compare(a.data.createdDate, b.data.createdDate, isAsc);
         case 'effectiveDate':
           return this.compare(
-            a.effectiveDate ?? '',
-            b.effectiveDate ?? '',
+            a.data.effectiveDate ?? '',
+            b.data.effectiveDate ?? '',
             isAsc
           );
         case 'status':
-          return this.compare(a.status, b.status, isAsc);
+          return this.compare(a.data.status, b.data.status, isAsc);
         default:
           return 0;
       }
     });
   }
 
-  setDefaultSorting() {
-    if (this.matSort === undefined) return;
-
-    const sortable = this.matSort.sortables.get('createdDate') as MatSortable;
-    sortable.start = 'desc';
-    this.matSort.sort(sortable);
-  }
-
-  compare(a: number | string, b: number | string, isAsc: boolean) {
-    return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
+  expandRow(event: Event, row: DhProcessesTableRow) {
+    console.log(event, row);
+    const rowToExpand = (event.target as HTMLElement).closest(
+      'mat-row'
+    ).nextElementSibling;
   }
 }
 

@@ -45,6 +45,17 @@ mat-row {
   }
 }
 
+mat-row.expandable {
+  overflow: hidden;
+  border-style: none;
+  //min-height: auto;
+  transition: max-height .4s ease-out;
+  transform-origin: top;
+  &.expanded {
+    transition: max-height .4s ease-in;
+  }
+}
+
 /*
  * Status column
  */
