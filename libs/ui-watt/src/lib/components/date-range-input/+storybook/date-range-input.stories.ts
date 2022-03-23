@@ -56,9 +56,11 @@ overview.parameters = {
 
 overview.argTypes = {
   min: {
-    description: 'Minimum value. This needs to be in the same format as the `dd-mm-yyyy`',
+    description:
+      'Minimum value. This needs to be in the same format as the `dd-mm-yyyy`',
   },
   max: {
-    description: 'Maximum value. This needs to be in the same format as the `dd-mm-yyyy`',
+    description:
+      'Maximum value. This needs to be in the same format as the `dd-mm-yyyy`',
   },
-}
+};
