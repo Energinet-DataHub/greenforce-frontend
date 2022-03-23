@@ -14,21 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { render } from '@testing-library/angular';
 
-import {
-  WattNavListItemComponent,
-  WattNavListItemScam,
-} from './watt-nav-list-item.component';
+import { WattNavListItemComponent } from './watt-nav-list-item.component';
 
 describe(WattNavListItemComponent.name, () => {
-  it('`link` input property is `null` by default', async () => {
-    const view = await render(WattNavListItemComponent, {
-      imports: [WattNavListItemScam],
-    });
+  it ('`link` input property is `null` by default', () => {
+    const comp = new WattNavListItemComponent();
+    expect(comp.link).toBeNull();
+  })
 
-    const component = view.fixture.componentInstance;
-
-    expect(component.link).toBeNull();
-  });
+  it ('`target` input property is `_self` by default', () => {
+    const comp = new WattNavListItemComponent();
+    expect(comp.target).toBe('_self');
+  })
 });
