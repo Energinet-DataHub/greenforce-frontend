@@ -1,0 +1,36 @@
+$placeholder-color: var(--watt-color-neutral-grey-600);
+
+watt-date-range-input {
+  font-family: monospace;
+
+  .watt-date-mask,
+  .mat-date-range-input-mirror,
+  input {
+    letter-spacing: -0.03em;
+  }
+
+  .mat-date-range-input-end-wrapper {
+    position: relative;
+  }
+
+  .mat-date-range-input-separator-hidden {
+    opacity: 1 !important;
+  }
+
+  .mat-date-range-input-inner {
+    color: $placeholder-color !important;
+  }
+
+  .mat-date-range-input-hide-placeholders
+    .mat-date-range-input-inner::-webkit-input-placeholder {
+    color: $placeholder-color !important;
+    -webkit-text-fill-color: $placeholder-color;
+    display: block !important;
+  }
+
+  .watt-date-mask {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+}
