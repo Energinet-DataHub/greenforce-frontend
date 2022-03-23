@@ -26,12 +26,12 @@ export { WattShellModule } from './lib/components/shell/shell.module';
 export * from './lib/components/badge';
 export * from './lib/components/button';
 export * from './lib/components/checkbox';
+export * from './lib/components/date-range-input';
 export * from './lib/components/empty-state';
 export * from './lib/components/expansion';
 export * from './lib/components/shell/nav-list';
 export * from './lib/components/spinner';
 export * from './lib/components/tabs';
 export * from './lib/components/validation-message';
-
 export * from './lib/foundations/breakpoints';
 export * from './lib/foundations/icon';
