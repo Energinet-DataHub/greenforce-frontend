@@ -37,6 +37,7 @@ export class WattNavListComponent {}
 @NgModule({
   declarations: [WattNavListComponent],
   exports: [
+    WattNavListComponent,
     WattNavListItemScam,
   ],
   imports: [MatListModule],
