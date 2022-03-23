@@ -18,6 +18,21 @@ import { CommonModule } from '@angular/common';
 import { Component, NgModule } from '@angular/core';
 import { DhMarketParticipantOverviewDataAccessApiStore } from '@energinet-datahub/dh/market-participant/data-access-api';
 import { LetModule } from '@rx-angular/template/let';
+import { MatTableModule } from '@angular/material/table';
+import { ActorDto, OrganizationDto } from '@energinet-datahub/dh/shared/domain';
+import { TranslocoModule } from '@ngneat/transloco';
+import {
+  WattBadgeModule,
+  WattButtonModule,
+  WattIconModule,
+  WattEmptyStateModule,
+} from '@energinet-datahub/watt';
+import { MatMenuModule } from '@angular/material/menu';
+
+interface OrganizationWithActor {
+  organization: Partial<OrganizationDto>;
+  actor: Partial<ActorDto>;
+}
 
 @Component({
   selector: 'dh-market-participant-organization',
@@ -27,10 +42,44 @@ import { LetModule } from '@rx-angular/template/let';
 })
 export class DhMarketParticipantOrganizationComponent {
   constructor(public store: DhMarketParticipantOverviewDataAccessApiStore) {}
+
+  columnIds = [
+    'OrgName',
+    'ActorGln',
+    'ActorStatus',
+    'ActorRoles',
+    'ActorGridAreas',
+    'RowEdit',
+  ];
+
+  items = this.store.organizations.reduce(
+    (runningItems, organizationDto) =>
+      runningItems.concat(
+        organizationDto.actors.map((actor) => ({
+          organization: organizationDto,
+          actor: actor,
+        }))
+      ),
+    [] as OrganizationWithActor[]
+  );
+
+  onEditClicked = (value: OrganizationWithActor) => {
+    console.log('Edit', value);
+  };
 }
 
 @NgModule({
-  imports: [CommonModule, LetModule],
+  imports: [
+    CommonModule,
+    LetModule,
+    MatTableModule,
+    TranslocoModule,
+    WattBadgeModule,
+    WattButtonModule,
+    WattIconModule,
+    WattEmptyStateModule,
+    MatMenuModule,
+  ],
   declarations: [DhMarketParticipantOrganizationComponent],
 })
 export class DhMarketParticipantOrganizationScam {}
