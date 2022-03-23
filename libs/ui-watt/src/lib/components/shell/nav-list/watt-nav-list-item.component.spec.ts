@@ -14,12 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { render } from '@testing-library/angular';
 
 import {
   WattNavListItemComponent,
   WattNavListItemScam,
 } from './watt-nav-list-item.component';
+
+import { render } from '@testing-library/angular';
 
 describe(WattNavListItemComponent.name, () => {
   it('`link` input property is `null` by default', async () => {
@@ -30,5 +31,15 @@ describe(WattNavListItemComponent.name, () => {
     const component = view.fixture.componentInstance;
 
     expect(component.link).toBeNull();
+  });
+
+  it('`target` input property is `_self` by default', async () => {
+    const view = await render(WattNavListItemComponent, {
+      imports: [WattNavListItemScam],
+    });
+
+    const component = view.fixture.componentInstance;
+
+    expect(component.target).toBe('_self');
   });
 });
