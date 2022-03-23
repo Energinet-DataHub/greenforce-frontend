@@ -23,7 +23,6 @@ export { WattInputModule } from './lib/components/input/input.module';
 export { WattShellComponent } from './lib/components/shell/shell.component';
 export { WattShellModule } from './lib/components/shell/shell.module';
 
-
 export * from './lib/components/badge';
 export * from './lib/components/button';
 export * from './lib/components/checkbox';

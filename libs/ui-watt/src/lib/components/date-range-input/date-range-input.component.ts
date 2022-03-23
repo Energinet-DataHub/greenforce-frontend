@@ -126,10 +126,10 @@ export class WattDateRangeInputComponent implements AfterViewInit, OnDestroy {
       placeholder: this.placeholder,
       onBeforePaste: this.onBeforePaste,
       oncomplete: () => {
-        if(position === 'start') {
+        if (position === 'start') {
           this.endDateInput.nativeElement.focus();
         }
-      }
+      },
     }).mask(element.nativeElement);
   }
 
@@ -147,7 +147,10 @@ export class WattDateRangeInputComponent implements AfterViewInit, OnDestroy {
     fromEvent(element.nativeElement, 'input')
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => {
-        this.updateMaskElementValue(maskingElement, element.nativeElement.value);
+        this.updateMaskElementValue(
+          maskingElement,
+          element.nativeElement.value
+        );
       });
 
     return maskingElement;
@@ -161,9 +164,10 @@ export class WattDateRangeInputComponent implements AfterViewInit, OnDestroy {
     value: string
   ): void {
     const lastNumber = value.match(/.*?(\d)[^\d]*$/); // get last number in string
-    maskingElement.innerHTML = value && lastNumber
-      ? value.slice(0, value.lastIndexOf(lastNumber[1]) + 1)
-      : '';
+    maskingElement.innerHTML =
+      value && lastNumber
+        ? value.slice(0, value.lastIndexOf(lastNumber[1]) + 1)
+        : '';
   }
 
   /**
