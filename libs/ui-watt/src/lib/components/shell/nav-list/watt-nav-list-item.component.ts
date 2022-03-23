@@ -32,7 +32,7 @@ import { RouterModule } from '@angular/router';
   selector: 'watt-nav-list-item',
   template: `
     <a
-      *ngIf="isExternal; else internalLink"
+      *ngIf="isExternalLink; else internalLink"
       mat-list-item
       mat-ripple
       [href]="link"
@@ -55,8 +55,8 @@ export class WattNavListItemComponent {
   @Input() link: string | null = null;
   @Input() target = '_self';
 
-  get isExternal(): boolean {
-    return this.link?.startsWith('https://') ?? false;
+  get isExternalLink(): boolean {
+    return /^(http|https)/i.test(this.link as string);
   }
 }
 
