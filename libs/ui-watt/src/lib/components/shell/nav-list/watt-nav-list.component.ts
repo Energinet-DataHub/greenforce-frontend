@@ -14,14 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 import {
   ChangeDetectionStrategy,
   Component,
   NgModule,
   ViewEncapsulation,
 } from '@angular/core';
-import { MatListModule } from '@angular/material/list';
 
+import { MatListModule } from '@angular/material/list';
 import { WattNavListItemScam } from './watt-nav-list-item.component';
 
 @Component({
@@ -35,7 +36,10 @@ export class WattNavListComponent {}
 
 @NgModule({
   declarations: [WattNavListComponent],
-  exports: [WattNavListComponent, WattNavListItemScam],
+  exports: [
+    WattNavListComponent,
+    WattNavListItemScam,
+  ],
   imports: [MatListModule],
 })
 export class WattNavListModule {}
