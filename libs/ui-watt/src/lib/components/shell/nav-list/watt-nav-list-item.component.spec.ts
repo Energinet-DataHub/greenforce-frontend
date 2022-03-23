@@ -15,16 +15,31 @@
  * limitations under the License.
  */
 
-import { WattNavListItemComponent } from './watt-nav-list-item.component';
+import {
+  WattNavListItemComponent,
+  WattNavListItemScam,
+} from './watt-nav-list-item.component';
+
+import { render } from '@testing-library/angular';
 
 describe(WattNavListItemComponent.name, () => {
-  it ('`link` input property is `null` by default', () => {
-    const comp = new WattNavListItemComponent();
-    expect(comp.link).toBeNull();
-  })
+  it('`link` input property is `null` by default', async () => {
+    const view = await render(WattNavListItemComponent, {
+      imports: [WattNavListItemScam],
+    });
 
-  it ('`target` input property is `_self` by default', () => {
-    const comp = new WattNavListItemComponent();
-    expect(comp.target).toBe('_self');
-  })
+    const component = view.fixture.componentInstance;
+
+    expect(component.link).toBeNull();
+  });
+
+  it('`target` input property is `_self` by default', async () => {
+    const view = await render(WattNavListItemComponent, {
+      imports: [WattNavListItemScam],
+    });
+
+    const component = view.fixture.componentInstance;
+
+    expect(component.target).toBe('_self');
+  });
 });

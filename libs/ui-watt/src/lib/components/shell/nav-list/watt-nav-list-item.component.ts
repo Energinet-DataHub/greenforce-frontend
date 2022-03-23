@@ -25,7 +25,7 @@ import {
 import { CommonModule } from '@angular/common';
 import { MatListModule } from '@angular/material/list';
 import { MatRippleModule } from '@angular/material/core';
-import { RouterModule } from '@angular/router';
+import {RouterModule} from '@angular/router';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

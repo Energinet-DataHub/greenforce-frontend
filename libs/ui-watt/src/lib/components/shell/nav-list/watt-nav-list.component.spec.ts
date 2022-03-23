@@ -14,9 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component } from '@angular/core';
-import { render } from '@testing-library/angular';
 
+import { render, screen } from '@testing-library/angular';
+
+import { Component } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import { WattNavListModule } from './watt-nav-list.component';
 
 describe(WattNavListModule.name, () => {
@@ -45,51 +47,118 @@ describe(WattNavListModule.name, () => {
     })
     class TestPageComponent {}
 
-    @Component({
-      selector: 'watt-main',
-      template: `<watt-nav-list>
-          <watt-nav-list-item link="/page-1">Page 1</watt-nav-list-item>
-          <watt-nav-list-item link="/page-2">Page 2</watt-nav-list-item>
-        </watt-nav-list>
-
-        <router-outlet></router-outlet>`,
-    })
-    class TestAppComponent {}
-
-    const view = await render(TestAppComponent, {
+    const view = await render(`
+      <watt-nav-list>
+        <watt-nav-list-item link="/default-page">Default page</watt-nav-list-item>
+        <watt-nav-list-item link="/other-page">Other page</watt-nav-list-item>
+      </watt-nav-list>
+      <router-outlet></router-outlet>
+    `, {
       declarations: [TestPageComponent],
-      imports: [WattNavListModule],
+      imports: [WattNavListModule, RouterModule],
       routes: [
         {
           path: '',
-          children: [
-            {
-              path: 'page-1',
-              component: TestPageComponent,
-            },
-            {
-              path: 'page-2',
-              component: TestPageComponent,
-            },
-          ],
+          pathMatch: 'full',
+          redirectTo: 'default-page'
         },
+        {
+          path: 'default-page',
+          component: TestPageComponent,
+        },
+        {
+          path: 'other-page',
+          component: TestPageComponent,
+        }
       ],
     });
 
-    const expectedClass = 'active';
+    const activeClass = 'active';
+    const otherPageLink = await screen.findByRole('link', {
+      name: /other page/i,
+    });
 
-    let link = view.getByRole('link', {
-      name: /page 2/i,
-    }) as HTMLAnchorElement;
+    await view.navigate('/');
 
-    expect(Object.values(link.classList)).not.toContain(expectedClass);
+    expect(otherPageLink).not.toHaveClass(activeClass);
 
-    await view.navigate(link);
+    await view.navigate(otherPageLink);
 
-    link = view.getByRole('link', {
-      name: /page 2/i,
-    }) as HTMLAnchorElement;
-
-    expect(Object.values(link.classList)).toContain(expectedClass);
+    expect(otherPageLink).toHaveClass(activeClass);
   });
+
+  it ('Supports external links', async () => {
+    // Arrange
+    await render(
+      `
+      <watt-nav-list>
+        <watt-nav-list-item link="https://energinet.dk">
+          Energinet
+        </watt-nav-list-item>
+      </watt-nav-list>
+    `,
+      {
+        imports: [WattNavListModule],
+      }
+    );
+
+    // Act
+
+    // Assert
+    expect(await screen.findByRole('link', {
+      name: /energinet/i,
+    })).toHaveAttribute('href', 'https://energinet.dk');
+
+  });
+
+  it ('Opens external links in a new browser tab, when specified', async () => {
+    // Arrange
+    await render(
+      `
+      <watt-nav-list>
+        <watt-nav-list-item link="https://energinet.dk" target="_blank">
+          Energinet
+        </watt-nav-list-item>
+      </watt-nav-list>
+    `,
+      {
+        imports: [WattNavListModule],
+      }
+    );
+
+    // Act
+
+    // Assert
+    const link = await screen.findByRole('link', {
+      name: /energinet/i,
+    });
+
+    expect(link).toHaveAttribute('target', '_blank');
+  });
+
+  it ('Opens external links in the same browser tab by default', async () => {
+    // Arrange
+    await render(
+      `
+      <watt-nav-list>
+        <watt-nav-list-item link="https://energinet.dk">
+          Energinet
+        </watt-nav-list-item>
+      </watt-nav-list>
+    `,
+      {
+        imports: [WattNavListModule],
+      }
+    );
+
+    // Act
+
+    // Assert
+    const link = await screen.findByRole('link', {
+      name: /energinet/i,
+    });
+
+    expect(link).toHaveAttribute('target', '_self');
+  });
+
 });
