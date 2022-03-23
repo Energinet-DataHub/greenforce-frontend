@@ -42,6 +42,7 @@ import {
 } from 'rxjs';
 
 import { WattDropdownOptions } from './watt-dropdown-option';
+import { WattDropdownValue } from './watt-dropdown-value';
 
 @Component({
   selector: 'watt-dropdown',
@@ -147,16 +148,14 @@ export class WattDropdownComponent
   /**
    * @ignore
    */
-  writeValue(value: string | string[] | null): void {
+  writeValue(value: WattDropdownValue): void {
     this.matSelectControl.setValue(value);
   }
 
   /**
    * @ignore
    */
-  registerOnChange(
-    onChangeFn: (value: string | string[] | null) => void
-  ): void {
+  registerOnChange(onChangeFn: (value: WattDropdownValue) => void): void {
     this.changeParentValue = onChangeFn;
   }
 
@@ -201,7 +200,7 @@ export class WattDropdownComponent
    * @ignore
    */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  private changeParentValue = (value: string | string[] | null): void => {
+  private changeParentValue = (value: WattDropdownValue): void => {
     // Intentionally left empty
   };
 
@@ -267,7 +266,7 @@ export class WattDropdownComponent
     this.matSelectControl.valueChanges
       .pipe(
         map((value) => (value === undefined ? null : value)),
-        map((value: string | string[] | null) => {
+        map((value: WattDropdownValue) => {
           if (Array.isArray(value) && value.length === 0) {
             return null;
           }
@@ -277,7 +276,7 @@ export class WattDropdownComponent
         distinctUntilChanged(),
         takeUntil(this.destroy$)
       )
-      .subscribe((value: string | string[] | null) => {
+      .subscribe((value: WattDropdownValue) => {
         this.markParentControlAsTouched();
         this.changeParentValue(value);
       });

@@ -14,10 +14,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export { WattDropdownComponent } from './watt-dropdown.component';
-export { WattDropdownModule } from './watt-dropdown.module';
-export {
-  WattDropdownOption,
-  WattDropdownOptions,
-} from './watt-dropdown-option';
-export { WattDropdownValue } from './watt-dropdown-value';
+export type WattDropdownValue = string | string[] | null;
