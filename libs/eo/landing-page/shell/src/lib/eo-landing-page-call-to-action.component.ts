@@ -21,6 +21,7 @@ import { EoLandingPageLoginButtonScam } from './eo-landing-page-login-button.com
 import { EoLandingPageColumnLayoutScam } from './layout/eo-landing-page-column-layout.component';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'eo-landing-page-call-to-action',
   styles: [
     `
@@ -31,6 +32,14 @@ import { EoLandingPageColumnLayoutScam } from './layout/eo-landing-page-column-l
         justify-content: center;
 
         text-align: center;
+
+        background: var(
+          --watt-color-focus-selection
+        ); // This is the light-blue-ish background color
+      }
+
+      h1 {
+        display: flex; // Align text and icon vertically
       }
 
       eo-landing-page-login-button {
@@ -38,40 +47,29 @@ import { EoLandingPageColumnLayoutScam } from './layout/eo-landing-page-column-l
       }
 
       .icon-link {
-        display: inline-block;
-        vertical-align: middle;
-      }
-
-      .icon {
-        width: 24px;
-        height: 24px;
+        display: flex; // Center the icon vertically
       }
     `,
   ],
   template: `
-    <div class="call-to-action-wrapper">
-      <eo-landing-page-column-layout [layoutType]="'full'">
-        <div class="watt-space-stack-m">
-          <h1>
-            Log in with your company NemID
-            <a
-              href="https://www.nemid.nu/dk-en/about_nemid/index.html"
-              target="_blank"
-              rel="nofollow noopener"
-              class="icon-link"
-            >
-              <watt-icon
-                name="primary_info"
-                [size]="iconSize.Large"
-              ></watt-icon>
-            </a>
-          </h1>
-        </div>
-        <eo-landing-page-login-button></eo-landing-page-login-button>
-      </eo-landing-page-column-layout>
-    </div>
+    <eo-landing-page-column-layout [layoutType]="'full'">
+      <div class="watt-space-stack-m">
+        <h1>
+          <div class="watt-space-inline-s">Log in with your company NemID</div>
+
+          <a
+            href="https://www.nemid.nu/dk-en/about_nemid/index.html"
+            target="_blank"
+            rel="nofollow noopener"
+            class="icon-link"
+          >
+            <watt-icon name="primary_info" [size]="iconSize.Large"></watt-icon>
+          </a>
+        </h1>
+      </div>
+      <eo-landing-page-login-button></eo-landing-page-login-button>
+    </eo-landing-page-column-layout>
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EoLandingPageCallToActionComponent {
   iconSize = WattIconSize;
