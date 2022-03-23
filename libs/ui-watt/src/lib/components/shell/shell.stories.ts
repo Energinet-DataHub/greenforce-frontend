@@ -78,7 +78,7 @@ const withSidebarNavigationTemplate = `
       <watt-nav-list-item link="/menu-1">Menu 1</watt-nav-list-item>
       <watt-nav-list-item link="/menu-2">Menu 2</watt-nav-list-item>
       <watt-nav-list-item link="/menu-3">Menu 3</watt-nav-list-item>
-      <watt-nav-list-external-item href="https://angular.io/" target="_blank">External link (angular.io)</watt-nav-list-external-item>
+      <watt-nav-list-item href="https://angular.io/" target="_blank">External link (angular.io)</watt-nav-list-item>
     </watt-nav-list>
   </ng-container>
 

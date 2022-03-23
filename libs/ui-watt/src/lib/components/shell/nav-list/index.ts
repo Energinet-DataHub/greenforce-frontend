@@ -19,4 +19,3 @@ export {
   WattNavListModule,
 } from './watt-nav-list.component';
 export { WattNavListItemComponent } from './watt-nav-list-item.component';
-export { WattNavListExternalItemComponent } from './watt-nav-list-external-item.component';

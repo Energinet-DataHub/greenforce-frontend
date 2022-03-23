@@ -23,7 +23,6 @@ import {
 } from '@angular/core';
 
 import { MatListModule } from '@angular/material/list';
-import { WattNavListExternalItemScam } from './watt-nav-list-external-item.component';
 import { WattNavListItemScam } from './watt-nav-list-item.component';
 
 @Component({
@@ -40,7 +39,6 @@ export class WattNavListComponent {}
   exports: [
     WattNavListComponent,
     WattNavListItemScam,
-    WattNavListExternalItemScam,
   ],
   imports: [MatListModule],
 })
