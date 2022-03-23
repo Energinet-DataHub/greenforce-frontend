@@ -18,13 +18,13 @@
 import { WattNavListItemComponent } from './watt-nav-list-item.component';
 
 describe(WattNavListItemComponent.name, () => {
-  it ('`link` input property is `null` by default', () => {
+  it('`link` input property is `null` by default', () => {
     const comp = new WattNavListItemComponent();
     expect(comp.link).toBeNull();
-  })
+  });
 
-  it ('`target` input property is `_self` by default', () => {
+  it('`target` input property is `_self` by default', () => {
     const comp = new WattNavListItemComponent();
     expect(comp.target).toBe('_self');
-  })
+  });
 });
