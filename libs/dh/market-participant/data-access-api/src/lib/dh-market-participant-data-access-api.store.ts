@@ -16,7 +16,10 @@
  */
 import { Injectable } from '@angular/core';
 import { ComponentStore } from '@ngrx/component-store';
-import { MessageArchiveHttp } from '@energinet-datahub/dh/shared/domain';
+import {
+  MarketParticipantHttp,
+  OrganizationDto,
+} from '@energinet-datahub/dh/shared/domain';
 
 interface OrganizationOverviewState {
   test: string;
@@ -28,14 +31,19 @@ const initialState: OrganizationOverviewState = {
 
 @Injectable()
 export class DhMarketParticipantOverviewDataAccessApiStore extends ComponentStore<OrganizationOverviewState> {
-  constructor(private httpClient: MessageArchiveHttp) {
+  public organizations: OrganizationDto[] = [];
+
+  constructor(private httpClient: MarketParticipantHttp) {
     super(initialState);
   }
 
-  organizations = [
-    'Organization A',
-    'Organization B',
-    'Organization C',
-    'Organization D',
-  ];
+  public onTestClick = () => {
+    this.getOrganizations().forEach((x) => {
+      return (this.organizations = x);
+    });
+  };
+
+  private getOrganizations = () => {
+    return this.httpClient.v1MarketParticipantOrganizationsGet();
+  };
 }

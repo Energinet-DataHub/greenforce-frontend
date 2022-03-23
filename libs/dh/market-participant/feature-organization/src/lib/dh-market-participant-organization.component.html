@@ -14,3 +14,19 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
+
+<button (click)="this.store.onTestClick()">Load</button>
+
+<table>
+  <tr>
+    <th>Company</th>
+    <th>GLN</th>
+    <th>Status</th>
+  </tr>
+
+  <tr *ngFor="let o of this.store.organizations">
+    <td>{{ o.organizationId }}</td>
+    <td>{{ o.name }}</td>
+    <td>-</td>
+  </tr>
+</table>
