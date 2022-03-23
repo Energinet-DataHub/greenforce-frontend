@@ -32,17 +32,6 @@ import { WattIconModule, WattIconSize } from '@energinet-datahub/watt';
         justify-content: center;
       }
 
-      p {
-        color: var(--watt-color-primary-dark);
-
-        @include watt.media('>Large') {
-          --inset-x: calc(2 * var(--watt-space-xl));
-
-          padding-right: var(--inset-x);
-          padding-left: var(--inset-x);
-        }
-      }
-
       eo-inline-message {
         max-width: 960px; // Magic number by designer
       }
