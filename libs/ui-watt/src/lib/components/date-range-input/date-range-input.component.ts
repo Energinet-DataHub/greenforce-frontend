@@ -30,7 +30,7 @@ import {
 } from '@angular/core';
 import { fromEvent, Subject, takeUntil } from 'rxjs';
 import { MatDateRangeInput } from '@angular/material/datepicker';
-import Inputmask from "inputmask";
+import Inputmask from 'inputmask';
 
 /**
  * Usage:
