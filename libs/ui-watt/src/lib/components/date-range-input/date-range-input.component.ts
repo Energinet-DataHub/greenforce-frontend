@@ -28,8 +28,9 @@ import {
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
-import { MatDateRangeInput } from '@angular/material/datepicker';
 import { fromEvent, Subject, takeUntil } from 'rxjs';
+import { MatDateRangeInput } from '@angular/material/datepicker';
+import Inputmask from "inputmask";
 
 /**
  * Usage:
@@ -87,7 +88,6 @@ export class WattDateRangeInputComponent implements AfterViewInit, OnDestroy {
   @Input()
   set disabled(value: boolean) {
     this.isDisabled = coerceBooleanProperty(value);
-    console.log(this.isDisabled);
   }
 
   @Input() min?: string;
