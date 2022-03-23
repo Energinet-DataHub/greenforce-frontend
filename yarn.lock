@@ -12882,6 +12882,13 @@ ng-packagr@13.0.8:
   optionalDependencies:
     esbuild "^0.13.0"
 
+ngx-mat-select-search@^4.0.2:
+  version "4.0.2"
+  resolved "https://registry.yarnpkg.com/ngx-mat-select-search/-/ngx-mat-select-search-4.0.2.tgz#6b185e97cedca8b15108f185dbb0143104e321ff"
+  integrity sha512-dandDYng18cv6QaTDfYwiJoAujxaOMKtyLLfAgM3IQ/afXUc8XIBtV4S1gRokz3eGnPMiHmGXEttaOn+srat/g==
+  dependencies:
+    tslib "^2.0.0"
+
 nice-napi@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/nice-napi/-/nice-napi-1.0.2.tgz#dc0ab5a1eac20ce548802fc5686eaa6bc654927b"
