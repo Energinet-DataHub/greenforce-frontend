@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
+import { WattIconModule, WattIconSize } from '@energinet-datahub/watt';
 
 import { EoLandingPageLoginButtonScam } from './eo-landing-page-login-button.component';
 import { EoLandingPageColumnLayoutScam } from './layout/eo-landing-page-column-layout.component';
@@ -30,10 +31,6 @@ import { EoLandingPageColumnLayoutScam } from './layout/eo-landing-page-column-l
         justify-content: center;
 
         text-align: center;
-
-        background: var(
-          --watt-color-focus-selection
-        ); // This is the light-blue-ish background color
       }
 
       eo-landing-page-login-button {
@@ -63,11 +60,10 @@ import { EoLandingPageColumnLayoutScam } from './layout/eo-landing-page-column-l
               rel="nofollow noopener"
               class="icon-link"
             >
-              <img
-                class="icon"
-                src="/assets/images/icons/primary-info-icon.svg"
-                alt="EnergyOrigin NemID log in"
-              />
+              <watt-icon
+                name="primary_info"
+                [size]="iconSize.Large"
+              ></watt-icon>
             </a>
           </h1>
         </div>
@@ -77,11 +73,17 @@ import { EoLandingPageColumnLayoutScam } from './layout/eo-landing-page-column-l
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class EoLandingPageCallToActionComponent {}
+export class EoLandingPageCallToActionComponent {
+  iconSize = WattIconSize;
+}
 
 @NgModule({
   declarations: [EoLandingPageCallToActionComponent],
   exports: [EoLandingPageCallToActionComponent],
-  imports: [EoLandingPageColumnLayoutScam, EoLandingPageLoginButtonScam],
+  imports: [
+    WattIconModule,
+    EoLandingPageColumnLayoutScam,
+    EoLandingPageLoginButtonScam,
+  ],
 })
 export class EoLandingPageCallToActionScam {}

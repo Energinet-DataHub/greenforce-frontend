@@ -41,6 +41,10 @@ label {
   text-transform: none; // Override .watt-label, which uppercases labels
 }
 
+body strong {
+  color: inherit; // Override Watt style
+}
+
 .eo-text-center {
   text-align: center;
 }

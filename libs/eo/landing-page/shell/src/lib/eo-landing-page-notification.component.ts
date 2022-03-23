@@ -15,8 +15,8 @@
  * limitations under the License.
  */
 import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
-
-import { EoLandingPageColumnLayoutScam } from './layout/eo-landing-page-column-layout.component';
+import { EoInlineMessageScam } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
+import { WattIconModule, WattIconSize } from '@energinet-datahub/watt';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -32,56 +32,42 @@ import { EoLandingPageColumnLayoutScam } from './layout/eo-landing-page-column-l
         justify-content: center;
       }
 
-      .inline-message {
-        @include watt.space-inset-m;
-
-        display: flex;
-        /* grid-template-columns: 80px 1fr; */
-        align-items: center;
-
-        width: 1036px; // Magic number by designer
-
-        background: var(--watt-color-neutral-white);
-        box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.08);
-      }
-
-      .icon {
-        display: block;
-        width: calc(12 * var(--watt-space-xs));
-        height: calc(12 * var(--watt-space-xs));
-        border-radius: 50%;
-        margin: 0 auto;
-      }
-
       p {
         color: var(--watt-color-primary-dark);
+
+        @include watt.media('>Large') {
+          --inset-x: calc(2 * var(--watt-space-xl));
+
+          padding-right: var(--inset-x);
+          padding-left: var(--inset-x);
+        }
+      }
+
+      eo-inline-message {
+        max-width: 960px; // Magic number by designer
       }
     `,
   ],
   template: `
-    <div class="inline-message">
-      <img
-        class="icon"
-        src="/assets/images/icons/primary-info-icon.svg"
-        alt="EnergyOrigin information"
-      />
-      <div class="eo-margin-left-m">
-        <p>
-          The Energy Origin Platform is <strong>under development</strong> and
-          new functionalities will be released continuously. The first release
-          of the platform offers <strong>company login only</strong>. Private
-          login via NemID/MitID is intended to form part of one of the next
-          releases.
-        </p>
-      </div>
-    </div>
+    <eo-inline-message>
+      <watt-icon name="primary_info" [size]="iconSize.Large"></watt-icon>
+
+      <p>
+        The Energy Origin Platform is <strong>under development</strong> and new
+        functionalities will be released continuously. For now there is
+        <strong>only this page</strong>, soon it will be possible for companies
+        to login, to see the first bit of functionality.
+      </p>
+    </eo-inline-message>
   `,
 })
-export class EoLandingPageNotificationComponent {}
+export class EoLandingPageNotificationComponent {
+  iconSize = WattIconSize;
+}
 
 @NgModule({
   declarations: [EoLandingPageNotificationComponent],
   exports: [EoLandingPageNotificationComponent],
-  imports: [EoLandingPageColumnLayoutScam],
+  imports: [WattIconModule, EoInlineMessageScam],
 })
 export class EoLandingPageNotificationScam {}
