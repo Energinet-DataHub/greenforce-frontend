@@ -30,6 +30,10 @@ import { WattIconModule, WattIconSize } from '@energinet-datahub/watt';
 
         display: flex;
         justify-content: center;
+      }
+
+      p {
+        color: var(--watt-color-primary-dark);
 
         @include watt.media('>Large') {
           --inset-x: calc(2 * var(--watt-space-xl));
@@ -37,10 +41,6 @@ import { WattIconModule, WattIconSize } from '@energinet-datahub/watt';
           padding-right: var(--inset-x);
           padding-left: var(--inset-x);
         }
-      }
-
-      p {
-        margin: 0; // Remove this rule when CSS reset (#402) is merged
       }
 
       eo-inline-message {

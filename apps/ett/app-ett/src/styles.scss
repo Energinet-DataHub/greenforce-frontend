@@ -14,11 +14,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+// GENERIC
+@use './styles/generic/generic-normalize';
+@use './styles/generic/generic-reset';
+
+// DESIGN SYSTEM
 @use '@energinet-datahub/watt' as watt;
 
 html,
 body {
   min-height: 100%;
+}
+
+body strong {
+  color: inherit; // Override Watt styles
 }
 
 a,
@@ -39,16 +49,51 @@ body strong {
   text-align: center;
 }
 
+.eo-text-promotional {
+  text-transform: uppercase;
+}
+
+.eo-text-primary {
+  color: var(--watt-color-primary);
+}
+
+.eo-text-primary-contrast {
+  color: var(--watt-color-primary-contrast);
+}
+
+.eo-space-inset-xxl {
+  padding: calc(2 * var(--watt-space-xl)) !important;
+}
+
+.eo-space-inset-squished-m {
+  padding: var(--watt-space-s) var(--watt-space-m) !important; // .watt-space-inset-squish-m does not have !important
+}
+
+.eo-space-inset-stretched-l {
+  padding: var(--watt-space-l) var(--watt-space-m) !important; // .watt-space-inset-squish-l is not declared yet
+}
+
 // One sided spacings & spacing reset helpers
 .eo-padding-left-none {
   padding-left: 0;
 }
+
 .eo-padding-top-none {
   padding-top: 0;
 }
+
 .eo-padding-top-xl {
   padding-top: var(--watt-space-xl);
 }
+
 .eo-padding-bottom-xl {
   padding-bottom: var(--watt-space-xl);
+}
+
+.eo-margin-left-m {
+  margin-left: var(--watt-space-m) !important;
+}
+
+.eo-margin-left-xl {
+  margin-left: var(--watt-space-xl) !important;
 }
