@@ -17,11 +17,11 @@
 import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
 import { EoVimeoPlayerScam } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 
-import { EoLandingPageColumnLayoutScam } from './eo-landing-page-column-layout.component';
+import { EoLandingPageColumnLayoutScam } from './layout/eo-landing-page-column-layout.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'eo-landing-page-video-layout',
+  selector: 'eo-landing-page-introduction',
   styles: [
     `
       :host {
@@ -76,11 +76,11 @@ import { EoLandingPageColumnLayoutScam } from './eo-landing-page-column-layout.c
     </eo-landing-page-column-layout>
   `,
 })
-export class EoLandingPageVideoLayoutComponent {}
+export class EoLandingPageIntroductionComponent {}
 
 @NgModule({
-  declarations: [EoLandingPageVideoLayoutComponent],
-  exports: [EoLandingPageVideoLayoutComponent],
+  declarations: [EoLandingPageIntroductionComponent],
+  exports: [EoLandingPageIntroductionComponent],
   imports: [EoLandingPageColumnLayoutScam, EoVimeoPlayerScam],
 })
-export class EoLandingPageVideoLayoutScam {}
+export class EoLandingPageIntroductionScam {}

@@ -20,11 +20,11 @@ import { EoFooterScam } from '@energinet-datahub/eo/shared/atomic-design/ui-orga
 import { EoLandingPageCallToActionScam } from './eo-landing-page-call-to-action.component';
 import { EoLandingPageHeaderScam } from './eo-landing-page-header.component';
 import { EoLandingPageHeroScam } from './eo-landing-page-hero.component';
+import { EoLandingPageIntroductionScam } from './eo-landing-page-introduction.component';
 import { EoLandingPageLoginButtonScam } from './eo-landing-page-login-button.component';
 import { EoLandingPageNotificationScam } from './eo-landing-page-notification.component';
 import { EoLandingPageStore } from './eo-landing-page.store';
 import { EoLandingPageImageTextLayoutScam } from './layout/eo-landing-page-image-text-layout.component';
-import { EoLandingPageVideoLayoutScam } from './layout/eo-landing-page-video-layout.component';
 
 @Component({
   providers: [EoLandingPageStore],
@@ -62,8 +62,10 @@ import { EoLandingPageVideoLayoutScam } from './layout/eo-landing-page-video-lay
         class="u-collapse-bottom"
       ></eo-landing-page-notification>
       <eo-landing-page-hero></eo-landing-page-hero>
-      <eo-landing-page-video-layout></eo-landing-page-video-layout>
+
+      <eo-landing-page-introduction></eo-landing-page-introduction>
       <eo-landing-page-image-text-layout></eo-landing-page-image-text-layout>
+
       <eo-landing-page-call-to-action></eo-landing-page-call-to-action>
 
       <div class="u-snap-bottom">
@@ -82,7 +84,7 @@ export class EoLandingPageShellComponent {}
     EoLandingPageHeaderScam,
     EoFooterScam,
     EoLandingPageHeroScam,
-    EoLandingPageVideoLayoutScam,
+    EoLandingPageIntroductionScam,
     EoLandingPageImageTextLayoutScam,
     EoLandingPageLoginButtonScam,
     EoLandingPageCallToActionScam,
