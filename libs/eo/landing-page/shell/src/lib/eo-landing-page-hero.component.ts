@@ -19,6 +19,7 @@ import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
 import { EoLandingPageLoginButtonScam } from './eo-landing-page-login-button.component';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'eo-landing-page-hero',
   styles: [
     `
@@ -70,7 +71,6 @@ import { EoLandingPageLoginButtonScam } from './eo-landing-page-login-button.com
       </div>
     </div>
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EoLandingPageHeroComponent {}
 
