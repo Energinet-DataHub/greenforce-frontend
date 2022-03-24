@@ -40,16 +40,16 @@ import { EoLandingPageVideoLayoutScam } from './layout/eo-landing-page-video-lay
         display: block;
       }
 
-      .positioning-context {
-        position: relative;
+      .u-positioning-context {
+        position: relative !important;
       }
 
-      .snap-bottom {
+      .u-snap-bottom {
         position: absolute;
-        bottom: 0;
+        bottom: 0 !important;
       }
 
-      .collapse-bottom {
+      .u-collapse-bottom {
         padding-bottom: 0 !important;
       }
     `,
@@ -57,16 +57,16 @@ import { EoLandingPageVideoLayoutScam } from './layout/eo-landing-page-video-lay
   template: `
     <eo-landing-page-header></eo-landing-page-header>
 
-    <div class="positioning-context">
+    <div class="u-positioning-context">
       <eo-landing-page-notification
-        class="collapse-bottom"
+        class="u-collapse-bottom"
       ></eo-landing-page-notification>
       <eo-landing-page-hero></eo-landing-page-hero>
       <eo-landing-page-video-layout></eo-landing-page-video-layout>
       <eo-landing-page-image-text-layout></eo-landing-page-image-text-layout>
       <eo-landing-page-call-to-action></eo-landing-page-call-to-action>
 
-      <div class="snap-bottom">
+      <div class="u-snap-bottom">
         <img src="/assets/images/landing-page/landing-page-mesh-bottom.png" />
       </div>
     </div>
