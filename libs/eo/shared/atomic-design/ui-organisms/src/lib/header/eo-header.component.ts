@@ -14,28 +14,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  ChangeDetectionStrategy,
-  Component,
-  NgModule,
-  ViewEncapsulation,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { EoProductLogoScam } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 
-const selector = 'eo-header';
-
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None,
-  selector,
+  selector: 'eo-header',
   styles: [
     `
-      .${selector}__toolbar {
+      .toolbar {
         display: flex;
         justify-content: space-between;
 
-        // These styles are matching watt toolbar
+        // These styles are matching Watt toolbar
         background-color: var(--watt-color-neutral-white);
         border-bottom: 1px solid var(--watt-color-neutral-grey-300);
         box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.08);
@@ -43,17 +35,15 @@ const selector = 'eo-header';
         // Adjustment locally to contain a normal sized button
         height: var(--watt-space-xl);
       }
-      .${selector}__logo {
-        height: calc(8 * var(--watt-space-xs));
+
+      .logo {
+        height: var(--watt-space-l);
       }
     `,
   ],
   template: `
-    <mat-toolbar
-      role="heading"
-      class="${selector}__toolbar watt-space-inset-squished-m"
-    >
-      <img eoProductLogo class="${selector}__logo" />
+    <mat-toolbar class="toolbar watt-space-inset-squished-m">
+      <img eoProductLogo class="logo" />
       <ng-content></ng-content>
     </mat-toolbar>
   `,
