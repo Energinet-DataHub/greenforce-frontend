@@ -18,28 +18,24 @@ import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
 import { WattIconModule, WattIconSize } from '@energinet-datahub/watt';
 
 import { EoLandingPageLoginButtonScam } from './eo-landing-page-login-button.component';
-import { EoLandingPageColumnLayoutScam } from './layout/eo-landing-page-column-layout.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'eo-landing-page-call-to-action',
   styles: [
     `
+      // 1. Center content.
       :host {
-        display: flex;
+        display: flex; // [1]
         height: 300px; // Magic number by designer
-        align-items: center;
-        justify-content: center;
+        align-items: center; // [1]
+        justify-content: center; // [1]
 
-        text-align: center;
+        text-align: center; // [1]
 
         background: var(
           --watt-color-focus-selection
         ); // This is the light-blue-ish background color
-      }
-
-      h1 {
-        display: flex; // Align text and icon vertically
       }
 
       eo-landing-page-login-button {
@@ -49,12 +45,16 @@ import { EoLandingPageColumnLayoutScam } from './layout/eo-landing-page-column-l
       .icon-link {
         display: flex; // Center the icon vertically
       }
+
+      .call-out {
+        display: flex; // Align text and icon vertically
+      }
     `,
   ],
   template: `
-    <eo-landing-page-column-layout [layoutType]="'full'">
+    <div>
       <div class="watt-space-stack-m">
-        <h1>
+        <h1 class="call-out">
           <div class="watt-space-inline-s">Log in with your company NemID</div>
 
           <a
@@ -67,8 +67,9 @@ import { EoLandingPageColumnLayoutScam } from './layout/eo-landing-page-column-l
           </a>
         </h1>
       </div>
+
       <eo-landing-page-login-button></eo-landing-page-login-button>
-    </eo-landing-page-column-layout>
+    </div>
   `,
 })
 export class EoLandingPageCallToActionComponent {
@@ -78,10 +79,6 @@ export class EoLandingPageCallToActionComponent {
 @NgModule({
   declarations: [EoLandingPageCallToActionComponent],
   exports: [EoLandingPageCallToActionComponent],
-  imports: [
-    WattIconModule,
-    EoLandingPageColumnLayoutScam,
-    EoLandingPageLoginButtonScam,
-  ],
+  imports: [WattIconModule, EoLandingPageLoginButtonScam],
 })
 export class EoLandingPageCallToActionScam {}

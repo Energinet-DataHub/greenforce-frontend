@@ -17,8 +17,6 @@
 import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
 import { EoVimeoPlayerScam } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 
-import { EoLandingPageColumnLayoutScam } from './layout/eo-landing-page-column-layout.component';
-
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'eo-landing-page-introduction',
@@ -92,6 +90,6 @@ export class EoLandingPageIntroductionComponent {}
 @NgModule({
   declarations: [EoLandingPageIntroductionComponent],
   exports: [EoLandingPageIntroductionComponent],
-  imports: [EoLandingPageColumnLayoutScam, EoVimeoPlayerScam],
+  imports: [EoVimeoPlayerScam],
 })
 export class EoLandingPageIntroductionScam {}
