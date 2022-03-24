@@ -14,41 +14,44 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@use '@energinet-datahub/watt' as watt;
 
-html,
-body {
-  min-height: 100%;
-}
+// GENERIC
+@use './styles/generic/generic-normalize';
+@use './styles/generic/generic-reset';
 
-a,
-[routerLink] {
-  text-decoration: underline; // This overrides WATT styles (which removes the underline on a tags)
-  cursor: pointer; // This makes Angular routerLinks hoverable with a pointer
-}
+// ELEMENTS
+@use './styles/elements/elements-page';
+@use './styles/elements/elements-links';
+@use './styles/elements/elements-lists';
 
-label {
-  text-transform: none; // Override .watt-label, which uppercases labels
-}
+// THEMES
+@use './styles/themes/themes-watt';
 
-body strong {
-  color: inherit; // Override Watt style
-}
-
-.eo-text-center {
-  text-align: center;
-}
+// UTILITIES
+@use './styles/utilities/utilities-text';
+@use './styles/utilities/utilities-spacing';
 
 // One sided spacings & spacing reset helpers
 .eo-padding-left-none {
   padding-left: 0;
 }
+
 .eo-padding-top-none {
   padding-top: 0;
 }
+
 .eo-padding-top-xl {
   padding-top: var(--watt-space-xl);
 }
+
 .eo-padding-bottom-xl {
   padding-bottom: var(--watt-space-xl);
+}
+
+.eo-margin-left-m {
+  margin-left: var(--watt-space-m) !important;
+}
+
+.eo-margin-left-xl {
+  margin-left: var(--watt-space-xl) !important;
 }

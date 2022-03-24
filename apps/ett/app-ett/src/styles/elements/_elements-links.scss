@@ -14,24 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
-
-@Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'eo-metering-points-shell',
-  styles: [
-    `
-      :host {
-        display: block;
-      }
-    `,
-  ],
-  template: `<p>You do not have any metering points.</p>`,
-})
-export class EoMeteringPointsShellComponent {}
-
-@NgModule({
-  declarations: [EoMeteringPointsShellComponent],
-  exports: [EoMeteringPointsShellComponent],
-})
-export class EoMeteringPointsShellScam {}
+a,
+[routerLink] {
+  cursor: pointer; // This makes Angular routerLinks hoverable with a pointer
+}
