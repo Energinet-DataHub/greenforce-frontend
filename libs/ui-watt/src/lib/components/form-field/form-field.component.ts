@@ -39,6 +39,7 @@ import { WattInputDirective } from '../input/input.directive';
 })
 export class FormFieldComponent implements AfterViewInit {
   @Input() size: 'normal' | 'large' = 'normal';
+
   @HostBinding('class')
   get _cssClass() {
     return [`watt-form-field-${this.size}`];
