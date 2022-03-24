@@ -18,7 +18,6 @@ import { CommonModule } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   Input,
   NgModule,
@@ -61,8 +60,10 @@ export class DhProcessesTableComponent implements AfterViewInit {
   ];
   iconSize = WattIconSize;
   sortedData: DhProcessesTableRow[] = [];
-  @Input()
-  processes: DhProcess[] = [];
+
+  @Input() processes: DhProcess[] = [];
+
+  processRows: DhProcessesTableRow[] = [];
 
   @ViewChild(MatSort) matSort?: MatSort;
 
@@ -84,11 +85,15 @@ export class DhProcessesTableComponent implements AfterViewInit {
   }
 
   private static getRowHeight(rowElement: HTMLElement): number {
-    rowElement.classList.remove('collapsed');
-    const height = rowElement.clientHeight;
-    rowElement.classList.add('collapsed');
+    return rowElement.children[0].clientHeight;
+  }
 
-    return height;
+  private static compare(
+    a: number | string,
+    b: number | string,
+    isAsc: boolean
+  ) {
+    return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
   }
 
   private setDefaultSorting() {
@@ -99,12 +104,6 @@ export class DhProcessesTableComponent implements AfterViewInit {
     this.matSort.sort(sortable);
   }
 
-  private compare(a: number | string, b: number | string, isAsc: boolean) {
-    return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
-  }
-
-  constructor(private cdr: ChangeDetectorRef) {}
-
   ngAfterViewInit(): void {
     if (this.processes != undefined) {
       this.setDefaultSorting();
@@ -112,35 +111,50 @@ export class DhProcessesTableComponent implements AfterViewInit {
   }
 
   sortData(sort: Sort) {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const data = DhProcessesTableComponent.wrapInTableRow(
-      this.processes?.slice()
-    );
+    if (this.processRows.length === 0) {
+      this.processRows = DhProcessesTableComponent.wrapInTableRow(
+        this.processes
+      );
+    }
     if (!sort.active || sort.direction === '') {
-      this.sortedData = data;
+      this.sortedData = this.processRows;
       this.setDefaultSorting();
       return;
     }
 
-    this.sortedData = data.sort((a, b) => {
+    const newData = this.processRows.sort((a, b) => {
       const isAsc = sort.direction === 'asc';
       switch (sort.active) {
         case 'name':
-          return this.compare(a.data.name, b.data.name, isAsc);
+          return DhProcessesTableComponent.compare(
+            a.data.name,
+            b.data.name,
+            isAsc
+          );
         case 'createdDate':
-          return this.compare(a.data.createdDate, b.data.createdDate, isAsc);
+          return DhProcessesTableComponent.compare(
+            a.data.createdDate,
+            b.data.createdDate,
+            isAsc
+          );
         case 'effectiveDate':
-          return this.compare(
+          return DhProcessesTableComponent.compare(
             a.data.effectiveDate ?? '',
             b.data.effectiveDate ?? '',
             isAsc
           );
         case 'status':
-          return this.compare(a.data.status, b.data.status, isAsc);
+          return DhProcessesTableComponent.compare(
+            a.data.status,
+            b.data.status,
+            isAsc
+          );
         default:
           return 0;
       }
     });
+
+    this.sortedData = newData;
   }
 
   toggleRow(event: Event, row: DhProcessesTableRow) {
@@ -157,20 +171,13 @@ export class DhProcessesTableComponent implements AfterViewInit {
   }
 
   expandRow(rowToExpand: HTMLElement, row: DhProcessesTableRow) {
-    const height = DhProcessesTableComponent.getRowHeight(rowToExpand);
-
-    // TODO: Any better way to do this?
-    setTimeout(() => {
-      row.height = height;
-      row.expanded = true;
-      this.cdr.detectChanges();
-    }, 10);
+    row.height = DhProcessesTableComponent.getRowHeight(rowToExpand);
+    row.expanded = true;
   }
 
   collapseRow(row: DhProcessesTableRow) {
     row.height = 0;
     row.expanded = false;
-    this.cdr.detectChanges();
   }
 }
 
