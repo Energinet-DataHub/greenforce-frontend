@@ -27,7 +27,6 @@ import { EoLandingPageStore } from './eo-landing-page.store';
 import { EoLandingPageImageTextLayoutScam } from './layout/eo-landing-page-image-text-layout.component';
 
 @Component({
-  providers: [EoLandingPageStore],
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'eo-landing-page-shell',
   styles: [
@@ -64,6 +63,7 @@ import { EoLandingPageImageTextLayoutScam } from './layout/eo-landing-page-image
       <eo-landing-page-notification
         class="u-collapse-bottom"
       ></eo-landing-page-notification>
+
       <eo-landing-page-hero></eo-landing-page-hero>
 
       <eo-landing-page-introduction></eo-landing-page-introduction>
@@ -78,6 +78,7 @@ import { EoLandingPageImageTextLayoutScam } from './layout/eo-landing-page-image
 
     <eo-footer></eo-footer>
   `,
+  viewProviders: [EoLandingPageStore],
 })
 export class EoLandingPageShellComponent {}
 
