@@ -14,74 +14,62 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  ChangeDetectionStrategy,
-  Component,
-  NgModule,
-  ViewEncapsulation,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
 import { WattIconModule, WattIconSize } from '@energinet-datahub/watt';
 
-import { EoLandingPageColumnLayoutScam } from './eo-landing-page-column-layout.component';
 import { EoLandingPageLoginButtonScam } from './eo-landing-page-login-button.component';
-
-const selector = 'eo-landing-page-call-to-action';
+import { EoLandingPageColumnLayoutScam } from './layout/eo-landing-page-column-layout.component';
 
 @Component({
-  selector,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: 'eo-landing-page-call-to-action',
   styles: [
     `
-      ${selector} {
-        display: block;
+      :host {
+        display: flex;
+        height: 300px; // Magic number by designer
+        align-items: center;
+        justify-content: center;
+
         text-align: center;
 
-        a {
-          display: inline-block;
-
-          margin-left: var(--watt-space-s);
-        }
-      }
-      .${selector}__h2 {
-        display: flex;
-        align-items: center;
-      }
-      .${selector}__call-to-action-wrapper {
-        height: calc(75 * var(--watt-space-xs));
         background: var(
           --watt-color-focus-selection
         ); // This is the light-blue-ish background color
-        display: flex;
-        align-items: center;
-        justify-content: center;
       }
 
-      .${selector}__login-button > a {
-        width: calc(40 * var(--watt-space-xs));
+      h1 {
+        display: flex; // Align text and icon vertically
+      }
+
+      eo-landing-page-login-button {
+        min-width: 120px; // Magic number by designer
+      }
+
+      .icon-link {
+        display: flex; // Center the icon vertically
       }
     `,
   ],
   template: `
-    <div class="${selector}__call-to-action-wrapper">
-      <eo-landing-page-column-layout [layoutType]="'full'">
-        <h2 class="${selector}__h2">
-          Log in with your company NemID
+    <eo-landing-page-column-layout [layoutType]="'full'">
+      <div class="watt-space-stack-m">
+        <h1>
+          <div class="watt-space-inline-s">Log in with your company NemID</div>
+
           <a
             href="https://www.nemid.nu/dk-en/about_nemid/index.html"
             target="_blank"
             rel="nofollow noopener"
+            class="icon-link"
           >
             <watt-icon name="primary_info" [size]="iconSize.Large"></watt-icon>
           </a>
-        </h2>
-
-        <eo-landing-page-login-button
-          class="${selector}__login-button"
-        ></eo-landing-page-login-button>
-      </eo-landing-page-column-layout>
-    </div>
+        </h1>
+      </div>
+      <eo-landing-page-login-button></eo-landing-page-login-button>
+    </eo-landing-page-column-layout>
   `,
-  encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EoLandingPageCallToActionComponent {
   iconSize = WattIconSize;
