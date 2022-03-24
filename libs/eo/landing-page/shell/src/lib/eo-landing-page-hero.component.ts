@@ -48,7 +48,7 @@ import { EoLandingPageColumnLayoutScam } from './layout/eo-landing-page-column-l
         justify-content: center;
         align-content: space-around;
 
-        background-color: #c1d6d9; // Match bottom color from hero illustration
+        background-color: #bed7d9; // Match bottom color from hero illustration
       }
     `,
   ],
