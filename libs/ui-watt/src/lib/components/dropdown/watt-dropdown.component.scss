@@ -35,6 +35,7 @@ watt-dropdown {
 .watt-dropdown-panel {
   margin-top: 44px;
   min-width: calc(100% + 2px) !important;
+  margin-left: -1px;
 
   .mat-select-search-inner {
     background-color: transparent;
