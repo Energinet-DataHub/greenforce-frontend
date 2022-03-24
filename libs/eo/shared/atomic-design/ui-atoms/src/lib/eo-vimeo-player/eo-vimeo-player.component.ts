@@ -65,23 +65,44 @@ import Player from '@vimeo/player';
     <img
       *ngIf="isPosterVisible"
       class="poster-image"
-      [src]="posterImage"
+      [src]="poster"
       (click)="onVideoPlay()"
     />
   `,
 })
 export class EoVimeoPlayerComponent {
-  #safeUrl: string | null = null;
+  #safePosterUrl = '';
+  #safeVideoUrl: string | null = null;
 
   @Input()
-  posterImage = '/assets/images/vimeo-video-poster.png';
-  @Input()
-  set url(url: string | null) {
+  set poster(url: string | null) {
     if (url === null) {
       return;
     }
 
-    this.#safeUrl = this.sanitizer.sanitize(
+    const maybePosterUrl = (this.#safeVideoUrl = this.sanitizer.sanitize(
+      SecurityContext.RESOURCE_URL,
+      this.sanitizer.bypassSecurityTrustResourceUrl(url)
+    ));
+
+    if (maybePosterUrl === null) {
+      console.error(`The specified Viemo poster URL is unsafe: "${url}"`);
+
+      return;
+    }
+
+    this.#safePosterUrl = maybePosterUrl;
+  }
+  get poster(): string {
+    return this.#safePosterUrl;
+  }
+  @Input()
+  set video(url: string | null) {
+    if (url === null) {
+      return;
+    }
+
+    this.#safeVideoUrl = this.sanitizer.sanitize(
       SecurityContext.RESOURCE_URL,
       this.sanitizer.bypassSecurityTrustResourceUrl(url)
     );
@@ -96,14 +117,14 @@ export class EoVimeoPlayerComponent {
   ) {}
 
   async onVideoPlay(): Promise<void> {
-    if (this.#safeUrl === null) {
-      console.error(`The specified Vimeo URL is unsafe: "${this.url}"`);
+    if (this.#safeVideoUrl === null) {
+      console.error(`The specified Vimeo video URL is unsafe: "${this.video}"`);
 
       return;
     }
 
     const vimeoPlayer = new Player(this.hostElement.nativeElement, {
-      url: this.#safeUrl,
+      url: this.#safeVideoUrl,
     });
 
     await vimeoPlayer.ready();

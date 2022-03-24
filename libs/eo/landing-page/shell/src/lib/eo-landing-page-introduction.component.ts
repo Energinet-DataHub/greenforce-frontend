@@ -80,7 +80,8 @@ import { EoLandingPageColumnLayoutScam } from './layout/eo-landing-page-column-l
 
       <div class="video-wrapper">
         <eo-vimeo-player
-          url="https://player.vimeo.com/video/642352286?h=91e1a8b63c&badge=0&autopause=0&player_id=0&app_id=58479"
+          poster="assets/images/vimeo-video-poster.png"
+          video="https://player.vimeo.com/video/642352286?h=91e1a8b63c&badge=0&autopause=0&player_id=0&app_id=58479"
         ></eo-vimeo-player>
       </div>
     </div>
