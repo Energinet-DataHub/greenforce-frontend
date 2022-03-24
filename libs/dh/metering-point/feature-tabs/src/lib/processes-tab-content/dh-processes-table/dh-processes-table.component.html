@@ -144,16 +144,16 @@ limitations under the License.
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
     <mat-row
       *matRowDef="let row; columns: displayedColumns"
-      (click)="expandRow($event, row)"
+      (click)="toggleRow($event, row)"
       class="clickable"
-      [attr.data-testid]="'processRow-' + row.id"
+      [attr.data-testid]="'processRow-' + row.data.id"
     ></mat-row>
     <mat-row
       *matRowDef="let row; columns: ['expandedDetail']"
       class="expandable"
-      [ngClass]="{ expanded: row.expanded }"
-      [ngStyle]="{ 'max-height': row.expanded ? row.height : 0 }"
-      [attr.data-testid]="'detailsRow-' + row.id"
+      [ngClass]="{ expanded: row.expanded, collapsed: !row.expanded }"
+      [ngStyle]="{ 'max-height': row.expanded ? row.height + 'px' : null }"
+      [attr.data-testid]="'detailsRow-' + row.data.id"
     ></mat-row>
   </mat-table>
 </ng-container>

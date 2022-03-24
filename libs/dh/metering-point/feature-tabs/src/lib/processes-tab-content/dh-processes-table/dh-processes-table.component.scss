@@ -51,6 +51,9 @@ mat-row.expandable {
   //min-height: auto;
   transition: max-height .4s ease-out;
   transform-origin: top;
+  &.collapsed {
+    max-height: 0;
+  }
   &.expanded {
     transition: max-height .4s ease-in;
   }

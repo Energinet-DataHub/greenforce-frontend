@@ -18,6 +18,7 @@ import { CommonModule } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   Input,
   NgModule,
@@ -73,6 +74,23 @@ export class DhProcessesTableComponent implements AfterViewInit {
     }));
   }
 
+  private static getRowToExpand(
+    clickedRow: HTMLElement
+  ): HTMLElement | undefined {
+    return (
+      (clickedRow.closest('mat-row')?.nextElementSibling as HTMLElement) ??
+      undefined
+    );
+  }
+
+  private static getRowHeight(rowElement: HTMLElement): number {
+    rowElement.classList.remove('collapsed');
+    const height = rowElement.clientHeight;
+    rowElement.classList.add('collapsed');
+
+    return height;
+  }
+
   private setDefaultSorting() {
     if (this.matSort === undefined) return;
 
@@ -84,6 +102,8 @@ export class DhProcessesTableComponent implements AfterViewInit {
   private compare(a: number | string, b: number | string, isAsc: boolean) {
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
   }
+
+  constructor(private cdr: ChangeDetectorRef) {}
 
   ngAfterViewInit(): void {
     if (this.processes != undefined) {
@@ -123,11 +143,34 @@ export class DhProcessesTableComponent implements AfterViewInit {
     });
   }
 
-  expandRow(event: Event, row: DhProcessesTableRow) {
-    console.log(event, row);
-    const rowToExpand = (event.target as HTMLElement).closest(
-      'mat-row'
-    ).nextElementSibling;
+  toggleRow(event: Event, row: DhProcessesTableRow) {
+    if (!row.expanded && event.target) {
+      const rowToExpand = DhProcessesTableComponent.getRowToExpand(
+        event.target as HTMLElement
+      );
+      if (!rowToExpand) return;
+
+      this.expandRow(rowToExpand, row);
+    } else {
+      this.collapseRow(row);
+    }
+  }
+
+  expandRow(rowToExpand: HTMLElement, row: DhProcessesTableRow) {
+    const height = DhProcessesTableComponent.getRowHeight(rowToExpand);
+
+    // TODO: Any better way to do this?
+    setTimeout(() => {
+      row.height = height;
+      row.expanded = true;
+      this.cdr.detectChanges();
+    }, 10);
+  }
+
+  collapseRow(row: DhProcessesTableRow) {
+    row.height = 0;
+    row.expanded = false;
+    this.cdr.detectChanges();
   }
 }
 
