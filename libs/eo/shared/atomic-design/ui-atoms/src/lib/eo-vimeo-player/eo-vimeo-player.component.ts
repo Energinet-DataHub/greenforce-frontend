@@ -24,36 +24,27 @@ import {
   OnInit,
   SecurityContext,
   ViewChild,
-  ViewEncapsulation,
 } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import Player from '@vimeo/player';
 
-const selector = 'eo-vimeo-player';
+const wrapperClass = 'embed-container';
 
 @Component({
-  template: `
-    <div class="${selector}__embed-container">
-      <img
-        class="${selector}__poster-image"
-        *ngIf="showPosterImage"
-        [src]="posterImage"
-        (click)="onVideoPlay()"
-      />
-      <div #vimeoEmbedContainer></div>
-    </div>
-  `,
-  selector,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: 'eo-vimeo-player',
   styles: [
     `
-      ${selector} {
+      :host {
         display: block;
       }
-      .${selector}__poster-image {
+
+      .poster-image {
         width: 100%;
         cursor: pointer;
       }
-      .${selector}__embed-container {
+
+      .${wrapperClass} {
         position: relative;
         padding-bottom: 56.25%;
         height: 0;
@@ -71,8 +62,17 @@ const selector = 'eo-vimeo-player';
       }
     `,
   ],
-  encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: `
+    <div class="${wrapperClass}">
+      <img
+        class="poster-image"
+        *ngIf="showPosterImage"
+        [src]="posterImage"
+        (click)="onVideoPlay()"
+      />
+      <div #vimeoEmbedContainer></div>
+    </div>
+  `,
 })
 export class EoVimeoPlayerComponent implements OnInit {
   showPosterImage = true;
@@ -102,7 +102,7 @@ export class EoVimeoPlayerComponent implements OnInit {
 
   onVideoPlay() {
     const vimeoEmbedContainerRef = this.vimeoEmbedContainer.nativeElement;
-    vimeoEmbedContainerRef.classList.add(`${selector}__embed-container`);
+    vimeoEmbedContainerRef.classList.add(wrapperClass);
 
     const player = new Player(vimeoEmbedContainerRef, {
       url: this.safeUrl as string,
@@ -117,8 +117,8 @@ export class EoVimeoPlayerComponent implements OnInit {
 }
 
 @NgModule({
-  imports: [CommonModule],
   declarations: [EoVimeoPlayerComponent],
   exports: [EoVimeoPlayerComponent],
+  imports: [CommonModule],
 })
 export class EoVimeoPlayerScam {}
