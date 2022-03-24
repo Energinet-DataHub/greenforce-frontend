@@ -115,7 +115,7 @@ describe(WattNavListModule.name, () => {
     ).toHaveAttribute('href', 'https://energinet.dk');
   });
 
-  describe('Description goes here', () => {
+  describe(`${WattNavListModule.name} - Verify links added with href attribute opens in expected windows`, () => {
     const setup = async (target: string | null) => {
       // Arrange
       await render(
