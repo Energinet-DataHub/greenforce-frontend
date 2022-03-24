@@ -103,6 +103,18 @@
     "@angular-devkit/architect" "0.1300.4"
     rxjs "6.6.7"
 
+"@angular-devkit/core@12.2.16":
+  version "12.2.16"
+  resolved "https://registry.yarnpkg.com/@angular-devkit/core/-/core-12.2.16.tgz#3a833fde6be1997f4961565da8bec1bb58fb8b8d"
+  integrity sha512-cnVtUYSET27B5mRIBp38mpKIX0iHv/hWKiPo74WCGrNwTgwmMHngjgQ4ySn/w1W4s8LL6TDW55ZkRdwyk8TVMQ==
+  dependencies:
+    ajv "8.6.2"
+    ajv-formats "2.1.0"
+    fast-json-stable-stringify "2.1.0"
+    magic-string "0.25.7"
+    rxjs "6.6.7"
+    source-map "0.7.3"
+
 "@angular-devkit/core@13.0.4":
   version "13.0.4"
   resolved "https://registry.yarnpkg.com/@angular-devkit/core/-/core-13.0.4.tgz#98b7e2d34afc117cafcbba1cd71f00e3c7089289"
@@ -126,6 +138,15 @@
     magic-string "0.25.7"
     rxjs "6.6.7"
     source-map "0.7.3"
+
+"@angular-devkit/schematics@12.2.16":
+  version "12.2.16"
+  resolved "https://registry.yarnpkg.com/@angular-devkit/schematics/-/schematics-12.2.16.tgz#b1e9df5bcbb557199256f655bf839d447630ceec"
+  integrity sha512-ToyZBCGilSeeLmhAxmeJ0PykmbKLoME+uK78gC64xJtNu9e3oVnmog8b8g9Ay9hTwZJ96HvNa16po11Gfbbn6A==
+  dependencies:
+    "@angular-devkit/core" "12.2.16"
+    ora "5.4.1"
+    rxjs "6.6.7"
 
 "@angular-devkit/schematics@13.0.4", "@angular-devkit/schematics@~13.0.0":
   version "13.0.4"
@@ -3062,6 +3083,15 @@
     "@angular-devkit/schematics" "13.0.4"
     jsonc-parser "3.0.0"
 
+"@schematics/angular@^12.0.0":
+  version "12.2.16"
+  resolved "https://registry.yarnpkg.com/@schematics/angular/-/angular-12.2.16.tgz#0d0684f00ca704ec35eb132db3c6042754b0de0a"
+  integrity sha512-EITPMaRE7iCosf0nyZFOpxTDAiPD3qm4QUxHKcwIaJTrzi89nBoUubw8+pFy5/Gtpadww80YD8ODV64B1bPGMA==
+  dependencies:
+    "@angular-devkit/core" "12.2.16"
+    "@angular-devkit/schematics" "12.2.16"
+    jsonc-parser "3.0.0"
+
 "@sideway/address@^4.1.0":
   version "4.1.2"
   resolved "https://registry.yarnpkg.com/@sideway/address/-/address-4.1.2.tgz#811b84333a335739d3969cfc434736268170cad1"
@@ -5141,6 +5171,13 @@ ajv-errors@^1.0.0:
   resolved "https://registry.yarnpkg.com/ajv-errors/-/ajv-errors-1.0.1.tgz#f35986aceb91afadec4102fbd85014950cefa64d"
   integrity sha512-DCRfO/4nQ+89p/RK43i8Ezd41EqdGIU4ld7nGF8OQ14oc/we5rEntLCUa7+jrn3nn83BosfwZA0wb4pon2o8iQ==
 
+ajv-formats@2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/ajv-formats/-/ajv-formats-2.1.0.tgz#96eaf83e38d32108b66d82a9cb0cfa24886cdfeb"
+  integrity sha512-USH2jBb+C/hIpwD2iRjp0pe0k+MvzG0mlSn/FIdCgQhUb9ALPRjt2KIQdfZDS9r0ZIeUAg7gOu9KL0PFqGqr5Q==
+  dependencies:
+    ajv "^8.0.0"
+
 ajv-formats@2.1.1, ajv-formats@^2.1.1:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/ajv-formats/-/ajv-formats-2.1.1.tgz#6e669400659eb74973bbf2e33327180a0996b520"
@@ -5159,6 +5196,16 @@ ajv-keywords@^5.0.0:
   integrity sha512-YCS/JNFAUyr5vAuhk1DWm1CBxRHW9LbJ2ozWeemrIqpbsqKjHVxYPyi5GC0rjZIT5JxJ3virVTS8wk4i/Z+krw==
   dependencies:
     fast-deep-equal "^3.1.3"
+
+ajv@8.6.2:
+  version "8.6.2"
+  resolved "https://registry.yarnpkg.com/ajv/-/ajv-8.6.2.tgz#2fb45e0e5fcbc0813326c1c3da535d1881bb0571"
+  integrity sha512-9807RlWAgT564wT+DjeyU5OFMPjmzxVobvDFmNAhY+5zD6A2ly3jDp6sgnfyDtlIQ+7H97oc/DGCzzfu9rjw9w==
+  dependencies:
+    fast-deep-equal "^3.1.1"
+    json-schema-traverse "^1.0.0"
+    require-from-string "^2.0.2"
+    uri-js "^4.2.2"
 
 ajv@8.6.3:
   version "8.6.3"
@@ -12882,6 +12929,14 @@ ng-packagr@13.0.8:
   optionalDependencies:
     esbuild "^0.13.0"
 
+ngx-build-plus@12.2.0:
+  version "12.2.0"
+  resolved "https://registry.yarnpkg.com/ngx-build-plus/-/ngx-build-plus-12.2.0.tgz#5f9870f210e4bd0ddb471f98294b210adf2ab3b2"
+  integrity sha512-y99qb/DabtIwW5PgOlCf/eXvm65ax5PPOuToZUHtjUD0IrZ7KRfd8fq/3s8OCYYNf4VSdop1EonmI08ftfeqMg==
+  dependencies:
+    "@schematics/angular" "^12.0.0"
+    webpack-merge "^5.0.0"
+
 nice-napi@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/nice-napi/-/nice-napi-1.0.2.tgz#dc0ab5a1eac20ce548802fc5686eaa6bc654927b"
@@ -17562,7 +17617,7 @@ webpack-merge@5.7.3:
     clone-deep "^4.0.1"
     wildcard "^2.0.0"
 
-webpack-merge@5.8.0:
+webpack-merge@5.8.0, webpack-merge@^5.0.0:
   version "5.8.0"
   resolved "https://registry.yarnpkg.com/webpack-merge/-/webpack-merge-5.8.0.tgz#2b39dbf22af87776ad744c390223731d30a68f61"
   integrity sha512-/SaI7xY0831XwP6kzuwhKWVKDP9t1QY1h65lAFLbZqMPIuYcD9QAW4u9STIbU9kaJbPBB/geU/gLr1wDjOhQ+Q==
