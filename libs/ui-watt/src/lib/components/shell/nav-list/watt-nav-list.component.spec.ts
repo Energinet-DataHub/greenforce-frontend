@@ -111,54 +111,47 @@ describe(WattNavListModule.name, () => {
 
   });
 
-  it ('Opens external links in a new browser tab, when specified', async () => {
-    // Arrange
-    await render(
-      `
-      <watt-nav-list>
-        <watt-nav-list-item link="https://energinet.dk" target="_blank">
-          Energinet
-        </watt-nav-list-item>
-      </watt-nav-list>
-    `,
-      {
-        imports: [WattNavListModule],
-      }
-    );
+  describe('Description goes here', () => {
 
-    // Act
+    const setup = async (target: string | null) => {
+      // Arrange
+      await render(
+        `
+        <watt-nav-list>
+          <watt-nav-list-item link="https://energinet.dk" [target]="target">
+            Energinet
+          </watt-nav-list-item>
+        </watt-nav-list>
+      `,
+        {
+          imports: [WattNavListModule],
+          componentProperties: {
+            target,
+          }
+        }
+      );
+    }
 
-    // Assert
-    const link = await screen.findByRole('link', {
-      name: /energinet/i,
+    it ('Opens external links in a new browser tab, when specified', async () => {
+      // Arrange
+      await setup('_blank');
+      // Act
+      // Assert
+      const link = await screen.findByRole('link', {
+        name: /energinet/i,
+      });
+      expect(link).toHaveAttribute('target', '_blank');
     });
 
-    expect(link).toHaveAttribute('target', '_blank');
-  });
-
-  it ('Opens external links in the same browser tab by default', async () => {
-    // Arrange
-    await render(
-      `
-      <watt-nav-list>
-        <watt-nav-list-item link="https://energinet.dk">
-          Energinet
-        </watt-nav-list-item>
-      </watt-nav-list>
-    `,
-      {
-        imports: [WattNavListModule],
-      }
-    );
-
-    // Act
-
-    // Assert
-    const link = await screen.findByRole('link', {
-      name: /energinet/i,
+    it ('Opens external links in the same browser tab by default', async () => {
+      await setup(null);
+      // Act
+      // Assert
+      const link = await screen.findByRole('link', {
+        name: /energinet/i,
+      });
+      expect(link).not.toHaveAttribute('target');
     });
-
-    expect(link).toHaveAttribute('target', '_self');
   });
 
 });

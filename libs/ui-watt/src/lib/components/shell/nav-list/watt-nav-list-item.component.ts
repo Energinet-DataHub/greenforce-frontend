@@ -36,7 +36,7 @@ import {RouterModule} from '@angular/router';
       mat-list-item
       mat-ripple
       [href]="link"
-      [target]="target"
+      [attr.target]="target"
       ><ng-container *ngTemplateOutlet="templateContent"></ng-container
     ></a>
 
@@ -53,7 +53,7 @@ import {RouterModule} from '@angular/router';
 })
 export class WattNavListItemComponent {
   @Input() link: string | null = null;
-  @Input() target = '_self';
+  @Input() target: '_self' | '_blank' | '_parent' | '_top' | null = null;
 
   get isExternalLink(): boolean {
     return /^(http|https)/i.test(this.link as string);
