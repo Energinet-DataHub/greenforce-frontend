@@ -24,31 +24,41 @@ import { EoLandingPageColumnLayoutScam } from './layout/eo-landing-page-column-l
   selector: 'eo-landing-page-introduction',
   styles: [
     `
+      // 1. Inset XXL.
       :host {
+        --eo-space-xxl: calc(2 * var(--watt-space-xl)); // [1]
+
         display: block;
-        /* margin-bottom: calc(2 * var(--watt-space-xl)); */
+
+        margin: var(--eo-space-xxl); // [1]
       }
 
       .embedded {
         max-width: 640px; // Magic number by designer
         margin: 0 auto;
       }
+
+      // 1. Center content with max width.
+      .content-wrapper {
+        margin: 0 auto; // [1]
+        max-width: var(--eo-landing-page-content-max-width); // [1]
+      }
     `,
   ],
   template: `
-    <eo-landing-page-column-layout [layoutType]="'full'">
-      <div class="eo-space-inset-xxl">
-        <h2>What is Energy Origin?</h2>
+    <div class="content-wrapper">
+      <h2>What is Energy Origin?</h2>
 
-        <p>
-          Energy Origin is a platform which provides you with access to
-          <strong>data</strong> about the
-          <strong>origins of your energy</strong> and the corresponding
-          <strong>emissions</strong>. This first version of Energy Origin is for
-          companies in Denmark and can be used for e.g.:
-        </p>
+      <p>
+        Energy Origin is a platform which provides you with access to
+        <strong>data</strong> about the
+        <strong>origins of your energy</strong> and the corresponding
+        <strong>emissions</strong>. This first version of Energy Origin is for
+        companies in Denmark and can be used for e.g.:
+      </p>
 
-        <ul class="watt-space-stack-l">
+      <div class="watt-space-stack-l">
+        <ul class="watt-space-inset-squish-m">
           <li>
             Compiling an <strong>emissions overview</strong> for your annual ECG
             report
@@ -58,22 +68,22 @@ import { EoLandingPageColumnLayoutScam } from './layout/eo-landing-page-column-l
             energy consumption
           </li>
         </ul>
-
-        <div class="watt-space-stack-l">
-          <a
-            href="https://en.energinet.dk/Electricity/DataHub/Energy-Origin"
-            target="_blank"
-            >Read more about Project Energy Origin</a
-          >
-        </div>
-
-        <div class="embedded">
-          <eo-vimeo-player
-            url="https://player.vimeo.com/video/642352286?h=91e1a8b63c&badge=0&autopause=0&player_id=0&app_id=58479"
-          ></eo-vimeo-player>
-        </div>
       </div>
-    </eo-landing-page-column-layout>
+
+      <div class="watt-space-stack-l">
+        <a
+          href="https://en.energinet.dk/Electricity/DataHub/Energy-Origin"
+          target="_blank"
+          >Read more about Project Energy Origin</a
+        >
+      </div>
+
+      <div class="embedded">
+        <eo-vimeo-player
+          url="https://player.vimeo.com/video/642352286?h=91e1a8b63c&badge=0&autopause=0&player_id=0&app_id=58479"
+        ></eo-vimeo-player>
+      </div>
+    </div>
   `,
 })
 export class EoLandingPageIntroductionComponent {}

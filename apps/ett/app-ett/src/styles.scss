@@ -19,59 +19,17 @@
 @use './styles/generic/generic-normalize';
 @use './styles/generic/generic-reset';
 
-// DESIGN SYSTEM
-@use '@energinet-datahub/watt' as watt;
+// ELEMENTS
+@use './styles/elements/elements-page';
+@use './styles/elements/elements-links';
+@use './styles/elements/elements-lists';
 
-html,
-body {
-  min-height: 100%;
-}
+// THEMES
+@use './styles/themes/themes-watt';
 
-body strong {
-  color: inherit; // Override Watt styles
-}
-
-a,
-[routerLink] {
-  text-decoration: underline; // This overrides WATT styles (which removes the underline on a tags)
-  cursor: pointer; // This makes Angular routerLinks hoverable with a pointer
-}
-
-label {
-  text-transform: none; // Override .watt-label, which uppercases labels
-}
-
-body strong {
-  color: inherit; // Override Watt style
-}
-
-.eo-text-center {
-  text-align: center;
-}
-
-.eo-text-promotional {
-  text-transform: uppercase;
-}
-
-.eo-text-primary {
-  color: var(--watt-color-primary);
-}
-
-.eo-text-primary-contrast {
-  color: var(--watt-color-primary-contrast);
-}
-
-.eo-space-inset-xxl {
-  padding: calc(2 * var(--watt-space-xl)) !important;
-}
-
-.eo-space-inset-squished-m {
-  padding: var(--watt-space-s) var(--watt-space-m) !important; // .watt-space-inset-squish-m does not have !important
-}
-
-.eo-space-inset-stretched-l {
-  padding: var(--watt-space-l) var(--watt-space-m) !important; // .watt-space-inset-squish-l is not declared yet
-}
+// UTILITIES
+@use './styles/utilities/utilities-text';
+@use './styles/utilities/utilities-spacing';
 
 // One sided spacings & spacing reset helpers
 .eo-padding-left-none {
