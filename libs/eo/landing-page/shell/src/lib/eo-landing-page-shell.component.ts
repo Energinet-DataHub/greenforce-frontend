@@ -67,6 +67,7 @@ import { EoLandingPageImageTextLayoutScam } from './layout/eo-landing-page-image
       <eo-landing-page-hero></eo-landing-page-hero>
 
       <eo-landing-page-introduction></eo-landing-page-introduction>
+
       <eo-landing-page-image-text-layout></eo-landing-page-image-text-layout>
 
       <eo-landing-page-call-to-action></eo-landing-page-call-to-action>
