@@ -17,18 +17,15 @@
 import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   ElementRef,
   Input,
   NgModule,
-  OnInit,
   SecurityContext,
-  ViewChild,
 } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import Player from '@vimeo/player';
-
-const wrapperClass = 'embed-container';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -37,14 +34,7 @@ const wrapperClass = 'embed-container';
     `
       :host {
         display: block;
-      }
 
-      .poster-image {
-        width: 100%;
-        cursor: pointer;
-      }
-
-      .${wrapperClass} {
         position: relative;
         overflow: hidden;
 
@@ -52,7 +42,8 @@ const wrapperClass = 'embed-container';
         height: 0;
         padding-bottom: 56.25%;
 
-        > iframe {
+        // Lazy-loaded Vimeo iframe
+        ::ng-deep iframe {
           position: absolute;
           top: 0;
           left: 0;
@@ -62,59 +53,66 @@ const wrapperClass = 'embed-container';
           height: 100%;
         }
       }
+
+      .poster-image {
+        width: 100%;
+
+        cursor: pointer;
+      }
     `,
   ],
   template: `
-    <div class="${wrapperClass}">
-      <img
-        class="poster-image"
-        *ngIf="showPosterImage"
-        [src]="posterImage"
-        (click)="onVideoPlay()"
-      />
-      <div #vimeoEmbedContainer></div>
-    </div>
+    <img
+      *ngIf="isPosterVisible"
+      class="poster-image"
+      [src]="posterImage"
+      (click)="onVideoPlay()"
+    />
   `,
 })
-export class EoVimeoPlayerComponent implements OnInit {
-  showPosterImage = true;
-
-  @ViewChild('vimeoEmbedContainer')
-  vimeoEmbedContainer!: ElementRef<HTMLDivElement>;
+export class EoVimeoPlayerComponent {
+  #safeUrl: string | null = null;
 
   @Input()
   posterImage = '/assets/images/vimeo-video-poster.png';
-
   @Input()
-  url = '';
+  set url(url: string | null) {
+    if (url === null) {
+      return;
+    }
 
-  // Type of DomSanitizer.sanitize return value: 'string | null'.
-  // We need 'string' for the video player 'url' property
-  // Instead of 'SafeResourceUrl' from 'DomSanitizer.bypassSecurityTrustResourceUrl', which returns an object
-  safeUrl: string | null = '';
-
-  constructor(private sanitizer: DomSanitizer) {}
-
-  ngOnInit() {
-    this.safeUrl = this.sanitizer.sanitize(
+    this.#safeUrl = this.sanitizer.sanitize(
       SecurityContext.RESOURCE_URL,
-      this.sanitizer.bypassSecurityTrustResourceUrl(this.url)
+      this.sanitizer.bypassSecurityTrustResourceUrl(url)
     );
   }
 
-  onVideoPlay() {
-    const vimeoEmbedContainerRef = this.vimeoEmbedContainer.nativeElement;
-    vimeoEmbedContainerRef.classList.add(wrapperClass);
+  isPosterVisible = true;
 
-    const player = new Player(vimeoEmbedContainerRef, {
-      url: this.safeUrl as string,
+  constructor(
+    private sanitizer: DomSanitizer,
+    private changeDetector: ChangeDetectorRef,
+    private hostElement: ElementRef<HTMLElement>
+  ) {}
+
+  async onVideoPlay(): Promise<void> {
+    if (this.#safeUrl === null) {
+      console.error(`The specified Vimeo URL is unsafe: "${this.url}"`);
+
+      return;
+    }
+
+    const vimeoPlayer = new Player(this.hostElement.nativeElement, {
+      url: this.#safeUrl,
     });
 
-    player.ready().then(() => {
-      player.play();
-    });
+    await vimeoPlayer.ready();
 
-    this.showPosterImage = false;
+    this.isPosterVisible = false;
+    // Manual change detection required because the video player isn't ready
+    // until some tick later than when this event handler was triggered
+    this.changeDetector.detectChanges();
+    vimeoPlayer.play();
   }
 }
 
