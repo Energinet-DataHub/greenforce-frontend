@@ -53,7 +53,6 @@ import { WattDropdownValue } from './watt-dropdown-value';
 export class WattDropdownComponent
   implements ControlValueAccessor, OnInit, OnDestroy
 {
-  /** Subject that emits when the component has been destroyed. */
   /**
    * @ignore
    */
