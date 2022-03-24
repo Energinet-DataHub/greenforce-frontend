@@ -17,7 +17,6 @@
 import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
 
 import { EoLandingPageLoginButtonScam } from './eo-landing-page-login-button.component';
-import { EoLandingPageColumnLayoutScam } from './layout/eo-landing-page-column-layout.component';
 
 @Component({
   selector: 'eo-landing-page-hero',
@@ -78,6 +77,6 @@ export class EoLandingPageHeroComponent {}
 @NgModule({
   declarations: [EoLandingPageHeroComponent],
   exports: [EoLandingPageHeroComponent],
-  imports: [EoLandingPageColumnLayoutScam, EoLandingPageLoginButtonScam],
+  imports: [EoLandingPageLoginButtonScam],
 })
 export class EoLandingPageHeroScam {}
