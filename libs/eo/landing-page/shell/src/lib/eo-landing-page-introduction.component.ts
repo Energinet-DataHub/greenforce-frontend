@@ -33,9 +33,9 @@ import { EoLandingPageColumnLayoutScam } from './layout/eo-landing-page-column-l
         margin: var(--eo-space-xxl); // [1]
       }
 
-      .embedded {
+      .video-wrapper {
         max-width: 640px; // Magic number by designer
-        margin: 0 auto;
+        margin: 0 auto; // Center content
       }
 
       // 1. Center content with max width.
@@ -78,7 +78,7 @@ import { EoLandingPageColumnLayoutScam } from './layout/eo-landing-page-column-l
         >
       </div>
 
-      <div class="embedded">
+      <div class="video-wrapper">
         <eo-vimeo-player
           url="https://player.vimeo.com/video/642352286?h=91e1a8b63c&badge=0&autopause=0&player_id=0&app_id=58479"
         ></eo-vimeo-player>
