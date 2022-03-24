@@ -47,31 +47,34 @@ describe(WattNavListModule.name, () => {
     })
     class TestPageComponent {}
 
-    const view = await render(`
+    const view = await render(
+      `
       <watt-nav-list>
         <watt-nav-list-item link="/default-page">Default page</watt-nav-list-item>
         <watt-nav-list-item link="/other-page">Other page</watt-nav-list-item>
       </watt-nav-list>
       <router-outlet></router-outlet>
-    `, {
-      declarations: [TestPageComponent],
-      imports: [WattNavListModule, RouterModule],
-      routes: [
-        {
-          path: '',
-          pathMatch: 'full',
-          redirectTo: 'default-page'
-        },
-        {
-          path: 'default-page',
-          component: TestPageComponent,
-        },
-        {
-          path: 'other-page',
-          component: TestPageComponent,
-        }
-      ],
-    });
+    `,
+      {
+        declarations: [TestPageComponent],
+        imports: [WattNavListModule, RouterModule],
+        routes: [
+          {
+            path: '',
+            pathMatch: 'full',
+            redirectTo: 'default-page',
+          },
+          {
+            path: 'default-page',
+            component: TestPageComponent,
+          },
+          {
+            path: 'other-page',
+            component: TestPageComponent,
+          },
+        ],
+      }
+    );
 
     const activeClass = 'active';
     const otherPageLink = await screen.findByRole('link', {
@@ -87,7 +90,7 @@ describe(WattNavListModule.name, () => {
     expect(otherPageLink).toHaveClass(activeClass);
   });
 
-  it ('Supports external links', async () => {
+  it('Supports external links', async () => {
     // Arrange
     await render(
       `
@@ -105,14 +108,14 @@ describe(WattNavListModule.name, () => {
     // Act
 
     // Assert
-    expect(await screen.findByRole('link', {
-      name: /energinet/i,
-    })).toHaveAttribute('href', 'https://energinet.dk');
-
+    expect(
+      await screen.findByRole('link', {
+        name: /energinet/i,
+      })
+    ).toHaveAttribute('href', 'https://energinet.dk');
   });
 
   describe('Description goes here', () => {
-
     const setup = async (target: string | null) => {
       // Arrange
       await render(
@@ -127,12 +130,12 @@ describe(WattNavListModule.name, () => {
           imports: [WattNavListModule],
           componentProperties: {
             target,
-          }
+          },
         }
       );
-    }
+    };
 
-    it ('Opens external links in a new browser tab, when specified', async () => {
+    it('Opens external links in a new browser tab, when specified', async () => {
       // Arrange
       await setup('_blank');
       // Act
@@ -143,7 +146,7 @@ describe(WattNavListModule.name, () => {
       expect(link).toHaveAttribute('target', '_blank');
     });
 
-    it ('Opens external links in the same browser tab by default', async () => {
+    it('Opens external links in the same browser tab by default', async () => {
       await setup(null);
       // Act
       // Assert
@@ -153,5 +156,4 @@ describe(WattNavListModule.name, () => {
       expect(link).not.toHaveAttribute('target');
     });
   });
-
 });
