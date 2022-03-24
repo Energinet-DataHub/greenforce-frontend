@@ -33,6 +33,9 @@ import { EoLandingPageImageTextLayoutScam } from './layout/eo-landing-page-image
   styles: [
     `
       :host {
+        --eo-screen-medium-min-width: 960px;
+        --eo-landing-page-content-max-width: var(--eo-screen-medium-min-width);
+
         display: block;
       }
 

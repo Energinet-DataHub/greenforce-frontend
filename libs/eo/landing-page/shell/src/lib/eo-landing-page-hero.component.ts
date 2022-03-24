@@ -23,8 +23,6 @@ import { EoLandingPageColumnLayoutScam } from './layout/eo-landing-page-column-l
   selector: 'eo-landing-page-hero',
   styles: [
     `
-      @use 'sass:color';
-
       :host {
         display: block;
       }
@@ -53,7 +51,7 @@ import { EoLandingPageColumnLayoutScam } from './layout/eo-landing-page-column-l
     `,
   ],
   template: `
-    <div class="eo-space-inset-stretched-l">
+    <div class="watt-space-inset-m">
       <h1 class="eo-text-promotional">
         Access
         <span class="eo-text-primary"

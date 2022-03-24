@@ -15,12 +15,7 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  NgModule,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, NgModule } from '@angular/core';
 
 export type LayoutType = 'full' | 'smallFirst' | 'largeFirst';
 
@@ -41,7 +36,7 @@ export type LayoutType = 'full' | 'smallFirst' | 'largeFirst';
       .content {
         // This is the rows which contain either on or two columns
         position: relative;
-        max-width: 960px; // Magic number by designer
+        max-width: var(--eo-landing-page-content-max-width);
         margin: 0 auto;
       }
 

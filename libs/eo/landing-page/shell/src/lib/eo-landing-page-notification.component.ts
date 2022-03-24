@@ -33,7 +33,7 @@ import { WattIconModule, WattIconSize } from '@energinet-datahub/watt';
       }
 
       eo-inline-message {
-        max-width: 960px; // Magic number by designer
+        max-width: var(--eo-landing-page-content-max-width);
       }
     `,
   ],
