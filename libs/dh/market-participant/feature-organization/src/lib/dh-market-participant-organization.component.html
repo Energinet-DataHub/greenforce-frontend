@@ -18,7 +18,7 @@ limitations under the License.
 <!-- TODO: translation -->
 <ng-container>
   <ng-container *transloco="let transloco">
-    <table mat-table [dataSource]="this.dataSource" class="mat-elevation-z8">
+    <table mat-table [dataSource]="this.dataSource" class="mat-elevation-z8" aria-label="organizations">
       <!-- Organization Name -->
       <ng-container matColumnDef="{{ this.columnIds[0] }}">
         <th mat-header-cell *matHeaderCellDef>Organisation</th>
