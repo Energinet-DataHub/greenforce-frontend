@@ -16,46 +16,70 @@
  */
 import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
 
-import { EoLandingPageColumnLayoutScam } from './layout/eo-landing-page-column-layout.component';
-
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'eo-landing-page-origin-of-energy',
   styles: [
     `
+      @use '@energinet-datahub/eo/shared/styles/spacing' as eo-spacing;
+
       :host {
         display: block;
         /* position: relative; */
+
+        @include eo-spacing.inset-xxl;
+      }
+
+      // 1. Center content with max width.
+      .landing-page-content-wrapper {
+        margin: 0 auto; // [1]
+        max-width: var(--eo-landing-page-content-max-width); // [1]
+      }
+
+      .o-media {
+        display: flex;
+      }
+
+      .o-media___body {
+        flex: 1 1;
+      }
+
+      // 1. Image is max 520px in a 960px wrapper.
+      .o-media___image {
+        flex: 1 1;
+        max-width: 54.17%; // [1]
+        margin-left: 40px;
       }
     `,
   ],
   template: `
-    <eo-landing-page-column-layout layoutType="smallFirst">
-      <ng-container contentLeftSmall>
-        <h2>View the origin of your energy</h2>
-        <p>
-          Imagine if we all knew, where our energy came from, at all times, and
-          were able to
-          <strong>choose the green energy</strong> by the hour. That is the
-          vision, we are working for with the platform Energy Origin.
-        </p>
+    <div class="landing-page-content-wrapper">
+      <div class="o-media">
+        <div class="o-media___body">
+          <h2>View the origin of your energy</h2>
+          <p>
+            Imagine if we all knew, where our energy came from, at all times,
+            and were able to
+            <strong>choose the green energy</strong> by the hour. That is the
+            vision, we are working for with the platform Energy Origin.
+          </p>
 
-        <p>
-          Simultaneity between <strong>production</strong> of sustainable energy
-          and <strong>consumption</strong> of energy will be a real factor in
-          the <strong>green transition</strong> and therefore has great
-          potential for future green solutions.
-        </p>
-      </ng-container>
+          <p>
+            Simultaneity between <strong>production</strong> of sustainable
+            energy and <strong>consumption</strong> of energy will be a real
+            factor in the <strong>green transition</strong> and therefore has
+            great potential for future green solutions.
+          </p>
+        </div>
 
-      <ng-container contentRightLarge>
-        <img
-          class="img--grow"
-          src="/assets/images/landing-page/landing-page-graph-of-energy-with-dashboard.png"
-          alt="Energy Origin graph of energy"
-        />
-      </ng-container>
-    </eo-landing-page-column-layout>
+        <div class="o-media___image">
+          <img
+            src="/assets/images/landing-page/landing-page-graph-of-energy-with-dashboard.png"
+            alt="Energy Origin graph of energy"
+          />
+        </div>
+      </div>
+    </div>
   `,
 })
 export class EoLandingPageOriginOfEnergyComponent {}
@@ -63,6 +87,5 @@ export class EoLandingPageOriginOfEnergyComponent {}
 @NgModule({
   declarations: [EoLandingPageOriginOfEnergyComponent],
   exports: [EoLandingPageOriginOfEnergyComponent],
-  imports: [EoLandingPageColumnLayoutScam],
 })
 export class EoLandingPageOriginOfEnergyScam {}
