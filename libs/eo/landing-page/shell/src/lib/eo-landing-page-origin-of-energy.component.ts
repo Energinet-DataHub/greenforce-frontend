@@ -16,11 +16,11 @@
  */
 import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
 
-import { EoLandingPageColumnLayoutScam } from './eo-landing-page-column-layout.component';
+import { EoLandingPageColumnLayoutScam } from './layout/eo-landing-page-column-layout.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'eo-landing-page-image-text-layout',
+  selector: 'eo-landing-page-origin-of-energy',
   styles: [
     `
       :host {
@@ -47,8 +47,8 @@ import { EoLandingPageColumnLayoutScam } from './eo-landing-page-column-layout.c
       .link {
         /* display: inline-block; */
         /* color: var(
-          --watt-color-primary
-        ); // This overrides the '--watt-color-primary-dark' color which is currently added by the watt-text-s class */
+           --watt-color-primary
+         ); // This overrides the '--watt-color-primary-dark' color which is currently added by the watt-text-s class */
       }
 
       .full-width-wrapper {
@@ -96,60 +96,13 @@ import { EoLandingPageColumnLayoutScam } from './eo-landing-page-column-layout.c
         </div>
       </ng-container>
     </eo-landing-page-column-layout>
-
-    <div class="full-width-wrapper">
-      <eo-landing-page-column-layout layoutType="largeFirst">
-        <ng-container contentLeftLarge>
-          <img
-            class="small"
-            src="/assets/images/landing-page/landing-page-office-people.png"
-            alt="Energy Origin"
-          />
-        </ng-container>
-
-        <ng-container contentRightSmall>
-          <h2>Who is it for?</h2>
-
-          <p>
-            This first version of Energy Origin is for
-            <strong>companies in Denmark</strong>. Later it will be available
-            for private individuals as well.
-          </p>
-        </ng-container>
-      </eo-landing-page-column-layout>
-    </div>
-
-    <eo-landing-page-column-layout
-      class="margin-bottom-xxl"
-      layoutType="smallFirst"
-    >
-      <ng-container contentLeftSmall>
-        <h2>Who are we?</h2>
-
-        <p>
-          Energinet is an <strong>independent public enterprise</strong> owned
-          by the Danish Ministry of Climate and Energy. We own, operate and
-          develop the transmission systems for electricity and natural gas in
-          Denmark.
-        </p>
-      </ng-container>
-
-      <ng-container contentRightLarge>
-        <div class="padding-left">
-          <img
-            src="/assets/images/landing-page/landing-page-energy-origin-energi-huset.jpg"
-            alt="EnergyOrigin - Energihuset"
-          />
-        </div>
-      </ng-container>
-    </eo-landing-page-column-layout>
   `,
 })
-export class EoLandingPageImageTextLayoutComponent {}
+export class EoLandingPageOriginOfEnergyComponent {}
 
 @NgModule({
-  declarations: [EoLandingPageImageTextLayoutComponent],
-  exports: [EoLandingPageImageTextLayoutComponent],
+  declarations: [EoLandingPageOriginOfEnergyComponent],
+  exports: [EoLandingPageOriginOfEnergyComponent],
   imports: [EoLandingPageColumnLayoutScam],
 })
-export class EoLandingPageImageTextLayoutScam {}
+export class EoLandingPageOriginOfEnergyScam {}

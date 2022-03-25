@@ -18,13 +18,15 @@ import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
 import { EoFooterScam } from '@energinet-datahub/eo/shared/atomic-design/ui-organisms';
 
 import { EoLandingPageCallToActionScam } from './eo-landing-page-call-to-action.component';
+import { EoLandingPageCompanyScam } from './eo-landing-page-company.component';
 import { EoLandingPageHeaderScam } from './eo-landing-page-header.component';
 import { EoLandingPageHeroScam } from './eo-landing-page-hero.component';
 import { EoLandingPageIntroductionScam } from './eo-landing-page-introduction.component';
 import { EoLandingPageLoginButtonScam } from './eo-landing-page-login-button.component';
 import { EoLandingPageNotificationScam } from './eo-landing-page-notification.component';
+import { EoLandingPageOriginOfEnergyScam } from './eo-landing-page-origin-of-energy.component';
 import { EoLandingPageStore } from './eo-landing-page.store';
-import { EoLandingPageImageTextLayoutScam } from './layout/eo-landing-page-image-text-layout.component';
+import { EoLandingPageAudienceScam } from './eo-landinge-page-audience.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -68,7 +70,11 @@ import { EoLandingPageImageTextLayoutScam } from './layout/eo-landing-page-image
 
       <eo-landing-page-introduction></eo-landing-page-introduction>
 
-      <eo-landing-page-image-text-layout></eo-landing-page-image-text-layout>
+      <eo-landing-page-origin-of-energy></eo-landing-page-origin-of-energy>
+
+      <eo-landing-page-audience></eo-landing-page-audience>
+
+      <eo-landing-page-company></eo-landing-page-company>
 
       <eo-landing-page-call-to-action></eo-landing-page-call-to-action>
 
@@ -90,10 +96,12 @@ export class EoLandingPageShellComponent {}
     EoFooterScam,
     EoLandingPageHeroScam,
     EoLandingPageIntroductionScam,
-    EoLandingPageImageTextLayoutScam,
     EoLandingPageLoginButtonScam,
     EoLandingPageCallToActionScam,
     EoLandingPageNotificationScam,
+    EoLandingPageOriginOfEnergyScam,
+    EoLandingPageAudienceScam,
+    EoLandingPageCompanyScam,
   ],
 })
 export class EoLandingPageShellScam {}
