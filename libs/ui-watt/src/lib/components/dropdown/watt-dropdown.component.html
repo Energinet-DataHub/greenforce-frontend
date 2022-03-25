@@ -20,15 +20,19 @@ limitations under the License.
   #matSelect
   [multiple]="multiple"
   [disableOptionCentering]="true"
-  panelClass="watt-dropdown-panel"
+  [panelClass]="{
+    'watt-dropdown-panel': true,
+    'watt-dropdown-panel-single-selection': !multiple,
+    'watt-dropdown-panel-multiple-selection': multiple
+  }"
 >
-  <mat-option>
-    <ngx-mat-select-search
+  <mat-option
+    ><ngx-mat-select-search
       [formControl]="filterControl"
       [placeholderLabel]="placeholder"
       [noEntriesFoundLabel]="noOptionsFoundLabel"
-    ></ngx-mat-select-search>
-  </mat-option>
+    ></ngx-mat-select-search
+  ></mat-option>
 
   <mat-option *ngIf="!multiple">—</mat-option>
 
