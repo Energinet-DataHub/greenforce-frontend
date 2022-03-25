@@ -14,5 +14,5 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export { WattDateRangeInputComponent } from './date-range-input.component';
+export { WattDateRangeInputComponent, WattDateRange } from './date-range-input.component';
 export { WattDateRangeInputModule } from './date-range-input.module';
