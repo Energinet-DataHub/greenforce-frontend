@@ -16,19 +16,83 @@
  */
 :host {
   display: block;
-  padding: var(--watt-space-l) 0;
+  --cell-padding: 24px;
 }
 
-.mat-column-expand,
-.mat-column-hasDetailsErrors {
-  max-width: 52px;
-  padding: 10px;
-}
-
-.mat-column-expand watt-icon {
-  cursor: not-allowed; // TODO: Change this when the expand functionality has been implemented
+mat-row {
+  &.expanded {
+    background: var(--watt-color-focus-selection);
+  }
 }
 
 .date-icon {
   margin-right: var(--watt-space-s);
+}
+
+/*
+ * Expand control
+ */
+.control-cell-header,
+.control-cell {
+  flex: 0 1 calc(var(--cell-padding) * 3);
+}
+
+.control-cell watt-icon {
+  transition: transform 0.2s linear;
+
+  &.expanded {
+    transform: rotate(90deg);
+  }
+}
+
+mat-row.expandable {
+  overflow: hidden;
+  border-style: none;
+  //min-height: auto;
+  transition: max-height 0.4s ease-out;
+  transform-origin: top;
+  &.collapsed {
+    max-height: 0;
+  }
+  &.expanded {
+    transition: max-height 0.4s ease-in;
+  }
+}
+
+/*
+ * Status column
+ */
+
+.status-cell-header,
+.status-cell {
+  flex: 0 1 130px;
+}
+
+/*
+ * Has detaisl errors column
+ */
+.has-details-errors-cell-header,
+.has-details-errors-cell {
+  flex: 0 1 calc(var(--cell-padding) * 3);
+}
+
+/*
+ * Child rows
+ */
+.expandable {
+  overflow: hidden;
+  display: flex;
+  border: none;
+  min-height: 0;
+
+  mat-cell {
+    display: flex;
+    flex-wrap: wrap;
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+dh-processes-detail-item {
+  flex: 1 0 100%;
 }
