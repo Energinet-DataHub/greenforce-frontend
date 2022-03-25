@@ -11,7 +11,7 @@ module.exports = (config, context) => {
           options: {
             outputPath: 'assets/',
             name: '[name].[contenthash].[ext]',
-          }
+          },
         },
       ],
     },
