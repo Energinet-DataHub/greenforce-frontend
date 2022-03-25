@@ -133,7 +133,7 @@ describe(WattNavListModule.name, () => {
           },
         }
       );
-    }
+    };
 
     it('Ensures external links are specified with the https protocol', async () => {
       // Arrange
@@ -156,9 +156,7 @@ describe(WattNavListModule.name, () => {
       });
       expect(link).toHaveAttribute('href', 'http://energinet.dk');
     });
-
   });
-
 
   describe(`${WattNavListModule.name} - Verify links added with href attribute opens in expected windows`, () => {
     const setup = async (target: string | null) => {
