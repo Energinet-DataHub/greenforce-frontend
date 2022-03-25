@@ -25,30 +25,11 @@ import { EoLandingPageColumnLayoutScam } from './layout/eo-landing-page-column-l
     `
       :host {
         display: block;
-        position: relative;
-      }
-      img {
-        width: 100%;
-        height: auto;
-
-        &.small {
-          width: 400px;
-        }
+        /* position: relative; */
       }
 
-      .margin-bottom-xxl {
-        margin-bottom: calc(2 * var(--watt-space-xl));
-      }
-
-      .padding-left {
-        padding-left: calc(10 * var(--watt-space-xs));
-      }
-
-      .link {
-        /* display: inline-block; */
-        /* color: var(
-           --watt-color-primary
-         ); // This overrides the '--watt-color-primary-dark' color which is currently added by the watt-text-s class */
+      img.small {
+        max-width: 400px;
       }
 
       .full-width-wrapper {

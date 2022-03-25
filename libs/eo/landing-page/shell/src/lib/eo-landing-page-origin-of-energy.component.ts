@@ -25,51 +25,12 @@ import { EoLandingPageColumnLayoutScam } from './layout/eo-landing-page-column-l
     `
       :host {
         display: block;
-        position: relative;
-      }
-      img {
-        width: 100%;
-        height: auto;
-
-        &.small {
-          width: 400px;
-        }
-      }
-
-      .margin-bottom-xxl {
-        margin-bottom: calc(2 * var(--watt-space-xl));
-      }
-
-      .padding-left {
-        padding-left: calc(10 * var(--watt-space-xs));
-      }
-
-      .link {
-        /* display: inline-block; */
-        /* color: var(
-           --watt-color-primary
-         ); // This overrides the '--watt-color-primary-dark' color which is currently added by the watt-text-s class */
-      }
-
-      .full-width-wrapper {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        height: calc(92 * var(--watt-space-xs));
-        margin-bottom: calc(2 * var(--watt-space-xl));
-
-        background: var(
-          --watt-color-focus-selection
-        ); // This is the light-blue-ish background color
+        /* position: relative; */
       }
     `,
   ],
   template: `
-    <eo-landing-page-column-layout
-      class="margin-bottom-xxl"
-      layoutType="smallFirst"
-    >
+    <eo-landing-page-column-layout layoutType="smallFirst">
       <ng-container contentLeftSmall>
         <h2>View the origin of your energy</h2>
         <p>
@@ -88,12 +49,11 @@ import { EoLandingPageColumnLayoutScam } from './layout/eo-landing-page-column-l
       </ng-container>
 
       <ng-container contentRightLarge>
-        <div class="padding-left">
-          <img
-            src="/assets/images/landing-page/landing-page-graph-of-energy-with-dashboard.png"
-            alt="Energy Origin graph of energy"
-          />
-        </div>
+        <img
+          class="img--grow"
+          src="/assets/images/landing-page/landing-page-graph-of-energy-with-dashboard.png"
+          alt="Energy Origin graph of energy"
+        />
       </ng-container>
     </eo-landing-page-column-layout>
   `,
