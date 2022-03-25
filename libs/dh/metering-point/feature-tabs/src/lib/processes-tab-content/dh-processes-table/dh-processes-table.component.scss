@@ -49,13 +49,13 @@ mat-row.expandable {
   overflow: hidden;
   border-style: none;
   //min-height: auto;
-  transition: max-height .4s ease-out;
+  transition: max-height 0.4s ease-out;
   transform-origin: top;
   &.collapsed {
     max-height: 0;
   }
   &.expanded {
-    transition: max-height .4s ease-in;
+    transition: max-height 0.4s ease-in;
   }
 }
 
@@ -65,6 +65,14 @@ mat-row.expandable {
 
 .status-cell-header,
 .status-cell {
+  flex: 0 1 130px;
+}
+
+/*
+ * Has detaisl errors column
+ */
+.has-details-errors-cell-header,
+.has-details-errors-cell {
   flex: 0 1 calc(var(--cell-padding) * 3);
 }
 

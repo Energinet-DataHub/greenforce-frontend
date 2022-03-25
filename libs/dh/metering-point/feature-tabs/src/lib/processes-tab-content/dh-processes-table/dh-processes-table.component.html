@@ -43,7 +43,7 @@ limitations under the License.
         [sortActionDescription]="transloco('sortDescription.name')"
         class="watt-label"
       >
-        {{ transloco('headers.name') }}
+        {{ transloco("headers.name") }}
       </mat-header-cell>
       <mat-cell *matCellDef="let row" data-testId="processName">
         <div class="watt-text-s">
@@ -60,7 +60,7 @@ limitations under the License.
         [sortActionDescription]="transloco('sortDescription.createdDate')"
         class="watt-label"
       >
-        {{ transloco('headers.createdDate') }}
+        {{ transloco("headers.createdDate") }}
       </mat-header-cell>
       <mat-cell *matCellDef="let row">
         <watt-icon
@@ -68,7 +68,9 @@ limitations under the License.
           [size]="iconSize.Small"
           class="date-icon"
         ></watt-icon>
-        <span class="watt-text-s">{{ row.data.createdDate | dhDateTime }} </span>
+        <span class="watt-text-s"
+          >{{ row.data.createdDate | dhDateTime }}
+        </span>
       </mat-cell>
     </ng-container>
 
@@ -78,9 +80,8 @@ limitations under the License.
         *matHeaderCellDef
         mat-sort-header
         [sortActionDescription]="transloco('sortDescription.effectiveDate')"
-        class="watt-label"
       >
-        {{ transloco('headers.effectiveDate') }}
+        {{ transloco("headers.effectiveDate") }}
       </mat-header-cell>
       <mat-cell *matCellDef="let row">
         <watt-icon
@@ -97,11 +98,12 @@ limitations under the License.
       <mat-header-cell
         *matHeaderCellDef
         mat-sort-header
+        class="status-cell-header"
         [sortActionDescription]="transloco('sortDescription.status')"
       >
-        {{ transloco('headers.status') }}
+        {{ transloco("headers.status") }}
       </mat-header-cell>
-      <mat-cell *matCellDef="let row">
+      <mat-cell *matCellDef="let row" class="status-cell">
         <div class="watt-text-s">
           {{ row.data.status }}
         </div>
@@ -112,9 +114,9 @@ limitations under the License.
     <ng-container matColumnDef="hasDetailsErrors">
       <mat-header-cell
         *matHeaderCellDef
-        class="status-cell-header"
+        class="has-details-errors-cell-header"
       ></mat-header-cell>
-      <mat-cell *matCellDef="let row" class="status-cell">
+      <mat-cell *matCellDef="let row" class="has-details-errors-cell">
         <div class="watt-text-s">
           <watt-icon
             [name]="row.data.hasDetailsErrors ? 'danger' : 'success'"
