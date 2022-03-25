@@ -49,6 +49,9 @@
           "vendorChunk": true
         },
         "production": {
+          "customWebpackConfig": {
+            "path": "apps/ett/app-ett/src/configuration/webpack-config.js"
+          },
           "budgets": [
             {
               "type": "allScript",
