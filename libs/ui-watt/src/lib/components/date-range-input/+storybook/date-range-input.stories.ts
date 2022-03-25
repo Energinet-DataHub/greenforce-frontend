@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { FormsModule } from '@angular/forms';
 import { MatNativeDateModule } from '@angular/material/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DhConfigurationLocalizationRootModule } from '@energinet-datahub/dh/globalization/configuration-localization';
@@ -27,6 +28,7 @@ export default {
   decorators: [
     moduleMetadata({
       imports: [
+        FormsModule,
         WattDateRangeInputModule,
         MatNativeDateModule,
         BrowserAnimationsModule,
@@ -38,21 +40,19 @@ export default {
 } as Meta<WattDateRangeInputComponent>;
 
 export const overview: Story<WattDateRangeInputComponent> = (args) => ({
-  props: args,
+  props: {
+    ...args,
+    dateRangeModel: {}
+  },
   template: `
    <watt-form-field>
     <watt-label>Date range</watt-label>
-    <watt-date-range-input></watt-date-range-input>
+    <watt-date-range-input [(ngModel)]="dateRangeModel"></watt-date-range-input>
    </watt-form-field>
+
+   <p>Selected range: {{dateRangeModel | json}}</p>
    `,
 });
-overview.parameters = {
-  docs: {
-    source: {
-      code: 'Nothing to see here.',
-    },
-  },
-};
 
 overview.argTypes = {
   min: {

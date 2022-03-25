@@ -14,12 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { coerceBooleanProperty } from '@angular/cdk/coercion';
-import { FormatWidth, getLocaleDateFormat } from '@angular/common';
-import {
+ import {
   AfterViewInit,
   Component,
   ElementRef,
+  Host,
   Inject,
   Input,
   LOCALE_ID,
@@ -28,9 +27,23 @@ import {
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
-import { fromEvent, Subject, takeUntil } from 'rxjs';
+import {
+  combineLatest,
+  distinctUntilChanged,
+  fromEvent,
+  map,
+  Observable,
+  startWith,
+  Subject,
+  takeUntil,
+} from 'rxjs';
+import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
+import { ControlValueAccessor, NgControl } from '@angular/forms';
+import { FormatWidth, getLocaleDateFormat } from '@angular/common';
 import { MatDateRangeInput } from '@angular/material/datepicker';
-import Inputmask from "inputmask";
+import Inputmask from 'inputmask';
+
+export type WattDateRange = { start: string; end: string };
 
 /**
  * Usage:
@@ -42,7 +55,9 @@ import Inputmask from "inputmask";
   styleUrls: ['./date-range-input.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class WattDateRangeInputComponent implements AfterViewInit, OnDestroy {
+export class WattDateRangeInputComponent
+  implements AfterViewInit, OnDestroy, ControlValueAccessor
+{
   /**
    * @ignore
    */
@@ -61,6 +76,22 @@ export class WattDateRangeInputComponent implements AfterViewInit, OnDestroy {
   @ViewChild('endDate')
   endDateInput!: ElementRef;
 
+  @Input()
+  set disabled(value: BooleanInput) {
+    this.isDisabled = coerceBooleanProperty(value);
+  }
+
+  /**
+   * @ignore
+   */
+  get disabled(): boolean {
+    return this.isDisabled;
+  }
+  private isDisabled = false;
+
+  @Input() min?: string;
+  @Input() max?: string;
+
   /**
    * @ignore
    */
@@ -76,34 +107,27 @@ export class WattDateRangeInputComponent implements AfterViewInit, OnDestroy {
    */
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
-  /**
-   * @ignore
-   */
-  private isDisabled = false;
-
-  get disabled(): boolean {
-    return this.isDisabled;
-  }
-
-  @Input()
-  set disabled(value: boolean) {
-    this.isDisabled = coerceBooleanProperty(value);
-  }
-
-  @Input() min?: string;
-  @Input() max?: string;
-
   constructor(
     @Inject(LOCALE_ID) private locale: string,
-    private renderer: Renderer2
-  ) {}
+    private renderer: Renderer2,
+    @Host() private parentControlDirective: NgControl
+  ) {
+    this.parentControlDirective.valueAccessor = this;
+  }
 
   /**
    * @ignore
    */
   ngAfterViewInit() {
-    this.mask(this.startDateInput, 'start');
-    this.mask(this.endDateInput, 'end');
+    const onInputStart$ = this.mask(this.startDateInput, 'start');
+    const onInputEnd$ = this.mask(this.endDateInput, 'end');
+
+    combineLatest([onInputStart$, onInputEnd$])
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(([start, end]) => {
+        this.markParentControlAsTouched();
+        this.changeParentValue({ start, end });
+      });
   }
 
   /**
@@ -117,20 +141,102 @@ export class WattDateRangeInputComponent implements AfterViewInit, OnDestroy {
   /**
    * @ignore
    */
-  private mask(element: ElementRef, position: 'start' | 'end'): void {
-    this.renderer.setAttribute(element.nativeElement, 'spellcheck', 'false');
-    this.appendMaskElement(element);
+  writeValue(dateRange: WattDateRange): void {
+    if (!this.startDateInput || !this.endDateInput) return;
+    const inputEvent = new Event('input', { bubbles: true });
 
-    new Inputmask('datetime', {
+    if (dateRange.start) {
+      this.startDateInput.nativeElement.value = dateRange.start;
+      this.startDateInput.nativeElement.dispatchEvent(inputEvent);
+    }
+
+    if (dateRange.end) {
+      this.endDateInput.nativeElement.value = dateRange.end;
+      this.endDateInput.nativeElement.dispatchEvent(inputEvent);
+    }
+  }
+
+  /**
+   * @ignore
+   */
+  registerOnChange(onChangeFn: (value: WattDateRange) => void): void {
+    this.changeParentValue = onChangeFn;
+  }
+
+  /**
+   * @ignore
+   */
+  registerOnTouched(onTouchFn: () => void) {
+    this.markParentControlAsTouched = onTouchFn;
+  }
+
+  /**
+   * @ignore
+   */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  private changeParentValue = (value: WattDateRange): void => {
+    // Intentionally left empty
+  };
+
+  /**
+   * @ignore
+   */
+  private markParentControlAsTouched = (): void => {
+    // Intentionally left empty
+  };
+
+  /**
+   * @ignore
+   */
+  private mask(
+    element: ElementRef,
+    position: 'start' | 'end'
+  ): Observable<string> {
+    this.renderer.setAttribute(element.nativeElement, 'spellcheck', 'false');
+    const maskingElement = this.appendMaskElement(element);
+
+    const inputmask = new Inputmask('datetime', {
       inputFormat: this.inputFormat,
       placeholder: this.placeholder,
       onBeforePaste: this.onBeforePaste,
-      oncomplete: () => {
-        if (position === 'start') {
+      onincomplete: () => {
+        maskingElement.innerHTML = this.placeholder;
+      },
+      jitMasking: true,
+      clearIncomplete: true,
+      onKeyDown: (event) => {
+        // If start date is complete jump to end date, and put typed value in end date (if empty)
+        if (
+          event.key !== 'Backspace' &&
+          position === 'start' &&
+          inputmask.isComplete()
+        ) {
           this.endDateInput.nativeElement.focus();
+          if (this.endDateInput.nativeElement.value === '') {
+            this.endDateInput.nativeElement.value = event.key;
+          }
         }
       },
     }).mask(element.nativeElement);
+
+    return this.registerOnInput(element.nativeElement, inputmask);
+  }
+
+  /**
+   * @ignore
+   */
+  private registerOnInput(
+    element: HTMLInputElement,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    inputMask: any
+  ): Observable<string> {
+    return fromEvent(element, 'input').pipe(
+      startWith(element.value),
+      map(() => element.value),
+      map((val) => (inputMask.isComplete() ? val : '')),
+      distinctUntilChanged(),
+      takeUntil(this.destroy$)
+    );
   }
 
   /**
@@ -139,10 +245,12 @@ export class WattDateRangeInputComponent implements AfterViewInit, OnDestroy {
   private appendMaskElement(element: ElementRef): HTMLElement {
     const maskingElement = this.renderer.createElement('span');
     this.renderer.addClass(maskingElement, 'watt-date-mask');
-    this.renderer.appendChild(
+    this.renderer.insertBefore(
       element.nativeElement.parentElement,
-      maskingElement
+      maskingElement,
+      element.nativeElement
     );
+    maskingElement.innerHTML = this.placeholder;
 
     fromEvent(element.nativeElement, 'input')
       .pipe(takeUntil(this.destroy$))
@@ -163,11 +271,7 @@ export class WattDateRangeInputComponent implements AfterViewInit, OnDestroy {
     maskingElement: HTMLElement,
     value: string
   ): void {
-    const lastNumber = value.match(/.*?(\d)[^\d]*$/); // get last number in string
-    maskingElement.innerHTML =
-      value && lastNumber
-        ? value.slice(0, value.lastIndexOf(lastNumber[1]) + 1)
-        : '';
+    maskingElement.innerText = value + this.placeholder.substring(value.length);
   }
 
   /**

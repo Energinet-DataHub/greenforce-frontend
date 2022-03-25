@@ -34,7 +34,9 @@ watt-date-range-input {
   }
 
   .mat-date-range-input-inner {
-    color: $placeholder-color !important;
+    position: absolute;
+    top: 0;
+    left: 0;
   }
 
   .mat-date-range-input-hide-placeholders
@@ -45,8 +47,11 @@ watt-date-range-input {
   }
 
   .watt-date-mask {
+    display: inline-block;
+    color: $placeholder-color;
+  }
+
+  .mat-date-range-input-mirror {
     position: absolute;
-    top: 0;
-    left: 0;
   }
 }
