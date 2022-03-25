@@ -28,6 +28,7 @@ import {
   MatFormFieldControl,
 } from '@angular/material/form-field';
 
+import { WattDateRangeInputComponent } from '../date-range-input/date-range-input.component';
 import { WattInputDirective } from '../input/input.directive';
 
 @Component({
@@ -48,14 +49,21 @@ export class FormFieldComponent implements AfterViewInit {
   @ContentChild(WattInputDirective)
   control!: MatFormFieldControl<unknown>;
 
+  @ContentChild(WattDateRangeInputComponent)
+  dateRangeControl!: WattDateRangeInputComponent;
+
   @ViewChild(MatFormField)
   matFormField!: MatFormField;
 
   ngAfterViewInit() {
     if (this.beforeViewInit) {
-      this.matFormField._control = this.control;
-      this.matFormField.ngAfterContentInit();
-      this.beforeViewInit = false;
+      // If not inside of a timeout this causes "expression has changed..." in date-range-input of the disabled input
+      setTimeout(() => {
+        this.matFormField._control =
+          this.control || this.dateRangeControl?.matDateRangeInput;
+        this.matFormField.ngAfterContentInit();
+        this.beforeViewInit = false;
+      });
     }
   }
 }
