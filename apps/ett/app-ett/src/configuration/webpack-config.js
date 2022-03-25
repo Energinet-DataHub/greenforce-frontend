@@ -17,6 +17,10 @@
 module.exports = (config, context) => {
   return {
     ...config,
+    output: {
+      ...config.output,
+      assetModuleFilename: 'assets/[hash][ext][query]'
+    },
     module: {
       ...config.module,
       rules: [
