@@ -16,10 +16,12 @@
  */
 
 import { render, screen } from '@testing-library/angular';
-
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
+
 import { WattNavListModule } from './watt-nav-list.component';
+
+const energientDkUrl = 'https://energinet.dk';
 
 describe(WattNavListModule.name, () => {
   it('exports shared Watt Design System nav list', async () => {
@@ -112,10 +114,10 @@ describe(WattNavListModule.name, () => {
       await screen.findByRole('link', {
         name: /energinet/i,
       })
-    ).toHaveAttribute('href', 'https://energinet.dk');
+    ).toHaveAttribute('href', energientDkUrl);
   });
 
-  describe(`${WattNavListModule.name} - Ensures external links are specified with the expected protocol`, () => {
+  describe('Ensures external links are specified with the expected protocol', () => {
     const setup = async (link: string) => {
       // Arrange
       await render(
@@ -143,7 +145,7 @@ describe(WattNavListModule.name, () => {
       const link = await screen.findByRole('link', {
         name: /energinet/i,
       });
-      expect(link).toHaveAttribute('href', 'https://energinet.dk');
+      expect(link).toHaveAttribute('href', energientDkUrl);
     });
 
     it('Ensures external links are specified with the http protocol', async () => {
@@ -154,11 +156,11 @@ describe(WattNavListModule.name, () => {
       const link = await screen.findByRole('link', {
         name: /energinet/i,
       });
-      expect(link).toHaveAttribute('href', 'http://energinet.dk');
+      expect(link).toHaveAttribute('href', energientDkUrl);
     });
   });
 
-  describe(`${WattNavListModule.name} - Verify links added with href attribute opens in expected windows`, () => {
+  describe('Verify links added with href attribute opens in expected windows', () => {
     const setup = async (target: string | null) => {
       // Arrange
       await render(
