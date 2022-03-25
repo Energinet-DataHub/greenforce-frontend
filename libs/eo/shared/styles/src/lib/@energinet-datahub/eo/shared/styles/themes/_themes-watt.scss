@@ -14,24 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
+@use '@energinet-datahub/watt';
 
-@Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'eo-metering-points-shell',
-  styles: [
-    `
-      :host {
-        display: block;
-      }
-    `,
-  ],
-  template: `<p>You do not have any metering points.</p>`,
-})
-export class EoMeteringPointsShellComponent {}
+label {
+  text-transform: none; // Override .watt-label, which uppercases labels
+}
 
-@NgModule({
-  declarations: [EoMeteringPointsShellComponent],
-  exports: [EoMeteringPointsShellComponent],
-})
-export class EoMeteringPointsShellScam {}
+body strong {
+  color: inherit; // Override Watt styles
+}
+
+a,
+[routerLink] {
+  text-decoration: underline; // This overrides WATT styles (which removes the underline on a tags)
+}

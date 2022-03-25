@@ -1,0 +1,9 @@
+@mixin inset-xxl($important: true) {
+  $important-expression: '!important';
+
+  @if $important == false {
+    $important-expression: '';
+  }
+
+  margin: var(--eo-space-xxl) #{$important-expression};
+}

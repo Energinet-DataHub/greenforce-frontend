@@ -30,21 +30,10 @@ import { WattIconModule, WattIconSize } from '@energinet-datahub/watt';
 
         display: flex;
         justify-content: center;
-
-        @include watt.media('>Large') {
-          --inset-x: calc(2 * var(--watt-space-xl));
-
-          padding-right: var(--inset-x);
-          padding-left: var(--inset-x);
-        }
-      }
-
-      p {
-        margin: 0; // Remove this rule when CSS reset (#402) is merged
       }
 
       eo-inline-message {
-        max-width: 960px; // Magic number by designer
+        max-width: var(--eo-landing-page-content-max-width);
       }
     `,
   ],
