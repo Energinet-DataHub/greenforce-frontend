@@ -18,6 +18,7 @@ import { CommonModule } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   Input,
   NgModule,
@@ -104,6 +105,8 @@ export class DhProcessesTableComponent implements AfterViewInit {
     this.matSort.sort(sortable);
   }
 
+  constructor(private cdr: ChangeDetectorRef) {}
+
   ngAfterViewInit(): void {
     if (this.processes != undefined) {
       this.setDefaultSorting();
@@ -122,7 +125,7 @@ export class DhProcessesTableComponent implements AfterViewInit {
       return;
     }
 
-    const newData = this.processRows.sort((a, b) => {
+    this.sortedData = this.processRows.slice().sort((a, b) => {
       const isAsc = sort.direction === 'asc';
       switch (sort.active) {
         case 'name':
@@ -153,8 +156,6 @@ export class DhProcessesTableComponent implements AfterViewInit {
           return 0;
       }
     });
-
-    this.sortedData = newData;
   }
 
   toggleRow(event: Event, row: DhProcessesTableRow) {
