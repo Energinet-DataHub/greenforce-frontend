@@ -22,12 +22,12 @@ import { EoVimeoPlayerScam } from '@energinet-datahub/eo/shared/atomic-design/ui
   selector: 'eo-landing-page-introduction',
   styles: [
     `
-      @use '@energinet-datahub/eo/shared/styles/tools' as eo;
+      @use '@energinet-datahub/eo/shared/styles/spacing' as eo-spacing;
 
       :host {
         display: block;
 
-        @include eo.spacing-inset-xxl;
+        @include eo-spacing.inset-xxl;
       }
 
       .video-wrapper {

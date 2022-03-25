@@ -35,8 +35,8 @@
         "scripts": [],
         "stylePreprocessorOptions": {
           "includePaths": [
-            "libs/ui-watt/src/lib/styles",
-            "libs/eo/shared/styles/src/lib"
+            "libs/eo/shared/styles/src/lib",
+            "libs/ui-watt/src/lib/styles"
           ]
         },
         "styles": ["libs/eo/shared/styles/src/index.scss"],
