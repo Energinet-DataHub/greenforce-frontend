@@ -19,7 +19,7 @@ module.exports = (config, context) => {
     ...config,
     output: {
       ...config.output,
-      assetModuleFilename: 'assets/[hash][ext][query]'
+      assetModuleFilename: 'assets/[hash][ext][query]',
     },
     module: {
       ...config.module,
