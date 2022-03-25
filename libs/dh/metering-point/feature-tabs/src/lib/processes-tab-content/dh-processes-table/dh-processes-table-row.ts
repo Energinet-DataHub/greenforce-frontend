@@ -14,24 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@use './typography/typography.import' as typography;
+import { DhProcess } from '@energinet-datahub/dh/metering-point/domain';
 
-mat-table,
-.mat-table {
-  .mat-header-row {
-    min-height: 34px;
-  }
-
-  .mat-header-cell {
-    background-color: var(--watt-color-focus-selection);
-    @include typography.watt-label;
-  }
-
-  mat-row.clickable {
-    cursor: pointer;
-  }
-
-  .multi-line-cell {
-    padding: 0.5rem 0;
-  }
+export interface DhProcessesTableRow {
+  data: DhProcess;
+  expanded: boolean;
+  height: number;
 }
