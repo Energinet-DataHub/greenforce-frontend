@@ -15,23 +15,25 @@
  * limitations under the License.
  */
 
+// Global stylesheet for the Energy Origin application
+
 // GENERIC
-@use './styles/generic/generic-normalize';
-@use './styles/generic/generic-reset';
-@use './styles/generic/generic-spacing';
+@use './lib/@energinet-datahub/eo/shared/styles/generic/generic-normalize';
+@use './lib/@energinet-datahub/eo/shared/styles/generic/generic-reset';
+@use './lib/@energinet-datahub/eo/shared/styles/generic/generic-spacing';
 
 // ELEMENTS
-@use './styles/elements/elements-page';
-@use './styles/elements/elements-links';
-@use './styles/elements/elements-images';
-@use './styles/elements/elements-lists';
+@use './lib/@energinet-datahub/eo/shared/styles/elements/elements-page';
+@use './lib/@energinet-datahub/eo/shared/styles/elements/elements-links';
+@use './lib/@energinet-datahub/eo/shared/styles/elements/elements-images';
+@use './lib/@energinet-datahub/eo/shared/styles/elements/elements-lists';
 
 // THEMES
-@use './styles/themes/themes-watt';
+@use './lib/@energinet-datahub/eo/shared/styles/themes/themes-watt';
 
 // UTILITIES
-@use './styles/utilities/utilities-text';
-@use './styles/utilities/utilities-spacing';
+@use './lib/@energinet-datahub/eo/shared/styles/utilities/utilities-text';
+@use './lib/@energinet-datahub/eo/shared/styles/utilities/utilities-spacing';
 
 // One sided spacings & spacing reset helpers
 .eo-padding-left-none {

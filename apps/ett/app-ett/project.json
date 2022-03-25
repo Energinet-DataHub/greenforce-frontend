@@ -34,9 +34,12 @@
         "polyfills": "apps/ett/app-ett/src/polyfills.ts",
         "scripts": [],
         "stylePreprocessorOptions": {
-          "includePaths": ["libs/ui-watt/src/lib/styles"]
+          "includePaths": [
+            "libs/ui-watt/src/lib/styles",
+            "libs/eo/shared/styles/src/lib"
+          ]
         },
-        "styles": ["apps/ett/app-ett/src/styles.scss"],
+        "styles": ["libs/eo/shared/styles/src/index.scss"],
         "tsConfig": "apps/ett/app-ett/tsconfig.app.json"
       },
       "configurations": {
@@ -134,5 +137,6 @@
       }
     }
   },
-  "tags": ["product:ett", "type:app"]
+  "tags": ["product:ett", "type:app"],
+  "implicitDependencies": ["eo-shared-styles"]
 }
