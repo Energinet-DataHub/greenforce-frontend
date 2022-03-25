@@ -115,6 +115,31 @@ describe(WattNavListModule.name, () => {
     ).toHaveAttribute('href', 'https://energinet.dk');
   });
 
+  it('Ensures external links are specified with the expected protocol', async () => {
+    // Arrange
+    await render(
+      `
+      <watt-nav-list>
+        <watt-nav-list-item link="https://energinet.dk">
+          Energinet
+        </watt-nav-list-item>
+      </watt-nav-list>
+    `,
+      {
+        imports: [WattNavListModule],
+      }
+    );
+
+    // Act
+    const link = await screen.findByRole('link', {
+      name: /energinet/i,
+    });
+    const href = link.getAttribute('href');
+
+    // Assert
+    expect(href).toMatch(/^(http:\/\/|https:\/\/)/i);
+  });
+
   describe(`${WattNavListModule.name} - Verify links added with href attribute opens in expected windows`, () => {
     const setup = async (target: string | null) => {
       // Arrange
@@ -147,6 +172,7 @@ describe(WattNavListModule.name, () => {
     });
 
     it('Opens external links in the same browser tab by default', async () => {
+      // Arrange
       await setup(null);
       // Act
       // Assert

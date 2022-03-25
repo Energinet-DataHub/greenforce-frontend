@@ -56,7 +56,7 @@ export class WattNavListItemComponent {
   @Input() target: '_self' | '_blank' | '_parent' | '_top' | null = null;
 
   get isExternalLink(): boolean {
-    return /^(http|https)/i.test(this.link ?? '');
+    return /^(http:\/\/|https:\/\/)/i.test(this.link ?? '');
   }
 }
 
