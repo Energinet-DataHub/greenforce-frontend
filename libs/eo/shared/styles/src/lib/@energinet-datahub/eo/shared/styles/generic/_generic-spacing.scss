@@ -14,24 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
-
-@Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'eo-metering-points-shell',
-  styles: [
-    `
-      :host {
-        display: block;
-      }
-    `,
-  ],
-  template: `<p>You do not have any metering points.</p>`,
-})
-export class EoMeteringPointsShellComponent {}
-
-@NgModule({
-  declarations: [EoMeteringPointsShellComponent],
-  exports: [EoMeteringPointsShellComponent],
-})
-export class EoMeteringPointsShellScam {}
+:root {
+  --eo-space-xxl: calc(2 * var(--watt-space-xl));
+}

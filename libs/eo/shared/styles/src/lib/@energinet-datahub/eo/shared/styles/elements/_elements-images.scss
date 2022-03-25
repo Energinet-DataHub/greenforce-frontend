@@ -14,24 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
+img {
+  max-width: 100%;
+  height: auto;
+}
 
-@Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'eo-metering-points-shell',
-  styles: [
-    `
-      :host {
-        display: block;
-      }
-    `,
-  ],
-  template: `<p>You do not have any metering points.</p>`,
-})
-export class EoMeteringPointsShellComponent {}
-
-@NgModule({
-  declarations: [EoMeteringPointsShellComponent],
-  exports: [EoMeteringPointsShellComponent],
-})
-export class EoMeteringPointsShellScam {}
+.img--grow {
+  width: 100%;
+}

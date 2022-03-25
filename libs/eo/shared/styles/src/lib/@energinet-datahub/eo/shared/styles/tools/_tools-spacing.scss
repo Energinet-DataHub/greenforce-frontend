@@ -14,24 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
+@mixin inset-xxl($important: true) {
+  $important-expression: '!important';
 
-@Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'eo-metering-points-shell',
-  styles: [
-    `
-      :host {
-        display: block;
-      }
-    `,
-  ],
-  template: `<p>You do not have any metering points.</p>`,
-})
-export class EoMeteringPointsShellComponent {}
+  @if $important == false {
+    $important-expression: '';
+  }
 
-@NgModule({
-  declarations: [EoMeteringPointsShellComponent],
-  exports: [EoMeteringPointsShellComponent],
-})
-export class EoMeteringPointsShellScam {}
+  margin: var(--eo-space-xxl) #{$important-expression};
+}
