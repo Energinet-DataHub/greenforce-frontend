@@ -15,27 +15,31 @@
  * limitations under the License.
  */
 import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
-
-import { EoLandingPageColumnLayoutScam } from './layout/eo-landing-page-column-layout.component';
+import { EoMediaModule } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'eo-landing-page-company',
   styles: [
     `
+      @use '@energinet-datahub/eo/shared/styles/spacing' as eo-spacing;
+
       :host {
         display: block;
-        /* position: relative; */
+
+        @include eo-spacing.inset-xxl;
       }
 
-      .padding-left {
-        padding-left: calc(10 * var(--watt-space-xs));
+      // 1. Center content with max width.
+      .landing-page-content-wrapper {
+        margin: 0 auto; // [1]
+        max-width: var(--eo-landing-page-content-max-width); // [1]
       }
     `,
   ],
   template: `
-    <eo-landing-page-column-layout layoutType="smallFirst">
-      <ng-container contentLeftSmall>
+    <div class="landing-page-content-wrapper">
+      <eo-media>
         <h2>Who are we?</h2>
 
         <p>
@@ -44,18 +48,15 @@ import { EoLandingPageColumnLayoutScam } from './layout/eo-landing-page-column-l
           develop the transmission systems for electricity and natural gas in
           Denmark.
         </p>
-      </ng-container>
 
-      <ng-container contentRightLarge>
-        <div class="padding-left">
+        <eo-media-image>
           <img
-            class="img--grow"
             src="/assets/images/landing-page/landing-page-energy-origin-energi-huset.jpg"
             alt="EnergyOrigin - Energihuset"
           />
-        </div>
-      </ng-container>
-    </eo-landing-page-column-layout>
+        </eo-media-image>
+      </eo-media>
+    </div>
   `,
 })
 export class EoLandingPageCompanyComponent {}
@@ -63,6 +64,6 @@ export class EoLandingPageCompanyComponent {}
 @NgModule({
   declarations: [EoLandingPageCompanyComponent],
   exports: [EoLandingPageCompanyComponent],
-  imports: [EoLandingPageColumnLayoutScam],
+  imports: [EoMediaModule],
 })
 export class EoLandingPageCompanyScam {}
