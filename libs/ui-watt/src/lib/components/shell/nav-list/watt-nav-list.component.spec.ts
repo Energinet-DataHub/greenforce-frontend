@@ -115,30 +115,50 @@ describe(WattNavListModule.name, () => {
     ).toHaveAttribute('href', 'https://energinet.dk');
   });
 
-  it('Ensures external links are specified with the expected protocol', async () => {
-    // Arrange
-    await render(
-      `
-      <watt-nav-list>
-        <watt-nav-list-item link="https://energinet.dk">
-          Energinet
-        </watt-nav-list-item>
-      </watt-nav-list>
-    `,
-      {
-        imports: [WattNavListModule],
-      }
-    );
+  describe(`${WattNavListModule.name} - Ensures external links are specified with the expected protocol`, () => {
+    const setup = async (link: string) => {
+      // Arrange
+      await render(
+        `
+        <watt-nav-list>
+          <watt-nav-list-item [link]="link">
+            Energinet
+          </watt-nav-list-item>
+        </watt-nav-list>
+      `,
+        {
+          imports: [WattNavListModule],
+          componentProperties: {
+            link,
+          },
+        }
+      );
+    }
 
-    // Act
-    const link = await screen.findByRole('link', {
-      name: /energinet/i,
+    it('Ensures external links are specified with the https protocol', async () => {
+      // Arrange
+      await setup('https://energinet.dk');
+      // Act
+      // Assert
+      const link = await screen.findByRole('link', {
+        name: /energinet/i,
+      });
+      expect(link).toHaveAttribute('href', 'https://energinet.dk');
     });
-    const href = link.getAttribute('href');
 
-    // Assert
-    expect(href).toMatch(/^(http:\/\/|https:\/\/)/i);
+    it('Ensures external links are specified with the http protocol', async () => {
+      // Arrange
+      await setup('http://energinet.dk');
+      // Act
+      // Assert
+      const link = await screen.findByRole('link', {
+        name: /energinet/i,
+      });
+      expect(link).toHaveAttribute('href', 'http://energinet.dk');
+    });
+
   });
+
 
   describe(`${WattNavListModule.name} - Verify links added with href attribute opens in expected windows`, () => {
     const setup = async (target: string | null) => {
