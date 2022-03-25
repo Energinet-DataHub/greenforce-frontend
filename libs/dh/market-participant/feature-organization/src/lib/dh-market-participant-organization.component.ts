@@ -15,24 +15,24 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import { Component, NgModule } from '@angular/core';
-import { DhMarketParticipantOverviewDataAccessApiStore } from '@energinet-datahub/dh/market-participant/data-access-api';
+import { AfterViewInit, Component, NgModule, ViewChild } from '@angular/core';
+import {
+  DhMarketParticipantOverviewDataAccessApiStore,
+  OrganizationWithActor,
+} from '@energinet-datahub/dh/market-participant/data-access-api';
 import { LetModule } from '@rx-angular/template/let';
-import { MatTableModule } from '@angular/material/table';
-import { ActorDto, OrganizationDto } from '@energinet-datahub/dh/shared/domain';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { TranslocoModule } from '@ngneat/transloco';
 import {
   WattBadgeModule,
   WattButtonModule,
   WattIconModule,
   WattEmptyStateModule,
+  WattSpinnerModule,
 } from '@energinet-datahub/watt';
 import { MatMenuModule } from '@angular/material/menu';
-
-interface OrganizationWithActor {
-  organization: Partial<OrganizationDto>;
-  actor: Partial<ActorDto>;
-}
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'dh-market-participant-organization',
@@ -40,8 +40,10 @@ interface OrganizationWithActor {
   templateUrl: './dh-market-participant-organization.component.html',
   providers: [DhMarketParticipantOverviewDataAccessApiStore],
 })
-export class DhMarketParticipantOrganizationComponent {
+export class DhMarketParticipantOrganizationComponent implements AfterViewInit {
   constructor(public store: DhMarketParticipantOverviewDataAccessApiStore) {}
+
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   columnIds = [
     'OrgName',
@@ -52,20 +54,25 @@ export class DhMarketParticipantOrganizationComponent {
     'RowEdit',
   ];
 
-  items = this.store.organizations.reduce(
-    (runningItems, organizationDto) =>
-      runningItems.concat(
-        organizationDto.actors.map((actor) => ({
-          organization: organizationDto,
-          actor: actor,
-        }))
-      ),
-    [] as OrganizationWithActor[]
-  );
+  dataSource: MatTableDataSource<OrganizationWithActor> =
+    new MatTableDataSource<OrganizationWithActor>();
 
-  onEditClicked = (value: OrganizationWithActor) => {
-    console.log('Edit', value);
+  isLoading = true;
+
+  async ngAfterViewInit() {
+    this.isLoading = true;
+    this.dataSource.data = await this.getOrganizations();
+    this.dataSource.paginator = this.paginator;
+    this.isLoading = false;
+  }
+
+  getOrganizations = async () => {
+    await this.store.loadOrganizations();
+    return (await firstValueFrom(this.store.state$)).organizations;
   };
+
+  onEditClicked = (e: OrganizationWithActor) =>
+    console.log('Clicked edit on', e);
 }
 
 @NgModule({
@@ -73,11 +80,13 @@ export class DhMarketParticipantOrganizationComponent {
     CommonModule,
     LetModule,
     MatTableModule,
+    MatPaginatorModule,
     TranslocoModule,
     WattBadgeModule,
     WattButtonModule,
     WattIconModule,
     WattEmptyStateModule,
+    WattSpinnerModule,
     MatMenuModule,
   ],
   declarations: [DhMarketParticipantOrganizationComponent],

@@ -17,33 +17,46 @@
 import { Injectable } from '@angular/core';
 import { ComponentStore } from '@ngrx/component-store';
 import {
+  ActorDto,
   MarketParticipantHttp,
   OrganizationDto,
 } from '@energinet-datahub/dh/shared/domain';
+import { firstValueFrom } from 'rxjs';
 
-interface OrganizationOverviewState {
-  test: string;
+export interface OrganizationWithActor {
+  organization: Partial<OrganizationDto>;
+  actor?: Partial<ActorDto>;
 }
 
-const initialState: OrganizationOverviewState = {
-  test: 'Hello world',
+interface MarketParticipantState {
+  organizations: OrganizationWithActor[];
+}
+
+const initialState: MarketParticipantState = {
+  organizations: [],
 };
 
 @Injectable()
-export class DhMarketParticipantOverviewDataAccessApiStore extends ComponentStore<OrganizationOverviewState> {
-  public organizations: OrganizationDto[] = [];
-
+export class DhMarketParticipantOverviewDataAccessApiStore extends ComponentStore<MarketParticipantState> {
   constructor(private httpClient: MarketParticipantHttp) {
     super(initialState);
   }
 
-  public onTestClick = () => {
-    this.getOrganizations().forEach((x) => {
-      return (this.organizations = x);
-    });
-  };
+  readonly loadOrganizations = async () => {
+    const orgs = await firstValueFrom(
+      this.httpClient.v1MarketParticipantOrganizationsGet()
+    );
 
-  private getOrganizations = () => {
-    return this.httpClient.v1MarketParticipantOrganizationsGet();
+    const organizations = orgs.reduce((running, x) => {
+      return (
+        (x.actors.length > 0 &&
+          running.concat(
+            x.actors.map((a) => ({ organization: x, actor: a }))
+          )) ||
+        running.concat([{ organization: x, actor: undefined }])
+      );
+    }, [] as OrganizationWithActor[]);
+
+    this.patchState({ organizations: organizations });
   };
 }
