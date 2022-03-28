@@ -144,24 +144,21 @@ describe(DhProcessesTableComponent.name, () => {
       disableQuerySuggestions
     );
 
-    const detailsRow = screen
-      .getByTestId('detailsRow-' + succeededProcessId, disableQuerySuggestions)
-      .getElementsByTagName('mat-cell')[0];
+    const detailsRow = screen.getByTestId(
+      'detailsRow-' + succeededProcessId,
+      disableQuerySuggestions
+    );
 
     // Verify that the success row is set to collapsed and has height 0
-    expect(successProcess.expanded).toBe(false);
-    expect(detailsRow.getAttribute('style')).toContain('height:0px');
+    expect(detailsRow.classList.toString()).toContain('collapsed');
 
     fireEvent.click(processRow);
-
     // Verify that the success row is set to expanded and no longer has height 0
-    expect(successProcess.expanded).toBe(true);
-    expect(detailsRow.getAttribute('style')).not.toContain('height');
+    expect(detailsRow.classList.toString()).not.toContain('collapsed');
+    expect(detailsRow.classList.toString()).toContain('expanded');
 
     fireEvent.click(processRow);
-
     // Verify that the success row is set to collapsed and has height 0
-    expect(successProcess.expanded).toBe(false);
-    expect(detailsRow.getAttribute('style')).toContain('height:0px');
+    expect(detailsRow.classList.toString()).toContain('collapsed');
   });
 });
