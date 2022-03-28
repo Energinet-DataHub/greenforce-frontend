@@ -147,6 +147,7 @@ limitations under the License.
     <mat-row
       *matRowDef="let row; columns: displayedColumns"
       (click)="toggleRow($event, row)"
+      [ngClass]="{ expanded: row.expanded }"
       class="clickable"
       [attr.data-testid]="'processRow-' + row.data.id"
     ></mat-row>
