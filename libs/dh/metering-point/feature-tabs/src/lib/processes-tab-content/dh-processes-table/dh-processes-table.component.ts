@@ -18,7 +18,6 @@ import { CommonModule } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   Input,
   NgModule,
@@ -80,6 +79,7 @@ export class DhProcessesTableComponent implements AfterViewInit {
     clickedRow: HTMLElement
   ): HTMLElement | undefined {
     return (
+      // Get the row next to the parent row
       (clickedRow.closest('mat-row')?.nextElementSibling as HTMLElement) ??
       undefined
     );
@@ -104,8 +104,6 @@ export class DhProcessesTableComponent implements AfterViewInit {
     sortable.start = 'desc';
     this.matSort.sort(sortable);
   }
-
-  constructor(private cdr: ChangeDetectorRef) {}
 
   ngAfterViewInit(): void {
     if (this.processes != undefined) {
