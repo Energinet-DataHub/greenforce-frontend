@@ -21,7 +21,7 @@ import { RouterModule } from '@angular/router';
 
 import { WattNavListModule } from './watt-nav-list.component';
 
-const energientDkUrl = 'https://energinet.dk';
+const energinetDkUrl = 'https://energinet.dk';
 
 describe(WattNavListModule.name, () => {
   it('exports shared Watt Design System nav list', async () => {
@@ -114,7 +114,7 @@ describe(WattNavListModule.name, () => {
       await screen.findByRole('link', {
         name: /energinet/i,
       })
-    ).toHaveAttribute('href', energientDkUrl);
+    ).toHaveAttribute('href', energinetDkUrl);
   });
 
   describe('Ensures external links are specified with the expected protocol', () => {
@@ -145,7 +145,7 @@ describe(WattNavListModule.name, () => {
       const link = await screen.findByRole('link', {
         name: /energinet/i,
       });
-      expect(link).toHaveAttribute('href', energientDkUrl);
+      expect(link).toHaveAttribute('href', energinetDkUrl);
     });
 
     it('Ensures external links are specified with the http protocol', async () => {
@@ -156,7 +156,7 @@ describe(WattNavListModule.name, () => {
       const link = await screen.findByRole('link', {
         name: /energinet/i,
       });
-      expect(link).toHaveAttribute('href', energientDkUrl);
+      expect(link).toHaveAttribute('href', energinetDkUrl);
     });
   });
 
