@@ -58,11 +58,11 @@
     }
   }
 
-  .details-status {
+  .details-status-cell {
     flex: 0 1 130px;
   }
 
-  .open-logfile {
+  .open-logfile-cell {
     flex: 0 1 calc(var(--cell-padding) * 2);
   }
 }
