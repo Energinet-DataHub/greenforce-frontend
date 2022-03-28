@@ -154,8 +154,8 @@ describe(DhProcessesTableComponent.name, () => {
 
     fireEvent.click(processRow);
     // Verify that the success row is set to expanded and no longer has height 0
+    expect(processRow.classList.toString()).toContain('expanded');
     expect(detailsRow.classList.toString()).not.toContain('collapsed');
-    expect(detailsRow.classList.toString()).toContain('expanded');
 
     fireEvent.click(processRow);
     // Verify that the success row is set to collapsed and has height 0
