@@ -1,3 +1,4 @@
 {
-  "apiBase": "/api"
+  "apiBase": "/api",
+  "change": "1"
 }
