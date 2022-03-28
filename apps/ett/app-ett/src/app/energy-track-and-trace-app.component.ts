@@ -46,3 +46,4 @@ export class EnergyTrackAndTraceAppComponent {}
   imports: [RouterModule],
 })
 export class EnergyTrackAndTraceAppScam {}
+
