@@ -14,8 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 import 'jest-preset-angular/setup-jest';
 
+import { addDomMatchers } from '@energinet-datahub/gf/test-util-matchers';
 import { setUpTestbed } from '@energinet-datahub/gf/test-util-staging';
 
+addDomMatchers();
 setUpTestbed();
