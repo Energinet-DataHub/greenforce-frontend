@@ -33,7 +33,8 @@ watt-dropdown {
 }
 
 .watt-dropdown-panel {
-  min-width: calc(100% + 3px) !important;
+  // Add 2px because watt-form-field has 1px border on each side
+  min-width: calc(100% + 2px) !important;
 
   &.watt-dropdown-panel-single-selection {
     margin-left: 15px;
