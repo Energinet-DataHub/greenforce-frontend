@@ -17,21 +17,21 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { PushModule } from '@rx-angular/template';
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 
-import { WattAutocompleteComponent } from './autocomplete.component';
+import { WattDropdownComponent } from './watt-dropdown.component';
 
 @NgModule({
-  declarations: [WattAutocompleteComponent],
-  exports: [WattAutocompleteComponent],
+  declarations: [WattDropdownComponent],
+  exports: [WattDropdownComponent],
   imports: [
+    MatSelectModule,
     CommonModule,
+    PushModule,
     ReactiveFormsModule,
-    MatAutocompleteModule,
-    MatFormFieldModule,
-    MatInputModule,
+    NgxMatSelectSearchModule,
   ],
 })
-export class WattAutocompleteModule {}
+export class WattDropdownModule {}
