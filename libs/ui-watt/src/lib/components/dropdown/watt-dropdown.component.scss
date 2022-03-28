@@ -26,6 +26,10 @@ watt-dropdown {
   .mat-select-value {
     color: var(--watt-color-primary-dark);
   }
+
+  .mat-select.mat-select-invalid.ng-pristine .mat-select-arrow {
+    color: currentColor;
+  }
 }
 
 .watt-dropdown-panel {
