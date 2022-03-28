@@ -287,5 +287,20 @@
       "show": "Vis",
       "noResultsHelperText": "Prøv at ændring dine søge indstillinger"
     }
+  },
+  "marketParticipant": {
+    "organization": {
+      "columns": {
+        "organization": "Organisation",
+        "gln": "GLN",
+        "status": "Status",
+        "marketRoles": "Markedsroller",
+        "gridAreas": "Netområder"
+      },
+      "editOrganization": "Redigér organisation",
+      "editActor": "Redigér aktør",
+      "createOrganization": "Opret organisation",
+      "noOrganizations": "Ingen organisationer"
+    }
   }
 }

@@ -267,5 +267,20 @@
       "show": "Show",
       "noResultsHelperText": "Try adjusting your search or filter to find what you are looking for."
     }
+  },
+  "marketParticipant": {
+    "organization": {
+      "columns": {
+        "organization": "Organization",
+        "gln": "GLN",
+        "status": "Status",
+        "marketRoles": "Marked roles",
+        "gridAreas": "Grid areas"
+      },
+      "editOrganization": "Edit organization",
+      "editActor": "Edit actor",
+      "createOrganization": "Create organization",
+      "noOrganizations": "No organizations"
+    }
   }
 }
