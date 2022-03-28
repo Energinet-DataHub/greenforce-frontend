@@ -154,7 +154,7 @@ limitations under the License.
     <mat-row
       *matRowDef="let row; columns: ['expandedDetail']"
       class="expandable"
-      [ngClass]="{ expanded: row.expanded, collapsed: !row.expanded }"
+      [ngClass]="{ collapsed: !row.expanded }"
       [ngStyle]="{ 'max-height': row.expanded ? row.height + 'px' : null }"
       [attr.data-testid]="'detailsRow-' + row.data.id"
     ></mat-row>
