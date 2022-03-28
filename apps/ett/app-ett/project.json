@@ -5,9 +5,12 @@
   "prefix": "ett",
   "targets": {
     "build": {
-      "executor": "@angular-devkit/build-angular:browser",
+      "executor": "@nrwl/angular:webpack-browser",
       "outputs": ["{options.outputPath}"],
       "options": {
+        "customWebpackConfig": {
+          "path": "apps/ett/app-ett/src/configuration/webpack-config.js"
+        },
         "assets": [
           {
             "glob": "favicon.ico",
