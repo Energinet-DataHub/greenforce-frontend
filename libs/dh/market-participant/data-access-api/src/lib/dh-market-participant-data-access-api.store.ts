@@ -21,7 +21,7 @@ import {
   MarketParticipantHttp,
   OrganizationDto,
 } from '@energinet-datahub/dh/shared/domain';
-import { firstValueFrom } from 'rxjs';
+import { map } from 'rxjs';
 
 export interface OrganizationWithActor {
   organization: Partial<OrganizationDto>;
@@ -29,10 +29,12 @@ export interface OrganizationWithActor {
 }
 
 interface MarketParticipantState {
+  isLoading: boolean;
   organizations: OrganizationWithActor[];
 }
 
 const initialState: MarketParticipantState = {
+  isLoading: true,
   organizations: [],
 };
 
@@ -42,12 +44,19 @@ export class DhMarketParticipantOverviewDataAccessApiStore extends ComponentStor
     super(initialState);
   }
 
-  readonly loadOrganizations = async () => {
-    const orgs = await firstValueFrom(
-      this.httpClient.v1MarketParticipantOrganizationsGet()
-    );
+  readonly beginLoading = () => {
+    this.httpClient
+      .v1MarketParticipantOrganizationsGet()
+      .pipe(map(this.mapActors))
+      .subscribe(this.setActors);
+  };
 
-    const organizations = orgs.reduce((running, x) => {
+  readonly setActors = (organizations: OrganizationWithActor[]) => {
+    this.patchState({ organizations, isLoading: false });
+  };
+
+  readonly mapActors = (organizations: OrganizationDto[]) => {
+    return organizations.reduce((running, x) => {
       return (
         (x.actors.length > 0 &&
           running.concat(
@@ -56,7 +65,5 @@ export class DhMarketParticipantOverviewDataAccessApiStore extends ComponentStor
         running.concat([{ organization: x, actor: undefined }])
       );
     }, [] as OrganizationWithActor[]);
-
-    this.patchState({ organizations: organizations });
   };
 }

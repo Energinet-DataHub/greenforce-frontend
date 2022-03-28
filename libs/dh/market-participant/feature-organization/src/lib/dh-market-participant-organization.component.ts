@@ -32,7 +32,6 @@ import {
 } from '@energinet-datahub/watt';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
-import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'dh-market-participant-organization',
@@ -54,22 +53,17 @@ export class DhMarketParticipantOrganizationComponent implements AfterViewInit {
     'RowEdit',
   ];
 
-  dataSource: MatTableDataSource<OrganizationWithActor> =
+  readonly dataSource: MatTableDataSource<OrganizationWithActor> =
     new MatTableDataSource<OrganizationWithActor>();
 
-  isLoading = true;
+  ngAfterViewInit() {
+    this.store.state$.subscribe((x) => {
+      this.dataSource.data = x.organizations;
+      this.dataSource.paginator = this.paginator;
+    });
 
-  async ngAfterViewInit() {
-    this.isLoading = true;
-    this.dataSource.data = await this.getOrganizations();
-    this.dataSource.paginator = this.paginator;
-    this.isLoading = false;
+    this.store.beginLoading();
   }
-
-  getOrganizations = async () => {
-    await this.store.loadOrganizations();
-    return (await firstValueFrom(this.store.state$)).organizations;
-  };
 
   onEditClicked = (e: OrganizationWithActor) =>
     console.log('Clicked edit on', e);
