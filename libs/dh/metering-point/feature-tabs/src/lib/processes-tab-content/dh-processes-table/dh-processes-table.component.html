@@ -16,18 +16,22 @@ limitations under the License.
 -->
 <ng-container *ngIf="processes && processes.length > 0; else emptyTab">
   <mat-table
-    #matTable
     [dataSource]="sortedData"
     matSort
+    multiTemplateDataRows
     (matSortChange)="sortData($event)"
     *transloco="let transloco; read: 'meteringPoint.overview.processesTab'"
   >
     <!-- Expand Definition -->
-    <ng-container matColumnDef="expand">
-      <mat-header-cell *matHeaderCellDef class="watt-label column-expand">
+    <ng-container matColumnDef="tableExpandControl">
+      <mat-header-cell *matHeaderCellDef class="control-cell-header">
       </mat-header-cell>
-      <mat-cell *matCellDef="let row">
-        <watt-icon name="right" [size]="iconSize.Large"></watt-icon>
+      <mat-cell *matCellDef="let row" class="control-cell">
+        <watt-icon
+          name="right"
+          [size]="iconSize.Large"
+          [ngClass]="{ expanded: row.expanded }"
+        ></watt-icon>
       </mat-cell>
     </ng-container>
 
@@ -39,11 +43,11 @@ limitations under the License.
         [sortActionDescription]="transloco('sortDescription.name')"
         class="watt-label"
       >
-        {{ transloco('headers.name') }}
+        {{ transloco("headers.name") }}
       </mat-header-cell>
       <mat-cell *matCellDef="let row" data-testId="processName">
         <div class="watt-text-s">
-          {{ row.name }}
+          {{ row.data.name }}
         </div>
       </mat-cell>
     </ng-container>
@@ -56,7 +60,7 @@ limitations under the License.
         [sortActionDescription]="transloco('sortDescription.createdDate')"
         class="watt-label"
       >
-        {{ transloco('headers.createdDate') }}
+        {{ transloco("headers.createdDate") }}
       </mat-header-cell>
       <mat-cell *matCellDef="let row">
         <watt-icon
@@ -64,7 +68,9 @@ limitations under the License.
           [size]="iconSize.Small"
           class="date-icon"
         ></watt-icon>
-        <span class="watt-text-s">{{ row.createdDate | dhDateTime }} </span>
+        <span class="watt-text-s"
+          >{{ row.data.createdDate | dhDateTime }}
+        </span>
       </mat-cell>
     </ng-container>
 
@@ -74,9 +80,8 @@ limitations under the License.
         *matHeaderCellDef
         mat-sort-header
         [sortActionDescription]="transloco('sortDescription.effectiveDate')"
-        class="watt-label"
       >
-        {{ transloco('headers.effectiveDate') }}
+        {{ transloco("headers.effectiveDate") }}
       </mat-header-cell>
       <mat-cell *matCellDef="let row">
         <watt-icon
@@ -84,7 +89,7 @@ limitations under the License.
           [size]="iconSize.Small"
           class="date-icon"
         ></watt-icon>
-        <span class="watt-text-s">{{ row.effectiveDate | dhDate }} </span>
+        <span class="watt-text-s">{{ row.data.effectiveDate | dhDate }} </span>
       </mat-cell>
     </ng-container>
 
@@ -93,35 +98,65 @@ limitations under the License.
       <mat-header-cell
         *matHeaderCellDef
         mat-sort-header
+        class="status-cell-header"
         [sortActionDescription]="transloco('sortDescription.status')"
-        class="watt-label"
       >
-        {{ transloco('headers.status') }}
+        {{ transloco("headers.status") }}
       </mat-header-cell>
-      <mat-cell *matCellDef="let row">
+      <mat-cell *matCellDef="let row" class="status-cell">
         <div class="watt-text-s">
-          {{ row.status }}
+          {{ row.data.status }}
         </div>
       </mat-cell>
     </ng-container>
 
-    <!-- Has Errors Definition -->
+    <!-- Has Details Errors Definition -->
     <ng-container matColumnDef="hasDetailsErrors">
-      <mat-header-cell *matHeaderCellDef></mat-header-cell>
-      <mat-cell *matCellDef="let row">
+      <mat-header-cell
+        *matHeaderCellDef
+        class="has-details-errors-cell-header"
+      ></mat-header-cell>
+      <mat-cell *matCellDef="let row" class="has-details-errors-cell">
         <div class="watt-text-s">
           <watt-icon
-            [name]="row.hasDetailsErrors ? 'danger' : 'success'"
+            [name]="row.data.hasDetailsErrors ? 'danger' : 'success'"
             [size]="iconSize.Medium"
-            data-testId="processhasDetailsErrors"
+            data-testId="processHasDetailsErrors"
           ></watt-icon>
         </div>
       </mat-cell>
     </ng-container>
 
+    <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
+    <ng-container matColumnDef="expandedDetail">
+      <mat-header-cell *matHeaderCellDef></mat-header-cell>
+      <mat-cell
+        mat-cell
+        *matCellDef="let row"
+        [attr.colspan]="displayedColumns.length"
+      >
+        <dh-processes-detail-item
+          *ngFor="let detail of row.data.details"
+          [detail]="detail"
+        ></dh-processes-detail-item>
+      </mat-cell>
+    </ng-container>
+
     <!-- Header and Row Declarations -->
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+    <mat-row
+      *matRowDef="let row; columns: displayedColumns"
+      (click)="toggleRow($event, row)"
+      class="clickable"
+      [attr.data-testid]="'processRow-' + row.data.id"
+    ></mat-row>
+    <mat-row
+      *matRowDef="let row; columns: ['expandedDetail']"
+      class="expandable"
+      [ngClass]="{ expanded: row.expanded, collapsed: !row.expanded }"
+      [ngStyle]="{ 'max-height': row.expanded ? row.height + 'px' : null }"
+      [attr.data-testid]="'detailsRow-' + row.data.id"
+    ></mat-row>
   </mat-table>
 </ng-container>
 
