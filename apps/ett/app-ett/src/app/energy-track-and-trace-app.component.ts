@@ -24,10 +24,6 @@ import { RouterModule } from '@angular/router';
 
 const selector = 'ett-app';
 
-const removeMe = () => {
-  return true;
-}
-
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
