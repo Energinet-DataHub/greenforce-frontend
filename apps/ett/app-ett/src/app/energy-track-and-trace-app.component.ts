@@ -40,7 +40,7 @@ const selector = 'ett-app';
   template: `<router-outlet></router-outlet>`,
 })
 export class EnergyTrackAndTraceAppComponent {}
-// Delete me later
+
 @NgModule({
   declarations: [EnergyTrackAndTraceAppComponent],
   imports: [RouterModule],
