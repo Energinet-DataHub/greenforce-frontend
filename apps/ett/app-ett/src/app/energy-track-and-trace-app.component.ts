@@ -43,7 +43,7 @@ export class EnergyTrackAndTraceAppComponent {}
 // Delete this
 const deleteMe = () => {
   return true;
-}
+};
 @NgModule({
   declarations: [EnergyTrackAndTraceAppComponent],
   imports: [RouterModule],
