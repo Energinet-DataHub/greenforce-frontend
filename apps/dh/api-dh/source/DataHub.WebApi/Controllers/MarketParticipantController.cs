@@ -62,7 +62,7 @@ namespace Energinet.DataHub.WebApi.Controllers
         /// <summary>
         /// Updates an organization
         /// </summary>
-        [HttpPost]
+        [HttpPut]
         public async Task<ActionResult<OrganizationDto>> UpdateOrganizationAsync(Guid orgId, ChangeOrganizationDto organizationDto)
         {
             return Ok(await _client.UpdateOrganizationAsync(orgId, organizationDto).ConfigureAwait(false));
@@ -89,7 +89,7 @@ namespace Energinet.DataHub.WebApi.Controllers
         /// <summary>
         /// Updates an Actor in an organization
         /// </summary>
-        [HttpPut("{orgId:guid}/actor")]
+        [HttpPost("{orgId:guid}/actor")]
         public async Task<ActionResult<OrganizationDto>> CreateActorAsync(Guid orgId, CreateActorDto actorDto)
         {
             return Ok(await _client.CreateActorAsync(orgId, actorDto).ConfigureAwait(false));
