@@ -24,6 +24,10 @@ import { RouterModule } from '@angular/router';
 
 const selector = 'ett-app';
 
+const removeMe = () => {
+  return true;
+}
+
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
@@ -40,7 +44,7 @@ const selector = 'ett-app';
   template: `<router-outlet></router-outlet>`,
 })
 export class EnergyTrackAndTraceAppComponent {}
-// Test change in order to deploy
+
 @NgModule({
   declarations: [EnergyTrackAndTraceAppComponent],
   imports: [RouterModule],
