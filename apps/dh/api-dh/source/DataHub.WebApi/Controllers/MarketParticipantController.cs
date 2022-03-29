@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Energinet.DataHub.MarketParticipant.Client;
@@ -21,7 +22,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Energinet.DataHub.WebApi.Controllers
 {
     [ApiController]
-    [Route("v1/[controller]")]
+    [Route("v1/[controller]/organization")]
     public class MarketParticipantController : ControllerBase
     {
         private readonly IMarketParticipantClient _client;
@@ -34,10 +35,73 @@ namespace Energinet.DataHub.WebApi.Controllers
         /// <summary>
         /// Retrieves all organizations
         /// </summary>
-        [HttpGet("organizations")]
-        public async Task<ActionResult<IEnumerable<OrganizationDto>>> GetAsync()
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<OrganizationDto>>> GetAllOrganizationsAsync()
         {
             return Ok(await _client.GetOrganizationsAsync().ConfigureAwait(false));
+        }
+
+        /// <summary>
+        /// Retrieves a single organization
+        /// </summary>
+        [HttpGet("{orgId:guid}/")]
+        public async Task<ActionResult<OrganizationDto>> GetOrganizationAsync(Guid orgId)
+        {
+            return Ok(await _client.GetOrganizationAsync(orgId).ConfigureAwait(false));
+        }
+
+        /// <summary>
+        /// Creates an organization
+        /// </summary>
+        [HttpPost]
+        public async Task<ActionResult<OrganizationDto>> CreateOrganizationAsync(ChangeOrganizationDto organizationDto)
+        {
+            return Ok(await _client.CreateOrganizationAsync(organizationDto).ConfigureAwait(false));
+        }
+
+        /// <summary>
+        /// Updates an organization
+        /// </summary>
+        [HttpPost]
+        public async Task<ActionResult<OrganizationDto>> UpdateOrganizationAsync(Guid orgId, ChangeOrganizationDto organizationDto)
+        {
+            return Ok(await _client.UpdateOrganizationAsync(orgId, organizationDto).ConfigureAwait(false));
+        }
+
+        /// <summary>
+        /// Retrieves all actors to a single organization
+        /// </summary>
+        [HttpGet("{orgId:guid}/actor")]
+        public async Task<ActionResult<IEnumerable<ActorDto>>> GetActorsAsync(Guid orgId)
+        {
+            return Ok(await _client.GetActorsAsync(orgId).ConfigureAwait(false));
+        }
+
+        /// <summary>
+        /// Retrieves a single actor to a specific organization
+        /// </summary>
+        [HttpGet("{orgId:guid}/actor/{actorId:guid}")]
+        public async Task<ActionResult<ActorDto>> GetActorAsync(Guid orgId, Guid actorId)
+        {
+            return Ok(await _client.GetActorAsync(orgId, actorId).ConfigureAwait(false));
+        }
+
+        /// <summary>
+        /// Updates an Actor in an organization
+        /// </summary>
+        [HttpPut("{orgId:guid}/actor")]
+        public async Task<ActionResult<OrganizationDto>> CreateActorAsync(Guid orgId, CreateActorDto actorDto)
+        {
+            return Ok(await _client.CreateActorAsync(orgId, actorDto).ConfigureAwait(false));
+        }
+
+        /// <summary>
+        /// Updates an Actor in an organization
+        /// </summary>
+        [HttpPut("{orgId:guid}/actor/{actorId:guid}")]
+        public async Task<ActionResult<OrganizationDto>> UpdateActorAsync(Guid orgId, Guid actorId, ChangeActorDto actorDto)
+        {
+            return Ok(await _client.UpdateActorAsync(orgId, actorId, actorDto).ConfigureAwait(false));
         }
     }
 }
