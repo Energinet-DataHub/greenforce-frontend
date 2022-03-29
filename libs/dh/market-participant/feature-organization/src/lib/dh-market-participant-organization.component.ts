@@ -15,14 +15,20 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component, NgModule, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  NgModule,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import {
   DhMarketParticipantOverviewDataAccessApiStore,
   OrganizationWithActor,
 } from '@energinet-datahub/dh/market-participant/data-access-api';
 import { LetModule } from '@rx-angular/template/let';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import {
   WattBadgeModule,
   WattButtonModule,
@@ -31,7 +37,11 @@ import {
   WattSpinnerModule,
 } from '@energinet-datahub/watt';
 import { MatMenuModule } from '@angular/material/menu';
-import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import {
+  MatPaginator,
+  MatPaginatorIntl,
+  MatPaginatorModule,
+} from '@angular/material/paginator';
 
 @Component({
   selector: 'dh-market-participant-organization',
@@ -39,8 +49,14 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
   templateUrl: './dh-market-participant-organization.component.html',
   providers: [DhMarketParticipantOverviewDataAccessApiStore],
 })
-export class DhMarketParticipantOrganizationComponent implements AfterViewInit {
-  constructor(public store: DhMarketParticipantOverviewDataAccessApiStore) {}
+export class DhMarketParticipantOrganizationComponent
+  implements AfterViewInit, OnInit
+{
+  constructor(
+    public store: DhMarketParticipantOverviewDataAccessApiStore,
+    private translocoService: TranslocoService,
+    private matPaginatorIntl: MatPaginatorIntl
+  ) {}
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
@@ -56,6 +72,10 @@ export class DhMarketParticipantOrganizationComponent implements AfterViewInit {
   readonly dataSource: MatTableDataSource<OrganizationWithActor> =
     new MatTableDataSource<OrganizationWithActor>();
 
+  ngOnInit() {
+    this.setupPaginatorTranslation();
+  }
+
   ngAfterViewInit() {
     this.store.state$.subscribe((x) => {
       this.dataSource.data = x.organizations;
@@ -64,6 +84,28 @@ export class DhMarketParticipantOrganizationComponent implements AfterViewInit {
 
     this.store.beginLoading();
   }
+
+  setupPaginatorTranslation = () => {
+    const temp = this.matPaginatorIntl.getRangeLabel;
+    this.matPaginatorIntl.getRangeLabel = (page, pageSize, length) =>
+      temp(page, pageSize, length).replace(
+        'of',
+        this.translocoService.translate(
+          'marketParticipant.organization.paginator.of'
+        )
+      );
+
+    this.translocoService
+      .selectTranslateObject('marketParticipant.organization.paginator')
+      .subscribe((value) => {
+        this.matPaginatorIntl.itemsPerPageLabel = value.itemsPerPageLabel;
+        this.matPaginatorIntl.nextPageLabel = value.next;
+        this.matPaginatorIntl.previousPageLabel = value.previous;
+        this.matPaginatorIntl.firstPageLabel = value.first;
+        this.matPaginatorIntl.lastPageLabel = value.last;
+        this.dataSource.paginator = this.paginator;
+      });
+  };
 
   onEditClicked = (e: OrganizationWithActor) =>
     console.log('Clicked edit on', e);
