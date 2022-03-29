@@ -274,7 +274,7 @@
         "organization": "Organization",
         "gln": "GLN",
         "status": "Status",
-        "marketRoles": "Marked roles",
+        "marketRoles": "Market roles",
         "gridAreas": "Grid areas"
       },
       "editOrganization": "Edit organization",
