@@ -280,7 +280,15 @@
       "editOrganization": "Edit organization",
       "editActor": "Edit actor",
       "createOrganization": "Create organization",
-      "noOrganizations": "No organizations"
+      "noOrganizations": "No organizations",
+      "paginator": {
+        "itemsPerPageLabel": "Organizations per page",
+        "of": "of",
+        "first": "First page",
+        "last": "Last page",
+        "next": "Next page",
+        "previous": "Previous page"
+      }
     }
   }
 }
