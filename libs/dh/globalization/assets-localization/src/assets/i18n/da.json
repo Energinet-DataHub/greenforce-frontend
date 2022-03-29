@@ -8,7 +8,8 @@
   "sidebar": {
     "navigation": {
       "meteringPoints": "Målepunkter",
-      "messageArchive": "Fremsøg forretningsbesked"
+      "messageArchive": "Fremsøg forretningsbesked",
+      "marketParticipant": "Organisationer"
     }
   },
   "meteringPoint": {
