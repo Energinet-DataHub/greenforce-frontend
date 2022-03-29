@@ -46,7 +46,7 @@ export class DhMarketParticipantOverviewDataAccessApiStore extends ComponentStor
 
   readonly beginLoading = () => {
     this.httpClient
-      .v1MarketParticipantOrganizationsGet()
+      .v1MarketParticipantOrganizationGet()
       .pipe(map(this.mapActors))
       .subscribe(this.setActors);
   };
