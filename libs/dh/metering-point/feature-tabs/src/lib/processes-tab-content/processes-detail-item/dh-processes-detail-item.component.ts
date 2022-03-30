@@ -28,7 +28,7 @@ import { WattIconModule, WattIconSize } from '@energinet-datahub/watt';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'dh-processes-detail-item[detail]',
+  selector: 'processes-detail-item[detail]',
   templateUrl: './dh-processes-detail-item.component.html',
   styleUrls: ['./dh-processes-detail-item.component.scss'],
 })

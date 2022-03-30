@@ -40,12 +40,12 @@ import {
   WattIconSize,
 } from '@energinet-datahub/watt';
 import { TranslocoModule } from '@ngneat/transloco';
-import { DhProcessesDetailItemScam } from '../dh-processes-detail-item/dh-processes-detail-item.component';
+import { DhProcessesDetailItemScam } from '../processes-detail-item/dh-processes-detail-item.component';
 import { DhProcessTableRow } from './dh-process-table-row';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'dh-processes-table',
+  selector: 'processes-table',
   templateUrl: './dh-processes-table.component.html',
   styleUrls: ['./dh-processes-table.component.scss'],
 })
