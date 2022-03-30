@@ -23,6 +23,13 @@ export class EoMediaPresenter extends ComponentStore<EoMediaState> {
       debounce: true,
     }
   );
+  mediaGridTemplateColumns$: Observable<string | null> = this.select(
+    this.mediaImageMaxWidthPercentage$,
+    (imageMaxWidthPercentage) =>
+      imageMaxWidthPercentage === null
+        ? null
+        : `${100 - imageMaxWidthPercentage}% ${imageMaxWidthPercentage}%`
+  );
 
   constructor() {
     super(initialState);

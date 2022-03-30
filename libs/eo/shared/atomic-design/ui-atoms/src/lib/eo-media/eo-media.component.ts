@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, HostBinding, Input, NgModule } from '@angular/core';
 import { PushModule } from '@rx-angular/template';
-import { map, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 
 import { EoMediaPresenter } from './eo-media.presenter';
 
@@ -50,14 +50,7 @@ export class EoMediaComponent {
   }
 
   gridTemplateColumns$: Observable<string | null> =
-    this.presenter.mediaImageMaxWidthPercentage$.pipe(
-      map((imageMaxWidthPercentage) =>
-        // TODO: Move to presenter
-        imageMaxWidthPercentage === null
-          ? null
-          : `${100 - imageMaxWidthPercentage}% ${imageMaxWidthPercentage}%`
-      )
-    );
+    this.presenter.mediaGridTemplateColumns$;
 
   constructor(private presenter: EoMediaPresenter) {}
 }
