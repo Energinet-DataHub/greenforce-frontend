@@ -24,72 +24,40 @@ import { EoLandingPagePresenter } from './eo-landing-page.presenter';
   selector: 'eo-landing-page-audience',
   styles: [
     `
+      @use '@energinet-datahub/eo/shared/styles/layout' as eo-layout;
+
       :host {
+        @include eo-layout.centered-content;
+
         display: block;
-        /* position: relative; */
-      }
 
-      img.small {
-        max-width: 400px;
-      }
-
-      .full-width-wrapper {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        height: calc(92 * var(--watt-space-xs));
-        margin-bottom: calc(2 * var(--watt-space-xl));
-
-        background: var(
-          --watt-color-focus-selection
-        ); // This is the light-blue-ish background color
+        background-color: var(--watt-color-focus-selection);
       }
     `,
   ],
   template: `
-    <!-- <div class="full-width-wrapper">
-      <eo-landing-page-column-layout layoutType="largeFirst">
-        <ng-container contentLeftLarge>
-          <img
-            class="small"
-            src="/assets/images/landing-page/landing-page-office-people.png"
-            alt="Energy Origin"
-          />
-        </ng-container>
+    <div class="eo-spacing-squished-inset-xxl">
+      <eo-media
+        [eoMediaGapPixels]="landingPage.gutterPixels"
+        [eoMediaMaxWidthPixels]="landingPage.contentMaxWidthPixels"
+      >
+        <h2>Who is it for?</h2>
 
-        <ng-container contentRightSmall>
-          <h2>Who is it for?</h2>
+        <p>
+          This first version of Energy Origin is for
+          <strong>companies in Denmark</strong>. Later it will be available for
+          private individuals as well.
+        </p>
 
-          <p>
-            This first version of Energy Origin is for
-            <strong>companies in Denmark</strong>. Later it will be available
-            for private individuals as well.
-          </p>
-        </ng-container>
-      </eo-landing-page-column-layout>
-    </div> -->
-
-    <eo-media
-      [eoMediaGapPixels]="landingPage.gutterPixels"
-      [eoMediaMaxWidthPixels]="landingPage.contentMaxWidthPixels"
-    >
-      <h2>Who is it for?</h2>
-
-      <p>
-        This first version of Energy Origin is for
-        <strong>companies in Denmark</strong>. Later it will be available for
-        private individuals as well.
-      </p>
-
-      <img
-        eoMediaImage
-        eoMediaImageAlign="start"
-        [eoMediaImageMaxWidthPixels]="400"
-        src="/assets/images/landing-page/landing-page-office-people.png"
-        alt="Company users"
-      />
-    </eo-media>
+        <img
+          eoMediaImage
+          eoMediaImageAlign="start"
+          [eoMediaImageMaxWidthPixels]="400"
+          src="/assets/images/landing-page/landing-page-office-people.png"
+          alt="Company users"
+        />
+      </eo-media>
+    </div>
   `,
 })
 export class EoLandingPageAudienceComponent {

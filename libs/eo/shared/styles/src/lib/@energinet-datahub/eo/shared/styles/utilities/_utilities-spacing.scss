@@ -14,6 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+@use '../tools/tools-spacing' as eo-spacing;
+
 .eo-space-inset-xxl {
   padding: calc(2 * var(--watt-space-xl)) !important;
 }
@@ -24,4 +26,8 @@
 
 .eo-space-inset-stretched-l {
   padding: var(--watt-space-l) var(--watt-space-m) !important; // .watt-space-inset-squish-l is not declared yet
+}
+
+.eo-spacing-squished-inset-xxl {
+  @include eo-spacing.squished-inset-xxl;
 }

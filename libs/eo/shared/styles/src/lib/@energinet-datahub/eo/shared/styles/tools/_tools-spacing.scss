@@ -23,3 +23,13 @@
 
   margin: var(--eo-space-xxl) #{$important-expression};
 }
+
+@mixin squished-inset-xxl($important: true) {
+  $important-expression: '!important';
+
+  @if $important == false {
+    $important-expression: '';
+  }
+
+  margin: var(--watt-space-xl) var(--eo-space-xxl) #{$important-expression};
+}
