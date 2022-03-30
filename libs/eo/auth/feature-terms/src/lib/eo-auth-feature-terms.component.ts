@@ -17,7 +17,10 @@
 import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { EoPrivacyPolicyScam } from '@energinet-datahub/eo/shared/atomic-design/feature-molecules';
-import { EoFooterScam, EoHeaderScam } from '@energinet-datahub/eo/shared/atomic-design/ui-organisms';
+import {
+  EoFooterScam,
+  EoHeaderScam,
+} from '@energinet-datahub/eo/shared/atomic-design/ui-organisms';
 import { EoLogOutStore } from '@energinet-datahub/ett/auth/data-access-security';
 import { WattButtonModule, WattCheckboxModule } from '@energinet-datahub/watt';
 

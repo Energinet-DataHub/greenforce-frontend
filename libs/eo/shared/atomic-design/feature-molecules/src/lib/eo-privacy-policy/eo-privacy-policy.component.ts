@@ -14,7 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component, NgModule, Output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  NgModule,
+  Output,
+} from '@angular/core';
 import { EoScrollViewScam } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 import { PushModule } from '@rx-angular/template';
 import { Observable } from 'rxjs';
