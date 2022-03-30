@@ -47,7 +47,7 @@ import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
       <a
         class="watt-space-stack-m"
         (click)="scrollToTargetElement(where_does_the_data_come_from)"
-        >Where does te data come from?</a
+        >Where does the data come from?</a
       >
       <a
         class="watt-space-stack-m"
