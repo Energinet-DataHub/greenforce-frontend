@@ -21,7 +21,7 @@
   margin-left: calc(var(--cell-padding) * 2);
   padding-left: var(--cell-padding);
   padding-right: var(--cell-padding);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+  border-bottom: 1px solid var(--watt-color-neutral-grey-300);
 
   --row-state-color: var(--watt-color-neutral-grey-400);
 
