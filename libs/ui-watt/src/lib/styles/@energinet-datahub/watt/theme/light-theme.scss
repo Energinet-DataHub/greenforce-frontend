@@ -60,6 +60,7 @@ $watt-theme: mat.define-light-theme(
 @include mat.form-field-theme($watt-theme);
 @include mat.icon-theme($watt-theme);
 @include mat.input-theme($watt-theme);
+@include mat.menu-theme($watt-theme);
 @include mat.progress-spinner-theme($watt-theme);
 @include mat.select-theme($watt-theme);
 @include mat.sidenav-theme($watt-theme);
