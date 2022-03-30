@@ -21,6 +21,9 @@ import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { WattNavListModule } from './watt-nav-list.component';
 
+const httpEnerginetDkUrl = 'http://energinet.dk';
+const httpsEnerginetDkUrl = 'https://energinet.dk';
+
 describe(WattNavListModule.name, () => {
   it('exports shared Watt Design System nav list', async () => {
     const text = 'Page 1';
@@ -95,7 +98,7 @@ describe(WattNavListModule.name, () => {
     await render(
       `
       <watt-nav-list>
-        <watt-nav-list-item link="https://energinet.dk">
+        <watt-nav-list-item link="${httpsEnerginetDkUrl}">
           Energinet
         </watt-nav-list-item>
       </watt-nav-list>
@@ -112,7 +115,7 @@ describe(WattNavListModule.name, () => {
       await screen.findByRole('link', {
         name: /energinet/i,
       })
-    ).toHaveAttribute('href', 'https://energinet.dk');
+    ).toHaveAttribute('href', httpsEnerginetDkUrl);
   });
 
   describe(`${WattNavListModule.name} - Ensures external links are specified with the expected protocol`, () => {
@@ -137,24 +140,24 @@ describe(WattNavListModule.name, () => {
 
     it('Ensures external links are specified with the https protocol', async () => {
       // Arrange
-      await setup('https://energinet.dk');
+      await setup(httpsEnerginetDkUrl);
       // Act
       // Assert
       const link = await screen.findByRole('link', {
         name: /energinet/i,
       });
-      expect(link).toHaveAttribute('href', 'https://energinet.dk');
+      expect(link).toHaveAttribute('href', httpsEnerginetDkUrl);
     });
 
     it('Ensures external links are specified with the http protocol', async () => {
       // Arrange
-      await setup('http://energinet.dk');
+      await setup(httpEnerginetDkUrl);
       // Act
       // Assert
       const link = await screen.findByRole('link', {
         name: /energinet/i,
       });
-      expect(link).toHaveAttribute('href', 'http://energinet.dk');
+      expect(link).toHaveAttribute('href', httpEnerginetDkUrl);
     });
   });
 
@@ -164,7 +167,7 @@ describe(WattNavListModule.name, () => {
       await render(
         `
         <watt-nav-list>
-          <watt-nav-list-item link="https://energinet.dk" [target]="target">
+          <watt-nav-list-item link="${httpsEnerginetDkUrl}" [target]="target">
             Energinet
           </watt-nav-list-item>
         </watt-nav-list>
