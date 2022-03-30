@@ -20,8 +20,14 @@
 }
 
 mat-row {
+  .control-cell watt-icon {
+    transition: transform 0.2s linear;
+  }
   &.expanded {
     background: var(--watt-color-focus-selection);
+    &.control-cell watt-icon {
+      transform: rotate(90deg);
+    }
   }
 }
 
@@ -35,14 +41,6 @@ mat-row {
 .control-cell-header,
 .control-cell {
   flex: 0 1 calc(var(--cell-padding) * 3);
-}
-
-.control-cell watt-icon {
-  transition: transform 0.2s linear;
-
-  &.expanded {
-    transform: rotate(90deg);
-  }
 }
 
 mat-row.expandable {

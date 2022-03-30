@@ -27,11 +27,7 @@ limitations under the License.
       <mat-header-cell *matHeaderCellDef class="control-cell-header">
       </mat-header-cell>
       <mat-cell *matCellDef="let row" class="control-cell">
-        <watt-icon
-          name="right"
-          [size]="iconSize.Large"
-          [ngClass]="{ expanded: row.expanded }"
-        ></watt-icon>
+        <watt-icon name="right" [size]="iconSize.Large"></watt-icon>
       </mat-cell>
     </ng-container>
 
@@ -47,7 +43,7 @@ limitations under the License.
       </mat-header-cell>
       <mat-cell *matCellDef="let row" data-testId="processName">
         <div class="watt-text-s">
-          {{ row.data.name }}
+          {{ row.process.name }}
         </div>
       </mat-cell>
     </ng-container>
@@ -69,7 +65,7 @@ limitations under the License.
           class="date-icon"
         ></watt-icon>
         <span class="watt-text-s"
-          >{{ row.data.createdDate | dhDateTime }}
+          >{{ row.process.createdDate | dhDateTime }}
         </span>
       </mat-cell>
     </ng-container>
@@ -89,7 +85,9 @@ limitations under the License.
           [size]="iconSize.Small"
           class="date-icon"
         ></watt-icon>
-        <span class="watt-text-s">{{ row.data.effectiveDate | dhDate }} </span>
+        <span class="watt-text-s"
+          >{{ row.process.effectiveDate | dhDate }}
+        </span>
       </mat-cell>
     </ng-container>
 
@@ -105,7 +103,7 @@ limitations under the License.
       </mat-header-cell>
       <mat-cell *matCellDef="let row" class="status-cell">
         <div class="watt-text-s">
-          {{ row.data.status }}
+          {{ row.process.status }}
         </div>
       </mat-cell>
     </ng-container>
@@ -119,7 +117,7 @@ limitations under the License.
       <mat-cell *matCellDef="let row" class="has-details-errors-cell">
         <div class="watt-text-s">
           <watt-icon
-            [name]="row.data.hasDetailsErrors ? 'danger' : 'success'"
+            [name]="row.process.hasDetailsErrors ? 'danger' : 'success'"
             [size]="iconSize.Medium"
             data-testId="processHasDetailsErrors"
           ></watt-icon>
@@ -136,7 +134,7 @@ limitations under the License.
         [attr.colspan]="displayedColumns.length"
       >
         <dh-processes-detail-item
-          *ngFor="let detail of row.data.details"
+          *ngFor="let detail of row.process.details"
           [detail]="detail"
         ></dh-processes-detail-item>
       </mat-cell>
@@ -149,14 +147,14 @@ limitations under the License.
       (click)="toggleRow($event, row)"
       [ngClass]="{ expanded: row.expanded }"
       class="clickable"
-      [attr.data-testid]="'processRow-' + row.data.id"
+      [attr.data-testid]="'processRow-' + row.process.id"
     ></mat-row>
     <mat-row
       *matRowDef="let row; columns: ['expandedDetail']"
       class="expandable"
       [ngClass]="{ collapsed: !row.expanded }"
       [ngStyle]="{ 'max-height': row.expanded ? row.height + 'px' : null }"
-      [attr.data-testid]="'detailsRow-' + row.data.id"
+      [attr.data-testid]="'detailsRow-' + row.process.id"
     ></mat-row>
   </mat-table>
 </ng-container>

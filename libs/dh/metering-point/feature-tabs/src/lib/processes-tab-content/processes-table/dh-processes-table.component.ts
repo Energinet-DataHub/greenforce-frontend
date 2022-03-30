@@ -45,7 +45,7 @@ import { DhProcessTableRow } from './dh-process-table-row';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'processes-table',
+  selector: 'dh-processes-table',
   templateUrl: './dh-processes-table.component.html',
   styleUrls: ['./dh-processes-table.component.scss'],
 })
