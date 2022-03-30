@@ -14,11 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './lib/eo-product-logo/eo-product-logo.directive';
-export * from './lib/eo-scroll-view/eo-scroll-view.component';
-export * from './lib/eo-vimeo-player/eo-vimeo-player.component';
-export * from './lib/eo-inline-message/eo-inline-message.component';
+@use '@energinet-datahub/watt';
 
-// Media
-export * from './lib/eo-media/eo-media-align';
-export * from './lib/eo-media/eo-media.module';
+label {
+  text-transform: none; // Override .watt-label, which uppercases labels
+}
+
+body strong {
+  color: inherit; // Override Watt styles
+}
+
+a,
+[routerLink] {
+  text-decoration: underline; // This overrides WATT styles (which removes the underline on a tags)
+}
