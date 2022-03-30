@@ -21,18 +21,18 @@ describe(EoFaqShellComponent.name, () => {
   let fixture: ComponentFixture<EoFaqShellComponent>;
   let component: EoFaqShellComponent;
 
-  beforeEach((() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        EoFaqShellComponent
-      ],
-    }).compileComponents().then(() => {
-      fixture = TestBed.createComponent(EoFaqShellComponent);
-      component = fixture.componentInstance;
-    });
-  }));
+      declarations: [EoFaqShellComponent],
+    })
+      .compileComponents()
+      .then(() => {
+        fixture = TestBed.createComponent(EoFaqShellComponent);
+        component = fixture.componentInstance;
+      });
+  });
 
-  it('Scrolls to the expected FAQ target on click', (() => {
+  it('Scrolls to the expected FAQ target on click', () => {
     jest.spyOn(component, 'scrollToTargetElement');
 
     const faqLink = fixture.debugElement.nativeElement.querySelector('a');
@@ -41,5 +41,5 @@ describe(EoFaqShellComponent.name, () => {
     fixture.whenStable().then(() => {
       expect(component.scrollToTargetElement).toHaveBeenCalledTimes(1);
     });
-  }));
+  });
 });
