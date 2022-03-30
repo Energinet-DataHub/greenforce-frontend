@@ -24,7 +24,7 @@ import { EoMediaScam } from './eo-media.component';
  * object.
  *
  * @example
- * <eo-media>
+ * <eo-media eoMediaMaxWidthPixels="960">
  *   <!-- Any content can be added as siblings to the element with an -->
  *   <!-- `eoMediaImage` directive -->
  *   <h1>Example title</h2>
@@ -33,7 +33,10 @@ import { EoMediaScam } from './eo-media.component';
  *     Example copy
  *   </p>
  *
- *   <img eoMediaImage alt="Example image" />
+ *   <img eoMediaImage
+ *     eoMediaImageAlign="end"
+ *     eoMediaImageMaxWidthPixels="540"
+ *     alt="Example image" />
  * </eo-media>
  */
 @NgModule({

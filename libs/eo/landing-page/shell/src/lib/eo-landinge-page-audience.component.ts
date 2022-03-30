@@ -15,8 +15,9 @@
  * limitations under the License.
  */
 import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
+import { EoMediaModule } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 
-import { EoLandingPageColumnLayoutScam } from './layout/eo-landing-page-column-layout.component';
+import { EoLandingPagePresenter } from './eo-landing-page.presenter';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -47,7 +48,7 @@ import { EoLandingPageColumnLayoutScam } from './layout/eo-landing-page-column-l
     `,
   ],
   template: `
-    <div class="full-width-wrapper">
+    <!-- <div class="full-width-wrapper">
       <eo-landing-page-column-layout layoutType="largeFirst">
         <ng-container contentLeftLarge>
           <img
@@ -67,14 +68,34 @@ import { EoLandingPageColumnLayoutScam } from './layout/eo-landing-page-column-l
           </p>
         </ng-container>
       </eo-landing-page-column-layout>
-    </div>
+    </div> -->
+
+    <eo-media [eoMediaMaxWidthPixels]="landingPage.contentMaxWidthPixels">
+      <h2>Who is it for?</h2>
+
+      <p>
+        This first version of Energy Origin is for
+        <strong>companies in Denmark</strong>. Later it will be available for
+        private individuals as well.
+      </p>
+
+      <img
+        eoMediaImage
+        eoMediaImageAlign="start"
+        [eoMediaImageMaxWidthPixels]="400"
+        src="/assets/images/landing-page/landing-page-office-people.png"
+        alt="Company users"
+      />
+    </eo-media>
   `,
 })
-export class EoLandingPageAudienceComponent {}
+export class EoLandingPageAudienceComponent {
+  constructor(public landingPage: EoLandingPagePresenter) {}
+}
 
 @NgModule({
   declarations: [EoLandingPageAudienceComponent],
   exports: [EoLandingPageAudienceComponent],
-  imports: [EoLandingPageColumnLayoutScam],
+  imports: [EoMediaModule],
 })
 export class EoLandingPageAudienceScam {}

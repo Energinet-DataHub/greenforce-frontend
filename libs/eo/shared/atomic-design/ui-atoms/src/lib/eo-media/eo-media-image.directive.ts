@@ -16,6 +16,7 @@
  */
 import { Directive, Input, NgModule } from '@angular/core';
 
+import { EoMediaAlign } from './eo-media-align';
 import { EoMediaPresenter } from './eo-media.presenter';
 
 @Directive({
@@ -23,7 +24,13 @@ import { EoMediaPresenter } from './eo-media.presenter';
   selector: '[eoMediaImage]',
 })
 export class EoMediaImageDirective {
-  @Input()
+  @Input('eoMediaImageAlign')
+  set align(value: EoMediaAlign | null) {
+    value ??= 'start';
+
+    this.presenter.updateMediaImageAlign(value);
+  }
+  @Input('eoMediaImageMaxWidthPixels')
   set maxWidthPixels(value: number | null) {
     this.presenter.updateMediaImageMaxWidthPixels(value);
   }

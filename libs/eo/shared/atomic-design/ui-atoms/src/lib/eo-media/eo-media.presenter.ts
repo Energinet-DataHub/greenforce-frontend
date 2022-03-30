@@ -18,13 +18,21 @@ import { Injectable } from '@angular/core';
 import { ComponentStore } from '@ngrx/component-store';
 import { Observable } from 'rxjs';
 
+import { EoMediaAlign } from './eo-media-align';
+
 interface EoMediaState {
   mediaMaxWidthPixels: number | null;
+  mediaImageAlign: EoMediaAlign;
   mediaImageMaxWidthPixels: number | null;
 }
 
 @Injectable()
 export class EoMediaPresenter extends ComponentStore<EoMediaState> {
+  mediaImageOrder$: Observable<number> = this.select(
+    this.select((state) => state.mediaImageAlign),
+    (align) =>
+      align === 'start' ? Number.MIN_SAFE_INTEGER : Number.MAX_SAFE_INTEGER
+  );
   mediaImageMaxWidthPercentage$: Observable<number | null> = this.select(
     this.select((state) => state.mediaMaxWidthPixels),
     this.select((state) => state.mediaImageMaxWidthPixels),
@@ -58,6 +66,13 @@ export class EoMediaPresenter extends ComponentStore<EoMediaState> {
     })
   );
 
+  updateMediaImageAlign = this.updater<EoMediaAlign>(
+    (state, mediaImageAlign): EoMediaState => ({
+      ...state,
+      mediaImageAlign,
+    })
+  );
+
   updateMediaImageMaxWidthPixels = this.updater<number | null>(
     (state, mediaImageMaxWidthPixels): EoMediaState => ({
       ...state,
@@ -68,5 +83,6 @@ export class EoMediaPresenter extends ComponentStore<EoMediaState> {
 
 const initialState: EoMediaState = {
   mediaMaxWidthPixels: null,
+  mediaImageAlign: 'start',
   mediaImageMaxWidthPixels: null,
 };

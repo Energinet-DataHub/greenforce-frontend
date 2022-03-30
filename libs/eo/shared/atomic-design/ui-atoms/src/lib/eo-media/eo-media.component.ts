@@ -14,13 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  ChangeDetectionStrategy,
-  Component,
-  HostBinding,
-  Input,
-  NgModule,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, Input, NgModule } from '@angular/core';
 import { PushModule } from '@rx-angular/template';
 import { Observable } from 'rxjs';
 
@@ -28,6 +22,7 @@ import { EoMediaPresenter } from './eo-media.presenter';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
+  exportAs: 'eoMedia',
   providers: [EoMediaPresenter],
   selector: 'eo-media',
   styles: [
@@ -52,7 +47,10 @@ import { EoMediaPresenter } from './eo-media.presenter';
         <ng-content></ng-content>
       </div>
 
-      <div class="media__image">
+      <div
+        class="media__image"
+        [style.order]="presenter.mediaImageOrder$ | push"
+      >
         <ng-content select="[eoMediaImage]"></ng-content>
       </div>
     </div>
@@ -62,7 +60,9 @@ export class EoMediaComponent {
   #maxWidthPixels: number | null = null;
 
   @HostBinding('style.max-width.px')
-  @Input()
+  // Intentional component export alias prefix
+  // eslint-disable-next-line @angular-eslint/no-input-rename
+  @Input('eoMediaMaxWidthPixels')
   set maxWidthPixels(value: number | null) {
     this.#maxWidthPixels = value;
     this.presenter.updateMediaMaxWidthPixels(value);
@@ -74,7 +74,7 @@ export class EoMediaComponent {
   gridTemplateColumns$: Observable<string | null> =
     this.presenter.mediaGridTemplateColumns$;
 
-  constructor(private presenter: EoMediaPresenter) {}
+  constructor(public presenter: EoMediaPresenter) {}
 }
 
 @NgModule({
