@@ -29,6 +29,18 @@ mat-row {
       transform: rotate(90deg);
     }
   }
+  &.expandable {
+    overflow: hidden;
+    border-style: none;
+    transition: max-height 0.4s ease-out;
+    transform-origin: top;
+    &.collapsed {
+      max-height: 0;
+    }
+    &.expanded {
+      transition: max-height 0.4s ease-in;
+    }
+  }
 }
 
 .date-icon {
@@ -41,19 +53,6 @@ mat-row {
 .control-cell-header,
 .control-cell {
   flex: 0 1 calc(var(--cell-padding) * 3);
-}
-
-mat-row.expandable {
-  overflow: hidden;
-  border-style: none;
-  transition: max-height 0.4s ease-out;
-  transform-origin: top;
-  &.collapsed {
-    max-height: 0;
-  }
-  &.expanded {
-    transition: max-height 0.4s ease-in;
-  }
 }
 
 /*
