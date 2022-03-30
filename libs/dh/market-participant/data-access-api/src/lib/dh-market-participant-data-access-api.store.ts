@@ -60,7 +60,7 @@ export class DhMarketParticipantOverviewDataAccessApiStore extends ComponentStor
       return (
         (x.actors.length > 0 &&
           running.concat(
-            x.actors.map((a) => ({ organization: x, actor: a }))
+            x.actors.map((actor) => ({ organization: x, actor }))
           )) ||
         running.concat([{ organization: x, actor: undefined }])
       );
