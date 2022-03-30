@@ -14,84 +14,84 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  ChangeDetectionStrategy,
-  Component,
-  NgModule,
-  ViewEncapsulation,
-} from '@angular/core';
-import {
-  EoFooterScam,
-  EoHeaderScam,
-} from '@energinet-datahub/eo/shared/atomic-design/ui-organisms';
-import { WattButtonModule, WattCheckboxModule } from '@energinet-datahub/watt';
-import { EoAuthTermsStore } from './eo-auth-terms.store';
-import { EoLogOutStore } from '@energinet-datahub/ett/auth/data-access-security';
+import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { EoPrivacyPolicyScam } from '@energinet-datahub/eo/shared/atomic-design/feature-molecules';
+import { EoFooterScam, EoHeaderScam } from '@energinet-datahub/eo/shared/atomic-design/ui-organisms';
+import { EoLogOutStore } from '@energinet-datahub/ett/auth/data-access-security';
+import { WattButtonModule, WattCheckboxModule } from '@energinet-datahub/watt';
 
-const selector = 'eo-auth-terms';
+import { EoAuthTermsStore } from './eo-auth-terms.store';
 
 @Component({
-  providers: [EoLogOutStore],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None,
-  selector,
+  selector: 'eo-auth-terms',
   styles: [
     `
-      @use '@energinet-datahub/watt/utils' as watt;
-      .${selector}__content {
-        eo-privacy-policy {
-          margin: var(--watt-space-l) auto;
+      // 1. Fill viewport.
 
-          eo-scroll-view {
-            margin-bottom: var(--watt-space-l);
-          }
-        }
+      :host {
+        display: flex; // [1]
+        flex-direction: column; // [1]
+        height: 100vh; // [1]
+      }
 
-        .${selector}__actions {
-          width: calc(200 * var(--watt-space-xs));
-          margin: 0 auto var(--watt-space-l);
-        }
-        .${selector}__button-cancel {
-          margin-right: calc(2 * var(--watt-space-xs));
-        }
+      // [1]
+      eo-header,
+      eo-footer {
+        flex-grow: 0;
+        flex-shrink: 0;
+        flex-basis: auto;
+      }
+
+      // [1]
+      .content-box {
+        flex-grow: 1;
+        flex-shrink: 1;
+        flex-basis: auto;
+      }
+
+      .content-wrapper {
+        width: 820px; // Magic number by designer.
       }
     `,
   ],
   template: `
     <eo-header></eo-header>
 
-    <div class="${selector}__content">
-      <eo-privacy-policy
-        class="watt-space-stack-l"
-        (versionChange)="onVersionChange($event)"
-      ></eo-privacy-policy>
+    <div class="content-box watt-space-inset-l">
+      <div class="eo-layout-centered-content">
+        <div class="content-wrapper">
+          <h1 class="watt-space-stack-l">Read and accept our Privacy Policy</h1>
 
-      <div class="${selector}__actions">
-        <div class="watt-space-stack-l">
-          <watt-checkbox [(ngModel)]="hasAcceptedTerms"
-            >I have seen the privacy policy</watt-checkbox
-          >
+          <eo-privacy-policy
+            class="watt-space-stack-l"
+            (versionChange)="onVersionChange($event)"
+          ></eo-privacy-policy>
+
+          <div class="watt-space-stack-l">
+            <watt-checkbox [(ngModel)]="hasAcceptedTerms"
+              >I have seen the Privacy Policy</watt-checkbox
+            >
+          </div>
+
+          <watt-button
+            class="watt-space-inline-m"
+            variant="secondary"
+            (click)="onCancel()"
+            >Back
+          </watt-button>
+
+          <watt-button variant="primary" (click)="onAccept()"
+            >Accept terms
+          </watt-button>
         </div>
-
-        <watt-button
-          class="${selector}__button-cancel"
-          variant="secondary"
-          aria-labelledby="Cancel"
-          (click)="onCancel()"
-          >Back
-        </watt-button>
-        <watt-button
-          variant="primary"
-          aria-labelledby="Accept"
-          (click)="onAccept()"
-          >Accept terms
-        </watt-button>
       </div>
     </div>
+
     <eo-footer></eo-footer>
   `,
+  viewProviders: [EoLogOutStore],
 })
 export class EoAuthFeatureTermsComponent {
   hasAcceptedTerms = false;

@@ -14,17 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  ChangeDetectionStrategy,
-  Component,
-  NgModule,
-  ViewEncapsulation,
-  Output,
-} from '@angular/core';
-import { EoPrivacyPolicyStore } from './eo-privacy-policy.store';
+import { ChangeDetectionStrategy, Component, NgModule, Output, ViewEncapsulation } from '@angular/core';
 import { EoScrollViewScam } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
-import { Observable } from 'rxjs';
 import { PushModule } from '@rx-angular/template';
+import { Observable } from 'rxjs';
+
+import { EoPrivacyPolicyStore } from './eo-privacy-policy.store';
 
 const selector = 'eo-privacy-policy';
 
@@ -42,7 +37,7 @@ const selector = 'eo-privacy-policy';
       @use '@energinet-datahub/watt/utils' as watt;
       ${selector} {
         display: block;
-        width: calc(200 * var(--watt-space-xs));
+        /* width: calc(200 * var(--watt-space-xs)); */
         .${selector}__paragraph {
           @include watt.typography-watt-text-s;
           color: var(--watt-color-neutral-grey-600);
