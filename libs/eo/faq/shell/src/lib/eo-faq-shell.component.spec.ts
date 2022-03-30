@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { TestBed, ComponentFixture } from '@angular/core/testing';
-import { EoFaqShellComponent, EoFaqShellScam } from './eo-faq-shell.component';
+import { EoFaqShellComponent } from './eo-faq-shell.component';
 
 describe(EoFaqShellComponent.name, () => {
   let fixture: ComponentFixture<EoFaqShellComponent>;
