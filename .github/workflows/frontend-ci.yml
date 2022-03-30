@@ -379,3 +379,8 @@ jobs:
       - name: 'Merge: Test all projects'
         if: ${{ env.is-pull-request == 'false' }}
         run: yarn test --max-parallel=$NX_MAX_PARALLEL
+      - name: Upload coverage to CodeCov
+        uses: codecov/codecov-action@v2
+        with:
+          fail_ci_if_error: true
+          verbose: true
