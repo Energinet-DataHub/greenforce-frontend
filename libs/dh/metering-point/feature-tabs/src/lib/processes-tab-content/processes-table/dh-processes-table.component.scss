@@ -24,8 +24,7 @@ mat-row {
     transition: transform 0.2s linear;
   }
   &.expanded {
-    background: var(--watt-color-focus-selection);
-    &.control-cell watt-icon {
+    .control-cell watt-icon {
       transform: rotate(90deg);
     }
   }
@@ -34,10 +33,12 @@ mat-row {
     border-style: none;
     transition: max-height 0.4s ease-out;
     transform-origin: top;
+
     &.collapsed {
       max-height: 0;
     }
     &.expanded {
+      background: var(--watt-color-focus-selection);
       transition: max-height 0.4s ease-in;
     }
   }
