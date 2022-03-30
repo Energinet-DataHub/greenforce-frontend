@@ -1,3 +1,18 @@
+import { ChangeDetectionStrategy, Component, HostBinding, NgModule } from '@angular/core';
+import { EoFooterScam } from '@energinet-datahub/eo/shared/atomic-design/ui-organisms';
+
+import { EoLandingPageCallToActionScam } from './eo-landing-page-call-to-action.component';
+import { EoLandingPageCompanyScam } from './eo-landing-page-company.component';
+import { EoLandingPageHeaderScam } from './eo-landing-page-header.component';
+import { EoLandingPageHeroScam } from './eo-landing-page-hero.component';
+import { EoLandingPageIntroductionScam } from './eo-landing-page-introduction.component';
+import { EoLandingPageLoginButtonScam } from './eo-landing-page-login-button.component';
+import { EoLandingPageNotificationScam } from './eo-landing-page-notification.component';
+import { EoLandingPageOriginOfEnergyScam } from './eo-landing-page-origin-of-energy.component';
+import { EoLandingPagePresenter } from './eo-landing-page.presenter';
+import { EoLandingPageStore } from './eo-landing-page.store';
+import { EoLandingPageAudienceScam } from './eo-landinge-page-audience.component';
+
 /**
  * @license
  * Copyright 2020 Energinet DataHub A/S
@@ -14,29 +29,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
-import { EoFooterScam } from '@energinet-datahub/eo/shared/atomic-design/ui-organisms';
-
-import { EoLandingPageCallToActionScam } from './eo-landing-page-call-to-action.component';
-import { EoLandingPageCompanyScam } from './eo-landing-page-company.component';
-import { EoLandingPageHeaderScam } from './eo-landing-page-header.component';
-import { EoLandingPageHeroScam } from './eo-landing-page-hero.component';
-import { EoLandingPageIntroductionScam } from './eo-landing-page-introduction.component';
-import { EoLandingPageLoginButtonScam } from './eo-landing-page-login-button.component';
-import { EoLandingPageNotificationScam } from './eo-landing-page-notification.component';
-import { EoLandingPageOriginOfEnergyScam } from './eo-landing-page-origin-of-energy.component';
-import { EoLandingPageStore } from './eo-landing-page.store';
-import { EoLandingPageAudienceScam } from './eo-landinge-page-audience.component';
-
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'eo-landing-page-shell',
   styles: [
     `
       :host {
-        --eo-screen-medium-min-width: 960px;
-        --eo-landing-page-content-max-width: var(--eo-screen-medium-min-width);
-
         display: block;
       }
 
@@ -85,9 +83,16 @@ import { EoLandingPageAudienceScam } from './eo-landinge-page-audience.component
 
     <eo-footer></eo-footer>
   `,
-  viewProviders: [EoLandingPageStore],
+  viewProviders: [EoLandingPageStore, EoLandingPagePresenter],
 })
-export class EoLandingPageShellComponent {}
+export class EoLandingPageShellComponent {
+  @HostBinding('style.--eo-landing-page-content-max-width')
+  get cssPropertyContentMaxWidth(): string {
+    return `${this.presenter.contentMaxWidthPixels}px`;
+  }
+
+  constructor(private presenter: EoLandingPagePresenter) {}
+}
 
 @NgModule({
   declarations: [EoLandingPageShellComponent],

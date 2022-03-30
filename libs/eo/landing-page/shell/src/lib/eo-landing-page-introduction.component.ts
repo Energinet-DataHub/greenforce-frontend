@@ -25,9 +25,9 @@ import { EoVimeoPlayerScam } from '@energinet-datahub/eo/shared/atomic-design/ui
       @use '@energinet-datahub/eo/shared/styles/spacing' as eo-spacing;
 
       :host {
-        display: block;
-
         @include eo-spacing.inset-xxl;
+
+        display: block;
       }
 
       .video-wrapper {

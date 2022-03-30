@@ -17,49 +17,44 @@
 import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
 import { EoMediaModule } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 
+import { EoLandingPagePresenter } from './eo-landing-page.presenter';
+
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'eo-landing-page-company',
   styles: [
     `
+      @use '@energinet-datahub/eo/shared/styles/layout' as eo-layout;
       @use '@energinet-datahub/eo/shared/styles/spacing' as eo-spacing;
 
       :host {
-        display: block;
-
+        @include eo-layout.centered-content;
         @include eo-spacing.inset-xxl;
-      }
-
-      // 1. Center content with max width.
-      .landing-page-content-wrapper {
-        margin: 0 auto; // [1]
-        max-width: var(--eo-landing-page-content-max-width); // [1]
       }
     `,
   ],
   template: `
-    <div class="landing-page-content-wrapper">
-      <eo-media>
-        <h2>Who are we?</h2>
+    <eo-media [maxWidthPixels]="landingPage.contentMaxWidthPixels">
+      <h2>Who are we?</h2>
 
-        <p>
-          Energinet is an <strong>independent public enterprise</strong> owned
-          by the Danish Ministry of Climate and Energy. We own, operate and
-          develop the transmission systems for electricity and natural gas in
-          Denmark.
-        </p>
+      <p>
+        Energinet is an <strong>independent public enterprise</strong> owned by
+        the Danish Ministry of Climate and Energy. We own, operate and develop
+        the transmission systems for electricity and natural gas in Denmark.
+      </p>
 
-        <eo-media-image>
-          <img
-            src="/assets/images/landing-page/landing-page-energy-origin-energi-huset.jpg"
-            alt="EnergyOrigin - Energihuset"
-          />
-        </eo-media-image>
-      </eo-media>
-    </div>
+      <img
+        eo-media-image
+        [maxWidthPixels]="520"
+        src="/assets/images/landing-page/landing-page-energy-origin-energi-huset.jpg"
+        alt="EnergyOrigin - Energihuset"
+      />
+    </eo-media>
   `,
 })
-export class EoLandingPageCompanyComponent {}
+export class EoLandingPageCompanyComponent {
+  constructor(public landingPage: EoLandingPagePresenter) {}
+}
 
 @NgModule({
   declarations: [EoLandingPageCompanyComponent],

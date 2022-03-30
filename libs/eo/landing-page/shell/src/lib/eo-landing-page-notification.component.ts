@@ -23,13 +23,12 @@ import { WattIconModule, WattIconSize } from '@energinet-datahub/watt';
   selector: 'eo-landing-page-notification',
   styles: [
     `
+      @use '@energinet-datahub/eo/shared/styles/layout' as eo-layout;
       @use '@energinet-datahub/watt/utils' as watt;
 
       :host {
+        @include eo-layout.centered-content;
         @include watt.space-inset-m;
-
-        display: flex;
-        justify-content: center;
       }
 
       eo-inline-message {

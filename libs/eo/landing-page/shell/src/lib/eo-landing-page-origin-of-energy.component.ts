@@ -17,55 +17,53 @@
 import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
 import { EoMediaModule } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 
+import { EoLandingPagePresenter } from './eo-landing-page.presenter';
+
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'eo-landing-page-origin-of-energy',
   styles: [
     `
+      @use '@energinet-datahub/eo/shared/styles/layout' as eo-layout;
       @use '@energinet-datahub/eo/shared/styles/spacing' as eo-spacing;
 
       :host {
-        display: block;
-
+        @include eo-layout.centered-content;
         @include eo-spacing.inset-xxl;
-      }
 
-      // 1. Center content with max width.
-      .landing-page-content-wrapper {
-        margin: 0 auto; // [1]
-        max-width: var(--eo-landing-page-content-max-width); // [1]
+        display: block;
       }
     `,
   ],
   template: `
-    <div class="landing-page-content-wrapper">
-      <eo-media>
-        <h2>View the origin of your energy</h2>
-        <p>
-          Imagine if we all knew, where our energy came from, at all times, and
-          were able to
-          <strong>choose the green energy</strong> by the hour. That is the
-          vision, we are working for with the platform Energy Origin.
-        </p>
+    <eo-media [maxWidthPixels]="landingPage.contentMaxWidthPixels">
+      <h2>View the origin of your energy</h2>
+      <p>
+        Imagine if we all knew, where our energy came from, at all times, and
+        were able to
+        <strong>choose the green energy</strong> by the hour. That is the
+        vision, we are working for with the platform Energy Origin.
+      </p>
 
-        <p>
-          Simultaneity between <strong>production</strong> of sustainable energy
-          and <strong>consumption</strong> of energy will be a real factor in
-          the <strong>green transition</strong> and therefore has great
-          potential for future green solutions.
-        </p>
+      <p>
+        Simultaneity between <strong>production</strong> of sustainable energy
+        and <strong>consumption</strong> of energy will be a real factor in the
+        <strong>green transition</strong> and therefore has great potential for
+        future green solutions.
+      </p>
 
-        <eo-media-image>
-          <img
-            src="/assets/images/landing-page/landing-page-graph-of-energy-with-dashboard.png"
-            alt="Energy Origin graph of energy"
-          />
-        </eo-media-image>
-      </eo-media>
-    </div>
+      <img
+        eo-media-image
+        [maxWidthPixels]="520"
+        src="/assets/images/landing-page/landing-page-graph-of-energy-with-dashboard.png"
+        alt="Energy Origin graph of energy"
+      />
+    </eo-media>
   `,
 })
-export class EoLandingPageOriginOfEnergyComponent {}
+export class EoLandingPageOriginOfEnergyComponent {
+  constructor(public landingPage: EoLandingPagePresenter) {}
+}
 
 @NgModule({
   declarations: [EoLandingPageOriginOfEnergyComponent],
