@@ -1,0 +1,1 @@
+# EnergyOrigin FAQ page shell
