@@ -37,6 +37,10 @@ import { EoPrimaryNavigationScam } from './eo-primary-navigation.component';
         display: block;
       }
 
+      a {
+        color: var(--watt-color-primary);
+      }
+
       .logo-container {
         height: var(--watt-space-xl);
         display: flex;
@@ -47,13 +51,6 @@ import { EoPrimaryNavigationScam } from './eo-primary-navigation.component';
       .logo {
         height: calc(6.5 * var(--watt-space-xs));
         width: calc(52 * var(--watt-space-xs));
-      }
-
-      .link {
-        display: block;
-        color: var(
-          --watt-color-primary
-        ); // This overrides the '--watt-color-primary-dark' color which is currently added by the watt-text-s class
       }
 
       ::ng-deep watt-shell mat-sidenav.mat-drawer {
@@ -128,11 +125,11 @@ import { EoPrimaryNavigationScam } from './eo-primary-navigation.component';
       <router-outlet></router-outlet>
 
       <eo-footer>
-        <a
-          routerLink="/${eoPrivacyPolicyRoutePath}"
-          class="link watt-space-stack-m watt-text-s"
-          >Privacy Policy</a
-        >
+        <p>
+          <a routerLink="/${eoPrivacyPolicyRoutePath}" class="watt-text-s"
+            >Privacy Policy</a
+          >
+        </p>
       </eo-footer>
     </watt-shell>
   `,

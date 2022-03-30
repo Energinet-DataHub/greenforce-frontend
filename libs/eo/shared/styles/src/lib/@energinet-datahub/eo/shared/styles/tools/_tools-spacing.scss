@@ -33,3 +33,13 @@
 
   margin: var(--watt-space-xl) var(--eo-space-xxl) #{$important-expression};
 }
+
+@mixin stretched-inset-l($important: true) {
+  $important-expression: '!important';
+
+  @if $important == false {
+    $important-expression: '';
+  }
+
+  margin: var(--watt-space-l) var(--watt-space-m) #{$important-expression};
+}
