@@ -70,7 +70,10 @@ import { EoLandingPagePresenter } from './eo-landing-page.presenter';
       </eo-landing-page-column-layout>
     </div> -->
 
-    <eo-media [eoMediaMaxWidthPixels]="landingPage.contentMaxWidthPixels">
+    <eo-media
+      [eoMediaGapPixels]="landingPage.gutterPixels"
+      [eoMediaMaxWidthPixels]="landingPage.contentMaxWidthPixels"
+    >
       <h2>Who is it for?</h2>
 
       <p>

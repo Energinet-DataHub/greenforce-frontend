@@ -21,4 +21,8 @@ const wattScreenMediumMinWidthPixels = 960;
 @Injectable()
 export class EoLandingPagePresenter {
   contentMaxWidthPixels = wattScreenMediumMinWidthPixels;
+  /**
+   * Magic number by designer.
+   */
+  gutterPixels = 40;
 }

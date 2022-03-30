@@ -21,44 +21,93 @@ import { Observable } from 'rxjs';
 import { EoMediaAlign } from './eo-media-align';
 
 interface EoMediaState {
+  /**
+   * Gap between flex items.
+   */
+  gapPixels: number | null;
+  /**
+   * Max width of the media box.
+   */
   mediaMaxWidthPixels: number | null;
+  /**
+   * Alignment of the media image in the media box.
+   */
   mediaImageAlign: EoMediaAlign;
+  /**
+   * Max width of the media image.
+   */
   mediaImageMaxWidthPixels: number | null;
 }
 
 @Injectable()
 export class EoMediaPresenter extends ComponentStore<EoMediaState> {
+  #gapPixels$: Observable<number | null> = this.select(
+    (state) => state.gapPixels
+  );
+  #mediaImageMaxWidthPixels$: Observable<number | null> = this.select(
+    (state) => state.mediaImageMaxWidthPixels
+  );
+  #mediaBodyMaxWidthPixels$: Observable<number | null> = this.select(
+    this.#mediaImageMaxWidthPixels$,
+    this.select((state) => state.mediaMaxWidthPixels),
+    this.#gapPixels$,
+    (mediaImageMaxWidthPixels, mediaMaxWidthPixels, gapPixels) => {
+      if (mediaImageMaxWidthPixels === null || mediaMaxWidthPixels === null) {
+        return null;
+      }
+
+      gapPixels ??= 0;
+
+      return mediaMaxWidthPixels - mediaImageMaxWidthPixels - gapPixels;
+    }
+  );
+
+  /**
+   * Gap between flex items.
+   */
+  gap$: Observable<string | null> = this.select(this.#gapPixels$, (gapPixels) =>
+    gapPixels === null ? null : `${gapPixels}px`
+  );
+  /**
+   * Flex basis of the media body.
+   */
+  mediaBodyFlexBasis$: Observable<string | null> = this.select(
+    this.#mediaBodyMaxWidthPixels$,
+    (maxWidthPixels) => (maxWidthPixels === null ? null : `${maxWidthPixels}px`)
+  );
+  /**
+   * Flex basis of the media image.
+   */
+  mediaImageFlexBasis$: Observable<string | null> = this.select(
+    this.#mediaImageMaxWidthPixels$,
+    (maxWidthPixels) => (maxWidthPixels === null ? null : `${maxWidthPixels}px`)
+  );
+  /**
+   * Flex item order of the media image.
+   */
   mediaImageOrder$: Observable<number> = this.select(
     this.select((state) => state.mediaImageAlign),
     (align) =>
       align === 'start' ? Number.MIN_SAFE_INTEGER : Number.MAX_SAFE_INTEGER
-  );
-  mediaImageMaxWidthPercentage$: Observable<number | null> = this.select(
-    this.select((state) => state.mediaMaxWidthPixels),
-    this.select((state) => state.mediaImageMaxWidthPixels),
-    (mediaMaxWidthPixels, mediaImageMaxWidthPixels) => {
-      if (mediaMaxWidthPixels === null || mediaImageMaxWidthPixels === null) {
-        return null;
-      }
-
-      return (mediaImageMaxWidthPixels / mediaMaxWidthPixels) * 100;
-    },
-    {
-      debounce: true,
-    }
-  );
-  mediaGridTemplateColumns$: Observable<string | null> = this.select(
-    this.mediaImageMaxWidthPercentage$,
-    (imageMaxWidthPercentage) =>
-      imageMaxWidthPercentage === null
-        ? null
-        : `${100 - imageMaxWidthPercentage}% ${imageMaxWidthPercentage}%`
   );
 
   constructor() {
     super(initialState);
   }
 
+  /**
+   * Set the gap between flex items, in pixels.
+   */
+  updateGapPixels = this.updater<number | null>(
+    (state, gapPixels): EoMediaState => ({
+      ...state,
+      gapPixels,
+    })
+  );
+
+  /**
+   * Set the max width of the media box, in pixels.
+   */
   updateMediaMaxWidthPixels = this.updater<number | null>(
     (state, mediaMaxWidthPixels): EoMediaState => ({
       ...state,
@@ -66,6 +115,11 @@ export class EoMediaPresenter extends ComponentStore<EoMediaState> {
     })
   );
 
+  /**
+   * Set the alignment of the media image in the media box.
+   *
+   * Defaults to `start`.
+   */
   updateMediaImageAlign = this.updater<EoMediaAlign>(
     (state, mediaImageAlign): EoMediaState => ({
       ...state,
@@ -73,6 +127,9 @@ export class EoMediaPresenter extends ComponentStore<EoMediaState> {
     })
   );
 
+  /**
+   * Set the max width of the media image, in pixels.
+   */
   updateMediaImageMaxWidthPixels = this.updater<number | null>(
     (state, mediaImageMaxWidthPixels): EoMediaState => ({
       ...state,
@@ -82,6 +139,7 @@ export class EoMediaPresenter extends ComponentStore<EoMediaState> {
 }
 
 const initialState: EoMediaState = {
+  gapPixels: null,
   mediaMaxWidthPixels: null,
   mediaImageAlign: 'start',
   mediaImageMaxWidthPixels: null,

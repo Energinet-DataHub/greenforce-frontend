@@ -24,18 +24,24 @@ import { EoMediaPresenter } from './eo-media.presenter';
   selector: '[eoMediaImage]',
 })
 export class EoMediaImageDirective {
+  /**
+   * Set the alignment of the media image in the media box.
+   *
+   * Defaults to `start`.
+   */
   @Input('eoMediaImageAlign')
   set align(value: EoMediaAlign | null) {
     value ??= 'start';
 
     this.presenter.updateMediaImageAlign(value);
   }
+  /**
+   * Set the max width of the media image, in pixels.
+   */
   @Input('eoMediaImageMaxWidthPixels')
   set maxWidthPixels(value: number | null) {
     this.presenter.updateMediaImageMaxWidthPixels(value);
   }
-
-  mediaImageMaxWidthPercentage$ = this.presenter.mediaImageMaxWidthPercentage$;
 
   constructor(private presenter: EoMediaPresenter) {}
 }

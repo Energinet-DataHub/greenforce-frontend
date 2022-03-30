@@ -34,7 +34,10 @@ import { EoLandingPagePresenter } from './eo-landing-page.presenter';
     `,
   ],
   template: `
-    <eo-media [eoMediaMaxWidthPixels]="landingPage.contentMaxWidthPixels">
+    <eo-media
+      [eoMediaGapPixels]="landingPage.gutterPixels"
+      [eoMediaMaxWidthPixels]="landingPage.contentMaxWidthPixels"
+    >
       <h2>Who are we?</h2>
 
       <p>
@@ -45,6 +48,7 @@ import { EoLandingPagePresenter } from './eo-landing-page.presenter';
 
       <img
         eoMediaImage
+        eoMediaImageAlign="end"
         [eoMediaImageMaxWidthPixels]="520"
         src="/assets/images/landing-page/landing-page-energy-origin-energi-huset.jpg"
         alt="EnergyOrigin - Energihuset"

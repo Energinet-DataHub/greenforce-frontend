@@ -36,7 +36,10 @@ import { EoLandingPagePresenter } from './eo-landing-page.presenter';
     `,
   ],
   template: `
-    <eo-media [eoMediaMaxWidthPixels]="landingPage.contentMaxWidthPixels">
+    <eo-media
+      [eoMediaGapPixels]="landingPage.gutterPixels"
+      [eoMediaMaxWidthPixels]="landingPage.contentMaxWidthPixels"
+    >
       <h2>View the origin of your energy</h2>
       <p>
         Imagine if we all knew, where our energy came from, at all times, and
@@ -54,6 +57,7 @@ import { EoLandingPagePresenter } from './eo-landing-page.presenter';
 
       <img
         eoMediaImage
+        eoMediaImageAlign="end"
         [eoMediaImageMaxWidthPixels]="520"
         src="/assets/images/landing-page/landing-page-graph-of-energy-with-dashboard.png"
         alt="Energy Origin graph of energy"

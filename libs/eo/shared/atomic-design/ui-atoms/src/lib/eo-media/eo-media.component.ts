@@ -16,7 +16,6 @@
  */
 import { ChangeDetectionStrategy, Component, HostBinding, Input, NgModule } from '@angular/core';
 import { PushModule } from '@rx-angular/template';
-import { Observable } from 'rxjs';
 
 import { EoMediaPresenter } from './eo-media.presenter';
 
@@ -32,23 +31,29 @@ import { EoMediaPresenter } from './eo-media.presenter';
       }
 
       .media {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        column-gap: 40px;
+        display: inline-flex;
+      }
+
+      .media__body,
+      .media__image {
+        flex-grow: 1;
+        flex-shrink: 1;
+        flex-basis: auto;
       }
     `,
   ],
   template: `
-    <div
-      class="media"
-      [style.grid-template-columns]="gridTemplateColumns$ | push"
-    >
-      <div class="media___body">
+    <div class="media" [style.gap]="presenter.gap$ | push">
+      <div
+        class="media___body"
+        [style.flex-basis]="presenter.mediaBodyFlexBasis$ | push"
+      >
         <ng-content></ng-content>
       </div>
 
       <div
         class="media__image"
+        [style.flex-basis]="presenter.mediaImageFlexBasis$ | push"
         [style.order]="presenter.mediaImageOrder$ | push"
       >
         <ng-content select="[eoMediaImage]"></ng-content>
@@ -59,10 +64,22 @@ import { EoMediaPresenter } from './eo-media.presenter';
 export class EoMediaComponent {
   #maxWidthPixels: number | null = null;
 
-  @HostBinding('style.max-width.px')
+  /**
+   * Set the gap between flex items, in pixels.
+   */
+  // Intentional component export alias prefix
+  // eslint-disable-next-line @angular-eslint/no-input-rename
+  @Input('eoMediaGapPixels')
+  set gapPixels(value: number | null) {
+    this.presenter.updateGapPixels(value);
+  }
+  /**
+   * Set the max width of the media box, in pixels.
+   */
   // Intentional component export alias prefix
   // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input('eoMediaMaxWidthPixels')
+  @HostBinding('style.max-width.px')
   set maxWidthPixels(value: number | null) {
     this.#maxWidthPixels = value;
     this.presenter.updateMediaMaxWidthPixels(value);
@@ -70,9 +87,6 @@ export class EoMediaComponent {
   get maxWidthPixels(): number | null {
     return this.#maxWidthPixels;
   }
-
-  gridTemplateColumns$: Observable<string | null> =
-    this.presenter.mediaGridTemplateColumns$;
 
   constructor(public presenter: EoMediaPresenter) {}
 }
