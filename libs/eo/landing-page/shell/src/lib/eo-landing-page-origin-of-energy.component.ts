@@ -53,7 +53,7 @@ import { EoLandingPagePresenter } from './eo-landing-page.presenter';
       </p>
 
       <img
-        eo-media-image
+        eoMediaImage
         [maxWidthPixels]="520"
         src="/assets/images/landing-page/landing-page-graph-of-energy-with-dashboard.png"
         alt="Energy Origin graph of energy"

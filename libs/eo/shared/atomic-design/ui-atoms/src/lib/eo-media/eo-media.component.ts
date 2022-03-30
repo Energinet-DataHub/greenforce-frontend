@@ -6,6 +6,7 @@ import { EoMediaPresenter } from './eo-media.presenter';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [EoMediaPresenter],
   selector: 'eo-media',
   styles: [
     `
@@ -30,11 +31,10 @@ import { EoMediaPresenter } from './eo-media.presenter';
       </div>
 
       <div class="media__image">
-        <ng-content select="[eo-media-image]"></ng-content>
+        <ng-content select="[eoMediaImage]"></ng-content>
       </div>
     </div>
   `,
-  providers: [EoMediaPresenter],
 })
 export class EoMediaComponent {
   #maxWidthPixels: number | null = null;

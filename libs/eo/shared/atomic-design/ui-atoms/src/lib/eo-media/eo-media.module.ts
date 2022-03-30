@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 
-import { EoMediaImageScam } from './eo-media-image.component';
+import { EoMediaImageScam } from './eo-media-image.directive';
 import { EoMediaScam } from './eo-media.component';
 
 /**
@@ -9,16 +9,15 @@ import { EoMediaScam } from './eo-media.component';
  *
  * @example
  * <eo-media>
- *   <!-- Any content can be added next to the `eo-media-image` element -->
+ *   <!-- Any content can be added as siblings to the element with an -->
+ *   <!-- `eoMediaImage` directive -->
  *   <h1>Example title</h2>
  *
  *   <p>
  *     Example copy
  *   </p>
  *
- *   <eo-media-image>
- *     <img alt="Example image" />
- *   </eo-media-image>
+ *   <img eoMediaImage alt="Example image" />
  * </eo-media>
  */
 @NgModule({

@@ -44,7 +44,7 @@ import { EoLandingPagePresenter } from './eo-landing-page.presenter';
       </p>
 
       <img
-        eo-media-image
+        eoMediaImage
         [maxWidthPixels]="520"
         src="/assets/images/landing-page/landing-page-energy-origin-energi-huset.jpg"
         alt="EnergyOrigin - Energihuset"
