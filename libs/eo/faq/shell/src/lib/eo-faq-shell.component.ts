@@ -24,41 +24,40 @@ import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
       :host {
         display: block;
       }
-      a {
-        display: block;
-      }
-      a.inline {
-        display: inline-block;
-      }
     `,
   ],
   template: `
     <div class="watt-space-stack-xl">
+      <div class="watt-space-stack-m">
       <a
-        class="watt-space-stack-m"
         (click)="scrollToTargetElement(what_is_energy_origin)"
         >What is Energy Origin?</a
       >
-      <a
-        class="watt-space-stack-m"
-        (click)="scrollToTargetElement(who_can_access_the_platform)"
+      </div>
+      <div class="watt-space-stack-m">
+        <a
+          (click)="scrollToTargetElement(who_can_access_the_platform)"
         >Who can access the platform?</a
-      >
-      <a
-        class="watt-space-stack-m"
-        (click)="scrollToTargetElement(where_does_the_data_come_from)"
+        >
+      </div>
+      <div class="watt-space-stack-m">
+        <a
+          (click)="scrollToTargetElement(where_does_the_data_come_from)"
         >Where does the data come from?</a
-      >
-      <a
-        class="watt-space-stack-m"
-        (click)="scrollToTargetElement(how_can_i_influence_the_development)"
+        >
+      </div>
+      <div class="watt-space-stack-m">
+        <a
+          (click)="scrollToTargetElement(how_can_i_influence_the_development)"
         >How can I influence the development?</a
-      >
-      <a
-        class="watt-space-stack-m"
-        (click)="scrollToTargetElement(where_can_i_read_more)"
+        >
+      </div>
+      <div class="watt-space-stack-m">
+        <a
+          (click)="scrollToTargetElement(where_can_i_read_more)"
         >Where can I read more?</a
-      >
+        >
+      </div>
     </div>
 
     <h2 #what_is_energy_origin>What is Energy Origin?</h2>
