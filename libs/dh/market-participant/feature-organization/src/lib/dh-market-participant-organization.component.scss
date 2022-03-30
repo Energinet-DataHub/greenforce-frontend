@@ -18,6 +18,11 @@ table {
   width: 100%;
 }
 
+.edit_cell {
+  display: flex;
+  justify-content: right;
+}
+
 .spinner_container {
   display: flex;
   justify-content: center;
