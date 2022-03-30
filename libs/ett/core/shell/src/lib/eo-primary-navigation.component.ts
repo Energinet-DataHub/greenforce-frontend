@@ -26,7 +26,7 @@ import { EoLogOutStore } from '@energinet-datahub/ett/auth/data-access-security'
 import { WattNavListModule } from '@energinet-datahub/watt';
 import { eoDashboardRoutePath } from '@energinet-datahub/eo/dashboard/routing';
 import { eoMeteringPointsRoutePath } from '@energinet-datahub/eo/metering-points/routing';
-import { eoFaqPageRelativeUrl } from '@energinet-datahub/eo-faq/routing';
+import { eoFaqRoutePath } from '@energinet-datahub/eo-faq/routing';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -50,7 +50,7 @@ import { eoFaqPageRelativeUrl } from '@energinet-datahub/eo-faq/routing';
         >Metering Points</watt-nav-list-item
       >
 
-      <watt-nav-list-item link="/${eoFaqPageRelativeUrl}"
+      <watt-nav-list-item link="/${eoFaqRoutePath}"
         >FAQ</watt-nav-list-item
       >
 
