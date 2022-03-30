@@ -97,7 +97,7 @@ import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
     <p>
       You can read more about the history and intention of Energy Origin on our
       website:
-      <a href="https://energioprindelse.dk" target="_blank" class="inline"
+      <a href="https://energinet.dk" target="_blank"
         >Origins of energy | Energinet</a
       >
     </p>
