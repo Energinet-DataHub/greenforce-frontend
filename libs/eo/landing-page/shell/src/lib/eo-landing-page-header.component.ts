@@ -14,24 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  ChangeDetectionStrategy,
-  Component,
-  NgModule,
-  ViewEncapsulation,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
 import { EoHeaderScam } from '@energinet-datahub/eo/shared/atomic-design/ui-organisms';
-import { EoLandingPageLoginButtonScam } from './layout/eo-landing-page-login-button.component';
 
-const selector = 'eo-landing-page-header';
+import { EoLandingPageLoginButtonScam } from './eo-landing-page-login-button.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None,
-  selector,
+  selector: 'eo-landing-page-header',
   styles: [
     `
-      ${selector} {
+      :host {
         display: block;
       }
     `,
