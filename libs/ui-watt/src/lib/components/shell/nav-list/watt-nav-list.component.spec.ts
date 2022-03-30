@@ -16,13 +16,10 @@
  */
 
 import { render, screen } from '@testing-library/angular';
+
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
-
 import { WattNavListModule } from './watt-nav-list.component';
-
-const httpEnerginetDkUrl = 'http://energinet.dk';
-const httpsEnerginetDkUrl = 'https://energinet.dk';
 
 describe(WattNavListModule.name, () => {
   it('exports shared Watt Design System nav list', async () => {
@@ -115,10 +112,10 @@ describe(WattNavListModule.name, () => {
       await screen.findByRole('link', {
         name: /energinet/i,
       })
-    ).toHaveAttribute('href', httpsEnerginetDkUrl);
+    ).toHaveAttribute('href', 'https://energinet.dk');
   });
 
-  describe('Ensures external links are specified with the expected protocol', () => {
+  describe(`${WattNavListModule.name} - Ensures external links are specified with the expected protocol`, () => {
     const setup = async (link: string) => {
       // Arrange
       await render(
@@ -136,7 +133,7 @@ describe(WattNavListModule.name, () => {
           },
         }
       );
-    };
+    }
 
     it('Ensures external links are specified with the https protocol', async () => {
       // Arrange
@@ -146,7 +143,7 @@ describe(WattNavListModule.name, () => {
       const link = await screen.findByRole('link', {
         name: /energinet/i,
       });
-      expect(link).toHaveAttribute('href', httpsEnerginetDkUrl);
+      expect(link).toHaveAttribute('href', 'https://energinet.dk');
     });
 
     it('Ensures external links are specified with the http protocol', async () => {
@@ -157,11 +154,13 @@ describe(WattNavListModule.name, () => {
       const link = await screen.findByRole('link', {
         name: /energinet/i,
       });
-      expect(link).toHaveAttribute('href', httpEnerginetDkUrl);
+      expect(link).toHaveAttribute('href', 'http://energinet.dk');
     });
+
   });
 
-  describe('Verify links added with href attribute opens in expected windows', () => {
+
+  describe(`${WattNavListModule.name} - Verify links added with href attribute opens in expected windows`, () => {
     const setup = async (target: string | null) => {
       // Arrange
       await render(
