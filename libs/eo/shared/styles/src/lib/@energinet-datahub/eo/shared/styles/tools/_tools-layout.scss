@@ -14,8 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './lib/eo-product-logo/eo-product-logo.directive';
-export * from './lib/eo-scroll-view/eo-scroll-view.component';
-export * from './lib/eo-vimeo-player/eo-vimeo-player.component';
-export * from './lib/eo-inline-message/eo-inline-message.component';
-export * from './lib/eo-media/eo-media.module';
+@mixin centered-content($important: true) {
+  $important-expression: '!important';
+
+  @if $important == false {
+    $important-expression: '';
+  }
+
+  display: flex #{$important-expression};
+  align-items: center #{$important-expression};
+  align-content: center #{$important-expression};
+  justify-content: center #{$important-expression};
+  justify-items: center #{$important-expression};
+}
