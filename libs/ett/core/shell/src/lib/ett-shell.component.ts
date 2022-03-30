@@ -14,12 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  ChangeDetectionStrategy,
-  Component,
-  NgModule,
-  ViewEncapsulation,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { eoPrivacyPolicyRoutePath } from '@energinet-datahub/eo/privacy-policy/routing';
 import { EoProductLogoScam } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
@@ -31,92 +26,94 @@ import { Observable } from 'rxjs';
 
 import { EoPrimaryNavigationScam } from './eo-primary-navigation.component';
 
-const selector = 'ett-shell';
-
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None,
-  selector,
+  selector: 'ett-shell',
   styles: [
     `
       @use '@energinet-datahub/watt/utils' as watt;
 
-      ${selector} {
+      :host {
         display: block;
+      }
 
-        .${selector}__h2 {
-          @include watt.typography-watt-headline-2; // This overrides the styles applied from Angular Material on h2 tags
-          margin-left: var(--watt-space-m);
-          color: var(--watt-color-neutral-black);
-        }
+      .logo-container {
+        height: var(--watt-space-xl);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
 
-        watt-shell mat-sidenav.mat-drawer {
-          color: var(--watt-color-primary-dark-contrast);
-        }
+      .logo {
+        height: calc(6.5 * var(--watt-space-xs));
+        width: calc(52 * var(--watt-space-xs));
+      }
 
-        watt-shell .watt-toolbar watt-icon-button[icon='menu'] > button {
-          // Remove menu toggle left padding to collapse with top app bar padding
-          padding-left: 0;
-        }
+      .link {
+        display: block;
+        color: var(
+          --watt-color-primary
+        ); // This overrides the '--watt-color-primary-dark' color which is currently added by the watt-text-s class
+      }
 
-        watt-shell .mat-nav-list {
-          padding-top: 0;
-        }
+      ::ng-deep watt-shell mat-sidenav.mat-drawer {
+        color: var(--watt-color-primary-dark-contrast);
+      }
 
-        watt-shell .watt-toolbar.watt-toolbar {
-          height: var(--watt-space-xl);
-        }
+      // 1. Increase specificity.
+      // 2. Align with main content.
+      ::ng-deep .watt-toolbar.watt-toolbar/* [1] */ {
+        @include watt.space-inset-squish-l; // [2]
+      }
 
-        .watt-main-content {
-          --top-app-bar-height: var(--watt-space-xl);
+      ::ng-deep
+        watt-shell
+        .watt-toolbar
+        watt-icon-button[icon='menu']
+        > button {
+        // Remove menu toggle left padding to collapse with top app bar padding
+        padding-left: 0;
+      }
 
-          min-height: calc(100% - var(--top-app-bar-height));
-          padding: 0 !important; // We remove the padding, so we can stretch the footer out in full width
+      ::ng-deep watt-shell .mat-nav-list {
+        padding-top: 0;
+      }
 
-          /**
-           * We have 3 items in the content area:
-           * 1) The Angular router-outlet
-           * 2) The page/component being rendered below the router outlet
-           * 3) The footer
-           *
-           * Display grid considers the above 3 elements, when positioning them on the screen
-           * This allows us to set the router outlet height = 0, the page content to what ever height it might have, the footer to the height it has
-          */
-          display: grid;
-          grid-template-rows: 0 1fr auto;
-        }
+      ::ng-deep watt-shell .watt-toolbar.watt-toolbar {
+        height: var(--watt-space-xl);
+      }
 
-        // This is the feature/page component
-        .watt-main-content.watt-main-content > :nth-child(2) {
-          @include watt.space-inset-l;
-        }
+      ::ng-deep .watt-main-content {
+        --top-app-bar-height: var(--watt-space-xl);
 
-        .${selector}__logo-container {
-          height: var(--watt-space-xl);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-        .${selector}__logo {
-          height: calc(6.5 * var(--watt-space-xs));
-          width: calc(52 * var(--watt-space-xs));
-        }
+        min-height: calc(100% - var(--top-app-bar-height));
+        padding: 0 !important; // We remove the padding, so we can stretch the footer out in full width
 
-        .${selector}__link {
-          display: block;
-          color: var(
-            --watt-color-primary
-          ); // This overrides the '--watt-color-primary-dark' color which is currently added by the watt-text-s class
-        }
+        /**
+         * We have 3 items in the content area:
+         * 1) The Angular router-outlet
+         * 2) The page/component being rendered below the router outlet
+         * 3) The footer
+         *
+         * Display grid considers the above 3 elements, when positioning them on the screen
+         * This allows us to set the router outlet height = 0, the page content to what ever height it might have, the footer to the height it has
+        */
+        display: grid;
+        grid-template-rows: 0 1fr auto;
+      }
+
+      // This is the feature/page component
+      ::ng-deep .watt-main-content.watt-main-content > :nth-child(2) {
+        @include watt.space-inset-l;
       }
     `,
   ],
   template: `
     <watt-shell>
       <ng-container watt-shell-sidenav>
-        <div class="${selector}__logo-container">
+        <div class="logo-container">
           <img
-            class="${selector}__logo"
+            class="logo"
             src="/assets/images/energyorigin-logo-secondary.svg"
           />
         </div>
@@ -125,7 +122,7 @@ const selector = 'ett-shell';
       </ng-container>
 
       <ng-container watt-shell-toolbar>
-        <h2 class="${selector}__h2">{{ title$ | push }}</h2>
+        <h2>{{ title$ | push }}</h2>
       </ng-container>
 
       <router-outlet></router-outlet>
@@ -133,7 +130,7 @@ const selector = 'ett-shell';
       <eo-footer>
         <a
           routerLink="/${eoPrivacyPolicyRoutePath}"
-          class="${selector}__link watt-space-stack-m watt-text-s"
+          class="link watt-space-stack-m watt-text-s"
           >Privacy Policy</a
         >
       </eo-footer>
