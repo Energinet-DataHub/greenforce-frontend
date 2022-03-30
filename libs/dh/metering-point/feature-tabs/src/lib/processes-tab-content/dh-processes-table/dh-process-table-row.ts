@@ -16,7 +16,9 @@
  */
 import { DhProcess } from '@energinet-datahub/dh/metering-point/domain';
 
-export interface DhProcessesTableRow {
+export type DhProcessTableRows = DhProcessTableRow[];
+
+export interface DhProcessTableRow {
   process: DhProcess;
   expanded: boolean;
   height: number;

@@ -41,7 +41,7 @@ import {
 } from '@energinet-datahub/watt';
 import { TranslocoModule } from '@ngneat/transloco';
 import { DhProcessesDetailItemScam } from '../dh-processes-detail-item/dh-processes-detail-item.component';
-import { DhProcessesTableRow } from './dh-processes-table-row';
+import { DhProcessTableRow } from './dh-process-table-row';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -59,15 +59,15 @@ export class DhProcessesTableComponent implements AfterViewInit {
     'hasDetailsErrors',
   ];
   iconSize = WattIconSize;
-  sortedData: DhProcessesTableRow[] = [];
+  sortedData: DhProcessTableRow[] = [];
 
   @Input() processes: DhProcess[] = [];
 
-  processRows: DhProcessesTableRow[] = [];
+  processRows: DhProcessTableRow[] = [];
 
   @ViewChild(MatSort) matSort?: MatSort;
 
-  private static wrapInTableRow(data: DhProcess[]): DhProcessesTableRow[] {
+  private static wrapInTableRow(data: DhProcess[]): DhProcessTableRow[] {
     return data.map((process) => ({
       process: process,
       expanded: false,
@@ -156,7 +156,7 @@ export class DhProcessesTableComponent implements AfterViewInit {
     });
   }
 
-  toggleRow(event: Event, row: DhProcessesTableRow) {
+  toggleRow(event: Event, row: DhProcessTableRow) {
     if (!row.expanded && event.target) {
       const rowToExpand = DhProcessesTableComponent.getRowToExpand(
         event.target as HTMLElement
@@ -169,12 +169,12 @@ export class DhProcessesTableComponent implements AfterViewInit {
     }
   }
 
-  expandRow(rowToExpand: HTMLElement, row: DhProcessesTableRow) {
+  expandRow(rowToExpand: HTMLElement, row: DhProcessTableRow) {
     row.height = DhProcessesTableComponent.getRowHeight(rowToExpand);
     row.expanded = true;
   }
 
-  collapseRow(row: DhProcessesTableRow) {
+  collapseRow(row: DhProcessTableRow) {
     row.height = 0;
     row.expanded = false;
   }
