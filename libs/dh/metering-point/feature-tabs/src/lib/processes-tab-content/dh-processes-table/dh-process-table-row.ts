@@ -21,5 +21,5 @@ export type DhProcessTableRows = DhProcessTableRow[];
 export interface DhProcessTableRow {
   process: DhProcess;
   expanded: boolean;
-  height: number;
+  maxHeight: number;
 }

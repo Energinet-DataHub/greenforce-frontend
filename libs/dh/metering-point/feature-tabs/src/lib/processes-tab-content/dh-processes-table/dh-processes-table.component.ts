@@ -71,7 +71,7 @@ export class DhProcessesTableComponent implements AfterViewInit {
     return data.map((process) => ({
       process: process,
       expanded: false,
-      height: 0,
+      maxHeight: 0,
     }));
   }
 
@@ -170,12 +170,12 @@ export class DhProcessesTableComponent implements AfterViewInit {
   }
 
   expandRow(rowToExpand: HTMLElement, row: DhProcessTableRow) {
-    row.height = DhProcessesTableComponent.getRowHeight(rowToExpand);
+    row.maxHeight = DhProcessesTableComponent.getRowHeight(rowToExpand);
     row.expanded = true;
   }
 
   collapseRow(row: DhProcessTableRow) {
-    row.height = 0;
+    row.maxHeight = 0;
     row.expanded = false;
   }
 }
