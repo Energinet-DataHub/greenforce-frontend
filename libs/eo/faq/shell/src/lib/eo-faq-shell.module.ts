@@ -14,10 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  EoFaqShellComponent,
-  EoFaqShellScam
-} from './eo-faq-shell.component';
+import { EoFaqShellComponent, EoFaqShellScam } from './eo-faq-shell.component';
 import { RouterModule, Routes } from '@angular/router';
 
 import { NgModule } from '@angular/core';
