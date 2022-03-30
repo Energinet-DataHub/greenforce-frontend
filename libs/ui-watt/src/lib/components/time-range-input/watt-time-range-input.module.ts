@@ -1,11 +1,12 @@
 import { NgModule } from '@angular/core';
-import { WattFormFieldModule } from '../form-field/form-field.module';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 import { WattTimeRangeInputComponent } from './watt-time-range-input.component';
 
 @NgModule({
   declarations: [WattTimeRangeInputComponent],
   exports: [WattTimeRangeInputComponent],
-  imports: [WattFormFieldModule],
+  imports: [MatDatepickerModule, MatNativeDateModule],
 })
 export class WattTimeRangeInputModule {}
