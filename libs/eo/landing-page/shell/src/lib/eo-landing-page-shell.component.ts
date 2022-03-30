@@ -97,16 +97,16 @@ export class EoLandingPageShellComponent {
 @NgModule({
   declarations: [EoLandingPageShellComponent],
   imports: [
-    EoLandingPageHeaderScam,
     EoFooterScam,
+    EoLandingPageAudienceScam,
+    EoLandingPageCallToActionScam,
+    EoLandingPageCompanyScam,
+    EoLandingPageHeaderScam,
     EoLandingPageHeroScam,
     EoLandingPageIntroductionScam,
     EoLandingPageLoginButtonScam,
-    EoLandingPageCallToActionScam,
     EoLandingPageNotificationScam,
     EoLandingPageOriginOfEnergyScam,
-    EoLandingPageAudienceScam,
-    EoLandingPageCompanyScam,
   ],
 })
 export class EoLandingPageShellScam {}
