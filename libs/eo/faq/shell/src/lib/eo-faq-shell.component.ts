@@ -97,7 +97,10 @@ import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
     <h2 #where_can_i_read_more>Where can I read more?</h2>
     <p>
       You can read more about the history and intention of Energy Origin on our
-      website: <a href="https://energioprindelse.dk" target="_blank" class="inline">Origins of energy | Energinet</a>
+      website:
+      <a href="https://energioprindelse.dk" target="_blank" class="inline"
+        >Origins of energy | Energinet</a
+      >
     </p>
   `,
 })
