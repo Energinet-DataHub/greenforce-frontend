@@ -197,13 +197,4 @@ export class WattTimeRangeInputComponent implements AfterViewInit, OnDestroy {
   private getInputFormat(): string {
     return getLocaleTimeFormat(this.locale, FormatWidth.Short);
   }
-
-  /**
-   * @ignore
-   */
-  private getPlaceholder(inputFormat: string): string {
-    return this.locale === 'da'
-      ? inputFormat.split('y').join('å')
-      : inputFormat;
-  }
 }
