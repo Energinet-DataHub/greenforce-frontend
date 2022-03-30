@@ -50,9 +50,7 @@ import { eoFaqRoutePath } from '@energinet-datahub/eo-faq/routing';
         >Metering Points</watt-nav-list-item
       >
 
-      <watt-nav-list-item link="/${eoFaqRoutePath}"
-        >FAQ</watt-nav-list-item
-      >
+      <watt-nav-list-item link="/${eoFaqRoutePath}">FAQ</watt-nav-list-item>
 
       <watt-nav-list-item (click)="onLogOut()" role="link">
         Log out
