@@ -21,11 +21,9 @@ import { Observable } from 'rxjs';
 
 import { EoLandingPageStore } from './eo-landing-page.store';
 
-const selector = 'eo-landing-page-login-button';
-
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector,
+  selector: 'eo-landing-page-login-button',
   styles: [
     `
       @use '@energinet-datahub/watt/utils' as watt;
@@ -34,7 +32,7 @@ const selector = 'eo-landing-page-login-button';
         display: inline-block;
       }
 
-      .link {
+      .link-button {
         // 1. Primary Watt Button.
         // 2. Normal size Watt Button.
         // 3. Custom size for Watt Button in App bar.
@@ -60,7 +58,7 @@ const selector = 'eo-landing-page-login-button';
   ],
   template: `
     <a
-      class="link eo-space-inset-squished-m"
+      class="link-button eo-space-inset-squished-m"
       mat-button
       mat-flat-button
       *rxLet="loginUrl$ as loginUrl"
