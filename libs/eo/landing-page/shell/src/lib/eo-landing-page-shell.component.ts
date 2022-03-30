@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, HostBinding, NgModule } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  HostBinding,
+  NgModule,
+} from '@angular/core';
 import { EoFooterScam } from '@energinet-datahub/eo/shared/atomic-design/ui-organisms';
 
 import { EoLandingPageCallToActionScam } from './eo-landing-page-call-to-action.component';

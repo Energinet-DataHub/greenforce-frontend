@@ -1,4 +1,10 @@
-import { ChangeDetectionStrategy, Component, HostBinding, Input, NgModule } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  HostBinding,
+  Input,
+  NgModule,
+} from '@angular/core';
 import { PushModule } from '@rx-angular/template';
 import { map, Observable } from 'rxjs';
 
