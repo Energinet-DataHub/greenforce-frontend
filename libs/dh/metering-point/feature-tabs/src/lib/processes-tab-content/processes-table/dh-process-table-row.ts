@@ -14,21 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-:host {
-  display: block;
-  padding: var(--watt-space-l) 0;
-}
+import { DhProcess } from '@energinet-datahub/dh/metering-point/domain';
 
-.mat-column-expand,
-.mat-column-hasDetailsErrors {
-  max-width: 52px;
-  padding: 10px;
-}
+export type DhProcessTableRows = DhProcessTableRow[];
 
-.mat-column-expand watt-icon {
-  cursor: not-allowed; // TODO: Change this when the expand functionality has been implemented
-}
-
-.date-icon {
-  margin-right: var(--watt-space-s);
+export interface DhProcessTableRow {
+  process: DhProcess;
+  expanded: boolean;
+  maxHeight: number;
 }
