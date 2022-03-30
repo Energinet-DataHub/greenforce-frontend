@@ -69,7 +69,7 @@ export class DhProcessesTableComponent implements AfterViewInit {
 
   private static wrapInTableRow(data: DhProcess[]): DhProcessesTableRow[] {
     return data.map((process) => ({
-      data: process,
+      process: process,
       expanded: false,
       height: 0,
     }));
@@ -128,26 +128,26 @@ export class DhProcessesTableComponent implements AfterViewInit {
       switch (sort.active) {
         case 'name':
           return DhProcessesTableComponent.compare(
-            a.data.name,
-            b.data.name,
+            a.process.name,
+            b.process.name,
             isAsc
           );
         case 'createdDate':
           return DhProcessesTableComponent.compare(
-            a.data.createdDate,
-            b.data.createdDate,
+            a.process.createdDate,
+            b.process.createdDate,
             isAsc
           );
         case 'effectiveDate':
           return DhProcessesTableComponent.compare(
-            a.data.effectiveDate ?? '',
-            b.data.effectiveDate ?? '',
+            a.process.effectiveDate ?? '',
+            b.process.effectiveDate ?? '',
             isAsc
           );
         case 'status':
           return DhProcessesTableComponent.compare(
-            a.data.status,
-            b.data.status,
+            a.process.status,
+            b.process.status,
             isAsc
           );
         default:
