@@ -71,7 +71,7 @@ import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
       will be possible for private individuals to login via NemID / MitID
     </p>
 
-    <h2 #where_does_the_data_come_from>Where does te data come from?</h2>
+    <h2 #where_does_the_data_come_from>Where does the data come from?</h2>
     <p>
       All data related to metering points, consumption and production is served
       by the Energinet DataHub. Data related to the origin of energy and
@@ -92,11 +92,10 @@ import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
     <h2 #where_can_i_read_more>Where can I read more?</h2>
     <p>
       You can read more about the history and intention of Energy Origin on our
-      website:
+      website:</p>
       <a href="https://energinet.dk" target="_blank"
         >Origins of energy | Energinet</a
       >
-    </p>
   `,
 })
 export class EoFaqShellComponent {
