@@ -14,7 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component, HostBinding, NgModule } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  HostBinding,
+  NgModule,
+} from '@angular/core';
 import { EoFooterScam } from '@energinet-datahub/eo/shared/atomic-design/ui-organisms';
 
 import { EoLandingPageCallToActionScam } from './eo-landing-page-call-to-action.component';
