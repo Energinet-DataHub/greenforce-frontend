@@ -14,29 +14,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
+@use '../tools/tools-spacing' as eo-spacing;
 
-@Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'ett-app',
-  styles: [
-    `
-      :host {
-        display: block;
+.eo-space-inset-xxl {
+  padding: calc(2 * var(--watt-space-xl)) !important;
+}
 
-        min-height: 100%;
+.eo-space-inset-squished-m {
+  padding: var(--watt-space-s) var(--watt-space-m) !important; // .watt-space-inset-squish-m does not have !important
+}
 
-        background: var(--watt-color-neutral-grey-100);
-      }
-    `,
-  ],
-  template: `<router-outlet></router-outlet>`,
-})
-export class EnergyTrackAndTraceAppComponent {}
+.eo-space-inset-stretched-l {
+  padding: var(--watt-space-l) var(--watt-space-m) !important; // .watt-space-inset-squish-l is not declared yet
+}
 
-@NgModule({
-  declarations: [EnergyTrackAndTraceAppComponent],
-  imports: [RouterModule],
-})
-export class EnergyTrackAndTraceAppScam {}
+.eo-spacing-squished-inset-xxl {
+  @include eo-spacing.squished-inset-xxl;
+}
+
+.eo-spacing-stretched-inset-l {
+  @include eo-spacing.stretched-inset-l;
+}

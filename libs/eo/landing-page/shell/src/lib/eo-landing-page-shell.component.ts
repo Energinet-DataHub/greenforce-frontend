@@ -17,70 +17,101 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  HostBinding,
   NgModule,
-  ViewEncapsulation,
 } from '@angular/core';
-import { EoLandingPageHeaderScam } from './eo-landing-page-header.component';
 import { EoFooterScam } from '@energinet-datahub/eo/shared/atomic-design/ui-organisms';
-import { EoLandingPageStore } from './eo-landing-page.store';
-import { EoLandingPageHeroScam } from './layout/eo-landing-page-hero.component';
-import { EoLandingPageVideoLayoutScam } from './layout/eo-landing-page-video-layout.component';
-import { EoLandingPageImageTextLayoutScam } from './layout/eo-landing-page-image-text-layout.component';
-import { EoLandingPageLoginButtonScam } from './layout/eo-landing-page-login-button.component';
-import { EoLandingPageCallToActionScam } from './layout/eo-landing-page-call-to-action.component';
-import { EoLandingPageNotificationScam } from './layout/eo-landing-page-notification.component';
 
-const selector = 'eo-landing-page-shell';
+import { EoLandingPageCallToActionScam } from './eo-landing-page-call-to-action.component';
+import { EoLandingPageCompanyScam } from './eo-landing-page-company.component';
+import { EoLandingPageHeaderScam } from './eo-landing-page-header.component';
+import { EoLandingPageHeroScam } from './eo-landing-page-hero.component';
+import { EoLandingPageIntroductionScam } from './eo-landing-page-introduction.component';
+import { EoLandingPageLoginButtonScam } from './eo-landing-page-login-button.component';
+import { EoLandingPageNotificationScam } from './eo-landing-page-notification.component';
+import { EoLandingPageOriginOfEnergyScam } from './eo-landing-page-origin-of-energy.component';
+import { EoLandingPagePresenter } from './eo-landing-page.presenter';
+import { EoLandingPageStore } from './eo-landing-page.store';
+import { EoLandingPageAudienceScam } from './eo-landinge-page-audience.component';
 
 @Component({
-  providers: [EoLandingPageStore],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None,
-  selector,
+  selector: 'eo-landing-page-shell',
   styles: [
     `
-      @use '@energinet-datahub/watt/utils' as watt;
-
-      ${selector} {
-        position: relative; // So we can use position absolute for the mesh illustrations at the top and bottom of the page
+      :host {
         display: block;
+      }
 
-        .${selector}__footer-mesh {
-          width: 360px;
-          height: 360px;
-          position: absolute;
-          bottom: 200px; // Position the image just above the footer
-        }
+      img {
+        display: block;
+      }
+
+      .u-positioning-context {
+        position: relative !important;
+      }
+
+      .u-snap-bottom {
+        position: absolute;
+        bottom: 0 !important;
+      }
+
+      .u-collapse-bottom {
+        padding-bottom: 0 !important;
       }
     `,
   ],
   template: `
     <eo-landing-page-header></eo-landing-page-header>
-    <eo-landing-page-notification></eo-landing-page-notification>
-    <eo-landing-page-hero></eo-landing-page-hero>
-    <eo-landing-page-video-layout></eo-landing-page-video-layout>
-    <eo-landing-page-image-text-layout></eo-landing-page-image-text-layout>
-    <eo-landing-page-call-to-action></eo-landing-page-call-to-action>
-    <img
-      src="/assets/images/landing-page/landing-page-mesh-bottom.png"
-      class="${selector}__footer-mesh"
-    />
+
+    <div class="u-positioning-context">
+      <eo-landing-page-notification
+        class="u-collapse-bottom"
+      ></eo-landing-page-notification>
+
+      <eo-landing-page-hero></eo-landing-page-hero>
+
+      <eo-landing-page-introduction></eo-landing-page-introduction>
+
+      <eo-landing-page-origin-of-energy></eo-landing-page-origin-of-energy>
+
+      <eo-landing-page-audience></eo-landing-page-audience>
+
+      <eo-landing-page-company></eo-landing-page-company>
+
+      <eo-landing-page-call-to-action></eo-landing-page-call-to-action>
+
+      <div class="u-snap-bottom">
+        <img src="/assets/images/landing-page/landing-page-mesh-bottom.png" />
+      </div>
+    </div>
+
     <eo-footer></eo-footer>
   `,
+  viewProviders: [EoLandingPageStore, EoLandingPagePresenter],
 })
-export class EoLandingPageShellComponent {}
+export class EoLandingPageShellComponent {
+  @HostBinding('style.--eo-landing-page-content-max-width')
+  get cssPropertyContentMaxWidth(): string {
+    return `${this.presenter.contentMaxWidthPixels}px`;
+  }
+
+  constructor(private presenter: EoLandingPagePresenter) {}
+}
 
 @NgModule({
   declarations: [EoLandingPageShellComponent],
   imports: [
-    EoLandingPageHeaderScam,
     EoFooterScam,
-    EoLandingPageHeroScam,
-    EoLandingPageVideoLayoutScam,
-    EoLandingPageImageTextLayoutScam,
-    EoLandingPageLoginButtonScam,
+    EoLandingPageAudienceScam,
     EoLandingPageCallToActionScam,
+    EoLandingPageCompanyScam,
+    EoLandingPageHeaderScam,
+    EoLandingPageHeroScam,
+    EoLandingPageIntroductionScam,
+    EoLandingPageLoginButtonScam,
     EoLandingPageNotificationScam,
+    EoLandingPageOriginOfEnergyScam,
   ],
 })
 export class EoLandingPageShellScam {}

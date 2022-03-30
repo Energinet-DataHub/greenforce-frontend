@@ -24,10 +24,6 @@ import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
       :host {
         display: block;
       }
-
-      p {
-        margin: 0; // Remove this rule when CSS reset (#402) is merged
-      }
     `,
   ],
   template: `<p>You do not have any metering points.</p>`,
