@@ -14,52 +14,50 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component, NgModule, Output, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, NgModule, Output } from '@angular/core';
 import { EoScrollViewScam } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 import { PushModule } from '@rx-angular/template';
 import { Observable } from 'rxjs';
 
 import { EoPrivacyPolicyStore } from './eo-privacy-policy.store';
 
-const selector = 'eo-privacy-policy';
-
 @Component({
-  providers: [EoPrivacyPolicyStore],
-  selector,
-  template: `
-    <eo-scroll-view>
-      <p class="${selector}__paragraph">Version {{ version$ | push }}</p>
-      <div [innerHTML]="privacyPolicy$ | push"></div>
-    </eo-scroll-view>
-  `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: 'eo-privacy-policy',
   styles: [
     `
       @use '@energinet-datahub/watt/utils' as watt;
-      ${selector} {
+
+      :host {
         display: block;
-        /* width: calc(200 * var(--watt-space-xs)); */
-        .${selector}__paragraph {
-          @include watt.typography-watt-text-s;
-          color: var(--watt-color-neutral-grey-600);
-        }
+      }
+
+      small {
+        color: var(--watt-color-neutral-grey-700);
       }
     `,
   ],
-  encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: `
+    <eo-scroll-view>
+      <small>Version {{ version$ | push }}</small>
+
+      <div [innerHTML]="privacyPolicy$ | push"></div>
+    </eo-scroll-view>
+  `,
+  viewProviders: [EoPrivacyPolicyStore],
 })
 export class EoPrivacyPolicyComponent {
+  @Output() versionChange = this.store.version$;
+
   version$: Observable<string> = this.store.version$;
   privacyPolicy$: Observable<string> = this.store.privacyPolicy$;
-
-  @Output() versionChange = this.store.version$;
 
   constructor(private store: EoPrivacyPolicyStore) {}
 }
 
 @NgModule({
-  imports: [EoScrollViewScam, PushModule],
   declarations: [EoPrivacyPolicyComponent],
   exports: [EoPrivacyPolicyComponent],
+  imports: [EoScrollViewScam, PushModule],
 })
 export class EoPrivacyPolicyScam {}

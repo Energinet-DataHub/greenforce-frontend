@@ -62,8 +62,6 @@ import { EoAuthTermsStore } from './eo-auth-terms.store';
     <div class="content-box watt-space-inset-l">
       <div class="eo-layout-centered-content">
         <div class="content-wrapper">
-          <h1 class="watt-space-stack-l">Read and accept our Privacy Policy</h1>
-
           <eo-privacy-policy
             class="watt-space-stack-l"
             (versionChange)="onVersionChange($event)"
