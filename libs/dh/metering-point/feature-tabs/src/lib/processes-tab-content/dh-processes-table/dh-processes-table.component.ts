@@ -40,6 +40,8 @@ import {
   WattIconSize,
 } from '@energinet-datahub/watt';
 import { TranslocoModule } from '@ngneat/transloco';
+import { DhProcessesDetailItemScam } from '../dh-processes-detail-item/dh-processes-detail-item.component';
+import { DhProcessTableRow } from './dh-process-table-row';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -49,7 +51,7 @@ import { TranslocoModule } from '@ngneat/transloco';
 })
 export class DhProcessesTableComponent implements AfterViewInit {
   displayedColumns: string[] = [
-    'expand',
+    'tableExpandControl',
     'name',
     'createdDate',
     'effectiveDate',
@@ -57,11 +59,51 @@ export class DhProcessesTableComponent implements AfterViewInit {
     'hasDetailsErrors',
   ];
   iconSize = WattIconSize;
-  sortedData: DhProcess[] = [];
-  @Input()
-  processes: DhProcess[] = [];
+  sortedData: DhProcessTableRow[] = [];
+
+  @Input() processes: DhProcess[] = [];
+
+  processRows: DhProcessTableRow[] = [];
 
   @ViewChild(MatSort) matSort?: MatSort;
+
+  private static wrapInTableRow(data: DhProcess[]): DhProcessTableRow[] {
+    return data.map((process) => ({
+      process: process,
+      expanded: false,
+      maxHeight: 0,
+    }));
+  }
+
+  private static getRowToExpand(
+    clickedRow: HTMLElement
+  ): HTMLElement | undefined {
+    return (
+      // Get the row next to the parent row
+      (clickedRow.closest('mat-row')?.nextElementSibling as HTMLElement) ??
+      undefined
+    );
+  }
+
+  private static getRowHeight(rowElement: HTMLElement): number {
+    return rowElement.children[0].clientHeight;
+  }
+
+  private static compare(
+    a: number | string,
+    b: number | string,
+    isAsc: boolean
+  ) {
+    return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
+  }
+
+  private setDefaultSorting() {
+    if (this.matSort === undefined) return;
+
+    const sortable = this.matSort.sortables.get('createdDate') as MatSortable;
+    sortable.start = 'desc';
+    this.matSort.sort(sortable);
+  }
 
   ngAfterViewInit(): void {
     if (this.processes != undefined) {
@@ -70,45 +112,71 @@ export class DhProcessesTableComponent implements AfterViewInit {
   }
 
   sortData(sort: Sort) {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const data = this.processes!.slice();
+    if (this.processRows.length === 0) {
+      this.processRows = DhProcessesTableComponent.wrapInTableRow(
+        this.processes
+      );
+    }
     if (!sort.active || sort.direction === '') {
-      this.sortedData = data;
+      this.sortedData = this.processRows;
       this.setDefaultSorting();
       return;
     }
 
-    this.sortedData = data.sort((a, b) => {
+    this.sortedData = this.processRows.slice().sort((a, b) => {
       const isAsc = sort.direction === 'asc';
       switch (sort.active) {
         case 'name':
-          return this.compare(a.name, b.name, isAsc);
+          return DhProcessesTableComponent.compare(
+            a.process.name,
+            b.process.name,
+            isAsc
+          );
         case 'createdDate':
-          return this.compare(a.createdDate, b.createdDate, isAsc);
+          return DhProcessesTableComponent.compare(
+            a.process.createdDate,
+            b.process.createdDate,
+            isAsc
+          );
         case 'effectiveDate':
-          return this.compare(
-            a.effectiveDate ?? '',
-            b.effectiveDate ?? '',
+          return DhProcessesTableComponent.compare(
+            a.process.effectiveDate ?? '',
+            b.process.effectiveDate ?? '',
             isAsc
           );
         case 'status':
-          return this.compare(a.status, b.status, isAsc);
+          return DhProcessesTableComponent.compare(
+            a.process.status,
+            b.process.status,
+            isAsc
+          );
         default:
           return 0;
       }
     });
   }
 
-  setDefaultSorting() {
-    if (this.matSort === undefined) return;
+  toggleRow(event: Event, row: DhProcessTableRow) {
+    if (!row.expanded && event.target) {
+      const rowToExpand = DhProcessesTableComponent.getRowToExpand(
+        event.target as HTMLElement
+      );
+      if (!rowToExpand) return;
 
-    const sortable = this.matSort.sortables.get('createdDate') as MatSortable;
-    sortable.start = 'desc';
-    this.matSort.sort(sortable);
+      this.expandRow(rowToExpand, row);
+    } else {
+      this.collapseRow(row);
+    }
   }
 
-  compare(a: number | string, b: number | string, isAsc: boolean) {
-    return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
+  expandRow(rowToExpand: HTMLElement, row: DhProcessTableRow) {
+    row.maxHeight = DhProcessesTableComponent.getRowHeight(rowToExpand);
+    row.expanded = true;
+  }
+
+  collapseRow(row: DhProcessTableRow) {
+    row.maxHeight = 0;
+    row.expanded = false;
   }
 }
 
@@ -123,6 +191,7 @@ export class DhProcessesTableComponent implements AfterViewInit {
     WattEmptyStateModule,
     RouterModule,
     DhSharedUiDateTimeModule,
+    DhProcessesDetailItemScam,
   ],
   exports: [DhProcessesTableComponent],
 })
