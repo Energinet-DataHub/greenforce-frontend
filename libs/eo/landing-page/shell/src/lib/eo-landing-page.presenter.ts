@@ -14,8 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './lib/eo-product-logo/eo-product-logo.directive';
-export * from './lib/eo-scroll-view/eo-scroll-view.component';
-export * from './lib/eo-vimeo-player/eo-vimeo-player.component';
-export * from './lib/eo-inline-message/eo-inline-message.component';
-export * from './lib/eo-media/eo-media.module';
+import { Injectable } from '@angular/core';
+
+const wattScreenMediumMinWidthPixels = 960;
+
+@Injectable()
+export class EoLandingPagePresenter {
+  contentMaxWidthPixels = wattScreenMediumMinWidthPixels;
+  /**
+   * Magic number by designer.
+   */
+  gutterPixels = 40;
+}

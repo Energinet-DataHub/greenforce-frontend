@@ -14,41 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@use '@energinet-datahub/watt' as watt;
-
-html,
-body {
-  min-height: 100%;
-}
-
 a,
 [routerLink] {
-  text-decoration: underline; // This overrides WATT styles (which removes the underline on a tags)
   cursor: pointer; // This makes Angular routerLinks hoverable with a pointer
-}
-
-label {
-  text-transform: none; // Override .watt-label, which uppercases labels
-}
-
-body strong {
-  color: inherit; // Override Watt style
-}
-
-.eo-text-center {
-  text-align: center;
-}
-
-// One sided spacings & spacing reset helpers
-.eo-padding-left-none {
-  padding-left: 0;
-}
-.eo-padding-top-none {
-  padding-top: 0;
-}
-.eo-padding-top-xl {
-  padding-top: var(--watt-space-xl);
-}
-.eo-padding-bottom-xl {
-  padding-bottom: var(--watt-space-xl);
 }
