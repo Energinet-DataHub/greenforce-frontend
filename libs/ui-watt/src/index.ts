@@ -30,6 +30,7 @@ export * from './lib/components/empty-state';
 export * from './lib/components/expansion';
 export * from './lib/components/shell/nav-list';
 export * from './lib/components/spinner';
+export * from './lib/components/time-range-input';
 export * from './lib/components/tabs';
 export * from './lib/components/validation-message';
 
