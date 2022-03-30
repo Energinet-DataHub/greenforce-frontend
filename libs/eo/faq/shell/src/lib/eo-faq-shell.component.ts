@@ -23,6 +23,7 @@ import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
     `
       :host {
         display: block;
+        width: calc(200 * var(--watt-space-xs));
       }
     `,
   ],
