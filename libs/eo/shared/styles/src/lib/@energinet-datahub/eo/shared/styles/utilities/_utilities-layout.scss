@@ -1,0 +1,5 @@
+@use '../tools/tools-layout' as eo-layout;
+
+.eo-u-centered-content {
+  @include eo-layout.centered-content;
+}
