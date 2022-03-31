@@ -14,28 +14,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  ChangeDetectionStrategy,
-  Component,
-  NgModule,
-  ViewEncapsulation,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
 import { EoPrivacyPolicyScam } from '@energinet-datahub/eo/shared/atomic-design/feature-molecules';
-
-const selector = 'eo-privacy-policy-shell';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None,
-  selector,
-  template: `<eo-privacy-policy></eo-privacy-policy>`,
+  selector: 'eo-privacy-policy-shell',
   styles: [
     `
-      ${selector} {
+      :host {
         display: block;
+      }
+
+      .content-wrapper {
+        margin: 0 auto; // Center content vertically
+        max-width: 820px; // Magic number by designer.
       }
     `,
   ],
+  template: `
+    <div class="content-wrapper">
+      <eo-privacy-policy></eo-privacy-policy>
+    </div>
+  `,
 })
 export class EoPrivacyPolicyShellComponent {}
 
