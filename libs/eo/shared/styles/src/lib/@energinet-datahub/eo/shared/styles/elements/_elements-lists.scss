@@ -16,11 +16,10 @@
  */
 @use '../tools/tools-svg' as svg;
 
-$eo-primary-color: #00847c; // var(--watt-color-primary);
+$eo-primary-color: #00847c; // // Watt primary color
 
 @function svg-list-circle-factory($fill-color) {
-  @return '<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="8" cy="8" r="5" fill="' +
-    #00898a + '"/></svg>';
+  @return '<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="8" cy="8" r="5" fill="#{$fill-color}"/></svg>';
 }
 
 ul {
