@@ -56,40 +56,40 @@ import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
       </div>
     </div>
 
-    <h2 #what_is_energy_origin>What is Energy Origin?</h2>
+    <h3 #what_is_energy_origin>What is Energy Origin?</h3>
     <p>
       The aim of the Energy Origin platform is to create transparency on the
       origin of energy for all energy consumers and to facilitate a market for
       for green energy. Currently, we are working on data related to electricity
       consumption. Upon login, you will soon be able to access your hourly
-      electricity declaration and corresponding emissions for 2021
+      electricity declaration and corresponding emissions for 2021.
     </p>
 
-    <h2 #who_can_access_the_platform>Who can access the platform?</h2>
+    <h3 #who_can_access_the_platform>Who can access the platform?</h3>
     <p>
       Currently, the platform only offers company login via NemID. Later on, it
-      will be possible for private individuals to login via NemID / MitID
+      will be possible for private individuals to login via NemID / MitID.
     </p>
 
-    <h2 #where_does_the_data_come_from>Where does the data come from?</h2>
+    <h3 #where_does_the_data_come_from>Where does the data come from?</h3>
     <p>
       All data related to metering points, consumption and production is served
       by the Energinet DataHub. Data related to the origin of energy and
-      corresponding emissions stem from Energi Data Service
+      corresponding emissions stems from Energi Data Service.
     </p>
 
-    <h2 #how_can_i_influence_the_development>
+    <h3 #how_can_i_influence_the_development>
       How can I influence the development?
-    </h2>
+    </h3>
     <p>
       You are more than welcome to participate in our LinkedIn user group, a
       digital forum for users, in which we post sketches, questions and gather
       ideas and suggestions for new development and improvements. It’s
       non-binding and you can either just follow along without getting involved
-      or comment when you have time
+      or comment when you have time.
     </p>
 
-    <h2 #where_can_i_read_more>Where can I read more?</h2>
+    <h3 #where_can_i_read_more>Where can I read more?</h3>
     <p>
       You can read more about the history and intention of Energy Origin on our
       website:</p>
