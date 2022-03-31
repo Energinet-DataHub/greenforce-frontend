@@ -36,6 +36,11 @@ data "azurerm_key_vault_secret" "app_charges_webapi_base_url" {
   key_vault_id = data.azurerm_key_vault.kv_shared_resources.id
 }
 
+data "azurerm_key_vault_secret" "app_markpart_webapi_base_url" {
+  name         = "app-markpart-webapi-base-url"
+  key_vault_id = data.azurerm_key_vault.kv_shared_resources.id
+}
+
 data "azurerm_key_vault_secret" "frontend_open_id_url" {
   name         = "frontend-open-id-url"
   key_vault_id = data.azurerm_key_vault.kv_shared_resources.id
