@@ -14,60 +14,51 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  Component,
-  NgModule,
-  ViewEncapsulation,
-  ChangeDetectionStrategy,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { LetModule } from '@rx-angular/template';
-import { EoLandingPageStore } from './../eo-landing-page.store';
 import { Observable } from 'rxjs';
 
-const selector = 'eo-landing-page-login-button';
+import { EoLandingPageStore } from './eo-landing-page.store';
 
 @Component({
-  selector,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: 'eo-landing-page-login-button',
   styles: [
     `
       @use '@energinet-datahub/watt/utils' as watt;
 
-      ${selector} {
-        display: block;
+      :host {
+        display: inline-block;
+      }
 
+      .link-button {
         // 1. Primary Watt Button.
         // 2. Normal size Watt Button.
         // 3. Custom size for Watt Button in App bar.
         // 4. Align text vertically.
-        .${selector}__login-link {
-          @include watt.typography-watt-button; // [1]
+        // 5. Fill container
 
-          --height: calc(10 * var(--watt-space-xs));
-          --inset-squish-m--x: var(--watt-space-m);
-          --inset-squish-m--y: var(--watt-space-s);
+        @include watt.typography-watt-button; // [1]
 
-          background: var(--watt-color-primary); // [1]
-          color: var(--watt-color-primary-contrast); // [1]
+        --height: 44px; // [2]
+        --inset-squished-m--y: var(--watt-space-s);
 
-          min-width: 6.25rem; // [2]
-          height: var(--height); // [3]
-          padding: var(--inset-squish-m--y) var(--inset-squish-m--x); // [3]
+        background: var(--watt-color-primary); // [1]
+        color: var(--watt-color-primary-contrast); // [1]
 
-          line-height: calc(
-            var(--height) - 2 * var(--inset-squish-m--y)
-          ); // [3] [4]
-
-          &:hover {
-            text-decoration: none; // [1]
-          }
-        }
+        width: 100%; // [5]
+        min-width: 6.25rem; // [2]
+        height: var(--height); // [2]
+        line-height: calc(
+          var(--height) - 2 * var(--inset-squished-m--y)
+        ); // [2]
       }
     `,
   ],
   template: `
     <a
-      class="${selector}__login-link"
+      class="link-button eo-space-inset-squished-m"
       mat-button
       mat-flat-button
       *rxLet="loginUrl$ as loginUrl"
@@ -75,11 +66,10 @@ const selector = 'eo-landing-page-login-button';
       >Start</a
     >
   `,
-  encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EoLandingPageLoginButtonComponent {
   loginUrl$: Observable<string> = this.landingPageStore.authenticationUrl$;
+
   constructor(private landingPageStore: EoLandingPageStore) {}
 }
 

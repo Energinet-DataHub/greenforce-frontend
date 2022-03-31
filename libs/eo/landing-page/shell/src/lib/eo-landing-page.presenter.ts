@@ -14,29 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Injectable } from '@angular/core';
 
-@Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'ett-app',
-  styles: [
-    `
-      :host {
-        display: block;
+const wattScreenMediumMinWidthPixels = 960;
 
-        min-height: 100%;
-
-        background: var(--watt-color-neutral-grey-100);
-      }
-    `,
-  ],
-  template: `<router-outlet></router-outlet>`,
-})
-export class EnergyTrackAndTraceAppComponent {}
-
-@NgModule({
-  declarations: [EnergyTrackAndTraceAppComponent],
-  imports: [RouterModule],
-})
-export class EnergyTrackAndTraceAppScam {}
+@Injectable()
+export class EoLandingPagePresenter {
+  contentMaxWidthPixels = wattScreenMediumMinWidthPixels;
+  /**
+   * Magic number by designer.
+   */
+  gutterPixels = 40;
+}

@@ -34,6 +34,7 @@ const selector = 'eo-inline-message';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
+  // View encapsulation is disabled to support block type modifiers on the host element
   encapsulation: ViewEncapsulation.None,
   selector,
   styles: [
