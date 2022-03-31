@@ -70,6 +70,14 @@ const routes: Routes = [
           ),
         canActivate: [MsalGuard],
       },
+      {
+        path: 'market-participant',
+        loadChildren: () =>
+          import('@energinet-datahub/dh/market-participant/shell').then(
+            (esModule) => esModule.DhMarketParticipantShellModule
+          ),
+        canActivate: [MsalGuard],
+      },
     ],
   },
   // Used by MSAL (B2C)
