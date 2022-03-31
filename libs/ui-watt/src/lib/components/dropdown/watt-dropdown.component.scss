@@ -42,6 +42,7 @@ watt-dropdown {
 
   &.watt-dropdown-panel-multiple-selection {
     margin-left: 39px;
+    transition: margin-left 0.15s;
 
     &.watt-dropdown-panel-close-to-screen-left-edge {
       margin-left: 8px;

@@ -94,6 +94,11 @@ export class WattDropdownComponent
   /**
    * @ignore
    */
+  isCloseToScreenLeftEdge = false;
+
+  /**
+   * @ignore
+   */
   @ViewChild('matSelect', { static: true }) matSelect?: MatSelect;
 
   /**
@@ -186,20 +191,19 @@ export class WattDropdownComponent
    *
    * @ignore
    */
-  get isCloseToScreenLeftEdge(): boolean {
+  onOpenedChange(): void {
     if (this.multiple) {
       const triggerPosition: DOMRect | undefined =
         this.matSelect?.trigger?.nativeElement?.getBoundingClientRect();
 
-      if (
-        triggerPosition &&
-        triggerPosition.left <= MAX_DISTANCE_FROM_SCREEN_LEFT_EDGE
-      ) {
-        return true;
+      if (triggerPosition == undefined) {
+        this.isCloseToScreenLeftEdge = false;
+        return;
       }
-    }
 
-    return false;
+      this.isCloseToScreenLeftEdge =
+        triggerPosition.left <= MAX_DISTANCE_FROM_SCREEN_LEFT_EDGE;
+    }
   }
 
   /**
