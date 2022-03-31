@@ -20,7 +20,7 @@ watt-dropdown {
 
   .mat-select-trigger {
     line-height: 44px;
-    padding: 0 16px;
+    padding: 0 var(--watt-space-m);
   }
 
   .mat-select-value {
