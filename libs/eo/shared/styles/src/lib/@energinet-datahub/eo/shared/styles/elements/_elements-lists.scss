@@ -14,14 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@use '../tools/tools-svg' as svg;
-
-$eo-primary-color: #00847c; // // Watt primary color
-
-@function svg-list-circle-factory($fill-color) {
-  @return '<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="8" cy="8" r="5" fill="#{$fill-color}"/></svg>';
-}
-
 ul {
   list-style: none;
 
@@ -43,9 +35,7 @@ ul {
       width: var(--circle-size);
       height: var(--eo-line-height-m);
 
-      background-image: url(svg.encode(
-        svg-list-circle-factory($eo-primary-color)
-      ));
+      background-image: url(/assets/icons/list-item-circle-primary.svg);
       background-position: center center;
       background-repeat: no-repeat;
       background-size: 100%;
