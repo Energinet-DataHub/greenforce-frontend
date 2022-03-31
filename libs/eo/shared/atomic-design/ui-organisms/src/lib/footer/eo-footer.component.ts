@@ -22,8 +22,11 @@ import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
   styles: [
     `
       @use '@energinet-datahub/watt/utils' as watt;
+      @use '@energinet-datahub/eo/shared/styles/spacing' as eo-spacing;
 
       :host {
+        @include eo-spacing.stretched-inset-l($padding: true);
+
         position: relative;
         z-index: 100;
         display: block;
@@ -51,56 +54,54 @@ import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
         height: 48px;
       }
 
-      .content-box {
+      .content-grid {
         display: grid;
         grid-template-columns: 4fr 3fr 6fr;
       }
     `,
   ],
   template: `
-    <div class="eo-spacing-stretched-inset-l">
-      <div class="content-box">
-        <div>
-          <p class="watt-text-s text--primary-dark">Powered by</p>
+    <div class="content-grid">
+      <div>
+        <p class="watt-text-s text--primary-dark">Powered by</p>
 
-          <img
-            src="/assets/energinet-logo.svg"
-            alt="Energinet"
-            class="logo watt-space-stack-l"
-          />
+        <img
+          src="/assets/energinet-logo.svg"
+          alt="Energinet"
+          class="logo watt-space-stack-l"
+        />
 
-          <ng-content></ng-content>
-        </div>
+        <ng-content></ng-content>
+      </div>
 
-        <div>
-          <h5 class="section-headline">Address</h5>
+      <div>
+        <h5 class="section-headline">Address</h5>
 
-          <p class="watt-text-s">
-            Tonne Kjærsvej 65<br />
-            7000 Fredericia<br />
-            Danmark<br />
-            CVR: 39315041
-          </p>
-        </div>
+        <p class="watt-text-s">
+          Tonne Kjærsvej 65<br />
+          7000 Fredericia<br />
+          Danmark<br />
+          CVR: 39315041
+        </p>
+      </div>
 
-        <div>
-          <h5 class="section-headline">Contact</h5>
+      <div>
+        <h5 class="section-headline">Contact</h5>
 
-          <p>
-            <a href="tel:+4570222810" class="watt-text-s" aria-label="Phone"
-              >+45 70 22 28 10
-            </a>
-          </p>
+        <p>
+          <a href="tel:+4570222810" class="watt-text-s" aria-label="Phone"
+            >+45 70 22 28 10
+          </a>
+        </p>
 
-          <p>
-            <a
-              href="mailto:datahub@energinet.dk"
-              class="watt-text-s"
-              aria-label="Email"
-              >datahub@energinet.dk</a
-            >
-          </p>
-        </div>
+        <p>
+          <a
+            href="mailto:datahub@energinet.dk"
+            class="watt-text-s"
+            aria-label="Email"
+            >datahub@energinet.dk</a
+          >
+        </p>
       </div>
     </div>
   `,
