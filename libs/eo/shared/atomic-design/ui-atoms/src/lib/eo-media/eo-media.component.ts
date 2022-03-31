@@ -14,13 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  ChangeDetectionStrategy,
-  Component,
-  HostBinding,
-  Input,
-  NgModule,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, Input, NgModule } from '@angular/core';
 import { PushModule } from '@rx-angular/template';
 
 import { EoMediaPresenter } from './eo-media.presenter';
@@ -36,15 +30,25 @@ import { EoMediaPresenter } from './eo-media.presenter';
         display: block;
       }
 
+      // 1. Keep size ratio between media body and media image.
+      // 2. Center media body content and media image vertically.
+
       .media {
-        display: inline-flex;
+        display: inline-flex; // [1]
       }
 
       .media__body,
       .media__image {
-        flex-grow: 1;
-        flex-shrink: 1;
-        flex-basis: auto;
+        flex-grow: 1; // [1]
+        flex-shrink: 1; // [1]
+        flex-basis: auto; // [1]
+      }
+
+      .media__body,
+      .media__image {
+        display: flex; // [2]
+        flex-direction: column; // [2]
+        justify-content: center; // [2]
       }
     `,
   ],
@@ -55,7 +59,7 @@ import { EoMediaPresenter } from './eo-media.presenter';
       data-testid="media-box"
     >
       <div
-        class="media___body"
+        class="media__body"
         [style.flex-basis]="presenter.mediaBodyFlexBasis$ | push"
         data-testid="media-body-box"
       >
