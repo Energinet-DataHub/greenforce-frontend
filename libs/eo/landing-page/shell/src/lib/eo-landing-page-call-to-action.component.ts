@@ -48,15 +48,17 @@ import { EoLandingPageLoginButtonScam } from './eo-landing-page-login-button.com
 
       .call-out {
         display: flex; // Align text and icon vertically
+        align-items: center;
       }
     `,
   ],
   template: `
+    <!-- Used for centering content -->
     <div>
-      <div class="watt-space-stack-m">
-        <h1 class="call-out">
-          <div class="watt-space-inline-s">Log in with your company NemID</div>
+      <div class="call-out watt-space-stack-m">
+        <h1 class="watt-space-inline-s">Log in with your company NemID</h1>
 
+        <div>
           <a
             href="https://www.nemid.nu/dk-en/about_nemid/index.html"
             target="_blank"
@@ -65,7 +67,7 @@ import { EoLandingPageLoginButtonScam } from './eo-landing-page-login-button.com
           >
             <watt-icon name="primary_info" [size]="iconSize.Large"></watt-icon>
           </a>
-        </h1>
+        </div>
       </div>
 
       <eo-landing-page-login-button></eo-landing-page-login-button>
