@@ -16,22 +16,16 @@
  */
 @use '../tools/tools-spacing' as eo-spacing;
 
-.eo-space-inset-xxl {
-  padding: calc(2 * var(--watt-space-xl)) !important;
-}
-
-.eo-space-inset-squished-m {
-  padding: var(--watt-space-s) var(--watt-space-m) !important; // .watt-space-inset-squish-m does not have !important
-}
-
-.eo-space-inset-stretched-l {
-  padding: var(--watt-space-l) var(--watt-space-m) !important; // .watt-space-inset-squish-l is not declared yet
+// SQUISHED INSET
+.eo-spacing-squished-inset-m {
+  @include eo-spacing.squished-inset-m;
 }
 
 .eo-spacing-squished-inset-xxl {
   @include eo-spacing.squished-inset-xxl;
 }
 
+// STRETCHED INSET
 .eo-spacing-stretched-inset-l {
   @include eo-spacing.stretched-inset-l;
 }

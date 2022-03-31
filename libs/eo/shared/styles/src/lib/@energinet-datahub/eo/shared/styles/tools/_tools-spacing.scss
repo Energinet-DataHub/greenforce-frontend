@@ -14,32 +14,64 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@mixin inset-xxl($important: true) {
+// INSET
+// Watt insets don't support an XXL size
+@mixin inset-xxl($important: true, $padding: false) {
   $important-expression: '!important';
 
   @if $important == false {
     $important-expression: '';
   }
 
-  margin: var(--eo-space-xxl) #{$important-expression};
+  @if $padding == true {
+    padding: var(--eo-space-xxl) #{$important-expression};
+  } @else {
+    margin: var(--eo-space-xxl) #{$important-expression};
+  }
 }
 
-@mixin squished-inset-xxl($important: true) {
+// SQUISHED INSET
+// Watt insets don't support `!important`
+@mixin squished-inset-m($important: true, $padding: false) {
   $important-expression: '!important';
 
   @if $important == false {
     $important-expression: '';
   }
 
-  margin: var(--watt-space-xl) var(--eo-space-xxl) #{$important-expression};
+  @if $padding == true {
+    padding: var(--watt-space-s) var(--watt-space-m) #{$important-expression};
+  } @else {
+    margin: var(--watt-space-s) var(--watt-space-m) #{$important-expression};
+  }
 }
 
-@mixin stretched-inset-l($important: true) {
+// Watt insets don't support an XXL size
+@mixin squished-inset-xxl($important: true, $padding: false) {
   $important-expression: '!important';
 
   @if $important == false {
     $important-expression: '';
   }
 
-  margin: var(--watt-space-l) var(--watt-space-m) #{$important-expression};
+  @if $padding == true {
+    padding: var(--watt-space-xl) var(--eo-space-xxl) #{$important-expression};
+  } @else {
+    margin: var(--watt-space-xl) var(--eo-space-xxl) #{$important-expression};
+  }
+}
+
+// STRETCHED INSET
+@mixin stretched-inset-l($important: true, $padding: false) {
+  $important-expression: '!important';
+
+  @if $important == false {
+    $important-expression: '';
+  }
+
+  @if $padding == true {
+    padding: var(--watt-space-l) var(--watt-space-m) #{$important-expression};
+  } @else {
+    margin: var(--watt-space-l) var(--watt-space-m) #{$important-expression};
+  }
 }

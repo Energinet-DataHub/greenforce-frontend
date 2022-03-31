@@ -27,6 +27,7 @@ import { EoLandingPageStore } from './eo-landing-page.store';
   styles: [
     `
       @use '@energinet-datahub/watt/utils' as watt;
+      @use '@energinet-datahub/eo/shared/styles/spacing' as eo-spacing;
 
       :host {
         display: inline-block;
@@ -40,9 +41,10 @@ import { EoLandingPageStore } from './eo-landing-page.store';
         // 5. Fill container
 
         @include watt.typography-watt-button; // [1]
+        @include eo-spacing.squished-inset-m($padding: true);
 
         --height: 44px; // [2]
-        --inset-squished-m--y: var(--watt-space-s);
+        --squished-inset-m--y: var(--watt-space-s);
 
         background: var(--watt-color-primary); // [1]
         color: var(--watt-color-primary-contrast); // [1]
@@ -51,14 +53,14 @@ import { EoLandingPageStore } from './eo-landing-page.store';
         min-width: 6.25rem; // [2]
         height: var(--height); // [2]
         line-height: calc(
-          var(--height) - 2 * var(--inset-squished-m--y)
+          var(--height) - 2 * var(--squished-inset-m--y)
         ); // [2]
       }
     `,
   ],
   template: `
     <a
-      class="link-button eo-space-inset-squished-m"
+      class="link-button"
       mat-button
       mat-flat-button
       *rxLet="loginUrl$ as loginUrl"
