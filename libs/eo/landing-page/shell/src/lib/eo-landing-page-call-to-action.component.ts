@@ -39,7 +39,7 @@ import { EoLandingPageLoginButtonScam } from './eo-landing-page-login-button.com
       }
 
       eo-landing-page-login-button {
-        min-width: 120px; // Magic number by designer
+        min-width: 160px; // Magic number by designer
       }
 
       .icon-link {

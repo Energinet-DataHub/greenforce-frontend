@@ -27,7 +27,6 @@ import { EoLandingPageCompanyScam } from './eo-landing-page-company.component';
 import { EoLandingPageHeaderScam } from './eo-landing-page-header.component';
 import { EoLandingPageHeroScam } from './eo-landing-page-hero.component';
 import { EoLandingPageIntroductionScam } from './eo-landing-page-introduction.component';
-import { EoLandingPageLoginButtonScam } from './eo-landing-page-login-button.component';
 import { EoLandingPageNotificationScam } from './eo-landing-page-notification.component';
 import { EoLandingPageOriginOfEnergyScam } from './eo-landing-page-origin-of-energy.component';
 import { EoLandingPagePresenter } from './eo-landing-page.presenter';
@@ -109,7 +108,6 @@ export class EoLandingPageShellComponent {
     EoLandingPageHeaderScam,
     EoLandingPageHeroScam,
     EoLandingPageIntroductionScam,
-    EoLandingPageLoginButtonScam,
     EoLandingPageNotificationScam,
     EoLandingPageOriginOfEnergyScam,
   ],
