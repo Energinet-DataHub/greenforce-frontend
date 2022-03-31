@@ -161,7 +161,7 @@ describe(WattNavListModule.name, () => {
     });
   });
 
-  describe(`${WattNavListModule.name} - Verify links added with href attribute opens in expected windows`, () => {
+  describe('Verify links added with href attribute opens in expected windows', () => {
     const setup = async (target: string | null) => {
       // Arrange
       await render(

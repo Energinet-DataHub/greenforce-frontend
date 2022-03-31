@@ -1,1 +1,1 @@
-# FAQ page routing
+# FAQ routing
