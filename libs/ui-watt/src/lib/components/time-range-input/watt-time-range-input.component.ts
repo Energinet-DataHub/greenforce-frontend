@@ -23,6 +23,9 @@ import Inputmask from 'inputmask';
 
 export type WattTimeRange = { start: string; end: string };
 
+const timeSeparator = ':';
+const hoursMinutesFormat = `HH${timeSeparator}MM`;
+
 /**
  * Usage:
  * `import { WattTimeRangeInputModule } from '@energinet-datahub/watt';`
@@ -58,7 +61,7 @@ export class WattTimeRangeInputComponent implements AfterViewInit, OnDestroy {
   /**
    * @ignore
    */
-  inputFormat = 'HH:MM';
+  inputFormat = hoursMinutesFormat;
 
   /**
    * @ignore
