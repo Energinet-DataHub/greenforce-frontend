@@ -14,13 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+// 1. Fit image into containing box.
+// 2. Keep original ratio.
 img {
   display: inline-block;
 
-  max-width: 100%;
-  height: auto;
+  max-width: 100%; // [1]
+  height: auto; // [1][2]
 }
 
+// 1. Grow image beyond original size.
 .img--grow {
-  width: 100%;
+  width: 100%; // [1]
 }
