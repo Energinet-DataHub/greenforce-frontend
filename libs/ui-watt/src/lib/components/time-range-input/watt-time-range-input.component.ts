@@ -46,14 +46,14 @@ export class WattTimeRangeInputComponent implements AfterViewInit, OnDestroy {
   /**
    * @ignore
    */
-  @ViewChild('startDate')
-  startDateInput!: ElementRef;
+  @ViewChild('startTime')
+  startTimeInput!: ElementRef;
 
   /**
    * @ignore
    */
-  @ViewChild('endDate')
-  endDateInput!: ElementRef;
+  @ViewChild('endTime')
+  endTimeInput!: ElementRef;
 
   @Input() min?: string;
   @Input() max?: string;
@@ -82,8 +82,8 @@ export class WattTimeRangeInputComponent implements AfterViewInit, OnDestroy {
    * @ignore
    */
   ngAfterViewInit() {
-    const onInputStart$ = this.mask(this.startDateInput, 'start');
-    const onInputEnd$ = this.mask(this.endDateInput, 'end');
+    const onInputStart$ = this.mask(this.startTimeInput, 'start');
+    const onInputEnd$ = this.mask(this.endTimeInput, 'end');
 
     combineLatest([onInputStart$, onInputEnd$])
       .pipe(takeUntil(this.destroy$))
@@ -126,10 +126,10 @@ export class WattTimeRangeInputComponent implements AfterViewInit, OnDestroy {
           position === 'start' &&
           inputmask.isComplete()
         ) {
-          this.endDateInput.nativeElement.focus();
+          this.endTimeInput.nativeElement.focus();
 
-          if (this.endDateInput.nativeElement.value === '') {
-            this.endDateInput.nativeElement.value = event.key;
+          if (this.endTimeInput.nativeElement.value === '') {
+            this.endTimeInput.nativeElement.value = event.key;
           }
         }
       },
