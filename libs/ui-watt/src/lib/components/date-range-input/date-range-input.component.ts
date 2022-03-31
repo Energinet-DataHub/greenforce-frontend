@@ -233,12 +233,17 @@ export class WattDateRangeInputComponent
       .subscribe(() => {
         const val = element.nativeElement.value;
         let charCount = val.replace(/\D/g, '').length;
-        if(charCount >= 2) charCount++;
-        if(charCount >= 4) charCount++;
-        this.renderer.setStyle(element.nativeElement, '--watt-date-range-chars', charCount, 2);
+        if (charCount >= 2) charCount++;
+        if (charCount >= 4) charCount++;
+        this.renderer.setStyle(
+          element.nativeElement,
+          '--watt-date-range-chars',
+          charCount,
+          2
+        );
       });
 
-       /*
+    /*
         // If start date is complete jump to end date, and put typed value in end date (if empty)
         if (
           event.key !== 'Backspace' &&

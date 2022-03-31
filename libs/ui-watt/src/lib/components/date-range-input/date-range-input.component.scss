@@ -27,8 +27,15 @@ watt-date-range-input {
   }
 
   input.mat-date-range-input-inner {
-    --watt-date-range-filled-char-width: calc(8.3px * var(--watt-date-range-chars));
-    background-image: linear-gradient(90deg, var(--watt-color-neutral-black) var(--watt-date-range-filled-char-width), var(--watt-color-neutral-grey-600) var(--watt-date-range-filled-char-width));
+    --watt-date-range-filled-char-width: calc(
+      8.3px * var(--watt-date-range-chars)
+    );
+    background-image: linear-gradient(
+      90deg,
+      var(--watt-color-neutral-black) var(--watt-date-range-filled-char-width),
+      var(--watt-color-neutral-grey-600)
+        var(--watt-date-range-filled-char-width)
+    );
     -webkit-background-clip: text;
     -moz-background-clip: text;
     background-clip: text;
