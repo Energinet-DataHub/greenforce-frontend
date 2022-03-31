@@ -2,9 +2,7 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
-  Inject,
   Input,
-  LOCALE_ID,
   OnDestroy,
   Renderer2,
   ViewChild,
@@ -20,7 +18,6 @@ import {
   Subject,
   takeUntil,
 } from 'rxjs';
-import { FormatWidth, getLocaleTimeFormat } from '@angular/common';
 import { MatDateRangeInput } from '@angular/material/datepicker';
 import Inputmask from 'inputmask';
 
@@ -61,7 +58,7 @@ export class WattTimeRangeInputComponent implements AfterViewInit, OnDestroy {
   /**
    * @ignore
    */
-  inputFormat: string = this.getInputFormat();
+  inputFormat = 'HH:MM';
 
   /**
    * @ignore
@@ -73,10 +70,7 @@ export class WattTimeRangeInputComponent implements AfterViewInit, OnDestroy {
    */
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(
-    @Inject(LOCALE_ID) private locale: string,
-    private renderer: Renderer2
-  ) {}
+  constructor(private renderer: Renderer2) {}
 
   /**
    * @ignore
@@ -189,12 +183,5 @@ export class WattTimeRangeInputComponent implements AfterViewInit, OnDestroy {
     value: string
   ): void {
     maskingElement.innerText = value + this.placeholder.substring(value.length);
-  }
-
-  /**
-   * @ignore
-   */
-  private getInputFormat(): string {
-    return getLocaleTimeFormat(this.locale, FormatWidth.Short);
   }
 }
