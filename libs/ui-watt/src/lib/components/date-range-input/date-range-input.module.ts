@@ -14,8 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
-import { MatDateFnsModule, DateFnsAdapter, MAT_DATE_FNS_FORMATS } from '@angular/material-date-fns-adapter';
+import {
+  DateAdapter,
+  MAT_DATE_FORMATS,
+  MAT_DATE_LOCALE,
+} from '@angular/material/core';
+import {
+  MatDateFnsModule,
+  DateFnsAdapter,
+  MAT_DATE_FNS_FORMATS,
+} from '@angular/material-date-fns-adapter';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { NgModule } from '@angular/core';
 import * as daLocale from 'date-fns/locale/da/index.js';
@@ -27,13 +35,13 @@ import { WattFormFieldModule } from '../form-field/form-field.module';
   imports: [MatDatepickerModule, MatDateFnsModule, WattFormFieldModule],
   declarations: [WattDateRangeInputComponent],
   providers: [
-    {provide: MAT_DATE_LOCALE, useValue: daLocale},
+    { provide: MAT_DATE_LOCALE, useValue: daLocale },
     {
       provide: DateAdapter,
       useClass: DateFnsAdapter,
       deps: [MAT_DATE_LOCALE],
     },
-    {provide: MAT_DATE_FORMATS, useValue: MAT_DATE_FNS_FORMATS},
+    { provide: MAT_DATE_FORMATS, useValue: MAT_DATE_FNS_FORMATS },
   ],
   exports: [WattDateRangeInputComponent, WattFormFieldModule],
 })
