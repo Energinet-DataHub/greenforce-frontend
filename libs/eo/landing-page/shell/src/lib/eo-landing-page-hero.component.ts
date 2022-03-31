@@ -64,11 +64,11 @@ import { EoLandingPageLoginButtonScam } from './eo-landing-page-login-button.com
     <img src="/assets/images/landing-page/hero-illustration.svg" />
 
     <div class="call-to-action watt-space-inset-l">
-      <h2 class="eo-text-primary-contrast">Log in with your company NemID</h2>
+      <h2 class="watt-space-inline-xl eo-text-primary-contrast">
+        Log in with your company NemID
+      </h2>
 
-      <div class="eo-margin-left-xl">
-        <eo-landing-page-login-button></eo-landing-page-login-button>
-      </div>
+      <eo-landing-page-login-button></eo-landing-page-login-button>
     </div>
   `,
 })

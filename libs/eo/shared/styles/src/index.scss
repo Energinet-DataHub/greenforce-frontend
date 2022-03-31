@@ -16,6 +16,7 @@
  */
 
 // Global stylesheet for the Energy Origin application
+// Uses the ITCSS architecture
 
 // GENERIC
 @use './lib/@energinet-datahub/eo/shared/styles/generic/generic-normalize';
@@ -35,28 +36,3 @@
 @use './lib/@energinet-datahub/eo/shared/styles/utilities/utilities-text';
 @use './lib/@energinet-datahub/eo/shared/styles/utilities/utilities-spacing';
 @use './lib/@energinet-datahub/eo/shared/styles/utilities/utilities-layout';
-
-// One sided spacings & spacing reset helpers
-.eo-padding-left-none {
-  padding-left: 0;
-}
-
-.eo-padding-top-none {
-  padding-top: 0;
-}
-
-.eo-padding-top-xl {
-  padding-top: var(--watt-space-xl);
-}
-
-.eo-padding-bottom-xl {
-  padding-bottom: var(--watt-space-xl);
-}
-
-.eo-margin-left-m {
-  margin-left: var(--watt-space-m) !important;
-}
-
-.eo-margin-left-xl {
-  margin-left: var(--watt-space-xl) !important;
-}
