@@ -198,25 +198,10 @@ export class WattDateRangeInputComponent
     const inputmask = new Inputmask('datetime', {
       inputFormat: this.inputFormat,
       placeholder: this.placeholder,
+      insertMode: false,
+      insertModeVisual: true,
       onBeforePaste: this.onBeforePaste,
-      onincomplete: () => {
-        maskingElement.innerHTML = this.placeholder;
-      },
-      jitMasking: true,
       clearIncomplete: true,
-      onKeyDown: (event) => {
-        // If start date is complete jump to end date, and put typed value in end date (if empty)
-        if (
-          event.key !== 'Backspace' &&
-          position === 'start' &&
-          inputmask.isComplete()
-        ) {
-          this.endDateInput.nativeElement.focus();
-          if (this.endDateInput.nativeElement.value === '') {
-            this.endDateInput.nativeElement.value = event.key;
-          }
-        }
-      },
     }).mask(element.nativeElement);
 
     return this.registerOnInput(element.nativeElement, inputmask);
@@ -243,35 +228,30 @@ export class WattDateRangeInputComponent
    * @ignore
    */
   private appendMaskElement(element: ElementRef): HTMLElement {
-    const maskingElement = this.renderer.createElement('span');
-    this.renderer.addClass(maskingElement, 'watt-date-mask');
-    this.renderer.insertBefore(
-      element.nativeElement.parentElement,
-      maskingElement,
-      element.nativeElement
-    );
-    maskingElement.innerHTML = this.placeholder;
-
     fromEvent(element.nativeElement, 'input')
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => {
-        this.updateMaskElementValue(
-          maskingElement,
-          element.nativeElement.value
-        );
+        const val = element.nativeElement.value;
+        let charCount = val.replace(/\D/g, '').length;
+        if(charCount >= 2) charCount++;
+        if(charCount >= 4) charCount++;
+        this.renderer.setStyle(element.nativeElement, '--watt-date-range-chars', charCount, 2);
       });
 
-    return maskingElement;
-  }
+       /*
+        // If start date is complete jump to end date, and put typed value in end date (if empty)
+        if (
+          event.key !== 'Backspace' &&
+          position === 'start' &&
+          inputmask.isComplete()
+        ) {
+          this.endDateInput.nativeElement.focus();
+          if (this.endDateInput.nativeElement.value === '') {
+            this.endDateInput.nativeElement.value = event.key;
+          }
+        }*/
 
-  /**
-   * @ignore
-   */
-  private updateMaskElementValue(
-    maskingElement: HTMLElement,
-    value: string
-  ): void {
-    maskingElement.innerText = value + this.placeholder.substring(value.length);
+    return element.nativeElement;
   }
 
   /**
