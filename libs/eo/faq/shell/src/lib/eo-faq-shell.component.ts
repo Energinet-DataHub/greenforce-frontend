@@ -92,10 +92,11 @@ import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
     <h3 #where_can_i_read_more>Where can I read more?</h3>
     <p>
       You can read more about the history and intention of Energy Origin on our
-      website:</p>
-      <a href="https://energinet.dk" target="_blank"
-        >Origins of energy | Energinet</a
-      >
+      website:
+    </p>
+    <a href="https://energinet.dk" target="_blank"
+      >Origins of energy | Energinet</a
+    >
   `,
 })
 export class EoFaqShellComponent {
