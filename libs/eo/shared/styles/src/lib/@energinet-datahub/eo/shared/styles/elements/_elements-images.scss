@@ -14,29 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
+// 1. Fit image into containing box.
+// 2. Keep original ratio.
+img {
+  display: inline-block;
 
-@Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'ett-app',
-  styles: [
-    `
-      :host {
-        display: block;
+  max-width: 100%; // [1]
+  height: auto; // [1][2]
+}
 
-        min-height: 100%;
-
-        background: var(--watt-color-neutral-grey-100);
-      }
-    `,
-  ],
-  template: `<router-outlet></router-outlet>`,
-})
-export class EnergyTrackAndTraceAppComponent {}
-
-@NgModule({
-  declarations: [EnergyTrackAndTraceAppComponent],
-  imports: [RouterModule],
-})
-export class EnergyTrackAndTraceAppScam {}
+// 1. Grow image beyond original size.
+.img--grow {
+  width: 100%; // [1]
+}
