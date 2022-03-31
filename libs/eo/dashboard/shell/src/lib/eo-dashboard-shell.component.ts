@@ -26,10 +26,6 @@ import { WattIconModule, WattIconSize } from '@energinet-datahub/watt';
       :host {
         display: block;
       }
-
-      p {
-        margin: 0; // Remove this rule when CSS reset (#402) is merged
-      }
     `,
   ],
   template: `
