@@ -41,7 +41,7 @@ export default {
 export const overview: Story<WattDateRangeInputComponent> = (args) => ({
   props: {
     ...args,
-    dateRangeModel: {}
+    dateRangeModel: {},
   },
   template: `
    <watt-form-field>
