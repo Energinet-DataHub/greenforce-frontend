@@ -154,10 +154,10 @@ describe(WattDropdownModule.name, () => {
         );
 
         // Note(xdzus): The first option is skipped because it holds the filter input
-        const [, firstOptionDe] = matOptions;
+        const [, secondOptionDe] = matOptions;
 
-        if (firstOptionDe) {
-          firstOptionDe.nativeElement.click();
+        if (secondOptionDe) {
+          secondOptionDe.nativeElement.click();
         }
 
         await matSelect.close();
@@ -314,10 +314,10 @@ describe(WattDropdownModule.name, () => {
         );
 
         // Note(xdzus): The first option is skipped because it holds the filter input
-        const [, firstOptionDe] = matOptions;
+        const [, secondOptionDe] = matOptions;
 
-        if (firstOptionDe) {
-          firstOptionDe.nativeElement.click();
+        if (secondOptionDe) {
+          secondOptionDe.nativeElement.click();
         }
 
         await matSelect.close();
