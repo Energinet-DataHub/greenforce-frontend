@@ -30,7 +30,6 @@ export default {
       imports: [
         FormsModule,
         WattDateRangeInputModule,
-        MatNativeDateModule,
         BrowserAnimationsModule,
         DhConfigurationLocalizationRootModule,
       ],
