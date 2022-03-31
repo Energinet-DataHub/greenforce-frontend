@@ -14,29 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
+@mixin centered-content($important: true) {
+  $important-expression: '!important';
 
-@Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'ett-app',
-  styles: [
-    `
-      :host {
-        display: block;
+  @if $important == false {
+    $important-expression: '';
+  }
 
-        min-height: 100%;
-
-        background: var(--watt-color-neutral-grey-100);
-      }
-    `,
-  ],
-  template: `<router-outlet></router-outlet>`,
-})
-export class EnergyTrackAndTraceAppComponent {}
-
-@NgModule({
-  declarations: [EnergyTrackAndTraceAppComponent],
-  imports: [RouterModule],
-})
-export class EnergyTrackAndTraceAppScam {}
+  display: flex #{$important-expression};
+  align-items: center #{$important-expression};
+  align-content: center #{$important-expression};
+  justify-content: center #{$important-expression};
+  justify-items: center #{$important-expression};
+}

@@ -55,6 +55,7 @@
     "eo-shared-atomic-design-ui-atoms": "libs/eo/shared/atomic-design/ui-atoms",
     "eo-shared-atomic-design-ui-organisms": "libs/eo/shared/atomic-design/ui-organisms",
     "eo-shared-environments": "libs/eo/shared/environments",
+    "eo-shared-styles": "libs/eo/shared/styles",
     "ett-auth-data-access-api": "libs/ett/auth/data-access-api",
     "ett-auth-data-access-security": "libs/ett/auth/data-access-security",
     "ett-auth-routing-security": "libs/ett/auth/routing-security",
