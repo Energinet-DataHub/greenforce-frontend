@@ -61,7 +61,7 @@ import { EoLandingPageLoginButtonScam } from './eo-landing-page-login-button.com
       </h1>
     </div>
 
-    <img src="/assets/images/landing-page/landing-page-hero-illustration.svg" />
+    <img src="/assets/images/landing-page/hero-illustration.svg" />
 
     <div class="call-to-action watt-space-inset-l">
       <h2 class="eo-text-primary-contrast">Log in with your company NemID</h2>
