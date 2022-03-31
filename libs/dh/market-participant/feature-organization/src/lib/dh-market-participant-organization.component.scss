@@ -14,21 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgModule } from '@angular/core';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { EttCoreShellModule } from '@energinet-datahub/ett/core/shell';
+table {
+  width: 100%;
+}
 
-import {
-  EnergyTrackAndTraceAppComponent,
-  EnergyTrackAndTraceAppScam,
-} from './energy-track-and-trace-app.component';
+.edit_cell {
+  display: flex;
+  justify-content: right;
+}
 
-@NgModule({
-  bootstrap: [EnergyTrackAndTraceAppComponent],
-  imports: [
-    BrowserAnimationsModule,
-    EttCoreShellModule,
-    EnergyTrackAndTraceAppScam,
-  ],
-})
-export class EnergyTrackAndTraceAppModule {}
+.spinner_container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

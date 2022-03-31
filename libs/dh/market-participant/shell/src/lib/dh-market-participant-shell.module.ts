@@ -15,20 +15,17 @@
  * limitations under the License.
  */
 import { NgModule } from '@angular/core';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { EttCoreShellModule } from '@energinet-datahub/ett/core/shell';
-
+import { RouterModule, Routes } from '@angular/router';
 import {
-  EnergyTrackAndTraceAppComponent,
-  EnergyTrackAndTraceAppScam,
-} from './energy-track-and-trace-app.component';
+  DhMarketParticipantOrganizationComponent,
+  DhMarketParticipantOrganizationScam,
+} from '@energinet-datahub/dh/market-participant/feature-organization';
+
+const routes: Routes = [
+  { path: '', component: DhMarketParticipantOrganizationComponent },
+];
 
 @NgModule({
-  bootstrap: [EnergyTrackAndTraceAppComponent],
-  imports: [
-    BrowserAnimationsModule,
-    EttCoreShellModule,
-    EnergyTrackAndTraceAppScam,
-  ],
+  imports: [DhMarketParticipantOrganizationScam, RouterModule.forChild(routes)],
 })
-export class EnergyTrackAndTraceAppModule {}
+export class DhMarketParticipantShellModule {}
