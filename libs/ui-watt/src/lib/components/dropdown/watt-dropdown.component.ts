@@ -44,6 +44,8 @@ import {
 import { WattDropdownOptions } from './watt-dropdown-option';
 import { WattDropdownValue } from './watt-dropdown-value';
 
+const MAX_DISTANCE_FROM_SCREEN_LEFT_EDGE = 60;
+
 @Component({
   selector: 'watt-dropdown',
   templateUrl: './watt-dropdown.component.html',
@@ -172,6 +174,32 @@ export class WattDropdownComponent
     } else {
       this.matSelectControl.enable();
     }
+  }
+
+  /**
+   * If the dropdown is in "multiple" mode and close to the screen's left edge,
+   * Angular Material positions the dropdown panel slightly to the right
+   * causing alignment issues to our custom positionning.
+   *
+   * This function tries to figure out whether the dropdown is positioned bellow
+   * a specific threshold from the screen's left edge
+   *
+   * @ignore
+   */
+  get isCloseToScreenLeftEdge(): boolean {
+    if (this.multiple) {
+      const triggerPosition: DOMRect | undefined =
+        this.matSelect?.trigger?.nativeElement?.getBoundingClientRect();
+
+      if (
+        triggerPosition &&
+        triggerPosition.left <= MAX_DISTANCE_FROM_SCREEN_LEFT_EDGE
+      ) {
+        return true;
+      }
+    }
+
+    return false;
   }
 
   /**

@@ -42,6 +42,10 @@ watt-dropdown {
 
   &.watt-dropdown-panel-multiple-selection {
     margin-left: 39px;
+
+    &.watt-dropdown-panel-close-to-screen-left-edge {
+      margin-left: 8px;
+    }
   }
 
   .mat-pseudo-checkbox {
