@@ -30,7 +30,7 @@ import { EoMediaScam } from './eo-media.component';
  * >
  *   <!-- Any content can be added as siblings to the element with an -->
  *   <!-- `eoMediaImage` directive -->
- *   <h1>Example title</h2>
+ *   <h1>Example title</h1>
  *
  *   <p>
  *     Example copy

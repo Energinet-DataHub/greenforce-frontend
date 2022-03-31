@@ -49,10 +49,15 @@ import { EoMediaPresenter } from './eo-media.presenter';
     `,
   ],
   template: `
-    <div class="media" [style.gap]="presenter.gap$ | push">
+    <div
+      class="media"
+      [style.gap]="presenter.gap$ | push"
+      data-testid="media-box"
+    >
       <div
         class="media___body"
         [style.flex-basis]="presenter.mediaBodyFlexBasis$ | push"
+        data-testid="media-body-box"
       >
         <ng-content></ng-content>
       </div>
@@ -61,6 +66,7 @@ import { EoMediaPresenter } from './eo-media.presenter';
         class="media__image"
         [style.flex-basis]="presenter.mediaImageFlexBasis$ | push"
         [style.order]="presenter.mediaImageOrder$ | push"
+        data-testid="media-image-box"
       >
         <ng-content select="[eoMediaImage]"></ng-content>
       </div>
@@ -92,6 +98,11 @@ export class EoMediaComponent {
   }
   get maxWidthPixels(): number | null {
     return this.#maxWidthPixels;
+  }
+
+  @HostBinding('attr.data-testid')
+  get testIdAttribute(): string {
+    return 'media';
   }
 
   constructor(public presenter: EoMediaPresenter) {}

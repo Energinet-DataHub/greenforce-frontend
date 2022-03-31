@@ -88,7 +88,10 @@ export class EoMediaPresenter extends ComponentStore<EoMediaState> {
   mediaImageOrder$: Observable<number> = this.select(
     this.select((state) => state.mediaImageAlign),
     (align) =>
-      align === 'start' ? Number.MIN_SAFE_INTEGER : Number.MAX_SAFE_INTEGER
+      align === 'start' ? Number.MIN_SAFE_INTEGER : Number.MAX_SAFE_INTEGER,
+    {
+      debounce: true,
+    }
   );
 
   constructor() {
@@ -118,12 +121,12 @@ export class EoMediaPresenter extends ComponentStore<EoMediaState> {
   /**
    * Set the alignment of the media image in the media box.
    *
-   * Defaults to `start`.
+   * Defaults to 'start'.
    */
-  updateMediaImageAlign = this.updater<EoMediaAlign>(
+  updateMediaImageAlign = this.updater<EoMediaAlign | null>(
     (state, mediaImageAlign): EoMediaState => ({
       ...state,
-      mediaImageAlign,
+      mediaImageAlign: mediaImageAlign ?? defaultMediaImageAlign,
     })
   );
 
@@ -138,9 +141,10 @@ export class EoMediaPresenter extends ComponentStore<EoMediaState> {
   );
 }
 
+const defaultMediaImageAlign: EoMediaAlign = 'start';
 const initialState: EoMediaState = {
   gapPixels: null,
   mediaMaxWidthPixels: null,
-  mediaImageAlign: 'start',
+  mediaImageAlign: defaultMediaImageAlign,
   mediaImageMaxWidthPixels: null,
 };

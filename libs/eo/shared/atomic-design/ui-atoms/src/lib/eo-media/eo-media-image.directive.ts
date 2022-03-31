@@ -31,8 +31,6 @@ export class EoMediaImageDirective {
    */
   @Input('eoMediaImageAlign')
   set align(value: EoMediaAlign | null) {
-    value ??= 'start';
-
     this.presenter.updateMediaImageAlign(value);
   }
   /**
