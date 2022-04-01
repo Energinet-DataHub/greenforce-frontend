@@ -21,7 +21,7 @@ import {
   eoApiEnvironmentToken,
 } from '@energinet-datahub/eo/shared/environments';
 
-import { EnergyTrackAndTraceAppModule } from './app/energy-track-and-trace-app.module';
+import { EnergyOriginAppModule } from './app/energy-origin-app.module';
 import { loadEoApiEnvironment } from './configuration/load-eo-api-environment';
 
 if (environment.production) {
@@ -32,7 +32,7 @@ loadEoApiEnvironment()
   .then((eoApiEnvironment) =>
     platformBrowserDynamic([
       { provide: eoApiEnvironmentToken, useValue: eoApiEnvironment },
-    ]).bootstrapModule(EnergyTrackAndTraceAppModule, {
+    ]).bootstrapModule(EnergyOriginAppModule, {
       ngZoneEventCoalescing: true,
       ngZoneRunCoalescing: true,
     })

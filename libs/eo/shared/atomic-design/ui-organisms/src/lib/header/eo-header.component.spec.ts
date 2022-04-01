@@ -15,13 +15,14 @@
  * limitations under the License.
  */
 import { render, screen } from '@testing-library/angular';
-import { EoHeaderScam, EoHeaderComponent } from './eo-header.component';
+
+import { EoHeaderComponent, EoHeaderScam } from './eo-header.component';
 
 describe(EoHeaderComponent.name, () => {
   const findEnergyOriginLogo = () =>
     screen.findByRole('img', { name: 'EnergyOrigin' });
 
-  it('displays the EnergyOrigin logo', async () => {
+  it('displays the Energy Origin logo', async () => {
     await render(EoHeaderComponent, {
       imports: [EoHeaderScam],
     });
