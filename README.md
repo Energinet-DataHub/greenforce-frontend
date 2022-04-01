@@ -161,10 +161,7 @@ The frontend apps are built with Angular in an Nx Workspace. They are located un
 
 - `dh/app-dh` - "DataHub" app
 - `dh/e2e-dh` - End-to-end tests for `app-dh`
-  <<<<<<< HEAD
-- # `eo/app-eo` - "Energy Origin" app.
-- `eo/app-eo` - "EnergyOrigin" app.
-  > > > > > > > 0696af6c (docs(eo): update `eo` paths in readme)
+- `eo/app-eo` - "Energy Origin" app.
 - `eo/e2e-eo` - End-to-end tests for `app-eo`
 
 Besides the `apps` folder, there's also a `libs` folder that contains features used by the apps. This is where most of the code lives.
@@ -190,10 +187,7 @@ the BFF. This is required for both local development and tests.
 Located under `.github/workflows`. There are:
 
 - `api-dh-ci.yml` - Used by the BFF for `app-dh`.
-  <<<<<<< HEAD
-- # `eo-cd.yml` - Used by "Energy Origin" app
-- `eo-cd.yml` - Used by "EnergyOrigin" app
-  > > > > > > > 0696af6c (docs(eo): update `eo` paths in readme)
+- `eo-cd.yml` - Used by "Energy Origin" app
 - `license-check-ci.yml` - Used for adding license to files
 - `frontend-ci.yml` - Used to build, test, format and lint all frontend apps
 
