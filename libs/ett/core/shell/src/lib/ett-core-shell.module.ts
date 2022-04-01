@@ -20,7 +20,7 @@ import { eoDashboardRoutePath } from '@energinet-datahub/eo/dashboard/routing';
 import { eoMeteringPointsRoutePath } from '@energinet-datahub/eo/metering-points/routing';
 import { eoPrivacyPolicyRoutePath } from '@energinet-datahub/eo/privacy-policy/routing';
 import { EttAuthenticationGuard } from '@energinet-datahub/ett/auth/routing-security';
-import { EoTitleStore } from '@energinet-datahub/ett/shared/util-browser';
+import { EoTitleStore } from '@energinet-datahub/eo/shared/util-browser';
 import { GfBrowserConfigurationModule } from '@energinet-datahub/gf/util-browser';
 
 import { EttHttpModule } from './ett-http.module';
