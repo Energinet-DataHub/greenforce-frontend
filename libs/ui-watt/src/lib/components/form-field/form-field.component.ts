@@ -58,14 +58,14 @@ export class FormFieldComponent implements AfterViewInit {
   wattDropdown?: WattDropdownComponent;
 
   @ContentChild(WattTimeRangeInputComponent)
-  timeRangeControl?: WattTimeRangeInputComponent;
+  timeRange?: WattTimeRangeInputComponent;
 
   ngAfterViewInit() {
     if (this.beforeViewInit) {
       const control =
         this.inputControl ||
         this.wattDropdown?.matSelect ||
-        this.timeRangeControl?.matDateRangeInput;
+        this.timeRange?.matDateRangeInput;
 
       this.matFormField._control = control;
       this.matFormField.ngAfterContentInit();
