@@ -14,14 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgModule } from '@angular/core';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { EoCoreShellModule } from '@energinet-datahub/eo/core/shell';
+import 'jest-preset-angular/setup-jest';
 
-import { EnergyOriginAppComponent, EnergyOriginAppScam } from './energy-origin-app.component';
+import { setUpTestbed } from '@energinet-datahub/gf/test-util-staging';
 
-@NgModule({
-  bootstrap: [EnergyOriginAppComponent],
-  imports: [BrowserAnimationsModule, EoCoreShellModule, EnergyOriginAppScam],
-})
-export class EnergyOriginAppModule {}
+setUpTestbed();

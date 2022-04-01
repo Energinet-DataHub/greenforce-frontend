@@ -17,6 +17,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { eoDashboardRoutePath } from '@energinet-datahub/eo/dashboard/routing';
+import { eoFaqRoutePath } from '@energinet-datahub/eo/faq/routing';
 import { eoMeteringPointsRoutePath } from '@energinet-datahub/eo/metering-points/routing';
 import { eoPrivacyPolicyRoutePath } from '@energinet-datahub/eo/privacy-policy/routing';
 import { EoTitleStore } from '@energinet-datahub/eo/shared/util-browser';
@@ -72,6 +73,16 @@ const routes: Routes = [
         loadChildren: () =>
           import('@energinet-datahub/eo/metering-points/shell').then(
             (esModule) => esModule.EoMeteringPointsShellModule
+          ),
+      },
+      {
+        path: eoFaqRoutePath,
+        data: {
+          title: 'FAQ',
+        },
+        loadChildren: () =>
+          import('@energinet-datahub/eo/faq/shell').then(
+            (esModule) => esModule.EoFaqShellModule
           ),
       },
       {

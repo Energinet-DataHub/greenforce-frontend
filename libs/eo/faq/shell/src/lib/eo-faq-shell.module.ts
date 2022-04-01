@@ -14,14 +14,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgModule } from '@angular/core';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { EoCoreShellModule } from '@energinet-datahub/eo/core/shell';
+import { EoFaqShellComponent, EoFaqShellScam } from './eo-faq-shell.component';
+import { RouterModule, Routes } from '@angular/router';
 
-import { EnergyOriginAppComponent, EnergyOriginAppScam } from './energy-origin-app.component';
+import { NgModule } from '@angular/core';
+
+const routes: Routes = [
+  {
+    path: '',
+    component: EoFaqShellComponent,
+  },
+];
 
 @NgModule({
-  bootstrap: [EnergyOriginAppComponent],
-  imports: [BrowserAnimationsModule, EoCoreShellModule, EnergyOriginAppScam],
+  imports: [RouterModule.forChild(routes), EoFaqShellScam],
 })
-export class EnergyOriginAppModule {}
+export class EoFaqShellModule {}
