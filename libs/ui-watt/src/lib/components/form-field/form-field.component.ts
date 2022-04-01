@@ -48,21 +48,24 @@ export class FormFieldComponent implements AfterViewInit {
 
   beforeViewInit = true; // Used to remove placeholder control
 
+  @ViewChild(MatFormField)
+  matFormField!: MatFormField;
+
   @ContentChild(WattInputDirective)
   inputControl!: MatFormFieldControl<unknown>;
 
   @ContentChild(WattDropdownComponent)
   wattDropdown?: WattDropdownComponent;
 
-  @ViewChild(MatFormField)
-  matFormField!: MatFormField;
-
   @ContentChild(WattTimeRangeInputComponent)
   timeRangeControl?: WattTimeRangeInputComponent;
 
   ngAfterViewInit() {
     if (this.beforeViewInit) {
-      const control = this.inputControl || this.wattDropdown?.matSelect || this.timeRangeControl?.matDateRangeInput;
+      const control =
+        this.inputControl ||
+        this.wattDropdown?.matSelect ||
+        this.timeRangeControl?.matDateRangeInput;
 
       this.matFormField._control = control;
       this.matFormField.ngAfterContentInit();
