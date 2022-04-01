@@ -187,11 +187,11 @@ export class WattDropdownComponent
    * causing alignment issues to our custom positionning.
    *
    * This function tries to figure out whether the dropdown is positioned bellow
-   * a specific threshold from the screen's left edge
+   * a specific threshold from the screen's left edge.
    *
    * @ignore
    */
-  onOpenedChange(): void {
+  onMouseDown(): void {
     if (this.multiple) {
       const triggerPosition: DOMRect | undefined =
         this.matSelect?.trigger?.nativeElement?.getBoundingClientRect();
