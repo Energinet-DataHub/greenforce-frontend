@@ -42,7 +42,7 @@
     "ng": "nx",
     "ngcc": "ngcc --properties es2015 module browser main",
     "ngcc:dh": "npm run ngcc -- --use-program-dependencies --tsconfig apps/dh/app-dh/tsconfig.app.json",
-    "ngcc:ett": "npm run ngcc -- --use-program-dependencies --tsconfig apps/ett/app-ett/tsconfig.app.json",
+    "ngcc:eo": "npm run ngcc -- --use-program-dependencies --tsconfig apps/eo/app-eo/tsconfig.app.json",
     "nx": "nx",
     "start": "ng serve",
     "test": "nx run-many --target=test --all --parallel",
@@ -73,6 +73,7 @@
     "date-fns": "^2.27.0",
     "date-fns-tz": "^1.2.2",
     "include-media": "^1.4.10",
+    "ngx-mat-select-search": "^4.0.2",
     "rxjs": "~7.4.0",
     "tslib": "^2.0.0",
     "zone.js": "0.11.4"
