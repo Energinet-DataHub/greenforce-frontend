@@ -10,12 +10,15 @@
  * Do not edit the class manually.
  */
 import { ActorDto } from './actor-dto';
+import { AddressDto } from './address-dto';
 
 
 export interface OrganizationDto { 
     organizationId: string;
     name: string;
     actors: Array<ActorDto>;
+    businessRegisterIdentifier: string;
+    address: AddressDto;
 }
 
 
