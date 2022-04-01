@@ -9,12 +9,14 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { MarketRoleDto } from './market-role-dto';
 
 
-export interface ChangeActorDto { 
-    status: string;
-    marketRoles: Array<MarketRoleDto>;
+export interface AddressDto { 
+    streetName: string;
+    number: string;
+    zipCode: string;
+    city: string;
+    country: string;
 }
 
 

@@ -39,10 +39,10 @@ on:
 
 jobs:
   dotnet_solution_ci:
-    uses: Energinet-DataHub/.github/.github/workflows/dotnet-solution-ci.yml@4.0.0
+    uses: Energinet-DataHub/.github/.github/workflows/dotnet-solution-ci.yml@6.1.0
     with:
       SOLUTION_FILE_PATH: 'apps/dh/api-dh/DataHub.WebApi.sln'
-      DOTNET_VERSION: '5.0'
+      DOTNET_VERSION: '6.0.201'
     secrets:
       AZURE_TENANT_ID: ${{ secrets.AZURE_TESTING_TENANT_ID }}
       AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_TESTING_SUBSCRIPTION_ID }}
@@ -57,10 +57,10 @@ jobs:
       TERRAFORM_VERSION: '1.1.2'
 
   sonarcloud_analysis:
-    uses: Energinet-DataHub/.github/.github/workflows/sonarcloud-dotnet.yml@4.0.0
+    uses: Energinet-DataHub/.github/.github/workflows/sonarcloud-dotnet.yml@6.1.0
     with:
       SOLUTION_FILE_PATH: 'apps/dh/api-dh/DataHub.WebApi.sln'
-      DOTNET_VERSION: '5.0'
+      DOTNET_VERSION: '6.0.201'
       SONAR_CLOUD_ORGANIZATION: 'energinet-datahub'
       SONAR_CLOUD_PROJECT: 'geh-frontend-api'
     secrets:
@@ -68,10 +68,10 @@ jobs:
 
   bff_ci:
     needs: [dotnet_solution_ci, terraform_validate, sonarcloud_analysis]
-    uses: Energinet-DataHub/.github/.github/workflows/dotnet-create-webapi-artifact.yml@4.0.0
+    uses: Energinet-DataHub/.github/.github/workflows/dotnet-create-webapi-artifact.yml@6.1.0
     with:
       CSPROJ_FILE_PATH: 'apps/dh/api-dh/source/DataHub.WebApi/DataHub.WebApi.csproj'
-      DOTNET_VERSION: '5.0.202'
+      DOTNET_VERSION: '6.0.201'
       ARTIFACT_NAME: bff
 
   generate_client:

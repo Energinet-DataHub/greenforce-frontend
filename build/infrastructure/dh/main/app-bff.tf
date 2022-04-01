@@ -18,8 +18,8 @@ resource "azurerm_app_service" "bff" {
   app_service_plan_id = module.plan_bff.id
 
   site_config {
-    linux_fx_version = "DOTNETCORE|5.0"
-    dotnet_framework_version = "v5.0"
+    linux_fx_version = "DOTNETCORE|6.0"
+    dotnet_framework_version = "v6.0"
     cors {
       allowed_origins = ["*"]
     }
