@@ -1,0 +1,87 @@
+/**
+ * @license
+ * Copyright 2020 Energinet DataHub A/S
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License2");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/**
+ * Copyright 2020 Harry Roberts
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/**
+ * A very simple reset that sits on top of Normalize.css.
+ */
+
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+blockquote,
+p,
+pre,
+dl,
+dd,
+ol,
+ul,
+figure,
+hr,
+fieldset,
+legend {
+  margin: 0;
+  padding: 0;
+}
+
+/**
+  * Remove trailing margins from nested lists.
+  */
+
+li > {
+  ol,
+  ul {
+    margin-bottom: 0;
+  }
+}
+
+/**
+  * Remove default table spacing.
+  */
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/**
+  * 1. Reset Chrome and Firefox behaviour which sets a `min-width: min-content;`
+  *    on fieldsets.
+  */
+
+fieldset {
+  min-width: 0; /* [1] */
+  border: 0;
+}
