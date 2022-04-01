@@ -1,7 +1,7 @@
 name: Energy Origin CD
 
 env:
-  app-name: app-ett
+  app-name: app-eo
   BASE_BRANCH: ${{ github.event.pull_request.base.ref }}
   is-main-branch: ${{ github.ref == 'refs/heads/main' }}
   is-pull-request: ${{ github.event_name  == 'pull_request' }}
@@ -105,7 +105,7 @@ jobs:
         run: yarn install --frozen-lockfile --non-interactive
 
       - name: Angular Compatibility Compiler
-        run: npm run ngcc:ett
+        run: npm run ngcc:eo
 
       - name: Production build
         run: yarn nx build ${{ env.app-name }} --max-parallel=$NX_MAX_PARALLEL
@@ -114,7 +114,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: ${{ env.app-name }}
-          path: ./dist/apps/ett/${{ env.app-name }}/
+          path: ./dist/apps/eo/${{ env.app-name }}/
           if-no-files-found: error
 
   define_build:

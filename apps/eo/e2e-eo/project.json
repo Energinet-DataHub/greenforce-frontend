@@ -8,13 +8,13 @@
       "options": {
         "cypressConfig": "apps/eo/e2e-eo/cypress.json",
         "tsConfig": "apps/eo/e2e-eo/tsconfig.e2e.json",
-        "devServerTarget": "app-ett:serve:e2e-development",
+        "devServerTarget": "app-eo:serve:e2e-development",
         "headed": true
       },
       "configurations": {
         "ci": {
           "cypressConfig": "apps/eo/e2e-eo/cypress.ci.json",
-          "devServerTarget": "app-ett:serve:production",
+          "devServerTarget": "app-eo:serve:production",
           "headed": false
         },
         "ci-development": {
@@ -22,13 +22,13 @@
           "headed": false
         },
         "production": {
-          "devServerTarget": "app-ett:serve:production"
+          "devServerTarget": "app-eo:serve:production"
         },
         "watch": {
           "watch": true
         },
         "watch-production": {
-          "devServerTarget": "app-ett:serve:production",
+          "devServerTarget": "app-eo:serve:production",
           "watch": true
         }
       }
@@ -42,5 +42,5 @@
     }
   },
   "tags": ["product:eo", "type:e2e"],
-  "implicitDependencies": ["app-ett"]
+  "implicitDependencies": ["app-eo"]
 }

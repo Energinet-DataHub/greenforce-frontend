@@ -3,7 +3,7 @@
   "projects": {
     "api-dh": "apps/dh/api-dh",
     "app-dh": "apps/dh/app-dh",
-    "app-ett": "apps/ett/app-ett",
+    "app-eo": "apps/eo/app-eo",
     "dh-auth-feature-msal": "libs/dh/auth/feature-msal",
     "dh-charges-data-access-api": "libs/dh/charges/data-access-api",
     "dh-core-shell": "libs/dh/core/shell",
