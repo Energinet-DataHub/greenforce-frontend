@@ -20,7 +20,7 @@ import { EoHeaderComponent, EoHeaderScam } from './eo-header.component';
 
 describe(EoHeaderComponent.name, () => {
   const findEnergyOriginLogo = () =>
-    screen.findByRole('img', { name: 'EnergyOrigin' });
+    screen.findByRole('img', { name: 'Energy Origin' });
 
   it('displays the Energy Origin logo', async () => {
     await render(EoHeaderComponent, {
