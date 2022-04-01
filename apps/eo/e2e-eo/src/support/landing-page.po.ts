@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 export const findProductLogo = () =>
-  cy.findByRole('img', { name: 'EnergyOrigin' });
+  cy.findByRole('img', { name: 'Energy Origin' });
 export const findStartLink = () =>
   cy.findAllByRole('link', { name: /Start/i }).first();
 export const navigateTo = () => cy.visit(path);
