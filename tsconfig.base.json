@@ -129,6 +129,8 @@
       "@energinet-datahub/eo/dashboard/shell": [
         "libs/eo/dashboard/shell/src/index.ts"
       ],
+      "@energinet-datahub/eo/faq/routing": ["libs/eo/faq/routing/src/index.ts"],
+      "@energinet-datahub/eo/faq/shell": ["libs/eo/faq/shell/src/index.ts"],
       "@energinet-datahub/eo/landing-page/routing": [
         "libs/eo/landing-page/routing/src/index.ts"
       ],
