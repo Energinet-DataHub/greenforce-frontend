@@ -19,7 +19,9 @@ import { RouterModule } from '@angular/router';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'eo-app',
+  // Intentionally use full product name prefix for the root component
+  // eslint-disable-next-line @angular-eslint/component-selector
+  selector: 'energy-origin-app',
   styles: [
     `
       :host {
