@@ -23,8 +23,8 @@ import {
   UrlTree,
 } from '@angular/router';
 import { eoLandingPageRelativeUrl } from '@energinet-datahub/eo/landing-page/routing';
-import { AuthOidcQueryParameterName } from '@energinet-datahub/ett/auth/data-access-api';
 import { AbsoluteUrlGenerator } from '@energinet-datahub/eo/shared/util-browser';
+import { AuthOidcQueryParameterName } from '@energinet-datahub/ett/auth/data-access-api';
 
 /**
  * Redirects to login page if authentication fails.
@@ -32,7 +32,7 @@ import { AbsoluteUrlGenerator } from '@energinet-datahub/eo/shared/util-browser'
 @Injectable({
   providedIn: 'root',
 })
-export class EttAuthenticationGuard implements CanActivateChild {
+export class EoAuthenticationGuard implements CanActivateChild {
   #loginUrl(routerState: RouterStateSnapshot): UrlTree {
     const loginUrl = this.router.createUrlTree([eoLandingPageRelativeUrl]);
     const absoluteReturnUrl = new URL(

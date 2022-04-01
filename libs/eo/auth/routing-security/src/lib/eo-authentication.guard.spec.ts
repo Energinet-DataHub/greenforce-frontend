@@ -18,14 +18,14 @@ import { Location } from '@angular/common';
 import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
+import { eoLandingPageRelativeUrl } from '@energinet-datahub/eo/landing-page/routing';
 import { AuthOidcQueryParameterName } from '@energinet-datahub/ett/auth/data-access-api';
 import { SpectacularAppComponent } from '@ngworker/spectacular';
 import { render, RenderResult } from '@testing-library/angular';
 
-import { eoLandingPageRelativeUrl } from '@energinet-datahub/eo/landing-page/routing';
-import { EttAuthenticationGuard } from './ett-authentication.guard';
+import { EoAuthenticationGuard } from './eo-authentication.guard';
 
-describe(EttAuthenticationGuard.name, () => {
+describe(EoAuthenticationGuard.name, () => {
   @Component({
     template: '',
   })
@@ -46,7 +46,7 @@ describe(EttAuthenticationGuard.name, () => {
           component: TestLoginComponent,
         },
         {
-          canActivateChild: [EttAuthenticationGuard],
+          canActivateChild: [EoAuthenticationGuard],
           path: '',
           children: [
             {
