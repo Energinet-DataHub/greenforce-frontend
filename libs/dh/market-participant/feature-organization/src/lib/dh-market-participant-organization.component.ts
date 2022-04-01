@@ -108,8 +108,8 @@ export class DhMarketParticipantOrganizationComponent
       });
   };
 
-  onEditClicked = (e: OrganizationWithActor) =>
-    console.log('Clicked edit on', e);
+  onEditClicked = (e: OrganizationWithActor) => this.store.setSelected(e);
+  onCancel = () => this.store.setSelected(undefined);
 }
 
 @NgModule({
@@ -125,7 +125,7 @@ export class DhMarketParticipantOrganizationComponent
     WattIconModule,
     WattEmptyStateModule,
     WattSpinnerModule,
-    DhMarketParticipantCreateOrganizationScam
+    DhMarketParticipantCreateOrganizationScam,
   ],
   declarations: [DhMarketParticipantOrganizationComponent],
 })

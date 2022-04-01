@@ -31,6 +31,7 @@ export interface OrganizationWithActor {
 interface MarketParticipantState {
   isLoading: boolean;
   organizations: OrganizationWithActor[];
+  selected?: OrganizationWithActor;
 }
 
 const initialState: MarketParticipantState = {
@@ -53,6 +54,10 @@ export class DhMarketParticipantOverviewDataAccessApiStore extends ComponentStor
 
   readonly setActors = (organizations: OrganizationWithActor[]) => {
     this.patchState({ organizations, isLoading: false });
+  };
+
+  readonly setSelected = (organization?: OrganizationWithActor) => {
+    this.patchState({ selected: organization });
   };
 
   readonly mapActors = (organizations: OrganizationDto[]) => {

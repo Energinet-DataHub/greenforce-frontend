@@ -26,7 +26,7 @@ limitations under the License.
       </watt-tab>
     </watt-tabs>
     <div class="buttonContainer">
-      <watt-button variant="secondary" type="reset" size="normal">{{transloco('cancelLabel')}}</watt-button>
+      <watt-button variant="secondary" type="reset" size="normal" (click)="this.onCancelCallback()">{{transloco('cancelLabel')}}</watt-button>
       <watt-button variant="primary" type="submit" size="normal">{{transloco('saveLabel')}}</watt-button>
     </div>
   </div>

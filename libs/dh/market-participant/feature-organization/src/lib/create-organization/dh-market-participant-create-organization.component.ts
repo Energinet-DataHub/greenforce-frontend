@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, NgModule } from '@angular/core';
+import { Component, Input, NgModule } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DhMarketParticipantOverviewDataAccessApiStore } from '@energinet-datahub/dh/market-participant/data-access-api';
 import {
@@ -34,8 +34,8 @@ import { DhMarketParticipantOrganizationMasterDataComponentScam } from './master
   providers: [DhMarketParticipantOverviewDataAccessApiStore],
 })
 export class DhMarketParticipantCreateOrganizationComponent {
+  @Input() onCancelCallback!: () => void;
   organizationName = new FormControl('');
-  onSave = () => console.log('save clicked');
 }
 
 @NgModule({

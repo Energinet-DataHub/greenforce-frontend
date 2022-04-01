@@ -16,11 +16,7 @@
  */
 import { Component, NgModule } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { DhMarketParticipantOverviewDataAccessApiStore } from '@energinet-datahub/dh/market-participant/data-access-api';
-import {
-  WattFormFieldModule,
-  WattInputModule,
-} from '@energinet-datahub/watt';
+import { WattFormFieldModule, WattInputModule } from '@energinet-datahub/watt';
 import { TranslocoModule } from '@ngneat/transloco';
 
 @Component({
@@ -30,11 +26,10 @@ import { TranslocoModule } from '@ngneat/transloco';
   ],
   templateUrl:
     './dh-market-participant-organization-master-data.component.html',
-  providers: [DhMarketParticipantOverviewDataAccessApiStore],
+  providers: [],
 })
 export class DhMarketParticipantOrganizationMasterDataComponent {
   organizationName = new FormControl('');
-  onSave = () => console.log('save clicked');
 }
 
 @NgModule({

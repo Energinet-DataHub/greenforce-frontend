@@ -15,7 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<ng-container *ngIf="false">
+<ng-container *ngIf="!(this.store.state$ | async)?.selected">
   <ng-container *transloco="let transloco; read: 'marketParticipant.organization'">
     <div class="create_organization_block">
       <h1>{{ transloco('header') }}</h1>
@@ -117,4 +117,5 @@ limitations under the License.
     </ng-container>
   </ng-container>
 </ng-container>
-<dh-market-participant-create-organization></dh-market-participant-create-organization>
+<dh-market-participant-create-organization *ngIf="(this.store.state$ | async)?.selected" [onCancelCallback]="this.onCancel">
+</dh-market-participant-create-organization>
