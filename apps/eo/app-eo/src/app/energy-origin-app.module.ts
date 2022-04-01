@@ -18,7 +18,10 @@ import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { EoCoreShellModule } from '@energinet-datahub/eo/core/shell';
 
-import { EnergyOriginAppComponent, EnergyOriginAppScam } from './energy-origin-app.component';
+import {
+  EnergyOriginAppComponent,
+  EnergyOriginAppScam,
+} from './energy-origin-app.component';
 
 @NgModule({
   bootstrap: [EnergyOriginAppComponent],
