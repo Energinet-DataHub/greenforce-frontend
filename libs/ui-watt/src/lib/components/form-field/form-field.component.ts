@@ -61,7 +61,10 @@ export class FormFieldComponent implements AfterViewInit {
   matFormField!: MatFormField;
 
   ngAfterViewInit() {
-    const control = this.inputControl || this.wattDropdown?.matSelect || this.dateRangeControl?.matDateRangeInput;
+    const control =
+      this.inputControl ||
+      this.wattDropdown?.matSelect ||
+      this.dateRangeControl?.matDateRangeInput;
 
     if (this.beforeViewInit) {
       // If not inside of a timeout this causes "expression has changed..." in date-range-input of the disabled input
