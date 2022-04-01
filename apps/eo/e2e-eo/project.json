@@ -1,24 +1,24 @@
 {
-  "root": "apps/ett/e2e-ett",
-  "sourceRoot": "apps/ett/e2e-ett/src",
+  "root": "apps/eo/e2e-eo",
+  "sourceRoot": "apps/eo/e2e-eo/src",
   "projectType": "application",
   "targets": {
     "e2e": {
       "executor": "@nrwl/cypress:cypress",
       "options": {
-        "cypressConfig": "apps/ett/e2e-ett/cypress.json",
-        "tsConfig": "apps/ett/e2e-ett/tsconfig.e2e.json",
+        "cypressConfig": "apps/eo/e2e-eo/cypress.json",
+        "tsConfig": "apps/eo/e2e-eo/tsconfig.e2e.json",
         "devServerTarget": "app-ett:serve:e2e-development",
         "headed": true
       },
       "configurations": {
         "ci": {
-          "cypressConfig": "apps/ett/e2e-ett/cypress.ci.json",
+          "cypressConfig": "apps/eo/e2e-eo/cypress.ci.json",
           "devServerTarget": "app-ett:serve:production",
           "headed": false
         },
         "ci-development": {
-          "cypressConfig": "apps/ett/e2e-ett/cypress.ci.json",
+          "cypressConfig": "apps/eo/e2e-eo/cypress.ci.json",
           "headed": false
         },
         "production": {
@@ -36,11 +36,11 @@
     "lint": {
       "executor": "@nrwl/linter:eslint",
       "options": {
-        "lintFilePatterns": ["apps/ett/e2e-ett/**/*.{js,ts}"]
+        "lintFilePatterns": ["apps/eo/e2e-eo/**/*.{js,ts}"]
       },
       "outputs": ["{options.outputFile}"]
     }
   },
-  "tags": ["product:ett", "type:e2e"],
+  "tags": ["product:eo", "type:e2e"],
   "implicitDependencies": ["app-ett"]
 }
