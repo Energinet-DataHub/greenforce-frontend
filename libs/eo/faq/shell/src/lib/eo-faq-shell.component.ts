@@ -30,14 +30,10 @@ import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
   template: `
     <div class="watt-space-stack-xl">
       <div class="watt-space-stack-m">
-        <a href="#what-is-energy-origin"
-          >What is Energy Origin?</a
-        >
+        <a href="#what-is-energy-origin">What is Energy Origin?</a>
       </div>
       <div class="watt-space-stack-m">
-        <a href="#who-can-access-the-platform"
-          >Who can access the platform?</a
-        >
+        <a href="#who-can-access-the-platform">Who can access the platform?</a>
       </div>
       <div class="watt-space-stack-m">
         <a href="#where-does-the-data-come-from"
@@ -50,9 +46,7 @@ import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
         >
       </div>
       <div class="watt-space-stack-m">
-        <a href="#where-can-i-read-more"
-          >Where can I read more?</a
-        >
+        <a href="#where-can-i-read-more">Where can I read more?</a>
       </div>
     </div>
 
