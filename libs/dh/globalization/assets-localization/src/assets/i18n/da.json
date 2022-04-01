@@ -291,13 +291,21 @@
   },
   "marketParticipant": {
     "organization": {
+      "header": "Organisationer",
       "columns": {
         "organization": "Organisation",
-        "gln": "GLN",
+        "gln": "Organisationskode",
         "status": "Status",
         "marketRoles": "Markedsroller",
         "gridAreas": "Netområder",
         "noActors": "Ingen aktører"
+      },
+      "status": {
+        "New": "Ny",
+        "Active": "Aktiv",
+        "Inactive": "Inaktiv",
+        "Passive": "Passiv",
+        "Deleted": "Slettet"
       },
       "marketRoles": {
         "BalanceResponsibleParty": "Balance responsible party",

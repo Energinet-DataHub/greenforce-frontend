@@ -271,13 +271,21 @@
   },
   "marketParticipant": {
     "organization": {
+      "header": "Organisationer",
       "columns": {
         "organization": "Organization",
-        "gln": "GLN",
+        "gln": "Organization code",
         "status": "Status",
         "marketRoles": "Market roles",
         "gridAreas": "Grid areas",
         "noActors": "No actors"
+      },
+      "status": {
+        "New": "New",
+        "Active": "Active",
+        "Inactive": "Inactive",
+        "Passive": "Passive",
+        "Deleted": "Deleted"
       },
       "marketRoles": {
         "BalanceResponsibleParty": "Balance responsible party",
