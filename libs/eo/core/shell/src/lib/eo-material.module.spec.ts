@@ -14,34 +14,34 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { HttpClient } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
-import { EttHttpModule, EttHttpRootModule } from './ett-http.module';
+import { EoMaterialModule, EoMaterialRootModule } from './eo-material.module';
 
-describe(EttHttpModule.name, () => {
-  it(`provides ${HttpClient.name}`, () => {
+describe(EoMaterialModule.name, () => {
+  it(`provides ${MatSnackBar.name}`, () => {
     // Arrange
     TestBed.configureTestingModule({
-      imports: [EttHttpModule.forRoot()],
+      imports: [EoMaterialModule.forRoot()],
     });
 
     // Act
-    const http = TestBed.inject(HttpClient, null);
+    const snackBar = TestBed.inject(MatSnackBar, null);
 
     // Assert
-    expect(http).not.toBeNull();
+    expect(snackBar).not.toBeNull();
   });
 
   it('guards against direct import', () => {
     // Assert
-    expect(EttHttpModule).toGuardAgainstDirectImport();
+    expect(EoMaterialModule).toGuardAgainstDirectImport();
   });
 });
 
-describe(EttHttpRootModule.name, () => {
+describe(EoMaterialRootModule.name, () => {
   it('guards against being registered in multiple injectors', () => {
     // Assert
-    expect(EttHttpRootModule).toGuardAgainstMultipleInjectorRegistration();
+    expect(EoMaterialRootModule).toGuardAgainstMultipleInjectorRegistration();
   });
 });

@@ -19,7 +19,7 @@ import { RouterModule } from '@angular/router';
 import { eoPrivacyPolicyRoutePath } from '@energinet-datahub/eo/privacy-policy/routing';
 import { EoProductLogoScam } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 import { EoFooterScam } from '@energinet-datahub/eo/shared/atomic-design/ui-organisms';
-import { EoTitleStore } from '@energinet-datahub/ett/shared/util-browser';
+import { EoTitleStore } from '@energinet-datahub/eo/shared/util-browser';
 import { WattShellModule } from '@energinet-datahub/watt';
 import { PushModule } from '@rx-angular/template';
 import { Observable } from 'rxjs';
@@ -28,7 +28,7 @@ import { EoPrimaryNavigationScam } from './eo-primary-navigation.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'ett-shell',
+  selector: 'eo-shell',
   styles: [
     `
       @use '@energinet-datahub/watt/utils' as watt;
@@ -134,14 +134,14 @@ import { EoPrimaryNavigationScam } from './eo-primary-navigation.component';
     </watt-shell>
   `,
 })
-export class EttShellComponent {
+export class EoShellComponent {
   title$: Observable<string> = this.title.routeTitle$;
 
   constructor(private title: EoTitleStore) {}
 }
 
 @NgModule({
-  declarations: [EttShellComponent],
+  declarations: [EoShellComponent],
   imports: [
     RouterModule,
     WattShellModule,
@@ -151,4 +151,4 @@ export class EttShellComponent {
     PushModule,
   ],
 })
-export class EttShellScam {}
+export class EoShellScam {}
