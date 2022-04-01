@@ -65,6 +65,7 @@ watt-form-field {
   .mat-form-field-appearance-legacy {
     .mat-form-field-infix {
       position: static;
+      flex: none;
       border: none;
       padding: 0;
     }
