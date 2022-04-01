@@ -164,6 +164,9 @@
       "@energinet-datahub/eo/shared/environments": [
         "libs/eo/shared/environments/src/index.ts"
       ],
+      "@energinet-datahub/eo/shared/util-browser": [
+        "libs/eo/shared/util-browser/src/index.ts"
+      ],
       "@energinet-datahub/ett/auth/data-access-api": [
         "libs/ett/auth/data-access-api/src/index.ts"
       ],
@@ -174,9 +177,6 @@
         "libs/ett/auth/routing-security/src/index.ts"
       ],
       "@energinet-datahub/ett/core/shell": ["libs/ett/core/shell/src/index.ts"],
-      "@energinet-datahub/ett/shared/util-browser": [
-        "libs/ett/shared/util-browser/src/index.ts"
-      ],
       "@energinet-datahub/gf/test-util-matchers": [
         "libs/gf/test-util-matchers/src/index.ts"
       ],
