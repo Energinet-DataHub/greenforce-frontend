@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
+import { eoFaqRoutePath } from '@energinet-datahub/eo/faq/routing';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -25,35 +26,38 @@ import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
         display: block;
         width: 800px; // Magic number by designer
       }
+
+      h3 {
+        margin-top: var(--watt-space-xl);
+        margin-bottom: var(--watt-space-s);
+      }
     `,
   ],
   template: `
-    <div class="watt-space-stack-xl">
-      <div class="watt-space-stack-m">
-        <a href="#what-is-energy-origin"
-          >What is Energy Origin?</a
-        >
-      </div>
-      <div class="watt-space-stack-m">
-        <a href="#who-can-access-the-platform"
-          >Who can access the platform?</a
-        >
-      </div>
-      <div class="watt-space-stack-m">
-        <a href="#where-does-the-data-come-from"
-          >Where does the data come from?</a
-        >
-      </div>
-      <div class="watt-space-stack-m">
-        <a href="#how-can-i-influence-the-development"
-          >How can I influence the development?</a
-        >
-      </div>
-      <div class="watt-space-stack-m">
-        <a href="#where-can-i-read-more"
-          >Where can I read more?</a
-        >
-      </div>
+    <div class="watt-space-stack-m">
+      <a href="${eoFaqRoutePath}#what-is-energy-origin"
+        >What is Energy Origin?</a
+      >
+    </div>
+    <div class="watt-space-stack-m">
+      <a href="${eoFaqRoutePath}#who-can-access-the-platform"
+        >Who can access the platform?</a
+      >
+    </div>
+    <div class="watt-space-stack-m">
+      <a href="${eoFaqRoutePath}#where-does-the-data-come-from"
+        >Where does the data come from?</a
+      >
+    </div>
+    <div class="watt-space-stack-m">
+      <a href="${eoFaqRoutePath}#how-can-i-influence-the-development"
+        >How can I influence the development?</a
+      >
+    </div>
+    <div class="watt-space-stack-m">
+      <a href="${eoFaqRoutePath}#where-can-i-read-more"
+        >Where can I read more?</a
+      >
     </div>
 
     <h3 id="what-is-energy-origin">What is Energy Origin?</h3>
@@ -94,14 +98,12 @@ import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
       You can read more about the history and intention of Energy Origin on our
       website:
     </p>
-    <a
-      href="https://en.energinet.dk/Electricity/DataHub/Energy-Origin"
-      target="_blank"
+    <a href="https://en.energinet.dk/Electricity/DataHub/Energy-Origin" target="_blank"
       >Origins of energy | Energinet</a
     >
   `,
 })
-export class EoFaqShellComponent {}
+export class EoFaqShellComponent { }
 
 @NgModule({
   declarations: [EoFaqShellComponent],
