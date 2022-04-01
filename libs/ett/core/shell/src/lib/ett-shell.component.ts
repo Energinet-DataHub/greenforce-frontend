@@ -111,7 +111,7 @@ import { EoPrimaryNavigationScam } from './eo-primary-navigation.component';
         <div class="logo-container">
           <img
             class="logo"
-            src="/assets/images/energyorigin-logo-secondary.svg"
+            src="/assets/images/energy-origin-logo-secondary.svg"
           />
         </div>
 
