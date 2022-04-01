@@ -16,9 +16,9 @@
  */
 
 import { render, screen } from '@testing-library/angular';
+
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
-
 import { WattNavListModule } from './watt-nav-list.component';
 
 const httpEnerginetDkUrl = 'http://energinet.dk';
@@ -98,7 +98,7 @@ describe(WattNavListModule.name, () => {
     await render(
       `
       <watt-nav-list>
-        <watt-nav-list-item link="https://energinet.dk">
+        <watt-nav-list-item link="${httpsEnerginetDkUrl}">
           Energinet
         </watt-nav-list-item>
       </watt-nav-list>
@@ -118,7 +118,7 @@ describe(WattNavListModule.name, () => {
     ).toHaveAttribute('href', httpsEnerginetDkUrl);
   });
 
-  describe('Ensures external links are specified with the expected protocol', () => {
+  describe(`${WattNavListModule.name} - Ensures external links are specified with the expected protocol`, () => {
     const setup = async (link: string) => {
       // Arrange
       await render(
@@ -140,7 +140,7 @@ describe(WattNavListModule.name, () => {
 
     it('Ensures external links are specified with the https protocol', async () => {
       // Arrange
-      await setup('https://energinet.dk');
+      await setup(httpsEnerginetDkUrl);
       // Act
       // Assert
       const link = await screen.findByRole('link', {
@@ -151,7 +151,7 @@ describe(WattNavListModule.name, () => {
 
     it('Ensures external links are specified with the http protocol', async () => {
       // Arrange
-      await setup('http://energinet.dk');
+      await setup(httpEnerginetDkUrl);
       // Act
       // Assert
       const link = await screen.findByRole('link', {
@@ -167,7 +167,7 @@ describe(WattNavListModule.name, () => {
       await render(
         `
         <watt-nav-list>
-          <watt-nav-list-item link="https://energinet.dk" [target]="target">
+          <watt-nav-list-item link="${httpsEnerginetDkUrl}" [target]="target">
             Energinet
           </watt-nav-list-item>
         </watt-nav-list>
