@@ -10,24 +10,24 @@ environment `/api` endpoints which we stub using Cypress interceptors for now.
 
 ## Run end-to-end tests once in Cypress app with remote backend (feature environment)
 
-nx run eo-e2e-eo:e2e
+nx run e2e-eo:e2e
 
 ## Run end-to-end tests once in Cypress app with stubbed backend (`/api`)
 
-nx run eo-e2e-eo:e2e:production
+nx run e2e-eo:e2e:production
 
 ## Open end-to-end tests in Cypress app with remote backend (feature environment)
 
-nx run eo-e2e-eo:e2e:watch
+nx run e2e-eo:e2e:watch
 
 ## Open end-to-end tests in Cypress app with stubbed backend (`/api`)
 
-nx run eo-e2e-eo:e2e:watch-production
+nx run e2e-eo:e2e:watch-production
 
 ## Run end-to-end tests headless once with remote backend (feature environment)
 
-nx run eo-e2e-eo:e2e:ci-development
+nx run e2e-eo:e2e:ci-development
 
 ## Run end-to-end tests headless once with stubbed backend (`/api`)
 
-nx run eo-e2e-eo:e2e:ci
+nx run e2e-eo:e2e:ci
