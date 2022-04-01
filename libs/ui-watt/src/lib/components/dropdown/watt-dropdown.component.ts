@@ -89,7 +89,7 @@ export class WattDropdownComponent
    *
    * @ignore
    */
-  filteredOptions = new ReplaySubject<WattDropdownOptions>(1);
+  filteredOptions$ = new ReplaySubject<WattDropdownOptions>(1);
 
   /**
    * @ignore
@@ -133,7 +133,7 @@ export class WattDropdownComponent
    */
   ngOnInit(): void {
     // load the initial list of options
-    this.filteredOptions.next(this.options.slice());
+    this.filteredOptions$.next(this.options.slice());
 
     this.listenForFilterFieldValueChanges();
     this.initializePropertiesFromParent();
@@ -330,11 +330,11 @@ export class WattDropdownComponent
     if (search) {
       search = search.toLowerCase();
     } else {
-      return this.filteredOptions.next(this.options.slice());
+      return this.filteredOptions$.next(this.options.slice());
     }
 
     // filter the options
-    this.filteredOptions.next(
+    this.filteredOptions$.next(
       this.options.filter(
         (option) => option.displayValue.toLowerCase().indexOf(search) > -1
       )
