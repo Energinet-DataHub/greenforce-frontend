@@ -96,12 +96,14 @@ import { eoFaqRoutePath } from '@energinet-datahub/eo/faq/routing';
       You can read more about the history and intention of Energy Origin on our
       website:
     </p>
-    <a href="https://en.energinet.dk/Electricity/DataHub/Energy-Origin" target="_blank"
+    <a
+      href="https://en.energinet.dk/Electricity/DataHub/Energy-Origin"
+      target="_blank"
       >Origins of energy | Energinet</a
     >
   `,
 })
-export class EoFaqShellComponent { }
+export class EoFaqShellComponent {}
 
 @NgModule({
   imports: [CommonModule],
