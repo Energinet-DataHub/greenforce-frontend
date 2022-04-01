@@ -19,22 +19,22 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { WattShellComponent } from '@energinet-datahub/watt';
 
-import { EttShellComponent, EttShellScam } from './ett-shell.component';
+import { EoShellComponent, EoShellScam } from './eo-shell.component';
 
-describe(EttShellComponent.name, () => {
+describe(EoShellComponent.name, () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        EttShellScam,
+        EoShellScam,
         // Because of primary navigation relying on AuthHttp
         HttpClientTestingModule,
       ],
     });
 
-    fixture = TestBed.createComponent(EttShellComponent);
+    fixture = TestBed.createComponent(EoShellComponent);
   });
 
-  let fixture: ComponentFixture<EttShellComponent>;
+  let fixture: ComponentFixture<EoShellComponent>;
 
   it('displays the Watt shell', () => {
     // Assert

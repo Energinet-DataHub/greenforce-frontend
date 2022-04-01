@@ -16,7 +16,7 @@
  */
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { EttCoreShellModule } from '@energinet-datahub/ett/core/shell';
+import { EoCoreShellModule } from '@energinet-datahub/eo/core/shell';
 
 import {
   EnergyOriginAppComponent,
@@ -25,6 +25,6 @@ import {
 
 @NgModule({
   bootstrap: [EnergyOriginAppComponent],
-  imports: [BrowserAnimationsModule, EttCoreShellModule, EnergyOriginAppScam],
+  imports: [BrowserAnimationsModule, EoCoreShellModule, EnergyOriginAppScam],
 })
 export class EnergyOriginAppModule {}
