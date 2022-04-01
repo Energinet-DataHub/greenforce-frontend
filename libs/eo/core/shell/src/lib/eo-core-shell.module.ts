@@ -16,12 +16,12 @@
  */
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { EoAuthenticationGuard } from '@energinet-datahub/eo/auth/routing-security';
 import { eoDashboardRoutePath } from '@energinet-datahub/eo/dashboard/routing';
 import { eoFaqRoutePath } from '@energinet-datahub/eo/faq/routing';
 import { eoMeteringPointsRoutePath } from '@energinet-datahub/eo/metering-points/routing';
 import { eoPrivacyPolicyRoutePath } from '@energinet-datahub/eo/privacy-policy/routing';
 import { EoTitleStore } from '@energinet-datahub/eo/shared/util-browser';
-import { EttAuthenticationGuard } from '@energinet-datahub/ett/auth/routing-security';
 import { GfBrowserConfigurationModule } from '@energinet-datahub/gf/util-browser';
 
 import { EoHttpModule } from './eo-http.module';
@@ -53,7 +53,7 @@ const routes: Routes = [
   {
     path: '',
     component: EoShellComponent,
-    canActivateChild: [EttAuthenticationGuard],
+    canActivateChild: [EoAuthenticationGuard],
     children: [
       {
         path: eoDashboardRoutePath,
