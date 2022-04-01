@@ -14,59 +14,51 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { HttpClientModule } from '@angular/common/http';
 import {
   ModuleWithProviders,
   NgModule,
   Optional,
   SkipSelf,
 } from '@angular/core';
-import {
-  ettAuthenticationInterceptorProvider,
-  ettAuthorizationInterceptorProvider,
-} from '@energinet-datahub/ett/auth/data-access-security';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 /**
- * Do not import directly. Use `EttHttpModule.forRoot`.
+ * Do not import directly. Use `EoMaterialModule.forRoot`.
  */
 @NgModule({
-  imports: [HttpClientModule],
-  providers: [
-    ettAuthenticationInterceptorProvider,
-    ettAuthorizationInterceptorProvider,
-  ],
+  imports: [MatSnackBarModule],
 })
-export class EttHttpRootModule {
+export class EoMaterialRootModule {
   constructor(
     @Optional()
     @SkipSelf()
-    maybeNgModuleFromParentInjector?: EttHttpRootModule
+    maybeNgModuleFromParentInjector?: EoMaterialRootModule
   ) {
     if (maybeNgModuleFromParentInjector) {
       throw new Error(
-        'EttHttpModule.forRoot registered in multiple injectors. Only call it from the core feature shell module or in the Angular testing module.'
+        'EoMaterialModule.forRoot registered in multiple injectors. Only call it from the core feature shell module or in the Angular testing module.'
       );
     }
   }
 }
 
 /**
- * Do not import directly. Use `EttHttpModule.forRoot`.
+ * Do not import directly. Use `EoMaterialModule.forRoot`.
  */
 @NgModule()
-export class EttHttpModule {
+export class EoMaterialModule {
   /**
-   * Registers root-level HTTP dependencies.
+   * Registers root-level Angular Material dependencies.
    */
-  static forRoot(): ModuleWithProviders<EttHttpRootModule> {
+  static forRoot(): ModuleWithProviders<EoMaterialRootModule> {
     return {
-      ngModule: EttHttpRootModule,
+      ngModule: EoMaterialRootModule,
     };
   }
 
   constructor() {
     throw new Error(
-      'Do not import EttHttpModule directly. Use EttHttpModule.forRoot.'
+      'Do not import EoMaterialModule directly. Use EoMaterialModule.forRoot.'
     );
   }
 }

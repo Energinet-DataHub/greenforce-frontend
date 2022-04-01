@@ -17,16 +17,16 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { eoDashboardRoutePath } from '@energinet-datahub/eo/dashboard/routing';
+import { eoFaqRoutePath } from '@energinet-datahub/eo/faq/routing';
 import { eoMeteringPointsRoutePath } from '@energinet-datahub/eo/metering-points/routing';
 import { eoPrivacyPolicyRoutePath } from '@energinet-datahub/eo/privacy-policy/routing';
-import { eoFaqRoutePath } from '@energinet-datahub/eo/faq/routing';
-import { EttAuthenticationGuard } from '@energinet-datahub/ett/auth/routing-security';
 import { EoTitleStore } from '@energinet-datahub/eo/shared/util-browser';
+import { EttAuthenticationGuard } from '@energinet-datahub/ett/auth/routing-security';
 import { GfBrowserConfigurationModule } from '@energinet-datahub/gf/util-browser';
 
-import { EttHttpModule } from './ett-http.module';
-import { EttMaterialModule } from './ett-material.module';
-import { EttShellComponent, EttShellScam } from './ett-shell.component';
+import { EoHttpModule } from './eo-http.module';
+import { EoMaterialModule } from './eo-material.module';
+import { EoShellComponent, EoShellScam } from './eo-shell.component';
 
 const routes: Routes = [
   {
@@ -52,7 +52,7 @@ const routes: Routes = [
   },
   {
     path: '',
-    component: EttShellComponent,
+    component: EoShellComponent,
     canActivateChild: [EttAuthenticationGuard],
     children: [
       {
@@ -103,17 +103,17 @@ const routes: Routes = [
   exports: [RouterModule],
   imports: [
     GfBrowserConfigurationModule.forRoot(),
-    EttHttpModule.forRoot(),
+    EoHttpModule.forRoot(),
     RouterModule.forRoot(routes, {
       anchorScrolling: 'enabled',
       initialNavigation: 'enabledNonBlocking',
       scrollPositionRestoration: 'enabled',
     }),
-    EttMaterialModule.forRoot(),
-    EttShellScam,
+    EoMaterialModule.forRoot(),
+    EoShellScam,
   ],
 })
-export class EttCoreShellModule {
+export class EoCoreShellModule {
   constructor(
     // We need an instance to kick off effects
     // Can be removed in Angular 14

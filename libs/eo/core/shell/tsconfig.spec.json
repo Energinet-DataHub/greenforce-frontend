@@ -6,9 +6,5 @@
     "types": ["jest", "node"]
   },
   "files": ["src/test-setup.ts"],
-  "include": [
-    "**/*.spec.ts",
-    "**/*.d.ts",
-    "../../auth/data-access-security/src/lib/authentication/eo-primary-navigation.store.spec.ts"
-  ]
+  "include": ["**/*.spec.ts", "**/*.d.ts"]
 }

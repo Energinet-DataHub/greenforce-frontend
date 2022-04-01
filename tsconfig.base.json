@@ -123,6 +123,7 @@
       "@energinet-datahub/eo/auth/feature-terms": [
         "libs/eo/auth/feature-terms/src/index.ts"
       ],
+      "@energinet-datahub/eo/core/shell": ["libs/eo/core/shell/src/index.ts"],
       "@energinet-datahub/eo/dashboard/routing": [
         "libs/eo/dashboard/routing/src/index.ts"
       ],
@@ -176,7 +177,6 @@
       "@energinet-datahub/ett/auth/routing-security": [
         "libs/ett/auth/routing-security/src/index.ts"
       ],
-      "@energinet-datahub/ett/core/shell": ["libs/ett/core/shell/src/index.ts"],
       "@energinet-datahub/gf/test-util-matchers": [
         "libs/gf/test-util-matchers/src/index.ts"
       ],
