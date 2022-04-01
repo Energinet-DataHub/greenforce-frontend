@@ -14,29 +14,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
+ul {
+  list-style: none;
 
-@Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'ett-app',
-  styles: [
-    `
-      :host {
-        display: block;
+  li {
+    --circle-size: 16px;
+    position: relative;
 
-        min-height: 100%;
+    padding-left: calc(var(--circle-size) + var(--watt-space-xs));
 
-        background: var(--watt-color-neutral-grey-100);
-      }
-    `,
-  ],
-  template: `<router-outlet></router-outlet>`,
-})
-export class EnergyTrackAndTraceAppComponent {}
+    &::before {
+      --eo-line-height-m: 1.5rem; // Watt Medium text line height;
 
-@NgModule({
-  declarations: [EnergyTrackAndTraceAppComponent],
-  imports: [RouterModule],
-})
-export class EnergyTrackAndTraceAppScam {}
+      content: '';
+      display: inline-block;
+      position: absolute;
+      left: 0;
+      vertical-align: top;
+
+      width: var(--circle-size);
+      height: var(--eo-line-height-m);
+
+      background-image: url(/assets/icons/list-item-circle-primary.svg);
+      background-position: center center;
+      background-repeat: no-repeat;
+      background-size: 100%;
+    }
+  }
+}
