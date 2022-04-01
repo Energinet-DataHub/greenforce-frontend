@@ -15,6 +15,8 @@
  * limitations under the License.
  */
 import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { eoFaqRoutePath } from '@energinet-datahub/eo/faq/routing';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -30,33 +32,33 @@ import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
   template: `
     <div class="watt-space-stack-xl">
       <div class="watt-space-stack-m">
-        <a (click)="scrollToTargetElement(whatIsEnergyOrigin)"
+        <a href="${eoFaqRoutePath}#what-is-energy-origin"
           >What is Energy Origin?</a
         >
       </div>
       <div class="watt-space-stack-m">
-        <a (click)="scrollToTargetElement(whoCanAccessThePlatform)"
+        <a href="${eoFaqRoutePath}#who-can-access-the-platform"
           >Who can access the platform?</a
         >
       </div>
       <div class="watt-space-stack-m">
-        <a (click)="scrollToTargetElement(whereDoesTheDataComeFrom)"
+        <a href="${eoFaqRoutePath}#where-does-the-data-come-from"
           >Where does the data come from?</a
         >
       </div>
       <div class="watt-space-stack-m">
-        <a (click)="scrollToTargetElement(howCanIInfluenceTheDevelopment)"
+        <a href="${eoFaqRoutePath}#how-can-i-influence-the-development"
           >How can I influence the development?</a
         >
       </div>
       <div class="watt-space-stack-m">
-        <a (click)="scrollToTargetElement(whereCanIReadMore)"
+        <a href="${eoFaqRoutePath}#where-can-i-read-more"
           >Where can I read more?</a
         >
       </div>
     </div>
 
-    <h3 #whatIsEnergyOrigin id="what-is-energy-origin">What is Energy Origin?</h3>
+    <h3 id="what-is-energy-origin">What is Energy Origin?</h3>
     <p>
       The aim of the Energy Origin platform is to create transparency on the
       origin of energy for all energy consumers and to facilitate a market for
@@ -65,20 +67,20 @@ import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
       electricity declaration and corresponding emissions for 2021.
     </p>
 
-    <h3 #whoCanAccessThePlatform id="who-can-access-the-platform">Who can access the platform?</h3>
+    <h3 id="who-can-access-the-platform">Who can access the platform?</h3>
     <p>
       Currently, the platform only offers company login via NemID. Later on, it
       will be possible for private individuals to login via NemID / MitID.
     </p>
 
-    <h3 #whereDoesTheDataComeFrom id="where-does-the-data-come-from">Where does the data come from?</h3>
+    <h3 id="where-does-the-data-come-from">Where does the data come from?</h3>
     <p>
       All data related to metering points, consumption and production is served
       by the Energinet DataHub. Data related to the origin of energy and
       corresponding emissions stems from Energi Data Service.
     </p>
 
-    <h3 #howCanIInfluenceTheDevelopment id="how-can-i-influence-the-development">
+    <h3 id="how-can-i-influence-the-development">
       How can I influence the development?
     </h3>
     <p>
@@ -89,26 +91,20 @@ import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
       or comment when you have time.
     </p>
 
-    <h3 #whereCanIReadMore id="where-can-i-read-more">Where can I read more?</h3>
+    <h3 id="where-can-i-read-more">Where can I read more?</h3>
     <p>
       You can read more about the history and intention of Energy Origin on our
       website:
     </p>
-    <a href="https://energinet.dk" target="_blank"
+    <a href="https://en.energinet.dk/Electricity/DataHub/Energy-Origin" target="_blank"
       >Origins of energy | Energinet</a
     >
   `,
 })
-export class EoFaqShellComponent {
-  scrollToTargetElement(targetElement: HTMLHeadingElement): void {
-    targetElement.scrollIntoView({
-      behavior: 'smooth',
-      block: 'start',
-    });
-  }
-}
+export class EoFaqShellComponent { }
 
 @NgModule({
+  imports: [CommonModule],
   declarations: [EoFaqShellComponent],
 })
 export class EoFaqShellScam {}
