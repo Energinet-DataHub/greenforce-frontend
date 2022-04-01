@@ -50,8 +50,8 @@ import { EoLandingPagePresenter } from './eo-landing-page.presenter';
         eoMediaImage
         eoMediaImageAlign="end"
         [eoMediaImageMaxWidthPixels]="520"
-        src="/assets/images/landing-page/landing-page-energy-origin-energi-huset.jpg"
-        alt="EnergyOrigin - Energihuset"
+        src="/assets/images/landing-page/energihuset.jpg"
+        alt="Energinet - Energihuset"
       />
     </eo-media>
   `,

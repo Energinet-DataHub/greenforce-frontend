@@ -1,1 +1,1 @@
-# EnergyOrigin security routing
+# Energy Origin security routing
