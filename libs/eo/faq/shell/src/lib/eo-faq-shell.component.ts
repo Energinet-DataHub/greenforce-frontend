@@ -15,8 +15,6 @@
  * limitations under the License.
  */
 import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { eoFaqRoutePath } from '@energinet-datahub/eo/faq/routing';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -32,27 +30,27 @@ import { eoFaqRoutePath } from '@energinet-datahub/eo/faq/routing';
   template: `
     <div class="watt-space-stack-xl">
       <div class="watt-space-stack-m">
-        <a href="${eoFaqRoutePath}#what-is-energy-origin"
+        <a href="#what-is-energy-origin"
           >What is Energy Origin?</a
         >
       </div>
       <div class="watt-space-stack-m">
-        <a href="${eoFaqRoutePath}#who-can-access-the-platform"
+        <a href="#who-can-access-the-platform"
           >Who can access the platform?</a
         >
       </div>
       <div class="watt-space-stack-m">
-        <a href="${eoFaqRoutePath}#where-does-the-data-come-from"
+        <a href="#where-does-the-data-come-from"
           >Where does the data come from?</a
         >
       </div>
       <div class="watt-space-stack-m">
-        <a href="${eoFaqRoutePath}#how-can-i-influence-the-development"
+        <a href="#how-can-i-influence-the-development"
           >How can I influence the development?</a
         >
       </div>
       <div class="watt-space-stack-m">
-        <a href="${eoFaqRoutePath}#where-can-i-read-more"
+        <a href="#where-can-i-read-more"
           >Where can I read more?</a
         >
       </div>
@@ -104,7 +102,6 @@ import { eoFaqRoutePath } from '@energinet-datahub/eo/faq/routing';
 export class EoFaqShellComponent { }
 
 @NgModule({
-  imports: [CommonModule],
   declarations: [EoFaqShellComponent],
 })
 export class EoFaqShellScam {}
