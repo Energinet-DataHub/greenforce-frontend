@@ -40,7 +40,7 @@
     "dh-shared-test-util-msw": "libs/dh/shared/test-util-msw",
     "dh-shared-ui-date-time": "libs/dh/shared/ui-date-time",
     "e2e-dh": "apps/dh/e2e-dh",
-    "e2e-ett": "apps/ett/e2e-ett",
+    "e2e-eo": "apps/eo/e2e-eo",
     "eo-auth-feature-terms": "libs/eo/auth/feature-terms",
     "eo-dashboard-routing": "libs/eo/dashboard/routing",
     "eo-dashboard-shell": "libs/eo/dashboard/shell",
