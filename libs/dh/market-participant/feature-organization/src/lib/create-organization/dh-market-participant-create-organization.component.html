@@ -14,6 +14,20 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-
-<ng-container *transloco="let transloco; read: 'marketParticipant.organization'">
+<ng-container *transloco="let transloco; read: 'marketParticipant.organization.create'">
+  <div class="container">
+    <h1>{{transloco('organizationHeader')}}</h1>
+    <watt-tabs class="tabs">
+      <watt-tab [label]="transloco('basicInfo')">
+        <dh-market-participant-organization-master-data></dh-market-participant-organization-master-data>
+      </watt-tab>
+      <watt-tab [label]="transloco('basicInfo')">
+        <dh-market-participant-organization-contact-data></dh-market-participant-organization-contact-data>
+      </watt-tab>
+    </watt-tabs>
+    <div class="buttonContainer">
+      <watt-button variant="secondary" type="reset" size="normal">{{transloco('cancelLabel')}}</watt-button>
+      <watt-button variant="primary" type="submit" size="normal">{{transloco('saveLabel')}}</watt-button>
+    </div>
+  </div>
 </ng-container>

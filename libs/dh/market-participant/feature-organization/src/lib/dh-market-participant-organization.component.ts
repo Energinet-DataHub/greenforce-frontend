@@ -42,6 +42,7 @@ import {
   MatPaginatorIntl,
   MatPaginatorModule,
 } from '@angular/material/paginator';
+import { DhMarketParticipantCreateOrganizationScam } from './create-organization/dh-market-participant-create-organization.component';
 
 @Component({
   selector: 'dh-market-participant-organization',
@@ -124,6 +125,7 @@ export class DhMarketParticipantOrganizationComponent
     WattIconModule,
     WattEmptyStateModule,
     WattSpinnerModule,
+    DhMarketParticipantCreateOrganizationScam
   ],
   declarations: [DhMarketParticipantOrganizationComponent],
 })

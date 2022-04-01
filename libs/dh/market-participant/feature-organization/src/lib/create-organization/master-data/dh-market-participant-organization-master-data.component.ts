@@ -18,22 +18,21 @@ import { Component, NgModule } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DhMarketParticipantOverviewDataAccessApiStore } from '@energinet-datahub/dh/market-participant/data-access-api';
 import {
-  WattButtonModule,
   WattFormFieldModule,
   WattInputModule,
-  WattTabsModule,
 } from '@energinet-datahub/watt';
 import { TranslocoModule } from '@ngneat/transloco';
-import { DhMarketParticipantOrganizationContactDataComponentScam } from './contact-data/dh-market-participant-organization-contact-data.component';
-import { DhMarketParticipantOrganizationMasterDataComponentScam } from './master-data/dh-market-participant-organization-master-data.component';
 
 @Component({
-  selector: 'dh-market-participant-create-organization',
-  styleUrls: ['./dh-market-participant-create-organization.component.scss'],
-  templateUrl: './dh-market-participant-create-organization.component.html',
+  selector: 'dh-market-participant-organization-master-data',
+  styleUrls: [
+    './dh-market-participant-organization-master-data.component.scss',
+  ],
+  templateUrl:
+    './dh-market-participant-organization-master-data.component.html',
   providers: [DhMarketParticipantOverviewDataAccessApiStore],
 })
-export class DhMarketParticipantCreateOrganizationComponent {
+export class DhMarketParticipantOrganizationMasterDataComponent {
   organizationName = new FormControl('');
   onSave = () => console.log('save clicked');
 }
@@ -43,14 +42,10 @@ export class DhMarketParticipantCreateOrganizationComponent {
     FormsModule,
     ReactiveFormsModule,
     TranslocoModule,
-    WattButtonModule,
     WattFormFieldModule,
     WattInputModule,
-    WattTabsModule,
-    DhMarketParticipantOrganizationMasterDataComponentScam,
-    DhMarketParticipantOrganizationContactDataComponentScam
   ],
-  exports: [DhMarketParticipantCreateOrganizationComponent],
-  declarations: [DhMarketParticipantCreateOrganizationComponent],
+  exports: [DhMarketParticipantOrganizationMasterDataComponent],
+  declarations: [DhMarketParticipantOrganizationMasterDataComponent],
 })
-export class DhMarketParticipantCreateOrganizationScam {}
+export class DhMarketParticipantOrganizationMasterDataComponentScam {}
