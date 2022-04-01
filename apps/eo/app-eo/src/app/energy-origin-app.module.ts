@@ -14,29 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { NgModule } from '@angular/core';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { EttCoreShellModule } from '@energinet-datahub/ett/core/shell';
 
-@Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'ett-app',
-  styles: [
-    `
-      :host {
-        display: block;
-
-        min-height: 100%;
-
-        background: var(--watt-color-neutral-grey-100);
-      }
-    `,
-  ],
-  template: `<router-outlet></router-outlet>`,
-})
-export class EnergyTrackAndTraceAppComponent {}
+import {
+  EnergyOriginAppComponent,
+  EnergyOriginAppScam,
+} from './energy-origin-app.component';
 
 @NgModule({
-  declarations: [EnergyTrackAndTraceAppComponent],
-  imports: [RouterModule],
+  bootstrap: [EnergyOriginAppComponent],
+  imports: [BrowserAnimationsModule, EttCoreShellModule, EnergyOriginAppScam],
 })
-export class EnergyTrackAndTraceAppScam {}
+export class EnergyOriginAppModule {}
