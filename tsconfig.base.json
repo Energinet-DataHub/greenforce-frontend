@@ -39,6 +39,15 @@
       "@energinet-datahub/dh/globalization/feature-language-picker": [
         "libs/dh/globalization/feature-language-picker/src/index.ts"
       ],
+      "@energinet-datahub/dh/market-participant/data-access-api": [
+        "libs/dh/market-participant/data-access-api/src/index.ts"
+      ],
+      "@energinet-datahub/dh/market-participant/feature-organization": [
+        "libs/dh/market-participant/feature-organization/src/index.ts"
+      ],
+      "@energinet-datahub/dh/market-participant/shell": [
+        "libs/dh/market-participant/shell/src/index.ts"
+      ],
       "@energinet-datahub/dh/message-archive/data-access-api": [
         "libs/dh/message-archive/data-access-api/src/index.ts"
       ],
@@ -114,11 +123,26 @@
       "@energinet-datahub/eo/auth/feature-terms": [
         "libs/eo/auth/feature-terms/src/index.ts"
       ],
+      "@energinet-datahub/eo/dashboard/routing": [
+        "libs/eo/dashboard/routing/src/index.ts"
+      ],
+      "@energinet-datahub/eo/dashboard/shell": [
+        "libs/eo/dashboard/shell/src/index.ts"
+      ],
       "@energinet-datahub/eo/landing-page/routing": [
         "libs/eo/landing-page/routing/src/index.ts"
       ],
       "@energinet-datahub/eo/landing-page/shell": [
         "libs/eo/landing-page/shell/src/index.ts"
+      ],
+      "@energinet-datahub/eo/metering-points/routing": [
+        "libs/eo/metering-points/routing/src/index.ts"
+      ],
+      "@energinet-datahub/eo/metering-points/shell": [
+        "libs/eo/metering-points/shell/src/index.ts"
+      ],
+      "@energinet-datahub/eo/privacy-policy/routing": [
+        "libs/eo/privacy-policy/routing/src/index.ts"
       ],
       "@energinet-datahub/eo/privacy-policy/shell": [
         "libs/eo/privacy-policy/shell/src/index.ts"
@@ -148,12 +172,6 @@
         "libs/ett/auth/routing-security/src/index.ts"
       ],
       "@energinet-datahub/ett/core/shell": ["libs/ett/core/shell/src/index.ts"],
-      "@energinet-datahub/ett/dashboard/routing": [
-        "libs/ett/dashboard/routing/src/index.ts"
-      ],
-      "@energinet-datahub/ett/dashboard/shell": [
-        "libs/ett/dashboard/shell/src/index.ts"
-      ],
       "@energinet-datahub/ett/shared/util-browser": [
         "libs/ett/shared/util-browser/src/index.ts"
       ],

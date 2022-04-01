@@ -28,6 +28,7 @@ watt-form-field {
     .mat-input-element {
       @include watt.typography-watt-text-m;
     }
+
     .mat-form-field-flex {
       height: 56px;
     }
@@ -44,6 +45,7 @@ watt-form-field {
     @include watt.typography-watt-text-s;
     color: var(--input-color);
     caret-color: var(--watt-color-neutral-grey-900) !important;
+    padding: 0 12px;
   }
 
   .mat-form-field-flex {
@@ -51,11 +53,8 @@ watt-form-field {
     margin-top: var(--label-margin-bottom);
     border-radius: 4px;
     background: var(--input-background);
-    border-width: 1px;
-    border-style: solid;
-    border-color: var(--input-border-color);
+    border: 1px solid var(--input-border-color);
     height: 44px;
-    padding: 0 12px;
   }
 
   .mat-form-field {
@@ -64,10 +63,21 @@ watt-form-field {
 
   .mat-form-field-appearance-legacy {
     .mat-form-field-infix {
-      position: static;
-      flex: none;
       border: none;
+      display: flex;
       padding: 0;
+      position: static;
+    }
+
+    &.mat-form-field-type-mat-date-range-input {
+      .mat-form-field-infix {
+        display: inline-block;
+        flex: none;
+      }
+
+      .mat-form-field-flex {
+        padding: 0 12px;
+      }
     }
 
     .mat-form-field-subscript-wrapper {
@@ -94,19 +104,11 @@ watt-form-field {
   }
 
   [wattPrefix] {
-    margin-right: 8px;
+    margin-left: 8px;
   }
 
   [wattSuffix] {
     margin-left: 8px;
-  }
-
-  watt-icon-button[wattPrefix] {
-    margin-left: -12px;
-  }
-
-  watt-icon-button[wattSuffix] {
-    margin-right: -12px;
   }
 
   mat-form-field.mat-form-field-disabled {
