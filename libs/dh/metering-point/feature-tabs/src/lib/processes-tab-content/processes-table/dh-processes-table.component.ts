@@ -51,7 +51,7 @@ import { DhProcessTableRow } from './dh-process-table-row';
 })
 export class DhProcessesTableComponent implements AfterViewInit {
   displayedColumns: string[] = [
-    'tableExpandControl',
+    'rowExpandControl',
     'name',
     'createdDate',
     'effectiveDate',
