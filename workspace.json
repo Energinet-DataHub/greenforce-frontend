@@ -3,7 +3,7 @@
   "projects": {
     "api-dh": "apps/dh/api-dh",
     "app-dh": "apps/dh/app-dh",
-    "app-ett": "apps/ett/app-ett",
+    "app-eo": "apps/eo/app-eo",
     "dh-auth-feature-msal": "libs/dh/auth/feature-msal",
     "dh-charges-data-access-api": "libs/dh/charges/data-access-api",
     "dh-core-shell": "libs/dh/core/shell",
@@ -40,7 +40,7 @@
     "dh-shared-test-util-msw": "libs/dh/shared/test-util-msw",
     "dh-shared-ui-date-time": "libs/dh/shared/ui-date-time",
     "e2e-dh": "apps/dh/e2e-dh",
-    "e2e-ett": "apps/ett/e2e-ett",
+    "e2e-eo": "apps/eo/e2e-eo",
     "eo-auth-feature-terms": "libs/eo/auth/feature-terms",
     "eo-dashboard-routing": "libs/eo/dashboard/routing",
     "eo-dashboard-shell": "libs/eo/dashboard/shell",
