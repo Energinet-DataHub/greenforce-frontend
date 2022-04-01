@@ -23,15 +23,15 @@ Energinet-DataHub/greenforce-frontend
 |  |  ├── api-dh            # - BFF for DataHub
 |  |  ├── app-dh            # - Frontend for DataHub
 |  |  └── e2e-dh            # - E2E tests for DataHub
-|  └── ett                  # EnergyOrigin (product)
-|     ├── app-ett           # - Frontend for EnergyOrigin
-|     └── e2e-ett           # - E2E tests for EnergyOrigin
+|  └── eo                   # Energy Origin (product)
+|     ├── app-eo            # - Frontend for Energy Origin
+|     └── e2e-eo            # - E2E tests for Energy Origin
 ├── build                   # Contains infrastructure for DataHub and the design system
 ├── dist                    # Contains output files when building artifacts (for distribution)
 |  ├── apps                 #
 |  └── libs                 #
 ├── docs                    # Contains general documentation
-├── infrastructure          # Contains infrastructure for EnergyOrigin
+├── infrastructure          # Contains infrastructure for Energy Origin
 ├── libs                    # Contains source code for libraries. See "Folder Structure - library" section for more information
 └── tools                   # Contains various tools
    ├── executors            # - Executors perform actions on your code. This can include building, linting, testing, serving.
@@ -161,8 +161,8 @@ The frontend apps are built with Angular in an Nx Workspace. They are located un
 
 - `dh/app-dh` - "DataHub" app
 - `dh/e2e-dh` - End-to-end tests for `app-dh`
-- `ett/app-ett` - "EnergyOrigin" app.
-- `ett/e2e-ett` - End-to-end tests for `app-ett`
+- `eo/app-eo` - "Energy Origin" app.
+- `eo/e2e-eo` - End-to-end tests for `app-eo`
 
 Besides the `apps` folder, there's also a `libs` folder that contains features used by the apps. This is where most of the code lives.
 
@@ -187,7 +187,7 @@ the BFF. This is required for both local development and tests.
 Located under `.github/workflows`. There are:
 
 - `api-dh-ci.yml` - Used by the BFF for `app-dh`.
-- `ett.yml` - Used by "EnergyOrigin" app
+- `eo-cd.yml` - Used by "Energy Origin" app
 - `license-check-ci.yml` - Used for adding license to files
 - `frontend-ci.yml` - Used to build, test, format and lint all frontend apps
 
