@@ -39,6 +39,15 @@
       "@energinet-datahub/dh/globalization/feature-language-picker": [
         "libs/dh/globalization/feature-language-picker/src/index.ts"
       ],
+      "@energinet-datahub/dh/market-participant/data-access-api": [
+        "libs/dh/market-participant/data-access-api/src/index.ts"
+      ],
+      "@energinet-datahub/dh/market-participant/feature-organization": [
+        "libs/dh/market-participant/feature-organization/src/index.ts"
+      ],
+      "@energinet-datahub/dh/market-participant/shell": [
+        "libs/dh/market-participant/shell/src/index.ts"
+      ],
       "@energinet-datahub/dh/message-archive/data-access-api": [
         "libs/dh/message-archive/data-access-api/src/index.ts"
       ],
@@ -120,6 +129,8 @@
       "@energinet-datahub/eo/dashboard/shell": [
         "libs/eo/dashboard/shell/src/index.ts"
       ],
+      "@energinet-datahub/eo/faq/routing": ["libs/eo/faq/routing/src/index.ts"],
+      "@energinet-datahub/eo/faq/shell": ["libs/eo/faq/shell/src/index.ts"],
       "@energinet-datahub/eo/landing-page/routing": [
         "libs/eo/landing-page/routing/src/index.ts"
       ],

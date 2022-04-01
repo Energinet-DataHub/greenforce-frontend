@@ -74,6 +74,7 @@
     "date-fns-tz": "^1.2.2",
     "include-media": "^1.4.10",
     "inputmask": "^5.0.7",
+    "ngx-mat-select-search": "^4.0.2",
     "rxjs": "~7.4.0",
     "tslib": "^2.0.0",
     "zone.js": "0.11.4"

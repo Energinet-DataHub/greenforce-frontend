@@ -14,25 +14,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  ChangeDetectionStrategy,
-  Component,
-  NgModule,
-  ViewEncapsulation,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-
-const selector = 'ett-app';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None,
-  selector,
+  selector: 'ett-app',
   styles: [
     `
-      ${selector} {
+      :host {
         display: block;
+
         min-height: 100%;
+
         background: var(--watt-color-neutral-grey-100);
       }
     `,
