@@ -1,8 +1,8 @@
 {
   "projectType": "application",
-  "root": "apps/ett/app-ett",
-  "sourceRoot": "apps/ett/app-ett/src",
-  "prefix": "ett",
+  "root": "apps/eo/app-eo",
+  "sourceRoot": "apps/eo/app-eo/src",
+  "prefix": "eo",
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:browser",
@@ -27,11 +27,11 @@
         ],
         "baseHref": "/",
         "commonChunk": false,
-        "index": "apps/ett/app-ett/src/index.html",
+        "index": "apps/eo/app-eo/src/index.html",
         "inlineStyleLanguage": "scss",
-        "main": "apps/ett/app-ett/src/main.ts",
-        "outputPath": "dist/apps/ett/app-ett",
-        "polyfills": "apps/ett/app-ett/src/polyfills.ts",
+        "main": "apps/eo/app-eo/src/main.ts",
+        "outputPath": "dist/apps/eo/app-eo",
+        "polyfills": "apps/eo/app-eo/src/polyfills.ts",
         "scripts": [],
         "stylePreprocessorOptions": {
           "includePaths": [
@@ -40,7 +40,7 @@
           ]
         },
         "styles": ["libs/eo/shared/styles/src/index.scss"],
-        "tsConfig": "apps/ett/app-ett/tsconfig.app.json"
+        "tsConfig": "apps/eo/app-eo/tsconfig.app.json"
       },
       "configurations": {
         "development": {
@@ -81,8 +81,8 @@
           ],
           "fileReplacements": [
             {
-              "replace": "apps/ett/app-ett/src/configuration/load-eo-api-environment.ts",
-              "with": "apps/ett/app-ett/src/configuration/load-eo-api-environment.prod.ts"
+              "replace": "apps/eo/app-eo/src/configuration/load-eo-api-environment.ts",
+              "with": "apps/eo/app-eo/src/configuration/load-eo-api-environment.prod.ts"
             },
             {
               "replace": "libs/eo/shared/environments/src/lib/environment.ts",
@@ -105,7 +105,7 @@
     "serve": {
       "executor": "@angular-devkit/build-angular:dev-server",
       "options": {
-        "browserTarget": "app-ett:build:development"
+        "browserTarget": "app-eo:build:development"
       },
       "configurations": {
         "development": {
@@ -113,7 +113,7 @@
         },
         "e2e-development": {},
         "production": {
-          "browserTarget": "app-ett:build:production"
+          "browserTarget": "app-eo:build:production"
         }
       },
       "defaultConfiguration": "development"
@@ -122,21 +122,21 @@
       "executor": "@nrwl/linter:eslint",
       "options": {
         "lintFilePatterns": [
-          "apps/ett/app-ett/src/**/*.ts",
-          "apps/ett/app-ett/src/**/*.html"
+          "apps/eo/app-eo/src/**/*.ts",
+          "apps/eo/app-eo/src/**/*.html"
         ]
       },
       "outputs": ["{options.outputFile}"]
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/apps/ett/app-ett"],
+      "outputs": ["coverage/apps/eo/app-eo"],
       "options": {
-        "jestConfig": "apps/ett/app-ett/jest.config.js",
+        "jestConfig": "apps/eo/app-eo/jest.config.js",
         "passWithNoTests": true
       }
     }
   },
-  "tags": ["product:ett", "type:app"],
+  "tags": ["product:eo", "type:app"],
   "implicitDependencies": ["eo-shared-styles"]
 }

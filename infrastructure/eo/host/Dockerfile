@@ -1,6 +1,6 @@
 FROM nginx:stable-alpine
 
-ARG APP_FOLDER=./artifacts/app-ett/
+ARG APP_FOLDER=./artifacts/app-eo/
 
 COPY $APP_FOLDER /usr/share/nginx/html/
 COPY ./infrastructure/eo/host/nginx.conf /etc/nginx/conf.d/default.conf
