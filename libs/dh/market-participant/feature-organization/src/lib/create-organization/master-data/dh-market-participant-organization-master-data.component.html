@@ -14,10 +14,16 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<ng-container *transloco="let transloco; read: 'marketParticipant.organization.create'">
-  <h2>{{transloco('organizationBasicInfoHeader')}}</h2>
+<ng-container *transloco="let transloco; read: 'marketParticipant.organization.create.masterData'">
+  <h2>{{transloco('header')}}</h2>
   <watt-form-field size="normal">
     <watt-label class="watt-text-m">{{ transloco('organizationNameLabel') }}</watt-label>
-    <input wattInput title="nameInput" />
+    <input wattInput title="nameInput" [formControl]="this.organizationName" />
+    <watt-error *ngIf="organizationName.hasError('required')">
+      {{transloco('fiedlRequired')}}
+    </watt-error>
+    <watt-error *ngIf="organizationName.hasError('maxlength')">
+      {{transloco('fieldValueTooLong')}}
+    </watt-error>
   </watt-form-field>
 </ng-container>

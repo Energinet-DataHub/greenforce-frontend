@@ -24,6 +24,7 @@ import {
 } from '@angular/core';
 import {
   DhMarketParticipantOverviewDataAccessApiStore,
+  MasterData,
   OrganizationWithActor,
 } from '@energinet-datahub/dh/market-participant/data-access-api';
 import { LetModule } from '@rx-angular/template/let';
@@ -109,7 +110,19 @@ export class DhMarketParticipantOrganizationComponent
   };
 
   onEditClicked = (e: OrganizationWithActor) => this.store.setSelected(e);
-  onCancel = () => this.store.setSelected(undefined);
+
+  onCancel = () => {
+    this.store.setSelected(undefined);
+    this.store.setMasterData(undefined);
+  };
+
+  onSave = () => {
+    console.log('save called');
+  };
+
+  onMasterDataChanged = (data: MasterData) => {
+    this.store.setMasterData(data);
+  };
 }
 
 @NgModule({

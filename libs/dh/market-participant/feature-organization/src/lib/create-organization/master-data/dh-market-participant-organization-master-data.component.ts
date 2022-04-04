@@ -14,8 +14,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, NgModule } from '@angular/core';
-import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { Component, Input, NgModule, OnInit } from '@angular/core';
+import {
+  FormControl,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import {
+  MasterData,
+  OrganizationWithActor,
+} from '@energinet-datahub/dh/market-participant/data-access-api';
 import { WattFormFieldModule, WattInputModule } from '@energinet-datahub/watt';
 import { TranslocoModule } from '@ngneat/transloco';
 
@@ -28,12 +38,30 @@ import { TranslocoModule } from '@ngneat/transloco';
     './dh-market-participant-organization-master-data.component.html',
   providers: [],
 })
-export class DhMarketParticipantOrganizationMasterDataComponent {
-  organizationName = new FormControl('');
+export class DhMarketParticipantOrganizationMasterDataComponent
+  implements OnInit
+{
+  @Input() organization!: OrganizationWithActor;
+  @Input() onMasterDataChanged!: (data: MasterData) => void;
+  organizationName: FormControl = new FormControl(
+    '',
+    Validators.compose([Validators.required, Validators.maxLength(128)])
+  );
+
+  ngOnInit(): void {
+    this.organizationName.setValue(this.organization.organization.name);
+    this.organizationName.valueChanges.subscribe(() => {
+      this.onMasterDataChanged({
+        valid: this.organizationName.valid,
+        name: this.organizationName.value,
+      });
+    });
+  }
 }
 
 @NgModule({
   imports: [
+    CommonModule,
     FormsModule,
     ReactiveFormsModule,
     TranslocoModule,

@@ -28,10 +28,16 @@ export interface OrganizationWithActor {
   actor?: Partial<ActorDto>;
 }
 
+export interface MasterData {
+  valid: boolean;
+  name: string;
+}
+
 interface MarketParticipantState {
   isLoading: boolean;
   organizations: OrganizationWithActor[];
   selected?: OrganizationWithActor;
+  masterData?: MasterData;
 }
 
 const initialState: MarketParticipantState = {
@@ -58,6 +64,10 @@ export class DhMarketParticipantOverviewDataAccessApiStore extends ComponentStor
 
   readonly setSelected = (organization?: OrganizationWithActor) => {
     this.patchState({ selected: organization });
+  };
+
+  readonly setMasterData = (data?: MasterData) => {
+    this.patchState({ masterData: data });
   };
 
   readonly mapActors = (organizations: OrganizationDto[]) => {

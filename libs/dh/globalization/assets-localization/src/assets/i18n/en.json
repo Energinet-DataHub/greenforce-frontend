@@ -347,6 +347,17 @@
         "last": "Last page",
         "next": "Next page",
         "previous": "Previous page"
+      },
+      "create": {
+        "organizationHeader": "Organization",
+        "masterDataTabHeader": "Master data",
+        "contactDataTabHeader": "Contact data",
+        "cancelLabel": "Cancel",
+        "saveLabel": "Save",
+        "masterData": {
+          "header": "Master data",
+          "organizationNameLabel": "Name"
+        }
       }
     }
   }

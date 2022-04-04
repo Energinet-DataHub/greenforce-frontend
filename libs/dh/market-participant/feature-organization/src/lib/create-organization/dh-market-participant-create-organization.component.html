@@ -18,16 +18,19 @@ limitations under the License.
   <div class="container">
     <h1>{{transloco('organizationHeader')}}</h1>
     <watt-tabs class="tabs">
-      <watt-tab [label]="transloco('basicInfo')">
-        <dh-market-participant-organization-master-data></dh-market-participant-organization-master-data>
+      <watt-tab [label]="transloco('masterDataTabHeader')">
+        <dh-market-participant-organization-master-data [organization]="this.organization"
+          [onMasterDataChanged]="this.onMasterDataChanged"></dh-market-participant-organization-master-data>
       </watt-tab>
-      <watt-tab [label]="transloco('basicInfo')">
+      <watt-tab [label]="transloco('contactDataTabHeader')">
         <dh-market-participant-organization-contact-data></dh-market-participant-organization-contact-data>
       </watt-tab>
     </watt-tabs>
     <div class="buttonContainer">
-      <watt-button variant="secondary" type="reset" size="normal" (click)="this.onCancelCallback()">{{transloco('cancelLabel')}}</watt-button>
-      <watt-button variant="primary" type="submit" size="normal">{{transloco('saveLabel')}}</watt-button>
+      <watt-button variant="secondary" type="reset" size="normal" (click)="this.onCancelCallback()">
+        {{transloco('cancelLabel')}}</watt-button>
+      <watt-button variant="primary" type="submit" size="normal" (click)="this.onSaveCallback()">
+        {{transloco('saveLabel')}}</watt-button>
     </div>
   </div>
 </ng-container>

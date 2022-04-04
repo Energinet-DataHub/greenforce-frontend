@@ -16,7 +16,7 @@
  */
 import { Component, Input, NgModule } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { DhMarketParticipantOverviewDataAccessApiStore } from '@energinet-datahub/dh/market-participant/data-access-api';
+import { DhMarketParticipantOverviewDataAccessApiStore, MasterData, OrganizationWithActor } from '@energinet-datahub/dh/market-participant/data-access-api';
 import {
   WattButtonModule,
   WattFormFieldModule,
@@ -34,7 +34,10 @@ import { DhMarketParticipantOrganizationMasterDataComponentScam } from './master
   providers: [DhMarketParticipantOverviewDataAccessApiStore],
 })
 export class DhMarketParticipantCreateOrganizationComponent {
+  @Input() organization!: OrganizationWithActor;
+  @Input() onMasterDataChanged!: (data: MasterData) => void;
   @Input() onCancelCallback!: () => void;
+  @Input() onSaveCallback!: () => void;
   organizationName = new FormControl('');
 }
 

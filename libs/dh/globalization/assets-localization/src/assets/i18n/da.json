@@ -367,6 +367,17 @@
         "last": "Sidste side",
         "next": "Næste side",
         "previous": "Forrige side"
+      },
+      "create": {
+        "organizationHeader": "Organisation",
+        "masterDataTabHeader": "Stamdata",
+        "contactDataTabHeader": "Kontakter",
+        "cancelLabel": "Annuller",
+        "saveLabel": "Gem",
+        "masterData": {
+          "header": "Stamdata",
+          "organizationNameLabel": "Navn"
+        }
       }
     }
   }
