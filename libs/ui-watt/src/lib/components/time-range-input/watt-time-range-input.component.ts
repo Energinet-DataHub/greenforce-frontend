@@ -21,7 +21,7 @@ import {
 import { MatDateRangeInput } from '@angular/material/datepicker';
 import Inputmask from 'inputmask';
 
-export type WattTimeRange = { startTime: string; endTime: string };
+export type WattTimeRange = { start: string; end: string };
 
 /**
  * Note: The reason for using upper case `MM` is because
