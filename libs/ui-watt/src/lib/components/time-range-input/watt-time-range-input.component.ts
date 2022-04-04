@@ -24,8 +24,9 @@ import Inputmask from 'inputmask';
 export type WattTimeRange = { startTime: string; endTime: string };
 
 /**
- * Note: The Inputmask package uses upper case "MM"s for "minutes"
- * and lower case "mm"s for "months".
+ * Note: The reason for using upper case `MM` is because
+ * `Inputmask` package uses upper case `MM` for "minutes" and
+ * lower case `mm` for "months".
  * This is opposite of what most other date libraries do.
  */
 const hoursMinutesFormat = 'HH:MM';
@@ -62,11 +63,6 @@ export class WattTimeRangeInputComponent implements AfterViewInit, OnDestroy {
 
   @Input() min?: string;
   @Input() max?: string;
-
-  /**
-   * @ignore
-   */
-  inputFormat = hoursMinutesFormat;
 
   /**
    * @ignore
@@ -114,7 +110,7 @@ export class WattTimeRangeInputComponent implements AfterViewInit, OnDestroy {
     const maskingElement = this.appendMaskElement(element);
 
     const inputmask = new Inputmask('datetime', {
-      inputFormat: this.inputFormat,
+      inputFormat: hoursMinutesFormat,
       placeholder: this.placeholder,
       onincomplete: () => {
         maskingElement.innerHTML = this.placeholder;
