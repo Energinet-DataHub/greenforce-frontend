@@ -22,9 +22,9 @@ import {
   SkipSelf,
 } from '@angular/core';
 import {
-  ettAuthenticationInterceptorProvider,
-  ettAuthorizationInterceptorProvider,
-} from '@energinet-datahub/ett/auth/data-access-security';
+  eoAuthenticationInterceptorProvider,
+  eoAuthorizationInterceptorProvider,
+} from '@energinet-datahub/eo/auth/data-access-security';
 
 /**
  * Do not import directly. Use `EoHttpModule.forRoot`.
@@ -32,8 +32,8 @@ import {
 @NgModule({
   imports: [HttpClientModule],
   providers: [
-    ettAuthenticationInterceptorProvider,
-    ettAuthorizationInterceptorProvider,
+    eoAuthenticationInterceptorProvider,
+    eoAuthorizationInterceptorProvider,
   ],
 })
 export class EoHttpRootModule {

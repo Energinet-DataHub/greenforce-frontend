@@ -15,8 +15,8 @@
  * limitations under the License.
  */
 // Authentication
-export * from './lib/authentication/ett-authentication.interceptor';
+export * from './lib/authentication/eo-authentication.interceptor';
 export * from './lib/authentication/eo-log-out.store';
 
 // Authorization
-export * from './lib/authorization/ett-authorization.interceptor';
+export * from './lib/authorization/eo-authorization.interceptor';

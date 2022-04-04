@@ -31,16 +31,16 @@ import { eoLandingPageRelativeUrl } from '@energinet-datahub/eo/landing-page/rou
 import { lastValueFrom } from 'rxjs';
 
 import {
-  EttAuthenticationInterceptor,
-  ettAuthenticationInterceptorProvider,
-} from './ett-authentication.interceptor';
+  EoAuthenticationInterceptor,
+  eoAuthenticationInterceptorProvider,
+} from './eo-authentication.interceptor';
 
 @Component({
   template: '',
 })
 class TestAuthComponent {}
 
-describe(EttAuthenticationInterceptor.name, () => {
+describe(EoAuthenticationInterceptor.name, () => {
   function sendRequest(): Promise<unknown> {
     return lastValueFrom(http.get(testEndpoint));
   }
@@ -54,7 +54,7 @@ describe(EttAuthenticationInterceptor.name, () => {
           { path: '', component: TestAuthComponent },
         ]),
       ],
-      providers: [ettAuthenticationInterceptorProvider],
+      providers: [eoAuthenticationInterceptorProvider],
     });
 
     http = TestBed.inject(HttpClient);

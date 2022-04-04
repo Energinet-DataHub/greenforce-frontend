@@ -1,0 +1,27 @@
+{
+  "projectType": "library",
+  "root": "libs/eo/auth/data-access-security",
+  "sourceRoot": "libs/eo/auth/data-access-security/src",
+  "prefix": "eo",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/eo/auth/data-access-security"],
+      "options": {
+        "jestConfig": "libs/eo/auth/data-access-security/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/eo/auth/data-access-security/src/**/*.ts",
+          "libs/eo/auth/data-access-security/src/**/*.html"
+        ]
+      },
+      "outputs": ["{options.outputFile}"]
+    }
+  },
+  "tags": ["product:eo", "domain:auth", "type:data-access"]
+}
