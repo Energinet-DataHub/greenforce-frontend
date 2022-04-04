@@ -67,12 +67,9 @@ export class FormFieldComponent implements AfterViewInit {
       this.dateRangeControl?.matDateRangeInput;
 
     if (this.beforeViewInit) {
-      // If not inside of a timeout this causes "expression has changed..." in date-range-input of the disabled input
-      setTimeout(() => {
-        this.matFormField._control = control;
-        this.matFormField.ngAfterContentInit();
-        this.beforeViewInit = false;
-      });
+      this.matFormField._control = control;
+      this.matFormField.ngAfterContentInit();
+      this.beforeViewInit = false;
     }
   }
 }
