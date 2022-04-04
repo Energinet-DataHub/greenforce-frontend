@@ -21,7 +21,7 @@ import {
 import { MatDateRangeInput } from '@angular/material/datepicker';
 import Inputmask from 'inputmask';
 
-export type WattTimeRange = { start: string; end: string };
+export type WattTimeRange = { startTime: string; endTime: string };
 
 /**
  * Note: The Inputmask package uses upper case "MM"s for "minutes"
