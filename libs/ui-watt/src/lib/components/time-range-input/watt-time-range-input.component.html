@@ -1,4 +1,9 @@
 <mat-date-range-input>
-  <input matStartDate #startTime autocomplete="off" />
-  <input matEndDate #endTime autocomplete="off" />
+  <input
+    matStartDate
+    #startTime
+    [placeholder]="placeholder"
+    autocomplete="off"
+  />
+  <input matEndDate #endTime [placeholder]="placeholder" autocomplete="off" />
 </mat-date-range-input>
