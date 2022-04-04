@@ -15,11 +15,11 @@
  * limitations under the License.
  */
 import { FormsModule } from '@angular/forms';
-import { MatNativeDateModule } from '@angular/material/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { DhConfigurationLocalizationRootModule } from '@energinet-datahub/dh/globalization/configuration-localization';
 import { Meta, moduleMetadata, Story } from '@storybook/angular';
 
+// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
+import { DhConfigurationLocalizationRootModule } from '@energinet-datahub/dh/globalization/configuration-localization';
 import { WattDateRangeInputComponent } from '../date-range-input.component';
 import { WattDateRangeInputModule } from '../date-range-input.module';
 
