@@ -28,14 +28,24 @@ import { WattIconModule, WattIconSize } from '@energinet-datahub/watt';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'dh-processes-detail-item[detail]',
+  selector: 'dh-processes-detail-item',
   templateUrl: './dh-processes-detail-item.component.html',
   styleUrls: ['./dh-processes-detail-item.component.scss'],
 })
 export class DhProcessesDetailItemComponent {
-  iconSize = WattIconSize;
+  private _detail!: ProcessDetail;
+
+  get detail(): ProcessDetail {
+    return this._detail;
+  }
   @Input()
-  detail!: ProcessDetail;
+  set detail(value: ProcessDetail) {
+    if (value === undefined) {
+      throw new Error('ProcessDetail is undefined');
+    }
+    this._detail = value;
+  }
+  iconSize = WattIconSize;
 }
 
 @NgModule({
