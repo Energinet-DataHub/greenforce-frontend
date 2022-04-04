@@ -17,8 +17,9 @@
 import { DhProcess } from '@energinet-datahub/dh/metering-point/domain';
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
 import { runOnPushChangeDetection } from '@energinet-datahub/dh/shared/test-util-metering-point';
-import { fireEvent, render, screen } from '@testing-library/angular';
+import { render, screen } from '@testing-library/angular';
 import { MatcherOptions } from '@testing-library/dom';
+import userEvent from '@testing-library/user-event';
 import {
   DhProcessesTableComponent,
   DhProcessesTableScam,
@@ -152,12 +153,12 @@ describe(DhProcessesTableComponent.name, () => {
     // Verify that the success row is set to collapsed and has height 0
     expect(detailsRow.classList.toString()).toContain('collapsed');
 
-    fireEvent.click(processRow);
+    userEvent.click(processRow);
     // Verify that the success row is set to expanded and no longer has height 0
     expect(processRow.classList.toString()).toContain('expanded');
     expect(detailsRow.classList.toString()).not.toContain('collapsed');
 
-    fireEvent.click(processRow);
+    userEvent.click(processRow);
     // Verify that the success row is set to collapsed and has height 0
     expect(detailsRow.classList.toString()).toContain('collapsed');
   });
