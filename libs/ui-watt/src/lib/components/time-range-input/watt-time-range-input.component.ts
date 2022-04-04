@@ -2,12 +2,13 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
-  Input,
+  Host,
   OnDestroy,
   Renderer2,
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
+import { ControlValueAccessor, NgControl } from '@angular/forms';
 import {
   combineLatest,
   distinctUntilChanged,
@@ -42,7 +43,9 @@ const hoursMinutesPlaceholder = 'HH:mm';
   styleUrls: ['./watt-time-range-input.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class WattTimeRangeInputComponent implements AfterViewInit, OnDestroy {
+export class WattTimeRangeInputComponent
+  implements AfterViewInit, ControlValueAccessor, OnDestroy
+{
   /**
    * @ignore
    */
@@ -71,7 +74,12 @@ export class WattTimeRangeInputComponent implements AfterViewInit, OnDestroy {
    */
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private renderer: Renderer2) {}
+  constructor(
+    private renderer: Renderer2,
+    @Host() private parentControlDirective: NgControl
+  ) {
+    this.parentControlDirective.valueAccessor = this;
+  }
 
   /**
    * @ignore
@@ -83,7 +91,8 @@ export class WattTimeRangeInputComponent implements AfterViewInit, OnDestroy {
     combineLatest([onInputStart$, onInputEnd$])
       .pipe(takeUntil(this.destroy$))
       .subscribe(([startTime, endTime]) => {
-        console.log(startTime, endTime);
+        this.markParentControlAsTouched();
+        this.changeParentValue({ start: startTime, end: endTime });
       });
   }
 
@@ -94,6 +103,52 @@ export class WattTimeRangeInputComponent implements AfterViewInit, OnDestroy {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }
+
+  /**
+   * @ignore
+   */
+  writeValue(timeRange: WattTimeRange): void {
+    const inputEvent = new Event('input', { bubbles: true });
+
+    if (timeRange.start) {
+      this.startTimeInput.nativeElement.value = timeRange.start;
+      this.startTimeInput.nativeElement.dispatchEvent(inputEvent);
+    }
+
+    if (timeRange.end) {
+      this.startTimeInput.nativeElement.value = timeRange.end;
+      this.startTimeInput.nativeElement.dispatchEvent(inputEvent);
+    }
+  }
+
+  /**
+   * @ignore
+   */
+  registerOnChange(onChangeFn: (value: WattTimeRange) => void): void {
+    this.changeParentValue = onChangeFn;
+  }
+
+  /**
+   * @ignore
+   */
+  registerOnTouched(onTouchFn: () => void) {
+    this.markParentControlAsTouched = onTouchFn;
+  }
+
+  /**
+   * @ignore
+   */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  private changeParentValue = (value: WattTimeRange): void => {
+    // Intentionally left empty
+  };
+
+  /**
+   * @ignore
+   */
+  private markParentControlAsTouched = (): void => {
+    // Intentionally left empty
+  };
 
   /**
    * @ignore
