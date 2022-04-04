@@ -23,8 +23,13 @@ import Inputmask from 'inputmask';
 
 export type WattTimeRange = { start: string; end: string };
 
-const timeSeparator = ':';
-const hoursMinutesFormat = `HH${timeSeparator}MM`;
+/**
+ * Note: The Inputmask package uses upper case "MM"s for "minutes"
+ * and lower case "mm"s for "months".
+ * This is opposite of what most other date libraries do.
+ */
+const hoursMinutesFormat = 'HH:MM';
+const hoursMinutesPlaceholder = 'HH:mm';
 
 /**
  * Usage:
@@ -66,7 +71,7 @@ export class WattTimeRangeInputComponent implements AfterViewInit, OnDestroy {
   /**
    * @ignore
    */
-  placeholder: string = this.inputFormat;
+  placeholder = hoursMinutesPlaceholder;
 
   /**
    * @ignore
