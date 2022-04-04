@@ -24,7 +24,7 @@ import {
 } from '@angular/router';
 import { eoLandingPageRelativeUrl } from '@energinet-datahub/eo/landing-page/routing';
 import { AbsoluteUrlGenerator } from '@energinet-datahub/eo/shared/util-browser';
-import { AuthOidcQueryParameterName } from '@energinet-datahub/ett/auth/data-access-api';
+import { AuthOidcQueryParameterName } from '@energinet-datahub/eo/auth/data-access-api';
 
 /**
  * Redirects to login page if authentication fails.

@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 module.exports = {
-  displayName: 'ett-auth-data-access-api',
+  displayName: 'eo-auth-data-access-api',
   preset: '../../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   globals: {
@@ -24,7 +24,7 @@ module.exports = {
       stringifyContentPathRegex: '\\.(html|svg)$',
     },
   },
-  coverageDirectory: '../../../../coverage/libs/ett/auth/data-access-api',
+  coverageDirectory: '../../../../coverage/libs/eo/auth/data-access-api',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': 'jest-preset-angular',
   },

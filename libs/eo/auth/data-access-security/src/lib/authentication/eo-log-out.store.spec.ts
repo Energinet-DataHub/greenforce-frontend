@@ -18,7 +18,7 @@ import { TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { eoLandingPageRelativeUrl } from '@energinet-datahub/eo/landing-page/routing';
-import { AuthHttp } from '@energinet-datahub/ett/auth/data-access-api';
+import { AuthHttp } from '@energinet-datahub/eo/auth/data-access-api';
 import { MockProvider } from 'ng-mocks';
 import { of } from 'rxjs';
 
