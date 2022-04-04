@@ -89,8 +89,8 @@ export class WattTimeRangeInputComponent implements AfterViewInit, OnDestroy {
 
     combineLatest([onInputStart$, onInputEnd$])
       .pipe(takeUntil(this.destroy$))
-      .subscribe(([start, end]) => {
-        console.log(start, end);
+      .subscribe(([startTime, endTime]) => {
+        console.log(startTime, endTime);
       });
   }
 
