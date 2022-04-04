@@ -25,15 +25,15 @@ import {
 } from '@angular/common/http';
 import { ClassProvider, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { catchError, from, Observable, switchMapTo, throwError } from 'rxjs';
 import { eoLandingPageRelativeUrl } from '@energinet-datahub/eo/landing-page/routing';
+import { catchError, from, Observable, switchMapTo, throwError } from 'rxjs';
 
 /**
  * Redirects to the login page when the user is not authenticated or their
  * credentials have expired.
  */
 @Injectable()
-export class EttAuthenticationInterceptor implements HttpInterceptor {
+export class EoAuthenticationInterceptor implements HttpInterceptor {
   constructor(private router: Router) {}
 
   intercept(
@@ -66,8 +66,8 @@ export class EttAuthenticationInterceptor implements HttpInterceptor {
   }
 }
 
-export const ettAuthenticationInterceptorProvider: ClassProvider = {
+export const eoAuthenticationInterceptorProvider: ClassProvider = {
   multi: true,
   provide: HTTP_INTERCEPTORS,
-  useClass: EttAuthenticationInterceptor,
+  useClass: EoAuthenticationInterceptor,
 };

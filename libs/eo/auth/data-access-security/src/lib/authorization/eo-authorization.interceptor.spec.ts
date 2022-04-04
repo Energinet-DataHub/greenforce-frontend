@@ -30,16 +30,16 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { lastValueFrom } from 'rxjs';
 
 import {
-  EttAuthorizationInterceptor,
-  ettAuthorizationInterceptorProvider,
-} from './ett-authorization.interceptor';
+  EoAuthorizationInterceptor,
+  eoAuthorizationInterceptorProvider,
+} from './eo-authorization.interceptor';
 
 @Component({
   template: '',
 })
 class TestDefaultRouteComponent {}
 
-describe(EttAuthorizationInterceptor.name, () => {
+describe(EoAuthorizationInterceptor.name, () => {
   function sendRequest(): Promise<unknown> {
     return lastValueFrom(http.get(testEndpoint));
   }
@@ -55,7 +55,7 @@ describe(EttAuthorizationInterceptor.name, () => {
         ]),
         MatSnackBarModule,
       ],
-      providers: [ettAuthorizationInterceptorProvider],
+      providers: [eoAuthorizationInterceptorProvider],
     });
 
     http = TestBed.inject(HttpClient);

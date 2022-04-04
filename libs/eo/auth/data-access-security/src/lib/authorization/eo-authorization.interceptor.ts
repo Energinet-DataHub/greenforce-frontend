@@ -31,7 +31,7 @@ import { Observable, tap } from 'rxjs';
  * Displays an error when the user has insufficient permissions.
  */
 @Injectable()
-export class EttAuthorizationInterceptor implements HttpInterceptor {
+export class EoAuthorizationInterceptor implements HttpInterceptor {
   constructor(private snackBar: MatSnackBar) {}
 
   intercept(
@@ -63,8 +63,8 @@ export class EttAuthorizationInterceptor implements HttpInterceptor {
   }
 }
 
-export const ettAuthorizationInterceptorProvider: ClassProvider = {
+export const eoAuthorizationInterceptorProvider: ClassProvider = {
   multi: true,
   provide: HTTP_INTERCEPTORS,
-  useClass: EttAuthorizationInterceptor,
+  useClass: EoAuthorizationInterceptor,
 };
