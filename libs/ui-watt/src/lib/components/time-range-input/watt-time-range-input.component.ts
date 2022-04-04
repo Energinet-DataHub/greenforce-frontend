@@ -61,9 +61,6 @@ export class WattTimeRangeInputComponent implements AfterViewInit, OnDestroy {
   @ViewChild('endTime')
   endTimeInput!: ElementRef;
 
-  @Input() min?: string;
-  @Input() max?: string;
-
   /**
    * @ignore
    */
