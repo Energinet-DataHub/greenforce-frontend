@@ -16,7 +16,7 @@
  */
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { exhaustMap, mergeMap, of, throwError } from 'rxjs';
-import { AuthHttp } from '@energinet-datahub/ett/auth/data-access-api';
+import { AuthHttp } from '@energinet-datahub/eo/auth/data-access-api';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { eoLandingPageRelativeUrl } from '@energinet-datahub/eo/landing-page/routing';

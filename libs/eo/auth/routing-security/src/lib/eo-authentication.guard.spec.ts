@@ -19,7 +19,7 @@ import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { eoLandingPageRelativeUrl } from '@energinet-datahub/eo/landing-page/routing';
-import { AuthOidcQueryParameterName } from '@energinet-datahub/ett/auth/data-access-api';
+import { AuthOidcQueryParameterName } from '@energinet-datahub/eo/auth/data-access-api';
 import { SpectacularAppComponent } from '@ngworker/spectacular';
 import { render, RenderResult } from '@testing-library/angular';
 
