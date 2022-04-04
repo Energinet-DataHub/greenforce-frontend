@@ -106,17 +106,17 @@ export class DhProcessesTableComponent implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
+    if (this.processRows.length === 0) {
+      this.processRows = DhProcessesTableComponent.wrapInTableRow(
+        this.processes
+      );
+    }
     if (this.processes != undefined) {
       this.setDefaultSorting();
     }
   }
 
   sortData(sort: Sort) {
-    if (this.processRows.length === 0) {
-      this.processRows = DhProcessesTableComponent.wrapInTableRow(
-        this.processes
-      );
-    }
     if (!sort.active || sort.direction === '') {
       this.sortedData = this.processRows;
       this.setDefaultSorting();
