@@ -1,5 +1,6 @@
 export * from './actor-dto';
 export * from './actor-status';
+export * from './address-dto';
 export * from './asset-type';
 export * from './change-actor-dto';
 export * from './change-organization-dto';
