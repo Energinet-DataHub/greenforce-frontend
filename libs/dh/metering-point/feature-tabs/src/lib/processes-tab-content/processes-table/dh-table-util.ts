@@ -9,9 +9,8 @@ export function wrapInTableRow<T>(dataRows: T[]): DhTableRow<T>[] {
 }
 
 export function getRowToExpand(
-  clickedElement: HTMLElement
+  clickedElement: Element
 ): HTMLElement | undefined {
-  console.log(clickedElement);
   return (
     // Get the row next to the parent row
     (clickedElement.closest('mat-row')?.nextElementSibling as HTMLElement) ??

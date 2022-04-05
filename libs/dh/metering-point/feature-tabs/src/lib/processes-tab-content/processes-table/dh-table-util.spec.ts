@@ -1,4 +1,3 @@
-import { DhProcessesTableComponent } from './dh-processes-table.component';
 import { getRowToExpand, wrapInTableRow } from './dh-table-util';
 
 describe(wrapInTableRow.name, () => {
@@ -13,28 +12,31 @@ describe(wrapInTableRow.name, () => {
 });
 
 describe(getRowToExpand.name, () => {
-  it('should return row to expand', () => {
-    const cell1 = document.createElement('td');
-    const cell2 = document.createElement('td');
-    const cell3 = document.createElement('td');
-    const cell4 = document.createElement('td');
+  it('should return row to expand', async () => {
+    document.body.innerHTML = `
+      <div>
+        <mat-row>
+          <div id="process-row" class="mat-row">
+            <div class="column"></div><div class="column"></div>
+          </div>
+        </mat-row>
+        <mat-row>
+          <div id="detail-row" class="mat-row">
+            <div class="column"></div><div class="column"></div>
+          </div>
+        </mat-row>
+      </div>
+    `;
+    const firstRow = document.getElementById('process-row');
+    const firstColumnOfFirstRow = firstRow?.children[0];
 
-    const processRow = document.createElement('tr');
-    processRow.classList.add('mat-row');
-    processRow.append(cell1, cell2);
+    if (firstColumnOfFirstRow === undefined) {
+      // This is purely to satisfy the linter complaining about a possible undefined value
+      throw new Error('Expected to find table cell element');
+    }
 
-    const detailRow = document.createElement('tr');
-    detailRow.classList.add('mat-row');
-    detailRow.append(cell3, cell4);
+    const rowToExpand = getRowToExpand(firstColumnOfFirstRow);
 
-    const tbody = document.createElement('tbody');
-    tbody.append(processRow, detailRow);
-
-    const table = document.createElement('table');
-    table.append(tbody);
-
-    const rowToExpand = getRowToExpand(cell1);
-
-    expect(rowToExpand).toBe(detailRow);
+    expect(rowToExpand?.children[0].id).toBe('detail-row');
   });
 });
