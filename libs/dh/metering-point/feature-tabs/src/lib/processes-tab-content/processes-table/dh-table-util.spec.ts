@@ -1,4 +1,8 @@
-import { getRowToExpand, wrapInTableRow } from './dh-table-util';
+import {
+  compareSortValues,
+  getRowToExpand,
+  wrapInTableRow,
+} from './dh-table-util';
 
 describe(wrapInTableRow.name, () => {
   it('should wrap in table row', () => {
@@ -16,13 +20,13 @@ describe(getRowToExpand.name, () => {
     document.body.innerHTML = `
       <div>
         <mat-row>
-          <div id="process-row" class="mat-row">
-            <div class="column"></div><div class="column"></div>
+          <div id='process-row' class='mat-row'>
+            <div class='column'></div><div class='column'></div>
           </div>
         </mat-row>
         <mat-row>
-          <div id="detail-row" class="mat-row">
-            <div class="column"></div><div class="column"></div>
+          <div id='detail-row' class='mat-row'>
+            <div class='column'></div><div class='column'></div>
           </div>
         </mat-row>
       </div>
@@ -38,5 +42,23 @@ describe(getRowToExpand.name, () => {
     const rowToExpand = getRowToExpand(firstColumnOfFirstRow);
 
     expect(rowToExpand?.children[0].id).toBe('detail-row');
+  });
+});
+
+describe(compareSortValues.name, () => {
+  it('should return the expected sorting values', async () => {
+    const oneIsSmallerThanTwoDesc = compareSortValues(1, 2, false);
+    const oneIsSmallerThanTwoAsc = compareSortValues(1, 2, true);
+    const oneIsEqualToOne = compareSortValues(1, 1, true);
+
+    const aIsSmallerThanBDesc = compareSortValues('a', 'b', false);
+    const aIsSmallerThanBAsc = compareSortValues('a', 'b', true);
+
+    expect(oneIsSmallerThanTwoDesc).toBe(1);
+    expect(oneIsSmallerThanTwoAsc).toBe(-1);
+    expect(oneIsEqualToOne).toBe(1);
+
+    expect(aIsSmallerThanBDesc).toBe(1);
+    expect(aIsSmallerThanBAsc).toBe(-1);
   });
 });
