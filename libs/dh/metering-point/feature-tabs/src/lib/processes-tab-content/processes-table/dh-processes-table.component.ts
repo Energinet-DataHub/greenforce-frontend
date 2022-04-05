@@ -41,7 +41,13 @@ import {
 } from '@energinet-datahub/watt';
 import { TranslocoModule } from '@ngneat/transloco';
 import { DhProcessesDetailItemScam } from '../processes-detail-item/dh-processes-detail-item.component';
-import { DhProcessTableRow } from './dh-process-table-row';
+import { DhTableRow } from './dh-table-row';
+import {
+  compareSortValues,
+  getRowHeight,
+  getRowToExpand,
+  wrapInTableRow,
+} from './dh-table-util';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -59,43 +65,13 @@ export class DhProcessesTableComponent implements AfterViewInit {
     'hasDetailsErrors',
   ];
   iconSize = WattIconSize;
-  sortedData: DhProcessTableRow[] = [];
+  sortedData: DhTableRow<DhProcess>[] = [];
 
   @Input() processes: DhProcess[] = [];
 
-  processRows: DhProcessTableRow[] = [];
+  processRows: DhTableRow<DhProcess>[] = [];
 
   @ViewChild(MatSort) matSort?: MatSort;
-
-  private static wrapInTableRow(data: DhProcess[]): DhProcessTableRow[] {
-    return data.map((process) => ({
-      process: process,
-      expanded: false,
-      maxHeight: 0,
-    }));
-  }
-
-  private static getRowToExpand(
-    clickedRow: HTMLElement
-  ): HTMLElement | undefined {
-    return (
-      // Get the row next to the parent row
-      (clickedRow.closest('mat-row')?.nextElementSibling as HTMLElement) ??
-      undefined
-    );
-  }
-
-  private static getRowHeight(rowElement: HTMLElement): number {
-    return rowElement.children[0].clientHeight;
-  }
-
-  private static compare(
-    a: number | string,
-    b: number | string,
-    isAsc: boolean
-  ) {
-    return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
-  }
 
   private setDefaultSorting() {
     if (this.matSort === undefined) return;
@@ -107,9 +83,7 @@ export class DhProcessesTableComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     if (this.processRows.length === 0) {
-      this.processRows = DhProcessesTableComponent.wrapInTableRow(
-        this.processes
-      );
+      this.processRows = wrapInTableRow<DhProcess>(this.processes);
     }
     if (this.processes != undefined) {
       this.setDefaultSorting();
@@ -127,40 +101,30 @@ export class DhProcessesTableComponent implements AfterViewInit {
       const isAsc = sort.direction === 'asc';
       switch (sort.active) {
         case 'name':
-          return DhProcessesTableComponent.compare(
-            a.process.name,
-            b.process.name,
-            isAsc
-          );
+          return compareSortValues(a.data.name, b.data.name, isAsc);
         case 'createdDate':
-          return DhProcessesTableComponent.compare(
-            a.process.createdDate,
-            b.process.createdDate,
+          return compareSortValues(
+            a.data.createdDate,
+            b.data.createdDate,
             isAsc
           );
         case 'effectiveDate':
-          return DhProcessesTableComponent.compare(
-            a.process.effectiveDate ?? '',
-            b.process.effectiveDate ?? '',
+          return compareSortValues(
+            a.data.effectiveDate ?? '',
+            b.data.effectiveDate ?? '',
             isAsc
           );
         case 'status':
-          return DhProcessesTableComponent.compare(
-            a.process.status,
-            b.process.status,
-            isAsc
-          );
+          return compareSortValues(a.data.status, b.data.status, isAsc);
         default:
           return 0;
       }
     });
   }
 
-  toggleRow(event: Event, row: DhProcessTableRow) {
+  toggleRow(event: Event, row: DhTableRow<DhProcess>) {
     if (!row.expanded && event.target) {
-      const rowToExpand = DhProcessesTableComponent.getRowToExpand(
-        event.target as HTMLElement
-      );
+      const rowToExpand = getRowToExpand(event.target as HTMLElement);
       if (!rowToExpand) return;
 
       this.expandRow(rowToExpand, row);
@@ -169,12 +133,12 @@ export class DhProcessesTableComponent implements AfterViewInit {
     }
   }
 
-  expandRow(rowToExpand: HTMLElement, row: DhProcessTableRow) {
-    row.maxHeight = DhProcessesTableComponent.getRowHeight(rowToExpand);
+  expandRow(rowToExpand: HTMLElement, row: DhTableRow<DhProcess>) {
+    row.maxHeight = getRowHeight(rowToExpand);
     row.expanded = true;
   }
 
-  collapseRow(row: DhProcessTableRow) {
+  collapseRow(row: DhTableRow<DhProcess>) {
     row.maxHeight = 0;
     row.expanded = false;
   }

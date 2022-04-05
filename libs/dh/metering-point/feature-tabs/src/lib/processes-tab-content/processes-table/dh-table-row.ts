@@ -14,12 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { DhProcess } from '@energinet-datahub/dh/metering-point/domain';
+export type DhProcessTableRows<T> = DhTableRow<T>[];
 
-export type DhProcessTableRows = DhProcessTableRow[];
-
-export interface DhProcessTableRow {
-  process: DhProcess;
+export interface DhTableRow<T> {
+  data: T;
   expanded: boolean;
   maxHeight: number;
 }
