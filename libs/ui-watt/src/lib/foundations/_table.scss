@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@use './typography/typography.import' as typography;
+@use "./typography/typography.import" as typography;
 
 mat-table,
 .mat-table {
@@ -27,7 +27,7 @@ mat-table,
     @include typography.watt-label;
   }
 
-  mat-row:hover {
+  mat-row.clickable {
     cursor: pointer;
   }
 
