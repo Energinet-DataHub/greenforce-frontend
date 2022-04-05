@@ -165,7 +165,7 @@ export class WattTimeRangeInputComponent
 
     const maskingElement = this.appendMaskElement(element);
 
-    const inputmask = new Inputmask('datetime', {
+    const inputmask: Inputmask.Instance = new Inputmask('datetime', {
       inputFormat: hoursMinutesFormat,
       placeholder: this.placeholder,
       onincomplete: () => {
@@ -197,8 +197,7 @@ export class WattTimeRangeInputComponent
    */
   private registerOnInput(
     element: HTMLInputElement,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    inputMask: any
+    inputMask: Inputmask.Instance
   ): Observable<string> {
     return fromEvent(element, 'input').pipe(
       startWith(element.value),
