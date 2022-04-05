@@ -20,7 +20,7 @@ limitations under the License.
     read: 'marketParticipant.organization.create.contacts'
   "
 >
-  <table mat-table [dataSource]="this.contactRows">
+  <table mat-table [dataSource]="this.contactRows" aria-label="contacts">
     <!-- Contact Type -->
     <ng-container matColumnDef="{{ this.columnIds[0] }}">
       <th mat-header-cell *matHeaderCellDef>{{ transloco('category') }}</th>
@@ -44,10 +44,11 @@ limitations under the License.
           ><input
             wattInput
             required
-            [placeholder]="transloco('namePlaceholder')"
             [(ngModel)]="element.changed.name"
+            [placeholder]="transloco('namePlaceholder')"
             (change)="this.onFieldChanged(element)"
-        /></watt-form-field>
+          />
+        </watt-form-field>
       </td>
     </ng-container>
 
