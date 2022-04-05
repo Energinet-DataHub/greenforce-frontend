@@ -14,21 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-:host {
-  display: block;
-  padding: var(--watt-space-l) 0;
-}
+export type DhProcessTableRows<T> = DhTableRow<T>[];
 
-.mat-column-expand,
-.mat-column-hasDetailsErrors {
-  max-width: 52px;
-  padding: 10px;
-}
-
-.mat-column-expand watt-icon {
-  cursor: not-allowed; // TODO: Change this when the expand functionality has been implemented
-}
-
-.date-icon {
-  margin-right: var(--watt-space-s);
+export interface DhTableRow<T> {
+  data: T;
+  expanded: boolean;
+  maxHeight: number;
 }
