@@ -377,6 +377,15 @@
         "masterData": {
           "header": "Stamdata",
           "organizationNameLabel": "Navn"
+        },
+        "contacts": {
+          "category": "Kategori",
+          "name": "Navn",
+          "namePlaceholder": "Navn",
+          "email": "E-mail",
+          "emailPlaceholder": "E-mail",
+          "phone": "Telefon",
+          "phonePlaceholder": "Telefon (valgfri)"
         }
       }
     }

@@ -357,6 +357,15 @@
         "masterData": {
           "header": "Master data",
           "organizationNameLabel": "Name"
+        },
+        "contacts": {
+          "category": "Category",
+          "name": "Name",
+          "namePlaceholder": "Name",
+          "email": "E-mail",
+          "emailPlaceholder": "E-mail",
+          "phone": "Phone",
+          "phonePlaceholder": "Phone (optional)"
         }
       }
     }
