@@ -421,26 +421,19 @@ export class MarketParticipantHttp {
     /**
      * Removes a contact from an organization.
      * @param orgId 
-     * @param actorId 
      * @param contactId 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public v1MarketParticipantOrganizationOrgIdContactActorIdDelete(orgId: string, actorId: string, contactId?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any>;
-    public v1MarketParticipantOrganizationOrgIdContactActorIdDelete(orgId: string, actorId: string, contactId?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpResponse<any>>;
-    public v1MarketParticipantOrganizationOrgIdContactActorIdDelete(orgId: string, actorId: string, contactId?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpEvent<any>>;
-    public v1MarketParticipantOrganizationOrgIdContactActorIdDelete(orgId: string, actorId: string, contactId?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any> {
+    public v1MarketParticipantOrganizationOrgIdContactContactIdDelete(orgId: string, contactId: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any>;
+    public v1MarketParticipantOrganizationOrgIdContactContactIdDelete(orgId: string, contactId: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpResponse<any>>;
+    public v1MarketParticipantOrganizationOrgIdContactContactIdDelete(orgId: string, contactId: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpEvent<any>>;
+    public v1MarketParticipantOrganizationOrgIdContactContactIdDelete(orgId: string, contactId: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any> {
         if (orgId === null || orgId === undefined) {
-            throw new Error('Required parameter orgId was null or undefined when calling v1MarketParticipantOrganizationOrgIdContactActorIdDelete.');
+            throw new Error('Required parameter orgId was null or undefined when calling v1MarketParticipantOrganizationOrgIdContactContactIdDelete.');
         }
-        if (actorId === null || actorId === undefined) {
-            throw new Error('Required parameter actorId was null or undefined when calling v1MarketParticipantOrganizationOrgIdContactActorIdDelete.');
-        }
-
-        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
-        if (contactId !== undefined && contactId !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>contactId, 'contactId');
+        if (contactId === null || contactId === undefined) {
+            throw new Error('Required parameter contactId was null or undefined when calling v1MarketParticipantOrganizationOrgIdContactContactIdDelete.');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -474,10 +467,9 @@ export class MarketParticipantHttp {
             responseType_ = 'text';
         }
 
-        return this.httpClient.delete<any>(`${this.configuration.basePath}/v1/MarketParticipant/organization/${encodeURIComponent(String(orgId))}/contact/${encodeURIComponent(String(actorId))}`,
+        return this.httpClient.delete<any>(`${this.configuration.basePath}/v1/MarketParticipant/organization/${encodeURIComponent(String(orgId))}/contact/${encodeURIComponent(String(contactId))}`,
             {
                 context: localVarHttpContext,
-                params: localVarQueryParameters,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,
@@ -490,19 +482,15 @@ export class MarketParticipantHttp {
     /**
      * Gets all the contacts in an organization.
      * @param orgId 
-     * @param actorId 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public v1MarketParticipantOrganizationOrgIdContactActorIdGet(orgId: string, actorId: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<Array<ContactDto>>;
-    public v1MarketParticipantOrganizationOrgIdContactActorIdGet(orgId: string, actorId: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<Array<ContactDto>>>;
-    public v1MarketParticipantOrganizationOrgIdContactActorIdGet(orgId: string, actorId: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<Array<ContactDto>>>;
-    public v1MarketParticipantOrganizationOrgIdContactActorIdGet(orgId: string, actorId: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
+    public v1MarketParticipantOrganizationOrgIdContactGet(orgId: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<Array<ContactDto>>;
+    public v1MarketParticipantOrganizationOrgIdContactGet(orgId: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<Array<ContactDto>>>;
+    public v1MarketParticipantOrganizationOrgIdContactGet(orgId: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<Array<ContactDto>>>;
+    public v1MarketParticipantOrganizationOrgIdContactGet(orgId: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
         if (orgId === null || orgId === undefined) {
-            throw new Error('Required parameter orgId was null or undefined when calling v1MarketParticipantOrganizationOrgIdContactActorIdGet.');
-        }
-        if (actorId === null || actorId === undefined) {
-            throw new Error('Required parameter actorId was null or undefined when calling v1MarketParticipantOrganizationOrgIdContactActorIdGet.');
+            throw new Error('Required parameter orgId was null or undefined when calling v1MarketParticipantOrganizationOrgIdContactGet.');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -539,7 +527,7 @@ export class MarketParticipantHttp {
             responseType_ = 'text';
         }
 
-        return this.httpClient.get<Array<ContactDto>>(`${this.configuration.basePath}/v1/MarketParticipant/organization/${encodeURIComponent(String(orgId))}/contact/${encodeURIComponent(String(actorId))}`,
+        return this.httpClient.get<Array<ContactDto>>(`${this.configuration.basePath}/v1/MarketParticipant/organization/${encodeURIComponent(String(orgId))}/contact`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
@@ -554,20 +542,16 @@ export class MarketParticipantHttp {
     /**
      * Creates a contact in an organization.
      * @param orgId 
-     * @param actorId 
      * @param createContactDto 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public v1MarketParticipantOrganizationOrgIdContactActorIdPost(orgId: string, actorId: string, createContactDto?: CreateContactDto, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<string>;
-    public v1MarketParticipantOrganizationOrgIdContactActorIdPost(orgId: string, actorId: string, createContactDto?: CreateContactDto, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<string>>;
-    public v1MarketParticipantOrganizationOrgIdContactActorIdPost(orgId: string, actorId: string, createContactDto?: CreateContactDto, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<string>>;
-    public v1MarketParticipantOrganizationOrgIdContactActorIdPost(orgId: string, actorId: string, createContactDto?: CreateContactDto, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
+    public v1MarketParticipantOrganizationOrgIdContactPost(orgId: string, createContactDto?: CreateContactDto, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<string>;
+    public v1MarketParticipantOrganizationOrgIdContactPost(orgId: string, createContactDto?: CreateContactDto, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<string>>;
+    public v1MarketParticipantOrganizationOrgIdContactPost(orgId: string, createContactDto?: CreateContactDto, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<string>>;
+    public v1MarketParticipantOrganizationOrgIdContactPost(orgId: string, createContactDto?: CreateContactDto, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
         if (orgId === null || orgId === undefined) {
-            throw new Error('Required parameter orgId was null or undefined when calling v1MarketParticipantOrganizationOrgIdContactActorIdPost.');
-        }
-        if (actorId === null || actorId === undefined) {
-            throw new Error('Required parameter actorId was null or undefined when calling v1MarketParticipantOrganizationOrgIdContactActorIdPost.');
+            throw new Error('Required parameter orgId was null or undefined when calling v1MarketParticipantOrganizationOrgIdContactPost.');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -615,7 +599,7 @@ export class MarketParticipantHttp {
             responseType_ = 'text';
         }
 
-        return this.httpClient.post<string>(`${this.configuration.basePath}/v1/MarketParticipant/organization/${encodeURIComponent(String(orgId))}/contact/${encodeURIComponent(String(actorId))}`,
+        return this.httpClient.post<string>(`${this.configuration.basePath}/v1/MarketParticipant/organization/${encodeURIComponent(String(orgId))}/contact`,
             createContactDto,
             {
                 context: localVarHttpContext,
