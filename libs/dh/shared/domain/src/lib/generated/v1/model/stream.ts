@@ -13,9 +13,9 @@
 
 export interface Stream { 
     readonly canRead: boolean;
+    readonly canWrite: boolean;
     readonly canSeek: boolean;
     readonly canTimeout: boolean;
-    readonly canWrite: boolean;
     readonly length: number;
     position: number;
     readTimeout: number;

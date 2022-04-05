@@ -9,12 +9,10 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { GlobalLocationNumberDto } from './global-location-number-dto';
 import { MarketRoleDto } from './market-role-dto';
 
 
 export interface ChangeActorDto { 
-    gln: GlobalLocationNumberDto;
     status: string;
     marketRoles: Array<MarketRoleDto>;
 }

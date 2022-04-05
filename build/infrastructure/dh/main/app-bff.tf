@@ -18,20 +18,21 @@ resource "azurerm_app_service" "bff" {
   app_service_plan_id = module.plan_bff.id
 
   site_config {
-    linux_fx_version = "DOTNETCORE|5.0"
-    dotnet_framework_version = "v5.0"
+    linux_fx_version = "DOTNETCORE|6.0"
+    dotnet_framework_version = "v6.0"
     cors {
       allowed_origins = ["*"]
     }
   }
 
   app_settings = {
-    ApiClientSettings__MessageArchiveBaseUrl = data.azurerm_key_vault_secret.app_message_archive_api_base_url.value
-    ApiClientSettings__MeteringPointBaseUrl  = data.azurerm_key_vault_secret.app_metering_point_webapi_base_url.value
-    ApiClientSettings__ChargesBaseUrl        = data.azurerm_key_vault_secret.app_charges_webapi_base_url.value
-    APPINSIGHTS_INSTRUMENTATIONKEY           = data.azurerm_key_vault_secret.appi_instrumentation_key.value
-    FRONTEND_OPEN_ID_URL                     = data.azurerm_key_vault_secret.frontend_open_id_url.value
-    FRONTEND_SERVICE_APP_ID                  = data.azurerm_key_vault_secret.frontend_service_app_id.value
+    ApiClientSettings__MessageArchiveBaseUrl    = data.azurerm_key_vault_secret.app_message_archive_api_base_url.value
+    ApiClientSettings__MeteringPointBaseUrl     = data.azurerm_key_vault_secret.app_metering_point_webapi_base_url.value
+    ApiClientSettings__ChargesBaseUrl           = data.azurerm_key_vault_secret.app_charges_webapi_base_url.value
+    ApiClientSettings__MarketParticipantBaseUrl = data.azurerm_key_vault_secret.app_markpart_webapi_base_url.value
+    APPINSIGHTS_INSTRUMENTATIONKEY              = data.azurerm_key_vault_secret.appi_instrumentation_key.value
+    FRONTEND_OPEN_ID_URL                        = data.azurerm_key_vault_secret.frontend_open_id_url.value
+    FRONTEND_SERVICE_APP_ID                     = data.azurerm_key_vault_secret.frontend_service_app_id.value
   }
 
   tags                = azurerm_resource_group.this.tags

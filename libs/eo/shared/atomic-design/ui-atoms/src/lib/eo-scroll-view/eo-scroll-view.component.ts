@@ -14,56 +14,59 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  ChangeDetectionStrategy,
-  Component,
-  NgModule,
-  ViewEncapsulation,
-} from '@angular/core';
-
-const selector = 'eo-scroll-view';
+import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None,
-  selector,
-  template: `
-    <div class="${selector}__content">
-      <ng-content></ng-content>
-    </div>
-  `,
+  selector: 'eo-scroll-view',
   styles: [
     `
-      ${selector} {
+      :host {
+        --eo-scroll-view-padding: var(--watt-space-m);
+
         display: block;
-        padding: calc(4 * var(--watt-space-xs));
-        background: var(--watt-color-neutral-white);
-        border-radius: var(--watt-space-xs);
         word-break: break-word;
 
-        // This is the contents of the privacy policy with the custom scrollbar
-        .${selector}__content {
-          max-height: calc(100 * var(--watt-space-xs));
-          word-break: break-word;
-          overflow-y: scroll;
-          padding-right: calc(4 * var(--watt-space-xs));
+        padding: var(--eo-scroll-view-padding);
 
-          // As we do not have sufficient styling options for the scrollbar in Firefox - We are targeting webkit only
-          &::-webkit-scrollbar {
-            width: 6px;
-          }
-          &::-webkit-scrollbar-track {
-            background: var(--watt-color-neutral-white);
-            border-radius: 50px;
-          }
-          &::-webkit-scrollbar-thumb {
-            background-color: var(--watt-color-primary);
-            border-radius: 50px;
-          }
+        background: var(--watt-color-neutral-white);
+        border-radius: var(--watt-space-xs);
+      }
+
+      // This is the contents of the privacy policy with the custom scrollbar
+      .content {
+        max-height: calc(
+          400px - calc(2 * var(--eo-scroll-view-padding))
+        ); // Magic number by designer
+        word-break: break-word;
+        overflow-y: scroll;
+        padding-right: var(--watt-space-m);
+
+        // As we do not have sufficient styling options for the scrollbar in Firefox - We are targeting webkit only
+        &::-webkit-scrollbar {
+          width: 6px;
+        }
+
+        &::-webkit-scrollbar-thumb,
+        &::-webkit-scrollbar-track {
+          border-radius: 50px;
+        }
+
+        &::-webkit-scrollbar-track {
+          background: var(--watt-color-neutral-white);
+        }
+
+        &::-webkit-scrollbar-thumb {
+          background-color: var(--watt-color-primary);
         }
       }
     `,
   ],
+  template: `
+    <div class="content">
+      <ng-content></ng-content>
+    </div>
+  `,
 })
 export class EoScrollViewComponent {}
 

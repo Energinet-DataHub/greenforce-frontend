@@ -1,1 +1,1 @@
-# EnergyOrigin Landing page shell
+# Energy Origin Landing page shell
