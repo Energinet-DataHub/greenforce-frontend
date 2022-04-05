@@ -54,7 +54,7 @@ namespace Energinet.DataHub.WebApi.Controllers
         /// Creates an organization
         /// </summary>
         [HttpPost]
-        public async Task<ActionResult<string>> CreateOrganizationAsync(ChangeOrganizationDto organizationDto)
+        public async Task<ActionResult<Guid>> CreateOrganizationAsync(ChangeOrganizationDto organizationDto)
         {
             return Ok(await _client.CreateOrganizationAsync(organizationDto).ConfigureAwait(false));
         }
@@ -91,7 +91,7 @@ namespace Energinet.DataHub.WebApi.Controllers
         /// Updates an Actor in an organization
         /// </summary>
         [HttpPost("{orgId:guid}/actor")]
-        public async Task<ActionResult<string>> CreateActorAsync(Guid orgId, CreateActorDto actorDto)
+        public async Task<ActionResult<Guid>> CreateActorAsync(Guid orgId, CreateActorDto actorDto)
         {
             return Ok(await _client.CreateActorAsync(orgId, actorDto).ConfigureAwait(false));
         }
@@ -119,7 +119,7 @@ namespace Energinet.DataHub.WebApi.Controllers
         /// Creates a contact in an organization.
         /// </summary>
         [HttpPost("{orgId:guid}/contact/{actorId:guid}")]
-        public async Task<ActionResult<string>> CreateContactAsync(Guid orgId, CreateContactDto createDto)
+        public async Task<ActionResult<Guid>> CreateContactAsync(Guid orgId, CreateContactDto createDto)
         {
             return Ok(await _client.CreateContactAsync(orgId, createDto).ConfigureAwait(false));
         }
