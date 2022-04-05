@@ -117,7 +117,7 @@ export class DhMarketParticipantOrganizationComponent
   };
 
   onSave = () => {
-    console.log('save called');
+    this.store.saveSelected();
   };
 
   onMasterDataChanged = (data: MasterData) => {

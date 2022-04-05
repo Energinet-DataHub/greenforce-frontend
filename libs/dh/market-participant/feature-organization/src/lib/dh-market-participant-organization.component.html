@@ -141,7 +141,7 @@ limitations under the License.
 </ng-container>
 <dh-market-participant-create-organization
   *ngIf="(this.store.state$ | async)?.selected"
-  [organization]="(this.store.state$ | async)?.selected!"
+  [organization]="(this.store.state$ | async)?.selected?.organization"
   [onMasterDataChanged]="this.onMasterDataChanged"
   [onCancelCallback]="this.onCancel"
   [onSaveCallback]="this.onSave"

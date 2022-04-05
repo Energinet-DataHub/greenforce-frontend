@@ -24,8 +24,8 @@ import {
 } from '@angular/forms';
 import {
   MasterData,
-  OrganizationWithActor,
 } from '@energinet-datahub/dh/market-participant/data-access-api';
+import { OrganizationDto } from '@energinet-datahub/dh/shared/domain';
 import {
   WattDropdownModule,
   WattDropdownOption,
@@ -48,7 +48,7 @@ export class DhMarketParticipantOrganizationMasterDataComponent
 {
   constructor(private translocoService: TranslocoService) {}
 
-  @Input() organization!: OrganizationWithActor;
+  @Input() organization: OrganizationDto | undefined;
   @Input() onMasterDataChanged!: (data: MasterData) => void;
 
   organizationName: FormControl = new FormControl(
@@ -90,15 +90,15 @@ export class DhMarketParticipantOrganizationMasterDataComponent
           : 0
       );
 
-    this.organizationName.setValue(this.organization.organization.name);
+    this.organizationName.setValue(this.organization?.name);
     this.businessRegistrationIdentifier.setValue(
-      this.organization.organization.businessRegisterIdentifier
+      this.organization?.businessRegisterIdentifier
     );
-    this.streetName.setValue(this.organization.organization.address.streetName);
-    this.streetNumber.setValue(this.organization.organization.address.number);
-    this.zipCode.setValue(this.organization.organization.address.zipCode);
-    this.city.setValue(this.organization.organization.address.city);
-    this.country.setValue(this.organization.organization.address.country);
+    this.streetName.setValue(this.organization?.address.streetName);
+    this.streetNumber.setValue(this.organization?.address.number);
+    this.zipCode.setValue(this.organization?.address.zipCode);
+    this.city.setValue(this.organization?.address.city);
+    this.country.setValue(this.organization?.address.country);
 
     this.organizationName.valueChanges.subscribe(this.updateMasterData);
     this.businessRegistrationIdentifier.valueChanges.subscribe(

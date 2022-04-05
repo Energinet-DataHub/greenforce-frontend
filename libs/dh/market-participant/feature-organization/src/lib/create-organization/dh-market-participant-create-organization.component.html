@@ -28,7 +28,8 @@ limitations under the License.
       </watt-tab>
       <watt-tab [label]="transloco('contactDataTabHeader')">
         <dh-market-participant-organization-contact-data
-          [contacts]="[]"
+          [contacts]="this.contacts"
+          (contactsChanged)="this.onContactsChanged($event.add, $event.remove)"
         ></dh-market-participant-organization-contact-data>
       </watt-tab>
     </watt-tabs>

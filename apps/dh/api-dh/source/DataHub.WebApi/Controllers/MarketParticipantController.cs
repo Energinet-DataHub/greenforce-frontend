@@ -109,7 +109,7 @@ namespace Energinet.DataHub.WebApi.Controllers
         /// <summary>
         /// Gets all the contacts in an organization.
         /// </summary>
-        [HttpGet("{orgId:guid}/contact/{actorId:guid}")]
+        [HttpGet("{orgId:guid}/contact")]
         public async Task<ActionResult<IEnumerable<ContactDto>>> GetContactsAsync(Guid orgId)
         {
             return Ok(await _client.GetContactsAsync(orgId).ConfigureAwait(false));
@@ -118,7 +118,7 @@ namespace Energinet.DataHub.WebApi.Controllers
         /// <summary>
         /// Creates a contact in an organization.
         /// </summary>
-        [HttpPost("{orgId:guid}/contact/{actorId:guid}")]
+        [HttpPost("{orgId:guid}/contact")]
         public async Task<ActionResult<Guid>> CreateContactAsync(Guid orgId, CreateContactDto createDto)
         {
             return Ok(await _client.CreateContactAsync(orgId, createDto).ConfigureAwait(false));
@@ -127,7 +127,7 @@ namespace Energinet.DataHub.WebApi.Controllers
         /// <summary>
         /// Removes a contact from an organization.
         /// </summary>
-        [HttpDelete("{orgId:guid}/contact/{actorId:guid}")]
+        [HttpDelete("{orgId:guid}/contact/{contactId:guid}")]
         public async Task<ActionResult> DeleteContactAsync(Guid orgId, Guid contactId)
         {
             await _client.DeleteContactAsync(orgId, contactId).ConfigureAwait(false);

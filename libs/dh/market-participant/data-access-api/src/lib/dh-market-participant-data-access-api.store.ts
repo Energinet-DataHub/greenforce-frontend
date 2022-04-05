@@ -18,10 +18,13 @@ import { Injectable } from '@angular/core';
 import { ComponentStore } from '@ngrx/component-store';
 import {
   ActorDto,
+  ChangeOrganizationDto,
+  ContactCategory,
+  ContactDto,
   MarketParticipantHttp,
   OrganizationDto,
 } from '@energinet-datahub/dh/shared/domain';
-import { map } from 'rxjs';
+import { firstValueFrom, map } from 'rxjs';
 
 export interface OrganizationWithActor {
   organization: OrganizationDto;
@@ -39,16 +42,25 @@ export interface MasterData {
   country: string;
 }
 
+export interface ContactChanges {
+  category?: ContactCategory;
+  name?: string;
+  email?: string;
+  phone?: string | null;
+}
+
 interface MarketParticipantState {
   isLoading: boolean;
   organizations: OrganizationWithActor[];
   selected?: OrganizationWithActor;
+  selectedContacts: ContactDto[];
   masterData?: MasterData;
 }
 
 const initialState: MarketParticipantState = {
   isLoading: true,
   organizations: [],
+  selectedContacts: [],
 };
 
 @Injectable()
@@ -62,6 +74,53 @@ export class DhMarketParticipantOverviewDataAccessApiStore extends ComponentStor
       .v1MarketParticipantOrganizationGet()
       .pipe(map(this.mapActors))
       .subscribe(this.setActors);
+  };
+
+  readonly saveSelected = async () => {
+    this.patchState({ isLoading: true });
+
+    const state = await firstValueFrom(this.state$);
+    const masterData = state.masterData;
+    if (masterData === undefined) {
+      return;
+    }
+
+    const changedOrg: ChangeOrganizationDto = {
+      name: masterData.name,
+      businessRegisterIdentifier: masterData.businessRegistrationIdentifier,
+      address: {
+        streetName: masterData.streetName,
+        number: masterData.streetNumber,
+        zipCode: masterData.zipCode,
+        city: masterData.city,
+        country: masterData.country,
+      },
+    };
+
+    const selectedId = state.selected?.organization.organizationId;
+
+    if (selectedId === undefined) {
+      await firstValueFrom(
+        this.httpClient.v1MarketParticipantOrganizationPost(changedOrg)
+      );
+    } else {
+      await firstValueFrom(
+        this.httpClient.v1MarketParticipantOrganizationPut(
+          selectedId,
+          changedOrg
+        )
+      );
+    }
+
+    this.patchState({ selected: undefined, masterData: undefined });
+
+    const actors = await firstValueFrom(
+      this.httpClient
+        .v1MarketParticipantOrganizationGet()
+        .pipe(map(this.mapActors))
+    );
+
+    this.setActors(actors);
   };
 
   readonly setActors = (organizations: OrganizationWithActor[]) => {

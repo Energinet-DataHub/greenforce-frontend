@@ -26,7 +26,10 @@ import {
   ChangeDetectorRef,
   ChangeDetectionStrategy,
 } from '@angular/core';
-import { DhMarketParticipantOverviewDataAccessApiStore } from '@energinet-datahub/dh/market-participant/data-access-api';
+import {
+  ContactChanges,
+  DhMarketParticipantOverviewDataAccessApiStore,
+} from '@energinet-datahub/dh/market-participant/data-access-api';
 import { TranslocoModule } from '@ngneat/transloco';
 import { MatTableModule } from '@angular/material/table';
 import { FormsModule } from '@angular/forms';
@@ -37,16 +40,13 @@ import {
   WattDropdownModule,
   WattDropdownOption,
 } from '@energinet-datahub/watt';
-
-interface ContactChanges {
-  type?: string;
-  name?: string;
-  email?: string;
-  phone?: string;
-}
+import {
+  ContactCategory,
+  ContactDto,
+} from '@energinet-datahub/dh/shared/domain';
 
 interface EditableContactRow {
-  contact: ContactChanges;
+  contact: ContactDto;
   changed: ContactChanges;
   isExisting: boolean;
   isModified: boolean;
@@ -68,27 +68,23 @@ export class DhMarketParticipantOrganizationContactDataComponent
 {
   constructor(private cd: ChangeDetectorRef) {}
 
-  @Input() contacts: ContactChanges[] = [];
+  @Input() contacts: ContactDto[] = [];
   @Output() contactsChanged = new EventEmitter<{
     add: ContactChanges[];
-    remove: ContactChanges[];
+    remove: ContactDto[];
   }>();
 
   columnIds = ['Type', 'Name', 'Email', 'Phone', 'Delete'];
 
-  contactTypes: WattDropdownOption[] = [
-    {
-      displayValue: 'Firmakontakt',
-      value: 'Type A',
-    },
-    {
-      displayValue: 'Anden kontakt',
-      value: 'Type 3',
-    },
-  ];
+  contactCategories: WattDropdownOption[] = Object.keys(ContactCategory).map(
+    (key) => ({
+      displayValue: key,
+      value: key,
+    })
+  );
 
   contactRows: EditableContactRow[] = [];
-  deletedContacts: ContactChanges[] = [];
+  deletedContacts: ContactDto[] = [];
 
   ngOnChanges() {
     this.contactRows = this.contacts
@@ -99,7 +95,7 @@ export class DhMarketParticipantOrganizationContactDataComponent
           isNewPlaceholder: false,
           contact: contact,
           changed: {
-            type: contact.type,
+            category: contact.category,
             name: contact.name,
             email: contact.email,
             phone: contact.phone,
@@ -130,7 +126,7 @@ export class DhMarketParticipantOrganizationContactDataComponent
     }
 
     row.isModified =
-      row.changed.type !== row.contact.type ||
+      row.changed.category !== row.contact.category ||
       row.changed.name !== row.contact.name ||
       row.changed.email !== row.contact.email ||
       row.changed.phone !== row.contact.phone;
@@ -161,8 +157,8 @@ export class DhMarketParticipantOrganizationContactDataComponent
       isExisting: false,
       isModified: false,
       isNewPlaceholder: true,
-      contact: { type: '', name: '', email: '', phone: '' },
-      changed: { type: '', name: '', email: '', phone: '' },
+      contact: { category: 'Default', name: '', email: '', contactId: '' },
+      changed: { category: 'Default', name: '', email: '' },
     };
   };
 }
