@@ -54,7 +54,7 @@ namespace Energinet.DataHub.WebApi.Controllers
         /// Creates an organization
         /// </summary>
         [HttpPost]
-        public async Task<ActionResult<OrganizationDto>> CreateOrganizationAsync(ChangeOrganizationDto organizationDto)
+        public async Task<ActionResult<Guid>> CreateOrganizationAsync(ChangeOrganizationDto organizationDto)
         {
             return Ok(await _client.CreateOrganizationAsync(organizationDto).ConfigureAwait(false));
         }
@@ -63,9 +63,10 @@ namespace Energinet.DataHub.WebApi.Controllers
         /// Updates an organization
         /// </summary>
         [HttpPut]
-        public async Task<ActionResult<OrganizationDto>> UpdateOrganizationAsync(Guid orgId, ChangeOrganizationDto organizationDto)
+        public async Task<ActionResult> UpdateOrganizationAsync(Guid orgId, ChangeOrganizationDto organizationDto)
         {
-            return Ok(await _client.UpdateOrganizationAsync(orgId, organizationDto).ConfigureAwait(false));
+            await _client.UpdateOrganizationAsync(orgId, organizationDto).ConfigureAwait(false);
+            return Ok();
         }
 
         /// <summary>
@@ -90,7 +91,7 @@ namespace Energinet.DataHub.WebApi.Controllers
         /// Updates an Actor in an organization
         /// </summary>
         [HttpPost("{orgId:guid}/actor")]
-        public async Task<ActionResult<OrganizationDto>> CreateActorAsync(Guid orgId, CreateActorDto actorDto)
+        public async Task<ActionResult<Guid>> CreateActorAsync(Guid orgId, CreateActorDto actorDto)
         {
             return Ok(await _client.CreateActorAsync(orgId, actorDto).ConfigureAwait(false));
         }
@@ -99,9 +100,38 @@ namespace Energinet.DataHub.WebApi.Controllers
         /// Updates an Actor in an organization
         /// </summary>
         [HttpPut("{orgId:guid}/actor/{actorId:guid}")]
-        public async Task<ActionResult<OrganizationDto>> UpdateActorAsync(Guid orgId, Guid actorId, ChangeActorDto actorDto)
+        public async Task<ActionResult> UpdateActorAsync(Guid orgId, Guid actorId, ChangeActorDto actorDto)
         {
-            return Ok(await _client.UpdateActorAsync(orgId, actorId, actorDto).ConfigureAwait(false));
+            await _client.UpdateActorAsync(orgId, actorId, actorDto).ConfigureAwait(false);
+            return Ok();
+        }
+
+        /// <summary>
+        /// Gets all the contacts in an organization.
+        /// </summary>
+        [HttpGet("{orgId:guid}/actor/{actorId:guid}")]
+        public async Task<ActionResult<IEnumerable<ContactDto>>> GetContactsAsync(Guid orgId)
+        {
+            return Ok(await _client.GetContactsAsync(orgId).ConfigureAwait(false));
+        }
+
+        /// <summary>
+        /// Creates a contact in an organization.
+        /// </summary>
+        [HttpPost("{orgId:guid}/contact/{actorId:guid}")]
+        public async Task<ActionResult<Guid>> CreateActorAsync(Guid orgId, CreateContactDto createDto)
+        {
+            return Ok(await _client.CreateContactAsync(orgId, createDto).ConfigureAwait(false));
+        }
+
+        /// <summary>
+        /// Removes a contact from an organization.
+        /// </summary>
+        [HttpDelete("{orgId:guid}/contact/{actorId:guid}")]
+        public async Task<ActionResult> DeleteActorAsync(Guid orgId, Guid contactId)
+        {
+            await _client.DeleteContactAsync(orgId, contactId).ConfigureAwait(false);
+            return Ok();
         }
     }
 }
