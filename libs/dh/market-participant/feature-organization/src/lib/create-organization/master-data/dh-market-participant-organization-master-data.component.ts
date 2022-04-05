@@ -77,10 +77,18 @@ export class DhMarketParticipantOrganizationMasterDataComponent
     const countryTranslations = this.translocoService.translateObject(
       'marketParticipant.organization.create.masterData.countries'
     );
-    this.countries = Object.keys(countryTranslations).map((k) => ({
-      value: k.toUpperCase(),
-      displayValue: countryTranslations[k] as string,
-    }));
+    this.countries = Object.keys(countryTranslations)
+      .map((k) => ({
+        value: k.toUpperCase(),
+        displayValue: countryTranslations[k] as string,
+      }))
+      .sort((l, r) =>
+        l.displayValue < r.displayValue
+          ? -1
+          : l.displayValue > r.displayValue
+          ? 1
+          : 0
+      );
 
     this.organizationName.setValue(this.organization.organization.name);
     this.businessRegistrationIdentifier.setValue(
