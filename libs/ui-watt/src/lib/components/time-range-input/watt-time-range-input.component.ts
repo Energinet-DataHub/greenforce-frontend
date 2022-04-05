@@ -108,6 +108,10 @@ export class WattTimeRangeInputComponent
    * @ignore
    */
   writeValue(timeRange: WattTimeRange): void {
+    if (!this.startTimeInput || !this.endTimeInput) {
+      return;
+    }
+
     const inputEvent = new Event('input', { bubbles: true });
 
     if (timeRange.start) {
@@ -238,6 +242,8 @@ export class WattTimeRangeInputComponent
     maskingElement: HTMLElement,
     value: string
   ): void {
+    console.log(maskingElement, value);
+
     maskingElement.innerText = value + this.placeholder.substring(value.length);
   }
 }
