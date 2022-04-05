@@ -242,8 +242,6 @@ export class WattTimeRangeInputComponent
     maskingElement: HTMLElement,
     value: string
   ): void {
-    console.log(maskingElement, value);
-
     maskingElement.innerText = value + this.placeholder.substring(value.length);
   }
 }
