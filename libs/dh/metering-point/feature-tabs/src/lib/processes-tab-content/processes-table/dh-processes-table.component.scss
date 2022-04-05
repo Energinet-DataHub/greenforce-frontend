@@ -31,15 +31,22 @@ mat-row {
   &.expandable {
     overflow: hidden;
     border-style: none;
-    transition: max-height 0.4s ease-out;
-    transform-origin: top;
+    transition: max-height 0.4s ease-in-out;
+    min-height: 0;
 
     &.collapsed {
       max-height: 0;
     }
     &.expanded {
       background: var(--watt-color-focus-selection);
-      transition: max-height 0.4s ease-in;
+    }
+
+    mat-cell {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      padding-left: 0;
+      padding-right: 0;
     }
   }
 }
@@ -71,22 +78,4 @@ mat-row {
 .has-details-errors-cell-header,
 .has-details-errors-cell {
   flex: 0 1 calc(var(--cell-padding) * 3);
-}
-
-/*
- * Child rows
- */
-.expandable {
-  overflow: hidden;
-  display: flex;
-  border: none;
-  min-height: 0;
-
-  mat-cell {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    padding-left: 0;
-    padding-right: 0;
-  }
 }
