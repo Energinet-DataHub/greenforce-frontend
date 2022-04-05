@@ -113,7 +113,7 @@ export class DhMarketParticipantOrganizationMasterDataComponent
         this.zipCode.valid &&
         this.country.valid,
       name: this.organizationName.value,
-      vat: this.businessRegistrationIdentifier.value,
+      businessRegistrationIdentifier: this.businessRegistrationIdentifier.value,
       streetName: this.streetName.value,
       streetNumber: this.streetNumber.value,
       zipCode: this.zipCode.value,

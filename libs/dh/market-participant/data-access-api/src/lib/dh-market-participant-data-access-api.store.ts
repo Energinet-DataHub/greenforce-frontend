@@ -31,7 +31,7 @@ export interface OrganizationWithActor {
 export interface MasterData {
   valid: boolean;
   name: string;
-  vat: string;
+  businessRegistrationIdentifier: string;
   streetName: string;
   streetNumber: string;
   zipCode: string;

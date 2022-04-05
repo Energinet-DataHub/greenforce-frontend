@@ -396,6 +396,15 @@
             "es": "Spain",
             "se": "Sweden",
             "gb": "United Kingdom"
+          },
+          "contacts": {
+            "category": "Category",
+            "name": "Name",
+            "namePlaceholder": "Name",
+            "email": "E-mail",
+            "emailPlaceholder": "E-mail",
+            "phone": "Phone",
+            "phonePlaceholder": "Phone (optional)"
           }
         }
       }
