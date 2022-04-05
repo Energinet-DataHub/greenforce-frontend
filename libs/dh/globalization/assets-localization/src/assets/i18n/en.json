@@ -356,7 +356,47 @@
         "saveLabel": "Save",
         "masterData": {
           "header": "Master data",
-          "organizationNameLabel": "Name"
+          "organizationNameLabel": "Name",
+          "businessRegistrationIdetifierLabel": "Business registration identifier",
+          "streetNameLabel": "Street name",
+          "streetNumberLabel": "Street number",
+          "zipCodeLabel": "Zip code",
+          "cityLabel": "City",
+          "countryLabel": "Country",
+          "fieldRequiredErrorText": "Field is required",
+          "businessRegistrationIdentifierLengthErrorText": "Invalid business registration number",
+          "maxLengthErrorText": "Maximum number of characters exceeded",
+          "countries": {
+            "at": "Austria",
+            "be": "Belgium",
+            "bg": "Bulgaria",
+            "hr": "Croatia",
+            "cy": "Cyprus",
+            "cz": "Czech Republic",
+            "dk": "Denmark",
+            "ee": "Estonia",
+            "fi": "Finland",
+            "fr": "France",
+            "de": "Germany",
+            "gr": "Greece",
+            "hu": "Hungary",
+            "ie": "Ireland",
+            "it": "Italy",
+            "lv": "Latvia",
+            "lt": "Lithuania",
+            "lu": "Luxembourg",
+            "mt": "Malta",
+            "nl": "Netherlands",
+            "no": "Norway",
+            "pl": "Poland",
+            "pt": "Portugal",
+            "ro": "Romania",
+            "sk": "Slovakia",
+            "si": "Slovenia",
+            "es": "Spain",
+            "se": "Sweden",
+            "gb": "United Kingdom"
+          }
         }
       }
     }

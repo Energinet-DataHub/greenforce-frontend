@@ -26,8 +26,13 @@ import {
   MasterData,
   OrganizationWithActor,
 } from '@energinet-datahub/dh/market-participant/data-access-api';
-import { WattFormFieldModule, WattInputModule } from '@energinet-datahub/watt';
-import { TranslocoModule } from '@ngneat/transloco';
+import {
+  WattDropdownModule,
+  WattDropdownOption,
+  WattFormFieldModule,
+  WattInputModule,
+} from '@energinet-datahub/watt';
+import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 
 @Component({
   selector: 'dh-market-participant-organization-master-data',
@@ -41,22 +46,81 @@ import { TranslocoModule } from '@ngneat/transloco';
 export class DhMarketParticipantOrganizationMasterDataComponent
   implements OnInit
 {
+  constructor(private translocoService: TranslocoService) {}
+
   @Input() organization!: OrganizationWithActor;
   @Input() onMasterDataChanged!: (data: MasterData) => void;
+
   organizationName: FormControl = new FormControl(
     '',
-    Validators.compose([Validators.required, Validators.maxLength(128)])
+    Validators.compose([Validators.required, Validators.maxLength(3)])
   );
 
+  businessRegistrationIdentifier: FormControl = new FormControl(
+    '',
+    Validators.compose([Validators.required, Validators.pattern('[0-9]{8}')])
+  );
+
+  streetName: FormControl = new FormControl('', Validators.maxLength(3));
+
+  streetNumber: FormControl = new FormControl('', Validators.maxLength(3));
+
+  zipCode: FormControl = new FormControl('', Validators.maxLength(3));
+
+  city: FormControl = new FormControl('', Validators.maxLength(3));
+
+  country: FormControl = new FormControl('', Validators.required);
+
+  countries: WattDropdownOption[] = [];
+
   ngOnInit(): void {
+    const countryTranslations = this.translocoService.translateObject(
+      'marketParticipant.organization.create.masterData.countries'
+    );
+    this.countries = Object.keys(countryTranslations).map((k) => ({
+      value: k.toUpperCase(),
+      displayValue: countryTranslations[k] as string,
+    }));
+
     this.organizationName.setValue(this.organization.organization.name);
-    this.organizationName.valueChanges.subscribe(() => {
-      this.onMasterDataChanged({
-        valid: this.organizationName.valid,
-        name: this.organizationName.value,
-      });
-    });
+    this.businessRegistrationIdentifier.setValue(
+      this.organization.organization.businessRegisterIdentifier
+    );
+    this.streetName.setValue(this.organization.organization.address.streetName);
+    this.streetNumber.setValue(this.organization.organization.address.number);
+    this.zipCode.setValue(this.organization.organization.address.zipCode);
+    this.city.setValue(this.organization.organization.address.city);
+    this.country.setValue(this.organization.organization.address.country);
+
+    this.organizationName.valueChanges.subscribe(this.updateMasterData);
+    this.businessRegistrationIdentifier.valueChanges.subscribe(
+      this.updateMasterData
+    );
+    this.streetName.valueChanges.subscribe(this.updateMasterData);
+    this.streetNumber.valueChanges.subscribe(this.updateMasterData);
+    this.zipCode.valueChanges.subscribe(this.updateMasterData);
+    this.city.valueChanges.subscribe(this.updateMasterData);
+    this.country.valueChanges.subscribe(this.updateMasterData);
   }
+
+  updateMasterData = () => {
+    this.onMasterDataChanged({
+      valid:
+        this.organizationName.valid &&
+        this.businessRegistrationIdentifier.valid &&
+        this.streetName.valid &&
+        this.streetNumber.valid &&
+        this.zipCode.valid &&
+        this.country.valid,
+      name: this.organizationName.value,
+      vat: this.businessRegistrationIdentifier.value,
+      streetName: this.streetName.value,
+      streetNumber: this.streetNumber.value,
+      zipCode: this.zipCode.value,
+      city: this.city.value,
+      country: this.country.value,
+    });
+  };
 }
 
 @NgModule({
@@ -65,6 +129,7 @@ export class DhMarketParticipantOrganizationMasterDataComponent
     FormsModule,
     ReactiveFormsModule,
     TranslocoModule,
+    WattDropdownModule,
     WattFormFieldModule,
     WattInputModule,
   ],

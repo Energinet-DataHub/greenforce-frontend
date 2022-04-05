@@ -376,7 +376,47 @@
         "saveLabel": "Gem",
         "masterData": {
           "header": "Stamdata",
-          "organizationNameLabel": "Navn"
+          "organizationNameLabel": "Navn",
+          "businessRegistrationIdetifierLabel": "CVR-nr.",
+          "streetNameLabel": "Vejnavn",
+          "streetNumberLabel": "Vej nr.",
+          "zipCodeLabel": "Post nr.",
+          "cityLabel": "By",
+          "countryLabel": "Land",
+          "fieldRequiredErrorText": "Feltet er påkrævet",
+          "businessRegistrationIdentifierLengthErrorText": "Ugyldigt CVR-nr.",
+          "maxLengthErrorText": "Det tiladte antal anslag er overskredet",
+          "countries": {
+            "at": "Østrig",
+            "be": "Belgien",
+            "bg": "Bulgarien",
+            "hr": "Kroatien",
+            "cy": "Cypern",
+            "cz": "Tjekkiet",
+            "dk": "Danmark",
+            "ee": "Estland",
+            "fi": "Finland",
+            "fr": "Frankrig",
+            "de": "Tyskland",
+            "gr": "Grækenland",
+            "hu": "Ungarn",
+            "ie": "Irland",
+            "it": "Italien",
+            "lv": "Letland",
+            "lt": "Litauen",
+            "lu": "Luxembourg",
+            "mt": "Malta",
+            "nl": "Holland",
+            "no": "Norge",
+            "pl": "Polen",
+            "pt": "Portugal",
+            "ro": "Rumænien",
+            "sk": "Slovakiet",
+            "si": "Slovenien",
+            "es": "Spanien",
+            "se": "Sverige",
+            "gb": "England"
+          }
         }
       }
     }

@@ -18,12 +18,58 @@ limitations under the License.
   <h2>{{transloco('header')}}</h2>
   <watt-form-field size="normal">
     <watt-label class="watt-text-m">{{ transloco('organizationNameLabel') }}</watt-label>
-    <input wattInput title="nameInput" [formControl]="this.organizationName" />
+    <input wattInput title="nameInput" [formControl]="this.organizationName" required />
     <watt-error *ngIf="organizationName.hasError('required')">
-      {{transloco('fiedlRequired')}}
+      {{transloco('fieldRequiredErrorText')}}
     </watt-error>
     <watt-error *ngIf="organizationName.hasError('maxlength')">
-      {{transloco('fieldValueTooLong')}}
+      {{transloco('maxLengthErrorText')}}
+    </watt-error>
+  </watt-form-field>
+  <watt-form-field size="normal">
+    <watt-label class="watt-text-m">{{ transloco('businessRegistrationIdetifierLabel') }}</watt-label>
+    <input wattInput title="businessRegistrationIdentifierInput" [formControl]="this.businessRegistrationIdentifier" required />
+    <watt-error *ngIf="businessRegistrationIdentifier.hasError('required')">
+      {{transloco('fieldRequiredErrorText')}}
+    </watt-error>
+    <watt-error *ngIf="businessRegistrationIdentifier.hasError('pattern')">
+      {{transloco('businessRegistrationIdentifierLengthErrorText')}}
+    </watt-error>
+  </watt-form-field>
+  <watt-form-field size="normal">
+    <watt-label class="watt-text-m">{{ transloco('streetNameLabel') }}</watt-label>
+    <input wattInput title="streetNameInput" [formControl]="this.streetName" />
+    <watt-error *ngIf="streetName.hasError('maxlength')">
+      {{transloco('maxLengthErrorText')}}
+    </watt-error>
+  </watt-form-field>
+  <watt-form-field size="normal">
+    <watt-label class="watt-text-m">{{ transloco('streetNumberLabel') }}</watt-label>
+    <input wattInput title="streetNumberInput" [formControl]="this.streetNumber" />
+    <watt-error *ngIf="streetNumber.hasError('maxlength')">
+      {{transloco('maxLengthErrorText')}}
+    </watt-error>
+  </watt-form-field>
+  <watt-form-field size="normal">
+    <watt-label class="watt-text-m">{{ transloco('zipCodeLabel') }}</watt-label>
+    <input wattInput title="cipCodeInput" [formControl]="this.zipCode" />
+    <watt-error *ngIf="zipCode.hasError('maxlength')">
+      {{transloco('maxLengthErrorText')}}
+    </watt-error>
+  </watt-form-field>
+  <watt-form-field size="normal">
+    <watt-label class="watt-text-m">{{ transloco('cityLabel') }}</watt-label>
+    <input wattInput title="cityInput" [formControl]="this.city" />
+    <watt-error *ngIf="city.hasError('maxlength')">
+      {{transloco('maxLengthErrorText')}}
+    </watt-error>
+  </watt-form-field>
+  <watt-form-field size="normal">
+    <watt-label class="watt-text-m">{{ transloco('countryLabel') }}</watt-label>
+    <watt-dropdown wattInput title="countryInput" [formControl]="this.country" [options]="this.countries">
+    </watt-dropdown>
+    <watt-error *ngIf="country.hasError('required')">
+      {{transloco('fieldRequiredErrorText')}}
     </watt-error>
   </watt-form-field>
 </ng-container>

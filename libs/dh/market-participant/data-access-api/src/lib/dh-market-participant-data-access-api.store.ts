@@ -24,13 +24,19 @@ import {
 import { map } from 'rxjs';
 
 export interface OrganizationWithActor {
-  organization: Partial<OrganizationDto>;
-  actor?: Partial<ActorDto>;
+  organization: OrganizationDto;
+  actor?: ActorDto;
 }
 
 export interface MasterData {
   valid: boolean;
   name: string;
+  vat: string;
+  streetName: string;
+  streetNumber: string;
+  zipCode: string;
+  city: string;
+  country: string;
 }
 
 interface MarketParticipantState {
