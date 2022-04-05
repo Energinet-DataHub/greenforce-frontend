@@ -53,7 +53,7 @@ export class DhMarketParticipantOrganizationMasterDataComponent
 
   organizationName: FormControl = new FormControl(
     '',
-    Validators.compose([Validators.required, Validators.maxLength(3)])
+    Validators.compose([Validators.required, Validators.maxLength(64)])
   );
 
   businessRegistrationIdentifier: FormControl = new FormControl(
@@ -61,13 +61,13 @@ export class DhMarketParticipantOrganizationMasterDataComponent
     Validators.compose([Validators.required, Validators.pattern('[0-9]{8}')])
   );
 
-  streetName: FormControl = new FormControl('', Validators.maxLength(3));
+  streetName: FormControl = new FormControl('', Validators.maxLength(64));
 
-  streetNumber: FormControl = new FormControl('', Validators.maxLength(3));
+  streetNumber: FormControl = new FormControl('', Validators.maxLength(64));
 
-  zipCode: FormControl = new FormControl('', Validators.maxLength(3));
+  zipCode: FormControl = new FormControl('', Validators.maxLength(64));
 
-  city: FormControl = new FormControl('', Validators.maxLength(3));
+  city: FormControl = new FormControl('', Validators.maxLength(64));
 
   country: FormControl = new FormControl('', Validators.required);
 
