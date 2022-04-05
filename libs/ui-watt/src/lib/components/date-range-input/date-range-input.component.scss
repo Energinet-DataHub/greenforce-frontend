@@ -40,19 +40,10 @@ watt-date-range-input {
     caret-color: #000;
     letter-spacing: -0.03em;
     width: auto;
-    color: var(--watt-color-neutral-black);
-
-    &:focus {
-      background-image: linear-gradient(
-        90deg,
-        var(--watt-color-neutral-black) var(--watt-date-range-filled-char-width),
-        #{$placeholder-color} var(--watt-date-range-filled-char-width)
-      );
-      -webkit-background-clip: text;
-      -moz-background-clip: text;
-      background-clip: text;
-      color: transparent;
-    }
+    -webkit-background-clip: text;
+    -moz-background-clip: text;
+    background-clip: text;
+    color: transparent;
   }
 
   .mat-date-range-input-end-wrapper {

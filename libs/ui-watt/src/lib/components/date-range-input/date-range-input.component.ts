@@ -36,6 +36,7 @@ import {
   startWith,
   Subject,
   takeUntil,
+  tap,
 } from 'rxjs';
 import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
@@ -107,6 +108,16 @@ export class WattDateRangeInputComponent
    */
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
+  /**
+   * @ignore
+   */
+  startDateOnInput$?: Observable<string>;
+
+  /**
+   * @ignore
+   */
+  endDateOnInput$?: Observable<string>;
+
   constructor(
     @Inject(LOCALE_ID) private locale: string,
     private renderer: Renderer2,
@@ -119,11 +130,46 @@ export class WattDateRangeInputComponent
    * @ignore
    */
   ngAfterViewInit() {
-    const onInputStart$ = this.mask(this.startDateInput, 'start');
-    const onInputEnd$ = this.mask(this.endDateInput, 'end');
+    const startDateInputElement = this.startDateInput.nativeElement;
+    const endDateInputElement = this.endDateInput.nativeElement;
 
-    combineLatest([onInputStart$, onInputEnd$])
-      .pipe(takeUntil(this.destroy$))
+    const startDateInputMask = this.mask(startDateInputElement);
+    const endDateInputMask = this.mask(endDateInputElement);
+
+    this.setInputColor(startDateInputElement, startDateInputMask);
+    this.setInputColor(endDateInputElement, startDateInputMask);
+
+    const startDateOnInput$ = fromEvent<InputEvent>(
+      startDateInputElement,
+      'input'
+    ).pipe(
+      tap(() => this.setInputColor(startDateInputElement, startDateInputMask)),
+      tap((event) =>
+        this.jumpToEndDate(event, startDateInputMask, endDateInputElement)
+      ),
+      map((event) => (event.target as HTMLInputElement).value)
+    );
+
+    const endDateOnInput$ = fromEvent<InputEvent>(
+      endDateInputElement,
+      'input'
+    ).pipe(
+      tap(() => this.setInputColor(endDateInputElement, startDateInputMask)),
+      map((event) => (event.target as HTMLInputElement).value)
+    );
+
+    const startDateOnComplete$ = startDateOnInput$.pipe(
+      startWith(''),
+      map((val) => (startDateInputMask.isComplete() ? val : ''))
+    );
+
+    const endDateOnComplete$ = endDateOnInput$.pipe(
+      startWith(''),
+      map((val) => (endDateInputMask.isComplete() ? val : ''))
+    );
+
+    combineLatest([startDateOnComplete$, endDateOnComplete$])
+      .pipe(distinctUntilChanged(), takeUntil(this.destroy$))
       .subscribe(([start, end]) => {
         this.markParentControlAsTouched();
         this.changeParentValue({ start, end });
@@ -188,75 +234,78 @@ export class WattDateRangeInputComponent
   /**
    * @ignore
    */
-  private mask(
-    element: ElementRef,
-    position: 'start' | 'end'
-  ): Observable<string> {
-    this.renderer.setAttribute(element.nativeElement, 'spellcheck', 'false');
-    const maskingElement = this.appendMaskElement(element);
-
+  private mask(element: HTMLInputElement): Inputmask.Instance {
     const inputmask = new Inputmask('datetime', {
       inputFormat: this.inputFormat,
       placeholder: this.placeholder,
       insertMode: false,
       insertModeVisual: true,
       onBeforePaste: this.onBeforePaste,
+      onincomplete: () => {
+        this.setInputColor(element, inputmask);
+      },
       clearIncomplete: true,
-    }).mask(element.nativeElement);
+    }).mask(element);
 
-    return this.registerOnInput(element.nativeElement, inputmask);
+    return inputmask;
   }
 
   /**
    * @ignore
    */
-  private registerOnInput(
-    element: HTMLInputElement,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    inputMask: any
-  ): Observable<string> {
-    return fromEvent(element, 'input').pipe(
-      startWith(element.value),
-      map(() => element.value),
-      map((val) => (inputMask.isComplete() ? val : '')),
-      distinctUntilChanged(),
-      takeUntil(this.destroy$)
+  private setInputColor(
+    inputElement: HTMLInputElement,
+    inputMask: Inputmask.Instance
+  ) {
+    const emptyMask = inputMask.getemptymask();
+    const val = inputElement.value;
+
+    const splittedEmptyMask = emptyMask.split('');
+    const splittedVal = val.split('');
+
+    const charWidth = 8.3;
+    const gradient = splittedEmptyMask.map((char, index) => {
+      const charHasChanged =
+        char !== splittedVal[index] && splittedVal[index] !== undefined;
+      const color = charHasChanged
+        ? 'var(--watt-color-neutral-black)'
+        : 'var(--watt-color-neutral-grey-600)';
+      const gradientStart =
+        index === 0 ? `${charWidth}px` : `${charWidth * index}px`;
+      const gradientEnd =
+        index === 0 ? `${charWidth}px` : `${charWidth * (index + 1)}px`;
+
+      if (index === 0) {
+        return `${color} ${gradientStart},`;
+      } else {
+        return `${color} ${gradientStart}, ${color} ${gradientEnd}${
+          index !== splittedEmptyMask.length - 1 ? ',' : ''
+        }`;
+      }
+    });
+
+    this.renderer.setStyle(
+      inputElement,
+      'background-image',
+      `linear-gradient(90deg, ${gradient.join('')})`
     );
   }
 
   /**
    * @ignore
    */
-  private appendMaskElement(element: ElementRef): HTMLElement {
-    fromEvent(element.nativeElement, 'input')
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(() => {
-        const val = element.nativeElement.value;
-        let charCount = val.replace(/\D/g, '').length;
-        if (charCount >= 2) charCount++;
-        if (charCount >= 4) charCount++;
-        this.renderer.setStyle(
-          element.nativeElement,
-          '--watt-date-range-chars',
-          charCount,
-          2
-        );
-      });
-
-    /*
-        // If start date is complete jump to end date, and put typed value in end date (if empty)
-        if (
-          event.key !== 'Backspace' &&
-          position === 'start' &&
-          inputmask.isComplete()
-        ) {
-          this.endDateInput.nativeElement.focus();
-          if (this.endDateInput.nativeElement.value === '') {
-            this.endDateInput.nativeElement.value = event.key;
-          }
-        }*/
-
-    return element.nativeElement;
+  private jumpToEndDate(
+    event: InputEvent,
+    inputmask: Inputmask.Instance,
+    endInputElement: HTMLInputElement
+  ) {
+    if (
+      inputmask.isComplete() &&
+      (event.target as HTMLInputElement).value.length ===
+        inputmask.getemptymask().length
+    ) {
+      endInputElement.focus();
+    }
   }
 
   /**
