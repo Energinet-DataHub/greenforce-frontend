@@ -73,14 +73,6 @@ export class DhProcessesTableComponent implements AfterViewInit {
 
   @ViewChild(MatSort) matSort?: MatSort;
 
-  private setDefaultSorting() {
-    if (this.matSort === undefined) return;
-
-    const sortable = this.matSort.sortables.get('createdDate') as MatSortable;
-    sortable.start = 'desc';
-    this.matSort.sort(sortable);
-  }
-
   ngAfterViewInit(): void {
     if (this.processRows.length === 0) {
       this.processRows = wrapInTableRow<DhProcess>(this.processes);
@@ -141,6 +133,14 @@ export class DhProcessesTableComponent implements AfterViewInit {
   collapseRow(row: DhTableRow<DhProcess>) {
     row.maxHeight = 0;
     row.expanded = false;
+  }
+
+  private setDefaultSorting() {
+    if (this.matSort === undefined) return;
+
+    const sortable = this.matSort.sortables.get('createdDate') as MatSortable;
+    sortable.start = 'desc';
+    this.matSort.sort(sortable);
   }
 }
 
