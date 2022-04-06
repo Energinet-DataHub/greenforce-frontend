@@ -18,6 +18,7 @@ import {
   startWith,
   Subject,
   takeUntil,
+  tap,
 } from 'rxjs';
 import { MatDateRangeInput } from '@angular/material/datepicker';
 import Inputmask from 'inputmask';
@@ -72,6 +73,16 @@ export class WattTimeRangeInputComponent
   /**
    * @ignore
    */
+  startTimeOnInput$?: Observable<string>;
+
+  /**
+   * @ignore
+   */
+  endTimeOnInput$?: Observable<string>;
+
+  /**
+   * @ignore
+   */
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
@@ -85,11 +96,46 @@ export class WattTimeRangeInputComponent
    * @ignore
    */
   ngAfterViewInit() {
-    const onInputStart$ = this.mask(this.startTimeInput, 'start');
-    const onInputEnd$ = this.mask(this.endTimeInput, 'end');
+    const startTimeInputElement = this.startTimeInput.nativeElement;
+    const endTimeInputElement = this.endTimeInput.nativeElement;
 
-    combineLatest([onInputStart$, onInputEnd$])
-      .pipe(takeUntil(this.destroy$))
+    const startTimeInputMask = this.mask(startTimeInputElement);
+    const endTimeInputMask = this.mask(endTimeInputElement);
+
+    this.setInputColor(startTimeInputElement, startTimeInputMask);
+    this.setInputColor(endTimeInputElement, startTimeInputMask);
+
+    const startTimeOnInput$ = fromEvent<InputEvent>(
+      startTimeInputElement,
+      'input'
+    ).pipe(
+      tap(() => this.setInputColor(startTimeInputElement, startTimeInputMask)),
+      tap((event) =>
+        this.jumpToEndDate(event, startTimeInputMask, endTimeInputElement)
+      ),
+      map((event) => (event.target as HTMLInputElement).value)
+    );
+
+    const endTimeOnInput$ = fromEvent<InputEvent>(
+      endTimeInputElement,
+      'input'
+    ).pipe(
+      tap(() => this.setInputColor(endTimeInputElement, startTimeInputMask)),
+      map((event) => (event.target as HTMLInputElement).value)
+    );
+
+    const startDateOnComplete$ = startTimeOnInput$.pipe(
+      startWith(''),
+      map((val) => (startTimeInputMask.isComplete() ? val : ''))
+    );
+
+    const endDateOnComplete$ = endTimeOnInput$.pipe(
+      startWith(''),
+      map((val) => (endTimeInputMask.isComplete() ? val : ''))
+    );
+
+    combineLatest([startDateOnComplete$, endDateOnComplete$])
+      .pipe(distinctUntilChanged(), takeUntil(this.destroy$))
       .subscribe(([startTime, endTime]) => {
         this.markParentControlAsTouched();
         this.changeParentValue({ start: startTime, end: endTime });
@@ -157,90 +203,78 @@ export class WattTimeRangeInputComponent
   /**
    * @ignore
    */
-  private mask(
-    element: ElementRef,
-    position: 'start' | 'end'
-  ): Observable<string> {
-    this.renderer.setAttribute(element.nativeElement, 'spellcheck', 'false');
-
-    const maskingElement = this.appendMaskElement(element);
-
+  private mask(element: HTMLInputElement): Inputmask.Instance {
     const inputmask: Inputmask.Instance = new Inputmask('datetime', {
       inputFormat: hoursMinutesFormat,
       placeholder: this.placeholder,
       onincomplete: () => {
-        maskingElement.innerHTML = this.placeholder;
+        this.setInputColor(element, inputmask);
       },
-      jitMasking: true,
+      insertMode: false,
+      insertModeVisual: true,
       clearIncomplete: true,
-      onKeyDown: (event) => {
-        // If start date is complete jump to end date, and put typed value in end date (if empty)
-        if (
-          event.key !== 'Backspace' &&
-          position === 'start' &&
-          inputmask.isComplete()
-        ) {
-          this.endTimeInput.nativeElement.focus();
+    }).mask(element);
 
-          if (this.endTimeInput.nativeElement.value === '') {
-            this.endTimeInput.nativeElement.value = event.key;
-          }
-        }
-      },
-    }).mask(element.nativeElement);
-
-    return this.registerOnInput(element.nativeElement, inputmask);
+    return inputmask;
   }
 
   /**
    * @ignore
    */
-  private registerOnInput(
-    element: HTMLInputElement,
+  private setInputColor(
+    inputElement: HTMLInputElement,
     inputMask: Inputmask.Instance
-  ): Observable<string> {
-    return fromEvent(element, 'input').pipe(
-      startWith(element.value),
-      map(() => element.value),
-      map((value) => (inputMask.isComplete() ? value : '')),
-      distinctUntilChanged(),
-      takeUntil(this.destroy$)
+  ) {
+    const emptyMask = inputMask.getemptymask();
+    const val = inputElement.value;
+
+    console.log({ emptyMask, val });
+
+    const splittedEmptyMask = emptyMask.split('');
+    const splittedVal = val.split('');
+
+    const charWidth = 8.3;
+    const gradient = splittedEmptyMask.map((char, index) => {
+      const charHasChanged =
+        char !== splittedVal[index] && splittedVal[index] !== undefined;
+      const color = charHasChanged
+        ? 'var(--watt-color-neutral-black)'
+        : 'var(--watt-color-neutral-grey-600)';
+      const gradientStart =
+        index === 0 ? `${charWidth}px` : `${charWidth * index}px`;
+      const gradientEnd =
+        index === 0 ? `${charWidth}px` : `${charWidth * (index + 1)}px`;
+
+      if (index === 0) {
+        return `${color} ${gradientStart},`;
+      } else {
+        return `${color} ${gradientStart}, ${color} ${gradientEnd}${
+          index !== splittedEmptyMask.length - 1 ? ',' : ''
+        }`;
+      }
+    });
+
+    this.renderer.setStyle(
+      inputElement,
+      'background-image',
+      `linear-gradient(90deg, ${gradient.join('')})`
     );
   }
 
   /**
    * @ignore
    */
-  private appendMaskElement(element: ElementRef): HTMLElement {
-    const maskingElement = this.renderer.createElement('span');
-
-    this.renderer.addClass(maskingElement, 'watt-time-range-mask');
-    this.renderer.insertBefore(
-      element.nativeElement.parentElement,
-      maskingElement,
-      element.nativeElement
-    );
-    maskingElement.innerHTML = this.placeholder;
-
-    fromEvent(element.nativeElement, 'input')
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(() => {
-        this.updateMaskElementValue(
-          maskingElement,
-          element.nativeElement.value
-        );
-      });
-
-    return maskingElement;
-  }
-
-  /**
-   * @ignore
-   */
-  private updateMaskElementValue(
-    maskingElement: HTMLElement,
-    value: string
-  ): void {
-    maskingElement.innerText = value + this.placeholder.substring(value.length);
+  private jumpToEndDate(
+    event: InputEvent,
+    inputmask: Inputmask.Instance,
+    endInputElement: HTMLInputElement
+  ) {
+    if (
+      inputmask.isComplete() &&
+      (event.target as HTMLInputElement).value.length ===
+        inputmask.getemptymask().length
+    ) {
+      endInputElement.focus();
+    }
   }
 }

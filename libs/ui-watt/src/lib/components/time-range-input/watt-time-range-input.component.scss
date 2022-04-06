@@ -2,20 +2,32 @@ $placeholder-color: var(--watt-color-neutral-grey-600);
 
 watt-time-range-input {
   font-family: monospace;
+  --watt-date-range-chars: 0;
 
-  .watt-time-range-mask,
-  .mat-date-range-input-mirror,
-  input {
-    letter-spacing: -0.03em;
-  }
-
-  .watt-time-range-mask {
+  .mat-date-range-input {
     display: inline-block;
-    color: $placeholder-color;
   }
 
-  .mat-date-range-input-mirror {
-    position: absolute;
+  .mat-date-range-input-start-wrapper .mat-date-range-input-inner {
+    position: relative;
+  }
+
+  .mat-date-range-input-start-wrapper {
+    display: flex;
+    align-items: center;
+  }
+
+  input.mat-date-range-input-inner {
+    --watt-date-range-filled-char-width: calc(
+      8.3px * var(--watt-date-range-chars)
+    );
+    caret-color: #000;
+    letter-spacing: -0.03em;
+    width: auto;
+    -webkit-background-clip: text;
+    -moz-background-clip: text;
+    background-clip: text;
+    color: transparent;
   }
 
   .mat-date-range-input-end-wrapper {
@@ -26,10 +38,9 @@ watt-time-range-input {
     opacity: 1 !important;
   }
 
-  .mat-date-range-input-inner {
-    position: absolute;
-    top: 0;
-    left: 0;
+  .mat-date-range-input-inner::-webkit-input-placeholder {
+    color: $placeholder-color !important;
+    -webkit-text-fill-color: $placeholder-color;
   }
 
   .mat-date-range-input-hide-placeholders
