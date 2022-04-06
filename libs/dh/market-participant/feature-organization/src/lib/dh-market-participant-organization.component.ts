@@ -23,6 +23,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import {
+  ContactChanges,
   DhMarketParticipantOverviewDataAccessApiStore,
   MasterData,
   OrganizationWithActor,
@@ -44,6 +45,7 @@ import {
   MatPaginatorModule,
 } from '@angular/material/paginator';
 import { DhMarketParticipantCreateOrganizationScam } from './create-organization/dh-market-participant-create-organization.component';
+import { ContactDto, OrganizationDto } from '@energinet-datahub/dh/shared/domain';
 
 @Component({
   selector: 'dh-market-participant-organization',
@@ -110,6 +112,14 @@ export class DhMarketParticipantOrganizationComponent
   };
 
   onEditClicked = (e: OrganizationWithActor) => this.store.setSelected(e);
+  onCreateClicked = () =>
+    this.store.setSelected({
+      organization: {
+        address: {
+          country: 'DK',
+        },
+      } as OrganizationDto,
+    });
 
   onCancel = () => {
     this.store.setSelected(undefined);
@@ -117,11 +127,15 @@ export class DhMarketParticipantOrganizationComponent
   };
 
   onSave = () => {
-    this.store.saveSelected();
+    this.store.beginSaving();
   };
 
   onMasterDataChanged = (data: MasterData) => {
     this.store.setMasterData(data);
+  };
+
+  onContactsChanged = (add: ContactChanges[], remove: ContactDto[]) => {
+    this.store.setContactsChanged(add, remove);
   };
 }
 

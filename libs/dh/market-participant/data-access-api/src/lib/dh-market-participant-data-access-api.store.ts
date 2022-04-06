@@ -24,7 +24,7 @@ import {
   MarketParticipantHttp,
   OrganizationDto,
 } from '@energinet-datahub/dh/shared/domain';
-import { firstValueFrom, map } from 'rxjs';
+import { map } from 'rxjs';
 
 export interface OrganizationWithActor {
   organization: OrganizationDto;
@@ -51,40 +51,48 @@ export interface ContactChanges {
 
 interface MarketParticipantState {
   isLoading: boolean;
+  isSaving: boolean;
   organizations: OrganizationWithActor[];
-  selected?: OrganizationWithActor;
-  selectedContacts: ContactDto[];
+
+  selected?: {
+    organization: OrganizationWithActor;
+    contacts: ContactDto[];
+  };
+
   masterData?: MasterData;
+  addContacts?: ContactChanges[];
+  removeContacts?: ContactDto[];
+
+  validation?: {
+    errorMessage: string;
+  };
 }
 
 const initialState: MarketParticipantState = {
   isLoading: true,
+  isSaving: false,
   organizations: [],
-  selectedContacts: [],
 };
 
 @Injectable()
 export class DhMarketParticipantOverviewDataAccessApiStore extends ComponentStore<MarketParticipantState> {
   constructor(private httpClient: MarketParticipantHttp) {
     super(initialState);
+
+    this.state$.subscribe((state) => {
+      const masterData = state.masterData;
+      if (masterData === undefined || !state.isSaving) {
+        return;
+      }
+
+      this.saveOrganization(state.selected?.organization, masterData);
+    });
   }
 
-  readonly beginLoading = () => {
-    this.httpClient
-      .v1MarketParticipantOrganizationGet()
-      .pipe(map(this.mapActors))
-      .subscribe(this.setActors);
-  };
-
-  readonly saveSelected = async () => {
-    this.patchState({ isLoading: true });
-
-    const state = await firstValueFrom(this.state$);
-    const masterData = state.masterData;
-    if (masterData === undefined) {
-      return;
-    }
-
+  readonly saveOrganization = (
+    organization: OrganizationWithActor | undefined,
+    masterData: MasterData
+  ) => {
     const changedOrg: ChangeOrganizationDto = {
       name: masterData.name,
       businessRegisterIdentifier: masterData.businessRegistrationIdentifier,
@@ -97,30 +105,45 @@ export class DhMarketParticipantOverviewDataAccessApiStore extends ComponentStor
       },
     };
 
-    const selectedId = state.selected?.organization.organizationId;
+    const selectedId = organization?.organization.organizationId;
 
-    if (selectedId === undefined) {
-      await firstValueFrom(
-        this.httpClient.v1MarketParticipantOrganizationPost(changedOrg)
-      );
-    } else {
-      await firstValueFrom(
-        this.httpClient.v1MarketParticipantOrganizationPut(
-          selectedId,
-          changedOrg
-        )
-      );
-    }
+    const result =
+      selectedId === undefined
+        ? this.httpClient.v1MarketParticipantOrganizationPost(changedOrg)
+        : this.httpClient.v1MarketParticipantOrganizationPut(
+            selectedId,
+            changedOrg
+          );
 
-    this.patchState({ selected: undefined, masterData: undefined });
+    result.subscribe({
+      complete: () => {
+        this.beginLoading();
+        this.patchState({
+          selected: undefined,
+          validation: undefined,
+        });
+      },
+      error: (err) => {
+        console.log('notok', err);
+        this.patchState({
+          isLoading: false,
+          validation: { errorMessage: 'we fucked up' },
+        });
+      },
+    });
 
-    const actors = await firstValueFrom(
-      this.httpClient
-        .v1MarketParticipantOrganizationGet()
-        .pipe(map(this.mapActors))
-    );
+    this.patchState({ isSaving: false });
+  };
 
-    this.setActors(actors);
+  readonly beginLoading = () => {
+    this.httpClient
+      .v1MarketParticipantOrganizationGet()
+      .pipe(map(this.mapActors))
+      .subscribe(this.setActors);
+  };
+
+  readonly beginSaving = () => {
+    this.patchState({ isLoading: true, isSaving: true });
   };
 
   readonly setActors = (organizations: OrganizationWithActor[]) => {
@@ -128,11 +151,24 @@ export class DhMarketParticipantOverviewDataAccessApiStore extends ComponentStor
   };
 
   readonly setSelected = (organization?: OrganizationWithActor) => {
-    this.patchState({ selected: organization });
+    if (organization === undefined) {
+      this.patchState({ selected: undefined });
+    } else {
+      this.patchState({
+        selected: { organization: organization, contacts: [] },
+      });
+    }
   };
 
   readonly setMasterData = (data?: MasterData) => {
     this.patchState({ masterData: data });
+  };
+
+  readonly setContactsChanged = (
+    add: ContactChanges[],
+    remove: ContactDto[]
+  ) => {
+    this.patchState({ addContacts: add, removeContacts: remove });
   };
 
   readonly mapActors = (organizations: OrganizationDto[]) => {

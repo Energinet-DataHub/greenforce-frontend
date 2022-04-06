@@ -15,13 +15,17 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
+<h1>
+  {{ (this.store.state$ | async)?.validation?.errorMessage }}
+</h1>
+
 <ng-container *ngIf="!(this.store.state$ | async)?.selected">
   <ng-container
     *transloco="let transloco; read: 'marketParticipant.organization'"
   >
     <div class="create_organization_block">
       <h1>{{ transloco('header') }}</h1>
-      <watt-button variant="primary">{{
+      <watt-button variant="primary" (click)="this.onCreateClicked()">{{
         transloco('createOrganization')
       }}</watt-button>
     </div>
@@ -141,8 +145,11 @@ limitations under the License.
 </ng-container>
 <dh-market-participant-create-organization
   *ngIf="(this.store.state$ | async)?.selected"
-  [organization]="(this.store.state$ | async)?.selected?.organization"
+  [organization]="
+    (this.store.state$ | async)?.selected?.organization?.organization
+  "
   [onMasterDataChanged]="this.onMasterDataChanged"
+  [onContactsChanged]="this.onContactsChanged"
   [onCancelCallback]="this.onCancel"
   [onSaveCallback]="this.onSave"
 >
