@@ -45,7 +45,10 @@ import {
   MatPaginatorModule,
 } from '@angular/material/paginator';
 import { DhMarketParticipantCreateOrganizationScam } from './create-organization/dh-market-participant-create-organization.component';
-import { ContactDto, OrganizationDto } from '@energinet-datahub/dh/shared/domain';
+import {
+  ContactDto,
+  OrganizationDto,
+} from '@energinet-datahub/dh/shared/domain';
 
 @Component({
   selector: 'dh-market-participant-organization',
