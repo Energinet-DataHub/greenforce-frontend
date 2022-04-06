@@ -131,7 +131,7 @@ export class WattDateRangeInputComponent
     const startDateInputMask = this.mask(startDateInputElement);
     const endDateInputMask = this.mask(endDateInputElement);
 
-    if(this.initialValue) {
+    if (this.initialValue) {
       this.writeValue(this.initialValue);
     }
 
@@ -190,7 +190,7 @@ export class WattDateRangeInputComponent
     if (!this.startDateInput || !this.endDateInput) {
       this.initialValue = dateRange;
       return;
-    };
+    }
 
     const inputEvent = new Event('input', { bubbles: true });
 
