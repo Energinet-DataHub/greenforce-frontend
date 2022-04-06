@@ -29,6 +29,13 @@ watt-date-range-input {
     color: transparent;
   }
 
+  /*
+   * The following styles fixes alignment on smaller devices / iOS / Safari
+   */
+  .mat-date-range-input-container {
+    align-items: initial;
+  }
+
   .mat-date-range-input-start-wrapper,
   .mat-date-range-input-end-wrapper {
     max-width: calc(50% - 8.8px);
