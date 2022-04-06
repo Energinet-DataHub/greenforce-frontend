@@ -151,15 +151,15 @@ describe(DhProcessesTableComponent.name, () => {
     );
 
     // Verify that the success row is set to collapsed and has height 0
-    expect(detailsRow.classList.toString()).toContain('collapsed');
+    expect(detailsRow).toHaveClass('collapsed');
 
     userEvent.click(processRow);
     // Verify that the success row is set to expanded and no longer has height 0
-    expect(processRow.classList.toString()).toContain('expanded');
-    expect(detailsRow.classList.toString()).not.toContain('collapsed');
+    expect(processRow).toHaveClass('expanded');
+    expect(detailsRow).not.toHaveClass('collapsed');
 
     userEvent.click(processRow);
     // Verify that the success row is set to collapsed and has height 0
-    expect(detailsRow.classList.toString()).toContain('collapsed');
+    expect(detailsRow).toHaveClass('collapsed');
   });
 });
