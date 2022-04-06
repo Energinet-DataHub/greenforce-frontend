@@ -16,7 +16,7 @@
  */
 import { TestBed } from '@angular/core/testing';
 import { MockProvider } from 'ng-mocks';
-import { AuthHttp } from '@energinet-datahub/ett/auth/data-access-api';
+import { AuthHttp } from '@energinet-datahub/eo/auth/data-access-api';
 import { EoPrivacyPolicyStore } from './eo-privacy-policy.store';
 import { firstValueFrom, of } from 'rxjs';
 
