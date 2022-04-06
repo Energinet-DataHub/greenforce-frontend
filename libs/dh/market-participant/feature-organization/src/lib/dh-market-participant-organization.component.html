@@ -15,11 +15,14 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<h1>
-  {{ (this.store.state$ | async)?.validation?.errorMessage }}
-</h1>
+<watt-validation-message
+  type="danger"
+  *ngIf="(this.store.state$ | async)?.validation as v"
+  [message]="v.errorMessage"
+>
+</watt-validation-message>
 
-<ng-container *ngIf="!(this.store.state$ | async)?.selected">
+<div [hidden]="(this.store.state$ | async)?.selected">
   <ng-container
     *transloco="let transloco; read: 'marketParticipant.organization'"
   >
@@ -142,7 +145,7 @@ limitations under the License.
       </ng-container>
     </ng-container>
   </ng-container>
-</ng-container>
+</div>
 <dh-market-participant-create-organization
   *ngIf="(this.store.state$ | async)?.selected"
   [organization]="

@@ -37,6 +37,7 @@ import {
   WattIconModule,
   WattEmptyStateModule,
   WattSpinnerModule,
+  WattValidationMessageModule,
 } from '@energinet-datahub/watt';
 import { MatMenuModule } from '@angular/material/menu';
 import {
@@ -155,6 +156,7 @@ export class DhMarketParticipantOrganizationComponent
     WattIconModule,
     WattEmptyStateModule,
     WattSpinnerModule,
+    WattValidationMessageModule,
     DhMarketParticipantCreateOrganizationScam,
   ],
   declarations: [DhMarketParticipantOrganizationComponent],
