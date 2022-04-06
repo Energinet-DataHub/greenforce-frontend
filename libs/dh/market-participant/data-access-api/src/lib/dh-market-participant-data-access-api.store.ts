@@ -126,7 +126,10 @@ export class DhMarketParticipantOverviewDataAccessApiStore extends ComponentStor
       error: () => {
         this.patchState({
           isLoading: false,
-          validation: { errorMessage: 'En fejl opstod under forsøg på at gemme organisationen' },
+          validation: {
+            errorMessage:
+              'En fejl opstod under forsøg på at gemme organisationen',
+          },
         });
       },
     });
