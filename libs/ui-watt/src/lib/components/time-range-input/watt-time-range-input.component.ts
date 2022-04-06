@@ -212,6 +212,7 @@ export class WattTimeRangeInputComponent
       },
       insertMode: false,
       insertModeVisual: true,
+      clearMaskOnLostFocus: false,
       clearIncomplete: true,
     }).mask(element);
 
