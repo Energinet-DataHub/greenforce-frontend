@@ -69,6 +69,17 @@ watt-form-field {
       position: static;
     }
 
+    &.mat-form-field-type-mat-date-range-input {
+      .mat-form-field-infix {
+        display: inline-block;
+        flex: none;
+      }
+
+      .mat-form-field-flex {
+        padding: 0 12px;
+      }
+    }
+
     .mat-form-field-subscript-wrapper {
       position: relative;
       padding-left: 8px;
