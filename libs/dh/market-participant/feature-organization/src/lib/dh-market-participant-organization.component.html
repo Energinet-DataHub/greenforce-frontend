@@ -18,7 +18,7 @@ limitations under the License.
 <watt-validation-message type="danger" *ngIf="(this.store.state$ | async)?.validation as v" [message]="v.errorMessage">
 </watt-validation-message>
 
-<ng-container *ngIf="!(this.store.state$ | async)?.selected">
+<div [hidden]="(this.store.state$ | async)?.selected">
   <ng-container *transloco="let transloco; read: 'marketParticipant.organization'">
     <div class="create_organization_block">
       <h1>{{ transloco('header') }}</h1>
@@ -121,7 +121,7 @@ limitations under the License.
       </ng-container>
     </ng-container>
   </ng-container>
-</ng-container>
+</div>
 <dh-market-participant-create-organization *ngIf="(this.store.state$ | async)?.selected" [organization]="
     (this.store.state$ | async)?.selected?.organization?.organization
   " [onMasterDataChanged]="this.onMasterDataChanged" [onContactsChanged]="this.onContactsChanged"
