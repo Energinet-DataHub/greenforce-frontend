@@ -28,6 +28,8 @@ describe(wrapInTableRow.name, () => {
 
     expect(wrappedTableRow.length).toBe(1);
     expect(wrappedTableRow[0].data).toBe(data[0]);
+    expect(wrappedTableRow[0].expanded).toBe(false);
+    expect(wrappedTableRow[0].maxHeight).toBe(0);
   });
 });
 
