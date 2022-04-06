@@ -24,7 +24,7 @@ import { WattDateRangeInputComponent } from '../date-range-input.component';
 import { WattDateRangeInputModule } from '../date-range-input.module';
 
 export default {
-  title: 'Components/Date Input Range',
+  title: 'Components/Date Input Range/Template Driven Forms',
   decorators: [
     moduleMetadata({
       imports: [
@@ -38,7 +38,7 @@ export default {
   component: WattDateRangeInputComponent,
 } as Meta<WattDateRangeInputComponent>;
 
-export const overview: Story<WattDateRangeInputComponent> = (args) => ({
+export const templateDrivenForms: Story<WattDateRangeInputComponent> = (args) => ({
   props: {
     ...args,
     dateRangeModel: {},
@@ -53,7 +53,7 @@ export const overview: Story<WattDateRangeInputComponent> = (args) => ({
    `,
 });
 
-overview.argTypes = {
+templateDrivenForms.argTypes = {
   min: {
     description:
       'Minimum value. This needs to be in the same format as the `dd-mm-yyyy`',

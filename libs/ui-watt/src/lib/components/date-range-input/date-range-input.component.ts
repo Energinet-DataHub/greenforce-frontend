@@ -111,12 +111,7 @@ export class WattDateRangeInputComponent
   /**
    * @ignore
    */
-  startDateOnInput$?: Observable<string>;
-
-  /**
-   * @ignore
-   */
-  endDateOnInput$?: Observable<string>;
+  initialValue?: WattDateRange;
 
   constructor(
     @Inject(LOCALE_ID) private locale: string,
@@ -135,6 +130,10 @@ export class WattDateRangeInputComponent
 
     const startDateInputMask = this.mask(startDateInputElement);
     const endDateInputMask = this.mask(endDateInputElement);
+
+    if(this.initialValue) {
+      this.writeValue(this.initialValue);
+    }
 
     this.setInputColor(startDateInputElement, startDateInputMask);
     this.setInputColor(endDateInputElement, startDateInputMask);
@@ -159,12 +158,12 @@ export class WattDateRangeInputComponent
     );
 
     const startDateOnComplete$ = startDateOnInput$.pipe(
-      startWith(''),
+      startWith(this.initialValue?.start || ''),
       map((val) => (startDateInputMask.isComplete() ? val : ''))
     );
 
     const endDateOnComplete$ = endDateOnInput$.pipe(
-      startWith(''),
+      startWith(this.initialValue?.end || ''),
       map((val) => (endDateInputMask.isComplete() ? val : ''))
     );
 
@@ -188,7 +187,11 @@ export class WattDateRangeInputComponent
    * @ignore
    */
   writeValue(dateRange: WattDateRange): void {
-    if (!this.startDateInput || !this.endDateInput) return;
+    if (!this.startDateInput || !this.endDateInput) {
+      this.initialValue = dateRange;
+      return;
+    };
+
     const inputEvent = new Event('input', { bubbles: true });
 
     if (dateRange.start) {
