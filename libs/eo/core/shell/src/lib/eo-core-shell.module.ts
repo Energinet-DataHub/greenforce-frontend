@@ -18,6 +18,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { EoAuthenticationGuard } from '@energinet-datahub/eo/auth/routing-security';
 import { eoDashboardRoutePath } from '@energinet-datahub/eo/dashboard/routing';
+import { eoOriginOfEnergyRoutePath } from '@energinet-datahub/eo/origin-of-energy/routing';
 import { eoFaqRoutePath } from '@energinet-datahub/eo/faq/routing';
 import { eoMeteringPointsRoutePath } from '@energinet-datahub/eo/metering-points/routing';
 import { eoPrivacyPolicyRoutePath } from '@energinet-datahub/eo/privacy-policy/routing';
@@ -63,6 +64,16 @@ const routes: Routes = [
         loadChildren: () =>
           import('@energinet-datahub/eo/dashboard/shell').then(
             (esModule) => esModule.EoDashboardShellModule
+          ),
+      },
+      {
+        path: eoOriginOfEnergyRoutePath,
+        data: {
+          title: 'Origin of Energy on the hourly declaration',
+        },
+        loadChildren: () =>
+          import('@energinet-datahub/eo/origin-of-energy/shell').then(
+            (esModule) => esModule.EoOriginOfEnergyShellModule
           ),
       },
       {
