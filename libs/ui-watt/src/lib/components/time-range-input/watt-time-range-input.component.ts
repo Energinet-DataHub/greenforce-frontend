@@ -237,7 +237,7 @@ export class WattTimeRangeInputComponent
         char !== splittedVal[index] && splittedVal[index] !== undefined;
       const color = charHasChanged
         ? 'var(--watt-color-neutral-black)'
-        : 'var(--watt-color-neutral-grey-600)';
+        : 'var(--watt-color-neutral-grey-500)';
       const gradientStart =
         index === 0 ? `${charWidth}px` : `${charWidth * index}px`;
       const gradientEnd =
