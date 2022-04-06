@@ -26,7 +26,10 @@ limitations under the License.
           [onMasterDataChanged]="this.onMasterDataChanged"
         ></dh-market-participant-organization-master-data>
       </watt-tab>
-      <watt-tab [label]="transloco('contactDataTabHeader')" *ngIf="this.organization?.organizationId !== undefined">
+      <watt-tab
+        [label]="transloco('contactDataTabHeader')"
+        *ngIf="this.organization?.organizationId !== undefined"
+      >
         <dh-market-participant-organization-contact-data
           [contacts]="this.contacts"
           (contactsChanged)="this.onContactsChanged($event.add, $event.remove)"
