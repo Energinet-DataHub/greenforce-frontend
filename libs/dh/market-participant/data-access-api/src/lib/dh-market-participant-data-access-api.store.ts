@@ -123,11 +123,10 @@ export class DhMarketParticipantOverviewDataAccessApiStore extends ComponentStor
           validation: undefined,
         });
       },
-      error: (err) => {
-        console.log('notok', err);
+      error: () => {
         this.patchState({
           isLoading: false,
-          validation: { errorMessage: 'we fucked up' },
+          validation: { errorMessage: 'En fejl opstod under forsøg på at gemme organisationen' },
         });
       },
     });
@@ -152,7 +151,7 @@ export class DhMarketParticipantOverviewDataAccessApiStore extends ComponentStor
 
   readonly setSelected = (organization?: OrganizationWithActor) => {
     if (organization === undefined) {
-      this.patchState({ selected: undefined });
+      this.patchState({ selected: undefined, validation: undefined });
     } else {
       this.patchState({
         selected: { organization: organization, contacts: [] },
