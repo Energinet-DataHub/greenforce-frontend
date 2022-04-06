@@ -20,7 +20,11 @@ limitations under the License.
     read: 'marketParticipant.organization.create.contacts'
   "
 >
-  <table mat-table [dataSource]="this.contactRows" aria-label="contacts">
+  <table
+    mat-table
+    [dataSource]="this.contactRows"
+    aria-label="contacts"
+  >
     <!-- Contact Type -->
     <ng-container matColumnDef="{{ this.columnIds[0] }}">
       <th mat-header-cell *matHeaderCellDef>{{ transloco('category') }}</th>

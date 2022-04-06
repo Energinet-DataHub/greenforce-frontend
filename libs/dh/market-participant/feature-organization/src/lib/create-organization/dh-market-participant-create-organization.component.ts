@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { CommonModule } from '@angular/common';
 import { Component, Input, NgModule } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
@@ -59,6 +60,7 @@ export class DhMarketParticipantCreateOrganizationComponent {
     FormsModule,
     ReactiveFormsModule,
     TranslocoModule,
+    CommonModule,
     WattButtonModule,
     WattFormFieldModule,
     WattInputModule,
