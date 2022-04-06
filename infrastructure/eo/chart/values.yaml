@@ -4,7 +4,7 @@ eo-base-helm-chart:
       replicaCount: 2
       image:
         repository: ghcr.io/energinet-datahub/eo-frontend-app
-        tag: 0.2.14
+        tag: 0.2.15
   service:
     deployment: app
     type: ClusterIP
