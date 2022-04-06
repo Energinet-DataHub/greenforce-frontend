@@ -16,16 +16,9 @@
  */
 
 table {
-  width: 100%;
+  width: 100% -var();
   margin-top: var(--watt-space-m);
   margin-bottom: var(--watt-space-m);
-}
-
-.field ::ng-deep .mat-form-field-wrapper {
-  padding-bottom: 0px;
-  margin-right: var(--watt-space-m);
-  margin-top: var(--watt-space-m);
-  margin-bottom: var(--watt-space-s);
 }
 
 .remove-cell {
