@@ -6,9 +6,5 @@
     "types": ["jest", "node"]
   },
   "files": ["src/test-setup.ts"],
-<<<<<<< HEAD:libs/eo/shared/util-browser/tsconfig.spec.json
-  "include": ["**/*.spec.ts", "**/*.d.ts"]
-=======
   "include": ["**/*.test.ts", "**/*.spec.ts", "**/*.d.ts"]
->>>>>>> feature/431-static-origin-of-energy-page:libs/eo/origin-of-energy/routing/tsconfig.spec.json
 }
