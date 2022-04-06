@@ -228,8 +228,6 @@ export class WattTimeRangeInputComponent
     const emptyMask = inputMask.getemptymask();
     const val = inputElement.value;
 
-    console.log({ emptyMask, val });
-
     const splittedEmptyMask = emptyMask.split('');
     const splittedVal = val.split('');
 
