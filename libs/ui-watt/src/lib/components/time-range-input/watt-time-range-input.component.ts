@@ -166,8 +166,8 @@ export class WattTimeRangeInputComponent
     }
 
     if (timeRange.end) {
-      this.startTimeInput.nativeElement.value = timeRange.end;
-      this.startTimeInput.nativeElement.dispatchEvent(inputEvent);
+      this.endTimeInput.nativeElement.value = timeRange.end;
+      this.endTimeInput.nativeElement.dispatchEvent(inputEvent);
     }
   }
 
