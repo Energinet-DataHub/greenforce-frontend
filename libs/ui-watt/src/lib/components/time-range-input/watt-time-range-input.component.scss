@@ -1,7 +1,9 @@
-$placeholder-color: var(--watt-color-neutral-grey-600);
+@use '../../foundations/typography/typography.import' as typography;
+
+$placeholder-color: var(--watt-color-neutral-grey-500);
 
 watt-time-range-input {
-  font-family: monospace;
+  font-family: typography.$monospace-font-family;
 
   input.mat-date-range-input-inner {
     caret-color: #000;
