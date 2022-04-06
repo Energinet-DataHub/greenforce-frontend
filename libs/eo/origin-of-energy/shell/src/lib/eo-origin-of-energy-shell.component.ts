@@ -14,24 +14,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
+import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
 
- @Component({
-   changeDetection: ChangeDetectionStrategy.OnPush,
-   selector: 'eo-metering-points-shell',
-   styles: [
-     `
-       :host {
-         display: block;
-       }
-     `,
-   ],
-   template: `<p>The contents of the page go here.</p>`,
- })
- export class EoOriginOfEnergyShellComponent {}
+@Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: 'eo-metering-points-shell',
+  styles: [
+    `
+      :host {
+        display: block;
+      }
+    `,
+  ],
+  template: `<p>The contents of the page go here.</p>`,
+})
+export class EoOriginOfEnergyShellComponent {}
 
- @NgModule({
-   declarations: [EoOriginOfEnergyShellComponent],
-   exports: [EoOriginOfEnergyShellComponent],
- })
- export class EoOriginOfEnergyShellScam {}
+@NgModule({
+  declarations: [EoOriginOfEnergyShellComponent],
+  exports: [EoOriginOfEnergyShellComponent],
+})
+export class EoOriginOfEnergyShellScam {}
