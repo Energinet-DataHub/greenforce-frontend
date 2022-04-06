@@ -44,7 +44,7 @@ import { DhMarketParticipantOrganizationMasterDataComponentScam } from './master
 })
 export class DhMarketParticipantCreateOrganizationComponent {
   @Input() organization: OrganizationDto | undefined;
-  @Input() contacts: ContactDto[] = [];
+  @Input() contacts: ContactDto[] | undefined;
   @Input() onMasterDataChanged!: (data: MasterData) => void;
   @Input() onContactsChanged!: (
     add: ContactChanges[],

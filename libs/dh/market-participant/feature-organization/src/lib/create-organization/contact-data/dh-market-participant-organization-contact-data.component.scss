@@ -16,12 +16,26 @@
  */
 
 table {
-  width: 100% -var();
+  width: 100%;
   margin-top: var(--watt-space-m);
   margin-bottom: var(--watt-space-m);
+}
+
+.field ::ng-deep .mat-form-field-wrapper {
+  padding-bottom: 0px;
+  margin-right: var(--watt-space-m);
+  margin-top: var(--watt-space-m);
+  margin-bottom: var(--watt-space-s);
 }
 
 .remove-cell {
   display: flex;
   justify-content: right;
+}
+
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: var(--watt-space-m);
 }

@@ -20,7 +20,15 @@ limitations under the License.
     read: 'marketParticipant.organization.create.contacts'
   "
 >
-  <table mat-table [dataSource]="this.contactRows" aria-label="contacts">
+  <div *ngIf="this.contacts === undefined" class="spinner-container">
+    <watt-spinner></watt-spinner>
+  </div>
+  <table
+    mat-table
+    *ngIf="this.contacts !== undefined"
+    [dataSource]="this.contactRows"
+    aria-label="contacts"
+  >
     <!-- Contact Type -->
     <ng-container matColumnDef="{{ this.columnIds[0] }}">
       <th mat-header-cell *matHeaderCellDef>{{ transloco('category') }}</th>
@@ -30,6 +38,7 @@ limitations under the License.
             required
             [(ngModel)]="element.changed.category"
             [options]="this.contactCategories"
+            (ngModelChange)="this.onDropdownChanged(element)"
           >
           </watt-dropdown>
         </watt-form-field>

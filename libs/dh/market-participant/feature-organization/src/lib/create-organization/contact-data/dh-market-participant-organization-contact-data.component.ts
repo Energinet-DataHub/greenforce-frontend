@@ -39,6 +39,7 @@ import {
   WattFormFieldModule,
   WattDropdownModule,
   WattDropdownOption,
+  WattSpinnerModule,
 } from '@energinet-datahub/watt';
 import {
   ContactCategory,
@@ -68,7 +69,7 @@ export class DhMarketParticipantOrganizationContactDataComponent
 {
   constructor(private cd: ChangeDetectorRef) {}
 
-  @Input() contacts: ContactDto[] = [];
+  @Input() contacts: ContactDto[] | undefined;
   @Output() contactsChanged = new EventEmitter<{
     add: ContactChanges[];
     remove: ContactDto[];
@@ -87,7 +88,10 @@ export class DhMarketParticipantOrganizationContactDataComponent
   deletedContacts: ContactDto[] = [];
 
   ngOnChanges() {
-    this.contactRows = this.contacts
+    const contacts = this.contacts;
+    if (contacts === undefined) return;
+
+    this.contactRows = contacts
       .map(
         (contact): EditableContactRow => ({
           isExisting: true,
@@ -123,6 +127,21 @@ export class DhMarketParticipantOrganizationContactDataComponent
     if (row.isNewPlaceholder) {
       row.isNewPlaceholder = false;
       this.contactRows = [...this.contactRows, this.createPlaceholder()];
+    }
+
+    row.isModified =
+      row.changed.category !== row.contact.category ||
+      row.changed.name !== row.contact.name ||
+      row.changed.email !== row.contact.email ||
+      row.changed.phone !== row.contact.phone;
+
+    this.cd.detectChanges();
+    this.raiseContactsChanged();
+  };
+
+  readonly onDropdownChanged = (row: EditableContactRow) => {
+    if (row.isNewPlaceholder) {
+      return;
     }
 
     row.isModified =
@@ -173,6 +192,7 @@ export class DhMarketParticipantOrganizationContactDataComponent
     WattInputModule,
     WattFormFieldModule,
     WattDropdownModule,
+    WattSpinnerModule,
   ],
   exports: [DhMarketParticipantOrganizationContactDataComponent],
   declarations: [DhMarketParticipantOrganizationContactDataComponent],

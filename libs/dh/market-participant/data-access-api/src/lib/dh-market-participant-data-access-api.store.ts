@@ -24,7 +24,7 @@ import {
   MarketParticipantHttp,
   OrganizationDto,
 } from '@energinet-datahub/dh/shared/domain';
-import { map } from 'rxjs';
+import { forkJoin, map, Observable, of } from 'rxjs';
 
 export interface OrganizationWithActor {
   organization: OrganizationDto;
@@ -56,7 +56,7 @@ interface MarketParticipantState {
 
   selected?: {
     organization: OrganizationWithActor;
-    contacts: ContactDto[];
+    contacts?: ContactDto[];
   };
 
   masterData?: MasterData;
@@ -79,43 +79,40 @@ export class DhMarketParticipantOverviewDataAccessApiStore extends ComponentStor
   constructor(private httpClient: MarketParticipantHttp) {
     super(initialState);
 
-    this.state$.subscribe((state) => {
-      const masterData = state.masterData;
-      if (masterData === undefined || !state.isSaving) {
+    this.select((state) => state.selected).subscribe((selection) => {
+      if (selection === undefined || selection.contacts !== undefined) {
         return;
       }
 
-      this.saveOrganization(state.selected?.organization, masterData);
+      this.loadContacts(selection.organization.organization);
+    });
+
+    this.state$.subscribe((state) => {
+      if (!state.isSaving) {
+        return;
+      }
+
+      this.saveAll(
+        state.selected?.organization,
+        state.masterData,
+        state.addContacts,
+        state.removeContacts
+      );
     });
   }
 
-  readonly saveOrganization = (
+  readonly saveAll = (
     organization: OrganizationWithActor | undefined,
-    masterData: MasterData
+    masterData: MasterData | undefined,
+    add: ContactChanges[] | undefined,
+    remove: ContactDto[] | undefined
   ) => {
-    const changedOrg: ChangeOrganizationDto = {
-      name: masterData.name,
-      businessRegisterIdentifier: masterData.businessRegistrationIdentifier,
-      address: {
-        streetName: masterData.streetName,
-        number: masterData.streetNumber,
-        zipCode: masterData.zipCode,
-        city: masterData.city,
-        country: masterData.country,
-      },
-    };
+    const tasks: Observable<string>[] = [
+      this.saveOrganization(organization, masterData),
+      this.saveContacts(organization?.organization, add ?? [], remove ?? []),
+    ];
 
-    const selectedId = organization?.organization.organizationId;
-
-    const result =
-      selectedId === undefined
-        ? this.httpClient.v1MarketParticipantOrganizationPost(changedOrg)
-        : this.httpClient.v1MarketParticipantOrganizationPut(
-            selectedId,
-            changedOrg
-          );
-
-    result.subscribe({
+    forkJoin(tasks).subscribe({
       complete: () => {
         this.beginLoading();
         this.patchState({
@@ -133,6 +130,94 @@ export class DhMarketParticipantOverviewDataAccessApiStore extends ComponentStor
     });
 
     this.patchState({ isSaving: false });
+  };
+
+  readonly saveOrganization = (
+    organization: OrganizationWithActor | undefined,
+    masterData: MasterData | undefined
+  ): Observable<string> => {
+    if (masterData !== undefined) {
+      const changedOrg: ChangeOrganizationDto = {
+        name: masterData.name,
+        businessRegisterIdentifier: masterData.businessRegistrationIdentifier,
+        address: {
+          streetName: masterData.streetName,
+          number: masterData.streetNumber,
+          zipCode: masterData.zipCode,
+          city: masterData.city,
+          country: masterData.country,
+        },
+      };
+
+      const selectedId = organization?.organization.organizationId;
+
+      return selectedId === undefined
+        ? this.httpClient.v1MarketParticipantOrganizationPost(changedOrg)
+        : this.httpClient.v1MarketParticipantOrganizationPut(
+            selectedId,
+            changedOrg
+          );
+    }
+
+    return of('');
+  };
+
+  readonly saveContacts = (
+    organization: OrganizationDto | undefined,
+    add: ContactChanges[],
+    remove: ContactDto[]
+  ): Observable<string> => {
+    if (organization === undefined) {
+      return of('');
+    }
+
+    const tasks: Observable<string>[] = [];
+
+    remove.forEach((element) => {
+      tasks.push(
+        this.httpClient.v1MarketParticipantOrganizationOrgIdContactContactIdDelete(
+          organization.organizationId,
+          element.contactId
+        )
+      );
+    });
+
+    return forkJoin(tasks).pipe(() => {
+      const addTasks: Observable<string>[] = [];
+
+      add.forEach((element) => {
+        addTasks.push(
+          this.httpClient.v1MarketParticipantOrganizationOrgIdContactPost(
+            organization.organizationId,
+            {
+              category: element.category,
+              name: element.name,
+              email: element.email,
+              phone: element.phone,
+            } as ContactDto
+          )
+        );
+      });
+
+      return forkJoin(addTasks).pipe(map(() => ''));
+    });
+  };
+
+  readonly loadContacts = (organization: OrganizationDto) => {
+    this.httpClient
+      .v1MarketParticipantOrganizationOrgIdContactGet(
+        organization.organizationId
+      )
+      .subscribe((contacts) => {
+        this.setState((state) => {
+          const selected =
+            state.selected === undefined
+              ? undefined
+              : { ...state.selected, contacts };
+
+          return { ...state, selected };
+        });
+      });
   };
 
   readonly beginLoading = () => {
@@ -155,7 +240,7 @@ export class DhMarketParticipantOverviewDataAccessApiStore extends ComponentStor
       this.patchState({ selected: undefined });
     } else {
       this.patchState({
-        selected: { organization: organization, contacts: [] },
+        selected: { organization: organization },
       });
     }
   };

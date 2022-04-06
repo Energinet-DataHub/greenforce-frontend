@@ -148,6 +148,7 @@ limitations under the License.
   [organization]="
     (this.store.state$ | async)?.selected?.organization?.organization
   "
+  [contacts]="(this.store.state$ | async)?.selected?.contacts"
   [onMasterDataChanged]="this.onMasterDataChanged"
   [onContactsChanged]="this.onContactsChanged"
   [onCancelCallback]="this.onCancel"
