@@ -14,17 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgModule } from '@angular/core';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { EoCoreShellModule } from '@energinet-datahub/eo/core/shell';
+// Authentication
+export * from './lib/authentication/eo-authentication.interceptor';
+export * from './lib/authentication/eo-log-out.store';
 
-import {
-  EnergyOriginAppComponent,
-  EnergyOriginAppScam,
-} from './energy-origin-app.component';
-
-@NgModule({
-  bootstrap: [EnergyOriginAppComponent],
-  imports: [BrowserAnimationsModule, EoCoreShellModule, EnergyOriginAppScam],
-})
-export class EnergyOriginAppModule {}
+// Authorization
+export * from './lib/authorization/eo-authorization.interceptor';
