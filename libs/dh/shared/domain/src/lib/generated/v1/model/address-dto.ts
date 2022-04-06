@@ -12,10 +12,10 @@
 
 
 export interface AddressDto { 
-    streetName: string;
-    number: string;
-    zipCode: string;
-    city: string;
+    streetName?: string | null;
+    number?: string | null;
+    zipCode?: string | null;
+    city?: string | null;
     country: string;
 }
 
