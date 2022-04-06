@@ -45,6 +45,11 @@ watt-date-range-input {
     //max-width: calc(50% - 16.8px);
   }
 
+  .mat-date-range-input-separator {
+    display: flex;
+    align-items: center;
+  }
+
   .mat-date-range-input-separator-hidden {
     opacity: 1 !important;
   }
