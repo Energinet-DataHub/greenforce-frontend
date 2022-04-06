@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-$placeholder-color: var(--watt-color-neutral-grey-600);
+$placeholder-color: var(--watt-color-neutral-grey-500);
 
 watt-date-range-input {
   font-family: 'Droid Sans Mono', monospace;
@@ -38,7 +38,7 @@ watt-date-range-input {
 
   .mat-date-range-input-start-wrapper,
   .mat-date-range-input-end-wrapper {
-    max-width: calc(50% - 8.8px);
+    max-width: calc(50% - 9px);
   }
 
   .mat-date-range-input-separator {
