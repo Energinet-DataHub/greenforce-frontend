@@ -1,5 +1,24 @@
-import { DhProcessesTableComponent } from './dh-processes-table.component';
-import { getRowToExpand, wrapInTableRow } from './dh-table-util';
+/**
+ * @license
+ * Copyright 2020 Energinet DataHub A/S
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License2");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+import {
+  compareSortValues,
+  getRowToExpand,
+  wrapInTableRow,
+} from './dh-table-util';
 
 describe(wrapInTableRow.name, () => {
   it('should wrap in table row', () => {
@@ -13,28 +32,49 @@ describe(wrapInTableRow.name, () => {
 });
 
 describe(getRowToExpand.name, () => {
-  it('should return row to expand', () => {
-    const cell1 = document.createElement('td');
-    const cell2 = document.createElement('td');
-    const cell3 = document.createElement('td');
-    const cell4 = document.createElement('td');
+  it('should return row to expand', async () => {
+    document.body.innerHTML = `
+      <div>
+        <mat-row>
+          <div id='process-row' class='mat-row'>
+            <div class='column'></div><div class='column'></div>
+          </div>
+        </mat-row>
+        <mat-row>
+          <div id='detail-row' class='mat-row'>
+            <div class='column'></div><div class='column'></div>
+          </div>
+        </mat-row>
+      </div>
+    `;
+    const firstRow = document.getElementById('process-row');
+    const firstColumnOfFirstRow = firstRow?.children[0];
 
-    const processRow = document.createElement('tr');
-    processRow.classList.add('mat-row');
-    processRow.append(cell1, cell2);
+    if (firstColumnOfFirstRow === undefined) {
+      // This is purely to satisfy the linter complaining about a possible undefined value
+      throw new Error('Expected to find table cell element');
+    }
 
-    const detailRow = document.createElement('tr');
-    detailRow.classList.add('mat-row');
-    detailRow.append(cell3, cell4);
+    const rowToExpand = getRowToExpand(firstColumnOfFirstRow);
 
-    const tbody = document.createElement('tbody');
-    tbody.append(processRow, detailRow);
+    expect(rowToExpand?.children[0].id).toBe('detail-row');
+  });
+});
 
-    const table = document.createElement('table');
-    table.append(tbody);
+describe(compareSortValues.name, () => {
+  it('should return the expected sorting values', async () => {
+    const oneIsSmallerThanTwoDesc = compareSortValues(1, 2, false);
+    const oneIsSmallerThanTwoAsc = compareSortValues(1, 2, true);
+    const oneIsEqualToOne = compareSortValues(1, 1, true);
 
-    const rowToExpand = getRowToExpand(cell1);
+    const aIsSmallerThanBDesc = compareSortValues('a', 'b', false);
+    const aIsSmallerThanBAsc = compareSortValues('a', 'b', true);
 
-    expect(rowToExpand).toBe(detailRow);
+    expect(oneIsSmallerThanTwoDesc).toBe(1);
+    expect(oneIsSmallerThanTwoAsc).toBe(-1);
+    expect(oneIsEqualToOne).toBe(1);
+
+    expect(aIsSmallerThanBDesc).toBe(1);
+    expect(aIsSmallerThanBAsc).toBe(-1);
   });
 });
