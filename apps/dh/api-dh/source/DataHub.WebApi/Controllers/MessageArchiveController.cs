@@ -50,7 +50,7 @@ namespace Energinet.DataHub.WebApi.Controllers
         /// <summary>
         /// Download log content as stream
         /// </summary>
-        /// <param name="logName">blob name</param>
+        /// <param name="logName">log name</param>
         /// <returns>log content</returns>
         [HttpGet("DownloadRequestResponseLogContent")]
         public async Task<ActionResult<Stream>> DownloadRequestResponseLogContentAsync(string logName)

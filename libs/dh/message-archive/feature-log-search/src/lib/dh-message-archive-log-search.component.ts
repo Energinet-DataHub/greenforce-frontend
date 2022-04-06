@@ -44,7 +44,7 @@ import {
   MessageArchiveSearchResultItemDto,
 } from '@energinet-datahub/dh/shared/domain';
 import {
-  BusinessReasonCodes,
+  ProcessTypes,
   DocumentTypes,
   RoleTypes,
 } from '@energinet-datahub/dh/message-archive/domain';
@@ -72,7 +72,7 @@ export class DhMessageArchiveLogSearchComponent implements OnDestroy {
   hasSearchError$ = this.store.hasGeneralError$;
   continuationToken$ = this.store.continuationToken$;
 
-  businessReasonCodes = BusinessReasonCodes;
+  processTypes = ProcessTypes;
   searching = false;
   documentTypes = DocumentTypes;
   roleTypes = RoleTypes;
@@ -80,7 +80,6 @@ export class DhMessageArchiveLogSearchComponent implements OnDestroy {
   pageNumber = 1;
   searchCriteria: MessageArchiveSearchCriteria = {
     messageId: null,
-    reasonCode: null,
     senderRoleType: null,
     rsmName: null,
     includeRelated: false,
@@ -88,6 +87,7 @@ export class DhMessageArchiveLogSearchComponent implements OnDestroy {
     functionName: null,
     invocationId: null,
     maxItemCount: 250,
+    processType: null,
   };
 
   private initDateFrom = (): Date => {

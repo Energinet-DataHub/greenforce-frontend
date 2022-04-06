@@ -43,8 +43,8 @@ export class DhMessageArchiveLogSearchBlobContentComponent {
   ) {
     this.route.params.subscribe((params) => {
       const logName = params['logname'];
-      const decodedLobName = decodeURIComponent(logName);
-      this.blobStore.downloadLog(decodedLobName);
+      const decodedLogName = decodeURIComponent(logName);
+      this.blobStore.downloadLog(decodedLogName);
     });
 
     this.messageId = sessionStorage.getItem('messageId') ?? '...';

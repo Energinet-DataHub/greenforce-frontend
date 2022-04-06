@@ -111,23 +111,21 @@ limitations under the License.
         }}</watt-label>
 
         <select
-          #searchInputBusinessReasonCode
+          #searchInputProcessType
           wattInput
           name="reasonCode"
-          [(ngModel)]="this.searchCriteria.reasonCode"
+          [(ngModel)]="this.searchCriteria.processType"
         >
           <option selected [ngValue]="null">
-            {{ transloco('ChooseBusinessRole') }}
+            {{ transloco('ChooseBusinessReason') }}
           </option>
           <option
-            *ngFor="
-              let businessReasonCode of this.businessReasonCodes | keyvalue
-            "
-            [ngValue]="businessReasonCode['key']"
-            value="{{ businessReasonCode['value'] }}"
+            *ngFor="let processType of this.processTypes| keyvalue"
+            [ngValue]="processType['key']"
+            value="{{ processType['value'] }}"
           >
             {{
-              businessReasonCode['key'] + ' - ' + businessReasonCode['value']
+              processType['key'] + ' - ' + processType['value']
             }}
           </option>
         </select>
