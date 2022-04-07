@@ -14,7 +14,6 @@ import {
   distinctUntilChanged,
   fromEvent,
   map,
-  Observable,
   startWith,
   Subject,
   takeUntil,
@@ -73,12 +72,7 @@ export class WattTimeRangeInputComponent
   /**
    * @ignore
    */
-  startTimeOnInput$?: Observable<string>;
-
-  /**
-   * @ignore
-   */
-  endTimeOnInput$?: Observable<string>;
+  initialValue?: WattTimeRange;
 
   /**
    * @ignore
@@ -101,6 +95,10 @@ export class WattTimeRangeInputComponent
 
     const startTimeInputMask = this.mask(startTimeInputElement);
     const endTimeInputMask = this.mask(endTimeInputElement);
+
+    if (this.initialValue) {
+      this.writeValue(this.initialValue);
+    }
 
     this.setInputColor(startTimeInputElement, startTimeInputMask);
     this.setInputColor(endTimeInputElement, startTimeInputMask);
@@ -125,12 +123,12 @@ export class WattTimeRangeInputComponent
     );
 
     const startDateOnComplete$ = startTimeOnInput$.pipe(
-      startWith(''),
+      startWith(this.initialValue?.start ?? ''),
       map((val) => (startTimeInputMask.isComplete() ? val : ''))
     );
 
     const endDateOnComplete$ = endTimeOnInput$.pipe(
-      startWith(''),
+      startWith(this.initialValue?.end ?? ''),
       map((val) => (endTimeInputMask.isComplete() ? val : ''))
     );
 
@@ -155,6 +153,7 @@ export class WattTimeRangeInputComponent
    */
   writeValue(timeRange: WattTimeRange): void {
     if (!this.startTimeInput || !this.endTimeInput) {
+      this.initialValue = timeRange;
       return;
     }
 
