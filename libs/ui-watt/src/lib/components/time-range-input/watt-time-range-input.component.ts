@@ -110,9 +110,6 @@ export class WattTimeRangeInputComponent
       'input'
     ).pipe(
       tap(() => this.setInputColor(startTimeInputElement, startTimeInputMask)),
-      tap((event) =>
-        this.jumpToEndDate(event, startTimeInputMask, endTimeInputElement)
-      ),
       map((event) => (event.target as HTMLInputElement).value)
     );
 
@@ -259,22 +256,5 @@ export class WattTimeRangeInputComponent
       'background-image',
       `linear-gradient(90deg, ${gradient.join('')})`
     );
-  }
-
-  /**
-   * @ignore
-   */
-  private jumpToEndDate(
-    event: InputEvent,
-    inputmask: Inputmask.Instance,
-    endInputElement: HTMLInputElement
-  ) {
-    if (
-      inputmask.isComplete() &&
-      (event.target as HTMLInputElement).value.length ===
-        inputmask.getemptymask().length
-    ) {
-      endInputElement.focus();
-    }
   }
 }
