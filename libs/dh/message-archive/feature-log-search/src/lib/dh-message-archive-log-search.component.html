@@ -56,25 +56,17 @@ limitations under the License.
       </watt-form-field>
 
       <watt-form-field size="normal">
-        <watt-label class="watt-text-m">{{ transloco('role') }}</watt-label>
+        <watt-label class="watt-text-m">{{
+          transloco('receiverId')
+        }}</watt-label>
 
-        <select
-          #searchInputRole
+        <input
+          #searchInputReceiverId
+          [(ngModel)]="this.searchCriteria.receiverId"
           wattInput
-          [(ngModel)]="this.searchCriteria.senderRoleType"
-          name="role"
-        >
-          <option selected [ngValue]="null">
-            {{ transloco('ChooseRole') }}
-          </option>
-          <option
-            *ngFor="let roleType of this.roleTypes | keyvalue"
-            [ngValue]="roleType['key']"
-            value="{{ roleType['value'] }}"
-          >
-            {{ roleType['key'] + ' - ' + roleType['value'] }}
-          </option>
-        </select>
+          type="text"
+          name="receiverId"
+        />
       </watt-form-field>
 
       <watt-form-field size="normal">
@@ -88,20 +80,6 @@ limitations under the License.
           wattInput
           type="text"
           name="messageId"
-        />
-      </watt-form-field>
-
-      <watt-form-field size="normal">
-        <watt-label class="watt-text-m">{{
-          transloco('receiverId')
-        }}</watt-label>
-
-        <input
-          #searchInputReceiverId
-          [(ngModel)]="this.searchCriteria.receiverId"
-          wattInput
-          type="text"
-          name="receiverId"
         />
       </watt-form-field>
 
@@ -131,6 +109,18 @@ limitations under the License.
         </select>
       </watt-form-field>
 
+      <!-- Reference id -->
+      <watt-form-field size="normal">
+        <watt-checkbox
+          #searchInputReferenceId
+          [(ngModel)]="this.searchCriteria.includeRelated"
+          wattInput
+          name="reference-id"
+          >{{ transloco('includeRelatedMessage') }}</watt-checkbox
+        >
+      </watt-form-field>
+
+      <!-- Date from -->
       <watt-form-field size="normal">
         <watt-label class="watt-text-m">{{ transloco('dateFrom') }}</watt-label>
 
@@ -143,6 +133,7 @@ limitations under the License.
         />
       </watt-form-field>
 
+      <!-- Date to -->
       <watt-form-field size="normal">
         <watt-label class="watt-text-m">{{ transloco('dateTo') }}</watt-label>
 
@@ -155,28 +146,7 @@ limitations under the License.
         />
       </watt-form-field>
 
-      <!-- Reference id -->
-      <watt-form-field size="normal">
-        <watt-checkbox
-          #searchInputReferenceId
-          [(ngModel)]="this.searchCriteria.includeRelated"
-          wattInput
-          name="reference-id"
-          >{{ transloco('includeRelatedMessage') }}</watt-checkbox
-        >
-      </watt-form-field>
-
-      <!-- Search -->
-      <watt-button
-        [disabled]="!validateSearchParams()"
-        variant="primary"
-        type="submit"
-        icon="search"
-        size="normal"
-        >{{ transloco('startSearch') }}</watt-button
-      >
-
-      <!-- Pager -->
+      <!-- Pager size -->
       <watt-form-field size="normal">
         <watt-label class="watt-text-m">{{ transloco('pageSize') }}</watt-label>
 
@@ -196,6 +166,19 @@ limitations under the License.
         </select>
       </watt-form-field>
 
+      <!-- Search -->
+      <watt-button
+        [disabled]="!validateSearchParams()"
+        variant="primary"
+        type="submit"
+        icon="search"
+        size="normal"
+        >{{ transloco('startSearch') }}</watt-button
+      >
+
+      <div class="spacer"></div>
+
+      <!-- Pager -->
       <div>
         <watt-label class="watt-text-m"
           >{{ transloco('page') }} {{ this.pageNumber }}</watt-label

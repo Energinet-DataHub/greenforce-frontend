@@ -40,9 +40,9 @@ limitations under the License.
     </ng-container>
 
     <!-- timestamp gln -->
-    <ng-container matColumnDef="logcreateddate">
+    <ng-container matColumnDef="createddate">
       <th mat-header-cell *matHeaderCellDef>{{ transloco('timeStamp') }}</th>
-      <td mat-cell *matCellDef="let element">{{ element.logCreatedDate }}</td>
+      <td mat-cell *matCellDef="let element">{{ element.logCreatedDate | dhDateTime }}</td>
     </ng-container>
 
     <!-- in /out -->
@@ -67,16 +67,16 @@ limitations under the License.
     <ng-container matColumnDef="logoptions">
       <th mat-header-cell *matHeaderCellDef></th>
       <td mat-cell *matCellDef="let element">
-        <watt-icon-button
+          <watt-icon-button
+          title="{{ transloco('download') }}"
           (click)="emitDownlogLogFile(element)"
-          [icon]="iconDownload"
-          label="{{ transloco('download') }}"
-        ></watt-icon-button>
+          [icon]="iconDownload">
+        </watt-icon-button>
         <watt-icon-button
           (click)="emitShowLogDownloadPage(element)"
           [icon]="iconOpenInNew"
-          label="{{ transloco('show') }}"
-        ></watt-icon-button>
+          title="{{ transloco('show') }}">
+        </watt-icon-button>
       </td>
     </ng-container>
 

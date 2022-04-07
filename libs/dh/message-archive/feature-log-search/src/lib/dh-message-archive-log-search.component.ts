@@ -46,7 +46,6 @@ import {
 import {
   ProcessTypes,
   DocumentTypes,
-  RoleTypes,
 } from '@energinet-datahub/dh/message-archive/domain';
 
 import { DhMessageArchiveLogSearchResultScam } from './searchresult/dh-message-archive-log-search-result.component';
@@ -63,9 +62,8 @@ import { DhMessageArchiveLogSearchResultScam } from './searchresult/dh-message-a
 })
 export class DhMessageArchiveLogSearchComponent implements OnDestroy {
   private destroy$ = new Subject<void>();
-  private regexBlobName = new RegExp(
-    /\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])\/.*/
-  );
+  private regexLogNameWithDateFolder = new RegExp(/\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])\/.*/);
+  private regexLogNameIsSingleGuid = new RegExp(/[\da-zA-Z]{8}-([\da-zA-Z]{4}-){3}[\da-zA-Z]{12}$/);
 
   searchResult$ = this.store.searchResult$;
   searching$ = this.store.isSearching$;
@@ -75,12 +73,10 @@ export class DhMessageArchiveLogSearchComponent implements OnDestroy {
   processTypes = ProcessTypes;
   searching = false;
   documentTypes = DocumentTypes;
-  roleTypes = RoleTypes;
   pageSizes = [250, 500, 750, 1000];
   pageNumber = 1;
   searchCriteria: MessageArchiveSearchCriteria = {
     messageId: null,
-    senderRoleType: null,
     rsmName: null,
     includeRelated: false,
     traceId: null,
@@ -145,21 +141,21 @@ export class DhMessageArchiveLogSearchComponent implements OnDestroy {
   }
 
   redirectToDownloadLogPage(resultItem: MessageArchiveSearchResultItemDto) {
-    const blobName = this.findBlobName(resultItem.blobContentUri);
-    const encodedBlobName = encodeURIComponent(blobName);
+    const logName = this.findLogName(resultItem.blobContentUri);
+    const encodedLogName = encodeURIComponent(logName);
     const url = this.router.serializeUrl(
-      this.router.createUrlTree([`/message-archive/${encodedBlobName}`])
+      this.router.createUrlTree([`/message-archive/${encodedLogName}`])
     );
-    const blobViewWindow = window.open(url, '_blank');
-    blobViewWindow?.sessionStorage.setItem(
+    const logViewWindow = window.open(url, '_blank');
+    logViewWindow?.sessionStorage.setItem(
       'messageId',
       resultItem.messageId ?? ''
     );
   }
 
   downloadLog(resultItem: MessageArchiveSearchResultItemDto) {
-    const blobName = this.findBlobName(resultItem.blobContentUri);
-    this.logStore.downloadLogFile(blobName);
+    const logName = this.findLogName(resultItem.blobContentUri);
+    this.logStore.downloadLogFile(logName);
   }
 
   validateSearchParams(): boolean {
@@ -171,11 +167,17 @@ export class DhMessageArchiveLogSearchComponent implements OnDestroy {
     );
   }
 
-  findBlobName(blobUrl: string): string {
-    if (this.regexBlobName.test(blobUrl)) {
-      const match = this.regexBlobName.exec(blobUrl);
+  findLogName(logUrl: string): string {
+
+    if (this.regexLogNameWithDateFolder.test(logUrl)) {
+      const match = this.regexLogNameWithDateFolder.exec(logUrl);
       return match != null ? match[0] : '';
     }
+    else if (this.regexLogNameIsSingleGuid.test(logUrl)) {
+      const match = this.regexLogNameIsSingleGuid.exec(logUrl);
+      return match != null ? match[0] : '';
+    }
+
     return '';
   }
 
