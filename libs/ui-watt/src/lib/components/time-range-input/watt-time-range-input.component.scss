@@ -7,8 +7,6 @@ watt-time-range-input {
 
   input.mat-date-range-input-inner {
     caret-color: #000;
-    letter-spacing: -0.03em;
-    width: auto;
     -webkit-background-clip: text;
     -moz-background-clip: text;
     background-clip: text;
@@ -20,11 +18,6 @@ watt-time-range-input {
    */
   .mat-date-range-input-container {
     align-items: initial;
-  }
-
-  .mat-date-range-input-start-wrapper,
-  .mat-date-range-input-end-wrapper {
-    max-width: calc(50% - 9px);
   }
 
   .mat-date-range-input-separator {
