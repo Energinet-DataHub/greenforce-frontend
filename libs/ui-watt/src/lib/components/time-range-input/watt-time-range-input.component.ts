@@ -1,5 +1,6 @@
 import {
   AfterViewInit,
+  ChangeDetectionStrategy,
   Component,
   ElementRef,
   Host,
@@ -42,6 +43,7 @@ const hoursMinutesPlaceholder = 'HH:mm';
   templateUrl: './watt-time-range-input.component.html',
   styleUrls: ['./watt-time-range-input.component.scss'],
   encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WattTimeRangeInputComponent
   implements AfterViewInit, ControlValueAccessor, OnDestroy
