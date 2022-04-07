@@ -123,12 +123,12 @@ export class WattTimeRangeInputComponent
 
     const startDateOnComplete$ = startTimeOnInput$.pipe(
       startWith(this.initialValue?.start ?? ''),
-      map((val) => (startTimeInputMask.isComplete() ? val : ''))
+      map((value) => (startTimeInputMask.isComplete() ? value : ''))
     );
 
     const endDateOnComplete$ = endTimeOnInput$.pipe(
       startWith(this.initialValue?.end ?? ''),
-      map((val) => (endTimeInputMask.isComplete() ? val : ''))
+      map((value) => (endTimeInputMask.isComplete() ? value : ''))
     );
 
     combineLatest([startDateOnComplete$, endDateOnComplete$])
