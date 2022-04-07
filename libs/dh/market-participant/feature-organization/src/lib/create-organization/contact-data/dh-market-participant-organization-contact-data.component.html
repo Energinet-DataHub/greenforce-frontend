@@ -23,7 +23,7 @@ limitations under the License.
   <table mat-table [dataSource]="this.contactRows" aria-label="contacts">
     <!-- Contact Type -->
     <ng-container matColumnDef="{{ this.columnIds[0] }}">
-      <th mat-header-cell *matHeaderCellDef>{{ transloco('category') }}</th>
+      <th mat-header-cell *matHeaderCellDef>{{ transloco("category") }}</th>
       <td mat-cell *matCellDef="let element">
         <watt-form-field class="field">
           <watt-dropdown
@@ -39,7 +39,7 @@ limitations under the License.
 
     <!-- Name -->
     <ng-container matColumnDef="{{ this.columnIds[1] }}">
-      <th mat-header-cell *matHeaderCellDef>{{ transloco('name') }}</th>
+      <th mat-header-cell *matHeaderCellDef>{{ transloco("name") }}</th>
       <td mat-cell *matCellDef="let element">
         <watt-form-field class="field"
           ><input
@@ -55,7 +55,7 @@ limitations under the License.
 
     <!-- Email -->
     <ng-container matColumnDef="{{ this.columnIds[2] }}">
-      <th mat-header-cell *matHeaderCellDef>{{ transloco('email') }}</th>
+      <th mat-header-cell *matHeaderCellDef>{{ transloco("email") }}</th>
       <td mat-cell *matCellDef="let element">
         <watt-form-field class="field"
           ><input
@@ -71,7 +71,7 @@ limitations under the License.
 
     <!-- Phone -->
     <ng-container matColumnDef="{{ this.columnIds[3] }}">
-      <th mat-header-cell *matHeaderCellDef>{{ transloco('phone') }}</th>
+      <th mat-header-cell *matHeaderCellDef>{{ transloco("phone") }}</th>
       <td mat-cell *matCellDef="let element">
         <watt-form-field class="field">
           <input

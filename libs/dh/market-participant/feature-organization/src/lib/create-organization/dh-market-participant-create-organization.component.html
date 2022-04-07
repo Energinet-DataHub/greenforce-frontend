@@ -18,7 +18,7 @@ limitations under the License.
 <ng-container
   *transloco="let transloco; read: 'marketParticipant.organization.create'"
 >
-  <h1>{{ transloco('organizationHeader') }}</h1>
+  <h1>{{ transloco("organizationHeader") }}</h1>
   <div class="container">
     <!-- Tabs -->
     <watt-tabs class="tabs">
@@ -47,13 +47,13 @@ limitations under the License.
         type="reset"
         [disabled]="this.isBusy"
         (click)="this.onCancelClicked()"
-        >{{ transloco('cancelLabel') }}</watt-button
+        >{{ transloco("cancelLabel") }}</watt-button
       ><watt-button
         variant="primary"
         type="submit"
         [disabled]="!this.allowSaveChanges || this.isBusy"
         (click)="this.onSaveClicked()"
-        >{{ transloco('saveLabel') }}</watt-button
+        >{{ transloco("saveLabel") }}</watt-button
       >
     </div>
   </div>

@@ -29,10 +29,12 @@ limitations under the License.
     <!-- Header -->
     <ng-container *ngIf="!storeState.selection">
       <div class="create_organization_block">
-        <h1>{{ transloco('header') }}</h1>
-        <watt-button variant="primary" (click)="this.store.createOrganization()">{{
-          transloco('createOrganization')
-        }}</watt-button>
+        <h1>{{ transloco("header") }}</h1>
+        <watt-button
+          variant="primary"
+          (click)="this.store.createOrganization()"
+          >{{ transloco("createOrganization") }}</watt-button
+        >
       </div>
     </ng-container>
 
@@ -47,7 +49,7 @@ limitations under the License.
         <!-- Organization Name -->
         <ng-container matColumnDef="{{ this.columnIds[0] }}">
           <th mat-header-cell *matHeaderCellDef>
-            {{ transloco('columns.organization') }}
+            {{ transloco("columns.organization") }}
           </th>
           <td mat-cell *matCellDef="let element">
             {{ element.organization.name }}
@@ -57,24 +59,24 @@ limitations under the License.
         <!-- Actor GLN -->
         <ng-container matColumnDef="{{ this.columnIds[1] }}">
           <th mat-header-cell *matHeaderCellDef>
-            {{ transloco('columns.gln') }}
+            {{ transloco("columns.gln") }}
           </th>
           <td mat-cell *matCellDef="let element">
-            {{ element.actor?.gln.value ?? '-' }}
+            {{ element.actor?.gln.value ?? "-" }}
           </td>
         </ng-container>
 
         <!-- Actor status -->
         <ng-container matColumnDef="{{ this.columnIds[2] }}">
           <th mat-header-cell *matHeaderCellDef>
-            {{ transloco('columns.status') }}
+            {{ transloco("columns.status") }}
           </th>
           <td mat-cell *matCellDef="let element">
             <watt-badge *ngIf="element.actor !== undefined" type="info">{{
-              transloco('status.' + element.actor.status)
+              transloco("status." + element.actor.status)
             }}</watt-badge>
             <watt-badge *ngIf="element.actor === undefined" type="warning">{{
-              transloco('columns.noActors')
+              transloco("columns.noActors")
             }}</watt-badge>
           </td>
         </ng-container>
@@ -82,12 +84,12 @@ limitations under the License.
         <!-- Actor market roles -->
         <ng-container matColumnDef="{{ this.columnIds[3] }}">
           <th mat-header-cell *matHeaderCellDef>
-            {{ transloco('columns.marketRoles') }}
+            {{ transloco("columns.marketRoles") }}
           </th>
           <td mat-cell *matCellDef="let element">
             <ng-container *ngIf="element.actor !== undefined">
               <div *ngFor="let mr of element.actor.marketRoles">
-                {{ transloco('marketRoles.' + mr.function) }}
+                {{ transloco("marketRoles." + mr.function) }}
               </div>
             </ng-container>
             <ng-container *ngIf="element.actor === undefined">-</ng-container>
@@ -97,10 +99,10 @@ limitations under the License.
         <!-- Actor grid areas -->
         <ng-container matColumnDef="{{ this.columnIds[4] }}">
           <th mat-header-cell *matHeaderCellDef>
-            {{ transloco('columns.gridAreas') }}
+            {{ transloco("columns.gridAreas") }}
           </th>
           <td mat-cell *matCellDef="let element">
-            {{ element.actor?.gridAreas ?? '-' }}
+            {{ element.actor?.gridAreas ?? "-" }}
           </td>
         </ng-container>
 
@@ -116,13 +118,13 @@ limitations under the License.
                   mat-menu-item
                   (click)="this.store.setSelection(element)"
                 >
-                  {{ transloco('editOrganization') }}
+                  {{ transloco("editOrganization") }}
                 </button>
                 <button
                   mat-menu-item
                   (click)="this.store.setSelection(element)"
                 >
-                  {{ transloco('editActor') }}
+                  {{ transloco("editActor") }}
                 </button>
               </mat-menu>
             </div>
