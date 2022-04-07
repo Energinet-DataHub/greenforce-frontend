@@ -231,7 +231,7 @@ export class WattTimeRangeInputComponent
     const splittedEmptyMask = emptyMask.split('');
     const splittedVal = val.split('');
 
-    const charWidth = 8.3;
+    const charWidth = 9;
     const gradient = splittedEmptyMask.map((char, index) => {
       const charHasChanged =
         char !== splittedVal[index] && splittedVal[index] !== undefined;
