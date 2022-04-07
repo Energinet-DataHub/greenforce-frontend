@@ -15,14 +15,17 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import { Component, Input, NgModule, OnInit } from '@angular/core';
 import {
-  FormControl,
-  FormsModule,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
-import { MasterData } from '@energinet-datahub/dh/market-participant/data-access-api';
+  Component,
+  EventEmitter,
+  Input,
+  NgModule,
+  OnChanges,
+  OnInit,
+  Output,
+} from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { MasterDataChanges } from '@energinet-datahub/dh/market-participant/data-access-api';
 import { OrganizationDto } from '@energinet-datahub/dh/shared/domain';
 import {
   WattDropdownModule,
@@ -42,90 +45,45 @@ import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
   providers: [],
 })
 export class DhMarketParticipantOrganizationMasterDataComponent
-  implements OnInit
+  implements OnInit, OnChanges
 {
+  @Input() organization: OrganizationDto | undefined;
+  @Output() hasChanges = new EventEmitter<MasterDataChanges>();
+
   constructor(private translocoService: TranslocoService) {}
 
-  @Input() organization: OrganizationDto | undefined;
-  @Input() onMasterDataChanged!: (data: MasterData) => void;
-
-  organizationName: FormControl = new FormControl(
-    '',
-    Validators.compose([Validators.required, Validators.maxLength(64)])
-  );
-
-  businessRegistrationIdentifier: FormControl = new FormControl(
-    '',
-    Validators.compose([Validators.required, Validators.pattern('[0-9]{8}')])
-  );
-
-  streetName: FormControl = new FormControl('', Validators.maxLength(64));
-
-  streetNumber: FormControl = new FormControl('', Validators.maxLength(64));
-
-  zipCode: FormControl = new FormControl('', Validators.maxLength(64));
-
-  city: FormControl = new FormControl('', Validators.maxLength(64));
-
-  country: FormControl = new FormControl('', Validators.required);
-
+  changes: MasterDataChanges = { isValid: false, address: { country: 'DK' } };
   countries: WattDropdownOption[] = [];
 
   ngOnInit(): void {
     const countryTranslations = this.translocoService.translateObject(
       'marketParticipant.organization.create.masterData.countries'
     );
+
     this.countries = Object.keys(countryTranslations)
-      .map((k) => ({
-        value: k.toUpperCase(),
-        displayValue: countryTranslations[k] as string,
+      .map((key) => ({
+        value: key.toUpperCase(),
+        displayValue: countryTranslations[key],
       }))
-      .sort((l, r) =>
-        l.displayValue < r.displayValue
-          ? -1
-          : l.displayValue > r.displayValue
-          ? 1
-          : 0
-      );
-
-    this.organizationName.setValue(this.organization?.name);
-    this.businessRegistrationIdentifier.setValue(
-      this.organization?.businessRegisterIdentifier
-    );
-    this.streetName.setValue(this.organization?.address.streetName);
-    this.streetNumber.setValue(this.organization?.address.number);
-    this.zipCode.setValue(this.organization?.address.zipCode);
-    this.city.setValue(this.organization?.address.city);
-    this.country.setValue(this.organization?.address.country);
-
-    this.organizationName.valueChanges.subscribe(this.updateMasterData);
-    this.businessRegistrationIdentifier.valueChanges.subscribe(
-      this.updateMasterData
-    );
-    this.streetName.valueChanges.subscribe(this.updateMasterData);
-    this.streetNumber.valueChanges.subscribe(this.updateMasterData);
-    this.zipCode.valueChanges.subscribe(this.updateMasterData);
-    this.city.valueChanges.subscribe(this.updateMasterData);
-    this.country.valueChanges.subscribe(this.updateMasterData);
+      .sort((a, b) => {
+        if (a.displayValue < b.displayValue) {
+          return -1;
+        }
+        if (a.displayValue > b.displayValue) {
+          return 1;
+        }
+        return 0;
+      });
   }
 
-  updateMasterData = () => {
-    this.onMasterDataChanged({
-      valid:
-        this.organizationName.valid &&
-        this.businessRegistrationIdentifier.valid &&
-        this.streetName.valid &&
-        this.streetNumber.valid &&
-        this.zipCode.valid &&
-        this.country.valid,
-      name: this.organizationName.value,
-      businessRegistrationIdentifier: this.businessRegistrationIdentifier.value,
-      streetName: this.streetName.value,
-      streetNumber: this.streetNumber.value,
-      zipCode: this.zipCode.value,
-      city: this.city.value,
-      country: this.country.value,
-    });
+  ngOnChanges(): void {
+    if (this.organization !== undefined) {
+      this.changes = { ...this.organization, isValid: true };
+    }
+  }
+
+  readonly onModelChanged = () => {
+    this.hasChanges.emit(this.changes);
   };
 }
 
@@ -133,7 +91,6 @@ export class DhMarketParticipantOrganizationMasterDataComponent
   imports: [
     CommonModule,
     FormsModule,
-    ReactiveFormsModule,
     TranslocoModule,
     WattDropdownModule,
     WattFormFieldModule,

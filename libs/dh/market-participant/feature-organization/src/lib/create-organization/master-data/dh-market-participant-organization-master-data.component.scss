@@ -15,18 +15,36 @@
  * limitations under the License.
  */
 
-.container {
+.form-container {
   display: flex;
-  flex-direction: column;
-  gap: var(--watt-space-s);
+  flex-wrap: wrap;
+  gap: var(--watt-space-m);
 }
 
-.tabs {
-  flex-grow: 1;
+.field-name {
+  max-width: 600px;
 }
 
-.buttonContainer {
-  display: flex;
-  justify-content: flex-end;
-  gap: var(--watt-space-s);
+.field-bri {
+  max-width: 200px;
+}
+
+.field-street-name {
+  max-width: 600px;
+}
+
+.field-street-number {
+  max-width: 200px;
+}
+
+.field-zip-code {
+  max-width: 200px;
+}
+
+.field-city {
+  max-width: 250px;
+}
+
+.field-country {
+  max-width: 300px;
 }

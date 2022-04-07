@@ -39,7 +39,6 @@ import {
   WattFormFieldModule,
   WattDropdownModule,
   WattDropdownOption,
-  WattSpinnerModule,
 } from '@energinet-datahub/watt';
 import {
   ContactCategory,
@@ -67,13 +66,13 @@ interface EditableContactRow {
 export class DhMarketParticipantOrganizationContactDataComponent
   implements OnChanges
 {
-  constructor(private cd: ChangeDetectorRef) {}
-
-  @Input() contacts: ContactDto[] | undefined;
+  @Input() contacts: ContactDto[] = [];
   @Output() contactsChanged = new EventEmitter<{
     add: ContactChanges[];
     remove: ContactDto[];
   }>();
+
+  constructor(private cd: ChangeDetectorRef) {}
 
   columnIds = ['Type', 'Name', 'Email', 'Phone', 'Delete'];
 
@@ -123,7 +122,13 @@ export class DhMarketParticipantOrganizationContactDataComponent
     this.raiseContactsChanged();
   };
 
-  readonly onFieldChanged = (row: EditableContactRow) => {
+  readonly onDropdownChanged = (row: EditableContactRow) => {
+    if (!row.isNewPlaceholder) {
+      this.onModelChanged(row);
+    }
+  };
+
+  readonly onModelChanged = (row: EditableContactRow) => {
     if (row.isNewPlaceholder) {
       row.isNewPlaceholder = false;
       this.contactRows = [...this.contactRows, this.createPlaceholder()];
@@ -135,22 +140,6 @@ export class DhMarketParticipantOrganizationContactDataComponent
       row.changed.email !== row.contact.email ||
       row.changed.phone !== row.contact.phone;
 
-    this.cd.detectChanges();
-    this.raiseContactsChanged();
-  };
-
-  readonly onDropdownChanged = (row: EditableContactRow) => {
-    if (row.isNewPlaceholder) {
-      return;
-    }
-
-    row.isModified =
-      row.changed.category !== row.contact.category ||
-      row.changed.name !== row.contact.name ||
-      row.changed.email !== row.contact.email ||
-      row.changed.phone !== row.contact.phone;
-
-    this.cd.detectChanges();
     this.raiseContactsChanged();
   };
 
@@ -192,7 +181,6 @@ export class DhMarketParticipantOrganizationContactDataComponent
     WattInputModule,
     WattFormFieldModule,
     WattDropdownModule,
-    WattSpinnerModule,
   ],
   exports: [DhMarketParticipantOrganizationContactDataComponent],
   declarations: [DhMarketParticipantOrganizationContactDataComponent],

@@ -369,13 +369,12 @@
         "previous": "Forrige side"
       },
       "create": {
-        "organizationHeader": "Organisation",
+        "organizationHeader": "Rediger organisation",
         "masterDataTabHeader": "Stamdata",
         "contactDataTabHeader": "Kontakter",
         "cancelLabel": "Annuller",
         "saveLabel": "Gem",
         "masterData": {
-          "header": "Stamdata",
           "organizationNameLabel": "Navn",
           "businessRegistrationIdetifierLabel": "CVR-nr.",
           "streetNameLabel": "Vejnavn",
@@ -383,9 +382,8 @@
           "zipCodeLabel": "Post nr.",
           "cityLabel": "By",
           "countryLabel": "Land",
-          "fieldRequiredErrorText": "Feltet er påkrævet",
+          "fieldRequiredErrorText": "Feltet er påkrævet.",
           "businessRegistrationIdentifierLengthErrorText": "Ugyldigt CVR-nr.",
-          "maxLengthErrorText": "Det tilladte antal anslag er overskredet",
           "countries": {
             "at": "Østrig",
             "be": "Belgien",

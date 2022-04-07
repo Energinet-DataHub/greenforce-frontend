@@ -349,13 +349,12 @@
         "previous": "Previous page"
       },
       "create": {
-        "organizationHeader": "Organization",
+        "organizationHeader": "Edit organization",
         "masterDataTabHeader": "Master data",
-        "contactDataTabHeader": "Contact data",
+        "contactDataTabHeader": "Contacts",
         "cancelLabel": "Cancel",
         "saveLabel": "Save",
         "masterData": {
-          "header": "Master data",
           "organizationNameLabel": "Name",
           "businessRegistrationIdetifierLabel": "Business registration identifier",
           "streetNameLabel": "Street name",
@@ -363,9 +362,8 @@
           "zipCodeLabel": "Zip code",
           "cityLabel": "City",
           "countryLabel": "Country",
-          "fieldRequiredErrorText": "Field is required",
-          "businessRegistrationIdentifierLengthErrorText": "Invalid business registration number",
-          "maxLengthErrorText": "Maximum number of characters exceeded",
+          "fieldRequiredErrorText": "Field is required.",
+          "businessRegistrationIdentifierLengthErrorText": "Invalid business registration number.",
           "countries": {
             "at": "Austria",
             "be": "Belgium",

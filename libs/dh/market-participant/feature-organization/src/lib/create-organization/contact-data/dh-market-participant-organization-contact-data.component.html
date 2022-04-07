@@ -20,15 +20,7 @@ limitations under the License.
     read: 'marketParticipant.organization.create.contacts'
   "
 >
-  <div *ngIf="this.contacts === undefined" class="spinner-container">
-    <watt-spinner></watt-spinner>
-  </div>
-  <table
-    mat-table
-    *ngIf="this.contacts !== undefined"
-    [dataSource]="this.contactRows"
-    aria-label="contacts"
-  >
+  <table mat-table [dataSource]="this.contactRows" aria-label="contacts">
     <!-- Contact Type -->
     <ng-container matColumnDef="{{ this.columnIds[0] }}">
       <th mat-header-cell *matHeaderCellDef>{{ transloco('category') }}</th>
@@ -36,8 +28,8 @@ limitations under the License.
         <watt-form-field class="field">
           <watt-dropdown
             required
-            [(ngModel)]="element.changed.category"
             [options]="this.contactCategories"
+            [(ngModel)]="element.changed.category"
             (ngModelChange)="this.onDropdownChanged(element)"
           >
           </watt-dropdown>
@@ -53,9 +45,9 @@ limitations under the License.
           ><input
             wattInput
             required
-            [(ngModel)]="element.changed.name"
             [placeholder]="transloco('namePlaceholder')"
-            (change)="this.onFieldChanged(element)"
+            [(ngModel)]="element.changed.name"
+            (ngModelChange)="this.onModelChanged(element)"
           />
         </watt-form-field>
       </td>
@@ -72,7 +64,7 @@ limitations under the License.
             type="email"
             [placeholder]="transloco('emailPlaceholder')"
             [(ngModel)]="element.changed.email"
-            (change)="this.onFieldChanged(element)"
+            (ngModelChange)="this.onModelChanged(element)"
         /></watt-form-field>
       </td>
     </ng-container>
@@ -87,7 +79,7 @@ limitations under the License.
             type="tel"
             [placeholder]="transloco('phonePlaceholder')"
             [(ngModel)]="element.changed.phone"
-            (change)="this.onFieldChanged(element)"
+            (ngModelChange)="this.onModelChanged(element)"
           />
         </watt-form-field>
       </td>

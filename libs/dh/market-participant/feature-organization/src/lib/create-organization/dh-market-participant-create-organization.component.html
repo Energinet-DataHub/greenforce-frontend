@@ -14,44 +14,46 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
+
 <ng-container
   *transloco="let transloco; read: 'marketParticipant.organization.create'"
 >
+  <h1>{{ transloco('organizationHeader') }}</h1>
   <div class="container">
-    <h1>{{ transloco('organizationHeader') }}</h1>
+    <!-- Tabs -->
     <watt-tabs class="tabs">
       <watt-tab [label]="transloco('masterDataTabHeader')">
+        <br />
         <dh-market-participant-organization-master-data
           [organization]="this.organization"
-          [onMasterDataChanged]="this.onMasterDataChanged"
+          (hasChanges)="this.hasMasterDataChanges($event)"
         ></dh-market-participant-organization-master-data>
       </watt-tab>
       <watt-tab
         [label]="transloco('contactDataTabHeader')"
-        *ngIf="this.organization?.organizationId !== undefined"
+        *ngIf="this.contacts as contacts"
       >
         <dh-market-participant-organization-contact-data
-          [contacts]="this.contacts"
-          (contactsChanged)="this.onContactsChanged($event.add, $event.remove)"
+          [contacts]="contacts"
+          (contactsChanged)="this.hasContactChanges($event.add, $event.remove)"
         ></dh-market-participant-organization-contact-data>
       </watt-tab>
     </watt-tabs>
+
+    <!-- Confirmation -->
     <div class="buttonContainer">
       <watt-button
         variant="secondary"
         type="reset"
-        size="normal"
-        (click)="this.onCancelCallback()"
-      >
-        {{ transloco('cancelLabel') }}</watt-button
-      >
-      <watt-button
+        [disabled]="this.isBusy"
+        (click)="this.onCancelClicked()"
+        >{{ transloco('cancelLabel') }}</watt-button
+      ><watt-button
         variant="primary"
         type="submit"
-        size="normal"
-        (click)="this.onSaveCallback()"
-      >
-        {{ transloco('saveLabel') }}</watt-button
+        [disabled]="!this.allowSaveChanges || this.isBusy"
+        (click)="this.onSaveClicked()"
+        >{{ transloco('saveLabel') }}</watt-button
       >
     </div>
   </div>

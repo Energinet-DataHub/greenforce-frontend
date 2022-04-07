@@ -15,23 +15,24 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import { Component, Input, NgModule } from '@angular/core';
-import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  NgModule,
+  Output,
+} from '@angular/core';
 import {
   ContactChanges,
   DhMarketParticipantOverviewDataAccessApiStore,
-  MasterData,
+  MasterDataChanges,
 } from '@energinet-datahub/dh/market-participant/data-access-api';
 import {
+  ChangeOrganizationDto,
   ContactDto,
   OrganizationDto,
 } from '@energinet-datahub/dh/shared/domain';
-import {
-  WattButtonModule,
-  WattFormFieldModule,
-  WattInputModule,
-  WattTabsModule,
-} from '@energinet-datahub/watt';
+import { WattButtonModule, WattTabsModule } from '@energinet-datahub/watt';
 import { TranslocoModule } from '@ngneat/transloco';
 import { DhMarketParticipantOrganizationContactDataComponentScam } from './contact-data/dh-market-participant-organization-contact-data.component';
 import { DhMarketParticipantOrganizationMasterDataComponentScam } from './master-data/dh-market-participant-organization-master-data.component';
@@ -45,25 +46,69 @@ import { DhMarketParticipantOrganizationMasterDataComponentScam } from './master
 export class DhMarketParticipantCreateOrganizationComponent {
   @Input() organization: OrganizationDto | undefined;
   @Input() contacts: ContactDto[] | undefined;
-  @Input() onMasterDataChanged!: (data: MasterData) => void;
-  @Input() onContactsChanged!: (
+  @Input() isBusy = false;
+
+  @Output() save = new EventEmitter<{
+    organization: OrganizationDto | undefined;
+    changedOrganization: ChangeOrganizationDto;
+    addedContacts: ContactDto[];
+    removedContacts: ContactDto[];
+  }>();
+  @Output() cancel = new EventEmitter();
+
+  masterDataChanges: MasterDataChanges | undefined;
+  addedContacts: ContactChanges[] = [];
+  removedContacts: ContactDto[] = [];
+  allowSaveChanges = false;
+
+  readonly hasMasterDataChanges = (changes: MasterDataChanges) => {
+    this.masterDataChanges = changes;
+    this.allowSaveChanges = this.validateChanges();
+  };
+
+  readonly hasContactChanges = (
     add: ContactChanges[],
     remove: ContactDto[]
-  ) => void;
-  @Input() onCancelCallback!: () => void;
-  @Input() onSaveCallback!: () => void;
-  organizationName = new FormControl('');
+  ) => {
+    this.addedContacts = add;
+    this.removedContacts = remove;
+    this.allowSaveChanges = this.validateChanges();
+  };
+
+  readonly onSaveClicked = () => {
+    if (this.masterDataChanges !== undefined) {
+      const changedOrganization: ChangeOrganizationDto = {
+        ...this.masterDataChanges,
+      } as ChangeOrganizationDto;
+
+      this.save.emit({
+        organization: this.organization,
+        changedOrganization,
+        addedContacts: this.addedContacts.map(
+          (contactChanges) => ({ ...contactChanges } as ContactDto)
+        ),
+        removedContacts: this.removedContacts,
+      });
+    }
+  };
+
+  readonly onCancelClicked = () => {
+    this.cancel.emit();
+  };
+
+  readonly validateChanges = () => {
+    return (
+      (this.masterDataChanges?.isValid ?? false) &&
+      (this.masterDataChanges?.name?.length ?? 0) > 0
+    );
+  };
 }
 
 @NgModule({
   imports: [
-    FormsModule,
-    ReactiveFormsModule,
     TranslocoModule,
     CommonModule,
     WattButtonModule,
-    WattFormFieldModule,
-    WattInputModule,
     WattTabsModule,
     DhMarketParticipantOrganizationMasterDataComponentScam,
     DhMarketParticipantOrganizationContactDataComponentScam,

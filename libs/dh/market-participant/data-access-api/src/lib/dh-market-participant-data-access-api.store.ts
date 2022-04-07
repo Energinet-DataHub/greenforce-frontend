@@ -18,28 +18,36 @@ import { Injectable } from '@angular/core';
 import { ComponentStore } from '@ngrx/component-store';
 import {
   ActorDto,
+  AddressDto,
   ChangeOrganizationDto,
   ContactCategory,
   ContactDto,
   MarketParticipantHttp,
   OrganizationDto,
 } from '@energinet-datahub/dh/shared/domain';
-import { forkJoin, map, Observable, of } from 'rxjs';
+import {
+  concat,
+  filter,
+  from,
+  map,
+  Observable,
+  of,
+  switchMap,
+  tap,
+  timeout,
+  timer,
+} from 'rxjs';
 
-export interface OrganizationWithActor {
+export interface OverviewRow {
   organization: OrganizationDto;
   actor?: ActorDto;
 }
 
-export interface MasterData {
-  valid: boolean;
-  name: string;
-  businessRegistrationIdentifier: string;
-  streetName: string;
-  streetNumber: string;
-  zipCode: string;
-  city: string;
-  country: string;
+export interface MasterDataChanges {
+  isValid: boolean;
+  name?: string;
+  businessRegisterIdentifier?: string;
+  address: AddressDto;
 }
 
 export interface ContactChanges {
@@ -51,222 +59,212 @@ export interface ContactChanges {
 
 interface MarketParticipantState {
   isLoading: boolean;
-  isSaving: boolean;
-  organizations: OrganizationWithActor[];
 
-  selected?: {
-    organization: OrganizationWithActor;
-    contacts?: ContactDto[];
+  // Overview
+  isListRefreshRequired: boolean;
+  overviewList: OverviewRow[];
+
+  // Edit
+  selection?: {
+    organization: OrganizationDto;
+    contacts: ContactDto[];
   };
 
-  masterData?: MasterData;
-  addContacts?: ContactChanges[];
-  removeContacts?: ContactDto[];
-
+  // Validation
   validation?: {
     errorMessage: string;
   };
 }
 
 const initialState: MarketParticipantState = {
-  isLoading: true,
-  isSaving: false,
-  organizations: [],
+  isLoading: false,
+  isListRefreshRequired: true,
+  overviewList: [],
 };
 
 @Injectable()
 export class DhMarketParticipantOverviewDataAccessApiStore extends ComponentStore<MarketParticipantState> {
   constructor(private httpClient: MarketParticipantHttp) {
     super(initialState);
-
-    this.select((state) => state.selected).subscribe((selection) => {
-      if (selection === undefined || selection.contacts !== undefined) {
-        return;
-      }
-
-      this.loadContacts(selection.organization.organization);
-    });
-
-    this.state$.subscribe((state) => {
-      if (!state.isSaving) {
-        return;
-      }
-
-      this.saveAll(
-        state.selected?.organization,
-        state.masterData,
-        state.addContacts,
-        state.removeContacts
-      );
-    });
+    this.setupRefreshListFlow();
   }
 
-  readonly saveAll = (
-    organization: OrganizationWithActor | undefined,
-    masterData: MasterData | undefined,
-    add: ContactChanges[] | undefined,
-    remove: ContactDto[] | undefined
-  ) => {
-    const tasks: Observable<string>[] = [
-      this.saveOrganization(organization, masterData),
-      this.saveContacts(organization?.organization, add ?? [], remove ?? []),
-    ];
-
-    forkJoin(tasks).subscribe({
-      complete: () => {
-        this.beginLoading();
-        this.patchState({
-          selected: undefined,
-          validation: undefined,
-        });
-      },
-      error: () => {
-        this.patchState({
-          isLoading: false,
-          validation: {
-            errorMessage:
-              'En fejl opstod under forsøg på at gemme organisationen',
-          },
-        });
-      },
-    });
-
-    this.patchState({ isSaving: false });
+  readonly setupRefreshListFlow = () => {
+    this.state$
+      .pipe(filter((state) => state.isListRefreshRequired))
+      .pipe(
+        tap(() =>
+          this.patchState({
+            isListRefreshRequired: false,
+            isLoading: true,
+            overviewList: [],
+          })
+        )
+      )
+      .pipe(switchMap(this.getOrganizations))
+      .subscribe({
+        next: (rows) =>
+          this.patchState({
+            isLoading: false,
+            isListRefreshRequired: false,
+            overviewList: rows,
+          }),
+        error: (err) =>
+          this.patchState({
+            isLoading: false,
+            isListRefreshRequired: false,
+            validation: err,
+          }),
+      });
   };
 
-  readonly saveOrganization = (
-    organization: OrganizationWithActor | undefined,
-    masterData: MasterData | undefined
-  ): Observable<string> => {
-    if (masterData !== undefined) {
-      const changedOrg: ChangeOrganizationDto = {
-        name: masterData.name,
-        businessRegisterIdentifier: masterData.businessRegistrationIdentifier,
-        address: {
-          streetName: masterData.streetName,
-          number: masterData.streetNumber,
-          zipCode: masterData.zipCode,
-          city: masterData.city,
-          country: masterData.country,
-        },
-      };
+  readonly getOrganizations = (): Observable<OverviewRow[]> => {
+    return this.httpClient
+      .v1MarketParticipantOrganizationGet()
+      .pipe(map(this.mapToRows));
+  };
 
-      const selectedId = organization?.organization.organizationId;
+  readonly mapToRows = (organizations: OrganizationDto[]) => {
+    const rows: OverviewRow[] = [];
 
-      return selectedId === undefined
-        ? this.httpClient.v1MarketParticipantOrganizationPost(changedOrg)
-        : this.httpClient.v1MarketParticipantOrganizationPut(
-            selectedId,
-            changedOrg
-          );
+    for (const organization of organizations) {
+      if (organization.actors.length > 0) {
+        for (const actor of organization.actors) {
+          rows.push({ organization, actor });
+        }
+      } else {
+        rows.push({ organization });
+      }
     }
 
-    return of('');
+    return rows;
+  };
+
+  readonly setSelection = (row: OverviewRow) => {
+    of(row)
+      .pipe(tap(() => this.patchState({ isLoading: true })))
+      .pipe(switchMap(this.getSelectionInfo))
+      .subscribe({
+        next: (selection) =>
+          this.patchState({
+            isLoading: false,
+            selection,
+          }),
+        error: this.setError,
+      });
+  };
+
+  readonly getSelectionInfo = (row: OverviewRow) => {
+    return this.httpClient
+      .v1MarketParticipantOrganizationOrgIdContactGet(
+        row.organization.organizationId
+      )
+      .pipe(
+        map((contacts) => ({
+          organization: row.organization,
+          contacts,
+        }))
+      );
+  };
+
+  readonly saveChanges = (
+    organization: {
+      original: OrganizationDto | undefined;
+      changes: ChangeOrganizationDto;
+    },
+    contacts: {
+      add: ContactDto[];
+      remove: ContactDto[];
+    }
+  ) => {
+    this.patchState({ isLoading: true });
+
+    this.saveOrganization(organization)
+      .pipe(switchMap(() => this.saveContacts(organization.original, contacts)))
+      .subscribe({
+        complete: () =>
+          this.patchState({
+            isLoading: false,
+            isListRefreshRequired: true,
+            selection: undefined,
+          }),
+        error: this.setError,
+      });
+  };
+
+  readonly saveOrganization = (organization: {
+    original: OrganizationDto | undefined;
+    changes: ChangeOrganizationDto;
+  }) => {
+    return organization.original === undefined
+      ? this.httpClient.v1MarketParticipantOrganizationPost(
+          organization.changes
+        )
+      : this.httpClient.v1MarketParticipantOrganizationPut(
+          organization.original.organizationId,
+          organization.changes
+        );
   };
 
   readonly saveContacts = (
     organization: OrganizationDto | undefined,
-    add: ContactChanges[],
-    remove: ContactDto[]
-  ): Observable<string> => {
-    if (organization === undefined) {
-      return of('');
+    contacts: {
+      add: ContactDto[];
+      remove: ContactDto[];
     }
-
-    const tasks: Observable<string>[] = [];
-
-    remove.forEach((element) => {
-      tasks.push(
-        this.httpClient.v1MarketParticipantOrganizationOrgIdContactContactIdDelete(
-          organization.organizationId,
-          element.contactId
-        )
-      );
-    });
-
-    return forkJoin(tasks).pipe(() => {
-      const addTasks: Observable<string>[] = [];
-
-      add.forEach((element) => {
-        addTasks.push(
-          this.httpClient.v1MarketParticipantOrganizationOrgIdContactPost(
-            organization.organizationId,
-            {
-              category: element.category,
-              name: element.name,
-              email: element.email,
-              phone: element.phone,
-            } as ContactDto
-          )
-        );
-      });
-
-      return forkJoin(addTasks).pipe(map(() => ''));
-    });
-  };
-
-  readonly loadContacts = (organization: OrganizationDto) => {
-    this.httpClient
-      .v1MarketParticipantOrganizationOrgIdContactGet(
-        organization.organizationId
-      )
-      .subscribe((contacts) => {
-        this.setState((state) => {
-          const selected =
-            state.selected === undefined
-              ? undefined
-              : { ...state.selected, contacts };
-
-          return { ...state, selected };
-        });
-      });
-  };
-
-  readonly beginLoading = () => {
-    this.httpClient
-      .v1MarketParticipantOrganizationGet()
-      .pipe(map(this.mapActors))
-      .subscribe(this.setActors);
-  };
-
-  readonly beginSaving = () => {
-    this.patchState({ isLoading: true, isSaving: true });
-  };
-
-  readonly setActors = (organizations: OrganizationWithActor[]) => {
-    this.patchState({ organizations, isLoading: false });
-  };
-
-  readonly setSelected = (organization?: OrganizationWithActor) => {
-    if (organization === undefined) {
-      this.patchState({ selected: undefined, validation: undefined });
-    } else {
-      this.patchState({
-        selected: { organization: organization },
-      });
-    }
-  };
-
-  readonly setMasterData = (data?: MasterData) => {
-    this.patchState({ masterData: data });
-  };
-
-  readonly setContactsChanged = (
-    add: ContactChanges[],
-    remove: ContactDto[]
   ) => {
-    this.patchState({ addContacts: add, removeContacts: remove });
+    console.log(contacts.add, contacts.remove);
+
+    const removeOld = from(contacts.remove).pipe(
+      switchMap((contact) => {
+        return this.removeContact(organization as OrganizationDto, contact);
+      })
+    );
+
+    const addNew = from(contacts.add).pipe(
+      switchMap((contact) => {
+        return this.addContact(organization as OrganizationDto, contact);
+      })
+    );
+
+    return concat(removeOld, addNew);
   };
 
-  readonly mapActors = (organizations: OrganizationDto[]) => {
-    return organizations.reduce((running, x) => {
-      return (
-        (x.actors.length > 0 &&
-          running.concat(
-            x.actors.map((actor) => ({ organization: x, actor }))
-          )) ||
-        running.concat([{ organization: x, actor: undefined }])
-      );
-    }, [] as OrganizationWithActor[]);
+  readonly removeContact = (
+    organization: OrganizationDto,
+    contact: ContactDto
+  ) => {
+    return this.httpClient.v1MarketParticipantOrganizationOrgIdContactContactIdDelete(
+      organization.organizationId,
+      contact.contactId
+    );
+  };
+
+  readonly addContact = (
+    organization: OrganizationDto,
+    contact: ContactDto
+  ) => {
+    return this.httpClient.v1MarketParticipantOrganizationOrgIdContactPost(
+      organization.organizationId,
+      {
+        name: contact.name,
+        category: contact.category,
+        email: contact.email,
+        phone: contact.phone,
+      }
+    );
+  };
+
+  readonly discardChanges = () => {
+    this.patchState({ selection: undefined });
+  };
+
+  readonly setError = (error: string) => {
+    this.patchState({ isLoading: false, validation: { errorMessage: error } });
+  };
+
+  readonly manualTestTrigger = () => {
+    // State is updated every fucking time.
+    this.patchState({ isListRefreshRequired: true });
   };
 }

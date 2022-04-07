@@ -23,10 +23,8 @@ import {
   ViewChild,
 } from '@angular/core';
 import {
-  ContactChanges,
   DhMarketParticipantOverviewDataAccessApiStore,
-  MasterData,
-  OrganizationWithActor,
+  OverviewRow,
 } from '@energinet-datahub/dh/market-participant/data-access-api';
 import { LetModule } from '@rx-angular/template/let';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
@@ -46,10 +44,6 @@ import {
   MatPaginatorModule,
 } from '@angular/material/paginator';
 import { DhMarketParticipantCreateOrganizationScam } from './create-organization/dh-market-participant-create-organization.component';
-import {
-  ContactDto,
-  OrganizationDto,
-} from '@energinet-datahub/dh/shared/domain';
 
 @Component({
   selector: 'dh-market-participant-organization',
@@ -77,8 +71,8 @@ export class DhMarketParticipantOrganizationComponent
     'RowEdit',
   ];
 
-  readonly dataSource: MatTableDataSource<OrganizationWithActor> =
-    new MatTableDataSource<OrganizationWithActor>();
+  readonly dataSource: MatTableDataSource<OverviewRow> =
+    new MatTableDataSource<OverviewRow>();
 
   ngOnInit() {
     this.setupPaginatorTranslation();
@@ -86,11 +80,9 @@ export class DhMarketParticipantOrganizationComponent
 
   ngAfterViewInit() {
     this.store.state$.subscribe((x) => {
-      this.dataSource.data = x.organizations;
+      this.dataSource.data = x.overviewList;
       this.dataSource.paginator = this.paginator;
     });
-
-    this.store.beginLoading();
   }
 
   setupPaginatorTranslation = () => {
@@ -115,32 +107,9 @@ export class DhMarketParticipantOrganizationComponent
       });
   };
 
-  onEditClicked = (e: OrganizationWithActor) => this.store.setSelected(e);
-  onCreateClicked = () =>
-    this.store.setSelected({
-      organization: {
-        address: {
-          country: 'DK',
-        },
-      } as OrganizationDto,
-    });
-
-  onCancel = () => {
-    this.store.setSelected(undefined);
-    this.store.setMasterData(undefined);
-  };
-
-  onSave = () => {
-    this.store.beginSaving();
-  };
-
-  onMasterDataChanged = (data: MasterData) => {
-    this.store.setMasterData(data);
-  };
-
-  onContactsChanged = (add: ContactChanges[], remove: ContactDto[]) => {
-    this.store.setContactsChanged(add, remove);
-  };
+  readonly manuelTest = () =>{
+    this.store.manualTestTrigger();
+  }
 }
 
 @NgModule({
