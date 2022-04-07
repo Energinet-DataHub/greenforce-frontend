@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
@@ -34,6 +34,8 @@ import {
   WattInputModule,
   WattCheckboxModule,
   WattBadgeModule,
+  WattDropdownModule,
+  WattDropdownOptions
 } from '@energinet-datahub/watt';
 import {
   DhMessageArchiveDataAccessApiStore,
@@ -70,9 +72,11 @@ export class DhMessageArchiveLogSearchComponent implements OnDestroy {
   hasSearchError$ = this.store.hasGeneralError$;
   continuationToken$ = this.store.continuationToken$;
 
-  processTypes = ProcessTypes;
+  rsmFormControl = new FormControl(null);
+  rsmFormFieldOptions: WattDropdownOptions = [];
+  processTypeFormControl = new FormControl(null);
+  processTypeFormFieldOptions: WattDropdownOptions = [];
   searching = false;
-  documentTypes = DocumentTypes;
   pageSizes = [250, 500, 750, 1000];
   pageNumber = 1;
   searchCriteria: MessageArchiveSearchCriteria = {
@@ -118,7 +122,24 @@ export class DhMessageArchiveLogSearchComponent implements OnDestroy {
       this.initDateFrom().toISOString().split('.')[0] + 'Z';
     this.searchCriteria.dateTimeTo =
       this.initDateTo().toISOString().split('.')[0] + 'Z';
+
+      this.buildRsmOptions();
+      this.buildProcessTypesOptions();
   }
+
+  private buildRsmOptions() {
+    const entries = Object.entries(DocumentTypes);
+    entries.forEach((entry) => {
+      this.rsmFormFieldOptions.push({ value: entry[0], displayValue: entry[1] +" - "+ entry[0] });
+    });
+  };
+
+  private buildProcessTypesOptions() {
+    const entries = Object.entries(ProcessTypes);
+    entries.forEach((entry) => {
+      this.processTypeFormFieldOptions.push({ value: entry[0], displayValue: entry[0] +" - "+ entry[1] });
+    });
+  };
 
   onSubmit() {
     if (!this.searching && this.validateSearchParams()) {
@@ -200,6 +221,7 @@ export class DhMessageArchiveLogSearchComponent implements OnDestroy {
     TranslocoModule,
     DhMessageArchiveLogSearchResultScam,
     WattBadgeModule,
+    WattDropdownModule,
   ],
   declarations: [DhMessageArchiveLogSearchComponent],
 })

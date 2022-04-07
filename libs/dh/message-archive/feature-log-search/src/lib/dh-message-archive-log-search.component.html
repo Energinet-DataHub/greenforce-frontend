@@ -24,23 +24,13 @@ limitations under the License.
           transloco('documenttype')
         }}</watt-label>
 
-        <select
-          #searchInputDocumentType
-          wattInput
-          name="documentType"
+        <watt-dropdown
           [(ngModel)]="this.searchCriteria.rsmName"
-        >
-          <option selected [ngValue]="null">
-            {{ transloco('ChooseDocumentType') }}
-          </option>
-          <option
-            *ngFor="let documentType of this.documentTypes | keyvalue"
-            [ngValue]="documentType['key']"
-            value="{{ documentType['value'] }}"
-          >
-            {{ documentType['key'] + ' ' + documentType['value'] }}
-          </option>
-        </select>
+          [formControl]="rsmFormControl"
+          [options]="rsmFormFieldOptions"
+          [placeholder]="transloco('ChooseDocumentType')"
+          [noOptionsFoundLabel]="'-'">
+        </watt-dropdown>
       </watt-form-field>
 
       <watt-form-field size="normal">
@@ -87,26 +77,13 @@ limitations under the License.
         <watt-label class="watt-text-m">{{
           transloco('businessReason')
         }}</watt-label>
-
-        <select
-          #searchInputProcessType
-          wattInput
-          name="reasonCode"
+        <watt-dropdown
           [(ngModel)]="this.searchCriteria.processType"
-        >
-          <option selected [ngValue]="null">
-            {{ transloco('ChooseBusinessReason') }}
-          </option>
-          <option
-            *ngFor="let processType of this.processTypes| keyvalue"
-            [ngValue]="processType['key']"
-            value="{{ processType['value'] }}"
-          >
-            {{
-              processType['key'] + ' - ' + processType['value']
-            }}
-          </option>
-        </select>
+          [formControl]="processTypeFormControl"
+          [options]="processTypeFormFieldOptions"
+          [placeholder]="transloco('ChooseBusinessReason')"
+          [noOptionsFoundLabel]="'-'">
+        </watt-dropdown>
       </watt-form-field>
 
       <!-- Reference id -->
