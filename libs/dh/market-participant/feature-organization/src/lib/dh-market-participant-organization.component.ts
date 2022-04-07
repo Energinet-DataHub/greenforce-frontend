@@ -106,10 +106,6 @@ export class DhMarketParticipantOrganizationComponent
         this.dataSource.paginator = this.paginator;
       });
   };
-
-  readonly manuelTest = () => {
-    this.store.manualTestTrigger();
-  };
 }
 
 @NgModule({

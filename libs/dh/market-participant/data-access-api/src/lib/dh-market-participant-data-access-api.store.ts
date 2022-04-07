@@ -34,8 +34,6 @@ import {
   of,
   switchMap,
   tap,
-  timeout,
-  timer,
 } from 'rxjs';
 
 export interface OverviewRow {
@@ -66,7 +64,7 @@ interface MarketParticipantState {
 
   // Edit
   selection?: {
-    organization: OrganizationDto;
+    organization: OrganizationDto | undefined;
     contacts: ContactDto[];
   };
 
@@ -213,8 +211,6 @@ export class DhMarketParticipantOverviewDataAccessApiStore extends ComponentStor
       remove: ContactDto[];
     }
   ) => {
-    console.log(contacts.add, contacts.remove);
-
     const removeOld = from(contacts.remove).pipe(
       switchMap((contact) => {
         return this.removeContact(organization as OrganizationDto, contact);
@@ -259,12 +255,11 @@ export class DhMarketParticipantOverviewDataAccessApiStore extends ComponentStor
     this.patchState({ selection: undefined });
   };
 
-  readonly setError = (error: string) => {
-    this.patchState({ isLoading: false, validation: { errorMessage: error } });
+  readonly createOrganization = () => {
+    this.patchState({ selection: { organization: undefined, contacts: [] } });
   };
 
-  readonly manualTestTrigger = () => {
-    // State is updated every fucking time.
-    this.patchState({ isListRefreshRequired: true });
+  readonly setError = () => {
+    this.patchState({ isLoading: false, validation: { errorMessage: "Der opstod en fejl på serveren." } });
   };
 }

@@ -30,7 +30,7 @@ limitations under the License.
     <ng-container *ngIf="!storeState.selection">
       <div class="create_organization_block">
         <h1>{{ transloco('header') }}</h1>
-        <watt-button variant="primary" (click)="this.manuelTest()">{{
+        <watt-button variant="primary" (click)="this.store.createOrganization()">{{
           transloco('createOrganization')
         }}</watt-button>
       </div>

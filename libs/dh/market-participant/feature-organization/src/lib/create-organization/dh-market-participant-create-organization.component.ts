@@ -97,10 +97,7 @@ export class DhMarketParticipantCreateOrganizationComponent {
   };
 
   readonly validateChanges = () => {
-    return (
-      (this.masterDataChanges?.isValid ?? false) &&
-      (this.masterDataChanges?.name?.length ?? 0) > 0
-    );
+    return (this.masterDataChanges?.name?.length ?? 0) > 0;
   };
 }
 
