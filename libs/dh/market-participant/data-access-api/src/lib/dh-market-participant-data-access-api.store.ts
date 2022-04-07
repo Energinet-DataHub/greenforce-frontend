@@ -260,6 +260,9 @@ export class DhMarketParticipantOverviewDataAccessApiStore extends ComponentStor
   };
 
   readonly setError = () => {
-    this.patchState({ isLoading: false, validation: { errorMessage: "Der opstod en fejl på serveren." } });
+    this.patchState({
+      isLoading: false,
+      validation: { errorMessage: 'Der opstod en fejl på serveren.' },
+    });
   };
 }
