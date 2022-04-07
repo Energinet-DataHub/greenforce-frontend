@@ -74,7 +74,7 @@ jobs:
       CSPROJ_FILE_PATH: 'apps/dh/api-dh/source/DataHub.WebApi/DataHub.WebApi.csproj'
       DOTNET_VERSION: '6.0.201'
       ARTIFACT_NAME: bff
-  
+
   generate_client:
     needs: bff_ci
     runs-on: ubuntu-latest
