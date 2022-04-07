@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { FormsModule } from '@angular/forms';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Meta, moduleMetadata, Story } from '@storybook/angular';
 
@@ -23,11 +23,11 @@ import { WattTimeRangeInputComponent } from '../watt-time-range-input.component'
 import { WattTimeRangeInputModule } from '../watt-time-range-input.module';
 
 export default {
-  title: 'Components/Time-range Input',
+  title: 'Components/Time-range Input/Reactive Forms',
   decorators: [
     moduleMetadata({
       imports: [
-        FormsModule,
+        ReactiveFormsModule,
         WattFormFieldModule,
         WattTimeRangeInputModule,
         BrowserAnimationsModule,
@@ -37,16 +37,30 @@ export default {
   component: WattTimeRangeInputComponent,
 } as Meta<WattTimeRangeInputComponent>;
 
-export const overview: Story<WattTimeRangeInputComponent> = (args) => ({
+export const withFormControl: Story<WattTimeRangeInputComponent> = (args) => ({
   props: {
     ...args,
-    timeRangeModel: {},
+    timeRangeControl: new FormControl(),
   },
   template: `
     <watt-form-field>
      <watt-label>Time range</watt-label>
-     <watt-time-range-input [(ngModel)]="timeRangeModel"></watt-time-range-input>
+     <watt-time-range-input [formControl]="timeRangeControl"></watt-time-range-input>
     </watt-form-field>
- 
-    <p>Selected range: {{ timeRangeModel | json }}</p>`,
+
+    <p>Selected range: {{ timeRangeControl.value | json }}</p>`,
+});
+
+export const withInitialValue: Story<WattTimeRangeInputComponent> = (args) => ({
+  props: {
+    ...args,
+    timeRangeControl: new FormControl({ start: '00:00', end: '23:59' }),
+  },
+  template: `
+    <watt-form-field>
+     <watt-label>Time range</watt-label>
+     <watt-time-range-input [formControl]="timeRangeControl"></watt-time-range-input>
+    </watt-form-field>
+
+    <p>Selected range: {{ timeRangeControl.value | json }}</p>`,
 });
