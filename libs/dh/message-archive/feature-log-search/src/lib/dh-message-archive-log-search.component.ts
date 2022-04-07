@@ -65,8 +65,12 @@ import { DhMessageArchiveLogSearchResultScam } from './searchresult/dh-message-a
 })
 export class DhMessageArchiveLogSearchComponent implements OnDestroy {
   private destroy$ = new Subject<void>();
-  private regexLogNameWithDateFolder = new RegExp(/\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])\/.*/);
-  private regexLogNameIsSingleGuid = new RegExp(/[\da-zA-Z]{8}-([\da-zA-Z]{4}-){3}[\da-zA-Z]{12}$/);
+  private regexLogNameWithDateFolder = new RegExp(
+    /\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])\/.*/
+  );
+  private regexLogNameIsSingleGuid = new RegExp(
+    /[\da-zA-Z]{8}-([\da-zA-Z]{4}-){3}[\da-zA-Z]{12}$/
+  );
 
   searchResult$ = this.store.searchResult$;
   searching$ = this.store.isSearching$;
@@ -81,7 +85,10 @@ export class DhMessageArchiveLogSearchComponent implements OnDestroy {
   searching = false;
   pageSizes = [250, 500, 750, 1000];
   pageNumber = 1;
-  searchCriteria: MessageArchiveSearchCriteria = { maxItemCount: this.pageSizes[0], includeRelated: false };
+  searchCriteria: MessageArchiveSearchCriteria = {
+    maxItemCount: this.pageSizes[0],
+    includeRelated: false,
+  };
 
   private initDateFrom = (): Date => {
     const from = new Date();
@@ -117,16 +124,22 @@ export class DhMessageArchiveLogSearchComponent implements OnDestroy {
   private buildRsmOptions() {
     const entries = Object.entries(DocumentTypes);
     entries.forEach((entry) => {
-      this.rsmFormFieldOptions.push({ value: entry[0], displayValue: entry[1] +" - "+ entry[0] });
+      this.rsmFormFieldOptions.push({
+        value: entry[0],
+        displayValue: entry[1] + ' - ' + entry[0],
+      });
     });
-  };
+  }
 
   private buildProcessTypesOptions() {
     const entries = Object.entries(ProcessTypes);
     entries.forEach((entry) => {
-      this.processTypeFormFieldOptions.push({ value: entry[0], displayValue: entry[0] +" - "+ entry[1] });
+      this.processTypeFormFieldOptions.push({
+        value: entry[0],
+        displayValue: entry[0] + ' - ' + entry[1],
+      });
     });
-  };
+  }
 
   onSubmit() {
     if (!this.searching && this.validateSearchParams()) {
@@ -150,21 +163,23 @@ export class DhMessageArchiveLogSearchComponent implements OnDestroy {
 
   resetSearchCritera() {
     this.searchCriteria = {
-     messageId: null,
-     rsmName: null,
-     includeRelated: false,
-     traceId: null,
-     functionName: null,
-     invocationId: null,
-     maxItemCount: this.pageSizes[0],
-     processType: null,
-   };
-   this.searchCriteria.dateTimeFrom = this.initDateFrom().toISOString().split('.')[0] + 'Z';
-   this.searchCriteria.dateTimeTo = this.initDateTo().toISOString().split('.')[0] + 'Z';
+      messageId: null,
+      rsmName: null,
+      includeRelated: false,
+      traceId: null,
+      functionName: null,
+      invocationId: null,
+      maxItemCount: this.pageSizes[0],
+      processType: null,
+    };
+    this.searchCriteria.dateTimeFrom =
+      this.initDateFrom().toISOString().split('.')[0] + 'Z';
+    this.searchCriteria.dateTimeTo =
+      this.initDateTo().toISOString().split('.')[0] + 'Z';
 
-   this.buildRsmOptions();
-   this.buildProcessTypesOptions();
- }
+    this.buildRsmOptions();
+    this.buildProcessTypesOptions();
+  }
 
   redirectToDownloadLogPage(resultItem: MessageArchiveSearchResultItemDto) {
     const logName = this.findLogName(resultItem.blobContentUri);
@@ -194,12 +209,10 @@ export class DhMessageArchiveLogSearchComponent implements OnDestroy {
   }
 
   findLogName(logUrl: string): string {
-
     if (this.regexLogNameWithDateFolder.test(logUrl)) {
       const match = this.regexLogNameWithDateFolder.exec(logUrl);
       return match != null ? match[0] : '';
-    }
-    else if (this.regexLogNameIsSingleGuid.test(logUrl)) {
+    } else if (this.regexLogNameIsSingleGuid.test(logUrl)) {
       const match = this.regexLogNameIsSingleGuid.exec(logUrl);
       return match != null ? match[0] : '';
     }

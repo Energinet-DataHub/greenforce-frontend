@@ -15,7 +15,12 @@
  * limitations under the License.
  */
 import { ActivatedRoute } from '@angular/router';
-import { ChangeDetectionStrategy, Component, NgModule, OnDestroy } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  NgModule,
+  OnDestroy,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LetModule } from '@rx-angular/template';
 import { Title } from '@angular/platform-browser';
@@ -30,7 +35,9 @@ import { WattSpinnerModule, WattBadgeModule } from '@energinet-datahub/watt';
   templateUrl: './dh-message-archive-log-search-blob-content.component.html',
   providers: [DhMessageArchiveDataAccessBlobApiStore],
 })
-export class DhMessageArchiveLogSearchBlobContentComponent implements OnDestroy {
+export class DhMessageArchiveLogSearchBlobContentComponent
+  implements OnDestroy
+{
   blobContent$ = this.blobStore.blobContent$;
   isDownloading$ = this.blobStore.isDownloading$;
   hasGeneralError$ = this.blobStore.hasGeneralError$;
@@ -52,7 +59,7 @@ export class DhMessageArchiveLogSearchBlobContentComponent implements OnDestroy 
   }
 
   ngOnDestroy(): void {
-    this.title.setTitle("DataHub");
+    this.title.setTitle('DataHub');
   }
 }
 

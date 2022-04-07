@@ -85,7 +85,7 @@ export class DhMessageArchiveLogSearchResultComponent {
     WattEmptyStateModule,
     WattButtonModule,
     WattBadgeModule,
-    DhSharedUiDateTimeModule
+    DhSharedUiDateTimeModule,
   ],
 })
 export class DhMessageArchiveLogSearchResultScam {}

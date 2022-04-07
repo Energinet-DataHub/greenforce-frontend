@@ -16,12 +16,12 @@ limitations under the License.
 -->
 
 <ng-container *transloco="let transloco; read: 'messageArchive.search'">
-  <h1>{{ transloco('title') }}</h1>
+  <h1>{{ transloco("title") }}</h1>
   <form #searchForm name="log-search-form" (ngSubmit)="onSubmit()">
     <div class="wrapper">
       <watt-form-field size="normal">
         <watt-label class="watt-text-m">{{
-          transloco('documenttype')
+          transloco("documenttype")
         }}</watt-label>
 
         <watt-dropdown
@@ -29,12 +29,13 @@ limitations under the License.
           [formControl]="rsmFormControl"
           [options]="rsmFormFieldOptions"
           [placeholder]="transloco('ChooseDocumentType')"
-          [noOptionsFoundLabel]="'-'">
+          [noOptionsFoundLabel]="'-'"
+        >
         </watt-dropdown>
       </watt-form-field>
 
       <watt-form-field size="normal">
-        <watt-label class="watt-text-m">{{ transloco('senderId') }}</watt-label>
+        <watt-label class="watt-text-m">{{ transloco("senderId") }}</watt-label>
 
         <input
           #searchInputSenderId
@@ -47,7 +48,7 @@ limitations under the License.
 
       <watt-form-field size="normal">
         <watt-label class="watt-text-m">{{
-          transloco('receiverId')
+          transloco("receiverId")
         }}</watt-label>
 
         <input
@@ -61,7 +62,7 @@ limitations under the License.
 
       <watt-form-field size="normal">
         <watt-label class="watt-text-m">{{
-          transloco('messageId')
+          transloco("messageId")
         }}</watt-label>
 
         <input
@@ -75,14 +76,15 @@ limitations under the License.
 
       <watt-form-field size="normal">
         <watt-label class="watt-text-m">{{
-          transloco('businessReason')
+          transloco("businessReason")
         }}</watt-label>
         <watt-dropdown
           [(ngModel)]="this.searchCriteria.processType"
           [formControl]="processTypeFormControl"
           [options]="processTypeFormFieldOptions"
           [placeholder]="transloco('ChooseBusinessReason')"
-          [noOptionsFoundLabel]="'-'">
+          [noOptionsFoundLabel]="'-'"
+        >
         </watt-dropdown>
       </watt-form-field>
 
@@ -93,13 +95,13 @@ limitations under the License.
           [(ngModel)]="this.searchCriteria.includeRelated"
           wattInput
           name="reference-id"
-          >{{ transloco('includeRelatedMessage') }}</watt-checkbox
+          >{{ transloco("includeRelatedMessage") }}</watt-checkbox
         >
       </watt-form-field>
 
       <!-- Date from -->
       <watt-form-field size="normal">
-        <watt-label class="watt-text-m">{{ transloco('dateFrom') }}</watt-label>
+        <watt-label class="watt-text-m">{{ transloco("dateFrom") }}</watt-label>
 
         <input
           #searchInputDateTimeFrom
@@ -112,7 +114,7 @@ limitations under the License.
 
       <!-- Date to -->
       <watt-form-field size="normal">
-        <watt-label class="watt-text-m">{{ transloco('dateTo') }}</watt-label>
+        <watt-label class="watt-text-m">{{ transloco("dateTo") }}</watt-label>
 
         <input
           #searchInputDateTimeTo
@@ -125,7 +127,7 @@ limitations under the License.
 
       <!-- Pager size -->
       <watt-form-field size="normal">
-        <watt-label class="watt-text-m">{{ transloco('pageSize') }}</watt-label>
+        <watt-label class="watt-text-m">{{ transloco("pageSize") }}</watt-label>
 
         <select
           #searchInputPageSize
@@ -150,33 +152,37 @@ limitations under the License.
         type="submit"
         icon="search"
         size="normal"
-        >{{ transloco('startSearch') }}</watt-button
+        >{{ transloco("startSearch") }}</watt-button
       >
 
       <div class="spacer"></div>
 
       <!-- Pager -->
       <div>
-        <watt-label class="watt-text-m">{{ transloco('page') }} {{ this.pageNumber }}</watt-label>
+        <watt-label class="watt-text-m"
+          >{{ transloco("page") }} {{ this.pageNumber }}</watt-label
+        >
         <watt-button
           [disabled]="(continuationToken$ | async) === null"
           type="button"
           (click)="nextPage()"
-          >{{ transloco('nextPage') }}</watt-button>
-         <div
-         class="clear-form">
+          >{{ transloco("nextPage") }}</watt-button
+        >
+        <div class="clear-form">
           <watt-button
             title="{{ transloco('clearSearch') }}"
             (click)="resetSearchCritera()"
-            [icon]="iconClose">{{ transloco('clearSearch') }}</watt-button>
-         </div>
+            [icon]="iconClose"
+            >{{ transloco("clearSearch") }}</watt-button
+          >
+        </div>
       </div>
     </div>
   </form>
 
   <div *transloco="let transloco; read: 'messageArchive'">
     <watt-badge *ngIf="hasSearchError$ | async" type="danger">{{
-      transloco('unknowenError')
+      transloco("unknowenError")
     }}</watt-badge>
   </div>
 
