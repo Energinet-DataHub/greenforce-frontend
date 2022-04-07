@@ -284,7 +284,8 @@
       "received": "UD",
       "download": "Download",
       "show": "Vis",
-      "noResultsHelperText": "Prøv at ændring dine søge indstillinger"
+      "noResultsHelperText": "Prøv at ændring dine søge indstillinger",
+      "clearSearch": "Ryd form"
     }
   },
   "marketParticipant": {

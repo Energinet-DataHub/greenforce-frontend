@@ -35,7 +35,8 @@ import {
   WattCheckboxModule,
   WattBadgeModule,
   WattDropdownModule,
-  WattDropdownOptions
+  WattDropdownOptions,
+  WattIcon,
 } from '@energinet-datahub/watt';
 import {
   DhMessageArchiveDataAccessApiStore,
@@ -76,19 +77,11 @@ export class DhMessageArchiveLogSearchComponent implements OnDestroy {
   rsmFormFieldOptions: WattDropdownOptions = [];
   processTypeFormControl = new FormControl(null);
   processTypeFormFieldOptions: WattDropdownOptions = [];
+  iconClose: WattIcon = 'close';
   searching = false;
   pageSizes = [250, 500, 750, 1000];
   pageNumber = 1;
-  searchCriteria: MessageArchiveSearchCriteria = {
-    messageId: null,
-    rsmName: null,
-    includeRelated: false,
-    traceId: null,
-    functionName: null,
-    invocationId: null,
-    maxItemCount: 250,
-    processType: null,
-  };
+  searchCriteria: MessageArchiveSearchCriteria = { maxItemCount: this.pageSizes[0], includeRelated: false };
 
   private initDateFrom = (): Date => {
     const from = new Date();
@@ -108,6 +101,8 @@ export class DhMessageArchiveLogSearchComponent implements OnDestroy {
     private currentRoute: ActivatedRoute,
     private logStore: DhMessageArchiveDataAccessBlobApiStore
   ) {
+    this.resetSearchCritera();
+
     this.currentRoute.queryParamMap.subscribe((q) => {
       this.searchCriteria.traceId = q.has('traceId') ? q.get('traceId') : null;
       this.searchCriteria.functionName = q.has('functionName')
@@ -117,14 +112,6 @@ export class DhMessageArchiveLogSearchComponent implements OnDestroy {
         ? q.get('invocationId')
         : null;
     });
-
-    this.searchCriteria.dateTimeFrom =
-      this.initDateFrom().toISOString().split('.')[0] + 'Z';
-    this.searchCriteria.dateTimeTo =
-      this.initDateTo().toISOString().split('.')[0] + 'Z';
-
-      this.buildRsmOptions();
-      this.buildProcessTypesOptions();
   }
 
   private buildRsmOptions() {
@@ -160,6 +147,24 @@ export class DhMessageArchiveLogSearchComponent implements OnDestroy {
       this.pageNumber++;
     }
   }
+
+  resetSearchCritera() {
+    this.searchCriteria = {
+     messageId: null,
+     rsmName: null,
+     includeRelated: false,
+     traceId: null,
+     functionName: null,
+     invocationId: null,
+     maxItemCount: this.pageSizes[0],
+     processType: null,
+   };
+   this.searchCriteria.dateTimeFrom = this.initDateFrom().toISOString().split('.')[0] + 'Z';
+   this.searchCriteria.dateTimeTo = this.initDateTo().toISOString().split('.')[0] + 'Z';
+
+   this.buildRsmOptions();
+   this.buildProcessTypesOptions();
+ }
 
   redirectToDownloadLogPage(resultItem: MessageArchiveSearchResultItemDto) {
     const logName = this.findLogName(resultItem.blobContentUri);

@@ -264,7 +264,8 @@
       "received": "OUT",
       "download": "Download",
       "show": "Show",
-      "noResultsHelperText": "Try adjusting your search or filter to find what you are looking for."
+      "noResultsHelperText": "Try adjusting your search or filter to find what you are looking for.",
+      "clearSearch": "Clear form"
     }
   },
   "marketParticipant": {
