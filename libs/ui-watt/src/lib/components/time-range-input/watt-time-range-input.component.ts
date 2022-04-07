@@ -206,7 +206,7 @@ export class WattTimeRangeInputComponent
    * @ignore
    */
   private mask(element: HTMLInputElement): Inputmask.Instance {
-    const inputmask: Inputmask.Instance = new Inputmask('datetime', {
+    const inputmask = new Inputmask('datetime', {
       inputFormat: hoursMinutesFormat,
       placeholder: this.placeholder,
       onincomplete: () => {
