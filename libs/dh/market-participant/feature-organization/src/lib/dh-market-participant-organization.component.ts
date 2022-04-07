@@ -107,9 +107,9 @@ export class DhMarketParticipantOrganizationComponent
       });
   };
 
-  readonly manuelTest = () =>{
+  readonly manuelTest = () => {
     this.store.manualTestTrigger();
-  }
+  };
 }
 
 @NgModule({
