@@ -33,3 +33,9 @@ runs:
       with:
         name: bff
         path: ${{ inputs.RELEASE_FOLDER_PATH }}/functions/bff
+
+    - name: Publish Swagger to release folder
+      uses: actions/download-artifact@v2
+      with:
+        name: swagger
+        path: ${{ inputs.RELEASE_FOLDER_PATH }}/swagger

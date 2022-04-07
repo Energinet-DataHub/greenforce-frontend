@@ -39,10 +39,11 @@ on:
 
 jobs:
   dotnet_solution_ci:
-    uses: Energinet-DataHub/.github/.github/workflows/dotnet-solution-ci.yml@6.1.0
+    uses: Energinet-DataHub/.github/.github/workflows/dotnet-solution-ci.yml@6.1.4
     with:
       SOLUTION_FILE_PATH: 'apps/dh/api-dh/DataHub.WebApi.sln'
       DOTNET_VERSION: '6.0.201'
+      PUBLISH_SWAGGER_FILE: true
     secrets:
       AZURE_TENANT_ID: ${{ secrets.AZURE_TESTING_TENANT_ID }}
       AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_TESTING_SUBSCRIPTION_ID }}
@@ -51,7 +52,7 @@ jobs:
       AZURE_KEYVAULT_URL: ${{ secrets.AZURE_TESTING_KEYVAULT_URL }}
 
   terraform_validate:
-    uses: Energinet-DataHub/.github/.github/workflows/terraform-validate.yml@4.0.0
+    uses: Energinet-DataHub/.github/.github/workflows/terraform-validate.yml@6.1.0
     with:
       TERRAFORM_WORKING_DIR_PATH: 'build/infrastructure/dh/main'
       TERRAFORM_VERSION: '1.1.2'
@@ -73,7 +74,7 @@ jobs:
       CSPROJ_FILE_PATH: 'apps/dh/api-dh/source/DataHub.WebApi/DataHub.WebApi.csproj'
       DOTNET_VERSION: '6.0.201'
       ARTIFACT_NAME: bff
-
+  
   generate_client:
     needs: bff_ci
     runs-on: ubuntu-latest
@@ -132,7 +133,7 @@ jobs:
 
   create_prerelease:
     needs: [bff_ci]
-    uses: Energinet-DataHub/.github/.github/workflows/create-prerelease.yml@4.0.0
+    uses: Energinet-DataHub/.github/.github/workflows/create-prerelease.yml@6.1.0
     with:
       CALLER_REPOSITORY_PATH: Energinet-DataHub/greenforce-frontend
     secrets:
