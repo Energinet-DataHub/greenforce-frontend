@@ -1,6 +1,7 @@
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   ElementRef,
   Host,
@@ -77,6 +78,11 @@ export class WattTimeRangeInputComponent
   /**
    * @ignore
    */
+  isDisabled = false;
+
+  /**
+   * @ignore
+   */
   initialValue?: WattTimeRange;
 
   /**
@@ -87,7 +93,8 @@ export class WattTimeRangeInputComponent
   constructor(
     private renderer: Renderer2,
     @Host() private parentControlDirective: NgControl,
-    private wattColorService: WattColorHelperService
+    private wattColorService: WattColorHelperService,
+    private changeDetectorRef: ChangeDetectorRef
   ) {
     this.parentControlDirective.valueAccessor = this;
   }
@@ -185,6 +192,11 @@ export class WattTimeRangeInputComponent
    */
   registerOnTouched(onTouchFn: () => void) {
     this.markParentControlAsTouched = onTouchFn;
+  }
+
+  setDisabledState(isDisabled: boolean): void {
+    this.isDisabled = isDisabled;
+    this.changeDetectorRef.detectChanges();
   }
 
   /**
