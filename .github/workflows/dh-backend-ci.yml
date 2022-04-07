@@ -44,6 +44,7 @@ jobs:
       SOLUTION_FILE_PATH: 'apps/dh/api-dh/DataHub.WebApi.sln'
       DOTNET_VERSION: '6.0.201'
       PUBLISH_SWAGGER_FILE: true
+      SWAGGER_FILE_PATH: '\apps\dh\api-dh\source\DataHub.WebApi\bin\Release\net6.0\swagger.json'
     secrets:
       AZURE_TENANT_ID: ${{ secrets.AZURE_TESTING_TENANT_ID }}
       AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_TESTING_SUBSCRIPTION_ID }}
