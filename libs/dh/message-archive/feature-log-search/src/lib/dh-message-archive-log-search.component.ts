@@ -77,8 +77,9 @@ export class DhMessageArchiveLogSearchComponent implements OnDestroy {
   hasSearchError$ = this.store.hasGeneralError$;
   continuationToken$ = this.store.continuationToken$;
 
-  rsmFormFieldOptions: WattDropdownOptions = [];
-  processTypeFormFieldOptions: WattDropdownOptions = [];
+  rsmFormFieldOptions: WattDropdownOptions = this.buildRsmOptions();
+  processTypeFormFieldOptions: WattDropdownOptions =
+    this.buildProcessTypesOptions();
   iconClose: WattIcon = 'close';
   searching = false;
   pageSizes = [250, 500, 750, 1000];
@@ -172,9 +173,6 @@ export class DhMessageArchiveLogSearchComponent implements OnDestroy {
       this.initDateFrom().toISOString().split('.')[0] + 'Z';
     this.searchCriteria.dateTimeTo =
       this.initDateTo().toISOString().split('.')[0] + 'Z';
-
-    this.processTypeFormFieldOptions = this.buildProcessTypesOptions();
-    this.rsmFormFieldOptions = this.buildRsmOptions();
   }
 
   redirectToDownloadLogPage(resultItem: MessageArchiveSearchResultItemDto) {
