@@ -19,24 +19,21 @@ limitations under the License.
   <h1>{{ transloco("title") }}</h1>
   <form #searchForm name="log-search-form" (ngSubmit)="onSubmit()">
     <div class="wrapper">
-      <watt-form-field size="normal">
-        <watt-label class="watt-text-m">{{
-          transloco("documenttype")
-        }}</watt-label>
-
+      <!-- RSM -->
+      <watt-form-field>
+        <watt-label>{{transloco("documenttype")}}</watt-label>
         <watt-dropdown
           [(ngModel)]="this.searchCriteria.rsmName"
-          [formControl]="rsmFormControl"
           [options]="rsmFormFieldOptions"
+          name="rsmName"
           [placeholder]="transloco('ChooseDocumentType')"
-          [noOptionsFoundLabel]="'-'"
         >
         </watt-dropdown>
       </watt-form-field>
 
-      <watt-form-field size="normal">
-        <watt-label class="watt-text-m">{{ transloco("senderId") }}</watt-label>
-
+      <!-- Sender -->
+      <watt-form-field>
+        <watt-label>{{ transloco("senderId") }}</watt-label>
         <input
           #searchInputSenderId
           [(ngModel)]="this.searchCriteria.senderId"
@@ -46,11 +43,9 @@ limitations under the License.
         />
       </watt-form-field>
 
-      <watt-form-field size="normal">
-        <watt-label class="watt-text-m">{{
-          transloco("receiverId")
-        }}</watt-label>
-
+      <!-- Receiver -->
+      <watt-form-field>
+        <watt-label>{{transloco("receiverId")}}</watt-label>
         <input
           #searchInputReceiverId
           [(ngModel)]="this.searchCriteria.receiverId"
@@ -60,11 +55,9 @@ limitations under the License.
         />
       </watt-form-field>
 
-      <watt-form-field size="normal">
-        <watt-label class="watt-text-m">{{
-          transloco("messageId")
-        }}</watt-label>
-
+      <!-- MessageId -->
+      <watt-form-field>
+        <watt-label>{{transloco("messageId")}}</watt-label>
         <input
           #searchInputMessageId
           [(ngModel)]="this.searchCriteria.messageId"
@@ -74,35 +67,27 @@ limitations under the License.
         />
       </watt-form-field>
 
-      <watt-form-field size="normal">
-        <watt-label class="watt-text-m">{{
-          transloco("businessReason")
-        }}</watt-label>
+      <!-- ProcessType -->
+      <watt-form-field>
+        <watt-label>{{transloco("businessReason")}}</watt-label>
         <watt-dropdown
+          name="processType"
           [(ngModel)]="this.searchCriteria.processType"
-          [formControl]="processTypeFormControl"
           [options]="processTypeFormFieldOptions"
-          [placeholder]="transloco('ChooseBusinessReason')"
-          [noOptionsFoundLabel]="'-'"
-        >
+          [placeholder]="transloco('ChooseBusinessReason')">
         </watt-dropdown>
       </watt-form-field>
 
       <!-- Reference id -->
-      <watt-form-field size="normal">
-        <watt-checkbox
-          #searchInputReferenceId
-          [(ngModel)]="this.searchCriteria.includeRelated"
-          wattInput
-          name="reference-id"
-          >{{ transloco("includeRelatedMessage") }}</watt-checkbox
-        >
-      </watt-form-field>
+      <watt-checkbox
+        #searchInputReferenceId
+        [(ngModel)]="this.searchCriteria.includeRelated"
+        wattInput
+        name="reference-id">{{ transloco("includeRelatedMessage") }}</watt-checkbox>
 
       <!-- Date from -->
-      <watt-form-field size="normal">
-        <watt-label class="watt-text-m">{{ transloco("dateFrom") }}</watt-label>
-
+      <watt-form-field>
+        <watt-label>{{ transloco("dateFrom") }}</watt-label>
         <input
           #searchInputDateTimeFrom
           [(ngModel)]="this.searchCriteria.dateTimeFrom"
@@ -113,8 +98,8 @@ limitations under the License.
       </watt-form-field>
 
       <!-- Date to -->
-      <watt-form-field size="normal">
-        <watt-label class="watt-text-m">{{ transloco("dateTo") }}</watt-label>
+      <watt-form-field>
+        <watt-label>{{ transloco("dateTo") }}</watt-label>
 
         <input
           #searchInputDateTimeTo
@@ -126,8 +111,8 @@ limitations under the License.
       </watt-form-field>
 
       <!-- Pager size -->
-      <watt-form-field size="normal">
-        <watt-label class="watt-text-m">{{ transloco("pageSize") }}</watt-label>
+      <watt-form-field>
+        <watt-label>{{ transloco("pageSize") }}</watt-label>
 
         <select
           #searchInputPageSize
@@ -159,9 +144,7 @@ limitations under the License.
 
       <!-- Pager -->
       <div>
-        <watt-label class="watt-text-m"
-          >{{ transloco("page") }} {{ this.pageNumber }}</watt-label
-        >
+        <watt-label class="watt-text-m">{{ transloco("page") }} {{ this.pageNumber }}</watt-label>
         <watt-button
           [disabled]="(continuationToken$ | async) === null"
           type="button"

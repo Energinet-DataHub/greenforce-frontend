@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
@@ -77,9 +77,7 @@ export class DhMessageArchiveLogSearchComponent implements OnDestroy {
   hasSearchError$ = this.store.hasGeneralError$;
   continuationToken$ = this.store.continuationToken$;
 
-  rsmFormControl = new FormControl(null);
   rsmFormFieldOptions: WattDropdownOptions = [];
-  processTypeFormControl = new FormControl(null);
   processTypeFormFieldOptions: WattDropdownOptions = [];
   iconClose: WattIcon = 'close';
   searching = false;
