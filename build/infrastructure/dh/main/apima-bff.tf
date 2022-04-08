@@ -25,10 +25,12 @@ module "apima_bff" {
   logger_sampling_percentage  = 100.0
   path                        = "bff"
   backend_service_url         = "https://app-bff-fe-u-001.azurewebsites.net"
-  api_content_import          = {
+  api_content_imports         = [
+    {
     content_format          = "openapi+json"
     content_value           = data.local_file.swagger_file.content
-  }
+    }
+  ]
 }
 
 data "local_file" "swagger_file" {
