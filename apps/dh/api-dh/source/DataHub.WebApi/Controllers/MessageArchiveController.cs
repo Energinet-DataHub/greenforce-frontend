@@ -50,12 +50,13 @@ namespace Energinet.DataHub.WebApi.Controllers
         /// <summary>
         /// Download log content as stream
         /// </summary>
-        /// <param name="blobName">blob name</param>
+        /// <param name="logName">log name</param>
         /// <returns>log content</returns>
         [HttpGet("DownloadRequestResponseLogContent")]
-        public async Task<ActionResult<Stream>> DownloadRequestResponseLogContentAsync(string blobName)
+        public async Task<ActionResult<Stream>> DownloadRequestResponseLogContentAsync(string logName)
         {
-            var stream = await _messageArchiveClient.GetStreamFromStorageAsync(blobName).ConfigureAwait(false);
+            var decodedLogName = Uri.EscapeDataString(logName);
+            var stream = await _messageArchiveClient.GetStreamFromStorageAsync(decodedLogName).ConfigureAwait(false);
 
             return File(stream, MediaTypeNames.Text.Plain);
         }

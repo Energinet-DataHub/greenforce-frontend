@@ -15,6 +15,8 @@
  * limitations under the License.
  */
 import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
+import { EoInlineMessageScam } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
+import { WattIconModule, WattIconSize } from '@energinet-datahub/watt';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -26,12 +28,31 @@ import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
       }
     `,
   ],
-  template: `<p>The contents of the page go here.</p>`,
+  template: `
+    <eo-inline-message type="warning">
+      <watt-icon name="primary_info" [size]="iconSize.Large"></watt-icon>
+
+      <p>
+        The Energy Origin Platform is <strong>under development</strong> and new
+        functionalities will be released continuously. The first release of the
+        platform only offers <strong>data for companies</strong>. Data for
+        private users is intended to form part of one of the next releases. More
+        functionality will be released on an ongoing basis. If you want to
+        influence the new functionality, join us at our
+        <a href="https://www.linkedin.com/groups/12643238/" target="_blank"
+          >LinkedIn group</a
+        >.
+      </p>
+    </eo-inline-message>
+  `,
 })
-export class EoOriginOfEnergyShellComponent {}
+export class EoOriginOfEnergyShellComponent {
+  iconSize = WattIconSize;
+}
 
 @NgModule({
   declarations: [EoOriginOfEnergyShellComponent],
   exports: [EoOriginOfEnergyShellComponent],
+  imports: [WattIconModule, EoInlineMessageScam],
 })
 export class EoOriginOfEnergyShellScam {}
