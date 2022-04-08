@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
@@ -30,13 +30,11 @@ import { TranslocoModule } from '@ngneat/transloco';
 import {
   WattButtonModule,
   WattFormFieldModule,
-  WattIconModule,
   WattInputModule,
   WattCheckboxModule,
   WattBadgeModule,
   WattDropdownModule,
   WattDropdownOptions,
-  WattIcon,
 } from '@energinet-datahub/watt';
 import {
   DhMessageArchiveDataAccessApiStore,
@@ -80,7 +78,6 @@ export class DhMessageArchiveLogSearchComponent implements OnDestroy {
   rsmFormFieldOptions: WattDropdownOptions = this.buildRsmOptions();
   processTypeFormFieldOptions: WattDropdownOptions =
     this.buildProcessTypesOptions();
-  iconClose: WattIcon = 'close';
   searching = false;
   pageSizes = [250, 500, 750, 1000];
   pageNumber = 1;
@@ -224,10 +221,8 @@ export class DhMessageArchiveLogSearchComponent implements OnDestroy {
     WattFormFieldModule,
     WattInputModule,
     WattButtonModule,
-    WattIconModule,
     WattCheckboxModule,
     FormsModule,
-    ReactiveFormsModule,
     CommonModule,
     LetModule,
     TranslocoModule,
