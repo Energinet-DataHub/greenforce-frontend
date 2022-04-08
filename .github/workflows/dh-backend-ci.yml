@@ -38,19 +38,19 @@ on:
       - '.github/actions/publish-release-contents/action.yml'
 
 jobs:
-  # dotnet_solution_ci:
-  #   uses: Energinet-DataHub/.github/.github/workflows/dotnet-solution-ci.yml@6.1.4
-  #   with:
-  #     SOLUTION_FILE_PATH: 'apps/dh/api-dh/DataHub.WebApi.sln'
-  #     DOTNET_VERSION: '6.0.201'
-  #     PUBLISH_SWAGGER_FILE: true
-  #     SWAGGER_FILE_PATH: '\apps\dh\api-dh\source\DataHub.WebApi\bin\Release\net6.0\swagger.json'
-  #   secrets:
-  #     AZURE_TENANT_ID: ${{ secrets.AZURE_TESTING_TENANT_ID }}
-  #     AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_TESTING_SUBSCRIPTION_ID }}
-  #     AZURE_SPN_ID: ${{ secrets.AZURE_TESTING_SPN_ID }}
-  #     AZURE_SPN_SECRET: ${{ secrets.AZURE_TESTING_SPN_SECRET }}
-  #     AZURE_KEYVAULT_URL: ${{ secrets.AZURE_TESTING_KEYVAULT_URL }}
+  dotnet_solution_ci:
+    uses: Energinet-DataHub/.github/.github/workflows/dotnet-solution-ci.yml@6.1.4
+    with:
+      SOLUTION_FILE_PATH: 'apps/dh/api-dh/DataHub.WebApi.sln'
+      DOTNET_VERSION: '6.0.201'
+      PUBLISH_SWAGGER_FILE: true
+      SWAGGER_FILE_PATH: '\apps\dh\api-dh\source\DataHub.WebApi\bin\Release\net6.0\swagger.json'
+    secrets:
+      AZURE_TENANT_ID: ${{ secrets.AZURE_TESTING_TENANT_ID }}
+      AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_TESTING_SUBSCRIPTION_ID }}
+      AZURE_SPN_ID: ${{ secrets.AZURE_TESTING_SPN_ID }}
+      AZURE_SPN_SECRET: ${{ secrets.AZURE_TESTING_SPN_SECRET }}
+      AZURE_KEYVAULT_URL: ${{ secrets.AZURE_TESTING_KEYVAULT_URL }}
 
   terraform_validate:
     uses: Energinet-DataHub/.github/.github/workflows/terraform-validate.yml@6.1.0
@@ -70,7 +70,7 @@ jobs:
 
   bff_ci:
     # needs: [dotnet_solution_ci, terraform_validate, sonarcloud_analysis]
-    needs: [terraform_validate]
+    needs: [dotnet_solution_ci, terraform_validate]
     uses: Energinet-DataHub/.github/.github/workflows/dotnet-create-webapi-artifact.yml@6.1.0
     with:
       CSPROJ_FILE_PATH: 'apps/dh/api-dh/source/DataHub.WebApi/DataHub.WebApi.csproj'
