@@ -53,16 +53,16 @@ export class DhMessageArchiveDataAccessBlobApiStore extends ComponentStore<Downl
     (state) => state.downloadingState === ErrorState.GENERAL_ERROR
   );
 
-  readonly downloadLog = this.effect((blobName: Observable<string>) => {
-    return blobName.pipe(
+  readonly downloadLog = this.effect((logName$: Observable<string>) => {
+    return logName$.pipe(
       tap(() => {
         this.resetState();
         this.setLoading(true);
       }),
-      switchMap((blobName) =>
+      switchMap((logName) =>
         this.httpClient
           .v1MessageArchiveDownloadRequestResponseLogContentGet(
-            blobName,
+            logName,
             'body',
             false,
             { httpHeaderAccept: 'text/plain' }
@@ -83,10 +83,10 @@ export class DhMessageArchiveDataAccessBlobApiStore extends ComponentStore<Downl
     );
   });
 
-  downloadLogFile(blobName: string) {
+  downloadLogFile(logName: string) {
     const clientObservable =
       this.httpClient.v1MessageArchiveDownloadRequestResponseLogContentGet(
-        blobName,
+        logName,
         'body',
         false,
         { httpHeaderAccept: 'text/plain' }
@@ -101,7 +101,7 @@ export class DhMessageArchiveDataAccessBlobApiStore extends ComponentStore<Downl
         downloadLink.href = window.URL.createObjectURL(
           new Blob(binaryData, { type: dataType })
         );
-        if (blobName) downloadLink.setAttribute('download', blobName);
+        if (logName) downloadLink.setAttribute('download', logName);
         document.body.appendChild(downloadLink);
         downloadLink.click();
       }
