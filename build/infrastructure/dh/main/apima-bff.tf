@@ -26,7 +26,7 @@ module "apima_bff" {
   path                        = "bff"
   backend_service_url         = "https://app-bff-fe-u-001.azurewebsites.net"
   api_content_import          = {
-    content_format          = "swagger-json"
+    content_format          = "openapi+json"
     content_value           = data.local_file.swagger_file.content
   }
 }
