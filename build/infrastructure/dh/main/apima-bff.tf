@@ -24,7 +24,7 @@ module "apima_bff" {
   apim_logger_id              = data.azurerm_key_vault_secret.apim_logger_id.value
   logger_sampling_percentage  = 100.0
   path                        = "bff"
-  backend_service_url         = azurerm_app_service.bff.default_site_hostname
+  backend_service_url         = "https://app-bff-fe-u-001.azurewebsites.net" #azurerm_app_service.bff.default_site_hostname
   api_content_import          = {
     content_format          = "swagger-json"
     content_value           = data.local_file.swagger_file.content
