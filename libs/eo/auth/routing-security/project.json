@@ -1,0 +1,26 @@
+{
+  "projectType": "library",
+  "root": "libs/eo/auth/routing-security",
+  "sourceRoot": "libs/eo/auth/routing-security/src",
+  "prefix": "eo",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/eo/auth/routing-security"],
+      "options": {
+        "jestConfig": "libs/eo/auth/routing-security/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/eo/auth/routing-security/src/**/*.ts",
+          "libs/eo/auth/routing-security/src/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": ["product:eo", "domain:auth", "type:routing"]
+}
