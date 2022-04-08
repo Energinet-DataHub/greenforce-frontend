@@ -120,22 +120,20 @@ export class DhMessageArchiveLogSearchComponent implements OnDestroy {
   }
 
   private buildRsmOptions() {
-    const entries = Object.entries(DocumentTypes);
-    entries.forEach((entry) => {
-      this.rsmFormFieldOptions.push({
+    return Object.entries(DocumentTypes).map((entry) => {
+      return {
         value: entry[0],
         displayValue: entry[1] + ' - ' + entry[0],
-      });
+      };
     });
   }
 
   private buildProcessTypesOptions() {
-    const entries = Object.entries(ProcessTypes);
-    entries.forEach((entry) => {
-      this.processTypeFormFieldOptions.push({
+    return Object.entries(ProcessTypes).map((entry) => {
+      return {
         value: entry[0],
         displayValue: entry[0] + ' - ' + entry[1],
-      });
+      };
     });
   }
 
@@ -175,8 +173,8 @@ export class DhMessageArchiveLogSearchComponent implements OnDestroy {
     this.searchCriteria.dateTimeTo =
       this.initDateTo().toISOString().split('.')[0] + 'Z';
 
-    this.buildRsmOptions();
-    this.buildProcessTypesOptions();
+    this.processTypeFormFieldOptions = this.buildProcessTypesOptions();
+    this.rsmFormFieldOptions = this.buildRsmOptions();
   }
 
   redirectToDownloadLogPage(resultItem: MessageArchiveSearchResultItemDto) {
