@@ -6424,6 +6424,11 @@ chardet@^0.7.0:
   resolved "https://registry.yarnpkg.com/chardet/-/chardet-0.7.0.tgz#90094849f0937f2eedc2425d0d28a9e5f0cbad9e"
   integrity sha512-mT8iDcrh03qDGRRmoA2hmBJnxpllMR+0/0qlzjqZES6NdiWDcZkCNAk4rPFZ9Q85r27unkiNNg8ZOiwZXBHwcA==
 
+chart.js@^3.7.1:
+  version "3.7.1"
+  resolved "https://registry.yarnpkg.com/chart.js/-/chart.js-3.7.1.tgz#0516f690c6a8680c6c707e31a4c1807a6f400ada"
+  integrity sha512-8knRegQLFnPQAheZV8MjxIXc5gQEfDFD897BJgv/klO/vtIyFFmgMXrNfgrXpbTr/XbTturxRgxIXx/Y+ASJBA==
+
 check-more-types@^2.24.0:
   version "2.24.0"
   resolved "https://registry.yarnpkg.com/check-more-types/-/check-more-types-2.24.0.tgz#1420ffb10fd444dcfc79b43891bbfffd32a84600"
@@ -12121,6 +12126,11 @@ locate-path@^6.0.0:
   dependencies:
     p-locate "^5.0.0"
 
+lodash-es@^4.17.15:
+  version "4.17.21"
+  resolved "https://registry.yarnpkg.com/lodash-es/-/lodash-es-4.17.21.tgz#43e626c46e6591b7750beb2b50117390c609e3ee"
+  integrity sha512-mKnC+QJ9pWVzv+C4/U3rRsHapFfHvQFoFB92e52xeyGMcX6/OlIl78je1u8vePzYZSkkogMPJ2yjxxsb89cxyw==
+
 lodash.camelcase@^4.3.0:
   version "4.3.0"
   resolved "https://registry.yarnpkg.com/lodash.camelcase/-/lodash.camelcase-4.3.0.tgz#b28aa6288a2b9fc651035c7711f65ab6190331a6"
@@ -12881,6 +12891,14 @@ ng-packagr@13.0.8:
     stylus "^0.55.0"
   optionalDependencies:
     esbuild "^0.13.0"
+
+ng2-charts@^3.0.8:
+  version "3.0.8"
+  resolved "https://registry.yarnpkg.com/ng2-charts/-/ng2-charts-3.0.8.tgz#abcd7fcbcddf3743336655abf93faed99b41d8fe"
+  integrity sha512-ELlpN0b/IJO4ka/P2sFBKeng3bV7XOQuh40f0J5hx9UveWPaSxOYQAOiGxV7BN2VSnKq6GRkjRvqTrcQPyJYww==
+  dependencies:
+    lodash-es "^4.17.15"
+    tslib "^2.3.0"
 
 ngx-mat-select-search@^4.0.2:
   version "4.0.2"
