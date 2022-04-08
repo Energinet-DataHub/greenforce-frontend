@@ -53,8 +53,8 @@ export class DhMessageArchiveDataAccessBlobApiStore extends ComponentStore<Downl
     (state) => state.downloadingState === ErrorState.GENERAL_ERROR
   );
 
-  readonly downloadLog = this.effect((logName: Observable<string>) => {
-    return logName.pipe(
+  readonly downloadLog = this.effect((logName$: Observable<string>) => {
+    return logName$.pipe(
       tap(() => {
         this.resetState();
         this.setLoading(true);
