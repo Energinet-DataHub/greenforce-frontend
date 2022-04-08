@@ -20,11 +20,13 @@ limitations under the License.
 >
   <ng-container *rxLet="this.store.state$ as storeState">
     <!-- Validation -->
-    <watt-validation-message
-      type="danger"
-      *ngIf="storeState.validation"
-      [message]="storeState.validation.errorMessage"
-    ></watt-validation-message>
+    <ng-container *rxLet="this.validationError$ as validationError">
+      <watt-validation-message
+        type="danger"
+        *ngIf="validationError"
+        [message]="validationError.errorMessage"
+      ></watt-validation-message>
+    </ng-container>
 
     <!-- Header -->
     <ng-container *ngIf="!storeState.selection">
@@ -43,7 +45,6 @@ limitations under the License.
       <table
         mat-table
         [dataSource]="this.dataSource"
-        class="mat-elevation-z8"
         aria-label="organizations"
       >
         <!-- Organization Name -->

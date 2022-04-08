@@ -15,13 +15,7 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import {
-  AfterViewInit,
-  Component,
-  NgModule,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { Component, NgModule, OnInit, ViewChild } from '@angular/core';
 import {
   DhMarketParticipantOverviewDataAccessApiStore,
   OverviewRow,
@@ -51,9 +45,7 @@ import { DhMarketParticipantCreateOrganizationScam } from './create-organization
   templateUrl: './dh-market-participant-organization.component.html',
   providers: [DhMarketParticipantOverviewDataAccessApiStore],
 })
-export class DhMarketParticipantOrganizationComponent
-  implements AfterViewInit, OnInit
-{
+export class DhMarketParticipantOrganizationComponent implements OnInit {
   constructor(
     public store: DhMarketParticipantOverviewDataAccessApiStore,
     private translocoService: TranslocoService,
@@ -74,13 +66,14 @@ export class DhMarketParticipantOrganizationComponent
   readonly dataSource: MatTableDataSource<OverviewRow> =
     new MatTableDataSource<OverviewRow>();
 
+  selection$ = this.store.select((state) => state.selection);
+  overviewList$ = this.store.select((state) => state.overviewList);
+  validationError$ = this.store.select((state) => state.validation);
+
   ngOnInit() {
     this.setupPaginatorTranslation();
-  }
-
-  ngAfterViewInit() {
-    this.store.state$.subscribe((x) => {
-      this.dataSource.data = x.overviewList;
+    this.overviewList$.subscribe((rows) => {
+      this.dataSource.data = rows;
       this.dataSource.paginator = this.paginator;
     });
   }
