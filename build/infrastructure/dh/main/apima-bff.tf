@@ -25,7 +25,7 @@ module "apima_bff" {
   logger_sampling_percentage  = 100.0
   path                        = "bff"
   backend_service_url         = azurerm_app_service.bff.default_site_hostname
-  api_content_imports         = [
+  imports                     = [
     {
       content_format          = "openapi+json"
       content_value           = data.local_file.swagger_file.content
