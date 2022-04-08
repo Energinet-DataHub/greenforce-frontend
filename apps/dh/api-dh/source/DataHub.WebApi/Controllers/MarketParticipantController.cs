@@ -35,7 +35,7 @@ namespace Energinet.DataHub.WebApi.Controllers
         /// <summary>
         /// Retrieves all organizations with another endpoint
         /// </summary>
-        [HttpGet]
+        [HttpGet("orgs/")]
         public async Task<ActionResult<IEnumerable<OrganizationDto>>> GetAllOrganizationsAgainAsync()
         {
             return Ok(await _client.GetOrganizationsAsync().ConfigureAwait(false));
