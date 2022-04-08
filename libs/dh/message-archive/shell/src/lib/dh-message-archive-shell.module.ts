@@ -31,6 +31,6 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [DhMessageArchiveLogSearchScam, RouterModule.forChild(routes)],
+  imports: [RouterModule.forChild(routes), DhMessageArchiveLogSearchScam],
 })
 export class DhMessageArchiveShellModule {}
