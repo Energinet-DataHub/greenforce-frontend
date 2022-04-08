@@ -21,7 +21,7 @@ limitations under the License.
     <div class="wrapper">
       <!-- RSM -->
       <watt-form-field>
-        <watt-label>{{transloco("documenttype")}}</watt-label>
+        <watt-label>{{ transloco("documenttype") }}</watt-label>
         <watt-dropdown
           [(ngModel)]="this.searchCriteria.rsmName"
           [options]="rsmFormFieldOptions"
@@ -45,7 +45,7 @@ limitations under the License.
 
       <!-- Receiver -->
       <watt-form-field>
-        <watt-label>{{transloco("receiverId")}}</watt-label>
+        <watt-label>{{ transloco("receiverId") }}</watt-label>
         <input
           #searchInputReceiverId
           [(ngModel)]="this.searchCriteria.receiverId"
@@ -57,7 +57,7 @@ limitations under the License.
 
       <!-- MessageId -->
       <watt-form-field>
-        <watt-label>{{transloco("messageId")}}</watt-label>
+        <watt-label>{{ transloco("messageId") }}</watt-label>
         <input
           #searchInputMessageId
           [(ngModel)]="this.searchCriteria.messageId"
@@ -69,12 +69,13 @@ limitations under the License.
 
       <!-- ProcessType -->
       <watt-form-field>
-        <watt-label>{{transloco("businessReason")}}</watt-label>
+        <watt-label>{{ transloco("businessReason") }}</watt-label>
         <watt-dropdown
           name="processType"
           [(ngModel)]="this.searchCriteria.processType"
           [options]="processTypeFormFieldOptions"
-          [placeholder]="transloco('ChooseBusinessReason')">
+          [placeholder]="transloco('ChooseBusinessReason')"
+        >
         </watt-dropdown>
       </watt-form-field>
 
@@ -83,7 +84,9 @@ limitations under the License.
         #searchInputReferenceId
         [(ngModel)]="this.searchCriteria.includeRelated"
         wattInput
-        name="reference-id">{{ transloco("includeRelatedMessage") }}</watt-checkbox>
+        name="reference-id"
+        >{{ transloco("includeRelatedMessage") }}</watt-checkbox
+      >
 
       <!-- Date from -->
       <watt-form-field>
@@ -144,7 +147,9 @@ limitations under the License.
 
       <!-- Pager -->
       <div>
-        <watt-label class="watt-text-m">{{ transloco("page") }} {{ this.pageNumber }}</watt-label>
+        <watt-label class="watt-text-m"
+          >{{ transloco("page") }} {{ this.pageNumber }}</watt-label
+        >
         <watt-button
           [disabled]="(continuationToken$ | async) === null"
           type="button"
