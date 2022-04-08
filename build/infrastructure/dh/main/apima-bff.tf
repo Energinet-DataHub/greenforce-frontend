@@ -27,7 +27,7 @@ module "apima_bff" {
   backend_service_url         = azurerm_app_service.bff.default_site_hostname
   api_content_import          = {
     content_content_format  = "swagger-json"
-    content_value           = data.local_file.swagger_file.content
+    content_value           = data.local_file.swagger_file
   }
 }
 
