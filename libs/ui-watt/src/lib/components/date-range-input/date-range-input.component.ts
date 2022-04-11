@@ -32,7 +32,6 @@ import {
   distinctUntilChanged,
   fromEvent,
   map,
-  Observable,
   startWith,
   Subject,
   takeUntil,
