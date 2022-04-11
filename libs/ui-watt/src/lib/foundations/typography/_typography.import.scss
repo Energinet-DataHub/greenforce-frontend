@@ -14,46 +14,47 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@use 'sass:map';
+@use "sass:map";
 
-@use '../breakpoints/breakpoints.import' as breakpoints;
-@use '../../utils/rem' as utils;
+@use "../breakpoints/breakpoints.import" as breakpoints;
+@use "../../utils/rem" as utils;
 
-$primary-font-family: 'Open Sans', sans-serif;
+$primary-font-family: "Open Sans", sans-serif;
+$monospace-font-family: "Droid Sans Mono", monospace;
 
 $font-weights: (
-  'regular': 400,
-  'semi-bold': 600,
-  'bold': 700,
+  "regular": 400,
+  "semi-bold": 600,
+  "bold": 700,
 );
 
 $font-sizes: (
-  'xxl': (
-    'font-size': 32px,
-    'line-height': 42px,
+  "xxl": (
+    "font-size": 32px,
+    "line-height": 42px,
   ),
-  'xl': (
-    'font-size': 26px,
-    'line-height': 36px,
+  "xl": (
+    "font-size": 26px,
+    "line-height": 36px,
   ),
-  'l': (
-    'font-size': 20px,
-    'line-height': 28px,
+  "l": (
+    "font-size": 20px,
+    "line-height": 28px,
   ),
-  'm': (
-    'font-size': 16px,
-    'line-height': 24px,
+  "m": (
+    "font-size": 16px,
+    "line-height": 24px,
   ),
-  's': (
-    'font-size': 14px,
-    'line-height': 20px,
+  "s": (
+    "font-size": 14px,
+    "line-height": 20px,
   ),
 );
 
 @mixin font-size($size) {
   $sizes: map.get($font-sizes, $size);
-  font-size: utils.rem(map.get($sizes, 'font-size'));
-  line-height: utils.rem(map.get($sizes, 'line-height'));
+  font-size: utils.rem(map.get($sizes, "font-size"));
+  line-height: utils.rem(map.get($sizes, "line-height"));
 }
 
 @mixin font-weight($weight) {
@@ -62,111 +63,111 @@ $font-sizes: (
 
 @mixin watt-headline-1 {
   color: var(--watt-typography-headline-color);
-  @include font-size('xl');
-  @include font-weight('semi-bold');
+  @include font-size("xl");
+  @include font-weight("semi-bold");
   text-transform: none;
   letter-spacing: 0;
 
-  @include breakpoints.media('>=Large') {
-    @include font-size('xxl');
+  @include breakpoints.media(">=Large") {
+    @include font-size("xxl");
   }
 }
 
 @mixin watt-headline-2 {
   color: var(--watt-typography-headline-color);
-  @include font-size('l');
-  @include font-weight('semi-bold');
+  @include font-size("l");
+  @include font-weight("semi-bold");
   text-transform: none;
   letter-spacing: 0;
 
-  @include breakpoints.media('>=Large') {
-    @include font-size('xl');
+  @include breakpoints.media(">=Large") {
+    @include font-size("xl");
   }
 }
 
 @mixin watt-headline-3 {
   color: var(--watt-typography-headline-color);
-  @include font-size('m');
-  @include font-weight('semi-bold');
+  @include font-size("m");
+  @include font-weight("semi-bold");
   text-transform: none;
   letter-spacing: 0;
 }
 
 @mixin watt-headline-4 {
   color: var(--watt-typography-headline-color);
-  @include font-size('m');
-  @include font-weight('semi-bold');
+  @include font-size("m");
+  @include font-weight("semi-bold");
   text-transform: none;
   letter-spacing: 0;
 }
 
 @mixin watt-headline-5 {
   color: var(--watt-typography-headline-color);
-  @include font-size('m');
-  @include font-weight('semi-bold');
+  @include font-size("m");
+  @include font-weight("semi-bold");
   text-transform: none;
   letter-spacing: 0;
 }
 
 @mixin watt-text-s {
   color: var(--watt-typography-text-color);
-  @include font-size('s');
-  @include font-weight('regular');
+  @include font-size("s");
+  @include font-weight("regular");
   text-transform: none;
   letter-spacing: 0;
 }
 
 @mixin watt-text-m {
   color: var(--watt-typography-text-color);
-  @include font-size('m');
-  @include font-weight('regular');
+  @include font-size("m");
+  @include font-weight("regular");
   text-transform: none;
   letter-spacing: 0;
 }
 
 @mixin watt-text-l {
   color: var(--watt-typography-text-color);
-  @include font-size('l');
-  @include font-weight('regular');
+  @include font-size("l");
+  @include font-weight("regular");
   text-transform: none;
   letter-spacing: 0;
 }
 
 @mixin watt-text-s-highlighted {
   @include watt-text-s;
-  @include font-weight('bold');
+  @include font-weight("bold");
 }
 
 @mixin watt-text-m-highlighted {
   @include watt-text-m;
-  @include font-weight('bold');
+  @include font-weight("bold");
 }
 
 @mixin watt-text-l-highlighted {
   @include watt-text-l;
-  @include font-weight('bold');
+  @include font-weight("bold");
 }
 
 @mixin watt-button {
   color: var(--watt-typography-button-color);
-  @include font-size('m');
-  @include font-weight('semi-bold');
+  @include font-size("m");
+  @include font-weight("semi-bold");
   text-transform: none;
   letter-spacing: 0;
 }
 
 @mixin watt-label {
   color: var(--watt-typography-label-color);
-  @include font-size('s');
-  @include font-weight('semi-bold');
+  @include font-size("s");
+  @include font-weight("semi-bold");
   text-transform: uppercase;
   letter-spacing: 1.25px;
 }
 
 @mixin watt-link {
   color: var(--watt-typography-link-color);
-  @include font-size('m');
-  @include font-weight('regular');
+  @include font-size("m");
+  @include font-weight("regular");
   text-transform: none;
   letter-spacing: 0;
   text-decoration: underline;
@@ -175,5 +176,5 @@ $font-sizes: (
 
 @mixin watt-link-s {
   @include watt-link;
-  @include font-size('s');
+  @include font-size("s");
 }
