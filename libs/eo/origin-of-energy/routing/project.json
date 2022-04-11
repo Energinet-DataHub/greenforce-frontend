@@ -1,6 +1,6 @@
 {
   "projectType": "library",
-  "root": "libs/eo/origin-of-energy/routinx",
+  "root": "libs/eo/origin-of-energy/routing",
   "sourceRoot": "libs/eo/origin-of-energy/routing/src",
   "prefix": "eo",
   "targets": {
