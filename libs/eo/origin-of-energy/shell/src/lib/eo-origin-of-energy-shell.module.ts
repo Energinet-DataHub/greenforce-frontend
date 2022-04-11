@@ -17,20 +17,18 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {
-  DhMessageArchiveLogSearchBlobContentComponent,
-  DhMessageArchiveLogSearchComponent,
-  DhMessageArchiveLogSearchScam,
-} from '@energinet-datahub/dh/message-archive/feature-log-search';
+  EoOriginOfEnergyShellScam,
+  EoOriginOfEnergyShellComponent,
+} from './eo-origin-of-energy-shell.component';
 
 const routes: Routes = [
-  { path: '', component: DhMessageArchiveLogSearchComponent },
   {
-    path: ':logname',
-    component: DhMessageArchiveLogSearchBlobContentComponent,
+    path: '',
+    component: EoOriginOfEnergyShellComponent,
   },
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes), DhMessageArchiveLogSearchScam],
+  imports: [RouterModule.forChild(routes), EoOriginOfEnergyShellScam],
 })
-export class DhMessageArchiveShellModule {}
+export class EoOriginOfEnergyShellModule {}

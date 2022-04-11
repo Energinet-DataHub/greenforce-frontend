@@ -14,23 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import {
-  DhMessageArchiveLogSearchBlobContentComponent,
-  DhMessageArchiveLogSearchComponent,
-  DhMessageArchiveLogSearchScam,
-} from '@energinet-datahub/dh/message-archive/feature-log-search';
 
-const routes: Routes = [
-  { path: '', component: DhMessageArchiveLogSearchComponent },
-  {
-    path: ':logname',
-    component: DhMessageArchiveLogSearchBlobContentComponent,
-  },
-];
+import 'jest-preset-angular/setup-jest';
 
-@NgModule({
-  imports: [RouterModule.forChild(routes), DhMessageArchiveLogSearchScam],
-})
-export class DhMessageArchiveShellModule {}
+import { setUpTestbed } from '@energinet-datahub/gf/test-util-staging';
+
+setUpTestbed();

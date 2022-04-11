@@ -89,19 +89,19 @@ export class MessageArchiveHttp {
 
     /**
      * Download log content as stream
-     * @param blobName blob name
+     * @param logName log name
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public v1MessageArchiveDownloadRequestResponseLogContentGet(blobName?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<Stream>;
-    public v1MessageArchiveDownloadRequestResponseLogContentGet(blobName?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<Stream>>;
-    public v1MessageArchiveDownloadRequestResponseLogContentGet(blobName?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<Stream>>;
-    public v1MessageArchiveDownloadRequestResponseLogContentGet(blobName?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
+    public v1MessageArchiveDownloadRequestResponseLogContentGet(logName?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<Stream>;
+    public v1MessageArchiveDownloadRequestResponseLogContentGet(logName?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<Stream>>;
+    public v1MessageArchiveDownloadRequestResponseLogContentGet(logName?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<Stream>>;
+    public v1MessageArchiveDownloadRequestResponseLogContentGet(logName?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
-        if (blobName !== undefined && blobName !== null) {
+        if (logName !== undefined && logName !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>blobName, 'blobName');
+            <any>logName, 'logName');
         }
 
         let localVarHeaders = this.defaultHeaders;

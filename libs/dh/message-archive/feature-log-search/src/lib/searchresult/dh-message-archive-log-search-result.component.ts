@@ -26,6 +26,7 @@ import {
 import { LetModule } from '@rx-angular/template';
 import { MatTableModule } from '@angular/material/table';
 import { TranslocoModule } from '@ngneat/transloco';
+import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 
 import { MessageArchiveSearchResultItemDto } from '@energinet-datahub/dh/shared/domain';
 import {
@@ -55,7 +56,7 @@ export class DhMessageArchiveLogSearchResultComponent {
     'messageId',
     'rsmName',
     'sender',
-    'logcreateddate',
+    'createddate',
     'status',
     'logoptions',
   ];
@@ -84,6 +85,7 @@ export class DhMessageArchiveLogSearchResultComponent {
     WattEmptyStateModule,
     WattButtonModule,
     WattBadgeModule,
+    DhSharedUiDateTimeModule,
   ],
 })
 export class DhMessageArchiveLogSearchResultScam {}
