@@ -99,7 +99,7 @@ export class WattTimeRangeInputComponent
   /**
    * @ignore
    */
-  initialValue?: WattTimeRange;
+  initialValue: WattTimeRange | null = null;
 
   /**
    * @ignore
@@ -177,7 +177,7 @@ export class WattTimeRangeInputComponent
   /**
    * @ignore
    */
-  writeValue(timeRange: WattTimeRange): void {
+  writeValue(timeRange: WattTimeRange | null): void {
     if (!this.startTimeInput || !this.endTimeInput) {
       this.initialValue = timeRange;
       return;
@@ -185,12 +185,12 @@ export class WattTimeRangeInputComponent
 
     const inputEvent = new Event('input', { bubbles: true });
 
-    if (timeRange.start) {
+    if (timeRange?.start) {
       this.startTimeInput.nativeElement.value = timeRange.start;
       this.startTimeInput.nativeElement.dispatchEvent(inputEvent);
     }
 
-    if (timeRange.end) {
+    if (timeRange?.end) {
       this.endTimeInput.nativeElement.value = timeRange.end;
       this.endTimeInput.nativeElement.dispatchEvent(inputEvent);
     }
