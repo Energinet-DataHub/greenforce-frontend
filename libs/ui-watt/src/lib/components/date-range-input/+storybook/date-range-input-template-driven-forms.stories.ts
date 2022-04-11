@@ -38,7 +38,9 @@ export default {
   component: WattDateRangeInputComponent,
 } as Meta<WattDateRangeInputComponent>;
 
-export const templateDrivenForms: Story<WattDateRangeInputComponent> = (args) => ({
+export const templateDrivenForms: Story<WattDateRangeInputComponent> = (
+  args
+) => ({
   props: {
     ...args,
     dateRangeModel: {},
