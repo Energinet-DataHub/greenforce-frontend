@@ -8,7 +8,10 @@ import { fireEvent, render, screen } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
 
 import * as reactiveFormstories from './+storybook/date-range-input-reactive-forms.stories';
-import { WattDateRange, WattDateRangeInputComponent } from './date-range-input.component';
+import {
+  WattDateRange,
+  WattDateRangeInputComponent,
+} from './date-range-input.component';
 
 const { withFormControl } = composeStories(reactiveFormstories);
 const defaultOutput = 'Selected range: { "start": "", "end": "" }';
@@ -19,26 +22,33 @@ describe('Date range input - Reactive Forms', () => {
 
   async function setup(initialDateRange?: WattDateRange) {
     const { component, ngModule } = createMountableStoryComponent(
-      withFormControl({
-        exampleFormControl: initialDateRange ? new FormControl(initialDateRange) : new FormControl(),
-      } as Partial<WattDateRangeInputComponent>, {} as never)
+      withFormControl(
+        {
+          exampleFormControl: initialDateRange
+            ? new FormControl(initialDateRange)
+            : new FormControl(),
+        } as Partial<WattDateRangeInputComponent>,
+        {} as never
+      )
     );
-    const {fixture} = await render(component, { imports: [ngModule] });
+    const { fixture } = await render(component, { imports: [ngModule] });
 
-    const startDateInput: HTMLInputElement = screen.getByRole('textbox', { name: /start-date-input/i });
-    const endDateInput: HTMLInputElement = screen.getByRole('textbox', { name: /end-date-input/i });
+    const startDateInput: HTMLInputElement = screen.getByRole('textbox', {
+      name: /start-date-input/i,
+    });
+    const endDateInput: HTMLInputElement = screen.getByRole('textbox', {
+      name: /end-date-input/i,
+    });
 
     startDateInput.setSelectionRange(0, 0);
     endDateInput.setSelectionRange(0, 0);
 
-    return {startDateInput, endDateInput, fixture};
+    return { startDateInput, endDateInput, fixture };
   }
 
   it('should have empty start and end date, if no initial value is provided', async () => {
     await setup();
-    expect(
-      screen.getByText(defaultOutput)
-    ).toBeInTheDocument();
+    expect(screen.getByText(defaultOutput)).toBeInTheDocument();
   });
 
   it('should have initial start and end date, if initial value is provided', async () => {
@@ -55,9 +65,7 @@ describe('Date range input - Reactive Forms', () => {
   it('should clear incomplete start date', async () => {
     const { startDateInput } = await setup();
 
-    expect(
-      screen.getByText(defaultOutput)
-    ).toBeInTheDocument();
+    expect(screen.getByText(defaultOutput)).toBeInTheDocument();
 
     // Type start date
     startDateInput.setSelectionRange(0, 0);
@@ -70,9 +78,7 @@ describe('Date range input - Reactive Forms', () => {
   it('should clear incomplete end date', async () => {
     const { endDateInput } = await setup();
 
-    expect(
-      screen.getByText(defaultOutput)
-    ).toBeInTheDocument();
+    expect(screen.getByText(defaultOutput)).toBeInTheDocument();
 
     // Type start date
     endDateInput.setSelectionRange(0, 0);
@@ -89,29 +95,29 @@ describe('Date range input - Reactive Forms', () => {
     const lastOfExpectedDate = expectedDate.charAt(expectedDate.length - 1);
 
     startDateInput.setSelectionRange(0, 0);
-    expect(
-      screen.getByText(defaultOutput)
-    ).toBeInTheDocument();
+    expect(screen.getByText(defaultOutput)).toBeInTheDocument();
 
     // Type start date
     userEvent.type(startDateInput, expectedDateWithoutSeperators);
 
     expect(
-      screen.getByText(`Selected range: { "start": "${expectedDate}", "end": "" }`)
+      screen.getByText(
+        `Selected range: { "start": "${expectedDate}", "end": "" }`
+      )
     ).toBeInTheDocument();
 
     // Remove last character
     userEvent.type(startDateInput, '{backspace}');
 
-    expect(
-      screen.getByText(defaultOutput)
-    ).toBeInTheDocument();
+    expect(screen.getByText(defaultOutput)).toBeInTheDocument();
 
     // Type last character of start date back again
     userEvent.type(startDateInput, lastOfExpectedDate);
 
     expect(
-      screen.getByText(`Selected range: { "start": "${expectedDate}", "end": "" }`)
+      screen.getByText(
+        `Selected range: { "start": "${expectedDate}", "end": "" }`
+      )
     ).toBeInTheDocument();
   });
 
@@ -121,35 +127,35 @@ describe('Date range input - Reactive Forms', () => {
     const expectedDateWithoutSeperators = expectedDate.replace(/-/g, '');
     const lastOfExpectedDate = expectedDate.charAt(expectedDate.length - 1);
 
-    expect(
-      screen.getByText(defaultOutput)
-    ).toBeInTheDocument();
+    expect(screen.getByText(defaultOutput)).toBeInTheDocument();
 
     // Type start date
     userEvent.type(endDateInput, expectedDateWithoutSeperators);
 
     expect(
-      screen.getByText(`Selected range: { "start": "", "end": "${expectedDate}" }`)
+      screen.getByText(
+        `Selected range: { "start": "", "end": "${expectedDate}" }`
+      )
     ).toBeInTheDocument();
 
     // Remove last character
     userEvent.type(endDateInput, '{backspace}');
 
-    expect(
-      screen.getByText(defaultOutput)
-    ).toBeInTheDocument();
+    expect(screen.getByText(defaultOutput)).toBeInTheDocument();
 
     // Type last character of start date back again
     userEvent.type(endDateInput, lastOfExpectedDate);
 
     expect(
-      screen.getByText(`Selected range: { "start": "", "end": "${expectedDate}" }`)
+      screen.getByText(
+        `Selected range: { "start": "", "end": "${expectedDate}" }`
+      )
     ).toBeInTheDocument();
   });
 
   it('should be able to paste `yyyy-mm-dd` format into start date', async () => {
     const { startDateInput } = await setup();
-    const pastedDate = completeDate.split("").reverse().join("");
+    const pastedDate = completeDate.split('').reverse().join('');
     const expectedDate = completeDate;
 
     const clipboardEvent: ClipboardEventInit = new Event('paste', {
@@ -162,14 +168,17 @@ describe('Date range input - Reactive Forms', () => {
       getData: () => pastedDate,
     } as unknown as DataTransfer;
 
-    userEvent.paste(startDateInput, pastedDate, clipboardEvent, {initialSelectionStart: 0, initialSelectionEnd: 0});
+    userEvent.paste(startDateInput, pastedDate, clipboardEvent, {
+      initialSelectionStart: 0,
+      initialSelectionEnd: 0,
+    });
 
     expect(startDateInput).toHaveValue(expectedDate);
   });
 
   it('should be able to paste `yyyy-mm-dd` format into end date', async () => {
     const { endDateInput } = await setup();
-    const pastedDate = completeDate.split("").reverse().join("");
+    const pastedDate = completeDate.split('').reverse().join('');
     const expectedDate = completeDate;
 
     const clipboardEvent: ClipboardEventInit = new Event('paste', {
@@ -182,13 +191,16 @@ describe('Date range input - Reactive Forms', () => {
       getData: () => pastedDate,
     } as unknown as DataTransfer;
 
-    userEvent.paste(endDateInput, pastedDate, clipboardEvent, {initialSelectionStart: 0, initialSelectionEnd: 0});
+    userEvent.paste(endDateInput, pastedDate, clipboardEvent, {
+      initialSelectionStart: 0,
+      initialSelectionEnd: 0,
+    });
 
     expect(endDateInput).toHaveValue(expectedDate);
   });
 
   it('should jump to end date, when typing in start date, and start date is complete', async () => {
-    const {startDateInput, endDateInput } = await setup();
+    const { startDateInput, endDateInput } = await setup();
     const completeDateAndMore = completeDate.replace(/-/g, '') + '4';
 
     userEvent.type(startDateInput, completeDateAndMore);

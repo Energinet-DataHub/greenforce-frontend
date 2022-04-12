@@ -50,7 +50,7 @@ const template = `
 export const withFormControl: Story<WattDateRangeInputComponent> = (args) => ({
   props: {
     exampleFormControl: new FormControl(),
-    ...args
+    ...args,
   },
   template,
 });
@@ -81,8 +81,11 @@ withFormControl.argTypes = {
 
 export const withInitialValue: Story<WattDateRangeInputComponent> = (args) => ({
   props: {
-    exampleFormControl: new FormControl({start: '22-11-3333', end: '22-11-3333'}),
-    ...args
+    exampleFormControl: new FormControl({
+      start: '22-11-3333',
+      end: '22-11-3333',
+    }),
+    ...args,
   },
   template,
 });

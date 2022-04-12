@@ -1,21 +1,24 @@
-import { Injectable, Renderer2 } from "@angular/core";
+import { Injectable, Renderer2 } from '@angular/core';
 import Inputmask from 'inputmask';
-import { fromEvent, Subject, takeUntil } from "rxjs";
+import { fromEvent, Subject, takeUntil } from 'rxjs';
 
-import { WattColorHelperService } from "../../../foundations/color/color-helper.service";
-import { WattColor } from "../../../foundations/color/colors";
+import { WattColorHelperService } from '../../../foundations/color/color-helper.service';
+import { WattColor } from '../../../foundations/color/colors';
 
 @Injectable()
 export class WattInputMaskService {
   private destroy$: Subject<void> = new Subject();
 
-  constructor(private renderer: Renderer2,  private wattColorService: WattColorHelperService) {}
+  constructor(
+    private renderer: Renderer2,
+    private wattColorService: WattColorHelperService
+  ) {}
 
   mask(
     inputFormat: string,
     placeholder: string,
     element: HTMLInputElement,
-    onBeforePaste?: (value: string) => string,
+    onBeforePaste?: (value: string) => string
   ): Inputmask.Instance {
     const inputmask: Inputmask.Instance = new Inputmask('datetime', {
       inputFormat,
@@ -32,17 +35,16 @@ export class WattInputMaskService {
 
     this.setInputColor(element, inputmask);
 
-    fromEvent(element, 'input').pipe(takeUntil(this.destroy$)).subscribe(() => {
-      this.setInputColor(element, inputmask);
-    });
+    fromEvent(element, 'input')
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => {
+        this.setInputColor(element, inputmask);
+      });
 
     return inputmask;
   }
 
-  setInputColor(
-    inputElement: HTMLInputElement,
-    inputMask: Inputmask.Instance
-  ) {
+  setInputColor(inputElement: HTMLInputElement, inputMask: Inputmask.Instance) {
     const emptyMask = inputMask.getemptymask();
     const inputValue = inputElement.value;
 
