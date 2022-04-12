@@ -138,6 +138,9 @@ export class WattTimeRangeInputComponent
       'input'
     ).pipe(
       tap(() => this.setInputColor(startTimeInputElement, startTimeInputMask)),
+      tap((event) =>
+        this.jumpToEndTime(event, startTimeInputMask, endTimeInputElement)
+      ),
       map((event) => (event.target as HTMLInputElement).value)
     );
 
@@ -149,22 +152,40 @@ export class WattTimeRangeInputComponent
       map((event) => (event.target as HTMLInputElement).value)
     );
 
-    const startDateOnComplete$ = startTimeOnInput$.pipe(
+    const startTimeOnComplete$ = startTimeOnInput$.pipe(
       startWith(this.initialValue?.start ?? ''),
       map((value) => (startTimeInputMask.isComplete() ? value : ''))
     );
 
-    const endDateOnComplete$ = endTimeOnInput$.pipe(
+    const endTimeOnComplete$ = endTimeOnInput$.pipe(
       startWith(this.initialValue?.end ?? ''),
       map((value) => (endTimeInputMask.isComplete() ? value : ''))
     );
 
-    combineLatest([startDateOnComplete$, endDateOnComplete$])
-      .pipe(distinctUntilChanged(), takeUntil(this.destroy$))
+    combineLatest([startTimeOnComplete$, endTimeOnComplete$])
+      .pipe(
+        // Note: A custom comparator function is necessary
+        // because RxJS' built-in comparator function checks
+        // the current and previous values for strict equality.
+        // In our case this will always return `false` since RxJS
+        // emits arrays and arrays are strictly equal only by reference.
+        distinctUntilChanged(this.customComparator),
+        takeUntil(this.destroy$)
+      )
       .subscribe(([startTime, endTime]) => {
         this.markParentControlAsTouched();
         this.changeParentValue({ start: startTime, end: endTime });
       });
+  }
+
+  /**
+   * @ignore
+   */
+  customComparator(
+    [prevStartTime, prevEndTime]: [string, string],
+    [currStartTime, currEndTime]: [string, string]
+  ): boolean {
+    return prevStartTime === currStartTime && prevEndTime === currEndTime;
   }
 
   /**
@@ -251,6 +272,23 @@ export class WattTimeRangeInputComponent
     }).mask(element);
 
     return inputmask;
+  }
+
+  /**
+   * @ignore
+   */
+  private jumpToEndTime(
+    event: InputEvent,
+    inputmask: Inputmask.Instance,
+    endInputElement: HTMLInputElement
+  ) {
+    if (
+      inputmask.isComplete() &&
+      (event.target as HTMLInputElement).value.length ===
+        inputmask.getemptymask().length
+    ) {
+      endInputElement.focus();
+    }
   }
 
   /**
