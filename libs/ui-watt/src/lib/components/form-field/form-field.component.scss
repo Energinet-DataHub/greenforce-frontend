@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@use '@energinet-datahub/watt/utils' as watt;
+@use "@energinet-datahub/watt/utils" as watt;
 
 watt-form-field {
   display: block;
@@ -67,6 +67,17 @@ watt-form-field {
       display: flex;
       padding: 0;
       position: static;
+    }
+
+    &.mat-form-field-type-mat-date-range-input {
+      .mat-form-field-infix {
+        display: inline-block;
+        flex: none;
+      }
+
+      .mat-form-field-flex {
+        padding: 0 12px;
+      }
     }
 
     .mat-form-field-subscript-wrapper {
