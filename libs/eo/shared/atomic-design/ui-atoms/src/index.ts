@@ -18,6 +18,7 @@ export * from './lib/eo-product-logo/eo-product-logo.directive';
 export * from './lib/eo-scroll-view/eo-scroll-view.component';
 export * from './lib/eo-vimeo-player/eo-vimeo-player.component';
 export * from './lib/eo-inline-message/eo-inline-message.component';
+export * from './lib/eo-pie-chart/eo-pie-chart.component';
 
 // Media
 export * from './lib/eo-media/eo-media-align';
