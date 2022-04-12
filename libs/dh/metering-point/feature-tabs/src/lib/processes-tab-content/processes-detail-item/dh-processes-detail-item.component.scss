@@ -65,6 +65,13 @@
   .open-logfile-cell {
     flex: 0 1 calc(var(--cell-padding) * 2);
   }
+
+  .error-row {
+    flex: 0 1 calc(100% - var(--cell-padding) * 2);
+    dh-process-error-list {
+      width: 100%;
+    }
+  }
 }
 
 .date-icon {

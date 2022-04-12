@@ -17,19 +17,24 @@
 .denied-text {
   font-weight: bold;
   text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 p {
   color: var(--watt-color-state-danger);
+  margin: 0;
 }
 
 ul {
   list-style: none;
   padding: 0;
   margin: 0;
+  font-size: 0.9em;
 }
 
 li {
-  padding: var(--watt-space-xs);
+  padding: 0 var(--watt-space-s);
+  border-radius: 2px;
   background-color: var(--watt-color-state-danger-light);
+  margin-bottom: var(--watt-space-s);
 }

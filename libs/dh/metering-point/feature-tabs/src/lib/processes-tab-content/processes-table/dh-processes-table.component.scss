@@ -17,6 +17,7 @@
 
 :host {
   display: block;
+  --cell-padding: 24px;
 }
 
 mat-row {
@@ -78,4 +79,7 @@ mat-row {
 .has-details-errors-cell-header,
 .has-details-errors-cell {
   flex: 0 1 calc(var(--cell-padding) * 3);
+  div {
+    width: 100%;
+  }
 }

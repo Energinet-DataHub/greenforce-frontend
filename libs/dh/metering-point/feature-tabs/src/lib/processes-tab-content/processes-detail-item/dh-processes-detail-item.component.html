@@ -48,7 +48,7 @@ limitations under the License.
     <!--   class='open-in-new-icon'-->
     <!-- ></watt-icon>-->
   </div>
-  <div class="child-cell full-width" *ngIf="detail.errors.length > 0">
+  <div class="child-cell error-row" *ngIf="detail.errors.length > 0">
     <dh-process-error-list [errors]="detail.errors"></dh-process-error-list>
   </div>
 </div>
