@@ -7,12 +7,14 @@ describe('EoPieChartComponent', () => {
   let component: EoPieChartComponent;
   let fixture: ComponentFixture<EoPieChartComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [ EoPieChartComponent ],
-      imports: [ NgChartsModule ]
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [EoPieChartComponent],
+        imports: [NgChartsModule],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(EoPieChartComponent);
