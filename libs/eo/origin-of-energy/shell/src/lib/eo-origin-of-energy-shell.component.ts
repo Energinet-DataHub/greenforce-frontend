@@ -34,7 +34,9 @@ import { EoPieChartScam } from '@energinet-datahub/eo/shared/atomic-design/ui-at
       <mat-card style="max-width: 584px; width: 100%; margin-right: 32px;">
         <h3>Your share of renewable energy in 2021</h3>
         <p>Based on the hourly declaration</p>
-        <div style="width: 440px;position: relative; padding: 16px 0 0 56px">
+        <div
+          style="width: 440px; height: 440px; position: relative; margin: 16px 0 0 56px"
+        >
           <eo-pie-chart></eo-pie-chart>
         </div>
       </mat-card>
