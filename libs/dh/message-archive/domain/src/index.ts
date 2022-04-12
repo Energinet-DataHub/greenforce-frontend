@@ -14,6 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './lib/businessReasonCodes';
+export * from './lib/processTypes';
 export * from './lib/documentTypes';
 export * from './lib/roleTypes';

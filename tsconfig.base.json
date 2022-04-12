@@ -153,6 +153,12 @@
       "@energinet-datahub/eo/metering-points/shell": [
         "libs/eo/metering-points/shell/src/index.ts"
       ],
+      "@energinet-datahub/eo/origin-of-energy/routing": [
+        "libs/eo/origin-of-energy/routing/src/index.ts"
+      ],
+      "@energinet-datahub/eo/origin-of-energy/shell": [
+        "libs/eo/origin-of-energy/shell/src/index.ts"
+      ],
       "@energinet-datahub/eo/privacy-policy/routing": [
         "libs/eo/privacy-policy/routing/src/index.ts"
       ],
