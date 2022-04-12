@@ -14,12 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { EoMediaModule } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
-import { ChartConfiguration, ChartData, ChartType } from 'chart.js';
-import { NgChartsModule } from 'ng2-charts';
-
+import { EoPieChartScam } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'eo-origin-of-energy-shell',
@@ -29,30 +28,17 @@ import { NgChartsModule } from 'ng2-charts';
         display: block;
         max-width: 1040px;
       }
-
-      .eoGlobalGoals {
-        border: 1px solid #f9d557;
-        max-height: 100px;
-        max-width: 360px;
-        display: flex;
-      }
     `,
   ],
   template: `<div style="display:flex; margin-bottom: 32px;">
-      <mat-card style="height: 552px; width:584px; margin-right: 32px;">
+      <mat-card style="max-width: 584px; width: 100%; margin-right: 32px;">
         <h3>Your share of renewable energy in 2021</h3>
         <p>Based on the hourly declaration</p>
-        <div style="width: 440px;">
-          <canvas
-            baseChart
-            [data]="pieChartData"
-            [type]="pieChartType"
-            [options]="pieChartOptions"
-          >
-          </canvas>
+        <div style="width: 440px;position: relative; padding: 16px 0 0 56px">
+          <eo-pie-chart></eo-pie-chart>
         </div>
       </mat-card>
-      <div>
+      <div style="width: 360px;">
         <eo-media
           [eoMediaMaxWidthPixels]="360"
           style="margin-bottom: 32px; border: 1px solid #f9d557; max-height:100px"
@@ -129,35 +115,11 @@ import { NgChartsModule } from 'ng2-charts';
       </mat-card>
     </div>`,
 })
-export class EoOriginOfEnergyShellComponent {
-  public pieChartOptions: ChartConfiguration['options'] = {
-    responsive: true,
-    plugins: {
-      tooltip: { enabled: true },
-      legend: {
-        display: false,
-        position: 'chartArea',
-      },
-    },
-  };
-  public pieChartData: ChartData<'pie', number[], string | string[]> = {
-    labels: ['Renewable', 'Other'],
-    datasets: [
-      {
-        data: [81, 19],
-        backgroundColor: ['#7FB069', '#616161'],
-        hoverBackgroundColor: ['#7FB069', '#616161'],
-        rotation: 180,
-        borderWidth: 0,
-      },
-    ],
-  };
-  public pieChartType: ChartType = 'pie';
-}
+export class EoOriginOfEnergyShellComponent {}
 
 @NgModule({
   declarations: [EoOriginOfEnergyShellComponent],
   exports: [EoOriginOfEnergyShellComponent],
-  imports: [EoMediaModule, MatCardModule, NgChartsModule],
+  imports: [CommonModule, EoMediaModule, MatCardModule, EoPieChartScam],
 })
 export class EoOriginOfEnergyShellScam {}

@@ -14,39 +14,69 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, ViewChild } from '@angular/core';
+import { Component, NgModule } from '@angular/core';
 import { ChartConfiguration, ChartData, ChartType } from 'chart.js';
-import { BaseChartDirective } from 'ng2-charts';
+import { NgChartsModule } from 'ng2-charts';
+import DatalabelsPlugin from 'chartjs-plugin-datalabels';
 
 @Component({
   selector: 'eo-pie-chart',
+  template: `<canvas
+    baseChart
+    [data]="pieChartData"
+    [type]="pieChartType"
+    [options]="pieChartOptions"
+    [plugins]="pieChartPlugins"
+  >
+  </canvas>`,
   styles: [``],
-  template: `
-    <div class="content">
-      <ng-content></ng-content>
-    </div>
-  `,
 })
-export class PieChartComponent {
-  @ViewChild(BaseChartDirective) chart: BaseChartDirective | undefined;
-
-  // Pie
+export class EoPieChartComponent {
   public pieChartOptions: ChartConfiguration['options'] = {
     responsive: true,
+    animation: false,
     plugins: {
+      tooltip: { enabled: false },
       legend: {
-        display: true,
-        position: 'top',
+        display: false,
+      },
+      datalabels: {
+        textAlign: 'center',
+        color: ['black', 'white'],
+        font: {
+          family: 'Open Sans',
+          weight: 'bold',
+          size: 16,
+        },
+        formatter: (value, ctx) => {
+          if (ctx.chart.data.labels) {
+            return `${value}%\n${ctx.chart.data.labels[ctx.dataIndex]}`;
+          }
+          return '';
+        },
       },
     },
   };
+
   public pieChartData: ChartData<'pie', number[], string | string[]> = {
-    labels: [['Download', 'Sales'], ['In', 'Store', 'Sales'], 'Mail Sales'],
+    labels: ['Renewable', 'Other'],
     datasets: [
       {
-        data: [300, 500, 100],
+        rotation: 180,
+        data: [81, 19],
+        backgroundColor: ['#7FB069', '#616161'],
+        hoverBackgroundColor: ['#7FB069', '#616161'],
+        borderWidth: 0,
       },
     ],
   };
   public pieChartType: ChartType = 'pie';
+  public pieChartPlugins = [DatalabelsPlugin];
 }
+
+@NgModule({
+  declarations: [EoPieChartComponent],
+  exports: [EoPieChartComponent],
+  imports: [NgChartsModule],
+})
+export class EoPieChartScam {}

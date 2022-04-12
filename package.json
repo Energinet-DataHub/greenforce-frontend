@@ -71,6 +71,7 @@
     "@testing-library/user-event": "^13.5.0",
     "@vimeo/player": "^2.16.4",
     "chart.js": "^3.7.1",
+    "chartjs-plugin-datalabels": "^2.0.0",
     "date-fns": "^2.27.0",
     "date-fns-tz": "^1.2.2",
     "include-media": "^1.4.10",
