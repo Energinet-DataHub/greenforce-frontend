@@ -84,3 +84,11 @@ export const withInitialValue: Story<WattDateRangeInputComponent> = (args
   },
   template,
 });
+
+withInitialValue.parameters = {
+  docs: {
+    source: {
+      code: template,
+    },
+  },
+};
