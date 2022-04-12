@@ -163,11 +163,29 @@ export class WattTimeRangeInputComponent
     );
 
     combineLatest([startTimeOnComplete$, endTimeOnComplete$])
-      .pipe(distinctUntilChanged(), takeUntil(this.destroy$))
+      .pipe(
+        // Note: A custom comparator function is necessary
+        // because RxJS' built-in comparator function checks
+        // the current and previous values for strict equality.
+        // In our case this will always return `false` since RxJS
+        // emits arrays and arrays are strictly equal only by reference.
+        distinctUntilChanged(this.customComparator),
+        takeUntil(this.destroy$)
+      )
       .subscribe(([startTime, endTime]) => {
         this.markParentControlAsTouched();
         this.changeParentValue({ start: startTime, end: endTime });
       });
+  }
+
+  /**
+   * @ignore
+   */
+  customComparator(
+    [prevStartTime, prevEndTime]: [string, string],
+    [currStartTime, currEndTime]: [string, string]
+  ): boolean {
+    return prevStartTime === currStartTime && prevEndTime === currEndTime;
   }
 
   /**
