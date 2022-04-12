@@ -24,7 +24,7 @@ import { WattDateRangeInputComponent } from '../date-range-input.component';
 import { WattDateRangeInputModule } from '../date-range-input.module';
 
 export default {
-  title: 'Components/Date Input Range/Reactive Forms',
+  title: 'Components/Date-range Input/Reactive Forms',
   decorators: [
     moduleMetadata({
       imports: [
@@ -47,7 +47,7 @@ const template = `
 <p>Selected range: {{exampleFormControl.value | json}}</p>
 `;
 
-export const reactiveForms: Story<WattDateRangeInputComponent> = (args) => ({
+export const withFormControl: Story<WattDateRangeInputComponent> = (args) => ({
   props: {
     exampleFormControl: new FormControl(),
     ...args
@@ -55,7 +55,7 @@ export const reactiveForms: Story<WattDateRangeInputComponent> = (args) => ({
   template,
 });
 
-reactiveForms.parameters = {
+withFormControl.parameters = {
   docs: {
     source: {
       code: `
@@ -68,7 +68,7 @@ exampleFormControl = new FormControl();
   },
 };
 
-reactiveForms.argTypes = {
+withFormControl.argTypes = {
   min: {
     description:
       'Minimum value. This needs to be in the same format as the `dd-mm-yyyy`',
@@ -78,3 +78,11 @@ reactiveForms.argTypes = {
       'Maximum value. This needs to be in the same format as the `dd-mm-yyyy`',
   },
 };
+
+export const withInitialValue: Story<WattDateRangeInputComponent> = (args) => ({
+  props: {
+    exampleFormControl: new FormControl({start: '22-11-3333', end: '22-11-3333'}),
+    ...args
+  },
+  template,
+});
