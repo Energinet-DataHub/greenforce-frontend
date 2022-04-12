@@ -212,6 +212,9 @@ export class WattTimeRangeInputComponent
     this.markParentControlAsTouched = onTouchFn;
   }
 
+  /**
+   * @ignore
+   */
   setDisabledState(isDisabled: boolean): void {
     this.isDisabled = isDisabled;
     this.changeDetectorRef.detectChanges();
