@@ -138,6 +138,9 @@ export class WattTimeRangeInputComponent
       'input'
     ).pipe(
       tap(() => this.setInputColor(startTimeInputElement, startTimeInputMask)),
+      tap((event) =>
+        this.jumpToEndTime(event, startTimeInputMask, endTimeInputElement)
+      ),
       map((event) => (event.target as HTMLInputElement).value)
     );
 
@@ -251,6 +254,23 @@ export class WattTimeRangeInputComponent
     }).mask(element);
 
     return inputmask;
+  }
+
+  /**
+   * @ignore
+   */
+  private jumpToEndTime(
+    event: InputEvent,
+    inputmask: Inputmask.Instance,
+    endInputElement: HTMLInputElement
+  ) {
+    if (
+      inputmask.isComplete() &&
+      (event.target as HTMLInputElement).value.length ===
+        inputmask.getemptymask().length
+    ) {
+      endInputElement.focus();
+    }
   }
 
   /**
