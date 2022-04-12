@@ -10,7 +10,7 @@ import userEvent from '@testing-library/user-event';
 import * as reactiveFormstories from './+storybook/date-range-input-reactive-forms.stories';
 import { WattDateRange, WattDateRangeInputComponent } from './date-range-input.component';
 
-const { reactiveForms } = composeStories(reactiveFormstories);
+const { withFormControl } = composeStories(reactiveFormstories);
 const defaultOutput = 'Selected range: { "start": "", "end": "" }';
 
 describe('Date range input - Reactive Forms', () => {
@@ -19,7 +19,7 @@ describe('Date range input - Reactive Forms', () => {
 
   async function setup(initialDateRange?: WattDateRange) {
     const { component, ngModule } = createMountableStoryComponent(
-      reactiveForms({
+      withFormControl({
         exampleFormControl: initialDateRange ? new FormControl(initialDateRange) : new FormControl(),
       } as Partial<WattDateRangeInputComponent>, {} as never)
     );
