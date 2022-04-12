@@ -46,13 +46,12 @@ import { WattColor } from '../../foundations/color/colors';
 export type WattTimeRange = { start: string; end: string };
 
 /**
- * Note: The reason for using upper case `MM` is because
- * `Inputmask` package uses upper case `MM` for "minutes" and
+ * Note: `Inputmask` package uses upper case `MM` for "minutes" and
  * lower case `mm` for "months".
  * This is opposite of what most other date libraries do.
  */
 const hoursMinutesFormat = 'HH:MM';
-const hoursMinutesPlaceholder = 'HH:mm';
+const hoursMinutesPlaceholder = 'HH:MM';
 
 /**
  * Usage:
