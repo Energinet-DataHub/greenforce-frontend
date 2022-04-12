@@ -16,6 +16,7 @@
  */
 import {
   AfterViewInit,
+  ChangeDetectionStrategy,
   Component,
   ElementRef,
   Host,
@@ -45,6 +46,7 @@ export type WattDateRange = { start: string; end: string };
   styleUrls: ['./date-range-input.component.scss'],
   providers: [WattInputMaskService, WattRangeInputService],
   encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WattDateRangeInputComponent
   implements AfterViewInit, ControlValueAccessor
