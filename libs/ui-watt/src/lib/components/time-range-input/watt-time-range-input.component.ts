@@ -119,8 +119,10 @@ export class WattTimeRangeInputComponent
    * @ignore
    */
   ngAfterViewInit() {
-    const startTimeInputElement = this.startTimeInput.nativeElement;
-    const endTimeInputElement = this.endTimeInput.nativeElement;
+    const startTimeInputElement: HTMLInputElement =
+      this.startTimeInput.nativeElement;
+    const endTimeInputElement: HTMLInputElement =
+      this.endTimeInput.nativeElement;
 
     const startTimeInputMask = this.mask(startTimeInputElement);
     const endTimeInputMask = this.mask(endTimeInputElement);
