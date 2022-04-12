@@ -26,26 +26,77 @@ import { EoPieChartScam } from '@energinet-datahub/eo/shared/atomic-design/ui-at
     `
       :host {
         display: block;
-        max-width: 1040px;
+        max-width: 1040px; /* Magic UX number */
+      }
+
+      .chart-row {
+        display: flex;
+        margin-bottom: var(--watt-space-l);
+      }
+
+      .chart-card {
+        max-width: 584px; /* Magic UX number */
+        width: 100%;
+      }
+
+      .chart-box {
+        margin-top: var(--watt-space-m);
+        margin-right: calc(var(--watt-space-xl) - var(--watt-space-s));
+        margin-left: calc(var(--watt-space-xl) - var(--watt-space-s));
+      }
+
+      .chart-tips {
+        width: 360px; /* Magic UX number */
+        gap: var(--watt-space-l);
+        display: flex;
+        flex-direction: column;
+      }
+
+      .global-goals-box {
+        border: 1px solid #f9d557; /* Color not yet added to Watt */
+        max-height: 100px; /* Magic UX number */
+
+        p {
+          height: 98px; /* offset to make sure the box doesn't grow because of text*/
+        }
+      }
+
+      .tip-card {
+        background-color: var(--watt-color-primary-light);
+        border-radius: var(--watt-space-m);
+      }
+
+      .tip-card-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: var(--watt-space-m);
+        gap: calc(var(--watt-space-l) - var(--watt-space-s));
+      }
+
+      .description-row {
+        display: flex;
+        align-items: flex-start;
+      }
+
+      .description-card {
+        gap: var(--watt-space-m);
+        display: flex;
+        flex-direction: column;
+        flex: 1;
       }
     `,
   ],
-  template: `<div style="display:flex; margin-bottom: 32px;">
-      <mat-card style="max-width: 584px; width: 100%; margin-right: 32px;">
+  template: `<div class="chart-row">
+      <mat-card class="chart-card watt-space-inline-l">
         <h3>Your share of renewable energy in 2021</h3>
         <p>Based on the hourly declaration</p>
-        <div
-          style="width: 440px; height: 440px; position: relative; margin: 16px 0 0 56px"
-        >
+        <div class="chart-box">
           <eo-pie-chart></eo-pie-chart>
         </div>
       </mat-card>
-      <div style="width: 360px;">
-        <eo-media
-          [eoMediaMaxWidthPixels]="360"
-          style="margin-bottom: 32px; border: 1px solid #f9d557; max-height:100px"
-        >
-          <p class="watt-space-inset-m" style="max-height: 98px;">
+      <div class="chart-tips">
+        <eo-media [eoMediaMaxWidthPixels]="360" class="global-goals-box">
+          <p class="watt-space-inset-m">
             <strong>Global goals 7.2</strong><br />
             increase the share of renewable energy globally
           </p>
@@ -56,16 +107,14 @@ import { EoPieChartScam } from '@energinet-datahub/eo/shared/atomic-design/ui-at
             alt="Global goal 7.2"
           />
         </eo-media>
-        <mat-card
-          style="background-color: #b2d0d2; max-width: 360px; border-radius: 15px;"
-        >
-          <div style="display: flex; align-items: center; margin-bottom: 16px;">
+        <mat-card class="tip-card">
+          <div class="tip-card-header">
             <img
               width="70"
               src="/assets/icons/lightbulb.svg"
               alt="Global goal 7.2"
             />
-            <h1 style="padding-left: 24px;">Tip</h1>
+            <h1>Tip</h1>
           </div>
           <p>
             You can increase your share of renewable energy by shifting your
@@ -74,14 +123,13 @@ import { EoPieChartScam } from '@energinet-datahub/eo/shared/atomic-design/ui-at
         </mat-card>
       </div>
     </div>
-    <div style="display:flex; align-items: flex-start;">
-      <mat-card
-        style="margin-right: 32px; gap: 16px; display: flex; flex-direction: column; flex: 1;"
-      >
+    <div class="description-row">
+      <mat-card class="description-card watt-space-inline-l">
         <p><strong>Renewable energy</strong></p>
         <img
-          src="/assets/images/origin-of-energy/danish-ministry-of-climate-energy-and-utilities.svg"
           width="440"
+          src="/assets/images/origin-of-energy/danish-ministry-of-climate-energy-and-utilities.svg"
+          alt="Danish Ministry of Climate, Energy and Utilities logo"
         />
         <p>
           Renewable energy is a general term for bio-energy, onshore and
@@ -101,9 +149,7 @@ import { EoPieChartScam } from '@energinet-datahub/eo/shared/atomic-design/ui-at
           </a>
         </p>
       </mat-card>
-      <mat-card
-        style="display: flex; flex-direction: column; flex: 1; gap: 16px;"
-      >
+      <mat-card class="description-card">
         <p><strong>Hourly Declaration</strong></p>
         <p>
           The hourly declaration describes the origin of the energy you have
