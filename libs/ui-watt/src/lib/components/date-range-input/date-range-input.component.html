@@ -16,6 +16,7 @@ limitations under the License.
 -->
 <mat-date-range-input [disabled]="disabled">
   <input
+    aria-label="start-date-input"
     matStartDate
     #startDate
     [placeholder]="placeholder"
@@ -23,6 +24,7 @@ limitations under the License.
     spellcheck="false"
   />
   <input
+    aria-label="end-date-input"
     matEndDate
     #endDate
     [placeholder]="placeholder"

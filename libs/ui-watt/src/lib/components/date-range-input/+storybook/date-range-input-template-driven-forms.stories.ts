@@ -38,6 +38,15 @@ export default {
   component: WattDateRangeInputComponent,
 } as Meta<WattDateRangeInputComponent>;
 
+const template = `
+<watt-form-field>
+  <watt-label>Date range</watt-label>
+  <watt-date-range-input [(ngModel)]="dateRangeModel"></watt-date-range-input>
+</watt-form-field>
+
+<p>Selected range: {{dateRangeModel | json}}</p>
+`
+
 export const templateDrivenForms: Story<WattDateRangeInputComponent> = (
   args
 ) => ({
@@ -45,15 +54,16 @@ export const templateDrivenForms: Story<WattDateRangeInputComponent> = (
     ...args,
     dateRangeModel: {},
   },
-  template: `
-   <watt-form-field>
-    <watt-label>Date range</watt-label>
-    <watt-date-range-input [(ngModel)]="dateRangeModel"></watt-date-range-input>
-   </watt-form-field>
-
-   <p>Selected range: {{dateRangeModel | json}}</p>
-   `,
+  template,
 });
+
+templateDrivenForms.parameters = {
+  docs: {
+    source: {
+      code: template,
+    },
+  },
+};
 
 templateDrivenForms.argTypes = {
   min: {

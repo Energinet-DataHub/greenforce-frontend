@@ -22,26 +22,16 @@ import {
   Inject,
   Input,
   LOCALE_ID,
-  OnDestroy,
-  Renderer2,
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
-import {
-  combineLatest,
-  distinctUntilChanged,
-  fromEvent,
-  map,
-  startWith,
-  Subject,
-  takeUntil,
-  tap,
-} from 'rxjs';
 import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { FormatWidth, getLocaleDateFormat } from '@angular/common';
 import { MatDateRangeInput } from '@angular/material/datepicker';
-import Inputmask from 'inputmask';
+
+import { WattInputMaskService } from './input-mask.service';
+import { WattRangeInputService } from './range-input.service';
 
 export type WattDateRange = { start: string; end: string };
 
@@ -53,10 +43,11 @@ export type WattDateRange = { start: string; end: string };
   selector: 'watt-date-range-input',
   templateUrl: './date-range-input.component.html',
   styleUrls: ['./date-range-input.component.scss'],
+  providers: [WattInputMaskService, WattRangeInputService],
   encapsulation: ViewEncapsulation.None,
 })
 export class WattDateRangeInputComponent
-  implements AfterViewInit, OnDestroy, ControlValueAccessor
+  implements AfterViewInit, ControlValueAccessor
 {
   /**
    * @ignore
@@ -77,16 +68,17 @@ export class WattDateRangeInputComponent
   endDateInput!: ElementRef;
 
   @Input()
-  set disabled(value: BooleanInput) {
-    this.isDisabled = coerceBooleanProperty(value);
+  set disabled(value: boolean) {
+    this.isDisabled = coerceBooleanProperty(value as BooleanInput);
+  }
+
+  get disabled(): boolean {
+    return this.isDisabled;
   }
 
   /**
    * @ignore
    */
-  get disabled(): boolean {
-    return this.isDisabled;
-  }
   private isDisabled = false;
 
   @Input() min?: string;
@@ -105,17 +97,13 @@ export class WattDateRangeInputComponent
   /**
    * @ignore
    */
-  private destroy$: Subject<boolean> = new Subject<boolean>();
-
-  /**
-   * @ignore
-   */
   initialValue?: WattDateRange;
 
   constructor(
     @Inject(LOCALE_ID) private locale: string,
-    private renderer: Renderer2,
-    @Host() private parentControlDirective: NgControl
+    @Host() private parentControlDirective: NgControl,
+    private inputMaskService: WattInputMaskService,
+    private rangeInputService: WattRangeInputService
   ) {
     this.parentControlDirective.valueAccessor = this;
   }
@@ -124,62 +112,45 @@ export class WattDateRangeInputComponent
    * @ignore
    */
   ngAfterViewInit() {
-    const startDateInputElement = this.startDateInput.nativeElement;
-    const endDateInputElement = this.endDateInput.nativeElement;
-
-    const startDateInputMask = this.mask(startDateInputElement);
-    const endDateInputMask = this.mask(endDateInputElement);
-
     if (this.initialValue) {
       this.writeValue(this.initialValue);
     }
 
-    this.setInputColor(startDateInputElement, startDateInputMask);
-    this.setInputColor(endDateInputElement, startDateInputMask);
-
-    const startDateOnInput$ = fromEvent<InputEvent>(
+    // Setup input masks
+    const startDateInputElement = this.startDateInput.nativeElement;
+    const startDateInputMask = this.inputMaskService.mask(
+      this.inputFormat,
+      this.placeholder,
       startDateInputElement,
-      'input'
-    ).pipe(
-      tap(() => this.setInputColor(startDateInputElement, startDateInputMask)),
-      tap((event) =>
-        this.jumpToEndDate(event, startDateInputMask, endDateInputElement)
-      ),
-      map((event) => (event.target as HTMLInputElement).value)
+      this.onBeforePaste
     );
 
-    const endDateOnInput$ = fromEvent<InputEvent>(
+    const endDateInputElement = this.endDateInput.nativeElement;
+    const endDateInputMask = this.inputMaskService.mask(
+      this.inputFormat,
+      this.placeholder,
       endDateInputElement,
-      'input'
-    ).pipe(
-      tap(() => this.setInputColor(endDateInputElement, startDateInputMask)),
-      map((event) => (event.target as HTMLInputElement).value)
+      this.onBeforePaste
     );
 
-    const startDateOnComplete$ = startDateOnInput$.pipe(
-      startWith(this.initialValue?.start || ''),
-      map((val) => (startDateInputMask.isComplete() ? val : ''))
-    );
+    // Setup and subscribe for input changes
+    this.rangeInputService.init({
+      startInput: {
+        element: startDateInputElement,
+        initialValue: this.initialValue?.start,
+        mask: startDateInputMask,
+      },
+      endInput: {
+        element: endDateInputElement,
+        initialValue: this.initialValue?.end,
+        mask: endDateInputMask,
+      },
+    });
 
-    const endDateOnComplete$ = endDateOnInput$.pipe(
-      startWith(this.initialValue?.end || ''),
-      map((val) => (endDateInputMask.isComplete() ? val : ''))
-    );
-
-    combineLatest([startDateOnComplete$, endDateOnComplete$])
-      .pipe(distinctUntilChanged(), takeUntil(this.destroy$))
-      .subscribe(([start, end]) => {
-        this.markParentControlAsTouched();
-        this.changeParentValue({ start, end });
-      });
-  }
-
-  /**
-   * @ignore
-   */
-  ngOnDestroy() {
-    this.destroy$.next(true);
-    this.destroy$.unsubscribe();
+    this.rangeInputService.onChange$?.subscribe(([start, end]) => {
+      this.markParentControlAsTouched();
+      this.changeParentValue({ start: start as string, end: end as string });
+    });
   }
 
   /**
@@ -232,84 +203,6 @@ export class WattDateRangeInputComponent
   private markParentControlAsTouched = (): void => {
     // Intentionally left empty
   };
-
-  /**
-   * @ignore
-   */
-  private mask(element: HTMLInputElement): Inputmask.Instance {
-    const inputmask = new Inputmask('datetime', {
-      inputFormat: this.inputFormat,
-      placeholder: this.placeholder,
-      insertMode: false,
-      insertModeVisual: true,
-      clearMaskOnLostFocus: false,
-      onBeforePaste: this.onBeforePaste,
-      onincomplete: () => {
-        this.setInputColor(element, inputmask);
-      },
-      clearIncomplete: true,
-    }).mask(element);
-
-    return inputmask;
-  }
-
-  /**
-   * @ignore
-   */
-  private setInputColor(
-    inputElement: HTMLInputElement,
-    inputMask: Inputmask.Instance
-  ) {
-    const emptyMask = inputMask.getemptymask();
-    const val = inputElement.value;
-
-    const splittedEmptyMask = emptyMask.split('');
-    const splittedVal = val.split('');
-
-    const charWidth = 9;
-    const gradient = splittedEmptyMask.map((char, index) => {
-      const charHasChanged =
-        char !== splittedVal[index] && splittedVal[index] !== undefined;
-      const color = charHasChanged
-        ? 'var(--watt-color-neutral-black)'
-        : 'var(--watt-color-neutral-grey-500)';
-      const gradientStart =
-        index === 0 ? `${charWidth}px` : `${charWidth * index}px`;
-      const gradientEnd =
-        index === 0 ? `${charWidth}px` : `${charWidth * (index + 1)}px`;
-
-      if (index === 0) {
-        return `${color} ${gradientStart},`;
-      } else {
-        return `${color} ${gradientStart}, ${color} ${gradientEnd}${
-          index !== splittedEmptyMask.length - 1 ? ',' : ''
-        }`;
-      }
-    });
-
-    this.renderer.setStyle(
-      inputElement,
-      'background-image',
-      `linear-gradient(90deg, ${gradient.join('')})`
-    );
-  }
-
-  /**
-   * @ignore
-   */
-  private jumpToEndDate(
-    event: InputEvent,
-    inputmask: Inputmask.Instance,
-    endInputElement: HTMLInputElement
-  ) {
-    if (
-      inputmask.isComplete() &&
-      (event.target as HTMLInputElement).value.length ===
-        inputmask.getemptymask().length
-    ) {
-      endInputElement.focus();
-    }
-  }
 
   /**
    * @ignore

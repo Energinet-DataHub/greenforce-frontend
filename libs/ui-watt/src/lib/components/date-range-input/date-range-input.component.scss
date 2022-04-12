@@ -40,6 +40,11 @@ watt-date-range-input {
   .mat-date-range-input-end-wrapper {
     max-width: calc(50% - 9px);
     overflow: visible;
+    position: relative;
+  }
+
+  .mat-start-date.mat-date-range-input-inner {
+    width: 100%;
   }
 
   .mat-date-range-input-separator {

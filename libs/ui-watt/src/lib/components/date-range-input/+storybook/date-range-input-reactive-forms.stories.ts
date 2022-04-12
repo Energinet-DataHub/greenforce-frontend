@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Meta, moduleMetadata, Story } from '@storybook/angular';
 
@@ -28,7 +28,6 @@ export default {
   decorators: [
     moduleMetadata({
       imports: [
-        //FormsModule,
         ReactiveFormsModule,
         WattDateRangeInputModule,
         BrowserAnimationsModule,
@@ -37,22 +36,37 @@ export default {
     }),
   ],
   component: WattDateRangeInputComponent,
-} as Meta<WattDateRangeInputComponent>;
+} as Meta;
+
+const template = `
+<watt-form-field>
+  <watt-label>Date range</watt-label>
+  <watt-date-range-input [formControl]="exampleFormControl"></watt-date-range-input>
+</watt-form-field>
+
+<p>Selected range: {{exampleFormControl.value | json}}</p>
+`;
 
 export const reactiveForms: Story<WattDateRangeInputComponent> = (args) => ({
   props: {
-    ...args,
     exampleFormControl: new FormControl(),
+    ...args
   },
-  template: `
-   <watt-form-field>
-    <watt-label>Date range</watt-label>
-    <watt-date-range-input [formControl]="exampleFormControl"></watt-date-range-input>
-   </watt-form-field>
-
-   <p>Selected range: {{exampleFormControl.value | json}}</p>
-   `,
+  template,
 });
+
+reactiveForms.parameters = {
+  docs: {
+    source: {
+      code: `
+HTML
+${template}
+TS
+exampleFormControl = new FormControl();
+      `,
+    },
+  },
+};
 
 reactiveForms.argTypes = {
   min: {
