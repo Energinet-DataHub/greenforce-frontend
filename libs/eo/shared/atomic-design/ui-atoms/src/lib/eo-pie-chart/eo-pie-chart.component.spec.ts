@@ -14,31 +14,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-import { NgChartsModule } from 'ng2-charts';
+import { render, screen } from '@testing-library/angular';
+import { EoPieChartComponent, EoPieChartScam } from './eo-pie-chart.component';
 
-import { EoPieChartComponent } from './eo-pie-chart.component';
+describe(EoPieChartComponent.name, () => {
+  beforeEach(async () => {
+    await render('<eo-pie-chart role="piechart" ></eo-pie-chart>', {
+      imports: [EoPieChartScam],
+    });
 
-describe('EoPieChartComponent', () => {
-  let component: EoPieChartComponent;
-  let fixture: ComponentFixture<EoPieChartComponent>;
-
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [EoPieChartComponent],
-        imports: [NgChartsModule],
-      }).compileComponents();
-    })
-  );
-
-  beforeEach(() => {
-    fixture = TestBed.createComponent(EoPieChartComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    hostElement = screen.getByRole('piechart');
   });
 
-  it('should compile', () => {
-    expect(component).toBeTruthy();
+  let hostElement: HTMLCanvasElement;
+
+  it('renders the canvas', () => {
+    expect(hostElement).toBeVisible;
   });
 });
