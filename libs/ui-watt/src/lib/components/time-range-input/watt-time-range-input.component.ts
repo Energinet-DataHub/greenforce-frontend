@@ -149,17 +149,17 @@ export class WattTimeRangeInputComponent
       map((event) => (event.target as HTMLInputElement).value)
     );
 
-    const startDateOnComplete$ = startTimeOnInput$.pipe(
+    const startTimeOnComplete$ = startTimeOnInput$.pipe(
       startWith(this.initialValue?.start ?? ''),
       map((value) => (startTimeInputMask.isComplete() ? value : ''))
     );
 
-    const endDateOnComplete$ = endTimeOnInput$.pipe(
+    const endTimeOnComplete$ = endTimeOnInput$.pipe(
       startWith(this.initialValue?.end ?? ''),
       map((value) => (endTimeInputMask.isComplete() ? value : ''))
     );
 
-    combineLatest([startDateOnComplete$, endDateOnComplete$])
+    combineLatest([startTimeOnComplete$, endTimeOnComplete$])
       .pipe(distinctUntilChanged(), takeUntil(this.destroy$))
       .subscribe(([startTime, endTime]) => {
         this.markParentControlAsTouched();
