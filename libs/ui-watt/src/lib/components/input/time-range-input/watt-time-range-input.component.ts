@@ -40,8 +40,8 @@ import {
 import { MatDateRangeInput } from '@angular/material/datepicker';
 import Inputmask from 'inputmask';
 
-import { WattColorHelperService } from '../../foundations/color/color-helper.service';
-import { WattColor } from '../../foundations/color/colors';
+import { WattColorHelperService } from '../../../foundations/color/color-helper.service';
+import { WattColor } from '../../../foundations/color/colors';
 
 export type WattTimeRange = { start: string; end: string };
 

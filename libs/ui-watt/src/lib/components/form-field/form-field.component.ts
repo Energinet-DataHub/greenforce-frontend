@@ -28,10 +28,10 @@ import {
   MatFormFieldControl,
 } from '@angular/material/form-field';
 
-import { WattDateRangeInputComponent } from '../date-range-input/date-range-input.component';
+import { WattDateRangeInputComponent } from '../input/date-range-input/date-range-input.component';
 import { WattDropdownComponent } from '../dropdown/watt-dropdown.component';
 import { WattInputDirective } from '../input/input.directive';
-import { WattTimeRangeInputComponent } from '../time-range-input';
+import { WattTimeRangeInputComponent } from '../input/time-range-input';
 
 @Component({
   selector: 'watt-form-field',

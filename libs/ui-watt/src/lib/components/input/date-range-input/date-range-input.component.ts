@@ -30,8 +30,8 @@ import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { FormatWidth, getLocaleDateFormat } from '@angular/common';
 import { MatDateRangeInput } from '@angular/material/datepicker';
 
-import { WattInputMaskService } from './input-mask.service';
-import { WattRangeInputService } from './range-input.service';
+import { WattInputMaskService } from '../shared/input-mask.service';
+import { WattRangeInputService } from '../shared/range-input.service';
 
 export type WattDateRange = { start: string; end: string };
 

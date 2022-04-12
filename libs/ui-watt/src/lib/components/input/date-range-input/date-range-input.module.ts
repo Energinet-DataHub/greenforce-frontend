@@ -29,7 +29,7 @@ import { NgModule } from '@angular/core';
 import * as daLocale from 'date-fns/locale/da/index.js';
 
 import { WattDateRangeInputComponent } from './date-range-input.component';
-import { WattFormFieldModule } from '../form-field/form-field.module';
+import { WattFormFieldModule } from '../../form-field/form-field.module';
 
 @NgModule({
   imports: [MatDatepickerModule, MatDateFnsModule, WattFormFieldModule],
