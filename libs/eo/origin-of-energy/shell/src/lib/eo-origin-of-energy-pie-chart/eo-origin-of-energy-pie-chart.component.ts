@@ -38,6 +38,13 @@ import DatalabelsPlugin from 'chartjs-plugin-datalabels';
   ],
 })
 export class EoPieChartComponent {
+  private colorGreen = getComputedStyle(
+    document.documentElement
+  ).getPropertyValue('--watt-color-state-success');
+  private colorGrey = getComputedStyle(
+    document.documentElement
+  ).getPropertyValue('--watt-color-neutral-grey-700');
+
   public pieChartOptions: ChartConfiguration['options'] = {
     responsive: true,
     animation: false,
@@ -70,8 +77,8 @@ export class EoPieChartComponent {
       {
         rotation: 180,
         data: [81, 19],
-        backgroundColor: ['#7FB069', '#616161'],
-        hoverBackgroundColor: ['#7FB069', '#616161'],
+        backgroundColor: [this.colorGreen, this.colorGrey],
+        hoverBackgroundColor: [this.colorGreen, this.colorGrey],
         borderWidth: 0,
       },
     ],
