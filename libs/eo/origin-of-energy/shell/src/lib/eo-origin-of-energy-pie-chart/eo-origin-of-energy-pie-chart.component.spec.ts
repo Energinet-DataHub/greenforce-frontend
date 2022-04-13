@@ -56,6 +56,6 @@ describe(EoPieChartComponent.name, () => {
       context
     );
 
-    expect(output).toContain(`${value}%\n${label}`);
+    expect(output).toContain(`12%\n${label}`);
   });
 });
