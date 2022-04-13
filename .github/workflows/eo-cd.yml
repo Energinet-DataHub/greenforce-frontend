@@ -19,7 +19,6 @@ on:
     branches:
       - main
   pull_request: {}
-  workflow_dispatch: {}
 
 jobs:
   affected:
@@ -135,14 +134,16 @@ jobs:
     steps:
       - name: Get chart version
         id: get_semver
-        uses: Energinet-DataHub/.github/.github/actions/get-semver@main
+        # TODO: revert to `main` before merging PR #441
+        uses: Energinet-DataHub/.github/.github/actions/get-semver@eo/feat/244-support-renamed-version-file
         with:
           yaml_file: build/infrastructure/eo/chart/Chart.yaml
           yaml_path: version
 
       - name: Get container version
         id: get_container_version
-        uses: Energinet-DataHub/.github/.github/actions/get-semver@main
+        # TODO: revert to `main` before merging PR #441
+        uses: Energinet-DataHub/.github/.github/actions/get-semver@eo/feat/244-support-renamed-version-file
         with:
           yaml_file: build/infrastructure/eo/chart/values.yaml
           yaml_path: eo-base-helm-chart.deployments.app.image.tag
@@ -153,6 +154,7 @@ jobs:
     needs: affected
     uses: Energinet-DataHub/.github/.github/workflows/version-increment-check.yaml@main
     with:
+      base_yaml_file: infrastructure/eo/chart/values.yaml
       yaml_file: build/infrastructure/eo/chart/Chart.yaml
       yaml_path: version
 
