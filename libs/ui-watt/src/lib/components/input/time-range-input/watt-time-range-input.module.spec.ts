@@ -22,7 +22,7 @@ import userEvent from '@testing-library/user-event';
 
 import { WattTimeRange } from './watt-time-range-input.component';
 import { WattTimeRangeInputModule } from './watt-time-range-input.module';
-import { WattFormFieldModule } from '../form-field/form-field.module';
+import { WattFormFieldModule } from '../../form-field/form-field.module';
 
 const backspace = '{backspace}';
 
