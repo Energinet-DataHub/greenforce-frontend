@@ -50,3 +50,8 @@ data "azurerm_key_vault_secret" "frontend_service_app_id" {
   name         = "frontend-service-app-id"
   key_vault_id = data.azurerm_key_vault.kv_shared_resources.id
 }
+
+data "azurerm_key_vault_secret" "primary_action_group_id" {
+  name         = "ag-primary-id"
+  key_vault_id = data.azurerm_key_vault.kv_shared_resources.id
+}

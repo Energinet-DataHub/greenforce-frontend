@@ -18,7 +18,6 @@ resource "azurerm_app_service" "bff" {
   app_service_plan_id = module.plan_bff.id
 
   site_config {
-    linux_fx_version = "DOTNETCORE|6.0"
     dotnet_framework_version = "v6.0"
     cors {
       allowed_origins = ["*"]
@@ -47,22 +46,23 @@ resource "azurerm_app_service" "bff" {
 }
 
 module "plan_bff" {
-  source                = "git::https://github.com/Energinet-DataHub/geh-terraform-modules.git//azure/app-service-plan?ref=5.1.0"
+  source                         = "git::https://github.com/Energinet-DataHub/geh-terraform-modules.git//azure/app-service-plan?ref=5.11.0"
 
-  name                  = "bff"
-  project_name          = var.domain_name_short
-  environment_short     = var.environment_short
-  environment_instance  = var.environment_instance
-  location              = azurerm_resource_group.this.location
-  resource_group_name   = azurerm_resource_group.this.name
-  kind                  = "Linux"
-  reserved              = true
-  sku                   = {
+  name                           = "bff"
+  project_name                   = var.domain_name_short
+  environment_short              = var.environment_short
+  environment_instance           = var.environment_instance
+  resource_group_name            = azurerm_resource_group.this.name
+  location                       = azurerm_resource_group.this.location
+  kind                           = "Windows"
+  monitor_alerts_action_group_id = data.azurerm_key_vault_secret.primary_action_group_id.value
+
+  sku                            = {
     tier  = "Basic"
     size  = "B1"
   }
 
-  tags                = azurerm_resource_group.this.tags
+  tags                           = azurerm_resource_group.this.tags
 }
 
 module "kvs_app_bff_base_url" {
