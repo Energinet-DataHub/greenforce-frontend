@@ -32,7 +32,7 @@
 #     ApiClientSettings__MeteringPointBaseUrl     = data.azurerm_key_vault_secret.app_metering_point_webapi_base_url.value
 #     ApiClientSettings__ChargesBaseUrl           = data.azurerm_key_vault_secret.app_charges_webapi_base_url.value
 #     ApiClientSettings__MarketParticipantBaseUrl = data.azurerm_key_vault_secret.app_markpart_webapi_base_url.value
-#     APPINSIGHTS_INSTRUMENTATIONKEY              = data.azurerm_key_vault_secret.appi_instrumentation_key.value
+#     APPINSIGHTS_INSTRUMENTATIONKEY              = data.azurerm_key_vault_secret.appi_shared_instrumentation_key.value
 #     FRONTEND_OPEN_ID_URL                        = data.azurerm_key_vault_secret.frontend_open_id_url.value
 #     FRONTEND_SERVICE_APP_ID                     = data.azurerm_key_vault_secret.frontend_service_app_id.value
 #   }
@@ -88,7 +88,7 @@ module "bff_w" {
     ApiClientSettings__MeteringPointBaseUrl     = data.azurerm_key_vault_secret.app_metering_point_webapi_base_url.value
     ApiClientSettings__ChargesBaseUrl           = data.azurerm_key_vault_secret.app_charges_webapi_base_url.value
     ApiClientSettings__MarketParticipantBaseUrl = data.azurerm_key_vault_secret.app_markpart_webapi_base_url.value
-    APPINSIGHTS_INSTRUMENTATIONKEY              = data.azurerm_key_vault_secret.appi_instrumentation_key.value
+    APPINSIGHTS_INSTRUMENTATIONKEY              = data.azurerm_key_vault_secret.appi_shared_instrumentation_key.value
     FRONTEND_OPEN_ID_URL                        = data.azurerm_key_vault_secret.frontend_open_id_url.value
     FRONTEND_SERVICE_APP_ID                     = data.azurerm_key_vault_secret.frontend_service_app_id.value
   }
@@ -122,7 +122,7 @@ module "kvs_app_bff_base_url" {
   source        = "git::https://github.com/Energinet-DataHub/geh-terraform-modules.git//azure/key-vault-secret?ref=5.1.0"
 
   name          = "app-bff-base-url"
-  value         = "https://${azurerm_app_service.bff_w.default_site_hostname}"
+  value         = "https://${module.bff_w.default_site_hostname}"
   key_vault_id  = data.azurerm_key_vault.kv_shared_resources.id
 
   tags          = azurerm_resource_group.this.tags
