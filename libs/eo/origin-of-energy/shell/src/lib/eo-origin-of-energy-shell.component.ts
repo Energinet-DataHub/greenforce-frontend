@@ -38,12 +38,6 @@ import { EoPieChartScam } from '@energinet-datahub/eo/shared/atomic-design/ui-at
         width: 100%;
       }
 
-      .chart-box {
-        margin-top: var(--watt-space-m);
-        margin-right: calc(var(--watt-space-xl) - var(--watt-space-s));
-        margin-left: calc(var(--watt-space-xl) - var(--watt-space-s));
-      }
-
       .chart-tips {
         width: 360px; /* Magic UX number */
         gap: var(--watt-space-l);
@@ -115,7 +109,7 @@ import { EoPieChartScam } from '@energinet-datahub/eo/shared/atomic-design/ui-at
         <div class="coming-soon-overlay"></div>
         <h3>Your share of renewable energy in 2021</h3>
         <p>Based on the hourly declaration</p>
-        <div class="chart-box">
+        <div class="watt-space-inset-squish-l">
           <eo-pie-chart></eo-pie-chart>
         </div>
       </mat-card>
