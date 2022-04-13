@@ -56,16 +56,15 @@ jobs:
       TERRAFORM_WORKING_DIR_PATH: 'build/infrastructure/dh/main'
       TERRAFORM_VERSION: '1.1.2'
 
-  # TODO: Enable when done testing infrastructure
-  # sonarcloud_analysis:
-  #   uses: Energinet-DataHub/.github/.github/workflows/sonarcloud-dotnet.yml@6.1.0
-  #   with:
-  #     SOLUTION_FILE_PATH: 'apps/dh/api-dh/DataHub.WebApi.sln'
-  #     DOTNET_VERSION: '6.0.201'
-  #     SONAR_CLOUD_ORGANIZATION: 'energinet-datahub'
-  #     SONAR_CLOUD_PROJECT: 'geh-frontend-api'
-  #   secrets:
-  #     SONAR_CLOUD_TOKEN: ${{ secrets.SONAR_TOKEN }}
+  sonarcloud_analysis:
+    uses: Energinet-DataHub/.github/.github/workflows/sonarcloud-dotnet.yml@6.1.0
+    with:
+      SOLUTION_FILE_PATH: 'apps/dh/api-dh/DataHub.WebApi.sln'
+      DOTNET_VERSION: '6.0.201'
+      SONAR_CLOUD_ORGANIZATION: 'energinet-datahub'
+      SONAR_CLOUD_PROJECT: 'geh-frontend-api'
+    secrets:
+      SONAR_CLOUD_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
   bff_ci:
     needs: [dotnet_solution_ci, terraform_validate, sonarcloud_analysis]
