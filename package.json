@@ -147,6 +147,10 @@
     "ts-node": "9.1.1",
     "typescript": "4.4.4"
   },
+  "resolutions": {
+    "//caniuse-lite-comment": "tmp fix, until we update nx to latest version: https://github.com/nrwl/nx/issues/8768",
+    "caniuse-lite": "1.0.30001303"
+  },
   "volta": {
     "//node-comment": "Keep this in sync with engines in current package.json",
     "node": "14.19.1",
