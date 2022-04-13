@@ -17,12 +17,13 @@
 import { Component, NgModule } from '@angular/core';
 import { ChartConfiguration, ChartData, ChartType } from 'chart.js';
 import { NgChartsModule } from 'ng2-charts';
-import DatalabelsPlugin from 'chartjs-plugin-datalabels';
+import DatalabelsPlugin, { Context } from 'chartjs-plugin-datalabels';
 
 @Component({
   selector: 'eo-pie-chart',
   template: `<canvas
     baseChart
+    data-testid="pie-chart"
     [data]="pieChartData"
     [type]="pieChartType"
     [options]="pieChartOptions"
@@ -38,12 +39,15 @@ import DatalabelsPlugin from 'chartjs-plugin-datalabels';
   ],
 })
 export class EoPieChartComponent {
-  private colorGreen = getComputedStyle(
-    document.documentElement
-  ).getPropertyValue('--watt-color-state-success');
-  private colorGrey = getComputedStyle(
-    document.documentElement
-  ).getPropertyValue('--watt-color-neutral-grey-700');
+  #colorGreen = getComputedStyle(document.documentElement).getPropertyValue(
+    '--watt-color-state-success'
+  );
+  #colorGrey = getComputedStyle(document.documentElement).getPropertyValue(
+    '--watt-color-neutral-grey-700'
+  );
+  #wattPrimaryFontFamily = 'Open Sans';
+  #wattTextNormalFontWeight = 700;
+  #wattTextNormalSize = 16;
 
   public pieChartOptions: ChartConfiguration['options'] = {
     responsive: true,
@@ -57,11 +61,11 @@ export class EoPieChartComponent {
         textAlign: 'center',
         color: ['black', 'white'],
         font: {
-          family: 'Open Sans',
-          weight: 'bold',
-          size: 16,
+          family: this.#wattPrimaryFontFamily,
+          weight: this.#wattTextNormalFontWeight,
+          size: this.#wattTextNormalSize,
         },
-        formatter: (value, ctx) => {
+        formatter: (value: number | string, ctx: Context) => {
           if (ctx.chart.data.labels) {
             return `${value}%\n${ctx.chart.data.labels[ctx.dataIndex]}`;
           }
@@ -77,8 +81,8 @@ export class EoPieChartComponent {
       {
         rotation: 180,
         data: [81, 19],
-        backgroundColor: [this.colorGreen, this.colorGrey],
-        hoverBackgroundColor: [this.colorGreen, this.colorGrey],
+        backgroundColor: [this.#colorGreen, this.#colorGrey],
+        hoverBackgroundColor: [this.#colorGreen, this.#colorGrey],
         borderWidth: 0,
       },
     ],

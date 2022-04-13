@@ -14,24 +14,48 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { render, screen } from '@testing-library/angular';
+import { Context } from 'chartjs-plugin-datalabels';
 import {
   EoPieChartComponent,
   EoPieChartScam,
 } from './eo-origin-of-energy-pie-chart.component';
 
+let component: EoPieChartComponent;
+let fixture: ComponentFixture<EoPieChartComponent>;
+
 describe(EoPieChartComponent.name, () => {
   beforeEach(async () => {
-    await render('<eo-pie-chart role="piechart" ></eo-pie-chart>', {
+    TestBed.configureTestingModule({
       imports: [EoPieChartScam],
     });
 
-    hostElement = screen.getByRole('piechart');
+    fixture = TestBed.createComponent(EoPieChartComponent);
+    component = fixture.componentInstance;
   });
 
-  let hostElement: HTMLCanvasElement;
+  it('renders the canvas', async () => {
+    render('<eo-pie-chart></eo-pie-chart>', {
+      imports: [EoPieChartScam],
+    });
 
-  it('renders the canvas', () => {
-    expect(hostElement).toBeVisible;
+    expect(await screen.findByTestId('pie-chart')).toBeVisible;
+  });
+
+  it('formats the labels', () => {
+    const value = '12';
+    const label = 'this is a test label';
+    const context = {
+      chart: { data: { labels: [label] } },
+      dataIndex: 0,
+    } as Context;
+
+    const output = component?.pieChartOptions?.plugins?.datalabels?.formatter?.(
+      value,
+      context
+    );
+
+    expect(output).toContain(`${value}%\n${label}`);
   });
 });
