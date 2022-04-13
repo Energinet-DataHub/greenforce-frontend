@@ -154,7 +154,7 @@ jobs:
     needs: affected
     uses: Energinet-DataHub/.github/.github/workflows/version-increment-check.yaml@main
     with:
-      base_yaml_file: infrastructure/eo/chart/values.yaml
+      base_yaml_file: infrastructure/eo/chart/Chart.yaml
       yaml_file: build/infrastructure/eo/chart/Chart.yaml
       yaml_path: version
 
@@ -173,6 +173,7 @@ jobs:
     needs:
       - define_build
       - app
+    # TODO: revert to `main` before merging PR #441
     uses: Energinet-DataHub/.github/.github/workflows/build-containers-and-release-chart.yaml@eo/feat/244-support-renamed-version-file
     with:
       helm_repository: ${{ github.repository_owner }}/helm-charts
