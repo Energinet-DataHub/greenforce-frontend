@@ -15,7 +15,10 @@
  * limitations under the License.
  */
 import { render, screen } from '@testing-library/angular';
-import { EoPieChartComponent, EoPieChartScam } from './eo-pie-chart.component';
+import {
+  EoPieChartComponent,
+  EoPieChartScam,
+} from './eo-origin-of-energy-pie-chart.component';
 
 describe(EoPieChartComponent.name, () => {
   beforeEach(async () => {

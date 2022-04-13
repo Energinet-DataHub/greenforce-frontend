@@ -29,7 +29,13 @@ import DatalabelsPlugin from 'chartjs-plugin-datalabels';
     [plugins]="pieChartPlugins"
   >
   </canvas>`,
-  styles: [``],
+  styles: [
+    `
+      :host {
+        display: block;
+      }
+    `,
+  ],
 })
 export class EoPieChartComponent {
   public pieChartOptions: ChartConfiguration['options'] = {
