@@ -84,16 +84,39 @@ import { EoPieChartScam } from '@energinet-datahub/eo/shared/atomic-design/ui-at
         flex-direction: column;
         flex: 1;
       }
+
+      .coming-soon-overlay {
+        background-color: rgba(196, 196, 196, 0.7);
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        border-radius: var(--watt-space-xs);
+
+        &::before {
+          content: 'Coming soon';
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 100%;
+          color: #d12923; /* Magic UX color */
+          font-weight: bold;
+          font-size: 60px;
+        }
+      }
     `,
   ],
   template: `<div class="chart-row">
       <mat-card class="chart-card watt-space-inline-l">
+        <!-- <div class="coming-soon-overlay"></div> -->
         <h3>Your share of renewable energy in 2021</h3>
         <p>Based on the hourly declaration</p>
         <div class="chart-box">
           <eo-pie-chart></eo-pie-chart>
         </div>
       </mat-card>
+
       <div class="chart-tips">
         <eo-media [eoMediaMaxWidthPixels]="360" class="global-goals-box">
           <p class="watt-space-inset-m">
