@@ -15,7 +15,7 @@ resource "azurerm_app_service" "bff" {
   name                = "app-bff-${lower(var.domain_name_short)}-${lower(var.environment_short)}-${lower(var.environment_instance)}"
   location            = azurerm_resource_group.this.location
   resource_group_name = azurerm_resource_group.this.name
-  app_service_plan_id = module.plan_bff.id
+  app_service_plan_id = module.plan_bff_w.id
 
   site_config {
     dotnet_framework_version = "v6.0"
@@ -45,7 +45,28 @@ resource "azurerm_app_service" "bff" {
   }
 }
 
+# TODO: Delete in next PR
 module "plan_bff" {
+  source                = "git::https://github.com/Energinet-DataHub/geh-terraform-modules.git//azure/app-service-plan?ref=5.1.0"
+
+  name                  = "bff"
+  project_name          = var.domain_name_short
+  environment_short     = var.environment_short
+  environment_instance  = var.environment_instance
+  location              = azurerm_resource_group.this.location
+  resource_group_name   = azurerm_resource_group.this.name
+  kind                  = "Linux"
+  reserved              = true
+  sku                   = {
+    tier  = "Basic"
+    size  = "B1"
+  }
+
+  tags                = azurerm_resource_group.this.tags
+}
+
+# TODO: Change name back to "plan_bff" in next PR
+module "plan_bff_w" {
   source                         = "git::https://github.com/Energinet-DataHub/geh-terraform-modules.git//azure/app-service-plan?ref=5.11.0"
 
   # TODO: Change name back to "bff" in next PR
