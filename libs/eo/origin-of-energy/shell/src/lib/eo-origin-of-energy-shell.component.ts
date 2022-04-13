@@ -53,15 +53,11 @@ import { EoPieChartScam } from '@energinet-datahub/eo/shared/atomic-design/ui-at
 
       .global-goals-box {
         border: 1px solid #f9d557; /* Color not yet added to Watt */
-        max-height: 100px; /* Magic UX number */
-
-        p {
-          height: 98px; /* offset to make sure the box doesn't grow because of text*/
-        }
+        max-height: 106px; /* Magic UX number that makes the box fit the text and margin */
       }
 
       .lightbulb-icon {
-        width: 70px;
+        width: 70px; /* Magic UX image size*/
       }
 
       .tip-card {
@@ -89,7 +85,7 @@ import { EoPieChartScam } from '@energinet-datahub/eo/shared/atomic-design/ui-at
       }
 
       .ministry-logo {
-        width: 440px;
+        width: 440px; /* Magic UX image size*/
       }
 
       .coming-soon-overlay {
@@ -132,7 +128,7 @@ import { EoPieChartScam } from '@energinet-datahub/eo/shared/atomic-design/ui-at
           </p>
           <img
             eoMediaImage
-            [eoMediaImageMaxWidthPixels]="100"
+            [eoMediaImageMaxWidthPixels]="106"
             src="/assets/images/origin-of-energy/globalgoal-7.2.svg"
             alt="Global goal 7.2"
           />
