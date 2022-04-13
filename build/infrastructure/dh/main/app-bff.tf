@@ -15,10 +15,9 @@ resource "azurerm_app_service" "bff" {
   name                = "app-bff-${lower(var.domain_name_short)}-${lower(var.environment_short)}-${lower(var.environment_instance)}"
   location            = azurerm_resource_group.this.location
   resource_group_name = azurerm_resource_group.this.name
-  app_service_plan_id = module.plan_bff.id
+  app_service_plan_id = module.plan_bff_w.id
 
   site_config {
-    linux_fx_version = "DOTNETCORE|6.0"
     dotnet_framework_version = "v6.0"
     cors {
       allowed_origins = ["*"]
