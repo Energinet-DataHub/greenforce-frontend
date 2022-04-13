@@ -14,18 +14,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { EoOriginOfEnergyShellComponent } from './eo-origin-of-energy-shell.component';
+import { render, screen } from '@testing-library/angular';
+import {
+  EoPieChartComponent,
+  EoPieChartScam,
+} from './eo-origin-of-energy-pie-chart.component';
 
-const routes: Routes = [
-  {
-    path: '',
-    component: EoOriginOfEnergyShellComponent,
-  },
-];
+describe(EoPieChartComponent.name, () => {
+  beforeEach(async () => {
+    await render('<eo-pie-chart role="piechart" ></eo-pie-chart>', {
+      imports: [EoPieChartScam],
+    });
 
-@NgModule({
-  imports: [RouterModule.forChild(routes)],
-})
-export class EoOriginOfEnergyShellModule {}
+    hostElement = screen.getByRole('piechart');
+  });
+
+  let hostElement: HTMLCanvasElement;
+
+  it('renders the canvas', () => {
+    expect(hostElement).toBeVisible;
+  });
+});
