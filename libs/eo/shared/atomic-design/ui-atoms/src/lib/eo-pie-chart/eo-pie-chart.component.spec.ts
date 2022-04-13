@@ -14,12 +14,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './lib/eo-product-logo/eo-product-logo.directive';
-export * from './lib/eo-scroll-view/eo-scroll-view.component';
-export * from './lib/eo-vimeo-player/eo-vimeo-player.component';
-export * from './lib/eo-inline-message/eo-inline-message.component';
-export * from './lib/eo-pie-chart/eo-pie-chart.component';
+import { render, screen } from '@testing-library/angular';
+import { EoPieChartComponent, EoPieChartScam } from './eo-pie-chart.component';
 
-// Media
-export * from './lib/eo-media/eo-media-align';
-export * from './lib/eo-media/eo-media.module';
+describe(EoPieChartComponent.name, () => {
+  beforeEach(async () => {
+    await render('<eo-pie-chart role="piechart" ></eo-pie-chart>', {
+      imports: [EoPieChartScam],
+    });
+
+    hostElement = screen.getByRole('piechart');
+  });
+
+  let hostElement: HTMLCanvasElement;
+
+  it('renders the canvas', () => {
+    expect(hostElement).toBeVisible;
+  });
+});
