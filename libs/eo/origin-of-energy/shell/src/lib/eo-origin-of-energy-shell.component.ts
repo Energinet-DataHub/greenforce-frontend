@@ -61,6 +61,10 @@ import { EoPieChartScam } from '@energinet-datahub/eo/shared/atomic-design/ui-at
         }
       }
 
+      .lightbulb-icon {
+        width: 70px;
+      }
+
       .tip-card {
         background-color: var(--watt-color-primary-light);
         border-radius: var(--watt-space-m);
@@ -109,7 +113,7 @@ import { EoPieChartScam } from '@energinet-datahub/eo/shared/atomic-design/ui-at
   ],
   template: `<div class="chart-row">
       <mat-card class="chart-card watt-space-inline-l">
-        <!-- <div class="coming-soon-overlay"></div> -->
+        <div class="coming-soon-overlay"></div>
         <h3>Your share of renewable energy in 2021</h3>
         <p>Based on the hourly declaration</p>
         <div class="chart-box">
@@ -133,7 +137,7 @@ import { EoPieChartScam } from '@energinet-datahub/eo/shared/atomic-design/ui-at
         <mat-card class="tip-card">
           <div class="tip-card-header">
             <img
-              width="70"
+              class="lightbulb-icon"
               src="/assets/icons/lightbulb.svg"
               alt="Global goal 7.2"
             />
