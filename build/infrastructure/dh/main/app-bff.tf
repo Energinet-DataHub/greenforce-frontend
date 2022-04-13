@@ -48,7 +48,8 @@ resource "azurerm_app_service" "bff" {
 module "plan_bff" {
   source                         = "git::https://github.com/Energinet-DataHub/geh-terraform-modules.git//azure/app-service-plan?ref=5.11.0"
 
-  name                           = "bff"
+  # TODO: Change name back to "bff" in next PR
+  name                           = "bff-w"
   project_name                   = var.domain_name_short
   environment_short              = var.environment_short
   environment_instance           = var.environment_instance
