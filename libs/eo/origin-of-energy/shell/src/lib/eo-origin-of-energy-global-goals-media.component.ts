@@ -38,7 +38,7 @@ import { EoMediaModule } from '@energinet-datahub/eo/shared/atomic-design/ui-ato
       }
 
       .global-goals-box {
-        border: 1px solid var(--watt-color-state-warning);
+        border: 1px solid #f9d557;
         max-height: 106px; /* Magic UX number that makes the box fit the text and margin */
       }
     `,
