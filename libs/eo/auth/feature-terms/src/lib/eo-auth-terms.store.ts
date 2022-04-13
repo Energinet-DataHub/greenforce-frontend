@@ -26,7 +26,7 @@ import {
   Observable,
   take,
 } from 'rxjs';
-import { AuthHttp } from '@energinet-datahub/ett/auth/data-access-api';
+import { AuthHttp } from '@energinet-datahub/eo/auth/data-access-api';
 import { browserLocationToken } from './browser-location.token';
 
 interface EoAuthTermsState {

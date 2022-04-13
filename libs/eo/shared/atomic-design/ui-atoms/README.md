@@ -1,4 +1,4 @@
-# EnergyOrigin atomic design atoms
+# Energy Origin atomic design atoms
 
 ## Media atom
 

@@ -1,1 +1,1 @@
-# EnergyOrigin atomic design molecules
+# Energy Origin atomic design molecules

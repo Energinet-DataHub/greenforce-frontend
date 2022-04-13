@@ -17,7 +17,7 @@
 import { Injectable } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { Observable } from 'rxjs';
-import { AuthHttp } from '@energinet-datahub/ett/auth/data-access-api';
+import { AuthHttp } from '@energinet-datahub/eo/auth/data-access-api';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface EoPrivacyPolicyState {}

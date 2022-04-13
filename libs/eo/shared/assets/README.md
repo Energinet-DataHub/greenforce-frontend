@@ -1,1 +1,1 @@
-# EnergyOrigin assets
+# Energy Origin shared assets

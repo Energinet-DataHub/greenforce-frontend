@@ -220,4 +220,4 @@ jobs:
       - name: Upload package to blob
         shell: bash
         run: |
-          az storage blob upload-batch --account-name stordesignendku -d '$web' -s drop/.
+          az storage blob upload-batch --overwrite --account-name stordesignendku -d '$web' -s drop/.

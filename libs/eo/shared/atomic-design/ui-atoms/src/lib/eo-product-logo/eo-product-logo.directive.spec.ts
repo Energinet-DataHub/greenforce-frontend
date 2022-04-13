@@ -33,13 +33,13 @@ describe(EoProductLogoDirective.name, () => {
   let hostElement: HTMLImageElement;
 
   it('has an accessible name', () => {
-    expect(hostElement).toHaveAccessibleName('EnergyOrigin');
+    expect(hostElement).toHaveAccessibleName('Energy Origin');
   });
 
   it('renders the product logo', () => {
     expect(hostElement).toHaveAttribute(
       'src',
-      expect.stringMatching(/\/energyorigin-logo.svg$/)
+      expect.stringMatching(/\/energy-origin-logo.svg$/)
     );
   });
 });

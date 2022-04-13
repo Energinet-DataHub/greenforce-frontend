@@ -1,1 +1,1 @@
-# EnergyOrigin Dashboard page shell
+# Energy Origin Dashboard shell

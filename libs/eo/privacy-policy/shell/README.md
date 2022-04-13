@@ -1,1 +1,1 @@
-# EnergyOrigin Privacy policy page shell
+# Energy Origin Privacy policy shell

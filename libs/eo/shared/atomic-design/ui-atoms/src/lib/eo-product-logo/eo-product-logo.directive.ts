@@ -25,11 +25,11 @@ const selector = 'eoProductLogo';
 export class EoProductLogoDirective {
   @HostBinding('attr.alt')
   get altAttribute(): string {
-    return 'EnergyOrigin';
+    return 'Energy Origin';
   }
   @HostBinding('attr.src')
   get srcAttribute(): string {
-    return '/assets/images/energyorigin-logo.svg';
+    return '/assets/images/energy-origin-logo.svg';
   }
 }
 

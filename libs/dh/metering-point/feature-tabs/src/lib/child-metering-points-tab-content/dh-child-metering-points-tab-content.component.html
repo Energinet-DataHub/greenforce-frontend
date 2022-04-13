@@ -31,7 +31,7 @@ limitations under the License.
         sortActionDescription="Sort by number"
         class="header-cell watt-label"
         >{{
-          'meteringPoint.overview.childMeteringPointsTab.headers.childMeteringPoint'
+          "meteringPoint.overview.childMeteringPointsTab.headers.childMeteringPoint"
             | transloco
         }}</mat-header-cell
       >
@@ -39,7 +39,7 @@ limitations under the License.
         <div class="multi-line-cell">
           <div class="watt-text-s">
             {{
-              'meteringPoint.meteringPointTypeCode.' + row.meteringPointType
+              "meteringPoint.meteringPointTypeCode." + row.meteringPointType
                 | transloco
             }}
           </div>
@@ -58,7 +58,7 @@ limitations under the License.
         sortActionDescription="Sort by number"
         class="header-cell watt-label"
         >{{
-          'meteringPoint.overview.childMeteringPointsTab.headers.effectivePeriod'
+          "meteringPoint.overview.childMeteringPointsTab.headers.effectivePeriod"
             | transloco
         }}</mat-header-cell
       >
@@ -81,7 +81,7 @@ limitations under the License.
         sortActionDescription="Sort by number"
         class="header-cell watt-label"
         >{{
-          'meteringPoint.overview.childMeteringPointsTab.headers.status'
+          "meteringPoint.overview.childMeteringPointsTab.headers.status"
             | transloco
         }}</mat-header-cell
       >
@@ -97,6 +97,7 @@ limitations under the License.
     <mat-row
       *matRowDef="let row; columns: displayedColumns"
       routerLink="/metering-point/{{ row.gsrnNumber }}"
+      class="clickable"
     >
     </mat-row>
   </mat-table>

@@ -1,1 +1,1 @@
-# EnergyOrigin atomic design organisms
+# Energy Origin atomic design organisms

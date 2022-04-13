@@ -19,7 +19,7 @@ import { TestBed } from '@angular/core/testing';
 import {
   AuthHttp,
   AuthOidcQueryParameterName,
-} from '@energinet-datahub/ett/auth/data-access-api';
+} from '@energinet-datahub/eo/auth/data-access-api';
 import { MockProvider } from 'ng-mocks';
 import { firstValueFrom, of } from 'rxjs';
 

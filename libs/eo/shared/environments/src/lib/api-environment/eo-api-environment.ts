@@ -10,7 +10,7 @@ export interface EoApiEnvironment {
 export const eoApiEnvironmentToken = new InjectionToken<EoApiEnvironment>('eoApiEnvironmentToken', {
   factory: (): EoApiEnvironment => {
     if (environment.production) {
-      throw new Error('No EnergyOrigin API environment provided.');
+      throw new Error('No Energy Origin API environment provided.');
     }
 
     // Used for unit and integration tests
