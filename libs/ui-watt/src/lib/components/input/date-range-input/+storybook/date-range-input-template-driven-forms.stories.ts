@@ -45,11 +45,9 @@ const template = `
 </watt-form-field>
 
 <p>Selected range: {{dateRangeModel | json}}</p>
-`
+`;
 
-export const withModel: Story<WattDateRangeInputComponent> = (
-  args
-) => ({
+export const withModel: Story<WattDateRangeInputComponent> = (args) => ({
   props: {
     ...args,
     dateRangeModel: {},
@@ -76,11 +74,10 @@ withModel.argTypes = {
   },
 };
 
-export const withInitialValue: Story<WattDateRangeInputComponent> = (args
-) => ({
+export const withInitialValue: Story<WattDateRangeInputComponent> = (args) => ({
   props: {
     ...args,
-    dateRangeModel: {start: '11-22-3333', end: '11-22-3333'},
+    dateRangeModel: { start: '11-22-3333', end: '11-22-3333' },
   },
   template,
 });

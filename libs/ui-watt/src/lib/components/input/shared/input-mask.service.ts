@@ -1,21 +1,40 @@
-import { Injectable, Renderer2 } from "@angular/core";
+/**
+ * @license
+ * Copyright 2020 Energinet DataHub A/S
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License2");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+import { Injectable, Renderer2 } from '@angular/core';
 import Inputmask from 'inputmask';
-import { fromEvent, Subject, takeUntil } from "rxjs";
+import { fromEvent, Subject, takeUntil } from 'rxjs';
 
-import { WattColorHelperService } from "../../../foundations/color/color-helper.service";
-import { WattColor } from "../../../foundations/color/colors";
+import { WattColorHelperService } from '../../../foundations/color/color-helper.service';
+import { WattColor } from '../../../foundations/color/colors';
 
 @Injectable()
 export class WattInputMaskService {
   private destroy$: Subject<void> = new Subject();
 
-  constructor(private renderer: Renderer2,  private wattColorService: WattColorHelperService) {}
+  constructor(
+    private renderer: Renderer2,
+    private wattColorService: WattColorHelperService
+  ) {}
 
   mask(
     inputFormat: string,
     placeholder: string,
     element: HTMLInputElement,
-    onBeforePaste?: (value: string) => string,
+    onBeforePaste?: (value: string) => string
   ): Inputmask.Instance {
     const inputmask: Inputmask.Instance = new Inputmask('datetime', {
       inputFormat,
@@ -32,17 +51,16 @@ export class WattInputMaskService {
 
     this.setInputColor(element, inputmask);
 
-    fromEvent(element, 'input').pipe(takeUntil(this.destroy$)).subscribe(() => {
-      this.setInputColor(element, inputmask);
-    });
+    fromEvent(element, 'input')
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => {
+        this.setInputColor(element, inputmask);
+      });
 
     return inputmask;
   }
 
-  setInputColor(
-    inputElement: HTMLInputElement,
-    inputMask: Inputmask.Instance
-  ) {
+  setInputColor(inputElement: HTMLInputElement, inputMask: Inputmask.Instance) {
     const emptyMask = inputMask.getemptymask();
     const inputValue = inputElement.value;
 
