@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { EoMediaModule } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
@@ -89,6 +88,10 @@ import { EoPieChartScam } from '@energinet-datahub/eo/shared/atomic-design/ui-at
         flex: 1;
       }
 
+      .ministry-logo {
+        width: 440px;
+      }
+
       .coming-soon-overlay {
         background-color: rgba(196, 196, 196, 0.7);
         width: 100%;
@@ -154,7 +157,7 @@ import { EoPieChartScam } from '@energinet-datahub/eo/shared/atomic-design/ui-at
       <mat-card class="description-card watt-space-inline-l">
         <p><strong>Renewable energy</strong></p>
         <img
-          width="440"
+          class="ministry-logo"
           src="/assets/images/origin-of-energy/danish-ministry-of-climate-energy-and-utilities.svg"
           alt="Danish Ministry of Climate, Energy and Utilities logo"
         />
@@ -195,6 +198,6 @@ export class EoOriginOfEnergyShellComponent {}
 @NgModule({
   declarations: [EoOriginOfEnergyShellComponent],
   exports: [EoOriginOfEnergyShellComponent],
-  imports: [CommonModule, EoMediaModule, MatCardModule, EoPieChartScam],
+  imports: [EoMediaModule, MatCardModule, EoPieChartScam],
 })
 export class EoOriginOfEnergyShellScam {}
