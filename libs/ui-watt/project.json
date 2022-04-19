@@ -26,6 +26,7 @@
       "executor": "@nrwl/storybook:storybook",
       "options": {
         "port": 4400,
+        "host": "0.0.0.0",
         "projectBuildConfig": "ui-watt:build-storybook",
         "uiFramework": "@storybook/angular",
         "config": {
