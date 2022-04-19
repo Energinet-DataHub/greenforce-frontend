@@ -65,6 +65,20 @@
   .open-logfile-cell {
     flex: 0 1 calc(var(--cell-padding) * 2);
   }
+
+  .error-row {
+    flex: 0 1 calc(100% - var(--cell-padding) * 2);
+    flex-direction: column;
+    min-height: auto;
+    padding-bottom: var(--watt-space-m);
+    watt-validation-message {
+      width: 100%;
+      margin-bottom: var(--watt-space-s);
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
 }
 
 .date-icon {
