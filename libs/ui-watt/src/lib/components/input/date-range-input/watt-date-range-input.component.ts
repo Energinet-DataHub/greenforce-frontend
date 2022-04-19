@@ -42,6 +42,9 @@ export type WattDateRange = { start: string; end: string };
 /**
  * Usage:
  * `import { WattDateRangeInputModule } from '@energinet-datahub/watt';`
+ *
+ * IMPORTANT:
+ * The styling is calculated based on our monospaced font.
  */
 @Component({
   selector: 'watt-date-range-input',

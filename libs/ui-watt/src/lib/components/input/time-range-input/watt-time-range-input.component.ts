@@ -45,6 +45,9 @@ const hoursMinutesPlaceholder = 'HH:MM';
 /**
  * Usage:
  * `import { WattTimeRangeInputModule } from '@energinet-datahub/watt';`
+ *
+ * IMPORTANT:
+ * The styling is calculated based on our monospaced font.
  */
 @Component({
   selector: 'watt-time-range-input',
