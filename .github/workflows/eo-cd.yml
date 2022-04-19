@@ -177,7 +177,6 @@ jobs:
     uses: Energinet-DataHub/.github/.github/workflows/build-containers-and-release-chart.yaml@eo/feat/244-support-renamed-version-file
     with:
       helm_repository: ${{ github.repository_owner }}/helm-charts
-      base_chart_folder: infrastructure/eo/chart
       chart_folder: build/infrastructure/eo/chart
       chart_version: ${{ needs.define_build.outputs.chart_version }}
       containers: ${{ needs.define_build.outputs.containers }}
