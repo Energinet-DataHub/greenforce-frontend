@@ -51,8 +51,8 @@ module "plan_bff" {
   monitor_alerts_action_group_id = data.azurerm_key_vault_secret.primary_action_group_id.value
 
   sku                            = {
-    tier  = "Basic"
-    size  = "B1"
+    tier  = "PremiumV2"
+    size  = "P1v2"
   }
 
   tags                           = azurerm_resource_group.this.tags
