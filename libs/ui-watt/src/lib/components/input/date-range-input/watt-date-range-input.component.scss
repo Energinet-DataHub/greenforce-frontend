@@ -28,6 +28,7 @@ watt-date-range-input {
     -moz-background-clip: text;
     background-clip: text;
     color: transparent;
+    width: auto; // necessary for iOS, to avoid jumping on focus (however this is not the case for the time-range-input)
   }
 
   /*
