@@ -19,7 +19,6 @@ on:
     branches:
       - main
   pull_request: {}
-  workflow_dispatch: {}
 
 jobs:
   affected:
@@ -127,7 +126,7 @@ jobs:
         [
           {
             "deployment_name": "app",
-            "dockerfile": "infrastructure/eo/host/Dockerfile",
+            "dockerfile": "build/infrastructure/eo/host/Dockerfile",
             "image_name": "eo-frontend-app",
             "image_tag": "${{ steps.get_container_version.outputs.semver }}"
           }
@@ -135,16 +134,18 @@ jobs:
     steps:
       - name: Get chart version
         id: get_semver
-        uses: Energinet-DataHub/.github/.github/actions/get-semver@main
+        # TODO: revert to `main` before merging PR #441
+        uses: Energinet-DataHub/.github/.github/actions/get-semver@eo/feat/244-support-renamed-version-file
         with:
-          yaml_file: infrastructure/eo/chart/Chart.yaml
+          yaml_file: build/infrastructure/eo/chart/Chart.yaml
           yaml_path: version
 
       - name: Get container version
         id: get_container_version
-        uses: Energinet-DataHub/.github/.github/actions/get-semver@main
+        # TODO: revert to `main` before merging PR #441
+        uses: Energinet-DataHub/.github/.github/actions/get-semver@eo/feat/244-support-renamed-version-file
         with:
-          yaml_file: infrastructure/eo/chart/values.yaml
+          yaml_file: build/infrastructure/eo/chart/values.yaml
           yaml_path: eo-base-helm-chart.deployments.app.image.tag
 
   helm_chart_version_increment_check:
@@ -153,7 +154,8 @@ jobs:
     needs: affected
     uses: Energinet-DataHub/.github/.github/workflows/version-increment-check.yaml@main
     with:
-      yaml_file: infrastructure/eo/chart/Chart.yaml
+      base_yaml_file: infrastructure/eo/chart/Chart.yaml
+      yaml_file: build/infrastructure/eo/chart/Chart.yaml
       yaml_path: version
 
   app_version_increment_check:
@@ -162,7 +164,8 @@ jobs:
     needs: affected
     uses: Energinet-DataHub/.github/.github/workflows/version-increment-check.yaml@main
     with:
-      yaml_file: infrastructure/eo/chart/values.yaml
+      base_yaml_file: infrastructure/eo/chart/values.yaml
+      yaml_file: build/infrastructure/eo/chart/values.yaml
       yaml_path: eo-base-helm-chart.deployments.app.image.tag
 
   build_container_and_release_chart:
@@ -170,10 +173,11 @@ jobs:
     needs:
       - define_build
       - app
-    uses: Energinet-DataHub/.github/.github/workflows/build-containers-and-release-chart.yaml@main
+    # TODO: revert to `main` before merging PR #441
+    uses: Energinet-DataHub/.github/.github/workflows/build-containers-and-release-chart.yaml@eo/feat/244-support-renamed-version-file
     with:
       helm_repository: ${{ github.repository_owner }}/helm-charts
-      chart_folder: infrastructure/eo/chart
+      chart_folder: build/infrastructure/eo/chart
       chart_version: ${{ needs.define_build.outputs.chart_version }}
       containers: ${{ needs.define_build.outputs.containers }}
     secrets:
