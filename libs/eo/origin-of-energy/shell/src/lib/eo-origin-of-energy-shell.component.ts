@@ -15,44 +15,64 @@
  * limitations under the License.
  */
 import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
-import { EoInlineMessageScam } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
-import { WattIconModule, WattIconSize } from '@energinet-datahub/watt';
-
+import { MatCardModule } from '@angular/material/card';
+import { EoMediaModule } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
+import { EoOriginOfEnergyPieChartScam } from './eo-origin-of-energy-chart-card.component';
+import { EoOriginOfEnergyChartTipsScam } from './eo-origin-of-energy-chart-tips.component';
+import { EoOriginOfEnergyGlobalGoalsMediaScam } from './eo-origin-of-energy-global-goals-media.component';
+import { EoOriginOfEnergyHourlyDeclarationScam } from './eo-origin-of-energy-hourly-declaration.component';
+import { EoOriginOfEnergyRenewableEnergyScam } from './eo-origin-of-energy-renewable-energy.component';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'eo-metering-points-shell',
+  selector: 'eo-origin-of-energy-shell',
   styles: [
     `
       :host {
         display: block;
+        max-width: 1040px; /* Magic UX number */
+      }
+
+      .chart-row {
+        display: grid;
+        margin-bottom: var(--watt-space-l);
+        grid-template-columns: 536px 360px;
+        gap: var(--watt-space-l);
+      }
+
+      .description-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: var(--watt-space-l);
       }
     `,
   ],
-  template: `
-    <eo-inline-message type="warning">
-      <watt-icon name="primary_info" [size]="iconSize.Large"></watt-icon>
-
-      <p>
-        The Energy Origin Platform is <strong>under development</strong> and new
-        functionalities will be released continuously. The first release of the
-        platform only offers <strong>data for companies</strong>. Data for
-        private users is intended to form part of one of the next releases. More
-        functionality will be released on an ongoing basis. If you want to
-        influence the new functionality, join us at our
-        <a href="https://www.linkedin.com/groups/12643238/" target="_blank"
-          >LinkedIn group</a
-        >.
-      </p>
-    </eo-inline-message>
-  `,
+  template: `<div class="chart-row">
+      <eo-origin-of-energy-pie-chart></eo-origin-of-energy-pie-chart>
+      <div>
+        <eo-origin-of-energy-global-goals-media
+          class="watt-space-stack-l"
+        ></eo-origin-of-energy-global-goals-media>
+        <eo-origin-of-energy-chart-tips></eo-origin-of-energy-chart-tips>
+      </div>
+    </div>
+    <div class="description-row">
+      <eo-origin-of-energy-renewable-energy></eo-origin-of-energy-renewable-energy>
+      <eo-origin-of-energy-hourly-declaration></eo-origin-of-energy-hourly-declaration>
+    </div>`,
 })
-export class EoOriginOfEnergyShellComponent {
-  iconSize = WattIconSize;
-}
+export class EoOriginOfEnergyShellComponent {}
 
 @NgModule({
   declarations: [EoOriginOfEnergyShellComponent],
   exports: [EoOriginOfEnergyShellComponent],
-  imports: [WattIconModule, EoInlineMessageScam],
+  imports: [
+    EoMediaModule,
+    MatCardModule,
+    EoOriginOfEnergyPieChartScam,
+    EoOriginOfEnergyGlobalGoalsMediaScam,
+    EoOriginOfEnergyChartTipsScam,
+    EoOriginOfEnergyRenewableEnergyScam,
+    EoOriginOfEnergyHourlyDeclarationScam,
+  ],
 })
 export class EoOriginOfEnergyShellScam {}
