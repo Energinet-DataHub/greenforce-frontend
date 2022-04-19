@@ -171,9 +171,9 @@ describe(DhProcessesTableComponent.name, () => {
       disableQuerySuggestions
     );
 
-    const errorDescriptions = detailsRow
-      .getElementsByTagName('dh-process-error-list')[0]
-      .getElementsByTagName('li');
+    const errorDescriptions = detailsRow.getElementsByTagName(
+      'watt-validation-message'
+    );
 
     expect(errorDescriptions.length).toEqual(1);
     expect(errorDescriptions[0].innerHTML).toContain(
