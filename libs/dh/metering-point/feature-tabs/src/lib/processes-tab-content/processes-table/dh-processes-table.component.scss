@@ -79,7 +79,6 @@ mat-row {
 .has-details-errors-cell-header,
 .has-details-errors-cell {
   flex: 0 1 calc(var(--cell-padding) * 3);
-  div {
-    width: 100%;
-  }
+  padding: 0;
+  justify-content: center;
 }
