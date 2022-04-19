@@ -19,9 +19,8 @@ limitations under the License.
     <watt-spinner></watt-spinner>
   </div>
   <ng-container *ngIf="!isLoading">
-    <h1>Work in Progress</h1>
     <ng-container *rxLet="processes$ as processes">
-      <ng-container *ngIf="processes && processes.length == 0; else emptyTab">
+      <ng-container *ngIf="processes && processes.length > 0; else emptyTab">
         <dh-processes-table [processes]="processes"></dh-processes-table>
       </ng-container>
     </ng-container>
