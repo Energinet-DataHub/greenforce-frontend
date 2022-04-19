@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable } from '@angular/core';
 import {
   combineLatest,
   distinctUntilChanged,
@@ -22,7 +22,6 @@ import {
   map,
   Observable,
   startWith,
-  Subject,
   tap,
 } from 'rxjs';
 

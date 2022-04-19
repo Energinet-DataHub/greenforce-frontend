@@ -28,7 +28,6 @@ import {
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
-import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { FormatWidth, getLocaleDateFormat } from '@angular/common';
 import { MatDateRangeInput } from '@angular/material/datepicker';
