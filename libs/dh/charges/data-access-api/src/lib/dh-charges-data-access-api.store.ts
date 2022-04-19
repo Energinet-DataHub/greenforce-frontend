@@ -93,8 +93,8 @@ export class DhChargesDataAccessApiStore extends ComponentStore<ChargesState> {
   }
 
   readonly loadChargesData = this.effect(
-    (meteringPointId: Observable<string>) => {
-      return meteringPointId.pipe(
+    (meteringPointId$: Observable<string>) => {
+      return meteringPointId$.pipe(
         tap(() => {
           this.resetState();
 
