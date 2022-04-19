@@ -24,7 +24,13 @@ import {
 import { ProcessDetail } from '@energinet-datahub/dh/shared/domain';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 
-import { WattIconModule, WattIconSize } from '@energinet-datahub/watt';
+import {
+  WattIconModule,
+  WattIconSize,
+  WattValidationMessageModule,
+  WattValidationMessageType,
+} from '@energinet-datahub/watt';
+import { TranslocoModule } from '@ngneat/transloco';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -50,7 +56,13 @@ export class DhProcessesDetailItemComponent {
 
 @NgModule({
   declarations: [DhProcessesDetailItemComponent],
-  imports: [WattIconModule, CommonModule, DhSharedUiDateTimeModule],
+  imports: [
+    WattIconModule,
+    CommonModule,
+    DhSharedUiDateTimeModule,
+    TranslocoModule,
+    WattValidationMessageModule,
+  ],
   exports: [DhProcessesDetailItemComponent],
 })
 export class DhProcessesDetailItemScam {}
