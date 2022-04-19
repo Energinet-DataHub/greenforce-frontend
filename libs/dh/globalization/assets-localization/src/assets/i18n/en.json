@@ -56,6 +56,7 @@
         "meterNumber": "Meternumber"
       },
       "tabs": {
+        "processes": "Processes",
         "prices": "Prices",
         "childMeteringPoints": "Child metering points ({{ count }})"
       },
@@ -67,7 +68,23 @@
         },
         "noChildMeteringPointsTitle": "No child metering point(s)",
         "noChildMeteringPointsText": "We did not find any child metering point(s) on this metering point"
-      }
+      },
+      "processesTab": {
+        "headers": {
+          "name": "Description",
+          "createdDate": "Submitted",
+          "effectiveDate": "Validity date",
+          "status": "Status"
+        },
+        "sortDescription": {
+          "name": "Sort by description",
+          "createdDate": "Sort by submitted date",
+          "effectiveDate": "Sort by validity date",
+          "status": "Sort by status"
+        },
+        "noProcessesFound": "Unable to find any process(es)",
+        "noProcessesText": "We did not find any process(es) on this metering point",
+        "processDenied": "Rejected"
     },
     "secondaryMasterData": {
       "technicalSpecificationTitle": "Technical specifications",
