@@ -14,53 +14,57 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Meta, moduleMetadata, Story } from '@storybook/angular';
 
-import { WattFormFieldModule } from '../../form-field/form-field.module';
+// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
+import { DhConfigurationLocalizationModule } from '@energinet-datahub/dh/globalization/configuration-localization';
+
+import { WattFormFieldModule } from '../../../form-field/form-field.module';
 import { WattTimeRangeInputComponent } from '../watt-time-range-input.component';
 import { WattTimeRangeInputModule } from '../watt-time-range-input.module';
 
 export default {
-  title: 'Components/Time-range Input/Reactive Forms',
+  title: 'Components/Time-range Input/Template-Driven Forms',
   decorators: [
     moduleMetadata({
       imports: [
-        ReactiveFormsModule,
+        FormsModule,
         WattFormFieldModule,
         WattTimeRangeInputModule,
         BrowserAnimationsModule,
+        DhConfigurationLocalizationModule.forRoot(),
       ],
     }),
   ],
   component: WattTimeRangeInputComponent,
 } as Meta<WattTimeRangeInputComponent>;
 
-export const withFormControl: Story<WattTimeRangeInputComponent> = (args) => ({
+export const withModel: Story<WattTimeRangeInputComponent> = (args) => ({
   props: {
     ...args,
-    timeRangeControl: new FormControl(),
+    timeRangeModel: null,
   },
   template: `
     <watt-form-field>
      <watt-label>Time range</watt-label>
-     <watt-time-range-input [formControl]="timeRangeControl"></watt-time-range-input>
+     <watt-time-range-input [(ngModel)]="timeRangeModel"></watt-time-range-input>
     </watt-form-field>
 
-    <p>Selected range: {{ timeRangeControl.value | json }}</p>`,
+    <p>Selected range: {{ timeRangeModel | json }}</p>`,
 });
 
 export const withInitialValue: Story<WattTimeRangeInputComponent> = (args) => ({
   props: {
     ...args,
-    timeRangeControl: new FormControl({ start: '00:00', end: '23:59' }),
+    timeRangeModel: { start: '00:00', end: '23:59' },
   },
   template: `
     <watt-form-field>
      <watt-label>Time range</watt-label>
-     <watt-time-range-input [formControl]="timeRangeControl"></watt-time-range-input>
+     <watt-time-range-input [(ngModel)]="timeRangeModel"></watt-time-range-input>
     </watt-form-field>
 
-    <p>Selected range: {{ timeRangeControl.value | json }}</p>`,
+    <p>Selected range: {{ timeRangeModel | json }}</p>`,
 });

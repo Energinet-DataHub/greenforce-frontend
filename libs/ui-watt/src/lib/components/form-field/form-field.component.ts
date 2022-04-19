@@ -28,9 +28,10 @@ import {
   MatFormFieldControl,
 } from '@angular/material/form-field';
 
+import { WattDateRangeInputComponent } from '../input/date-range-input/watt-date-range-input.component';
 import { WattDropdownComponent } from '../dropdown/watt-dropdown.component';
 import { WattInputDirective } from '../input/input.directive';
-import { WattTimeRangeInputComponent } from '../time-range-input';
+import { WattTimeRangeInputComponent } from '../input/time-range-input';
 
 @Component({
   selector: 'watt-form-field',
@@ -57,6 +58,9 @@ export class FormFieldComponent implements AfterViewInit {
   @ContentChild(WattDropdownComponent)
   wattDropdown?: WattDropdownComponent;
 
+  @ContentChild(WattDateRangeInputComponent)
+  dateRangeControl?: WattDateRangeInputComponent;
+
   @ContentChild(WattTimeRangeInputComponent)
   timeRange?: WattTimeRangeInputComponent;
 
@@ -65,7 +69,8 @@ export class FormFieldComponent implements AfterViewInit {
       const control =
         this.inputControl ||
         this.wattDropdown?.matSelect ||
-        this.timeRange?.matDateRangeInput;
+        this.timeRange?.matDateRangeInput ||
+        this.dateRangeControl?.matDateRangeInput;
 
       this.matFormField._control = control;
       this.matFormField.ngAfterContentInit();
