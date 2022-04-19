@@ -152,8 +152,6 @@ jobs:
     needs: affected
     uses: Energinet-DataHub/.github/.github/workflows/version-increment-check.yaml@main
     with:
-      # TODO(xlgni): remove base_yaml_file argument after merging #441
-      base_yaml_file: infrastructure/eo/chart/Chart.yaml
       yaml_file: build/infrastructure/eo/chart/Chart.yaml
       yaml_path: version
 
@@ -163,8 +161,6 @@ jobs:
     needs: affected
     uses: Energinet-DataHub/.github/.github/workflows/version-increment-check.yaml@main
     with:
-      # TODO(xlgni): remove base_yaml_file argument after merging #441
-      base_yaml_file: infrastructure/eo/chart/values.yaml
       yaml_file: build/infrastructure/eo/chart/values.yaml
       yaml_path: eo-base-helm-chart.deployments.app.image.tag
 
