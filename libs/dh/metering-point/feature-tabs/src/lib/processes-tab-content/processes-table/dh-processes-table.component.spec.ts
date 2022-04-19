@@ -162,4 +162,22 @@ describe(DhProcessesTableComponent.name, () => {
     // Verify that the success row is set to collapsed and has height 0
     expect(detailsRow).toHaveClass('collapsed');
   });
+
+  it('Should show an error description for every details error', async () => {
+    await setup(testData);
+
+    const detailsRow = screen.getByTestId(
+      'detailsRow-' + failedProcessId,
+      disableQuerySuggestions
+    );
+
+    const errorDescriptions = detailsRow.getElementsByTagName(
+      'watt-validation-message'
+    );
+
+    expect(errorDescriptions.length).toEqual(1);
+    expect(errorDescriptions[0].innerHTML).toContain(
+      failedProcess.details[1].errors[0].description
+    );
+  });
 });

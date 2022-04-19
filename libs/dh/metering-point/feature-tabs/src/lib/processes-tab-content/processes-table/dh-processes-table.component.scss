@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 :host {
   display: block;
   --cell-padding: 24px;
@@ -78,4 +79,6 @@ mat-row {
 .has-details-errors-cell-header,
 .has-details-errors-cell {
   flex: 0 1 calc(var(--cell-padding) * 3);
+  padding: 0;
+  justify-content: center;
 }
