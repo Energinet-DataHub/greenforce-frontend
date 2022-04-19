@@ -78,13 +78,6 @@ export class WattRangeInputService {
     ]);
   }
 
-  private customComparator(
-    [prevStart, prevEnd]: [string, string],
-    [currStart, currEnd]: [string, string]
-  ): boolean {
-    return prevStart === currStart && prevEnd === currEnd;
-  }
-
   private jumpToEndInput(
     event: InputEvent | KeyboardEvent,
     inputmask: Inputmask.Instance,
