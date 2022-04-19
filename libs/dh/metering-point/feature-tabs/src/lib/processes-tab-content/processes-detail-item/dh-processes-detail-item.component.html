@@ -49,6 +49,11 @@ limitations under the License.
     <!-- ></watt-icon>-->
   </div>
   <div class="child-cell error-row" *ngIf="detail.errors.length > 0">
-    <dh-process-error-list [errors]="detail.errors"></dh-process-error-list>
+    <watt-validation-message
+      *ngFor="let error of detail.errors"
+      [label]="'meteringPoint.overview.processesTab.processDenied' | transloco"
+      [message]="error.description"
+      [type]="errorValidationType"
+    ></watt-validation-message>
   </div>
 </div>

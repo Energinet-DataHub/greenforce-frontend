@@ -24,8 +24,13 @@ import {
 import { ProcessDetail } from '@energinet-datahub/dh/shared/domain';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 
-import { WattIconModule, WattIconSize } from '@energinet-datahub/watt';
-import { DhProcessDetailItemScam } from '../process-error-list/dh-process-error-list.component';
+import {
+  WattIconModule,
+  WattIconSize,
+  WattValidationMessageModule,
+  WattValidationMessageType,
+} from '@energinet-datahub/watt';
+import { TranslocoModule } from '@ngneat/transloco';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -35,6 +40,7 @@ import { DhProcessDetailItemScam } from '../process-error-list/dh-process-error-
 })
 export class DhProcessesDetailItemComponent {
   private _detail!: ProcessDetail;
+  errorValidationType: WattValidationMessageType = 'danger';
 
   get detail(): ProcessDetail {
     return this._detail;
@@ -55,7 +61,8 @@ export class DhProcessesDetailItemComponent {
     WattIconModule,
     CommonModule,
     DhSharedUiDateTimeModule,
-    DhProcessDetailItemScam,
+    TranslocoModule,
+    WattValidationMessageModule,
   ],
   exports: [DhProcessesDetailItemComponent],
 })
