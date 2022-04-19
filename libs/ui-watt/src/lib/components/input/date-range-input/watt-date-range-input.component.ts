@@ -230,7 +230,7 @@ export class WattDateRangeInputComponent
    * @ignore
    */
   private onBeforePaste(pastedValue: string): string {
-    if(this.locale !== 'da') return pastedValue;
+    if (this.locale !== 'da') return pastedValue;
 
     // Reverse the pasted value, if starts with "year"
     if (pastedValue.search(/^\d{4}/g) !== -1) {
