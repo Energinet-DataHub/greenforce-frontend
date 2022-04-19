@@ -14,5 +14,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './lib/dh-market-participant-data-access-api.store';
-export * from './lib/dh-market-participant-edit-organization-data-access-api.store';
+import { Injectable } from '@angular/core';
+import { ComponentStore } from '@ngrx/component-store';
+import { MarketParticipantHttp } from '@energinet-datahub/dh/shared/domain';
+
+interface MarketParticipantEditOrganizationState {
+  isLoading: boolean;
+}
+
+const initialState: MarketParticipantEditOrganizationState = {
+  isLoading: false,
+};
+
+@Injectable()
+export class DhMarketParticipantEditOrganizationDataAccessApiStore extends ComponentStore<MarketParticipantEditOrganizationState> {
+  constructor(private httpClient: MarketParticipantHttp) {
+    super(initialState);
+  }
+}

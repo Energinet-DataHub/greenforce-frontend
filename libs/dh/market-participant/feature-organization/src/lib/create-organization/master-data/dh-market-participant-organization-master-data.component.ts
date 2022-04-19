@@ -25,7 +25,6 @@ import {
   Output,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MasterDataChanges } from '@energinet-datahub/dh/market-participant/data-access-api';
 import { OrganizationDto } from '@energinet-datahub/dh/shared/domain';
 import {
   WattDropdownModule,
@@ -48,11 +47,11 @@ export class DhMarketParticipantOrganizationMasterDataComponent
   implements OnInit, OnChanges
 {
   @Input() organization: OrganizationDto | undefined;
-  @Output() hasChanges = new EventEmitter<MasterDataChanges>();
+  @Output() hasChanges = new EventEmitter<any>();
 
   constructor(private translocoService: TranslocoService) {}
 
-  changes: MasterDataChanges = { isValid: false, address: { country: 'DK' } };
+  changes: any = { isValid: false, address: { country: 'DK' } };
   countries: WattDropdownOption[] = [];
 
   ngOnInit(): void {

@@ -27,7 +27,6 @@ import {
   ChangeDetectionStrategy,
 } from '@angular/core';
 import {
-  ContactChanges,
   DhMarketParticipantOverviewDataAccessApiStore,
 } from '@energinet-datahub/dh/market-participant/data-access-api';
 import { TranslocoModule } from '@ngneat/transloco';
@@ -47,7 +46,7 @@ import {
 
 interface EditableContactRow {
   contact: ContactDto;
-  changed: ContactChanges;
+  changed: any;
   isExisting: boolean;
   isModified: boolean;
   isNewPlaceholder: boolean;
@@ -68,7 +67,7 @@ export class DhMarketParticipantOrganizationContactDataComponent
 {
   @Input() contacts: ContactDto[] = [];
   @Output() contactsChanged = new EventEmitter<{
-    add: ContactChanges[];
+    add: any[];
     remove: ContactDto[];
   }>();
 

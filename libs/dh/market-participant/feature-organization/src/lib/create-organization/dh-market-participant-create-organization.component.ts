@@ -23,9 +23,7 @@ import {
   Output,
 } from '@angular/core';
 import {
-  ContactChanges,
   DhMarketParticipantOverviewDataAccessApiStore,
-  MasterDataChanges,
 } from '@energinet-datahub/dh/market-participant/data-access-api';
 import {
   ChangeOrganizationDto,
@@ -56,18 +54,18 @@ export class DhMarketParticipantCreateOrganizationComponent {
   }>();
   @Output() cancel = new EventEmitter();
 
-  masterDataChanges: MasterDataChanges | undefined;
-  addedContacts: ContactChanges[] = [];
+  masterDataChanges: any | undefined;
+  addedContacts: any[] = [];
   removedContacts: ContactDto[] = [];
   allowSaveChanges = false;
 
-  readonly hasMasterDataChanges = (changes: MasterDataChanges) => {
+  readonly hasMasterDataChanges = (changes: any) => {
     this.masterDataChanges = changes;
     this.allowSaveChanges = this.validateChanges();
   };
 
   readonly hasContactChanges = (
-    add: ContactChanges[],
+    add: any[],
     remove: ContactDto[]
   ) => {
     this.addedContacts = add;
