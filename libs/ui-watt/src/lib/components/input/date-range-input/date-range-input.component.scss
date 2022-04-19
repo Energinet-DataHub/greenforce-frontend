@@ -14,10 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+@use "../../../foundations/typography/typography.import" as typography;
 $placeholder-color: var(--watt-color-neutral-grey-500);
 
 watt-date-range-input {
-  font-family: "Droid Sans Mono", monospace;
+  font-family: typography.$monospace-font-family;
 
   input.mat-date-range-input-inner {
     caret-color: var(--watt-color-neutral-black);

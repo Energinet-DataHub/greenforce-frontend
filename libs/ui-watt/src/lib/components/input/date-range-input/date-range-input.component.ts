@@ -17,12 +17,14 @@
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   ElementRef,
   Host,
   Inject,
   Input,
   LOCALE_ID,
+  OnDestroy,
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
@@ -33,6 +35,7 @@ import { MatDateRangeInput } from '@angular/material/datepicker';
 
 import { WattInputMaskService } from '../shared/input-mask.service';
 import { WattRangeInputService } from '../shared/range-input.service';
+import { Subject, takeUntil } from 'rxjs';
 
 export type WattDateRange = { start: string; end: string };
 
@@ -49,7 +52,7 @@ export type WattDateRange = { start: string; end: string };
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WattDateRangeInputComponent
-  implements AfterViewInit, ControlValueAccessor
+  implements AfterViewInit, OnDestroy, ControlValueAccessor
 {
   /**
    * @ignore
@@ -69,19 +72,10 @@ export class WattDateRangeInputComponent
   @ViewChild('endDate')
   endDateInput!: ElementRef;
 
-  @Input()
-  set disabled(value: boolean) {
-    this.isDisabled = coerceBooleanProperty(value as BooleanInput);
-  }
-
-  get disabled(): boolean {
-    return this.isDisabled;
-  }
-
   /**
    * @ignore
    */
-  private isDisabled = false;
+  isDisabled = false;
 
   @Input() min?: string;
   @Input() max?: string;
@@ -99,13 +93,19 @@ export class WattDateRangeInputComponent
   /**
    * @ignore
    */
-  initialValue?: WattDateRange;
+  initialValue?: WattDateRange | null = null;
+
+  /**
+   * @ignore
+   */
+  private destroy$: Subject<void> = new Subject();
 
   constructor(
     @Inject(LOCALE_ID) private locale: string,
     @Host() private parentControlDirective: NgControl,
+    private changeDetectorRef: ChangeDetectorRef,
     private inputMaskService: WattInputMaskService,
-    private rangeInputService: WattRangeInputService
+    private rangeInputService: WattRangeInputService,
   ) {
     this.parentControlDirective.valueAccessor = this;
   }
@@ -149,16 +149,26 @@ export class WattDateRangeInputComponent
       },
     });
 
-    this.rangeInputService.onChange$?.subscribe(([start, end]) => {
-      this.markParentControlAsTouched();
-      this.changeParentValue({ start: start as string, end: end as string });
-    });
+    this.rangeInputService.onInputChanges$
+      ?.pipe(takeUntil(this.destroy$))
+      .subscribe(([start, end]) => {
+        this.markParentControlAsTouched();
+        this.changeParentValue({ start, end });
+      });
   }
 
   /**
    * @ignore
    */
-  writeValue(dateRange: WattDateRange): void {
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  /**
+   * @ignore
+   */
+  writeValue(dateRange: WattDateRange | null): void {
     if (!this.startDateInput || !this.endDateInput) {
       this.initialValue = dateRange;
       return;
@@ -166,12 +176,12 @@ export class WattDateRangeInputComponent
 
     const inputEvent = new Event('input', { bubbles: true });
 
-    if (dateRange.start) {
+    if (dateRange?.start) {
       this.startDateInput.nativeElement.value = dateRange.start;
       this.startDateInput.nativeElement.dispatchEvent(inputEvent);
     }
 
-    if (dateRange.end) {
+    if (dateRange?.end) {
       this.endDateInput.nativeElement.value = dateRange.end;
       this.endDateInput.nativeElement.dispatchEvent(inputEvent);
     }
@@ -189,6 +199,14 @@ export class WattDateRangeInputComponent
    */
   registerOnTouched(onTouchFn: () => void) {
     this.markParentControlAsTouched = onTouchFn;
+  }
+
+  /**
+   * @ignore
+   */
+  setDisabledState(isDisabled: boolean): void {
+    this.isDisabled = isDisabled;
+    this.changeDetectorRef.detectChanges();
   }
 
   /**

@@ -21,11 +21,13 @@ import {
   Component,
   ElementRef,
   Host,
+  OnDestroy,
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { MatDateRangeInput } from '@angular/material/datepicker';
+import { Subject, takeUntil } from 'rxjs';
 
 import { WattInputMaskService } from '../shared/input-mask.service';
 import { WattRangeInputService } from '../shared/range-input.service';
@@ -53,7 +55,7 @@ const hoursMinutesPlaceholder = 'HH:MM';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WattTimeRangeInputComponent
-  implements AfterViewInit, ControlValueAccessor
+  implements AfterViewInit, OnDestroy, ControlValueAccessor
 {
   /**
    * @ignore
@@ -87,6 +89,11 @@ export class WattTimeRangeInputComponent
    * @ignore
    */
   initialValue: WattTimeRange | null = null;
+
+  /**
+   * @ignore
+   */
+  private destroy$: Subject<void> = new Subject();
 
   constructor(
     @Host() private parentControlDirective: NgControl,
@@ -138,10 +145,20 @@ export class WattTimeRangeInputComponent
       },
     });
 
-    this.rangeInputService.onChange$?.subscribe(([start, end]) => {
-      this.markParentControlAsTouched();
-      this.changeParentValue({ start: start as string, end: end as string });
-    });
+    this.rangeInputService.onInputChanges$
+      ?.pipe(takeUntil(this.destroy$))
+      .subscribe(([start, end]) => {
+        this.markParentControlAsTouched();
+        this.changeParentValue({ start, end });
+      });
+  }
+
+  /**
+   * @ignore
+   */
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   /**

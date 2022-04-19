@@ -22,6 +22,7 @@ import { Meta, moduleMetadata, Story } from '@storybook/angular';
 import { DhConfigurationLocalizationRootModule } from '@energinet-datahub/dh/globalization/configuration-localization';
 import { WattDateRangeInputComponent } from '../date-range-input.component';
 import { WattDateRangeInputModule } from '../date-range-input.module';
+import { WattFormFieldModule } from '../../../form-field/form-field.module';
 
 export default {
   title: 'Components/Date-range Input/Template Driven Forms',
@@ -29,6 +30,7 @@ export default {
     moduleMetadata({
       imports: [
         FormsModule,
+        WattFormFieldModule,
         WattDateRangeInputModule,
         BrowserAnimationsModule,
         DhConfigurationLocalizationRootModule,
@@ -50,7 +52,7 @@ const template = `
 export const withModel: Story<WattDateRangeInputComponent> = (args) => ({
   props: {
     ...args,
-    dateRangeModel: {},
+    dateRangeModel: null,
   },
   template,
 });

@@ -23,7 +23,6 @@ import {
   Observable,
   startWith,
   Subject,
-  takeUntil,
   tap,
 } from 'rxjs';
 
@@ -41,9 +40,8 @@ export interface WattRangeInputConfig {
 }
 
 @Injectable()
-export class WattRangeInputService implements OnDestroy {
-  private destroy$: Subject<void> = new Subject();
-  onChange$?: Observable<[unknown, unknown]>;
+export class WattRangeInputService {
+  onInputChanges$?: Observable<[string, string]>;
 
   init(config: WattRangeInputConfig) {
     const { startInput, endInput } = config;
@@ -65,31 +63,20 @@ export class WattRangeInputService implements OnDestroy {
 
     const startInputElementOnComplete$ = startInputElementOnInput$.pipe(
       startWith(startInput.initialValue || ''),
-      map((val) => (startInput.mask.isComplete() ? val : ''))
+      map((value) => (startInput.mask.isComplete() ? value : '')),
+      distinctUntilChanged()
     );
 
     const endInputElementOnComplete$ = endInputElementOnInput$.pipe(
       startWith(endInput.initialValue || ''),
-      map((val) => (endInput.mask.isComplete() ? val : ''))
+      map((value) => (endInput.mask.isComplete() ? value : '')),
+      distinctUntilChanged()
     );
 
-    this.onChange$ = combineLatest([
+    this.onInputChanges$ = combineLatest([
       startInputElementOnComplete$,
       endInputElementOnComplete$,
-    ]).pipe(
-      // Note: A custom comparator function is necessary
-      // because RxJS' built-in comparator function checks
-      // the current and previous values for strict equality.
-      // In our case this will always return `false` since RxJS
-      // emits arrays and arrays are strictly equal only by reference.
-      distinctUntilChanged(this.customComparator),
-      takeUntil(this.destroy$)
-    );
-  }
-
-  ngOnDestroy() {
-    this.destroy$.next();
-    this.destroy$.complete();
+    ]);
   }
 
   private customComparator(

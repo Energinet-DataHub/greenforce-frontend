@@ -22,6 +22,7 @@ import { Meta, moduleMetadata, Story } from '@storybook/angular';
 import { DhConfigurationLocalizationRootModule } from '@energinet-datahub/dh/globalization/configuration-localization';
 import { WattDateRangeInputComponent } from '../date-range-input.component';
 import { WattDateRangeInputModule } from '../date-range-input.module';
+import { WattFormFieldModule } from '../../../form-field/form-field.module';
 
 export default {
   title: 'Components/Date-range Input/Reactive Forms',
@@ -29,6 +30,7 @@ export default {
     moduleMetadata({
       imports: [
         ReactiveFormsModule,
+        WattFormFieldModule,
         WattDateRangeInputModule,
         BrowserAnimationsModule,
         DhConfigurationLocalizationRootModule,
@@ -61,7 +63,7 @@ withFormControl.parameters = {
       code: `
 HTML
 ${template}
-TS
+TypeScript
 exampleFormControl = new FormControl();
       `,
     },
