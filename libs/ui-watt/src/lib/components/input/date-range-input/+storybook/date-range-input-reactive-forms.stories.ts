@@ -20,8 +20,8 @@ import { Meta, moduleMetadata, Story } from '@storybook/angular';
 
 // eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import { DhConfigurationLocalizationRootModule } from '@energinet-datahub/dh/globalization/configuration-localization';
-import { WattDateRangeInputComponent } from '../date-range-input.component';
-import { WattDateRangeInputModule } from '../date-range-input.module';
+import { WattDateRangeInputComponent } from '../watt-date-range-input.component';
+import { WattDateRangeInputModule } from '../watt-date-range-input.module';
 import { WattFormFieldModule } from '../../../form-field/form-field.module';
 
 export default {

@@ -27,7 +27,7 @@ import * as reactiveFormstories from './+storybook/date-range-input-reactive-for
 import {
   WattDateRange,
   WattDateRangeInputComponent,
-} from './date-range-input.component';
+} from './watt-date-range-input.component';
 
 const { withFormControl } = composeStories(reactiveFormstories);
 const defaultOutput = 'Selected range: { "start": "", "end": "" }';

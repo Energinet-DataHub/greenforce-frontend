@@ -45,8 +45,8 @@ export type WattDateRange = { start: string; end: string };
  */
 @Component({
   selector: 'watt-date-range-input',
-  templateUrl: './date-range-input.component.html',
-  styleUrls: ['./date-range-input.component.scss'],
+  templateUrl: './watt-date-range-input.component.html',
+  styleUrls: ['./watt-date-range-input.component.scss'],
   providers: [WattInputMaskService, WattRangeInputService],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,

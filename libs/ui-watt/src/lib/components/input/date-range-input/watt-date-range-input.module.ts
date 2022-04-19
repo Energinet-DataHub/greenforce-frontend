@@ -28,7 +28,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { NgModule } from '@angular/core';
 import * as daLocale from 'date-fns/locale/da/index.js';
 
-import { WattDateRangeInputComponent } from './date-range-input.component';
+import { WattDateRangeInputComponent } from './watt-date-range-input.component';
 
 @NgModule({
   imports: [MatDatepickerModule, MatDateFnsModule],
