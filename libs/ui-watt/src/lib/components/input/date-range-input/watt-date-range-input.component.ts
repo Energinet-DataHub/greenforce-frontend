@@ -102,6 +102,11 @@ export class WattDateRangeInputComponent
    */
   private destroy$: Subject<void> = new Subject();
 
+  /**
+   * @ignore
+   */
+  private danishLocaleCode = 'da';
+
   constructor(
     @Inject(LOCALE_ID) private locale: string,
     @Host() private parentControlDirective: NgControl,
@@ -230,7 +235,7 @@ export class WattDateRangeInputComponent
    * @ignore
    */
   private onBeforePaste(pastedValue: string): string {
-    if(this.locale !== 'da') return pastedValue;
+    if(this.locale !== this.danishLocaleCode) return pastedValue;
 
     // Reverse the pasted value, if starts with "year"
     if (pastedValue.search(/^\d{4}/g) !== -1) {
@@ -261,7 +266,7 @@ export class WattDateRangeInputComponent
    * @ignore
    */
   private getPlaceholder(inputFormat: string): string {
-    return this.locale === 'da'
+    return this.locale === this.danishLocaleCode
       ? inputFormat.split('y').join('å')
       : inputFormat;
   }
