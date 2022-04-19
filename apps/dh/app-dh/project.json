@@ -14,7 +14,7 @@
         "polyfills": "apps/dh/app-dh/src/polyfills.ts",
         "tsConfig": "apps/dh/app-dh/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
-        "allowedCommonJsDependencies": ["date-fns-tz"],
+        "allowedCommonJsDependencies": ["date-fns", "date-fns-tz"],
         "assets": [
           {
             "glob": "**/*",
@@ -84,7 +84,8 @@
           "vendorChunk": true,
           "extractLicenses": false,
           "sourceMap": true,
-          "namedChunks": true
+          "namedChunks": true,
+          "allowedCommonJsDependencies": ["date-fns", "date-fns-tz"]
         },
         "mocked": {
           "buildOptimizer": false,
@@ -100,6 +101,8 @@
             }
           ],
           "allowedCommonJsDependencies": [
+            "date-fns",
+            "date-fns-tz",
             "@mswjs/cookies",
             "@mswjs/interceptors"
           ]

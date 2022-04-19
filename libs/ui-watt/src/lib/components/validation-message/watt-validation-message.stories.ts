@@ -53,7 +53,7 @@ validationMessage.parameters = {
   },
 };
 validationMessage.args = {
-  label: 'Info:',
+  label: 'Info',
   message: 'The metering point is not active',
   type: 'info',
 };
