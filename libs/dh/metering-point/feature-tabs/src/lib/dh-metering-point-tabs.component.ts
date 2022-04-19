@@ -35,8 +35,6 @@ import { DhProcessesTabContentScam } from './processes-tab-content/dh-processes-
 export class DhMeteringPointTabsComponent {
   childMeteringPointsCount = 0;
 
-  processTabFeatureFlag = sessionStorage.getItem('processTab') === 'show'; // TODO: Remove this when the feature is done
-
   meteringPoint$ = this.store.meteringPoint$.pipe(
     tap((meteringPoint) => {
       this.childMeteringPointsCount =
