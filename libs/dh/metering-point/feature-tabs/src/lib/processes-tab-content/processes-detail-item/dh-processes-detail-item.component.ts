@@ -28,7 +28,6 @@ import {
   WattIconModule,
   WattIconSize,
   WattValidationMessageModule,
-  WattValidationMessageType,
 } from '@energinet-datahub/watt';
 import { TranslocoModule } from '@ngneat/transloco';
 
