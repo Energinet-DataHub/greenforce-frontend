@@ -53,7 +53,7 @@ limitations under the License.
       *ngFor="let error of detail.errors"
       [label]="'meteringPoint.overview.processesTab.processDenied' | transloco"
       [message]="error.description"
-      [type]="errorValidationType"
+      [type]="'danger'"
     ></watt-validation-message>
   </div>
 </div>

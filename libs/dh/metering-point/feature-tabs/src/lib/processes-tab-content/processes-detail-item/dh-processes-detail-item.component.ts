@@ -40,7 +40,6 @@ import { TranslocoModule } from '@ngneat/transloco';
 })
 export class DhProcessesDetailItemComponent {
   private _detail!: ProcessDetail;
-  errorValidationType: WattValidationMessageType = 'danger';
 
   get detail(): ProcessDetail {
     return this._detail;
