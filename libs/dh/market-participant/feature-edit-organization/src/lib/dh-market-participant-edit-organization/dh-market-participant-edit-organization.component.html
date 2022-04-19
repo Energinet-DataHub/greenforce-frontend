@@ -16,46 +16,42 @@ limitations under the License.
 -->
 
 <ng-container
-*transloco="let transloco; read: 'marketParticipant.organization.create'"
+  *transloco="let transloco; read: 'marketParticipant.organization.create'"
 >
-<h1>{{ transloco("organizationHeader") }}</h1>
-<div class="container">
-  <!-- Tabs -->
-  <watt-tabs class="tabs">
-    <watt-tab [label]="transloco('masterDataTabHeader')">
-      <br />
-      <!-- <dh-market-participant-organization-master-data
+  <h1>{{ transloco("organizationHeader") }}</h1>
+  <div class="container">
+    <!-- Tabs -->
+    <watt-tabs class="tabs">
+      <watt-tab [label]="transloco('masterDataTabHeader')">
+        <br />
+        <!-- <dh-market-participant-organization-master-data
         [organization]="this.organization"
         (hasChanges)="this.hasMasterDataChanges($event)"
       ></dh-market-participant-organization-master-data> -->
-    </watt-tab>
-    <watt-tab
-      [label]="transloco('contactDataTabHeader')"
-      *ngIf="this.contacts as contacts"
-    >
-      <!-- <dh-market-participant-organization-contact-data
+      </watt-tab>
+      <watt-tab
+        [label]="transloco('contactDataTabHeader')"
+        *ngIf="this.contacts as contacts"
+      >
+        <!-- <dh-market-participant-organization-contact-data
         [contacts]="contacts"
         (contactsChanged)="this.hasContactChanges($event.add, $event.remove)"
       ></dh-market-participant-organization-contact-data> -->
-    </watt-tab>
-  </watt-tabs>
+      </watt-tab>
+    </watt-tabs>
 
-  <!-- Confirmation -->
-  <div class="buttonContainer">
-    <watt-button
-      variant="secondary"
-      type="reset"
-      >{{ transloco("cancelLabel") }}</watt-button
-      >
+    <!-- Confirmation -->
+    <div class="buttonContainer">
+      <watt-button variant="secondary" type="reset">{{
+        transloco("cancelLabel")
+      }}</watt-button>
       <!-- [disabled]="this.isBusy" -->
       <!-- (click)="this.onCancelClicked()" -->
-      <watt-button
-      variant="primary"
-      type="submit"
-      >{{ transloco("saveLabel") }}</watt-button
-      >
+      <watt-button variant="primary" type="submit">{{
+        transloco("saveLabel")
+      }}</watt-button>
       <!-- [disabled]="!this.allowSaveChanges || this.isBusy" -->
       <!-- (click)="this.onSaveClicked()" -->
+    </div>
   </div>
-</div>
 </ng-container>

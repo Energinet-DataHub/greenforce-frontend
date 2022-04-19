@@ -24,9 +24,11 @@ import { WattButtonModule, WattTabsModule } from '@energinet-datahub/watt';
   styleUrls: ['./dh-market-participant-edit-organization.component.scss'],
 })
 export class DhMarketParticipantEditOrganizationComponent implements OnInit {
-  constructor(public store: DhMarketParticipantEditOrganizationDataAccessApiStore)  {;}
+  constructor(
+    public store: DhMarketParticipantEditOrganizationDataAccessApiStore
+  ) {}
 
-  ngOnInit(): void {;}
+  ngOnInit(): void {}
 }
 
 @NgModule({

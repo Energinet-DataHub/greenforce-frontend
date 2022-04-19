@@ -136,7 +136,10 @@ limitations under the License.
   </div>
 
   <!-- Spinner -->
-  <div *ngIf="this.isLoading$ | async" class="overview__spinner spinner-container">
+  <div
+    *ngIf="this.isLoading$ | async"
+    class="overview__spinner spinner-container"
+  >
     <watt-spinner></watt-spinner>
   </div>
 

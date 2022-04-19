@@ -21,13 +21,7 @@ import {
   OrganizationDto,
   MarketParticipantHttp,
 } from '@energinet-datahub/dh/shared/domain';
-import {
-  filter,
-  map,
-  Observable,
-  switchMap,
-  tap,
-} from 'rxjs';
+import { filter, map, Observable, switchMap, tap } from 'rxjs';
 
 export interface OverviewRow {
   organization: OrganizationDto;

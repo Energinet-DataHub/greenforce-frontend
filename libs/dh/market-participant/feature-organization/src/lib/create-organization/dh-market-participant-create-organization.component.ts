@@ -22,9 +22,7 @@ import {
   NgModule,
   Output,
 } from '@angular/core';
-import {
-  DhMarketParticipantOverviewDataAccessApiStore,
-} from '@energinet-datahub/dh/market-participant/data-access-api';
+import { DhMarketParticipantOverviewDataAccessApiStore } from '@energinet-datahub/dh/market-participant/data-access-api';
 import {
   ChangeOrganizationDto,
   ContactDto,
@@ -64,10 +62,7 @@ export class DhMarketParticipantCreateOrganizationComponent {
     this.allowSaveChanges = this.validateChanges();
   };
 
-  readonly hasContactChanges = (
-    add: any[],
-    remove: ContactDto[]
-  ) => {
+  readonly hasContactChanges = (add: any[], remove: ContactDto[]) => {
     this.addedContacts = add;
     this.removedContacts = remove;
     this.allowSaveChanges = this.validateChanges();

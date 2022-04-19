@@ -24,13 +24,14 @@ describe('DhMarketParticipantEditOrganizationComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ DhMarketParticipantEditOrganizationComponent ]
-    })
-    .compileComponents();
+      declarations: [DhMarketParticipantEditOrganizationComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DhMarketParticipantEditOrganizationComponent);
+    fixture = TestBed.createComponent(
+      DhMarketParticipantEditOrganizationComponent
+    );
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
