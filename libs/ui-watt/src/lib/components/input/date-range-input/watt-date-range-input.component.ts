@@ -107,7 +107,7 @@ export class WattDateRangeInputComponent
     @Host() private parentControlDirective: NgControl,
     private changeDetectorRef: ChangeDetectorRef,
     private inputMaskService: WattInputMaskService,
-    private rangeInputService: WattRangeInputService,
+    private rangeInputService: WattRangeInputService
   ) {
     this.parentControlDirective.valueAccessor = this;
   }
