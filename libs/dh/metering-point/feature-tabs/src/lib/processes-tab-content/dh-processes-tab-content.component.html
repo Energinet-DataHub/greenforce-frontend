@@ -21,7 +21,21 @@ limitations under the License.
   <ng-container *ngIf="!isLoading">
     <h1>Work in Progress</h1>
     <ng-container *rxLet="processes$ as processes">
-      <dh-processes-table [processes]="processes"></dh-processes-table>
+      <ng-container *ngIf="processes && processes.length == 0; else emptyTab">
+        <dh-processes-table [processes]="processes"></dh-processes-table>
+      </ng-container>
     </ng-container>
   </ng-container>
 </ng-container>
+
+<ng-template #emptyTab>
+  <ng-container
+    *transloco="let transloco; read: 'meteringPoint.overview.processesTab'"
+  >
+    <watt-empty-state
+      size="small"
+      [title]="transloco('noProcessesFound')"
+      [message]="transloco('noProcessesText')"
+    ></watt-empty-state>
+  </ng-container>
+</ng-template>

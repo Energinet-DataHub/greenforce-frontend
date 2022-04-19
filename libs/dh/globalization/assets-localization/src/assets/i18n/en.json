@@ -82,9 +82,10 @@
           "effectiveDate": "Sort by validity date",
           "status": "Sort by status"
         },
-        "noProcessesFound": "Unable to find any process(es)",
-        "noProcessesText": "We did not find any process(es) on this metering point",
-        "processDenied": "Rejected"
+        "noProcessesFound": "No processes",
+        "noProcessesText": "We did not find any processes on this metering point",
+        "processRejected": "Rejected"
+      }
     },
     "secondaryMasterData": {
       "technicalSpecificationTitle": "Technical specifications",

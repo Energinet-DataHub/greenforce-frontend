@@ -82,9 +82,9 @@
           "effectiveDate": "Sorter efter skæringsdato",
           "status": "Sorter efter status"
         },
-        "noProcessesFound": "Vi fandt desværre ingen processer.",
+        "noProcessesFound": "Ingen processer.",
         "noProcessesText": "Vi fandt ingen processer til dette målepunkt",
-        "processDenied": "Afvist"
+        "processRejected": "Afvist"
       }
     },
     "secondaryMasterData": {

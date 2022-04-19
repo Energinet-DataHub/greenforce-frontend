@@ -34,11 +34,7 @@ import { RouterModule } from '@angular/router';
 import { DhProcess } from '@energinet-datahub/dh/metering-point/domain';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 
-import {
-  WattEmptyStateModule,
-  WattIconModule,
-  WattIconSize,
-} from '@energinet-datahub/watt';
+import { WattIconModule, WattIconSize } from '@energinet-datahub/watt';
 import { TranslocoModule } from '@ngneat/transloco';
 import { DhProcessesDetailItemScam } from '../processes-detail-item/dh-processes-detail-item.component';
 import { DhTableRow } from './dh-table-row';
@@ -152,7 +148,6 @@ export class DhProcessesTableComponent implements AfterViewInit {
     WattIconModule,
     MatSortModule,
     CommonModule,
-    WattEmptyStateModule,
     RouterModule,
     DhSharedUiDateTimeModule,
     DhProcessesDetailItemScam,
