@@ -69,17 +69,17 @@
 # }
 
 # TODO: Change name to "bff" in next PR
-module "bff_w" {
+module "bff" {
   source                                        = "git::https://github.com/Energinet-DataHub/geh-terraform-modules.git//azure/app-service?ref=5.8.0"
 
   # TODO: Change name to "bff" in next PR
-  name                                          = "bff-w"
+  name                                          = "bff"
   project_name                                  = var.domain_name_short
   environment_short                             = var.environment_short
   environment_instance                          = var.environment_instance
   resource_group_name                           = azurerm_resource_group.this.name
   location                                      = azurerm_resource_group.this.location
-  app_service_plan_id                           = module.plan_bff_w.id
+  app_service_plan_id                           = module.plan_bff.id
   application_insights_instrumentation_key      = data.azurerm_key_vault_secret.appi_shared_instrumentation_key.value
   dotnet_framework_version                      = "v6.0"
 
@@ -97,11 +97,11 @@ module "bff_w" {
 }
 
 # TODO: Change name to "plan_bff" in next PR
-module "plan_bff_w" {
+module "plan_bff" {
   source                         = "git::https://github.com/Energinet-DataHub/geh-terraform-modules.git//azure/app-service-plan?ref=5.11.0"
 
   # TODO: Change name to "bff" in next PR
-  name                           = "bff-w"
+  name                           = "bff"
   project_name                   = var.domain_name_short
   environment_short              = var.environment_short
   environment_instance           = var.environment_instance
