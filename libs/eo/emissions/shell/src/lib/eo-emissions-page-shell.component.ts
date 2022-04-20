@@ -14,11 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  ChangeDetectionStrategy,
-  Component,
-  NgModule,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -34,9 +30,7 @@ import {
       }
     `,
   ],
-  template: `
-    <h3>Emissions page</h3>
-  `,
+  template: ` <h3>Emissions page</h3> `,
 })
 export class EoEmissionsPageShellComponent {}
 

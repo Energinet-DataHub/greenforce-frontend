@@ -17,7 +17,7 @@
 
 import {
   EoEmissionsPageShellComponent,
-  EoEmissionsPageShellScam
+  EoEmissionsPageShellScam,
 } from './eo-emissions-page-shell.component';
 import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
