@@ -18,8 +18,7 @@ import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Meta, moduleMetadata, Story } from '@storybook/angular';
 
-// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
-import { DhConfigurationLocalizationModule } from '@energinet-datahub/dh/globalization/configuration-localization';
+import { StorybookConfigurationLocalizationModule } from '../../+storybook/configuration-localization/storybook-configuration-localization.module';
 
 import { WattFormFieldModule } from '../../../form-field/form-field.module';
 import { WattTimeRangeInputComponent } from '../watt-time-range-input.component';
@@ -34,7 +33,7 @@ export default {
         WattFormFieldModule,
         WattTimeRangeInputModule,
         BrowserAnimationsModule,
-        DhConfigurationLocalizationModule.forRoot(),
+        StorybookConfigurationLocalizationModule.forRoot(),
       ],
     }),
   ],
