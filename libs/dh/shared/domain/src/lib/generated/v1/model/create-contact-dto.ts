@@ -9,14 +9,14 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { ContactCategory } from './contact-category';
 
 
-export interface AddressDto { 
-    streetName?: string | null;
-    number?: string | null;
-    zipCode?: string | null;
-    city?: string | null;
-    country: string;
+export interface CreateContactDto { 
+    name: string;
+    category: ContactCategory;
+    email: string;
+    phone?: string | null;
 }
 
 

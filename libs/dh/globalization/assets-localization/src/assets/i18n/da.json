@@ -291,13 +291,21 @@
   },
   "marketParticipant": {
     "organization": {
+      "header": "Organisationer",
       "columns": {
         "organization": "Organisation",
-        "gln": "GLN",
+        "gln": "Organisationskode",
         "status": "Status",
         "marketRoles": "Markedsroller",
         "gridAreas": "Netområder",
         "noActors": "Ingen aktører"
+      },
+      "status": {
+        "New": "Ny",
+        "Active": "Aktiv",
+        "Inactive": "Inaktiv",
+        "Passive": "Passiv",
+        "Deleted": "Slettet"
       },
       "marketRoles": {
         "BalanceResponsibleParty": "Balance responsible party",
@@ -359,6 +367,64 @@
         "last": "Sidste side",
         "next": "Næste side",
         "previous": "Forrige side"
+      },
+      "create": {
+        "organizationHeader": "Rediger organisation",
+        "masterDataTabHeader": "Stamdata",
+        "contactDataTabHeader": "Kontakter",
+        "cancelLabel": "Annuller",
+        "saveLabel": "Gem",
+        "masterData": {
+          "organizationNameLabel": "Navn",
+          "businessRegistrationIdetifierLabel": "CVR-nr.",
+          "streetNameLabel": "Vejnavn",
+          "streetNumberLabel": "Vej nr.",
+          "zipCodeLabel": "Post nr.",
+          "cityLabel": "By",
+          "countryLabel": "Land",
+          "fieldRequiredErrorText": "Feltet er påkrævet.",
+          "businessRegistrationIdentifierLengthErrorText": "Ugyldigt CVR-nr.",
+          "countries": {
+            "at": "Østrig",
+            "be": "Belgien",
+            "bg": "Bulgarien",
+            "hr": "Kroatien",
+            "cy": "Cypern",
+            "cz": "Tjekkiet",
+            "dk": "Danmark",
+            "ee": "Estland",
+            "fi": "Finland",
+            "fr": "Frankrig",
+            "de": "Tyskland",
+            "gr": "Grækenland",
+            "hu": "Ungarn",
+            "ie": "Irland",
+            "it": "Italien",
+            "lv": "Letland",
+            "lt": "Litauen",
+            "lu": "Luxembourg",
+            "mt": "Malta",
+            "nl": "Holland",
+            "no": "Norge",
+            "pl": "Polen",
+            "pt": "Portugal",
+            "ro": "Rumænien",
+            "sk": "Slovakiet",
+            "si": "Slovenien",
+            "es": "Spanien",
+            "se": "Sverige",
+            "gb": "England"
+          }
+        },
+        "contacts": {
+          "category": "Kategori",
+          "name": "Navn",
+          "namePlaceholder": "Navn",
+          "email": "E-mail",
+          "emailPlaceholder": "E-mail",
+          "phone": "Telefon",
+          "phonePlaceholder": "Telefon (valgfri)"
+        }
       }
     }
   }

@@ -16,15 +16,15 @@
  */
 import { CommonModule } from '@angular/common';
 import {
-  AfterViewInit,
   Component,
   NgModule,
+  OnDestroy,
   OnInit,
   ViewChild,
 } from '@angular/core';
 import {
   DhMarketParticipantOverviewDataAccessApiStore,
-  OrganizationWithActor,
+  OverviewRow,
 } from '@energinet-datahub/dh/market-participant/data-access-api';
 import { LetModule } from '@rx-angular/template/let';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
@@ -35,6 +35,7 @@ import {
   WattIconModule,
   WattEmptyStateModule,
   WattSpinnerModule,
+  WattValidationMessageModule,
 } from '@energinet-datahub/watt';
 import { MatMenuModule } from '@angular/material/menu';
 import {
@@ -42,6 +43,8 @@ import {
   MatPaginatorIntl,
   MatPaginatorModule,
 } from '@angular/material/paginator';
+import { DhMarketParticipantFeatureEditOrganizationModule } from '@energinet-datahub/dh/market-participant/edit-organization';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'dh-market-participant-organization',
@@ -50,15 +53,17 @@ import {
   providers: [DhMarketParticipantOverviewDataAccessApiStore],
 })
 export class DhMarketParticipantOrganizationComponent
-  implements AfterViewInit, OnInit
+  implements OnInit, OnDestroy
 {
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+
+  private destroy$ = new Subject<void>();
+
   constructor(
     public store: DhMarketParticipantOverviewDataAccessApiStore,
     private translocoService: TranslocoService,
     private matPaginatorIntl: MatPaginatorIntl
   ) {}
-
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   columnIds = [
     'OrgName',
@@ -69,23 +74,30 @@ export class DhMarketParticipantOrganizationComponent
     'RowEdit',
   ];
 
-  readonly dataSource: MatTableDataSource<OrganizationWithActor> =
-    new MatTableDataSource<OrganizationWithActor>();
+  readonly dataSource: MatTableDataSource<OverviewRow> =
+    new MatTableDataSource<OverviewRow>();
+
+  isLoading$ = this.store.isLoading$;
+  overviewList$ = this.store.overviewList$;
+  validationError$ = this.store.validationError$;
+
+  hasSelection$ = this.store.hasSelection$;
+  selection$ = this.store.selection$;
 
   ngOnInit() {
     this.setupPaginatorTranslation();
-  }
-
-  ngAfterViewInit() {
-    this.store.state$.subscribe((x) => {
-      this.dataSource.data = x.organizations;
+    this.overviewList$.pipe(takeUntil(this.destroy$)).subscribe((rows) => {
+      this.dataSource.data = rows;
       this.dataSource.paginator = this.paginator;
     });
-
-    this.store.beginLoading();
   }
 
-  setupPaginatorTranslation = () => {
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.unsubscribe();
+  }
+
+  private readonly setupPaginatorTranslation = () => {
     const temp = this.matPaginatorIntl.getRangeLabel;
     this.matPaginatorIntl.getRangeLabel = (page, pageSize, length) =>
       temp(page, pageSize, length).replace(
@@ -97,6 +109,7 @@ export class DhMarketParticipantOrganizationComponent
 
     this.translocoService
       .selectTranslateObject('marketParticipant.organization.paginator')
+      .pipe(takeUntil(this.destroy$))
       .subscribe((value) => {
         this.matPaginatorIntl.itemsPerPageLabel = value.itemsPerPageLabel;
         this.matPaginatorIntl.nextPageLabel = value.next;
@@ -107,8 +120,17 @@ export class DhMarketParticipantOrganizationComponent
       });
   };
 
-  onEditClicked = (e: OrganizationWithActor) =>
-    console.log('Clicked edit on', e);
+  readonly setRowSelection = (row: OverviewRow) => {
+    this.store.setSelection(row);
+  };
+
+  readonly onCancelled = () => {
+    this.store.clearSelection();
+  };
+
+  readonly onSaved = () => {
+    this.store.clearSelectionAndRefresh();
+  };
 }
 
 @NgModule({
@@ -124,6 +146,8 @@ export class DhMarketParticipantOrganizationComponent
     WattIconModule,
     WattEmptyStateModule,
     WattSpinnerModule,
+    WattValidationMessageModule,
+    DhMarketParticipantFeatureEditOrganizationModule,
   ],
   declarations: [DhMarketParticipantOrganizationComponent],
 })

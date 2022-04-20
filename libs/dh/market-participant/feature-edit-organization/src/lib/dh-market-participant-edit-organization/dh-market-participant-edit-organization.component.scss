@@ -14,5 +14,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './lib/dh-market-participant-data-access-api.store';
-export * from './lib/dh-market-participant-edit-organization-data-access-api.store';
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--watt-space-s);
+}
+
+.tabs {
+  flex-grow: 1;
+}
+
+.button-container {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--watt-space-s);
+}

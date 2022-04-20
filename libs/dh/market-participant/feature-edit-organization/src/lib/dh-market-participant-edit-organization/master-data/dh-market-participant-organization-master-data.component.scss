@@ -14,5 +14,37 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './lib/dh-market-participant-data-access-api.store';
-export * from './lib/dh-market-participant-edit-organization-data-access-api.store';
+
+.form-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--watt-space-m);
+}
+
+.field-name {
+  max-width: 600px;
+}
+
+.field-bri {
+  max-width: 200px;
+}
+
+.field-street-name {
+  max-width: 600px;
+}
+
+.field-street-number {
+  max-width: 200px;
+}
+
+.field-zip-code {
+  max-width: 200px;
+}
+
+.field-city {
+  max-width: 250px;
+}
+
+.field-country {
+  max-width: 300px;
+}
