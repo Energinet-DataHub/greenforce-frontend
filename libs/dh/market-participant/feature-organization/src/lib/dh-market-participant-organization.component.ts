@@ -15,7 +15,13 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import { Component, NgModule, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  NgModule,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import {
   DhMarketParticipantOverviewDataAccessApiStore,
   OverviewRow,
@@ -37,7 +43,8 @@ import {
   MatPaginatorIntl,
   MatPaginatorModule,
 } from '@angular/material/paginator';
-import { DhMarketParticipantCreateOrganizationScam } from './create-organization/dh-market-participant-create-organization.component';
+import { DhMarketParticipantFeatureEditOrganizationModule } from '@energinet-datahub/dh/market-participant/edit-organization';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'dh-market-participant-organization',
@@ -45,14 +52,18 @@ import { DhMarketParticipantCreateOrganizationScam } from './create-organization
   templateUrl: './dh-market-participant-organization.component.html',
   providers: [DhMarketParticipantOverviewDataAccessApiStore],
 })
-export class DhMarketParticipantOrganizationComponent implements OnInit {
+export class DhMarketParticipantOrganizationComponent
+  implements OnInit, OnDestroy
+{
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+
+  private destroy$ = new Subject<void>();
+
   constructor(
     public store: DhMarketParticipantOverviewDataAccessApiStore,
     private translocoService: TranslocoService,
     private matPaginatorIntl: MatPaginatorIntl
   ) {}
-
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   columnIds = [
     'OrgName',
@@ -66,19 +77,27 @@ export class DhMarketParticipantOrganizationComponent implements OnInit {
   readonly dataSource: MatTableDataSource<OverviewRow> =
     new MatTableDataSource<OverviewRow>();
 
-  selection$ = this.store.select((state) => state.selection);
-  overviewList$ = this.store.select((state) => state.overviewList);
-  validationError$ = this.store.select((state) => state.validation);
+  isLoading$ = this.store.isLoading$;
+  overviewList$ = this.store.overviewList$;
+  validationError$ = this.store.validationError$;
+
+  hasSelection$ = this.store.hasSelection$;
+  selection$ = this.store.selection$;
 
   ngOnInit() {
     this.setupPaginatorTranslation();
-    this.overviewList$.subscribe((rows) => {
+    this.overviewList$.pipe(takeUntil(this.destroy$)).subscribe((rows) => {
       this.dataSource.data = rows;
       this.dataSource.paginator = this.paginator;
     });
   }
 
-  setupPaginatorTranslation = () => {
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.unsubscribe();
+  }
+
+  private readonly setupPaginatorTranslation = () => {
     const temp = this.matPaginatorIntl.getRangeLabel;
     this.matPaginatorIntl.getRangeLabel = (page, pageSize, length) =>
       temp(page, pageSize, length).replace(
@@ -90,6 +109,7 @@ export class DhMarketParticipantOrganizationComponent implements OnInit {
 
     this.translocoService
       .selectTranslateObject('marketParticipant.organization.paginator')
+      .pipe(takeUntil(this.destroy$))
       .subscribe((value) => {
         this.matPaginatorIntl.itemsPerPageLabel = value.itemsPerPageLabel;
         this.matPaginatorIntl.nextPageLabel = value.next;
@@ -98,6 +118,18 @@ export class DhMarketParticipantOrganizationComponent implements OnInit {
         this.matPaginatorIntl.lastPageLabel = value.last;
         this.dataSource.paginator = this.paginator;
       });
+  };
+
+  readonly setRowSelection = (row: OverviewRow) => {
+    this.store.setSelection(row);
+  };
+
+  readonly onCancelled = () => {
+    this.store.clearSelection();
+  };
+
+  readonly onSaved = () => {
+    this.store.clearSelectionAndRefresh();
   };
 }
 
@@ -115,7 +147,7 @@ export class DhMarketParticipantOrganizationComponent implements OnInit {
     WattEmptyStateModule,
     WattSpinnerModule,
     WattValidationMessageModule,
-    DhMarketParticipantCreateOrganizationScam,
+    DhMarketParticipantFeatureEditOrganizationModule,
   ],
   declarations: [DhMarketParticipantOrganizationComponent],
 })

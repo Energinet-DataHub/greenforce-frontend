@@ -98,6 +98,7 @@ export class DhMarketParticipantOrganizationContactDataComponent
           isNewPlaceholder: false,
           contact: contact,
           changed: {
+            isValid: true,
             category: contact.category,
             name: contact.name,
             email: contact.email,
@@ -166,7 +167,7 @@ export class DhMarketParticipantOrganizationContactDataComponent
       isModified: false,
       isNewPlaceholder: true,
       contact: { category: 'Default', name: '', email: '', contactId: '' },
-      changed: { category: 'Default', name: '', email: '' },
+      changed: { category: 'Default', name: '', email: '', isValid: false },
     };
   };
 }

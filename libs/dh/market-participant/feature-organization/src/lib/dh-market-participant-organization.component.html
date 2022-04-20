@@ -15,10 +15,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<ng-container
-  *transloco="let transloco; read: 'marketParticipant.organization'"
->
-  <ng-container *rxLet="this.store.state$ as storeState">
+<ng-container *transloco="let t; read: 'marketParticipant.organization'">
+  <ng-container *rxLet="this.isLoading$ as isLoading">
     <!-- Validation -->
     <ng-container *rxLet="this.validationError$ as validationError">
       <watt-validation-message
@@ -28,155 +26,143 @@ limitations under the License.
       ></watt-validation-message>
     </ng-container>
 
-    <!-- Header -->
-    <ng-container *ngIf="!storeState.selection">
-      <div class="create_organization_block">
-        <h1>{{ transloco("header") }}</h1>
-        <watt-button
-          variant="primary"
-          (click)="this.store.createOrganization()"
-          >{{ transloco("createOrganization") }}</watt-button
+    <ng-container *rxLet="this.hasSelection$ as hasSelection">
+      <!-- Header -->
+      <ng-container *ngIf="!hasSelection">
+        <div class="create-organization-block">
+          <h1>{{ t("header") }}</h1>
+          <watt-button variant="primary" [disabled]="isLoading">{{
+            t("createOrganization")
+          }}</watt-button>
+          <!-- (click)="this.store.createOrganization()" -->
+        </div>
+      </ng-container>
+
+      <!-- Table -->
+      <div [hidden]="hasSelection">
+        <table
+          mat-table
+          [dataSource]="this.dataSource"
+          aria-label="organizations"
         >
-      </div>
-    </ng-container>
+          <!-- Organization Name -->
+          <ng-container matColumnDef="{{ this.columnIds[0] }}">
+            <th mat-header-cell *matHeaderCellDef>
+              {{ t("columns.organization") }}
+            </th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.organization.name }}
+            </td>
+          </ng-container>
 
-    <!-- Table -->
-    <div [hidden]="storeState.selection">
-      <table
-        mat-table
-        [dataSource]="this.dataSource"
-        aria-label="organizations"
-      >
-        <!-- Organization Name -->
-        <ng-container matColumnDef="{{ this.columnIds[0] }}">
-          <th mat-header-cell *matHeaderCellDef>
-            {{ transloco("columns.organization") }}
-          </th>
-          <td mat-cell *matCellDef="let element">
-            {{ element.organization.name }}
-          </td>
-        </ng-container>
+          <!-- Actor GLN -->
+          <ng-container matColumnDef="{{ this.columnIds[1] }}">
+            <th mat-header-cell *matHeaderCellDef>
+              {{ t("columns.gln") }}
+            </th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.actor?.gln.value ?? "-" }}
+            </td>
+          </ng-container>
 
-        <!-- Actor GLN -->
-        <ng-container matColumnDef="{{ this.columnIds[1] }}">
-          <th mat-header-cell *matHeaderCellDef>
-            {{ transloco("columns.gln") }}
-          </th>
-          <td mat-cell *matCellDef="let element">
-            {{ element.actor?.gln.value ?? "-" }}
-          </td>
-        </ng-container>
+          <!-- Actor status -->
+          <ng-container matColumnDef="{{ this.columnIds[2] }}">
+            <th mat-header-cell *matHeaderCellDef>
+              {{ t("columns.status") }}
+            </th>
+            <td mat-cell *matCellDef="let element">
+              <watt-badge *ngIf="element.actor !== undefined" type="info">{{
+                t("status." + element.actor.status)
+              }}</watt-badge>
+              <watt-badge *ngIf="element.actor === undefined" type="warning">{{
+                t("columns.noActors")
+              }}</watt-badge>
+            </td>
+          </ng-container>
 
-        <!-- Actor status -->
-        <ng-container matColumnDef="{{ this.columnIds[2] }}">
-          <th mat-header-cell *matHeaderCellDef>
-            {{ transloco("columns.status") }}
-          </th>
-          <td mat-cell *matCellDef="let element">
-            <watt-badge *ngIf="element.actor !== undefined" type="info">{{
-              transloco("status." + element.actor.status)
-            }}</watt-badge>
-            <watt-badge *ngIf="element.actor === undefined" type="warning">{{
-              transloco("columns.noActors")
-            }}</watt-badge>
-          </td>
-        </ng-container>
+          <!-- Actor market roles -->
+          <ng-container matColumnDef="{{ this.columnIds[3] }}">
+            <th mat-header-cell *matHeaderCellDef>
+              {{ t("columns.marketRoles") }}
+            </th>
+            <td mat-cell *matCellDef="let element">
+              <ng-container *ngIf="element.actor !== undefined">
+                <div *ngFor="let mr of element.actor.marketRoles">
+                  {{ t("marketRoles." + mr.function) }}
+                </div>
+              </ng-container>
+              <ng-container *ngIf="element.actor === undefined">-</ng-container>
+            </td>
+          </ng-container>
 
-        <!-- Actor market roles -->
-        <ng-container matColumnDef="{{ this.columnIds[3] }}">
-          <th mat-header-cell *matHeaderCellDef>
-            {{ transloco("columns.marketRoles") }}
-          </th>
-          <td mat-cell *matCellDef="let element">
-            <ng-container *ngIf="element.actor !== undefined">
-              <div *ngFor="let mr of element.actor.marketRoles">
-                {{ transloco("marketRoles." + mr.function) }}
+          <!-- Actor grid areas -->
+          <ng-container matColumnDef="{{ this.columnIds[4] }}">
+            <th mat-header-cell *matHeaderCellDef>
+              {{ t("columns.gridAreas") }}
+            </th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.actor?.gridAreas ?? "-" }}
+            </td>
+          </ng-container>
+
+          <!-- Edit -->
+          <ng-container matColumnDef="{{ this.columnIds[5] }}">
+            <th mat-header-cell *matHeaderCellDef></th>
+            <td mat-cell *matCellDef="let element">
+              <div class="edit_cell">
+                <watt-icon-button icon="edit" [mat-menu-trigger-for]="menu">
+                </watt-icon-button>
+                <mat-menu #menu="matMenu">
+                  <button mat-menu-item (click)="setRowSelection(element)">
+                    {{ t("editOrganization") }}
+                  </button>
+                  <button mat-menu-item (click)="setRowSelection(element)">
+                    {{ t("editActor") }}
+                  </button>
+                </mat-menu>
               </div>
-            </ng-container>
-            <ng-container *ngIf="element.actor === undefined">-</ng-container>
-          </td>
-        </ng-container>
+            </td>
+          </ng-container>
 
-        <!-- Actor grid areas -->
-        <ng-container matColumnDef="{{ this.columnIds[4] }}">
-          <th mat-header-cell *matHeaderCellDef>
-            {{ transloco("columns.gridAreas") }}
-          </th>
-          <td mat-cell *matCellDef="let element">
-            {{ element.actor?.gridAreas ?? "-" }}
-          </td>
-        </ng-container>
+          <tr
+            mat-header-row
+            *matHeaderRowDef="this.columnIds; sticky: true"
+          ></tr>
+          <tr mat-row *matRowDef="let row; columns: this.columnIds"></tr>
+        </table>
 
-        <!-- Edit -->
-        <ng-container matColumnDef="{{ this.columnIds[5] }}">
-          <th mat-header-cell *matHeaderCellDef></th>
-          <td mat-cell *matCellDef="let element">
-            <div class="edit_cell">
-              <watt-icon-button icon="edit" [mat-menu-trigger-for]="menu">
-              </watt-icon-button>
-              <mat-menu #menu="matMenu">
-                <button
-                  mat-menu-item
-                  (click)="this.store.setSelection(element)"
-                >
-                  {{ transloco("editOrganization") }}
-                </button>
-                <button
-                  mat-menu-item
-                  (click)="this.store.setSelection(element)"
-                >
-                  {{ transloco("editActor") }}
-                </button>
-              </mat-menu>
-            </div>
-          </td>
-        </ng-container>
+        <mat-paginator
+          [pageSizeOptions]="[5, 10, 20, 50]"
+          pageSize="10"
+          showFirstLastButtons
+        ></mat-paginator>
+      </div>
 
-        <tr mat-header-row *matHeaderRowDef="this.columnIds; sticky: true"></tr>
-        <tr mat-row *matRowDef="let row; columns: this.columnIds"></tr>
-      </table>
+      <!-- Spinner -->
+      <div *ngIf="isLoading" class="overview__spinner spinner-container">
+        <watt-spinner></watt-spinner>
+      </div>
 
-      <mat-paginator
-        [pageSizeOptions]="[5, 10, 20, 50]"
-        pageSize="10"
-        showFirstLastButtons
-      ></mat-paginator>
-    </div>
-
-    <!-- Spinner -->
-    <div
-      *ngIf="storeState.isLoading"
-      class="overview__spinner spinner_container"
-    >
-      <watt-spinner></watt-spinner>
-    </div>
-
-    <!-- Empty -->
-    <watt-empty-state
-      *ngIf="!storeState.isLoading && storeState.overviewList.length < 1"
-      icon="power"
-      size="small"
-      [title]="transloco('noOrganizations')"
-    ></watt-empty-state>
-
-    <!-- Selection -->
-    <ng-container *ngIf="storeState.selection as selection">
-      <dh-market-participant-create-organization
-        [organization]="selection.organization"
-        [contacts]="selection.contacts"
-        [isBusy]="storeState.isLoading"
-        (save)="
-          this.store.saveChanges(
-            {
-              original: $event.organization,
-              changes: $event.changedOrganization
-            },
-            { add: $event.addedContacts, remove: $event.removedContacts }
-          )
+      <!-- Empty -->
+      <watt-empty-state
+        *ngIf="
+          !isLoading &&
+          !hasSelection &&
+          (this.overviewList$ | async)?.length === 0
         "
-        (cancel)="this.store.discardChanges()"
-      >
-      </dh-market-participant-create-organization>
+        icon="power"
+        size="small"
+        [title]="t('noOrganizations')"
+      ></watt-empty-state>
+
+      <!-- Edit -->
+      <ng-container *ngIf="this.selection$ | async as selection">
+        <dh-market-participant-edit-organization
+          [source]="selection.source"
+          (cancelled)="this.onCancelled()"
+          (saved)="this.onSaved()"
+        ></dh-market-participant-edit-organization>
+      </ng-container>
     </ng-container>
   </ng-container>
 </ng-container>
