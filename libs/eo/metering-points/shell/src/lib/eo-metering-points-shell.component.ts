@@ -33,7 +33,7 @@ import { EoMeteringPointsStore } from './eo-metering-points.store';
     `,
   ],
   template: `<ng-container *rxLet="meteringPoints$ as meteringPoints">
-    <p *ngIf="meteringPoints.length < 1">
+    <p class="metering-point" *ngIf="meteringPoints.length < 1">
       You do not have any metering points.
     </p>
     <p
