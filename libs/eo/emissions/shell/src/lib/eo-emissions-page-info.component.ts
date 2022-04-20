@@ -40,7 +40,7 @@ import { MatCardModule } from '@angular/material/card';
   template: `
     <mat-card>
       <p>Your emissions in 2021</p>
-      <h1>1.198 kg co2</h1>
+      <h1>1.198 kg co<sub>2</sub></h1>
     </mat-card>
   `,
 })
