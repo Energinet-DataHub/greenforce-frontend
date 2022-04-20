@@ -14,7 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
+import { Observable, of } from 'rxjs';
+import { MeteringPointsResponse } from './eo-metering-points.service';
+import { EoMeteringPointsStore } from './eo-metering-points.store';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -26,12 +30,20 @@ import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
       }
     `,
   ],
-  template: `<p>You do not have any metering points.</p>`,
+  template: `<p>You do not have any metering points.</p>
+    <p *ngFor="let point of meteringPoints$ | async">{{ point.gsrn }}</p>`,
+  viewProviders: [EoMeteringPointsStore],
 })
-export class EoMeteringPointsShellComponent {}
+export class EoMeteringPointsShellComponent {
+  meteringPoints$: Observable<Array<MeteringPointsResponse>> =
+    this.meteringPointsStore.meteringPoints$;
+
+  constructor(private meteringPointsStore: EoMeteringPointsStore) {}
+}
 
 @NgModule({
   declarations: [EoMeteringPointsShellComponent],
   exports: [EoMeteringPointsShellComponent],
+  imports: [CommonModule],
 })
 export class EoMeteringPointsShellScam {}
