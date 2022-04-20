@@ -28,11 +28,6 @@ inputs:
 runs:
   using: composite
   steps:
-    - name: Publish Swagger
-      shell: bash
-      run: |
-        cp '${{ github.workspace }}\apps\dh\api-dh\source\DataHub.WebApi\bin\Release\net6.0\swagger.json' '${{ inputs.OUTPUT_PATH }}'
-
     - name: Publish Web API
       shell: bash
       run: |
@@ -42,3 +37,8 @@ runs:
           --no-restore \
           --configuration Release \
           --output '${{ inputs.OUTPUT_PATH }}\functions\bff'
+
+    - name: Publish Swagger
+      shell: bash
+      run: |
+        cp '${{ github.workspace }}\apps\dh\api-dh\source\DataHub.WebApi\bin\Release\net6.0\swagger.json' '${{ inputs.OUTPUT_PATH }}'
