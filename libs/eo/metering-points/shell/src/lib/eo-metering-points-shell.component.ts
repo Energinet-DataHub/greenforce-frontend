@@ -15,11 +15,12 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import { Component, NgModule } from '@angular/core';
+import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
 import { LetModule } from '@rx-angular/template';
 import { EoMeteringPointsStore } from './eo-metering-points.store';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'eo-metering-points-shell',
   styles: [
     `
