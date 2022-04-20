@@ -15,13 +15,14 @@
  * limitations under the License.
  */
 import { Injectable } from '@angular/core';
-import { ComponentStore } from '@ngrx/component-store';
+import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import {
   ActorDto,
   OrganizationDto,
   MarketParticipantHttp,
 } from '@energinet-datahub/dh/shared/domain';
 import { filter, map, Observable, switchMap, tap } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
 
 export interface OverviewRow {
   organization: OrganizationDto;
@@ -33,7 +34,11 @@ interface MarketParticipantState {
 
   // Overview
   isListRefreshRequired: boolean;
-  overviewList: OverviewRow[];
+
+  // Create and Edit
+  selection?: {
+    source: OverviewRow | undefined;
+  };
 
   // Validation
   validation?: {
@@ -44,16 +49,23 @@ interface MarketParticipantState {
 const initialState: MarketParticipantState = {
   isLoading: false,
   isListRefreshRequired: true,
-  overviewList: [],
 };
 
 @Injectable()
 export class DhMarketParticipantOverviewDataAccessApiStore extends ComponentStore<MarketParticipantState> {
+  isLoading$ = this.select((state) => state.isLoading);
+  overviewList$;
+  validationError$ = this.select((state) => state.validation);
+
+  hasSelection$ = this.select((state) => state.selection !== undefined);
+  selection$ = this.select((state) => state.selection);
+
   constructor(private httpClient: MarketParticipantHttp) {
     super(initialState);
+    this.overviewList$ = this.setupRefreshListFlow();
   }
 
-  readonly setupRefreshListFlow = () => {
+  private readonly setupRefreshListFlow = () =>
     this.state$
       .pipe(filter((state) => state.isListRefreshRequired))
       .pipe(
@@ -61,34 +73,57 @@ export class DhMarketParticipantOverviewDataAccessApiStore extends ComponentStor
           this.patchState({
             isListRefreshRequired: false,
             isLoading: true,
-            overviewList: [],
+            validation: undefined,
           })
         )
       )
       .pipe(switchMap(this.getOrganizations))
-      .subscribe({
-        next: (rows) =>
-          this.patchState({
-            isLoading: false,
-            isListRefreshRequired: false,
-            overviewList: rows,
-          }),
-        error: (err) =>
-          this.patchState({
-            isLoading: false,
-            isListRefreshRequired: false,
-            validation: err,
-          }),
-      });
+      .pipe(
+        tapResponse(
+          () =>
+            {
+              console.log("ok")
+              return this.patchState({
+                isListRefreshRequired: false,
+                isLoading: false,
+              });
+            },
+          (error: HttpErrorResponse) => {
+            return this.patchState({
+              isListRefreshRequired: false,
+              isLoading: false,
+              validation: { errorMessage: error.error },
+            });
+          }
+        )
+      );
+
+  readonly setSelection = (source: OverviewRow | undefined) => {
+    this.patchState({
+      selection: { source },
+    });
   };
 
-  readonly getOrganizations = (): Observable<OverviewRow[]> => {
+  readonly clearSelection = () => {
+    this.patchState({
+      selection: undefined,
+    });
+  };
+
+  readonly clearSelectionAndRefresh = () => {
+    this.patchState({
+      selection: undefined,
+      isListRefreshRequired: true,
+    });
+  };
+
+  private readonly getOrganizations = (): Observable<OverviewRow[]> => {
     return this.httpClient
       .v1MarketParticipantOrganizationGet()
       .pipe(map(this.mapToRows));
   };
 
-  readonly mapToRows = (organizations: OrganizationDto[]) => {
+  private readonly mapToRows = (organizations: OrganizationDto[]) => {
     const rows: OverviewRow[] = [];
 
     for (const organization of organizations) {

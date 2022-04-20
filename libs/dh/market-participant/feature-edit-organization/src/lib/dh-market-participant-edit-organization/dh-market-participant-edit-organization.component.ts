@@ -14,25 +14,83 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, NgModule, OnInit } from '@angular/core';
-import { DhMarketParticipantEditOrganizationDataAccessApiStore } from '@energinet-datahub/dh/market-participant/data-access-api';
-import { WattButtonModule, WattTabsModule } from '@energinet-datahub/watt';
+import { CommonModule } from '@angular/common';
+import { Component, EventEmitter, Input, NgModule, OnChanges, Output } from '@angular/core';
+import {
+  ContactChanges,
+  DhMarketParticipantEditOrganizationDataAccessApiStore,
+  OrganizationChanges,
+  OverviewRow,
+} from '@energinet-datahub/dh/market-participant/data-access-api';
+import { LetModule } from '@rx-angular/template/let';
+import { DhMarketParticipantOrganizationMasterDataComponentScam } from './master-data/dh-market-participant-organization-master-data.component';
+import { DhMarketParticipantOrganizationContactDataComponentScam } from './contact-data/dh-market-participant-organization-contact-data.component';
+import {
+  WattButtonModule,
+  WattSpinnerModule,
+  WattTabsModule,
+} from '@energinet-datahub/watt';
+import { TranslocoModule } from '@ngneat/transloco';
+import { ContactDto } from '@energinet-datahub/dh/shared/domain';
 
 @Component({
   selector: 'dh-market-participant-edit-organization',
   templateUrl: './dh-market-participant-edit-organization.component.html',
   styleUrls: ['./dh-market-participant-edit-organization.component.scss'],
+  providers: [DhMarketParticipantEditOrganizationDataAccessApiStore],
 })
-export class DhMarketParticipantEditOrganizationComponent implements OnInit {
+export class DhMarketParticipantEditOrganizationComponent implements OnChanges {
+  @Input() source: OverviewRow | undefined;
+  @Output() cancelled = new EventEmitter();
+  @Output() saved = new EventEmitter();
+
+  isLoading$ = this.store.isLoading$;
+  contacts$ = this.store.contacts$;
+  organization$ = this.store.organization$;
+
   constructor(
     public store: DhMarketParticipantEditOrganizationDataAccessApiStore
   ) {}
 
-  ngOnInit(): void {}
+  ngOnChanges(): void {
+    if (this.source) {
+      this.store.beginEditing(this.source.organization);
+    } else {
+      this.store.beginCreating();
+    }
+  }
+
+  readonly onMasterDataChanged = (changes: OrganizationChanges) => {
+    this.store.setMasterDataChanges(changes);
+  };
+
+  readonly onContactsChanged = (
+    added: ContactChanges[],
+    removed: ContactDto[]
+  ) => {
+    this.store.setContactChanges(added, removed);
+  };
+
+  readonly onCancelled = () => {
+    this.cancelled.emit();
+  };
+
+  readonly onSaved = () => {
+    this.saved.emit();
+  };
 }
 
 @NgModule({
-  imports: [WattButtonModule, WattTabsModule],
+  imports: [
+    LetModule,
+    CommonModule,
+    TranslocoModule,
+    WattButtonModule,
+    WattTabsModule,
+    WattSpinnerModule,
+    DhMarketParticipantOrganizationMasterDataComponentScam,
+    DhMarketParticipantOrganizationContactDataComponentScam,
+  ],
   exports: [DhMarketParticipantEditOrganizationComponent],
   declarations: [DhMarketParticipantEditOrganizationComponent],
 })

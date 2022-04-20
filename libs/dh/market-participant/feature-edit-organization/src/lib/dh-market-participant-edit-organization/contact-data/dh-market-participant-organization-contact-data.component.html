@@ -15,15 +15,12 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <ng-container
-  *transloco="
-    let transloco;
-    read: 'marketParticipant.organization.create.contacts'
-  "
+  *transloco="let t; read: 'marketParticipant.organization.create.contacts'"
 >
   <table mat-table [dataSource]="this.contactRows" aria-label="contacts">
     <!-- Contact Type -->
     <ng-container matColumnDef="{{ this.columnIds[0] }}">
-      <th mat-header-cell *matHeaderCellDef>{{ transloco("category") }}</th>
+      <th mat-header-cell *matHeaderCellDef>{{ t("category") }}</th>
       <td mat-cell *matCellDef="let element">
         <watt-form-field class="field">
           <watt-dropdown
@@ -39,13 +36,13 @@ limitations under the License.
 
     <!-- Name -->
     <ng-container matColumnDef="{{ this.columnIds[1] }}">
-      <th mat-header-cell *matHeaderCellDef>{{ transloco("name") }}</th>
+      <th mat-header-cell *matHeaderCellDef>{{ t("name") }}</th>
       <td mat-cell *matCellDef="let element">
         <watt-form-field class="field"
           ><input
             wattInput
             required
-            [placeholder]="transloco('namePlaceholder')"
+            [placeholder]="t('namePlaceholder')"
             [(ngModel)]="element.changed.name"
             (ngModelChange)="this.onModelChanged(element)"
           />
@@ -55,14 +52,14 @@ limitations under the License.
 
     <!-- Email -->
     <ng-container matColumnDef="{{ this.columnIds[2] }}">
-      <th mat-header-cell *matHeaderCellDef>{{ transloco("email") }}</th>
+      <th mat-header-cell *matHeaderCellDef>{{ t("email") }}</th>
       <td mat-cell *matCellDef="let element">
         <watt-form-field class="field"
           ><input
             wattInput
             required
             type="email"
-            [placeholder]="transloco('emailPlaceholder')"
+            [placeholder]="t('emailPlaceholder')"
             [(ngModel)]="element.changed.email"
             (ngModelChange)="this.onModelChanged(element)"
         /></watt-form-field>
@@ -71,13 +68,13 @@ limitations under the License.
 
     <!-- Phone -->
     <ng-container matColumnDef="{{ this.columnIds[3] }}">
-      <th mat-header-cell *matHeaderCellDef>{{ transloco("phone") }}</th>
+      <th mat-header-cell *matHeaderCellDef>{{ t("phone") }}</th>
       <td mat-cell *matCellDef="let element">
         <watt-form-field class="field">
           <input
             wattInput
             type="tel"
-            [placeholder]="transloco('phonePlaceholder')"
+            [placeholder]="t('phonePlaceholder')"
             [(ngModel)]="element.changed.phone"
             (ngModelChange)="this.onModelChanged(element)"
           />

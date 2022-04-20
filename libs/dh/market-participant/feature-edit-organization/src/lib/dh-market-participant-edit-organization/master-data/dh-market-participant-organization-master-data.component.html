@@ -15,14 +15,11 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <ng-container
-  *transloco="
-    let transloco;
-    read: 'marketParticipant.organization.create.masterData'
-  "
+  *transloco="let t; read: 'marketParticipant.organization.create.masterData'"
 >
   <div class="form-container">
     <watt-form-field class="field-name">
-      <watt-label>{{ transloco("organizationNameLabel") }}</watt-label>
+      <watt-label>{{ t("organizationNameLabel") }}</watt-label>
       <input
         wattInput
         title="nameInput"
@@ -33,13 +30,11 @@ limitations under the License.
         maxlength="64"
       />
       <watt-error *ngIf="nameInputModel.hasError('required')">
-        {{ transloco("fieldRequiredErrorText") }}
+        {{ t("fieldRequiredErrorText") }}
       </watt-error>
     </watt-form-field>
     <watt-form-field class="field-bri">
-      <watt-label>{{
-        transloco("businessRegistrationIdetifierLabel")
-      }}</watt-label>
+      <watt-label>{{ t("businessRegistrationIdetifierLabel") }}</watt-label>
       <input
         wattInput
         title="businessRegistrationIdentifierInput"
@@ -52,12 +47,12 @@ limitations under the License.
       <watt-error
         *ngIf="businessRegisterIdentifierInputModel.hasError('required')"
       >
-        {{ transloco("fieldRequiredErrorText") }}
+        {{ t("fieldRequiredErrorText") }}
       </watt-error>
       <watt-error
         *ngIf="businessRegisterIdentifierInputModel.hasError('pattern')"
       >
-        {{ transloco("businessRegistrationIdentifierLengthErrorText") }}
+        {{ t("businessRegistrationIdentifierLengthErrorText") }}
       </watt-error>
     </watt-form-field>
   </div>
@@ -65,7 +60,7 @@ limitations under the License.
   <!-- Address -->
   <div class="form-container">
     <watt-form-field class="field-street-name">
-      <watt-label>{{ transloco("streetNameLabel") }}</watt-label>
+      <watt-label>{{ t("streetNameLabel") }}</watt-label>
       <input
         wattInput
         title="streetNameInput"
@@ -75,7 +70,7 @@ limitations under the License.
       />
     </watt-form-field>
     <watt-form-field class="field-street-number">
-      <watt-label>{{ transloco("streetNumberLabel") }}</watt-label>
+      <watt-label>{{ t("streetNumberLabel") }}</watt-label>
       <input
         wattInput
         title="streetNumberInput"
@@ -88,7 +83,7 @@ limitations under the License.
 
   <div class="form-container">
     <watt-form-field class="field-zip-code">
-      <watt-label>{{ transloco("zipCodeLabel") }}</watt-label>
+      <watt-label>{{ t("zipCodeLabel") }}</watt-label>
       <input
         wattInput
         title="zipCodeInput"
@@ -98,7 +93,7 @@ limitations under the License.
       />
     </watt-form-field>
     <watt-form-field class="field-city">
-      <watt-label>{{ transloco("cityLabel") }}</watt-label>
+      <watt-label>{{ t("cityLabel") }}</watt-label>
       <input
         wattInput
         title="cityInput"
@@ -111,7 +106,7 @@ limitations under the License.
 
   <div class="form-container">
     <watt-form-field class="field-country">
-      <watt-label>{{ transloco("countryLabel") }}</watt-label>
+      <watt-label>{{ t("countryLabel") }}</watt-label>
       <watt-dropdown
         wattInput
         title="countryInput"
@@ -123,7 +118,7 @@ limitations under the License.
       >
       </watt-dropdown>
       <watt-error *ngIf="countryInputModel.hasError('required')">
-        {{ transloco("fieldRequiredErrorText") }}
+        {{ t("fieldRequiredErrorText") }}
       </watt-error>
     </watt-form-field>
   </div>

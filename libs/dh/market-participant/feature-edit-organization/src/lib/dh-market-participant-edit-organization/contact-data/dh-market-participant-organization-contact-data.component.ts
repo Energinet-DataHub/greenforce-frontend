@@ -26,7 +26,7 @@ import {
   ChangeDetectorRef,
   ChangeDetectionStrategy,
 } from '@angular/core';
-import { DhMarketParticipantOverviewDataAccessApiStore } from '@energinet-datahub/dh/market-participant/data-access-api';
+import { ContactChanges, DhMarketParticipantOverviewDataAccessApiStore } from '@energinet-datahub/dh/market-participant/data-access-api';
 import { TranslocoModule } from '@ngneat/transloco';
 import { MatTableModule } from '@angular/material/table';
 import { FormsModule } from '@angular/forms';
@@ -44,7 +44,7 @@ import {
 
 interface EditableContactRow {
   contact: ContactDto;
-  changed: any;
+  changed: ContactChanges;
   isExisting: boolean;
   isModified: boolean;
   isNewPlaceholder: boolean;
@@ -65,7 +65,7 @@ export class DhMarketParticipantOrganizationContactDataComponent
 {
   @Input() contacts: ContactDto[] = [];
   @Output() contactsChanged = new EventEmitter<{
-    add: any[];
+    add: ContactChanges[];
     remove: ContactDto[];
   }>();
 
@@ -95,6 +95,7 @@ export class DhMarketParticipantOrganizationContactDataComponent
           isNewPlaceholder: false,
           contact: contact,
           changed: {
+            isValid: true,
             category: contact.category,
             name: contact.name,
             email: contact.email,
@@ -163,7 +164,7 @@ export class DhMarketParticipantOrganizationContactDataComponent
       isModified: false,
       isNewPlaceholder: true,
       contact: { category: 'Default', name: '', email: '', contactId: '' },
-      changed: { category: 'Default', name: '', email: '' },
+      changed: { category: 'Default', name: '', email: '', isValid: false },
     };
   };
 }

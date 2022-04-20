@@ -77,9 +77,12 @@ export class DhMarketParticipantOrganizationComponent
   readonly dataSource: MatTableDataSource<OverviewRow> =
     new MatTableDataSource<OverviewRow>();
 
-  isLoading$ = this.store.select((state) => state.isLoading);
-  overviewList$ = this.store.select((state) => state.overviewList);
-  validationError$ = this.store.select((state) => state.validation);
+  isLoading$ = this.store.isLoading$;
+  overviewList$ = this.store.overviewList$;
+  validationError$ = this.store.validationError$;
+
+  hasSelection$ = this.store.hasSelection$;
+  selection$ = this.store.selection$;
 
   ngOnInit() {
     this.setupPaginatorTranslation();
@@ -94,7 +97,7 @@ export class DhMarketParticipantOrganizationComponent
     this.destroy$.unsubscribe();
   }
 
-  setupPaginatorTranslation = () => {
+  private readonly setupPaginatorTranslation = () => {
     const temp = this.matPaginatorIntl.getRangeLabel;
     this.matPaginatorIntl.getRangeLabel = (page, pageSize, length) =>
       temp(page, pageSize, length).replace(
@@ -116,6 +119,18 @@ export class DhMarketParticipantOrganizationComponent
         this.dataSource.paginator = this.paginator;
       });
   };
+
+  readonly setRowSelection = (row: OverviewRow) => {
+    this.store.setSelection(row);
+  };
+
+  readonly onCancelled = ()=>{
+    this.store.clearSelection();
+  }
+
+  readonly onSaved = ()=>{
+    this.store.clearSelectionAndRefresh();
+  }
 }
 
 @NgModule({
