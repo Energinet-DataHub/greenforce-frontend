@@ -1,0 +1,125 @@
+<!--
+@license
+Copyright 2020 Energinet DataHub A/S
+
+Licensed under the Apache License, Version 2.0 (the "License2");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<ng-container
+  *transloco="let t; read: 'marketParticipant.organization.create.masterData'"
+>
+  <div class="form-container">
+    <watt-form-field class="field-name">
+      <watt-label>{{ t("organizationNameLabel") }}</watt-label>
+      <input
+        wattInput
+        title="nameInput"
+        [(ngModel)]="this.changes.name"
+        (ngModelChange)="this.onModelChanged()"
+        #nameInputModel="ngModel"
+        required
+        maxlength="64"
+      />
+      <watt-error *ngIf="nameInputModel.hasError('required')">
+        {{ t("fieldRequiredErrorText") }}
+      </watt-error>
+    </watt-form-field>
+    <watt-form-field class="field-bri">
+      <watt-label>{{ t("businessRegistrationIdetifierLabel") }}</watt-label>
+      <input
+        wattInput
+        title="businessRegistrationIdentifierInput"
+        [(ngModel)]="this.changes.businessRegisterIdentifier"
+        (ngModelChange)="this.onModelChanged()"
+        #businessRegisterIdentifierInputModel="ngModel"
+        required
+        pattern="[0-9]{8}"
+      />
+      <watt-error
+        *ngIf="businessRegisterIdentifierInputModel.hasError('required')"
+      >
+        {{ t("fieldRequiredErrorText") }}
+      </watt-error>
+      <watt-error
+        *ngIf="businessRegisterIdentifierInputModel.hasError('pattern')"
+      >
+        {{ t("businessRegistrationIdentifierLengthErrorText") }}
+      </watt-error>
+    </watt-form-field>
+  </div>
+
+  <!-- Address -->
+  <div class="form-container">
+    <watt-form-field class="field-street-name">
+      <watt-label>{{ t("streetNameLabel") }}</watt-label>
+      <input
+        wattInput
+        title="streetNameInput"
+        [(ngModel)]="this.changes.address.streetName"
+        (ngModelChange)="this.onModelChanged()"
+        maxlength="64"
+      />
+    </watt-form-field>
+    <watt-form-field class="field-street-number">
+      <watt-label>{{ t("streetNumberLabel") }}</watt-label>
+      <input
+        wattInput
+        title="streetNumberInput"
+        [(ngModel)]="this.changes.address.number"
+        (ngModelChange)="this.onModelChanged()"
+        maxlength="64"
+      />
+    </watt-form-field>
+  </div>
+
+  <div class="form-container">
+    <watt-form-field class="field-zip-code">
+      <watt-label>{{ t("zipCodeLabel") }}</watt-label>
+      <input
+        wattInput
+        title="zipCodeInput"
+        [(ngModel)]="this.changes.address.zipCode"
+        (ngModelChange)="this.onModelChanged()"
+        maxlength="64"
+      />
+    </watt-form-field>
+    <watt-form-field class="field-city">
+      <watt-label>{{ t("cityLabel") }}</watt-label>
+      <input
+        wattInput
+        title="cityInput"
+        [(ngModel)]="this.changes.address.city"
+        (ngModelChange)="this.onModelChanged()"
+        maxlength="64"
+      />
+    </watt-form-field>
+  </div>
+
+  <div class="form-container">
+    <watt-form-field class="field-country">
+      <watt-label>{{ t("countryLabel") }}</watt-label>
+      <watt-dropdown
+        wattInput
+        title="countryInput"
+        [options]="this.countries"
+        [(ngModel)]="this.changes.address.country"
+        (ngModelChange)="this.onModelChanged()"
+        #countryInputModel="ngModel"
+        required
+      >
+      </watt-dropdown>
+      <watt-error *ngIf="countryInputModel.hasError('required')">
+        {{ t("fieldRequiredErrorText") }}
+      </watt-error>
+    </watt-form-field>
+  </div>
+</ng-container>

@@ -14,6 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+.create-organization-block {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
 table {
   width: 100%;
 }
@@ -23,7 +30,7 @@ table {
   justify-content: right;
 }
 
-.spinner_container {
+.spinner-container {
   display: flex;
   justify-content: center;
   align-items: center;

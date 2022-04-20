@@ -15,55 +15,126 @@
  * limitations under the License.
  */
 import { Injectable } from '@angular/core';
-import { ComponentStore } from '@ngrx/component-store';
+import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import {
   ActorDto,
-  MarketParticipantHttp,
   OrganizationDto,
+  MarketParticipantHttp,
 } from '@energinet-datahub/dh/shared/domain';
-import { map } from 'rxjs';
+import { filter, map, Observable, switchMap, tap } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
 
-export interface OrganizationWithActor {
-  organization: Partial<OrganizationDto>;
-  actor?: Partial<ActorDto>;
+export interface OverviewRow {
+  organization: OrganizationDto;
+  actor?: ActorDto;
 }
 
 interface MarketParticipantState {
   isLoading: boolean;
-  organizations: OrganizationWithActor[];
+
+  // Overview
+  isListRefreshRequired: boolean;
+
+  // Create and Edit
+  selection?: {
+    source: OverviewRow | undefined;
+  };
+
+  // Validation
+  validation?: {
+    errorMessage: string;
+  };
 }
 
 const initialState: MarketParticipantState = {
-  isLoading: true,
-  organizations: [],
+  isLoading: false,
+  isListRefreshRequired: true,
 };
 
 @Injectable()
 export class DhMarketParticipantOverviewDataAccessApiStore extends ComponentStore<MarketParticipantState> {
+  isLoading$ = this.select((state) => state.isLoading);
+  overviewList$;
+  validationError$ = this.select((state) => state.validation);
+
+  hasSelection$ = this.select((state) => state.selection !== undefined);
+  selection$ = this.select((state) => state.selection);
+
   constructor(private httpClient: MarketParticipantHttp) {
     super(initialState);
+    this.overviewList$ = this.setupRefreshListFlow();
   }
 
-  readonly beginLoading = () => {
-    this.httpClient
-      .v1MarketParticipantOrganizationGet()
-      .pipe(map(this.mapActors))
-      .subscribe(this.setActors);
-  };
-
-  readonly setActors = (organizations: OrganizationWithActor[]) => {
-    this.patchState({ organizations, isLoading: false });
-  };
-
-  readonly mapActors = (organizations: OrganizationDto[]) => {
-    return organizations.reduce((running, x) => {
-      return (
-        (x.actors.length > 0 &&
-          running.concat(
-            x.actors.map((actor) => ({ organization: x, actor }))
-          )) ||
-        running.concat([{ organization: x, actor: undefined }])
+  private readonly setupRefreshListFlow = () =>
+    this.state$
+      .pipe(filter((state) => state.isListRefreshRequired))
+      .pipe(
+        tap(() =>
+          this.patchState({
+            isListRefreshRequired: false,
+            isLoading: true,
+            validation: undefined,
+          })
+        )
+      )
+      .pipe(switchMap(this.getOrganizations))
+      .pipe(
+        tapResponse(
+          () => {
+            console.log('ok');
+            return this.patchState({
+              isListRefreshRequired: false,
+              isLoading: false,
+            });
+          },
+          (error: HttpErrorResponse) => {
+            return this.patchState({
+              isListRefreshRequired: false,
+              isLoading: false,
+              validation: { errorMessage: error.error },
+            });
+          }
+        )
       );
-    }, [] as OrganizationWithActor[]);
+
+  readonly setSelection = (source: OverviewRow | undefined) => {
+    this.patchState({
+      selection: { source },
+    });
+  };
+
+  readonly clearSelection = () => {
+    this.patchState({
+      selection: undefined,
+    });
+  };
+
+  readonly clearSelectionAndRefresh = () => {
+    this.patchState({
+      selection: undefined,
+      isListRefreshRequired: true,
+    });
+  };
+
+  private readonly getOrganizations = (): Observable<OverviewRow[]> => {
+    return this.httpClient
+      .v1MarketParticipantOrganizationGet()
+      .pipe(map(this.mapToRows));
+  };
+
+  private readonly mapToRows = (organizations: OrganizationDto[]) => {
+    const rows: OverviewRow[] = [];
+
+    for (const organization of organizations) {
+      if (organization.actors.length > 0) {
+        for (const actor of organization.actors) {
+          rows.push({ organization, actor });
+        }
+      } else {
+        rows.push({ organization });
+      }
+    }
+
+    return rows;
   };
 }

@@ -270,13 +270,21 @@
   },
   "marketParticipant": {
     "organization": {
+      "header": "Organisationer",
       "columns": {
         "organization": "Organization",
-        "gln": "GLN",
+        "gln": "Organization code",
         "status": "Status",
         "marketRoles": "Market roles",
         "gridAreas": "Grid areas",
         "noActors": "No actors"
+      },
+      "status": {
+        "New": "New",
+        "Active": "Active",
+        "Inactive": "Inactive",
+        "Passive": "Passive",
+        "Deleted": "Deleted"
       },
       "marketRoles": {
         "BalanceResponsibleParty": "Balance responsible party",
@@ -338,6 +346,64 @@
         "last": "Last page",
         "next": "Next page",
         "previous": "Previous page"
+      },
+      "create": {
+        "organizationHeader": "Edit organization",
+        "masterDataTabHeader": "Master data",
+        "contactDataTabHeader": "Contacts",
+        "cancelLabel": "Cancel",
+        "saveLabel": "Save",
+        "masterData": {
+          "organizationNameLabel": "Name",
+          "businessRegistrationIdetifierLabel": "Business registration identifier",
+          "streetNameLabel": "Street name",
+          "streetNumberLabel": "Street number",
+          "zipCodeLabel": "Zip code",
+          "cityLabel": "City",
+          "countryLabel": "Country",
+          "fieldRequiredErrorText": "Field is required.",
+          "businessRegistrationIdentifierLengthErrorText": "Invalid business registration number.",
+          "countries": {
+            "at": "Austria",
+            "be": "Belgium",
+            "bg": "Bulgaria",
+            "hr": "Croatia",
+            "cy": "Cyprus",
+            "cz": "Czech Republic",
+            "dk": "Denmark",
+            "ee": "Estonia",
+            "fi": "Finland",
+            "fr": "France",
+            "de": "Germany",
+            "gr": "Greece",
+            "hu": "Hungary",
+            "ie": "Ireland",
+            "it": "Italy",
+            "lv": "Latvia",
+            "lt": "Lithuania",
+            "lu": "Luxembourg",
+            "mt": "Malta",
+            "nl": "Netherlands",
+            "no": "Norway",
+            "pl": "Poland",
+            "pt": "Portugal",
+            "ro": "Romania",
+            "sk": "Slovakia",
+            "si": "Slovenia",
+            "es": "Spain",
+            "se": "Sweden",
+            "gb": "United Kingdom"
+          }
+        },
+        "contacts": {
+          "category": "Category",
+          "name": "Name",
+          "namePlaceholder": "Name",
+          "email": "E-mail",
+          "emailPlaceholder": "E-mail",
+          "phone": "Phone",
+          "phonePlaceholder": "Phone (optional)"
+        }
       }
     }
   }

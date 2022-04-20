@@ -14,5 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './lib/dh-market-participant-data-access-api.store';
-export * from './lib/dh-market-participant-edit-organization-data-access-api.store';
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { DhMarketParticipantEditOrganizationScam } from './dh-market-participant-edit-organization/dh-market-participant-edit-organization.component';
+
+@NgModule({
+  imports: [CommonModule],
+  exports: [DhMarketParticipantEditOrganizationScam],
+})
+export class DhMarketParticipantFeatureEditOrganizationModule {}
