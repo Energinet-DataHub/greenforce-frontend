@@ -19,7 +19,7 @@ import { ComponentStore } from '@ngrx/component-store';
 import { Observable } from 'rxjs';
 import {
   EoMeteringPointsService,
-  MeteringPointsResponse,
+  MeteringPoint,
 } from './eo-metering-points.service';
 
 // Disabling this check, as no internal state is needed for the store.
@@ -28,9 +28,9 @@ interface EoMeteringPointsState {}
 
 @Injectable()
 export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState> {
-  meteringPoints$: Observable<MeteringPointsResponse[]> = this.select(
+  meteringPoints$: Observable<MeteringPoint[]> = this.select(
     this.meteringPointsService.getMeteringPoints(),
-    (response) => response
+    (response) => response.meteringpoints
   );
 
   constructor(private meteringPointsService: EoMeteringPointsService) {

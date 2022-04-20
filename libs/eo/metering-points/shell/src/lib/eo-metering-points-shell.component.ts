@@ -15,28 +15,38 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { MeteringPointsResponse } from './eo-metering-points.service';
+import { Component, NgModule } from '@angular/core';
+import { LetModule } from '@rx-angular/template';
 import { EoMeteringPointsStore } from './eo-metering-points.store';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'eo-metering-points-shell',
   styles: [
     `
       :host {
         display: block;
       }
+
+      .metering-point {
+        color: var(--watt-color-neutral-grey-900);
+      }
     `,
   ],
-  template: `<p>You do not have any metering points.</p>
-    <p *ngFor="let point of meteringPoints$ | async">{{ point.gsrn }}</p>`,
+  template: `<ng-container *rxLet="meteringPoints$ as meteringPoints">
+    <p *ngIf="meteringPoints.length < 1">
+      You do not have any metering points.
+    </p>
+    <p
+      class="metering-point watt-space-stack-m"
+      *ngFor="let point of meteringPoints"
+    >
+      {{ point.gsrn }}
+    </p>
+  </ng-container>`,
   viewProviders: [EoMeteringPointsStore],
 })
 export class EoMeteringPointsShellComponent {
-  meteringPoints$: Observable<Array<MeteringPointsResponse>> =
-    this.meteringPointsStore.meteringPoints$;
+  meteringPoints$ = this.meteringPointsStore.meteringPoints$;
 
   constructor(private meteringPointsStore: EoMeteringPointsStore) {}
 }
@@ -44,6 +54,6 @@ export class EoMeteringPointsShellComponent {
 @NgModule({
   declarations: [EoMeteringPointsShellComponent],
   exports: [EoMeteringPointsShellComponent],
-  imports: [CommonModule],
+  imports: [CommonModule, LetModule],
 })
 export class EoMeteringPointsShellScam {}

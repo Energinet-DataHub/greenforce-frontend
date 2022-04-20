@@ -6,11 +6,14 @@ import {
 } from '@energinet-datahub/eo/shared/environments';
 import { Observable } from 'rxjs';
 
-export interface MeteringPointsResponse {
+export interface MeteringPoint {
   /**
    * Unique ID of the metering point - Global Service Relation Number
    */
   readonly gsrn: string;
+}
+export interface MeteringPointsResponse {
+  meteringpoints: MeteringPoint[];
 }
 
 @Injectable({
@@ -19,9 +22,10 @@ export interface MeteringPointsResponse {
 export class EoMeteringPointsService {
   #apiBase: string;
 
-  getMeteringPoints(): Observable<Array<MeteringPointsResponse>> {
-    return this.http.get<MeteringPointsResponse[]>(
-      `${this.#apiBase}/meteringpoints/list`
+  getMeteringPoints(): Observable<MeteringPointsResponse> {
+    return this.http.get<MeteringPointsResponse>(
+      `${this.#apiBase}/meteringpoints/list`,
+      { withCredentials: true }
     );
   }
 
