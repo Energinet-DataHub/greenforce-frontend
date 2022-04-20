@@ -16,6 +16,10 @@ limitations under the License.
 -->
 
 <ng-container *transloco="let t; read: 'marketParticipant.organization.create'">
+  <ng-container *rxLet="this.validation$ as validation">
+    <watt-validation-message type="danger" *ngIf="validation" [label]="t('errorToastLabel')"
+      [message]="validation.error"></watt-validation-message>
+  </ng-container>
   <h1>{{ t("organizationHeader") }}</h1>
 
   <!-- Spinner -->
@@ -25,45 +29,35 @@ limitations under the License.
 
   <ng-container *rxLet="this.contacts$ as contacts">
     <ng-container *rxLet="this.organization$ as organization">
-      <div class="container" *ngIf="(this.isLoading$ | async) === false">
-        <!-- Tabs -->
-        <watt-tabs class="tabs">
-          <watt-tab [label]="t('masterDataTabHeader')">
-            <br />
-            <dh-market-participant-organization-master-data
-              [organization]="organization"
-              (hasChanges)="this.onMasterDataChanged($event)"
-            ></dh-market-participant-organization-master-data>
-          </watt-tab>
+      <ng-container *rxLet="this.isLoading$ as isLoading">
+        <div class="container">
+          <div [hidden]="isLoading">
+            <!-- Tabs -->
+            <watt-tabs class="tabs">
+              <watt-tab [label]="t('masterDataTabHeader')">
+                <br />
+                <dh-market-participant-organization-master-data [organization]="organization"
+                  (hasChanges)="this.onMasterDataChanged($event)"></dh-market-participant-organization-master-data>
+              </watt-tab>
 
-          <watt-tab [label]="t('contactDataTabHeader')">
-            <dh-market-participant-organization-contact-data
-              [contacts]="contacts"
-              (contactsChanged)="
+              <watt-tab [label]="t('contactDataTabHeader')">
+                <dh-market-participant-organization-contact-data [contacts]="contacts" (contactsChanged)="
                 this.onContactsChanged($event.add, $event.remove)
-              "
-            ></dh-market-participant-organization-contact-data>
-          </watt-tab>
-        </watt-tabs>
+              "></dh-market-participant-organization-contact-data>
+              </watt-tab>
+            </watt-tabs>
 
-        <!-- Confirmation -->
-        <div class="button-container">
-          <watt-button
-            variant="secondary"
-            type="reset"
-            (click)="this.onCancelled()"
-            >{{ t("cancelLabel") }}</watt-button
-          >
-          <!-- [disabled]="this.isBusy" -->
-          <watt-button
-            variant="primary"
-            type="submit"
-            (click)="this.onSaved()"
-            >{{ t("saveLabel") }}</watt-button
-          >
-          <!-- [disabled]="!this.allowSaveChanges || this.isBusy" -->
+            <!-- Confirmation -->
+            <div class="button-container">
+              <watt-button variant="secondary" type="reset" (click)="this.onCancelled()">{{ t("cancelLabel") }}
+              </watt-button>
+              <!-- [disabled]="this.isBusy" -->
+              <watt-button variant="primary" type="submit" (click)="this.onSaved()">{{ t("saveLabel") }}</watt-button>
+              <!-- [disabled]="!this.allowSaveChanges || this.isBusy" -->
+            </div>
+          </div>
         </div>
-      </div>
+      </ng-container>
     </ng-container>
   </ng-container>
 </ng-container>

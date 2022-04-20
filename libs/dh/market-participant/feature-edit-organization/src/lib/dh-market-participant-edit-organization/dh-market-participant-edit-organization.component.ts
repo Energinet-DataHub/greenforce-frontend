@@ -36,6 +36,7 @@ import {
   WattButtonModule,
   WattSpinnerModule,
   WattTabsModule,
+  WattValidationMessageModule,
 } from '@energinet-datahub/watt';
 import { TranslocoModule } from '@ngneat/transloco';
 import { ContactDto } from '@energinet-datahub/dh/shared/domain';
@@ -54,6 +55,7 @@ export class DhMarketParticipantEditOrganizationComponent implements OnChanges {
   isLoading$ = this.store.isLoading$;
   contacts$ = this.store.contacts$;
   organization$ = this.store.organization$;
+  validation$ = this.store.validation$;
 
   constructor(
     public store: DhMarketParticipantEditOrganizationDataAccessApiStore
@@ -83,7 +85,7 @@ export class DhMarketParticipantEditOrganizationComponent implements OnChanges {
   };
 
   readonly onSaved = () => {
-    this.saved.emit();
+    this.store.save(() => this.saved.emit());
   };
 }
 
@@ -97,6 +99,7 @@ export class DhMarketParticipantEditOrganizationComponent implements OnChanges {
     WattSpinnerModule,
     DhMarketParticipantOrganizationMasterDataComponentScam,
     DhMarketParticipantOrganizationContactDataComponentScam,
+    WattValidationMessageModule,
   ],
   exports: [DhMarketParticipantEditOrganizationComponent],
   declarations: [DhMarketParticipantEditOrganizationComponent],

@@ -353,6 +353,7 @@
         "contactDataTabHeader": "Contacts",
         "cancelLabel": "Cancel",
         "saveLabel": "Save",
+        "errorToastLabel": "Error",
         "masterData": {
           "organizationNameLabel": "Name",
           "businessRegistrationIdetifierLabel": "Business registration identifier",

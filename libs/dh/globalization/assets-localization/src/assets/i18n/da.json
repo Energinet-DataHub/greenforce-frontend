@@ -374,6 +374,7 @@
         "contactDataTabHeader": "Kontakter",
         "cancelLabel": "Annuller",
         "saveLabel": "Gem",
+        "errorToastLabel": "Fejl",
         "masterData": {
           "organizationNameLabel": "Navn",
           "businessRegistrationIdetifierLabel": "CVR-nr.",
