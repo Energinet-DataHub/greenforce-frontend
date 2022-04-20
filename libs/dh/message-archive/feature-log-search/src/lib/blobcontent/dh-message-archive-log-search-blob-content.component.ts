@@ -15,7 +15,12 @@
  * limitations under the License.
  */
 import { ActivatedRoute } from '@angular/router';
-import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  NgModule,
+  OnDestroy,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LetModule } from '@rx-angular/template';
 import { Title } from '@angular/platform-browser';
@@ -30,7 +35,9 @@ import { WattSpinnerModule, WattBadgeModule } from '@energinet-datahub/watt';
   templateUrl: './dh-message-archive-log-search-blob-content.component.html',
   providers: [DhMessageArchiveDataAccessBlobApiStore],
 })
-export class DhMessageArchiveLogSearchBlobContentComponent {
+export class DhMessageArchiveLogSearchBlobContentComponent
+  implements OnDestroy
+{
   blobContent$ = this.blobStore.blobContent$;
   isDownloading$ = this.blobStore.isDownloading$;
   hasGeneralError$ = this.blobStore.hasGeneralError$;
@@ -43,12 +50,16 @@ export class DhMessageArchiveLogSearchBlobContentComponent {
   ) {
     this.route.params.subscribe((params) => {
       const logName = params['logname'];
-      const decodedLobName = decodeURIComponent(logName);
-      this.blobStore.downloadLog(decodedLobName);
+      const decodedLogName = decodeURIComponent(logName);
+      this.blobStore.downloadLog(decodedLogName);
     });
 
     this.messageId = sessionStorage.getItem('messageId') ?? '...';
     this.title.setTitle(this.messageId);
+  }
+
+  ngOnDestroy(): void {
+    this.title.setTitle('DataHub');
   }
 }
 

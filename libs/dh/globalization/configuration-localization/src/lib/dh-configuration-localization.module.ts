@@ -22,9 +22,10 @@ import {
 } from '@angular/core';
 
 import { DanishLocaleModule } from './danish-locale/danish-locale.module';
+import { DanishDatetimeModule } from './danish-datetime/danish-datetime.module';
 
 @NgModule({
-  imports: [DanishLocaleModule],
+  imports: [DanishLocaleModule, DanishDatetimeModule],
 })
 export class DhConfigurationLocalizationRootModule {
   constructor(

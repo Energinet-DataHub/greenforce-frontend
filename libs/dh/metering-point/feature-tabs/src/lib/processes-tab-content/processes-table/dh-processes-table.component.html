@@ -113,13 +113,11 @@ limitations under the License.
         class="has-details-errors-cell-header"
       ></mat-header-cell>
       <mat-cell *matCellDef="let row" class="has-details-errors-cell">
-        <div class="watt-text-s">
-          <watt-icon
-            [name]="row.data.hasDetailsErrors ? 'danger' : 'success'"
-            [size]="iconSize.Medium"
-            data-testId="processHasDetailsErrors"
-          ></watt-icon>
-        </div>
+        <watt-icon
+          [name]="row.data.hasDetailsErrors ? 'danger' : 'success'"
+          [size]="iconSize.Medium"
+          data-testId="processHasDetailsErrors"
+        ></watt-icon>
       </mat-cell>
     </ng-container>
 
