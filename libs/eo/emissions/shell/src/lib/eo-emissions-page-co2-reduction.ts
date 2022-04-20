@@ -27,7 +27,7 @@ import {
     `
       :host {
         height: 128px; // Magic number by designer
-        outline: 1px solid #F9D557;
+        outline: 1px solid #F9D557; // Does not exist as a variable in our design system
         display: grid;
         grid-template-columns: 128px 1fr; // Magic numbers by designer
 

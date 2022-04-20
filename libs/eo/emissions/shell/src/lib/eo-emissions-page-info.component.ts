@@ -19,6 +19,7 @@ import {
   Component,
   NgModule,
 } from '@angular/core';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -27,23 +28,27 @@ import {
     `
       :host {
         display: block;
-        background: var(--watt-color-state-warning-light);
-        padding: var(--watt-space-m);
       }
-      p {
-         font-weight: 600; // Magic number by designer
+      mat-card {
+        background: var(--watt-color-state-warning-light);
+        p {
+          font-weight: 600; // Magic number by designer
+        }
       }
     `,
   ],
   template: `
-    <p>Your emissions in 2021</p>
-    <h1>1.198 kg co2</h1>
+    <mat-card>
+      <p>Your emissions in 2021</p>
+      <h1>1.198 kg co2</h1>
+    </mat-card>
   `,
 })
 export class EoEmissionsPageInfoComponent {}
 
 @NgModule({
   declarations: [EoEmissionsPageInfoComponent],
+  imports: [MatCardModule],
   exports: [EoEmissionsPageInfoComponent]
 })
 export class EoEmissionsPageInfoScam {}

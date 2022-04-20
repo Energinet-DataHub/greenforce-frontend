@@ -19,6 +19,7 @@ import {
   Component,
   NgModule,
 } from '@angular/core';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -27,39 +28,42 @@ import {
     `
       :host {
         display: block;
-        background: var(--watt-color-neutral-white);
-        padding: var(--watt-space-m);
       }
 
-      img {
-        display: block;
-        width: 544px; // Magic number by designer
-        height: 133px; // Magic number by designer
-      }
+      mat-card {
+        img {
+          display: block;
+          width: 544px; // Magic number by designer
+          height: 133px; // Magic number by designer
+        }
 
-      h3 {
-        color: var(--watt-color-neutral-black);
+        h3 {
+          color: var(--watt-color-neutral-black);
+        }
       }
     `,
   ],
   template: `
-    <img class="watt-space-stack-m" src="assets/images/emissions/danish-ministry-of-climate-energy-utilities.svg" />
-    <h3 class="watt-space-stack-m">Greenhouse gases</h3>
-    <p class="watt-space-stack-m">
-      Greenhouse gases are a common term for the gases that contribute to the greenhouse effect.
-      When the concentration of greenhouse gases in the atmosphere grows, it causes changes in the greenhouse effect,
-      which overall causes the earth's temperature to rise and thus changes the climate on earth.
-      The gases include the gases carbon dioxide (CO2), methane (CH4), nitrous oxide (N2O) and F-gases.
-    </p>
-    <p>
-      Read more on the home page <a href="#" target="_blank">Danish Energy Agency - Greenhouse Gases</a>.
-    </p>
+    <mat-card>
+      <img class="watt-space-stack-m" src="assets/images/emissions/danish-ministry-of-climate-energy-utilities.svg" />
+      <h3 class="watt-space-stack-m">Greenhouse gases</h3>
+      <p class="watt-space-stack-m">
+        Greenhouse gases are a common term for the gases that contribute to the greenhouse effect.
+        When the concentration of greenhouse gases in the atmosphere grows, it causes changes in the greenhouse effect,
+        which overall causes the earth's temperature to rise and thus changes the climate on earth.
+        The gases include the gases carbon dioxide (CO2), methane (CH4), nitrous oxide (N2O) and F-gases.
+      </p>
+      <p>
+        Read more on the home page <a href="#" target="_blank">Danish Energy Agency - Greenhouse Gases</a>.
+      </p>
+    </mat-card>
   `,
 })
 export class EoEmissionsPageGreenhouseGassesComponent {}
 
 @NgModule({
   declarations: [EoEmissionsPageGreenhouseGassesComponent],
+  imports: [MatCardModule],
   exports: [EoEmissionsPageGreenhouseGassesComponent]
 })
 export class EoEmissionsPageGreenhouseGassesScam {}

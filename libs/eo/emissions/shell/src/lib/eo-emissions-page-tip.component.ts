@@ -19,6 +19,7 @@ import {
   Component,
   NgModule,
 } from '@angular/core';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -27,38 +28,42 @@ import {
     `
       :host {
         display: block;
+      }
+      mat-card {
         background: var(--watt-color-primary-light);
         border-radius: var(--watt-space-m);
-        padding: var(--watt-space-m);
 
         .tip {
-            display: flex;
-            align-items: center;
-            color: var(--watt-typography-headline-color);
-            img {
-              width: 70px; // Magic number by designer
-              height: 66px; // Magic number by designer
-              margin-right: 25px; // Magic number by designer
-           }
+          display: flex;
+          align-items: center;
+          color: var(--watt-typography-headline-color);
+          img {
+            width: 70px; // Magic number by designer
+            height: 66px; // Magic number by designer
+            margin-right: 25px; // Magic number by designer
+            }
         }
       }
     `,
   ],
   template: `
-    <div class="tip watt-space-stack-m">
-      <img src="/assets/icons/lightbulb.svg" />
-      <h1>Tip</h1>
-    </div>
-    <p>
-      You can decrease emissions by investing in green technology to produce some of your energy consumption locally.
-      It could be solar panels, wind turbines, etc.
-    </p>
+    <mat-card>
+      <div class="tip watt-space-stack-m">
+        <img src="/assets/icons/lightbulb.svg" />
+        <h1>Tip</h1>
+      </div>
+      <p>
+        You can decrease emissions by investing in green technology to produce some of your energy consumption locally.
+        It could be solar panels, wind turbines, etc.
+      </p>
+    </mat-card>
   `,
 })
 export class EoEmissionsPageTipComponent {}
 
 @NgModule({
   declarations: [EoEmissionsPageTipComponent],
+  imports: [MatCardModule],
   exports: [EoEmissionsPageTipComponent]
 })
 export class EoEmissionsPageTipScam {}

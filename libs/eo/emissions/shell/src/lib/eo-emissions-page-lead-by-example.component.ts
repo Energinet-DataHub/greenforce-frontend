@@ -19,6 +19,7 @@ import {
   Component,
   NgModule,
 } from '@angular/core';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -27,39 +28,44 @@ import {
     `
       :host {
         display: block;
-        background: var(--watt-color-neutral-white);
-        padding: var(--watt-space-m);
-      }
-      img {
-        display: block;
-        width: 544px; // Magic number by designer
-        height: 201px; // Magic number by designer
       }
 
-      h3 {
-        color: var(--watt-color-neutral-black);
+      mat-card {
+        background: var(--watt-color-neutral-white);
+        img {
+          display: block;
+          width: 544px; // Magic number by designer
+          height: 201px; // Magic number by designer
+        }
+
+        h3 {
+          color: var(--watt-color-neutral-black);
+        }
       }
     `,
   ],
   template: `
-    <img class="watt-space-stack-m" src="assets/images/emissions/sonderborg-medals-row.svg" />
-    <h3 class="watt-space-stack-m">Sønderborg viser verden vejen</h3>
-    <p class="watt-space-stack-m">
-      Energisystem skal være CO2-neutral i 2029 i Sønderborg-området Allerede tilbage i 2007 blev den
-      ambitiøse vision lagt frem, og Sønderborg gik forrest i den grønne omstilling af energisystemet med ProjectZero.
-      I Sønderborg skabes et intelligent og integreret energisystem, hvor data bruges til at sikre,
-      at energien udnyttes bedst muligt.
-      ProjectZero er allerede kommet langt i den planlagte klimarejse og er snart klar til 2. halvleg.
-    </p>
-    <p>
-      Læs mere om <a href="#" target="_blank">ProjectZero</a>.
-    </p>
+    <mat-card>
+      <img class="watt-space-stack-m" src="assets/images/emissions/sonderborg-medals-row.svg" />
+      <h3 class="watt-space-stack-m">Sønderborg viser verden vejen</h3>
+      <p class="watt-space-stack-m">
+        Energisystem skal være CO2-neutral i 2029 i Sønderborg-området Allerede tilbage i 2007 blev den
+        ambitiøse vision lagt frem, og Sønderborg gik forrest i den grønne omstilling af energisystemet med ProjectZero.
+        I Sønderborg skabes et intelligent og integreret energisystem, hvor data bruges til at sikre,
+        at energien udnyttes bedst muligt.
+        ProjectZero er allerede kommet langt i den planlagte klimarejse og er snart klar til 2. halvleg.
+      </p>
+      <p>
+        Læs mere om <a href="#" target="_blank">ProjectZero</a>.
+      </p>
+    </mat-card>
   `,
 })
 export class EoEmissionsPageLeadByExampleComponent {}
 
 @NgModule({
   declarations: [EoEmissionsPageLeadByExampleComponent],
+  imports: [MatCardModule],
   exports: [EoEmissionsPageLeadByExampleComponent]
 })
 export class EoEmissionsPageLeadByExampleScam {}
