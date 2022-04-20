@@ -33,6 +33,7 @@ export interface MessageArchiveSearchResultItemDto {
     responseStatus?: string | null;
     originalTransactionIDReferenceId?: string | null;
     rsmName?: string | null;
+    haveBodyContent?: boolean | null;
     data?: { [key: string]: string; } | null;
     errors?: Array<MessageArchiveSearchResultItemErrorDto> | null;
 }
