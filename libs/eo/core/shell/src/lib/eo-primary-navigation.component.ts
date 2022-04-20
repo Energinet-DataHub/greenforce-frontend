@@ -47,7 +47,7 @@ import { WattNavListModule } from '@energinet-datahub/watt';
         >Origin of Energy</watt-nav-list-item
       >
       <watt-nav-list-item link="/${eoEmissionsRoutePath}"
-      >Emissions</watt-nav-list-item
+        >Emissions</watt-nav-list-item
       >
       <watt-nav-list-item link="/${eoMeteringPointsRoutePath}"
         >Metering Points</watt-nav-list-item
