@@ -67,15 +67,6 @@ jobs:
   #   secrets:
   #     SONAR_CLOUD_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
-  bff_ci:
-    # needs: [dotnet_solution_ci, terraform_validate, sonarcloud_analysis]
-    needs: [dotnet_solution_ci, terraform_validate]
-    uses: Energinet-DataHub/.github/.github/workflows/dotnet-create-webapi-artifact.yml@6.1.0
-    with:
-      CSPROJ_FILE_PATH: 'apps/dh/api-dh/source/DataHub.WebApi/DataHub.WebApi.csproj'
-      DOTNET_VERSION: '6.0.201'
-      ARTIFACT_NAME: bff
-
   generate_client:
     needs: bff_ci
     runs-on: ubuntu-latest
