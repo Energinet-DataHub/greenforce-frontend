@@ -15,7 +15,14 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, NgModule, OnChanges, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  NgModule,
+  OnChanges,
+  Output,
+} from '@angular/core';
 import {
   ContactChanges,
   DhMarketParticipantEditOrganizationDataAccessApiStore,

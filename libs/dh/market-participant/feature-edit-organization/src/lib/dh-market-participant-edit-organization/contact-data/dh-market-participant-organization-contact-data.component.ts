@@ -26,7 +26,10 @@ import {
   ChangeDetectorRef,
   ChangeDetectionStrategy,
 } from '@angular/core';
-import { ContactChanges, DhMarketParticipantOverviewDataAccessApiStore } from '@energinet-datahub/dh/market-participant/data-access-api';
+import {
+  ContactChanges,
+  DhMarketParticipantOverviewDataAccessApiStore,
+} from '@energinet-datahub/dh/market-participant/data-access-api';
 import { TranslocoModule } from '@ngneat/transloco';
 import { MatTableModule } from '@angular/material/table';
 import { FormsModule } from '@angular/forms';

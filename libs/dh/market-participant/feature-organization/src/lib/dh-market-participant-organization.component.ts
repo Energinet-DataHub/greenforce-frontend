@@ -124,13 +124,13 @@ export class DhMarketParticipantOrganizationComponent
     this.store.setSelection(row);
   };
 
-  readonly onCancelled = ()=>{
+  readonly onCancelled = () => {
     this.store.clearSelection();
-  }
+  };
 
-  readonly onSaved = ()=>{
+  readonly onSaved = () => {
     this.store.clearSelectionAndRefresh();
-  }
+  };
 }
 
 @NgModule({

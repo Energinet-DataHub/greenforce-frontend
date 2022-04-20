@@ -79,13 +79,15 @@ export class DhMarketParticipantEditOrganizationDataAccessApiStore extends Compo
       .pipe(switchMap(this.getContacts))
       .pipe(
         tapResponse(
-          (response) => this.patchState({
-            isLoading: false,
-            contacts: response,
-          }),
-          (error: HttpErrorResponse) => this.patchState({
-            isLoading: false,
-          })
+          (response) =>
+            this.patchState({
+              isLoading: false,
+              contacts: response,
+            }),
+          (error: HttpErrorResponse) =>
+            this.patchState({
+              isLoading: false,
+            })
         )
       );
 
@@ -118,7 +120,7 @@ export class DhMarketParticipantEditOrganizationDataAccessApiStore extends Compo
   };
 
   readonly beginEditing = (organization: OrganizationDto) => {
-    console.log("begin editing")
+    console.log('begin editing');
     this.patchState({
       organization,
       contacts: [],

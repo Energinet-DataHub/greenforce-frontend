@@ -80,14 +80,13 @@ export class DhMarketParticipantOverviewDataAccessApiStore extends ComponentStor
       .pipe(switchMap(this.getOrganizations))
       .pipe(
         tapResponse(
-          () =>
-            {
-              console.log("ok")
-              return this.patchState({
-                isListRefreshRequired: false,
-                isLoading: false,
-              });
-            },
+          () => {
+            console.log('ok');
+            return this.patchState({
+              isListRefreshRequired: false,
+              isLoading: false,
+            });
+          },
           (error: HttpErrorResponse) => {
             return this.patchState({
               isListRefreshRequired: false,
