@@ -67,7 +67,7 @@ module "apima_bff" {
 }
 
 data "local_file" "swagger_file" {
-    filename = "${path.module}/../../swagger/swagger.json"
+    filename = "${path.module}/../../swagger.json"
 }
 
 resource "azurerm_api_management_authorization_server" "oauth_server_bff" {
