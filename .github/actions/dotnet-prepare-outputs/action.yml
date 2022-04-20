@@ -31,6 +31,7 @@ runs:
     - name: Publish Swagger
       shell: bash
       run: |
+        mkdir ${{ inputs.inputs.OUTPUT_PATH }}
         mkdir ${{ inputs.inputs.OUTPUT_PATH }}\swagger
         cp '${{ github.workspace }}\apps\dh\api-dh\source\DataHub.WebApi\bin\Release\net6.0\swagger.json' '${{ inputs.OUTPUT_PATH }}\swagger'
 
