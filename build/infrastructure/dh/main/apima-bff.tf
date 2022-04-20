@@ -71,7 +71,7 @@ data "local_file" "swagger_file" {
 }
 
 resource "azurerm_api_management_authorization_server" "oauth_server_bff" {
-  name                         = "oauthserver_bff"
+  name                         = "bffoauthserver"
   api_management_name          = data.azurerm_key_vault_secret.apim_instance_name.value
   resource_group_name          = data.azurerm_key_vault_secret.apim_instance_resource_group_name.value
   display_name                 = "BFF: OAuth client credentials server"
