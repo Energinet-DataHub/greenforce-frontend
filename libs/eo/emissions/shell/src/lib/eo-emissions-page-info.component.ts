@@ -14,11 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  ChangeDetectionStrategy,
-  Component,
-  NgModule,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 
 @Component({
@@ -49,6 +45,6 @@ export class EoEmissionsPageInfoComponent {}
 @NgModule({
   declarations: [EoEmissionsPageInfoComponent],
   imports: [MatCardModule],
-  exports: [EoEmissionsPageInfoComponent]
+  exports: [EoEmissionsPageInfoComponent],
 })
 export class EoEmissionsPageInfoScam {}

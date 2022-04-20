@@ -14,11 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  ChangeDetectionStrategy,
-  Component,
-  NgModule,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
 import { EoEmissionsPageInfoScam } from './eo-emissions-page-info.component';
 import { EoEmissionsPageCo2ReductionScam } from './eo-emissions-page-co2-reduction';
 import { EoEmissionsPageTipScam } from './eo-emissions-page-tip.component';
@@ -39,13 +35,19 @@ import { EoEmissionsPageLeadByExampleScam } from './eo-emissions-page-lead-by-ex
   ],
   template: `
     <div>
-      <eo-emissions-page-info class="watt-space-stack-l"></eo-emissions-page-info>
-      <eo-emissions-page-co2-reduction class="watt-space-stack-l"></eo-emissions-page-co2-reduction>
+      <eo-emissions-page-info
+        class="watt-space-stack-l"
+      ></eo-emissions-page-info>
+      <eo-emissions-page-co2-reduction
+        class="watt-space-stack-l"
+      ></eo-emissions-page-co2-reduction>
       <eo-emissions-page-tip></eo-emissions-page-tip>
     </div>
 
     <div>
-      <eo-emissions-page-greenhouse-gasses class="watt-space-stack-l"></eo-emissions-page-greenhouse-gasses>
+      <eo-emissions-page-greenhouse-gasses
+        class="watt-space-stack-l"
+      ></eo-emissions-page-greenhouse-gasses>
       <eo-emissions-page-lead-by-example></eo-emissions-page-lead-by-example>
     </div>
   `,
@@ -59,7 +61,7 @@ export class EoEmissionsPageShellComponent {}
     EoEmissionsPageCo2ReductionScam,
     EoEmissionsPageTipScam,
     EoEmissionsPageGreenhouseGassesScam,
-    EoEmissionsPageLeadByExampleScam
-  ]
+    EoEmissionsPageLeadByExampleScam,
+  ],
 })
 export class EoEmissionsPageShellScam {}

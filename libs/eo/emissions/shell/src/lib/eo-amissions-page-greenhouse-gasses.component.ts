@@ -14,11 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  ChangeDetectionStrategy,
-  Component,
-  NgModule,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 
 @Component({
@@ -45,17 +41,27 @@ import { MatCardModule } from '@angular/material/card';
   ],
   template: `
     <mat-card>
-      <img class="watt-space-stack-m" src="assets/images/emissions/danish-ministry-of-climate-energy-utilities.svg" />
+      <img
+        class="watt-space-stack-m"
+        src="assets/images/emissions/danish-ministry-of-climate-energy-utilities.svg"
+      />
       <h3 class="watt-space-stack-m">Greenhouse gases</h3>
       <p class="watt-space-stack-m">
-        Greenhouse gases is a common term for the gases that contribute to the greenhouse effect.
-        When the concentration of greenhouse gases in the atmosphere grows, it causes changes in the greenhouse effect,
-        which overall causes the earth's temperature to rise and thus changes the climate on earth.
-        The gases include the gases carbon dioxide (CO2), methane (CH4), nitrous oxide (N2O) and F-gases.
+        Greenhouse gases is a common term for the gases that contribute to the
+        greenhouse effect. When the concentration of greenhouse gases in the
+        atmosphere grows, it causes changes in the greenhouse effect, which
+        overall causes the earth's temperature to rise and thus changes the
+        climate on earth. The gases include the gases carbon dioxide (CO2),
+        methane (CH4), nitrous oxide (N2O) and F-gases.
       </p>
       <p>
-        Read more on the home page <a href="https://ens.dk/en/our-responsibilities/energy-climate-politics/greenhouse-gasses" target="_blank">
-        Danish Energy Agency - Greenhouse Gases</a>.
+        Read more on the home page
+        <a
+          href="https://ens.dk/en/our-responsibilities/energy-climate-politics/greenhouse-gasses"
+          target="_blank"
+        >
+          Danish Energy Agency - Greenhouse Gases</a
+        >.
       </p>
     </mat-card>
   `,
@@ -65,6 +71,6 @@ export class EoEmissionsPageGreenhouseGassesComponent {}
 @NgModule({
   declarations: [EoEmissionsPageGreenhouseGassesComponent],
   imports: [MatCardModule],
-  exports: [EoEmissionsPageGreenhouseGassesComponent]
+  exports: [EoEmissionsPageGreenhouseGassesComponent],
 })
 export class EoEmissionsPageGreenhouseGassesScam {}

@@ -14,11 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  ChangeDetectionStrategy,
-  Component,
-  NgModule,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 
 @Component({
@@ -46,18 +42,21 @@ import { MatCardModule } from '@angular/material/card';
   ],
   template: `
     <mat-card>
-      <img class="watt-space-stack-m" src="assets/images/emissions/sonderborg-medals-row.svg" />
+      <img
+        class="watt-space-stack-m"
+        src="assets/images/emissions/sonderborg-medals-row.svg"
+      />
       <h3 class="watt-space-stack-m">Sønderborg viser verden vejen</h3>
       <p class="watt-space-stack-m">
-        Energisystem skal være CO2-neutral i 2029 i Sønderborg-området Allerede tilbage i 2007 blev den
-        ambitiøse vision lagt frem, og Sønderborg gik forrest i den grønne omstilling af energisystemet med ProjectZero.
-        I Sønderborg skabes et intelligent og integreret energisystem, hvor data bruges til at sikre,
-        at energien udnyttes bedst muligt.
-        ProjectZero er allerede kommet langt i den planlagte klimarejse og er snart klar til 2. halvleg.
+        Energisystem skal være CO2-neutral i 2029 i Sønderborg-området Allerede
+        tilbage i 2007 blev den ambitiøse vision lagt frem, og Sønderborg gik
+        forrest i den grønne omstilling af energisystemet med ProjectZero. I
+        Sønderborg skabes et intelligent og integreret energisystem, hvor data
+        bruges til at sikre, at energien udnyttes bedst muligt. ProjectZero er
+        allerede kommet langt i den planlagte klimarejse og er snart klar til 2.
+        halvleg.
       </p>
-      <p>
-        Læs mere om <a href="#" target="_blank">ProjectZero</a>.
-      </p>
+      <p>Læs mere om <a href="#" target="_blank">ProjectZero</a>.</p>
     </mat-card>
   `,
 })
@@ -66,6 +65,6 @@ export class EoEmissionsPageLeadByExampleComponent {}
 @NgModule({
   declarations: [EoEmissionsPageLeadByExampleComponent],
   imports: [MatCardModule],
-  exports: [EoEmissionsPageLeadByExampleComponent]
+  exports: [EoEmissionsPageLeadByExampleComponent],
 })
 export class EoEmissionsPageLeadByExampleScam {}
