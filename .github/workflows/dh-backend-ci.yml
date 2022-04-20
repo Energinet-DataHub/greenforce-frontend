@@ -39,11 +39,11 @@ on:
 
 jobs:
   dotnet_solution_ci:
-    uses: Energinet-DataHub/.github/.github/workflows/dotnet-solution-ci.yml@6.1.4
+    uses: Energinet-DataHub/.github/.github/workflows/dotnet-solution-ci.yml@6.2.0
     with:
       SOLUTION_FILE_PATH: 'apps/dh/api-dh/DataHub.WebApi.sln'
       DOTNET_VERSION: '6.0.201'
-      PUBLISH_SWAGGER_FILE: true
+      PREPARE_OUTPUTS: true
       SWAGGER_FILE_PATH: '\apps\dh\api-dh\source\DataHub.WebApi\bin\Release\net6.0\swagger.json'
     secrets:
       AZURE_TENANT_ID: ${{ secrets.AZURE_TESTING_TENANT_ID }}
