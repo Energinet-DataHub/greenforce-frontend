@@ -25,7 +25,7 @@ module "apima_bff" {
   apim_logger_id              = data.azurerm_key_vault_secret.apim_logger_id.value
   logger_sampling_percentage  = 100.0
   path                        = "bff"
-  backend_service_url         = "https://${azurerm_app_service.bff.default_site_hostname}"
+  backend_service_url         = "https://${module.bff.default_site_hostname}"
   import                      =  {
     content_format          = "openapi+json"
     content_value           = data.local_file.swagger_file.content
@@ -37,7 +37,7 @@ module "apima_bff" {
           <inbound>
             <base />
             <validate-jwt header-name="Authorization" failed-validation-httpcode="401" failed-validation-error-message="Unauthorized. Failed policy requirements, or token is invalid or missing.">
-                <openid-config url="https://login.microsoftonline.com/${var.apim_b2c_tenant_id}/v2.0/.well-known/openid-configuration" />
+                <openid-config url="${var.apim_b2c_tenant_frontend_userflow}/v2.0/.well-known/openid-configuration" />
                 <required-claims>
                     <claim name="aud" match="any">
                         <value>${var.frontend_app_id}</value>
@@ -79,11 +79,11 @@ resource "azurerm_api_management_authorization_server" "oauth_server_bff" {
   grant_types = [
     "implicit",
   ]
-  authorization_endpoint       = "https://login.microsoftonline.com/${var.apim_b2c_tenant_id}/oauth2/v2.0/authorize"
+  authorization_endpoint       = "${var.apim_b2c_tenant_frontend_userflow}/oauth2/v2.0/authorize"
   authorization_methods        =  [
     "GET",
   ]
-  token_endpoint               = "https://login.microsoftonline.com/${var.apim_b2c_tenant_id}/oauth2/v2.0/token"
+  token_endpoint               = "${var.apim_b2c_tenant_frontend_userflow}/oauth2/v2.0/token"
   client_authentication_method = [
     "Body",
   ]
