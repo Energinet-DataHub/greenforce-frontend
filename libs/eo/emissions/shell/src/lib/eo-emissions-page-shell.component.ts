@@ -19,6 +19,11 @@ import {
   Component,
   NgModule,
 } from '@angular/core';
+import { EoEmissionsPageInfoScam } from './eo-emissions-page-info.component';
+import { EoEmissionsPageCo2ReductionScam } from './eo-emissions-page-co2-reduction';
+import { EoEmissionsPageTipScam } from './eo-emissions-page-tip.component';
+import { EoEmissionsPageGreenhouseGassesScam } from './eo-amissions-page-greenhouse-gasses.component';
+import { EoEmissionsPageLeadByExampleScam } from './eo-emissions-page-lead-by-example.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -26,22 +31,35 @@ import {
   styles: [
     `
       :host {
-        display: block;
-      }
-
-      img {
-        display: block;
+        display: grid;
+        grid-template-columns: 360px 584px; // Magic numbers by designer
+        grid-gap: 32px; // Magic number by designer
       }
     `,
   ],
   template: `
-    <h3>Emissions page</h3>
+    <div>
+      <eo-emissions-page-info class="watt-space-stack-l"></eo-emissions-page-info>
+      <eo-emissions-page-co2-reduction class="watt-space-stack-l"></eo-emissions-page-co2-reduction>
+      <eo-emissions-page-tip></eo-emissions-page-tip>
+    </div>
+
+    <div>
+      <eo-emissions-page-greenhouse-gasses class="watt-space-stack-l"></eo-emissions-page-greenhouse-gasses>
+      <eo-emissions-page-lead-by-example></eo-emissions-page-lead-by-example>
+    </div>
   `,
 })
 export class EoEmissionsPageShellComponent {}
 
 @NgModule({
   declarations: [EoEmissionsPageShellComponent],
-  imports: [],
+  imports: [
+    EoEmissionsPageInfoScam,
+    EoEmissionsPageCo2ReductionScam,
+    EoEmissionsPageTipScam,
+    EoEmissionsPageGreenhouseGassesScam,
+    EoEmissionsPageLeadByExampleScam
+  ]
 })
 export class EoEmissionsPageShellScam {}
