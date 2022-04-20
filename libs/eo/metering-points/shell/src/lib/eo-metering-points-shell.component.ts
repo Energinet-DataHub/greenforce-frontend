@@ -27,17 +27,17 @@ import { EoMeteringPointsStore } from './eo-metering-points.store';
         display: block;
       }
 
-      .metering-point {
+      .grey-color {
         color: var(--watt-color-neutral-grey-900);
       }
     `,
   ],
   template: `<ng-container *rxLet="meteringPoints$ as meteringPoints">
-    <p class="metering-point" *ngIf="meteringPoints.length < 1">
+    <p class="grey-color" *ngIf="meteringPoints.length < 1">
       You do not have any metering points.
     </p>
     <p
-      class="metering-point watt-space-stack-m"
+      class="grey-color watt-space-stack-m"
       *ngFor="let point of meteringPoints"
     >
       {{ point.gsrn }}
