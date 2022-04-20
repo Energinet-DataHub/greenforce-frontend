@@ -17,8 +17,12 @@ limitations under the License.
 
 <ng-container *transloco="let t; read: 'marketParticipant.organization.create'">
   <ng-container *rxLet="this.validation$ as validation">
-    <watt-validation-message type="danger" *ngIf="validation" [label]="t('errorToastLabel')"
-      [message]="validation.error"></watt-validation-message>
+    <watt-validation-message
+      type="danger"
+      *ngIf="validation"
+      [label]="t('errorToastLabel')"
+      [message]="validation.error"
+    ></watt-validation-message>
   </ng-container>
   <h1>{{ t("organizationHeader") }}</h1>
 
@@ -36,23 +40,37 @@ limitations under the License.
             <watt-tabs class="tabs">
               <watt-tab [label]="t('masterDataTabHeader')">
                 <br />
-                <dh-market-participant-organization-master-data [organization]="organization"
-                  (hasChanges)="this.onMasterDataChanged($event)"></dh-market-participant-organization-master-data>
+                <dh-market-participant-organization-master-data
+                  [organization]="organization"
+                  (hasChanges)="this.onMasterDataChanged($event)"
+                ></dh-market-participant-organization-master-data>
               </watt-tab>
 
               <watt-tab [label]="t('contactDataTabHeader')">
-                <dh-market-participant-organization-contact-data [contacts]="contacts" (contactsChanged)="
-                this.onContactsChanged($event.add, $event.remove)
-              "></dh-market-participant-organization-contact-data>
+                <dh-market-participant-organization-contact-data
+                  [contacts]="contacts"
+                  (contactsChanged)="
+                    this.onContactsChanged($event.add, $event.remove)
+                  "
+                ></dh-market-participant-organization-contact-data>
               </watt-tab>
             </watt-tabs>
 
             <!-- Confirmation -->
             <div class="button-container">
-              <watt-button variant="secondary" type="reset" (click)="this.onCancelled()">{{ t("cancelLabel") }}
+              <watt-button
+                variant="secondary"
+                type="reset"
+                (click)="this.onCancelled()"
+                >{{ t("cancelLabel") }}
               </watt-button>
               <!-- [disabled]="this.isBusy" -->
-              <watt-button variant="primary" type="submit" (click)="this.onSaved()">{{ t("saveLabel") }}</watt-button>
+              <watt-button
+                variant="primary"
+                type="submit"
+                (click)="this.onSaved()"
+                >{{ t("saveLabel") }}</watt-button
+              >
               <!-- [disabled]="!this.allowSaveChanges || this.isBusy" -->
             </div>
           </div>

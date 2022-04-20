@@ -245,5 +245,5 @@ export class DhMarketParticipantEditOrganizationDataAccessApiStore extends Compo
   };
 
   readonly formatErrorMessage = (errorDescriptor: ErrorDescriptor) =>
-    errorDescriptor.details.map((x) => x.message).join(" ");
+    errorDescriptor.details.map((x) => x.message).join(' ');
 }
