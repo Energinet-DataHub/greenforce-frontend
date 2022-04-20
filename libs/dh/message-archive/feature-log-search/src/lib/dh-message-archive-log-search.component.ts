@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
@@ -30,10 +30,11 @@ import { TranslocoModule } from '@ngneat/transloco';
 import {
   WattButtonModule,
   WattFormFieldModule,
-  WattIconModule,
   WattInputModule,
   WattCheckboxModule,
   WattBadgeModule,
+  WattDropdownModule,
+  WattDropdownOptions,
 } from '@energinet-datahub/watt';
 import {
   DhMessageArchiveDataAccessApiStore,
@@ -44,9 +45,8 @@ import {
   MessageArchiveSearchResultItemDto,
 } from '@energinet-datahub/dh/shared/domain';
 import {
-  BusinessReasonCodes,
+  ProcessTypes,
   DocumentTypes,
-  RoleTypes,
 } from '@energinet-datahub/dh/message-archive/domain';
 
 import { DhMessageArchiveLogSearchResultScam } from './searchresult/dh-message-archive-log-search-result.component';
@@ -63,8 +63,11 @@ import { DhMessageArchiveLogSearchResultScam } from './searchresult/dh-message-a
 })
 export class DhMessageArchiveLogSearchComponent implements OnDestroy {
   private destroy$ = new Subject<void>();
-  private regexBlobName = new RegExp(
+  private regexLogNameWithDateFolder = new RegExp(
     /\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])\/.*/
+  );
+  private regexLogNameIsSingleGuid = new RegExp(
+    /[\da-zA-Z]{8}-([\da-zA-Z]{4}-){3}[\da-zA-Z]{12}$/
   );
 
   searchResult$ = this.store.searchResult$;
@@ -72,22 +75,15 @@ export class DhMessageArchiveLogSearchComponent implements OnDestroy {
   hasSearchError$ = this.store.hasGeneralError$;
   continuationToken$ = this.store.continuationToken$;
 
-  businessReasonCodes = BusinessReasonCodes;
+  rsmFormFieldOptions: WattDropdownOptions = this.buildRsmOptions();
+  processTypeFormFieldOptions: WattDropdownOptions =
+    this.buildProcessTypesOptions();
   searching = false;
-  documentTypes = DocumentTypes;
-  roleTypes = RoleTypes;
   pageSizes = [250, 500, 750, 1000];
   pageNumber = 1;
   searchCriteria: MessageArchiveSearchCriteria = {
-    messageId: null,
-    reasonCode: null,
-    senderRoleType: null,
-    rsmName: null,
+    maxItemCount: this.pageSizes[0],
     includeRelated: false,
-    traceId: null,
-    functionName: null,
-    invocationId: null,
-    maxItemCount: 250,
   };
 
   private initDateFrom = (): Date => {
@@ -108,6 +104,8 @@ export class DhMessageArchiveLogSearchComponent implements OnDestroy {
     private currentRoute: ActivatedRoute,
     private logStore: DhMessageArchiveDataAccessBlobApiStore
   ) {
+    this.resetSearchCritera();
+
     this.currentRoute.queryParamMap.subscribe((q) => {
       this.searchCriteria.traceId = q.has('traceId') ? q.get('traceId') : null;
       this.searchCriteria.functionName = q.has('functionName')
@@ -117,11 +115,24 @@ export class DhMessageArchiveLogSearchComponent implements OnDestroy {
         ? q.get('invocationId')
         : null;
     });
+  }
 
-    this.searchCriteria.dateTimeFrom =
-      this.initDateFrom().toISOString().split('.')[0] + 'Z';
-    this.searchCriteria.dateTimeTo =
-      this.initDateTo().toISOString().split('.')[0] + 'Z';
+  private buildRsmOptions() {
+    return Object.entries(DocumentTypes).map((entry) => {
+      return {
+        value: entry[0],
+        displayValue: entry[1] + ' - ' + entry[0],
+      };
+    });
+  }
+
+  private buildProcessTypesOptions() {
+    return Object.entries(ProcessTypes).map((entry) => {
+      return {
+        value: entry[0],
+        displayValue: entry[0] + ' - ' + entry[1],
+      };
+    });
   }
 
   onSubmit() {
@@ -144,22 +155,39 @@ export class DhMessageArchiveLogSearchComponent implements OnDestroy {
     }
   }
 
+  resetSearchCritera() {
+    this.searchCriteria = {
+      messageId: null,
+      rsmName: null,
+      includeRelated: false,
+      traceId: null,
+      functionName: null,
+      invocationId: null,
+      maxItemCount: this.pageSizes[0],
+      processType: null,
+    };
+    this.searchCriteria.dateTimeFrom =
+      this.initDateFrom().toISOString().split('.')[0] + 'Z';
+    this.searchCriteria.dateTimeTo =
+      this.initDateTo().toISOString().split('.')[0] + 'Z';
+  }
+
   redirectToDownloadLogPage(resultItem: MessageArchiveSearchResultItemDto) {
-    const blobName = this.findBlobName(resultItem.blobContentUri);
-    const encodedBlobName = encodeURIComponent(blobName);
+    const logName = this.findLogName(resultItem.blobContentUri);
+    const encodedLogName = encodeURIComponent(logName);
     const url = this.router.serializeUrl(
-      this.router.createUrlTree([`/message-archive/${encodedBlobName}`])
+      this.router.createUrlTree([`/message-archive/${encodedLogName}`])
     );
-    const blobViewWindow = window.open(url, '_blank');
-    blobViewWindow?.sessionStorage.setItem(
+    const logViewWindow = window.open(url, '_blank');
+    logViewWindow?.sessionStorage.setItem(
       'messageId',
       resultItem.messageId ?? ''
     );
   }
 
   downloadLog(resultItem: MessageArchiveSearchResultItemDto) {
-    const blobName = this.findBlobName(resultItem.blobContentUri);
-    this.logStore.downloadLogFile(blobName);
+    const logName = this.findLogName(resultItem.blobContentUri);
+    this.logStore.downloadLogFile(logName);
   }
 
   validateSearchParams(): boolean {
@@ -171,11 +199,15 @@ export class DhMessageArchiveLogSearchComponent implements OnDestroy {
     );
   }
 
-  findBlobName(blobUrl: string): string {
-    if (this.regexBlobName.test(blobUrl)) {
-      const match = this.regexBlobName.exec(blobUrl);
+  findLogName(logUrl: string): string {
+    if (this.regexLogNameWithDateFolder.test(logUrl)) {
+      const match = this.regexLogNameWithDateFolder.exec(logUrl);
+      return match != null ? match[0] : '';
+    } else if (this.regexLogNameIsSingleGuid.test(logUrl)) {
+      const match = this.regexLogNameIsSingleGuid.exec(logUrl);
       return match != null ? match[0] : '';
     }
+
     return '';
   }
 
@@ -189,15 +221,14 @@ export class DhMessageArchiveLogSearchComponent implements OnDestroy {
     WattFormFieldModule,
     WattInputModule,
     WattButtonModule,
-    WattIconModule,
     WattCheckboxModule,
     FormsModule,
-    ReactiveFormsModule,
     CommonModule,
     LetModule,
     TranslocoModule,
     DhMessageArchiveLogSearchResultScam,
     WattBadgeModule,
+    WattDropdownModule,
   ],
   declarations: [DhMessageArchiveLogSearchComponent],
 })

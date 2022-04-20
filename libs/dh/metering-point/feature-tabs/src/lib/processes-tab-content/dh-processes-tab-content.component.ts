@@ -15,14 +15,15 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import { Component, NgModule, OnDestroy } from '@angular/core';
+import { Component, NgModule } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { DhProcessesDataAccessApiStore } from '@energinet-datahub/dh/metering-point/data-access-api';
+import { LetModule } from '@rx-angular/template';
+import { map } from 'rxjs';
 
+import { DhProcessesDataAccessApiStore } from '@energinet-datahub/dh/metering-point/data-access-api';
 import { dhMeteringPointIdParam } from '@energinet-datahub/dh/metering-point/routing';
 import { WattSpinnerModule } from '@energinet-datahub/watt';
-import { LetModule } from '@rx-angular/template';
-import { map, Subject, takeUntil } from 'rxjs';
+
 import { DhProcessesTableScam } from './processes-table/dh-processes-table.component';
 
 @Component({
@@ -31,12 +32,12 @@ import { DhProcessesTableScam } from './processes-table/dh-processes-table.compo
   styleUrls: ['./dh-processes-tab-content.component.scss'],
   providers: [DhProcessesDataAccessApiStore],
 })
-export class DhProcessesTabContentComponent implements OnDestroy {
-  private destroy$ = new Subject<void>();
-
+export class DhProcessesTabContentComponent {
   meteringPointId$ = this.route.params.pipe(
     map((params) => params[dhMeteringPointIdParam] as string)
   );
+  processes$ = this.store.processes$;
+  isLoading$ = this.store.isLoading$;
 
   constructor(
     private route: ActivatedRoute,
@@ -45,21 +46,8 @@ export class DhProcessesTabContentComponent implements OnDestroy {
     this.loadProcessData();
   }
 
-  processes$ = this.store.processes$;
-  isLoading$ = this.store.isLoading$;
-
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.unsubscribe();
-  }
-
   loadProcessData(): void {
-    this.meteringPointId$
-      .pipe(
-        takeUntil(this.destroy$),
-        map((meteringPointId) => this.store.loadProcessData(meteringPointId))
-      )
-      .subscribe();
+    this.store.loadProcessData(this.meteringPointId$);
   }
 }
 

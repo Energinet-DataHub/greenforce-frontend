@@ -57,8 +57,8 @@ export class DhMeteringPointDataAccessApiStore extends ComponentStore<MeteringPo
   }
 
   readonly loadMeteringPointData = this.effect(
-    (meteringPointId: Observable<string>) => {
-      return meteringPointId.pipe(
+    (meteringPointId$: Observable<string>) => {
+      return meteringPointId$.pipe(
         tap(() => {
           this.resetState();
 
