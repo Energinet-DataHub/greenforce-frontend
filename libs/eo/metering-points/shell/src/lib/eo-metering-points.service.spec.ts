@@ -14,18 +14,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import {
-  EoMeteringPointsShellScam,
-  EoMeteringPointsShellComponent,
-} from './eo-metering-points-shell.component';
+import { TestBed } from '@angular/core/testing';
 
-const routes: Routes = [
-  { path: '', component: EoMeteringPointsShellComponent },
-];
+import { EoMeteringPointsService } from './eo-metering-points.service';
 
-@NgModule({
-  imports: [RouterModule.forChild(routes), EoMeteringPointsShellScam],
-})
-export class EoMeteringPointsShellModule {}
+describe('EoMeteringPointsService', () => {
+  let service: EoMeteringPointsService;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({});
+    service = TestBed.inject(EoMeteringPointsService);
+  });
+
+  it('should be created', () => {
+    expect(service).toBeTruthy();
+  });
+});

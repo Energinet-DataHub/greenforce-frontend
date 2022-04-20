@@ -14,24 +14,46 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, NgModule } from '@angular/core';
+import { LetModule } from '@rx-angular/template';
+import { EoMeteringPointsStore } from './eo-metering-points.store';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'eo-metering-points-shell',
   styles: [
     `
       :host {
         display: block;
       }
+
+      .grey-color {
+        color: var(--watt-color-neutral-grey-900);
+      }
     `,
   ],
-  template: `<p>You do not have any metering points.</p>`,
+  template: `<ng-container *rxLet="meteringPoints$ as meteringPoints">
+    <p class="grey-color" *ngIf="meteringPoints.length < 1">
+      You do not have any metering points.
+    </p>
+    <p
+      class="grey-color watt-space-stack-m"
+      *ngFor="let point of meteringPoints"
+    >
+      {{ point.gsrn }}
+    </p>
+  </ng-container>`,
+  viewProviders: [EoMeteringPointsStore],
 })
-export class EoMeteringPointsShellComponent {}
+export class EoMeteringPointsShellComponent {
+  meteringPoints$ = this.meteringPointsStore.meteringPoints$;
+
+  constructor(private meteringPointsStore: EoMeteringPointsStore) {}
+}
 
 @NgModule({
   declarations: [EoMeteringPointsShellComponent],
   exports: [EoMeteringPointsShellComponent],
+  imports: [CommonModule, LetModule],
 })
 export class EoMeteringPointsShellScam {}
