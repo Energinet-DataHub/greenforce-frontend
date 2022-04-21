@@ -1,0 +1,26 @@
+{
+  "projectType": "library",
+  "root": "libs/eo/emissions/routing",
+  "sourceRoot": "libs/eo/emissions/routing/src",
+  "prefix": "eo",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/eo/emissions/routing"],
+      "options": {
+        "jestConfig": "libs/eo/emissions/routing/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/eo/emissions/routing/src/**/*.ts",
+          "libs/eo/emissions/routing/src/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": ["product:eo", "domain:emissions", "type:routing"]
+}
