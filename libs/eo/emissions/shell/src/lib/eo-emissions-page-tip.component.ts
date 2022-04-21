@@ -45,7 +45,10 @@ import { MatCardModule } from '@angular/material/card';
   template: `
     <mat-card>
       <div class="tip watt-space-stack-m">
-        <img alt="Decrease CO2 emissions | EnergyOrigin" src="/assets/icons/lightbulb.svg" />
+        <img
+          alt="Decrease CO2 emissions | EnergyOrigin"
+          src="/assets/icons/lightbulb.svg"
+        />
         <h1>Tip</h1>
       </div>
       <p>
