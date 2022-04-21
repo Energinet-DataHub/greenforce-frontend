@@ -52,6 +52,16 @@ export class StorybookColorsOverviewComponent {
       colors: [
         this.getColor('primary', WattColor.primary),
         this.getColor('primary-dark', WattColor.primaryDark),
+        this.getColor('primary-light', WattColor.primaryLight),
+      ],
+    },
+    {
+      name: 'secondary',
+      title: 'Secondary Colors',
+      colors: [
+        this.getColor('secondary', WattColor.secondary),
+        this.getColor('secondary-dark', WattColor.secondaryDark),
+        this.getColor('secondary-light', WattColor.secondaryLight),
       ],
     },
     {
