@@ -47,13 +47,12 @@ import { MatCardModule } from '@angular/material/card';
   template: `
     <mat-card>
       <img class="watt-space-stack-m" src="assets/images/emissions/sonderborg-medals-row.svg" />
-      <h3 class="watt-space-stack-m">Sønderborg viser verden vejen</h3>
+      <h3 class="watt-space-stack-m">Sønderborg aims to create a CO2-neutral growth area by 2029</h3>
       <p class="watt-space-stack-m">
-        Energisystem skal være CO2-neutral i 2029 i Sønderborg-området Allerede tilbage i 2007 blev den
-        ambitiøse vision lagt frem, og Sønderborg gik forrest i den grønne omstilling af energisystemet med ProjectZero.
-        I Sønderborg skabes et intelligent og integreret energisystem, hvor data bruges til at sikre,
-        at energien udnyttes bedst muligt.
-        ProjectZero er allerede kommet langt i den planlagte klimarejse og er snart klar til 2. halvleg.
+        With a public-private partnership, ProjectZero was in 2007 created to drive Sønderborg’s transition to a
+        ZEROcarbon community by 2029. To meet the ambition, the project focuses on different initiatives including
+        energy efficiency and conversion of energy sources into renewables. ProjectZero is already far along the
+        climate journey, and by 2020 the CO2-emission was reduced by 51,80% within the Sønderborg-area.
       </p>
       <p>
         Læs mere om <a href="https://www.projectzero.dk" target="_blank">ProjectZero</a>.

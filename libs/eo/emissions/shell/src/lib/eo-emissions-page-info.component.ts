@@ -27,10 +27,10 @@ import { MatCardModule } from '@angular/material/card';
       }
       mat-card {
         background: var(--watt-color-state-warning-light);
-        p {
+        h3 {
           font-weight: 600; // Magic number by designer
         }
-        h2 {
+        h1 {
           color: var(--watt-color-neutral-black);
         }
       }
@@ -38,8 +38,8 @@ import { MatCardModule } from '@angular/material/card';
   ],
   template: `
     <mat-card>
-      <p>Your emissions in 2021</p>
-      <h2>1.198 kg CO<sub>2</sub></h2>
+      <h3>Your emissions in 2021</h3>
+      <h1>1.198 kg CO<sub>2</sub></h1>
     </mat-card>
   `,
 })
