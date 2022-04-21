@@ -138,7 +138,8 @@ limitations under the License.
       </watt-form-field>
 
       <!-- Search -->
-      <watt-button *rxLet="this.searching$ as seaching"
+      <watt-button
+        *rxLet="this.searching$ as seaching"
         [disabled]="!validateSearchParams() || seaching"
         variant="primary"
         type="submit"
