@@ -22,8 +22,12 @@ import { map } from 'rxjs';
 
 import { DhProcessesDataAccessApiStore } from '@energinet-datahub/dh/metering-point/data-access-api';
 import { dhMeteringPointIdParam } from '@energinet-datahub/dh/metering-point/routing';
-import { WattSpinnerModule } from '@energinet-datahub/watt';
 
+import {
+  WattEmptyStateModule,
+  WattSpinnerModule,
+} from '@energinet-datahub/watt';
+import { TranslocoModule } from '@ngneat/transloco';
 import { DhProcessesTableScam } from './processes-table/dh-processes-table.component';
 
 @Component({
@@ -53,7 +57,14 @@ export class DhProcessesTabContentComponent {
 
 @NgModule({
   declarations: [DhProcessesTabContentComponent],
-  imports: [CommonModule, WattSpinnerModule, LetModule, DhProcessesTableScam],
+  imports: [
+    CommonModule,
+    WattSpinnerModule,
+    LetModule,
+    DhProcessesTableScam,
+    WattEmptyStateModule,
+    TranslocoModule,
+  ],
   exports: [DhProcessesTabContentComponent],
 })
 export class DhProcessesTabContentScam {}

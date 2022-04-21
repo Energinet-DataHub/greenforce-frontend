@@ -14,12 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-:host {
-  display: block;
-  padding: var(--watt-space-l) 0;
-}
+import { nonBreakingSpace } from '../danish-locale/characters';
 
-.spinner {
-  display: flex;
-  justify-content: center;
+const singleSpace = ' ';
+
+export function spaceToNonBreakingSpace(value: string): string {
+  return value.replace(singleSpace, nonBreakingSpace);
 }
