@@ -36,7 +36,10 @@ import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
   ],
   template: `
     <div>
-      <img alt="CO2 reduction | EnergyOrigin" src="/assets/icons/co2-cloud.svg" />
+      <img
+        alt="CO2 reduction | EnergyOrigin"
+        src="/assets/icons/co2-cloud.svg"
+      />
     </div>
     <div class="watt-space-inset-m">
       <p>
