@@ -30,12 +30,9 @@ import { MatCardModule } from '@angular/material/card';
         h3 {
           font-weight: 600; // Magic number by designer
         }
-        h1 {
-          color: var(--watt-color-neutral-black);
-        }
 
         .coming-soon-overlay {
-          background-color: rgba(196, 196, 196, 0.9);
+          background-color: rgba(196, 196, 196, 0.7);
           width: 100%;
           height: 100%;
           position: absolute;

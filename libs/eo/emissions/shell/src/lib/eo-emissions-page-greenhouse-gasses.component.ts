@@ -32,10 +32,6 @@ import { MatCardModule } from '@angular/material/card';
           width: 544px; // Magic number by designer
           height: 133px; // Magic number by designer
         }
-
-        h3 {
-          color: var(--watt-color-neutral-black);
-        }
       }
     `,
   ],
@@ -51,8 +47,8 @@ import { MatCardModule } from '@angular/material/card';
         Greenhouse gases is a common term for the gases that contribute to the
         greenhouse effect. When the concentration of greenhouse gases in the
         atmosphere grows, it causes changes in the greenhouse effect, which
-        overall causes the earth's temperature to rise and thus changes the
-        climate on earth. The gases include the gases carbon dioxide (CO2),
+        overall causes the Earth's temperature to rise and thus changes the
+        climate on Earth. The gases include the gases carbon dioxide (CO2),
         methane (CH4), nitrous oxide (N2O) and F-gases.
       </p>
       <p>

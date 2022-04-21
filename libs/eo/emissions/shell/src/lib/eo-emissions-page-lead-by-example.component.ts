@@ -33,10 +33,6 @@ import { MatCardModule } from '@angular/material/card';
           width: 544px; // Magic number by designer
           height: 201px; // Magic number by designer
         }
-
-        h3 {
-          color: var(--watt-color-neutral-black);
-        }
       }
     `,
   ],
@@ -59,7 +55,7 @@ import { MatCardModule } from '@angular/material/card';
         CO2-emission was reduced by 51,80% within the Sønderborg-area.
       </p>
       <p>
-        Læs mere om
+        Read more about
         <a href="https://www.projectzero.dk" target="_blank">ProjectZero</a>.
       </p>
     </mat-card>

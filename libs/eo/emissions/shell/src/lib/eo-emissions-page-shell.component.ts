@@ -18,7 +18,7 @@ import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
 import { EoEmissionsPageInfoScam } from './eo-emissions-page-info.component';
 import { EoEmissionsPageCo2ReductionScam } from './eo-emissions-page-co2-reduction';
 import { EoEmissionsPageTipScam } from './eo-emissions-page-tip.component';
-import { EoEmissionsPageGreenhouseGassesScam } from './eo-amissions-page-greenhouse-gasses.component';
+import { EoEmissionsPageGreenhouseGassesScam } from './eo-emissions-page-greenhouse-gasses.component';
 import { EoEmissionsPageLeadByExampleScam } from './eo-emissions-page-lead-by-example.component';
 
 @Component({
