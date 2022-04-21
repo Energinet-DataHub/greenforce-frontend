@@ -14,11 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  ChangeDetectionStrategy,
-  Component,
-  NgModule,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -27,7 +23,7 @@ import {
     `
       :host {
         height: 128px; // Magic number by designer
-        outline: 1px solid #F9D557; // Does not exist as a variable in our design system
+        outline: 1px solid #f9d557; // Does not exist as a variable in our design system
         display: grid;
         grid-template-columns: 128px 1fr; // Magic numbers by designer
 
@@ -44,8 +40,9 @@ import {
     </div>
     <div class="watt-space-inset-m">
       <p>
-        Denmark must <strong>reduce</strong> greenhouse gas <strong>emissions</strong>
-        by <strong>70 percent</strong> in 2030 compared to 1990
+        Denmark must <strong>reduce</strong> greenhouse gas
+        <strong>emissions</strong> by <strong>70 percent</strong> in 2030
+        compared to 1990
       </p>
     </div>
   `,
@@ -54,6 +51,6 @@ export class EoEmissionsPageCo2ReductionComponent {}
 
 @NgModule({
   declarations: [EoEmissionsPageCo2ReductionComponent],
-  exports: [EoEmissionsPageCo2ReductionComponent]
+  exports: [EoEmissionsPageCo2ReductionComponent],
 })
 export class EoEmissionsPageCo2ReductionScam {}

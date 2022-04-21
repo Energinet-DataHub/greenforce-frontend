@@ -14,11 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  ChangeDetectionStrategy,
-  Component,
-  NgModule,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 
 @Component({
@@ -41,7 +37,7 @@ import { MatCardModule } from '@angular/material/card';
             width: 70px; // Magic number by designer
             height: 66px; // Magic number by designer
             margin-right: 25px; // Magic number by designer
-            }
+          }
         }
       }
     `,
@@ -53,8 +49,9 @@ import { MatCardModule } from '@angular/material/card';
         <h1>Tip</h1>
       </div>
       <p>
-        You can decrease emissions by investing in green technology to produce some of your energy consumption locally.
-        It could be solar panels, wind turbines, etc.
+        You can decrease emissions by investing in green technology to produce
+        some of your energy consumption locally. It could be solar panels, wind
+        turbines, etc.
       </p>
     </mat-card>
   `,
@@ -64,6 +61,6 @@ export class EoEmissionsPageTipComponent {}
 @NgModule({
   declarations: [EoEmissionsPageTipComponent],
   imports: [MatCardModule],
-  exports: [EoEmissionsPageTipComponent]
+  exports: [EoEmissionsPageTipComponent],
 })
 export class EoEmissionsPageTipScam {}
