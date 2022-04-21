@@ -19,6 +19,8 @@
 $placeholder-color: var(--watt-color-neutral-grey-500);
 
 watt-date-range-input {
+  align-items: center;
+  display: flex;
   font-family: watt.$typography-monospace-font-family;
 
   input.mat-date-range-input-inner {

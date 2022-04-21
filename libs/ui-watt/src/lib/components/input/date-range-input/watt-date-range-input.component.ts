@@ -30,13 +30,22 @@ import {
 } from '@angular/core';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { FormatWidth, getLocaleDateFormat } from '@angular/common';
-import { MatDateRangeInput } from '@angular/material/datepicker';
+import {
+  MatDateRangeInput,
+  MatEndDate,
+  MatStartDate,
+} from '@angular/material/datepicker';
+import { combineLatest, map, Subject, takeUntil, tap } from 'rxjs';
+import { parse } from 'date-fns';
+import { formatInTimeZone } from 'date-fns-tz';
 
 import { WattInputMaskService } from '../shared/input-mask.service';
 import { WattRangeInputService } from '../shared/range-input.service';
-import { Subject, takeUntil } from 'rxjs';
 
 export type WattDateRange = { start: string; end: string };
+
+const dateTimeFormat = 'dd-MM-yyyy';
+const danishTimeZoneIdentifier = 'Europe/Copenhagen';
 
 /**
  * Usage:
@@ -67,6 +76,18 @@ export class WattDateRangeInputComponent
    */
   @ViewChild('startDate')
   startDateInput!: ElementRef;
+
+  /**
+   * @ignore
+   */
+  @ViewChild(MatStartDate)
+  matStartDate!: MatStartDate<Date | null>;
+
+  /**
+   * @ignore
+   */
+  @ViewChild(MatEndDate)
+  matEndDate!: MatEndDate<Date | null>;
 
   /**
    * @ignore
@@ -156,9 +177,59 @@ export class WattDateRangeInputComponent
       },
     });
 
+    const matStartDateChange$ = this.matStartDate.dateInput.pipe(
+      tap(() => {
+        this.inputMaskService.setInputColor(
+          startDateInputElement,
+          startDateInputMask
+        );
+      }),
+      map(({ value: maybeStartDate }) => {
+        let start = '';
+
+        if (maybeStartDate instanceof Date) {
+          start = this.formatDate(maybeStartDate);
+        }
+
+        return start;
+      })
+    );
+
+    const matEndDateChange$ = this.matEndDate.dateInput.pipe(
+      tap(() => {
+        this.inputMaskService.setInputColor(
+          endDateInputElement,
+          endDateInputMask
+        );
+      }),
+      map(({ value: maybeEndDate }) => {
+        let start = '';
+
+        if (maybeEndDate instanceof Date) {
+          start = this.formatDate(maybeEndDate);
+        }
+
+        return start;
+      })
+    );
+
+    combineLatest([matStartDateChange$, matEndDateChange$])
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(([start, end]) => {
+        this.markParentControlAsTouched();
+        this.changeParentValue({ start, end });
+      });
+
     this.rangeInputService.onInputChanges$
       ?.pipe(takeUntil(this.destroy$))
       .subscribe(([start, end]) => {
+        if (start !== '') {
+          this.matStartDate.value = parse(start, dateTimeFormat, new Date());
+        }
+        if (end !== '') {
+          this.matEndDate.value = parse(end, dateTimeFormat, new Date());
+        }
+
         this.markParentControlAsTouched();
         this.changeParentValue({ start, end });
       });
@@ -269,5 +340,12 @@ export class WattDateRangeInputComponent
     return this.locale === this.danishLocaleCode
       ? inputFormat.split('y').join('å')
       : inputFormat;
+  }
+
+  /**
+   * @ignore
+   */
+  private formatDate(value: Date): string {
+    return formatInTimeZone(value, danishTimeZoneIdentifier, dateTimeFormat);
   }
 }

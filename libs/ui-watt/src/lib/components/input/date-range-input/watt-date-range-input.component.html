@@ -14,7 +14,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<mat-date-range-input [disabled]="isDisabled">
+<mat-date-range-input [disabled]="isDisabled" [rangePicker]="picker">
   <input
     aria-label="start-date-input"
     matStartDate
@@ -32,3 +32,9 @@ limitations under the License.
     spellcheck="false"
   />
 </mat-date-range-input>
+
+<mat-datepicker-toggle matSuffix [for]="picker">
+  <watt-icon name="date" matDatepickerToggleIcon></watt-icon>
+</mat-datepicker-toggle>
+
+<mat-date-range-picker #picker></mat-date-range-picker>
