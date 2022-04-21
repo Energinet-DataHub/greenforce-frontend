@@ -14,11 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  ChangeDetectionStrategy,
-  Component,
-  NgModule,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 
 @Component({
@@ -46,16 +42,24 @@ import { MatCardModule } from '@angular/material/card';
   ],
   template: `
     <mat-card>
-      <img class="watt-space-stack-m" src="assets/images/emissions/sonderborg-medals-row.svg" />
-      <h3 class="watt-space-stack-m">Sønderborg aims to create a CO2-neutral growth area by 2029</h3>
+      <img
+        class="watt-space-stack-m"
+        src="assets/images/emissions/sonderborg-medals-row.svg"
+      />
+      <h3 class="watt-space-stack-m">
+        Sønderborg aims to create a CO2-neutral growth area by 2029
+      </h3>
       <p class="watt-space-stack-m">
-        With a public-private partnership, ProjectZero was in 2007 created to drive Sønderborg’s transition to a
-        ZEROcarbon community by 2029. To meet the ambition, the project focuses on different initiatives including
-        energy efficiency and conversion of energy sources into renewables. ProjectZero is already far along the
-        climate journey, and by 2020 the CO2-emission was reduced by 51,80% within the Sønderborg-area.
+        With a public-private partnership, ProjectZero was in 2007 created to
+        drive Sønderborg’s transition to a ZEROcarbon community by 2029. To meet
+        the ambition, the project focuses on different initiatives including
+        energy efficiency and conversion of energy sources into renewables.
+        ProjectZero is already far along the climate journey, and by 2020 the
+        CO2-emission was reduced by 51,80% within the Sønderborg-area.
       </p>
       <p>
-        Læs mere om <a href="https://www.projectzero.dk" target="_blank">ProjectZero</a>.
+        Læs mere om
+        <a href="https://www.projectzero.dk" target="_blank">ProjectZero</a>.
       </p>
     </mat-card>
   `,
@@ -65,6 +69,6 @@ export class EoEmissionsPageLeadByExampleComponent {}
 @NgModule({
   declarations: [EoEmissionsPageLeadByExampleComponent],
   imports: [MatCardModule],
-  exports: [EoEmissionsPageLeadByExampleComponent]
+  exports: [EoEmissionsPageLeadByExampleComponent],
 })
 export class EoEmissionsPageLeadByExampleScam {}
