@@ -223,12 +223,8 @@ export class WattDateRangeInputComponent
     this.rangeInputService.onInputChanges$
       ?.pipe(takeUntil(this.destroy$))
       .subscribe(([start, end]) => {
-        if (start !== '') {
-          this.matStartDate.value = parse(start, dateTimeFormat, new Date());
-        }
-        if (end !== '') {
-          this.matEndDate.value = parse(end, dateTimeFormat, new Date());
-        }
+        this.matStartDate.value = start === '' ? null : this.parseDate(start);
+        this.matEndDate.value = end === '' ? null : this.parseDate(end);
 
         this.markParentControlAsTouched();
         this.changeParentValue({ start, end });
@@ -347,5 +343,12 @@ export class WattDateRangeInputComponent
    */
   private formatDate(value: Date): string {
     return formatInTimeZone(value, danishTimeZoneIdentifier, dateTimeFormat);
+  }
+
+  /**
+   * @ignore
+   */
+  private parseDate(value: string): Date {
+    return parse(value, dateTimeFormat, new Date());
   }
 }
