@@ -22,6 +22,7 @@ import { eoOriginOfEnergyRoutePath } from '@energinet-datahub/eo/origin-of-energ
 import { eoFaqRoutePath } from '@energinet-datahub/eo/faq/routing';
 import { eoMeteringPointsRoutePath } from '@energinet-datahub/eo/metering-points/routing';
 import { eoPrivacyPolicyRoutePath } from '@energinet-datahub/eo/privacy-policy/routing';
+import { eoEmissionsRoutePath } from '@energinet-datahub/eo-emissions-routing';
 import { EoTitleStore } from '@energinet-datahub/eo/shared/util-browser';
 import { GfBrowserConfigurationModule } from '@energinet-datahub/gf/util-browser';
 
@@ -84,6 +85,16 @@ const routes: Routes = [
         loadChildren: () =>
           import('@energinet-datahub/eo/metering-points/shell').then(
             (esModule) => esModule.EoMeteringPointsShellModule
+          ),
+      },
+      {
+        path: eoEmissionsRoutePath,
+        data: {
+          title: 'Emissions',
+        },
+        loadChildren: () =>
+          import('@energinet-datahub/eo/emissions/shell').then(
+            (esModule) => esModule.EoEmissionsPageShellModule
           ),
       },
       {
