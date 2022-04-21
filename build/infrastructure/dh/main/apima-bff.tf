@@ -52,7 +52,7 @@ module "apima_bff" {
             </set-header>
             <cors allow-credentials="true">
                 <allowed-origins>
-                    <origin>https://localhost:4200</origin>
+                    <origin>https://${azurerm_static_site.ui.default_site_hostname}</origin>
                 </allowed-origins>
                 <allowed-methods preflight-result-max-age="300">
                     <method>*</method>

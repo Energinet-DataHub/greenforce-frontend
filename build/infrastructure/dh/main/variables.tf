@@ -55,5 +55,5 @@ variable frontend_app_id {
 
 variable apim_b2c_tenant_frontend_userflow {
   type          = string
-  description   = "The URL of the B2C tenant where the signin user flow that is used by the frontend exists. No the format: https://<tenant-name>.b2clogin.com/<tenant-id>/<user-flow-name>"
+  description   = "The URL of the B2C tenant where the signin user flow that is used by the frontend exists. On the format: https://<tenant-name>.b2clogin.com/<tenant-name>.onmicrosoft.com/<user-flow-name>"
 }
