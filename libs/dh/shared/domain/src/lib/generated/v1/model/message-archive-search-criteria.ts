@@ -14,7 +14,7 @@
 export interface MessageArchiveSearchCriteria { 
     messageId?: string | null;
     messageType?: string | null;
-    processType?: string | null;
+    processTypes?: Array<string> | null;
     dateTimeFrom?: string | null;
     dateTimeTo?: string | null;
     senderId?: string | null;
@@ -27,7 +27,8 @@ export interface MessageArchiveSearchCriteria {
     functionName?: string | null;
     traceId?: string | null;
     includeRelated: boolean;
-    rsmName?: string | null;
+    includeResultsWithoutContent: boolean;
+    rsmNames?: Array<string> | null;
     continuationToken?: string | null;
     maxItemCount: number;
 }

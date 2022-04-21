@@ -23,10 +23,12 @@ limitations under the License.
       <watt-form-field>
         <watt-label>{{ transloco("documenttype") }}</watt-label>
         <watt-dropdown
-          [(ngModel)]="this.searchCriteria.rsmName"
+          [(ngModel)]="this.searchCriteria.rsmNames"
           [options]="rsmFormFieldOptions"
           name="rsmName"
           [placeholder]="transloco('ChooseDocumentType')"
+          [multiple]="true"
+          [title]="this.searchCriteria.rsmNames ?? ''"
         >
         </watt-dropdown>
       </watt-form-field>
@@ -72,9 +74,11 @@ limitations under the License.
         <watt-label>{{ transloco("businessReason") }}</watt-label>
         <watt-dropdown
           name="processType"
-          [(ngModel)]="this.searchCriteria.processType"
+          [(ngModel)]="this.searchCriteria.processTypes"
           [options]="processTypeFormFieldOptions"
           [placeholder]="transloco('ChooseBusinessReason')"
+          [multiple]="true"
+          [title]="this.searchCriteria.processTypes ?? ''"
         >
         </watt-dropdown>
       </watt-form-field>
@@ -134,8 +138,8 @@ limitations under the License.
       </watt-form-field>
 
       <!-- Search -->
-      <watt-button
-        [disabled]="!validateSearchParams()"
+      <watt-button *rxLet="this.searching$ as seaching"
+        [disabled]="!validateSearchParams() || seaching"
         variant="primary"
         type="submit"
         icon="search"
