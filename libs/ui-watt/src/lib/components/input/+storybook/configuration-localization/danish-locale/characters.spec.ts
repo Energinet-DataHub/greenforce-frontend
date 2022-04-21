@@ -14,12 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-:host {
-  display: block;
-  padding: var(--watt-space-l) 0;
-}
+import { nonBreakingSpace } from './characters';
 
-.spinner {
-  display: flex;
-  justify-content: center;
-}
+describe('nonBreakingSpace', () => {
+  it('has the character code 160', () => {
+    expect(nonBreakingSpace.charCodeAt(0)).toBe(160);
+  });
+
+  it('is one character', () => {
+    expect(nonBreakingSpace).toHaveLength(1);
+  });
+});

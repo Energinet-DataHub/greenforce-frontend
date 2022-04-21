@@ -14,12 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-:host {
-  display: block;
-  padding: var(--watt-space-l) 0;
-}
+import { LOCALE_ID, StaticProvider } from '@angular/core';
 
-.spinner {
-  display: flex;
-  justify-content: center;
-}
+import { danishLocaleCode } from './danish-locale-code';
+
+export const danishLocaleProvider: StaticProvider = {
+  provide: LOCALE_ID,
+  useValue: danishLocaleCode,
+};

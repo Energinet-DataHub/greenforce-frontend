@@ -14,12 +14,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-:host {
-  display: block;
-  padding: var(--watt-space-l) 0;
-}
-
-.spinner {
-  display: flex;
-  justify-content: center;
-}
+export const nonBreakingSpace = String.fromCharCode(160);

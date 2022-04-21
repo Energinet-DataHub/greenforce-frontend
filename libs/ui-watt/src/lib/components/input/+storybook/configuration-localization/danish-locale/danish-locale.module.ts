@@ -14,12 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-:host {
-  display: block;
-  padding: var(--watt-space-l) 0;
-}
+import { NgModule } from '@angular/core';
 
-.spinner {
-  display: flex;
-  justify-content: center;
-}
+import { danishLocaleInitializer } from './danish-locale.initializer';
+import { danishLocaleProvider } from './danish-locale.provider';
+
+@NgModule({
+  providers: [danishLocaleProvider, danishLocaleInitializer],
+})
+export class DanishLocaleModule {}
