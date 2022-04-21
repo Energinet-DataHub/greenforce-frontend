@@ -47,12 +47,13 @@ import { MatCardModule } from '@angular/material/card';
         The municipality of Sønderborg aims at CO2 neutrality by 2029
       </h3>
       <p class="watt-space-stack-m">
-        In 2007, ProjectZero was established as a public-private initiative.
-        The aim of the project was to drive Sønderborg's transition towards carbon neutrality by 2029.
-        To meet the ambition, the project focuses on different initiatives including energy efficiency and
-        conversion of energy sources into renewables.
-        In 2020, ProjectZero had already obtained a 51,80% CO2 reduction in the Sønderborg-area,
-        thus the project is fully on track to reach the overall target by 2029.
+        In 2007, ProjectZero was established as a public-private initiative. The
+        aim of the project was to drive Sønderborg's transition towards carbon
+        neutrality by 2029. To meet the ambition, the project focuses on
+        different initiatives including energy efficiency and conversion of
+        energy sources into renewables. In 2020, ProjectZero had already
+        obtained a 51,80% CO2 reduction in the Sønderborg-area, thus the project
+        is fully on track to reach the overall target by 2029.
       </p>
       <p>
         Read more about
