@@ -27,13 +27,13 @@ limitations under the License.
   <h1>{{ t("organizationHeader") }}</h1>
 
   <!-- Spinner -->
-  <div *ngIf="this.isLoading$ | async">
-    <watt-spinner></watt-spinner>
-  </div>
+  <ng-container *rxLet="this.isLoading$ as isLoading">
+    <div *ngIf="isLoading">
+      <watt-spinner></watt-spinner>
+    </div>
 
-  <ng-container *rxLet="this.contacts$ as contacts">
-    <ng-container *rxLet="this.organization$ as organization">
-      <ng-container *rxLet="this.isLoading$ as isLoading">
+    <ng-container *rxLet="this.contacts$ as contacts">
+      <ng-container *rxLet="this.organization$ as organization">
         <div class="container">
           <div [hidden]="isLoading">
             <!-- Tabs -->

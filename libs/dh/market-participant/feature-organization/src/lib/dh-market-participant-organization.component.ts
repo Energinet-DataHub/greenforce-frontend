@@ -44,7 +44,7 @@ import {
   MatPaginatorModule,
 } from '@angular/material/paginator';
 import { DhMarketParticipantFeatureEditOrganizationModule } from '@energinet-datahub/dh/market-participant/edit-organization';
-import { Subject, takeUntil } from 'rxjs';
+import { Subject, takeUntil, tap } from 'rxjs';
 
 @Component({
   selector: 'dh-market-participant-organization',
@@ -78,18 +78,19 @@ export class DhMarketParticipantOrganizationComponent
     new MatTableDataSource<OverviewRow>();
 
   isLoading$ = this.store.isLoading$;
-  overviewList$ = this.store.overviewList$;
   validationError$ = this.store.validationError$;
+  overviewList$ = this.store.overviewList$.pipe(
+    tap((rows) => {
+      this.dataSource.data = rows;
+      this.dataSource.paginator = this.paginator;
+    })
+  );
 
   hasSelection$ = this.store.hasSelection$;
   selection$ = this.store.selection$;
 
   ngOnInit() {
     this.setupPaginatorTranslation();
-    this.overviewList$.pipe(takeUntil(this.destroy$)).subscribe((rows) => {
-      this.dataSource.data = rows;
-      this.dataSource.paginator = this.paginator;
-    });
   }
 
   ngOnDestroy(): void {
@@ -122,6 +123,10 @@ export class DhMarketParticipantOrganizationComponent
 
   readonly setRowSelection = (row: OverviewRow) => {
     this.store.setSelection(row);
+  };
+
+  readonly createOrganization = () => {
+    this.store.setSelection(undefined);
   };
 
   readonly onCancelled = () => {

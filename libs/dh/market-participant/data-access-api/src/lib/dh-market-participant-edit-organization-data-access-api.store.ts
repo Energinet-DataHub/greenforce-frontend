@@ -30,7 +30,7 @@ import {
   forkJoin,
   from,
   map,
-  mergeAll,
+  mergeMap,
   Observable,
   of,
   Subscription,
@@ -179,33 +179,33 @@ export class DhMarketParticipantEditOrganizationDataAccessApiStore extends Compo
     addedContacts: ContactChanges[],
     removedContacts: ContactDto[]
   ) => {
-    const removed = from(removedContacts)
-      .pipe(
-        map((x) =>
-          this.httpClient.v1MarketParticipantOrganizationOrgIdContactContactIdDelete(
-            organizationId,
-            x.contactId
-          )
-        )
-      )
-      .pipe(mergeAll());
+    if (addedContacts.length + removedContacts.length === 0)
+      return of(undefined);
 
-    const added = from(addedContacts)
-      .pipe(
-        map((x) =>
-          this.httpClient.v1MarketParticipantOrganizationOrgIdContactPost(
-            organizationId,
-            x as CreateContactDto
-          )
+    const removed = from(removedContacts).pipe(
+      mergeMap((x) =>
+        this.httpClient.v1MarketParticipantOrganizationOrgIdContactContactIdDelete(
+          organizationId,
+          x.contactId
         )
       )
-      .pipe(mergeAll());
+    );
+
+    const added = from(addedContacts).pipe(
+      mergeMap((x) =>
+        this.httpClient.v1MarketParticipantOrganizationOrgIdContactPost(
+          organizationId,
+          x as CreateContactDto
+        )
+      )
+    );
 
     return forkJoin([concat(removed, added)]);
   };
 
   readonly save = (onSaveCompleted: () => void) => {
     this.patchState({ isLoading: true });
+
     const x: Subscription = this.select((state) => state)
       .pipe(
         switchMap((state) =>
@@ -216,14 +216,10 @@ export class DhMarketParticipantEditOrganizationDataAccessApiStore extends Compo
               removed: state.removedContacts,
             }))
           )
-        )
-      )
-      .pipe(
+        ),
         switchMap((x) =>
           this.saveContacts(x.organizationId, x.added, x.removed)
-        )
-      )
-      .pipe(
+        ),
         tapResponse(
           () => {
             this.patchState({ isLoading: false });

@@ -31,10 +31,12 @@ limitations under the License.
       <ng-container *ngIf="!hasSelection">
         <div class="create-organization-block">
           <h1>{{ t("header") }}</h1>
-          <watt-button variant="primary" [disabled]="isLoading">{{
-            t("createOrganization")
-          }}</watt-button>
-          <!-- (click)="this.store.createOrganization()" -->
+          <watt-button
+            variant="primary"
+            [disabled]="isLoading"
+            (click)="this.createOrganization()"
+            >{{ t("createOrganization") }}</watt-button
+          >
         </div>
       </ng-container>
 
@@ -144,20 +146,19 @@ limitations under the License.
       </div>
 
       <!-- Empty -->
-      <watt-empty-state
-        *ngIf="
-          !isLoading &&
-          !hasSelection &&
-          (this.overviewList$ | async)?.length === 0
-        "
-        icon="power"
-        size="small"
-        [title]="t('noOrganizations')"
-      ></watt-empty-state>
+      <ng-container *rxLet="this.overviewList$ as overviewList">
+        <watt-empty-state
+          *ngIf="!isLoading && !hasSelection && overviewList.length === 0"
+          icon="power"
+          size="small"
+          [title]="t('noOrganizations')"
+        ></watt-empty-state>
+      </ng-container>
 
       <!-- Edit -->
-      <ng-container *ngIf="this.selection$ | async as selection">
+      <ng-container *rxLet="this.selection$ as selection">
         <dh-market-participant-edit-organization
+          *ngIf="selection"
           [source]="selection.source"
           (cancelled)="this.onCancelled()"
           (saved)="this.onSaved()"

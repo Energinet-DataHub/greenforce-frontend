@@ -66,36 +66,33 @@ export class DhMarketParticipantOverviewDataAccessApiStore extends ComponentStor
   }
 
   private readonly setupRefreshListFlow = () =>
-    this.state$
-      .pipe(filter((state) => state.isListRefreshRequired))
-      .pipe(
-        tap(() =>
-          this.patchState({
+    this.state$.pipe(
+      filter((state) => state.isListRefreshRequired),
+      tap(() =>
+        this.patchState({
+          isListRefreshRequired: false,
+          isLoading: true,
+          validation: undefined,
+        })
+      ),
+      switchMap(this.getOrganizations),
+      tapResponse(
+        () => {
+          console.log('ok');
+          return this.patchState({
             isListRefreshRequired: false,
-            isLoading: true,
-            validation: undefined,
-          })
-        )
+            isLoading: false,
+          });
+        },
+        (error: HttpErrorResponse) => {
+          return this.patchState({
+            isListRefreshRequired: false,
+            isLoading: false,
+            validation: { errorMessage: error.error },
+          });
+        }
       )
-      .pipe(switchMap(this.getOrganizations))
-      .pipe(
-        tapResponse(
-          () => {
-            console.log('ok');
-            return this.patchState({
-              isListRefreshRequired: false,
-              isLoading: false,
-            });
-          },
-          (error: HttpErrorResponse) => {
-            return this.patchState({
-              isListRefreshRequired: false,
-              isLoading: false,
-              validation: { errorMessage: error.error },
-            });
-          }
-        )
-      );
+    );
 
   readonly setSelection = (source: OverviewRow | undefined) => {
     this.patchState({
