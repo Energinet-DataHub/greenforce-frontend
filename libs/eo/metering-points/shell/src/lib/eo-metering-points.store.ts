@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { Injectable } from '@angular/core';
-import { ComponentStore } from '@ngrx/component-store';
+import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { Observable } from 'rxjs';
 import {
   EoMeteringPointsService,
@@ -25,15 +25,25 @@ import {
 // Disabling this check, as no internal state is needed for the store.
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface EoMeteringPointsState {}
-
+const initialState: EoMeteringPointsState = {
+  meteringpoints: [],
+};
 @Injectable()
 export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState> {
   meteringPoints$: Observable<MeteringPoint[]> = this.select(
-    this.meteringPointsService.getMeteringPoints(),
+    this.meteringPointsService.getMeteringPoints().pipe(
+      tapResponse(
+        (response) => response.meteringpoints,
+        (error) => {
+          // We only support the happy path for now
+          throw error;
+        }
+      )
+    ),
     (response) => response.meteringpoints
   );
 
   constructor(private meteringPointsService: EoMeteringPointsService) {
-    super();
+    super(initialState);
   }
 }
