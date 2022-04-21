@@ -65,10 +65,14 @@ jobs:
 
       - name: Is affected?
         id: affected
-        uses: ./.github/actions/affected
-        with:
-          base: ${{ env.is-main-branch == 'true' && 'HEAD~1' || format('origin/{0}', env.BASE_BRANCH) }}
-          project: ${{ env.app-name }}
+        shell: bash
+        run: |
+          echo "::set-output name=is-affected::true"
+
+        # uses: ./.github/actions/affected
+        # with:
+        #   base: ${{ env.is-main-branch == 'true' && 'HEAD~1' || format('origin/{0}', env.BASE_BRANCH) }}
+        #   project: ${{ env.app-name }}
 
   app:
     name: Build app
@@ -169,14 +173,14 @@ jobs:
     needs:
       - define_build
       - app
-    uses: Energinet-DataHub/.github/.github/workflows/build-containers-and-release-chart.yaml@main
+    uses: Energinet-DataHub/.github/.github/workflows/build-containers-and-release-chart.yaml@feature/change-to-deploy-keys
     with:
       helm_repository: ${{ github.repository_owner }}/helm-charts
       chart_folder: build/infrastructure/eo/chart
       chart_version: ${{ needs.define_build.outputs.chart_version }}
       containers: ${{ needs.define_build.outputs.containers }}
     secrets:
-      RELEASE_CHART_TOKEN: ${{ secrets.RELEASE_CHART_TOKEN }}
+      deploy_key: ${{ secrets.DEPLOY_KEY_HELM_CHARTS }}
 
   update_environment:
     name: Update env
@@ -184,7 +188,7 @@ jobs:
       - build_container_and_release_chart
     #only on: push to main OR PR on 'feature/**' branch
     if: github.event_name == 'push' && github.ref_name == 'main' || github.event_name == 'pull_request' && startsWith(github.event.pull_request.head.ref, 'feature/')
-    uses: Energinet-DataHub/.github/.github/workflows/update-chart-in-env.yaml@main
+    uses: Energinet-DataHub/.github/.github/workflows/update-chart-in-env.yaml@feature/change-to-deploy-keys
     with:
       env_repository: ${{ github.repository_owner }}/eo-base-environment
       env_branch: ${{ github.event_name == 'push' && github.ref_name == 'main' && 'main' || github.event.pull_request.head.ref }}
@@ -193,4 +197,4 @@ jobs:
       chart_name: ${{ needs.build_container_and_release_chart.outputs.chart_name }}
       chart_version: ${{ needs.build_container_and_release_chart.outputs.chart_version }}
     secrets:
-      UPDATE_ENV_TOKEN: ${{ secrets.UPDATE_ENV_TOKEN }}
+      deploy_key: ${{ secrets.DEPLOY_KEY_BASE_ENVIRONMENT }}
