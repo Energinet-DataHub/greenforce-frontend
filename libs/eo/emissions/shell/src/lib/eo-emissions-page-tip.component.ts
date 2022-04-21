@@ -52,8 +52,9 @@ import { MatCardModule } from '@angular/material/card';
         <h1>Tip</h1>
       </div>
       <p>
-        You can decrease emissions by investing in local renewable energy production to cover your energy consumption.
-        It could be solar panels, wind turbines, etc.
+        You can decrease emissions by investing in local renewable energy
+        production to cover your energy consumption. It could be solar panels,
+        wind turbines, etc.
       </p>
     </mat-card>
   `,
