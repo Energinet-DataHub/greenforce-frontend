@@ -14,19 +14,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 :root {
   // Primary
-  --watt-color-primary: #00847c;
+  --watt-color-primary: #00898a;
   --watt-color-primary-contrast: var(--watt-color-neutral-white);
   --watt-color-primary-light: #b2d0d2;
   --watt-color-primary-light-contrast: var(--watt-color-neutral-black);
-  --watt-color-primary-dark: #02525e;
+  --watt-color-primary-dark: #005d5c;
   --watt-color-primary-dark-contrast: var(--watt-color-neutral-white);
+  // Secondary
+  --watt-color-secondary: #f8ad3c;
+  --watt-color-secondary-dark: #ee9331;
+  --watt-color-secondary-light: #f9dba7;
   // Focus
   --watt-color-focus-selection: #ebf5f5;
   --watt-color-focus-selection-contrast: var(--watt-color-neutral-black);
   --watt-color-focus: #ffd237;
   --watt-color-focus-contrast: var(--watt-color-neutral-black);
+  // Data Visualization
+  --watt-color-data-1: #9fcd91;
+  --watt-color-data-2: #a0c1c2;
+  --watt-color-data-3: #00a58d;
   // Neutrals
   --watt-color-neutral-black: #000;
   --watt-color-neutral-black-contrast: var(--watt-color-neutral-white);
@@ -69,7 +78,6 @@
   --watt-color-state-info-contrast: var(--watt-color-neutral-black);
   --watt-color-state-info-light: #d6f1f4;
   --watt-color-state-info-light-contrast: var(--watt-color-neutral-black);
-
   // Typography
   --watt-typography-headline-color: var(--watt-color-primary-dark);
   --watt-typography-text-color: var(--watt-color-neutral-black);
