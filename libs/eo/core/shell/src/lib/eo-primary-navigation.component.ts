@@ -24,6 +24,7 @@ import { eoDashboardRoutePath } from '@energinet-datahub/eo/dashboard/routing';
 import { eoOriginOfEnergyRoutePath } from '@energinet-datahub/eo/origin-of-energy/routing';
 import { eoFaqRoutePath } from '@energinet-datahub/eo/faq/routing';
 import { eoMeteringPointsRoutePath } from '@energinet-datahub/eo/metering-points/routing';
+import { eoEmissionsRoutePath } from '@energinet-datahub/eo-emissions-routing';
 import { EoLogOutStore } from '@energinet-datahub/eo/auth/data-access-security';
 import { WattNavListModule } from '@energinet-datahub/watt';
 
@@ -44,6 +45,9 @@ import { WattNavListModule } from '@energinet-datahub/watt';
       >
       <watt-nav-list-item link="/${eoOriginOfEnergyRoutePath}"
         >Origin of Energy</watt-nav-list-item
+      >
+      <watt-nav-list-item link="/${eoEmissionsRoutePath}"
+        >Emissions</watt-nav-list-item
       >
       <watt-nav-list-item link="/${eoMeteringPointsRoutePath}"
         >Metering Points</watt-nav-list-item
