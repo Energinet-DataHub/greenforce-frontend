@@ -203,13 +203,13 @@ export class WattDateRangeInputComponent
         );
       }),
       map(({ value: maybeEndDate }) => {
-        let start = '';
+        let end = '';
 
         if (maybeEndDate instanceof Date) {
-          start = this.formatDate(maybeEndDate);
+          end = this.formatDate(maybeEndDate);
         }
 
-        return start;
+        return end;
       })
     );
 
