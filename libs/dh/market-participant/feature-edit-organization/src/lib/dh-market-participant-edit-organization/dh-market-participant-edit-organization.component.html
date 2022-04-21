@@ -31,7 +31,6 @@ limitations under the License.
     <div *ngIf="isLoading">
       <watt-spinner></watt-spinner>
     </div>
-
     <ng-container *rxLet="this.contacts$ as contacts">
       <ng-container *rxLet="this.organization$ as organization">
         <div class="container">
@@ -57,22 +56,24 @@ limitations under the License.
             </watt-tabs>
 
             <!-- Confirmation -->
-            <div class="button-container">
-              <watt-button
-                variant="secondary"
-                type="reset"
-                (click)="this.onCancelled()"
-                >{{ t("cancelLabel") }}
-              </watt-button>
-              <!-- [disabled]="this.isBusy" -->
-              <watt-button
-                variant="primary"
-                type="submit"
-                (click)="this.onSaved()"
-                >{{ t("saveLabel") }}</watt-button
-              >
-              <!-- [disabled]="!this.allowSaveChanges || this.isBusy" -->
-            </div>
+            <ng-container *rxLet="this.store.state$ as state">
+              <div class="button-container">
+                <watt-button
+                  variant="secondary"
+                  type="reset"
+                  (click)="this.onCancelled()"
+                  >{{ t("cancelLabel") }}
+                </watt-button>
+                <!-- [disabled]="this.isBusy" -->
+                <watt-button
+                  variant="primary"
+                  type="submit"
+                  (click)="this.onSaved(state)"
+                  >{{ t("saveLabel") }}</watt-button
+                >
+                <!-- [disabled]="!this.allowSaveChanges || this.isBusy" -->
+              </div>
+            </ng-container>
           </div>
         </div>
       </ng-container>

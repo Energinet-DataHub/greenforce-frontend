@@ -26,18 +26,20 @@ import {
   OrganizationDto,
 } from '@energinet-datahub/dh/shared/domain';
 import {
+  catchError,
   concat,
+  filter,
   forkJoin,
   from,
   map,
   mergeMap,
   Observable,
   of,
-  Subscription,
   switchMap,
   tap,
 } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
+import { endOfDay } from 'date-fns';
 
 export interface OrganizationChanges {
   isValid: boolean;
@@ -54,6 +56,10 @@ export interface ContactChanges {
   phone?: string | null;
 }
 
+interface ServerErrorDescriptor {
+  error: ErrorDescriptor;
+}
+
 interface ErrorDescriptor {
   code: string;
   message: string;
@@ -61,7 +67,11 @@ interface ErrorDescriptor {
   details: ErrorDescriptor[];
 }
 
-interface MarketParticipantEditOrganizationState {
+interface ClientErrorDescriptor {
+  errors: any;
+}
+
+export interface MarketParticipantEditOrganizationState {
   isLoading: boolean;
 
   // Input
@@ -97,92 +107,157 @@ export class DhMarketParticipantEditOrganizationDataAccessApiStore extends Compo
     this.contacts$ = this.setupFetchContactsFlow();
   }
 
-  private readonly setupFetchContactsFlow = () =>
-    this.select((state) => state.organization)
-      .pipe(tap(() => this.patchState({ isLoading: true })))
-      .pipe(switchMap(this.getContacts))
-      .pipe(
-        tapResponse(
-          (response) =>
-            this.patchState({
-              isLoading: false,
-              contacts: response,
-            }),
-          (error: HttpErrorResponse) =>
-            this.patchState({
-              isLoading: false,
-            })
+  private readonly ensureCompletion = of(undefined);
+
+  readonly save = this.effect(
+    (
+      state$: Observable<{
+        state: MarketParticipantEditOrganizationState;
+        onSaveCompleted: () => void;
+      }>
+    ) => {
+      this.patchState({ isLoading: true });
+
+      return state$
+        .pipe(
+          tap(()=>console.log("save forreal")),
+          //filter((state) => !state.state.isLoading),
+          switchMap((state) =>
+            this.saveOrganization(
+              state.state.organization,
+              state.state.changes
+            ).pipe(map((x) => ({ state, id: x })), catchError(err => of(err)))
+          ),
+          // switchMap((state) =>
+          //   this.saveContacts(
+          //     state.id,
+          //     state.state.state.addedContacts,
+          //     state.state.state.removedContacts
+          //   ).pipe(
+          //     map(() => ({ onSaveCompleted: state.state.onSaveCompleted }))
+          //   )
+          // ),
+          map(x => {;}),
+          catchError((err) => {
+            console.log('sad', err);
+            return of();
+          }),
+          // tapResponse(
+          //   (state) => {
+          //     console.log("TapResponse")
+          //     this.patchState({ isLoading: false });
+          //     // state.onSaveCompleted();
+          //   },
+          //   (errorResponse: HttpErrorResponse) => {
+          //     console.log('sup', errorResponse);
+
+          //     this.patchState({
+          //       validation: {
+          //         error: this.formatErrorMessage(errorResponse.error),
+          //       },
+          //       isLoading: false,
+          //     });
+          //   }
+          // )
         )
-      );
+    }
+  );
+
+  private readonly setupFetchContactsFlow = () =>
+    this.select((state) => state.organization).pipe(
+      tap(() => this.patchState({ isLoading: true })),
+      switchMap(this.getContacts),
+      tapResponse(
+        (response) =>
+          this.patchState({
+            isLoading: false,
+            contacts: response,
+          }),
+        (errorResponse: HttpErrorResponse) =>
+          this.patchState({
+            isLoading: false,
+            validation: {
+              error: this.formatErrorMessage(errorResponse.error),
+            },
+          })
+      )
+    );
 
   private readonly getContacts = (
     organization?: OrganizationDto
-  ): Observable<ContactDto[]> => {
-    if (!organization) {
-      return of([]);
-    }
+  ): Observable<ContactDto[]> =>
+    organization
+      ? this.httpClient.v1MarketParticipantOrganizationOrgIdContactGet(
+          organization.organizationId
+        )
+      : of([]);
 
-    return this.httpClient.v1MarketParticipantOrganizationOrgIdContactGet(
-      organization.organizationId
-    );
-  };
-
-  readonly setMasterDataChanges = (changes: OrganizationChanges) => {
+  readonly setMasterDataChanges = (changes: OrganizationChanges) =>
     this.patchState({
       changes,
     });
-  };
 
   readonly setContactChanges = (
     added: ContactChanges[],
     removed: ContactDto[]
-  ) => {
+  ) =>
     this.patchState({
       addedContacts: added,
       removedContacts: removed,
     });
-  };
 
-  readonly beginEditing = (organization: OrganizationDto) => {
+  readonly beginEditing = (organization: OrganizationDto) =>
     this.patchState({
       organization,
       contacts: [],
       changes: { isValid: true, ...organization },
     });
-  };
 
-  readonly beginCreating = () => {
+  readonly beginCreating = () =>
     this.patchState({
       isLoading: true,
     });
-  };
 
-  readonly saveOrganization = (
+  private readonly saveOrganization = (
     organization: OrganizationDto | undefined,
     organizationChanges: OrganizationChanges
-  ) => {
-    if (organization !== undefined) {
-      return this.httpClient
-        .v1MarketParticipantOrganizationPut(
-          organization.organizationId,
+  ) =>
+    organization !== undefined
+      ? this.httpClient
+          .v1MarketParticipantOrganizationPut(
+            organization.organizationId,
+            organizationChanges as ChangeOrganizationDto
+          )
+          .pipe(map(() => organization.organizationId))
+      : this.httpClient.v1MarketParticipantOrganizationPost(
           organizationChanges as ChangeOrganizationDto
-        )
-        .pipe(map(() => organization.organizationId));
-    }
-    return this.httpClient.v1MarketParticipantOrganizationPost(
-      organizationChanges as ChangeOrganizationDto
-    );
-  };
+        );
 
-  readonly saveContacts = (
+  private readonly addContacts = (
     organizationId: string,
-    addedContacts: ContactChanges[],
-    removedContacts: ContactDto[]
-  ) => {
-    if (addedContacts.length + removedContacts.length === 0)
-      return of(undefined);
+    addedContacts: ContactChanges[]
+  ) =>
+    from(addedContacts).pipe(
+      mergeMap((x) =>
+        this.httpClient
+          .v1MarketParticipantOrganizationOrgIdContactPost(
+            organizationId,
+            x as CreateContactDto
+          )
+          .pipe(
+            tapResponse(
+              () => {;},
+              (error) => console.log('wtf', error)
+            )
+          )
+      )
+    );
 
-    const removed = from(removedContacts).pipe(
+  private readonly removeContacts = (
+    organizationId: string,
+    removedContacts: ContactDto[]
+  ) =>
+    from(removedContacts).pipe(
       mergeMap((x) =>
         this.httpClient.v1MarketParticipantOrganizationOrgIdContactContactIdDelete(
           organizationId,
@@ -191,55 +266,28 @@ export class DhMarketParticipantEditOrganizationDataAccessApiStore extends Compo
       )
     );
 
-    const added = from(addedContacts).pipe(
-      mergeMap((x) =>
-        this.httpClient.v1MarketParticipantOrganizationOrgIdContactPost(
-          organizationId,
-          x as CreateContactDto
-        )
-      )
-    );
+  private readonly saveContacts = (
+    organizationId: string,
+    addedContacts: ContactChanges[],
+    removedContacts: ContactDto[]
+  ) =>
+    forkJoin([
+      concat(
+        this.removeContacts(organizationId, removedContacts),
+        this.addContacts(organizationId, addedContacts),
+        this.ensureCompletion
+      ),
+    ]);
 
-    return forkJoin([concat(removed, added)]);
-  };
+  readonly formatErrorMessage = (
+    errorDescriptor: ServerErrorDescriptor | ClientErrorDescriptor
+  ) =>
+    this.isServerErrorDescriptor(errorDescriptor)
+      ? errorDescriptor.error.details.map((x) => x.message).join(' ')
+      : Object.values(errorDescriptor.errors).join(' ');
 
-  readonly save = (onSaveCompleted: () => void) => {
-    this.patchState({ isLoading: true });
-
-    const x: Subscription = this.select((state) => state)
-      .pipe(
-        switchMap((state) =>
-          this.saveOrganization(state.organization, state.changes).pipe(
-            map((x) => ({
-              organizationId: x,
-              added: state.addedContacts,
-              removed: state.removedContacts,
-            }))
-          )
-        ),
-        switchMap((x) =>
-          this.saveContacts(x.organizationId, x.added, x.removed)
-        ),
-        tapResponse(
-          () => {
-            this.patchState({ isLoading: false });
-            onSaveCompleted();
-          },
-          (errorResponse: HttpErrorResponse) => {
-            this.patchState({
-              validation: {
-                error: this.formatErrorMessage(
-                  errorResponse.error.error as ErrorDescriptor
-                ),
-              },
-              isLoading: false,
-            });
-          }
-        )
-      )
-      .subscribe(() => x.unsubscribe());
-  };
-
-  readonly formatErrorMessage = (errorDescriptor: ErrorDescriptor) =>
-    errorDescriptor.details.map((x) => x.message).join(' ');
+  readonly isServerErrorDescriptor = (
+    errorDescriptor: ServerErrorDescriptor | ClientErrorDescriptor
+  ): errorDescriptor is ServerErrorDescriptor =>
+    (<ServerErrorDescriptor>errorDescriptor).error !== undefined;
 }
