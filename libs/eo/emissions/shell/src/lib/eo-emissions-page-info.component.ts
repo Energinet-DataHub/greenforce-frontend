@@ -33,6 +33,27 @@ import { MatCardModule } from '@angular/material/card';
         h1 {
           color: var(--watt-color-neutral-black);
         }
+
+      .coming-soon-overlay {
+        background-color: rgba(196, 196, 196, 0.90);
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        border-radius: var(--watt-space-xs);
+
+        &::before {
+           content: 'Coming soon';
+           display: flex;
+           justify-content: center;
+           align-items: center;
+           height: 100%;
+           color: var(--watt-color-state-danger);
+           font-weight: bold;
+           font-size: 40px;
+         }
+        }
       }
     `,
   ],
@@ -40,6 +61,7 @@ import { MatCardModule } from '@angular/material/card';
     <mat-card>
       <h3>Your emissions in 2021</h3>
       <h1>1.198 kg CO<sub>2</sub></h1>
+      <div class="coming-soon-overlay"></div>
     </mat-card>
   `,
 })
