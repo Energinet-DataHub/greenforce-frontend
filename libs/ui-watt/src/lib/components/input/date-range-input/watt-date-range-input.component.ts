@@ -132,7 +132,7 @@ export class WattDateRangeInputComponent
       this.inputFormat,
       this.placeholder,
       startDateInputElement,
-      this.onBeforePaste
+      (value) => this.onBeforePaste(value)
     );
 
     const endDateInputElement = this.endDateInput.nativeElement;
@@ -140,7 +140,7 @@ export class WattDateRangeInputComponent
       this.inputFormat,
       this.placeholder,
       endDateInputElement,
-      this.onBeforePaste
+      (value) => this.onBeforePaste(value)
     );
 
     // Setup and subscribe for input changes
