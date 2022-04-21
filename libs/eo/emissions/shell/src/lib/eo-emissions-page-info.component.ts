@@ -34,25 +34,25 @@ import { MatCardModule } from '@angular/material/card';
           color: var(--watt-color-neutral-black);
         }
 
-      .coming-soon-overlay {
-        background-color: rgba(196, 196, 196, 0.90);
-        width: 100%;
-        height: 100%;
-        position: absolute;
-        top: 0;
-        left: 0;
-        border-radius: var(--watt-space-xs);
+        .coming-soon-overlay {
+          background-color: rgba(196, 196, 196, 0.9);
+          width: 100%;
+          height: 100%;
+          position: absolute;
+          top: 0;
+          left: 0;
+          border-radius: var(--watt-space-xs);
 
-        &::before {
-           content: 'Coming soon';
-           display: flex;
-           justify-content: center;
-           align-items: center;
-           height: 100%;
-           color: var(--watt-color-state-danger);
-           font-weight: bold;
-           font-size: 40px;
-         }
+          &::before {
+            content: 'Coming soon';
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            color: var(--watt-color-state-danger);
+            font-weight: bold;
+            font-size: 40px;
+          }
         }
       }
     `,
