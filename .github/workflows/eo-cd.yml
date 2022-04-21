@@ -65,14 +65,10 @@ jobs:
 
       - name: Is affected?
         id: affected
-        shell: bash
-        run: |
-          echo "::set-output name=is-affected::true"
-
-        # uses: ./.github/actions/affected
-        # with:
-        #   base: ${{ env.is-main-branch == 'true' && 'HEAD~1' || format('origin/{0}', env.BASE_BRANCH) }}
-        #   project: ${{ env.app-name }}
+        uses: ./.github/actions/affected
+        with:
+          base: ${{ env.is-main-branch == 'true' && 'HEAD~1' || format('origin/{0}', env.BASE_BRANCH) }}
+          project: ${{ env.app-name }}
 
   app:
     name: Build app
@@ -173,7 +169,7 @@ jobs:
     needs:
       - define_build
       - app
-    uses: Energinet-DataHub/.github/.github/workflows/build-containers-and-release-chart.yaml@feature/change-to-deploy-keys
+    uses: Energinet-DataHub/.github/.github/workflows/build-containers-and-release-chart.yaml@main
     with:
       helm_repository: ${{ github.repository_owner }}/helm-charts
       chart_folder: build/infrastructure/eo/chart
@@ -188,7 +184,7 @@ jobs:
       - build_container_and_release_chart
     #only on: push to main OR PR on 'feature/**' branch
     if: github.event_name == 'push' && github.ref_name == 'main' || github.event_name == 'pull_request' && startsWith(github.event.pull_request.head.ref, 'feature/')
-    uses: Energinet-DataHub/.github/.github/workflows/update-chart-in-env.yaml@feature/change-to-deploy-keys
+    uses: Energinet-DataHub/.github/.github/workflows/update-chart-in-env.yaml@main
     with:
       env_repository: ${{ github.repository_owner }}/eo-base-environment
       env_branch: ${{ github.event_name == 'push' && github.ref_name == 'main' && 'main' || github.event.pull_request.head.ref }}
