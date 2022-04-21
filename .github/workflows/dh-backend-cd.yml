@@ -38,3 +38,16 @@ jobs:
     secrets:
       PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
       ENVIRONMENT_REPOSITORY_PATH: ${{ secrets.ENVIRONMENT_REPOSITORY_PATH }}
+
+  update_coverage_report:
+    uses: Energinet-DataHub/.github/.github/workflows/dotnet-solution-ci.yml@6.2.0
+    with:
+      SOLUTION_FILE_PATH: 'apps/dh/api-dh/DataHub.WebApi.sln'
+      DOTNET_VERSION: '6.0.201'
+      PREPARE_OUTPUTS: false
+    secrets:
+      AZURE_TENANT_ID: ${{ secrets.AZURE_TESTING_TENANT_ID }}
+      AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_TESTING_SUBSCRIPTION_ID }}
+      AZURE_SPN_ID: ${{ secrets.AZURE_TESTING_SPN_ID }}
+      AZURE_SPN_SECRET: ${{ secrets.AZURE_TESTING_SPN_SECRET }}
+      AZURE_KEYVAULT_URL: ${{ secrets.AZURE_TESTING_KEYVAULT_URL }}
