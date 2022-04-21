@@ -46,6 +46,7 @@ export type WattDateRange = { start: string; end: string };
 
 const dateTimeFormat = 'dd-MM-yyyy';
 const danishTimeZoneIdentifier = 'Europe/Copenhagen';
+const danishLocaleCode = 'da';
 
 /**
  * Usage:
@@ -126,7 +127,6 @@ export class WattDateRangeInputComponent
   /**
    * @ignore
    */
-  private danishLocaleCode = 'da';
 
   constructor(
     @Inject(LOCALE_ID) private locale: string,
@@ -152,7 +152,7 @@ export class WattDateRangeInputComponent
       this.inputFormat,
       this.placeholder,
       startDateInputElement,
-      this.onBeforePaste
+      (value) => this.onBeforePaste(value)
     );
 
     const endDateInputElement = this.endDateInput.nativeElement;
@@ -160,7 +160,7 @@ export class WattDateRangeInputComponent
       this.inputFormat,
       this.placeholder,
       endDateInputElement,
-      this.onBeforePaste
+      (value) => this.onBeforePaste(value)
     );
 
     // Setup and subscribe for input changes
@@ -302,7 +302,7 @@ export class WattDateRangeInputComponent
    * @ignore
    */
   private onBeforePaste(pastedValue: string): string {
-    if (this.locale !== this.danishLocaleCode) return pastedValue;
+    if (this.locale !== danishLocaleCode) return pastedValue;
 
     // Reverse the pasted value, if starts with "year"
     if (pastedValue.search(/^\d{4}/g) !== -1) {
@@ -333,7 +333,7 @@ export class WattDateRangeInputComponent
    * @ignore
    */
   private getPlaceholder(inputFormat: string): string {
-    return this.locale === this.danishLocaleCode
+    return this.locale === danishLocaleCode
       ? inputFormat.split('y').join('å')
       : inputFormat;
   }
