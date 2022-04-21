@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
+import { EoMeteringPointListScam } from './eo-metering-point-list.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -26,12 +27,13 @@ import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
       }
     `,
   ],
-  template: `<p>You do not have any metering points.</p>`,
+  template: `<eo-metering-points-list></eo-metering-points-list>`,
 })
 export class EoMeteringPointsShellComponent {}
 
 @NgModule({
   declarations: [EoMeteringPointsShellComponent],
   exports: [EoMeteringPointsShellComponent],
+  imports: [EoMeteringPointListScam],
 })
 export class EoMeteringPointsShellScam {}
