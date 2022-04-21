@@ -31,12 +31,14 @@ import {
 import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { FormatWidth, getLocaleDateFormat } from '@angular/common';
 import { MatDateRangeInput } from '@angular/material/datepicker';
+import { Subject, takeUntil } from 'rxjs';
 
 import { WattInputMaskService } from '../shared/input-mask.service';
 import { WattRangeInputService } from '../shared/range-input.service';
-import { Subject, takeUntil } from 'rxjs';
 
 export type WattDateRange = { start: string; end: string };
+
+const danishLocaleCode = 'da';
 
 /**
  * Usage:
@@ -105,7 +107,6 @@ export class WattDateRangeInputComponent
   /**
    * @ignore
    */
-  private danishLocaleCode = 'da';
 
   constructor(
     @Inject(LOCALE_ID) private locale: string,
@@ -235,7 +236,7 @@ export class WattDateRangeInputComponent
    * @ignore
    */
   private onBeforePaste(pastedValue: string): string {
-    if (this.locale !== this.danishLocaleCode) return pastedValue;
+    if (this.locale !== danishLocaleCode) return pastedValue;
 
     // Reverse the pasted value, if starts with "year"
     if (pastedValue.search(/^\d{4}/g) !== -1) {
@@ -266,7 +267,7 @@ export class WattDateRangeInputComponent
    * @ignore
    */
   private getPlaceholder(inputFormat: string): string {
-    return this.locale === this.danishLocaleCode
+    return this.locale === danishLocaleCode
       ? inputFormat.split('y').join('å')
       : inputFormat;
   }
