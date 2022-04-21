@@ -43,6 +43,7 @@ import { MatCardModule } from '@angular/material/card';
     <mat-card>
       <img
         class="watt-space-stack-m"
+        alt="Danish ministry of climate and energy utilities | EnergyOrigin"
         src="assets/images/emissions/danish-ministry-of-climate-energy-utilities.svg"
       />
       <h3 class="watt-space-stack-m">Greenhouse gases</h3>

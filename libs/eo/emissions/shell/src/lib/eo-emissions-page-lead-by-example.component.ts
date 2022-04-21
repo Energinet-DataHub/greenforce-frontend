@@ -46,7 +46,7 @@ import { MatCardModule } from '@angular/material/card';
   ],
   template: `
     <mat-card>
-      <img class="watt-space-stack-m" src="assets/images/emissions/sonderborg-medals-row.svg" />
+      <img alt="Sonderborg leads the way | EnergyOrigin" class="watt-space-stack-m" src="assets/images/emissions/sonderborg-medals-row.svg" />
       <h3 class="watt-space-stack-m">Sønderborg aims to create a CO2-neutral growth area by 2029</h3>
       <p class="watt-space-stack-m">
         With a public-private partnership, ProjectZero was in 2007 created to drive Sønderborg’s transition to a
