@@ -14,18 +14,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+
 import {
-  EoMeteringPointsShellScam,
-  EoMeteringPointsShellComponent,
-} from './eo-metering-points-shell.component';
+  EoEmissionsPageShellComponent,
+  EoEmissionsPageShellScam,
+} from './eo-emissions-page-shell.component';
+import { RouterModule, Routes } from '@angular/router';
+import { NgModule } from '@angular/core';
 
 const routes: Routes = [
-  { path: '', component: EoMeteringPointsShellComponent },
+  {
+    path: '',
+    component: EoEmissionsPageShellComponent,
+  },
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes), EoMeteringPointsShellScam],
+  imports: [RouterModule.forChild(routes), EoEmissionsPageShellScam],
 })
-export class EoMeteringPointsShellModule {}
+export class EoEmissionsPageShellModule {}
