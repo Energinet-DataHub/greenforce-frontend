@@ -120,6 +120,9 @@
       "@energinet-datahub/dh/shared/ui-date-time": [
         "libs/dh/shared/ui-date-time/src/index.ts"
       ],
+      "@energinet-datahub/eo-emissions-routing": [
+        "libs/eo/emissions/routing/src/index.ts"
+      ],
       "@energinet-datahub/eo/auth/data-access-api": [
         "libs/eo/auth/data-access-api/src/index.ts"
       ],
@@ -138,6 +141,9 @@
       ],
       "@energinet-datahub/eo/dashboard/shell": [
         "libs/eo/dashboard/shell/src/index.ts"
+      ],
+      "@energinet-datahub/eo/emissions/shell": [
+        "libs/eo/emissions/shell/src/index.ts"
       ],
       "@energinet-datahub/eo/faq/routing": ["libs/eo/faq/routing/src/index.ts"],
       "@energinet-datahub/eo/faq/shell": ["libs/eo/faq/shell/src/index.ts"],
