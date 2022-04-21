@@ -50,6 +50,20 @@ module "apima_bff" {
             <set-header name="RequestTime" exists-action="override">
                 <value>@(DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ssZ"))</value>
             </set-header>
+            <cors allow-credentials="true">
+                <allowed-origins>
+                    <origin>https://localhost:4200</origin>
+                </allowed-origins>
+                <allowed-methods preflight-result-max-age="300">
+                    <method>*</method>
+                </allowed-methods>
+                <allowed-headers>
+                    <header>*</header>
+                </allowed-headers>
+                <expose-headers>
+                    <header>*</header>
+                </expose-headers>
+            </cors>
           </inbound>
           <backend>
               <base />
