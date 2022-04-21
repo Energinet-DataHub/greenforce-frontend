@@ -56,7 +56,7 @@ import { MatCardModule } from '@angular/material/card';
         ProjectZero er allerede kommet langt i den planlagte klimarejse og er snart klar til 2. halvleg.
       </p>
       <p>
-        Læs mere om <a href="#" target="_blank">ProjectZero</a>.
+        Læs mere om <a href="https://www.projectzero.dk" target="_blank">ProjectZero</a>.
       </p>
     </mat-card>
   `,

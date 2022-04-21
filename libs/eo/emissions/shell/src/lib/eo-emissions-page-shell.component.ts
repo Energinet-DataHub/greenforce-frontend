@@ -33,7 +33,7 @@ import { EoEmissionsPageLeadByExampleScam } from './eo-emissions-page-lead-by-ex
       :host {
         display: grid;
         grid-template-columns: 360px 584px; // Magic numbers by designer
-        grid-gap: 32px; // Magic number by designer
+        grid-gap: var(--watt-space-l);
       }
     `,
   ],
