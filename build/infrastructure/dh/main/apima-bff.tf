@@ -37,10 +37,10 @@ module "apima_bff" {
           <inbound>
             <base />
             <validate-jwt header-name="Authorization" failed-validation-httpcode="401" failed-validation-error-message="Unauthorized. Failed policy requirements, or token is invalid or missing.">
-                <openid-config url="${var.apim_b2c_tenant_frontend_userflow}/v2.0/.well-known/openid-configuration" />
+                <openid-config url="${data.azurerm_key_vault_secret.frontend_open_id_url.value}" />
                 <required-claims>
                     <claim name="aud" match="any">
-                        <value>${var.frontend_app_id}</value>
+                        <value>${data.azurerm_key_vault_secret.frontend_service_app_id.value}</value>
                     </claim>
                 </required-claims>
             </validate-jwt>
@@ -104,5 +104,5 @@ resource "azurerm_api_management_authorization_server" "oauth_server_bff" {
   bearer_token_sending_methods = [
     "authorizationHeader",
   ]
-  client_id                    = var.frontend_app_id
+  client_id                    = data.azurerm_key_vault_secret.frontend_service_app_id.value
 }

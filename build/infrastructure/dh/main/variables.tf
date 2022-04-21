@@ -48,11 +48,6 @@ variable shared_resources_resource_group_name {
   description   = "Name of the Resource Group, that contains the shared resources."
 }
 
-variable frontend_app_id {
-  type          = string
-  description   = "The app/client ID of the frontend app registration in B2C."
-}
-
 variable apim_b2c_tenant_frontend_userflow {
   type          = string
   description   = "The URL of the B2C tenant where the signin user flow that is used by the frontend exists. On the format: https://<tenant-name>.b2clogin.com/<tenant-name>.onmicrosoft.com/<user-flow-name>"
