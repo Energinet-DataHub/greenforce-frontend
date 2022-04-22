@@ -38,13 +38,13 @@ limitations under the License.
       <th mat-header-cell *matHeaderCellDef>{{ transloco("sender") }}</th>
       <td mat-cell *matCellDef="let element">
         <container-element [ngSwitch]="element.httpData">
-          <label *ngSwitchCase="'request'" type="info">{{
+          <ng-container *ngSwitchCase="'request'">{{
             element.senderGln
-          }}</label>
-          <label *ngSwitchCase="'response'" type="success">{{
+          }}</ng-container>
+          <ng-container *ngSwitchCase="'response'">{{
             element.receiverGln
-          }}</label>
-          <label *ngSwitchDefault type="info">??</label>
+          }}</ng-container>
+          <ng-container *ngSwitchDefault>??</ng-container>
         </container-element>
       </td>
     </ng-container>
