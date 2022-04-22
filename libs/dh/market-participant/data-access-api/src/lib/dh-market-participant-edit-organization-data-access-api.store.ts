@@ -108,79 +108,42 @@ export class DhMarketParticipantEditOrganizationDataAccessApiStore extends Compo
   private readonly ensureCompletion = of(undefined);
 
   readonly save = this.effect(
-    (state$: Observable<MarketParticipantEditOrganizationState>) => {
+    (
+      state$: Observable<{
+        state: MarketParticipantEditOrganizationState;
+        onSaveCompleted: () => void;
+      }>
+    ) => {
       return state$.pipe(
+        tap(() => this.patchState({ isLoading: true, validation: undefined })),
         switchMap((state) => {
-          return this.saveOrganization(state.organization, state.changes).pipe(
+          return this.saveOrganization(
+            state.state.organization,
+            state.state.changes
+          ).pipe(
             switchMap((id) =>
-              this.saveContacts(id, state.addedContacts, state.removedContacts)
+              this.saveContacts(
+                id,
+                state.state.addedContacts,
+                state.state.removedContacts
+              )
             ),
             tapResponse(
-              () => {;},
-              (error) => {
-                console.log('INNER ERROR', error);
+              () => {
+                this.patchState({ isLoading: false });
+                state.onSaveCompleted();
+              },
+              (errorResponse: HttpErrorResponse) => {
+                this.patchState({
+                  validation: {
+                    error: this.formatErrorMessage(errorResponse.error),
+                  },
+                  isLoading: false,
+                });
               }
             )
           );
-
-          // console.log('Save organization');
-          // return this.httpClient
-          //   .v1MarketParticipantOrganizationPost(
-          //     state.changes as ChangeOrganizationDto
-          //   )
-          //   .pipe(
-          //     // tapResponse(
-          //     //   () => {;},
-          //     //   (error) => {
-          //     //     console.log('throw out', error);
-          //     //     return of('tet')
-          //     //   }
-          //     // ),
-          //     catchError((error) => {
-          //       console.log('throw out', error);
-          //       return EMPTY;
-          //     })
-          //   );
         })
-        //filter((state) => !state.state.isLoading),
-        // switchMap((state) =>
-        //   this.saveOrganization(
-        //     state.state.organization,
-        //     state.state.changes
-        //   ).pipe(
-        //     map((x) => ({ state, id: x }))
-        //   )
-        // ),
-        // switchMap((state) =>
-        //   this.saveContacts(
-        //     state.id,
-        //     state.state.state.addedContacts,
-        //     state.state.state.removedContacts
-        //   ).pipe(
-        //     map(() => ({ onSaveCompleted: state.state.onSaveCompleted }))
-        //   )
-        // ),
-        // catchError((err) => {
-        //   console.log('sad', err);
-        //   return of();
-        // })
-        // tapResponse(
-        //   (state) => {
-        //     console.log("TapResponse")
-        //     this.patchState({ isLoading: false });
-        //     // state.onSaveCompleted();
-        //   },
-        //   (errorResponse: HttpErrorResponse) => {
-        //     console.log('sup', errorResponse);
-
-        //     this.patchState({
-        //       validation: {
-        //         error: this.formatErrorMessage(errorResponse.error),
-        //       },
-        //       isLoading: false,
-        //     });
-        //   }
-        // )
       );
     }
   );
@@ -263,7 +226,7 @@ export class DhMarketParticipantEditOrganizationDataAccessApiStore extends Compo
       mergeMap((x) =>
         this.httpClient.v1MarketParticipantOrganizationOrgIdContactPost(
           organizationId,
-          x as CreateContactDto,
+          x as CreateContactDto
         )
       )
     );
@@ -296,10 +259,15 @@ export class DhMarketParticipantEditOrganizationDataAccessApiStore extends Compo
 
   readonly formatErrorMessage = (
     errorDescriptor: ServerErrorDescriptor | ClientErrorDescriptor
-  ) =>
-    this.isServerErrorDescriptor(errorDescriptor)
-      ? errorDescriptor.error.details.map((x) => x.message).join(' ')
-      : Object.values(errorDescriptor.errors).join(' ');
+  ) => {
+    try {
+      return this.isServerErrorDescriptor(errorDescriptor)
+        ? errorDescriptor.error.details.map((x) => x.message).join(' ')
+        : Object.values(errorDescriptor.errors).join(' ');
+    } catch {
+      return 'Unknown error';
+    }
+  };
 
   readonly isServerErrorDescriptor = (
     errorDescriptor: ServerErrorDescriptor | ClientErrorDescriptor

@@ -32,7 +32,7 @@ limitations under the License.
 
   <!-- Spinner -->
   <ng-container *rxLet="this.isLoading$ as isLoading">
-    <div *ngIf="isLoading">
+    <div class="spinner-container" *ngIf="isLoading">
       <watt-spinner></watt-spinner>
     </div>
     <ng-container *rxLet="this.contacts$ as contacts">
@@ -68,14 +68,12 @@ limitations under the License.
                   (click)="this.onCancelled()"
                   >{{ t("cancelLabel") }}
                 </watt-button>
-                <!-- [disabled]="this.isBusy" -->
                 <watt-button
                   variant="primary"
                   type="submit"
                   (click)="this.onSaved(state)"
                   >{{ t("saveLabel") }}</watt-button
                 >
-                <!-- [disabled]="!this.allowSaveChanges || this.isBusy" -->
               </div>
             </ng-container>
           </div>

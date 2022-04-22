@@ -88,8 +88,7 @@ export class DhMarketParticipantEditOrganizationComponent implements OnChanges {
   };
 
   readonly onSaved = (state: MarketParticipantEditOrganizationState) => {
-    console.log('Click Handler Called');
-    this.store.save(state);
+    this.store.save({ state, onSaveCompleted: () => this.saved.emit() });
   };
 }
 

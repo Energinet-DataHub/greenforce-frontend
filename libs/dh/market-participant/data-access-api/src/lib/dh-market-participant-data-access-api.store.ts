@@ -21,7 +21,7 @@ import {
   OrganizationDto,
   MarketParticipantHttp,
 } from '@energinet-datahub/dh/shared/domain';
-import { filter, map, Observable, switchMap, tap } from 'rxjs';
+import { concat, filter, map, Observable, of, switchMap, tap } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 
 export interface OverviewRow {
@@ -75,22 +75,25 @@ export class DhMarketParticipantOverviewDataAccessApiStore extends ComponentStor
           validation: undefined,
         })
       ),
-      switchMap(this.getOrganizations),
-      tapResponse(
-        () => {
-          console.log('ok');
-          return this.patchState({
-            isListRefreshRequired: false,
-            isLoading: false,
-          });
-        },
-        (error: HttpErrorResponse) => {
-          return this.patchState({
-            isListRefreshRequired: false,
-            isLoading: false,
-            validation: { errorMessage: error.error },
-          });
-        }
+      switchMap(() =>
+        concat(
+          of([]),
+          this.getOrganizations().pipe(
+            tapResponse(
+              () =>
+                this.patchState({
+                  isListRefreshRequired: false,
+                  isLoading: false,
+                }),
+              (error: HttpErrorResponse) =>
+                this.patchState({
+                  isListRefreshRequired: false,
+                  isLoading: false,
+                  validation: { errorMessage: error.error },
+                })
+            )
+          )
+        )
       )
     );
 
