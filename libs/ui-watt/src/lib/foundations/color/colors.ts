@@ -27,9 +27,6 @@ export enum WattColor {
   data1 = '--watt-color-data-1',
   data2 = '--watt-color-data-2',
   data3 = '--watt-color-data-3',
-  // Focus
-  selection = '--watt-color-focus-selection',
-  focus = '--watt-color-focus',
   // Neutrals
   black = '--watt-color-neutral-black',
   white = '--watt-color-neutral-white',
