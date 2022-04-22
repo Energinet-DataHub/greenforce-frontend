@@ -52,23 +52,23 @@ jobs:
       AZURE_KEYVAULT_URL: ${{ secrets.AZURE_TESTING_KEYVAULT_URL }}
 
   terraform_validate:
-    uses: Energinet-DataHub/.github/.github/workflows/terraform-validate.yml@6.1.0
+    uses: Energinet-DataHub/.github/.github/workflows/terraform-validate.yml@6.2.0
     with:
       TERRAFORM_WORKING_DIR_PATH: 'build/infrastructure/dh/main'
       TERRAFORM_VERSION: '1.1.2'
 
-  # sonarcloud_analysis:
-  #   uses: Energinet-DataHub/.github/.github/workflows/sonarcloud-dotnet.yml@6.1.0
-  #   with:
-  #     SOLUTION_FILE_PATH: 'apps/dh/api-dh/DataHub.WebApi.sln'
-  #     DOTNET_VERSION: '6.0.201'
-  #     SONAR_CLOUD_ORGANIZATION: 'energinet-datahub'
-  #     SONAR_CLOUD_PROJECT: 'geh-frontend-api'
-  #   secrets:
-  #     SONAR_CLOUD_TOKEN: ${{ secrets.SONAR_TOKEN }}
+  sonarcloud_analysis:
+    uses: Energinet-DataHub/.github/.github/workflows/sonarcloud-dotnet.yml@6.2.0
+    with:
+      SOLUTION_FILE_PATH: 'apps/dh/api-dh/DataHub.WebApi.sln'
+      DOTNET_VERSION: '6.0.201'
+      SONAR_CLOUD_ORGANIZATION: 'energinet-datahub'
+      SONAR_CLOUD_PROJECT: 'geh-frontend-api'
+    secrets:
+      SONAR_CLOUD_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
   generate_client:
-    needs: [dotnet_solution_ci, terraform_validate]
+    needs: [dotnet_solution_ci, terraform_validate, sonarcloud_analysis]
     runs-on: ubuntu-latest
     env:
       output-path: libs/dh/shared/domain/src/lib/generated/v1/
@@ -124,8 +124,8 @@ jobs:
           git diff ${{ env.output-path }} --exit-code || (echo '❌ DataHub API v1 client is out-of-sync. Run the `build-client` Nx target and merge the changes.' && exit 1)
 
   create_prerelease:
-    needs: [dotnet_solution_ci, terraform_validate]
-    uses: Energinet-DataHub/.github/.github/workflows/create-prerelease.yml@6.1.0
+    needs: [dotnet_solution_ci, terraform_validate, sonarcloud_analysis]
+    uses: Energinet-DataHub/.github/.github/workflows/create-prerelease.yml@6.2.0
     with:
       CALLER_REPOSITORY_PATH: Energinet-DataHub/greenforce-frontend
     secrets:
