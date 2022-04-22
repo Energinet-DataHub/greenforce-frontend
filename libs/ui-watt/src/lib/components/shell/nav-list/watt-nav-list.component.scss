@@ -17,8 +17,6 @@
 @use '@energinet-datahub/watt/utils' as watt;
 
 watt-nav-list {
-  --watt-nav-list-color-secondary: #f8ad3c;
-
   background-color: var(--watt-color-primary-dark);
   display: block;
 
@@ -34,7 +32,7 @@ watt-nav-list {
     &:hover,
     &.active {
       background-color: var(--watt-color-primary);
-      border-left-color: var(--watt-nav-list-color-secondary);
+      border-left-color: var(--watt-color-secondary);
     }
 
     .mat-list-item-content {
