@@ -71,7 +71,7 @@ const selector = 'eo-inline-message';
       }
 
       .${selector}--warning {
-        background: #fef5d5; // var(--watt-color-state-warning); // Wrong yellow watt vs Figma
+        background: var(--watt-color-state-warning);
         color: var(--watt-color-primary-dark);
       }
     `,
