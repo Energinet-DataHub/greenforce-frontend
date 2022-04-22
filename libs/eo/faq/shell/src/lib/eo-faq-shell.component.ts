@@ -24,7 +24,12 @@ import { eoFaqRoutePath } from '@energinet-datahub/eo/faq/routing';
     `
       :host {
         display: block;
-        width: 800px; // Magic number by designer
+        width: 1040px; // Magic number by designer
+      }
+
+      .faq-link a {
+        color: var(--watt-color-primary);
+        text-decoration: none;
       }
 
       h3 {
@@ -34,30 +39,30 @@ import { eoFaqRoutePath } from '@energinet-datahub/eo/faq/routing';
     `,
   ],
   template: `
-    <div class="watt-space-stack-m">
-      <a href="${eoFaqRoutePath}#what-is-energy-origin"
-        >What is Energy Origin?</a
-      >
+    <div class="watt-space-stack-m faq-link">
+      <a href="${eoFaqRoutePath}#what-is-energy-origin">
+        What is Energy Origin?
+      </a>
     </div>
-    <div class="watt-space-stack-m">
-      <a href="${eoFaqRoutePath}#who-can-access-the-platform"
-        >Who can access the platform?</a
-      >
+    <div class="watt-space-stack-m faq-link">
+      <a href="${eoFaqRoutePath}#who-can-access-the-platform">
+        Who can access the platform?
+      </a>
     </div>
-    <div class="watt-space-stack-m">
-      <a href="${eoFaqRoutePath}#where-does-the-data-come-from"
-        >Where does the data come from?</a
-      >
+    <div class="watt-space-stack-m faq-link">
+      <a href="${eoFaqRoutePath}#where-does-the-data-come-from">
+        Where does the data come from?
+      </a>
     </div>
-    <div class="watt-space-stack-m">
-      <a href="${eoFaqRoutePath}#how-can-i-influence-the-development"
-        >How can I influence the development?</a
-      >
+    <div class="watt-space-stack-m faq-link">
+      <a href="${eoFaqRoutePath}#how-can-i-influence-the-development">
+        How can I influence the development?
+      </a>
     </div>
-    <div class="watt-space-stack-m">
-      <a href="${eoFaqRoutePath}#where-can-i-read-more"
-        >Where can I read more?</a
-      >
+    <div class="watt-space-stack-m faq-link">
+      <a href="${eoFaqRoutePath}#where-can-i-read-more">
+        Where can I read more?
+      </a>
     </div>
 
     <h3 id="what-is-energy-origin">What is Energy Origin?</h3>
@@ -88,7 +93,7 @@ import { eoFaqRoutePath } from '@energinet-datahub/eo/faq/routing';
     <p>
       You are more than welcome to participate in our LinkedIn user group, a
       digital forum for users, in which we post sketches, questions and gather
-      ideas and suggestions for new development and improvements. It’s
+      ideas and suggestions for new development and improvements. It's
       non-binding and you can either just follow along without getting involved
       or comment when you have time.
     </p>
@@ -101,8 +106,9 @@ import { eoFaqRoutePath } from '@energinet-datahub/eo/faq/routing';
     <a
       href="https://en.energinet.dk/Electricity/DataHub/Energy-Origin"
       target="_blank"
-      >Origins of energy | Energinet</a
     >
+      Origins of energy | Energinet
+    </a>
   `,
 })
 export class EoFaqShellComponent {}
