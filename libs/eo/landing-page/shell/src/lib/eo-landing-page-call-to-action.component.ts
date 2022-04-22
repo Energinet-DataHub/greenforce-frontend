@@ -33,9 +33,7 @@ import { EoLandingPageLoginButtonScam } from './eo-landing-page-login-button.com
 
         text-align: center; // [1]
 
-        background: var(
-          --watt-color-focus-selection
-        ); // This is the light-blue-ish background color
+        background: var(--watt-color-primary-light);
       }
 
       eo-landing-page-login-button {
