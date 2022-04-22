@@ -31,7 +31,7 @@ import { EoLandingPagePresenter } from './eo-landing-page.presenter';
 
         display: block;
 
-        background-color: var(--watt-color-focus-selection);
+        background-color: var(--watt-color-primary-light);
       }
     `,
   ],
