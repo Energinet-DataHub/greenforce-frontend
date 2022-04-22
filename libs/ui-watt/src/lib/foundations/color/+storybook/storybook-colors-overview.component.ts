@@ -52,14 +52,16 @@ export class StorybookColorsOverviewComponent {
       colors: [
         this.getColor('primary', WattColor.primary),
         this.getColor('primary-dark', WattColor.primaryDark),
+        this.getColor('primary-light', WattColor.primaryLight),
       ],
     },
     {
-      name: 'focus',
-      title: 'Focus Colors',
+      name: 'secondary',
+      title: 'Secondary Colors',
       colors: [
-        this.getColor('focus', WattColor.focus),
-        this.getColor('selection', WattColor.selection),
+        this.getColor('secondary', WattColor.secondary),
+        this.getColor('secondary-dark', WattColor.secondaryDark),
+        this.getColor('secondary-light', WattColor.secondaryLight),
       ],
     },
     {
@@ -94,6 +96,17 @@ export class StorybookColorsOverviewComponent {
         this.getColor('warning-light', WattColor.warningLight),
         this.getColor('success-light', WattColor.successLight),
         this.getColor('info-light', WattColor.infoLight),
+      ],
+    },
+    {
+      name: 'data',
+      title: 'Data Visualization',
+      description:
+        'Used for graphs and similar, where it is needed to differetiate multiple data.',
+      colors: [
+        this.getColor('data-1', WattColor.data1),
+        this.getColor('data-2', WattColor.data2),
+        this.getColor('data-3', WattColor.data3),
       ],
     },
   ];
