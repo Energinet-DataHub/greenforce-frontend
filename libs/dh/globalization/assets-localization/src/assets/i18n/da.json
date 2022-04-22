@@ -369,7 +369,8 @@
         "previous": "Forrige side"
       },
       "create": {
-        "organizationHeader": "Rediger organisation",
+        "organizationCreateHeader": "Opret organisation",
+        "organizationEditHeader": "Rediger organisation",
         "masterDataTabHeader": "Stamdata",
         "contactDataTabHeader": "Kontakter",
         "cancelLabel": "Annuller",

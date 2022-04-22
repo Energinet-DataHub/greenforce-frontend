@@ -26,9 +26,7 @@ import {
   OrganizationDto,
 } from '@energinet-datahub/dh/shared/domain';
 import {
-  catchError,
   concat,
-  filter,
   forkJoin,
   from,
   map,
@@ -39,7 +37,6 @@ import {
   tap,
 } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
-import { endOfDay } from 'date-fns';
 
 export interface OrganizationChanges {
   isValid: boolean;
@@ -98,6 +95,7 @@ const initialState: MarketParticipantEditOrganizationState = {
 @Injectable()
 export class DhMarketParticipantEditOrganizationDataAccessApiStore extends ComponentStore<MarketParticipantEditOrganizationState> {
   isLoading$ = this.select((state) => state.isLoading);
+  isEditing$ = this.select((state) => state.organization !== undefined);
   contacts$;
   organization$ = this.select((state) => state.organization);
   validation$ = this.select((state) => state.validation);
@@ -110,56 +108,80 @@ export class DhMarketParticipantEditOrganizationDataAccessApiStore extends Compo
   private readonly ensureCompletion = of(undefined);
 
   readonly save = this.effect(
-    (
-      state$: Observable<{
-        state: MarketParticipantEditOrganizationState;
-        onSaveCompleted: () => void;
-      }>
-    ) => {
-      this.patchState({ isLoading: true });
+    (state$: Observable<MarketParticipantEditOrganizationState>) => {
+      return state$.pipe(
+        switchMap((state) => {
+          return this.saveOrganization(state.organization, state.changes).pipe(
+            switchMap((id) =>
+              this.saveContacts(id, state.addedContacts, state.removedContacts)
+            ),
+            tapResponse(
+              () => {;},
+              (error) => {
+                console.log('INNER ERROR', error);
+              }
+            )
+          );
 
-      return state$
-        .pipe(
-          tap(()=>console.log("save forreal")),
-          //filter((state) => !state.state.isLoading),
-          switchMap((state) =>
-            this.saveOrganization(
-              state.state.organization,
-              state.state.changes
-            ).pipe(map((x) => ({ state, id: x })), catchError(err => of(err)))
-          ),
-          // switchMap((state) =>
-          //   this.saveContacts(
-          //     state.id,
-          //     state.state.state.addedContacts,
-          //     state.state.state.removedContacts
-          //   ).pipe(
-          //     map(() => ({ onSaveCompleted: state.state.onSaveCompleted }))
+          // console.log('Save organization');
+          // return this.httpClient
+          //   .v1MarketParticipantOrganizationPost(
+          //     state.changes as ChangeOrganizationDto
           //   )
-          // ),
-          map(x => {;}),
-          catchError((err) => {
-            console.log('sad', err);
-            return of();
-          }),
-          // tapResponse(
-          //   (state) => {
-          //     console.log("TapResponse")
-          //     this.patchState({ isLoading: false });
-          //     // state.onSaveCompleted();
-          //   },
-          //   (errorResponse: HttpErrorResponse) => {
-          //     console.log('sup', errorResponse);
+          //   .pipe(
+          //     // tapResponse(
+          //     //   () => {;},
+          //     //   (error) => {
+          //     //     console.log('throw out', error);
+          //     //     return of('tet')
+          //     //   }
+          //     // ),
+          //     catchError((error) => {
+          //       console.log('throw out', error);
+          //       return EMPTY;
+          //     })
+          //   );
+        })
+        //filter((state) => !state.state.isLoading),
+        // switchMap((state) =>
+        //   this.saveOrganization(
+        //     state.state.organization,
+        //     state.state.changes
+        //   ).pipe(
+        //     map((x) => ({ state, id: x }))
+        //   )
+        // ),
+        // switchMap((state) =>
+        //   this.saveContacts(
+        //     state.id,
+        //     state.state.state.addedContacts,
+        //     state.state.state.removedContacts
+        //   ).pipe(
+        //     map(() => ({ onSaveCompleted: state.state.onSaveCompleted }))
+        //   )
+        // ),
+        // catchError((err) => {
+        //   console.log('sad', err);
+        //   return of();
+        // })
+        // tapResponse(
+        //   (state) => {
+        //     console.log("TapResponse")
+        //     this.patchState({ isLoading: false });
+        //     // state.onSaveCompleted();
+        //   },
+        //   (errorResponse: HttpErrorResponse) => {
+        //     console.log('sup', errorResponse);
 
-          //     this.patchState({
-          //       validation: {
-          //         error: this.formatErrorMessage(errorResponse.error),
-          //       },
-          //       isLoading: false,
-          //     });
-          //   }
-          // )
-        )
+        //     this.patchState({
+        //       validation: {
+        //         error: this.formatErrorMessage(errorResponse.error),
+        //       },
+        //       isLoading: false,
+        //     });
+        //   }
+        // )
+      );
     }
   );
 
@@ -239,17 +261,10 @@ export class DhMarketParticipantEditOrganizationDataAccessApiStore extends Compo
   ) =>
     from(addedContacts).pipe(
       mergeMap((x) =>
-        this.httpClient
-          .v1MarketParticipantOrganizationOrgIdContactPost(
-            organizationId,
-            x as CreateContactDto
-          )
-          .pipe(
-            tapResponse(
-              () => {;},
-              (error) => console.log('wtf', error)
-            )
-          )
+        this.httpClient.v1MarketParticipantOrganizationOrgIdContactPost(
+          organizationId,
+          x as CreateContactDto,
+        )
       )
     );
 

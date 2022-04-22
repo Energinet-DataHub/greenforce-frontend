@@ -24,7 +24,11 @@ limitations under the License.
       [message]="validation.error"
     ></watt-validation-message>
   </ng-container>
-  <h1>{{ t("organizationHeader") }}</h1>
+
+  <ng-container *rxLet="this.isEditing$ as isEditing">
+    <h1 *ngIf="isEditing">{{ t("organizationEditHeader") }}</h1>
+    <h1 *ngIf="!isEditing">{{ t("organizationCreateHeader") }}</h1>
+  </ng-container>
 
   <!-- Spinner -->
   <ng-container *rxLet="this.isLoading$ as isLoading">

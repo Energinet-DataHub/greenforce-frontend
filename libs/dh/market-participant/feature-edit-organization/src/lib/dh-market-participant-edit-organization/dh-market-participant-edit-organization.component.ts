@@ -55,6 +55,7 @@ export class DhMarketParticipantEditOrganizationComponent implements OnChanges {
   @Output() saved = new EventEmitter();
 
   isLoading$ = this.store.isLoading$;
+  isEditing$ = this.store.isEditing$;
   contacts$ = this.store.contacts$;
   organization$ = this.store.organization$;
   validation$ = this.store.validation$;
@@ -87,11 +88,8 @@ export class DhMarketParticipantEditOrganizationComponent implements OnChanges {
   };
 
   readonly onSaved = (state: MarketParticipantEditOrganizationState) => {
-    console.log('sadads');
-    this.store.save({
-      state: state,
-      onSaveCompleted: () => this.saved.emit(),
-    });
+    console.log('Click Handler Called');
+    this.store.save(state);
   };
 }
 

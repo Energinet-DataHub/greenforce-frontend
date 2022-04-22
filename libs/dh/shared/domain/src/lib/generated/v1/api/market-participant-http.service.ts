@@ -599,8 +599,6 @@ export class MarketParticipantHttp {
             responseType_ = 'text';
         }
 
-        console.log("rt", responseType_);
-
         return this.httpClient.post<string>(`${this.configuration.basePath}/v1/MarketParticipant/organization/${encodeURIComponent(String(orgId))}/contact`,
             createContactDto,
             {
@@ -730,8 +728,6 @@ export class MarketParticipantHttp {
             responseType_ = 'text';
         }
 
-        console.log("dfasf", responseType_)
-
         return this.httpClient.post<string>(`${this.configuration.basePath}/v1/MarketParticipant/organization`,
             changeOrganizationDto,
             {
@@ -804,8 +800,6 @@ export class MarketParticipantHttp {
         if(localVarHttpHeaderAcceptSelected && localVarHttpHeaderAcceptSelected.startsWith('text')) {
             responseType_ = 'text';
         }
-
-        console.log("dfasf", responseType_)
 
         return this.httpClient.put<any>(`${this.configuration.basePath}/v1/MarketParticipant/organization`,
             changeOrganizationDto,

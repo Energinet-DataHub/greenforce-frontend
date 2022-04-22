@@ -348,7 +348,8 @@
         "previous": "Previous page"
       },
       "create": {
-        "organizationHeader": "Edit organization",
+        "organizationCreateHeader": "Create organization",
+        "organizationEditHeader": "Edit organization",
         "masterDataTabHeader": "Master data",
         "contactDataTabHeader": "Contacts",
         "cancelLabel": "Cancel",
