@@ -176,7 +176,7 @@ jobs:
       chart_version: ${{ needs.define_build.outputs.chart_version }}
       containers: ${{ needs.define_build.outputs.containers }}
     secrets:
-      RELEASE_CHART_TOKEN: ${{ secrets.RELEASE_CHART_TOKEN }}
+      deploy_key: ${{ secrets.DEPLOY_KEY_HELM_CHARTS }}
 
   update_environment:
     name: Update env
@@ -193,4 +193,4 @@ jobs:
       chart_name: ${{ needs.build_container_and_release_chart.outputs.chart_name }}
       chart_version: ${{ needs.build_container_and_release_chart.outputs.chart_version }}
     secrets:
-      UPDATE_ENV_TOKEN: ${{ secrets.UPDATE_ENV_TOKEN }}
+      deploy_key: ${{ secrets.DEPLOY_KEY_BASE_ENVIRONMENT }}
