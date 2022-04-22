@@ -32,7 +32,7 @@ import { eoFaqRoutePath } from '@energinet-datahub/eo/faq/routing';
         text-decoration: none;
       }
 
-      h2 {
+      h3 {
         margin-top: var(--watt-space-xl);
         margin-bottom: var(--watt-space-s);
       }
@@ -65,7 +65,7 @@ import { eoFaqRoutePath } from '@energinet-datahub/eo/faq/routing';
       </a>
     </div>
 
-    <h2 id="what-is-energy-origin">What is Energy Origin?</h2>
+    <h3 id="what-is-energy-origin">What is Energy Origin?</h3>
     <p>
       The aim of the Energy Origin platform is to create transparency on the
       origin of energy for all energy consumers and to facilitate a market for
@@ -74,22 +74,22 @@ import { eoFaqRoutePath } from '@energinet-datahub/eo/faq/routing';
       electricity declaration and corresponding emissions for 2021.
     </p>
 
-    <h2 id="who-can-access-the-platform">Who can access the platform?</h2>
+    <h3 id="who-can-access-the-platform">Who can access the platform?</h3>
     <p>
       Currently, the platform only offers company login via NemID. Later on, it
       will be possible for private individuals to login via NemID / MitID.
     </p>
 
-    <h2 id="where-does-the-data-come-from">Where does the data come from?</h2>
+    <h3 id="where-does-the-data-come-from">Where does the data come from?</h3>
     <p>
       All data related to metering points, consumption and production is served
       by the Energinet DataHub. Data related to the origin of energy and
       corresponding emissions stems from Energi Data Service.
     </p>
 
-    <h2 id="how-can-i-influence-the-development">
+    <h3 id="how-can-i-influence-the-development">
       How can I influence the development?
-    </h2>
+    </h3>
     <p>
       You are more than welcome to participate in our LinkedIn user group, a
       digital forum for users, in which we post sketches, questions and gather
@@ -98,7 +98,7 @@ import { eoFaqRoutePath } from '@energinet-datahub/eo/faq/routing';
       or comment when you have time.
     </p>
 
-    <h2 id="where-can-i-read-more">Where can I read more?</h2>
+    <h3 id="where-can-i-read-more">Where can I read more?</h3>
     <p>
       You can read more about the history and intention of Energy Origin on our
       website:
