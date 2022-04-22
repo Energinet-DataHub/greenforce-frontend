@@ -18,13 +18,13 @@ $watt-button-min-width: 6.25rem;
 $watt-button-size-normal-height: 2.75rem;
 $watt-button-size-large-height: 3.5rem;
 
-$watt-button-primary-focus-outline: 2px solid var(--watt-color-focus);
+$watt-button-primary-focus-outline: 2px solid var(--watt-color-secondary);
 $watt-button-primary-focus-background: var(--watt-color-primary-dark);
 $watt-button-primary-hover-background: var(--watt-color-primary-dark);
 
 $watt-button-secondary-focus-state: 1px solid var(--watt-color-primary);
-$watt-button-secondary-focus-background: var(--watt-color-focus-selection);
-$watt-button-secondary-hover-background: var(--watt-color-focus-selection);
+$watt-button-secondary-focus-background: var(--watt-color-primary-light);
+$watt-button-secondary-hover-background: var(--watt-color-primary-light);
 
 $watt-button-text-focus-state: 2px solid var(--watt-color-primary);
 $watt-button-text-hover-color: var(--watt-color-primary-dark);

@@ -48,14 +48,14 @@ figure {
 
   &:hover:before {
     position: absolute;
-    content: 'Copy to clipboard';
+    content: "Copy to clipboard";
     width: 100%;
     height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
     text-align: center;
-    background-color: var(--watt-color-focus-selection);
-    color: var(--watt-color-focus-selection-contrast);
+    background-color: var(--watt-color-primary-light);
+    color: var(--watt-color-primary-light-contrast);
   }
 }
