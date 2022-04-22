@@ -60,7 +60,7 @@ limitations under the License.
     <style>
       html {
         height: 100%;
-        font-family: 'Open Sans', sans-serif;
+        font-family: "Open Sans", sans-serif;
       }
       body {
         display: flex;
@@ -154,12 +154,12 @@ limitations under the License.
         font-weight: normal;
         font-size: 12px;
         line-height: 18px;
-        color: #d12923;
+        color: var(--watt-color-state-danger);
         order: 2;
         margin-top: -1rem;
       }
       .entry-item-error label {
-        color: #d12923 !important;
+        color: var(--watt-color-state-danger) !important;
       }
       .error.itemLevel {
         min-height: 18px;
@@ -168,11 +168,11 @@ limitations under the License.
         margin-top: 0.5rem;
       }
       .highlightError {
-        outline: 1px solid #d12923 !important;
+        outline: 1px solid var(--watt-color-state-danger) !important;
         border: none;
       }
       label {
-        font-family: 'Open Sans', sans-serif;
+        font-family: "Open Sans", sans-serif;
         font-style: normal;
         font-weight: 600;
         font-size: 12px;
@@ -183,13 +183,13 @@ limitations under the License.
         margin-bottom: 0.5rem;
       }
       input {
-        font-family: 'Open Sans', sans-serif;
+        font-family: "Open Sans", sans-serif;
         font-style: normal;
         font-weight: normal;
         font-size: 14px;
         line-height: 21px;
         height: 44px;
-        outline: 1px solid #bdbdbd;
+        outline: 1px solid var(--watt-color-neutral-grey-400);
         border: none;
         color: #02525e;
         border-radius: 3px;
@@ -263,37 +263,37 @@ limitations under the License.
       }
 
       function toggleErrorClasses() {
-        document.querySelectorAll('input').forEach((inputElement) => {
+        document.querySelectorAll("input").forEach((inputElement) => {
           var parent = inputElement.parentElement;
-          var hasError = inputElement.classList.contains('highlightError');
+          var hasError = inputElement.classList.contains("highlightError");
           if (!parent) return;
 
           if (hasError) {
-            parent.classList.add('entry-item-error');
+            parent.classList.add("entry-item-error");
           } else {
-            parent.classList.remove('entry-item-error');
+            parent.classList.remove("entry-item-error");
           }
         });
       }
 
       function appendSignUpTempate() {
-        var signUpTemplate = document.getElementById('signUpTemplate');
+        var signUpTemplate = document.getElementById("signUpTemplate");
 
-        var signUpLinks = signUpTemplate.querySelectorAll('a');
+        var signUpLinks = signUpTemplate.querySelectorAll("a");
         var signUpUrl = document.location.href
-          .replace('signin', 'signup')
-          .replace('sign_in', 'signup');
+          .replace("signin", "signup")
+          .replace("sign_in", "signup");
 
         signUpLinks.forEach((link) => {
-          link.setAttribute('href', signUpUrl);
+          link.setAttribute("href", signUpUrl);
         });
 
-        var signUpContainer = document.querySelector('.buttons');
+        var signUpContainer = document.querySelector(".buttons");
         signUpContainer.appendChild(signUpTemplate);
       }
 
-      waitFor('button#next', function (element) {
-        element.addEventListener('click', toggleErrorClasses);
+      waitFor("button#next", function (element) {
+        element.addEventListener("click", toggleErrorClasses);
         appendSignUpTempate();
       });
     </script>

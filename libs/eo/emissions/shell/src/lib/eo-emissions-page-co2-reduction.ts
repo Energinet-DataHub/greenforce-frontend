@@ -23,7 +23,7 @@ import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
     `
       :host {
         height: 128px; // Magic number by designer
-        outline: 1px solid #f9d557; // Does not exist as a variable in our design system
+        outline: 1px solid var(--watt-color-state-warning);
         display: grid;
         grid-template-columns: 128px 1fr; // Magic numbers by designer
 
