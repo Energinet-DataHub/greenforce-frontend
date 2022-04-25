@@ -163,7 +163,6 @@ export class WattDateRangeInputComponent
       (value) => this.onBeforePaste(value)
     );
 
-    // Setup and subscribe for input changes
     this.rangeInputService.init({
       startInput: {
         element: startDateInputElement,
@@ -213,6 +212,7 @@ export class WattDateRangeInputComponent
       })
     );
 
+    // Subscribe for changes from date-range picker
     combineLatest([matStartDateChange$, matEndDateChange$])
       .pipe(takeUntil(this.destroy$))
       .subscribe(([start, end]) => {
@@ -220,6 +220,7 @@ export class WattDateRangeInputComponent
         this.changeParentValue({ start, end });
       });
 
+    // Subscribe for input changes
     this.rangeInputService.onInputChanges$
       ?.pipe(takeUntil(this.destroy$))
       .subscribe(([start, end]) => {
