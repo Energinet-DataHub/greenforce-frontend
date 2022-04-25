@@ -42,6 +42,9 @@ import {
 import { TranslocoModule } from '@ngneat/transloco';
 import { ContactDto } from '@energinet-datahub/dh/shared/domain';
 import { map, of } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
+import { dhMarketParticipantOrganizationIdParam } from '@energinet-datahub/dh/market-participant/routing';
+import { PushModule } from '@rx-angular/template';
 
 @Component({
   selector: 'dh-market-participant-edit-organization',
@@ -54,6 +57,10 @@ export class DhMarketParticipantEditOrganizationComponent implements OnChanges {
   @Output() cancelled = new EventEmitter();
   @Output() saved = new EventEmitter();
 
+  organizationId$ = this.route.params.pipe(
+    map((params) => params[dhMarketParticipantOrganizationIdParam] as string)
+  );
+
   isLoading$ = this.store.isLoading$;
   isEditing$ = this.store.isEditing$;
   contacts$ = this.store.contacts$;
@@ -61,7 +68,8 @@ export class DhMarketParticipantEditOrganizationComponent implements OnChanges {
   validation$ = this.store.validation$;
 
   constructor(
-    public store: DhMarketParticipantEditOrganizationDataAccessApiStore
+    public store: DhMarketParticipantEditOrganizationDataAccessApiStore,
+    private route: ActivatedRoute
   ) {}
 
   ngOnChanges(): void {
@@ -100,6 +108,7 @@ export class DhMarketParticipantEditOrganizationComponent implements OnChanges {
     WattButtonModule,
     WattTabsModule,
     WattSpinnerModule,
+    PushModule,
     DhMarketParticipantOrganizationMasterDataComponentScam,
     DhMarketParticipantOrganizationContactDataComponentScam,
     WattValidationMessageModule,

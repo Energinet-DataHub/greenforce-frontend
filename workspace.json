@@ -15,6 +15,7 @@
     "dh-market-participant-data-access-api": "libs/dh/market-participant/data-access-api",
     "dh-market-participant-feature-edit-organization": "libs/dh/market-participant/feature-edit-organization",
     "dh-market-participant-feature-organization": "libs/dh/market-participant/feature-organization",
+    "dh-market-participant-routing": "libs/dh/market-participant/routing",
     "dh-market-participant-shell": "libs/dh/market-participant/shell",
     "dh-message-archive-data-access-api": "libs/dh/message-archive/data-access-api",
     "dh-message-archive-domain": "libs/dh/message-archive/domain",

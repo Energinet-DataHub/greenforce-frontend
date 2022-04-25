@@ -43,8 +43,14 @@ import {
   MatPaginatorIntl,
   MatPaginatorModule,
 } from '@angular/material/paginator';
-import { DhMarketParticipantFeatureEditOrganizationModule } from '@energinet-datahub/dh/market-participant/edit-organization';
 import { Subject, takeUntil, tap } from 'rxjs';
+import { Router } from '@angular/router';
+import {
+  dhMarketParticipantOrganizationsCreatePath,
+  dhMarketParticipantOrganizationsEditPath,
+  dhMarketParticipantOrganizationsPath,
+  dhMarketParticipantPath,
+} from '@energinet-datahub/dh/market-participant/routing';
 
 @Component({
   selector: 'dh-market-participant-organization',
@@ -61,6 +67,7 @@ export class DhMarketParticipantOrganizationComponent
 
   constructor(
     public store: DhMarketParticipantOverviewDataAccessApiStore,
+    private router: Router,
     private translocoService: TranslocoService,
     private matPaginatorIntl: MatPaginatorIntl
   ) {}
@@ -85,9 +92,6 @@ export class DhMarketParticipantOrganizationComponent
       this.dataSource.paginator = this.paginator;
     })
   );
-
-  hasSelection$ = this.store.hasSelection$;
-  selection$ = this.store.selection$;
 
   ngOnInit() {
     this.setupPaginatorTranslation();
@@ -122,19 +126,24 @@ export class DhMarketParticipantOrganizationComponent
   };
 
   readonly setRowSelection = (row: OverviewRow) => {
-    this.store.setSelection(row);
+    const url = this.router.createUrlTree([
+      dhMarketParticipantPath,
+      dhMarketParticipantOrganizationsPath,
+      row.organization.organizationId,
+      dhMarketParticipantOrganizationsEditPath,
+    ]);
+
+    this.router.navigateByUrl(url);
   };
 
   readonly createOrganization = () => {
-    this.store.setSelection(undefined);
-  };
+    const url = this.router.createUrlTree([
+      dhMarketParticipantPath,
+      dhMarketParticipantOrganizationsPath,
+      dhMarketParticipantOrganizationsCreatePath,
+    ]);
 
-  readonly onCancelled = () => {
-    this.store.clearSelection();
-  };
-
-  readonly onSaved = () => {
-    this.store.clearSelectionAndRefresh();
+    this.router.navigateByUrl(url);
   };
 }
 
@@ -152,7 +161,6 @@ export class DhMarketParticipantOrganizationComponent
     WattEmptyStateModule,
     WattSpinnerModule,
     WattValidationMessageModule,
-    DhMarketParticipantFeatureEditOrganizationModule,
   ],
   declarations: [DhMarketParticipantOrganizationComponent],
 })

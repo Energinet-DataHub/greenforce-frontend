@@ -14,5 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './lib/dh-market-participant-feature-edit-organization.module';
-export * from './lib/dh-market-participant-edit-organization/dh-market-participant-edit-organization.component';
+export const dhMarketParticipantOrganizationsPath = 'organizations';
+export const dhMarketParticipantOrganizationsCreatePath = 'new';
+export const dhMarketParticipantOrganizationsEditPath = 'edit';
+
+export const dhMarketParticipantOrganizationIdParam = 'organization-id';

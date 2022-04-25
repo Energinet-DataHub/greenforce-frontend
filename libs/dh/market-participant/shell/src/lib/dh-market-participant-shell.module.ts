@@ -20,12 +20,52 @@ import {
   DhMarketParticipantOrganizationComponent,
   DhMarketParticipantOrganizationScam,
 } from '@energinet-datahub/dh/market-participant/feature-organization';
+import {
+  DhMarketParticipantEditOrganizationComponent,
+  DhMarketParticipantEditOrganizationScam,
+} from '@energinet-datahub/dh/market-participant/feature-edit-organization';
+import {
+  dhMarketParticipantOrganizationIdParam,
+  dhMarketParticipantOrganizationsCreatePath,
+  dhMarketParticipantOrganizationsEditPath,
+  dhMarketParticipantOrganizationsPath,
+} from '@energinet-datahub/dh/market-participant/routing';
 
 const routes: Routes = [
   { path: '', component: DhMarketParticipantOrganizationComponent },
+  {
+    path: dhMarketParticipantOrganizationsPath,
+    children: [
+      {
+        path: '',
+        redirectTo: dhMarketParticipantOrganizationsCreatePath,
+      },
+      {
+        path: dhMarketParticipantOrganizationsCreatePath,
+        component: DhMarketParticipantEditOrganizationComponent,
+      },
+      {
+        path: `:${dhMarketParticipantOrganizationIdParam}`,
+        children: [
+          {
+            path: '',
+            redirectTo: dhMarketParticipantOrganizationsEditPath,
+          },
+          {
+            path: `${dhMarketParticipantOrganizationsEditPath}`,
+            component: DhMarketParticipantEditOrganizationComponent,
+          },
+        ],
+      },
+    ],
+  },
 ];
 
 @NgModule({
-  imports: [DhMarketParticipantOrganizationScam, RouterModule.forChild(routes)],
+  imports: [
+    DhMarketParticipantOrganizationScam,
+    DhMarketParticipantEditOrganizationScam,
+    RouterModule.forChild(routes),
+  ],
 })
 export class DhMarketParticipantShellModule {}

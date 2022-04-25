@@ -32,14 +32,6 @@ export interface OverviewRow {
 interface MarketParticipantState {
   isLoading: boolean;
 
-  // Overview
-  isListRefreshRequired: boolean;
-
-  // Create and Edit
-  selection?: {
-    source: OverviewRow | undefined;
-  };
-
   // Validation
   validation?: {
     errorMessage: string;
@@ -48,7 +40,6 @@ interface MarketParticipantState {
 
 const initialState: MarketParticipantState = {
   isLoading: false,
-  isListRefreshRequired: true,
 };
 
 @Injectable()
@@ -57,64 +48,31 @@ export class DhMarketParticipantOverviewDataAccessApiStore extends ComponentStor
   overviewList$;
   validationError$ = this.select((state) => state.validation);
 
-  hasSelection$ = this.select((state) => state.selection !== undefined);
-  selection$ = this.select((state) => state.selection);
-
   constructor(private httpClient: MarketParticipantHttp) {
     super(initialState);
     this.overviewList$ = this.setupRefreshListFlow();
   }
 
   private readonly setupRefreshListFlow = () =>
-    this.state$.pipe(
-      filter((state) => state.isListRefreshRequired),
+    this.getOrganizations().pipe(
       tap(() =>
         this.patchState({
-          isListRefreshRequired: false,
           isLoading: true,
           validation: undefined,
         })
       ),
-      switchMap(() =>
-        concat(
-          of([]),
-          this.getOrganizations().pipe(
-            tapResponse(
-              () =>
-                this.patchState({
-                  isListRefreshRequired: false,
-                  isLoading: false,
-                }),
-              (error: HttpErrorResponse) =>
-                this.patchState({
-                  isListRefreshRequired: false,
-                  isLoading: false,
-                  validation: { errorMessage: error.error },
-                })
-            )
-          )
-        )
+      tapResponse(
+        () =>
+          this.patchState({
+            isLoading: false,
+          }),
+        (error: HttpErrorResponse) =>
+          this.patchState({
+            isLoading: false,
+            validation: { errorMessage: error.error },
+          })
       )
     );
-
-  readonly setSelection = (source: OverviewRow | undefined) => {
-    this.patchState({
-      selection: { source },
-    });
-  };
-
-  readonly clearSelection = () => {
-    this.patchState({
-      selection: undefined,
-    });
-  };
-
-  readonly clearSelectionAndRefresh = () => {
-    this.patchState({
-      selection: undefined,
-      isListRefreshRequired: true,
-    });
-  };
 
   private readonly getOrganizations = (): Observable<OverviewRow[]> => {
     return this.httpClient
