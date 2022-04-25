@@ -184,11 +184,11 @@ export class WattDateRangeInputComponent
           startDateInputMask
         );
       }),
-      map(({ value: maybeStartDate }) => {
+      map(({ value }) => {
         let start = '';
 
-        if (maybeStartDate instanceof Date) {
-          start = this.formatDate(maybeStartDate);
+        if (value instanceof Date) {
+          start = this.formatDate(value);
         }
 
         return start;
@@ -202,11 +202,11 @@ export class WattDateRangeInputComponent
           endDateInputMask
         );
       }),
-      map(({ value: maybeEndDate }) => {
+      map(({ value }) => {
         let end = '';
 
-        if (maybeEndDate instanceof Date) {
-          end = this.formatDate(maybeEndDate);
+        if (value instanceof Date) {
+          end = this.formatDate(value);
         }
 
         return end;
