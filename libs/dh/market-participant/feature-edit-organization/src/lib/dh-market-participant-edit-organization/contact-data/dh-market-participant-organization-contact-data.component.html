@@ -17,11 +17,11 @@ limitations under the License.
 <ng-container
   *transloco="let t; read: 'marketParticipant.organization.create.contacts'"
 >
-  <table mat-table [dataSource]="this.contactRows" aria-label="contacts">
+  <mat-table [dataSource]="this.contactRows" aria-label="contacts">
     <!-- Contact Type -->
     <ng-container matColumnDef="{{ this.columnIds[0] }}">
-      <th mat-header-cell *matHeaderCellDef>{{ t("category") }}</th>
-      <td mat-cell *matCellDef="let element">
+      <mat-header-cell *matHeaderCellDef>{{ t("category") }}</mat-header-cell>
+      <mat-cell *matCellDef="let element">
         <watt-form-field class="field">
           <watt-dropdown
             required
@@ -31,13 +31,13 @@ limitations under the License.
           >
           </watt-dropdown>
         </watt-form-field>
-      </td>
+      </mat-cell>
     </ng-container>
 
     <!-- Name -->
     <ng-container matColumnDef="{{ this.columnIds[1] }}">
-      <th mat-header-cell *matHeaderCellDef>{{ t("name") }}</th>
-      <td mat-cell *matCellDef="let element">
+      <mat-header-cell *matHeaderCellDef>{{ t("name") }}</mat-header-cell>
+      <mat-cell *matCellDef="let element">
         <watt-form-field class="field"
           ><input
             wattInput
@@ -47,13 +47,13 @@ limitations under the License.
             (ngModelChange)="this.onModelChanged(element)"
           />
         </watt-form-field>
-      </td>
+      </mat-cell>
     </ng-container>
 
     <!-- Email -->
     <ng-container matColumnDef="{{ this.columnIds[2] }}">
-      <th mat-header-cell *matHeaderCellDef>{{ t("email") }}</th>
-      <td mat-cell *matCellDef="let element">
+      <mat-header-cell *matHeaderCellDef>{{ t("email") }}</mat-header-cell>
+      <mat-cell *matCellDef="let element">
         <watt-form-field class="field"
           ><input
             wattInput
@@ -63,13 +63,13 @@ limitations under the License.
             [(ngModel)]="element.changed.email"
             (ngModelChange)="this.onModelChanged(element)"
         /></watt-form-field>
-      </td>
+      </mat-cell>
     </ng-container>
 
     <!-- Phone -->
     <ng-container matColumnDef="{{ this.columnIds[3] }}">
-      <th mat-header-cell *matHeaderCellDef>{{ t("phone") }}</th>
-      <td mat-cell *matCellDef="let element">
+      <mat-header-cell *matHeaderCellDef>{{ t("phone") }}</mat-header-cell>
+      <mat-cell *matCellDef="let element">
         <watt-form-field class="field">
           <input
             wattInput
@@ -79,13 +79,13 @@ limitations under the License.
             (ngModelChange)="this.onModelChanged(element)"
           />
         </watt-form-field>
-      </td>
+      </mat-cell>
     </ng-container>
 
     <!-- Delete -->
     <ng-container matColumnDef="{{ this.columnIds[4] }}">
-      <th mat-header-cell *matHeaderCellDef></th>
-      <td mat-cell *matCellDef="let element">
+      <mat-header-cell mat-header-cell *matHeaderCellDef></mat-header-cell>
+      <mat-cell *matCellDef="let element">
         <ng-container *ngIf="!element.isNewPlaceholder">
           <watt-icon-button
             class="remove-cell"
@@ -94,10 +94,10 @@ limitations under the License.
           >
           </watt-icon-button>
         </ng-container>
-      </td>
+      </mat-cell>
     </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="this.columnIds; sticky: true"></tr>
-    <tr mat-row *matRowDef="let row; columns: this.columnIds"></tr>
-  </table>
+    <mat-header-row *matHeaderRowDef="this.columnIds; sticky: true"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: this.columnIds"></mat-row>
+  </mat-table>
 </ng-container>

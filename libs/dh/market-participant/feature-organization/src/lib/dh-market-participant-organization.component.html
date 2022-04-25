@@ -38,71 +38,71 @@ limitations under the License.
     </div>
 
     <!-- Table -->
-    <table mat-table [dataSource]="this.dataSource" aria-label="organizations">
+    <mat-table [dataSource]="this.dataSource" aria-label="organizations">
       <!-- Organization Name -->
       <ng-container matColumnDef="{{ this.columnIds[0] }}">
-        <th mat-header-cell *matHeaderCellDef>
+        <mat-header-cell *matHeaderCellDef>
           {{ t("columns.organization") }}
-        </th>
-        <td mat-cell *matCellDef="let element">
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element">
           {{ element.organization.name }}
-        </td>
+        </mat-cell>
       </ng-container>
 
       <!-- Actor GLN -->
       <ng-container matColumnDef="{{ this.columnIds[1] }}">
-        <th mat-header-cell *matHeaderCellDef>
+        <mat-header-cell *matHeaderCellDef>
           {{ t("columns.gln") }}
-        </th>
-        <td mat-cell *matCellDef="let element">
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element">
           {{ element.actor?.gln.value ?? "-" }}
-        </td>
+        </mat-cell>
       </ng-container>
 
       <!-- Actor status -->
       <ng-container matColumnDef="{{ this.columnIds[2] }}">
-        <th mat-header-cell *matHeaderCellDef>
+        <mat-header-cell *matHeaderCellDef>
           {{ t("columns.status") }}
-        </th>
-        <td mat-cell *matCellDef="let element">
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element">
           <watt-badge *ngIf="element.actor !== undefined" type="info">{{
             t("status." + element.actor.status)
           }}</watt-badge>
           <watt-badge *ngIf="element.actor === undefined" type="warning">{{
             t("columns.noActors")
           }}</watt-badge>
-        </td>
+        </mat-cell>
       </ng-container>
 
       <!-- Actor market roles -->
       <ng-container matColumnDef="{{ this.columnIds[3] }}">
-        <th mat-header-cell *matHeaderCellDef>
+        <mat-header-cell *matHeaderCellDef>
           {{ t("columns.marketRoles") }}
-        </th>
-        <td mat-cell *matCellDef="let element">
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element">
           <ng-container *ngIf="element.actor !== undefined">
             <div *ngFor="let mr of element.actor.marketRoles">
               {{ t("marketRoles." + mr.function) }}
             </div>
           </ng-container>
           <ng-container *ngIf="element.actor === undefined">-</ng-container>
-        </td>
+        </mat-cell>
       </ng-container>
 
       <!-- Actor grid areas -->
       <ng-container matColumnDef="{{ this.columnIds[4] }}">
-        <th mat-header-cell *matHeaderCellDef>
+        <mat-header-cell *matHeaderCellDef>
           {{ t("columns.gridAreas") }}
-        </th>
-        <td mat-cell *matCellDef="let element">
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element">
           {{ element.actor?.gridAreas ?? "-" }}
-        </td>
+        </mat-cell>
       </ng-container>
 
       <!-- Edit -->
       <ng-container matColumnDef="{{ this.columnIds[5] }}">
-        <th mat-header-cell *matHeaderCellDef></th>
-        <td mat-cell *matCellDef="let element">
+        <mat-header-cell *matHeaderCellDef></mat-header-cell>
+        <mat-cell *matCellDef="let element">
           <div class="edit_cell">
             <watt-icon-button icon="edit" [mat-menu-trigger-for]="menu">
             </watt-icon-button>
@@ -115,12 +115,12 @@ limitations under the License.
               </button>
             </mat-menu>
           </div>
-        </td>
+        </mat-cell>
       </ng-container>
 
-      <tr mat-header-row *matHeaderRowDef="this.columnIds; sticky: true"></tr>
-      <tr mat-row *matRowDef="let row; columns: this.columnIds"></tr>
-    </table>
+      <mat-header-row *matHeaderRowDef="this.columnIds; sticky: true"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: this.columnIds"></mat-row>
+    </mat-table>
 
     <mat-paginator
       [pageSizeOptions]="[5, 10, 20, 50]"
