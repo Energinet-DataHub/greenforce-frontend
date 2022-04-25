@@ -141,6 +141,7 @@ export class WattDateRangeInputComponent
   /**
    * @ignore
    */
+  // eslint-disable-next-line sonarjs/cognitive-complexity
   ngAfterViewInit() {
     if (this.initialValue) {
       this.writeValue(this.initialValue);
