@@ -18,9 +18,7 @@ import { CommonModule } from '@angular/common';
 import {
   Component,
   EventEmitter,
-  Input,
   NgModule,
-  OnChanges,
   Output,
 } from '@angular/core';
 import {
@@ -28,7 +26,6 @@ import {
   DhMarketParticipantEditOrganizationDataAccessApiStore,
   MarketParticipantEditOrganizationState,
   OrganizationChanges,
-  OverviewRow,
 } from '@energinet-datahub/dh/market-participant/data-access-api';
 import { LetModule } from '@rx-angular/template/let';
 import { DhMarketParticipantOrganizationMasterDataComponentScam } from './master-data/dh-market-participant-organization-master-data.component';
@@ -41,7 +38,7 @@ import {
 } from '@energinet-datahub/watt';
 import { TranslocoModule } from '@ngneat/transloco';
 import { ContactDto } from '@energinet-datahub/dh/shared/domain';
-import { map, of } from 'rxjs';
+import { map } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { dhMarketParticipantOrganizationIdParam } from '@energinet-datahub/dh/market-participant/routing';
 import { PushModule } from '@rx-angular/template';
@@ -52,8 +49,7 @@ import { PushModule } from '@rx-angular/template';
   styleUrls: ['./dh-market-participant-edit-organization.component.scss'],
   providers: [DhMarketParticipantEditOrganizationDataAccessApiStore],
 })
-export class DhMarketParticipantEditOrganizationComponent implements OnChanges {
-  @Input() source: OverviewRow | undefined;
+export class DhMarketParticipantEditOrganizationComponent {
   @Output() cancelled = new EventEmitter();
   @Output() saved = new EventEmitter();
 
@@ -70,14 +66,8 @@ export class DhMarketParticipantEditOrganizationComponent implements OnChanges {
   constructor(
     public store: DhMarketParticipantEditOrganizationDataAccessApiStore,
     private route: ActivatedRoute
-  ) {}
-
-  ngOnChanges(): void {
-    if (this.source) {
-      this.store.beginEditing(this.source.organization);
-    } else {
-      this.store.beginCreating();
-    }
+  ) {
+    this.store.getOrganizationAndContacts(this.organizationId$);
   }
 
   readonly onMasterDataChanged = (changes: OrganizationChanges) => {
