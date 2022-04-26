@@ -155,11 +155,11 @@ export class DhMarketParticipantEditOrganizationDataAccessApiStore extends Compo
     )
   );
 
-  readonly save = this.effect((saveTrigger: Observable<void>) =>
-    saveTrigger.pipe(
+  readonly save = this.effect((onSaved: Observable<() => void>) =>
+    onSaved.pipe(
       tap(() => this.patchState({ isLoading: true, validation: undefined })),
       withLatestFrom(this.changes$),
-      switchMap(([, changes]) =>
+      switchMap(([onSaved, changes]) =>
         of(changes).pipe(
           switchMap((changes) => this.saveOrganization(changes)),
           switchMap((changes) => this.removeContacts(changes)),
@@ -172,6 +172,7 @@ export class DhMarketParticipantEditOrganizationDataAccessApiStore extends Compo
                   !state.contactsRemoved ||
                   !state.contactsAdded,
               });
+              onSaved();
             },
             (errorResponse: HttpErrorResponse) => {
               this.patchState({

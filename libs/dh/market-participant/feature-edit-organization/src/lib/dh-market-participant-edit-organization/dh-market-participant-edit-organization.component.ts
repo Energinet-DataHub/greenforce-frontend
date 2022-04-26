@@ -15,12 +15,7 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import {
-  Component,
-  EventEmitter,
-  NgModule,
-  Output,
-} from '@angular/core';
+import { Component, NgModule } from '@angular/core';
 import {
   ContactChanges,
   DhMarketParticipantEditOrganizationDataAccessApiStore,
@@ -38,8 +33,11 @@ import {
 import { TranslocoModule } from '@ngneat/transloco';
 import { ContactDto } from '@energinet-datahub/dh/shared/domain';
 import { map } from 'rxjs';
-import { ActivatedRoute } from '@angular/router';
-import { dhMarketParticipantOrganizationIdParam } from '@energinet-datahub/dh/market-participant/routing';
+import { ActivatedRoute, Router } from '@angular/router';
+import {
+  dhMarketParticipantOrganizationIdParam,
+  dhMarketParticipantPath,
+} from '@energinet-datahub/dh/market-participant/routing';
 import { PushModule } from '@rx-angular/template';
 
 @Component({
@@ -49,9 +47,6 @@ import { PushModule } from '@rx-angular/template';
   providers: [DhMarketParticipantEditOrganizationDataAccessApiStore],
 })
 export class DhMarketParticipantEditOrganizationComponent {
-  @Output() cancelled = new EventEmitter();
-  @Output() saved = new EventEmitter();
-
   organizationId$ = this.route.params.pipe(
     map((params) => params[dhMarketParticipantOrganizationIdParam] as string)
   );
@@ -66,7 +61,8 @@ export class DhMarketParticipantEditOrganizationComponent {
 
   constructor(
     public store: DhMarketParticipantEditOrganizationDataAccessApiStore,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) {
     this.store.getOrganizationAndContacts(this.organizationId$);
   }
@@ -84,12 +80,16 @@ export class DhMarketParticipantEditOrganizationComponent {
   };
 
   readonly onCancelled = () => {
-    this.cancelled.emit();
+    this.backToOverview();
   };
 
   readonly onSaved = () => {
-    this.store.save();
+    this.store.save(this.backToOverview);
   };
+
+  private readonly backToOverview = () => {
+    this.router.navigateByUrl(dhMarketParticipantPath);
+  }
 }
 
 @NgModule({
