@@ -70,7 +70,7 @@ export class FormFieldComponent implements AfterViewInit {
         this.inputControl ||
         this.wattDropdown?.matSelect ||
         this.timeRange?.matDateRangeInput ||
-        this.dateRangeControl?.matDateRangeInput;
+        this.dateRangeControl;
 
       this.matFormField._control = control;
       this.matFormField.ngAfterContentInit();
