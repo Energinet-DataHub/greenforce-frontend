@@ -262,6 +262,7 @@
       "documenttype": "Dokumenttype",
       "senderId": "Afsender Id",
       "messageId": "Besked Id",
+      "traceId": "Trace Id",
       "receiverId": "Modtager Id",
       "businessReason": "Forretningsårsag",
       "dateFrom": "Dato fra",
