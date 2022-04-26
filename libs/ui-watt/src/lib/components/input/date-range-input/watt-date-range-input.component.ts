@@ -14,27 +14,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+/* eslint-disable @angular-eslint/no-input-rename */
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   ElementRef,
-  Host,
   Inject,
   Input,
   LOCALE_ID,
   OnDestroy,
+  Optional,
+  Self,
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
-import { ControlValueAccessor, NgControl } from '@angular/forms';
+import {
+  ControlValueAccessor,
+  NgControl,
+} from '@angular/forms';
 import { FormatWidth, getLocaleDateFormat } from '@angular/common';
-import { MatDateRangeInput } from '@angular/material/datepicker';
+import { MatDateRangeInput, MatStartDate } from '@angular/material/datepicker';
 import { Subject, takeUntil } from 'rxjs';
 
 import { WattInputMaskService } from '../shared/input-mask.service';
 import { WattRangeInputService } from '../shared/range-input.service';
+import { MatFormFieldControl } from '@angular/material/form-field';
+import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
 
 export type WattDateRange = { start: string; end: string };
 
@@ -51,18 +57,194 @@ const danishLocaleCode = 'da';
   selector: 'watt-date-range-input',
   templateUrl: './watt-date-range-input.component.html',
   styleUrls: ['./watt-date-range-input.component.scss'],
-  providers: [WattInputMaskService, WattRangeInputService],
+  providers: [
+    WattInputMaskService,
+    WattRangeInputService,
+    { provide: MatFormFieldControl, useExisting: WattDateRangeInputComponent },
+  ],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WattDateRangeInputComponent
-  implements AfterViewInit, OnDestroy, ControlValueAccessor
+  implements
+    AfterViewInit,
+    OnDestroy,
+    ControlValueAccessor,
+    MatFormFieldControl<WattDateRange>
 {
+  /**
+   * @ignore
+   */
+  static nextId = 0;
+
+  /**
+   * @ignore
+   */
+  private destroy$: Subject<void> = new Subject();
+
+  /**
+   * @ignore
+   */
+  stateChanges = new Subject<void>();
+
+  /**
+   * @ignore
+   */
+  focused = false;
+
+  /**
+   * @ignore
+   */
+  controlType = 'mat-date-range-input'; // We keep the controlType of Material Date Range Input as is, to keep some styling.
+
+  /**
+   * @ignore
+   */
+  id = `watt-date-range-input-${WattDateRangeInputComponent.nextId++}`;
+
+  /**
+   * @ignore
+   */
+  get empty() {
+    const { start, end } = this.ngControl.value;
+    return !start && !end;
+  }
+
+  /**
+   * @ignore
+   */
+  get shouldLabelFloat() {
+    return this.focused || !this.empty;
+  }
+
+  /**
+   * @ignore
+   */
+  @Input('aria-describedby') userAriaDescribedBy?: string;
+
+  /**
+   * @ignore
+   */
+  inputFormat: string = this.getInputFormat();
+
+  /**
+   * @ignore
+   */
+  @Input()
+  get placeholder(): string {
+    return this._placeholder;
+  }
+
+  /**
+   * @ignore
+   */
+  set placeholder(value: string) {
+    this._placeholder = value;
+    this.stateChanges.next();
+  }
+
+  /**
+   * @ignore
+   */
+  private _placeholder: string = this.getPlaceholder(this.inputFormat);
+
+  /**
+   * @ignore
+   */
+  @Input()
+  get required(): boolean {
+    return this._required;
+  }
+
+  /**
+   * @ignore
+   */
+  set required(value: BooleanInput) {
+    this._required = coerceBooleanProperty(value);
+    this.stateChanges.next();
+  }
+
+  /**
+   * @ignore
+   */
+  private _required = false;
+
+  /**
+   * @ignore
+   */
+  @Input()
+  get disabled(): boolean {
+    return this._disabled;
+  }
+
+  /**
+   * @ignore
+   */
+  set disabled(value: BooleanInput) {
+    this._disabled = coerceBooleanProperty(value);
+    this.stateChanges.next();
+  }
+
+  /**
+   * @ignore
+   */
+  private _disabled = false;
+
+  /**
+   * @ignore
+   */
+  @Input()
+  get value(): WattDateRange | null {
+    if (this.ngControl.valid) {
+      const {
+        value: { start, end },
+      } = this.ngControl;
+      return {start, end};
+    }
+    return null;
+  }
+
+  /**
+   * @ignore
+   */
+  set value(range: WattDateRange | null) {
+    if (!this.startDateInput || !this.endDateInput) {
+      this.initialValue = range;
+      return;
+    }
+
+    const inputEvent = new Event('input', { bubbles: true });
+
+    if (range?.start) {
+      this.startDateInput.nativeElement.value = range.start;
+      this.startDateInput.nativeElement.dispatchEvent(inputEvent);
+    }
+
+    if (range?.end) {
+      this.endDateInput.nativeElement.value = range.end;
+      this.endDateInput.nativeElement.dispatchEvent(inputEvent);
+    }
+    this.stateChanges.next();
+  }
+
+  /**
+   * @ignore
+   */
+  get errorState(): boolean {
+    return !!this.ngControl.invalid && !!this.ngControl.touched;
+  }
+
   /**
    * @ignore
    */
   @ViewChild(MatDateRangeInput)
   matDateRangeInput!: MatDateRangeInput<unknown>;
+
+  /**
+   * @ignore
+   */
+  @ViewChild(MatStartDate)
+  matStartDate!: MatStartDate<unknown>;
 
   /**
    * @ignore
@@ -81,19 +263,6 @@ export class WattDateRangeInputComponent
    */
   isDisabled = false;
 
-  @Input() min?: string;
-  @Input() max?: string;
-
-  /**
-   * @ignore
-   */
-  inputFormat: string = this.getInputFormat();
-
-  /**
-   * @ignore
-   */
-  placeholder: string = this.getPlaceholder(this.inputFormat);
-
   /**
    * @ignore
    */
@@ -102,20 +271,30 @@ export class WattDateRangeInputComponent
   /**
    * @ignore
    */
-  private destroy$: Subject<void> = new Subject();
+  constructor(
+    @Inject(LOCALE_ID) private locale: string,
+    private inputMaskService: WattInputMaskService,
+    private rangeInputService: WattRangeInputService,
+    private elementRef: ElementRef<HTMLElement>,
+    @Optional() @Self() public ngControl: NgControl
+  ) {
+    if (this.ngControl != null) {
+      this.ngControl.valueAccessor = this;
+    }
+  }
 
   /**
    * @ignore
    */
+  setDescribedByIds(_ids: string[]) {
+    this.elementRef.nativeElement.setAttribute('aria-describedby', _ids.join(' '));
+  }
 
-  constructor(
-    @Inject(LOCALE_ID) private locale: string,
-    @Host() private parentControlDirective: NgControl,
-    private changeDetectorRef: ChangeDetectorRef,
-    private inputMaskService: WattInputMaskService,
-    private rangeInputService: WattRangeInputService
-  ) {
-    this.parentControlDirective.valueAccessor = this;
+  /**
+   * @ignore
+   */
+  onContainerClick() {
+    // Intentionally left empty
   }
 
   /**
@@ -160,7 +339,6 @@ export class WattDateRangeInputComponent
     this.rangeInputService.onInputChanges$
       ?.pipe(takeUntil(this.destroy$))
       .subscribe(([start, end]) => {
-        this.markParentControlAsTouched();
         this.changeParentValue({ start, end });
       });
   }
@@ -171,28 +349,14 @@ export class WattDateRangeInputComponent
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
+    this.stateChanges.complete();
   }
 
   /**
    * @ignore
    */
-  writeValue(dateRange: WattDateRange | null): void {
-    if (!this.startDateInput || !this.endDateInput) {
-      this.initialValue = dateRange;
-      return;
-    }
-
-    const inputEvent = new Event('input', { bubbles: true });
-
-    if (dateRange?.start) {
-      this.startDateInput.nativeElement.value = dateRange.start;
-      this.startDateInput.nativeElement.dispatchEvent(inputEvent);
-    }
-
-    if (dateRange?.end) {
-      this.endDateInput.nativeElement.value = dateRange.end;
-      this.endDateInput.nativeElement.dispatchEvent(inputEvent);
-    }
+  writeValue(range: WattDateRange | null): void {
+    this.value = range;
   }
 
   /**
@@ -213,8 +377,28 @@ export class WattDateRangeInputComponent
    * @ignore
    */
   setDisabledState(isDisabled: boolean): void {
-    this.isDisabled = isDisabled;
-    this.changeDetectorRef.detectChanges();
+    this.disabled = isDisabled;
+  }
+
+  /**
+   * @ignore
+   */
+  onFocusIn() {
+    if (!this.focused) {
+      this.focused = true;
+      this.stateChanges.next();
+    }
+  }
+
+  /**
+   * @ignore
+   */
+  onFocusOut(event: FocusEvent) {
+    if (!this.elementRef.nativeElement.contains(event.relatedTarget as Element)) {
+      this.focused = false;
+      this.markParentControlAsTouched();
+      this.stateChanges.next();
+    }
   }
 
   /**
