@@ -88,25 +88,25 @@ small a,
 }
 
 .watt-on-dark {
-  &--emphasis-high {
-    color: var(--watt-on-dark-emphasis-high);
+  &--high-emphasis {
+    color: var(--watt-on-dark-high-emphasis);
   }
-  &--emphasis-medium {
-    color: var(--watt-on-dark-emphasis-medium);
+  &--medium-emphasis {
+    color: var(--watt-on-dark-medium-emphasis);
   }
-  &--emphasis-low {
-    color: var(--watt-on-dark-emphasis-low);
+  &--low-emphasis {
+    color: var(--watt-on-dark-low-emphasis);
   }
 }
 
 .watt-on-light {
-  &--emphasis-high {
-    color: var(--watt-on-light-emphasis-high);
+  &--high-emphasis {
+    color: var(--watt-on-light-high-emphasis);
   }
-  &--emphasis-medium {
-    color: var(--watt-on-light-emphasis-medium);
+  &--medium-emphasis {
+    color: var(--watt-on-light-medium-emphasis);
   }
-  &--emphasis-low {
-    color: var(--watt-on-light-emphasis-low);
+  &--low-emphasis {
+    color: var(--watt-on-light-low-emphasis);
   }
 }

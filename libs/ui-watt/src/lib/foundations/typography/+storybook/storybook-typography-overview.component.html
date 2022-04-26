@@ -169,29 +169,44 @@ limitations under the License.
   <div style="display: grid; grid-template-columns: 418px 1fr; gap: 32px">
     <div>
       <p>On light backgrounds use $on-light</p>
-      <div style="background-color: #f5f5f5" class="watt-space-inset-stretch-m">
+      <div
+        style="background-color: var(--watt-color-neutral-grey-100)"
+        class="watt-space-inset-stretch-m"
+      >
         <table style="width: 100%">
           <tr>
             <td><label>TEXT</label></td>
             <td style="text-align: right"><label>OPACITY</label></td>
           </tr>
           <tr>
-            <td style="color: rgba(0, 0, 0, 1)">
+            <td class="watt-on-light--high-emphasis">
               Primary text color (high-emphasis)
             </td>
-            <td style="text-align: right; color: #005d5c">100 %</td>
+            <td
+              style="text-align: right; color: var(--watt-color-primary-dark)"
+            >
+              100 %
+            </td>
           </tr>
           <tr>
-            <td style="color: rgba(0, 0, 0, 0.74)">
+            <td class="watt-on-light--medium-emphasis">
               Secondary text color (medium-emphasis)
             </td>
-            <td style="text-align: right; color: #005d5c">74 %</td>
+            <td
+              style="text-align: right; color: var(--watt-color-primary-dark)"
+            >
+              74 %
+            </td>
           </tr>
           <tr>
-            <td style="color: rgba(0, 0, 0, 0.38)">
+            <td class="watt-on-light--low-emphasis">
               Disabled text color (low-emphasis)
             </td>
-            <td style="text-align: right; color: #005d5c">38 %</td>
+            <td
+              style="text-align: right; color: var(--watt-color-primary-dark)"
+            >
+              38 %
+            </td>
           </tr>
         </table>
         <div
@@ -207,7 +222,7 @@ limitations under the License.
               width: 25%;
               max-width: 82px;
               aspect-ratio: 1;
-              background-color: rgba(0, 0, 0, 1);
+              background-color: var(--watt-on-light-high-emphasis);
               text-align: center;
               position: relative;
             "
@@ -223,7 +238,7 @@ limitations under the License.
               width: 25%;
               max-width: 82px;
               aspect-ratio: 1;
-              background-color: rgba(0, 0, 0, 0.74);
+              background-color: var(--watt-on-light-medium-emphasis);
               text-align: center;
               position: relative;
             "
@@ -239,7 +254,7 @@ limitations under the License.
               width: 25%;
               max-width: 82px;
               aspect-ratio: 1;
-              background-color: rgba(0, 0, 0, 0.38);
+              background-color: var(--watt-on-light-low-emphasis);
               text-align: center;
               position: relative;
             "
@@ -254,29 +269,55 @@ limitations under the License.
     </div>
     <div>
       <p>On dark backgrounds use $on-dark</p>
-      <div style="background-color: #005d5c" class="watt-space-inset-stretch-m">
+      <div
+        style="background-color: var(--watt-color-primary-dark)"
+        class="watt-space-inset-stretch-m"
+      >
         <table style="width: 100%">
           <tr>
-            <td><label style="color: #fafafa">TEXT</label></td>
+            <td>
+              <label style="color: var(--watt-color-neutral-grey-50)"
+                >TEXT</label
+              >
+            </td>
             <td style="text-align: right">
-              <label style="color: #fafafa">OPACITY</label>
+              <label style="color: var(--watt-color-neutral-grey-50)"
+                >OPACITY</label
+              >
             </td>
           </tr>
           <tr>
-            <td style="color: rgba(255, 255, 255, 0.87)">Primary text color</td>
-            <td style="text-align: right; color: #fafafa">87 %</td>
+            <td class="watt-on-dark--high-emphasis">Primary text color</td>
+            <td
+              style="
+                text-align: right;
+                color: var(--watt-color-neutral-grey-50);
+              "
+            >
+              87 %
+            </td>
           </tr>
           <tr>
-            <td style="color: rgba(255, 255, 255, 0.62)">
-              Secondary text color
+            <td class="watt-on-dark--medium-emphasis">Secondary text color</td>
+            <td
+              style="
+                text-align: right;
+                color: var(--watt-color-neutral-grey-50);
+              "
+            >
+              62 %
             </td>
-            <td style="text-align: right; color: #fafafa">62 %</td>
           </tr>
           <tr>
-            <td style="color: rgba(255, 255, 255, 0.38)">
-              Disabled text color
+            <td class="watt-on-dark--low-emphasis">Disabled text color</td>
+            <td
+              style="
+                text-align: right;
+                color: var(--watt-color-neutral-grey-50);
+              "
+            >
+              38 %
             </td>
-            <td style="text-align: right; color: #fafafa">38 %</td>
           </tr>
         </table>
         <div
@@ -292,12 +333,13 @@ limitations under the License.
               width: 25%;
               max-width: 82px;
               aspect-ratio: 1;
-              background-color: rgba(255, 255, 255, 0.87);
+              background-color: var(--watt-on-dark-high-emphasis);
               text-align: center;
               position: relative;
             "
           >
             <span
+              class="watt-on-dark--high-emphasis"
               style="position: absolute; bottom: -28px; left: 0; width: 100%"
             >
               high
@@ -308,12 +350,13 @@ limitations under the License.
               width: 25%;
               max-width: 82px;
               aspect-ratio: 1;
-              background-color: rgba(255, 255, 255, 0.62);
+              background-color: var(--watt-on-dark-medium-emphasis);
               text-align: center;
               position: relative;
             "
           >
             <span
+              class="watt-on-dark--high-emphasis"
               style="position: absolute; bottom: -28px; left: 0; width: 100%"
             >
               medium
@@ -324,12 +367,13 @@ limitations under the License.
               width: 25%;
               max-width: 82px;
               aspect-ratio: 1;
-              background-color: rgba(255, 255, 255, 0.38);
+              background-color: var(--watt-on-dark-low-emphasis);
               text-align: center;
               position: relative;
             "
           >
             <span
+              class="watt-on-dark--high-emphasis"
               style="position: absolute; bottom: -28px; left: 0; width: 100%"
               >low</span
             >
