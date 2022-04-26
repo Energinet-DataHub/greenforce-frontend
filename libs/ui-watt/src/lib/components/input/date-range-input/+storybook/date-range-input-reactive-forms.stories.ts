@@ -100,13 +100,13 @@ export const withValidations: Story<WattDateRangeInputComponent> = (args) => ({
     withValidations: true,
     ...args,
   },
-  template
+  template,
 });
 
 withValidations.parameters = {
   docs: {
-    page: RangeValidatorsDocumentation
-  }
+    page: RangeValidatorsDocumentation,
+  },
 };
 
 withValidations.play = async ({ canvasElement }) => {
