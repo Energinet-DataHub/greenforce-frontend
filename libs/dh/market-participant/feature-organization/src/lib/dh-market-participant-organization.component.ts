@@ -73,12 +73,12 @@ export class DhMarketParticipantOrganizationComponent
   ) {}
 
   columnIds = [
-    'OrgName',
-    'ActorGln',
-    'ActorStatus',
-    'ActorRoles',
-    'ActorGridAreas',
-    'RowEdit',
+    'org-name',
+    'actor-gln',
+    'actor-status',
+    'actor-roles',
+    'actor-grid-areas',
+    'row-edit',
   ];
 
   readonly dataSource: MatTableDataSource<OverviewRow> =

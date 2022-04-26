@@ -102,7 +102,7 @@ limitations under the License.
       <!-- Edit -->
       <ng-container matColumnDef="{{ this.columnIds[5] }}">
         <mat-header-cell *matHeaderCellDef></mat-header-cell>
-        <mat-cell *matCellDef="let element" class="edit-cell">
+        <mat-cell *matCellDef="let element">
           <watt-icon-button icon="edit" [mat-menu-trigger-for]="menu">
           </watt-icon-button>
           <mat-menu #menu="matMenu">

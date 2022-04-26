@@ -130,13 +130,14 @@ export class DhMarketParticipantEditOrganizationDataAccessApiStore extends Compo
     super(initialState);
   }
 
-  private readonly ensureCompletion = of(undefined);
-
   readonly getOrganizationAndContacts = this.effect((id: Observable<string>) =>
     id.pipe(
       tap(() => this.patchState({ isLoading: true })),
       switchMap((id) => {
-        if (!id) return this.ensureCompletion;
+        if (!id) {
+          this.patchState({ isLoading: false });
+          return EMPTY;
+        }
         return this.getOrganization(id)
           .pipe(switchMap(() => this.getContacts(id)))
           .pipe(
@@ -165,12 +166,11 @@ export class DhMarketParticipantEditOrganizationDataAccessApiStore extends Compo
           switchMap((changes) => this.addContacts(changes)),
           tapResponse(
             (state) => {
-              console.log(state);
               this.patchState({
                 isLoading:
-                  state.organizationSaved &&
-                  state.contactsRemoved &&
-                  state.contactsAdded,
+                  !state.organizationSaved ||
+                  !state.contactsRemoved ||
+                  !state.contactsAdded,
               });
             },
             (errorResponse: HttpErrorResponse) => {
@@ -187,7 +187,7 @@ export class DhMarketParticipantEditOrganizationDataAccessApiStore extends Compo
     )
   );
 
-  readonly saveOrganization = (saveProgress: SaveProgress) => {
+  private readonly saveOrganization = (saveProgress: SaveProgress) => {
     if (saveProgress.organizationId !== undefined) {
       return this.httpClient
         .v1MarketParticipantOrganizationPut(
@@ -210,7 +210,7 @@ export class DhMarketParticipantEditOrganizationDataAccessApiStore extends Compo
       );
   };
 
-  readonly removeContacts = (saveProgress: SaveProgress) => {
+  private readonly removeContacts = (saveProgress: SaveProgress) => {
     const orgId = saveProgress.organizationId;
 
     if (saveProgress.removedContacts.length === 0 || orgId === undefined) {
@@ -228,11 +228,11 @@ export class DhMarketParticipantEditOrganizationDataAccessApiStore extends Compo
     );
   };
 
-  readonly addContacts = (saveProgress: SaveProgress) => {
+  private readonly addContacts = (saveProgress: SaveProgress) => {
     const orgId = saveProgress.organizationId;
 
     if (saveProgress.addedContacts.length === 0 || orgId === undefined)
-      return of({ ...saveProgress, contactsRemoved: true });
+      return of({ ...saveProgress, contactsAdded: true });
 
     return from(saveProgress.addedContacts).pipe(
       mergeMap((contact) =>
@@ -241,7 +241,7 @@ export class DhMarketParticipantEditOrganizationDataAccessApiStore extends Compo
           contact as CreateContactDto
         )
       ),
-      map(() => ({ ...saveProgress, contactsRemoved: true }))
+      map(() => ({ ...saveProgress, contactsAdded: true }))
     );
   };
 
@@ -289,19 +289,7 @@ export class DhMarketParticipantEditOrganizationDataAccessApiStore extends Compo
       removedContacts: removed,
     });
 
-  readonly beginEditing = (organization: OrganizationDto) =>
-    this.patchState({
-      organization,
-      contacts: [],
-      changes: { isValid: true, ...organization },
-    });
-
-  readonly beginCreating = () =>
-    this.patchState({
-      isLoading: true,
-    });
-
-  readonly formatErrorMessage = (
+  private readonly formatErrorMessage = (
     errorDescriptor: ServerErrorDescriptor | ClientErrorDescriptor
   ) => {
     try {
@@ -313,7 +301,7 @@ export class DhMarketParticipantEditOrganizationDataAccessApiStore extends Compo
     }
   };
 
-  readonly isServerErrorDescriptor = (
+  private readonly isServerErrorDescriptor = (
     errorDescriptor: ServerErrorDescriptor | ClientErrorDescriptor
   ): errorDescriptor is ServerErrorDescriptor =>
     (<ServerErrorDescriptor>errorDescriptor).error !== undefined;

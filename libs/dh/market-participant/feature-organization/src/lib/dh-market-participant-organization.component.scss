@@ -21,9 +21,10 @@
   align-items: baseline;
 }
 
-.edit-cell {
+.mat-column-row-edit {
+  max-width: 88px;
   display: flex;
-  justify-content: right;
+  justify-content: center;
 }
 
 .market-roles-cell {

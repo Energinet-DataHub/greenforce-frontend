@@ -21,8 +21,8 @@ limitations under the License.
     <!-- Contact Type -->
     <ng-container matColumnDef="{{ this.columnIds[0] }}">
       <mat-header-cell *matHeaderCellDef>{{ t("category") }}</mat-header-cell>
-      <mat-cell *matCellDef="let element">
-        <watt-form-field class="field">
+      <mat-cell *matCellDef="let element" class="field">
+        <watt-form-field>
           <watt-dropdown
             required
             [options]="this.contactCategories"
@@ -37,8 +37,8 @@ limitations under the License.
     <!-- Name -->
     <ng-container matColumnDef="{{ this.columnIds[1] }}">
       <mat-header-cell *matHeaderCellDef>{{ t("name") }}</mat-header-cell>
-      <mat-cell *matCellDef="let element">
-        <watt-form-field class="field"
+      <mat-cell *matCellDef="let element" class="field">
+        <watt-form-field
           ><input
             wattInput
             required
@@ -53,8 +53,8 @@ limitations under the License.
     <!-- Email -->
     <ng-container matColumnDef="{{ this.columnIds[2] }}">
       <mat-header-cell *matHeaderCellDef>{{ t("email") }}</mat-header-cell>
-      <mat-cell *matCellDef="let element">
-        <watt-form-field class="field"
+      <mat-cell *matCellDef="let element" class="field">
+        <watt-form-field
           ><input
             wattInput
             required
@@ -69,8 +69,8 @@ limitations under the License.
     <!-- Phone -->
     <ng-container matColumnDef="{{ this.columnIds[3] }}">
       <mat-header-cell *matHeaderCellDef>{{ t("phone") }}</mat-header-cell>
-      <mat-cell *matCellDef="let element">
-        <watt-form-field class="field">
+      <mat-cell *matCellDef="let element" class="field">
+        <watt-form-field>
           <input
             wattInput
             type="tel"
@@ -87,17 +87,15 @@ limitations under the License.
       <mat-header-cell mat-header-cell *matHeaderCellDef></mat-header-cell>
       <mat-cell *matCellDef="let element">
         <ng-container *ngIf="!element.isNewPlaceholder">
-          <watt-icon-button
-            class="remove-cell"
-            icon="remove"
-            (click)="this.onRowDelete(element)"
-          >
+          <watt-icon-button icon="remove" (click)="this.onRowDelete(element)">
           </watt-icon-button>
         </ng-container>
       </mat-cell>
     </ng-container>
 
-    <mat-header-row *matHeaderRowDef="this.columnIds; sticky: true"></mat-header-row>
+    <mat-header-row
+      *matHeaderRowDef="this.columnIds; sticky: true"
+    ></mat-header-row>
     <mat-row *matRowDef="let row; columns: this.columnIds"></mat-row>
   </mat-table>
 </ng-container>

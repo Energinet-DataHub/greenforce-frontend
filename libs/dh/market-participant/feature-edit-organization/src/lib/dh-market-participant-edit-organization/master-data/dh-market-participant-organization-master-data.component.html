@@ -66,6 +66,7 @@ limitations under the License.
         title="streetNameInput"
         [(ngModel)]="this.changes.address.streetName"
         (ngModelChange)="this.onModelChanged()"
+        #streetNameInputModel="ngModel"
         maxlength="64"
       />
     </watt-form-field>
@@ -76,6 +77,7 @@ limitations under the License.
         title="streetNumberInput"
         [(ngModel)]="this.changes.address.number"
         (ngModelChange)="this.onModelChanged()"
+        #streetNumberInputModel="ngModel"
         maxlength="64"
       />
     </watt-form-field>
@@ -89,6 +91,7 @@ limitations under the License.
         title="zipCodeInput"
         [(ngModel)]="this.changes.address.zipCode"
         (ngModelChange)="this.onModelChanged()"
+        #zipCodeInputModel="ngModel"
         maxlength="64"
       />
     </watt-form-field>
@@ -99,6 +102,7 @@ limitations under the License.
         title="cityInput"
         [(ngModel)]="this.changes.address.city"
         (ngModelChange)="this.onModelChanged()"
+        #cityInput="ngModel"
         maxlength="64"
       />
     </watt-form-field>

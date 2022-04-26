@@ -28,9 +28,10 @@ mat-table {
   margin-bottom: var(--watt-space-s);
 }
 
-.remove-cell {
+.mat-column-delete {
+  max-width: 88px;
   display: flex;
-  justify-content: right;
+  justify-content: center;
 }
 
 .spinner-container {

@@ -23,8 +23,9 @@ import {
   OnChanges,
   OnInit,
   Output,
+  ViewChild,
 } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NgModel } from '@angular/forms';
 import { OrganizationChanges } from '@energinet-datahub/dh/market-participant/data-access-api';
 import { OrganizationDto } from '@energinet-datahub/dh/shared/domain';
 import {
@@ -46,6 +47,14 @@ import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 export class DhMarketParticipantOrganizationMasterDataComponent
   implements OnInit, OnChanges
 {
+  @ViewChild('nameInputModel') nameInputModel?: NgModel;
+  @ViewChild('businessRegisterIdentifierInputModel') businessRegisterIdentifierInputModel?: NgModel;
+  @ViewChild('streetNameInputModel') streetNameInputModel?: NgModel;
+  @ViewChild('streetNumberInputModel') streetNumberInputModel?: NgModel;
+  @ViewChild('zipCodeInputModel') zipCodeInputModel?: NgModel;
+  @ViewChild('cityInput') cityInput?: NgModel;
+  @ViewChild('countryInputModel') countryInputModel?: NgModel;
+
   @Input() organization: OrganizationDto | undefined;
   @Output() hasChanges = new EventEmitter<OrganizationChanges>();
 
@@ -79,11 +88,19 @@ export class DhMarketParticipantOrganizationMasterDataComponent
     if (this.organization !== undefined) {
       this.changes = { ...this.organization, isValid: true };
     }
-    this.onModelChanged();
   }
 
   readonly onModelChanged = () => {
-    this.hasChanges.emit(this.changes);
+    const isValid =
+      !this.nameInputModel?.invalid &&
+      !this.businessRegisterIdentifierInputModel?.invalid &&
+      !this.streetNameInputModel?.invalid &&
+      !this.streetNumberInputModel?.invalid &&
+      !this.zipCodeInputModel?.invalid &&
+      !this.cityInput?.invalid &&
+      !this.countryInputModel?.invalid;
+
+    this.hasChanges.emit({...this.changes, isValid});
   };
 }
 

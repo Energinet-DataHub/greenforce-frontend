@@ -74,7 +74,7 @@ export class DhMarketParticipantOrganizationContactDataComponent
 
   constructor(private cd: ChangeDetectorRef) {}
 
-  columnIds = ['Type', 'Name', 'Email', 'Phone', 'Delete'];
+  columnIds = ['type', 'name', 'email', 'phone', 'delete'];
 
   contactCategories: WattDropdownOption[] = Object.keys(ContactCategory).map(
     (key) => ({
