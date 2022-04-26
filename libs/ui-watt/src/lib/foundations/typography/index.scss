@@ -86,3 +86,27 @@ small a,
 .watt-link-s {
   @include typography.watt-link-s;
 }
+
+.watt-on-dark {
+  &--high-emphasis {
+    color: var(--watt-on-dark-high-emphasis);
+  }
+  &--medium-emphasis {
+    color: var(--watt-on-dark-medium-emphasis);
+  }
+  &--low-emphasis {
+    color: var(--watt-on-dark-low-emphasis);
+  }
+}
+
+.watt-on-light {
+  &--high-emphasis {
+    color: var(--watt-on-light-high-emphasis);
+  }
+  &--medium-emphasis {
+    color: var(--watt-on-light-medium-emphasis);
+  }
+  &--low-emphasis {
+    color: var(--watt-on-light-low-emphasis);
+  }
+}
