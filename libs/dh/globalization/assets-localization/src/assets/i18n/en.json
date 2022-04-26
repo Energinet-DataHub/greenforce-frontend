@@ -262,6 +262,7 @@
       "documenttype": "Document type",
       "senderId": "Sender Id",
       "messageId": "Message Id",
+      "traceId": "Trace Id",
       "receiverId": "Receiver Id",
       "businessReason": "Business reason",
       "dateFrom": "Date from",

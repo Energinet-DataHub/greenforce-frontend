@@ -15,12 +15,18 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <ng-container *rxLet="blobContent$ as blobContent">
-  <p
-    class="watt-text-l"
+  <div
+    class="watt-text-l message-id-header"
     *transloco="let transloco; read: 'messageArchive.search'"
   >
     {{ transloco('messageId') }}: {{ messageId }}
-  </p>
+  </div>
+  <div
+    class="watt-text-s"
+    *transloco="let transloco; read: 'messageArchive.search'"
+  >
+    {{ transloco('traceId') }}: {{ traceId }}
+  </div>
   <pre>{{ blobContent }}</pre>
 </ng-container>
 

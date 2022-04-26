@@ -185,6 +185,10 @@ export class DhMessageArchiveLogSearchComponent implements OnDestroy {
       'messageId',
       resultItem.messageId ?? ''
     );
+    logViewWindow?.sessionStorage.setItem(
+      'traceId',
+      resultItem.traceId ?? ''
+    );
   }
 
   downloadLog(resultItem: MessageArchiveSearchResultItemDto) {
