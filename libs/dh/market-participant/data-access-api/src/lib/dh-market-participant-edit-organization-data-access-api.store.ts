@@ -118,13 +118,13 @@ export class DhMarketParticipantEditOrganizationDataAccessApiStore extends Compo
   readonly getOrganizationAndContacts = this.effect((id: Observable<string>) =>
     id.pipe(
       tap(() => this.patchState({ isLoading: true })),
-      switchMap((id) => {
-        if (!id) {
+      switchMap((organizationId) => {
+        if (!organizationId) {
           this.patchState({ isLoading: false });
           return EMPTY;
         }
-        return this.getOrganization(id)
-          .pipe(switchMap(() => this.getContacts(id)))
+        return this.getOrganization(organizationId)
+          .pipe(switchMap(() => this.getContacts(organizationId)))
           .pipe(
             catchError((errorResponse: HttpErrorResponse) => {
               this.patchState({
@@ -140,12 +140,12 @@ export class DhMarketParticipantEditOrganizationDataAccessApiStore extends Compo
     )
   );
 
-  readonly save = this.effect((onSaved: Observable<() => void>) =>
-    onSaved.pipe(
+  readonly save = this.effect((onSaveCompleted: Observable<() => void>) =>
+    onSaveCompleted.pipe(
       tap(() => this.patchState({ isLoading: true, validation: undefined })),
       withLatestFrom(this.changes$),
-      switchMap(([onSaved, changes]) =>
-        of(changes).pipe(
+      switchMap(([onSaved, progress]) =>
+        of(progress).pipe(
           switchMap((changes) => this.saveOrganization(changes)),
           switchMap((changes) => this.removeContacts(changes)),
           switchMap((changes) => this.addContacts(changes)),
