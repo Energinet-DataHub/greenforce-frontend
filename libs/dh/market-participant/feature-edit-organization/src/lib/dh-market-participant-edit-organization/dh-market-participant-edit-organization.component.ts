@@ -51,8 +51,6 @@ export class DhMarketParticipantEditOrganizationComponent {
     map((params) => params[dhMarketParticipantOrganizationIdParam] as string)
   );
 
-  isValid = false;
-
   isLoading$ = this.store.isLoading$;
   isEditing$ = this.store.isEditing$;
   contacts$ = this.store.contacts$;
@@ -68,7 +66,6 @@ export class DhMarketParticipantEditOrganizationComponent {
   }
 
   readonly onMasterDataChanged = (changes: OrganizationChanges) => {
-    this.isValid = changes.isValid;
     this.store.setMasterDataChanges(changes);
   };
 
@@ -89,7 +86,7 @@ export class DhMarketParticipantEditOrganizationComponent {
 
   private readonly backToOverview = () => {
     this.router.navigateByUrl(dhMarketParticipantPath);
-  }
+  };
 }
 
 @NgModule({

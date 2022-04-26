@@ -48,7 +48,8 @@ export class DhMarketParticipantOrganizationMasterDataComponent
   implements OnInit, OnChanges
 {
   @ViewChild('nameInputModel') nameInputModel?: NgModel;
-  @ViewChild('businessRegisterIdentifierInputModel') businessRegisterIdentifierInputModel?: NgModel;
+  @ViewChild('businessRegisterIdentifierInputModel')
+  businessRegisterIdentifierInputModel?: NgModel;
   @ViewChild('streetNameInputModel') streetNameInputModel?: NgModel;
   @ViewChild('streetNumberInputModel') streetNumberInputModel?: NgModel;
   @ViewChild('zipCodeInputModel') zipCodeInputModel?: NgModel;
@@ -60,7 +61,7 @@ export class DhMarketParticipantOrganizationMasterDataComponent
 
   constructor(private translocoService: TranslocoService) {}
 
-  changes: OrganizationChanges = { isValid: false, address: { country: 'DK' } };
+  changes: OrganizationChanges = { address: { country: 'DK' } };
   countries: WattDropdownOption[] = [];
 
   ngOnInit(): void {
@@ -86,21 +87,13 @@ export class DhMarketParticipantOrganizationMasterDataComponent
 
   ngOnChanges(): void {
     if (this.organization !== undefined) {
-      this.changes = { ...this.organization, isValid: true };
+      this.changes = { ...this.organization };
+      this.hasChanges.emit({ ...this.changes });
     }
   }
 
   readonly onModelChanged = () => {
-    const isValid =
-      !this.nameInputModel?.invalid &&
-      !this.businessRegisterIdentifierInputModel?.invalid &&
-      !this.streetNameInputModel?.invalid &&
-      !this.streetNumberInputModel?.invalid &&
-      !this.zipCodeInputModel?.invalid &&
-      !this.cityInput?.invalid &&
-      !this.countryInputModel?.invalid;
-
-    this.hasChanges.emit({...this.changes, isValid});
+    this.hasChanges.emit({ ...this.changes });
   };
 }
 

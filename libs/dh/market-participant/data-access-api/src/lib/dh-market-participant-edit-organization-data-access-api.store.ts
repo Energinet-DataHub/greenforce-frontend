@@ -38,9 +38,9 @@ import {
   withLatestFrom,
 } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
+import { parseErrorResponse } from './dh-market-participant-error-handling';
 
 export interface OrganizationChanges {
-  isValid: boolean;
   name?: string;
   businessRegisterIdentifier?: string;
   address: AddressDto;
@@ -52,21 +52,6 @@ export interface ContactChanges {
   name?: string;
   email?: string;
   phone?: string | null;
-}
-
-interface ServerErrorDescriptor {
-  error: ErrorDescriptor;
-}
-
-interface ErrorDescriptor {
-  code: string;
-  message: string;
-  target?: string;
-  details: ErrorDescriptor[];
-}
-
-interface ClientErrorDescriptor {
-  errors: any;
 }
 
 interface SaveProgress {
@@ -99,7 +84,7 @@ export interface MarketParticipantEditOrganizationState {
 
 const initialState: MarketParticipantEditOrganizationState = {
   isLoading: false,
-  changes: { isValid: false, address: { country: 'DK' } },
+  changes: { address: { country: 'DK' } },
   contacts: [],
   addedContacts: [],
   removedContacts: [],
@@ -144,7 +129,7 @@ export class DhMarketParticipantEditOrganizationDataAccessApiStore extends Compo
             catchError((errorResponse: HttpErrorResponse) => {
               this.patchState({
                 validation: {
-                  error: this.formatErrorMessage(errorResponse.error),
+                  error: parseErrorResponse(errorResponse.error),
                 },
               });
               return EMPTY;
@@ -178,7 +163,7 @@ export class DhMarketParticipantEditOrganizationDataAccessApiStore extends Compo
               this.patchState({
                 isLoading: false,
                 validation: {
-                  error: this.formatErrorMessage(errorResponse.error),
+                  error: parseErrorResponse(errorResponse.error),
                 },
               });
             }
@@ -289,21 +274,4 @@ export class DhMarketParticipantEditOrganizationDataAccessApiStore extends Compo
       addedContacts: added,
       removedContacts: removed,
     });
-
-  private readonly formatErrorMessage = (
-    errorDescriptor: ServerErrorDescriptor | ClientErrorDescriptor
-  ) => {
-    try {
-      return this.isServerErrorDescriptor(errorDescriptor)
-        ? errorDescriptor.error.details.map((x) => x.message).join(' ')
-        : Object.values(errorDescriptor.errors).join(' ');
-    } catch {
-      return 'Unknown error';
-    }
-  };
-
-  private readonly isServerErrorDescriptor = (
-    errorDescriptor: ServerErrorDescriptor | ClientErrorDescriptor
-  ): errorDescriptor is ServerErrorDescriptor =>
-    (<ServerErrorDescriptor>errorDescriptor).error !== undefined;
 }
