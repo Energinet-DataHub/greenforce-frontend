@@ -117,9 +117,7 @@ describe('Date range input - Reactive Forms', () => {
     userEvent.type(startDateInput, expectedDateWithoutSeperators);
 
     expect(
-      screen.getByText(
-        `{ "start": "${expectedDate}", "end": "" }`
-      )
+      screen.getByText(`{ "start": "${expectedDate}", "end": "" }`)
     ).toBeInTheDocument();
 
     // Remove last character
@@ -131,9 +129,7 @@ describe('Date range input - Reactive Forms', () => {
     userEvent.type(startDateInput, lastOfExpectedDate);
 
     expect(
-      screen.getByText(
-        `{ "start": "${expectedDate}", "end": "" }`
-      )
+      screen.getByText(`{ "start": "${expectedDate}", "end": "" }`)
     ).toBeInTheDocument();
   });
 
@@ -149,9 +145,7 @@ describe('Date range input - Reactive Forms', () => {
     userEvent.type(endDateInput, expectedDateWithoutSeperators);
 
     expect(
-      screen.getByText(
-        `{ "start": "", "end": "${expectedDate}" }`
-      )
+      screen.getByText(`{ "start": "", "end": "${expectedDate}" }`)
     ).toBeInTheDocument();
 
     // Remove last character
@@ -163,9 +157,7 @@ describe('Date range input - Reactive Forms', () => {
     userEvent.type(endDateInput, lastOfExpectedDate);
 
     expect(
-      screen.getByText(
-        `{ "start": "", "end": "${expectedDate}" }`
-      )
+      screen.getByText(`{ "start": "", "end": "${expectedDate}" }`)
     ).toBeInTheDocument();
   });
 
