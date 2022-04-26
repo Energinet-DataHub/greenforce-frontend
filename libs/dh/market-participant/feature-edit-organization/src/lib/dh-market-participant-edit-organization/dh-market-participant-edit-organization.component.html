@@ -61,23 +61,20 @@ limitations under the License.
             </watt-tabs>
 
             <!-- Confirmation  -->
-            <!-- TODO: Remove state from here.  -->
-            <ng-container *rxLet="this.store.state$ as state">
-              <div class="button-container">
-                <watt-button
-                  variant="secondary"
-                  type="reset"
-                  (click)="this.onCancelled()"
-                  >{{ t("cancelLabel") }}
-                </watt-button>
-                <watt-button
-                  variant="primary"
-                  type="submit"
-                  (click)="this.onSaved(state)"
-                  >{{ t("saveLabel") }}</watt-button
-                >
-              </div>
-            </ng-container>
+            <div class="button-container">
+              <watt-button
+                variant="secondary"
+                type="reset"
+                (click)="this.onCancelled()"
+                >{{ t("cancelLabel") }}
+              </watt-button>
+              <watt-button
+                variant="primary"
+                type="submit"
+                (click)="this.onSaved()"
+                >{{ t("saveLabel") }}</watt-button
+              >
+            </div>
           </div>
         </div>
       </ng-container>

@@ -26,7 +26,6 @@ import {
 import {
   ContactChanges,
   DhMarketParticipantEditOrganizationDataAccessApiStore,
-  MarketParticipantEditOrganizationState,
   OrganizationChanges,
   OverviewRow,
 } from '@energinet-datahub/dh/market-participant/data-access-api';
@@ -41,7 +40,7 @@ import {
 } from '@energinet-datahub/watt';
 import { TranslocoModule } from '@ngneat/transloco';
 import { ContactDto } from '@energinet-datahub/dh/shared/domain';
-import { map, of } from 'rxjs';
+import { map } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { dhMarketParticipantOrganizationIdParam } from '@energinet-datahub/dh/market-participant/routing';
 import { PushModule } from '@rx-angular/template';
@@ -95,8 +94,8 @@ export class DhMarketParticipantEditOrganizationComponent implements OnChanges {
     this.cancelled.emit();
   };
 
-  readonly onSaved = (state: MarketParticipantEditOrganizationState) => {
-    this.store.save({ state, onSaveCompleted: () => this.saved.emit() });
+  readonly onSaved = () => {
+    this.store.save();
   };
 }
 

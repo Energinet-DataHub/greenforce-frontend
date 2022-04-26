@@ -26,8 +26,7 @@ import {
   OrganizationDto,
 } from '@energinet-datahub/dh/shared/domain';
 import {
-  concat,
-  forkJoin,
+  filter,
   from,
   map,
   mergeMap,
@@ -35,6 +34,7 @@ import {
   of,
   switchMap,
   tap,
+  withLatestFrom,
 } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 
@@ -68,6 +68,18 @@ interface ClientErrorDescriptor {
   errors: any;
 }
 
+interface SaveProgress {
+  changes: OrganizationChanges;
+  addedContacts: ContactChanges[];
+  removedContacts: ContactDto[];
+
+  organizationId: string | undefined;
+
+  organizationSaved: boolean;
+  contactsRemoved: boolean;
+  contactsAdded: boolean;
+}
+
 export interface MarketParticipantEditOrganizationState {
   isLoading: boolean;
 
@@ -99,54 +111,116 @@ export class DhMarketParticipantEditOrganizationDataAccessApiStore extends Compo
   contacts$;
   organization$ = this.select((state) => state.organization);
   validation$ = this.select((state) => state.validation);
+  changes$ = this.select(
+    (state): SaveProgress => ({
+      changes: state.changes,
+      removedContacts: state.removedContacts,
+      addedContacts: state.addedContacts,
+
+      organizationId: state.organization?.organizationId,
+
+      organizationSaved: false,
+      contactsRemoved: false,
+      contactsAdded: false,
+    })
+  );
 
   constructor(private httpClient: MarketParticipantHttp) {
     super(initialState);
     this.contacts$ = this.setupFetchContactsFlow();
   }
 
-  private readonly ensureCompletion = of(undefined);
-
-  readonly save = this.effect(
-    (
-      state$: Observable<{
-        state: MarketParticipantEditOrganizationState;
-        onSaveCompleted: () => void;
-      }>
-    ) => {
-      return state$.pipe(
-        tap(() => this.patchState({ isLoading: true, validation: undefined })),
-        switchMap((state) => {
-          return this.saveOrganization(
-            state.state.organization,
-            state.state.changes
-          ).pipe(
-            switchMap((id) =>
-              this.saveContacts(
-                id,
-                state.state.addedContacts,
-                state.state.removedContacts
-              )
-            ),
-            tapResponse(
-              () => {
-                this.patchState({ isLoading: false });
-                state.onSaveCompleted();
-              },
-              (errorResponse: HttpErrorResponse) => {
-                this.patchState({
-                  validation: {
-                    error: this.formatErrorMessage(errorResponse.error),
-                  },
-                  isLoading: false,
-                });
-              }
-            )
-          );
-        })
-      );
-    }
+  readonly save = this.effect((saveTrigger: Observable<void>) =>
+    saveTrigger.pipe(
+      tap(() => this.patchState({ isLoading: true, validation: undefined })),
+      withLatestFrom(this.changes$),
+      switchMap(([, changes]) =>
+        of(changes).pipe(
+          switchMap((changes) => this.saveOrganization(changes)),
+          switchMap((changes) => this.removeContacts(changes)),
+          switchMap((changes) => this.addContacts(changes)),
+          tapResponse(
+            (state) => {
+              console.log(state);
+              this.patchState({
+                isLoading:
+                  state.organizationSaved &&
+                  state.contactsRemoved &&
+                  state.contactsAdded,
+              });
+            },
+            (errorResponse: HttpErrorResponse) => {
+              this.patchState({
+                isLoading: false,
+                validation: {
+                  error: this.formatErrorMessage(errorResponse.error),
+                },
+              });
+            }
+          )
+        )
+      )
+    )
   );
+
+  readonly saveOrganization = (saveProgress: SaveProgress) => {
+    if (saveProgress.organizationId !== undefined) {
+      return this.httpClient
+        .v1MarketParticipantOrganizationPut(
+          saveProgress.organizationId,
+          saveProgress.changes as ChangeOrganizationDto
+        )
+        .pipe(map(() => ({ ...saveProgress, organizationSaved: true })));
+    }
+
+    return this.httpClient
+      .v1MarketParticipantOrganizationPost(
+        saveProgress.changes as ChangeOrganizationDto
+      )
+      .pipe(
+        map((organizationId) => ({
+          ...saveProgress,
+          organizationSaved: true,
+          organizationId,
+        }))
+      );
+  };
+
+  readonly removeContacts = (saveProgress: SaveProgress) => {
+    const orgId = saveProgress.organizationId;
+
+    if (saveProgress.removedContacts.length === 0 || orgId === undefined) {
+      return of({ ...saveProgress, contactsRemoved: true });
+    }
+
+    return from(saveProgress.removedContacts).pipe(
+      mergeMap((contact) =>
+        this.httpClient.v1MarketParticipantOrganizationOrgIdContactContactIdDelete(
+          orgId,
+          contact.contactId
+        )
+      ),
+      map(() => ({ ...saveProgress, contactsRemoved: true }))
+    );
+  };
+
+  readonly addContacts = (saveProgress: SaveProgress) => {
+    const orgId = saveProgress.organizationId;
+
+    if (saveProgress.addedContacts.length === 0 || orgId === undefined) {
+      return of({ ...saveProgress, contactsRemoved: true });
+    }
+
+    return from(saveProgress.addedContacts).pipe(
+      mergeMap((contact) =>
+        this.httpClient.v1MarketParticipantOrganizationOrgIdContactPost(
+          orgId,
+          contact as CreateContactDto
+        )
+      ),
+      map(() => ({ ...saveProgress, contactsRemoved: true }))
+    );
+  };
 
   private readonly setupFetchContactsFlow = () =>
     this.select((state) => state.organization).pipe(
@@ -202,60 +276,6 @@ export class DhMarketParticipantEditOrganizationDataAccessApiStore extends Compo
     this.patchState({
       isLoading: true,
     });
-
-  private readonly saveOrganization = (
-    organization: OrganizationDto | undefined,
-    organizationChanges: OrganizationChanges
-  ) =>
-    organization !== undefined
-      ? this.httpClient
-          .v1MarketParticipantOrganizationPut(
-            organization.organizationId,
-            organizationChanges as ChangeOrganizationDto
-          )
-          .pipe(map(() => organization.organizationId))
-      : this.httpClient.v1MarketParticipantOrganizationPost(
-          organizationChanges as ChangeOrganizationDto
-        );
-
-  private readonly addContacts = (
-    organizationId: string,
-    addedContacts: ContactChanges[]
-  ) =>
-    from(addedContacts).pipe(
-      mergeMap((x) =>
-        this.httpClient.v1MarketParticipantOrganizationOrgIdContactPost(
-          organizationId,
-          x as CreateContactDto
-        )
-      )
-    );
-
-  private readonly removeContacts = (
-    organizationId: string,
-    removedContacts: ContactDto[]
-  ) =>
-    from(removedContacts).pipe(
-      mergeMap((x) =>
-        this.httpClient.v1MarketParticipantOrganizationOrgIdContactContactIdDelete(
-          organizationId,
-          x.contactId
-        )
-      )
-    );
-
-  private readonly saveContacts = (
-    organizationId: string,
-    addedContacts: ContactChanges[],
-    removedContacts: ContactDto[]
-  ) =>
-    forkJoin([
-      concat(
-        this.removeContacts(organizationId, removedContacts),
-        this.addContacts(organizationId, addedContacts),
-        this.ensureCompletion
-      ),
-    ]);
 
   readonly formatErrorMessage = (
     errorDescriptor: ServerErrorDescriptor | ClientErrorDescriptor

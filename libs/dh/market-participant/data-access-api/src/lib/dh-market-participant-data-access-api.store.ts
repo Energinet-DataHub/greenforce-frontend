@@ -21,7 +21,7 @@ import {
   OrganizationDto,
   MarketParticipantHttp,
 } from '@energinet-datahub/dh/shared/domain';
-import { concat, filter, map, Observable, of, switchMap, tap } from 'rxjs';
+import { map, Observable, tap } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 
 export interface OverviewRow {
@@ -39,7 +39,7 @@ interface MarketParticipantState {
 }
 
 const initialState: MarketParticipantState = {
-  isLoading: false,
+  isLoading: true,
 };
 
 @Injectable()
@@ -55,17 +55,9 @@ export class DhMarketParticipantOverviewDataAccessApiStore extends ComponentStor
 
   private readonly setupRefreshListFlow = () =>
     this.getOrganizations().pipe(
-      tap(() =>
-        this.patchState({
-          isLoading: true,
-          validation: undefined,
-        })
-      ),
+      tap(() => this.patchState({ isLoading: true, validation: undefined })),
       tapResponse(
-        () =>
-          this.patchState({
-            isLoading: false,
-          }),
+        () => this.patchState({ isLoading: false }),
         (error: HttpErrorResponse) =>
           this.patchState({
             isLoading: false,

@@ -79,7 +79,7 @@ limitations under the License.
         <mat-header-cell *matHeaderCellDef>
           {{ t("columns.marketRoles") }}
         </mat-header-cell>
-        <mat-cell *matCellDef="let element">
+        <mat-cell *matCellDef="let element" class="market-roles-cell">
           <ng-container *ngIf="element.actor !== undefined">
             <div *ngFor="let mr of element.actor.marketRoles">
               {{ t("marketRoles." + mr.function) }}
@@ -102,23 +102,23 @@ limitations under the License.
       <!-- Edit -->
       <ng-container matColumnDef="{{ this.columnIds[5] }}">
         <mat-header-cell *matHeaderCellDef></mat-header-cell>
-        <mat-cell *matCellDef="let element">
-          <div class="edit_cell">
-            <watt-icon-button icon="edit" [mat-menu-trigger-for]="menu">
-            </watt-icon-button>
-            <mat-menu #menu="matMenu">
-              <button mat-menu-item (click)="setRowSelection(element)">
-                {{ t("editOrganization") }}
-              </button>
-              <button mat-menu-item (click)="setRowSelection(element)">
-                {{ t("editActor") }}
-              </button>
-            </mat-menu>
-          </div>
+        <mat-cell *matCellDef="let element" class="edit-cell">
+          <watt-icon-button icon="edit" [mat-menu-trigger-for]="menu">
+          </watt-icon-button>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="setRowSelection(element)">
+              {{ t("editOrganization") }}
+            </button>
+            <button mat-menu-item (click)="setRowSelection(element)">
+              {{ t("editActor") }}
+            </button>
+          </mat-menu>
         </mat-cell>
       </ng-container>
 
-      <mat-header-row *matHeaderRowDef="this.columnIds; sticky: true"></mat-header-row>
+      <mat-header-row
+        *matHeaderRowDef="this.columnIds; sticky: true"
+      ></mat-header-row>
       <mat-row *matRowDef="let row; columns: this.columnIds"></mat-row>
     </mat-table>
 

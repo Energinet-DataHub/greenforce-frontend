@@ -21,13 +21,13 @@
   align-items: baseline;
 }
 
-table {
-  width: 100%;
-}
-
-.edit_cell {
+.edit-cell {
   display: flex;
   justify-content: right;
+}
+
+.market-roles-cell {
+  display: block;
 }
 
 .spinner-container {
