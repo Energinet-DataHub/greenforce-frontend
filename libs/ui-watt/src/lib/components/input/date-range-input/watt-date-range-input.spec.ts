@@ -30,7 +30,7 @@ import {
 } from './watt-date-range-input.component';
 
 const { withFormControl } = composeStories(reactiveFormstories);
-const defaultOutput = 'Selected range: { "start": "", "end": "" }';
+const defaultOutput = '{ "start": "", "end": "" }';
 
 describe('Date range input - Reactive Forms', () => {
   const completeDate = '22-11-3333';
@@ -73,7 +73,7 @@ describe('Date range input - Reactive Forms', () => {
 
     expect(
       screen.getByText(
-        `Selected range: { "start": "${initialDateRange.start}", "end": "${initialDateRange.end}" }`
+        `{ "start": "${initialDateRange.start}", "end": "${initialDateRange.end}" }`
       )
     ).toBeInTheDocument();
   });
@@ -117,9 +117,7 @@ describe('Date range input - Reactive Forms', () => {
     userEvent.type(startDateInput, expectedDateWithoutSeperators);
 
     expect(
-      screen.getByText(
-        `Selected range: { "start": "${expectedDate}", "end": "" }`
-      )
+      screen.getByText(`{ "start": "${expectedDate}", "end": "" }`)
     ).toBeInTheDocument();
 
     // Remove last character
@@ -131,9 +129,7 @@ describe('Date range input - Reactive Forms', () => {
     userEvent.type(startDateInput, lastOfExpectedDate);
 
     expect(
-      screen.getByText(
-        `Selected range: { "start": "${expectedDate}", "end": "" }`
-      )
+      screen.getByText(`{ "start": "${expectedDate}", "end": "" }`)
     ).toBeInTheDocument();
   });
 
@@ -149,9 +145,7 @@ describe('Date range input - Reactive Forms', () => {
     userEvent.type(endDateInput, expectedDateWithoutSeperators);
 
     expect(
-      screen.getByText(
-        `Selected range: { "start": "", "end": "${expectedDate}" }`
-      )
+      screen.getByText(`{ "start": "", "end": "${expectedDate}" }`)
     ).toBeInTheDocument();
 
     // Remove last character
@@ -163,9 +157,7 @@ describe('Date range input - Reactive Forms', () => {
     userEvent.type(endDateInput, lastOfExpectedDate);
 
     expect(
-      screen.getByText(
-        `Selected range: { "start": "", "end": "${expectedDate}" }`
-      )
+      screen.getByText(`{ "start": "", "end": "${expectedDate}" }`)
     ).toBeInTheDocument();
   });
 
