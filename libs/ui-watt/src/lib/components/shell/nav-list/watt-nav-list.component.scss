@@ -36,7 +36,6 @@ watt-nav-list {
 
     .mat-list-item-content {
       @include watt.space-inset-squish-m;
-      color: var(--watt-on-dark-emphasis-high);
     }
   }
 }
