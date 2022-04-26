@@ -29,10 +29,7 @@ import {
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
-import {
-  ControlValueAccessor,
-  NgControl,
-} from '@angular/forms';
+import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { FormatWidth, getLocaleDateFormat } from '@angular/common';
 import { MatDateRangeInput, MatStartDate } from '@angular/material/datepicker';
 import { Subject, takeUntil } from 'rxjs';
@@ -199,7 +196,7 @@ export class WattDateRangeInputComponent
       const {
         value: { start, end },
       } = this.ngControl;
-      return {start, end};
+      return { start, end };
     }
     return null;
   }
@@ -287,7 +284,10 @@ export class WattDateRangeInputComponent
    * @ignore
    */
   setDescribedByIds(_ids: string[]) {
-    this.elementRef.nativeElement.setAttribute('aria-describedby', _ids.join(' '));
+    this.elementRef.nativeElement.setAttribute(
+      'aria-describedby',
+      _ids.join(' ')
+    );
   }
 
   /**
@@ -394,7 +394,9 @@ export class WattDateRangeInputComponent
    * @ignore
    */
   onFocusOut(event: FocusEvent) {
-    if (!this.elementRef.nativeElement.contains(event.relatedTarget as Element)) {
+    if (
+      !this.elementRef.nativeElement.contains(event.relatedTarget as Element)
+    ) {
       this.focused = false;
       this.markParentControlAsTouched();
       this.stateChanges.next();
