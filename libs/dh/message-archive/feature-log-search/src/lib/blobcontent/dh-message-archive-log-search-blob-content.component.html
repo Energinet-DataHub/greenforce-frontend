@@ -19,13 +19,13 @@ limitations under the License.
     class="watt-text-l message-id-header"
     *transloco="let transloco; read: 'messageArchive.search'"
   >
-    {{ transloco('messageId') }}: {{ messageId }}
+    {{ transloco("messageId") }}: {{ messageId }}
   </div>
   <div
     class="watt-text-s"
     *transloco="let transloco; read: 'messageArchive.search'"
   >
-    {{ transloco('traceId') }}: {{ traceId }}
+    {{ transloco("traceId") }}: {{ traceId }}
   </div>
   <pre>{{ blobContent }}</pre>
 </ng-container>
@@ -36,6 +36,6 @@ limitations under the License.
 
 <div *transloco="let transloco; read: 'messageArchive'">
   <watt-badge *ngIf="hasGeneralError$ | async" type="danger">{{
-    transloco('unknowenError')
+    transloco("unknowenError")
   }}</watt-badge>
 </div>
