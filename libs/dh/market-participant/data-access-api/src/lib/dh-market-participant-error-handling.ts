@@ -29,20 +29,18 @@ interface ErrorDescriptor {
 }
 
 interface ClientErrorDescriptor {
-  errors: any;
+  errors: {
+    [s: string]: string;
+  };
 }
 
 export const parseErrorResponse = (errorResponse: HttpErrorResponse) => {
   const errorDescriptor: ServerErrorDescriptor | ClientErrorDescriptor =
     errorResponse.error;
 
-  try {
-    return isServerErrorDescriptor(errorDescriptor)
-      ? errorDescriptor.error.details.map((x) => x.message).join(' ')
-      : Object.values(errorDescriptor.errors).join(' ');
-  } catch {
-    return 'Unknown error';
-  }
+  return isServerErrorDescriptor(errorDescriptor)
+    ? errorDescriptor.error.details.map((x) => x.message).join(' ')
+    : Object.values(errorDescriptor.errors).join(' ');
 };
 
 const isServerErrorDescriptor = (

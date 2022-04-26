@@ -129,7 +129,7 @@ export class DhMarketParticipantEditOrganizationDataAccessApiStore extends Compo
             catchError((errorResponse: HttpErrorResponse) => {
               this.patchState({
                 validation: {
-                  error: parseErrorResponse(errorResponse.error),
+                  error: parseErrorResponse(errorResponse),
                 },
               });
               return EMPTY;
@@ -163,7 +163,7 @@ export class DhMarketParticipantEditOrganizationDataAccessApiStore extends Compo
               this.patchState({
                 isLoading: false,
                 validation: {
-                  error: parseErrorResponse(errorResponse.error),
+                  error: parseErrorResponse(errorResponse),
                 },
               });
             }

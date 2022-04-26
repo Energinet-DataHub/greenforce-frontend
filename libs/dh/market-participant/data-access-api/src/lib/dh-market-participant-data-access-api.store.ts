@@ -23,6 +23,7 @@ import {
 } from '@energinet-datahub/dh/shared/domain';
 import { map, Observable, tap } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
+import { parseErrorResponse } from './dh-market-participant-error-handling';
 
 export interface OverviewRow {
   organization: OrganizationDto;
@@ -61,7 +62,9 @@ export class DhMarketParticipantOverviewDataAccessApiStore extends ComponentStor
         (error: HttpErrorResponse) =>
           this.patchState({
             isLoading: false,
-            validation: { errorMessage: error.error },
+            validation: {
+              errorMessage: parseErrorResponse(error)
+            },
           })
       )
     );

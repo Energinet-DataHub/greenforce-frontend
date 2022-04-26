@@ -14,6 +14,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Energinet.DataHub.MarketParticipant.Client;
 using Energinet.DataHub.MarketParticipant.Client.Models;
@@ -139,7 +140,7 @@ namespace Energinet.DataHub.WebApi.Controllers
             }
             catch (MarketParticipantException e)
             {
-                return StatusCode(e.StatusCode, e.Message);
+                return StatusCode(e.StatusCode, JsonSerializer.Deserialize<JsonElement>(e.Message));
             }
         }
 
@@ -152,7 +153,7 @@ namespace Energinet.DataHub.WebApi.Controllers
             }
             catch (MarketParticipantException e)
             {
-                return StatusCode(e.StatusCode, e.Message);
+                return StatusCode(e.StatusCode, JsonSerializer.Deserialize<JsonElement>(e.Message));
             }
         }
     }
