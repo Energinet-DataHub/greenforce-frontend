@@ -1,0 +1,51 @@
+# Range Validators
+
+Usage: `import { WattRangeValidators } from '@energinet-datahub/watt';`
+
+## Require Range
+
+Require a complete range (start and end)
+
+```ts
+new FormControl(null, [WattRangeValidators.required()]);
+```
+
+**On error:**
+
+```ts
+{
+  requiredRange: true;
+}
+```
+
+## Require Start Of Range
+
+Only require the start of a range (start)
+
+```ts
+new FormControl(null, [WattRangeValidators.startRequired()]);
+```
+
+**On error:**
+
+```ts
+{
+  startOfRangeRequired: true;
+}
+```
+
+## Require End Of Range
+
+Only require the end of a range (end)
+
+```ts
+new FormControl(null, [WattRangeValidators.endRequired()]);
+```
+
+**On error:**
+
+```ts
+{
+  endOfRangeRequired: true;
+}
+```
