@@ -79,6 +79,7 @@ export class DhMarketParticipantOrganizationMasterDataComponent
     if (this.organization !== undefined) {
       this.changes = { ...this.organization, isValid: true };
     }
+    this.onModelChanged();
   }
 
   readonly onModelChanged = () => {

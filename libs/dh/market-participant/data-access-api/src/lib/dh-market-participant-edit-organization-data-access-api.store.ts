@@ -26,7 +26,8 @@ import {
   OrganizationDto,
 } from '@energinet-datahub/dh/shared/domain';
 import {
-  filter,
+  catchError,
+  EMPTY,
   from,
   map,
   mergeMap,
@@ -108,7 +109,7 @@ const initialState: MarketParticipantEditOrganizationState = {
 export class DhMarketParticipantEditOrganizationDataAccessApiStore extends ComponentStore<MarketParticipantEditOrganizationState> {
   isLoading$ = this.select((state) => state.isLoading);
   isEditing$ = this.select((state) => state.organization !== undefined);
-  contacts$;
+  contacts$ = this.select((state) => state.contacts);
   organization$ = this.select((state) => state.organization);
   validation$ = this.select((state) => state.validation);
   changes$ = this.select(
@@ -127,8 +128,31 @@ export class DhMarketParticipantEditOrganizationDataAccessApiStore extends Compo
 
   constructor(private httpClient: MarketParticipantHttp) {
     super(initialState);
-    this.contacts$ = this.setupFetchContactsFlow();
   }
+
+  private readonly ensureCompletion = of(undefined);
+
+  readonly getOrganizationAndContacts = this.effect((id: Observable<string>) =>
+    id.pipe(
+      tap(() => this.patchState({ isLoading: true })),
+      switchMap((id) => {
+        if (!id) return this.ensureCompletion;
+        return this.getOrganization(id)
+          .pipe(switchMap(() => this.getContacts(id)))
+          .pipe(
+            catchError((errorResponse: HttpErrorResponse) => {
+              this.patchState({
+                validation: {
+                  error: this.formatErrorMessage(errorResponse.error),
+                },
+              });
+              return EMPTY;
+            })
+          );
+      }),
+      tap(() => this.patchState({ isLoading: false }))
+    )
+  );
 
   readonly save = this.effect((saveTrigger: Observable<void>) =>
     saveTrigger.pipe(
@@ -207,9 +231,8 @@ export class DhMarketParticipantEditOrganizationDataAccessApiStore extends Compo
   readonly addContacts = (saveProgress: SaveProgress) => {
     const orgId = saveProgress.organizationId;
 
-    if (saveProgress.addedContacts.length === 0 || orgId === undefined) {
+    if (saveProgress.addedContacts.length === 0 || orgId === undefined)
       return of({ ...saveProgress, contactsRemoved: true });
-    }
 
     return from(saveProgress.addedContacts).pipe(
       mergeMap((contact) =>
@@ -222,34 +245,35 @@ export class DhMarketParticipantEditOrganizationDataAccessApiStore extends Compo
     );
   };
 
-  private readonly setupFetchContactsFlow = () =>
-    this.select((state) => state.organization).pipe(
-      tap(() => this.patchState({ isLoading: true })),
-      switchMap(this.getContacts),
-      tapResponse(
-        (response) =>
-          this.patchState({
-            isLoading: false,
-            contacts: response,
-          }),
-        (errorResponse: HttpErrorResponse) =>
-          this.patchState({
-            isLoading: false,
-            validation: {
-              error: this.formatErrorMessage(errorResponse.error),
-            },
-          })
+  private readonly getOrganization = (id: string) =>
+    of(id).pipe(
+      switchMap((organizationId) =>
+        this.httpClient
+          .v1MarketParticipantOrganizationOrgIdGet(organizationId)
+          .pipe(
+            tap((organization) =>
+              this.patchState({
+                organization,
+              })
+            )
+          )
       )
     );
 
-  private readonly getContacts = (
-    organization?: OrganizationDto
-  ): Observable<ContactDto[]> =>
-    organization
-      ? this.httpClient.v1MarketParticipantOrganizationOrgIdContactGet(
-          organization.organizationId
-        )
-      : of([]);
+  private readonly getContacts = (id: string) =>
+    of(id).pipe(
+      switchMap((organizationId) =>
+        this.httpClient
+          .v1MarketParticipantOrganizationOrgIdContactGet(organizationId)
+          .pipe(
+            tap((response) =>
+              this.patchState({
+                contacts: response,
+              })
+            )
+          )
+      )
+    );
 
   readonly setMasterDataChanges = (changes: OrganizationChanges) =>
     this.patchState({
