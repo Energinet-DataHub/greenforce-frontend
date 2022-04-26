@@ -108,4 +108,4 @@ withValidations.play = async ({ canvasElement }) => {
     name: /start-date-input/i,
   });
   fireEvent.focusOut(startDateInput);
-}
+};
