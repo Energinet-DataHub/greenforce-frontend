@@ -63,7 +63,7 @@ export class DhMarketParticipantOverviewDataAccessApiStore extends ComponentStor
           this.patchState({
             isLoading: false,
             validation: {
-              errorMessage: parseErrorResponse(error)
+              errorMessage: parseErrorResponse(error),
             },
           })
       )
