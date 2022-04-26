@@ -50,6 +50,8 @@
     "eo-core-shell": "libs/eo/core/shell",
     "eo-dashboard-routing": "libs/eo/dashboard/routing",
     "eo-dashboard-shell": "libs/eo/dashboard/shell",
+    "eo-emissions-routing": "libs/eo/emissions/routing",
+    "eo-emissions-shell": "libs/eo/emissions/shell",
     "eo-faq-routing": "libs/eo/faq/routing",
     "eo-faq-shell": "libs/eo/faq/shell",
     "eo-landing-page-routing": "libs/eo/landing-page/routing",

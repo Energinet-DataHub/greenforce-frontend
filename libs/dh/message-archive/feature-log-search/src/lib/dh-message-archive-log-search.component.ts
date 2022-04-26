@@ -84,6 +84,7 @@ export class DhMessageArchiveLogSearchComponent implements OnDestroy {
   searchCriteria: MessageArchiveSearchCriteria = {
     maxItemCount: this.pageSizes[0],
     includeRelated: false,
+    includeResultsWithoutContent: false,
   };
 
   private initDateFrom = (): Date => {
@@ -158,13 +159,14 @@ export class DhMessageArchiveLogSearchComponent implements OnDestroy {
   resetSearchCritera() {
     this.searchCriteria = {
       messageId: null,
-      rsmName: null,
+      rsmNames: new Array<string>(),
       includeRelated: false,
       traceId: null,
       functionName: null,
       invocationId: null,
       maxItemCount: this.pageSizes[0],
-      processType: null,
+      processTypes: new Array<string>(),
+      includeResultsWithoutContent: false,
     };
     this.searchCriteria.dateTimeFrom =
       this.initDateFrom().toISOString().split('.')[0] + 'Z';
@@ -183,6 +185,7 @@ export class DhMessageArchiveLogSearchComponent implements OnDestroy {
       'messageId',
       resultItem.messageId ?? ''
     );
+    logViewWindow?.sessionStorage.setItem('traceId', resultItem.traceId ?? '');
   }
 
   downloadLog(resultItem: MessageArchiveSearchResultItemDto) {

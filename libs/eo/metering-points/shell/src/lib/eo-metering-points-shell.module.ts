@@ -22,10 +22,7 @@ import {
 } from './eo-metering-points-shell.component';
 
 const routes: Routes = [
-  {
-    path: '',
-    component: EoMeteringPointsShellComponent,
-  },
+  { path: '', component: EoMeteringPointsShellComponent },
 ];
 
 @NgModule({

@@ -1,0 +1,26 @@
+{
+  "projectType": "library",
+  "root": "libs/eo/emissions/shell",
+  "sourceRoot": "libs/eo/emissions/shell/src",
+  "prefix": "eo",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/eo/emissions/shell"],
+      "options": {
+        "jestConfig": "libs/eo/emissions/shell/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/eo/emissions/shell/src/**/*.ts",
+          "libs/eo/emissions/shell/src/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": ["product:eo", "domain:emissions", "type:shell"]
+}

@@ -20,13 +20,13 @@ import { MatCardModule } from '@angular/material/card';
 @Component({
   selector: 'eo-origin-of-energy-renewable-energy',
   template: `<mat-card>
-    <p><strong>Renewable energy</strong></p>
+    <p class="watt-space-stack-m"><strong>Renewable energy</strong></p>
     <img
-      class="ministry-logo"
+      class="ministry-logo watt-space-stack-m"
       src="/assets/images/origin-of-energy/danish-ministry-of-climate-energy-and-utilities.svg"
       alt="Danish Ministry of Climate, Energy and Utilities logo"
     />
-    <p>
+    <p class="watt-space-stack-m">
       Renewable energy is a general term for bio-energy, onshore and offshore
       wind power, solar energy, geothermal energy as well as other technologies
       that differ from coal and other fossil fuels by being CO2 neutral. The use

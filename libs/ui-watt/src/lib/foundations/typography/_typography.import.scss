@@ -110,7 +110,6 @@ $font-sizes: (
 }
 
 @mixin watt-text-s {
-  color: var(--watt-typography-text-color);
   @include font-size("s");
   @include font-weight("regular");
   text-transform: none;
@@ -118,7 +117,6 @@ $font-sizes: (
 }
 
 @mixin watt-text-m {
-  color: var(--watt-typography-text-color);
   @include font-size("m");
   @include font-weight("regular");
   text-transform: none;
@@ -126,7 +124,6 @@ $font-sizes: (
 }
 
 @mixin watt-text-l {
-  color: var(--watt-typography-text-color);
   @include font-size("l");
   @include font-weight("regular");
   text-transform: none;

@@ -14,7 +14,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<ng-container *ngIf="processes && processes.length > 0; else emptyTab">
+<ng-container *ngIf="processes && processes.length > 0">
   <mat-table
     [dataSource]="sortedData"
     matSort
@@ -154,14 +154,3 @@ limitations under the License.
     ></mat-row>
   </mat-table>
 </ng-container>
-
-<ng-template #emptyTab>
-  <ng-container *transloco="let transloco; read: 'meteringPoint.processes'">
-    <!-- TODO: Move this to the parent component and use the not-found component instead -->
-    <watt-empty-state
-      size="small"
-      [title]="transloco('noProcessesFound')"
-      [message]="transloco('noProcessesText')"
-    ></watt-empty-state>
-  </ng-container>
-</ng-template>

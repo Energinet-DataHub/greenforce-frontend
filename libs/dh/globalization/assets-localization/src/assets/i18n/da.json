@@ -82,9 +82,9 @@
           "effectiveDate": "Sorter efter skæringsdato",
           "status": "Sorter efter status"
         },
-        "noProcessesFound": "Vi fandt desværre ingen processer.",
+        "noProcessesFound": "Ingen processer.",
         "noProcessesText": "Vi fandt ingen processer til dette målepunkt",
-        "processDenied": "Afvist"
+        "processRejected": "Afvist"
       }
     },
     "secondaryMasterData": {
@@ -229,9 +229,6 @@
       "PT1H": "Aflæses pr. time",
       "P1M": "Aflæses pr. måned",
       "P1Y": "Aflæses pr. år"
-    },
-    "processes": {
-      "noProcessesFound": "Vi fandt desværre ingen processer."
     }
   },
   "charges": {
@@ -265,6 +262,7 @@
       "documenttype": "Dokumenttype",
       "senderId": "Afsender Id",
       "messageId": "Besked Id",
+      "traceId": "Trace Id",
       "receiverId": "Modtager Id",
       "businessReason": "Forretningsårsag",
       "dateFrom": "Dato fra",
