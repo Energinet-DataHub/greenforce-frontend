@@ -173,10 +173,13 @@ limitations under the License.
         style="background-color: var(--watt-color-neutral-grey-100)"
         class="watt-space-inset-stretch-m"
       >
-        <table style="width: 100%">
+        <table
+          style="width: 100%"
+          aria-label="On light backgrounds use $on-light"
+        >
           <tr>
-            <td><label>TEXT</label></td>
-            <td style="text-align: right"><label>OPACITY</label></td>
+            <th style="text-align: left"><label>TEXT</label></th>
+            <th style="text-align: right"><label>OPACITY</label></th>
           </tr>
           <tr>
             <td class="watt-on-light--high-emphasis">
@@ -273,18 +276,21 @@ limitations under the License.
         style="background-color: var(--watt-color-primary-dark)"
         class="watt-space-inset-stretch-m"
       >
-        <table style="width: 100%">
+        <table
+          style="width: 100%"
+          aria-label="On dark backgrounds use $on-dark"
+        >
           <tr>
-            <td>
+            <th style="text-align: left">
               <label style="color: var(--watt-color-neutral-grey-50)"
                 >TEXT</label
               >
-            </td>
-            <td style="text-align: right">
+            </th>
+            <th style="text-align: right">
               <label style="color: var(--watt-color-neutral-grey-50)"
                 >OPACITY</label
               >
-            </td>
+            </th>
           </tr>
           <tr>
             <td class="watt-on-dark--high-emphasis">Primary text color</td>
