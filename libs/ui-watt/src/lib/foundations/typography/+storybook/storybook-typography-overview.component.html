@@ -160,3 +160,182 @@ limitations under the License.
     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
   </table>
 </mat-card>
+
+<mat-card
+  ><h3>Text Color</h3>
+  <p>
+    Create better contrast by displaying the text colors with reduced opacity.
+  </p>
+  <div style="display: grid; grid-template-columns: 418px 1fr; gap: 32px">
+    <div>
+      <p>On light backgrounds use $on-light</p>
+      <div style="background-color: #f5f5f5" class="watt-space-inset-stretch-m">
+        <table style="width: 100%">
+          <tr>
+            <td><label>TEXT</label></td>
+            <td style="text-align: right"><label>OPACITY</label></td>
+          </tr>
+          <tr>
+            <td style="color: rgba(0, 0, 0, 1)">
+              Primary text color (high-emphasis)
+            </td>
+            <td style="text-align: right; color: #005d5c">100 %</td>
+          </tr>
+          <tr>
+            <td style="color: rgba(0, 0, 0, 0.74)">
+              Secondary text color (medium-emphasis)
+            </td>
+            <td style="text-align: right; color: #005d5c">74 %</td>
+          </tr>
+          <tr>
+            <td style="color: rgba(0, 0, 0, 0.38)">
+              Disabled text color (low-emphasis)
+            </td>
+            <td style="text-align: right; color: #005d5c">38 %</td>
+          </tr>
+        </table>
+        <div
+          style="
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            padding: 32px 0 24px 0;
+          "
+        >
+          <div
+            style="
+              width: 25%;
+              max-width: 82px;
+              aspect-ratio: 1;
+              background-color: rgba(0, 0, 0, 1);
+              text-align: center;
+              position: relative;
+            "
+          >
+            <span
+              style="position: absolute; bottom: -28px; left: 0; width: 100%"
+            >
+              high
+            </span>
+          </div>
+          <div
+            style="
+              width: 25%;
+              max-width: 82px;
+              aspect-ratio: 1;
+              background-color: rgba(0, 0, 0, 0.74);
+              text-align: center;
+              position: relative;
+            "
+          >
+            <span
+              style="position: absolute; bottom: -28px; left: 0; width: 100%"
+            >
+              medium
+            </span>
+          </div>
+          <div
+            style="
+              width: 25%;
+              max-width: 82px;
+              aspect-ratio: 1;
+              background-color: rgba(0, 0, 0, 0.38);
+              text-align: center;
+              position: relative;
+            "
+          >
+            <span
+              style="position: absolute; bottom: -28px; left: 0; width: 100%"
+              >low</span
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <p>On dark backgrounds use $on-dark</p>
+      <div style="background-color: #005d5c" class="watt-space-inset-stretch-m">
+        <table style="width: 100%">
+          <tr>
+            <td><label style="color: #fafafa">TEXT</label></td>
+            <td style="text-align: right">
+              <label style="color: #fafafa">OPACITY</label>
+            </td>
+          </tr>
+          <tr>
+            <td style="color: rgba(255, 255, 255, 0.87)">Primary text color</td>
+            <td style="text-align: right; color: #fafafa">87 %</td>
+          </tr>
+          <tr>
+            <td style="color: rgba(255, 255, 255, 0.62)">
+              Secondary text color
+            </td>
+            <td style="text-align: right; color: #fafafa">62 %</td>
+          </tr>
+          <tr>
+            <td style="color: rgba(255, 255, 255, 0.38)">
+              Disabled text color
+            </td>
+            <td style="text-align: right; color: #fafafa">38 %</td>
+          </tr>
+        </table>
+        <div
+          style="
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            padding: 32px 0 24px 0;
+          "
+        >
+          <div
+            style="
+              width: 25%;
+              max-width: 82px;
+              aspect-ratio: 1;
+              background-color: rgba(255, 255, 255, 0.87);
+              text-align: center;
+              position: relative;
+            "
+          >
+            <span
+              style="position: absolute; bottom: -28px; left: 0; width: 100%"
+            >
+              high
+            </span>
+          </div>
+          <div
+            style="
+              width: 25%;
+              max-width: 82px;
+              aspect-ratio: 1;
+              background-color: rgba(255, 255, 255, 0.62);
+              text-align: center;
+              position: relative;
+            "
+          >
+            <span
+              style="position: absolute; bottom: -28px; left: 0; width: 100%"
+            >
+              medium
+            </span>
+          </div>
+          <div
+            style="
+              width: 25%;
+              max-width: 82px;
+              aspect-ratio: 1;
+              background-color: rgba(255, 255, 255, 0.38);
+              text-align: center;
+              position: relative;
+            "
+          >
+            <span
+              style="position: absolute; bottom: -28px; left: 0; width: 100%"
+              >low</span
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</mat-card>

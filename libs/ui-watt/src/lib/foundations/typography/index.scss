@@ -16,6 +16,11 @@
  */
 @use './typography.import' as typography;
 
+// This is to override material design color inheritance
+[class^="mat-"] {
+  color: var(--watt-on-light-emphasis-high);
+}
+
 body h1,
 .watt-headline-1 {
   @include typography.watt-headline-1;
@@ -85,4 +90,28 @@ a,
 small a,
 .watt-link-s {
   @include typography.watt-link-s;
+}
+
+.on-dark {
+  &.emphasis-high {
+    color: var(--watt-on-dark-emphasis-high);
+  }
+  &.emphasis-medium {
+    color: var(--watt-on-dark-emphasis-medium);
+  }
+  &.emphasis-low {
+    color: var(--watt-on-dark-emphasis-low);
+  }
+}
+
+.on-light {
+  &.emphasis-high {
+    color: var(--watt-on-light-emphasis-high);
+  }
+  &.emphasis-medium {
+    color: var(--watt-on-light-emphasis-medium);
+  }
+  &.emphasis-low {
+    color: var(--watt-on-light-emphasis-low);
+  }
 }
