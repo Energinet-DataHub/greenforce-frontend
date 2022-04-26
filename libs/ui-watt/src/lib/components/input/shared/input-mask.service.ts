@@ -18,17 +18,13 @@ import { Injectable, Renderer2 } from '@angular/core';
 import Inputmask from 'inputmask';
 import { fromEvent, Subject, takeUntil } from 'rxjs';
 
-import { WattColorHelperService } from '../../../foundations/color/color-helper.service';
 import { WattColor } from '../../../foundations/color/colors';
 
 @Injectable()
 export class WattInputMaskService {
   private destroy$: Subject<void> = new Subject();
 
-  constructor(
-    private renderer: Renderer2,
-    private wattColorService: WattColorHelperService
-  ) {}
+  constructor(private renderer: Renderer2) {}
 
   mask(
     inputFormat: string,
@@ -85,9 +81,7 @@ export class WattInputMaskService {
       const charHasChanged =
         char !== splittedValue[index] && splittedValue[index] !== undefined;
 
-      const color = charHasChanged
-        ? this.wattColorService.getColor(WattColor.black)
-        : this.wattColorService.getColor(WattColor.grey500);
+      const color = charHasChanged ? WattColor.black : WattColor.grey500;
 
       const gradientStart =
         index === 0 ? `${charWidth}px` : `${charWidth * index}px`;
@@ -95,10 +89,10 @@ export class WattInputMaskService {
         index === 0 ? `${charWidth}px` : `${charWidth * (index + 1)}px`;
 
       if (index === 0) {
-        return `${color} ${gradientStart}`;
+        return `var(${color}) ${gradientStart}`;
       }
 
-      return `${color} ${gradientStart}, ${color} ${gradientEnd}`;
+      return `var(${color}) ${gradientStart}, var(${color}) ${gradientEnd}`;
     });
 
     return gradientParts.join(',');
