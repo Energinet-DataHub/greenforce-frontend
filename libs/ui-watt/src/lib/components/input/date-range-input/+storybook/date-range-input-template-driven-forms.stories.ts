@@ -65,17 +65,6 @@ withModel.parameters = {
   },
 };
 
-withModel.argTypes = {
-  min: {
-    description:
-      'Minimum value. This needs to be in the same format as the `dd-mm-yyyy`',
-  },
-  max: {
-    description:
-      'Maximum value. This needs to be in the same format as the `dd-mm-yyyy`',
-  },
-};
-
 export const withInitialValue: Story<WattDateRangeInputComponent> = (args) => ({
   props: {
     ...args,

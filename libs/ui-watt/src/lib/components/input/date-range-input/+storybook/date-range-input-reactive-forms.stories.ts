@@ -17,6 +17,7 @@
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Meta, moduleMetadata, Story } from '@storybook/angular';
+import { within, fireEvent } from '@storybook/testing-library';
 
 import { StorybookConfigurationLocalizationModule } from '../../+storybook/configuration-localization/storybook-configuration-localization.module';
 
@@ -57,12 +58,12 @@ const template = `
 </watt-form-field>
 
 <p>Selected range: <code>{{exampleFormControl.value | json}}</code></p>
-<p>Errors: <code>{{exampleFormControl.errors | json}}</code></p>
+<p *ngIf="withValidations">Errors: <code>{{exampleFormControl.errors | json}}</code></p>
 `;
 
 export const withFormControl: Story<WattDateRangeInputComponent> = (args) => ({
   props: {
-    exampleFormControl: new FormControl(null, [WattRangeValidators.required()]),
+    exampleFormControl: new FormControl(null),
     ...args,
   },
   template,
@@ -91,3 +92,20 @@ export const withInitialValue: Story<WattDateRangeInputComponent> = (args) => ({
   },
   template,
 });
+
+export const withValidations: Story<WattDateRangeInputComponent> = (args) => ({
+  props: {
+    exampleFormControl: new FormControl(null, [WattRangeValidators.required()]),
+    withValidations: true,
+    ...args,
+  },
+  template,
+});
+
+withValidations.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  const startDateInput: HTMLInputElement = canvas.getByRole('textbox', {
+    name: /start-date-input/i,
+  });
+  fireEvent.focusOut(startDateInput);
+}
