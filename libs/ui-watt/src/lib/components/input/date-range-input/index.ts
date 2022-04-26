@@ -16,6 +16,6 @@
  */
 export {
   WattDateRangeInputComponent,
-  WattDateRange as WattDateRange,
+  WattDateRange,
 } from './watt-date-range-input.component';
 export { WattDateRangeInputModule } from './watt-date-range-input.module';
