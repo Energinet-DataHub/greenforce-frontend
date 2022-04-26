@@ -30,7 +30,7 @@ import {
 } from './watt-date-range-input.component';
 
 const { withFormControl } = composeStories(reactiveFormstories);
-const defaultOutput = 'Selected range: { "start": "", "end": "" }';
+const defaultOutput = '{ "start": "", "end": "" }';
 
 describe('Date range input - Reactive Forms', () => {
   const completeDate = '22-11-3333';
@@ -73,7 +73,7 @@ describe('Date range input - Reactive Forms', () => {
 
     expect(
       screen.getByText(
-        `Selected range: { "start": "${initialDateRange.start}", "end": "${initialDateRange.end}" }`
+        `{ "start": "${initialDateRange.start}", "end": "${initialDateRange.end}" }`
       )
     ).toBeInTheDocument();
   });
@@ -118,7 +118,7 @@ describe('Date range input - Reactive Forms', () => {
 
     expect(
       screen.getByText(
-        `Selected range: { "start": "${expectedDate}", "end": "" }`
+        `{ "start": "${expectedDate}", "end": "" }`
       )
     ).toBeInTheDocument();
 
@@ -132,7 +132,7 @@ describe('Date range input - Reactive Forms', () => {
 
     expect(
       screen.getByText(
-        `Selected range: { "start": "${expectedDate}", "end": "" }`
+        `{ "start": "${expectedDate}", "end": "" }`
       )
     ).toBeInTheDocument();
   });
@@ -150,7 +150,7 @@ describe('Date range input - Reactive Forms', () => {
 
     expect(
       screen.getByText(
-        `Selected range: { "start": "", "end": "${expectedDate}" }`
+        `{ "start": "", "end": "${expectedDate}" }`
       )
     ).toBeInTheDocument();
 
@@ -164,7 +164,7 @@ describe('Date range input - Reactive Forms', () => {
 
     expect(
       screen.getByText(
-        `Selected range: { "start": "", "end": "${expectedDate}" }`
+        `{ "start": "", "end": "${expectedDate}" }`
       )
     ).toBeInTheDocument();
   });
