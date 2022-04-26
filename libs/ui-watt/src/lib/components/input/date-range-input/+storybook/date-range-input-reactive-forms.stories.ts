@@ -21,6 +21,7 @@ import { within, fireEvent } from '@storybook/testing-library';
 
 import { StorybookConfigurationLocalizationModule } from '../../+storybook/configuration-localization/storybook-configuration-localization.module';
 
+import RangeValidatorsDocumentation from '../../shared/.storybook/range.validators.mdx';
 import { WattDateRangeInputComponent } from '../watt-date-range-input.component';
 import { WattDateRangeInputModule } from '../watt-date-range-input.module';
 import { WattFormFieldModule } from '../../../form-field/form-field.module';
@@ -99,8 +100,14 @@ export const withValidations: Story<WattDateRangeInputComponent> = (args) => ({
     withValidations: true,
     ...args,
   },
-  template,
+  template
 });
+
+withValidations.parameters = {
+  docs: {
+    page: RangeValidatorsDocumentation
+  }
+};
 
 withValidations.play = async ({ canvasElement }) => {
   const canvas = within(canvasElement);
