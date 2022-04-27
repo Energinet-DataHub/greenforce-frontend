@@ -23,7 +23,7 @@ import DatalabelsPlugin, { Context } from 'chartjs-plugin-datalabels';
   selector: 'eo-pie-chart',
   template: `<canvas
     baseChart
-    data-testid="pie-chart"
+    data-testid="pie-charts"
     [data]="pieChartData"
     [type]="pieChartType"
     [options]="pieChartOptions"
