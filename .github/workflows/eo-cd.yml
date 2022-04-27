@@ -1,5 +1,9 @@
 name: Energy Origin CD
 
+concurrency:
+  group: ${{ github.ref }}
+  cancel-in-progress: true
+
 env:
   app-name: app-eo
   BASE_BRANCH: ${{ github.event.pull_request.base.ref }}
