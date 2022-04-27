@@ -26,7 +26,7 @@ on:
 
 jobs:
   fail:
-    name: Fail check TEMP
+    name: Fail check TEMP2
     runs-on: ubuntu-latest
     steps:
       - name: 'FAIL the PR to test merging is not allowed'
