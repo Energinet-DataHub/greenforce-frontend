@@ -24,9 +24,9 @@ jobs:
   fail:
     name: Fail check TEMP
     steps:
-        - name: 'FAIL the PR to test merging is not allowed'
+      - name: 'FAIL the PR to test merging is not allowed'
         run: exit 1
-        - name: Print message if we don't fail
+      - name: Print message if we don't fail
         run: echo Should not get here
 
   affected:
