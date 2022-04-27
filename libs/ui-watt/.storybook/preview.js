@@ -31,7 +31,7 @@ export const parameters = {
           'Formats',
         ],
         'Components',
-        'Utils'
+        'Utils',
       ],
     },
   },
