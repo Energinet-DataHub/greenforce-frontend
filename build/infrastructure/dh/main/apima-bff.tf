@@ -53,7 +53,7 @@ module "apima_bff" {
                             }
                         }
                     }
-                    return $"Caller ID (sub): {callerId}";
+                    return $"Caller ID (claims.sub): {callerId}";
                 }</message>
                 <metadata name="Correlation-ID" value="@($"{context.RequestId}")" />
             </trace>
