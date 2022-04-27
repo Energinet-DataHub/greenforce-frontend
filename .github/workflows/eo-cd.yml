@@ -32,6 +32,7 @@ jobs:
 
   affected:
     name: Is affected?
+    needs: fail
     runs-on: ubuntu-latest
 
     outputs:
