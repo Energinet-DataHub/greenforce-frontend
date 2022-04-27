@@ -99,7 +99,7 @@ export const withValidations: Story<WattDateRangeInputComponent> = (args) => ({
     withValidations: true,
     ...args,
   },
-  template
+  template,
 });
 
 withValidations.play = async ({ canvasElement }) => {
