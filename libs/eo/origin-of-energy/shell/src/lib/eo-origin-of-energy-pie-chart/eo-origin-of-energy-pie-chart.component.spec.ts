@@ -40,7 +40,7 @@ describe(EoPieChartComponent.name, () => {
       imports: [EoPieChartScam],
     });
 
-    expect(await screen.findByTestId('pie-charts')).toBeVisible;
+    expect(await screen.findByTestId('pie-chart')).toBeVisible;
   });
 
   it('formats the labels', () => {
