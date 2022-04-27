@@ -65,7 +65,7 @@ export const typographyHtmlSnippets = {
     mixin: mixinSnippet('text-l-highlighted'),
   },
   bodyTextMHighlighted: {
-    tag: '<strong>normal-highligted</strong>',
+    tag: '<strong>normal-highlighted</strong>',
     class: '<div class="watt-text-m-highlighted">normal-highlighted</div>',
     mixin: mixinSnippet('text-m-highlighted'),
   },

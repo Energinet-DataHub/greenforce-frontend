@@ -33,6 +33,7 @@ import { WattSpinnerModule, WattBadgeModule } from '@energinet-datahub/watt';
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'dh-message-archive-log-search-blob-content',
   templateUrl: './dh-message-archive-log-search-blob-content.component.html',
+  styleUrls: ['./dh-message-archive-log-search-blob-content.component.scss'],
   providers: [DhMessageArchiveDataAccessBlobApiStore],
 })
 export class DhMessageArchiveLogSearchBlobContentComponent
@@ -42,6 +43,7 @@ export class DhMessageArchiveLogSearchBlobContentComponent
   isDownloading$ = this.blobStore.isDownloading$;
   hasGeneralError$ = this.blobStore.hasGeneralError$;
   messageId = '';
+  traceId = '';
 
   constructor(
     private blobStore: DhMessageArchiveDataAccessBlobApiStore,
@@ -55,6 +57,7 @@ export class DhMessageArchiveLogSearchBlobContentComponent
     });
 
     this.messageId = sessionStorage.getItem('messageId') ?? '...';
+    this.traceId = sessionStorage.getItem('traceId') ?? '...';
     this.title.setTitle(this.messageId);
   }
 
