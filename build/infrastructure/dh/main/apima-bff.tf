@@ -91,9 +91,15 @@ module "apima_bff" {
           </backend>
           <outbound>
               <base />
+              <set-header name="Correlation-ID" exists-action="override">
+                  <value>@($"{context.RequestId}")</value>
+              </set-header>
           </outbound>
           <on-error>
               <base />
+              <set-header name="Correlation-ID" exists-action="override">
+                  <value>@($"{context.RequestId}")</value>
+              </set-header>
           </on-error>
         </policies>
       XML
