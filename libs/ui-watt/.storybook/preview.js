@@ -30,6 +30,8 @@ export const parameters = {
           'Accessibility',
           'Formats',
         ],
+        'Components',
+        'Utils'
       ],
     },
   },
