@@ -25,18 +25,18 @@ on:
   pull_request: {}
 
 jobs:
-  # fail:
-  #   name: Fail check TEMP2
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: 'FAIL the PR to test merging is not allowed'
-  #       run: exit 1
-  #     - name: Print message if we don't fail
-  #       run: echo Should not get here
+  fail:
+    name: Fail check TEMP2
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'FAIL the PR to test merging is not allowed'
+        run: exit 1
+      - name: Print message if we don't fail
+        run: echo Should not get here
 
   affected:
     name: Is EO affected?
-    # needs: fail
+    needs: fail
     runs-on: ubuntu-latest
 
     outputs:
