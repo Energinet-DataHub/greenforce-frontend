@@ -27,7 +27,7 @@ import { WattFormFieldModule } from '../../../form-field/form-field.module';
 import { WattRangeValidators } from '../../shared/range.validators';
 
 export default {
-  title: 'Components/Date-range Input/Reactive Forms',
+  title: 'Components/Date-range Input',
   decorators: [
     moduleMetadata({
       imports: [
@@ -48,12 +48,6 @@ const template = `
   <watt-date-range-input [formControl]="exampleFormControl"></watt-date-range-input>
   <watt-error *ngIf="exampleFormControl.errors?.requiredRange">
       Field is required
-  </watt-error>
-  <watt-error *ngIf="exampleFormControl.errors?.startOfRangeRequired">
-      Start of range is required
-  </watt-error>
-  <watt-error *ngIf="exampleFormControl.errors?.endOfRangeRequired">
-      End of range is required
   </watt-error>
 </watt-form-field>
 
