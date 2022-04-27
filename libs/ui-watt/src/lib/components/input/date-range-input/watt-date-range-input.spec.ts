@@ -24,9 +24,7 @@ import { fireEvent, render, screen } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
 
 import * as reactiveFormstories from './+storybook/date-range-input-reactive-forms.stories';
-import {
-  WattDateRangeInputComponent,
-} from './watt-date-range-input.component';
+import { WattDateRangeInputComponent } from './watt-date-range-input.component';
 
 const { withFormControl, withInitialValue, withValidations } =
   composeStories(reactiveFormstories);
@@ -56,7 +54,6 @@ describe('Date range input - Reactive Forms', () => {
   }
 
   describe('with form control', () => {
-
     it('should have empty start and end date, if no initial value is provided', async () => {
       await setup(withFormControl);
       expect(screen.getByText(defaultOutput)).toBeInTheDocument();
@@ -68,7 +65,7 @@ describe('Date range input - Reactive Forms', () => {
     });
 
     it('should clear incomplete start date', async () => {
-      const {startDateInput} = await setup(withFormControl);
+      const { startDateInput } = await setup(withFormControl);
       expect(screen.getByText(defaultOutput)).toBeInTheDocument();
 
       // Type start date
@@ -226,7 +223,7 @@ describe('Date range input - Reactive Forms', () => {
     });
 
     it('should not show error, before it has been touched', async () => {
-      const {startDateInput} = await setup(withValidations);
+      const { startDateInput } = await setup(withValidations);
       fireEvent.focusOut(startDateInput);
 
       expect(screen.queryByText(/Field is required/i)).toBeInTheDocument();
