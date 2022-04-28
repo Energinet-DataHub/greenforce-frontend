@@ -32,7 +32,6 @@ const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    data: { title: 'Energy Origin' },
     loadChildren: () =>
       import('@energinet-datahub/eo/landing-page/shell').then(
         (esModule) => esModule.EoLandingPageShellModule
