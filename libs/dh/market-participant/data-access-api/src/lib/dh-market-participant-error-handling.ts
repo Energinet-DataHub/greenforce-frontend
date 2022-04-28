@@ -25,7 +25,7 @@ interface ErrorDescriptor {
   code: string;
   message: string;
   target?: string;
-  details: ErrorDescriptor[];
+  details?: ErrorDescriptor[];
 }
 
 interface ClientErrorDescriptor {
@@ -35,12 +35,16 @@ interface ClientErrorDescriptor {
 }
 
 export const parseErrorResponse = (errorResponse: HttpErrorResponse) => {
-  const errorDescriptor: ServerErrorDescriptor | ClientErrorDescriptor =
-    errorResponse.error;
+    const errorDescriptor: ServerErrorDescriptor | ClientErrorDescriptor =
+      errorResponse.error;
 
-  return isServerErrorDescriptor(errorDescriptor)
-    ? errorDescriptor.error.details.map((x) => x.message).join(' ')
-    : Object.values(errorDescriptor.errors).join(' ');
+    if (isServerErrorDescriptor(errorDescriptor)) {
+      if (errorDescriptor.error.details) {
+        return errorDescriptor.error.details.map((x) => x.message).join(' ');
+      }
+      return errorDescriptor.error.message;
+    }
+    return Object.values(errorDescriptor.errors).join(' ');
 };
 
 const isServerErrorDescriptor = (
