@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 module "apima_bff" {
-  source                      = "git::https://github.com/Energinet-DataHub/geh-terraform-modules.git//azure/api-management-api?ref=5.15.0"
+  source                      = "git::https://github.com/Energinet-DataHub/geh-terraform-modules.git//azure/api-management-api?ref=5.16.0"
 
   name                        = "bff"
   project_name                = var.domain_name_short
@@ -24,6 +24,7 @@ module "apima_bff" {
   authorization_server_name   = azurerm_api_management_authorization_server.oauth_server_bff.name
   apim_logger_id              = data.azurerm_key_vault_secret.apim_logger_id.value
   logger_sampling_percentage  = 100.0
+  logger_verbosity            = "verbose"
   path                        = "bff"
   backend_service_url         = "https://${module.bff.default_site_hostname}"
   import                      =  {
@@ -36,6 +37,26 @@ module "apima_bff" {
         <policies>
           <inbound>
             <base />
+            <trace source="BFF API" severity="verbose">
+                <message>@{
+                    string authHeader = context.Request.Headers.GetValueOrDefault("Authorization", "");
+                    string callerId = "(empty)";
+                    if (authHeader?.Length > 0)
+                    {
+                        string[] authHeaderParts = authHeader.Split(' ');
+                        if (authHeaderParts?.Length == 2 && authHeaderParts[0].Equals("Bearer", StringComparison.InvariantCultureIgnoreCase))
+                        {
+                            Jwt jwt;
+                            if (authHeaderParts[1].TryParseJwt(out jwt))
+                            {
+                                callerId = (jwt.Claims.GetValueOrDefault("sub", "(empty)"));
+                            }
+                        }
+                    }
+                    return $"Caller ID (claims.sub): {callerId}";
+                }</message>
+                <metadata name="Correlation-ID" value="@($"{context.RequestId}")" />
+            </trace>
             <validate-jwt header-name="Authorization" failed-validation-httpcode="401" failed-validation-error-message="Unauthorized. Failed policy requirements, or token is invalid or missing.">
                 <openid-config url="${data.azurerm_key_vault_secret.frontend_open_id_url.value}" />
                 <required-claims>
@@ -70,9 +91,15 @@ module "apima_bff" {
           </backend>
           <outbound>
               <base />
+              <set-header name="Correlation-ID" exists-action="override">
+                  <value>@($"{context.RequestId}")</value>
+              </set-header>
           </outbound>
           <on-error>
               <base />
+              <set-header name="Correlation-ID" exists-action="override">
+                  <value>@($"{context.RequestId}")</value>
+              </set-header>
           </on-error>
         </policies>
       XML
