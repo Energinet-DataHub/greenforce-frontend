@@ -35,16 +35,16 @@ interface ClientErrorDescriptor {
 }
 
 export const parseErrorResponse = (errorResponse: HttpErrorResponse) => {
-    const errorDescriptor: ServerErrorDescriptor | ClientErrorDescriptor =
-      errorResponse.error;
+  const errorDescriptor: ServerErrorDescriptor | ClientErrorDescriptor =
+    errorResponse.error;
 
-    if (isServerErrorDescriptor(errorDescriptor)) {
-      if (errorDescriptor.error.details) {
-        return errorDescriptor.error.details.map((x) => x.message).join(' ');
-      }
-      return errorDescriptor.error.message;
+  if (isServerErrorDescriptor(errorDescriptor)) {
+    if (errorDescriptor.error.details) {
+      return errorDescriptor.error.details.map((x) => x.message).join(' ');
     }
-    return Object.values(errorDescriptor.errors).join(' ');
+    return errorDescriptor.error.message;
+  }
+  return Object.values(errorDescriptor.errors).join(' ');
 };
 
 const isServerErrorDescriptor = (
