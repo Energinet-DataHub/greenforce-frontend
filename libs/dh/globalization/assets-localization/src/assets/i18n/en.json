@@ -289,7 +289,7 @@
   },
   "marketParticipant": {
     "organization": {
-      "header": "Organisationer",
+      "header": "Organizations",
       "columns": {
         "organization": "Organization",
         "gln": "Organization code",
