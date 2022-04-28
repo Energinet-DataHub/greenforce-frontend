@@ -23,9 +23,7 @@ import { eoFaqRoutePath } from '@energinet-datahub/eo/faq/routing';
 import { eoMeteringPointsRoutePath } from '@energinet-datahub/eo/metering-points/routing';
 import { eoPrivacyPolicyRoutePath } from '@energinet-datahub/eo/privacy-policy/routing';
 import { eoEmissionsRoutePath } from '@energinet-datahub/eo-emissions-routing';
-import { EoTitleStore } from '@energinet-datahub/eo/shared/util-browser';
 import { GfBrowserConfigurationModule } from '@energinet-datahub/gf/util-browser';
-
 import { EoHttpModule } from './eo-http.module';
 import { EoMaterialModule } from './eo-material.module';
 import { EoShellComponent, EoShellScam } from './eo-shell.component';
@@ -34,9 +32,6 @@ const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    data: {
-      title: 'Energy Origin',
-    },
     loadChildren: () =>
       import('@energinet-datahub/eo/landing-page/shell').then(
         (esModule) => esModule.EoLandingPageShellModule
@@ -44,9 +39,7 @@ const routes: Routes = [
   },
   {
     path: 'terms',
-    data: {
-      title: 'Terms',
-    },
+    data: { title: 'Terms' },
     loadChildren: () =>
       import('@energinet-datahub/eo/auth/feature-terms').then(
         (esModule) => esModule.EoAuthFeatureTermsModule
@@ -59,9 +52,7 @@ const routes: Routes = [
     children: [
       {
         path: eoDashboardRoutePath,
-        data: {
-          title: 'Dashboard',
-        },
+        data: { title: 'Dashboard' },
         loadChildren: () =>
           import('@energinet-datahub/eo/dashboard/shell').then(
             (esModule) => esModule.EoDashboardShellModule
@@ -69,9 +60,7 @@ const routes: Routes = [
       },
       {
         path: eoOriginOfEnergyRoutePath,
-        data: {
-          title: 'Origin of Energy',
-        },
+        data: { title: 'Origin of Energy' },
         loadChildren: () =>
           import('@energinet-datahub/eo/origin-of-energy/shell').then(
             (esModule) => esModule.EoOriginOfEnergyShellModule
@@ -79,9 +68,7 @@ const routes: Routes = [
       },
       {
         path: eoMeteringPointsRoutePath,
-        data: {
-          title: 'Metering points',
-        },
+        data: { title: 'Metering points' },
         loadChildren: () =>
           import('@energinet-datahub/eo/metering-points/shell').then(
             (esModule) => esModule.EoMeteringPointsShellModule
@@ -89,9 +76,7 @@ const routes: Routes = [
       },
       {
         path: eoEmissionsRoutePath,
-        data: {
-          title: 'Emissions',
-        },
+        data: { title: 'Emissions' },
         loadChildren: () =>
           import('@energinet-datahub/eo/emissions/shell').then(
             (esModule) => esModule.EoEmissionsPageShellModule
@@ -99,9 +84,7 @@ const routes: Routes = [
       },
       {
         path: eoFaqRoutePath,
-        data: {
-          title: 'FAQ',
-        },
+        data: { title: 'FAQ' },
         loadChildren: () =>
           import('@energinet-datahub/eo/faq/shell').then(
             (esModule) => esModule.EoFaqShellModule
@@ -109,9 +92,7 @@ const routes: Routes = [
       },
       {
         path: eoPrivacyPolicyRoutePath,
-        data: {
-          title: 'Privacy Policy',
-        },
+        data: { title: 'Privacy Policy' },
         loadChildren: () =>
           import('@energinet-datahub/eo/privacy-policy/shell').then(
             (esModule) => esModule.EoPrivacyPolicyShellModule
@@ -119,6 +100,7 @@ const routes: Routes = [
       },
     ],
   },
+  { path: '**', redirectTo: '' }, // Catch-all that can be used for 404 redirects in the future
 ];
 
 @NgModule({
@@ -135,13 +117,4 @@ const routes: Routes = [
     EoShellScam,
   ],
 })
-export class EoCoreShellModule {
-  constructor(
-    // We need an instance to kick off effects
-    // Can be removed in Angular 14
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    eoTitle: EoTitleStore
-    // See comment about EoTitleStore
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
-  ) {}
-}
+export class EoCoreShellModule {}
