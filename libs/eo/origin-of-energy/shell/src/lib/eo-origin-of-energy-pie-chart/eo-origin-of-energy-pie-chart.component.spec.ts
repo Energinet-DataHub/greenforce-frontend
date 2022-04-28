@@ -35,7 +35,7 @@ describe(EoPieChartComponent.name, () => {
   });
 
   it('renders the component with test id', async () => {
-    expect(getByTestId(fixture.nativeElement, 'pie-charts')).toBeTruthy();
+    expect(getByTestId(fixture.nativeElement, 'pie-chart')).toBeTruthy();
   });
 
   it('datalabels plugin formats the labels', () => {
