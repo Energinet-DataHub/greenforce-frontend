@@ -19,14 +19,14 @@ import { AbstractControl, ValidatorFn } from '@angular/forms';
 import { WattRange } from '../watt-range';
 import { WattRangeValidators } from './watt-range.validators';
 
-interface RangeValue  {
-  value: WattRange
+interface RangeValue {
+  value: WattRange;
 }
 
 describe('Range validators', () => {
-  const fullRangeValue: RangeValue = { value: { start: "1", end: "10" } };
-  const onlyWithStartValue: RangeValue = { value: { start: "1", end: "" } };
-  const onlyWithEndValue: RangeValue = { value: { start: "", end: "10" } };
+  const fullRangeValue: RangeValue = { value: { start: '1', end: '10' } };
+  const onlyWithStartValue: RangeValue = { value: { start: '1', end: '' } };
+  const onlyWithEndValue: RangeValue = { value: { start: '', end: '10' } };
 
   const cases = [
     // required
