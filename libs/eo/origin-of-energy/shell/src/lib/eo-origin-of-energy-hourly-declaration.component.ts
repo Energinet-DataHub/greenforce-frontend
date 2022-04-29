@@ -20,8 +20,8 @@ import { MatCardModule } from '@angular/material/card';
 @Component({
   selector: 'eo-origin-of-energy-hourly-declaration',
   template: `<mat-card class="description-card">
-    <p><strong>Hourly Declaration</strong></p>
-    <p>
+    <p class="watt-space-stack-m"><strong>Hourly Declaration</strong></p>
+    <p class="watt-space-stack-m">
       The hourly declaration describes the origin of the energy you have
       consumed within a given period as well as the corresponding emissions.
     </p>
