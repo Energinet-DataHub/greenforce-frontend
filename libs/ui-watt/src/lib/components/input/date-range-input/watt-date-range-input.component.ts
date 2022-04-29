@@ -19,6 +19,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
+  HostBinding,
   Inject,
   Input,
   LOCALE_ID,
@@ -56,6 +57,10 @@ const danishLocaleCode = 'da';
     WattRangeInputService,
     { provide: MatFormFieldControl, useExisting: WattDateRangeInputComponent },
   ],
+  // eslint-disable-next-line @angular-eslint/no-host-metadata-property
+  host: {
+    '[id]': 'id',
+  },
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -95,6 +100,13 @@ export class WattDateRangeInputComponent
    * @ignore
    */
   id = `watt-date-range-input-${WattDateRangeInputComponent.nextId++}`;
+
+  /**
+   * @ignore
+   */
+  @HostBinding('id') get hostId(): string {
+    return this.id;
+  }
 
   /**
    * @ignore
