@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/* eslint-disable @angular-eslint/no-input-rename */
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -29,17 +28,15 @@ import {
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
+import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { FormatWidth, getLocaleDateFormat } from '@angular/common';
-import { MatDateRangeInput, MatStartDate } from '@angular/material/datepicker';
+import { MatFormFieldControl } from '@angular/material/form-field';
 import { Subject, takeUntil } from 'rxjs';
 
-import { WattInputMaskService } from '../shared/input-mask.service';
-import { WattRangeInputService } from '../shared/range-input.service';
-import { MatFormFieldControl } from '@angular/material/form-field';
-import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
-
-export type WattDateRange = { start: string; end: string };
+import { WattInputMaskService } from '../shared/watt-input-mask.service';
+import { WattRangeInputService } from '../shared/watt-range-input.service';
+import { WattRange } from '../shared/watt-range';
 
 const danishLocaleCode = 'da';
 
@@ -67,7 +64,7 @@ export class WattDateRangeInputComponent
     AfterViewInit,
     OnDestroy,
     ControlValueAccessor,
-    MatFormFieldControl<WattDateRange>
+    MatFormFieldControl<WattRange>
 {
   /**
    * @ignore
@@ -114,9 +111,7 @@ export class WattDateRangeInputComponent
     return this.focused || !this.empty;
   }
 
-  /**
-   * @ignore
-   */
+  // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input('aria-describedby') userAriaDescribedBy?: string;
 
   /**
@@ -127,7 +122,6 @@ export class WattDateRangeInputComponent
   /**
    * @ignore
    */
-  @Input()
   get placeholder(): string {
     return this._placeholder;
   }
@@ -191,7 +185,7 @@ export class WattDateRangeInputComponent
    * @ignore
    */
   @Input()
-  get value(): WattDateRange | null {
+  get value(): WattRange | null {
     if (this.ngControl.valid) {
       const {
         value: { start, end },
@@ -204,7 +198,7 @@ export class WattDateRangeInputComponent
   /**
    * @ignore
    */
-  set value(range: WattDateRange | null) {
+  set value(range: WattRange | null) {
     if (!this.startDateInput || !this.endDateInput) {
       this.initialValue = range;
       return;
@@ -234,18 +228,6 @@ export class WattDateRangeInputComponent
   /**
    * @ignore
    */
-  @ViewChild(MatDateRangeInput)
-  matDateRangeInput!: MatDateRangeInput<unknown>;
-
-  /**
-   * @ignore
-   */
-  @ViewChild(MatStartDate)
-  matStartDate!: MatStartDate<unknown>;
-
-  /**
-   * @ignore
-   */
   @ViewChild('startDate')
   startDateInput!: ElementRef;
 
@@ -258,12 +240,7 @@ export class WattDateRangeInputComponent
   /**
    * @ignore
    */
-  isDisabled = false;
-
-  /**
-   * @ignore
-   */
-  initialValue?: WattDateRange | null = null;
+  initialValue?: WattRange | null = null;
 
   /**
    * @ignore
@@ -283,10 +260,10 @@ export class WattDateRangeInputComponent
   /**
    * @ignore
    */
-  setDescribedByIds(_ids: string[]) {
+  setDescribedByIds(ids: string[]) {
     this.elementRef.nativeElement.setAttribute(
       'aria-describedby',
-      _ids.join(' ')
+      ids.join(' ')
     );
   }
 
@@ -355,14 +332,14 @@ export class WattDateRangeInputComponent
   /**
    * @ignore
    */
-  writeValue(range: WattDateRange | null): void {
+  writeValue(range: WattRange | null): void {
     this.value = range;
   }
 
   /**
    * @ignore
    */
-  registerOnChange(onChangeFn: (value: WattDateRange) => void): void {
+  registerOnChange(onChangeFn: (value: WattRange) => void): void {
     this.changeParentValue = onChangeFn;
   }
 
@@ -407,7 +384,7 @@ export class WattDateRangeInputComponent
    * @ignore
    */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  private changeParentValue = (value: WattDateRange): void => {
+  private changeParentValue = (value: WattRange): void => {
     // Intentionally left empty
   };
 

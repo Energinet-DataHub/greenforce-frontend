@@ -15,12 +15,18 @@
  * limitations under the License.
  */
 import { AbstractControl, ValidatorFn } from '@angular/forms';
-import { WattRangeValidators } from './range.validators';
+
+import { WattRange } from '../watt-range';
+import { WattRangeValidators } from './watt-range.validators';
+
+interface RangeValue  {
+  value: WattRange
+}
 
 describe('Range validators', () => {
-  const fullRangeValue = { value: { start: 1, end: 10 } };
-  const onlyWithStartValue = { value: { start: 1 } };
-  const onlyWithEndValue = { value: { end: 10 } };
+  const fullRangeValue: RangeValue = { value: { start: "1", end: "10" } };
+  const onlyWithStartValue: RangeValue = { value: { start: "1", end: "" } };
+  const onlyWithEndValue: RangeValue = { value: { start: "", end: "10" } };
 
   const cases = [
     // required
@@ -34,7 +40,7 @@ describe('Range validators', () => {
       '[required] should return error, providing only start of range',
       WattRangeValidators.required(),
       onlyWithStartValue,
-      { requiredRange: true },
+      { rangeRequired: true },
     ],
     [
       '[required] should return error, providing only end of range',

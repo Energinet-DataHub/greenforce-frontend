@@ -16,22 +16,24 @@
  */
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 
+import { WattRange } from '../watt-range';
+
 export class WattRangeValidators {
   static required(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
-      return control.value?.start && control.value?.end
+      return (control.value as WattRange)?.start && (control.value as WattRange).end
         ? null
-        : { requiredRange: true };
+        : { rangeRequired: true };
     };
   }
   static startRequired(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
-      return control.value?.start ? null : { startOfRangeRequired: true };
+      return (control.value as WattRange)?.start ? null : { startOfRangeRequired: true };
     };
   }
   static endRequired(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
-      return control.value?.end ? null : { endOfRangeRequired: true };
+      return (control.value as WattRange)?.end ? null : { endOfRangeRequired: true };
     };
   }
 }

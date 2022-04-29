@@ -24,7 +24,7 @@ import { StorybookConfigurationLocalizationModule } from '../../+storybook/confi
 import { WattDateRangeInputComponent } from '../watt-date-range-input.component';
 import { WattDateRangeInputModule } from '../watt-date-range-input.module';
 import { WattFormFieldModule } from '../../../form-field/form-field.module';
-import { WattRangeValidators } from '../../shared/range.validators';
+import { WattRangeValidators } from '../../shared/validators';
 
 export default {
   title: 'Components/Date-range Input',
@@ -46,7 +46,7 @@ const template = `
 <watt-form-field>
   <watt-label>Date range</watt-label>
   <watt-date-range-input [formControl]="exampleFormControl"></watt-date-range-input>
-  <watt-error *ngIf="exampleFormControl.errors?.requiredRange">
+  <watt-error *ngIf="exampleFormControl.errors?.rangeRequired">
       Field is required
   </watt-error>
 </watt-form-field>
@@ -103,3 +103,11 @@ withValidations.play = async ({ canvasElement }) => {
   });
   fireEvent.focusOut(startDateInput);
 };
+
+export const withFormControlDisabled: Story<WattDateRangeInputComponent> = (args) => ({
+  props: {
+    exampleFormControl: new FormControl({value: null, disabled: true}),
+    ...args,
+  },
+  template,
+});

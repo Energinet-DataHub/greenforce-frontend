@@ -29,10 +29,9 @@ import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { MatDateRangeInput } from '@angular/material/datepicker';
 import { Subject, takeUntil } from 'rxjs';
 
-import { WattInputMaskService } from '../shared/input-mask.service';
-import { WattRangeInputService } from '../shared/range-input.service';
-
-export type WattTimeRange = { start: string; end: string };
+import { WattInputMaskService } from '../shared/watt-input-mask.service';
+import { WattRange } from '../shared/watt-range';
+import { WattRangeInputService } from '../shared/watt-range-input.service';
 
 /**
  * Note: `Inputmask` package uses upper case `MM` for "minutes" and
@@ -91,7 +90,7 @@ export class WattTimeRangeInputComponent
   /**
    * @ignore
    */
-  initialValue: WattTimeRange | null = null;
+  initialValue: WattRange | null = null;
 
   /**
    * @ignore
@@ -167,7 +166,7 @@ export class WattTimeRangeInputComponent
   /**
    * @ignore
    */
-  writeValue(timeRange: WattTimeRange | null): void {
+  writeValue(timeRange: WattRange | null): void {
     if (!this.startTimeInput || !this.endTimeInput) {
       this.initialValue = timeRange;
       return;
@@ -189,7 +188,7 @@ export class WattTimeRangeInputComponent
   /**
    * @ignore
    */
-  registerOnChange(onChangeFn: (value: WattTimeRange) => void): void {
+  registerOnChange(onChangeFn: (value: WattRange) => void): void {
     this.changeParentValue = onChangeFn;
   }
 
@@ -212,7 +211,7 @@ export class WattTimeRangeInputComponent
    * @ignore
    */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  private changeParentValue = (value: WattTimeRange): void => {
+  private changeParentValue = (value: WattRange): void => {
     // Intentionally left empty
   };
 

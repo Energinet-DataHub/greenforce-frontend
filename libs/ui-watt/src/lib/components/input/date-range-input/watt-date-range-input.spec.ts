@@ -26,7 +26,7 @@ import userEvent from '@testing-library/user-event';
 import * as reactiveFormstories from './+storybook/date-range-input-reactive-forms.stories';
 import { WattDateRangeInputComponent } from './watt-date-range-input.component';
 
-const { withFormControl, withInitialValue, withValidations } =
+const { withFormControl, withInitialValue, withValidations, withFormControlDisabled } =
   composeStories(reactiveFormstories);
 const defaultOutput = '{ "start": "", "end": "" }';
 
@@ -53,7 +53,7 @@ describe('Date range input - Reactive Forms', () => {
     return { startDateInput, endDateInput, fixture };
   }
 
-  describe('with form control', () => {
+  describe(withFormControl.name, () => {
     it('should have empty start and end date, if no initial value is provided', async () => {
       await setup(withFormControl);
       expect(screen.getByText(defaultOutput)).toBeInTheDocument();
@@ -202,7 +202,7 @@ describe('Date range input - Reactive Forms', () => {
     });
   });
 
-  describe('with initial value', () => {
+  describe(withInitialValue.name, () => {
     it('should have initial start and end date, if initial value is provided', async () => {
       await setup(withInitialValue);
       const initialDateRange = { start: completeDate, end: completeDate };
@@ -215,18 +215,26 @@ describe('Date range input - Reactive Forms', () => {
     });
   });
 
-  describe('with validations', () => {
+  describe(withValidations.name, () => {
     it('should not show error, before it has been touched', async () => {
       await setup(withValidations);
 
       expect(screen.queryByText(/Field is required/i)).not.toBeInTheDocument();
     });
 
-    it('should not show error, before it has been touched', async () => {
+    it('should show error on lost focus', async () => {
       const { startDateInput } = await setup(withValidations);
       fireEvent.focusOut(startDateInput);
 
       expect(screen.queryByText(/Field is required/i)).toBeInTheDocument();
     });
+  });
+
+  describe(withFormControlDisabled.name, () => {
+    it('should be disabled', async () => {
+      const {startDateInput, endDateInput} = await setup(withFormControlDisabled);
+      expect(startDateInput).toBeDisabled();
+      expect(endDateInput).toBeDisabled();
+    })
   });
 });
