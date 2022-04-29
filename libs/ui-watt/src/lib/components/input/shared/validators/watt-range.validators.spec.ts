@@ -46,7 +46,7 @@ describe('Range validators', () => {
       '[required] should return error, providing only end of range',
       WattRangeValidators.required(),
       onlyWithEndValue,
-      { requiredRange: true },
+      { rangeRequired: true },
     ],
 
     // startRequired

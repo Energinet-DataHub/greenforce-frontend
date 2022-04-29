@@ -104,9 +104,7 @@ export class WattDateRangeInputComponent
   /**
    * @ignore
    */
-  @HostBinding('id') get hostId(): string {
-    return this.id;
-  }
+  @HostBinding('id') hostId = this.id;
 
   /**
    * @ignore
