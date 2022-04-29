@@ -17,15 +17,17 @@
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Meta, moduleMetadata, Story } from '@storybook/angular';
+import { within, fireEvent } from '@storybook/testing-library';
 
 import { StorybookConfigurationLocalizationModule } from '../../+storybook/configuration-localization/storybook-configuration-localization.module';
 
 import { WattDateRangeInputComponent } from '../watt-date-range-input.component';
 import { WattDateRangeInputModule } from '../watt-date-range-input.module';
 import { WattFormFieldModule } from '../../../form-field/form-field.module';
+import { WattRangeValidators } from '../../shared/range.validators';
 
 export default {
-  title: 'Components/Date-range Input/Reactive Forms',
+  title: 'Components/Date-range Input',
   decorators: [
     moduleMetadata({
       imports: [
@@ -44,14 +46,18 @@ const template = `
 <watt-form-field>
   <watt-label>Date range</watt-label>
   <watt-date-range-input [formControl]="exampleFormControl"></watt-date-range-input>
+  <watt-error *ngIf="exampleFormControl.errors?.requiredRange">
+      Field is required
+  </watt-error>
 </watt-form-field>
 
-<p>Selected range: {{exampleFormControl.value | json}}</p>
+<p>Selected range: <code>{{exampleFormControl.value | json}}</code></p>
+<p *ngIf="withValidations">Errors: <code>{{exampleFormControl.errors | json}}</code></p>
 `;
 
 export const withFormControl: Story<WattDateRangeInputComponent> = (args) => ({
   props: {
-    exampleFormControl: new FormControl(),
+    exampleFormControl: new FormControl(null),
     ...args,
   },
   template,
@@ -70,17 +76,6 @@ exampleFormControl = new FormControl();
   },
 };
 
-withFormControl.argTypes = {
-  min: {
-    description:
-      'Minimum value. This needs to be in the same format as the `dd-mm-yyyy`',
-  },
-  max: {
-    description:
-      'Maximum value. This needs to be in the same format as the `dd-mm-yyyy`',
-  },
-};
-
 export const withInitialValue: Story<WattDateRangeInputComponent> = (args) => ({
   props: {
     exampleFormControl: new FormControl({
@@ -91,3 +86,20 @@ export const withInitialValue: Story<WattDateRangeInputComponent> = (args) => ({
   },
   template,
 });
+
+export const withValidations: Story<WattDateRangeInputComponent> = (args) => ({
+  props: {
+    exampleFormControl: new FormControl(null, [WattRangeValidators.required()]),
+    withValidations: true,
+    ...args,
+  },
+  template,
+});
+
+withValidations.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  const startDateInput: HTMLInputElement = canvas.getByRole('textbox', {
+    name: /start-date-input/i,
+  });
+  fireEvent.focusOut(startDateInput);
+};
