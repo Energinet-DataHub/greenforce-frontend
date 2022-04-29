@@ -46,10 +46,10 @@ limitations under the License.
       <mat-cell *matCellDef="let element">
         <watt-badge *ngIf="element.actor !== undefined" type="info">{{
           t("status." + element.actor.status)
-          }}</watt-badge>
+        }}</watt-badge>
         <watt-badge *ngIf="element.actor === undefined" type="warning">{{
           t("columns.noActors")
-          }}</watt-badge>
+        }}</watt-badge>
       </mat-cell>
     </ng-container>
 
@@ -100,6 +100,9 @@ limitations under the License.
     <mat-row *matRowDef="let row; columns: columnIds"></mat-row>
   </mat-table>
 
-  <mat-paginator [pageSizeOptions]="[5, 10, 20, 50]" pageSize="10" showFirstLastButtons></mat-paginator>
-
+  <mat-paginator
+    [pageSizeOptions]="[5, 10, 20, 50]"
+    pageSize="10"
+    showFirstLastButtons
+  ></mat-paginator>
 </ng-container>
