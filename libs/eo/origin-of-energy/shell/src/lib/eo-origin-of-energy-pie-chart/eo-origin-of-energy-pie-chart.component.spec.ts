@@ -15,35 +15,30 @@
  * limitations under the License.
  */
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { render, screen } from '@testing-library/angular';
+import { getByTestId } from '@testing-library/angular';
 import { Context } from 'chartjs-plugin-datalabels';
-import {
-  EoPieChartComponent,
-  EoPieChartScam,
-} from './eo-origin-of-energy-pie-chart.component';
-
-let component: EoPieChartComponent;
-let fixture: ComponentFixture<EoPieChartComponent>;
+import { NgChartsModule } from 'ng2-charts';
+import { EoPieChartComponent } from './eo-origin-of-energy-pie-chart.component';
 
 describe(EoPieChartComponent.name, () => {
-  beforeEach(async () => {
-    TestBed.configureTestingModule({
-      imports: [EoPieChartScam],
-    });
+  let component: EoPieChartComponent;
+  let fixture: ComponentFixture<EoPieChartComponent>;
 
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      declarations: [EoPieChartComponent],
+      imports: [NgChartsModule],
+    });
     fixture = TestBed.createComponent(EoPieChartComponent);
     component = fixture.componentInstance;
+    fixture.detectChanges();
   });
 
-  it('renders the canvas', async () => {
-    render('<eo-pie-chart></eo-pie-chart>', {
-      imports: [EoPieChartScam],
-    });
-
-    expect(await screen.findByTestId('pie-chart')).toBeVisible;
+  it('renders the component with test id', async () => {
+    expect(getByTestId(fixture.nativeElement, 'pie-chart')).toBeTruthy();
   });
 
-  it('formats the labels', () => {
+  it('datalabels plugin formats the labels', () => {
     const value = '12';
     const label = 'this is a test label';
     const context = {
