@@ -17,17 +17,17 @@ limitations under the License.
 <ng-container
   *transloco="let t; read: 'marketParticipant.organization.create.contacts'"
 >
-  <mat-table [dataSource]="this.contactRows" aria-label="contacts">
+  <mat-table [dataSource]="contactRows" aria-label="contacts">
     <!-- Contact Type -->
-    <ng-container matColumnDef="{{ this.columnIds[0] }}">
+    <ng-container matColumnDef="type">
       <mat-header-cell *matHeaderCellDef>{{ t("category") }}</mat-header-cell>
       <mat-cell *matCellDef="let element" class="field">
         <watt-form-field>
           <watt-dropdown
             required
-            [options]="this.contactCategories"
+            [options]="contactCategories"
             [(ngModel)]="element.changed.category"
-            (ngModelChange)="this.onDropdownChanged(element)"
+            (ngModelChange)="onDropdownChanged(element)"
           >
           </watt-dropdown>
         </watt-form-field>
@@ -35,7 +35,7 @@ limitations under the License.
     </ng-container>
 
     <!-- Name -->
-    <ng-container matColumnDef="{{ this.columnIds[1] }}">
+    <ng-container matColumnDef="name">
       <mat-header-cell *matHeaderCellDef>{{ t("name") }}</mat-header-cell>
       <mat-cell *matCellDef="let element" class="field">
         <watt-form-field
@@ -44,14 +44,14 @@ limitations under the License.
             required
             [placeholder]="t('namePlaceholder')"
             [(ngModel)]="element.changed.name"
-            (ngModelChange)="this.onModelChanged(element)"
+            (ngModelChange)="onModelChanged(element)"
           />
         </watt-form-field>
       </mat-cell>
     </ng-container>
 
     <!-- Email -->
-    <ng-container matColumnDef="{{ this.columnIds[2] }}">
+    <ng-container matColumnDef="email">
       <mat-header-cell *matHeaderCellDef>{{ t("email") }}</mat-header-cell>
       <mat-cell *matCellDef="let element" class="field">
         <watt-form-field
@@ -61,13 +61,13 @@ limitations under the License.
             type="email"
             [placeholder]="t('emailPlaceholder')"
             [(ngModel)]="element.changed.email"
-            (ngModelChange)="this.onModelChanged(element)"
+            (ngModelChange)="onModelChanged(element)"
         /></watt-form-field>
       </mat-cell>
     </ng-container>
 
     <!-- Phone -->
-    <ng-container matColumnDef="{{ this.columnIds[3] }}">
+    <ng-container matColumnDef="phone">
       <mat-header-cell *matHeaderCellDef>{{ t("phone") }}</mat-header-cell>
       <mat-cell *matCellDef="let element" class="field">
         <watt-form-field>
@@ -76,26 +76,26 @@ limitations under the License.
             type="tel"
             [placeholder]="t('phonePlaceholder')"
             [(ngModel)]="element.changed.phone"
-            (ngModelChange)="this.onModelChanged(element)"
+            (ngModelChange)="onModelChanged(element)"
           />
         </watt-form-field>
       </mat-cell>
     </ng-container>
 
     <!-- Delete -->
-    <ng-container matColumnDef="{{ this.columnIds[4] }}">
+    <ng-container matColumnDef="delete">
       <mat-header-cell mat-header-cell *matHeaderCellDef></mat-header-cell>
       <mat-cell *matCellDef="let element">
         <ng-container *ngIf="!element.isNewPlaceholder">
-          <watt-icon-button icon="remove" (click)="this.onRowDelete(element)">
+          <watt-icon-button icon="remove" (click)="onRowDelete(element)">
           </watt-icon-button>
         </ng-container>
       </mat-cell>
     </ng-container>
 
     <mat-header-row
-      *matHeaderRowDef="this.columnIds; sticky: true"
+      *matHeaderRowDef="columnIds; sticky: true"
     ></mat-header-row>
-    <mat-row *matRowDef="let row; columns: this.columnIds"></mat-row>
+    <mat-row *matRowDef="let row; columns: columnIds"></mat-row>
   </mat-table>
 </ng-container>

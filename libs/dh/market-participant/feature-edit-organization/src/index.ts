@@ -15,4 +15,4 @@
  * limitations under the License.
  */
 export * from './lib/dh-market-participant-feature-edit-organization.module';
-export * from './lib/dh-market-participant-edit-organization/dh-market-participant-edit-organization.component';
+export * from './lib/market-participant-edit-organization/dh-market-participant-edit-organization.component';

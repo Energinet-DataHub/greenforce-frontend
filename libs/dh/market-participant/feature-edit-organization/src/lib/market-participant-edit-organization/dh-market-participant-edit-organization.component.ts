@@ -38,7 +38,6 @@ import {
   dhMarketParticipantOrganizationIdParam,
   dhMarketParticipantPath,
 } from '@energinet-datahub/dh/market-participant/routing';
-import { PushModule } from '@rx-angular/template';
 
 @Component({
   selector: 'dh-market-participant-edit-organization',
@@ -58,7 +57,7 @@ export class DhMarketParticipantEditOrganizationComponent {
   validation$ = this.store.validation$;
 
   constructor(
-    public store: DhMarketParticipantEditOrganizationDataAccessApiStore,
+    private store: DhMarketParticipantEditOrganizationDataAccessApiStore,
     private route: ActivatedRoute,
     private router: Router
   ) {
@@ -97,7 +96,6 @@ export class DhMarketParticipantEditOrganizationComponent {
     WattButtonModule,
     WattTabsModule,
     WattSpinnerModule,
-    PushModule,
     DhMarketParticipantOrganizationMasterDataComponentScam,
     DhMarketParticipantOrganizationContactDataComponentScam,
     WattValidationMessageModule,

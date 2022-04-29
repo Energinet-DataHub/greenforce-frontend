@@ -14,12 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { DhMarketParticipantEditOrganizationScam } from './market-participant-edit-organization/dh-market-participant-edit-organization.component';
+import 'jest-preset-angular/setup-jest';
 
-@NgModule({
-  imports: [CommonModule],
-  exports: [DhMarketParticipantEditOrganizationScam],
-})
-export class DhMarketParticipantFeatureEditOrganizationModule {}
+import { setUpTestbed } from '@energinet-datahub/gf/test-util-staging';
+
+setUpTestbed();

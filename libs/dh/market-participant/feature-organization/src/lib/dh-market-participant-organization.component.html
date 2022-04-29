@@ -16,9 +16,9 @@ limitations under the License.
 -->
 
 <ng-container *transloco="let t; read: 'marketParticipant.organization'">
-  <ng-container *rxLet="this.isLoading$ as isLoading">
+  <ng-container *rxLet="isLoading$ as isLoading">
     <!-- Validation -->
-    <ng-container *rxLet="this.validationError$ as validationError">
+    <ng-container *rxLet="validationError$ as validationError">
       <watt-validation-message
         type="danger"
         *ngIf="validationError"
@@ -32,15 +32,15 @@ limitations under the License.
       <watt-button
         variant="primary"
         [disabled]="isLoading"
-        (click)="this.createOrganization()"
+        (click)="createOrganization()"
         >{{ t("createOrganization") }}</watt-button
       >
     </div>
 
     <!-- Table -->
-    <mat-table [dataSource]="this.dataSource" aria-label="organizations">
+    <mat-table [dataSource]="dataSource" aria-label="organizations">
       <!-- Organization Name -->
-      <ng-container matColumnDef="{{ this.columnIds[0] }}">
+      <ng-container matColumnDef="org-name">
         <mat-header-cell *matHeaderCellDef>
           {{ t("columns.organization") }}
         </mat-header-cell>
@@ -50,17 +50,17 @@ limitations under the License.
       </ng-container>
 
       <!-- Actor GLN -->
-      <ng-container matColumnDef="{{ this.columnIds[1] }}">
+      <ng-container matColumnDef="actor-gln">
         <mat-header-cell *matHeaderCellDef>
           {{ t("columns.gln") }}
         </mat-header-cell>
         <mat-cell *matCellDef="let element">
-          {{ element.actor?.gln.value ?? "-" }}
+          {{ element.actor?.gln.value | dhEmDashFallback }}
         </mat-cell>
       </ng-container>
 
       <!-- Actor status -->
-      <ng-container matColumnDef="{{ this.columnIds[2] }}">
+      <ng-container matColumnDef="actor-status">
         <mat-header-cell *matHeaderCellDef>
           {{ t("columns.status") }}
         </mat-header-cell>
@@ -75,7 +75,7 @@ limitations under the License.
       </ng-container>
 
       <!-- Actor market roles -->
-      <ng-container matColumnDef="{{ this.columnIds[3] }}">
+      <ng-container matColumnDef="actor-roles">
         <mat-header-cell *matHeaderCellDef>
           {{ t("columns.marketRoles") }}
         </mat-header-cell>
@@ -90,26 +90,27 @@ limitations under the License.
       </ng-container>
 
       <!-- Actor grid areas -->
-      <ng-container matColumnDef="{{ this.columnIds[4] }}">
+      <ng-container matColumnDef="actor-grid-areas">
         <mat-header-cell *matHeaderCellDef>
           {{ t("columns.gridAreas") }}
         </mat-header-cell>
         <mat-cell *matCellDef="let element">
-          {{ element.actor?.gridAreas ?? "-" }}
+          <!-- gridAreas is currently always undefined, but always returning the dash is correct for now. -->
+          {{ element.actor?.gridAreas | dhEmDashFallback }}
         </mat-cell>
       </ng-container>
 
       <!-- Edit -->
-      <ng-container matColumnDef="{{ this.columnIds[5] }}">
+      <ng-container matColumnDef="row-edit">
         <mat-header-cell *matHeaderCellDef></mat-header-cell>
         <mat-cell *matCellDef="let element">
           <watt-icon-button icon="edit" [mat-menu-trigger-for]="menu">
           </watt-icon-button>
           <mat-menu #menu="matMenu">
-            <button mat-menu-item (click)="setRowSelection(element)">
+            <button mat-menu-item (click)="editOrganization(element)">
               {{ t("editOrganization") }}
             </button>
-            <button mat-menu-item (click)="setRowSelection(element)">
+            <button mat-menu-item (click)="editOrganization(element)">
               {{ t("editActor") }}
             </button>
           </mat-menu>
@@ -117,9 +118,9 @@ limitations under the License.
       </ng-container>
 
       <mat-header-row
-        *matHeaderRowDef="this.columnIds; sticky: true"
+        *matHeaderRowDef="columnIds; sticky: true"
       ></mat-header-row>
-      <mat-row *matRowDef="let row; columns: this.columnIds"></mat-row>
+      <mat-row *matRowDef="let row; columns: columnIds"></mat-row>
     </mat-table>
 
     <mat-paginator
@@ -134,7 +135,7 @@ limitations under the License.
     </div>
 
     <!-- Empty -->
-    <ng-container *rxLet="this.overviewList$ as overviewList">
+    <ng-container *rxLet="overviewList$ as overviewList">
       <watt-empty-state
         *ngIf="!isLoading && overviewList.length === 0"
         icon="power"

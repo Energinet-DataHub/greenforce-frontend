@@ -21,11 +21,10 @@ import {
   Input,
   NgModule,
   OnChanges,
-  OnInit,
+  OnDestroy,
   Output,
-  ViewChild,
 } from '@angular/core';
-import { FormsModule, NgModel } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { OrganizationChanges } from '@energinet-datahub/dh/market-participant/data-access-api';
 import { OrganizationDto } from '@energinet-datahub/dh/shared/domain';
 import {
@@ -35,6 +34,8 @@ import {
   WattInputModule,
 } from '@energinet-datahub/watt';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
+import { Subject, takeUntil } from 'rxjs';
+import { LetModule } from '@rx-angular/template/let';
 
 @Component({
   selector: 'dh-market-participant-organization-master-data',
@@ -45,51 +46,42 @@ import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
     './dh-market-participant-organization-master-data.component.html',
 })
 export class DhMarketParticipantOrganizationMasterDataComponent
-  implements OnInit, OnChanges
+  implements OnChanges, OnDestroy
 {
-  @ViewChild('nameInputModel') nameInputModel?: NgModel;
-  @ViewChild('businessRegisterIdentifierInputModel')
-  businessRegisterIdentifierInputModel?: NgModel;
-  @ViewChild('streetNameInputModel') streetNameInputModel?: NgModel;
-  @ViewChild('streetNumberInputModel') streetNumberInputModel?: NgModel;
-  @ViewChild('zipCodeInputModel') zipCodeInputModel?: NgModel;
-  @ViewChild('cityInput') cityInput?: NgModel;
-  @ViewChild('countryInputModel') countryInputModel?: NgModel;
-
   @Input() organization: OrganizationDto | undefined;
   @Output() hasChanges = new EventEmitter<OrganizationChanges>();
 
-  constructor(private translocoService: TranslocoService) {}
+  private destroy$ = new Subject<void>();
+
+  constructor(private translocoService: TranslocoService) {
+    this.translocoService
+      .selectTranslateObject(
+        'marketParticipant.organization.create.masterData.countries'
+      )
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((countryTranslations) => {
+        this.countries = Object.keys(countryTranslations)
+          .map((key) => ({
+            value: key.toUpperCase(),
+            displayValue: countryTranslations[key],
+          }))
+          .sort((a, b) => a.displayValue.localeCompare(b.displayValue));
+      });
+  }
 
   changes: OrganizationChanges = { address: { country: 'DK' } };
   countries: WattDropdownOption[] = [];
-
-  ngOnInit(): void {
-    const countryTranslations = this.translocoService.translateObject(
-      'marketParticipant.organization.create.masterData.countries'
-    );
-
-    this.countries = Object.keys(countryTranslations)
-      .map((key) => ({
-        value: key.toUpperCase(),
-        displayValue: countryTranslations[key],
-      }))
-      .sort((a, b) => {
-        if (a.displayValue < b.displayValue) {
-          return -1;
-        }
-        if (a.displayValue > b.displayValue) {
-          return 1;
-        }
-        return 0;
-      });
-  }
 
   ngOnChanges(): void {
     if (this.organization !== undefined) {
       this.changes = { ...this.organization };
       this.hasChanges.emit({ ...this.changes });
     }
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.unsubscribe();
   }
 
   readonly onModelChanged = () => {
@@ -100,6 +92,7 @@ export class DhMarketParticipantOrganizationMasterDataComponent
 @NgModule({
   imports: [
     CommonModule,
+    LetModule,
     FormsModule,
     TranslocoModule,
     WattDropdownModule,

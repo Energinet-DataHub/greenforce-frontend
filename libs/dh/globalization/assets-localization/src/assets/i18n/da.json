@@ -383,7 +383,6 @@
           "cityLabel": "By",
           "countryLabel": "Land",
           "fieldRequiredErrorText": "Feltet er påkrævet.",
-          "businessRegistrationIdentifierLengthErrorText": "Ugyldigt CVR-nr.",
           "countries": {
             "at": "Østrig",
             "be": "Belgien",

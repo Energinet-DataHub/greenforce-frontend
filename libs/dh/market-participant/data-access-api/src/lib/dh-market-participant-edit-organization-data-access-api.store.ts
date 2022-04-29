@@ -115,36 +115,37 @@ export class DhMarketParticipantEditOrganizationDataAccessApiStore extends Compo
     super(initialState);
   }
 
-  readonly getOrganizationAndContacts = this.effect((id: Observable<string>) =>
-    id.pipe(
-      tap(() => this.patchState({ isLoading: true })),
-      switchMap((organizationId) => {
-        if (!organizationId) {
-          this.patchState({ isLoading: false });
-          return EMPTY;
-        }
-        return this.getOrganization(organizationId)
-          .pipe(switchMap(() => this.getContacts(organizationId)))
-          .pipe(
-            catchError((errorResponse: HttpErrorResponse) => {
-              this.patchState({
-                validation: {
-                  error: parseErrorResponse(errorResponse),
-                },
-              });
-              return EMPTY;
-            })
-          );
-      }),
-      tap(() => this.patchState({ isLoading: false }))
-    )
+  readonly getOrganizationAndContacts = this.effect(
+    (organizationId$: Observable<string>) =>
+      organizationId$.pipe(
+        tap(() => this.patchState({ isLoading: true })),
+        switchMap((organizationId) => {
+          if (!organizationId) {
+            this.patchState({ isLoading: false });
+            return EMPTY;
+          }
+          return this.getOrganization(organizationId)
+            .pipe(switchMap(() => this.getContacts(organizationId)))
+            .pipe(
+              catchError((errorResponse: HttpErrorResponse) => {
+                this.patchState({
+                  validation: {
+                    error: parseErrorResponse(errorResponse),
+                  },
+                });
+                return EMPTY;
+              })
+            );
+        }),
+        tap(() => this.patchState({ isLoading: false }))
+      )
   );
 
-  readonly save = this.effect((onSaveCompleted: Observable<() => void>) =>
-    onSaveCompleted.pipe(
+  readonly save = this.effect((onSaveCompletedFn$: Observable<() => void>) =>
+    onSaveCompletedFn$.pipe(
       tap(() => this.patchState({ isLoading: true, validation: undefined })),
       withLatestFrom(this.changes$),
-      switchMap(([onSaved, progress]) =>
+      switchMap(([onSaveCompletedFn, progress]) =>
         of(progress).pipe(
           switchMap((changes) => this.saveOrganization(changes)),
           switchMap((changes) => this.removeContacts(changes)),
@@ -157,7 +158,7 @@ export class DhMarketParticipantEditOrganizationDataAccessApiStore extends Compo
                   !state.contactsRemoved ||
                   !state.contactsAdded,
               });
-              onSaved();
+              onSaveCompletedFn();
             },
             (errorResponse: HttpErrorResponse) => {
               this.patchState({
@@ -231,35 +232,27 @@ export class DhMarketParticipantEditOrganizationDataAccessApiStore extends Compo
     );
   };
 
-  private readonly getOrganization = (id: string) =>
-    of(id).pipe(
-      switchMap((organizationId) =>
-        this.httpClient
-          .v1MarketParticipantOrganizationOrgIdGet(organizationId)
-          .pipe(
-            tap((organization) =>
-              this.patchState({
-                organization,
-              })
-            )
-          )
-      )
-    );
+  private readonly getOrganization = (organizationId: string) =>
+    this.httpClient
+      .v1MarketParticipantOrganizationOrgIdGet(organizationId)
+      .pipe(
+        tap((organization) =>
+          this.patchState({
+            organization,
+          })
+        )
+      );
 
-  private readonly getContacts = (id: string) =>
-    of(id).pipe(
-      switchMap((organizationId) =>
-        this.httpClient
-          .v1MarketParticipantOrganizationOrgIdContactGet(organizationId)
-          .pipe(
-            tap((response) =>
-              this.patchState({
-                contacts: response,
-              })
-            )
-          )
-      )
-    );
+  private readonly getContacts = (organizationId: string) =>
+    this.httpClient
+      .v1MarketParticipantOrganizationOrgIdContactGet(organizationId)
+      .pipe(
+        tap((response) =>
+          this.patchState({
+            contacts: response,
+          })
+        )
+      );
 
   readonly setMasterDataChanges = (changes: OrganizationChanges) =>
     this.patchState({

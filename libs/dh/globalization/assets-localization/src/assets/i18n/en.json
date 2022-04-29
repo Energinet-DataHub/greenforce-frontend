@@ -383,7 +383,6 @@
           "cityLabel": "City",
           "countryLabel": "Country",
           "fieldRequiredErrorText": "Field is required.",
-          "businessRegistrationIdentifierLengthErrorText": "Invalid business registration number.",
           "countries": {
             "at": "Austria",
             "be": "Belgium",

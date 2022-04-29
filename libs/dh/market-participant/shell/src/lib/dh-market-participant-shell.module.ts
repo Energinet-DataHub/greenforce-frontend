@@ -32,12 +32,17 @@ import {
 } from '@energinet-datahub/dh/market-participant/routing';
 
 const routes: Routes = [
-  { path: '', component: DhMarketParticipantOrganizationComponent },
+  {
+    path: '',
+    pathMatch: 'full',
+    component: DhMarketParticipantOrganizationComponent,
+  },
   {
     path: dhMarketParticipantOrganizationsPath,
     children: [
       {
         path: '',
+        pathMatch: 'full',
         redirectTo: dhMarketParticipantOrganizationsCreatePath,
       },
       {
@@ -49,6 +54,7 @@ const routes: Routes = [
         children: [
           {
             path: '',
+            pathMatch: 'full',
             redirectTo: dhMarketParticipantOrganizationsEditPath,
           },
           {

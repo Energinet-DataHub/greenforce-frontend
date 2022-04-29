@@ -24,7 +24,7 @@ import {
 } from '@angular/core';
 import {
   DhMarketParticipantOverviewDataAccessApiStore,
-  OverviewRow,
+  OrganizationWithActorRow,
 } from '@energinet-datahub/dh/market-participant/data-access-api';
 import { LetModule } from '@rx-angular/template/let';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
@@ -51,6 +51,7 @@ import {
   dhMarketParticipantOrganizationsPath,
   dhMarketParticipantPath,
 } from '@energinet-datahub/dh/market-participant/routing';
+import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/metering-point/shared/ui-util';
 
 @Component({
   selector: 'dh-market-participant-organization',
@@ -66,11 +67,13 @@ export class DhMarketParticipantOrganizationComponent
   private destroy$ = new Subject<void>();
 
   constructor(
-    public store: DhMarketParticipantOverviewDataAccessApiStore,
+    private store: DhMarketParticipantOverviewDataAccessApiStore,
     private router: Router,
     private translocoService: TranslocoService,
     private matPaginatorIntl: MatPaginatorIntl
-  ) {}
+  ) {
+    this.store.loadOverviewRows();
+  }
 
   columnIds = [
     'org-name',
@@ -81,8 +84,8 @@ export class DhMarketParticipantOrganizationComponent
     'row-edit',
   ];
 
-  readonly dataSource: MatTableDataSource<OverviewRow> =
-    new MatTableDataSource<OverviewRow>();
+  readonly dataSource: MatTableDataSource<OrganizationWithActorRow> =
+    new MatTableDataSource<OrganizationWithActorRow>();
 
   isLoading$ = this.store.isLoading$;
   validationError$ = this.store.validationError$;
@@ -125,7 +128,7 @@ export class DhMarketParticipantOrganizationComponent
       });
   };
 
-  readonly setRowSelection = (row: OverviewRow) => {
+  readonly editOrganization = (row: OrganizationWithActorRow) => {
     const url = this.router.createUrlTree([
       dhMarketParticipantPath,
       dhMarketParticipantOrganizationsPath,
@@ -161,6 +164,7 @@ export class DhMarketParticipantOrganizationComponent
     WattEmptyStateModule,
     WattSpinnerModule,
     WattValidationMessageModule,
+    DhEmDashFallbackPipeScam,
   ],
   declarations: [DhMarketParticipantOrganizationComponent],
 })
