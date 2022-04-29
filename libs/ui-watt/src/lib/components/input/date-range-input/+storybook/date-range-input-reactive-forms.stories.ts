@@ -104,9 +104,11 @@ withValidations.play = async ({ canvasElement }) => {
   fireEvent.focusOut(startDateInput);
 };
 
-export const withFormControlDisabled: Story<WattDateRangeInputComponent> = (args) => ({
+export const withFormControlDisabled: Story<WattDateRangeInputComponent> = (
+  args
+) => ({
   props: {
-    exampleFormControl: new FormControl({value: null, disabled: true}),
+    exampleFormControl: new FormControl({ value: null, disabled: true }),
     ...args,
   },
   template,

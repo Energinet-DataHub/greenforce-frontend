@@ -26,8 +26,12 @@ import userEvent from '@testing-library/user-event';
 import * as reactiveFormstories from './+storybook/date-range-input-reactive-forms.stories';
 import { WattDateRangeInputComponent } from './watt-date-range-input.component';
 
-const { withFormControl, withInitialValue, withValidations, withFormControlDisabled } =
-  composeStories(reactiveFormstories);
+const {
+  withFormControl,
+  withInitialValue,
+  withValidations,
+  withFormControlDisabled,
+} = composeStories(reactiveFormstories);
 const defaultOutput = '{ "start": "", "end": "" }';
 
 describe('Date range input - Reactive Forms', () => {
@@ -232,9 +236,11 @@ describe('Date range input - Reactive Forms', () => {
 
   describe(withFormControlDisabled.name, () => {
     it('should be disabled', async () => {
-      const {startDateInput, endDateInput} = await setup(withFormControlDisabled);
+      const { startDateInput, endDateInput } = await setup(
+        withFormControlDisabled
+      );
       expect(startDateInput).toBeDisabled();
       expect(endDateInput).toBeDisabled();
-    })
+    });
   });
 });
