@@ -18,32 +18,18 @@ import { CommonModule } from '@angular/common';
 import {
   Component,
   NgModule,
-  OnDestroy,
-  OnInit,
-  ViewChild,
 } from '@angular/core';
 import {
   DhMarketParticipantOverviewDataAccessApiStore,
-  OrganizationWithActorRow,
 } from '@energinet-datahub/dh/market-participant/data-access-api';
 import { LetModule } from '@rx-angular/template/let';
-import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
+import { TranslocoModule } from '@ngneat/transloco';
 import {
-  WattBadgeModule,
   WattButtonModule,
-  WattIconModule,
   WattEmptyStateModule,
   WattSpinnerModule,
   WattValidationMessageModule,
 } from '@energinet-datahub/watt';
-import { MatMenuModule } from '@angular/material/menu';
-import {
-  MatPaginator,
-  MatPaginatorIntl,
-  MatPaginatorModule,
-} from '@angular/material/paginator';
-import { Subject, takeUntil, tap } from 'rxjs';
 import { Router } from '@angular/router';
 import {
   dhMarketParticipantOrganizationsCreatePath,
@@ -51,7 +37,8 @@ import {
   dhMarketParticipantOrganizationsPath,
   dhMarketParticipantPath,
 } from '@energinet-datahub/dh/market-participant/routing';
-import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/metering-point/shared/ui-util';
+import { DhMarketParticipantOrganizationOverviewScam } from './overview/dh-market-participant-organization-overview.component';
+import { PushModule } from '@rx-angular/template';
 
 @Component({
   selector: 'dh-market-participant-organization',
@@ -60,79 +47,23 @@ import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/metering-point/s
   providers: [DhMarketParticipantOverviewDataAccessApiStore],
 })
 export class DhMarketParticipantOrganizationComponent
-  implements OnInit, OnDestroy
 {
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
-
-  private destroy$ = new Subject<void>();
-
   constructor(
     private store: DhMarketParticipantOverviewDataAccessApiStore,
     private router: Router,
-    private translocoService: TranslocoService,
-    private matPaginatorIntl: MatPaginatorIntl
   ) {
     this.store.loadOverviewRows();
   }
 
-  columnIds = [
-    'org-name',
-    'actor-gln',
-    'actor-status',
-    'actor-roles',
-    'actor-grid-areas',
-    'row-edit',
-  ];
-
-  readonly dataSource: MatTableDataSource<OrganizationWithActorRow> =
-    new MatTableDataSource<OrganizationWithActorRow>();
-
   isLoading$ = this.store.isLoading$;
   validationError$ = this.store.validationError$;
-  overviewList$ = this.store.overviewList$.pipe(
-    tap((rows) => {
-      this.dataSource.data = rows;
-      this.dataSource.paginator = this.paginator;
-    })
-  );
+  overviewList$ = this.store.overviewList$;
 
-  ngOnInit() {
-    this.setupPaginatorTranslation();
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.unsubscribe();
-  }
-
-  private readonly setupPaginatorTranslation = () => {
-    const temp = this.matPaginatorIntl.getRangeLabel;
-    this.matPaginatorIntl.getRangeLabel = (page, pageSize, length) =>
-      temp(page, pageSize, length).replace(
-        'of',
-        this.translocoService.translate(
-          'marketParticipant.organization.paginator.of'
-        )
-      );
-
-    this.translocoService
-      .selectTranslateObject('marketParticipant.organization.paginator')
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((value) => {
-        this.matPaginatorIntl.itemsPerPageLabel = value.itemsPerPageLabel;
-        this.matPaginatorIntl.nextPageLabel = value.next;
-        this.matPaginatorIntl.previousPageLabel = value.previous;
-        this.matPaginatorIntl.firstPageLabel = value.first;
-        this.matPaginatorIntl.lastPageLabel = value.last;
-        this.dataSource.paginator = this.paginator;
-      });
-  };
-
-  readonly editOrganization = (row: OrganizationWithActorRow) => {
+  readonly editOrganization = (organizationId: string) => {
     const url = this.router.createUrlTree([
       dhMarketParticipantPath,
       dhMarketParticipantOrganizationsPath,
-      row.organization.organizationId,
+      organizationId,
       dhMarketParticipantOrganizationsEditPath,
     ]);
 
@@ -154,17 +85,13 @@ export class DhMarketParticipantOrganizationComponent
   imports: [
     CommonModule,
     LetModule,
-    MatTableModule,
-    MatPaginatorModule,
-    MatMenuModule,
     TranslocoModule,
-    WattBadgeModule,
     WattButtonModule,
-    WattIconModule,
     WattEmptyStateModule,
     WattSpinnerModule,
     WattValidationMessageModule,
-    DhEmDashFallbackPipeScam,
+    DhMarketParticipantOrganizationOverviewScam,
+    PushModule
   ],
   declarations: [DhMarketParticipantOrganizationComponent],
 })
