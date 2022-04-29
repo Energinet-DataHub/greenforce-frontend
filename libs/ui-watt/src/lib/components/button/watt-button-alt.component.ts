@@ -23,14 +23,14 @@ export type WattButtonSize = 'normal' | 'large';
 @Component({
   selector: 'watt-button-alt',
   template: `
-    <button mat-button [ngClass]="variant" [disabled]="disabled">
+    <button mat-button [ngClass]="[variant, size]" [disabled]="disabled">
       <watt-spinner
         *ngIf="loading"
         [diameter]="18"
         class="content-grid-item content-grid-item-spinner"
       ></watt-spinner>
       <watt-icon *ngIf="hasIcon()" [name]="icon"></watt-icon>
-      <ng-content></ng-content>
+      <ng-content *ngIf="variant !== 'icon'"></ng-content>
     </button>
   `,
   styleUrls: ['./watt-button-alt.component.scss'],

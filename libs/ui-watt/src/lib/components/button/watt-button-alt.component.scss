@@ -21,15 +21,24 @@ watt-button-alt .mat-button {
   @include watt.typography-font-weight("semi-bold");
   @include watt.typography-font-size("m");
   @include watt.space-inset-squish-m;
-  height: 44px; // Magic UX height
+  height: 44px; // Magic UX normal height
+
+  &.large {
+    height: 56px; // Magic UX large height
+  }
 
   watt-spinner {
     padding: 3px 26px;
   }
 
+  .mat-button-focus-overlay {
+    background: transparent; // Remove the overlay background color from Material Design
+  }
+
   .mat-button-wrapper {
     display: flex;
     gap: 8px;
+    justify-content: center;
 
     watt-icon {
       margin: -5px; // to offset the icons padding
@@ -75,6 +84,43 @@ watt-button-alt .mat-button {
     &.mat-button.mat-button-disabled {
       background-color: transparent;
       border-color: var(--watt-color-neutral-grey-300);
+      color: var(--watt-color-neutral-grey-500);
+    }
+  }
+
+  &.text {
+    color: var(--watt-color-primary);
+
+    &:focus {
+      outline: 2px solid var(--watt-color-primary);
+    }
+
+    &:hover,
+    &:focus {
+      color: var(--watt-color-primary-dark);
+    }
+
+    &.mat-button.mat-button-disabled {
+      background-color: transparent;
+      color: var(--watt-color-neutral-grey-500);
+    }
+  }
+
+  &.icon {
+    color: var(--watt-color-primary);
+
+    &:focus {
+      outline: 2px solid var(--watt-color-primary);
+    }
+
+    &:hover,
+    &:focus {
+      color: var(--watt-color-primary-dark);
+    }
+
+    &.mat-button.mat-button-disabled {
+      background-color: transparent;
+      color: var(--watt-color-neutral-grey-500);
     }
   }
 }
