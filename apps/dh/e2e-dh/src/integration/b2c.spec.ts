@@ -21,10 +21,10 @@ const environments = [
     name: 'U001',
     url: 'https://jolly-sand-03f839703.azurestaticapps.net',
   },
-  {
+  /*   {
     name: 'U002',
     url: 'https://ambitious-coast-027d0aa03.azurestaticapps.net',
-  },
+  }, */
   {
     name: 'T001',
     url: 'https://lively-river-0f22ad403.azurestaticapps.net',
