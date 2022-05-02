@@ -43,7 +43,7 @@ environments.forEach((env) => {
   test(`[B2C Healthcheck] ${env.name} should have correct redirect_uri, after redirected to B2C login page`, async ({
     page,
   }) => {
-    await page.goto(env.url);
+    await page.goto(env.url).then((resp) => expect(resp?.status()).toBe(200));
     await page.waitForNavigation();
     expect(page.url()).toContain(`redirect_uri=${encodeURIComponent(env.url)}`);
   });
