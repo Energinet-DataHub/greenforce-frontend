@@ -38,7 +38,10 @@ limitations under the License.
     </div>
 
     <!-- Table -->
-    <dh-market-participant-organization-overview [rows]="overviewList$ | push" (editOrganization)="editOrganization($event)"></dh-market-participant-organization-overview>
+    <dh-market-participant-organization-overview
+      [rows]="overviewList$ | push"
+      (editOrganization)="editOrganization($event)"
+    ></dh-market-participant-organization-overview>
 
     <!-- Spinner -->
     <div *ngIf="isLoading" class="overview__spinner spinner-container">
