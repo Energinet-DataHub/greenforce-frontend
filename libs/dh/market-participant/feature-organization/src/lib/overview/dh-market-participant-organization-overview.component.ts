@@ -27,7 +27,6 @@ import {
   ViewChild,
 } from '@angular/core';
 import {
-  DhMarketParticipantOverviewDataAccessApiStore,
   OrganizationWithActorRow,
 } from '@energinet-datahub/dh/market-participant/data-access-api';
 import { LetModule } from '@rx-angular/template/let';
@@ -54,7 +53,6 @@ import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/metering-point/s
   selector: 'dh-market-participant-organization-overview',
   styleUrls: ['./dh-market-participant-organization-overview.component.scss'],
   templateUrl: './dh-market-participant-organization-overview.component.html',
-  providers: [DhMarketParticipantOverviewDataAccessApiStore],
 })
 export class DhMarketParticipantOrganizationOverviewComponent
   implements OnInit, OnChanges, OnDestroy
@@ -64,12 +62,9 @@ export class DhMarketParticipantOrganizationOverviewComponent
   private destroy$ = new Subject<void>();
 
   constructor(
-    private store: DhMarketParticipantOverviewDataAccessApiStore,
     private translocoService: TranslocoService,
     private matPaginatorIntl: MatPaginatorIntl
-  ) {
-    this.store.loadOverviewRows();
-  }
+  ) {}
 
   columnIds = [
     'org-name',

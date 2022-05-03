@@ -58,13 +58,19 @@ limitations under the License.
       <mat-header-cell *matHeaderCellDef>
         {{ t("columns.marketRoles") }}
       </mat-header-cell>
-      <mat-cell *matCellDef="let element" class="market-roles-cell">
+      <mat-cell *matCellDef="let element">
         <ng-container *ngIf="element.actor !== undefined">
-          <div *ngFor="let mr of element.actor.marketRoles">
-            {{ t("marketRoles." + mr.function) }}
+          <div class="market-roles-cell">
+            <div *ngFor="let mr of element.actor.marketRoles">
+              {{ t("marketRoles." + mr.function) }}
+            </div>
           </div>
         </ng-container>
-        <ng-container *ngIf="element.actor === undefined">-</ng-container>
+        <ng-container *ngIf="element.actor === undefined">
+          <div class="actor-roles-cell-container">
+            {{ null | dhEmDashFallback }}
+          </div>
+        </ng-container>
       </mat-cell>
     </ng-container>
 
@@ -75,7 +81,7 @@ limitations under the License.
       </mat-header-cell>
       <mat-cell *matCellDef="let element">
         <!-- gridAreas is currently always undefined, but always returning the dash is correct for now. -->
-        {{ element.actor?.gridAreas | dhEmDashFallback }}
+        {{ null | dhEmDashFallback }}
       </mat-cell>
     </ng-container>
 
