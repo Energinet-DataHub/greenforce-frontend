@@ -26,9 +26,7 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-import {
-  OrganizationWithActorRow,
-} from '@energinet-datahub/dh/market-participant/data-access-api';
+import { OrganizationWithActorRow } from '@energinet-datahub/dh/market-participant/data-access-api';
 import { LetModule } from '@rx-angular/template/let';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
