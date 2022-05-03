@@ -16,7 +16,6 @@
  */
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-
 import { WattIconModule } from './../../foundations/icon/icon.module';
 import { WattButtonComponent } from './watt-button.component';
 import { WattPrimaryButtonModule } from './primary-button/watt-primary-button.module';
@@ -24,10 +23,12 @@ import { WattSecondaryButtonModule } from './secondary-button/watt-secondary-but
 import { WattTextButtonModule } from './text-button/watt-text-button.module';
 import { WattSpinnerModule } from '../spinner';
 import { WattIconButtonModule } from './icon-button/watt-icon-button.module';
+import { MatButtonModule } from '@angular/material/button';
+import { WattButtonAltComponent } from './watt-button-alt.component';
 
 @NgModule({
-  declarations: [WattButtonComponent],
-  exports: [WattButtonComponent, WattIconButtonModule],
+  declarations: [WattButtonComponent, WattButtonAltComponent],
+  exports: [WattButtonComponent, WattButtonAltComponent, WattIconButtonModule],
   imports: [
     CommonModule,
     WattIconModule,
@@ -35,6 +36,7 @@ import { WattIconButtonModule } from './icon-button/watt-icon-button.module';
     WattTextButtonModule,
     WattSecondaryButtonModule,
     WattPrimaryButtonModule,
+    MatButtonModule,
   ],
 })
 export class WattButtonModule {}
