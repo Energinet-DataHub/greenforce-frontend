@@ -17,12 +17,14 @@
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Meta, moduleMetadata, Story } from '@storybook/angular';
+import { within, fireEvent } from '@storybook/testing-library';
+
 import { StorybookConfigurationLocalizationModule } from '../../+storybook/configuration-localization/storybook-configuration-localization.module';
+
 import { WattDateRangeInputComponent } from '../watt-date-range-input.component';
 import { WattDateRangeInputModule } from '../watt-date-range-input.module';
 import { WattFormFieldModule } from '../../../form-field/form-field.module';
 import { WattRangeValidators } from '../../shared/validators';
-import { within, fireEvent } from '@testing-library/angular';
 
 export default {
   title: 'Components/Date-range Input',

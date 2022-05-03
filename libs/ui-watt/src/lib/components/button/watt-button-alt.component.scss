@@ -22,6 +22,7 @@ watt-button-alt .mat-button {
   @include watt.typography-font-size("m");
   @include watt.space-inset-squish-m;
   height: 44px; // Magic UX normal height
+  min-width: 44px; // Magic UX width
 
   &.large {
     height: 56px; // Magic UX large height
@@ -41,7 +42,7 @@ watt-button-alt .mat-button {
     justify-content: center;
 
     watt-icon {
-      margin: -5px; // to offset the icons padding
+      margin: -5px; // to offset the icons inherent padding of 5px
     }
   }
 
@@ -90,6 +91,7 @@ watt-button-alt .mat-button {
 
   &.text {
     color: var(--watt-color-primary);
+    outline: 2px solid transparent;
 
     &:focus {
       outline: 2px solid var(--watt-color-primary);
@@ -108,6 +110,7 @@ watt-button-alt .mat-button {
 
   &.icon {
     color: var(--watt-color-primary);
+    @include watt.space-inset-s;
 
     &:focus {
       outline: 2px solid var(--watt-color-primary);
