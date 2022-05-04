@@ -15,33 +15,25 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import {
-  AfterViewInit,
-  Component,
-  NgModule,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
-import {
-  DhMarketParticipantOverviewDataAccessApiStore,
-  OrganizationWithActor,
-} from '@energinet-datahub/dh/market-participant/data-access-api';
+import { Component, NgModule } from '@angular/core';
+import { DhMarketParticipantOverviewDataAccessApiStore } from '@energinet-datahub/dh/market-participant/data-access-api';
 import { LetModule } from '@rx-angular/template/let';
-import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
+import { TranslocoModule } from '@ngneat/transloco';
 import {
-  WattBadgeModule,
   WattButtonModule,
-  WattIconModule,
   WattEmptyStateModule,
   WattSpinnerModule,
+  WattValidationMessageModule,
 } from '@energinet-datahub/watt';
-import { MatMenuModule } from '@angular/material/menu';
+import { Router } from '@angular/router';
 import {
-  MatPaginator,
-  MatPaginatorIntl,
-  MatPaginatorModule,
-} from '@angular/material/paginator';
+  dhMarketParticipantOrganizationsCreatePath,
+  dhMarketParticipantOrganizationsEditPath,
+  dhMarketParticipantOrganizationsPath,
+  dhMarketParticipantPath,
+} from '@energinet-datahub/dh/market-participant/routing';
+import { DhMarketParticipantOrganizationOverviewScam } from './overview/dh-market-participant-organization-overview.component';
+import { PushModule } from '@rx-angular/template';
 
 @Component({
   selector: 'dh-market-participant-organization',
@@ -49,81 +41,51 @@ import {
   templateUrl: './dh-market-participant-organization.component.html',
   providers: [DhMarketParticipantOverviewDataAccessApiStore],
 })
-export class DhMarketParticipantOrganizationComponent
-  implements AfterViewInit, OnInit
-{
+export class DhMarketParticipantOrganizationComponent {
   constructor(
-    public store: DhMarketParticipantOverviewDataAccessApiStore,
-    private translocoService: TranslocoService,
-    private matPaginatorIntl: MatPaginatorIntl
-  ) {}
-
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
-
-  columnIds = [
-    'OrgName',
-    'ActorGln',
-    'ActorStatus',
-    'ActorRoles',
-    'ActorGridAreas',
-    'RowEdit',
-  ];
-
-  readonly dataSource: MatTableDataSource<OrganizationWithActor> =
-    new MatTableDataSource<OrganizationWithActor>();
-
-  ngOnInit() {
-    this.setupPaginatorTranslation();
+    private store: DhMarketParticipantOverviewDataAccessApiStore,
+    private router: Router
+  ) {
+    this.store.loadOverviewRows();
   }
 
-  ngAfterViewInit() {
-    this.store.state$.subscribe((x) => {
-      this.dataSource.data = x.organizations;
-      this.dataSource.paginator = this.paginator;
-    });
+  isLoading$ = this.store.isLoading$;
+  validationError$ = this.store.validationError$;
+  overviewList$ = this.store.overviewList$;
 
-    this.store.beginLoading();
-  }
+  readonly editOrganization = (organizationId: string) => {
+    const url = this.router.createUrlTree([
+      dhMarketParticipantPath,
+      dhMarketParticipantOrganizationsPath,
+      organizationId,
+      dhMarketParticipantOrganizationsEditPath,
+    ]);
 
-  setupPaginatorTranslation = () => {
-    const temp = this.matPaginatorIntl.getRangeLabel;
-    this.matPaginatorIntl.getRangeLabel = (page, pageSize, length) =>
-      temp(page, pageSize, length).replace(
-        'of',
-        this.translocoService.translate(
-          'marketParticipant.organization.paginator.of'
-        )
-      );
-
-    this.translocoService
-      .selectTranslateObject('marketParticipant.organization.paginator')
-      .subscribe((value) => {
-        this.matPaginatorIntl.itemsPerPageLabel = value.itemsPerPageLabel;
-        this.matPaginatorIntl.nextPageLabel = value.next;
-        this.matPaginatorIntl.previousPageLabel = value.previous;
-        this.matPaginatorIntl.firstPageLabel = value.first;
-        this.matPaginatorIntl.lastPageLabel = value.last;
-        this.dataSource.paginator = this.paginator;
-      });
+    this.router.navigateByUrl(url);
   };
 
-  onEditClicked = (e: OrganizationWithActor) =>
-    console.log('Clicked edit on', e);
+  readonly createOrganization = () => {
+    const url = this.router.createUrlTree([
+      dhMarketParticipantPath,
+      dhMarketParticipantOrganizationsPath,
+      dhMarketParticipantOrganizationsCreatePath,
+    ]);
+
+    this.router.navigateByUrl(url);
+  };
 }
 
 @NgModule({
   imports: [
     CommonModule,
     LetModule,
-    MatTableModule,
-    MatPaginatorModule,
-    MatMenuModule,
     TranslocoModule,
-    WattBadgeModule,
     WattButtonModule,
-    WattIconModule,
     WattEmptyStateModule,
     WattSpinnerModule,
+    WattValidationMessageModule,
+    DhMarketParticipantOrganizationOverviewScam,
+    PushModule,
   ],
   declarations: [DhMarketParticipantOrganizationComponent],
 })
