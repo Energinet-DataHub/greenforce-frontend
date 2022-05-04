@@ -15,55 +15,89 @@
  * limitations under the License.
  */
 import { Injectable } from '@angular/core';
-import { ComponentStore } from '@ngrx/component-store';
+import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import {
   ActorDto,
-  MarketParticipantHttp,
   OrganizationDto,
+  MarketParticipantHttp,
 } from '@energinet-datahub/dh/shared/domain';
-import { map } from 'rxjs';
+import { map, Observable, switchMap, tap } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
+import { parseErrorResponse } from './dh-market-participant-error-handling';
 
-export interface OrganizationWithActor {
-  organization: Partial<OrganizationDto>;
-  actor?: Partial<ActorDto>;
+export interface OrganizationWithActorRow {
+  organization: OrganizationDto;
+  actor?: ActorDto;
 }
 
 interface MarketParticipantState {
   isLoading: boolean;
-  organizations: OrganizationWithActor[];
+  rows: OrganizationWithActorRow[];
+
+  // Validation
+  validation?: {
+    errorMessage: string;
+  };
 }
 
 const initialState: MarketParticipantState = {
   isLoading: true,
-  organizations: [],
+  rows: [],
 };
 
 @Injectable()
 export class DhMarketParticipantOverviewDataAccessApiStore extends ComponentStore<MarketParticipantState> {
+  isLoading$ = this.select((state) => state.isLoading);
+  overviewList$ = this.select((state) => state.rows);
+  validationError$ = this.select((state) => state.validation);
+
   constructor(private httpClient: MarketParticipantHttp) {
     super(initialState);
   }
 
-  readonly beginLoading = () => {
-    this.httpClient
+  readonly loadOverviewRows = this.effect((trigger$: Observable<void>) =>
+    trigger$.pipe(
+      tap(() =>
+        this.patchState({ isLoading: true, rows: [], validation: undefined })
+      ),
+      switchMap(() => {
+        return this.getOrganizations().pipe(
+          tapResponse(
+            (rows) => this.patchState({ isLoading: false, rows }),
+            (errorResponse: HttpErrorResponse) =>
+              this.patchState({
+                isLoading: false,
+                validation: {
+                  errorMessage: parseErrorResponse(errorResponse),
+                },
+              })
+          )
+        );
+      })
+    )
+  );
+
+  private readonly getOrganizations = (): Observable<
+    OrganizationWithActorRow[]
+  > => {
+    return this.httpClient
       .v1MarketParticipantOrganizationGet()
-      .pipe(map(this.mapActors))
-      .subscribe(this.setActors);
+      .pipe(map(this.mapToRows));
   };
 
-  readonly setActors = (organizations: OrganizationWithActor[]) => {
-    this.patchState({ organizations, isLoading: false });
-  };
+  private readonly mapToRows = (organizations: OrganizationDto[]) => {
+    const rows: OrganizationWithActorRow[] = [];
 
-  readonly mapActors = (organizations: OrganizationDto[]) => {
-    return organizations.reduce((running, x) => {
-      return (
-        (x.actors.length > 0 &&
-          running.concat(
-            x.actors.map((actor) => ({ organization: x, actor }))
-          )) ||
-        running.concat([{ organization: x, actor: undefined }])
-      );
-    }, [] as OrganizationWithActor[]);
+    for (const organization of organizations) {
+      if (organization.actors.length > 0) {
+        for (const actor of organization.actors) {
+          rows.push({ organization, actor });
+        }
+      } else {
+        rows.push({ organization });
+      }
+    }
+
+    return rows;
   };
 }

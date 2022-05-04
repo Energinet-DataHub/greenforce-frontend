@@ -9,17 +9,14 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { ActorDto } from './actor-dto';
-import { AddressDto } from './address-dto';
+import { ContactCategory } from './contact-category';
 
 
-export interface OrganizationDto { 
-    organizationId: string;
+export interface CreateContactDto { 
     name: string;
-    businessRegisterIdentifier: string;
-    comment: string;
-    address: AddressDto;
-    actors: Array<ActorDto>;
+    category: ContactCategory;
+    email: string;
+    phone?: string | null;
 }
 
 
