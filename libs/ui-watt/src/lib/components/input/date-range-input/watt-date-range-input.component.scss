@@ -63,3 +63,9 @@ watt-date-range-input {
     -webkit-text-fill-color: $placeholder-color;
   }
 }
+
+.watt-date-range-input_panel {
+  .mat-calendar-body-in-range::before {
+    background-color: var(--watt-color-primary-light);
+  }
+}
