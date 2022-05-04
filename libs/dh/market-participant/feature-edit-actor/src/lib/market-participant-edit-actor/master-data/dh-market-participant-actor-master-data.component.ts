@@ -43,7 +43,7 @@ export class DhMarketParticipantActorMasterDataComponent implements OnChanges {
   ngOnChanges(): void {
     if (this.actor !== undefined) {
       this.changes = {
-        gln: this.actor?.gln.value,
+        gln: this.actor.gln.value,
         marketRoles: this.actor.marketRoles,
         meteringPointTypes: [],
       };
