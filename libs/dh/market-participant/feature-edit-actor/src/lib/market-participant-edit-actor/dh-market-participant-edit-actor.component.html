@@ -17,8 +17,12 @@ limitations under the License.
 
 <ng-container *transloco="let t; read: 'marketParticipant.organization.create'">
   <ng-container *rxLet="validation$ as validation">
-    <watt-validation-message type="danger" *ngIf="validation" [label]="t('errorToastLabel')"
-      [message]="validation.error"></watt-validation-message>
+    <watt-validation-message
+      type="danger"
+      *ngIf="validation"
+      [label]="t('errorToastLabel')"
+      [message]="validation.error"
+    ></watt-validation-message>
   </ng-container>
 
   <ng-container *rxLet="isEditing$ as isEditing">
@@ -37,18 +41,22 @@ limitations under the License.
         <watt-tabs class="tabs">
           <watt-tab [label]="t('masterDataTabHeader')">
             <br />
-            <dh-market-participant-actor-master-data [actor]="actor" (hasChanges)="onMasterDataChanged($event)">
+            <dh-market-participant-actor-master-data
+              [actor]="actor"
+              (hasChanges)="onMasterDataChanged($event)"
+            >
             </dh-market-participant-actor-master-data>
           </watt-tab>
         </watt-tabs>
 
         <!-- Confirmation  -->
         <div class="button-container">
-          <watt-button variant="secondary" (click)="onCancelled()">{{ t("cancelLabel") }}
+          <watt-button variant="secondary" (click)="onCancelled()"
+            >{{ t("cancelLabel") }}
           </watt-button>
           <watt-button variant="primary" (click)="onSaved()">{{
             t("saveLabel")
-            }}</watt-button>
+          }}</watt-button>
         </div>
       </div>
     </ng-container>

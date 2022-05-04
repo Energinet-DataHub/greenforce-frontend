@@ -77,7 +77,10 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
         tap(() => this.patchState({ isLoading: true })),
         switchMap((input) => {
           if (!input.actorId) {
-            this.patchState({ isLoading: false, organizationId: input.organizationId });
+            this.patchState({
+              isLoading: false,
+              organizationId: input.organizationId,
+            });
             return EMPTY;
           }
           return this.getActor(input.organizationId, input.actorId).pipe(
