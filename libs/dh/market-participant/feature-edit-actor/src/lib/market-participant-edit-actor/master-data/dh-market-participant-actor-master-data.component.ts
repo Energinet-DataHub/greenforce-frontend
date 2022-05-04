@@ -45,7 +45,7 @@ export class DhMarketParticipantActorMasterDataComponent implements OnChanges {
       this.changes = {
         gln: this.actor.gln.value,
         marketRoles: this.actor.marketRoles,
-        meteringPointTypes: [],
+        meteringPointTypes: this.actor.meteringPointTypes
       };
       this.hasChanges.emit({ ...this.changes });
     }
