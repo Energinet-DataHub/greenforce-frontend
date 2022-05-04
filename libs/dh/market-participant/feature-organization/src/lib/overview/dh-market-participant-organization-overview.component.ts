@@ -76,6 +76,11 @@ export class DhMarketParticipantOrganizationOverviewComponent
   @Input() rows: OrganizationWithActorRow[] = [];
 
   @Output() editOrganization = new EventEmitter<string>();
+  @Output() createActor = new EventEmitter<string>();
+  @Output() editActor = new EventEmitter<{
+    organizationId: string;
+    actorId: string;
+  }>();
 
   readonly dataSource: MatTableDataSource<OrganizationWithActorRow> =
     new MatTableDataSource<OrganizationWithActorRow>();
@@ -119,6 +124,12 @@ export class DhMarketParticipantOrganizationOverviewComponent
 
   readonly onEditOrganization = (row: OrganizationWithActorRow) =>
     this.editOrganization.emit(row.organization.organizationId);
+
+  readonly onCreateActor = (row: OrganizationWithActorRow) =>
+    this.createActor.emit(row.organization.organizationId);
+
+  readonly onEditActor = (organizationId: string, actorId: string) =>
+    this.editActor.emit({ organizationId, actorId });
 }
 
 @NgModule({
