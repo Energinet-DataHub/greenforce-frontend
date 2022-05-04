@@ -11,6 +11,7 @@
  */
 import { ActorStatus } from './actor-status';
 import { GlobalLocationNumberDto } from './global-location-number-dto';
+import { MarketParticipantMeteringPointType } from './market-participant-metering-point-type';
 import { MarketRoleDto } from './market-role-dto';
 
 
@@ -20,6 +21,7 @@ export interface ActorDto {
     gln: GlobalLocationNumberDto;
     status: ActorStatus;
     marketRoles: Array<MarketRoleDto>;
+    meteringPointTypes: Array<MarketParticipantMeteringPointType>;
 }
 
 
