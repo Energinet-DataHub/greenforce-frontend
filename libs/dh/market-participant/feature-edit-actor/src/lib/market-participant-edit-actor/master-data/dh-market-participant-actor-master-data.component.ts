@@ -24,9 +24,10 @@ import {
   Output,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { ActorChanges } from '@energinet-datahub/dh/market-participant/data-access-api';
 import { ActorDto } from '@energinet-datahub/dh/shared/domain';
 import { WattFormFieldModule, WattInputModule } from '@energinet-datahub/watt';
-import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
+import { TranslocoModule } from '@ngneat/transloco';
 import { LetModule } from '@rx-angular/template/let';
 
 @Component({
@@ -36,12 +37,18 @@ import { LetModule } from '@rx-angular/template/let';
 })
 export class DhMarketParticipantActorMasterDataComponent implements OnChanges {
   @Input() actor: ActorDto | undefined;
-  @Output() hasChanges = new EventEmitter<{ gln: string }>();
-  changes: { gln: string } = { gln: '' };
+  @Output() hasChanges = new EventEmitter<ActorChanges>();
+  changes: ActorChanges = { gln: '', marketRoles: [], meteringPointTypes: [] };
 
   ngOnChanges(): void {
-    this.changes = { gln: '' };
-    this.hasChanges.emit({ ...this.changes });
+    if (this.actor !== undefined) {
+      this.changes = {
+        gln: this.actor?.gln.value,
+        marketRoles: this.actor.marketRoles,
+        meteringPointTypes: [],
+      };
+      this.hasChanges.emit({ ...this.changes });
+    }
   }
 
   readonly onModelChanged = () => {

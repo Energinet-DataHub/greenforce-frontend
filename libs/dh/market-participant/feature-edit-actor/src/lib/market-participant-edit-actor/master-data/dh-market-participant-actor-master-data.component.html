@@ -14,20 +14,12 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<ng-container
-  *transloco="let t; read: 'marketParticipant.actor.create.masterData'"
->
+<ng-container *transloco="let t; read: 'marketParticipant.actor.create.masterData'">
   <div class="form-container">
     <watt-form-field class="field-name">
-      <watt-label>{{ t("actorNameLabel") }}</watt-label>
-      <input
-        wattInput
-        [(ngModel)]="changes.gln"
-        (ngModelChange)="onModelChanged()"
-        #nameInputModel="ngModel"
-        required
-        maxlength="64"
-      />
+      <watt-label>{{ t("glnName") }}</watt-label>
+      <input [disabled]="actor !== undefined" wattInput [(ngModel)]="changes.gln" (ngModelChange)="onModelChanged()"
+        #nameInputModel="ngModel" required />
       <watt-error *ngIf="nameInputModel.hasError('required')">
         {{ t("fieldRequiredErrorText") }}
       </watt-error>

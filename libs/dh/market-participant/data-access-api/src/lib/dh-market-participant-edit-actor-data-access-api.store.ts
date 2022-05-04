@@ -21,6 +21,8 @@ import {
   MarketParticipantHttp,
   ActorDto,
   CreateActorDto,
+  MarketRoleDto,
+  MarketParticipantMeteringPointType,
 } from '@energinet-datahub/dh/shared/domain';
 import {
   catchError,
@@ -36,6 +38,8 @@ import { parseErrorResponse } from './dh-market-participant-error-handling';
 
 export interface ActorChanges {
   gln?: string;
+  marketRoles: MarketRoleDto[];
+  meteringPointTypes: MarketParticipantMeteringPointType[];
 }
 
 export interface MarketParticipantEditActorState {
@@ -55,7 +59,7 @@ export interface MarketParticipantEditActorState {
 const initialState: MarketParticipantEditActorState = {
   isLoading: false,
   organizationId: '',
-  changes: { gln: '' },
+  changes: { gln: '', marketRoles: [], meteringPointTypes: [] },
 };
 
 @Injectable()
@@ -138,8 +142,8 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
     return this.httpClient.v1MarketParticipantOrganizationOrgIdActorPost(
       state.organizationId,
       {
+        ...state.changes,
         gln: { value: state.changes.gln },
-        marketRoles: [],
       } as CreateActorDto
     );
   };

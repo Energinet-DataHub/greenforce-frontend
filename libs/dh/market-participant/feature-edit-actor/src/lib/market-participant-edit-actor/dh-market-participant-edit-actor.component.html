@@ -15,7 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<ng-container *transloco="let t; read: 'marketParticipant.organization.create'">
+<ng-container *transloco="let t; read: 'marketParticipant.actor.create'">
   <ng-container *rxLet="validation$ as validation">
     <watt-validation-message
       type="danger"
@@ -26,8 +26,8 @@ limitations under the License.
   </ng-container>
 
   <ng-container *rxLet="isEditing$ as isEditing">
-    <h1 *ngIf="isEditing">{{ t("organizationEditHeader") }}</h1>
-    <h1 *ngIf="!isEditing">{{ t("organizationCreateHeader") }}</h1>
+    <h1 *ngIf="isEditing">{{ t("editHeader") }}</h1>
+    <h1 *ngIf="!isEditing">{{ t("createHeader") }}</h1>
   </ng-container>
 
   <!-- Spinner -->
