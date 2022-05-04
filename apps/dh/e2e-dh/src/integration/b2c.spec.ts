@@ -21,6 +21,7 @@ const environments = [
     name: 'U001',
     url: 'https://jolly-sand-03f839703.azurestaticapps.net',
   },
+  // TODO: Re-add this website once it has been fixed and returns 200 again
   /*   {
     name: 'U002',
     url: 'https://ambitious-coast-027d0aa03.azurestaticapps.net',
