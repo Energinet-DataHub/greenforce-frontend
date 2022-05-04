@@ -14,5 +14,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './lib/dh-market-participant-data-access-api.store';
-export * from './lib/dh-market-participant-edit-organization-data-access-api.store';
+
+.mat-column-row-edit {
+  max-width: 88px;
+  display: flex;
+  justify-content: center;
+}
+
+.actor-roles-cell-container {
+  display: flex;
+  align-items: center;
+}
+
+.market-roles-cell {
+  display: block;
+}

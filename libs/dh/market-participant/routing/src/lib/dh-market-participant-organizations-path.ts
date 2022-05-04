@@ -14,5 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './lib/dh-market-participant-data-access-api.store';
-export * from './lib/dh-market-participant-edit-organization-data-access-api.store';
+export const dhMarketParticipantOrganizationsPath = 'organizations';
+export const dhMarketParticipantOrganizationsCreatePath = 'new';
+export const dhMarketParticipantOrganizationsEditPath = 'edit';
+
+export const dhMarketParticipantOrganizationIdParam = 'organization-id';
