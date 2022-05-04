@@ -23,9 +23,9 @@ import userEvent from '@testing-library/user-event';
 // eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import { DhConfigurationLocalizationModule } from '@energinet-datahub/dh/globalization/configuration-localization';
 
-import { WattTimeRange } from './watt-time-range-input.component';
 import { WattTimeRangeInputModule } from './watt-time-range-input.module';
 import { WattFormFieldModule } from '../../form-field/form-field.module';
+import { WattRange } from '../shared/watt-range';
 
 const backspace = '{backspace}';
 
@@ -35,7 +35,7 @@ describe(WattTimeRangeInputModule.name, () => {
     initialState = null,
   }: {
     template: string;
-    initialState?: WattTimeRange | null;
+    initialState?: WattRange | null;
   }) {
     @Component({
       template,
@@ -86,7 +86,7 @@ describe(WattTimeRangeInputModule.name, () => {
       userEvent.type(startTimeInput, '0123');
 
       const actualTimeRange = fixture.componentInstance.timeRangeControl.value;
-      const expectedTimeRange: WattTimeRange = { start: '01:23', end: '' };
+      const expectedTimeRange: WattRange = { start: '01:23', end: '' };
 
       expect(actualTimeRange).toEqual(expectedTimeRange);
     });
@@ -100,7 +100,7 @@ describe(WattTimeRangeInputModule.name, () => {
       userEvent.type(endTimeInput, '1234');
 
       const actualTimeRange = fixture.componentInstance.timeRangeControl.value;
-      const expectedTimeRange: WattTimeRange = { start: '', end: '12:34' };
+      const expectedTimeRange: WattRange = { start: '', end: '12:34' };
 
       expect(actualTimeRange).toEqual(expectedTimeRange);
     });
@@ -117,13 +117,13 @@ describe(WattTimeRangeInputModule.name, () => {
       userEvent.type(endTimeInput, '1234');
 
       const actualTimeRange = fixture.componentInstance.timeRangeControl.value;
-      const expectedTimeRange: WattTimeRange = { start: '01:23', end: '12:34' };
+      const expectedTimeRange: WattRange = { start: '01:23', end: '12:34' };
 
       expect(actualTimeRange).toEqual(expectedTimeRange);
     });
 
     it('clears the value when an input with incomplete time loses focus', async () => {
-      const timeRange: WattTimeRange = { start: '01:23', end: '12:34' };
+      const timeRange: WattRange = { start: '01:23', end: '12:34' };
 
       const { fixture, startTimeInput, endTimeInput } = await setup({
         template,
@@ -137,7 +137,7 @@ describe(WattTimeRangeInputModule.name, () => {
       startTimeInput.blur();
 
       const actualTimeRange = fixture.componentInstance.timeRangeControl.value;
-      const expectedTimeRange: WattTimeRange = { start: '', end: '' };
+      const expectedTimeRange: WattRange = { start: '', end: '' };
 
       expect(actualTimeRange).toEqual(expectedTimeRange);
     });
@@ -162,7 +162,7 @@ describe(WattTimeRangeInputModule.name, () => {
       userEvent.type(startTimeInput, '0123');
 
       const actualTimeRange = fixture.componentInstance.timeRangeModel;
-      const expectedTimeRange: WattTimeRange = { start: '01:23', end: '' };
+      const expectedTimeRange: WattRange = { start: '01:23', end: '' };
 
       expect(actualTimeRange).toEqual(expectedTimeRange);
     });
@@ -176,7 +176,7 @@ describe(WattTimeRangeInputModule.name, () => {
       userEvent.type(endTimeInput, '1234');
 
       const actualTimeRange = fixture.componentInstance.timeRangeModel;
-      const expectedTimeRange: WattTimeRange = { start: '', end: '12:34' };
+      const expectedTimeRange: WattRange = { start: '', end: '12:34' };
 
       expect(actualTimeRange).toEqual(expectedTimeRange);
     });
@@ -193,13 +193,13 @@ describe(WattTimeRangeInputModule.name, () => {
       userEvent.type(endTimeInput, '1234');
 
       const actualTimeRange = fixture.componentInstance.timeRangeModel;
-      const expectedTimeRange: WattTimeRange = { start: '01:23', end: '12:34' };
+      const expectedTimeRange: WattRange = { start: '01:23', end: '12:34' };
 
       expect(actualTimeRange).toEqual(expectedTimeRange);
     });
 
     it('clears the value when an input with incomplete time loses focus', async () => {
-      const timeRange: WattTimeRange = { start: '01:23', end: '12:34' };
+      const timeRange: WattRange = { start: '01:23', end: '12:34' };
 
       const { fixture, startTimeInput, endTimeInput } = await setup({
         template,
@@ -213,7 +213,7 @@ describe(WattTimeRangeInputModule.name, () => {
       startTimeInput.blur();
 
       const actualTimeRange = fixture.componentInstance.timeRangeModel;
-      const expectedTimeRange: WattTimeRange = { start: '', end: '' };
+      const expectedTimeRange: WattRange = { start: '', end: '' };
 
       expect(actualTimeRange).toEqual(expectedTimeRange);
     });
@@ -229,7 +229,7 @@ describe(WattTimeRangeInputModule.name, () => {
     });
 
     it('can set an initial state', async () => {
-      const timeRange: WattTimeRange = { start: '01:23', end: '12:34' };
+      const timeRange: WattRange = { start: '01:23', end: '12:34' };
 
       const { startTimeInput, endTimeInput } = await setup({
         template,

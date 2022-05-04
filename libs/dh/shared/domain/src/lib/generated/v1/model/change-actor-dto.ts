@@ -9,11 +9,12 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { ActorStatus } from './actor-status';
 import { MarketRoleDto } from './market-role-dto';
 
 
 export interface ChangeActorDto { 
-    status: string;
+    status: ActorStatus;
     marketRoles: Array<MarketRoleDto>;
 }
 

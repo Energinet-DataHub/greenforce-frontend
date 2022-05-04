@@ -14,17 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-table {
-  width: 100%;
-}
 
-.edit_cell {
+.create-organization-block {
   display: flex;
-  justify-content: right;
+  justify-content: space-between;
+  align-items: baseline;
 }
 
-.spinner_container {
+.spinner-container {
   display: flex;
   justify-content: center;
-  align-items: center;
 }
