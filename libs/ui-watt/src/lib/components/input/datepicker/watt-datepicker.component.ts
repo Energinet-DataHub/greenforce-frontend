@@ -49,13 +49,13 @@ const danishLocaleCode = 'da';
  * The styling is calculated based on our monospaced font.
  */
 @Component({
-  selector: 'watt-date-range-input',
-  templateUrl: './watt-date-range-input.component.html',
-  styleUrls: ['./watt-date-range-input.component.scss'],
+  selector: 'watt-datepicker',
+  templateUrl: './watt-datepicker.component.html',
+  styleUrls: ['./watt-datepicker.component.scss'],
   providers: [
     WattInputMaskService,
     WattRangeInputService,
-    { provide: MatFormFieldControl, useExisting: WattDateRangeInputComponent },
+    { provide: MatFormFieldControl, useExisting: WattDatepickerComponent },
   ],
   // eslint-disable-next-line @angular-eslint/no-host-metadata-property
   host: {
@@ -64,7 +64,7 @@ const danishLocaleCode = 'da';
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class WattDateRangeInputComponent
+export class WattDatepickerComponent
   implements
     AfterViewInit,
     OnDestroy,
@@ -99,7 +99,7 @@ export class WattDateRangeInputComponent
   /**
    * @ignore
    */
-  id = `watt-date-range-input-${WattDateRangeInputComponent.nextId++}`;
+  id = `watt-datepicker-${WattDatepickerComponent.nextId++}`;
 
   /**
    * @ignore
@@ -110,8 +110,12 @@ export class WattDateRangeInputComponent
    * @ignore
    */
   get empty() {
-    const { start, end } = this.ngControl.value;
-    return !start && !end;
+    if (this.range) {
+      const { start, end } = this.ngControl.value;
+      return !start && !end;
+    } else {
+      return this.ngControl.value.length === 0;
+    }
   }
 
   /**
@@ -208,23 +212,35 @@ export class WattDateRangeInputComponent
   /**
    * @ignore
    */
-  set value(range: WattRange | null) {
-    if (!this.startDateInput || !this.endDateInput) {
-      this.initialValue = range;
+  set value(val: string | WattRange | null) {
+    const inputNotToBeInTheDocument = !this.range
+      ? !this.dateInput
+      : !this.startDateInput;
+
+    if (inputNotToBeInTheDocument) {
+      this.initialValue = val;
       return;
     }
 
     const inputEvent = new Event('input', { bubbles: true });
+    const { start, end } = val as WattRange;
 
-    if (range?.start) {
-      this.startDateInput.nativeElement.value = range.start;
+    if (!this.range) {
+      this.dateInput.nativeElement.value = val;
+      this.dateInput.nativeElement.dispatchEvent(inputEvent);
+      return;
+    }
+
+    if (start) {
+      this.startDateInput.nativeElement.value = start;
       this.startDateInput.nativeElement.dispatchEvent(inputEvent);
     }
 
-    if (range?.end) {
-      this.endDateInput.nativeElement.value = range.end;
+    if (end) {
+      this.endDateInput.nativeElement.value = end;
       this.endDateInput.nativeElement.dispatchEvent(inputEvent);
     }
+
     this.stateChanges.next();
   }
 
@@ -235,22 +251,41 @@ export class WattDateRangeInputComponent
     return !!this.ngControl.invalid && !!this.ngControl.touched;
   }
 
+  @Input()
+  set range(range: boolean) {
+    this._range = coerceBooleanProperty(range);
+  }
+  get range(): boolean {
+    return this._range;
+  }
+
   /**
    * @ignore
    */
-  @ViewChild('startDate')
+  private _range = false;
+
+  /**
+   * @ignore
+   */
+  @ViewChild('dateInput')
+  dateInput!: ElementRef;
+
+  /**
+   * @ignore
+   */
+  @ViewChild('startDateInput')
   startDateInput!: ElementRef;
 
   /**
    * @ignore
    */
-  @ViewChild('endDate')
+  @ViewChild('endDateInput')
   endDateInput!: ElementRef;
 
   /**
    * @ignore
    */
-  initialValue?: WattRange | null = null;
+  initialValue: string | WattRange | null = null;
 
   /**
    * @ignore
@@ -292,34 +327,58 @@ export class WattDateRangeInputComponent
       this.writeValue(this.initialValue);
     }
 
-    // Setup input masks
+    if (!this.range) this.initSingleInput();
+    if (this.range) this.initRangeInput();
+  }
+
+  /**
+   * @ignore
+   */
+  private initSingleInput() {
+    const pickerInputElement = this.dateInput.nativeElement;
+    const { onChange$ } = this.inputMaskService.mask(
+      this.initialValue as string | undefined,
+      this.inputFormat,
+      this.placeholder,
+      pickerInputElement,
+      (value: string) => this.onBeforePaste(value)
+    );
+    onChange$.pipe(takeUntil(this.destroy$)).subscribe((val: string) => {
+      this.changeParentValue(val);
+    });
+  }
+
+  /**
+   * @ignore
+   */
+  private initRangeInput() {
     const startDateInputElement = this.startDateInput.nativeElement;
-    const startDateInputMask = this.inputMaskService.mask(
+    const maskedStartDate = this.inputMaskService.mask(
+      (this.initialValue as WattRange)?.start,
       this.inputFormat,
       this.placeholder,
       startDateInputElement,
-      (value) => this.onBeforePaste(value)
+      (value: string) => this.onBeforePaste(value)
     );
 
     const endDateInputElement = this.endDateInput.nativeElement;
-    const endDateInputMask = this.inputMaskService.mask(
+    const maskedEndDate = this.inputMaskService.mask(
+      (this.initialValue as WattRange)?.end,
       this.inputFormat,
       this.placeholder,
       endDateInputElement,
-      (value) => this.onBeforePaste(value)
+      (value: string) => this.onBeforePaste(value)
     );
 
     // Setup and subscribe for input changes
     this.rangeInputService.init({
       startInput: {
         element: startDateInputElement,
-        initialValue: this.initialValue?.start,
-        mask: startDateInputMask,
+        maskedInput: maskedStartDate,
       },
       endInput: {
         element: endDateInputElement,
-        initialValue: this.initialValue?.end,
-        mask: endDateInputMask,
+        maskedInput: maskedEndDate,
       },
     });
 
@@ -342,14 +401,14 @@ export class WattDateRangeInputComponent
   /**
    * @ignore
    */
-  writeValue(range: WattRange | null): void {
-    this.value = range;
+  writeValue(val: string | WattRange | null): void {
+    this.value = val;
   }
 
   /**
    * @ignore
    */
-  registerOnChange(onChangeFn: (value: WattRange) => void): void {
+  registerOnChange(onChangeFn: (value: string | WattRange) => void): void {
     this.changeParentValue = onChangeFn;
   }
 
@@ -394,7 +453,7 @@ export class WattDateRangeInputComponent
    * @ignore
    */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  private changeParentValue = (value: WattRange): void => {
+  private changeParentValue = (value: string | WattRange): void => {
     // Intentionally left empty
   };
 
