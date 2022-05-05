@@ -107,7 +107,9 @@ export const withInitialValue: Story<WattDatepickerComponent> = (args) => ({
 export const withValidations: Story<WattDatepickerComponent> = (args) => ({
   props: {
     exampleFormControlSingle: new FormControl(null, [Validators.required]),
-    exampleFormControlRange: new FormControl(null, [WattRangeValidators.required()]),
+    exampleFormControlRange: new FormControl(null, [
+      WattRangeValidators.required(),
+    ]),
     withValidations: true,
     ...args,
   },

@@ -213,9 +213,11 @@ export class WattDatepickerComponent
    * @ignore
    */
   set value(val: string | WattRange | null) {
-    const inputNotToBeInTheDocument = !this.range ? !this.pickerInput : !this.startDateInput;
+    const inputNotToBeInTheDocument = !this.range
+      ? !this.pickerInput
+      : !this.startDateInput;
 
-    if(inputNotToBeInTheDocument) {
+    if (inputNotToBeInTheDocument) {
       this.initialValue = val;
       return;
     }

@@ -15,11 +15,7 @@
  * limitations under the License.
  */
 import { Injectable } from '@angular/core';
-import {
-  combineLatest,
-  Observable,
-  tap,
-} from 'rxjs';
+import { combineLatest, Observable, tap } from 'rxjs';
 import { WattMaskedInput } from './watt-input-mask.service';
 
 export interface WattRangeInputConfig {
@@ -44,8 +40,13 @@ export class WattRangeInputService {
 
     const onStartInputChange$ = startMaskedInput.onChange$.pipe(
       tap((val: string) => {
-        this.jumpToEndInput(val, startMaskedInput.inputMask, startInput.element, endInput.element)
-      }),
+        this.jumpToEndInput(
+          val,
+          startMaskedInput.inputMask,
+          startInput.element,
+          endInput.element
+        );
+      })
     );
 
     this.onInputChanges$ = combineLatest([
@@ -60,7 +61,7 @@ export class WattRangeInputService {
     startInputElement: HTMLInputElement,
     endInputElement: HTMLInputElement
   ) {
-    if(document.activeElement !== startInputElement) return;
+    if (document.activeElement !== startInputElement) return;
 
     if (value.length === inputmask.getemptymask().length) {
       endInputElement.focus();

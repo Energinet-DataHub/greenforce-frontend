@@ -16,7 +16,14 @@
  */
 import { Injectable, Renderer2 } from '@angular/core';
 import Inputmask from 'inputmask';
-import { distinctUntilChanged, fromEvent, map, Observable, startWith, tap } from 'rxjs';
+import {
+  distinctUntilChanged,
+  fromEvent,
+  map,
+  Observable,
+  startWith,
+  tap,
+} from 'rxjs';
 
 import { WattColor } from '../../../foundations/color/colors';
 
@@ -58,18 +65,19 @@ export class WattInputMaskService {
       map((event: InputEvent) => (event.target as HTMLInputElement).value),
       startWith(initialValue || ''),
       map((value) => (inputMask.isComplete() ? value : '')),
-      distinctUntilChanged(),
+      distinctUntilChanged()
     );
 
-    return {inputMask, onChange$};
+    return { inputMask, onChange$ };
   }
 
   setInputColor(inputElement: HTMLInputElement, inputMask: Inputmask.Instance) {
     const emptyMask = inputMask.getemptymask();
     const inputValue = inputElement.value;
 
-
-    const paddingLeft = parseInt(getComputedStyle(inputElement).getPropertyValue('padding-left'));
+    const paddingLeft = parseInt(
+      getComputedStyle(inputElement).getPropertyValue('padding-left')
+    );
     const gradient = this.buildGradient(emptyMask, inputValue, paddingLeft);
 
     this.renderer.setStyle(
@@ -79,7 +87,11 @@ export class WattInputMaskService {
     );
   }
 
-  private buildGradient(emptyMask: string, inputValue: string, paddingLeft: number): string {
+  private buildGradient(
+    emptyMask: string,
+    inputValue: string,
+    paddingLeft: number
+  ): string {
     const splittedEmptyMask = emptyMask.split('');
     const splittedValue = inputValue.split('');
 
@@ -94,9 +106,13 @@ export class WattInputMaskService {
       const color = charHasChanged ? WattColor.black : WattColor.grey500;
 
       const gradientStart =
-        index === 0 ? `${charWidth + paddingLeft}px` : `${(charWidth * index) + paddingLeft}px`;
+        index === 0
+          ? `${charWidth + paddingLeft}px`
+          : `${charWidth * index + paddingLeft}px`;
       const gradientEnd =
-        index === 0 ? `${charWidth + paddingLeft}px` : `${(charWidth * (index + 1)) + paddingLeft}px`;
+        index === 0
+          ? `${charWidth + paddingLeft}px`
+          : `${charWidth * (index + 1) + paddingLeft}px`;
 
       if (index === 0) {
         return `var(${color}) ${gradientStart}`;
