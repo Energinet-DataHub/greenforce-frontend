@@ -25,29 +25,35 @@ limitations under the License.
   </p>
 
   <div class="content-grid">
-    <watt-button variant="primary">Enabled</watt-button>
-    <span class="force-hover-state">
-      <watt-button variant="primary">Hovered</watt-button>
-    </span>
-    <span class="force-focus-state">
-      <watt-button variant="primary">Focused</watt-button>
-    </span>
-    <watt-button variant="primary" [disabled]="true">Disabled</watt-button>
-    <watt-button variant="primary" icon="search" [loading]="true"
-      >Search</watt-button
+    <watt-button-alt variant="primary">Enabled</watt-button-alt>
+    <watt-button-alt variant="primary" class="force-hover watt-button-primary"
+      >Hovered</watt-button-alt
     >
+    <watt-button-alt variant="primary" class="force-focus watt-button-primary"
+      >Focused</watt-button-alt
+    >
+    <watt-button-alt variant="primary" [disabled]="true"
+      >Disabled</watt-button-alt
+    >
+    <watt-button-alt variant="primary" [loading]="true"></watt-button-alt>
   </div>
 
   <div class="content-grid">
-    <watt-button variant="primary" icon="plus">Enabled</watt-button>
-    <span class="force-hover-state">
-      <watt-button variant="primary" icon="plus">Hovered</watt-button>
-    </span>
-    <span class="force-focus-state">
-      <watt-button variant="primary" icon="plus">Focused</watt-button>
-    </span>
-    <watt-button variant="primary" icon="plus" [disabled]="true"
-      >Disabled</watt-button
+    <watt-button-alt variant="primary" icon="plus">Enabled</watt-button-alt>
+    <watt-button-alt
+      variant="primary"
+      icon="plus"
+      class="force-hover watt-button-primary"
+      >Hovered</watt-button-alt
+    >
+    <watt-button-alt
+      variant="primary"
+      icon="plus"
+      class="force-focus watt-button-primary"
+      >Focused</watt-button-alt
+    >
+    <watt-button-alt variant="primary" icon="plus" [disabled]="true"
+      >Disabled</watt-button-alt
     >
   </div>
 
@@ -55,33 +61,43 @@ limitations under the License.
 
   <p>
     Outlined buttons are <strong>medium-emphasis</strong> buttons. They contain
-    actions that are important, but aren’t the primary action in an app.
+    actions that are important, but aren't the primary action in an app.
   </p>
 
   <div class="content-grid">
-    <watt-button variant="secondary">Enabled</watt-button>
-    <span class="force-hover-state">
-      <watt-button variant="secondary">Hovered</watt-button>
-    </span>
-    <span class="force-focus-state">
-      <watt-button variant="secondary">Focused</watt-button>
-    </span>
-    <watt-button variant="secondary" [disabled]="true">Disabled</watt-button>
-    <watt-button variant="secondary" icon="search" [loading]="true"
-      >Search</watt-button
+    <watt-button-alt variant="secondary">Enabled</watt-button-alt>
+    <watt-button-alt
+      variant="secondary"
+      class="force-hover watt-button-secondary"
+      >Hovered</watt-button-alt
     >
+    <watt-button-alt
+      variant="secondary"
+      class="force-focus watt-button-secondary"
+      >Focused</watt-button-alt
+    >
+    <watt-button-alt variant="secondary" [disabled]="true"
+      >Disabled</watt-button-alt
+    >
+    <watt-button-alt variant="secondary" [loading]="true"></watt-button-alt>
   </div>
 
   <div class="content-grid">
-    <watt-button variant="secondary" icon="plus">Enabled</watt-button>
-    <span class="force-hover-state">
-      <watt-button variant="secondary" icon="plus">Hovered</watt-button>
-    </span>
-    <span class="force-focus-state">
-      <watt-button variant="secondary" icon="plus">Focused</watt-button>
-    </span>
-    <watt-button variant="secondary" icon="plus" [disabled]="true"
-      >Disabled</watt-button
+    <watt-button-alt variant="secondary" icon="plus">Enabled</watt-button-alt>
+    <watt-button-alt
+      variant="secondary"
+      icon="plus"
+      class="force-hover watt-button-secondary"
+      >Hovered</watt-button-alt
+    >
+    <watt-button-alt
+      variant="secondary"
+      icon="plus"
+      class="force-focus watt-button-secondary"
+      >Focused</watt-button-alt
+    >
+    <watt-button-alt variant="secondary" icon="plus" [disabled]="true"
+      >Disabled</watt-button-alt
     >
   </div>
 
@@ -94,25 +110,33 @@ limitations under the License.
   </p>
 
   <div class="content-grid">
-    <watt-button>Enabled</watt-button>
-    <span class="force-hover-state">
-      <watt-button>Hovered</watt-button>
-    </span>
-    <span class="force-focus-state">
-      <watt-button>Focused</watt-button>
-    </span>
-    <watt-button [disabled]="true">Disabled</watt-button>
+    <watt-button-alt variant="text">Enabled</watt-button-alt>
+    <watt-button-alt variant="text" class="force-hover watt-button-text"
+      >Hovered</watt-button-alt
+    >
+    <watt-button-alt variant="text" class="force-focus watt-button-text"
+      >Focused</watt-button-alt
+    >
+    <watt-button-alt variant="text" [disabled]="true">Disabled</watt-button-alt>
   </div>
 
   <div class="content-grid">
-    <watt-button icon="plus">Enabled</watt-button>
-    <span class="force-hover-state">
-      <watt-button icon="plus">Hovered</watt-button>
-    </span>
-    <span class="force-focus-state">
-      <watt-button icon="plus">Focused</watt-button>
-    </span>
-    <watt-button icon="plus" [disabled]="true">Disabled</watt-button>
+    <watt-button-alt variant="text" icon="plus">Enabled</watt-button-alt>
+    <watt-button-alt
+      variant="text"
+      class="force-hover watt-button-text"
+      icon="plus"
+      >Hovered</watt-button-alt
+    >
+    <watt-button-alt
+      variant="text"
+      class="force-focus watt-button-text"
+      icon="plus"
+      >Focused</watt-button-alt
+    >
+    <watt-button-alt variant="text" icon="plus" [disabled]="true"
+      >Disabled</watt-button-alt
+    >
   </div>
 
   <h2>Size</h2>
@@ -120,12 +144,12 @@ limitations under the License.
   <div class="content-grid">
     <div>
       <p>Default</p>
-      <watt-button variant="primary">Enabled</watt-button>
+      <watt-button-alt variant="primary">Enabled</watt-button-alt>
     </div>
     <div>
       <p>Large</p>
 
-      <watt-button variant="primary" size="large">Enabled</watt-button>
+      <watt-button-alt variant="primary" size="large">Enabled</watt-button-alt>
     </div>
   </div>
 
@@ -136,13 +160,21 @@ limitations under the License.
   </p>
 
   <div class="content-grid">
-    <watt-icon-button icon="plus"></watt-icon-button>
-    <span class="force-hover-state">
-      <watt-icon-button icon="plus"></watt-icon-button>
-    </span>
-    <span class="force-focus-state">
-      <watt-icon-button icon="plus"></watt-icon-button>
-    </span>
-    <watt-icon-button icon="plus" [disabled]="true"></watt-icon-button>
+    <watt-button-alt variant="icon" icon="plus">Enabled</watt-button-alt>
+    <watt-button-alt
+      variant="icon"
+      icon="plus"
+      class="force-hover watt-button-icon"
+      >Hovered</watt-button-alt
+    >
+    <watt-button-alt
+      variant="icon"
+      icon="plus"
+      class="force-focus watt-button-icon"
+      >Focused</watt-button-alt
+    >
+    <watt-button-alt variant="icon" icon="plus" [disabled]="true"
+      >Disabled</watt-button-alt
+    >
   </div>
 </mat-card>
