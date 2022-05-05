@@ -33,11 +33,7 @@ const howToUseGuide = `
 1. Import ${WattButtonModule.name} in a module
 import { ${WattButtonModule.name} } from '@energinet-datahub/watt';
 
-2a. Use <watt-button>Button</watt-button>
-
-OR
-
-2b. Use <watt-icon-button icon="<icon-name>" label="Something meaningful"></watt-icon-button> in the component's HTML template
+2. Use <watt-button>Button</watt-button>
 `;
 
 export const Overview = () => ({
@@ -49,11 +45,7 @@ Overview.decorators = [
   }),
 ];
 Overview.parameters = {
-  docs: {
-    source: {
-      code: howToUseGuide,
-    },
-  },
+  docs: { source: { code: howToUseGuide } },
 };
 
 //👇 We create a “template” of how args map to rendering

@@ -49,7 +49,7 @@ export type WattButtonSize = 'normal' | 'large';
         class="content-grid-item content-grid-item-spinner"
       ></watt-spinner>
       <watt-icon *ngIf="!loading && hasIcon()" [name]="icon"></watt-icon>
-      <ng-content *ngIf="variant !== 'icon'"></ng-content>
+      <ng-content *ngIf="!loading && variant !== 'icon'"></ng-content>
     </button>
   `,
   styleUrls: ['./watt-button-alt.component.scss'],

@@ -55,9 +55,9 @@ describe('WattButtonAltComponent', () => {
   });
 
   test.each(WattButtonTypes)(
-    'gets variant applied as class',
+    'gets variant "%s" applied as class',
     async (variant) => {
-      await renderComponent({ variant });
+      await renderComponent({ variant, text: 'Text' });
 
       if (variant === 'icon') {
         expect(screen.getByRole('button')).not.toHaveTextContent('Text');
