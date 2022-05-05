@@ -11,7 +11,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-module "app_bff" {
+module "bff" {
   source                                    = "git::https://github.com/Energinet-DataHub/geh-terraform-modules.git//azure/app-service?ref=6.0.0"
 
   name                                          = "bff"
@@ -55,4 +55,6 @@ module "plan_bff" {
     tier  = "PremiumV2"
     size  = "P1v2"
   }
+ 
+  tags                           = azurerm_resource_group.this.tags
 }
