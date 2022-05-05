@@ -14,22 +14,14 @@
 module "app_bff" {
   source                                    = "git::https://github.com/Energinet-DataHub/geh-terraform-modules.git//azure/app-service?ref=6.0.0"
 
-  name                                      = "bff"
-  project_name                              = var.domain_name_short
-  environment_short                         = var.environment_short
-  environment_instance                      = var.environment_instance
-  resource_group_name                       = azurerm_resource_group.this.name
-  location                                  = azurerm_resource_group.this.location
-  vnet_integration_subnet_id                = module.vnet_integrations_webapi.id
-  app_service_plan_id                       = module.plan_bff.id
-  application_insights_instrumentation_key  = data.azurerm_key_vault_secret.appi_instrumentation_key.value
-
   name                                          = "bff"
   project_name                                  = var.domain_name_short
   environment_short                             = var.environment_short
   environment_instance                          = var.environment_instance
   resource_group_name                           = azurerm_resource_group.this.name
   location                                      = azurerm_resource_group.this.location
+  vnet_integration_subnet_id                    = data.azurerm_key_vault_secret.snet_vnet_integrations_id.value
+  private_endpoint_subnet_id                    = data.azurerm_key_vault_secret.snet_private_endpoints_id.value
   app_service_plan_id                           = module.plan_bff.id
   application_insights_instrumentation_key      = data.azurerm_key_vault_secret.appi_shared_instrumentation_key.value
   dotnet_framework_version                      = "v6.0"
@@ -63,6 +55,7 @@ module "plan_bff" {
     tier  = "PremiumV2"
     size  = "P1v2"
   }
+}
 
 module "kvs_app_bff_base_url" {
   source        = "git::https://github.com/Energinet-DataHub/geh-terraform-modules.git//azure/key-vault-secret?ref=5.1.0"
