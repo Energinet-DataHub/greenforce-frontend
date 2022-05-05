@@ -17,24 +17,19 @@
 import { Injectable } from '@angular/core';
 import {
   combineLatest,
-  distinctUntilChanged,
-  fromEvent,
-  map,
   Observable,
-  startWith,
   tap,
 } from 'rxjs';
+import { WattMaskedInput } from './watt-input-mask.service';
 
 export interface WattRangeInputConfig {
   startInput: {
     element: HTMLInputElement;
-    initialValue?: string;
-    mask: Inputmask.Instance;
+    maskedInput: WattMaskedInput;
   };
   endInput: {
     element: HTMLInputElement;
-    initialValue?: string;
-    mask: Inputmask.Instance;
+    maskedInput: WattMaskedInput;
   };
 }
 
@@ -44,51 +39,32 @@ export class WattRangeInputService {
 
   init(config: WattRangeInputConfig) {
     const { startInput, endInput } = config;
+    const { maskedInput: startMaskedInput } = startInput;
+    const { maskedInput: endMaskedInput } = endInput;
 
-    const startInputElementOnInput$ = fromEvent<InputEvent>(
-      startInput.element,
-      'input'
-    ).pipe(
-      tap((event: InputEvent) =>
-        this.jumpToEndInput(event, startInput.mask, endInput.element)
-      ),
-      map((event: InputEvent) => (event.target as HTMLInputElement).value)
-    );
-
-    const endInputElementOnInput$ = fromEvent<InputEvent>(
-      endInput.element,
-      'input'
-    ).pipe(map((event) => (event.target as HTMLInputElement).value));
-
-    const startInputElementOnComplete$ = startInputElementOnInput$.pipe(
-      startWith(startInput.initialValue || ''),
-      map((value) => (startInput.mask.isComplete() ? value : '')),
-      distinctUntilChanged()
-    );
-
-    const endInputElementOnComplete$ = endInputElementOnInput$.pipe(
-      startWith(endInput.initialValue || ''),
-      map((value) => (endInput.mask.isComplete() ? value : '')),
-      distinctUntilChanged()
+    const onStartInputChange$ = startMaskedInput.onChange$.pipe(
+      tap((val: string) => {
+        this.jumpToEndInput(val, startMaskedInput.inputMask, startInput.element, endInput.element)
+      }),
     );
 
     this.onInputChanges$ = combineLatest([
-      startInputElementOnComplete$,
-      endInputElementOnComplete$,
+      onStartInputChange$,
+      endMaskedInput.onChange$,
     ]);
   }
 
   private jumpToEndInput(
-    event: InputEvent | KeyboardEvent,
+    value: string,
     inputmask: Inputmask.Instance,
+    startInputElement: HTMLInputElement,
     endInputElement: HTMLInputElement
   ) {
-    if (
-      inputmask.isComplete() &&
-      (event.target as HTMLInputElement).value.length ===
-        inputmask.getemptymask().length
-    ) {
+    if(document.activeElement !== startInputElement) return;
+
+    if (value.length === inputmask.getemptymask().length) {
       endInputElement.focus();
+      endInputElement.setSelectionRange(0, 0);
     }
   }
 }
