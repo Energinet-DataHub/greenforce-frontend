@@ -29,39 +29,39 @@ storybook-button-overview {
   }
 
   .force-hover {
-    &.primary button {
+    &.watt-button-primary button {
       background: buttonVariables.$watt-button-primary-hover-background;
     }
 
-    &.secondary button {
+    &.watt-button-secondary button {
       background: buttonVariables.$watt-button-secondary-hover-background;
     }
 
-    &.text button {
+    &.watt-button-text button {
       color: buttonVariables.$watt-button-text-hover-color;
     }
 
-    &.icon button {
+    &.watt-button-icon button {
       color: var(--watt-color-primary-dark);
     }
   }
 
   .force-focus {
-    &.primary button {
+    &.watt-button-primary button {
       outline: buttonVariables.$watt-button-primary-focus-outline;
       background: buttonVariables.$watt-button-primary-focus-background;
     }
 
-    &.secondary button {
+    &.watt-button-secondary button {
       outline: buttonVariables.$watt-button-secondary-focus-state;
       background: buttonVariables.$watt-button-secondary-focus-background;
     }
 
-    &.text button {
+    &.watt-button-text button {
       outline: buttonVariables.$watt-button-text-focus-state;
     }
 
-    &.icon button {
+    &.watt-button-icon button {
       outline: 2px solid var(--watt-color-primary);
     }
   }

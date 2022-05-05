@@ -17,19 +17,38 @@
 import { Component, Input, ViewEncapsulation } from '@angular/core';
 import { WattIcon } from '../../foundations/icon';
 
-export type WattButtonVariant = 'primary' | 'secondary' | 'text' | 'icon';
+export interface WattButtonAltOptions {
+  icon?: WattIcon;
+  loading?: boolean;
+  disabled?: boolean;
+  text?: string;
+  variant?: WattButtonVariant;
+  size?: WattButtonSize;
+}
+
+export const WattButtonTypes = [
+  'primary',
+  'secondary',
+  'text',
+  'icon',
+] as const;
+export type WattButtonVariant = typeof WattButtonTypes[number];
 export type WattButtonSize = 'normal' | 'large';
 
 @Component({
   selector: 'watt-button-alt',
   template: `
-    <button mat-button [ngClass]="[variant, size]" [disabled]="disabled">
+    <button
+      mat-button
+      [ngClass]="['watt-button-' + variant, size]"
+      [disabled]="disabled"
+    >
       <watt-spinner
         *ngIf="loading"
         [diameter]="18"
         class="content-grid-item content-grid-item-spinner"
       ></watt-spinner>
-      <watt-icon *ngIf="hasIcon()" [name]="icon"></watt-icon>
+      <watt-icon *ngIf="!loading && hasIcon()" [name]="icon"></watt-icon>
       <ng-content *ngIf="variant !== 'icon'"></ng-content>
     </button>
   `,
