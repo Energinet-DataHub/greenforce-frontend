@@ -40,7 +40,7 @@ export type WattButtonSize = 'normal' | 'large';
   template: `
     <button
       mat-button
-      [ngClass]="['watt-button-' + variant, size]"
+      [ngClass]="['watt-button--' + variant, size]"
       [disabled]="disabled"
     >
       <watt-spinner

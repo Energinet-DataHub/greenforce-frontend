@@ -62,7 +62,7 @@ describe('WattButtonAltComponent', () => {
       if (variant === 'icon') {
         expect(screen.getByRole('button')).not.toHaveTextContent('Text');
       }
-      expect(screen.getByRole('button')).toHaveClass('watt-button-' + variant);
+      expect(screen.getByRole('button')).toHaveClass('watt-button--' + variant);
     }
   );
 

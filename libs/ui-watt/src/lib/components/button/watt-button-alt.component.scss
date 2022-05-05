@@ -46,7 +46,7 @@ watt-button-alt .mat-button {
     }
   }
 
-  &.watt-button-primary {
+  &.watt-button--primary {
     background-color: var(--watt-color-primary);
     color: var(--watt-color-primary-contrast);
 
@@ -69,7 +69,7 @@ watt-button-alt .mat-button {
     }
   }
 
-  &.watt-button-secondary {
+  &.watt-button--secondary {
     border: 1px solid var(--watt-color-primary);
     color: var(--watt-color-primary);
 
@@ -89,7 +89,7 @@ watt-button-alt .mat-button {
     }
   }
 
-  &.watt-button-text {
+  &.watt-button--text {
     color: var(--watt-color-primary);
     outline: 2px solid transparent;
 
@@ -108,7 +108,7 @@ watt-button-alt .mat-button {
     }
   }
 
-  &.watt-button-icon {
+  &.watt-button--icon {
     color: var(--watt-color-primary);
     @include watt.space-inset-s;
 
