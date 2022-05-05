@@ -47,7 +47,7 @@ const template = `
   <watt-label>Single date</watt-label>
   <watt-datepicker [formControl]="exampleFormControlSingle"></watt-datepicker>
   <watt-error *ngIf="exampleFormControlSingle?.errors?.required">
-      Field is required
+      Date is required
   </watt-error>
 </watt-form-field>
 
@@ -60,7 +60,7 @@ const template = `
   <watt-label>Date range</watt-label>
   <watt-datepicker [formControl]="exampleFormControlRange" range></watt-datepicker>
   <watt-error *ngIf="exampleFormControlRange?.errors?.rangeRequired">
-      Field is required
+      Date range is required
   </watt-error>
 </watt-form-field>
 

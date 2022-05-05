@@ -214,7 +214,7 @@ export class WattDatepickerComponent
    */
   set value(val: string | WattRange | null) {
     const inputNotToBeInTheDocument = !this.range
-      ? !this.pickerInput
+      ? !this.dateInput
       : !this.startDateInput;
 
     if (inputNotToBeInTheDocument) {
@@ -226,8 +226,8 @@ export class WattDatepickerComponent
     const { start, end } = val as WattRange;
 
     if (!this.range) {
-      this.pickerInput.nativeElement.value = val;
-      this.pickerInput.nativeElement.dispatchEvent(inputEvent);
+      this.dateInput.nativeElement.value = val;
+      this.dateInput.nativeElement.dispatchEvent(inputEvent);
       return;
     }
 
@@ -267,20 +267,20 @@ export class WattDatepickerComponent
   /**
    * @ignore
    */
-  @ViewChild('startDate')
+  @ViewChild('dateInput')
+  dateInput!: ElementRef;
+
+  /**
+   * @ignore
+   */
+  @ViewChild('startDateInput')
   startDateInput!: ElementRef;
 
   /**
    * @ignore
    */
-  @ViewChild('endDate')
+  @ViewChild('endDateInput')
   endDateInput!: ElementRef;
-
-  /**
-   * @ignore
-   */
-  @ViewChild('pickerInput')
-  pickerInput!: ElementRef;
 
   /**
    * @ignore
@@ -331,9 +331,11 @@ export class WattDatepickerComponent
     if (this.range) this.initRangeInput();
   }
 
+  /**
+   * @ignore
+   */
   private initSingleInput() {
-    // Setup input masks
-    const pickerInputElement = this.pickerInput.nativeElement;
+    const pickerInputElement = this.dateInput.nativeElement;
     const { onChange$ } = this.inputMaskService.mask(
       this.initialValue as string | undefined,
       this.inputFormat,
@@ -346,8 +348,10 @@ export class WattDatepickerComponent
     });
   }
 
+  /**
+   * @ignore
+   */
   private initRangeInput() {
-    // Setup input masks
     const startDateInputElement = this.startDateInput.nativeElement;
     const maskedStartDate = this.inputMaskService.mask(
       (this.initialValue as WattRange)?.start,
