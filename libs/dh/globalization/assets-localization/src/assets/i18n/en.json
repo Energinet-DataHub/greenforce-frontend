@@ -297,7 +297,7 @@
         "cancelLabel": "Cancel",
         "saveLabel": "Save",
         "masterData": {
-          "glnName": "Organization code",
+          "labelGln": "Organization code",
           "fieldRequiredErrorText": "Field is required."
         }
       }

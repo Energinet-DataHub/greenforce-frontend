@@ -297,7 +297,7 @@
         "cancelLabel": "Annuller",
         "saveLabel": "Gem",
         "masterData": {
-          "glnName": "Organisationskode",
+          "labelGln": "Organisationskode",
           "fieldRequiredErrorText": "Feltet er påkrævet."
         }
       }
