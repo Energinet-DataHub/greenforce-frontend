@@ -23,8 +23,8 @@ import {
 import { fireEvent, render, screen } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
 
-import * as reactiveFormstories from './+storybook/date-range-input-reactive-forms.stories';
-import { WattDateRangeInputComponent } from './watt-date-range-input.component';
+import * as reactiveFormstories from './+storybook/watt-datepicker-reactive-forms.stories';
+import { WattDatepickerComponent } from './watt-datepicker.component';
 
 const {
   withFormControl,
@@ -38,7 +38,7 @@ describe('Date range input - Reactive Forms', () => {
   const completeDate = '22-11-3333';
   const incompleteDate = '22-11';
 
-  async function setup(story: Story<Partial<WattDateRangeInputComponent>>) {
+  async function setup(story: Story<Partial<WattDatepickerComponent>>) {
     const { component, ngModule } = createMountableStoryComponent(
       story({}, {} as never)
     );
