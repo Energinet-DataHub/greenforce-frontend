@@ -28,6 +28,9 @@ import { DhEnvironment } from './dh-environment';
  */
 import 'zone.js/plugins/zone-error';
 
+/**
+ * Environment
+ */
 export const environment: DhEnvironment = {
   production: false,
 };

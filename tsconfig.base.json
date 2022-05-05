@@ -39,6 +39,33 @@
       "@energinet-datahub/dh/globalization/feature-language-picker": [
         "libs/dh/globalization/feature-language-picker/src/index.ts"
       ],
+      "@energinet-datahub/dh/market-participant/data-access-api": [
+        "libs/dh/market-participant/data-access-api/src/index.ts"
+      ],
+      "@energinet-datahub/dh/market-participant/feature-edit-organization": [
+        "libs/dh/market-participant/feature-edit-organization/src/index.ts"
+      ],
+      "@energinet-datahub/dh/market-participant/feature-organization": [
+        "libs/dh/market-participant/feature-organization/src/index.ts"
+      ],
+      "@energinet-datahub/dh/market-participant/routing": [
+        "libs/dh/market-participant/routing/src/index.ts"
+      ],
+      "@energinet-datahub/dh/market-participant/shell": [
+        "libs/dh/market-participant/shell/src/index.ts"
+      ],
+      "@energinet-datahub/dh/message-archive/data-access-api": [
+        "libs/dh/message-archive/data-access-api/src/index.ts"
+      ],
+      "@energinet-datahub/dh/message-archive/domain": [
+        "libs/dh/message-archive/domain/src/index.ts"
+      ],
+      "@energinet-datahub/dh/message-archive/feature-log-search": [
+        "libs/dh/message-archive/feature-log-search/src/index.ts"
+      ],
+      "@energinet-datahub/dh/message-archive/shell": [
+        "libs/dh/message-archive/shell/src/index.ts"
+      ],
       "@energinet-datahub/dh/metering-point/data-access-api": [
         "libs/dh/metering-point/data-access-api/src/index.ts"
       ],
@@ -75,6 +102,12 @@
       "@energinet-datahub/dh/shared/data-access-api": [
         "libs/dh/shared/data-access-api/src/index.ts"
       ],
+      "@energinet-datahub/dh/shared/data-access-msw": [
+        "libs/dh/shared/data-access-msw/src/index.ts"
+      ],
+      "@energinet-datahub/dh/shared/domain": [
+        "libs/dh/shared/domain/src/index.ts"
+      ],
       "@energinet-datahub/dh/shared/environments": [
         "libs/dh/shared/environments/src/index.ts"
       ],
@@ -87,42 +120,80 @@
       "@energinet-datahub/dh/shared/test-util-metering-point": [
         "libs/dh/shared/test-util-metering-point/src/index.ts"
       ],
+      "@energinet-datahub/dh/shared/test-util-msw": [
+        "libs/dh/shared/test-util-msw/src/index.ts"
+      ],
       "@energinet-datahub/dh/shared/ui-date-time": [
         "libs/dh/shared/ui-date-time/src/index.ts"
       ],
+      "@energinet-datahub/eo-emissions-routing": [
+        "libs/eo/emissions/routing/src/index.ts"
+      ],
+      "@energinet-datahub/eo/auth/data-access-api": [
+        "libs/eo/auth/data-access-api/src/index.ts"
+      ],
+      "@energinet-datahub/eo/auth/data-access-security": [
+        "libs/eo/auth/data-access-security/src/index.ts"
+      ],
+      "@energinet-datahub/eo/auth/feature-terms": [
+        "libs/eo/auth/feature-terms/src/index.ts"
+      ],
+      "@energinet-datahub/eo/auth/routing-security": [
+        "libs/eo/auth/routing-security/src/index.ts"
+      ],
+      "@energinet-datahub/eo/core/shell": ["libs/eo/core/shell/src/index.ts"],
+      "@energinet-datahub/eo/dashboard/routing": [
+        "libs/eo/dashboard/routing/src/index.ts"
+      ],
+      "@energinet-datahub/eo/dashboard/shell": [
+        "libs/eo/dashboard/shell/src/index.ts"
+      ],
+      "@energinet-datahub/eo/emissions/shell": [
+        "libs/eo/emissions/shell/src/index.ts"
+      ],
+      "@energinet-datahub/eo/faq/routing": ["libs/eo/faq/routing/src/index.ts"],
+      "@energinet-datahub/eo/faq/shell": ["libs/eo/faq/shell/src/index.ts"],
       "@energinet-datahub/eo/landing-page/routing": [
         "libs/eo/landing-page/routing/src/index.ts"
       ],
       "@energinet-datahub/eo/landing-page/shell": [
         "libs/eo/landing-page/shell/src/index.ts"
       ],
+      "@energinet-datahub/eo/metering-points/routing": [
+        "libs/eo/metering-points/routing/src/index.ts"
+      ],
+      "@energinet-datahub/eo/metering-points/shell": [
+        "libs/eo/metering-points/shell/src/index.ts"
+      ],
+      "@energinet-datahub/eo/origin-of-energy/routing": [
+        "libs/eo/origin-of-energy/routing/src/index.ts"
+      ],
+      "@energinet-datahub/eo/origin-of-energy/shell": [
+        "libs/eo/origin-of-energy/shell/src/index.ts"
+      ],
+      "@energinet-datahub/eo/privacy-policy/routing": [
+        "libs/eo/privacy-policy/routing/src/index.ts"
+      ],
+      "@energinet-datahub/eo/privacy-policy/shell": [
+        "libs/eo/privacy-policy/shell/src/index.ts"
+      ],
       "@energinet-datahub/eo/shared/assets": [
         "libs/eo/shared/assets/src/index.ts"
+      ],
+      "@energinet-datahub/eo/shared/atomic-design/feature-molecules": [
+        "libs/eo/shared/atomic-design/feature-molecules/src/index.ts"
+      ],
+      "@energinet-datahub/eo/shared/atomic-design/ui-atoms": [
+        "libs/eo/shared/atomic-design/ui-atoms/src/index.ts"
+      ],
+      "@energinet-datahub/eo/shared/atomic-design/ui-organisms": [
+        "libs/eo/shared/atomic-design/ui-organisms/src/index.ts"
       ],
       "@energinet-datahub/eo/shared/environments": [
         "libs/eo/shared/environments/src/index.ts"
       ],
-      "@energinet-datahub/eo/shared/ui-shell": [
-        "libs/eo/shared/ui-shell/src/index.ts"
-      ],
-      "@energinet-datahub/ett/auth/data-access-api": [
-        "libs/ett/auth/data-access-api/src/index.ts"
-      ],
-      "@energinet-datahub/ett/auth/data-access-security": [
-        "libs/ett/auth/data-access-security/src/index.ts"
-      ],
-      "@energinet-datahub/ett/auth/routing-security": [
-        "libs/ett/auth/routing-security/src/index.ts"
-      ],
-      "@energinet-datahub/ett/core/shell": ["libs/ett/core/shell/src/index.ts"],
-      "@energinet-datahub/ett/dashboard/routing": [
-        "libs/ett/dashboard/routing/src/index.ts"
-      ],
-      "@energinet-datahub/ett/dashboard/shell": [
-        "libs/ett/dashboard/shell/src/index.ts"
-      ],
-      "@energinet-datahub/ett/shared/util-browser": [
-        "libs/ett/shared/util-browser/src/index.ts"
+      "@energinet-datahub/eo/shared/util-browser": [
+        "libs/eo/shared/util-browser/src/index.ts"
       ],
       "@energinet-datahub/gf/test-util-matchers": [
         "libs/gf/test-util-matchers/src/index.ts"

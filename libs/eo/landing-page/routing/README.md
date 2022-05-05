@@ -1,1 +1,1 @@
-# Eo landing page routing
+# Landing page routing

@@ -44,7 +44,7 @@ jobs:
     steps:
       # needed for nx affected command
       - name: Check out source code with current branch Git history
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
       # needed for nx affected command
@@ -91,7 +91,7 @@ jobs:
     needs: affected
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Set up Node.js ${{ env.node-version }}
         uses: actions/setup-node@v2

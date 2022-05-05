@@ -14,15 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, NgModule, OnDestroy } from '@angular/core';
+import { Component, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { LetModule } from '@rx-angular/template';
-import { map, Observable, Subject, takeUntil } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { TranslocoModule } from '@ngneat/transloco';
 
 import { DhChargesDataAccessApiStore } from '@energinet-datahub/dh/charges/data-access-api';
-import { ChargeLinkV1Dto } from '@energinet-datahub/dh/shared/data-access-api';
+import { ChargeLinkV1Dto } from '@energinet-datahub/dh/shared/domain';
 import { dhMeteringPointIdParam } from '@energinet-datahub/dh/metering-point/routing';
 import { WattSpinnerModule } from '@energinet-datahub/watt';
 
@@ -36,9 +36,7 @@ import { DhChargesGeneralErrorScam } from './dh-charges-general-error/dh-charges
   styleUrls: ['./dh-charges-tab-content.component.scss'],
   providers: [DhChargesDataAccessApiStore],
 })
-export class DhChargesTabContentComponent implements OnDestroy {
-  private destroy$ = new Subject<void>();
-
+export class DhChargesTabContentComponent {
   meteringPointId$ = this.route.params.pipe(
     map((params) => params[dhMeteringPointIdParam] as string)
   );
@@ -58,18 +56,8 @@ export class DhChargesTabContentComponent implements OnDestroy {
   chargesNotFound$ = this.store.chargesNotFound$;
   hasGeneralError$ = this.store.hasGeneralError$;
 
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.unsubscribe();
-  }
-
   loadChargesData(): void {
-    this.meteringPointId$
-      .pipe(
-        takeUntil(this.destroy$),
-        map((meteringPointId) => this.store.loadChargesData(meteringPointId))
-      )
-      .subscribe();
+    this.store.loadChargesData(this.meteringPointId$);
   }
 }
 

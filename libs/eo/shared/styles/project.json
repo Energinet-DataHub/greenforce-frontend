@@ -1,0 +1,9 @@
+{
+  "projectType": "library",
+  "root": "libs/eo/shared/styles",
+  "sourceRoot": "libs/eo/shared/styles/src",
+  "prefix": "eo",
+  "targets": {},
+  "tags": ["product:eo", "scope:shared", "type:styles"],
+  "implicitDependencies": ["ui-watt"]
+}

@@ -26,6 +26,7 @@ import { DhMeteringPointDataAccessApiStore } from '@energinet-datahub/dh/meterin
 
 import { DhChargesTabContentScam } from './charges-tab-content/dh-charges-tab-content.component';
 import { DhChildMeteringPointsTabContentScam } from './child-metering-points-tab-content/dh-child-metering-points-tab-content.component';
+import { DhProcessesTabContentScam } from './processes-tab-content/dh-processes-tab-content.component';
 
 @Component({
   selector: 'dh-metering-point-tabs',
@@ -54,6 +55,7 @@ export class DhMeteringPointTabsComponent {
     TranslocoModule,
     DhIsParentPipeScam,
     DhChargesTabContentScam,
+    DhProcessesTabContentScam,
     DhChildMeteringPointsTabContentScam,
   ],
 })

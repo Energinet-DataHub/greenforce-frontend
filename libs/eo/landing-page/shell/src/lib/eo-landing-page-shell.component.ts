@@ -17,36 +17,99 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  HostBinding,
   NgModule,
-  ViewEncapsulation,
 } from '@angular/core';
-import { EoLandingPageHeaderScam } from './eo-landing-page-header.component';
-import { EoLandingPageFooterScam } from './eo-landing-page-footer.component';
-import { EoLandingPageStore } from './eo-landing-page.store';
+import { EoFooterScam } from '@energinet-datahub/eo/shared/atomic-design/ui-organisms';
 
-const selector = 'eo-landing-page-shell';
+import { EoLandingPageCallToActionScam } from './eo-landing-page-call-to-action.component';
+import { EoLandingPageCompanyScam } from './eo-landing-page-company.component';
+import { EoLandingPageHeaderScam } from './eo-landing-page-header.component';
+import { EoLandingPageHeroScam } from './eo-landing-page-hero.component';
+import { EoLandingPageIntroductionScam } from './eo-landing-page-introduction.component';
+import { EoLandingPageNotificationScam } from './eo-landing-page-notification.component';
+import { EoLandingPageOriginOfEnergyScam } from './eo-landing-page-origin-of-energy.component';
+import { EoLandingPagePresenter } from './eo-landing-page.presenter';
+import { EoLandingPageStore } from './eo-landing-page.store';
+import { EoLandingPageAudienceScam } from './eo-landinge-page-audience.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None,
-  selector,
+  selector: 'eo-landing-page-shell',
   styles: [
     `
-      ${selector} {
+      :host {
         display: block;
+      }
+
+      img {
+        display: block;
+      }
+
+      .u-positioning-context {
+        position: relative !important;
+      }
+
+      .u-snap-bottom {
+        position: absolute;
+        bottom: 0 !important;
+      }
+
+      .u-collapse-bottom {
+        padding-bottom: 0 !important;
       }
     `,
   ],
   template: `
     <eo-landing-page-header></eo-landing-page-header>
-    <eo-landing-page-footer></eo-landing-page-footer>
+
+    <div class="u-positioning-context">
+      <eo-landing-page-notification
+        class="u-collapse-bottom"
+      ></eo-landing-page-notification>
+
+      <eo-landing-page-hero></eo-landing-page-hero>
+
+      <eo-landing-page-introduction></eo-landing-page-introduction>
+
+      <eo-landing-page-origin-of-energy></eo-landing-page-origin-of-energy>
+
+      <eo-landing-page-audience></eo-landing-page-audience>
+
+      <eo-landing-page-company></eo-landing-page-company>
+
+      <eo-landing-page-call-to-action></eo-landing-page-call-to-action>
+
+      <div class="u-snap-bottom">
+        <img src="/assets/images/landing-page/landing-page-mesh-bottom.png" />
+      </div>
+    </div>
+
+    <eo-footer></eo-footer>
   `,
+  viewProviders: [EoLandingPageStore, EoLandingPagePresenter],
 })
-export class EoLandingPageShellComponent {}
+export class EoLandingPageShellComponent {
+  @HostBinding('style.--eo-landing-page-content-max-width')
+  get cssPropertyContentMaxWidth(): string {
+    return `${this.presenter.contentMaxWidthPixels}px`;
+  }
+
+  constructor(private presenter: EoLandingPagePresenter) {}
+}
 
 @NgModule({
   declarations: [EoLandingPageShellComponent],
-  imports: [EoLandingPageHeaderScam, EoLandingPageFooterScam],
-  providers: [EoLandingPageStore],
+  imports: [
+    EoFooterScam,
+    EoLandingPageAudienceScam,
+    EoLandingPageCallToActionScam,
+    EoLandingPageCompanyScam,
+    EoLandingPageHeaderScam,
+    EoLandingPageHeroScam,
+    EoLandingPageIntroductionScam,
+    EoLandingPageNotificationScam,
+    EoLandingPageOriginOfEnergyScam,
+  ],
 })
 export class EoLandingPageShellScam {}

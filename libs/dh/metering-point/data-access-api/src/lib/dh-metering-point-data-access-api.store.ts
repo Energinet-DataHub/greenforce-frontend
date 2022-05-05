@@ -20,19 +20,9 @@ import { filter, map, Observable, switchMap, tap } from 'rxjs';
 import {
   MeteringPointCimDto,
   MeteringPointHttp,
-} from '@energinet-datahub/dh/shared/data-access-api';
+} from '@energinet-datahub/dh/shared/domain';
 import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
-
-export const enum LoadingState {
-  INIT = 'INIT',
-  LOADING = 'LOADING',
-  LOADED = 'LOADED',
-}
-
-export const enum ErrorState {
-  NOT_FOUND_ERROR = 'NOT_FOUND_ERROR',
-  GENERAL_ERROR = 'GENERAL_ERROR',
-}
+import { ErrorState, LoadingState } from './states';
 
 interface MeteringPointState {
   readonly meteringPoint?: MeteringPointCimDto;
@@ -67,8 +57,8 @@ export class DhMeteringPointDataAccessApiStore extends ComponentStore<MeteringPo
   }
 
   readonly loadMeteringPointData = this.effect(
-    (meteringPointId: Observable<string>) => {
-      return meteringPointId.pipe(
+    (meteringPointId$: Observable<string>) => {
+      return meteringPointId$.pipe(
         tap(() => {
           this.resetState();
 

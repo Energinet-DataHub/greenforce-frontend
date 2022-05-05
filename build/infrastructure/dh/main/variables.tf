@@ -49,12 +49,7 @@ variable shared_resources_resource_group_name {
   description   = "Name of the Resource Group, that contains the shared resources."
 }
 
-variable subnet_internal_private_endpoints_address_space {
+variable apim_b2c_tenant_frontend_userflow {
   type          = string
-  description   = "Address space of the subnet for internal private endpoints"
-}
-
-variable subnet_vnet_integrations_webapi_address_space {
-  type          = string
-  description   = "Address space of the subnet for Virtual Network Integrations of WebAPIs"
+  description   = "The URL of the B2C tenant where the signin user flow that is used by the frontend exists. On the format: https://<tenant-name>.b2clogin.com/<tenant-name>.onmicrosoft.com/<user-flow-name>"
 }

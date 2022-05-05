@@ -16,10 +16,13 @@
  */
 import { Component, NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { MsalService } from '@energinet-datahub/dh/auth/msal';
-import { DhLanguagePickerModule } from '@energinet-datahub/dh/globalization/feature-language-picker';
-import { WattButtonModule, WattShellModule } from '@energinet-datahub/watt';
 import { TranslocoModule } from '@ngneat/transloco';
+
+import { MsalService } from '@energinet-datahub/dh/auth/msal';
+import { WattButtonModule, WattShellModule } from '@energinet-datahub/watt';
+import { DhLanguagePickerModule } from '@energinet-datahub/dh/globalization/feature-language-picker';
+
+import { DhPrimaryNavigationScam } from './dh-primary-navigation.component';
 
 @Component({
   selector: 'dh-shell',
@@ -40,6 +43,7 @@ export class DhCoreShellComponent {
     TranslocoModule,
     DhLanguagePickerModule,
     RouterModule,
+    DhPrimaryNavigationScam,
     WattShellModule,
     WattButtonModule,
   ],

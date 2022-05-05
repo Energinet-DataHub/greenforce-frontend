@@ -1,0 +1,26 @@
+{
+  "projectType": "library",
+  "root": "libs/eo/metering-points/shell",
+  "sourceRoot": "libs/eo/metering-points/shell/src",
+  "prefix": "eo",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/eo/metering-points/shell"],
+      "options": {
+        "jestConfig": "libs/eo/metering-points/shell/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/eo/metering-points/shell/src/**/*.ts",
+          "libs/eo/metering-points/shell/src/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": ["product:eo", "domain:metering-points", "type:shell"]
+}

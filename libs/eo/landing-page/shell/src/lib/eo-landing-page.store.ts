@@ -16,9 +16,9 @@
  */
 import { APP_BASE_HREF } from '@angular/common';
 import { Inject, Injectable } from '@angular/core';
-import { AuthHttp } from '@energinet-datahub/ett/auth/data-access-api';
-import { ettDashboardRoutePath } from '@energinet-datahub/ett/dashboard/routing';
-import { AbsoluteUrlGenerator } from '@energinet-datahub/ett/shared/util-browser';
+import { eoDashboardRoutePath } from '@energinet-datahub/eo/dashboard/routing';
+import { AuthHttp } from '@energinet-datahub/eo/auth/data-access-api';
+import { AbsoluteUrlGenerator } from '@energinet-datahub/eo/shared/util-browser';
 import { ComponentStore } from '@ngrx/component-store';
 import { Observable } from 'rxjs';
 
@@ -28,7 +28,7 @@ interface EoLandingPageState {}
 
 @Injectable()
 export class EoLandingPageStore extends ComponentStore<EoLandingPageState> {
-  #absoluteReturnUrl = this.urlGenerator.fromCommands([ettDashboardRoutePath]);
+  #absoluteReturnUrl = this.urlGenerator.fromCommands([eoDashboardRoutePath]);
 
   authenticationUrl$: Observable<string> = this.select(
     this.authHttp.getOidcLogin(this.appBaseHref, this.#absoluteReturnUrl),

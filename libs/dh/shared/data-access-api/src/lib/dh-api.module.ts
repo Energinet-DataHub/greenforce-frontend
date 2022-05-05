@@ -22,9 +22,10 @@ import {
   Optional,
   SkipSelf,
 } from '@angular/core';
+
 import { dhApiEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 
-import { ApiModule, Configuration } from './generated/v1';
+import { ApiModule, Configuration } from '@energinet-datahub/dh/shared/domain';
 
 /**
  * Do not import directly. Use `DhApiModule.forRoot`.

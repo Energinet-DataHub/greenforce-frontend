@@ -5,6 +5,13 @@
   "shell": {
     "logout": "Sign out"
   },
+  "sidebar": {
+    "navigation": {
+      "meteringPoints": "Metering points",
+      "messageArchive": "Request/Response messages",
+      "marketParticipant": "Organizations"
+    }
+  },
   "meteringPoint": {
     "search": {
       "title": "Search metering points",
@@ -49,6 +56,7 @@
         "meterNumber": "Meternumber"
       },
       "tabs": {
+        "processes": "Processes",
         "prices": "Prices",
         "childMeteringPoints": "Child metering points ({{ count }})"
       },
@@ -60,6 +68,23 @@
         },
         "noChildMeteringPointsTitle": "No child metering point(s)",
         "noChildMeteringPointsText": "We did not find any child metering point(s) on this metering point"
+      },
+      "processesTab": {
+        "headers": {
+          "name": "Description",
+          "createdDate": "Submitted",
+          "effectiveDate": "Validity date",
+          "status": "Status"
+        },
+        "sortDescription": {
+          "name": "Sort by description",
+          "createdDate": "Sort by submitted date",
+          "effectiveDate": "Sort by validity date",
+          "status": "Sort by status"
+        },
+        "noProcessesFound": "No processes",
+        "noProcessesText": "We did not find any processes on this metering point",
+        "processRejected": "Rejected"
       }
     },
     "secondaryMasterData": {
@@ -228,6 +253,178 @@
     "serverError": {
       "title": "Oops! There was an error",
       "message": "Unfortunately, an error occurred while retrieving the necessary information."
+    }
+  },
+  "messageArchive": {
+    "unknowenError": "Unknowen error",
+    "search": {
+      "title": "Search in request and response messages",
+      "documenttype": "Document type",
+      "senderId": "Sender Id",
+      "messageId": "Message Id",
+      "traceId": "Trace Id",
+      "receiverId": "Receiver Id",
+      "businessReason": "Business reason",
+      "dateFrom": "Date from",
+      "dateTo": "Date to",
+      "startSearch": "Search",
+      "NoResultsFound": "No result",
+      "ChooseBusinessReason": "Choose business reason",
+      "ChooseDocumentType": "Choose document type",
+      "includeRelatedMessage": "Include related message",
+      "pageSize": "Results each page",
+      "nextPage": "Next page",
+      "page": "Page",
+      "rsm": "RSM",
+      "sender": "Aktor",
+      "timeStamp": "Time",
+      "status": "Status",
+      "sent": "IN",
+      "received": "OUT",
+      "download": "Download",
+      "show": "Show",
+      "noResultsHelperText": "Try adjusting your search or filter to find what you are looking for.",
+      "clearSearch": "Clear form"
+    }
+  },
+  "marketParticipant": {
+    "organization": {
+      "header": "Organizations",
+      "columns": {
+        "organization": "Organization",
+        "gln": "Organization code",
+        "status": "Status",
+        "marketRoles": "Market roles",
+        "gridAreas": "Grid areas",
+        "noActors": "No actors"
+      },
+      "status": {
+        "New": "New",
+        "Active": "Active",
+        "Inactive": "Inactive",
+        "Passive": "Passive",
+        "Deleted": "Deleted"
+      },
+      "marketRoles": {
+        "BalanceResponsibleParty": "Balance responsible party",
+        "BalancingServiceProvider": "Balancing service provider",
+        "BillingAgent": "Billing agent",
+        "CapacityTrader": "Capacity trader",
+        "Consumer": "Consumer",
+        "ConsumptionResponsibleParty": "Consumption responsible party",
+        "ConsentAdministrator": "Consent administrator",
+        "CoordinatedCapacityCalculator": "Coordinated capacity calculator",
+        "CoordinationCentreOperator": "Coordination centre operator",
+        "DataProvider": "Data provider",
+        "EnergyServiceCompany": "Energy service company",
+        "EnergySupplier": "Energy supplier",
+        "EnergyTrader": "Energy trader",
+        "GridAccessProvider": "Grid access provider",
+        "ImbalanceSettlementResponsible": "Imbalance settlement responsible",
+        "InterconnectionTradeResponsible": "Interconnection trade responsible",
+        "LfcOperator": "LFC operator",
+        "MarketInformationAggregator": "Market information aggregator",
+        "MarketOperator": "Market operator",
+        "MeritOrderListResponsible": "Merit order list responsible",
+        "MeterAdministrator": "Meter administrator",
+        "MeterOperator": "Meter operator",
+        "MeteredDataAdministrator": "Metered data administrator",
+        "MeteredDataAggregator": "Metered data aggregator",
+        "MeteredDataCollector": "Metered data collector",
+        "MeteredDataResponsible": "Metered data responsible",
+        "MeteringPointAdministrator": "Metering point administrator",
+        "ModelMergingAgent": "Model merging agent",
+        "ModellingAuthority": "Modelling authority",
+        "NominatedElectricityMarketOperator": "Nominated electricity market operator",
+        "NominationValidator": "Nomination validator",
+        "PartyAdministrator": "Party administrator",
+        "PartyConnectedToTheGrid": "Party connected to the grid",
+        "Producer": "Producer",
+        "ProductionResponsibleParty": "Production responsible party",
+        "ReconciliationAccountable": "Reconciliation accountable",
+        "ReconciliationResponsible": "Reconciliation responsible",
+        "ReserveAllocator": "Reserve allocator",
+        "ResourceAggregator": "Resource aggregator",
+        "ResourceCapacityMechanismOperator": "Resource capacity mechanism operator",
+        "ResourceProvider": "Resource provider",
+        "Scheduling": "Scheduling",
+        "Agent": "Agent",
+        "SchedulingAreaResponsible": "Scheduling area responsible",
+        "SystemOperator": "System operator",
+        "TradeResponsibleParty": "Trade responsible party",
+        "TransmissionCapacityAllocator": "Transmission capacity allocator"
+      },
+      "editOrganization": "Edit organization",
+      "editActor": "Edit actor",
+      "createOrganization": "Create organization",
+      "noOrganizations": "No organizations",
+      "paginator": {
+        "itemsPerPageLabel": "Organizations per page",
+        "of": "of",
+        "first": "First page",
+        "last": "Last page",
+        "next": "Next page",
+        "previous": "Previous page"
+      },
+      "create": {
+        "organizationCreateHeader": "Create organization",
+        "organizationEditHeader": "Edit organization",
+        "masterDataTabHeader": "Master data",
+        "contactDataTabHeader": "Contacts",
+        "cancelLabel": "Cancel",
+        "saveLabel": "Save",
+        "errorToastLabel": "Error",
+        "masterData": {
+          "organizationNameLabel": "Name",
+          "businessRegistrationIdetifierLabel": "Business registration identifier",
+          "streetNameLabel": "Street name",
+          "streetNumberLabel": "Street number",
+          "zipCodeLabel": "Zip code",
+          "cityLabel": "City",
+          "countryLabel": "Country",
+          "fieldRequiredErrorText": "Field is required.",
+          "countries": {
+            "at": "Austria",
+            "be": "Belgium",
+            "bg": "Bulgaria",
+            "hr": "Croatia",
+            "cy": "Cyprus",
+            "cz": "Czech Republic",
+            "dk": "Denmark",
+            "ee": "Estonia",
+            "fi": "Finland",
+            "fr": "France",
+            "de": "Germany",
+            "gr": "Greece",
+            "hu": "Hungary",
+            "ie": "Ireland",
+            "it": "Italy",
+            "lv": "Latvia",
+            "lt": "Lithuania",
+            "lu": "Luxembourg",
+            "mt": "Malta",
+            "nl": "Netherlands",
+            "no": "Norway",
+            "pl": "Poland",
+            "pt": "Portugal",
+            "ro": "Romania",
+            "sk": "Slovakia",
+            "si": "Slovenia",
+            "es": "Spain",
+            "se": "Sweden",
+            "gb": "United Kingdom"
+          }
+        },
+        "contacts": {
+          "category": "Category",
+          "name": "Name",
+          "namePlaceholder": "Name",
+          "email": "E-mail",
+          "emailPlaceholder": "E-mail",
+          "phone": "Phone",
+          "phonePlaceholder": "Phone (optional)"
+        }
+      }
     }
   }
 }

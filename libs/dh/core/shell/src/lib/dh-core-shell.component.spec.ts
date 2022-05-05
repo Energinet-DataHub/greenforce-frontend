@@ -18,14 +18,13 @@ import { By } from '@angular/platform-browser';
 import { render, RenderResult } from '@testing-library/angular';
 
 import { WattShellComponent } from '@energinet-datahub/watt';
-
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
+import { MsalServiceFake } from '@energinet-datahub/dh/shared/test-util-auth';
 
 import {
   DhCoreShellComponent,
   DhCoreShellScam,
 } from './dh-core-shell.component';
-import { MsalServiceFake } from '@energinet-datahub/dh/shared/test-util-auth';
 
 describe(DhCoreShellComponent.name, () => {
   beforeEach(async () => {

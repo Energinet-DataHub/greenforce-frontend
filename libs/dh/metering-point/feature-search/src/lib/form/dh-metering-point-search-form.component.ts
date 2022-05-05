@@ -72,6 +72,7 @@ export class DhMeteringPointSearchFormComponent
         this.focusSearchInput();
       }
     );
+
     this.focusSearchInput();
   }
 
@@ -88,18 +89,19 @@ export class DhMeteringPointSearchFormComponent
     this.updateQueryParam(this.searchControl.value);
 
     if (!this.searchControl.valid) {
-      this.focusSearchInput();
+      return this.focusSearchInput();
+    } else if (this.loading) {
       return;
-    } else if (this.loading) return;
+    }
 
     this.search.emit(this.searchControl.value);
   }
 
-  private updateQueryParam(q: string | null): void {
+  private updateQueryParam(q: string | null | undefined): void {
     this.router.navigate([], { queryParams: { q } });
   }
 
-  private setInitialValue(value: string): void {
+  private setInitialValue(value: string | undefined | null): void {
     this.searchControl.setValue(value);
 
     if (!value) {

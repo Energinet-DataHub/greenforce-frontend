@@ -1,0 +1,26 @@
+{
+  "projectType": "library",
+  "root": "libs/eo/auth/feature-terms",
+  "sourceRoot": "libs/eo/auth/feature-terms/src",
+  "prefix": "eo",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/eo/auth/feature-terms"],
+      "options": {
+        "jestConfig": "libs/eo/auth/feature-terms/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/eo/auth/feature-terms/src/**/*.ts",
+          "libs/eo/auth/feature-terms/src/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": ["product:eo", "domain:auth", "type:feature"]
+}

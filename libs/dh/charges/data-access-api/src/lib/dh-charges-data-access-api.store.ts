@@ -23,7 +23,7 @@ import {
   ChargeLinkV1Dto,
   ChargeLinksHttp,
   ChargeType,
-} from '@energinet-datahub/dh/shared/data-access-api';
+} from '@energinet-datahub/dh/shared/domain';
 
 export const enum LoadingState {
   INIT = 'INIT',
@@ -93,8 +93,8 @@ export class DhChargesDataAccessApiStore extends ComponentStore<ChargesState> {
   }
 
   readonly loadChargesData = this.effect(
-    (meteringPointId: Observable<string>) => {
-      return meteringPointId.pipe(
+    (meteringPointId$: Observable<string>) => {
+      return meteringPointId$.pipe(
         tap(() => {
           this.resetState();
 

@@ -28,7 +28,10 @@ import {
   MatFormFieldControl,
 } from '@angular/material/form-field';
 
+import { WattDateRangeInputComponent } from '../input/date-range-input/watt-date-range-input.component';
+import { WattDropdownComponent } from '../dropdown/watt-dropdown.component';
 import { WattInputDirective } from '../input/input.directive';
+import { WattTimeRangeInputComponent } from '../input/time-range-input';
 
 @Component({
   selector: 'watt-form-field',
@@ -38,6 +41,7 @@ import { WattInputDirective } from '../input/input.directive';
 })
 export class FormFieldComponent implements AfterViewInit {
   @Input() size: 'normal' | 'large' = 'normal';
+
   @HostBinding('class')
   get _cssClass() {
     return [`watt-form-field-${this.size}`];
@@ -45,15 +49,30 @@ export class FormFieldComponent implements AfterViewInit {
 
   beforeViewInit = true; // Used to remove placeholder control
 
-  @ContentChild(WattInputDirective)
-  control!: MatFormFieldControl<unknown>;
-
   @ViewChild(MatFormField)
   matFormField!: MatFormField;
 
+  @ContentChild(WattInputDirective)
+  inputControl!: MatFormFieldControl<unknown>;
+
+  @ContentChild(WattDropdownComponent)
+  wattDropdown?: WattDropdownComponent;
+
+  @ContentChild(WattDateRangeInputComponent)
+  dateRangeControl?: WattDateRangeInputComponent;
+
+  @ContentChild(WattTimeRangeInputComponent)
+  timeRange?: WattTimeRangeInputComponent;
+
   ngAfterViewInit() {
     if (this.beforeViewInit) {
-      this.matFormField._control = this.control;
+      const control =
+        this.inputControl ||
+        this.wattDropdown?.matSelect ||
+        this.timeRange?.matDateRangeInput ||
+        this.dateRangeControl;
+
+      this.matFormField._control = control;
       this.matFormField.ngAfterContentInit();
       this.beforeViewInit = false;
     }

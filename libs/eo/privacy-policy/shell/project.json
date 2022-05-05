@@ -1,0 +1,26 @@
+{
+  "projectType": "library",
+  "root": "libs/eo/privacy-policy/shell",
+  "sourceRoot": "libs/eo/privacy-policy/shell/src",
+  "prefix": "eo",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/eo/privacy-policy/shell"],
+      "options": {
+        "jestConfig": "libs/eo/privacy-policy/shell/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/eo/privacy-policy/shell/src/**/*.ts",
+          "libs/eo/privacy-policy/shell/src/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": ["product:eo", "domain:privacy-policy", "type:shell"]
+}

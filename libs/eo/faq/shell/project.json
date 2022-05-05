@@ -1,0 +1,26 @@
+{
+  "projectType": "library",
+  "root": "libs/eo/faq/shell",
+  "sourceRoot": "libs/eo/faq/shell/src",
+  "prefix": "eo",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/eo/faq/shell"],
+      "options": {
+        "jestConfig": "libs/eo/faq/shell/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/eo/faq/shell/src/**/*.ts",
+          "libs/eo/faq/shell/src/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": ["product:eo", "domain:faq", "type:shell"]
+}

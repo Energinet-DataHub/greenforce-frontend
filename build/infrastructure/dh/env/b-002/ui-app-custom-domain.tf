@@ -11,8 +11,12 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+locals {
+  B_002_CUSTOM_DOMAIN_NAME = "itlev.datahub.dk"
+}
+
 resource "azurerm_static_site_custom_domain" "static_site_custom_domain" {
   static_site_id  = azurerm_static_site.ui.id
-  domain_name     = "itlev.datahub.dk"
+  domain_name     = local.B_002_CUSTOM_DOMAIN_NAME
   validation_type = "cname-delegation"
 }

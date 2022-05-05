@@ -5,6 +5,13 @@
   "shell": {
     "logout": "Log ud"
   },
+  "sidebar": {
+    "navigation": {
+      "meteringPoints": "Målepunkter",
+      "messageArchive": "Fremsøg forretningsbesked",
+      "marketParticipant": "Organisationer"
+    }
+  },
   "meteringPoint": {
     "search": {
       "title": "Søg målepunkter",
@@ -49,6 +56,7 @@
         "meterNumber": "Målernummer"
       },
       "tabs": {
+        "processes": "Processer",
         "prices": "Priser",
         "childMeteringPoints": "Child Målepunkter ({{ count }})"
       },
@@ -60,6 +68,23 @@
         },
         "noChildMeteringPointsTitle": "Ingen child målepunkter",
         "noChildMeteringPointsText": "Vi fandt ingen child målepunkter til dette målepunkt"
+      },
+      "processesTab": {
+        "headers": {
+          "name": "Beskrivelse",
+          "createdDate": "Indsendt",
+          "effectiveDate": "Skæringsdato",
+          "status": "Status"
+        },
+        "sortDescription": {
+          "name": "Sorter efter beskrivelse",
+          "createdDate": "Sorter efter indsendelsesdato",
+          "effectiveDate": "Sorter efter skæringsdato",
+          "status": "Sorter efter status"
+        },
+        "noProcessesFound": "Ingen processer.",
+        "noProcessesText": "Vi fandt ingen processer til dette målepunkt",
+        "processRejected": "Afvist"
       }
     },
     "secondaryMasterData": {
@@ -215,7 +240,7 @@
       "D02": "Gebyr",
       "D03": "Tarif"
     },
-    "chargeOwner": "Tarif ejer",
+    "chargeOwner": "Ejer",
     "startDate": "Dato",
     "transparentInvoicing": "Viderefakturering",
     "quantity": "Antal",
@@ -228,6 +253,178 @@
     "serverError": {
       "title": "Ups! Der opstod en fejl",
       "message": "Der opstod desværre en fejl, da vi skulle hente de nødvendige oplysninger."
+    }
+  },
+  "messageArchive": {
+    "unknowenError": "Ukendt fejl",
+    "search": {
+      "title": "Fremsøg forretningsbesked",
+      "documenttype": "Dokumenttype",
+      "senderId": "Afsender Id",
+      "messageId": "Besked Id",
+      "traceId": "Trace Id",
+      "receiverId": "Modtager Id",
+      "businessReason": "Forretningsårsag",
+      "dateFrom": "Dato fra",
+      "dateTo": "Dato til",
+      "startSearch": "Fremsøg besked",
+      "NoResultsFound": "Intet resultat",
+      "ChooseBusinessReason": "Vælg forretningsårsag",
+      "ChooseDocumentType": "Vælg dokumenttype",
+      "includeRelatedMessage": "Inkluder relateret besked",
+      "pageSize": "Resultater per side",
+      "nextPage": "Næste side",
+      "page": "Side",
+      "rsm": "RSM",
+      "sender": "Aktør",
+      "timeStamp": "Tid",
+      "status": "Status",
+      "sent": "IND",
+      "received": "UD",
+      "download": "Download",
+      "show": "Vis",
+      "noResultsHelperText": "Prøv at ændring dine søge indstillinger",
+      "clearSearch": "Ryd form"
+    }
+  },
+  "marketParticipant": {
+    "organization": {
+      "header": "Organisationer",
+      "columns": {
+        "organization": "Organisation",
+        "gln": "Organisationskode",
+        "status": "Status",
+        "marketRoles": "Markedsroller",
+        "gridAreas": "Netområder",
+        "noActors": "Ingen aktører"
+      },
+      "status": {
+        "New": "Ny",
+        "Active": "Aktiv",
+        "Inactive": "Inaktiv",
+        "Passive": "Passiv",
+        "Deleted": "Slettet"
+      },
+      "marketRoles": {
+        "BalanceResponsibleParty": "Balance responsible party",
+        "BalancingServiceProvider": "Balancing service provider",
+        "BillingAgent": "Billing agent",
+        "CapacityTrader": "Capacity trader",
+        "Consumer": "Consumer",
+        "ConsumptionResponsibleParty": "Consumption responsible party",
+        "ConsentAdministrator": "Consent administrator",
+        "CoordinatedCapacityCalculator": "Coordinated capacity calculator",
+        "CoordinationCentreOperator": "Coordination centre operator",
+        "DataProvider": "Data provider",
+        "EnergyServiceCompany": "Energy service company",
+        "EnergySupplier": "Energy supplier",
+        "EnergyTrader": "Energy trader",
+        "GridAccessProvider": "Grid access provider",
+        "ImbalanceSettlementResponsible": "Imbalance settlement responsible",
+        "InterconnectionTradeResponsible": "Interconnection trade responsible",
+        "LfcOperator": "LFC operator",
+        "MarketInformationAggregator": "Market information aggregator",
+        "MarketOperator": "Market operator",
+        "MeritOrderListResponsible": "Merit order list responsible",
+        "MeterAdministrator": "Meter administrator",
+        "MeterOperator": "Meter operator",
+        "MeteredDataAdministrator": "Metered data administrator",
+        "MeteredDataAggregator": "Metered data aggregator",
+        "MeteredDataCollector": "Metered data collector",
+        "MeteredDataResponsible": "Metered data responsible",
+        "MeteringPointAdministrator": "Metering point administrator",
+        "ModelMergingAgent": "Model merging agent",
+        "ModellingAuthority": "Modelling authority",
+        "NominatedElectricityMarketOperator": "Nominated electricity market operator",
+        "NominationValidator": "Nomination validator",
+        "PartyAdministrator": "Party administrator",
+        "PartyConnectedToTheGrid": "Party connected to the grid",
+        "Producer": "Producer",
+        "ProductionResponsibleParty": "Production responsible party",
+        "ReconciliationAccountable": "Reconciliation accountable",
+        "ReconciliationResponsible": "Reconciliation responsible",
+        "ReserveAllocator": "Reserve allocator",
+        "ResourceAggregator": "Resource aggregator",
+        "ResourceCapacityMechanismOperator": "Resource capacity mechanism operator",
+        "ResourceProvider": "Resource provider",
+        "Scheduling": "Scheduling",
+        "Agent": "Agent",
+        "SchedulingAreaResponsible": "Scheduling area responsible",
+        "SystemOperator": "System operator",
+        "TradeResponsibleParty": "Trade responsible party",
+        "TransmissionCapacityAllocator": "Transmission capacity allocator"
+      },
+      "editOrganization": "Redigér organisation",
+      "editActor": "Redigér aktør",
+      "createOrganization": "Opret organisation",
+      "noOrganizations": "Ingen organisationer",
+      "paginator": {
+        "itemsPerPageLabel": "Organisationer pr. side",
+        "of": "af",
+        "first": "Første side",
+        "last": "Sidste side",
+        "next": "Næste side",
+        "previous": "Forrige side"
+      },
+      "create": {
+        "organizationCreateHeader": "Opret organisation",
+        "organizationEditHeader": "Rediger organisation",
+        "masterDataTabHeader": "Stamdata",
+        "contactDataTabHeader": "Kontakter",
+        "cancelLabel": "Annuller",
+        "saveLabel": "Gem",
+        "errorToastLabel": "Fejl",
+        "masterData": {
+          "organizationNameLabel": "Navn",
+          "businessRegistrationIdetifierLabel": "CVR-nr.",
+          "streetNameLabel": "Vejnavn",
+          "streetNumberLabel": "Vej nr.",
+          "zipCodeLabel": "Post nr.",
+          "cityLabel": "By",
+          "countryLabel": "Land",
+          "fieldRequiredErrorText": "Feltet er påkrævet.",
+          "countries": {
+            "at": "Østrig",
+            "be": "Belgien",
+            "bg": "Bulgarien",
+            "hr": "Kroatien",
+            "cy": "Cypern",
+            "cz": "Tjekkiet",
+            "dk": "Danmark",
+            "ee": "Estland",
+            "fi": "Finland",
+            "fr": "Frankrig",
+            "de": "Tyskland",
+            "gr": "Grækenland",
+            "hu": "Ungarn",
+            "ie": "Irland",
+            "it": "Italien",
+            "lv": "Letland",
+            "lt": "Litauen",
+            "lu": "Luxembourg",
+            "mt": "Malta",
+            "nl": "Holland",
+            "no": "Norge",
+            "pl": "Polen",
+            "pt": "Portugal",
+            "ro": "Rumænien",
+            "sk": "Slovakiet",
+            "si": "Slovenien",
+            "es": "Spanien",
+            "se": "Sverige",
+            "gb": "England"
+          }
+        },
+        "contacts": {
+          "category": "Kategori",
+          "name": "Navn",
+          "namePlaceholder": "Navn",
+          "email": "E-mail",
+          "emailPlaceholder": "E-mail",
+          "phone": "Telefon",
+          "phonePlaceholder": "Telefon (valgfri)"
+        }
+      }
     }
   }
 }

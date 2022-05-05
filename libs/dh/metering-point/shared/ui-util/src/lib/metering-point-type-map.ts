@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { MeteringPointType } from '@energinet-datahub/dh/shared/data-access-api';
+import { MeteringPointType } from '@energinet-datahub/dh/shared/domain';
 
 export const allMeteringPointTypes = 'allMeteringPointTypes';
 

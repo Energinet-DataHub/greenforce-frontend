@@ -1,0 +1,27 @@
+{
+  "projectType": "library",
+  "root": "libs/eo/shared/util-browser",
+  "sourceRoot": "libs/eo/shared/util-browser/src",
+  "prefix": "eo",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/eo/shared/util-browser"],
+      "options": {
+        "jestConfig": "libs/eo/shared/util-browser/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/eo/shared/util-browser/src/**/*.ts",
+          "libs/eo/shared/util-browser/src/**/*.html"
+        ]
+      },
+      "outputs": ["{options.outputFile}"]
+    }
+  },
+  "tags": ["product:eo", "domain:shared", "type:util"]
+}
