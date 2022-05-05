@@ -26,6 +26,7 @@ import {
   DhTranslocoModule,
 } from '@energinet-datahub/dh/globalization/configuration-localization';
 import { dhMeteringPointPath } from '@energinet-datahub/dh/metering-point/routing';
+import { dhMarketParticipantPath } from '@energinet-datahub/dh/market-participant/routing';
 import {
   MSAL_GUARD_CONFIG,
   MSAL_INSTANCE,
@@ -71,7 +72,7 @@ const routes: Routes = [
         canActivate: [MsalGuard],
       },
       {
-        path: 'market-participant',
+        path: dhMarketParticipantPath,
         loadChildren: () =>
           import('@energinet-datahub/dh/market-participant/shell').then(
             (esModule) => esModule.DhMarketParticipantShellModule

@@ -16,6 +16,7 @@ export interface ChangeOrganizationDto {
     name: string;
     businessRegisterIdentifier: string;
     address: AddressDto;
+    comment?: string | null;
 }
 
 

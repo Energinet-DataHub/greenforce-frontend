@@ -16,9 +16,10 @@ import { AddressDto } from './address-dto';
 export interface OrganizationDto { 
     organizationId: string;
     name: string;
-    actors: Array<ActorDto>;
     businessRegisterIdentifier: string;
+    comment: string;
     address: AddressDto;
+    actors: Array<ActorDto>;
 }
 
 
