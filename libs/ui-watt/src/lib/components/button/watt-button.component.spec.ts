@@ -14,50 +14,90 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Type } from '@angular/core';
-import { render } from '@testing-library/angular';
-
-import { WattPrimaryButtonComponent } from './primary-button/watt-primary-button.component';
-import { WattSecondaryButtonComponent } from './secondary-button/watt-secondary-button.component';
-import { WattTextButtonComponent } from './text-button/watt-text-button.component';
-import { WattButtonVariant } from './watt-button-variant';
-import { WattButtonComponent } from './watt-button.component';
+import { render, screen } from '@testing-library/angular';
+import { WattIcon } from '../../foundations/icon';
+import {
+  WattButtonSize,
+  WattButtonTypes,
+  WattButtonVariant,
+} from './watt-button.component';
 import { WattButtonModule } from './watt-button.module';
 
-describe(WattButtonComponent.name, () => {
-  test.each([
-    ['text', WattTextButtonComponent],
-    ['primary', WattPrimaryButtonComponent],
-    ['secondary', WattSecondaryButtonComponent],
-  ] as readonly [WattButtonVariant, Type<unknown>][])(
-    'renders a %s button',
-    async (buttonVariant, buttonComponentType) => {
-      const view = await render(WattButtonComponent, {
-        componentProperties: {
-          variant: buttonVariant,
-        },
-        imports: [WattButtonModule],
-      });
+interface WattButtonAltOptions {
+  icon?: WattIcon;
+  loading?: boolean;
+  disabled?: boolean;
+  text?: string;
+  variant?: WattButtonVariant;
+  size?: WattButtonSize;
+}
 
-      const component = view.fixture.componentInstance;
-      expect(component.buttonComponentVariant).toBe(buttonComponentType);
+describe('WattButtonAltComponent', () => {
+  const renderComponent = async ({ ...options }: WattButtonAltOptions) => {
+    await render(
+      `<watt-button
+        variant=${options.variant}
+        size=${options.size}
+        icon=${options.icon}
+        [loading]=${options.loading}
+        [disabled]=${options.disabled}>
+          ${options.text ?? 'Text'}
+      </watt-button>`,
+      { imports: [WattButtonModule] }
+    );
+  };
+
+  it('shows text', async () => {
+    await renderComponent({ text: 'Text' });
+
+    expect(screen.getByRole('button')).toHaveTextContent('Text');
+  });
+
+  it('shows icon', async () => {
+    await renderComponent({ icon: 'plus' });
+
+    expect(screen.getByRole('img')).toHaveClass('mat-icon');
+  });
+
+  it('shows loading spinner', async () => {
+    await renderComponent({ loading: true });
+
+    expect(screen.getByRole('progressbar')).toHaveClass('mat-spinner');
+  });
+
+  test.each(WattButtonTypes)(
+    'gets variant "%s" applied as class',
+    async (variant) => {
+      await renderComponent({ variant, text: 'Text' });
+
+      if (variant === 'icon') {
+        expect(screen.getByRole('button')).not.toHaveTextContent('Text');
+      }
+      expect(screen.getByRole('button')).toHaveClass('watt-button--' + variant);
     }
   );
 
-  test.each([undefined, null, ''])(
-    '`defaults to a text button (variant="$bottomValue")',
-    async (bottomValue) => {
-      const view = await render(WattButtonComponent, {
-        componentProperties: {
-          // intentionally pass bottom values
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          variant: bottomValue as any,
-        },
-        imports: [WattButtonModule],
-      });
+  it('gets size applied as class', async () => {
+    await renderComponent({ size: 'large' });
 
-      const component = view.fixture.componentInstance;
-      expect(component.variant).toBe('text');
-    }
-  );
+    expect(screen.getByRole('button')).toHaveClass('watt-button--large');
+  });
+
+  it('can be disabled', async () => {
+    await renderComponent({ disabled: true });
+
+    expect(screen.getByRole('button')).toHaveClass('mat-button-disabled');
+  });
+
+  it('is not normally disabled', async () => {
+    await renderComponent({ disabled: false });
+
+    expect(screen.getByRole('button')).not.toHaveClass('disabled');
+  });
+
+  it('is not normally showing a loading spinner', async () => {
+    await renderComponent({ loading: false });
+
+    expect(screen.queryByRole('progressbar')).toBeFalsy();
+  });
 });

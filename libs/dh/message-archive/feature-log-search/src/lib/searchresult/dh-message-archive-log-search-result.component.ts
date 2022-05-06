@@ -60,9 +60,6 @@ export class DhMessageArchiveLogSearchResultComponent {
     'status',
     'logoptions',
   ];
-  iconSizes = WattIconSize;
-  iconDownload: WattIcon = 'download';
-  iconOpenInNew: WattIcon = 'openInNew';
 
   emitShowLogDownloadPage(log: MessageArchiveSearchResultItemDto) {
     this.showLogDownloadPage.emit(log);
