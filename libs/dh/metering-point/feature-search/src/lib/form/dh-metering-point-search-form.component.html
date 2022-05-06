@@ -37,9 +37,9 @@ limitations under the License.
       icon="close"
       variant="icon"
       wattSuffix
+      data-testid="buttonClear"
       (click)="onSearchInputClear()"
-      >{{ transloco("clearSearchButton") }}</watt-button
-    >
+    ></watt-button>
   </watt-form-field>
   <watt-button variant="primary" size="large" [loading]="loading">{{
     transloco("searchButton")
