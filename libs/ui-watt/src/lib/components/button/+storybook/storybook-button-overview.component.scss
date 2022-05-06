@@ -28,40 +28,40 @@ storybook-button-overview {
     margin-bottom: 1rem;
   }
 
-  .force-hover-state {
-    watt-primary-button button.watt-button {
+  .force-hover {
+    &.watt-button--primary button {
       background: buttonVariables.$watt-button-primary-hover-background;
     }
 
-    watt-secondary-button button.watt-button {
+    &.watt-button--secondary button {
       background: buttonVariables.$watt-button-secondary-hover-background;
     }
 
-    watt-text-button button.watt-button {
+    &.watt-button--text button {
       color: buttonVariables.$watt-button-text-hover-color;
     }
 
-    watt-icon-button button.watt-icon-button {
+    &.watt-button--icon button {
       color: var(--watt-color-primary-dark);
     }
   }
 
-  .force-focus-state {
-    watt-primary-button button.watt-button {
+  .force-focus {
+    &.watt-button--primary button {
       outline: buttonVariables.$watt-button-primary-focus-outline;
       background: buttonVariables.$watt-button-primary-focus-background;
     }
 
-    watt-secondary-button button.watt-button {
+    &.watt-button--secondary button {
       outline: buttonVariables.$watt-button-secondary-focus-state;
       background: buttonVariables.$watt-button-secondary-focus-background;
     }
 
-    watt-text-button button.watt-button {
+    &.watt-button--text button {
       outline: buttonVariables.$watt-button-text-focus-state;
     }
 
-    watt-icon-button button.watt-icon-button {
+    &.watt-button--icon button {
       outline: 2px solid var(--watt-color-primary);
     }
   }
