@@ -32,13 +32,18 @@ import {
 import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { FormatWidth, getLocaleDateFormat } from '@angular/common';
+import { MatEndDate, MatStartDate } from '@angular/material/datepicker';
 import { MatFormFieldControl } from '@angular/material/form-field';
-import { Subject, takeUntil } from 'rxjs';
+import { combineLatest, map, Subject, takeUntil, tap } from 'rxjs';
+import { parse } from 'date-fns';
+import { formatInTimeZone } from 'date-fns-tz';
 
 import { WattInputMaskService } from '../shared/watt-input-mask.service';
 import { WattRangeInputService } from '../shared/watt-range-input.service';
 import { WattRange } from '../shared/watt-range';
 
+const dateTimeFormat = 'dd-MM-yyyy';
+const danishTimeZoneIdentifier = 'Europe/Copenhagen';
 const danishLocaleCode = 'da';
 
 /**
@@ -80,6 +85,18 @@ export class WattDateRangeInputComponent
    * @ignore
    */
   private destroy$: Subject<void> = new Subject();
+
+  /**
+   * @ignore
+   */
+  @ViewChild(MatStartDate)
+  matStartDate!: MatStartDate<Date | null>;
+
+  /**
+   * @ignore
+   */
+  @ViewChild(MatEndDate)
+  matEndDate!: MatEndDate<Date | null>;
 
   /**
    * @ignore
@@ -287,6 +304,7 @@ export class WattDateRangeInputComponent
   /**
    * @ignore
    */
+  // eslint-disable-next-line sonarjs/cognitive-complexity
   ngAfterViewInit() {
     if (this.initialValue) {
       this.writeValue(this.initialValue);
@@ -309,7 +327,6 @@ export class WattDateRangeInputComponent
       (value) => this.onBeforePaste(value)
     );
 
-    // Setup and subscribe for input changes
     this.rangeInputService.init({
       startInput: {
         element: startDateInputElement,
@@ -323,9 +340,57 @@ export class WattDateRangeInputComponent
       },
     });
 
+    const matStartDateChange$ = this.matStartDate.dateInput.pipe(
+      tap(() => {
+        this.inputMaskService.setInputColor(
+          startDateInputElement,
+          startDateInputMask
+        );
+      }),
+      map(({ value }) => {
+        let start = '';
+
+        if (value instanceof Date) {
+          start = this.formatDate(value);
+        }
+
+        return start;
+      })
+    );
+
+    const matEndDateChange$ = this.matEndDate.dateInput.pipe(
+      tap(() => {
+        this.inputMaskService.setInputColor(
+          endDateInputElement,
+          endDateInputMask
+        );
+      }),
+      map(({ value }) => {
+        let end = '';
+
+        if (value instanceof Date) {
+          end = this.formatDate(value);
+        }
+
+        return end;
+      })
+    );
+
+    // Subscribe for changes from date-range picker
+    combineLatest([matStartDateChange$, matEndDateChange$])
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(([start, end]) => {
+        this.markParentControlAsTouched();
+        this.changeParentValue({ start, end });
+      });
+
+    // Subscribe for input changes
     this.rangeInputService.onInputChanges$
       ?.pipe(takeUntil(this.destroy$))
       .subscribe(([start, end]) => {
+        this.matStartDate.value = start === '' ? null : this.parseDate(start);
+        this.matEndDate.value = end === '' ? null : this.parseDate(end);
+
         this.changeParentValue({ start, end });
       });
   }
@@ -443,5 +508,19 @@ export class WattDateRangeInputComponent
     return this.locale === danishLocaleCode
       ? inputFormat.split('y').join('å')
       : inputFormat;
+  }
+
+  /**
+   * @ignore
+   */
+  private formatDate(value: Date): string {
+    return formatInTimeZone(value, danishTimeZoneIdentifier, dateTimeFormat);
+  }
+
+  /**
+   * @ignore
+   */
+  private parseDate(value: string): Date {
+    return parse(value, dateTimeFormat, new Date());
   }
 }
