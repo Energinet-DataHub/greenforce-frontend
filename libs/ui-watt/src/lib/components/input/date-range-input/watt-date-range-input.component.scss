@@ -62,10 +62,42 @@ watt-date-range-input {
     color: $placeholder-color !important;
     -webkit-text-fill-color: $placeholder-color;
   }
+
+  .mat-datepicker-toggle {
+    color: var(--watt-color-primary);
+  }
 }
 
-.watt-date-range-input_panel {
+.watt-date-range-input__panel {
+  // Note(dzu): The following selectors are taken from Material
+
   .mat-calendar-body-in-range::before {
     background-color: var(--watt-color-primary-light);
+  }
+
+  .mat-calendar-body-today:not(.mat-calendar-body-selected):not(.mat-calendar-body-comparison-identical) {
+    border-color: var(--watt-color-neutral-black);
+  }
+
+  .mat-calendar-body-cell:not(.mat-calendar-body-disabled):hover
+    > .mat-calendar-body-cell-content:not(.mat-calendar-body-selected):not(.mat-calendar-body-comparison-identical),
+  .cdk-keyboard-focused
+    .mat-calendar-body-active
+    > .mat-calendar-body-cell-content:not(.mat-calendar-body-selected):not(.mat-calendar-body-comparison-identical),
+  .cdk-program-focused
+    .mat-calendar-body-active
+    > .mat-calendar-body-cell-content:not(.mat-calendar-body-selected):not(.mat-calendar-body-comparison-identical) {
+    color: var(--watt-color-neutral-white);
+  }
+
+  .mat-calendar-next-button,
+  .mat-calendar-previous-button {
+    color: var(--watt-color-primary);
+  }
+
+  .mat-calendar-body-in-preview .mat-calendar-body-cell-preview {
+    background-color: var(--watt-color-secondary-light);
+    border-bottom: 1px solid var(--watt-color-secondary);
+    border-top: 1px solid var(--watt-color-secondary);
   }
 }
