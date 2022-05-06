@@ -15,11 +15,22 @@
  * limitations under the License.
  */
 import { render, screen } from '@testing-library/angular';
+import { WattIcon } from '../../foundations/icon';
 import {
-  WattButtonAltOptions,
+  WattButtonSize,
   WattButtonTypes,
+  WattButtonVariant,
 } from './watt-button-alt.component';
 import { WattButtonModule } from './watt-button.module';
+
+interface WattButtonAltOptions {
+  icon?: WattIcon;
+  loading?: boolean;
+  disabled?: boolean;
+  text?: string;
+  variant?: WattButtonVariant;
+  size?: WattButtonSize;
+}
 
 describe('WattButtonAltComponent', () => {
   const renderComponent = async ({ ...options }: WattButtonAltOptions) => {

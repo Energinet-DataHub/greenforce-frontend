@@ -29,7 +29,7 @@ watt-button-alt .mat-button {
   }
 
   watt-spinner {
-    padding: 3px 26px;
+    padding: 3px 26px; // MAgic UX padding for button size
   }
 
   .mat-button-focus-overlay {
@@ -38,7 +38,7 @@ watt-button-alt .mat-button {
 
   .mat-button-wrapper {
     display: flex;
-    gap: 8px;
+    gap: var(--watt-space-s);
     justify-content: center;
 
     watt-icon {

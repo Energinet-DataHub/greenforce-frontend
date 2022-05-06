@@ -17,15 +17,6 @@
 import { Component, Input, ViewEncapsulation } from '@angular/core';
 import { WattIcon } from '../../foundations/icon';
 
-export interface WattButtonAltOptions {
-  icon?: WattIcon;
-  loading?: boolean;
-  disabled?: boolean;
-  text?: string;
-  variant?: WattButtonVariant;
-  size?: WattButtonSize;
-}
-
 export const WattButtonTypes = [
   'primary',
   'secondary',
