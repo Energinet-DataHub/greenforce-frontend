@@ -85,3 +85,8 @@ data "azurerm_key_vault_secret" "snet_vnet_integrations_id" {
   name         = "snet-vnet-integrations-id"
   key_vault_id = data.azurerm_key_vault.kv_shared_resources.id
 }
+
+data "azurerm_key_vault_secret" "plan_shared_id" {
+  name         = "plan-shared-id"
+  key_vault_id = data.azurerm_key_vault.kv_shared_resources.id
+}
