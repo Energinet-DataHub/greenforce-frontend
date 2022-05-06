@@ -69,7 +69,7 @@ describe('WattButtonAltComponent', () => {
   it('gets size applied as class', async () => {
     await renderComponent({ size: 'large' });
 
-    expect(screen.getByRole('button')).toHaveClass('large');
+    expect(screen.getByRole('button')).toHaveClass('watt-button--large');
   });
 
   it('can be disabled', async () => {
