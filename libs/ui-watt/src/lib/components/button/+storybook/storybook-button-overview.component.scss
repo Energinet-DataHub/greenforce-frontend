@@ -14,7 +14,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@use '../watt-button-variables' as buttonVariables;
+$watt-button-min-width: 6.25rem;
+$watt-button-size-normal-height: 2.75rem;
+$watt-button-size-large-height: 3.5rem;
+
+$watt-button-primary-focus-outline: 2px solid var(--watt-color-secondary);
+$watt-button-primary-focus-background: var(--watt-color-primary-dark);
+$watt-button-primary-hover-background: var(--watt-color-primary-dark);
+
+$watt-button-secondary-focus-state: 1px solid var(--watt-color-primary);
+$watt-button-secondary-focus-background: var(--watt-color-primary-light);
+$watt-button-secondary-hover-background: var(--watt-color-primary-light);
+
+$watt-button-text-focus-state: 2px solid var(--watt-color-primary);
+$watt-button-text-hover-color: var(--watt-color-primary-dark);
 
 storybook-button-overview {
   display: block;
@@ -30,15 +43,15 @@ storybook-button-overview {
 
   .force-hover {
     &.watt-button--primary button {
-      background: buttonVariables.$watt-button-primary-hover-background;
+      background: $watt-button-primary-hover-background;
     }
 
     &.watt-button--secondary button {
-      background: buttonVariables.$watt-button-secondary-hover-background;
+      background: $watt-button-secondary-hover-background;
     }
 
     &.watt-button--text button {
-      color: buttonVariables.$watt-button-text-hover-color;
+      color: $watt-button-text-hover-color;
     }
 
     &.watt-button--icon button {
@@ -48,17 +61,17 @@ storybook-button-overview {
 
   .force-focus {
     &.watt-button--primary button {
-      outline: buttonVariables.$watt-button-primary-focus-outline;
-      background: buttonVariables.$watt-button-primary-focus-background;
+      outline: $watt-button-primary-focus-outline;
+      background: $watt-button-primary-focus-background;
     }
 
     &.watt-button--secondary button {
-      outline: buttonVariables.$watt-button-secondary-focus-state;
-      background: buttonVariables.$watt-button-secondary-focus-background;
+      outline: $watt-button-secondary-focus-state;
+      background: $watt-button-secondary-focus-background;
     }
 
     &.watt-button--text button {
-      outline: buttonVariables.$watt-button-text-focus-state;
+      outline: $watt-button-text-focus-state;
     }
 
     &.watt-button--icon button {

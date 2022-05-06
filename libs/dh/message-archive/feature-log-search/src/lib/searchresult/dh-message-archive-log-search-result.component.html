@@ -79,18 +79,20 @@ limitations under the License.
     <ng-container matColumnDef="logoptions">
       <th mat-header-cell *matHeaderCellDef></th>
       <td mat-cell *matCellDef="let element">
-        <watt-icon-button
+        <watt-button
+          variant="icon"
           title="{{ transloco('download') }}"
           (click)="emitDownlogLogFile(element)"
-          [icon]="iconDownload"
+          icon="download"
         >
-        </watt-icon-button>
-        <watt-icon-button
+        </watt-button>
+        <watt-button
+          variant="icon"
           (click)="emitShowLogDownloadPage(element)"
-          [icon]="iconOpenInNew"
+          icon="openInNew"
           title="{{ transloco('show') }}"
         >
-        </watt-icon-button>
+        </watt-button>
       </td>
     </ng-container>
 
