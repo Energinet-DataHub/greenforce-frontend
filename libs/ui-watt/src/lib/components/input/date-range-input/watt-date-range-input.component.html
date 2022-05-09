@@ -18,6 +18,7 @@ limitations under the License.
   [disabled]="disabled"
   (focusin)="onFocusIn()"
   (focusout)="onFocusOut($event)"
+  [rangePicker]="picker"
 >
   <input
     aria-label="start-date-input"
@@ -36,3 +37,12 @@ limitations under the License.
     spellcheck="false"
   />
 </mat-date-range-input>
+
+<mat-datepicker-toggle matSuffix [for]="picker">
+  <watt-icon name="date" matDatepickerToggleIcon></watt-icon>
+</mat-datepicker-toggle>
+
+<mat-date-range-picker
+  panelClass="watt-date-range-input__panel"
+  #picker
+></mat-date-range-picker>
