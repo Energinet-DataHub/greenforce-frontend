@@ -96,9 +96,7 @@ describe(DhMeteringPointSearchFormComponent.name, () => {
   it('should clear search input', async () => {
     const { input } = await setup();
 
-    const clearButton = screen.getByRole('button', {
-      name: enTranslations.meteringPoint.search.clearSearchButton,
-    });
+    const clearButton = screen.getByTestId('buttonClear');
     expect(clearButton).toBeInTheDocument();
 
     const value = '23';
