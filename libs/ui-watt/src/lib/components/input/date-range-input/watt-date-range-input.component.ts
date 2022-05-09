@@ -340,7 +340,7 @@ export class WattDateRangeInputComponent
       },
     });
 
-    const matStartDateChange$ = this.matStartDate.dateChange.pipe(
+    const matStartDateChange$ = this.matStartDate.dateInput.pipe(
       tap(() => {
         this.inputMaskService.setInputColor(
           startDateInputElement,
@@ -358,7 +358,7 @@ export class WattDateRangeInputComponent
       })
     );
 
-    const matEndDateChange$ = this.matEndDate.dateChange.pipe(
+    const matEndDateChange$ = this.matEndDate.dateInput.pipe(
       tap(() => {
         this.inputMaskService.setInputColor(
           endDateInputElement,
@@ -392,12 +392,13 @@ export class WattDateRangeInputComponent
         const parsedEndDate = this.parseDate(end);
 
         if (isValid(parsedStartDate)) {
-          this.matStartDate.value = parsedStartDate as Date;
+          this.matStartDate.value = parsedStartDate;
         }
 
         if (isValid(parsedEndDate)) {
-          this.matEndDate.value = parsedEndDate as Date;
+          this.matEndDate.value = parsedEndDate;
         }
+
         this.changeParentValue({ start, end });
       });
   }
