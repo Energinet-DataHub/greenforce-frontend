@@ -78,7 +78,7 @@ describe(WattButtonComponent.name, () => {
   });
 
   test.each(WattButtonTypes)(
-    'gets variant "%s" applied as class',
+    'renders variant "%s" as a class',
     async (variant) => {
       await renderComponent({ variant, text: 'Text' });
 
@@ -89,13 +89,13 @@ describe(WattButtonComponent.name, () => {
     }
   );
 
-  it('gets size applied as class', async () => {
+  it('renders size as a class', async () => {
     await renderComponent({ size: 'large' });
 
     expect(screen.getByRole('button')).toHaveClass('watt-button--large');
   });
 
-  it('gets type applied', async () => {
+  it('renders type', async () => {
     await renderComponent({ type: 'reset' });
 
     expect(screen.getByRole('button')).toHaveAttribute('type', 'reset');
@@ -107,7 +107,7 @@ describe(WattButtonComponent.name, () => {
     expect(screen.getByRole('button')).toHaveClass('mat-button-disabled');
   });
 
-  it('shows loading spinner but no text when loading ', async () => {
+  it('renders loading spinner, but no text, when loading is true ', async () => {
     await renderComponent({ loading: true, text: 'Text' });
 
     expect(screen.getByRole('progressbar')).toBeInTheDocument();

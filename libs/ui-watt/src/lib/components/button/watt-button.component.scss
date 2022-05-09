@@ -21,8 +21,11 @@ watt-button .mat-button {
   @include watt.typography-font-weight("semi-bold");
   @include watt.typography-font-size("m");
   @include watt.space-inset-squish-m;
-  height: 44px; // Magic UX normal height
   min-width: 44px; // Magic UX width
+
+  &.watt-button--normal {
+    height: 44px; // Magic UX normal height
+  }
 
   &.watt-button--large {
     height: 56px; // Magic UX large height
@@ -52,10 +55,6 @@ watt-button .mat-button {
 
     &:focus {
       outline: 2px solid var(--watt-color-secondary);
-    }
-
-    &:focus-visible {
-      outline: 2px solid red;
     }
 
     &:hover,
