@@ -35,7 +35,7 @@ import { FormatWidth, getLocaleDateFormat } from '@angular/common';
 import { MatEndDate, MatStartDate } from '@angular/material/datepicker';
 import { MatFormFieldControl } from '@angular/material/form-field';
 import { combineLatest, map, Subject, takeUntil, tap } from 'rxjs';
-import { parse } from 'date-fns';
+import { parse, isValid } from 'date-fns';
 import { formatInTimeZone } from 'date-fns-tz';
 
 import { WattInputMaskService } from '../shared/watt-input-mask.service';
@@ -340,7 +340,7 @@ export class WattDateRangeInputComponent
       },
     });
 
-    const matStartDateChange$ = this.matStartDate.dateInput.pipe(
+    const matStartDateChange$ = this.matStartDate.dateChange.pipe(
       tap(() => {
         this.inputMaskService.setInputColor(
           startDateInputElement,
@@ -358,7 +358,7 @@ export class WattDateRangeInputComponent
       })
     );
 
-    const matEndDateChange$ = this.matEndDate.dateInput.pipe(
+    const matEndDateChange$ = this.matEndDate.dateChange.pipe(
       tap(() => {
         this.inputMaskService.setInputColor(
           endDateInputElement,
@@ -388,9 +388,16 @@ export class WattDateRangeInputComponent
     this.rangeInputService.onInputChanges$
       ?.pipe(takeUntil(this.destroy$))
       .subscribe(([start, end]) => {
-        this.matStartDate.value = start === '' ? null : this.parseDate(start);
-        this.matEndDate.value = end === '' ? null : this.parseDate(end);
+        const parsedStartDate = this.parseDate(start);
+        const parsedEndDate = this.parseDate(end);
 
+        if(isValid(parsedStartDate)) {
+          this.matStartDate.value = parsedStartDate as Date;
+        }
+
+        if(isValid(parsedEndDate)) {
+          this.matEndDate.value = parsedEndDate as Date;
+        }
         this.changeParentValue({ start, end });
       });
   }
