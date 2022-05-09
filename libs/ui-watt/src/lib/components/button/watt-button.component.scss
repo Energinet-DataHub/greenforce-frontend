@@ -16,8 +16,39 @@
  */
 @use '@energinet-datahub/watt/utils' as watt;
 
+@mixin primary-hover {
+  background: var(--watt-color-primary-dark);
+}
+@mixin primary-focus {
+  @include primary-hover;
+  outline: 2px solid var(--watt-color-secondary);
+}
+
+@mixin secondary-hover {
+  background: var(--watt-color-primary-light);
+}
+@mixin secondary-focus {
+  @include secondary-hover;
+  outline: 1px solid var(--watt-color-primary);
+}
+
+@mixin text-hover {
+  color: var(--watt-color-primary-dark);
+}
+@mixin text-focus {
+  @include text-hover;
+  outline: 2px solid var(--watt-color-primary);
+}
+
+@mixin icon-hover {
+  color: var(--watt-color-primary-dark);
+}
+@mixin icon-focus {
+  @include icon-hover;
+  outline: 2px solid var(--watt-color-primary);
+}
+
 watt-button .mat-button {
-  line-height: 24px;
   @include watt.typography-font-weight("semi-bold");
   @include watt.typography-font-size("m");
   @include watt.space-inset-squish-m;
@@ -54,12 +85,12 @@ watt-button .mat-button {
     color: var(--watt-color-primary-contrast);
 
     &:focus {
-      outline: 2px solid var(--watt-color-secondary);
+      @include primary-focus;
     }
 
     &:hover,
     &:focus {
-      background: var(--watt-color-primary-dark);
+      @include primary-hover;
     }
 
     &.mat-button.mat-button-disabled {
@@ -77,12 +108,12 @@ watt-button .mat-button {
     color: var(--watt-color-primary);
 
     &:focus {
-      outline: 1px solid var(--watt-color-primary);
+      @include secondary-focus;
     }
 
     &:hover,
     &:focus {
-      background: var(--watt-color-primary-light);
+      @include secondary-hover;
     }
 
     &.mat-button.mat-button-disabled {
@@ -97,12 +128,12 @@ watt-button .mat-button {
     outline: 2px solid transparent;
 
     &:focus {
-      outline: 2px solid var(--watt-color-primary);
+      @include text-focus;
     }
 
     &:hover,
     &:focus {
-      color: var(--watt-color-primary-dark);
+      @include text-hover;
     }
 
     &.mat-button.mat-button-disabled {
@@ -116,12 +147,12 @@ watt-button .mat-button {
     @include watt.space-inset-s;
 
     &:focus {
-      outline: 2px solid var(--watt-color-primary);
+      @include icon-focus;
     }
 
     &:hover,
     &:focus {
-      color: var(--watt-color-primary-dark);
+      @include icon-hover;
     }
 
     &.mat-button.mat-button-disabled {
