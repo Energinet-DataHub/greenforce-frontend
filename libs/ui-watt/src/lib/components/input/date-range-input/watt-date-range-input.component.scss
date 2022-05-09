@@ -17,6 +17,8 @@
 @use '@energinet-datahub/watt/utils' as watt;
 
 $placeholder-color: var(--watt-color-neutral-grey-500);
+$mat-date-range-input-inner-normal: 44px;
+$mat-date-range-input-inner-large: 56px;
 
 watt-date-range-input {
   align-items: center;
@@ -30,7 +32,6 @@ watt-date-range-input {
     -moz-background-clip: text;
     background-clip: text;
     color: transparent;
-    width: auto; // necessary for iOS, to avoid jumping on focus (however this is not the case for the time-range-input)
   }
 
   /*
@@ -65,6 +66,24 @@ watt-date-range-input {
 
   .mat-datepicker-toggle {
     color: var(--watt-color-primary);
+  }
+}
+
+watt-form-field {
+  &.watt-form-field-normal {
+    watt-date-range-input {
+      input.mat-date-range-input-inner {
+        height: $mat-date-range-input-inner-normal;
+      }
+    }
+  }
+
+  &.watt-form-field-large {
+    watt-date-range-input {
+      input.mat-date-range-input-inner {
+        height: $mat-date-range-input-inner-large;
+      }
+    }
   }
 }
 
