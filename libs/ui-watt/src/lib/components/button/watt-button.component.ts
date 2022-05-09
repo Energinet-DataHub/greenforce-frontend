@@ -34,7 +34,7 @@ export type WattButtonType = 'button' | 'reset' | 'submit';
       mat-button
       [ngClass]="['watt-button--' + variant, 'watt-button--' + size]"
       [disabled]="disabled"
-      type=""
+      [type]="type"
     >
       <watt-spinner
         *ngIf="loading"

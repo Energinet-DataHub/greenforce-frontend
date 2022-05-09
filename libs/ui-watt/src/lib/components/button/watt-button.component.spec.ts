@@ -17,28 +17,32 @@
 import { render, screen } from '@testing-library/angular';
 import { WattIcon } from '../../foundations/icon';
 import {
+  WattButtonComponent,
   WattButtonSize,
+  WattButtonType,
   WattButtonTypes,
   WattButtonVariant,
 } from './watt-button.component';
 import { WattButtonModule } from './watt-button.module';
 
-interface WattButtonAltOptions {
+interface WattButtonOptionsType {
   icon?: WattIcon;
   loading?: boolean;
   disabled?: boolean;
   text?: string;
   variant?: WattButtonVariant;
   size?: WattButtonSize;
+  type?: WattButtonType;
 }
 
-describe('WattButtonAltComponent', () => {
-  const renderComponent = async ({ ...options }: WattButtonAltOptions) => {
+describe(WattButtonComponent.name, () => {
+  const renderComponent = async ({ ...options }: WattButtonOptionsType) => {
     await render(
       `<watt-button
         variant=${options.variant}
         size=${options.size}
         icon=${options.icon}
+        type=${options.type}
         [loading]=${options.loading}
         [disabled]=${options.disabled}>
           ${options.text ?? 'Text'}
@@ -47,22 +51,30 @@ describe('WattButtonAltComponent', () => {
     );
   };
 
-  it('shows text', async () => {
+  it('renders default options', async () => {
+    await render('<watt-button>Default button</watt-button>', {
+      imports: [WattButtonModule],
+    });
+
+    expect(screen.getByRole('button')).toHaveTextContent('Default button');
+    expect(screen.getByRole('button')).toHaveClass('watt-button--normal');
+    expect(screen.getByRole('button')).toHaveClass('watt-button--primary');
+    expect(screen.getByRole('button')).toHaveAttribute('type', 'button');
+    expect(screen.getByRole('button')).not.toHaveClass('mat-button-disabled');
+    expect(screen.queryByRole('progressbar')).not.toBeInTheDocument();
+    expect(screen.queryByRole('img')).not.toBeInTheDocument();
+  });
+
+  it('renders text content', async () => {
     await renderComponent({ text: 'Text' });
 
     expect(screen.getByRole('button')).toHaveTextContent('Text');
   });
 
-  it('shows icon', async () => {
+  it('renders icon when icon is set', async () => {
     await renderComponent({ icon: 'plus' });
 
     expect(screen.getByRole('img')).toHaveClass('mat-icon');
-  });
-
-  it('shows loading spinner', async () => {
-    await renderComponent({ loading: true });
-
-    expect(screen.getByRole('progressbar')).toHaveClass('mat-spinner');
   });
 
   test.each(WattButtonTypes)(
@@ -83,21 +95,22 @@ describe('WattButtonAltComponent', () => {
     expect(screen.getByRole('button')).toHaveClass('watt-button--large');
   });
 
+  it('gets type applied', async () => {
+    await renderComponent({ type: 'reset' });
+
+    expect(screen.getByRole('button')).toHaveAttribute('type', 'reset');
+  });
+
   it('can be disabled', async () => {
     await renderComponent({ disabled: true });
 
     expect(screen.getByRole('button')).toHaveClass('mat-button-disabled');
   });
 
-  it('is not normally disabled', async () => {
-    await renderComponent({ disabled: false });
+  it('shows loading spinner but no text when loading ', async () => {
+    await renderComponent({ loading: true, text: 'Text' });
 
-    expect(screen.getByRole('button')).not.toHaveClass('disabled');
-  });
-
-  it('is not normally showing a loading spinner', async () => {
-    await renderComponent({ loading: false });
-
-    expect(screen.queryByRole('progressbar')).toBeFalsy();
+    expect(screen.getByRole('progressbar')).toBeInTheDocument();
+    expect(screen.getByRole('button')).not.toHaveTextContent('Text');
   });
 });
