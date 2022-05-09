@@ -17,8 +17,9 @@
 @use '@energinet-datahub/watt/utils' as watt;
 
 $placeholder-color: var(--watt-color-neutral-grey-500);
-$mat-date-range-input-inner-normal: 44px;
-$mat-date-range-input-inner-large: 56px;
+$input-height-normal: 44px;
+$input-height-large: 56px;
+$mat-date-range-input-padding: 12px;
 
 watt-date-range-input {
   align-items: center;
@@ -73,7 +74,7 @@ watt-form-field {
   &.watt-form-field-normal {
     watt-date-range-input {
       input.mat-date-range-input-inner {
-        height: $mat-date-range-input-inner-normal;
+        height: $input-height-normal;
       }
     }
   }
@@ -81,9 +82,17 @@ watt-form-field {
   &.watt-form-field-large {
     watt-date-range-input {
       input.mat-date-range-input-inner {
-        height: $mat-date-range-input-inner-large;
+        height: $input-height-large;
       }
     }
+  }
+}
+
+@include watt.media(">=Small") {
+  .cdk-overlay-pane.mat-datepicker-popup {
+    // Moves the datepicker popup to the left
+    // so it aligns with the input's left side
+    transform: translateX((-1 * $mat-date-range-input-padding));
   }
 }
 
