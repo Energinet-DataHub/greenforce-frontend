@@ -391,11 +391,11 @@ export class WattDateRangeInputComponent
         const parsedStartDate = this.parseDate(start);
         const parsedEndDate = this.parseDate(end);
 
-        if(isValid(parsedStartDate)) {
+        if (isValid(parsedStartDate)) {
           this.matStartDate.value = parsedStartDate as Date;
         }
 
-        if(isValid(parsedEndDate)) {
+        if (isValid(parsedEndDate)) {
           this.matEndDate.value = parsedEndDate as Date;
         }
         this.changeParentValue({ start, end });
