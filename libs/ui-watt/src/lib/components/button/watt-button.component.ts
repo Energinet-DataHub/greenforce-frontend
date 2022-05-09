@@ -25,6 +25,7 @@ export const WattButtonTypes = [
 ] as const;
 export type WattButtonVariant = typeof WattButtonTypes[number];
 export type WattButtonSize = 'normal' | 'large';
+export type WattButtonType = 'button' | 'reset' | 'submit';
 
 @Component({
   selector: 'watt-button',
@@ -33,6 +34,7 @@ export type WattButtonSize = 'normal' | 'large';
       mat-button
       [ngClass]="['watt-button--' + variant, 'watt-button--' + size]"
       [disabled]="disabled"
+      type=""
     >
       <watt-spinner
         *ngIf="loading"
@@ -50,6 +52,7 @@ export class WattButtonComponent {
   @Input() icon?: WattIcon;
   @Input() variant: WattButtonVariant = 'primary';
   @Input() size: WattButtonSize = 'normal';
+  @Input() type: WattButtonType = 'button';
   @Input() disabled = false;
   @Input() loading = false;
 

@@ -35,13 +35,18 @@ limitations under the License.
     </watt-error>
     <watt-button
       icon="close"
+      type="reset"
       variant="icon"
       wattSuffix
       data-testid="buttonClear"
       (click)="onSearchInputClear()"
     ></watt-button>
   </watt-form-field>
-  <watt-button variant="primary" size="large" [loading]="loading">{{
-    transloco("searchButton")
-  }}</watt-button>
+  <watt-button
+    variant="primary"
+    type="submit"
+    size="large"
+    [loading]="loading"
+    >{{ transloco("searchButton") }}</watt-button
+  >
 </form>

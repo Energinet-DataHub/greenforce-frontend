@@ -51,7 +51,7 @@ Overview.parameters = {
 //👇 We create a “template” of how args map to rendering
 const ButtonStory: Story<WattButtonComponent> = (args) => ({
   props: args,
-  template: `<watt-button-alt>Button</watt-button-alt>`,
+  template: `<watt-button>Button</watt-button>`,
 });
 
 export const Button = ButtonStory.bind({});
