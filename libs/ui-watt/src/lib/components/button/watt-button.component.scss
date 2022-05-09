@@ -63,6 +63,7 @@ watt-button .mat-button {
   }
 
   watt-spinner {
+    position: absolute;
     padding: 3px 26px; // MAgic UX padding for button size
   }
 
@@ -160,4 +161,8 @@ watt-button .mat-button {
       color: var(--watt-color-neutral-grey-500);
     }
   }
+}
+
+.invisible {
+  opacity: 0;
 }

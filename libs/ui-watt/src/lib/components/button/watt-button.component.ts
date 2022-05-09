@@ -14,7 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, Input, ViewEncapsulation } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  ViewEncapsulation,
+} from '@angular/core';
 import { WattIcon } from '../../foundations/icon';
 
 export const WattButtonTypes = [
@@ -28,6 +33,7 @@ export type WattButtonSize = 'normal' | 'large';
 export type WattButtonType = 'button' | 'reset' | 'submit';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'watt-button',
   template: `
     <button
@@ -41,8 +47,14 @@ export type WattButtonType = 'button' | 'reset' | 'submit';
         [diameter]="18"
         class="content-grid-item content-grid-item-spinner"
       ></watt-spinner>
-      <watt-icon *ngIf="!loading && hasIcon()" [name]="icon"></watt-icon>
-      <ng-content *ngIf="!loading && variant !== 'icon'"></ng-content>
+      <watt-icon
+        [ngClass]="{ invisible: loading }"
+        *ngIf="hasIcon()"
+        [name]="icon"
+      ></watt-icon>
+      <div [ngClass]="{ invisible: loading }">
+        <ng-content *ngIf="variant !== 'icon'"></ng-content>
+      </div>
     </button>
   `,
   styleUrls: ['./watt-button.component.scss'],
