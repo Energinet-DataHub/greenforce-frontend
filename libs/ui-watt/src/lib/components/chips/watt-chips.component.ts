@@ -27,8 +27,16 @@ export interface WattChipsOption {
   templateUrl: './watt-chips.component.html',
 })
 export class WattChipsComponent {
+  /**
+   * @ignore
+   */
   selected: WattChipsOption | undefined;
+
   @Input() options: WattChipsOption[] = [];
+
+  /**
+   * @ignore
+   */
   onSelect(option: WattChipsOption) {
     this.selected = option;
   }
