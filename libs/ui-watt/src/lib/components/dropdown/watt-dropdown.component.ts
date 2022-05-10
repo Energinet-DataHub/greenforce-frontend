@@ -18,8 +18,10 @@ import {
   Component,
   Host,
   Input,
+  OnChanges,
   OnDestroy,
   OnInit,
+  SimpleChanges,
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
@@ -53,7 +55,7 @@ const MAX_DISTANCE_FROM_SCREEN_LEFT_EDGE = 60;
   encapsulation: ViewEncapsulation.None,
 })
 export class WattDropdownComponent
-  implements ControlValueAccessor, OnInit, OnDestroy
+  implements ControlValueAccessor, OnInit, OnChanges, OnDestroy
 {
   /**
    * @ignore
@@ -113,6 +115,11 @@ export class WattDropdownComponent
   @Input() multiple = false;
 
   /**
+   * Sets support for deselecting a selected option in single select mode.
+   */
+  @Input() emptyOption = true;
+
+  /**
    * Sets the placeholder for the dropdown.
    */
   @Input() placeholder = '';
@@ -132,13 +139,19 @@ export class WattDropdownComponent
    * @ignore
    */
   ngOnInit(): void {
-    // load the initial list of options
-    this.filteredOptions$.next(this.options.slice());
-
     this.listenForFilterFieldValueChanges();
     this.initializePropertiesFromParent();
     this.bindParentValidatorsToControl();
     this.bindControlToParent();
+  }
+
+  /**
+   * @ignore
+   */
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.options.currentValue !== changes.options.previousValue) {
+      this.filteredOptions$.next(this.options.slice());
+    }
   }
 
   /**
