@@ -16,8 +16,8 @@
  */
 import { Component, Input } from '@angular/core';
 
-export interface WattChipsItem {
-  name: string;
+export interface WattChipsOption {
+  label: string;
   value: string;
 }
 
@@ -27,9 +27,9 @@ export interface WattChipsItem {
   templateUrl: './watt-chips.component.html',
 })
 export class WattChipsComponent {
-  selected: WattChipsItem | undefined;
-  @Input() items: WattChipsItem[] = [];
-  onSelect(item: WattChipsItem) {
-    this.selected = item;
+  selected: WattChipsOption | undefined;
+  @Input() options: WattChipsOption[] = [];
+  onSelect(option: WattChipsOption) {
+    this.selected = option;
   }
 }
