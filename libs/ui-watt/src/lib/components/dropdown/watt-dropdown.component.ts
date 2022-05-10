@@ -115,7 +115,7 @@ export class WattDropdownComponent
   @Input() multiple = false;
 
   /**
-   * Sets support for deselecting a selected option in single select mode.
+   * Sets support for hiding the reset option in "single" select mode.
    */
   @Input() showResetOption = true;
 
