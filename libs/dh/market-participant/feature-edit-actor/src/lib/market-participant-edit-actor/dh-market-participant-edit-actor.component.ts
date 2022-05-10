@@ -22,6 +22,8 @@ import {
 } from '@energinet-datahub/dh/market-participant/data-access-api';
 import { LetModule } from '@rx-angular/template/let';
 import { DhMarketParticipantActorMasterDataComponentScam } from './master-data/dh-market-participant-actor-master-data.component';
+import { DhMarketParticipantActorMeteringPointTypeComponentScam } from './metering-point-type/dh-market-participant-actor-metering-point-type.component';
+
 import {
   WattButtonModule,
   WattSpinnerModule,
@@ -89,6 +91,7 @@ export class DhMarketParticipantEditActorComponent {
     WattTabsModule,
     WattSpinnerModule,
     DhMarketParticipantActorMasterDataComponentScam,
+    DhMarketParticipantActorMeteringPointTypeComponentScam,
     WattValidationMessageModule,
   ],
   exports: [DhMarketParticipantEditActorComponent],

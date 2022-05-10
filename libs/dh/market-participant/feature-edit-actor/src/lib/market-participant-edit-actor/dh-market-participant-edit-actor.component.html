@@ -46,6 +46,13 @@ limitations under the License.
             >
             </dh-market-participant-actor-master-data>
           </watt-tab>
+          <watt-tab [label]="t('meteringpointTypesHeader')">
+            <dh-market-participant-actor-metering-point-type
+              [actor]="actor"
+              (hasChanges)="onMasterDataChanged($event)"
+            >
+            </dh-market-participant-actor-metering-point-type>
+          </watt-tab>
         </watt-tabs>
 
         <!-- Confirmation  -->
