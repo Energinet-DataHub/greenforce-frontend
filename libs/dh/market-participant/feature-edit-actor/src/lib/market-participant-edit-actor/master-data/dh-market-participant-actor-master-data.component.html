@@ -14,20 +14,21 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<ng-container
-  *transloco="let t; read: 'marketParticipant.actor.create.masterData'"
->
+<ng-container *transloco="let t; read: 'marketParticipant.actor.create.masterData'">
   <div class="form-container">
     <watt-form-field class="field-gln">
       <watt-label>{{ t("labelGln") }}</watt-label>
-      <input
-        [disabled]="actor !== undefined"
-        wattInput
-        [(ngModel)]="changes.gln"
-        (ngModelChange)="onModelChanged()"
-        #nameInputModel="ngModel"
-        required
-      />
+      <input [disabled]="actor !== undefined" wattInput [(ngModel)]="changes.gln" (ngModelChange)="onModelChanged()"
+        #nameInputModel="ngModel" required />
+      <watt-error *ngIf="nameInputModel.hasError('required')">
+        {{ t("fieldRequiredErrorText") }}
+      </watt-error>
+    </watt-form-field>
+    <watt-form-field class="field-status">
+      <watt-label>{{ t("labelStatus") }}</watt-label>
+      <watt-dropdown wattInput [(ngModel)]="changes.status" [options]="statuses" [disabled]="!actor || actor.status === 'Deleted'"
+        #statusInputModel="ngModel" required (ngModelChange)="onModelChanged()" required [showResetOption]="false">
+      </watt-dropdown>
       <watt-error *ngIf="nameInputModel.hasError('required')">
         {{ t("fieldRequiredErrorText") }}
       </watt-error>

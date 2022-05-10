@@ -21,24 +21,61 @@ import {
   Input,
   NgModule,
   OnChanges,
+  OnDestroy,
   Output,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActorChanges } from '@energinet-datahub/dh/market-participant/data-access-api';
-import { ActorDto } from '@energinet-datahub/dh/shared/domain';
-import { WattFormFieldModule, WattInputModule } from '@energinet-datahub/watt';
-import { TranslocoModule } from '@ngneat/transloco';
+import { ActorDto, ActorStatus } from '@energinet-datahub/dh/shared/domain';
+import {
+  WattDropdownModule,
+  WattDropdownOption,
+  WattFormFieldModule,
+  WattInputModule,
+} from '@energinet-datahub/watt';
+import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { LetModule } from '@rx-angular/template/let';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'dh-market-participant-actor-master-data',
   styleUrls: ['./dh-market-participant-actor-master-data.component.scss'],
   templateUrl: './dh-market-participant-actor-master-data.component.html',
 })
-export class DhMarketParticipantActorMasterDataComponent implements OnChanges {
+export class DhMarketParticipantActorMasterDataComponent
+  implements OnChanges, OnDestroy
+{
   @Input() actor: ActorDto | undefined;
   @Output() hasChanges = new EventEmitter<ActorChanges>();
-  changes: ActorChanges = { gln: '', marketRoles: [], meteringPointTypes: [] };
+  changes: ActorChanges = {
+    gln: '',
+    status: 'New',
+    marketRoles: [],
+    meteringPointTypes: [],
+  };
+
+  private destroy$ = new Subject<void>();
+  allStatuses: WattDropdownOption[] = [];
+  statuses: WattDropdownOption[] = [];
+
+  constructor(private translocoService: TranslocoService) {
+    this.translocoService
+      .selectTranslateObject(
+        'marketParticipant.actor.create.masterData.statuses'
+      )
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((statusKeys) => {
+        this.allStatuses = Object.keys(statusKeys)
+          .map((key) => ({
+            value: key,
+            displayValue: statusKeys[key],
+          }))
+          .sort((a, b) => a.displayValue.localeCompare(b.displayValue));
+        this.statuses = this.getValidStatusTransitionOptions(
+          this.actor?.status ?? 'New'
+        );
+      });
+  }
 
   ngOnChanges(): void {
     if (this.actor !== undefined) {
@@ -46,13 +83,52 @@ export class DhMarketParticipantActorMasterDataComponent implements OnChanges {
         gln: this.actor.gln.value,
         marketRoles: this.actor.marketRoles,
         meteringPointTypes: this.actor.meteringPointTypes,
+        status: this.actor.status,
       };
+      this.statuses = this.getValidStatusTransitionOptions(this.changes.status);
       this.hasChanges.emit({ ...this.changes });
     }
   }
 
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.unsubscribe();
+  }
+
   readonly onModelChanged = () => {
     this.hasChanges.emit({ ...this.changes });
+  };
+
+  private getValidStatusTransitionOptions = (status: ActorStatus) => {
+    switch (status) {
+      case ActorStatus.New:
+        return this.allStatuses.filter((x) =>
+          [
+            ActorStatus.New.toLowerCase(),
+            ActorStatus.Active.toLowerCase(),
+            ActorStatus.Deleted.toLocaleLowerCase(),
+          ].includes(x.value.toLowerCase())
+        );
+      case ActorStatus.Active:
+      case ActorStatus.Inactive:
+      case ActorStatus.Passive:
+        return this.allStatuses.filter((x) =>
+          [
+            ActorStatus.Active.toLowerCase(),
+            ActorStatus.Inactive.toLocaleLowerCase(),
+            ActorStatus.Passive.toLocaleLowerCase(),
+            ActorStatus.Deleted.toLocaleLowerCase(),
+          ].includes(x.value.toLowerCase())
+        );
+      case ActorStatus.Deleted:
+        return this.allStatuses.filter((x) =>
+          [ActorStatus.Deleted.toLocaleLowerCase()].includes(
+            x.value.toLowerCase()
+          )
+        );
+      default:
+        return [];
+    }
   };
 }
 
@@ -62,6 +138,7 @@ export class DhMarketParticipantActorMasterDataComponent implements OnChanges {
     LetModule,
     FormsModule,
     TranslocoModule,
+    WattDropdownModule,
     WattFormFieldModule,
     WattInputModule,
   ],
