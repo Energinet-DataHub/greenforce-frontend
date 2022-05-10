@@ -59,7 +59,6 @@ describe(WattDropdownModule.name, () => {
           [multiple]="multiple"
           [showResetOption]="showResetOption"
           [noOptionsFoundLabel]="noOptionsFoundLabel"
-          [showResetOption]="showResetOption"
         ></watt-dropdown>`,
       })
       class TestComponent {
@@ -67,7 +66,6 @@ describe(WattDropdownModule.name, () => {
         options: WattDropdownOptions = dropdownOptions;
         placeholder = placeholder;
         multiple = multiple;
-        showResetOption = showResetOption;
         noOptionsFoundLabel = noOptionsFoundLabel;
         showResetOption = showResetOption;
       }
