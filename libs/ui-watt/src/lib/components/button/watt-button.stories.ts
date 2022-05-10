@@ -16,18 +16,18 @@
  */
 import { moduleMetadata, Story, Meta } from '@storybook/angular';
 import { StorybookButtonOverviewModule } from './+storybook/storybook-button-overview.module';
-import { WattButtonAltComponent } from './watt-button-alt.component';
+import { WattButtonComponent } from './watt-button.component';
 import { WattButtonModule } from './watt-button.module';
 
 export default {
   title: 'Components/Button',
-  component: WattButtonAltComponent,
+  component: WattButtonComponent,
   decorators: [
     moduleMetadata({
       imports: [WattButtonModule],
     }),
   ],
-} as Meta<WattButtonAltComponent>;
+} as Meta<WattButtonComponent>;
 
 const howToUseGuide = `
 1. Import ${WattButtonModule.name} in a module
@@ -49,9 +49,9 @@ Overview.parameters = {
 };
 
 //👇 We create a “template” of how args map to rendering
-const ButtonStory: Story<WattButtonAltComponent> = (args) => ({
+const ButtonStory: Story<WattButtonComponent> = (args) => ({
   props: args,
-  template: `<watt-button-alt>Button</watt-button-alt>`,
+  template: `<watt-button>Button</watt-button>`,
 });
 
 export const Button = ButtonStory.bind({});
