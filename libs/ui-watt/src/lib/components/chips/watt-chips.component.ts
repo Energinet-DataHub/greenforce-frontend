@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, Input } from '@angular/core';
+import { Component, Input, ViewEncapsulation } from '@angular/core';
 
 export interface WattChipsOption {
   label: string;
@@ -22,6 +22,7 @@ export interface WattChipsOption {
 }
 
 @Component({
+  encapsulation: ViewEncapsulation.None,
   selector: 'watt-chips',
   styleUrls: ['./watt-chips.component.scss'],
   templateUrl: './watt-chips.component.html',

@@ -14,3 +14,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+watt-chips {
+  .mat-chip-list-wrapper {
+    flex-wrap: nowrap;
+    overflow: auto;
+  }
+  .mat-chip.mat-standard-chip {
+    background-color: var(--watt-color-neutral-grey-100);
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .mat-standard-chip:hover,
+  .mat-standard-chip:focus {
+    background-color: var(--watt-color-secondary-light);
+  }
+
+  .mat-chip.mat-standard-chip.mat-chip-selected:hover,
+  .mat-chip.mat-standard-chip.mat-chip-selected:focus {
+    background-color: var(--watt-color-primary-dark);
+  }
+
+  .mat-chip.mat-standard-chip:not(.mat-chip-disabled):active {
+    box-shadow: none;
+  }
+
+  .mat-standard-chip::after {
+    display: none;
+  }
+}
