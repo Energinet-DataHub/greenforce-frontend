@@ -18,7 +18,7 @@ limitations under the License.
   <mat-chip
     *ngFor="let option of options"
     [selected]="selected === option"
-    (click)="onSelect(option)"
+    (click)="onClick(option)"
     >{{ option.label }}</mat-chip
   >
 </mat-chip-list>
