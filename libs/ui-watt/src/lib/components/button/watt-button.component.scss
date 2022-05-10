@@ -51,7 +51,7 @@
   outline: 2px solid var(--watt-color-primary);
 }
 
-watt-button .mat-button {
+.mat-button {
   @include watt.typography-font-weight("semi-bold");
   @include watt.typography-font-size("m");
   @include watt.space-inset-squish-m;
@@ -81,6 +81,10 @@ watt-button .mat-button {
     .content-wrapper {
       display: flex;
       gap: var(--watt-space-s);
+
+      &.hidden {
+        visibility: hidden;
+      }
     }
 
     watt-icon {
@@ -168,8 +172,4 @@ watt-button .mat-button {
       color: var(--watt-color-neutral-grey-500);
     }
   }
-}
-
-.invisible {
-  visibility: hidden;
 }

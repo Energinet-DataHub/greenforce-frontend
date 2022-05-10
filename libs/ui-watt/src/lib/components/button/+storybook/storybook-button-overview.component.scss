@@ -16,51 +16,10 @@
  */
 @use "../watt-button.component.scss" as button;
 
-storybook-button-overview {
-  display: block;
-  width: 100%;
-  padding: 1rem;
-  margin: -1rem;
-
+:host {
   & > mat-card > .content-grid {
     display: flex;
     gap: 2rem;
     margin-bottom: 1rem;
-  }
-
-  .force-hover {
-    &.watt-button--primary button {
-      @include button.primary-hover;
-    }
-
-    &.watt-button--secondary button {
-      @include button.secondary-hover;
-    }
-
-    &.watt-button--text button {
-      @include button.text-hover;
-    }
-
-    &.watt-button--icon button {
-      @include button.icon-hover;
-    }
-  }
-
-  .force-focus {
-    &.watt-button--primary button {
-      @include button.primary-focus;
-    }
-
-    &.watt-button--secondary button {
-      @include button.secondary-focus;
-    }
-
-    &.watt-button--text button {
-      @include button.text-focus;
-    }
-
-    &.watt-button--icon button {
-      @include button.icon-focus;
-    }
   }
 }

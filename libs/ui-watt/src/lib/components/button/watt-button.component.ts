@@ -42,11 +42,7 @@ export type WattButtonType = 'button' | 'reset' | 'submit';
       [disabled]="disabled"
       [type]="type"
     >
-      <watt-spinner
-        *ngIf="loading"
-        [diameter]="18"
-        class="content-grid-item content-grid-item-spinner"
-      ></watt-spinner>
+      <watt-spinner *ngIf="loading" [diameter]="18"></watt-spinner>
       <div class="content-wrapper" [ngClass]="{ hidden: loading }">
         <watt-icon *ngIf="hasIcon()" [name]="icon"></watt-icon>
         <ng-content *ngIf="variant !== 'icon'"></ng-content>
@@ -64,6 +60,9 @@ export class WattButtonComponent {
   @Input() disabled = false;
   @Input() loading = false;
 
+  /**
+   * @ignore
+   */
   hasIcon(): boolean {
     return !!this.icon;
   }
