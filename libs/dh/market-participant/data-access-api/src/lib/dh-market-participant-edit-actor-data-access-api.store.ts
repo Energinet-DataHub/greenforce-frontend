@@ -79,15 +79,15 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
       // contacts not implemented yet.
       routeParams$.pipe(
         tap(() => this.patchState({ isLoading: true })),
-        switchMap((input) => {
-          if (!input.actorId) {
+        switchMap((routeParams) => {
+          if (!routeParams.actorId) {
             this.patchState({
               isLoading: false,
-              organizationId: input.organizationId,
+              organizationId: routeParams.organizationId,
             });
             return EMPTY;
           }
-          return this.getActor(input.organizationId, input.actorId).pipe(
+          return this.getActor(routeParams.organizationId, routeParams.actorId).pipe(
             catchError((errorResponse: HttpErrorResponse) => {
               this.patchState({
                 validation: {
