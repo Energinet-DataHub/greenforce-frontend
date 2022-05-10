@@ -27,6 +27,7 @@
 @mixin secondary-hover {
   background: var(--watt-color-primary-light);
 }
+
 @mixin secondary-focus {
   @include secondary-hover;
   outline: 1px solid var(--watt-color-primary);
@@ -35,6 +36,7 @@
 @mixin text-hover {
   color: var(--watt-color-primary-dark);
 }
+
 @mixin text-focus {
   @include text-hover;
   outline: 2px solid var(--watt-color-primary);
@@ -43,6 +45,7 @@
 @mixin icon-hover {
   color: var(--watt-color-primary-dark);
 }
+
 @mixin icon-focus {
   @include icon-hover;
   outline: 2px solid var(--watt-color-primary);
@@ -64,7 +67,6 @@ watt-button .mat-button {
 
   watt-spinner {
     position: absolute;
-    padding: 3px 26px; // MAgic UX padding for button size
   }
 
   .mat-button-focus-overlay {
@@ -73,8 +75,13 @@ watt-button .mat-button {
 
   .mat-button-wrapper {
     display: flex;
-    gap: var(--watt-space-s);
     justify-content: center;
+    align-items: center;
+
+    .content-wrapper {
+      display: flex;
+      gap: var(--watt-space-s);
+    }
 
     watt-icon {
       margin: -5px; // to offset the icons inherent padding of 5px
@@ -164,5 +171,5 @@ watt-button .mat-button {
 }
 
 .invisible {
-  opacity: 0;
+  visibility: hidden;
 }
