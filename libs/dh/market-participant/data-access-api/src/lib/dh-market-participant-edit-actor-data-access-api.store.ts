@@ -87,7 +87,10 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
             });
             return EMPTY;
           }
-          return this.getActor(routeParams.organizationId, routeParams.actorId).pipe(
+          return this.getActor(
+            routeParams.organizationId,
+            routeParams.actorId
+          ).pipe(
             catchError((errorResponse: HttpErrorResponse) => {
               this.patchState({
                 validation: {
