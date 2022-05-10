@@ -41,6 +41,8 @@ limitations under the License.
     <dh-market-participant-organization-overview
       [rows]="overviewList$ | push"
       (editOrganization)="editOrganization($event)"
+      (createActor)="createActor($event)"
+      (editActor)="editActor($event.organizationId, $event.actorId)"
     ></dh-market-participant-organization-overview>
 
     <!-- Spinner -->

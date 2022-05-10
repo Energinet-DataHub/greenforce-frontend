@@ -27,6 +27,9 @@ import {
 } from '@energinet-datahub/watt';
 import { Router } from '@angular/router';
 import {
+  dhMarketParticipantActorsCreatePath,
+  dhMarketParticipantActorsEditPath,
+  dhMarketParticipantActorsPath,
   dhMarketParticipantOrganizationsCreatePath,
   dhMarketParticipantOrganizationsEditPath,
   dhMarketParticipantOrganizationsPath,
@@ -69,6 +72,31 @@ export class DhMarketParticipantOrganizationComponent {
       dhMarketParticipantPath,
       dhMarketParticipantOrganizationsPath,
       dhMarketParticipantOrganizationsCreatePath,
+    ]);
+
+    this.router.navigateByUrl(url);
+  };
+
+  readonly createActor = (organizationId: string) => {
+    const url = this.router.createUrlTree([
+      dhMarketParticipantPath,
+      dhMarketParticipantOrganizationsPath,
+      organizationId,
+      dhMarketParticipantActorsPath,
+      dhMarketParticipantActorsCreatePath,
+    ]);
+
+    this.router.navigateByUrl(url);
+  };
+
+  readonly editActor = (organizationId: string, actorId: string) => {
+    const url = this.router.createUrlTree([
+      dhMarketParticipantPath,
+      dhMarketParticipantOrganizationsPath,
+      organizationId,
+      dhMarketParticipantActorsPath,
+      actorId,
+      dhMarketParticipantActorsEditPath,
     ]);
 
     this.router.navigateByUrl(url);

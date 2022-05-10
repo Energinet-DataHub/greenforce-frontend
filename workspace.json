@@ -13,6 +13,7 @@
     "dh-globalization-domain": "libs/dh/globalization/domain",
     "dh-globalization-feature-language-picker": "libs/dh/globalization/feature-language-picker",
     "dh-market-participant-data-access-api": "libs/dh/market-participant/data-access-api",
+    "dh-market-participant-feature-edit-actor": "libs/dh/market-participant/feature-edit-actor",
     "dh-market-participant-feature-edit-organization": "libs/dh/market-participant/feature-edit-organization",
     "dh-market-participant-feature-organization": "libs/dh/market-participant/feature-organization",
     "dh-market-participant-routing": "libs/dh/market-participant/routing",

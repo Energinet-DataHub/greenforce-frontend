@@ -288,6 +288,20 @@
     }
   },
   "marketParticipant": {
+    "actor": {
+      "create": {
+        "editHeader": "Edit actor",
+        "createHeader": "Create actor",
+        "errorToastLabel": "Error",
+        "masterDataTabHeader": "Master data",
+        "cancelLabel": "Cancel",
+        "saveLabel": "Save",
+        "masterData": {
+          "labelGln": "Organization code",
+          "fieldRequiredErrorText": "Field is required."
+        }
+      }
+    },
     "organization": {
       "header": "Organizations",
       "columns": {
@@ -356,6 +370,7 @@
       },
       "editOrganization": "Edit organization",
       "editActor": "Edit actor",
+      "createActor": "Create actor",
       "createOrganization": "Create organization",
       "noOrganizations": "No organizations",
       "paginator": {
