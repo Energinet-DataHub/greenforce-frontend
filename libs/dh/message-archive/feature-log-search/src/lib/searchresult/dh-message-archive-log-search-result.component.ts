@@ -27,15 +27,12 @@ import { LetModule } from '@rx-angular/template';
 import { MatTableModule } from '@angular/material/table';
 import { TranslocoModule } from '@ngneat/transloco';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
-
 import { MessageArchiveSearchResultItemDto } from '@energinet-datahub/dh/shared/domain';
 import {
   WattButtonModule,
   WattIconModule,
-  WattIconSize,
   WattSpinnerModule,
   WattEmptyStateModule,
-  WattIcon,
   WattBadgeModule,
 } from '@energinet-datahub/watt';
 
@@ -60,9 +57,6 @@ export class DhMessageArchiveLogSearchResultComponent {
     'status',
     'logoptions',
   ];
-  iconSizes = WattIconSize;
-  iconDownload: WattIcon = 'download';
-  iconOpenInNew: WattIcon = 'openInNew';
 
   emitShowLogDownloadPage(log: MessageArchiveSearchResultItemDto) {
     this.showLogDownloadPage.emit(log);
