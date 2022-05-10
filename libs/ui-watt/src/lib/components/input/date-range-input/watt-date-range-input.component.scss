@@ -107,7 +107,7 @@ watt-form-field {
     border-color: var(--watt-color-neutral-black);
   }
 
-  // Set styling on "todays date" when calendar is open
+  // Set styling on "todays date"
   .cdk-program-focused
     .mat-calendar-body-active
     > .mat-calendar-body-cell-content:not(.mat-calendar-body-selected):not(.mat-calendar-body-comparison-identical) {
@@ -115,14 +115,14 @@ watt-form-field {
     color: var(--watt-color-neutral-black);
   }
 
-  // Set styling on "hover" on "todays date" when calendar is open
+  // Set styling on "hover" on "todays date"
   .mat-calendar-body-cell:not(.mat-calendar-body-disabled):hover
     > .mat-calendar-body-cell-content:not(.mat-calendar-body-selected):not(.mat-calendar-body-comparison-identical) {
     background-color: var(--watt-color-primary);
     color: var(--watt-color-neutral-white);
   }
 
-  // Set styling on dates when navigating with the keyboard and calendar is open and
+  // Set styling on dates when navigating with the keyboard
   .cdk-keyboard-focused
     .mat-calendar-body-active
     > .mat-calendar-body-cell-content:not(.mat-calendar-body-selected):not(.mat-calendar-body-comparison-identical) {
