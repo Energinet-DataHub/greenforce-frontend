@@ -97,7 +97,7 @@ watt-form-field {
 }
 
 .watt-date-range-input__panel {
-  // Note(dzu): The following selectors are taken from Material
+  // The following selectors are taken from Material
 
   .mat-calendar-body-in-range::before {
     background-color: var(--watt-color-primary-light);
@@ -107,15 +107,37 @@ watt-form-field {
     border-color: var(--watt-color-neutral-black);
   }
 
+  // Set the dates' text color when calendar is open
+  // [1] - on "hover"
+  // [2] - when navigating with the keyboard
+  // [3] - on "todays date"
+  //
+  // [1]
   .mat-calendar-body-cell:not(.mat-calendar-body-disabled):hover
     > .mat-calendar-body-cell-content:not(.mat-calendar-body-selected):not(.mat-calendar-body-comparison-identical),
+  // [2]
   .cdk-keyboard-focused
     .mat-calendar-body-active
     > .mat-calendar-body-cell-content:not(.mat-calendar-body-selected):not(.mat-calendar-body-comparison-identical),
+  // [3]
   .cdk-program-focused
     .mat-calendar-body-active
     > .mat-calendar-body-cell-content:not(.mat-calendar-body-selected):not(.mat-calendar-body-comparison-identical) {
     color: var(--watt-color-neutral-white);
+  }
+
+  // Set styling on "todays date" when calendar is open
+  .cdk-program-focused
+    .mat-calendar-body-active
+    > .mat-calendar-body-cell-content:not(.mat-calendar-body-selected):not(.mat-calendar-body-comparison-identical) {
+    background-color: transparent;
+    color: var(--watt-color-neutral-black);
+  }
+
+  // Set styling on "hover" on "todays date" when calendar is open
+  .mat-calendar-body-cell:not(.mat-calendar-body-disabled):hover
+    > .mat-calendar-body-cell-content:not(.mat-calendar-body-selected):not(.mat-calendar-body-comparison-identical) {
+    background-color: var(--watt-color-primary);
   }
 
   .mat-calendar-next-button,
