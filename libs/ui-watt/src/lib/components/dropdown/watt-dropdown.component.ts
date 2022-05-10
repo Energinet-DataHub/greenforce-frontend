@@ -117,7 +117,7 @@ export class WattDropdownComponent
   /**
    * Sets support for deselecting a selected option in single select mode.
    */
-  @Input() emptyOption = true;
+  @Input() showResetOption = true;
 
   /**
    * Sets the placeholder for the dropdown.
@@ -149,7 +149,7 @@ export class WattDropdownComponent
    * @ignore
    */
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.options.currentValue !== changes.options.previousValue) {
+    if (changes.options?.currentValue !== changes.options?.previousValue) {
       this.filteredOptions$.next(this.options.slice());
     }
   }
