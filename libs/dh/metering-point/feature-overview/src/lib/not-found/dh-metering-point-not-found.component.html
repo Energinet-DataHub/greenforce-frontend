@@ -18,7 +18,8 @@ limitations under the License.
   icon="explore"
   [title]="'meteringPoint.overview.meteringPointNotFound.title' | transloco"
   [message]="'meteringPoint.overview.meteringPointNotFound.message' | transloco"
-  ><watt-button (click)="goToSearch()" variant="primary">{{
-    'meteringPoint.overview.meteringPointNotFound.button' | transloco
-  }}</watt-button>
+>
+  <watt-button (click)="goToSearch()" variant="primary">
+    {{ "meteringPoint.overview.meteringPointNotFound.button" | transloco }}
+  </watt-button>
 </watt-empty-state>
