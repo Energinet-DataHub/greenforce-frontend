@@ -42,10 +42,12 @@ describe(WattDropdownModule.name, () => {
       initialState = null,
       multiple = false,
       noOptionsFoundLabel = '',
+      showResetOption = true,
     }: {
       initialState?: string | string[] | null;
       multiple?: boolean;
       noOptionsFoundLabel?: string;
+      showResetOption?: boolean;
     } = {}) {
       @Component({
         template: `<watt-dropdown
@@ -53,6 +55,7 @@ describe(WattDropdownModule.name, () => {
           [formControl]="dropdownControl"
           [options]="options"
           [multiple]="multiple"
+          [showResetOption]="showResetOption"
           [noOptionsFoundLabel]="noOptionsFoundLabel"
         ></watt-dropdown>`,
       })
@@ -61,6 +64,7 @@ describe(WattDropdownModule.name, () => {
         options: WattDropdownOptions = dropdownOptions;
         placeholder = placeholder;
         multiple = multiple;
+        showResetOption = showResetOption;
         noOptionsFoundLabel = noOptionsFoundLabel;
       }
 
@@ -95,6 +99,39 @@ describe(WattDropdownModule.name, () => {
     });
 
     describe('single selection', () => {
+      it('shows a reset option by default', async () => {
+        const { matSelect } = await setup({
+          showResetOption: true,
+        });
+
+        await matSelect.open();
+
+        // Number of options is `dropdownOptions` + 2:
+        // Option 1. Filter input
+        // Option 2. Reset option
+        // Option 2 + n. Actual options
+        const expectedOptions = dropdownOptions.length + 2;
+        const actialOptions = await matSelect.getOptions();
+
+        expect(actialOptions.length).toBe(expectedOptions);
+      });
+
+      it('can hide the reset option', async () => {
+        const { matSelect } = await setup({
+          showResetOption: false,
+        });
+
+        await matSelect.open();
+
+        // Number of options is `dropdownOptions` + 1:
+        // Option 1. Filter input
+        // Option 1 + n. Actual options
+        const expectedOptions = dropdownOptions.length + 1;
+        const actialOptions = await matSelect.getOptions();
+
+        expect(actialOptions.length).toBe(expectedOptions);
+      });
+
       // eslint-disable-next-line sonarjs/no-duplicate-string
       it('can reset the dropdown', async () => {
         const [firstDropdownOption] = dropdownOptions;
