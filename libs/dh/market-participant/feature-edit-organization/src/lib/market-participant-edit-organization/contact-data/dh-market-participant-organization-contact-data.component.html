@@ -87,8 +87,12 @@ limitations under the License.
       <mat-header-cell mat-header-cell *matHeaderCellDef></mat-header-cell>
       <mat-cell *matCellDef="let element">
         <ng-container *ngIf="!element.isNewPlaceholder">
-          <watt-icon-button icon="remove" (click)="onRowDelete(element)">
-          </watt-icon-button>
+          <watt-button
+            variant="icon"
+            icon="remove"
+            (click)="onRowDelete(element)"
+          >
+          </watt-button>
         </ng-container>
       </mat-cell>
     </ng-container>
