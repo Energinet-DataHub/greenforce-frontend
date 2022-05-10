@@ -15,4 +15,5 @@
  * limitations under the License.
  */
 export * from './lib/dh-market-participant-data-access-api.store';
+export * from './lib/dh-market-participant-edit-actor-data-access-api.store';
 export * from './lib/dh-market-participant-edit-organization-data-access-api.store';
