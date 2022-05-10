@@ -14,12 +14,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, Input, ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  ViewEncapsulation,
+} from '@angular/core';
 
 export interface WattChipsOption {
   label: string;
   value: string;
 }
+
+export type WattChipsSelection = WattChipsOption | null;
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -31,14 +39,16 @@ export class WattChipsComponent {
   /**
    * @ignore
    */
-  selected: WattChipsOption | undefined;
+  selected: WattChipsSelection = null;
 
   @Input() options: WattChipsOption[] = [];
+  @Output() selectionChange = new EventEmitter<WattChipsSelection>();
 
   /**
    * @ignore
    */
   onClick(option: WattChipsOption) {
-    this.selected = this.selected === option ? undefined : option;
+    this.selected = this.selected === option ? null : option;
+    this.selectionChange.emit(this.selected);
   }
 }
