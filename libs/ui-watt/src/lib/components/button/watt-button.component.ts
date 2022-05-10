@@ -43,7 +43,12 @@ export type WattButtonType = 'button' | 'reset' | 'submit';
       [type]="type"
     >
       <watt-spinner *ngIf="loading" [diameter]="18"></watt-spinner>
-      <div class="content-wrapper" [ngClass]="{ hidden: loading }">
+      <div
+        [ngClass]="{
+          'content-wrapper--loading': loading,
+          'content-wrapper': !loading
+        }"
+      >
         <watt-icon *ngIf="hasIcon()" [name]="icon"></watt-icon>
         <ng-content *ngIf="variant !== 'icon'"></ng-content>
       </div>

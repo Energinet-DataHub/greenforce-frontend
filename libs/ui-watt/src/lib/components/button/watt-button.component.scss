@@ -81,10 +81,10 @@
     .content-wrapper {
       display: flex;
       gap: var(--watt-space-s);
+    }
 
-      &.hidden {
-        visibility: hidden;
-      }
+    .content-wrapper--loading {
+      visibility: hidden;
     }
 
     watt-icon {
