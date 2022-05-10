@@ -75,9 +75,9 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
   }
 
   readonly getActorAndContacts = this.effect(
-    (input$: Observable<{ organizationId: string; actorId?: string }>) =>
+    (routeParams$: Observable<{ organizationId: string; actorId: string }>) =>
       // contacts not implemented yet.
-      input$.pipe(
+      routeParams$.pipe(
         tap(() => this.patchState({ isLoading: true })),
         switchMap((input) => {
           if (!input.actorId) {

@@ -44,7 +44,7 @@ import {
   providers: [DhMarketParticipantEditActorDataAccessApiStore],
 })
 export class DhMarketParticipantEditActorComponent {
-  input$ = this.route.params.pipe(
+  routeParams$ = this.route.params.pipe(
     map((params) => ({
       organizationId: params[dhMarketParticipantOrganizationIdParam] as string,
       actorId: params[dhMarketParticipantActorIdParam] as string,
@@ -60,7 +60,7 @@ export class DhMarketParticipantEditActorComponent {
     private route: ActivatedRoute,
     private router: Router
   ) {
-    this.store.getActorAndContacts(this.input$);
+    this.store.getActorAndContacts(this.routeParams$);
   }
 
   readonly onMasterDataChanged = (changes: ActorChanges) => {
