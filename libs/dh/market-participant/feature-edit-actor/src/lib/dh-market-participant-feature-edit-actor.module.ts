@@ -14,6 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './lib/dh-market-participant-path';
-export * from './lib/dh-market-participant-actor-path';
-export * from './lib/dh-market-participant-organizations-path';
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { DhMarketParticipantEditActorScam } from './market-participant-edit-actor/dh-market-participant-edit-actor.component';
+
+@NgModule({
+  imports: [CommonModule],
+  exports: [DhMarketParticipantEditActorScam],
+})
+export class DhMarketParticipantFeatureEditActorModule {}

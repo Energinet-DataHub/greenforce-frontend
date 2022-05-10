@@ -288,6 +288,20 @@
     }
   },
   "marketParticipant": {
+    "actor": {
+      "create": {
+        "editHeader": "Redigér aktør",
+        "createHeader": "Opret aktør",
+        "errorToastLabel": "Fejl",
+        "masterDataTabHeader": "Stamdata",
+        "cancelLabel": "Annuller",
+        "saveLabel": "Gem",
+        "masterData": {
+          "labelGln": "Organisationskode",
+          "fieldRequiredErrorText": "Feltet er påkrævet."
+        }
+      }
+    },
     "organization": {
       "header": "Organisationer",
       "columns": {
@@ -356,6 +370,7 @@
       },
       "editOrganization": "Redigér organisation",
       "editActor": "Redigér aktør",
+      "createActor": "Opret aktør",
       "createOrganization": "Opret organisation",
       "noOrganizations": "Ingen organisationer",
       "paginator": {
