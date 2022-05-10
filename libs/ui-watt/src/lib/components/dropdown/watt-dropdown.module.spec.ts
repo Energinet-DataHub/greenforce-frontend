@@ -33,6 +33,8 @@ const dropdownOptions: WattDropdownOptions = [
   { value: 'joules', displayValue: 'Joules' },
 ];
 
+const matOptionClass = '.mat-option';
+
 describe(WattDropdownModule.name, () => {
   const placeholder = 'Select a team';
 
@@ -42,10 +44,12 @@ describe(WattDropdownModule.name, () => {
       initialState = null,
       multiple = false,
       noOptionsFoundLabel = '',
+      showResetOption = true,
     }: {
       initialState?: string | string[] | null;
       multiple?: boolean;
       noOptionsFoundLabel?: string;
+      showResetOption?: boolean;
     } = {}) {
       @Component({
         template: `<watt-dropdown
@@ -54,6 +58,7 @@ describe(WattDropdownModule.name, () => {
           [options]="options"
           [multiple]="multiple"
           [noOptionsFoundLabel]="noOptionsFoundLabel"
+          [showResetOption]="showResetOption"
         ></watt-dropdown>`,
       })
       class TestComponent {
@@ -62,6 +67,7 @@ describe(WattDropdownModule.name, () => {
         placeholder = placeholder;
         multiple = multiple;
         noOptionsFoundLabel = noOptionsFoundLabel;
+        showResetOption = showResetOption;
       }
 
       const { fixture } = await render(TestComponent, {
@@ -106,7 +112,7 @@ describe(WattDropdownModule.name, () => {
         await matSelect.open();
 
         const matOptions: DebugElement[] = fixture.debugElement.queryAll(
-          By.css('.mat-option')
+          By.css(matOptionClass)
         );
 
         // Note(xdzus): The first option is skipped because it holds the filter input
@@ -117,6 +123,29 @@ describe(WattDropdownModule.name, () => {
         }
 
         expect(fixture.componentInstance.dropdownControl.value).toBeNull();
+      });
+
+      it('cannot reset the dropdown if showResetOption is disabled', async () => {
+        const [firstDropdownOption] = dropdownOptions;
+
+        const { fixture, matSelect } = await setup({
+          initialState: firstDropdownOption.value,
+          showResetOption: false,
+        });
+
+        await matSelect.open();
+
+        const matOptions: DebugElement[] = fixture.debugElement.queryAll(
+          By.css(matOptionClass)
+        );
+
+        // for each option, click the option and verify selected is not null
+        matOptions.forEach((x) => {
+          x.nativeElement.click();
+          expect(
+            fixture.componentInstance.dropdownControl.value
+          ).not.toBeNull();
+        });
       });
 
       it('can filter the available options', async () => {
@@ -265,7 +294,7 @@ describe(WattDropdownModule.name, () => {
         await matSelect.open();
 
         const matOptions: DebugElement[] = fixture.debugElement.queryAll(
-          By.css('.mat-option')
+          By.css(matOptionClass)
         );
 
         // Note(xdzus): The first option is skipped because it holds the filter input
