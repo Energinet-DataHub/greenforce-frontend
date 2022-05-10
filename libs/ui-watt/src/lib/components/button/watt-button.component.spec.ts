@@ -111,6 +111,6 @@ describe(WattButtonComponent.name, () => {
     await renderComponent({ loading: true, text: 'Text' });
 
     expect(screen.getByRole('progressbar')).toBeInTheDocument();
-    expect(screen.getByRole('button')).not.toHaveTextContent('Text');
+    expect(screen.getByText('Text')).toHaveClass('hidden');
   });
 });

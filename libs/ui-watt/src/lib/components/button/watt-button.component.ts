@@ -47,7 +47,7 @@ export type WattButtonType = 'button' | 'reset' | 'submit';
         [diameter]="18"
         class="content-grid-item content-grid-item-spinner"
       ></watt-spinner>
-      <div class="content-wrapper" [ngClass]="{ invisible: loading }">
+      <div class="content-wrapper" [ngClass]="{ hidden: loading }">
         <watt-icon *ngIf="hasIcon()" [name]="icon"></watt-icon>
         <ng-content *ngIf="variant !== 'icon'"></ng-content>
       </div>
