@@ -38,7 +38,7 @@ export class WattChipsComponent {
   /**
    * @ignore
    */
-  onSelect(option: WattChipsOption) {
-    this.selected = option;
+  onClick(option: WattChipsOption) {
+    this.selected = this.selected === option ? undefined : option;
   }
 }
