@@ -14,32 +14,40 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- import { CommonModule } from '@angular/common';
- import {
+import { CommonModule } from '@angular/common';
+import {
   Component,
   EventEmitter,
   Input,
   NgModule,
   OnChanges,
   Output,
- } from '@angular/core';
- import { FormsModule } from '@angular/forms';
- import { MeteringPointTypeChanges } from '@energinet-datahub/dh/market-participant/data-access-api';
- import { ActorDto, MarketParticipantMeteringPointType } from '@energinet-datahub/dh/shared/domain';
- import { WattFormFieldModule, WattInputModule } from '@energinet-datahub/watt';
- import { TranslocoModule } from '@ngneat/transloco';
- import { LetModule } from '@rx-angular/template/let';
- import { MatListModule } from '@angular/material/list';
+} from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { MeteringPointTypeChanges } from '@energinet-datahub/dh/market-participant/data-access-api';
+import {
+  ActorDto,
+  MarketParticipantMeteringPointType,
+} from '@energinet-datahub/dh/shared/domain';
+import { WattFormFieldModule, WattInputModule } from '@energinet-datahub/watt';
+import { TranslocoModule } from '@ngneat/transloco';
+import { LetModule } from '@rx-angular/template/let';
+import { MatListModule } from '@angular/material/list';
 
- @Component({
-   selector: 'dh-market-participant-actor-metering-point-type',
-   templateUrl: './dh-market-participant-actor-metering-point-type.component.html',
- })
- export class DhMarketParticipantActorMeteringPointTypeComponent implements OnChanges {
+@Component({
+  selector: 'dh-market-participant-actor-metering-point-type',
+  templateUrl:
+    './dh-market-participant-actor-metering-point-type.component.html',
+})
+export class DhMarketParticipantActorMeteringPointTypeComponent
+  implements OnChanges
+{
   @Input() actor: ActorDto | undefined;
   @Output() hasChanges = new EventEmitter<MeteringPointTypeChanges>();
   changes: MeteringPointTypeChanges = { meteringPointTypes: [] };
-  availableMeteringPointTypes = Object.values(MarketParticipantMeteringPointType);
+  availableMeteringPointTypes = Object.values(
+    MarketParticipantMeteringPointType
+  );
 
   ngOnChanges(): void {
     if (this.actor !== undefined) {
@@ -53,19 +61,19 @@
   readonly onModelChanged = () => {
     this.hasChanges.emit({ ...this.changes });
   };
- }
+}
 
- @NgModule({
-   imports: [
-     CommonModule,
-     LetModule,
-     FormsModule,
-     TranslocoModule,
-     WattFormFieldModule,
-     WattInputModule,
-     MatListModule
-   ],
-   exports: [DhMarketParticipantActorMeteringPointTypeComponent],
-   declarations: [DhMarketParticipantActorMeteringPointTypeComponent],
- })
- export class DhMarketParticipantActorMeteringPointTypeComponentScam {}
+@NgModule({
+  imports: [
+    CommonModule,
+    LetModule,
+    FormsModule,
+    TranslocoModule,
+    WattFormFieldModule,
+    WattInputModule,
+    MatListModule,
+  ],
+  exports: [DhMarketParticipantActorMeteringPointTypeComponent],
+  declarations: [DhMarketParticipantActorMeteringPointTypeComponent],
+})
+export class DhMarketParticipantActorMeteringPointTypeComponentScam {}
