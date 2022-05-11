@@ -73,7 +73,7 @@ export class DhMarketParticipantActorMasterDataComponent
           }))
           .sort((a, b) => a.displayValue.localeCompare(b.displayValue));
         this.statuses = getValidStatusTransitionOptions(
-          this.actor?.status ?? 'New',
+          this.actor?.status ?? ActorStatus.New,
           this.allStatuses
         );
       });
