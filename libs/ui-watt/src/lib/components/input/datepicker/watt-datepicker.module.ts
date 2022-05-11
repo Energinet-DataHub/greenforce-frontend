@@ -17,12 +17,13 @@
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { NgModule } from '@angular/core';
 
+import { WattIconModule } from '../../../foundations/icon';
 import { WattDatepickerComponent } from './watt-datepicker.component';
 import { CommonModule } from '@angular/common';
 import { MatInputModule } from '@angular/material/input';
 
 @NgModule({
-  imports: [MatDatepickerModule, CommonModule, MatInputModule],
+  imports: [MatDatepickerModule, MatInputModule, WattIconModule, CommonModule],
   declarations: [WattDatepickerComponent],
   exports: [WattDatepickerComponent],
 })

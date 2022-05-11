@@ -34,6 +34,10 @@ export interface WattMaskedInput {
 
 @Injectable()
 export class WattInputMaskService {
+  // Note: The number 9 is based on experimenting with different values
+  // but it is influenced by the monospace font set on the component
+  #charWidth = 8;
+
   constructor(private renderer: Renderer2) {}
 
   mask(
@@ -85,6 +89,12 @@ export class WattInputMaskService {
       'background-image',
       `linear-gradient(90deg, ${gradient})`
     );
+
+    this.renderer.setStyle(
+      inputElement,
+      'background-size',
+      `${(emptyMask.split('').length * this.#charWidth) + paddingLeft}px`
+    )
   }
 
   private buildGradient(
@@ -95,30 +105,27 @@ export class WattInputMaskService {
     const splittedEmptyMask = emptyMask.split('');
     const splittedValue = inputValue.split('');
 
-    // Note: The number 9 is based on experimenting with different values
-    // but it is influenced by the monospace font set on the component
-    const charWidth = 8;
-
     const gradientParts = splittedEmptyMask.map((char, index) => {
       const charHasChanged =
         char !== splittedValue[index] && splittedValue[index] !== undefined;
 
-      const color = charHasChanged ? WattColor.black : WattColor.grey500;
+      const color = charHasChanged ? `var(${WattColor.black})` : `var(${WattColor.grey500})`;
 
       const gradientStart =
         index === 0
-          ? `${charWidth + paddingLeft}px`
-          : `${charWidth * index + paddingLeft}px`;
+          ? `${this.#charWidth + paddingLeft}px`
+          : `${this.#charWidth * index + paddingLeft}px`;
+
       const gradientEnd =
         index === 0
-          ? `${charWidth + paddingLeft}px`
-          : `${charWidth * (index + 1) + paddingLeft}px`;
+          ? `${this.#charWidth + paddingLeft}px`
+          : `${this.#charWidth * (index + 1) + paddingLeft}px`;
 
       if (index === 0) {
-        return `var(${color}) ${gradientStart}`;
+        return `${color} ${gradientStart}`;
       }
 
-      return `var(${color}) ${gradientStart}, var(${color}) ${gradientEnd}`;
+      return `${color} ${gradientStart}, ${color} ${gradientEnd}`;
     });
 
     return gradientParts.join(',');

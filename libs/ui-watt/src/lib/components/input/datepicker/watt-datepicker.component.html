@@ -22,14 +22,22 @@ limitations under the License.
     autocomplete="off"
     spellcheck="false"
     [disabled]="disabled"
+    [matDatepicker]="singleDatepicker"
     (focusin)="onFocusIn()"
     (focusout)="onFocusOut($event)"
   />
+
+  <mat-datepicker-toggle matSuffix [for]="singleDatepicker">
+    <watt-icon name="date" matDatepickerToggleIcon></watt-icon>
+  </mat-datepicker-toggle>
+
+  <mat-datepicker #singleDatepicker panelClass="watt-date-range-input__panel"></mat-datepicker>
 </ng-container>
 
 <ng-template #rangeTemplate>
   <mat-date-range-input
     [disabled]="disabled"
+    [rangePicker]="rangeDatepicker"
     (focusin)="onFocusIn()"
     (focusout)="onFocusOut($event)"
   >
@@ -50,4 +58,13 @@ limitations under the License.
       spellcheck="false"
     />
   </mat-date-range-input>
+
+  <mat-datepicker-toggle matSuffix [for]="rangeDatepicker">
+    <watt-icon name="date" matDatepickerToggleIcon></watt-icon>
+  </mat-datepicker-toggle>
+
+  <mat-date-range-picker
+    panelClass="watt-date-range-input__panel"
+    #rangeDatepicker
+  ></mat-date-range-picker>
 </ng-template>

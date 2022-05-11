@@ -25,11 +25,16 @@ import {
   DhMarketParticipantEditOrganizationScam,
 } from '@energinet-datahub/dh/market-participant/feature-edit-organization';
 import {
+  dhMarketParticipantActorIdParam,
+  dhMarketParticipantActorsCreatePath,
+  dhMarketParticipantActorsEditPath,
+  dhMarketParticipantActorsPath,
   dhMarketParticipantOrganizationIdParam,
   dhMarketParticipantOrganizationsCreatePath,
   dhMarketParticipantOrganizationsEditPath,
   dhMarketParticipantOrganizationsPath,
 } from '@energinet-datahub/dh/market-participant/routing';
+import { DhMarketParticipantEditActorComponent } from '@energinet-datahub/dh/market-participant/edit-actor';
 
 const routes: Routes = [
   {
@@ -60,6 +65,34 @@ const routes: Routes = [
           {
             path: `${dhMarketParticipantOrganizationsEditPath}`,
             component: DhMarketParticipantEditOrganizationComponent,
+          },
+          {
+            path: dhMarketParticipantActorsPath,
+            children: [
+              {
+                path: '',
+                pathMatch: 'full',
+                redirectTo: dhMarketParticipantActorsCreatePath,
+              },
+              {
+                path: dhMarketParticipantActorsCreatePath,
+                component: DhMarketParticipantEditActorComponent,
+              },
+              {
+                path: `:${dhMarketParticipantActorIdParam}`,
+                children: [
+                  {
+                    path: '',
+                    pathMatch: 'full',
+                    redirectTo: dhMarketParticipantActorsEditPath,
+                  },
+                  {
+                    path: dhMarketParticipantActorsEditPath,
+                    component: DhMarketParticipantEditActorComponent,
+                  },
+                ],
+              },
+            ],
           },
         ],
       },
