@@ -32,7 +32,11 @@ import {
 import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { FormatWidth, getLocaleDateFormat } from '@angular/common';
-import { MatDatepickerInput, MatEndDate, MatStartDate } from '@angular/material/datepicker';
+import {
+  MatDatepickerInput,
+  MatEndDate,
+  MatStartDate,
+} from '@angular/material/datepicker';
 import { MatFormFieldControl } from '@angular/material/form-field';
 import { combineLatest, map, merge, Subject, takeUntil, tap } from 'rxjs';
 import { parse, isValid } from 'date-fns';
@@ -370,10 +374,7 @@ export class WattDatepickerComponent
 
     const matDatepickerChange$ = this.matDatepickerInput.dateInput.pipe(
       tap(() => {
-        this.inputMaskService.setInputColor(
-          pickerInputElement,
-          inputMask
-        );
+        this.inputMaskService.setInputColor(pickerInputElement, inputMask);
       }),
       map(({ value }) => {
         let formattedDate = '';
@@ -382,7 +383,7 @@ export class WattDatepickerComponent
           formattedDate = this.formatDate(value);
         }
         return formattedDate;
-      }),
+      })
     );
 
     merge(onChange$, matDatepickerChange$).subscribe((value: string) => {

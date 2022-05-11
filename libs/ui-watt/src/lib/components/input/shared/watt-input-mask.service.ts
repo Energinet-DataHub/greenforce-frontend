@@ -93,8 +93,8 @@ export class WattInputMaskService {
     this.renderer.setStyle(
       inputElement,
       'background-size',
-      `${(emptyMask.split('').length * this.#charWidth) + paddingLeft}px`
-    )
+      `${emptyMask.split('').length * this.#charWidth + paddingLeft}px`
+    );
   }
 
   private buildGradient(
@@ -109,7 +109,9 @@ export class WattInputMaskService {
       const charHasChanged =
         char !== splittedValue[index] && splittedValue[index] !== undefined;
 
-      const color = charHasChanged ? `var(${WattColor.black})` : `var(${WattColor.grey500})`;
+      const color = charHasChanged
+        ? `var(${WattColor.black})`
+        : `var(${WattColor.grey500})`;
 
       const gradientStart =
         index === 0
