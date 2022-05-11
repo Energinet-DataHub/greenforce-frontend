@@ -27,7 +27,7 @@ export * from './lib/components/checkbox';
 export * from './lib/components/dropdown';
 export * from './lib/components/empty-state';
 export * from './lib/components/expansion';
-export * from './lib/components/input/date-range-input';
+export * from './lib/components/input/datepicker';
 export * from './lib/components/input/shared/validators';
 export * from './lib/components/input/time-range-input';
 export * from './lib/components/shell/nav-list';

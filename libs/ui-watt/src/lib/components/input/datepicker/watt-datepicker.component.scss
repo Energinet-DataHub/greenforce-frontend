@@ -21,12 +21,13 @@ $input-height-normal: 44px;
 $input-height-large: 56px;
 $mat-date-range-input-padding: 12px;
 
-watt-date-range-input {
+watt-datepicker {
   align-items: center;
   display: flex;
   font-family: watt.$typography-monospace-font-family;
 
-  input.mat-date-range-input-inner {
+  input.mat-date-range-input-inner,
+  input.mat-input-element {
     caret-color: var(--watt-color-neutral-black);
     letter-spacing: -0.03em;
     -webkit-background-clip: text;
