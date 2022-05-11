@@ -46,6 +46,7 @@ const materialIcons = {
   success: 'check_circle',
   info: 'info',
   // Files
+  save: 'save_alt',
   upload: 'cloud_upload',
   download: 'cloud_download',
   print: 'print',
