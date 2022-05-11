@@ -17,7 +17,7 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
-import { WattButtonComponent, WattButtonModule } from '@energinet-datahub/watt';
+import { WattButtonModule } from '@energinet-datahub/watt';
 import { EoEmissionsStore } from './eo-emissions.store';
 
 @Component({
