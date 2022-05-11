@@ -69,7 +69,7 @@ jobs:
 
       - name: Is affected?
         id: affected
-       uses: mansagroup/nrwl-nx-action@v2
+        uses: mansagroup/nrwl-nx-action@v2
         with:
           targets: lint,test,build
           projects: app-eo
