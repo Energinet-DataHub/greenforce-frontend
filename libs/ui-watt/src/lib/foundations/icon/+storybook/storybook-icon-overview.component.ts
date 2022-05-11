@@ -112,6 +112,7 @@ export class StorybookIconOverviewComponent {
     {
       name: 'files',
       icons: [
+        { name: 'Save', icon: 'save' },
         { name: 'Upload', icon: 'upload' },
         { name: 'Download', icon: 'download' },
         { name: 'Print', icon: 'print' },
