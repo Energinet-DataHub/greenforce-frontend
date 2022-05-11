@@ -35,7 +35,7 @@ jobs:
     steps:
       # needed for nx affected command
       - name: Check out source code with current branch Git history
-      - uses: mansagroup/nrwl-nx-action@v2
+        uses: mansagroup/nrwl-nx-action@v2
         with:
           targets: lint,build,deploy
           projects: app-eo
