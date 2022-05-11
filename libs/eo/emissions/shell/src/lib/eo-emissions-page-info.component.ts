@@ -14,8 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
+import { WattButtonComponent, WattButtonModule } from '@energinet-datahub/watt';
+import { EoEmissionsStore } from './eo-emissions.store';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -27,46 +30,38 @@ import { MatCardModule } from '@angular/material/card';
       }
       mat-card {
         background: var(--watt-color-state-warning-light);
-        h3 {
-          font-weight: 600; // Magic number by designer
-        }
 
-        .coming-soon-overlay {
-          background-color: rgba(196, 196, 196, 0.7);
-          width: 100%;
-          height: 100%;
-          position: absolute;
-          top: 0;
-          left: 0;
-          border-radius: var(--watt-space-xs);
-
-          &::before {
-            content: 'Coming soon';
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100%;
-            color: var(--watt-color-state-danger);
-            font-weight: bold;
-            font-size: 40px;
-          }
+        .output {
+          display: flex;
+          align-items: end;
+          gap: 12px;
         }
       }
     `,
   ],
   template: `
     <mat-card>
-      <h3>Your emissions in 2021</h3>
-      <h1>1.198 kg CO<sub>2</sub></h1>
-      <div class="coming-soon-overlay"></div>
+      <h4>Your emissions in 2021</h4>
+      <div class="output watt-space-stack-m">
+        <h1>{{ (emissions$ | async)?.totalEmissions || '0' }} kg</h1>
+        <h3>CO<sub>2</sub></h3>
+      </div>
+      <p>
+        <watt-button variant="text" icon="save">Export details</watt-button>
+      </p>
     </mat-card>
   `,
+  viewProviders: [EoEmissionsStore],
 })
-export class EoEmissionsPageInfoComponent {}
+export class EoEmissionsPageInfoComponent {
+  emissions$ = this.emissionsStore.emissions$;
+
+  constructor(private emissionsStore: EoEmissionsStore) {}
+}
 
 @NgModule({
   declarations: [EoEmissionsPageInfoComponent],
-  imports: [MatCardModule],
+  imports: [MatCardModule, CommonModule, WattButtonModule],
   exports: [EoEmissionsPageInfoComponent],
 })
 export class EoEmissionsPageInfoScam {}
