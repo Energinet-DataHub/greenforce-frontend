@@ -298,7 +298,15 @@
         "saveLabel": "Gem",
         "masterData": {
           "labelGln": "Organisationskode",
-          "fieldRequiredErrorText": "Feltet er påkrævet."
+          "labelStatus": "Status",
+          "fieldRequiredErrorText": "Feltet er påkrævet.",
+          "statuses": {
+            "New": "Ny",
+            "Active": "Aktiv",
+            "Inactive": "Inaktive",
+            "Passive": "Passiv",
+            "Deleted": "Slettet"
+          }
         }
       }
     },
