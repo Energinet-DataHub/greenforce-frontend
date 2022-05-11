@@ -16,6 +16,7 @@
  */
 import {
   Component,
+  ChangeDetectionStrategy,
   EventEmitter,
   Input,
   Output,
@@ -36,6 +37,7 @@ export type WattChipsSelection = string | null;
  * @see https://material.io/components/chips#choice-chips
  */
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   selector: 'watt-chips',
   styleUrls: ['./watt-chips.component.scss'],
