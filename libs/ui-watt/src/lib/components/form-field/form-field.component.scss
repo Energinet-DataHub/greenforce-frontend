@@ -41,7 +41,8 @@ watt-form-field {
     }
   }
 
-  .mat-input-element {
+  .mat-input-element,
+  .mat-date-range-input-container {
     @include watt.typography-watt-text-s;
     color: var(--input-color);
     caret-color: var(--watt-color-neutral-grey-900) !important;
@@ -72,10 +73,6 @@ watt-form-field {
     &.mat-form-field-type-mat-date-range-input {
       .mat-form-field-infix {
         display: inline-block;
-      }
-
-      .mat-form-field-flex {
-        padding: 0 12px;
       }
     }
 

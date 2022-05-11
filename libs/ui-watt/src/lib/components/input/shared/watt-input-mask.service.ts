@@ -16,23 +16,38 @@
  */
 import { Injectable, Renderer2 } from '@angular/core';
 import Inputmask from 'inputmask';
-import { fromEvent, Subject, takeUntil } from 'rxjs';
+import {
+  distinctUntilChanged,
+  fromEvent,
+  map,
+  Observable,
+  startWith,
+  tap,
+} from 'rxjs';
 
 import { WattColor } from '../../../foundations/color/colors';
 
+export interface WattMaskedInput {
+  inputMask: Inputmask.Instance;
+  onChange$: Observable<string>;
+}
+
 @Injectable()
 export class WattInputMaskService {
-  private destroy$: Subject<void> = new Subject();
+  // Note: The number 9 is based on experimenting with different values
+  // but it is influenced by the monospace font set on the component
+  #charWidth = 8;
 
   constructor(private renderer: Renderer2) {}
 
   mask(
+    initialValue = '',
     inputFormat: string,
     placeholder: string,
     element: HTMLInputElement,
     onBeforePaste?: (value: string) => string
-  ): Inputmask.Instance {
-    const inputmask: Inputmask.Instance = new Inputmask('datetime', {
+  ): WattMaskedInput {
+    const inputMask: Inputmask.Instance = new Inputmask('datetime', {
       inputFormat,
       placeholder,
       insertMode: false,
@@ -40,59 +55,79 @@ export class WattInputMaskService {
       clearMaskOnLostFocus: false,
       onBeforePaste,
       onincomplete: () => {
-        this.setInputColor(element, inputmask);
+        this.setInputColor(element, inputMask);
       },
       clearIncomplete: true,
     }).mask(element);
 
-    this.setInputColor(element, inputmask);
+    this.setInputColor(element, inputMask);
 
-    fromEvent(element, 'input')
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(() => {
-        this.setInputColor(element, inputmask);
-      });
+    const onChange$ = fromEvent<InputEvent>(element, 'input').pipe(
+      tap((event: InputEvent) => {
+        this.setInputColor(event.target as HTMLInputElement, inputMask);
+      }),
+      map((event: InputEvent) => (event.target as HTMLInputElement).value),
+      startWith(initialValue || ''),
+      map((value) => (inputMask.isComplete() ? value : '')),
+      distinctUntilChanged()
+    );
 
-    return inputmask;
+    return { inputMask, onChange$ };
   }
 
   setInputColor(inputElement: HTMLInputElement, inputMask: Inputmask.Instance) {
     const emptyMask = inputMask.getemptymask();
     const inputValue = inputElement.value;
 
-    const gradient = this.buildGradient(emptyMask, inputValue);
+    const paddingLeft = parseInt(
+      getComputedStyle(inputElement).getPropertyValue('padding-left')
+    );
+    const gradient = this.buildGradient(emptyMask, inputValue, paddingLeft);
 
     this.renderer.setStyle(
       inputElement,
       'background-image',
       `linear-gradient(90deg, ${gradient})`
     );
+
+    this.renderer.setStyle(
+      inputElement,
+      'background-size',
+      `${emptyMask.split('').length * this.#charWidth + paddingLeft}px`
+    );
   }
 
-  private buildGradient(emptyMask: string, inputValue: string): string {
+  private buildGradient(
+    emptyMask: string,
+    inputValue: string,
+    paddingLeft: number
+  ): string {
     const splittedEmptyMask = emptyMask.split('');
     const splittedValue = inputValue.split('');
-
-    // Note: The number 9 is based on experimenting with different values
-    // but it is influenced by the monospace font set on the component
-    const charWidth = 9;
 
     const gradientParts = splittedEmptyMask.map((char, index) => {
       const charHasChanged =
         char !== splittedValue[index] && splittedValue[index] !== undefined;
 
-      const color = charHasChanged ? WattColor.black : WattColor.grey500;
+      const color = charHasChanged
+        ? `var(${WattColor.black})`
+        : `var(${WattColor.grey500})`;
 
       const gradientStart =
-        index === 0 ? `${charWidth}px` : `${charWidth * index}px`;
+        index === 0
+          ? `${this.#charWidth + paddingLeft}px`
+          : `${this.#charWidth * index + paddingLeft}px`;
+
       const gradientEnd =
-        index === 0 ? `${charWidth}px` : `${charWidth * (index + 1)}px`;
+        index === 0
+          ? `${this.#charWidth + paddingLeft}px`
+          : `${this.#charWidth * (index + 1) + paddingLeft}px`;
 
       if (index === 0) {
-        return `var(${color}) ${gradientStart}`;
+        return `${color} ${gradientStart}`;
       }
 
-      return `var(${color}) ${gradientStart}, var(${color}) ${gradientEnd}`;
+      return `${color} ${gradientStart}, ${color} ${gradientEnd}`;
     });
 
     return gradientParts.join(',');

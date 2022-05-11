@@ -14,5 +14,5 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export { WattDateRangeInputComponent } from './watt-date-range-input.component';
-export { WattDateRangeInputModule } from './watt-date-range-input.module';
+export { WattDatepickerComponent } from './watt-datepicker.component';
+export { WattDatepickerModule } from './watt-datepicker.module';
