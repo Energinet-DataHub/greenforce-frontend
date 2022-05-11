@@ -23,12 +23,18 @@ import {
 } from '@angular/core';
 
 export interface WattChipsOption {
+  /** Text to display on the chip. */
   label: string;
+  /** Value to emit when selected. */
   value: string;
 }
 
 export type WattChipsSelection = string | null;
 
+/**
+ * Simple implementation of Material "Choice chips".
+ * @see https://material.io/components/chips#choice-chips
+ */
 @Component({
   encapsulation: ViewEncapsulation.None,
   selector: 'watt-chips',
@@ -36,11 +42,17 @@ export type WattChipsSelection = string | null;
   templateUrl: './watt-chips.component.html',
 })
 export class WattChipsComponent {
+  /** List of chip options to display. */
   @Input() options: WattChipsOption[] = [];
+
+  /** Holds the currently selected chip value. */
   @Input() selection: WattChipsSelection = null;
+
+  /** Emits selection whenever it changes. */
   @Output() selectionChange = new EventEmitter<WattChipsSelection>();
 
   /**
+   * Click handler for updating selection.
    * @ignore
    */
   onClick(selection: WattChipsSelection) {
