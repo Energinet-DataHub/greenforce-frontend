@@ -144,7 +144,6 @@ limitations under the License.
         variant="primary"
         type="submit"
         icon="search"
-        size="normal"
         >{{ transloco("startSearch") }}</watt-button
       >
 
@@ -157,7 +156,6 @@ limitations under the License.
         >
         <watt-button
           [disabled]="(continuationToken$ | async) === null"
-          type="button"
           (click)="nextPage()"
           >{{ transloco("nextPage") }}</watt-button
         >
