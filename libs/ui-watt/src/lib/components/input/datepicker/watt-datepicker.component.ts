@@ -32,7 +32,7 @@ import {
 import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { FormatWidth, getLocaleDateFormat } from '@angular/common';
-import { MatEndDate, MatStartDate } from '@angular/material/datepicker';
+import { MatDatepickerInput, MatEndDate, MatStartDate } from '@angular/material/datepicker';
 import { MatFormFieldControl } from '@angular/material/form-field';
 import { combineLatest, map, Subject, takeUntil, tap } from 'rxjs';
 import { parse, isValid } from 'date-fns';
@@ -85,6 +85,12 @@ export class WattDatepickerComponent
    * @ignore
    */
   private destroy$: Subject<void> = new Subject();
+
+  /**
+   * @ignore
+   */
+  @ViewChild(MatDatepickerInput)
+  matDatepickerInput!: MatDatepickerInput<Date | null>;
 
   /**
    * @ignore
@@ -354,7 +360,7 @@ export class WattDatepickerComponent
    */
   private initSingleInput() {
     const pickerInputElement = this.dateInput.nativeElement;
-    const { onChange$ } = this.inputMaskService.mask(
+    const { onChange$, inputMask } = this.inputMaskService.mask(
       this.initialValue as string | undefined,
       this.inputFormat,
       this.placeholder,
@@ -363,6 +369,28 @@ export class WattDatepickerComponent
     );
     onChange$.pipe(takeUntil(this.destroy$)).subscribe((val: string) => {
       this.changeParentValue(val);
+    });
+
+    const matDatepickerChange$ = this.matDatepickerInput.dateInput.pipe(
+      tap(() => {
+        this.inputMaskService.setInputColor(
+          pickerInputElement,
+          inputMask
+        );
+      }),
+      map(({ value }) => {
+        let formattedDate = '';
+
+        if (value instanceof Date) {
+          formattedDate = this.formatDate(value);
+        }
+
+        return formattedDate;
+      })
+    );
+
+    matDatepickerChange$.pipe(takeUntil(this.destroy$)).subscribe((selectedDate) => {
+      this.changeParentValue(selectedDate);
     });
   }
 
@@ -403,7 +431,7 @@ export class WattDatepickerComponent
       tap(() => {
         this.inputMaskService.setInputColor(
           startDateInputElement,
-          startDateInputMask
+          maskedStartDate.inputMask
         );
       }),
       map(({ value }) => {
@@ -421,7 +449,7 @@ export class WattDatepickerComponent
       tap(() => {
         this.inputMaskService.setInputColor(
           endDateInputElement,
-          endDateInputMask
+          maskedEndDate.inputMask
         );
       }),
       map(({ value }) => {
