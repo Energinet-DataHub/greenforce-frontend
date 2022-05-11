@@ -34,6 +34,7 @@ export const Overview: Story<WattChipsComponent> = (args) => ({
 });
 
 Overview.args = {
+  selection: 'day',
   options: [
     { label: 'Dag', value: 'day' },
     { label: 'Uge', value: 'week' },
