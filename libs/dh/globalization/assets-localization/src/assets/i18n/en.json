@@ -299,7 +299,15 @@
         "saveLabel": "Save",
         "masterData": {
           "labelGln": "Organization code",
-          "fieldRequiredErrorText": "Field is required."
+          "labelStatus": "Status",
+          "fieldRequiredErrorText": "Field is required.",
+          "statuses": {
+            "New": "New",
+            "Active": "Active",
+            "Inactive": "Inactive",
+            "Passive": "Passive",
+            "Deleted": "Deleted"
+          }
         }
       }
     },

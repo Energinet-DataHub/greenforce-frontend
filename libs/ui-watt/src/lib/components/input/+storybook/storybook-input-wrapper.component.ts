@@ -43,13 +43,14 @@ import { FormControl } from '@angular/forms';
       [placeholder]="placeholder"
       [required]="required"
     />
-    <watt-icon-button
+    <watt-button
+      variant="icon"
       *ngIf="hasSuffix"
       wattSuffix
       icon="close"
       aria-label="some meaningful description"
     >
-    </watt-icon-button>
+    </watt-button>
 
     <watt-error *ngIf="exampleFormControl.hasError('required')">
       This field is required
