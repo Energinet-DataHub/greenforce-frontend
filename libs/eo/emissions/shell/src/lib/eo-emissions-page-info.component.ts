@@ -33,7 +33,7 @@ import { EoEmissionsStore } from './eo-emissions.store';
 
         .output {
           display: flex;
-          align-items: end;
+          align-items: flex-end;
           gap: 12px;
         }
       }
