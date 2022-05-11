@@ -38,14 +38,13 @@ import { LetModule } from '@rx-angular/template/let';
 export class DhMarketParticipantActorMasterDataComponent implements OnChanges {
   @Input() actor: ActorDto | undefined;
   @Output() hasChanges = new EventEmitter<ActorChanges>();
-  changes: ActorChanges = { gln: '', marketRoles: [], meteringPointTypes: [] };
+  changes: ActorChanges = { gln: '', marketRoles: [] };
 
   ngOnChanges(): void {
     if (this.actor !== undefined) {
       this.changes = {
         gln: this.actor.gln.value,
         marketRoles: this.actor.marketRoles,
-        meteringPointTypes: this.actor.meteringPointTypes,
       };
       this.hasChanges.emit({ ...this.changes });
     }

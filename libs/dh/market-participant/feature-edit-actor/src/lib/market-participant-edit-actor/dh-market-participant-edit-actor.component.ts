@@ -19,6 +19,7 @@ import { Component, NgModule } from '@angular/core';
 import {
   ActorChanges,
   DhMarketParticipantEditActorDataAccessApiStore,
+  MeteringPointTypeChanges,
 } from '@energinet-datahub/dh/market-participant/data-access-api';
 import { LetModule } from '@rx-angular/template/let';
 import { DhMarketParticipantActorMasterDataComponentScam } from './master-data/dh-market-participant-actor-master-data.component';
@@ -67,6 +68,10 @@ export class DhMarketParticipantEditActorComponent {
 
   readonly onMasterDataChanged = (changes: ActorChanges) => {
     this.store.setMasterDataChanges(changes);
+  };
+
+  readonly onMeteringPointTypeChanged = (changes: MeteringPointTypeChanges) => {
+    this.store.setMeteringPoinTypeChanges(changes);
   };
 
   readonly onCancelled = () => {

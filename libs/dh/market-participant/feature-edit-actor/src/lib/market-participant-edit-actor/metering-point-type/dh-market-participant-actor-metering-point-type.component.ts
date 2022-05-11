@@ -24,7 +24,7 @@
   Output,
  } from '@angular/core';
  import { FormsModule } from '@angular/forms';
- import { ActorChanges } from '@energinet-datahub/dh/market-participant/data-access-api';
+ import { MeteringPointTypeChanges } from '@energinet-datahub/dh/market-participant/data-access-api';
  import { ActorDto, MarketParticipantMeteringPointType } from '@energinet-datahub/dh/shared/domain';
  import { WattFormFieldModule, WattInputModule } from '@energinet-datahub/watt';
  import { TranslocoModule } from '@ngneat/transloco';
@@ -37,15 +37,13 @@
  })
  export class DhMarketParticipantActorMeteringPointTypeComponent implements OnChanges {
   @Input() actor: ActorDto | undefined;
-  @Output() hasChanges = new EventEmitter<ActorChanges>();
-  changes: ActorChanges = { gln: '', marketRoles: [], meteringPointTypes: [] };
+  @Output() hasChanges = new EventEmitter<MeteringPointTypeChanges>();
+  changes: MeteringPointTypeChanges = { meteringPointTypes: [] };
   availableMeteringPointTypes = Object.values(MarketParticipantMeteringPointType);
 
   ngOnChanges(): void {
     if (this.actor !== undefined) {
       this.changes = {
-        gln: this.actor.gln.value,
-        marketRoles: this.actor.marketRoles,
         meteringPointTypes: this.actor.meteringPointTypes,
       };
       this.hasChanges.emit({ ...this.changes });
