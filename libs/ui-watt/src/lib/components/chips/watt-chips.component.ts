@@ -27,7 +27,7 @@ export interface WattChipsOption {
   value: string;
 }
 
-export type WattChipsSelection = WattChipsOption | null;
+export type WattChipsSelection = string | null;
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -36,19 +36,15 @@ export type WattChipsSelection = WattChipsOption | null;
   templateUrl: './watt-chips.component.html',
 })
 export class WattChipsComponent {
-  /**
-   * @ignore
-   */
-  selected: WattChipsSelection = null;
-
   @Input() options: WattChipsOption[] = [];
+  @Input() selection: WattChipsSelection = null;
   @Output() selectionChange = new EventEmitter<WattChipsSelection>();
 
   /**
    * @ignore
    */
-  onClick(option: WattChipsOption) {
-    this.selected = this.selected === option ? null : option;
-    this.selectionChange.emit(this.selected);
+  onClick(selection: WattChipsSelection) {
+    this.selection = this.selection === selection ? null : selection;
+    this.selectionChange.emit(this.selection);
   }
 }
