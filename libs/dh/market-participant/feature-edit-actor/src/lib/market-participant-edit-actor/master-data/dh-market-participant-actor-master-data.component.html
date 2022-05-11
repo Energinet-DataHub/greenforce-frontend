@@ -25,17 +25,16 @@ limitations under the License.
         wattInput
         [(ngModel)]="changes.gln"
         (ngModelChange)="onModelChanged()"
-        #nameInputModel="ngModel"
+        #glnInputModel="ngModel"
         required
       />
-      <watt-error *ngIf="nameInputModel.hasError('required')">
+      <watt-error *ngIf="glnInputModel.hasError('required')">
         {{ t("fieldRequiredErrorText") }}
       </watt-error>
     </watt-form-field>
     <watt-form-field class="field-status">
       <watt-label>{{ t("labelStatus") }}</watt-label>
       <watt-dropdown
-        wattInput
         [(ngModel)]="changes.status"
         [options]="statuses"
         [disabled]="!actor || actor.status === 'Deleted'"
@@ -46,7 +45,7 @@ limitations under the License.
         [showResetOption]="false"
       >
       </watt-dropdown>
-      <watt-error *ngIf="nameInputModel.hasError('required')">
+      <watt-error *ngIf="statusInputModel.hasError('required')">
         {{ t("fieldRequiredErrorText") }}
       </watt-error>
     </watt-form-field>

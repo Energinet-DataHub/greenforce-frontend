@@ -38,7 +38,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { parseErrorResponse } from './dh-market-participant-error-handling';
 
 export interface ActorChanges {
-  gln?: string;
+  gln: string;
   status: ActorStatus;
   marketRoles: MarketRoleDto[];
   meteringPointTypes: MarketParticipantMeteringPointType[];
@@ -61,7 +61,12 @@ export interface MarketParticipantEditActorState {
 const initialState: MarketParticipantEditActorState = {
   isLoading: false,
   organizationId: '',
-  changes: { gln: '', status: 'New', marketRoles: [], meteringPointTypes: [] },
+  changes: {
+    gln: '',
+    status: ActorStatus.New,
+    marketRoles: [],
+    meteringPointTypes: [],
+  },
 };
 
 @Injectable()
@@ -140,16 +145,21 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
       return this.httpClient.v1MarketParticipantOrganizationOrgIdActorActorIdPut(
         state.organizationId,
         state.actor.actorId,
-        state.changes as ChangeActorDto
+        {
+          marketRoles: state.changes.marketRoles,
+          meteringPointTypes: state.changes.meteringPointTypes,
+          status: state.changes.status,
+        }
       );
     }
 
     return this.httpClient.v1MarketParticipantOrganizationOrgIdActorPost(
       state.organizationId,
       {
-        ...state.changes,
         gln: { value: state.changes.gln },
-      } as CreateActorDto
+        marketRoles: state.changes.marketRoles,
+        meteringPointTypes: state.changes.meteringPointTypes,
+      }
     );
   };
 

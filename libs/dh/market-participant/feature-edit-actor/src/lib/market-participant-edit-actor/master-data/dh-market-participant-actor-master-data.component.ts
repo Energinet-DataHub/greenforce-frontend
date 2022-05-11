@@ -36,6 +36,7 @@ import {
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { LetModule } from '@rx-angular/template/let';
 import { Subject, takeUntil } from 'rxjs';
+import { getValidStatusTransitionOptions } from './get-valid-status-transition-options';
 
 @Component({
   selector: 'dh-market-participant-actor-master-data',
@@ -65,14 +66,15 @@ export class DhMarketParticipantActorMasterDataComponent
       )
       .pipe(takeUntil(this.destroy$))
       .subscribe((statusKeys) => {
-        this.allStatuses = Object.keys(statusKeys)
+        this.allStatuses = Object.keys(ActorStatus)
           .map((key) => ({
             value: key,
-            displayValue: statusKeys[key],
+            displayValue: statusKeys[key] ?? key,
           }))
           .sort((a, b) => a.displayValue.localeCompare(b.displayValue));
-        this.statuses = this.getValidStatusTransitionOptions(
-          this.actor?.status ?? 'New'
+        this.statuses = getValidStatusTransitionOptions(
+          this.actor?.status ?? 'New',
+          this.allStatuses
         );
       });
   }
@@ -85,7 +87,10 @@ export class DhMarketParticipantActorMasterDataComponent
         meteringPointTypes: this.actor.meteringPointTypes,
         status: this.actor.status,
       };
-      this.statuses = this.getValidStatusTransitionOptions(this.changes.status);
+      this.statuses = getValidStatusTransitionOptions(
+        this.changes.status,
+        this.allStatuses
+      );
       this.hasChanges.emit({ ...this.changes });
     }
   }
@@ -97,38 +102,6 @@ export class DhMarketParticipantActorMasterDataComponent
 
   readonly onModelChanged = () => {
     this.hasChanges.emit({ ...this.changes });
-  };
-
-  private getValidStatusTransitionOptions = (status: ActorStatus) => {
-    switch (status) {
-      case ActorStatus.New:
-        return this.allStatuses.filter((x) =>
-          [
-            ActorStatus.New.toLowerCase(),
-            ActorStatus.Active.toLowerCase(),
-            ActorStatus.Deleted.toLocaleLowerCase(),
-          ].includes(x.value.toLowerCase())
-        );
-      case ActorStatus.Active:
-      case ActorStatus.Inactive:
-      case ActorStatus.Passive:
-        return this.allStatuses.filter((x) =>
-          [
-            ActorStatus.Active.toLowerCase(),
-            ActorStatus.Inactive.toLocaleLowerCase(),
-            ActorStatus.Passive.toLocaleLowerCase(),
-            ActorStatus.Deleted.toLocaleLowerCase(),
-          ].includes(x.value.toLowerCase())
-        );
-      case ActorStatus.Deleted:
-        return this.allStatuses.filter((x) =>
-          [ActorStatus.Deleted.toLocaleLowerCase()].includes(
-            x.value.toLowerCase()
-          )
-        );
-      default:
-        return [];
-    }
   };
 }
 
