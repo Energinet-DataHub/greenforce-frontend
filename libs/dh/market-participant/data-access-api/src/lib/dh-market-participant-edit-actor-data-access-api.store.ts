@@ -17,10 +17,8 @@
 import { Injectable } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import {
-  ChangeActorDto,
   MarketParticipantHttp,
   ActorDto,
-  CreateActorDto,
   MarketRoleDto,
   MarketParticipantMeteringPointType,
   ActorStatus,
