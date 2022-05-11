@@ -34,13 +34,13 @@ export const Overview: Story<WattChipsComponent> = (args) => ({
 });
 
 Overview.args = {
-  selection: 'day',
+  selection: 'd',
   options: [
-    { label: 'Dag', value: 'day' },
-    { label: 'Uge', value: 'week' },
-    { label: 'Måned', value: 'month' },
-    { label: 'Kvartal', value: 'quarter' },
-    { label: 'Year', value: 'year' },
-    { label: 'Brugerdefineret', value: 'custom' },
+    { label: 'Day', value: 'd' },
+    { label: 'Week', value: 'w' },
+    { label: 'Month', value: 'm' },
+    { label: 'Quarter', value: 'q' },
+    { label: 'Year', value: 'y' },
+    { label: 'Custom', value: 'c' },
   ],
 };
