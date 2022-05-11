@@ -34,7 +34,7 @@ import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { FormatWidth, getLocaleDateFormat } from '@angular/common';
 import { MatDatepickerInput, MatEndDate, MatStartDate } from '@angular/material/datepicker';
 import { MatFormFieldControl } from '@angular/material/form-field';
-import { combineLatest, map, Subject, takeUntil, tap } from 'rxjs';
+import { combineLatest, map, merge, Subject, takeUntil, tap } from 'rxjs';
 import { parse, isValid } from 'date-fns';
 import { formatInTimeZone } from 'date-fns-tz';
 
@@ -137,7 +137,7 @@ export class WattDatepickerComponent
       const { start, end } = this.ngControl.value;
       return !start && !end;
     } else {
-      return this.ngControl.value.length === 0;
+      return this.ngControl.value?.length === 0;
     }
   }
 
@@ -367,9 +367,6 @@ export class WattDatepickerComponent
       pickerInputElement,
       (value: string) => this.onBeforePaste(value)
     );
-    onChange$.pipe(takeUntil(this.destroy$)).subscribe((val: string) => {
-      this.changeParentValue(val);
-    });
 
     const matDatepickerChange$ = this.matDatepickerInput.dateInput.pipe(
       tap(() => {
@@ -384,13 +381,19 @@ export class WattDatepickerComponent
         if (value instanceof Date) {
           formattedDate = this.formatDate(value);
         }
-
         return formattedDate;
-      })
+      }),
     );
 
-    matDatepickerChange$.pipe(takeUntil(this.destroy$)).subscribe((selectedDate) => {
-      this.changeParentValue(selectedDate);
+    merge(onChange$, matDatepickerChange$).subscribe((value: string) => {
+      const parsedDate = this.parseDate(value);
+
+      if (isValid(parsedDate)) {
+        this.matDatepickerInput.value = parsedDate;
+      }
+
+      this.markParentControlAsTouched();
+      this.changeParentValue(value);
     });
   }
 
