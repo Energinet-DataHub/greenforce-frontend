@@ -24,6 +24,7 @@ export { WattShellModule } from './lib/components/shell/shell.module';
 export * from './lib/components/badge';
 export * from './lib/components/button';
 export * from './lib/components/checkbox';
+export * from './lib/components/chips';
 export * from './lib/components/dropdown';
 export * from './lib/components/empty-state';
 export * from './lib/components/expansion';
