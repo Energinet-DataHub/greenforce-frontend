@@ -10,12 +10,14 @@
  * Do not edit the class manually.
  */
 import { ActorStatus } from './actor-status';
+import { MarketParticipantMeteringPointType } from './market-participant-metering-point-type';
 import { MarketRoleDto } from './market-role-dto';
 
 
 export interface ChangeActorDto { 
     status: ActorStatus;
     marketRoles: Array<MarketRoleDto>;
+    meteringPointTypes: Array<MarketParticipantMeteringPointType>;
 }
 
 

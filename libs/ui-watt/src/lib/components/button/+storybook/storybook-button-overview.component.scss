@@ -14,55 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@use '../watt-button-variables' as buttonVariables;
+@use "../watt-button.component.scss" as button;
 
-storybook-button-overview {
-  display: block;
-  width: 100%;
-  padding: 1rem;
-  margin: -1rem;
-
+:host {
   & > mat-card > .content-grid {
     display: flex;
     gap: 2rem;
     margin-bottom: 1rem;
-  }
-
-  .force-hover-state {
-    watt-primary-button button.watt-button {
-      background: buttonVariables.$watt-button-primary-hover-background;
-    }
-
-    watt-secondary-button button.watt-button {
-      background: buttonVariables.$watt-button-secondary-hover-background;
-    }
-
-    watt-text-button button.watt-button {
-      color: buttonVariables.$watt-button-text-hover-color;
-    }
-
-    watt-icon-button button.watt-icon-button {
-      color: var(--watt-color-primary-dark);
-    }
-  }
-
-  .force-focus-state {
-    watt-primary-button button.watt-button {
-      outline: buttonVariables.$watt-button-primary-focus-outline;
-      background: buttonVariables.$watt-button-primary-focus-background;
-    }
-
-    watt-secondary-button button.watt-button {
-      outline: buttonVariables.$watt-button-secondary-focus-state;
-      background: buttonVariables.$watt-button-secondary-focus-background;
-    }
-
-    watt-text-button button.watt-button {
-      outline: buttonVariables.$watt-button-text-focus-state;
-    }
-
-    watt-icon-button button.watt-icon-button {
-      outline: 2px solid var(--watt-color-primary);
-    }
   }
 }

@@ -14,7 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/**
- * Possible values for {WattButtonComponent#size}.
- */
-export type WattButtonSize = 'normal' | 'large';
+export const dhMarketParticipantActorsPath = 'actors';
+export const dhMarketParticipantActorsCreatePath = 'new';
+export const dhMarketParticipantActorsEditPath = 'edit';
+
+export const dhMarketParticipantActorIdParam = 'actor-id';

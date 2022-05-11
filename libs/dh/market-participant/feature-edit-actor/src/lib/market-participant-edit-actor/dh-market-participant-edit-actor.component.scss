@@ -14,7 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/**
- * Possible values for {WattButtonComponent#variant}.
- */
-export type WattButtonVariant = 'primary' | 'secondary' | 'text';
+
+.button-container {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--watt-space-s);
+}
+
+.spinner-container {
+  display: flex;
+  justify-content: center;
+}

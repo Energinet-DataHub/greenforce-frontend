@@ -15,27 +15,22 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <ng-container
-  *ngComponentOutlet="
-    buttonComponentVariant;
-    content: [[contentWrapper]];
-    injector: buttonComponentInjector
-  "
-></ng-container>
-
-<div #contentWrapper class="content-grid">
-  <watt-spinner
-    *ngIf="loading"
-    [diameter]="18"
-    class="content-grid-item content-grid-item-spinner"
-  ></watt-spinner>
-
-  <watt-icon
-    *ngIf="hasIcon"
-    class="content-grid-item"
-    [name]="icon"
-  ></watt-icon>
-
-  <div class="content-grid-item">
-    <ng-content></ng-content>
+  *transloco="let t; read: 'marketParticipant.actor.create.masterData'"
+>
+  <div class="form-container">
+    <watt-form-field class="field-gln">
+      <watt-label>{{ t("labelGln") }}</watt-label>
+      <input
+        [disabled]="actor !== undefined"
+        wattInput
+        [(ngModel)]="changes.gln"
+        (ngModelChange)="onModelChanged()"
+        #nameInputModel="ngModel"
+        required
+      />
+      <watt-error *ngIf="nameInputModel.hasError('required')">
+        {{ t("fieldRequiredErrorText") }}
+      </watt-error>
+    </watt-form-field>
   </div>
-</div>
+</ng-container>

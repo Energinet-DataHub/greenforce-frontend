@@ -14,21 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, Inject } from '@angular/core';
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { DhMarketParticipantEditActorScam } from './market-participant-edit-actor/dh-market-participant-edit-actor.component';
 
-import { disabledAttributeToken } from '../disabled-attribute-token';
-import { typeAttributeToken } from '../type-attribute-token';
-import { WattButtonType } from '../watt-button-type';
-
-@Component({
-  exportAs: 'wattPrimaryButton',
-  selector: 'watt-primary-button',
-  styleUrls: ['./watt-primary-button.component.scss'],
-  templateUrl: './watt-primary-button.component.html',
+@NgModule({
+  imports: [CommonModule],
+  exports: [DhMarketParticipantEditActorScam],
 })
-export class WattPrimaryButtonComponent {
-  constructor(
-    @Inject(disabledAttributeToken) public isDisabled: boolean,
-    @Inject(typeAttributeToken) public type: WattButtonType
-  ) {}
-}
+export class DhMarketParticipantFeatureEditActorModule {}

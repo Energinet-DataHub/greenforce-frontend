@@ -14,7 +14,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/**
- * Possible values for {WattButtonComponent#type}.
- */
-export type WattButtonType = 'button' | 'submit' | 'reset';
+
+.form-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--watt-space-m);
+}
+
+.field-gln {
+  max-width: 600px;
+}
+
+:host {
+  display: block;
+  margin-top: var(--watt-space-l);
+}

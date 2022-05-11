@@ -14,15 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgModule } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
+import 'jest-preset-angular/setup-jest';
 
-import { WattIconModule } from '../../../foundations/icon';
-import { WattIconButtonComponent } from './watt-icon-button.component';
+import { setUpTestbed } from '@energinet-datahub/gf/test-util-staging';
 
-@NgModule({
-  declarations: [WattIconButtonComponent],
-  exports: [WattIconButtonComponent],
-  imports: [MatButtonModule, WattIconModule],
-})
-export class WattIconButtonModule {}
+setUpTestbed();

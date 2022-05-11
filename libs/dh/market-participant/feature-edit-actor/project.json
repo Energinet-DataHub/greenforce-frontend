@@ -1,0 +1,26 @@
+{
+  "projectType": "library",
+  "root": "libs/dh/market-participant/feature-edit-actor",
+  "sourceRoot": "libs/dh/market-participant/feature-edit-actor/src",
+  "prefix": "dh",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/dh/market-participant/feature-edit-actor"],
+      "options": {
+        "jestConfig": "libs/dh/market-participant/feature-edit-actor/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/dh/market-participant/feature-edit-actor/src/**/*.ts",
+          "libs/dh/market-participant/feature-edit-actor/src/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": ["product:dh", "domain:market-participant", "type:feature"]
+}
