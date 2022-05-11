@@ -46,9 +46,6 @@ import { EoEmissionsStore } from './eo-emissions.store';
         <h1>{{ (emissions$ | async)?.totalEmissions || '0' }} kg</h1>
         <h3>CO<sub>2</sub></h3>
       </div>
-      <p>
-        <watt-button variant="text" icon="save">Export details</watt-button>
-      </p>
     </mat-card>
   `,
   viewProviders: [EoEmissionsStore],
