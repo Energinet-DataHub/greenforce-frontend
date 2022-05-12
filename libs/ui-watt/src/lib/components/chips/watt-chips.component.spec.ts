@@ -15,14 +15,15 @@
  * limitations under the License.
  */
 
-import { EventEmitter } from '@angular/core';
-import { firstValueFrom } from 'rxjs';
-import { take, toArray } from 'rxjs/operators';
 import { render, screen } from '@testing-library/angular';
 import user from '@testing-library/user-event';
 
 import { WattChipsModule } from './watt-chips.module';
-import { WattChipsComponent, WattChipsSelection } from './watt-chips.component';
+import {
+  WattChipsComponent,
+  WattChipsOption,
+  WattChipsSelection,
+} from './watt-chips.component';
 
 const options = [
   { label: 'Chip 1', value: '1' },
@@ -31,25 +32,36 @@ const options = [
   { label: 'Chip 4', value: '4' },
 ];
 
+interface Properties {
+  options: WattChipsOption[];
+  selection?: string | null;
+  selectionChange?: (selection: WattChipsSelection) => void;
+}
+
+function setup(componentProperties: Properties) {
+  return render(
+    `<watt-chips
+      [options]="options"
+      [selection]="selection"
+      (selectionChange)="selectionChange($event)"
+      ></watt-chips>`,
+    {
+      declarations: [WattChipsComponent],
+      imports: [WattChipsModule],
+      componentProperties,
+    }
+  );
+}
+
 describe(WattChipsComponent.name, () => {
   it('renders a single chip', async () => {
-    await render(WattChipsComponent, {
-      imports: [WattChipsModule],
-      componentProperties: {
-        options: options.slice(0, 1),
-      },
-    });
+    await setup({ options: options.slice(0, 1) });
 
     expect(screen.getByText('Chip 1')).toBeInTheDocument();
   });
 
   it('renders multiple chips', async () => {
-    await render(WattChipsComponent, {
-      imports: [WattChipsModule],
-      componentProperties: {
-        options,
-      },
-    });
+    await setup({ options });
 
     expect(screen.queryAllByRole('option')).toHaveLength(4);
     expect(
@@ -58,13 +70,7 @@ describe(WattChipsComponent.name, () => {
   });
 
   it('renders with default chip', async () => {
-    await render(WattChipsComponent, {
-      imports: [WattChipsModule],
-      componentProperties: {
-        selection: '3',
-        options,
-      },
-    });
+    await setup({ options, selection: '3' });
 
     expect(screen.getByRole('option', { selected: true })).toHaveTextContent(
       'Chip 3'
@@ -72,60 +78,58 @@ describe(WattChipsComponent.name, () => {
   });
 
   it('selects chip on click', async () => {
-    const selectionChange = new EventEmitter<WattChipsSelection>();
-    await render(WattChipsComponent, {
-      imports: [WattChipsModule],
-      componentProperties: {
-        selectionChange,
-        options,
-      },
-    });
+    const selectionChange = jest.fn();
+    await setup({ options, selectionChange });
 
-    const selection = firstValueFrom(selectionChange);
     user.click(screen.getByText('Chip 1'));
 
-    expect(await selection).toBe('1');
+    expect(selectionChange).nthCalledWith(1, '1');
     expect(screen.getByRole('option', { selected: true })).toHaveTextContent(
       'Chip 1'
     );
   });
 
   it('selects at most one chip', async () => {
-    const selectionChange = new EventEmitter<WattChipsSelection>();
-    await render(WattChipsComponent, {
-      imports: [WattChipsModule],
-      componentProperties: {
-        selectionChange,
-        options,
-      },
-    });
+    const selectionChange = jest.fn();
+    await setup({ options, selectionChange });
 
-    const selections = firstValueFrom(selectionChange.pipe(take(2), toArray()));
     user.click(screen.getByText('Chip 2'));
     user.click(screen.getByText('Chip 4'));
 
-    expect(await selections).toStrictEqual(['2', '4']);
+    expect(selectionChange).nthCalledWith(1, '2');
+    expect(selectionChange).nthCalledWith(2, '4');
     expect(screen.getByRole('option', { selected: true })).toHaveTextContent(
       'Chip 4'
     );
   });
 
-  it('deselects chip', async () => {
-    const selectionChange = new EventEmitter<WattChipsSelection>();
-    await render(WattChipsComponent, {
-      imports: [WattChipsModule],
-      componentProperties: {
-        selectionChange,
-        options,
-      },
-    });
+  it('prevents deselection by click', async () => {
+    const selectionChange = jest.fn();
+    await setup({ options, selectionChange });
 
-    const selections = firstValueFrom(selectionChange.pipe(take(3), toArray()));
     user.click(screen.getByText('Chip 1'));
     user.click(screen.getByText('Chip 3'));
     user.click(screen.getByText('Chip 3'));
 
-    expect(await selections).toStrictEqual(['1', '3', null]);
+    expect(selectionChange).nthCalledWith(1, '1');
+    expect(selectionChange).nthCalledWith(2, '3');
+    expect(selectionChange).toBeCalledTimes(2);
+    expect(screen.getByRole('option', { selected: true })).toHaveTextContent(
+      'Chip 3'
+    );
+  });
+
+  it('deselects when selection changes to null', async () => {
+    const selectionChange = jest.fn();
+    const properties = { options, selection: '2', selectionChange };
+    const { rerender } = await setup(properties);
+
+    expect(screen.getByRole('option', { selected: true })).toHaveTextContent(
+      'Chip 2'
+    );
+
+    rerender({ ...properties, selection: null });
+
     expect(
       screen.queryByRole('option', { selected: true })
     ).not.toBeInTheDocument();

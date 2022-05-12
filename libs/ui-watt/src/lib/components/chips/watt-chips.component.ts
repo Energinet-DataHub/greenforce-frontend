@@ -58,7 +58,9 @@ export class WattChipsComponent {
    * @ignore
    */
   onClick(selection: WattChipsSelection) {
-    this.selection = this.selection === selection ? null : selection;
-    this.selectionChange.emit(this.selection);
+    if (this.selection !== selection) {
+      this.selection = selection;
+      this.selectionChange.emit(this.selection);
+    }
   }
 }
