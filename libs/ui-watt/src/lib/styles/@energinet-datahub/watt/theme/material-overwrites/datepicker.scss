@@ -1,15 +1,5 @@
 @use '../../utils' as watt;
 
-$mat-date-range-input-padding: 12px;
-
-// @include watt.media(">=Small") {
-//   .cdk-overlay-pane.mat-datepicker-popup {
-//     // Moves the datepicker popup to the left
-//     // so it aligns with the input's left side
-//     transform: translateX((-1 * $mat-date-range-input-padding));
-//   }
-// }
-
 .watt-datepicker-single__panel,
 .watt-datepicker-range__panel {
   // The following selectors are taken from Material
