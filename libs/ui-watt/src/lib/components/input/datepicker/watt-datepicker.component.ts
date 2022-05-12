@@ -395,7 +395,6 @@ export class WattDatepickerComponent
         this.matDatepickerInput.value = parsedDate;
       }
 
-      this.markParentControlAsTouched();
       this.changeParentValue(value);
     });
   }
