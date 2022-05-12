@@ -16,7 +16,6 @@
  */
 import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
 import { WattIconModule, WattIconSize } from '@energinet-datahub/watt';
-
 import { EoLandingPageLoginButtonScam } from './eo-landing-page-login-button.component';
 
 @Component({
@@ -24,28 +23,23 @@ import { EoLandingPageLoginButtonScam } from './eo-landing-page-login-button.com
   selector: 'eo-landing-page-call-to-action',
   styles: [
     `
-      // 1. Center content.
       :host {
-        display: flex; // [1]
+        display: flex;
         height: 300px; // Magic number by designer
-        align-items: center; // [1]
-        justify-content: center; // [1]
+        align-items: center;
+        justify-content: center;
 
-        text-align: center; // [1]
+        text-align: center;
 
         background: var(--watt-color-primary-light);
       }
 
-      eo-landing-page-login-button {
-        min-width: 160px; // Magic number by designer
-      }
-
-      .icon-link {
-        display: flex; // Center the icon vertically
+      eo-landing-page-login-button ::ng-deep button {
+        width: 160px; // Magic number by designer
       }
 
       .call-out {
-        display: flex; // Align text and icon vertically
+        display: flex;
         align-items: center;
       }
     `,
@@ -55,7 +49,6 @@ import { EoLandingPageLoginButtonScam } from './eo-landing-page-login-button.com
     <div>
       <div class="call-out watt-space-stack-m">
         <h1 class="watt-space-inline-s">Log in with your company NemID</h1>
-
         <div>
           <a
             href="https://www.nemid.nu/dk-en/about_nemid/index.html"
@@ -67,7 +60,6 @@ import { EoLandingPageLoginButtonScam } from './eo-landing-page-login-button.com
           </a>
         </div>
       </div>
-
       <eo-landing-page-login-button></eo-landing-page-login-button>
     </div>
   `,

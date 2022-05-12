@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
-
 import { EoLandingPageLoginButtonScam } from './eo-landing-page-login-button.component';
 
 @Component({
@@ -27,6 +26,10 @@ import { EoLandingPageLoginButtonScam } from './eo-landing-page-login-button.com
         display: block;
       }
 
+      eo-landing-page-login-button ::ng-deep button {
+        width: 160px; // Magic number by designer
+      }
+
       img {
         width: 100%;
         display: block;
@@ -35,10 +38,6 @@ import { EoLandingPageLoginButtonScam } from './eo-landing-page-login-button.com
       h1 {
         font-size: 44px; // Magic number by designer
         line-height: 54px; // Magic number by designer
-      }
-
-      eo-landing-page-login-button {
-        min-width: 160px; // Magic number by designer
       }
 
       .call-to-action {
@@ -60,7 +59,6 @@ import { EoLandingPageLoginButtonScam } from './eo-landing-page-login-button.com
         overview
       </h1>
     </div>
-
     <img src="/assets/images/landing-page/hero-illustration.svg" />
 
     <div class="call-to-action watt-space-inset-l">

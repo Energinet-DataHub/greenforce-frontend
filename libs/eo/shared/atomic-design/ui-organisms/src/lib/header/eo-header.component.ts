@@ -26,13 +26,9 @@ import { EoProductLogoScam } from '@energinet-datahub/eo/shared/atomic-design/ui
       .toolbar {
         display: flex;
         justify-content: space-between;
-
-        // These styles are matching Watt toolbar
         background-color: var(--watt-color-neutral-white);
         border-bottom: 1px solid var(--watt-color-neutral-grey-300);
         box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.08);
-
-        // Adjustment locally to contain a normal sized button
         height: var(--watt-space-xl);
       }
 
