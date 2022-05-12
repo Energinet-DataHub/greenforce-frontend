@@ -19,7 +19,6 @@
 $placeholder-color: var(--watt-color-neutral-grey-500);
 $input-height-normal: 44px;
 $input-height-large: 56px;
-$mat-date-range-input-padding: 12px;
 
 watt-datepicker {
   align-items: center;
@@ -73,7 +72,8 @@ watt-datepicker {
 
 watt-form-field {
   &.watt-form-field-normal {
-    watt-date-range-input {
+    watt-datepicker {
+      input.mat-datepicker-input,
       input.mat-date-range-input-inner {
         height: $input-height-normal;
       }
@@ -81,64 +81,11 @@ watt-form-field {
   }
 
   &.watt-form-field-large {
-    watt-date-range-input {
+    watt-datepicker {
+      input.mat-datepicker-input,
       input.mat-date-range-input-inner {
         height: $input-height-large;
       }
     }
-  }
-}
-
-@include watt.media(">=Small") {
-  .cdk-overlay-pane.mat-datepicker-popup {
-    // Moves the datepicker popup to the left
-    // so it aligns with the input's left side
-    transform: translateX((-1 * $mat-date-range-input-padding));
-  }
-}
-
-.watt-datepicker-single__panel,
-.watt-datepicker-range__panel {
-  // The following selectors are taken from Material
-
-  .mat-calendar-body-in-range::before {
-    background-color: var(--watt-color-primary-light);
-  }
-
-  .mat-calendar-body-today:not(.mat-calendar-body-selected):not(.mat-calendar-body-comparison-identical) {
-    border-color: var(--watt-color-neutral-black);
-  }
-
-  // Set styling on "todays date"
-  .cdk-program-focused
-    .mat-calendar-body-active
-    > .mat-calendar-body-cell-content:not(.mat-calendar-body-selected):not(.mat-calendar-body-comparison-identical) {
-    background-color: transparent;
-    color: var(--watt-color-neutral-black);
-  }
-
-  // Set styling on "hover" on "todays date"
-  .mat-calendar-body-cell:not(.mat-calendar-body-disabled):hover
-    > .mat-calendar-body-cell-content:not(.mat-calendar-body-selected):not(.mat-calendar-body-comparison-identical) {
-    background-color: var(--watt-color-primary);
-    color: var(--watt-color-neutral-white);
-  }
-
-  // Set styling on dates when navigating with the keyboard
-  .cdk-keyboard-focused
-    .mat-calendar-body-active
-    > .mat-calendar-body-cell-content:not(.mat-calendar-body-selected):not(.mat-calendar-body-comparison-identical) {
-    color: var(--watt-color-neutral-white);
-  }
-
-  .mat-calendar-next-button,
-  .mat-calendar-previous-button {
-    color: var(--watt-color-primary);
-  }
-
-  .mat-calendar-body-in-preview .mat-calendar-body-cell-preview {
-    background-color: var(--watt-color-secondary-light);
-    border-bottom: 1px solid var(--watt-color-secondary);
-    border-top: 1px solid var(--watt-color-secondary);
   }
 }
