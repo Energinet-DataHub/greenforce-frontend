@@ -16,7 +16,6 @@
  */
 import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
 import { EoHeaderScam } from '@energinet-datahub/eo/shared/atomic-design/ui-organisms';
-
 import { EoLandingPageLoginButtonScam } from './eo-landing-page-login-button.component';
 
 @Component({
