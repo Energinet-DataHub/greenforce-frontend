@@ -21,7 +21,6 @@ import {
   NgModule,
 } from '@angular/core';
 import { EoFooterScam } from '@energinet-datahub/eo/shared/atomic-design/ui-organisms';
-
 import { EoLandingPageCallToActionScam } from './eo-landing-page-call-to-action.component';
 import { EoLandingPageCompanyScam } from './eo-landing-page-company.component';
 import { EoLandingPageHeaderScam } from './eo-landing-page-header.component';
