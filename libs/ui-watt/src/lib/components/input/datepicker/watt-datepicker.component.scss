@@ -97,7 +97,8 @@ watt-form-field {
   }
 }
 
-.watt-date-range-input__panel {
+.watt-datepicker-single__panel,
+.watt-datepicker-range__panel {
   // The following selectors are taken from Material
 
   .mat-calendar-body-in-range::before {

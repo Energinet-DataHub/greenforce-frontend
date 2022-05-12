@@ -52,7 +52,7 @@ const danishLocaleCode = 'da';
 
 /**
  * Usage:
- * `import { WattDateRangeInputModule } from '@energinet-datahub/watt';`
+ * `import { WattDatepickerModule } from '@energinet-datahub/watt';`
  *
  * IMPORTANT:
  * The styling is calculated based on our monospaced font.
@@ -239,24 +239,26 @@ export class WattDatepickerComponent
   /**
    * @ignore
    */
-  set value(val: string | WattRange | null) {
+  set value(value: string | WattRange | null) {
     const inputNotToBeInTheDocument = !this.range
       ? !this.dateInput
       : !this.startDateInput;
 
     if (inputNotToBeInTheDocument) {
-      this.initialValue = val;
+      this.initialValue = value;
       return;
     }
 
     const inputEvent = new Event('input', { bubbles: true });
-    const { start, end } = val as WattRange;
 
     if (!this.range) {
-      this.dateInput.nativeElement.value = val;
+      this.dateInput.nativeElement.value = value;
       this.dateInput.nativeElement.dispatchEvent(inputEvent);
+      this.stateChanges.next();
       return;
     }
+
+    const { start, end } = value as WattRange;
 
     if (start) {
       this.startDateInput.nativeElement.value = start;
@@ -506,8 +508,8 @@ export class WattDatepickerComponent
   /**
    * @ignore
    */
-  writeValue(val: string | WattRange | null): void {
-    this.value = val;
+  writeValue(value: string | WattRange | null): void {
+    this.value = value;
   }
 
   /**

@@ -34,7 +34,7 @@ export interface WattMaskedInput {
 
 @Injectable()
 export class WattInputMaskService {
-  // Note: The number 9 is based on experimenting with different values
+  // Note: The number is based on experimenting with different values
   // but it is influenced by the monospace font set on the component
   #charWidth = 8;
 

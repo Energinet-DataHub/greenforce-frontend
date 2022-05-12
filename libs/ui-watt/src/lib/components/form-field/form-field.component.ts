@@ -59,7 +59,7 @@ export class FormFieldComponent implements AfterViewInit {
   wattDropdown?: WattDropdownComponent;
 
   @ContentChild(WattDatepickerComponent)
-  dateRangeControl?: WattDatepickerComponent;
+  datepickerControl?: WattDatepickerComponent;
 
   @ContentChild(WattTimeRangeInputComponent)
   timeRange?: WattTimeRangeInputComponent;
@@ -70,7 +70,7 @@ export class FormFieldComponent implements AfterViewInit {
         this.inputControl ||
         this.wattDropdown?.matSelect ||
         this.timeRange?.matDateRangeInput ||
-        this.dateRangeControl;
+        this.datepickerControl;
 
       this.matFormField._control = control;
       this.matFormField.ngAfterContentInit();

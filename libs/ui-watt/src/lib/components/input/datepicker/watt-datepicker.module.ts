@@ -14,13 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { CommonModule } from '@angular/common';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatInputModule } from '@angular/material/input';
 import { NgModule } from '@angular/core';
 
-import { WattIconModule } from '../../../foundations/icon';
 import { WattDatepickerComponent } from './watt-datepicker.component';
-import { CommonModule } from '@angular/common';
-import { MatInputModule } from '@angular/material/input';
+import { WattIconModule } from '../../../foundations/icon';
 
 @NgModule({
   imports: [MatDatepickerModule, MatInputModule, WattIconModule, CommonModule],
