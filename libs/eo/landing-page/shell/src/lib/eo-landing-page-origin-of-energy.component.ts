@@ -16,7 +16,6 @@
  */
 import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
 import { EoMediaModule } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
-
 import { EoLandingPagePresenter } from './eo-landing-page.presenter';
 
 @Component({

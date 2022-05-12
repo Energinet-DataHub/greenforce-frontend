@@ -22,7 +22,6 @@ import {
 } from '@energinet-datahub/eo/auth/data-access-api';
 import { MockProvider } from 'ng-mocks';
 import { firstValueFrom, of } from 'rxjs';
-
 import { EoLandingPageStore } from './eo-landing-page.store';
 
 describe(EoLandingPageStore.name, () => {

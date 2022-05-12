@@ -15,10 +15,8 @@
  * limitations under the License.
  */
 import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
+import { WattButtonModule } from '@energinet-datahub/watt';
 import { LetModule } from '@rx-angular/template';
-import { Observable } from 'rxjs';
-
 import { EoLandingPageStore } from './eo-landing-page.store';
 
 @Component({
@@ -26,51 +24,25 @@ import { EoLandingPageStore } from './eo-landing-page.store';
   selector: 'eo-landing-page-login-button',
   styles: [
     `
-      @use '@energinet-datahub/watt/utils' as watt;
-      @use '@energinet-datahub/eo/shared/styles/spacing' as eo-spacing;
-
       :host {
-        display: inline-block;
-      }
-
-      .link-button {
-        // 1. Primary Watt Button.
-        // 2. Normal size Watt Button.
-        // 3. Custom size for Watt Button in App bar.
-        // 4. Align text vertically.
-        // 5. Fill container
-
-        @include watt.typography-watt-button; // [1]
-        @include eo-spacing.squished-inset-m($padding: true);
-
-        --height: 44px; // [2]
-        --squished-inset-m--y: var(--watt-space-s);
-
-        background: var(--watt-color-primary); // [1]
-        color: var(--watt-color-primary-contrast); // [1]
-
-        width: 100%; // [5]
-        min-width: 6.25rem; // [2]
-        height: var(--height); // [2]
-        line-height: calc(
-          var(--height) - 2 * var(--squished-inset-m--y)
-        ); // [2]
+        display: block;
       }
     `,
   ],
   template: `
-    <a
-      class="link-button"
-      mat-button
-      mat-flat-button
+    <watt-button
       *rxLet="loginUrl$ as loginUrl"
-      [href]="loginUrl"
-      >Start</a
+      (click)="this.authenticate(loginUrl)"
+      >Start</watt-button
     >
   `,
 })
 export class EoLandingPageLoginButtonComponent {
-  loginUrl$: Observable<string> = this.landingPageStore.authenticationUrl$;
+  loginUrl$ = this.landingPageStore.authenticationUrl$;
+
+  authenticate(url: string) {
+    window.location.href = url;
+  }
 
   constructor(private landingPageStore: EoLandingPageStore) {}
 }
@@ -78,6 +50,6 @@ export class EoLandingPageLoginButtonComponent {
 @NgModule({
   declarations: [EoLandingPageLoginButtonComponent],
   exports: [EoLandingPageLoginButtonComponent],
-  imports: [MatButtonModule, LetModule],
+  imports: [WattButtonModule, LetModule],
 })
 export class EoLandingPageLoginButtonScam {}
