@@ -294,6 +294,7 @@
         "createHeader": "Create actor",
         "errorToastLabel": "Error",
         "masterDataTabHeader": "Master data",
+        "meteringPointTypesHeader": "Metering point types",
         "cancelLabel": "Cancel",
         "saveLabel": "Save",
         "masterData": {

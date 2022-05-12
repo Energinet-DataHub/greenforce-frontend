@@ -294,6 +294,7 @@
         "createHeader": "Opret aktør",
         "errorToastLabel": "Fejl",
         "masterDataTabHeader": "Stamdata",
+        "meteringPointTypesHeader": "Målepunktstyper",
         "cancelLabel": "Annuller",
         "saveLabel": "Gem",
         "masterData": {
