@@ -28,12 +28,12 @@ watt-chips {
   }
 
   .mat-standard-chip:hover,
-  .mat-standard-chip:focus {
+  .mat-standard-chip:focus-visible {
     background-color: var(--watt-color-secondary-light);
   }
 
   .mat-chip.mat-standard-chip.mat-chip-selected:hover,
-  .mat-chip.mat-standard-chip.mat-chip-selected:focus {
+  .mat-chip.mat-standard-chip.mat-chip-selected:focus-visible {
     background-color: var(--watt-color-primary-dark);
   }
 
