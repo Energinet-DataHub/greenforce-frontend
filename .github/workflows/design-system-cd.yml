@@ -13,6 +13,10 @@
 # limitations under the License.
 name: Design System CD
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 env:
   STORAGE_ACCOUNT_BASE_NAME: ''
   app-name: ui-watt

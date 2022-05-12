@@ -39,6 +39,9 @@ export interface ActorChanges {
   gln: string;
   status: ActorStatus;
   marketRoles: MarketRoleDto[];
+}
+
+export interface MeteringPointTypeChanges {
   meteringPointTypes: MarketParticipantMeteringPointType[];
 }
 
@@ -52,6 +55,8 @@ export interface MarketParticipantEditActorState {
   // Changes
   changes: ActorChanges;
 
+  meteringPointTypeChanges: MeteringPointTypeChanges;
+
   // Validation
   validation?: { error: string };
 }
@@ -63,8 +68,8 @@ const initialState: MarketParticipantEditActorState = {
     gln: '',
     status: ActorStatus.New,
     marketRoles: [],
-    meteringPointTypes: [],
   },
+  meteringPointTypeChanges: { meteringPointTypes: [] },
 };
 
 @Injectable()
@@ -145,7 +150,7 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
         state.actor.actorId,
         {
           marketRoles: state.changes.marketRoles,
-          meteringPointTypes: state.changes.meteringPointTypes,
+          meteringPointTypes: state.meteringPointTypeChanges.meteringPointTypes,
           status: state.changes.status,
         }
       );
@@ -156,7 +161,7 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
       {
         gln: { value: state.changes.gln },
         marketRoles: state.changes.marketRoles,
-        meteringPointTypes: state.changes.meteringPointTypes,
+        meteringPointTypes: state.meteringPointTypeChanges.meteringPointTypes,
       }
     );
   };
@@ -179,5 +184,12 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
   readonly setMasterDataChanges = (changes: ActorChanges) =>
     this.patchState({
       changes,
+    });
+
+  readonly setMeteringPoinTypeChanges = (
+    meteringPointTypeChanges: MeteringPointTypeChanges
+  ) =>
+    this.patchState({
+      meteringPointTypeChanges,
     });
 }

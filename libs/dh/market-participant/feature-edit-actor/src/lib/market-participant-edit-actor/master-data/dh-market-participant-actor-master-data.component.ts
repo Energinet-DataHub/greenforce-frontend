@@ -52,7 +52,6 @@ export class DhMarketParticipantActorMasterDataComponent
     gln: '',
     status: 'New',
     marketRoles: [],
-    meteringPointTypes: [],
   };
 
   private destroy$ = new Subject<void>();
@@ -84,7 +83,6 @@ export class DhMarketParticipantActorMasterDataComponent
       this.changes = {
         gln: this.actor.gln.value,
         marketRoles: this.actor.marketRoles,
-        meteringPointTypes: this.actor.meteringPointTypes,
         status: this.actor.status,
       };
       this.statuses = getValidStatusTransitionOptions(
