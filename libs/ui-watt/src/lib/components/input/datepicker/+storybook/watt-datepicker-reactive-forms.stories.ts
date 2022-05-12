@@ -20,7 +20,6 @@ import { Meta, moduleMetadata, Story } from '@storybook/angular';
 import { within, fireEvent } from '@storybook/testing-library';
 
 import { StorybookConfigurationLocalizationModule } from '../../+storybook/configuration-localization/storybook-configuration-localization.module';
-
 import { WattDatepickerComponent } from '../watt-datepicker.component';
 import { WattDatepickerModule } from '../watt-datepicker.module';
 import { WattFormFieldModule } from '../../../form-field/form-field.module';
@@ -58,7 +57,7 @@ const template = `
 
 <watt-form-field>
   <watt-label>Date range</watt-label>
-  <watt-datepicker [formControl]="exampleFormControlRange" range></watt-datepicker>
+  <watt-datepicker [formControl]="exampleFormControlRange" [range]="true"></watt-datepicker>
   <watt-error *ngIf="exampleFormControlRange?.errors?.rangeRequired">
       Date range is required
   </watt-error>
