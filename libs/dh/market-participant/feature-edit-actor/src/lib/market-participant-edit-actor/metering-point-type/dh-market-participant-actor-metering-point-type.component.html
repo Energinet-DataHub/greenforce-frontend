@@ -16,9 +16,8 @@ limitations under the License.
 -->
 <ng-container *transloco="let t; read: 'marketParticipant.actor.create.masterData'">
   <mat-selection-list
-    #meteringPointTypeList
     (selectionChange)="onModelChanged()"
-    [(ngModel)]="this.changes.meteringPointTypes">
+    [(ngModel)]="changes.meteringPointTypes">
     <mat-list-option
       *ngFor="let meteringPointType of availableMeteringPointTypes" [value]="meteringPointType">
       {{meteringPointType}}

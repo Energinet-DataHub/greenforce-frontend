@@ -26,9 +26,7 @@
  import { FormsModule } from '@angular/forms';
  import { MeteringPointTypeChanges } from '@energinet-datahub/dh/market-participant/data-access-api';
  import { ActorDto, MarketParticipantMeteringPointType } from '@energinet-datahub/dh/shared/domain';
- import { WattFormFieldModule, WattInputModule } from '@energinet-datahub/watt';
  import { TranslocoModule } from '@ngneat/transloco';
- import { LetModule } from '@rx-angular/template/let';
  import { MatListModule } from '@angular/material/list';
 
  @Component({
@@ -58,11 +56,8 @@
  @NgModule({
    imports: [
      CommonModule,
-     LetModule,
      FormsModule,
      TranslocoModule,
-     WattFormFieldModule,
-     WattInputModule,
      MatListModule
    ],
    exports: [DhMarketParticipantActorMeteringPointTypeComponent],
