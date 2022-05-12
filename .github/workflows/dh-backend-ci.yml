@@ -13,6 +13,10 @@
 # limitations under the License.
 name: DH UI Backend CI
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 env:
   app-name: app-dh
   BASE_BRANCH: ${{ github.event.pull_request.base.ref }}
