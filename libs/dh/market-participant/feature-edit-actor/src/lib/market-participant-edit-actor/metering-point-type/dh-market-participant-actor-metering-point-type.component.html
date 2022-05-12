@@ -14,13 +14,17 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<ng-container *transloco="let t; read: 'marketParticipant.actor.create.masterData'">
+<ng-container
+  *transloco="let t; read: 'marketParticipant.actor.create.masterData'"
+>
   <mat-selection-list
     (selectionChange)="onModelChanged()"
     [(ngModel)]="changes.meteringPointTypes">
     <mat-list-option
-      *ngFor="let meteringPointType of availableMeteringPointTypes" [value]="meteringPointType">
-      {{meteringPointType}}
+      *ngFor="let meteringPointType of availableMeteringPointTypes"
+      [value]="meteringPointType"
+    >
+      {{ meteringPointType }}
     </mat-list-option>
   </mat-selection-list>
 </ng-container>

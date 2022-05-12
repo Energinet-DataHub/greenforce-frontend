@@ -67,7 +67,7 @@ const initialState: MarketParticipantEditActorState = {
   changes: {
     gln: '',
     status: ActorStatus.New,
-    marketRoles: []
+    marketRoles: [],
   },
   meteringPointTypeChanges: { meteringPointTypes: [] },
 };
@@ -186,8 +186,10 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
       changes,
     });
 
-  readonly setMeteringPoinTypeChanges = (meteringPointTypeChanges: MeteringPointTypeChanges) =>
+  readonly setMeteringPoinTypeChanges = (
+    meteringPointTypeChanges: MeteringPointTypeChanges
+  ) =>
     this.patchState({
-      meteringPointTypeChanges
+      meteringPointTypeChanges,
     });
 }
