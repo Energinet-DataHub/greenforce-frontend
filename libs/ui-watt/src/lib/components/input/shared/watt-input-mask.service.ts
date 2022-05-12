@@ -41,7 +41,7 @@ export class WattInputMaskService {
   constructor(private renderer: Renderer2) {}
 
   mask(
-    initialValue = '',
+    initialValue: string | null = '',
     inputFormat: string,
     placeholder: string,
     element: HTMLInputElement,
@@ -67,7 +67,7 @@ export class WattInputMaskService {
         this.setInputColor(event.target as HTMLInputElement, inputMask);
       }),
       map((event: InputEvent) => (event.target as HTMLInputElement).value),
-      startWith(initialValue || ''),
+      startWith(initialValue ?? ''),
       map((value) => (inputMask.isComplete() ? value : '')),
       distinctUntilChanged()
     );

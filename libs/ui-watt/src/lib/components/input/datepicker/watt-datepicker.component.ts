@@ -367,7 +367,7 @@ export class WattDatepickerComponent
   private initSingleInput() {
     const pickerInputElement = this.dateInput.nativeElement;
     const { onChange$, inputMask } = this.inputMaskService.mask(
-      this.initialValue as string | undefined,
+      this.initialValue as string | null,
       this.inputFormat,
       this.placeholder,
       pickerInputElement,
@@ -406,7 +406,7 @@ export class WattDatepickerComponent
   private initRangeInput() {
     const startDateInputElement = this.startDateInput.nativeElement;
     const maskedStartDate = this.inputMaskService.mask(
-      (this.initialValue as WattRange)?.start,
+      (this.initialValue as WattRange | null)?.start,
       this.inputFormat,
       this.placeholder,
       startDateInputElement,
@@ -415,7 +415,7 @@ export class WattDatepickerComponent
 
     const endDateInputElement = this.endDateInput.nativeElement;
     const maskedEndDate = this.inputMaskService.mask(
-      (this.initialValue as WattRange)?.end,
+      (this.initialValue as WattRange | null)?.end,
       this.inputFormat,
       this.placeholder,
       endDateInputElement,
