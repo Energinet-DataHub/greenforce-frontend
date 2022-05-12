@@ -22,15 +22,15 @@ import {
   NgModule,
   OnChanges,
   Output,
- } from '@angular/core';
- import { FormsModule } from '@angular/forms';
- import { MeteringPointTypeChanges } from '@energinet-datahub/dh/market-participant/data-access-api';
- import {
-   ActorDto,
-   MarketParticipantMeteringPointType
- } from '@energinet-datahub/dh/shared/domain';
- import { TranslocoModule } from '@ngneat/transloco';
- import { MatListModule } from '@angular/material/list';
+} from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { MeteringPointTypeChanges } from '@energinet-datahub/dh/market-participant/data-access-api';
+import {
+  ActorDto,
+  MarketParticipantMeteringPointType,
+} from '@energinet-datahub/dh/shared/domain';
+import { TranslocoModule } from '@ngneat/transloco';
+import { MatListModule } from '@angular/material/list';
 
 @Component({
   selector: 'dh-market-participant-actor-metering-point-type',
@@ -61,14 +61,9 @@ export class DhMarketParticipantActorMeteringPointTypeComponent
   };
 }
 
- @NgModule({
-   imports: [
-     CommonModule,
-     FormsModule,
-     TranslocoModule,
-     MatListModule
-   ],
-   exports: [DhMarketParticipantActorMeteringPointTypeComponent],
-   declarations: [DhMarketParticipantActorMeteringPointTypeComponent],
- })
- export class DhMarketParticipantActorMeteringPointTypeComponentScam {}
+@NgModule({
+  imports: [CommonModule, FormsModule, TranslocoModule, MatListModule],
+  exports: [DhMarketParticipantActorMeteringPointTypeComponent],
+  declarations: [DhMarketParticipantActorMeteringPointTypeComponent],
+})
+export class DhMarketParticipantActorMeteringPointTypeComponentScam {}

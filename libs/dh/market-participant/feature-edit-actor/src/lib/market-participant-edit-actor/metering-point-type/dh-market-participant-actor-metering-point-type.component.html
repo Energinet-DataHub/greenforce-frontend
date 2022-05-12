@@ -19,7 +19,8 @@ limitations under the License.
 >
   <mat-selection-list
     (selectionChange)="onModelChanged()"
-    [(ngModel)]="changes.meteringPointTypes">
+    [(ngModel)]="changes.meteringPointTypes"
+  >
     <mat-list-option
       *ngFor="let meteringPointType of availableMeteringPointTypes"
       [value]="meteringPointType"
