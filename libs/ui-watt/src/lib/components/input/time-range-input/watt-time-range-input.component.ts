@@ -119,6 +119,7 @@ export class WattTimeRangeInputComponent
       this.startTimeInput.nativeElement;
 
     const startTimeInputMask = this.inputMaskService.mask(
+      this.initialValue?.start,
       hoursMinutesFormat,
       this.placeholder,
       startTimeInputElement
@@ -128,6 +129,7 @@ export class WattTimeRangeInputComponent
       this.endTimeInput.nativeElement;
 
     const endTimeInputMask = this.inputMaskService.mask(
+      this.initialValue?.end,
       hoursMinutesFormat,
       this.placeholder,
       endTimeInputElement
@@ -137,13 +139,11 @@ export class WattTimeRangeInputComponent
     this.rangeInputService.init({
       startInput: {
         element: startTimeInputElement,
-        initialValue: this.initialValue?.start,
-        mask: startTimeInputMask,
+        maskedInput: startTimeInputMask,
       },
       endInput: {
         element: endTimeInputElement,
-        initialValue: this.initialValue?.end,
-        mask: endTimeInputMask,
+        maskedInput: endTimeInputMask,
       },
     });
 

@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 @use './theme/light-theme.scss';
+@use './theme/material-overwrites/datepicker';
 
 @use '../../../foundations/variables';
 @use '../../../foundations/box-sizing';
@@ -28,5 +29,5 @@ body {
 }
 body {
   margin: 0;
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
 }
