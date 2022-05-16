@@ -38,11 +38,14 @@ import { parseErrorResponse } from './dh-market-participant-error-handling';
 export interface ActorChanges {
   gln: string;
   status: ActorStatus;
-  marketRoles: MarketRoleDto[];
 }
 
 export interface MeteringPointTypeChanges {
   meteringPointTypes: MarketParticipantMeteringPointType[];
+}
+
+export interface MarketRoleChanges {
+  marketRoles: MarketRoleDto[];
 }
 
 export interface MarketParticipantEditActorState {
@@ -57,6 +60,8 @@ export interface MarketParticipantEditActorState {
 
   meteringPointTypeChanges: MeteringPointTypeChanges;
 
+  marketRoleChanges: MarketRoleChanges;
+
   // Validation
   validation?: { error: string };
 }
@@ -67,9 +72,9 @@ const initialState: MarketParticipantEditActorState = {
   changes: {
     gln: '',
     status: ActorStatus.New,
-    marketRoles: [],
   },
   meteringPointTypeChanges: { meteringPointTypes: [] },
+  marketRoleChanges: { marketRoles: [] },
 };
 
 @Injectable()
@@ -149,7 +154,7 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
         state.organizationId,
         state.actor.actorId,
         {
-          marketRoles: state.changes.marketRoles,
+          marketRoles: state.marketRoleChanges.marketRoles,
           meteringPointTypes: state.meteringPointTypeChanges.meteringPointTypes,
           status: state.changes.status,
         }
@@ -160,7 +165,7 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
       state.organizationId,
       {
         gln: { value: state.changes.gln },
-        marketRoles: state.changes.marketRoles,
+        marketRoles: state.marketRoleChanges.marketRoles,
         meteringPointTypes: state.meteringPointTypeChanges.meteringPointTypes,
       }
     );
@@ -191,5 +196,12 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
   ) =>
     this.patchState({
       meteringPointTypeChanges,
+    });
+
+  readonly setMarketRoleChanges = (
+    marketRoleChanges: MarketRoleChanges
+  ) =>
+    this.patchState({
+      marketRoleChanges,
     });
 }

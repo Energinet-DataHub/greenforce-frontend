@@ -295,6 +295,7 @@
         "errorToastLabel": "Fejl",
         "masterDataTabHeader": "Stamdata",
         "meteringPointTypesHeader": "Målepunktstyper",
+        "marketRolesHeader": "Markedsroller",
         "cancelLabel": "Annuller",
         "saveLabel": "Gem",
         "masterData": {
