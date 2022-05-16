@@ -9,7 +9,8 @@
     "navigation": {
       "meteringPoints": "Målepunkter",
       "messageArchive": "Fremsøg forretningsbesked",
-      "marketParticipant": "Organisationer"
+      "marketParticipant": "Organisationer",
+      "wholesale": "Afregninger"
     }
   },
   "meteringPoint": {
