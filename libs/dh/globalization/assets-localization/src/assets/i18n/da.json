@@ -455,6 +455,6 @@
   "wholesale": {
     "start": "Start",
     "startProcess": "Start Process",
-    "processDescription": "Kør en aggregering process for igår for aggregering testnetområder"
+    "processDescription": "Kør en aggregering process for igår for netområde 802 & 803"
   }
 }
