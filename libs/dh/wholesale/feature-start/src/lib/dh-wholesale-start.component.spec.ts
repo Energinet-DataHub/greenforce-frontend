@@ -8,9 +8,8 @@ describe('DhWholesaleStartComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ DhWholesaleStartComponent ]
-    })
-    .compileComponents();
+      declarations: [DhWholesaleStartComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {
