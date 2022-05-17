@@ -453,6 +453,8 @@
     }
   },
   "wholesale": {
-    "start": "Start"
+    "start": "Start",
+    "startProcess": "Start Process",
+    "processDescription": "Start a aggregation process for yesterday for aggregation testgrids"
   }
 }
