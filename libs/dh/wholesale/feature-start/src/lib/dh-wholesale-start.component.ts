@@ -1,4 +1,6 @@
 import { Component, OnInit, NgModule } from '@angular/core';
+import { TranslocoModule } from '@ngneat/transloco';
+
 import {
   WattButtonModule,
 } from '@energinet-datahub/watt';
@@ -19,7 +21,8 @@ export class DhWholesaleStartComponent implements OnInit {
 
 @NgModule({
   imports: [
-    WattButtonModule
+    WattButtonModule,
+    TranslocoModule
   ],
   declarations: [DhWholesaleStartComponent],
 })
