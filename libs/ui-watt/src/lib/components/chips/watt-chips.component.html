@@ -14,19 +14,11 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<ng-container *transloco="let transloco; read: 'sidebar.navigation'">
-  <watt-nav-list>
-    <watt-nav-list-item link="/metering-point">{{
-      transloco("meteringPoints")
-    }}</watt-nav-list-item>
-    <watt-nav-list-item link="/message-archive">{{
-      transloco("messageArchive")
-    }}</watt-nav-list-item>
-    <watt-nav-list-item link="/market-participant">{{
-      transloco("marketParticipant")
-    }}</watt-nav-list-item>
-    <watt-nav-list-item link="/wholesale">{{
-      transloco("wholesale")
-    }}</watt-nav-list-item>
-  </watt-nav-list>
-</ng-container>
+<mat-chip-list>
+  <mat-chip
+    *ngFor="let option of options"
+    [selected]="selection === option.value"
+    (click)="onClick(option.value)"
+    >{{ option.label }}</mat-chip
+  >
+</mat-chip-list>

@@ -79,6 +79,14 @@ const routes: Routes = [
           ),
         canActivate: [MsalGuard],
       },
+      {
+        path: 'wholesale',
+        loadChildren: () =>
+          import('@energinet-datahub/dh/wholesale/shell').then(
+            (esModule) => esModule.DhWholesaleShellModule
+          ),
+        canActivate: [MsalGuard],
+      },
     ],
   },
   // Used by MSAL (B2C)
