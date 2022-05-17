@@ -336,6 +336,24 @@ jobs:
         if: ${{ env.is-pull-request == 'false' }}
         run: yarn lint --max-parallel=$NX_MAX_PARALLEL
 
+  license-check:
+    name: License check
+    if: ${{ github.event_name  == 'pull_request' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout latest code
+        uses: actions/checkout@v2
+      - name: Use Node.js 12.x
+        uses: actions/setup-node@v2.1.2
+        with:
+          node-version: 12.x
+      - name: Install package dependencies
+        run: yarn install --frozen-lockfile --non-interactive
+      - name: Check licenses
+        uses: tangro/actions-license-check@v1.0.7
+        with:
+          allowed-licenses: 'MIT; ISC; Apache-2.0; BSD'
+
   test:
     name: Unit and integration test
     needs: dh-affected
