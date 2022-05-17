@@ -26,10 +26,10 @@ const routes: Routes = [
   {
     path: '',
     component: DhWholesaleStartComponent,
-  }
+  },
 ];
 
 @NgModule({
-    imports: [DhWholesaleStartScam, RouterModule.forChild(routes)],
+  imports: [DhWholesaleStartScam, RouterModule.forChild(routes)],
 })
 export class DhWholesaleShellModule {}
