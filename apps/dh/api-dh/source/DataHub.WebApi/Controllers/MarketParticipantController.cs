@@ -14,7 +14,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Text.Json;
 using System.Threading.Tasks;
 using Energinet.DataHub.MarketParticipant.Client;
 using Energinet.DataHub.MarketParticipant.Client.Models;
@@ -24,7 +23,7 @@ namespace Energinet.DataHub.WebApi.Controllers
 {
     [ApiController]
     [Route("v1/[controller]/organization")]
-    public class MarketParticipantController : ControllerBase
+    public class MarketParticipantController : MarketParticipantControllerBase
     {
         private readonly IMarketParticipantClient _client;
 
@@ -130,31 +129,6 @@ namespace Energinet.DataHub.WebApi.Controllers
         public Task<ActionResult> DeleteContactAsync(Guid orgId, Guid contactId)
         {
             return HandleExceptionAsync(() => _client.DeleteContactAsync(orgId, contactId));
-        }
-
-        private async Task<ActionResult<T>> HandleExceptionAsync<T>(Func<Task<T>> func)
-        {
-            try
-            {
-                return Ok(await func().ConfigureAwait(false));
-            }
-            catch (MarketParticipantException e)
-            {
-                return StatusCode(e.StatusCode, JsonSerializer.Deserialize<JsonElement>(e.Message));
-            }
-        }
-
-        private async Task<ActionResult> HandleExceptionAsync(Func<Task> func)
-        {
-            try
-            {
-                await func().ConfigureAwait(false);
-                return Ok();
-            }
-            catch (MarketParticipantException e)
-            {
-                return StatusCode(e.StatusCode, JsonSerializer.Deserialize<JsonElement>(e.Message));
-            }
         }
     }
 }
