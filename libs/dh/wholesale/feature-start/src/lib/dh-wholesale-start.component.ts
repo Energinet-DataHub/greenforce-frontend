@@ -1,4 +1,4 @@
-import { Component, OnInit, NgModule } from '@angular/core';
+import { Component, NgModule } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
 
 import {
@@ -10,14 +10,7 @@ import {
   templateUrl: './dh-wholesale-start.component.html',
   styleUrls: ['./dh-wholesale-start.component.scss']
 })
-export class DhWholesaleStartComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
-}
+export class DhWholesaleStartComponent {}
 
 @NgModule({
   imports: [
