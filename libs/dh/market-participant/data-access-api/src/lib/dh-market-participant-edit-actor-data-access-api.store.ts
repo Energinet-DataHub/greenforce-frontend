@@ -198,9 +198,7 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
       meteringPointTypeChanges,
     });
 
-  readonly setMarketRoleChanges = (
-    marketRoleChanges: MarketRoleChanges
-  ) =>
+  readonly setMarketRoleChanges = (marketRoleChanges: MarketRoleChanges) =>
     this.patchState({
       marketRoleChanges,
     });
