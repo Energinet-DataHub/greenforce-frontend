@@ -13,7 +13,7 @@ import { EicFunction } from './eic-function';
 
 
 export interface MarketRoleDto { 
-    _function: EicFunction;
+    eicFunction: EicFunction;
 }
 
 

@@ -44,20 +44,21 @@ import { MarketRoleChanges } from '@energinet-datahub/dh/market-participant/data
    @Input() actor: ActorDto | undefined;
    @Output() hasChanges = new EventEmitter<MarketRoleChanges>();
    changes: MarketRoleChanges = { marketRoles: [] };
-   availableMarketRoles = Object.values(
-     EicFunction
-   ).map(e => { return <MarketRoleDto> { _function: e as string } });
+   listModel = Array<EicFunction>();
+   availableMarketRoles = Object.values(EicFunction);
 
    ngOnChanges(): void {
     if (this.actor !== undefined) {
       this.changes = {
         marketRoles: this.actor.marketRoles,
       };
+      this.listModel = this.changes.marketRoles.map(e => e.eicFunction);
       this.hasChanges.emit({ ...this.changes });
     }
   }
 
-  readonly onModelChanged = () => {
+  readonly onSelectionChange = () => {
+    this.changes.marketRoles = this.listModel.map(e => { return <MarketRoleDto> { eicFunction: e } });
     this.hasChanges.emit({ ...this.changes });
   };
  }

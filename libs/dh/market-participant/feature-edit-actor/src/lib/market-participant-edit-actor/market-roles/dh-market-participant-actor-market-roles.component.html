@@ -18,14 +18,14 @@ limitations under the License.
   *transloco="let t; read: 'marketParticipant.actor.create.masterData'"
 >
   <mat-selection-list
-    (selectionChange)="onModelChanged()"
-    [(ngModel)]="changes.marketRoles"
+    (selectionChange)="onSelectionChange()"
+    [(ngModel)]="listModel"
   >
     <mat-list-option
       *ngFor="let marketRole of availableMarketRoles"
       [value]="marketRole"
     >
-      {{ marketRole._function }}
+      {{ marketRole }}
     </mat-list-option>
   </mat-selection-list>
 </ng-container>
