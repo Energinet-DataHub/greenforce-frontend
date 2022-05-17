@@ -341,12 +341,38 @@ jobs:
     if: ${{ github.event_name  == 'pull_request' }}
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout latest code
+      # needed for nx affected command
+      - name: Check out source code with current branch Git history
         uses: actions/checkout@v2
-      - name: Use Node.js 12.x
-        uses: actions/setup-node@v2.1.2
         with:
-          node-version: 12.x
+          fetch-depth: 0
+          ref: ${{ github.head_ref }}
+          ssh-key: ${{ secrets.ACTIONS_BOT_SSH_KEY }}
+      # needed for nx affected command
+      - name: Fetch base branch Git history
+        run: git fetch --no-tags origin $BASE_BRANCH
+
+      - name: Set up Node.js ${{ env.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ env.node-version }}
+
+      - name: Variable-Yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+      - name: Cache Yarn cache directory
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-node-${{ env.node-version }}-yarn-${{
+            hashFiles('yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-node-${{ env.node-version }}
+            ${{ runner.os }}
+      - name: Disable Angular Compatibility Compiler
+        uses: ./.github/actions/setup-postinstall
+        with:
+          ngcc: false
       - name: Install package dependencies
         run: yarn install --frozen-lockfile --non-interactive
       - name: Check licenses
