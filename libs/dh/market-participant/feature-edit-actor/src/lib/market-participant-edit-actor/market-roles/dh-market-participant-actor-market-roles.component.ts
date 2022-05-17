@@ -14,68 +14,70 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- import { CommonModule } from '@angular/common';
- import {
-   Component,
-   EventEmitter,
-   Input,
-   NgModule,
-   OnChanges,
-   Output,
- } from '@angular/core';
- import { FormsModule } from '@angular/forms';
- import {
-   ActorDto,
-   EicFunction,
-   MarketRoleDto
- } from '@energinet-datahub/dh/shared/domain';
- import { TranslocoModule } from '@ngneat/transloco';
- import { MatListModule } from '@angular/material/list';
- import { MarketRoleChanges } from '@energinet-datahub/dh/market-participant/data-access-api';
- import { MarketRoleService } from './market-role-service';
+import { CommonModule } from '@angular/common';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  NgModule,
+  OnChanges,
+  Output,
+} from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import {
+  ActorDto,
+  EicFunction,
+  MarketRoleDto,
+} from '@energinet-datahub/dh/shared/domain';
+import { TranslocoModule } from '@ngneat/transloco';
+import { MatListModule } from '@angular/material/list';
+import { MarketRoleChanges } from '@energinet-datahub/dh/market-participant/data-access-api';
+import { MarketRoleService } from './market-role-service';
 
- @Component({
-   selector: 'dh-market-participant-actor-market-roles',
-   templateUrl:
-     './dh-market-participant-actor-market-roles.component.html',
- })
- export class DhMarketParticipantActorMarketRolesComponent
-   implements OnChanges
- {
-   @Input() actor: ActorDto | undefined;
-   @Output() hasChanges = new EventEmitter<MarketRoleChanges>();
-   marketRoleService = new MarketRoleService();
-   changes: MarketRoleChanges = { marketRoles: [] };
-   listModel = Array<EicFunction>();
-   availableMarketRoles = Array<EicFunction>();
+@Component({
+  selector: 'dh-market-participant-actor-market-roles',
+  templateUrl: './dh-market-participant-actor-market-roles.component.html',
+})
+export class DhMarketParticipantActorMarketRolesComponent implements OnChanges {
+  @Input() actor: ActorDto | undefined;
+  @Output() hasChanges = new EventEmitter<MarketRoleChanges>();
+  marketRoleService = new MarketRoleService();
+  changes: MarketRoleChanges = { marketRoles: [] };
+  listModel = Array<EicFunction>();
+  availableMarketRoles = Array<EicFunction>();
 
-  constructor(){
+  constructor() {
     this.availableMarketRoles = this.marketRoleService.getAvailableMarketRoles;
   }
 
-   ngOnChanges(): void {
+  ngOnChanges(): void {
     if (this.actor !== undefined) {
       this.changes = {
         marketRoles: this.actor.marketRoles,
       };
-      this.listModel = this.changes.marketRoles.map(e => e.eicFunction);
+      this.listModel = this.changes.marketRoles.map((e) => e.eicFunction);
       this.hasChanges.emit({ ...this.changes });
     }
-  };
+  }
 
   invalidInCurrentSelection(item: EicFunction) {
-    return this.marketRoleService.notValidInAnySelectionGroup(item, this.listModel)
-  };
+    return this.marketRoleService.notValidInAnySelectionGroup(
+      item,
+      this.listModel
+    );
+  }
 
   readonly onSelectionChange = () => {
-    this.changes.marketRoles = this.listModel.map(e => { return <MarketRoleDto> { eicFunction: e } });
+    this.changes.marketRoles = this.listModel.map((e) => {
+      return <MarketRoleDto>{ eicFunction: e };
+    });
     this.hasChanges.emit({ ...this.changes });
   };
- }
+}
 
- @NgModule({
-   imports: [CommonModule, FormsModule, TranslocoModule, MatListModule],
-   exports: [DhMarketParticipantActorMarketRolesComponent],
-   declarations: [DhMarketParticipantActorMarketRolesComponent],
- })
- export class DhMarketParticipantActorMarketRolesComponentScam {}
+@NgModule({
+  imports: [CommonModule, FormsModule, TranslocoModule, MatListModule],
+  exports: [DhMarketParticipantActorMarketRolesComponent],
+  declarations: [DhMarketParticipantActorMarketRolesComponent],
+})
+export class DhMarketParticipantActorMarketRolesComponentScam {}

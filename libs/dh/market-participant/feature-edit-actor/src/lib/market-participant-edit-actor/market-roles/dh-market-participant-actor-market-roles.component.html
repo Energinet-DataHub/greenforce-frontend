@@ -23,7 +23,8 @@ limitations under the License.
   >
     <mat-list-option
       *ngFor="let marketRole of availableMarketRoles"
-      [value]="marketRole" [disabled]="invalidInCurrentSelection(marketRole)"
+      [value]="marketRole"
+      [disabled]="invalidInCurrentSelection(marketRole)"
     >
       {{ marketRole }}
     </mat-list-option>
