@@ -32,13 +32,12 @@ import { EoVimeoPlayerScam } from '@energinet-datahub/eo/shared/atomic-design/ui
 
       .video-wrapper {
         max-width: 640px; // Magic number by designer
-        margin: 0 auto; // Center content
+        margin: 0 auto;
       }
 
-      // 1. Center content with max width.
       .content-wrapper {
-        margin: 0 auto; // [1]
-        max-width: var(--eo-landing-page-content-max-width); // [1]
+        margin: 0 auto;
+        max-width: var(--eo-landing-page-content-max-width);
       }
     `,
   ],

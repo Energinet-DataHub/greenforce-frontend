@@ -17,6 +17,6 @@
 export const findProductLogo = () =>
   cy.findByRole('img', { name: 'Energy Origin' });
 export const findStartLink = () =>
-  cy.findAllByRole('link', { name: /Start/i }).first();
+  cy.get('watt-button').contains('Start').first();
 export const navigateTo = () => cy.visit(path);
 export const path = '/';

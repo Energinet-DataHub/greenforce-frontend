@@ -26,26 +26,12 @@ limitations under the License.
 
   <div class="content-grid">
     <watt-button variant="primary">Enabled</watt-button>
-    <span class="force-hover-state">
-      <watt-button variant="primary">Hovered</watt-button>
-    </span>
-    <span class="force-focus-state">
-      <watt-button variant="primary">Focused</watt-button>
-    </span>
     <watt-button variant="primary" [disabled]="true">Disabled</watt-button>
-    <watt-button variant="primary" icon="search" [loading]="true"
-      >Search</watt-button
-    >
+    <watt-button variant="primary" [loading]="true">Hidden</watt-button>
   </div>
 
   <div class="content-grid">
     <watt-button variant="primary" icon="plus">Enabled</watt-button>
-    <span class="force-hover-state">
-      <watt-button variant="primary" icon="plus">Hovered</watt-button>
-    </span>
-    <span class="force-focus-state">
-      <watt-button variant="primary" icon="plus">Focused</watt-button>
-    </span>
     <watt-button variant="primary" icon="plus" [disabled]="true"
       >Disabled</watt-button
     >
@@ -55,31 +41,17 @@ limitations under the License.
 
   <p>
     Outlined buttons are <strong>medium-emphasis</strong> buttons. They contain
-    actions that are important, but aren’t the primary action in an app.
+    actions that are important, but aren't the primary action in an app.
   </p>
 
   <div class="content-grid">
     <watt-button variant="secondary">Enabled</watt-button>
-    <span class="force-hover-state">
-      <watt-button variant="secondary">Hovered</watt-button>
-    </span>
-    <span class="force-focus-state">
-      <watt-button variant="secondary">Focused</watt-button>
-    </span>
     <watt-button variant="secondary" [disabled]="true">Disabled</watt-button>
-    <watt-button variant="secondary" icon="search" [loading]="true"
-      >Search</watt-button
-    >
+    <watt-button variant="secondary" [loading]="true">Hidden</watt-button>
   </div>
 
   <div class="content-grid">
     <watt-button variant="secondary" icon="plus">Enabled</watt-button>
-    <span class="force-hover-state">
-      <watt-button variant="secondary" icon="plus">Hovered</watt-button>
-    </span>
-    <span class="force-focus-state">
-      <watt-button variant="secondary" icon="plus">Focused</watt-button>
-    </span>
     <watt-button variant="secondary" icon="plus" [disabled]="true"
       >Disabled</watt-button
     >
@@ -94,25 +66,15 @@ limitations under the License.
   </p>
 
   <div class="content-grid">
-    <watt-button>Enabled</watt-button>
-    <span class="force-hover-state">
-      <watt-button>Hovered</watt-button>
-    </span>
-    <span class="force-focus-state">
-      <watt-button>Focused</watt-button>
-    </span>
-    <watt-button [disabled]="true">Disabled</watt-button>
+    <watt-button variant="text">Enabled</watt-button>
+    <watt-button variant="text" [disabled]="true">Disabled</watt-button>
   </div>
 
   <div class="content-grid">
-    <watt-button icon="plus">Enabled</watt-button>
-    <span class="force-hover-state">
-      <watt-button icon="plus">Hovered</watt-button>
-    </span>
-    <span class="force-focus-state">
-      <watt-button icon="plus">Focused</watt-button>
-    </span>
-    <watt-button icon="plus" [disabled]="true">Disabled</watt-button>
+    <watt-button variant="text" icon="plus">Enabled</watt-button>
+    <watt-button variant="text" icon="plus" [disabled]="true"
+      >Disabled</watt-button
+    >
   </div>
 
   <h2>Size</h2>
@@ -136,13 +98,9 @@ limitations under the License.
   </p>
 
   <div class="content-grid">
-    <watt-icon-button icon="plus"></watt-icon-button>
-    <span class="force-hover-state">
-      <watt-icon-button icon="plus"></watt-icon-button>
-    </span>
-    <span class="force-focus-state">
-      <watt-icon-button icon="plus"></watt-icon-button>
-    </span>
-    <watt-icon-button icon="plus" [disabled]="true"></watt-icon-button>
+    <watt-button variant="icon" icon="plus">Enabled</watt-button>
+    <watt-button variant="icon" icon="plus" [disabled]="true"
+      >Disabled</watt-button
+    >
   </div>
 </mat-card>

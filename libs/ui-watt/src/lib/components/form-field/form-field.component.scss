@@ -35,13 +35,14 @@ watt-form-field {
 
     [wattPrefix],
     [wattSuffix] {
-      .watt-icon-button {
+      .watt-button--icon {
         height: 52px;
       }
     }
   }
 
-  .mat-input-element {
+  .mat-input-element,
+  .mat-date-range-input-container {
     @include watt.typography-watt-text-s;
     color: var(--input-color);
     caret-color: var(--watt-color-neutral-grey-900) !important;
@@ -72,11 +73,6 @@ watt-form-field {
     &.mat-form-field-type-mat-date-range-input {
       .mat-form-field-infix {
         display: inline-block;
-        flex: none;
-      }
-
-      .mat-form-field-flex {
-        padding: 0 12px;
       }
     }
 
@@ -98,7 +94,7 @@ watt-form-field {
 
   [wattPrefix],
   [wattSuffix] {
-    .watt-icon-button {
+    .watt-button--icon {
       height: 40px;
     }
   }

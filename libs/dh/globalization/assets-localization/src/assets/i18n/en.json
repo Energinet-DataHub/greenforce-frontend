@@ -288,6 +288,29 @@
     }
   },
   "marketParticipant": {
+    "actor": {
+      "create": {
+        "editHeader": "Edit actor",
+        "createHeader": "Create actor",
+        "errorToastLabel": "Error",
+        "masterDataTabHeader": "Master data",
+        "meteringPointTypesHeader": "Metering point types",
+        "cancelLabel": "Cancel",
+        "saveLabel": "Save",
+        "masterData": {
+          "labelGln": "Organization code",
+          "labelStatus": "Status",
+          "fieldRequiredErrorText": "Field is required.",
+          "statuses": {
+            "New": "New",
+            "Active": "Active",
+            "Inactive": "Inactive",
+            "Passive": "Passive",
+            "Deleted": "Deleted"
+          }
+        }
+      }
+    },
     "organization": {
       "header": "Organizations",
       "columns": {
@@ -356,6 +379,7 @@
       },
       "editOrganization": "Edit organization",
       "editActor": "Edit actor",
+      "createActor": "Create actor",
       "createOrganization": "Create organization",
       "noOrganizations": "No organizations",
       "paginator": {
