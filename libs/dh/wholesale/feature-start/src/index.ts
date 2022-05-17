@@ -14,22 +14,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-
-import {
-  DhWholesaleStartComponent,
-  DhWholesaleStartScam,
-} from '@energinet-datahub/dh/wholesale/feature-start';
-
-const routes: Routes = [
-  {
-    path: '',
-    component: DhWholesaleStartComponent,
-  }
-];
-
-@NgModule({
-    imports: [DhWholesaleStartScam, RouterModule.forChild(routes)],
-})
-export class DhWholesaleShellModule {}
+export * from './lib/dh-wholesale-start.component'
