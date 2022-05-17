@@ -1,0 +1,26 @@
+{
+  "projectType": "library",
+  "root": "libs/dh/wholesale/shell",
+  "sourceRoot": "libs/dh/wholesale/shell/src",
+  "prefix": "dh",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/dh/wholesale/shell"],
+      "options": {
+        "jestConfig": "libs/dh/wholesale/shell/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/dh/wholesale/shell/src/**/*.ts",
+          "libs/dh/wholesale/shell/src/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": ["product:dh", "domain:wholesale", "type:shell"]
+}

@@ -9,7 +9,8 @@
     "navigation": {
       "meteringPoints": "Metering points",
       "messageArchive": "Request/Response messages",
-      "marketParticipant": "Organizations"
+      "marketParticipant": "Organizations",
+      "wholesale": "Settlements"
     }
   },
   "meteringPoint": {
