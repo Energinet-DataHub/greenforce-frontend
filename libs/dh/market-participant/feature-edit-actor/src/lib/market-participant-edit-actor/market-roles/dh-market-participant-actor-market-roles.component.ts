@@ -31,7 +31,8 @@
  } from '@energinet-datahub/dh/shared/domain';
  import { TranslocoModule } from '@ngneat/transloco';
  import { MatListModule } from '@angular/material/list';
-import { MarketRoleChanges } from '@energinet-datahub/dh/market-participant/data-access-api';
+ import { MarketRoleChanges } from '@energinet-datahub/dh/market-participant/data-access-api';
+ import { MarketRoleService } from './market-role-service';
 
  @Component({
    selector: 'dh-market-participant-actor-market-roles',
@@ -43,9 +44,14 @@ import { MarketRoleChanges } from '@energinet-datahub/dh/market-participant/data
  {
    @Input() actor: ActorDto | undefined;
    @Output() hasChanges = new EventEmitter<MarketRoleChanges>();
+   marketRoleService = new MarketRoleService();
    changes: MarketRoleChanges = { marketRoles: [] };
    listModel = Array<EicFunction>();
-   availableMarketRoles = Object.values(EicFunction);
+   availableMarketRoles = Array<EicFunction>();
+
+  constructor(){
+    this.availableMarketRoles = this.marketRoleService.getAvailableMarketRoles;
+  }
 
    ngOnChanges(): void {
     if (this.actor !== undefined) {
@@ -55,7 +61,11 @@ import { MarketRoleChanges } from '@energinet-datahub/dh/market-participant/data
       this.listModel = this.changes.marketRoles.map(e => e.eicFunction);
       this.hasChanges.emit({ ...this.changes });
     }
-  }
+  };
+
+  invalidInCurrentSelection(item: EicFunction) {
+    return this.marketRoleService.notValidInAnySelectionGroup(item, this.listModel)
+  };
 
   readonly onSelectionChange = () => {
     this.changes.marketRoles = this.listModel.map(e => { return <MarketRoleDto> { eicFunction: e } });
