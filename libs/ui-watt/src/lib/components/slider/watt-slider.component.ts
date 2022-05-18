@@ -17,10 +17,15 @@
 import {
   Component,
   ChangeDetectionStrategy,
+  EventEmitter,
   ViewEncapsulation,
+  Input,
+  Output,
 } from '@angular/core';
-import { Options } from '@angular-slider/ngx-slider';
 
+/**
+ * Slider for providing a range of values.
+ */
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
@@ -29,12 +34,27 @@ import { Options } from '@angular-slider/ngx-slider';
   templateUrl: './watt-slider.component.html',
 })
 export class WattSliderComponent {
-  minValue = 50;
-  maxValue = 200;
-  options: Options = {
-    floor: 0,
-    ceil: 250,
-    hideLimitLabels: true,
-    hidePointerLabels: true,
-  };
+  /** The lowest permitted value. */
+  @Input() min = 0;
+
+  /** The greatest permitted value. */
+  @Input() max = 100;
+
+  /** The currently selected range value. */
+  @Input() value: number[] = [this.min, this.max];
+
+  /**
+   * Emits value whenever it changes.
+   * @ignore
+   */
+  @Output() valueChange = new EventEmitter<number[]>();
+
+  /**
+   * Change handler for updating value.
+   * @ignore
+   */
+  onChange(value: number[]) {
+    this.value = value;
+    this.valueChange.emit(value);
+  }
 }

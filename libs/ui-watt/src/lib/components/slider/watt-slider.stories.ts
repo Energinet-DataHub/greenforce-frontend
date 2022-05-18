@@ -33,4 +33,28 @@ export const Overview: Story<WattSliderComponent> = (args) => ({
   props: args,
 });
 
-Overview.args = {};
+Overview.args = {
+  value: [0, 100],
+};
+
+export const TimePicker: Story<WattSliderComponent> = (args) => {
+  return {
+    props: {
+      ...args,
+      format: (x: number) => {
+        const hours = x === 96 ? '23' : `${Math.floor(x / 4)}`;
+        const minutes = x === 96 ? '59' : `${(x * 15) % 60}`;
+        return `${hours.padStart(2, '0')}:${minutes.padStart(2, '0')}`;
+      },
+    },
+    template: `
+      <watt-slider [(value)]="value"></watt-slider>
+      <p>{{format(value[0])}} - {{format(value[1])}}</p>
+    `,
+  };
+};
+
+TimePicker.args = {
+  max: 96,
+  value: [25, 75],
+};

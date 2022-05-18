@@ -14,3 +14,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+import { render, screen } from '@testing-library/angular';
+
+import { WattSliderModule } from './watt-slider.module';
+import { WattSliderComponent } from './watt-slider.component';
+
+describe(WattSliderComponent.name, () => {
+  it('renders', async () => {
+    await render(WattSliderComponent, {
+      declarations: [WattSliderComponent],
+      imports: [WattSliderModule],
+    });
+
+    expect(screen.queryAllByRole('slider')).toHaveLength(2);
+  });
+});
