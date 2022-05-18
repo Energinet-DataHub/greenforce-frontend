@@ -14,9 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, NgModule } from '@angular/core';
+import { Component, DoCheck, Input, NgModule, ViewChild } from '@angular/core';
 import { ChartConfiguration, ChartData, ChartType } from 'chart.js';
-import { NgChartsModule } from 'ng2-charts';
+import { BaseChartDirective, NgChartsModule } from 'ng2-charts';
 import DatalabelsPlugin, { Context } from 'chartjs-plugin-datalabels';
 
 @Component({
@@ -38,20 +38,23 @@ import DatalabelsPlugin, { Context } from 'chartjs-plugin-datalabels';
     `,
   ],
 })
-export class EoPieChartComponent {
+export class EoPieChartComponent implements DoCheck {
+  @ViewChild(BaseChartDirective) chart!: BaseChartDirective;
+  @Input() data: number[] = [50, 50];
+
   #colorGreen = getComputedStyle(document.documentElement).getPropertyValue(
     '--watt-color-state-success'
   );
   #colorGrey = getComputedStyle(document.documentElement).getPropertyValue(
     '--watt-color-neutral-grey-700'
   );
+
   #wattPrimaryFontFamily = 'Open Sans';
   #wattTextNormalFontWeight = 700;
   #wattTextNormalSize = 16;
 
   public pieChartOptions: ChartConfiguration['options'] = {
     responsive: true,
-    animation: false,
     plugins: {
       tooltip: { enabled: false },
       legend: {
@@ -80,7 +83,7 @@ export class EoPieChartComponent {
     datasets: [
       {
         rotation: 180,
-        data: [81, 19],
+        data: [],
         backgroundColor: [this.#colorGreen, this.#colorGrey],
         hoverBackgroundColor: [this.#colorGreen, this.#colorGrey],
         borderWidth: 0,
@@ -89,6 +92,13 @@ export class EoPieChartComponent {
   };
   public pieChartType: ChartType = 'pie';
   public pieChartPlugins = [DatalabelsPlugin];
+
+  ngDoCheck() {
+    if (this.data !== this.pieChartData.datasets[0].data) {
+      this.pieChartData.datasets[0].data = this.data;
+      this.chart?.update();
+    }
+  }
 }
 
 @NgModule({
