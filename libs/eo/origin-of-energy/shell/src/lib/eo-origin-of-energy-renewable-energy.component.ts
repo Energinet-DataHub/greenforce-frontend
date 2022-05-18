@@ -54,7 +54,6 @@ import { MatCardModule } from '@angular/material/card';
       }
     `,
   ],
-  encapsulation: ViewEncapsulation.Emulated,
 })
 export class EoOriginOfEnergyRenewableEnergyComponent {}
 
