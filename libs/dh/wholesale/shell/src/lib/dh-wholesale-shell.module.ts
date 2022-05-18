@@ -39,6 +39,10 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [DhWholesaleStartScam, DhWholesaleOverviewScam, RouterModule.forChild(routes)],
+  imports: [
+    DhWholesaleStartScam,
+    DhWholesaleOverviewScam,
+    RouterModule.forChild(routes),
+  ],
 })
 export class DhWholesaleShellModule {}
