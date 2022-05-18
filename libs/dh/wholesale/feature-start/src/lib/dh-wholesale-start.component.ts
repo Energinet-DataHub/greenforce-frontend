@@ -20,7 +20,7 @@ import { TranslocoModule } from '@ngneat/transloco';
 import { WattButtonModule } from '@energinet-datahub/watt';
 
 @Component({
-  selector: 'dh-dh-wholesale-start',
+  selector: 'dh-wholesale-start',
   templateUrl: './dh-wholesale-start.component.html',
   styleUrls: ['./dh-wholesale-start.component.scss'],
 })
