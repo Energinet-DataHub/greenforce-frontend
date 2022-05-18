@@ -455,6 +455,6 @@
   "wholesale": {
     "start": "Start",
     "startProcess": "Start Process",
-    "processDescription": "Start an aggregation process for yesterday for grid areas 802 & 803."
+    "processDescription": "Start an aggregation process for yesterday for grid areas 805 & 806."
   }
 }
