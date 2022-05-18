@@ -29,13 +29,13 @@ import { EoOriginOfEnergyRenewableEnergyScam } from './eo-origin-of-energy-renew
     `
       :host {
         display: block;
-        max-width: 1040px; /* Magic UX number */
+        max-width: 994px; /* Magic UX number */
       }
 
       .chart-row {
         display: grid;
         margin-bottom: var(--watt-space-l);
-        grid-template-columns: 536px 360px;
+        grid-template-columns: 1fr 1fr;
         gap: var(--watt-space-l);
       }
 
