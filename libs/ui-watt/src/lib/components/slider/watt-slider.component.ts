@@ -41,7 +41,7 @@ export class WattSliderComponent {
   @Input() max = 100;
 
   /** The currently selected range value. */
-  @Input() value: number[] = [this.min, this.max];
+  @Input() value = [this.min, this.max];
 
   /**
    * Emits value whenever it changes.
