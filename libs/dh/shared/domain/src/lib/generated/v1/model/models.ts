@@ -15,6 +15,7 @@ export * from './create-contact-dto';
 export * from './disconnection-type';
 export * from './eic-function';
 export * from './global-location-number-dto';
+export * from './grid-area-dto';
 export * from './market-participant-metering-point-type';
 export * from './market-role-dto';
 export * from './message-archive-search-criteria';
