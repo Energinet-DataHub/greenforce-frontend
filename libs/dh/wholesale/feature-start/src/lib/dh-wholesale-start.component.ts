@@ -14,22 +14,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { Component, NgModule } from '@angular/core';
+import { TranslocoModule } from '@ngneat/transloco';
 
-import {
-  DhWholesaleStartComponent,
-  DhWholesaleStartScam,
-} from '@energinet-datahub/dh/wholesale/feature-start';
+import { WattButtonModule } from '@energinet-datahub/watt';
 
-const routes: Routes = [
-  {
-    path: '',
-    component: DhWholesaleStartComponent,
-  },
-];
+@Component({
+  selector: 'dh-wholesale-start',
+  templateUrl: './dh-wholesale-start.component.html',
+  styleUrls: ['./dh-wholesale-start.component.scss'],
+})
+export class DhWholesaleStartComponent {}
 
 @NgModule({
-  imports: [DhWholesaleStartScam, RouterModule.forChild(routes)],
+  imports: [WattButtonModule, TranslocoModule],
+  declarations: [DhWholesaleStartComponent],
 })
-export class DhWholesaleShellModule {}
+export class DhWholesaleStartScam {}

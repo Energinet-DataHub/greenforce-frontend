@@ -14,22 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import 'jest-preset-angular/setup-jest';
 
-import {
-  DhWholesaleStartComponent,
-  DhWholesaleStartScam,
-} from '@energinet-datahub/dh/wholesale/feature-start';
+import { setUpTestbed } from '@energinet-datahub/gf/test-util-staging';
 
-const routes: Routes = [
-  {
-    path: '',
-    component: DhWholesaleStartComponent,
-  },
-];
-
-@NgModule({
-  imports: [DhWholesaleStartScam, RouterModule.forChild(routes)],
-})
-export class DhWholesaleShellModule {}
+setUpTestbed();
