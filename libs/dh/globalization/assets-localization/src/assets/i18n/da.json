@@ -454,7 +454,7 @@
   },
   "wholesale": {
     "start": "Start",
-    "startProcess": "Start Process",
-    "processDescription": "Kør en aggregering process for igår for netområde 802 & 803"
+    "startProcess": "Start proces",
+    "processDescription": "Kør en balance fiksering for i går for netområde 805 & 806."
   }
 }
