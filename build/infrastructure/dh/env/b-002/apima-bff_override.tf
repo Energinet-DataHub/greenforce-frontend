@@ -18,7 +18,26 @@ module "apima_bff" {
       xml_content = <<XML
         <policies>
           <inbound>
-            <base />
+            <trace source="BFF API" severity="verbose">
+                <message>@{
+                    string authHeader = context.Request.Headers.GetValueOrDefault("Authorization", "");
+                    string callerId = "(empty)";
+                    if (authHeader?.Length > 0)
+                    {
+                        string[] authHeaderParts = authHeader.Split(' ');
+                        if (authHeaderParts?.Length == 2 && authHeaderParts[0].Equals("Bearer", StringComparison.InvariantCultureIgnoreCase))
+                        {
+                            Jwt jwt;
+                            if (authHeaderParts[1].TryParseJwt(out jwt))
+                            {
+                                callerId = (jwt.Claims.GetValueOrDefault("sub", "(empty)"));
+                            }
+                        }
+                    }
+                    return $"Caller ID (claims.sub): {callerId}";
+                }</message>
+                <metadata name="Correlation-ID" value="@($"{context.RequestId}")" />
+            </trace>
             <validate-jwt header-name="Authorization" failed-validation-httpcode="401" failed-validation-error-message="Unauthorized. Failed policy requirements, or token is invalid or missing.">
                 <openid-config url="${data.azurerm_key_vault_secret.frontend_open_id_url.value}" />
                 <required-claims>
@@ -27,6 +46,7 @@ module "apima_bff" {
                     </claim>
                 </required-claims>
             </validate-jwt>
+            <base />
             <set-header name="Correlation-ID" exists-action="override">
                 <value>@($"{context.RequestId}")</value>
             </set-header>
@@ -54,9 +74,15 @@ module "apima_bff" {
           </backend>
           <outbound>
               <base />
+              <set-header name="Correlation-ID" exists-action="override">
+                  <value>@($"{context.RequestId}")</value>
+              </set-header>
           </outbound>
           <on-error>
               <base />
+              <set-header name="Correlation-ID" exists-action="override">
+                  <value>@($"{context.RequestId}")</value>
+              </set-header>
           </on-error>
         </policies>
       XML
