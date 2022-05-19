@@ -14,6 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { WattRange } from "./watt-range";
+import { WattRange } from './watt-range';
 
 export type WattPickerValue = string | WattRange | null;
