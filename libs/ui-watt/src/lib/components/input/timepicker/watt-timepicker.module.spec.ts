@@ -72,6 +72,7 @@ describe(WattTimepickerModule.name, () => {
 <watt-form-field>
   <watt-timepicker
     [formControl]="timeRangeControl"
+    range
   ></watt-timepicker>
 </watt-form-field>`;
 
@@ -137,82 +138,6 @@ describe(WattTimepickerModule.name, () => {
       startTimeInput.blur();
 
       const actualTimeRange = fixture.componentInstance.timeRangeControl.value;
-      const expectedTimeRange: WattRange = { start: '', end: '' };
-
-      expect(actualTimeRange).toEqual(expectedTimeRange);
-    });
-  });
-
-  describe('with template-driven forms', () => {
-    const template = `
-<watt-form-field>
-  <watt-timepicker
-    [(ngModel)]="timeRangeModel"
-  ></watt-timepicker>
-</watt-form-field>`;
-
-    commonTests(template);
-
-    it('can input a start time', async () => {
-      const { fixture, startTimeInput } = await setup({
-        template,
-      });
-
-      userEvent.clear(startTimeInput);
-      userEvent.type(startTimeInput, '0123');
-
-      const actualTimeRange = fixture.componentInstance.timeRangeModel;
-      const expectedTimeRange: WattRange = { start: '01:23', end: '' };
-
-      expect(actualTimeRange).toEqual(expectedTimeRange);
-    });
-
-    it('can input an end time', async () => {
-      const { fixture, endTimeInput } = await setup({
-        template,
-      });
-
-      userEvent.clear(endTimeInput);
-      userEvent.type(endTimeInput, '1234');
-
-      const actualTimeRange = fixture.componentInstance.timeRangeModel;
-      const expectedTimeRange: WattRange = { start: '', end: '12:34' };
-
-      expect(actualTimeRange).toEqual(expectedTimeRange);
-    });
-
-    it('can input both start and end time', async () => {
-      const { fixture, startTimeInput, endTimeInput } = await setup({
-        template,
-      });
-
-      userEvent.clear(startTimeInput);
-      userEvent.type(startTimeInput, '0123');
-
-      userEvent.clear(endTimeInput);
-      userEvent.type(endTimeInput, '1234');
-
-      const actualTimeRange = fixture.componentInstance.timeRangeModel;
-      const expectedTimeRange: WattRange = { start: '01:23', end: '12:34' };
-
-      expect(actualTimeRange).toEqual(expectedTimeRange);
-    });
-
-    it('clears the value when an input with incomplete time loses focus', async () => {
-      const timeRange: WattRange = { start: '01:23', end: '12:34' };
-
-      const { fixture, startTimeInput, endTimeInput } = await setup({
-        template,
-        initialState: timeRange,
-      });
-
-      userEvent.type(endTimeInput, backspace);
-      endTimeInput.blur();
-
-      userEvent.type(startTimeInput, backspace);
-      startTimeInput.blur();
-
-      const actualTimeRange = fixture.componentInstance.timeRangeModel;
       const expectedTimeRange: WattRange = { start: '', end: '' };
 
       expect(actualTimeRange).toEqual(expectedTimeRange);
