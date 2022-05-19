@@ -49,14 +49,14 @@ const hoursMinutesPlaceholder = 'HH:MM';
  * The styling is calculated based on our monospaced font.
  */
 @Component({
-  selector: 'watt-time-range-input',
-  templateUrl: './watt-time-range-input.component.html',
-  styleUrls: ['./watt-time-range-input.component.scss'],
+  selector: 'watt-timepicker',
+  templateUrl: './watt-timepicker.component.html',
+  styleUrls: ['./watt-timepicker.component.scss'],
   providers: [WattInputMaskService, WattRangeInputService],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class WattTimeRangeInputComponent
+export class WattTimepickerComponent
   implements AfterViewInit, OnDestroy, ControlValueAccessor
 {
   /**
