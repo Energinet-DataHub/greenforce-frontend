@@ -111,6 +111,24 @@ export class WattDatepickerComponent
   /**
    * @ignore
    */
+  @ViewChild('dateInput')
+  dateInput!: ElementRef;
+
+  /**
+   * @ignore
+   */
+  @ViewChild('startDateInput')
+  startDateInput!: ElementRef;
+
+  /**
+   * @ignore
+   */
+  @ViewChild('endDateInput')
+  endDateInput!: ElementRef;
+
+  /**
+   * @ignore
+   */
   stateChanges = new Subject<void>();
 
   /**
@@ -138,8 +156,7 @@ export class WattDatepickerComponent
    */
   get empty() {
     if (this.range) {
-      const { start, end } = this.ngControl.value;
-      return !start && !end;
+      return !this.ngControl.value?.start && !this.ngControl.value?.end;
     } else {
       return this.ngControl.value?.length === 0;
     }
@@ -296,35 +313,17 @@ export class WattDatepickerComponent
   /**
    * @ignore
    */
-  @ViewChild('dateInput')
-  dateInput!: ElementRef;
-
-  /**
-   * @ignore
-   */
-  @ViewChild('startDateInput')
-  startDateInput!: ElementRef;
-
-  /**
-   * @ignore
-   */
-  @ViewChild('endDateInput')
-  endDateInput!: ElementRef;
-
-  /**
-   * @ignore
-   */
   initialValue: string | WattRange | null = null;
 
   /**
    * @ignore
    */
   constructor(
-    @Inject(LOCALE_ID) private locale: string,
     private inputMaskService: WattInputMaskService,
     private rangeInputService: WattRangeInputService,
     private elementRef: ElementRef<HTMLElement>,
-    @Optional() @Self() public ngControl: NgControl
+    @Optional() @Self() public ngControl: NgControl,
+    @Inject(LOCALE_ID) private locale: string
   ) {
     if (this.ngControl != null) {
       this.ngControl.valueAccessor = this;
@@ -351,14 +350,12 @@ export class WattDatepickerComponent
   /**
    * @ignore
    */
-  // eslint-disable-next-line sonarjs/cognitive-complexity
   ngAfterViewInit() {
     if (this.initialValue) {
       this.writeValue(this.initialValue);
     }
 
-    if (!this.range) this.initSingleInput();
-    if (this.range) this.initRangeInput();
+    this.range ? this.initRangeInput() : this.initSingleInput();
   }
 
   /**

@@ -14,20 +14,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   ElementRef,
-  Host,
+  HostBinding,
+  Input,
   OnDestroy,
+  Optional,
+  Self,
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { MatDateRangeInput } from '@angular/material/datepicker';
-import { Subject, takeUntil } from 'rxjs';
+import { MatFormFieldControl } from '@angular/material/form-field';
+import { combineLatest, map, merge, Subject, takeUntil, tap } from 'rxjs';
 
 import { WattInputMaskService } from '../shared/watt-input-mask.service';
 import { WattRange } from '../shared/watt-range';
@@ -52,13 +56,31 @@ const hoursMinutesPlaceholder = 'HH:MM';
   selector: 'watt-timepicker',
   templateUrl: './watt-timepicker.component.html',
   styleUrls: ['./watt-timepicker.component.scss'],
-  providers: [WattInputMaskService, WattRangeInputService],
+  providers: [
+    WattInputMaskService,
+    WattRangeInputService,
+    { provide: MatFormFieldControl, useExisting: WattTimepickerComponent },
+  ],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WattTimepickerComponent
-  implements AfterViewInit, OnDestroy, ControlValueAccessor
+  implements
+    AfterViewInit,
+    OnDestroy,
+    ControlValueAccessor,
+    MatFormFieldControl<WattRange>
 {
+  /**
+   * @ignore
+   */
+  static nextId = 0;
+
+  /**
+   * @ignore
+   */
+  private destroy$: Subject<void> = new Subject();
+
   /**
    * @ignore
    */
@@ -68,42 +90,232 @@ export class WattTimepickerComponent
   /**
    * @ignore
    */
-  @ViewChild('startTime')
+  @ViewChild('timeInput')
+  timeInput!: ElementRef;
+
+  /**
+   * @ignore
+   */
+  @ViewChild('startTimeInput')
   startTimeInput!: ElementRef;
 
   /**
    * @ignore
    */
-  @ViewChild('endTime')
+  @ViewChild('endTimeInput')
   endTimeInput!: ElementRef;
 
   /**
    * @ignore
    */
-  placeholder = hoursMinutesPlaceholder;
+  stateChanges = new Subject<void>();
 
   /**
    * @ignore
    */
-  isDisabled = false;
+  focused = false;
 
   /**
    * @ignore
    */
-  initialValue: WattRange | null = null;
+  controlType = 'mat-date-range-input'; // We keep the controlType of Material Date Range Input as is, to keep some styling.
 
   /**
    * @ignore
    */
-  private destroy$: Subject<void> = new Subject();
+  id = `watt-timepicker-${WattTimepickerComponent.nextId++}`;
+
+  /**
+   * @ignore
+   */
+  @HostBinding('id') hostId = this.id;
+
+  /**
+   * @ignore
+   */
+  get empty() {
+    if (this.range) {
+      return !this.ngControl.value?.start && !this.ngControl.value?.end;
+    } else {
+      return this.ngControl.value?.length === 0;
+    }
+  }
+
+  /**
+   * @ignore
+   */
+  get shouldLabelFloat() {
+    return this.focused || !this.empty;
+  }
+
+  // eslint-disable-next-line @angular-eslint/no-input-rename
+  @Input('aria-describedby') userAriaDescribedBy?: string;
+
+  /**
+   * @ignore
+   */
+  get placeholder(): string {
+    return this._placeholder;
+  }
+
+  /**
+   * @ignore
+   */
+  set placeholder(value: string) {
+    this._placeholder = value;
+    this.stateChanges.next();
+  }
+
+  /**
+   * @ignore
+   */
+  private _placeholder: string = hoursMinutesPlaceholder;
+
+  /**
+   * @ignore
+   */
+  @Input()
+  get required(): boolean {
+    return this._required;
+  }
+
+  /**
+   * @ignore
+   */
+  set required(value: BooleanInput) {
+    this._required = coerceBooleanProperty(value);
+    this.stateChanges.next();
+  }
+
+  /**
+   * @ignore
+   */
+  private _required = false;
+
+  /**
+   * @ignore
+   */
+  @Input()
+  get disabled(): boolean {
+    return this._disabled;
+  }
+
+  /**
+   * @ignore
+   */
+  set disabled(value: BooleanInput) {
+    this._disabled = coerceBooleanProperty(value);
+    this.stateChanges.next();
+  }
+
+  /**
+   * @ignore
+   */
+  private _disabled = false;
+
+  /**
+   * @ignore
+   */
+  @Input()
+  get value(): WattRange | null {
+    if (this.ngControl.valid) {
+      const {
+        value: { start, end },
+      } = this.ngControl;
+      return { start, end };
+    }
+    return null;
+  }
+
+  /**
+   * @ignore
+   */
+  set value(value: string | WattRange | null) {
+    const inputNotToBeInTheDocument = !this.range
+      ? !this.timeInput
+      : !this.startTimeInput;
+
+    if (inputNotToBeInTheDocument) {
+      this.initialValue = value;
+      return;
+    }
+
+    const inputEvent = new Event('input', { bubbles: true });
+
+    if (!this.range) {
+      console.log('NOT RANGE', value);
+      this.timeInput.nativeElement.value = value;
+      this.timeInput.nativeElement.dispatchEvent(inputEvent);
+      this.stateChanges.next();
+      return;
+    }
+
+    const { start, end } = value as WattRange;
+
+    if (start) {
+      this.startTimeInput.nativeElement.value = start;
+      this.startTimeInput.nativeElement.dispatchEvent(inputEvent);
+    }
+
+    if (end) {
+      this.endTimeInput.nativeElement.value = end;
+      this.endTimeInput.nativeElement.dispatchEvent(inputEvent);
+    }
+
+    this.stateChanges.next();
+  }
+
+  /**
+   * @ignore
+   */
+  get errorState(): boolean {
+    return !!this.ngControl.invalid && !!this.ngControl.touched;
+  }
+
+  @Input()
+  set range(range: boolean) {
+    this._range = coerceBooleanProperty(range);
+  }
+  get range(): boolean {
+    return this._range;
+  }
+
+  /**
+   * @ignore
+   */
+  private _range = false;
+
+  /**
+   * @ignore
+   */
+  initialValue: string | WattRange | null = null;
 
   constructor(
-    @Host() private parentControlDirective: NgControl,
-    private changeDetectorRef: ChangeDetectorRef,
     private inputMaskService: WattInputMaskService,
-    private rangeInputService: WattRangeInputService
+    private rangeInputService: WattRangeInputService,
+    private elementRef: ElementRef<HTMLElement>,
+    @Optional() @Self() public ngControl: NgControl
   ) {
-    this.parentControlDirective.valueAccessor = this;
+    if (this.ngControl != null) {
+      this.ngControl.valueAccessor = this;
+    }
+  }
+
+  /**
+   * @ignore
+   */
+  setDescribedByIds(ids: string[]) {
+    this.elementRef.nativeElement.setAttribute(
+      'aria-describedby',
+      ids.join(' ')
+    );
+  }
+
+  /**
+   * @ignore
+   */
+  onContainerClick() {
+    // Intentionally left empty
   }
 
   /**
@@ -114,12 +326,35 @@ export class WattTimepickerComponent
       this.writeValue(this.initialValue);
     }
 
-    // Setup input masks
+    this.range ? this.initRangeInput() : this.initSingleInput();
+  }
+
+  /**
+   * @ignore
+   */
+  private initSingleInput() {
+    const { onChange$ } = this.inputMaskService.mask(
+      this.initialValue as string | null,
+      hoursMinutesFormat,
+      this.placeholder,
+      this.timeInput.nativeElement
+    );
+
+    onChange$.subscribe((value: string) => {
+      this.markParentControlAsTouched();
+      this.changeParentValue(value);
+    });
+  }
+
+  /**
+   * @ignore
+   */
+  private initRangeInput() {
     const startTimeInputElement: HTMLInputElement =
       this.startTimeInput.nativeElement;
 
     const startTimeInputMask = this.inputMaskService.mask(
-      this.initialValue?.start,
+      (this.initialValue as WattRange | null)?.start,
       hoursMinutesFormat,
       this.placeholder,
       startTimeInputElement
@@ -129,7 +364,7 @@ export class WattTimepickerComponent
       this.endTimeInput.nativeElement;
 
     const endTimeInputMask = this.inputMaskService.mask(
-      this.initialValue?.end,
+      (this.initialValue as WattRange | null)?.end,
       hoursMinutesFormat,
       this.placeholder,
       endTimeInputElement
@@ -161,34 +396,20 @@ export class WattTimepickerComponent
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
+    this.stateChanges.complete();
   }
 
   /**
    * @ignore
    */
-  writeValue(timeRange: WattRange | null): void {
-    if (!this.startTimeInput || !this.endTimeInput) {
-      this.initialValue = timeRange;
-      return;
-    }
-
-    const inputEvent = new Event('input', { bubbles: true });
-
-    if (timeRange?.start) {
-      this.startTimeInput.nativeElement.value = timeRange.start;
-      this.startTimeInput.nativeElement.dispatchEvent(inputEvent);
-    }
-
-    if (timeRange?.end) {
-      this.endTimeInput.nativeElement.value = timeRange.end;
-      this.endTimeInput.nativeElement.dispatchEvent(inputEvent);
-    }
+  writeValue(value: string | WattRange | null): void {
+    this.value = value;
   }
 
   /**
    * @ignore
    */
-  registerOnChange(onChangeFn: (value: WattRange) => void): void {
+  registerOnChange(onChangeFn: (value: string | WattRange) => void): void {
     this.changeParentValue = onChangeFn;
   }
 
@@ -203,15 +424,37 @@ export class WattTimepickerComponent
    * @ignore
    */
   setDisabledState(isDisabled: boolean): void {
-    this.isDisabled = isDisabled;
-    this.changeDetectorRef.detectChanges();
+    this.disabled = isDisabled;
+  }
+
+  /**
+   * @ignore
+   */
+  onFocusIn() {
+    if (!this.focused) {
+      this.focused = true;
+      this.stateChanges.next();
+    }
+  }
+
+  /**
+   * @ignore
+   */
+  onFocusOut(event: FocusEvent) {
+    if (
+      !this.elementRef.nativeElement.contains(event.relatedTarget as Element)
+    ) {
+      this.focused = false;
+      this.markParentControlAsTouched();
+      this.stateChanges.next();
+    }
   }
 
   /**
    * @ignore
    */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  private changeParentValue = (value: WattRange): void => {
+  private changeParentValue = (value: string | WattRange): void => {
     // Intentionally left empty
   };
 

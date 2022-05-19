@@ -69,7 +69,7 @@ export class FormFieldComponent implements AfterViewInit {
       const control =
         this.inputControl ||
         this.wattDropdown?.matSelect ||
-        this.timepickerControl?.matDateRangeInput ||
+        this.timepickerControl ||
         this.datepickerControl;
 
       this.matFormField._control = control;

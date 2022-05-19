@@ -14,19 +14,40 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<mat-date-range-input [disabled]="isDisabled">
+<ng-container *ngIf="!range; else rangeTemplate">
   <input
-    matStartDate
-    #startTime
-    [placeholder]="placeholder"
+    matInput
+    aria-label="time-input"
+    #timeInput
     autocomplete="off"
     spellcheck="false"
+    [disabled]="disabled"
+    (focusin)="onFocusIn()"
+    (focusout)="onFocusOut($event)"
   />
-  <input
-    matEndDate
-    #endTime
-    [placeholder]="placeholder"
-    autocomplete="off"
-    spellcheck="false"
-  />
-</mat-date-range-input>
+</ng-container>
+
+<ng-template #rangeTemplate>
+  <mat-date-range-input
+    [disabled]="disabled"
+    (focusin)="onFocusIn()"
+    (focusout)="onFocusOut($event)"
+  >
+    <input
+      aria-label="start-time-input"
+      matStartDate
+      #startTimeInput
+      [placeholder]="placeholder"
+      autocomplete="off"
+      spellcheck="false"
+    />
+    <input
+      aria-label="end-time-input"
+      matEndDate
+      #endTimeInput
+      [placeholder]="placeholder"
+      autocomplete="off"
+      spellcheck="false"
+    />
+  </mat-date-range-input>
+</ng-template>
