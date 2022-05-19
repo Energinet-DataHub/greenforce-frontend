@@ -39,8 +39,8 @@ const environments = [
   },
   {
     name: 'itlev',
-    url: 'https://itlev.datahub.dk'
-  }
+    url: 'https://itlev.datahub.dk',
+  },
 ];
 
 environments.forEach((env) => {
