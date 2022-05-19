@@ -22,6 +22,8 @@ import {
   MarketRoleDto,
   MarketParticipantMeteringPointType,
   ActorStatus,
+  GridAreaDto,
+  MarketParticipantGridAreaHttp,
 } from '@energinet-datahub/dh/shared/domain';
 import {
   catchError,
@@ -45,17 +47,24 @@ export interface MeteringPointTypeChanges {
   meteringPointTypes: MarketParticipantMeteringPointType[];
 }
 
+export interface GridAreaChanges {
+  gridAreas: GridAreaDto[];
+}
+
 export interface MarketParticipantEditActorState {
   isLoading: boolean;
 
   // Input
   organizationId: string;
   actor?: ActorDto;
+  gridAreas: GridAreaDto[];
 
   // Changes
   changes: ActorChanges;
 
   meteringPointTypeChanges: MeteringPointTypeChanges;
+
+  gridAreaChanges: GridAreaChanges;
 
   // Validation
   validation?: { error: string };
@@ -64,12 +73,14 @@ export interface MarketParticipantEditActorState {
 const initialState: MarketParticipantEditActorState = {
   isLoading: false,
   organizationId: '',
+  gridAreas: [],
   changes: {
     gln: '',
     status: ActorStatus.New,
     marketRoles: [],
   },
   meteringPointTypeChanges: { meteringPointTypes: [] },
+  gridAreaChanges: { gridAreas: [] },
 };
 
 @Injectable()
@@ -79,8 +90,12 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
   actor$ = this.select((state) => state.actor);
   validation$ = this.select((state) => state.validation);
   changes$ = this.select((state) => state.changes);
+  gridAreas$ = this.select((state) => state.gridAreas);
 
-  constructor(private httpClient: MarketParticipantHttp) {
+  constructor(
+    private httpClient: MarketParticipantHttp,
+    private gridAreaHttpClient: MarketParticipantGridAreaHttp
+  ) {
     super(initialState);
   }
 
@@ -101,6 +116,7 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
             routeParams.organizationId,
             routeParams.actorId
           ).pipe(
+            switchMap(() => this.getGridAreas()),
             catchError((errorResponse: HttpErrorResponse) => {
               this.patchState({
                 validation: {
@@ -142,6 +158,17 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
       )
     )
   );
+
+  readonly getGridAreas = () =>
+    this.gridAreaHttpClient
+      .v1MarketParticipantGridAreaGet()
+      .pipe(
+        tap((gridAreas) =>
+          this.patchState({
+            gridAreas: gridAreas.sort((a, b) => a.code.localeCompare(b.code)),
+          })
+        )
+      );
 
   private readonly saveActor = (state: MarketParticipantEditActorState) => {
     if (state.actor !== undefined) {
@@ -191,5 +218,10 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
   ) =>
     this.patchState({
       meteringPointTypeChanges,
+    });
+
+  readonly setGridAreaChanges = (gridAreaChanges: GridAreaChanges) =>
+    this.patchState({
+      gridAreaChanges,
     });
 }

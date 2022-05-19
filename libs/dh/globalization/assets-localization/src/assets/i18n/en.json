@@ -296,6 +296,7 @@
         "errorToastLabel": "Error",
         "masterDataTabHeader": "Master data",
         "meteringPointTypesHeader": "Metering point types",
+        "gridAreasHeader": "Grid areas",
         "cancelLabel": "Cancel",
         "saveLabel": "Save",
         "masterData": {

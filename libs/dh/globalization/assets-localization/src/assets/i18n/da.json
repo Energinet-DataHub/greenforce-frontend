@@ -296,6 +296,7 @@
         "errorToastLabel": "Fejl",
         "masterDataTabHeader": "Stamdata",
         "meteringPointTypesHeader": "Målepunktstyper",
+        "gridAreasHeader": "Netområder",
         "cancelLabel": "Annuller",
         "saveLabel": "Gem",
         "masterData": {

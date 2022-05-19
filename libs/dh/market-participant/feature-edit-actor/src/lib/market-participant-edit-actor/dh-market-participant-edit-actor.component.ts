@@ -19,6 +19,7 @@ import { Component, NgModule } from '@angular/core';
 import {
   ActorChanges,
   DhMarketParticipantEditActorDataAccessApiStore,
+  GridAreaChanges,
   MeteringPointTypeChanges,
 } from '@energinet-datahub/dh/market-participant/data-access-api';
 import { LetModule } from '@rx-angular/template/let';
@@ -39,6 +40,7 @@ import {
   dhMarketParticipantOrganizationIdParam,
   dhMarketParticipantPath,
 } from '@energinet-datahub/dh/market-participant/routing';
+import { DhMarketParticipantActorGridAreasComponentScam } from './grid-areas/dh-market-participant-actor-grid-areas.component';
 
 @Component({
   selector: 'dh-market-participant-edit-actor',
@@ -57,6 +59,7 @@ export class DhMarketParticipantEditActorComponent {
   isEditing$ = this.store.isEditing$;
   actor$ = this.store.actor$;
   validation$ = this.store.validation$;
+  gridAreas$ = this.store.gridAreas$;
 
   constructor(
     private store: DhMarketParticipantEditActorDataAccessApiStore,
@@ -72,6 +75,10 @@ export class DhMarketParticipantEditActorComponent {
 
   readonly onMeteringPointTypeChanged = (changes: MeteringPointTypeChanges) => {
     this.store.setMeteringPoinTypeChanges(changes);
+  };
+
+  readonly onGridAreasChanged = (changes: GridAreaChanges) => {
+    this.store.setGridAreaChanges(changes);
   };
 
   readonly onCancelled = () => {
@@ -97,6 +104,7 @@ export class DhMarketParticipantEditActorComponent {
     WattSpinnerModule,
     DhMarketParticipantActorMasterDataComponentScam,
     DhMarketParticipantActorMeteringPointTypeComponentScam,
+    DhMarketParticipantActorGridAreasComponentScam,
     WattValidationMessageModule,
   ],
   exports: [DhMarketParticipantEditActorComponent],
