@@ -456,11 +456,11 @@
   "wholesale": {
     "startProcess": {
       "startLabel": "Start",
-      "startProcessHeader": "Start Process",
+      "header": "Start Process",
       "processDescription": "Start a balance fixing for yesterday for grid areas 805 & 806."
     },
     "overview": {
-      "overviewHeader": "Process Overview"
+      "header": "Process Overview"
     }
   }
 }

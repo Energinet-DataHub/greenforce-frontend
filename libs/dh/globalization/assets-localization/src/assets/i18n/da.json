@@ -456,11 +456,11 @@
   "wholesale": {
     "startProcess": {
       "startLabel": "Start",
-      "startProcessHeader": "Start proces",
+      "header": "Start proces",
       "processDescription": "Kør en balance fiksering for i går for netområde 805 & 806."
     },
     "overview": {
-      "overviewHeader": "Proces oversigt"
+      "header": "Proces oversigt"
     }
   }
 }
