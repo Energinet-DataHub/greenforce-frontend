@@ -17,11 +17,11 @@
 import { NgModule } from '@angular/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 
-import { WattTimeRangeInputComponent } from './watt-time-range-input.component';
+import { WattTimepickerComponent } from './watt-timepicker.component';
 
 @NgModule({
-  declarations: [WattTimeRangeInputComponent],
-  exports: [WattTimeRangeInputComponent],
+  declarations: [WattTimepickerComponent],
+  exports: [WattTimepickerComponent],
   imports: [MatDatepickerModule],
 })
-export class WattTimeRangeInputModule {}
+export class WattTimepickerModule {}

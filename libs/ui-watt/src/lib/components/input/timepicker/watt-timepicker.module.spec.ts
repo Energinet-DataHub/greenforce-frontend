@@ -23,13 +23,13 @@ import userEvent from '@testing-library/user-event';
 // eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import { DhConfigurationLocalizationModule } from '@energinet-datahub/dh/globalization/configuration-localization';
 
-import { WattTimeRangeInputModule } from './watt-time-range-input.module';
+import { WattTimepickerModule } from './watt-timepicker.module';
 import { WattFormFieldModule } from '../../form-field/form-field.module';
 import { WattRange } from '../shared/watt-range';
 
 const backspace = '{backspace}';
 
-describe(WattTimeRangeInputModule.name, () => {
+describe(WattTimepickerModule.name, () => {
   async function setup({
     template,
     initialState = null,
@@ -47,7 +47,7 @@ describe(WattTimeRangeInputModule.name, () => {
 
     const { fixture } = await render(TestComponent, {
       imports: [
-        WattTimeRangeInputModule,
+        WattTimepickerModule,
         ReactiveFormsModule,
         FormsModule,
         WattFormFieldModule,
@@ -70,9 +70,9 @@ describe(WattTimeRangeInputModule.name, () => {
   describe('with reactive forms', () => {
     const template = `
 <watt-form-field>
-  <watt-time-range-input
+  <watt-timepicker
     [formControl]="timeRangeControl"
-  ></watt-time-range-input>
+  ></watt-timepicker>
 </watt-form-field>`;
 
     commonTests(template);
@@ -146,9 +146,9 @@ describe(WattTimeRangeInputModule.name, () => {
   describe('with template-driven forms', () => {
     const template = `
 <watt-form-field>
-  <watt-time-range-input
+  <watt-timepicker
     [(ngModel)]="timeRangeModel"
-  ></watt-time-range-input>
+  ></watt-timepicker>
 </watt-form-field>`;
 
     commonTests(template);
