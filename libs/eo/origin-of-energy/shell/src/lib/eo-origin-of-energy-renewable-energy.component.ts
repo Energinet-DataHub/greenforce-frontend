@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, NgModule, ViewEncapsulation } from '@angular/core';
+import { Component, NgModule } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 
 @Component({
@@ -54,7 +54,6 @@ import { MatCardModule } from '@angular/material/card';
       }
     `,
   ],
-  encapsulation: ViewEncapsulation.Emulated,
 })
 export class EoOriginOfEnergyRenewableEnergyComponent {}
 
