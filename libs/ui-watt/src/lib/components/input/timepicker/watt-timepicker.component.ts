@@ -31,7 +31,7 @@ import {
 import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { MatDateRangeInput } from '@angular/material/datepicker';
 import { MatFormFieldControl } from '@angular/material/form-field';
-import { combineLatest, map, merge, Subject, takeUntil, tap } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 
 import { WattInputMaskService } from '../shared/watt-input-mask.service';
 import { WattRange } from '../shared/watt-range';
