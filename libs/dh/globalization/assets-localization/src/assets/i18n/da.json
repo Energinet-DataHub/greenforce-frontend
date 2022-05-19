@@ -451,5 +451,10 @@
         }
       }
     }
+  },
+  "wholesale": {
+    "start": "Start",
+    "startProcess": "Start proces",
+    "processDescription": "Kør en balance fiksering for i går for netområde 805 & 806."
   }
 }

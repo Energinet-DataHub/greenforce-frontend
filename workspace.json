@@ -42,6 +42,7 @@
     "dh-shared-test-util-metering-point": "libs/dh/shared/test-util-metering-point",
     "dh-shared-test-util-msw": "libs/dh/shared/test-util-msw",
     "dh-shared-ui-date-time": "libs/dh/shared/ui-date-time",
+    "dh-wholesale-feature-start": "libs/dh/wholesale/feature-start",
     "dh-wholesale-shell": "libs/dh/wholesale/shell",
     "e2e-dh": "apps/dh/e2e-dh",
     "e2e-eo": "apps/eo/e2e-eo",

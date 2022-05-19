@@ -451,5 +451,10 @@
         }
       }
     }
+  },
+  "wholesale": {
+    "start": "Start",
+    "startProcess": "Start Process",
+    "processDescription": "Start a balance fixing for yesterday for grid areas 805 & 806."
   }
 }
