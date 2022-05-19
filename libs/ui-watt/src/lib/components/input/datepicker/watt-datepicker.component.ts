@@ -45,6 +45,7 @@ import { formatInTimeZone } from 'date-fns-tz';
 import { WattInputMaskService } from '../shared/watt-input-mask.service';
 import { WattRangeInputService } from '../shared/watt-range-input.service';
 import { WattRange } from '../shared/watt-range';
+import { WattPickerValue } from '../shared/watt-picker-value';
 
 const dateTimeFormat = 'dd-MM-yyyy';
 const danishTimeZoneIdentifier = 'Europe/Copenhagen';
@@ -256,7 +257,7 @@ export class WattDatepickerComponent
   /**
    * @ignore
    */
-  set value(value: string | WattRange | null) {
+  set value(value: WattPickerValue) {
     const inputNotToBeInTheDocument = !this.range
       ? !this.dateInput
       : !this.startDateInput;
@@ -313,7 +314,7 @@ export class WattDatepickerComponent
   /**
    * @ignore
    */
-  initialValue: string | WattRange | null = null;
+  initialValue: WattPickerValue = null;
 
   /**
    * @ignore
@@ -504,7 +505,7 @@ export class WattDatepickerComponent
   /**
    * @ignore
    */
-  writeValue(value: string | WattRange | null): void {
+  writeValue(value: WattPickerValue): void {
     this.value = value;
   }
 

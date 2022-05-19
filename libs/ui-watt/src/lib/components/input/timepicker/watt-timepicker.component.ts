@@ -34,6 +34,7 @@ import { MatFormFieldControl } from '@angular/material/form-field';
 import { Subject, takeUntil } from 'rxjs';
 
 import { WattInputMaskService } from '../shared/watt-input-mask.service';
+import { WattPickerValue } from '../shared/watt-picker-value';
 import { WattRange } from '../shared/watt-range';
 import { WattRangeInputService } from '../shared/watt-range-input.service';
 
@@ -230,7 +231,7 @@ export class WattTimepickerComponent
   /**
    * @ignore
    */
-  set value(value: string | WattRange | null) {
+  set value(value: WattPickerValue) {
     const inputNotToBeInTheDocument = !this.range
       ? !this.timeInput
       : !this.startTimeInput;
@@ -288,7 +289,7 @@ export class WattTimepickerComponent
   /**
    * @ignore
    */
-  initialValue: string | WattRange | null = null;
+  initialValue: WattPickerValue = null;
 
   constructor(
     private inputMaskService: WattInputMaskService,
@@ -402,7 +403,7 @@ export class WattTimepickerComponent
   /**
    * @ignore
    */
-  writeValue(value: string | WattRange | null): void {
+  writeValue(value: WattPickerValue): void {
     this.value = value;
   }
 
