@@ -43,8 +43,8 @@ export class DhMarketParticipantActorMarketRolesComponent implements OnChanges {
   @Input() actor: ActorDto | undefined;
   @Output() hasChanges = new EventEmitter<MarketRoleChanges>();
   changes: MarketRoleChanges = { marketRoles: [] };
-  listModel = Array<EicFunction>();
-  availableMarketRoles = Array<EicFunction>();
+  listModel: EicFunction[] = [];
+  availableMarketRoles: EicFunction[] = [];
 
   constructor(private marketRoleService: MarketRoleService) {
     this.availableMarketRoles = this.marketRoleService.getAvailableMarketRoles;
