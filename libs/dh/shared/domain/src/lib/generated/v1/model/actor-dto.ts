@@ -20,6 +20,7 @@ export interface ActorDto {
     externalActorId: string;
     gln: GlobalLocationNumberDto;
     status: ActorStatus;
+    gridAreas: Array<string>;
     marketRoles: Array<MarketRoleDto>;
     meteringPointTypes: Array<MarketParticipantMeteringPointType>;
 }
