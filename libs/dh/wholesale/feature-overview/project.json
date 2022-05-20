@@ -1,0 +1,26 @@
+{
+  "projectType": "library",
+  "root": "libs/dh/wholesale/feature-overview",
+  "sourceRoot": "libs/dh/wholesale/feature-overview/src",
+  "prefix": "dh",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/dh/wholesale/feature-overview"],
+      "options": {
+        "jestConfig": "libs/dh/wholesale/feature-overview/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/dh/wholesale/feature-overview/src/**/*.ts",
+          "libs/dh/wholesale/feature-overview/src/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": ["product:dh", "domain:wholesale", "type:feature"]
+}
