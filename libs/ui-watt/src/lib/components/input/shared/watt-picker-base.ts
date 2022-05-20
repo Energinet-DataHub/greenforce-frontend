@@ -234,11 +234,11 @@ export abstract class WattPickerBase
   }
 
   constructor(
-    public id: string,
+    private id: string,
     protected inputMaskService: WattInputMaskService,
     protected rangeInputService: WattRangeInputService,
     protected elementRef: ElementRef<HTMLElement>,
-    @Optional() public ngControl: NgControl
+    @Optional() private ngControl: NgControl
   ) {
     if (this.ngControl != null) {
       this.ngControl.valueAccessor = this;
@@ -256,6 +256,9 @@ export abstract class WattPickerBase
     this.range ? this.initRangeInput() : this.initSingleInput();
   }
 
+  /**
+   * @ignore
+   */
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
@@ -374,6 +377,9 @@ export abstract class WattPickerBase
     }
   }
 
+  /**
+   * @ignore
+   */
   private setSingleValue(value: string, input: HTMLInputElement) {
     input.value = value;
   }

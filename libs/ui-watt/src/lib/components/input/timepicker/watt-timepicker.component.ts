@@ -90,7 +90,7 @@ export class WattTimepickerComponent extends WattPickerBase {
     protected inputMaskService: WattInputMaskService,
     protected rangeInputService: WattRangeInputService,
     protected elementRef: ElementRef<HTMLElement>,
-    @Optional() @Self() public ngControl: NgControl
+    @Optional() @Self() private ngControl: NgControl
   ) {
     super(
       `watt-timepicker-${WattTimepickerComponent.nextId++}`,
