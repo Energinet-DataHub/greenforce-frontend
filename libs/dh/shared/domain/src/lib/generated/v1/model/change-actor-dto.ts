@@ -16,6 +16,7 @@ import { MarketRoleDto } from './market-role-dto';
 
 export interface ChangeActorDto { 
     status: ActorStatus;
+    gridAreas: Array<string>;
     marketRoles: Array<MarketRoleDto>;
     meteringPointTypes: Array<MarketParticipantMeteringPointType>;
 }
