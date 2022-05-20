@@ -234,7 +234,7 @@ export abstract class WattPickerBase
   ngControl: NgControl | null = null;
 
   /**
-    * @ignore
+   * @ignore
    */
   id!: string;
 
