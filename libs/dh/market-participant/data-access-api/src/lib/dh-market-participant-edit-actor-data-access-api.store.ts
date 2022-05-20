@@ -160,15 +160,13 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
   );
 
   readonly getGridAreas = () =>
-    this.gridAreaHttpClient
-      .v1MarketParticipantGridAreaGet()
-      .pipe(
-        tap((gridAreas) =>
-          this.patchState({
-            gridAreas: gridAreas.sort((a, b) => a.code.localeCompare(b.code)),
-          })
-        )
-      );
+    this.gridAreaHttpClient.v1MarketParticipantGridAreaGet().pipe(
+      tap((gridAreas) =>
+        this.patchState({
+          gridAreas: gridAreas.sort((a, b) => a.code.localeCompare(b.code)),
+        })
+      )
+    );
 
   private readonly saveActor = (state: MarketParticipantEditActorState) => {
     if (state.actor !== undefined) {
