@@ -15,9 +15,16 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <ng-container *transloco="let t; read: 'marketParticipant.marketRoles'">
-  <mat-selection-list (selectionChange)="onSelectionChange()" [(ngModel)]="listModel">
-    <mat-list-option checkboxPosition="before" *ngFor="let marketRole of availableMarketRoles" [value]="marketRole"
-      [disabled]="invalidInCurrentSelection(marketRole)">
+  <mat-selection-list
+    (selectionChange)="onSelectionChange()"
+    [(ngModel)]="listModel"
+  >
+    <mat-list-option
+      checkboxPosition="before"
+      *ngFor="let marketRole of availableMarketRoles"
+      [value]="marketRole"
+      [disabled]="invalidInCurrentSelection(marketRole)"
+    >
       {{ t(marketRole) }}
     </mat-list-option>
   </mat-selection-list>
