@@ -72,7 +72,7 @@ describe(WattTimepickerModule.name, () => {
 <watt-form-field>
   <watt-timepicker
     [formControl]="timeRangeControl"
-    range
+    [range]="true"
   ></watt-timepicker>
 </watt-form-field>`;
 

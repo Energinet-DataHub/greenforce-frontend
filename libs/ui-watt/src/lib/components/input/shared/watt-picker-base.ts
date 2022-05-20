@@ -108,6 +108,9 @@ export abstract class WattPickerBase
     this.stateChanges.next();
   }
 
+  /**
+   * @ignore
+   */
   protected abstract _placeholder: string;
 
   /**
@@ -259,7 +262,14 @@ export abstract class WattPickerBase
     this.stateChanges.complete();
   }
 
+  /**
+   * @ignore
+   */
   protected abstract initRangeInput(): void;
+
+  /**
+   * @ignore
+   */
   protected abstract initSingleInput(): void;
 
   /**
@@ -345,6 +355,9 @@ export abstract class WattPickerBase
     // Intentionally left empty
   };
 
+  /**
+   * @ignore
+   */
   private setRangeValue(
     value: WattRange,
     startInput: HTMLInputElement,

@@ -24,7 +24,6 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { NgControl } from '@angular/forms';
-import { MatDateRangeInput } from '@angular/material/datepicker';
 import { MatFormFieldControl } from '@angular/material/form-field';
 import { takeUntil } from 'rxjs';
 
@@ -64,12 +63,6 @@ const hoursMinutesPlaceholder = 'HH:MM';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WattTimepickerComponent extends WattPickerBase {
-  /**
-   * @ignore
-   */
-  @ViewChild(MatDateRangeInput)
-  matDateRangeInput!: MatDateRangeInput<unknown>;
-
   /**
    * @ignore
    */
@@ -114,7 +107,7 @@ export class WattTimepickerComponent extends WattPickerBase {
   protected initSingleInput() {
     const { maskedInput } = this.maskInput(
       this.input.nativeElement,
-      this.initialValue as string
+      this.initialValue as string | null
     );
 
     maskedInput.onChange$.subscribe((value: string) => {
@@ -152,7 +145,7 @@ export class WattTimepickerComponent extends WattPickerBase {
    */
   private maskInput(
     input: HTMLInputElement,
-    initialValue?: string
+    initialValue: string | null = ''
   ): { element: HTMLInputElement; maskedInput: WattMaskedInput } {
     const maskedInput = this.inputMaskService.mask(
       initialValue,
