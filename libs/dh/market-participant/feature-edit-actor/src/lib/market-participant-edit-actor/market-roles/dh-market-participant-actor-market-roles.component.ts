@@ -37,7 +37,7 @@ import { MarketRoleService } from './market-role.service';
 @Component({
   selector: 'dh-market-participant-actor-market-roles',
   templateUrl: './dh-market-participant-actor-market-roles.component.html',
-  providers: [MarketRoleService]
+  providers: [MarketRoleService],
 })
 export class DhMarketParticipantActorMarketRolesComponent implements OnChanges {
   @Input() actor: ActorDto | undefined;

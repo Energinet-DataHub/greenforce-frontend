@@ -67,7 +67,6 @@ export class MarketRoleService {
     item: EicFunction,
     currentSelectedList: Array<EicFunction>
   ): boolean {
-
     if (currentSelectedList.length === 0) {
       return false;
     }

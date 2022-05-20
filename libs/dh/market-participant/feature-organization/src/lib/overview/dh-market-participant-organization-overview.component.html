@@ -62,7 +62,9 @@ limitations under the License.
         <ng-container *ngIf="element.actor !== undefined">
           <div class="market-roles-cell">
             <div *ngFor="let mr of element.actor.marketRoles">
-              {{ "marketParticipant.marketRoles." + mr.eicFunction | transloco }}
+              {{
+                "marketParticipant.marketRoles." + mr.eicFunction | transloco
+              }}
             </div>
           </div>
         </ng-container>
