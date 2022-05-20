@@ -114,7 +114,7 @@ export class WattDatepickerComponent extends WattPickerBase {
     protected inputMaskService: WattInputMaskService,
     protected rangeInputService: WattRangeInputService,
     protected elementRef: ElementRef<HTMLElement>,
-    @Optional() @Self() public ngControl: NgControl,
+    @Optional() @Self() ngControl: NgControl,
     @Inject(LOCALE_ID) private locale: string
   ) {
     super(

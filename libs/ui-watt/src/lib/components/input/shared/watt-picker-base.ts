@@ -91,11 +91,6 @@ export abstract class WattPickerBase
   /**
    * @ignore
    */
-  @HostBinding('id') hostId = this.id;
-
-  /**
-   * @ignore
-   */
   get placeholder(): string {
     return this._placeholder;
   }
@@ -118,7 +113,7 @@ export abstract class WattPickerBase
    */
   @Input()
   get value(): WattRange | null {
-    if (this.ngControl.valid) {
+    if (this.ngControl?.valid) {
       const {
         value: { start, end },
       } = this.ngControl;
@@ -213,9 +208,9 @@ export abstract class WattPickerBase
    */
   get empty() {
     if (this.range) {
-      return !this.ngControl.value?.start && !this.ngControl.value?.end;
+      return !this.ngControl?.value?.start && !this.ngControl?.value?.end;
     } else {
-      return this.ngControl.value?.length === 0;
+      return this.ngControl?.value?.length === 0;
     }
   }
 
@@ -223,7 +218,7 @@ export abstract class WattPickerBase
    * @ignore
    */
   get errorState(): boolean {
-    return !!this.ngControl.invalid && !!this.ngControl.touched;
+    return !!this.ngControl?.invalid && !!this.ngControl?.touched;
   }
 
   /**
@@ -233,13 +228,26 @@ export abstract class WattPickerBase
     return this.focused || !this.empty;
   }
 
+  /**
+   * @ignore
+   */
+  ngControl: NgControl | null = null;
+
+  /**
+    * @ignore
+   */
+  id!: string;
+
   constructor(
-    private id: string,
+    id: string,
     protected inputMaskService: WattInputMaskService,
     protected rangeInputService: WattRangeInputService,
     protected elementRef: ElementRef<HTMLElement>,
-    @Optional() private ngControl: NgControl
+    @Optional() ngControl: NgControl
   ) {
+    this.elementRef.nativeElement.setAttribute('id', id);
+    this.ngControl = ngControl;
+
     if (this.ngControl != null) {
       this.ngControl.valueAccessor = this;
     }
