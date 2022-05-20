@@ -10,7 +10,8 @@
       "meteringPoints": "Målepunkter",
       "messageArchive": "Fremsøg forretningsbesked",
       "marketParticipant": "Organisationer",
-      "wholesale": "Afregninger"
+      "wholesaleStartProcess": "Afregninger - Start proces",
+      "wholesaleOverview": "Afregninger - Oversigt"
     }
   },
   "meteringPoint": {
@@ -454,8 +455,13 @@
     }
   },
   "wholesale": {
-    "start": "Start",
-    "startProcess": "Start proces",
-    "processDescription": "Kør en balance fiksering for i går for netområde 805 & 806."
+    "startProcess": {
+      "startLabel": "Start",
+      "header": "Start proces",
+      "processDescription": "Kør en balance fiksering for i går for netområde 805 & 806."
+    },
+    "overview": {
+      "header": "Proces oversigt"
+    }
   }
 }

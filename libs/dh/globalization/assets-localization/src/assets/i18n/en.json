@@ -10,7 +10,8 @@
       "meteringPoints": "Metering points",
       "messageArchive": "Request/Response messages",
       "marketParticipant": "Organizations",
-      "wholesale": "Settlements"
+      "wholesaleStartProcess": "Settlements - Start Process",
+      "wholesaleOverview": "Settlements - Overview"
     }
   },
   "meteringPoint": {
@@ -454,8 +455,13 @@
     }
   },
   "wholesale": {
-    "start": "Start",
-    "startProcess": "Start Process",
-    "processDescription": "Start a balance fixing for yesterday for grid areas 805 & 806."
+    "startProcess": {
+      "startLabel": "Start",
+      "header": "Start Process",
+      "processDescription": "Start a balance fixing for yesterday for grid areas 805 & 806."
+    },
+    "overview": {
+      "header": "Process Overview"
+    }
   }
 }

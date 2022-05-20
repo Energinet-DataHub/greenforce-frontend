@@ -21,11 +21,10 @@ const environments = [
     name: 'U001',
     url: 'https://jolly-sand-03f839703.azurestaticapps.net',
   },
-  // TODO: Re-add this website once it has been fixed and returns 200 again
-  /*   {
+  {
     name: 'U002',
-    url: 'https://ambitious-coast-027d0aa03.azurestaticapps.net',
-  }, */
+    url: 'https://wonderful-field-057109603.1.azurestaticapps.net',
+  },
   {
     name: 'T001',
     url: 'https://lively-river-0f22ad403.azurestaticapps.net',
