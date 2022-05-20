@@ -19,7 +19,6 @@ import {
   AfterViewInit,
   Directive,
   ElementRef,
-  HostBinding,
   Input,
   OnDestroy,
   Optional,
