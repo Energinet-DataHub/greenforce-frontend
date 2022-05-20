@@ -32,6 +32,7 @@ export * from './lib/components/input/datepicker';
 export * from './lib/components/input/shared/validators';
 export * from './lib/components/input/time-range-input';
 export * from './lib/components/shell/nav-list';
+export * from './lib/components/slider';
 export * from './lib/components/spinner';
 export * from './lib/components/tabs';
 export * from './lib/components/validation-message';
