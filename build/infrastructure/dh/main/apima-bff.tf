@@ -36,7 +36,6 @@ module "apima_bff" {
       xml_content = <<XML
         <policies>
           <inbound>
-            <base />
             <trace source="BFF API" severity="verbose">
                 <message>@{
                     string authHeader = context.Request.Headers.GetValueOrDefault("Authorization", "");
@@ -65,6 +64,7 @@ module "apima_bff" {
                     </claim>
                 </required-claims>
             </validate-jwt>
+            <base />
             <set-header name="Correlation-ID" exists-action="override">
                 <value>@($"{context.RequestId}")</value>
             </set-header>
