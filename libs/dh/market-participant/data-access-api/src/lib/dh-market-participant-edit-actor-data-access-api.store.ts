@@ -155,6 +155,7 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
         state.actor.actorId,
         {
           marketRoles: state.marketRoleChanges.marketRoles,
+          gridAreas: [],
           meteringPointTypes: state.meteringPointTypeChanges.meteringPointTypes,
           status: state.changes.status,
         }
@@ -165,6 +166,7 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
       state.organizationId,
       {
         gln: { value: state.changes.gln },
+        gridAreas: [],
         marketRoles: state.marketRoleChanges.marketRoles,
         meteringPointTypes: state.meteringPointTypeChanges.meteringPointTypes,
       }
