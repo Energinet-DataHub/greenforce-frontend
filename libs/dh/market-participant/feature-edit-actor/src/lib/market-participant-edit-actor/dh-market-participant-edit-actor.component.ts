@@ -20,11 +20,13 @@ import {
   ActorChanges,
   DhMarketParticipantEditActorDataAccessApiStore,
   GridAreaChanges,
+  MarketRoleChanges,
   MeteringPointTypeChanges,
 } from '@energinet-datahub/dh/market-participant/data-access-api';
 import { LetModule } from '@rx-angular/template/let';
 import { DhMarketParticipantActorMasterDataComponentScam } from './master-data/dh-market-participant-actor-master-data.component';
 import { DhMarketParticipantActorMeteringPointTypeComponentScam } from './metering-point-type/dh-market-participant-actor-metering-point-type.component';
+import { DhMarketParticipantActorMarketRolesComponentScam } from './market-roles/dh-market-participant-actor-market-roles.component';
 
 import {
   WattButtonModule,
@@ -82,6 +84,10 @@ export class DhMarketParticipantEditActorComponent {
     this.store.setGridAreaChanges(changes);
   };
 
+  readonly onMarketRoleChanged = (changes: MarketRoleChanges) => {
+    this.store.setMarketRoleChanges(changes);
+  };
+
   readonly onCancelled = () => {
     this.backToOverview();
   };
@@ -106,6 +112,7 @@ export class DhMarketParticipantEditActorComponent {
     DhMarketParticipantActorMasterDataComponentScam,
     DhMarketParticipantActorMeteringPointTypeComponentScam,
     DhMarketParticipantActorGridAreasComponentScam,
+    DhMarketParticipantActorMarketRolesComponentScam,
     WattValidationMessageModule,
   ],
   exports: [DhMarketParticipantEditActorComponent],

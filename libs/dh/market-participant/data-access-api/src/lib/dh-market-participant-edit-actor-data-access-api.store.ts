@@ -40,7 +40,6 @@ import { parseErrorResponse } from './dh-market-participant-error-handling';
 export interface ActorChanges {
   gln: string;
   status: ActorStatus;
-  marketRoles: MarketRoleDto[];
 }
 
 export interface MeteringPointTypeChanges {
@@ -49,6 +48,10 @@ export interface MeteringPointTypeChanges {
 
 export interface GridAreaChanges {
   gridAreas: GridAreaDto[];
+}
+
+export interface MarketRoleChanges {
+  marketRoles: MarketRoleDto[];
 }
 
 export interface MarketParticipantEditActorState {
@@ -64,8 +67,8 @@ export interface MarketParticipantEditActorState {
   changes: ActorChanges;
 
   meteringPointTypeChanges: MeteringPointTypeChanges;
-
   gridAreaChanges: GridAreaChanges;
+  marketRoleChanges: MarketRoleChanges;
 
   // Validation
   validation?: { error: string };
@@ -79,10 +82,10 @@ const initialState: MarketParticipantEditActorState = {
   changes: {
     gln: '',
     status: ActorStatus.New,
-    marketRoles: [],
   },
   meteringPointTypeChanges: { meteringPointTypes: [] },
   gridAreaChanges: { gridAreas: [] },
+  marketRoleChanges: { marketRoles: [] },
 };
 
 @Injectable()
@@ -191,7 +194,7 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
         state.organizationId,
         state.actor.actorId,
         {
-          marketRoles: state.changes.marketRoles,
+          marketRoles: state.marketRoleChanges.marketRoles,
           meteringPointTypes: state.meteringPointTypeChanges.meteringPointTypes,
           status: state.changes.status,
           gridAreas: state.gridAreaChanges.gridAreas.map((x) => x.id),
@@ -203,7 +206,7 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
       state.organizationId,
       {
         gln: { value: state.changes.gln },
-        marketRoles: state.changes.marketRoles,
+        marketRoles: state.marketRoleChanges.marketRoles,
         meteringPointTypes: state.meteringPointTypeChanges.meteringPointTypes,
         gridAreas: state.gridAreaChanges.gridAreas.map((x) => x.id),
       }
@@ -240,5 +243,10 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
   readonly setGridAreaChanges = (gridAreaChanges: GridAreaChanges) =>
     this.patchState({
       gridAreaChanges,
+    });
+
+  readonly setMarketRoleChanges = (marketRoleChanges: MarketRoleChanges) =>
+    this.patchState({
+      marketRoleChanges,
     });
 }

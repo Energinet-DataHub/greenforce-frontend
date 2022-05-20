@@ -51,7 +51,6 @@ export class DhMarketParticipantActorMasterDataComponent
   changes: ActorChanges = {
     gln: '',
     status: 'New',
-    marketRoles: [],
   };
 
   private destroy$ = new Subject<void>();
@@ -82,7 +81,6 @@ export class DhMarketParticipantActorMasterDataComponent
     if (this.actor !== undefined) {
       this.changes = {
         gln: this.actor.gln.value,
-        marketRoles: this.actor.marketRoles,
         status: this.actor.status,
       };
       this.statuses = getValidStatusTransitionOptions(
