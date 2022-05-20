@@ -66,6 +66,7 @@ export class DhMarketParticipantEditActorComponent {
     private route: ActivatedRoute,
     private router: Router
   ) {
+    this.store.getGridAreas();
     this.store.getActorAndContacts(this.routeParams$);
   }
 

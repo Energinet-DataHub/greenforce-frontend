@@ -52,7 +52,8 @@ export interface GridAreaChanges {
 }
 
 export interface MarketParticipantEditActorState {
-  isLoading: boolean;
+  isLoadingActor: boolean;
+  isLoadingGridAreas: boolean;
 
   // Input
   organizationId: string;
@@ -71,7 +72,8 @@ export interface MarketParticipantEditActorState {
 }
 
 const initialState: MarketParticipantEditActorState = {
-  isLoading: false,
+  isLoadingActor: false,
+  isLoadingGridAreas: false,
   organizationId: '',
   gridAreas: [],
   changes: {
@@ -85,7 +87,9 @@ const initialState: MarketParticipantEditActorState = {
 
 @Injectable()
 export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentStore<MarketParticipantEditActorState> {
-  isLoading$ = this.select((state) => state.isLoading);
+  isLoading$ = this.select(
+    (state) => state.isLoadingActor || state.isLoadingGridAreas
+  );
   isEditing$ = this.select((state) => state.actor !== undefined);
   actor$ = this.select((state) => state.actor);
   validation$ = this.select((state) => state.validation);
@@ -99,15 +103,36 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
     super(initialState);
   }
 
+  readonly getGridAreas = this.effect((trigger$: Observable<void>) =>
+    trigger$.pipe(
+      tap(() => this.patchState({ isLoadingGridAreas: true })),
+      switchMap(() =>
+        this.gridAreaHttpClient
+          .v1MarketParticipantGridAreaGet()
+          .pipe(
+            tap((gridAreas) =>
+              this.patchState({
+                gridAreas: gridAreas.sort((a, b) =>
+                  a.code.localeCompare(b.code)
+                ),
+              })
+            )
+          )
+          .pipe(catchError(this.handleError))
+      ),
+      tap(() => this.patchState({ isLoadingGridAreas: false }))
+    )
+  );
+
   readonly getActorAndContacts = this.effect(
     (routeParams$: Observable<{ organizationId: string; actorId: string }>) =>
       // contacts not implemented yet.
       routeParams$.pipe(
-        tap(() => this.patchState({ isLoading: true })),
+        tap(() => this.patchState({ isLoadingActor: true })),
         switchMap((routeParams) => {
           if (!routeParams.actorId) {
             this.patchState({
-              isLoading: false,
+              isLoadingActor: false,
               organizationId: routeParams.organizationId,
             });
             return EMPTY;
@@ -115,25 +140,17 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
           return this.getActor(
             routeParams.organizationId,
             routeParams.actorId
-          ).pipe(
-            switchMap(() => this.getGridAreas()),
-            catchError((errorResponse: HttpErrorResponse) => {
-              this.patchState({
-                validation: {
-                  error: parseErrorResponse(errorResponse),
-                },
-              });
-              return EMPTY;
-            })
-          );
+          ).pipe(catchError(this.handleError));
         }),
-        tap(() => this.patchState({ isLoading: false }))
+        tap(() => this.patchState({ isLoadingActor: false }))
       )
   );
 
   readonly save = this.effect((onSaveCompletedFn$: Observable<() => void>) =>
     onSaveCompletedFn$.pipe(
-      tap(() => this.patchState({ isLoading: true, validation: undefined })),
+      tap(() =>
+        this.patchState({ isLoadingActor: true, validation: undefined })
+      ),
       withLatestFrom(this.state$),
       switchMap(([onSaveCompletedFn, state]) =>
         of(state).pipe(
@@ -141,13 +158,13 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
           tapResponse(
             () => {
               this.patchState({
-                isLoading: false,
+                isLoadingActor: false,
               });
               onSaveCompletedFn();
             },
             (errorResponse: HttpErrorResponse) => {
               this.patchState({
-                isLoading: false,
+                isLoadingActor: false,
                 validation: {
                   error: parseErrorResponse(errorResponse),
                 },
@@ -159,14 +176,14 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
     )
   );
 
-  readonly getGridAreas = () =>
-    this.gridAreaHttpClient.v1MarketParticipantGridAreaGet().pipe(
-      tap((gridAreas) =>
-        this.patchState({
-          gridAreas: gridAreas.sort((a, b) => a.code.localeCompare(b.code)),
-        })
-      )
-    );
+  readonly handleError = (errorResponse: HttpErrorResponse) => {
+    this.patchState({
+      validation: {
+        error: parseErrorResponse(errorResponse),
+      },
+    });
+    return EMPTY;
+  };
 
   private readonly saveActor = (state: MarketParticipantEditActorState) => {
     if (state.actor !== undefined) {
@@ -177,6 +194,7 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
           marketRoles: state.changes.marketRoles,
           meteringPointTypes: state.meteringPointTypeChanges.meteringPointTypes,
           status: state.changes.status,
+          gridAreas: state.gridAreaChanges.gridAreas.map((x) => x.id),
         }
       );
     }
@@ -187,6 +205,7 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
         gln: { value: state.changes.gln },
         marketRoles: state.changes.marketRoles,
         meteringPointTypes: state.meteringPointTypeChanges.meteringPointTypes,
+        gridAreas: state.gridAreaChanges.gridAreas.map((x) => x.id),
       }
     );
   };

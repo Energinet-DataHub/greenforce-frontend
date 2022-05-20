@@ -40,10 +40,10 @@ export class DhMarketParticipantActorGridAreasComponent implements OnChanges {
   changes: GridAreaChanges = { gridAreas: [] };
 
   ngOnChanges(): void {
-    if (this.actor !== undefined) {
+    const actor = this.actor;
+    if (actor !== undefined) {
       this.changes = {
-        // todo mising grid areas on actor
-        gridAreas: [],
+        gridAreas: this.gridAreas.filter((x) => actor.gridAreas.includes(x.id)),
       };
       this.hasChanges.emit({ ...this.changes });
     }
