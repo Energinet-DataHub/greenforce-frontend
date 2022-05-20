@@ -14,7 +14,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<ng-container *transloco="let t; read: 'marketParticipant.organization'">
+<ng-container *transloco="let t; read: 'marketParticipant.marketRoles'">
   <mat-selection-list
     (selectionChange)="onSelectionChange()"
     [(ngModel)]="listModel"
@@ -24,7 +24,7 @@ limitations under the License.
       [value]="marketRole"
       [disabled]="invalidInCurrentSelection(marketRole)"
     >
-      {{ t("marketRoles." + marketRole) }}
+      {{ t(marketRole) }}
     </mat-list-option>
   </mat-selection-list>
 </ng-container>

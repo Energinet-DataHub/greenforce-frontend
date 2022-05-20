@@ -15,8 +15,10 @@
  * limitations under the License.
  */
 
+import { Injectable } from '@angular/core';
 import { EicFunction } from '@energinet-datahub/dh/shared/domain';
 
+@Injectable()
 export class MarketRoleService {
   getAvailableMarketRoles = [
     EicFunction.GridAccessProvider,
@@ -65,6 +67,11 @@ export class MarketRoleService {
     item: EicFunction,
     currentSelectedList: Array<EicFunction>
   ): boolean {
+
+    if (currentSelectedList.length === 0) {
+      return false;
+    }
+
     const possibleGroups = [];
     for (let index = 0; index < this.validEicFunctionGroups.length; index++) {
       const group = this.validEicFunctionGroups[index];
@@ -82,6 +89,6 @@ export class MarketRoleService {
       []
     );
 
-    return currentSelectedList.length === 0 ? false : result.indexOf(item) < 0;
+    return result.indexOf(item) < 0;
   }
 }

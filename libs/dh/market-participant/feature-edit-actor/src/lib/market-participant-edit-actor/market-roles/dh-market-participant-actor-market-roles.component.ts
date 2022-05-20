@@ -32,21 +32,21 @@ import {
 import { TranslocoModule } from '@ngneat/transloco';
 import { MatListModule } from '@angular/material/list';
 import { MarketRoleChanges } from '@energinet-datahub/dh/market-participant/data-access-api';
-import { MarketRoleService } from './market-role-service';
+import { MarketRoleService } from './market-role.service';
 
 @Component({
   selector: 'dh-market-participant-actor-market-roles',
   templateUrl: './dh-market-participant-actor-market-roles.component.html',
+  providers: [MarketRoleService]
 })
 export class DhMarketParticipantActorMarketRolesComponent implements OnChanges {
   @Input() actor: ActorDto | undefined;
   @Output() hasChanges = new EventEmitter<MarketRoleChanges>();
-  marketRoleService = new MarketRoleService();
   changes: MarketRoleChanges = { marketRoles: [] };
   listModel = Array<EicFunction>();
   availableMarketRoles = Array<EicFunction>();
 
-  constructor() {
+  constructor(private marketRoleService: MarketRoleService) {
     this.availableMarketRoles = this.marketRoleService.getAvailableMarketRoles;
   }
 
