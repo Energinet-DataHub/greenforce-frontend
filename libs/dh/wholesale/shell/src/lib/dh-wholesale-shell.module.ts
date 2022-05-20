@@ -22,14 +22,27 @@ import {
   DhWholesaleStartScam,
 } from '@energinet-datahub/dh/wholesale/feature-start';
 
+import {
+  DhWholesaleOverviewComponent,
+  DhWholesaleOverviewScam,
+} from '@energinet-datahub/dh/wholesale/feature-overview';
+
 const routes: Routes = [
   {
-    path: '',
+    path: 'start-process',
     component: DhWholesaleStartComponent,
+  },
+  {
+    path: 'overview',
+    component: DhWholesaleOverviewComponent,
   },
 ];
 
 @NgModule({
-  imports: [DhWholesaleStartScam, RouterModule.forChild(routes)],
+  imports: [
+    DhWholesaleStartScam,
+    DhWholesaleOverviewScam,
+    RouterModule.forChild(routes),
+  ],
 })
 export class DhWholesaleShellModule {}
