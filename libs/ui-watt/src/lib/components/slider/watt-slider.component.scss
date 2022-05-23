@@ -18,13 +18,13 @@ watt-slider {
   display: block;
 
   .ngx-slider {
-    height: 8px;
-    margin: 10px 0;
+    height: var(--watt-space-s);
+    margin: var(--watt-space-m) 0;
   }
 
   .ngx-slider .ngx-slider-bar {
-    height: 8px;
-    border-radius: 4px;
+    height: var(--watt-space-s);
+    border-radius: var(--watt-space-s);
   }
 
   .ngx-slider .ngx-slider-full-bar .ngx-slider-bar {
