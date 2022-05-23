@@ -34,7 +34,7 @@ export const Overview: Story<WattSliderComponent> = (args) => ({
 });
 
 Overview.args = {
-  value: [0, 100],
+  value: { min: 0, max: 100 },
 };
 
 export const TimePicker: Story<WattSliderComponent> = (args) => {
@@ -49,12 +49,12 @@ export const TimePicker: Story<WattSliderComponent> = (args) => {
     },
     template: `
       <watt-slider [(value)]="value"></watt-slider>
-      <p>{{format(value[0])}} - {{format(value[1])}}</p>
+      <p>{{format(value.min)}} - {{format(value.max)}}</p>
     `,
   };
 };
 
 TimePicker.args = {
   max: 96,
-  value: [25, 75],
+  value: { min: 25, max: 75 },
 };

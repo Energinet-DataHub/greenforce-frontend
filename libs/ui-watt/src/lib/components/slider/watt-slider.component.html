@@ -15,10 +15,10 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <ngx-slider
-  [value]="value[0]"
-  [highValue]="value[1]"
-  (valueChange)="onChange([$event, value[1]])"
-  (highValueChange)="onChange([value[0], $event])"
+  [value]="value.min"
+  [highValue]="value.max"
+  (valueChange)="onChange({ min: $event, max: value.max })"
+  (highValueChange)="onChange({ min: value.min, max: $event })"
   [options]="{
     floor: min,
     ceil: max,

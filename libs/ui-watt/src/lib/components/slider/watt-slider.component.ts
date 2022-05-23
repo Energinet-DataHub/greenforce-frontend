@@ -23,6 +23,11 @@ import {
   Output,
 } from '@angular/core';
 
+export interface WattSliderValue {
+  min: number;
+  max: number;
+}
+
 /**
  * Slider for providing a range of values.
  */
@@ -41,19 +46,19 @@ export class WattSliderComponent {
   @Input() max = 100;
 
   /** The currently selected range value. */
-  @Input() value = [this.min, this.max];
+  @Input() value: WattSliderValue = { min: this.min, max: this.max };
 
   /**
    * Emits value whenever it changes.
    * @ignore
    */
-  @Output() valueChange = new EventEmitter<number[]>();
+  @Output() valueChange = new EventEmitter<WattSliderValue>();
 
   /**
    * Change handler for updating value.
    * @ignore
    */
-  onChange(value: number[]) {
+  onChange(value: WattSliderValue) {
     this.value = value;
     this.valueChange.emit(value);
   }
