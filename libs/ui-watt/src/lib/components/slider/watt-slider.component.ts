@@ -43,7 +43,7 @@ export class WattSliderComponent {
   /** The lowest permitted value. */
   @Input() min = 0;
 
-  /** The greatest permitted value. */
+  /** The highest permitted value. */
   @Input() max = 100;
 
   /** The currently selected range value. */
