@@ -19,11 +19,5 @@ limitations under the License.
   [highValue]="value.max"
   (valueChange)="onChange({ min: $event, max: value.max })"
   (highValueChange)="onChange({ min: value.min, max: $event })"
-  [options]="{
-    floor: min,
-    ceil: max,
-    minRange: 1,
-    hideLimitLabels: true,
-    hidePointerLabels: true
-  }"
+  [options]="options"
 ></ngx-slider>

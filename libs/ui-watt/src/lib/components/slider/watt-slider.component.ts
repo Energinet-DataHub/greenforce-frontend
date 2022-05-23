@@ -15,13 +15,14 @@
  * limitations under the License.
  */
 import {
-  Component,
   ChangeDetectionStrategy,
+  Component,
   EventEmitter,
-  ViewEncapsulation,
   Input,
   Output,
+  ViewEncapsulation,
 } from '@angular/core';
+import { Options } from '@angular-slider/ngx-slider';
 
 export interface WattSliderValue {
   min: number;
@@ -53,6 +54,19 @@ export class WattSliderComponent {
    * @ignore
    */
   @Output() valueChange = new EventEmitter<WattSliderValue>();
+
+  /**
+   * @ignore
+   */
+  get options(): Options {
+    return {
+      floor: this.min,
+      ceil: this.max,
+      minRange: 1,
+      hideLimitLabels: true,
+      hidePointerLabels: true,
+    };
+  }
 
   /**
    * Change handler for updating value.
