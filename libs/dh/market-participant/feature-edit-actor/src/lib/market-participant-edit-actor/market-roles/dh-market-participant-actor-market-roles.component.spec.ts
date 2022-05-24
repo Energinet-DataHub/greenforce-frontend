@@ -83,6 +83,7 @@ describe('MarketRolesChk', () => {
   })
 
   test('should render checkbox options, on selection', async () => {
+    // Arrange
     const view = await render(DhMarketParticipantActorMarketRolesComponent,  {
       componentProperties: {
         actor: {
@@ -110,13 +111,18 @@ describe('MarketRolesChk', () => {
     const elemToSelect2 = allOptions[1] as HTMLOptionElement;
     const elemNotSelectable = allOptions[5] as HTMLOptionElement;
 
+    // Act
     fireEvent.click(elemToSelect1);
     fireEvent.click(elemToSelect2);
     fireEvent.click(elemNotSelectable); // not selectable
 
     view.fixture.detectChanges();
 
+    // Assert
     const selectedRoles = allOptions.filter(e => e.attributes.getNamedItem("aria-selected")?.value == 'true');
+    const changes = view.fixture.componentInstance.changes;
+
     expect(selectedRoles).toHaveLength([elemToSelect1, elemToSelect2].length);
+    expect(changes.marketRoles).toHaveLength([elemToSelect1, elemToSelect2].length);
   })
 });
