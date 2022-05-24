@@ -54,8 +54,8 @@ export class DhMarketParticipantActorMarketRolesComponent {
     );
   }
 
-  onSelectionChange(): void {
-    this.marketRolesEicFunctionsChange.emit(this.marketRolesEicFunctions);
+  onSelectionChange(marketRolesEicFunctions: EicFunction[]): void {
+    this.marketRolesEicFunctionsChange.emit(marketRolesEicFunctions);
   }
 }
 

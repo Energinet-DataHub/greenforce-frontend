@@ -18,8 +18,8 @@ Component state: {{ marketRolesEicFunctions | json }}
 
 <ng-container *transloco="let t; read: 'marketParticipant.marketRoles'">
   <mat-selection-list
-    (selectionChange)="onSelectionChange()"
-    [(ngModel)]="marketRolesEicFunctions"
+    (ngModelChange)="onSelectionChange($event)"
+    [ngModel]="marketRolesEicFunctions"
   >
     <mat-list-option
       *ngFor="let marketRole of availableMarketRoles"
