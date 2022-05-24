@@ -11,9 +11,8 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
 module "bff" {
-  source                                        = "git::https://github.com/Energinet-DataHub/geh-terraform-modules.git//azure/app-service?ref=5.8.0"
+  source                                    = "git::https://github.com/Energinet-DataHub/geh-terraform-modules.git//azure/app-service?ref=6.0.0"
 
   name                                          = "bff"
   project_name                                  = var.domain_name_short
@@ -21,7 +20,9 @@ module "bff" {
   environment_instance                          = var.environment_instance
   resource_group_name                           = azurerm_resource_group.this.name
   location                                      = azurerm_resource_group.this.location
-  app_service_plan_id                           = module.plan_bff.id
+  vnet_integration_subnet_id                    = data.azurerm_key_vault_secret.snet_vnet_integrations_id.value
+  private_endpoint_subnet_id                    = data.azurerm_key_vault_secret.snet_private_endpoints_id.value
+  app_service_plan_id                           = data.azurerm_key_vault_secret.plan_shared_id.value
   application_insights_instrumentation_key      = data.azurerm_key_vault_secret.appi_shared_instrumentation_key.value
   dotnet_framework_version                      = "v6.0"
 
@@ -35,25 +36,5 @@ module "bff" {
     FRONTEND_SERVICE_APP_ID                     = data.azurerm_key_vault_secret.frontend_service_app_id.value
   }
 
-  tags               = azurerm_resource_group.this.tags
-}
-
-module "plan_bff" {
-  source                         = "git::https://github.com/Energinet-DataHub/geh-terraform-modules.git//azure/app-service-plan?ref=5.11.0"
-
-  name                           = "bff"
-  project_name                   = var.domain_name_short
-  environment_short              = var.environment_short
-  environment_instance           = var.environment_instance
-  resource_group_name            = azurerm_resource_group.this.name
-  location                       = azurerm_resource_group.this.location
-  kind                           = "Windows"
-  monitor_alerts_action_group_id = data.azurerm_key_vault_secret.primary_action_group_id.value
-
-  sku                            = {
-    tier  = "PremiumV2"
-    size  = "P1v2"
-  }
-
-  tags                           = azurerm_resource_group.this.tags
+  tags                                          = azurerm_resource_group.this.tags
 }
