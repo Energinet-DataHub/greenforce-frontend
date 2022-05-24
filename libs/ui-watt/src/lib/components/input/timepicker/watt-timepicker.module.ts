@@ -14,14 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatInputModule } from '@angular/material/input';
 
-import { WattTimeRangeInputComponent } from './watt-time-range-input.component';
+import { WattTimepickerComponent } from './watt-timepicker.component';
 
 @NgModule({
-  declarations: [WattTimeRangeInputComponent],
-  exports: [WattTimeRangeInputComponent],
-  imports: [MatDatepickerModule],
+  declarations: [WattTimepickerComponent],
+  exports: [WattTimepickerComponent],
+  imports: [MatDatepickerModule, MatInputModule, CommonModule],
 })
-export class WattTimeRangeInputModule {}
+export class WattTimepickerModule {}

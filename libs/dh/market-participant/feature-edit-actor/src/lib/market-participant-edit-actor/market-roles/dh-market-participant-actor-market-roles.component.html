@@ -14,8 +14,17 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<ng-container *transloco="let transloco; read: 'wholesale'">
-  <h1>{{ transloco("startProcess.header") }}</h1>
-  <p>{{ transloco("startProcess.processDescription") }}</p>
-  <watt-button>{{ transloco("startProcess.startLabel") }} </watt-button>
+<ng-container *transloco="let t; read: 'marketParticipant.marketRoles'">
+  <mat-selection-list
+    (selectionChange)="onSelectionChange()"
+    [(ngModel)]="listModel"
+  >
+    <mat-list-option
+      *ngFor="let marketRole of availableMarketRoles"
+      [value]="marketRole"
+      [disabled]="invalidInCurrentSelection(marketRole)"
+    >
+      {{ t(marketRole) }}
+    </mat-list-option>
+  </mat-selection-list>
 </ng-container>

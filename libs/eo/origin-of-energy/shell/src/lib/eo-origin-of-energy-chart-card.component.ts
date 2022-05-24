@@ -14,16 +14,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { CommonModule } from '@angular/common';
 import { Component, NgModule } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { EoPieChartScam } from './eo-origin-of-energy-pie-chart/eo-origin-of-energy-pie-chart.component';
+import { EoOriginOfEnergyStore } from './eo-origin-of-energy.store';
 
 @Component({
   selector: 'eo-origin-of-energy-pie-chart',
   template: ` <mat-card class="chart-card watt-space-inline-l">
     <h3>Your share of renewable energy in 2021</h3>
     <p>Based on the hourly declaration</p>
-    <eo-pie-chart class="watt-space-inset-squish-l"></eo-pie-chart>
+    <ng-container>
+      <eo-pie-chart
+        class="watt-space-inset-squish-l"
+        [data]="[
+          (share$ | async)?.renewable || 50,
+          (share$ | async)?.other || 50
+        ]"
+      ></eo-pie-chart>
+    </ng-container>
   </mat-card>`,
   styles: [
     `
@@ -36,12 +46,17 @@ import { EoPieChartScam } from './eo-origin-of-energy-pie-chart/eo-origin-of-ene
       }
     `,
   ],
+  viewProviders: [EoOriginOfEnergyStore],
 })
-export class EoOriginOfEnergyPieChartComponent {}
+export class EoOriginOfEnergyPieChartComponent {
+  share$ = this.originOfEnergyStore.share$;
+
+  constructor(private originOfEnergyStore: EoOriginOfEnergyStore) {}
+}
 
 @NgModule({
   declarations: [EoOriginOfEnergyPieChartComponent],
   exports: [EoOriginOfEnergyPieChartComponent],
-  imports: [MatCardModule, EoPieChartScam],
+  imports: [MatCardModule, EoPieChartScam, CommonModule],
 })
 export class EoOriginOfEnergyPieChartScam {}

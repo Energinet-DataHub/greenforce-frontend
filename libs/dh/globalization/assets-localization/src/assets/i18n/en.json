@@ -10,7 +10,8 @@
       "meteringPoints": "Metering points",
       "messageArchive": "Request/Response messages",
       "marketParticipant": "Organizations",
-      "wholesale": "Settlements"
+      "wholesaleStartProcess": "Settlements - Start Process",
+      "wholesaleOverview": "Settlements - Overview"
     }
   },
   "meteringPoint": {
@@ -296,6 +297,7 @@
         "errorToastLabel": "Error",
         "masterDataTabHeader": "Master data",
         "meteringPointTypesHeader": "Metering point types",
+        "marketRolesHeader": "Market roles",
         "cancelLabel": "Cancel",
         "saveLabel": "Save",
         "masterData": {
@@ -311,6 +313,55 @@
           }
         }
       }
+    },
+    "marketRoles": {
+      "BalanceResponsibleParty": "Balance responsible party",
+      "BalancingServiceProvider": "Balancing service provider",
+      "BillingAgent": "Billing agent",
+      "CapacityTrader": "Capacity trader",
+      "Consumer": "Consumer",
+      "ConsumptionResponsibleParty": "Consumption responsible party",
+      "ConsentAdministrator": "Consent administrator",
+      "CoordinatedCapacityCalculator": "Coordinated capacity calculator",
+      "CoordinationCentreOperator": "Coordination centre operator",
+      "DataProvider": "Data provider",
+      "EnergyServiceCompany": "Energy service company",
+      "EnergySupplier": "Energy supplier",
+      "EnergyTrader": "Energy trader",
+      "GridAccessProvider": "Grid access provider",
+      "ImbalanceSettlementResponsible": "Imbalance settlement responsible",
+      "InterconnectionTradeResponsible": "Interconnection trade responsible",
+      "LfcOperator": "LFC operator",
+      "MarketInformationAggregator": "Market information aggregator",
+      "MarketOperator": "Market operator",
+      "MeritOrderListResponsible": "Merit order list responsible",
+      "MeterAdministrator": "Meter administrator",
+      "MeterOperator": "Meter operator",
+      "MeteredDataAdministrator": "Metered data administrator",
+      "MeteredDataAggregator": "Metered data aggregator",
+      "MeteredDataCollector": "Metered data collector",
+      "MeteredDataResponsible": "Metered data responsible",
+      "MeteringPointAdministrator": "Metering point administrator",
+      "ModelMergingAgent": "Model merging agent",
+      "ModellingAuthority": "Modelling authority",
+      "NominatedElectricityMarketOperator": "Nominated electricity market operator",
+      "NominationValidator": "Nomination validator",
+      "PartyAdministrator": "Party administrator",
+      "PartyConnectedToTheGrid": "Party connected to the grid",
+      "Producer": "Producer",
+      "ProductionResponsibleParty": "Production responsible party",
+      "ReconciliationAccountable": "Reconciliation accountable",
+      "ReconciliationResponsible": "Reconciliation responsible",
+      "ReserveAllocator": "Reserve allocator",
+      "ResourceAggregator": "Resource aggregator",
+      "ResourceCapacityMechanismOperator": "Resource capacity mechanism operator",
+      "ResourceProvider": "Resource provider",
+      "Scheduling": "Scheduling",
+      "Agent": "Agent",
+      "SchedulingAreaResponsible": "Scheduling area responsible",
+      "SystemOperator": "System operator",
+      "TradeResponsibleParty": "Trade responsible party",
+      "TransmissionCapacityAllocator": "Transmission capacity allocator"
     },
     "organization": {
       "header": "Organizations",
@@ -328,55 +379,6 @@
         "Inactive": "Inactive",
         "Passive": "Passive",
         "Deleted": "Deleted"
-      },
-      "marketRoles": {
-        "BalanceResponsibleParty": "Balance responsible party",
-        "BalancingServiceProvider": "Balancing service provider",
-        "BillingAgent": "Billing agent",
-        "CapacityTrader": "Capacity trader",
-        "Consumer": "Consumer",
-        "ConsumptionResponsibleParty": "Consumption responsible party",
-        "ConsentAdministrator": "Consent administrator",
-        "CoordinatedCapacityCalculator": "Coordinated capacity calculator",
-        "CoordinationCentreOperator": "Coordination centre operator",
-        "DataProvider": "Data provider",
-        "EnergyServiceCompany": "Energy service company",
-        "EnergySupplier": "Energy supplier",
-        "EnergyTrader": "Energy trader",
-        "GridAccessProvider": "Grid access provider",
-        "ImbalanceSettlementResponsible": "Imbalance settlement responsible",
-        "InterconnectionTradeResponsible": "Interconnection trade responsible",
-        "LfcOperator": "LFC operator",
-        "MarketInformationAggregator": "Market information aggregator",
-        "MarketOperator": "Market operator",
-        "MeritOrderListResponsible": "Merit order list responsible",
-        "MeterAdministrator": "Meter administrator",
-        "MeterOperator": "Meter operator",
-        "MeteredDataAdministrator": "Metered data administrator",
-        "MeteredDataAggregator": "Metered data aggregator",
-        "MeteredDataCollector": "Metered data collector",
-        "MeteredDataResponsible": "Metered data responsible",
-        "MeteringPointAdministrator": "Metering point administrator",
-        "ModelMergingAgent": "Model merging agent",
-        "ModellingAuthority": "Modelling authority",
-        "NominatedElectricityMarketOperator": "Nominated electricity market operator",
-        "NominationValidator": "Nomination validator",
-        "PartyAdministrator": "Party administrator",
-        "PartyConnectedToTheGrid": "Party connected to the grid",
-        "Producer": "Producer",
-        "ProductionResponsibleParty": "Production responsible party",
-        "ReconciliationAccountable": "Reconciliation accountable",
-        "ReconciliationResponsible": "Reconciliation responsible",
-        "ReserveAllocator": "Reserve allocator",
-        "ResourceAggregator": "Resource aggregator",
-        "ResourceCapacityMechanismOperator": "Resource capacity mechanism operator",
-        "ResourceProvider": "Resource provider",
-        "Scheduling": "Scheduling",
-        "Agent": "Agent",
-        "SchedulingAreaResponsible": "Scheduling area responsible",
-        "SystemOperator": "System operator",
-        "TradeResponsibleParty": "Trade responsible party",
-        "TransmissionCapacityAllocator": "Transmission capacity allocator"
       },
       "editOrganization": "Edit organization",
       "editActor": "Edit actor",
@@ -453,8 +455,13 @@
     }
   },
   "wholesale": {
-    "start": "Start",
-    "startProcess": "Start Process",
-    "processDescription": "Start a balance fixing for yesterday for grid areas 805 & 806."
+    "startProcess": {
+      "startLabel": "Start",
+      "header": "Start Process",
+      "processDescription": "Start a balance fixing for yesterday for grid areas 805 & 806."
+    },
+    "overview": {
+      "header": "Process Overview"
+    }
   }
 }
