@@ -17,12 +17,15 @@
 
 import { HttpClientModule } from '@angular/common/http';
 import { render, screen } from '@testing-library/angular';
-import userEvent from '@testing-library/user-event'
+import userEvent from '@testing-library/user-event';
 import { DhMarketParticipantActorMarketRolesComponent } from './dh-market-participant-actor-market-roles.component';
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
 import { DhApiModule } from '@energinet-datahub/dh/shared/data-access-api';
 import { MarketRoleService } from './market-role.service';
-import { EicFunction, MarketRoleDto } from '@energinet-datahub/dh/shared/domain';
+import {
+  EicFunction,
+  MarketRoleDto,
+} from '@energinet-datahub/dh/shared/domain';
 
 describe('MarketRolesChk', () => {
   async function setup(marketRolesArrToTest: MarketRoleDto[]) {
@@ -44,9 +47,11 @@ describe('MarketRolesChk', () => {
         getTranslocoTestingModule(),
       ],
     });
-  };
+  }
 
-  function getAllOptions() { return screen.getAllByRole('option') };
+  function getAllOptions() {
+    return screen.getAllByRole('option');
+  }
 
   test('should render checkbox list', async () => {
     await setup([]);
@@ -62,8 +67,8 @@ describe('MarketRolesChk', () => {
     const availableMarketRolesCount =
       marketRoleService.getAvailableMarketRoles.length;
 
-      const allOptions = getAllOptions();
-      expect(allOptions).toHaveLength(availableMarketRolesCount);
+    const allOptions = getAllOptions();
+    expect(allOptions).toHaveLength(availableMarketRolesCount);
   });
 
   test('should render checkbox options, preselected', async () => {
@@ -95,7 +100,9 @@ describe('MarketRolesChk', () => {
     // Act
     userEvent.click(elemToSelect1);
     userEvent.click(elemToSelect2);
-    userEvent.click(elemNotSelectable, undefined, { skipPointerEventsCheck: true }); // not selectable by disabled validation
+    userEvent.click(elemNotSelectable, undefined, {
+      skipPointerEventsCheck: true,
+    }); // not selectable by disabled validation
 
     view.fixture.detectChanges();
 
