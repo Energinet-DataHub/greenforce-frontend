@@ -34,7 +34,7 @@ import { MarketRoleService } from './market-role.service';
 @Component({
   selector: 'dh-market-participant-actor-market-roles',
   templateUrl: './dh-market-participant-actor-market-roles.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  //changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [MarketRoleService],
 })
 export class DhMarketParticipantActorMarketRolesComponent {
