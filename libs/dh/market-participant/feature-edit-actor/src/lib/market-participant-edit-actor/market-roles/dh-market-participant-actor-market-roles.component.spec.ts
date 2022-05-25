@@ -127,7 +127,9 @@ describe('MarketRolesComponent', () => {
     const elemToSelect1 = allOptions[0] as HTMLOptionElement;
 
     let changedEmitted = false;
-    view.fixture.componentInstance.hasChanges.subscribe(() => changedEmitted = true)
+    view.fixture.componentInstance.hasChanges.subscribe(
+      () => (changedEmitted = true)
+    );
 
     // Act
     userEvent.click(elemToSelect1);
