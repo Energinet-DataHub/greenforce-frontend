@@ -18,8 +18,8 @@ import { HttpClient, HttpHeaders, HttpParams,
 import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
 
-import { MeteringPointCimDto } from '../model/models';
-import { Process } from '../model/models';
+import { WholesaleJob } from '../model/models';
+import { WholesaleProcess } from '../model/models';
 
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
@@ -29,7 +29,7 @@ import { Configuration }                                     from '../configurat
 @Injectable({
   providedIn: 'root'
 })
-export class MeteringPointHttp {
+export class WholesaleJobHttp {
 
     protected basePath = 'http://localhost';
     public defaultHeaders = new HttpHeaders();
@@ -87,20 +87,27 @@ export class MeteringPointHttp {
     }
 
     /**
-     * Get a metering point by GSRN number.
-     * @param gsrnNumber Public identifier of a metering point.
+     * Request a process job.
+     * @param process 
+     * @param gridAreas 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public v1MeteringPointGetByGsrnGet(gsrnNumber?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<MeteringPointCimDto>;
-    public v1MeteringPointGetByGsrnGet(gsrnNumber?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<MeteringPointCimDto>>;
-    public v1MeteringPointGetByGsrnGet(gsrnNumber?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<MeteringPointCimDto>>;
-    public v1MeteringPointGetByGsrnGet(gsrnNumber?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
+    public v1WholesaleJobCreateJobPost(process?: WholesaleProcess, gridAreas?: Array<number>, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any>;
+    public v1WholesaleJobCreateJobPost(process?: WholesaleProcess, gridAreas?: Array<number>, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpResponse<any>>;
+    public v1WholesaleJobCreateJobPost(process?: WholesaleProcess, gridAreas?: Array<number>, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpEvent<any>>;
+    public v1WholesaleJobCreateJobPost(process?: WholesaleProcess, gridAreas?: Array<number>, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any> {
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
-        if (gsrnNumber !== undefined && gsrnNumber !== null) {
+        if (process !== undefined && process !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>gsrnNumber, 'gsrnNumber');
+            <any>process, 'process');
+        }
+        if (gridAreas) {
+            gridAreas.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'gridAreas');
+            })
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -109,9 +116,6 @@ export class MeteringPointHttp {
         if (localVarHttpHeaderAcceptSelected === undefined) {
             // to determine the Accept header
             const httpHeaderAccepts: string[] = [
-                'text/plain',
-                'application/json',
-                'text/json'
             ];
             localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         }
@@ -130,7 +134,8 @@ export class MeteringPointHttp {
             responseType_ = 'text';
         }
 
-        return this.httpClient.get<MeteringPointCimDto>(`${this.configuration.basePath}/v1/MeteringPoint/GetByGsrn`,
+        return this.httpClient.post<any>(`${this.configuration.basePath}/v1/WholesaleJob/CreateJob`,
+            null,
             {
                 context: localVarHttpContext,
                 params: localVarQueryParameters,
@@ -144,20 +149,20 @@ export class MeteringPointHttp {
     }
 
     /**
-     * Get metering point process overview by GSRN number.
-     * @param gsrnNumber Public identifier of a metering point.
+     * Get most recent jobs.
+     * @param maxCount Maximum number of jobs to return.
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public v1MeteringPointGetProcessesByGsrnGet(gsrnNumber?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<Array<Process>>;
-    public v1MeteringPointGetProcessesByGsrnGet(gsrnNumber?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<Array<Process>>>;
-    public v1MeteringPointGetProcessesByGsrnGet(gsrnNumber?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<Array<Process>>>;
-    public v1MeteringPointGetProcessesByGsrnGet(gsrnNumber?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
+    public v1WholesaleJobGetJobsGet(maxCount?: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<Array<WholesaleJob>>;
+    public v1WholesaleJobGetJobsGet(maxCount?: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<Array<WholesaleJob>>>;
+    public v1WholesaleJobGetJobsGet(maxCount?: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<Array<WholesaleJob>>>;
+    public v1WholesaleJobGetJobsGet(maxCount?: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
-        if (gsrnNumber !== undefined && gsrnNumber !== null) {
+        if (maxCount !== undefined && maxCount !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>gsrnNumber, 'gsrnNumber');
+            <any>maxCount, 'maxCount');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -187,7 +192,7 @@ export class MeteringPointHttp {
             responseType_ = 'text';
         }
 
-        return this.httpClient.get<Array<Process>>(`${this.configuration.basePath}/v1/MeteringPoint/GetProcessesByGsrn`,
+        return this.httpClient.get<Array<WholesaleJob>>(`${this.configuration.basePath}/v1/WholesaleJob/GetJobs`,
             {
                 context: localVarHttpContext,
                 params: localVarQueryParameters,

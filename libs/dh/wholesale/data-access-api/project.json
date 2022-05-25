@@ -1,0 +1,26 @@
+{
+  "projectType": "library",
+  "root": "libs/dh/wholesale/data-access-api",
+  "sourceRoot": "libs/dh/wholesale/data-access-api/src",
+  "prefix": "energinet-datahub",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/dh/wholesale/data-access-api"],
+      "options": {
+        "jestConfig": "libs/dh/wholesale/data-access-api/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/dh/wholesale/data-access-api/src/**/*.ts",
+          "libs/dh/wholesale/data-access-api/src/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": ["product:dh", "domain:wholesale", "type:data-access"]
+}

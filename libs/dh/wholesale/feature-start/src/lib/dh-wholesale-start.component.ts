@@ -18,13 +18,21 @@ import { Component, NgModule } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
 
 import { WattButtonModule } from '@energinet-datahub/watt';
+import { DhWholesaleJobDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
 
 @Component({
   selector: 'dh-wholesale-start',
   templateUrl: './dh-wholesale-start.component.html',
   styleUrls: ['./dh-wholesale-start.component.scss'],
+  providers: [ DhWholesaleJobDataAccessApiStore],
 })
-export class DhWholesaleStartComponent {}
+export class DhWholesaleStartComponent {
+  constructor(private store: DhWholesaleJobDataAccessApiStore) {}
+
+  createProcess() {
+    this.store.createWholesaleJob([805, 806]);
+  }
+}
 
 @NgModule({
   imports: [WattButtonModule, TranslocoModule],
