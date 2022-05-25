@@ -24,19 +24,11 @@ import { DhApiModule } from '@energinet-datahub/dh/shared/data-access-api';
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
 
 describe('Grid areas', () => {
-  async function setup(actorGridAreas: string[], gridAreas: GridAreaDto[]) {
+  async function setup(actorGridAreas: GridAreaDto[], gridAreas: GridAreaDto[]) {
     return await render(DhMarketParticipantActorGridAreasComponent, {
       componentProperties: {
-        actor: {
-          actorId: '5BC2C9E3-7D68-471E-AFBD-F48A71DD643C',
-          externalActorId: '1900EDD1-0CD8-40FF-80E1-3B64F7441E5C',
-          gln: { value: '6229600465987' },
-          gridAreas: actorGridAreas,
-          marketRoles: [],
-          meteringPointTypes: [],
-          status: 'Active',
-        },
         gridAreas: gridAreas,
+        selectedGridAreas: actorGridAreas,
       },
       imports: [
         HttpClientModule,
@@ -79,7 +71,7 @@ describe('Grid areas', () => {
 
   test('should pre-select options from actor', async () => {
     // arrange, act
-    await setup(['4FC3CA82-6EC3-4E51-881F-CA2E39261BA3'], gridAreas);
+    await setup([gridAreas[0]], gridAreas);
 
     // assert
     expect(
@@ -103,6 +95,6 @@ describe('Grid areas', () => {
     view.fixture.detectChanges();
 
     // assert
-    expect(view.fixture.componentInstance.changes.gridAreas).toHaveLength(1);
+    expect(view.fixture.componentInstance.selectedGridAreas).toHaveLength(1);
   });
 });
