@@ -24,7 +24,10 @@ import { DhApiModule } from '@energinet-datahub/dh/shared/data-access-api';
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
 
 describe('Grid areas', () => {
-  async function setup(actorGridAreas: GridAreaDto[], gridAreas: GridAreaDto[]) {
+  async function setup(
+    actorGridAreas: GridAreaDto[],
+    gridAreas: GridAreaDto[]
+  ) {
     return await render(DhMarketParticipantActorGridAreasComponent, {
       componentProperties: {
         gridAreas: gridAreas,
