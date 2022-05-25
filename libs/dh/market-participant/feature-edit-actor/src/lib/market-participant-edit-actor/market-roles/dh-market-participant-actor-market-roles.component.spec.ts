@@ -24,7 +24,7 @@ import { DhApiModule } from '@energinet-datahub/dh/shared/data-access-api';
 import { MarketRoleService } from './market-role.service';
 import { EicFunction, MarketRoleDto } from '@energinet-datahub/dh/shared/domain';
 
-describe('MarketRolesChk', () => {
+describe('MarketRolesComponent', () => {
   async function setup(marketRolesArrToTest: MarketRoleDto[]) {
     return await render(DhMarketParticipantActorMarketRolesComponent, {
       componentProperties: {
@@ -109,5 +109,24 @@ describe('MarketRolesChk', () => {
     expect(changes.marketRoles).toHaveLength(
       [elemToSelect1, elemToSelect2].length
     );
+  });
+
+  test('should render checkbox options, output', async () => {
+    // Arrange
+    const view = await setup([]);
+    await view.fixture.whenStable();
+
+    const allOptions = getAllOptions();
+    const elemToSelect1 = allOptions[0] as HTMLOptionElement;
+
+    let changedEmitted = false;
+    view.fixture.componentInstance.hasChanges.subscribe(() => changedEmitted = true)
+
+    // Act
+    userEvent.click(elemToSelect1);
+    view.fixture.detectChanges();
+
+    // Assert
+    expect(changedEmitted).toBeTruthy();
   });
 });
