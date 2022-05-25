@@ -29,6 +29,8 @@ limitations under the License.
 
 <ng-template #rangeTemplate>
   <mat-date-range-input
+    cdkOverlayOrigin
+    #trigger="cdkOverlayOrigin"
     [disabled]="disabled"
     (focusin)="onFocusIn()"
     (focusout)="onFocusOut($event)"
@@ -50,4 +52,28 @@ limitations under the License.
       spellcheck="false"
     />
   </mat-date-range-input>
+  <ng-template
+    #overlay
+    cdkConnectedOverlay
+    [cdkConnectedOverlayOrigin]="trigger"
+    [cdkConnectedOverlayOpen]="focused"
+    [cdkConnectedOverlayOffsetY]="12"
+  >
+    <div
+      id="time-slider"
+      class="pleasework"
+      tabindex="-1"
+      (focusin)="onFocusIn()"
+      (focusout)="onFocusOut($event)"
+    >
+      <label>Justér tidsrum</label>
+      <watt-slider
+        [max]="1439"
+        [min]="0"
+        [step]="15"
+        [value]="sliderValue"
+        (valueChange)="onSliderValueChange($event)"
+      ></watt-slider>
+    </div>
+  </ng-template>
 </ng-template>

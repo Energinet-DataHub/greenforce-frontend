@@ -25,6 +25,7 @@ import {
 } from '@angular/core';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { MatFormFieldControl } from '@angular/material/form-field';
+import { notifyInjectingParentIfNeeded } from '@rx-angular/cdk/template/lib/utils';
 import { Subject } from 'rxjs';
 import { WattInputMaskService } from './watt-input-mask.service';
 import { WattPickerValue } from './watt-picker-value';
@@ -341,8 +342,14 @@ export abstract class WattPickerBase
    * @ignore
    */
   onFocusOut(event: FocusEvent) {
+    const id =
+      this.elementRef.nativeElement.attributes.getNamedItem('aria-owns');
+    const overlay = id ? document.getElementById(id.value) : null;
+    const isChild = overlay?.contains(event.relatedTarget as Element);
+
     if (
-      !this.elementRef.nativeElement.contains(event.relatedTarget as Element)
+      !this.elementRef.nativeElement.contains(event.relatedTarget as Element) &&
+      !isChild
     ) {
       this.focused = false;
       this.markParentControlAsTouched();
