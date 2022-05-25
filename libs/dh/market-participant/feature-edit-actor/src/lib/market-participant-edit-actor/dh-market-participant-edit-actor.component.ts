@@ -34,7 +34,7 @@ import {
   WattValidationMessageModule,
 } from '@energinet-datahub/watt';
 import { TranslocoModule } from '@ngneat/transloco';
-import { map, } from 'rxjs';
+import { map } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
   dhMarketParticipantActorIdParam,

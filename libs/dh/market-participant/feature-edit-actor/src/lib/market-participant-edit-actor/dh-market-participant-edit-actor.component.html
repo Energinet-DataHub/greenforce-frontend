@@ -56,8 +56,11 @@ limitations under the License.
           </watt-tab>
           <watt-tab [label]="t('gridAreasHeader')">
             <div class="tab-container">
-              <dh-market-participant-actor-grid-areas [selectedGridAreas]="selectedGridAreas$ | push"
-                (hasChanges)="onGridAreasChanged($event)" [gridAreas]="gridAreas$ | push">
+              <dh-market-participant-actor-grid-areas
+                [selectedGridAreas]="selectedGridAreas$ | push"
+                (hasChanges)="onGridAreasChanged($event)"
+                [gridAreas]="gridAreas$ | push"
+              >
               </dh-market-participant-actor-grid-areas>
             </div>
           </watt-tab>
