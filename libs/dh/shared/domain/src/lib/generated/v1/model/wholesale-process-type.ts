@@ -11,9 +11,9 @@
  */
 
 
-export type WholesaleProcess = 'BalanceFixing';
+export type WholesaleProcessType = 'BalanceFixing';
 
-export const WholesaleProcess = {
-    BalanceFixing: 'BalanceFixing' as WholesaleProcess
+export const WholesaleProcessType = {
+    BalanceFixing: 'BalanceFixing' as WholesaleProcessType
 };
 

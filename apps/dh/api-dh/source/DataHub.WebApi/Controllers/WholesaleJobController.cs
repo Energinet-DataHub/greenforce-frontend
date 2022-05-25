@@ -12,11 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using NodaTime;
 
 namespace Energinet.DataHub.WebApi.Controllers
 {
@@ -24,30 +25,30 @@ namespace Energinet.DataHub.WebApi.Controllers
     [Route("v1/[controller]")]
     public class WholesaleJobController : ControllerBase
     {
-        private int _nextJobId = 51234;
-        private List<WholesaleJob> _jobs = new();
-        private IClock _clock;
-
-        public WholesaleJobController()
-        {
-            _clock = SystemClock.Instance;
-        }
+        private static int _nextJobId = 51234;
+        private static List<WholesaleJobV1Dto> _jobs = new();
 
         /// <summary>
-        /// Request a process job.
+        /// Start jobs.
+        /// A job will be started per grid area.
         /// </summary>
-        [HttpPost("CreateJob")]
-        public async Task<ActionResult> CreateProcessAsync(WholesaleProcess process, [FromQuery]List<int> gridAreas)
+        [HttpPost("StartJobs")]
+        public async Task<ActionResult> StartJobsAsync(WholesaleProcessType processType, [FromQuery]List<string> gridAreas)
         {
             await Task.CompletedTask;
-            _jobs.Add(new WholesaleJob
+            foreach (var gridArea in gridAreas)
             {
-                Id = _nextJobId++,
-                Status = WholesaleJobStatus.Requested,
-                ProcessNumberOfGridAreas = gridAreas.Count,
-                ProcessName = process,
-                RequestDateTime = _clock.GetCurrentInstant(),
-            });
+                _jobs.Add(new WholesaleJobV1Dto
+                {
+                    Id = _nextJobId++,
+                    Status = WholesaleJobStatus.Requested,
+                    ProcessGridArea = gridArea,
+                    ProcessTypeName = processType,
+                    ProcessPeriodStartDateTime = DateTimeOffset.Now.Date.AddDays(-1),
+                    ProcessPeriodEndDateTime = DateTimeOffset.Now.Date,
+                });
+            }
+
             return Accepted();
         }
 
@@ -58,27 +59,32 @@ namespace Energinet.DataHub.WebApi.Controllers
         /// <returns>A list of the most recent jobs by request time.</returns>
         /// <response code="200">Returns a list of jobs.</response>
         [HttpGet("GetJobs")]
-        public ActionResult<List<WholesaleJob>> GetJobs(int maxCount = 10)
+        public ActionResult<List<WholesaleJobV1Dto>> GetJobs(int maxCount = 100)
         {
             return Ok(_jobs.OrderByDescending(j => j.RequestDateTime).Take(maxCount));
         }
 
-        public enum WholesaleProcess
+        public enum WholesaleProcessType
         {
             BalanceFixing,
         }
 
-        public class WholesaleJob
+        public class WholesaleJobV1Dto
         {
             public int Id { get; set; }
 
-            public WholesaleProcess ProcessName { get; set; }
+            public WholesaleProcessType ProcessTypeName { get; set; }
 
-            public int ProcessNumberOfGridAreas { get; set; }
+            [MaxLength(3)]
+            public string? ProcessGridArea { get; set; }
 
             public WholesaleJobStatus Status { get; set; }
 
-            public Instant RequestDateTime { get; set; }
+            public DateTimeOffset RequestDateTime { get; set; }
+
+            public DateTimeOffset ProcessPeriodStartDateTime { get; set; }
+
+            public DateTimeOffset ProcessPeriodEndDateTime { get; set; }
         }
 
         public enum WholesaleJobStatus

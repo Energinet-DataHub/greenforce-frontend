@@ -30,7 +30,7 @@ export class DhWholesaleStartComponent {
   constructor(private store: DhWholesaleJobDataAccessApiStore) {}
 
   createProcess() {
-    this.store.createWholesaleJob([805, 806]);
+    this.store.createWholesaleJobs(["805", "806"]);
   }
 }
 

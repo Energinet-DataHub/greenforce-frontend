@@ -15,5 +15,61 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <ng-container *transloco="let transloco; read: 'wholesale'">
+
   <h1>{{ transloco("overview.header") }}</h1>
+  
+  <mat-table [dataSource]="jobs$" aria-label="jobs">
+    <!-- Job id -->
+    <ng-container matColumnDef="id">
+      <mat-header-cell *matHeaderCellDef>{{ transloco("overview.jobColumn.id") }}</mat-header-cell>
+      <mat-cell *matCellDef="let job" class="field">
+        {{job.id}}
+      </mat-cell>
+    </ng-container>
+
+    <!-- Process -->
+    <ng-container matColumnDef="process">
+      <mat-header-cell *matHeaderCellDef>{{ transloco("overview.jobColumn.processType") }}</mat-header-cell>
+      <mat-cell *matCellDef="let job" class="field">
+        {{job.processTypeName}}
+      </mat-cell>
+    </ng-container>
+    
+    <!-- Status -->
+    <ng-container matColumnDef="status">
+      <mat-header-cell *matHeaderCellDef>{{ transloco("overview.jobColumn.status") }}</mat-header-cell>
+      <mat-cell *matCellDef="let job" class="field">
+        {{job.status}}
+      </mat-cell>
+    </ng-container>
+    
+    <!-- Grid area -->
+    <ng-container matColumnDef="gridArea">
+      <mat-header-cell *matHeaderCellDef>{{ transloco("overview.jobColumn.processGridArea") }}</mat-header-cell>
+      <mat-cell *matCellDef="let job" class="field">
+        {{job.processGridArea}}
+      </mat-cell>
+    </ng-container>
+    
+    <!-- Period start -->
+    <ng-container matColumnDef="periodStart">
+      <mat-header-cell *matHeaderCellDef>{{ transloco("overview.jobColumn.processPeriodStart") }}</mat-header-cell>
+      <mat-cell *matCellDef="let job" class="field">
+        {{job.processPeriodStartDateTime | dhDate}}
+      </mat-cell>
+    </ng-container>
+    
+    <!-- Period end -->
+    <ng-container matColumnDef="periodEnd">
+      <mat-header-cell *matHeaderCellDef>{{ transloco("overview.jobColumn.processPeriodEnd") }}</mat-header-cell>
+      <mat-cell *matCellDef="let job" class="field">
+        {{job.processPeriodEndDateTime | dhDate}}
+      </mat-cell>
+    </ng-container>
+    <!-- Header and Row Declarations -->
+    <mat-header-row *matHeaderRowDef="['id','process','status','gridArea','periodStart','periodEnd']"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: ['id','process','status','gridArea','periodStart','periodEnd']"></mat-row>
+
+  </mat-table>
+
 </ng-container>

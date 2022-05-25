@@ -457,11 +457,19 @@
   "wholesale": {
     "startProcess": {
       "startLabel": "Start",
-      "header": "Start Process",
-      "processDescription": "Start a balance fixing for yesterday for grid areas 805 & 806."
+      "header": "Start Processes",
+      "processDescription": "Start balance fixings for yesterday for grid areas 805 & 806."
     },
     "overview": {
-      "header": "Process Overview"
+      "header": "Process Overview",
+      "jobColumn": {
+        "id": "Job ID",
+        "processType": "Process",
+        "status": "Status",
+        "processGridArea": "Grid Area",
+        "processPeriodStart": "Period Start",
+        "processPeriodEnd": "Period End"
+      }
     }
   }
 }

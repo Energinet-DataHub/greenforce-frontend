@@ -457,11 +457,19 @@
   "wholesale": {
     "startProcess": {
       "startLabel": "Start",
-      "header": "Start proces",
-      "processDescription": "Kør en balance fiksering for i går for netområde 805 & 806."
+      "header": "Start processer",
+      "processDescription": "Kør balancefikseringer for i går for netområde 805 & 806."
     },
     "overview": {
-      "header": "Proces oversigt"
+      "header": "Proces oversigt",
+      "jobColumn": {
+        "id": "Job ID",
+        "processType": "Proces",
+        "status": "Status",
+        "processGridArea": "Netområde",
+        "processPeriodStart": "Periode start",
+        "processPeriodEnd": "Periode slut"
+      }
     }
   }
 }

@@ -37,6 +37,6 @@ export * from './reading-occurrence';
 export * from './settlement-method';
 export * from './stream';
 export * from './unit';
-export * from './wholesale-job';
 export * from './wholesale-job-status';
-export * from './wholesale-process';
+export * from './wholesale-job-v1-dto';
+export * from './wholesale-process-type';

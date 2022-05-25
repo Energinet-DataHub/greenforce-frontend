@@ -10,15 +10,17 @@
  * Do not edit the class manually.
  */
 import { WholesaleJobStatus } from './wholesale-job-status';
-import { WholesaleProcess } from './wholesale-process';
+import { WholesaleProcessType } from './wholesale-process-type';
 
 
-export interface WholesaleJob { 
+export interface WholesaleJobV1Dto { 
     id: number;
-    processName: WholesaleProcess;
-    processNumberOfGridAreas: number;
+    processTypeName: WholesaleProcessType;
+    processGridArea?: string | null;
     status: WholesaleJobStatus;
-    requestDateTime: object;
+    requestDateTime: string;
+    processPeriodStartDateTime: string;
+    processPeriodEndDateTime: string;
 }
 
 

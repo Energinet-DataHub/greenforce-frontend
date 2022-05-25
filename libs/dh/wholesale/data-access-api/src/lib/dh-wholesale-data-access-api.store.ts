@@ -18,28 +18,45 @@ import { Injectable } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { filter, map, Observable, switchMap, tap } from 'rxjs';
 import {
+  WholesaleJobV1Dto,
   WholesaleJobHttp,
 } from '@energinet-datahub/dh/shared/domain';
 
-interface WholesaleJobState {
+interface State {
+  readonly jobs: WholesaleJobV1Dto[];
 }
 
-const initialState: WholesaleJobState = {
+const initialState: State = {
+  jobs: []
 };
 
 @Injectable()
-export class DhWholesaleJobDataAccessApiStore extends ComponentStore<WholesaleJobState> {
+export class DhWholesaleJobDataAccessApiStore extends ComponentStore<State> {
   constructor(private httpClient: WholesaleJobHttp) {
     super(initialState);
   }
 
-  readonly createWholesaleJob = this.effect(
-    (gridAreas$: Observable<Array<number>>) => {
+  readonly jobs$: Observable<WholesaleJobV1Dto[]> = this.select(state => state.jobs);
+
+  readonly createWholesaleJobs = this.effect(
+    (gridAreas$: Observable<string[]>) => {
       return gridAreas$.pipe(
         switchMap(gridAreas =>
-          this.httpClient.v1WholesaleJobCreateJobPost("BalanceFixing", gridAreas, undefined)
+          this.httpClient.v1WholesaleJobStartJobsPost("BalanceFixing", gridAreas, undefined)
         )
       )
     }
+  );
+
+  loadJobsData() {
+    var jobs = this.httpClient.v1WholesaleJobGetJobsGet(100);
+    this.updateJobsData(jobs);
+  }
+
+  private updateJobsData = this.updater(
+    (state: State, jobsData: WholesaleJobV1Dto[]): State => ({
+      ...state,
+      jobs: jobsData,
+    })
   );
 }
