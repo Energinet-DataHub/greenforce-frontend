@@ -28,6 +28,7 @@ import {
 import {
   catchError,
   EMPTY,
+  forkJoin,
   Observable,
   of,
   switchMap,
@@ -44,10 +45,6 @@ export interface ActorChanges {
 
 export interface MeteringPointTypeChanges {
   meteringPointTypes: MarketParticipantMeteringPointType[];
-}
-
-export interface GridAreaChanges {
-  gridAreas: GridAreaDto[];
 }
 
 export interface MarketRoleChanges {
@@ -67,7 +64,7 @@ export interface MarketParticipantEditActorState {
   changes: ActorChanges;
 
   meteringPointTypeChanges: MeteringPointTypeChanges;
-  gridAreaChanges: GridAreaChanges;
+  gridAreaChanges: GridAreaDto[];
   marketRoleChanges: MarketRoleChanges;
 
   // Validation
@@ -84,7 +81,7 @@ const initialState: MarketParticipantEditActorState = {
     status: ActorStatus.New,
   },
   meteringPointTypeChanges: { meteringPointTypes: [] },
-  gridAreaChanges: { gridAreas: [] },
+  gridAreaChanges: [],
   marketRoleChanges: { marketRoles: [] },
 };
 
@@ -98,6 +95,7 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
   validation$ = this.select((state) => state.validation);
   changes$ = this.select((state) => state.changes);
   gridAreas$ = this.select((state) => state.gridAreas);
+  selectedGridAreas$ = this.select((state) => state.gridAreaChanges);
 
   constructor(
     private httpClient: MarketParticipantHttp,
@@ -105,49 +103,6 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
   ) {
     super(initialState);
   }
-
-  readonly getGridAreas = this.effect((trigger$: Observable<void>) =>
-    trigger$.pipe(
-      tap(() => this.patchState({ isLoadingGridAreas: true })),
-      switchMap(() =>
-        this.gridAreaHttpClient
-          .v1MarketParticipantGridAreaGet()
-          .pipe(
-            tap((gridAreas) =>
-              this.patchState({
-                gridAreas: gridAreas.sort((a, b) =>
-                  a.code.localeCompare(b.code)
-                ),
-              })
-            )
-          )
-          .pipe(catchError(this.handleError))
-      ),
-      tap(() => this.patchState({ isLoadingGridAreas: false }))
-    )
-  );
-
-  readonly getActorAndContacts = this.effect(
-    (routeParams$: Observable<{ organizationId: string; actorId: string }>) =>
-      // contacts not implemented yet.
-      routeParams$.pipe(
-        tap(() => this.patchState({ isLoadingActor: true })),
-        switchMap((routeParams) => {
-          if (!routeParams.actorId) {
-            this.patchState({
-              isLoadingActor: false,
-              organizationId: routeParams.organizationId,
-            });
-            return EMPTY;
-          }
-          return this.getActor(
-            routeParams.organizationId,
-            routeParams.actorId
-          ).pipe(catchError(this.handleError));
-        }),
-        tap(() => this.patchState({ isLoadingActor: false }))
-      )
-  );
 
   readonly save = this.effect((onSaveCompletedFn$: Observable<() => void>) =>
     onSaveCompletedFn$.pipe(
@@ -179,6 +134,69 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
     )
   );
 
+  readonly loadInitialData = this.effect(
+    (routeParams$: Observable<{ organizationId: string; actorId: string }>) =>
+      routeParams$.pipe(
+        switchMap((x) =>
+          forkJoin({
+            gridAreas: this.getGridAreas(),
+            actorAndContacts: this.getActorAndContacts(x),
+          }).pipe(
+            tap((x) =>
+              this.patchState({
+                gridAreaChanges: x.gridAreas.filter((y) =>
+                  x.actorAndContacts.gridAreas.includes(y.id)
+                ),
+              })
+            )
+          )
+        )
+      )
+  );
+
+  readonly getGridAreas = () =>
+    of('').pipe(
+      tap(() => this.patchState({ isLoadingGridAreas: true })),
+      switchMap(() =>
+        this.gridAreaHttpClient
+          .v1MarketParticipantGridAreaGet()
+          .pipe(
+            tap((gridAreas) =>
+              this.patchState({
+                gridAreas: gridAreas.sort((a, b) =>
+                  a.code.localeCompare(b.code)
+                ),
+              })
+            )
+          )
+          .pipe(catchError(this.handleError))
+      ),
+      tap(() => this.patchState({ isLoadingGridAreas: false }))
+    );
+
+  readonly getActorAndContacts = (routeParams: {
+    organizationId: string;
+    actorId: string;
+  }) =>
+    // contacts not implemented yet.
+    of(routeParams).pipe(
+      tap(() => this.patchState({ isLoadingActor: true })),
+      switchMap((routeParams) => {
+        if (!routeParams.actorId) {
+          this.patchState({
+            isLoadingActor: false,
+            organizationId: routeParams.organizationId,
+          });
+          return EMPTY;
+        }
+        return this.getActor(
+          routeParams.organizationId,
+          routeParams.actorId
+        ).pipe(catchError(this.handleError));
+      }),
+      tap(() => this.patchState({ isLoadingActor: false }))
+    );
+
   readonly handleError = (errorResponse: HttpErrorResponse) => {
     this.patchState({
       validation: {
@@ -197,7 +215,7 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
           marketRoles: state.marketRoleChanges.marketRoles,
           meteringPointTypes: state.meteringPointTypeChanges.meteringPointTypes,
           status: state.changes.status,
-          gridAreas: state.gridAreaChanges.gridAreas.map((x) => x.id),
+          gridAreas: state.gridAreaChanges.map((x) => x.id),
         }
       );
     }
@@ -208,7 +226,7 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
         gln: { value: state.changes.gln },
         marketRoles: state.marketRoleChanges.marketRoles,
         meteringPointTypes: state.meteringPointTypeChanges.meteringPointTypes,
-        gridAreas: state.gridAreaChanges.gridAreas.map((x) => x.id),
+        gridAreas: state.gridAreaChanges.map((x) => x.id),
       }
     );
   };
@@ -240,10 +258,11 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
       meteringPointTypeChanges,
     });
 
-  readonly setGridAreaChanges = (gridAreaChanges: GridAreaChanges) =>
+  readonly setGridAreaChanges = (gridAreas: GridAreaDto[]) => {
     this.patchState({
-      gridAreaChanges,
+      gridAreaChanges: gridAreas,
     });
+  };
 
   readonly setMarketRoleChanges = (marketRoleChanges: MarketRoleChanges) =>
     this.patchState({

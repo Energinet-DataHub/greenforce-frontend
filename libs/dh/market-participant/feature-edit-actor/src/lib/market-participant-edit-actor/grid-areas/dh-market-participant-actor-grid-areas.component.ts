@@ -20,12 +20,10 @@ import {
   EventEmitter,
   Input,
   NgModule,
-  OnChanges,
   Output,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { GridAreaChanges } from '@energinet-datahub/dh/market-participant/data-access-api';
-import { ActorDto, GridAreaDto } from '@energinet-datahub/dh/shared/domain';
+import { GridAreaDto } from '@energinet-datahub/dh/shared/domain';
 import { TranslocoModule } from '@ngneat/transloco';
 import { MatListModule } from '@angular/material/list';
 
@@ -33,24 +31,13 @@ import { MatListModule } from '@angular/material/list';
   selector: 'dh-market-participant-actor-grid-areas',
   templateUrl: './dh-market-participant-actor-grid-areas.component.html',
 })
-export class DhMarketParticipantActorGridAreasComponent implements OnChanges {
+export class DhMarketParticipantActorGridAreasComponent {
   @Input() gridAreas: GridAreaDto[] = [];
-  @Input() actor: ActorDto | undefined;
-  @Output() hasChanges = new EventEmitter<GridAreaChanges>();
-  changes: GridAreaChanges = { gridAreas: [] };
-
-  ngOnChanges(): void {
-    const actor = this.actor;
-    if (actor !== undefined) {
-      this.changes = {
-        gridAreas: this.gridAreas.filter((x) => actor.gridAreas.includes(x.id)),
-      };
-      this.hasChanges.emit({ ...this.changes });
-    }
-  }
+  @Input() selectedGridAreas: GridAreaDto[] | undefined;
+  @Output() hasChanges = new EventEmitter<GridAreaDto[]>();
 
   readonly onModelChanged = () => {
-    this.hasChanges.emit({ ...this.changes });
+    this.hasChanges.emit(this.selectedGridAreas);
   };
 }
 

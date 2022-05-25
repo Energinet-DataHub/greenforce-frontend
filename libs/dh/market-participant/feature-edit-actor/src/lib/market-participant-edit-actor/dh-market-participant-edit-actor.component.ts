@@ -19,7 +19,6 @@ import { Component, NgModule } from '@angular/core';
 import {
   ActorChanges,
   DhMarketParticipantEditActorDataAccessApiStore,
-  GridAreaChanges,
   MarketRoleChanges,
   MeteringPointTypeChanges,
 } from '@energinet-datahub/dh/market-participant/data-access-api';
@@ -35,7 +34,7 @@ import {
   WattValidationMessageModule,
 } from '@energinet-datahub/watt';
 import { TranslocoModule } from '@ngneat/transloco';
-import { map } from 'rxjs';
+import { map, } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
   dhMarketParticipantActorIdParam,
@@ -43,6 +42,7 @@ import {
   dhMarketParticipantPath,
 } from '@energinet-datahub/dh/market-participant/routing';
 import { DhMarketParticipantActorGridAreasComponentScam } from './grid-areas/dh-market-participant-actor-grid-areas.component';
+import { GridAreaDto } from '@energinet-datahub/dh/shared/domain';
 
 @Component({
   selector: 'dh-market-participant-edit-actor',
@@ -62,14 +62,14 @@ export class DhMarketParticipantEditActorComponent {
   actor$ = this.store.actor$;
   validation$ = this.store.validation$;
   gridAreas$ = this.store.gridAreas$;
+  selectedGridAreas$ = this.store.selectedGridAreas$;
 
   constructor(
     private store: DhMarketParticipantEditActorDataAccessApiStore,
     private route: ActivatedRoute,
     private router: Router
   ) {
-    this.store.getGridAreas();
-    this.store.getActorAndContacts(this.routeParams$);
+    this.store.loadInitialData(this.routeParams$);
   }
 
   readonly onMasterDataChanged = (changes: ActorChanges) => {
@@ -80,7 +80,7 @@ export class DhMarketParticipantEditActorComponent {
     this.store.setMeteringPoinTypeChanges(changes);
   };
 
-  readonly onGridAreasChanged = (changes: GridAreaChanges) => {
+  readonly onGridAreasChanged = (changes: GridAreaDto[]) => {
     this.store.setGridAreaChanges(changes);
   };
 
