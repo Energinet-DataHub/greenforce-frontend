@@ -17,7 +17,9 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  ComponentFactoryResolver,
   ElementRef,
+  HostBinding,
   Optional,
   Self,
   ViewChild,
@@ -25,7 +27,16 @@ import {
 } from '@angular/core';
 import { NgControl } from '@angular/forms';
 import { MatFormFieldControl } from '@angular/material/form-field';
-import { takeUntil } from 'rxjs';
+import {
+  distinctUntilChanged,
+  map,
+  merge,
+  mergeWith,
+  Subject,
+  subscribeOn,
+  takeUntil,
+  tap,
+} from 'rxjs';
 
 import {
   WattInputMaskService,
@@ -34,6 +45,7 @@ import {
 import { WattPickerBase } from '../shared/watt-picker-base';
 import { WattRange } from '../shared/watt-range';
 import { WattRangeInputService } from '../shared/watt-range-input.service';
+import { WattSliderValue } from '../../slider/watt-slider.component';
 
 /**
  * Note: `Inputmask` package uses upper case `MM` for "minutes" and
@@ -84,7 +96,19 @@ export class WattTimepickerComponent extends WattPickerBase {
   /**
    * @ignore
    */
+  @ViewChild('overlay')
+  overlay!: ElementRef;
+
+  @HostBinding('attr.aria-owns') ariaOwns = 'time-slider';
+
+  /**
+   * @ignore
+   */
   protected _placeholder = hoursMinutesPlaceholder;
+
+  private _sliderValue = { min: 0, max: 1439 };
+
+  sliderValue$ = new Subject<WattSliderValue>();
 
   constructor(
     protected inputMaskService: WattInputMaskService,
@@ -121,19 +145,31 @@ export class WattTimepickerComponent extends WattPickerBase {
    */
   protected initRangeInput() {
     // Setup and subscribe for input changes
-    this.rangeInputService.init({
-      startInput: this.maskInput(
-        this.startInput.nativeElement,
-        (this.initialValue as WattRange | null)?.start
-      ),
-      endInput: this.maskInput(
-        this.endInput.nativeElement,
-        (this.initialValue as WattRange | null)?.end
-      ),
-    });
+    const startInput = this.maskInput(
+      this.startInput.nativeElement,
+      (this.initialValue as WattRange | null)?.start
+    );
+
+    const endInput = this.maskInput(
+      this.endInput.nativeElement,
+      (this.initialValue as WattRange | null)?.end
+    );
+
+    this.rangeInputService.init({ startInput, endInput });
+    const startMask = startInput.maskedInput.inputMask;
+    const endMask = endInput.maskedInput.inputMask;
+    const startElement = this.startInput.nativeElement;
+    const endElement = this.endInput.nativeElement;
+
+    const onSliderChanges$ = this.sliderValue$.pipe(
+      map((value) => [value.min, value.max]),
+      map((range) => range.map(this.minutesToTime)),
+      tap(() => this.inputMaskService.setInputColor(startElement, startMask)),
+      tap(() => this.inputMaskService.setInputColor(endElement, endMask))
+    );
 
     this.rangeInputService.onInputChanges$
-      ?.pipe(takeUntil(this.destroy$))
+      ?.pipe(mergeWith(onSliderChanges$), takeUntil(this.destroy$))
       .subscribe(([start, end]) => {
         this.markParentControlAsTouched();
         this.changeParentValue({ start, end });
@@ -154,5 +190,35 @@ export class WattTimepickerComponent extends WattPickerBase {
       input
     );
     return { element: input, maskedInput };
+  }
+
+  private timeToMinutes(value: string) {
+    const [hours, minutes] = value.split(':');
+    return parseInt(hours) * 60 + parseInt(minutes);
+  }
+
+  private minutesToTime(value: number) {
+    const hours = `${Math.floor(value / 60)}`;
+    const minutes = `${value % 60}`;
+    return `${hours.padStart(2, '0')}:${minutes.padStart(2, '0')}`;
+  }
+
+  get sliderValue() {
+    if (!this.value?.start || !this.value?.end) return this._sliderValue;
+    return {
+      min: this.timeToMinutes(this.value.start),
+      max: this.timeToMinutes(this.value.end),
+    };
+  }
+
+  onSliderValueChange(event: WattSliderValue) {
+    this._sliderValue = event;
+    const start = this.minutesToTime(event.min);
+    const end = this.minutesToTime(event.max);
+    this.startInput.nativeElement.value = start;
+    this.endInput.nativeElement.value = end;
+    this.sliderValue$.next(event);
+    // this.markParentControlAsTouched();
+    // this.changeParentValue({ start, end });
   }
 }

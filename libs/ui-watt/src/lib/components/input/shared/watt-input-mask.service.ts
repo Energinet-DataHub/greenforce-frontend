@@ -63,10 +63,9 @@ export class WattInputMaskService {
     this.setInputColor(element, inputMask);
 
     const onChange$ = fromEvent<InputEvent>(element, 'input').pipe(
-      tap((event: InputEvent) => {
-        this.setInputColor(event.target as HTMLInputElement, inputMask);
-      }),
-      map((event: InputEvent) => (event.target as HTMLInputElement).value),
+      map((event) => event.target as HTMLInputElement),
+      tap((element) => this.setInputColor(element, inputMask)),
+      map((element) => element.value),
       startWith(initialValue ?? ''),
       map((value) => (inputMask.isComplete() ? value : '')),
       distinctUntilChanged()
