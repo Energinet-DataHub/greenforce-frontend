@@ -23,7 +23,7 @@ import {
   MarketRoleChanges,
   MeteringPointTypeChanges,
 } from '@energinet-datahub/dh/market-participant/data-access-api';
-import { LetModule } from '@rx-angular/template/let';
+import { LetModule, PushModule } from '@rx-angular/template';
 import { DhMarketParticipantActorMasterDataComponentScam } from './master-data/dh-market-participant-actor-master-data.component';
 import { DhMarketParticipantActorMeteringPointTypeComponentScam } from './metering-point-type/dh-market-participant-actor-metering-point-type.component';
 import { DhMarketParticipantActorMarketRolesComponentScam } from './market-roles/dh-market-participant-actor-market-roles.component';
@@ -104,6 +104,7 @@ export class DhMarketParticipantEditActorComponent {
 @NgModule({
   imports: [
     LetModule,
+    PushModule,
     CommonModule,
     TranslocoModule,
     WattButtonModule,
