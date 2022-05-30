@@ -21,13 +21,13 @@ This Datahub repository relies on open source libraries and tools. We recommend 
 | `@angular/core`                      | 13.0.1         | <https://www.npmjs.com/package/@angular/core>                      | MIT        |
 | `@angular/forms`                     | 13.0.1         | <https://www.npmjs.com/package/@angular/forms>                     | MIT        |
 | `@angular/material`                  | 13.0.1         | <https://www.npmjs.com/package/@angular/material>                  | MIT        |
-| `@angular/material-date-fns-adapter` | 13.3.2         | <https://www.npmjs.com/package/@angular/material-date-fns-adapter> | MIT        |
+| `@angular/material-date-fns-adapter` | 13.3.4         | <https://www.npmjs.com/package/@angular/material-date-fns-adapter> | MIT        |
 | `@angular/platform-browser`          | 13.0.1         | <https://www.npmjs.com/package/@angular/platform-browser>          | MIT        |
 | `@angular/platform-browser-dynamic`  | 13.0.1         | <https://www.npmjs.com/package/@angular/platform-browser-dynamic>  | MIT        |
 | `@angular/router`                    | 13.0.1         | <https://www.npmjs.com/package/@angular/router>                    | MIT        |
-| `@azure/msal-angular`                | 2.0.6          | <https://www.npmjs.com/package/@azure/msal-angular>                | MIT        |
-| `@azure/msal-browser`                | 2.20.0         | <https://www.npmjs.com/package/@azure/msal-browser>                | MIT        |
-| `@ngneat/transloco`                  | 3.0.7          | <https://www.npmjs.com/package/@ngneat/transloco>                  | MIT        |
+| `@azure/msal-angular`                | 2.2.0          | <https://www.npmjs.com/package/@azure/msal-angular>                | MIT        |
+| `@azure/msal-browser`                | 2.23.0         | <https://www.npmjs.com/package/@azure/msal-browser>                | MIT        |
+| `@ngneat/transloco`                  | 3.2.0          | <https://www.npmjs.com/package/@ngneat/transloco>                  | MIT        |
 | `@ngrx/component-store`              | 13.0.2         | <https://www.npmjs.com/package/@ngrx/component-store>              | MIT        |
 | `@nrwl/angular`                      | 13.3.0         | <https://www.npmjs.com/package/@nrwl/angular>                      | MIT        |
 | `@rx-angular/cdk`                    | 1.0.0-alpha-11 | <https://www.npmjs.com/package/@rx-angular/cdk>                    | MIT        |
@@ -35,14 +35,14 @@ This Datahub repository relies on open source libraries and tools. We recommend 
 | `@vimeo/player`                      | 2.16.4         | <https://www.npmjs.com/package/@vimeo/player>                      | MIT        |
 | `chart.js`                           | 3.7.1          | <https://www.npmjs.com/package/chart.js>                           | MIT        |
 | `chartjs-plugin-datalabels`          | 2.0.0          | <https://www.npmjs.com/package/chartjs-plugin-datalabels>          | MIT        |
-| `date-fns`                           | 2.27.0         | <https://www.npmjs.com/package/date-fns>                           | MIT        |
-| `date-fns-tz`                        | 1.2.2          | <https://www.npmjs.com/package/date-fns-tz>                        | MIT        |
+| `date-fns`                           | 2.28.0         | <https://www.npmjs.com/package/date-fns>                           | MIT        |
+| `date-fns-tz`                        | 1.3.3          | <https://www.npmjs.com/package/date-fns-tz>                        | MIT        |
 | `include-media`                      | 1.4.10         | <https://www.npmjs.com/package/include-media>                      | MIT        |
 | `inputmask`                          | 5.0.7          | <https://www.npmjs.com/package/inputmask>                          | MIT        |
 | `ng2-charts`                         | 3.0.9          | <https://www.npmjs.com/package/ng2-charts>                         | ISC        |
-| `ngx-mat-select-search`              | 4.0.2          | <https://www.npmjs.com/package/ngx-mat-select-search>              | MIT        |
+| `ngx-mat-select-search`              | 4.1.1          | <https://www.npmjs.com/package/ngx-mat-select-search>              | MIT        |
 | `rxjs`                               | 7.4.0          | <https://www.npmjs.com/package/rxjs>                               | Apache-2.0 |
-| `tslib`                              | 2.0.0          | <https://www.npmjs.com/package/tslib>                              | 0BSD       |
+| `tslib`                              | 2.4.0          | <https://www.npmjs.com/package/tslib>                              | 0BSD       |
 | `zone.js`                            | 0.11.4         | <https://www.npmjs.com/package/zone.js>                            | MIT        |
 
 <br>
