@@ -348,8 +348,8 @@ jobs:
           node-version: 12.x
       # - name: Authenticate with GitHub package registry
       #   run: echo "//npm.pkg.github.com/:_authToken=${{ secrets.ACCESS_TOKEN }}" >> ~/.npmrc
-      - name: Run npm install
-        run: npm install
+      - name: Install package dependencies
+        run: yarn install --frozen-lockfile --non-interactive
       - name: Check licenses
         uses: tangro/actions-license-check@latest
         with:
