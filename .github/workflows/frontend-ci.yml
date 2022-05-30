@@ -349,12 +349,11 @@ jobs:
       - name: Install package dependencies
         run: yarn install --frozen-lockfile --non-interactive
       - name: Read .allowed-licenses.json
-        id: package
-        uses: juliangruber/read-file-action@v1
-        with:
-          path: ./.allowed-licenses.json
+        id: allowed-licenses-file
+        shell: bash
+        run: echo ::set-output name=allowed-licenses::$(cat .allowed-licenses.json | jq -r .[] | tr \\n \;)
       - name: Run license-checker
-        run: npx license-checker --production --json --onlyAllow="${{ fromJson(steps.package.outputs.content) }}"
+        run: npx license-checker --production --json --onlyAllow="${{ steps.allowed-licenses-file }}"
 
   test:
     name: Unit and integration test
