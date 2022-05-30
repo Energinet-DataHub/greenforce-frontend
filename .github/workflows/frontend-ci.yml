@@ -336,6 +336,27 @@ jobs:
         if: ${{ env.is-pull-request == 'false' }}
         run: yarn lint --max-parallel=$NX_MAX_PARALLEL
 
+  License_check:
+    name: License check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout latest code
+        uses: actions/checkout@v3
+      - name: Use Node.js 12.x
+        uses: actions/setup-node@v2.1.2
+        with:
+          node-version: 12.x
+      # - name: Authenticate with GitHub package registry
+      #   run: echo "//npm.pkg.github.com/:_authToken=${{ secrets.ACCESS_TOKEN }}" >> ~/.npmrc
+      - name: Run npm install
+        run: npm install
+      - name: Check licenses
+        uses: tangro/actions-license-check@latest
+        with:
+          allowed-licenses: 'MIT; ISC; Apache-2.0; BSD'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
   test:
     name: Unit and integration test
     needs: dh-affected
