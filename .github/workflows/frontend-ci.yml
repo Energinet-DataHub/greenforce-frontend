@@ -336,6 +336,21 @@ jobs:
         if: ${{ env.is-pull-request == 'false' }}
         run: yarn lint --max-parallel=$NX_MAX_PARALLEL
 
+  License_check:
+    name: License check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout latest code
+        uses: actions/checkout@v2
+      - name: Use Node.js ${{ env.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ env.node-version }}
+      - name: Install package dependencies
+        run: yarn install --frozen-lockfile --non-interactive
+      - name: Run license-checker
+        run: npx license-checker --production --json --onlyAllow="MIT; ISC; Apache-2.0; BSD; Python-2.0"
+
   test:
     name: Unit and integration test
     needs: dh-affected
