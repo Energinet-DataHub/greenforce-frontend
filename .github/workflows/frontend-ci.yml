@@ -346,16 +346,10 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: ${{ env.node-version }}
-      # - name: Authenticate with GitHub package registry
-      #   run: echo "//npm.pkg.github.com/:_authToken=${{ secrets.ACCESS_TOKEN }}" >> ~/.npmrc
       - name: Install package dependencies
         run: yarn install --frozen-lockfile --non-interactive
-      - name: Check licenses
-        uses: tangro/actions-license-check@latest
-        with:
-          allowed-licenses: 'MIT; ISC; Apache-2.0; BSD'
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Run license-checker
+        run: npx license-checker --production --json --onlyAllow="MIT; ISC; Apache-2.0; BSD; Python-2.0"
 
   test:
     name: Unit and integration test
