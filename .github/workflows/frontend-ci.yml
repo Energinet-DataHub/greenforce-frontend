@@ -346,14 +346,30 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: ${{ env.node-version }}
+      - name: Variable-Yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+      - name: Cache Yarn cache directory
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-node-${{ env.node-version }}-yarn-${{
+            hashFiles('yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-node-${{ env.node-version }}
+            ${{ runner.os }}
+      - name: Disable Angular Compatibility Compiler
+        uses: ./.github/actions/setup-postinstall
+        with:
+          ngcc: false
       - name: Install package dependencies
         run: yarn install --frozen-lockfile --non-interactive
       - name: Read .allowed-licenses.json
-        id: allowed-licenses-file
+        id: allowed-licenses
         shell: bash
-        run: echo ::set-output name=allowed-licenses-file::$(cat .allowed-licenses.json | jq -r .[] | tr \\n \;)
+        run: echo ::set-output name=FILE::$(cat .allowed-licenses.json | jq -r .[] | tr \\n)
       - name: Run license-checker
-        run: npx license-checker --production --json --onlyAllow="${{ steps.allowed-licenses-file }}"
+        run: npx license-checker --production --json --onlyAllow="${{ steps.allowed-licenses.outputs.FILE }}"
 
   test:
     name: Unit and integration test
