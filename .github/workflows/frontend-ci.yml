@@ -354,7 +354,7 @@ jobs:
         with:
           path: ./.allowed-licenses.json
       - name: Run license-checker
-        run: npx license-checker --production --json --onlyAllow="${{ steps.package.outputs.content }}"
+        run: npx license-checker --production --json --onlyAllow="${{ fromJson(steps.package.outputs.content) }}"
 
   test:
     name: Unit and integration test
