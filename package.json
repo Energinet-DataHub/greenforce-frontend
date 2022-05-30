@@ -79,7 +79,7 @@
     "ng2-charts": "3.0.9",
     "ngx-mat-select-search": "4.1.1",
     "rxjs": "7.4.0",
-    "tslib": "2.0.3",
+    "tslib": "2.4.0",
     "zone.js": "0.11.4"
   },
   "devDependencies": {
