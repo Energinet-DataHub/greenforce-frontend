@@ -367,7 +367,7 @@ jobs:
       - name: Read .allowed-licenses.json
         id: allowed-licenses
         shell: bash
-        run: echo ::set-output name=FILE::$(jq -r .[] .allowed-licenses.json | tr '\n' ',')
+        run: echo ::set-output name=FILE::$(jq -r .[] .allowed-licenses.json | tr '\n' ';')
       - name: Run license-checker
         run: npx license-checker --production --json --onlyAllow="${{ steps.allowed-licenses.outputs.FILE }}"
 
