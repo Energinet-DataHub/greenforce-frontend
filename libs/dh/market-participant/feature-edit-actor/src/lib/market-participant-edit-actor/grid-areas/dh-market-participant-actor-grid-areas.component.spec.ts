@@ -16,13 +16,19 @@
  */
 
 import { render, screen } from '@testing-library/angular';
+import { GridAreaDto } from '@energinet-datahub/dh/shared/domain';
+import { EventEmitter } from '@angular/core';
+import { HarnessLoader } from '@angular/cdk/testing';
+import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
+import { MatSelectionListHarness } from '@angular/material/list/testing';
 import userEvent from '@testing-library/user-event';
+import { runOnPushChangeDetection } from '@energinet-datahub/dh/shared/test-util-metering-point';
 import {
   DhMarketParticipantActorGridAreasComponent,
   DhMarketParticipantActorGridAreasComponentScam,
 } from './dh-market-participant-actor-grid-areas.component';
-import { GridAreaDto } from '@energinet-datahub/dh/shared/domain';
-import { EventEmitter } from '@angular/core';
+
+let loader: HarnessLoader;
 
 describe(DhMarketParticipantActorGridAreasComponent.name, () => {
   async function setup(
@@ -40,6 +46,10 @@ describe(DhMarketParticipantActorGridAreasComponent.name, () => {
       },
       imports: [DhMarketParticipantActorGridAreasComponentScam],
     });
+
+    loader = TestbedHarnessEnvironment.loader(view.fixture);
+
+    await runOnPushChangeDetection(view.fixture);
 
     return { view, outputFn };
   }
@@ -79,20 +89,16 @@ describe(DhMarketParticipantActorGridAreasComponent.name, () => {
     // arrange, act
     await setup([gridAreas[0]], gridAreas);
 
+    const matSelectionList = await loader.getHarness(MatSelectionListHarness);
+    const result = await matSelectionList.getItems({ selected: true });
+
     // assert
-    expect(
-      screen
-        .getAllByRole('option')
-        .filter(
-          (x) => x.attributes.getNamedItem('aria-selected')?.value == 'true'
-        )
-    ).toHaveLength(1);
+    expect(result).toHaveLength(1);
   });
 
   test('should propagate selected areas to changes', async () => {
     // arrange
-    const { view, outputFn } = await setup([], gridAreas);
-    await view.fixture.whenStable();
+    const { outputFn } = await setup([], gridAreas);
 
     const options = screen.getAllByRole('option');
 
