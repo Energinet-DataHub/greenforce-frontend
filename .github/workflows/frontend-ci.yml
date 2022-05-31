@@ -336,6 +336,41 @@ jobs:
         if: ${{ env.is-pull-request == 'false' }}
         run: yarn lint --max-parallel=$NX_MAX_PARALLEL
 
+  License_check:
+    name: Production Dependencies License Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout latest code
+        uses: actions/checkout@v2
+      - name: Use Node.js ${{ env.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ env.node-version }}
+      - name: Variable-Yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+      - name: Cache Yarn cache directory
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-node-${{ env.node-version }}-yarn-${{
+            hashFiles('yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-node-${{ env.node-version }}
+            ${{ runner.os }}
+      - name: Disable Angular Compatibility Compiler
+        uses: ./.github/actions/setup-postinstall
+        with:
+          ngcc: false
+      - name: Install package dependencies
+        run: yarn install --frozen-lockfile --non-interactive
+      - name: Read .allowed-licenses.json
+        id: allowed-licenses
+        shell: bash
+        run: echo ::set-output name=FILE::$(jq -r .[] .allowed-licenses.json | tr '\n' ';')
+      - name: Run license-checker
+        run: npx license-checker-rseidelsohn --direct --summary --production --onlyAllow="${{ steps.allowed-licenses.outputs.FILE }}"
+
   test:
     name: Unit and integration test
     needs: dh-affected
