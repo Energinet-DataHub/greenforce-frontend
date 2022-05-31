@@ -35,8 +35,8 @@ export class DhMarketParticipantActorGridAreasComponent {
   @Input() selectedGridAreas: GridAreaDto[] | undefined;
   @Output() hasChanges = new EventEmitter<GridAreaDto[]>();
 
-  readonly onModelChanged = () => {
-    this.hasChanges.emit(this.selectedGridAreas);
+  readonly onModelChanged = (gridAreas: GridAreaDto[]) => {
+    this.hasChanges.emit(gridAreas);
   };
 }
 
