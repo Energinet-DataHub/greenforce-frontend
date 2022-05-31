@@ -19,10 +19,10 @@ import { Component, NgModule } from '@angular/core';
 import {
   ActorChanges,
   DhMarketParticipantEditActorDataAccessApiStore,
-  MarketRoleChanges,
   MeteringPointTypeChanges,
 } from '@energinet-datahub/dh/market-participant/data-access-api';
 import { LetModule } from '@rx-angular/template/let';
+import { PushModule } from '@rx-angular/template';
 import { DhMarketParticipantActorMasterDataComponentScam } from './master-data/dh-market-participant-actor-master-data.component';
 import { DhMarketParticipantActorMeteringPointTypeComponentScam } from './metering-point-type/dh-market-participant-actor-metering-point-type.component';
 import { DhMarketParticipantActorMarketRolesComponentScam } from './market-roles/dh-market-participant-actor-market-roles.component';
@@ -41,6 +41,10 @@ import {
   dhMarketParticipantOrganizationIdParam,
   dhMarketParticipantPath,
 } from '@energinet-datahub/dh/market-participant/routing';
+import {
+  EicFunction,
+  MarketRoleDto,
+} from '@energinet-datahub/dh/shared/domain';
 
 @Component({
   selector: 'dh-market-participant-edit-actor',
@@ -59,6 +63,7 @@ export class DhMarketParticipantEditActorComponent {
   isEditing$ = this.store.isEditing$;
   actor$ = this.store.actor$;
   validation$ = this.store.validation$;
+  marketRolesEicFunctions$ = this.store.marketRolesEicFunctions$;
 
   constructor(
     private store: DhMarketParticipantEditActorDataAccessApiStore,
@@ -76,8 +81,10 @@ export class DhMarketParticipantEditActorComponent {
     this.store.setMeteringPoinTypeChanges(changes);
   };
 
-  readonly onMarketRoleChanged = (changes: MarketRoleChanges) => {
-    this.store.setMarketRoleChanges(changes);
+  readonly onMarketRolesEicFunctionsChange = (eicFunctions: EicFunction[]) => {
+    const marketRoles = eicFunctions.map(this.toMarketRole);
+
+    this.store.setMarketRoles(marketRoles);
   };
 
   readonly onCancelled = () => {
@@ -91,6 +98,10 @@ export class DhMarketParticipantEditActorComponent {
   private readonly backToOverview = () => {
     this.router.navigateByUrl(dhMarketParticipantPath);
   };
+
+  private toMarketRole(value: EicFunction): MarketRoleDto {
+    return { eicFunction: value };
+  }
 }
 
 @NgModule({
@@ -101,6 +112,7 @@ export class DhMarketParticipantEditActorComponent {
     WattButtonModule,
     WattTabsModule,
     WattSpinnerModule,
+    PushModule,
     DhMarketParticipantActorMasterDataComponentScam,
     DhMarketParticipantActorMeteringPointTypeComponentScam,
     DhMarketParticipantActorMarketRolesComponentScam,

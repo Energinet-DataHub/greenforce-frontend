@@ -26,6 +26,7 @@ import {
 import {
   catchError,
   EMPTY,
+  map,
   Observable,
   of,
   switchMap,
@@ -44,10 +45,6 @@ export interface MeteringPointTypeChanges {
   meteringPointTypes: MarketParticipantMeteringPointType[];
 }
 
-export interface MarketRoleChanges {
-  marketRoles: MarketRoleDto[];
-}
-
 export interface MarketParticipantEditActorState {
   isLoading: boolean;
 
@@ -60,7 +57,7 @@ export interface MarketParticipantEditActorState {
 
   meteringPointTypeChanges: MeteringPointTypeChanges;
 
-  marketRoleChanges: MarketRoleChanges;
+  marketRoles: MarketRoleDto[];
 
   // Validation
   validation?: { error: string };
@@ -73,8 +70,8 @@ const initialState: MarketParticipantEditActorState = {
     gln: '',
     status: ActorStatus.New,
   },
+  marketRoles: [],
   meteringPointTypeChanges: { meteringPointTypes: [] },
-  marketRoleChanges: { marketRoles: [] },
 };
 
 @Injectable()
@@ -84,6 +81,11 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
   actor$ = this.select((state) => state.actor);
   validation$ = this.select((state) => state.validation);
   changes$ = this.select((state) => state.changes);
+  marketRolesEicFunctions$ = this.select((state) => state.marketRoles).pipe(
+    map((marketRoles) =>
+      marketRoles.map((marketRole) => marketRole.eicFunction)
+    )
+  );
 
   constructor(private httpClient: MarketParticipantHttp) {
     super(initialState);
@@ -154,7 +156,7 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
         state.organizationId,
         state.actor.actorId,
         {
-          marketRoles: state.marketRoleChanges.marketRoles,
+          marketRoles: state.marketRoles,
           gridAreas: [],
           meteringPointTypes: state.meteringPointTypeChanges.meteringPointTypes,
           status: state.changes.status,
@@ -167,7 +169,7 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
       {
         gln: { value: state.changes.gln },
         gridAreas: [],
-        marketRoles: state.marketRoleChanges.marketRoles,
+        marketRoles: state.marketRoles,
         meteringPointTypes: state.meteringPointTypeChanges.meteringPointTypes,
       }
     );
@@ -180,12 +182,15 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
         actorId
       )
       .pipe(
-        tap((actor) =>
+        tap((actorRes) => {
           this.patchState({
             organizationId,
-            actor,
-          })
-        )
+            actor: {
+              ...actorRes,
+            },
+            marketRoles: actorRes.marketRoles,
+          });
+        })
       );
 
   readonly setMasterDataChanges = (changes: ActorChanges) =>
@@ -200,8 +205,8 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
       meteringPointTypeChanges,
     });
 
-  readonly setMarketRoleChanges = (marketRoleChanges: MarketRoleChanges) =>
+  readonly setMarketRoles = (marketRoles: MarketRoleDto[]) =>
     this.patchState({
-      marketRoleChanges,
+      marketRoles,
     });
 }
