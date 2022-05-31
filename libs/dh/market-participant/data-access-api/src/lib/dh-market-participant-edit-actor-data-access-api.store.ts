@@ -166,23 +166,19 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
   readonly getActorAndContacts = (routeParams: {
     organizationId: string;
     actorId: string;
-  }) =>
+  }) => {
     // contacts not implemented yet.
-    of(routeParams).pipe(
-      switchMap((routeParams) => {
-        if (!routeParams.actorId) {
-          this.patchState({
-            isLoading: false,
-            organizationId: routeParams.organizationId,
-          });
-          return of(undefined);
-        }
-        return this.getActor(
-          routeParams.organizationId,
-          routeParams.actorId
-        ).pipe(catchError(this.handleError));
-      })
+    if (!routeParams.actorId) {
+      this.patchState({
+        isLoading: false,
+        organizationId: routeParams.organizationId,
+      });
+      return of(undefined);
+    }
+    return this.getActor(routeParams.organizationId, routeParams.actorId).pipe(
+      catchError(this.handleError)
     );
+  };
 
   readonly handleError = (errorResponse: HttpErrorResponse) => {
     this.patchState({
