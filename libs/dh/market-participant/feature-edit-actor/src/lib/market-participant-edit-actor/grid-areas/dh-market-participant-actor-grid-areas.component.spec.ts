@@ -22,19 +22,26 @@ import {
   DhMarketParticipantActorGridAreasComponentScam,
 } from './dh-market-participant-actor-grid-areas.component';
 import { GridAreaDto } from '@energinet-datahub/dh/shared/domain';
+import { EventEmitter } from '@angular/core';
 
 describe(DhMarketParticipantActorGridAreasComponent.name, () => {
   async function setup(
     actorGridAreas: GridAreaDto[],
     gridAreas: GridAreaDto[]
   ) {
-    return await render(DhMarketParticipantActorGridAreasComponent, {
+    const outputFn = jest.fn();
+    const view = await render(DhMarketParticipantActorGridAreasComponent, {
       componentProperties: {
         gridAreas: gridAreas,
         selectedGridAreas: actorGridAreas,
+        hasChanges: { emit: outputFn } as unknown as EventEmitter<
+          GridAreaDto[]
+        >,
       },
       imports: [DhMarketParticipantActorGridAreasComponentScam],
     });
+
+    return { view, outputFn };
   }
 
   const gridAreas = [
@@ -84,13 +91,8 @@ describe(DhMarketParticipantActorGridAreasComponent.name, () => {
 
   test('should propagate selected areas to changes', async () => {
     // arrange
-    const view = await setup([], gridAreas);
+    const { view, outputFn } = await setup([], gridAreas);
     await view.fixture.whenStable();
-
-    let selectedGridAreas: GridAreaDto[] = [];
-    const subscription = view.fixture.componentInstance.hasChanges.subscribe(
-      (gridAreas) => (selectedGridAreas = gridAreas)
-    );
 
     const options = screen.getAllByRole('option');
 
@@ -98,7 +100,6 @@ describe(DhMarketParticipantActorGridAreasComponent.name, () => {
     userEvent.click(options[1]);
 
     // assert
-    expect(selectedGridAreas).toHaveLength(1);
-    subscription.unsubscribe();
+    expect(outputFn).toHaveBeenCalledWith([gridAreas[1]]);
   });
 });

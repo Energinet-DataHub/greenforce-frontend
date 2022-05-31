@@ -16,6 +16,7 @@
  */
 import { CommonModule } from '@angular/common';
 import {
+  ChangeDetectionStrategy,
   Component,
   EventEmitter,
   Input,
@@ -29,6 +30,7 @@ import { MatListModule } from '@angular/material/list';
 @Component({
   selector: 'dh-market-participant-actor-grid-areas',
   templateUrl: './dh-market-participant-actor-grid-areas.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DhMarketParticipantActorGridAreasComponent {
   @Input() gridAreas: GridAreaDto[] = [];
