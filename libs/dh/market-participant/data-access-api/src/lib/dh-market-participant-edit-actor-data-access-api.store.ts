@@ -111,8 +111,7 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
       ),
       withLatestFrom(this.state$),
       switchMap(([onSaveCompletedFn, state]) =>
-        of(state).pipe(
-          switchMap(() => this.saveActor(state)),
+        this.saveActor(state).pipe(
           tapResponse(
             () => {
               this.patchState({
@@ -137,15 +136,15 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
   readonly loadInitialData = this.effect(
     (routeParams$: Observable<{ organizationId: string; actorId: string }>) =>
       routeParams$.pipe(
-        switchMap((x) =>
+        switchMap((routeParams) =>
           forkJoin({
             gridAreas: this.getGridAreas(),
-            actorAndContacts: this.getActorAndContacts(x),
+            actorAndContacts: this.getActorAndContacts(routeParams),
           }).pipe(
-            tap((x) =>
+            tap((response) =>
               this.patchState({
-                gridAreaChanges: x.gridAreas.filter((y) =>
-                  x.actorAndContacts.gridAreas.includes(y.id)
+                gridAreaChanges: response.gridAreas.filter((y) =>
+                  response.actorAndContacts.gridAreas.includes(y.id)
                 ),
               })
             )

@@ -24,7 +24,6 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { GridAreaDto } from '@energinet-datahub/dh/shared/domain';
-import { TranslocoModule } from '@ngneat/transloco';
 import { MatListModule } from '@angular/material/list';
 
 @Component({
@@ -42,7 +41,7 @@ export class DhMarketParticipantActorGridAreasComponent {
 }
 
 @NgModule({
-  imports: [CommonModule, FormsModule, TranslocoModule, MatListModule],
+  imports: [CommonModule, FormsModule, MatListModule],
   exports: [DhMarketParticipantActorGridAreasComponent],
   declarations: [DhMarketParticipantActorGridAreasComponent],
 })

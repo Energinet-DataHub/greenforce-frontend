@@ -17,13 +17,13 @@
 
 import { render, screen } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
-import { DhMarketParticipantActorGridAreasComponent } from './dh-market-participant-actor-grid-areas.component';
+import {
+  DhMarketParticipantActorGridAreasComponent,
+  DhMarketParticipantActorGridAreasComponentScam,
+} from './dh-market-participant-actor-grid-areas.component';
 import { GridAreaDto } from '@energinet-datahub/dh/shared/domain';
-import { HttpClientModule } from '@angular/common/http';
-import { DhApiModule } from '@energinet-datahub/dh/shared/data-access-api';
-import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
 
-describe('Grid areas', () => {
+describe(DhMarketParticipantActorGridAreasComponent.name, () => {
   async function setup(
     actorGridAreas: GridAreaDto[],
     gridAreas: GridAreaDto[]
@@ -34,9 +34,7 @@ describe('Grid areas', () => {
         selectedGridAreas: actorGridAreas,
       },
       imports: [
-        HttpClientModule,
-        DhApiModule.forRoot(),
-        getTranslocoTestingModule(),
+        DhMarketParticipantActorGridAreasComponentScam,
       ],
     });
   }
@@ -91,13 +89,16 @@ describe('Grid areas', () => {
     const view = await setup([], gridAreas);
     await view.fixture.whenStable();
 
+    let selectedGridAreas: GridAreaDto[] = [];
+    const subscription = view.fixture.componentInstance.hasChanges.subscribe(gridAreas => selectedGridAreas = gridAreas)
+
     const options = screen.getAllByRole('option');
 
     // act
     userEvent.click(options[1]);
-    view.fixture.detectChanges();
 
     // assert
-    expect(view.fixture.componentInstance.selectedGridAreas).toHaveLength(1);
+    expect(selectedGridAreas).toHaveLength(1);
+    subscription.unsubscribe();
   });
 });
