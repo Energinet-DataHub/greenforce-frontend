@@ -32,7 +32,7 @@ import { MatListModule } from '@angular/material/list';
 })
 export class DhMarketParticipantActorGridAreasComponent {
   @Input() gridAreas: GridAreaDto[] = [];
-  @Input() selectedGridAreas: GridAreaDto[] | undefined;
+  @Input() selectedGridAreas: GridAreaDto[] = [];
   @Output() hasChanges = new EventEmitter<GridAreaDto[]>();
 
   readonly onModelChanged = (gridAreas: GridAreaDto[]) => {
