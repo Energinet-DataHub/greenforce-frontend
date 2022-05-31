@@ -369,7 +369,7 @@ jobs:
         shell: bash
         run: echo ::set-output name=FILE::$(jq -r .[] .allowed-licenses.json | tr '\n' ';')
       - name: Run license-checker
-        run: npx license-checker --production --json --onlyAllow="${{ steps.allowed-licenses.outputs.FILE }}"
+        run: npx license-checker-rseidelsohn --direct --summary --production --onlyAllow="${{ steps.allowed-licenses.outputs.FILE }}"
 
   test:
     name: Unit and integration test
