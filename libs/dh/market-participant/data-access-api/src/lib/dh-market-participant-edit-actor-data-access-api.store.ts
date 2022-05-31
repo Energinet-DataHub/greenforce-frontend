@@ -81,7 +81,6 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
   actor$ = this.select((state) => state.actor);
   validation$ = this.select((state) => state.validation);
   changes$ = this.select((state) => state.changes);
-  marketRoles$ = this.select((state) => state.marketRoles);
   marketRolesEicFunctions$ = this.select((state) => state.marketRoles).pipe(
     map((marketRoles) =>
       marketRoles.map((marketRole) => marketRole.eicFunction)
@@ -187,8 +186,7 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
           this.patchState({
             organizationId,
             actor: {
-              ...actorRes,
-              actorId,
+              ...actorRes
             },
             marketRoles: actorRes.marketRoles,
           });

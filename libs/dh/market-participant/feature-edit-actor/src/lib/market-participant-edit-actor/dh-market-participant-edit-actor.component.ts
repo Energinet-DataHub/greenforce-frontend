@@ -63,7 +63,6 @@ export class DhMarketParticipantEditActorComponent {
   isEditing$ = this.store.isEditing$;
   actor$ = this.store.actor$;
   validation$ = this.store.validation$;
-  marketRoles$ = this.store.marketRoles$;
   marketRolesEicFunctions$ = this.store.marketRolesEicFunctions$;
 
   constructor(
