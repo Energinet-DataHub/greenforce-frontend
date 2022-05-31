@@ -103,8 +103,10 @@ describe(DhMarketParticipantActorMarketRolesComponent.name, () => {
       new RegExp(marketRoles.GridAccessProvider, 'i')
     );
 
+    // Act
     userEvent.click(gridAccessProviderOption);
 
+    // Assert
     expect(outputFn).toHaveBeenCalledWith([EicFunction.MeterAdministrator]);
   });
 
@@ -116,15 +118,18 @@ describe(DhMarketParticipantActorMarketRolesComponent.name, () => {
       new RegExp(marketRoles.SystemOperator, 'i')
     );
 
-    expect(() => userEvent.click(systemOperatorOptionDisabled)).toThrow();
-    expect(outputFn).not.toHaveBeenCalled();
-
     const meterAdministratorOption = await screen.findByText(
       new RegExp(marketRoles.MeterAdministrator, 'i')
     );
 
+    // Act + Assert - Disabled output
+    expect(() => userEvent.click(systemOperatorOptionDisabled)).toThrow();
+    expect(outputFn).not.toHaveBeenCalled();
+
+    // Act, available click
     userEvent.click(meterAdministratorOption);
 
+    // Assert new output
     expect(outputFn).toHaveBeenCalledWith([
       EicFunction.GridAccessProvider,
       EicFunction.MeterAdministrator,
