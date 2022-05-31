@@ -16,8 +16,8 @@ limitations under the License.
 -->
 <ng-container *transloco="let t; read: 'marketParticipant.marketRoles'">
   <mat-selection-list
-    (selectionChange)="onSelectionChange()"
-    [(ngModel)]="listModel"
+    (ngModelChange)="onSelectionChange($event)"
+    [ngModel]="marketRolesEicFunctions"
   >
     <mat-list-option
       checkboxPosition="before"

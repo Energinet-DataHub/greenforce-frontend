@@ -19,7 +19,6 @@ import { Component, NgModule } from '@angular/core';
 import {
   ActorChanges,
   DhMarketParticipantEditActorDataAccessApiStore,
-  MarketRoleChanges,
   MeteringPointTypeChanges,
 } from '@energinet-datahub/dh/market-participant/data-access-api';
 import { LetModule, PushModule } from '@rx-angular/template';
@@ -42,7 +41,11 @@ import {
   dhMarketParticipantPath,
 } from '@energinet-datahub/dh/market-participant/routing';
 import { DhMarketParticipantActorGridAreasComponentScam } from './grid-areas/dh-market-participant-actor-grid-areas.component';
-import { GridAreaDto } from '@energinet-datahub/dh/shared/domain';
+import {
+  GridAreaDto,
+  EicFunction,
+  MarketRoleDto,
+} from '@energinet-datahub/dh/shared/domain';
 
 @Component({
   selector: 'dh-market-participant-edit-actor',
@@ -63,6 +66,7 @@ export class DhMarketParticipantEditActorComponent {
   validation$ = this.store.validation$;
   gridAreas$ = this.store.gridAreas$;
   selectedGridAreas$ = this.store.selectedGridAreas$;
+  marketRolesEicFunctions$ = this.store.marketRolesEicFunctions$;
 
   constructor(
     private store: DhMarketParticipantEditActorDataAccessApiStore,
@@ -84,8 +88,10 @@ export class DhMarketParticipantEditActorComponent {
     this.store.setGridAreaChanges(changes);
   };
 
-  readonly onMarketRoleChanged = (changes: MarketRoleChanges) => {
-    this.store.setMarketRoleChanges(changes);
+  readonly onMarketRolesEicFunctionsChange = (eicFunctions: EicFunction[]) => {
+    const marketRoles = eicFunctions.map(this.toMarketRole);
+
+    this.store.setMarketRoles(marketRoles);
   };
 
   readonly onCancelled = () => {
@@ -99,6 +105,10 @@ export class DhMarketParticipantEditActorComponent {
   private readonly backToOverview = () => {
     this.router.navigateByUrl(dhMarketParticipantPath);
   };
+
+  private toMarketRole(value: EicFunction): MarketRoleDto {
+    return { eicFunction: value };
+  }
 }
 
 @NgModule({
@@ -110,6 +120,7 @@ export class DhMarketParticipantEditActorComponent {
     WattButtonModule,
     WattTabsModule,
     WattSpinnerModule,
+    PushModule,
     DhMarketParticipantActorMasterDataComponentScam,
     DhMarketParticipantActorMeteringPointTypeComponentScam,
     DhMarketParticipantActorGridAreasComponentScam,
