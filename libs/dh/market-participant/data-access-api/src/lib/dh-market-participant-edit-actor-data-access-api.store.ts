@@ -186,7 +186,7 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
           this.patchState({
             organizationId,
             actor: {
-              ...actorRes
+              ...actorRes,
             },
             marketRoles: actorRes.marketRoles,
           });
