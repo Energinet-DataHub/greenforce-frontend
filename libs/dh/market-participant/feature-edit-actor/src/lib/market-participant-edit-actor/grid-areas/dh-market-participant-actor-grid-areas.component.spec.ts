@@ -33,9 +33,7 @@ describe(DhMarketParticipantActorGridAreasComponent.name, () => {
         gridAreas: gridAreas,
         selectedGridAreas: actorGridAreas,
       },
-      imports: [
-        DhMarketParticipantActorGridAreasComponentScam,
-      ],
+      imports: [DhMarketParticipantActorGridAreasComponentScam],
     });
   }
 
@@ -90,7 +88,9 @@ describe(DhMarketParticipantActorGridAreasComponent.name, () => {
     await view.fixture.whenStable();
 
     let selectedGridAreas: GridAreaDto[] = [];
-    const subscription = view.fixture.componentInstance.hasChanges.subscribe(gridAreas => selectedGridAreas = gridAreas)
+    const subscription = view.fixture.componentInstance.hasChanges.subscribe(
+      (gridAreas) => (selectedGridAreas = gridAreas)
+    );
 
     const options = screen.getAllByRole('option');
 

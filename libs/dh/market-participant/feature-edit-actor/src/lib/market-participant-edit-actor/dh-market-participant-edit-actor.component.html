@@ -46,26 +46,26 @@ limitations under the License.
             </dh-market-participant-actor-master-data>
           </watt-tab>
           <watt-tab [label]="t('meteringPointTypesHeader')">
-              <dh-market-participant-actor-metering-point-type
-                [actor]="actor"
-                (hasChanges)="onMeteringPointTypeChanged($event)"
-              >
-              </dh-market-participant-actor-metering-point-type>
+            <dh-market-participant-actor-metering-point-type
+              [actor]="actor"
+              (hasChanges)="onMeteringPointTypeChanged($event)"
+            >
+            </dh-market-participant-actor-metering-point-type>
           </watt-tab>
           <watt-tab [label]="t('gridAreasHeader')">
-              <dh-market-participant-actor-grid-areas
-                [selectedGridAreas]="selectedGridAreas$ | push"
-                (hasChanges)="onGridAreasChanged($event)"
-                [gridAreas]="gridAreas$ | push"
-              >
-              </dh-market-participant-actor-grid-areas>
+            <dh-market-participant-actor-grid-areas
+              [selectedGridAreas]="selectedGridAreas$ | push"
+              (hasChanges)="onGridAreasChanged($event)"
+              [gridAreas]="gridAreas$ | push"
+            >
+            </dh-market-participant-actor-grid-areas>
           </watt-tab>
           <watt-tab [label]="t('marketRolesHeader')">
-              <dh-market-participant-actor-market-roles
-                [actor]="actor"
-                (hasChanges)="onMarketRoleChanged($event)"
-              >
-              </dh-market-participant-actor-market-roles>
+            <dh-market-participant-actor-market-roles
+              [actor]="actor"
+              (hasChanges)="onMarketRoleChanged($event)"
+            >
+            </dh-market-participant-actor-market-roles>
           </watt-tab>
         </watt-tabs>
       </div>
