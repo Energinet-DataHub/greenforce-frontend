@@ -20,7 +20,7 @@ import {
   EoApiEnvironment,
   eoApiEnvironmentToken,
 } from '@energinet-datahub/eo/shared/environments';
-import { catchError, map, Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 
 interface EoEmissionsResponse {
   emissions: {
