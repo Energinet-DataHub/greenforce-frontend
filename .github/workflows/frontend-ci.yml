@@ -337,7 +337,7 @@ jobs:
         run: yarn lint --max-parallel=$NX_MAX_PARALLEL
 
   License_check:
-    name: License check
+    name: Production Dependencies License Check
     runs-on: ubuntu-latest
     steps:
       - name: Checkout latest code
