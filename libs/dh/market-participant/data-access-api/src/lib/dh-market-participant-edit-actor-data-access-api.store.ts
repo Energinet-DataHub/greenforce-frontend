@@ -178,19 +178,22 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
 
   private readonly getActor = (organizationId: string, actorId: string) =>
     this.httpClient
-      .v1MarketParticipantOrganizationOrgIdActorActorIdGet(organizationId, actorId)
+      .v1MarketParticipantOrganizationOrgIdActorActorIdGet(
+        organizationId,
+        actorId
+      )
       .pipe(
         tap((actorRes) => {
-        this.patchState({
-          organizationId,
-          actor: {
-            ...actorRes,
-            actorId,
-          },
-          marketRoles: actorRes.marketRoles,
-        });
-      })
-    );
+          this.patchState({
+            organizationId,
+            actor: {
+              ...actorRes,
+              actorId,
+            },
+            marketRoles: actorRes.marketRoles,
+          });
+        })
+      );
 
   readonly setMasterDataChanges = (changes: ActorChanges) =>
     this.patchState({
