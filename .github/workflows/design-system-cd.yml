@@ -24,7 +24,6 @@ env:
   is-main-branch: ${{ github.ref == 'refs/heads/main' }}
   is-pull-request: ${{ github.event_name  == 'pull_request' }}
   NODE_OPTIONS: --max-old-space-size=6144
-  node-version: 14.x
   node-version-file: .nvmrc
   NX_MAX_PARALLEL: 2
 
@@ -67,7 +66,7 @@ jobs:
         if: ${{ env.is-pull-request == 'true' }}
         run: git fetch --no-tags origin $BASE_BRANCH
 
-      - name: Set up Node.js ${{ env.node-version }}
+      - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
           node-version-file: ${{ env.node-version-file }}
@@ -80,11 +79,9 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-          key: ${{ runner.os }}-node-${{ env.node-version }}-yarn-${{
-            hashFiles('yarn.lock') }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('yarn.lock') }}
           restore-keys: |
-            ${{ runner.os }}-node-${{ env.node-version }}
-            ${{ runner.os }}
+            ${{ runner.os }}-yarn-
 
       - name: Disable workspace NGCC run
         uses: ./.github/actions/setup-postinstall
@@ -114,7 +111,7 @@ jobs:
     steps:
       - uses: actions/checkout@v1
 
-      - name: Set up Node.js ${{ env.node-version }}
+      - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
           node-version-file: ${{ env.node-version-file }}
@@ -128,11 +125,9 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-          key: ${{ runner.os }}-node-${{ env.node-version }}-yarn-${{
-            hashFiles('yarn.lock') }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('yarn.lock') }}
           restore-keys: |
-            ${{ runner.os }}-node-${{ env.node-version }}
-            ${{ runner.os }}
+            ${{ runner.os }}-yarn-
 
       - name: Install package dependencies
         run: yarn install --frozen-lockfile --non-interactive
@@ -157,7 +152,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@master
 
-      - name: Set up Node.js ${{ env.node-version }}
+      - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
           node-version-file: ${{ env.node-version-file }}
@@ -170,11 +165,9 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-          key: ${{ runner.os }}-node-${{ env.node-version }}-yarn-${{
-            hashFiles('yarn.lock') }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('yarn.lock') }}
           restore-keys: |
-            ${{ runner.os }}-node-${{ env.node-version }}
-            ${{ runner.os }}
+            ${{ runner.os }}-yarn-
 
       - name: Disable workspace NGCC run
         uses: ./.github/actions/setup-postinstall
