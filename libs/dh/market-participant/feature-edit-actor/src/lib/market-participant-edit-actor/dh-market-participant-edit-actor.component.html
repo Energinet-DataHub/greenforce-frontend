@@ -16,27 +16,26 @@ limitations under the License.
 -->
 
 <ng-container *transloco="let t; read: 'marketParticipant.actor.create'">
-  <ng-container *rxLet="validation$ as validation">
+  <ng-container *rxLet="isLoading$ as isLoading">
     <watt-validation-message
       type="danger"
-      *ngIf="validation"
+      *ngIf="validation$ | push as validation"
       [label]="t('errorToastLabel')"
       [message]="validation.error"
     ></watt-validation-message>
-  </ng-container>
 
-  <ng-container *rxLet="isEditing$ as isEditing">
-    <h1 *ngIf="isEditing">{{ t("editHeader") }}</h1>
-    <h1 *ngIf="!isEditing">{{ t("createHeader") }}</h1>
-  </ng-container>
+    <ng-container *rxLet="isEditing$ as isEditing">
+      <h1 *ngIf="isEditing">{{ t("editHeader") }}</h1>
+      <h1 *ngIf="!isEditing">{{ t("createHeader") }}</h1>
+    </ng-container>
 
-  <!-- Spinner -->
-  <ng-container *rxLet="isLoading$ as isLoading">
+    <!-- Spinner -->
     <div class="spinner-container" *ngIf="isLoading">
       <watt-spinner></watt-spinner>
     </div>
+
     <ng-container *rxLet="actor$ as actor">
-      <div [hidden]="isLoading">
+      <div class="tabs-container" [hidden]="isLoading">
         <!-- Tabs -->
         <watt-tabs class="tabs">
           <watt-tab [label]="t('masterDataTabHeader')">
@@ -53,6 +52,14 @@ limitations under the License.
             >
             </dh-market-participant-actor-metering-point-type>
           </watt-tab>
+          <watt-tab [label]="t('gridAreasHeader')">
+            <dh-market-participant-actor-grid-areas
+              [selectedGridAreas]="selectedGridAreas$ | push"
+              (hasChanges)="onGridAreasChanged($event)"
+              [gridAreas]="gridAreas$ | push"
+            >
+            </dh-market-participant-actor-grid-areas>
+          </watt-tab>
           <watt-tab [label]="t('marketRolesHeader')">
             <dh-market-participant-actor-market-roles
               [marketRolesEicFunctions]="marketRolesEicFunctions$ | push"
@@ -63,17 +70,17 @@ limitations under the License.
             </dh-market-participant-actor-market-roles>
           </watt-tab>
         </watt-tabs>
-
-        <!-- Confirmation  -->
-        <div class="button-container">
-          <watt-button variant="secondary" (click)="onCancelled()"
-            >{{ t("cancelLabel") }}
-          </watt-button>
-          <watt-button variant="primary" (click)="onSaved()">{{
-            t("saveLabel")
-          }}</watt-button>
-        </div>
       </div>
     </ng-container>
+
+    <!-- Confirmation  -->
+    <div class="button-container" [hidden]="isLoading">
+      <watt-button variant="secondary" (click)="onCancelled()"
+        >{{ t("cancelLabel") }}
+      </watt-button>
+      <watt-button variant="primary" (click)="onSaved()">{{
+        t("saveLabel")
+      }}</watt-button>
+    </div>
   </ng-container>
 </ng-container>

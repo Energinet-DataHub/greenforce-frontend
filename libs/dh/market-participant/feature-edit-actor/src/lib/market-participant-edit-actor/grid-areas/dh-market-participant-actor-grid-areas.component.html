@@ -14,18 +14,15 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<ng-container *transloco="let t; read: 'marketParticipant.marketRoles'">
-  <mat-selection-list
-    (ngModelChange)="onSelectionChange($event)"
-    [ngModel]="marketRolesEicFunctions"
+<mat-selection-list
+  (ngModelChange)="onModelChanged($event)"
+  [ngModel]="selectedGridAreas"
+>
+  <mat-list-option
+    *ngFor="let gridArea of gridAreas"
+    [value]="gridArea"
+    checkboxPosition="before"
   >
-    <mat-list-option
-      checkboxPosition="before"
-      *ngFor="let marketRole of availableMarketRoles"
-      [value]="marketRole"
-      [disabled]="invalidInCurrentSelection(marketRole)"
-    >
-      {{ t(marketRole) }}
-    </mat-list-option>
-  </mat-selection-list>
-</ng-container>
+    {{ gridArea.code }} - {{ gridArea.name }}
+  </mat-list-option>
+</mat-selection-list>
