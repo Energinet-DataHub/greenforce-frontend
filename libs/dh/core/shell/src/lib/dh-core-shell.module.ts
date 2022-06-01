@@ -44,6 +44,7 @@ import {
   DhCoreShellComponent,
   DhCoreShellScam,
 } from './dh-core-shell.component';
+import { WattDanishDatetimeModule } from '@energinet-datahub/watt';
 
 const routes: Routes = [
   {
@@ -102,6 +103,7 @@ const routes: Routes = [
     HttpClientModule,
     MsalModule,
     DhConfigurationLocalizationModule.forRoot(),
+    WattDanishDatetimeModule.forRoot(),
     RouterModule.forRoot(routes, {
       anchorScrolling: 'enabled',
       // Don't perform initial navigation in iframes or popups

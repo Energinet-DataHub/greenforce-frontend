@@ -14,14 +14,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { nonBreakingSpace } from './characters';
-
-describe('nonBreakingSpace', () => {
-  it('has the character code 160', () => {
-    expect(nonBreakingSpace.charCodeAt(0)).toBe(160);
-  });
-
-  it('is one character', () => {
-    expect(nonBreakingSpace).toHaveLength(1);
-  });
-});
+import 'jest-preset-angular/setup-jest';
