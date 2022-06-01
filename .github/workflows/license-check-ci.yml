@@ -23,6 +23,7 @@ env:
   is-pull-request: ${{ github.event_name  == 'pull_request' }}
   NODE_OPTIONS: --max_old_space_size=6144
   node-version: 14.x
+  node-version-file: .nvmrc
   NX_MAX_PARALLEL: 2
 
   # Nx Cloud
@@ -48,8 +49,10 @@ jobs:
           ref: ${{ github.head_ref }}
           ssh-key: ${{ secrets.ACTIONS_BOT_SSH_KEY }}
 
-      - name: Set up Volta
-        uses: volta-cli/action@v1
+      - name: Use Node.js ${{ env.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version-file: ${{ env.node-version-file }}
 
       - name: Variable-Yarn cache directory path
         id: yarn-cache-dir-path

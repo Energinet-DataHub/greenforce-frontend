@@ -14,6 +14,7 @@
 name: DH UI Frontend Healthchecks
 env:
   node-version: 14.x
+  node-version-file: .nvmrc
 on:
   schedule:
     - cron: '0 * * * *'
@@ -28,8 +29,10 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Set up Volta (Node.js and Yarn)
-        uses: volta-cli/action@v1
+      - name: Use Node.js ${{ env.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version-file: ${{ env.node-version-file }}
 
       - name: Variable-Yarn cache directory path
         id: yarn-cache-dir-path

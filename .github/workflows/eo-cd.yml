@@ -24,6 +24,7 @@ env:
   is-pull-request: ${{ github.event_name  == 'pull_request' }}
   NODE_OPTIONS: --max-old-space-size=6144
   node-version: 14.x
+  node-version-file: .nvmrc
   NX_MAX_PARALLEL: 2
 
   # Nx Cloud
@@ -59,7 +60,7 @@ jobs:
       - name: Use Node.js ${{ env.node-version }}
         uses: actions/setup-node@v2
         with:
-          node-version: ${{ env.node-version }}
+          node-version-file: ${{ env.node-version-file }}
 
       - name: Variable-Yarn cache directory path
         id: yarn-cache-dir-path
@@ -113,7 +114,7 @@ jobs:
       - name: Set up Node.js ${{ env.node-version }}
         uses: actions/setup-node@v2
         with:
-          node-version: ${{ env.node-version }}
+          node-version-file: ${{ env.node-version-file }}
 
       - name: Variable-Yarn cache directory path
         id: yarn-cache-dir-path
@@ -170,7 +171,7 @@ jobs:
       - name: Set up Node.js ${{ env.node-version }}
         uses: actions/setup-node@v2
         with:
-          node-version: ${{ env.node-version }}
+          node-version-file: ${{ env.node-version-file }}
 
       - name: Variable-Yarn cache directory path
         id: yarn-cache-dir-path
@@ -210,7 +211,7 @@ jobs:
       - name: Set up Node.js ${{ env.node-version }}
         uses: actions/setup-node@v2
         with:
-          node-version: ${{ env.node-version }}
+          node-version-file: ${{ env.node-version-file }}
 
       - name: Variable-Yarn cache directory path
         id: yarn-cache-dir-path
