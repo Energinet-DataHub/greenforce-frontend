@@ -54,7 +54,7 @@ describe(WattTimepickerModule.name, () => {
         WattFormFieldModule,
         BrowserAnimationsModule,
         DhConfigurationLocalizationModule.forRoot(),
-        WattDanishDatetimeModule.forRoot()
+        WattDanishDatetimeModule.forRoot(),
       ],
     });
 
