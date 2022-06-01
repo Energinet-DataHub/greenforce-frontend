@@ -21,11 +21,12 @@ import {
   ModuleWithProviders,
 } from '@angular/core';
 
-import { DanishLocaleModule } from './danish-locale/danish-locale.module';
-import { DanishDatetimeModule } from './danish-datetime/danish-datetime.module';
+import { DanishLocaleModule } from '@energinet-datahub/gf/configuration-danish-locale';
+
+import { WattDanishDatetimeModule } from '../../../configuration/danish-datetime.module';
 
 @NgModule({
-  imports: [DanishLocaleModule, DanishDatetimeModule],
+  imports: [DanishLocaleModule, WattDanishDatetimeModule.forRoot()],
 })
 export class StorybookConfigurationLocalizationRootModule {
   constructor(

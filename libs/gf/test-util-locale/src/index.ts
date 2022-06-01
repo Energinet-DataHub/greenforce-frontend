@@ -14,10 +14,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { nonBreakingSpace } from '../danish-locale/characters';
-
-const singleSpace = ' ';
-
-export function spaceToNonBreakingSpace(value: string): string {
-  return value.replace(singleSpace, nonBreakingSpace);
-}
+export * from './lib/space-to-non-breaking-space';
