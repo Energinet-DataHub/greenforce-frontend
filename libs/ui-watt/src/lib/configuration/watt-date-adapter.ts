@@ -14,9 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Inject, Optional } from "@angular/core";
-import { DateFnsAdapter } from "@angular/material-date-fns-adapter";
-import { MAT_DATE_LOCALE } from "@angular/material/core";
+import { Inject, Optional } from '@angular/core';
+import { DateFnsAdapter } from '@angular/material-date-fns-adapter';
+import { MAT_DATE_LOCALE } from '@angular/material/core';
 
 export class WattDateAdapter extends DateFnsAdapter {
   // eslint-disable-next-line @typescript-eslint/ban-types

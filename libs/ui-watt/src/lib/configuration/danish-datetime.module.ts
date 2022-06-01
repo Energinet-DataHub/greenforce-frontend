@@ -14,7 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
+import {
+  ModuleWithProviders,
+  NgModule,
+  Optional,
+  SkipSelf,
+} from '@angular/core';
 import {
   DateAdapter,
   MAT_DATE_FORMATS,
@@ -38,7 +43,7 @@ import { WattDateAdapter } from './watt-date-adapter';
       deps: [MAT_DATE_LOCALE],
     },
     { provide: MAT_DATE_FORMATS, useValue: MAT_DATE_FNS_FORMATS },
-  ]
+  ],
 })
 export class WattDanishDatetimeRootModule {
   constructor(
