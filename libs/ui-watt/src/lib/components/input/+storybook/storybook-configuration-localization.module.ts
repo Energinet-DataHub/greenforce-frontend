@@ -21,6 +21,7 @@ import {
   ModuleWithProviders,
 } from '@angular/core';
 
+// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import { DanishLocaleModule } from '@energinet-datahub/gf/configuration-danish-locale';
 
 import { WattDanishDatetimeModule } from '../../../configuration/danish-datetime.module';
