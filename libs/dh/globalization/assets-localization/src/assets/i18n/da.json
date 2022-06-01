@@ -299,6 +299,7 @@
         "meteringPointTypesHeader": "Målepunktstyper",
         "gridAreasHeader": "Netområder",
         "marketRolesHeader": "Markedsroller",
+        "contactsHeader": "Kontakter",
         "cancelLabel": "Annuller",
         "saveLabel": "Gem",
         "masterData": {
@@ -442,17 +443,17 @@
             "se": "Sverige",
             "gb": "England"
           }
-        },
-        "contacts": {
-          "category": "Kategori",
-          "name": "Navn",
-          "namePlaceholder": "Navn",
-          "email": "E-mail",
-          "emailPlaceholder": "E-mail",
-          "phone": "Telefon",
-          "phonePlaceholder": "Telefon (valgfri)"
         }
       }
+    },
+    "contacts": {
+      "category": "Kategori",
+      "name": "Navn",
+      "namePlaceholder": "Navn",
+      "email": "E-mail",
+      "emailPlaceholder": "E-mail",
+      "phone": "Telefon",
+      "phonePlaceholder": "Telefon (valgfri)"
     }
   },
   "wholesale": {
