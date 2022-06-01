@@ -399,7 +399,6 @@
         "organizationCreateHeader": "Opret organisation",
         "organizationEditHeader": "Rediger organisation",
         "masterDataTabHeader": "Stamdata",
-        "contactDataTabHeader": "Kontakter",
         "cancelLabel": "Annuller",
         "saveLabel": "Gem",
         "errorToastLabel": "Fejl",

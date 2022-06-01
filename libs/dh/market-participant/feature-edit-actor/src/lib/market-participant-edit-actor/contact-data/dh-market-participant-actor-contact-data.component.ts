@@ -29,7 +29,6 @@ import {
 import {
   ActorContactChanges,
   DhMarketParticipantEditActorDataAccessApiStore,
-  DhMarketParticipantOverviewDataAccessApiStore,
 } from '@energinet-datahub/dh/market-participant/data-access-api';
 import { TranslocoModule } from '@ngneat/transloco';
 import { MatTableModule } from '@angular/material/table';

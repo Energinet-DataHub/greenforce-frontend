@@ -35,7 +35,6 @@ limitations under the License.
     <div class="spinner-container" *ngIf="isLoading">
       <watt-spinner></watt-spinner>
     </div>
-    <ng-container *rxLet="contacts$ as contacts">
       <ng-container *rxLet="organization$ as organization">
         <div [hidden]="isLoading">
           <!-- Tabs -->
@@ -45,13 +44,6 @@ limitations under the License.
                 [organization]="organization"
                 (hasChanges)="onMasterDataChanged($event)"
               ></dh-market-participant-organization-master-data>
-            </watt-tab>
-
-            <watt-tab [label]="t('contactDataTabHeader')">
-              <dh-market-participant-organization-contact-data
-                [contacts]="contacts"
-                (contactsChanged)="onContactsChanged($event.add, $event.remove)"
-              ></dh-market-participant-organization-contact-data>
             </watt-tab>
           </watt-tabs>
 
@@ -65,7 +57,6 @@ limitations under the License.
             }}</watt-button>
           </div>
         </div>
-      </ng-container>
     </ng-container>
   </ng-container>
 </ng-container>

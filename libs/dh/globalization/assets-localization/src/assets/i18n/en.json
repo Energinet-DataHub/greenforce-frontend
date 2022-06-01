@@ -399,7 +399,6 @@
         "organizationCreateHeader": "Create organization",
         "organizationEditHeader": "Edit organization",
         "masterDataTabHeader": "Master data",
-        "contactDataTabHeader": "Contacts",
         "cancelLabel": "Cancel",
         "saveLabel": "Save",
         "errorToastLabel": "Error",
