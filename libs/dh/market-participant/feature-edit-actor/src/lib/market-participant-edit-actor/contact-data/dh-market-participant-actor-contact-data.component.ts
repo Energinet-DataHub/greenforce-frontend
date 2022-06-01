@@ -55,24 +55,22 @@ interface EditableActorContactRow {
 
 @Component({
   selector: 'dh-market-participant-actor-contact-data',
-  styleUrls: [
-    './dh-market-participant-actor-contact-data.component.scss',
-  ],
+  styleUrls: ['./dh-market-participant-actor-contact-data.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl:
-    './dh-market-participant-actor-contact-data.component.html',
+  templateUrl: './dh-market-participant-actor-contact-data.component.html',
   providers: [DhMarketParticipantEditActorDataAccessApiStore],
 })
-export class DhMarketParticipantActorContactDataComponent
-  implements OnChanges
-{
+export class DhMarketParticipantActorContactDataComponent implements OnChanges {
   @Input() contacts: ActorContactDto[] = [];
   @Output() contactsChanged = new EventEmitter<{
     add: ActorContactChanges[];
     remove: ActorContactDto[];
   }>();
 
-  constructor(private cd: ChangeDetectorRef, private store: DhMarketParticipantEditActorDataAccessApiStore) {}
+  constructor(
+    private cd: ChangeDetectorRef,
+    private store: DhMarketParticipantEditActorDataAccessApiStore
+  ) {}
 
   columnIds = ['type', 'name', 'email', 'phone', 'delete'];
 
@@ -170,8 +168,6 @@ export class DhMarketParticipantActorContactDataComponent
       changed: { category: 'Default', name: '', email: '', isValid: false },
     };
   };
-
-
 }
 
 @NgModule({

@@ -266,9 +266,7 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
     );
   };
 
-  private readonly addContacts = (
-    state: MarketParticipantEditActorState
-  ) => {
+  private readonly addContacts = (state: MarketParticipantEditActorState) => {
     const orgId = state.organizationId;
     const actorId = state.actor?.actorId;
 

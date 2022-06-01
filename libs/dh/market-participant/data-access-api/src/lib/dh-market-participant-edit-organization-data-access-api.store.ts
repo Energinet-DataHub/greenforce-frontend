@@ -101,17 +101,16 @@ export class DhMarketParticipantEditOrganizationDataAccessApiStore extends Compo
             this.patchState({ isLoading: false });
             return EMPTY;
           }
-          return this.getOrganization(organizationId)
-            .pipe(
-              catchError((errorResponse: HttpErrorResponse) => {
-                this.patchState({
-                  validation: {
-                    error: parseErrorResponse(errorResponse),
-                  },
-                });
-                return EMPTY;
-              })
-            );
+          return this.getOrganization(organizationId).pipe(
+            catchError((errorResponse: HttpErrorResponse) => {
+              this.patchState({
+                validation: {
+                  error: parseErrorResponse(errorResponse),
+                },
+              });
+              return EMPTY;
+            })
+          );
         }),
         tap(() => this.patchState({ isLoading: false }))
       )
@@ -127,8 +126,7 @@ export class DhMarketParticipantEditOrganizationDataAccessApiStore extends Compo
           tapResponse(
             (state) => {
               this.patchState({
-                isLoading:
-                  !state.organizationSaved
+                isLoading: !state.organizationSaved,
               });
               onSaveCompletedFn();
             },
