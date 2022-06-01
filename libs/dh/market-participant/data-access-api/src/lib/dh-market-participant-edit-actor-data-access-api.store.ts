@@ -267,19 +267,19 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
   };
 
   private readonly addContacts = (
-    saveProgress: MarketParticipantEditActorState
+    state: MarketParticipantEditActorState
   ) => {
-    const orgId = saveProgress.organizationId;
-    const actorId = saveProgress.actor?.actorId;
+    const orgId = state.organizationId;
+    const actorId = state.actor?.actorId;
 
     if (
-      saveProgress.addedContacts.length === 0 ||
+      state.addedContacts.length === 0 ||
       orgId === undefined ||
       actorId === undefined
     )
-      return of({ ...saveProgress, contactsAdded: true });
+      return of({ ...state, contactsAdded: true });
 
-    return from(saveProgress.addedContacts).pipe(
+    return from(state.addedContacts).pipe(
       mergeMap((contact) =>
         this.httpClient
           .v1MarketParticipantOrganizationOrgIdActorActorIdContactPost(
@@ -289,7 +289,7 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
           )
           .pipe(tap((res) => console.log(res)))
       ),
-      map(() => ({ ...saveProgress, contactsAdded: true }))
+      map(() => ({ ...state, contactsAdded: true }))
     );
   };
 
