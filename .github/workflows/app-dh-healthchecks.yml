@@ -29,7 +29,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Use Node.js ${{ env.node-version }}
+      - name: Set up Node.js ${{ env.node-version }}
         uses: actions/setup-node@v2
         with:
           node-version-file: ${{ env.node-version-file }}
