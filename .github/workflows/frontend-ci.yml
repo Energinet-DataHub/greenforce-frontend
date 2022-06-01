@@ -69,8 +69,10 @@ jobs:
         if: ${{ env.is-pull-request == 'true' }}
         run: git fetch --no-tags origin $BASE_BRANCH
 
-      - name: Set up Volta (Node.js and Yarn)
-        uses: volta-cli/action@v1
+      - name: Use Node.js ${{ env.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ env.node-version }}
 
       - name: Variable-Yarn cache directory path
         id: yarn-cache-dir-path
