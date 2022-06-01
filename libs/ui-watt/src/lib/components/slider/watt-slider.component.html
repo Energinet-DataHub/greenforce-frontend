@@ -14,19 +14,10 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<mat-date-range-input [disabled]="isDisabled">
-  <input
-    matStartDate
-    #startTime
-    [placeholder]="placeholder"
-    autocomplete="off"
-    spellcheck="false"
-  />
-  <input
-    matEndDate
-    #endTime
-    [placeholder]="placeholder"
-    autocomplete="off"
-    spellcheck="false"
-  />
-</mat-date-range-input>
+<ngx-slider
+  [value]="value.min"
+  [highValue]="value.max"
+  (valueChange)="onChange({ min: $event, max: value.max })"
+  (highValueChange)="onChange({ min: value.min, max: $event })"
+  [options]="options"
+></ngx-slider>

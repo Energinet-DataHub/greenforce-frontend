@@ -15,13 +15,14 @@
  * limitations under the License.
  */
 import { NgModule } from '@angular/core';
-import { MatDatepickerModule } from '@angular/material/datepicker';
+import { CommonModule } from '@angular/common';
+import { NgxSliderModule } from '@angular-slider/ngx-slider';
 
-import { WattTimeRangeInputComponent } from './watt-time-range-input.component';
+import { WattSliderComponent } from './watt-slider.component';
 
 @NgModule({
-  declarations: [WattTimeRangeInputComponent],
-  exports: [WattTimeRangeInputComponent],
-  imports: [MatDatepickerModule],
+  declarations: [WattSliderComponent],
+  exports: [WattSliderComponent],
+  imports: [CommonModule, NgxSliderModule],
 })
-export class WattTimeRangeInputModule {}
+export class WattSliderModule {}

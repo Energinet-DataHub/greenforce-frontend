@@ -14,14 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import 'jest-preset-angular/setup-jest';
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatInputModule } from '@angular/material/input';
 
-import {
-  setUpTestbed,
-  setUpAngularTestingLibrary,
-} from '@energinet-datahub/gf/test-util-staging';
-import { addDomMatchers } from '@energinet-datahub/gf/test-util-matchers';
+import { WattTimepickerComponent } from './watt-timepicker.component';
 
-addDomMatchers();
-setUpTestbed();
-setUpAngularTestingLibrary();
+@NgModule({
+  declarations: [WattTimepickerComponent],
+  exports: [WattTimepickerComponent],
+  imports: [MatDatepickerModule, MatInputModule, CommonModule],
+})
+export class WattTimepickerModule {}
