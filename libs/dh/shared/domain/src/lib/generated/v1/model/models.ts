@@ -1,3 +1,4 @@
+export * from './actor-contact-dto';
 export * from './actor-dto';
 export * from './actor-status';
 export * from './address-dto';
@@ -10,6 +11,7 @@ export * from './connection-state';
 export * from './connection-type';
 export * from './contact-category';
 export * from './contact-dto';
+export * from './create-actor-contact-dto';
 export * from './create-actor-dto';
 export * from './create-contact-dto';
 export * from './disconnection-type';
