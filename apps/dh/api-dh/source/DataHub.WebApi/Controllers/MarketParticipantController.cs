@@ -105,34 +105,7 @@ namespace Energinet.DataHub.WebApi.Controllers
         }
 
         /// <summary>
-        /// Gets all the contacts in an organization.
-        /// </summary>
-        [HttpGet("{orgId:guid}/contact")]
-        public Task<ActionResult<IEnumerable<ContactDto>>> GetContactsAsync(Guid orgId)
-        {
-            return HandleExceptionAsync(() => _client.GetContactsAsync(orgId));
-        }
-
-        /// <summary>
-        /// Creates a contact in an organization.
-        /// </summary>
-        [HttpPost("{orgId:guid}/contact")]
-        public Task<ActionResult<Guid>> CreateContactAsync(Guid orgId, CreateContactDto createDto)
-        {
-            return HandleExceptionAsync(() => _client.CreateContactAsync(orgId, createDto));
-        }
-
-        /// <summary>
-        /// Removes a contact from an organization.
-        /// </summary>
-        [HttpDelete("{orgId:guid}/contact/{contactId:guid}")]
-        public Task<ActionResult> DeleteContactAsync(Guid orgId, Guid contactId)
-        {
-            return HandleExceptionAsync(() => _client.DeleteContactAsync(orgId, contactId));
-        }
-
-        /// <summary>
-        /// Gets all the contacts in an organization.
+        /// Gets all the contacts for an actor.
         /// </summary>
         [HttpGet("{orgId:guid}/actor/{actorId:guid}/contact")]
         public Task<ActionResult<IEnumerable<ActorContactDto>>> GetContactsAsync(Guid orgId, Guid actorId)
@@ -141,7 +114,7 @@ namespace Energinet.DataHub.WebApi.Controllers
         }
 
         /// <summary>
-        /// Creates a contact in an organization.
+        /// Creates a contact for the actor.
         /// </summary>
         [HttpPost("{orgId:guid}/actor/{actorId:guid}/contact")]
         public Task<ActionResult<Guid>> CreateContactAsync(Guid orgId, Guid actorId, CreateActorContactDto createDto)
@@ -150,7 +123,7 @@ namespace Energinet.DataHub.WebApi.Controllers
         }
 
         /// <summary>
-        /// Removes a contact from an organization.
+        /// Removes a contact from an actor.
         /// </summary>
         [HttpDelete("{orgId:guid}/actor/{actorId:guid}/contact/{contactId:guid}")]
         public Task<ActionResult> DeleteContactAsync(Guid orgId, Guid actorId, Guid contactId)
