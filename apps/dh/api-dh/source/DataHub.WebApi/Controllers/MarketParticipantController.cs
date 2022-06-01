@@ -130,5 +130,32 @@ namespace Energinet.DataHub.WebApi.Controllers
         {
             return HandleExceptionAsync(() => _client.DeleteContactAsync(orgId, contactId));
         }
+
+        /// <summary>
+        /// Gets all the contacts in an organization.
+        /// </summary>
+        [HttpGet("{orgId:guid}/actor/{actorId:guid}/contact")]
+        public Task<ActionResult<IEnumerable<ActorContactDto>>> GetContactsAsync(Guid orgId, Guid actorId)
+        {
+            return HandleExceptionAsync(() => _client.GetContactsAsync(orgId, actorId));
+        }
+
+        /// <summary>
+        /// Creates a contact in an organization.
+        /// </summary>
+        [HttpPost("{orgId:guid}/actor/{actorId:guid}/contact")]
+        public Task<ActionResult<Guid>> CreateContactAsync(Guid orgId, Guid actorId, CreateActorContactDto createDto)
+        {
+            return HandleExceptionAsync(() => _client.CreateContactAsync(orgId, actorId, createDto));
+        }
+
+        /// <summary>
+        /// Removes a contact from an organization.
+        /// </summary>
+        [HttpDelete("{orgId:guid}/actor/{actorId:guid}/contact/{contactId:guid}")]
+        public Task<ActionResult> DeleteContactAsync(Guid orgId, Guid actorId, Guid contactId)
+        {
+            return HandleExceptionAsync(() => _client.DeleteContactAsync(orgId, actorId, contactId));
+        }
     }
 }
