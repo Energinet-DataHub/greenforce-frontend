@@ -342,6 +342,10 @@ jobs:
     steps:
       - name: Checkout latest code
         uses: actions/checkout@v2
+        with:
+          ref: ${{ github.head_ref }}
+          ssh-key: ${{ secrets.ACTIONS_BOT_SSH_KEY }}
+
       - name: Use Node.js ${{ env.node-version }}
         uses: actions/setup-node@v2
         with:

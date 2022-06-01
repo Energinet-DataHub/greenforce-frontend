@@ -1,0 +1,27 @@
+{
+  "projectType": "library",
+  "root": "libs/gf/configuration-danish-locale",
+  "sourceRoot": "libs/gf/configuration-danish-locale/src",
+  "prefix": "gf-test",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/gf/configuration-danish-locale"],
+      "options": {
+        "jestConfig": "libs/gf/configuration-danish-locale/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/gf/configuration-danish-locale/src/**/*.ts",
+          "libs/gf/configuration-danish-locale/src/**/*.html"
+        ]
+      },
+      "outputs": ["{options.outputFile}"]
+    }
+  },
+  "tags": ["product:gf", "domain:shared", "type:configuration"]
+}

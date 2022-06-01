@@ -19,8 +19,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Meta, moduleMetadata, Story } from '@storybook/angular';
 import { within, fireEvent } from '@storybook/testing-library';
 
-import { StorybookConfigurationLocalizationModule } from '../../+storybook/configuration-localization/storybook-configuration-localization.module';
-
+import { StorybookConfigurationLocalizationModule } from '../../+storybook/storybook-configuration-localization.module';
 import { WattFormFieldModule } from '../../../form-field/form-field.module';
 import { WattRangeValidators } from '../../shared/validators';
 import { WattTimepickerComponent } from '../watt-timepicker.component';
