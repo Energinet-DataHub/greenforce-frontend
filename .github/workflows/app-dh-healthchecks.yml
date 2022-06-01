@@ -28,7 +28,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Set up Volta
+      - name: Set up Volta (Node.js and Yarn)
         uses: volta-cli/action@v1
 
       - name: Variable-Yarn cache directory path
