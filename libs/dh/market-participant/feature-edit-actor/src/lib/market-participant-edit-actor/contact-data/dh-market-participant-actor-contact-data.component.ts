@@ -66,9 +66,7 @@ export class DhMarketParticipantActorContactDataComponent implements OnChanges {
     remove: ActorContactDto[];
   }>();
 
-  constructor(
-    private cd: ChangeDetectorRef
-  ) {}
+  constructor(private cd: ChangeDetectorRef) {}
 
   columnIds = ['type', 'name', 'email', 'phone', 'delete'];
 
