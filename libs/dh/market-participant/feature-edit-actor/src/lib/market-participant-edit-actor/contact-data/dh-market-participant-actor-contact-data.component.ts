@@ -58,7 +58,6 @@ interface EditableActorContactRow {
   styleUrls: ['./dh-market-participant-actor-contact-data.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './dh-market-participant-actor-contact-data.component.html',
-  providers: [DhMarketParticipantEditActorDataAccessApiStore],
 })
 export class DhMarketParticipantActorContactDataComponent implements OnChanges {
   @Input() contacts: ActorContactDto[] = [];
@@ -68,8 +67,7 @@ export class DhMarketParticipantActorContactDataComponent implements OnChanges {
   }>();
 
   constructor(
-    private cd: ChangeDetectorRef,
-    private store: DhMarketParticipantEditActorDataAccessApiStore
+    private cd: ChangeDetectorRef
   ) {}
 
   columnIds = ['type', 'name', 'email', 'phone', 'delete'];
