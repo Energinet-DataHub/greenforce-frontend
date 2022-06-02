@@ -41,7 +41,6 @@ import { dhMarketParticipantPath } from '@energinet-datahub/dh/market-participan
 import { dhMeteringPointPath } from '@energinet-datahub/dh/metering-point/routing';
 import { WattDanishDatetimeModule } from '@energinet-datahub/watt';
 
-
 import {
   DhCoreShellComponent,
   DhCoreShellScam,
