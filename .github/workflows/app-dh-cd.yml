@@ -23,7 +23,7 @@ env:
   is-main-branch: ${{ github.ref == 'refs/heads/main' }}
   is-pull-request: ${{ github.event_name  == 'pull_request' }}
   NODE_OPTIONS: --max-old-space-size=6144
-  node-version: 14.x
+  node-version-file: .nvmrc
   NX_MAX_PARALLEL: 2
 
   # Nx Cloud
@@ -56,12 +56,12 @@ jobs:
         if: ${{ env.is-pull-request == 'true' }}
         run: git fetch --no-tags origin $BASE_BRANCH
 
-      - name: Use Node.js ${{ env.node-version }}
+      - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: ${{ env.node-version }}
+          node-version-file: ${{ env.node-version-file }}
 
-      - name: Variable-Yarn cache directory path
+      - name: Get Yarn cache directory path
         id: yarn-cache-dir-path
         run: echo "::set-output name=dir::$(yarn cache dir)"
 
@@ -69,10 +69,9 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-          key: ${{ runner.os }}-node-${{ env.node-version }}-yarn-${{ hashFiles('yarn.lock') }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('yarn.lock') }}
           restore-keys: |
-            ${{ runner.os }}-node-${{ env.node-version }}
-            ${{ runner.os }}
+            ${{ runner.os }}-yarn-
 
       - name: Disable workspace NGCC run
         uses: ./.github/actions/setup-postinstall
@@ -97,12 +96,12 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Set up Node.js ${{ env.node-version }}
+      - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: ${{ env.node-version }}
+          node-version-file: ${{ env.node-version-file }}
 
-      - name: Variable-Yarn cache directory path
+      - name: Get Yarn cache directory path
         id: yarn-cache-dir-path
         run: echo "::set-output name=dir::$(yarn cache dir)"
 
@@ -110,11 +109,9 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-          key: ${{ runner.os }}-node-${{ env.node-version }}-yarn-${{
-            hashFiles('yarn.lock') }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('yarn.lock') }}
           restore-keys: |
-            ${{ runner.os }}-node-${{ env.node-version }}
-            ${{ runner.os }}
+            ${{ runner.os }}-yarn-
 
       - name: Disable workspace NGCC run
         uses: ./.github/actions/setup-postinstall
@@ -145,7 +142,7 @@ jobs:
     name: Dispatch deployment request
     runs-on: ubuntu-latest
     env:
-      RELEASE_VERSION: app_dh_${{ github.run_id }}
+      RELEASE_VERSION: app_dh_${{ github.run_id }}
       EVENT_TYPE: 'greenforce-frontend-app-deployment-request'
     steps:
       - name: Download artifact
