@@ -43,14 +43,14 @@ import { EoEmissionsService } from './eo-emissions.service';
     <mat-card>
       <h4>Your emissions in 2021</h4>
       <div class="output watt-space-stack-m">
-        <h1>{{ ((emissions$ | async)?.total?.co2 || 0) / 1000 }} kg</h1>
+        <h1>{{ ((totalCO2$ | async) || 0) / 1000 }} kg</h1>
         <h3>CO<sub>2</sub></h3>
       </div>
     </mat-card>
   `,
 })
 export class EoEmissionsPageInfoComponent {
-  emissions$ = this.eoEmissionsService.getEmissions();
+  totalCO2$ = this.eoEmissionsService.getCO2Total();
 
   constructor(private eoEmissionsService: EoEmissionsService) {}
 }
