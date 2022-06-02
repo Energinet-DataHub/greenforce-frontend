@@ -14,18 +14,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgModule } from '@angular/core';
+import {
+  ModuleWithProviders,
+  NgModule,
+  Optional,
+  SkipSelf,
+} from '@angular/core';
 import {
   DateAdapter,
   MAT_DATE_FORMATS,
   MAT_DATE_LOCALE,
 } from '@angular/material/core';
 import {
-  DateFnsAdapter,
   MatDateFnsModule,
   MAT_DATE_FNS_FORMATS,
 } from '@angular/material-date-fns-adapter';
 import * as daLocale from 'date-fns/locale/da/index.js';
+
+import { WattDateAdapter } from './watt-date-adapter';
 
 @NgModule({
   imports: [MatDateFnsModule],
@@ -33,10 +39,43 @@ import * as daLocale from 'date-fns/locale/da/index.js';
     { provide: MAT_DATE_LOCALE, useValue: daLocale },
     {
       provide: DateAdapter,
-      useClass: DateFnsAdapter,
+      useClass: WattDateAdapter,
       deps: [MAT_DATE_LOCALE],
     },
     { provide: MAT_DATE_FORMATS, useValue: MAT_DATE_FNS_FORMATS },
   ],
 })
-export class DanishDatetimeModule {}
+export class WattDanishDatetimeRootModule {
+  constructor(
+    @Optional()
+    @SkipSelf()
+    maybeNgModuleFromParentInjector?: WattDanishDatetimeRootModule
+  ) {
+    if (maybeNgModuleFromParentInjector) {
+      throw new Error(
+        'WattDanishDatetimeRootModule.forRoot registered in multiple injectors. Only call it from the core feature shell module or in the Angular testing module.'
+      );
+    }
+  }
+}
+
+/**
+ * Do not import directly. Use `StorybookConfigurationLocalization.forRoot`.
+ */
+@NgModule()
+export class WattDanishDatetimeModule {
+  /**
+   * Registers root-level HTTP dependencies.
+   */
+  static forRoot(): ModuleWithProviders<WattDanishDatetimeModule> {
+    return {
+      ngModule: WattDanishDatetimeRootModule,
+    };
+  }
+
+  constructor() {
+    throw new Error(
+      'Do not import WattDanishDatetimeModule directly. Use WattDanishDatetimeModule.forRoot.'
+    );
+  }
+}
