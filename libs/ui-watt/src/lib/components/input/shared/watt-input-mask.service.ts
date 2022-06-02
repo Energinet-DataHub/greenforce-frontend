@@ -20,8 +20,10 @@ import {
   distinctUntilChanged,
   fromEvent,
   map,
+  mergeWith,
   Observable,
   startWith,
+  Subject,
   tap,
 } from 'rxjs';
 
@@ -30,6 +32,7 @@ import { WattColor } from '../../../foundations/color/colors';
 export interface WattMaskedInput {
   inputMask: Inputmask.Instance;
   onChange$: Observable<string>;
+  update: (value: string) => void;
 }
 
 @Injectable()
@@ -54,24 +57,30 @@ export class WattInputMaskService {
       insertModeVisual: true,
       clearMaskOnLostFocus: false,
       onBeforePaste,
-      onincomplete: () => {
-        this.setInputColor(element, inputMask);
-      },
+      onincomplete: () => this.setInputColor(element, inputMask),
       clearIncomplete: true,
     }).mask(element);
 
     this.setInputColor(element, inputMask);
 
-    const onChange$ = fromEvent<InputEvent>(element, 'input').pipe(
-      map((event) => event.target as HTMLInputElement),
-      tap((element) => this.setInputColor(element, inputMask)),
-      map((element) => element.value),
+    // Used for manually updating the input value
+    const valueSubject = new Subject<string>();
+
+    const onChange$ = valueSubject.pipe(
+      tap((value) => (element.value = value)),
+      mergeWith(fromEvent<InputEvent>(element, 'input')),
+      tap(() => this.setInputColor(element, inputMask)),
+      map(() => element.value),
       startWith(initialValue ?? ''),
       map((value) => (inputMask.isComplete() ? value : '')),
       distinctUntilChanged()
     );
 
-    return { inputMask, onChange$ };
+    return {
+      inputMask,
+      onChange$,
+      update: (value: string) => valueSubject.next(value),
+    };
   }
 
   setInputColor(inputElement: HTMLInputElement, inputMask: Inputmask.Instance) {
