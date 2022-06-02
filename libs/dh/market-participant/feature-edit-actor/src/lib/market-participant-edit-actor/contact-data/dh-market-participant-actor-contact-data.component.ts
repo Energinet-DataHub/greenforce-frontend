@@ -28,7 +28,6 @@ import {
 } from '@angular/core';
 import {
   ActorContactChanges,
-  DhMarketParticipantEditActorDataAccessApiStore,
 } from '@energinet-datahub/dh/market-participant/data-access-api';
 import { TranslocoModule } from '@ngneat/transloco';
 import { MatTableModule } from '@angular/material/table';
@@ -92,7 +91,6 @@ export class DhMarketParticipantActorContactDataComponent implements OnChanges {
           isNewPlaceholder: false,
           contact: contact,
           changed: {
-            isValid: true,
             category: contact.category,
             name: contact.name,
             email: contact.email,
@@ -161,7 +159,7 @@ export class DhMarketParticipantActorContactDataComponent implements OnChanges {
       isModified: false,
       isNewPlaceholder: true,
       contact: { category: 'Default', name: '', email: '', contactId: '' },
-      changed: { category: 'Default', name: '', email: '', isValid: false },
+      changed: { category: 'Default', name: '', email: '' },
     };
   };
 }

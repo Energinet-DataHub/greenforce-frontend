@@ -32,9 +32,7 @@ import {
   catchError,
   EMPTY,
   forkJoin,
-  from,
   map,
-  mergeMap,
   Observable,
   of,
   switchMap,
@@ -54,7 +52,6 @@ export interface MeteringPointTypeChanges {
 }
 
 export interface ActorContactChanges {
-  isValid: boolean;
   category?: ContactCategory;
   name?: string;
   email?: string;
@@ -254,16 +251,15 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
       return of({ ...state, contactsRemoved: true });
     }
 
-    return from(state.removedContacts).pipe(
-      mergeMap((contact) =>
+    return forkJoin(
+      state.removedContacts.map((contact) =>
         this.httpClient.v1MarketParticipantOrganizationOrgIdActorActorIdContactContactIdDelete(
           orgId,
           actorId,
           contact.contactId
         )
-      ),
-      map(() => ({ ...state, contactsRemoved: true }))
-    );
+      )
+    ).pipe(map(() => ({ ...state, contactsRemoved: true })));
   };
 
   private readonly addContacts = (state: MarketParticipantEditActorState) => {
@@ -277,18 +273,15 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
     )
       return of({ ...state, contactsAdded: true });
 
-    return from(state.addedContacts).pipe(
-      mergeMap((contact) =>
-        this.httpClient
-          .v1MarketParticipantOrganizationOrgIdActorActorIdContactPost(
-            orgId,
-            actorId,
-            contact as CreateActorContactDto
-          )
-          .pipe(tap((res) => console.log(res)))
-      ),
-      map(() => ({ ...state, contactsAdded: true }))
-    );
+    return forkJoin(
+      state.addedContacts.map((c) =>
+        this.httpClient.v1MarketParticipantOrganizationOrgIdActorActorIdContactPost(
+          orgId,
+          actorId,
+          c as CreateActorContactDto
+        )
+      )
+    ).pipe(map(() => ({ ...state, contactsAdded: true })));
   };
 
   readonly handleError = (errorResponse: HttpErrorResponse) => {
