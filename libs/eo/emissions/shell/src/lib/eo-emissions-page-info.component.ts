@@ -18,7 +18,7 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { WattButtonModule } from '@energinet-datahub/watt';
-import { EoEmissionsStore } from './eo-emissions.store';
+import { EoEmissionsService } from './eo-emissions.service';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -33,7 +33,7 @@ import { EoEmissionsStore } from './eo-emissions.store';
 
         .output {
           display: flex;
-          align-items: end;
+          align-items: flex-end;
           gap: 12px;
         }
       }
@@ -43,17 +43,16 @@ import { EoEmissionsStore } from './eo-emissions.store';
     <mat-card>
       <h4>Your emissions in 2021</h4>
       <div class="output watt-space-stack-m">
-        <h1>{{ (emissions$ | async)?.totalEmissions || '0' }} kg</h1>
+        <h1>{{ ((emissions$ | async)?.total?.co2 || 0) / 1000 }} kg</h1>
         <h3>CO<sub>2</sub></h3>
       </div>
     </mat-card>
   `,
-  viewProviders: [EoEmissionsStore],
 })
 export class EoEmissionsPageInfoComponent {
-  emissions$ = this.emissionsStore.emissions$;
+  emissions$ = this.eoEmissionsService.getEmissions();
 
-  constructor(private emissionsStore: EoEmissionsStore) {}
+  constructor(private eoEmissionsService: EoEmissionsService) {}
 }
 
 @NgModule({
