@@ -21,6 +21,8 @@ $input-height-normal: 44px;
 $input-height-large: 56px;
 
 watt-timepicker {
+  display: flex;
+  align-items: center;
   font-family: watt.$typography-monospace-font-family;
 
   input.mat-date-range-input-inner,
@@ -61,6 +63,10 @@ watt-timepicker {
     .mat-date-range-input-inner::-webkit-input-placeholder {
     color: $placeholder-color !important;
     -webkit-text-fill-color: $placeholder-color;
+  }
+
+  .watt-timepicker-slider-toggle {
+    color: var(--watt-color-primary);
   }
 }
 
