@@ -101,7 +101,9 @@ export class EoLandingPageShellComponent {
   }
   cookiesSet: string | null = null;
 
-  constructor(private presenter: EoLandingPagePresenter) {}
+  constructor(private presenter: EoLandingPagePresenter) {
+    this.getBannerStatus();
+  }
 
   getBannerStatus() {
     this.cookiesSet = localStorage.getItem('cookiesAccepted');
