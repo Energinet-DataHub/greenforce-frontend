@@ -33,12 +33,18 @@ import { DateAdapter, WattDateAdapter } from '@energinet-datahub/watt';
 })
 export class DhLanguagePickerComponent {
   activeLanguage$: Observable<DisplayLanguage> =
-    this.transloco.langChanges$.pipe(map(toDisplayLanguage), tap((language) => {
-      (this.dateAdapter as WattDateAdapter).setActiveLocale(language);
-    }));
+    this.transloco.langChanges$.pipe(
+      map(toDisplayLanguage),
+      tap((language) => {
+        (this.dateAdapter as WattDateAdapter).setActiveLocale(language);
+      })
+    );
   displayLanguages = displayLanguages;
 
-  constructor(private transloco: TranslocoService, private dateAdapter: DateAdapter<unknown>) {}
+  constructor(
+    private transloco: TranslocoService,
+    private dateAdapter: DateAdapter<unknown>
+  ) {}
 
   onLanguageSelect(language: DisplayLanguage): void {
     this.transloco.setActiveLang(language);
