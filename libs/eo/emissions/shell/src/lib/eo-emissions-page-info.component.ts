@@ -15,13 +15,12 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
+import { Component, NgModule } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { WattButtonModule } from '@energinet-datahub/watt';
 import { EoEmissionsService } from './eo-emissions.service';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'eo-emissions-page-info',
   styles: [
     `
