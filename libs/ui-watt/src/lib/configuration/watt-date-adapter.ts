@@ -17,11 +17,17 @@
 import { Inject, Optional } from '@angular/core';
 import { DateFnsAdapter } from '@angular/material-date-fns-adapter';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
+import * as daLocale from 'date-fns/locale/da/index.js';
+import * as enLocale from 'date-fns/locale/en-GB/index.js';
 
 export class WattDateAdapter extends DateFnsAdapter {
   // eslint-disable-next-line @typescript-eslint/ban-types
   constructor(@Optional() @Inject(MAT_DATE_LOCALE) matDateLocale: {}) {
     super(matDateLocale);
+  }
+
+  setActiveLocale(language: 'da' | 'en'): void {
+    this.setLocale((language === 'da' ? daLocale : enLocale) as Locale);
   }
 
   /**
