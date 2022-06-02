@@ -18,14 +18,13 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { eoPrivacyPolicyRoutePath } from '@energinet-datahub/eo/privacy-policy/routing';
+import { EoCookieBannerComponentScam } from '@energinet-datahub/eo/shared/atomic-design/feature-molecules';
 import { EoProductLogoScam } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 import { EoFooterScam } from '@energinet-datahub/eo/shared/atomic-design/ui-organisms';
 import { EoTitleStore } from '@energinet-datahub/eo/shared/util-browser';
 import { WattShellModule } from '@energinet-datahub/watt';
 import { PushModule } from '@rx-angular/template';
 import { Observable } from 'rxjs';
-import { EoCookieBannerComponentScam } from './eo-cookie-banner.component';
-
 import { EoPrimaryNavigationScam } from './eo-primary-navigation.component';
 
 @Component({

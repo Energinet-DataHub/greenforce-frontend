@@ -25,7 +25,7 @@ import { WattButtonModule } from '@energinet-datahub/watt';
   template: `
     <div class="banner">
       <mat-card>
-        <h1>This website uses cookies</h1>
+        <h1>No cookies, no energy</h1>
         <p>
           Some are used for statistics and others are set by third party
           services.
@@ -73,7 +73,7 @@ import { WattButtonModule } from '@energinet-datahub/watt';
       }
 
       .banner {
-        position: absolute;
+        position: fixed;
         z-index: 100;
         top: 50%;
         left: 50%;
