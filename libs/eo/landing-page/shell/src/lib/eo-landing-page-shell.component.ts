@@ -14,12 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   HostBinding,
   NgModule,
 } from '@angular/core';
+import { EoCookieBannerComponentScam } from '@energinet-datahub/eo/shared/atomic-design/feature-molecules';
 import { EoFooterScam } from '@energinet-datahub/eo/shared/atomic-design/ui-organisms';
 import { EoLandingPageCallToActionScam } from './eo-landing-page-call-to-action.component';
 import { EoLandingPageCompanyScam } from './eo-landing-page-company.component';
@@ -60,6 +62,10 @@ import { EoLandingPageAudienceScam } from './eo-landinge-page-audience.component
     `,
   ],
   template: `
+    <eo-cookie-banner
+      *ngIf="!cookiesSet"
+      (accepted)="getBannerStatus()"
+    ></eo-cookie-banner>
     <eo-landing-page-header></eo-landing-page-header>
 
     <div class="u-positioning-context">
@@ -93,8 +99,13 @@ export class EoLandingPageShellComponent {
   get cssPropertyContentMaxWidth(): string {
     return `${this.presenter.contentMaxWidthPixels}px`;
   }
+  cookiesSet: string | null = null;
 
   constructor(private presenter: EoLandingPagePresenter) {}
+
+  getBannerStatus() {
+    this.cookiesSet = localStorage.getItem('cookiesAccepted');
+  }
 }
 
 @NgModule({
@@ -109,6 +120,8 @@ export class EoLandingPageShellComponent {
     EoLandingPageIntroductionScam,
     EoLandingPageNotificationScam,
     EoLandingPageOriginOfEnergyScam,
+    EoCookieBannerComponentScam,
+    CommonModule,
   ],
 })
 export class EoLandingPageShellScam {}
