@@ -36,5 +36,6 @@ export * from './lib/components/slider';
 export * from './lib/components/spinner';
 export * from './lib/components/tabs';
 export * from './lib/components/validation-message';
+export * from './lib/configuration/danish-datetime.module';
 export * from './lib/foundations/breakpoints';
 export * from './lib/foundations/icon';
