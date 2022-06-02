@@ -23,7 +23,7 @@ import {
 } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { WattSpinnerModule } from '@energinet-datahub/watt';
-import { finalize, first, tap, timeInterval } from 'rxjs';
+import { finalize, first, tap } from 'rxjs';
 import { EoEmissionsService } from './eo-emissions.service';
 
 @Component({
