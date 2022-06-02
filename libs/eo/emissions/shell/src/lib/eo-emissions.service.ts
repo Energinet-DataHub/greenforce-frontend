@@ -23,12 +23,18 @@ import {
 import { map, Observable } from 'rxjs';
 
 interface EoEmissionsResponse {
-  emissions: {
-    dataFrom: number;
-    dateTo: number;
-    total: { co2: number };
-    relative: { co2: number };
-  };
+  emissions: [
+    {
+      dataFrom: number;
+      dateTo: number;
+      total: {
+        co2: number; //grams
+      };
+      relative: {
+        co2: number; //grams
+      };
+    }
+  ];
 }
 
 export interface EoEmissions {
@@ -49,10 +55,10 @@ export class EoEmissionsService {
       .get<EoEmissionsResponse>(
         `${
           this.#apiBase
-        }/emissions?dateFrom=1609455600&dateTo=1640991599&aggregation=TOTAL`,
+        }/emissions?dateFrom=1609455600&dateTo=1640991599&aggregation=Total`,
         { withCredentials: true }
       )
-      .pipe(map((response) => response.emissions));
+      .pipe(map((response) => response.emissions[0]));
   }
 
   constructor(
