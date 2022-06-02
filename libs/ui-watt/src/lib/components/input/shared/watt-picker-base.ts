@@ -25,7 +25,6 @@ import {
 } from '@angular/core';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { MatFormFieldControl } from '@angular/material/form-field';
-import { notifyInjectingParentIfNeeded } from '@rx-angular/cdk/template/lib/utils';
 import { Subject } from 'rxjs';
 import { WattInputMaskService } from './watt-input-mask.service';
 import { WattPickerValue } from './watt-picker-value';
