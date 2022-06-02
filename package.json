@@ -4,7 +4,7 @@
   "license": "MIT",
   "//engines-comment": "Keep this in sync with .nvmrc, and volta config in current package.json",
   "engines": {
-    "node": "14.19.2",
+    "node": "16.15.1",
     "npm": "Please use Yarn v1 instead of npm to install dependencies",
     "yarn": "1.22.18"
   },
@@ -123,7 +123,7 @@
     "@types/inputmask": "5.0.3",
     "@types/jest": "27.0.2",
     "@types/jest-dev-server": "5.0.0",
-    "@types/node": "14.14.33",
+    "@types/node": "16.11.38",
     "@types/vimeo__player": "2.16.2",
     "@typescript-eslint/eslint-plugin": "5.3.1",
     "@typescript-eslint/parser": "5.3.1",
@@ -159,7 +159,7 @@
   },
   "volta": {
     "//node-comment": "Keep this in sync with engines in current package.json",
-    "node": "14.19.2",
+    "node": "16.15.1",
     "yarn": "1.22.18"
   }
 }

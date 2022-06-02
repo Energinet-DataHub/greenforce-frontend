@@ -22,7 +22,7 @@ env:
   is-main-branch: ${{ github.ref == 'refs/heads/main' }}
   is-pull-request: ${{ github.event_name  == 'pull_request' }}
   NODE_OPTIONS: --max_old_space_size=6144
-  node-version: 14.x
+  node-version-file: .nvmrc
   NX_MAX_PARALLEL: 2
 
   # Nx Cloud
@@ -69,23 +69,23 @@ jobs:
         if: ${{ env.is-pull-request == 'true' }}
         run: git fetch --no-tags origin $BASE_BRANCH
 
-      - name: Use Node.js ${{ env.node-version }}
+      - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: ${{ env.node-version }}
+          node-version-file: ${{ env.node-version-file }}
 
-      - name: Variable-Yarn cache directory path
+      - name: Get Yarn cache directory path
         id: yarn-cache-dir-path
         run: echo "::set-output name=dir::$(yarn cache dir)"
+
       - name: Cache Yarn cache directory
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-          key: ${{ runner.os }}-node-${{ env.node-version }}-yarn-${{
-            hashFiles('yarn.lock') }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('yarn.lock') }}
           restore-keys: |
-            ${{ runner.os }}-node-${{ env.node-version }}
-            ${{ runner.os }}
+            ${{ runner.os }}-yarn-
+
       - name: Disable workspace NGCC run
         uses: ./.github/actions/setup-postinstall
         with:
@@ -120,23 +120,23 @@ jobs:
         if: ${{ env.is-pull-request == 'false' }}
         uses: actions/checkout@v2
 
-      - name: Set up Node.js ${{ env.node-version }}
+      - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: ${{ env.node-version }}
+          node-version-file: ${{ env.node-version-file }}
 
-      - name: Variable-Yarn cache directory path
+      - name: Get Yarn cache directory path
         id: yarn-cache-dir-path
         run: echo "::set-output name=dir::$(yarn cache dir)"
+
       - name: Cache Yarn cache directory
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-          key: ${{ runner.os }}-node-${{ env.node-version }}-yarn-${{
-            hashFiles('yarn.lock') }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('yarn.lock') }}
           restore-keys: |
-            ${{ runner.os }}-node-${{ env.node-version }}
-            ${{ runner.os }}
+            ${{ runner.os }}-yarn-
+
       - name: Install package dependencies
         run: yarn install --frozen-lockfile --non-interactive
 
@@ -189,23 +189,23 @@ jobs:
         if: ${{ env.is-pull-request == 'false' }}
         uses: actions/checkout@v2
 
-      - name: Set up Node.js ${{ env.node-version }}
+      - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: ${{ env.node-version }}
+          node-version-file: ${{ env.node-version-file }}
 
-      - name: Variable-Yarn cache directory path
+      - name: Get Yarn cache directory path
         id: yarn-cache-dir-path
         run: echo "::set-output name=dir::$(yarn cache dir)"
+
       - name: Cache Yarn cache directory
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-          key: ${{ runner.os }}-node-${{ env.node-version }}-yarn-${{
-            hashFiles('yarn.lock') }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('yarn.lock') }}
           restore-keys: |
-            ${{ runner.os }}-node-${{ env.node-version }}
-            ${{ runner.os }}
+            ${{ runner.os }}-yarn-
+
       - name: Install package dependencies
         run: yarn install --frozen-lockfile --non-interactive
       - name: Install Playwright
@@ -235,23 +235,23 @@ jobs:
       - name: Fetch base branch Git history
         run: git fetch --no-tags origin $BASE_BRANCH
 
-      - name: Set up Node.js ${{ env.node-version }}
+      - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: ${{ env.node-version }}
+          node-version-file: ${{ env.node-version-file }}
 
-      - name: Variable-Yarn cache directory path
+      - name: Get Yarn cache directory path
         id: yarn-cache-dir-path
         run: echo "::set-output name=dir::$(yarn cache dir)"
+
       - name: Cache Yarn cache directory
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-          key: ${{ runner.os }}-node-${{ env.node-version }}-yarn-${{
-            hashFiles('yarn.lock') }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('yarn.lock') }}
           restore-keys: |
-            ${{ runner.os }}-node-${{ env.node-version }}
-            ${{ runner.os }}
+            ${{ runner.os }}-yarn-
+
       - name: Disable Angular Compatibility Compiler
         uses: ./.github/actions/setup-postinstall
         with:
@@ -295,23 +295,23 @@ jobs:
         if: ${{ env.is-pull-request == 'false' }}
         uses: actions/checkout@v2
 
-      - name: Set up Node.js ${{ env.node-version }}
+      - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: ${{ env.node-version }}
+          node-version-file: ${{ env.node-version-file }}
 
-      - name: Variable-Yarn cache directory path
+      - name: Get Yarn cache directory path
         id: yarn-cache-dir-path
         run: echo "::set-output name=dir::$(yarn cache dir)"
+
       - name: Cache Yarn cache directory
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-          key: ${{ runner.os }}-node-${{ env.node-version }}-yarn-${{
-            hashFiles('yarn.lock') }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('yarn.lock') }}
           restore-keys: |
-            ${{ runner.os }}-node-${{ env.node-version }}
-            ${{ runner.os }}
+            ${{ runner.os }}-yarn-
+
       - name: Disable Angular Compatibility Compiler
         uses: ./.github/actions/setup-postinstall
         with:
@@ -342,22 +342,22 @@ jobs:
     steps:
       - name: Checkout latest code
         uses: actions/checkout@v2
-      - name: Use Node.js ${{ env.node-version }}
+      - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: ${{ env.node-version }}
-      - name: Variable-Yarn cache directory path
+          node-version-file: ${{ env.node-version-file }}
+      - name: Get Yarn cache directory path
         id: yarn-cache-dir-path
         run: echo "::set-output name=dir::$(yarn cache dir)"
+
       - name: Cache Yarn cache directory
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-          key: ${{ runner.os }}-node-${{ env.node-version }}-yarn-${{
-            hashFiles('yarn.lock') }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('yarn.lock') }}
           restore-keys: |
-            ${{ runner.os }}-node-${{ env.node-version }}
-            ${{ runner.os }}
+            ${{ runner.os }}-yarn-
+
       - name: Disable Angular Compatibility Compiler
         uses: ./.github/actions/setup-postinstall
         with:
@@ -392,23 +392,23 @@ jobs:
         if: ${{ env.is-pull-request == 'false' }}
         uses: actions/checkout@v2
 
-      - name: Set up Node.js ${{ env.node-version }}
+      - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: ${{ env.node-version }}
+          node-version-file: ${{ env.node-version-file }}
 
-      - name: Variable-Yarn cache directory path
+      - name: Get Yarn cache directory path
         id: yarn-cache-dir-path
         run: echo "::set-output name=dir::$(yarn cache dir)"
+
       - name: Cache Yarn cache directory
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-          key: ${{ runner.os }}-node-${{ env.node-version }}-yarn-${{
-            hashFiles('yarn.lock') }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('yarn.lock') }}
           restore-keys: |
-            ${{ runner.os }}-node-${{ env.node-version }}
-            ${{ runner.os }}
+            ${{ runner.os }}-yarn-
+
       - name: Install package dependencies
         run: yarn install --frozen-lockfile --non-interactive
       - name: 'PR: Test affected projects'

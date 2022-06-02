@@ -47,17 +47,31 @@ import { MatCardModule } from '@angular/material/card';
         The municipality of Sønderborg aims at CO2 neutrality by 2029
       </h3>
       <p class="watt-space-stack-m">
-        In 2007, ProjectZero was established as a public-private initiative. The
-        aim of the project was to drive Sønderborg's transition towards carbon
-        neutrality by 2029. To meet the ambition, the project focuses on
-        different initiatives including energy efficiency and conversion of
-        energy sources into renewables. In 2020, ProjectZero had already
-        obtained a 51,80% CO2 reduction in the Sønderborg-area, thus the project
-        is fully on track to reach the overall target by 2029.
+        Since 2007, Sønderborg has with ProjectZero focused on transitioning the
+        entire area into a ZEROcarbon area by 2029, and carbon emissions have
+        already been reduced by 1/2. The focus is on creating an intelligent and
+        integrated energy system to save energy in a cost-effective where.
+        Sønderborg's ProjectZero works with the green transition on corporate
+        and private household level, and you can on how to reduce your own
+        CO2-emission, for instance such as how to save up to 260 kg CO2 a year
+        by lowering the room temperature. In addition to this, the Sønderborg
+        <a
+          href="https://www.smartcitysonderborg.dk/en-GB/buildings"
+          target="_blank"
+          rel="noopener noreferrer"
+          >smart city platform</a
+        >
+        collects various energy related data to make citizens and local
+        stakeholders aware of energy consumption and production in the area.
       </p>
       <p>
         Read more about
-        <a href="https://www.projectzero.dk" target="_blank">ProjectZero</a>.
+        <a
+          href="https://www.projectzero.dk"
+          target="_blank"
+          rel="noopener noreferrer"
+          >ProjectZero</a
+        >.
       </p>
     </mat-card>
   `,
