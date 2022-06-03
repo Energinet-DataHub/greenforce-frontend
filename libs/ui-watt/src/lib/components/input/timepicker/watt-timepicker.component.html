@@ -53,31 +53,36 @@ limitations under the License.
     />
   </mat-date-range-input>
 
-  <button mat-icon-button class="watt-timepicker-slider-toggle" type="button">
-    <watt-icon name="time" matDatepickerToggleIcon></watt-icon>
+  <button
+    mat-icon-button
+    class="watt-timepicker-slider-toggle"
+    type="button"
+    (click)="toggleSlider()"
+    (focusin)="onFocusIn()"
+    (focusout)="onFocusOut($event)"
+  >
+    <watt-icon name="time"></watt-icon>
   </button>
 
   <ng-template
     #overlay
     cdkConnectedOverlay
     [cdkConnectedOverlayOrigin]="trigger"
-    [cdkConnectedOverlayOpen]="focused"
+    [cdkConnectedOverlayOpen]="sliderOpen"
     [cdkConnectedOverlayOffsetY]="12"
   >
     <div
-      id="time-slider"
-      class="pleasework"
+      [id]="sliderId"
+      class="watt-timepicker-slider"
       tabindex="-1"
       (focusin)="onFocusIn()"
       (focusout)="onFocusOut($event)"
     >
       <label>{{ sliderLabel }}</label>
       <watt-slider
-        [max]="1439"
-        [min]="0"
-        [step]="15"
+        [steps]="sliderSteps"
         [value]="sliderValue"
-        (valueChange)="onSliderValueChange($event)"
+        (valueChange)="sliderChange$.next($event)"
       ></watt-slider>
     </div>
   </ng-template>
