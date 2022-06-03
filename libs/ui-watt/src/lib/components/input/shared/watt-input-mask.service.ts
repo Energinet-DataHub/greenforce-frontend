@@ -33,6 +33,7 @@ export interface WattMaskedInput {
   inputMask: Inputmask.Instance;
   onChange$: Observable<string>;
   update: (value: string) => void;
+  setOptions: (options: Inputmask.Options) => void;
 }
 
 @Injectable()
@@ -50,7 +51,9 @@ export class WattInputMaskService {
     element: HTMLInputElement,
     onBeforePaste?: (value: string) => string
   ): WattMaskedInput {
-    const inputMask: Inputmask.Instance = new Inputmask('datetime', {
+    // Referenced before initialization (only safe for callbacks)
+    let inputMask: Inputmask.Instance;
+    const im = new Inputmask('datetime', {
       inputFormat,
       placeholder,
       insertMode: false,
@@ -59,7 +62,9 @@ export class WattInputMaskService {
       onBeforePaste,
       onincomplete: () => this.setInputColor(element, inputMask),
       clearIncomplete: true,
-    }).mask(element);
+    });
+
+    inputMask = im.mask(element);
 
     this.setInputColor(element, inputMask);
 
@@ -79,7 +84,14 @@ export class WattInputMaskService {
     return {
       inputMask,
       onChange$,
-      update: (value: string) => valueSubject.next(value),
+      update: (value) => valueSubject.next(value),
+      setOptions: (options) => {
+        // Must recreate Inputmask instance after setting options since
+        // the remasking feature doesn't work properly for all settings.
+        im.option(options);
+        inputMask.remove();
+        inputMask = im.mask(element);
+      },
     };
   }
 
