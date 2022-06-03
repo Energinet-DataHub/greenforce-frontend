@@ -69,11 +69,11 @@ describe(DhMarketParticipantActorContactDataComponent.name, () => {
       phone: contacts[0].phone,
     };
 
-    const element = screen.getAllByRole('textbox')[1];
+    const nameTextBox = screen.getAllByRole('textbox')[1];
 
     // act
-    userEvent.clear(element);
-    userEvent.type(element, expected.name as string);
+    userEvent.clear(nameTextBox);
+    userEvent.type(nameTextBox, expected.name as string);
 
     // assert
     expect(outputFn).toHaveBeenLastCalledWith({
@@ -86,10 +86,10 @@ describe(DhMarketParticipantActorContactDataComponent.name, () => {
     // arrange
     const { outputFn } = await setup(contacts);
 
-    const element = screen.getAllByRole('button')[0];
+    const deleteButton = screen.getAllByRole('button')[0];
 
     // act
-    userEvent.click(element);
+    userEvent.click(deleteButton);
 
     // assert
     expect(outputFn).toHaveBeenLastCalledWith({

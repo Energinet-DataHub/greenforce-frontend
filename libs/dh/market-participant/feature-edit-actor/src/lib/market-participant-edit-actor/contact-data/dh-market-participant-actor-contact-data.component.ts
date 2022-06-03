@@ -25,6 +25,7 @@ import {
   EventEmitter,
   ChangeDetectorRef,
   ChangeDetectionStrategy,
+  SimpleChanges,
 } from '@angular/core';
 import { ActorContactChanges } from '@energinet-datahub/dh/market-participant/data-access-api';
 import { TranslocoModule } from '@ngneat/transloco';
@@ -77,7 +78,10 @@ export class DhMarketParticipantActorContactDataComponent implements OnChanges {
   contactRows: EditableActorContactRow[] = [];
   deletedContacts: ActorContactDto[] = [];
 
-  ngOnChanges() {
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.contacts?.previousValue === changes.contacts?.currentValue)
+      return;
+
     const contacts = this.contacts;
     if (contacts === undefined) return;
 

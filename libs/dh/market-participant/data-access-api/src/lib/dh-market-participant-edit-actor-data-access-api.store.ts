@@ -190,49 +190,55 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
       )
       .pipe(catchError(this.handleError));
 
-  readonly getActorInfo = (routeParams: {
+  readonly getActorInfo = ({
+    organizationId,
+    actorId,
+  }: {
     organizationId: string;
     actorId: string;
   }) => {
-    if (!routeParams.actorId) {
+    if (!actorId) {
       this.patchState({
-        organizationId: routeParams.organizationId,
+        organizationId: organizationId,
       });
       return of(undefined);
     }
     return this.httpClient
       .v1MarketParticipantOrganizationOrgIdActorActorIdGet(
-        routeParams.organizationId,
-        routeParams.actorId
+        organizationId,
+        actorId
       )
       .pipe(
-        tap((actorRes) => {
+        tap((response) => {
           this.patchState({
-            organizationId: routeParams.organizationId,
+            organizationId: organizationId,
             actor: {
-              ...actorRes,
+              ...response,
             },
-            marketRoles: actorRes.marketRoles,
+            marketRoles: response.marketRoles,
           });
         })
       )
       .pipe(catchError(this.handleError));
   };
 
-  private readonly getContacts = (routeParams: {
+  private readonly getContacts = ({
+    organizationId,
+    actorId,
+  }: {
     organizationId: string;
     actorId: string;
   }) => {
-    if (!routeParams.actorId) {
+    if (!actorId) {
       return of([]);
     }
     return this.httpClient
       .v1MarketParticipantOrganizationOrgIdActorActorIdContactGet(
-        routeParams.organizationId,
-        routeParams.actorId
+        organizationId,
+        actorId
       )
       .pipe(
-        tap((res) => this.patchState({ contacts: res })),
+        tap((response) => this.patchState({ contacts: response })),
         catchError(this.handleError)
       );
   };

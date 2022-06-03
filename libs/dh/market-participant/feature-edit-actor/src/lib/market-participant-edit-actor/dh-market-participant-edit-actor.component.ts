@@ -16,39 +16,40 @@
  */
 import { CommonModule } from '@angular/common';
 import { Component, NgModule } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { TranslocoModule } from '@ngneat/transloco';
+import { LetModule, PushModule } from '@rx-angular/template';
+import { map } from 'rxjs';
+
 import {
   ActorChanges,
   ActorContactChanges,
   DhMarketParticipantEditActorDataAccessApiStore,
   MeteringPointTypeChanges,
 } from '@energinet-datahub/dh/market-participant/data-access-api';
-import { LetModule, PushModule } from '@rx-angular/template';
-import { DhMarketParticipantActorMasterDataComponentScam } from './master-data/dh-market-participant-actor-master-data.component';
-import { DhMarketParticipantActorMeteringPointTypeComponentScam } from './metering-point-type/dh-market-participant-actor-metering-point-type.component';
-import { DhMarketParticipantActorMarketRolesComponentScam } from './market-roles/dh-market-participant-actor-market-roles.component';
-
-import {
-  WattButtonModule,
-  WattSpinnerModule,
-  WattTabsModule,
-  WattValidationMessageModule,
-} from '@energinet-datahub/watt';
-import { TranslocoModule } from '@ngneat/transloco';
-import { map } from 'rxjs';
-import { ActivatedRoute, Router } from '@angular/router';
 import {
   dhMarketParticipantActorIdParam,
   dhMarketParticipantOrganizationIdParam,
   dhMarketParticipantPath,
 } from '@energinet-datahub/dh/market-participant/routing';
-import { DhMarketParticipantActorGridAreasComponentScam } from './grid-areas/dh-market-participant-actor-grid-areas.component';
 import {
   GridAreaDto,
   EicFunction,
   MarketRoleDto,
   ActorContactDto,
 } from '@energinet-datahub/dh/shared/domain';
+import {
+  WattButtonModule,
+  WattSpinnerModule,
+  WattTabsModule,
+  WattValidationMessageModule,
+} from '@energinet-datahub/watt';
+
+import { DhMarketParticipantActorGridAreasComponentScam } from './grid-areas/dh-market-participant-actor-grid-areas.component';
 import { DhMarketParticipantActorContactDataComponentScam } from './contact-data/dh-market-participant-actor-contact-data.component';
+import { DhMarketParticipantActorMasterDataComponentScam } from './master-data/dh-market-participant-actor-master-data.component';
+import { DhMarketParticipantActorMeteringPointTypeComponentScam } from './metering-point-type/dh-market-participant-actor-metering-point-type.component';
+import { DhMarketParticipantActorMarketRolesComponentScam } from './market-roles/dh-market-participant-actor-market-roles.component';
 
 @Component({
   selector: 'dh-market-participant-edit-actor',
