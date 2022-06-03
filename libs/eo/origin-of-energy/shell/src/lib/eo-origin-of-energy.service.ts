@@ -25,9 +25,9 @@ import { map, Observable } from 'rxjs';
 export interface EoOriginOfEnergyResponse {
   energysources: [
     {
-      dateFrom: 1514826000;
-      dateTo: 1514864000;
-      renewable: 0.69;
+      dateFrom: number;
+      dateTo: number;
+      renewable: number;
       source: {
         wood: number;
         waste: number;
