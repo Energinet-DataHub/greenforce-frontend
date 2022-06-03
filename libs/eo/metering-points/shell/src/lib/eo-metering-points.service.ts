@@ -40,7 +40,7 @@ export class EoMeteringPointsService {
 
   getMeteringPoints(): Observable<MeteringPointsResponse> {
     return this.http.get<MeteringPointsResponse>(
-      `${this.#apiBase}/meteringpoints/list`,
+      `${this.#apiBase}/meteringpoints`,
       { withCredentials: true }
     );
   }
