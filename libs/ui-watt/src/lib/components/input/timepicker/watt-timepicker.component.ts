@@ -165,8 +165,8 @@ export class WattTimepickerComponent extends WattPickerBase {
   get sliderValue() {
     if (this.value?.start && this.value?.end) {
       return {
-        min: timeToMinutes(this.value?.start),
-        max: timeToMinutes(this.value?.end),
+        min: timeToMinutes(this.value.start),
+        max: timeToMinutes(this.value.end),
       };
     }
 
