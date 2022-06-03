@@ -202,7 +202,7 @@ describe(WattTimepickerModule.name, () => {
       expect(rightHandle.getAttribute(ARIA_VALUENOW)).toEqual('1400');
     });
 
-    it('adjust input values when slider changes', async () => {
+    it('adjusts input values when slider changes', async () => {
       const { fixture } = await setup({
         template,
         initialState: { start: '00:00', end: '23:59' },
@@ -224,7 +224,7 @@ describe(WattTimepickerModule.name, () => {
       expect(actualTimeRange).toEqual(expectedTimeRange);
     });
 
-    it('adjust slider values when input changes', async () => {
+    it('adjusts slider values when input changes', async () => {
       const { startTimeInput, endTimeInput } = await setup({ template });
 
       const sliderToggle = screen.queryByRole('button') as HTMLButtonElement;
