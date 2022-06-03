@@ -57,6 +57,8 @@ limitations under the License.
     mat-icon-button
     class="watt-timepicker-slider-toggle"
     type="button"
+    [attr.aria-pressed]="sliderOpen"
+    [attr.aria-controls]="sliderId"
     (click)="toggleSlider()"
     (focusin)="onFocusIn()"
     (focusout)="onFocusOut($event)"
@@ -73,6 +75,7 @@ limitations under the License.
   >
     <div
       [id]="sliderId"
+      role="dialog"
       class="watt-timepicker-slider"
       tabindex="-1"
       (focusin)="onFocusIn()"
