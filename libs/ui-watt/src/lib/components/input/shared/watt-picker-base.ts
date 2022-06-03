@@ -232,13 +232,8 @@ export abstract class WattPickerBase
    */
   ngControl: NgControl | null = null;
 
-  /**
-   * @ignore
-   */
-  id!: string;
-
   constructor(
-    id: string,
+    public id: string,
     protected inputMaskService: WattInputMaskService,
     protected rangeInputService: WattRangeInputService,
     protected elementRef: ElementRef<HTMLElement>,
