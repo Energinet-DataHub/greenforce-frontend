@@ -23,7 +23,6 @@ import {
 import { EoScrollViewScam } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 import { PushModule } from '@rx-angular/template';
 import { Observable } from 'rxjs';
-
 import { EoPrivacyPolicyStore } from './eo-privacy-policy.store';
 
 @Component({
@@ -43,11 +42,8 @@ import { EoPrivacyPolicyStore } from './eo-privacy-policy.store';
     `,
   ],
   template: `
-    <eo-scroll-view>
-      <small>Version {{ version$ | push }}</small>
-
-      <div [innerHTML]="privacyPolicy$ | push"></div>
-    </eo-scroll-view>
+    <small>Version {{ version$ | push }}</small>
+    <div [innerHTML]="privacyPolicy$ | push"></div>
   `,
   viewProviders: [EoPrivacyPolicyStore],
 })
