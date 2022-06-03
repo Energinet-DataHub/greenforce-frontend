@@ -46,7 +46,11 @@ export class WattSliderComponent {
   /** The highest permitted value. */
   @Input() max = 100;
 
+  /** Step between each value. */
   @Input() step = 1;
+
+  /** Manually define all steps. Overrules `min`, `max` and `step`. */
+  @Input() steps?: number[];
 
   /** The currently selected range value. */
   @Input() value: WattSliderValue = { min: this.min, max: this.max };
@@ -64,11 +68,13 @@ export class WattSliderComponent {
     return {
       floor: this.min,
       ceil: this.max,
-      step: this.step,
       minRange: 1,
       hideLimitLabels: true,
       hidePointerLabels: true,
       enforceStep: false,
+      enforceStepsArray: false,
+      step: this.step,
+      stepsArray: this.steps?.map((value) => ({ value })),
     };
   }
 
