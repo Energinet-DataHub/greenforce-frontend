@@ -128,7 +128,7 @@ export class WattTimepickerComponent extends WattPickerBase {
   /**
    * @ignore
    */
-  sliderId = `${super.id}-slider`;
+  sliderId = `${this.id}-slider`;
 
   /**
    * Used for defining a relationship between the time picker and
