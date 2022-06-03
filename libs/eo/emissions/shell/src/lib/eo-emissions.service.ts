@@ -20,16 +20,28 @@ import {
   EoApiEnvironment,
   eoApiEnvironmentToken,
 } from '@energinet-datahub/eo/shared/environments';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 
-export interface EmissionPoint {
-  pointId: string;
-  amount: string;
+interface EoEmissionsResponse {
+  emissions: [
+    {
+      dataFrom: number;
+      dateTo: number;
+      total: {
+        co2: number; //grams
+      };
+      relative: {
+        co2: number; //grams
+      };
+    }
+  ];
 }
 
-export interface EoEmissionsResponse {
-  emissions: EmissionPoint[];
-  totalEmissions: string;
+export interface EoEmissions {
+  dataFrom: number;
+  dateTo: number;
+  total: { co2: number };
+  relative: { co2: number };
 }
 
 @Injectable({
@@ -38,13 +50,26 @@ export interface EoEmissionsResponse {
 export class EoEmissionsService {
   #apiBase: string;
 
-  getEmissions(): Observable<EoEmissionsResponse> {
-    return this.http.get<EoEmissionsResponse>(
-      `${this.#apiBase}/emissions/list`,
-      {
-        withCredentials: true,
-      }
-    );
+  getEmissions(): Observable<EoEmissions> {
+    return this.http
+      .get<EoEmissionsResponse>(
+        `${
+          this.#apiBase
+        }/emissions?dateFrom=1609455600&dateTo=1640991599&aggregation=Total`,
+        { withCredentials: true }
+      )
+      .pipe(map((response) => response.emissions[0]));
+  }
+
+  getCO2Total(): Observable<number> {
+    return this.http
+      .get<EoEmissionsResponse>(
+        `${
+          this.#apiBase
+        }/emissions?dateFrom=1609455600&dateTo=1640991599&aggregation=Total`,
+        { withCredentials: true }
+      )
+      .pipe(map((response) => response.emissions[0].total.co2));
   }
 
   constructor(

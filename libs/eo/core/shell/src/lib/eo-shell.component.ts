@@ -14,16 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { eoPrivacyPolicyRoutePath } from '@energinet-datahub/eo/privacy-policy/routing';
+import { EoCookieBannerComponentScam } from '@energinet-datahub/eo/shared/atomic-design/feature-molecules';
 import { EoProductLogoScam } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 import { EoFooterScam } from '@energinet-datahub/eo/shared/atomic-design/ui-organisms';
 import { EoTitleStore } from '@energinet-datahub/eo/shared/util-browser';
 import { WattShellModule } from '@energinet-datahub/watt';
 import { PushModule } from '@rx-angular/template';
 import { Observable } from 'rxjs';
-
 import { EoPrimaryNavigationScam } from './eo-primary-navigation.component';
 
 @Component({
@@ -106,6 +107,10 @@ import { EoPrimaryNavigationScam } from './eo-primary-navigation.component';
     `,
   ],
   template: `
+    <eo-cookie-banner
+      *ngIf="!cookiesSet"
+      (accepted)="getBannerStatus()"
+    ></eo-cookie-banner>
     <watt-shell>
       <ng-container watt-shell-sidenav>
         <div class="logo-container">
@@ -136,8 +141,15 @@ import { EoPrimaryNavigationScam } from './eo-primary-navigation.component';
 })
 export class EoShellComponent {
   title$: Observable<string> = this.title.routeTitle$;
+  cookiesSet: string | null = null;
 
-  constructor(private title: EoTitleStore) {}
+  constructor(private title: EoTitleStore) {
+    this.getBannerStatus();
+  }
+
+  getBannerStatus() {
+    this.cookiesSet = localStorage.getItem('cookiesAccepted');
+  }
 }
 
 @NgModule({
@@ -146,9 +158,11 @@ export class EoShellComponent {
     RouterModule,
     WattShellModule,
     EoPrimaryNavigationScam,
+    EoCookieBannerComponentScam,
     EoProductLogoScam,
     EoFooterScam,
     PushModule,
+    CommonModule,
   ],
 })
 export class EoShellScam {}

@@ -11,7 +11,7 @@
  */
 
 
-export type AssetType = 'D01' | 'D02' | 'D03' | 'D04' | 'D05' | 'D06' | 'D07' | 'D10' | 'D11' | 'D12' | 'D13' | 'D14' | 'D17' | 'D19' | 'D20' | 'D99';
+export type AssetType = 'D01' | 'D02' | 'D03' | 'D04' | 'D05' | 'D06' | 'D07' | 'D10' | 'D11' | 'D12' | 'D13' | 'D14' | 'D17' | 'D19' | 'D20' | 'D98' | 'D99';
 
 export const AssetType = {
     D01: 'D01' as AssetType,
@@ -29,6 +29,7 @@ export const AssetType = {
     D17: 'D17' as AssetType,
     D19: 'D19' as AssetType,
     D20: 'D20' as AssetType,
+    D98: 'D98' as AssetType,
     D99: 'D99' as AssetType
 };
 
