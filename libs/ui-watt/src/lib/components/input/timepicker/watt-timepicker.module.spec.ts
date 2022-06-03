@@ -28,6 +28,7 @@ import { WattFormFieldModule } from '../../form-field/form-field.module';
 import { WattRange } from '../shared/watt-range';
 
 const backspace = '{backspace}';
+const ARIA_VALUENOW = 'aria-valuenow';
 
 describe(WattTimepickerModule.name, () => {
   async function setup({
@@ -141,6 +142,104 @@ describe(WattTimepickerModule.name, () => {
       const expectedTimeRange: WattRange = { start: '', end: '' };
 
       expect(actualTimeRange).toEqual(expectedTimeRange);
+    });
+
+    it('starts with slider hidden', async () => {
+      await setup({ template });
+      expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+    });
+
+    it('shows slider on button click', async () => {
+      await setup({ template });
+      const sliderToggle = screen.queryByRole('button') as HTMLButtonElement;
+
+      userEvent.click(sliderToggle);
+
+      expect(screen.queryByRole('dialog')).not.toBeEmptyDOMElement();
+    });
+
+    it('hides slider on second button click', async () => {
+      await setup({ template });
+      const sliderToggle = screen.queryByRole('button') as HTMLButtonElement;
+
+      userEvent.click(sliderToggle);
+      userEvent.click(sliderToggle);
+
+      expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+    });
+
+    it('hides slider on blur', async () => {
+      await setup({ template });
+      const sliderToggle = screen.queryByRole('button') as HTMLButtonElement;
+
+      userEvent.click(sliderToggle);
+      sliderToggle.blur();
+
+      expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+    });
+
+    it('shows slider with default values if input is empty', async () => {
+      await setup({ template });
+
+      const sliderToggle = screen.queryByRole('button') as HTMLButtonElement;
+      userEvent.click(sliderToggle);
+
+      const [leftHandle, rightHandle] = screen.queryAllByRole('slider');
+
+      expect(leftHandle.getAttribute(ARIA_VALUENOW)).toEqual('0');
+      expect(rightHandle.getAttribute(ARIA_VALUENOW)).toEqual('1439');
+    });
+
+    it('shows slider with initial values from state', async () => {
+      await setup({ template, initialState: { start: '00:10', end: '23:20' } });
+
+      const sliderToggle = screen.queryByRole('button') as HTMLButtonElement;
+      userEvent.click(sliderToggle);
+
+      const [leftHandle, rightHandle] = screen.queryAllByRole('slider');
+
+      expect(leftHandle.getAttribute(ARIA_VALUENOW)).toEqual('10');
+      expect(rightHandle.getAttribute(ARIA_VALUENOW)).toEqual('1400');
+    });
+
+    it('adjust input values when slider changes', async () => {
+      const { fixture } = await setup({
+        template,
+        initialState: { start: '00:00', end: '23:59' },
+      });
+
+      const sliderToggle = screen.queryByRole('button') as HTMLButtonElement;
+      userEvent.click(sliderToggle);
+
+      const [leftHandle, rightHandle] = screen.queryAllByRole('slider');
+
+      leftHandle.focus();
+      userEvent.keyboard('[ArrowRight]');
+
+      rightHandle.focus();
+      userEvent.keyboard('[ArrowLeft]');
+
+      const actualTimeRange = fixture.componentInstance.timeRangeControl.value;
+      const expectedTimeRange: WattRange = { start: '00:15', end: '23:45' };
+      expect(actualTimeRange).toEqual(expectedTimeRange);
+    });
+
+    it('adjust slider values when input changes', async () => {
+      const { startTimeInput, endTimeInput } = await setup({ template });
+
+      const sliderToggle = screen.queryByRole('button') as HTMLButtonElement;
+      userEvent.click(sliderToggle);
+
+      userEvent.clear(startTimeInput);
+      userEvent.type(startTimeInput, '0123');
+
+      userEvent.clear(endTimeInput);
+      userEvent.type(endTimeInput, '2345');
+
+      const [leftHandle, rightHandle] = screen.queryAllByRole('slider');
+
+      expect(leftHandle.getAttribute(ARIA_VALUENOW)).toEqual('83');
+      expect(rightHandle.getAttribute(ARIA_VALUENOW)).toEqual('1425');
     });
   });
 
