@@ -307,8 +307,8 @@ jobs:
     name: Update env
     needs:
       - build_container_and_release_chart
-    #only on: push to main OR PR on 'feature/**' branch
-    if: github.event_name == 'push' && github.ref_name == 'main' || github.event_name == 'pull_request' && startsWith(github.event.pull_request.head.ref, 'feature/')
+    #only on: push to main OR PR on 'preview/**' branch
+    if: github.event_name == 'push' && github.ref_name == 'main' || github.event_name == 'pull_request' && startsWith(github.event.pull_request.head.ref, 'preview/')
     uses: Energinet-DataHub/.github/.github/workflows/update-chart-in-env.yaml@main
     with:
       env_repository: ${{ github.repository_owner }}/eo-base-environment
