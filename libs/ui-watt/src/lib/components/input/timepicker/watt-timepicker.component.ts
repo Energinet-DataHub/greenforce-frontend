@@ -18,6 +18,8 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
+  HostBinding,
+  Input,
   Optional,
   Self,
   ViewChild,
@@ -25,7 +27,13 @@ import {
 } from '@angular/core';
 import { NgControl } from '@angular/forms';
 import { MatFormFieldControl } from '@angular/material/form-field';
-import { takeUntil } from 'rxjs';
+import {
+  BehaviorSubject,
+  distinctUntilChanged,
+  EMPTY,
+  map,
+  takeUntil,
+} from 'rxjs';
 
 import {
   WattInputMaskService,
@@ -34,6 +42,7 @@ import {
 import { WattPickerBase } from '../shared/watt-picker-base';
 import { WattRange } from '../shared/watt-range';
 import { WattRangeInputService } from '../shared/watt-range-input.service';
+import { WattSliderValue } from '../../slider/watt-slider.component';
 
 /**
  * Note: `Inputmask` package uses upper case `MM` for "minutes" and
@@ -42,6 +51,28 @@ import { WattRangeInputService } from '../shared/watt-range-input.service';
  */
 const hoursMinutesFormat = 'HH:MM';
 const hoursMinutesPlaceholder = 'HH:MM';
+
+// Show slider initially as "00:00 - 23:59"
+const initialSliderValue: WattSliderValue = { min: 0, max: 1439 };
+
+/** Converts string time format (HH:MM) to number of minutes. */
+function timeToMinutes(value: string) {
+  const [hours, minutes] = value.split(':');
+  return parseInt(hours) * 60 + parseInt(minutes);
+}
+
+/** Converts number of minutes to string time format (HH:MM). */
+function minutesToTime(value: number) {
+  const hours = `${Math.floor(value / 60)}`;
+  const minutes = `${value % 60}`;
+  return `${hours.padStart(2, '0')}:${minutes.padStart(2, '0')}`;
+}
+
+/** Curried helper for getting a value at `index` if it is truthy. */
+const getTruthy =
+  <type>(index: number) =>
+  (array: type[]) =>
+    array[index] || undefined;
 
 /**
  * Usage:
@@ -64,6 +95,13 @@ const hoursMinutesPlaceholder = 'HH:MM';
 })
 export class WattTimepickerComponent extends WattPickerBase {
   /**
+   * Text to display on label for time range slider.
+   * @ignore
+   */
+  @Input()
+  sliderLabel = '';
+
+  /**
    * @ignore
    */
   @ViewChild('timeInput')
@@ -84,7 +122,74 @@ export class WattTimepickerComponent extends WattPickerBase {
   /**
    * @ignore
    */
+  @ViewChild('overlay')
+  overlay!: ElementRef;
+
+  /**
+   * @ignore
+   */
+  sliderId = `${super.id}-slider`;
+
+  /**
+   * Used for defining a relationship between the time picker and
+   * the slider overlay (since the DOM hierarchy cannot be used).
+   * @ignore
+   */
+  @HostBinding('attr.aria-owns')
+  ariaOwns = this.sliderId;
+
+  /**
+   * @ignore
+   */
   protected _placeholder = hoursMinutesPlaceholder;
+
+  /**
+   * Whether the slider is open.
+   * @ignore
+   */
+  sliderOpen = false;
+
+  /**
+   * @ignore
+   */
+  sliderSteps = [...Array(96).keys()].map((x) => x * 15).concat(1439);
+
+  /**
+   * @ignore
+   */
+  sliderChange$ = new BehaviorSubject(initialSliderValue);
+
+  /**
+   * @ignore
+   */
+  get sliderValue() {
+    if (this.value?.start && this.value?.end) {
+      return {
+        min: timeToMinutes(this.value?.start),
+        max: timeToMinutes(this.value?.end),
+      };
+    }
+
+    // Retain last slider value if input value is incomplete
+    return this.sliderChange$.value;
+  }
+
+  /**
+   * Toggles the visibility of the slider overlay.
+   * @ignore
+   */
+  toggleSlider() {
+    this.sliderOpen = !this.sliderOpen;
+  }
+
+  /**
+   * Override to automatically close the slider overlay on blur.
+   * @ignore
+   */
+  onFocusOut(event: FocusEvent) {
+    super.onFocusOut(event);
+    if (!this.focused) this.sliderOpen = false;
+  }
 
   constructor(
     protected inputMaskService: WattInputMaskService,
@@ -121,23 +226,45 @@ export class WattTimepickerComponent extends WattPickerBase {
    */
   protected initRangeInput() {
     // Setup and subscribe for input changes
-    this.rangeInputService.init({
-      startInput: this.maskInput(
-        this.startInput.nativeElement,
-        (this.initialValue as WattRange | null)?.start
-      ),
-      endInput: this.maskInput(
-        this.endInput.nativeElement,
-        (this.initialValue as WattRange | null)?.end
-      ),
+    const startInput = this.maskInput(
+      this.startInput.nativeElement,
+      (this.initialValue as WattRange | null)?.start
+    );
+
+    const endInput = this.maskInput(
+      this.endInput.nativeElement,
+      (this.initialValue as WattRange | null)?.end
+    );
+
+    this.rangeInputService.init({ startInput, endInput });
+
+    // Silence the compiler since `onInputChanges$` is always assigned in `init`
+    const { onInputChanges$ = EMPTY } = this.rangeInputService;
+    const timeRange$ = onInputChanges$.pipe(takeUntil(this.destroy$));
+
+    // Synchronize the slider value with the input fields. Calling `update`
+    // here automatically triggers an emit on the `timeRange$` observable.
+    this.sliderChange$.pipe(takeUntil(this.destroy$)).subscribe((value) => {
+      startInput.maskedInput.update(minutesToTime(value.min));
+      endInput.maskedInput.update(minutesToTime(value.max));
     });
 
-    this.rangeInputService.onInputChanges$
-      ?.pipe(takeUntil(this.destroy$))
-      .subscribe(([start, end]) => {
-        this.markParentControlAsTouched();
-        this.changeParentValue({ start, end });
-      });
+    // Whenever the start input value changes, set (or remove)
+    // the minimum allowed value for the end input value.
+    timeRange$
+      .pipe(map(getTruthy(0)), distinctUntilChanged())
+      .subscribe((start) => endInput.maskedInput.setOptions({ min: start }));
+
+    // Whenever the end input value changes, set (or remove)
+    // the maximum allowed value for the start input value.
+    timeRange$
+      .pipe(map(getTruthy(1)), distinctUntilChanged())
+      .subscribe((end) => startInput.maskedInput.setOptions({ max: end }));
+
+    timeRange$.subscribe(([start, end]) => {
+      this.markParentControlAsTouched();
+      this.changeParentValue({ start, end });
+    });
   }
 
   /**
