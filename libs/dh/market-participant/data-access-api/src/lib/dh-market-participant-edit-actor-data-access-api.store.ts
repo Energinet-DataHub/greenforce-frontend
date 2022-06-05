@@ -132,8 +132,13 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
       withLatestFrom(this.state$),
       switchMap(([onSaveCompletedFn, state]) =>
         this.saveActor(state).pipe(
-          switchMap(() => this.removeContacts(state)),
-          switchMap(() => this.addContacts(state)),
+          switchMap((actorId) =>
+            this.removeContacts(state.organizationId, actorId, state).pipe(
+              switchMap(() =>
+                this.addContacts(state.organizationId, actorId, state)
+              )
+            )
+          ),
           tapResponse(
             () => {
               this.patchState({
@@ -244,23 +249,18 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
   };
 
   private readonly removeContacts = (
+    organizationId: string,
+    actorId: string,
     state: MarketParticipantEditActorState
   ) => {
-    const orgId = state.organizationId;
-    const actorId = state.actor?.actorId;
-
-    if (
-      state.removedContacts.length === 0 ||
-      orgId === undefined ||
-      actorId === undefined
-    ) {
+    if (state.removedContacts.length === 0) {
       return of({ ...state, contactsRemoved: true });
     }
 
     return forkJoin(
       state.removedContacts.map((contact) =>
         this.httpClient.v1MarketParticipantOrganizationOrgIdActorActorIdContactContactIdDelete(
-          orgId,
+          organizationId,
           actorId,
           contact.contactId
         )
@@ -268,21 +268,19 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
     ).pipe(map(() => ({ ...state, contactsRemoved: true })));
   };
 
-  private readonly addContacts = (state: MarketParticipantEditActorState) => {
-    const orgId = state.organizationId;
-    const actorId = state.actor?.actorId;
-
-    if (
-      state.addedContacts.length === 0 ||
-      orgId === undefined ||
-      actorId === undefined
-    )
+  private readonly addContacts = (
+    organizationId: string,
+    actorId: string,
+    state: MarketParticipantEditActorState
+  ) => {
+    if (state.addedContacts.length === 0) {
       return of({ ...state, contactsAdded: true });
+    }
 
     return forkJoin(
       state.addedContacts.map((c) =>
         this.httpClient.v1MarketParticipantOrganizationOrgIdActorActorIdContactPost(
-          orgId,
+          organizationId,
           actorId,
           c as CreateActorContactDto
         )
@@ -300,28 +298,31 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
   };
 
   private readonly saveActor = (state: MarketParticipantEditActorState) => {
-    if (state.actor !== undefined) {
-      return this.httpClient.v1MarketParticipantOrganizationOrgIdActorActorIdPut(
-        state.organizationId,
-        state.actor.actorId,
-        {
-          marketRoles: state.marketRoles,
-          meteringPointTypes: state.meteringPointTypeChanges.meteringPointTypes,
-          status: state.changes.status,
-          gridAreas: state.gridAreaChanges.map((gridArea) => gridArea.id),
-        }
-      );
+    const actor = state.actor;
+    if (actor !== undefined) {
+      return this.httpClient
+        .v1MarketParticipantOrganizationOrgIdActorActorIdPut(
+          state.organizationId,
+          actor.actorId,
+          {
+            marketRoles: state.marketRoles,
+            meteringPointTypes:
+              state.meteringPointTypeChanges.meteringPointTypes,
+            status: state.changes.status,
+            gridAreas: state.gridAreaChanges.map((gridArea) => gridArea.id),
+          }
+        )
+        .pipe(map(() => actor.actorId));
     }
 
-    return this.httpClient.v1MarketParticipantOrganizationOrgIdActorPost(
-      state.organizationId,
-      {
+    return this.httpClient
+      .v1MarketParticipantOrganizationOrgIdActorPost(state.organizationId, {
         gln: { value: state.changes.gln },
         marketRoles: state.marketRoles,
         meteringPointTypes: state.meteringPointTypeChanges.meteringPointTypes,
         gridAreas: state.gridAreaChanges.map((gridArea) => gridArea.id),
-      }
-    );
+      })
+      .pipe(map((id) => id));
   };
 
   readonly setMasterDataChanges = (changes: ActorChanges) =>
