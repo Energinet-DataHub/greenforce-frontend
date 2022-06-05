@@ -15,9 +15,15 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  NgModule,
+} from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
-import { WattButtonModule } from '@energinet-datahub/watt';
+import { WattSpinnerModule } from '@energinet-datahub/watt';
+import { finalize, first, tap } from 'rxjs';
 import { EoEmissionsService } from './eo-emissions.service';
 
 @Component({
@@ -43,21 +49,45 @@ import { EoEmissionsService } from './eo-emissions.service';
     <mat-card>
       <h4>Your emissions in 2021</h4>
       <div class="output watt-space-stack-m">
-        <h1>{{ ((emissions$ | async)?.total?.co2 || 0) / 1000 }} kg</h1>
+        <h1 *ngIf="doneLoading; else loading">{{ totalCO2 }} kg</h1>
         <h3>CO<sub>2</sub></h3>
       </div>
     </mat-card>
+
+    <ng-template #loading
+      ><watt-spinner [diameter]="36"></watt-spinner
+    ></ng-template>
   `,
 })
 export class EoEmissionsPageInfoComponent {
-  emissions$ = this.eoEmissionsService.getEmissions();
+  doneLoading = false;
+  totalCO2 = 0;
 
-  constructor(private eoEmissionsService: EoEmissionsService) {}
+  constructor(
+    private eoEmissionsService: EoEmissionsService,
+    private changeDetector: ChangeDetectorRef
+  ) {
+    this.eoEmissionsService
+      .getCO2Total()
+      .pipe(
+        first(),
+        tap((result: number) => (this.totalCO2 = this.convertToKg(result))),
+        finalize(() => {
+          this.doneLoading = true;
+          changeDetector.markForCheck();
+        })
+      )
+      .subscribe();
+  }
+
+  convertToKg(num: number): number {
+    return Number((num / 1000).toFixed(2));
+  }
 }
 
 @NgModule({
   declarations: [EoEmissionsPageInfoComponent],
-  imports: [MatCardModule, CommonModule, WattButtonModule],
+  imports: [MatCardModule, CommonModule, WattSpinnerModule],
   exports: [EoEmissionsPageInfoComponent],
 })
 export class EoEmissionsPageInfoScam {}

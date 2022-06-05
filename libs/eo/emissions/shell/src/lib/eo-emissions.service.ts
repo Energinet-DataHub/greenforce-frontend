@@ -61,6 +61,17 @@ export class EoEmissionsService {
       .pipe(map((response) => response.emissions[0]));
   }
 
+  getCO2Total(): Observable<number> {
+    return this.http
+      .get<EoEmissionsResponse>(
+        `${
+          this.#apiBase
+        }/emissions?dateFrom=1609455600&dateTo=1640991599&aggregation=Total`,
+        { withCredentials: true }
+      )
+      .pipe(map((response) => response.emissions[0].total.co2));
+  }
+
   constructor(
     private http: HttpClient,
     @Inject(eoApiEnvironmentToken) apiEnvironment: EoApiEnvironment
