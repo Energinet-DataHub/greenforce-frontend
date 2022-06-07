@@ -40,13 +40,6 @@
       "executor": "@storybook/angular:build-storybook",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "assets": [
-          {
-            "input": "libs/ui-watt/src/assets",
-            "glob": "**/*",
-            "output": "assets/ui-watt"
-          }
-        ],
         "styles": ["libs/ui-watt/.storybook/styles.scss"],
         "stylePreprocessorOptions": {
           "includePaths": ["libs/ui-watt/src/lib/styles"]

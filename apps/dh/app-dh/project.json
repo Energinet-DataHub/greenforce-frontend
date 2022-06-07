@@ -31,7 +31,7 @@
             "output": "assets"
           },
           {
-            "input": "libs/ui-watt/src/assets",
+            "input": "libs/ui-watt/src/assets/ui-watt",
             "glob": "**/*",
             "output": "assets/ui-watt"
           },
