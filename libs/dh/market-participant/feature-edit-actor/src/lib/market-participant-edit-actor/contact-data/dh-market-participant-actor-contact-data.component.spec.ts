@@ -69,7 +69,9 @@ describe(DhMarketParticipantActorContactDataComponent.name, () => {
       phone: contacts[0].phone,
     };
 
-    const nameTextBox = screen.getByRole('textbox', { name: /name for existing contact/i });
+    const nameTextBox = screen.getByRole('textbox', {
+      name: /name for existing contact/i,
+    });
 
     // act
     userEvent.clear(nameTextBox);
