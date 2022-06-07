@@ -80,8 +80,7 @@
     "ngx-mat-select-search": "4.1.1",
     "rxjs": "7.4.0",
     "tslib": "2.4.0",
-    "zone.js": "0.11.4",
-    "@storybook/core-server": "6.4.22"
+    "zone.js": "0.11.4"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "13.3.7",
@@ -114,6 +113,7 @@
     "@storybook/angular": "6.4.22",
     "@storybook/builder-webpack5": "6.4.22",
     "@storybook/manager-webpack5": "6.4.22",
+    "@storybook/core-server": "6.4.22",
     "@storybook/testing-angular": "0.0.12",
     "@storybook/testing-library": "0.0.11",
     "@testing-library/angular": "10.11.0",
@@ -141,7 +141,7 @@
     "jest-preset-angular": "11.1.1",
     "kill-port-process": "3.0.1",
     "msw": "0.38.1",
-    "ng-mocks": "12.5.0",
+    "ng-mocks": "13.5.2",
     "ng-packagr": "13.3.1",
     "postcss": "8.3.9",
     "postcss-import": "14.0.2",
