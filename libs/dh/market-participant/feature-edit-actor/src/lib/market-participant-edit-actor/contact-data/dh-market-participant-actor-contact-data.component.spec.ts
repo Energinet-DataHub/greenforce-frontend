@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import { render, screen } from '@testing-library/angular';
+import { render, screen, within } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
 import { runOnPushChangeDetection } from '@energinet-datahub/dh/shared/test-util-metering-point';
 import {
@@ -69,7 +69,7 @@ describe(DhMarketParticipantActorContactDataComponent.name, () => {
       phone: contacts[0].phone,
     };
 
-    const nameTextBox = screen.getAllByRole('textbox')[1];
+    const nameTextBox = screen.getByRole('textbox', { name: /name for existing contact/i });
 
     // act
     userEvent.clear(nameTextBox);
@@ -86,7 +86,9 @@ describe(DhMarketParticipantActorContactDataComponent.name, () => {
     // arrange
     const { outputFn } = await setup(contacts);
 
-    const deleteButton = screen.getAllByRole('button')[0];
+    const deleteButton = within(
+      screen.getByRole('cell', { name: /delete for existing contact/i })
+    ).getByRole('button');
 
     // act
     userEvent.click(deleteButton);
@@ -109,13 +111,21 @@ describe(DhMarketParticipantActorContactDataComponent.name, () => {
       phone: '12345678',
     };
 
-    const combobox = screen.getAllByRole('combobox')[0];
-    userEvent.click(combobox);
+    const categories = within(
+      screen.getByRole('cell', { name: /category for new contact/i })
+    ).getByRole('combobox');
+    userEvent.click(categories);
 
     const category = screen.getAllByRole('option')[2];
-    const name = screen.getAllByRole('textbox')[0];
-    const email = screen.getAllByRole('textbox')[1];
-    const phone = screen.getAllByRole('textbox')[2];
+    const name = screen.getByRole('textbox', {
+      name: /name for new contact/i,
+    });
+    const email = screen.getByRole('textbox', {
+      name: /email for new contact/i,
+    });
+    const phone = screen.getByRole('textbox', {
+      name: /phone for new contact/i,
+    });
 
     // act
     userEvent.click(category);
