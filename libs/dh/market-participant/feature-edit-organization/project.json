@@ -1,6 +1,5 @@
 {
   "projectType": "library",
-  "root": "libs/dh/market-participant/feature-edit-organization",
   "sourceRoot": "libs/dh/market-participant/feature-edit-organization/src",
   "prefix": "dh",
   "targets": {
@@ -10,7 +9,7 @@
         "coverage/libs/dh/market-participant/feature-edit-organization"
       ],
       "options": {
-        "jestConfig": "libs/dh/market-participant/feature-edit-organization/jest.config.js",
+        "jestConfig": "libs/dh/market-participant/feature-edit-organization/jest.config.ts",
         "passWithNoTests": true
       }
     },
