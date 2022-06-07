@@ -16,63 +16,47 @@
  */
 import { CommonModule } from '@angular/common';
 import {
+  ChangeDetectionStrategy,
   Component,
   EventEmitter,
   Input,
   NgModule,
-  OnChanges,
   Output,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import {
-  ActorDto,
-  EicFunction,
-  MarketRoleDto,
-} from '@energinet-datahub/dh/shared/domain';
 import { TranslocoModule } from '@ngneat/transloco';
 import { MatListModule } from '@angular/material/list';
-import { MarketRoleChanges } from '@energinet-datahub/dh/market-participant/data-access-api';
+
+import { EicFunction } from '@energinet-datahub/dh/shared/domain';
+
 import { MarketRoleService } from './market-role.service';
 
 @Component({
   selector: 'dh-market-participant-actor-market-roles',
   templateUrl: './dh-market-participant-actor-market-roles.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [MarketRoleService],
 })
-export class DhMarketParticipantActorMarketRolesComponent implements OnChanges {
-  @Input() actor: ActorDto | undefined;
-  @Output() hasChanges = new EventEmitter<MarketRoleChanges>();
-  changes: MarketRoleChanges = { marketRoles: [] };
-  listModel: EicFunction[] = [];
-  availableMarketRoles: EicFunction[] = [];
+export class DhMarketParticipantActorMarketRolesComponent {
+  @Input() marketRolesEicFunctions: EicFunction[] = [];
 
-  constructor(private marketRoleService: MarketRoleService) {
-    this.availableMarketRoles = this.marketRoleService.getAvailableMarketRoles;
-  }
+  @Output() marketRolesEicFunctionsChange = new EventEmitter<EicFunction[]>();
 
-  ngOnChanges(): void {
-    if (this.actor !== undefined) {
-      this.changes = {
-        marketRoles: this.actor.marketRoles,
-      };
-      this.listModel = this.changes.marketRoles.map((e) => e.eicFunction);
-      this.hasChanges.emit({ ...this.changes });
-    }
-  }
+  availableMarketRoles: EicFunction[] =
+    this.marketRoleService.getAvailableMarketRoles;
+
+  constructor(private marketRoleService: MarketRoleService) {}
 
   invalidInCurrentSelection(item: EicFunction) {
     return this.marketRoleService.notValidInAnySelectionGroup(
       item,
-      this.listModel
+      this.marketRolesEicFunctions
     );
   }
 
-  readonly onSelectionChange = () => {
-    this.changes.marketRoles = this.listModel.map((e) => {
-      return <MarketRoleDto>{ eicFunction: e };
-    });
-    this.hasChanges.emit({ ...this.changes });
-  };
+  onSelectionChange(marketRolesEicFunctions: EicFunction[]): void {
+    this.marketRolesEicFunctionsChange.emit(marketRolesEicFunctions);
+  }
 }
 
 @NgModule({

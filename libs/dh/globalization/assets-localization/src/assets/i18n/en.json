@@ -152,7 +152,8 @@
       "D18": "Regenerative demand facility",
       "D19": "Combustion engine – diesel",
       "D20": "Combustion engine - bio",
-      "D99": "Unknown tecnology"
+      "D98": "No technology",
+      "D99": "Unknown technology"
     },
     "productId": {
       "Tariff": "Tariff",
@@ -297,6 +298,7 @@
         "errorToastLabel": "Error",
         "masterDataTabHeader": "Master data",
         "meteringPointTypesHeader": "Metering point types",
+        "gridAreasHeader": "Grid areas",
         "marketRolesHeader": "Market roles",
         "cancelLabel": "Cancel",
         "saveLabel": "Save",

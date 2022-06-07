@@ -56,6 +56,7 @@ import { MatCardModule } from '@angular/material/card';
         <a
           href="https://ens.dk/en/our-responsibilities/energy-climate-politics/greenhouse-gasses"
           target="_blank"
+          rel="noopener noreferrer"
         >
           Danish Energy Agency - Greenhouse Gases</a
         >.

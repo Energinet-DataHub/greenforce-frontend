@@ -14,14 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import 'jest-preset-angular/setup-jest';
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { NgxSliderModule } from '@angular-slider/ngx-slider';
 
-import {
-  setUpTestbed,
-  setUpAngularTestingLibrary,
-} from '@energinet-datahub/gf/test-util-staging';
-import { addDomMatchers } from '@energinet-datahub/gf/test-util-matchers';
+import { WattSliderComponent } from './watt-slider.component';
 
-addDomMatchers();
-setUpTestbed();
-setUpAngularTestingLibrary();
+@NgModule({
+  declarations: [WattSliderComponent],
+  exports: [WattSliderComponent],
+  imports: [CommonModule, NgxSliderModule],
+})
+export class WattSliderModule {}

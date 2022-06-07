@@ -34,11 +34,23 @@ To run the application locally you need to serve the frontend application and co
 
 ### BFF (Backend-for-Frontend)
 
-Before you're able to run the BFF locally you need to copy `build/ci/dh/api-dh/ci.appsettings.Development.json` -> `apps/dh/api-dh/source/DataHub.WebApi/appsettings.Development.json`. If you're using PowerShell Core or another terminal with `cp` you can do it with:  
-`yarn nx run api-dh:ci-configuration`  
+#### Setup
+
+Before you're able to run the BFF locally you need to copy `build/ci/dh/api-dh/ci.appsettings.Development.json` -> `apps/dh/api-dh/source/DataHub.WebApi/appsettings.Development.json`. If you're using PowerShell Core or another Terminal that supports `cp`, you can do it with:
+
+`yarn nx run api-dh:ci-configuration`
+
 Otherwise you need to do the copying manually. This should be done everytime a new client is added.
 
-To run the BFF locally:
+#### Generating HttpClient and DTOs
+
+After the BFF is built, a Swagger definition file is generated. We use this file to auto-generate any HttpClients and DTOs needed to communicate with the BFF. To do that run:
+
+`yarn nx run api-dh:build-client`
+
+Note: The files are automatically placed in `libs/dh/shared/domain/src/lib/generated/v1/**`. You **must not** modify these files manually.
+
+#### Starting the BFF locally
 
 `yarn nx serve api-dh`
 

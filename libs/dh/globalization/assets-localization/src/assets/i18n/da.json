@@ -152,6 +152,7 @@
       "D18": "Regenerative forbrugsanlæg",
       "D19": "Forbrændingsmotor dieselmotor",
       "D20": "Bioforbrændingsmotor",
+      "D98": "Ingen teknologi",
       "D99": "Ukendt teknologi"
     },
     "productId": {
@@ -297,6 +298,7 @@
         "errorToastLabel": "Fejl",
         "masterDataTabHeader": "Stamdata",
         "meteringPointTypesHeader": "Målepunktstyper",
+        "gridAreasHeader": "Netområder",
         "marketRolesHeader": "Markedsroller",
         "cancelLabel": "Annuller",
         "saveLabel": "Gem",

@@ -15,3 +15,4 @@
  * limitations under the License.
  */
 export * from './lib/eo-privacy-policy/eo-privacy-policy.component';
+export * from './lib/eo-cookie-banner/eo-cookie-banner.component';

@@ -28,7 +28,7 @@ import { EoPrivacyPolicyScam } from '@energinet-datahub/eo/shared/atomic-design/
 
       .content-wrapper {
         margin: 0 auto; // Center content vertically
-        max-width: 820px; // Magic number by designer.
+        max-width: 994px; // Magic number by designer.
       }
     `,
   ],

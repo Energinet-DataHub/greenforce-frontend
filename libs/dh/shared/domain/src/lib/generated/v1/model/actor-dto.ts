@@ -17,7 +17,7 @@ import { MarketRoleDto } from './market-role-dto';
 
 export interface ActorDto { 
     actorId: string;
-    externalActorId: string;
+    externalActorId?: string | null;
     gln: GlobalLocationNumberDto;
     status: ActorStatus;
     gridAreas: Array<string>;

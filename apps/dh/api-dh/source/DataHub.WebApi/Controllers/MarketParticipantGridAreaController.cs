@@ -32,10 +32,10 @@ namespace Energinet.DataHub.WebApi.Controllers
         }
 
         /// <summary>
-        /// Retrieves all organizations
+        /// Retrieves all grid areas
         /// </summary>
         [HttpGet]
-        public Task<ActionResult<IEnumerable<GridAreaDto>>> GetGridAreasAsync()
+        public Task<ActionResult<IEnumerable<GridAreaDto>>> GetAllGridAreasAsync()
         {
             return HandleExceptionAsync(() => _client.GetGridAreasAsync());
         }
