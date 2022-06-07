@@ -29,7 +29,7 @@ This DataHub repository relies on open source libraries and tools. We recommend 
 | `@azure/msal-browser`                | 2.23.0         | <https://www.npmjs.com/package/@azure/msal-browser>                | MIT        |
 | `@ngneat/transloco`                  | 3.2.0          | <https://www.npmjs.com/package/@ngneat/transloco>                  | MIT        |
 | `@ngrx/component-store`              | 13.0.2         | <https://www.npmjs.com/package/@ngrx/component-store>              | MIT        |
-| `@nrwl/angular`                      | 13.3.0         | <https://www.npmjs.com/package/@nrwl/angular>                      | MIT        |
+| `@nrwl/angular`                      | 14.1.9         | <https://www.npmjs.com/package/@nrwl/angular>                      | MIT        |
 | `@rx-angular/cdk`                    | 1.0.0-alpha-11 | <https://www.npmjs.com/package/@rx-angular/cdk>                    | MIT        |
 | `@rx-angular/template`               | 1.0.0-beta.29  | <https://www.npmjs.com/package/@rx-angular/template>               | MIT        |
 | `@vimeo/player`                      | 2.16.4         | <https://www.npmjs.com/package/@vimeo/player>                      | MIT        |
