@@ -13724,10 +13724,10 @@ next-tick@^1.1.0:
   resolved "https://registry.yarnpkg.com/next-tick/-/next-tick-1.1.0.tgz#1836ee30ad56d67ef281b22bd199f709449b35eb"
   integrity sha512-CXdUiJembsNjuToQvxayPZF9Vqht7hewsvy2sOWafLvi2awflj9mOC6bHIg50orX8IJvWKY9wYQ/zB2kogPslQ==
 
-ng-mocks@12.5.0:
-  version "12.5.0"
-  resolved "https://registry.yarnpkg.com/ng-mocks/-/ng-mocks-12.5.0.tgz#4a63c33d6f61cdf2b0a55b418bc40d2031a83812"
-  integrity sha512-Kl4R8zabnPVA1fKO4C3eCckb8TSCKrAmz228X869JKKlsN8mJ8TsTJmDewt0oYV1EBqY3EtBLl3pgrTW2Jl0DQ==
+ng-mocks@13.5.2:
+  version "13.5.2"
+  resolved "https://registry.yarnpkg.com/ng-mocks/-/ng-mocks-13.5.2.tgz#e0d16c4810623b4b096ede31209966e628620d28"
+  integrity sha512-mn9qkef166cKmg5k1/jY4AlXEGEPx/cdWXKDdSrs/Fett+nLEAx70uD1LJrpQ35PY6k0v6AUd4fbZX5OaoFNRg==
 
 ng-packagr@13.3.1:
   version "13.3.1"
