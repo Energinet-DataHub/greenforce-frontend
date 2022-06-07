@@ -1,6 +1,5 @@
 {
   "projectType": "library",
-  "root": "libs/gf/test-util-matchers",
   "sourceRoot": "libs/gf/test-util-matchers/src",
   "prefix": "gf-test",
   "targets": {
@@ -8,7 +7,7 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/libs/gf/test-util-matchers"],
       "options": {
-        "jestConfig": "libs/gf/test-util-matchers/jest.config.js",
+        "jestConfig": "libs/gf/test-util-matchers/jest.config.ts",
         "passWithNoTests": true
       }
     },

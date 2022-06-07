@@ -1,5 +1,4 @@
 {
-  "root": "apps/dh/e2e-dh",
   "sourceRoot": "apps/dh/e2e-dh/src",
   "projectType": "application",
   "targets": {
