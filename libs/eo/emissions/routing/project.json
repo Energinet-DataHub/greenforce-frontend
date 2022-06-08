@@ -1,6 +1,5 @@
 {
   "projectType": "library",
-  "root": "libs/eo/emissions/routing",
   "sourceRoot": "libs/eo/emissions/routing/src",
   "prefix": "eo",
   "targets": {
@@ -8,7 +7,7 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/libs/eo/emissions/routing"],
       "options": {
-        "jestConfig": "libs/eo/emissions/routing/jest.config.js",
+        "jestConfig": "libs/eo/emissions/routing/jest.config.ts",
         "passWithNoTests": true
       }
     },
