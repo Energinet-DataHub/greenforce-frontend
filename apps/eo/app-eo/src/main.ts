@@ -20,7 +20,6 @@ import {
   environment,
   eoApiEnvironmentToken,
 } from '@energinet-datahub/eo/shared/environments';
-
 import { EnergyOriginAppModule } from './app/energy-origin-app.module';
 import { loadEoApiEnvironment } from './configuration/load-eo-api-environment';
 
