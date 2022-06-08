@@ -28,10 +28,12 @@ interface EoEmissionsResponse {
       dataFrom: number;
       dateTo: number;
       total: {
-        co2: number; //grams
+        unit: string;
+        value: number;
       };
       relative: {
-        co2: number; //grams
+        unit: string;
+        value: number;
       };
     }
   ];
@@ -40,8 +42,8 @@ interface EoEmissionsResponse {
 export interface EoEmissions {
   dataFrom: number;
   dateTo: number;
-  total: { co2: number };
-  relative: { co2: number };
+  total: { unit: string; value: number };
+  relative: { unit: string; value: number };
 }
 
 @Injectable({
@@ -49,17 +51,6 @@ export interface EoEmissions {
 })
 export class EoEmissionsService {
   #apiBase: string;
-
-  getEmissions(): Observable<EoEmissions> {
-    return this.http
-      .get<EoEmissionsResponse>(
-        `${
-          this.#apiBase
-        }/emissions?dateFrom=1609455600&dateTo=1640991599&aggregation=Total`,
-        { withCredentials: true }
-      )
-      .pipe(map((response) => response.emissions[0]));
-  }
 
   getCO2Total(): Observable<number> {
     return this.http
@@ -69,7 +60,7 @@ export class EoEmissionsService {
         }/emissions?dateFrom=1609455600&dateTo=1640991599&aggregation=Total`,
         { withCredentials: true }
       )
-      .pipe(map((response) => response.emissions[0].total.co2));
+      .pipe(map((response) => response.emissions[0].total.value));
   }
 
   constructor(
