@@ -18,12 +18,24 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { OverlayModule } from '@angular/cdk/overlay';
 
+import { WattIconModule } from '../../../foundations/icon';
+import { WattSliderModule } from '../../slider/watt-slider.module';
 import { WattTimepickerComponent } from './watt-timepicker.component';
 
 @NgModule({
   declarations: [WattTimepickerComponent],
   exports: [WattTimepickerComponent],
-  imports: [MatDatepickerModule, MatInputModule, CommonModule],
+  imports: [
+    MatButtonModule,
+    MatDatepickerModule,
+    WattIconModule,
+    WattSliderModule,
+    MatInputModule,
+    OverlayModule,
+    CommonModule,
+  ],
 })
 export class WattTimepickerModule {}
