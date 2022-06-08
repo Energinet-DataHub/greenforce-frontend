@@ -21,12 +21,17 @@ limitations under the License.
       <mat-header-cell *matHeaderCellDef>{{ t("category") }}</mat-header-cell>
       <mat-cell *matCellDef="let element" class="field">
         <watt-form-field>
-          <watt-dropdown [attr.aria-label]="
+          <watt-dropdown
+            [attr.aria-label]="
               element.isExisting
                 ? t('ariaLabelCategoryForExistingContact')
                 : t('ariaLabelCategoryForNewContact')
-            " required [options]="contactCategories" [(ngModel)]="element.changed.category"
-            (ngModelChange)="onDropdownChanged(element)">
+            "
+            required
+            [options]="contactCategories"
+            [(ngModel)]="element.changed.category"
+            (ngModelChange)="onDropdownChanged(element)"
+          >
           </watt-dropdown>
         </watt-form-field>
       </mat-cell>
@@ -36,12 +41,19 @@ limitations under the License.
     <ng-container matColumnDef="name">
       <mat-header-cell *matHeaderCellDef>{{ t("name") }}</mat-header-cell>
       <mat-cell *matCellDef="let element" class="field">
-        <watt-form-field><input [attr.aria-label]="
-          element.isExisting
-            ? t('ariaLabelNameForExistingContact')
-            : t('ariaLabelNameForNewContact')
-        " wattInput required [placeholder]="t('namePlaceholder')" [(ngModel)]="element.changed.name"
-            (ngModelChange)="onModelChanged(element)" />
+        <watt-form-field
+          ><input
+            [attr.aria-label]="
+              element.isExisting
+                ? t('ariaLabelNameForExistingContact')
+                : t('ariaLabelNameForNewContact')
+            "
+            wattInput
+            required
+            [placeholder]="t('namePlaceholder')"
+            [(ngModel)]="element.changed.name"
+            (ngModelChange)="onModelChanged(element)"
+          />
         </watt-form-field>
       </mat-cell>
     </ng-container>
@@ -50,12 +62,20 @@ limitations under the License.
     <ng-container matColumnDef="email">
       <mat-header-cell *matHeaderCellDef>{{ t("email") }}</mat-header-cell>
       <mat-cell *matCellDef="let element" class="field">
-        <watt-form-field><input [attr.aria-label]="
-          element.isExisting
-            ? t('ariaLabelMailForExistingContact')
-            : t('ariaLabelMailForNewContact')
-        " wattInput required type="email" [placeholder]="t('emailPlaceholder')" [(ngModel)]="element.changed.email"
-            (ngModelChange)="onModelChanged(element)" /></watt-form-field>
+        <watt-form-field
+          ><input
+            [attr.aria-label]="
+              element.isExisting
+                ? t('ariaLabelMailForExistingContact')
+                : t('ariaLabelMailForNewContact')
+            "
+            wattInput
+            required
+            type="email"
+            [placeholder]="t('emailPlaceholder')"
+            [(ngModel)]="element.changed.email"
+            (ngModelChange)="onModelChanged(element)"
+        /></watt-form-field>
       </mat-cell>
     </ng-container>
 
@@ -64,12 +84,18 @@ limitations under the License.
       <mat-header-cell *matHeaderCellDef>{{ t("phone") }}</mat-header-cell>
       <mat-cell *matCellDef="let element" class="field">
         <watt-form-field>
-          <input [attr.aria-label]="
-          element.isExisting
-            ? t('ariaLabelPhoneForExistingContact')
-            : t('ariaLabelPhoneForNewContact')
-        " wattInput type="tel" [placeholder]="t('phonePlaceholder')" [(ngModel)]="element.changed.phone"
-            (ngModelChange)="onModelChanged(element)" />
+          <input
+            [attr.aria-label]="
+              element.isExisting
+                ? t('ariaLabelPhoneForExistingContact')
+                : t('ariaLabelPhoneForNewContact')
+            "
+            wattInput
+            type="tel"
+            [placeholder]="t('phonePlaceholder')"
+            [(ngModel)]="element.changed.phone"
+            (ngModelChange)="onModelChanged(element)"
+          />
         </watt-form-field>
       </mat-cell>
     </ng-container>
@@ -79,11 +105,16 @@ limitations under the License.
       <mat-header-cell mat-header-cell *matHeaderCellDef></mat-header-cell>
       <mat-cell *matCellDef="let element">
         <ng-container *ngIf="!element.isNewPlaceholder">
-          <watt-button [attr.aria-label]="
-          element.isExisting
-            ? t('ariaLabelDeleteForExistingContact')
-            : t('ariaLabelDeleteForNewContact')
-        " variant="icon" icon="remove" (click)="onRowDelete(element)">
+          <watt-button
+            [attr.aria-label]="
+              element.isExisting
+                ? t('ariaLabelDeleteForExistingContact')
+                : t('ariaLabelDeleteForNewContact')
+            "
+            variant="icon"
+            icon="remove"
+            (click)="onRowDelete(element)"
+          >
           </watt-button>
         </ng-container>
       </mat-cell>
