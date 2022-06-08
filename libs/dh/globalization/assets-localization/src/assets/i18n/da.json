@@ -453,7 +453,17 @@
       "email": "E-mail",
       "emailPlaceholder": "E-mail",
       "phone": "Telefon",
-      "phonePlaceholder": "Telefon (valgfri)"
+      "phonePlaceholder": "Telefon (valgfri)",
+      "ariaLabelCategoryForExistingContact": "kategorifelt for eksisterende kontakt",
+      "ariaLabelNameForExistingContact": "navnefelt for eksisterende kontakt",
+      "ariaLabelPhoneForExistingContact": "telefonnummerfelt for eksisterende kontakt",
+      "ariaLabelMailForExistingContact": "mailfelt for eksisterende kontakt",
+      "ariaLabelDeleteForExistingContact": "sletkanp for eksisterende kontakt",
+      "ariaLabelCategoryForNewContact": "kategorifelt for ny kontakt",
+      "ariaLabelNameForNewContact": "navnefelt for ny kontakt",
+      "ariaLabelPhoneForNewContact": "telefonnummerfelt for ny kontakt",
+      "ariaLabelMailForNewContact": "mailfelt for ny kontakt",
+      "ariaLabelDeleteForNewContact": "sletknap for ny kontakt"
     }
   },
   "wholesale": {

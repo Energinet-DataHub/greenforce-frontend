@@ -70,7 +70,7 @@ describe(DhMarketParticipantActorContactDataComponent.name, () => {
     };
 
     const nameTextBox = screen.getByRole('textbox', {
-      name: /name for existing contact/i,
+      name: /name field for existing contact/i,
     });
 
     // act
@@ -89,7 +89,7 @@ describe(DhMarketParticipantActorContactDataComponent.name, () => {
     const { outputFn } = await setup(contacts);
 
     const deleteButton = within(
-      screen.getByRole('cell', { name: /delete for existing contact/i })
+      screen.getByRole('cell', { name: /delete button for existing contact/i })
     ).getByRole('button');
 
     // act
@@ -114,19 +114,19 @@ describe(DhMarketParticipantActorContactDataComponent.name, () => {
     };
 
     const categories = within(
-      screen.getByRole('cell', { name: /category for new contact/i })
+      screen.getByRole('cell', { name: /category field for new contact/i })
     ).getByRole('combobox');
     userEvent.click(categories);
 
     const category = screen.getAllByRole('option')[2];
     const name = screen.getByRole('textbox', {
-      name: /name for new contact/i,
+      name: /name field for new contact/i,
     });
     const email = screen.getByRole('textbox', {
-      name: /email for new contact/i,
+      name: /mail field for new contact/i,
     });
     const phone = screen.getByRole('textbox', {
-      name: /phone for new contact/i,
+      name: /phone field for new contact/i,
     });
 
     // act

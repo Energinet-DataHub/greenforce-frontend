@@ -453,7 +453,17 @@
       "email": "E-mail",
       "emailPlaceholder": "E-mail",
       "phone": "Phone",
-      "phonePlaceholder": "Phone (optional)"
+      "phonePlaceholder": "Phone (optional)",
+      "ariaLabelCategoryForExistingContact": "category field for existing contact",
+      "ariaLabelNameForExistingContact": "name field for existing contact",
+      "ariaLabelPhoneForExistingContact": "phone field for existing contact",
+      "ariaLabelMailForExistingContact": "mail field for existing contact",
+      "ariaLabelDeleteForExistingContact": "delete button for existing contact",
+      "ariaLabelCategoryForNewContact": "category field for new contact",
+      "ariaLabelNameForNewContact": "name field for new contact",
+      "ariaLabelPhoneForNewContact": "phone field for new contact",
+      "ariaLabelMailForNewContact": "mail field for new contact",
+      "ariaLabelDeleteForNewContact": "delete button for new contact"
     }
   },
   "wholesale": {
