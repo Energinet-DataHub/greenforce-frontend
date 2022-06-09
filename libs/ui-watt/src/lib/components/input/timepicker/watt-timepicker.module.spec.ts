@@ -26,7 +26,7 @@ import { DhConfigurationLocalizationModule } from '@energinet-datahub/dh/globali
 import { WattTimepickerModule } from './watt-timepicker.module';
 import { WattFormFieldModule } from '../../form-field/form-field.module';
 import { WattRange } from '../shared/watt-range';
-import { WattDanishDatetimeModule } from '../../../configuration/danish-datetime.module';
+import { WattDanishDatetimeModule } from '../../../configuration/watt-danish-datetime.module';
 
 const backspace = '{backspace}';
 
