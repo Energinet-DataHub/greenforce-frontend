@@ -33,12 +33,12 @@ export interface EoOriginOfEnergyResponse {
         waste: number;
         straw: number;
         oil: number;
-        naturalgas: number;
+        naturalGas: number;
         coal: number;
-        biogas: number;
+        bioGas: number;
         solar: number;
-        windonshore: number;
-        windoffshore: number;
+        windOnshore: number;
+        windOffshore: number;
       };
     }
   ];
