@@ -27,13 +27,13 @@ module "bff" {
   dotnet_framework_version                      = "v6.0"
 
   app_settings = {
-    ApiClientSettings__MessageArchiveBaseUrl    = data.azurerm_key_vault_secret.app_message_archive_api_base_url.value
-    ApiClientSettings__MeteringPointBaseUrl     = data.azurerm_key_vault_secret.app_metering_point_webapi_base_url.value
-    ApiClientSettings__ChargesBaseUrl           = data.azurerm_key_vault_secret.app_charges_webapi_base_url.value
-    ApiClientSettings__MarketParticipantBaseUrl = data.azurerm_key_vault_secret.app_markpart_webapi_base_url.value
-    APPINSIGHTS_INSTRUMENTATIONKEY              = data.azurerm_key_vault_secret.appi_shared_instrumentation_key.value
-    FRONTEND_OPEN_ID_URL                        = data.azurerm_key_vault_secret.frontend_open_id_url.value
-    FRONTEND_SERVICE_APP_ID                     = data.azurerm_key_vault_secret.frontend_service_app_id.value
+    ApiClientSettings__MessageArchiveBaseUrl    = "@Microsoft.KeyVault(VaultName=${var.shared_resources_keyvault_name};SecretName=app-message-archive-api-base-url)",
+    ApiClientSettings__MeteringPointBaseUrl     = "@Microsoft.KeyVault(VaultName=${var.shared_resources_keyvault_name};SecretName=app-metering-point-webapi-base-url)",
+    ApiClientSettings__ChargesBaseUrl           = "@Microsoft.KeyVault(VaultName=${var.shared_resources_keyvault_name};SecretName=app-charges-webapi-base-url)",
+    ApiClientSettings__MarketParticipantBaseUrl = "@Microsoft.KeyVault(VaultName=${var.shared_resources_keyvault_name};SecretName=app-markpart-webapi-base-url)",
+    APPINSIGHTS_INSTRUMENTATIONKEY              = "@Microsoft.KeyVault(VaultName=${var.shared_resources_keyvault_name};SecretName=appi-shared-instrumentation-key)",
+    FRONTEND_OPEN_ID_URL                        = "@Microsoft.KeyVault(VaultName=${var.shared_resources_keyvault_name};SecretName=frontend-open-id-url)",
+    FRONTEND_SERVICE_APP_ID                     = "@Microsoft.KeyVault(VaultName=${var.shared_resources_keyvault_name};SecretName=frontend-service-app-id)",
   }
 
   tags                                          = azurerm_resource_group.this.tags
