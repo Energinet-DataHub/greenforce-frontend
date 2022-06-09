@@ -300,6 +300,7 @@
         "meteringPointTypesHeader": "Metering point types",
         "gridAreasHeader": "Grid areas",
         "marketRolesHeader": "Market roles",
+        "contactsHeader": "Contacts",
         "cancelLabel": "Cancel",
         "saveLabel": "Save",
         "masterData": {
@@ -399,7 +400,6 @@
         "organizationCreateHeader": "Create organization",
         "organizationEditHeader": "Edit organization",
         "masterDataTabHeader": "Master data",
-        "contactDataTabHeader": "Contacts",
         "cancelLabel": "Cancel",
         "saveLabel": "Save",
         "errorToastLabel": "Error",
@@ -443,17 +443,27 @@
             "se": "Sweden",
             "gb": "United Kingdom"
           }
-        },
-        "contacts": {
-          "category": "Category",
-          "name": "Name",
-          "namePlaceholder": "Name",
-          "email": "E-mail",
-          "emailPlaceholder": "E-mail",
-          "phone": "Phone",
-          "phonePlaceholder": "Phone (optional)"
         }
       }
+    },
+    "contacts": {
+      "category": "Category",
+      "name": "Name",
+      "namePlaceholder": "Name",
+      "email": "E-mail",
+      "emailPlaceholder": "E-mail",
+      "phone": "Phone",
+      "phonePlaceholder": "Phone (optional)",
+      "ariaLabelCategoryForExistingContact": "category field for existing contact",
+      "ariaLabelNameForExistingContact": "name field for existing contact",
+      "ariaLabelPhoneForExistingContact": "phone field for existing contact",
+      "ariaLabelMailForExistingContact": "mail field for existing contact",
+      "ariaLabelDeleteForExistingContact": "delete button for existing contact",
+      "ariaLabelCategoryForNewContact": "category field for new contact",
+      "ariaLabelNameForNewContact": "name field for new contact",
+      "ariaLabelPhoneForNewContact": "phone field for new contact",
+      "ariaLabelMailForNewContact": "mail field for new contact",
+      "ariaLabelDeleteForNewContact": "delete button for new contact"
     }
   },
   "wholesale": {
