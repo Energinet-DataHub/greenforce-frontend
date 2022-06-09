@@ -35,37 +35,28 @@ limitations under the License.
     <div class="spinner-container" *ngIf="isLoading">
       <watt-spinner></watt-spinner>
     </div>
-    <ng-container *rxLet="contacts$ as contacts">
-      <ng-container *rxLet="organization$ as organization">
-        <div [hidden]="isLoading">
-          <!-- Tabs -->
-          <watt-tabs class="tabs">
-            <watt-tab [label]="t('masterDataTabHeader')">
-              <dh-market-participant-organization-master-data
-                [organization]="organization"
-                (hasChanges)="onMasterDataChanged($event)"
-              ></dh-market-participant-organization-master-data>
-            </watt-tab>
+    <ng-container *rxLet="organization$ as organization">
+      <div [hidden]="isLoading">
+        <!-- Tabs -->
+        <watt-tabs class="tabs">
+          <watt-tab [label]="t('masterDataTabHeader')">
+            <dh-market-participant-organization-master-data
+              [organization]="organization"
+              (hasChanges)="onMasterDataChanged($event)"
+            ></dh-market-participant-organization-master-data>
+          </watt-tab>
+        </watt-tabs>
 
-            <watt-tab [label]="t('contactDataTabHeader')">
-              <dh-market-participant-organization-contact-data
-                [contacts]="contacts"
-                (contactsChanged)="onContactsChanged($event.add, $event.remove)"
-              ></dh-market-participant-organization-contact-data>
-            </watt-tab>
-          </watt-tabs>
-
-          <!-- Confirmation  -->
-          <div class="button-container">
-            <watt-button variant="secondary" (click)="onCancelled()"
-              >{{ t("cancelLabel") }}
-            </watt-button>
-            <watt-button variant="primary" (click)="onSaved()">{{
-              t("saveLabel")
-            }}</watt-button>
-          </div>
+        <!-- Confirmation  -->
+        <div class="button-container">
+          <watt-button variant="secondary" (click)="onCancelled()"
+            >{{ t("cancelLabel") }}
+          </watt-button>
+          <watt-button variant="primary" (click)="onSaved()">{{
+            t("saveLabel")
+          }}</watt-button>
         </div>
-      </ng-container>
+      </div>
     </ng-container>
   </ng-container>
 </ng-container>
