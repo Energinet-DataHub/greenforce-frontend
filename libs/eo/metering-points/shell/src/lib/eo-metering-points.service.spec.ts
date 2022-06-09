@@ -48,13 +48,13 @@ describe('EoMeteringPointsService', () => {
     it('emits API response with metering points', async () => {
       const { apiEnvironment, client, server, teardown } = setup();
       const fakeResponse: MeteringPointsResponse = {
-        meteringpoints: [{ gsrn: '1234-meter-id' }],
+        meteringPoints: [{ gsrn: '1234-meter-id', gridArea: 'DK1' }],
       };
 
       const whenResponse = lastValueFrom(client.getMeteringPoints());
       const response = server.expectOne(
         (request) =>
-          request.url === `${apiEnvironment.apiBase}/meteringpoints/list` &&
+          request.url === `${apiEnvironment.apiBase}/meteringpoints` &&
           request.method === 'GET'
       );
       response.flush(fakeResponse);
