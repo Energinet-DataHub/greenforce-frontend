@@ -300,6 +300,7 @@
         "meteringPointTypesHeader": "Målepunktstyper",
         "gridAreasHeader": "Netområder",
         "marketRolesHeader": "Markedsroller",
+        "contactsHeader": "Kontakter",
         "cancelLabel": "Annuller",
         "saveLabel": "Gem",
         "masterData": {
@@ -399,7 +400,6 @@
         "organizationCreateHeader": "Opret organisation",
         "organizationEditHeader": "Rediger organisation",
         "masterDataTabHeader": "Stamdata",
-        "contactDataTabHeader": "Kontakter",
         "cancelLabel": "Annuller",
         "saveLabel": "Gem",
         "errorToastLabel": "Fejl",
@@ -443,17 +443,27 @@
             "se": "Sverige",
             "gb": "England"
           }
-        },
-        "contacts": {
-          "category": "Kategori",
-          "name": "Navn",
-          "namePlaceholder": "Navn",
-          "email": "E-mail",
-          "emailPlaceholder": "E-mail",
-          "phone": "Telefon",
-          "phonePlaceholder": "Telefon (valgfri)"
         }
       }
+    },
+    "contacts": {
+      "category": "Kategori",
+      "name": "Navn",
+      "namePlaceholder": "Navn",
+      "email": "E-mail",
+      "emailPlaceholder": "E-mail",
+      "phone": "Telefon",
+      "phonePlaceholder": "Telefon (valgfri)",
+      "ariaLabelCategoryForExistingContact": "kategorifelt for eksisterende kontakt",
+      "ariaLabelNameForExistingContact": "navnefelt for eksisterende kontakt",
+      "ariaLabelPhoneForExistingContact": "telefonnummerfelt for eksisterende kontakt",
+      "ariaLabelMailForExistingContact": "mailfelt for eksisterende kontakt",
+      "ariaLabelDeleteForExistingContact": "sletkanp for eksisterende kontakt",
+      "ariaLabelCategoryForNewContact": "kategorifelt for ny kontakt",
+      "ariaLabelNameForNewContact": "navnefelt for ny kontakt",
+      "ariaLabelPhoneForNewContact": "telefonnummerfelt for ny kontakt",
+      "ariaLabelMailForNewContact": "mailfelt for ny kontakt",
+      "ariaLabelDeleteForNewContact": "sletknap for ny kontakt"
     }
   },
   "wholesale": {
