@@ -18,4 +18,3 @@ export * from './lib/characters';
 export * from './lib/danish-locale-code';
 export * from './lib/danish-locale.initializer';
 export * from './lib/danish-locale.module';
-export * from './lib/danish-locale.provider';

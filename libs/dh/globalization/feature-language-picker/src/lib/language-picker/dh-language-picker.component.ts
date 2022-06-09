@@ -23,7 +23,7 @@ import {
 import { TranslocoService } from '@ngneat/transloco';
 import { map, Observable, tap } from 'rxjs';
 
-import { DateAdapter, WattDateAdapter } from '@energinet-datahub/watt';
+import { WattLocaleService } from '@energinet-datahub/watt';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -36,14 +36,14 @@ export class DhLanguagePickerComponent {
     this.transloco.langChanges$.pipe(
       map(toDisplayLanguage),
       tap((language) => {
-        (this.dateAdapter as WattDateAdapter).setActiveLocale(language);
+        this.localeService.setActiveLocale(language);
       })
     );
   displayLanguages = displayLanguages;
 
   constructor(
     private transloco: TranslocoService,
-    private dateAdapter: DateAdapter<unknown>
+    private localeService: WattLocaleService
   ) {}
 
   onLanguageSelect(language: DisplayLanguage): void {
