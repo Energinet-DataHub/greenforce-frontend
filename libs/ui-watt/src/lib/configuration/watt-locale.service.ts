@@ -14,14 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { nonBreakingSpace } from './characters';
+import { Injectable } from '@angular/core';
+import { DateAdapter } from '@angular/material/core';
+import { WattDateAdapter, WattSupportedLocales } from './watt-date-adapter';
 
-describe('nonBreakingSpace', () => {
-  it('has the character code 160', () => {
-    expect(nonBreakingSpace.charCodeAt(0)).toBe(160);
-  });
+@Injectable({
+  providedIn: 'root',
+})
+export class WattLocaleService {
+  constructor(private dateAdapter: DateAdapter<unknown>) {}
 
-  it('is one character', () => {
-    expect(nonBreakingSpace).toHaveLength(1);
-  });
-});
+  setActiveLocale(locale: WattSupportedLocales): void {
+    (this.dateAdapter as WattDateAdapter).setActiveLocale(locale);
+  }
+}
