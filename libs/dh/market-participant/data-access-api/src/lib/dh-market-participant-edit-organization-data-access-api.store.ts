@@ -20,17 +20,13 @@ import {
   AddressDto,
   ChangeOrganizationDto,
   ContactCategory,
-  ContactDto,
-  CreateContactDto,
   MarketParticipantHttp,
   OrganizationDto,
 } from '@energinet-datahub/dh/shared/domain';
 import {
   catchError,
   EMPTY,
-  from,
   map,
-  mergeMap,
   Observable,
   of,
   switchMap,
@@ -56,14 +52,8 @@ export interface ContactChanges {
 
 interface SaveProgress {
   changes: OrganizationChanges;
-  addedContacts: ContactChanges[];
-  removedContacts: ContactDto[];
-
   organizationId: string | undefined;
-
   organizationSaved: boolean;
-  contactsRemoved: boolean;
-  contactsAdded: boolean;
 }
 
 export interface MarketParticipantEditOrganizationState {
@@ -71,12 +61,9 @@ export interface MarketParticipantEditOrganizationState {
 
   // Input
   organization?: OrganizationDto;
-  contacts: ContactDto[];
 
   // Changes
   changes: OrganizationChanges;
-  addedContacts: ContactChanges[];
-  removedContacts: ContactDto[];
 
   // Validation
   validation?: { error: string };
@@ -85,29 +72,19 @@ export interface MarketParticipantEditOrganizationState {
 const initialState: MarketParticipantEditOrganizationState = {
   isLoading: false,
   changes: { address: { country: 'DK' } },
-  contacts: [],
-  addedContacts: [],
-  removedContacts: [],
 };
 
 @Injectable()
 export class DhMarketParticipantEditOrganizationDataAccessApiStore extends ComponentStore<MarketParticipantEditOrganizationState> {
   isLoading$ = this.select((state) => state.isLoading);
   isEditing$ = this.select((state) => state.organization !== undefined);
-  contacts$ = this.select((state) => state.contacts);
   organization$ = this.select((state) => state.organization);
   validation$ = this.select((state) => state.validation);
   changes$ = this.select(
     (state): SaveProgress => ({
       changes: state.changes,
-      removedContacts: state.removedContacts,
-      addedContacts: state.addedContacts,
-
       organizationId: state.organization?.organizationId,
-
       organizationSaved: false,
-      contactsRemoved: false,
-      contactsAdded: false,
     })
   );
 
@@ -124,18 +101,16 @@ export class DhMarketParticipantEditOrganizationDataAccessApiStore extends Compo
             this.patchState({ isLoading: false });
             return EMPTY;
           }
-          return this.getOrganization(organizationId)
-            .pipe(switchMap(() => this.getContacts(organizationId)))
-            .pipe(
-              catchError((errorResponse: HttpErrorResponse) => {
-                this.patchState({
-                  validation: {
-                    error: parseErrorResponse(errorResponse),
-                  },
-                });
-                return EMPTY;
-              })
-            );
+          return this.getOrganization(organizationId).pipe(
+            catchError((errorResponse: HttpErrorResponse) => {
+              this.patchState({
+                validation: {
+                  error: parseErrorResponse(errorResponse),
+                },
+              });
+              return EMPTY;
+            })
+          );
         }),
         tap(() => this.patchState({ isLoading: false }))
       )
@@ -148,15 +123,10 @@ export class DhMarketParticipantEditOrganizationDataAccessApiStore extends Compo
       switchMap(([onSaveCompletedFn, progress]) =>
         of(progress).pipe(
           switchMap((changes) => this.saveOrganization(changes)),
-          switchMap((changes) => this.removeContacts(changes)),
-          switchMap((changes) => this.addContacts(changes)),
           tapResponse(
             (state) => {
               this.patchState({
-                isLoading:
-                  !state.organizationSaved ||
-                  !state.contactsRemoved ||
-                  !state.contactsAdded,
+                isLoading: !state.organizationSaved,
               });
               onSaveCompletedFn();
             },
@@ -197,41 +167,6 @@ export class DhMarketParticipantEditOrganizationDataAccessApiStore extends Compo
       );
   };
 
-  private readonly removeContacts = (saveProgress: SaveProgress) => {
-    const orgId = saveProgress.organizationId;
-
-    if (saveProgress.removedContacts.length === 0 || orgId === undefined) {
-      return of({ ...saveProgress, contactsRemoved: true });
-    }
-
-    return from(saveProgress.removedContacts).pipe(
-      mergeMap((contact) =>
-        this.httpClient.v1MarketParticipantOrganizationOrgIdContactContactIdDelete(
-          orgId,
-          contact.contactId
-        )
-      ),
-      map(() => ({ ...saveProgress, contactsRemoved: true }))
-    );
-  };
-
-  private readonly addContacts = (saveProgress: SaveProgress) => {
-    const orgId = saveProgress.organizationId;
-
-    if (saveProgress.addedContacts.length === 0 || orgId === undefined)
-      return of({ ...saveProgress, contactsAdded: true });
-
-    return from(saveProgress.addedContacts).pipe(
-      mergeMap((contact) =>
-        this.httpClient.v1MarketParticipantOrganizationOrgIdContactPost(
-          orgId,
-          contact as CreateContactDto
-        )
-      ),
-      map(() => ({ ...saveProgress, contactsAdded: true }))
-    );
-  };
-
   private readonly getOrganization = (organizationId: string) =>
     this.httpClient
       .v1MarketParticipantOrganizationOrgIdGet(organizationId)
@@ -243,28 +178,8 @@ export class DhMarketParticipantEditOrganizationDataAccessApiStore extends Compo
         )
       );
 
-  private readonly getContacts = (organizationId: string) =>
-    this.httpClient
-      .v1MarketParticipantOrganizationOrgIdContactGet(organizationId)
-      .pipe(
-        tap((response) =>
-          this.patchState({
-            contacts: response,
-          })
-        )
-      );
-
   readonly setMasterDataChanges = (changes: OrganizationChanges) =>
     this.patchState({
       changes,
-    });
-
-  readonly setContactChanges = (
-    added: ContactChanges[],
-    removed: ContactDto[]
-  ) =>
-    this.patchState({
-      addedContacts: added,
-      removedContacts: removed,
     });
 }
