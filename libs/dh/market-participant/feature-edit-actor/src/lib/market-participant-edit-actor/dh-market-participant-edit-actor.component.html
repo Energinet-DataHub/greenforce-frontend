@@ -69,6 +69,13 @@ limitations under the License.
             >
             </dh-market-participant-actor-market-roles>
           </watt-tab>
+          <watt-tab [label]="t('contactsHeader')">
+            <dh-market-participant-actor-contact-data
+              [contacts]="contacts$ | push"
+              (contactsChanged)="onContactsChanged($event.add, $event.remove)"
+            >
+            </dh-market-participant-actor-contact-data>
+          </watt-tab>
         </watt-tabs>
       </div>
     </ng-container>

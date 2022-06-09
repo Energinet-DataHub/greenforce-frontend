@@ -25,11 +25,9 @@ import {
   EventEmitter,
   ChangeDetectorRef,
   ChangeDetectionStrategy,
+  SimpleChanges,
 } from '@angular/core';
-import {
-  ContactChanges,
-  DhMarketParticipantOverviewDataAccessApiStore,
-} from '@energinet-datahub/dh/market-participant/data-access-api';
+import { ActorContactChanges } from '@energinet-datahub/dh/market-participant/data-access-api';
 import { TranslocoModule } from '@ngneat/transloco';
 import { MatTableModule } from '@angular/material/table';
 import { FormsModule } from '@angular/forms';
@@ -41,35 +39,29 @@ import {
   WattDropdownOption,
 } from '@energinet-datahub/watt';
 import {
+  ActorContactDto,
   ContactCategory,
-  ContactDto,
 } from '@energinet-datahub/dh/shared/domain';
 
-interface EditableContactRow {
-  contact: ContactDto;
-  changed: ContactChanges;
+interface EditableActorContactRow {
+  contact: ActorContactDto;
+  changed: ActorContactChanges;
   isExisting: boolean;
   isModified: boolean;
   isNewPlaceholder: boolean;
 }
 
 @Component({
-  selector: 'dh-market-participant-organization-contact-data',
-  styleUrls: [
-    './dh-market-participant-organization-contact-data.component.scss',
-  ],
+  selector: 'dh-market-participant-actor-contact-data',
+  styleUrls: ['./dh-market-participant-actor-contact-data.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl:
-    './dh-market-participant-organization-contact-data.component.html',
-  providers: [DhMarketParticipantOverviewDataAccessApiStore],
+  templateUrl: './dh-market-participant-actor-contact-data.component.html',
 })
-export class DhMarketParticipantOrganizationContactDataComponent
-  implements OnChanges
-{
-  @Input() contacts: ContactDto[] = [];
+export class DhMarketParticipantActorContactDataComponent implements OnChanges {
+  @Input() contacts: ActorContactDto[] = [];
   @Output() contactsChanged = new EventEmitter<{
-    add: ContactChanges[];
-    remove: ContactDto[];
+    add: ActorContactChanges[];
+    remove: ActorContactDto[];
   }>();
 
   constructor(private cd: ChangeDetectorRef) {}
@@ -83,22 +75,24 @@ export class DhMarketParticipantOrganizationContactDataComponent
     })
   );
 
-  contactRows: EditableContactRow[] = [];
-  deletedContacts: ContactDto[] = [];
+  contactRows: EditableActorContactRow[] = [];
+  deletedContacts: ActorContactDto[] = [];
 
-  ngOnChanges() {
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.contacts?.previousValue === changes.contacts?.currentValue)
+      return;
+
     const contacts = this.contacts;
     if (contacts === undefined) return;
 
     this.contactRows = contacts
       .map(
-        (contact): EditableContactRow => ({
+        (contact): EditableActorContactRow => ({
           isExisting: true,
           isModified: false,
           isNewPlaceholder: false,
           contact: contact,
           changed: {
-            isValid: true,
             category: contact.category,
             name: contact.name,
             email: contact.email,
@@ -109,7 +103,7 @@ export class DhMarketParticipantOrganizationContactDataComponent
       .concat([this.createPlaceholder()]);
   }
 
-  readonly onRowDelete = (row: EditableContactRow) => {
+  readonly onRowDelete = (row: EditableActorContactRow) => {
     if (row.isExisting) {
       this.deletedContacts = [...this.deletedContacts, row.contact];
     }
@@ -123,13 +117,13 @@ export class DhMarketParticipantOrganizationContactDataComponent
     this.raiseContactsChanged();
   };
 
-  readonly onDropdownChanged = (row: EditableContactRow) => {
+  readonly onDropdownChanged = (row: EditableActorContactRow) => {
     if (!row.isNewPlaceholder) {
       this.onModelChanged(row);
     }
   };
 
-  readonly onModelChanged = (row: EditableContactRow) => {
+  readonly onModelChanged = (row: EditableActorContactRow) => {
     if (row.isNewPlaceholder) {
       row.isNewPlaceholder = false;
       this.contactRows = [...this.contactRows, this.createPlaceholder()];
@@ -161,13 +155,13 @@ export class DhMarketParticipantOrganizationContactDataComponent
     });
   };
 
-  readonly createPlaceholder = (): EditableContactRow => {
+  readonly createPlaceholder = (): EditableActorContactRow => {
     return {
       isExisting: false,
       isModified: false,
       isNewPlaceholder: true,
       contact: { category: 'Default', name: '', email: '', contactId: '' },
-      changed: { category: 'Default', name: '', email: '', isValid: false },
+      changed: { category: 'Default', name: '', email: '' },
     };
   };
 }
@@ -183,7 +177,7 @@ export class DhMarketParticipantOrganizationContactDataComponent
     WattFormFieldModule,
     WattDropdownModule,
   ],
-  exports: [DhMarketParticipantOrganizationContactDataComponent],
-  declarations: [DhMarketParticipantOrganizationContactDataComponent],
+  exports: [DhMarketParticipantActorContactDataComponent],
+  declarations: [DhMarketParticipantActorContactDataComponent],
 })
-export class DhMarketParticipantOrganizationContactDataComponentScam {}
+export class DhMarketParticipantActorContactDataComponentScam {}
