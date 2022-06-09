@@ -81,6 +81,8 @@ export class EoEmissionsPageInfoComponent {
   }
 
   convertToKg(num: number): number {
+    if (!num || Number.isNaN(num)) return 0;
+
     return Number((num / 1000).toFixed(2));
   }
 }
