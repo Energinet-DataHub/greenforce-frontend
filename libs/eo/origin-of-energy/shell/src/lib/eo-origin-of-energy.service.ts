@@ -23,19 +23,19 @@ import {
 import { map, Observable } from 'rxjs';
 
 export interface EoOriginOfEnergyResponse {
-  energysources: [
+  energySources: [
     {
       dateFrom: number;
       dateTo: number;
       renewable: number;
-      source: {
+      ratios: {
         wood: number;
         waste: number;
         straw: number;
         oil: number;
         naturalGas: number;
         coal: number;
-        biogas: number;
+        bioGas: number;
         solar: number;
         windOnshore: number;
         windOffshore: number;
@@ -58,7 +58,7 @@ export class EoOriginOfEnergyService {
         }/sources?dateFrom=1609455600&dateTo=1640991599&aggregation=Total`,
         { withCredentials: true }
       )
-      .pipe(map((response) => response.energysources[0].renewable));
+      .pipe(map((response) => response.energySources[0].renewable));
   }
 
   constructor(
