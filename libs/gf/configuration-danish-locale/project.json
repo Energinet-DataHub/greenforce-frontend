@@ -2,7 +2,7 @@
   "projectType": "library",
   "root": "libs/gf/configuration-danish-locale",
   "sourceRoot": "libs/gf/configuration-danish-locale/src",
-  "prefix": "gf-test",
+  "prefix": "gf",
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",

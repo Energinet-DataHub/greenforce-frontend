@@ -60,12 +60,12 @@ export class WattDanishDatetimeRootModule {
 }
 
 /**
- * Do not import directly. Use `StorybookConfigurationLocalization.forRoot`.
+ * Do not import directly. Use `WattDanishDatetimeModule.forRoot`.
  */
 @NgModule()
 export class WattDanishDatetimeModule {
   /**
-   * Registers root-level HTTP dependencies.
+   * Registers root-level dependencies.
    */
   static forRoot(): ModuleWithProviders<WattDanishDatetimeModule> {
     return {
