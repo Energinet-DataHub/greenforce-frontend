@@ -14,7 +14,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './lib/characters';
-export * from './lib/danish-locale-code';
-export * from './lib/danish-locale.initializer';
 export * from './lib/danish-locale.module';

@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { nonBreakingSpace } from '@energinet-datahub/gf/configuration-danish-locale';
+import { nonBreakingSpace } from './characters';
 
 const singleSpace = ' ';
 
