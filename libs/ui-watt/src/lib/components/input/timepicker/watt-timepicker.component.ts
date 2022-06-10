@@ -52,8 +52,12 @@ import { WattSliderValue } from '../../slider/watt-slider.component';
 const hoursMinutesFormat = 'HH:MM';
 const hoursMinutesPlaceholder = 'HH:MM';
 
+// Constants for working with time intervals
+const minutesInADay = 24 * 60;
+const quartersInADay = minutesInADay / 15;
+
 // Show slider initially as "00:00 - 23:59"
-const initialSliderValue: WattSliderValue = { min: 0, max: 1439 };
+const initialSliderValue: WattSliderValue = { min: 0, max: minutesInADay - 1 };
 
 /** Converts string time format (HH:MM) to number of minutes. */
 function timeToMinutes(value: string) {
@@ -148,7 +152,9 @@ export class WattTimepickerComponent extends WattPickerBase {
   /**
    * @ignore
    */
-  sliderSteps = [...Array(96).keys()].map((x) => x * 15).concat(1439);
+  sliderSteps = [...Array(quartersInADay).keys()]
+    .map((x) => x * 15)
+    .concat(minutesInADay - 1);
 
   /**
    * @ignore
