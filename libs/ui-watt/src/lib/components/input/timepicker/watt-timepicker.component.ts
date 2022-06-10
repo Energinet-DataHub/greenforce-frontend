@@ -96,7 +96,6 @@ const getTruthy =
 export class WattTimepickerComponent extends WattPickerBase {
   /**
    * Text to display on label for time range slider.
-   * @ignore
    */
   @Input()
   sliderLabel = '';
