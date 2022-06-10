@@ -46,10 +46,10 @@ limitations under the License.
       <mat-cell *matCellDef="let element">
         <watt-badge *ngIf="element.actor !== undefined" type="info">{{
           t("status." + element.actor.status)
-          }}</watt-badge>
+        }}</watt-badge>
         <watt-badge *ngIf="element.actor === undefined" type="warning">{{
           t("columns.noActors")
-          }}</watt-badge>
+        }}</watt-badge>
       </mat-cell>
     </ng-container>
 
@@ -61,9 +61,7 @@ limitations under the License.
       <mat-cell *matCellDef="let element">
         <div class="market-roles-cell" *ngIf="element.actor !== undefined">
           <div *ngFor="let mr of element.actor.marketRoles">
-            {{
-            "marketParticipant.marketRoles." + mr.eicFunction | transloco
-            }}
+            {{ "marketParticipant.marketRoles." + mr.eicFunction | transloco }}
           </div>
         </div>
         <div class="list-cell-container" *ngIf="element.actor === undefined">
@@ -102,12 +100,16 @@ limitations under the License.
           <button mat-menu-item (click)="onCreateActor(element)">
             {{ t("createActor") }}
           </button>
-          <button mat-menu-item (click)="
-                onEditActor(
-                  element.organization.organizationId,
-                  element.actor.actorId
-                )
-              " *ngIf="element.actor">
+          <button
+            mat-menu-item
+            (click)="
+              onEditActor(
+                element.organization.organizationId,
+                element.actor.actorId
+              )
+            "
+            *ngIf="element.actor"
+          >
             {{ t("editActor") }}
           </button>
         </mat-menu>
@@ -118,5 +120,9 @@ limitations under the License.
     <mat-row *matRowDef="let row; columns: columnIds"></mat-row>
   </mat-table>
 
-  <mat-paginator [pageSizeOptions]="[5, 10, 20, 50]" pageSize="10" showFirstLastButtons></mat-paginator>
+  <mat-paginator
+    [pageSizeOptions]="[5, 10, 20, 50]"
+    pageSize="10"
+    showFirstLastButtons
+  ></mat-paginator>
 </ng-container>
