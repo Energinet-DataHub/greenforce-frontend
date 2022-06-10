@@ -60,13 +60,13 @@ const quartersInADay = minutesInADay / 15;
 const initialSliderValue: WattSliderValue = { min: 0, max: minutesInADay - 1 };
 
 /** Converts string time format (HH:MM) to number of minutes. */
-function timeToMinutes(value: string) {
+function timeToMinutes(value: string): number {
   const [hours, minutes] = value.split(':');
   return parseInt(hours) * 60 + parseInt(minutes);
 }
 
 /** Converts number of minutes to string time format (HH:MM). */
-function minutesToTime(value: number) {
+function minutesToTime(value: number): string {
   const hours = `${Math.floor(value / 60)}`;
   const minutes = `${value % 60}`;
   return `${hours.padStart(2, '0')}:${minutes.padStart(2, '0')}`;
