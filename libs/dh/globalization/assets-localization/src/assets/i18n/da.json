@@ -304,7 +304,7 @@
         "cancelLabel": "Annuller",
         "saveLabel": "Gem",
         "masterData": {
-          "labelGln": "Organisationskode",
+          "labelGln": "Aktørnummer",
           "labelStatus": "Status",
           "fieldRequiredErrorText": "Feltet er påkrævet.",
           "statuses": {
@@ -370,7 +370,7 @@
       "header": "Organisationer",
       "columns": {
         "organization": "Organisation",
-        "gln": "Organisationskode",
+        "gln": "Aktørnummer",
         "status": "Status",
         "marketRoles": "Markedsroller",
         "gridAreas": "Netområder",
