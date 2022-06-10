@@ -62,7 +62,7 @@ const initialSliderValue: WattSliderValue = { min: 0, max: minutesInADay - 1 };
 /** Converts string time format (HH:MM) to number of minutes. */
 function timeToMinutes(value: string): number {
   const [hours, minutes] = value.split(':');
-  return parseInt(hours) * 60 + parseInt(minutes);
+  return Number(hours) * 60 + Number(minutes);
 }
 
 /** Converts number of minutes to string time format (HH:MM). */
