@@ -387,7 +387,7 @@ export abstract class WattPickerBase
   /**
    * @ignore
    */
-  private setSingleValue(value: string, input: HTMLInputElement) {
+  private setSingleValue(value = '', input: HTMLInputElement) {
     input.value = value;
   }
 }

@@ -73,6 +73,7 @@
     "eo-shared-environments": "libs/eo/shared/environments",
     "eo-shared-styles": "libs/eo/shared/styles",
     "eo-shared-util-browser": "libs/eo/shared/util-browser",
+    "gf-configuration-danish-locale": "libs/gf/configuration-danish-locale",
     "gf-test-util-matchers": "libs/gf/test-util-matchers",
     "gf-test-util-staging": "libs/gf/test-util-staging",
     "gf-util-browser": "libs/gf/util-browser",
