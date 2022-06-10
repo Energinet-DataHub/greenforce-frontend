@@ -246,10 +246,12 @@ export class WattTimepickerComponent extends WattPickerBase {
 
     // Synchronize the slider value with the input fields. Calling `update`
     // here automatically triggers an emit on the `timeRange$` observable.
-    this.sliderChange$.pipe(takeUntil(this.destroy$)).subscribe((value) => {
-      startInput.maskedInput.update(minutesToTime(value.min));
-      endInput.maskedInput.update(minutesToTime(value.max));
-    });
+    this.sliderChange$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((sliderValue) => {
+        startInput.maskedInput.update(minutesToTime(sliderValue.min));
+        endInput.maskedInput.update(minutesToTime(sliderValue.max));
+      });
 
     // Whenever the start input value changes, set (or remove)
     // the minimum allowed value for the end input value.
