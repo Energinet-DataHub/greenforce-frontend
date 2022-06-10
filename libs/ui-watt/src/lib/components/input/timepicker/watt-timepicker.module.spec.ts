@@ -186,8 +186,8 @@ describe(WattTimepickerModule.name, () => {
 
       const [leftHandle, rightHandle] = screen.queryAllByRole('slider');
 
-      expect(leftHandle.getAttribute(ARIA_VALUENOW)).toEqual('0');
-      expect(rightHandle.getAttribute(ARIA_VALUENOW)).toEqual('1439');
+      expect(leftHandle.getAttribute(ARIA_VALUENOW)).toEqual('0'); // 00:00
+      expect(rightHandle.getAttribute(ARIA_VALUENOW)).toEqual('1439'); // 23:59
     });
 
     it('shows slider with initial values from state', async () => {
@@ -198,8 +198,8 @@ describe(WattTimepickerModule.name, () => {
 
       const [leftHandle, rightHandle] = screen.queryAllByRole('slider');
 
-      expect(leftHandle.getAttribute(ARIA_VALUENOW)).toEqual('10');
-      expect(rightHandle.getAttribute(ARIA_VALUENOW)).toEqual('1400');
+      expect(leftHandle.getAttribute(ARIA_VALUENOW)).toEqual('10'); // 00:10
+      expect(rightHandle.getAttribute(ARIA_VALUENOW)).toEqual('1400'); // 23:20
     });
 
     it('adjusts input values when slider changes', async () => {
@@ -238,8 +238,8 @@ describe(WattTimepickerModule.name, () => {
 
       const [leftHandle, rightHandle] = screen.queryAllByRole('slider');
 
-      expect(leftHandle.getAttribute(ARIA_VALUENOW)).toEqual('83');
-      expect(rightHandle.getAttribute(ARIA_VALUENOW)).toEqual('1425');
+      expect(leftHandle.getAttribute(ARIA_VALUENOW)).toEqual('83'); // 01:23
+      expect(rightHandle.getAttribute(ARIA_VALUENOW)).toEqual('1425'); // 23:45
     });
   });
 
