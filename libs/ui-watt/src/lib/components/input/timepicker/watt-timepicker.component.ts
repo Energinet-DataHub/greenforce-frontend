@@ -122,12 +122,6 @@ export class WattTimepickerComponent extends WattPickerBase {
   /**
    * @ignore
    */
-  @ViewChild('overlay')
-  overlay!: ElementRef;
-
-  /**
-   * @ignore
-   */
   sliderId = `${this.id}-slider`;
 
   /**
