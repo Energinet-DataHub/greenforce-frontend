@@ -74,6 +74,7 @@ describe(WattTimepickerModule.name, () => {
   <watt-timepicker
     [formControl]="timeRangeControl"
     [range]="true"
+    sliderLabel="Adjust time range"
   ></watt-timepicker>
 </watt-form-field>`;
 
@@ -240,6 +241,15 @@ describe(WattTimepickerModule.name, () => {
 
       expect(leftHandle.getAttribute(ARIA_VALUENOW)).toEqual('83'); // 01:23
       expect(rightHandle.getAttribute(ARIA_VALUENOW)).toEqual('1425'); // 23:45
+    });
+
+    it('displays slider label with value from input', async () => {
+      await setup({ template });
+      const sliderToggle = screen.queryByRole('button') as HTMLButtonElement;
+
+      userEvent.click(sliderToggle);
+
+      expect(screen.queryByText('Adjust time range')).toBeInTheDocument();
     });
   });
 
