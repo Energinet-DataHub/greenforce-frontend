@@ -130,7 +130,10 @@ export class WattTimepickerComponent extends WattPickerBase {
    * @ignore
    */
   @HostBinding('attr.aria-owns')
-  ariaOwns = this.sliderId;
+  get ariaOwns() {
+    // Only range input has slider
+    return this.range && this.sliderOpen ? this.sliderId : undefined;
+  }
 
   /**
    * @ignore

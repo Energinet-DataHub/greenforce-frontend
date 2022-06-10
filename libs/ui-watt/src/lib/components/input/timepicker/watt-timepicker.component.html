@@ -58,12 +58,11 @@ limitations under the License.
     class="watt-timepicker-slider-toggle"
     type="button"
     [attr.aria-pressed]="sliderOpen"
-    [attr.aria-controls]="sliderId"
     (click)="toggleSlider()"
     (focusin)="onFocusIn()"
     (focusout)="onFocusOut($event)"
   >
-    <watt-icon name="time"></watt-icon>
+    <watt-icon name="time" [label]="sliderLabel"></watt-icon>
   </button>
 
   <ng-template
