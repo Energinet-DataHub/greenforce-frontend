@@ -164,7 +164,7 @@ export class WattTimepickerComponent extends WattPickerBase {
   /**
    * @ignore
    */
-  get sliderValue() {
+  get sliderValue(): WattSliderValue {
     if (this.value?.start && this.value?.end) {
       return {
         min: timeToMinutes(this.value.start),
