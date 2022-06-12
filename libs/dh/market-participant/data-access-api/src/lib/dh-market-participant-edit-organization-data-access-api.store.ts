@@ -40,6 +40,7 @@ export interface OrganizationChanges {
   name?: string;
   businessRegisterIdentifier?: string;
   address: AddressDto;
+  comment?: string;
 }
 
 export interface ContactChanges {
