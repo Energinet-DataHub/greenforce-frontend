@@ -411,6 +411,7 @@
           "zipCodeLabel": "Post nr.",
           "cityLabel": "By",
           "countryLabel": "Land",
+          "commentLabel": "Kommentar",
           "fieldRequiredErrorText": "Feltet er påkrævet.",
           "countries": {
             "at": "Østrig",
