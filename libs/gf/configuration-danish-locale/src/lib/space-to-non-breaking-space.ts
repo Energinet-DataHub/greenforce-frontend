@@ -16,12 +16,8 @@
  */
 import { nonBreakingSpace } from './characters';
 
-describe('nonBreakingSpace', () => {
-  it('has the character code 160', () => {
-    expect(nonBreakingSpace.charCodeAt(0)).toBe(160);
-  });
+const singleSpace = ' ';
 
-  it('is one character', () => {
-    expect(nonBreakingSpace).toHaveLength(1);
-  });
-});
+export function spaceToNonBreakingSpace(value: string): string {
+  return value.replace(singleSpace, nonBreakingSpace);
+}
