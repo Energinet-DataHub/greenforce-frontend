@@ -14,17 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-// API environment
-export * from './lib/api-environment/dh-api-environment';
-export * from './lib/api-environment/load-dh-api-environment';
+import {
+  DhFeatureFlag,
+  loadDhFeatureFlagsEnvironment as _loadDhFeatureFlagsEnvironment,
+} from '@energinet-datahub/dh/shared/environments';
 
-// B2C environment
-export * from './lib/b2c-environment/dh-b2c-environment';
-export * from './lib/b2c-environment/load-dh-b2c-environment';
-
-// Feature flags environment
-export * from './lib/feature-flags-environment/dh-feature-flags-environment';
-export * from './lib/feature-flags-environment/load-dh-feature-flags-environment';
-
-// Application environment
-export * from './lib/environment';
+export function loadDhFeatureFlagsEnvironment(): Promise<DhFeatureFlag[]> {
+  return _loadDhFeatureFlagsEnvironment('dh-feature-flags-environment.json');
+}
