@@ -19,8 +19,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Meta, moduleMetadata, Story } from '@storybook/angular';
 import { within, fireEvent } from '@storybook/testing-library';
 
-import { StorybookConfigurationLocalizationModule } from '../../+storybook/configuration-localization/storybook-configuration-localization.module';
-
+import { StorybookConfigurationLocalizationModule } from '../../+storybook/storybook-configuration-localization.module';
 import { WattFormFieldModule } from '../../../form-field/form-field.module';
 import { WattRangeValidators } from '../../shared/validators';
 import { WattTimepickerComponent } from '../watt-timepicker.component';
@@ -58,7 +57,7 @@ const template = `
 
  <watt-form-field>
    <watt-label>Time range</watt-label>
-   <watt-timepicker [formControl]="exampleFormControlRange" [range]="true"></watt-timepicker>
+   <watt-timepicker sliderLabel="Adjust time range" [formControl]="exampleFormControlRange" [range]="true"></watt-timepicker>
    <watt-error *ngIf="exampleFormControlRange?.errors?.rangeRequired">
        Time range is required
    </watt-error>

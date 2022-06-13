@@ -9,7 +9,7 @@
     "navigation": {
       "meteringPoints": "Metering points",
       "messageArchive": "Request/Response messages",
-      "marketParticipant": "Organizations",
+      "marketParticipant": "Organisations",
       "wholesaleStartProcess": "Settlements - Start Process",
       "wholesaleOverview": "Settlements - Overview"
     }
@@ -304,7 +304,7 @@
         "cancelLabel": "Cancel",
         "saveLabel": "Save",
         "masterData": {
-          "labelGln": "Organization code",
+          "labelGln": "Actor Number",
           "labelStatus": "Status",
           "fieldRequiredErrorText": "Field is required.",
           "statuses": {
@@ -367,10 +367,10 @@
       "TransmissionCapacityAllocator": "Transmission capacity allocator"
     },
     "organization": {
-      "header": "Organizations",
+      "header": "Organisations",
       "columns": {
-        "organization": "Organization",
-        "gln": "Organization code",
+        "organization": "Organisation",
+        "gln": "Actor Number",
         "status": "Status",
         "marketRoles": "Market roles",
         "gridAreas": "Grid areas",
@@ -383,13 +383,13 @@
         "Passive": "Passive",
         "Deleted": "Deleted"
       },
-      "editOrganization": "Edit organization",
+      "editOrganization": "Edit organisation",
       "editActor": "Edit actor",
       "createActor": "Create actor",
-      "createOrganization": "Create organization",
-      "noOrganizations": "No organizations",
+      "createOrganization": "Create organisation",
+      "noOrganizations": "No organisations",
       "paginator": {
-        "itemsPerPageLabel": "Organizations per page",
+        "itemsPerPageLabel": "Organisations per page",
         "of": "of",
         "first": "First page",
         "last": "Last page",
@@ -397,8 +397,8 @@
         "previous": "Previous page"
       },
       "create": {
-        "organizationCreateHeader": "Create organization",
-        "organizationEditHeader": "Edit organization",
+        "organizationCreateHeader": "Create organisation",
+        "organizationEditHeader": "Edit organisation",
         "masterDataTabHeader": "Master data",
         "cancelLabel": "Cancel",
         "saveLabel": "Save",

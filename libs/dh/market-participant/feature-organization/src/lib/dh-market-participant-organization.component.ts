@@ -55,6 +55,7 @@ export class DhMarketParticipantOrganizationComponent {
   isLoading$ = this.store.isLoading$;
   validationError$ = this.store.validationError$;
   overviewList$ = this.store.overviewList$;
+  gridAreas$ = this.store.gridAreas$;
 
   readonly editOrganization = (organizationId: string) => {
     const url = this.router.createUrlTree([
