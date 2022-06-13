@@ -76,8 +76,7 @@ limitations under the License.
   <div class="form-container">
     <watt-form-field class="field-comment">
       <watt-label>{{t('commentLabel')}}</watt-label>
-      <textarea wattInput class="textarea-comment" [(ngModel)]="changes.comment" (ngModelChange)="onModelChanged()"
-        #commentInputModel="ngModel"></textarea>
+      <input wattInput [(ngModel)]="changes.comment" (ngModelChange)="onModelChanged()" #commentInputModel="ngModel" />
     </watt-form-field>
   </div>
 </ng-container>
