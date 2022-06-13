@@ -135,7 +135,10 @@ export abstract class WattPickerBase
     }
 
     if (!this.range) {
-      this.setSingleValue(value as string, this.input.nativeElement);
+      this.setSingleValue(
+        value as Exclude<WattPickerValue, WattRange>,
+        this.input.nativeElement
+      );
     } else {
       this.setRangeValue(
         value as WattRange,
@@ -387,7 +390,10 @@ export abstract class WattPickerBase
   /**
    * @ignore
    */
-  private setSingleValue(value: string, input: HTMLInputElement) {
-    input.value = value;
+  private setSingleValue(
+    value: Exclude<WattPickerValue, WattRange>,
+    input: HTMLInputElement
+  ) {
+    input.value = value ? value : '';
   }
 }
