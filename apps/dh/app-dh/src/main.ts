@@ -32,12 +32,19 @@ if (environment.production) {
   enableProdMode();
 }
 
-Promise.all([loadDhApiEnvironment(), loadDhB2CEnvironment(), loadDhFeatureFlagsEnvironment()])
+Promise.all([
+  loadDhApiEnvironment(),
+  loadDhB2CEnvironment(),
+  loadDhFeatureFlagsEnvironment(),
+])
   .then(([dhApiEnvironment, dhB2CEnvironment, dhFeatureFlagsEnvironment]) => {
     platformBrowserDynamic([
       { provide: dhApiEnvironmentToken, useValue: dhApiEnvironment },
       { provide: dhB2CEnvironmentToken, useValue: dhB2CEnvironment },
-      { provide: dhFeatureFlagsEnvironmentToken, useValue: dhFeatureFlagsEnvironment },
+      {
+        provide: dhFeatureFlagsEnvironmentToken,
+        useValue: dhFeatureFlagsEnvironment,
+      },
     ]).bootstrapModule(DataHubAppModule);
   })
   .catch((error: unknown) => console.error(error));

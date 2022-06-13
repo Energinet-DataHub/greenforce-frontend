@@ -20,8 +20,9 @@ import {
 } from '@energinet-datahub/dh/shared/environments';
 
 export function loadDhFeatureFlagsEnvironment(): Promise<DhFeatureFlag[]> {
-  return _loadDhFeatureFlagsEnvironment('dh-feature-flags-environment.json').catch(() =>
+  return _loadDhFeatureFlagsEnvironment(
+    'dh-feature-flags-environment.json'
+  ).catch(() =>
     _loadDhFeatureFlagsEnvironment('dh-feature-flags-environment.local.json')
   );
 }
-

@@ -24,17 +24,16 @@ export interface DhFeatureFlag {
   created: string;
 }
 
-export const dhFeatureFlagsEnvironmentToken = new InjectionToken<DhFeatureFlag[]>(
-  'dhFeatureFlagsEnvironmentToken',
-  {
-    factory: (): DhFeatureFlag[] => {
-      if (environment.production) {
-        throw new Error('No DataHub feature flags environment provided.');
-      }
+export const dhFeatureFlagsEnvironmentToken = new InjectionToken<
+  DhFeatureFlag[]
+>('dhFeatureFlagsEnvironmentToken', {
+  factory: (): DhFeatureFlag[] => {
+    if (environment.production) {
+      throw new Error('No DataHub feature flags environment provided.');
+    }
 
-      // Used for unit and integration tests
-      return dhLocalFeatureFlagsEnvironment;
-    },
-    providedIn: 'platform',
-  }
-);
+    // Used for unit and integration tests
+    return dhLocalFeatureFlagsEnvironment;
+  },
+  providedIn: 'platform',
+});
