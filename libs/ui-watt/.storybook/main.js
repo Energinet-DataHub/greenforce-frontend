@@ -7,7 +7,7 @@ module.exports = {
   // See https://github.com/storybookjs/storybook/issues/17271
   //
   // The bug is fixed in Storybook v6.5.x.
-  // Refactor once we upgrade to v6.5.x
+  // TODO: Refactor once we upgrade to v6.5.x
   // Remember to adjust "app-dh/project.json" file.
   staticDirs: [{ from: '../src/assets', to: 'assets' }],
   stories: [
