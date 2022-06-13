@@ -14,13 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@use '@energinet-datahub/watt/utils' as watt;
+@use "@energinet-datahub/watt/utils" as watt;
 
 $placeholder-color: var(--watt-color-neutral-grey-500);
 $input-height-normal: 44px;
 $input-height-large: 56px;
 
 watt-timepicker {
+  display: flex;
+  align-items: center;
   font-family: watt.$typography-monospace-font-family;
 
   input.mat-date-range-input-inner,
@@ -62,6 +64,10 @@ watt-timepicker {
     color: $placeholder-color !important;
     -webkit-text-fill-color: $placeholder-color;
   }
+
+  .watt-timepicker-slider-toggle {
+    color: var(--watt-color-primary);
+  }
 }
 
 watt-form-field {
@@ -82,4 +88,13 @@ watt-form-field {
       }
     }
   }
+}
+
+.watt-timepicker-slider {
+  width: 340px;
+  padding: var(--watt-space-s) 12px var(--watt-space-m);
+  background: var(--watt-color-neutral-white);
+  box-shadow: 0px 1px 6px rgba(11, 60, 93, 0.12),
+    0px 4px 18px 3px rgba(46, 50, 52, 0.08);
+  border-radius: 3px;
 }

@@ -235,13 +235,8 @@ export abstract class WattPickerBase
    */
   ngControl: NgControl | null = null;
 
-  /**
-   * @ignore
-   */
-  id!: string;
-
   constructor(
-    id: string,
+    public id: string,
     protected inputMaskService: WattInputMaskService,
     protected rangeInputService: WattRangeInputService,
     protected elementRef: ElementRef<HTMLElement>,
@@ -344,8 +339,14 @@ export abstract class WattPickerBase
    * @ignore
    */
   onFocusOut(event: FocusEvent) {
+    const id =
+      this.elementRef.nativeElement.attributes.getNamedItem('aria-owns');
+    const overlay = id ? document.getElementById(id.value) : null;
+    const isChild = overlay?.contains(event.relatedTarget as Element);
+
     if (
-      !this.elementRef.nativeElement.contains(event.relatedTarget as Element)
+      !this.elementRef.nativeElement.contains(event.relatedTarget as Element) &&
+      !isChild
     ) {
       this.focused = false;
       this.markParentControlAsTouched();
