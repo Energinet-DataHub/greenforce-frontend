@@ -1,6 +1,5 @@
 {
   "projectType": "library",
-  "root": "libs/eo/privacy-policy/shell",
   "sourceRoot": "libs/eo/privacy-policy/shell/src",
   "prefix": "eo",
   "targets": {
@@ -8,7 +7,7 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/libs/eo/privacy-policy/shell"],
       "options": {
-        "jestConfig": "libs/eo/privacy-policy/shell/jest.config.js",
+        "jestConfig": "libs/eo/privacy-policy/shell/jest.config.ts",
         "passWithNoTests": true
       }
     },
