@@ -57,7 +57,7 @@ const template = `
 
  <watt-form-field>
    <watt-label>Time range</watt-label>
-   <watt-timepicker [formControl]="exampleFormControlRange" [range]="true"></watt-timepicker>
+   <watt-timepicker sliderLabel="Adjust time range" [formControl]="exampleFormControlRange" [range]="true"></watt-timepicker>
    <watt-error *ngIf="exampleFormControlRange?.errors?.rangeRequired">
        Time range is required
    </watt-error>
