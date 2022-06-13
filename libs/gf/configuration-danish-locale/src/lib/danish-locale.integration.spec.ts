@@ -19,7 +19,7 @@ import { createPipeHarness } from '@ngworker/spectacular';
 import { formatInTimeZone } from 'date-fns-tz';
 
 import { DanishLocaleModule } from './danish-locale.module';
-import { spaceToNonBreakingSpace } from '../test-util/space-to-non-breaking-space';
+import { spaceToNonBreakingSpace } from './space-to-non-breaking-space';
 
 const dummyPipeName = 'testDummy';
 

@@ -29,6 +29,8 @@ limitations under the License.
 
 <ng-template #rangeTemplate>
   <mat-date-range-input
+    cdkOverlayOrigin
+    #trigger="cdkOverlayOrigin"
     [disabled]="disabled"
     (focusin)="onFocusIn()"
     (focusout)="onFocusOut($event)"
@@ -50,4 +52,39 @@ limitations under the License.
       spellcheck="false"
     />
   </mat-date-range-input>
+
+  <button
+    mat-icon-button
+    class="watt-timepicker-slider-toggle"
+    type="button"
+    [attr.aria-pressed]="sliderOpen"
+    (click)="toggleSlider()"
+    (focusin)="onFocusIn()"
+    (focusout)="onFocusOut($event)"
+  >
+    <watt-icon name="time" [label]="sliderLabel"></watt-icon>
+  </button>
+
+  <ng-template
+    cdkConnectedOverlay
+    [cdkConnectedOverlayOrigin]="trigger"
+    [cdkConnectedOverlayOpen]="sliderOpen"
+    [cdkConnectedOverlayOffsetY]="12"
+  >
+    <div
+      [id]="sliderId"
+      role="dialog"
+      class="watt-timepicker-slider"
+      tabindex="-1"
+      (focusin)="onFocusIn()"
+      (focusout)="onFocusOut($event)"
+    >
+      <span class="watt-label">{{ sliderLabel }}</span>
+      <watt-slider
+        [customSteps]="sliderSteps"
+        [value]="sliderValue"
+        (valueChange)="sliderChange$.next($event)"
+      ></watt-slider>
+    </div>
+  </ng-template>
 </ng-template>
