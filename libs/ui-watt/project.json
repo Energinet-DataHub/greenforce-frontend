@@ -28,7 +28,8 @@
         "host": "0.0.0.0",
         "configDir": "libs/ui-watt/.storybook",
         "browserTarget": "ui-watt:build-storybook",
-        "compodoc": false
+        "compodoc": true,
+        "compodocArgs": ["-e", "json", "-d", "./libs/ui-watt"]
       },
       "configurations": {
         "ci": {
@@ -47,7 +48,8 @@
         "outputDir": "dist/designsystem",
         "configDir": "libs/ui-watt/.storybook",
         "browserTarget": "ui-watt:build-storybook",
-        "compodoc": false
+        "compodoc": true,
+        "compodocArgs": ["-e", "json", "-d", "./libs/ui-watt"]
       },
       "configurations": {
         "ci": {
