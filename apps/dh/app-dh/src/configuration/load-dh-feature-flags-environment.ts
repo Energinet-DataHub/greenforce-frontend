@@ -21,7 +21,7 @@ import {
 
 export function loadDhFeatureFlagsEnvironment(): Promise<DhFeatureFlag[]> {
   return _loadDhFeatureFlagsEnvironment('dh-feature-flags-environment.json').catch(() =>
-    _loadDhFeatureFlagsEnvironment('dh-feature-flags-environment.local.json')
+    _loadDhFeatureFlagsEnvironment('feature-flags/dh-feature-flags-environment.local.json')
   );
 }
 

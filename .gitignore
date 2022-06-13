@@ -19,6 +19,7 @@
 
 # Frontend configuration files
 **/configuration/**/*.json
+!**/configuration/feature-flags/*.json
 !**/configuration/**/*.local.json
 !**/configuration/**/eo-*.json
 
