@@ -16,6 +16,11 @@
           },
           {
             "glob": "**/*",
+            "input": "libs/eo/shared/assets/src/scripts",
+            "output": "scripts"
+          },
+          {
+            "glob": "**/*",
             "input": "libs/eo/shared/assets/src/assets",
             "output": "assets"
           },
