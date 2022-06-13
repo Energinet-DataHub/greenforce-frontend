@@ -73,7 +73,7 @@ function minutesToTime(value: number): string {
 }
 
 /** Curried helper for getting a value at `index` if it is truthy. */
-const getTruthy =
+const getTruthyAt =
   <type>(index: number) =>
   (array: type[]) =>
     array[index] || undefined;
@@ -256,13 +256,13 @@ export class WattTimepickerComponent extends WattPickerBase {
     // Whenever the start input value changes, set (or remove)
     // the minimum allowed value for the end input value.
     timeRange$
-      .pipe(map(getTruthy(0)), distinctUntilChanged())
+      .pipe(map(getTruthyAt(0)), distinctUntilChanged())
       .subscribe((start) => endInput.maskedInput.setOptions({ min: start }));
 
     // Whenever the end input value changes, set (or remove)
     // the maximum allowed value for the start input value.
     timeRange$
-      .pipe(map(getTruthy(1)), distinctUntilChanged())
+      .pipe(map(getTruthyAt(1)), distinctUntilChanged())
       .subscribe((end) => startInput.maskedInput.setOptions({ max: end }));
 
     timeRange$.subscribe(([start, end]) => {
