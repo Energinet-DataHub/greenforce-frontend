@@ -65,7 +65,7 @@ export class WattDropdownComponent
   /**
    * @ignore
    */
-  private parentControl?: FormControl;
+  private parentControl?: UntypedFormControl;
   /**
    * @ignore
    */
@@ -85,7 +85,7 @@ export class WattDropdownComponent
    *
    * @ignore
    */
-  filterControl = new FormControl();
+  filterControl = new UntypedFormControl();
 
   /**
    * List of options filtered by search keyword
@@ -251,7 +251,7 @@ export class WattDropdownComponent
    * of this component.
    */
   private initializePropertiesFromParent(): void {
-    this.parentControl = this.parentControlDirective.control as FormControl;
+    this.parentControl = this.parentControlDirective.control as UntypedFormControl;
 
     this.validateParent =
       (this.parentControl.validator &&
