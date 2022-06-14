@@ -20,7 +20,7 @@
             "output": "assets"
           },
           {
-            "input": "libs/ui-watt/src/assets/ui-watt",
+            "input": "libs/ui-watt/src/assets",
             "glob": "**/*",
             "output": "assets/ui-watt"
           }
