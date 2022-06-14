@@ -57,7 +57,7 @@ import { FormControl } from '@angular/forms';
     </watt-error>
     <watt-hint *ngIf="hasHint">Some hint</watt-hint>
     <watt-hint *ngIf="hasHint" align="end"
-      >{{ exampleFormControl.value.length }} / 256</watt-hint
+      >{{ exampleFormControl.value?.length }} / 256</watt-hint
     >
   </watt-form-field> `,
 })
