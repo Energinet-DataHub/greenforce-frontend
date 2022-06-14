@@ -251,7 +251,8 @@ export class WattDropdownComponent
    * of this component.
    */
   private initializePropertiesFromParent(): void {
-    this.parentControl = this.parentControlDirective.control as UntypedFormControl;
+    this.parentControl = this.parentControlDirective
+      .control as UntypedFormControl;
 
     this.validateParent =
       (this.parentControl.validator &&
