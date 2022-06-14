@@ -96,6 +96,7 @@
     "@ngworker/spectacular": "0.2.0",
     "@nrwl/cli": "13.10.5",
     "@nrwl/cypress": "13.10.5",
+    "@nrwl/devkit": "13.10.5",
     "@nrwl/eslint-plugin-nx": "13.10.5",
     "@nrwl/jest": "13.10.5",
     "@nrwl/linter": "13.10.5",
