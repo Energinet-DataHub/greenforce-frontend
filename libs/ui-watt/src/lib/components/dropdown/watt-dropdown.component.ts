@@ -30,6 +30,7 @@ import {
   ControlValueAccessor,
   FormControl,
   NgControl,
+  UntypedFormControl,
   ValidationErrors,
   ValidatorFn,
 } from '@angular/forms';
@@ -77,7 +78,7 @@ export class WattDropdownComponent
   /**
    * @ignore
    */
-  matSelectControl = new FormControl(null, { updateOn: 'blur' });
+  matSelectControl = new UntypedFormControl(null, { updateOn: 'blur' });
 
   /**
    * Control for the MatSelect filter keyword
