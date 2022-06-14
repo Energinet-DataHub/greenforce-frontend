@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 // ***********************************************************
 // This example support/index.js is processed and
 // loaded automatically before your test files.
@@ -32,18 +33,14 @@
 // Import commands.js using ES2015 syntax:
 import './commands';
 
-Cypress.on('uncaught:exception', (err, runnable) => {
-  // we expect a 3rd party library error with message 'list not defined'
-  // and don't want to fail the test so we return false
+Cypress.on('uncaught:exception', (err) => {
   if (
     err.message.includes(
-      // Error currently coming from Hotjar integration. No information on when it's fixed.
-      // TODO: Remove this when the error is gone again.
       "Cannot read properties of undefined (reading 'preview'"
     )
   ) {
     return false;
   }
-  // we still want to ensure there are no other unexpected
-  // errors, so we let them fail the test
+
+  return true;
 });
