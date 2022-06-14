@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 // ***********************************************************
 // This example support/index.js is processed and
 // loaded automatically before your test files.
@@ -31,3 +32,15 @@
 
 // Import commands.js using ES2015 syntax:
 import './commands';
+
+Cypress.on('uncaught:exception', (err) => {
+  if (
+    err.message.includes(
+      "Cannot read properties of undefined (reading 'preview'"
+    )
+  ) {
+    return false;
+  }
+
+  return true;
+});

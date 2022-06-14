@@ -1,6 +1,5 @@
 {
   "projectType": "application",
-  "root": "apps/eo/app-eo",
   "sourceRoot": "apps/eo/app-eo/src",
   "prefix": "eo",
   "targets": {
@@ -16,16 +15,11 @@
           },
           {
             "glob": "**/*",
-            "input": "libs/eo/shared/assets/src/scripts",
-            "output": "scripts"
-          },
-          {
-            "glob": "**/*",
             "input": "libs/eo/shared/assets/src/assets",
             "output": "assets"
           },
           {
-            "input": "libs/ui-watt/src/assets",
+            "input": "libs/ui-watt/src/assets/ui-watt",
             "glob": "**/*",
             "output": "assets/ui-watt"
           }
@@ -137,7 +131,7 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/apps/eo/app-eo"],
       "options": {
-        "jestConfig": "apps/eo/app-eo/jest.config.js",
+        "jestConfig": "apps/eo/app-eo/jest.config.ts",
         "passWithNoTests": true
       }
     }

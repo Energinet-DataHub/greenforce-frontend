@@ -11,7 +11,7 @@
  */
 
 
-export type EicFunction = 'BalanceResponsibleParty' | 'BalancingServiceProvider' | 'BillingAgent' | 'CapacityTrader' | 'Consumer' | 'ConsumptionResponsibleParty' | 'ConsentAdministrator' | 'CoordinatedCapacityCalculator' | 'CoordinationCentreOperator' | 'DataProvider' | 'EnergyServiceCompany' | 'EnergySupplier' | 'EnergyTrader' | 'GridAccessProvider' | 'ImbalanceSettlementResponsible' | 'InterconnectionTradeResponsible' | 'LfcOperator' | 'MarketInformationAggregator' | 'MarketOperator' | 'MeritOrderListResponsible' | 'MeterAdministrator' | 'MeterOperator' | 'MeteredDataAdministrator' | 'MeteredDataAggregator' | 'MeteredDataCollector' | 'MeteredDataResponsible' | 'MeteringPointAdministrator' | 'ModelMergingAgent' | 'ModellingAuthority' | 'NominatedElectricityMarketOperator' | 'NominationValidator' | 'PartyAdministrator' | 'PartyConnectedToTheGrid' | 'Producer' | 'ProductionResponsibleParty' | 'ReconciliationAccountable' | 'ReconciliationResponsible' | 'ReserveAllocator' | 'ResourceAggregator' | 'ResourceCapacityMechanismOperator' | 'ResourceProvider' | 'Scheduling' | 'Agent' | 'SchedulingAreaResponsible' | 'SystemOperator' | 'TradeResponsibleParty' | 'TransmissionCapacityAllocator';
+export type EicFunction = 'BalanceResponsibleParty' | 'BalancingServiceProvider' | 'BillingAgent' | 'CapacityTrader' | 'Consumer' | 'ConsumptionResponsibleParty' | 'ConsentAdministrator' | 'CoordinatedCapacityCalculator' | 'CoordinationCentreOperator' | 'DataProvider' | 'EnergyServiceCompany' | 'EnergySupplier' | 'EnergyTrader' | 'GridAccessProvider' | 'ImbalanceSettlementResponsible' | 'InterconnectionTradeResponsible' | 'LfcOperator' | 'MarketInformationAggregator' | 'MarketOperator' | 'MeritOrderListResponsible' | 'MeterAdministrator' | 'MeterOperator' | 'MeteredDataAdministrator' | 'MeteredDataAggregator' | 'MeteredDataCollector' | 'MeteredDataResponsible' | 'MeteringPointAdministrator' | 'ModelMergingAgent' | 'ModellingAuthority' | 'NominatedElectricityMarketOperator' | 'NominationValidator' | 'PartyAdministrator' | 'PartyConnectedToTheGrid' | 'Producer' | 'ProductionResponsibleParty' | 'ReconciliationAccountable' | 'ReconciliationResponsible' | 'ReserveAllocator' | 'ResourceAggregator' | 'ResourceCapacityMechanismOperator' | 'ResourceProvider' | 'Scheduling' | 'Agent' | 'SchedulingAreaResponsible' | 'SystemOperator' | 'TradeResponsibleParty' | 'TransmissionCapacityAllocator' | 'DanishEnergyAgency';
 
 export const EicFunction = {
     BalanceResponsibleParty: 'BalanceResponsibleParty' as EicFunction,
@@ -60,6 +60,7 @@ export const EicFunction = {
     SchedulingAreaResponsible: 'SchedulingAreaResponsible' as EicFunction,
     SystemOperator: 'SystemOperator' as EicFunction,
     TradeResponsibleParty: 'TradeResponsibleParty' as EicFunction,
-    TransmissionCapacityAllocator: 'TransmissionCapacityAllocator' as EicFunction
+    TransmissionCapacityAllocator: 'TransmissionCapacityAllocator' as EicFunction,
+    DanishEnergyAgency: 'DanishEnergyAgency' as EicFunction
 };
 
