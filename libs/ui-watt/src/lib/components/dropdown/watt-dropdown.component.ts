@@ -28,7 +28,6 @@ import {
 import {
   AsyncValidatorFn,
   ControlValueAccessor,
-  FormControl,
   NgControl,
   UntypedFormControl,
   ValidationErrors,
