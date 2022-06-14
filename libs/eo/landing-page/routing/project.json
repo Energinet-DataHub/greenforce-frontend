@@ -1,6 +1,5 @@
 {
   "projectType": "library",
-  "root": "libs/eo/landing-page/routing",
   "sourceRoot": "libs/eo/landing-page/routing/src",
   "prefix": "eo",
   "targets": {
@@ -8,7 +7,7 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/libs/eo/landing-page/routing"],
       "options": {
-        "jestConfig": "libs/eo/landing-page/routing/jest.config.js",
+        "jestConfig": "libs/eo/landing-page/routing/jest.config.ts",
         "passWithNoTests": true
       }
     },
