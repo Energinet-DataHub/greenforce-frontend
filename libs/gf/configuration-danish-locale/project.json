@@ -1,6 +1,6 @@
 {
+  "$schema": "..\\..\\..\\node_modules\\nx\\schemas\\project-schema.json",
   "projectType": "library",
-  "root": "libs/gf/configuration-danish-locale",
   "sourceRoot": "libs/gf/configuration-danish-locale/src",
   "prefix": "gf",
   "targets": {
