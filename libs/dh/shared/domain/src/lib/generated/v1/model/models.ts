@@ -1,5 +1,6 @@
 export * from './actor-contact-dto';
 export * from './actor-dto';
+export * from './actor-number-dto';
 export * from './actor-status';
 export * from './address-dto';
 export * from './asset-type';
@@ -14,7 +15,6 @@ export * from './create-actor-contact-dto';
 export * from './create-actor-dto';
 export * from './disconnection-type';
 export * from './eic-function';
-export * from './global-location-number-dto';
 export * from './grid-area-dto';
 export * from './market-participant-metering-point-type';
 export * from './market-role-dto';
