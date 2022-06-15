@@ -14,13 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 import { CommonModule } from '@angular/common';
-import { ChangeDetectorRef, Component, NgModule } from '@angular/core';
+import { Component, NgModule } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { WattSpinnerModule } from '@energinet-datahub/watt';
-import { first, tap, finalize } from 'rxjs';
 import { EoPieChartScam } from './eo-origin-of-energy-pie-chart/eo-origin-of-energy-pie-chart.component';
-import { EoOriginOfEnergyService } from './eo-origin-of-energy.service';
+import { EoOriginOfEnergyStore } from './eo-origin-of-energy.store';
 
 @Component({
   selector: 'eo-origin-of-energy-pie-chart',
@@ -28,12 +28,15 @@ import { EoOriginOfEnergyService } from './eo-origin-of-energy.service';
     <h3>Your share of renewable energy in 2021</h3>
     <p>Based on the hourly declaration</p>
     <ng-container>
-      <div *ngIf="!doneLoading" class="loadingObfuscator">
+      <div *ngIf="(loadingDone$ | async) === false" class="loadingObfuscator">
         <watt-spinner [diameter]="100"></watt-spinner>
       </div>
       <eo-pie-chart
         class="watt-space-inset-squish-l"
-        [data]="[renewableShare, otherShare]"
+        [data]="[
+          convertToPercentage((renewableShare$ | async) || 0.5),
+          convertToPercentage(1 - ((renewableShare$ | async) || 0.5))
+        ]"
       ></eo-pie-chart>
     </ng-container>
   </mat-card>`,
@@ -59,38 +62,20 @@ import { EoOriginOfEnergyService } from './eo-origin-of-energy.service';
   ],
 })
 export class EoOriginOfEnergyPieChartComponent {
-  doneLoading = false;
-  renewableShare = 50;
-  otherShare = 50;
+  loadingDone$ = this.store.loadingDone$;
+  renewableShare$ = this.store.renewable$;
 
-  constructor(
-    private originOfEnergyService: EoOriginOfEnergyService,
-    private changeDetector: ChangeDetectorRef
-  ) {
-    this.originOfEnergyService
-      .getRenewableShare()
-      .pipe(
-        first(),
-        tap((result: number) => {
-          this.renewableShare = this.convertToPercentage(result);
-          this.otherShare = 100 - this.renewableShare;
-        }),
-        finalize(() => {
-          this.doneLoading = true;
-          changeDetector.markForCheck();
-        })
-      )
-      .subscribe();
-  }
+  constructor(private store: EoOriginOfEnergyStore) {}
 
   convertToPercentage(num: number): number {
     if (!num || Number.isNaN(num)) return 0;
 
-    return num * 100;
+    return Number((num * 100).toFixed(2));
   }
 }
 
 @NgModule({
+  providers: [EoOriginOfEnergyStore],
   declarations: [EoOriginOfEnergyPieChartComponent],
   exports: [EoOriginOfEnergyPieChartComponent],
   imports: [MatCardModule, EoPieChartScam, CommonModule, WattSpinnerModule],
