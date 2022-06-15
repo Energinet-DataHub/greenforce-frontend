@@ -43,7 +43,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { parseErrorResponse } from './dh-market-participant-error-handling';
 
 export interface ActorChanges {
-  gln: string;
+  actorNumber: string;
   status: ActorStatus;
 }
 
@@ -90,7 +90,7 @@ const initialState: MarketParticipantEditActorState = {
   gridAreas: [],
   contacts: [],
   changes: {
-    gln: '',
+    actorNumber: '',
     status: ActorStatus.New,
   },
   marketRoles: [],
@@ -317,7 +317,7 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
 
     return this.httpClient
       .v1MarketParticipantOrganizationOrgIdActorPost(state.organizationId, {
-        gln: { value: state.changes.gln },
+        actorNumber: { value: state.changes.actorNumber },
         marketRoles: state.marketRoles,
         meteringPointTypes: state.meteringPointTypeChanges.meteringPointTypes,
         gridAreas: state.gridAreaChanges.map((gridArea) => gridArea.id),
