@@ -62,10 +62,10 @@ import { EoOriginOfEnergyStore } from './eo-origin-of-energy.store';
   ],
 })
 export class EoOriginOfEnergyPieChartComponent {
-  loadingDone$ = this.originOfEnergyStore.loadingDone$;
-  renewableShare$ = this.originOfEnergyStore.renewable$;
+  loadingDone$ = this.store.loadingDone$;
+  renewableShare$ = this.store.renewable$;
 
-  constructor(private originOfEnergyStore: EoOriginOfEnergyStore) {}
+  constructor(private store: EoOriginOfEnergyStore) {}
 
   convertToPercentage(num: number): number {
     if (!num || Number.isNaN(num)) return 0;

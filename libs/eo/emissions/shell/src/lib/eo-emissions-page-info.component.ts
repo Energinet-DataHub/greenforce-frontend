@@ -56,10 +56,10 @@ import { EoEmissionsStore } from './eo-emissions.store';
   `,
 })
 export class EoEmissionsPageInfoComponent {
-  loadingDone$ = this.eoEmissionsStore.loadingDone$;
-  totalCO2$ = this.eoEmissionsStore.total$;
+  loadingDone$ = this.store.loadingDone$;
+  totalCO2$ = this.store.total$;
 
-  constructor(private eoEmissionsStore: EoEmissionsStore) {}
+  constructor(private store: EoEmissionsStore) {}
 
   convertToKg(num: number): number {
     if (!num || Number.isNaN(num)) return 0;

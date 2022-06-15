@@ -26,7 +26,7 @@ interface EoOriginOfEnergy {
   dateTo: number;
   /** Share of renewable energy in decimal form */
   renewable: number;
-  /** Share of renewable energy shares in decimal form */
+  /** Share of energy types in decimal form */
   ratios: {
     wood: number;
     waste: number;
@@ -70,30 +70,28 @@ export class EoOriginOfEnergyStore extends ComponentStore<EoOriginOfEnergyState>
       },
     });
 
-    this.loadEnergySourcesDate();
+    this.loadData();
   }
 
-  // *********** Selectors *********** //
   readonly loadingDone$ = this.select((state) => state.loadingDone);
   readonly renewable$ = this.select((state) => state.energySources.renewable);
   readonly ratios$ = this.select((state) => state.energySources.ratios);
 
-  // *********** Updaters *********** //
   readonly setLoadingDone = this.updater(
-    (state, value: boolean): EoOriginOfEnergyState => ({
+    (state, loadingDone: boolean): EoOriginOfEnergyState => ({
       ...state,
-      loadingDone: value,
+      loadingDone,
     })
   );
 
   readonly setEnergySources = this.updater(
-    (state, value: EoOriginOfEnergy): EoOriginOfEnergyState => ({
+    (state, energySources: EoOriginOfEnergy): EoOriginOfEnergyState => ({
       ...state,
-      energySources: value,
+      energySources,
     })
   );
 
-  loadEnergySourcesDate() {
+  loadData() {
     this.service
       .getSources()
       .pipe(take(1))

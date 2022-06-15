@@ -48,31 +48,29 @@ export class EoEmissionsStore extends ComponentStore<EoEmissionsState> {
       },
     });
 
-    this.loadEmissionsDate();
+    this.loadData();
   }
 
-  // *********** Selectors *********** //
   readonly total$ = this.select((state) => state.emissions.total);
   readonly relative$ = this.select((state) => state.emissions.relative);
   readonly loadingDone$ = this.select((state) => state.loadingDone);
   readonly emissions$ = this.select((state) => state.emissions);
 
-  // *********** Updaters *********** //
   readonly setLoadingDone = this.updater(
-    (state, value: boolean): EoEmissionsState => ({
+    (state, loadingDone: boolean): EoEmissionsState => ({
       ...state,
-      loadingDone: value,
+      loadingDone,
     })
   );
 
   readonly setEmissions = this.updater(
-    (state, value: EoEmissions): EoEmissionsState => ({
+    (state, emissions: EoEmissions): EoEmissionsState => ({
       ...state,
-      emissions: value,
+      emissions,
     })
   );
 
-  loadEmissionsDate() {
+  loadData() {
     this.service
       .getEmissions()
       .pipe(take(1))
