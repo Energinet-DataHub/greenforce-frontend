@@ -39,7 +39,7 @@
     "lint": "nx workspace-lint && nx run-many --target=lint --max-warnings=0 --all --parallel",
     "lint:fix": "nx workspace-lint && nx run-many --target=lint --max-warnings=0 --fix --all --parallel",
     "ng": "nx",
-    "ngcc": "ngcc --properties es2020 module browser main",
+    "ngcc": "ngcc --properties es2015 module browser main",
     "ngcc:dh": "npm run ngcc -- --use-program-dependencies --tsconfig apps/dh/app-dh/tsconfig.app.json",
     "ngcc:eo": "npm run ngcc -- --use-program-dependencies --tsconfig apps/eo/app-eo/tsconfig.app.json",
     "nx": "nx",
