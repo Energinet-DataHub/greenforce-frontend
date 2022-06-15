@@ -103,7 +103,7 @@
     "@nrwl/storybook": "14.3.2",
     "@nrwl/workspace": "14.3.2",
     "@openapitools/openapi-generator-cli": "2.4.17",
-    "@playwright/test": "1.17.1",
+    "@playwright/test": "1.22.2",
     "@storybook/addon-a11y": "6.4.14",
     "@storybook/addon-docs": "6.4.14",
     "@storybook/addon-essentials": "6.5.9",
