@@ -37,3 +37,4 @@ export * from './reading-occurrence';
 export * from './settlement-method';
 export * from './stream';
 export * from './unit';
+export * from './wholesale-process-type';

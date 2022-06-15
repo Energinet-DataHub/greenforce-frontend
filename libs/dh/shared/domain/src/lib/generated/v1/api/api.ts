@@ -8,4 +8,6 @@ export * from './message-archive-http.service';
 import { MessageArchiveHttp } from './message-archive-http.service';
 export * from './metering-point-http.service';
 import { MeteringPointHttp } from './metering-point-http.service';
-export const APIS = [ChargeLinksHttp, MarketParticipantHttp, MarketParticipantGridAreaHttp, MessageArchiveHttp, MeteringPointHttp];
+export * from './wholesale-batch-http.service';
+import { WholesaleBatchHttp } from './wholesale-batch-http.service';
+export const APIS = [ChargeLinksHttp, MarketParticipantHttp, MarketParticipantGridAreaHttp, MessageArchiveHttp, MeteringPointHttp, WholesaleBatchHttp];
