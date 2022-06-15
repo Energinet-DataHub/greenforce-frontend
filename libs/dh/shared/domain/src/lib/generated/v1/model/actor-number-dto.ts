@@ -11,7 +11,7 @@
  */
 
 
-export interface GlobalLocationNumberDto { 
+export interface ActorNumberDto { 
     value: string;
 }
 
