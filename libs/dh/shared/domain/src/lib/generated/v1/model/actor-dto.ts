@@ -10,7 +10,7 @@
  * Do not edit the class manually.
  */
 import { ActorStatus } from './actor-status';
-import { GlobalLocationNumberDto } from './global-location-number-dto';
+import { ActorNumberDto } from './actor-number-dto';
 import { MarketParticipantMeteringPointType } from './market-participant-metering-point-type';
 import { MarketRoleDto } from './market-role-dto';
 
@@ -18,7 +18,7 @@ import { MarketRoleDto } from './market-role-dto';
 export interface ActorDto { 
     actorId: string;
     externalActorId?: string | null;
-    gln: GlobalLocationNumberDto;
+    actorNumber: ActorNumberDto;
     status: ActorStatus;
     gridAreas: Array<string>;
     marketRoles: Array<MarketRoleDto>;
