@@ -84,6 +84,8 @@ export class EoOriginOfEnergyPieChartComponent {
   }
 
   convertToPercentage(num: number): number {
+    if (!num || Number.isNaN(num)) return 0;
+
     return num * 100;
   }
 }

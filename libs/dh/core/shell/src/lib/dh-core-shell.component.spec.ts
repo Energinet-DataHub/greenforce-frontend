@@ -17,7 +17,10 @@
 import { By } from '@angular/platform-browser';
 import { render, RenderResult } from '@testing-library/angular';
 
-import { WattShellComponent } from '@energinet-datahub/watt';
+import {
+  WattDanishDatetimeModule,
+  WattShellComponent,
+} from '@energinet-datahub/watt';
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
 import { MsalServiceFake } from '@energinet-datahub/dh/shared/test-util-auth';
 
@@ -29,7 +32,11 @@ import {
 describe(DhCoreShellComponent.name, () => {
   beforeEach(async () => {
     view = await render(DhCoreShellComponent, {
-      imports: [getTranslocoTestingModule(), DhCoreShellScam],
+      imports: [
+        getTranslocoTestingModule(),
+        WattDanishDatetimeModule.forRoot(),
+        DhCoreShellScam,
+      ],
       providers: [MsalServiceFake],
     });
   });

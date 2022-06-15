@@ -9,13 +9,13 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { GlobalLocationNumberDto } from './global-location-number-dto';
+import { ActorNumberDto } from './actor-number-dto';
 import { MarketParticipantMeteringPointType } from './market-participant-metering-point-type';
 import { MarketRoleDto } from './market-role-dto';
 
 
 export interface CreateActorDto { 
-    gln: GlobalLocationNumberDto;
+    actorNumber: ActorNumberDto;
     gridAreas: Array<string>;
     marketRoles: Array<MarketRoleDto>;
     meteringPointTypes: Array<MarketParticipantMeteringPointType>;

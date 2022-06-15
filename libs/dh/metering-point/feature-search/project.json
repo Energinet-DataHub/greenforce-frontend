@@ -1,6 +1,5 @@
 {
   "projectType": "library",
-  "root": "libs/dh/metering-point/feature-search",
   "sourceRoot": "libs/dh/metering-point/feature-search/src",
   "prefix": "dh",
   "targets": {
@@ -8,7 +7,7 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/libs/dh/metering-point/feature-search"],
       "options": {
-        "jestConfig": "libs/dh/metering-point/feature-search/jest.config.js",
+        "jestConfig": "libs/dh/metering-point/feature-search/jest.config.ts",
         "passWithNoTests": true
       }
     },

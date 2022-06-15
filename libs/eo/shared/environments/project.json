@@ -1,6 +1,5 @@
 {
   "projectType": "library",
-  "root": "libs/eo/shared/environments",
   "sourceRoot": "libs/eo/shared/environments/src",
   "prefix": "eo",
   "targets": {
@@ -8,7 +7,7 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/libs/eo/shared/environments"],
       "options": {
-        "jestConfig": "libs/eo/shared/environments/jest.config.js",
+        "jestConfig": "libs/eo/shared/environments/jest.config.ts",
         "passWithNoTests": true
       }
     },

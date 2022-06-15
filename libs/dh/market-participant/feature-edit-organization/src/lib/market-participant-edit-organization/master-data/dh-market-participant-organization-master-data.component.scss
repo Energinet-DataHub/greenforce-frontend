@@ -49,6 +49,10 @@
   max-width: 300px;
 }
 
+.field-comment {
+  max-width: 600px;
+}
+
 :host {
   display: block;
   margin-top: var(--watt-space-l);

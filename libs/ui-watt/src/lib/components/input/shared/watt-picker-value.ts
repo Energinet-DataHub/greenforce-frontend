@@ -16,4 +16,4 @@
  */
 import { WattRange } from './watt-range';
 
-export type WattPickerValue = string | WattRange | null;
+export type WattPickerValue = string | WattRange | null | undefined;

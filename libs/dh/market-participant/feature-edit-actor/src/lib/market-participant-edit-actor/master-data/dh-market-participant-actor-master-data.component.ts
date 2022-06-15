@@ -49,7 +49,7 @@ export class DhMarketParticipantActorMasterDataComponent
   @Input() actor: ActorDto | undefined;
   @Output() hasChanges = new EventEmitter<ActorChanges>();
   changes: ActorChanges = {
-    gln: '',
+    actorNumber: '',
     status: 'New',
   };
 
@@ -80,7 +80,7 @@ export class DhMarketParticipantActorMasterDataComponent
   ngOnChanges(): void {
     if (this.actor !== undefined) {
       this.changes = {
-        gln: this.actor.gln.value,
+        actorNumber: this.actor.actorNumber.value,
         status: this.actor.status,
       };
       this.statuses = getValidStatusTransitionOptions(

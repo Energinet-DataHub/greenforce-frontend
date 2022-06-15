@@ -1,6 +1,5 @@
 {
   "projectType": "library",
-  "root": "libs/eo/metering-points/routing",
   "sourceRoot": "libs/eo/metering-points/routing/src",
   "prefix": "eo",
   "targets": {
@@ -8,7 +7,7 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/libs/eo/metering-points/routing"],
       "options": {
-        "jestConfig": "libs/eo/metering-points/routing/jest.config.js",
+        "jestConfig": "libs/eo/metering-points/routing/jest.config.ts",
         "passWithNoTests": true
       }
     },

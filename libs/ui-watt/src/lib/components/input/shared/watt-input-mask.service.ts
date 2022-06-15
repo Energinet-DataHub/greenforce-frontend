@@ -20,8 +20,10 @@ import {
   distinctUntilChanged,
   fromEvent,
   map,
+  mergeWith,
   Observable,
   startWith,
+  Subject,
   tap,
 } from 'rxjs';
 
@@ -30,6 +32,8 @@ import { WattColor } from '../../../foundations/color/colors';
 export interface WattMaskedInput {
   inputMask: Inputmask.Instance;
   onChange$: Observable<string>;
+  update: (value: string) => void;
+  setOptions: (options: Inputmask.Options) => void;
 }
 
 @Injectable()
@@ -47,32 +51,48 @@ export class WattInputMaskService {
     element: HTMLInputElement,
     onBeforePaste?: (value: string) => string
   ): WattMaskedInput {
-    const inputMask: Inputmask.Instance = new Inputmask('datetime', {
+    // Referenced before initialization (only safe for callbacks)
+    let inputMask: Inputmask.Instance;
+    const im = new Inputmask('datetime', {
       inputFormat,
       placeholder,
       insertMode: false,
       insertModeVisual: true,
       clearMaskOnLostFocus: false,
       onBeforePaste,
-      onincomplete: () => {
-        this.setInputColor(element, inputMask);
-      },
+      onincomplete: () => this.setInputColor(element, inputMask),
       clearIncomplete: true,
-    }).mask(element);
+    });
+
+    inputMask = im.mask(element);
 
     this.setInputColor(element, inputMask);
 
-    const onChange$ = fromEvent<InputEvent>(element, 'input').pipe(
-      tap((event: InputEvent) => {
-        this.setInputColor(event.target as HTMLInputElement, inputMask);
-      }),
-      map((event: InputEvent) => (event.target as HTMLInputElement).value),
+    // Used for manually updating the input value
+    const valueSubject = new Subject<string>();
+
+    const onChange$ = valueSubject.pipe(
+      tap((value) => (element.value = value)),
+      mergeWith(fromEvent<InputEvent>(element, 'input')),
+      tap(() => this.setInputColor(element, inputMask)),
+      map(() => element.value),
       startWith(initialValue ?? ''),
       map((value) => (inputMask.isComplete() ? value : '')),
       distinctUntilChanged()
     );
 
-    return { inputMask, onChange$ };
+    return {
+      inputMask,
+      onChange$,
+      update: (value) => valueSubject.next(value),
+      setOptions: (options) => {
+        // Must recreate Inputmask instance after setting options since
+        // the remasking feature doesn't work properly for all settings.
+        im.option(options);
+        inputMask.remove();
+        inputMask = im.mask(element);
+      },
+    };
   }
 
   setInputColor(inputElement: HTMLInputElement, inputMask: Inputmask.Instance) {

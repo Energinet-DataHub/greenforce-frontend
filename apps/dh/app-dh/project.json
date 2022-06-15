@@ -1,6 +1,5 @@
 {
   "projectType": "application",
-  "root": "apps/dh/app-dh",
   "sourceRoot": "apps/dh/app-dh/src",
   "prefix": "dh",
   "targets": {
@@ -32,7 +31,7 @@
             "output": "assets"
           },
           {
-            "input": "libs/ui-watt/src/assets",
+            "input": "libs/ui-watt/src/assets/ui-watt",
             "glob": "**/*",
             "output": "assets/ui-watt"
           },
@@ -54,7 +53,7 @@
             {
               "type": "initial",
               "maximumWarning": "500kb",
-              "maximumError": "1.5mb"
+              "maximumError": "1.6mb"
             },
             {
               "type": "anyComponentStyle",
@@ -144,7 +143,7 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/apps/dh/app-dh"],
       "options": {
-        "jestConfig": "apps/dh/app-dh/jest.config.js",
+        "jestConfig": "apps/dh/app-dh/jest.config.ts",
         "passWithNoTests": true
       }
     }

@@ -1,5 +1,4 @@
 {
-  "root": "apps/eo/e2e-eo",
   "sourceRoot": "apps/eo/e2e-eo/src",
   "projectType": "application",
   "targets": {

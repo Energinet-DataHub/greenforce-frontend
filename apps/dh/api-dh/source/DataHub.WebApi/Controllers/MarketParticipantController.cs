@@ -105,30 +105,30 @@ namespace Energinet.DataHub.WebApi.Controllers
         }
 
         /// <summary>
-        /// Gets all the contacts in an organization.
+        /// Gets all the contacts for an actor.
         /// </summary>
-        [HttpGet("{orgId:guid}/contact")]
-        public Task<ActionResult<IEnumerable<ContactDto>>> GetContactsAsync(Guid orgId)
+        [HttpGet("{orgId:guid}/actor/{actorId:guid}/contact")]
+        public Task<ActionResult<IEnumerable<ActorContactDto>>> GetContactsAsync(Guid orgId, Guid actorId)
         {
-            return HandleExceptionAsync(() => _client.GetContactsAsync(orgId));
+            return HandleExceptionAsync(() => _client.GetContactsAsync(orgId, actorId));
         }
 
         /// <summary>
-        /// Creates a contact in an organization.
+        /// Creates a contact for the actor.
         /// </summary>
-        [HttpPost("{orgId:guid}/contact")]
-        public Task<ActionResult<Guid>> CreateContactAsync(Guid orgId, CreateContactDto createDto)
+        [HttpPost("{orgId:guid}/actor/{actorId:guid}/contact")]
+        public Task<ActionResult<Guid>> CreateContactAsync(Guid orgId, Guid actorId, CreateActorContactDto createDto)
         {
-            return HandleExceptionAsync(() => _client.CreateContactAsync(orgId, createDto));
+            return HandleExceptionAsync(() => _client.CreateContactAsync(orgId, actorId, createDto));
         }
 
         /// <summary>
-        /// Removes a contact from an organization.
+        /// Removes a contact from an actor.
         /// </summary>
-        [HttpDelete("{orgId:guid}/contact/{contactId:guid}")]
-        public Task<ActionResult> DeleteContactAsync(Guid orgId, Guid contactId)
+        [HttpDelete("{orgId:guid}/actor/{actorId:guid}/contact/{contactId:guid}")]
+        public Task<ActionResult> DeleteContactAsync(Guid orgId, Guid actorId, Guid contactId)
         {
-            return HandleExceptionAsync(() => _client.DeleteContactAsync(orgId, contactId));
+            return HandleExceptionAsync(() => _client.DeleteContactAsync(orgId, actorId, contactId));
         }
     }
 }

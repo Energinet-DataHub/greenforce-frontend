@@ -46,6 +46,7 @@ import {
 } from '@angular/material/paginator';
 import { Subject, takeUntil } from 'rxjs';
 import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/metering-point/shared/ui-util';
+import { GridAreaDto } from '@energinet-datahub/dh/shared/domain';
 
 @Component({
   selector: 'dh-market-participant-organization-overview',
@@ -74,6 +75,7 @@ export class DhMarketParticipantOrganizationOverviewComponent
   ];
 
   @Input() rows: OrganizationWithActorRow[] = [];
+  @Input() gridAreas: GridAreaDto[] = [];
 
   @Output() editOrganization = new EventEmitter<string>();
   @Output() createActor = new EventEmitter<string>();
@@ -85,6 +87,8 @@ export class DhMarketParticipantOrganizationOverviewComponent
   readonly dataSource: MatTableDataSource<OrganizationWithActorRow> =
     new MatTableDataSource<OrganizationWithActorRow>();
 
+  gridAreasMap: { [id: string]: string } = {};
+
   ngOnInit() {
     this.setupPaginatorTranslation();
   }
@@ -92,6 +96,9 @@ export class DhMarketParticipantOrganizationOverviewComponent
   ngOnChanges() {
     this.dataSource.data = this.rows;
     this.dataSource.paginator = this.paginator;
+    this.gridAreas.forEach(
+      (gridArea) => (this.gridAreasMap[gridArea.id] = gridArea.name)
+    );
   }
 
   ngOnDestroy(): void {

@@ -1,6 +1,5 @@
 {
   "projectType": "application",
-  "root": "apps/dh/api-dh",
   "sourceRoot": "apps/dh/api-dh/source",
   "prefix": "dh",
   "targets": {

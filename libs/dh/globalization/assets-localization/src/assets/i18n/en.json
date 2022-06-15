@@ -9,7 +9,7 @@
     "navigation": {
       "meteringPoints": "Metering points",
       "messageArchive": "Request/Response messages",
-      "marketParticipant": "Organizations",
+      "marketParticipant": "Organisations",
       "wholesaleStartProcess": "Settlements - Start Process",
       "wholesaleOverview": "Settlements - Overview"
     }
@@ -300,10 +300,11 @@
         "meteringPointTypesHeader": "Metering point types",
         "gridAreasHeader": "Grid areas",
         "marketRolesHeader": "Market roles",
+        "contactsHeader": "Contacts",
         "cancelLabel": "Cancel",
         "saveLabel": "Save",
         "masterData": {
-          "labelGln": "Organization code",
+          "labelActorNumber": "Actor Number",
           "labelStatus": "Status",
           "fieldRequiredErrorText": "Field is required.",
           "statuses": {
@@ -366,10 +367,10 @@
       "TransmissionCapacityAllocator": "Transmission capacity allocator"
     },
     "organization": {
-      "header": "Organizations",
+      "header": "Organisations",
       "columns": {
-        "organization": "Organization",
-        "gln": "Organization code",
+        "organization": "Organisation",
+        "gln": "Actor Number",
         "status": "Status",
         "marketRoles": "Market roles",
         "gridAreas": "Grid areas",
@@ -382,13 +383,13 @@
         "Passive": "Passive",
         "Deleted": "Deleted"
       },
-      "editOrganization": "Edit organization",
+      "editOrganization": "Edit organisation",
       "editActor": "Edit actor",
       "createActor": "Create actor",
-      "createOrganization": "Create organization",
-      "noOrganizations": "No organizations",
+      "createOrganization": "Create organisation",
+      "noOrganizations": "No organisations",
       "paginator": {
-        "itemsPerPageLabel": "Organizations per page",
+        "itemsPerPageLabel": "Organisations per page",
         "of": "of",
         "first": "First page",
         "last": "Last page",
@@ -396,10 +397,9 @@
         "previous": "Previous page"
       },
       "create": {
-        "organizationCreateHeader": "Create organization",
-        "organizationEditHeader": "Edit organization",
+        "organizationCreateHeader": "Create organisation",
+        "organizationEditHeader": "Edit organisation",
         "masterDataTabHeader": "Master data",
-        "contactDataTabHeader": "Contacts",
         "cancelLabel": "Cancel",
         "saveLabel": "Save",
         "errorToastLabel": "Error",
@@ -411,6 +411,7 @@
           "zipCodeLabel": "Zip code",
           "cityLabel": "City",
           "countryLabel": "Country",
+          "commentLabel": "Comment",
           "fieldRequiredErrorText": "Field is required.",
           "countries": {
             "at": "Austria",
@@ -443,17 +444,27 @@
             "se": "Sweden",
             "gb": "United Kingdom"
           }
-        },
-        "contacts": {
-          "category": "Category",
-          "name": "Name",
-          "namePlaceholder": "Name",
-          "email": "E-mail",
-          "emailPlaceholder": "E-mail",
-          "phone": "Phone",
-          "phonePlaceholder": "Phone (optional)"
         }
       }
+    },
+    "contacts": {
+      "category": "Category",
+      "name": "Name",
+      "namePlaceholder": "Name",
+      "email": "E-mail",
+      "emailPlaceholder": "E-mail",
+      "phone": "Phone",
+      "phonePlaceholder": "Phone (optional)",
+      "ariaLabelCategoryForExistingContact": "category field for existing contact",
+      "ariaLabelNameForExistingContact": "name field for existing contact",
+      "ariaLabelPhoneForExistingContact": "phone field for existing contact",
+      "ariaLabelMailForExistingContact": "mail field for existing contact",
+      "ariaLabelDeleteForExistingContact": "delete button for existing contact",
+      "ariaLabelCategoryForNewContact": "category field for new contact",
+      "ariaLabelNameForNewContact": "name field for new contact",
+      "ariaLabelPhoneForNewContact": "phone field for new contact",
+      "ariaLabelMailForNewContact": "mail field for new contact",
+      "ariaLabelDeleteForNewContact": "delete button for new contact"
     }
   },
   "wholesale": {

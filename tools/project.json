@@ -1,6 +1,5 @@
 {
   "projectType": "tool",
-  "root": "tools",
   "sourceRoot": "tools",
   "targets": {
     "add-license": {
@@ -17,7 +16,7 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/tools"],
       "options": {
-        "jestConfig": "tools/jest.config.js",
+        "jestConfig": "tools/jest.config.ts",
         "passWithNoTests": true
       }
     }

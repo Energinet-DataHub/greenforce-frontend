@@ -19,14 +19,10 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { DhApiModule } from '@energinet-datahub/dh/shared/data-access-api';
-import { dhB2CEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 import {
   DhConfigurationLocalizationModule,
   DhTranslocoModule,
 } from '@energinet-datahub/dh/globalization/configuration-localization';
-import { dhMeteringPointPath } from '@energinet-datahub/dh/metering-point/routing';
-import { dhMarketParticipantPath } from '@energinet-datahub/dh/market-participant/routing';
 import {
   MSAL_GUARD_CONFIG,
   MSAL_INSTANCE,
@@ -39,6 +35,11 @@ import {
   MsalModule,
   MsalService,
 } from '@energinet-datahub/dh/auth/msal';
+import { DhApiModule } from '@energinet-datahub/dh/shared/data-access-api';
+import { dhB2CEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
+import { dhMarketParticipantPath } from '@energinet-datahub/dh/market-participant/routing';
+import { dhMeteringPointPath } from '@energinet-datahub/dh/metering-point/routing';
+import { WattDanishDatetimeModule } from '@energinet-datahub/watt';
 
 import {
   DhCoreShellComponent,
@@ -102,6 +103,7 @@ const routes: Routes = [
     HttpClientModule,
     MsalModule,
     DhConfigurationLocalizationModule.forRoot(),
+    WattDanishDatetimeModule.forRoot(),
     RouterModule.forRoot(routes, {
       anchorScrolling: 'enabled',
       // Don't perform initial navigation in iframes or popups

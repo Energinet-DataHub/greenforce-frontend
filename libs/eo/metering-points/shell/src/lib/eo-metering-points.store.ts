@@ -33,14 +33,14 @@ export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState>
   meteringPoints$: Observable<MeteringPoint[]> = this.select(
     this.meteringPointsService.getMeteringPoints().pipe(
       tapResponse(
-        (response) => response.meteringpoints,
+        (response) => response.meteringPoints,
         (error) => {
           // We only support the happy path for now
           throw error;
         }
       )
     ),
-    (response) => response.meteringpoints
+    (response) => response.meteringPoints
   );
 
   constructor(private meteringPointsService: EoMeteringPointsService) {

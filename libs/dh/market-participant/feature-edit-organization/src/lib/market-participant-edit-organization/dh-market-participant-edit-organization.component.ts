@@ -17,13 +17,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, NgModule } from '@angular/core';
 import {
-  ContactChanges,
   DhMarketParticipantEditOrganizationDataAccessApiStore,
   OrganizationChanges,
 } from '@energinet-datahub/dh/market-participant/data-access-api';
 import { LetModule } from '@rx-angular/template/let';
 import { DhMarketParticipantOrganizationMasterDataComponentScam } from './master-data/dh-market-participant-organization-master-data.component';
-import { DhMarketParticipantOrganizationContactDataComponentScam } from './contact-data/dh-market-participant-organization-contact-data.component';
 import {
   WattButtonModule,
   WattSpinnerModule,
@@ -31,7 +29,6 @@ import {
   WattValidationMessageModule,
 } from '@energinet-datahub/watt';
 import { TranslocoModule } from '@ngneat/transloco';
-import { ContactDto } from '@energinet-datahub/dh/shared/domain';
 import { map } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
@@ -52,7 +49,6 @@ export class DhMarketParticipantEditOrganizationComponent {
 
   isLoading$ = this.store.isLoading$;
   isEditing$ = this.store.isEditing$;
-  contacts$ = this.store.contacts$;
   organization$ = this.store.organization$;
   validation$ = this.store.validation$;
 
@@ -66,13 +62,6 @@ export class DhMarketParticipantEditOrganizationComponent {
 
   readonly onMasterDataChanged = (changes: OrganizationChanges) => {
     this.store.setMasterDataChanges(changes);
-  };
-
-  readonly onContactsChanged = (
-    added: ContactChanges[],
-    removed: ContactDto[]
-  ) => {
-    this.store.setContactChanges(added, removed);
   };
 
   readonly onCancelled = () => {
@@ -97,7 +86,6 @@ export class DhMarketParticipantEditOrganizationComponent {
     WattTabsModule,
     WattSpinnerModule,
     DhMarketParticipantOrganizationMasterDataComponentScam,
-    DhMarketParticipantOrganizationContactDataComponentScam,
     WattValidationMessageModule,
   ],
   exports: [DhMarketParticipantEditOrganizationComponent],

@@ -113,4 +113,16 @@ limitations under the License.
       </watt-error>
     </watt-form-field>
   </div>
+
+  <div class="form-container">
+    <watt-form-field class="field-comment">
+      <watt-label>{{ t("commentLabel") }}</watt-label>
+      <input
+        wattInput
+        [(ngModel)]="changes.comment"
+        (ngModelChange)="onModelChanged()"
+        #commentInputModel="ngModel"
+      />
+    </watt-form-field>
+  </div>
 </ng-container>

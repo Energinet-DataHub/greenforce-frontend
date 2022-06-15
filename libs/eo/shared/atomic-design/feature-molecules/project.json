@@ -1,6 +1,5 @@
 {
   "projectType": "library",
-  "root": "libs/eo/shared/atomic-design/feature-molecules",
   "sourceRoot": "libs/eo/shared/atomic-design/feature-molecules/src",
   "prefix": "eo",
   "targets": {
@@ -8,7 +7,7 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/libs/eo/shared/atomic-design/feature-molecules"],
       "options": {
-        "jestConfig": "libs/eo/shared/atomic-design/feature-molecules/jest.config.js",
+        "jestConfig": "libs/eo/shared/atomic-design/feature-molecules/jest.config.ts",
         "passWithNoTests": true
       }
     },
