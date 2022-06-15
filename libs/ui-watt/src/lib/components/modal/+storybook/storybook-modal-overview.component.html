@@ -1,0 +1,4 @@
+<watt-button (click)="setIsOpen('small')">Small Modal</watt-button>
+<watt-button (click)="setIsOpen('normal')">Normal Modal</watt-button>
+<watt-button (click)="setIsOpen('large')">Large Modal</watt-button>
+<watt-modal [(isOpen)]="isOpen" [size]="size"></watt-modal>

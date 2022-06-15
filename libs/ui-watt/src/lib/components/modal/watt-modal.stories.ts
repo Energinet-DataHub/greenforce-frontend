@@ -15,22 +15,24 @@
  * limitations under the License.
  */
 import { moduleMetadata, Story, Meta } from '@storybook/angular';
-
-import { WattModalModule } from './watt-modal.module';
-import { WattModalComponent } from './watt-modal.component';
+import { StorybookModalOverviewComponent } from './+storybook/storybook-modal-overview.component';
+import { StorybookModalOverviewModule } from './+storybook/storybook-modal-overview.module';
 
 export default {
   title: 'Components/Modal',
-  component: WattModalComponent,
+  component: StorybookModalOverviewComponent,
   decorators: [
     moduleMetadata({
-      imports: [WattModalModule],
+      imports: [StorybookModalOverviewModule],
     }),
   ],
-} as Meta<WattModalComponent>;
+} as Meta<StorybookModalOverviewComponent>;
 
-export const Overview: Story<WattModalComponent> = (args) => ({
+export const Overview: Story<StorybookModalOverviewComponent> = (args) => ({
   props: args,
 });
 
-Overview.args = {};
+Overview.args = {
+  isOpen: false,
+  // size: 'small',
+};

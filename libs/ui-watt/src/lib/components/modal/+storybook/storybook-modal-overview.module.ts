@@ -15,14 +15,13 @@
  * limitations under the License.
  */
 import { NgModule } from '@angular/core';
-import { MatDialogModule } from '@angular/material/dialog';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
-import { WattModalComponent } from './watt-modal.component';
+import { WattButtonModule } from '../../button';
+import { WattModalModule } from '../watt-modal.module';
+import { StorybookModalOverviewComponent } from './storybook-modal-overview.component';
 
 @NgModule({
-  declarations: [WattModalComponent],
-  exports: [WattModalComponent],
-  imports: [BrowserAnimationsModule, MatDialogModule],
+  declarations: [StorybookModalOverviewComponent],
+  exports: [StorybookModalOverviewComponent],
+  imports: [WattButtonModule, WattModalModule],
 })
-export class WattModalModule {}
+export class StorybookModalOverviewModule {}

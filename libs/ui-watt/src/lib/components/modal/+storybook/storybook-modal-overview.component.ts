@@ -14,15 +14,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { NgModule } from '@angular/core';
-import { MatDialogModule } from '@angular/material/dialog';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { Component } from '@angular/core';
 
-import { WattModalComponent } from './watt-modal.component';
+import { WattModalSize } from '../watt-modal.component';
 
-@NgModule({
-  declarations: [WattModalComponent],
-  exports: [WattModalComponent],
-  imports: [BrowserAnimationsModule, MatDialogModule],
+@Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
+  selector: 'storybook-modal-overview',
+  templateUrl: './storybook-modal-overview.component.html',
 })
-export class WattModalModule {}
+export class StorybookModalOverviewComponent {
+  size: WattModalSize = 'normal';
+  isOpen = false;
+
+  setIsOpen(size: WattModalSize) {
+    this.size = size;
+    this.isOpen = true;
+  }
+}

@@ -14,4 +14,14 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<p>It works</p>
+<ng-template #modal>
+  <h2 mat-dialog-title>Delete all elements?</h2>
+  <mat-dialog-content
+    >This will delete all elements that are currently on this page and cannot be
+    undone.</mat-dialog-content
+  >
+  <mat-dialog-actions>
+    <button mat-button mat-dialog-close>Cancel</button>
+    <button mat-button [mat-dialog-close]="true">Delete</button>
+  </mat-dialog-actions>
+</ng-template>
