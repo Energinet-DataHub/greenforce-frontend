@@ -64,7 +64,6 @@ export class EoOriginOfEnergyShellComponent {}
 
 @NgModule({
   declarations: [EoOriginOfEnergyShellComponent],
-  exports: [EoOriginOfEnergyShellComponent],
   imports: [
     EoMediaModule,
     MatCardModule,

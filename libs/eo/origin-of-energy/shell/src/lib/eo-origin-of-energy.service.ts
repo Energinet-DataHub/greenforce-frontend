@@ -20,7 +20,6 @@ import {
   EoApiEnvironment,
   eoApiEnvironmentToken,
 } from '@energinet-datahub/eo/shared/environments';
-import { map, Observable } from 'rxjs';
 
 export interface EoOriginOfEnergyResponse {
   energySources: [
@@ -50,15 +49,13 @@ export interface EoOriginOfEnergyResponse {
 export class EoOriginOfEnergyService {
   #apiBase: string;
 
-  getRenewableShare(): Observable<number> {
-    return this.http
-      .get<EoOriginOfEnergyResponse>(
-        `${
-          this.#apiBase
-        }/sources?dateFrom=1609455600&dateTo=1640991599&aggregation=Total`,
-        { withCredentials: true }
-      )
-      .pipe(map((response) => response.energySources[0].renewable));
+  getSources() {
+    return this.http.get<EoOriginOfEnergyResponse>(
+      `${
+        this.#apiBase
+      }/sources?dateFrom=1609455600&dateTo=1640991599&aggregation=Total`,
+      { withCredentials: true }
+    );
   }
 
   constructor(
