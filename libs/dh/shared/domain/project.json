@@ -1,5 +1,5 @@
 {
-  "$schema": "..\\..\\..\\..\\node_modules\\nx\\schemas\\project-schema.json",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "implicitDependencies": ["api-dh"],
   "projectType": "library",
   "sourceRoot": "libs/dh/shared/domain/src",
