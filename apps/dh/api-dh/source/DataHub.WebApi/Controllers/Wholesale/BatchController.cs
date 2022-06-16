@@ -13,44 +13,36 @@
 // limitations under the License.
 
 using System;
-using System.Collections.Generic;
 using System.Net.Http;
+using System.Net.Http.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Energinet.DataHub.WebApi.Controllers
+namespace Energinet.DataHub.WebApi.Controllers.Wholesale
 {
     [ApiController]
     [Route("v1/[controller]")]
-    public class WholesaleBatchController : ControllerBase
+    public class BatchController : ControllerBase
     {
         private readonly HttpClient _httpClient;
 
-        public WholesaleBatchController(HttpClientFactory httpClientFactory, ApiClientSettings apiSettings)
+        public BatchController(HttpClientFactory httpClientFactory, ApiClientSettings apiSettings)
         {
             var baseUri = new Uri(apiSettings.WholesaleBaseUrl);
             _httpClient = httpClientFactory.CreateClient(baseUri);
         }
 
-        private StringContent EmptyContent => new(string.Empty);
-
         /// <summary>
         /// Create a batch.
         /// </summary>
         [HttpPost]
-        public async Task<ActionResult> CreateAsync(WholesaleProcessType processType, [FromQuery]List<Guid> gridAreaIds)
+        public async Task<ActionResult> CreateAsync(BatchRequestDto batchRequestDto)
         {
-            var relativeUri = $"v1/Batch?processType={processType}&gridAreas={string.Join(",", gridAreaIds)}";
             await _httpClient
-                .PostAsync(relativeUri, EmptyContent)
+                .PostAsJsonAsync("v1/Batch", batchRequestDto)
                 .ConfigureAwait(false);
 
             return Accepted();
-        }
-
-        public enum WholesaleProcessType
-        {
-            BalanceFixing,
         }
     }
 }
