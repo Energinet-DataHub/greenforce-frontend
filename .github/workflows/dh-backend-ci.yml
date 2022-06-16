@@ -24,6 +24,7 @@ env:
   is-pull-request: ${{ github.event_name  == 'pull_request' }}
   NODE_OPTIONS: --max-old-space-size=6144
   node-version-file: .nvmrc
+  yarn-version: 1.22.19
   NX_MAX_PARALLEL: 2
 
   # Nx Cloud
@@ -106,6 +107,9 @@ jobs:
           key: ${{ runner.os }}-yarn-${{ hashFiles('yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-yarn-
+
+      - name: Set yarn version ${{ env.yarn-version }}
+        run: yarn set version ${{ env.yarn-version }}
 
       - name: Install package dependencies
         run: yarn install --frozen-lockfile --non-interactive
