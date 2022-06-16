@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { DhDatePipe, pipeName } from './dh-date.pipe';
+import { DhDatePipe } from './dh-date.pipe';
 import { TValue } from './dh-format-danish-datetime';
 import {
   createPipeHarness,
@@ -25,7 +25,6 @@ describe(DhDatePipe, () => {
   beforeEach(() => {
     harness = createPipeHarness({
       pipe: DhDatePipe,
-      pipeName: pipeName,
       value: undefined,
     });
   });
