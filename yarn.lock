@@ -2936,10 +2936,10 @@
     tslib "2.3.1"
     uuid "8.3.2"
 
-"@ngneat/transloco-keys-manager@3.3.3":
-  version "3.3.3"
-  resolved "https://registry.yarnpkg.com/@ngneat/transloco-keys-manager/-/transloco-keys-manager-3.3.3.tgz#fbc0a942004997d28db720347cd14c92011b303e"
-  integrity sha512-fmdibEE5Q68Sk+1RtNP5KVIB6cBBuj6WMStcUp4FA0xW4w6gV4Fma+S6vlNKAKOqs1N9YcxwTHotdX1w/Soh7g==
+"@ngneat/transloco-keys-manager@3.4.1":
+  version "3.4.1"
+  resolved "https://registry.yarnpkg.com/@ngneat/transloco-keys-manager/-/transloco-keys-manager-3.4.1.tgz#6b11f45101af6650473f0663b2b2d562c8fe5d2c"
+  integrity sha512-pCG0bkUHaqC7D3XH5Smhwutz9hR7MmCTz0lT6GnrAfDEVi0DI9GwvYm7Or5W+oOWBq7AP6ugUyVgPhbd90SRWg==
   dependencies:
     "@angular/compiler" "12.2.6"
     "@ngneat/transloco-utils" "^3.0.2"
@@ -2954,6 +2954,7 @@
     deep-diff "1.0.2"
     flat "5.0.2"
     fs-extra "10.0.0"
+    gettext-parser "5.1.2"
     glob "7.1.7"
     ora "5.4.1"
 
@@ -2974,10 +2975,10 @@
     cosmiconfig "^7.0.0"
     tslib "^2.3.0"
 
-"@ngneat/transloco@3.2.0":
-  version "3.2.0"
-  resolved "https://registry.yarnpkg.com/@ngneat/transloco/-/transloco-3.2.0.tgz#cc4e59ce2338953ff0d37061b4d476d43d6f9048"
-  integrity sha512-S9Lh3T5I9ck/HPD93HzGwLFBzjzoeUUBr4xL58lXtCHjGMVi9A9oCSgscKOZn/XfQiUwIO0dRhCVhqdT+sUGlQ==
+"@ngneat/transloco@4.1.0":
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/@ngneat/transloco/-/transloco-4.1.0.tgz#2fdb92ac2227fad5aa2329091ac1030ffbf9fc20"
+  integrity sha512-dBis8YaaLL5Cg/Uk+RTtzInD3A8ctKhOo9kbR+4SFHvtSSMM8dXyVwuFMjDGgLKdAn/U6WB6Cwp3LFCw0ftBgQ==
   dependencies:
     "@ngneat/transloco-utils" "^3.0.1"
     flat "5.0.2"
@@ -8710,7 +8711,7 @@ content-disposition@0.5.4:
   dependencies:
     safe-buffer "5.2.1"
 
-content-type@~1.0.4:
+content-type@^1.0.4, content-type@~1.0.4:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/content-type/-/content-type-1.0.4.tgz#e138cc75e040c727b1966fe5e5f8c9aee256fe3b"
   integrity sha512-hIP3EEPs8tB9AT1L+NUqtwOAps4mk2Zob89MWXMHjHWg9milF/j4osnnQLXBCBFBk/tvIG/tUc9mOUJiPBhPXA==
@@ -11528,6 +11529,16 @@ getpass@^0.1.1:
   integrity sha1-Xv+OPmhNVprkyysSgmBOi6YhSfo=
   dependencies:
     assert-plus "^1.0.0"
+
+gettext-parser@5.1.2:
+  version "5.1.2"
+  resolved "https://registry.yarnpkg.com/gettext-parser/-/gettext-parser-5.1.2.tgz#ebecc29a905334a48680a57b2d64da920f781cd4"
+  integrity sha512-TaCShmFIQDvic6Ao+LFvFSPyl/9sjua3zNHMfmjfzzEeK3NIPbBSbNdPihJ+vG476td+ylrVk0ZyjJaAy9CiwQ==
+  dependencies:
+    content-type "^1.0.4"
+    encoding "^0.1.13"
+    readable-stream "^3.6.0"
+    safe-buffer "^5.2.1"
 
 github-slugger@^1.0.0:
   version "1.4.0"
@@ -17454,7 +17465,7 @@ safe-buffer@5.1.2, safe-buffer@~5.1.0, safe-buffer@~5.1.1:
   resolved "https://registry.yarnpkg.com/safe-buffer/-/safe-buffer-5.1.2.tgz#991ec69d296e0313747d59bdfd2b745c35f8828d"
   integrity sha512-Gd2UZBJDkXlY7GbJxfsE8/nvKkUEU1G38c1siN6QP6a9PT9MmHB8GnpscSmMJSoF8LOIrt8ud/wPtojys4G6+g==
 
-safe-buffer@5.2.1, safe-buffer@>=5.1.0, safe-buffer@^5.0.1, safe-buffer@^5.1.0, safe-buffer@^5.1.1, safe-buffer@^5.1.2, safe-buffer@^5.2.0, safe-buffer@~5.2.0:
+safe-buffer@5.2.1, safe-buffer@>=5.1.0, safe-buffer@^5.0.1, safe-buffer@^5.1.0, safe-buffer@^5.1.1, safe-buffer@^5.1.2, safe-buffer@^5.2.0, safe-buffer@^5.2.1, safe-buffer@~5.2.0:
   version "5.2.1"
   resolved "https://registry.yarnpkg.com/safe-buffer/-/safe-buffer-5.2.1.tgz#1eaf9fa9bdb1fdd4ec75f58f9cdb4e6b7827eec6"
   integrity sha512-rp3So07KcdmmKbGvgaNxQSJr7bGVSVk5S9Eq1F+ppbRo70+YeaDxkw5Dd8NPN+GD6bjnYm2VuPuCXmpuYvmCXQ==
