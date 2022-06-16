@@ -136,6 +136,7 @@ async function runPlaywright(
     {
       commands: [playwrightCommand],
       parallel: true,
+      __unparsed__: [],
     },
     context
   );
