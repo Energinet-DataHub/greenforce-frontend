@@ -15,11 +15,11 @@
  * limitations under the License.
  */
 import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
-import { EoEmissionsPageInfoScam } from './eo-emissions-page-info.component';
 import { EoEmissionsPageCo2ReductionScam } from './eo-emissions-page-co2-reduction';
-import { EoEmissionsPageTipScam } from './eo-emissions-page-tip.component';
 import { EoEmissionsPageGreenhouseGassesScam } from './eo-emissions-page-greenhouse-gasses.component';
+import { EoEmissionsPageInfoScam } from './eo-emissions-page-info.component';
 import { EoEmissionsPageLeadByExampleScam } from './eo-emissions-page-lead-by-example.component';
+import { EoEmissionsPageTipScam } from './eo-emissions-page-tip.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

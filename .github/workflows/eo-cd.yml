@@ -24,6 +24,7 @@ env:
   is-pull-request: ${{ github.event_name  == 'pull_request' }}
   NODE_OPTIONS: --max-old-space-size=6144
   node-version-file: .nvmrc
+  yarn-version: 1.22.19
   NX_MAX_PARALLEL: 2
 
   # Nx Cloud
@@ -77,6 +78,10 @@ jobs:
         uses: ./.github/actions/setup-postinstall
         with:
           ngcc: false
+
+      - name: Set yarn version ${{ env.yarn-version }}
+        run: yarn set version ${{ env.yarn-version }}
+
       - name: Install package dependencies
         run: yarn install --frozen-lockfile --non-interactive
 
@@ -117,6 +122,9 @@ jobs:
         uses: ./.github/actions/setup-postinstall
         with:
           ngcc: false
+
+      - name: Set yarn version ${{ env.yarn-version }}
+        run: yarn set version ${{ env.yarn-version }}
 
       - name: Install package dependencies
         run: yarn install --frozen-lockfile --non-interactive
