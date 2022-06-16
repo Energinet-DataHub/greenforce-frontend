@@ -25,6 +25,7 @@ env:
   is-pull-request: ${{ github.event_name  == 'pull_request' }}
   NODE_OPTIONS: --max-old-space-size=6144
   node-version-file: .nvmrc
+  yarn-version: 1.22.18
   NX_MAX_PARALLEL: 2
 
   # Nx Cloud
@@ -88,10 +89,11 @@ jobs:
         with:
           ngcc: false
 
+      - name: Set yarn version ${{ yarn-version }}
+        run: yarn set version ${{ yarn-version }}
+
       - name: Install package dependencies
-        run: |
-          yarn set version 1.22.18
-          yarn install --frozen-lockfile --non-interactive
+        run: yarn install --frozen-lockfile --non-interactive
 
       - name: Is affected?
         id: affected
@@ -131,10 +133,11 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-yarn-
 
+      - name: Set yarn version ${{ yarn-version }}
+        run: yarn set version ${{ yarn-version }}
+
       - name: Install package dependencies
-        run: |
-          yarn set version 1.22.18
-          yarn install --frozen-lockfile --non-interactive
+        run: yarn install --frozen-lockfile --non-interactive
 
         # 👇 Adds Chromatic as a step in the workflow
       - name: Publish to Chromatic
@@ -178,10 +181,11 @@ jobs:
         with:
           ngcc: false
 
+      - name: Set yarn version ${{ yarn-version }}
+        run: yarn set version ${{ yarn-version }}
+
       - name: Install package dependencies
-        run: |
-          yarn set version 1.22.18
-          yarn install --frozen-lockfile --non-interactive
+        run: yarn install --frozen-lockfile --non-interactive
 
       - name: Production build
         run: yarn designsystem:build

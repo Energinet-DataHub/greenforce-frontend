@@ -23,6 +23,7 @@ env:
   is-pull-request: ${{ github.event_name  == 'pull_request' }}
   NODE_OPTIONS: --max_old_space_size=6144
   node-version-file: .nvmrc
+  yarn-version: 1.22.18
   NX_MAX_PARALLEL: 2
 
   # Nx Cloud
@@ -90,6 +91,10 @@ jobs:
         uses: ./.github/actions/setup-postinstall
         with:
           ngcc: false
+
+      - name: Set yarn version ${{ yarn-version }}
+        run: yarn set version ${{ yarn-version }}
+
       - name: Install package dependencies
         run: yarn install --frozen-lockfile --non-interactive
 
@@ -136,6 +141,9 @@ jobs:
           key: ${{ runner.os }}-yarn-${{ hashFiles('yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-yarn-
+
+      - name: Set yarn version ${{ yarn-version }}
+        run: yarn set version ${{ yarn-version }}
 
       - name: Install package dependencies
         run: yarn install --frozen-lockfile --non-interactive
@@ -206,8 +214,12 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-yarn-
 
+      - name: Set yarn version ${{ yarn-version }}
+        run: yarn set version ${{ yarn-version }}
+
       - name: Install package dependencies
         run: yarn install --frozen-lockfile --non-interactive
+
       - name: Install Playwright
         run: npx playwright install --with-deps
       - name: 'PR: End-to-end test affected products'
@@ -256,8 +268,13 @@ jobs:
         uses: ./.github/actions/setup-postinstall
         with:
           ngcc: false
+
+      - name: Set yarn version ${{ yarn-version }}
+        run: yarn set version ${{ yarn-version }}
+
       - name: Install package dependencies
         run: yarn install --frozen-lockfile --non-interactive
+
       - name: Revert postinstall changes
         run: git reset --hard
 
@@ -316,8 +333,13 @@ jobs:
         uses: ./.github/actions/setup-postinstall
         with:
           ngcc: false
+
+      - name: Set yarn version ${{ yarn-version }}
+        run: yarn set version ${{ yarn-version }}
+
       - name: Install package dependencies
         run: yarn install --frozen-lockfile --non-interactive
+
       - name: Revert postinstall changes
         run: git reset --hard
 
@@ -362,8 +384,13 @@ jobs:
         uses: ./.github/actions/setup-postinstall
         with:
           ngcc: false
+
+      - name: Set yarn version ${{ yarn-version }}
+        run: yarn set version ${{ yarn-version }}
+
       - name: Install package dependencies
         run: yarn install --frozen-lockfile --non-interactive
+
       - name: Read .allowed-licenses.json
         id: allowed-licenses
         shell: bash
@@ -409,8 +436,12 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-yarn-
 
+      - name: Set yarn version ${{ yarn-version }}
+        run: yarn set version ${{ yarn-version }}
+
       - name: Install package dependencies
         run: yarn install --frozen-lockfile --non-interactive
+
       - name: 'PR: Test affected projects'
         if: ${{ env.is-pull-request == 'true' }}
         run: yarn affected:test --base=origin/$BASE_BRANCH
