@@ -15,24 +15,30 @@
  * limitations under the License.
  */
 import { moduleMetadata, Story, Meta } from '@storybook/angular';
-import { StorybookModalOverviewComponent } from './+storybook/storybook-modal-overview.component';
-import { StorybookModalOverviewModule } from './+storybook/storybook-modal-overview.module';
+import { WattButtonModule } from '../button';
+import { WattModalModule } from './watt-modal.module';
+import { WattModalComponent } from './watt-modal.component';
 
 export default {
   title: 'Components/Modal',
-  component: StorybookModalOverviewComponent,
+  component: WattModalComponent,
   decorators: [
     moduleMetadata({
-      imports: [StorybookModalOverviewModule],
+      imports: [WattButtonModule, WattModalModule],
     }),
   ],
-} as Meta<StorybookModalOverviewComponent>;
+} as Meta<WattModalComponent>;
 
-export const Overview: Story<StorybookModalOverviewComponent> = (args) => ({
+export const Overview: Story<WattModalComponent> = (args) => ({
   props: args,
+  template: `
+    <watt-button (click)="modal.open()">Open Modal</watt-button>
+    <watt-modal #modal [size]="size">
+      <watt-modal-actions>
+        <watt-button (click)="modal.close('dismiss')">Cancel</watt-button>
+        <watt-button (click)="modal.close('reject')">Reject</watt-button>
+        <watt-button (click)="modal.close('accept')">Accept</watt-button>
+      </watt-modal-actions>
+    </watt-modal>
+  `,
 });
-
-Overview.args = {
-  isOpen: false,
-  // size: 'small',
-};

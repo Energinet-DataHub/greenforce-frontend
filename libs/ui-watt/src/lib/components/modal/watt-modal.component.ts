@@ -20,27 +20,25 @@ import {
   Component,
   EventEmitter,
   Input,
-  OnChanges,
-  OnDestroy,
   Output,
-  SimpleChanges,
   TemplateRef,
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import {
-  filter,
-  first,
-  map,
-  mergeWith,
+  exhaustMap,
+  of,
   Subject,
-  Subscription,
   switchMap,
+  take,
+  mergeWith,
+  ignoreElements,
   tap,
 } from 'rxjs';
 
 export type WattModalSize = 'small' | 'normal' | 'large';
+export type WattModalResult = 'accept' | 'reject' | 'dismiss';
 
 function getDialogConfigFromSize(size: WattModalSize): MatDialogConfig {
   switch (size) {
@@ -60,64 +58,62 @@ function getDialogConfigFromSize(size: WattModalSize): MatDialogConfig {
   styleUrls: ['./watt-modal.component.scss'],
   templateUrl: './watt-modal.component.html',
 })
-export class WattModalComponent implements AfterViewInit, OnChanges, OnDestroy {
-  private visibilitySubject = new Subject<boolean>();
-
-  // Safely assigned in `ngAfterViewInit`
-  private subscription!: Subscription;
-
-  @Input()
-  isOpen = false;
-
-  @Output()
-  isOpenChange = new EventEmitter<boolean>();
-
+export class WattModalComponent implements AfterViewInit {
   @Input()
   size: WattModalSize = 'normal';
 
   @Input()
-  disableClose = true;
+  disableClose = false;
+
+  /**
+   * Emits when the modal is closed.
+   * @ignore
+   */
+  @Output()
+  closed = new EventEmitter<WattModalResult>();
 
   /** @ignore */
   @ViewChild('modal')
   modal!: TemplateRef<Element>;
 
-  get options(): MatDialogConfig {
+  private get options(): MatDialogConfig {
     return {
       disableClose: this.disableClose,
+      hasBackdrop: false,
       ...getDialogConfigFromSize(this.size),
     };
   }
 
-  constructor(public dialog: MatDialog) {}
+  private openSubject = new Subject<void>();
+  private closeSubject = new Subject<WattModalResult>();
+
+  constructor(private dialog: MatDialog) {}
 
   ngAfterViewInit() {
-    const dialog$ = this.visibilitySubject.pipe(
-      filter(Boolean),
-      map(() => this.dialog.open(this.modal, this.options)),
-      switchMap((dialog) =>
-        this.visibilitySubject.pipe(
-          first((visible) => !visible),
-          tap(() => dialog.close()),
+    const result$ = this.openSubject.pipe(
+      exhaustMap(() => {
+        const dialog = this.dialog.open(this.modal, this.options);
+        return this.closeSubject.pipe(
+          tap((result) => dialog.close(result)),
+          ignoreElements(),
           mergeWith(dialog.afterClosed()),
-          filter(() => this.isOpen),
-          tap(() => (this.isOpen = false)),
-          tap(() => this.isOpenChange.emit(false))
-        )
-      )
+          take(1)
+        );
+      })
     );
 
-    // Subscribe for side effects
-    this.subscription = dialog$.subscribe();
+    // Subjects and afterClosed will be garbage collected
+    result$.subscribe((result) => this.closed.emit(result));
   }
 
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes.isOpen) {
-      this.visibilitySubject.next(changes.isOpen.currentValue);
-    }
+  /**
+   * @ignore
+   */
+  open() {
+    this.openSubject.next();
   }
 
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
+  close(result: WattModalResult) {
+    this.closeSubject.next(result);
   }
 }
