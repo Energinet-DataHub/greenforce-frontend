@@ -1,6 +1,5 @@
 {
   "projectType": "library",
-  "root": "libs/gf/configuration-danish-locale",
   "sourceRoot": "libs/gf/configuration-danish-locale/src",
   "prefix": "gf",
   "targets": {
