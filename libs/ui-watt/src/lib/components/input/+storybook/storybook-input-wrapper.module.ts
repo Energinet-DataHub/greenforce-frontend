@@ -23,7 +23,6 @@ import { WattInputModule } from '../input.module';
 import { StorybookInputWrapperComponent } from './storybook-input-wrapper.component';
 import { StorybookInputOverviewComponent } from './storybook-input-overview.component';
 import { WattIconModule } from './../../../foundations/icon';
-import { WattButtonComponent } from '../../button';
 
 @NgModule({
   imports: [
@@ -46,6 +45,5 @@ import { WattButtonComponent } from '../../button';
     StorybookInputWrapperComponent,
     StorybookInputOverviewComponent,
   ],
-  entryComponents: [WattButtonComponent],
 })
 export class StorybookInputModule {}
