@@ -294,6 +294,13 @@
   dependencies:
     tslib "^2.3.0"
 
+"@angular/forms@~11.0.9":
+  version "11.0.9"
+  resolved "https://registry.yarnpkg.com/@angular/forms/-/forms-11.0.9.tgz#c7238af3d42e75f436840f5cf3002cbd41811d84"
+  integrity sha512-DHi4puesP5iSBToT4FZVqLYZZpZDlAy2wgBe+OhCq7GCIqi8OLejB3bp9BnUd/WnNAHJd3zEjytexih6EPE0Xg==
+  dependencies:
+    tslib "^2.0.0"
+
 "@angular/language-service@14.0.1":
   version "14.0.1"
   resolved "https://registry.yarnpkg.com/@angular/language-service/-/language-service-14.0.1.tgz#be92882413f8aef0593c3693c92bd7d0a9c3f5ed"
@@ -2999,11 +3006,12 @@
   resolved "https://registry.yarnpkg.com/@ngtools/webpack/-/webpack-14.0.1.tgz#005a4bbf08bc1cf94ab41aa3503024c583ad99df"
   integrity sha512-BR+RoOK8/20mRx86D6cYGjc0+/qsGvIpLHknRd9WfxB7ppfbWV8QTN9vnk3lRs13n2umRJ+8VvC8UMmd8B+m9A==
 
-"@ngworker/spectacular@0.2.0":
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/@ngworker/spectacular/-/spectacular-0.2.0.tgz#c0456b136f73c3b45dca2a5e42f3d03027897acd"
-  integrity sha512-2kyEB+XAfBr6EVRkVUrVmIi4YnOCdIDGB5vtzGdQ+o6Dm3l8VUtBeJdrfrCxCk46RAcSVraxbUdRIhjIm3s0qQ==
+"@ngworker/spectacular@0.3.0":
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/@ngworker/spectacular/-/spectacular-0.3.0.tgz#47192f62626c9a9bd84361e28878872a9aac1205"
+  integrity sha512-mblYfLpZSAcZv7coDTWhb2qXPgXv4mkpAb7hoaW87KL8IiwEDhgt6BFZDhB7CDbuNakox6lswa/nR0aKLKQqBQ==
   dependencies:
+    "@angular/forms" "~11.0.9"
     tslib "^2.0.0"
 
 "@nodelib/fs.scandir@2.1.5":

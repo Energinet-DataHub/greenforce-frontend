@@ -92,7 +92,7 @@
     "@compodoc/compodoc": "1.1.15",
     "@ngneat/transloco-keys-manager": "3.4.1",
     "@ngneat/transloco-optimize": "3.0.2",
-    "@ngworker/spectacular": "0.2.0",
+    "@ngworker/spectacular": "0.3.0",
     "@nrwl/cli": "14.3.5",
     "@nrwl/cypress": "14.3.5",
     "@nrwl/devkit": "14.3.5",
