@@ -79,8 +79,8 @@ jobs:
         with:
           ngcc: false
 
-      - name: Set yarn version ${{ yarn-version }}
-        run: yarn set version ${{ yarn-version }}
+      - name: Set yarn version ${{ env.yarn-version }}
+        run: yarn set version ${{ env.yarn-version }}
 
       - name: Install package dependencies
         run: yarn install --frozen-lockfile --non-interactive
@@ -122,8 +122,8 @@ jobs:
         with:
           ngcc: false
 
-      - name: Set yarn version ${{ yarn-version }}
-        run: yarn set version ${{ yarn-version }}
+      - name: Set yarn version ${{ env.yarn-version }}
+        run: yarn set version ${{ env.yarn-version }}
 
       - name: Install package dependencies
         run: yarn install --frozen-lockfile --non-interactive
