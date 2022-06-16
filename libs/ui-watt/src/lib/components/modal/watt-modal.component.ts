@@ -21,16 +21,37 @@ import {
   EventEmitter,
   Input,
   OnChanges,
+  OnDestroy,
   Output,
   SimpleChanges,
   TemplateRef,
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { Subject, filter, map, mergeWith, switchMap, tap } from 'rxjs';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import {
+  filter,
+  first,
+  map,
+  mergeWith,
+  Subject,
+  Subscription,
+  switchMap,
+  tap,
+} from 'rxjs';
 
 export type WattModalSize = 'small' | 'normal' | 'large';
+
+function getDialogConfigFromSize(size: WattModalSize): MatDialogConfig {
+  switch (size) {
+    case 'small':
+      return { width: '36vw', maxHeight: '45vh' };
+    case 'normal':
+      return { width: '50vw', maxHeight: '65vh' };
+    case 'large':
+      return { width: '65vw', maxHeight: '90vh' };
+  }
+}
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -39,12 +60,11 @@ export type WattModalSize = 'small' | 'normal' | 'large';
   styleUrls: ['./watt-modal.component.scss'],
   templateUrl: './watt-modal.component.html',
 })
-export class WattModalComponent implements OnChanges, AfterViewInit {
-  /** @ignore */
+export class WattModalComponent implements AfterViewInit, OnChanges, OnDestroy {
   private visibilitySubject = new Subject<boolean>();
 
-  @Input()
-  size: WattModalSize = 'normal';
+  // Safely assigned in `ngAfterViewInit`
+  private subscription!: Subscription;
 
   @Input()
   isOpen = false;
@@ -52,41 +72,32 @@ export class WattModalComponent implements OnChanges, AfterViewInit {
   @Output()
   isOpenChange = new EventEmitter<boolean>();
 
+  @Input()
+  size: WattModalSize = 'normal';
+
+  @Input()
+  disableClose = true;
+
   /** @ignore */
   @ViewChild('modal')
   modal!: TemplateRef<Element>;
 
-  constructor(public dialog: MatDialog) {}
-
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes.isOpen) {
-      this.visibilitySubject.next(changes.isOpen.currentValue);
-    }
-  }
-
-  getWidth(): string {
-    switch (this.size) {
-      case 'small':
-        return '36vw';
-      case 'normal':
-        return '500px';
-      case 'large':
-        return '700px';
-    }
-  }
-
-  get options() {
+  get options(): MatDialogConfig {
     return {
-      width: this.getWidth(),
+      disableClose: this.disableClose,
+      ...getDialogConfigFromSize(this.size),
     };
   }
 
-  ngAfterViewInit(): void {
+  constructor(public dialog: MatDialog) {}
+
+  ngAfterViewInit() {
     const dialog$ = this.visibilitySubject.pipe(
       filter(Boolean),
       map(() => this.dialog.open(this.modal, this.options)),
       switchMap((dialog) =>
         this.visibilitySubject.pipe(
+          first((visible) => !visible),
           tap(() => dialog.close()),
           mergeWith(dialog.afterClosed()),
           filter(() => this.isOpen),
@@ -97,6 +108,16 @@ export class WattModalComponent implements OnChanges, AfterViewInit {
     );
 
     // Subscribe for side effects
-    dialog$.subscribe();
+    this.subscription = dialog$.subscribe();
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.isOpen) {
+      this.visibilitySubject.next(changes.isOpen.currentValue);
+    }
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 }
