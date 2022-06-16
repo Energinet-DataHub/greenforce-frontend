@@ -49,7 +49,7 @@ export interface EoOriginOfEnergyResponse {
 export class EoOriginOfEnergyService {
   #apiBase: string;
 
-  getSources() {
+  getSourcesFor2021() {
     return this.http.get<EoOriginOfEnergyResponse>(
       `${
         this.#apiBase

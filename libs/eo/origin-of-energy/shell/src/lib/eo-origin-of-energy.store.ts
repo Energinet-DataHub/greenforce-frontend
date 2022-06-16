@@ -93,7 +93,7 @@ export class EoOriginOfEnergyStore extends ComponentStore<EoOriginOfEnergyState>
 
   loadData() {
     this.service
-      .getSources()
+      .getSourcesFor2021()
       .pipe(take(1))
       .subscribe((response) => {
         this.setEnergySources(response.energySources[0]);

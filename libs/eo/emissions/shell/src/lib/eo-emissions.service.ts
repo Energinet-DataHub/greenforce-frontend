@@ -44,7 +44,7 @@ interface EoEmissionsResponse {
 export class EoEmissionsService {
   #apiBase: string;
 
-  getEmissions() {
+  getEmissionsFor2021() {
     return this.http.get<EoEmissionsResponse>(
       `${
         this.#apiBase

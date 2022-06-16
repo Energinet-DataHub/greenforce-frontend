@@ -72,7 +72,7 @@ export class EoEmissionsStore extends ComponentStore<EoEmissionsState> {
 
   loadData() {
     this.service
-      .getEmissions()
+      .getEmissionsFor2021()
       .pipe(take(1))
       .subscribe((response) => {
         this.setEmissions(response.emissions[0]);
