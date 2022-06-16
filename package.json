@@ -156,6 +156,7 @@
   "volta": {
     "//node-comment": "Keep this in sync with engines in current package.json",
     "node": "16.15.1",
+    "//yarn-comment": "Keep this in sync with github actions pipelines",
     "yarn": "1.22.18"
   }
 }
