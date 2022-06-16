@@ -23,7 +23,7 @@ env:
   is-pull-request: ${{ github.event_name  == 'pull_request' }}
   NODE_OPTIONS: --max_old_space_size=6144
   node-version-file: .nvmrc
-  yarn-version: 1.22.18
+  yarn-version: 1.22.19
   NX_MAX_PARALLEL: 2
 
   # Nx Cloud

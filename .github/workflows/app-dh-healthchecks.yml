@@ -14,7 +14,7 @@
 name: DH UI Frontend Healthchecks
 env:
   node-version-file: .nvmrc
-  yarn-version: 1.22.18
+  yarn-version: 1.22.19
 on:
   schedule:
     - cron: '0 * * * *'
