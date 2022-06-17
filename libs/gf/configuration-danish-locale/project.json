@@ -1,6 +1,5 @@
 {
   "projectType": "library",
-  "sourceRoot": "libs/gf/configuration-danish-locale/src",
   "prefix": "gf",
   "targets": {
     "test": {
