@@ -17,12 +17,8 @@ limitations under the License.
 
 <ng-container *transloco="let t; read: 'marketParticipant.actor.create'">
   <ng-container *rxLet="isLoading$ as isLoading">
-    <watt-validation-message
-      type="danger"
-      *ngIf="validation$ | push as validation"
-      [label]="t('errorToastLabel')"
-      [message]="validation.error"
-    ></watt-validation-message>
+    <watt-validation-message type="danger" *ngIf="validation$ | push as validation" [label]="t('errorToastLabel')"
+      [message]="validation.error"></watt-validation-message>
 
     <ng-container *rxLet="isEditing$ as isEditing">
       <h1 *ngIf="isEditing">{{ t("editHeader") }}</h1>
@@ -39,42 +35,35 @@ limitations under the License.
         <!-- Tabs -->
         <watt-tabs class="tabs">
           <watt-tab [label]="t('masterDataTabHeader')">
-            <dh-market-participant-actor-master-data
-              [actor]="actor"
-              (hasChanges)="onMasterDataChanged($event)"
-            >
+            <dh-market-participant-actor-master-data [actor]="actor" (hasChanges)="onMasterDataChanged($event)">
             </dh-market-participant-actor-master-data>
           </watt-tab>
           <watt-tab [label]="t('meteringPointTypesHeader')">
-            <dh-market-participant-actor-metering-point-type
-              [actor]="actor"
-              (hasChanges)="onMeteringPointTypeChanged($event)"
-            >
+            <dh-market-participant-actor-metering-point-type [actor]="actor"
+              (hasChanges)="onMeteringPointTypeChanged($event)">
             </dh-market-participant-actor-metering-point-type>
           </watt-tab>
           <watt-tab [label]="t('gridAreasHeader')">
-            <dh-market-participant-actor-grid-areas
-              [selectedGridAreas]="selectedGridAreas$ | push"
-              (hasChanges)="onGridAreasChanged($event)"
-              [gridAreas]="gridAreas$ | push"
-            >
+            <dh-market-participant-actor-grid-areas [selectedGridAreas]="selectedGridAreas$ | push"
+              (hasChanges)="onGridAreasChanged($event)" [gridAreas]="gridAreas$ | push">
             </dh-market-participant-actor-grid-areas>
           </watt-tab>
           <watt-tab [label]="t('marketRolesHeader')">
-            <dh-market-participant-actor-market-roles
-              [marketRolesEicFunctions]="marketRolesEicFunctions$ | push"
+            <dh-market-participant-actor-market-roles [marketRolesEicFunctions]="marketRolesEicFunctions$ | push"
               (marketRolesEicFunctionsChange)="
                 onMarketRolesEicFunctionsChange($event)
-              "
-            >
+              ">
             </dh-market-participant-actor-market-roles>
           </watt-tab>
           <watt-tab [label]="t('contactsHeader')">
-            <dh-market-participant-actor-contact-data
-              [contacts]="contacts$ | push"
-              (contactsChanged)="onContactsChanged($event.add, $event.remove)"
-            >
+            <dh-market-participant-actor-contact-data [contacts]="contacts$ | push"
+              (contactsChanged)="onContactsChanged($event.add, $event.remove)">
             </dh-market-participant-actor-contact-data>
+          </watt-tab>
+          <watt-tab [label]="t('marketRolesHeader') + ' (ny)'">
+            <dh-market-participant-actor-market-roles-new [gridAreas]="gridAreas$ | push"
+              (changed)="onMarketRolesChange($event)">
+            </dh-market-participant-actor-market-roles-new>
           </watt-tab>
         </watt-tabs>
       </div>
@@ -82,12 +71,11 @@ limitations under the License.
 
     <!-- Confirmation  -->
     <div class="button-container" [hidden]="isLoading">
-      <watt-button variant="secondary" (click)="onCancelled()"
-        >{{ t("cancelLabel") }}
+      <watt-button variant="secondary" (click)="onCancelled()">{{ t("cancelLabel") }}
       </watt-button>
       <watt-button variant="primary" (click)="onSaved()">{{
         t("saveLabel")
-      }}</watt-button>
+        }}</watt-button>
     </div>
   </ng-container>
 </ng-container>

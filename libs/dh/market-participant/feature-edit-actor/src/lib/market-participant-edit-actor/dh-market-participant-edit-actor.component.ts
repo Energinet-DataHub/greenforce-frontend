@@ -25,6 +25,7 @@ import {
   ActorChanges,
   ActorContactChanges,
   DhMarketParticipantEditActorDataAccessApiStore,
+  MarketRoleChanges,
   MeteringPointTypeChanges,
 } from '@energinet-datahub/dh/market-participant/data-access-api';
 import {
@@ -50,6 +51,7 @@ import { DhMarketParticipantActorContactDataComponentScam } from './contact-data
 import { DhMarketParticipantActorMasterDataComponentScam } from './master-data/dh-market-participant-actor-master-data.component';
 import { DhMarketParticipantActorMeteringPointTypeComponentScam } from './metering-point-type/dh-market-participant-actor-metering-point-type.component';
 import { DhMarketParticipantActorMarketRolesComponentScam } from './market-roles/dh-market-participant-actor-market-roles.component';
+import { DhMarketParticipantActorMarketRolesNewComponentScam } from './market-roles-new/dh-market-participant-actor-market-roles-new.component';
 
 @Component({
   selector: 'dh-market-participant-edit-actor',
@@ -98,6 +100,10 @@ export class DhMarketParticipantEditActorComponent {
     this.store.setMarketRoles(marketRoles);
   };
 
+  readonly onMarketRolesChange = (marketRoleChanges: MarketRoleChanges) => {
+    console.log(marketRoleChanges);
+  };
+
   readonly onContactsChanged = (
     added: ActorContactChanges[],
     removed: ActorContactDto[]
@@ -137,6 +143,7 @@ export class DhMarketParticipantEditActorComponent {
     DhMarketParticipantActorGridAreasComponentScam,
     DhMarketParticipantActorMarketRolesComponentScam,
     DhMarketParticipantActorContactDataComponentScam,
+    DhMarketParticipantActorMarketRolesNewComponentScam,
     WattValidationMessageModule,
   ],
   exports: [DhMarketParticipantEditActorComponent],

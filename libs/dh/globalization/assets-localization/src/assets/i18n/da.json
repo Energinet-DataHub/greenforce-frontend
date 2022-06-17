@@ -314,6 +314,11 @@
             "Passive": "Passiv",
             "Deleted": "Slettet"
           }
+        },
+        "marketRoles": {
+          "marketRole": "Markedsrolle",
+          "gridArea": "Netområde",
+          "meteringPointTypes": "Målepunktstyper"
         }
       }
     },

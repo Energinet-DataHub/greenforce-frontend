@@ -314,6 +314,11 @@
             "Passive": "Passive",
             "Deleted": "Deleted"
           }
+        },
+        "marketRoles": {
+          "marketRole": "Market role",
+          "gridArea": "Grid area",
+          "meteringPointTypes": "Metering point types"
         }
       }
     },

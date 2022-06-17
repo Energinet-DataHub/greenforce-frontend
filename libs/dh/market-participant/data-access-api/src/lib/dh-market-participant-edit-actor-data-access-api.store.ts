@@ -27,6 +27,7 @@ import {
   ActorContactDto,
   ContactCategory,
   CreateActorContactDto,
+  EicFunction,
 } from '@energinet-datahub/dh/shared/domain';
 import {
   catchError,
@@ -41,6 +42,20 @@ import {
 } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { parseErrorResponse } from './dh-market-participant-error-handling';
+
+export interface MarketRoleChanges {
+  marketRoles: MarketRole[];
+}
+
+export interface MarketRole {
+  marketRole: EicFunction;
+  gridAreas: MarketRoleGridArea[];
+}
+
+export interface MarketRoleGridArea {
+  id: string;
+  meteringPointTypes: MarketParticipantMeteringPointType[];
+}
 
 export interface ActorChanges {
   actorNumber: string;
