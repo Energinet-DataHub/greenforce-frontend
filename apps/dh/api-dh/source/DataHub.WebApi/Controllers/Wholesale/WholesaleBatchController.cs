@@ -22,11 +22,11 @@ namespace Energinet.DataHub.WebApi.Controllers.Wholesale
 {
     [ApiController]
     [Route("v1/[controller]")]
-    public class BatchController : ControllerBase
+    public class WholesaleBatchController : ControllerBase
     {
         private readonly HttpClient _httpClient;
 
-        public BatchController(HttpClientFactory httpClientFactory, ApiClientSettings apiSettings)
+        public WholesaleBatchController(HttpClientFactory httpClientFactory, ApiClientSettings apiSettings)
         {
             var baseUri = new Uri(apiSettings.WholesaleBaseUrl);
             _httpClient = httpClientFactory.CreateClient(baseUri);
@@ -36,13 +36,14 @@ namespace Energinet.DataHub.WebApi.Controllers.Wholesale
         /// Create a batch.
         /// </summary>
         [HttpPost]
-        public async Task<ActionResult> CreateAsync(BatchRequestDto batchRequestDto)
+        public async Task<ActionResult> CreateAsync(WholesaleBatchRequestDto wholesaleBatchRequestDto)
         {
-            await _httpClient
-                .PostAsJsonAsync("v1/Batch", batchRequestDto)
+            var response = await _httpClient
+                .PostAsJsonAsync("v1/Batch", wholesaleBatchRequestDto)
                 .ConfigureAwait(false);
 
-            return Accepted();
+            // Forward response status from domain to frontend
+            return StatusCode((int)response.StatusCode);
         }
     }
 }

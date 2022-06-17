@@ -16,5 +16,5 @@ using System.Collections.Generic;
 
 namespace Energinet.DataHub.WebApi.Controllers.Wholesale
 {
-    public sealed record BatchRequestDto(ProcessType ProcessType, IEnumerable<string> GridAreaCodes);
+    public sealed record WholesaleBatchRequestDto(WholesaleProcessType ProcessType, IEnumerable<string> GridAreaCodes);
 }

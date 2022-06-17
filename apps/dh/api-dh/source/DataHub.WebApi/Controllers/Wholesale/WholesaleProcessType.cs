@@ -14,7 +14,7 @@
 
 namespace Energinet.DataHub.WebApi.Controllers.Wholesale
 {
-    public enum ProcessType
+    public enum WholesaleProcessType
     {
         BalanceFixing,
     }
