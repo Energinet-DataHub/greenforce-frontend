@@ -14,15 +14,20 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<ng-container *transloco="let t; read: 'marketParticipant.actor.create.marketRoles'">
+<ng-container
+  *transloco="let t; read: 'marketParticipant.actor.create.marketRoles'"
+>
   <mat-table [dataSource]="rows" aria-label="market roles">
-
     <ng-container matColumnDef="marketRole">
       <mat-header-cell *matHeaderCellDef>{{ t("marketRole") }}</mat-header-cell>
       <mat-cell *matCellDef="let element" class="field">
         <watt-form-field>
-          <watt-dropdown required [options]="marketRoles" [(ngModel)]="element.changed.marketRole"
-            (ngModelChange)="onDropdownChanged()">
+          <watt-dropdown
+            required
+            [options]="marketRoles"
+            [(ngModel)]="element.changed.marketRole"
+            (ngModelChange)="onDropdownChanged()"
+          >
           </watt-dropdown>
         </watt-form-field>
       </mat-cell>
@@ -32,19 +37,30 @@ limitations under the License.
       <mat-header-cell *matHeaderCellDef>{{ t("gridArea") }}</mat-header-cell>
       <mat-cell *matCellDef="let element" class="field">
         <watt-form-field>
-          <watt-dropdown required [options]="gridAreaOptions" [(ngModel)]="element.changed.gridArea"
-            (ngModelChange)="onDropdownChanged()">
+          <watt-dropdown
+            required
+            [options]="gridAreaOptions"
+            [(ngModel)]="element.changed.gridArea"
+            (ngModelChange)="onDropdownChanged()"
+          >
           </watt-dropdown>
         </watt-form-field>
       </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="meteringPointTypes">
-      <mat-header-cell *matHeaderCellDef>{{ t("meteringPointTypes") }}</mat-header-cell>
+      <mat-header-cell *matHeaderCellDef>{{
+        t("meteringPointTypes")
+      }}</mat-header-cell>
       <mat-cell *matCellDef="let element" class="field">
         <watt-form-field>
-          <watt-dropdown required [multiple]="true" [options]="meteringPointTypes" [(ngModel)]="element.changed.meteringPointTypes"
-            (ngModelChange)="onDropdownChanged()">
+          <watt-dropdown
+            required
+            [multiple]="true"
+            [options]="meteringPointTypes"
+            [(ngModel)]="element.changed.meteringPointTypes"
+            (ngModelChange)="onDropdownChanged()"
+          >
           </watt-dropdown>
         </watt-form-field>
       </mat-cell>
@@ -53,7 +69,11 @@ limitations under the License.
     <ng-container matColumnDef="delete">
       <mat-header-cell mat-header-cell *matHeaderCellDef></mat-header-cell>
       <mat-cell *matCellDef="let element">
-        <watt-button variant="icon" icon="remove" (click)="onRowDelete(element)">
+        <watt-button
+          variant="icon"
+          icon="remove"
+          (click)="onRowDelete(element)"
+        >
         </watt-button>
       </mat-cell>
     </ng-container>
@@ -62,6 +82,5 @@ limitations under the License.
     <mat-row *matRowDef="let row; columns: columnIds"></mat-row>
   </mat-table>
 
-  <watt-button variant="icon" icon="plus" (click)="onRowAdd()">
-  </watt-button>
+  <watt-button variant="icon" icon="plus" (click)="onRowAdd()"> </watt-button>
 </ng-container>
