@@ -132,7 +132,8 @@ namespace Energinet.DataHub.WebApi
 
             app.UseCors();
 
-            // app.UseMiddleware<JwtTokenMiddleware>();
+            app.UseMiddleware<JwtTokenMiddleware>();
+
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
