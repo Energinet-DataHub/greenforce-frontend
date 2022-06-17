@@ -24,13 +24,13 @@ import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholes
   selector: 'dh-wholesale-start',
   templateUrl: './dh-wholesale-start.component.html',
   styleUrls: ['./dh-wholesale-start.component.scss'],
-  providers: [ DhWholesaleBatchDataAccessApiStore ]
+  providers: [DhWholesaleBatchDataAccessApiStore],
 })
 export class DhWholesaleStartComponent {
   constructor(private store: DhWholesaleBatchDataAccessApiStore) {}
 
   createBatch() {
-    this.store.createBatch(["805", "806"]);
+    this.store.createBatch(['805', '806']);
   }
 }
 

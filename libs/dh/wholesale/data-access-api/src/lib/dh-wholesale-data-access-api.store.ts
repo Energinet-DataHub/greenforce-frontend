@@ -18,34 +18,30 @@ import { Injectable } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { filter, map, Observable, switchMap, tap } from 'rxjs';
 import {
-    WholesaleBatchHttp,
-    WholesaleBatchRequestDto,
-    WholesaleProcessType,
+  WholesaleBatchHttp,
+  WholesaleBatchRequestDto,
+  WholesaleProcessType,
 } from '@energinet-datahub/dh/shared/domain';
 
-interface State {
-}
+interface State {}
 
-const initialState: State = {
-};
+const initialState: State = {};
 
 @Injectable()
 export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
-    constructor(private httpClient: WholesaleBatchHttp) {
-        super(initialState);
-    }
+  constructor(private httpClient: WholesaleBatchHttp) {
+    super(initialState);
+  }
 
-    readonly createBatch = this.effect(
-        (gridAreas$: Observable<string[]>) => {
-            return gridAreas$.pipe(
-                switchMap(gridAreas => {
-                    const batchRequest: WholesaleBatchRequestDto = {
-                        processType: WholesaleProcessType.BalanceFixing,
-                        gridAreaCodes: gridAreas,
-                    };
-                    return this.httpClient.v1WholesaleBatchPost(batchRequest)
-                })
-            )
-        }
+  readonly createBatch = this.effect((gridAreas$: Observable<string[]>) => {
+    return gridAreas$.pipe(
+      switchMap((gridAreas) => {
+        const batchRequest: WholesaleBatchRequestDto = {
+          processType: WholesaleProcessType.BalanceFixing,
+          gridAreaCodes: gridAreas,
+        };
+        return this.httpClient.v1WholesaleBatchPost(batchRequest);
+      })
     );
+  });
 }
