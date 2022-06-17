@@ -28,12 +28,10 @@ import {
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import {
   exhaustMap,
-  of,
-  Subject,
-  switchMap,
-  take,
-  mergeWith,
   ignoreElements,
+  mergeWith,
+  Subject,
+  take,
   tap,
 } from 'rxjs';
 
@@ -60,6 +58,9 @@ function getDialogConfigFromSize(size: WattModalSize): MatDialogConfig {
 })
 export class WattModalComponent implements AfterViewInit {
   @Input()
+  title = '';
+
+  @Input()
   size: WattModalSize = 'normal';
 
   @Input()
@@ -79,12 +80,16 @@ export class WattModalComponent implements AfterViewInit {
   private get options(): MatDialogConfig {
     return {
       disableClose: this.disableClose,
-      hasBackdrop: false,
+      autoFocus: 'dialog',
+      panelClass: 'watt-modal-panel',
       ...getDialogConfigFromSize(this.size),
     };
   }
 
+  /** @ignore */
   private openSubject = new Subject<void>();
+
+  /** @ignore */
   private closeSubject = new Subject<WattModalResult>();
 
   constructor(private dialog: MatDialog) {}
@@ -117,3 +122,9 @@ export class WattModalComponent implements AfterViewInit {
     this.closeSubject.next(result);
   }
 }
+
+@Component({
+  selector: 'watt-modal-actions',
+  template: '<ng-content></ng-content>',
+})
+export class WattModalActionsComponent {}

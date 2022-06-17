@@ -15,4 +15,9 @@
  * limitations under the License.
  */
 export { WattModalModule } from './watt-modal.module';
-export { WattModalComponent } from './watt-modal.component';
+export {
+  WattModalComponent,
+  WattModalActionsComponent,
+  WattModalResult,
+  WattModalSize,
+} from './watt-modal.component';

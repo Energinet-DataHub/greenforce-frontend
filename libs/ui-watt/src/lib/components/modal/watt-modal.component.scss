@@ -14,6 +14,39 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-watt-modal {
-  color: var(--watt-color-state-success);
+@use "@energinet-datahub/watt/utils" as watt;
+
+.watt-modal-panel {
+  mat-dialog-container {
+    display: grid;
+    gap: var(--watt-space-m);
+    grid-template-rows: auto 1fr auto;
+    grid-template-areas:
+      "title"
+      "content"
+      "actions";
+  }
+
+  .watt-modal-title {
+    grid-area: title;
+    margin: 0;
+    color: var(--watt-on-light-high-emphasis);
+    @include watt.typography-font-size("l");
+  }
+
+  .watt-modal-content {
+    grid-area: content;
+    overflow: auto;
+    border: 1px solid var(--watt-color-neutral-grey-300);
+    border-left: none;
+    border-right: none;
+  }
+
+  watt-modal-actions {
+    grid-area: actions;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: end;
+    gap: var(--watt-space-m);
+  }
 }

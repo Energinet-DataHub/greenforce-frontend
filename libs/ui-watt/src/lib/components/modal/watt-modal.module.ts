@@ -18,11 +18,14 @@ import { NgModule } from '@angular/core';
 import { MatDialogModule } from '@angular/material/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { WattModalComponent } from './watt-modal.component';
+import {
+  WattModalComponent,
+  WattModalActionsComponent,
+} from './watt-modal.component';
 
 @NgModule({
-  declarations: [WattModalComponent],
-  exports: [WattModalComponent],
+  declarations: [WattModalComponent, WattModalActionsComponent],
+  exports: [WattModalComponent, WattModalActionsComponent],
   imports: [BrowserAnimationsModule, MatDialogModule],
 })
 export class WattModalModule {}

@@ -14,4 +14,8 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<ng-template #modal> <ng-content></ng-content> </ng-template>
+<ng-template #modal>
+  <h2 class="watt-modal-title">{{ title }}</h2>
+  <div class="watt-modal-content"><ng-content></ng-content></div>
+  <ng-content select="watt-modal-actions"></ng-content>
+</ng-template>
