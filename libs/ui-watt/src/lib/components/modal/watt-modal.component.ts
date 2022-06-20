@@ -93,6 +93,7 @@ export class WattModalComponent implements AfterViewInit {
 
   constructor(private dialog: MatDialog) {}
 
+  /** @ignore */
   ngAfterViewInit() {
     const result$ = this.openSubject.pipe(
       exhaustMap(() => {
