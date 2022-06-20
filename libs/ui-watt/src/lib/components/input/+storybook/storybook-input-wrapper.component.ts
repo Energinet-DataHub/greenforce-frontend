@@ -76,7 +76,10 @@ export class StorybookInputWrapperComponent implements OnChanges {
   /**
    * @ignore
    */
-  exampleFormControl = new FormControl({ value: '', disabled: this.disabled });
+  exampleFormControl = new FormControl(
+    { value: '', disabled: this.disabled },
+    { nonNullable: true }
+  );
 
   /**
    * @ignore
