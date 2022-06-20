@@ -82,5 +82,6 @@
     "gf-util-browser": "libs/gf/util-browser",
     "ui-watt": "libs/ui-watt",
     "workspace-tools": "tools"
-  }
+  },
+  "$schema": "./node_modules/nx/schemas/workspace-schema.json"
 }
