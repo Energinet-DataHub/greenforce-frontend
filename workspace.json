@@ -52,6 +52,8 @@
     "eo-auth-data-access-security": "libs/eo/auth/data-access-security",
     "eo-auth-feature-terms": "libs/eo/auth/feature-terms",
     "eo-auth-routing-security": "libs/eo/auth/routing-security",
+    "eo-consumption-page-shell": "libs/eo/consumption-page/shell",
+    "eo-consumption-page-routing": "libs/eo/consumption-page/routing",
     "eo-core-shell": "libs/eo/core/shell",
     "eo-dashboard-routing": "libs/eo/dashboard/routing",
     "eo-dashboard-shell": "libs/eo/dashboard/shell",
