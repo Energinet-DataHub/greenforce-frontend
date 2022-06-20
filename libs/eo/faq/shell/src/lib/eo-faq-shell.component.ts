@@ -104,8 +104,9 @@ import { eoFaqRoutePath } from '@energinet-datahub/eo/faq/routing';
       website:
     </p>
     <a
-      href="https://en.energinet.dk/Electricity/DataHub/Energy-Origin"
+      href="https://en.energinet.dk/Energy-data/DataHub/Energy-Origin"
       target="_blank"
+      rel="noopener noreferrer"
     >
       Origins of energy | Energinet
     </a>
