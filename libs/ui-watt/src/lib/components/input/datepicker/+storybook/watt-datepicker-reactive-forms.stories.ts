@@ -69,7 +69,7 @@ const template = `
 
 const initialValue = '22-11-3333';
 
-export const withFormControl: Story<WattDatepickerComponent> = (args) => ({
+export const withFormControl: Story = (args) => ({
   props: {
     exampleFormControlSingle: new FormControl(null),
     exampleFormControlRange: new FormControl(null),
@@ -91,7 +91,7 @@ exampleFormControl = new FormControl();
   },
 };
 
-export const withInitialValue: Story<WattDatepickerComponent> = (args) => ({
+export const withInitialValue: Story = (args) => ({
   props: {
     exampleFormControlSingle: new FormControl(initialValue),
     exampleFormControlRange: new FormControl({
@@ -103,7 +103,7 @@ export const withInitialValue: Story<WattDatepickerComponent> = (args) => ({
   template,
 });
 
-export const withValidations: Story<WattDatepickerComponent> = (args) => ({
+export const withValidations: Story = (args) => ({
   props: {
     exampleFormControlSingle: new FormControl(null, [Validators.required]),
     exampleFormControlRange: new FormControl(null, [
@@ -127,9 +127,7 @@ withValidations.play = async ({ canvasElement }) => {
   fireEvent.focusOut(startDateInput);
 };
 
-export const withFormControlDisabled: Story<WattDatepickerComponent> = (
-  args
-) => ({
+export const withFormControlDisabled: Story = (args) => ({
   props: {
     exampleFormControlSingle: new FormControl({ value: null, disabled: true }),
     exampleFormControlRange: new FormControl({ value: null, disabled: true }),
