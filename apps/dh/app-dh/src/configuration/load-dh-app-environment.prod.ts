@@ -16,9 +16,9 @@
  */
 import {
   DhAppEnvironment,
-  loadDhFeatureFlagsEnvironment as _loadDhFeatureFlagsEnvironment,
+  loadDhAppEnvironment as _loadDhAppEnvironment,
 } from '@energinet-datahub/dh/shared/environments';
 
-export function loadDhFeatureFlagsEnvironment(): Promise<DhAppEnvironment[]> {
-  return _loadDhFeatureFlagsEnvironment('dh-feature-flags-environment.json');
+export function loadDhAppEnvironment(): Promise<DhAppEnvironment> {
+  return _loadDhAppEnvironment('dh-feature-flags-environment.json');
 }
