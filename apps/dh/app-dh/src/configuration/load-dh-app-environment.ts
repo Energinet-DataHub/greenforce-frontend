@@ -15,16 +15,16 @@
  * limitations under the License.
  */
 import {
-  DhFeatureFlag,
-  loadDhFeatureFlagsEnvironment as _loadDhFeatureFlagsEnvironment,
+  DhAppEnvironment,
+  loadDhAppEnvironment as _loadDhAppEnvironment,
 } from '@energinet-datahub/dh/shared/environments';
 
-export function loadDhFeatureFlagsEnvironment(): Promise<DhFeatureFlag[]> {
-  return _loadDhFeatureFlagsEnvironment(
-    'dh-feature-flags-environment.json'
+export function loadDhAppEnvironment(): Promise<DhAppEnvironment> {
+  return _loadDhAppEnvironment(
+    'dh-app-environment.json'
   ).catch(() =>
-    _loadDhFeatureFlagsEnvironment(
-      'feature-flags/dh-feature-flags-environment.local.json'
+    _loadDhAppEnvironment(
+      'dh-app-environment.local.json'
     )
   );
 }

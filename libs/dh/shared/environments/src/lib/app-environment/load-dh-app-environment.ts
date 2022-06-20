@@ -14,11 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { DhFeatureFlag } from './dh-feature-flags-environment';
+import { DhAppEnvironment } from './dh-app-environment';
 
-export function loadDhFeatureFlagsEnvironment(
+export function loadDhAppEnvironment(
   configurationFilename: string
-): Promise<DhFeatureFlag[]> {
+): Promise<DhAppEnvironment> {
   return fetch(`/assets/configuration/${configurationFilename}`).then(
     (response) => response.json()
   );

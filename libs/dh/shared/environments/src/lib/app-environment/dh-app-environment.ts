@@ -15,25 +15,25 @@
  * limitations under the License.
  */
 import { InjectionToken } from '@angular/core';
-import { dhLocalFeatureFlagsEnvironment } from '@energinet-datahub/dh/shared/assets';
+import { dhLocalAppEnvironment } from '@energinet-datahub/dh/shared/assets';
 
 import { environment } from '../environment';
 
-export interface DhFeatureFlag {
-  name: string;
-  created: string;
+export interface DhAppEnvironment {
+  current: string;
 }
 
-export const dhFeatureFlagsEnvironmentToken = new InjectionToken<
-  DhFeatureFlag[]
->('dhFeatureFlagsEnvironmentToken', {
-  factory: (): DhFeatureFlag[] => {
-    if (environment.production) {
-      throw new Error('No DataHub feature flags environment provided.');
-    }
+export const dhAppEnvironmentToken = new InjectionToken<DhAppEnvironment>(
+  'dhAppEnvironmentToken',
+  {
+    factory: (): DhAppEnvironment => {
+      if (environment.production) {
+        throw new Error('No DataHub app environment provided.');
+      }
 
-    // Used for unit and integration tests
-    return dhLocalFeatureFlagsEnvironment;
-  },
-  providedIn: 'platform',
-});
+      // Used for unit and integration tests
+      return dhLocalAppEnvironment;
+    },
+    providedIn: 'platform',
+  }
+);
