@@ -77,6 +77,12 @@ export class WattModalComponent implements AfterViewInit {
   modal!: TemplateRef<Element>;
 
   /** @ignore */
+  private openSubject = new Subject<void>();
+
+  /** @ignore */
+  private closeSubject = new Subject<boolean>();
+
+  /** @ignore */
   private get options(): MatDialogConfig {
     return {
       autoFocus: 'dialog',
@@ -84,12 +90,6 @@ export class WattModalComponent implements AfterViewInit {
       ...sizeConfig[this.size],
     };
   }
-
-  /** @ignore */
-  private openSubject = new Subject<void>();
-
-  /** @ignore */
-  private closeSubject = new Subject<boolean>();
 
   constructor(private dialog: MatDialog) {}
 
