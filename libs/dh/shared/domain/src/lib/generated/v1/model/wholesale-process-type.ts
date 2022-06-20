@@ -11,8 +11,9 @@
  */
 
 
-export interface GlobalLocationNumberDto { 
-    value: string;
-}
+export type WholesaleProcessType = 'BalanceFixing';
 
+export const WholesaleProcessType = {
+    BalanceFixing: 'BalanceFixing' as WholesaleProcessType
+};
 

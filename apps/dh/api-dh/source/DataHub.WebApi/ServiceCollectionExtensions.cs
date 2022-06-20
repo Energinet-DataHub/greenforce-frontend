@@ -31,5 +31,15 @@ namespace Energinet.DataHub.WebApi
             services.AddScoped<ClaimsPrincipalContext>();
             services.AddScoped(_ => new OpenIdSettings(metadataAddress, audience));
         }
+
+        /// <summary>
+        /// Enable creating an HttpClient with authentication from an injected HttpClientFactory.
+        /// </summary>
+        public static void AddHttpClientFactory(this IServiceCollection services)
+        {
+            services.AddHttpClient();
+            services.AddHttpContextAccessor();
+            services.AddSingleton<HttpClientFactory>();
+        }
     }
 }

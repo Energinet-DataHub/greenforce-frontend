@@ -14,24 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 import { CommonModule } from '@angular/common';
-import { Component, ChangeDetectionStrategy, NgModule } from '@angular/core';
-import { LetModule } from '@rx-angular/template';
+import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
 import { EoMeteringPointsStore } from './eo-metering-points.store';
 
 @Component({
   selector: 'eo-metering-points-list',
-  template: `<ng-container *rxLet="meteringPoints$ as meteringPoints">
-    <p class="metering-point" *ngIf="meteringPoints?.length === 0">
-      You do not have any metering points.
-    </p>
-    <p
-      class="metering-point watt-space-stack-m"
-      *ngFor="let point of meteringPoints"
-    >
-      {{ point.gsrn }}
-    </p>
-  </ng-container>`,
   styles: [
     `
       :host {
@@ -43,18 +32,30 @@ import { EoMeteringPointsStore } from './eo-metering-points.store';
       }
     `,
   ],
+  template: `<ng-container *ngIf="meteringPoints$ | async as meteringPoints">
+    <p class="metering-point" *ngIf="meteringPoints.length === 0">
+      You do not have any metering points.
+    </p>
+    <p
+      class="metering-point watt-space-stack-m"
+      *ngFor="let point of meteringPoints"
+    >
+      {{ point.gsrn }}
+    </p>
+  </ng-container>`,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  viewProviders: [EoMeteringPointsStore],
 })
 export class EoMeteringPointListComponent {
-  meteringPoints$ = this.meteringPointsStore.meteringPoints$;
+  loadingDone$ = this.store.loadingDone$;
+  meteringPoints$ = this.store.meteringPoints$;
 
-  constructor(private meteringPointsStore: EoMeteringPointsStore) {}
+  constructor(private store: EoMeteringPointsStore) {}
 }
 
 @NgModule({
+  providers: [EoMeteringPointsStore],
   declarations: [EoMeteringPointListComponent],
   exports: [EoMeteringPointListComponent],
-  imports: [CommonModule, LetModule],
+  imports: [CommonModule],
 })
 export class EoMeteringPointListScam {}

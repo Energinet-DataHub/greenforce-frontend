@@ -15,35 +15,54 @@
  * limitations under the License.
  */
 import { Injectable } from '@angular/core';
-import { ComponentStore, tapResponse } from '@ngrx/component-store';
-import { Observable } from 'rxjs';
-import {
-  EoMeteringPointsService,
-  MeteringPoint,
-} from './eo-metering-points.service';
+import { ComponentStore } from '@ngrx/component-store';
+import { take } from 'rxjs';
+import { EoMeteringPointsService } from './eo-metering-points.service';
 
-// Disabling this check, as no internal state is needed for the store.
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-interface EoMeteringPointsState {}
-const initialState: EoMeteringPointsState = {
-  meteringpoints: [],
-};
+export interface MeteringPoint {
+  /** Unique ID of the metering point - Global Service Relation Number */
+  gsrn: string;
+  /** Name of the area the metering point is registered in */
+  gridArea: string;
+}
+
+interface EoMeteringPointsState {
+  loadingDone: boolean;
+  meteringPoints: MeteringPoint[];
+}
+
 @Injectable()
 export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState> {
-  meteringPoints$: Observable<MeteringPoint[]> = this.select(
-    this.meteringPointsService.getMeteringPoints().pipe(
-      tapResponse(
-        (response) => response.meteringPoints,
-        (error) => {
-          // We only support the happy path for now
-          throw error;
-        }
-      )
-    ),
-    (response) => response.meteringPoints
+  constructor(private service: EoMeteringPointsService) {
+    super({ loadingDone: false, meteringPoints: [] });
+
+    this.loadData();
+  }
+
+  readonly loadingDone$ = this.select((state) => state.loadingDone);
+  readonly meteringPoints$ = this.select((state) => state.meteringPoints);
+
+  readonly setLoadingDone = this.updater(
+    (state, loadingDone: boolean): EoMeteringPointsState => ({
+      ...state,
+      loadingDone,
+    })
   );
 
-  constructor(private meteringPointsService: EoMeteringPointsService) {
-    super(initialState);
+  readonly setEnergySources = this.updater(
+    (state, meteringPoints: MeteringPoint[]): EoMeteringPointsState => ({
+      ...state,
+      meteringPoints,
+    })
+  );
+
+  loadData() {
+    this.service
+      .getMeteringPoints()
+      .pipe(take(1))
+      .subscribe((response) => {
+        this.setEnergySources(response.meteringPoints);
+        this.setLoadingDone(true);
+      });
   }
 }
