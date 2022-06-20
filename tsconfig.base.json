@@ -156,6 +156,12 @@
       "@energinet-datahub/eo/auth/routing-security": [
         "libs/eo/auth/routing-security/src/index.ts"
       ],
+      "@energinet-datahub/eo/consumption-page/routing": [
+        "libs/eo/consumption-page/routing/src/index.ts"
+      ],
+      "@energinet-datahub/eo/consumption-page/shell": [
+        "libs/eo/consumption-page/shell/src/index.ts"
+      ],
       "@energinet-datahub/eo/core/shell": ["libs/eo/core/shell/src/index.ts"],
       "@energinet-datahub/eo/dashboard/routing": [
         "libs/eo/dashboard/routing/src/index.ts"
@@ -221,12 +227,6 @@
       ],
       "@energinet-datahub/gf/util-browser": [
         "libs/gf/util-browser/src/index.ts"
-      ],
-      "@energinet-datahub/eo/consumption-page/shell": [
-        "libs/eo/consumption-page/shell/src/index.ts"
-      ],
-      "@energinet-datahub/eo/consumption-page/routing": [
-        "libs/eo/consumption-page/routing/src/index.ts"
       ],
       "@energinet-datahub/watt": ["libs/ui-watt/src/index.ts"]
     }
