@@ -1,4 +1,5 @@
 {
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
   "sourceRoot": "apps/dh/api-dh/source",
   "prefix": "dh",
@@ -15,7 +16,9 @@
         ],
         "parallel": false
       },
-      "outputs": ["apps/dh/api-dh/source/DataHub.WebApi/bin/Release/net6.0"]
+      "outputs": [
+        "apps/dh/api-dh/source/DataHub.WebApi/bin/Release/net6.0"
+      ]
     },
     "build-client": {
       "dependsOn": [
@@ -35,7 +38,9 @@
         ],
         "parallel": false
       },
-      "outputs": ["libs/dh/shared/domain/src/lib/generated/v1"]
+      "outputs": [
+        "libs/dh/shared/domain/src/lib/generated/v1"
+      ]
     },
     "ci-configuration": {
       "executor": "@nrwl/workspace:run-commands",
@@ -70,10 +75,14 @@
       },
       "executor": "@nrwl/workspace:run-commands",
       "options": {
-        "commands": ["npx ts-node tools/dh/api-dh/ci/stop-api-dh.ts"],
+        "commands": [
+          "npx ts-node tools/dh/api-dh/ci/stop-api-dh.ts"
+        ],
         "parallel": false
       },
-      "outputs": ["apps/dh/api-dh/source/DataHub.WebApi/bin/Release/net6.0"]
+      "outputs": [
+        "apps/dh/api-dh/source/DataHub.WebApi/bin/Release/net6.0"
+      ]
     }
   },
   "tags": ["product:dh", "type:api"]
