@@ -18,6 +18,5 @@ export { WattModalModule } from './watt-modal.module';
 export {
   WattModalComponent,
   WattModalActionsComponent,
-  WattModalResult,
   WattModalSize,
 } from './watt-modal.component';
