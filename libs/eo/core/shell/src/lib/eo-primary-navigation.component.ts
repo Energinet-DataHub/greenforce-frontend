@@ -27,7 +27,7 @@ import { eoMeteringPointsRoutePath } from '@energinet-datahub/eo/metering-points
 import { eoEmissionsRoutePath } from '@energinet-datahub/eo-emissions-routing';
 import { EoLogOutStore } from '@energinet-datahub/eo/auth/data-access-security';
 import { WattNavListModule } from '@energinet-datahub/watt';
-import { eoConsumptionPageRoutePath } from 'libs/eo/consumption-page/routing/src';
+import { eoConsumptionPageRoutePath } from '@energinet-datahub/eo/consumption-page/routing';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

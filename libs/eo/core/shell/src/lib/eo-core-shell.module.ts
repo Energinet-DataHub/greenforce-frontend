@@ -17,6 +17,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { EoAuthenticationGuard } from '@energinet-datahub/eo/auth/routing-security';
+import { eoConsumptionPageRoutePath } from '@energinet-datahub/eo/consumption-page/routing';
 import { eoDashboardRoutePath } from '@energinet-datahub/eo/dashboard/routing';
 import { eoOriginOfEnergyRoutePath } from '@energinet-datahub/eo/origin-of-energy/routing';
 import { eoFaqRoutePath } from '@energinet-datahub/eo/faq/routing';
@@ -27,7 +28,6 @@ import { GfBrowserConfigurationModule } from '@energinet-datahub/gf/util-browser
 import { EoHttpModule } from './eo-http.module';
 import { EoMaterialModule } from './eo-material.module';
 import { EoShellComponent, EoShellScam } from './eo-shell.component';
-import { eoConsumptionPageRoutePath } from 'libs/eo/consumption-page/routing/src';
 
 const routes: Routes = [
   {

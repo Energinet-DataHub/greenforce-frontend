@@ -33,6 +33,5 @@ export class EoConsumptionPageShellComponent {}
 @NgModule({
   declarations: [EoConsumptionPageShellComponent],
   exports: [EoConsumptionPageShellComponent],
-  imports: [],
 })
 export class EoConsumptionPageShellScam {}
