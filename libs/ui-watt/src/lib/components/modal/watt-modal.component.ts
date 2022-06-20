@@ -38,17 +38,16 @@ import {
 
 export type WattModalSize = 'small' | 'normal' | 'large';
 
-function getDialogConfigFromSize(size: WattModalSize): MatDialogConfig {
-  switch (size) {
-    case 'small':
-      return { width: '36vw', maxHeight: '45vh' };
-    case 'normal':
-      return { width: '50vw', maxHeight: '65vh' };
-    case 'large':
-      return { width: '65vw', maxHeight: '90vh' };
-  }
-}
+const sizeConfig = {
+  small: { width: '36vw', maxHeight: '45vh' },
+  normal: { width: '50vw', maxHeight: '65vh' },
+  large: { width: '65vw', maxHeight: '90vh' },
+};
 
+/**
+ * Component for representing a binary decision in the form of
+ * a modal window that appears in front of the entire content.
+ */
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
@@ -57,17 +56,17 @@ function getDialogConfigFromSize(size: WattModalSize): MatDialogConfig {
   templateUrl: './watt-modal.component.html',
 })
 export class WattModalComponent implements AfterViewInit {
+  /** Title to stay fixed to top of modal. */
   @Input()
   title = '';
 
+  /** Used to adjust modal size to best fit the content. */
   @Input()
   size: WattModalSize = 'normal';
 
-  @Input()
-  disableClose = false;
-
   /**
-   * Emits when the modal is closed.
+   * When modal is closed, emits `true` if it was "accepted",
+   * otherwise emits `false`.
    * @ignore
    */
   @Output()
@@ -77,12 +76,12 @@ export class WattModalComponent implements AfterViewInit {
   @ViewChild('modal')
   modal!: TemplateRef<Element>;
 
+  /** @ignore */
   private get options(): MatDialogConfig {
     return {
-      disableClose: this.disableClose,
       autoFocus: 'dialog',
       panelClass: 'watt-modal-panel',
-      ...getDialogConfigFromSize(this.size),
+      ...sizeConfig[this.size],
     };
   }
 
@@ -108,22 +107,31 @@ export class WattModalComponent implements AfterViewInit {
       })
     );
 
-    // Subjects and afterClosed will be garbage collected
+    // Subjects are garbage collected and `afterClosed()` automatically
+    // completes when component is destroyed, so no need for unsubscribe.
     result$.subscribe((result) => this.closed.emit(result));
   }
 
   /**
+   * Opens the modal. Subsequent calls are ignored while the modal is opened.
    * @ignore
    */
   open() {
     this.openSubject.next();
   }
 
+  /**
+   * Closes the modal with `true` for acceptance or `false` for rejection.
+   * @ignore
+   */
   close(result: boolean) {
     this.closeSubject.next(result);
   }
 }
 
+/**
+ * Component for projecting buttons (actions) to the bottom of the modal.
+ */
 @Component({
   selector: 'watt-modal-actions',
   template: '<ng-content></ng-content>',
