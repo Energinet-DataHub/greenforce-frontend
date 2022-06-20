@@ -12,18 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Energinet.DataHub.WebApi
+using System.Collections.Generic;
+
+namespace Energinet.DataHub.WebApi.Controllers.Wholesale
 {
-    public class ApiClientSettings
-    {
-        public string MeteringPointBaseUrl { get; set; } = string.Empty;
-
-        public string ChargesBaseUrl { get; set; } = string.Empty;
-
-        public string MessageArchiveBaseUrl { get; set; } = string.Empty;
-
-        public string MarketParticipantBaseUrl { get; set; } = string.Empty;
-
-        public string WholesaleBaseUrl { get; set; } = string.Empty;
-    }
+    public sealed record WholesaleBatchRequestDto(WholesaleProcessType ProcessType, IEnumerable<string> GridAreaCodes);
 }
