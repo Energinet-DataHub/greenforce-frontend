@@ -34,7 +34,7 @@ export const Overview: Story<WattModalComponent> = (args) => ({
   props: args,
   template: `
     <watt-button (click)="modal.open()">Open Modal</watt-button>
-    <watt-modal #modal [size]="size" title="Install Angular">
+    <watt-modal #modal [size]="size" [title]="title">
       <h3>Develop across all platforms</h3>
       <p>Learn one way to build applications with Angular and reuse your code and abilities to build apps for any deployment target. For web, mobile web, native mobile and native desktop.</p>
       <h3>Speed &amp; Performance</h3>
@@ -61,3 +61,8 @@ export const Overview: Story<WattModalComponent> = (args) => ({
     </watt-modal>
   `,
 });
+
+Overview.args = {
+  title: 'Install Angular',
+  size: 'large',
+};
