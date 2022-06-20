@@ -38,7 +38,7 @@ import {
 
 export type WattModalSize = 'small' | 'normal' | 'large';
 
-const sizeConfig = {
+const sizeConfig: Record<WattModalSize, MatDialogConfig> = {
   small: { width: '36vw', maxHeight: '45vh' },
   normal: { width: '50vw', maxHeight: '65vh' },
   large: { width: '65vw', maxHeight: '90vh' },
