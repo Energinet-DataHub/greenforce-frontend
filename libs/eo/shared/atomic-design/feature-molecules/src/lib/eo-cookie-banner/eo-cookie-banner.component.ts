@@ -22,45 +22,6 @@ import { WattButtonModule } from '@energinet-datahub/watt';
 
 @Component({
   selector: 'eo-cookie-banner',
-  template: `
-    <div class="banner">
-      <mat-card>
-        <h1>No cookies, no energy</h1>
-        <p>
-          Some are used for statistics and others are set by third party
-          services.
-        </p>
-        <p>
-          By clicking OK you accept the use of the types of cookies selected
-          below.
-        </p>
-        <div class="buttons">
-          <watt-button
-            variant="secondary"
-            (click)="cookies.statisticalEnabled = false"
-            >Functional only</watt-button
-          >
-          <watt-button (click)="saveCookieSettings()">OK</watt-button>
-        </div>
-        <div class="checkboxes">
-          <label for="essential">Functional</label>
-          <input
-            class="checkbox"
-            type="checkbox"
-            [(ngModel)]="cookies.functionalEnabled"
-            disabled
-          />
-          <div class="vertical-divider"></div>
-          <label for="statistical">Statistical</label>
-          <input
-            class="checkbox"
-            type="checkbox"
-            [(ngModel)]="cookies.statisticalEnabled"
-          />
-        </div>
-      </mat-card>
-    </div>
-  `,
   styles: [
     `
       .checkboxes {
@@ -104,6 +65,43 @@ import { WattButtonModule } from '@energinet-datahub/watt';
       }
     `,
   ],
+  template: `
+    <div class="banner">
+      <mat-card>
+        <h1>No cookies, no energy</h1>
+        <p>
+          Some are used for statistics and others are set by third party
+          services.
+        </p>
+        <p>
+          By clicking OK you accept the use of the types of cookies selected
+          below.
+        </p>
+        <div class="buttons">
+          <watt-button variant="secondary" (click)="saveOnlyFunctionalCookies()"
+            >Functional only</watt-button
+          >
+          <watt-button (click)="saveCookieSettings()">OK</watt-button>
+        </div>
+        <div class="checkboxes">
+          <label for="essential">Functional</label>
+          <input
+            class="checkbox"
+            type="checkbox"
+            [(ngModel)]="cookies.functionalEnabled"
+            disabled
+          />
+          <div class="vertical-divider"></div>
+          <label for="statistical">Statistical</label>
+          <input
+            class="checkbox"
+            type="checkbox"
+            [(ngModel)]="cookies.statisticalEnabled"
+          />
+        </div>
+      </mat-card>
+    </div>
+  `,
 })
 export class EoCookieBannerComponent {
   cookies = {
@@ -112,6 +110,11 @@ export class EoCookieBannerComponent {
   };
 
   @Output() accepted = new EventEmitter<boolean>();
+
+  saveOnlyFunctionalCookies() {
+    this.cookies.statisticalEnabled = false;
+    this.saveCookieSettings();
+  }
 
   saveCookieSettings() {
     localStorage.setItem('cookiesAccepted', JSON.stringify(this.cookies));
