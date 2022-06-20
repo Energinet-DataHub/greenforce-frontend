@@ -16,7 +16,6 @@
  */
 import { NgModule } from '@angular/core';
 import { MatDialogModule } from '@angular/material/dialog';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import {
   WattModalComponent,
@@ -26,6 +25,6 @@ import {
 @NgModule({
   declarations: [WattModalComponent, WattModalActionsComponent],
   exports: [WattModalComponent, WattModalActionsComponent],
-  imports: [BrowserAnimationsModule, MatDialogModule],
+  imports: [MatDialogModule],
 })
 export class WattModalModule {}

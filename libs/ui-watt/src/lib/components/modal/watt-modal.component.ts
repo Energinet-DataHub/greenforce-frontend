@@ -29,6 +29,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import {
   exhaustMap,
   ignoreElements,
+  map,
   mergeWith,
   Subject,
   take,
@@ -36,7 +37,6 @@ import {
 } from 'rxjs';
 
 export type WattModalSize = 'small' | 'normal' | 'large';
-export type WattModalResult = 'accept' | 'reject' | 'dismiss';
 
 function getDialogConfigFromSize(size: WattModalSize): MatDialogConfig {
   switch (size) {
@@ -71,7 +71,7 @@ export class WattModalComponent implements AfterViewInit {
    * @ignore
    */
   @Output()
-  closed = new EventEmitter<WattModalResult>();
+  closed = new EventEmitter<boolean>();
 
   /** @ignore */
   @ViewChild('modal')
@@ -90,7 +90,7 @@ export class WattModalComponent implements AfterViewInit {
   private openSubject = new Subject<void>();
 
   /** @ignore */
-  private closeSubject = new Subject<WattModalResult>();
+  private closeSubject = new Subject<boolean>();
 
   constructor(private dialog: MatDialog) {}
 
@@ -102,6 +102,7 @@ export class WattModalComponent implements AfterViewInit {
           tap((result) => dialog.close(result)),
           ignoreElements(),
           mergeWith(dialog.afterClosed()),
+          map(Boolean),
           take(1)
         );
       })
@@ -118,7 +119,7 @@ export class WattModalComponent implements AfterViewInit {
     this.openSubject.next();
   }
 
-  close(result: WattModalResult) {
+  close(result: boolean) {
     this.closeSubject.next(result);
   }
 }

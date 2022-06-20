@@ -18,13 +18,14 @@ import { moduleMetadata, Story, Meta } from '@storybook/angular';
 import { WattButtonModule } from '../button';
 import { WattModalModule } from './watt-modal.module';
 import { WattModalComponent } from './watt-modal.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 export default {
   title: 'Components/Modal',
   component: WattModalComponent,
   decorators: [
     moduleMetadata({
-      imports: [WattButtonModule, WattModalModule],
+      imports: [BrowserAnimationsModule, WattButtonModule, WattModalModule],
     }),
   ],
 } as Meta<WattModalComponent>;
@@ -54,8 +55,8 @@ export const Overview: Story<WattModalComponent> = (args) => ({
       <p>The metadata for a service class provides the information Angular needs to make it available to components through Dependency Injection (DI).</p>
       <p>An app's components typically define many views, arranged hierarchically. Angular provides the Router service to help you define navigation paths among views. The router provides sophisticated in-browser navigational capabilities.</p>
       <watt-modal-actions>
-        <watt-button variant="secondary" (click)="modal.close('dismiss')">Reject</watt-button>
-        <watt-button (click)="modal.close('accept')">Accept</watt-button>
+        <watt-button variant="secondary" (click)="modal.close(false)">Reject</watt-button>
+        <watt-button (click)="modal.close(true)">Accept</watt-button>
       </watt-modal-actions>
     </watt-modal>
   `,
