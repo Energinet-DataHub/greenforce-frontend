@@ -19,7 +19,6 @@
 
 # Frontend configuration files
 **/configuration/**/*.json
-!**/configuration/feature-flags/*.json
 !**/configuration/**/*.local.json
 !**/configuration/**/eo-*.json
 
@@ -448,3 +447,5 @@ documentation.json
 # Playwright e2e tests
 playwright-storage-state.json
 apps/dh/e2e-dh/.env.local
+
+.yarnrc
