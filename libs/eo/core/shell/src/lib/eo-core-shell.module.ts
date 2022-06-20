@@ -27,6 +27,7 @@ import { GfBrowserConfigurationModule } from '@energinet-datahub/gf/util-browser
 import { EoHttpModule } from './eo-http.module';
 import { EoMaterialModule } from './eo-material.module';
 import { EoShellComponent, EoShellScam } from './eo-shell.component';
+import { eoConsumptionPageRoutePath } from 'libs/eo/consumption-page/routing/src';
 
 const routes: Routes = [
   {
@@ -64,6 +65,14 @@ const routes: Routes = [
         loadChildren: () =>
           import('@energinet-datahub/eo/origin-of-energy/shell').then(
             (esModule) => esModule.EoOriginOfEnergyShellModule
+          ),
+      },
+      {
+        path: eoConsumptionPageRoutePath,
+        data: { title: 'Consumption' },
+        loadChildren: () =>
+          import('@energinet-datahub/eo/consumption-page/shell').then(
+            (esModule) => esModule.EoConsumptionPageShellModule
           ),
       },
       {
