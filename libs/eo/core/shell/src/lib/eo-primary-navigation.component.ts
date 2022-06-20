@@ -27,6 +27,7 @@ import { eoMeteringPointsRoutePath } from '@energinet-datahub/eo/metering-points
 import { eoEmissionsRoutePath } from '@energinet-datahub/eo-emissions-routing';
 import { EoLogOutStore } from '@energinet-datahub/eo/auth/data-access-security';
 import { WattNavListModule } from '@energinet-datahub/watt';
+import { eoConsumptionPageRoutePath } from '@energinet-datahub/eo/consumption-page/routing';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -40,18 +41,21 @@ import { WattNavListModule } from '@energinet-datahub/watt';
   ],
   template: `
     <watt-nav-list>
-      <watt-nav-list-item link="/${eoDashboardRoutePath}"
-        >Dashboard</watt-nav-list-item
-      >
-      <watt-nav-list-item link="/${eoOriginOfEnergyRoutePath}"
-        >Origin of Energy</watt-nav-list-item
-      >
-      <watt-nav-list-item link="/${eoEmissionsRoutePath}"
-        >Emissions</watt-nav-list-item
-      >
-      <watt-nav-list-item link="/${eoMeteringPointsRoutePath}"
-        >Metering Points</watt-nav-list-item
-      >
+      <watt-nav-list-item link="/${eoDashboardRoutePath}">
+        Dashboard
+      </watt-nav-list-item>
+      <watt-nav-list-item link="/${eoOriginOfEnergyRoutePath}">
+        Origin of Energy
+      </watt-nav-list-item>
+      <watt-nav-list-item link="/${eoConsumptionPageRoutePath}">
+        Consumption
+      </watt-nav-list-item>
+      <watt-nav-list-item link="/${eoEmissionsRoutePath}">
+        Emissions
+      </watt-nav-list-item>
+      <watt-nav-list-item link="/${eoMeteringPointsRoutePath}">
+        Metering Points
+      </watt-nav-list-item>
       <watt-nav-list-item link="/${eoFaqRoutePath}">FAQ</watt-nav-list-item>
       <watt-nav-list-item (click)="onLogOut()" role="link">
         Log out
