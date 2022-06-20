@@ -101,7 +101,7 @@ export class WattModalComponent implements AfterViewInit {
           tap((result) => dialog.close(result)),
           ignoreElements(),
           mergeWith(dialog.afterClosed()),
-          map(Boolean),
+          map(Boolean), // backdrop click emits `undefined`
           take(1)
         );
       })
