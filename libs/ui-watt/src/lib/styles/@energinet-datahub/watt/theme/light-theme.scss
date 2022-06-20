@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@use '@angular/material' as mat;
+@use "@angular/material" as mat;
 
 $palette: (
   "primary": var(--watt-color-primary),
@@ -58,6 +58,7 @@ $watt-theme: mat.define-light-theme(
 @include mat.chips-theme($watt-theme);
 @include mat.core-theme($watt-theme);
 @include mat.datepicker-theme($watt-theme);
+@include mat.dialog-theme($watt-theme);
 @include mat.expansion-theme($watt-theme);
 @include mat.form-field-theme($watt-theme);
 @include mat.icon-theme($watt-theme);
