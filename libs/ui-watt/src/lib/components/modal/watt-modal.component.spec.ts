@@ -82,4 +82,10 @@ describe(WattModalComponent.name, () => {
     await waitFor(() => expect(closed).toBeCalledWith(false));
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
   });
+
+  it('displays title', async () => {
+    await setup();
+    user.click(screen.getByRole('button'));
+    expect(screen.getByRole('heading')).toBeInTheDocument();
+  });
 });
