@@ -86,6 +86,6 @@ describe(WattModalComponent.name, () => {
   it('displays title', async () => {
     await setup();
     user.click(screen.getByRole('button'));
-    expect(screen.getByRole('heading')).toBeInTheDocument();
+    expect(screen.getByRole('heading')).toHaveTextContent('Test Modal');
   });
 });
