@@ -9,11 +9,12 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { MarketParticipantMeteringPointType } from './market-participant-metering-point-type';
 
 
 export interface ActorGridAreaDto { 
     id: string;
-    meteringPointTypes: Array<string>;
+    meteringPointTypes: Array<MarketParticipantMeteringPointType>;
 }
 
 
