@@ -15,6 +15,11 @@
  * limitations under the License.
  */
 import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
+import { EoConsumptionLineChartScam } from './eo-consumption-chart-card.component';
+import { EoConsumptionPageEnergyConsumptionScam } from './eo-consumption-page-energy-consumption.component';
+import { EoConsumptionPageInfoScam } from './eo-consumption-page-info.component';
+import { EoLineChartScam } from './eo-consumption-page-line-chart/eo-consumption-page-line-chart.component';
+import { EoConsumptionPageTipScam } from './eo-consumption-page-tip.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -22,16 +27,37 @@ import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
   styles: [
     `
       :host {
-        display: block;
+        display: grid;
+        grid-template-columns: 375px 360px; // Magic numbers by designer
+        grid-gap: var(--watt-space-l);
       }
     `,
   ],
-  template: ` <div></div> `,
+  template: `
+    <div>
+      <eo-consumption-page-info
+        class="watt-space-stack-l"
+      ></eo-consumption-page-info>
+      <eo-consumption-line-chart></eo-consumption-line-chart>
+    </div>
+    <div>
+      <eo-consumption-page-tip
+        class="watt-space-stack-l"
+      ></eo-consumption-page-tip>
+      <eo-consumption-page-energy-consumption></eo-consumption-page-energy-consumption>
+    </div>
+  `,
 })
 export class EoConsumptionPageShellComponent {}
 
 @NgModule({
   declarations: [EoConsumptionPageShellComponent],
-  exports: [EoConsumptionPageShellComponent],
+  imports: [
+    EoConsumptionPageTipScam,
+    EoConsumptionPageInfoScam,
+    EoConsumptionPageEnergyConsumptionScam,
+    EoConsumptionLineChartScam,
+    EoLineChartScam,
+  ],
 })
 export class EoConsumptionPageShellScam {}
