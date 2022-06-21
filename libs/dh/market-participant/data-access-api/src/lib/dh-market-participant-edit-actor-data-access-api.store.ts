@@ -19,7 +19,7 @@ import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import {
   MarketParticipantHttp,
   ActorDto,
-  MarketRoleDto,
+  ActorMarketRoleDto,
   MarketParticipantMeteringPointType,
   ActorStatus,
   GridAreaDto,
@@ -87,7 +87,7 @@ export interface MarketParticipantEditActorState {
 
   meteringPointTypeChanges: MeteringPointTypeChanges;
   gridAreaChanges: GridAreaDto[];
-  marketRoles: MarketRoleDto[];
+  marketRoles: ActorMarketRoleDto[];
 
   addedContacts: ActorContactChanges[];
   removedContacts: ActorContactDto[];
@@ -181,16 +181,11 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
         tap(() => this.patchState({ isLoading: true })),
         switchMap((routeParams) =>
           forkJoin({
-            gridAreas: this.getGridAreas(),
-            actor: this.getActorInfo(routeParams),
             contacts: this.getContacts(routeParams),
           }).pipe(
-            tap((response) =>
+            tap(() =>
               this.patchState({
                 isLoading: false,
-                gridAreaChanges: response.gridAreas.filter((gridArea) =>
-                  response.actor?.gridAreas.includes(gridArea.id)
-                ),
               })
             )
           )
@@ -321,10 +316,7 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
           actor.actorId,
           {
             marketRoles: state.marketRoles,
-            meteringPointTypes:
-              state.meteringPointTypeChanges.meteringPointTypes,
             status: state.changes.status,
-            gridAreas: state.gridAreaChanges.map((gridArea) => gridArea.id),
           }
         )
         .pipe(map(() => actor.actorId));
@@ -334,8 +326,6 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
       .v1MarketParticipantOrganizationOrgIdActorPost(state.organizationId, {
         actorNumber: { value: state.changes.actorNumber },
         marketRoles: state.marketRoles,
-        meteringPointTypes: state.meteringPointTypeChanges.meteringPointTypes,
-        gridAreas: state.gridAreaChanges.map((gridArea) => gridArea.id),
       })
       .pipe(map((id) => id));
   };
@@ -358,7 +348,7 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
     });
   };
 
-  readonly setMarketRoles = (marketRoles: MarketRoleDto[]) =>
+  readonly setMarketRoles = (marketRoles: ActorMarketRoleDto[]) =>
     this.patchState({
       marketRoles,
     });
