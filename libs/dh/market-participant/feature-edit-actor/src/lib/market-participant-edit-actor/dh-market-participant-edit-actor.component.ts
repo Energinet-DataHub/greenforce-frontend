@@ -32,9 +32,7 @@ import {
   dhMarketParticipantOrganizationIdParam,
   dhMarketParticipantPath,
 } from '@energinet-datahub/dh/market-participant/routing';
-import {
-  ActorContactDto,
-} from '@energinet-datahub/dh/shared/domain';
+import { ActorContactDto } from '@energinet-datahub/dh/shared/domain';
 import {
   WattButtonModule,
   WattSpinnerModule,
