@@ -16,7 +16,6 @@
  */
 import { Component, DoCheck, Input, NgModule, ViewChild } from '@angular/core';
 import { ChartConfiguration, ChartData, ChartType } from 'chart.js';
-import DatalabelsPlugin from 'chartjs-plugin-datalabels';
 import { BaseChartDirective, NgChartsModule } from 'ng2-charts';
 
 @Component({
@@ -27,7 +26,6 @@ import { BaseChartDirective, NgChartsModule } from 'ng2-charts';
     [data]="chartData"
     [type]="chartType"
     [options]="chartOptions"
-    [plugins]="chartPlugins"
   >
   </canvas>`,
 })
@@ -57,10 +55,8 @@ export class EoLineChartComponent implements DoCheck {
         pointRadius: 0,
       },
     ],
-    labels: [],
   };
   public chartType: ChartType = 'line';
-  public chartPlugins = [DatalabelsPlugin];
 
   ngDoCheck() {
     if (this.inputDiffersFromCurrentData()) {

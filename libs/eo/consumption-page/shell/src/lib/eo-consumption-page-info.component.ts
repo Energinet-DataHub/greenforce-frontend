@@ -43,7 +43,7 @@ import { EoConsumptionStore } from './eo-consumption.store';
         Your electricity consumption in 2021
       </h4>
       <h1 *ngIf="loadingDone$ | async; else loading">
-        {{ (totalMeasurement$ | async) || 0 }} kWh
+        {{ (totalMeasurement$ | async)?.toLocaleString() || 0 }} kWh
       </h1>
     </mat-card>
 
