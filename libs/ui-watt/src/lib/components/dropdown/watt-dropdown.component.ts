@@ -28,8 +28,8 @@ import {
 import {
   AsyncValidatorFn,
   ControlValueAccessor,
-  FormControl,
   NgControl,
+  UntypedFormControl,
   ValidationErrors,
   ValidatorFn,
 } from '@angular/forms';
@@ -64,7 +64,7 @@ export class WattDropdownComponent
   /**
    * @ignore
    */
-  private parentControl?: FormControl;
+  private parentControl?: UntypedFormControl;
   /**
    * @ignore
    */
@@ -77,14 +77,14 @@ export class WattDropdownComponent
   /**
    * @ignore
    */
-  matSelectControl = new FormControl(null, { updateOn: 'blur' });
+  matSelectControl = new UntypedFormControl(null, { updateOn: 'blur' });
 
   /**
    * Control for the MatSelect filter keyword
    *
    * @ignore
    */
-  filterControl = new FormControl();
+  filterControl = new UntypedFormControl();
 
   /**
    * List of options filtered by search keyword
@@ -250,7 +250,8 @@ export class WattDropdownComponent
    * of this component.
    */
   private initializePropertiesFromParent(): void {
-    this.parentControl = this.parentControlDirective.control as FormControl;
+    this.parentControl = this.parentControlDirective
+      .control as UntypedFormControl;
 
     this.validateParent =
       (this.parentControl.validator &&

@@ -17,6 +17,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { EoAuthenticationGuard } from '@energinet-datahub/eo/auth/routing-security';
+import { eoConsumptionPageRoutePath } from '@energinet-datahub/eo/consumption-page/routing';
 import { eoDashboardRoutePath } from '@energinet-datahub/eo/dashboard/routing';
 import { eoOriginOfEnergyRoutePath } from '@energinet-datahub/eo/origin-of-energy/routing';
 import { eoFaqRoutePath } from '@energinet-datahub/eo/faq/routing';
@@ -64,6 +65,14 @@ const routes: Routes = [
         loadChildren: () =>
           import('@energinet-datahub/eo/origin-of-energy/shell').then(
             (esModule) => esModule.EoOriginOfEnergyShellModule
+          ),
+      },
+      {
+        path: eoConsumptionPageRoutePath,
+        data: { title: 'Consumption' },
+        loadChildren: () =>
+          import('@energinet-datahub/eo/consumption-page/shell').then(
+            (esModule) => esModule.EoConsumptionPageShellModule
           ),
       },
       {

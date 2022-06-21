@@ -34,13 +34,5 @@
 import './commands';
 
 Cypress.on('uncaught:exception', (err) => {
-  if (
-    err.message.includes(
-      "Cannot read properties of undefined (reading 'preview'"
-    )
-  ) {
-    return false;
-  }
-
-  return true;
+  return !err.message.includes('Cannot read properties of undefined');
 });
