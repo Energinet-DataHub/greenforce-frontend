@@ -19,13 +19,18 @@ import {
   SpectacularPipeHarness,
 } from '@ngworker/spectacular';
 
-import { DhEmDashFallbackPipe, TValue } from './dh-em-dash-fallback.pipe';
+import {
+  DhEmDashFallbackPipe,
+  pipeName,
+  TValue,
+} from './dh-em-dash-fallback.pipe';
 import { emDash } from './em-dash';
 
 describe(DhEmDashFallbackPipe.name, () => {
   beforeEach(() => {
     harness = createPipeHarness({
       pipe: DhEmDashFallbackPipe,
+      pipeName,
       value: undefined,
     });
   });

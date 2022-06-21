@@ -21,8 +21,10 @@ import { formatInTimeZone } from 'date-fns-tz';
 import { DanishLocaleModule } from './danish-locale.module';
 import { spaceToNonBreakingSpace } from './space-to-non-breaking-space';
 
+const dummyPipeName = 'testDummy';
+
 @Pipe({
-  name: 'testDummyPipeName',
+  name: dummyPipeName,
 })
 class DummyPipe implements PipeTransform {
   transform<TValue>(value: TValue) {
@@ -35,6 +37,7 @@ describe('Danish locale', () => {
     const harness = createPipeHarness({
       imports: [DanishLocaleModule],
       pipe: DummyPipe,
+      pipeName: dummyPipeName,
       template: "{{ value | number: '1.1' }}",
       value: 123456789,
     });
@@ -51,6 +54,7 @@ describe('Danish locale', () => {
     const harness = createPipeHarness({
       imports: [DanishLocaleModule],
       pipe: DummyPipe,
+      pipeName: dummyPipeName,
       template: "{{ value | currency: undefined: 'code' }}",
       value: 1234.56,
     });
@@ -62,6 +66,7 @@ describe('Danish locale', () => {
     const harness = createPipeHarness({
       imports: [DanishLocaleModule],
       pipe: DummyPipe,
+      pipeName: dummyPipeName,
       template: "{{ value | percent:'4.3-5' }}",
       value: 1.3495,
     });
@@ -75,6 +80,7 @@ describe('Danish locale', () => {
     const harness = createPipeHarness({
       imports: [DanishLocaleModule],
       pipe: DummyPipe,
+      pipeName: dummyPipeName,
       template: "{{ value | date: 'medium' }}",
       value: testDate,
     });
