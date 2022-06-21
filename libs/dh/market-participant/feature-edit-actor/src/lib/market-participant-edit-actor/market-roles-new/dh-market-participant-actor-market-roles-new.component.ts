@@ -118,27 +118,24 @@ export class DhMarketParticipantActorMarketRolesNewComponent
   };
 
   readonly onDropdownChanged = () => {
-    this.onModelChanged();
-  };
-
-  readonly onModelChanged = () => {
     this.raiseChanged();
   };
 
   readonly raiseChanged = () => {
     const grouped = this.rows
       .map((row) => row.changed)
-      .reduce(
-        (m, row) =>
+      .reduce((m, row) => {
+        m.set(row.marketRole, [...(m.get(row.marketRole) || [])]);
+        if (row.gridArea)
           m.set(row.marketRole, [
-            ...(m.get(row.marketRole) || []),
+            ...m.get(row.marketRole),
             {
               gridArea: row.gridArea,
               meteringPointTypes: row.meteringPointTypes,
             },
-          ]),
-        new Map()
-      );
+          ]);
+        return m;
+      }, new Map());
 
     const marketRoleChanges: MarketRoleChanges = { marketRoles: [] };
 
