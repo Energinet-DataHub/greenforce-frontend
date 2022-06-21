@@ -17,8 +17,10 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { dhFormatDanishDatetime, TValue } from './dh-format-danish-datetime';
 
+export const pipeName = 'dhDate';
+
 @Pipe({
-  name: 'dhDate',
+  name: pipeName,
 })
 export class DhDatePipe implements PipeTransform {
   private dateFormat = 'dd-MM-yyyy';
