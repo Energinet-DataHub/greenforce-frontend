@@ -56,12 +56,12 @@
             {
               "type": "allScript",
               "maximumWarning": "500kb",
-              "maximumError": "1.1mb"
+              "maximumError": "1.11mb"
             },
             {
               "type": "anyScript",
               "maximumWarning": "500kb",
-              "maximumError": "1mb"
+              "maximumError": "1.01mb"
             },
             {
               "type": "bundle",
@@ -71,7 +71,7 @@
             {
               "type": "initial",
               "maximumWarning": "500kb",
-              "maximumError": "1mb"
+              "maximumError": "1.13mb"
             },
             {
               "type": "anyComponentStyle",

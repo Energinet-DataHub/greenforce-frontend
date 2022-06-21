@@ -19,7 +19,7 @@ import { CommonModule } from '@angular/common';
 import { Component, NgModule } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { WattSpinnerModule } from '@energinet-datahub/watt';
-import { EoLineChartScam } from './eo-consumption-page-line-chart/eo-consumption-page-line-chart.component';
+import { EoLineChartScam } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 import { EoConsumptionStore } from './eo-consumption.store';
 
 @Component({

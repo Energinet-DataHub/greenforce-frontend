@@ -18,7 +18,6 @@ import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
 import { EoConsumptionLineChartScam } from './eo-consumption-chart-card.component';
 import { EoConsumptionPageEnergyConsumptionScam } from './eo-consumption-page-energy-consumption.component';
 import { EoConsumptionPageInfoScam } from './eo-consumption-page-info.component';
-import { EoLineChartScam } from './eo-consumption-page-line-chart/eo-consumption-page-line-chart.component';
 import { EoConsumptionPageTipScam } from './eo-consumption-page-tip.component';
 
 @Component({
@@ -57,7 +56,6 @@ export class EoConsumptionPageShellComponent {}
     EoConsumptionPageInfoScam,
     EoConsumptionPageEnergyConsumptionScam,
     EoConsumptionLineChartScam,
-    EoLineChartScam,
   ],
 })
 export class EoConsumptionPageShellScam {}
