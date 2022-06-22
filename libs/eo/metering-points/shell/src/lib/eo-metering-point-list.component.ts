@@ -54,24 +54,26 @@ import { EoMeteringPointsStore } from './eo-metering-points.store';
         <th class="table-header">ID</th>
         <th class="table-header">Address</th>
       </tr>
-      <tr *ngFor="let point of meteringPoints">
-        <td class="table-cell">{{ point?.gsrn }}</td>
-        <td>
-          <ng-container *ngIf="point.address?.address1">
-            {{ point.address.address1 + ',' }}
-          </ng-container>
-          <ng-container *ngIf="point.address?.address2">
-            {{ point.address.address2 + ',' }}
-          </ng-container>
-          <ng-container *ngIf="point.address?.locality">
-            {{ point.address.locality + ',' }}
-          </ng-container>
-          {{ point?.address?.postCode }} {{ point?.address?.city }}
-          <ng-container *ngIf="point.address?.country">
-            {{ '- ' + point.address.country }}
-          </ng-container>
-        </td>
-      </tr>
+      <ng-container *ngFor="let point of meteringPoints">
+        <tr *ngIf="point.type === 'consumption'">
+          <td class="table-cell">{{ point?.gsrn }}</td>
+          <td>
+            <ng-container *ngIf="point.address?.address1">
+              {{ point.address.address1 + ',' }}
+            </ng-container>
+            <ng-container *ngIf="point.address?.address2">
+              {{ point.address.address2 + ',' }}
+            </ng-container>
+            <ng-container *ngIf="point.address?.locality">
+              {{ point.address.locality + ',' }}
+            </ng-container>
+            {{ point?.address?.postCode }} {{ point?.address?.city }}
+            <ng-container *ngIf="point.address?.country">
+              {{ '- ' + point.address.country }}
+            </ng-container>
+          </td>
+        </tr>
+      </ng-container>
     </table>
   </ng-container>`,
   changeDetection: ChangeDetectionStrategy.OnPush,

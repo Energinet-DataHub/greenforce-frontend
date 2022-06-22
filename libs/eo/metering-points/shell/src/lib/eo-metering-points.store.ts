@@ -24,6 +24,8 @@ export interface EoMeteringPoint {
   gsrn: string;
   /** Name of the area the metering point is registered in */
   gridArea: string;
+  /** Type of metering point, ie. consumption or production */
+  type: string;
   address: {
     /** Address line, ie. 'Dieselstraße 28' */
     address1: string;
