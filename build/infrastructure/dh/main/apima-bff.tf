@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 module "apima_bff" {
-  source                      = "git::https://github.com/Energinet-DataHub/geh-terraform-modules.git//azure/api-management-api?ref=5.16.0"
+  source                      = "git::https://github.com/Energinet-DataHub/geh-terraform-modules.git//azure/api-management-api?ref=7.0.0"
 
   name                        = "bff"
   project_name                = var.domain_name_short
@@ -26,7 +26,7 @@ module "apima_bff" {
   logger_sampling_percentage  = 100.0
   logger_verbosity            = "verbose"
   path                        = "bff"
-  backend_service_url         = "https://${module.bff.default_site_hostname}"
+  backend_service_url         = "https://${module.bff.default_hostname}"
   import                      =  {
     content_format          = "openapi+json"
     content_value           = data.local_file.swagger_file.content
