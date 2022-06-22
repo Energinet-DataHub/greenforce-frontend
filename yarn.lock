@@ -4031,10 +4031,10 @@
     lodash "^4.17.15"
     redent "^3.0.0"
 
-"@testing-library/user-event@14.0.0":
-  version "14.0.0"
-  resolved "https://registry.yarnpkg.com/@testing-library/user-event/-/user-event-14.0.0.tgz#3906aa6f0e56fd012d73559f5f05c02e63ba18dd"
-  integrity sha512-hZhjNrle/DMi1ziHwHy8LS0fYJtf+cID7fuG5+4h+Bk83xQaRDQT/DlqfL4hJYw3mxW6KTIxoODrhGnhqJebdQ==
+"@testing-library/user-event@14.2.1":
+  version "14.2.1"
+  resolved "https://registry.yarnpkg.com/@testing-library/user-event/-/user-event-14.2.1.tgz#8c5ff2d004544bb2220e1d864f7267fe7eb6c556"
+  integrity sha512-HOr1QiODrq+0j9lKU5i10y9TbhxMBMRMGimNx10asdmau9cb8Xb1Vyg0GvTwyIL2ziQyh2kAloOtAQFBQVuecA==
 
 "@testing-library/user-event@^13.2.1":
   version "13.5.0"
