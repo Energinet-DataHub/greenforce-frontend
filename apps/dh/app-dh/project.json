@@ -104,7 +104,8 @@
             "date-fns",
             "date-fns-tz",
             "@mswjs/cookies",
-            "@mswjs/interceptors"
+            "@mswjs/interceptors",
+            "msw"
           ]
         }
       },

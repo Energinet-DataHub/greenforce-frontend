@@ -53,7 +53,7 @@ export class EoOriginOfEnergyService {
     return this.http.get<EoOriginOfEnergyResponse>(
       `${
         this.#apiBase
-      }/sources?dateFrom=1609455600&dateTo=1640991599&aggregation=Total`,
+      }/sources?dateFrom=1609459200&dateTo=1640995199&aggregation=Total`,
       { withCredentials: true }
     );
   }
