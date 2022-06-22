@@ -17,7 +17,7 @@
 import { Component } from '@angular/core';
 import { ReactiveFormsModule, UntypedFormControl } from '@angular/forms';
 import { render, screen } from '@testing-library/angular';
-import user from '@testing-library/user-event';
+import userEvent from '@testing-library/user-event';
 
 import { WattCheckboxModule } from './watt-checkbox.module';
 
@@ -62,13 +62,13 @@ describe(WattCheckboxModule.name, () => {
       const { fixture, checkboxLabel } = await setup(initialState);
 
       if (checkboxLabel) {
-        user.click(checkboxLabel);
+        userEvent.click(checkboxLabel);
       }
 
       expect(fixture.componentInstance.checkboxControl.value).toBeFalsy();
 
       if (checkboxLabel) {
-        user.click(checkboxLabel);
+        userEvent.click(checkboxLabel);
       }
 
       expect(fixture.componentInstance.checkboxControl.value).toBeTruthy();
@@ -79,7 +79,7 @@ describe(WattCheckboxModule.name, () => {
       const { fixture, checkboxLabel } = await setup(initialState);
 
       if (checkboxLabel) {
-        user.click(checkboxLabel);
+        userEvent.click(checkboxLabel);
       }
 
       const actualValue = fixture.componentInstance.checkboxControl.value;
@@ -91,7 +91,7 @@ describe(WattCheckboxModule.name, () => {
       const { fixture, checkboxLabel } = await setup(initialState);
 
       if (checkboxLabel) {
-        user.click(checkboxLabel);
+        userEvent.click(checkboxLabel);
       }
 
       let actualValue = fixture.componentInstance.checkboxControl.value;
@@ -100,7 +100,7 @@ describe(WattCheckboxModule.name, () => {
       fixture.componentInstance.checkboxControl.enable();
 
       if (checkboxLabel) {
-        user.click(checkboxLabel);
+        userEvent.click(checkboxLabel);
       }
 
       actualValue = fixture.componentInstance.checkboxControl.value;
