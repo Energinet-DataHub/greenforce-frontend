@@ -1,4 +1,4 @@
-import { DhAppEnvironments } from "@energinet-datahub/dh/shared/environments";
+import { DhAppEnvironments } from '@energinet-datahub/dh/shared/environments';
 
 export interface DhFeatureFlag {
   name: string;

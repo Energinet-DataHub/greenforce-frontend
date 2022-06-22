@@ -20,11 +20,7 @@ import {
 } from '@energinet-datahub/dh/shared/environments';
 
 export function loadDhAppEnvironment(): Promise<DhAppEnvironments> {
-  return _loadDhAppEnvironment(
-    'dh-app-environment.json'
-  ).catch(() =>
-    _loadDhAppEnvironment(
-      'dh-app-environment.local.json'
-    )
+  return _loadDhAppEnvironment('dh-app-environment.json').catch(() =>
+    _loadDhAppEnvironment('dh-app-environment.local.json')
   );
 }
