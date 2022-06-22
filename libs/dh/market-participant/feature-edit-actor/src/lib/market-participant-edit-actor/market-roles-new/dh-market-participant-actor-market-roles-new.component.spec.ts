@@ -85,7 +85,7 @@ describe(DhMarketParticipantActorMarketRolesNewComponent.name, () => {
 
     // act
     // click add
-    const addButton= screen.getByRole('button', {
+    const addButton = screen.getByRole('button', {
       name: 'add',
     });
     userEvent.click(addButton);
