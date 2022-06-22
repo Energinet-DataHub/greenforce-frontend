@@ -14,12 +14,5 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { DhAppEnvironments } from './dh-app-environment';
-
-export function loadDhAppEnvironment(
-  configurationFilename: string
-): Promise<DhAppEnvironments> {
-  return fetch(`/assets/configuration/${configurationFilename}`).then(
-    (response) => response.json()
-  );
-}
+export { DhFeatureFlag } from './lib/feature-flags';
+export * from './lib/feature-flags.service';

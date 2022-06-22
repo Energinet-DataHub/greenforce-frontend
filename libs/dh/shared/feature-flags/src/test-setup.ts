@@ -14,12 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { DhAppEnvironments } from './dh-app-environment';
+import 'jest-preset-angular/setup-jest';
 
-export function loadDhAppEnvironment(
-  configurationFilename: string
-): Promise<DhAppEnvironments> {
-  return fetch(`/assets/configuration/${configurationFilename}`).then(
-    (response) => response.json()
-  );
-}
+import { setUpTestbed } from '@energinet-datahub/gf/test-util-staging';
+
+setUpTestbed();

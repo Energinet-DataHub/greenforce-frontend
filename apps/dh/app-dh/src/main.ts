@@ -44,7 +44,7 @@ Promise.all([
       {
         provide: dhAppEnvironmentToken,
         useValue: dhAppEnvironment,
-      },
+      }
     ]).bootstrapModule(DataHubAppModule);
   })
   .catch((error: unknown) => console.error(error));

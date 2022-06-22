@@ -19,20 +19,30 @@ import { dhLocalAppEnvironment } from '@energinet-datahub/dh/shared/assets';
 
 import { environment } from '../environment';
 
-export interface DhAppEnvironment {
+export interface DhAppEnvironmentConfig {
   current: string;
 }
 
-export const dhAppEnvironmentToken = new InjectionToken<DhAppEnvironment>(
+export enum DhAppEnvironments {
+  local = 'localhost', // test purposes only (default true)?
+  preDev = 'u-001',
+  dev = 'u-002',
+  preTest = 't-001',
+  test = 't-002',
+  preProd = 'b-001',
+  prod = 'b-002', // itlev
+}
+
+export const dhAppEnvironmentToken = new InjectionToken<DhAppEnvironmentConfig>(
   'dhAppEnvironmentToken',
   {
-    factory: (): DhAppEnvironment => {
+    factory: (): DhAppEnvironmentConfig => {
       if (environment.production) {
-        throw new Error('No DataHub app environment provided.');
+        throw new Error('No DataHub app environment config provided.');
       }
 
       // Used for unit and integration tests
-      return dhLocalAppEnvironment;
+      return dhLocalAppEnvironment as unknown as DhAppEnvironmentConfig;
     },
     providedIn: 'platform',
   }

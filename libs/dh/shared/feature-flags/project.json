@@ -1,0 +1,27 @@
+{
+  "implicitDependencies": [],
+  "projectType": "library",
+  "root": "libs/dh/shared/feature-flags",
+  "sourceRoot": "libs/dh/shared/feature-flags/src",
+  "prefix": "dh",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/dh/shared/feature-flags"],
+      "options": {
+        "jestConfig": "libs/dh/shared/feature-flags/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/dh/shared/feature-flags/src/**/*.ts",
+          "libs/dh/shared/feature-flags/src/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": ["product:dh", "scope:shared", "type:feature"]
+}
