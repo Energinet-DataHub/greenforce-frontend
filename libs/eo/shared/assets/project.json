@@ -1,6 +1,6 @@
 {
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
-  "root": "libs/eo/shared/assets",
   "sourceRoot": "libs/eo/shared/assets/src",
   "prefix": "eo",
   "targets": {},

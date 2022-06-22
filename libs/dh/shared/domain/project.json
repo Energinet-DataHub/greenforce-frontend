@@ -1,7 +1,7 @@
 {
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "implicitDependencies": ["api-dh"],
   "projectType": "library",
-  "root": "libs/dh/shared/domain",
   "sourceRoot": "libs/dh/shared/domain/src",
   "prefix": "dh",
   "targets": {
@@ -9,7 +9,7 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/libs/dh/shared/domain"],
       "options": {
-        "jestConfig": "libs/dh/shared/domain/jest.config.js",
+        "jestConfig": "libs/dh/shared/domain/jest.config.ts",
         "passWithNoTests": true
       }
     },

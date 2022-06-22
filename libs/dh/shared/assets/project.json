@@ -1,6 +1,6 @@
 {
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
-  "root": "libs/dh/shared/assets",
   "sourceRoot": "libs/dh/shared/assets/src",
   "prefix": "dh",
   "targets": {},

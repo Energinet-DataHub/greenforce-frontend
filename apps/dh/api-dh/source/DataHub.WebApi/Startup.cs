@@ -52,6 +52,8 @@ namespace Energinet.DataHub.WebApi
 
             services.AddHealthChecks();
 
+            services.AddHttpClientFactory();
+
             AddDomainClients(services);
 
             // Register the Swagger generator, defining 1 or more Swagger documents.
@@ -149,9 +151,11 @@ namespace Energinet.DataHub.WebApi
             AddChargeLinksClient(services, apiClientSettings);
             AddMessageArchiveClient(services, apiClientSettings);
             AddMarketParticipantClient(services, apiClientSettings);
+
+            services.AddSingleton(apiClientSettings ?? new ApiClientSettings());
         }
 
-        private static void AddChargeLinksClient(IServiceCollection services, ApiClientSettings apiClientSettings)
+        private static void AddChargeLinksClient(IServiceCollection services, ApiClientSettings? apiClientSettings)
         {
             string emptyUrl = "https://empty";
             Uri chargesBaseUrl = Uri.TryCreate(apiClientSettings?.ChargesBaseUrl, UriKind.Absolute, out var url)

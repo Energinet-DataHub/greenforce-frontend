@@ -1,6 +1,6 @@
 {
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
-  "root": "libs/dh/market-participant/routing",
   "sourceRoot": "libs/dh/market-participant/routing/src",
   "prefix": "dh",
   "targets": {
@@ -8,7 +8,7 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/libs/dh/market-participant/routing"],
       "options": {
-        "jestConfig": "libs/dh/market-participant/routing/jest.config.js",
+        "jestConfig": "libs/dh/market-participant/routing/jest.config.ts",
         "passWithNoTests": true
       }
     },

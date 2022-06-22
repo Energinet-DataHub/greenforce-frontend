@@ -1,5 +1,5 @@
 {
-  "root": "apps/dh/e2e-dh",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/dh/e2e-dh/src",
   "projectType": "application",
   "targets": {

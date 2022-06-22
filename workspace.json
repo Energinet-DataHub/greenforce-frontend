@@ -43,6 +43,7 @@
     "dh-shared-test-util-metering-point": "libs/dh/shared/test-util-metering-point",
     "dh-shared-test-util-msw": "libs/dh/shared/test-util-msw",
     "dh-shared-ui-date-time": "libs/dh/shared/ui-date-time",
+    "dh-wholesale-data-access-api": "libs/dh/wholesale/data-access-api",
     "dh-wholesale-feature-overview": "libs/dh/wholesale/feature-overview",
     "dh-wholesale-feature-start": "libs/dh/wholesale/feature-start",
     "dh-wholesale-shell": "libs/dh/wholesale/shell",
@@ -52,6 +53,8 @@
     "eo-auth-data-access-security": "libs/eo/auth/data-access-security",
     "eo-auth-feature-terms": "libs/eo/auth/feature-terms",
     "eo-auth-routing-security": "libs/eo/auth/routing-security",
+    "eo-consumption-page-routing": "libs/eo/consumption-page/routing",
+    "eo-consumption-page-shell": "libs/eo/consumption-page/shell",
     "eo-core-shell": "libs/eo/core/shell",
     "eo-dashboard-routing": "libs/eo/dashboard/routing",
     "eo-dashboard-shell": "libs/eo/dashboard/shell",
@@ -80,5 +83,6 @@
     "gf-util-browser": "libs/gf/util-browser",
     "ui-watt": "libs/ui-watt",
     "workspace-tools": "tools"
-  }
+  },
+  "$schema": "./node_modules/nx/schemas/workspace-schema.json"
 }

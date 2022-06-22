@@ -1,6 +1,6 @@
 {
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
-  "root": "libs/eo/core/shell",
   "sourceRoot": "libs/eo/core/shell/src",
   "prefix": "eo",
   "targets": {
@@ -8,7 +8,7 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/libs/eo/core/shell"],
       "options": {
-        "jestConfig": "libs/eo/core/shell/jest.config.js",
+        "jestConfig": "libs/eo/core/shell/jest.config.ts",
         "passWithNoTests": true
       }
     },

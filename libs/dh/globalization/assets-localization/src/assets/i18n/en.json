@@ -304,7 +304,7 @@
         "cancelLabel": "Cancel",
         "saveLabel": "Save",
         "masterData": {
-          "labelGln": "Actor Number",
+          "labelActorNumber": "Actor Number",
           "labelStatus": "Status",
           "fieldRequiredErrorText": "Field is required.",
           "statuses": {
@@ -411,6 +411,7 @@
           "zipCodeLabel": "Zip code",
           "cityLabel": "City",
           "countryLabel": "Country",
+          "commentLabel": "Comment",
           "fieldRequiredErrorText": "Field is required.",
           "countries": {
             "at": "Austria",

@@ -14,17 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { TestBed } from '@angular/core/testing';
-import { eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
 import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
-import {
-  EoMeteringPointsService,
-  MeteringPointsResponse,
-} from './eo-metering-points.service';
+import { TestBed } from '@angular/core/testing';
+import { eoApiEnvironmentToken } from '@energinet-datahub/eo/shared/environments';
 import { lastValueFrom } from 'rxjs';
+import { EoMeteringPointsService } from './eo-metering-points.service';
 
 function setup() {
   TestBed.configureTestingModule({
@@ -47,7 +44,7 @@ describe('EoMeteringPointsService', () => {
   describe('getMeteringPoints', () => {
     it('emits API response with metering points', async () => {
       const { apiEnvironment, client, server, teardown } = setup();
-      const fakeResponse: MeteringPointsResponse = {
+      const fakeResponse = {
         meteringPoints: [{ gsrn: '1234-meter-id', gridArea: 'DK1' }],
       };
 

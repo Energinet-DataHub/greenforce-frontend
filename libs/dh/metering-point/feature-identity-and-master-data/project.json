@@ -1,6 +1,6 @@
 {
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
-  "root": "libs/dh/metering-point/feature-identity-and-master-data",
   "sourceRoot": "libs/dh/metering-point/feature-identity-and-master-data/src",
   "prefix": "dh",
   "targets": {
@@ -10,7 +10,7 @@
         "coverage/libs/dh/metering-point/feature-identity-and-master-data"
       ],
       "options": {
-        "jestConfig": "libs/dh/metering-point/feature-identity-and-master-data/jest.config.js",
+        "jestConfig": "libs/dh/metering-point/feature-identity-and-master-data/jest.config.ts",
         "passWithNoTests": true
       }
     },

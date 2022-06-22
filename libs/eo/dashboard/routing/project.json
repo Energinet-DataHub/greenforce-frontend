@@ -1,6 +1,6 @@
 {
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
-  "root": "libs/eo/dashboard/routing",
   "sourceRoot": "libs/eo/dashboard/routing/src",
   "prefix": "eo",
   "targets": {
@@ -8,7 +8,7 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/libs/eo/dashboard/routing"],
       "options": {
-        "jestConfig": "libs/eo/dashboard/routing/jest.config.js",
+        "jestConfig": "libs/eo/dashboard/routing/jest.config.ts",
         "passWithNoTests": true
       }
     },

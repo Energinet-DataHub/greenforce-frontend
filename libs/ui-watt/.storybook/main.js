@@ -1,6 +1,6 @@
 module.exports = {
   core: { builder: 'webpack5' },
-
+  staticDirs: [{ from: '../src/assets', to: 'assets/ui-watt' }],
   stories: [
     '../src/lib/intro.stories.mdx',
     '../src/lib/**/*.stories.mdx',

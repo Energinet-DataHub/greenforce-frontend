@@ -1,6 +1,6 @@
 {
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
-  "root": "libs/dh/globalization/assets-localization",
   "sourceRoot": "libs/dh/globalization/assets-localization/src",
   "prefix": "dh",
   "targets": {},

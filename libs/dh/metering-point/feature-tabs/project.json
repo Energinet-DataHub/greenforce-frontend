@@ -1,6 +1,6 @@
 {
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
-  "root": "libs/dh/metering-point/feature-tabs",
   "sourceRoot": "libs/dh/metering-point/feature-tabs/src",
   "prefix": "dh",
   "targets": {
@@ -8,7 +8,7 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/libs/dh/metering-point/feature-tabs"],
       "options": {
-        "jestConfig": "libs/dh/metering-point/feature-tabs/jest.config.js",
+        "jestConfig": "libs/dh/metering-point/feature-tabs/jest.config.ts",
         "passWithNoTests": true
       }
     },

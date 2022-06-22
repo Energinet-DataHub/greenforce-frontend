@@ -1,6 +1,6 @@
 {
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
-  "root": "libs/dh/wholesale/feature-overview",
   "sourceRoot": "libs/dh/wholesale/feature-overview/src",
   "prefix": "dh",
   "targets": {
@@ -8,7 +8,7 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/libs/dh/wholesale/feature-overview"],
       "options": {
-        "jestConfig": "libs/dh/wholesale/feature-overview/jest.config.js",
+        "jestConfig": "libs/dh/wholesale/feature-overview/jest.config.ts",
         "passWithNoTests": true
       }
     },

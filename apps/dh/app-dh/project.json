@@ -1,6 +1,6 @@
 {
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
-  "root": "apps/dh/app-dh",
   "sourceRoot": "apps/dh/app-dh/src",
   "prefix": "dh",
   "targets": {
@@ -144,7 +144,7 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/apps/dh/app-dh"],
       "options": {
-        "jestConfig": "apps/dh/app-dh/jest.config.js",
+        "jestConfig": "apps/dh/app-dh/jest.config.ts",
         "passWithNoTests": true
       }
     }

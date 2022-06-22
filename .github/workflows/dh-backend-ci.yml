@@ -24,6 +24,7 @@ env:
   is-pull-request: ${{ github.event_name  == 'pull_request' }}
   NODE_OPTIONS: --max-old-space-size=6144
   node-version-file: .nvmrc
+  yarn-version: 1.22.19
   NX_MAX_PARALLEL: 2
 
   # Nx Cloud
@@ -43,7 +44,7 @@ on:
 
 jobs:
   dotnet_solution_ci:
-    uses: Energinet-DataHub/.github/.github/workflows/dotnet-solution-ci.yml@6.2.0
+    uses: Energinet-DataHub/.github/.github/workflows/dotnet-solution-ci.yml@7.5.0
     with:
       SOLUTION_FILE_PATH: 'apps/dh/api-dh/DataHub.WebApi.sln'
       DOTNET_VERSION: '6.0.201'
@@ -56,13 +57,13 @@ jobs:
       AZURE_KEYVAULT_URL: ${{ secrets.AZURE_TESTING_KEYVAULT_URL }}
 
   terraform_validate:
-    uses: Energinet-DataHub/.github/.github/workflows/terraform-validate.yml@6.2.0
+    uses: Energinet-DataHub/.github/.github/workflows/terraform-validate.yml@7.5.0
     with:
       TERRAFORM_WORKING_DIR_PATH: 'build/infrastructure/dh/main'
-      TERRAFORM_VERSION: '1.1.2'
+      TERRAFORM_VERSION: '1.2.2'
 
   sonarcloud_analysis:
-    uses: Energinet-DataHub/.github/.github/workflows/sonarcloud-dotnet.yml@6.2.0
+    uses: Energinet-DataHub/.github/.github/workflows/sonarcloud-dotnet.yml@7.5.0
     with:
       SOLUTION_FILE_PATH: 'apps/dh/api-dh/DataHub.WebApi.sln'
       DOTNET_VERSION: '6.0.201'
@@ -107,6 +108,9 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-yarn-
 
+      - name: Set yarn version ${{ env.yarn-version }}
+        run: yarn set version ${{ env.yarn-version }}
+
       - name: Install package dependencies
         run: yarn install --frozen-lockfile --non-interactive
 
@@ -129,7 +133,7 @@ jobs:
 
   create_prerelease:
     needs: [dotnet_solution_ci, terraform_validate, sonarcloud_analysis]
-    uses: Energinet-DataHub/.github/.github/workflows/create-prerelease.yml@6.2.0
+    uses: Energinet-DataHub/.github/.github/workflows/create-prerelease.yml@7.5.0
     with:
       CALLER_REPOSITORY_PATH: Energinet-DataHub/greenforce-frontend
     secrets:

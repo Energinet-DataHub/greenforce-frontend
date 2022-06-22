@@ -1,6 +1,6 @@
 {
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
-  "root": "libs/eo/origin-of-energy/routing",
   "sourceRoot": "libs/eo/origin-of-energy/routing/src",
   "prefix": "eo",
   "targets": {
@@ -8,7 +8,7 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/libs/eo/origin-of-energy/routing"],
       "options": {
-        "jestConfig": "libs/eo/origin-of-energy/routing/jest.config.js",
+        "jestConfig": "libs/eo/origin-of-energy/routing/jest.config.ts",
         "passWithNoTests": true
       }
     },

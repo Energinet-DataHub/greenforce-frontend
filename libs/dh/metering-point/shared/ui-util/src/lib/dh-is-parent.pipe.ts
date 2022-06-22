@@ -22,13 +22,11 @@ import { MeteringPointType } from '@energinet-datahub/dh/shared/domain';
 })
 export class DhIsParentPipe implements PipeTransform {
   transform(value: MeteringPointType | undefined): boolean {
-    if (
+    return (
       value === MeteringPointType.E17 ||
       value === MeteringPointType.E18 ||
       value === MeteringPointType.E20
-    )
-      return true;
-    return false;
+    );
   }
 }
 
