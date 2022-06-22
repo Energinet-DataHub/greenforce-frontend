@@ -3986,10 +3986,10 @@
     regenerator-runtime "^0.13.7"
     resolve-from "^5.0.0"
 
-"@testing-library/angular@11.0.4":
-  version "11.0.4"
-  resolved "https://registry.yarnpkg.com/@testing-library/angular/-/angular-11.0.4.tgz#7585eb7828092fc8636f8fe021d03094a7115364"
-  integrity sha512-d/rGeVy/EMeGybPaXbsrOKE8VdJTP8V97S97mrFRPXjN1/Cg3eAzv+OAHMyD9oyRgwnRprJWWagvkk3ZCyrNjw==
+"@testing-library/angular@12.0.2":
+  version "12.0.2"
+  resolved "https://registry.yarnpkg.com/@testing-library/angular/-/angular-12.0.2.tgz#b2cfce1090759ed12775f092e08ce1f40d4a7537"
+  integrity sha512-iNm2UvX2tOtz1EOI7UiFRowRUIh1HDkahhAERF9wB6mcIix2RF/ivw1BqOAzRtYY+nsTbTc/gXhz1KAczbyjHQ==
   dependencies:
     "@testing-library/dom" "^8.0.0"
     tslib "^2.3.1"
