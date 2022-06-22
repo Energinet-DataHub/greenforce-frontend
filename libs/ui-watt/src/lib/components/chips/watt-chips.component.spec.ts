@@ -122,13 +122,13 @@ describe(WattChipsComponent.name, () => {
   it('deselects when selection changes to null', async () => {
     const selectionChange = jest.fn();
     const properties = { options, selection: '2', selectionChange };
-    const { rerender } = await setup(properties);
+    const { change } = await setup(properties);
 
     expect(screen.getByRole('option', { selected: true })).toHaveTextContent(
       'Chip 2'
     );
 
-    rerender({ ...properties, selection: null });
+    change({ ...properties, selection: null });
 
     expect(
       screen.queryByRole('option', { selected: true })
