@@ -71,8 +71,8 @@ import {
             {{ point.address.locality + ',' }}
           </ng-container>
           {{ point?.address?.postCode }} {{ point?.address?.city }}
-          <ng-container *ngIf="point.address?.city">
-            {{ point.address.city }}
+          <ng-container *ngIf="point.address?.country">
+            {{ point.address.country }}
           </ng-container>
         </td>
       </tr>
