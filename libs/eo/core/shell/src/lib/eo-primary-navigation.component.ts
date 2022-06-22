@@ -47,11 +47,11 @@ import { eoConsumptionPageRoutePath } from '@energinet-datahub/eo/consumption-pa
       <watt-nav-list-item link="/${eoOriginOfEnergyRoutePath}">
         Origin of Energy
       </watt-nav-list-item>
-      <watt-nav-list-item link="/${eoConsumptionPageRoutePath}">
-        Consumption
-      </watt-nav-list-item>
       <watt-nav-list-item link="/${eoEmissionsRoutePath}">
         Emissions
+      </watt-nav-list-item>
+      <watt-nav-list-item link="/${eoConsumptionPageRoutePath}">
+        Consumption
       </watt-nav-list-item>
       <watt-nav-list-item link="/${eoMeteringPointsRoutePath}">
         Metering Points

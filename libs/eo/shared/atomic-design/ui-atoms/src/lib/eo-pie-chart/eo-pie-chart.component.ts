@@ -24,19 +24,12 @@ import DatalabelsPlugin, { Context } from 'chartjs-plugin-datalabels';
   template: `<canvas
     baseChart
     data-testid="pie-chart"
-    [data]="pieChartData"
-    [type]="pieChartType"
-    [options]="pieChartOptions"
-    [plugins]="pieChartPlugins"
+    [data]="chartData"
+    [type]="chartType"
+    [options]="chartOptions"
+    [plugins]="chartPlugins"
   >
   </canvas>`,
-  styles: [
-    `
-      :host {
-        display: block;
-      }
-    `,
-  ],
 })
 export class EoPieChartComponent implements DoCheck {
   @ViewChild(BaseChartDirective) chart!: BaseChartDirective;
@@ -53,7 +46,7 @@ export class EoPieChartComponent implements DoCheck {
   #wattTextNormalFontWeight = 700;
   #wattTextNormalSize = 16;
 
-  public pieChartOptions: ChartConfiguration['options'] = {
+  public chartOptions: ChartConfiguration['options'] = {
     responsive: true,
     plugins: {
       tooltip: { enabled: false },
@@ -78,7 +71,7 @@ export class EoPieChartComponent implements DoCheck {
     },
   };
 
-  public pieChartData: ChartData<'pie', number[], string | string[]> = {
+  public chartData: ChartData<'pie', number[], string | string[]> = {
     labels: ['Renewable', 'Other'],
     datasets: [
       {
@@ -90,12 +83,12 @@ export class EoPieChartComponent implements DoCheck {
       },
     ],
   };
-  public pieChartType: ChartType = 'pie';
-  public pieChartPlugins = [DatalabelsPlugin];
+  public chartType: ChartType = 'pie';
+  public chartPlugins = [DatalabelsPlugin];
 
   ngDoCheck() {
-    if (this.data !== this.pieChartData.datasets[0].data) {
-      this.pieChartData.datasets[0].data = this.data;
+    if (this.data !== this.chartData.datasets[0].data) {
+      this.chartData.datasets[0].data = this.data;
       this.chart?.update();
     }
   }

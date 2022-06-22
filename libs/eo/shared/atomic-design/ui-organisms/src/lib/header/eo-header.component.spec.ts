@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 import { render, screen } from '@testing-library/angular';
-
 import { EoHeaderComponent, EoHeaderScam } from './eo-header.component';
 
 describe(EoHeaderComponent.name, () => {
