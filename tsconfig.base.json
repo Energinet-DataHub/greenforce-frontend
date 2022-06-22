@@ -17,7 +17,6 @@
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "paths": {
-      "rxjs": ["./node_modules/rxjs"],
       "@energinet-datahub/dh/auth/msal": [
         "libs/dh/auth/feature-msal/src/index.ts"
       ],
@@ -229,7 +228,8 @@
       "@energinet-datahub/gf/util-browser": [
         "libs/gf/util-browser/src/index.ts"
       ],
-      "@energinet-datahub/watt": ["libs/ui-watt/src/index.ts"]
+      "@energinet-datahub/watt": ["libs/ui-watt/src/index.ts"],
+      "rxjs": ["./node_modules/rxjs"]
     }
   },
   "exclude": ["node_modules", "tmp"]
