@@ -24,6 +24,11 @@ export interface MeteringPoint {
   gsrn: string;
   /** Name of the area the metering point is registered in */
   gridArea: string;
+  address: string;
+  cityName: string;
+  floor: string;
+  room: string;
+  postCode: string;
 }
 
 interface EoMeteringPointsState {
@@ -34,7 +39,20 @@ interface EoMeteringPointsState {
 @Injectable()
 export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState> {
   constructor(private service: EoMeteringPointsService) {
-    super({ loadingDone: false, meteringPoints: [] });
+    super({
+      loadingDone: false,
+      meteringPoints: [
+        {
+          gsrn: '578546923392822641',
+          gridArea: 'DK1',
+          address: 'address',
+          cityName: 'city',
+          floor: 'floor',
+          room: 'room',
+          postCode: 'postcode',
+        },
+      ],
+    });
 
     this.loadData();
   }
