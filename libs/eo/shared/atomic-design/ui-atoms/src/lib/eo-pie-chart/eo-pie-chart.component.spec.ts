@@ -18,7 +18,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { getByTestId } from '@testing-library/angular';
 import { Context } from 'chartjs-plugin-datalabels';
 import { NgChartsModule } from 'ng2-charts';
-import { EoPieChartComponent } from './eo-origin-of-energy-pie-chart.component';
+import { EoPieChartComponent } from './eo-pie-chart.component';
 
 describe(EoPieChartComponent.name, () => {
   let component: EoPieChartComponent;
@@ -46,7 +46,7 @@ describe(EoPieChartComponent.name, () => {
       dataIndex: 0,
     } as Context;
 
-    const output = component?.pieChartOptions?.plugins?.datalabels?.formatter?.(
+    const output = component?.chartOptions?.plugins?.datalabels?.formatter?.(
       value,
       context
     );

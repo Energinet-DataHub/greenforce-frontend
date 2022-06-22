@@ -21,34 +21,27 @@ import {
   eoApiEnvironmentToken,
 } from '@energinet-datahub/eo/shared/environments';
 
-interface EoEmissionsResponse {
-  emissions: [
-    {
-      dateFrom: number;
-      dateTo: number;
-      total: {
-        unit: string;
-        value: number;
-      };
-      relative: {
-        unit: string;
-        value: number;
-      };
-    }
-  ];
+export interface EoMeasurement {
+  dateFrom: number;
+  dateTo: number;
+  value: number;
+}
+
+interface EoConsumptionResponse {
+  measurements: EoMeasurement[];
 }
 
 @Injectable({
   providedIn: 'root',
 })
-export class EoEmissionsService {
+export class EoConsumptionService {
   #apiBase: string;
 
-  getEmissionsFor2021() {
-    return this.http.get<EoEmissionsResponse>(
+  getMonthlyConsumptionFor2021() {
+    return this.http.get<EoConsumptionResponse>(
       `${
         this.#apiBase
-      }/emissions?dateFrom=1609459200&dateTo=1640995199&aggregation=Total`,
+      }/measurements/consumption?dateFrom=1609459200&dateTo=1640995199&aggregation=Month`,
       { withCredentials: true }
     );
   }
