@@ -79,7 +79,7 @@ export class DhMarketParticipantEditActorComponent {
   };
 
   readonly onMarketRolesChange = (marketRoleChanges: MarketRoleChanges) => {
-    console.log(marketRoleChanges);
+    this.store.setMarketRoleChanges(marketRoleChanges);
   };
 
   readonly onContactsChanged = (

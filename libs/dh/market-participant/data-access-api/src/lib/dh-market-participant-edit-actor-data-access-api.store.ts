@@ -181,6 +181,8 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
         tap(() => this.patchState({ isLoading: true })),
         switchMap((routeParams) =>
           forkJoin({
+            gridAreas: this.getGridAreas(),
+            actor: this.getActorInfo(routeParams),
             contacts: this.getContacts(routeParams),
           }).pipe(
             tap(() =>
@@ -335,22 +337,12 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
       changes,
     });
 
-  readonly setMeteringPoinTypeChanges = (
-    meteringPointTypeChanges: MeteringPointTypeChanges
-  ) =>
+  readonly setMarketRoleChanges = (changes: MarketRoleChanges) =>
     this.patchState({
-      meteringPointTypeChanges,
-    });
-
-  readonly setGridAreaChanges = (gridAreas: GridAreaDto[]) => {
-    this.patchState({
-      gridAreaChanges: gridAreas,
-    });
-  };
-
-  readonly setMarketRoles = (marketRoles: ActorMarketRoleDto[]) =>
-    this.patchState({
-      marketRoles,
+      marketRoles: changes.marketRoles.map((mrc) => ({
+        eicFunction: mrc.marketRole,
+        gridAreas: mrc.gridAreas,
+      })),
     });
 
   readonly setContactChanges = (

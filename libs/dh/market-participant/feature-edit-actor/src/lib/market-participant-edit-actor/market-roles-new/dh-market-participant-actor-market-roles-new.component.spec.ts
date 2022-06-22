@@ -18,7 +18,10 @@
 import { render, screen, within } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
 import { runOnPushChangeDetection } from '@energinet-datahub/dh/shared/test-util-metering-point';
-import { GridAreaDto } from '@energinet-datahub/dh/shared/domain';
+import {
+  ActorMarketRoleDto,
+  GridAreaDto,
+} from '@energinet-datahub/dh/shared/domain';
 import { MarketRoleChanges } from '@energinet-datahub/dh/market-participant/data-access-api';
 import { EventEmitter } from '@angular/core';
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
@@ -29,11 +32,15 @@ import {
 import { en } from '@energinet-datahub/dh/globalization/assets-localization';
 
 describe(DhMarketParticipantActorMarketRolesNewComponent.name, () => {
-  async function setup(gridAreas: GridAreaDto[]) {
+  async function setup(
+    gridAreas: GridAreaDto[],
+    existingActorMarketRoles: ActorMarketRoleDto[]
+  ) {
     const outputFn = jest.fn();
     const view = await render(DhMarketParticipantActorMarketRolesNewComponent, {
       componentProperties: {
         gridAreas: gridAreas,
+        actorMarketRoles: existingActorMarketRoles,
         changed: {
           emit: outputFn,
         } as unknown as EventEmitter<MarketRoleChanges>,
@@ -60,14 +67,14 @@ describe(DhMarketParticipantActorMarketRolesNewComponent.name, () => {
 
   test('should add new', async () => {
     // arrange
-    const { outputFn } = await setup(gridAreas);
+    const { outputFn } = await setup(gridAreas, []);
 
     const expected = {
       marketRoles: [
         {
           gridAreas: [
             {
-              gridArea: gridAreas[0].id,
+              id: gridAreas[0].id,
               meteringPointTypes: ['D01VeProduction'],
             },
           ],
@@ -77,6 +84,12 @@ describe(DhMarketParticipantActorMarketRolesNewComponent.name, () => {
     };
 
     // act
+    // click add
+    const addButton= screen.getByRole('button', {
+      name: 'add',
+    });
+    userEvent.click(addButton);
+
     // select market role
     const marketRoleOptions = within(
       screen.getByRole('cell', {
@@ -114,6 +127,30 @@ describe(DhMarketParticipantActorMarketRolesNewComponent.name, () => {
     const meteringPointTypeOption = screen.getByText('D01VeProduction');
     userEvent.click(meteringPointTypeOption);
     userEvent.tab();
+
+    // assert
+    expect(outputFn).toHaveBeenLastCalledWith(expected);
+  });
+
+  test('should remove existing', async () => {
+    // arrange
+    const { outputFn } = await setup(gridAreas, [
+      {
+        eicFunction: 'Agent',
+        gridAreas: [
+          { id: gridAreas[0].id, meteringPointTypes: ['D01VeProduction'] },
+        ],
+      },
+    ]);
+
+    const expected = { marketRoles: [] };
+
+    // act
+    const deleteButton = screen.getByRole('button', {
+      name: 'delete',
+    });
+
+    userEvent.click(deleteButton);
 
     // assert
     expect(outputFn).toHaveBeenLastCalledWith(expected);

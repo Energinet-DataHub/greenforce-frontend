@@ -37,6 +37,7 @@ import {
   WattDropdownOption,
 } from '@energinet-datahub/watt';
 import {
+  ActorMarketRoleDto,
   EicFunction,
   GridAreaDto,
   MarketParticipantMeteringPointType,
@@ -64,6 +65,8 @@ export class DhMarketParticipantActorMarketRolesNewComponent
   implements OnChanges
 {
   @Input() gridAreas: GridAreaDto[] = [];
+
+  @Input() actorMarketRoles?: ActorMarketRoleDto[] = [];
 
   @Output() changed = new EventEmitter<MarketRoleChanges>();
 
@@ -107,7 +110,23 @@ export class DhMarketParticipantActorMarketRolesNewComponent
       value: mp,
     }));
 
-    this.rows = [this.createPlaceholder()];
+    const rows: EditableMarketRoleRow[] = [];
+
+    if (this.actorMarketRoles)
+      this.actorMarketRoles.forEach((mr) =>
+        mr.gridAreas.forEach((ga) =>
+          rows.push({
+            marketRole: { marketRole: mr.eicFunction },
+            changed: {
+              marketRole: mr.eicFunction,
+              gridArea: ga.id,
+              meteringPointTypes: ga.meteringPointTypes,
+            },
+          })
+        )
+      );
+
+    this.rows = rows;
   }
 
   readonly createPlaceholder = (): EditableMarketRoleRow => {
@@ -130,7 +149,7 @@ export class DhMarketParticipantActorMarketRolesNewComponent
           m.set(row.marketRole, [
             ...m.get(row.marketRole),
             {
-              gridArea: row.gridArea,
+              id: row.gridArea,
               meteringPointTypes: row.meteringPointTypes,
             },
           ]);

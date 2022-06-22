@@ -137,6 +137,11 @@ export class DhMarketParticipantOrganizationOverviewComponent
 
   readonly onEditActor = (organizationId: string, actorId: string) =>
     this.editActor.emit({ organizationId, actorId });
+
+  readonly getGridAreaInfo = (id: string) => {
+    const grid = this.gridAreas.find((x) => x.id == id);
+    return grid ? `${grid.code} - ${grid.name}` : '';
+  };
 }
 
 @NgModule({
