@@ -3986,13 +3986,13 @@
     regenerator-runtime "^0.13.7"
     resolve-from "^5.0.0"
 
-"@testing-library/angular@10.11.0":
-  version "10.11.0"
-  resolved "https://registry.yarnpkg.com/@testing-library/angular/-/angular-10.11.0.tgz#715a7cf1d05304d3bf0777e95857085f21508dc8"
-  integrity sha512-iTZjCBnn5jzKbStu31X80eLjOfpsoHam0BFH/zG3+Lk4xQtSeo/7TJtscMkTN2fGrAvlFjZyPjb6GnDGDAXc9g==
+"@testing-library/angular@11.0.4":
+  version "11.0.4"
+  resolved "https://registry.yarnpkg.com/@testing-library/angular/-/angular-11.0.4.tgz#7585eb7828092fc8636f8fe021d03094a7115364"
+  integrity sha512-d/rGeVy/EMeGybPaXbsrOKE8VdJTP8V97S97mrFRPXjN1/Cg3eAzv+OAHMyD9oyRgwnRprJWWagvkk3ZCyrNjw==
   dependencies:
     "@testing-library/dom" "^8.0.0"
-    tslib "^2.0.0"
+    tslib "^2.3.1"
 
 "@testing-library/cypress@8.0.3":
   version "8.0.3"
