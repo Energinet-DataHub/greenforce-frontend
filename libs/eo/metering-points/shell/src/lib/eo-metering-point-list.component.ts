@@ -17,11 +17,7 @@
 
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
-import { Observable } from 'rxjs';
-import {
-  EoMeteringPoint,
-  EoMeteringPointsStore,
-} from './eo-metering-points.store';
+import { EoMeteringPointsStore } from './eo-metering-points.store';
 
 @Component({
   selector: 'eo-metering-points-list',
@@ -82,7 +78,7 @@ import {
 })
 export class EoMeteringPointListComponent {
   loadingDone$ = this.store.loadingDone$;
-  meteringPoints$: Observable<EoMeteringPoint[]> = this.store.meteringPoints$;
+  meteringPoints$ = this.store.meteringPoints$;
 
   constructor(private store: EoMeteringPointsStore) {}
 }
