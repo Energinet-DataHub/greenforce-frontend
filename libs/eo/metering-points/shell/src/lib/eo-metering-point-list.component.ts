@@ -31,9 +31,13 @@ import {
         display: block;
       }
 
+      table {
+        border-top: 1px solid var(--watt-color-primary-light);
+        border-bottom: 1px solid var(--watt-color-primary-light);
+      }
+
       .table-header {
         text-align: left;
-        border-top: 1px solid var(--watt-color-primary-light);
         border-bottom: 1px solid var(--watt-color-primary-light);
         color: var(--watt-color-neutral-grey-900);
         padding: var(--watt-space-s) 0;
@@ -49,7 +53,7 @@ import {
     <p class="metering-point" *ngIf="meteringPoints.length === 0">
       You do not have any metering points.
     </p>
-    <table [cellPadding]="0" width="100%">
+    <table [cellPadding]="0" [cellSpacing]="0" width="100%">
       <tr>
         <th class="table-header">ID</th>
         <th class="table-header">Address</th>
@@ -63,7 +67,13 @@ import {
           <ng-container *ngIf="point.address?.address2">
             {{ point.address.address2 + ',' }}
           </ng-container>
+          <ng-container *ngIf="point.address?.locality">
+            {{ point.address.locality + ',' }}
+          </ng-container>
           {{ point?.address?.postCode }} {{ point?.address?.city }}
+          <ng-container *ngIf="point.address?.city">
+            {{ point.address.city }}
+          </ng-container>
         </td>
       </tr>
     </table>
