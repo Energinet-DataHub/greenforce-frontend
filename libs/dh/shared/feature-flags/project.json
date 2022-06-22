@@ -1,7 +1,6 @@
 {
-  "implicitDependencies": [],
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
-  "root": "libs/dh/shared/feature-flags",
   "sourceRoot": "libs/dh/shared/feature-flags/src",
   "prefix": "dh",
   "targets": {
@@ -9,7 +8,7 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/libs/dh/shared/feature-flags"],
       "options": {
-        "jestConfig": "libs/dh/shared/feature-flags/jest.config.js",
+        "jestConfig": "libs/dh/shared/feature-flags/jest.config.ts",
         "passWithNoTests": true
       }
     },
@@ -23,5 +22,5 @@
       }
     }
   },
-  "tags": ["product:dh", "scope:shared", "type:feature"]
+  "tags": ["product:dh", "domain:shared", "type:feature"]
 }
