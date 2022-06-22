@@ -47,6 +47,8 @@ const sizeConfig: Record<WattModalSize, MatDialogConfig> = {
 /**
  * Component for representing a binary decision in the form of
  * a modal window that appears in front of the entire content.
+ * Usage:
+ * `import { WattModalModule } from '@energinet-datahub/watt';`
  */
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
