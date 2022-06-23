@@ -43,20 +43,24 @@ import { EoMeteringPointsStore } from './eo-metering-points.store';
         padding: 12px 64px 12px 0;
         width: 0%;
       }
+
+      .first {
+        padding-left: 8px;
+      }
     `,
   ],
   template: `<ng-container *ngIf="meteringPoints$ | async as meteringPoints">
-    <p class="metering-point" *ngIf="meteringPoints.length === 0">
-      You do not have any metering points.
-    </p>
     <table [cellPadding]="0" [cellSpacing]="0" width="100%">
       <tr>
-        <th class="table-header">ID</th>
+        <th class="table-header first">ID</th>
         <th class="table-header">Address</th>
+      </tr>
+      <tr *ngIf="meteringPoints.length === 0">
+        <td>You do not have any metering points.</td>
       </tr>
       <ng-container *ngFor="let point of meteringPoints">
         <tr *ngIf="point.type === 'consumption'">
-          <td class="table-cell">{{ point?.gsrn }}</td>
+          <td class="table-cell first">{{ point?.gsrn }}</td>
           <td>
             <ng-container *ngIf="point.address?.address1">
               {{ point.address.address1 + ',' }}
@@ -67,10 +71,7 @@ import { EoMeteringPointsStore } from './eo-metering-points.store';
             <ng-container *ngIf="point.address?.locality">
               {{ point.address.locality + ',' }}
             </ng-container>
-            {{ point?.address?.postCode }} {{ point?.address?.city }}
-            <ng-container *ngIf="point.address?.country">
-              {{ '- ' + point.address.country }}
-            </ng-container>
+            {{ point?.address?.postalCode }} {{ point?.address?.city }}
           </td>
         </tr>
       </ng-container>
