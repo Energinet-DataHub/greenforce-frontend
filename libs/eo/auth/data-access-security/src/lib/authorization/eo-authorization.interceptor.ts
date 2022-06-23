@@ -40,6 +40,9 @@ export class EoAuthorizationInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<unknown>> {
     return nextHandler.handle(request).pipe(
       tap({
+        next: (test) => {
+          console.log('next', test);
+        },
         error: (error) => {
           if (this.#is403ForbiddenResponse(error)) {
             this.#displayPermissionError();
