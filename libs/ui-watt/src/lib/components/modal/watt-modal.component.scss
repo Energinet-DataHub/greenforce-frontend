@@ -30,7 +30,6 @@
   .watt-modal-title {
     grid-area: title;
     margin: 0;
-    @include watt.typography-font-size("l");
   }
 
   .watt-modal-content {
