@@ -67,6 +67,9 @@ export class WattModalComponent implements AfterViewInit {
   @Input()
   size: WattModalSize = 'normal';
 
+  @Input()
+  disableClose = false;
+
   /**
    * When modal is closed, emits `true` if it was "accepted",
    * otherwise emits `false`.
@@ -90,6 +93,7 @@ export class WattModalComponent implements AfterViewInit {
     return {
       autoFocus: 'dialog',
       panelClass: 'watt-modal-panel',
+      disableClose: this.disableClose,
       ...sizeConfig[this.size],
     };
   }
