@@ -17,7 +17,8 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
-import { WattSpinnerModule } from '@energinet-datahub/watt';
+import { Router } from '@angular/router';
+import { WattButtonModule, WattSpinnerModule } from '@energinet-datahub/watt';
 import { EoEmissionsStore } from './eo-emissions.store';
 
 @Component({
@@ -35,6 +36,7 @@ import { EoEmissionsStore } from './eo-emissions.store';
           display: flex;
           align-items: flex-end;
           gap: 12px;
+          min-height: 42px;
         }
       }
     `,
@@ -48,6 +50,9 @@ import { EoEmissionsStore } from './eo-emissions.store';
         </h1>
         <h3>CO<sub>2</sub></h3>
       </div>
+      <watt-button variant="text" icon="save" (click)="openSurvey()"
+        >Export details</watt-button
+      >
     </mat-card>
 
     <ng-template #loading
@@ -59,7 +64,13 @@ export class EoEmissionsPageInfoComponent {
   loadingDone$ = this.store.loadingDone$;
   totalCO2$ = this.store.total$;
 
-  constructor(private store: EoEmissionsStore) {}
+  constructor(private store: EoEmissionsStore, private router: Router) {}
+
+  openSurvey() {
+    this.router.navigate(['/emissions'], {
+      queryParams: { showSurvey: true },
+    });
+  }
 
   convertToKg(num: number): number {
     if (!num || Number.isNaN(num)) return 0;
@@ -71,7 +82,7 @@ export class EoEmissionsPageInfoComponent {
 @NgModule({
   providers: [EoEmissionsStore],
   declarations: [EoEmissionsPageInfoComponent],
-  imports: [MatCardModule, CommonModule, WattSpinnerModule],
+  imports: [MatCardModule, CommonModule, WattSpinnerModule, WattButtonModule],
   exports: [EoEmissionsPageInfoComponent],
 })
 export class EoEmissionsPageInfoScam {}
