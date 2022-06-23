@@ -87,8 +87,8 @@ describe(WattTimepickerModule.name, () => {
         template,
       });
 
-      userEvent.clear(startTimeInput);
-      userEvent.type(startTimeInput, '0123');
+      await userEvent.clear(startTimeInput);
+      await userEvent.type(startTimeInput, '0123');
 
       const actualTimeRange = fixture.componentInstance.timeRangeControl.value;
       const expectedTimeRange: WattRange = { start: '01:23', end: '' };
@@ -101,8 +101,8 @@ describe(WattTimepickerModule.name, () => {
         template,
       });
 
-      userEvent.clear(endTimeInput);
-      userEvent.type(endTimeInput, '1234');
+      await userEvent.clear(endTimeInput);
+      await userEvent.type(endTimeInput, '1234');
 
       const actualTimeRange = fixture.componentInstance.timeRangeControl.value;
       const expectedTimeRange: WattRange = { start: '', end: '12:34' };
@@ -115,11 +115,11 @@ describe(WattTimepickerModule.name, () => {
         template,
       });
 
-      userEvent.clear(startTimeInput);
-      userEvent.type(startTimeInput, '0123');
+      await userEvent.clear(startTimeInput);
+      await userEvent.type(startTimeInput, '0123');
 
-      userEvent.clear(endTimeInput);
-      userEvent.type(endTimeInput, '1234');
+      await userEvent.clear(endTimeInput);
+      await userEvent.type(endTimeInput, '1234');
 
       const actualTimeRange = fixture.componentInstance.timeRangeControl.value;
       const expectedTimeRange: WattRange = { start: '01:23', end: '12:34' };
@@ -135,10 +135,10 @@ describe(WattTimepickerModule.name, () => {
         initialState: timeRange,
       });
 
-      userEvent.type(endTimeInput, backspace);
+      await userEvent.type(endTimeInput, backspace);
       endTimeInput.blur();
 
-      userEvent.type(startTimeInput, backspace);
+      await userEvent.type(startTimeInput, backspace);
       startTimeInput.blur();
 
       const actualTimeRange = fixture.componentInstance.timeRangeControl.value;
@@ -156,7 +156,7 @@ describe(WattTimepickerModule.name, () => {
       await setup({ template });
       const sliderToggle = screen.queryByRole('button') as HTMLButtonElement;
 
-      userEvent.click(sliderToggle);
+      await userEvent.click(sliderToggle);
 
       expect(screen.queryByRole('dialog')).not.toBeEmptyDOMElement();
     });
@@ -165,8 +165,8 @@ describe(WattTimepickerModule.name, () => {
       await setup({ template });
       const sliderToggle = screen.queryByRole('button') as HTMLButtonElement;
 
-      userEvent.click(sliderToggle);
-      userEvent.click(sliderToggle);
+      await userEvent.click(sliderToggle);
+      await userEvent.click(sliderToggle);
 
       expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
     });
@@ -175,7 +175,7 @@ describe(WattTimepickerModule.name, () => {
       await setup({ template });
       const sliderToggle = screen.queryByRole('button') as HTMLButtonElement;
 
-      userEvent.click(sliderToggle);
+      await userEvent.click(sliderToggle);
       sliderToggle.blur();
 
       expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
@@ -185,7 +185,7 @@ describe(WattTimepickerModule.name, () => {
       await setup({ template });
 
       const sliderToggle = screen.queryByRole('button') as HTMLButtonElement;
-      userEvent.click(sliderToggle);
+      await userEvent.click(sliderToggle);
 
       const [leftHandle, rightHandle] = screen.queryAllByRole('slider');
 
@@ -197,7 +197,7 @@ describe(WattTimepickerModule.name, () => {
       await setup({ template, initialState: { start: '00:10', end: '23:20' } });
 
       const sliderToggle = screen.queryByRole('button') as HTMLButtonElement;
-      userEvent.click(sliderToggle);
+      await userEvent.click(sliderToggle);
 
       const [leftHandle, rightHandle] = screen.queryAllByRole('slider');
 
@@ -212,15 +212,15 @@ describe(WattTimepickerModule.name, () => {
       });
 
       const sliderToggle = screen.queryByRole('button') as HTMLButtonElement;
-      userEvent.click(sliderToggle);
+      await userEvent.click(sliderToggle);
 
       const [leftHandle, rightHandle] = screen.queryAllByRole('slider');
 
       leftHandle.focus();
-      userEvent.keyboard('[ArrowRight]');
+      await userEvent.keyboard('[ArrowRight]');
 
       rightHandle.focus();
-      userEvent.keyboard('[ArrowLeft]');
+      await userEvent.keyboard('[ArrowLeft]');
 
       const actualTimeRange = fixture.componentInstance.timeRangeControl.value;
       const expectedTimeRange: WattRange = { start: '00:15', end: '23:45' };
@@ -231,13 +231,13 @@ describe(WattTimepickerModule.name, () => {
       const { startTimeInput, endTimeInput } = await setup({ template });
 
       const sliderToggle = screen.queryByRole('button') as HTMLButtonElement;
-      userEvent.click(sliderToggle);
+      await userEvent.click(sliderToggle);
 
-      userEvent.clear(startTimeInput);
-      userEvent.type(startTimeInput, '0123');
+      await userEvent.clear(startTimeInput);
+      await userEvent.type(startTimeInput, '0123');
 
-      userEvent.clear(endTimeInput);
-      userEvent.type(endTimeInput, '2345');
+      await userEvent.clear(endTimeInput);
+      await userEvent.type(endTimeInput, '2345');
 
       const [leftHandle, rightHandle] = screen.queryAllByRole('slider');
 
@@ -249,7 +249,7 @@ describe(WattTimepickerModule.name, () => {
       await setup({ template });
       const sliderToggle = screen.queryByRole('button') as HTMLButtonElement;
 
-      userEvent.click(sliderToggle);
+      await userEvent.click(sliderToggle);
 
       expect(screen.queryByText('Adjust time range')).toBeInTheDocument();
     });

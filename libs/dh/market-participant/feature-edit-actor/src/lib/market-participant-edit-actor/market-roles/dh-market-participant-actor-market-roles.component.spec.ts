@@ -104,7 +104,7 @@ describe(DhMarketParticipantActorMarketRolesComponent.name, () => {
     );
 
     // Act
-    userEvent.click(gridAccessProviderOption);
+    await userEvent.click(gridAccessProviderOption);
 
     // Assert
     expect(outputFn).toHaveBeenCalledWith([EicFunction.MeterAdministrator]);
@@ -123,11 +123,13 @@ describe(DhMarketParticipantActorMarketRolesComponent.name, () => {
     );
 
     // Act + Assert - Disabled output
-    expect(() => userEvent.click(systemOperatorOptionDisabled)).toThrow();
+    await expect(
+      userEvent.click(systemOperatorOptionDisabled)
+    ).rejects.toThrow();
     expect(outputFn).not.toHaveBeenCalled();
 
     // Act, available click
-    userEvent.click(meterAdministratorOption);
+    await userEvent.click(meterAdministratorOption);
 
     // Assert new output
     expect(outputFn).toHaveBeenCalledWith([

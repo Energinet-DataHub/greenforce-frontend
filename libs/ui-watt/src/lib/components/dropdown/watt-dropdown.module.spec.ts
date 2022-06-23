@@ -92,7 +92,7 @@ describe(WattDropdownModule.name, () => {
       const option = screen.queryByText(firstDropdownOption.displayValue);
 
       if (option) {
-        userEvent.click(option);
+        await userEvent.click(option);
       }
 
       expect(fixture.componentInstance.dropdownControl.value).toBe(
@@ -187,7 +187,7 @@ describe(WattDropdownModule.name, () => {
         await matSelect.open();
 
         const filterInput: HTMLInputElement = screen.getByRole('textbox');
-        userEvent.type(filterInput, 'mighty');
+        await userEvent.type(filterInput, 'mighty');
 
         // Note(xdzus): Number of options is 3:
         // Option 1. Filter input
@@ -237,7 +237,7 @@ describe(WattDropdownModule.name, () => {
         await matSelect.open();
 
         const filterInput: HTMLInputElement = screen.getByRole('textbox');
-        userEvent.type(filterInput, 'non-existent option');
+        await userEvent.type(filterInput, 'non-existent option');
 
         // Note(xdzus): Number of options is 1:
         // Option 1. Filter input containing the 'No options found.' label
@@ -308,7 +308,7 @@ describe(WattDropdownModule.name, () => {
       const option = screen.queryByText(firstDropdownOption.displayValue);
 
       if (option) {
-        userEvent.click(option);
+        await userEvent.click(option);
       }
 
       expect(fixture.componentInstance.dropdownModel).toBe(
@@ -347,7 +347,7 @@ describe(WattDropdownModule.name, () => {
         await matSelect.open();
 
         const filterInput: HTMLInputElement = screen.getByRole('textbox');
-        userEvent.type(filterInput, 'mighty');
+        await userEvent.type(filterInput, 'mighty');
 
         // Note(xdzus): Number of options is 3:
         // Option 1. Filter input
@@ -398,7 +398,7 @@ describe(WattDropdownModule.name, () => {
         await matSelect.open();
 
         const filterInput: HTMLInputElement = screen.getByRole('textbox');
-        userEvent.type(filterInput, 'non-existent option');
+        await userEvent.type(filterInput, 'non-existent option');
 
         // Note(xdzus): Number of options is 1:
         // Option 1. Filter input containing the 'No options found.' label

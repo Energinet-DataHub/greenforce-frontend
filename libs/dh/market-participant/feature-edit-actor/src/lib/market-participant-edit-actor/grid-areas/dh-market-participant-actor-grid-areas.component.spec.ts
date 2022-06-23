@@ -103,7 +103,7 @@ describe(DhMarketParticipantActorGridAreasComponent.name, () => {
     const options = screen.getAllByRole('option');
 
     // act
-    userEvent.click(options[1]);
+    await userEvent.click(options[1]);
 
     // assert
     expect(outputFn).toHaveBeenCalledWith([gridAreas[1]]);

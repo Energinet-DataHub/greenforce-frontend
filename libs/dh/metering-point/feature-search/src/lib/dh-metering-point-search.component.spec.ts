@@ -85,8 +85,8 @@ describe(DhMeteringPointSearchComponent.name, () => {
     const location: Location = TestBed.inject(Location);
     const validMeteringPointIdThatExist = '571313180400014602';
 
-    userEvent.type(input, validMeteringPointIdThatExist);
-    userEvent.click(submitButton);
+    await userEvent.type(input, validMeteringPointIdThatExist);
+    await userEvent.click(submitButton);
 
     expect(screen.queryByRole('progressbar')).toBeInTheDocument();
     await waitForElementToBeRemoved(() => screen.queryByRole('progressbar'), {
@@ -113,8 +113,8 @@ describe(DhMeteringPointSearchComponent.name, () => {
     const location: Location = TestBed.inject(Location);
     const validMeteringPointIdThatDoesNotExist = '000000000000000000';
 
-    userEvent.type(input, validMeteringPointIdThatDoesNotExist);
-    userEvent.click(submitButton);
+    await userEvent.type(input, validMeteringPointIdThatDoesNotExist);
+    await userEvent.click(submitButton);
 
     expect(screen.queryByRole('progressbar')).toBeInTheDocument();
     await waitForElementToBeRemoved(() => screen.queryByRole('progressbar'), {

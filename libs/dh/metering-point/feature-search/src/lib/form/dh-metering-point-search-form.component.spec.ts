@@ -100,7 +100,7 @@ describe(DhMeteringPointSearchFormComponent.name, () => {
     expect(clearButton).toBeInTheDocument();
 
     const value = '23';
-    userEvent.type(input, value);
+    await userEvent.type(input, value);
     expect(input.value).toBe(value);
 
     clearButton.click();
@@ -131,8 +131,8 @@ describe(DhMeteringPointSearchFormComponent.name, () => {
         enTranslations.meteringPoint.search.searchInvalidLength
       );
 
-      userEvent.type(input, validMeteringPointId);
-      userEvent.click(submitButton);
+      await userEvent.type(input, validMeteringPointId);
+      await userEvent.click(submitButton);
 
       expect(input).toBeValid();
       expect(errors).not.toBeInTheDocument();
@@ -148,8 +148,8 @@ describe(DhMeteringPointSearchFormComponent.name, () => {
     it('should not submit invalid form, but instead show error message and focus input', async () => {
       const { submitButton, submitSpy, input, activatedRoute } = await setup();
 
-      userEvent.type(input, invalidMeteringPointId);
-      userEvent.click(submitButton);
+      await userEvent.type(input, invalidMeteringPointId);
+      await userEvent.click(submitButton);
 
       const errors = screen.getByText(
         enTranslations.meteringPoint.search.searchInvalidLength
