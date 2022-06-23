@@ -70,7 +70,7 @@ export class EoOriginOfEnergyPieChartComponent {
   convertToPercentage(num: number): number {
     if (!num || Number.isNaN(num)) return 0;
 
-    return Number((num * 100).toFixed(2));
+    return Number((num * 100).toFixed(0));
   }
 }
 
