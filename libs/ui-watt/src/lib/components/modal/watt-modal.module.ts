@@ -15,8 +15,11 @@
  * limitations under the License.
  */
 import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
 
+import { WattIconModule } from '../../foundations/icon';
 import {
   WattModalComponent,
   WattModalActionsComponent,
@@ -25,6 +28,6 @@ import {
 @NgModule({
   declarations: [WattModalComponent, WattModalActionsComponent],
   exports: [WattModalComponent, WattModalActionsComponent],
-  imports: [MatDialogModule],
+  imports: [CommonModule, MatDialogModule, MatButtonModule, WattIconModule],
 })
 export class WattModalModule {}
