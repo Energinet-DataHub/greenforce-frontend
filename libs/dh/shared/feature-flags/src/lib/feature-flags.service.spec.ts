@@ -44,22 +44,20 @@ describe('Feature flags service', () => {
    */
   const nonExistingFeatureFlagName = 'non-existing-feature-flag';
   const cases = [
-    [nonExistingFeatureFlagName, DhAppEnvironments.preDev, true, []],
     [nonExistingFeatureFlagName, DhAppEnvironments.dev, true, []],
-    [nonExistingFeatureFlagName, DhAppEnvironments.preTest, true, []],
     [nonExistingFeatureFlagName, DhAppEnvironments.test, true, []],
     [nonExistingFeatureFlagName, DhAppEnvironments.preProd, true, []],
     [nonExistingFeatureFlagName, DhAppEnvironments.prod, true, []],
     [
       featureFlagMocks[0].name,
-      DhAppEnvironments.preDev,
+      DhAppEnvironments.dev,
       true,
       featureFlagMocks,
     ],
     [featureFlagMocks[0].name, DhAppEnvironments.dev, true, featureFlagMocks],
     [
       featureFlagMocks[0].name,
-      DhAppEnvironments.preTest,
+      DhAppEnvironments.test,
       true,
       featureFlagMocks,
     ],
