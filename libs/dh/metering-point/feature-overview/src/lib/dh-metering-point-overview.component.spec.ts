@@ -18,7 +18,7 @@ import { TestBed } from '@angular/core/testing';
 import { Component } from '@angular/core';
 import { render, RenderResult, screen } from '@testing-library/angular';
 import { HttpClientModule } from '@angular/common/http';
-import user from '@testing-library/user-event';
+import userEvent from '@testing-library/user-event';
 import { waitFor } from '@testing-library/dom';
 import {
   SpectacularAppComponent,
@@ -83,7 +83,7 @@ describe(DhMeteringPointOverviewComponent.name, () => {
     const [topLevelLink]: HTMLAnchorElement[] = await screen.findAllByRole(
       'link'
     );
-    user.click(topLevelLink);
+    userEvent.click(topLevelLink);
 
     await view.fixture.whenStable();
 

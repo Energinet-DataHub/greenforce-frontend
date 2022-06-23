@@ -19,22 +19,41 @@ import { ComponentStore } from '@ngrx/component-store';
 import { take } from 'rxjs';
 import { EoMeteringPointsService } from './eo-metering-points.service';
 
-export interface MeteringPoint {
+export interface EoMeteringPoint {
   /** Unique ID of the metering point - Global Service Relation Number */
   gsrn: string;
   /** Name of the area the metering point is registered in */
   gridArea: string;
+  /** Type of metering point, ie. consumption or production */
+  type: string;
+  address: {
+    /** Address line, ie. 'Dieselstraße 28' */
+    address1: string;
+    /** Extra address line for floor, side and such, ie. '3. Stock */
+    address2: string | null;
+    /** Local area description, ie. 'Niedersachsen' */
+    locality: string | null;
+    /** City name, ie. 'Wolfsburg' */
+    city: string;
+    /** Postcode, ie. '38446' */
+    postalCode: string;
+    /** Country-code, ie. 'DE' */
+    country: string;
+  };
 }
 
 interface EoMeteringPointsState {
   loadingDone: boolean;
-  meteringPoints: MeteringPoint[];
+  meteringPoints: EoMeteringPoint[];
 }
 
 @Injectable()
 export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState> {
   constructor(private service: EoMeteringPointsService) {
-    super({ loadingDone: false, meteringPoints: [] });
+    super({
+      loadingDone: false,
+      meteringPoints: [],
+    });
 
     this.loadData();
   }
@@ -50,7 +69,7 @@ export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState>
   );
 
   readonly setEnergySources = this.updater(
-    (state, meteringPoints: MeteringPoint[]): EoMeteringPointsState => ({
+    (state, meteringPoints: EoMeteringPoint[]): EoMeteringPointsState => ({
       ...state,
       meteringPoints,
     })
