@@ -91,6 +91,10 @@ $font-sizes: (
   @include font-weight("semi-bold");
   text-transform: none;
   letter-spacing: 0;
+
+  @include breakpoints.media(">=Large") {
+    @include font-size("l");
+  }
 }
 
 @mixin watt-headline-4 {
