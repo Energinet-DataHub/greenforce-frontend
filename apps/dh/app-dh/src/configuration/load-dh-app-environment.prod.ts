@@ -15,10 +15,10 @@
  * limitations under the License.
  */
 import {
-  DhAppEnvironment,
+  DhAppEnvironments,
   loadDhAppEnvironment as _loadDhAppEnvironment,
 } from '@energinet-datahub/dh/shared/environments';
 
-export function loadDhAppEnvironment(): Promise<DhAppEnvironment> {
-  return _loadDhAppEnvironment('dh-feature-flags-environment.json');
+export function loadDhAppEnvironment(): Promise<DhAppEnvironments> {
+  return _loadDhAppEnvironment('dh-app-environment.json');
 }
