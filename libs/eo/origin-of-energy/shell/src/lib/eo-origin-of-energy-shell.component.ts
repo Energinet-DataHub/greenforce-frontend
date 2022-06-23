@@ -29,7 +29,7 @@ import { EoOriginOfEnergyRenewableEnergyScam } from './eo-origin-of-energy-renew
     `
       :host {
         display: block;
-        max-width: 994px; /* Magic UX number */
+        max-width: 1036px; /* Magic UX number */
       }
 
       .chart-row {

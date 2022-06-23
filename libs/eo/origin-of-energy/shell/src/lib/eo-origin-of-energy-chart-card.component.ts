@@ -24,7 +24,7 @@ import { EoOriginOfEnergyStore } from './eo-origin-of-energy.store';
 
 @Component({
   selector: 'eo-origin-of-energy-pie-chart',
-  template: ` <mat-card class="chart-card watt-space-inline-l">
+  template: ` <mat-card class="chart-card">
     <h3>Your share of renewable energy in 2021</h3>
     <p>Based on the hourly declaration</p>
     <ng-container>
@@ -32,7 +32,6 @@ import { EoOriginOfEnergyStore } from './eo-origin-of-energy.store';
         <watt-spinner [diameter]="100"></watt-spinner>
       </div>
       <eo-pie-chart
-        class="watt-space-inset-squish-l"
         [data]="[
           convertToPercentage((renewableShare$ | async) || 0.5),
           convertToPercentage(1 - ((renewableShare$ | async) || 0.5))
@@ -46,8 +45,13 @@ import { EoOriginOfEnergyStore } from './eo-origin-of-energy.store';
         display: block;
       }
 
+      eo-pie-chart {
+        margin: 16px 56px 0 56px;
+        width: 440px; /* Magic UX number */
+      }
+
       .chart-card {
-        width: 536px; /* Magic UX number */
+        width: 584px; /* Magic UX number */
       }
 
       .loadingObfuscator {
