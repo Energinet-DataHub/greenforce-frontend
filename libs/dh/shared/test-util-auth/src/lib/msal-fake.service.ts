@@ -21,8 +21,7 @@ import {
 } from '@azure/msal-browser';
 import { MockProvider } from 'ng-mocks';
 import { Observable, of } from 'rxjs';
-
-import { MsalService } from '@energinet-datahub/dh/auth/msal';
+import { MsalService } from '@azure/msal-angular';
 
 const accountMock = {
   environment: '',
