@@ -48,19 +48,9 @@ describe('Feature flags service', () => {
     [nonExistingFeatureFlagName, DhAppEnvironments.test, true, []],
     [nonExistingFeatureFlagName, DhAppEnvironments.preProd, true, []],
     [nonExistingFeatureFlagName, DhAppEnvironments.prod, true, []],
-    [
-      featureFlagMocks[0].name,
-      DhAppEnvironments.dev,
-      true,
-      featureFlagMocks,
-    ],
     [featureFlagMocks[0].name, DhAppEnvironments.dev, true, featureFlagMocks],
-    [
-      featureFlagMocks[0].name,
-      DhAppEnvironments.test,
-      true,
-      featureFlagMocks,
-    ],
+    [featureFlagMocks[0].name, DhAppEnvironments.dev, true, featureFlagMocks],
+    [featureFlagMocks[0].name, DhAppEnvironments.test, true, featureFlagMocks],
     [featureFlagMocks[0].name, DhAppEnvironments.test, true, featureFlagMocks],
     [
       featureFlagMocks[0].name,
