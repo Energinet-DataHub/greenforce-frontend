@@ -79,9 +79,14 @@ export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState>
     this.service
       .getMeteringPoints()
       .pipe(take(1))
-      .subscribe((response) => {
-        this.setEnergySources(response.meteringPoints);
-        this.setLoadingDone(true);
+      .subscribe({
+        next: (response) => {
+          this.setEnergySources(response.meteringPoints);
+          this.setLoadingDone(true);
+        },
+        error: () => {
+          this.setLoadingDone(true);
+        },
       });
   }
 }
