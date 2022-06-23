@@ -1,4 +1,4 @@
-# ui-watt
+# Watt Design System
 
 ## Running the project
 
