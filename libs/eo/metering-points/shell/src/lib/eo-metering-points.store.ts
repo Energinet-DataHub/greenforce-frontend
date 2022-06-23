@@ -36,7 +36,7 @@ export interface EoMeteringPoint {
     /** City name, ie. 'Wolfsburg' */
     city: string;
     /** Postcode, ie. '38446' */
-    postCode: string;
+    postalCode: string;
     /** Country-code, ie. 'DE' */
     country: string;
   };
