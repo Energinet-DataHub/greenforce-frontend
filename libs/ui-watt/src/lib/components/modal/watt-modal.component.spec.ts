@@ -83,6 +83,15 @@ describe(WattModalComponent.name, () => {
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
   });
 
+  it('closes on close button click', async () => {
+    const closed = jest.fn();
+    await setup({ closed });
+    user.click(screen.getByRole('button'));
+    user.click(screen.getByLabelText('Close'));
+    await waitFor(() => expect(closed).toBeCalledWith(false));
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+  });
+
   it('displays title', async () => {
     await setup();
     user.click(screen.getByRole('button'));

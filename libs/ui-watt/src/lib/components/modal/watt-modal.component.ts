@@ -67,6 +67,14 @@ export class WattModalComponent implements AfterViewInit {
   @Input()
   size: WattModalSize = 'normal';
 
+  /** Disable ESC, close button and backdrop click as methods of closing. */
+  @Input()
+  disableClose = false;
+
+  /** The aria-label for the close button. */
+  @Input()
+  closeLabel = 'Close';
+
   /**
    * When modal is closed, emits `true` if it was "accepted",
    * otherwise emits `false`.
@@ -90,6 +98,7 @@ export class WattModalComponent implements AfterViewInit {
     return {
       autoFocus: 'dialog',
       panelClass: 'watt-modal-panel',
+      disableClose: this.disableClose,
       ...sizeConfig[this.size],
     };
   }
