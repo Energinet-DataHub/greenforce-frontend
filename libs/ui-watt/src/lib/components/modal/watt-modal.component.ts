@@ -67,9 +67,11 @@ export class WattModalComponent implements AfterViewInit {
   @Input()
   size: WattModalSize = 'normal';
 
+  /** Disable ESC, close button and backdrop click as methods of closing. */
   @Input()
   disableClose = false;
 
+  /** The aria-label for the close button. */
   @Input()
   closeLabel = 'Close';
 
