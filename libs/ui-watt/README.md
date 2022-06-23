@@ -10,7 +10,7 @@ Run `nx test ui-watt` to execute the unit tests.
 
 ## Creating components
 
-It is recommended to run `nx workspace-generator watt-component` to generate
+It is recommended to run `yarn nx workspace-generator watt-component` to generate
 the files needed for new components in the library (it can also be executed
 from the “generate” command in Nx Console),
 
