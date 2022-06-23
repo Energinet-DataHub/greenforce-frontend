@@ -95,9 +95,14 @@ export class EoOriginOfEnergyStore extends ComponentStore<EoOriginOfEnergyState>
     this.service
       .getSourcesFor2021()
       .pipe(take(1))
-      .subscribe((response) => {
-        this.setEnergySources(response.energySources[0]);
-        this.setLoadingDone(true);
+      .subscribe({
+        next: (response) => {
+          this.setEnergySources(response.energySources[0]);
+          this.setLoadingDone(true);
+        },
+        error: () => {
+          this.setLoadingDone(true);
+        },
       });
   }
 }

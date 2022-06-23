@@ -59,7 +59,7 @@ import { EoOriginOfEnergyStore } from './eo-origin-of-energy.store';
         height: calc(100% - 80px);
         width: calc(100% - 32px);
         background-color: var(--watt-on-dark-high-emphasis);
-        padding-top: calc(50% - 80px);
+        padding-top: calc(50% - 104px);
         padding-left: calc(50% - 64px);
       }
     `,
