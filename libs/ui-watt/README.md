@@ -1,7 +1,5 @@
 # ui-watt
 
-This library was generated with [Nx](https://nx.dev).
-
 ## Running the project
 
 Run `yarn run designsystem:start`.
