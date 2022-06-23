@@ -70,6 +70,9 @@ export class WattModalComponent implements AfterViewInit {
   @Input()
   disableClose = false;
 
+  @Input()
+  closeLabel = 'Close';
+
   /**
    * When modal is closed, emits `true` if it was "accepted",
    * otherwise emits `false`.
