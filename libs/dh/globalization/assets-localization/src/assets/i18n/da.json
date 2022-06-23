@@ -304,7 +304,7 @@
         "cancelLabel": "Annuller",
         "saveLabel": "Gem",
         "masterData": {
-          "labelGln": "Aktørnummer",
+          "labelActorNumber": "Aktørnummer",
           "labelStatus": "Status",
           "fieldRequiredErrorText": "Feltet er påkrævet.",
           "statuses": {

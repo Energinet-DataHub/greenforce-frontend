@@ -15,7 +15,10 @@
  * limitations under the License.
  */
 import { NgModule } from '@angular/core';
-import { RX_ANGULAR_CONFIG, RxAngularConfig } from '@rx-angular/cdk';
+import {
+  RX_RENDER_STRATEGIES_CONFIG,
+  RxRenderStrategiesConfig,
+} from '@rx-angular/cdk/render-strategies';
 
 /**
  * Enable RxAngular Template to render in Jest tests.
@@ -23,10 +26,10 @@ import { RX_ANGULAR_CONFIG, RxAngularConfig } from '@rx-angular/cdk';
 @NgModule({
   providers: [
     {
-      provide: RX_ANGULAR_CONFIG,
+      provide: RX_RENDER_STRATEGIES_CONFIG,
       useValue: {
         primaryStrategy: 'native',
-      } as RxAngularConfig<string>,
+      } as RxRenderStrategiesConfig<string>,
     },
   ],
 })

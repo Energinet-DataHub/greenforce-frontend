@@ -34,7 +34,7 @@ limitations under the License.
         {{ t("columns.gln") }}
       </mat-header-cell>
       <mat-cell *matCellDef="let element">
-        {{ element.actor?.gln.value | dhEmDashFallback }}
+        {{ element.actor?.actorNumber.value | dhEmDashFallback }}
       </mat-cell>
     </ng-container>
 

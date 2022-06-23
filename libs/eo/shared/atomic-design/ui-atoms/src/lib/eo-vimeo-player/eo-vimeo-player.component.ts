@@ -86,7 +86,7 @@ export class EoVimeoPlayerComponent {
     ));
 
     if (maybePosterUrl === null) {
-      console.error(`The specified Viemo poster URL is unsafe: "${url}"`);
+      console.error(`The specified Vimeo poster URL is unsafe: "${url}"`);
 
       return;
     }

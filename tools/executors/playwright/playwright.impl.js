@@ -437,17 +437,20 @@ function runPlaywright(baseUrl, opts, context) {
         case 0:
           projectname = context.projectName;
           sourceRoot = context.workspace.projects[projectname].sourceRoot;
-          playwrightCommand =
-            'playwright test ' +
-            sourceRoot +
-            ' --config=' +
-            opts.playwrightConfig;
+          playwrightCommand = 'playwright test '
+            .concat(sourceRoot, ' --config=')
+            .concat(opts.playwrightConfig);
           if (opts.include) {
-            playwrightCommand += ' --grep="' + escapeRegExp(opts.include) + '"';
+            playwrightCommand += ' --grep="'.concat(
+              escapeRegExp(opts.include),
+              '"'
+            );
           }
           if (opts.exclude) {
-            playwrightCommand +=
-              ' --grep-invert="' + escapeRegExp(opts.exclude) + '"';
+            playwrightCommand += ' --grep-invert="'.concat(
+              escapeRegExp(opts.exclude),
+              '"'
+            );
           }
           if (opts.debug) {
             process.env.PWDEBUG = '1';
@@ -460,6 +463,7 @@ function runPlaywright(baseUrl, opts, context) {
               {
                 commands: [playwrightCommand],
                 parallel: true,
+                __unparsed__: [],
               },
               context
             ),

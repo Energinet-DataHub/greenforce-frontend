@@ -17,8 +17,8 @@
 import { Component, NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { TranslocoModule } from '@ngneat/transloco';
+import { MsalService } from '@azure/msal-angular';
 
-import { MsalService } from '@energinet-datahub/dh/auth/msal';
 import { WattButtonModule, WattShellModule } from '@energinet-datahub/watt';
 import { DhLanguagePickerModule } from '@energinet-datahub/dh/globalization/feature-language-picker';
 

@@ -22,12 +22,10 @@ import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
   styles: [
     `
       :host {
-        --eo-scroll-view-padding: var(--watt-space-m);
-
         display: block;
         word-break: break-word;
 
-        padding: var(--eo-scroll-view-padding);
+        padding: var(--watt-space-m);
 
         background: var(--watt-color-neutral-white);
         border-radius: var(--watt-space-xs);
@@ -35,9 +33,7 @@ import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
 
       // This is the contents of the privacy policy with the custom scrollbar
       .content {
-        max-height: calc(
-          400px - calc(2 * var(--eo-scroll-view-padding))
-        ); // Magic number by designer
+        max-height: calc(100vh - 440px); // Magic number by designer
         word-break: break-word;
         overflow-y: scroll;
         padding-right: var(--watt-space-m);

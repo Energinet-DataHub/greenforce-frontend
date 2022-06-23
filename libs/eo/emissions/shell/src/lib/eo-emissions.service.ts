@@ -20,12 +20,11 @@ import {
   EoApiEnvironment,
   eoApiEnvironmentToken,
 } from '@energinet-datahub/eo/shared/environments';
-import { map, Observable } from 'rxjs';
 
 interface EoEmissionsResponse {
   emissions: [
     {
-      dataFrom: number;
+      dateFrom: number;
       dateTo: number;
       total: {
         unit: string;
@@ -39,28 +38,19 @@ interface EoEmissionsResponse {
   ];
 }
 
-export interface EoEmissions {
-  dataFrom: number;
-  dateTo: number;
-  total: { unit: string; value: number };
-  relative: { unit: string; value: number };
-}
-
 @Injectable({
   providedIn: 'root',
 })
 export class EoEmissionsService {
   #apiBase: string;
 
-  getCO2Total(): Observable<number> {
-    return this.http
-      .get<EoEmissionsResponse>(
-        `${
-          this.#apiBase
-        }/emissions?dateFrom=1609455600&dateTo=1640991599&aggregation=Total`,
-        { withCredentials: true }
-      )
-      .pipe(map((response) => response.emissions[0].total.value));
+  getEmissionsFor2021() {
+    return this.http.get<EoEmissionsResponse>(
+      `${
+        this.#apiBase
+      }/emissions?dateFrom=1609459200&dateTo=1640995199&aggregation=Total`,
+      { withCredentials: true }
+    );
   }
 
   constructor(

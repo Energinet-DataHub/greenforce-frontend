@@ -16,14 +16,14 @@
  */
 import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { EoLogOutStore } from '@energinet-datahub/eo/auth/data-access-security';
 import { EoPrivacyPolicyScam } from '@energinet-datahub/eo/shared/atomic-design/feature-molecules';
 import {
   EoFooterScam,
   EoHeaderScam,
 } from '@energinet-datahub/eo/shared/atomic-design/ui-organisms';
-import { EoLogOutStore } from '@energinet-datahub/eo/auth/data-access-security';
 import { WattButtonModule, WattCheckboxModule } from '@energinet-datahub/watt';
-
+import { EoScrollViewScam } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 import { EoAuthTermsStore } from './eo-auth-terms.store';
 
 @Component({
@@ -31,15 +31,6 @@ import { EoAuthTermsStore } from './eo-auth-terms.store';
   selector: 'eo-auth-terms',
   styles: [
     `
-      // 1. Fill viewport.
-
-      :host {
-        display: flex; // [1]
-        flex-direction: column; // [1]
-        height: 100vh; // [1]
-      }
-
-      // [1]
       eo-header,
       eo-footer {
         flex-grow: 0;
@@ -47,7 +38,6 @@ import { EoAuthTermsStore } from './eo-auth-terms.store';
         flex-basis: auto;
       }
 
-      // [1]
       .content-box {
         flex-grow: 1;
         flex-shrink: 1;
@@ -65,26 +55,28 @@ import { EoAuthTermsStore } from './eo-auth-terms.store';
     <div class="content-box watt-space-inset-l">
       <div class="eo-layout-centered-content">
         <div class="content-wrapper">
-          <eo-privacy-policy
-            class="watt-space-stack-l"
-            (versionChange)="onVersionChange($event)"
-          ></eo-privacy-policy>
-
+          <eo-scroll-view>
+            <eo-privacy-policy
+              class="watt-space-stack-l"
+              (versionChange)="onVersionChange($event)"
+            ></eo-privacy-policy>
+          </eo-scroll-view>
           <div class="watt-space-stack-l">
-            <watt-checkbox [(ngModel)]="hasAcceptedTerms"
-              >I have seen the Privacy Policy</watt-checkbox
-            >
+            <watt-checkbox [(ngModel)]="hasAcceptedTerms">
+              I have seen the Privacy Policy
+            </watt-checkbox>
           </div>
 
           <watt-button
             class="watt-space-inline-m"
             variant="secondary"
             (click)="onCancel()"
-            >Back
+          >
+            Back
           </watt-button>
 
-          <watt-button variant="primary" (click)="onAccept()"
-            >Accept terms
+          <watt-button variant="primary" (click)="onAccept()">
+            Accept terms
           </watt-button>
         </div>
       </div>
@@ -129,6 +121,7 @@ export class EoAuthFeatureTermsComponent {
     EoFooterScam,
     EoHeaderScam,
     EoPrivacyPolicyScam,
+    EoScrollViewScam,
   ],
 })
 export class EoAuthFeatureTermsScam {}
