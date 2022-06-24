@@ -87,16 +87,12 @@ import { EoPrivacyPolicyStore } from './eo-privacy-policy.store';
       }
     `,
   ],
-  template: `
-    <small>Version {{ version$ | push }}</small>
-    <div class="policy" [innerHTML]="privacyPolicy$ | push"></div>
-  `,
+  template: ` <div class="policy" [innerHTML]="privacyPolicy$ | push"></div> `,
   viewProviders: [EoPrivacyPolicyStore],
 })
 export class EoPrivacyPolicyComponent {
   @Output() versionChange = this.store.version$;
 
-  version$: Observable<string> = this.store.version$;
   privacyPolicy$: Observable<string> = this.store.privacyPolicy$;
 
   constructor(private store: EoPrivacyPolicyStore) {}

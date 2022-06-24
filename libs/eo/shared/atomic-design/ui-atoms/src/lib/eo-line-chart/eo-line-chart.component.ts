@@ -68,6 +68,8 @@ export class EoLineChartComponent implements DoCheck {
   }
 
   inputDiffersFromCurrentData() {
+    if (this.data.length === 0) return false;
+
     return (
       this.data.map(({ value }) => value) !== this.chartData.datasets[0].data
     );
