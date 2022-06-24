@@ -19,7 +19,7 @@ import { Component, NgModule } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslocoModule } from '@ngneat/transloco';
 import { LetModule, PushModule } from '@rx-angular/template';
-import { map } from 'rxjs';
+import { map, Subject } from 'rxjs';
 
 import {
   ActorChanges,
@@ -57,14 +57,15 @@ export class DhMarketParticipantEditActorComponent {
       actorId: params[dhMarketParticipantActorIdParam] as string,
     }))
   );
+  triggerValidationSubject = new Subject<void>();
   isLoading$ = this.store.isLoading$;
   isEditing$ = this.store.isEditing$;
   actor$ = this.store.actor$;
   validation$ = this.store.validation$;
   gridAreas$ = this.store.gridAreas$;
   selectedGridAreas$ = this.store.selectedGridAreas$;
-  marketRolesEicFunctions$ = this.store.marketRolesEicFunctions$;
   contacts$ = this.store.contacts$;
+  triggerValidation$ = this.triggerValidationSubject.asObservable();
 
   constructor(
     private store: DhMarketParticipantEditActorDataAccessApiStore,
@@ -94,6 +95,7 @@ export class DhMarketParticipantEditActorComponent {
   };
 
   readonly onSaved = () => {
+    this.triggerValidationSubject.next();
     this.store.save(this.backToOverview);
   };
 

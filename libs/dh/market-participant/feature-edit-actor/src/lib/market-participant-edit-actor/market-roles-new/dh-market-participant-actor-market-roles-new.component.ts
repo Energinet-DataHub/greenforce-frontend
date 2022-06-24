@@ -25,6 +25,7 @@ import {
   ChangeDetectionStrategy,
   OnChanges,
   ChangeDetectorRef,
+  OnInit,
 } from '@angular/core';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { MatTableModule } from '@angular/material/table';
@@ -44,6 +45,7 @@ import {
 } from '@energinet-datahub/dh/shared/domain';
 import { MarketRoleService } from './market-role.service';
 import { MarketRoleChanges } from '@energinet-datahub/dh/market-participant/data-access-api';
+import { Observable } from 'rxjs';
 
 interface EditableMarketRoleRow {
   marketRole: { marketRole?: EicFunction };
@@ -62,11 +64,12 @@ interface EditableMarketRoleRow {
   providers: [MarketRoleService],
 })
 export class DhMarketParticipantActorMarketRolesNewComponent
-  implements OnChanges
+  implements OnChanges, OnInit
 {
   @Input() gridAreas: GridAreaDto[] = [];
 
   @Input() actorMarketRoles?: ActorMarketRoleDto[] = [];
+  @Input() triggerValidation?: Observable<void>;
 
   @Output() changed = new EventEmitter<MarketRoleChanges>();
 
@@ -91,6 +94,14 @@ export class DhMarketParticipantActorMarketRolesNewComponent
     private translocoService: TranslocoService,
     private marketRoleService: MarketRoleService
   ) {}
+
+  ngOnInit(): void {
+    this.triggerValidation?.subscribe(() => {
+      // todo: missing a way to trigger validation on dropdown
+      // @ViewChildren(WattDropdownComponent)
+      // readonly dropDowns: QueryList<WattDropdownComponent> = new QueryList<WattDropdownComponent>();
+    });
+  }
 
   ngOnChanges() {
     this.marketRoles = this.availableMarketRoles.map((mr) => ({
@@ -156,11 +167,34 @@ export class DhMarketParticipantActorMarketRolesNewComponent
         return m;
       }, new Map());
 
-    const marketRoleChanges: MarketRoleChanges = { marketRoles: [] };
+    const marketRoleChanges: MarketRoleChanges = {
+      marketRoles: [],
+      isValid: true,
+      errorMessage: '',
+    };
 
     grouped.forEach((v, k) =>
       marketRoleChanges.marketRoles.push({ marketRole: k, gridAreas: v })
     );
+
+    marketRoleChanges.isValid = this.rows.reduce(
+      (r, v) =>
+        r &&
+        v.changed.marketRole !== undefined &&
+        v.changed.marketRole !== null &&
+        v.changed.gridArea !== undefined &&
+        v.changed.gridArea !== null &&
+        v.changed.meteringPointTypes !== undefined &&
+        v.changed.meteringPointTypes !== null &&
+        v.changed.meteringPointTypes.length > 0,
+      marketRoleChanges.isValid
+    );
+
+    marketRoleChanges.errorMessage = marketRoleChanges.isValid
+      ? ''
+      : this.translocoService.translate(
+          `marketParticipant.actor.create.marketRoles.invalidConfiguration`
+        );
 
     this.changed.emit(marketRoleChanges);
   };

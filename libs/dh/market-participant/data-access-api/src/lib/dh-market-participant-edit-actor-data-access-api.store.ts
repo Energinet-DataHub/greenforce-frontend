@@ -44,6 +44,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { parseErrorResponse } from './dh-market-participant-error-handling';
 
 export interface MarketRoleChanges {
+  isValid: boolean;
+  errorMessage: string;
   marketRoles: MarketRole[];
 }
 
@@ -87,7 +89,11 @@ export interface MarketParticipantEditActorState {
 
   meteringPointTypeChanges: MeteringPointTypeChanges;
   gridAreaChanges: GridAreaDto[];
-  marketRoles: ActorMarketRoleDto[];
+  marketRoles: {
+    isValid: boolean;
+    errorMessage: string;
+    marketRoles: ActorMarketRoleDto[];
+  };
 
   addedContacts: ActorContactChanges[];
   removedContacts: ActorContactDto[];
@@ -108,7 +114,7 @@ const initialState: MarketParticipantEditActorState = {
     actorNumber: '',
     status: ActorStatus.New,
   },
-  marketRoles: [],
+  marketRoles: { isValid: true, errorMessage: '', marketRoles: [] },
   meteringPointTypeChanges: { meteringPointTypes: [] },
   gridAreaChanges: [],
   addedContacts: [],
@@ -127,11 +133,6 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
   changes$ = this.select((state) => state.changes);
   gridAreas$ = this.select((state) => state.gridAreas);
   selectedGridAreas$ = this.select((state) => state.gridAreaChanges);
-  marketRolesEicFunctions$ = this.select((state) => state.marketRoles).pipe(
-    map((marketRoles) =>
-      marketRoles.map((marketRole) => marketRole.eicFunction)
-    )
-  );
   contacts$ = this.select((state) => state.contacts);
 
   constructor(
@@ -141,12 +142,19 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
     super(initialState);
   }
 
-  readonly save = this.effect((onSaveCompletedFn$: Observable<() => void>) =>
-    onSaveCompletedFn$.pipe(
+  readonly save = this.effect((onSaveCompletedFn$: Observable<() => void>) => {
+    return onSaveCompletedFn$.pipe(
       tap(() => this.patchState({ isLoading: true, validation: undefined })),
       withLatestFrom(this.state$),
-      switchMap(([onSaveCompletedFn, state]) =>
-        this.saveActor(state).pipe(
+      switchMap(([onSaveCompletedFn, state]) => {
+        if (!state.marketRoles.isValid) {
+          this.patchState({
+            isLoading: false,
+            validation: { error: state.marketRoles.errorMessage },
+          });
+          return of();
+        }
+        return this.saveActor(state).pipe(
           switchMap((actorId) =>
             this.removeContacts(state.organizationId, actorId, state).pipe(
               switchMap(() =>
@@ -170,10 +178,10 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
               });
             }
           )
-        )
-      )
-    )
-  );
+        );
+      })
+    );
+  });
 
   readonly loadInitialData = this.effect(
     (routeParams$: Observable<{ organizationId: string; actorId: string }>) =>
@@ -232,7 +240,11 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
             actor: {
               ...response,
             },
-            marketRoles: response.marketRoles,
+            marketRoles: {
+              isValid: true,
+              errorMessage: '',
+              marketRoles: response.marketRoles,
+            },
           });
         })
       )
@@ -317,7 +329,7 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
           state.organizationId,
           actor.actorId,
           {
-            marketRoles: state.marketRoles,
+            marketRoles: state.marketRoles.marketRoles,
             status: state.changes.status,
           }
         )
@@ -327,7 +339,7 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
     return this.httpClient
       .v1MarketParticipantOrganizationOrgIdActorPost(state.organizationId, {
         actorNumber: { value: state.changes.actorNumber },
-        marketRoles: state.marketRoles,
+        marketRoles: state.marketRoles.marketRoles,
       })
       .pipe(map((id) => id));
   };
@@ -339,10 +351,14 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
 
   readonly setMarketRoleChanges = (changes: MarketRoleChanges) =>
     this.patchState({
-      marketRoles: changes.marketRoles.map((mrc) => ({
-        eicFunction: mrc.marketRole,
-        gridAreas: mrc.gridAreas,
-      })),
+      marketRoles: {
+        isValid: changes.isValid,
+        errorMessage: changes.errorMessage,
+        marketRoles: changes.marketRoles.map((mrc) => ({
+          eicFunction: mrc.marketRole,
+          gridAreas: mrc.gridAreas,
+        })),
+      },
     });
 
   readonly setContactChanges = (

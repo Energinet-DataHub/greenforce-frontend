@@ -57,6 +57,7 @@ limitations under the License.
               [gridAreas]="gridAreas$ | push"
               [actorMarketRoles]="actor?.marketRoles"
               (changed)="onMarketRolesChange($event)"
+              [triggerValidation]="triggerValidation$"
             >
             </dh-market-participant-actor-market-roles-new>
           </watt-tab>

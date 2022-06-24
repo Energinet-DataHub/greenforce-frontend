@@ -318,7 +318,8 @@
         "marketRoles": {
           "marketRole": "Market role",
           "gridArea": "Grid area",
-          "meteringPointTypes": "Metering point types"
+          "meteringPointTypes": "Metering point types",
+          "invalidConfiguration": "Market roles are not correctly configured"
         }
       }
     },
