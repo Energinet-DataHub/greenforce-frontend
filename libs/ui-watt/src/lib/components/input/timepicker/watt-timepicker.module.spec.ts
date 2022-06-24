@@ -179,6 +179,7 @@ describe(WattTimepickerModule.name, () => {
 
       userEvent.click(sliderToggle);
 
+      expect(sliderToggle).toBeDisabled();
       expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
     });
 
