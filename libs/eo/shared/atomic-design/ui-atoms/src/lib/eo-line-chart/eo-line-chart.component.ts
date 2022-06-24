@@ -39,6 +39,7 @@ export class EoLineChartComponent implements DoCheck {
       legend: {
         display: false,
       },
+      tooltip: { enabled: false },
       datalabels: {
         display: false,
       },
