@@ -46,7 +46,7 @@ import { EoEmissionsStore } from './eo-emissions.store';
       <h4>Your emissions in 2021</h4>
       <div class="output watt-space-stack-m">
         <h1 *ngIf="loadingDone$ | async; else loading">
-          {{ convertToKg((totalCO2$ | async)?.value || 0) }} kg
+          {{ convertToKg((totalCO2$ | async)?.value || 0).toLocaleString() }} kg
         </h1>
         <h3>CO<sub>2</sub></h3>
       </div>
@@ -75,7 +75,7 @@ export class EoEmissionsPageInfoComponent {
   convertToKg(num: number): number {
     if (!num || Number.isNaN(num)) return 0;
 
-    return Number((num / 1000).toFixed(2));
+    return Number((num / 1000).toFixed(0));
   }
 }
 
