@@ -21,6 +21,7 @@ import { MatCardModule } from '@angular/material/card';
 import { WattSpinnerModule } from '@energinet-datahub/watt';
 import { EoLineChartScam } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 import { EoConsumptionStore, EoMeasurementData } from './eo-consumption.store';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'eo-consumption-line-chart',
@@ -30,9 +31,7 @@ import { EoConsumptionStore, EoMeasurementData } from './eo-consumption.store';
       <div *ngIf="(loadingDone$ | async) === false" class="loadingObfuscator">
         <watt-spinner [diameter]="100"></watt-spinner>
       </div>
-      <eo-line-chart
-        [data]="convertTokWh((measurements$ | async) || [])"
-      ></eo-line-chart>
+      <eo-line-chart [data]="getDataInkWh()"></eo-line-chart>
     </ng-container>
   </mat-card>`,
   styles: [
@@ -58,15 +57,16 @@ import { EoConsumptionStore, EoMeasurementData } from './eo-consumption.store';
 })
 export class EoConsumptionLineChartComponent {
   loadingDone$ = this.store.loadingDone$;
-  measurements$ = this.store.measurements$;
 
   constructor(private store: EoConsumptionStore) {}
 
-  convertTokWh(measurements: EoMeasurementData[]): EoMeasurementData[] {
-    return measurements.map((data) => {
-      data.value = Number((data.value / 1000).toFixed(0));
-      return data;
-    });
+  getDataInkWh() {
+    let data;
+    this.store.measurements$
+      .pipe(take(1))
+      .subscribe((measurements) => (data = measurements));
+
+    return data ?? [];
   }
 }
 
