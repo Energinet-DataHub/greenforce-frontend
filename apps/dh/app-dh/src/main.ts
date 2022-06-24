@@ -41,10 +41,7 @@ Promise.all([
     platformBrowserDynamic([
       { provide: dhApiEnvironmentToken, useValue: dhApiEnvironment },
       { provide: dhB2CEnvironmentToken, useValue: dhB2CEnvironment },
-      {
-        provide: dhAppEnvironmentToken,
-        useValue: dhAppEnvironment,
-      },
+      { provide: dhAppEnvironmentToken, useValue: dhAppEnvironment },
     ]).bootstrapModule(DataHubAppModule);
   })
   .catch((error: unknown) => console.error(error));
