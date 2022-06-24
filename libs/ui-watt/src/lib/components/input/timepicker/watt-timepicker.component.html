@@ -57,6 +57,7 @@ limitations under the License.
     mat-icon-button
     class="watt-timepicker-slider-toggle"
     type="button"
+    [disabled]="disabled"
     [attr.aria-pressed]="sliderOpen"
     (click)="toggleSlider()"
     (focusin)="onFocusIn()"
