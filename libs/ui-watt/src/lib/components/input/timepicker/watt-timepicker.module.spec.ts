@@ -35,15 +35,17 @@ describe(WattTimepickerModule.name, () => {
   async function setup({
     template,
     initialState = null,
+    disabled = false,
   }: {
     template: string;
     initialState?: WattRange | null;
+    disabled?: boolean;
   }) {
     @Component({
       template,
     })
     class TestComponent {
-      timeRangeControl = new FormControl(initialState);
+      timeRangeControl = new FormControl({ value: initialState, disabled });
       timeRangeModel = initialState;
     }
 
@@ -166,6 +168,15 @@ describe(WattTimepickerModule.name, () => {
       const sliderToggle = screen.queryByRole('button') as HTMLButtonElement;
 
       userEvent.click(sliderToggle);
+      userEvent.click(sliderToggle);
+
+      expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+    });
+
+    it('disables slider button', async () => {
+      await setup({ template, disabled: true });
+      const sliderToggle = screen.queryByRole('button') as HTMLButtonElement;
+
       userEvent.click(sliderToggle);
 
       expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
