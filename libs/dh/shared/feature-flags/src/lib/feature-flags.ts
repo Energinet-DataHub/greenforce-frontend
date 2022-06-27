@@ -16,7 +16,10 @@
  */
 import { DhAppEnvironment } from '@energinet-datahub/dh/shared/environments';
 
-export type DhFeatureFlagEnvironment = Exclude<DhAppEnvironment, DhAppEnvironment.preProd>;
+export type DhFeatureFlagEnvironment = Exclude<
+  DhAppEnvironment,
+  DhAppEnvironment.preProd
+>;
 
 export type DhFeatureFlag = {
   created: string;

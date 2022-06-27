@@ -51,7 +51,7 @@ export class DhFeatureFlagsService {
      * Treat pre-prod as prod
      */
     this.environment =
-      dhEnvironment.current === (DhAppEnvironment.preProd)
+      dhEnvironment.current === DhAppEnvironment.preProd
         ? DhAppEnvironment.prod
         : dhEnvironment.current;
   }
