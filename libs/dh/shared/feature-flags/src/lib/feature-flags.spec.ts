@@ -33,9 +33,12 @@ const cases = Object.keys(DhFeatureFlagsConfig).map((featureFlag) => {
   return [featureFlag, diffInDays];
 });
 
-test.each(cases || [])(
-  `The feature flag: "%s" must not be older than ${maxAgeOfDays} days, but is %s days old!`,
-  (_, ageOfFeatureFlag) => {
-    expect(ageOfFeatureFlag).toBeLessThanOrEqual(maxAgeOfDays);
-  }
-);
+// Avoid "Error: `.each` called with an empty Array of table data."
+if(cases.length > 0) {
+  test.each(cases)(
+    `The feature flag: "%s" must not be older than ${maxAgeOfDays} days, but is %s days old!`,
+    (_, ageOfFeatureFlag) => {
+      expect(ageOfFeatureFlag).toBeLessThanOrEqual(maxAgeOfDays);
+    }
+  );
+}
