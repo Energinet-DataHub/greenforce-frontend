@@ -16,6 +16,7 @@
  */
 .watt-modal-panel {
   mat-dialog-container {
+    position: relative;
     display: grid;
     gap: var(--watt-space-m);
     grid-template-rows: auto 1fr auto;
@@ -23,6 +24,14 @@
       "title"
       "content"
       "actions";
+  }
+
+  .watt-modal-close {
+    position: absolute;
+    top: var(--watt-space-m);
+    right: var(--watt-space-m);
+    margin-right: -4px; // align with buttons and scrollbar
+    color: var(--watt-color-primary);
   }
 
   .watt-modal-title {
