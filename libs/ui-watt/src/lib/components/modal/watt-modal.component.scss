@@ -14,4 +14,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './lib/b2c-config';
+.watt-modal-panel {
+  mat-dialog-container {
+    display: grid;
+    gap: var(--watt-space-m);
+    grid-template-rows: auto 1fr auto;
+    grid-template-areas:
+      "title"
+      "content"
+      "actions";
+  }
+
+  .watt-modal-title {
+    grid-area: title;
+    margin: 0;
+  }
+
+  .watt-modal-content {
+    grid-area: content;
+    overflow: auto;
+    border: 1px solid var(--watt-color-neutral-grey-300);
+    border-left: none;
+    border-right: none;
+  }
+
+  watt-modal-actions {
+    grid-area: actions;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: end;
+    gap: var(--watt-space-m);
+  }
+}

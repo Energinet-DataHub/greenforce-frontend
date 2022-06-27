@@ -14,4 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './lib/b2c-config';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ViewEncapsulation,
+} from '@angular/core';
+
+@Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
+  selector: 'watt-<%= fileName %>',
+  styleUrls: ['./watt-<%= fileName %>.component.scss'],
+  templateUrl: './watt-<%= fileName %>.component.html',
+})
+export class Watt<%= className %>Component {}

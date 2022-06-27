@@ -30,6 +30,13 @@ import DatalabelsPlugin, { Context } from 'chartjs-plugin-datalabels';
     [plugins]="chartPlugins"
   >
   </canvas>`,
+  styles: [
+    `
+      :host {
+        display: block;
+      }
+    `,
+  ],
 })
 export class EoPieChartComponent implements DoCheck {
   @ViewChild(BaseChartDirective) chart!: BaseChartDirective;
@@ -47,7 +54,6 @@ export class EoPieChartComponent implements DoCheck {
   #wattTextNormalSize = 16;
 
   public chartOptions: ChartConfiguration['options'] = {
-    responsive: true,
     plugins: {
       tooltip: { enabled: false },
       legend: {

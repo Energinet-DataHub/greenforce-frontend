@@ -31,18 +31,16 @@ import { WattIconModule, WattIconSize } from '@energinet-datahub/watt';
   template: `
     <eo-inline-message type="warning">
       <watt-icon name="primary_info" [size]="iconSize.Large"></watt-icon>
-
       <p>
         The Energy Origin Platform is <strong>under development</strong> and new
         functionalities will be released continuously. The first release of the
         platform only offers <strong>data for companies</strong>. Data for
-        private users is intended to form part of one of the next releases. More
-        functionality will be released on an ongoing basis. If you want to
-        influence the new functionality, join us at our
+        private users is intended to form part of one of the next releases. If
+        you want to influence the new functionality, join us at our
         <a
           href="https://www.linkedin.com/groups/12643238/"
-          rel="noopener noreferrer"
           target="_blank"
+          rel="noopener noreferrer"
           >LinkedIn group</a
         >.
       </p>

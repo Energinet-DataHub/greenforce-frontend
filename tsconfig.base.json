@@ -231,7 +231,8 @@
       "@energinet-datahub/gf/util-browser": [
         "libs/gf/util-browser/src/index.ts"
       ],
-      "@energinet-datahub/watt": ["libs/ui-watt/src/index.ts"]
+      "@energinet-datahub/watt": ["libs/ui-watt/src/index.ts"],
+      "rxjs": ["./node_modules/rxjs"]
     }
   },
   "exclude": ["node_modules", "tmp"]

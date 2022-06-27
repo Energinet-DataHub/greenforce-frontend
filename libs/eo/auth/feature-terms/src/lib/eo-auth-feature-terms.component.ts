@@ -55,13 +55,13 @@ import { EoAuthTermsStore } from './eo-auth-terms.store';
     <div class="content-box watt-space-inset-l">
       <div class="eo-layout-centered-content">
         <div class="content-wrapper">
-          <eo-scroll-view>
+          <eo-scroll-view class="watt-space-stack-l">
             <eo-privacy-policy
               class="watt-space-stack-l"
               (versionChange)="onVersionChange($event)"
             ></eo-privacy-policy>
           </eo-scroll-view>
-          <div class="watt-space-stack-l">
+          <div class="watt-space-stack-m">
             <watt-checkbox [(ngModel)]="hasAcceptedTerms">
               I have seen the Privacy Policy
             </watt-checkbox>
