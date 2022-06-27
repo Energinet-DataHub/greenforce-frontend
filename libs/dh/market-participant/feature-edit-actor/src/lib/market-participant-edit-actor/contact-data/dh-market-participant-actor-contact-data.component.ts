@@ -159,13 +159,10 @@ export class DhMarketParticipantActorContactDataComponent implements OnChanges {
       newModified.reduce(
         (r, n) =>
           r &&
-          n.category !== undefined &&
-          n.category !== null &&
-          n.name !== undefined &&
-          n.name !== null &&
+          !!n.category &&
+          !!n.name &&
           n.name.length > 0 &&
-          n.email !== undefined &&
-          n.email !== null &&
+          !!n.email &&
           n.email.length > 0,
         true
       );

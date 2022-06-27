@@ -175,12 +175,9 @@ export class DhMarketParticipantActorMarketRolesComponent
     marketRoleChanges.isValid = this.rows.reduce(
       (r, v) =>
         r &&
-        v.changed.marketRole !== undefined &&
-        v.changed.marketRole !== null &&
-        v.changed.gridArea !== undefined &&
-        v.changed.gridArea !== null &&
-        v.changed.meteringPointTypes !== undefined &&
-        v.changed.meteringPointTypes !== null &&
+        !!v.changed.marketRole &&
+        !!v.changed.gridArea &&
+        !!v.changed.meteringPointTypes &&
         v.changed.meteringPointTypes.length > 0,
       marketRoleChanges.isValid
     );
