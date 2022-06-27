@@ -20,14 +20,13 @@ import { dhLocalAppEnvironment } from '@energinet-datahub/dh/shared/assets';
 import { environment } from '../environment';
 
 export interface DhAppEnvironmentConfig {
-  current: string;
+  current: DhAppEnvironments;
 }
 
 export enum DhAppEnvironments {
   local = 'localhost',
   dev = 'u-001',
   test = 't-001',
-  preProd = 'b-001',
   prod = 'b-002',
 }
 

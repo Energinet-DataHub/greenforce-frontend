@@ -14,25 +14,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { DhFeatureFlag, featureFlags } from './feature-flags';
+import { differenceInDays, parse } from 'date-fns';
+import { DhFeatureFlag, DhFeatureFlags, DhFeatureFlagsConfig } from './feature-flags';
 
-/**
- * Ensure we don't have multiple feature flags with the same name
- */
-test('should not have multiple feature flags with the same name', () => {
-  expect(() => {
-    findDuplicates(featureFlags);
-  }).not.toThrowError();
+const maxAgeOfDays = 14;
+
+const cases = Object.keys(DhFeatureFlagsConfig).map(featureFlag => {
+  const created = (DhFeatureFlagsConfig[featureFlag as DhFeatureFlags] as DhFeatureFlag).created;
+  const parsedDate = parse(created, 'dd-MM-yyyy', new Date());
+  const diffInDays = differenceInDays(new Date(), parsedDate);
+
+  return [featureFlag, diffInDays];
 });
 
-function findDuplicates(featureFlags: DhFeatureFlag[]): void {
-  const featureFlagNames = featureFlags.map((featureFlag) => featureFlag.name);
-  const duplicates = featureFlagNames.filter(
-    (name, index) => featureFlagNames.indexOf(name) !== index
-  );
-  if (duplicates.length === 0) return;
+test.each(cases)(
+  `The feature flag: "%s" must not be older than ${maxAgeOfDays} days, but is %s days old!`,
+  (_, ageOfFeatureFlag) => {
+    expect(ageOfFeatureFlag).toBeLessThanOrEqual(maxAgeOfDays);
+  }
+);
 
-  throw new Error(
-    `Found multiple feature flags having the same name: ${duplicates}`
-  );
-}
+
+

@@ -20,13 +20,13 @@ import {
   DhAppEnvironments,
   dhAppEnvironmentToken,
 } from '@energinet-datahub/dh/shared/environments';
-import { DhFeatureFlag, featureFlags } from './feature-flags';
+import { DhFeatureFlagsConfig, DhFeatureFlags, FeatureFlagConfig } from './feature-flags';
 
-export const dhFeatureFlagsToken = new InjectionToken<DhFeatureFlag[]>(
+export const dhFeatureFlagsToken = new InjectionToken<FeatureFlagConfig>(
   'dhFeatureFlagsToken',
   {
-    factory: (): DhFeatureFlag[] => {
-      return featureFlags;
+    factory: (): FeatureFlagConfig => {
+      return DhFeatureFlagsConfig;
     },
   }
 );
@@ -35,18 +35,23 @@ export const dhFeatureFlagsToken = new InjectionToken<DhFeatureFlag[]>(
   providedIn: 'root',
 })
 export class DhFeatureFlagsService {
+  private environment: DhAppEnvironments;
+
   constructor(
     @Inject(dhAppEnvironmentToken)
-    private dhEnvironment: DhAppEnvironmentConfig,
-    @Inject(dhFeatureFlagsToken) private dhFeatureFlags: DhFeatureFlag[]
-  ) {}
+    dhEnvironment: DhAppEnvironmentConfig,
+    @Inject(dhFeatureFlagsToken) private dhFeatureFlags: FeatureFlagConfig
+  ) {
+    /**
+     * Treat pre-prod as prod
+     */
+    this.environment =
+      dhEnvironment.current === ('b-001' as DhAppEnvironments)
+        ? DhAppEnvironments.prod
+        : dhEnvironment.current;
+  }
 
-  isEnabled(flagName: string): boolean {
-    const featureFlag = this.dhFeatureFlags.find(
-      (featureFlag) => featureFlag.name === flagName
-    );
-    return !featureFlag?.disabledEnvironments.includes(
-      this.dhEnvironment.current as DhAppEnvironments
-    );
+  isEnabled(flagName: DhFeatureFlags): boolean {
+    return !this.dhFeatureFlags[flagName]?.disabledEnvironments.includes(this.environment);
   }
 }

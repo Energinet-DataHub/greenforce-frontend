@@ -16,10 +16,19 @@
  */
 import { DhAppEnvironments } from '@energinet-datahub/dh/shared/environments';
 
-export interface DhFeatureFlag {
-  name: string;
+export type DhFeatureFlag = {
   created: string;
   disabledEnvironments: DhAppEnvironments[];
 }
 
-export const featureFlags: DhFeatureFlag[] = [];
+function satisfies<A>() {
+  return <T extends A>(x: T) => x;
+}
+export type FeatureFlagConfig = Record<string, DhFeatureFlag>
+const makeFeatureFlags = satisfies<FeatureFlagConfig>();
+
+export const DhFeatureFlagsConfig = makeFeatureFlags({
+  // ------ Feature flags goes here ------
+});
+
+export type DhFeatureFlags = keyof typeof DhFeatureFlagsConfig;
