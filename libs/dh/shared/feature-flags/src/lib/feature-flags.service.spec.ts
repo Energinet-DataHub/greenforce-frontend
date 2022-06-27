@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { DhAppEnvironments } from '@energinet-datahub/dh/shared/environments';
+import { DhAppEnvironment } from '@energinet-datahub/dh/shared/environments';
 
 import { DhFeatureFlags, FeatureFlagConfig } from './feature-flags';
 import { DhFeatureFlagsService } from './feature-flags.service';
@@ -22,7 +22,7 @@ import { DhFeatureFlagsService } from './feature-flags.service';
 const featureFlagMocks: FeatureFlagConfig = {
   'dummy-feature': {
     created: new Date().toISOString(),
-    disabledEnvironments: [DhAppEnvironments.prod],
+    disabledEnvironments: [DhAppEnvironment.prod],
   },
 };
 
@@ -30,7 +30,7 @@ describe('Feature flags service', () => {
   test('it should enable feature by default', () => {
     const isFeatureEnabled = new DhFeatureFlagsService(
       {
-        current: DhAppEnvironments.local,
+        current: DhAppEnvironment.local,
       },
       featureFlagMocks
     ).isEnabled('this feature flag name, does not exist' as DhFeatureFlags);
@@ -45,19 +45,14 @@ describe('Feature flags service', () => {
   const existingFeatureFlagName = 'dummy-feature';
 
   const cases = [
-    [nonExistingFeatureFlagName, DhAppEnvironments.dev, true, {}],
-    [nonExistingFeatureFlagName, DhAppEnvironments.test, true, {}],
-    [nonExistingFeatureFlagName, 'b-001', true, {}],
-    [nonExistingFeatureFlagName, DhAppEnvironments.prod, true, {}],
-    [existingFeatureFlagName, DhAppEnvironments.dev, true, featureFlagMocks],
-    [existingFeatureFlagName, DhAppEnvironments.test, true, featureFlagMocks],
-    [
-      existingFeatureFlagName,
-      'b-001', // pre-prod
-      false,
-      featureFlagMocks,
-    ],
-    [existingFeatureFlagName, DhAppEnvironments.prod, false, featureFlagMocks],
+    [nonExistingFeatureFlagName, DhAppEnvironment.dev, true, {}],
+    [nonExistingFeatureFlagName, DhAppEnvironment.test, true, {}],
+    [nonExistingFeatureFlagName, DhAppEnvironment.preProd, true, {}],
+    [nonExistingFeatureFlagName, DhAppEnvironment.prod, true, {}],
+    [existingFeatureFlagName, DhAppEnvironment.dev, true, featureFlagMocks],
+    [existingFeatureFlagName, DhAppEnvironment.test, true, featureFlagMocks],
+    [existingFeatureFlagName, DhAppEnvironment.preProd, false, featureFlagMocks],
+    [existingFeatureFlagName, DhAppEnvironment.prod, false, featureFlagMocks],
   ];
 
   test.each(cases)(
@@ -65,7 +60,7 @@ describe('Feature flags service', () => {
     (featureFlagName, environment, shouldFeatureBeEnabled, featureFlags) => {
       const isFeatureEnabled = new DhFeatureFlagsService(
         {
-          current: environment as DhAppEnvironments,
+          current: environment as DhAppEnvironment,
         },
         featureFlags as unknown as FeatureFlagConfig
       ).isEnabled(featureFlagName as DhFeatureFlags);

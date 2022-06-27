@@ -14,11 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { DhAppEnvironments } from './dh-app-environment';
+import { DhAppEnvironmentConfig } from './dh-app-environment';
 
 export function loadDhAppEnvironment(
   configurationFilename: string
-): Promise<DhAppEnvironments> {
+): Promise<DhAppEnvironmentConfig> {
   return fetch(`/assets/configuration/${configurationFilename}`).then(
     (response) => response.json()
   );

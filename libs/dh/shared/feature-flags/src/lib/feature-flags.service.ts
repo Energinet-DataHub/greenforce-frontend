@@ -17,13 +17,14 @@
 import { Inject, Injectable, InjectionToken } from '@angular/core';
 import {
   DhAppEnvironmentConfig,
-  DhAppEnvironments,
+  DhAppEnvironment,
   dhAppEnvironmentToken,
 } from '@energinet-datahub/dh/shared/environments';
 import {
   DhFeatureFlagsConfig,
   DhFeatureFlags,
   FeatureFlagConfig,
+  DhFeatureFlagEnvironment,
 } from './feature-flags';
 
 export const dhFeatureFlagsToken = new InjectionToken<FeatureFlagConfig>(
@@ -39,7 +40,7 @@ export const dhFeatureFlagsToken = new InjectionToken<FeatureFlagConfig>(
   providedIn: 'root',
 })
 export class DhFeatureFlagsService {
-  private environment: DhAppEnvironments;
+  private environment: DhFeatureFlagEnvironment;
 
   constructor(
     @Inject(dhAppEnvironmentToken)
@@ -50,8 +51,8 @@ export class DhFeatureFlagsService {
      * Treat pre-prod as prod
      */
     this.environment =
-      dhEnvironment.current === ('b-001' as DhAppEnvironments)
-        ? DhAppEnvironments.prod
+      dhEnvironment.current === (DhAppEnvironment.preProd)
+        ? DhAppEnvironment.prod
         : dhEnvironment.current;
   }
 

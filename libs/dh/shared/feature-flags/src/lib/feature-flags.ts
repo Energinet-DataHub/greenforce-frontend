@@ -14,11 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { DhAppEnvironments } from '@energinet-datahub/dh/shared/environments';
+import { DhAppEnvironment } from '@energinet-datahub/dh/shared/environments';
+
+export type DhFeatureFlagEnvironment = Exclude<DhAppEnvironment, DhAppEnvironment.preProd>;
 
 export type DhFeatureFlag = {
   created: string;
-  disabledEnvironments: DhAppEnvironments[];
+  disabledEnvironments: DhFeatureFlagEnvironment[];
 };
 
 function satisfies<A>() {
