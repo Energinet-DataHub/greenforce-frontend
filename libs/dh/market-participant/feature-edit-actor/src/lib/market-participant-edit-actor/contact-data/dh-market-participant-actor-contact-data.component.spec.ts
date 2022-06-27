@@ -34,7 +34,7 @@ describe(DhMarketParticipantActorContactDataComponent.name, () => {
       componentProperties: {
         contacts,
         contactsChanged: { emit: outputFn } as unknown as EventEmitter<{
-          isValid: boolean,
+          isValid: boolean;
           add: ActorContactChanges[];
           remove: ActorContactDto[];
         }>,
