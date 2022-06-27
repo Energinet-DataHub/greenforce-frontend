@@ -50,7 +50,9 @@ limitations under the License.
           <watt-tab [label]="t('contactsHeader')">
             <dh-market-participant-actor-contact-data
               [contacts]="contacts$ | push"
-              (contactsChanged)="onContactsChanged($event.isValid, $event.add, $event.remove)"
+              (contactsChanged)="
+                onContactsChanged($event.isValid, $event.add, $event.remove)
+              "
             >
             </dh-market-participant-actor-contact-data>
           </watt-tab>
