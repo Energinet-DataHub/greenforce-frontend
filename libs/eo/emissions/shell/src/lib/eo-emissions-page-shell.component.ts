@@ -28,7 +28,7 @@ import { EoEmissionsPageTipScam } from './eo-emissions-page-tip.component';
     `
       :host {
         display: grid;
-        grid-template-columns: 360px 584px; // Magic numbers by designer
+        grid-template-columns: 375px 547px; // Magic numbers by designer
         grid-gap: var(--watt-space-l);
       }
     `,
