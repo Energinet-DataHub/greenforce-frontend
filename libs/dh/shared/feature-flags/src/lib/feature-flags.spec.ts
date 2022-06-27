@@ -23,22 +23,24 @@ import {
 
 const maxAgeOfDays = 14;
 
-const cases = Object.keys(DhFeatureFlagsConfig).map((featureFlag) => {
-  const created = (
-    DhFeatureFlagsConfig[featureFlag as DhFeatureFlags] as DhFeatureFlag
-  ).created;
-  const parsedDate = parse(created, 'dd-MM-yyyy', new Date());
-  const diffInDays = differenceInDays(new Date(), parsedDate);
+const featureFlagCases = Object.keys(DhFeatureFlagsConfig).map(
+  (featureFlag) => {
+    const created = (
+      DhFeatureFlagsConfig[featureFlag as DhFeatureFlags] as DhFeatureFlag
+    ).created;
+    const parsedDate = parse(created, 'dd-MM-yyyy', new Date());
+    const diffInDays = differenceInDays(new Date(), parsedDate);
 
-  return [featureFlag, diffInDays];
-});
+    return [featureFlag, diffInDays];
+  }
+);
 
-// Avoid "Error: `.each` called with an empty Array of table data."
-if(cases.length > 0) {
-  test.each(cases)(
-    `The feature flag: "%s" must not be older than ${maxAgeOfDays} days, but is %s days old!`,
-    (_, ageOfFeatureFlag) => {
-      expect(ageOfFeatureFlag).toBeLessThanOrEqual(maxAgeOfDays);
-    }
-  );
-}
+test.each(
+  // Avoid "Error: `.each` called with an empty Array of table data."
+  featureFlagCases.length > 0 ? featureFlagCases : [['dummy feature flag', 0]]
+)(
+  `The feature flag: "%s" must not be older than ${maxAgeOfDays} days, but is %s days old!`,
+  (_, ageOfFeatureFlag) => {
+    expect(ageOfFeatureFlag).toBeLessThanOrEqual(maxAgeOfDays);
+  }
+);
