@@ -57,13 +57,13 @@ interface EditableMarketRoleRow {
 }
 
 @Component({
-  selector: 'dh-market-participant-actor-market-roles-new',
-  styleUrls: ['./dh-market-participant-actor-market-roles-new.component.scss'],
+  selector: 'dh-market-participant-actor-market-roles',
+  styleUrls: ['./dh-market-participant-actor-market-roles.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './dh-market-participant-actor-market-roles-new.component.html',
+  templateUrl: './dh-market-participant-actor-market-roles.component.html',
   providers: [MarketRoleService],
 })
-export class DhMarketParticipantActorMarketRolesNewComponent
+export class DhMarketParticipantActorMarketRolesComponent
   implements OnChanges, OnInit
 {
   @Input() gridAreas: GridAreaDto[] = [];
@@ -218,7 +218,7 @@ export class DhMarketParticipantActorMarketRolesNewComponent
     WattFormFieldModule,
     WattDropdownModule,
   ],
-  exports: [DhMarketParticipantActorMarketRolesNewComponent],
-  declarations: [DhMarketParticipantActorMarketRolesNewComponent],
+  exports: [DhMarketParticipantActorMarketRolesComponent],
+  declarations: [DhMarketParticipantActorMarketRolesComponent],
 })
-export class DhMarketParticipantActorMarketRolesNewComponentScam {}
+export class DhMarketParticipantActorMarketRolesComponentScam {}

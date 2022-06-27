@@ -42,7 +42,7 @@ import {
 
 import { DhMarketParticipantActorContactDataComponentScam } from './contact-data/dh-market-participant-actor-contact-data.component';
 import { DhMarketParticipantActorMasterDataComponentScam } from './master-data/dh-market-participant-actor-master-data.component';
-import { DhMarketParticipantActorMarketRolesNewComponentScam } from './market-roles-new/dh-market-participant-actor-market-roles-new.component';
+import { DhMarketParticipantActorMarketRolesComponentScam } from './market-roles/dh-market-participant-actor-market-roles.component';
 
 @Component({
   selector: 'dh-market-participant-edit-actor',
@@ -117,7 +117,7 @@ export class DhMarketParticipantEditActorComponent {
     PushModule,
     DhMarketParticipantActorMasterDataComponentScam,
     DhMarketParticipantActorContactDataComponentScam,
-    DhMarketParticipantActorMarketRolesNewComponentScam,
+    DhMarketParticipantActorMarketRolesComponentScam,
     WattValidationMessageModule,
   ],
   exports: [DhMarketParticipantEditActorComponent],

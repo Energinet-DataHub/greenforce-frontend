@@ -55,13 +55,13 @@ limitations under the License.
             </dh-market-participant-actor-contact-data>
           </watt-tab>
           <watt-tab [label]="t('marketRolesHeader') + ' (ny)'">
-            <dh-market-participant-actor-market-roles-new
+            <dh-market-participant-actor-market-roles
               [gridAreas]="gridAreas$ | push"
               [actorMarketRoles]="actor?.marketRoles"
               (changed)="onMarketRolesChange($event)"
               [triggerValidation]="triggerValidation$"
             >
-            </dh-market-participant-actor-market-roles-new>
+            </dh-market-participant-actor-market-roles>
           </watt-tab>
         </watt-tabs>
       </div>
