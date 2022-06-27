@@ -14,4 +14,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './lib/b2c-config';
+import { moduleMetadata, Story, Meta } from '@storybook/angular';
+
+import { Watt<%= className %>Module } from './watt-<%= fileName %>.module';
+import { Watt<%= className %>Component } from './watt-<%= fileName %>.component';
+
+export default {
+  title: 'Components/<%= className %>',
+  component: Watt<%= className %>Component,
+  decorators: [
+    moduleMetadata({
+      imports: [Watt<%= className %>Module],
+    }),
+  ],
+} as Meta<Watt<%= className %>Component>;
+
+export const Overview: Story<Watt<%= className %>Component> = (args) => ({
+  props: args,
+});
+
+Overview.args = {};

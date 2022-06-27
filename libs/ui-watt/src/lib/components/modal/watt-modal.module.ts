@@ -14,4 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './lib/b2c-config';
+import { NgModule } from '@angular/core';
+import { MatDialogModule } from '@angular/material/dialog';
+
+import {
+  WattModalComponent,
+  WattModalActionsComponent,
+} from './watt-modal.component';
+
+@NgModule({
+  declarations: [WattModalComponent, WattModalActionsComponent],
+  exports: [WattModalComponent, WattModalActionsComponent],
+  imports: [MatDialogModule],
+})
+export class WattModalModule {}

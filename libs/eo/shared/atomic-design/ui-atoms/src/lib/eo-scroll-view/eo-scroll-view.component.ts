@@ -33,7 +33,7 @@ import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
 
       // This is the contents of the privacy policy with the custom scrollbar
       .content {
-        max-height: calc(100vh - 440px); // Magic number by designer
+        max-height: calc(100vh - 470px); // Magic number by designer
         word-break: break-word;
         overflow-y: scroll;
         padding-right: var(--watt-space-m);

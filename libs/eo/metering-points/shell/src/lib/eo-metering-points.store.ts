@@ -24,6 +24,8 @@ export interface EoMeteringPoint {
   gsrn: string;
   /** Name of the area the metering point is registered in */
   gridArea: string;
+  /** Type of metering point, ie. consumption or production */
+  type: string;
   address: {
     /** Address line, ie. 'Dieselstraße 28' */
     address1: string;
@@ -34,7 +36,7 @@ export interface EoMeteringPoint {
     /** City name, ie. 'Wolfsburg' */
     city: string;
     /** Postcode, ie. '38446' */
-    postCode: string;
+    postalCode: string;
     /** Country-code, ie. 'DE' */
     country: string;
   };
@@ -77,9 +79,14 @@ export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState>
     this.service
       .getMeteringPoints()
       .pipe(take(1))
-      .subscribe((response) => {
-        this.setEnergySources(response.meteringPoints);
-        this.setLoadingDone(true);
+      .subscribe({
+        next: (response) => {
+          this.setEnergySources(response.meteringPoints);
+          this.setLoadingDone(true);
+        },
+        error: () => {
+          this.setLoadingDone(true);
+        },
       });
   }
 }

@@ -43,7 +43,8 @@ import { EoConsumptionStore } from './eo-consumption.store';
         Your electricity consumption in 2021
       </h4>
       <h1 *ngIf="loadingDone$ | async; else loading">
-        {{ (totalMeasurement$ | async)?.toLocaleString() || 0 }} kWh
+        {{ convertTokWh((totalMeasurement$ | async) || 0).toLocaleString() }}
+        kWh
       </h1>
     </mat-card>
 
@@ -57,6 +58,12 @@ export class EoConsumptionPageInfoComponent {
   totalMeasurement$ = this.store.totalMeasurement$;
 
   constructor(private store: EoConsumptionStore) {}
+
+  convertTokWh(wattHour: number): number {
+    if (!wattHour || Number.isNaN(wattHour)) return 0;
+
+    return Number((wattHour / 1000).toFixed(0));
+  }
 }
 
 @NgModule({

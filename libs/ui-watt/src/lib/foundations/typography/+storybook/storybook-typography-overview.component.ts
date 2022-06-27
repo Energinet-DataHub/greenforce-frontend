@@ -149,6 +149,13 @@ const typeScaleLarge: Typography[] = [
     letterCase: 'Sentence',
     letterSpacing: '0',
   },
+  {
+    html: typographyHtmlSnippets.h3.tag,
+    size: 'L',
+    weight: 'Semi-bold',
+    letterCase: 'Sentence',
+    letterSpacing: '0',
+  },
 ];
 
 @Component({
