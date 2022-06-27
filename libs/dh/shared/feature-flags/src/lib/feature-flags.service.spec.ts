@@ -60,7 +60,7 @@ describe('Feature flags service', () => {
     [existingFeatureFlagName, DhAppEnvironments.prod, false, featureFlagMocks],
   ];
 
-  test.each(cases as unknown as TemplateStringsArray)(
+  test.each(cases)(
     '"%s" in environment: %s, should be enabled: %s',
     (featureFlagName, environment, shouldFeatureBeEnabled, featureFlags) => {
       const isFeatureEnabled = new DhFeatureFlagsService(
