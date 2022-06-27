@@ -16,7 +16,7 @@
  */
 
 import { render, screen } from '@testing-library/angular';
-import user from '@testing-library/user-event';
+import userEvent from '@testing-library/user-event';
 
 import { WattChipsModule } from './watt-chips.module';
 import {
@@ -81,7 +81,7 @@ describe(WattChipsComponent.name, () => {
     const selectionChange = jest.fn();
     await setup({ options, selectionChange });
 
-    user.click(screen.getByText('Chip 1'));
+    userEvent.click(screen.getByText('Chip 1'));
 
     expect(selectionChange).nthCalledWith(1, '1');
     expect(screen.getByRole('option', { selected: true })).toHaveTextContent(
@@ -93,8 +93,8 @@ describe(WattChipsComponent.name, () => {
     const selectionChange = jest.fn();
     await setup({ options, selectionChange });
 
-    user.click(screen.getByText('Chip 2'));
-    user.click(screen.getByText('Chip 4'));
+    userEvent.click(screen.getByText('Chip 2'));
+    userEvent.click(screen.getByText('Chip 4'));
 
     expect(selectionChange).nthCalledWith(1, '2');
     expect(selectionChange).nthCalledWith(2, '4');
@@ -107,9 +107,9 @@ describe(WattChipsComponent.name, () => {
     const selectionChange = jest.fn();
     await setup({ options, selectionChange });
 
-    user.click(screen.getByText('Chip 1'));
-    user.click(screen.getByText('Chip 3'));
-    user.click(screen.getByText('Chip 3'));
+    userEvent.click(screen.getByText('Chip 1'));
+    userEvent.click(screen.getByText('Chip 3'));
+    userEvent.click(screen.getByText('Chip 3'));
 
     expect(selectionChange).nthCalledWith(1, '1');
     expect(selectionChange).nthCalledWith(2, '3');

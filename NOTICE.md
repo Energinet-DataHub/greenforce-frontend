@@ -25,8 +25,8 @@ This DataHub repository relies on open source libraries and tools. We recommend 
 | `@angular/platform-browser`          | 14.0.2        | <https://www.npmjs.com/package/@angular/platform-browser>          | MIT        |
 | `@angular/platform-browser-dynamic`  | 14.0.2        | <https://www.npmjs.com/package/@angular/platform-browser-dynamic>  | MIT        |
 | `@angular/router`                    | 14.0.2        | <https://www.npmjs.com/package/@angular/router>                    | MIT        |
-| `@azure/msal-angular`                | 2.2.0         | <https://www.npmjs.com/package/@azure/msal-angular>                | MIT        |
-| `@azure/msal-browser`                | 2.23.0        | <https://www.npmjs.com/package/@azure/msal-browser>                | MIT        |
+| `@azure/msal-angular`                | 2.3.2         | <https://www.npmjs.com/package/@azure/msal-angular>                | MIT        |
+| `@azure/msal-browser`                | 2.26.0        | <https://www.npmjs.com/package/@azure/msal-browser>                | MIT        |
 | `@ngneat/transloco`                  | 4.1.0         | <https://www.npmjs.com/package/@ngneat/transloco>                  | MIT        |
 | `@ngrx/component-store`              | 14.0.0        | <https://www.npmjs.com/package/@ngrx/component-store>              | MIT        |
 | `@nrwl/angular`                      | 14.3.6        | <https://www.npmjs.com/package/@nrwl/angular>                      | MIT        |

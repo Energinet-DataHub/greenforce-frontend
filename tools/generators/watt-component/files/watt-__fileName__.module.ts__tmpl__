@@ -14,4 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './lib/b2c-config';
+ import { NgModule } from '@angular/core';
+
+ import { Watt<%= className %>Component } from './watt-<%= fileName %>.component';
+
+ @NgModule({
+   declarations: [Watt<%= className %>Component],
+   exports: [Watt<%= className %>Component],
+ })
+ export class Watt<%= className %>Module {}
