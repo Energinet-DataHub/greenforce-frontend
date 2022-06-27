@@ -315,6 +315,9 @@
             "Deleted": "Slettet"
           }
         },
+        "contacts": {
+          "invalidConfiguration": "Kontakter er ikke korrekt konfigureret"
+        },
         "marketRoles": {
           "marketRole": "Markedsrolle",
           "gridArea": "Netområde",

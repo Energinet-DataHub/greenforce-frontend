@@ -84,10 +84,11 @@ export class DhMarketParticipantEditActorComponent {
   };
 
   readonly onContactsChanged = (
+    isValid: boolean,
     added: ActorContactChanges[],
     removed: ActorContactDto[]
   ) => {
-    this.store.setContactChanges(added, removed);
+    this.store.setContactChanges(isValid, added, removed);
   };
 
   readonly onCancelled = () => {

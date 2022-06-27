@@ -315,6 +315,9 @@
             "Deleted": "Deleted"
           }
         },
+        "contacts": {
+          "invalidConfiguration": "Contacts are not correctly configured"
+        },
         "marketRoles": {
           "marketRole": "Market role",
           "gridArea": "Grid area",

@@ -45,7 +45,6 @@ import { parseErrorResponse } from './dh-market-participant-error-handling';
 
 export interface MarketRoleChanges {
   isValid: boolean;
-  errorMessage: string;
   marketRoles: MarketRole[];
 }
 
@@ -91,18 +90,20 @@ export interface MarketParticipantEditActorState {
   gridAreaChanges: GridAreaDto[];
   marketRoles: {
     isValid: boolean;
-    errorMessage: string;
     marketRoles: ActorMarketRoleDto[];
   };
 
-  addedContacts: ActorContactChanges[];
-  removedContacts: ActorContactDto[];
+  contactChanges: {
+    isValid: boolean;
+    addedContacts: ActorContactChanges[];
+    removedContacts: ActorContactDto[];
+  };
   actorSaved: boolean;
   contactsRemoved: boolean;
   contactsAdded: boolean;
 
   // Validation
-  validation?: { error: string };
+  validation?: { translate: boolean; error: string };
 }
 
 const initialState: MarketParticipantEditActorState = {
@@ -114,11 +115,14 @@ const initialState: MarketParticipantEditActorState = {
     actorNumber: '',
     status: ActorStatus.New,
   },
-  marketRoles: { isValid: true, errorMessage: '', marketRoles: [] },
+  marketRoles: { isValid: true, marketRoles: [] },
   meteringPointTypeChanges: { meteringPointTypes: [] },
   gridAreaChanges: [],
-  addedContacts: [],
-  removedContacts: [],
+  contactChanges: {
+    isValid: true,
+    addedContacts: [],
+    removedContacts: [],
+  },
   actorSaved: false,
   contactsAdded: false,
   contactsRemoved: false,
@@ -147,10 +151,23 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
       tap(() => this.patchState({ isLoading: true, validation: undefined })),
       withLatestFrom(this.state$),
       switchMap(([onSaveCompletedFn, state]) => {
+        if (!state.contactChanges.isValid) {
+          this.patchState({
+            isLoading: false,
+            validation: {
+              translate: true,
+              error: `marketParticipant.actor.create.contacts.invalidConfiguration`,
+            },
+          });
+          return of();
+        }
         if (!state.marketRoles.isValid) {
           this.patchState({
             isLoading: false,
-            validation: { error: state.marketRoles.errorMessage },
+            validation: {
+              translate: true,
+              error: `marketParticipant.actor.create.marketRoles.invalidConfiguration`,
+            },
           });
           return of();
         }
@@ -173,6 +190,7 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
               this.patchState({
                 isLoading: false,
                 validation: {
+                  translate: false,
                   error: parseErrorResponse(errorResponse),
                 },
               });
@@ -242,7 +260,6 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
             },
             marketRoles: {
               isValid: true,
-              errorMessage: '',
               marketRoles: response.marketRoles,
             },
           });
@@ -277,12 +294,12 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
     actorId: string,
     state: MarketParticipantEditActorState
   ) => {
-    if (state.removedContacts.length === 0) {
+    if (state.contactChanges.removedContacts.length === 0) {
       return of({ ...state, contactsRemoved: true });
     }
 
     return forkJoin(
-      state.removedContacts.map((contact) =>
+      state.contactChanges.removedContacts.map((contact) =>
         this.httpClient.v1MarketParticipantOrganizationOrgIdActorActorIdContactContactIdDelete(
           organizationId,
           actorId,
@@ -297,12 +314,12 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
     actorId: string,
     state: MarketParticipantEditActorState
   ) => {
-    if (state.addedContacts.length === 0) {
+    if (state.contactChanges.addedContacts.length === 0) {
       return of({ ...state, contactsAdded: true });
     }
 
     return forkJoin(
-      state.addedContacts.map((c) =>
+      state.contactChanges.addedContacts.map((c) =>
         this.httpClient.v1MarketParticipantOrganizationOrgIdActorActorIdContactPost(
           organizationId,
           actorId,
@@ -315,6 +332,7 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
   readonly handleError = (errorResponse: HttpErrorResponse) => {
     this.patchState({
       validation: {
+        translate: false,
         error: parseErrorResponse(errorResponse),
       },
     });
@@ -353,7 +371,6 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
     this.patchState({
       marketRoles: {
         isValid: changes.isValid,
-        errorMessage: changes.errorMessage,
         marketRoles: changes.marketRoles.map((mrc) => ({
           eicFunction: mrc.marketRole,
           gridAreas: mrc.gridAreas,
@@ -362,11 +379,15 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
     });
 
   readonly setContactChanges = (
+    isValid: boolean,
     added: ActorContactChanges[],
     removed: ActorContactDto[]
   ) =>
     this.patchState({
-      addedContacts: added,
-      removedContacts: removed,
+      contactChanges: {
+        isValid: isValid,
+        addedContacts: added,
+        removedContacts: removed,
+      },
     });
 }

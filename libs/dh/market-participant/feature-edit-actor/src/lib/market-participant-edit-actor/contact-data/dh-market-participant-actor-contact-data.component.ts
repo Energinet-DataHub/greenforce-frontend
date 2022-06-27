@@ -60,6 +60,7 @@ interface EditableActorContactRow {
 export class DhMarketParticipantActorContactDataComponent implements OnChanges {
   @Input() contacts: ActorContactDto[] = [];
   @Output() contactsChanged = new EventEmitter<{
+    isValid: boolean;
     add: ActorContactChanges[];
     remove: ActorContactDto[];
   }>();
@@ -149,7 +150,28 @@ export class DhMarketParticipantActorContactDataComponent implements OnChanges {
       .filter((row) => !row.isNewPlaceholder)
       .map((row) => row.changed);
 
+    const allCategoriesUnique =
+      newModified.map((x) => x.category).filter((c, i, s) => s.indexOf(c) === i)
+        .length === newModified.length;
+
+    const isValid =
+      allCategoriesUnique &&
+      newModified.reduce(
+        (r, n) =>
+          r &&
+          n.category !== undefined &&
+          n.category !== null &&
+          n.name !== undefined &&
+          n.name !== null &&
+          n.name.length > 0 &&
+          n.email !== undefined &&
+          n.email !== null &&
+          n.email.length > 0,
+        true
+      );
+
     this.contactsChanged.emit({
+      isValid: isValid,
       add: newModified,
       remove: this.deletedContacts.concat(oldModified),
     });

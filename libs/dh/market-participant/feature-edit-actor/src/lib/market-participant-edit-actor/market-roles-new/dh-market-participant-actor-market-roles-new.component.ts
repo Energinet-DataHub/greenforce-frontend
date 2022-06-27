@@ -170,7 +170,6 @@ export class DhMarketParticipantActorMarketRolesNewComponent
     const marketRoleChanges: MarketRoleChanges = {
       marketRoles: [],
       isValid: true,
-      errorMessage: '',
     };
 
     grouped.forEach((v, k) =>
@@ -189,12 +188,6 @@ export class DhMarketParticipantActorMarketRolesNewComponent
         v.changed.meteringPointTypes.length > 0,
       marketRoleChanges.isValid
     );
-
-    marketRoleChanges.errorMessage = marketRoleChanges.isValid
-      ? ''
-      : this.translocoService.translate(
-          `marketParticipant.actor.create.marketRoles.invalidConfiguration`
-        );
 
     this.changed.emit(marketRoleChanges);
   };
