@@ -19,12 +19,12 @@ import { DhAppEnvironments } from '@energinet-datahub/dh/shared/environments';
 export type DhFeatureFlag = {
   created: string;
   disabledEnvironments: DhAppEnvironments[];
-}
+};
 
 function satisfies<A>() {
   return <T extends A>(x: T) => x;
 }
-export type FeatureFlagConfig = Record<string, DhFeatureFlag>
+export type FeatureFlagConfig = Record<string, DhFeatureFlag>;
 const makeFeatureFlags = satisfies<FeatureFlagConfig>();
 
 export const DhFeatureFlagsConfig = makeFeatureFlags({
