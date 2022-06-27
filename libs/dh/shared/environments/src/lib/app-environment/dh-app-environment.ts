@@ -40,7 +40,7 @@ export const dhAppEnvironmentToken = new InjectionToken<DhAppEnvironmentConfig>(
       }
 
       // Used for unit and integration tests
-      return dhLocalAppEnvironment as unknown as DhAppEnvironmentConfig;
+      return dhLocalAppEnvironment as DhAppEnvironmentConfig;
     },
     providedIn: 'platform',
   }
