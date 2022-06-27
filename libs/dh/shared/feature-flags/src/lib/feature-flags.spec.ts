@@ -27,12 +27,9 @@ const cases = Object.keys(DhFeatureFlagsConfig).map(featureFlag => {
   return [featureFlag, diffInDays];
 });
 
-test.each(cases)(
+test.each(cases || [])(
   `The feature flag: "%s" must not be older than ${maxAgeOfDays} days, but is %s days old!`,
   (_, ageOfFeatureFlag) => {
     expect(ageOfFeatureFlag).toBeLessThanOrEqual(maxAgeOfDays);
   }
 );
-
-
-
