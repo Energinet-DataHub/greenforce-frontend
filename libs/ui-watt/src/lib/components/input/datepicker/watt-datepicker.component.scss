@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@use '@energinet-datahub/watt/utils' as watt;
+@use "@energinet-datahub/watt/utils" as watt;
 
 $placeholder-color: var(--watt-color-neutral-grey-500);
 $input-height-normal: 44px;
@@ -63,10 +63,6 @@ watt-datepicker {
     .mat-date-range-input-inner::-webkit-input-placeholder {
     color: $placeholder-color !important;
     -webkit-text-fill-color: $placeholder-color;
-  }
-
-  .mat-datepicker-toggle {
-    color: var(--watt-color-primary);
   }
 }
 
