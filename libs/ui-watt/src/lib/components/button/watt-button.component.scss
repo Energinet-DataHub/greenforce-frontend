@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@use '@energinet-datahub/watt/utils' as watt;
+@use "@energinet-datahub/watt/utils" as watt;
 
 @mixin primary-hover {
   background: var(--watt-color-primary-dark);
@@ -96,12 +96,12 @@
     background-color: var(--watt-color-primary);
     color: var(--watt-color-primary-contrast);
 
-    &:focus {
+    &:focus-visible {
       @include primary-focus;
     }
 
     &:hover,
-    &:focus {
+    &:focus-visible {
       @include primary-hover;
     }
 
@@ -119,12 +119,12 @@
     border: 1px solid var(--watt-color-primary);
     color: var(--watt-color-primary);
 
-    &:focus {
+    &:focus-visible {
       @include secondary-focus;
     }
 
     &:hover,
-    &:focus {
+    &:focus-visible {
       @include secondary-hover;
     }
 
@@ -139,12 +139,12 @@
     color: var(--watt-color-primary);
     outline: 2px solid transparent;
 
-    &:focus {
+    &:focus-visible {
       @include text-focus;
     }
 
     &:hover,
-    &:focus {
+    &:focus-visible {
       @include text-hover;
     }
 
@@ -158,13 +158,17 @@
     color: var(--watt-color-primary);
     @include watt.space-inset-s;
 
-    &:focus {
+    &:focus-visible {
       @include icon-focus;
     }
 
     &:hover,
-    &:focus {
+    &:focus-visible {
       @include icon-hover;
+    }
+
+    &.mat-button {
+      min-width: 44px;
     }
 
     &.mat-button.mat-button-disabled {
