@@ -22,7 +22,8 @@ limitations under the License.
     icon="close"
     class="watt-modal-close"
     [attr.aria-label]="closeLabel"
-    (click)="close(false)"></watt-button>
+    (click)="close(false)"
+  ></watt-button>
   <div class="watt-modal-content"><ng-content></ng-content></div>
   <ng-content select="watt-modal-actions"></ng-content>
 </ng-template>
