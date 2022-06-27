@@ -78,9 +78,6 @@ export class DhMarketParticipantActorMarketRolesComponent
   rows: EditableMarketRoleRow[] = [];
   deleted: { marketRole?: EicFunction }[] = [];
 
-  availableMarketRoles: EicFunction[] =
-    this.marketRoleService.getAvailableMarketRoles;
-
   availableMeteringPointTypes = Object.values(
     MarketParticipantMeteringPointType
   );
@@ -104,13 +101,6 @@ export class DhMarketParticipantActorMarketRolesComponent
   }
 
   ngOnChanges() {
-    this.marketRoles = this.availableMarketRoles.map((mr) => ({
-      displayValue: this.translocoService.translate(
-        `marketParticipant.marketRoles.${mr}`
-      ),
-      value: mr,
-    }));
-
     this.gridAreaOptions = this.gridAreas.map((ga) => ({
       displayValue: `${ga.code} - ${ga.name}`,
       value: ga.id,
@@ -138,6 +128,7 @@ export class DhMarketParticipantActorMarketRolesComponent
       );
 
     this.rows = rows;
+    this.calculateAvailableMarketRoles();
   }
 
   readonly createPlaceholder = (): EditableMarketRoleRow => {
@@ -145,6 +136,11 @@ export class DhMarketParticipantActorMarketRolesComponent
       marketRole: { marketRole: undefined },
       changed: { marketRole: undefined },
     };
+  };
+
+  readonly onMarketRoleDropdownChanged = () => {
+    this.raiseChanged();
+    this.calculateAvailableMarketRoles();
   };
 
   readonly onDropdownChanged = () => {
@@ -190,6 +186,31 @@ export class DhMarketParticipantActorMarketRolesComponent
     );
 
     this.changed.emit(marketRoleChanges);
+  };
+
+  readonly calculateAvailableMarketRoles = () => {
+    const currentlySelectedMarketRoles = this.rows
+      .filter(
+        (x) =>
+          x.changed?.marketRole !== undefined && x.changed?.marketRole !== null
+      )
+      .map((x) => x.changed.marketRole as EicFunction);
+
+    const availableMarketRoles =
+      this.marketRoleService.getAvailableMarketRoles.filter(
+        (x) =>
+          !this.marketRoleService.notValidInAnySelectionGroup(
+            x,
+            currentlySelectedMarketRoles
+          )
+      );
+
+    this.marketRoles = availableMarketRoles.map((mr) => ({
+      displayValue: this.translocoService.translate(
+        `marketParticipant.marketRoles.${mr}`
+      ),
+      value: mr,
+    }));
   };
 
   readonly onRowDelete = (row: EditableMarketRoleRow) => {

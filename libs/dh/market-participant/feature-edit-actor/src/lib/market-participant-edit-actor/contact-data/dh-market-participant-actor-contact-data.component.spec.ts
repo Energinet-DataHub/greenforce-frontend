@@ -34,6 +34,7 @@ describe(DhMarketParticipantActorContactDataComponent.name, () => {
       componentProperties: {
         contacts,
         contactsChanged: { emit: outputFn } as unknown as EventEmitter<{
+          isValid: boolean,
           add: ActorContactChanges[];
           remove: ActorContactDto[];
         }>,
@@ -79,6 +80,7 @@ describe(DhMarketParticipantActorContactDataComponent.name, () => {
 
     // assert
     expect(outputFn).toHaveBeenLastCalledWith({
+      isValid: true,
       add: [expected],
       remove: [contacts[0]],
     });
@@ -97,6 +99,7 @@ describe(DhMarketParticipantActorContactDataComponent.name, () => {
 
     // assert
     expect(outputFn).toHaveBeenLastCalledWith({
+      isValid: true,
       add: [],
       remove: [contacts[0]],
     });
@@ -137,6 +140,7 @@ describe(DhMarketParticipantActorContactDataComponent.name, () => {
 
     // assert
     expect(outputFn).toHaveBeenLastCalledWith({
+      isValid: true,
       add: [expected],
       remove: [],
     });

@@ -26,18 +26,18 @@ import { MarketRoleChanges } from '@energinet-datahub/dh/market-participant/data
 import { EventEmitter } from '@angular/core';
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
 import {
-  DhMarketParticipantActorMarketRolesNewComponent,
-  DhMarketParticipantActorMarketRolesNewComponentScam,
-} from './dh-market-participant-actor-market-roles-new.component';
+  DhMarketParticipantActorMarketRolesComponent,
+  DhMarketParticipantActorMarketRolesComponentScam,
+} from './dh-market-participant-actor-market-roles.component';
 import { en } from '@energinet-datahub/dh/globalization/assets-localization';
 
-describe(DhMarketParticipantActorMarketRolesNewComponent.name, () => {
+describe(DhMarketParticipantActorMarketRolesComponent.name, () => {
   async function setup(
     gridAreas: GridAreaDto[],
     existingActorMarketRoles: ActorMarketRoleDto[]
   ) {
     const outputFn = jest.fn();
-    const view = await render(DhMarketParticipantActorMarketRolesNewComponent, {
+    const view = await render(DhMarketParticipantActorMarketRolesComponent, {
       componentProperties: {
         gridAreas: gridAreas,
         actorMarketRoles: existingActorMarketRoles,
@@ -46,7 +46,7 @@ describe(DhMarketParticipantActorMarketRolesNewComponent.name, () => {
         } as unknown as EventEmitter<MarketRoleChanges>,
       },
       imports: [
-        DhMarketParticipantActorMarketRolesNewComponentScam,
+        DhMarketParticipantActorMarketRolesComponentScam,
         getTranslocoTestingModule(),
       ],
     });
@@ -70,6 +70,7 @@ describe(DhMarketParticipantActorMarketRolesNewComponent.name, () => {
     const { outputFn } = await setup(gridAreas, []);
 
     const expected = {
+      isValid: true,
       marketRoles: [
         {
           gridAreas: [
@@ -143,7 +144,7 @@ describe(DhMarketParticipantActorMarketRolesNewComponent.name, () => {
       },
     ]);
 
-    const expected = { marketRoles: [] };
+    const expected = { isValid: true, marketRoles: [] };
 
     // act
     const deleteButton = screen.getByRole('button', {
