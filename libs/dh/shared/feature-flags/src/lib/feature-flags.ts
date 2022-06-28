@@ -37,8 +37,8 @@ export const DhFeatureFlagsConfig = makeFeatureFlags({
    * Feature flag example:
    *
    * 'example-feature-flag': {
-   *  created: '01-01-2022',
-   *  disabledEnvironments: [DhAppEnvironment.prod],
+   *     created: '01-01-2022',
+   *     disabledEnvironments: [DhAppEnvironment.prod],
    * },
    *
    */
