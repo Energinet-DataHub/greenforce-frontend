@@ -36,11 +36,12 @@ export const DhFeatureFlagsConfig = makeFeatureFlags({
   /**
    * Feature flag example:
    *
-   * example-feature-flag {
+   * 'example-feature-flag': {
    *  created: '01-01-2022',
-   *  disabledEnvironments: [DhAppEnvironment.prod]
-   * }
+   *  disabledEnvironments: [DhAppEnvironment.prod],
+   * },
    */
+
 });
 
 export type DhFeatureFlags = keyof typeof DhFeatureFlagsConfig;
