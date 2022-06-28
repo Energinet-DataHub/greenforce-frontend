@@ -40,8 +40,8 @@ export const DhFeatureFlagsConfig = makeFeatureFlags({
    *  created: '01-01-2022',
    *  disabledEnvironments: [DhAppEnvironment.prod],
    * },
+   *
    */
-
 });
 
 export type DhFeatureFlags = keyof typeof DhFeatureFlagsConfig;
