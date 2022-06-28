@@ -23,7 +23,6 @@ import {
 } from '@angular/core';
 import { EoCookieBannerComponentScam } from '@energinet-datahub/eo/shared/atomic-design/feature-molecules';
 import { EoFooterScam } from '@energinet-datahub/eo/shared/atomic-design/ui-organisms';
-import { EoFeatureFlagScam } from '@energinet-datahub/eo/shared/services';
 import { EoLandingPageCallToActionScam } from './eo-landing-page-call-to-action.component';
 import { EoLandingPageCompanyScam } from './eo-landing-page-company.component';
 import { EoLandingPageHeaderScam } from './eo-landing-page-header.component';
