@@ -33,7 +33,14 @@ export type FeatureFlagConfig = Record<string, DhFeatureFlag>;
 const makeFeatureFlags = satisfies<FeatureFlagConfig>();
 
 export const DhFeatureFlagsConfig = makeFeatureFlags({
-  // ------ Feature flags goes here ------
+  /**
+   * Feature flag example:
+   *
+   * example-feature-flag {
+   *  created: '01-01-2022',
+   *  disabledEnvironments: [DhAppEnvironment.prod]
+   * }
+   */
 });
 
 export type DhFeatureFlags = keyof typeof DhFeatureFlagsConfig;
