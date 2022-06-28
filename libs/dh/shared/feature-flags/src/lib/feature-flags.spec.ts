@@ -35,12 +35,18 @@ const featureFlagCases = Object.keys(DhFeatureFlagsConfig).map(
   }
 );
 
-test.each(
-  // Avoid "Error: `.each` called with an empty Array of table data."
-  featureFlagCases.length > 0 ? featureFlagCases : [['dummy feature flag', 0]]
-)(
-  `The feature flag: "%s" must not be older than ${maxAgeOfDays} days, but is %s days old!`,
-  (_, ageOfFeatureFlag) => {
-    expect(ageOfFeatureFlag).toBeLessThanOrEqual(maxAgeOfDays);
-  }
-);
+if (featureFlagCases.length === 0) {
+  test('empty feature flags list', () => {
+    expect(featureFlagCases).toStrictEqual([]);
+  });
+}
+
+// Note: `test.each` must not be called with an empty array
+if (featureFlagCases.length > 0) {
+  test.each(featureFlagCases)(
+    `The feature flag: "%s" must not be older than ${maxAgeOfDays} days, but is %s days old!`,
+    (_, ageOfFeatureFlag) => {
+      expect(ageOfFeatureFlag).toBeLessThanOrEqual(maxAgeOfDays);
+    }
+  );
+}
