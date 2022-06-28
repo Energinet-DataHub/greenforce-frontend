@@ -56,7 +56,9 @@ export class DhFeatureFlagsService {
         : dhEnvironment.current;
   }
 
-  isEnabled(flagName: DhFeatureFlags): boolean {
+  isEnabled(flagName?: DhFeatureFlags): boolean {
+    if (!flagName) return true;
+
     return !this.dhFeatureFlags[flagName]?.disabledEnvironments.includes(
       this.environment
     );
