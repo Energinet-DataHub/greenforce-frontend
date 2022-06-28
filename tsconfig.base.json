@@ -216,6 +216,9 @@
       "@energinet-datahub/eo/shared/environments": [
         "libs/eo/shared/environments/src/index.ts"
       ],
+      "@energinet-datahub/eo/shared/services": [
+        "libs/eo/shared/services/src/index.ts"
+      ],
       "@energinet-datahub/eo/shared/util-browser": [
         "libs/eo/shared/util-browser/src/index.ts"
       ],
