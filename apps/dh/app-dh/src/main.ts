@@ -19,22 +19,29 @@ import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import {
   dhApiEnvironmentToken,
   dhB2CEnvironmentToken,
+  dhAppEnvironmentToken,
   environment,
 } from '@energinet-datahub/dh/shared/environments';
 
 import { DataHubAppModule } from './app/datahub-app.module';
 import { loadDhApiEnvironment } from './configuration/load-dh-api-environment';
 import { loadDhB2CEnvironment } from './configuration/load-dh-b2c-environment';
+import { loadDhAppEnvironment } from './configuration/load-dh-app-environment';
 
 if (environment.production) {
   enableProdMode();
 }
 
-Promise.all([loadDhApiEnvironment(), loadDhB2CEnvironment()])
-  .then(([dhApiEnvironment, dhB2CEnvironment]) => {
+Promise.all([
+  loadDhApiEnvironment(),
+  loadDhB2CEnvironment(),
+  loadDhAppEnvironment(),
+])
+  .then(([dhApiEnvironment, dhB2CEnvironment, dhAppEnvironment]) => {
     platformBrowserDynamic([
       { provide: dhApiEnvironmentToken, useValue: dhApiEnvironment },
       { provide: dhB2CEnvironmentToken, useValue: dhB2CEnvironment },
+      { provide: dhAppEnvironmentToken, useValue: dhAppEnvironment },
     ]).bootstrapModule(DataHubAppModule);
   })
   .catch((error: unknown) => console.error(error));
