@@ -15,3 +15,4 @@
  * limitations under the License.
  */
 export * from './feature-flag/feature-flag.service';
+export * from './feature-flag/feature-flag.directive';

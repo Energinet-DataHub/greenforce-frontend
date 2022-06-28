@@ -16,20 +16,35 @@
  */
 import { Injectable } from '@angular/core';
 
-export enum allowedFeatureFlags {
+enum FeatureFlags {
   'spring',
   'autumn',
   'winter',
 }
+export type allowedFeatureFlags = keyof typeof FeatureFlags;
 
 @Injectable({
   providedIn: 'root',
 })
 export class FeatureFlagService {
-  #enabledFlags = new Set<allowedFeatureFlags>();
+  #enabledFlags = new Set();
 
-  getEnabledFlags() {
-    return this.#enabledFlags;
+  /**
+   * In case the user had previously saved a flag as enabled, get it from
+   * storage and then reset the storage to null, incase user tampered with
+   * it or has 'illegal' features set in localStorage.
+   */
+  constructor() {
+    const savedFlags = JSON.parse(
+      localStorage.getItem('featureFlagsEnabled') ?? '[]'
+    );
+    localStorage.removeItem('featureFlagsEnabled');
+
+    savedFlags.forEach((element: string) => {
+      if (element in FeatureFlags) {
+        this.enableFeatureFlag(element);
+      }
+    });
   }
 
   #addFlag(name: allowedFeatureFlags) {
@@ -49,15 +64,23 @@ export class FeatureFlagService {
     );
   }
 
-  enableFeatureFlag(name: any) {
-    if (name in allowedFeatureFlags) {
-      this.#addFlag(name);
+  getEnabledFlags() {
+    return this.#enabledFlags;
+  }
+
+  isFlagEnabled(name: string) {
+    return this.#enabledFlags.has(name);
+  }
+
+  enableFeatureFlag(name: string) {
+    if (name in FeatureFlags) {
+      this.#addFlag(name as allowedFeatureFlags);
     }
   }
 
-  disableFeatureFlag(name: any) {
-    if (name in allowedFeatureFlags) {
-      this.#removeFlag(name);
+  disableFeatureFlag(name: string) {
+    if (name in FeatureFlags) {
+      this.#removeFlag(name as allowedFeatureFlags);
     }
   }
 }

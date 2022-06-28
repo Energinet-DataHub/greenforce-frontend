@@ -23,6 +23,7 @@ import {
 } from '@angular/core';
 import { EoCookieBannerComponentScam } from '@energinet-datahub/eo/shared/atomic-design/feature-molecules';
 import { EoFooterScam } from '@energinet-datahub/eo/shared/atomic-design/ui-organisms';
+import { EoFeatureFlagScam } from '@energinet-datahub/eo/shared/services';
 import { EoLandingPageCallToActionScam } from './eo-landing-page-call-to-action.component';
 import { EoLandingPageCompanyScam } from './eo-landing-page-company.component';
 import { EoLandingPageHeaderScam } from './eo-landing-page-header.component';
@@ -67,7 +68,7 @@ import { EoLandingPageAudienceScam } from './eo-landinge-page-audience.component
       (accepted)="getBannerStatus()"
     ></eo-cookie-banner>
     <eo-landing-page-header></eo-landing-page-header>
-
+    <div [onFeatureFlag]="'winter'">Test</div>
     <div class="u-positioning-context">
       <eo-landing-page-notification
         class="u-collapse-bottom"
@@ -123,6 +124,7 @@ export class EoLandingPageShellComponent {
     EoLandingPageNotificationScam,
     EoLandingPageOriginOfEnergyScam,
     EoCookieBannerComponentScam,
+    EoFeatureFlagScam,
     CommonModule,
   ],
 })
