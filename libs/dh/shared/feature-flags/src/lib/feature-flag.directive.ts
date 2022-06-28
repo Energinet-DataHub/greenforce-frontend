@@ -27,7 +27,7 @@ export class DhFeatureFlagDirective implements OnInit {
     private featureFlagsService: DhFeatureFlagsService
   ) {}
 
-  @Input() dhFeatureFlag: DhFeatureFlags;
+  @Input() dhFeatureFlag?: DhFeatureFlags;
 
   ngOnInit(): void {
     const isEnabled = this.featureFlagsService.isEnabled(this.dhFeatureFlag);
