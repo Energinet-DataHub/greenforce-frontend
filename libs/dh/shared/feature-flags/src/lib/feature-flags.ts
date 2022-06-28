@@ -40,6 +40,6 @@ const makeFeatureFlags = satisfies<FeatureFlagConfig>();
  *   disabledEnvironments: [DhAppEnvironment.prod],
  * },
  */
-export const DhFeatureFlagsConfig = makeFeatureFlags({});
+export const dhFeatureFlagsConfig = makeFeatureFlags({});
 
-export type DhFeatureFlags = keyof typeof DhFeatureFlagsConfig;
+export type DhFeatureFlags = keyof typeof dhFeatureFlagsConfig;

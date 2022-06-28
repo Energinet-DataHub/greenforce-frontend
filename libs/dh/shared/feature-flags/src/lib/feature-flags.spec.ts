@@ -18,15 +18,15 @@ import { differenceInDays, parse } from 'date-fns';
 import {
   DhFeatureFlag,
   DhFeatureFlags,
-  DhFeatureFlagsConfig,
+  dhFeatureFlagsConfig,
 } from './feature-flags';
 
 const maxAgeOfDays = 14;
 
-const featureFlagCases = Object.keys(DhFeatureFlagsConfig).map(
+const featureFlagCases = Object.keys(dhFeatureFlagsConfig).map(
   (featureFlag) => {
     const created = (
-      DhFeatureFlagsConfig[featureFlag as DhFeatureFlags] as DhFeatureFlag
+      dhFeatureFlagsConfig[featureFlag as DhFeatureFlags] as DhFeatureFlag
     ).created;
     const parsedDate = parse(created, 'dd-MM-yyyy', new Date());
     const diffInDays = differenceInDays(new Date(), parsedDate);
