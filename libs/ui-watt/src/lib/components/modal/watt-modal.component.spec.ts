@@ -23,7 +23,12 @@ import { WattModalComponent } from './watt-modal.component';
 
 const template = `
   <watt-button (click)="modal.open()">Open Modal</watt-button>
-  <watt-modal #modal title="Test Modal" (closed)="closed($event)">
+  <watt-modal
+    #modal
+    title="Test Modal"
+    (closed)="closed($event)"
+    [disableClose]="disableClose"
+  >
     <p>Is this a test modal?</p>
     <watt-modal-actions>
       <watt-button (click)="modal.close(false)">No</watt-button>
@@ -34,6 +39,7 @@ const template = `
 
 interface Properties {
   closed?: (result: boolean) => void;
+  disableClose?: boolean;
 }
 
 function setup(componentProperties?: Properties) {
@@ -81,6 +87,31 @@ describe(WattModalComponent.name, () => {
     user.keyboard('[Escape]');
     await waitFor(() => expect(closed).toBeCalledWith(false));
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+  });
+
+  it('closes on close button click', async () => {
+    const closed = jest.fn();
+    await setup({ closed });
+    user.click(screen.getByRole('button'));
+    user.click(screen.getByLabelText('Close'));
+    await waitFor(() => expect(closed).toBeCalledWith(false));
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+  });
+
+  it('disables close button', async () => {
+    const closed = jest.fn();
+    await setup({ closed, disableClose: true });
+    user.click(screen.getByRole('button'));
+    expect(screen.queryByLabelText('Close')).not.toBeInTheDocument();
+  });
+
+  it('disables ESC', async () => {
+    const closed = jest.fn();
+    await setup({ closed, disableClose: true });
+    user.click(screen.getByRole('button'));
+    user.keyboard('[Escape]');
+    await waitFor(() => expect(closed).not.toBeCalled());
+    expect(screen.queryByRole('dialog')).toBeInTheDocument();
   });
 
   it('displays title', async () => {
