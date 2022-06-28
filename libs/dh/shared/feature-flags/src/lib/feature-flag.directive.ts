@@ -14,14 +14,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Directive, Input, NgModule, TemplateRef, ViewContainerRef } from '@angular/core';
+import {
+  Directive,
+  Input,
+  NgModule,
+  TemplateRef,
+  ViewContainerRef,
+} from '@angular/core';
 
 import { DhFeatureFlags } from './feature-flags';
 import { DhFeatureFlagsService } from './feature-flags.service';
 
 @Directive({ selector: '[dhFeatureFlag]' })
 export class DhFeatureFlagDirective {
-  private isViewCreated  = false;
+  private isViewCreated = false;
 
   constructor(
     private templateRef: TemplateRef<unknown>,
@@ -32,12 +38,12 @@ export class DhFeatureFlagDirective {
   @Input() set dhFeatureFlag(featureFlagName: DhFeatureFlags) {
     const isEnabled = this.featureFlagsService.isEnabled(featureFlagName);
 
-    if (isEnabled && !this.isViewCreated ) {
+    if (isEnabled && !this.isViewCreated) {
       this.viewContainer.createEmbeddedView(this.templateRef);
-      this.isViewCreated  = true;
-    } else if (!isEnabled && this.isViewCreated ) {
+      this.isViewCreated = true;
+    } else if (!isEnabled && this.isViewCreated) {
       this.viewContainer.clear();
-      this.isViewCreated  = false;
+      this.isViewCreated = false;
     }
   }
 }
