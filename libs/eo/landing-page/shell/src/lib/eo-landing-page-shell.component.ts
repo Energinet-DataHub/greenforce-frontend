@@ -123,7 +123,6 @@ export class EoLandingPageShellComponent {
     EoLandingPageNotificationScam,
     EoLandingPageOriginOfEnergyScam,
     EoCookieBannerComponentScam,
-    EoFeatureFlagScam,
     CommonModule,
   ],
 })
