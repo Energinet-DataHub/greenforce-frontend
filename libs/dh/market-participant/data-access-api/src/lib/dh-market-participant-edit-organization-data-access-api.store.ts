@@ -37,6 +37,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { parseErrorResponse } from './dh-market-participant-error-handling';
 
 export interface OrganizationChanges {
+  organizationId?: string;
   name?: string;
   businessRegisterIdentifier?: string;
   address: AddressDto;
@@ -49,12 +50,6 @@ export interface ContactChanges {
   name?: string;
   email?: string;
   phone?: string | null;
-}
-
-interface SaveProgress {
-  changes: OrganizationChanges;
-  organizationId: string | undefined;
-  organizationSaved: boolean;
 }
 
 export interface MarketParticipantEditOrganizationState {
@@ -79,15 +74,8 @@ const initialState: MarketParticipantEditOrganizationState = {
 export class DhMarketParticipantEditOrganizationDataAccessApiStore extends ComponentStore<MarketParticipantEditOrganizationState> {
   isLoading$ = this.select((state) => state.isLoading);
   isEditing$ = this.select((state) => state.organization !== undefined);
-  organization$ = this.select((state) => state.organization);
   validation$ = this.select((state) => state.validation);
-  changes$ = this.select(
-    (state): SaveProgress => ({
-      changes: state.changes,
-      organizationId: state.organization?.organizationId,
-      organizationSaved: false,
-    })
-  );
+  changes$ = this.select((state) => state.changes);
 
   constructor(private httpClient: MarketParticipantHttp) {
     super(initialState);
@@ -145,23 +133,25 @@ export class DhMarketParticipantEditOrganizationDataAccessApiStore extends Compo
     )
   );
 
-  private readonly saveOrganization = (saveProgress: SaveProgress) => {
-    if (saveProgress.organizationId !== undefined) {
+  private readonly saveOrganization = (
+    organizationChanges: OrganizationChanges
+  ) => {
+    if (organizationChanges.organizationId !== undefined) {
       return this.httpClient
         .v1MarketParticipantOrganizationPut(
-          saveProgress.organizationId,
-          saveProgress.changes as ChangeOrganizationDto
+          organizationChanges.organizationId,
+          organizationChanges as ChangeOrganizationDto
         )
-        .pipe(map(() => ({ ...saveProgress, organizationSaved: true })));
+        .pipe(map(() => ({ ...organizationChanges, organizationSaved: true })));
     }
 
     return this.httpClient
       .v1MarketParticipantOrganizationPost(
-        saveProgress.changes as ChangeOrganizationDto
+        organizationChanges as ChangeOrganizationDto
       )
       .pipe(
         map((organizationId) => ({
-          ...saveProgress,
+          ...organizationChanges,
           organizationSaved: true,
           organizationId,
         }))
@@ -174,7 +164,21 @@ export class DhMarketParticipantEditOrganizationDataAccessApiStore extends Compo
       .pipe(
         tap((organization) =>
           this.patchState({
-            organization,
+            organization: organization,
+            changes: {
+              organizationId: organization.organizationId,
+              name: organization.name,
+              businessRegisterIdentifier:
+                organization.businessRegisterIdentifier,
+              address: {
+                streetName: organization.address.streetName,
+                number: organization.address.number,
+                zipCode: organization.address.zipCode,
+                city: organization.address.city,
+                country: organization.address.country,
+              },
+              comment: organization.comment,
+            },
           })
         )
       );
