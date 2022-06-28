@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 
 export enum allowedFeatureFlags {
-  'test',
+  'spring',
+  'autumn',
   'winter',
-  'summer',
 }
 
 @Injectable({

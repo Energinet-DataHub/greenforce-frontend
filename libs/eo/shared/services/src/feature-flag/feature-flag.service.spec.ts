@@ -22,51 +22,40 @@ describe(FeatureFlagService.name, () => {
 
   beforeEach(() => {
     service = TestBed.inject(FeatureFlagService);
-
-    let store: any;
-    const mockLocalStorage = {
-      getItem: (key: string): string => {
-        console.log('mocked return getItem');
-        return key in store ? store[key] : null;
-      },
-      setItem: (key: string, value: string) => {
-        store[key] = `${value}`;
-      },
-      removeItem: (key: string) => {
-        delete store[key];
-      },
-      clear: () => {
-        store = {};
-      },
-    };
-
-    jest
-      .spyOn(localStorage, 'getItem')
-      .mockImplementation(mockLocalStorage.getItem);
-
-    /*     spyOn(localStorage, 'getItem').and.callFake(mockLocalStorage.getItem);
-    spyOn(localStorage, 'setItem').and.callFake(mockLocalStorage.setItem);
-    spyOn(localStorage, 'removeItem').and.callFake(mockLocalStorage.removeItem);
-    spyOn(localStorage, 'clear').and.callFake(mockLocalStorage.clear); */
   });
 
+  /**
+   * At the time of writing this test, the jest setup was not working correctly.
+   * Instead of spending massive amount of time investigating, we opted to use
+   * a test of the "getEnabledFlags" function instead of mocking localStorage.
+   * TODO: Fix this test when jest spyon mocking works once more
+   */
   describe('If flag name is valid', () => {
-    it('it can save it localstorage', () => {
+    it('it can save it', () => {
+      const winterFlag = new Set().add('winter');
+
       service.enableFeatureFlag('winter');
+      expect(service.getEnabledFlags()).toEqual(winterFlag);
     });
 
-    it('it can remove it from localstorage', () => {
-      expect(true).toBeTruthy();
+    it('it can remove it', () => {
+      const winterFlag = new Set().add('winter');
+      const noFlag = new Set();
+
+      service.enableFeatureFlag('winter');
+      expect(service.getEnabledFlags()).toEqual(winterFlag);
+
+      service.disableFeatureFlag('winter');
+      expect(service.getEnabledFlags()).toEqual(noFlag);
     });
   });
 
   describe('If flag name is NOT valid', () => {
-    it('it can NOT save it localstorage', () => {
-      expect(true).toBeTruthy();
-    });
+    it('it can NOT save it', () => {
+      const noFlag = new Set();
 
-    it('it can NOT remove it from localstorage', () => {
-      expect(true).toBeTruthy();
+      service.enableFeatureFlag('summer');
+      expect(service.getEnabledFlags()).toEqual(noFlag);
     });
   });
 });
