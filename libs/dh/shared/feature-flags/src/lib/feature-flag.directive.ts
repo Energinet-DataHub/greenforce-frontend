@@ -1,27 +1,23 @@
-import { Directive, Input, NgModule, TemplateRef, ViewContainerRef } from '@angular/core';
+import { Directive, Input, NgModule, OnInit, TemplateRef, ViewContainerRef } from '@angular/core';
 
 import { DhFeatureFlags } from './feature-flags';
 import { DhFeatureFlagsService } from './feature-flags.service';
 
 @Directive({ selector: '[dhFeatureFlag]' })
-export class DhFeatureFlagDirective {
-  private isViewCreated  = false;
-
+export class DhFeatureFlagDirective implements OnInit {
   constructor(
     private templateRef: TemplateRef<unknown>,
     private viewContainer: ViewContainerRef,
     private featureFlagsService: DhFeatureFlagsService
   ) {}
 
-  @Input() set dhFeatureFlag(featureFlagName: DhFeatureFlags) {
-    const isEnabled = this.featureFlagsService.isEnabled(featureFlagName);
+  @Input() dhFeatureFlag: DhFeatureFlags;
 
-    if (isEnabled && !this.isViewCreated ) {
+  ngOnInit(): void {
+    const isEnabled = this.featureFlagsService.isEnabled(this.dhFeatureFlag);
+
+    if (isEnabled) {
       this.viewContainer.createEmbeddedView(this.templateRef);
-      this.isViewCreated  = true;
-    } else if (!isEnabled && this.isViewCreated ) {
-      this.viewContainer.clear();
-      this.isViewCreated  = false;
     }
   }
 }
