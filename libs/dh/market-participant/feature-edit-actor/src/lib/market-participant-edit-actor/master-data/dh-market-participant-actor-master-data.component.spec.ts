@@ -37,9 +37,6 @@ describe('DhMarketParticipantActorMasterDataComponent', () => {
         ],
       }
     );
-
-    await runOnPushChangeDetection(view.fixture);
-
     return { view };
   }
 
@@ -49,8 +46,9 @@ describe('DhMarketParticipantActorMasterDataComponent', () => {
       actorNumber: '',
       status: 'New',
     };
+    const { view } = await setup(changes);
+    await runOnPushChangeDetection(view.fixture);
 
-    await setup(changes);
 
     const expected: ActorChanges = {
       actorNumber: '7071600998397',
