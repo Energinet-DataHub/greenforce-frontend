@@ -13,6 +13,7 @@ Feature flags are located here: `libs/dh/shared/feature-flags/src/lib/feature-fl
 The feature flags require two properties, `created` and `disabledEnvironments`.
 
 **Example:**
+
 ```ts
 'example-feature-flag': {
     created: '01-01-2022',
@@ -23,6 +24,7 @@ The feature flags require two properties, `created` and `disabledEnvironments`.
 The `created` property is danish locale `dd-mm-yyyy`. Feature flags use this property internally to check for old feature flags.
 
 The `disabledEnvironments` property is an array of the environments you wan't to disable the feature, for ex., `prod.`
+
 ## Using a feature flag
 
 Feature flags can be used by the `*dhFeatureflag` directive or the `DhFeatureFlagsService.`
@@ -40,14 +42,17 @@ Use the feature flags within templates with the feature flag structural directiv
 ```
 
 ### From TypeScript (Controllers, Guards, etc.)
+
 Use the feature flags within TypeScript with the feature flag service.
 
 1. Inject the service (The service is provided in the root, so you don't have to import any module):
+
 ```ts
   constructor(private featureFlagsService: DhFeatureFlagsService) {}
 ```
 
 2. Use the `isEnabled` method on the service:
+
 ```ts
-this.featureFlagsService.isEnabled('my-awesome-feature-flag')
+this.featureFlagsService.isEnabled('my-awesome-feature-flag');
 ```
