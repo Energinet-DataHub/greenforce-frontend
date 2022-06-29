@@ -21,22 +21,23 @@ import { runOnPushChangeDetection } from '@energinet-datahub/dh/shared/test-util
 import { ActorChanges } from '@energinet-datahub/dh/market-participant/data-access-api';
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
 import { en } from '@energinet-datahub/dh/globalization/assets-localization';
-import { DhMarketParticipantActorMasterDataComponent, DhMarketParticipantActorMasterDataComponentScam } from './dh-market-participant-actor-master-data.component';
+import {
+  DhMarketParticipantActorMasterDataComponent,
+  DhMarketParticipantActorMasterDataComponentScam,
+} from './dh-market-participant-actor-master-data.component';
 
 describe('DhMarketParticipantActorMasterDataComponent', () => {
   async function setup(changes: ActorChanges) {
-    const view = await render(
-      DhMarketParticipantActorMasterDataComponent,
-      {
-        componentProperties: {
-          changes: changes,
-        },
-        imports: [
-          DhMarketParticipantActorMasterDataComponentScam,
-          getTranslocoTestingModule(),
-        ],
-      }
-    );
+    const view = await render(DhMarketParticipantActorMasterDataComponent, {
+      componentProperties: {
+        changes: changes,
+      },
+      imports: [
+        DhMarketParticipantActorMasterDataComponentScam,
+        getTranslocoTestingModule(),
+      ],
+    });
+
     return { view };
   }
 
@@ -46,9 +47,9 @@ describe('DhMarketParticipantActorMasterDataComponent', () => {
       actorNumber: '',
       status: 'New',
     };
+
     const { view } = await setup(changes);
     await runOnPushChangeDetection(view.fixture);
-
 
     const expected: ActorChanges = {
       actorNumber: '7071600998397',
@@ -81,7 +82,7 @@ describe('DhMarketParticipantActorMasterDataComponent', () => {
 
     // act
     const statusComboBox = screen.getByRole('combobox', {
-      name: en.marketParticipant.actor.create.masterData.statuses.Active
+      name: en.marketParticipant.actor.create.masterData.statuses.Active,
     });
     userEvent.click(statusComboBox);
 

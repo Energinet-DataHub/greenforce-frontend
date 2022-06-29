@@ -16,9 +16,7 @@
  */
 import { CommonModule } from '@angular/common';
 import { Component, NgModule } from '@angular/core';
-import {
-  DhMarketParticipantEditOrganizationDataAccessApiStore,
-} from '@energinet-datahub/dh/market-participant/data-access-api';
+import { DhMarketParticipantEditOrganizationDataAccessApiStore } from '@energinet-datahub/dh/market-participant/data-access-api';
 import { LetModule } from '@rx-angular/template/let';
 import { DhMarketParticipantOrganizationMasterDataComponentScam } from './master-data/dh-market-participant-organization-master-data.component';
 import {
