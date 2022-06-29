@@ -60,8 +60,8 @@ limitations under the License.
       </mat-header-cell>
       <mat-cell *matCellDef="let element">
         <div class="market-roles-cell" *ngIf="element.actor !== undefined">
-          <div *ngFor="let mr of element.actor.marketRoles">
-            {{ "marketParticipant.marketRoles." + mr.eicFunction | transloco }}
+          <div *ngFor="let marketRole of element.actor.marketRoles">
+            {{ "marketParticipant.marketRoles." + marketRole.eicFunction | transloco }}
           </div>
         </div>
         <div class="list-cell-container" *ngIf="element.actor === undefined">
@@ -77,10 +77,10 @@ limitations under the License.
       </mat-header-cell>
       <mat-cell *matCellDef="let element">
         <div class="market-roles-cell" *ngIf="element.actor !== undefined">
-          <div *ngFor="let mr of element.actor.marketRoles">
-            <div *ngIf="mr.gridAreas as gas">
+          <div *ngFor="let marketRole of element.actor.marketRoles">
+            <div *ngIf="marketRole.gridAreas as gridAreas">
               {{
-              gas.length > 0 ? (getGridAreaInfo(gas[0].id) + (gas.length > 1 ? " (+" + (gas.length - 1) + ")" : "")) : ""
+              gridAreas.length > 0 ? (getGridAreaInfo(gridAreas[0].id) + (gridAreas.length > 1 ? " (+" + (gridAreas.length - 1) + ")" : "")) : ""
               }}
             </div>
           </div>

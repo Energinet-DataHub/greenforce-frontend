@@ -65,7 +65,6 @@ export class DhMarketParticipantEditActorComponent {
   gridAreas$ = this.store.gridAreas$;
   selectedGridAreas$ = this.store.selectedGridAreas$;
   contacts$ = this.store.contacts$;
-  triggerValidation$ = this.triggerValidationSubject.asObservable();
 
   constructor(
     private store: DhMarketParticipantEditActorDataAccessApiStore,

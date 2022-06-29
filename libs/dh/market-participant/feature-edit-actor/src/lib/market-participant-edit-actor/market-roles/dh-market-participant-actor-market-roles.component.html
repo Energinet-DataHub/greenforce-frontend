@@ -26,7 +26,7 @@ limitations under the License.
             [attr.aria-label]="t('marketRole')"
             required
             [options]="marketRoles"
-            [(ngModel)]="element.changed.marketRole"
+            [(ngModel)]="element.marketRole"
             (ngModelChange)="onMarketRoleDropdownChanged()"
           >
           </watt-dropdown>
@@ -42,7 +42,7 @@ limitations under the License.
             [attr.aria-label]="t('gridArea')"
             required
             [options]="gridAreaOptions"
-            [(ngModel)]="element.changed.gridArea"
+            [(ngModel)]="element.gridArea"
             (ngModelChange)="onDropdownChanged()"
           >
           </watt-dropdown>
@@ -61,7 +61,7 @@ limitations under the License.
             required
             [multiple]="true"
             [options]="meteringPointTypes"
-            [(ngModel)]="element.changed.meteringPointTypes"
+            [(ngModel)]="element.meteringPointTypes"
             (ngModelChange)="onDropdownChanged()"
           >
           </watt-dropdown>

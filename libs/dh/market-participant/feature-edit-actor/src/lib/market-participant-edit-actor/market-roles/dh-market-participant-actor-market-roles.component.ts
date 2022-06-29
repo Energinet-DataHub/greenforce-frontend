@@ -25,7 +25,6 @@ import {
   ChangeDetectionStrategy,
   OnChanges,
   ChangeDetectorRef,
-  OnInit,
 } from '@angular/core';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { MatTableModule } from '@angular/material/table';
@@ -45,15 +44,12 @@ import {
 } from '@energinet-datahub/dh/shared/domain';
 import { MarketRoleService } from './market-role.service';
 import { MarketRoleChanges } from '@energinet-datahub/dh/market-participant/data-access-api';
-import { Observable } from 'rxjs';
+import { MarketRoleGroupService } from './market-role-group.service';
 
-interface EditableMarketRoleRow {
-  marketRole: { marketRole?: EicFunction };
-  changed: {
-    marketRole?: EicFunction;
-    gridArea?: string;
-    meteringPointTypes?: MarketParticipantMeteringPointType[];
-  };
+export interface EditableMarketRoleRow {
+  marketRole?: EicFunction;
+  gridArea?: string;
+  meteringPointTypes?: MarketParticipantMeteringPointType[];
 }
 
 @Component({
@@ -61,15 +57,12 @@ interface EditableMarketRoleRow {
   styleUrls: ['./dh-market-participant-actor-market-roles.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './dh-market-participant-actor-market-roles.component.html',
-  providers: [MarketRoleService],
+  providers: [MarketRoleService, MarketRoleGroupService],
 })
-export class DhMarketParticipantActorMarketRolesComponent
-  implements OnChanges, OnInit
-{
+export class DhMarketParticipantActorMarketRolesComponent implements OnChanges {
   @Input() gridAreas: GridAreaDto[] = [];
 
   @Input() actorMarketRoles?: ActorMarketRoleDto[] = [];
-  @Input() triggerValidation?: Observable<void>;
 
   @Output() changed = new EventEmitter<MarketRoleChanges>();
 
@@ -89,16 +82,9 @@ export class DhMarketParticipantActorMarketRolesComponent
   constructor(
     private cd: ChangeDetectorRef,
     private translocoService: TranslocoService,
-    private marketRoleService: MarketRoleService
+    private marketRoleService: MarketRoleService,
+    private marketRoleGroupService: MarketRoleGroupService
   ) {}
-
-  ngOnInit(): void {
-    this.triggerValidation?.subscribe(() => {
-      // todo: missing a way to trigger validation on dropdown
-      // @ViewChildren(WattDropdownComponent)
-      // readonly dropDowns: QueryList<WattDropdownComponent> = new QueryList<WattDropdownComponent>();
-    });
-  }
 
   ngOnChanges() {
     this.gridAreaOptions = this.gridAreas.map((ga) => ({
@@ -113,30 +99,21 @@ export class DhMarketParticipantActorMarketRolesComponent
 
     const rows: EditableMarketRoleRow[] = [];
 
-    if (this.actorMarketRoles)
-      this.actorMarketRoles.forEach((mr) =>
-        mr.gridAreas.forEach((ga) =>
+    if (this.actorMarketRoles) {
+      this.actorMarketRoles.forEach((marketRole) =>
+        marketRole.gridAreas.forEach((gridArea) =>
           rows.push({
-            marketRole: { marketRole: mr.eicFunction },
-            changed: {
-              marketRole: mr.eicFunction,
-              gridArea: ga.id,
-              meteringPointTypes: ga.meteringPointTypes,
-            },
+            marketRole: marketRole.eicFunction,
+            gridArea: gridArea.id,
+            meteringPointTypes: gridArea.meteringPointTypes,
           })
         )
       );
+    }
 
     this.rows = rows;
     this.calculateAvailableMarketRoles();
   }
-
-  readonly createPlaceholder = (): EditableMarketRoleRow => {
-    return {
-      marketRole: { marketRole: undefined },
-      changed: { marketRole: undefined },
-    };
-  };
 
   readonly onMarketRoleDropdownChanged = () => {
     this.raiseChanged();
@@ -148,37 +125,20 @@ export class DhMarketParticipantActorMarketRolesComponent
   };
 
   readonly raiseChanged = () => {
-    const grouped = this.rows
-      .map((row) => row.changed)
-      .reduce((m, row) => {
-        m.set(row.marketRole, [...(m.get(row.marketRole) || [])]);
-        if (row.gridArea)
-          m.set(row.marketRole, [
-            ...m.get(row.marketRole),
-            {
-              id: row.gridArea,
-              meteringPointTypes: row.meteringPointTypes,
-            },
-          ]);
-        return m;
-      }, new Map());
+    const grouped = this.marketRoleGroupService.groupRows(this.rows);
 
     const marketRoleChanges: MarketRoleChanges = {
-      marketRoles: [],
+      marketRoles: grouped,
       isValid: true,
     };
-
-    grouped.forEach((v, k) =>
-      marketRoleChanges.marketRoles.push({ marketRole: k, gridAreas: v })
-    );
 
     marketRoleChanges.isValid = this.rows.reduce(
       (r, v) =>
         r &&
-        !!v.changed.marketRole &&
-        !!v.changed.gridArea &&
-        !!v.changed.meteringPointTypes &&
-        v.changed.meteringPointTypes.length > 0,
+        !!v.marketRole &&
+        !!v.gridArea &&
+        !!v.meteringPointTypes &&
+        v.meteringPointTypes.length > 0,
       marketRoleChanges.isValid
     );
 
@@ -187,11 +147,8 @@ export class DhMarketParticipantActorMarketRolesComponent
 
   readonly calculateAvailableMarketRoles = () => {
     const currentlySelectedMarketRoles = this.rows
-      .filter(
-        (x) =>
-          x.changed?.marketRole !== undefined && x.changed?.marketRole !== null
-      )
-      .map((x) => x.changed.marketRole as EicFunction);
+      .filter((x) => !!x.marketRole)
+      .map((x) => x.marketRole as EicFunction);
 
     const availableMarketRoles =
       this.marketRoleService.getAvailableMarketRoles.filter(
@@ -221,7 +178,7 @@ export class DhMarketParticipantActorMarketRolesComponent
   };
 
   readonly onRowAdd = () => {
-    this.rows = [...this.rows, this.createPlaceholder()];
+    this.rows = [...this.rows, {}];
   };
 }
 
