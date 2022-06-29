@@ -43,6 +43,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { parseErrorResponse } from './dh-market-participant-error-handling';
 
 export interface ActorChanges {
+  actorId?: string;
   actorNumber: string;
   status: ActorStatus;
 }
@@ -219,6 +220,11 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
             organizationId: organizationId,
             actor: {
               ...response,
+            },
+            changes: {
+              actorId: response.actorId,
+              actorNumber: response.actorNumber.value,
+              status : response.status
             },
             marketRoles: response.marketRoles,
           });

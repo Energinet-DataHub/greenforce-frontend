@@ -16,17 +16,16 @@
  */
 import { CommonModule } from '@angular/common';
 import {
+  ChangeDetectionStrategy,
   Component,
-  EventEmitter,
   Input,
   NgModule,
   OnChanges,
   OnDestroy,
-  Output,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActorChanges } from '@energinet-datahub/dh/market-participant/data-access-api';
-import { ActorDto, ActorStatus } from '@energinet-datahub/dh/shared/domain';
+import { ActorStatus } from '@energinet-datahub/dh/shared/domain';
 import {
   WattDropdownModule,
   WattDropdownOption,
@@ -41,19 +40,16 @@ import { getValidStatusTransitionOptions } from './get-valid-status-transition-o
 @Component({
   selector: 'dh-market-participant-actor-master-data',
   styleUrls: ['./dh-market-participant-actor-master-data.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './dh-market-participant-actor-master-data.component.html',
 })
 export class DhMarketParticipantActorMasterDataComponent
   implements OnChanges, OnDestroy
 {
-  @Input() actor: ActorDto | undefined;
-  @Output() hasChanges = new EventEmitter<ActorChanges>();
-  changes: ActorChanges = {
-    actorNumber: '',
-    status: 'New',
-  };
+  @Input() changes!: ActorChanges;
 
   private destroy$ = new Subject<void>();
+  initialActorStatus?: ActorStatus;
   allStatuses: WattDropdownOption[] = [];
   statuses: WattDropdownOption[] = [];
 
@@ -71,34 +67,24 @@ export class DhMarketParticipantActorMasterDataComponent
           }))
           .sort((a, b) => a.displayValue.localeCompare(b.displayValue));
         this.statuses = getValidStatusTransitionOptions(
-          this.actor?.status ?? ActorStatus.New,
+          this.initialActorStatus ?? ActorStatus.New,
           this.allStatuses
         );
       });
   }
 
   ngOnChanges(): void {
-    if (this.actor !== undefined) {
-      this.changes = {
-        actorNumber: this.actor.actorNumber.value,
-        status: this.actor.status,
-      };
-      this.statuses = getValidStatusTransitionOptions(
-        this.changes.status,
-        this.allStatuses
-      );
-      this.hasChanges.emit({ ...this.changes });
-    }
+    this.initialActorStatus = this.changes?.status;
+    this.statuses = getValidStatusTransitionOptions(
+      this.initialActorStatus ?? ActorStatus.New,
+      this.allStatuses
+    );
   }
 
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.unsubscribe();
   }
-
-  readonly onModelChanged = () => {
-    this.hasChanges.emit({ ...this.changes });
-  };
 }
 
 @NgModule({

@@ -21,10 +21,9 @@ limitations under the License.
     <watt-form-field class="field-actornumber">
       <watt-label>{{ t("labelActorNumber") }}</watt-label>
       <input
-        [disabled]="actor !== undefined"
+        [disabled]="changes.actorId !== undefined"
         wattInput
         [(ngModel)]="changes.actorNumber"
-        (ngModelChange)="onModelChanged()"
         #actorNumberInputModel="ngModel"
         required
       />
@@ -37,10 +36,9 @@ limitations under the License.
       <watt-dropdown
         [(ngModel)]="changes.status"
         [options]="statuses"
-        [disabled]="!actor || actor.status === 'Deleted'"
+        [disabled]="!changes.actorId || initialActorStatus === 'Deleted'"
         #statusInputModel="ngModel"
         required
-        (ngModelChange)="onModelChanged()"
         required
         [showResetOption]="false"
       >

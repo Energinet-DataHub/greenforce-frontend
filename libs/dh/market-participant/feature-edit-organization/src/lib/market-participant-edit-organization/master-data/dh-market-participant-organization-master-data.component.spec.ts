@@ -41,8 +41,6 @@ describe(DhMarketParticipantOrganizationMasterDataComponent.name, () => {
       }
     );
 
-    // view.fixture.detectChanges();
-
     await runOnPushChangeDetection(view.fixture);
 
     return { view };
