@@ -46,10 +46,10 @@ limitations under the License.
       <mat-cell *matCellDef="let element">
         <watt-badge *ngIf="element.actor !== undefined" type="info">{{
           t("status." + element.actor.status)
-          }}</watt-badge>
+        }}</watt-badge>
         <watt-badge *ngIf="element.actor === undefined" type="warning">{{
           t("columns.noActors")
-          }}</watt-badge>
+        }}</watt-badge>
       </mat-cell>
     </ng-container>
 
@@ -80,7 +80,10 @@ limitations under the License.
           <div *ngFor="let mr of element.actor.marketRoles">
             <div *ngIf="mr.gridAreas as gas">
               {{
-              gas.length > 0 ? (getGridAreaInfo(gas[0].id) + (gas.length > 1 ? " (+" + (gas.length - 1) + ")" : "")) : ""
+                gas.length > 0
+                  ? getGridAreaInfo(gas[0].id) +
+                    (gas.length > 1 ? " (+" + (gas.length - 1) + ")" : "")
+                  : ""
               }}
             </div>
           </div>
@@ -104,12 +107,16 @@ limitations under the License.
           <button mat-menu-item (click)="onCreateActor(element)">
             {{ t("createActor") }}
           </button>
-          <button mat-menu-item (click)="
+          <button
+            mat-menu-item
+            (click)="
               onEditActor(
                 element.organization.organizationId,
                 element.actor.actorId
               )
-            " *ngIf="element.actor">
+            "
+            *ngIf="element.actor"
+          >
             {{ t("editActor") }}
           </button>
         </mat-menu>
@@ -120,5 +127,9 @@ limitations under the License.
     <mat-row *matRowDef="let row; columns: columnIds"></mat-row>
   </mat-table>
 
-  <mat-paginator [pageSizeOptions]="[5, 10, 20, 50]" pageSize="10" showFirstLastButtons></mat-paginator>
+  <mat-paginator
+    [pageSizeOptions]="[5, 10, 20, 50]"
+    pageSize="10"
+    showFirstLastButtons
+  ></mat-paginator>
 </ng-container>
