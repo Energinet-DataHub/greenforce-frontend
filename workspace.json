@@ -75,6 +75,7 @@
     "eo-shared-atomic-design-ui-atoms": "libs/eo/shared/atomic-design/ui-atoms",
     "eo-shared-atomic-design-ui-organisms": "libs/eo/shared/atomic-design/ui-organisms",
     "eo-shared-environments": "libs/eo/shared/environments",
+    "eo-shared-services": "libs/eo/shared/services",
     "eo-shared-styles": "libs/eo/shared/styles",
     "eo-shared-util-browser": "libs/eo/shared/util-browser",
     "gf-configuration-danish-locale": "libs/gf/configuration-danish-locale",

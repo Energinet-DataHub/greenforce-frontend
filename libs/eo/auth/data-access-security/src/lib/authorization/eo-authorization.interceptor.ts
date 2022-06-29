@@ -25,14 +25,20 @@ import {
 } from '@angular/common/http';
 import { ClassProvider, Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Observable, tap } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
+import { FeatureFlagService } from '@energinet-datahub/eo/shared/services';
+import { Observable, tap, take } from 'rxjs';
 
 /**
  * Displays an error when the user has insufficient permissions.
  */
 @Injectable()
 export class EoAuthorizationInterceptor implements HttpInterceptor {
-  constructor(private snackBar: MatSnackBar) {}
+  constructor(
+    private snackBar: MatSnackBar,
+    private route: ActivatedRoute,
+    private featureFlagService: FeatureFlagService
+  ) {}
 
   intercept(
     request: HttpRequest<unknown>,
@@ -40,6 +46,9 @@ export class EoAuthorizationInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<unknown>> {
     return nextHandler.handle(request).pipe(
       tap({
+        next: () => {
+          this.#checkForFeatureFlaggingInQueryParams();
+        },
         error: (error) => {
           if (this.#is403ForbiddenResponse(error)) {
             this.#displayPermissionError();
@@ -53,6 +62,18 @@ export class EoAuthorizationInterceptor implements HttpInterceptor {
     return this.snackBar
       .open('You do not have permission to perform this action.')
       .afterOpened();
+  }
+
+  #checkForFeatureFlaggingInQueryParams() {
+    this.route.queryParams.pipe(take(1)).subscribe((params) => {
+      if (params['enableFeature']) {
+        this.featureFlagService.enableFeatureFlag(params['enableFeature']);
+        return;
+      }
+      if (params['disableFeature']) {
+        this.featureFlagService.disableFeatureFlag(params['disableFeature']);
+      }
+    });
   }
 
   #is403ForbiddenResponse(error: unknown): boolean {
