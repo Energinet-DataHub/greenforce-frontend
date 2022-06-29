@@ -22,19 +22,18 @@ import { EditableMarketRoleRow } from './dh-market-participant-actor-market-role
 @Injectable()
 export class MarketRoleGroupService {
   readonly groupRows = (rows: EditableMarketRoleRow[]) => {
-    const marketRolesMap = rows
-      .reduce((map, row) => {
-        map.set(row.marketRole, [...(map.get(row.marketRole) || [])]);
-        if (row.gridArea)
-          map.set(row.marketRole, [
-            ...map.get(row.marketRole),
-            {
-              id: row.gridArea,
-              meteringPointTypes: row.meteringPointTypes,
-            },
-          ]);
-        return map;
-      }, new Map());
+    const marketRolesMap = rows.reduce((map, row) => {
+      map.set(row.marketRole, [...(map.get(row.marketRole) || [])]);
+      if (row.gridArea)
+        map.set(row.marketRole, [
+          ...map.get(row.marketRole),
+          {
+            id: row.gridArea,
+            meteringPointTypes: row.meteringPointTypes,
+          },
+        ]);
+      return map;
+    }, new Map());
 
     const result: MarketRole[] = [];
 
