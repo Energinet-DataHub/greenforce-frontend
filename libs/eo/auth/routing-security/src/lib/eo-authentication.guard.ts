@@ -33,6 +33,11 @@ import { AuthOidcQueryParameterName } from '@energinet-datahub/eo/auth/data-acce
   providedIn: 'root',
 })
 export class EoAuthenticationGuard implements CanActivateChild {
+  constructor(
+    private router: Router,
+    private urlGenerator: AbsoluteUrlGenerator
+  ) {}
+
   #loginUrl(routerState: RouterStateSnapshot): UrlTree {
     const loginUrl = this.router.createUrlTree([eoLandingPageRelativeUrl]);
     const absoluteReturnUrl = new URL(
@@ -64,11 +69,6 @@ export class EoAuthenticationGuard implements CanActivateChild {
 
     return loginUrl;
   }
-
-  constructor(
-    private router: Router,
-    private urlGenerator: AbsoluteUrlGenerator
-  ) {}
 
   canActivateChild(
     route: ActivatedRouteSnapshot,

@@ -67,7 +67,6 @@ import { EoLandingPageAudienceScam } from './eo-landinge-page-audience.component
       (accepted)="getBannerStatus()"
     ></eo-cookie-banner>
     <eo-landing-page-header></eo-landing-page-header>
-
     <div class="u-positioning-context">
       <eo-landing-page-notification
         class="u-collapse-bottom"
