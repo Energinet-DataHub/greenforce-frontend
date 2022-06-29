@@ -72,7 +72,8 @@ describe('DhMarketParticipantActorMasterDataComponent', () => {
       status: 'Active',
     };
 
-    await setup(changes);
+    const { view } = await setup(changes);
+    await runOnPushChangeDetection(view.fixture);
 
     const expected: ActorChanges = {
       actorId: '879AD937-A036-484D-9D3F-76C3D92A1F3F',
@@ -93,5 +94,48 @@ describe('DhMarketParticipantActorMasterDataComponent', () => {
 
     // assert
     expect(expected).toEqual(changes);
+  });
+
+  test('should disable actor number and enable status combobox for existing', async () => {
+    // arrange
+    const changes: ActorChanges = {
+      actorId: '879AD937-A036-484D-9D3F-76C3D92A1F3A',
+      actorNumber: '7071600998397',
+      status: 'Active',
+    };
+
+    const { view } = await setup(changes);
+    await runOnPushChangeDetection(view.fixture);
+
+    // act
+    const numberTextBox = screen.getByRole('textbox');
+    const statusComboBox = screen.getByRole('combobox', {
+      name: en.marketParticipant.actor.create.masterData.statuses.Active,
+    });
+
+    // assert
+    expect(numberTextBox).toBeDisabled();
+    expect(statusComboBox.getAttribute('aria-disabled')).toEqual('false');
+  });
+
+  test('should enable enable actor number and disable status combox for new', async () => {
+    // arrange
+    const changes: ActorChanges = {
+      actorNumber: '7071600998397',
+      status: 'New',
+    };
+
+    const { view } = await setup(changes);
+    await runOnPushChangeDetection(view.fixture);
+
+    // act
+    const numberTextBox = screen.getByRole('textbox');
+    const statusComboBox = screen.getByRole('combobox', {
+      name: en.marketParticipant.actor.create.masterData.statuses.New,
+    });
+
+    // assert
+    expect(numberTextBox).toBeEnabled();
+    expect(statusComboBox.getAttribute('aria-disabled')).toEqual('true');
   });
 });
