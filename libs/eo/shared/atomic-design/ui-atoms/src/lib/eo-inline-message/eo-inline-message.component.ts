@@ -34,7 +34,6 @@ const selector = 'eo-inline-message';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  // View encapsulation is disabled to support block type modifiers on the host element
   encapsulation: ViewEncapsulation.None,
   selector,
   styles: [
@@ -51,7 +50,8 @@ const selector = 'eo-inline-message';
         color: var(--watt-color-primary-dark);
 
         watt-icon {
-          margin-right: var(--watt-space-l);
+          margin-right: var(--watt-space-m);
+          align-items: flex-start;
         }
       }
 
@@ -76,15 +76,7 @@ const selector = 'eo-inline-message';
       }
     `,
   ],
-  template: `
-    <div>
-      <ng-content select="watt-icon"></ng-content>
-    </div>
-
-    <div>
-      <ng-content></ng-content>
-    </div>
-  `,
+  template: `<ng-content></ng-content>`,
 })
 export class EoInlineMessageComponent {
   @HostBinding('className')
