@@ -19,6 +19,7 @@ import { CommonModule } from '@angular/common';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 
+import { WattResizeObserverDirective } from '../../utils/resize-observer';
 import { WattIconModule } from '../../foundations/icon';
 import {
   WattModalComponent,
@@ -28,6 +29,12 @@ import {
 @NgModule({
   declarations: [WattModalComponent, WattModalActionsComponent],
   exports: [WattModalComponent, WattModalActionsComponent],
-  imports: [CommonModule, MatDialogModule, MatButtonModule, WattIconModule],
+  imports: [
+    CommonModule,
+    MatDialogModule,
+    MatButtonModule,
+    WattResizeObserverDirective,
+    WattIconModule,
+  ],
 })
 export class WattModalModule {}
