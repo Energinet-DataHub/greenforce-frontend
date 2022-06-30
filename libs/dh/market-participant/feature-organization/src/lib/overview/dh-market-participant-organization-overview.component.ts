@@ -47,6 +47,7 @@ import {
 import { Subject, takeUntil } from 'rxjs';
 import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/metering-point/shared/ui-util';
 import { GridAreaDto } from '@energinet-datahub/dh/shared/domain';
+import { DhMarketParticipantOrganizationOverviewGridAreasScam } from './dh-market-participant-organization-overview-grid-areas-list.component';
 
 @Component({
   selector: 'dh-market-participant-organization-overview',
@@ -154,6 +155,7 @@ export class DhMarketParticipantOrganizationOverviewComponent
     WattSpinnerModule,
     WattValidationMessageModule,
     DhEmDashFallbackPipeScam,
+    DhMarketParticipantOrganizationOverviewGridAreasScam,
   ],
   declarations: [DhMarketParticipantOrganizationOverviewComponent],
   exports: [DhMarketParticipantOrganizationOverviewComponent],
