@@ -24,6 +24,13 @@ import {
 import { Subscription } from 'rxjs';
 import { WattResizeObserverService } from './watt-resize-observer.service';
 
+/**
+ * Standalone directive for subscribing to changes to the size of an element.
+ * The `resize` event emits initially and then everytime the element is resized.
+ *
+ * Usage:
+ * `import { WattResizeObserverDirective } from '@energinet-datahub/watt';`
+ */
 @Directive({ standalone: true, selector: '[wattResizeObserver]' })
 export class WattResizeObserverDirective implements OnDestroy {
   // The `resize` event only natively exists on `window`.

@@ -17,6 +17,13 @@
 import { Injectable, NgZone } from '@angular/core';
 import { filter, finalize, Subject } from 'rxjs';
 
+/**
+ * Service for observing changes to an elements size. Typically used by
+ * the `WattResizeObserverDirective`, but can also be imported directly.
+ *
+ * Usage:
+ * `import { WattResizeObserverService } from '@energinet-datahub/watt';`
+ */
 @Injectable({ providedIn: 'root' })
 export class WattResizeObserverService {
   private resizeObserver?: ResizeObserver;
@@ -25,6 +32,7 @@ export class WattResizeObserverService {
   constructor(private ngZone: NgZone) {
     if (window.ResizeObserver) {
       this.resizeObserver = new ResizeObserver((entries) => {
+        // Resize callback is running outside of Angular zone
         this.ngZone.run(() => {
           for (const entry of entries) {
             this.entrySubject.next(entry);
@@ -34,6 +42,11 @@ export class WattResizeObserverService {
     }
   }
 
+  /**
+   * Add an element to be observed, returning an observable that
+   * emits whenever that element changes size. Element will
+   * automatically be unobserved when the observable is unsubscribed.
+   */
   observe(element: Element) {
     this.resizeObserver?.observe(element);
     return this.entrySubject.asObservable().pipe(
