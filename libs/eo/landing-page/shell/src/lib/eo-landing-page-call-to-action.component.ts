@@ -41,14 +41,22 @@ import { EoLandingPageLoginButtonScam } from './eo-landing-page-login-button.com
         display: flex;
         flex-direction: column;
         align-items: center;
-        padding: var(--watt-space-l) var(--watt-space-xl);
+        padding: 99px; // Magic UX number
+
+        @include watt.media('<Large') {
+          padding: var(--watt-space-l) var(--watt-space-xl);
+        }
       }
 
       img {
         position: absolute;
-        top: 16px;
         left: 0;
-        width: 180px;
+        bottom: 0;
+        width: 360px;
+
+        @include watt.media('<Large') {
+          width: 180px;
+        }
       }
 
       .icon-link {
