@@ -9,13 +9,13 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { ActorStatus } from './actor-status';
-import { ActorMarketRoleDto } from './actor-market-role-dto';
+import { EicFunction } from './eic-function';
+import { ActorGridAreaDto } from './actor-grid-area-dto';
 
 
-export interface ChangeActorDto { 
-    status: ActorStatus;
-    marketRoles: Array<ActorMarketRoleDto>;
+export interface ActorMarketRoleDto { 
+    eicFunction: EicFunction;
+    gridAreas: Array<ActorGridAreaDto>;
 }
 
 
