@@ -19,7 +19,7 @@ import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import {
   MarketParticipantHttp,
   ActorDto,
-  MarketRoleDto,
+  ActorMarketRoleDto,
   MarketParticipantMeteringPointType,
   ActorStatus,
   GridAreaDto,
@@ -27,10 +27,12 @@ import {
   ActorContactDto,
   ContactCategory,
   CreateActorContactDto,
+  EicFunction,
 } from '@energinet-datahub/dh/shared/domain';
 import {
   catchError,
   EMPTY,
+  filter,
   forkJoin,
   map,
   Observable,
@@ -41,6 +43,21 @@ import {
 } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { parseErrorResponse } from './dh-market-participant-error-handling';
+
+export interface MarketRoleChanges {
+  isValid: boolean;
+  marketRoles: MarketRole[];
+}
+
+export interface MarketRole {
+  marketRole: EicFunction;
+  gridAreas: MarketRoleGridArea[];
+}
+
+export interface MarketRoleGridArea {
+  id: string;
+  meteringPointTypes: MarketParticipantMeteringPointType[];
+}
 
 export interface ActorChanges {
   actorNumber: string;
@@ -72,16 +89,22 @@ export interface MarketParticipantEditActorState {
 
   meteringPointTypeChanges: MeteringPointTypeChanges;
   gridAreaChanges: GridAreaDto[];
-  marketRoles: MarketRoleDto[];
+  marketRoles: {
+    isValid: boolean;
+    marketRoles: ActorMarketRoleDto[];
+  };
 
-  addedContacts: ActorContactChanges[];
-  removedContacts: ActorContactDto[];
+  contactChanges: {
+    isValid: boolean;
+    addedContacts: ActorContactChanges[];
+    removedContacts: ActorContactDto[];
+  };
   actorSaved: boolean;
   contactsRemoved: boolean;
   contactsAdded: boolean;
 
   // Validation
-  validation?: { error: string };
+  validation?: { translate: boolean; error: string };
 }
 
 const initialState: MarketParticipantEditActorState = {
@@ -93,11 +116,14 @@ const initialState: MarketParticipantEditActorState = {
     actorNumber: '',
     status: ActorStatus.New,
   },
-  marketRoles: [],
+  marketRoles: { isValid: true, marketRoles: [] },
   meteringPointTypeChanges: { meteringPointTypes: [] },
   gridAreaChanges: [],
-  addedContacts: [],
-  removedContacts: [],
+  contactChanges: {
+    isValid: true,
+    addedContacts: [],
+    removedContacts: [],
+  },
   actorSaved: false,
   contactsAdded: false,
   contactsRemoved: false,
@@ -112,11 +138,6 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
   changes$ = this.select((state) => state.changes);
   gridAreas$ = this.select((state) => state.gridAreas);
   selectedGridAreas$ = this.select((state) => state.gridAreaChanges);
-  marketRolesEicFunctions$ = this.select((state) => state.marketRoles).pipe(
-    map((marketRoles) =>
-      marketRoles.map((marketRole) => marketRole.eicFunction)
-    )
-  );
   contacts$ = this.select((state) => state.contacts);
 
   constructor(
@@ -126,12 +147,36 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
     super(initialState);
   }
 
-  readonly save = this.effect((onSaveCompletedFn$: Observable<() => void>) =>
-    onSaveCompletedFn$.pipe(
+  readonly save = this.effect((onSaveCompletedFn$: Observable<() => void>) => {
+    return onSaveCompletedFn$.pipe(
       tap(() => this.patchState({ isLoading: true, validation: undefined })),
       withLatestFrom(this.state$),
-      switchMap(([onSaveCompletedFn, state]) =>
-        this.saveActor(state).pipe(
+      filter(([, state]) => {
+        if (!state.contactChanges.isValid) {
+          this.patchState({
+            isLoading: false,
+            validation: {
+              translate: true,
+              error: `marketParticipant.actor.create.contacts.invalidConfiguration`,
+            },
+          });
+        }
+        return state.contactChanges.isValid;
+      }),
+      filter(([, state]) => {
+        if (!state.marketRoles.isValid) {
+          this.patchState({
+            isLoading: false,
+            validation: {
+              translate: true,
+              error: `marketParticipant.actor.create.marketRoles.invalidConfiguration`,
+            },
+          });
+        }
+        return state.marketRoles.isValid;
+      }),
+      switchMap(([onSaveCompletedFn, state]) => {
+        return this.saveActor(state).pipe(
           switchMap((actorId) =>
             this.removeContacts(state.organizationId, actorId, state).pipe(
               switchMap(() =>
@@ -150,15 +195,16 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
               this.patchState({
                 isLoading: false,
                 validation: {
+                  translate: false,
                   error: parseErrorResponse(errorResponse),
                 },
               });
             }
           )
-        )
-      )
-    )
-  );
+        );
+      })
+    );
+  });
 
   readonly loadInitialData = this.effect(
     (routeParams$: Observable<{ organizationId: string; actorId: string }>) =>
@@ -170,12 +216,9 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
             actor: this.getActorInfo(routeParams),
             contacts: this.getContacts(routeParams),
           }).pipe(
-            tap((response) =>
+            tap(() =>
               this.patchState({
                 isLoading: false,
-                gridAreaChanges: response.gridAreas.filter((gridArea) =>
-                  response.actor?.gridAreas.includes(gridArea.id)
-                ),
               })
             )
           )
@@ -220,7 +263,10 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
             actor: {
               ...response,
             },
-            marketRoles: response.marketRoles,
+            marketRoles: {
+              isValid: true,
+              marketRoles: response.marketRoles,
+            },
           });
         })
       )
@@ -253,12 +299,12 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
     actorId: string,
     state: MarketParticipantEditActorState
   ) => {
-    if (state.removedContacts.length === 0) {
+    if (state.contactChanges.removedContacts.length === 0) {
       return of({ ...state, contactsRemoved: true });
     }
 
     return forkJoin(
-      state.removedContacts.map((contact) =>
+      state.contactChanges.removedContacts.map((contact) =>
         this.httpClient.v1MarketParticipantOrganizationOrgIdActorActorIdContactContactIdDelete(
           organizationId,
           actorId,
@@ -273,12 +319,12 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
     actorId: string,
     state: MarketParticipantEditActorState
   ) => {
-    if (state.addedContacts.length === 0) {
+    if (state.contactChanges.addedContacts.length === 0) {
       return of({ ...state, contactsAdded: true });
     }
 
     return forkJoin(
-      state.addedContacts.map((c) =>
+      state.contactChanges.addedContacts.map((c) =>
         this.httpClient.v1MarketParticipantOrganizationOrgIdActorActorIdContactPost(
           organizationId,
           actorId,
@@ -291,6 +337,7 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
   readonly handleError = (errorResponse: HttpErrorResponse) => {
     this.patchState({
       validation: {
+        translate: false,
         error: parseErrorResponse(errorResponse),
       },
     });
@@ -305,11 +352,8 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
           state.organizationId,
           actor.actorId,
           {
-            marketRoles: state.marketRoles,
-            meteringPointTypes:
-              state.meteringPointTypeChanges.meteringPointTypes,
+            marketRoles: state.marketRoles.marketRoles,
             status: state.changes.status,
-            gridAreas: state.gridAreaChanges.map((gridArea) => gridArea.id),
           }
         )
         .pipe(map(() => actor.actorId));
@@ -318,9 +362,7 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
     return this.httpClient
       .v1MarketParticipantOrganizationOrgIdActorPost(state.organizationId, {
         actorNumber: { value: state.changes.actorNumber },
-        marketRoles: state.marketRoles,
-        meteringPointTypes: state.meteringPointTypeChanges.meteringPointTypes,
-        gridAreas: state.gridAreaChanges.map((gridArea) => gridArea.id),
+        marketRoles: state.marketRoles.marketRoles,
       })
       .pipe(map((id) => id));
   };
@@ -330,30 +372,27 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
       changes,
     });
 
-  readonly setMeteringPoinTypeChanges = (
-    meteringPointTypeChanges: MeteringPointTypeChanges
-  ) =>
+  readonly setMarketRoleChanges = (changes: MarketRoleChanges) =>
     this.patchState({
-      meteringPointTypeChanges,
-    });
-
-  readonly setGridAreaChanges = (gridAreas: GridAreaDto[]) => {
-    this.patchState({
-      gridAreaChanges: gridAreas,
-    });
-  };
-
-  readonly setMarketRoles = (marketRoles: MarketRoleDto[]) =>
-    this.patchState({
-      marketRoles,
+      marketRoles: {
+        isValid: changes.isValid,
+        marketRoles: changes.marketRoles.map((mrc) => ({
+          eicFunction: mrc.marketRole,
+          gridAreas: mrc.gridAreas,
+        })),
+      },
     });
 
   readonly setContactChanges = (
+    isValid: boolean,
     added: ActorContactChanges[],
     removed: ActorContactDto[]
   ) =>
     this.patchState({
-      addedContacts: added,
-      removedContacts: removed,
+      contactChanges: {
+        isValid: isValid,
+        addedContacts: added,
+        removedContacts: removed,
+      },
     });
 }
