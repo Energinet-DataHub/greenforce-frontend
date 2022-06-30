@@ -15,11 +15,10 @@ The feature flags require two properties, `created` and `disabledEnvironments`.
 **Example:**
 
 ```ts
-'example-feature-flag': {
-    created: '01-01-2022',
-    disabledEnvironments: [DhAppEnvironment.prod],
-  }
-```
+'my-awesome-feature-flag': {
+  created: '01-01-2022',
+  disabledEnvironments: [DhAppEnvironment.prod],
+}
 
 The `created` property is danish locale `dd-mm-yyyy`. Feature flags use this property internally to check for old feature flags.
 
