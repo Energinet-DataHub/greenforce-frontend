@@ -14,7 +14,7 @@ The feature flags require two properties, `created` and `disabledEnvironments`.
 
 **Example:**
 
-```ts
+````ts
 'my-awesome-feature-flag': {
   created: '01-01-2022',
   disabledEnvironments: [DhAppEnvironment.prod],
@@ -38,7 +38,7 @@ Use the feature flags within templates with the feature flag structural directiv
 <ng-container *dhFeatureFlag="my-awesome-feature-flag">
   SOME CONTENT
 </ng-container>
-```
+````
 
 <mark>Notice: Using feature flags with the structural directive, you will need to import the `DhFeatureFlagDirectiveModule`</mark>
 
