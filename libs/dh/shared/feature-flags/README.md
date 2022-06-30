@@ -23,7 +23,7 @@ The feature flags require two properties, `created` and `disabledEnvironments`.
 
 The `created` property is danish locale `dd-mm-yyyy`. Feature flags use this property internally to check for old feature flags.
 
-The `disabledEnvironments` property is an array of the environments you wan't to disable the feature, for ex., `prod.`
+The `disabledEnvironments` property is an array of the environments you want to disable a feature in, e.g. `prod`.
 
 ## Using a feature flag
 
