@@ -15,15 +15,17 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<ng-container *transloco="let t; read: 'marketParticipant.actor.create'">
-  <ng-container *rxLet="isLoading$ as isLoading">
+<ng-container *rxLet="isLoading$ as isLoading">
+  <ng-container *transloco="let t">
     <watt-validation-message
       type="danger"
       *ngIf="validation$ | push as validation"
-      [label]="t('errorToastLabel')"
-      [message]="validation.error"
+      [label]="t('marketParticipant.actor.create.errorToastLabel')"
+      [message]="validation.translate ? t(validation.error) : validation.error"
     ></watt-validation-message>
+  </ng-container>
 
+  <ng-container *transloco="let t; read: 'marketParticipant.actor.create'">
     <ng-container *rxLet="isEditing$ as isEditing">
       <h1 *ngIf="isEditing">{{ t("editHeader") }}</h1>
       <h1 *ngIf="!isEditing">{{ t("createHeader") }}</h1>
@@ -45,36 +47,22 @@ limitations under the License.
             >
             </dh-market-participant-actor-master-data>
           </watt-tab>
-          <watt-tab [label]="t('meteringPointTypesHeader')">
-            <dh-market-participant-actor-metering-point-type
-              [actor]="actor"
-              (hasChanges)="onMeteringPointTypeChanged($event)"
-            >
-            </dh-market-participant-actor-metering-point-type>
-          </watt-tab>
-          <watt-tab [label]="t('gridAreasHeader')">
-            <dh-market-participant-actor-grid-areas
-              [selectedGridAreas]="selectedGridAreas$ | push"
-              (hasChanges)="onGridAreasChanged($event)"
-              [gridAreas]="gridAreas$ | push"
-            >
-            </dh-market-participant-actor-grid-areas>
-          </watt-tab>
-          <watt-tab [label]="t('marketRolesHeader')">
-            <dh-market-participant-actor-market-roles
-              [marketRolesEicFunctions]="marketRolesEicFunctions$ | push"
-              (marketRolesEicFunctionsChange)="
-                onMarketRolesEicFunctionsChange($event)
-              "
-            >
-            </dh-market-participant-actor-market-roles>
-          </watt-tab>
           <watt-tab [label]="t('contactsHeader')">
             <dh-market-participant-actor-contact-data
               [contacts]="contacts$ | push"
-              (contactsChanged)="onContactsChanged($event.add, $event.remove)"
+              (contactsChanged)="
+                onContactsChanged($event.isValid, $event.add, $event.remove)
+              "
             >
             </dh-market-participant-actor-contact-data>
+          </watt-tab>
+          <watt-tab [label]="t('marketRolesHeader')">
+            <dh-market-participant-actor-market-roles
+              [gridAreas]="gridAreas$ | push"
+              [actorMarketRoles]="actor?.marketRoles"
+              (changed)="onMarketRolesChange($event)"
+            >
+            </dh-market-participant-actor-market-roles>
           </watt-tab>
         </watt-tabs>
       </div>

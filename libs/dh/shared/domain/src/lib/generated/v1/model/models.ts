@@ -1,5 +1,7 @@
 export * from './actor-contact-dto';
 export * from './actor-dto';
+export * from './actor-grid-area-dto';
+export * from './actor-market-role-dto';
 export * from './actor-number-dto';
 export * from './actor-status';
 export * from './address-dto';
@@ -17,7 +19,6 @@ export * from './disconnection-type';
 export * from './eic-function';
 export * from './grid-area-dto';
 export * from './market-participant-metering-point-type';
-export * from './market-role-dto';
 export * from './message-archive-search-criteria';
 export * from './message-archive-search-result-item-dto';
 export * from './message-archive-search-result-item-error-dto';
