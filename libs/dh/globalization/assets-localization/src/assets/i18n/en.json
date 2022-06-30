@@ -314,6 +314,15 @@
             "Passive": "Passive",
             "Deleted": "Deleted"
           }
+        },
+        "contacts": {
+          "invalidConfiguration": "Contacts are not correctly configured"
+        },
+        "marketRoles": {
+          "marketRole": "Market role",
+          "gridArea": "Grid area",
+          "meteringPointTypes": "Metering point types",
+          "invalidConfiguration": "Market roles are not correctly configured"
         }
       }
     },

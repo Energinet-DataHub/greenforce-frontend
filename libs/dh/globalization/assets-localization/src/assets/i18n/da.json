@@ -314,6 +314,15 @@
             "Passive": "Passiv",
             "Deleted": "Slettet"
           }
+        },
+        "contacts": {
+          "invalidConfiguration": "Kontakter er ikke korrekt konfigureret"
+        },
+        "marketRoles": {
+          "marketRole": "Markedsrolle",
+          "gridArea": "Netområde",
+          "meteringPointTypes": "Målepunktstyper",
+          "invalidConfiguration": "Markedsroller er ikke korrekt konfigureret"
         }
       }
     },
