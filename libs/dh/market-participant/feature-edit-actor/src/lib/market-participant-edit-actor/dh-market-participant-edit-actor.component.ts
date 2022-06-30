@@ -19,7 +19,7 @@ import { Component, NgModule } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslocoModule } from '@ngneat/transloco';
 import { LetModule, PushModule } from '@rx-angular/template';
-import { map, Subject } from 'rxjs';
+import { map } from 'rxjs';
 
 import {
   ActorChanges,
