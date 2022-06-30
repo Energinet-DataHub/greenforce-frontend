@@ -40,8 +40,11 @@ import {
 } from '@energinet-datahub/dh/shared/domain';
 import {
   WattButtonModule,
+  WattDatepickerModule,
+  WattFormFieldModule,
   WattSpinnerModule,
   WattTabsModule,
+  WattTimepickerModule,
   WattValidationMessageModule,
 } from '@energinet-datahub/watt';
 
@@ -50,6 +53,7 @@ import { DhMarketParticipantActorContactDataComponentScam } from './contact-data
 import { DhMarketParticipantActorMasterDataComponentScam } from './master-data/dh-market-participant-actor-master-data.component';
 import { DhMarketParticipantActorMeteringPointTypeComponentScam } from './metering-point-type/dh-market-participant-actor-metering-point-type.component';
 import { DhMarketParticipantActorMarketRolesComponentScam } from './market-roles/dh-market-participant-actor-market-roles.component';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'dh-market-participant-edit-actor',
@@ -58,6 +62,8 @@ import { DhMarketParticipantActorMarketRolesComponentScam } from './market-roles
   providers: [DhMarketParticipantEditActorDataAccessApiStore],
 })
 export class DhMarketParticipantEditActorComponent {
+  exampleFormControlSingle = new FormControl();
+
   routeParams$ = this.route.params.pipe(
     map((params) => ({
       organizationId: params[dhMarketParticipantOrganizationIdParam] as string,
@@ -138,6 +144,10 @@ export class DhMarketParticipantEditActorComponent {
     DhMarketParticipantActorMarketRolesComponentScam,
     DhMarketParticipantActorContactDataComponentScam,
     WattValidationMessageModule,
+    WattFormFieldModule,
+    WattDatepickerModule,
+    WattTimepickerModule,
+    ReactiveFormsModule
   ],
   exports: [DhMarketParticipantEditActorComponent],
   declarations: [DhMarketParticipantEditActorComponent],

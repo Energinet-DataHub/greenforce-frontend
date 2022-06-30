@@ -14,6 +14,13 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
+<watt-form-field>
+  <watt-label>Single date</watt-label>
+  <watt-timepicker [formControl]="exampleFormControlSingle"></watt-timepicker>
+  <watt-error *ngIf="exampleFormControlSingle?.errors?.required">
+    Date is required
+  </watt-error>
+</watt-form-field>
 
 <ng-container *transloco="let t; read: 'marketParticipant.actor.create'">
   <ng-container *rxLet="isLoading$ as isLoading">
