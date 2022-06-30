@@ -16,6 +16,8 @@
  */
 import { moduleMetadata, Story, Meta } from '@storybook/angular';
 import { WattButtonModule } from '../button';
+import { WattInputModule } from '../input/input.module';
+import { WattFormFieldModule } from '../form-field/form-field.module';
 import { WattModalModule } from './watt-modal.module';
 import { WattModalComponent } from './watt-modal.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -25,15 +27,69 @@ export default {
   component: WattModalComponent,
   decorators: [
     moduleMetadata({
-      imports: [BrowserAnimationsModule, WattButtonModule, WattModalModule],
+      imports: [
+        BrowserAnimationsModule,
+        WattButtonModule,
+        WattFormFieldModule,
+        WattInputModule,
+        WattModalModule,
+      ],
     }),
   ],
 } as Meta<WattModalComponent>;
 
-export const Overview: Story<WattModalComponent> = (args) => ({
+export const Small: Story<WattModalComponent> = (args) => ({
   props: args,
   template: `
-    <watt-button (click)="modal.open()">Open Modal</watt-button>
+    <watt-button (click)="modal.open()">{{title}}</watt-button>
+    <watt-modal #modal [title]="title" [size]="size" [disableClose]="disableClose" closeLabel="Close modal">
+      <p>Do you accept the terms?</p>
+      <watt-modal-actions>
+        <watt-button variant="secondary" (click)="modal.close(false)">Reject</watt-button>
+        <watt-button (click)="modal.close(true)">Accept</watt-button>
+      </watt-modal-actions>
+    </watt-modal>
+  `,
+});
+
+Small.args = {
+  title: 'Accept Terms',
+  size: 'small',
+  disableClose: true,
+};
+
+export const Normal: Story<WattModalComponent> = (args) => ({
+  props: args,
+  template: `
+    <watt-button (click)="modal.open()">{{title}}</watt-button>
+    <watt-modal #modal [title]="title" [size]="size" [disableClose]="disableClose" closeLabel="Close modal">
+      <br>
+      <watt-form-field>
+        <watt-label>Username</watt-label>
+        <input wattInput [formControl]="exampleFormControl" />
+      </watt-form-field>
+      <watt-form-field>
+        <watt-label>Password</watt-label>
+        <input wattInput type="password" [formControl]="exampleFormControl" />
+      </watt-form-field>
+      <watt-modal-actions>
+        <watt-button variant="secondary" (click)="modal.close(false)">Cancel</watt-button>
+        <watt-button (click)="modal.close(true)">Save</watt-button>
+      </watt-modal-actions>
+    </watt-modal>
+  `,
+});
+
+Normal.args = {
+  title: 'Create User',
+  size: 'normal',
+  disableClose: false,
+};
+
+export const Large: Story<WattModalComponent> = (args) => ({
+  props: args,
+  template: `
+    <watt-button (click)="modal.open()">{{title}}</watt-button>
     <watt-modal #modal [title]="title" [size]="size" [disableClose]="disableClose" closeLabel="Close modal">
       <h4>Develop across all platforms</h4>
       <p>Learn one way to build applications with Angular and reuse your code and abilities to build apps for any deployment target. For web, mobile web, native mobile and native desktop.</p>
@@ -55,14 +111,14 @@ export const Overview: Story<WattModalComponent> = (args) => ({
       <p>The metadata for a service class provides the information Angular needs to make it available to components through Dependency Injection (DI).</p>
       <p>An app's components typically define many views, arranged hierarchically. Angular provides the Router service to help you define navigation paths among views. The router provides sophisticated in-browser navigational capabilities.</p>
       <watt-modal-actions>
-        <watt-button variant="secondary" (click)="modal.close(false)">Reject</watt-button>
-        <watt-button (click)="modal.close(true)">Accept</watt-button>
+        <watt-button variant="secondary" (click)="modal.close(false)">No Thanks</watt-button>
+        <watt-button (click)="modal.close(true)">Install</watt-button>
       </watt-modal-actions>
     </watt-modal>
   `,
 });
 
-Overview.args = {
+Large.args = {
   title: 'Install Angular',
   size: 'large',
   disableClose: false,

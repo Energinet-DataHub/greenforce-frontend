@@ -47,6 +47,9 @@
     grid-area: content;
     overflow: auto;
     margin: 0 var(--watt-space-m);
+  }
+
+  .watt-modal-scrollable {
     border: 1px solid var(--watt-color-neutral-grey-300);
     border-left: none;
     border-right: none;
