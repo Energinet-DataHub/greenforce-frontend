@@ -32,7 +32,7 @@ export const marketParticipantMocks = [
     'https://localhost:5001/v1/MarketParticipant/organization/:organizationId',
     (req, res, ctx) => {
       const { organizationId } = req.params;
-//      return res(ctx.status(500), ctx.json({error: {message: 'Internal server error'}}));
+      //      return res(ctx.status(500), ctx.json({error: {message: 'Internal server error'}}));
 
       return res(
         ctx.status(200),
@@ -42,7 +42,6 @@ export const marketParticipantMocks = [
           )
         )
       );
-
     }
   ),
   rest.get(
@@ -63,7 +62,10 @@ export const marketParticipantMocks = [
     'https://localhost:5001/v1/MarketParticipant/organization/:organizationId/actor/:actorId',
     (req, res, ctx) => {
       return res(ctx.status(200), ctx.json(actorMock));
-      return res(ctx.status(500), ctx.json({error: {message: 'Internal server error'}}));
+      return res(
+        ctx.status(500),
+        ctx.json({ error: { message: 'Internal server error' } })
+      );
     }
   ),
   rest.put(
@@ -79,5 +81,5 @@ export const marketParticipantMocks = [
       return res(ctx.status(200), ctx.json(gridAreaMock));
       //return res(ctx.status(500), ctx.json({error: {message: 'Internal server error'}}));
     }
-  )
+  ),
 ];

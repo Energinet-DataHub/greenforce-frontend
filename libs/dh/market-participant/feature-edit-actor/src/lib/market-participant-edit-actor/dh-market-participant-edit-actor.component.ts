@@ -147,7 +147,7 @@ export class DhMarketParticipantEditActorComponent {
     WattFormFieldModule,
     WattDatepickerModule,
     WattTimepickerModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
   exports: [DhMarketParticipantEditActorComponent],
   declarations: [DhMarketParticipantEditActorComponent],

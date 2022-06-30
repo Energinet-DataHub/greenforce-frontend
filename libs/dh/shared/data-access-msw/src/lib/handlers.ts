@@ -23,7 +23,7 @@ import { meteringPointMocks } from './mocks/metering-point';
 export const handlers: RequestHandler[] = [
   ...chargesMocks,
   ...meteringPointMocks,
-  ...marketParticipantMocks
+  ...marketParticipantMocks,
 ];
 
 export function onUnhandledRequest(req: MockedRequest) {
