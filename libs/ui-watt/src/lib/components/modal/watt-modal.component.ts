@@ -88,6 +88,9 @@ export class WattModalComponent implements AfterViewInit {
   modal!: TemplateRef<Element>;
 
   /** @ignore */
+  scrollable = false;
+
+  /** @ignore */
   private openSubject = new Subject<void>();
 
   /** @ignore */
@@ -139,6 +142,14 @@ export class WattModalComponent implements AfterViewInit {
    */
   close(result: boolean) {
     this.closeSubject.next(result);
+  }
+
+  /**
+   * Called when the modal content element changes size.
+   * @ignore
+   */
+  onResize(event: ResizeObserverEntry) {
+    this.scrollable = event.target.scrollHeight > event.target.clientHeight;
   }
 }
 
