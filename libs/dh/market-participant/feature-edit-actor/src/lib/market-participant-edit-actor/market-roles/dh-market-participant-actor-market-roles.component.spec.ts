@@ -15,35 +15,35 @@
  * limitations under the License.
  */
 
-import { render, screen } from '@testing-library/angular';
+import { render, screen, within } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
+import { runOnPushChangeDetection } from '@energinet-datahub/dh/shared/test-util-metering-point';
+import {
+  ActorMarketRoleDto,
+  GridAreaDto,
+} from '@energinet-datahub/dh/shared/domain';
+import { MarketRoleChanges } from '@energinet-datahub/dh/market-participant/data-access-api';
+import { EventEmitter } from '@angular/core';
+import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
 import {
   DhMarketParticipantActorMarketRolesComponent,
   DhMarketParticipantActorMarketRolesComponentScam,
 } from './dh-market-participant-actor-market-roles.component';
-import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
-import { EventEmitter } from '@angular/core';
-import { MarketRoleService } from './market-role.service';
-import { EicFunction } from '@energinet-datahub/dh/shared/domain';
-import { HarnessLoader } from '@angular/cdk/testing';
-import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { MatSelectionListHarness } from '@angular/material/list/testing';
-import { en as enTranslations } from '@energinet-datahub/dh/globalization/assets-localization';
-import { runOnPushChangeDetection } from '@energinet-datahub/dh/shared/test-util-metering-point';
-
-let loader: HarnessLoader;
-const marketRoles = enTranslations.marketParticipant.marketRoles;
+import { en } from '@energinet-datahub/dh/globalization/assets-localization';
 
 describe(DhMarketParticipantActorMarketRolesComponent.name, () => {
-  async function setup(marketRolesEicFunctionsToTest: EicFunction[] = []) {
+  async function setup(
+    gridAreas: GridAreaDto[],
+    existingActorMarketRoles: ActorMarketRoleDto[]
+  ) {
     const outputFn = jest.fn();
-
     const view = await render(DhMarketParticipantActorMarketRolesComponent, {
       componentProperties: {
-        marketRolesEicFunctions: marketRolesEicFunctionsToTest,
-        marketRolesEicFunctionsChange: {
+        gridAreas: gridAreas,
+        actorMarketRoles: existingActorMarketRoles,
+        changed: {
           emit: outputFn,
-        } as unknown as EventEmitter<EicFunction[]>,
+        } as unknown as EventEmitter<MarketRoleChanges>,
       },
       imports: [
         DhMarketParticipantActorMarketRolesComponentScam,
@@ -51,88 +51,109 @@ describe(DhMarketParticipantActorMarketRolesComponent.name, () => {
       ],
     });
 
-    loader = TestbedHarnessEnvironment.loader(view.fixture);
-
     await runOnPushChangeDetection(view.fixture);
 
-    return {
-      view,
-      outputFn,
+    return { view, outputFn };
+  }
+
+  const gridAreas: GridAreaDto[] = [
+    {
+      id: '9117A657-2839-4DA5-94DC-89F7EE55F62F',
+      code: 'code',
+      name: 'name',
+      priceAreaCode: 'DK1',
+    },
+  ];
+
+  test('should add new', async () => {
+    // arrange
+    const { outputFn } = await setup(gridAreas, []);
+
+    const expected = {
+      isValid: true,
+      marketRoles: [
+        {
+          gridAreas: [
+            {
+              id: gridAreas[0].id,
+              meteringPointTypes: ['D01VeProduction'],
+            },
+          ],
+          marketRole: 'GridAccessProvider',
+        },
+      ],
     };
-  }
 
-  function getAllOptions() {
-    return screen.getAllByRole('option');
-  }
+    // act
+    // click add
+    const addButton = screen.getByRole('button', {
+      name: 'add',
+    });
+    userEvent.click(addButton);
 
-  test('should render checkbox list', async () => {
-    await setup();
+    // select market role
+    const marketRoleOptions = within(
+      screen.getByRole('cell', {
+        name: en.marketParticipant.actor.create.marketRoles.marketRole,
+      })
+    ).getByRole('combobox');
+    userEvent.click(marketRoleOptions);
 
-    expect(screen.getByRole('listbox')).toBeInTheDocument();
+    const marketRoleOption = screen.getByText(
+      en.marketParticipant.marketRoles.GridAccessProvider
+    );
+    userEvent.click(marketRoleOption);
+
+    // select grid area
+    const gridAreaOptions = within(
+      screen.getByRole('cell', {
+        name: en.marketParticipant.actor.create.marketRoles.gridArea,
+      })
+    ).getByRole('combobox');
+    userEvent.click(gridAreaOptions);
+
+    const gridAreaOption = screen.getByText(
+      `${gridAreas[0].code} - ${gridAreas[0].name}`
+    );
+    userEvent.click(gridAreaOption);
+
+    // select metering point types
+    const meteringPointTypeOptions = within(
+      screen.getByRole('cell', {
+        name: en.marketParticipant.actor.create.marketRoles.meteringPointTypes,
+      })
+    ).getByRole('combobox');
+    userEvent.click(meteringPointTypeOptions);
+
+    const meteringPointTypeOption = screen.getByText('D01VeProduction');
+    userEvent.click(meteringPointTypeOption);
+    userEvent.tab();
+
+    // assert
+    expect(outputFn).toHaveBeenLastCalledWith(expected);
   });
 
-  test('should render checkbox options', async () => {
-    await setup();
-
-    const marketRoleService = new MarketRoleService();
-    const availableMarketRolesCount =
-      marketRoleService.getAvailableMarketRoles.length;
-
-    const allOptions = getAllOptions();
-    expect(allOptions).toHaveLength(availableMarketRolesCount);
-  });
-
-  test('should render checkbox options, preselected', async () => {
-    await setup([EicFunction.GridAccessProvider]);
-
-    const matSelectionList = await loader.getHarness(MatSelectionListHarness);
-
-    const result = await matSelectionList.getItems({ selected: true });
-
-    expect(result).toHaveLength(1);
-  });
-
-  test('should render checkbox options, on selection output', async () => {
-    // Arrange
-    const { outputFn } = await setup([
-      EicFunction.GridAccessProvider,
-      EicFunction.MeterAdministrator,
+  test('should remove existing', async () => {
+    // arrange
+    const { outputFn } = await setup(gridAreas, [
+      {
+        eicFunction: 'Agent',
+        gridAreas: [
+          { id: gridAreas[0].id, meteringPointTypes: ['D01VeProduction'] },
+        ],
+      },
     ]);
 
-    const gridAccessProviderOption = await screen.findByText(
-      new RegExp(marketRoles.GridAccessProvider, 'i')
-    );
+    const expected = { isValid: true, marketRoles: [] };
 
-    // Act
-    userEvent.click(gridAccessProviderOption);
+    // act
+    const deleteButton = screen.getByRole('button', {
+      name: 'delete',
+    });
 
-    // Assert
-    expect(outputFn).toHaveBeenCalledWith([EicFunction.MeterAdministrator]);
-  });
+    userEvent.click(deleteButton);
 
-  test('should render checkbox options, disabled option click', async () => {
-    // Arrange
-    const { outputFn } = await setup([EicFunction.GridAccessProvider]);
-
-    const systemOperatorOptionDisabled = await screen.findByText(
-      new RegExp(marketRoles.SystemOperator, 'i')
-    );
-
-    const meterAdministratorOption = await screen.findByText(
-      new RegExp(marketRoles.MeterAdministrator, 'i')
-    );
-
-    // Act + Assert - Disabled output
-    expect(() => userEvent.click(systemOperatorOptionDisabled)).toThrow();
-    expect(outputFn).not.toHaveBeenCalled();
-
-    // Act, available click
-    userEvent.click(meterAdministratorOption);
-
-    // Assert new output
-    expect(outputFn).toHaveBeenCalledWith([
-      EicFunction.GridAccessProvider,
-      EicFunction.MeterAdministrator,
-    ]);
+    // assert
+    expect(outputFn).toHaveBeenLastCalledWith(expected);
   });
 });

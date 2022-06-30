@@ -10,15 +10,12 @@
  * Do not edit the class manually.
  */
 import { ActorNumberDto } from './actor-number-dto';
-import { MarketParticipantMeteringPointType } from './market-participant-metering-point-type';
-import { MarketRoleDto } from './market-role-dto';
+import { ActorMarketRoleDto } from './actor-market-role-dto';
 
 
 export interface CreateActorDto { 
     actorNumber: ActorNumberDto;
-    gridAreas: Array<string>;
-    marketRoles: Array<MarketRoleDto>;
-    meteringPointTypes: Array<MarketParticipantMeteringPointType>;
+    marketRoles: Array<ActorMarketRoleDto>;
 }
 
 
