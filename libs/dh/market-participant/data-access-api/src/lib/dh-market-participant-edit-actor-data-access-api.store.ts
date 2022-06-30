@@ -32,6 +32,7 @@ import {
 import {
   catchError,
   EMPTY,
+  filter,
   forkJoin,
   map,
   Observable,
@@ -150,7 +151,7 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
     return onSaveCompletedFn$.pipe(
       tap(() => this.patchState({ isLoading: true, validation: undefined })),
       withLatestFrom(this.state$),
-      switchMap(([onSaveCompletedFn, state]) => {
+      filter(([, state]) => {
         if (!state.contactChanges.isValid) {
           this.patchState({
             isLoading: false,
@@ -159,8 +160,10 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
               error: `marketParticipant.actor.create.contacts.invalidConfiguration`,
             },
           });
-          return of();
         }
+        return state.contactChanges.isValid;
+      }),
+      filter(([, state]) => {
         if (!state.marketRoles.isValid) {
           this.patchState({
             isLoading: false,
@@ -169,8 +172,10 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
               error: `marketParticipant.actor.create.marketRoles.invalidConfiguration`,
             },
           });
-          return of();
         }
+        return state.marketRoles.isValid;
+      }),
+      switchMap(([onSaveCompletedFn, state]) => {
         return this.saveActor(state).pipe(
           switchMap((actorId) =>
             this.removeContacts(state.organizationId, actorId, state).pipe(
