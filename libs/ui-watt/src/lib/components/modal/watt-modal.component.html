@@ -29,6 +29,9 @@ limitations under the License.
     wattResizeObserver
     class="watt-modal-content"
     [class.watt-modal-scrollable]="scrollable"
-    (resize)="onResize($event)"><ng-content></ng-content></div>
+    (resize)="onResize($event)"
+  >
+    <ng-content></ng-content>
+  </div>
   <ng-content select="watt-modal-actions"></ng-content>
 </ng-template>
