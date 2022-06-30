@@ -80,7 +80,7 @@ const getTruthyAt =
 
 /**
  * Usage:
- * `import { WattTimeRangeInputModule } from '@energinet-datahub/watt';`
+ * `import { WattTimepickerModule } from '@energinet-datahub/watt';`
  *
  * IMPORTANT:
  * The styling is calculated based on our monospaced font.
