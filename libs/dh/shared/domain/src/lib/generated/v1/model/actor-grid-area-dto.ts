@@ -9,13 +9,12 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { ActorStatus } from './actor-status';
-import { ActorMarketRoleDto } from './actor-market-role-dto';
+import { MarketParticipantMeteringPointType } from './market-participant-metering-point-type';
 
 
-export interface ChangeActorDto { 
-    status: ActorStatus;
-    marketRoles: Array<ActorMarketRoleDto>;
+export interface ActorGridAreaDto { 
+    id: string;
+    meteringPointTypes: Array<MarketParticipantMeteringPointType>;
 }
 
 

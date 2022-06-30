@@ -25,19 +25,14 @@ import {
   ActorChanges,
   ActorContactChanges,
   DhMarketParticipantEditActorDataAccessApiStore,
-  MeteringPointTypeChanges,
+  MarketRoleChanges,
 } from '@energinet-datahub/dh/market-participant/data-access-api';
 import {
   dhMarketParticipantActorIdParam,
   dhMarketParticipantOrganizationIdParam,
   dhMarketParticipantPath,
 } from '@energinet-datahub/dh/market-participant/routing';
-import {
-  GridAreaDto,
-  EicFunction,
-  MarketRoleDto,
-  ActorContactDto,
-} from '@energinet-datahub/dh/shared/domain';
+import { ActorContactDto } from '@energinet-datahub/dh/shared/domain';
 import {
   WattButtonModule,
   WattSpinnerModule,
@@ -45,10 +40,8 @@ import {
   WattValidationMessageModule,
 } from '@energinet-datahub/watt';
 
-import { DhMarketParticipantActorGridAreasComponentScam } from './grid-areas/dh-market-participant-actor-grid-areas.component';
 import { DhMarketParticipantActorContactDataComponentScam } from './contact-data/dh-market-participant-actor-contact-data.component';
 import { DhMarketParticipantActorMasterDataComponentScam } from './master-data/dh-market-participant-actor-master-data.component';
-import { DhMarketParticipantActorMeteringPointTypeComponentScam } from './metering-point-type/dh-market-participant-actor-metering-point-type.component';
 import { DhMarketParticipantActorMarketRolesComponentScam } from './market-roles/dh-market-participant-actor-market-roles.component';
 
 @Component({
@@ -71,7 +64,6 @@ export class DhMarketParticipantEditActorComponent {
   validation$ = this.store.validation$;
   gridAreas$ = this.store.gridAreas$;
   selectedGridAreas$ = this.store.selectedGridAreas$;
-  marketRolesEicFunctions$ = this.store.marketRolesEicFunctions$;
   contacts$ = this.store.contacts$;
 
   constructor(
@@ -86,24 +78,16 @@ export class DhMarketParticipantEditActorComponent {
     this.store.setMasterDataChanges(changes);
   };
 
-  readonly onMeteringPointTypeChanged = (changes: MeteringPointTypeChanges) => {
-    this.store.setMeteringPoinTypeChanges(changes);
-  };
-
-  readonly onGridAreasChanged = (changes: GridAreaDto[]) => {
-    this.store.setGridAreaChanges(changes);
-  };
-
-  readonly onMarketRolesEicFunctionsChange = (eicFunctions: EicFunction[]) => {
-    const marketRoles = eicFunctions.map(this.toMarketRole);
-    this.store.setMarketRoles(marketRoles);
+  readonly onMarketRolesChange = (marketRoleChanges: MarketRoleChanges) => {
+    this.store.setMarketRoleChanges(marketRoleChanges);
   };
 
   readonly onContactsChanged = (
+    isValid: boolean,
     added: ActorContactChanges[],
     removed: ActorContactDto[]
   ) => {
-    this.store.setContactChanges(added, removed);
+    this.store.setContactChanges(isValid, added, removed);
   };
 
   readonly onCancelled = () => {
@@ -117,10 +101,6 @@ export class DhMarketParticipantEditActorComponent {
   private readonly backToOverview = () => {
     this.router.navigateByUrl(dhMarketParticipantPath);
   };
-
-  private toMarketRole(value: EicFunction): MarketRoleDto {
-    return { eicFunction: value };
-  }
 }
 
 @NgModule({
@@ -134,10 +114,8 @@ export class DhMarketParticipantEditActorComponent {
     WattSpinnerModule,
     PushModule,
     DhMarketParticipantActorMasterDataComponentScam,
-    DhMarketParticipantActorMeteringPointTypeComponentScam,
-    DhMarketParticipantActorGridAreasComponentScam,
-    DhMarketParticipantActorMarketRolesComponentScam,
     DhMarketParticipantActorContactDataComponentScam,
+    DhMarketParticipantActorMarketRolesComponentScam,
     WattValidationMessageModule,
   ],
   exports: [DhMarketParticipantEditActorComponent],
