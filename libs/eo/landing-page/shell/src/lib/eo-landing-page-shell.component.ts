@@ -83,10 +83,6 @@ import { EoLandingPageAudienceScam } from './eo-landinge-page-audience.component
       <eo-landing-page-company></eo-landing-page-company>
 
       <eo-landing-page-call-to-action></eo-landing-page-call-to-action>
-
-      <div class="u-snap-bottom">
-        <img src="/assets/images/landing-page/landing-page-mesh-bottom.png" />
-      </div>
     </div>
 
     <eo-footer></eo-footer>

@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
-import { EoMediaModule } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 import { EoLandingPagePresenter } from './eo-landing-page.presenter';
 
 @Component({
@@ -23,39 +22,62 @@ import { EoLandingPagePresenter } from './eo-landing-page.presenter';
   selector: 'eo-landing-page-audience',
   styles: [
     `
-      @use '@energinet-datahub/eo/shared/styles/layout' as eo-layout;
-
+      @use '@energinet-datahub/watt/utils' as watt;
       :host {
-        @include eo-layout.centered-content;
-
+        padding: var(--watt-space-xl);
+        background-color: var(--watt-color-primary-light);
         display: block;
 
-        background-color: var(--watt-color-primary-light);
+        @include watt.media('<Large') {
+          padding: var(--watt-space-l) var(--watt-space-m);
+        }
+      }
+
+      h2 {
+        padding-bottom: 8px;
+      }
+
+      .content {
+        margin: 0 auto;
+        max-width: 960px;
+        display: flex;
+        justify-content: space-between;
+
+        @include watt.media('<Large') {
+          max-width: 100%;
+          flex-direction: column-reverse;
+        }
+      }
+
+      .content-text {
+        flex-direction: column;
+        padding-bottom: var(--watt-space-l);
+
+        @include watt.media('>=Large') {
+          max-width: 457px; // Magix UX number
+        }
+      }
+
+      img {
+        margin: 0 auto;
       }
     `,
   ],
   template: `
-    <div class="eo-spacing-squished-inset-xxl">
-      <eo-media
-        [eoMediaGapPixels]="landingPage.gutterPixels"
-        [eoMediaMaxWidthPixels]="landingPage.contentMaxWidthPixels"
-      >
+    <div class="content">
+      <img
+        width="400"
+        src="/assets/images/landing-page/landing-page-office-people.png"
+        alt="Company users"
+      />
+      <div class="content-text">
         <h2>Who is it for?</h2>
-
         <p>
           This first version of Energy Origin is for
           <strong>companies in Denmark</strong>. Later it will be available for
           private individuals as well.
         </p>
-
-        <img
-          eoMediaImage
-          eoMediaImageAlign="start"
-          [eoMediaImageMaxWidthPixels]="400"
-          src="/assets/images/landing-page/landing-page-office-people.png"
-          alt="Company users"
-        />
-      </eo-media>
+      </div>
     </div>
   `,
 })
@@ -66,6 +88,5 @@ export class EoLandingPageAudienceComponent {
 @NgModule({
   declarations: [EoLandingPageAudienceComponent],
   exports: [EoLandingPageAudienceComponent],
-  imports: [EoMediaModule],
 })
 export class EoLandingPageAudienceScam {}

@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
-import { EoMediaModule } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 import { EoLandingPagePresenter } from './eo-landing-page.presenter';
 
 @Component({
@@ -23,45 +22,65 @@ import { EoLandingPagePresenter } from './eo-landing-page.presenter';
   selector: 'eo-landing-page-origin-of-energy',
   styles: [
     `
-      @use '@energinet-datahub/eo/shared/styles/layout' as eo-layout;
-      @use '@energinet-datahub/eo/shared/styles/spacing' as eo-spacing;
-
+      @use '@energinet-datahub/watt/utils' as watt;
       :host {
-        @include eo-layout.centered-content;
-        @include eo-spacing.inset-xxl;
-
+        padding: var(--eo-space-xxl) 0;
         display: block;
+        max-width: 960px;
+        margin: 0 auto;
+
+        @include watt.media('<Large') {
+          max-width: 100%;
+          padding: var(--watt-space-xl) var(--watt-space-m);
+        }
+      }
+
+      h2 {
+        padding-bottom: 8px;
+      }
+
+      .content {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        @include watt.media('<Large') {
+          flex-direction: column;
+        }
+      }
+
+      .content-text {
+        flex-direction: column;
+
+        @include watt.media('>=Large') {
+          max-width: 400px;
+        }
       }
     `,
   ],
   template: `
-    <eo-media
-      [eoMediaGapPixels]="landingPage.gutterPixels"
-      [eoMediaMaxWidthPixels]="landingPage.contentMaxWidthPixels"
-    >
-      <h2>View the origin of your energy</h2>
-      <p>
-        Imagine if we all knew, where our energy came from, at all times, and
-        were able to
-        <strong>choose the green energy</strong> by the hour. That is the
-        vision, we are working for with the platform Energy Origin.
-      </p>
-
-      <p>
-        Simultaneity between <strong>production</strong> of sustainable energy
-        and <strong>consumption</strong> of energy will be a real factor in the
-        <strong>green transition</strong> and therefore has great potential for
-        future green solutions.
-      </p>
-
+    <div class="content">
+      <div class="content-text">
+        <h2>View the origin of your energy</h2>
+        <p class="watt-space-stack-l">
+          Imagine if we all knew, where our energy came from, at all times, and
+          were able to
+          <strong>choose the green energy</strong> by the hour. That is the
+          vision, we are working for with the platform Energy Origin.
+        </p>
+        <p class="watt-space-stack-l">
+          Simultaneity between <strong>production</strong> of sustainable energy
+          and <strong>consumption</strong> of energy will be a real factor in
+          the <strong>green transition</strong> and therefore has great
+          potential for future green solutions.
+        </p>
+      </div>
       <img
-        eoMediaImage
-        eoMediaImageAlign="end"
-        [eoMediaImageMaxWidthPixels]="520"
+        width="520"
         src="/assets/images/landing-page/landing-page-graph-of-energy-with-dashboard.png"
         alt="Energy Origin graph of energy"
       />
-    </eo-media>
+    </div>
   `,
 })
 export class EoLandingPageOriginOfEnergyComponent {
@@ -71,6 +90,5 @@ export class EoLandingPageOriginOfEnergyComponent {
 @NgModule({
   declarations: [EoLandingPageOriginOfEnergyComponent],
   exports: [EoLandingPageOriginOfEnergyComponent],
-  imports: [EoMediaModule],
 })
 export class EoLandingPageOriginOfEnergyScam {}
