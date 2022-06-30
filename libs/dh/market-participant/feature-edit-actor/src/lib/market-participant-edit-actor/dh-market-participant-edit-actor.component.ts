@@ -57,7 +57,6 @@ export class DhMarketParticipantEditActorComponent {
       actorId: params[dhMarketParticipantActorIdParam] as string,
     }))
   );
-  triggerValidationSubject = new Subject<void>();
   isLoading$ = this.store.isLoading$;
   isEditing$ = this.store.isEditing$;
   actor$ = this.store.actor$;
@@ -95,7 +94,6 @@ export class DhMarketParticipantEditActorComponent {
   };
 
   readonly onSaved = () => {
-    this.triggerValidationSubject.next();
     this.store.save(this.backToOverview);
   };
 

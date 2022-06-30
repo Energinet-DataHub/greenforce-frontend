@@ -19,7 +19,7 @@ import { EicFunction } from '@energinet-datahub/dh/shared/domain';
 import { EditableMarketRoleRow } from './dh-market-participant-actor-market-roles.component';
 import { MarketRoleGroupService } from './market-role-group.service';
 
-describe('MarketRoleGroupService.name', () => {
+describe(MarketRoleGroupService.name, () => {
   test('should group grid areas under same market role', () => {
     // arrange
     const target = new MarketRoleGroupService();
