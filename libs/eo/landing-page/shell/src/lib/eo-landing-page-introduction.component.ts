@@ -22,22 +22,40 @@ import { EoVimeoPlayerScam } from '@energinet-datahub/eo/shared/atomic-design/ui
   selector: 'eo-landing-page-introduction',
   styles: [
     `
+      @use '@energinet-datahub/watt/utils' as watt;
       @use '@energinet-datahub/eo/shared/styles/spacing' as eo-spacing;
 
       :host {
-        @include eo-spacing.inset-xxl;
-
+        padding-top: var(--eo-space-xxl);
+        max-width: 960px;
         display: block;
+        margin: 0 auto;
+
+        @include watt.media('<Large') {
+          max-width: 100%;
+          padding-top: var(--watt-space-l);
+        }
       }
 
       .video-wrapper {
         max-width: 640px; // Magic number by designer
         margin: 0 auto;
+
+        @include watt.media('<Large') {
+          max-width: 100%;
+        }
       }
 
       .content-wrapper {
         margin: 0 auto;
-        max-width: var(--eo-landing-page-content-max-width);
+        padding: 0 var(--watt-space-m);
+      }
+
+      .text-list {
+        padding: var(--watt-space-m) 0 var(--watt-space-l) var(--watt-space-m);
+        @include watt.media('<Large') {
+          padding: var(--watt-space-m) 0 var(--watt-space-m) var(--watt-space-m);
+        }
       }
     `,
   ],
@@ -53,18 +71,16 @@ import { EoVimeoPlayerScam } from '@energinet-datahub/eo/shared/atomic-design/ui
         companies in Denmark and can be used for e.g.:
       </p>
 
-      <div class="watt-space-stack-l">
-        <ul class="watt-space-inset-squish-m">
-          <li>
-            Compiling an <strong>emissions overview</strong> for your annual ECG
-            report
-          </li>
-          <li>
-            Gaining an overview of the <strong>renewables share</strong> of your
-            energy consumption
-          </li>
-        </ul>
-      </div>
+      <ul class="text-list">
+        <li>
+          Compiling an <strong>emissions overview</strong> for your annual ECG
+          report
+        </li>
+        <li>
+          Gaining an overview of the <strong>renewables share</strong> of your
+          energy consumption
+        </li>
+      </ul>
 
       <div class="watt-space-stack-l">
         <a

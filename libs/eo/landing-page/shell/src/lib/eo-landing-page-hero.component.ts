@@ -22,6 +22,8 @@ import { EoLandingPageLoginButtonScam } from './eo-landing-page-login-button.com
   selector: 'eo-landing-page-hero',
   styles: [
     `
+      @use '@energinet-datahub/watt/utils' as watt;
+
       :host {
         display: block;
       }
@@ -35,36 +37,43 @@ import { EoLandingPageLoginButtonScam } from './eo-landing-page-login-button.com
         display: block;
       }
 
-      h1 {
-        font-size: 44px; // Magic number by designer
-        line-height: 54px; // Magic number by designer
-      }
-
       .call-to-action {
         display: flex;
         justify-content: center;
+        align-items: center;
         align-content: space-around;
+        background-color: #bed7d9;
+        min-width: 343px;
+        padding: var(--watt-space-m) var(--watt-space-m) var(--watt-space-l);
+        gap: var(--watt-space-s);
 
-        background-color: #bed7d9; // Match bottom color from hero illustration
+        @include watt.media('>=Medium') {
+          gap: var(--watt-space-l);
+        }
+      }
+
+      h1 {
+        text-transform: uppercase;
+
+        @include watt.media('>=Large') {
+          text-align: center;
+          font-size: 42px; // Magic number by designer
+          line-height: 54px; // Magic number by designer
+        }
       }
     `,
   ],
   template: `
     <div class="watt-space-inset-m">
-      <h1 class="eo-text-promotional">
-        Access
-        <span class="eo-text-primary"
-          >your emissions and<br />energy origin</span
-        >
-        overview
+      <h1>
+        Your <span class="eo-text-primary">emissions</span> and
+        <span class="eo-text-primary">renewables</span> overview
       </h1>
     </div>
     <img src="/assets/images/landing-page/hero-illustration.svg" />
 
-    <div class="call-to-action watt-space-inset-l">
-      <h2 class="watt-space-inline-xl eo-text-primary-contrast">
-        Log in with your company NemID
-      </h2>
+    <div class="call-to-action">
+      <h2 class="eo-text-primary-contrast">Log in with your company NemID</h2>
 
       <eo-landing-page-login-button></eo-landing-page-login-button>
     </div>
