@@ -62,7 +62,7 @@ const danishLocaleCode = 'da';
     WattInputMaskService,
     WattRangeInputService,
     { provide: MatFormFieldControl, useExisting: WattDatepickerComponent },
-    MAT_DATEPICKER_SCROLL_STRATEGY_FACTORY_PROVIDER
+    MAT_DATEPICKER_SCROLL_STRATEGY_FACTORY_PROVIDER,
   ],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
