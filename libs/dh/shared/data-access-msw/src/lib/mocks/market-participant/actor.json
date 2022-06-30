@@ -1,0 +1,9 @@
+{
+  "actorId": "e6d717fe-6184-4821-26a5-08da43b0820e",
+  "externalActorId": "5b58f838-fcaf-4a06-abeb-e88c6990e820",
+  "actorNumber": { "value": "8656101394160" },
+  "status": "Active",
+  "gridAreas": ["2f8197d5-05a7-4f68-957c-73d95d1c9289"],
+  "marketRoles": [{ "eicFunction": "GridAccessProvider" }],
+  "meteringPointTypes": ["Unknown", "D01VeProduction"]
+}

@@ -95,13 +95,15 @@ limitations under the License.
       <!-- Date from -->
       <watt-form-field>
         <watt-label>{{ transloco("dateFrom") }}</watt-label>
+        <!--
         <input
           #searchInputDateTimeFrom
           [(ngModel)]="this.searchCriteria.dateTimeFrom"
           wattInput
           type="text"
           name="dateTimeFrom"
-        />
+        />-->
+        <watt-datepicker></watt-datepicker>
       </watt-form-field>
 
       <!-- Date to -->

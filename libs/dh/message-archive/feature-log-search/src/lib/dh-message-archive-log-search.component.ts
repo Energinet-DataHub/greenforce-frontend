@@ -35,6 +35,7 @@ import {
   WattBadgeModule,
   WattDropdownModule,
   WattDropdownOptions,
+  WattDatepickerModule,
 } from '@energinet-datahub/watt';
 import {
   DhMessageArchiveDataAccessApiStore,
@@ -232,6 +233,7 @@ export class DhMessageArchiveLogSearchComponent implements OnDestroy {
     DhMessageArchiveLogSearchResultScam,
     WattBadgeModule,
     WattDropdownModule,
+    WattDatepickerModule,
   ],
   declarations: [DhMessageArchiveLogSearchComponent],
 })

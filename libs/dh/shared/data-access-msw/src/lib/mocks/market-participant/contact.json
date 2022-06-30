@@ -1,0 +1,16 @@
+[
+  {
+    "contactId": "63ef1d7c-1793-49cc-a45b-08da5753ab6d",
+    "category": "Default",
+    "name": "1",
+    "email": "1@example.com",
+    "phone": null
+  },
+  {
+    "contactId": "2d761b9f-46c7-4977-669d-08da58f0289e",
+    "category": "Charges",
+    "name": "2",
+    "email": "2@example.com",
+    "phone": null
+  }
+]
