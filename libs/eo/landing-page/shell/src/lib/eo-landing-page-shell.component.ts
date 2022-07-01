@@ -33,8 +33,6 @@ import { EoLandingPageOriginOfEnergyScam } from './eo-landing-page-origin-of-ene
 import { EoLandingPagePresenter } from './eo-landing-page.presenter';
 import { EoLandingPageStore } from './eo-landing-page.store';
 import { EoLandingPageAudienceScam } from './eo-landinge-page-audience.component';
-import { eoPrivacyPolicyRoutePath } from '@energinet-datahub/eo/privacy-policy/routing';
-import { RouterModule } from '@angular/router';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -91,11 +89,7 @@ import { RouterModule } from '@angular/router';
       <eo-landing-page-call-to-action></eo-landing-page-call-to-action>
     </div>
 
-    <eo-footer>
-      <a routerLink="/${eoPrivacyPolicyRoutePath}" class="watt-text-s">
-        Privacy Policy
-      </a>
-    </eo-footer>
+    <eo-footer></eo-footer>
   `,
   viewProviders: [EoLandingPageStore, EoLandingPagePresenter],
 })
@@ -118,7 +112,6 @@ export class EoLandingPageShellComponent {
 @NgModule({
   declarations: [EoLandingPageShellComponent],
   imports: [
-    RouterModule,
     EoFooterScam,
     EoLandingPageAudienceScam,
     EoLandingPageCallToActionScam,
