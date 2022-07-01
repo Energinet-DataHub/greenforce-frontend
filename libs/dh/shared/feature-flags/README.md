@@ -25,10 +25,9 @@ The `created` property is danish locale `dd-mm-yyyy`. Feature flags use this pro
 
 The `disabledEnvironments` property is an array of the environments you want to disable a feature in, e.g. `prod`.
 
-
 ## Remove a feature flag
 
-The recommended way to remove a feature flag is to remove the entry from the `dhFeatureFlagsConfig.` The compiler will then error in all the files using that feature flag, making it easier to identify the usage of the feature flag. 
+The recommended way to remove a feature flag is to remove the entry from the `dhFeatureFlagsConfig.` The compiler will then error in all the files using that feature flag, making it easier to identify the usage of the feature flag.
 
 ## Using a feature flag
 
@@ -44,7 +43,7 @@ Use the feature flags within templates with the feature flag structural directiv
 <ng-container *dhFeatureFlag="my-awesome-feature-flag">
   SOME CONTENT
 </ng-container>
-````
+```
 
 <mark>Notice: Using feature flags with the structural directive, you will need to import the `DhFeatureFlagDirectiveModule`</mark>
 
