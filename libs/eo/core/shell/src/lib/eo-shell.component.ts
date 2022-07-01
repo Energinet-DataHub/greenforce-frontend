@@ -17,7 +17,6 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { eoPrivacyPolicyRoutePath } from '@energinet-datahub/eo/privacy-policy/routing';
 import { EoCookieBannerComponentScam } from '@energinet-datahub/eo/shared/atomic-design/feature-molecules';
 import { EoProductLogoScam } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 import { EoFooterScam } from '@energinet-datahub/eo/shared/atomic-design/ui-organisms';
@@ -129,13 +128,7 @@ import { EoPrimaryNavigationScam } from './eo-primary-navigation.component';
 
       <router-outlet></router-outlet>
 
-      <eo-footer>
-        <p>
-          <a routerLink="/${eoPrivacyPolicyRoutePath}" class="watt-text-s"
-            >Privacy Policy</a
-          >
-        </p>
-      </eo-footer>
+      <eo-footer></eo-footer>
     </watt-shell>
   `,
 })

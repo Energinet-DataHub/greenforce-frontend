@@ -34,6 +34,8 @@ import { EoProductLogoScam } from '@energinet-datahub/eo/shared/atomic-design/ui
 
       .logo {
         height: var(--watt-space-l);
+        min-width: 255px; // Magic UX number
+        padding-right: var(--watt-space-m);
       }
     `,
   ],
