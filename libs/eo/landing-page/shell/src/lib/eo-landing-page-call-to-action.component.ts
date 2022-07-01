@@ -23,15 +23,14 @@ import { EoLandingPageLoginButtonScam } from './eo-landing-page-login-button.com
   selector: 'eo-landing-page-call-to-action',
   styles: [
     `
+      @use '@energinet-datahub/watt/utils' as watt;
       :host {
         display: flex;
-        height: 300px; // Magic number by designer
         align-items: center;
         justify-content: center;
-
         text-align: center;
-
         background: var(--watt-color-primary-light);
+        position: relative;
       }
 
       eo-landing-page-login-button ::ng-deep button {
@@ -40,25 +39,52 @@ import { EoLandingPageLoginButtonScam } from './eo-landing-page-login-button.com
 
       .call-out {
         display: flex;
+        flex-direction: column;
         align-items: center;
+        padding: 99px; // Magic UX number
+
+        @include watt.media('<Large') {
+          padding: var(--watt-space-l) var(--watt-space-xl);
+        }
+      }
+
+      img {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 360px; // Magic UX number
+
+        @include watt.media('<Large') {
+          width: 180px; // Magic UX number
+        }
+      }
+
+      .icon-link {
+        padding-left: 8px;
+        @include watt.media('<Small') {
+          padding-top: 38px; // Magic UX number
+        }
       }
     `,
   ],
   template: `
-    <!-- Used for centering content -->
-    <div>
-      <div class="call-out watt-space-stack-m">
-        <h1 class="watt-space-inline-s">Log in with your company NemID</h1>
-        <div>
+    <img src="/assets/images/landing-page/landing-page-mesh-bottom.png" />
+    <div class="call-out">
+      <div
+        class="watt-space-stack-m"
+        style="display: flex; flex-direction: row;align-items: center;"
+      >
+        <h1 style="display: inline-flex; align-items: center;">
+          Log in with your company NemID
           <a
             href="https://www.nemid.nu/dk-en/about_nemid/index.html"
             target="_blank"
             rel="nofollow noopener"
             class="icon-link"
           >
-            <watt-icon name="primary_info" [size]="iconSize.Large"></watt-icon>
+            <watt-icon name="primary_info"></watt-icon>
           </a>
-        </div>
+        </h1>
       </div>
       <eo-landing-page-login-button></eo-landing-page-login-button>
     </div>
