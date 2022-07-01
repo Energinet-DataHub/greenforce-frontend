@@ -22,62 +22,55 @@ import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
   styles: [
     `
       @use '@energinet-datahub/watt/utils' as watt;
-      @use '@energinet-datahub/eo/shared/styles/spacing' as eo-spacing;
 
       :host {
-        @include eo-spacing.stretched-inset-l($padding: true);
-
         position: relative;
         z-index: 100;
-        display: block;
-
         background: var(--watt-color-neutral-white);
-        box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
       }
 
-      a {
-        color: var(--watt-color-primary);
+      .content {
+        display: flex;
+        padding: var(--watt-space-m);
+        flex-direction: column;
+
+        @include watt.media('>=Large') {
+          padding: var(--watt-space-xl) var(--watt-space-m);
+          gap: calc(var(--watt-space-xl) * 2);
+          flex-direction: row;
+        }
       }
 
-      .text--primary-dark {
+      .powered-by {
+        font-size: 14px;
         color: var(--watt-color-primary-dark);
-      }
-
-      .section-headline {
-        @include watt.space-stack-s;
+        line-height: 20px;
+        padding-bottom: 4px;
       }
 
       .logo {
-        display: block;
-
-        width: 360px;
-        height: 48px;
+        width: 100%;
+        max-width: 360px;
+        padding-bottom: var(--watt-space-m);
       }
 
-      .content-grid {
-        display: grid;
-        grid-template-columns: 4fr 3fr 6fr;
+      .link {
+        text-decoration: none;
+        color: var(--watt-color-primary);
       }
     `,
   ],
   template: `
-    <div class="content-grid">
-      <div>
-        <p class="watt-text-s text--primary-dark">Powered by</p>
-
-        <img
-          src="/assets/energinet-logo.svg"
-          alt="Energinet"
-          class="logo watt-space-stack-l"
-        />
-
+    <div class="content">
+      <div class="watt-space-stack-l">
+        <p class="powered-by">Powered by</p>
+        <img src="/assets/energinet-logo.svg" alt="Energinet" class="logo " />
         <ng-content></ng-content>
       </div>
 
-      <div>
-        <h5 class="section-headline">Address</h5>
-
-        <p class="watt-text-s">
+      <div class="watt-space-stack-m">
+        <h5 class="watt-space-stack-s">Address</h5>
+        <p>
           Tonne Kjærsvej 65<br />
           7000 Fredericia<br />
           Danmark<br />
@@ -86,21 +79,16 @@ import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
       </div>
 
       <div>
-        <h5 class="section-headline">Contact</h5>
-
-        <p>
-          <a href="tel:+4570222810" class="watt-text-s" aria-label="Phone"
+        <h5 class="watt-space-stack-s">Contact</h5>
+        <p class="watt-space-stack-s">
+          <a href="tel:+4570222810" aria-label="Phone" class="link"
             >+45 70 22 28 10
           </a>
         </p>
-
-        <p>
-          <a
-            href="mailto:datahub@energinet.dk"
-            class="watt-text-s"
-            aria-label="Email"
-            >datahub@energinet.dk</a
-          >
+        <p class="watt-space-stack-s">
+          <a href="mailto:datahub@energinet.dk" aria-label="Email" class="link">
+            datahub@energinet.dk
+          </a>
         </p>
       </div>
     </div>
