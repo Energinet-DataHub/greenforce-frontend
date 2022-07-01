@@ -15,6 +15,8 @@
  * limitations under the License.
  */
 import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
+import { eoPrivacyPolicyRoutePath } from '@energinet-datahub/eo/privacy-policy/routing';
+import { RouterModule } from '@angular/router';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -55,9 +57,12 @@ import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
         display: block;
       }
 
-      .link {
-        text-decoration: none;
+      a {
         color: var(--watt-color-primary);
+      }
+
+      .contact-link {
+        text-decoration: none;
       }
     `,
   ],
@@ -65,7 +70,26 @@ import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
     <div class="content">
       <div class="watt-space-stack-l">
         <p class="powered-by">Powered by</p>
-        <img src="/assets/energinet-logo.svg" alt="Energinet" class="logo " />
+        <img src="/assets/energinet-logo.svg" alt="Energinet" class="logo" />
+        <p>
+          <a
+            class="watt-text-s watt-space-stack-s"
+            routerLink="/${eoPrivacyPolicyRoutePath}"
+            >Privacy Policy</a
+          >
+        </p>
+        <p>
+          <a
+            href="https://www.was.digst.dk/energioprindelse-dk"
+            aria-label="accessibility"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="watt-text-s"
+          >
+            Accessibility Statement
+          </a>
+        </p>
+
         <ng-content></ng-content>
       </div>
 
@@ -82,12 +106,16 @@ import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
       <div>
         <h5 class="watt-space-stack-s">Contact</h5>
         <p class="watt-space-stack-s">
-          <a href="tel:+4570222810" aria-label="Phone" class="link"
+          <a href="tel:+4570222810" aria-label="Phone" class="contact-link"
             >+45 70 22 28 10
           </a>
         </p>
         <p class="watt-space-stack-s">
-          <a href="mailto:datahub@energinet.dk" aria-label="Email" class="link">
+          <a
+            href="mailto:datahub@energinet.dk"
+            aria-label="Email"
+            class="contact-link"
+          >
             datahub@energinet.dk
           </a>
         </p>
@@ -99,6 +127,7 @@ export class EoFooterComponent {}
 
 @NgModule({
   declarations: [EoFooterComponent],
+  imports: [RouterModule],
   exports: [EoFooterComponent],
 })
 export class EoFooterScam {}
