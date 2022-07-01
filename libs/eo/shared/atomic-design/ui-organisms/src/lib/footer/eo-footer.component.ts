@@ -73,6 +73,7 @@ import { RouterModule } from '@angular/router';
         <img src="/assets/energinet-logo.svg" alt="Energinet" class="logo" />
         <p>
           <a
+            aria-label="privacypolicy"
             class="watt-text-s watt-space-stack-s"
             routerLink="/${eoPrivacyPolicyRoutePath}"
             >Privacy Policy</a
@@ -106,14 +107,14 @@ import { RouterModule } from '@angular/router';
       <div>
         <h5 class="watt-space-stack-s">Contact</h5>
         <p class="watt-space-stack-s">
-          <a href="tel:+4570222810" aria-label="Phone" class="contact-link"
+          <a href="tel:+4570222810" aria-label="phone" class="contact-link"
             >+45 70 22 28 10
           </a>
         </p>
         <p class="watt-space-stack-s">
           <a
             href="mailto:datahub@energinet.dk"
-            aria-label="Email"
+            aria-label="email"
             class="contact-link"
           >
             datahub@energinet.dk
