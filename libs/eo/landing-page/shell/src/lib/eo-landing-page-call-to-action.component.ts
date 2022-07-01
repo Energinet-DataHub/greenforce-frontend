@@ -60,7 +60,8 @@ import { EoLandingPageLoginButtonScam } from './eo-landing-page-login-button.com
       }
 
       .icon-link {
-        padding-left: 8px;
+        padding-left: var(--watt-space-s);
+
         @include watt.media('<Small') {
           padding-top: 38px; // Magic UX number
         }
