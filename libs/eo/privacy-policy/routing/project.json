@@ -22,5 +22,5 @@
       }
     }
   },
-  "tags": ["product:eo", "domain:privacy-policy", "type:routing"]
+  "tags": ["product:eo", "domain:privacy-policy", "type:ui", "type:routing"]
 }
