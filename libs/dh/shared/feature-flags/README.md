@@ -23,6 +23,11 @@ The feature flags require two properties, `created` and `disabledEnvironments`.
 The `created` property is danish locale `dd-mm-yyyy`. Feature flags use this property internally to check for old feature flags.
 
 The `disabledEnvironments` property is an array of the environments you wan't to disable the feature, for ex., `prod.`
+
+## Remove a feature flag
+
+The recommended way to remove a feature flag is to remove the entry from the `dhFeatureFlagsConfig.` The compiler will then error in all the files using that feature flag, making it easier to identify the usage of the feature flag.
+
 ## Using a feature flag
 
 Feature flags can be used by the `*dhFeatureflag` directive or the `DhFeatureFlagsService.`
