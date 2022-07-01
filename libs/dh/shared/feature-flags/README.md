@@ -13,20 +13,22 @@ Feature flags are located here: `libs/dh/shared/feature-flags/src/lib/feature-fl
 The feature flags require two properties, `created` and `disabledEnvironments`.
 
 **Example:**
+
 ```ts
-'example-feature-flag': {
-    created: '01-01-2022',
-    disabledEnvironments: [DhAppEnvironment.prod],
-  }
+'my-awesome-feature-flag': {
+  created: '01-01-2022',
+  disabledEnvironments: [DhAppEnvironment.prod],
+}
 ```
 
 The `created` property is danish locale `dd-mm-yyyy`. Feature flags use this property internally to check for old feature flags.
 
-The `disabledEnvironments` property is an array of the environments you wan't to disable the feature, for ex., `prod.`
+The `disabledEnvironments` property is an array of the environments you want to disable a feature in, e.g. `prod`.
+
 
 ## Remove a feature flag
 
-The recommended way to remove a feature flag is to remove the entry from the `dhFeatureFlagsConfig.` The compiler will then error in all the files using that feature flag, making it easier to identify the usage of the feature flag.
+The recommended way to remove a feature flag is to remove the entry from the `dhFeatureFlagsConfig.` The compiler will then error in all the files using that feature flag, making it easier to identify the usage of the feature flag. 
 
 ## Using a feature flag
 
@@ -42,19 +44,22 @@ Use the feature flags within templates with the feature flag structural directiv
 <ng-container *dhFeatureFlag="my-awesome-feature-flag">
   SOME CONTENT
 </ng-container>
-```
+````
 
 <mark>Notice: Using feature flags with the structural directive, you will need to import the `DhFeatureFlagDirectiveModule`</mark>
 
 ### From TypeScript (Controllers, Guards, etc.)
+
 Use the feature flags within TypeScript with the feature flag service.
 
 1. Inject the service (The service is provided in the root, so you don't have to import any module):
+
 ```ts
   constructor(private featureFlagsService: DhFeatureFlagsService) {}
 ```
 
 2. Use the `isEnabled` method on the service:
+
 ```ts
-this.featureFlagsService.isEnabled('my-awesome-feature-flag')
+this.featureFlagsService.isEnabled('my-awesome-feature-flag');
 ```
