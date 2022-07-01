@@ -45,18 +45,18 @@ import { EoLandingPageLoginButtonScam } from './eo-landing-page-login-button.com
         background-color: #bed7d9;
         min-width: 343px;
         padding: var(--watt-space-m) var(--watt-space-m) var(--watt-space-l);
-        gap: var(--watt-space-s);
+        gap: var(--watt-space-m);
 
-        @include watt.media('>=Medium') {
-          gap: var(--watt-space-l);
+        @include watt.media('>=Large') {
+          gap: var(--watt-space-xl);
         }
       }
 
       h1 {
         text-transform: uppercase;
+        text-align: center;
 
         @include watt.media('>=Large') {
-          text-align: center;
           font-size: 42px; // Magic number by designer
           line-height: 54px; // Magic number by designer
         }

@@ -51,6 +51,7 @@ import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
       .logo {
         width: 100%;
         max-width: 360px;
+        padding-bottom: var(--watt-space-m);
       }
 
       .link {
