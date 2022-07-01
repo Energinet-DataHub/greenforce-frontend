@@ -52,6 +52,7 @@ import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
         width: 100%;
         max-width: 360px; // Magic UX number
         padding-bottom: var(--watt-space-m);
+        display: block;
       }
 
       .link {
