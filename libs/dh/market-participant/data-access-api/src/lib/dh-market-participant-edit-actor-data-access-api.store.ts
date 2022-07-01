@@ -264,7 +264,7 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
             actor: {
               ...response,
             },
-            changes:{
+            changes: {
               actorId: response.actorId,
               actorNumber: response.actorNumber.value,
               status: response.status,
