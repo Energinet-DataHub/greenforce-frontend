@@ -36,6 +36,12 @@ import {
   DhSecondaryMasterDataComponentScam,
 } from './dh-secondary-master-data.component';
 
+const meteringPointMock = {
+  meteringPointType: MeteringPointType.E17,
+  productId: ProductId.EnergyActive,
+  unit: Unit.KWH,
+} as MeteringPointCimDto;
+
 describe(DhSecondaryMasterDataComponent.name, () => {
   async function setup(secondaryMasterData: MeteringPointCimDto) {
     const { fixture } = await render(DhSecondaryMasterDataComponent, {
@@ -63,8 +69,8 @@ describe(DhSecondaryMasterDataComponent.name, () => {
       'displays correct value',
       async ({ incommingValueObject, testId, expectedDisplayValue }) => {
         const secondaryMasterData: MeteringPointCimDto = {
+          ...meteringPointMock,
           ...incommingValueObject,
-          meteringPointType: MeteringPointType.E17,
         };
 
         await setup(secondaryMasterData);
@@ -88,8 +94,8 @@ describe(DhSecondaryMasterDataComponent.name, () => {
       'displays fallback value when undefined',
       async ({ incommingValueObject, testId }) => {
         const secondaryMasterData: MeteringPointCimDto = {
+          ...meteringPointMock,
           ...incommingValueObject,
-          meteringPointType: MeteringPointType.E17,
         };
 
         await setup(secondaryMasterData);

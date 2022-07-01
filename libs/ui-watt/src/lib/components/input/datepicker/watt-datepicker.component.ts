@@ -31,6 +31,7 @@ import {
   MatDatepickerInput,
   MatEndDate,
   MatStartDate,
+  MAT_DATEPICKER_SCROLL_STRATEGY_FACTORY_PROVIDER,
 } from '@angular/material/datepicker';
 import { MatFormFieldControl } from '@angular/material/form-field';
 import { combineLatest, map, merge, takeUntil, tap } from 'rxjs';
@@ -61,6 +62,7 @@ const danishLocaleCode = 'da';
     WattInputMaskService,
     WattRangeInputService,
     { provide: MatFormFieldControl, useExisting: WattDatepickerComponent },
+    MAT_DATEPICKER_SCROLL_STRATEGY_FACTORY_PROVIDER,
   ],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
