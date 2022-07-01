@@ -128,7 +128,7 @@ import { EoPrimaryNavigationScam } from './eo-primary-navigation.component';
 
       <router-outlet></router-outlet>
 
-      <eo-footer> </eo-footer>
+      <eo-footer></eo-footer>
     </watt-shell>
   `,
 })
