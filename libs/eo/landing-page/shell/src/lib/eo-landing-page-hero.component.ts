@@ -29,7 +29,7 @@ import { EoLandingPageLoginButtonScam } from './eo-landing-page-login-button.com
       }
 
       eo-landing-page-login-button ::ng-deep button {
-        width: 160px; // Magic number by designer
+        width: 160px; // Magic UX number
       }
 
       img {
@@ -43,7 +43,7 @@ import { EoLandingPageLoginButtonScam } from './eo-landing-page-login-button.com
         align-items: center;
         align-content: space-around;
         background-color: #bed7d9;
-        min-width: 343px;
+        min-width: 343px; // Magic UX number
         padding: var(--watt-space-m) var(--watt-space-m) var(--watt-space-l);
         gap: var(--watt-space-m);
 
@@ -57,8 +57,8 @@ import { EoLandingPageLoginButtonScam } from './eo-landing-page-login-button.com
         text-align: center;
 
         @include watt.media('>=Large') {
-          font-size: 42px; // Magic number by designer
-          line-height: 54px; // Magic number by designer
+          font-size: 42px;
+          line-height: 54px;
         }
       }
     `,

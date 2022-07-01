@@ -27,7 +27,7 @@ import { EoVimeoPlayerScam } from '@energinet-datahub/eo/shared/atomic-design/ui
 
       :host {
         padding-top: var(--eo-space-xxl);
-        max-width: 960px;
+        max-width: 960px; // Magic UX number
         display: block;
         margin: 0 auto;
 
@@ -38,7 +38,7 @@ import { EoVimeoPlayerScam } from '@energinet-datahub/eo/shared/atomic-design/ui
       }
 
       .video-wrapper {
-        max-width: 640px; // Magic number by designer
+        max-width: 640px; // Magic UX number
         margin: 0 auto;
 
         @include watt.media('<Large') {

@@ -45,12 +45,12 @@ import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
         font-size: 14px;
         color: var(--watt-color-primary-dark);
         line-height: 20px;
-        padding-bottom: 4px;
+        padding-bottom: var(--watt-space-xs);
       }
 
       .logo {
         width: 100%;
-        max-width: 360px;
+        max-width: 360px; // Magic UX number
         padding-bottom: var(--watt-space-m);
       }
 

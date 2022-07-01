@@ -34,12 +34,12 @@ import { EoLandingPagePresenter } from './eo-landing-page.presenter';
       }
 
       h2 {
-        padding-bottom: 8px;
+        padding-bottom: var(--watt-space-s);
       }
 
       .content {
         margin: 0 auto;
-        max-width: 960px;
+        max-width: 960px; // Magic UX number
         display: flex;
         justify-content: space-between;
 

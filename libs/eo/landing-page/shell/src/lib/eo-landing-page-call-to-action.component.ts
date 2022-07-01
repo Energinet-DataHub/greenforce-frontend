@@ -52,10 +52,10 @@ import { EoLandingPageLoginButtonScam } from './eo-landing-page-login-button.com
         position: absolute;
         left: 0;
         bottom: 0;
-        width: 360px;
+        width: 360px; // Magic UX number
 
         @include watt.media('<Large') {
-          width: 180px;
+          width: 180px; // Magic UX number
         }
       }
 

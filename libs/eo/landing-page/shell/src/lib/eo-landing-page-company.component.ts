@@ -26,7 +26,7 @@ import { EoLandingPagePresenter } from './eo-landing-page.presenter';
       :host {
         padding: var(--eo-space-xxl) 0;
         display: block;
-        max-width: 960px;
+        max-width: 960px; // Magic UX number
         margin: 0 auto;
 
         @include watt.media('<Large') {
@@ -36,7 +36,7 @@ import { EoLandingPagePresenter } from './eo-landing-page.presenter';
       }
 
       h2 {
-        padding-bottom: 8px;
+        padding-bottom: var(--watt-space-s);
       }
 
       .content {
@@ -52,7 +52,7 @@ import { EoLandingPagePresenter } from './eo-landing-page.presenter';
         flex-direction: column;
 
         @include watt.media('>=Large') {
-          max-width: 400px;
+          max-width: 400px; // Magic UX number
         }
       }
 
