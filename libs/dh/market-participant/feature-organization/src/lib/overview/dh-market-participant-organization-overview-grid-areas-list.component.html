@@ -14,19 +14,21 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
+
 <ng-container
-  *transloco="let t; read: 'marketParticipant.actor.create.masterData'"
+  *ngIf="
+    !!gridAreas &&
+    gridAreas.length > 0 &&
+    !!marketRoleGridAreas &&
+    marketRoleGridAreas.length > 0
+  "
 >
-  <mat-selection-list
-    (selectionChange)="onModelChanged()"
-    [(ngModel)]="changes.meteringPointTypes"
-  >
-    <mat-list-option
-      *ngFor="let meteringPointType of availableMeteringPointTypes"
-      [value]="meteringPointType"
-      checkboxPosition="before"
-    >
-      {{ meteringPointType }}
-    </mat-list-option>
-  </mat-selection-list>
+  <div [matTooltip]="getTooltip()" matTooltipPosition="below">
+    {{
+      getGridAreaInfo(marketRoleGridAreas[0].id) +
+        (marketRoleGridAreas.length > 1
+          ? " (+" + (marketRoleGridAreas.length - 1) + ")"
+          : "")
+    }}
+  </div>
 </ng-container>
