@@ -26,9 +26,8 @@ import { RouterModule } from '@angular/router';
     `
       :host {
         display: block;
-
         min-height: 100%;
-
+        min-width: 375px; // Magix UX number
         background: var(--watt-color-neutral-grey-100);
       }
     `,
