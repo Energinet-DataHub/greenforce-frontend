@@ -106,9 +106,9 @@ limitations under the License.
         align-items: center;
       }
 
-      .simplemodal-overlay,
-      .simplemodal-container {
-        display: none;
+      #simplemodal-overlay,
+      #simplemodal-container {
+        display: none !important;
       }
 
       .intro,
@@ -249,7 +249,7 @@ limitations under the License.
         display: flex;
       }
 
-      .buttons button:not(:last-child):not(.sendCode):not(.sendNewCode) {
+      .buttons button:not(:last-child):not(.sendCode):not(.sendNewCode):not(button#continue) {
         margin-right: 1rem;
       }
 
@@ -274,6 +274,7 @@ limitations under the License.
       #emailVerificationControl_info_message[aria-hidden="false"],
       #emailVerificationControl_error_message[aria-hidden="false"] {
         display: block !important;
+        margin-top: 1.5rem;
       }
     </style>
     <script>
@@ -330,7 +331,38 @@ limitations under the License.
     </div>
     <div class="reset-password">
       <div class="reset-password-form">
-        <div id="api"></div>
+        <!--<div id="api"></div>-->
+
+        <div id="api" data-name="SelfAsserted">
+          <div class="heading">
+            <h1 role="heading">User Details</h1>
+          </div>
+        <div class="buttons">
+        </div>
+        <div class="intro">
+          <p>Please provide the following details.</p>
+        </div>
+        <form id="attributeVerification" action="JavaScript:void(0);">
+            <div id="passwordEntryMismatch" class="error pageLevel" style="display: none;" aria-hidden="true">The password entry fields do not match. Please enter the same password in both fields and try again.</div>
+            <div id="requiredFieldMissing" class="error pageLevel" style="display: none;" aria-hidden="true">A required field is missing. Please fill out all required fields and try again.</div>
+            <div id="fieldIncorrect" class="error pageLevel" style="display: none;" aria-hidden="true">One or more fields are filled out incorrectly. Please check your entries and try again.</div>
+            <div id="claimVerificationServerError" class="error pageLevel" style="display: none;" aria-hidden="true"></div>
+            <div id="attributeList" class="attr">
+                <ul>
+                    <li class="VerificationControl emailVerificationControl_li"><div class="attrEntry"><label id="emailVerificationControl_label" for="emailVerificationControl"></label><div class="error itemLevel" role="alert"></div><div class="verificationControlContent" id="emailVerificationControl"><div class="verificationInfoText"><div id="emailVerificationControl_info_message" aria-hidden="true" role="alert" aria-label="Verification is necessary. Please click Send button." style="display: none;">Verification is necessary. Please click Send button.</div></div><div class="verificationSuccessText"><div id="emailVerificationControl_success_message" aria-hidden="true" role="alert" aria-label="" style="display: none;"></div></div><div class="verificationErrorText error"><div id="emailVerificationControl_error_message" aria-hidden="true" role="alert" aria-label="" style="display: none;"></div></div><ul><li class="EmailBox email_li email" aria-hidden="false" style="display: inline;"><div class="attrEntry"><label id="email_label" for="email">Email Address</label><div class="error itemLevel" role="alert"></div><input id="email" class="textInput" type="email" placeholder="Email Address" aria-label="Email Address" pattern="^[a-zA-Z0-9!#$%&amp;'+^_`{}~-]+(?:\.[a-zA-Z0-9!#$%&amp;'+^_`{}~-]+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$" title="Email address that can be used to contact you." aria-required="true" autofocus="autofocus"><a class="helpLink tiny" href="javascript:void(0)" data-help="Email address that can be used to contact you.">What is this?</a></div></li><li class="TextBox emailVerificationCode_li VerificationCode" aria-hidden="true" style="display: none;"><div class="attrEntry"><label id="emailVerificationCode_label" for="emailVerificationCode">Verification Code</label><div class="error itemLevel" role="alert"></div><input id="emailVerificationCode" class="textInput" type="text" placeholder="Verification Code" aria-label="Verification Code" title="Verification code received in the email." aria-required="true" autocomplete="off" disabled=""><a class="helpLink tiny" href="javascript:void(0)" data-help="Verification code received in the email.">What is this?</a></div></li></ul><div class="working" style="display: none;" aria-hidden="true"></div><div class="buttons"><button class="sendCode" id="emailVerificationControl_but_send_code" type="button" aria-label="Send verification code" aria-hidden="false" style="display: inline;">Send verification code</button><button class="verifyCode" id="emailVerificationControl_but_verify_code" type="button" aria-label="Verify code" aria-hidden="true" style="display: none;">Verify code</button><button class="sendNewCode" id="emailVerificationControl_but_send_new_code" type="button" aria-label="Send new code" aria-hidden="true" style="display: none;">Send new code</button><button class="changeClaims" id="emailVerificationControl_but_change_claims" type="button" aria-label="Change e-mail Email Address" aria-hidden="true" style="display: none;">Change e-mail</button></div></div><a class="helpLink tiny" href="javascript:void(0)">What is this?</a></div></li>
+                </ul>
+            </div>
+            <div class="buttons">
+                <button id="continue" type="submit" form="attributeVerification" aria-disabled="false" aria-label="Continue">Continue</button><button id="cancel" aria-label="Cancel" formnovalidate="">Cancel</button>
+            </div>
+
+            <div class="verifying-modal">
+                <div id="verifying_blurb"></div>
+            </div>
+        </form>
+
+      </div>
+
       </div>
     </div>
   </body>
