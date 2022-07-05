@@ -21,12 +21,7 @@
       ]
     },
     "build-client": {
-      "dependsOn": [
-        {
-          "target": "build",
-          "projects": "self"
-        }
-      ],
+      "dependsOn": ["build"],
       "executor": "nx:run-commands",
       "options": {
         "commands": [
