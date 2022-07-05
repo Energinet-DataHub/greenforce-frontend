@@ -22,7 +22,7 @@ env:
   app-name: ui-watt
   BASE_BRANCH: ${{ github.event.pull_request.base.ref }}
   is-main-branch: ${{ github.ref == 'refs/heads/main' }}
-  is-pull-request: ${{ github.event_name  == 'pull_request' }}
+  is-pull-request: ${{ github.event_name == 'pull_request' }}
   NODE_OPTIONS: --max-old-space-size=6144
   node-version-file: .nvmrc
   yarn-version: 1.22.19
