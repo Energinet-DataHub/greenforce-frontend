@@ -8,7 +8,7 @@
       "configurations": {
         "ci": {}
       },
-      "executor": "@nrwl/workspace:run-commands",
+      "executor": "nx:run-commands",
       "options": {
         "commands": [
           "npm run check:dotnet",
@@ -27,7 +27,7 @@
           "projects": "self"
         }
       ],
-      "executor": "@nrwl/workspace:run-commands",
+      "executor": "nx:run-commands",
       "options": {
         "commands": [
           "npm run check:java",
@@ -43,7 +43,7 @@
       ]
     },
     "ci-configuration": {
-      "executor": "@nrwl/workspace:run-commands",
+      "executor": "nx:run-commands",
       "options": {
         "commands": [
           "cp build/ci/dh/api-dh/ci.appsettings.Development.json apps/dh/api-dh/source/DataHub.WebApi/appsettings.Development.json"
@@ -60,7 +60,7 @@
           ]
         }
       },
-      "executor": "@nrwl/workspace:run-commands",
+      "executor": "nx:run-commands",
       "options": {
         "commands": [
           "npm run check:dotnet",
@@ -73,7 +73,7 @@
       "configurations": {
         "ci": {}
       },
-      "executor": "@nrwl/workspace:run-commands",
+      "executor": "nx:run-commands",
       "options": {
         "commands": [
           "npx ts-node tools/dh/api-dh/ci/stop-api-dh.ts"
