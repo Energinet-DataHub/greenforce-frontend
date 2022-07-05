@@ -52,7 +52,7 @@ on:
 
 jobs:
   dh-affected:
-    if: ${{ github.event_name  == 'pull_request' }}
+    if: ${{ env.is-pull-request == 'true' }}
     name: Is DataHub affected?
     runs-on: ubuntu-latest
 
@@ -232,7 +232,7 @@ jobs:
 
   format:
     name: 'PR: Format'
-    if: ${{ github.event_name  == 'pull_request' }}
+    if: ${{ env.is-pull-request == 'true' }}
     runs-on: ubuntu-latest
 
     steps:
