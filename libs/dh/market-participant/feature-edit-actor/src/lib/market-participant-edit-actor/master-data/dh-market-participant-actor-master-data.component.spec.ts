@@ -57,11 +57,13 @@ describe('DhMarketParticipantActorMasterDataComponent', () => {
     };
 
     // act
-    const numberTextBox = screen.getByRole('textbox');
+    const numberTextBox: HTMLInputElement = screen.getByRole('textbox');
     userEvent.type(numberTextBox, expected.actorNumber);
 
+    expect(numberTextBox).toHaveValue(expected.actorNumber);
+
     // assert
-    expect(expected).toEqual(changes);
+    expect(changes).toEqual(expected);
   });
 
   test('should edit status for existing', async () => {
@@ -82,7 +84,7 @@ describe('DhMarketParticipantActorMasterDataComponent', () => {
     };
 
     // act
-    const statusComboBox = screen.getByRole('combobox', {
+    const statusComboBox = await screen.findByRole('combobox', {
       name: en.marketParticipant.actor.create.masterData.statuses.Active,
     });
     userEvent.click(statusComboBox);
@@ -93,7 +95,7 @@ describe('DhMarketParticipantActorMasterDataComponent', () => {
     userEvent.click(statusOption);
 
     // assert
-    expect(expected).toEqual(changes);
+    expect(changes).toEqual(expected);
   });
 
   test('should disable actor number and enable status combobox for existing', async () => {
@@ -109,7 +111,7 @@ describe('DhMarketParticipantActorMasterDataComponent', () => {
 
     // act
     const numberTextBox = screen.getByRole('textbox');
-    const statusComboBox = screen.getByRole('combobox', {
+    const statusComboBox = await screen.findByRole('combobox', {
       name: en.marketParticipant.actor.create.masterData.statuses.Active,
     });
 
@@ -130,7 +132,7 @@ describe('DhMarketParticipantActorMasterDataComponent', () => {
 
     // act
     const numberTextBox = screen.getByRole('textbox');
-    const statusComboBox = screen.getByRole('combobox', {
+    const statusComboBox = await screen.findByRole('combobox', {
       name: en.marketParticipant.actor.create.masterData.statuses.New,
     });
 

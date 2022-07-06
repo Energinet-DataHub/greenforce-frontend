@@ -22,6 +22,7 @@ import {
   Input,
   HostBinding,
   ViewEncapsulation,
+  ChangeDetectorRef,
 } from '@angular/core';
 import {
   MatFormField,
@@ -64,6 +65,8 @@ export class FormFieldComponent implements AfterViewInit {
   @ContentChild(WattTimepickerComponent)
   timepickerControl?: WattTimepickerComponent;
 
+  constructor(private cd: ChangeDetectorRef) {}
+
   ngAfterViewInit() {
     if (this.beforeViewInit) {
       const control =
@@ -75,6 +78,7 @@ export class FormFieldComponent implements AfterViewInit {
       this.matFormField._control = control;
       this.matFormField.ngAfterContentInit();
       this.beforeViewInit = false;
+      this.cd.detectChanges();
     }
   }
 }

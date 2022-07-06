@@ -46,7 +46,7 @@ import { getValidStatusTransitionOptions } from './get-valid-status-transition-o
 export class DhMarketParticipantActorMasterDataComponent
   implements OnChanges, OnDestroy
 {
-  @Input() changes!: ActorChanges;
+  @Input() changes?: ActorChanges;
 
   private destroy$ = new Subject<void>();
   initialActorStatus?: ActorStatus;
