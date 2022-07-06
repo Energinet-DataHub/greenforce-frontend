@@ -16,6 +16,10 @@
     "domain": {
       "type": "string",
       "description": "To which domain does the library belong to?",
+      "$default": {
+        "$source": "argv",
+        "index": 1
+      },
       "x-prompt": "To which domain does the library belong to?"
     }
   },
