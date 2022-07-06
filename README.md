@@ -95,6 +95,10 @@ Only libraries of type `data-access` may have dependencies to apps, and only app
 Developers should consider feature libraries as libraries that implement smart UI (with access to data sources) for specific business use cases or pages in an application.
 Allowed dependencies to: `feature`, `ui`, `data-access`, `routing`, `util`, `test-util`, `domain`, `environments`, `assets`.
 
+#### Generating a feature library
+
+Run `yarn nx workspace-generator dh-feature-library` and follow the instructions or use the "workspace-generator - dh-feature-library" option under "generate" command in Nx Console extension.
+
 ### UI libraries
 
 A UI library contains only presentational logic (presentational components, pipes, presentational services, directives).
