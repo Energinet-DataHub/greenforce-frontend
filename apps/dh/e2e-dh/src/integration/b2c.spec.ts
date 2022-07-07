@@ -47,4 +47,24 @@ environments.forEach((env) => {
     await page.waitForNavigation();
     expect(page.url()).toContain(`redirect_uri=${encodeURIComponent(env.url)}`);
   });
+
+  test(`[B2C Healthcheck] ${env.name} should have "sign up" link, and redirect to "signup" user flow`, async ({
+    page,
+  }) => {
+    await page.goto(env.url).then((resp) => expect(resp?.status()).toBe(200));
+    await page.waitForNavigation();
+    await page.locator('text=Sign up now').click();
+
+    expect(page.url()).toContain(`signup`);
+  });
+
+  test(`[B2C Healthcheck] ${env.name} should have "forgot password" link, and redirect to "reset_password" user flow`, async ({
+    page,
+  }) => {
+    await page.goto(env.url).then((resp) => expect(resp?.status()).toBe(200));
+    await page.waitForNavigation();
+    await page.locator('text=Reset password here').click();
+
+    expect(page.url()).toContain(`reset_password`);
+  });
 });
