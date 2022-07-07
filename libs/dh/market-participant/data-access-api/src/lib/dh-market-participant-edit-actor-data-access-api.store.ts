@@ -18,7 +18,6 @@ import { Injectable } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import {
   MarketParticipantHttp,
-  ActorDto,
   ActorMarketRoleDto,
   MarketParticipantMeteringPointType,
   ActorStatus,
@@ -60,7 +59,7 @@ export interface MarketRoleGridArea {
 }
 
 export interface ActorChanges {
-  actorId?: string;
+  existingActor: boolean;
   actorNumber: string;
   status: ActorStatus;
 }
@@ -78,19 +77,22 @@ export interface ActorContactChanges {
 
 export interface MarketParticipantEditActorState {
   isLoading: boolean;
+  isEditing: boolean;
 
   // Input
   organizationId: string;
-  actor?: ActorDto;
+  actorId?: string;
+
   gridAreas: GridAreaDto[];
   contacts: ActorContactDto[];
+  marketRoles: ActorMarketRoleDto[];
 
   // Changes
   changes: ActorChanges;
 
   meteringPointTypeChanges: MeteringPointTypeChanges;
   gridAreaChanges: GridAreaDto[];
-  marketRoles: {
+  marketRoleChanges: {
     isValid: boolean;
     marketRoles: ActorMarketRoleDto[];
   };
@@ -110,14 +112,17 @@ export interface MarketParticipantEditActorState {
 
 const initialState: MarketParticipantEditActorState = {
   isLoading: false,
+  isEditing: false,
   organizationId: '',
   gridAreas: [],
   contacts: [],
+  marketRoles: [],
   changes: {
+    existingActor: false,
     actorNumber: '',
     status: ActorStatus.New,
   },
-  marketRoles: { isValid: true, marketRoles: [] },
+  marketRoleChanges: { isValid: true, marketRoles: [] },
   meteringPointTypeChanges: { meteringPointTypes: [] },
   gridAreaChanges: [],
   contactChanges: {
@@ -133,12 +138,11 @@ const initialState: MarketParticipantEditActorState = {
 @Injectable()
 export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentStore<MarketParticipantEditActorState> {
   isLoading$ = this.select((state) => state.isLoading);
-  isEditing$ = this.select((state) => state.actor !== undefined);
-  actor$ = this.select((state) => state.actor);
+  isEditing$ = this.select((state) => state.isEditing);
+  marketRoles$ = this.select((state) => state.marketRoles);
   validation$ = this.select((state) => state.validation);
   changes$ = this.select((state) => state.changes);
   gridAreas$ = this.select((state) => state.gridAreas);
-  selectedGridAreas$ = this.select((state) => state.gridAreaChanges);
   contacts$ = this.select((state) => state.contacts);
 
   constructor(
@@ -165,7 +169,7 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
         return state.contactChanges.isValid;
       }),
       filter(([, state]) => {
-        if (!state.marketRoles.isValid) {
+        if (!state.marketRoleChanges.isValid) {
           this.patchState({
             isLoading: false,
             validation: {
@@ -174,7 +178,7 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
             },
           });
         }
-        return state.marketRoles.isValid;
+        return state.marketRoleChanges.isValid;
       }),
       switchMap(([onSaveCompletedFn, state]) => {
         return this.saveActor(state).pipe(
@@ -260,16 +264,16 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
       .pipe(
         tap((response) => {
           this.patchState({
+            isEditing: true,
             organizationId: organizationId,
-            actor: {
-              ...response,
-            },
+            actorId: response.actorId,
+            marketRoles: response.marketRoles,
             changes: {
-              actorId: response.actorId,
+              existingActor: true,
               actorNumber: response.actorNumber.value,
               status: response.status,
             },
-            marketRoles: {
+            marketRoleChanges: {
               isValid: true,
               marketRoles: response.marketRoles,
             },
@@ -351,24 +355,24 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
   };
 
   private readonly saveActor = (state: MarketParticipantEditActorState) => {
-    const actor = state.actor;
-    if (actor !== undefined) {
+    const actorId = state.actorId;
+    if (actorId !== undefined) {
       return this.httpClient
         .v1MarketParticipantOrganizationOrgIdActorActorIdPut(
           state.organizationId,
-          actor.actorId,
+          actorId,
           {
-            marketRoles: state.marketRoles.marketRoles,
+            marketRoles: state.marketRoleChanges.marketRoles,
             status: state.changes.status,
           }
         )
-        .pipe(map(() => actor.actorId));
+        .pipe(map(() => actorId));
     }
 
     return this.httpClient
       .v1MarketParticipantOrganizationOrgIdActorPost(state.organizationId, {
         actorNumber: { value: state.changes.actorNumber },
-        marketRoles: state.marketRoles.marketRoles,
+        marketRoles: state.marketRoleChanges.marketRoles,
       })
       .pipe(map((id) => id));
   };
@@ -380,7 +384,7 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
 
   readonly setMarketRoleChanges = (changes: MarketRoleChanges) =>
     this.patchState({
-      marketRoles: {
+      marketRoleChanges: {
         isValid: changes.isValid,
         marketRoles: changes.marketRoles.map((mrc) => ({
           eicFunction: mrc.marketRole,

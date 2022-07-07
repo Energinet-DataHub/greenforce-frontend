@@ -36,7 +36,6 @@ limitations under the License.
       <watt-spinner></watt-spinner>
     </div>
 
-    <ng-container *rxLet="actor$ as actor">
       <div class="tabs-container" [hidden]="isLoading">
         <!-- Tabs -->
         <watt-tabs class="tabs">
@@ -58,14 +57,13 @@ limitations under the License.
           <watt-tab [label]="t('marketRolesHeader')">
             <dh-market-participant-actor-market-roles
               [gridAreas]="gridAreas$ | push"
-              [actorMarketRoles]="actor?.marketRoles"
+              [actorMarketRoles]="marketRoles$ | push"
               (changed)="onMarketRolesChange($event)"
             >
             </dh-market-participant-actor-market-roles>
           </watt-tab>
         </watt-tabs>
       </div>
-    </ng-container>
 
     <!-- Confirmation  -->
     <div class="button-container" [hidden]="isLoading">
