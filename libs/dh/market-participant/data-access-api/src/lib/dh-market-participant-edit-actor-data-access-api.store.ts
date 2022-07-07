@@ -60,6 +60,7 @@ export interface MarketRoleGridArea {
 }
 
 export interface ActorChanges {
+  actorId?: string;
   actorNumber: string;
   status: ActorStatus;
 }
@@ -262,6 +263,11 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
             organizationId: organizationId,
             actor: {
               ...response,
+            },
+            changes: {
+              actorId: response.actorId,
+              actorNumber: response.actorNumber.value,
+              status: response.status,
             },
             marketRoles: {
               isValid: true,
