@@ -163,7 +163,7 @@ export class DhMarketParticipantEditOrganizationDataAccessApiStore extends Compo
         tap((organization) =>
           this.patchState({
             isEditing: true,
-            changes: organization,
+            changes: { ...organization },
           })
         )
       );
