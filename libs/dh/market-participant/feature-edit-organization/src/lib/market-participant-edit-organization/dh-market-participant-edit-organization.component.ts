@@ -16,10 +16,7 @@
  */
 import { CommonModule } from '@angular/common';
 import { Component, NgModule } from '@angular/core';
-import {
-  DhMarketParticipantEditOrganizationDataAccessApiStore,
-  OrganizationChanges,
-} from '@energinet-datahub/dh/market-participant/data-access-api';
+import { DhMarketParticipantEditOrganizationDataAccessApiStore } from '@energinet-datahub/dh/market-participant/data-access-api';
 import { LetModule } from '@rx-angular/template/let';
 import { DhMarketParticipantOrganizationMasterDataComponentScam } from './master-data/dh-market-participant-organization-master-data.component';
 import {
@@ -49,7 +46,7 @@ export class DhMarketParticipantEditOrganizationComponent {
 
   isLoading$ = this.store.isLoading$;
   isEditing$ = this.store.isEditing$;
-  organization$ = this.store.organization$;
+  changes$ = this.store.changes$;
   validation$ = this.store.validation$;
 
   constructor(
@@ -59,10 +56,6 @@ export class DhMarketParticipantEditOrganizationComponent {
   ) {
     this.store.getOrganizationAndContacts(this.organizationId$);
   }
-
-  readonly onMasterDataChanged = (changes: OrganizationChanges) => {
-    this.store.setMasterDataChanges(changes);
-  };
 
   readonly onCancelled = () => {
     this.backToOverview();
