@@ -20,7 +20,7 @@ concurrency:
 env:
   BASE_BRANCH: ${{ github.event.pull_request.base.ref }}
   is-main-branch: ${{ github.ref == 'refs/heads/main' }}
-  is-pull-request: ${{ github.event_name  == 'pull_request' }}
+  is-pull-request: ${{ github.event_name == 'pull_request' }}
   NODE_OPTIONS: --max_old_space_size=6144
   node-version-file: .nvmrc
   yarn-version: 1.22.19
@@ -52,7 +52,7 @@ on:
 
 jobs:
   dh-affected:
-    if: ${{ github.event_name  == 'pull_request' }}
+    if: github.event_name == 'pull_request'
     name: Is DataHub affected?
     runs-on: ubuntu-latest
 
@@ -232,7 +232,7 @@ jobs:
 
   format:
     name: 'PR: Format'
-    if: ${{ github.event_name  == 'pull_request' }}
+    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
 
     steps:
