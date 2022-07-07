@@ -7,7 +7,7 @@
     "libraryType": {
       "description": "Select a library type",
       "type": "string",
-      "enum": ["feature"],
+      "enum": ["feature", "data-access"],
       "$default": {
         "$source": "argv",
         "index": 0
@@ -16,12 +16,12 @@
     },
     "name": {
       "type": "string",
-      "description": "Library name (note: if the selected library type is \"feature\", the final name will be prefixed with it, e.g. `feature-<name>`)",
+      "description": "Library name (note: if the selected library type is \"feature\" or \"data-access\", the final name will be prefixed with it, e.g. `feature-<name>`)",
       "$default": {
         "$source": "argv",
         "index": 1
       },
-      "x-prompt": "What name would you like to use for the library? (note: final name is prefixed with `feature-`)"
+      "x-prompt": "What name would you like to use for the library? (note: if the selected library type is \"feature\" or \"data-access\", the final name will be prefixed with it, e.g. `feature-<name>`)"
     },
     "domain": {
       "type": "string",
