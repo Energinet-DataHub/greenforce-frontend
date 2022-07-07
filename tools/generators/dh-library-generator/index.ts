@@ -26,29 +26,64 @@ import {
 } from '@nrwl/devkit';
 import { libraryGenerator } from '@nrwl/angular/generators';
 
-interface DhFeatureLibSchema {
+interface DhLibrarySchema {
   name: string;
   domain: string;
+  libraryType: string;
 }
 
-export default async function (tree: Tree, schema: DhFeatureLibSchema) {
+enum LibraryType {
+  feature = 'feature',
+  dataAccess = 'data-access',
+}
+
+export default async function (tree: Tree, schema: DhLibrarySchema) {
   validateParams(schema);
 
-  const libName = names(schema.name).fileName;
-  const libDomain = names(schema.domain).fileName;
-  const libPath = `./libs/dh/${libDomain}/feature-${libName}`;
+  const { fileName: libType, className: libTypeClassName } = names(
+    schema.libraryType
+  );
+  const { fileName: libName, className: libClassName } = names(schema.name);
+  const { fileName: libDomain, className: libDomainClassName } = names(
+    schema.domain
+  );
+
+  const libPath = `./libs/dh/${libDomain}/${libType}-${libName}`;
 
   await libraryGenerator(tree, {
-    name: `feature-${libName}`,
+    name: `${libType}-${libName}`,
     directory: `dh/${libDomain}`,
-    tags: `product:dh, domain:${libDomain}, type:feature`,
+    tags: `product:dh, domain:${libDomain}, type:${libType}`,
     prefix: 'dh',
     strict: true,
+    skipModule: libType === LibraryType.dataAccess,
   });
 
-  updateTestSetupFile(tree, libPath);
-  updateReadmeFile(tree, libPath, libName);
+  updateTestSetupFile(tree, { libPath, libType });
+  updateReadmeFile(tree, {
+    libPath,
+    libType,
+    libName,
+  });
   updateProjectJsonFile(tree, libPath);
+
+  if (libType === LibraryType.dataAccess) {
+    generateEmptyStore(tree, {
+      libPath,
+      libType,
+      libName,
+      libDomain,
+      className: `${libDomainClassName}${libTypeClassName}${libClassName}`,
+      stateInterface: libDomainClassName,
+    });
+
+    exposeEmptyStoreFromLibrary(tree, {
+      libPath,
+      libType,
+      libName,
+      libDomain,
+    });
+  }
 
   await formatFiles(tree);
 
@@ -59,8 +94,6 @@ export default async function (tree: Tree, schema: DhFeatureLibSchema) {
 
 /**
  * Adds $schema property to project.json file
- * @param tree
- * @param libPath
  */
 function updateProjectJsonFile(tree: Tree, libPath: string) {
   updateJson(tree, `${libPath}/project.json`, (json) => {
@@ -80,35 +113,94 @@ function updateProjectJsonFile(tree: Tree, libPath: string) {
 }
 
 /**
- * Replaces auto-generated content with a heading
- * @param tree
- * @param libPath
- * @param libName
+ * Replace auto-generated content with a heading
  */
-function updateReadmeFile(tree: Tree, libPath: string, libName: string) {
-  const readmeFilePath = `${libPath}/README.md`;
+function updateReadmeFile(
+  tree: Tree,
+  options: {
+    libPath: string;
+    libName: string;
+    libType: string;
+  }
+) {
+  const readmeFilePath = `${options.libPath}/README.md`;
+  const content = `# ${capitalizeWords(options.libName)} ${capitalizeWords(
+    options.libType
+  )}\n`;
 
-  tree.write(readmeFilePath, `# ${capitalizeWords(libName)} Feature\n`);
+  tree.write(readmeFilePath, content);
 }
 
 /**
- * Replaces test-setup.ts file with a template that imports all necessary dependencies
- * @param tree
- * @param libPath
+ * Generate an empty store for data-access library
  */
-function updateTestSetupFile(tree: Tree, libPath: string) {
+function generateEmptyStore(
+  tree: Tree,
+  options: {
+    libPath: string;
+    libDomain: string;
+    className: string;
+    libType: string;
+    libName: string;
+    stateInterface: string;
+  }
+) {
   generateFiles(
     tree,
-    joinPathFragments(__dirname, './files'),
-    `${libPath}/src`,
+    joinPathFragments(__dirname, `./files/data-access/store`),
+    `${options.libPath}/src/lib`,
+    {
+      tmpl: '',
+      domain: options.libDomain,
+      type: options.libType,
+      name: options.libName,
+      className: options.className,
+      stateInterface: options.stateInterface,
+    }
+  );
+}
+
+function exposeEmptyStoreFromLibrary(
+  tree: Tree,
+  options: {
+    libPath: string;
+    libDomain: string;
+    libType: string;
+    libName: string;
+  }
+) {
+  const indexPath = `${options.libPath}/src/index.ts`;
+  const storeFileName = `dh-${options.libDomain}-${options.libType}-${options.libName}.store`;
+  const content = `export * from './lib/${storeFileName}';\n`;
+
+  tree.write(indexPath, content);
+}
+
+/**
+ * Replace test-setup.ts file with a template that imports all necessary dependencies
+ */
+function updateTestSetupFile(
+  tree: Tree,
+  options: {
+    libPath: string;
+    libType: string;
+  }
+) {
+  generateFiles(
+    tree,
+    joinPathFragments(__dirname, `./files/${options.libType}/test-setup`),
+    `${options.libPath}/src`,
     { tmpl: '' }
   );
 }
 
-function validateParams(schema: DhFeatureLibSchema) {
-  if (schema.name.startsWith('feature-')) {
+function validateParams(schema: DhLibrarySchema) {
+  if (
+    schema.name.startsWith(`${LibraryType.feature}-`) ||
+    schema.name.startsWith(`${LibraryType.dataAccess}-`)
+  ) {
     throw new Error(
-      'No need to prefix "name" with "feature-". This is done automatically.'
+      `No need to prefix "name" with "${schema.name}". This is done automatically.`
     );
   }
 }
