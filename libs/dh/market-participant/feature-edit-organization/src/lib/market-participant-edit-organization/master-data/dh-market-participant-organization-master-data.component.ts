@@ -16,17 +16,14 @@
  */
 import { CommonModule } from '@angular/common';
 import {
+  ChangeDetectionStrategy,
   Component,
-  EventEmitter,
   Input,
   NgModule,
-  OnChanges,
   OnDestroy,
-  Output,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { OrganizationChanges } from '@energinet-datahub/dh/market-participant/data-access-api';
-import { OrganizationDto } from '@energinet-datahub/dh/shared/domain';
 import {
   WattDropdownModule,
   WattDropdownOption,
@@ -42,14 +39,14 @@ import { LetModule } from '@rx-angular/template/let';
   styleUrls: [
     './dh-market-participant-organization-master-data.component.scss',
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl:
     './dh-market-participant-organization-master-data.component.html',
 })
 export class DhMarketParticipantOrganizationMasterDataComponent
-  implements OnChanges, OnDestroy
+  implements OnDestroy
 {
-  @Input() organization: OrganizationDto | undefined;
-  @Output() hasChanges = new EventEmitter<OrganizationChanges>();
+  @Input() changes!: OrganizationChanges;
 
   private destroy$ = new Subject<void>();
 
@@ -69,24 +66,12 @@ export class DhMarketParticipantOrganizationMasterDataComponent
       });
   }
 
-  changes: OrganizationChanges = { address: { country: 'DK' } };
   countries: WattDropdownOption[] = [];
-
-  ngOnChanges(): void {
-    if (this.organization !== undefined) {
-      this.changes = { ...this.organization };
-      this.hasChanges.emit({ ...this.changes });
-    }
-  }
 
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.unsubscribe();
   }
-
-  readonly onModelChanged = () => {
-    this.hasChanges.emit({ ...this.changes });
-  };
 }
 
 @NgModule({
