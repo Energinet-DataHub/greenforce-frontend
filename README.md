@@ -155,6 +155,12 @@ Allowed dependencies to: `assets`.
 SCSS functions, mixins, variables, partials, and global stylesheets.
 Allowed dependencies to: `assets`, `styles`.
 
+### Generating a library
+
+To generate a new library, run `yarn nx workspace-generator dh-library-generator` and follow the instructions or use the "workspace-generator - dh-library-generator" option under "generate" command in Nx Console extension.
+
+_Note_: This command currently only supports generating libraries of type "feature".
+
 ## Frontend apps
 
 The frontend apps are built with Angular in an Nx Workspace. They are located under `apps` folder:
