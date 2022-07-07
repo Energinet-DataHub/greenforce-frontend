@@ -21,7 +21,6 @@ import {
   ChangeOrganizationDto,
   ContactCategory,
   MarketParticipantHttp,
-  OrganizationDto,
 } from '@energinet-datahub/dh/shared/domain';
 import {
   catchError,
@@ -54,9 +53,7 @@ export interface ContactChanges {
 
 export interface MarketParticipantEditOrganizationState {
   isLoading: boolean;
-
-  // Input
-  organization?: OrganizationDto;
+  isEditing: boolean;
 
   // Changes
   changes: OrganizationChanges;
@@ -67,13 +64,14 @@ export interface MarketParticipantEditOrganizationState {
 
 const initialState: MarketParticipantEditOrganizationState = {
   isLoading: false,
+  isEditing: false,
   changes: { address: { country: 'DK' } },
 };
 
 @Injectable()
 export class DhMarketParticipantEditOrganizationDataAccessApiStore extends ComponentStore<MarketParticipantEditOrganizationState> {
   isLoading$ = this.select((state) => state.isLoading);
-  isEditing$ = this.select((state) => state.organization !== undefined);
+  isEditing$ = this.select((state) => state.isEditing);
   validation$ = this.select((state) => state.validation);
   changes$ = this.select((state) => state.changes);
 
@@ -164,21 +162,8 @@ export class DhMarketParticipantEditOrganizationDataAccessApiStore extends Compo
       .pipe(
         tap((organization) =>
           this.patchState({
-            organization: organization,
-            changes: {
-              organizationId: organization.organizationId,
-              name: organization.name,
-              businessRegisterIdentifier:
-                organization.businessRegisterIdentifier,
-              address: {
-                streetName: organization.address.streetName,
-                number: organization.address.number,
-                zipCode: organization.address.zipCode,
-                city: organization.address.city,
-                country: organization.address.country,
-              },
-              comment: organization.comment,
-            },
+            isEditing: true,
+            changes: organization,
           })
         )
       );
