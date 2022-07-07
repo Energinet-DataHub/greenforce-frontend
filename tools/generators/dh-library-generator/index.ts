@@ -68,20 +68,13 @@ export default async function (tree: Tree, schema: DhLibrarySchema) {
   updateProjectJsonFile(tree, libPath);
 
   if (libType === LibraryType.dataAccess) {
-    generateEmptyStore(tree, {
+    addDataAccessSpecificFiles(tree, {
       libPath,
       libType,
       libName,
       libDomain,
       className: `${libDomainClassName}${libTypeClassName}${libClassName}`,
       stateInterface: libDomainClassName,
-    });
-
-    exposeEmptyStoreFromLibrary(tree, {
-      libPath,
-      libType,
-      libName,
-      libDomain,
     });
   }
 
@@ -129,6 +122,34 @@ function updateReadmeFile(
   )}\n`;
 
   tree.write(readmeFilePath, content);
+}
+
+function addDataAccessSpecificFiles(
+  tree: Tree,
+  options: {
+    libPath: string;
+    libDomain: string;
+    className: string;
+    libType: string;
+    libName: string;
+    stateInterface: string;
+  }
+) {
+  generateEmptyStore(tree, {
+    libPath: options.libPath,
+    libType: options.libType,
+    libName: options.libName,
+    libDomain: options.libDomain,
+    className: options.className,
+    stateInterface: options.stateInterface,
+  });
+
+  exposeEmptyStoreFromLibrary(tree, {
+    libPath: options.libPath,
+    libType: options.libType,
+    libName: options.libName,
+    libDomain: options.libDomain,
+  });
 }
 
 /**
