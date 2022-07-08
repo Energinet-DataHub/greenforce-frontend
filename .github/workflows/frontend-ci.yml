@@ -105,6 +105,9 @@ jobs:
           base: ${{ env.is-main-branch == 'true' && 'HEAD~1' || format('origin/{0}', env.BASE_BRANCH) }}
           project: app-dh
 
+      - name: Is affected result
+        run: echo "Is affected? ${{ steps.affected.outputs.is-affected }}"
+
   build:
     name: Build
     runs-on: ubuntu-latest
