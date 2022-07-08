@@ -40,5 +40,5 @@ outputs:
 runs:
   using: composite
   steps:
-    - run:  echo "::set-output name=is-affected::$(node ${{ github.action_path }}/affected.mjs ${{ inputs.project }} ${{ inputs.base }})
+    - run:  echo "::set-output name=is-affected::$(node ${{ github.action_path }}/affected.mjs ${{ inputs.project }} ${{ inputs.base }})"
       shell: bash
