@@ -16,11 +16,11 @@ The custom layouts are static HTML pages with vanilla CSS. Styles for inputs etc
 
 ### Simulate content inserted by B2C `#api`
 
-Goto the live page and inspect the page with Dev Tools. Find the `#api` copy the `outerHTML,` and insert it into the custom layout you want to change to simulate what Microsoft inserts into the DOM.
+Go to the live page and inspect the page with Dev Tools. Find the `#api` element, copy its `outerHTML` and insert it into the custom layout you want to change to simulate what Microsoft inserts into the DOM.
 
 ### Working with translations
 
-Microsoft automatically adds `lang` attribute to `<html>`, which is why this is not included in the static pages. To see the translated texts add `lange="en"` or `lang="da"` to `<html>` (otherwise the text will be hidden).
+Microsoft automatically adds `lang` attribute to `<html>`, which is why this is not included in the static pages. To see the translated texts add `lang="en"` or `lang="da"` to `<html>` (otherwise the text will be hidden).
 
 Translations should have the `imprint` class and `imprint-<LANGUAGE>` class, example:
 
