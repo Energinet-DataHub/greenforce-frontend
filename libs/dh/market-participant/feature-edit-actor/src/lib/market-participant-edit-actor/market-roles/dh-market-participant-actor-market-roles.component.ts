@@ -164,7 +164,7 @@ export class DhMarketParticipantActorMarketRolesComponent implements OnChanges {
         `marketParticipant.marketRoles.${mr}`
       ),
       value: mr,
-    }));
+    })).sort((left, right) => left.displayValue.localeCompare(right.displayValue));
   };
 
   readonly onRowDelete = (row: EditableMarketRoleRow) => {
