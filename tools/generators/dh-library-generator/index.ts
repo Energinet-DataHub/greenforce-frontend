@@ -27,14 +27,15 @@ import {
 import { libraryGenerator } from '@nrwl/angular/generators';
 
 interface DhLibrarySchema {
-  name: string;
   domain: string;
   libraryType: string;
+  name?: string;
 }
 
 enum LibraryType {
   feature = 'feature',
   dataAccess = 'data-access',
+  shell = 'shell',
 }
 
 export default async function (tree: Tree, schema: DhLibrarySchema) {
@@ -43,15 +44,17 @@ export default async function (tree: Tree, schema: DhLibrarySchema) {
   const { fileName: libType, className: libTypeClassName } = names(
     schema.libraryType
   );
-  const { fileName: libName, className: libClassName } = names(schema.name);
+  const { fileName: libName, className: libClassName } = names(
+    schema.name ?? ''
+  );
   const { fileName: libDomain, className: libDomainClassName } = names(
     schema.domain
   );
 
-  const libPath = `./libs/dh/${libDomain}/${libType}-${libName}`;
+  const libPath = getFinalLibraryPath({ libDomain, libType, libName });
 
   await libraryGenerator(tree, {
-    name: `${libType}-${libName}`,
+    name: getFinalLibraryName(libType, libName),
     directory: `dh/${libDomain}`,
     tags: `product:dh, domain:${libDomain}, type:${libType}`,
     prefix: 'dh',
@@ -64,6 +67,7 @@ export default async function (tree: Tree, schema: DhLibrarySchema) {
     libPath,
     libType,
     libName,
+    libDomain,
   });
   updateProjectJsonFile(tree, libPath);
 
@@ -76,6 +80,12 @@ export default async function (tree: Tree, schema: DhLibrarySchema) {
       className: `${libDomainClassName}${libTypeClassName}${libClassName}`,
       stateInterface: libDomainClassName,
     });
+  } else if (libType === LibraryType.shell) {
+    addShellSpecificFiles(tree, {
+      libPath,
+      libDomain,
+      className: libDomainClassName,
+    });
   }
 
   await formatFiles(tree);
@@ -83,6 +93,18 @@ export default async function (tree: Tree, schema: DhLibrarySchema) {
   return () => {
     installPackagesTask(tree);
   };
+}
+
+function getFinalLibraryPath(options: {
+  libDomain: string;
+  libType: string;
+  libName: string;
+}) {
+  if (options.libType === LibraryType.shell) {
+    return `./libs/dh/${options.libDomain}/${options.libType}`;
+  }
+
+  return `./libs/dh/${options.libDomain}/${options.libType}-${options.libName}`;
 }
 
 /**
@@ -114,12 +136,13 @@ function updateReadmeFile(
     libPath: string;
     libName: string;
     libType: string;
+    libDomain: string;
   }
 ) {
   const readmeFilePath = `${options.libPath}/README.md`;
-  const content = `# ${capitalizeWords(options.libName)} ${capitalizeWords(
-    options.libType
-  )}\n`;
+  const content = `# ${capitalizeWords(
+    options.libName || options.libDomain
+  )} ${capitalizeWords(options.libType)}\n`;
 
   tree.write(readmeFilePath, content);
 }
@@ -135,21 +158,39 @@ function addDataAccessSpecificFiles(
     stateInterface: string;
   }
 ) {
-  generateEmptyStore(tree, {
-    libPath: options.libPath,
-    libType: options.libType,
-    libName: options.libName,
-    libDomain: options.libDomain,
-    className: options.className,
-    stateInterface: options.stateInterface,
-  });
+  generateEmptyStore(tree, options);
+  exposeEmptyStoreFromLibrary(tree, options);
+}
 
-  exposeEmptyStoreFromLibrary(tree, {
-    libPath: options.libPath,
-    libType: options.libType,
-    libName: options.libName,
-    libDomain: options.libDomain,
-  });
+function addShellSpecificFiles(
+  tree: Tree,
+  options: {
+    libPath: string;
+    libDomain: string;
+    className: string;
+  }
+) {
+  replaceShellModule(tree, options);
+}
+
+function replaceShellModule(
+  tree: Tree,
+  options: {
+    libPath: string;
+    libDomain: string;
+    className: string;
+  }
+) {
+  generateFiles(
+    tree,
+    joinPathFragments(__dirname, `./files/shell/module`),
+    `${options.libPath}/src/lib`,
+    {
+      tmpl: '',
+      domain: options.libDomain,
+      className: options.className,
+    }
+  );
 }
 
 /**
@@ -197,6 +238,14 @@ function exposeEmptyStoreFromLibrary(
   tree.write(indexPath, content);
 }
 
+function getFinalLibraryName(libType: string, libName: string): string {
+  if (libType === LibraryType.shell) {
+    return libType;
+  }
+
+  return `${libType}-${libName}`;
+}
+
 /**
  * Replace test-setup.ts file with a template that imports all necessary dependencies
  */
@@ -216,13 +265,19 @@ function updateTestSetupFile(
 }
 
 function validateParams(schema: DhLibrarySchema) {
-  if (
-    schema.name.startsWith(`${LibraryType.feature}-`) ||
-    schema.name.startsWith(`${LibraryType.dataAccess}-`)
-  ) {
-    throw new Error(
-      `No need to prefix "name" with "${schema.name}". This is done automatically.`
-    );
+  if (schema.name !== undefined) {
+    if (schema.name.length > 0 && schema.libraryType === LibraryType.shell) {
+      throw new Error(
+        `Leave the "name" field empty when the selected library type is "${LibraryType.shell}".`
+      );
+    } else if (
+      schema.name.startsWith(`${LibraryType.feature}-`) ||
+      schema.name.startsWith(`${LibraryType.dataAccess}-`)
+    ) {
+      throw new Error(
+        `No need to prefix "name" with "${schema.name}". This is done automatically.`
+      );
+    }
   }
 }
 
