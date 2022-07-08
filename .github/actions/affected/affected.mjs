@@ -30,9 +30,12 @@ import { fileURLToPath } from 'url';
 import * as core from '@actions/core';
 
 function readAffectedApps(base) {
-  const affected = execSync(`npx nx affected:apps --plain --base=${base} --skip-nx-cache`, {
-    encoding: 'utf-8',
-  });
+  const affected = execSync(
+    `npx nx affected:apps --plain --base=${base} --skip-nx-cache`,
+    {
+      encoding: 'utf-8',
+    }
+  );
 
   return sanitizeAffectedOutput(affected);
 }
