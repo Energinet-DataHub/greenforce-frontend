@@ -20,7 +20,7 @@ Go to the live page and inspect the page with Dev Tools. Find the `#api` element
 
 ### Working with translations
 
-Microsoft automatically adds `lang` attribute to `<html>`, which is why this is not included in the static pages. To see the translated texts add `lange="en"` or `lang="da"` to `<html>` (otherwise the text will be hidden).
+Microsoft automatically adds `lang` attribute to `<html>`, which is why this is not included in the static pages. To see the translated texts add `lang="en"` or `lang="da"` to `<html>` (otherwise the text will be hidden).
 
 Translations should have the `imprint` class and `imprint-<LANGUAGE>` class, example:
 
