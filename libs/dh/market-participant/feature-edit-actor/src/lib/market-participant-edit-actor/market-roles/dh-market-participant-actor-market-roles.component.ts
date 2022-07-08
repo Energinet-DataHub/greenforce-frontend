@@ -159,12 +159,16 @@ export class DhMarketParticipantActorMarketRolesComponent implements OnChanges {
           )
       );
 
-    this.marketRoles = availableMarketRoles.map((mr) => ({
-      displayValue: this.translocoService.translate(
-        `marketParticipant.marketRoles.${mr}`
-      ),
-      value: mr,
-    })).sort((left, right) => left.displayValue.localeCompare(right.displayValue));
+    this.marketRoles = availableMarketRoles
+      .map((mr) => ({
+        displayValue: this.translocoService.translate(
+          `marketParticipant.marketRoles.${mr}`
+        ),
+        value: mr,
+      }))
+      .sort((left, right) =>
+        left.displayValue.localeCompare(right.displayValue)
+      );
   };
 
   readonly onRowDelete = (row: EditableMarketRoleRow) => {
