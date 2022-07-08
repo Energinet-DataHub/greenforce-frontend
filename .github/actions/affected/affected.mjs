@@ -27,11 +27,15 @@ import { execSync } from 'child_process';
 import { readFileSync } from 'fs';
 import * as path from 'path';
 import { fileURLToPath } from 'url';
+import * as core from '@actions/core';
 
 function readAffectedApps(base) {
-  const affected = execSync(`npx nx affected:apps --plain --base=${base}`, {
-    encoding: 'utf-8',
-  });
+  const affected = execSync(
+    `npx nx affected:apps --plain --base=${base} --skip-nx-cache`,
+    {
+      encoding: 'utf-8',
+    }
+  );
 
   return sanitizeAffectedOutput(affected);
 }
@@ -80,11 +84,12 @@ function validateProjectParameter(projectName) {
 
 // Not available in an ES Module as of Node.js 12.x
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const [, , project, base] = process.argv;
+const base = core.getInput('base', { required: true });
+const project = core.getInput('project', { required: true });
 
 validateProjectParameter(project);
 
 const affectedProjects = readAffectedProjects(base);
 const isAffected = affectedProjects.includes(project);
 
-console.log(isAffected);
+core.setOutput('is-affected', isAffected);
