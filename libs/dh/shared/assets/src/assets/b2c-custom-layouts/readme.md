@@ -16,7 +16,7 @@ The custom layouts are static HTML pages with vanilla CSS. Styles for inputs etc
 
 ### Simulate content inserted by B2C `#api`
 
-Goto the live page and inspect the page with Dev Tools. Find the `#api` copy the `outerHTML,` and insert it into the custom layout you want to change to simulate what Microsoft inserts into the DOM.
+Go to the live page and inspect the page with Dev Tools. Find the `#api` element, copy its `outerHTML` and insert it into the custom layout you want to change to simulate what Microsoft inserts into the DOM.
 
 ### Working with translations
 
