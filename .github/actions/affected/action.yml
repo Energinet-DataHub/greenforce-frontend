@@ -35,10 +35,6 @@ inputs:
 outputs:
   is-affected:
     description: Whether or not the project is affected by changes.
-    value: ${{ steps.affected.outputs.is-affected }}
-
 runs:
-  using: composite
-  steps:
-    - run: echo "::set-output name=is-affected::$(node ${{ github.action_path }}/affected.mjs ${{ inputs.project }} ${{ inputs.base }})"
-      shell: bash
+  using: 'node16'
+  main: 'affected.mjs'
