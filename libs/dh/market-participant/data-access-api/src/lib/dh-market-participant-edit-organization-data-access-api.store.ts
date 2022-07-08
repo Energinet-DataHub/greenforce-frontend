@@ -85,7 +85,10 @@ export class DhMarketParticipantEditOrganizationDataAccessApiStore extends Compo
         tap(() => this.patchState({ isLoading: true })),
         switchMap((organizationId) => {
           if (!organizationId) {
-            this.patchState({ isLoading: false });
+            this.patchState({
+              isLoading: false,
+              changes: { address: { country: 'DK' } },
+            });
             return EMPTY;
           }
           return this.getOrganization(organizationId).pipe(
