@@ -59,11 +59,10 @@ export class DhMarketParticipantEditActorComponent {
   );
   isLoading$ = this.store.isLoading$;
   isEditing$ = this.store.isEditing$;
-  actor$ = this.store.actor$;
   changes$ = this.store.changes$;
   validation$ = this.store.validation$;
   gridAreas$ = this.store.gridAreas$;
-  selectedGridAreas$ = this.store.selectedGridAreas$;
+  marketRoles$ = this.store.marketRoles$;
   contacts$ = this.store.contacts$;
 
   constructor(
