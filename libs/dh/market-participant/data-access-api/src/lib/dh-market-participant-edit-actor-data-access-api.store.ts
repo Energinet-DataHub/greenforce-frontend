@@ -253,6 +253,11 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
     if (!actorId) {
       this.patchState({
         organizationId: organizationId,
+        changes: {
+          existingActor: false,
+          actorNumber: '',
+          status: ActorStatus.New,
+        },
       });
       return of(undefined);
     }
