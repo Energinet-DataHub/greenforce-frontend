@@ -29,7 +29,7 @@ import * as path from 'path';
 import { fileURLToPath } from 'url';
 
 function readAffectedApps(base) {
-  const affected = execSync(`npx nx affected:apps --plain --base=${base}`, {
+  const affected = execSync(`npx nx affected:apps --plain --base=${base} --skip-nx-cache`, {
     encoding: 'utf-8',
   });
 
