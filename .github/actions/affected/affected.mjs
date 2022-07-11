@@ -27,6 +27,7 @@ import { execSync } from 'child_process';
 import { readFileSync } from 'fs';
 import * as path from 'path';
 import { fileURLToPath } from 'url';
+import * as core from '@actions/core';
 
 function readAffectedApps(base) {
   const affected = execSync(
@@ -83,11 +84,12 @@ function validateProjectParameter(projectName) {
 
 // Not available in an ES Module as of Node.js 12.x
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const [, , project, base] = process.argv;
+const project = core.getInput('project', { required: true });
+const base = core.getInput('base', { required: true });
 
 validateProjectParameter(project);
 
 const affectedProjects = readAffectedProjects(base);
 const isAffected = affectedProjects.includes(project);
 
-console.log(isAffected);
+core.setOutput('is-affected', isAffected);
