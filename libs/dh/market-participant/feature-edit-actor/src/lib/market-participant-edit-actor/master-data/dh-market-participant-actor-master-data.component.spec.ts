@@ -44,6 +44,7 @@ describe('DhMarketParticipantActorMasterDataComponent', () => {
   test('should edit actor number for new', async () => {
     // arrange
     const changes: ActorChanges = {
+      existingActor: false,
       actorNumber: '',
       status: 'New',
     };
@@ -52,6 +53,7 @@ describe('DhMarketParticipantActorMasterDataComponent', () => {
     await runOnPushChangeDetection(view.fixture);
 
     const expected: ActorChanges = {
+      existingActor: false,
       actorNumber: '7071600998397',
       status: 'New',
     };
@@ -69,7 +71,7 @@ describe('DhMarketParticipantActorMasterDataComponent', () => {
   test('should edit status for existing', async () => {
     // arrange
     const changes: ActorChanges = {
-      actorId: '879AD937-A036-484D-9D3F-76C3D92A1F3F',
+      existingActor: true,
       actorNumber: '7071600998397',
       status: 'Active',
     };
@@ -78,7 +80,7 @@ describe('DhMarketParticipantActorMasterDataComponent', () => {
     await runOnPushChangeDetection(view.fixture);
 
     const expected: ActorChanges = {
-      actorId: '879AD937-A036-484D-9D3F-76C3D92A1F3F',
+      existingActor: true,
       actorNumber: '7071600998397',
       status: 'Inactive',
     };
@@ -101,7 +103,7 @@ describe('DhMarketParticipantActorMasterDataComponent', () => {
   test('should disable actor number and enable status combobox for existing', async () => {
     // arrange
     const changes: ActorChanges = {
-      actorId: '879AD937-A036-484D-9D3F-76C3D92A1F3A',
+      existingActor: true,
       actorNumber: '7071600998397',
       status: 'Active',
     };
@@ -123,6 +125,7 @@ describe('DhMarketParticipantActorMasterDataComponent', () => {
   test('should enable enable actor number and disable status combox for new', async () => {
     // arrange
     const changes: ActorChanges = {
+      existingActor: false,
       actorNumber: '7071600998397',
       status: 'New',
     };
