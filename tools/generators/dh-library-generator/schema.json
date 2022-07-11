@@ -2,6 +2,7 @@
   "$schema": "http://json-schema.org/schema",
   "cli": "nx",
   "$id": "dh-library-generator",
+  "description": "Generate a library that is going to be used in DataHub.",
   "type": "object",
   "properties": {
     "domain": {
