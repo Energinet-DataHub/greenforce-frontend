@@ -31,7 +31,7 @@ import * as core from '@actions/core';
 
 function readAffectedApps(base) {
   const affected = execSync(
-    `npx nx affected:apps --plain --base=${base} --skip-nx-cache`,
+    `npx nx print-affected --type=app --base=${base} --head=HEAD`,
     {
       encoding: 'utf-8',
     }
@@ -42,7 +42,7 @@ function readAffectedApps(base) {
 
 function readAffectedLibs(base) {
   const affected = execSync(
-    `npx nx affected:libs --plain --base=${base} --skip-nx-cache`,
+    `npx nx print-affected --type=lib --base=${base} --head=HEAD`,
     {
       encoding: 'utf-8',
     }
@@ -59,10 +59,11 @@ function readAffectedProjects(base) {
 }
 
 function sanitizeAffectedOutput(affectedOutput) {
-  return affectedOutput
-    .trim()
-    .split(' ')
-    .filter((project) => project !== '');
+  const sanitized = affectedOutput
+    .trim();
+
+  const json = JSON.parse(sanitized)
+  return json.projects;
 }
 
 function validateProjectParameter(projectName) {
