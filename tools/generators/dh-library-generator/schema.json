@@ -4,34 +4,29 @@
   "$id": "dh-library-generator",
   "type": "object",
   "properties": {
-    "libraryType": {
-      "description": "Select a library type",
-      "type": "string",
-      "enum": ["feature", "data-access"],
-      "$default": {
-        "$source": "argv",
-        "index": 0
-      },
-      "x-prompt": "Select a library type"
-    },
-    "name": {
-      "type": "string",
-      "description": "Library name (note: if the selected library type is \"feature\" or \"data-access\", the final name will be prefixed with it, e.g. `feature-<name>`)",
-      "$default": {
-        "$source": "argv",
-        "index": 1
-      },
-      "x-prompt": "What name would you like to use for the library? (note: if the selected library type is \"feature\" or \"data-access\", the final name will be prefixed with it, e.g. `feature-<name>`)"
-    },
     "domain": {
       "type": "string",
       "description": "To which domain does the library belong to?",
       "$default": {
         "$source": "argv",
-        "index": 2
+        "index": 0
       },
       "x-prompt": "To which domain does the library belong to?"
+    },
+    "libraryType": {
+      "description": "Select a library type",
+      "type": "string",
+      "enum": ["feature", "data-access", "shell"],
+      "$default": {
+        "$source": "argv",
+        "index": 1
+      },
+      "x-prompt": "Select a library type"
+    },
+    "name": {
+      "type": "string",
+      "description": "Library name (note 1: if the selected library type is \"feature\" or \"data-access\", the final name will be prefixed with it, e.g. `feature-<name>`) (note 2: leave this field empty if the selected library type is \"shell\")"
     }
   },
-  "required": ["libraryType", "name", "domain"]
+  "required": ["domain", "libraryType"]
 }
