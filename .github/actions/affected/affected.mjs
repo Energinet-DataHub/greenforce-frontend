@@ -87,8 +87,16 @@ function validateProjectParameter(projectName) {
 
 // Not available in an ES Module as of Node.js 12.x
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const project = core.getInput('project', { required: true });
-const base = core.getInput('base', { required: true });
+let project;
+let base;
+
+try {
+  project = core.getInput('project', { required: true });
+  base = core.getInput('base', { required: true });
+}
+catch(err) {
+  [, , project, base] = process.argv;
+}
 
 validateProjectParameter(project);
 
