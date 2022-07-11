@@ -59,10 +59,9 @@ function readAffectedProjects(base) {
 }
 
 function sanitizeAffectedOutput(affectedOutput) {
-  const sanitized = affectedOutput
-    .trim();
+  const sanitized = affectedOutput.trim();
 
-  const json = JSON.parse(sanitized)
+  const json = JSON.parse(sanitized);
   return json.projects;
 }
 
