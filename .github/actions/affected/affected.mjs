@@ -37,7 +37,7 @@ function readAffectedApps(base) {
 }
 
 function readAffectedLibs(base) {
-  const affected = execSync(`npx nx affected:libs --plain --base=${base}`, {
+  const affected = execSync(`npx nx affected:libs --plain --base=${base} --skip-nx-cache`, {
     encoding: 'utf-8',
   });
 
