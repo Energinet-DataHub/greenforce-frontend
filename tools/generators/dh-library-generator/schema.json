@@ -29,5 +29,6 @@
       "description": "Library name (note 1: if the selected library type is \"feature\" or \"data-access\", the final name will be prefixed with it, e.g. `feature-<name>`) (note 2: leave this field empty if the selected library type is \"shell\")"
     }
   },
+  "additionalProperties": false,
   "required": ["domain", "libraryType"]
 }
