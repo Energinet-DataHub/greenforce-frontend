@@ -93,8 +93,7 @@ let base;
 try {
   project = core.getInput('project', { required: true });
   base = core.getInput('base', { required: true });
-}
-catch(err) {
+} catch (err) {
   [, , project, base] = process.argv;
 }
 
