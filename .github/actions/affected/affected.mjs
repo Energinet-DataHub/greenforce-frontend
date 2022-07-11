@@ -27,11 +27,15 @@ import { execSync } from 'child_process';
 import { readFileSync } from 'fs';
 import * as path from 'path';
 import { fileURLToPath } from 'url';
+import * as core from '@actions/core';
 
 function readAffectedApps(base) {
-  const affected = execSync(`npx nx affected:apps --plain --base=${base}`, {
-    encoding: 'utf-8',
-  });
+  const affected = execSync(
+    `npx nx affected:apps --plain --base=${base}`,
+    {
+      encoding: 'utf-8',
+    }
+  );
 
   return sanitizeAffectedOutput(affected);
 }
@@ -87,4 +91,4 @@ validateProjectParameter(project);
 const affectedProjects = readAffectedProjects(base);
 const isAffected = affectedProjects.includes(project);
 
-console.log(isAffected);
+core.setOutput('is-affected', isAffected);
