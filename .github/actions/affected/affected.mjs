@@ -30,17 +30,23 @@ import { fileURLToPath } from 'url';
 import * as core from '@actions/core';
 
 function readAffectedApps(base) {
-  const affected = execSync(`npx nx affected:apps --plain --base=${base}`, {
-    encoding: 'utf-8',
-  });
+  const affected = execSync(
+    `npx nx print-affected --type=app --base=${base} --head=HEAD`,
+    {
+      encoding: 'utf-8',
+    }
+  );
 
   return sanitizeAffectedOutput(affected);
 }
 
 function readAffectedLibs(base) {
-  const affected = execSync(`npx nx affected:libs --plain --base=${base}`, {
-    encoding: 'utf-8',
-  });
+  const affected = execSync(
+    `npx nx print-affected --type=lib --base=${base} --head=HEAD`,
+    {
+      encoding: 'utf-8',
+    }
+  );
 
   return sanitizeAffectedOutput(affected);
 }
@@ -53,10 +59,10 @@ function readAffectedProjects(base) {
 }
 
 function sanitizeAffectedOutput(affectedOutput) {
-  return affectedOutput
-    .trim()
-    .split(' ')
-    .filter((project) => project !== '');
+  const sanitized = affectedOutput.trim();
+
+  const json = JSON.parse(sanitized);
+  return json.projects;
 }
 
 function validateProjectParameter(projectName) {
@@ -81,8 +87,15 @@ function validateProjectParameter(projectName) {
 
 // Not available in an ES Module as of Node.js 12.x
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const project = core.getInput('project', { required: true });
-const base = core.getInput('base', { required: true });
+let project;
+let base;
+
+try {
+  project = core.getInput('project', { required: true });
+  base = core.getInput('base', { required: true });
+} catch (err) {
+  [, , project, base] = process.argv;
+}
 
 validateProjectParameter(project);
 
