@@ -43,15 +43,13 @@ export class WattDrawerComponent {
   private _isOpened = false;
 
   @Input() set opened(isOpened: boolean) {
-    if (isOpened) {
-      this._isOpened = true;
+    this._isOpened = isOpened;
 
+    if (isOpened) {
       if (this.content) {
         this.contentVcr?.createEmbeddedView(this.content.tpl);
       }
     } else {
-      this._isOpened = false;
-
       this.contentVcr?.clear();
     }
   }
