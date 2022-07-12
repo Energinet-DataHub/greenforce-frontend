@@ -123,7 +123,6 @@ jobs:
 
   e2e:
     name: End-to-end test
-    needs: dh-affected
     runs-on: ubuntu-latest
 
     steps:
@@ -345,7 +344,6 @@ jobs:
 
   test:
     name: Unit and integration test
-    needs: dh-affected
     runs-on: ubuntu-latest
 
     steps:
