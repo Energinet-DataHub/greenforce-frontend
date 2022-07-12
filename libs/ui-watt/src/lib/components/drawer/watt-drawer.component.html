@@ -21,13 +21,21 @@ limitations under the License.
 >
   <mat-drawer
     #drawer
-    class="watt-drawer"
+    class="watt-drawer watt-space-inset-s"
     mode="side"
     position="end"
     [opened]="opened"
   >
-    <watt-button icon="close" (click)="drawer.close()"></watt-button>
+    <div class="watt-drawer__header">
+      <watt-button
+        variant="icon"
+        icon="close"
+        (click)="drawer.close()"
+      ></watt-button>
+    </div>
 
-    <ng-container #contentVcr></ng-container>
+    <div class="watt-drawer__content">
+      <ng-container #contentVcr></ng-container>
+    </div>
   </mat-drawer>
 </mat-drawer-container>
