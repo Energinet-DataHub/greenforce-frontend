@@ -14,6 +14,15 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
+<watt-drawer [opened]="isDrawerOpened">
+  <ng-template wattDrawerContent>
+    <dh-drawer-test></dh-drawer-test>
+  </ng-template>
+</watt-drawer>
+
+<watt-button (click)="toggleDrawer()"
+  >Toggle drawer {{ isDrawerOpened }}</watt-button
+>
 
 <ng-container *transloco="let transloco; read: 'messageArchive.search'">
   <h1>{{ transloco("title") }}</h1>
