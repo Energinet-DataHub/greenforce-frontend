@@ -14,20 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { PortalModule } from '@angular/cdk/portal';
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { MatSidenavModule } from '@angular/material/sidenav';
-import { WattButtonModule } from '../button';
 
-import {
-  WattDrawerComponent,
-  WattDrawerContentDirective,
-} from './watt-drawer.component';
+import { WattButtonModule } from '../button';
+import { WattDrawerContentDirective } from './watt-drawer-content.directive';
+import { WattDrawerComponent } from './watt-drawer.component';
 
 @NgModule({
   declarations: [WattDrawerComponent, WattDrawerContentDirective],
   exports: [WattDrawerComponent, WattDrawerContentDirective],
-  imports: [MatSidenavModule, PortalModule, WattButtonModule, CommonModule],
+  imports: [MatSidenavModule, WattButtonModule, CommonModule],
 })
 export class WattDrawerModule {}
