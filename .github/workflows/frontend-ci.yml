@@ -54,7 +54,6 @@ jobs:
   build:
     name: Build
     runs-on: ubuntu-latest
-
     steps:
       # needed for nx affected command
       - name: 'PR: Check out source code with current branch Git history'
