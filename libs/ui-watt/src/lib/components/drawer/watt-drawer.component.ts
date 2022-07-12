@@ -41,10 +41,13 @@ export class WattDrawerContentDirective {
   templateUrl: './watt-drawer.component.html',
 })
 export class WattDrawerComponent {
-  @ViewChild('templatePortalContent')
-  templatePortalContent?: TemplateRef<unknown>;
+  @ContentChild(WattDrawerContentDirective)
+  content?: WattDrawerContentDirective;
 
-  _isOpened = false;
+  @ViewChild('contentVcr', { read: ViewContainerRef, static: false })
+  private contentVcr?: ViewContainerRef;
+
+  private _isOpened = false;
 
   @Input() set opened(isOpened: boolean) {
     if (isOpened) {
@@ -62,10 +65,4 @@ export class WattDrawerComponent {
   get opened() {
     return this._isOpened;
   }
-
-  @ContentChild(WattDrawerContentDirective)
-  content?: WattDrawerContentDirective;
-
-  @ViewChild('contentVcr', { read: ViewContainerRef, static: false })
-  private contentVcr?: ViewContainerRef;
 }

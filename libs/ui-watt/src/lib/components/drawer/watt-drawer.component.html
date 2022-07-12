@@ -14,9 +14,19 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<mat-drawer-container class="watt-drawer-container" [hasBackdrop]="false">
-  <mat-drawer mode="side" position="end" [opened]="opened">
-    <watt-button icon="close" (click)="opened = false"></watt-button>
+<mat-drawer-container
+  class="watt-drawer-container"
+  [ngClass]="{ 'watt-drawer-container--open': opened }"
+  [hasBackdrop]="false"
+>
+  <mat-drawer
+    #drawer
+    class="watt-drawer"
+    mode="side"
+    position="end"
+    [opened]="opened"
+  >
+    <watt-button icon="close" (click)="drawer.close()"></watt-button>
 
     <ng-container #contentVcr></ng-container>
   </mat-drawer>
