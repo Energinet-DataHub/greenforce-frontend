@@ -18,9 +18,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { moduleMetadata, Story, Meta } from '@storybook/angular';
 import { fireEvent, within } from '@storybook/testing-library';
 
-import { WattButtonModule } from '../button';
-import { WattDrawerComponent } from './watt-drawer.component';
-import { WattDrawerModule } from './watt-drawer.module';
+import { WattButtonModule } from '../../button';
+import { WattDrawerComponent } from '../watt-drawer.component';
+import { WattDrawerModule } from '../watt-drawer.module';
+import { WattStorybookDrawerContentModule } from './storybook-drawer-content.component';
 
 export default {
   title: 'Components/Drawer',
@@ -28,26 +29,31 @@ export default {
   argTypes: {
     closed: {
       table: {
-        category: 'Outputs'
+        category: 'Outputs',
       },
-      control: false
+      control: false,
     },
     close: {
       table: {
-        category: 'Methods'
+        category: 'Methods',
       },
-      control: false
+      control: false,
     },
     open: {
       table: {
-        category: 'Methods'
+        category: 'Methods',
       },
-      control: false
+      control: false,
     },
   },
   decorators: [
     moduleMetadata({
-      imports: [BrowserAnimationsModule, WattButtonModule, WattDrawerModule],
+      imports: [
+        WattDrawerModule,
+        BrowserAnimationsModule,
+        WattButtonModule,
+        WattStorybookDrawerContentModule,
+      ],
     }),
   ],
 } as Meta<WattDrawerComponent>;
@@ -57,12 +63,7 @@ export const Drawer: Story<WattDrawerComponent> = (args) => ({
   template: `
     <watt-drawer #drawer>
       <ng-template wattDrawerContent>
-        <p>
-          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nulla
-          assumenda perspiciatis officia quam recusandae, voluptate ratione
-          pariatur temporibus, consequuntur deserunt numquam dolorum! Sequi
-          assumenda amet, laboriosam omnis ex sapiente voluptatibus?
-        </p>
+        <watt-storybook-drawer-content></watt-storybook-drawer-content>
       </ng-template>
     </watt-drawer>
 
