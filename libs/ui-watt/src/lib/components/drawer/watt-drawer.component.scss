@@ -50,6 +50,10 @@ watt-drawer {
       top: 0;
     }
 
+    &__close-btn {
+      margin-left: auto;
+    }
+
     &__content {
       height: 100%;
       overflow-y: auto;
