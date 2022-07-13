@@ -28,6 +28,7 @@ import {
 } from '@angular/core';
 
 import { WattDrawerContentDirective } from './watt-drawer-content.directive';
+import { WattDrawerTopBarDirective } from './watt-drawer-top-bar.directive';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -41,8 +42,16 @@ export class WattDrawerComponent {
   closed = new EventEmitter<void>();
 
   /** @ignore */
+  @ContentChild(WattDrawerTopBarDirective)
+  topBar?: WattDrawerTopBarDirective;
+
+  /** @ignore */
   @ContentChild(WattDrawerContentDirective)
   content?: WattDrawerContentDirective;
+
+  /** @ignore */
+  @ViewChild('topBarVcr', { read: ViewContainerRef, static: false })
+  private topBarVcr?: ViewContainerRef;
 
   /** @ignore */
   @ViewChild('contentVcr', { read: ViewContainerRef, static: false })
@@ -53,11 +62,14 @@ export class WattDrawerComponent {
 
   /** @ignore */
   @Input() set opened(isOpened: boolean) {
-    if (isOpened && this.content && !this._isOpened) {
-      this.contentVcr?.createEmbeddedView(this.content.tpl);
+    if (isOpened && !this._isOpened) {
+      this.content?.tpl &&
+        this.contentVcr?.createEmbeddedView(this.content.tpl);
+      this.topBar?.tpl && this.topBarVcr?.createEmbeddedView(this.topBar.tpl);
     }
 
     if (!isOpened && this._isOpened) {
+      this.topBarVcr?.clear();
       this.contentVcr?.clear();
       this.closed.emit();
     }

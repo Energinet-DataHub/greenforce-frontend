@@ -39,10 +39,13 @@ watt-drawer {
     }
 
     &__top-bar {
+      align-items: center;
       background-color: var(--watt-color-neutral-white);
       border-bottom: 1px solid var(--watt-color-neutral-grey-300);
       display: flex;
-      justify-content: flex-end;
+      gap: var(--watt-space-s);
+      justify-content: space-between;
+      padding-bottom: var(--watt-space-s);
       position: sticky;
       top: 0;
     }
