@@ -59,7 +59,7 @@ function readAffectedProjects(base) {
 }
 
 function sanitizeAffectedOutput(affectedOutput) {
-  return affectedOutput.replaceAll(/\s/g,'').split(',');
+  return affectedOutput.replaceAll(/\s/g, '').split(',');
 }
 
 function validateProjectParameter(projectName) {
