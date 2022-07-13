@@ -26,12 +26,30 @@ watt-drawer {
     width: auto;
   }
 
-  .watt-drawer--open {
-    width: 360px;
-  }
+  .watt-drawer {
+    overflow: hidden;
+    padding: calc(1.5 * var(--watt-space-m)); // 24px
 
-  .watt-drawer__header {
-    display: flex;
-    justify-content: flex-end;
+    .mat-drawer-inner-container {
+      overflow: visible;
+    }
+
+    &--open {
+      width: 460px;
+    }
+
+    &__header {
+      background-color: var(--watt-color-neutral-white);
+      border-bottom: 1px solid var(--watt-color-neutral-grey-300);
+      display: flex;
+      justify-content: flex-end;
+      position: sticky;
+      top: 0;
+    }
+
+    &__content {
+      height: 100%;
+      overflow-y: auto;
+    }
   }
 }
