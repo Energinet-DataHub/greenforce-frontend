@@ -32,6 +32,10 @@ describe(WattDrawerComponent.name, () => {
 
   });
 
+  it('should not load content, before the drawer is opened', () => {
+
+  });
+
   it('should not add content more than once, when "open" is called multiple times', () => {
 
   });
