@@ -14,23 +14,41 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { moduleMetadata, Story, Meta } from '@storybook/angular';
 
-import { WattDrawerModule } from './watt-drawer.module';
+import { WattButtonModule } from '../button';
 import { WattDrawerComponent } from './watt-drawer.component';
+import { WattDrawerModule } from './watt-drawer.module';
 
 export default {
   title: 'Components/Drawer',
   component: WattDrawerComponent,
   decorators: [
     moduleMetadata({
-      imports: [WattDrawerModule],
+      imports: [BrowserAnimationsModule, WattButtonModule, WattDrawerModule],
     }),
   ],
 } as Meta<WattDrawerComponent>;
 
 export const Overview: Story<WattDrawerComponent> = (args) => ({
   props: args,
+  template: `
+    <watt-drawer #drawer>
+      <ng-template wattDrawerContent>
+        <p>
+          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nulla
+          assumenda perspiciatis officia quam recusandae, voluptate ratione
+          pariatur temporibus, consequuntur deserunt numquam dolorum! Sequi
+          assumenda amet, laboriosam omnis ex sapiente voluptatibus?
+        </p>
+      </ng-template>
+    </watt-drawer>
+
+    <watt-button (click)="drawer.open()">Open drawer</watt-button>
+    <br /><br />
+    <watt-button (click)="drawer.close()">Close drawer</watt-button>
+  `,
 });
 
 Overview.args = {};

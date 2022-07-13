@@ -16,9 +16,12 @@
  */
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   ContentChild,
+  EventEmitter,
   Input,
+  Output,
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
@@ -32,26 +35,48 @@ import { WattDrawerContentDirective } from './watt-drawer-content.directive';
   templateUrl: './watt-drawer.component.html',
 })
 export class WattDrawerComponent {
+  @Output()
+  closed = new EventEmitter<void>();
+
+  /** @ignore */
   @ContentChild(WattDrawerContentDirective)
   content?: WattDrawerContentDirective;
 
+  /** @ignore */
   @ViewChild('contentVcr', { read: ViewContainerRef, static: false })
   private contentVcr?: ViewContainerRef;
 
+  /** @ignore */
   private _isOpened = false;
 
+  /** @ignore */
   @Input() set opened(isOpened: boolean) {
-    this._isOpened = isOpened;
-
-    if (isOpened) {
-      if (this.content) {
-        this.contentVcr?.createEmbeddedView(this.content.tpl);
-      }
-    } else {
-      this.contentVcr?.clear();
+    if (isOpened && this.content && !this._isOpened) {
+      this.contentVcr?.createEmbeddedView(this.content.tpl);
     }
+
+    if(!isOpened && this._isOpened) {
+      this.contentVcr?.clear();
+      this.closed.emit();
+    }
+
+    this._isOpened = isOpened;
   }
   get opened() {
     return this._isOpened;
+  }
+
+  constructor(private cdr: ChangeDetectorRef) {}
+
+  /** @ignore */
+  open() {
+    this.opened = true;
+    this.cdr.detectChanges();
+  }
+
+  /** @ignore */
+  close() {
+    this.opened = false;
+    this.cdr.detectChanges();
   }
 }
