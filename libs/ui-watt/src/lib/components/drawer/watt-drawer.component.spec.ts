@@ -139,4 +139,13 @@ describe(WattDrawerComponent.name, () => {
 
     expect(closedOutput).toHaveBeenCalled();
   });
+
+  it('should output `closed` when drawer is closed, from outside the drawer', async () => {
+    await setup(Drawer);
+
+    userEvent.click(getOpenDrawerButton());
+    userEvent.click(getExternalCloseDrawerButton());
+
+    expect(closedOutput).toHaveBeenCalled();
+  });
 });
