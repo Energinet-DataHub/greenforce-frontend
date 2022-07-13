@@ -24,7 +24,12 @@ limitations under the License.
   >
     <div class="watt-drawer__top-bar">
       <ng-container #topBarVcr></ng-container>
-      <watt-button variant="icon" icon="close" (click)="close()"></watt-button>
+      <watt-button
+        class="watt-drawer__close-btn"
+        variant="icon"
+        icon="close"
+        (click)="close()"
+      ></watt-button>
     </div>
 
     <div class="watt-drawer__content">
