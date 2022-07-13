@@ -32,6 +32,10 @@ describe(WattDrawerComponent.name, () => {
 
   });
 
+  it('should not add content more than once, when "open" is called multiple times', () => {
+
+  });
+
   it('should close drawer, triggered externally outside of the drawer', () => {
 
   });
@@ -42,6 +46,8 @@ describe(WattDrawerComponent.name, () => {
 
   it('should destroy content when closing', () => {
 
-  })
+  });
+
+
   */
 });
