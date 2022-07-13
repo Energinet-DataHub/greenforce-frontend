@@ -26,4 +26,22 @@ describe(WattDrawerComponent.name, () => {
       imports: [WattDrawerModule],
     });
   });
+
+  /*
+  it('should open drawer', () => {
+
+  });
+
+  it('should close drawer, triggered externally outside of the drawer', () => {
+
+  });
+
+  it('should close drawer, triggered internally inside of the drawer', () => {
+
+  });
+
+  it('should destroy content when closing', () => {
+
+  })
+  */
 });
