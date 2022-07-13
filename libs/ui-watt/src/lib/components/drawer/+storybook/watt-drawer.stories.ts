@@ -56,12 +56,12 @@ export default {
       ],
     }),
   ],
-} as Meta<WattDrawerComponent>;
+} as Meta;
 
 export const Drawer: Story<WattDrawerComponent> = (args) => ({
   props: args,
   template: `
-    <watt-drawer #drawer>
+    <watt-drawer #drawer (closed)="closed()">
       <ng-template wattDrawerContent>
         <watt-storybook-drawer-content></watt-storybook-drawer-content>
       </ng-template>
@@ -69,7 +69,7 @@ export const Drawer: Story<WattDrawerComponent> = (args) => ({
 
     <watt-button (click)="drawer.open()">Open drawer</watt-button>
     <br /><br />
-    <watt-button (click)="drawer.close()">Close drawer</watt-button>
+    <watt-button (click)="drawer.close()">Close drawer from outside of the drawer</watt-button>
   `,
 });
 
