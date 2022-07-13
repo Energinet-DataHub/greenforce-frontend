@@ -16,6 +16,7 @@
  */
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { moduleMetadata, Story, Meta } from '@storybook/angular';
+import { fireEvent, within } from '@storybook/testing-library';
 
 import { WattButtonModule } from '../button';
 import { WattDrawerComponent } from './watt-drawer.component';
@@ -70,3 +71,11 @@ export const Drawer: Story<WattDrawerComponent> = (args) => ({
     <watt-button (click)="drawer.close()">Close drawer</watt-button>
   `,
 });
+
+Drawer.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  const openDrawerButton: HTMLInputElement = canvas.getByRole('button', {
+    name: /^open drawer/i,
+  });
+  fireEvent.click(openDrawerButton);
+};
