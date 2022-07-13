@@ -14,24 +14,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-:host {
+watt-drawer {
   display: block;
-}
 
-.watt-drawer-container {
-  box-shadow: 0px 4px 64px 3px rgba(46, 50, 52, 0.25);
-  height: 100vh;
-  position: fixed;
-  right: 0;
-  top: 0;
-  width: auto;
-}
+  .watt-drawer-container {
+    box-shadow: 0px 4px 64px 3px rgba(46, 50, 52, 0.25);
+    height: 100vh;
+    position: fixed;
+    right: 0;
+    top: 0;
+    width: auto;
+  }
 
-.watt-drawer--open {
-  width: 360px;
-}
+  .watt-drawer--open {
+    width: 360px;
+  }
 
-.watt-drawer__header {
-  display: flex;
-  justify-content: flex-end;
+  .watt-drawer__header {
+    display: flex;
+    justify-content: flex-end;
+  }
 }
