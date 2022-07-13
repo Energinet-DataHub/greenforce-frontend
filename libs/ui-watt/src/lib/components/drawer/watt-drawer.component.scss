@@ -25,12 +25,10 @@
   right: 0;
   top: 0;
   width: auto;
+}
 
-  &--open {
-    .watt-drawer {
-      width: 360px;
-    }
-  }
+.watt-drawer--open {
+  width: 360px;
 }
 
 .watt-drawer__header {
