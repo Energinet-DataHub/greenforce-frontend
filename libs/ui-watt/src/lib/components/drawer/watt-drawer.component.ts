@@ -55,7 +55,7 @@ export class WattDrawerComponent {
       this.contentVcr?.createEmbeddedView(this.content.tpl);
     }
 
-    if(!isOpened && this._isOpened) {
+    if (!isOpened && this._isOpened) {
       this.contentVcr?.clear();
       this.closed.emit();
     }

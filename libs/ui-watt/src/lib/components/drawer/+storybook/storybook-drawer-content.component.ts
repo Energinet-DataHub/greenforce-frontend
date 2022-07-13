@@ -21,7 +21,7 @@ import { timer } from 'rxjs';
 @Component({
   selector: 'watt-storybook-drawer-content',
   template: `
-    <p>Drawer has been opened for: {{timer$ | async}}s</p>
+    <p>Drawer has been opened for: {{ timer$ | async }}s</p>
     <p>
       Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nulla assumenda
       perspiciatis officia quam recusandae, voluptate ratione pariatur
@@ -67,6 +67,6 @@ export class WattStorybookDrawerContentComponent {
 @NgModule({
   declarations: [WattStorybookDrawerContentComponent],
   exports: [WattStorybookDrawerContentComponent],
-  imports: [CommonModule]
+  imports: [CommonModule],
 })
 export class WattStorybookDrawerContentModule {}
