@@ -24,6 +24,26 @@ import { WattDrawerModule } from './watt-drawer.module';
 export default {
   title: 'Components/Drawer',
   component: WattDrawerComponent,
+  argTypes: {
+    closed: {
+      table: {
+        category: 'Outputs'
+      },
+      control: false
+    },
+    close: {
+      table: {
+        category: 'Methods'
+      },
+      control: false
+    },
+    open: {
+      table: {
+        category: 'Methods'
+      },
+      control: false
+    },
+  },
   decorators: [
     moduleMetadata({
       imports: [BrowserAnimationsModule, WattButtonModule, WattDrawerModule],
@@ -31,7 +51,7 @@ export default {
   ],
 } as Meta<WattDrawerComponent>;
 
-export const Overview: Story<WattDrawerComponent> = (args) => ({
+export const Drawer: Story<WattDrawerComponent> = (args) => ({
   props: args,
   template: `
     <watt-drawer #drawer>
@@ -50,5 +70,3 @@ export const Overview: Story<WattDrawerComponent> = (args) => ({
     <watt-button (click)="drawer.close()">Close drawer</watt-button>
   `,
 });
-
-Overview.args = {};

@@ -68,13 +68,17 @@ export class WattDrawerComponent {
 
   constructor(private cdr: ChangeDetectorRef) {}
 
-  /** @ignore */
+  /**
+   * Opens the drawer. Subsequent calls are ignored while the drawer is opened.
+   */
   open() {
     this.opened = true;
     this.cdr.detectChanges();
   }
 
-  /** @ignore */
+  /**
+   * Closes the drawer
+   */
   close() {
     this.opened = false;
     this.cdr.detectChanges();
