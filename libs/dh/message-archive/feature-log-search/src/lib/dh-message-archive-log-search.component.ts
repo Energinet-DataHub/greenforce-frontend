@@ -24,7 +24,7 @@ import {
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LetModule } from '@rx-angular/template';
-import { interval, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { TranslocoModule } from '@ngneat/transloco';
 
 import {
@@ -35,7 +35,6 @@ import {
   WattBadgeModule,
   WattDropdownModule,
   WattDropdownOptions,
-  WattDrawerModule,
 } from '@energinet-datahub/watt';
 import {
   DhMessageArchiveDataAccessApiStore,
@@ -51,18 +50,6 @@ import {
 } from '@energinet-datahub/dh/message-archive/domain';
 
 import { DhMessageArchiveLogSearchResultScam } from './searchresult/dh-message-archive-log-search-result.component';
-
-@Component({
-  selector: 'dh-drawer-test',
-  template: `{{ interval$ | async }}`,
-})
-export class DhDrawerTestComponent implements OnDestroy {
-  interval$ = interval(1000);
-
-  ngOnDestroy() {
-    console.log('destroyyyy');
-  }
-}
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -87,8 +74,6 @@ export class DhMessageArchiveLogSearchComponent implements OnDestroy {
   searching$ = this.store.isSearching$;
   hasSearchError$ = this.store.hasGeneralError$;
   continuationToken$ = this.store.continuationToken$;
-
-  isDrawerOpened = false;
 
   rsmFormFieldOptions: WattDropdownOptions = this.buildRsmOptions();
   processTypeFormFieldOptions: WattDropdownOptions =
@@ -131,10 +116,6 @@ export class DhMessageArchiveLogSearchComponent implements OnDestroy {
         ? q.get('invocationId')
         : null;
     });
-  }
-
-  toggleDrawer() {
-    this.isDrawerOpened = !this.isDrawerOpened;
   }
 
   private buildRsmOptions() {
@@ -247,12 +228,11 @@ export class DhMessageArchiveLogSearchComponent implements OnDestroy {
     FormsModule,
     CommonModule,
     LetModule,
-    WattDrawerModule,
     TranslocoModule,
     DhMessageArchiveLogSearchResultScam,
     WattBadgeModule,
     WattDropdownModule,
   ],
-  declarations: [DhDrawerTestComponent, DhMessageArchiveLogSearchComponent],
+  declarations: [DhMessageArchiveLogSearchComponent],
 })
 export class DhMessageArchiveLogSearchScam {}

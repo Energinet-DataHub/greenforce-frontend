@@ -14,23 +14,16 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<mat-drawer-container
-  class="watt-drawer-container"
-  [ngClass]="{ 'watt-drawer-container--open': opened }"
-  [hasBackdrop]="false"
->
+<mat-drawer-container class="watt-drawer-container" [hasBackdrop]="false">
   <mat-drawer
     class="watt-drawer watt-space-inset-s"
+    [ngClass]="{ 'watt-drawer--open': opened }"
     mode="side"
     position="end"
     [opened]="opened"
   >
     <div class="watt-drawer__header">
-      <watt-button
-        variant="icon"
-        icon="close"
-        (click)="close()"
-      ></watt-button>
+      <watt-button variant="icon" icon="close" (click)="close()"></watt-button>
     </div>
 
     <div class="watt-drawer__content">
