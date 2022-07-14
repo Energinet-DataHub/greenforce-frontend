@@ -22,12 +22,20 @@ limitations under the License.
     position="end"
     [opened]="opened"
   >
-    <div class="watt-drawer__header">
-      <watt-button variant="icon" icon="close" (click)="close()"></watt-button>
-    </div>
+    <div class="watt-drawer__grid-container">
+      <div class="watt-drawer__top-bar">
+        <ng-container #topBarVcr></ng-container>
+        <watt-button
+          class="watt-drawer__close-btn"
+          variant="icon"
+          icon="close"
+          (click)="close()"
+        ></watt-button>
+      </div>
 
-    <div class="watt-drawer__content">
-      <ng-container #contentVcr></ng-container>
+      <div class="watt-drawer__content">
+        <ng-container #contentVcr></ng-container>
+      </div>
     </div>
   </mat-drawer>
 </mat-drawer-container>
