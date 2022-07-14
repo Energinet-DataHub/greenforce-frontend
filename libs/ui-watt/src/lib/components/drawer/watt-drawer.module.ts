@@ -21,6 +21,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { WattButtonModule } from '../button';
 import { WattDrawerContentDirective } from './watt-drawer-content.directive';
 import { WattDrawerTopBarDirective } from './watt-drawer-top-bar.directive';
+import { WattDrawerCloseOnEscDirective } from './watt-drawer-close-on-esc.directive';
 import { WattDrawerComponent } from './watt-drawer.component';
 
 @NgModule({
@@ -28,6 +29,7 @@ import { WattDrawerComponent } from './watt-drawer.component';
     WattDrawerComponent,
     WattDrawerTopBarDirective,
     WattDrawerContentDirective,
+    WattDrawerCloseOnEscDirective,
   ],
   exports: [
     WattDrawerComponent,

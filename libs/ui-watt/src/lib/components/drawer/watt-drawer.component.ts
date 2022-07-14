@@ -63,9 +63,9 @@ export class WattDrawerComponent {
    * Opens the drawer. Subsequent calls are ignored while the drawer is opened.
    */
   open() {
-    const drawerNotOpen = this.opened === false;
+    const isDrawerClosed = this.opened === false;
 
-    if (drawerNotOpen) {
+    if (isDrawerClosed) {
       this.opened = true;
 
       this.createEmbeddedViews();
@@ -77,12 +77,14 @@ export class WattDrawerComponent {
    * Closes the drawer
    */
   close() {
-    this.opened = false;
+    if (this.opened) {
+      this.opened = false;
 
-    this.clearEmbeddedViews();
-    this.cdr.detectChanges();
+      this.clearEmbeddedViews();
+      this.cdr.detectChanges();
 
-    this.closed.emit();
+      this.closed.emit();
+    }
   }
 
   /** @ignore */

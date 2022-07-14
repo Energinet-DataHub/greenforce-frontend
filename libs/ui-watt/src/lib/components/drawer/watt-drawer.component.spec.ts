@@ -42,7 +42,7 @@ describe(WattDrawerComponent.name, () => {
     screen.getByRole('button', {
       name: 'close',
     });
-  const getDrawerTopBarContent: () => HTMLParagraphElement | null = () =>
+  const getDrawerTopBarContent: () => HTMLElement | null = () =>
     screen.queryByText(/top bar/i);
   const getDrawerContent: () => HTMLParagraphElement | null = () =>
     screen.queryByText(/drawer has been opened for/i);
@@ -157,5 +157,43 @@ describe(WattDrawerComponent.name, () => {
     userEvent.click(getExternalCloseDrawerButton());
 
     expect(closedOutput).toHaveBeenCalled();
+  });
+
+  it('closes on global Escape', async () => {
+    await setup(Drawer);
+
+    userEvent.click(getOpenDrawerButton());
+    userEvent.keyboard('{Escape}');
+
+    expect(closedOutput).toHaveBeenCalled();
+  });
+
+  it('closes on Escape when focus is in the drawer', async () => {
+    await setup(Drawer);
+
+    userEvent.click(getOpenDrawerButton());
+
+    getDrawerTopBarContent()?.focus();
+    userEvent.keyboard('{Escape}');
+
+    expect(closedOutput).toHaveBeenCalled();
+  });
+
+  it('calls "closed" only once when Escape is pressed multiple times', async () => {
+    await setup(Drawer);
+
+    userEvent.click(getOpenDrawerButton());
+    userEvent.keyboard('{Escape}');
+    userEvent.keyboard('{Escape}');
+
+    expect(closedOutput).toHaveBeenCalledTimes(1);
+  });
+
+  it('does not call "closed" on Escape when drawer is closed', async () => {
+    await setup(Drawer);
+
+    userEvent.keyboard('{Escape}');
+
+    expect(closedOutput).not.toHaveBeenCalled();
   });
 });
