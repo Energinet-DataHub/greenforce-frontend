@@ -14,48 +14,48 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-watt-drawer {
+:host {
   display: block;
+}
 
-  .watt-drawer-container {
-    box-shadow: 0px 4px 64px 3px rgba(46, 50, 52, 0.25);
-    height: 100vh;
-    position: fixed;
-    right: 0;
-    top: 0;
-    width: auto;
+.watt-drawer-container {
+  box-shadow: 0px 4px 64px 3px rgba(46, 50, 52, 0.25);
+  height: 100vh;
+  position: fixed;
+  right: 0;
+  top: 0;
+  width: auto;
+}
+
+.watt-drawer {
+  padding: calc(1.5 * var(--watt-space-m)); // 24px
+
+  &__grid-container {
+    display: grid;
+    grid-template-rows: auto 1fr;
+    height: 100%;
   }
 
-  .watt-drawer {
-    padding: calc(1.5 * var(--watt-space-m)); // 24px
+  &--open {
+    width: 460px;
+  }
 
-    &__grid-container {
-      display: grid;
-      grid-template-rows: auto 1fr;
-      height: 100%;
-    }
+  &__top-bar {
+    align-items: center;
+    background-color: var(--watt-color-neutral-white);
+    border-bottom: 1px solid var(--watt-color-neutral-grey-300);
+    display: flex;
+    gap: var(--watt-space-s);
+    padding-bottom: var(--watt-space-s);
+    position: sticky;
+    top: 0;
+  }
 
-    &--open {
-      width: 460px;
-    }
+  &__close-btn {
+    margin-left: auto;
+  }
 
-    &__top-bar {
-      align-items: center;
-      background-color: var(--watt-color-neutral-white);
-      border-bottom: 1px solid var(--watt-color-neutral-grey-300);
-      display: flex;
-      gap: var(--watt-space-s);
-      padding-bottom: var(--watt-space-s);
-      position: sticky;
-      top: 0;
-    }
-
-    &__close-btn {
-      margin-left: auto;
-    }
-
-    &__content {
-      overflow-y: auto;
-    }
+  &__content {
+    overflow-y: auto;
   }
 }

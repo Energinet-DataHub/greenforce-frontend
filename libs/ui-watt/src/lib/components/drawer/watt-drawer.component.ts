@@ -23,7 +23,6 @@ import {
   Output,
   ViewChild,
   ViewContainerRef,
-  ViewEncapsulation,
 } from '@angular/core';
 
 import { WattDrawerContentDirective } from './watt-drawer-content.directive';
@@ -31,7 +30,6 @@ import { WattDrawerTopBarDirective } from './watt-drawer-top-bar.directive';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None,
   selector: 'watt-drawer',
   styleUrls: ['./watt-drawer.component.scss'],
   templateUrl: './watt-drawer.component.html',
