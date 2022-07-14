@@ -81,9 +81,10 @@ Drawer.parameters = {
   docs: {
     source: {
       code: template
+        .replace(' Top bar', '<!-- Top bar content -->')
         .replace(
           ' <watt-storybook-drawer-content></watt-storybook-drawer-content>',
-          '<!-- Content of the drawer goes here -->'
+          '<!-- Main content -->'
         )
         .replace(/<br \/>/g, ''),
     },
