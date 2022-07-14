@@ -52,7 +52,7 @@ describe(WattDrawerComponent.name, () => {
     screen.queryByText(/1s/i);
 
   // Fakes
-  const closedOutput = jest.fn();
+  let closedOutput = jest.fn();
 
   // Setup
   async function setup(story: Story<Partial<WattDrawerComponent>>) {
@@ -64,6 +64,10 @@ describe(WattDrawerComponent.name, () => {
     );
     await render(component, { imports: [ngModule] });
   }
+
+  afterEach(() => {
+    closedOutput = jest.fn();
+  });
 
   it('should open drawer', async () => {
     await setup(Drawer);
