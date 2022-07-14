@@ -58,20 +58,34 @@ export default {
   ],
 } as Meta<WattDrawerComponent>;
 
+const template = `
+<watt-drawer #drawer>
+  <ng-template wattDrawerContent>
+    <watt-storybook-drawer-content></watt-storybook-drawer-content>
+  </ng-template>
+</watt-drawer>
+
+<watt-button (click)="drawer.open()">Open drawer</watt-button><br /><br />
+<watt-button (click)="drawer.close()">Close drawer</watt-button>
+`;
+
 export const Drawer: Story<WattDrawerComponent> = (args) => ({
   props: args,
-  template: `
-    <watt-drawer #drawer>
-      <ng-template wattDrawerContent>
-        <watt-storybook-drawer-content></watt-storybook-drawer-content>
-      </ng-template>
-    </watt-drawer>
-
-    <watt-button (click)="drawer.open()">Open drawer</watt-button>
-    <br /><br />
-    <watt-button (click)="drawer.close()">Close drawer</watt-button>
-  `,
+  template,
 });
+
+Drawer.parameters = {
+  docs: {
+    source: {
+      code: template
+        .replace(
+          ' <watt-storybook-drawer-content></watt-storybook-drawer-content>',
+          '<!-- Content of the drawer goes here -->'
+        )
+        .replace(/<br \/>/g, ''),
+    },
+  },
+};
 
 Drawer.play = async ({ canvasElement }) => {
   const canvas = within(canvasElement);
