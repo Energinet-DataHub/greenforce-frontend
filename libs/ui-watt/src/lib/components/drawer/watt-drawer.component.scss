@@ -27,11 +27,12 @@ watt-drawer {
   }
 
   .watt-drawer {
-    overflow: hidden;
     padding: calc(1.5 * var(--watt-space-m)); // 24px
 
-    .mat-drawer-inner-container {
-      overflow: visible;
+    &__grid-container {
+      display: grid;
+      grid-template-rows: auto 1fr;
+      height: 100%;
     }
 
     &--open {
@@ -44,7 +45,6 @@ watt-drawer {
       border-bottom: 1px solid var(--watt-color-neutral-grey-300);
       display: flex;
       gap: var(--watt-space-s);
-      justify-content: space-between;
       padding-bottom: var(--watt-space-s);
       position: sticky;
       top: 0;
@@ -55,7 +55,6 @@ watt-drawer {
     }
 
     &__content {
-      height: 100%;
       overflow-y: auto;
     }
   }
