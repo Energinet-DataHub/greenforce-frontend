@@ -62,6 +62,9 @@ export const Drawer: Story<WattDrawerComponent> = (args) => ({
   props: args,
   template: `
     <watt-drawer #drawer (closed)="closed()">
+      <ng-template wattDrawerTopBar>
+        Top bar
+      </ng-template>
       <ng-template wattDrawerContent>
         <watt-storybook-drawer-content></watt-storybook-drawer-content>
       </ng-template>

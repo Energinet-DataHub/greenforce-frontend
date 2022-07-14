@@ -20,13 +20,13 @@ import {
   Component,
   ContentChild,
   EventEmitter,
-  Input,
   Output,
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
 
 import { WattDrawerContentDirective } from './watt-drawer-content.directive';
+import { WattDrawerTopBarDirective } from './watt-drawer-top-bar.directive';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -39,32 +39,26 @@ export class WattDrawerComponent {
   closed = new EventEmitter<void>();
 
   /** @ignore */
+  @ContentChild(WattDrawerTopBarDirective)
+  topBar?: WattDrawerTopBarDirective;
+
+  /** @ignore */
   @ContentChild(WattDrawerContentDirective)
   content?: WattDrawerContentDirective;
+
+  /** @ignore */
+  @ViewChild('topBarVcr', { read: ViewContainerRef, static: false })
+  private topBarVcr?: ViewContainerRef;
 
   /** @ignore */
   @ViewChild('contentVcr', { read: ViewContainerRef, static: false })
   private contentVcr?: ViewContainerRef;
 
   /** @ignore */
-  private _isOpened = false;
+  private areViewsCreated = false;
 
   /** @ignore */
-  @Input() set opened(isOpened: boolean) {
-    if (isOpened && this.content && !this._isOpened) {
-      this.contentVcr?.createEmbeddedView(this.content.tpl);
-    }
-
-    if (!isOpened && this._isOpened) {
-      this.contentVcr?.clear();
-      this.closed.emit();
-    }
-
-    this._isOpened = isOpened;
-  }
-  get opened() {
-    return this._isOpened;
-  }
+  opened = false;
 
   constructor(private cdr: ChangeDetectorRef) {}
 
@@ -73,6 +67,8 @@ export class WattDrawerComponent {
    */
   open() {
     this.opened = true;
+
+    this.createEmbeddedViews();
     this.cdr.detectChanges();
   }
 
@@ -81,6 +77,31 @@ export class WattDrawerComponent {
    */
   close() {
     this.opened = false;
+
+    this.closed.emit();
+
+    this.clearEmbeddedViews();
     this.cdr.detectChanges();
+  }
+
+  /** @ignore */
+  private createEmbeddedViews(): void {
+    if (!this.areViewsCreated) {
+      this.areViewsCreated = true;
+
+      this.content?.tpl &&
+        this.contentVcr?.createEmbeddedView(this.content.tpl);
+      this.topBar?.tpl && this.topBarVcr?.createEmbeddedView(this.topBar.tpl);
+    }
+  }
+
+  /** @ignore */
+  private clearEmbeddedViews(): void {
+    if (this.areViewsCreated) {
+      this.areViewsCreated = false;
+
+      this.topBarVcr?.clear();
+      this.contentVcr?.clear();
+    }
   }
 }
