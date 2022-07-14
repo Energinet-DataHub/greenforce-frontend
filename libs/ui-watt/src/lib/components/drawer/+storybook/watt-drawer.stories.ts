@@ -60,6 +60,9 @@ export default {
 
 const template = `
 <watt-drawer #drawer (closed)="closed()">
+  <ng-template wattDrawerTopBar>
+    Top bar
+  </ng-template>
   <ng-template wattDrawerContent>
     <watt-storybook-drawer-content></watt-storybook-drawer-content>
   </ng-template>
@@ -78,9 +81,10 @@ Drawer.parameters = {
   docs: {
     source: {
       code: template
+        .replace(' Top bar', '<!-- Top bar content -->')
         .replace(
           ' <watt-storybook-drawer-content></watt-storybook-drawer-content>',
-          '<!-- Content of the drawer goes here -->'
+          '<!-- Main content -->'
         )
         .replace(/<br \/>/g, ''),
     },

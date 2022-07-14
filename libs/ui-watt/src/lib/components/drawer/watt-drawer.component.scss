@@ -27,11 +27,35 @@
   width: auto;
 }
 
-.watt-drawer--open {
-  width: 360px;
-}
+.watt-drawer {
+  padding: calc(1.5 * var(--watt-space-m)); // 24px
 
-.watt-drawer__header {
-  display: flex;
-  justify-content: flex-end;
+  &__grid-container {
+    display: grid;
+    grid-template-rows: auto 1fr;
+    height: 100%;
+  }
+
+  &--open {
+    width: 460px;
+  }
+
+  &__top-bar {
+    align-items: center;
+    background-color: var(--watt-color-neutral-white);
+    border-bottom: 1px solid var(--watt-color-neutral-grey-300);
+    display: flex;
+    gap: var(--watt-space-s);
+    padding-bottom: var(--watt-space-s);
+    position: sticky;
+    top: 0;
+  }
+
+  &__close-btn {
+    margin-left: auto;
+  }
+
+  &__content {
+    overflow-y: auto;
+  }
 }
