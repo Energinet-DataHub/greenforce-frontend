@@ -42,6 +42,8 @@ describe(WattDrawerComponent.name, () => {
     screen.getByRole('button', {
       name: 'close',
     });
+  const getDrawerTopBarContent: () => HTMLParagraphElement | null = () =>
+    screen.queryByText(/top bar/i);
   const getDrawerContent: () => HTMLParagraphElement | null = () =>
     screen.queryByText(/drawer has been opened for/i);
   const getInitialTimer: () => HTMLParagraphElement | null = () =>
@@ -70,6 +72,7 @@ describe(WattDrawerComponent.name, () => {
 
     userEvent.click(getOpenDrawerButton());
 
+    expect(getDrawerTopBarContent()).toBeInTheDocument();
     expect(getDrawerContent()).toBeInTheDocument();
   });
 
@@ -79,6 +82,7 @@ describe(WattDrawerComponent.name, () => {
     userEvent.click(getOpenDrawerButton());
     userEvent.click(getOpenDrawerButton());
 
+    expect(getDrawerTopBarContent()).toBeInTheDocument();
     expect(getDrawerContent()).toBeInTheDocument();
   });
 
@@ -98,6 +102,7 @@ describe(WattDrawerComponent.name, () => {
     userEvent.click(getOpenDrawerButton());
     userEvent.click(getExternalCloseDrawerButton());
 
+    expect(getDrawerTopBarContent()).not.toBeInTheDocument();
     expect(getDrawerContent()).not.toBeInTheDocument();
   });
 
@@ -107,6 +112,7 @@ describe(WattDrawerComponent.name, () => {
     userEvent.click(getOpenDrawerButton());
     userEvent.click(getInternalCloseDrawerButton());
 
+    expect(getDrawerTopBarContent()).not.toBeInTheDocument();
     expect(getDrawerContent()).not.toBeInTheDocument();
   });
 
