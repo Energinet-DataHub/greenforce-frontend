@@ -55,9 +55,6 @@ export class WattDrawerComponent {
   private contentVcr?: ViewContainerRef;
 
   /** @ignore */
-  private areViewsCreated = false;
-
-  /** @ignore */
   opened = false;
 
   constructor(private cdr: ChangeDetectorRef) {}
@@ -66,10 +63,14 @@ export class WattDrawerComponent {
    * Opens the drawer. Subsequent calls are ignored while the drawer is opened.
    */
   open() {
-    this.opened = true;
+    const drawerNotOpen = this.opened === false;
 
-    this.createEmbeddedViews();
-    this.cdr.detectChanges();
+    if (drawerNotOpen) {
+      this.opened = true;
+
+      this.createEmbeddedViews();
+      this.cdr.detectChanges();
+    }
   }
 
   /**
@@ -78,30 +79,21 @@ export class WattDrawerComponent {
   close() {
     this.opened = false;
 
-    this.closed.emit();
-
     this.clearEmbeddedViews();
     this.cdr.detectChanges();
+
+    this.closed.emit();
   }
 
   /** @ignore */
   private createEmbeddedViews(): void {
-    if (!this.areViewsCreated) {
-      this.areViewsCreated = true;
-
-      this.content?.tpl &&
-        this.contentVcr?.createEmbeddedView(this.content.tpl);
-      this.topBar?.tpl && this.topBarVcr?.createEmbeddedView(this.topBar.tpl);
-    }
+    this.content?.tpl && this.contentVcr?.createEmbeddedView(this.content.tpl);
+    this.topBar?.tpl && this.topBarVcr?.createEmbeddedView(this.topBar.tpl);
   }
 
   /** @ignore */
   private clearEmbeddedViews(): void {
-    if (this.areViewsCreated) {
-      this.areViewsCreated = false;
-
-      this.topBarVcr?.clear();
-      this.contentVcr?.clear();
-    }
+    this.topBarVcr?.clear();
+    this.contentVcr?.clear();
   }
 }
