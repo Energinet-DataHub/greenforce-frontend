@@ -1,0 +1,14 @@
+:host {
+  align-items: center;
+  background-color: var(--watt-color-neutral-white);
+  border-bottom: 1px solid var(--watt-color-neutral-grey-300);
+  display: flex;
+  gap: var(--watt-space-s);
+  padding-bottom: var(--watt-space-s);
+  position: sticky;
+  top: 0;
+
+  .close-btn {
+    margin-left: auto;
+  }
+}
