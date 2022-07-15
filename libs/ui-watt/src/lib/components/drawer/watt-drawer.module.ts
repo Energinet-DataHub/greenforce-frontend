@@ -29,13 +29,13 @@ import { WattDrawerContentComponent } from './watt-drawer-content.component';
     WattDrawerComponent,
     WattDrawerTopbarComponent,
     WattDrawerActionsComponent,
-    WattDrawerContentComponent
+    WattDrawerContentComponent,
   ],
   exports: [
     WattDrawerComponent,
     WattDrawerTopbarComponent,
     WattDrawerActionsComponent,
-    WattDrawerContentComponent
+    WattDrawerContentComponent,
   ],
   imports: [MatSidenavModule, WattButtonModule, CommonModule],
 })
