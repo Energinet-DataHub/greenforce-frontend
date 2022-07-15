@@ -42,7 +42,7 @@ describe(WattDrawerComponent.name, () => {
     screen.getByRole('button', {
       name: 'close',
     });
-  const getDrawerTopBarContent: () => HTMLElement | null = () =>
+  const getDrawerTopBarContent: () => HTMLSpanElement | null = () =>
     screen.queryByText(/top bar/i);
   const getDrawerContent: () => HTMLParagraphElement | null = () =>
     screen.queryByText(/drawer has been opened for/i);
