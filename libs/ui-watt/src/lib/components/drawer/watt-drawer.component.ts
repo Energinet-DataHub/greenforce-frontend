@@ -20,6 +20,7 @@ import {
   Component,
   ContentChild,
   EventEmitter,
+  HostListener,
   Output,
   ViewChild,
   ViewContainerRef,
@@ -57,15 +58,20 @@ export class WattDrawerComponent {
   /** @ignore */
   opened = false;
 
+  @HostListener('window:keydown.escape')
+  onEscKeyPressed() {
+    this.close();
+  }
+
   constructor(private cdr: ChangeDetectorRef) {}
 
   /**
    * Opens the drawer. Subsequent calls are ignored while the drawer is opened.
    */
   open() {
-    const drawerNotOpen = this.opened === false;
+    const isDrawerClosed = this.opened === false;
 
-    if (drawerNotOpen) {
+    if (isDrawerClosed) {
       this.opened = true;
 
       this.createEmbeddedViews();
@@ -77,12 +83,14 @@ export class WattDrawerComponent {
    * Closes the drawer
    */
   close() {
-    this.opened = false;
+    if (this.opened) {
+      this.opened = false;
 
-    this.clearEmbeddedViews();
-    this.cdr.detectChanges();
+      this.clearEmbeddedViews();
+      this.cdr.detectChanges();
 
-    this.closed.emit();
+      this.closed.emit();
+    }
   }
 
   /** @ignore */
