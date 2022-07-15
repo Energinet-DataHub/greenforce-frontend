@@ -14,33 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-:host {
-  display: block;
-}
+import { Component } from '@angular/core';
 
-.watt-drawer-container {
-  box-shadow: 0px 4px 64px 3px rgba(46, 50, 52, 0.25);
-  height: 100vh;
-  position: fixed;
-  right: 0;
-  top: 0;
-  width: auto;
-}
-
-.watt-drawer {
-  padding: calc(1.5 * var(--watt-space-m)); // 24px
-
-  &__grid-container {
-    display: grid;
-    grid-template-rows: auto 1fr;
-    height: 100%;
-  }
-
-  &--open {
-    width: 460px;
-  }
-
-  &__content {
-    overflow-y: auto;
-  }
-}
+@Component({
+  selector: 'watt-drawer-actions',
+  template: `<ng-content select="watt-button"></ng-content>`,
+  styleUrls: ['./watt-drawer-actions.component.scss'],
+})
+export class WattDrawerActionsComponent {}
