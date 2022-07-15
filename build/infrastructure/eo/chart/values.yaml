@@ -1,20 +1,5 @@
-eo-base-helm-chart:
-  deployments:
-    app:
-      replicaCount: 2
-      image:
-        repository: ghcr.io/energinet-datahub/eo-frontend-app
-        tag: 0.2.117
-  service:
-    deployment: app
-    type: ClusterIP
-    port: 80
-
-  ingress:
-    hosts: []
-    paths:
-      - /
-    pathExceptions:
-      - /api
-      - /auth
-    servicePort: 80
+app:
+  replicaCount: 2
+  image:
+    name: ghcr.io/energinet-datahub/eo-frontend-app
+    tag: 0.2.118
