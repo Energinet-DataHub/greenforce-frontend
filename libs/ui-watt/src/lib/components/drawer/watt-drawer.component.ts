@@ -58,6 +58,7 @@ export class WattDrawerComponent {
   /** @ignore */
   opened = false;
 
+  /** @ignore */
   @HostListener('window:keydown.escape')
   onEscKeyPressed() {
     this.close();
