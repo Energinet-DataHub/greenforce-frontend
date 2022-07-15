@@ -14,11 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Directive, TemplateRef } from '@angular/core';
+import { Component } from '@angular/core';
 
-@Directive({
-  selector: '[wattDrawerTopBar]',
+@Component({
+  selector: 'watt-drawer-content',
+  template: `<ng-content></ng-content>`,
 })
-export class WattDrawerTopBarDirective {
-  constructor(public tpl: TemplateRef<unknown>) {}
-}
+export class WattDrawerContentComponent {}

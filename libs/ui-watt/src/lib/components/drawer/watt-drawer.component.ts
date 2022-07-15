@@ -15,18 +15,17 @@
  * limitations under the License.
  */
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   ContentChild,
   EventEmitter,
+  OnDestroy,
   Output,
-  ViewChild,
-  ViewContainerRef,
 } from '@angular/core';
-
-import { WattDrawerContentDirective } from './watt-drawer-content.directive';
-import { WattDrawerTopBarDirective } from './watt-drawer-top-bar.directive';
+import { Subject, takeUntil } from 'rxjs';
+import { WattDrawerTopbarComponent } from './watt-drawer-topbar.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -34,30 +33,35 @@ import { WattDrawerTopBarDirective } from './watt-drawer-top-bar.directive';
   styleUrls: ['./watt-drawer.component.scss'],
   templateUrl: './watt-drawer.component.html',
 })
-export class WattDrawerComponent {
+export class WattDrawerComponent implements AfterViewInit, OnDestroy {
   @Output()
   closed = new EventEmitter<void>();
 
   /** @ignore */
-  @ContentChild(WattDrawerTopBarDirective)
-  topBar?: WattDrawerTopBarDirective;
+  @ContentChild(WattDrawerTopbarComponent) topbar?: WattDrawerTopbarComponent;
 
-  /** @ignore */
-  @ContentChild(WattDrawerContentDirective)
-  content?: WattDrawerContentDirective;
-
-  /** @ignore */
-  @ViewChild('topBarVcr', { read: ViewContainerRef, static: false })
-  private topBarVcr?: ViewContainerRef;
-
-  /** @ignore */
-  @ViewChild('contentVcr', { read: ViewContainerRef, static: false })
-  private contentVcr?: ViewContainerRef;
-
-  /** @ignore */
+  /**
+   * Is the drawer opened
+   */
   opened = false;
 
+  /** @ignore */
+  private destroy$ = new Subject<void>();
+
   constructor(private cdr: ChangeDetectorRef) {}
+
+  /** @ignore */
+  ngAfterViewInit(): void {
+    this.topbar?.closed
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => this.close());
+  }
+
+  /** @ignore */
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 
   /**
    * Opens the drawer. Subsequent calls are ignored while the drawer is opened.
@@ -67,8 +71,6 @@ export class WattDrawerComponent {
 
     if (drawerNotOpen) {
       this.opened = true;
-
-      this.createEmbeddedViews();
       this.cdr.detectChanges();
     }
   }
@@ -78,22 +80,6 @@ export class WattDrawerComponent {
    */
   close() {
     this.opened = false;
-
-    this.clearEmbeddedViews();
-    this.cdr.detectChanges();
-
     this.closed.emit();
-  }
-
-  /** @ignore */
-  private createEmbeddedViews(): void {
-    this.content?.tpl && this.contentVcr?.createEmbeddedView(this.content.tpl);
-    this.topBar?.tpl && this.topBarVcr?.createEmbeddedView(this.topBar.tpl);
-  }
-
-  /** @ignore */
-  private clearEmbeddedViews(): void {
-    this.topBarVcr?.clear();
-    this.contentVcr?.clear();
   }
 }
