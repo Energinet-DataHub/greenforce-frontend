@@ -44,7 +44,7 @@ describe(WattDrawerComponent.name, () => {
     });
   const getDrawerTopBarContent: () => HTMLParagraphElement | null = () =>
     screen.queryByText(/top bar/i);
-  const getDrawerActions: () => HTMLButtonElement[] | null = () => screen.queryByText(/Primary action/i);
+  const getDrawerActions: () => HTMLButtonElement | null = () => screen.queryByText(/Primary action/i);
   const getDrawerContent: () => HTMLParagraphElement | null = () =>
     screen.queryByText(/drawer has been opened for/i);
   const getInitialTimer: () => HTMLParagraphElement | null = () =>

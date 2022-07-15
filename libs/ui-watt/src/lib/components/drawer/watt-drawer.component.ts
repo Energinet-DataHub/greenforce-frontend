@@ -37,7 +37,7 @@ export class WattDrawerComponent implements AfterViewInit, OnDestroy {
   @Output()
   closed = new EventEmitter<void>();
 
-  /* @ignore */
+  /** @ignore */
   @ContentChild(WattDrawerTopbarComponent) topbar?: WattDrawerTopbarComponent;
 
   /**
@@ -45,19 +45,19 @@ export class WattDrawerComponent implements AfterViewInit, OnDestroy {
    */
   opened = false;
 
-  /* @ignore */
+  /** @ignore */
   private destroy$ = new Subject<void>();
 
   constructor(private cdr: ChangeDetectorRef) {}
 
-  /* @ignore */
+  /** @ignore */
   ngAfterViewInit(): void {
     this.topbar?.closed
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => this.close());
   }
 
-  /* @ignore */
+  /** @ignore */
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
