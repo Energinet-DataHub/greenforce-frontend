@@ -87,7 +87,9 @@ export class WattDrawerComponent implements AfterViewInit, OnDestroy {
    * Closes the drawer
    */
   close() {
-    this.opened = false;
-    this.closed.emit();
+    if (this.opened) {
+      this.opened = false;
+      this.closed.emit();
+    }
   }
 }
