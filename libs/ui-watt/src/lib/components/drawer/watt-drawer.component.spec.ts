@@ -42,7 +42,7 @@ describe(WattDrawerComponent.name, () => {
     screen.getByRole('button', {
       name: 'close',
     });
-  const getDrawerTopBarContent: () => HTMLParagraphElement | null = () =>
+  const getDrawerTopBarContent: () => HTMLSpanElement | null = () =>
     screen.queryByText(/top bar/i);
   const getDrawerActions: () => HTMLButtonElement | null = () =>
     screen.queryByText(/Primary action/i);
@@ -54,7 +54,7 @@ describe(WattDrawerComponent.name, () => {
     screen.queryByText(/1s/i);
 
   // Fakes
-  const closedOutput = jest.fn();
+  let closedOutput = jest.fn();
 
   // Setup
   async function setup(story: Story<Partial<WattDrawerComponent>>) {
@@ -66,6 +66,10 @@ describe(WattDrawerComponent.name, () => {
     );
     await render(component, { imports: [ngModule] });
   }
+
+  afterEach(() => {
+    closedOutput = jest.fn();
+  });
 
   it('should open drawer', async () => {
     await setup(Drawer);
@@ -155,5 +159,43 @@ describe(WattDrawerComponent.name, () => {
     userEvent.click(getExternalCloseDrawerButton());
 
     expect(closedOutput).toHaveBeenCalled();
+  });
+
+  it('closes on global Escape', async () => {
+    await setup(Drawer);
+
+    userEvent.click(getOpenDrawerButton());
+    userEvent.keyboard('{Escape}');
+
+    expect(closedOutput).toHaveBeenCalled();
+  });
+
+  it('closes on Escape when focus is in the drawer', async () => {
+    await setup(Drawer);
+
+    userEvent.click(getOpenDrawerButton());
+
+    getDrawerTopBarContent()?.focus();
+    userEvent.keyboard('{Escape}');
+
+    expect(closedOutput).toHaveBeenCalled();
+  });
+
+  it('calls "closed" only once when Escape is pressed multiple times', async () => {
+    await setup(Drawer);
+
+    userEvent.click(getOpenDrawerButton());
+    userEvent.keyboard('{Escape}');
+    userEvent.keyboard('{Escape}');
+
+    expect(closedOutput).toHaveBeenCalledTimes(1);
+  });
+
+  it('does not call "closed" on Escape when drawer is closed', async () => {
+    await setup(Drawer);
+
+    userEvent.keyboard('{Escape}');
+
+    expect(closedOutput).not.toHaveBeenCalled();
   });
 });

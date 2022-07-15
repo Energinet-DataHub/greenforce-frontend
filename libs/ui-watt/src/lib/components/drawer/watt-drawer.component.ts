@@ -22,9 +22,11 @@ import {
   ContentChild,
   EventEmitter,
   OnDestroy,
+  HostListener,
   Output,
 } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
+
 import { WattDrawerTopbarComponent } from './watt-drawer-topbar.component';
 
 @Component({
@@ -37,9 +39,6 @@ export class WattDrawerComponent implements AfterViewInit, OnDestroy {
   @Output()
   closed = new EventEmitter<void>();
 
-  /** @ignore */
-  @ContentChild(WattDrawerTopbarComponent) topbar?: WattDrawerTopbarComponent;
-
   /**
    * Is the drawer opened
    */
@@ -47,6 +46,15 @@ export class WattDrawerComponent implements AfterViewInit, OnDestroy {
 
   /** @ignore */
   private destroy$ = new Subject<void>();
+
+  /** @ignore */
+  @ContentChild(WattDrawerTopbarComponent) topbar?: WattDrawerTopbarComponent;
+
+  /** @ignore */
+  @HostListener('window:keydown.escape')
+  onEscKeyPressed() {
+    this.close();
+  }
 
   constructor(private cdr: ChangeDetectorRef) {}
 
@@ -67,9 +75,9 @@ export class WattDrawerComponent implements AfterViewInit, OnDestroy {
    * Opens the drawer. Subsequent calls are ignored while the drawer is opened.
    */
   open() {
-    const drawerNotOpen = this.opened === false;
+    const isDrawerClosed = this.opened === false;
 
-    if (drawerNotOpen) {
+    if (isDrawerClosed) {
       this.opened = true;
       this.cdr.detectChanges();
     }

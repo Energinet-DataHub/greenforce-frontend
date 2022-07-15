@@ -62,7 +62,7 @@ const template = `
 <!-- Notice: the #drawer reference, to access the instance of the drawer -->
 <watt-drawer #drawer (closed)="closed()">
   <watt-drawer-topbar>
-    Top bar
+    <spanTop bar</span>
   </watt-drawer-topbar>
 
   <watt-drawer-actions>
@@ -92,9 +92,9 @@ Drawer.parameters = {
   docs: {
     source: {
       code: template
-        .replace(' Top bar', '<!-- Top bar content -->')
+        .replace('<span>Top bar</span>', '<!-- Top bar content -->')
         .replace(
-          ' <watt-storybook-drawer-content></watt-storybook-drawer-content>',
+          '<watt-storybook-drawer-content></watt-storybook-drawer-content>',
           '<!-- Main content -->'
         )
         .replace(/<br \/>/g, ''),
