@@ -15,32 +15,16 @@
  * limitations under the License.
  */
 :host {
-  display: block;
-}
-
-.watt-drawer-container {
-  box-shadow: 0px 4px 64px 3px rgba(46, 50, 52, 0.25);
-  height: 100vh;
-  position: fixed;
-  right: 0;
+  align-items: center;
+  background-color: var(--watt-color-neutral-white);
+  border-bottom: 1px solid var(--watt-color-neutral-grey-300);
+  display: flex;
+  gap: var(--watt-space-s);
+  padding-bottom: var(--watt-space-s);
+  position: sticky;
   top: 0;
-  width: auto;
-}
 
-.watt-drawer {
-  padding: calc(1.5 * var(--watt-space-m)); // 24px
-
-  &__grid-container {
-    display: grid;
-    grid-template-rows: auto 1fr;
-    height: 100%;
-  }
-
-  &--open {
-    width: 460px;
-  }
-
-  &__content {
-    overflow-y: auto;
+  .close-btn {
+    margin-left: auto;
   }
 }

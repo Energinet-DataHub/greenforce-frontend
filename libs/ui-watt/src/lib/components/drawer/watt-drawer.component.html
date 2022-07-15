@@ -24,19 +24,14 @@ limitations under the License.
     [disableClose]="true"
   >
     <div class="watt-drawer__grid-container">
-      <div class="watt-drawer__top-bar">
-        <ng-container #topBarVcr></ng-container>
-        <watt-button
-          class="watt-drawer__close-btn"
-          variant="icon"
-          icon="close"
-          (click)="close()"
-        ></watt-button>
-      </div>
+      <header>
+        <ng-content select="watt-drawer-topbar"></ng-content>
+        <ng-content select="watt-drawer-actions"></ng-content>
+      </header>
 
-      <div class="watt-drawer__content">
-        <ng-container #contentVcr></ng-container>
-      </div>
+      <article class="watt-drawer__content">
+        <ng-content select="watt-drawer-content"></ng-content>
+      </article>
     </div>
   </mat-drawer>
 </mat-drawer-container>

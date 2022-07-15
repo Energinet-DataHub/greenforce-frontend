@@ -59,13 +59,24 @@ export default {
 } as Meta;
 
 const template = `
+<!-- Notice: the #drawer reference, to access the instance of the drawer -->
 <watt-drawer #drawer (closed)="closed()">
-  <ng-template wattDrawerTopBar>
+  <watt-drawer-topbar>
     <span>Top bar</span>
-  </ng-template>
-  <ng-template wattDrawerContent>
+  </watt-drawer-topbar>
+
+  <watt-drawer-actions>
+    <watt-button variant="secondary">Secondary action</watt-button>
+    <watt-button>Primary action</watt-button>
+  </watt-drawer-actions>
+
+  <!--
+    *ngIf ensures the content are not loaded before the drawer is open,
+    and make sure it's getting destroyed when drawer is closed
+  -->
+  <watt-drawer-content *ngIf="drawer.opened">
     <watt-storybook-drawer-content></watt-storybook-drawer-content>
-  </ng-template>
+  </watt-drawer-content>
 </watt-drawer>
 
 <watt-button (click)="drawer.open()">Open drawer</watt-button><br /><br />
