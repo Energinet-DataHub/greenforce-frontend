@@ -62,7 +62,7 @@ const template = `
 <!-- Notice: the #drawer reference, to access the instance of the drawer -->
 <watt-drawer #drawer (closed)="closed()">
   <watt-drawer-topbar>
-    <spanTop bar</span>
+    <span>Top bar</span>
   </watt-drawer-topbar>
 
   <watt-drawer-actions>
