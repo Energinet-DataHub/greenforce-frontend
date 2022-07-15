@@ -20,6 +20,7 @@ import {
   Component,
   ContentChild,
   EventEmitter,
+  HostListener,
   Output,
   ViewChild,
   ViewContainerRef,
@@ -56,6 +57,11 @@ export class WattDrawerComponent {
 
   /** @ignore */
   opened = false;
+
+  @HostListener('window:keydown.escape')
+  onEscKeyPressed() {
+    this.close();
+  }
 
   constructor(private cdr: ChangeDetectorRef) {}
 
