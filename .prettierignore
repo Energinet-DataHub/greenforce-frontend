@@ -6,3 +6,6 @@
 
 # Ignore API applications (BFF's)
 **/api-*/**/*
+
+# Ignore chart templates
+**/chart/templates/**/*

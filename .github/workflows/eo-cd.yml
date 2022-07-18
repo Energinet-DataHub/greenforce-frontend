@@ -170,7 +170,7 @@ jobs:
         uses: Energinet-DataHub/.github/.github/actions/get-semver@main
         with:
           yaml_file: build/infrastructure/eo/chart/values.yaml
-          yaml_path: eo-base-helm-chart.deployments.app.image.tag
+          yaml_path: app.image.tag
 
   helm_chart_version_increment_check:
     name: Helm chart check version
@@ -188,7 +188,7 @@ jobs:
     uses: Energinet-DataHub/.github/.github/workflows/version-increment-check.yaml@main
     with:
       yaml_file: build/infrastructure/eo/chart/values.yaml
-      yaml_path: eo-base-helm-chart.deployments.app.image.tag
+      yaml_path: app.image.tag
 
   build_container_and_release_chart:
     name: Build containers
