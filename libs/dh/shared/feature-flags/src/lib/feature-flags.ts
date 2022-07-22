@@ -41,7 +41,7 @@ const makeFeatureFlags = satisfies<FeatureFlagConfig>();
  * },
  */
 export const dhFeatureFlagsConfig = makeFeatureFlags({
-  'start_wholesale_process_feature_flag': {
+  start_wholesale_process_feature_flag: {
     created: '22-07-2022',
     disabledEnvironments: [DhAppEnvironment.prod],
   },
