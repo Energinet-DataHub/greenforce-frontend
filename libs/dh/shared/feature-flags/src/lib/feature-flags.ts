@@ -44,7 +44,7 @@ export const dhFeatureFlagsConfig = makeFeatureFlags({
   'start-wholesale-process-feature-flag': {
     created: '22-07-2022',
     disabledEnvironments: [DhAppEnvironment.prod],
-  }
+  },
 });
 
 export type DhFeatureFlags = keyof typeof dhFeatureFlagsConfig;
