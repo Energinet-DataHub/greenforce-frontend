@@ -18,6 +18,7 @@ import { Component, NgModule } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
 
 import { WattButtonModule } from '@energinet-datahub/watt';
+import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/feature-flags';
 
 @Component({
   selector: 'dh-wholesale-overview',
@@ -27,7 +28,7 @@ import { WattButtonModule } from '@energinet-datahub/watt';
 export class DhWholesaleOverviewComponent {}
 
 @NgModule({
-  imports: [WattButtonModule, TranslocoModule],
+  imports: [WattButtonModule, TranslocoModule, DhFeatureFlagDirectiveModule],
   declarations: [DhWholesaleOverviewComponent],
 })
 export class DhWholesaleOverviewScam {}

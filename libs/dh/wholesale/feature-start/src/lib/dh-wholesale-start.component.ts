@@ -19,6 +19,7 @@ import { TranslocoModule } from '@ngneat/transloco';
 import { WattButtonModule } from '@energinet-datahub/watt';
 
 import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
+import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/feature-flags';
 
 @Component({
   selector: 'dh-wholesale-start',
@@ -35,7 +36,7 @@ export class DhWholesaleStartComponent {
 }
 
 @NgModule({
-  imports: [WattButtonModule, TranslocoModule],
+  imports: [WattButtonModule, TranslocoModule, DhFeatureFlagDirectiveModule],
   declarations: [DhWholesaleStartComponent],
 })
 export class DhWholesaleStartScam {}
