@@ -24,6 +24,14 @@ limitations under the License.
     [attr.aria-label]="closeLabel"
     (click)="close(false)"
   ></watt-button>
-  <div class="watt-modal-content"><ng-content></ng-content></div>
+  <h3 class="watt-modal-title">{{ title }}</h3>
+  <div
+    wattResizeObserver
+    class="watt-modal-content"
+    [class.watt-modal-scrollable]="scrollable"
+    (resize)="onResize($event)"
+  >
+    <ng-content></ng-content>
+  </div>
   <ng-content select="watt-modal-actions"></ng-content>
 </ng-template>
