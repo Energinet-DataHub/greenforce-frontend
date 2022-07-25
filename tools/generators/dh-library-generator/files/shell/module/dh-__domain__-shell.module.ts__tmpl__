@@ -1,0 +1,11 @@
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+
+const routes: Routes = [
+  // { path: '', pathMatch: 'full', component: InsertYourComponentHere }
+];
+
+@NgModule({
+  imports: [RouterModule.forChild(routes)],
+})
+export class Dh<%= className %>ShellModule {}

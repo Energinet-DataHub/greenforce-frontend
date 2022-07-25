@@ -54,7 +54,7 @@
             {
               "type": "initial",
               "maximumWarning": "500kb",
-              "maximumError": "1.6mb"
+              "maximumError": "1.65mb"
             },
             {
               "type": "anyComponentStyle",
@@ -70,6 +70,10 @@
             {
               "replace": "apps/dh/app-dh/src/configuration/load-dh-b2c-environment.ts",
               "with": "apps/dh/app-dh/src/configuration/load-dh-b2c-environment.prod.ts"
+            },
+            {
+              "replace": "apps/dh/app-dh/src/configuration/load-dh-app-environment.ts",
+              "with": "apps/dh/app-dh/src/configuration/load-dh-app-environment.prod.ts"
             },
             {
               "replace": "libs/dh/shared/environments/src/lib/environment.ts",

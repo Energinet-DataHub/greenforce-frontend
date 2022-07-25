@@ -25,11 +25,11 @@ This DataHub repository relies on open source libraries and tools. We recommend 
 | `@angular/platform-browser`          | 14.0.2        | <https://www.npmjs.com/package/@angular/platform-browser>          | MIT        |
 | `@angular/platform-browser-dynamic`  | 14.0.2        | <https://www.npmjs.com/package/@angular/platform-browser-dynamic>  | MIT        |
 | `@angular/router`                    | 14.0.2        | <https://www.npmjs.com/package/@angular/router>                    | MIT        |
-| `@azure/msal-angular`                | 2.3.2         | <https://www.npmjs.com/package/@azure/msal-angular>                | MIT        |
-| `@azure/msal-browser`                | 2.26.0        | <https://www.npmjs.com/package/@azure/msal-browser>                | MIT        |
+| `@azure/msal-angular`                | 2.3.3         | <https://www.npmjs.com/package/@azure/msal-angular>                | MIT        |
+| `@azure/msal-browser`                | 2.27.0        | <https://www.npmjs.com/package/@azure/msal-browser>                | MIT        |
 | `@ngneat/transloco`                  | 4.1.0         | <https://www.npmjs.com/package/@ngneat/transloco>                  | MIT        |
-| `@ngrx/component-store`              | 14.0.0        | <https://www.npmjs.com/package/@ngrx/component-store>              | MIT        |
-| `@nrwl/angular`                      | 14.3.6        | <https://www.npmjs.com/package/@nrwl/angular>                      | MIT        |
+| `@ngrx/component-store`              | 14.0.1        | <https://www.npmjs.com/package/@ngrx/component-store>              | MIT        |
+| `@nrwl/angular`                      | 14.4.2        | <https://www.npmjs.com/package/@nrwl/angular>                      | MIT        |
 | `@rx-angular/cdk`                    | 1.0.0-beta-3  | <https://www.npmjs.com/package/@rx-angular/cdk>                    | MIT        |
 | `@rx-angular/template`               | 1.0.0-beta.33 | <https://www.npmjs.com/package/@rx-angular/template>               | MIT        |
 | `@vimeo/player`                      | 2.17.0        | <https://www.npmjs.com/package/@vimeo/player>                      | MIT        |

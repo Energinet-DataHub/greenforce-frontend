@@ -14,53 +14,189 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 import { CommonModule } from '@angular/common';
 import {
-  ChangeDetectionStrategy,
   Component,
-  EventEmitter,
   Input,
-  NgModule,
   Output,
+  NgModule,
+  EventEmitter,
+  ChangeDetectionStrategy,
+  OnChanges,
+  ChangeDetectorRef,
 } from '@angular/core';
+import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
+import { MatTableModule } from '@angular/material/table';
 import { FormsModule } from '@angular/forms';
-import { TranslocoModule } from '@ngneat/transloco';
-import { MatListModule } from '@angular/material/list';
-
-import { EicFunction } from '@energinet-datahub/dh/shared/domain';
-
+import {
+  WattButtonModule,
+  WattInputModule,
+  WattFormFieldModule,
+  WattDropdownModule,
+  WattDropdownOption,
+} from '@energinet-datahub/watt';
+import {
+  ActorMarketRoleDto,
+  EicFunction,
+  GridAreaDto,
+  MarketParticipantMeteringPointType,
+} from '@energinet-datahub/dh/shared/domain';
 import { MarketRoleService } from './market-role.service';
+import { MarketRoleChanges } from '@energinet-datahub/dh/market-participant/data-access-api';
+import { MarketRoleGroupService } from './market-role-group.service';
+
+export interface EditableMarketRoleRow {
+  marketRole?: EicFunction;
+  gridArea?: string;
+  meteringPointTypes?: MarketParticipantMeteringPointType[];
+}
 
 @Component({
   selector: 'dh-market-participant-actor-market-roles',
-  templateUrl: './dh-market-participant-actor-market-roles.component.html',
+  styleUrls: ['./dh-market-participant-actor-market-roles.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [MarketRoleService],
+  templateUrl: './dh-market-participant-actor-market-roles.component.html',
+  providers: [MarketRoleService, MarketRoleGroupService],
 })
-export class DhMarketParticipantActorMarketRolesComponent {
-  @Input() marketRolesEicFunctions: EicFunction[] = [];
+export class DhMarketParticipantActorMarketRolesComponent implements OnChanges {
+  @Input() gridAreas: GridAreaDto[] = [];
 
-  @Output() marketRolesEicFunctionsChange = new EventEmitter<EicFunction[]>();
+  @Input() actorMarketRoles?: ActorMarketRoleDto[] = [];
 
-  availableMarketRoles: EicFunction[] =
-    this.marketRoleService.getAvailableMarketRoles;
+  @Output() changed = new EventEmitter<MarketRoleChanges>();
 
-  constructor(private marketRoleService: MarketRoleService) {}
+  columnIds = ['marketRole', 'gridArea', 'meteringPointTypes', 'delete'];
 
-  invalidInCurrentSelection(item: EicFunction) {
-    return this.marketRoleService.notValidInAnySelectionGroup(
-      item,
-      this.marketRolesEicFunctions
+  rows: EditableMarketRoleRow[] = [];
+  deleted: { marketRole?: EicFunction }[] = [];
+
+  availableMeteringPointTypes = Object.values(
+    MarketParticipantMeteringPointType
+  );
+
+  marketRoles: WattDropdownOption[] = [];
+  gridAreaOptions: WattDropdownOption[] = [];
+  meteringPointTypes: WattDropdownOption[] = [];
+
+  constructor(
+    private cd: ChangeDetectorRef,
+    private translocoService: TranslocoService,
+    private marketRoleService: MarketRoleService,
+    private marketRoleGroupService: MarketRoleGroupService
+  ) {}
+
+  ngOnChanges() {
+    this.gridAreaOptions = this.gridAreas.map((ga) => ({
+      displayValue: `${ga.code} - ${ga.name}`,
+      value: ga.id,
+    }));
+
+    this.meteringPointTypes = this.availableMeteringPointTypes.map((mp) => ({
+      displayValue: mp,
+      value: mp,
+    }));
+
+    const rows: EditableMarketRoleRow[] = [];
+
+    if (this.actorMarketRoles) {
+      this.actorMarketRoles.forEach((marketRole) =>
+        marketRole.gridAreas.forEach((gridArea) =>
+          rows.push({
+            marketRole: marketRole.eicFunction,
+            gridArea: gridArea.id,
+            meteringPointTypes: gridArea.meteringPointTypes,
+          })
+        )
+      );
+    }
+
+    this.rows = rows;
+    this.calculateAvailableMarketRoles();
+  }
+
+  readonly onMarketRoleDropdownChanged = () => {
+    this.raiseChanged();
+    this.calculateAvailableMarketRoles();
+  };
+
+  readonly onDropdownChanged = () => {
+    this.raiseChanged();
+  };
+
+  readonly raiseChanged = () => {
+    const grouped = this.marketRoleGroupService.groupRows(this.rows);
+
+    const marketRoleChanges: MarketRoleChanges = {
+      marketRoles: grouped,
+      isValid: true,
+    };
+
+    marketRoleChanges.isValid = this.rows.reduce(
+      (r, v) =>
+        r &&
+        !!v.marketRole &&
+        !!v.gridArea &&
+        !!v.meteringPointTypes &&
+        v.meteringPointTypes.length > 0,
+      marketRoleChanges.isValid
     );
-  }
 
-  onSelectionChange(marketRolesEicFunctions: EicFunction[]): void {
-    this.marketRolesEicFunctionsChange.emit(marketRolesEicFunctions);
-  }
+    this.changed.emit(marketRoleChanges);
+  };
+
+  readonly calculateAvailableMarketRoles = () => {
+    const currentlySelectedMarketRoles = this.rows
+      .filter((x) => !!x.marketRole)
+      .map((x) => x.marketRole as EicFunction);
+
+    const availableMarketRoles =
+      this.marketRoleService.getAvailableMarketRoles.filter(
+        (x) =>
+          !this.marketRoleService.notValidInAnySelectionGroup(
+            x,
+            currentlySelectedMarketRoles
+          )
+      );
+
+    this.marketRoles = availableMarketRoles
+      .map((mr) => ({
+        displayValue: this.translocoService.translate(
+          `marketParticipant.marketRoles.${mr}`
+        ),
+        value: mr,
+      }))
+      .sort((left, right) =>
+        left.displayValue.localeCompare(right.displayValue)
+      );
+  };
+
+  readonly onRowDelete = (row: EditableMarketRoleRow) => {
+    const copy = [...this.rows];
+    const index = copy.indexOf(row);
+    copy.splice(index, 1);
+    this.rows = copy;
+
+    this.cd.detectChanges();
+    this.raiseChanged();
+  };
+
+  readonly onRowAdd = () => {
+    this.rows = [...this.rows, {}];
+  };
 }
 
 @NgModule({
-  imports: [CommonModule, FormsModule, TranslocoModule, MatListModule],
+  imports: [
+    CommonModule,
+    TranslocoModule,
+    FormsModule,
+    MatTableModule,
+    WattButtonModule,
+    WattInputModule,
+    WattFormFieldModule,
+    WattDropdownModule,
+  ],
   exports: [DhMarketParticipantActorMarketRolesComponent],
   declarations: [DhMarketParticipantActorMarketRolesComponent],
 })

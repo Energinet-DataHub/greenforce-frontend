@@ -22,8 +22,8 @@ limitations under the License.
       <watt-label>{{ t("organizationNameLabel") }}</watt-label>
       <input
         wattInput
+        [attr.aria-label]="t('organizationNameLabel')"
         [(ngModel)]="changes.name"
-        (ngModelChange)="onModelChanged()"
         #nameInputModel="ngModel"
         required
         maxlength="64"
@@ -36,8 +36,8 @@ limitations under the License.
       <watt-label>{{ t("businessRegistrationIdetifierLabel") }}</watt-label>
       <input
         wattInput
+        [attr.aria-label]="t('businessRegistrationIdetifierLabel')"
         [(ngModel)]="changes.businessRegisterIdentifier"
-        (ngModelChange)="onModelChanged()"
         #businessRegisterIdentifierInputModel="ngModel"
         required
       />
@@ -49,14 +49,13 @@ limitations under the License.
     </watt-form-field>
   </div>
 
-  <!-- Address -->
   <div class="form-container">
     <watt-form-field class="field-street-name">
       <watt-label>{{ t("streetNameLabel") }}</watt-label>
       <input
         wattInput
+        [attr.aria-label]="t('streetNameLabel')"
         [(ngModel)]="changes.address.streetName"
-        (ngModelChange)="onModelChanged()"
         #streetNameInputModel="ngModel"
         maxlength="64"
       />
@@ -65,8 +64,8 @@ limitations under the License.
       <watt-label>{{ t("streetNumberLabel") }}</watt-label>
       <input
         wattInput
+        [attr.aria-label]="t('streetNumberLabel')"
         [(ngModel)]="changes.address.number"
-        (ngModelChange)="onModelChanged()"
         #streetNumberInputModel="ngModel"
         maxlength="64"
       />
@@ -78,8 +77,8 @@ limitations under the License.
       <watt-label>{{ t("zipCodeLabel") }}</watt-label>
       <input
         wattInput
+        [attr.aria-label]="t('zipCodeLabel')"
         [(ngModel)]="changes.address.zipCode"
-        (ngModelChange)="onModelChanged()"
         #zipCodeInputModel="ngModel"
         maxlength="64"
       />
@@ -88,8 +87,8 @@ limitations under the License.
       <watt-label>{{ t("cityLabel") }}</watt-label>
       <input
         wattInput
+        [attr.aria-label]="t('cityLabel')"
         [(ngModel)]="changes.address.city"
-        (ngModelChange)="onModelChanged()"
         #cityInput="ngModel"
         maxlength="64"
       />
@@ -100,9 +99,9 @@ limitations under the License.
     <watt-form-field class="field-country">
       <watt-label>{{ t("countryLabel") }}</watt-label>
       <watt-dropdown
+        [attr.aria-label]="t('countryLabel')"
         [options]="countries"
         [(ngModel)]="changes.address.country"
-        (ngModelChange)="onModelChanged()"
         #countryInputModel="ngModel"
         required
         [showResetOption]="false"
@@ -119,8 +118,8 @@ limitations under the License.
       <watt-label>{{ t("commentLabel") }}</watt-label>
       <input
         wattInput
+        [attr.aria-label]="t('commentLabel')"
         [(ngModel)]="changes.comment"
-        (ngModelChange)="onModelChanged()"
         #commentInputModel="ngModel"
       />
     </watt-form-field>

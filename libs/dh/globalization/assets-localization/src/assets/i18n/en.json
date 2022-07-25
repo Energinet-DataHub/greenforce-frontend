@@ -314,6 +314,15 @@
             "Passive": "Passive",
             "Deleted": "Deleted"
           }
+        },
+        "contacts": {
+          "invalidConfiguration": "Contacts are not correctly configured"
+        },
+        "marketRoles": {
+          "marketRole": "Market role",
+          "gridArea": "Grid area",
+          "meteringPointTypes": "Metering point types",
+          "invalidConfiguration": "Market roles are not correctly configured"
         }
       }
     },
@@ -471,7 +480,7 @@
     "startProcess": {
       "startLabel": "Start",
       "header": "Start Process",
-      "processDescription": "Start a balance fixing for yesterday for grid areas 805 & 806."
+      "processDescription": "Start a balance fixing for July 1, 2022 for grid areas 805 & 806."
     },
     "overview": {
       "header": "Process Overview"

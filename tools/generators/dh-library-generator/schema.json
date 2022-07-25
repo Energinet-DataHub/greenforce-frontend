@@ -1,0 +1,34 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "cli": "nx",
+  "$id": "dh-library-generator",
+  "description": "Generate a library that is going to be used in DataHub.",
+  "type": "object",
+  "properties": {
+    "domain": {
+      "type": "string",
+      "description": "To which domain does the library belong to?",
+      "$default": {
+        "$source": "argv",
+        "index": 0
+      },
+      "x-prompt": "To which domain does the library belong to?"
+    },
+    "libraryType": {
+      "description": "Select a library type",
+      "type": "string",
+      "enum": ["feature", "data-access", "shell"],
+      "$default": {
+        "$source": "argv",
+        "index": 1
+      },
+      "x-prompt": "Select a library type"
+    },
+    "name": {
+      "type": "string",
+      "description": "Library name (note 1: if the selected library type is \"feature\" or \"data-access\", the final name will be prefixed with it, e.g. `feature-<name>`) (note 2: leave this field empty if the selected library type is \"shell\")"
+    }
+  },
+  "additionalProperties": false,
+  "required": ["domain", "libraryType"]
+}

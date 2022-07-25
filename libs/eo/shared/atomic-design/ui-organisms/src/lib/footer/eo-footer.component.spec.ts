@@ -20,9 +20,11 @@ import { EoFooterScam, EoFooterComponent } from './eo-footer.component';
 describe(EoFooterComponent.name, () => {
   const findEnerginetLogo = () =>
     screen.findByRole('img', { name: 'Energinet' });
-
+  const findPrivacyLink = () =>
+    screen.findByRole('link', { name: /privacypolicy/i });
+  const findAccessibilityLink = () =>
+    screen.findByRole('link', { name: /accessibility/i });
   const findPhoneLink = () => screen.findByRole('link', { name: /phone/i });
-
   const findEmailLink = () => screen.findByRole('link', { name: /email/i });
 
   beforeEach(async () => {
@@ -33,6 +35,12 @@ describe(EoFooterComponent.name, () => {
 
   it('displays the Energinet logo', async () => {
     expect(await findEnerginetLogo()).toBeInTheDocument();
+  });
+  it('displays a privacy policy link', async () => {
+    expect(await findPrivacyLink()).toBeInTheDocument();
+  });
+  it('displays a accessibility statement link', async () => {
+    expect(await findAccessibilityLink()).toBeInTheDocument();
   });
 
   it('displays a telephone link', async () => {

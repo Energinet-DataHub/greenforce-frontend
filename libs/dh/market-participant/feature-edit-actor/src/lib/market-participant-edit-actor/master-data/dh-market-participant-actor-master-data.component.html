@@ -17,14 +17,13 @@ limitations under the License.
 <ng-container
   *transloco="let t; read: 'marketParticipant.actor.create.masterData'"
 >
-  <div class="form-container">
+  <div class="form-container" *ngIf="changes">
     <watt-form-field class="field-actornumber">
       <watt-label>{{ t("labelActorNumber") }}</watt-label>
       <input
-        [disabled]="actor !== undefined"
+        [disabled]="changes.existingActor"
         wattInput
         [(ngModel)]="changes.actorNumber"
-        (ngModelChange)="onModelChanged()"
         #actorNumberInputModel="ngModel"
         required
       />
@@ -37,10 +36,8 @@ limitations under the License.
       <watt-dropdown
         [(ngModel)]="changes.status"
         [options]="statuses"
-        [disabled]="!actor || actor.status === 'Deleted'"
+        [disabled]="!changes.existingActor || initialActorStatus === 'Deleted'"
         #statusInputModel="ngModel"
-        required
-        (ngModelChange)="onModelChanged()"
         required
         [showResetOption]="false"
       >

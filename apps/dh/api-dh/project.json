@@ -8,7 +8,7 @@
       "configurations": {
         "ci": {}
       },
-      "executor": "@nrwl/workspace:run-commands",
+      "executor": "nx:run-commands",
       "options": {
         "commands": [
           "npm run check:dotnet",
@@ -16,18 +16,11 @@
         ],
         "parallel": false
       },
-      "outputs": [
-        "apps/dh/api-dh/source/DataHub.WebApi/bin/Release/net6.0"
-      ]
+      "outputs": ["apps/dh/api-dh/source/DataHub.WebApi/bin/Release/net6.0"]
     },
     "build-client": {
-      "dependsOn": [
-        {
-          "target": "build",
-          "projects": "self"
-        }
-      ],
-      "executor": "@nrwl/workspace:run-commands",
+      "dependsOn": ["build"],
+      "executor": "nx:run-commands",
       "options": {
         "commands": [
           "npm run check:java",
@@ -38,12 +31,10 @@
         ],
         "parallel": false
       },
-      "outputs": [
-        "libs/dh/shared/domain/src/lib/generated/v1"
-      ]
+      "outputs": ["libs/dh/shared/domain/src/lib/generated/v1"]
     },
     "ci-configuration": {
-      "executor": "@nrwl/workspace:run-commands",
+      "executor": "nx:run-commands",
       "options": {
         "commands": [
           "cp build/ci/dh/api-dh/ci.appsettings.Development.json apps/dh/api-dh/source/DataHub.WebApi/appsettings.Development.json"
@@ -60,7 +51,7 @@
           ]
         }
       },
-      "executor": "@nrwl/workspace:run-commands",
+      "executor": "nx:run-commands",
       "options": {
         "commands": [
           "npm run check:dotnet",
@@ -73,16 +64,12 @@
       "configurations": {
         "ci": {}
       },
-      "executor": "@nrwl/workspace:run-commands",
+      "executor": "nx:run-commands",
       "options": {
-        "commands": [
-          "npx ts-node tools/dh/api-dh/ci/stop-api-dh.ts"
-        ],
+        "commands": ["npx ts-node tools/dh/api-dh/ci/stop-api-dh.ts"],
         "parallel": false
       },
-      "outputs": [
-        "apps/dh/api-dh/source/DataHub.WebApi/bin/Release/net6.0"
-      ]
+      "outputs": ["apps/dh/api-dh/source/DataHub.WebApi/bin/Release/net6.0"]
     }
   },
   "tags": ["product:dh", "type:api"]

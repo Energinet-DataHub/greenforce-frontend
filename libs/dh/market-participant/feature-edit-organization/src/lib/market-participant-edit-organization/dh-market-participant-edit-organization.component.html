@@ -35,14 +35,13 @@ limitations under the License.
     <div class="spinner-container" *ngIf="isLoading">
       <watt-spinner></watt-spinner>
     </div>
-    <ng-container *rxLet="organization$ as organization">
+    <ng-container *rxLet="changes$ as changes">
       <div [hidden]="isLoading">
         <!-- Tabs -->
         <watt-tabs class="tabs">
           <watt-tab [label]="t('masterDataTabHeader')">
             <dh-market-participant-organization-master-data
-              [organization]="organization"
-              (hasChanges)="onMasterDataChanged($event)"
+              [changes]="changes"
             ></dh-market-participant-organization-master-data>
           </watt-tab>
         </watt-tabs>
