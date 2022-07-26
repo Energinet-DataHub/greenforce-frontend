@@ -45,6 +45,9 @@ export default {
       },
       control: false,
     },
+    size: {
+      control: false,
+    },
   },
   decorators: [
     moduleMetadata({
@@ -60,7 +63,7 @@ export default {
 
 const template = `
 <!-- Notice: the #drawer reference, to access the instance of the drawer -->
-<watt-drawer #drawer (closed)="closed()">
+<watt-drawer #drawer (closed)="closed()" [size]="size">
   <watt-drawer-topbar>
     <span>Top bar</span>
   </watt-drawer-topbar>
@@ -83,7 +86,7 @@ const template = `
 <watt-button (click)="drawer.close()">Close drawer from outside of the drawer</watt-button>
 `;
 
-export const Drawer: Story<WattDrawerComponent> = (args) => ({
+const Drawer: Story<WattDrawerComponent> = (args) => ({
   props: args,
   template,
 });
@@ -109,3 +112,12 @@ Drawer.play = async ({ canvasElement }) => {
   });
   fireEvent.click(openDrawerButton);
 };
+
+export const Small = Drawer.bind({});
+Small.args = { size: 'small' };
+
+export const Normal = Drawer.bind({});
+Normal.args = { size: 'normal' };
+
+export const Large = Drawer.bind({});
+Large.args = { size: 'large' };
