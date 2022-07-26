@@ -36,8 +36,16 @@
     height: 100%;
   }
 
-  &--open {
+  &--small {
     width: 460px;
+  }
+
+  &--normal {
+    width: 888px;
+  }
+
+  &--large {
+    width: 1174px;
   }
 
   &__content {
