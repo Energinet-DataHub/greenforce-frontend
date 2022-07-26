@@ -26,7 +26,7 @@ import userEvent from '@testing-library/user-event';
 import { WattDrawerComponent } from './watt-drawer.component';
 import * as drawerStories from './+storybook/watt-drawer.stories';
 
-const { Drawer } = composeStories(drawerStories);
+const { Normal: Drawer } = composeStories(drawerStories);
 
 describe(WattDrawerComponent.name, () => {
   // Queries
