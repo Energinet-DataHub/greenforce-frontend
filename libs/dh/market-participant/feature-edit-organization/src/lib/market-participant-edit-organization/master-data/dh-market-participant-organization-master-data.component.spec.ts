@@ -51,7 +51,7 @@ describe(DhMarketParticipantOrganizationMasterDataComponent.name, () => {
     // arrange
     const changes = {
       address: { country: 'DK' },
-      status: OrganizationStatus.Active
+      status: OrganizationStatus.Active,
     };
 
     await setup(changes);
@@ -67,7 +67,7 @@ describe(DhMarketParticipantOrganizationMasterDataComponent.name, () => {
         streetName: 'street',
         zipCode: '7000',
       },
-      status: 'Active'
+      status: 'Active',
     };
 
     // act
