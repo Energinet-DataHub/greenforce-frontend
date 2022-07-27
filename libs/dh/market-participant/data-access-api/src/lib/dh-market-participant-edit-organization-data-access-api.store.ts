@@ -21,6 +21,7 @@ import {
   ChangeOrganizationDto,
   ContactCategory,
   MarketParticipantHttp,
+  OrganizationStatus,
 } from '@energinet-datahub/dh/shared/domain';
 import {
   catchError,
@@ -41,6 +42,7 @@ export interface OrganizationChanges {
   businessRegisterIdentifier?: string;
   address: AddressDto;
   comment?: string;
+  status?: OrganizationStatus;
 }
 
 export interface ContactChanges {
@@ -65,7 +67,7 @@ export interface MarketParticipantEditOrganizationState {
 const initialState: MarketParticipantEditOrganizationState = {
   isLoading: false,
   isEditing: false,
-  changes: { address: { country: 'DK' } },
+  changes: { address: { country: 'DK' }, status: OrganizationStatus.New },
 };
 
 @Injectable()
@@ -87,7 +89,7 @@ export class DhMarketParticipantEditOrganizationDataAccessApiStore extends Compo
           if (!organizationId) {
             this.patchState({
               isLoading: false,
-              changes: { address: { country: 'DK' } },
+              changes: { address: { country: 'DK' }, status: OrganizationStatus.New },
             });
             return EMPTY;
           }
