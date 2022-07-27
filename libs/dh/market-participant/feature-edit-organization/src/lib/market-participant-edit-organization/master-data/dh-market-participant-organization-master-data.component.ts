@@ -73,23 +73,21 @@ export class DhMarketParticipantOrganizationMasterDataComponent
           .sort((a, b) => a.displayValue.localeCompare(b.displayValue));
       });
 
-      this.translocoService
+    this.translocoService
       .selectTranslateObject(
         'marketParticipant.organization.create.masterData.statuses'
       )
       .pipe(takeUntil(this.destroy$))
       .subscribe((statusKeys) => {
-        this.allStatuses = Object.keys(OrganizationStatus)
-          .map((key) => ({
-            value: key,
-            displayValue: statusKeys[key] ?? key,
-          }));
-          this.statuses = getValidOrganizationStatusTransitionOptions(
-            this.initialOrganizationStatus ?? OrganizationStatus.New,
-            this.allStatuses
-          );
+        this.allStatuses = Object.keys(OrganizationStatus).map((key) => ({
+          value: key,
+          displayValue: statusKeys[key] ?? key,
+        }));
+        this.statuses = getValidOrganizationStatusTransitionOptions(
+          this.initialOrganizationStatus ?? OrganizationStatus.New,
+          this.allStatuses
+        );
       });
-
   }
 
   ngOnChanges(): void {
