@@ -131,7 +131,9 @@ limitations under the License.
       <watt-dropdown
         [(ngModel)]="changes.status"
         [options]="statuses"
-        [disabled]="!changes.organizationId ||  initialOrganizationStatus === 'Deleted'"
+        [disabled]="
+          !changes.organizationId || initialOrganizationStatus === 'Deleted'
+        "
         #statusInputModel="ngModel"
         required
         [showResetOption]="false"
@@ -142,5 +144,4 @@ limitations under the License.
       </watt-error>
     </watt-form-field>
   </div>
-
 </ng-container>

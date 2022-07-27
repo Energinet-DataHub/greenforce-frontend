@@ -89,7 +89,10 @@ export class DhMarketParticipantEditOrganizationDataAccessApiStore extends Compo
           if (!organizationId) {
             this.patchState({
               isLoading: false,
-              changes: { address: { country: 'DK' }, status: OrganizationStatus.New },
+              changes: {
+                address: { country: 'DK' },
+                status: OrganizationStatus.New,
+              },
             });
             return EMPTY;
           }
