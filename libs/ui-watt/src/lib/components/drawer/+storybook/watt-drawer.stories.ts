@@ -121,3 +121,23 @@ Normal.args = { size: 'normal' };
 
 export const Large = Drawer.bind({});
 Large.args = { size: 'large' };
+
+export const Multiple: Story<WattDrawerComponent> = (args) => ({
+  props: args,
+  template: `
+    <watt-drawer #first (closed)="closed()">
+      <watt-drawer-content *ngIf="first.opened">
+        First drawer
+      </watt-drawer-content>
+    </watt-drawer>
+
+    <watt-drawer #second (closed)="closed()">
+      <watt-drawer-content *ngIf="second.opened">
+        Second drawer
+      </watt-drawer-content>
+    </watt-drawer>
+
+    <watt-button (click)="first.open()">Open first</watt-button><br /><br />
+    <watt-button (click)="second.open()">Open second</watt-button>
+  `,
+});

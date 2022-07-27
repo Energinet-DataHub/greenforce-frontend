@@ -39,6 +39,8 @@ export type WattDrawerSize = 'small' | 'normal' | 'large';
   templateUrl: './watt-drawer.component.html',
 })
 export class WattDrawerComponent implements AfterViewInit, OnDestroy {
+  static currentDrawer?: WattDrawerComponent;
+
   /** Used to adjust drawer size to best fit the content. */
   @Input()
   size: WattDrawerSize = 'normal';
@@ -85,6 +87,8 @@ export class WattDrawerComponent implements AfterViewInit, OnDestroy {
     const isDrawerClosed = this.opened === false;
 
     if (isDrawerClosed) {
+      WattDrawerComponent.currentDrawer?.close();
+      WattDrawerComponent.currentDrawer = this;
       this.opened = true;
       this.cdr.detectChanges();
     }
