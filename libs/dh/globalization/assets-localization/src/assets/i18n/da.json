@@ -452,6 +452,13 @@
             "es": "Spanien",
             "se": "Sverige",
             "gb": "England"
+          },
+          "labelStatus": "Status",
+          "statuses": {
+            "New": "Ny",
+            "Active": "Aktiv",
+            "Blocked": "Blokeret",
+            "Deleted": "Slettet"
           }
         }
       }
