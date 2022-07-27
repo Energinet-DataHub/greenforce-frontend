@@ -18,6 +18,7 @@ export interface OrganizationDto {
     name: string;
     businessRegisterIdentifier: string;
     comment: string;
+    status: string;
     address: AddressDto;
     actors: Array<ActorDto>;
 }
