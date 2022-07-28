@@ -27,25 +27,18 @@ export default {
   title: 'Components/Drawer',
   component: WattDrawerComponent,
   argTypes: {
+    size: { control: false },
+    opened: { control: false },
     closed: {
-      table: {
-        category: 'Outputs',
-      },
+      table: { category: 'Outputs' },
       control: false,
     },
     close: {
-      table: {
-        category: 'Methods',
-      },
+      table: { category: 'Methods' },
       control: false,
     },
     open: {
-      table: {
-        category: 'Methods',
-      },
-      control: false,
-    },
-    size: {
+      table: { category: 'Methods' },
       control: false,
     },
   },
