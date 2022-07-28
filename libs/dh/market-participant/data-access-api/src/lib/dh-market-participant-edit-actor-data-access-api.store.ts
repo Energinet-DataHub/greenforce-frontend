@@ -62,6 +62,7 @@ export interface ActorChanges {
   existingActor: boolean;
   actorNumber: string;
   status: ActorStatus;
+  name: string;
 }
 
 export interface MeteringPointTypeChanges {
@@ -121,6 +122,7 @@ const initialState: MarketParticipantEditActorState = {
     existingActor: false,
     actorNumber: '',
     status: ActorStatus.New,
+    name: ''
   },
   marketRoleChanges: { isValid: true, marketRoles: [] },
   meteringPointTypeChanges: { meteringPointTypes: [] },
@@ -257,6 +259,7 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
           existingActor: false,
           actorNumber: '',
           status: ActorStatus.New,
+          name: ''
         },
       });
       return of(undefined);
@@ -277,6 +280,7 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
               existingActor: true,
               actorNumber: response.actorNumber.value,
               status: response.status,
+              name: response.name.value
             },
             marketRoleChanges: {
               isValid: true,
@@ -369,6 +373,7 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
           {
             marketRoles: state.marketRoleChanges.marketRoles,
             status: state.changes.status,
+            name: { value: state.changes.name }
           }
         )
         .pipe(map(() => actorId));
@@ -377,6 +382,7 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
     return this.httpClient
       .v1MarketParticipantOrganizationOrgIdActorPost(state.organizationId, {
         actorNumber: { value: state.changes.actorNumber },
+        name: { value: state.changes.name },
         marketRoles: state.marketRoleChanges.marketRoles,
       })
       .pipe(map((id) => id));

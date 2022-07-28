@@ -11,10 +11,12 @@
  */
 import { ActorStatus } from './actor-status';
 import { ActorMarketRoleDto } from './actor-market-role-dto';
+import { ActorNameDto } from './actor-name-dto';
 
 
 export interface ChangeActorDto { 
     status: ActorStatus;
+    name: ActorNameDto;
     marketRoles: Array<ActorMarketRoleDto>;
 }
 
