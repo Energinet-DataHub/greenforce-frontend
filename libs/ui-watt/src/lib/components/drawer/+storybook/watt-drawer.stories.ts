@@ -27,25 +27,18 @@ export default {
   title: 'Components/Drawer',
   component: WattDrawerComponent,
   argTypes: {
+    size: { control: false },
+    opened: { control: false },
     closed: {
-      table: {
-        category: 'Outputs',
-      },
+      table: { category: 'Outputs' },
       control: false,
     },
     close: {
-      table: {
-        category: 'Methods',
-      },
+      table: { category: 'Methods' },
       control: false,
     },
     open: {
-      table: {
-        category: 'Methods',
-      },
-      control: false,
-    },
-    size: {
+      table: { category: 'Methods' },
       control: false,
     },
   },
@@ -121,3 +114,23 @@ Normal.args = { size: 'normal' };
 
 export const Large = Drawer.bind({});
 Large.args = { size: 'large' };
+
+export const Multiple: Story<WattDrawerComponent> = (args) => ({
+  props: args,
+  template: `
+    <watt-drawer #first (closed)="closed()">
+      <watt-drawer-content *ngIf="first.opened">
+        First drawer
+      </watt-drawer-content>
+    </watt-drawer>
+
+    <watt-drawer #second (closed)="closed()">
+      <watt-drawer-content *ngIf="second.opened">
+        Second drawer
+      </watt-drawer-content>
+    </watt-drawer>
+
+    <watt-button (click)="first.open()">Open first</watt-button><br /><br />
+    <watt-button (click)="second.open()">Open second</watt-button>
+  `,
+});

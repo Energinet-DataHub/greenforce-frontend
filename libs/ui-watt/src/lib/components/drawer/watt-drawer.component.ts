@@ -39,6 +39,8 @@ export type WattDrawerSize = 'small' | 'normal' | 'large';
   templateUrl: './watt-drawer.component.html',
 })
 export class WattDrawerComponent implements AfterViewInit, OnDestroy {
+  private static currentDrawer?: WattDrawerComponent;
+
   /** Used to adjust drawer size to best fit the content. */
   @Input()
   size: WattDrawerSize = 'normal';
@@ -74,6 +76,10 @@ export class WattDrawerComponent implements AfterViewInit, OnDestroy {
 
   /** @ignore */
   ngOnDestroy(): void {
+    if (WattDrawerComponent.currentDrawer === this) {
+      WattDrawerComponent.currentDrawer = undefined;
+    }
+
     this.destroy$.next();
     this.destroy$.complete();
   }
@@ -82,9 +88,9 @@ export class WattDrawerComponent implements AfterViewInit, OnDestroy {
    * Opens the drawer. Subsequent calls are ignored while the drawer is opened.
    */
   open() {
-    const isDrawerClosed = this.opened === false;
-
-    if (isDrawerClosed) {
+    if (!this.opened) {
+      WattDrawerComponent.currentDrawer?.close();
+      WattDrawerComponent.currentDrawer = this;
       this.opened = true;
       this.cdr.detectChanges();
     }
@@ -95,6 +101,7 @@ export class WattDrawerComponent implements AfterViewInit, OnDestroy {
    */
   close() {
     if (this.opened) {
+      WattDrawerComponent.currentDrawer = undefined;
       this.opened = false;
       this.closed.emit();
     }
