@@ -122,7 +122,7 @@ const initialState: MarketParticipantEditActorState = {
     existingActor: false,
     actorNumber: '',
     status: ActorStatus.New,
-    name: ''
+    name: '',
   },
   marketRoleChanges: { isValid: true, marketRoles: [] },
   meteringPointTypeChanges: { meteringPointTypes: [] },
@@ -259,7 +259,7 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
           existingActor: false,
           actorNumber: '',
           status: ActorStatus.New,
-          name: ''
+          name: '',
         },
       });
       return of(undefined);
@@ -280,7 +280,7 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
               existingActor: true,
               actorNumber: response.actorNumber.value,
               status: response.status,
-              name: response.name.value
+              name: response.name.value,
             },
             marketRoleChanges: {
               isValid: true,
@@ -373,7 +373,7 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
           {
             marketRoles: state.marketRoleChanges.marketRoles,
             status: state.changes.status,
-            name: { value: state.changes.name }
+            name: { value: state.changes.name },
           }
         )
         .pipe(map(() => actorId));

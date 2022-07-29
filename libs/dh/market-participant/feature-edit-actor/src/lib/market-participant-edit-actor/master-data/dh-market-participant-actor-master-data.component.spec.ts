@@ -62,8 +62,7 @@ describe('DhMarketParticipantActorMasterDataComponent', () => {
 
     // act
     const numberTextBox: HTMLInputElement = screen.getByRole('textbox', {
-      name: en.marketParticipant.actor.create.masterData
-        .labelActorNumber,
+      name: en.marketParticipant.actor.create.masterData.labelActorNumber,
     });
     userEvent.type(numberTextBox, expected.actorNumber);
 
@@ -121,8 +120,7 @@ describe('DhMarketParticipantActorMasterDataComponent', () => {
 
     // act
     const numberTextBox: HTMLInputElement = screen.getByRole('textbox', {
-      name: en.marketParticipant.actor.create.masterData
-        .labelActorNumber,
+      name: en.marketParticipant.actor.create.masterData.labelActorNumber,
     });
     const statusComboBox = await screen.findByRole('combobox', {
       name: en.marketParticipant.actor.create.masterData.statuses.Active,
@@ -147,8 +145,7 @@ describe('DhMarketParticipantActorMasterDataComponent', () => {
 
     // act
     const numberTextBox: HTMLInputElement = screen.getByRole('textbox', {
-      name: en.marketParticipant.actor.create.masterData
-        .labelActorNumber,
+      name: en.marketParticipant.actor.create.masterData.labelActorNumber,
     });
     const statusComboBox = await screen.findByRole('combobox', {
       name: en.marketParticipant.actor.create.masterData.statuses.New,
@@ -180,8 +177,7 @@ describe('DhMarketParticipantActorMasterDataComponent', () => {
 
     // act
     const nameTextBox: HTMLInputElement = screen.getByRole('textbox', {
-      name: en.marketParticipant.actor.create.masterData
-        .labelActorName,
+      name: en.marketParticipant.actor.create.masterData.labelActorName,
     });
     userEvent.clear(nameTextBox);
     userEvent.type(nameTextBox, expected.name);
@@ -213,8 +209,7 @@ describe('DhMarketParticipantActorMasterDataComponent', () => {
 
     // act
     const nameTextBox: HTMLInputElement = screen.getByRole('textbox', {
-      name: en.marketParticipant.actor.create.masterData
-        .labelActorName,
+      name: en.marketParticipant.actor.create.masterData.labelActorName,
     });
     userEvent.clear(nameTextBox);
     userEvent.type(nameTextBox, expected.name);
@@ -222,5 +217,4 @@ describe('DhMarketParticipantActorMasterDataComponent', () => {
     // assert
     expect(changes).toEqual(expected);
   });
-
 });
