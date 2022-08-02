@@ -21,7 +21,6 @@ on:
   push:
     branches:
       - main
-      - renetnielsen/new-frontend-iac
     paths:
       - build/infrastructure/design-system/**
       - .github/workflows/design-system-infrastructure-cd.yml
