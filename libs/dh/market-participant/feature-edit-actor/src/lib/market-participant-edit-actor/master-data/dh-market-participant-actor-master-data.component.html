@@ -47,4 +47,14 @@ limitations under the License.
       </watt-error>
     </watt-form-field>
   </div>
+  <div class="form-container" *ngIf="changes">
+    <watt-form-field class="field-actorname">
+      <watt-label>{{ t("labelActorName") }}</watt-label>
+      <input
+        wattInput
+        [(ngModel)]="changes.name"
+        #actorNameInputModel="ngModel"
+      />
+    </watt-form-field>
+  </div>
 </ng-container>
