@@ -306,6 +306,7 @@
         "masterData": {
           "labelActorNumber": "Actor Number",
           "labelStatus": "Status",
+          "labelActorName": "Actor name",
           "fieldRequiredErrorText": "Field is required.",
           "statuses": {
             "New": "New",
