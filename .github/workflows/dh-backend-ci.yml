@@ -64,7 +64,6 @@ jobs:
     uses: Energinet-DataHub/.github/.github/workflows/sonarcloud-dotnet.yml@7.7.0
     with:
       SOLUTION_FILE_PATH: 'apps/dh/api-dh/DataHub.WebApi.sln'
-      DOTNET_VERSION: '6.0.301'
       SONAR_CLOUD_ORGANIZATION: 'energinet-datahub'
       SONAR_CLOUD_PROJECT: 'geh-frontend-api'
     secrets:
