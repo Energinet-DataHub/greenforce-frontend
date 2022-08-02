@@ -306,6 +306,7 @@
         "masterData": {
           "labelActorNumber": "Aktørnummer",
           "labelStatus": "Status",
+          "labelActorName": "Aktørnavn",
           "fieldRequiredErrorText": "Feltet er påkrævet.",
           "statuses": {
             "New": "Ny",
