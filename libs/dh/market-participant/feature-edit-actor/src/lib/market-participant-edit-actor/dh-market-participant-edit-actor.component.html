@@ -36,37 +36,34 @@ limitations under the License.
       <watt-spinner></watt-spinner>
     </div>
 
-    <ng-container *rxLet="actor$ as actor">
-      <div class="tabs-container" [hidden]="isLoading">
-        <!-- Tabs -->
-        <watt-tabs class="tabs">
-          <watt-tab [label]="t('masterDataTabHeader')">
-            <dh-market-participant-actor-master-data
-              [actor]="actor"
-              (hasChanges)="onMasterDataChanged($event)"
-            >
+    <div class="tabs-container" [hidden]="isLoading">
+      <!-- Tabs -->
+      <watt-tabs class="tabs">
+        <watt-tab [label]="t('masterDataTabHeader')">
+          <ng-container *rxLet="changes$ as changes">
+            <dh-market-participant-actor-master-data [changes]="changes">
             </dh-market-participant-actor-master-data>
-          </watt-tab>
-          <watt-tab [label]="t('contactsHeader')">
-            <dh-market-participant-actor-contact-data
-              [contacts]="contacts$ | push"
-              (contactsChanged)="
-                onContactsChanged($event.isValid, $event.add, $event.remove)
-              "
-            >
-            </dh-market-participant-actor-contact-data>
-          </watt-tab>
-          <watt-tab [label]="t('marketRolesHeader')">
-            <dh-market-participant-actor-market-roles
-              [gridAreas]="gridAreas$ | push"
-              [actorMarketRoles]="actor?.marketRoles"
-              (changed)="onMarketRolesChange($event)"
-            >
-            </dh-market-participant-actor-market-roles>
-          </watt-tab>
-        </watt-tabs>
-      </div>
-    </ng-container>
+          </ng-container>
+        </watt-tab>
+        <watt-tab [label]="t('contactsHeader')">
+          <dh-market-participant-actor-contact-data
+            [contacts]="contacts$ | push"
+            (contactsChanged)="
+              onContactsChanged($event.isValid, $event.add, $event.remove)
+            "
+          >
+          </dh-market-participant-actor-contact-data>
+        </watt-tab>
+        <watt-tab [label]="t('marketRolesHeader')">
+          <dh-market-participant-actor-market-roles
+            [gridAreas]="gridAreas$ | push"
+            [actorMarketRoles]="marketRoles$ | push"
+            (changed)="onMarketRolesChange($event)"
+          >
+          </dh-market-participant-actor-market-roles>
+        </watt-tab>
+      </watt-tabs>
+    </div>
 
     <!-- Confirmation  -->
     <div class="button-container" [hidden]="isLoading">

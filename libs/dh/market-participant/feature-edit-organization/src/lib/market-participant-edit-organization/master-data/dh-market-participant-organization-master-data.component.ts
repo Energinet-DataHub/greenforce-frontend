@@ -16,17 +16,15 @@
  */
 import { CommonModule } from '@angular/common';
 import {
+  ChangeDetectionStrategy,
   Component,
-  EventEmitter,
   Input,
   NgModule,
   OnChanges,
   OnDestroy,
-  Output,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { OrganizationChanges } from '@energinet-datahub/dh/market-participant/data-access-api';
-import { OrganizationDto } from '@energinet-datahub/dh/shared/domain';
 import {
   WattDropdownModule,
   WattDropdownOption,
@@ -36,22 +34,29 @@ import {
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { Subject, takeUntil } from 'rxjs';
 import { LetModule } from '@rx-angular/template/let';
+import { OrganizationStatus } from '@energinet-datahub/dh/shared/domain';
+import { getValidOrganizationStatusTransitionOptions } from './get-valid-organization-status-transition-options';
 
 @Component({
   selector: 'dh-market-participant-organization-master-data',
   styleUrls: [
     './dh-market-participant-organization-master-data.component.scss',
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl:
     './dh-market-participant-organization-master-data.component.html',
 })
 export class DhMarketParticipantOrganizationMasterDataComponent
   implements OnChanges, OnDestroy
 {
-  @Input() organization: OrganizationDto | undefined;
-  @Output() hasChanges = new EventEmitter<OrganizationChanges>();
+  @Input() changes!: OrganizationChanges;
 
   private destroy$ = new Subject<void>();
+  countries: WattDropdownOption[] = [];
+
+  initialOrganizationStatus?: OrganizationStatus;
+  allStatuses: WattDropdownOption[] = [];
+  statuses: WattDropdownOption[] = [];
 
   constructor(private translocoService: TranslocoService) {
     this.translocoService
@@ -67,26 +72,36 @@ export class DhMarketParticipantOrganizationMasterDataComponent
           }))
           .sort((a, b) => a.displayValue.localeCompare(b.displayValue));
       });
+
+    this.translocoService
+      .selectTranslateObject(
+        'marketParticipant.organization.create.masterData.statuses'
+      )
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((statusKeys) => {
+        this.allStatuses = Object.keys(OrganizationStatus).map((key) => ({
+          value: key,
+          displayValue: statusKeys[key] ?? key,
+        }));
+        this.statuses = getValidOrganizationStatusTransitionOptions(
+          this.initialOrganizationStatus ?? OrganizationStatus.New,
+          this.allStatuses
+        );
+      });
   }
 
-  changes: OrganizationChanges = { address: { country: 'DK' } };
-  countries: WattDropdownOption[] = [];
-
   ngOnChanges(): void {
-    if (this.organization !== undefined) {
-      this.changes = { ...this.organization };
-      this.hasChanges.emit({ ...this.changes });
-    }
+    this.initialOrganizationStatus = this.changes?.status;
+    this.statuses = getValidOrganizationStatusTransitionOptions(
+      this.initialOrganizationStatus ?? OrganizationStatus.New,
+      this.allStatuses
+    );
   }
 
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.unsubscribe();
   }
-
-  readonly onModelChanged = () => {
-    this.hasChanges.emit({ ...this.changes });
-  };
 }
 
 @NgModule({

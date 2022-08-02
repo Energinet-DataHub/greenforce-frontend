@@ -170,7 +170,7 @@ jobs:
         uses: Energinet-DataHub/.github/.github/actions/get-semver@main
         with:
           yaml_file: build/infrastructure/eo/chart/values.yaml
-          yaml_path: eo-base-helm-chart.deployments.app.image.tag
+          yaml_path: app.image.tag
 
   helm_chart_version_increment_check:
     name: Helm chart check version
@@ -188,7 +188,7 @@ jobs:
     uses: Energinet-DataHub/.github/.github/workflows/version-increment-check.yaml@main
     with:
       yaml_file: build/infrastructure/eo/chart/values.yaml
-      yaml_path: eo-base-helm-chart.deployments.app.image.tag
+      yaml_path: app.image.tag
 
   build_container_and_release_chart:
     name: Build containers
@@ -204,19 +204,20 @@ jobs:
     secrets:
       deploy_key: ${{ secrets.DEPLOY_KEY_HELM_CHARTS }}
 
-  update_environment:
-    name: Update env
+  update-environment:
+    name: Update preview environment
     needs:
       - build_container_and_release_chart
-    #only on: push to main OR PR on 'preview/**' branch
+    runs-on: ubuntu-latest
     if: github.event_name == 'push' && github.ref_name == 'main' || github.event_name == 'pull_request' && startsWith(github.event.pull_request.head.ref, 'preview/')
-    uses: Energinet-DataHub/.github/.github/workflows/update-chart-in-env.yaml@main
-    with:
-      env_repository: ${{ github.repository_owner }}/eo-base-environment
-      env_branch: ${{ github.event_name == 'push' && github.ref_name == 'main' && 'main' || github.event.pull_request.head.ref }}
-      helm_repository: 'https://${{ github.repository_owner }}.github.io/helm-charts/'
-      app_name: ${{ needs.build_container_and_release_chart.outputs.chart_name }}
-      chart_name: ${{ needs.build_container_and_release_chart.outputs.chart_name }}
-      chart_version: ${{ needs.build_container_and_release_chart.outputs.chart_version }}
-    secrets:
-      deploy_key: ${{ secrets.DEPLOY_KEY_BASE_ENVIRONMENT }}
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Update environment
+        uses: Energinet-DataHub/energy-origin/.github/actions/update-base-environment@main
+        with:
+          env_branch: ${{ github.event_name == 'push' && github.ref_name == 'main' && 'main' || github.event.pull_request.head.ref }}
+          app_name: ${{ needs.build_container_and_release_chart.outputs.chart_name }}
+          chart_name: ${{ needs.build_container_and_release_chart.outputs.chart_name }}
+          chart_version: ${{ needs.build_container_and_release_chart.outputs.chart_version }}
+          deploy_key: ${{ secrets.DEPLOY_KEY_BASE_ENVIRONMENT }}

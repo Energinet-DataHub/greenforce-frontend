@@ -21,7 +21,7 @@ import {
   ChangeOrganizationDto,
   ContactCategory,
   MarketParticipantHttp,
-  OrganizationDto,
+  OrganizationStatus,
 } from '@energinet-datahub/dh/shared/domain';
 import {
   catchError,
@@ -37,10 +37,12 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { parseErrorResponse } from './dh-market-participant-error-handling';
 
 export interface OrganizationChanges {
+  organizationId?: string;
   name?: string;
   businessRegisterIdentifier?: string;
   address: AddressDto;
   comment?: string;
+  status?: OrganizationStatus;
 }
 
 export interface ContactChanges {
@@ -51,17 +53,9 @@ export interface ContactChanges {
   phone?: string | null;
 }
 
-interface SaveProgress {
-  changes: OrganizationChanges;
-  organizationId: string | undefined;
-  organizationSaved: boolean;
-}
-
 export interface MarketParticipantEditOrganizationState {
   isLoading: boolean;
-
-  // Input
-  organization?: OrganizationDto;
+  isEditing: boolean;
 
   // Changes
   changes: OrganizationChanges;
@@ -72,22 +66,16 @@ export interface MarketParticipantEditOrganizationState {
 
 const initialState: MarketParticipantEditOrganizationState = {
   isLoading: false,
-  changes: { address: { country: 'DK' } },
+  isEditing: false,
+  changes: { address: { country: 'DK' }, status: OrganizationStatus.New },
 };
 
 @Injectable()
 export class DhMarketParticipantEditOrganizationDataAccessApiStore extends ComponentStore<MarketParticipantEditOrganizationState> {
   isLoading$ = this.select((state) => state.isLoading);
-  isEditing$ = this.select((state) => state.organization !== undefined);
-  organization$ = this.select((state) => state.organization);
+  isEditing$ = this.select((state) => state.isEditing);
   validation$ = this.select((state) => state.validation);
-  changes$ = this.select(
-    (state): SaveProgress => ({
-      changes: state.changes,
-      organizationId: state.organization?.organizationId,
-      organizationSaved: false,
-    })
-  );
+  changes$ = this.select((state) => state.changes);
 
   constructor(private httpClient: MarketParticipantHttp) {
     super(initialState);
@@ -99,7 +87,13 @@ export class DhMarketParticipantEditOrganizationDataAccessApiStore extends Compo
         tap(() => this.patchState({ isLoading: true })),
         switchMap((organizationId) => {
           if (!organizationId) {
-            this.patchState({ isLoading: false });
+            this.patchState({
+              isLoading: false,
+              changes: {
+                address: { country: 'DK' },
+                status: OrganizationStatus.New,
+              },
+            });
             return EMPTY;
           }
           return this.getOrganization(organizationId).pipe(
@@ -145,23 +139,25 @@ export class DhMarketParticipantEditOrganizationDataAccessApiStore extends Compo
     )
   );
 
-  private readonly saveOrganization = (saveProgress: SaveProgress) => {
-    if (saveProgress.organizationId !== undefined) {
+  private readonly saveOrganization = (
+    organizationChanges: OrganizationChanges
+  ) => {
+    if (organizationChanges.organizationId !== undefined) {
       return this.httpClient
         .v1MarketParticipantOrganizationPut(
-          saveProgress.organizationId,
-          saveProgress.changes as ChangeOrganizationDto
+          organizationChanges.organizationId,
+          organizationChanges as ChangeOrganizationDto
         )
-        .pipe(map(() => ({ ...saveProgress, organizationSaved: true })));
+        .pipe(map(() => ({ ...organizationChanges, organizationSaved: true })));
     }
 
     return this.httpClient
       .v1MarketParticipantOrganizationPost(
-        saveProgress.changes as ChangeOrganizationDto
+        organizationChanges as ChangeOrganizationDto
       )
       .pipe(
         map((organizationId) => ({
-          ...saveProgress,
+          ...organizationChanges,
           organizationSaved: true,
           organizationId,
         }))
@@ -174,7 +170,8 @@ export class DhMarketParticipantEditOrganizationDataAccessApiStore extends Compo
       .pipe(
         tap((organization) =>
           this.patchState({
-            organization,
+            isEditing: true,
+            changes: { ...organization },
           })
         )
       );
