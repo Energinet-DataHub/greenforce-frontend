@@ -61,6 +61,15 @@ import { EoLandingPageLoginButtonScam } from './eo-landing-page-login-button.com
           line-height: 54px;
         }
       }
+
+      .powered-by {
+        position: absolute;
+        right: 0;
+
+        @include watt.media('<Large') {
+          display: none;
+        }
+      }
     `,
   ],
   template: `
@@ -70,12 +79,15 @@ import { EoLandingPageLoginButtonScam } from './eo-landing-page-login-button.com
         <span class="eo-text-primary">renewables</span> overview
       </h1>
     </div>
-    <img src="/assets/images/landing-page/hero-illustration.svg" />
+    <img src="/assets/images/landing-page/hero-illustration.png" />
 
     <div class="call-to-action">
       <h2 class="eo-text-primary-contrast">Log in with your company NemID</h2>
 
       <eo-landing-page-login-button></eo-landing-page-login-button>
+      <div class="powered-by">
+        <img src="/assets/images/landing-page/powered-by.png" />
+      </div>
     </div>
   `,
 })

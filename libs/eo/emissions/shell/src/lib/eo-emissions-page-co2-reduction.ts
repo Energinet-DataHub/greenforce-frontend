@@ -22,30 +22,26 @@ import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
   styles: [
     `
       :host {
-        height: 128px; // Magic number by designer
         outline: 1px solid var(--watt-color-state-warning);
-        display: grid;
-        grid-template-columns: 128px 1fr; // Magic numbers by designer
+        display: flex;
+      }
 
-        img {
-          width: 128px; // Magic number by designer
-          height: 128px; // Magic number by designer
-        }
+      div {
+        padding-right: 8px;
       }
     `,
   ],
   template: `
-    <div>
-      <img
-        alt="CO2 reduction | EnergyOrigin"
-        src="/assets/icons/co2-cloud.svg"
-      />
-    </div>
-    <div class="watt-space-inset-m">
+    <img
+      alt="CO2 reduction | EnergyOrigin"
+      src="/assets/icons/co2-cloud.svg"
+      style="height: 160px;"
+    />
+    <div class="watt-space-inset-squish-m">
       <p>
         Denmark must <strong>reduce</strong> greenhouse gas
         <strong>emissions</strong> by <strong>70 percent</strong> in 2030
-        compared to 1990
+        compared to 1990 [Klimaloven]
       </p>
     </div>
   `,
