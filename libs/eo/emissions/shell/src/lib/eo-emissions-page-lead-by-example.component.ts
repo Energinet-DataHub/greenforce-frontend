@@ -38,13 +38,17 @@ import { MatCardModule } from '@angular/material/card';
   ],
   template: `
     <mat-card>
+      <h3 class="watt-space-stack-m">
+        <strong>CASE: Inspiration from Sønderborg municipality</strong>
+      </h3>
+
       <img
         alt="Sonderborg leads the way | EnergyOrigin"
         class="watt-space-stack-m"
         src="assets/images/emissions/sonderborg-medals-row.svg"
       />
       <h3 class="watt-space-stack-m">
-        The municipality of Sønderborg aims at CO2 neutrality by 2029
+        Sønderborg is at the forefront of green energy transition
       </h3>
       <p class="watt-space-stack-m">
         Since 2007, Sønderborg has with ProjectZero focused on transitioning the
