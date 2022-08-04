@@ -46,7 +46,7 @@ import { MatCardModule } from '@angular/material/card';
     <mat-card>
       <div class="tip watt-space-stack-m">
         <img
-          alt="Decrease power consumption | EnergyOrigin"
+          alt="Decrease production | EnergyOrigin"
           src="/assets/icons/lightbulb.svg"
         />
         <h1>Tip</h1>
