@@ -28,7 +28,7 @@ import { EoOriginOfEnergyStore } from './eo-origin-of-energy.store';
     <h3>Your share of renewable energy in 2021</h3>
     <p>Based on the hourly declaration</p>
     <ng-container>
-      <div class="loadingObfuscator">
+      <div *ngIf="(loadingDone$ | async) === false" class="loadingObfuscator">
         <watt-spinner [diameter]="100"></watt-spinner>
         <div class="loadingText">
           <strong>

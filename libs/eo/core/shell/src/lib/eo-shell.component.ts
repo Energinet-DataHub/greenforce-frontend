@@ -101,7 +101,11 @@ import { EoPrimaryNavigationScam } from './eo-primary-navigation.component';
 
       // This is the feature/page component
       ::ng-deep .watt-main-content.watt-main-content > :nth-child(2) {
-        @include watt.space-inset-l;
+        padding: var(--watt-space-l);
+
+        @include watt.media('<Large') {
+          padding: var(--watt-space-m);
+        }
       }
     `,
   ],
