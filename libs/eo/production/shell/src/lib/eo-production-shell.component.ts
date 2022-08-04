@@ -16,7 +16,6 @@
  */
 import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
 import { EoProductionLineChartScam } from './eo-production-chart-card.component';
-import { EoProductionEnergyConsumptionScam } from './eo-production-energy-consumption.component';
 import { EoProductionInfoScam } from './eo-production-info.component';
 import { EoProductionTipScam } from './eo-production-tip.component';
 
@@ -39,7 +38,6 @@ import { EoProductionTipScam } from './eo-production-tip.component';
     </div>
     <div>
       <eo-production-tip class="watt-space-stack-l"></eo-production-tip>
-      <eo-production-energy-consumption></eo-production-energy-consumption>
     </div>
   `,
 })
@@ -50,7 +48,6 @@ export class EoProductionShellComponent {}
   imports: [
     EoProductionTipScam,
     EoProductionInfoScam,
-    EoProductionEnergyConsumptionScam,
     EoProductionLineChartScam,
   ],
 })
