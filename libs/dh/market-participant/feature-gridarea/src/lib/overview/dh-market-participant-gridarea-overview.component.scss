@@ -14,7 +14,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './lib/dh-market-participant-path';
-export * from './lib/dh-market-participant-actor-path';
-export * from './lib/dh-market-participant-organizations-path';
-export * from './lib/dh-market-participant-gridarea-path';
+
+.mat-column-row-edit {
+  max-width: 92px;
+  display: flex;
+  justify-content: center;
+}
+
+.list-cell-container {
+  display: flex;
+  align-items: center;
+}
+
+.market-roles-cell {
+  display: block;
+}
