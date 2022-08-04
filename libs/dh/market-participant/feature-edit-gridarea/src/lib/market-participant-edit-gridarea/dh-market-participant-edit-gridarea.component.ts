@@ -34,11 +34,11 @@ import {
 
 @Component({
   selector: 'dh-market-participant-edit-organization',
-  templateUrl: './dh-market-participant-edit-organization.component.html',
-  styleUrls: ['./dh-market-participant-edit-organization.component.scss'],
+  templateUrl: './dh-market-participant-edit-gridarea.component.html',
+  styleUrls: ['./dh-market-participant-edit-gridarea.component.scss'],
   providers: [DhMarketParticipantEditOrganizationDataAccessApiStore],
 })
-export class DhMarketParticipantEditOrganizationComponent {
+export class DhMarketParticipantEditGridAreaComponent {
   organizationId$ = this.route.params.pipe(
     map((params) => params[dhMarketParticipantOrganizationIdParam] as string)
   );
@@ -79,7 +79,7 @@ export class DhMarketParticipantEditOrganizationComponent {
     WattSpinnerModule,
     WattValidationMessageModule,
   ],
-  exports: [DhMarketParticipantEditOrganizationComponent],
-  declarations: [DhMarketParticipantEditOrganizationComponent],
+  exports: [DhMarketParticipantEditGridAreaComponent],
+  declarations: [DhMarketParticipantEditGridAreaComponent],
 })
-export class DhMarketParticipantEditOrganizationScam {}
+export class DhMarketParticipantEditGridAreaScam {}

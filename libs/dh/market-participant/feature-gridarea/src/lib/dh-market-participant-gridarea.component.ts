@@ -32,7 +32,7 @@ import {
   dhMarketParticipanGridAreaPath,
   dhMarketParticipantPath,
 } from '@energinet-datahub/dh/market-participant/routing';
-import { DhMarketParticipantGridAreaOverviewComponentScam } from './overview/dh-market-participant-gridarea-overview.component';
+import { DhMarketParticipantGridAreaOverviewScam } from './overview/dh-market-participant-gridarea-overview.component';
 import { PushModule } from '@rx-angular/template';
 
 @Component({
@@ -85,9 +85,9 @@ export class DhMarketParticipantGridAreaComponent {
     WattEmptyStateModule,
     WattSpinnerModule,
     WattValidationMessageModule,
-    DhMarketParticipantGridAreaOverviewComponentScam,
+    DhMarketParticipantGridAreaOverviewScam,
     PushModule,
   ],
   declarations: [DhMarketParticipantGridAreaComponent],
 })
-export class DhMarketParticipantGridAreaComponentScam {}
+export class DhMarketParticipantGridAreaScam {}

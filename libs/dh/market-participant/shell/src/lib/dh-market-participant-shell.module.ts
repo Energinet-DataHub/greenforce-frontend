@@ -25,6 +25,10 @@ import {
   DhMarketParticipantEditOrganizationScam,
 } from '@energinet-datahub/dh/market-participant/feature-edit-organization';
 import {
+  DhMarketParticipantGridAreaComponent,
+  DhMarketParticipantGridAreaScam
+} from '@energinet-datahub/dh/market-participant/feature-gridarea';
+import {
   dhMarketParticipantActorIdParam,
   dhMarketParticipantActorsCreatePath,
   dhMarketParticipantActorsEditPath,
@@ -33,6 +37,10 @@ import {
   dhMarketParticipantOrganizationsCreatePath,
   dhMarketParticipantOrganizationsEditPath,
   dhMarketParticipantOrganizationsPath,
+  dhMarketParticipanGridAreaPath,
+  dhMarketParticipantGridAreaCreatePath,
+  dhMarketParticipantGridAreaEditPath,
+  dhMarketParticipantGridAreaIdParam
 } from '@energinet-datahub/dh/market-participant/routing';
 import { DhMarketParticipantEditActorComponent } from '@energinet-datahub/dh/market-participant/edit-actor';
 
@@ -98,6 +106,11 @@ const routes: Routes = [
       },
     ],
   },
+  {
+    path: dhMarketParticipanGridAreaPath,
+    pathMatch: 'full',
+    component: DhMarketParticipantGridAreaComponent
+  }
 ];
 
 @NgModule({

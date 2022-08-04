@@ -16,10 +16,10 @@
  */
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DhMarketParticipantEditOrganizationScam } from './market-participant-edit-gridarea/dh-market-participant-edit-gridarea.component';
+import { DhMarketParticipantEditGridAreaScam } from './market-participant-edit-gridarea/dh-market-participant-edit-gridarea.component';
 
 @NgModule({
   imports: [CommonModule],
-  exports: [DhMarketParticipantEditOrganizationScam],
+  exports: [DhMarketParticipantEditGridAreaScam],
 })
 export class DhMarketParticipantFeatureEditOrganizationModule {}

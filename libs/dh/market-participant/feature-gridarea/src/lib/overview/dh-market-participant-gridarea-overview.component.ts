@@ -146,4 +146,4 @@ export class DhMarketParticipantGridAreaOverviewComponent
   declarations: [DhMarketParticipantGridAreaOverviewComponent],
   exports: [DhMarketParticipantGridAreaOverviewComponent],
 })
-export class DhMarketParticipantGridAreaOverviewComponentScam {}
+export class DhMarketParticipantGridAreaOverviewScam {}
