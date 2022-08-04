@@ -28,7 +28,7 @@ import { TranslocoModule } from '@ngneat/transloco';
 import { map } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
-  dhMarketParticipantOrganizationIdParam,
+  dhMarketParticipantGridAreaIdParam,
   dhMarketParticipantPath,
 } from '@energinet-datahub/dh/market-participant/routing';
 
@@ -40,7 +40,7 @@ import {
 })
 export class DhMarketParticipantEditGridAreaComponent {
   organizationId$ = this.route.params.pipe(
-    map((params) => params[dhMarketParticipantOrganizationIdParam] as string)
+    map((params) => params[dhMarketParticipantGridAreaIdParam] as string)
   );
 
   isLoading$ = this.store.isLoading$;

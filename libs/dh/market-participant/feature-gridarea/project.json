@@ -1,14 +1,14 @@
 {
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
-  "sourceRoot": "libs/dh/market-participant/feature-organization/src",
+  "sourceRoot": "libs/dh/market-participant/feature-gridarea/src",
   "prefix": "dh",
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/dh/market-participant/feature-organization"],
+      "outputs": ["coverage/libs/dh/market-participant/feature-gridarea"],
       "options": {
-        "jestConfig": "libs/dh/market-participant/feature-organization/jest.config.ts",
+        "jestConfig": "libs/dh/market-participant/feature-gridarea/jest.config.ts",
         "passWithNoTests": true
       }
     },
@@ -16,8 +16,8 @@
       "executor": "@nrwl/linter:eslint",
       "options": {
         "lintFilePatterns": [
-          "libs/dh/market-participant/feature-organization/src/**/*.ts",
-          "libs/dh/market-participant/feature-organization/src/**/*.html"
+          "libs/dh/market-participant/feature-gridarea/src/**/*.ts",
+          "libs/dh/market-participant/feature-gridarea/src/**/*.html"
         ]
       }
     }

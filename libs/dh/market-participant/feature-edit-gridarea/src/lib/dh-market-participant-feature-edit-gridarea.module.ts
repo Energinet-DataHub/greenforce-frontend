@@ -22,4 +22,4 @@ import { DhMarketParticipantEditGridAreaScam } from './market-participant-edit-g
   imports: [CommonModule],
   exports: [DhMarketParticipantEditGridAreaScam],
 })
-export class DhMarketParticipantFeatureEditOrganizationModule {}
+export class DhMarketParticipantFeatureEditGridAreaModule {}

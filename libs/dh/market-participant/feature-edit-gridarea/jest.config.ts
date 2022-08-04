@@ -16,7 +16,7 @@
  */
 /* eslint-disable */
 export default {
-  displayName: 'dh-market-participant-feature-edit-organization',
+  displayName: 'dh-market-participant-feature-edit-gridarea',
   preset: '../../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   globals: {
@@ -26,7 +26,7 @@ export default {
     },
   },
   coverageDirectory:
-    '../../../../coverage/libs/dh/market-participant/feature-edit-organization',
+    '../../../../coverage/libs/dh/market-participant/feature-edit-gridarea',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': 'jest-preset-angular',
   },
