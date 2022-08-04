@@ -24,7 +24,7 @@ import { eoFaqRoutePath } from '@energinet-datahub/eo/faq/routing';
     `
       :host {
         display: block;
-        width: 1040px; // Magic number by designer
+        max-width: 1040px; // Magic number by designer
       }
 
       .faq-link a {
@@ -102,14 +102,14 @@ import { eoFaqRoutePath } from '@energinet-datahub/eo/faq/routing';
     <p>
       You can read more about the history and intention of Energy Origin on our
       website:
+      <a
+        href="https://en.energinet.dk/Energy-data/DataHub/Energy-Origin"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Origins of energy | Energinet
+      </a>
     </p>
-    <a
-      href="https://en.energinet.dk/Energy-data/DataHub/Energy-Origin"
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      Origins of energy | Energinet
-    </a>
   `,
 })
 export class EoFaqShellComponent {}
