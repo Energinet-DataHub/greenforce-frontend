@@ -20,14 +20,15 @@ import {
   HostBinding,
   NgModule,
 } from '@angular/core';
-import { eoDashboardRoutePath } from '@energinet-datahub/eo/dashboard/routing';
-import { eoOriginOfEnergyRoutePath } from '@energinet-datahub/eo/origin-of-energy/routing';
-import { eoFaqRoutePath } from '@energinet-datahub/eo/faq/routing';
-import { eoMeteringPointsRoutePath } from '@energinet-datahub/eo/metering-points/routing';
 import { eoEmissionsRoutePath } from '@energinet-datahub/eo-emissions-routing';
 import { EoLogOutStore } from '@energinet-datahub/eo/auth/data-access-security';
-import { WattNavListModule } from '@energinet-datahub/watt';
 import { eoConsumptionPageRoutePath } from '@energinet-datahub/eo/consumption-page/routing';
+import { eoDashboardRoutePath } from '@energinet-datahub/eo/dashboard/routing';
+import { eoFaqRoutePath } from '@energinet-datahub/eo/faq/routing';
+import { eoMeteringPointsRoutePath } from '@energinet-datahub/eo/metering-points/routing';
+import { eoOriginOfEnergyRoutePath } from '@energinet-datahub/eo/origin-of-energy/routing';
+import { eoProductionRoutePath } from '@energinet-datahub/eo/production/routing';
+import { WattNavListModule } from '@energinet-datahub/watt';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -52,6 +53,9 @@ import { eoConsumptionPageRoutePath } from '@energinet-datahub/eo/consumption-pa
       </watt-nav-list-item>
       <watt-nav-list-item link="/${eoConsumptionPageRoutePath}">
         Consumption
+      </watt-nav-list-item>
+      <watt-nav-list-item link="/${eoProductionRoutePath}">
+        Production
       </watt-nav-list-item>
       <watt-nav-list-item link="/${eoMeteringPointsRoutePath}">
         Metering Points
