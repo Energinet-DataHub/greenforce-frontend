@@ -18,11 +18,11 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { WattSpinnerModule } from '@energinet-datahub/watt';
-import { EoConsumptionStore } from './eo-consumption.store';
+import { EoProductionStore } from './eo-production.store';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'eo-consumption-page-info',
+  selector: 'eo-production-info',
   styles: [
     `
       :host {
@@ -40,7 +40,7 @@ import { EoConsumptionStore } from './eo-consumption.store';
   template: `
     <mat-card>
       <h4 class="output watt-space-stack-s">
-        Your electricity consumption in 2021
+        Your electricity production in 2021
       </h4>
       <h1 *ngIf="loadingDone$ | async; else loading">
         {{ convertTokWh((totalMeasurement$ | async) || 0).toLocaleString() }}
@@ -53,11 +53,11 @@ import { EoConsumptionStore } from './eo-consumption.store';
     ></ng-template>
   `,
 })
-export class EoConsumptionPageInfoComponent {
+export class EoProductionInfoComponent {
   loadingDone$ = this.store.loadingDone$;
   totalMeasurement$ = this.store.totalMeasurement$;
 
-  constructor(private store: EoConsumptionStore) {}
+  constructor(private store: EoProductionStore) {}
 
   convertTokWh(wattHour: number): number {
     if (!wattHour || Number.isNaN(wattHour)) return 0;
@@ -67,9 +67,9 @@ export class EoConsumptionPageInfoComponent {
 }
 
 @NgModule({
-  providers: [EoConsumptionStore],
-  declarations: [EoConsumptionPageInfoComponent],
+  providers: [EoProductionStore],
+  declarations: [EoProductionInfoComponent],
   imports: [MatCardModule, CommonModule, WattSpinnerModule],
-  exports: [EoConsumptionPageInfoComponent],
+  exports: [EoProductionInfoComponent],
 })
-export class EoConsumptionPageInfoScam {}
+export class EoProductionInfoScam {}

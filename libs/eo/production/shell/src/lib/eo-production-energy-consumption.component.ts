@@ -19,7 +19,7 @@ import { MatCardModule } from '@angular/material/card';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'eo-consumption-page-energy-consumption',
+  selector: 'eo-production-energy-consumption',
   styles: [
     `
       :host {
@@ -62,11 +62,11 @@ import { MatCardModule } from '@angular/material/card';
     </mat-card>
   `,
 })
-export class EoConsumptionPageEnergyConsumptionComponent {}
+export class EoProductionEnergyConsumptionComponent {}
 
 @NgModule({
-  declarations: [EoConsumptionPageEnergyConsumptionComponent],
+  declarations: [EoProductionEnergyConsumptionComponent],
   imports: [MatCardModule],
-  exports: [EoConsumptionPageEnergyConsumptionComponent],
+  exports: [EoProductionEnergyConsumptionComponent],
 })
-export class EoConsumptionPageEnergyConsumptionScam {}
+export class EoProductionEnergyConsumptionScam {}

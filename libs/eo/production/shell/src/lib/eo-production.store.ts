@@ -17,31 +17,31 @@
 import { Injectable } from '@angular/core';
 import { ComponentStore } from '@ngrx/component-store';
 import { take } from 'rxjs';
-import { EoConsumptionService, EoMeasurement } from './eo-consumption.service';
+import { EoMeasurement, EoProductionService } from './eo-production.service';
 
 export interface EoMeasurementData {
   /** Name of month */
   name: string;
-  /** Value of the total consumption for the selected dates, in kWh */
+  /** Value of the total production for the selected dates, in kWh */
   value: number;
 }
 
-interface EoConsumptionState {
+interface EoProductionState {
   loadingDone: boolean;
   measurements: EoMeasurementData[];
   totalMeasurement: number;
 }
 
 @Injectable()
-export class EoConsumptionStore extends ComponentStore<EoConsumptionState> {
-  constructor(private service: EoConsumptionService) {
+export class EoProductionStore extends ComponentStore<EoProductionState> {
+  constructor(private service: EoProductionService) {
     super({
       loadingDone: false,
       measurements: [],
       totalMeasurement: 0,
     });
 
-    this.loadMonthlyConsumption();
+    this.loadMonthlyProduction();
   }
 
   readonly loadingDone$ = this.select((state) => state.loadingDone);
@@ -49,29 +49,29 @@ export class EoConsumptionStore extends ComponentStore<EoConsumptionState> {
   readonly totalMeasurement$ = this.select((state) => state.totalMeasurement);
 
   readonly setLoadingDone = this.updater(
-    (state, loadingDone: boolean): EoConsumptionState => ({
+    (state, loadingDone: boolean): EoProductionState => ({
       ...state,
       loadingDone,
     })
   );
 
   readonly setTotalMeasurement = this.updater(
-    (state, totalMeasurement: number): EoConsumptionState => ({
+    (state, totalMeasurement: number): EoProductionState => ({
       ...state,
       totalMeasurement,
     })
   );
 
   readonly setMonthlyMeasurements = this.updater(
-    (state, measurements: EoMeasurementData[]): EoConsumptionState => ({
+    (state, measurements: EoMeasurementData[]): EoProductionState => ({
       ...state,
       measurements,
     })
   );
 
-  loadMonthlyConsumption() {
+  loadMonthlyProduction() {
     this.service
-      .getMonthlyConsumptionFor2021()
+      .getMonthlyProductionFor2021()
       .pipe(take(1))
       .subscribe({
         next: (result) => {

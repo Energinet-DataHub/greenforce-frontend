@@ -165,6 +165,12 @@
       "@energinet-datahub/eo/consumption-page/shell": [
         "libs/eo/consumption-page/shell/src/index.ts"
       ],
+      "@energinet-datahub/eo/production/routing": [
+        "libs/eo/production/routing/src/index.ts"
+      ],
+      "@energinet-datahub/eo/production/shell": [
+        "libs/eo/production/shell/src/index.ts"
+      ],
       "@energinet-datahub/eo/core/shell": ["libs/eo/core/shell/src/index.ts"],
       "@energinet-datahub/eo/dashboard/routing": [
         "libs/eo/dashboard/routing/src/index.ts"

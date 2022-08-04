@@ -27,21 +27,21 @@ export interface EoMeasurement {
   value: number;
 }
 
-interface EoConsumptionResponse {
+interface EoProductionResponse {
   measurements: EoMeasurement[];
 }
 
 @Injectable({
   providedIn: 'root',
 })
-export class EoConsumptionService {
+export class EoProductionService {
   #apiBase: string;
 
-  getMonthlyConsumptionFor2021() {
-    return this.http.get<EoConsumptionResponse>(
+  getMonthlyProductionFor2021() {
+    return this.http.get<EoProductionResponse>(
       `${
         this.#apiBase
-      }/measurements/consumption?dateFrom=1609459200&dateTo=1640995199&aggregation=Month`,
+      }/measurements/production?dateFrom=1609459200&dateTo=1640995200&aggregation=Month`,
       { withCredentials: true }
     );
   }

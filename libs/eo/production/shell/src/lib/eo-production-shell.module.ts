@@ -18,18 +18,18 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import {
-  EoConsumptionPageShellComponent,
-  EoConsumptionPageShellScam,
-} from './eo-consumption-page-shell.component';
+  EoProductionShellComponent,
+  EoProductionShellScam,
+} from './eo-production-shell.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: EoConsumptionPageShellComponent,
+    component: EoProductionShellComponent,
   },
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes), EoConsumptionPageShellScam],
+  imports: [RouterModule.forChild(routes), EoProductionShellScam],
 })
-export class EoConsumptionPageShellModule {}
+export class EoProductionShellModule {}

@@ -19,7 +19,7 @@ import { MatCardModule } from '@angular/material/card';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'eo-consumption-page-tip',
+  selector: 'eo-production-tip',
   styles: [
     `
       :host {
@@ -58,11 +58,11 @@ import { MatCardModule } from '@angular/material/card';
     </mat-card>
   `,
 })
-export class EoConsumptionPageTipComponent {}
+export class EoProductionTipComponent {}
 
 @NgModule({
-  declarations: [EoConsumptionPageTipComponent],
+  declarations: [EoProductionTipComponent],
   imports: [MatCardModule],
-  exports: [EoConsumptionPageTipComponent],
+  exports: [EoProductionTipComponent],
 })
-export class EoConsumptionPageTipScam {}
+export class EoProductionTipScam {}

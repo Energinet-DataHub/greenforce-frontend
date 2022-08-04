@@ -21,10 +21,10 @@ import { MatCardModule } from '@angular/material/card';
 import { EoLineChartScam } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 import { WattSpinnerModule } from '@energinet-datahub/watt';
 import { take } from 'rxjs';
-import { EoConsumptionStore, EoMeasurementData } from './eo-consumption.store';
+import { EoMeasurementData, EoProductionStore } from './eo-production.store';
 
 @Component({
-  selector: 'eo-consumption-line-chart',
+  selector: 'eo-production-line-chart',
   template: ` <mat-card class="chart-card watt-space-inline-l">
     <h3 class="watt-space-stack-s">kWh</h3>
     <ng-container>
@@ -55,10 +55,10 @@ import { EoConsumptionStore, EoMeasurementData } from './eo-consumption.store';
     `,
   ],
 })
-export class EoConsumptionLineChartComponent {
+export class EoProductionLineChartComponent {
   loadingDone$ = this.store.loadingDone$;
 
-  constructor(private store: EoConsumptionStore) {}
+  constructor(private store: EoProductionStore) {}
 
   getDataInKWH() {
     const measurementList: EoMeasurementData[] = [];
@@ -77,9 +77,9 @@ export class EoConsumptionLineChartComponent {
 }
 
 @NgModule({
-  providers: [EoConsumptionStore],
-  declarations: [EoConsumptionLineChartComponent],
-  exports: [EoConsumptionLineChartComponent],
+  providers: [EoProductionStore],
+  declarations: [EoProductionLineChartComponent],
+  exports: [EoProductionLineChartComponent],
   imports: [MatCardModule, EoLineChartScam, CommonModule, WattSpinnerModule],
 })
-export class EoConsumptionLineChartScam {}
+export class EoProductionLineChartScam {}

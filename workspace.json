@@ -55,6 +55,8 @@
     "eo-auth-routing-security": "libs/eo/auth/routing-security",
     "eo-consumption-page-routing": "libs/eo/consumption-page/routing",
     "eo-consumption-page-shell": "libs/eo/consumption-page/shell",
+    "eo-production-routing": "libs/eo/production/routing",
+    "eo-production-shell": "libs/eo/production/shell",
     "eo-core-shell": "libs/eo/core/shell",
     "eo-dashboard-routing": "libs/eo/dashboard/routing",
     "eo-dashboard-shell": "libs/eo/dashboard/shell",

@@ -15,14 +15,14 @@
  * limitations under the License.
  */
 import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
-import { EoConsumptionLineChartScam } from './eo-consumption-chart-card.component';
-import { EoConsumptionPageEnergyConsumptionScam } from './eo-consumption-page-energy-consumption.component';
-import { EoConsumptionPageInfoScam } from './eo-consumption-page-info.component';
-import { EoConsumptionPageTipScam } from './eo-consumption-page-tip.component';
+import { EoProductionLineChartScam } from './eo-production-chart-card.component';
+import { EoProductionEnergyConsumptionScam } from './eo-production-energy-consumption.component';
+import { EoProductionInfoScam } from './eo-production-info.component';
+import { EoProductionTipScam } from './eo-production-tip.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'eo-consumption-shell',
+  selector: 'eo-production-shell',
   styles: [
     `
       :host {
@@ -34,28 +34,24 @@ import { EoConsumptionPageTipScam } from './eo-consumption-page-tip.component';
   ],
   template: `
     <div>
-      <eo-consumption-page-info
-        class="watt-space-stack-l"
-      ></eo-consumption-page-info>
-      <eo-consumption-line-chart></eo-consumption-line-chart>
+      <eo-production-info class="watt-space-stack-l"></eo-production-info>
+      <eo-production-line-chart></eo-production-line-chart>
     </div>
     <div>
-      <eo-consumption-page-tip
-        class="watt-space-stack-l"
-      ></eo-consumption-page-tip>
-      <eo-consumption-page-energy-consumption></eo-consumption-page-energy-consumption>
+      <eo-production-tip class="watt-space-stack-l"></eo-production-tip>
+      <eo-production-energy-consumption></eo-production-energy-consumption>
     </div>
   `,
 })
-export class EoConsumptionPageShellComponent {}
+export class EoProductionShellComponent {}
 
 @NgModule({
-  declarations: [EoConsumptionPageShellComponent],
+  declarations: [EoProductionShellComponent],
   imports: [
-    EoConsumptionPageTipScam,
-    EoConsumptionPageInfoScam,
-    EoConsumptionPageEnergyConsumptionScam,
-    EoConsumptionLineChartScam,
+    EoProductionTipScam,
+    EoProductionInfoScam,
+    EoProductionEnergyConsumptionScam,
+    EoProductionLineChartScam,
   ],
 })
-export class EoConsumptionPageShellScam {}
+export class EoProductionShellScam {}
