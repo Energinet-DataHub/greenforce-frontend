@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@use '@energinet-datahub/watt/utils' as watt;
+@use "@energinet-datahub/watt/utils" as watt;
 
 @mixin primary-hover {
   background: var(--watt-color-primary-dark);
@@ -55,7 +55,10 @@
   @include watt.typography-font-weight("semi-bold");
   @include watt.typography-font-size("m");
   @include watt.space-inset-squish-m;
-  min-width: 44px; // Magic UX width
+
+  &.mat-button {
+    min-width: 44px; // Magic UX width
+  }
 
   &.watt-button--normal {
     height: 44px; // Magic UX normal height
