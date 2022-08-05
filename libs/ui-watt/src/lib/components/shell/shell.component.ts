@@ -16,7 +16,7 @@
  */
 import { Component, HostListener, ViewChild } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
-import { map, shareReplay } from 'rxjs';
+import { map } from 'rxjs';
 import {
   WattBreakpoint,
   WattBreakpointsObserver,
@@ -42,10 +42,7 @@ export class WattShellComponent {
       WattBreakpoint.Small,
       WattBreakpoint.Medium,
     ])
-    .pipe(
-      map((result) => result.matches),
-      shareReplay()
-    );
+    .pipe(map((result) => result.matches));
 
   constructor(private breakpointObserver: WattBreakpointsObserver) {}
 
@@ -53,8 +50,10 @@ export class WattShellComponent {
 
   @HostListener('click', ['$event.target.parentNode'])
   onClick(element: HTMLElement) {
-    if (element.attributes.getNamedItem('routerlinkactive')) {
-      this.sidenav.toggle();
-    }
+    this.isHandset$.subscribe((isHandset) => {
+      if (isHandset && element.attributes.getNamedItem('routerlinkactive')) {
+        this.sidenav.toggle();
+      }
+    });
   }
 }
