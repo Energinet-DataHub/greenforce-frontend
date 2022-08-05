@@ -57,12 +57,6 @@ import { EoPrimaryNavigationScam } from './eo-primary-navigation.component';
         color: var(--watt-color-primary-dark-contrast);
       }
 
-      // 1. Increase specificity.
-      // 2. Align with main content.
-      ::ng-deep .watt-toolbar.watt-toolbar/* [1] */ {
-        @include watt.space-inset-squish-l; // [2]
-      }
-
       ::ng-deep
         watt-shell
         .watt-toolbar
@@ -78,6 +72,11 @@ import { EoPrimaryNavigationScam } from './eo-primary-navigation.component';
 
       ::ng-deep watt-shell .watt-toolbar.watt-toolbar {
         height: var(--watt-space-xl);
+        @include watt.space-inset-squish-l;
+
+        @include watt.media('<Large') {
+          padding: 0;
+        }
       }
 
       ::ng-deep .watt-main-content {
@@ -122,7 +121,6 @@ import { EoPrimaryNavigationScam } from './eo-primary-navigation.component';
             src="/assets/images/energy-origin-logo-secondary.svg"
           />
         </div>
-
         <eo-primary-navigation></eo-primary-navigation>
       </ng-container>
 
