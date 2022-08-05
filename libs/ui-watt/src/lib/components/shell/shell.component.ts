@@ -14,12 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component } from '@angular/core';
+import { Component, HostListener, ViewChild } from '@angular/core';
+import { MatSidenav } from '@angular/material/sidenav';
 import { map, shareReplay } from 'rxjs';
-
 import {
-  WattBreakpointsObserver,
   WattBreakpoint,
+  WattBreakpointsObserver,
 } from '../../foundations/breakpoints';
 
 @Component({
@@ -48,4 +48,13 @@ export class WattShellComponent {
     );
 
   constructor(private breakpointObserver: WattBreakpointsObserver) {}
+
+  @ViewChild('drawer') sidenav!: MatSidenav;
+
+  @HostListener('click', ['$event.target.parentNode'])
+  onClick(element: HTMLElement) {
+    if (element.attributes.getNamedItem('routerlinkactive')) {
+      this.sidenav.toggle();
+    }
+  }
 }
