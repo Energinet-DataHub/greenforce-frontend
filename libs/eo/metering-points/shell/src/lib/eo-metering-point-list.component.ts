@@ -73,7 +73,7 @@ import { EoMeteringPointsStore } from './eo-metering-points.store';
         </td>
       </tr>
       <ng-container *ngFor="let point of meteringPoints">
-        <tr *ngIf="point.type === 'consumption'">
+        <tr>
           <td class="table-cell first">{{ point?.gsrn }}</td>
           <td>
             <ng-container *ngIf="point.address?.address1">
