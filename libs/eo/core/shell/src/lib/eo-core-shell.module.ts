@@ -62,7 +62,7 @@ const routes: Routes = [
       },
       {
         path: eoOriginOfEnergyRoutePath,
-        data: { title: 'Origin of Energy' },
+        data: { title: 'Renewable Share' },
         loadChildren: () =>
           import('@energinet-datahub/eo/origin-of-energy/shell').then(
             (esModule) => esModule.EoOriginOfEnergyShellModule
