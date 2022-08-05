@@ -53,7 +53,7 @@ import { EoMeteringPointsStore } from './eo-metering-points.store';
         background-color: var(--watt-color-primary-light);
         padding: var(--watt-space-xs) var(--watt-space-m);
         text-transform: capitalize;
-        border-radius: 16px;
+        border-radius: var(--watt-space-m);
       }
     `,
   ],
