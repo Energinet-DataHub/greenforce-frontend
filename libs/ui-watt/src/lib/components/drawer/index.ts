@@ -15,4 +15,4 @@
  * limitations under the License.
  */
 export { WattDrawerModule } from './watt-drawer.module';
-export { WattDrawerComponent } from './watt-drawer.component';
+export { WattDrawerComponent, WattDrawerSize } from './watt-drawer.component';
