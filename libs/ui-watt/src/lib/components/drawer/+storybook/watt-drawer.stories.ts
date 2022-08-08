@@ -22,6 +22,7 @@ import { WattButtonModule } from '../../button';
 import { WattDrawerComponent } from '../watt-drawer.component';
 import { WattDrawerModule } from '../watt-drawer.module';
 import { WattStorybookDrawerContentModule } from './storybook-drawer-content.component';
+import { WattStorybookDrawerLoadingComponent } from './storybook-drawer-loading.component';
 
 export default {
   title: 'Components/Drawer',
@@ -49,6 +50,7 @@ export default {
         BrowserAnimationsModule,
         WattButtonModule,
         WattStorybookDrawerContentModule,
+        WattStorybookDrawerLoadingComponent,
       ],
     }),
   ],
@@ -133,4 +135,9 @@ export const Multiple: Story<WattDrawerComponent> = (args) => ({
     <watt-button (click)="first.open()">Open first</watt-button><br /><br />
     <watt-button (click)="second.open()">Open second</watt-button>
   `,
+});
+
+export const Loading: Story<WattDrawerComponent> = (args) => ({
+  props: args,
+  template: `<watt-storybook-drawer-loading></watt-storybook-drawer-loading>`,
 });
