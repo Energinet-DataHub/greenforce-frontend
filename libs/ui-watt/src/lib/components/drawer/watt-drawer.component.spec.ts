@@ -26,7 +26,7 @@ import userEvent from '@testing-library/user-event';
 import { WattDrawerComponent } from './watt-drawer.component';
 import * as drawerStories from './+storybook/watt-drawer.stories';
 
-const { Normal: Drawer } = composeStories(drawerStories);
+const { Normal: Drawer, Multiple } = composeStories(drawerStories);
 
 describe(WattDrawerComponent.name, () => {
   // Queries
@@ -197,5 +197,18 @@ describe(WattDrawerComponent.name, () => {
     userEvent.keyboard('{Escape}');
 
     expect(closedOutput).not.toHaveBeenCalled();
+  });
+
+  it('closes drawer when another drawer is opened', async () => {
+    await setup(Multiple);
+    const firstButton = screen.getByRole('button', { name: /^open first/i });
+    const secondButton = screen.getByRole('button', { name: /^open second/i });
+
+    userEvent.click(firstButton);
+    userEvent.click(secondButton);
+
+    expect(closedOutput).toHaveBeenCalled();
+    expect(screen.queryByText(/first drawer/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/second drawer/i)).toBeInTheDocument();
   });
 });
