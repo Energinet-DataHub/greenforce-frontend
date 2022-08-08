@@ -84,7 +84,7 @@ import { EoVimeoPlayerScam } from '@energinet-datahub/eo/shared/atomic-design/ui
 
       <div class="watt-space-stack-l">
         <a
-          href="https://en.energinet.dk/Electricity/DataHub/Energy-Origin"
+          href="https://en.energinet.dk/Energy-data/DataHub/Energy-Origin"
           target="_blank"
           rel="noopener noreferrer"
           >Read more about Project Energy Origin</a

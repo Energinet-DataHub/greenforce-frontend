@@ -306,6 +306,7 @@
         "masterData": {
           "labelActorNumber": "Actor Number",
           "labelStatus": "Status",
+          "labelActorName": "Actor name",
           "fieldRequiredErrorText": "Field is required.",
           "statuses": {
             "New": "New",
@@ -452,6 +453,13 @@
             "es": "Spain",
             "se": "Sweden",
             "gb": "United Kingdom"
+          },
+          "labelStatus": "Status",
+          "statuses": {
+            "New": "New",
+            "Active": "Active",
+            "Blocked": "Blocked",
+            "Deleted": "Deleted"
           }
         }
       }

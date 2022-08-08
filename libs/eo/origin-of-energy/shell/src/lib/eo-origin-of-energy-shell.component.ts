@@ -22,6 +22,7 @@ import { EoOriginOfEnergyChartTipsScam } from './eo-origin-of-energy-chart-tips.
 import { EoOriginOfEnergyGlobalGoalsMediaScam } from './eo-origin-of-energy-global-goals-media.component';
 import { EoOriginOfEnergyHourlyDeclarationScam } from './eo-origin-of-energy-hourly-declaration.component';
 import { EoOriginOfEnergyRenewableEnergyScam } from './eo-origin-of-energy-renewable-energy.component';
+import { EoOriginOfEnergyWhatIsItScam } from './eo-origin-of-energy-what-is-it.component';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'eo-origin-of-energy-shell',
@@ -57,7 +58,12 @@ import { EoOriginOfEnergyRenewableEnergyScam } from './eo-origin-of-energy-renew
     </div>
     <div class="description-row">
       <eo-origin-of-energy-renewable-energy></eo-origin-of-energy-renewable-energy>
-      <eo-origin-of-energy-hourly-declaration></eo-origin-of-energy-hourly-declaration>
+      <div>
+        <eo-origin-of-energy-what-is-it
+          class="watt-space-stack-l"
+        ></eo-origin-of-energy-what-is-it>
+        <eo-origin-of-energy-hourly-declaration></eo-origin-of-energy-hourly-declaration>
+      </div>
     </div>`,
 })
 export class EoOriginOfEnergyShellComponent {}
@@ -67,6 +73,7 @@ export class EoOriginOfEnergyShellComponent {}
   imports: [
     EoMediaModule,
     MatCardModule,
+    EoOriginOfEnergyWhatIsItScam,
     EoOriginOfEnergyPieChartScam,
     EoOriginOfEnergyGlobalGoalsMediaScam,
     EoOriginOfEnergyChartTipsScam,

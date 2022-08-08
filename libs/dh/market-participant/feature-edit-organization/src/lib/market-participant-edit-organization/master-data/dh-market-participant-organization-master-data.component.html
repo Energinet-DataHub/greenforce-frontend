@@ -124,4 +124,24 @@ limitations under the License.
       />
     </watt-form-field>
   </div>
+
+  <div class="form-container">
+    <watt-form-field class="field-status">
+      <watt-label>{{ t("labelStatus") }}</watt-label>
+      <watt-dropdown
+        [(ngModel)]="changes.status"
+        [options]="statuses"
+        [disabled]="
+          !changes.organizationId || initialOrganizationStatus === 'Deleted'
+        "
+        #statusInputModel="ngModel"
+        required
+        [showResetOption]="false"
+      >
+      </watt-dropdown>
+      <watt-error *ngIf="statusInputModel.hasError('required')">
+        {{ t("fieldRequiredErrorText") }}
+      </watt-error>
+    </watt-form-field>
+  </div>
 </ng-container>
