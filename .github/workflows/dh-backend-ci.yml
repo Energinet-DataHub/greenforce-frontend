@@ -24,6 +24,7 @@ env:
   is-pull-request: ${{ github.event_name == 'pull_request' }}
   NODE_OPTIONS: --max-old-space-size=6144
   node-version-file: .nvmrc
+  # keep in sync with "engines.yarn" and "volta.yarn" in "package.json"
   yarn-version: 1.22.19
   NX_MAX_PARALLEL: 2
 
@@ -44,10 +45,9 @@ on:
 
 jobs:
   dotnet_solution_ci:
-    uses: Energinet-DataHub/.github/.github/workflows/dotnet-solution-ci.yml@7.6.0
+    uses: Energinet-DataHub/.github/.github/workflows/dotnet-solution-ci.yml@7.7.0
     with:
       SOLUTION_FILE_PATH: 'apps/dh/api-dh/DataHub.WebApi.sln'
-      DOTNET_VERSION: '6.0.301'
       PREPARE_OUTPUTS: true
     secrets:
       AZURE_TENANT_ID: ${{ secrets.AZURE_TESTING_TENANT_ID }}
@@ -56,16 +56,15 @@ jobs:
       AZURE_KEYVAULT_URL: ${{ secrets.AZURE_TESTING_KEYVAULT_URL }}
 
   terraform_validate:
-    uses: Energinet-DataHub/.github/.github/workflows/terraform-validate.yml@7.6.0
+    uses: Energinet-DataHub/.github/.github/workflows/terraform-validate.yml@7.7.0
     with:
       TERRAFORM_WORKING_DIR_PATH: 'build/infrastructure/dh/main'
       TERRAFORM_VERSION: '1.2.2'
 
   sonarcloud_analysis:
-    uses: Energinet-DataHub/.github/.github/workflows/sonarcloud-dotnet.yml@7.6.0
+    uses: Energinet-DataHub/.github/.github/workflows/sonarcloud-dotnet.yml@7.7.0
     with:
       SOLUTION_FILE_PATH: 'apps/dh/api-dh/DataHub.WebApi.sln'
-      DOTNET_VERSION: '6.0.301'
       SONAR_CLOUD_ORGANIZATION: 'energinet-datahub'
       SONAR_CLOUD_PROJECT: 'geh-frontend-api'
     secrets:
@@ -132,7 +131,7 @@ jobs:
 
   create_prerelease:
     needs: [dotnet_solution_ci, terraform_validate, sonarcloud_analysis]
-    uses: Energinet-DataHub/.github/.github/workflows/create-prerelease.yml@7.6.0
+    uses: Energinet-DataHub/.github/.github/workflows/create-prerelease.yml@7.7.0
     with:
       CALLER_REPOSITORY_PATH: Energinet-DataHub/greenforce-frontend
     secrets:

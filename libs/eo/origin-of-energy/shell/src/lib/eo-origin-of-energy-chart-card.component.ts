@@ -30,6 +30,12 @@ import { EoOriginOfEnergyStore } from './eo-origin-of-energy.store';
     <ng-container>
       <div *ngIf="(loadingDone$ | async) === false" class="loadingObfuscator">
         <watt-spinner [diameter]="100"></watt-spinner>
+        <div class="loadingText">
+          <strong>
+            Phew, loading is taking a while, but don't worry. It usually takes 3
+            minutes, but soon it will be faster
+          </strong>
+        </div>
       </div>
       <eo-pie-chart
         [data]="[
@@ -55,12 +61,19 @@ import { EoOriginOfEnergyStore } from './eo-origin-of-energy.store';
       }
 
       .loadingObfuscator {
+        text-align: center;
         position: absolute;
         height: calc(100% - 80px);
         width: calc(100% - 32px);
         background-color: var(--watt-on-dark-high-emphasis);
-        padding-top: calc(50% - 104px);
-        padding-left: calc(50% - 64px);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .loadingText {
+        width: 210px; /* Magic UX number */
       }
     `,
   ],

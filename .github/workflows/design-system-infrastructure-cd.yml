@@ -21,7 +21,6 @@ on:
   push:
     branches:
       - main
-      - renetnielsen/new-frontend-iac
     paths:
       - build/infrastructure/design-system/**
       - .github/workflows/design-system-infrastructure-cd.yml
@@ -48,7 +47,7 @@ jobs:
         uses: hashicorp/setup-terraform@v1.2.1
         with:
           terraform_wrapper: false
-          terraform_version: 1.0.5
+          terraform_version: 1.1.2
 
       - name: Terraform CD
         uses: Energinet-DataHub/.github/.github/actions/terraform@main

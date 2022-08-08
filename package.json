@@ -2,9 +2,9 @@
   "name": "energinet-datahub",
   "version": "0.0.0",
   "license": "MIT",
-  "//engines-comment": "Keep this in sync with .nvmrc, and volta config in current package.json",
+  "//engines-comment": "Keep this in sync with '.nvmrc', and 'volta' config at the bottom of this file",
   "engines": {
-    "node": "16.15.1",
+    "node": "16.16.0",
     "npm": "Please use Yarn v1 instead of npm to install dependencies",
     "yarn": "1.22.19"
   },
@@ -156,9 +156,9 @@
     "typescript": "4.7.3"
   },
   "volta": {
-    "//node-comment": "Keep this in sync with engines in current package.json",
-    "node": "16.15.1",
-    "//yarn-comment": "Keep this in sync with github actions pipelines",
+    "//node-comment": "Keep this in sync with 'engines' config at the top of the current file",
+    "node": "16.16.0",
+    "//yarn-comment": "Keep this in sync with GitHub actions pipelines",
     "yarn": "1.22.19"
   }
 }

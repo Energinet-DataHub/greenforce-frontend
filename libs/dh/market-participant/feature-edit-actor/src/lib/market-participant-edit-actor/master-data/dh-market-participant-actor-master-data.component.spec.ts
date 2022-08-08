@@ -47,6 +47,7 @@ describe('DhMarketParticipantActorMasterDataComponent', () => {
       existingActor: false,
       actorNumber: '',
       status: 'New',
+      name: '',
     };
 
     const { view } = await setup(changes);
@@ -56,10 +57,13 @@ describe('DhMarketParticipantActorMasterDataComponent', () => {
       existingActor: false,
       actorNumber: '7071600998397',
       status: 'New',
+      name: '',
     };
 
     // act
-    const numberTextBox: HTMLInputElement = screen.getByRole('textbox');
+    const numberTextBox: HTMLInputElement = screen.getByRole('textbox', {
+      name: en.marketParticipant.actor.create.masterData.labelActorNumber,
+    });
     userEvent.type(numberTextBox, expected.actorNumber);
 
     expect(numberTextBox).toHaveValue(expected.actorNumber);
@@ -74,6 +78,7 @@ describe('DhMarketParticipantActorMasterDataComponent', () => {
       existingActor: true,
       actorNumber: '7071600998397',
       status: 'Active',
+      name: '',
     };
 
     const { view } = await setup(changes);
@@ -83,6 +88,7 @@ describe('DhMarketParticipantActorMasterDataComponent', () => {
       existingActor: true,
       actorNumber: '7071600998397',
       status: 'Inactive',
+      name: '',
     };
 
     // act
@@ -106,13 +112,16 @@ describe('DhMarketParticipantActorMasterDataComponent', () => {
       existingActor: true,
       actorNumber: '7071600998397',
       status: 'Active',
+      name: '',
     };
 
     const { view } = await setup(changes);
     await runOnPushChangeDetection(view.fixture);
 
     // act
-    const numberTextBox = screen.getByRole('textbox');
+    const numberTextBox: HTMLInputElement = screen.getByRole('textbox', {
+      name: en.marketParticipant.actor.create.masterData.labelActorNumber,
+    });
     const statusComboBox = await screen.findByRole('combobox', {
       name: en.marketParticipant.actor.create.masterData.statuses.Active,
     });
@@ -128,13 +137,16 @@ describe('DhMarketParticipantActorMasterDataComponent', () => {
       existingActor: false,
       actorNumber: '7071600998397',
       status: 'New',
+      name: '',
     };
 
     const { view } = await setup(changes);
     await runOnPushChangeDetection(view.fixture);
 
     // act
-    const numberTextBox = screen.getByRole('textbox');
+    const numberTextBox: HTMLInputElement = screen.getByRole('textbox', {
+      name: en.marketParticipant.actor.create.masterData.labelActorNumber,
+    });
     const statusComboBox = await screen.findByRole('combobox', {
       name: en.marketParticipant.actor.create.masterData.statuses.New,
     });
@@ -142,5 +154,67 @@ describe('DhMarketParticipantActorMasterDataComponent', () => {
     // assert
     expect(numberTextBox).toBeEnabled();
     expect(statusComboBox.getAttribute('aria-disabled')).toEqual('true');
+  });
+
+  test('should edit actor name for new', async () => {
+    // arrange
+    const changes: ActorChanges = {
+      existingActor: false,
+      actorNumber: '7071600998397',
+      status: 'New',
+      name: '',
+    };
+
+    const { view } = await setup(changes);
+    await runOnPushChangeDetection(view.fixture);
+
+    const expected: ActorChanges = {
+      existingActor: false,
+      actorNumber: '7071600998397',
+      status: 'New',
+      name: 'NewName',
+    };
+
+    // act
+    const nameTextBox: HTMLInputElement = screen.getByRole('textbox', {
+      name: en.marketParticipant.actor.create.masterData.labelActorName,
+    });
+    userEvent.clear(nameTextBox);
+    userEvent.type(nameTextBox, expected.name);
+
+    expect(nameTextBox).toHaveValue(expected.name);
+
+    // assert
+    expect(changes).toEqual(expected);
+  });
+
+  test('should edit name for existing', async () => {
+    // arrange
+    const changes: ActorChanges = {
+      existingActor: true,
+      actorNumber: '7071600998397',
+      status: 'Active',
+      name: 'CurrentName',
+    };
+
+    const { view } = await setup(changes);
+    await runOnPushChangeDetection(view.fixture);
+
+    const expected: ActorChanges = {
+      existingActor: true,
+      actorNumber: '7071600998397',
+      status: 'Active',
+      name: 'NewName',
+    };
+
+    // act
+    const nameTextBox: HTMLInputElement = screen.getByRole('textbox', {
+      name: en.marketParticipant.actor.create.masterData.labelActorName,
+    });
+    userEvent.clear(nameTextBox);
+    userEvent.type(nameTextBox, expected.name);
+
+    // assert
+    expect(changes).toEqual(expected);
   });
 });
