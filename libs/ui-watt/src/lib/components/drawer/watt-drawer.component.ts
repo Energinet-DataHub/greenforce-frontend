@@ -25,10 +25,7 @@ import {
   HostListener,
   Output,
   Input,
-<<<<<<< HEAD
   ElementRef,
-=======
->>>>>>> main
 } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
 
@@ -49,12 +46,9 @@ export class WattDrawerComponent implements AfterViewInit, OnDestroy {
   @Input()
   size: WattDrawerSize = 'normal';
 
-<<<<<<< HEAD
   @Input()
   loading = false;
 
-=======
->>>>>>> main
   @Output()
   closed = new EventEmitter<void>();
 
