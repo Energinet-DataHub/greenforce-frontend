@@ -14,9 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, HostListener, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
-import { map } from 'rxjs';
+import { Router, NavigationEnd } from '@angular/router';
+import { filter, map, Subject, switchMap, takeUntil, first } from 'rxjs';
+
 import {
   WattBreakpoint,
   WattBreakpointsObserver,
@@ -27,11 +29,23 @@ import {
   styleUrls: ['./shell.component.scss'],
   templateUrl: './shell.component.html',
 })
-export class WattShellComponent {
+export class WattShellComponent implements OnInit, OnDestroy {
+  /**
+   * @ignore
+   */
+  private destroy$ = new Subject<void>();
+
   /**
    * @ignore
    */
   shouldAutoFocus = false;
+
+  /**
+   * @ignore
+   */
+  private onNavigationEnd$ = this.router.events.pipe(
+    filter((event) => event instanceof NavigationEnd)
+  );
 
   /**
    * @ignore
@@ -44,16 +58,32 @@ export class WattShellComponent {
     ])
     .pipe(map((result) => result.matches));
 
-  constructor(private breakpointObserver: WattBreakpointsObserver) {}
-
   @ViewChild('drawer') sidenav!: MatSidenav;
 
-  @HostListener('click', ['$event.target.parentNode'])
-  onClick(element: HTMLElement) {
-    this.isHandset$.subscribe((isHandset) => {
-      if (isHandset && element.attributes.getNamedItem('routerlinkactive')) {
-        this.sidenav.toggle();
-      }
-    });
+  constructor(
+    private breakpointObserver: WattBreakpointsObserver,
+    private router: Router
+  ) {}
+
+  ngOnInit(): void {
+    this.closeSidenavOnNavigation();
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  private closeSidenavOnNavigation(): void {
+    this.onNavigationEnd$
+      .pipe(
+        switchMap(() => this.isHandset$.pipe(first())),
+        takeUntil(this.destroy$)
+      )
+      .subscribe((isHandset) => {
+        if (isHandset && this.sidenav && this.sidenav.opened) {
+          this.sidenav.close();
+        }
+      });
   }
 }
