@@ -31,6 +31,9 @@ describe('Feature flags service', () => {
     const isFeatureEnabled = new DhFeatureFlagsService(
       {
         current: DhAppEnvironment.local,
+        applicationInsights: {
+          instrumentationKey: '',
+        },
       },
       featureFlagMocks
     ).isEnabled('this feature flag name, does not exist' as DhFeatureFlags);
@@ -66,6 +69,9 @@ describe('Feature flags service', () => {
       const isFeatureEnabled = new DhFeatureFlagsService(
         {
           current: environment as DhAppEnvironment,
+          applicationInsights: {
+            instrumentationKey: '',
+          },
         },
         featureFlags as unknown as FeatureFlagConfig
       ).isEnabled(featureFlagName as DhFeatureFlags);
