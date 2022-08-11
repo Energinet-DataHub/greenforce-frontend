@@ -2322,7 +2322,7 @@
     "@microsoft/applicationinsights-shims" "2.0.1"
     "@microsoft/dynamicproto-js" "^1.1.6"
 
-"@microsoft/applicationinsights-angularplugin-js@^3.0.0":
+"@microsoft/applicationinsights-angularplugin-js@3.0.0":
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/@microsoft/applicationinsights-angularplugin-js/-/applicationinsights-angularplugin-js-3.0.0.tgz#a069e8a4d922f88eee14344fe27b1137fd2fe9b1"
   integrity sha512-Awh8bw0FnnTepraxJ8gDBc47clWfxwGWQ1VWl9ZcQgeDq2NoM5VtQ6/NqA83ET+9aLDUTDXUDz+sRDHSh2sxIQ==
@@ -2385,7 +2385,7 @@
   resolved "https://registry.yarnpkg.com/@microsoft/applicationinsights-shims/-/applicationinsights-shims-2.0.1.tgz#5d72fb7aaf4056c4fda54f9d7c93ccf8ca9bcbfd"
   integrity sha512-G0MXf6R6HndRbDy9BbEj0zrLeuhwt2nsXk2zKtF0TnYo39KgYqhYC2ayIzKPTm2KAE+xzD7rgyLdZnrcRvt9WQ==
 
-"@microsoft/applicationinsights-web@^2.8.6":
+"@microsoft/applicationinsights-web@2.8.6":
   version "2.8.6"
   resolved "https://registry.yarnpkg.com/@microsoft/applicationinsights-web/-/applicationinsights-web-2.8.6.tgz#f28f002c08a0e6a1b0796e77eefd23828b356e0f"
   integrity sha512-aEZwluLDkStx/s2tsRkNe7dSVpfgLHOOFzDacfq/cVs7uEZF0Mj5/M4sFsPYGhqmx5eAMiv+tt/IUXw+kAW8Xw==
