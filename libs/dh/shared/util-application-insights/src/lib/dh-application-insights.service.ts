@@ -17,7 +17,11 @@
 import { Inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { AngularPlugin } from '@microsoft/applicationinsights-angularplugin-js';
-import { ApplicationInsights } from '@microsoft/applicationinsights-web';
+import {
+  ApplicationInsights,
+  IExceptionTelemetry,
+  IPageViewTelemetry,
+} from '@microsoft/applicationinsights-web';
 
 import {
   DhAppEnvironmentConfig,
@@ -57,11 +61,35 @@ export class DhApplicationInsights {
     this.appInsights.loadAppInsights();
   }
 
+  /**
+   * Log a user action or other occurrence.
+   * @param name
+   */
   trackEvent(name: string): void {
     this.appInsights.trackEvent({ name });
   }
 
+  /**
+   * Log a diagnostic scenario such entering or leaving a function.
+   * @param message
+   */
   trackTrace(message: string): void {
     this.appInsights.trackTrace({ message });
+  }
+
+  /**
+   * Logs that a page, or similar container was displayed to the user.
+   * @param pageView
+   */
+  trackPageView(pageView: IPageViewTelemetry): void {
+    this.appInsights.trackPageView(pageView);
+  }
+
+  /**
+   * Log an exception that you have caught.
+   * @param exception
+   */
+  trackException(exception: IExceptionTelemetry): void {
+    this.appInsights.trackException(exception);
   }
 }
