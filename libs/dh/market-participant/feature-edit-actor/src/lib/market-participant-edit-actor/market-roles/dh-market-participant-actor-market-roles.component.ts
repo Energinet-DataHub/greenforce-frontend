@@ -175,7 +175,7 @@ export class DhMarketParticipantActorMarketRolesComponent implements OnChanges {
   };
 
   readonly onRowDelete = (row: EditableMarketRoleRow) => {
-    if (row.existing && this.actorStatus !== ActorStatus.New) return;
+    if (this.isReadonly(row)) return;
 
     const copy = [...this.rows];
     const index = copy.indexOf(row);
@@ -189,6 +189,9 @@ export class DhMarketParticipantActorMarketRolesComponent implements OnChanges {
   readonly onRowAdd = () => {
     this.rows = [...this.rows, { existing: false }];
   };
+
+  readonly isReadonly = (row: EditableMarketRoleRow) =>
+    row.existing && this.actorStatus !== ActorStatus.New;
 }
 
 @NgModule({
