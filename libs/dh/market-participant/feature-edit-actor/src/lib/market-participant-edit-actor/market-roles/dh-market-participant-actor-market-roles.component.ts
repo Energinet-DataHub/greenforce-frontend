@@ -187,7 +187,7 @@ export class DhMarketParticipantActorMarketRolesComponent implements OnChanges {
   };
 
   readonly onRowAdd = () => {
-    this.rows = [...this.rows, { existing: false }];
+    this.rows = [...this.rows, { existing: false, meteringPointTypes: this.availableMeteringPointTypes }];
   };
 
   readonly isReadonly = (row: EditableMarketRoleRow) =>
