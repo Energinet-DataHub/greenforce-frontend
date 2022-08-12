@@ -38,6 +38,7 @@ import {
 } from '@energinet-datahub/watt';
 import {
   ActorMarketRoleDto,
+  ActorStatus,
   EicFunction,
   GridAreaDto,
   MarketParticipantMeteringPointType,
@@ -47,6 +48,7 @@ import { MarketRoleChanges } from '@energinet-datahub/dh/market-participant/data
 import { MarketRoleGroupService } from './market-role-group.service';
 
 export interface EditableMarketRoleRow {
+  existing: boolean;
   marketRole?: EicFunction;
   gridArea?: string;
   meteringPointTypes?: MarketParticipantMeteringPointType[];
@@ -60,8 +62,8 @@ export interface EditableMarketRoleRow {
   providers: [MarketRoleService, MarketRoleGroupService],
 })
 export class DhMarketParticipantActorMarketRolesComponent implements OnChanges {
+  @Input() actorStatus?: ActorStatus;
   @Input() gridAreas: GridAreaDto[] = [];
-
   @Input() actorMarketRoles?: ActorMarketRoleDto[] = [];
 
   @Output() changed = new EventEmitter<MarketRoleChanges>();
@@ -103,6 +105,7 @@ export class DhMarketParticipantActorMarketRolesComponent implements OnChanges {
       this.actorMarketRoles.forEach((marketRole) =>
         marketRole.gridAreas.forEach((gridArea) =>
           rows.push({
+            existing: true,
             marketRole: marketRole.eicFunction,
             gridArea: gridArea.id,
             meteringPointTypes: gridArea.meteringPointTypes,
@@ -172,6 +175,8 @@ export class DhMarketParticipantActorMarketRolesComponent implements OnChanges {
   };
 
   readonly onRowDelete = (row: EditableMarketRoleRow) => {
+    if (row.existing && this.actorStatus !== ActorStatus.New) return;
+
     const copy = [...this.rows];
     const index = copy.indexOf(row);
     copy.splice(index, 1);
@@ -182,7 +187,7 @@ export class DhMarketParticipantActorMarketRolesComponent implements OnChanges {
   };
 
   readonly onRowAdd = () => {
-    this.rows = [...this.rows, {}];
+    this.rows = [...this.rows, { existing: false }];
   };
 }
 

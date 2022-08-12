@@ -23,6 +23,7 @@ limitations under the License.
       <mat-cell *matCellDef="let element" class="field">
         <watt-form-field>
           <watt-dropdown
+            [disabled]="element.existing && actorStatus !== 'New'"
             [attr.aria-label]="t('marketRole')"
             required
             [options]="marketRoles"
@@ -39,6 +40,7 @@ limitations under the License.
       <mat-cell *matCellDef="let element" class="field">
         <watt-form-field>
           <watt-dropdown
+            [disabled]="element.existing && actorStatus !== 'New'"
             [attr.aria-label]="t('gridArea')"
             required
             [options]="gridAreaOptions"
@@ -57,6 +59,7 @@ limitations under the License.
       <mat-cell *matCellDef="let element" class="field">
         <watt-form-field>
           <watt-dropdown
+            [disabled]="element.existing && actorStatus !== 'New'"
             [attr.aria-label]="t('meteringPointTypes')"
             required
             [multiple]="true"
@@ -73,6 +76,7 @@ limitations under the License.
       <mat-header-cell mat-header-cell *matHeaderCellDef></mat-header-cell>
       <mat-cell *matCellDef="let element">
         <watt-button
+          [disabled]="element.existing && actorStatus !== 'New'"
           variant="icon"
           icon="remove"
           (click)="onRowDelete(element)"
