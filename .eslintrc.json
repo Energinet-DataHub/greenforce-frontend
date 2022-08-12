@@ -79,7 +79,11 @@
               },
               {
                 "sourceTag": "type:util",
-                "onlyDependOnLibsWithTags": ["type:util", "type:test-util"]
+                "onlyDependOnLibsWithTags": [
+                  "type:util",
+                  "type:test-util",
+                  "type:environments"
+                ]
               },
               {
                 "sourceTag": "type:test-util",
