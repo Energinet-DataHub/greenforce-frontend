@@ -1,7 +1,6 @@
-
 # Logging with Application Insights
 
-Page views will be tracked by default when router changes occur. Note that this doesn't include **overlays** (see `trackPageView` for more information). 
+Page views will be tracked by default when router changes occur. Note that this doesn't include **overlays** (see `trackPageView` for more information).
 
 Uncaught browser exceptions will also be tracked by default for manually logging exceptions (see `trackException`).
 
@@ -17,7 +16,7 @@ constructor(private insights: DhApplicationInsights) {}
 
 ### trackEvent
 
-Log a user action or other occurrence. 
+Log a user action or other occurrence.
 
 ```ts
 DhApplicationInsights.trackEvent('some event');
@@ -45,8 +44,8 @@ Log an exception that you have caught.
 
 ```ts
 DhApplicationInsights.trackException({
- exception: new Error('some error'),
- severityLevel: 3 // Severity level of error
+  exception: new Error('some error'),
+  severityLevel: 3, // Severity level of error
 });
 ```
 
