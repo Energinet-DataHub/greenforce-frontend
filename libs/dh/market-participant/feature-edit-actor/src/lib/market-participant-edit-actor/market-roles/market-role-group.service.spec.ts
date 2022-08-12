@@ -25,19 +25,19 @@ describe(MarketRoleGroupService.name, () => {
     const target = new MarketRoleGroupService();
     const input: EditableMarketRoleRow[] = [
       {
-        existing:true,
+        existing: true,
         marketRole: EicFunction.Agent,
         gridArea: 'ga1',
         meteringPointTypes: [],
       },
       {
-        existing:true,
+        existing: true,
         marketRole: EicFunction.BalanceResponsibleParty,
         gridArea: 'ga3',
         meteringPointTypes: [],
       },
       {
-        existing:true,
+        existing: true,
         marketRole: EicFunction.Agent,
         gridArea: 'ga2',
         meteringPointTypes: [],
