@@ -17,7 +17,10 @@
 import { Inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { AngularPlugin } from '@microsoft/applicationinsights-angularplugin-js';
-import { ApplicationInsights } from '@microsoft/applicationinsights-web';
+import {
+  ApplicationInsights,
+  SeverityLevel,
+} from '@microsoft/applicationinsights-web';
 
 import {
   DhAppEnvironmentConfig,
@@ -85,7 +88,7 @@ export class DhApplicationInsights {
    * Log an exception that you have caught.
    * @param exception
    */
-  trackException(exception: Error): void {
-    this.appInsights.trackException({ exception });
+  trackException(exception: Error, severityLevel: SeverityLevel): void {
+    this.appInsights.trackException({ exception, severityLevel });
   }
 }
