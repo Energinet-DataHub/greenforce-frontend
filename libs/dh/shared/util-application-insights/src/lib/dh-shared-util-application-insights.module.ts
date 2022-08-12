@@ -21,12 +21,13 @@ import {
   SkipSelf,
 } from '@angular/core';
 
-import { DhApplicationInsights } from './dh-application-insights.service';
+import { applicationInsightsInitializer } from './dh-application-insights.initializer';
 
-@NgModule()
+@NgModule({
+  providers: [applicationInsightsInitializer],
+})
 export class DhSharedUtilApplicationInsightsRootModule {
   constructor(
-    private applicationInsights: DhApplicationInsights,
     @Optional()
     @SkipSelf()
     maybeNgModuleFromParentInjector?: DhSharedUtilApplicationInsightsRootModule
@@ -36,8 +37,6 @@ export class DhSharedUtilApplicationInsightsRootModule {
         'DhSharedUtilApplicationInsightsRootModule.forRoot() registered in multiple injectors. Only call it from the core feature shell module or in the Angular testing module.'
       );
     }
-
-    this.applicationInsights.init();
   }
 }
 
@@ -46,7 +45,7 @@ export class DhSharedUtilApplicationInsightsRootModule {
  */
 @NgModule()
 export class DhSharedUtilApplicationInsightsModule {
-  static forRoot(): ModuleWithProviders<DhSharedUtilApplicationInsightsModule> {
+  static forRoot(): ModuleWithProviders<DhSharedUtilApplicationInsightsRootModule> {
     return {
       ngModule: DhSharedUtilApplicationInsightsRootModule,
     };
