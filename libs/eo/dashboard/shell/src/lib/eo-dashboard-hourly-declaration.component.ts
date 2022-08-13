@@ -17,35 +17,34 @@
 
 import { Component, NgModule } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
-import { EoOriginOfEnergyPieChartScam } from './eo-origin-of-energy-pie-chart.component';
 
 @Component({
-  selector: 'eo-origin-of-energy-chart-card',
+  selector: 'eo-dashboard-hourly-declaration',
   template: ` <mat-card>
-    <h3>Your share of renewable energy in 2021</h3>
-    <p>Based on the hourly declaration</p>
-    <div class="chart-box">
-      <eo-origin-of-energy-pie-chart></eo-origin-of-energy-pie-chart>
-    </div>
+    <h3>Hourly declaration</h3>
+    <p class="watt-space-stack-m">
+      The hourly declaration describes the origin of the energy you have
+      consumed within a given period as well as the corresponding emissions.
+    </p>
+    <p>
+      The declaration is calculated as a weighted average based on your hourly
+      electricity consumption and the corresponding hourly residual mix in your
+      bidding zone.
+    </p>
   </mat-card>`,
   styles: [
     `
       :host {
         display: block;
       }
-
-      .chart-box {
-        margin: 16px 56px;
-        width: 440px;
-      }
     `,
   ],
 })
-export class EoOriginOfEnergyChartCardComponent {}
+export class EoDashboardHourlyDeclarationComponent {}
 
 @NgModule({
-  declarations: [EoOriginOfEnergyChartCardComponent],
-  exports: [EoOriginOfEnergyChartCardComponent],
-  imports: [EoOriginOfEnergyPieChartScam, MatCardModule],
+  declarations: [EoDashboardHourlyDeclarationComponent],
+  exports: [EoDashboardHourlyDeclarationComponent],
+  imports: [MatCardModule],
 })
-export class EoOriginOfEnergyChartCardScam {}
+export class EoDashboardHourlyDeclarationScam {}
