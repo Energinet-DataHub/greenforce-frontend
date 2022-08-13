@@ -17,7 +17,7 @@
 import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { EoMediaModule } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
-import { EoOriginOfEnergyPieChartScam } from './eo-origin-of-energy-chart-card.component';
+import { EoOriginOfEnergyChartCardScam } from './eo-origin-of-energy-chart-card.component';
 import { EoOriginOfEnergyChartTipsScam } from './eo-origin-of-energy-chart-tips.component';
 import { EoOriginOfEnergyGlobalGoalsMediaScam } from './eo-origin-of-energy-global-goals-media.component';
 import { EoOriginOfEnergyHourlyDeclarationScam } from './eo-origin-of-energy-hourly-declaration.component';
@@ -48,7 +48,7 @@ import { EoOriginOfEnergyWhatIsItScam } from './eo-origin-of-energy-what-is-it.c
     `,
   ],
   template: `<div class="chart-row">
-      <eo-origin-of-energy-pie-chart></eo-origin-of-energy-pie-chart>
+      <eo-origin-of-energy-chart-card></eo-origin-of-energy-chart-card>
       <div>
         <eo-origin-of-energy-global-goals-media
           class="watt-space-stack-l"
@@ -74,7 +74,7 @@ export class EoOriginOfEnergyShellComponent {}
     EoMediaModule,
     MatCardModule,
     EoOriginOfEnergyWhatIsItScam,
-    EoOriginOfEnergyPieChartScam,
+    EoOriginOfEnergyChartCardScam,
     EoOriginOfEnergyGlobalGoalsMediaScam,
     EoOriginOfEnergyChartTipsScam,
     EoOriginOfEnergyRenewableEnergyScam,

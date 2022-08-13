@@ -104,7 +104,6 @@ export class EoMeteringPointListComponent {
 }
 
 @NgModule({
-  providers: [EoMeteringPointsStore],
   declarations: [EoMeteringPointListComponent],
   exports: [EoMeteringPointListComponent],
   imports: [CommonModule],

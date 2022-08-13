@@ -77,7 +77,6 @@ export class EoConsumptionLineChartComponent {
 }
 
 @NgModule({
-  providers: [EoConsumptionStore],
   declarations: [EoConsumptionLineChartComponent],
   exports: [EoConsumptionLineChartComponent],
   imports: [MatCardModule, EoLineChartScam, CommonModule, WattSpinnerModule],

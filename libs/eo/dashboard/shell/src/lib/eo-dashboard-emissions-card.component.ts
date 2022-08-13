@@ -17,16 +17,15 @@
 
 import { Component, NgModule } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
-import { EoOriginOfEnergyPieChartScam } from './eo-origin-of-energy-pie-chart.component';
+import { EoEmissionsDataScam } from '@energinet-datahub/eo/emissions/shell';
 
 @Component({
-  selector: 'eo-origin-of-energy-chart-card',
+  selector: 'eo-dashboard-emissions-card',
   template: ` <mat-card>
-    <h3>Your share of renewable energy in 2021</h3>
-    <p>Based on the hourly declaration</p>
-    <div class="chart-box">
-      <eo-origin-of-energy-pie-chart></eo-origin-of-energy-pie-chart>
-    </div>
+    <h3 class="watt-space-stack-s">Emissions</h3>
+    <p class="watt-space-stack-s">Your emissions in 2021</p>
+
+    <eo-emissions-data></eo-emissions-data>
   </mat-card>`,
   styles: [
     `
@@ -35,17 +34,16 @@ import { EoOriginOfEnergyPieChartScam } from './eo-origin-of-energy-pie-chart.co
       }
 
       .chart-box {
-        margin: 16px 56px;
-        width: 440px;
+        margin: 0 16px;
       }
     `,
   ],
 })
-export class EoOriginOfEnergyChartCardComponent {}
+export class EoDashboardEmissionsCardComponent {}
 
 @NgModule({
-  declarations: [EoOriginOfEnergyChartCardComponent],
-  exports: [EoOriginOfEnergyChartCardComponent],
-  imports: [EoOriginOfEnergyPieChartScam, MatCardModule],
+  declarations: [EoDashboardEmissionsCardComponent],
+  exports: [EoDashboardEmissionsCardComponent],
+  imports: [MatCardModule, EoEmissionsDataScam],
 })
-export class EoOriginOfEnergyChartCardScam {}
+export class EoDashboardEmissionsCardScam {}
