@@ -21,6 +21,9 @@ import { environment } from '../environment';
 
 export interface DhAppEnvironmentConfig {
   current: DhAppEnvironment;
+  applicationInsights: {
+    instrumentationKey: string;
+  };
 }
 
 export enum DhAppEnvironment {

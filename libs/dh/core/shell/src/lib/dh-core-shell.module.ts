@@ -42,11 +42,11 @@ import { dhB2CEnvironmentToken } from '@energinet-datahub/dh/shared/environments
 import { dhMarketParticipantPath } from '@energinet-datahub/dh/market-participant/routing';
 import { dhMeteringPointPath } from '@energinet-datahub/dh/metering-point/routing';
 import { WattDanishDatetimeModule } from '@energinet-datahub/watt';
-
 import {
   DhCoreShellComponent,
   DhCoreShellScam,
 } from './dh-core-shell.component';
+import { DhSharedUtilApplicationInsightsModule } from '@energinet-datahub/dh/shared/util-application-insights';
 
 const routes: Routes = [
   {
@@ -106,6 +106,7 @@ const routes: Routes = [
     MsalModule,
     DhConfigurationLocalizationModule.forRoot(),
     WattDanishDatetimeModule.forRoot(),
+    DhSharedUtilApplicationInsightsModule.forRoot(),
     RouterModule.forRoot(routes, {
       anchorScrolling: 'enabled',
       // Don't perform initial navigation in iframes or popups
