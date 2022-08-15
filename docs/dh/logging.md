@@ -49,7 +49,7 @@ DhApplicationInsights.trackException({
 });
 ```
 
-## Common queries
+## Common queries for Application Insights in Azure Portal
 
 The best way to get started learning to write log queries using KQL is leveraging [available tutorials and samples](https://docs.microsoft.com/en-us/azure/azure-monitor/logs/log-query-overview#getting-started).
 
