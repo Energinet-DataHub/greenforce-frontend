@@ -107,7 +107,7 @@ describe(WattButtonComponent.name, () => {
     expect(screen.getByRole('button')).toHaveClass('mat-button-disabled');
   });
 
-  it('renders loading spinner, but no text, when loading is true ', async () => {
+  it('renders loading spinner, but no text, when loading is true', async () => {
     await renderComponent({ loading: true, text: 'Text' });
 
     expect(screen.getByRole('progressbar')).toBeInTheDocument();
