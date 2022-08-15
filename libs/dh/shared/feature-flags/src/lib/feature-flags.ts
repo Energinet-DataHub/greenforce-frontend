@@ -40,6 +40,11 @@ const makeFeatureFlags = satisfies<FeatureFlagConfig>();
  *   disabledEnvironments: [DhAppEnvironment.prod],
  * },
  */
-export const dhFeatureFlagsConfig = makeFeatureFlags({});
+export const dhFeatureFlagsConfig = makeFeatureFlags({
+  start_wholesale_process_feature_flag: {
+    created: '15-08-2022',
+    disabledEnvironments: [DhAppEnvironment.prod],
+  },
+});
 
 export type DhFeatureFlags = keyof typeof dhFeatureFlagsConfig;
