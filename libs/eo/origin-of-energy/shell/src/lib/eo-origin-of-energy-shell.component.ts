@@ -36,7 +36,7 @@ import { EoOriginOfEnergyWhatIsItScam } from './eo-origin-of-energy-what-is-it.c
       .chart-row {
         display: grid;
         margin-bottom: var(--watt-space-l);
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: 584px 1fr;
         gap: var(--watt-space-l);
       }
 

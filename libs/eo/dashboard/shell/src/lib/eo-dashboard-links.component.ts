@@ -69,7 +69,7 @@ import { MatCardModule } from '@angular/material/card';
       }
 
       ul li {
-        --circle-size: 8px;
+        --circle-size: 8px; /* Magic UX number */
       }
     `,
   ],

@@ -35,7 +35,7 @@ import { EoOriginOfEnergyPieChartScam } from '@energinet-datahub/eo/origin-of-en
       }
 
       .chart-box {
-        margin: 0 16px;
+        margin: 0 var(--watt-space-m);
       }
     `,
   ],

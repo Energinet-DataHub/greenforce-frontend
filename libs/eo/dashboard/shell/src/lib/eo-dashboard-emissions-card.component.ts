@@ -24,17 +24,12 @@ import { EoEmissionsDataScam } from '@energinet-datahub/eo/emissions/shell';
   template: ` <mat-card>
     <h3 class="watt-space-stack-s">Emissions</h3>
     <p class="watt-space-stack-s">Your emissions in 2021</p>
-
     <eo-emissions-data></eo-emissions-data>
   </mat-card>`,
   styles: [
     `
       :host {
         display: block;
-      }
-
-      .chart-box {
-        margin: 0 16px;
       }
     `,
   ],

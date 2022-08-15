@@ -31,11 +31,17 @@ import { EoDashboardLinksScam } from './eo-dashboard-links.component';
       :host {
         display: block;
       }
+
+      .shell-container {
+        display: grid;
+        grid-template-columns: 375px 375px;
+        gap: var(--watt-space-l);
+      }
     `,
   ],
   template: `
-    <div style="display: grid; grid-template-columns: 375px 375px; gap: 32px;">
-      <div style="display:flex; flex-direction: column;">
+    <div class="shell-container">
+      <div>
         <eo-dashboard-chart-card
           class="watt-space-stack-l"
         ></eo-dashboard-chart-card>

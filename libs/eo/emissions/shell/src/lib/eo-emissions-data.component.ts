@@ -28,12 +28,17 @@ import { EoEmissionsStore } from './eo-emissions.store';
       :host {
         display: block;
       }
+
+      .data-container {
+        display: flex;
+        align-items: flex-end;
+        gap: 12px; /* Magic UX number */
+        min-height: 42px; /* To prevent height change after loading data */
+      }
     `,
   ],
   template: `
-    <div
-      style="display: flex; align-items: flex-end; gap: 12px; min-height: 42px;"
-    >
+    <div class="data-container">
       <h1 *ngIf="loadingDone$ | async; else loading">
         {{ convertToKg((totalCO2$ | async)?.value || 0).toLocaleString() }} kg
       </h1>
