@@ -14,6 +14,5 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-export * from './lib/eo-emissions-data.component';
-export * from './lib/eo-emissions-shell.module';
+export * from './lib/dh-shared-util-application-insights.module';
+export * from './lib/dh-application-insights.service';

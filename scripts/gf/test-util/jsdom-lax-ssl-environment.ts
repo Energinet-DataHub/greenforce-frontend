@@ -33,7 +33,7 @@ class JsdomLaxSslEnvironment extends JSDOMEnvironment {
             // this is all we want to change
             // allow self-signed certificates
             strictSSL: false,
-            userAgent: config.testEnvironmentOptions?.userAgent as
+            userAgent: config.testEnvironmentOptions?.['userAgent'] as
               | string
               | undefined,
           }),

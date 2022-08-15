@@ -14,6 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import 'jest-preset-angular/setup-jest';
 
-export * from './lib/eo-emissions-data.component';
-export * from './lib/eo-emissions-shell.module';
+import { addNgModuleMatchers } from '@energinet-datahub/gf/test-util-matchers';
+import {
+  setUpNgMocks,
+  setUpTestbed,
+} from '@energinet-datahub/gf/test-util-staging';
+
+addNgModuleMatchers();
+
+setUpTestbed();
+setUpNgMocks();

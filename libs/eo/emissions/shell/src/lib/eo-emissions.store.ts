@@ -35,7 +35,9 @@ interface EoEmissionsState {
   emissions: EoEmissions;
 }
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class EoEmissionsStore extends ComponentStore<EoEmissionsState> {
   constructor(private service: EoEmissionsService) {
     super({

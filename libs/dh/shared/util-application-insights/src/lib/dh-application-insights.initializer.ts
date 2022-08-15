@@ -14,6 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { APP_INITIALIZER, FactoryProvider } from '@angular/core';
 
-export * from './lib/eo-emissions-data.component';
-export * from './lib/eo-emissions-shell.module';
+import { DhApplicationInsights } from './dh-application-insights.service';
+
+export const applicationInsightsInitializer: FactoryProvider = {
+  multi: true,
+  provide: APP_INITIALIZER,
+  useFactory: (applicationInsights: DhApplicationInsights) => (): void =>
+    applicationInsights.init(),
+  deps: [DhApplicationInsights],
+};
