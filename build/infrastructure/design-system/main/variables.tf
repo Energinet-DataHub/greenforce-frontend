@@ -11,21 +11,31 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+variable subscription_id {
+  type        = string
+  description = "Subscription that the infrastructure code is deployed into."
+}
+
 variable resource_group_name {
-  type = string
+  type        = string
+  description = "Resource Group that the infrastructure code is deployed into."
 }
 
-variable environment {
-  type        = string
-  description = "Enviroment that the infrastructure code is deployed into"
+variable environment_short {
+  type          = string
+  description   = "Enviroment that the infrastructure code is deployed into."
 }
 
-variable project {
-  type        = string
-  description = "Project that is running the infrastructure code"
+variable environment_instance {
+  type          = string
+  description   = "Enviroment instance that the infrastructure code is deployed into."
 }
 
-variable organisation {
-  type        = string
-  description = "Organisation that is running the infrastructure code"
+variable domain_name_short {
+  type          = string
+  description   = "Shortest possible edition of the domain name."
+}
+
+variable project_name {
+  type          = string
 }
