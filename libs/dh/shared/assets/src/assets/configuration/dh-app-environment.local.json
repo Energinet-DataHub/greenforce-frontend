@@ -1,3 +1,6 @@
 {
-  "current": "localhost"
+  "current": "u-001",
+  "applicationInsights": {
+    "instrumentationKey": "<Instrumentation Key>"
+  }
 }

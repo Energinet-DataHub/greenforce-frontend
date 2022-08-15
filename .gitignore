@@ -19,7 +19,6 @@
 
 # Frontend configuration files
 **/configuration/**/*.json
-!**/configuration/**/*.local.json
 !**/configuration/**/eo-*.json
 
 # User-specific files
