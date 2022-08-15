@@ -24,15 +24,6 @@ import { WattButtonModule } from '@energinet-datahub/watt';
   selector: 'eo-cookie-banner',
   styles: [
     `
-      .checkboxes {
-        display: flex;
-        align-items: center;
-      }
-
-      .checkbox {
-        margin: 0 var(--watt-space-m);
-      }
-
       .banner {
         position: fixed;
         z-index: 100;
@@ -57,12 +48,6 @@ import { WattButtonModule } from '@energinet-datahub/watt';
       watt-button ::ng-deep button {
         width: 160px; //Magic UX number
       }
-
-      .vertical-divider {
-        height: 20px;
-        border-right: 1px solid var(--watt-color-primary);
-        margin: 0 var(--watt-space-m) 0 var(--watt-space-s);
-      }
     `,
   ],
   template: `
@@ -78,26 +63,10 @@ import { WattButtonModule } from '@energinet-datahub/watt';
           below.
         </p>
         <div class="buttons">
-          <watt-button variant="secondary" (click)="saveOnlyFunctionalCookies()"
-            >Functional only</watt-button
+          <watt-button variant="secondary" (click)="acceptNecessaryCookies()"
+            >Only necessary</watt-button
           >
-          <watt-button (click)="saveCookieSettings()">OK</watt-button>
-        </div>
-        <div class="checkboxes">
-          <label for="essential">Functional</label>
-          <input
-            class="checkbox"
-            type="checkbox"
-            [(ngModel)]="cookies.functionalEnabled"
-            disabled
-          />
-          <div class="vertical-divider"></div>
-          <label for="statistical">Statistical</label>
-          <input
-            class="checkbox"
-            type="checkbox"
-            [(ngModel)]="cookies.statisticalEnabled"
-          />
+          <watt-button (click)="acceptAllCookies()">Accept all</watt-button>
         </div>
       </mat-card>
     </div>
@@ -111,8 +80,13 @@ export class EoCookieBannerComponent {
 
   @Output() accepted = new EventEmitter<boolean>();
 
-  saveOnlyFunctionalCookies() {
+  acceptNecessaryCookies() {
     this.cookies.statisticalEnabled = false;
+    this.saveCookieSettings();
+  }
+
+  acceptAllCookies() {
+    this.cookies.statisticalEnabled = true;
     this.saveCookieSettings();
   }
 

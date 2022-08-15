@@ -201,6 +201,12 @@
       "@energinet-datahub/eo/privacy-policy/shell": [
         "libs/eo/privacy-policy/shell/src/index.ts"
       ],
+      "@energinet-datahub/eo/production/routing": [
+        "libs/eo/production/routing/src/index.ts"
+      ],
+      "@energinet-datahub/eo/production/shell": [
+        "libs/eo/production/shell/src/index.ts"
+      ],
       "@energinet-datahub/eo/shared/assets": [
         "libs/eo/shared/assets/src/index.ts"
       ],

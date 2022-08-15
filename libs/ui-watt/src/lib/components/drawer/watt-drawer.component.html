@@ -16,8 +16,7 @@ limitations under the License.
 -->
 <mat-drawer-container class="watt-drawer-container" [hasBackdrop]="false">
   <mat-drawer
-    class="watt-drawer watt-space-inset-s"
-    [ngClass]="{ 'watt-drawer--open': opened }"
+    class="watt-drawer watt-space-inset-s watt-drawer--{{ size }}"
     mode="side"
     position="end"
     [opened]="opened"

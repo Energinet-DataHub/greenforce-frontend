@@ -24,6 +24,7 @@ env:
   is-pull-request: ${{ github.event_name == 'pull_request' }}
   NODE_OPTIONS: --max-old-space-size=6144
   node-version-file: .nvmrc
+  # keep in sync with "engines.yarn" and "volta.yarn" in "package.json"
   yarn-version: 1.22.19
   NX_MAX_PARALLEL: 2
 

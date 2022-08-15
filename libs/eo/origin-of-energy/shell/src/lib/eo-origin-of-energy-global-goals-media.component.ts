@@ -22,11 +22,11 @@ import { Component, NgModule } from '@angular/core';
     <img
       src="/assets/images/origin-of-energy/un-global-goal-7.2.svg"
       alt="UN Global goal 7.2"
-      style="max-width: 100px;"
+      style="height: 128px;"
     />
     <p class="watt-space-inset-m">
       <strong>Global goals 7.2</strong><br />
-      increase the share of renewable energy globally
+      increase the share of renewable energy globally [United Nations]
     </p>
   </div>`,
   styles: [
@@ -38,7 +38,10 @@ import { Component, NgModule } from '@angular/core';
       .global-goals-box {
         display: flex;
         border: 1px solid var(--watt-color-state-warning);
-        max-height: 102px; /* Magic UX number that makes the box fit the text and margin */
+
+        p {
+          padding-right: var(--watt-space-s);
+        }
       }
     `,
   ],
