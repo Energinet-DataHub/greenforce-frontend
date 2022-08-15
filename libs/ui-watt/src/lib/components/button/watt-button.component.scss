@@ -51,6 +51,11 @@
   outline: 2px solid var(--watt-color-primary);
 }
 
+watt-button.watt-button--disabled {
+  // Prevents emitting a click event in Chrome/Edge/Safari when a disabled button is clicked
+  pointer-events: none;
+}
+
 .mat-button {
   @include watt.typography-font-weight("semi-bold");
   @include watt.typography-font-size("m");
