@@ -113,7 +113,7 @@ Allowed dependencies to: `data-access`, `routing`, `util`, `test-util`, `shell`,
 ### Utility libraries
 
 A utility library contains low-level utilities used by many libraries and applications (services, pure functions, contants).
-Allowed dependencies to: `util`, `test-util`.
+Allowed dependencies to: `util`, `test-util`, `environments`.
 
 ### Test-util libraries
 
