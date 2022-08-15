@@ -66,6 +66,9 @@ export class WattButtonComponent {
   @Input() disabled = false;
   @Input() loading = false;
 
+  /**
+   * @ignore
+   */
   @HostBinding('class.watt-button--disabled')
   get buttonDisabledState() {
     return this.disabled;
