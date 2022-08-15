@@ -17,6 +17,11 @@
 import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
 import { EoInlineMessageScam } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 import { WattIconModule, WattIconSize } from '@energinet-datahub/watt';
+import { EoDashboardChartCardScam } from './eo-dashboard-chart-card.component';
+import { EoDashboardEmissionsCardScam } from './eo-dashboard-emissions-card.component';
+import { EoDashboardGetDataScam } from './eo-dashboard-get-data.component';
+import { EoDashboardHourlyDeclarationScam } from './eo-dashboard-hourly-declaration.component';
+import { EoDashboardLinksScam } from './eo-dashboard-links.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -26,9 +31,32 @@ import { WattIconModule, WattIconSize } from '@energinet-datahub/watt';
       :host {
         display: block;
       }
+
+      .shell-container {
+        display: grid;
+        grid-template-columns: 375px 375px;
+        gap: var(--watt-space-l);
+      }
     `,
   ],
   template: `
+    <div class="shell-container">
+      <div>
+        <eo-dashboard-chart-card
+          class="watt-space-stack-l"
+        ></eo-dashboard-chart-card>
+        <eo-dashboard-links class="watt-space-stack-l"></eo-dashboard-links>
+      </div>
+      <div>
+        <eo-dashboard-emissions-card
+          class="watt-space-stack-l"
+        ></eo-dashboard-emissions-card>
+        <eo-dashboard-hourly-declaration
+          class="watt-space-stack-l"
+        ></eo-dashboard-hourly-declaration>
+        <eo-dashboard-get-data></eo-dashboard-get-data>
+      </div>
+    </div>
     <eo-inline-message type="warning">
       <watt-icon name="primary_info" [size]="iconSize.Large"></watt-icon>
       <p>
@@ -54,6 +82,14 @@ export class EoDashboardShellComponent {
 @NgModule({
   declarations: [EoDashboardShellComponent],
   exports: [EoDashboardShellComponent],
-  imports: [WattIconModule, EoInlineMessageScam],
+  imports: [
+    WattIconModule,
+    EoInlineMessageScam,
+    EoDashboardLinksScam,
+    EoDashboardGetDataScam,
+    EoDashboardHourlyDeclarationScam,
+    EoDashboardChartCardScam,
+    EoDashboardEmissionsCardScam,
+  ],
 })
 export class EoDashboardShellScam {}

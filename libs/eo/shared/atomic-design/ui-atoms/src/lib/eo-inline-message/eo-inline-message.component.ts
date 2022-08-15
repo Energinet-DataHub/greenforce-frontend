@@ -71,7 +71,7 @@ const selector = 'eo-inline-message';
       }
 
       .${selector}--warning {
-        background: var(--watt-color-state-warning);
+        background: var(--watt-color-secondary-light);
         color: var(--watt-color-primary-dark);
       }
     `,
