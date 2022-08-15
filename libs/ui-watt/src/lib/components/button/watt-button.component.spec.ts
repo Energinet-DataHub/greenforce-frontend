@@ -15,6 +15,8 @@
  * limitations under the License.
  */
 import { render, screen } from '@testing-library/angular';
+import userEvent from '@testing-library/user-event';
+
 import { WattIcon } from '../../foundations/icon';
 import {
   WattButtonComponent,
@@ -33,21 +35,34 @@ interface WattButtonOptionsType {
   variant?: WattButtonVariant;
   size?: WattButtonSize;
   type?: WattButtonType;
+  onClick?: jest.Mock;
 }
 
 describe(WattButtonComponent.name, () => {
   const renderComponent = async ({ ...options }: WattButtonOptionsType) => {
-    await render(
+    return await render(
       `<watt-button
-        variant=${options.variant}
-        size=${options.size}
-        icon=${options.icon}
-        type=${options.type}
-        [loading]=${options.loading}
-        [disabled]=${options.disabled}>
+        variant="${options.variant}"
+        size="${options.size}"
+        icon="${options.icon}"
+        type="${options.type}"
+        [loading]="${options.loading}"
+        [disabled]="${options.disabled}"
+        (click)="clickFn()">
           ${options.text ?? 'Text'}
       </watt-button>`,
-      { imports: [WattButtonModule] }
+      {
+        imports: [WattButtonModule],
+        componentProperties: {
+          clickFn: () => {
+            console.log('Click fired');
+
+            if (options.onClick) {
+              options.onClick();
+            }
+          },
+        },
+      }
     );
   };
 
@@ -102,9 +117,22 @@ describe(WattButtonComponent.name, () => {
   });
 
   it('can be disabled', async () => {
-    await renderComponent({ disabled: true });
+    const clickMock = jest.fn();
 
+    const wrapperComponent = await renderComponent({
+      disabled: true,
+      onClick: clickMock,
+    });
+    const wattButton = wrapperComponent.container.querySelector('watt-button');
+
+    expect(wattButton).toHaveClass('watt-button--disabled');
     expect(screen.getByRole('button')).toHaveClass('mat-button-disabled');
+
+    if (wattButton) {
+      userEvent.click(wattButton);
+    }
+
+    expect(clickMock).not.toHaveBeenCalled();
   });
 
   it('renders loading spinner, but no text, when loading is true', async () => {
