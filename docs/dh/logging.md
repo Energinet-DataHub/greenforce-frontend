@@ -2,7 +2,7 @@
 
 Page views will be tracked by default when router changes occur. Note that this doesn't include **overlays** (see [trackPageView](#trackPageView)).
 
-Uncaught browser exceptions will also be tracked by default for manually logging exceptions (see [trackException](#trackException)).
+Uncaught browser exceptions will also be tracked by default. For manually logging exceptions (see [trackException](#trackException)).
 
 ## Getting started
 
