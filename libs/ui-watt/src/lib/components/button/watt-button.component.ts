@@ -17,6 +17,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  HostBinding,
   Input,
   ViewEncapsulation,
 } from '@angular/core';
@@ -38,7 +39,7 @@ export type WattButtonType = 'button' | 'reset' | 'submit';
   template: `
     <button
       mat-button
-      [ngClass]="['watt-button--' + variant, 'watt-button--' + size]"
+      class="watt-button--{{ variant }} watt-button--{{ size }}"
       [disabled]="disabled"
       [type]="type"
     >
@@ -64,6 +65,14 @@ export class WattButtonComponent {
   @Input() type: WattButtonType = 'button';
   @Input() disabled = false;
   @Input() loading = false;
+
+  /**
+   * @ignore
+   */
+  @HostBinding('class.watt-button--disabled')
+  get buttonDisabledState() {
+    return this.disabled;
+  }
 
   /**
    * @ignore
