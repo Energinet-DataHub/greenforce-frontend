@@ -47,7 +47,9 @@ interface EoMeteringPointsState {
   meteringPoints: EoMeteringPoint[];
 }
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState> {
   constructor(private service: EoMeteringPointsService) {
     super({

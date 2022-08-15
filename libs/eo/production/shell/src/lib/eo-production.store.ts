@@ -32,7 +32,9 @@ interface EoProductionState {
   totalMeasurement: number;
 }
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class EoProductionStore extends ComponentStore<EoProductionState> {
   constructor(private service: EoProductionService) {
     super({
