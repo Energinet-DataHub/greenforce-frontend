@@ -36,7 +36,6 @@ describe(DhSharedUtilApplicationInsightsModule.name, () => {
     TestBed.configureTestingModule({
       imports: [DhSharedUtilApplicationInsightsModule.forRoot()],
       providers: [
-        DhApplicationInsights,
         MockProvider(DhApplicationInsights, {
           init: jest.fn(),
         }),
