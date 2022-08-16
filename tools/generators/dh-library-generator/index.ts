@@ -23,23 +23,36 @@ import {
   names,
   updateJson,
   offsetFromRoot,
+  updateProjectConfiguration,
 } from '@nrwl/devkit';
 import { libraryGenerator } from '@nrwl/angular/generators';
 
-interface DhLibrarySchema {
-  domain: string;
-  libraryType: string;
-  name?: string;
+enum LibraryType {
+  configuration = 'configuration',
+  dataAccess = 'data-access',
+  domain = 'domain',
+  e2eUtil = 'e2e-util',
+  environments = 'environments',
+  feature = 'feature',
+  testUtil = 'test-util',
+  shell = 'shell',
+  ui = 'ui',
+  util = 'util',
 }
 
-enum LibraryType {
-  feature = 'feature',
-  dataAccess = 'data-access',
-  shell = 'shell',
+interface DhLibrarySchema {
+  domain: string;
+  libraryType: LibraryType;
+  name?: string;
 }
 
 export default async function (tree: Tree, schema: DhLibrarySchema) {
   validateParams(schema);
+
+  updateProjectConfiguration(tree, 'ROUTING_TMPL', {
+    root: '',
+    name: 'ROUTING',
+  });
 
   const { fileName: libType, className: libTypeClassName } = names(
     schema.libraryType
@@ -51,15 +64,25 @@ export default async function (tree: Tree, schema: DhLibrarySchema) {
     schema.domain
   );
 
-  const libPath = getFinalLibraryPath({ libDomain, libType, libName });
+  const libPath = getFinalLibraryPath({
+    libDomain,
+    libType: schema.libraryType,
+    libName,
+  });
 
   await libraryGenerator(tree, {
-    name: getFinalLibraryName(libType, libName),
+    name: getFinalLibraryName(schema.libraryType, libName),
     directory: `dh/${libDomain}`,
     tags: `product:dh, domain:${libDomain}, type:${libType}`,
     prefix: 'dh',
     strict: true,
-    skipModule: libType === LibraryType.dataAccess,
+    skipModule: [
+      LibraryType.dataAccess,
+      LibraryType.domain,
+      LibraryType.e2eUtil,
+      LibraryType.environments,
+      LibraryType.testUtil,
+    ].includes(schema.libraryType),
   });
 
   updateTestSetupFile(tree, { libPath, libType });
@@ -97,14 +120,23 @@ export default async function (tree: Tree, schema: DhLibrarySchema) {
 
 function getFinalLibraryPath(options: {
   libDomain: string;
-  libType: string;
+  libType: LibraryType;
   libName: string;
-}) {
-  if (options.libType === LibraryType.shell) {
-    return `./libs/dh/${options.libDomain}/${options.libType}`;
+}): string {
+  switch (options.libType) {
+    case LibraryType.domain:
+    case LibraryType.environments:
+    case LibraryType.shell:
+      return `./libs/dh/${options.libDomain}/${options.libType}`;
+    case LibraryType.configuration:
+    case LibraryType.dataAccess:
+    case LibraryType.e2eUtil:
+    case LibraryType.feature:
+    case LibraryType.testUtil:
+    case LibraryType.ui:
+    case LibraryType.util:
+      return `./libs/dh/${options.libDomain}/${options.libType}-${options.libName}`;
   }
-
-  return `./libs/dh/${options.libDomain}/${options.libType}-${options.libName}`;
 }
 
 /**
@@ -238,12 +270,21 @@ function exposeEmptyStoreFromLibrary(
   tree.write(indexPath, content);
 }
 
-function getFinalLibraryName(libType: string, libName: string): string {
-  if (libType === LibraryType.shell) {
-    return libType;
+function getFinalLibraryName(libType: LibraryType, libName: string): string {
+  switch (libType) {
+    case LibraryType.domain:
+    case LibraryType.environments:
+    case LibraryType.shell:
+      return libType;
+    case LibraryType.configuration:
+    case LibraryType.dataAccess:
+    case LibraryType.e2eUtil:
+    case LibraryType.feature:
+    case LibraryType.testUtil:
+    case LibraryType.ui:
+    case LibraryType.util:
+      return `${libType}-${libName}`;
   }
-
-  return `${libType}-${libName}`;
 }
 
 /**
@@ -287,5 +328,6 @@ function capitalizeWords(value: string): string {
     .map(
       (word) => word.charAt(0).toUpperCase() + word.substring(1).toLowerCase()
     )
-    .join(' ');
+    .join(' ')
+    .replace('E2e', 'E2E'); // Special case for e2e-util
 }
