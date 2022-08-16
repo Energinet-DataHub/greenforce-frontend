@@ -24,6 +24,7 @@
         "e2e-util",
         "environments",
         "feature",
+        "routing",
         "shell",
         "test-util",
         "ui",
@@ -38,7 +39,7 @@
     "name": {
       "type": "string",
       "description": "Library name (note 1: if the selected library type is \"configuration\", \"data-access\", \"e2e-util\", \"feature\", \"test-util\", \"ui\" or \"util\", the final name will be prefixed with it, e.g. `feature-<name>`)",
-      "x-prompt": "Enter library name (leave blank for \"domain\", \"environments\" and \"shell\")"
+      "x-prompt": "Enter library name (leave blank for \"domain\", \"environments\", \"routing\" and \"shell\")"
     }
   },
   "additionalProperties": false,

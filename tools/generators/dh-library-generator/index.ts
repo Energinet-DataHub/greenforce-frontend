@@ -23,9 +23,11 @@ import {
   names,
   updateJson,
   offsetFromRoot,
-  updateProjectConfiguration,
 } from '@nrwl/devkit';
-import { libraryGenerator } from '@nrwl/angular/generators';
+import {
+  libraryGenerator,
+  angularMoveGenerator,
+} from '@nrwl/angular/generators';
 
 enum LibraryType {
   configuration = 'configuration',
@@ -35,6 +37,7 @@ enum LibraryType {
   environments = 'environments',
   feature = 'feature',
   testUtil = 'test-util',
+  routing = 'routing',
   shell = 'shell',
   ui = 'ui',
   util = 'util',
@@ -48,11 +51,6 @@ interface DhLibrarySchema {
 
 export default async function (tree: Tree, schema: DhLibrarySchema) {
   validateParams(schema);
-
-  updateProjectConfiguration(tree, 'ROUTING_TMPL', {
-    root: '',
-    name: 'ROUTING',
-  });
 
   const { fileName: libType, className: libTypeClassName } = names(
     schema.libraryType
@@ -81,6 +79,7 @@ export default async function (tree: Tree, schema: DhLibrarySchema) {
       LibraryType.domain,
       LibraryType.e2eUtil,
       LibraryType.environments,
+      LibraryType.routing,
       LibraryType.testUtil,
     ].includes(schema.libraryType),
   });
@@ -109,6 +108,22 @@ export default async function (tree: Tree, schema: DhLibrarySchema) {
       libDomain,
       className: libDomainClassName,
     });
+  } else if (libType === LibraryType.routing) {
+    // Necessary step since the libraryGenerator does not support
+    // generating modules with routing suffix without the --skipImport
+    // flag, which does not currently work with workspace-generators:
+    // https://github.com/nrwl/nx/pull/10167#issuecomment-1126146451
+    await angularMoveGenerator(tree, {
+      updateImportPath: true,
+      projectName: `dh-${libDomain}-routing-tmpl`,
+      destination: `dh/${libDomain}/routing`,
+    });
+
+    addRoutingSpecificFiles(tree, {
+      libPath: libPath.replace('-tmpl', ''),
+      libDomain,
+      className: libDomainClassName,
+    });
   }
 
   await formatFiles(tree);
@@ -124,6 +139,8 @@ function getFinalLibraryPath(options: {
   libName: string;
 }): string {
   switch (options.libType) {
+    case LibraryType.routing:
+      return `./libs/dh/${options.libDomain}/routing-tmpl`;
     case LibraryType.domain:
     case LibraryType.environments:
     case LibraryType.shell:
@@ -270,8 +287,57 @@ function exposeEmptyStoreFromLibrary(
   tree.write(indexPath, content);
 }
 
+function addRoutingSpecificFiles(
+  tree: Tree,
+  options: {
+    libPath: string;
+    libDomain: string;
+    className: string;
+  }
+) {
+  generateConstantFile(tree, options);
+  exposeConstantFromLibrary(tree, options);
+}
+
+function generateConstantFile(
+  tree: Tree,
+  options: {
+    libPath: string;
+    libDomain: string;
+    className: string;
+  }
+) {
+  generateFiles(
+    tree,
+    joinPathFragments(__dirname, `./files/routing/constant`),
+    `${options.libPath}/src/lib`,
+    {
+      tmpl: '',
+      domain: options.libDomain,
+      className: options.className,
+    }
+  );
+}
+
+function exposeConstantFromLibrary(
+  tree: Tree,
+  options: {
+    libPath: string;
+    libDomain: string;
+    className: string;
+  }
+) {
+  const indexPath = `${options.libPath}/src/index.ts`;
+  const storeFileName = `dh-${options.libDomain}-path`;
+  const content = `export * from './lib/${storeFileName}';\n`;
+
+  tree.write(indexPath, content);
+}
+
 function getFinalLibraryName(libType: LibraryType, libName: string): string {
   switch (libType) {
+    case LibraryType.routing:
+      return 'routing-tmpl';
     case LibraryType.domain:
     case LibraryType.environments:
     case LibraryType.shell:
