@@ -38,7 +38,6 @@ import { EoProductionTipScam } from './eo-production-tip.component';
       <eo-production-line-chart
         class="watt-space-stack-l"
       ></eo-production-line-chart>
-      <eo-date-picker></eo-date-picker>
     </div>
     <div>
       <eo-production-tip class="watt-space-stack-l"></eo-production-tip>
