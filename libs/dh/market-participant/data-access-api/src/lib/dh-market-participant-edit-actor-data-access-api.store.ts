@@ -83,6 +83,7 @@ export interface MarketParticipantEditActorState {
   // Input
   organizationId: string;
   actorId?: string;
+  status: ActorStatus;
 
   gridAreas: GridAreaDto[];
   contacts: ActorContactDto[];
@@ -112,6 +113,7 @@ export interface MarketParticipantEditActorState {
 }
 
 const initialState: MarketParticipantEditActorState = {
+  status: ActorStatus.New,
   isLoading: false,
   isEditing: false,
   organizationId: '',
@@ -144,6 +146,7 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
   marketRoles$ = this.select((state) => state.marketRoles);
   validation$ = this.select((state) => state.validation);
   changes$ = this.select((state) => state.changes);
+  status$ = this.select((state) => state.status);
   gridAreas$ = this.select((state) => state.gridAreas);
   contacts$ = this.select((state) => state.contacts);
 
@@ -254,6 +257,7 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
   }) => {
     if (!actorId) {
       this.patchState({
+        status: ActorStatus.New,
         organizationId: organizationId,
         changes: {
           existingActor: false,
@@ -273,6 +277,7 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
         tap((response) => {
           this.patchState({
             isEditing: true,
+            status: response.status,
             organizationId: organizationId,
             actorId: response.actorId,
             marketRoles: response.marketRoles,

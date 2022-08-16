@@ -14,11 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { Router } from '@angular/router';
-import { WattButtonModule, WattSpinnerModule } from '@energinet-datahub/watt';
+import { WattButtonModule } from '@energinet-datahub/watt';
+import { EoEmissionsDataScam } from './eo-emissions-data.component';
 import { EoEmissionsStore } from './eo-emissions.store';
 
 @Component({
@@ -44,20 +44,11 @@ import { EoEmissionsStore } from './eo-emissions.store';
   template: `
     <mat-card>
       <h4>Your emissions in 2021</h4>
-      <div class="output watt-space-stack-m">
-        <h1 *ngIf="loadingDone$ | async; else loading">
-          {{ convertToKg((totalCO2$ | async)?.value || 0).toLocaleString() }} kg
-        </h1>
-        <h3>CO<sub>2</sub></h3>
-      </div>
-      <watt-button variant="text" icon="save" (click)="openSurvey()"
-        >Export details</watt-button
-      >
+      <eo-emissions-data class="output watt-space-stack-m"></eo-emissions-data>
+      <watt-button variant="text" icon="save" (click)="openSurvey()">
+        Export details
+      </watt-button>
     </mat-card>
-
-    <ng-template #loading
-      ><watt-spinner [diameter]="36"></watt-spinner
-    ></ng-template>
   `,
 })
 export class EoEmissionsPageInfoComponent {
@@ -80,9 +71,8 @@ export class EoEmissionsPageInfoComponent {
 }
 
 @NgModule({
-  providers: [EoEmissionsStore],
   declarations: [EoEmissionsPageInfoComponent],
-  imports: [MatCardModule, CommonModule, WattSpinnerModule, WattButtonModule],
+  imports: [MatCardModule, WattButtonModule, EoEmissionsDataScam],
   exports: [EoEmissionsPageInfoComponent],
 })
 export class EoEmissionsPageInfoScam {}
