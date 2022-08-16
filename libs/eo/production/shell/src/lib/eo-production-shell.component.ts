@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
-import { EoDatePickerScam } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 import { EoProductionLineChartScam } from './eo-production-chart-card.component';
 import { EoProductionInfoScam } from './eo-production-info.component';
 import { EoProductionTipScam } from './eo-production-tip.component';
@@ -49,7 +48,6 @@ export class EoProductionShellComponent {}
 @NgModule({
   declarations: [EoProductionShellComponent],
   imports: [
-    EoDatePickerScam,
     EoProductionTipScam,
     EoProductionInfoScam,
     EoProductionLineChartScam,
