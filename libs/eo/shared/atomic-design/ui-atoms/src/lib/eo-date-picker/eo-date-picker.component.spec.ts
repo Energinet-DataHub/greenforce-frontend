@@ -14,14 +14,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './lib/eo-product-logo/eo-product-logo.directive';
-export * from './lib/eo-scroll-view/eo-scroll-view.component';
-export * from './lib/eo-vimeo-player/eo-vimeo-player.component';
-export * from './lib/eo-inline-message/eo-inline-message.component';
-export * from './lib/eo-line-chart/eo-line-chart.component';
-export * from './lib/eo-pie-chart/eo-pie-chart.component';
-export * from './lib/eo-date-picker/eo-date-picker.component';
+import { render } from '@testing-library/angular';
+import {
+  EoDatePickerComponent,
+  EoDatePickerScam,
+} from './eo-date-picker.component';
 
-// Media
-export * from './lib/eo-media/eo-media-align';
-export * from './lib/eo-media/eo-media.module';
+describe(`${EoDatePickerComponent.name} component API`, () => {
+  it('Displays a date picker', async () => {
+    // Arrange
+    await render(`<eo-date-picker></eo-date-picker>`, {
+      imports: [EoDatePickerScam],
+    });
+
+    // Act
+
+    // Assert
+    expect(true).toBeTruthy();
+  });
+});
