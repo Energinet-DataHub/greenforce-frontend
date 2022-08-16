@@ -37,6 +37,7 @@ export class MarketRoleService {
     EicFunction.ImbalanceSettlementResponsible,
     EicFunction.MeteringPointAdministrator,
     EicFunction.MeteredDataAdministrator,
+    EicFunction.DanishEnergyAgency,
   ];
 
   validEicFunctionGroups = [
@@ -61,6 +62,7 @@ export class MarketRoleService {
     [EicFunction.ImbalanceSettlementResponsible],
     [EicFunction.MeteringPointAdministrator],
     [EicFunction.MeteredDataAdministrator],
+    [EicFunction.DanishEnergyAgency],
   ];
 
   notValidInAnySelectionGroup(
