@@ -61,7 +61,7 @@ type CalendarDateRange = {
 
       .dateSelector {
         color: rgba(0, 0, 0, 0.87);
-        background-color: white;
+        background-color: var(--watt-color-neutral-white);
         padding: 7px; /* Magic UX number */
         display: inline-flex;
         border: 1px solid var(--watt-color-primary);
@@ -74,7 +74,7 @@ type CalendarDateRange = {
         }
 
         mat-icon {
-          color: #00898a;
+          color: var(--watt-color-primary);
         }
       }
     `,
