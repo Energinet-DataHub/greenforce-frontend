@@ -14,11 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   ElementRef,
+  EventEmitter,
+  Input,
   NgModule,
+  OnInit,
+  Output,
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
@@ -30,17 +36,25 @@ import {
 import { MatIconModule } from '@angular/material/icon';
 import { EoDatePickerDialogComponent } from './eo-date-picker-dialog.component';
 
+type CalendarDateRange = {
+  start: Date | null;
+  end: Date | null;
+};
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   selector: 'eo-date-picker',
   styles: [
     `
+      mat-dialog-container {
+        padding: 0;
+      }
+
       eo-date-picker {
         display: block;
       }
 
-      label {
+      .title {
         text-transform: uppercase;
         display: block;
       }
@@ -48,12 +62,16 @@ import { EoDatePickerDialogComponent } from './eo-date-picker-dialog.component';
       .dateSelector {
         color: rgba(0, 0, 0, 0.87);
         background-color: white;
-        padding: 7px;
+        padding: 7px; /* Magic UX number */
         display: inline-flex;
-        border: 1px solid #00898a;
-        border-radius: 4px;
+        border: 1px solid var(--watt-color-primary);
+        border-radius: var(--watt-space-xs);
         cursor: pointer;
         user-select: none;
+
+        span {
+          margin: 0 14px; /* Magic UX number */
+        }
 
         mat-icon {
           color: #00898a;
@@ -61,35 +79,55 @@ import { EoDatePickerDialogComponent } from './eo-date-picker-dialog.component';
       }
     `,
   ],
-  template: `<label class="watt-space-stack-s">Date Range</label>
+  template: `<label class="watt-space-stack-s title">Date Range</label>
     <div #selector class="dateSelector" (click)="openDialog()">
-      <mat-icon style="margin-right: 16px;">calendar_today</mat-icon>
-      <span>1. jan 2021 - 31. dec 2021</span>
-      <mat-icon style="margin-left: 8px;">keyboard_arrow_down</mat-icon>
-    </div>`,
+      <mat-icon>calendar_today</mat-icon>
+      <span>
+        {{ datesShown.start | date: 'd. MMM y' }} -
+        {{ datesShown.end | date: 'd. MMM y' }}</span
+      >
+      <mat-icon>keyboard_arrow_down</mat-icon>
+    </div> `,
 })
-export class EoDatePickerComponent {
+export class EoDatePickerComponent implements OnInit {
   @ViewChild('selector') public elementRef!: ElementRef;
+  @Input() dateRange: CalendarDateRange = {
+    start: new Date('2021,1,1'),
+    end: new Date('2022,1,1'),
+  };
+  @Output() newDates = new EventEmitter<CalendarDateRange>();
 
-  constructor(public dialog: MatDialog) {}
+  datesShown: CalendarDateRange = { start: null, end: null };
+
+  constructor(public dialog: MatDialog, private ref: ChangeDetectorRef) {}
+
+  ngOnInit() {
+    this.datesShown = this.dateRange;
+  }
 
   openDialog(): void {
     const config = new MatDialogConfig();
     config.data = {
+      dates: this.dateRange,
       openerPosition: this.elementRef.nativeElement.getBoundingClientRect(),
     };
+    config.panelClass = 'eo-mat-dialog';
 
     const dialogRef = this.dialog.open(EoDatePickerDialogComponent, config);
 
-    dialogRef.afterClosed().subscribe((result) => {
-      console.log('The dialog was closed', result);
+    dialogRef.afterClosed().subscribe((result: CalendarDateRange) => {
+      if (result?.start && result?.end) {
+        this.datesShown = result;
+        this.ref.detectChanges();
+        this.newDates.emit(result);
+      }
     });
   }
 }
 
 @NgModule({
   declarations: [EoDatePickerComponent],
-  imports: [MatIconModule, MatDialogModule],
+  imports: [MatIconModule, MatDialogModule, CommonModule],
   exports: [EoDatePickerComponent],
 })
 export class EoDatePickerScam {}
