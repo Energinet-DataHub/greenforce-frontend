@@ -57,6 +57,7 @@ export class WattDrawerComponent implements AfterViewInit, OnDestroy {
    */
   opened = false;
 
+  /** @ignore */
   bypassClickCheck = false;
 
   /** @ignore */
