@@ -19,6 +19,7 @@ import { Router } from '@angular/router';
 import { AngularPlugin } from '@microsoft/applicationinsights-angularplugin-js';
 import {
   ApplicationInsights,
+  DistributedTracingModes,
   SeverityLevel,
 } from '@microsoft/applicationinsights-web';
 
@@ -34,6 +35,8 @@ export class DhApplicationInsights {
     config: {
       instrumentationKey:
         this.dhAppConfig.applicationInsights.instrumentationKey,
+      enableCorsCorrelation: true,
+      distributedTracingMode: DistributedTracingModes.W3C,
       extensions: [this.angularPlugin],
       extensionConfig: {
         [this.angularPlugin.identifier]: {
