@@ -6,7 +6,7 @@
 
 - HTTP requests will also be tracked by default, so no manually tracking is nesecary.
 
-***⚠️ Note: `traceparent` header won't be added on outgoing requests in the mocking environment due to the usage of MSW (Mock Service Worker). To test this functionality, run the development environment instead. `yarn nx run app-dh:serve:development***
+**_⚠️ Note: `traceparent` header won't be added on outgoing requests in the mocking environment due to the usage of MSW (Mock Service Worker). To test this functionality, run the development environment instead. `yarn nx run app-dh:serve:development_**
 
 ```sh
 yarn nx run app-dh:serve:development
