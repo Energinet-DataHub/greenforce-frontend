@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Inject, Injectable } from '@angular/core';
+import { ErrorHandler, Inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { AngularPlugin } from '@microsoft/applicationinsights-angularplugin-js';
 import {
@@ -38,6 +38,7 @@ export class DhApplicationInsights {
       extensionConfig: {
         [this.angularPlugin.identifier]: {
           router: this.router,
+          errorServices: [new ErrorHandler()],
         },
       },
     },
