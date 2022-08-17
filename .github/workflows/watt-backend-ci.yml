@@ -22,7 +22,7 @@ on:
     branches:
       - main
     paths:
-      - 'build/infrastructure/design-system/**'
+      - 'build/infrastructure/watt/**'
       - '.github/workflows/watt-backend-ci.yml'
       - '.github/actions/publish-release-contents/action.yml'
 
@@ -30,7 +30,7 @@ jobs:
   terraform_validate:
     uses: Energinet-DataHub/.github/.github/workflows/terraform-validate.yml@7.7.0
     with:
-      TERRAFORM_WORKING_DIR_PATH: 'build/infrastructure/design-system/main'
+      TERRAFORM_WORKING_DIR_PATH: 'build/infrastructure/watt/main'
       TERRAFORM_VERSION: '1.2.4'
 
   create_prerelease:

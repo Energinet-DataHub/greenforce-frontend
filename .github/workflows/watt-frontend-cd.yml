@@ -18,7 +18,6 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  STORAGE_ACCOUNT_BASE_NAME: ''
   app-name: ui-watt
   BASE_BRANCH: ${{ github.event.pull_request.base.ref }}
   is-main-branch: ${{ github.ref == 'refs/heads/main' }}
@@ -205,22 +204,19 @@ jobs:
         shell: bash
         run: |
           echo "RELEASE_VERSION=watt_frontend_${{ steps.find_pull_request.outputs.pr }}" >> $GITHUB_ENV
+          echo "RELEASE_FOLDER_PATH=${{ github.workspace }}/watt_frontend_${{ steps.find_pull_request.outputs.pr }}" >> $GITHUB_ENV
+
+      - name: Setup Release
+        shell: bash
+        run: |
+          cp -R ${{ github.workspace }}/dist/designsystem ${{ env.RELEASE_FOLDER_PATH }}
 
       - name: Zip artifact
         uses: thedoctor0/zip-release@master
         with:
           type: 'zip'
           filename: ${{ env.RELEASE_VERSION }}.zip
-          path: '${{ github.workspace }}/dist/designsystem'
-
-      - name: Set RELEASE_VERSION
-        shell: bash
-        run: |
-          ls -ahl '${{ github.workspace }}/dist/designsystem'
-          echo "Next"
-          ls -ahl '${{ github.workspace }}/dist'
-          echo "Next"
-          ls -ahl '${{ github.workspace }}'
+          directory: ${{ env.RELEASE_FOLDER_PATH }}
 
       - uses: marvinpinto/action-automatic-releases@latest
         with:
@@ -228,7 +224,7 @@ jobs:
           automatic_release_tag: ${{ env.RELEASE_VERSION }}
           title: ${{ env.RELEASE_VERSION }}
           prerelease: false
-          files: '${{ github.workspace }}/dist/${{ env.RELEASE_VERSION }}.zip'
+          files: ${{ env.RELEASE_FOLDER_PATH }}/${{ env.RELEASE_VERSION }}.zip
 
   dispatch_deployment_request:
     needs: publish_inbound
