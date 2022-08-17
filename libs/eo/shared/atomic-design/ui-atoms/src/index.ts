@@ -20,6 +20,7 @@ export * from './lib/eo-vimeo-player/eo-vimeo-player.component';
 export * from './lib/eo-inline-message/eo-inline-message.component';
 export * from './lib/eo-line-chart/eo-line-chart.component';
 export * from './lib/eo-pie-chart/eo-pie-chart.component';
+export * from './lib/eo-date-picker/eo-date-picker.component';
 
 // Media
 export * from './lib/eo-media/eo-media-align';

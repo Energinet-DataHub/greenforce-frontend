@@ -46,7 +46,9 @@ interface EoOriginOfEnergyState {
   energySources: EoOriginOfEnergy;
 }
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class EoOriginOfEnergyStore extends ComponentStore<EoOriginOfEnergyState> {
   constructor(private service: EoOriginOfEnergyService) {
     super({
@@ -69,7 +71,6 @@ export class EoOriginOfEnergyStore extends ComponentStore<EoOriginOfEnergyState>
         },
       },
     });
-
     this.loadData();
   }
 

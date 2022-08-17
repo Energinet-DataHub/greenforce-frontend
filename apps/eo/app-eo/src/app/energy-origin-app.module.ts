@@ -15,6 +15,8 @@
  * limitations under the License.
  */
 import { NgModule } from '@angular/core';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { EoCoreShellModule } from '@energinet-datahub/eo/core/shell';
 
@@ -25,6 +27,12 @@ import {
 
 @NgModule({
   bootstrap: [EnergyOriginAppComponent],
-  imports: [BrowserAnimationsModule, EoCoreShellModule, EnergyOriginAppScam],
+  imports: [
+    BrowserAnimationsModule,
+    EoCoreShellModule,
+    EnergyOriginAppScam,
+    MatDatepickerModule,
+    MatNativeDateModule,
+  ],
 })
 export class EnergyOriginAppModule {}

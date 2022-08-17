@@ -38,7 +38,9 @@ import { EoProductionTipScam } from './eo-production-tip.component';
   template: `
     <div>
       <eo-production-info class="watt-space-stack-l"></eo-production-info>
-      <eo-production-line-chart></eo-production-line-chart>
+      <eo-production-line-chart
+        class="watt-space-stack-l"
+      ></eo-production-line-chart>
     </div>
     <div>
       <eo-production-tip class="watt-space-stack-l"></eo-production-tip>
