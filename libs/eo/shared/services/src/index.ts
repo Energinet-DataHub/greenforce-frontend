@@ -14,6 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+export * from './app-settings/app-settings.store';
 export * from './feature-flag/feature-flag.service';
 export * from './feature-flag/feature-flag.directive';
 export * from './app-settings/app-settings.service';
