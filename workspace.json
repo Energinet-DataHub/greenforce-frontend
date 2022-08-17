@@ -35,6 +35,7 @@
     "dh-shared-assets": "libs/dh/shared/assets",
     "dh-shared-configuration-application-insights": "libs/dh/shared/configuration-application-insights",
     "dh-shared-data-access-api": "libs/dh/shared/data-access-api",
+    "dh-shared-data-access-logging": "libs/dh/shared/data-access-logging",
     "dh-shared-data-access-msw": "libs/dh/shared/data-access-msw",
     "dh-shared-domain": "libs/dh/shared/domain",
     "dh-shared-environments": "libs/dh/shared/environments",
