@@ -19,14 +19,16 @@ import { AppSettingsStore } from './app-settings.store';
 
 describe(AppSettingsStore.name, () => {
   let store: AppSettingsStore;
+  const firstJan2021 = 1609459200000;
+  const firstJan2022 = 1640995200000;
 
   beforeEach(() => {
     store = TestBed.inject(AppSettingsStore);
   });
   describe('calendarDateRange$ selector', () => {
-    it('should return 1/1-2021 until 31/12-2021 as default state', (done) => {
+    it('should return 1/1-2021 until 1/1-2022 as default state', (done) => {
       store.calendarDateRange$.subscribe((data) => {
-        expect(data).toEqual({ start: 1609459200000, end: 1640995200000 });
+        expect(data).toEqual({ start: firstJan2021, end: firstJan2022 });
         done();
       });
     });
