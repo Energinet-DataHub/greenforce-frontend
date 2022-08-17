@@ -22,7 +22,7 @@ on:
     branches:
       - main
     paths:
-      - 'build/infrastructure/design-system/**'
+      - 'build/infrastructure/watt/**'
       - '.github/workflows/watt-backend-cd.yml'
       - '.github/actions/publish-release-contents/action.yml'
 
