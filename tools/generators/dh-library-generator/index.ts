@@ -328,8 +328,8 @@ function exposeConstantFromLibrary(
   }
 ) {
   const indexPath = `${options.libPath}/src/index.ts`;
-  const storeFileName = `dh-${options.libDomain}-path`;
-  const content = `export * from './lib/${storeFileName}';\n`;
+  const pathFileName = `dh-${options.libDomain}-path`;
+  const content = `export * from './lib/${pathFileName}';\n`;
 
   tree.write(indexPath, content);
 }
