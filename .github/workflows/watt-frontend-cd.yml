@@ -196,7 +196,7 @@ jobs:
         id: find_pull_request
         with:
           state: all
-
+    
       - name: Fail if PR not found
         if: steps.find_pull_request.outputs.pr == ''
         run: exit 1
