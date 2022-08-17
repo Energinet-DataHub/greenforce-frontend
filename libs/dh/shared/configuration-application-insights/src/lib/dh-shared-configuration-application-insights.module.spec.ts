@@ -20,12 +20,12 @@ import { MockProvider } from 'ng-mocks';
 import { ApplicationinsightsAngularpluginErrorService } from '@microsoft/applicationinsights-angularplugin-js';
 
 import {
-  DhSharedUtilApplicationInsightsModule,
-  DhSharedUtilApplicationInsightsRootModule,
-} from './dh-shared-util-application-insights.module';
+  DhSharedConfigurationApplicationInsightsModule,
+  DhSharedConfigurationApplicationInsightsRootModule,
+} from './dh-shared-configuration-application-insights.module';
 import { DhApplicationInsights } from './dh-application-insights.service';
 
-describe(DhSharedUtilApplicationInsightsModule.name, () => {
+describe(DhSharedConfigurationApplicationInsightsModule.name, () => {
   it('Application Insights is not initialized when the Angular module is not imported', () => {
     const appInitializerToken = TestBed.inject(APP_INITIALIZER, null);
 
@@ -35,7 +35,7 @@ describe(DhSharedUtilApplicationInsightsModule.name, () => {
   it(`initializes Application Insights during APP_INITIALIZER`, () => {
     // Arrange
     TestBed.configureTestingModule({
-      imports: [DhSharedUtilApplicationInsightsModule.forRoot()],
+      imports: [DhSharedConfigurationApplicationInsightsModule.forRoot()],
       providers: [
         MockProvider(DhApplicationInsights, {
           init: jest.fn(),
@@ -51,13 +51,15 @@ describe(DhSharedUtilApplicationInsightsModule.name, () => {
   });
 
   it('guards against direct import', () => {
-    expect(DhSharedUtilApplicationInsightsModule).toGuardAgainstDirectImport();
+    expect(
+      DhSharedConfigurationApplicationInsightsModule
+    ).toGuardAgainstDirectImport();
   });
 
   it(`provides ${ApplicationinsightsAngularpluginErrorService.name}`, () => {
     // Arrange
     TestBed.configureTestingModule({
-      imports: [DhSharedUtilApplicationInsightsModule.forRoot()],
+      imports: [DhSharedConfigurationApplicationInsightsModule.forRoot()],
     });
 
     // Act
@@ -70,10 +72,10 @@ describe(DhSharedUtilApplicationInsightsModule.name, () => {
   });
 });
 
-describe(DhSharedUtilApplicationInsightsRootModule.name, () => {
+describe(DhSharedConfigurationApplicationInsightsRootModule.name, () => {
   it('guards against being registered in multiple injectors', () => {
     expect(
-      DhSharedUtilApplicationInsightsRootModule
+      DhSharedConfigurationApplicationInsightsRootModule
     ).toGuardAgainstMultipleInjectorRegistration();
   });
 });

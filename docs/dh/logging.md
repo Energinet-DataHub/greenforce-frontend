@@ -14,10 +14,10 @@ yarn nx run app-dh:serve:development
 
 ## Getting started
 
-Sending Telemetry to the Azure Portal, you must import the `DhApplicationInsights` service from `@energinet-datahub/dh/shared/util-application-insights`.
+Sending Telemetry to the Azure Portal, you must import the `DhApplicationInsights` service from `@energinet-datahub/dh/shared/configuration-application-insights`.
 
 ```ts
-import { DhApplicationInsights } from  '@energinet-datahub/dh/shared/util-application-insights';
+import { DhApplicationInsights } from  '@energinet-datahub/dh/shared/configuration-application-insights';
 ...
 constructor(private insights: DhApplicationInsights) {}
 ```
