@@ -205,22 +205,23 @@ jobs:
         shell: bash
         run: |
           echo "RELEASE_VERSION=watt_frontend_${{ steps.find_pull_request.outputs.pr }}" >> $GITHUB_ENV
+          echo "RELEASE_FOLDER_PATH=${{ github.workspace }}/watt_frontend_${{ steps.find_pull_request.outputs.pr }}" >> $GITHUB_ENV
+
+      - name: Setup Release
+        shell: bash
+        run: |
+          cp -R ${{ github.workspace }}/dist/designsystem ${{ env.RELEASE_FOLDER_PATH }}
+          ls -ahl ${{ env.RELEASE_FOLDER_PATH }}
+          echo "TEST"
+          ls -ahl ${{ github.workspace }}
 
       - name: Zip artifact
         uses: thedoctor0/zip-release@master
         with:
           type: 'zip'
           filename: ${{ env.RELEASE_VERSION }}.zip
-          path: '${{ github.workspace }}/dist/designsystem'
-
-      - name: Set RELEASE_VERSION
-        shell: bash
-        run: |
-          ls -ahl '${{ github.workspace }}/dist/designsystem'
-          echo "Next"
-          ls -ahl '${{ github.workspace }}/dist'
-          echo "Next"
-          ls -ahl '${{ github.workspace }}'
+          directory: ${{ github.workspace }}/dist
+          path: designsystem/
 
       - uses: marvinpinto/action-automatic-releases@latest
         with:
@@ -228,7 +229,7 @@ jobs:
           automatic_release_tag: ${{ env.RELEASE_VERSION }}
           title: ${{ env.RELEASE_VERSION }}
           prerelease: false
-          files: '${{ github.workspace }}/dist/${{ env.RELEASE_VERSION }}.zip'
+          files: ${{ github.workspace }}/dist/${{ env.RELEASE_VERSION }}.zip
 
   dispatch_deployment_request:
     needs: publish_inbound
