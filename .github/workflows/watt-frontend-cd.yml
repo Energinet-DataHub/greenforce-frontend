@@ -211,7 +211,7 @@ jobs:
         with:
           type: 'zip'
           filename: ${{ env.RELEASE_VERSION }}.zip
-          path: '${{ github.workspace }}/release'
+          path: '${{ github.workspace }}/dist/designsystem'
 
       - uses: marvinpinto/action-automatic-releases@latest
         with:
@@ -219,7 +219,7 @@ jobs:
           automatic_release_tag: ${{ env.RELEASE_VERSION }}
           title: ${{ env.RELEASE_VERSION }}
           prerelease: false
-          files: '${{ github.workspace }}/release/{{ env.RELEASE_VERSION }}.zip'
+          files: '${{ github.workspace }}/dist/designsystem/${{ env.RELEASE_VERSION }}.zip'
 
   dispatch_deployment_request:
     needs: publish_inbound
