@@ -206,20 +206,13 @@ jobs:
         run: |
           echo "RELEASE_VERSION=watt_frontend_${{ steps.find_pull_request.outputs.pr }}" >> $GITHUB_ENV
 
-      - name: Zip artifact
-        uses: thedoctor0/zip-release@master
-        with:
-          type: 'zip'
-          filename: ${{ env.RELEASE_VERSION }}.zip
-          path: '${{ github.workspace }}/dist/designsystem'
-
       - uses: marvinpinto/action-automatic-releases@latest
         with:
           repo_token: ${{ secrets.PAT_TOKEN }}
           automatic_release_tag: ${{ env.RELEASE_VERSION }}
           title: ${{ env.RELEASE_VERSION }}
           prerelease: false
-          files: '${{ github.workspace }}/dist/designsystem/${{ env.RELEASE_VERSION }}.zip'
+          files: '${{ github.workspace }}/dist/designsystem'
 
   dispatch_deployment_request:
     needs: publish_inbound
