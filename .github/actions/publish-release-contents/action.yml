@@ -46,4 +46,4 @@ runs:
       run: |
         mkdir ${{ inputs.RELEASE_FOLDER_PATH }}
         mkdir ${{ inputs.RELEASE_FOLDER_PATH }}/infrastructure
-        cp -fR ${{ inputs.REPO_FOLDER_PATH }}/build/infrastructure/design-system/* ${{ inputs.RELEASE_FOLDER_PATH }}/infrastructure 2>/dev/null || :
+        cp -fR ${{ inputs.REPO_FOLDER_PATH }}/build/infrastructure/watt/* ${{ inputs.RELEASE_FOLDER_PATH }}/infrastructure 2>/dev/null || :
