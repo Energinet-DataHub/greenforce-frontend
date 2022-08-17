@@ -11,8 +11,8 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-resource "azurerm_static_site" "watt" {
-  name                = "stapp-watt-${lower(var.domain_name_short)}-${lower(var.environment_short)}-${lower(var.environment_instance)}"
+resource "azurerm_static_site" "ui" {
+  name                = "stapp-ui-${lower(var.domain_name_short)}-${lower(var.environment_short)}-${lower(var.environment_instance)}"
   resource_group_name = azurerm_resource_group.this.name
   location            = azurerm_resource_group.this.location
 
@@ -27,11 +27,11 @@ resource "azurerm_static_site" "watt" {
   }
 }
 
-module "kvs_stapp_watt_web_app_api_key" {
+module "kvs_stapp_ui_web_app_api_key" {
   source        = "git::https://github.com/Energinet-DataHub/geh-terraform-modules.git//azure/key-vault-secret?ref=7.0.0"
 
-  name          = "stapp-watt-web-app-api-key"
-  value         = azurerm_static_site.watt.api_key
+  name          = "stapp-ui-web-app-api-key"
+  value         = azurerm_static_site.ui.api_key
   key_vault_id  = data.azurerm_key_vault.kv_shared_resources.id
 
   tags          = azurerm_resource_group.this.tags
