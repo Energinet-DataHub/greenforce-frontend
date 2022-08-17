@@ -11,22 +11,22 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-resource "azurerm_cdn_profile" "cdn_profile_design_system" {
-  name                = "cdn-designsystem-${var.project}-${var.organisation}-${var.environment}"
-  location            = data.azurerm_resource_group.main.location
-  resource_group_name = data.azurerm_resource_group.main.name
+resource "azurerm_cdn_profile" "cdn_profile_watt" {
+  name                = "cdn-watt-${var.environment_short}-${var.environment_short}-${var.environment_instance}"
+  resource_group_name = azurerm_resource_group.this.name
+  location            = azurerm_resource_group.this.location
   sku                 = "Standard_Microsoft"
 }
 
 resource "azurerm_cdn_endpoint" "cdn_endpoint" {
-  name                = "cdn-designsystem-endpoint-${var.project}-${var.organisation}-${var.environment}"
-  profile_name        = azurerm_cdn_profile.cdn_profile_design_system.name
-  location            = data.azurerm_resource_group.main.location
-  resource_group_name = data.azurerm_resource_group.main.name
-  origin_host_header  = azurerm_storage_account.stor_design_system.primary_web_host
+  name                = "cdn-watt-endpoint-${var.environment_short}-${var.environment_short}-${var.environment_instance}"
+  profile_name        = azurerm_cdn_profile.cdn_profile_watt.name
+  resource_group_name = azurerm_resource_group.this.name
+  location            = azurerm_resource_group.this.location
+  origin_host_header  = azurerm_storage_account.watt.primary_web_host
 
   origin {
-    name                = "cdn-endpoint-${var.project}-${var.organisation}-${var.environment}"
-    host_name           = azurerm_storage_account.stor_design_system.primary_web_host
+    name                = "cdn-endpoint-${var.environment_short}-${var.environment_short}-${var.environment_instance}"
+    host_name           = azurerm_storage_account.watt.primary_web_host
   }
 }
