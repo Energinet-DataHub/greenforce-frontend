@@ -22,13 +22,13 @@ on:
     branches:
       - main
     paths:
-      - 'build/infrastructure/design-system/**'
+      - 'build/infrastructure/watt/**'
       - '.github/workflows/watt-backend-cd.yml'
       - '.github/actions/publish-release-contents/action.yml'
 
 jobs:
   publish_release:
-    uses: Energinet-DataHub/.github/.github/workflows/publish-release.yml@override-release-names
+    uses: Energinet-DataHub/.github/.github/workflows/publish-release.yml@rene-tester
     secrets:
       PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
     with:
@@ -36,7 +36,7 @@ jobs:
 
   dispatch_deployment_request:
     needs: publish_release
-    uses: Energinet-DataHub/.github/.github/workflows/dispatch-deployment-request.yml@override-release-names
+    uses: Energinet-DataHub/.github/.github/workflows/dispatch-deployment-request.yml@rene-tester
     with:
       CALLER_REPOSITORY_NAME: greenforce-frontend
       CALLER_REPOSITORY_PATH: Energinet-DataHub/greenforce-frontend
