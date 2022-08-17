@@ -219,7 +219,7 @@ jobs:
           automatic_release_tag: ${{ env.RELEASE_VERSION }}
           title: ${{ env.RELEASE_VERSION }}
           prerelease: false
-          files: '${{ github.workspace }}/dist/designsystem/${{ env.RELEASE_VERSION }}.zip'
+          files: '${{ github.workspace }}/dist/${{ env.RELEASE_VERSION }}.zip'
 
   dispatch_deployment_request:
     needs: publish_inbound
