@@ -15,8 +15,9 @@
  * limitations under the License.
  */
 import { TestBed } from '@angular/core/testing';
-import { APP_INITIALIZER } from '@angular/core';
+import { APP_INITIALIZER, ErrorHandler } from '@angular/core';
 import { MockProvider } from 'ng-mocks';
+import { ApplicationinsightsAngularpluginErrorService } from '@microsoft/applicationinsights-angularplugin-js';
 
 import {
   DhSharedUtilApplicationInsightsModule,
@@ -51,6 +52,21 @@ describe(DhSharedUtilApplicationInsightsModule.name, () => {
 
   it('guards against direct import', () => {
     expect(DhSharedUtilApplicationInsightsModule).toGuardAgainstDirectImport();
+  });
+
+  it(`provides ${ApplicationinsightsAngularpluginErrorService.name}`, () => {
+    // Arrange
+    TestBed.configureTestingModule({
+      imports: [DhSharedUtilApplicationInsightsModule.forRoot()],
+    });
+
+    // Act
+    const errorHandler = TestBed.inject(ErrorHandler);
+
+    // Assert
+    expect(errorHandler).toBeInstanceOf(
+      ApplicationinsightsAngularpluginErrorService
+    );
   });
 });
 

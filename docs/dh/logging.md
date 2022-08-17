@@ -66,3 +66,11 @@ pageViews
 customEvents
 | where name == 'Custom event'
 ```
+
+### Exceptions
+
+```sql
+exceptions
+| where itemType == 'exception'
+| where client_Type == 'Browser'
+```
