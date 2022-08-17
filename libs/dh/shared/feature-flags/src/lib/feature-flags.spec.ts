@@ -21,7 +21,7 @@ import {
   dhFeatureFlagsConfig,
 } from './feature-flags';
 
-const maxAgeOfDays = 14;
+const maxAgeOfDays = 62;
 
 const featureFlagCases = Object.keys(dhFeatureFlagsConfig).map(
   (featureFlag) => {
