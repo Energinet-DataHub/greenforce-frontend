@@ -15,6 +15,10 @@
  * limitations under the License.
  */
 import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
+import {
+  AppSettingsStore,
+  CalendarDateRange,
+} from '@energinet-datahub/eo/shared/services';
 import { EoProductionLineChartScam } from './eo-production-chart-card.component';
 import { EoProductionInfoScam } from './eo-production-info.component';
 import { EoProductionTipScam } from './eo-production-tip.component';
@@ -43,7 +47,15 @@ import { EoProductionTipScam } from './eo-production-tip.component';
     </div>
   `,
 })
-export class EoProductionShellComponent {}
+export class EoProductionShellComponent {
+  appSettingsDates$ = this.appSettingsStore.calendarDateRange$;
+
+  constructor(private appSettingsStore: AppSettingsStore) {}
+
+  setNewAppDates(dates: CalendarDateRange) {
+    this.appSettingsStore.setCalendarDateRange(dates);
+  }
+}
 
 @NgModule({
   declarations: [EoProductionShellComponent],
