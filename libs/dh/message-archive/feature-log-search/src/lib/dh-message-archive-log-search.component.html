@@ -154,8 +154,9 @@ limitations under the License.
           >{{ transloco("page") }} {{ this.pageNumber }}</watt-label
         >
         <watt-button
+          *rxLet="continuationToken$ as continuationToken"
           [disabled]="(continuationToken$ | async) === null"
-          (click)="nextPage()"
+          (click)="nextPage(continuationToken)"
           >{{ transloco("nextPage") }}</watt-button
         >
         <div class="clear-form">
