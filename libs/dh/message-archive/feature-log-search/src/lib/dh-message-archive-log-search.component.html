@@ -155,7 +155,7 @@ limitations under the License.
         >
         <watt-button
           *rxLet="continuationToken$ as continuationToken"
-          [disabled]="(continuationToken$ | async) === null"
+          [disabled]="continuationToken === null"
           (click)="nextPage(continuationToken)"
           >{{ transloco("nextPage") }}</watt-button
         >
