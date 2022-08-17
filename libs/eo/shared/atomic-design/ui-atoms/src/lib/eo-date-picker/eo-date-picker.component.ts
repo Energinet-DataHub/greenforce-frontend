@@ -17,7 +17,6 @@
 import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   ElementRef,
   EventEmitter,
@@ -34,12 +33,9 @@ import {
   MatDialogModule,
 } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
+import { CalendarDateRange } from '@energinet-datahub/eo/shared/services';
 import { EoDatePickerDialogComponent } from './eo-date-picker-dialog.component';
 
-type CalendarDateRange = {
-  start: Date | null;
-  end: Date | null;
-};
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
@@ -90,25 +86,27 @@ type CalendarDateRange = {
     </div> `,
 })
 export class EoDatePickerComponent implements OnInit {
+  datesShown: CalendarDateRange = {} as CalendarDateRange;
+
   @ViewChild('selector') public elementRef!: ElementRef;
-  @Input() dateRange: CalendarDateRange = {
-    start: new Date('2021,1,1'),
-    end: new Date('2022,1,1'),
+
+  @Input() dateRangeInput: CalendarDateRange = {
+    start: 1609459200000,
+    end: 1640995200000,
   };
+
   @Output() newDates = new EventEmitter<CalendarDateRange>();
 
-  datesShown: CalendarDateRange = { start: null, end: null };
-
-  constructor(public dialog: MatDialog, private ref: ChangeDetectorRef) {}
+  constructor(public dialog: MatDialog) {}
 
   ngOnInit() {
-    this.datesShown = this.dateRange;
+    this.datesShown = this.dateRangeInput;
   }
 
   openDialog(): void {
     const config = new MatDialogConfig();
     config.data = {
-      dates: this.dateRange,
+      dates: this.dateRangeInput,
       openerPosition: this.elementRef.nativeElement.getBoundingClientRect(),
     };
     config.panelClass = 'eo-mat-dialog';
@@ -117,8 +115,7 @@ export class EoDatePickerComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result: CalendarDateRange) => {
       if (result?.start && result?.end) {
-        this.datesShown = result;
-        this.ref.detectChanges();
+        this.datesShown = { start: result.start, end: result.end };
         this.newDates.emit(result);
       }
     });
