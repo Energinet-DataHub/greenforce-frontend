@@ -11,32 +11,35 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-resource "azurerm_storage_account" "stor_design_system" {
-  name                      = "stordesign${var.organisation}${var.environment}"
-  resource_group_name       = data.azurerm_resource_group.main.name
-  location                  = data.azurerm_resource_group.main.location
-  account_kind              = "StorageV2"
+resource "azurerm_storage_account" "watt" {
+  name                      = "stwatt${lower(var.domain_name_short)}${lower(var.environment_short)}${lower(var.environment_instance)}"
+  resource_group_name       = azurerm_resource_group.this.name
+  location                  = azurerm_resource_group.this.location
   account_tier              = "Standard"
   account_replication_type  = "LRS"
-  enable_https_traffic_only = true
-  tags                      = data.azurerm_resource_group.main.tags
   min_tls_version           = "TLS1_2"
 
-  static_website {
-    index_document = "index.html"
+  tags                      = azurerm_resource_group.this.tags
+
+  lifecycle {
+    ignore_changes = [
+      # Ignore changes to tags, e.g. because a management agent
+      # updates these based on some ruleset managed elsewhere.
+      tags,
+    ]
   }
 }
 
 resource "azurerm_storage_container" "storc_test" {
   name                  = "content"
-  storage_account_name  = azurerm_storage_account.stor_design_system.name
+  storage_account_name  = azurerm_storage_account.watt.name
   container_access_type = "private"
 }
 
 resource "azurerm_storage_blob" "storb_test" {
   name                   = "nice.txt"
-  storage_account_name   = azurerm_storage_account.stor_design_system.name
+  storage_account_name   = azurerm_storage_account.watt.name
   storage_container_name = azurerm_storage_container.storc_test.name
   type                   = "Block"
-  source_content         = azurerm_storage_account.stor_design_system.primary_web_host
+  source_content         = azurerm_storage_account.watt.primary_web_host
 }
