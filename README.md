@@ -113,7 +113,7 @@ Allowed dependencies to: `data-access`, `routing`, `util`, `test-util`, `shell`,
 ### Utility libraries
 
 A utility library contains low-level utilities used by many libraries and applications (services, pure functions, contants).
-Allowed dependencies to: `util`, `test-util`.
+Allowed dependencies to: `util`, `test-util`, `environments`.
 
 ### Test-util libraries
 
@@ -159,7 +159,19 @@ Allowed dependencies to: `assets`, `styles`.
 
 To generate a new library, run `yarn nx workspace-generator dh-library-generator` and follow the instructions or use the "workspace-generator - dh-library-generator" option under "generate" command in Nx Console extension.
 
-_Note_: This command currently only supports generating libraries of type _"feature"_, _"data-access"_ and _"shell"_.
+_Note_: This command currently supports generating the following library types:
+
+- feature
+- ui
+- data-access
+- routing
+- util
+- test-util
+- e2e-util
+- domain
+- shell
+- configuration
+- environments
 
 ## Frontend apps
 

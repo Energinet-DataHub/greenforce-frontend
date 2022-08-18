@@ -22,7 +22,7 @@ import { EoMeasurement, EoProductionService } from './eo-production.service';
 export interface EoMeasurementData {
   /** Name of month */
   name: string;
-  /** Value of the total production for the selected dates, in kWh */
+  /** Value of the total production for the selected dates, in watt hours */
   value: number;
 }
 
@@ -32,7 +32,9 @@ interface EoProductionState {
   totalMeasurement: number;
 }
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class EoProductionStore extends ComponentStore<EoProductionState> {
   constructor(private service: EoProductionService) {
     super({
@@ -71,7 +73,7 @@ export class EoProductionStore extends ComponentStore<EoProductionState> {
 
   loadMonthlyProduction() {
     this.service
-      .getMonthlyProductionFor2021()
+      .getMonthlyProduction()
       .pipe(take(1))
       .subscribe({
         next: (result) => {

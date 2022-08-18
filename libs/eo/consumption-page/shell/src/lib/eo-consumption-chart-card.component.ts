@@ -20,8 +20,9 @@ import { Component, NgModule } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { EoLineChartScam } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 import { WattSpinnerModule } from '@energinet-datahub/watt';
-import { take } from 'rxjs';
-import { EoConsumptionStore, EoMeasurementData } from './eo-consumption.store';
+import { LetModule } from '@rx-angular/template';
+import { map } from 'rxjs';
+import { EoConsumptionStore } from './eo-consumption.store';
 
 @Component({
   selector: 'eo-consumption-line-chart',
@@ -31,7 +32,7 @@ import { EoConsumptionStore, EoMeasurementData } from './eo-consumption.store';
       <div *ngIf="(loadingDone$ | async) === false" class="loadingObfuscator">
         <watt-spinner [diameter]="100"></watt-spinner>
       </div>
-      <eo-line-chart [data]="getDataInKWH()"></eo-line-chart>
+      <eo-line-chart *rxLet="dataInKWH$ as data" [data]="data"></eo-line-chart>
     </ng-container>
   </mat-card>`,
   styles: [
@@ -57,29 +58,24 @@ import { EoConsumptionStore, EoMeasurementData } from './eo-consumption.store';
 })
 export class EoConsumptionLineChartComponent {
   loadingDone$ = this.store.loadingDone$;
+  dataInKWH$ = this.store.measurements$.pipe(
+    map((all) =>
+      all.map((one) => ({ ...one, value: Number(one.value / 1000) }))
+    )
+  );
 
   constructor(private store: EoConsumptionStore) {}
-
-  getDataInKWH() {
-    const measurementList: EoMeasurementData[] = [];
-
-    this.store.measurements$.pipe(take(1)).subscribe((measurements) => {
-      measurements?.map((dataPoint) =>
-        measurementList.push({
-          ...dataPoint,
-          value: Number((dataPoint.value / 1000).toFixed(0)),
-        })
-      );
-    });
-
-    return measurementList ?? [];
-  }
 }
 
 @NgModule({
-  providers: [EoConsumptionStore],
   declarations: [EoConsumptionLineChartComponent],
   exports: [EoConsumptionLineChartComponent],
-  imports: [MatCardModule, EoLineChartScam, CommonModule, WattSpinnerModule],
+  imports: [
+    LetModule,
+    MatCardModule,
+    EoLineChartScam,
+    CommonModule,
+    WattSpinnerModule,
+  ],
 })
 export class EoConsumptionLineChartScam {}
