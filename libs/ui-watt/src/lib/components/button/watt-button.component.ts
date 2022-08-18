@@ -77,6 +77,22 @@ export class WattButtonComponent {
   /**
    * @ignore
    */
+  @HostBinding('style.pointer-events')
+  get pointerEvents() {
+    if (this.disabled) {
+      // Prevents emitting a click event in Chrome/Edge/Safari when a disabled button is clicked
+      // WebKit bug: https://bugs.webkit.org/show_bug.cgi?id=89041
+      // Note: This solution is preferred (in this particular case) over adding styling to the Scss file
+      // because the presence of inline styles can be tested with Jest.
+      return 'none';
+    }
+
+    return 'auto';
+  }
+
+  /**
+   * @ignore
+   */
   hasIcon(): boolean {
     return !!this.icon;
   }

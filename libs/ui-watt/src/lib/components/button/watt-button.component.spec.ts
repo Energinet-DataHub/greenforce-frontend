@@ -126,13 +126,13 @@ describe(WattButtonComponent.name, () => {
     const wattButton = wrapperComponent.container.querySelector('watt-button');
 
     expect(wattButton).toHaveClass('watt-button--disabled');
-    expect(screen.getByRole('button')).toHaveClass('mat-button-disabled');
+    expect(wattButton).toHaveStyle({
+      'pointer-events': 'none',
+    });
 
     if (wattButton) {
-      userEvent.click(wattButton);
+      expect(() => userEvent.click(wattButton)).toThrow();
     }
-
-    expect(clickMock).not.toHaveBeenCalled();
   });
 
   it('renders loading spinner, but no text, when loading is true', async () => {
