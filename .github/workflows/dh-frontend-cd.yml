@@ -151,8 +151,8 @@ jobs:
       - name: Set RELEASE_VERSION
         shell: bash
         run: |
-          echo "RELEASE_VERSION=watt_frontend_${{ steps.find_pull_request.outputs.pr }}" >> $GITHUB_ENV
-          echo "RELEASE_FOLDER_PATH=${{ github.workspace }}/watt_frontend_${{ steps.find_pull_request.outputs.pr }}" >> $GITHUB_ENV
+          echo "RELEASE_VERSION=dh_frontend_${{ steps.find_pull_request.outputs.pr }}" >> $GITHUB_ENV
+          echo "RELEASE_FOLDER_PATH=${{ github.workspace }}/dh_frontend_${{ steps.find_pull_request.outputs.pr }}" >> $GITHUB_ENV
 
       - name: Setup Release
         shell: bash
@@ -175,38 +175,13 @@ jobs:
           files: ${{ env.RELEASE_FOLDER_PATH }}/${{ env.RELEASE_VERSION }}.zip
 
   dispatch_deployment_request:
-    needs: build_app
-    name: Dispatch deployment request
-    runs-on: ubuntu-latest
-    env:
-      RELEASE_VERSION: app_dh_${{ github.run_id }}
-      EVENT_TYPE: 'greenforce-frontend-app-deployment-request'
-    steps:
-      - name: Download artifact
-        uses: actions/download-artifact@v2
-        with:
-          name: ${{ env.app-name }}
-          path: artifact
-
-      - name: Zip artifact
-        uses: thedoctor0/zip-release@master
-        with:
-          type: 'zip'
-          filename: ${{ env.RELEASE_VERSION }}.zip
-          directory: artifact
-
-      - uses: marvinpinto/action-automatic-releases@latest
-        with:
-          repo_token: ${{ secrets.PAT_TOKEN }}
-          automatic_release_tag: ${{ env.RELEASE_VERSION }}
-          title: ${{ env.RELEASE_VERSION }}
-          prerelease: false
-          files: artifact/${{ env.RELEASE_VERSION }}.zip
-
-      - name: Repository Dispatch
-        uses: peter-evans/repository-dispatch@v1
-        with:
-          token: ${{ secrets.PAT_TOKEN }}
-          repository: ${{ secrets.ENVIRONMENT_REPOSITORY_PATH }}
-          event-type: ${{ env.EVENT_TYPE }}
-          client-payload: '{"tag_name": "${{ env.RELEASE_VERSION }}"}'
+    needs: publish_inbound
+    uses: Energinet-DataHub/.github/.github/workflows/dispatch-deployment-request.yml@7.9.0
+    with:
+      CALLER_REPOSITORY_NAME: greenforce-frontend
+      CALLER_REPOSITORY_PATH: Energinet-DataHub/greenforce-frontend
+      RELEASE_NAME_PREFIX: dh_frontend_
+      CUSTOM_EVENT_TYPE: dh-frontend
+    secrets:
+      PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
+      ENVIRONMENT_REPOSITORY_PATH: ${{ secrets.ENVIRONMENT_REPOSITORY_PATH }}
