@@ -4,6 +4,7 @@ about: Use this template for adding bug reports.
 title: ''
 labels: ''
 assignees: ''
+
 ---
 
 ### Current Behavior
