@@ -1,8 +1,16 @@
 # Logging with Application Insights
 
-Page views will be tracked by default when router changes occur. Note that this doesn't include **overlays** (see [trackPageView](#trackPageView)).
+- Page views will be tracked by default when router changes occur. Note that this doesn't include **overlays** (see [trackPageView](#trackPageView)).
 
-Uncaught browser exceptions will also be tracked by default. For manually logging exceptions (see [trackException](#trackException)).
+- Uncaught browser exceptions will also be tracked by default. For manually logging exceptions (see [trackException](#trackException)).
+
+- HTTP requests will also be tracked by default, so no manually tracking is nesecary.
+
+**_⚠️ Note: `traceparent` header won't be added on outgoing requests in the mocking environment due to the usage of MSW (Mock Service Worker). To see the `traceparent` header, run the development environment instead._**
+
+```sh
+yarn nx run app-dh:serve:development
+```
 
 ## Getting started
 
@@ -65,4 +73,12 @@ pageViews
 ```sql
 customEvents
 | where name == 'Custom event'
+```
+
+### Exceptions
+
+```sql
+exceptions
+| where itemType == 'exception'
+| where client_Type == 'Browser'
 ```

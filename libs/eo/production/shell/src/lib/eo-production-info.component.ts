@@ -39,9 +39,7 @@ import { EoProductionStore } from './eo-production.store';
   ],
   template: `
     <mat-card>
-      <h4 class="output watt-space-stack-s">
-        Your electricity production in 2021
-      </h4>
+      <h4 class="output watt-space-stack-s">Your electricity production</h4>
       <h1 *ngIf="loadingDone$ | async; else loading">
         {{ convertTokWh((totalMeasurement$ | async) || 0).toLocaleString() }}
         kWh

@@ -15,9 +15,17 @@
  * limitations under the License.
  */
 import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
+import { EoDatePickerScam } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
+import {
+  AppSettingsStore,
+  CalendarDateRange,
+  EoFeatureFlagScam,
+} from '@energinet-datahub/eo/shared/services';
+import { LetModule } from '@rx-angular/template';
 import { EoProductionLineChartScam } from './eo-production-chart-card.component';
 import { EoProductionInfoScam } from './eo-production-info.component';
 import { EoProductionTipScam } from './eo-production-tip.component';
+import { EoProductionStore } from './eo-production.store';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -37,17 +45,38 @@ import { EoProductionTipScam } from './eo-production-tip.component';
       <eo-production-line-chart
         class="watt-space-stack-l"
       ></eo-production-line-chart>
+      <eo-date-picker
+        [onFeatureFlag]="'daterange'"
+        *rxLet="appSettingsDates$ as dates"
+        [dateRangeInput]="dates"
+        (newDates)="setNewAppDates($event)"
+      ></eo-date-picker>
     </div>
     <div>
       <eo-production-tip class="watt-space-stack-l"></eo-production-tip>
     </div>
   `,
 })
-export class EoProductionShellComponent {}
+export class EoProductionShellComponent {
+  appSettingsDates$ = this.appSettingsStore.calendarDateRange$;
+
+  constructor(
+    private appSettingsStore: AppSettingsStore,
+    private productionStore: EoProductionStore
+  ) {}
+
+  setNewAppDates(dates: CalendarDateRange) {
+    this.appSettingsStore.setCalendarDateRange(dates);
+    this.productionStore.loadMonthlyProduction();
+  }
+}
 
 @NgModule({
   declarations: [EoProductionShellComponent],
   imports: [
+    EoFeatureFlagScam,
+    LetModule,
+    EoDatePickerScam,
     EoProductionTipScam,
     EoProductionInfoScam,
     EoProductionLineChartScam,
