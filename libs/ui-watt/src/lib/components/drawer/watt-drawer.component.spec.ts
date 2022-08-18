@@ -14,7 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { render, screen, waitFor } from '@testing-library/angular';
+import {
+  render,
+  screen,
+  waitFor,
+  waitForElementToBeRemoved,
+} from '@testing-library/angular';
 import {
   composeStories,
   createMountableStoryComponent,
@@ -236,5 +241,16 @@ describe(WattDrawerComponent.name, () => {
     userEvent.click(document.body);
 
     expect(closedOutput).toHaveBeenCalled();
+    expect(getDrawerTopBarContent()).not.toBeInTheDocument();
+  });
+
+  it('does not call "closed" when click outside triggers an open', async () => {
+    await setup(Loading);
+
+    userEvent.click(screen.getByRole('button', { name: /^open first/i }));
+    userEvent.click(screen.getByRole('button', { name: /^open second/i }));
+
+    expect(closedOutput).not.toHaveBeenCalled();
+    expect(getDrawerTopBarContent()).toBeInTheDocument();
   });
 });

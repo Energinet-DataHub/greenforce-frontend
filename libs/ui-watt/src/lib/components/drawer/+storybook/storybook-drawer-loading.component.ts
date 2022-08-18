@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 
+import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Output, ViewChild } from '@angular/core';
 import { MatDrawer } from '@angular/material/sidenav';
 import { PushModule } from '@rx-angular/template';
@@ -32,12 +33,18 @@ import { WattDrawerModule } from '../watt-drawer.module';
 
 @Component({
   standalone: true,
-  imports: [WattButtonModule, WattDrawerModule, WattSpinnerModule, PushModule],
+  imports: [
+    WattButtonModule,
+    WattDrawerModule,
+    WattSpinnerModule,
+    PushModule,
+    CommonModule,
+  ],
   selector: 'watt-storybook-drawer-loading',
   template: `
     <watt-drawer #drawer size="small" [loading]="loading" (closed)="onClose()">
       <watt-drawer-topbar>
-        <span>Top bar</span>
+        <span *ngIf="drawer.opened">Top bar</span>
       </watt-drawer-topbar>
 
       <watt-drawer-actions>
