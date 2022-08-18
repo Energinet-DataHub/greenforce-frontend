@@ -1,1 +1,1 @@
-export * from './lib/dh-shared-data-access-logger.service';
+export * from './lib/dh-application-insights.service';

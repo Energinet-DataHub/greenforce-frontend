@@ -19,11 +19,11 @@ import { APP_INITIALIZER, ErrorHandler } from '@angular/core';
 import { MockProvider } from 'ng-mocks';
 import { ApplicationinsightsAngularpluginErrorService } from '@microsoft/applicationinsights-angularplugin-js';
 
+import { DhApplicationInsights } from '@energinet-datahub/dh/shared/data-access-logging';
 import {
   DhSharedConfigurationApplicationInsightsModule,
   DhSharedConfigurationApplicationInsightsRootModule,
 } from './dh-shared-configuration-application-insights.module';
-import { DhApplicationInsights } from './dh-application-insights.service';
 
 describe(DhSharedConfigurationApplicationInsightsModule.name, () => {
   it('Application Insights is not initialized when the Angular module is not imported', () => {
