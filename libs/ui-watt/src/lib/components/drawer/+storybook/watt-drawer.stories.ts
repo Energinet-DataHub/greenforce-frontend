@@ -29,6 +29,7 @@ export default {
   component: WattDrawerComponent,
   argTypes: {
     size: { control: false },
+    loading: { control: false },
     opened: { control: false },
     closed: {
       table: { category: 'Outputs' },
@@ -58,7 +59,7 @@ export default {
 
 const template = `
 <!-- Notice: the #drawer reference, to access the instance of the drawer -->
-<watt-drawer #drawer (closed)="closed()" [size]="size">
+<watt-drawer #drawer (closed)="closed()" [size]="size" [loading]="loading">
   <watt-drawer-topbar>
     <span>Top bar</span>
   </watt-drawer-topbar>

@@ -57,10 +57,13 @@ describe(WattDrawerComponent.name, () => {
   let closedOutput = jest.fn();
 
   // Setup
-  async function setup(story: Story<Partial<WattDrawerComponent>>) {
+  async function setup(
+    story: Story<Partial<WattDrawerComponent>>,
+    args?: Partial<WattDrawerComponent>
+  ) {
     const { component, ngModule } = createMountableStoryComponent(
       story(
-        { closed: closedOutput as unknown as EventEmitter<void> },
+        { closed: closedOutput as unknown as EventEmitter<void>, ...args },
         {} as never
       )
     );
@@ -210,5 +213,14 @@ describe(WattDrawerComponent.name, () => {
     expect(closedOutput).toHaveBeenCalled();
     expect(screen.queryByText(/first drawer/i)).not.toBeInTheDocument();
     expect(screen.queryByText(/second drawer/i)).toBeInTheDocument();
+  });
+
+  it('shows loading state', async () => {
+    await setup(Drawer, { loading: true });
+    const firstButton = screen.getByRole('button', { name: /^open drawer/i });
+
+    userEvent.click(firstButton);
+
+    expect(screen.getByRole('progressbar')).toBeInTheDocument();
   });
 });
