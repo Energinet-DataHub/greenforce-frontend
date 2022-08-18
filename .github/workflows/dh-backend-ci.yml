@@ -11,7 +11,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-name: DH UI Backend CI
+name: DH Backend CI
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -131,8 +131,9 @@ jobs:
 
   create_prerelease:
     needs: [dotnet_solution_ci, terraform_validate, sonarcloud_analysis]
-    uses: Energinet-DataHub/.github/.github/workflows/create-prerelease.yml@7.7.0
+    uses: Energinet-DataHub/.github/.github/workflows/create-prerelease.yml@override-release-names
     with:
       CALLER_REPOSITORY_PATH: Energinet-DataHub/greenforce-frontend
+      RELEASE_NAME_PREFIX: dh_backend_
     secrets:
       PAT_TOKEN: ${{ secrets.PAT_TOKEN }}

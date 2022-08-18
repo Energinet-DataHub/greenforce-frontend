@@ -11,7 +11,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-name: DH UI Frontend CD
+name: DH Frontend CD
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -93,8 +93,8 @@ jobs:
           base: ${{ env.is-main-branch == 'true' && 'HEAD~1' || format('origin/{0}', env.BASE_BRANCH) }}
           project: ${{ env.app-name }}
 
-  build_app:
-    name: Build app
+  publish_inbound:
+    name: Publish
     if: ${{ needs.affected.outputs.is-affected == 'true' }}
     needs: affected
     runs-on: ubuntu-latest
@@ -138,12 +138,41 @@ jobs:
       - name: Optimize i18n assets
         run: yarn i18n:optimize:${{ env.app-name }}
 
-      - name: Upload web app build artifact
-        uses: actions/upload-artifact@v2
+      - name: Find associated pull request
+        uses: jwalton/gh-find-current-pr@v1
+        id: find_pull_request
         with:
-          name: ${{ env.app-name }}
-          path: ./dist/apps/dh/${{ env.app-name }}/
-          if-no-files-found: error
+          state: all
+
+      - name: Fail if PR not found
+        if: steps.find_pull_request.outputs.pr == ''
+        run: exit 1
+
+      - name: Set RELEASE_VERSION
+        shell: bash
+        run: |
+          echo "RELEASE_VERSION=watt_frontend_${{ steps.find_pull_request.outputs.pr }}" >> $GITHUB_ENV
+          echo "RELEASE_FOLDER_PATH=${{ github.workspace }}/watt_frontend_${{ steps.find_pull_request.outputs.pr }}" >> $GITHUB_ENV
+
+      - name: Setup Release
+        shell: bash
+        run: |
+          cp -R ${{ github.workspace }}/dist/apps/dh/${{ env.app-name }} ${{ env.RELEASE_FOLDER_PATH }}
+
+      - name: Zip artifact
+        uses: thedoctor0/zip-release@master
+        with:
+          type: 'zip'
+          filename: ${{ env.RELEASE_VERSION }}.zip
+          directory: ${{ env.RELEASE_FOLDER_PATH }}
+
+      - uses: marvinpinto/action-automatic-releases@latest
+        with:
+          repo_token: ${{ secrets.PAT_TOKEN }}
+          automatic_release_tag: ${{ env.RELEASE_VERSION }}
+          title: ${{ env.RELEASE_VERSION }}
+          prerelease: false
+          files: ${{ env.RELEASE_FOLDER_PATH }}/${{ env.RELEASE_VERSION }}.zip
 
   dispatch_deployment_request:
     needs: build_app
