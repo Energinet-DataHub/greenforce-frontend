@@ -15,10 +15,18 @@
  * limitations under the License.
  */
 import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
+import { EoDatePickerScam } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
+import {
+  AppSettingsStore,
+  CalendarDateRange,
+  EoFeatureFlagScam,
+} from '@energinet-datahub/eo/shared/services';
+import { LetModule } from '@rx-angular/template';
 import { EoConsumptionLineChartScam } from './eo-consumption-chart-card.component';
 import { EoConsumptionPageEnergyConsumptionScam } from './eo-consumption-page-energy-consumption.component';
 import { EoConsumptionPageInfoScam } from './eo-consumption-page-info.component';
 import { EoConsumptionPageTipScam } from './eo-consumption-page-tip.component';
+import { EoConsumptionStore } from './eo-consumption.store';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -37,7 +45,15 @@ import { EoConsumptionPageTipScam } from './eo-consumption-page-tip.component';
       <eo-consumption-page-info
         class="watt-space-stack-l"
       ></eo-consumption-page-info>
-      <eo-consumption-line-chart></eo-consumption-line-chart>
+      <eo-consumption-line-chart
+        class="watt-space-stack-l"
+      ></eo-consumption-line-chart>
+      <eo-date-picker
+        [onFeatureFlag]="'daterange'"
+        *rxLet="appSettingsDates$ as dates"
+        [dateRangeInput]="dates"
+        (newDates)="setNewAppDates($event)"
+      ></eo-date-picker>
     </div>
     <div>
       <eo-consumption-page-tip
@@ -47,11 +63,26 @@ import { EoConsumptionPageTipScam } from './eo-consumption-page-tip.component';
     </div>
   `,
 })
-export class EoConsumptionPageShellComponent {}
+export class EoConsumptionPageShellComponent {
+  appSettingsDates$ = this.appSettingsStore.calendarDateRange$;
+
+  constructor(
+    private appSettingsStore: AppSettingsStore,
+    private consumptionStore: EoConsumptionStore
+  ) {}
+
+  setNewAppDates(dates: CalendarDateRange) {
+    this.appSettingsStore.setCalendarDateRange(dates);
+    this.consumptionStore.loadMonthlyConsumption();
+  }
+}
 
 @NgModule({
   declarations: [EoConsumptionPageShellComponent],
   imports: [
+    LetModule,
+    EoFeatureFlagScam,
+    EoDatePickerScam,
     EoConsumptionPageTipScam,
     EoConsumptionPageInfoScam,
     EoConsumptionPageEnergyConsumptionScam,
