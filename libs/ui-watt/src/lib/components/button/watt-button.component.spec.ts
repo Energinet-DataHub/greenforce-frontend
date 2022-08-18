@@ -35,7 +35,6 @@ interface WattButtonOptionsType {
   variant?: WattButtonVariant;
   size?: WattButtonSize;
   type?: WattButtonType;
-  onClick?: jest.Mock;
 }
 
 describe(WattButtonComponent.name, () => {
@@ -47,19 +46,11 @@ describe(WattButtonComponent.name, () => {
          icon="${options.icon}"
          type="${options.type}"
          [loading]="${options.loading}"
-         [disabled]="${options.disabled}"
-         (click)="clickFn()">
+         [disabled]="${options.disabled}">
            ${options.text ?? 'Text'}
        </watt-button>`,
       {
         imports: [WattButtonModule],
-        componentProperties: {
-          clickFn: () => {
-            if (options.onClick) {
-              options.onClick();
-            }
-          },
-        },
       }
     );
   };
@@ -115,11 +106,8 @@ describe(WattButtonComponent.name, () => {
   });
 
   it('can be disabled', async () => {
-    const clickMock = jest.fn();
-
     const wrapperComponent = await renderComponent({
       disabled: true,
-      onClick: clickMock,
     });
     const wattButton = wrapperComponent.container.querySelector('watt-button');
 
