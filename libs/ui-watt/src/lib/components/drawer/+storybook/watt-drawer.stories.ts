@@ -22,12 +22,14 @@ import { WattButtonModule } from '../../button';
 import { WattDrawerComponent } from '../watt-drawer.component';
 import { WattDrawerModule } from '../watt-drawer.module';
 import { WattStorybookDrawerContentModule } from './storybook-drawer-content.component';
+import { WattStorybookDrawerLoadingComponent } from './storybook-drawer-loading.component';
 
 export default {
   title: 'Components/Drawer',
   component: WattDrawerComponent,
   argTypes: {
     size: { control: false },
+    loading: { control: false },
     opened: { control: false },
     closed: {
       table: { category: 'Outputs' },
@@ -49,6 +51,7 @@ export default {
         BrowserAnimationsModule,
         WattButtonModule,
         WattStorybookDrawerContentModule,
+        WattStorybookDrawerLoadingComponent,
       ],
     }),
   ],
@@ -56,7 +59,7 @@ export default {
 
 const template = `
 <!-- Notice: the #drawer reference, to access the instance of the drawer -->
-<watt-drawer #drawer (closed)="closed()" [size]="size">
+<watt-drawer #drawer (closed)="closed()" [size]="size" [loading]="loading">
   <watt-drawer-topbar>
     <span>Top bar</span>
   </watt-drawer-topbar>
@@ -133,4 +136,9 @@ export const Multiple: Story<WattDrawerComponent> = (args) => ({
     <watt-button (click)="first.open()">Open first</watt-button><br /><br />
     <watt-button (click)="second.open()">Open second</watt-button>
   `,
+});
+
+export const Loading: Story<WattDrawerComponent> = (args) => ({
+  props: args,
+  template: `<watt-storybook-drawer-loading (closed)="closed()"></watt-storybook-drawer-loading>`,
 });
