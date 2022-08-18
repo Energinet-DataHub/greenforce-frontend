@@ -34,34 +34,34 @@ import { applicationInsightsInitializer } from './dh-application-insights.initia
     },
   ],
 })
-export class DhSharedUtilApplicationInsightsRootModule {
+export class DhSharedConfigurationApplicationInsightsRootModule {
   constructor(
     @Optional()
     @SkipSelf()
-    maybeNgModuleFromParentInjector?: DhSharedUtilApplicationInsightsRootModule
+    maybeNgModuleFromParentInjector?: DhSharedConfigurationApplicationInsightsRootModule
   ) {
     if (maybeNgModuleFromParentInjector) {
       throw new Error(
-        'DhSharedUtilApplicationInsightsRootModule.forRoot() registered in multiple injectors. Only call it from the core feature shell module or in the Angular testing module.'
+        'DhSharedConfigurationApplicationInsightsRootModule.forRoot() registered in multiple injectors. Only call it from the core feature shell module or in the Angular testing module.'
       );
     }
   }
 }
 
 /**
- * Do not import directly. Use `DhSharedUtilApplicationInsightsModule.forRoot()`.
+ * Do not import directly. Use `DhSharedConfigurationApplicationInsightsModule.forRoot()`.
  */
 @NgModule()
-export class DhSharedUtilApplicationInsightsModule {
-  static forRoot(): ModuleWithProviders<DhSharedUtilApplicationInsightsRootModule> {
+export class DhSharedConfigurationApplicationInsightsModule {
+  static forRoot(): ModuleWithProviders<DhSharedConfigurationApplicationInsightsRootModule> {
     return {
-      ngModule: DhSharedUtilApplicationInsightsRootModule,
+      ngModule: DhSharedConfigurationApplicationInsightsRootModule,
     };
   }
 
   constructor() {
     throw new Error(
-      'Do not import DhSharedUtilApplicationInsightsModule directly. Use DhSharedUtilApplicationInsightsModule.forRoot().'
+      'Do not import DhSharedConfigurationApplicationInsightsModule directly. Use DhSharedConfigurationApplicationInsightsModule.forRoot().'
     );
   }
 }

@@ -16,7 +16,7 @@
  */
 import { APP_INITIALIZER, FactoryProvider } from '@angular/core';
 
-import { DhApplicationInsights } from './dh-application-insights.service';
+import { DhApplicationInsights } from '@energinet-datahub/dh/shared/data-access-logging';
 
 export const applicationInsightsInitializer: FactoryProvider = {
   multi: true,
