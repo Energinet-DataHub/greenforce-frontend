@@ -23,12 +23,17 @@ inputs:
 runs:
   using: composite
   steps:
+    - name: Create release folders
+      shell: bash
+      run: |
+        mkdir -p ${{ inputs.RELEASE_FOLDER_PATH }}/infrastructure
+
     ## Only DH App Release
     - name: Publish Infrastructure to release folder
       if: contains(inputs.RELEASE_VERSION, 'dh_backend')
       shell: bash
       run: |
-        cp -fR ${{ inputs.REPO_FOLDER_PATH }}/build/infrastructure/dh/* ${{ inputs.RELEASE_FOLDER_PATH }}/infrastructure 2>/dev/null || :
+        cp -fR ${{ inputs.REPO_FOLDER_PATH }}/build/infrastructure/dh/* ${{ inputs.RELEASE_FOLDER_PATH }}/infrastructure
 
     - name: Publish dotnet artifact to release folder
       if: contains(inputs.RELEASE_VERSION, 'dh_backend')
@@ -42,4 +47,4 @@ runs:
       if: contains(inputs.RELEASE_VERSION, 'watt_backend')
       shell: bash
       run: |
-        cp -fR ${{ inputs.REPO_FOLDER_PATH }}/build/infrastructure/watt/* ${{ inputs.RELEASE_FOLDER_PATH }}/infrastructure 2>/dev/null || :
+        cp -fR ${{ inputs.REPO_FOLDER_PATH }}/build/infrastructure/watt/* ${{ inputs.RELEASE_FOLDER_PATH }}/infrastructure
