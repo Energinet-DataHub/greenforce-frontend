@@ -372,18 +372,30 @@ function updateTestSetupFile(
 }
 
 function validateParams(schema: DhLibrarySchema) {
-  if (schema.name !== undefined) {
-    if (schema.name.length > 0 && schema.libraryType === LibraryType.shell) {
+  if (!schema.name) return;
+  switch (schema.libraryType) {
+    case LibraryType.routing:
+    case LibraryType.domain:
+    case LibraryType.environments:
+    case LibraryType.shell:
+      if (!schema.name.length) return;
       throw new Error(
-        `Leave the "name" field empty when the selected library type is "${LibraryType.shell}".`
+        `Leave the "name" field empty when the selected library type is "${schema.libraryType}".`
       );
-    } else if (
-      schema.name.startsWith(`${LibraryType.feature}-`) ||
-      schema.name.startsWith(`${LibraryType.dataAccess}-`)
-    ) {
+    case LibraryType.configuration:
+    case LibraryType.dataAccess:
+    case LibraryType.e2eUtil:
+    case LibraryType.feature:
+    case LibraryType.testUtil:
+    case LibraryType.ui:
+    case LibraryType.util:
+      if (!schema.name.startsWith(schema.libraryType)) return;
       throw new Error(
         `No need to prefix "name" with "${schema.name}". This is done automatically.`
       );
+    default: {
+      const exhaustiveCheck: never = schema.libraryType;
+      throw new Error(`Unhandled library case: ${exhaustiveCheck}`);
     }
   }
 }
