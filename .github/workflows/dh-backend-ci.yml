@@ -45,7 +45,7 @@ on:
 
 jobs:
   dotnet_solution_ci:
-    uses: Energinet-DataHub/.github/.github/workflows/dotnet-solution-ci.yml@7.7.0
+    uses: Energinet-DataHub/.github/.github/workflows/dotnet-solution-ci.yml@7.9.0
     with:
       SOLUTION_FILE_PATH: 'apps/dh/api-dh/DataHub.WebApi.sln'
       PREPARE_OUTPUTS: true
@@ -56,13 +56,13 @@ jobs:
       AZURE_KEYVAULT_URL: ${{ secrets.AZURE_TESTING_KEYVAULT_URL }}
 
   terraform_validate:
-    uses: Energinet-DataHub/.github/.github/workflows/terraform-validate.yml@7.7.0
+    uses: Energinet-DataHub/.github/.github/workflows/terraform-validate.yml@7.9.0
     with:
       TERRAFORM_WORKING_DIR_PATH: 'build/infrastructure/dh/main'
       TERRAFORM_VERSION: '1.2.2'
 
   sonarcloud_analysis:
-    uses: Energinet-DataHub/.github/.github/workflows/sonarcloud-dotnet.yml@7.7.0
+    uses: Energinet-DataHub/.github/.github/workflows/sonarcloud-dotnet.yml@7.9.0
     with:
       SOLUTION_FILE_PATH: 'apps/dh/api-dh/DataHub.WebApi.sln'
       SONAR_CLOUD_ORGANIZATION: 'energinet-datahub'
@@ -131,7 +131,7 @@ jobs:
 
   create_prerelease:
     needs: [dotnet_solution_ci, terraform_validate, sonarcloud_analysis]
-    uses: Energinet-DataHub/.github/.github/workflows/create-prerelease.yml@rene-tester
+    uses: Energinet-DataHub/.github/.github/workflows/create-prerelease.yml@7.9.0
     with:
       CALLER_REPOSITORY_PATH: Energinet-DataHub/greenforce-frontend
       RELEASE_NAME_PREFIX: dh_backend_

@@ -28,7 +28,7 @@ on:
 
 jobs:
   publish_release:
-    uses: Energinet-DataHub/.github/.github/workflows/publish-release.yml@rene-tester
+    uses: Energinet-DataHub/.github/.github/workflows/publish-release.yml@7.9.0
     secrets:
       PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
     with:
@@ -36,7 +36,7 @@ jobs:
 
   dispatch_deployment_request:
     needs: publish_release
-    uses: Energinet-DataHub/.github/.github/workflows/dispatch-deployment-request.yml@rene-tester
+    uses: Energinet-DataHub/.github/.github/workflows/dispatch-deployment-request.yml@7.9.0
     with:
       CALLER_REPOSITORY_NAME: greenforce-frontend
       CALLER_REPOSITORY_PATH: Energinet-DataHub/greenforce-frontend

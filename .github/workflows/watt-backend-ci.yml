@@ -28,14 +28,14 @@ on:
 
 jobs:
   terraform_validate:
-    uses: Energinet-DataHub/.github/.github/workflows/terraform-validate.yml@7.7.0
+    uses: Energinet-DataHub/.github/.github/workflows/terraform-validate.yml@7.9.0
     with:
       TERRAFORM_WORKING_DIR_PATH: 'build/infrastructure/watt/main'
       TERRAFORM_VERSION: '1.2.4'
 
   create_prerelease:
     needs: terraform_validate
-    uses: Energinet-DataHub/.github/.github/workflows/create-prerelease.yml@rene-tester
+    uses: Energinet-DataHub/.github/.github/workflows/create-prerelease.yml@7.9.0
     with:
       CALLER_REPOSITORY_PATH: Energinet-DataHub/greenforce-frontend
       RELEASE_NAME_PREFIX: watt_backend_
