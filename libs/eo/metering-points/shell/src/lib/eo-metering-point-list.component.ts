@@ -45,7 +45,15 @@ import { EoMeteringPointsStore } from './eo-metering-points.store';
       }
 
       .first {
-        padding-left: 8px;
+        padding-left: var(--watt-space-s);
+      }
+
+      .tag {
+        display: inline-flex;
+        background-color: var(--watt-color-primary-light);
+        padding: var(--watt-space-xs) var(--watt-space-m);
+        text-transform: capitalize;
+        border-radius: var(--watt-space-m);
       }
     `,
   ],
@@ -54,12 +62,18 @@ import { EoMeteringPointsStore } from './eo-metering-points.store';
       <tr>
         <th class="table-header first">ID</th>
         <th class="table-header">Address</th>
+        <th class="table-header">Tags</th>
       </tr>
-      <tr *ngIf="meteringPoints.length === 0">
-        <td>You do not have any metering points.</td>
+      <tr *ngIf="(loadingDone$ | async) === false">
+        <td colspan="3" class="table-cell">Loading metering points ...</td>
+      </tr>
+      <tr *ngIf="meteringPoints.length === 0 && (loadingDone$ | async)">
+        <td colspan="3" class="table-cell">
+          You do not have any metering points.
+        </td>
       </tr>
       <ng-container *ngFor="let point of meteringPoints">
-        <tr *ngIf="point.type === 'consumption'">
+        <tr>
           <td class="table-cell first">{{ point?.gsrn }}</td>
           <td>
             <ng-container *ngIf="point.address?.address1">
@@ -72,6 +86,9 @@ import { EoMeteringPointsStore } from './eo-metering-points.store';
               {{ point.address.locality + ',' }}
             </ng-container>
             {{ point?.address?.postalCode }} {{ point?.address?.city }}
+          </td>
+          <td>
+            <div class="tag">{{ point?.type }}</div>
           </td>
         </tr>
       </ng-container>
@@ -87,7 +104,6 @@ export class EoMeteringPointListComponent {
 }
 
 @NgModule({
-  providers: [EoMeteringPointsStore],
   declarations: [EoMeteringPointListComponent],
   exports: [EoMeteringPointListComponent],
   imports: [CommonModule],

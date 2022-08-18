@@ -62,6 +62,7 @@ export interface ActorChanges {
   existingActor: boolean;
   actorNumber: string;
   status: ActorStatus;
+  name: string;
 }
 
 export interface MeteringPointTypeChanges {
@@ -82,6 +83,7 @@ export interface MarketParticipantEditActorState {
   // Input
   organizationId: string;
   actorId?: string;
+  status: ActorStatus;
 
   gridAreas: GridAreaDto[];
   contacts: ActorContactDto[];
@@ -111,6 +113,7 @@ export interface MarketParticipantEditActorState {
 }
 
 const initialState: MarketParticipantEditActorState = {
+  status: ActorStatus.New,
   isLoading: false,
   isEditing: false,
   organizationId: '',
@@ -121,6 +124,7 @@ const initialState: MarketParticipantEditActorState = {
     existingActor: false,
     actorNumber: '',
     status: ActorStatus.New,
+    name: '',
   },
   marketRoleChanges: { isValid: true, marketRoles: [] },
   meteringPointTypeChanges: { meteringPointTypes: [] },
@@ -142,6 +146,7 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
   marketRoles$ = this.select((state) => state.marketRoles);
   validation$ = this.select((state) => state.validation);
   changes$ = this.select((state) => state.changes);
+  status$ = this.select((state) => state.status);
   gridAreas$ = this.select((state) => state.gridAreas);
   contacts$ = this.select((state) => state.contacts);
 
@@ -252,11 +257,13 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
   }) => {
     if (!actorId) {
       this.patchState({
+        status: ActorStatus.New,
         organizationId: organizationId,
         changes: {
           existingActor: false,
           actorNumber: '',
           status: ActorStatus.New,
+          name: '',
         },
       });
       return of(undefined);
@@ -270,6 +277,7 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
         tap((response) => {
           this.patchState({
             isEditing: true,
+            status: response.status,
             organizationId: organizationId,
             actorId: response.actorId,
             marketRoles: response.marketRoles,
@@ -277,6 +285,7 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
               existingActor: true,
               actorNumber: response.actorNumber.value,
               status: response.status,
+              name: response.name.value,
             },
             marketRoleChanges: {
               isValid: true,
@@ -369,6 +378,7 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
           {
             marketRoles: state.marketRoleChanges.marketRoles,
             status: state.changes.status,
+            name: { value: state.changes.name },
           }
         )
         .pipe(map(() => actorId));
@@ -377,6 +387,7 @@ export class DhMarketParticipantEditActorDataAccessApiStore extends ComponentSto
     return this.httpClient
       .v1MarketParticipantOrganizationOrgIdActorPost(state.organizationId, {
         actorNumber: { value: state.changes.actorNumber },
+        name: { value: state.changes.name },
         marketRoles: state.marketRoleChanges.marketRoles,
       })
       .pipe(map((id) => id));

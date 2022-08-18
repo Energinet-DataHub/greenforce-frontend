@@ -306,6 +306,7 @@
         "masterData": {
           "labelActorNumber": "Aktørnummer",
           "labelStatus": "Status",
+          "labelActorName": "Aktørnavn",
           "fieldRequiredErrorText": "Feltet er påkrævet.",
           "statuses": {
             "New": "Ny",
@@ -373,7 +374,8 @@
       "SchedulingAreaResponsible": "Scheduling area responsible",
       "SystemOperator": "System operator",
       "TradeResponsibleParty": "Trade responsible party",
-      "TransmissionCapacityAllocator": "Transmission capacity allocator"
+      "TransmissionCapacityAllocator": "Transmission capacity allocator",
+      "DanishEnergyAgency": "Styrelsen"
     },
     "organization": {
       "header": "Organisationer",
@@ -452,6 +454,13 @@
             "es": "Spanien",
             "se": "Sverige",
             "gb": "England"
+          },
+          "labelStatus": "Status",
+          "statuses": {
+            "New": "Ny",
+            "Active": "Aktiv",
+            "Blocked": "Blokeret",
+            "Deleted": "Slettet"
           }
         }
       }

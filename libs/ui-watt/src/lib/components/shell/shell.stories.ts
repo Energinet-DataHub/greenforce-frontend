@@ -17,11 +17,11 @@
 
 import { APP_INITIALIZER, Component } from '@angular/core';
 import { Meta, Story, moduleMetadata } from '@storybook/angular';
-
 import { APP_BASE_HREF } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
+
 import { WattNavListModule } from './nav-list';
 import { WattShellComponent } from './shell.component';
 import { WattShellModule } from './shell.module';
@@ -31,7 +31,7 @@ export default {
   component: WattShellComponent,
   decorators: [
     moduleMetadata({
-      imports: [BrowserAnimationsModule, WattShellModule],
+      imports: [RouterTestingModule, BrowserAnimationsModule, WattShellModule],
     }),
   ],
 } as Meta<WattShellComponent>;

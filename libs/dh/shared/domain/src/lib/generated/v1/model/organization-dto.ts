@@ -10,6 +10,7 @@
  * Do not edit the class manually.
  */
 import { ActorDto } from './actor-dto';
+import { OrganizationStatus } from './organization-status';
 import { AddressDto } from './address-dto';
 
 
@@ -18,6 +19,7 @@ export interface OrganizationDto {
     name: string;
     businessRegisterIdentifier: string;
     comment: string;
+    status: OrganizationStatus;
     address: AddressDto;
     actors: Array<ActorDto>;
 }

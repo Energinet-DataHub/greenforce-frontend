@@ -24,6 +24,7 @@ import { ChangeActorDto } from '../model/models';
 import { ChangeOrganizationDto } from '../model/models';
 import { CreateActorContactDto } from '../model/models';
 import { CreateActorDto } from '../model/models';
+import { CreateOrganizationDto } from '../model/models';
 import { OrganizationDto } from '../model/models';
 
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
@@ -686,14 +687,14 @@ export class MarketParticipantHttp {
 
     /**
      * Creates an organization
-     * @param changeOrganizationDto 
+     * @param createOrganizationDto 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public v1MarketParticipantOrganizationPost(changeOrganizationDto?: ChangeOrganizationDto, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<string>;
-    public v1MarketParticipantOrganizationPost(changeOrganizationDto?: ChangeOrganizationDto, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<string>>;
-    public v1MarketParticipantOrganizationPost(changeOrganizationDto?: ChangeOrganizationDto, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<string>>;
-    public v1MarketParticipantOrganizationPost(changeOrganizationDto?: ChangeOrganizationDto, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
+    public v1MarketParticipantOrganizationPost(createOrganizationDto?: CreateOrganizationDto, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<string>;
+    public v1MarketParticipantOrganizationPost(createOrganizationDto?: CreateOrganizationDto, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<string>>;
+    public v1MarketParticipantOrganizationPost(createOrganizationDto?: CreateOrganizationDto, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<string>>;
+    public v1MarketParticipantOrganizationPost(createOrganizationDto?: CreateOrganizationDto, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
 
         let localVarHeaders = this.defaultHeaders;
 
@@ -741,7 +742,7 @@ export class MarketParticipantHttp {
         }
 
         return this.httpClient.post<string>(`${this.configuration.basePath}/v1/MarketParticipant/organization`,
-            changeOrganizationDto,
+            createOrganizationDto,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,

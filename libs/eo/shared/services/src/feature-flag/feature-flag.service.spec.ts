@@ -32,20 +32,20 @@ describe(FeatureFlagService.name, () => {
    */
   describe('If flag name is valid', () => {
     it('it can save it', () => {
-      const winterFlag = new Set().add('winter');
+      const winterFlag = new Set().add('test');
 
-      service.enableFeatureFlag('winter');
+      service.enableFeatureFlag('test');
       expect(service.getEnabledFlags()).toEqual(winterFlag);
     });
 
     it('it can remove it', () => {
-      const winterFlag = new Set().add('winter');
+      const winterFlag = new Set().add('test');
       const noFlag = new Set();
 
-      service.enableFeatureFlag('winter');
+      service.enableFeatureFlag('test');
       expect(service.getEnabledFlags()).toEqual(winterFlag);
 
-      service.disableFeatureFlag('winter');
+      service.disableFeatureFlag('test');
       expect(service.getEnabledFlags()).toEqual(noFlag);
     });
   });
