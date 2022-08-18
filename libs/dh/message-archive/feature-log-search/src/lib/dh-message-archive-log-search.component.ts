@@ -80,7 +80,7 @@ export class DhMessageArchiveLogSearchComponent implements OnDestroy {
   processTypeFormFieldOptions: WattDropdownOptions =
     this.buildProcessTypesOptions();
   searching = false;
-  maxItemCount = 100
+  maxItemCount = 100;
   searchCriteria: MessageArchiveSearchCriteria = {
     maxItemCount: this.maxItemCount,
     includeRelated: false,
@@ -230,7 +230,7 @@ export class DhMessageArchiveLogSearchComponent implements OnDestroy {
     DhMessageArchiveLogSearchResultScam,
     WattBadgeModule,
     WattDropdownModule,
-    WattSpinnerModule
+    WattSpinnerModule,
   ],
   declarations: [DhMessageArchiveLogSearchComponent],
 })
