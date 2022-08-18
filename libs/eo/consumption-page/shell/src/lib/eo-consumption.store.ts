@@ -73,7 +73,7 @@ export class EoConsumptionStore extends ComponentStore<EoConsumptionState> {
 
   loadMonthlyConsumption() {
     this.service
-      .getMonthlyConsumptionFor2021()
+      .getMonthlyConsumption()
       .pipe(take(1))
       .subscribe({
         next: (result) => {

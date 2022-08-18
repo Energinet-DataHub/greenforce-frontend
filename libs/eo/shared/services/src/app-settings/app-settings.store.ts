@@ -40,6 +40,10 @@ export class AppSettingsStore extends ComponentStore<AppSettingsState> {
   }
 
   readonly calendarDateRange$ = this.select((state) => state.calendarDateRange);
+  readonly calendarDateRangeInSeconds$ = this.select((state) => ({
+    start: state.calendarDateRange.start / 1000,
+    end: state.calendarDateRange.end / 1000,
+  }));
 
   readonly setCalendarDateRange = this.updater(
     (state, calendarDateRange: CalendarDateRange): AppSettingsState => ({
