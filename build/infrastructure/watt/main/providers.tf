@@ -11,21 +11,16 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-variable resource_group_name {
-  type = string
+terraform {
+  required_version = "=1.2.4"
+
+  required_providers {
+    # It is recommended to pin to a given version of the Azure provider
+    azurerm = "=3.9.0"
+  }
 }
 
-variable environment {
-  type        = string
-  description = "Enviroment that the infrastructure code is deployed into"
-}
-
-variable project {
-  type        = string
-  description = "Project that is running the infrastructure code"
-}
-
-variable organisation {
-  type        = string
-  description = "Organisation that is running the infrastructure code"
+provider "azurerm" {
+  use_oidc = true
+  features {}
 }

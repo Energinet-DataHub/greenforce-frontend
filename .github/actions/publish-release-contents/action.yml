@@ -17,19 +17,29 @@ inputs:
     required: true
   REPO_FOLDER_PATH:
     required: true
+  RELEASE_VERSION:
+    required: true
 
 runs:
   using: composite
   steps:
+    ## Only DH App Release
     - name: Publish Infrastructure to release folder
+      if: contains(inputs.RELEASE_VERSION, 'dh_backend')
       shell: bash
       run: |
-        mkdir ${{ inputs.RELEASE_FOLDER_PATH }}
-        mkdir ${{ inputs.RELEASE_FOLDER_PATH }}/infrastructure
         cp -fR ${{ inputs.REPO_FOLDER_PATH }}/build/infrastructure/dh/* ${{ inputs.RELEASE_FOLDER_PATH }}/infrastructure 2>/dev/null || :
 
     - name: Publish dotnet artifact to release folder
+      if: contains(inputs.RELEASE_VERSION, 'dh_backend')
       uses: actions/download-artifact@v3
       with:
         name: dotnet
         path: ${{ inputs.RELEASE_FOLDER_PATH }}
+
+    ## Only UI Watt (Design System) Release
+    - name: Publish Infrastructure to release folder
+      if: contains(inputs.RELEASE_VERSION, 'watt_backend')
+      shell: bash
+      run: |
+        cp -fR ${{ inputs.REPO_FOLDER_PATH }}/build/infrastructure/watt/* ${{ inputs.RELEASE_FOLDER_PATH }}/infrastructure 2>/dev/null || :
