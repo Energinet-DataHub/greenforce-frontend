@@ -150,7 +150,7 @@ export class DhMessageArchiveLogSearchComponent implements OnDestroy {
   }
 
   nextPage(continuationToken?: string | null) {
-    if (!this.searching && this.validateSearchParams()) {
+    if (!this.searching && this.validateSearchParams() && continuationToken) {
       this.store.searchLogs({ ...this.searchCriteria, continuationToken });
       this.pageNumber++;
     }
