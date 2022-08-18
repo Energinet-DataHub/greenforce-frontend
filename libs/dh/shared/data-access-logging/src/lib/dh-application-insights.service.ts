@@ -14,11 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Inject, Injectable } from '@angular/core';
+import { ErrorHandler, Inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { AngularPlugin } from '@microsoft/applicationinsights-angularplugin-js';
 import {
   ApplicationInsights,
+  DistributedTracingModes,
   SeverityLevel,
 } from '@microsoft/applicationinsights-web';
 
@@ -27,17 +28,22 @@ import {
   dhAppEnvironmentToken,
 } from '@energinet-datahub/dh/shared/environments';
 
-@Injectable({ providedIn: 'root' })
+@Injectable({
+  providedIn: 'root',
+})
 export class DhApplicationInsights {
   private angularPlugin = new AngularPlugin();
   private appInsights = new ApplicationInsights({
     config: {
       instrumentationKey:
         this.dhAppConfig.applicationInsights.instrumentationKey,
+      enableCorsCorrelation: true,
+      distributedTracingMode: DistributedTracingModes.W3C,
       extensions: [this.angularPlugin],
       extensionConfig: {
         [this.angularPlugin.identifier]: {
           router: this.router,
+          errorServices: [new ErrorHandler()],
         },
       },
     },
@@ -56,6 +62,8 @@ export class DhApplicationInsights {
     if (this.appInsights.appInsights.isInitialized()) {
       return;
     }
+
+    console.log('App Insights initialization');
 
     this.appInsights.loadAppInsights();
   }

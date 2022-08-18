@@ -14,14 +14,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { APP_INITIALIZER, FactoryProvider } from '@angular/core';
+import { render } from '@testing-library/angular';
+import {
+  EoDatePickerComponent,
+  EoDatePickerScam,
+} from './eo-date-picker.component';
 
-import { DhApplicationInsights } from './dh-application-insights.service';
+describe(`${EoDatePickerComponent.name} component API`, () => {
+  it('Displays a date picker', async () => {
+    // Arrange
+    await render(`<eo-date-picker></eo-date-picker>`, {
+      imports: [EoDatePickerScam],
+    });
 
-export const applicationInsightsInitializer: FactoryProvider = {
-  multi: true,
-  provide: APP_INITIALIZER,
-  useFactory: (applicationInsights: DhApplicationInsights) => (): void =>
-    applicationInsights.init(),
-  deps: [DhApplicationInsights],
-};
+    // Act
+
+    // Assert
+    expect(true).toBeTruthy();
+  });
+});

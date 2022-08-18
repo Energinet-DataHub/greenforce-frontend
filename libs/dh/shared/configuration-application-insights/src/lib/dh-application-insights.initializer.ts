@@ -14,5 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './lib/dh-shared-util-application-insights.module';
-export * from './lib/dh-application-insights.service';
+import { APP_INITIALIZER, FactoryProvider } from '@angular/core';
+
+import { DhApplicationInsights } from '@energinet-datahub/dh/shared/data-access-logging';
+
+export const applicationInsightsInitializer: FactoryProvider = {
+  multi: true,
+  provide: APP_INITIALIZER,
+  useFactory: (applicationInsights: DhApplicationInsights) => (): void =>
+    applicationInsights.init(),
+  deps: [DhApplicationInsights],
+};

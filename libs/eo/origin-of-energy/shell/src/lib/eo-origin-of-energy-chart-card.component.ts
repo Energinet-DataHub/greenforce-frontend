@@ -35,7 +35,7 @@ import { EoOriginOfEnergyPieChartScam } from './eo-origin-of-energy-pie-chart.co
       }
 
       .chart-box {
-        margin: var(-watt-space-m) 56px; /* Magix UX number */
+        margin: var(--watt-space-m) 56px; /* Magix UX number */
       }
     `,
   ],
