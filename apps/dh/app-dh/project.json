@@ -80,7 +80,12 @@
               "with": "libs/dh/shared/environments/src/lib/environment.prod.ts"
             }
           ],
-          "outputHashing": "all"
+          "outputHashing": "all",
+          "sourceMap": {
+            "hidden": true,
+            "scripts": true,
+            "vendor": true
+          }
         },
         "development": {
           "buildOptimizer": false,
