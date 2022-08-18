@@ -117,15 +117,24 @@ limitations under the License.
               name="dateTimeTo"
             />
           </watt-form-field>
-
         </div>
         <ng-container *rxLet="continuationToken$ as continuationToken">
           <div class="buttons-container">
             <!-- Search -->
-            <watt-button *rxLet="this.searching$ as seaching" [disabled]="!validateSearchParams() || seaching"
-              variant="primary" type="submit" icon="search">{{ transloco("startSearch") }}</watt-button>
-            <watt-button title="{{ transloco('clearSearch') }}" (click)="resetSearchCritera()" icon="close">{{
-              transloco("clearSearch") }}</watt-button>
+            <watt-button
+              *rxLet="this.searching$ as seaching"
+              [disabled]="!validateSearchParams() || seaching"
+              variant="primary"
+              type="submit"
+              icon="search"
+              >{{ transloco("startSearch") }}</watt-button
+            >
+            <watt-button
+              title="{{ transloco('clearSearch') }}"
+              (click)="resetSearchCritera()"
+              icon="close"
+              >{{ transloco("clearSearch") }}</watt-button
+            >
           </div>
         </ng-container>
       </form>
@@ -133,20 +142,28 @@ limitations under the License.
       <div *transloco="let transloco; read: 'messageArchive'">
         <watt-badge *ngIf="hasSearchError$ | async" type="danger">{{
           transloco("unknowenError")
-          }}</watt-badge>
+        }}</watt-badge>
       </div>
 
-      <dh-message-archive-log-search-result *rxLet="searchResult$ as searchResult"
-        [searchResult]="this.searchResult$ | async" [isSearching]="searching"
-        (downloadLogFile)="downloadLog($event)" (showLogDownloadPage)="redirectToDownloadLogPage($event)">
+      <dh-message-archive-log-search-result
+        *rxLet="searchResult$ as searchResult"
+        [searchResult]="this.searchResult$ | async"
+        [isSearching]="searching"
+        (downloadLogFile)="downloadLog($event)"
+        (showLogDownloadPage)="redirectToDownloadLogPage($event)"
+      >
       </dh-message-archive-log-search-result>
 
       <div class="load-more-button-container">
-        <watt-button *ngIf="continuationToken && !searching" [disabled]="searching"
-          (click)="loadMore(searching, continuationToken)">
-          {{ transloco("loadMore") }}</watt-button>
+        <watt-button
+          *ngIf="continuationToken && !searching"
+          [disabled]="searching"
+          (click)="loadMore(searching, continuationToken)"
+        >
+          {{ transloco("loadMore") }}</watt-button
+        >
         <watt-spinner *ngIf="searching" [diameter]="48"></watt-spinner>
       </div>
-
     </ng-container>
   </ng-container>
+</ng-container>

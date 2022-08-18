@@ -64,8 +64,8 @@ export class DhMessageArchiveDataAccessApiStore extends ComponentStore<SearchRes
     (searchCriteria: Observable<MessageArchiveSearchCriteria>) => {
       return searchCriteria.pipe(
         tap((e) => {
-          this.setLoading(true)
-          this.updateContinuationToken(e.continuationToken)
+          this.setLoading(true);
+          this.updateContinuationToken(e.continuationToken);
           this.updateSearchResult([]);
         }),
         switchMap((searchCriteria) =>
