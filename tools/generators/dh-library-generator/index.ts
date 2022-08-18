@@ -29,7 +29,7 @@ import {
   angularMoveGenerator,
 } from '@nrwl/angular/generators';
 
-enum LibraryType {
+export enum LibraryType {
   configuration = 'configuration',
   dataAccess = 'data-access',
   domain = 'domain',
@@ -43,7 +43,7 @@ enum LibraryType {
   util = 'util',
 }
 
-interface DhLibrarySchema {
+export interface DhLibrarySchema {
   domain: string;
   libraryType: LibraryType;
   name?: string;

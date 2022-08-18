@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "cli": "nx",
+  "$id": "dh-domain-generator",
+  "description": "Generate an entire domain that's going to be used in DataHub.",
+  "type": "object",
+  "properties": {
+    "domain": {
+      "type": "string",
+      "description": "What is the name of the domain?",
+      "$default": {
+        "$source": "argv",
+        "index": 0
+      },
+      "x-prompt": "What is the name of the domain?"
+    },
+    "name": {
+      "type": "string",
+      "description": "What is the name of the feature?",
+      "x-prompt": "What is the name of the feature?"
+    }
+  },
+  "additionalProperties": false,
+  "required": ["domain", "name"]
+}
