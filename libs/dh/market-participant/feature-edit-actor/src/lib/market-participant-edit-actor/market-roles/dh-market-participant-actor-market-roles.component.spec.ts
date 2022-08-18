@@ -178,9 +178,8 @@ describe(DhMarketParticipantActorMarketRolesComponent.name, () => {
       name: 'delete',
     });
 
-    userEvent.click(deleteButton);
-
     // assert
+    expect(() => userEvent.click(deleteButton)).toThrow();
     expect(outputFn).not.toHaveBeenLastCalledWith(expected);
   });
 });
