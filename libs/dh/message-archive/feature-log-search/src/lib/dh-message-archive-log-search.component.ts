@@ -35,6 +35,7 @@ import {
   WattBadgeModule,
   WattDropdownModule,
   WattDropdownOptions,
+  WattSpinnerModule,
 } from '@energinet-datahub/watt';
 import {
   DhMessageArchiveDataAccessApiStore,
@@ -79,10 +80,9 @@ export class DhMessageArchiveLogSearchComponent implements OnDestroy {
   processTypeFormFieldOptions: WattDropdownOptions =
     this.buildProcessTypesOptions();
   searching = false;
-  pageSizes = [250, 500, 750, 1000];
-  pageNumber = 1;
+  maxItemCount = 100
   searchCriteria: MessageArchiveSearchCriteria = {
-    maxItemCount: this.pageSizes[0],
+    maxItemCount: this.maxItemCount,
     includeRelated: false,
     includeResultsWithoutContent: false,
   };
@@ -136,10 +136,9 @@ export class DhMessageArchiveLogSearchComponent implements OnDestroy {
     });
   }
 
-  onSubmit() {
-    if (!this.searching && this.validateSearchParams()) {
+  onSubmit(searching: boolean) {
+    if (!searching && this.validateSearchParams()) {
       this.searchCriteria.continuationToken = null;
-      this.pageNumber = 1;
 
       if (!this.searchCriteria.messageId) {
         this.searchCriteria.includeRelated = false;
@@ -149,10 +148,9 @@ export class DhMessageArchiveLogSearchComponent implements OnDestroy {
     }
   }
 
-  nextPage(continuationToken?: string | null) {
-    if (!this.searching && this.validateSearchParams() && continuationToken) {
+  loadMore(searching: boolean, continuationToken?: string | null) {
+    if (!searching && this.validateSearchParams() && continuationToken) {
       this.store.searchLogs({ ...this.searchCriteria, continuationToken });
-      this.pageNumber++;
     }
   }
 
@@ -164,7 +162,7 @@ export class DhMessageArchiveLogSearchComponent implements OnDestroy {
       traceId: null,
       functionName: null,
       invocationId: null,
-      maxItemCount: this.pageSizes[0],
+      maxItemCount: this.maxItemCount,
       processTypes: new Array<string>(),
       includeResultsWithoutContent: false,
     };
@@ -232,6 +230,7 @@ export class DhMessageArchiveLogSearchComponent implements OnDestroy {
     DhMessageArchiveLogSearchResultScam,
     WattBadgeModule,
     WattDropdownModule,
+    WattSpinnerModule
   ],
   declarations: [DhMessageArchiveLogSearchComponent],
 })
