@@ -20,6 +20,11 @@ import {
   EoApiEnvironment,
   eoApiEnvironmentToken,
 } from '@energinet-datahub/eo/shared/environments';
+import {
+  AppSettingsStore,
+  CalendarDateRange,
+} from '@energinet-datahub/eo/shared/services';
+import { take } from 'rxjs';
 
 export interface EoMeasurement {
   dateFrom: number;
@@ -37,17 +42,24 @@ interface EoConsumptionResponse {
 export class EoConsumptionService {
   #apiBase: string;
 
-  getMonthlyConsumptionFor2021() {
+  getMonthlyConsumption() {
+    let dateRange: CalendarDateRange = {} as CalendarDateRange;
+
+    this.store.calendarDateRangeInSeconds$
+      .pipe(take(1))
+      .subscribe((datesInSeconds) => (dateRange = datesInSeconds));
+
     return this.http.get<EoConsumptionResponse>(
-      `${
-        this.#apiBase
-      }/measurements/consumption?dateFrom=1609459200&dateTo=1640995199&aggregation=Month`,
+      `${this.#apiBase}/measurements/consumption?dateFrom=${
+        dateRange.start
+      }&dateTo=${dateRange.end}&aggregation=Month`,
       { withCredentials: true }
     );
   }
 
   constructor(
     private http: HttpClient,
+    private store: AppSettingsStore,
     @Inject(eoApiEnvironmentToken) apiEnvironment: EoApiEnvironment
   ) {
     this.#apiBase = `${apiEnvironment.apiBase}`;

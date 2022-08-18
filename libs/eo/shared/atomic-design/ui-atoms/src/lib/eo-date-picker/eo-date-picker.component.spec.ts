@@ -14,7 +14,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { render } from '@testing-library/angular';
+import {
+  EoDatePickerComponent,
+  EoDatePickerScam,
+} from './eo-date-picker.component';
 
-export * from './app-settings/app-settings.store';
-export * from './feature-flag/feature-flag.service';
-export * from './feature-flag/feature-flag.directive';
+describe(`${EoDatePickerComponent.name} component API`, () => {
+  it('Displays a date picker', async () => {
+    // Arrange
+    await render(`<eo-date-picker></eo-date-picker>`, {
+      imports: [EoDatePickerScam],
+    });
+
+    // Act
+
+    // Assert
+    expect(true).toBeTruthy();
+  });
+});

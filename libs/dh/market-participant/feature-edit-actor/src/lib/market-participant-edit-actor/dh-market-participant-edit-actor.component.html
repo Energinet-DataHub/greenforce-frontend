@@ -56,6 +56,7 @@ limitations under the License.
         </watt-tab>
         <watt-tab [label]="t('marketRolesHeader')">
           <dh-market-participant-actor-market-roles
+            [actorStatus]="status$ | push"
             [gridAreas]="gridAreas$ | push"
             [actorMarketRoles]="marketRoles$ | push"
             (changed)="onMarketRolesChange($event)"

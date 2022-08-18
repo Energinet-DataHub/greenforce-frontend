@@ -15,16 +15,24 @@
  * limitations under the License.
  */
 import {
+  ErrorHandler,
   ModuleWithProviders,
   NgModule,
   Optional,
   SkipSelf,
 } from '@angular/core';
+import { ApplicationinsightsAngularpluginErrorService } from '@microsoft/applicationinsights-angularplugin-js';
 
 import { applicationInsightsInitializer } from './dh-application-insights.initializer';
 
 @NgModule({
-  providers: [applicationInsightsInitializer],
+  providers: [
+    applicationInsightsInitializer,
+    {
+      provide: ErrorHandler,
+      useClass: ApplicationinsightsAngularpluginErrorService,
+    },
+  ],
 })
 export class DhSharedUtilApplicationInsightsRootModule {
   constructor(
