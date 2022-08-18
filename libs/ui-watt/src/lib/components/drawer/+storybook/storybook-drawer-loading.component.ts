@@ -26,6 +26,7 @@ import {
   map,
   tap,
   Observable,
+  ReplaySubject,
 } from 'rxjs';
 import { WattButtonModule } from '../../button';
 import { WattSpinnerModule } from '../../spinner';
@@ -52,7 +53,9 @@ import { WattDrawerModule } from '../watt-drawer.module';
         <watt-button>Primary action</watt-button>
       </watt-drawer-actions>
 
-      <watt-drawer-content>{{ content$ | push }}</watt-drawer-content>
+      <watt-drawer-content *ngIf="drawer.opened">{{
+        content$ | push
+      }}</watt-drawer-content>
     </watt-drawer>
     <watt-button (click)="open('first')">Open first</watt-button>
     <br />
@@ -61,7 +64,7 @@ import { WattDrawerModule } from '../watt-drawer.module';
   `,
 })
 export class WattStorybookDrawerLoadingComponent {
-  private id$ = new Subject();
+  private id$ = new ReplaySubject(1);
   content$: Observable<string>;
   loading = false;
 
