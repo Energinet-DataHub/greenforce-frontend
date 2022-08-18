@@ -140,5 +140,5 @@ export const Multiple: Story<WattDrawerComponent> = (args) => ({
 
 export const Loading: Story<WattDrawerComponent> = (args) => ({
   props: args,
-  template: `<watt-storybook-drawer-loading></watt-storybook-drawer-loading>`,
+  template: `<watt-storybook-drawer-loading (closed)="closed()"></watt-storybook-drawer-loading>`,
 });

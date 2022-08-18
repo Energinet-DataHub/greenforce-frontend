@@ -26,7 +26,7 @@ import userEvent from '@testing-library/user-event';
 import { WattDrawerComponent } from './watt-drawer.component';
 import * as drawerStories from './+storybook/watt-drawer.stories';
 
-const { Normal: Drawer, Multiple } = composeStories(drawerStories);
+const { Normal: Drawer, Multiple, Loading } = composeStories(drawerStories);
 
 describe(WattDrawerComponent.name, () => {
   // Queries
@@ -217,10 +217,24 @@ describe(WattDrawerComponent.name, () => {
 
   it('shows loading state', async () => {
     await setup(Drawer, { loading: true });
-    const firstButton = screen.getByRole('button', { name: /^open drawer/i });
 
-    userEvent.click(firstButton);
+    userEvent.click(getOpenDrawerButton());
 
     expect(screen.getByRole('progressbar')).toBeInTheDocument();
+  });
+
+  it('closes drawer when clicking outside', async () => {
+    await setup(Loading);
+
+    userEvent.click(screen.getByRole('button', { name: /^open first/i }));
+
+    // This is an implementation detail, but it is the only way to test
+    // this behavior - otherwise the second button click is happening in
+    // the same event loop as the first button click (synchronous).
+    await new Promise((res) => setTimeout(res, 0));
+
+    userEvent.click(document.body);
+
+    expect(closedOutput).toHaveBeenCalled();
   });
 });

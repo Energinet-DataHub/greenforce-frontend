@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import { Component, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Output, ViewChild } from '@angular/core';
 import { MatDrawer } from '@angular/material/sidenav';
 import { PushModule } from '@rx-angular/template';
 import {
@@ -35,7 +35,7 @@ import { WattDrawerModule } from '../watt-drawer.module';
   imports: [WattButtonModule, WattDrawerModule, WattSpinnerModule, PushModule],
   selector: 'watt-storybook-drawer-loading',
   template: `
-    <watt-drawer #drawer size="small" [loading]="loading">
+    <watt-drawer #drawer size="small" [loading]="loading" (closed)="onClose()">
       <watt-drawer-topbar>
         <span>Top bar</span>
       </watt-drawer-topbar>
@@ -58,6 +58,8 @@ export class WattStorybookDrawerLoadingComponent {
   content$: Observable<string>;
   loading = false;
 
+  @Output() closed = new EventEmitter<void>();
+
   @ViewChild('drawer') drawer!: MatDrawer;
 
   constructor() {
@@ -73,5 +75,9 @@ export class WattStorybookDrawerLoadingComponent {
   open(id: string) {
     this.drawer.open();
     this.id$.next(id);
+  }
+
+  onClose() {
+    this.closed.emit();
   }
 }
