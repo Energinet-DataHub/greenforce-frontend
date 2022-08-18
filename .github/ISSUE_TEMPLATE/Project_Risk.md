@@ -4,7 +4,6 @@ about: Use this template for documenting project risks.
 title: ''
 labels: ''
 assignees: ''
-
 ---
 
 ### Risk / Issue

@@ -4,17 +4,18 @@ about: To ensure similarity in the issues created and better flow in the process
 title: ''
 labels: Mighty Ducks
 assignees: ''
-
 ---
 
 **Description:**
 ……
 
 **AC:**
+
 - [ ] …..
 - [ ] …..
 
-**Definition of Ready:** 
+**Definition of Ready:**
+
 - [ ] The issue is correctly estimated
 - [ ] The issue is adequately described
 - [ ] Possible dependencies are defined and aligned
@@ -24,6 +25,7 @@ assignees: ''
 - [ ] The issue has adequate Definition Of Done described
 
 **Definition of Done:**
+
 - [ ] Acceptance Criteria have been met
 - [ ] The product has been demo’ed for relevant stakeholders
 - [ ] Dependencies are handled
