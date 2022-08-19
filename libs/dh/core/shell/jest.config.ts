@@ -1,4 +1,3 @@
-
 /* eslint-disable */
 export default {
   displayName: 'dh-app-core-shell',
