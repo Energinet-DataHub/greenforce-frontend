@@ -30,7 +30,7 @@ watt-form-field {
   }
 
   .mat-form-field-label {
-    transform: translateY(calc(0px - 1.28125em - var(--watt-space-s))) !important;
+    transform: translateY(calc(0px - 1.28125em - var(--watt-space-s))) !important; // 1.28125em is space to top of the input (this number is from Angular material)
     @include watt.typography-watt-label;
   }
 
