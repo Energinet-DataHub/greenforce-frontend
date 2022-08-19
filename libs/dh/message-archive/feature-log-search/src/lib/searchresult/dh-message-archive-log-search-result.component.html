@@ -19,7 +19,6 @@ limitations under the License.
     aria-label="request response log search"
     mat-table
     [dataSource]="this.searchResult ?? []"
-    class="mat-elevation-z8"
   >
     <!-- message id Column -->
     <ng-container matColumnDef="messageId">
@@ -96,7 +95,7 @@ limitations under the License.
       </td>
     </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
   </table>
 
@@ -112,8 +111,4 @@ limitations under the License.
     >
     </watt-empty-state>
   </ng-container>
-
-  <div *ngIf="isSearching" class="searching_spinner">
-    <watt-spinner [diameter]="60"></watt-spinner>
-  </div>
 </ng-container>

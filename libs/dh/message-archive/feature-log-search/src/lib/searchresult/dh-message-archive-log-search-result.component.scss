@@ -19,14 +19,5 @@ table {
 }
 
 .no-result-div {
-  margin-top: 5em;
-}
-
-.searching_spinner {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  margin-top: 5em;
+  margin-top: var(--watt-space-xl);
 }
