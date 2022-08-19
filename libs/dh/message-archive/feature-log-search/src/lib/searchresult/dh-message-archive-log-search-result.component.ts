@@ -31,7 +31,6 @@ import { MessageArchiveSearchResultItemDto } from '@energinet-datahub/dh/shared/
 import {
   WattButtonModule,
   WattIconModule,
-  WattSpinnerModule,
   WattEmptyStateModule,
   WattBadgeModule,
 } from '@energinet-datahub/watt';
@@ -75,7 +74,6 @@ export class DhMessageArchiveLogSearchResultComponent {
     LetModule,
     MatTableModule,
     WattIconModule,
-    WattSpinnerModule,
     WattEmptyStateModule,
     WattButtonModule,
     WattBadgeModule,

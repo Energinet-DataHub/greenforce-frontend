@@ -17,11 +17,19 @@
 .wrapper {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  column-gap: 1em;
-  row-gap: 1em;
+  column-gap: var(--watt-space-m);
+  row-gap: var(--watt-space-m);
 }
 
-.clear-form {
-  float: right;
-  display: inline-block;
+.buttons-container {
+  display: flex;
+  justify-content: flex-end;
+  padding-bottom: var(--watt-space-m);
+  gap: var(--watt-space-m);
+}
+
+.load-more-button-container {
+  display: flex;
+  justify-content: center;
+  padding-top: var(--watt-space-l);
 }
