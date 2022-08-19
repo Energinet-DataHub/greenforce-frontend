@@ -209,6 +209,5 @@ Located under `.github/workflows`. There are:
 - `license-check-ci.yml` - Used for adding license to files
 - `frontend-ci.yml` - Used to build, test, format and lint all frontend apps
 
-We use bots for certain trivial tasks such as adding license headers to files, formatting code, fixing lint errors, and generating API clients based on OpenAPI. For this to work, bots have to use the repository secret `PAT_TOKEN`
-when pushing changes or creating releases that trigger a workflow. Only do this for idempotent tasks to
+We use bots for certain trivial tasks such as adding license headers to files, formatting code, fixing lint errors, and generating API clients based on OpenAPI. For this to work, bots have to use the repository secret `PAT_TOKEN` when pushing changes or creating releases that trigger a workflow. Only do this for idempotent tasks to
 prevent circular workflows from causing inifinite workflow runs.
