@@ -25,6 +25,7 @@ import {
   HostListener,
   Output,
   Input,
+  ElementRef,
 } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
 
@@ -45,6 +46,9 @@ export class WattDrawerComponent implements AfterViewInit, OnDestroy {
   @Input()
   size: WattDrawerSize = 'normal';
 
+  @Input()
+  loading = false;
+
   @Output()
   closed = new EventEmitter<void>();
 
@@ -54,10 +58,22 @@ export class WattDrawerComponent implements AfterViewInit, OnDestroy {
   opened = false;
 
   /** @ignore */
+  bypassClickCheck = false;
+
+  /** @ignore */
   private destroy$ = new Subject<void>();
 
   /** @ignore */
   @ContentChild(WattDrawerTopbarComponent) topbar?: WattDrawerTopbarComponent;
+
+  /** @ignore */
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent) {
+    // Prevent closing when the click triggered a call to `open`
+    if (this.bypassClickCheck) return;
+    const isClickInside = this.elementRef.nativeElement.contains(event.target);
+    if (!isClickInside) this.close();
+  }
 
   /** @ignore */
   @HostListener('window:keydown.escape')
@@ -65,7 +81,7 @@ export class WattDrawerComponent implements AfterViewInit, OnDestroy {
     this.close();
   }
 
-  constructor(private cdr: ChangeDetectorRef) {}
+  constructor(private cdr: ChangeDetectorRef, private elementRef: ElementRef) {}
 
   /** @ignore */
   ngAfterViewInit(): void {
@@ -88,6 +104,13 @@ export class WattDrawerComponent implements AfterViewInit, OnDestroy {
    * Opens the drawer. Subsequent calls are ignored while the drawer is opened.
    */
   open() {
+    // Disable click outside check until the current event loop is finished.
+    // This might seem hackish, but the order of execution is stable here.
+    this.bypassClickCheck = true;
+    setTimeout(() => {
+      this.bypassClickCheck = false;
+    }, 0);
+
     if (!this.opened) {
       WattDrawerComponent.currentDrawer?.close();
       WattDrawerComponent.currentDrawer = this;
