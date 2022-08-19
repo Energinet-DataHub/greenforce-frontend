@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ComponentStore } from '@ngrx/component-store';
 import { take } from 'rxjs';
@@ -45,6 +46,7 @@ export interface EoMeteringPoint {
 interface EoMeteringPointsState {
   loadingDone: boolean;
   meteringPoints: EoMeteringPoint[];
+  error: HttpErrorResponse | null;
 }
 
 @Injectable({
@@ -55,6 +57,7 @@ export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState>
     super({
       loadingDone: false,
       meteringPoints: [],
+      error: null,
     });
 
     this.loadData();
@@ -62,6 +65,7 @@ export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState>
 
   readonly loadingDone$ = this.select((state) => state.loadingDone);
   readonly meteringPoints$ = this.select((state) => state.meteringPoints);
+  readonly error$ = this.select((state) => state.error);
 
   readonly setLoadingDone = this.updater(
     (state, loadingDone: boolean): EoMeteringPointsState => ({
@@ -77,6 +81,13 @@ export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState>
     })
   );
 
+  readonly setError = this.updater(
+    (state, error: HttpErrorResponse | null): EoMeteringPointsState => ({
+      ...state,
+      error,
+    })
+  );
+
   loadData() {
     this.service
       .getMeteringPoints()
@@ -84,9 +95,11 @@ export class EoMeteringPointsStore extends ComponentStore<EoMeteringPointsState>
       .subscribe({
         next: (response) => {
           this.setEnergySources(response.meteringPoints);
+          this.setError(null);
           this.setLoadingDone(true);
         },
-        error: () => {
+        error: (error) => {
+          this.setError(error);
           this.setLoadingDone(true);
         },
       });
