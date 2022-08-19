@@ -15,6 +15,8 @@
  * limitations under the License.
  */
 import { render, screen } from '@testing-library/angular';
+import userEvent from '@testing-library/user-event';
+
 import { WattIcon } from '../../foundations/icon';
 import {
   WattButtonComponent,
@@ -37,17 +39,19 @@ interface WattButtonOptionsType {
 
 describe(WattButtonComponent.name, () => {
   const renderComponent = async ({ ...options }: WattButtonOptionsType) => {
-    await render(
+    return await render(
       `<watt-button
-        variant=${options.variant}
-        size=${options.size}
-        icon=${options.icon}
-        type=${options.type}
-        [loading]=${options.loading}
-        [disabled]=${options.disabled}>
-          ${options.text ?? 'Text'}
-      </watt-button>`,
-      { imports: [WattButtonModule] }
+         variant="${options.variant}"
+         size="${options.size}"
+         icon="${options.icon}"
+         type="${options.type}"
+         [loading]="${options.loading}"
+         [disabled]="${options.disabled}">
+           ${options.text ?? 'Text'}
+       </watt-button>`,
+      {
+        imports: [WattButtonModule],
+      }
     );
   };
 
@@ -102,12 +106,22 @@ describe(WattButtonComponent.name, () => {
   });
 
   it('can be disabled', async () => {
-    await renderComponent({ disabled: true });
+    const wrapperComponent = await renderComponent({
+      disabled: true,
+    });
+    const wattButton = wrapperComponent.container.querySelector('watt-button');
 
-    expect(screen.getByRole('button')).toHaveClass('mat-button-disabled');
+    expect(wattButton).toHaveClass('watt-button--disabled');
+    expect(wattButton).toHaveStyle({
+      'pointer-events': 'none',
+    });
+
+    if (wattButton) {
+      expect(() => userEvent.click(wattButton)).toThrow();
+    }
   });
 
-  it('renders loading spinner, but no text, when loading is true ', async () => {
+  it('renders loading spinner, but no text, when loading is true', async () => {
     await renderComponent({ loading: true, text: 'Text' });
 
     expect(screen.getByRole('progressbar')).toBeInTheDocument();
