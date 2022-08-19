@@ -17,6 +17,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  HostBinding,
   Input,
   ViewEncapsulation,
 } from '@angular/core';
@@ -38,7 +39,7 @@ export type WattButtonType = 'button' | 'reset' | 'submit';
   template: `
     <button
       mat-button
-      [ngClass]="['watt-button--' + variant, 'watt-button--' + size]"
+      class="watt-button--{{ variant }} watt-button--{{ size }}"
       [disabled]="disabled"
       [type]="type"
     >
@@ -64,6 +65,30 @@ export class WattButtonComponent {
   @Input() type: WattButtonType = 'button';
   @Input() disabled = false;
   @Input() loading = false;
+
+  /**
+   * @ignore
+   */
+  @HostBinding('class.watt-button--disabled')
+  get buttonDisabledState() {
+    return this.disabled;
+  }
+
+  /**
+   * @ignore
+   */
+  @HostBinding('style.pointer-events')
+  get pointerEvents() {
+    if (this.disabled) {
+      // Prevents emitting a click event in Chrome/Edge/Safari when a disabled button is clicked
+      // WebKit bug: https://bugs.webkit.org/show_bug.cgi?id=89041
+      // Note: This solution is preferred (in this particular case) over adding styling to the Scss file
+      // because the presence of inline styles can be tested with Jest.
+      return 'none';
+    }
+
+    return 'auto';
+  }
 
   /**
    * @ignore
