@@ -33,7 +33,7 @@
   .watt-modal-close {
     grid-area: close;
     justify-self: end;
-    margin-right: 3px; // align with scrollbar and buttons
+    margin-right: 1px; // align with scrollbar and buttons
     color: var(--watt-color-primary);
   }
 
