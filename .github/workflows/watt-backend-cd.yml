@@ -11,7 +11,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-name: DH Backend CD
+name: Watt IaC CD
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -22,9 +22,8 @@ on:
     branches:
       - main
     paths:
-      - 'build/infrastructure/dh/**'
-      - 'apps/dh/api-dh/**'
-      - '.github/workflows/dh-backend-ci.yml'
+      - 'build/infrastructure/watt/**'
+      - '.github/workflows/watt-backend-cd.yml'
       - '.github/actions/publish-release-contents/action.yml'
 
 jobs:
@@ -33,7 +32,7 @@ jobs:
     secrets:
       PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
     with:
-      RELEASE_NAME_PREFIX: dh_backend_
+      RELEASE_NAME_PREFIX: watt_backend_
 
   dispatch_deployment_request:
     needs: publish_release
@@ -41,19 +40,8 @@ jobs:
     with:
       CALLER_REPOSITORY_NAME: greenforce-frontend
       CALLER_REPOSITORY_PATH: Energinet-DataHub/greenforce-frontend
-      RELEASE_NAME_PREFIX: dh_backend_
-      CUSTOM_EVENT_TYPE: dh-backend
+      RELEASE_NAME_PREFIX: watt_backend_
+      CUSTOM_EVENT_TYPE: watt-backend
     secrets:
       PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
       ENVIRONMENT_REPOSITORY_PATH: ${{ secrets.ENVIRONMENT_REPOSITORY_PATH }}
-
-  update_coverage_report:
-    uses: Energinet-DataHub/.github/.github/workflows/dotnet-solution-ci.yml@7.9.0
-    with:
-      SOLUTION_FILE_PATH: 'apps/dh/api-dh/DataHub.WebApi.sln'
-      PREPARE_OUTPUTS: false
-    secrets:
-      AZURE_TENANT_ID: ${{ secrets.AZURE_TESTING_TENANT_ID }}
-      AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_TESTING_SUBSCRIPTION_ID }}
-      AZURE_SPN_ID: ${{ secrets.AZURE_SPN_ID_OIDC }}
-      AZURE_KEYVAULT_URL: ${{ secrets.AZURE_TESTING_KEYVAULT_URL }}
