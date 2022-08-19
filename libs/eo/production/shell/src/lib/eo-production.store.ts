@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ComponentStore } from '@ngrx/component-store';
 import { take } from 'rxjs';
@@ -30,6 +31,7 @@ interface EoProductionState {
   loadingDone: boolean;
   measurements: EoMeasurementData[];
   totalMeasurement: number;
+  error: HttpErrorResponse | null;
 }
 
 @Injectable({
@@ -41,6 +43,7 @@ export class EoProductionStore extends ComponentStore<EoProductionState> {
       loadingDone: false,
       measurements: [],
       totalMeasurement: 0,
+      error: null,
     });
 
     this.loadMonthlyProduction();
@@ -49,11 +52,19 @@ export class EoProductionStore extends ComponentStore<EoProductionState> {
   readonly loadingDone$ = this.select((state) => state.loadingDone);
   readonly measurements$ = this.select((state) => state.measurements);
   readonly totalMeasurement$ = this.select((state) => state.totalMeasurement);
+  readonly error$ = this.select((state) => state.error);
 
   readonly setLoadingDone = this.updater(
     (state, loadingDone: boolean): EoProductionState => ({
       ...state,
       loadingDone,
+    })
+  );
+
+  readonly setError = this.updater(
+    (state, error: HttpErrorResponse | null): EoProductionState => ({
+      ...state,
+      error,
     })
   );
 
@@ -83,9 +94,11 @@ export class EoProductionStore extends ComponentStore<EoProductionState> {
 
           this.setMonthlyMeasurements(measurements);
           this.setTotalMeasurement(this.getTotalFromArray(measurements));
+          this.setError(null);
           this.setLoadingDone(true);
         },
-        error: () => {
+        error: (error) => {
+          this.setError(error);
           this.setLoadingDone(true);
         },
       });
