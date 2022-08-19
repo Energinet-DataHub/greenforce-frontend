@@ -30,6 +30,7 @@ import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/featu
 export class DhWholesaleStartComponent {
   constructor(private store: DhWholesaleBatchDataAccessApiStore) {}
 
+  // my comment
   createBatch() {
     this.store.createBatch(['805', '806']);
   }

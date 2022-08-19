@@ -24,7 +24,8 @@
             "prefix": "dh",
             "style": "kebab-case"
           }
-        ]
+        ],
+        "capitalized-comments": "warn"
       }
     },
     {
