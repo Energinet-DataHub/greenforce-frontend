@@ -25,7 +25,7 @@ import {
 import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { ErrorState, SearchingState } from './states';
 interface SearchResultState {
-  readonly searchResult?: Array<MessageArchiveSearchResultItemDto>;
+  readonly searchResult: Array<MessageArchiveSearchResultItemDto>;
   readonly searchingState: SearchingState | ErrorState;
   readonly continuationToken: string | null | undefined;
 }
@@ -64,12 +64,9 @@ export class DhMessageArchiveDataAccessApiStore extends ComponentStore<SearchRes
     (searchCriteria: Observable<MessageArchiveSearchCriteria>) => {
       return searchCriteria.pipe(
         tap((e) => {
-          this.setState({
-            searchResult: [],
-            searchingState: SearchingState.INIT,
-            continuationToken: e.continuationToken,
-          });
           this.setLoading(true);
+          this.updateContinuationToken(e.continuationToken);
+          this.updateSearchResult([]);
         }),
         switchMap((searchCriteria) =>
           this.httpClient
@@ -78,16 +75,8 @@ export class DhMessageArchiveDataAccessApiStore extends ComponentStore<SearchRes
               tapResponse(
                 (searchResult) => {
                   this.setLoading(false);
-                  if (searchResult && searchResult.result) {
-                    this.updateContinuationToken(
-                      searchResult.continuationToken
-                    );
-                    this.updateSearchResult(searchResult.result);
-                  } else {
-                    this.updateSearchResult(
-                      new Array<MessageArchiveSearchResultItemDto>()
-                    );
-                  }
+                  this.updateSearchResult(searchResult?.result ?? []);
+                  this.updateContinuationToken(searchResult?.continuationToken);
                 },
                 (error: HttpErrorResponse) => {
                   this.setLoading(false);
@@ -104,10 +93,14 @@ export class DhMessageArchiveDataAccessApiStore extends ComponentStore<SearchRes
     (
       state: SearchResultState,
       searchResult: Array<MessageArchiveSearchResultItemDto> | []
-    ): SearchResultState => ({
-      ...state,
-      searchResult: searchResult,
-    })
+    ): SearchResultState => {
+      return {
+        ...state,
+        searchResult: state.continuationToken
+          ? state.searchResult.concat(searchResult)
+          : searchResult,
+      };
+    }
   );
 
   private updateContinuationToken = this.updater(
