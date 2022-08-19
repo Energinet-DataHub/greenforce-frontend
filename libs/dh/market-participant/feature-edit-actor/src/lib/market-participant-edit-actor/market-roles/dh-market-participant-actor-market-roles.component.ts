@@ -175,8 +175,6 @@ export class DhMarketParticipantActorMarketRolesComponent implements OnChanges {
   };
 
   readonly onRowDelete = (row: EditableMarketRoleRow) => {
-    if (this.isReadonly(row)) return;
-
     const copy = [...this.rows];
     const index = copy.indexOf(row);
     copy.splice(index, 1);
