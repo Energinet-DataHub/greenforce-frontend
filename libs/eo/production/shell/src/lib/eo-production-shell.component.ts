@@ -32,7 +32,7 @@ import { EoProductionStore } from './eo-production.store';
   selector: 'eo-production-shell',
   styles: [
     `
-      :host {
+      .content {
         display: grid;
         grid-template-columns: 375px 360px; // Magic numbers by designer
         grid-gap: var(--watt-space-l);
@@ -40,20 +40,22 @@ import { EoProductionStore } from './eo-production.store';
     `,
   ],
   template: `
-    <div>
-      <eo-production-info class="watt-space-stack-l"></eo-production-info>
-      <eo-production-line-chart
-        class="watt-space-stack-l"
-      ></eo-production-line-chart>
-      <eo-date-picker
-        [onFeatureFlag]="'daterange'"
-        *rxLet="appSettingsDates$ as dates"
-        [dateRangeInput]="dates"
-        (newDates)="setNewAppDates($event)"
-      ></eo-date-picker>
-    </div>
-    <div>
-      <eo-production-tip class="watt-space-stack-l"></eo-production-tip>
+    <div class="content">
+      <div>
+        <eo-production-info class="watt-space-stack-l"></eo-production-info>
+        <eo-production-line-chart
+          class="watt-space-stack-l"
+        ></eo-production-line-chart>
+        <eo-date-picker
+          [onFeatureFlag]="'daterange'"
+          *rxLet="appSettingsDates$ as dates"
+          [dateRangeInput]="dates"
+          (newDates)="setNewAppDates($event)"
+        ></eo-date-picker>
+      </div>
+      <div>
+        <eo-production-tip class="watt-space-stack-l"></eo-production-tip>
+      </div>
     </div>
   `,
 })
