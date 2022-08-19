@@ -19,7 +19,9 @@
 watt-form-field {
   display: block;
   width: 100%;
-  margin-top: var(--watt-space-m); // margin is added to take up space for the floating label
+  margin-top: var(
+    --watt-space-m
+  ); // margin is added to take up space for the floating label
   --input-border-color: var(--watt-color-neutral-grey-400);
   --input-color: var(--watt-color-primary-dark);
   --input-background: var(--watt-color-neutral-white);
@@ -30,7 +32,9 @@ watt-form-field {
   }
 
   .mat-form-field-label {
-    transform: translateY(calc(0px - 1.28125em - var(--watt-space-s))) !important; // 1.28125em is space to top of the input (this number is from Angular material)
+    transform: translateY(
+      calc(0px - 1.28125em - var(--watt-space-s))
+    ) !important; // 1.28125em is space to top of the input (this number is from Angular material)
     @include watt.typography-watt-label;
   }
 
