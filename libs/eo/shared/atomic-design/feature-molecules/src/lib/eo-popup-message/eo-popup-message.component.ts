@@ -50,6 +50,20 @@ import { MatIconModule } from '@angular/material/icon';
         }
       }
 
+      .container {
+        display: flex;
+        align-items: flex-start;
+      }
+
+      .content {
+        flex-direction: column;
+        flex-grow: 2;
+      }
+
+      .inline {
+        display: inline-block;
+      }
+
       .mat-card {
         background-color: var(--watt-color-state-danger-light);
         padding: var(--watt-space-m);
@@ -88,19 +102,16 @@ import { MatIconModule } from '@angular/material/icon';
     `,
   ],
   template: `
-    <div
-      class="mat-card watt-space-stack-l"
-      style="display:flex; align-items: flex-start;"
-    >
+    <div class="mat-card watt-space-stack-l container">
       <img alt="Danger icon" src="/assets/icons/danger.svg" />
-      <div style=" flex-direction: column; flex-grow:2">
+      <div class="content">
         <h4 class="watt-space-stack-s">Oops! Something went wrong...</h4>
         <p class="watt-space-stack-m">
           We are sorry for the inconvinience, you can try again. But you are
           more than welcome to contact us and tell, what the problem is, then we
           will do what we can to help you proceed.
         </p>
-        <p style="display:inline-block">
+        <p class="inline">
           Try reloading the page. Alternatively you can
           <a href="mailto:datahub@energinet.dk">contact customer service</a>
         </p>
