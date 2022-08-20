@@ -185,11 +185,10 @@ jobs:
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         with:
-          args: >
-            -Dsonar.projectKey=Energinet-DataHub_energy-origin
-            -Dsonar.organization=energinet-datahub
-            -Dsonar.sources=apps/eo/app-eo,libs/eo
-            -Dsonar.exclusions=**/*.spec.ts
+          args: -sonar.projectKey=Energinet-DataHub_energy-origin
+            -sonar.organization=energinet-datahub
+            -sonar.sources=apps/eo/app-eo,libs/eo
+            -sonar.exclusions=**/*.spec.ts
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_EO }}
