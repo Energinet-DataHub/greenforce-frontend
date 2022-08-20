@@ -192,7 +192,7 @@ jobs:
             -Dsonar.exclusions=**/*.spec.ts
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_EO }}
 
   helm_chart_version_increment_check:
     name: Helm chart check version
