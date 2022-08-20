@@ -44,18 +44,18 @@ import { WattButtonModule } from '@energinet-datahub/watt';
 
       .calendar-container {
         border-left: 1px solid var(--watt-color-neutral-grey-400);
-        padding: 0 0 0 20px; /* Magix UX number */
+        padding: 0 0 0 20px; /* Magic UX number */
       }
 
       mat-calendar {
-        width: 300px; /* Magix UX number */
+        width: 300px; /* Magic UX number */
         margin-bottom: var(--watt-space-l);
       }
 
       .eo-mat-dialog {
         mat-dialog-container {
           padding: var(--watt-space-m);
-          border-radius: 10px 10px 10px 0px; /* Magix UX number */
+          border-radius: 10px 10px 10px 0; /* Magic UX number */
         }
       }
 
@@ -98,18 +98,18 @@ import { WattButtonModule } from '@energinet-datahub/watt';
         padding-bottom: var(--watt-space-s);
 
         .mat-radio-container {
-          width: 14px; /* Magix UX number */
-          height: 14px; /* Magix UX number */
+          width: 14px; /* Magic UX number */
+          height: 14px; /* Magic UX number */
 
           .mat-radio-outer-circle {
-            height: 14px; /* Magix UX number */
-            width: 14px; /* Magix UX number */
+            height: 14px; /* Magic UX number */
+            width: 14px; /* Magic UX number */
           }
 
           .mat-radio-inner-circle {
             background-color: var(--watt-typography-label-color);
-            width: 14px; /* Magix UX number */
-            height: 14px; /* Magix UX number */
+            width: 14px; /* Magic UX number */
+            height: 14px; /* Magic UX number */
           }
         }
 

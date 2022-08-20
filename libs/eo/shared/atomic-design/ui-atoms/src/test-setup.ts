@@ -14,12 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import 'jest-preset-angular/setup-jest';
-import {
-  setUpTestbed,
-  setUpAngularTestingLibrary,
-} from '@energinet-datahub/gf/test-util-staging';
 import { addDomMatchers } from '@energinet-datahub/gf/test-util-matchers';
+import {
+  setUpAngularTestingLibrary,
+  setUpTestbed,
+} from '@energinet-datahub/gf/test-util-staging';
+import 'jest-preset-angular/setup-jest';
 
 addDomMatchers();
 setUpTestbed();
