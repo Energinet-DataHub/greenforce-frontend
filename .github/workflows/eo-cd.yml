@@ -186,7 +186,7 @@ jobs:
         uses: SonarSource/sonarcloud-github-action@master
         with:
           args: >
-            -Dsonar.projectKey=Energinet-DataHub_energy-origin
+            -Dsonar.projectKey=energy-origin
             -Dsonar.organization=energinet-datahub
             -Dsonar.sources=apps/eo/app-eo,libs/eo
             -Dsonar.exclusions=**/*.spec.ts
