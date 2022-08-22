@@ -18,10 +18,9 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
 import { OverlayModule } from '@angular/cdk/overlay';
 
-import { WattIconModule } from '../../../foundations/icon';
+import { WattButtonModule } from '../../button';
 import { WattSliderModule } from '../../slider/watt-slider.module';
 import { WattTimepickerComponent } from './watt-timepicker.component';
 
@@ -29,9 +28,8 @@ import { WattTimepickerComponent } from './watt-timepicker.component';
   declarations: [WattTimepickerComponent],
   exports: [WattTimepickerComponent],
   imports: [
-    MatButtonModule,
     MatDatepickerModule,
-    WattIconModule,
+    WattButtonModule,
     WattSliderModule,
     MatInputModule,
     OverlayModule,
