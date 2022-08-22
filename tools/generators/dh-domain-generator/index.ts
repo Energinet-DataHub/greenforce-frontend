@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Tree } from '@nrwl/devkit';
+import { installPackagesTask, Tree } from '@nrwl/devkit';
 import dhLibraryGenerator, { LibraryType } from '../dh-library-generator';
 
 interface Schema {
@@ -44,4 +44,8 @@ export default async function (tree: Tree, schema: Schema) {
     domain: schema.domain,
     libraryType: LibraryType.shell,
   });
+
+  return () => {
+    installPackagesTask(tree);
+  };
 }
