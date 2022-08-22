@@ -14,7 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
+import { EoPopupMessageScam } from '@energinet-datahub/eo/shared/atomic-design/feature-molecules';
 import { EoDatePickerScam } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 import {
   AppSettingsStore,
@@ -32,7 +34,7 @@ import { EoProductionStore } from './eo-production.store';
   selector: 'eo-production-shell',
   styles: [
     `
-      :host {
+      .content {
         display: grid;
         grid-template-columns: 375px 360px; // Magic numbers by designer
         grid-gap: var(--watt-space-l);
@@ -40,25 +42,32 @@ import { EoProductionStore } from './eo-production.store';
     `,
   ],
   template: `
-    <div>
-      <eo-production-info class="watt-space-stack-l"></eo-production-info>
-      <eo-production-line-chart
-        class="watt-space-stack-l"
-      ></eo-production-line-chart>
-      <eo-date-picker
-        [onFeatureFlag]="'daterange'"
-        *rxLet="appSettingsDates$ as dates"
-        [dateRangeInput]="dates"
-        (newDates)="setNewAppDates($event)"
-      ></eo-date-picker>
-    </div>
-    <div>
-      <eo-production-tip class="watt-space-stack-l"></eo-production-tip>
+    <ng-container *rxLet="error$ as error">
+      <eo-popup-message *ngIf="error" [errorMessage]="error">
+      </eo-popup-message>
+    </ng-container>
+    <div class="content">
+      <div>
+        <eo-production-info class="watt-space-stack-l"></eo-production-info>
+        <eo-production-line-chart
+          class="watt-space-stack-l"
+        ></eo-production-line-chart>
+        <eo-date-picker
+          [onFeatureFlag]="'daterange'"
+          *rxLet="appSettingsDates$ as dates"
+          [dateRangeInput]="dates"
+          (newDates)="setNewAppDates($event)"
+        ></eo-date-picker>
+      </div>
+      <div>
+        <eo-production-tip class="watt-space-stack-l"></eo-production-tip>
+      </div>
     </div>
   `,
 })
 export class EoProductionShellComponent {
   appSettingsDates$ = this.appSettingsStore.calendarDateRange$;
+  error$ = this.productionStore.error$;
 
   constructor(
     private appSettingsStore: AppSettingsStore,
@@ -74,7 +83,9 @@ export class EoProductionShellComponent {
 @NgModule({
   declarations: [EoProductionShellComponent],
   imports: [
+    EoPopupMessageScam,
     EoFeatureFlagScam,
+    CommonModule,
     LetModule,
     EoDatePickerScam,
     EoProductionTipScam,
