@@ -14,7 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
+import { EoPopupMessageScam } from '@energinet-datahub/eo/shared/atomic-design/feature-molecules';
 import { EoDatePickerScam } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 import {
   AppSettingsStore,
@@ -33,7 +35,7 @@ import { EoConsumptionStore } from './eo-consumption.store';
   selector: 'eo-consumption-shell',
   styles: [
     `
-      :host {
+      .content {
         display: grid;
         grid-template-columns: 375px 360px; // Magic numbers by designer
         grid-gap: var(--watt-space-l);
@@ -41,30 +43,38 @@ import { EoConsumptionStore } from './eo-consumption.store';
     `,
   ],
   template: `
-    <div>
-      <eo-consumption-page-info
-        class="watt-space-stack-l"
-      ></eo-consumption-page-info>
-      <eo-consumption-line-chart
-        class="watt-space-stack-l"
-      ></eo-consumption-line-chart>
-      <eo-date-picker
-        [onFeatureFlag]="'daterange'"
-        *rxLet="appSettingsDates$ as dates"
-        [dateRangeInput]="dates"
-        (newDates)="setNewAppDates($event)"
-      ></eo-date-picker>
-    </div>
-    <div>
-      <eo-consumption-page-tip
-        class="watt-space-stack-l"
-      ></eo-consumption-page-tip>
-      <eo-consumption-page-energy-consumption></eo-consumption-page-energy-consumption>
+    <ng-container *rxLet="error$ as error">
+      <eo-popup-message *ngIf="error" [errorMessage]="error">
+      </eo-popup-message>
+    </ng-container>
+    <div class="content">
+      <div>
+        <eo-consumption-page-info
+          class="watt-space-stack-l"
+        ></eo-consumption-page-info>
+        <eo-consumption-line-chart
+          class="watt-space-stack-l"
+        ></eo-consumption-line-chart>
+        <eo-date-picker
+          [onFeatureFlag]="'daterange'"
+          *rxLet="appSettingsDates$ as dates"
+          [dateRangeInput]="dates"
+          (newDates)="setNewAppDates($event)"
+        ></eo-date-picker>
+      </div>
+
+      <div>
+        <eo-consumption-page-tip
+          class="watt-space-stack-l"
+        ></eo-consumption-page-tip>
+        <eo-consumption-page-energy-consumption></eo-consumption-page-energy-consumption>
+      </div>
     </div>
   `,
 })
 export class EoConsumptionPageShellComponent {
   appSettingsDates$ = this.appSettingsStore.calendarDateRange$;
+  error$ = this.consumptionStore.error$;
 
   constructor(
     private appSettingsStore: AppSettingsStore,
@@ -81,6 +91,8 @@ export class EoConsumptionPageShellComponent {
   declarations: [EoConsumptionPageShellComponent],
   imports: [
     LetModule,
+    CommonModule,
+    EoPopupMessageScam,
     EoFeatureFlagScam,
     EoDatePickerScam,
     EoConsumptionPageTipScam,

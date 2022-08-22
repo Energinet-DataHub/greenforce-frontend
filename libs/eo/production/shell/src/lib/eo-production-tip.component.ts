@@ -52,7 +52,7 @@ import { MatCardModule } from '@angular/material/card';
         <h1>Tip</h1>
       </div>
       <p>
-        You can decrease your production by investing in more green technology,
+        You can increase your production by investing in more green technology,
         like solar power, wind mills, etc.
       </p>
     </mat-card>

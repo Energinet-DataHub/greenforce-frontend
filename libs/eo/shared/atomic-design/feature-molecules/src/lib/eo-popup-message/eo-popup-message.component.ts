@@ -113,7 +113,12 @@ import { MatIconModule } from '@angular/material/icon';
         </p>
         <p class="inline">
           Try reloading the page. Alternatively you can
-          <a href="mailto:datahub@energinet.dk">contact customer service</a>
+          <a
+            href="mailto:datahub@energinet.dk?subject=Error on energioprindelse.dk&body=**Write your message here, but please keep the lines below intact for our internal investigations**%0D%0A%0D%0AError code:{{
+              errorMessage?.status
+            }}%0D%0A{{ errorMessage?.message }}"
+            >contact customer service</a
+          >
         </p>
 
         <a
