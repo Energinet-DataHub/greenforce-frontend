@@ -16,8 +16,8 @@
     },
     "name": {
       "type": "string",
-      "description": "What is the name of the feature?",
-      "x-prompt": "What is the name of the feature?"
+      "description": "What is the name of the first feature under the new domain?",
+      "x-prompt": "What is the name of the first feature under the new domain?"
     }
   },
   "additionalProperties": false,
