@@ -39,9 +39,7 @@ import { EoConsumptionStore } from './eo-consumption.store';
   ],
   template: `
     <mat-card>
-      <h4 class="output watt-space-stack-s">
-        Your electricity consumption in 2021
-      </h4>
+      <h4 class="output watt-space-stack-s">Your electricity consumption</h4>
       <h1 *ngIf="loadingDone$ | async; else loading">
         {{ convertTokWh((totalMeasurement$ | async) || 0).toLocaleString() }}
         kWh

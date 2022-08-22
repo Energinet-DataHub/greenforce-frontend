@@ -20,6 +20,7 @@ import userEvent from '@testing-library/user-event';
 import { runOnPushChangeDetection } from '@energinet-datahub/dh/shared/test-util-metering-point';
 import {
   ActorMarketRoleDto,
+  ActorStatus,
   GridAreaDto,
 } from '@energinet-datahub/dh/shared/domain';
 import { MarketRoleChanges } from '@energinet-datahub/dh/market-participant/data-access-api';
@@ -33,12 +34,14 @@ import { en } from '@energinet-datahub/dh/globalization/assets-localization';
 
 describe(DhMarketParticipantActorMarketRolesComponent.name, () => {
   async function setup(
+    actorStatus: ActorStatus,
     gridAreas: GridAreaDto[],
     existingActorMarketRoles: ActorMarketRoleDto[]
   ) {
     const outputFn = jest.fn();
     const view = await render(DhMarketParticipantActorMarketRolesComponent, {
       componentProperties: {
+        actorStatus: actorStatus,
         gridAreas: gridAreas,
         actorMarketRoles: existingActorMarketRoles,
         changed: {
@@ -67,7 +70,7 @@ describe(DhMarketParticipantActorMarketRolesComponent.name, () => {
 
   test('should add new', async () => {
     // arrange
-    const { outputFn } = await setup(gridAreas, []);
+    const { outputFn } = await setup(ActorStatus.New, gridAreas, []);
 
     const expected = {
       isValid: true,
@@ -133,9 +136,9 @@ describe(DhMarketParticipantActorMarketRolesComponent.name, () => {
     expect(outputFn).toHaveBeenLastCalledWith(expected);
   });
 
-  test('should remove existing', async () => {
+  test('should remove existing if status is new', async () => {
     // arrange
-    const { outputFn } = await setup(gridAreas, [
+    const { outputFn } = await setup(ActorStatus.New, gridAreas, [
       {
         eicFunction: 'Agent',
         gridAreas: [
@@ -155,5 +158,28 @@ describe(DhMarketParticipantActorMarketRolesComponent.name, () => {
 
     // assert
     expect(outputFn).toHaveBeenLastCalledWith(expected);
+  });
+
+  test('should not remove existing if status is not new', async () => {
+    // arrange
+    const { outputFn } = await setup(ActorStatus.Active, gridAreas, [
+      {
+        eicFunction: 'Agent',
+        gridAreas: [
+          { id: gridAreas[0].id, meteringPointTypes: ['D01VeProduction'] },
+        ],
+      },
+    ]);
+
+    const expected = { isValid: true, marketRoles: [] };
+
+    // act
+    const deleteButton = screen.getByRole('button', {
+      name: 'delete',
+    });
+
+    // assert
+    expect(() => userEvent.click(deleteButton)).toThrow();
+    expect(outputFn).not.toHaveBeenLastCalledWith(expected);
   });
 });

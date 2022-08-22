@@ -22,27 +22,25 @@ import { WattButtonModule } from '../../button';
 import { WattDrawerComponent } from '../watt-drawer.component';
 import { WattDrawerModule } from '../watt-drawer.module';
 import { WattStorybookDrawerContentModule } from './storybook-drawer-content.component';
+import { WattStorybookDrawerLoadingComponent } from './storybook-drawer-loading.component';
 
 export default {
   title: 'Components/Drawer',
   component: WattDrawerComponent,
   argTypes: {
+    size: { control: false },
+    loading: { control: false },
+    opened: { control: false },
     closed: {
-      table: {
-        category: 'Outputs',
-      },
+      table: { category: 'Outputs' },
       control: false,
     },
     close: {
-      table: {
-        category: 'Methods',
-      },
+      table: { category: 'Methods' },
       control: false,
     },
     open: {
-      table: {
-        category: 'Methods',
-      },
+      table: { category: 'Methods' },
       control: false,
     },
   },
@@ -53,6 +51,7 @@ export default {
         BrowserAnimationsModule,
         WattButtonModule,
         WattStorybookDrawerContentModule,
+        WattStorybookDrawerLoadingComponent,
       ],
     }),
   ],
@@ -60,7 +59,7 @@ export default {
 
 const template = `
 <!-- Notice: the #drawer reference, to access the instance of the drawer -->
-<watt-drawer #drawer (closed)="closed()">
+<watt-drawer #drawer (closed)="closed()" [size]="size" [loading]="loading">
   <watt-drawer-topbar>
     <span>Top bar</span>
   </watt-drawer-topbar>
@@ -83,7 +82,7 @@ const template = `
 <watt-button (click)="drawer.close()">Close drawer from outside of the drawer</watt-button>
 `;
 
-export const Drawer: Story<WattDrawerComponent> = (args) => ({
+const Drawer: Story<WattDrawerComponent> = (args) => ({
   props: args,
   template,
 });
@@ -109,3 +108,37 @@ Drawer.play = async ({ canvasElement }) => {
   });
   fireEvent.click(openDrawerButton);
 };
+
+export const Small = Drawer.bind({});
+Small.args = { size: 'small' };
+
+export const Normal = Drawer.bind({});
+Normal.args = { size: 'normal' };
+
+export const Large = Drawer.bind({});
+Large.args = { size: 'large' };
+
+export const Multiple: Story<WattDrawerComponent> = (args) => ({
+  props: args,
+  template: `
+    <watt-drawer #first (closed)="closed()">
+      <watt-drawer-content *ngIf="first.opened">
+        First drawer
+      </watt-drawer-content>
+    </watt-drawer>
+
+    <watt-drawer #second (closed)="closed()">
+      <watt-drawer-content *ngIf="second.opened">
+        Second drawer
+      </watt-drawer-content>
+    </watt-drawer>
+
+    <watt-button (click)="first.open()">Open first</watt-button><br /><br />
+    <watt-button (click)="second.open()">Open second</watt-button>
+  `,
+});
+
+export const Loading: Story<WattDrawerComponent> = (args) => ({
+  props: args,
+  template: `<watt-storybook-drawer-loading (closed)="closed()"></watt-storybook-drawer-loading>`,
+});

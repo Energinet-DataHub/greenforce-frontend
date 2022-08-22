@@ -14,19 +14,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
+import { EoPopupMessageScam } from '@energinet-datahub/eo/shared/atomic-design/feature-molecules';
+import { LetModule } from '@rx-angular/template';
 import { EoEmissionsPageCo2ReductionScam } from './eo-emissions-page-co2-reduction';
 import { EoEmissionsPageGreenhouseGassesScam } from './eo-emissions-page-greenhouse-gasses.component';
 import { EoEmissionsPageInfoScam } from './eo-emissions-page-info.component';
 import { EoEmissionsPageLeadByExampleScam } from './eo-emissions-page-lead-by-example.component';
 import { EoEmissionsPageTipScam } from './eo-emissions-page-tip.component';
+import { EoEmissionsStore } from './eo-emissions.store';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'eo-emissions-page-shell',
   styles: [
     `
-      :host {
+      .content {
         display: grid;
         grid-template-columns: 344px 578px; // Magic numbers by designer
         grid-gap: var(--watt-space-l);
@@ -34,29 +38,42 @@ import { EoEmissionsPageTipScam } from './eo-emissions-page-tip.component';
     `,
   ],
   template: `
-    <div>
-      <eo-emissions-page-info
-        class="watt-space-stack-l"
-      ></eo-emissions-page-info>
-      <eo-emissions-page-co2-reduction
-        class="watt-space-stack-l"
-      ></eo-emissions-page-co2-reduction>
-      <eo-emissions-page-tip></eo-emissions-page-tip>
-    </div>
+    <ng-container *rxLet="error$ as error">
+      <eo-popup-message *ngIf="error" [errorMessage]="error">
+      </eo-popup-message>
+    </ng-container>
+    <div class="content">
+      <div>
+        <eo-emissions-page-info
+          class="watt-space-stack-l"
+        ></eo-emissions-page-info>
+        <eo-emissions-page-co2-reduction
+          class="watt-space-stack-l"
+        ></eo-emissions-page-co2-reduction>
+        <eo-emissions-page-tip></eo-emissions-page-tip>
+      </div>
 
-    <div>
-      <eo-emissions-page-greenhouse-gasses
-        class="watt-space-stack-l"
-      ></eo-emissions-page-greenhouse-gasses>
-      <eo-emissions-page-lead-by-example></eo-emissions-page-lead-by-example>
+      <div>
+        <eo-emissions-page-greenhouse-gasses
+          class="watt-space-stack-l"
+        ></eo-emissions-page-greenhouse-gasses>
+        <eo-emissions-page-lead-by-example></eo-emissions-page-lead-by-example>
+      </div>
     </div>
   `,
 })
-export class EoEmissionsPageShellComponent {}
+export class EoEmissionsPageShellComponent {
+  error$ = this.emissionsStore.error$;
+
+  constructor(private emissionsStore: EoEmissionsStore) {}
+}
 
 @NgModule({
   declarations: [EoEmissionsPageShellComponent],
   imports: [
+    LetModule,
+    CommonModule,
+    EoPopupMessageScam,
     EoEmissionsPageInfoScam,
     EoEmissionsPageCo2ReductionScam,
     EoEmissionsPageTipScam,

@@ -46,7 +46,7 @@ import { WattNavListModule } from '@energinet-datahub/watt';
         Dashboard
       </watt-nav-list-item>
       <watt-nav-list-item link="/${eoOriginOfEnergyRoutePath}">
-        Origin of Energy
+        Renewable Share
       </watt-nav-list-item>
       <watt-nav-list-item link="/${eoEmissionsRoutePath}">
         Emissions

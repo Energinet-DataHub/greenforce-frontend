@@ -11,7 +11,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-name: DH UI Frontend CD
+name: DH Frontend CD
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -24,6 +24,7 @@ env:
   is-pull-request: ${{ github.event_name == 'pull_request' }}
   NODE_OPTIONS: --max-old-space-size=6144
   node-version-file: .nvmrc
+  # keep in sync with "engines.yarn" and "volta.yarn" in "package.json"
   yarn-version: 1.22.19
   NX_MAX_PARALLEL: 2
 
@@ -92,8 +93,8 @@ jobs:
           base: ${{ env.is-main-branch == 'true' && 'HEAD~1' || format('origin/{0}', env.BASE_BRANCH) }}
           project: ${{ env.app-name }}
 
-  build_app:
-    name: Build app
+  publish_inbound:
+    name: Publish
     if: ${{ needs.affected.outputs.is-affected == 'true' }}
     needs: affected
     runs-on: ubuntu-latest
@@ -137,33 +138,33 @@ jobs:
       - name: Optimize i18n assets
         run: yarn i18n:optimize:${{ env.app-name }}
 
-      - name: Upload web app build artifact
-        uses: actions/upload-artifact@v2
+      - name: Find associated pull request
+        uses: jwalton/gh-find-current-pr@v1
+        id: find_pull_request
         with:
-          name: ${{ env.app-name }}
-          path: ./dist/apps/dh/${{ env.app-name }}/
-          if-no-files-found: error
+          state: all
 
-  dispatch_deployment_request:
-    needs: build_app
-    name: Dispatch deployment request
-    runs-on: ubuntu-latest
-    env:
-      RELEASE_VERSION: app_dh_${{ github.run_id }}
-      EVENT_TYPE: 'greenforce-frontend-app-deployment-request'
-    steps:
-      - name: Download artifact
-        uses: actions/download-artifact@v2
-        with:
-          name: ${{ env.app-name }}
-          path: artifact
+      - name: Fail if PR not found
+        if: steps.find_pull_request.outputs.pr == ''
+        run: exit 1
+
+      - name: Set RELEASE_VERSION
+        shell: bash
+        run: |
+          echo "RELEASE_VERSION=dh_frontend_${{ steps.find_pull_request.outputs.pr }}" >> $GITHUB_ENV
+          echo "RELEASE_FOLDER_PATH=${{ github.workspace }}/dh_frontend_${{ steps.find_pull_request.outputs.pr }}" >> $GITHUB_ENV
+
+      - name: Setup Release
+        shell: bash
+        run: |
+          cp -R ${{ github.workspace }}/dist/apps/dh/${{ env.app-name }} ${{ env.RELEASE_FOLDER_PATH }}
 
       - name: Zip artifact
         uses: thedoctor0/zip-release@master
         with:
           type: 'zip'
           filename: ${{ env.RELEASE_VERSION }}.zip
-          directory: artifact
+          directory: ${{ env.RELEASE_FOLDER_PATH }}
 
       - uses: marvinpinto/action-automatic-releases@latest
         with:
@@ -171,12 +172,16 @@ jobs:
           automatic_release_tag: ${{ env.RELEASE_VERSION }}
           title: ${{ env.RELEASE_VERSION }}
           prerelease: false
-          files: artifact/${{ env.RELEASE_VERSION }}.zip
+          files: ${{ env.RELEASE_FOLDER_PATH }}/${{ env.RELEASE_VERSION }}.zip
 
-      - name: Repository Dispatch
-        uses: peter-evans/repository-dispatch@v1
-        with:
-          token: ${{ secrets.PAT_TOKEN }}
-          repository: ${{ secrets.ENVIRONMENT_REPOSITORY_PATH }}
-          event-type: ${{ env.EVENT_TYPE }}
-          client-payload: '{"tag_name": "${{ env.RELEASE_VERSION }}"}'
+  dispatch_deployment_request:
+    needs: publish_inbound
+    uses: Energinet-DataHub/.github/.github/workflows/dispatch-deployment-request.yml@7.9.0
+    with:
+      CALLER_REPOSITORY_NAME: greenforce-frontend
+      CALLER_REPOSITORY_PATH: Energinet-DataHub/greenforce-frontend
+      RELEASE_NAME_PREFIX: dh_frontend_
+      CUSTOM_EVENT_TYPE: dh-frontend
+    secrets:
+      PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
+      ENVIRONMENT_REPOSITORY_PATH: ${{ secrets.ENVIRONMENT_REPOSITORY_PATH }}

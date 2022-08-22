@@ -22,6 +22,11 @@
             "output": ""
           },
           {
+            "glob": "staticwebapp.config.json",
+            "input": "apps/dh/app-dh",
+            "output": ""
+          },
+          {
             "glob": "**/*",
             "input": "libs/dh/shared/assets/src/assets",
             "output": "assets"
@@ -54,7 +59,7 @@
             {
               "type": "initial",
               "maximumWarning": "500kb",
-              "maximumError": "1.65mb"
+              "maximumError": "1.75mb"
             },
             {
               "type": "anyComponentStyle",
@@ -80,7 +85,12 @@
               "with": "libs/dh/shared/environments/src/lib/environment.prod.ts"
             }
           ],
-          "outputHashing": "all"
+          "outputHashing": "all",
+          "sourceMap": {
+            "hidden": true,
+            "scripts": true,
+            "vendor": true
+          }
         },
         "development": {
           "buildOptimizer": false,

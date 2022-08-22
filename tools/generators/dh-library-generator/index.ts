@@ -24,18 +24,29 @@ import {
   updateJson,
   offsetFromRoot,
 } from '@nrwl/devkit';
-import { libraryGenerator } from '@nrwl/angular/generators';
+import {
+  libraryGenerator,
+  angularMoveGenerator,
+} from '@nrwl/angular/generators';
+
+enum LibraryType {
+  configuration = 'configuration',
+  dataAccess = 'data-access',
+  domain = 'domain',
+  e2eUtil = 'e2e-util',
+  environments = 'environments',
+  feature = 'feature',
+  testUtil = 'test-util',
+  routing = 'routing',
+  shell = 'shell',
+  ui = 'ui',
+  util = 'util',
+}
 
 interface DhLibrarySchema {
   domain: string;
-  libraryType: string;
+  libraryType: LibraryType;
   name?: string;
-}
-
-enum LibraryType {
-  feature = 'feature',
-  dataAccess = 'data-access',
-  shell = 'shell',
 }
 
 export default async function (tree: Tree, schema: DhLibrarySchema) {
@@ -51,15 +62,26 @@ export default async function (tree: Tree, schema: DhLibrarySchema) {
     schema.domain
   );
 
-  const libPath = getFinalLibraryPath({ libDomain, libType, libName });
+  const libPath = getFinalLibraryPath({
+    libDomain,
+    libType: schema.libraryType,
+    libName,
+  });
 
   await libraryGenerator(tree, {
-    name: getFinalLibraryName(libType, libName),
+    name: getFinalLibraryName(schema.libraryType, libName),
     directory: `dh/${libDomain}`,
     tags: `product:dh, domain:${libDomain}, type:${libType}`,
     prefix: 'dh',
     strict: true,
-    skipModule: libType === LibraryType.dataAccess,
+    skipModule: [
+      LibraryType.dataAccess,
+      LibraryType.domain,
+      LibraryType.e2eUtil,
+      LibraryType.environments,
+      LibraryType.routing,
+      LibraryType.testUtil,
+    ].includes(schema.libraryType),
   });
 
   updateTestSetupFile(tree, { libPath, libType });
@@ -86,6 +108,22 @@ export default async function (tree: Tree, schema: DhLibrarySchema) {
       libDomain,
       className: libDomainClassName,
     });
+  } else if (libType === LibraryType.routing) {
+    // Necessary step since the libraryGenerator does not support
+    // generating modules with routing suffix without the --skipImport
+    // flag, which does not currently work with workspace-generators:
+    // https://github.com/nrwl/nx/pull/10167#issuecomment-1126146451
+    await angularMoveGenerator(tree, {
+      updateImportPath: true,
+      projectName: `dh-${libDomain}-routing-tmpl`,
+      destination: `dh/${libDomain}/routing`,
+    });
+
+    addRoutingSpecificFiles(tree, {
+      libPath: libPath.replace('-tmpl', ''),
+      libDomain,
+      className: libDomainClassName,
+    });
   }
 
   await formatFiles(tree);
@@ -97,14 +135,25 @@ export default async function (tree: Tree, schema: DhLibrarySchema) {
 
 function getFinalLibraryPath(options: {
   libDomain: string;
-  libType: string;
+  libType: LibraryType;
   libName: string;
-}) {
-  if (options.libType === LibraryType.shell) {
-    return `./libs/dh/${options.libDomain}/${options.libType}`;
+}): string {
+  switch (options.libType) {
+    case LibraryType.routing:
+      return `./libs/dh/${options.libDomain}/routing-tmpl`;
+    case LibraryType.domain:
+    case LibraryType.environments:
+    case LibraryType.shell:
+      return `./libs/dh/${options.libDomain}/${options.libType}`;
+    case LibraryType.configuration:
+    case LibraryType.dataAccess:
+    case LibraryType.e2eUtil:
+    case LibraryType.feature:
+    case LibraryType.testUtil:
+    case LibraryType.ui:
+    case LibraryType.util:
+      return `./libs/dh/${options.libDomain}/${options.libType}-${options.libName}`;
   }
-
-  return `./libs/dh/${options.libDomain}/${options.libType}-${options.libName}`;
 }
 
 /**
@@ -238,12 +287,70 @@ function exposeEmptyStoreFromLibrary(
   tree.write(indexPath, content);
 }
 
-function getFinalLibraryName(libType: string, libName: string): string {
-  if (libType === LibraryType.shell) {
-    return libType;
+function addRoutingSpecificFiles(
+  tree: Tree,
+  options: {
+    libPath: string;
+    libDomain: string;
+    className: string;
   }
+) {
+  generateConstantFile(tree, options);
+  exposeConstantFromLibrary(tree, options);
+}
 
-  return `${libType}-${libName}`;
+function generateConstantFile(
+  tree: Tree,
+  options: {
+    libPath: string;
+    libDomain: string;
+    className: string;
+  }
+) {
+  generateFiles(
+    tree,
+    joinPathFragments(__dirname, `./files/routing/constant`),
+    `${options.libPath}/src/lib`,
+    {
+      tmpl: '',
+      domain: options.libDomain,
+      className: options.className,
+    }
+  );
+}
+
+function exposeConstantFromLibrary(
+  tree: Tree,
+  options: {
+    libPath: string;
+    libDomain: string;
+    className: string;
+  }
+) {
+  const indexPath = `${options.libPath}/src/index.ts`;
+  const pathFileName = `dh-${options.libDomain}-path`;
+  const content = `export * from './lib/${pathFileName}';\n`;
+
+  tree.write(indexPath, content);
+}
+
+function getFinalLibraryName(libType: LibraryType, libName: string): string {
+  switch (libType) {
+    case LibraryType.routing:
+      return 'routing-tmpl';
+    case LibraryType.domain:
+    case LibraryType.environments:
+    case LibraryType.shell:
+      return libType;
+    case LibraryType.configuration:
+    case LibraryType.dataAccess:
+    case LibraryType.e2eUtil:
+    case LibraryType.feature:
+    case LibraryType.testUtil:
+    case LibraryType.ui:
+    case LibraryType.util:
+      return `${libType}-${libName}`;
+  }
 }
 
 /**
@@ -265,18 +372,30 @@ function updateTestSetupFile(
 }
 
 function validateParams(schema: DhLibrarySchema) {
-  if (schema.name !== undefined) {
-    if (schema.name.length > 0 && schema.libraryType === LibraryType.shell) {
+  if (!schema.name) return;
+  switch (schema.libraryType) {
+    case LibraryType.routing:
+    case LibraryType.domain:
+    case LibraryType.environments:
+    case LibraryType.shell:
+      if (!schema.name.length) return;
       throw new Error(
-        `Leave the "name" field empty when the selected library type is "${LibraryType.shell}".`
+        `Leave the "name" field empty when the selected library type is "${schema.libraryType}".`
       );
-    } else if (
-      schema.name.startsWith(`${LibraryType.feature}-`) ||
-      schema.name.startsWith(`${LibraryType.dataAccess}-`)
-    ) {
+    case LibraryType.configuration:
+    case LibraryType.dataAccess:
+    case LibraryType.e2eUtil:
+    case LibraryType.feature:
+    case LibraryType.testUtil:
+    case LibraryType.ui:
+    case LibraryType.util:
+      if (!schema.name.startsWith(schema.libraryType)) return;
       throw new Error(
         `No need to prefix "name" with "${schema.name}". This is done automatically.`
       );
+    default: {
+      const exhaustiveCheck: never = schema.libraryType;
+      throw new Error(`Unhandled library case: ${exhaustiveCheck}`);
     }
   }
 }
@@ -287,5 +406,6 @@ function capitalizeWords(value: string): string {
     .map(
       (word) => word.charAt(0).toUpperCase() + word.substring(1).toLowerCase()
     )
-    .join(' ');
+    .join(' ')
+    .replace('E2e', 'E2E'); // Special case for e2e-util
 }

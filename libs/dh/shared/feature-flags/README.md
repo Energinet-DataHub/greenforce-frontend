@@ -4,7 +4,7 @@ You can disable functionality for specified environments: `dev, test, prod.`
 
 <mark>Notice: feature flags treat the pre-prod environment as prod.</mark>
 
-Feature flags are not supposed to live long; therefore, they have a **maximum lifetime of 14 days** (If a feature flag is older than 14 days, an automated test will fail).
+Feature flags are not supposed to live long; therefore, they have a **maximum lifetime of 62 days** (If a feature flag is older than 62 days, an automated test will fail).
 
 ## Create a feature flag
 

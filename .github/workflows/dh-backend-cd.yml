@@ -11,7 +11,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-name: DH UI Backend CD
+name: DH Backend CD
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -29,22 +29,26 @@ on:
 
 jobs:
   publish_release:
-    uses: Energinet-DataHub/.github/.github/workflows/publish-release.yml@7.7.0
+    uses: Energinet-DataHub/.github/.github/workflows/publish-release.yml@7.9.0
     secrets:
       PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
+    with:
+      RELEASE_NAME_PREFIX: dh_backend_
 
   dispatch_deployment_request:
     needs: publish_release
-    uses: Energinet-DataHub/.github/.github/workflows/dispatch-deployment-request.yml@7.7.0
+    uses: Energinet-DataHub/.github/.github/workflows/dispatch-deployment-request.yml@7.9.0
     with:
       CALLER_REPOSITORY_NAME: greenforce-frontend
       CALLER_REPOSITORY_PATH: Energinet-DataHub/greenforce-frontend
+      RELEASE_NAME_PREFIX: dh_backend_
+      CUSTOM_EVENT_TYPE: dh-backend
     secrets:
       PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
       ENVIRONMENT_REPOSITORY_PATH: ${{ secrets.ENVIRONMENT_REPOSITORY_PATH }}
 
   update_coverage_report:
-    uses: Energinet-DataHub/.github/.github/workflows/dotnet-solution-ci.yml@7.7.0
+    uses: Energinet-DataHub/.github/.github/workflows/dotnet-solution-ci.yml@7.9.0
     with:
       SOLUTION_FILE_PATH: 'apps/dh/api-dh/DataHub.WebApi.sln'
       PREPARE_OUTPUTS: false

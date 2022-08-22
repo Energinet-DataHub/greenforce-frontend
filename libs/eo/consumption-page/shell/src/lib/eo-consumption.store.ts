@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ComponentStore } from '@ngrx/component-store';
 import { take } from 'rxjs';
@@ -30,15 +31,19 @@ interface EoConsumptionState {
   loadingDone: boolean;
   measurements: EoMeasurementData[];
   totalMeasurement: number;
+  error: HttpErrorResponse | null;
 }
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class EoConsumptionStore extends ComponentStore<EoConsumptionState> {
   constructor(private service: EoConsumptionService) {
     super({
       loadingDone: false,
       measurements: [],
       totalMeasurement: 0,
+      error: null,
     });
 
     this.loadMonthlyConsumption();
@@ -47,11 +52,19 @@ export class EoConsumptionStore extends ComponentStore<EoConsumptionState> {
   readonly loadingDone$ = this.select((state) => state.loadingDone);
   readonly measurements$ = this.select((state) => state.measurements);
   readonly totalMeasurement$ = this.select((state) => state.totalMeasurement);
+  readonly error$ = this.select((state) => state.error);
 
   readonly setLoadingDone = this.updater(
     (state, loadingDone: boolean): EoConsumptionState => ({
       ...state,
       loadingDone,
+    })
+  );
+
+  readonly setError = this.updater(
+    (state, error: HttpErrorResponse | null): EoConsumptionState => ({
+      ...state,
+      error,
     })
   );
 
@@ -71,7 +84,7 @@ export class EoConsumptionStore extends ComponentStore<EoConsumptionState> {
 
   loadMonthlyConsumption() {
     this.service
-      .getMonthlyConsumptionFor2021()
+      .getMonthlyConsumption()
       .pipe(take(1))
       .subscribe({
         next: (result) => {
@@ -81,9 +94,11 @@ export class EoConsumptionStore extends ComponentStore<EoConsumptionState> {
 
           this.setMonthlyMeasurements(measurements);
           this.setTotalMeasurement(this.getTotalFromArray(measurements));
+          this.setError(null);
           this.setLoadingDone(true);
         },
-        error: () => {
+        error: (error) => {
+          this.setError(error);
           this.setLoadingDone(true);
         },
       });

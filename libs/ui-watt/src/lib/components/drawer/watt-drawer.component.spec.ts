@@ -26,7 +26,7 @@ import userEvent from '@testing-library/user-event';
 import { WattDrawerComponent } from './watt-drawer.component';
 import * as drawerStories from './+storybook/watt-drawer.stories';
 
-const { Drawer } = composeStories(drawerStories);
+const { Normal: Drawer, Multiple, Loading } = composeStories(drawerStories);
 
 describe(WattDrawerComponent.name, () => {
   // Queries
@@ -57,10 +57,13 @@ describe(WattDrawerComponent.name, () => {
   let closedOutput = jest.fn();
 
   // Setup
-  async function setup(story: Story<Partial<WattDrawerComponent>>) {
+  async function setup(
+    story: Story<Partial<WattDrawerComponent>>,
+    args?: Partial<WattDrawerComponent>
+  ) {
     const { component, ngModule } = createMountableStoryComponent(
       story(
-        { closed: closedOutput as unknown as EventEmitter<void> },
+        { closed: closedOutput as unknown as EventEmitter<void>, ...args },
         {} as never
       )
     );
@@ -197,5 +200,52 @@ describe(WattDrawerComponent.name, () => {
     userEvent.keyboard('{Escape}');
 
     expect(closedOutput).not.toHaveBeenCalled();
+  });
+
+  it('closes drawer when another drawer is opened', async () => {
+    await setup(Multiple);
+    const firstButton = screen.getByRole('button', { name: /^open first/i });
+    const secondButton = screen.getByRole('button', { name: /^open second/i });
+
+    userEvent.click(firstButton);
+    userEvent.click(secondButton);
+
+    expect(closedOutput).toHaveBeenCalled();
+    expect(screen.queryByText(/first drawer/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/second drawer/i)).toBeInTheDocument();
+  });
+
+  it('shows loading state', async () => {
+    await setup(Drawer, { loading: true });
+
+    userEvent.click(getOpenDrawerButton());
+
+    expect(screen.getByRole('progressbar')).toBeInTheDocument();
+  });
+
+  it('closes drawer when clicking outside', async () => {
+    await setup(Loading);
+
+    userEvent.click(screen.getByRole('button', { name: /^open first/i }));
+
+    // This is an implementation detail, but it is the only way to test
+    // this behavior - otherwise the second button click is happening in
+    // the same event loop as the first button click (synchronous).
+    await new Promise((res) => setTimeout(res, 0));
+
+    userEvent.click(document.body);
+
+    expect(closedOutput).toHaveBeenCalled();
+    expect(getDrawerTopBarContent()).not.toBeInTheDocument();
+  });
+
+  it('does not call "closed" when click outside triggers an open', async () => {
+    await setup(Loading);
+
+    userEvent.click(screen.getByRole('button', { name: /^open first/i }));
+    userEvent.click(screen.getByRole('button', { name: /^open second/i }));
+
+    expect(closedOutput).not.toHaveBeenCalled();
+    expect(getDrawerTopBarContent()).toBeInTheDocument();
   });
 });

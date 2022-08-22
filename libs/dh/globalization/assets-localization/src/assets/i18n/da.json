@@ -275,9 +275,7 @@
       "ChooseBusinessReason": "Vælg forretningsårsag",
       "ChooseDocumentType": "Vælg dokumenttype",
       "includeRelatedMessage": "Inkluder relateret besked",
-      "pageSize": "Resultater per side",
-      "nextPage": "Næste side",
-      "page": "Side",
+      "loadMore": "Indlæs flere",
       "rsm": "RSM",
       "sender": "Aktør",
       "timeStamp": "Tid",
@@ -374,7 +372,8 @@
       "SchedulingAreaResponsible": "Scheduling area responsible",
       "SystemOperator": "System operator",
       "TradeResponsibleParty": "Trade responsible party",
-      "TransmissionCapacityAllocator": "Transmission capacity allocator"
+      "TransmissionCapacityAllocator": "Transmission capacity allocator",
+      "DanishEnergyAgency": "Styrelsen"
     },
     "organization": {
       "header": "Organisationer",

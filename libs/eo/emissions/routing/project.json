@@ -22,5 +22,5 @@
       }
     }
   },
-  "tags": ["product:eo", "domain:emissions", "type:routing"]
+  "tags": ["product:eo", "domain:emissions", "domain:dashboard", "type:routing"]
 }
