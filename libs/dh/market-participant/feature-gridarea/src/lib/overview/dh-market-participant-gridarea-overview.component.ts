@@ -47,7 +47,6 @@ import { Subject, takeUntil } from 'rxjs';
 import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/metering-point/shared/ui-util';
 import { GridAreaDto } from '@energinet-datahub/dh/shared/domain';
 
-
 @Component({
   selector: 'dh-market-participant-gridarea-overview',
   styleUrls: ['./dh-market-participant-gridarea-overview.component.scss'],
