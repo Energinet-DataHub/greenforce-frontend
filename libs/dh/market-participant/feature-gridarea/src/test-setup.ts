@@ -14,7 +14,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './lib/dh-market-participant-path';
-export * from './lib/dh-market-participant-actor-path';
-export * from './lib/dh-market-participant-organizations-path';
-export * from './lib/dh-market-participant-gridarea-path';
+import 'jest-preset-angular/setup-jest';
