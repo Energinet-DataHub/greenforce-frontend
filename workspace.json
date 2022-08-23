@@ -16,6 +16,8 @@
     "dh-market-participant-feature-edit-actor": "libs/dh/market-participant/feature-edit-actor",
     "dh-market-participant-feature-edit-organization": "libs/dh/market-participant/feature-edit-organization",
     "dh-market-participant-feature-organization": "libs/dh/market-participant/feature-organization",
+    "dh-market-participant-feature-edit-gridarea": "libs/dh/market-participant/feature-edit-gridarea",
+    "dh-market-participant-feature-gridarea": "libs/dh/market-participant/feature-gridarea",
     "dh-market-participant-routing": "libs/dh/market-participant/routing",
     "dh-market-participant-shell": "libs/dh/market-participant/shell",
     "dh-message-archive-data-access-api": "libs/dh/message-archive/data-access-api",
