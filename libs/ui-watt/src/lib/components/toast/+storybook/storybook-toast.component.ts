@@ -34,7 +34,7 @@ import { WattToastComponent, WattToastType } from '../watt-toast.component';
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'storybook-toast',
   templateUrl: './storybook-toast.html',
-  styleUrls: ['./storybook-toast.scss']
+  styleUrls: ['./storybook-toast.scss'],
 })
 export class StorybookToastComponent implements AfterViewInit {
   @ViewChildren(WattToastComponent) toasts!: QueryList<WattToastComponent>;
@@ -58,7 +58,10 @@ export class StorybookToastComponent implements AfterViewInit {
     if (toast) {
       toast.config = {
         type,
-        message: type !== 'danger' ? 'Text Message' : 'Error #456: There was a problem processing Batch ID 232-2335 and the task was stopped.',
+        message:
+          type !== 'danger'
+            ? 'Text Message'
+            : 'Error #456: There was a problem processing Batch ID 232-2335 and the task was stopped.',
         action: () => alert('some action!'),
       };
     }

@@ -27,12 +27,12 @@ export default {
     moduleMetadata({
       imports: [StorybookToastModule, BrowserAnimationsModule],
     }),
-  ]
+  ],
 } as Meta<WattToastComponent>;
 
 export const Overview: Story<WattToastComponent> = (args) => ({
   props: args,
-  template: `<storybook-toast></storybook-toast>`
+  template: `<storybook-toast></storybook-toast>`,
 });
 
 Overview.args = {};
