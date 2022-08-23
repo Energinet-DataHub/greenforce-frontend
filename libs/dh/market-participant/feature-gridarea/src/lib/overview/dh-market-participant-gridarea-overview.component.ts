@@ -64,11 +64,7 @@ export class DhMarketParticipantGridAreaOverviewComponent
     private matPaginatorIntl: MatPaginatorIntl
   ) {}
 
-  columnIds = [
-    'grid-name',
-    'actor-gln',
-    'row-edit',
-  ];
+  columnIds = ['grid-name', 'actor-gln', 'row-edit'];
 
   @Input() gridAreas: GridAreaDto[] = [];
 
