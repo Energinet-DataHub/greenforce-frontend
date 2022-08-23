@@ -100,7 +100,9 @@ export class DhMarketParticipantEditActorComponent {
   };
 
   private readonly backToOverview = () => {
-    this.router.navigateByUrl(`${dhMarketParticipantPath}/${dhMarketParticipantOrganizationsPath}`);
+    this.router.navigateByUrl(
+      `${dhMarketParticipantPath}/${dhMarketParticipantOrganizationsPath}`
+    );
   };
 }
 
