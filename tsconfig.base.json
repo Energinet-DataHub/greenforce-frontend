@@ -51,12 +51,6 @@
       "@energinet-datahub/dh/market-participant/feature-organization": [
         "libs/dh/market-participant/feature-organization/src/index.ts"
       ],
-      "@energinet-datahub/dh/market-participant/feature-edit-gridarea": [
-        "libs/dh/market-participant/feature-edit-gridarea/src/index.ts"
-      ],
-      "@energinet-datahub/dh/market-participant/feature-gridarea": [
-        "libs/dh/market-participant/feature-gridarea/src/index.ts"
-      ],
       "@energinet-datahub/dh/market-participant/routing": [
         "libs/dh/market-participant/routing/src/index.ts"
       ],

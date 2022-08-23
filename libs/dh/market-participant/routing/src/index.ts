@@ -17,4 +17,3 @@
 export * from './lib/dh-market-participant-path';
 export * from './lib/dh-market-participant-actor-path';
 export * from './lib/dh-market-participant-organizations-path';
-export * from './lib/dh-market-participant-gridarea-path';
