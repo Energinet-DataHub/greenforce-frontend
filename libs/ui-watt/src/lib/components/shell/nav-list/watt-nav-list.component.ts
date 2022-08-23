@@ -15,14 +15,18 @@
  * limitations under the License.
  */
 
+import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  HostBinding,
+  Input,
   NgModule,
   ViewEncapsulation,
 } from '@angular/core';
-
+import { MatExpansionModule } from '@angular/material/expansion';
 import { MatListModule } from '@angular/material/list';
+
 import { WattNavListItemScam } from './watt-nav-list-item.component';
 
 @Component({
@@ -30,13 +34,39 @@ import { WattNavListItemScam } from './watt-nav-list-item.component';
   encapsulation: ViewEncapsulation.None,
   selector: 'watt-nav-list',
   styleUrls: ['./watt-nav-list.component.scss'],
-  template: `<mat-nav-list><ng-content></ng-content></mat-nav-list>`,
+  template: `
+    <mat-expansion-panel
+      class="mat-elevation-z0"
+      #panel
+      *ngIf="expandable; else navListTemplate"
+    >
+      <mat-expansion-panel-header>
+        <mat-panel-title>{{ title }}</mat-panel-title>
+      </mat-expansion-panel-header>
+      <ng-container *ngTemplateOutlet="navListTemplate"></ng-container>
+    </mat-expansion-panel>
+
+    <ng-template #navListTemplate>
+      <mat-nav-list><ng-content></ng-content></mat-nav-list>
+    </ng-template>
+  `,
 })
-export class WattNavListComponent {}
+export class WattNavListComponent {
+  @Input()
+  expandable = false;
+
+  @Input()
+  title = '';
+
+  @HostBinding('class.watt-nav-list--expandable')
+  get expandableClass() {
+    return this.expandable;
+  }
+}
 
 @NgModule({
   declarations: [WattNavListComponent],
   exports: [WattNavListComponent, WattNavListItemScam],
-  imports: [MatListModule],
+  imports: [MatListModule, CommonModule, MatExpansionModule],
 })
 export class WattNavListModule {}
