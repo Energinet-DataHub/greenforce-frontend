@@ -14,21 +14,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@use './theme/light-theme.scss';
-@use './theme/material-overwrites/datepicker';
-@use './theme/material-overwrites/snack-bar';
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { WattIconModule } from '../../foundations/icon';
+import { WattButtonModule } from '../button';
+import { WattSpinnerModule } from '../spinner';
 
-@use '../../../foundations/variables';
-@use '../../../foundations/box-sizing';
-@use '../../../foundations/typography';
-@use '../../../foundations/spacing';
-@use '../../../foundations/table';
+import { WattToastComponent } from './watt-toast.component';
 
-html,
-body {
-  height: 100%;
-}
-body {
-  margin: 0;
-  font-family: "Open Sans", sans-serif;
-}
+@NgModule({
+  imports: [
+    MatSnackBarModule,
+    WattIconModule,
+    WattSpinnerModule,
+    WattButtonModule,
+    CommonModule,
+  ],
+  declarations: [WattToastComponent],
+  exports: [WattToastComponent],
+})
+export class WattToastModule {}
