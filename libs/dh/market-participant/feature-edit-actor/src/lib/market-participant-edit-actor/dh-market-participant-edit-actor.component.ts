@@ -30,6 +30,7 @@ import {
 import {
   dhMarketParticipantActorIdParam,
   dhMarketParticipantOrganizationIdParam,
+  dhMarketParticipantOrganizationsPath,
   dhMarketParticipantPath,
 } from '@energinet-datahub/dh/market-participant/routing';
 import { ActorContactDto } from '@energinet-datahub/dh/shared/domain';
@@ -99,7 +100,7 @@ export class DhMarketParticipantEditActorComponent {
   };
 
   private readonly backToOverview = () => {
-    this.router.navigateByUrl(dhMarketParticipantPath);
+    this.router.navigateByUrl(`${dhMarketParticipantPath}/${dhMarketParticipantOrganizationsPath}`);
   };
 }
 

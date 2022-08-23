@@ -47,17 +47,12 @@ import {
 
 const routes: Routes = [
   {
-    path: '',
-    pathMatch: 'full',
-    component: DhMarketParticipantOrganizationComponent,
-  },
-  {
     path: dhMarketParticipantOrganizationsPath,
     children: [
       {
         path: '',
         pathMatch: 'full',
-        redirectTo: dhMarketParticipantOrganizationsCreatePath,
+        component: DhMarketParticipantOrganizationComponent,
       },
       {
         path: dhMarketParticipantOrganizationsCreatePath,

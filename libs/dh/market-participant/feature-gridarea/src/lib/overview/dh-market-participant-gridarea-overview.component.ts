@@ -65,11 +65,8 @@ export class DhMarketParticipantGridAreaOverviewComponent
   ) {}
 
   columnIds = [
-    'org-name',
+    'grid-name',
     'actor-gln',
-    'actor-status',
-    'actor-roles',
-    'actor-grid-areas',
     'row-edit',
   ];
 
