@@ -35,9 +35,6 @@ import {
   dhMarketParticipantOrganizationsEditPath,
   dhMarketParticipantOrganizationsPath,
   dhMarketParticipanGridAreaPath,
-  dhMarketParticipantGridAreaCreatePath,
-  dhMarketParticipantGridAreaEditPath,
-  dhMarketParticipantGridAreaIdParam,
 } from '@energinet-datahub/dh/market-participant/routing';
 import { DhMarketParticipantEditActorComponent } from '@energinet-datahub/dh/market-participant/edit-actor';
 import {
