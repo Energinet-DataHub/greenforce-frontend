@@ -28,7 +28,11 @@ import { MAT_SNACK_BAR_DATA } from '@angular/material/snack-bar';
 import { WattButtonModule } from '../../button';
 import { WattToastModule } from '../watt-toast.module';
 import { WattToastService } from '../watt-toast.service';
-import { WattToastComponent, WattToastConfig, WattToastType } from '../watt-toast.component';
+import {
+  WattToastComponent,
+  WattToastConfig,
+  WattToastType,
+} from '../watt-toast.component';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -62,7 +66,10 @@ export class StorybookToastComponent implements AfterViewInit {
     if (toast) {
       toast.config = {
         type,
-        message: type !== 'danger' ? 'Text Message' : 'Error #456: There was a problem processing Batch ID 232-2335 and the task was stopped.',
+        message:
+          type !== 'danger'
+            ? 'Text Message'
+            : 'Error #456: There was a problem processing Batch ID 232-2335 and the task was stopped.',
         action: () => alert('Some custom action!'),
       };
     }
