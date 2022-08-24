@@ -27,6 +27,7 @@ import {
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
+import { DateRange } from '@angular/material/datepicker';
 import {
   MatDialog,
   MatDialogConfig,
@@ -79,28 +80,31 @@ import { EoDatePickerDialogComponent } from './eo-date-picker-dialog.component';
     <div #selector class="dateSelector" (click)="openDialog()">
       <mat-icon>calendar_today</mat-icon>
       <span>
-        {{ datesShown.start | date: 'd. MMM y' }} -
-        {{ datesShown.end | date: 'd. MMM y' }}</span
+        {{ datesShown?.start | date: 'd. MMM y' : 'UTC' }} -
+        {{ datesShown?.end | date: 'd. MMM y' : 'UTC' }}</span
       >
       <mat-icon>keyboard_arrow_down</mat-icon>
     </div> `,
 })
 export class EoDatePickerComponent implements OnInit {
-  datesShown: CalendarDateRange = {} as CalendarDateRange;
+  datesShown : CalendarDateRange;
 
   @ViewChild('selector') public elementRef!: ElementRef;
 
   @Input() dateRangeInput: CalendarDateRange = {
-    start: 1609459200000,
-    end: 1640995200000,
+    start: 1609459200,
+    end: 1640995200,
   };
 
   @Output() newDates = new EventEmitter<CalendarDateRange>();
 
-  constructor(public dialog: MatDialog) {}
+  constructor(public dialog: MatDialog) {
+    this.datesShown = this.dateRangeInput;
+  }
 
   ngOnInit() {
-    this.datesShown = this.dateRangeInput;
+    //this.datesShown = new DateRange(new Date(this.dateRangeInput.start), new Date(this.setToYesterday(this.dateRangeInput.end)));
+    this.datesShown = {start: this.dateRangeInput.start, end: this.setToYesterday(this.dateRangeInput.end)}
   }
 
   openDialog(): void {
@@ -115,10 +119,15 @@ export class EoDatePickerComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result: CalendarDateRange) => {
       if (result?.start && result?.end) {
-        this.datesShown = { start: result.start, end: result.end };
+        this.datesShown = new DateRange( new Date(result.start), new Date(this.setToYesterday(result.end)));
+        console.log("AfterClosed", result.start);
         this.newDates.emit(result);
       }
     });
+  }
+
+  setToYesterday(dateInput: number) {
+    return new Date(dateInput).setDate(new Date(dateInput).getDate() -1)
   }
 }
 
