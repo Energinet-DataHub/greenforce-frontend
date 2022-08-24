@@ -21,11 +21,11 @@ import {
   Input,
   NgModule,
 } from '@angular/core';
-
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 import { MatListModule } from '@angular/material/list';
 import { MatRippleModule } from '@angular/material/core';
-import { RouterModule } from '@angular/router';
+import { Subject } from 'rxjs';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -41,7 +41,12 @@ import { RouterModule } from '@angular/router';
     ></a>
 
     <ng-template #internalLink>
-      <a mat-list-item mat-ripple [routerLink]="link" routerLinkActive="active"
+      <a
+        mat-list-item
+        mat-ripple
+        [routerLink]="link"
+        routerLinkActive="active"
+        (isActiveChange)="onRouterLinkActive($event)"
         ><ng-container *ngTemplateOutlet="templateContent"></ng-container
       ></a>
     </ng-template>
@@ -52,11 +57,17 @@ import { RouterModule } from '@angular/router';
   `,
 })
 export class WattNavListItemComponent {
+  isActive$ = new Subject<boolean>();
+
   @Input() link: string | null = null;
   @Input() target: '_self' | '_blank' | '_parent' | '_top' | null = null;
 
   get isExternalLink(): boolean {
     return /^(http:\/\/|https:\/\/)/i.test(this.link ?? '');
+  }
+
+  onRouterLinkActive(isActive: boolean) {
+    this.isActive$.next(isActive);
   }
 }
 

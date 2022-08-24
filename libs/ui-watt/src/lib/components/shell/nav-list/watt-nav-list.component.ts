@@ -19,15 +19,22 @@ import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  ContentChildren,
   HostBinding,
   Input,
   NgModule,
+  QueryList,
   ViewEncapsulation,
 } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatListModule } from '@angular/material/list';
 
-import { WattNavListItemScam } from './watt-nav-list-item.component';
+import { WattMaybeExpandDirective } from './watt-maybe-expand.directive';
+import {
+  WattNavListItemComponent,
+  WattNavListItemScam,
+} from './watt-nav-list-item.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -35,16 +42,19 @@ import { WattNavListItemScam } from './watt-nav-list-item.component';
   selector: 'watt-nav-list',
   styleUrls: ['./watt-nav-list.component.scss'],
   template: `
-    <mat-expansion-panel
-      class="mat-elevation-z0"
-      #panel
-      *ngIf="expandable; else navListTemplate"
-    >
-      <mat-expansion-panel-header>
-        <mat-panel-title>{{ title }}</mat-panel-title>
-      </mat-expansion-panel-header>
-      <ng-container *ngTemplateOutlet="navListTemplate"></ng-container>
-    </mat-expansion-panel>
+    <ng-container *ngIf="expandable; else navListTemplate">
+      <mat-expansion-panel
+        [wattMaybeExpand]="navListItemComponents"
+        #maybeExpannd="wattMaybeExpand"
+        class="mat-elevation-z0"
+        [expanded]="maybeExpannd.expand"
+      >
+        <mat-expansion-panel-header>
+          <mat-panel-title>{{ title }}</mat-panel-title>
+        </mat-expansion-panel-header>
+        <ng-container *ngTemplateOutlet="navListTemplate"></ng-container>
+      </mat-expansion-panel>
+    </ng-container>
 
     <ng-template #navListTemplate>
       <mat-nav-list><ng-content></ng-content></mat-nav-list>
@@ -52,6 +62,9 @@ import { WattNavListItemScam } from './watt-nav-list-item.component';
   `,
 })
 export class WattNavListComponent {
+  @ContentChildren(WattNavListItemComponent)
+  navListItemComponents!: QueryList<WattNavListItemComponent>;
+
   @Input()
   expandable = false;
 
@@ -67,6 +80,12 @@ export class WattNavListComponent {
 @NgModule({
   declarations: [WattNavListComponent],
   exports: [WattNavListComponent, WattNavListItemScam],
-  imports: [MatListModule, CommonModule, MatExpansionModule],
+  imports: [
+    MatListModule,
+    CommonModule,
+    RouterModule,
+    MatExpansionModule,
+    WattMaybeExpandDirective,
+  ],
 })
 export class WattNavListModule {}
