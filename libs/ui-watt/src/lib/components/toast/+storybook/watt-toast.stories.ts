@@ -38,6 +38,7 @@ export const Overview: Story<WattToastConfig> = (args) => ({
 Overview.args = {
   type: undefined,
   message: 'You successfully launched a toast!',
+  action: (ref) => { alert('Call alert, and dismiss the toast!'); ref.dismiss() }
 };
 
 Overview.argTypes = {
