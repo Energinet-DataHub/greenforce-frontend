@@ -10,13 +10,9 @@ import { WattToastConfig } from "./watt-toast.component";
 export class WattToastService {
   constructor(private _snackBar: MatSnackBar) {}
 
-  open(duration: number = 5000): MatSnackBarRef<WattToastComponent> {
-    const config: WattToastConfig = {
-      type: 'success',
-      message: 'You successfully launched a toast!'
-    };
+  open(config: WattToastConfig): MatSnackBarRef<WattToastComponent> {
     return this._snackBar.openFromComponent(WattToastComponent, {
-      duration,
+      duration: config.duration || 5000,
       data: config,
     });
   }

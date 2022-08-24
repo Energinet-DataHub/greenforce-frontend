@@ -31,11 +31,18 @@ import {
 export type WattToastType = 'success' | 'info' | 'warning' | 'danger' | 'loading';
 
 export interface WattToastConfig {
+  duration?: number;
   type?: WattToastType;
   message: string;
-  action?: () => void
+  action?: (wattToastRef: WattToastRef) => void;
 }
 
+export type WattToastRef = MatSnackBarRef<WattToastComponent>;
+
+/**
+ * Usage:
+ * `import { WattToastModule } from '@energinet-datahub/watt';`
+ */
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
@@ -51,12 +58,28 @@ export class WattToastComponent {
       : 'watt-toast';
   }
 
-  constructor(
-    @Inject(MAT_SNACK_BAR_DATA) public config: WattToastConfig,
-    private cd: ChangeDetectorRef,
-    @Optional() public matSnackBarRef: MatSnackBarRef<WattToastComponent>
-  ) {}
+  /**
+   * @ignore
+   */
+  config: WattToastConfig;
 
+  /**
+   * @ignore
+   */
+  matSnackBarRef: WattToastRef;
+
+  constructor(
+    @Inject(MAT_SNACK_BAR_DATA) private _config: WattToastConfig,
+    private cd: ChangeDetectorRef,
+    @Optional() private _matSnackBarRef: MatSnackBarRef<WattToastComponent>
+  ) {
+    this.config = this._config;
+    this.matSnackBarRef = this._matSnackBarRef;
+  }
+
+  /**
+   * @ignore
+   */
   onClose() {
     if(!this.matSnackBarRef) return;
     this.matSnackBarRef.dismiss();

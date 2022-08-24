@@ -2,17 +2,17 @@ import {
   AfterViewInit,
   ChangeDetectorRef,
   Component,
+  Input,
   NgModule,
   QueryList,
   ViewChildren,
 } from '@angular/core';
 import { MAT_SNACK_BAR_DATA } from '@angular/material/snack-bar';
 
-import { WattButtonModule } from '@energinet-datahub/watt';
-
+import { WattButtonModule } from '../../button';
 import { WattToastModule } from '../watt-toast.module';
 import { WattToastService } from '../watt-toast.service';
-import { WattToastComponent, WattToastType } from '../watt-toast.component';
+import { WattToastComponent, WattToastConfig, WattToastType } from '../watt-toast.component';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -23,10 +23,13 @@ import { WattToastComponent, WattToastType } from '../watt-toast.component';
 export class StorybookToastComponent implements AfterViewInit {
   @ViewChildren(WattToastComponent) toasts!: QueryList<WattToastComponent>;
 
+  @Input() config!: WattToastConfig;
+
   constructor(private toast: WattToastService, private cd: ChangeDetectorRef) {}
 
   open() {
-    this.toast.open();
+    this.toast.open(this.config);
+    console.log(this.config);
   }
 
   ngAfterViewInit(): void {
@@ -35,6 +38,7 @@ export class StorybookToastComponent implements AfterViewInit {
     this.setConfig(2, 'warning');
     this.setConfig(3, 'danger');
     this.setConfig(4, 'loading');
+    this.setConfig(5);
   }
 
   private setConfig(index: number, type?: WattToastType): void {
@@ -43,7 +47,7 @@ export class StorybookToastComponent implements AfterViewInit {
       toast.config = {
         type,
         message: type !== 'danger' ? 'Text Message' : 'Error #456: There was a problem processing Batch ID 232-2335 and the task was stopped.',
-        action: () => alert('some action!'),
+        action: () => alert('Some custom action!'),
       };
     }
   }

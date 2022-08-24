@@ -17,7 +17,7 @@
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { moduleMetadata, Story, Meta } from '@storybook/angular';
 
-import { WattToastComponent } from '../watt-toast.component';
+import { WattToastComponent, WattToastConfig } from '../watt-toast.component';
 import { StorybookToastModule } from './storybook-toast.component';
 
 export default {
@@ -27,12 +27,70 @@ export default {
     moduleMetadata({
       imports: [StorybookToastModule, BrowserAnimationsModule],
     }),
-  ]
+  ],
 } as Meta<WattToastComponent>;
 
-export const Overview: Story<WattToastComponent> = (args) => ({
+export const Overview: Story<WattToastConfig> = (args) => ({
   props: args,
-  template: `<storybook-toast></storybook-toast>`
+  template: `<storybook-toast [config]="{type, duration, message, action}"></storybook-toast>`,
 });
 
-Overview.args = {};
+Overview.args = {
+  type: undefined,
+  message: 'You successfully launched a toast!',
+};
+
+Overview.argTypes = {
+  type: {
+    options: ['success', 'info', 'warning', 'danger', 'loading', undefined],
+    description: '`WattToastType`',
+    control: { type: 'radio', labels: {undefined: 'default (no provided type)'} },
+  },
+  duration: {
+    defaultValue: 5000,
+    control: { type: 'number', min: 1000, max: 10000, step: 1000 },
+    table: {
+      type: { summary: 'number' },
+      defaultValue: { summary: '5000ms' },
+    },
+  },
+  message: {
+    description: '`string`',
+  },
+  action: {
+    action: 'clicked',
+    table: {
+      type: { summary: '(ref: WattToastRef) => void' },
+      defaultValue: { summary: null },
+    },
+  },
+};
+
+Overview.parameters = {
+  docs: {
+    source: {
+      code: `
+      import { WattToastService, WattToastRef } from "@energinet-datahub/watt";
+
+@Component({
+  selector: 'my-awesome-component',
+  template: '<watt-button (click)="makeToast()">Make toast!</watt-button>',
+})
+export class MyAwesomeComponent {
+  constructor(private toast: WattToastService) {}
+
+  makeToast() {
+    this.toast.open({
+        message: 'Some awesome message!',
+        action: (ref: WattToastRef) => {
+            // Do something and dismiss the toast
+            ref.dismiss();
+        }
+    });
+  }
+}`,
+      language: 'ts',
+      type: 'code',
+    },
+  },
+};

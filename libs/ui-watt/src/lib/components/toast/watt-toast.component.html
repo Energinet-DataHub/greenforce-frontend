@@ -16,11 +16,11 @@ limitations under the License.
 -->
 <span>
   <watt-spinner [diameter]="24" *ngIf="config.type === 'loading'"></watt-spinner>
-  <watt-icon *ngIf="config.type !== 'loading'" [name]="config.type"></watt-icon>
+  <watt-icon *ngIf="config.type && config.type !== 'loading'" [name]="config.type"></watt-icon>
   <p>{{config.message}}</p>
 </span>
 <span class="toast__actions">
-  <watt-button variant="text" *ngIf="config.action" (click)="config.action()">action</watt-button>
+  <watt-button variant="text" *ngIf="config.action" (click)="config.action(matSnackBarRef)">action</watt-button>
   <watt-button variant="icon" icon="close" (click)="onClose()"></watt-button>
 </span>
 
