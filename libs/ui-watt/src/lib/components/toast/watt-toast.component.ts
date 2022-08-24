@@ -28,7 +28,12 @@ import {
   MAT_SNACK_BAR_DATA,
 } from '@angular/material/snack-bar';
 
-export type WattToastType = 'success' | 'info' | 'warning' | 'danger' | 'loading';
+export type WattToastType =
+  | 'success'
+  | 'info'
+  | 'warning'
+  | 'danger'
+  | 'loading';
 
 export interface WattToastConfig {
   duration?: number;
@@ -81,7 +86,7 @@ export class WattToastComponent {
    * @ignore
    */
   onClose() {
-    if(!this.matSnackBarRef) return;
+    if (!this.matSnackBarRef) return;
     this.matSnackBarRef.dismiss();
   }
 }
