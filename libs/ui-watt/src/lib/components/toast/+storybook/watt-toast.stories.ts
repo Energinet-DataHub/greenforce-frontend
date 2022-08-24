@@ -44,7 +44,10 @@ Overview.argTypes = {
   type: {
     options: ['success', 'info', 'warning', 'danger', 'loading', undefined],
     description: '`WattToastType`',
-    control: { type: 'radio', labels: {undefined: 'default (no provided type)'} },
+    control: {
+      type: 'radio',
+      labels: { undefined: 'default (no provided type)' },
+    },
   },
   duration: {
     defaultValue: 5000,
