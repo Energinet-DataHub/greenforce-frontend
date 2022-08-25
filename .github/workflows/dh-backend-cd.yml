@@ -29,7 +29,7 @@ on:
 
 jobs:
   publish_release:
-    uses: Energinet-DataHub/.github/.github/workflows/publish-release.yml@7.9.0
+    uses: Energinet-DataHub/.github/.github/workflows/publish-release.yml@v8
     secrets:
       PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
     with:
@@ -37,7 +37,7 @@ jobs:
 
   dispatch_deployment_request:
     needs: publish_release
-    uses: Energinet-DataHub/.github/.github/workflows/dispatch-deployment-request.yml@7.9.0
+    uses: Energinet-DataHub/.github/.github/workflows/dispatch-deployment-request.yml@v8
     with:
       CALLER_REPOSITORY_NAME: greenforce-frontend
       CALLER_REPOSITORY_PATH: Energinet-DataHub/greenforce-frontend
@@ -48,7 +48,7 @@ jobs:
       ENVIRONMENT_REPOSITORY_PATH: ${{ secrets.ENVIRONMENT_REPOSITORY_PATH }}
 
   update_coverage_report:
-    uses: Energinet-DataHub/.github/.github/workflows/dotnet-solution-ci.yml@7.9.0
+    uses: Energinet-DataHub/.github/.github/workflows/dotnet-solution-ci.yml@v8
     with:
       SOLUTION_FILE_PATH: 'apps/dh/api-dh/DataHub.WebApi.sln'
       PREPARE_OUTPUTS: false

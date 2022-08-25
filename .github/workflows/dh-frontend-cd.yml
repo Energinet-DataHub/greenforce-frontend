@@ -176,7 +176,7 @@ jobs:
 
   dispatch_deployment_request:
     needs: publish_inbound
-    uses: Energinet-DataHub/.github/.github/workflows/dispatch-deployment-request.yml@7.9.0
+    uses: Energinet-DataHub/.github/.github/workflows/dispatch-deployment-request.yml@v8
     with:
       CALLER_REPOSITORY_NAME: greenforce-frontend
       CALLER_REPOSITORY_PATH: Energinet-DataHub/greenforce-frontend
