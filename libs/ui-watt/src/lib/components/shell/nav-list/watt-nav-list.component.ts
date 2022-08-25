@@ -30,7 +30,7 @@ import { RouterModule } from '@angular/router';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatListModule } from '@angular/material/list';
 
-import { WattMaybeExpandDirective } from './watt-maybe-expand.directive';
+import { WattExpandOnActiveLinkDirective } from './watt-expand-on-active-link.directive';
 import {
   WattNavListItemComponent,
   WattNavListItemScam,
@@ -44,10 +44,11 @@ import {
   template: `
     <ng-container *ngIf="expandable; else navListTemplate">
       <mat-expansion-panel
-        [wattMaybeExpand]="navListItemComponents"
-        #maybeExpannd="wattMaybeExpand"
+        wattExpandOnActiveLink
+        #expandOnActiveLink="wattExpandOnActiveLink"
+        [wattNavListItemComponents]="navListItemComponents"
         class="mat-elevation-z0"
-        [expanded]="maybeExpannd.expand"
+        [expanded]="expandOnActiveLink.expand"
       >
         <mat-expansion-panel-header>
           <mat-panel-title>{{ title }}</mat-panel-title>
@@ -63,7 +64,7 @@ import {
 })
 export class WattNavListComponent {
   @ContentChildren(WattNavListItemComponent)
-  navListItemComponents!: QueryList<WattNavListItemComponent>;
+  navListItemComponents: QueryList<WattNavListItemComponent> | null = null;
 
   @Input()
   expandable = false;
@@ -85,7 +86,7 @@ export class WattNavListComponent {
     CommonModule,
     RouterModule,
     MatExpansionModule,
-    WattMaybeExpandDirective,
+    WattExpandOnActiveLinkDirective,
   ],
 })
 export class WattNavListModule {}

@@ -12,14 +12,15 @@ import { from, mergeAll, filter } from 'rxjs';
 import { WattNavListItemComponent } from './watt-nav-list-item.component';
 
 @Directive({
-  selector: '[wattMaybeExpand]',
-  exportAs: 'wattMaybeExpand',
+  selector: '[wattExpandOnActiveLink]',
+  exportAs: 'wattExpandOnActiveLink',
   standalone: true,
 })
-export class WattMaybeExpandDirective implements AfterViewInit, OnInit {
+export class WattExpandOnActiveLinkDirective implements AfterViewInit, OnInit {
   public expand = false;
 
-  @Input() wattMaybeExpand?: QueryList<WattNavListItemComponent>;
+  @Input()
+  wattNavListItemComponents: QueryList<WattNavListItemComponent> | null = null;
 
   constructor(
     private panel: MatExpansionPanel,
@@ -33,7 +34,7 @@ export class WattMaybeExpandDirective implements AfterViewInit, OnInit {
   }
 
   ngAfterViewInit(): void {
-    const navListItems = this.wattMaybeExpand?.toArray();
+    const navListItems = this.wattNavListItemComponents?.toArray();
 
     if (navListItems) {
       const links$ = navListItems?.map((item) => item.isActive$);
