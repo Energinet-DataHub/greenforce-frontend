@@ -37,7 +37,7 @@ export class WattExpandOnActiveLinkDirective implements AfterViewInit, OnInit {
     const navListItems = this.wattNavListItemComponents?.toArray();
 
     if (navListItems) {
-      const links$ = navListItems?.map((item) => item.isActive$);
+      const links$ = navListItems.map((item) => item.isActive$);
 
       from(links$)
         .pipe(
