@@ -25,14 +25,22 @@ export default {
   component: WattToastComponent,
   decorators: [
     moduleMetadata({
-      imports: [StorybookToastModule, BrowserAnimationsModule],
+      imports: [StorybookToastModule],
     }),
   ],
-} as Meta<WattToastComponent>;
+} as Meta;
 
-export const Overview: Story<WattToastConfig> = (args) => ({
+export interface WattToastStoryConfig extends WattToastConfig {
+  disableAnimations?: boolean; // Used to disable animations for the tests
+  message?: string;
+}
+
+export const Overview: Story<WattToastStoryConfig> = (args) => ({
   props: args,
   template: `<storybook-toast [config]="{type, duration, message, action}"></storybook-toast>`,
+  moduleMetadata: {
+    imports: [BrowserAnimationsModule.withConfig({disableAnimations: !!args.disableAnimations})]
+  }
 });
 
 Overview.args = {
