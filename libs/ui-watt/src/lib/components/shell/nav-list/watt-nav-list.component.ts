@@ -51,7 +51,7 @@ import {
         [expanded]="expandOnActiveLink.expand"
       >
         <mat-expansion-panel-header>
-          <mat-panel-title>{{ title }}</mat-panel-title>
+          <mat-panel-title class="watt-text-m">{{ title }}</mat-panel-title>
         </mat-expansion-panel-header>
         <ng-container *ngTemplateOutlet="navListTemplate"></ng-container>
       </mat-expansion-panel>
