@@ -52,18 +52,22 @@ watt-nav-list {
       background-color: var(--watt-color-primary);
     }
 
-    .mat-expansion-indicator::after {
-      color: var(--watt-color-neutral-white);
-      position: relative;
-      top: -3px;
-    }
+    .mat-expansion-panel-header {
+      padding-left: calc(var(--watt-space-xs) + var(--watt-space-m));
 
-    .mat-expansion-panel-header.mat-expanded {
-      height: 48px;
+      &.mat-expanded {
+        height: 48px;
+      }
     }
 
     .mat-expansion-panel-header-title {
       color: var(--watt-color-neutral-white);
+    }
+
+    .mat-expansion-indicator::after {
+      color: var(--watt-color-neutral-white);
+      position: relative;
+      top: -3px;
     }
 
     .mat-expansion-panel-body {
