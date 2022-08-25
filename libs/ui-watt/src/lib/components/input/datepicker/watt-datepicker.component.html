@@ -27,9 +27,14 @@ limitations under the License.
     (focusout)="onFocusOut($event)"
   />
 
-  <mat-datepicker-toggle matSuffix [for]="singleDatepicker">
-    <watt-icon name="date" matDatepickerToggleIcon></watt-icon>
-  </mat-datepicker-toggle>
+  <watt-button
+    variant="icon"
+    icon="date"
+    [disabled]="disabled"
+    (click)="singleDatepicker.open()"
+    (focusin)="onFocusIn()"
+    (focusout)="onFocusOut($event)"
+  ></watt-button>
 
   <mat-datepicker
     #singleDatepicker
@@ -62,9 +67,15 @@ limitations under the License.
     />
   </mat-date-range-input>
 
-  <mat-datepicker-toggle matSuffix [for]="rangeDatepicker">
-    <watt-icon name="date" matDatepickerToggleIcon></watt-icon>
-  </mat-datepicker-toggle>
+  <watt-button
+    variant="icon"
+    icon="date"
+    [disabled]="disabled"
+    [attr.aria-pressed]="false"
+    (click)="rangeDatepicker.open()"
+    (focusin)="onFocusIn()"
+    (focusout)="onFocusOut($event)"
+  ></watt-button>
 
   <mat-date-range-picker
     panelClass="watt-datepicker-range__panel"

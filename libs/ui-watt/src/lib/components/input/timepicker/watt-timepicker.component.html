@@ -53,18 +53,15 @@ limitations under the License.
     />
   </mat-date-range-input>
 
-  <button
-    mat-icon-button
-    class="watt-timepicker-slider-toggle"
-    type="button"
+  <watt-button
+    variant="icon"
+    icon="time"
     [disabled]="disabled"
     [attr.aria-pressed]="sliderOpen"
     (click)="toggleSlider()"
     (focusin)="onFocusIn()"
     (focusout)="onFocusOut($event)"
-  >
-    <watt-icon name="time" [label]="sliderLabel"></watt-icon>
-  </button>
+  ></watt-button>
 
   <ng-template
     cdkConnectedOverlay

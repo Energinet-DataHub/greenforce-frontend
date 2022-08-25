@@ -15,15 +15,14 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <ng-template #modal>
-  <button
+  <watt-button
     *ngIf="!disableClose"
-    mat-icon-button
+    variant="icon"
+    icon="close"
     class="watt-modal-close"
-    type="button"
+    [attr.aria-label]="closeLabel"
     (click)="close(false)"
-  >
-    <watt-icon [label]="closeLabel" name="close"></watt-icon>
-  </button>
+  ></watt-button>
   <h3 class="watt-modal-title">{{ title }}</h3>
   <div
     wattResizeObserver
