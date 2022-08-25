@@ -10,7 +10,7 @@
       "meteringPoints": "Metering points",
       "messageArchive": "Request/Response messages",
       "marketParticipantOrganizations": "Organisations",
-      "marketParticipantGridArea": "Grid areas",
+      "marketParticipantGridAreas": "Grid areas",
       "wholesaleStartProcess": "Settlements - Start Process",
       "wholesaleOverview": "Settlements - Overview"
     }
@@ -487,6 +487,7 @@
       "header": "Grid areas",
       "createGridArea": "Create",
       "editGridArea": "Edit",
+      "noGridAreas": "No gridareas found",
       "columns": {
         "gridArea": "Grid area",
         "gridAreaCode": "Code"

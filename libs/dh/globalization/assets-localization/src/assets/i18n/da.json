@@ -10,7 +10,7 @@
       "meteringPoints": "Målepunkter",
       "messageArchive": "Fremsøg forretningsbesked",
       "marketParticipantOrganizations": "Organisationer",
-      "marketParticipantGridArea": "Netområder",
+      "marketParticipantGridAreas": "Netområder",
       "wholesaleStartProcess": "Afregninger - Start proces",
       "wholesaleOverview": "Afregninger - Oversigt"
     }
@@ -487,6 +487,7 @@
       "header": "Netområder",
       "createGridArea": "Opret",
       "editGridArea": "Rediger",
+      "noGridAreas": "Ingen netområder fundet",
       "columns": {
         "gridArea": "Netområde",
         "gridAreaCode": "Kode"

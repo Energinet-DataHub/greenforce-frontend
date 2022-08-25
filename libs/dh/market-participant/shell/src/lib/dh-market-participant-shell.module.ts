@@ -34,7 +34,7 @@ import {
   dhMarketParticipantOrganizationsCreatePath,
   dhMarketParticipantOrganizationsEditPath,
   dhMarketParticipantOrganizationsPath,
-  dhMarketParticipanGridAreaPath,
+  dhMarketParticipantGridAreasPath,
 } from '@energinet-datahub/dh/market-participant/routing';
 import { DhMarketParticipantEditActorComponent } from '@energinet-datahub/dh/market-participant/edit-actor';
 import {
@@ -100,7 +100,7 @@ const routes: Routes = [
     ],
   },
   {
-    path: dhMarketParticipanGridAreaPath,
+    path: dhMarketParticipantGridAreasPath,
     pathMatch: 'full',
     component: DhMarketParticipantGridAreaComponent,
   },
