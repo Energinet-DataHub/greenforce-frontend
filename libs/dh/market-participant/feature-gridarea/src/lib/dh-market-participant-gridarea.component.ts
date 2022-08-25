@@ -27,9 +27,9 @@ import {
 } from '@energinet-datahub/watt';
 import { Router } from '@angular/router';
 import {
-  dhMarketParticipantGridAreaCreatePath,
-  dhMarketParticipantGridAreaEditPath,
-  dhMarketParticipanGridAreaPath,
+  dhMarketParticipantGridAreasCreatePath,
+  dhMarketParticipantGridAreasEditPath,
+  dhMarketParticipantGridAreasPath,
   dhMarketParticipantPath,
 } from '@energinet-datahub/dh/market-participant/routing';
 import { DhMarketParticipantGridAreaOverviewScam } from './overview/dh-market-participant-gridarea-overview.component';
@@ -57,9 +57,9 @@ export class DhMarketParticipantGridAreaComponent {
   readonly editGridArea = (gridAreaId: string) => {
     const url = this.router.createUrlTree([
       dhMarketParticipantPath,
-      dhMarketParticipanGridAreaPath,
+      dhMarketParticipantGridAreasPath,
       gridAreaId,
-      dhMarketParticipantGridAreaEditPath,
+      dhMarketParticipantGridAreasEditPath,
     ]);
 
     this.router.navigateByUrl(url);
@@ -68,8 +68,8 @@ export class DhMarketParticipantGridAreaComponent {
   readonly createGridArea = () => {
     const url = this.router.createUrlTree([
       dhMarketParticipantPath,
-      dhMarketParticipanGridAreaPath,
-      dhMarketParticipantGridAreaCreatePath,
+      dhMarketParticipantGridAreasPath,
+      dhMarketParticipantGridAreasCreatePath,
     ]);
 
     this.router.navigateByUrl(url);

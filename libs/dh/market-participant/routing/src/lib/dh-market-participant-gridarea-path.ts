@@ -14,8 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export const dhMarketParticipanGridAreaPath = 'gridareas';
-export const dhMarketParticipantGridAreaCreatePath = 'new';
-export const dhMarketParticipantGridAreaEditPath = 'edit';
+export const dhMarketParticipantGridAreasPath = 'gridareas';
+export const dhMarketParticipantGridAreasCreatePath = 'new';
+export const dhMarketParticipantGridAreasEditPath = 'edit';
 
 export const dhMarketParticipantGridAreaIdParam = 'gridarea-id';
