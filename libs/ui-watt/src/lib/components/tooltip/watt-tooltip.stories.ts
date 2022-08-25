@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { MatTooltipModule } from '@angular/material/tooltip';
+import { WattTooltipModule } from './watt-tooltip.module';
 import { moduleMetadata, Story } from '@storybook/angular';
 import { WattButtonModule } from '../button';
 
@@ -22,7 +22,7 @@ export default {
   title: 'Components/Tooltip',
   decorators: [
     moduleMetadata({
-      imports: [WattButtonModule, MatTooltipModule],
+      imports: [WattButtonModule, WattTooltipModule],
     }),
   ],
 };
@@ -31,8 +31,8 @@ export const Overview: Story = (args) => ({
   props: args,
   template: `
     <watt-button
-      matTooltip="Click me"
-      matTooltipPosition="below"
+      wattTooltip="Click me"
+      wattTooltipPosition="right"
     >Button</watt-button>
   `,
 });

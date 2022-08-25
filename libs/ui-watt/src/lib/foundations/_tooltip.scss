@@ -20,6 +20,7 @@
 $arrow-size: 6px;
 
 .mat-tooltip-panel .mat-tooltip {
+  @include typography.watt-text-s;
   overflow: visible;
   margin: var(--watt-space-m);
   background-color: var(--watt-color-primary-dark);
