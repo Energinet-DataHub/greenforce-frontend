@@ -17,7 +17,7 @@
 @use "./typography/typography.import" as typography;
 @use "./spacing/spacing.import" as space;
 
-$arrow-size: 6px;
+$arrow-size: 6px; // magic number by designer
 
 .mat-tooltip-panel .mat-tooltip {
   @include typography.watt-text-s;
