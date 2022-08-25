@@ -41,7 +41,7 @@ import {
   TooltipPosition,
 } from '@angular/material/tooltip';
 
-export type wattTooltipPosition = Exclude<TooltipPosition, 'before' | 'after'>;
+export type wattTooltipPosition = TooltipPosition;
 
 @Directive({
   selector: '[wattTooltip]',
@@ -95,7 +95,7 @@ export class WattTooltipDirective extends MatTooltip {
 
   @Input('wattTooltipPosition')
   get position(): wattTooltipPosition {
-    return super.position as wattTooltipPosition;
+    return super.position;
   }
   set position(value: wattTooltipPosition) {
     super.position = value;
