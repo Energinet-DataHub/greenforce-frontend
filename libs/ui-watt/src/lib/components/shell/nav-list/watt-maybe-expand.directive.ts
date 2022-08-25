@@ -33,13 +33,12 @@ export class WattMaybeExpandDirective implements AfterViewInit, OnInit {
   }
 
   ngAfterViewInit(): void {
-    const listItems: WattNavListItemComponent[] | undefined =
-      this.wattMaybeExpand?.toArray();
+    const navListItems = this.wattMaybeExpand?.toArray();
 
-    if (listItems) {
-      const activeLinks$ = [...listItems].map((item) => item.isActive$);
+    if (navListItems) {
+      const links$ = navListItems?.map((item) => item.isActive$);
 
-      from(activeLinks$)
+      from(links$)
         .pipe(
           mergeAll(),
           filter((isActive) => isActive)

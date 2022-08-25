@@ -57,7 +57,9 @@ import { Subject } from 'rxjs';
   `,
 })
 export class WattNavListItemComponent {
-  isActive$ = new Subject<boolean>();
+  private isActiveSubject = new Subject<boolean>();
+
+  public readonly isActive$ = this.isActiveSubject.asObservable();
 
   @Input() link: string | null = null;
   @Input() target: '_self' | '_blank' | '_parent' | '_top' | null = null;
@@ -67,7 +69,7 @@ export class WattNavListItemComponent {
   }
 
   onRouterLinkActive(isActive: boolean) {
-    this.isActive$.next(isActive);
+    this.isActiveSubject.next(isActive);
   }
 }
 
