@@ -107,17 +107,17 @@ import { MatIconModule } from '@angular/material/icon';
       <div class="content">
         <h4 class="watt-space-stack-s">Oops! Something went wrong...</h4>
         <p class="watt-space-stack-m">
-          We are sorry for the inconvinience, you can try again. But you are
-          more than welcome to contact us and tell, what the problem is, then we
-          will do what we can to help you proceed.
+          We apologize for the inconvenience, please reload the page or try
+          again. <br />
+          If you still experience issues, you are welcome to contact customer
+          service, and we will help you proceed.
         </p>
         <p class="inline">
-          Try reloading the page. Alternatively you can
           <a
             href="mailto:datahub@energinet.dk?subject=Error on energioprindelse.dk&body=**Write your message here, but please keep the lines below intact for our internal investigations**%0D%0A%0D%0AError code:{{
               errorMessage?.status
             }}%0D%0A{{ errorMessage?.message }}"
-            >contact customer service</a
+            >Contact customer service</a
           >
         </p>
 
