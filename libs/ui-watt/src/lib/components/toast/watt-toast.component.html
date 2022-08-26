@@ -32,5 +32,10 @@ limitations under the License.
     (click)="config.action(matSnackBarRef)"
     >action</watt-button
   >
-  <watt-button variant="icon" icon="close" (click)="onClose()" *ngIf="config.type !== 'loading'"></watt-button>
+  <watt-button
+    variant="icon"
+    icon="close"
+    (click)="onClose()"
+    *ngIf="config.type !== 'loading'"
+  ></watt-button>
 </span>
