@@ -16,8 +16,9 @@
  */
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { AppSettingsStore } from '@energinet-datahub/eo/shared/services';
 import { ComponentStore } from '@ngrx/component-store';
-import { take } from 'rxjs';
+import { Subscription, take } from 'rxjs';
 import { EoConsumptionService, EoMeasurement } from './eo-consumption.service';
 
 export interface EoMeasurementData {
@@ -38,7 +39,12 @@ interface EoConsumptionState {
   providedIn: 'root',
 })
 export class EoConsumptionStore extends ComponentStore<EoConsumptionState> {
-  constructor(private service: EoConsumptionService) {
+  #monthlyConsumptionApiCall: Subscription = new Subscription();
+
+  constructor(
+    private service: EoConsumptionService,
+    private appSettingsStore: AppSettingsStore
+  ) {
     super({
       loadingDone: false,
       measurements: [],
@@ -46,7 +52,9 @@ export class EoConsumptionStore extends ComponentStore<EoConsumptionState> {
       error: null,
     });
 
-    this.loadMonthlyConsumption();
+    this.appSettingsStore.calendarDateRange$.subscribe(() => {
+      this.loadMonthlyConsumption();
+    });
   }
 
   readonly loadingDone$ = this.select((state) => state.loadingDone);
@@ -83,7 +91,10 @@ export class EoConsumptionStore extends ComponentStore<EoConsumptionState> {
   );
 
   loadMonthlyConsumption() {
-    this.service
+    this.setLoadingDone(false);
+    this.#monthlyConsumptionApiCall.unsubscribe();
+
+    this.#monthlyConsumptionApiCall = this.service
       .getMonthlyConsumption()
       .pipe(take(1))
       .subscribe({

@@ -83,7 +83,6 @@ export class EoConsumptionPageShellComponent {
 
   setNewAppDates(dates: CalendarDateRange) {
     this.appSettingsStore.setCalendarDateRange(dates);
-    this.consumptionStore.loadMonthlyConsumption();
   }
 }
 
