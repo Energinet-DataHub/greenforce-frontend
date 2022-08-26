@@ -14,21 +14,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@use "./theme/light-theme.scss";
-@use "./theme/material-overwrites/datepicker";
-@use "./theme/material-overwrites/snack-bar";
+import { Injectable } from '@angular/core';
+import { MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
 
-@use "../../../foundations/variables";
-@use "../../../foundations/box-sizing";
-@use "../../../foundations/typography";
-@use "../../../foundations/spacing";
-@use "../../../foundations/table";
+import { WattToastComponent } from './watt-toast.component';
+import { WattToastConfig } from './watt-toast.component';
 
-html,
-body {
-  height: 100%;
-}
-body {
-  margin: 0;
-  font-family: "Open Sans", sans-serif;
+@Injectable({
+  providedIn: 'root',
+})
+export class WattToastService {
+  constructor(private _snackBar: MatSnackBar) {}
+
+  open(config: WattToastConfig): MatSnackBarRef<WattToastComponent> {
+    return this._snackBar.openFromComponent(WattToastComponent, {
+      data: config,
+    });
+  }
 }
