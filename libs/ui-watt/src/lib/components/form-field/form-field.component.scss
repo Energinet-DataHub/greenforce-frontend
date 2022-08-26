@@ -31,11 +31,13 @@ watt-form-field {
     overflow: visible;
   }
 
-  .mat-form-field-label {
+  .mat-form-field-appearance-legacy.mat-form-field-can-float.mat-form-field-should-float
+    .mat-form-field-label {
     transform: translateY(
       calc(0px - 1.28125em - var(--watt-space-s))
-    ) !important; // 1.28125em is space to top of the input (this number is from Angular material)
+    ); // 1.28125em is space to top of the input (this number is from Angular material)
     @include watt.typography-watt-label;
+    width: 100%;
   }
 
   &.watt-form-field-large {
@@ -91,7 +93,6 @@ watt-form-field {
     }
 
     .mat-form-field-subscript-wrapper {
-      position: relative;
       padding-left: 8px;
       margin-top: 4px;
     }
