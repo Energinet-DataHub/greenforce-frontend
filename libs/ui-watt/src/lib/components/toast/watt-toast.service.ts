@@ -36,7 +36,7 @@ export class WattToastService {
   }
 
   update(config: WattToastConfig): void {
-    if(!this.ref) return;
+    if (!this.ref) return;
     this.ref.instance.config = config;
   }
 }
