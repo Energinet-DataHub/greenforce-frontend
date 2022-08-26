@@ -61,6 +61,9 @@ import {
   `,
 })
 export class WattNavListComponent {
+  /**
+   * @ignore
+   */
   @ContentChildren(WattNavListItemComponent)
   navListItemComponents: QueryList<WattNavListItemComponent> | null = null;
 
@@ -70,6 +73,9 @@ export class WattNavListComponent {
   @Input()
   title = '';
 
+  /**
+   * @ignore
+   */
   @HostBinding('class.watt-nav-list--expandable')
   get expandableClass() {
     return this.expandable;
