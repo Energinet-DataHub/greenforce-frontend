@@ -45,10 +45,8 @@ import {
     <ng-container *ngIf="expandable; else navListTemplate">
       <mat-expansion-panel
         wattExpandOnActiveLink
-        #expandOnActiveLink="wattExpandOnActiveLink"
         [wattNavListItemComponents]="navListItemComponents"
         class="mat-elevation-z0"
-        [expanded]="expandOnActiveLink.expand"
       >
         <mat-expansion-panel-header>
           <mat-panel-title class="watt-text-m">{{ title }}</mat-panel-title>
