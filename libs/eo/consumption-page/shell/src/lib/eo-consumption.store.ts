@@ -106,10 +106,11 @@ export class EoConsumptionStore extends ComponentStore<EoConsumptionState> {
           this.setMonthlyMeasurements(measurements);
           this.setTotalMeasurement(this.getTotalFromArray(measurements));
           this.setError(null);
-          this.setLoadingDone(true);
         },
         error: (error) => {
           this.setError(error);
+        },
+        complete: () => {
           this.setLoadingDone(true);
         },
       });

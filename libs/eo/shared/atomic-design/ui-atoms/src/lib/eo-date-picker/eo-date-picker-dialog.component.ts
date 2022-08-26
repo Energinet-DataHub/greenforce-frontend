@@ -152,6 +152,7 @@ import { WattButtonModule } from '@energinet-datahub/watt';
     </div>
     <div class="calendar-container">
       <mat-calendar
+        #calendar
         [(selected)]="dateRange"
         (selectedChange)="setDatesFromCalendar($event)"
         [maxDate]="today"
@@ -168,7 +169,8 @@ import { WattButtonModule } from '@energinet-datahub/watt';
   </div>`,
 })
 export class EoDatePickerDialogComponent {
-  @ViewChild(MatCalendar) calendar!: MatCalendar<Date>;
+  @ViewChild('calendar') calendar!: MatCalendar<Date>;
+
   #startDate: Date | null = null;
   #endDate: Date | null = null;
   predefinedValue: DateRange<Date> | null = null;
