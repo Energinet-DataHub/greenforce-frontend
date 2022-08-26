@@ -14,10 +14,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, Inject, NgModule, ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  Inject,
+  NgModule,
+  ViewChild,
+  ViewEncapsulation,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MAT_DATE_LOCALE } from '@angular/material/core';
-import { DateRange, MatDatepickerModule } from '@angular/material/datepicker';
+import {
+  DateRange,
+  MatCalendar,
+  MatDatepickerModule,
+} from '@angular/material/datepicker';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatRadioChange, MatRadioModule } from '@angular/material/radio';
 import { CalendarDateRange } from '@energinet-datahub/eo/shared/services';
@@ -143,9 +152,10 @@ import { WattButtonModule } from '@energinet-datahub/watt';
     </div>
     <div class="calendar-container">
       <mat-calendar
-        [(selected)]="visualDateRange"
+        [(selected)]="dateRange"
         (selectedChange)="setDatesFromCalendar($event)"
         [maxDate]="today"
+        [startAt]="dateRange?.start"
       >
       </mat-calendar>
       <div class="button-container">
@@ -158,17 +168,16 @@ import { WattButtonModule } from '@energinet-datahub/watt';
   </div>`,
 })
 export class EoDatePickerDialogComponent {
-  #openerPosition: DOMRect;
+  @ViewChild(MatCalendar) calendar!: MatCalendar<Date>;
   #startDate: Date | null = null;
   #endDate: Date | null = null;
   predefinedValue: DateRange<Date> | null = null;
-  visualDateRange: DateRange<Date> | null = null;
-  logicalDateRange: CalendarDateRange | null = null;
+  dateRange: DateRange<Date> | null = null;
 
   today = new Date();
-  year2020 = new DateRange(new Date(1577836800000), new Date(this.convertToYesterday(1609459200000)));
-  year2021 = new DateRange(new Date(1609459200000), new Date(this.convertToYesterday(1640995200000)));
-  year2022 = new DateRange(new Date(1640995200000), new Date(this.convertToYesterday(1672531200000)));
+  year2020 = new DateRange(new Date(2020, 0, 1), new Date(2020, 11, 31));
+  year2021 = new DateRange(new Date(2021, 0, 1), new Date(2021, 11, 31));
+  year2022 = new DateRange(new Date(2022, 0, 1), new Date(2022, 11, 31));
   last7days = new DateRange(
     new Date(new Date().setDate(this.today.getDate() - 6)),
     this.today
@@ -182,7 +191,7 @@ export class EoDatePickerDialogComponent {
     this.today
   );
   yearToDate = new DateRange(
-    new Date(Date.UTC(this.today.getUTCFullYear(), 0, 1)),
+    new Date(Date.UTC(this.today.getFullYear(), 0, 1)),
     this.today
   );
 
@@ -191,44 +200,45 @@ export class EoDatePickerDialogComponent {
     @Inject(MAT_DIALOG_DATA)
     public options: { dates: CalendarDateRange; openerPosition: DOMRect }
   ) {
-    this.updateVisualDateRange(options.dates.start, options.dates.end);
-    this.updateLogicalDateRange(options.dates.start, options.dates.end);
+    this.dateRange = new DateRange(
+      new Date(options.dates.start),
+      new Date(this.convertToYesterday(options.dates.end))
+    );
 
-    this.#openerPosition = options.openerPosition;
     dialogRef.updatePosition({
-      left: `${this.#openerPosition.left}px`,
-      top: `${this.#openerPosition.top - 454}px`,
+      left: `${options.openerPosition.left}px`,
+      top: `${options.openerPosition.top - 454}px`,
     });
   }
 
-  updateVisualDateRange(start: number, end: number | undefined | null) {
-    this.visualDateRange = new DateRange(
-      new Date(start),
-      end ? new Date(this.convertToYesterday(end)) : null
-    );
-  }
-  updateLogicalDateRange(start: number, end: number | undefined | null) {
-    this.logicalDateRange = start && end ? {start, end} : null;
-  }
-
   setDatesFromPredefined(event: MatRadioChange) {
-    if (!event.value) return;
-    this.updateVisualDateRange(event.value.start, event.value.end);
-    this.updateLogicalDateRange(event.value.start, event.value.end.setUTCHours(24,0,0,0));
+    if (!event.value.start) return;
+    this.dateRange = new DateRange(
+      this.toUTCDate(event.value.start),
+      this.toUTCDate(event.value.end)
+    );
+
+    this.calendar._goToDateInView(event.value.start, 'month');
   }
 
   setDatesFromCalendar(date: Date): void {
     this.predefinedValue = null;
     if (!this.#startDate) {
-      this.#startDate = date;
+      this.#startDate = this.toUTCDate(date);
     } else if (!this.#endDate && date.getTime() >= this.#startDate.getTime()) {
-      this.#endDate = date;
+      this.#endDate = this.toUTCDate(date);
     } else {
-      this.#startDate = date;
+      this.#startDate = this.toUTCDate(date);
       this.#endDate = null;
     }
-    this.updateVisualDateRange(this.#startDate.getTime(), this.#endDate?.getTime());
-    this.updateLogicalDateRange(this.#startDate.getTime(), this.#endDate?.setUTCHours(24,0,0,0));
+
+    this.dateRange = new DateRange(this.#startDate, this.#endDate);
+  }
+
+  toUTCDate(input: Date) {
+    return new Date(
+      Date.UTC(input.getFullYear(), input.getMonth(), input.getDate())
+    );
   }
 
   closeCancel(): void {
@@ -236,29 +246,28 @@ export class EoDatePickerDialogComponent {
   }
 
   closeAndSendDatesToApp() {
-    this.dialogRef.close(this.logicalDateRange);
-  }
-
-  convertToUTC(input : Date | null) {
-    if(!input) return
-    console.log("Input for UTC convert", input);
-    if(input.getTimezoneOffset() < 0)
-    {
-      console.log("Output UTC convert", input.setUTCHours(24,0,0,0))
-    } else {
-      console.log("Output UTC convert", input.setUTCHours(0,0,0,0))
+    if (!this.dateRange?.start || !this.dateRange?.end) {
+      this.dialogRef.close();
+      return;
     }
-    return input.getTimezoneOffset() < 0 ? input.setUTCHours(24,0,0,0) : input.setUTCHours(0,0,0,0);
+
+    this.dialogRef.close({
+      start: this.dateRange?.start?.getTime(),
+      end: this.convertToTomorrow(this.dateRange.end),
+    });
   }
 
-  convertToYesterday(input : number) {
-    return new Date(input).setDate(new Date(input).getDate() - 1)
+  convertToTomorrow(input: Date) {
+    return input.setUTCHours(24, 0, 0, 0);
+  }
+
+  convertToYesterday(input: number) {
+    return new Date(input).setDate(new Date(input).getDate() - 1);
   }
 }
 
 @NgModule({
   declarations: [EoDatePickerDialogComponent],
-  providers: [{provide: MAT_DATE_LOCALE, useValue: "UTC"}],
   imports: [MatDatepickerModule, WattButtonModule, MatRadioModule, FormsModule],
   exports: [EoDatePickerDialogComponent],
 })
