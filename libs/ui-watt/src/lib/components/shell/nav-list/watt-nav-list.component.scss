@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@use '@energinet-datahub/watt/utils' as watt;
+@use "@energinet-datahub/watt/utils" as watt;
 
 watt-nav-list {
   background-color: var(--watt-color-primary-dark);
@@ -37,6 +37,42 @@ watt-nav-list {
 
     .mat-list-item-content {
       @include watt.space-inset-squish-m;
+    }
+  }
+
+  &.watt-nav-list--expandable {
+    .mat-expansion-panel {
+      background-color: var(--watt-color-primary-dark);
+      border-radius: 0;
+    }
+
+    .mat-expansion-panel-header.mat-expanded:hover,
+    .mat-expansion-panel:not(.mat-expanded)
+      .mat-expansion-panel-header:hover:not([aria-disabled="true"]) {
+      background-color: var(--watt-color-primary);
+    }
+
+    .mat-expansion-panel-header {
+      padding-left: calc(var(--watt-space-xs) + var(--watt-space-m));
+      height: 40px;
+    }
+
+    .mat-expansion-panel-header-title {
+      color: var(--watt-color-neutral-white);
+    }
+
+    .mat-expansion-indicator::after {
+      color: var(--watt-color-neutral-white);
+      position: relative;
+      top: -3px;
+    }
+
+    .mat-expansion-panel-body {
+      padding: 0;
+    }
+
+    .mat-nav-list .mat-list-item .mat-list-item-content {
+      padding: var(--watt-space-s) var(--watt-space-l);
     }
   }
 }
