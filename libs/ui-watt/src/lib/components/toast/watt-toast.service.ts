@@ -28,7 +28,6 @@ export class WattToastService {
 
   open(config: WattToastConfig): MatSnackBarRef<WattToastComponent> {
     return this._snackBar.openFromComponent(WattToastComponent, {
-      duration: config.duration || 5000,
       data: config,
     });
   }

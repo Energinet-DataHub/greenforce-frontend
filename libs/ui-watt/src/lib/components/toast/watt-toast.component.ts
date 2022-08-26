@@ -18,6 +18,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  ElementRef,
   HostBinding,
   Inject,
   Optional,
@@ -27,6 +28,17 @@ import {
   MatSnackBarRef,
   MAT_SNACK_BAR_DATA,
 } from '@angular/material/snack-bar';
+import {
+  fromEvent,
+  Observable,
+  repeat,
+  repeatWhen,
+  Subscription,
+  switchMap,
+  takeUntil,
+  tap,
+  timer,
+} from 'rxjs';
 
 export type WattToastType =
   | 'success'
@@ -73,20 +85,45 @@ export class WattToastComponent {
    */
   matSnackBarRef: WattToastRef;
 
+  /**
+   * @ignore
+   */
+  private dissmissToastSubscription?: Subscription;
+
   constructor(
     @Inject(MAT_SNACK_BAR_DATA) private _config: WattToastConfig,
     private cd: ChangeDetectorRef,
-    @Optional() private _matSnackBarRef: MatSnackBarRef<WattToastComponent>
+    @Optional() private _matSnackBarRef: MatSnackBarRef<WattToastComponent>,
+    private elementRef: ElementRef
   ) {
     this.config = this._config;
     this.matSnackBarRef = this._matSnackBarRef;
+    this.initDuration(this.config.duration);
   }
 
   /**
    * @ignore
    */
-  onClose() {
+  onClose(): void {
     if (!this.matSnackBarRef) return;
     this.matSnackBarRef.dismiss();
+    this.dissmissToastSubscription?.unsubscribe();
+  }
+
+  /**
+   * @ignore
+   * Ensure the toast won't get dismissed when the user hovers over it.
+   */
+  private initDuration(duration = 5000): void {
+    const mouseEnter$ = fromEvent(this.elementRef.nativeElement, 'mouseenter');
+    const mouseLeave$ = fromEvent(this.elementRef.nativeElement, 'mouseleave');
+
+    this.dissmissToastSubscription = timer(duration)
+      .pipe(
+        tap(() => this.onClose()),
+        takeUntil(mouseEnter$),
+        repeat({ delay: () => mouseLeave$ })
+      )
+      .subscribe();
   }
 }
