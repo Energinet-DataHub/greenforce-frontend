@@ -54,10 +54,7 @@ watt-nav-list {
 
     .mat-expansion-panel-header {
       padding-left: calc(var(--watt-space-xs) + var(--watt-space-m));
-
-      &.mat-expanded {
-        height: 48px;
-      }
+      height: 40px;
     }
 
     .mat-expansion-panel-header-title {
