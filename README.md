@@ -173,6 +173,18 @@ _Note_: This command currently supports generating the following library types:
 - configuration
 - environments
 
+### Generating a new domain
+
+It is also possible to generate an entire domain. To do so, run `yarn nx workspace-generator dh-domain-generator`. This will generate a new domain
+with the following library types included:
+
+- data-access-api
+- feature
+- routing
+- shell
+
+_Note_: You will have to enter a name for the feature library.
+
 ## Frontend apps
 
 The frontend apps are built with Angular in an Nx Workspace. They are located under `apps` folder:
