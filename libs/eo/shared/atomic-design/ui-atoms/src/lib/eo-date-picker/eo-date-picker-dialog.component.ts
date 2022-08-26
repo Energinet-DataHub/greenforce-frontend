@@ -225,12 +225,17 @@ export class EoDatePickerDialogComponent {
 
   setDatesFromCalendar(date: Date): void {
     this.predefinedValue = null;
+    const UTCDate = this.toUTCDate(date);
+
     if (!this.#startDate) {
-      this.#startDate = this.toUTCDate(date);
-    } else if (!this.#endDate && date.getTime() >= this.#startDate.getTime()) {
-      this.#endDate = this.toUTCDate(date);
+      this.#startDate = UTCDate;
+    } else if (
+      !this.#endDate &&
+      UTCDate.getTime() >= this.#startDate.getTime()
+    ) {
+      this.#endDate = UTCDate;
     } else {
-      this.#startDate = this.toUTCDate(date);
+      this.#startDate = UTCDate;
       this.#endDate = null;
     }
 
@@ -254,7 +259,7 @@ export class EoDatePickerDialogComponent {
     }
 
     this.dialogRef.close({
-      start: this.dateRange?.start?.getTime(),
+      start: this.dateRange.start.getTime(),
       end: this.convertToTomorrow(this.dateRange.end),
     });
   }
