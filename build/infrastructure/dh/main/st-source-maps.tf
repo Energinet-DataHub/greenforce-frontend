@@ -44,3 +44,13 @@ module "kvs_st_source_maps_primary_connection_string" {
 
   tags          = azurerm_resource_group.this.tags
 }
+
+module "kvs_st_source_maps_name" {
+  source        = "git::https://github.com/Energinet-DataHub/geh-terraform-modules.git//azure/key-vault-secret?ref=7.2.0"
+  
+  name          = "st-sourcemaps-name"
+  value         = module.st_source_maps.name
+  key_vault_id  = data.azurerm_key_vault.kv_shared_resources.id
+
+  tags          = azurerm_resource_group.this.tags
+}
