@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 module "apima_bff" {
-  source                      = "git::https://github.com/Energinet-DataHub/geh-terraform-modules.git//azure/api-management-api?ref=7.0.0"
+  source                      = "git::https://github.com/Energinet-DataHub/geh-terraform-modules.git//azure/api-management-api?ref=7.2.0"
 
   name                        = "bff"
   project_name                = var.domain_name_short
@@ -54,7 +54,7 @@ module "apima_bff" {
                     }
                     return $"Caller ID (claims.sub): {callerId}";
                 }</message>
-                <metadata name="Correlation-ID" value="@($"{context.RequestId}")" />
+                <metadata name="CorrelationId" value="@($"{context.RequestId}")" />
             </trace>
             <validate-jwt header-name="Authorization" failed-validation-httpcode="401" failed-validation-error-message="Unauthorized. Failed policy requirements, or token is invalid or missing.">
                 <openid-config url="${data.azurerm_key_vault_secret.frontend_open_id_url.value}" />
@@ -65,7 +65,7 @@ module "apima_bff" {
                 </required-claims>
             </validate-jwt>
             <base />
-            <set-header name="Correlation-ID" exists-action="override">
+            <set-header name="CorrelationId" exists-action="override">
                 <value>@($"{context.RequestId}")</value>
             </set-header>
             <set-header name="RequestTime" exists-action="override">
@@ -91,13 +91,13 @@ module "apima_bff" {
           </backend>
           <outbound>
               <base />
-              <set-header name="Correlation-ID" exists-action="override">
+              <set-header name="CorrelationId" exists-action="override">
                   <value>@($"{context.RequestId}")</value>
               </set-header>
           </outbound>
           <on-error>
               <base />
-              <set-header name="Correlation-ID" exists-action="override">
+              <set-header name="CorrelationId" exists-action="override">
                   <value>@($"{context.RequestId}")</value>
               </set-header>
           </on-error>

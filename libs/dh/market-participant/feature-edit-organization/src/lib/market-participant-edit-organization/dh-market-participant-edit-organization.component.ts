@@ -30,6 +30,7 @@ import { map } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
   dhMarketParticipantOrganizationIdParam,
+  dhMarketParticipantOrganizationsPath,
   dhMarketParticipantPath,
 } from '@energinet-datahub/dh/market-participant/routing';
 
@@ -66,7 +67,9 @@ export class DhMarketParticipantEditOrganizationComponent {
   };
 
   private readonly backToOverview = () => {
-    this.router.navigateByUrl(dhMarketParticipantPath);
+    this.router.navigateByUrl(
+      `${dhMarketParticipantPath}/${dhMarketParticipantOrganizationsPath}`
+    );
   };
 }
 
