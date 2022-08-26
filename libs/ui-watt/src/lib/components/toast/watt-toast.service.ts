@@ -24,11 +24,19 @@ import { WattToastConfig } from './watt-toast.component';
   providedIn: 'root',
 })
 export class WattToastService {
+  private ref?: MatSnackBarRef<WattToastComponent>;
+
   constructor(private _snackBar: MatSnackBar) {}
 
   open(config: WattToastConfig): MatSnackBarRef<WattToastComponent> {
-    return this._snackBar.openFromComponent(WattToastComponent, {
+    this.ref = this._snackBar.openFromComponent(WattToastComponent, {
       data: config,
     });
+    return this.ref;
+  }
+
+  update(config: WattToastConfig): void {
+    if(!this.ref) return;
+    this.ref.instance.config = config;
   }
 }
