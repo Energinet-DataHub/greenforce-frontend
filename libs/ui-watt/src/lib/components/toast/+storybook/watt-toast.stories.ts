@@ -32,7 +32,7 @@ export default {
 
 export interface WattToastStoryConfig extends WattToastConfig {
   disableAnimations?: boolean; // Used to disable animations for the tests
-  message?: string;
+  message: string;
 }
 
 export const Overview: Story<WattToastStoryConfig> = (args) => ({
