@@ -39,8 +39,12 @@ export const Overview: Story<WattToastStoryConfig> = (args) => ({
   props: args,
   template: `<storybook-toast [config]="{type, duration, message, action}"></storybook-toast>`,
   moduleMetadata: {
-    imports: [BrowserAnimationsModule.withConfig({disableAnimations: !!args.disableAnimations})]
-  }
+    imports: [
+      BrowserAnimationsModule.withConfig({
+        disableAnimations: !!args.disableAnimations,
+      }),
+    ],
+  },
 });
 
 Overview.args = {
