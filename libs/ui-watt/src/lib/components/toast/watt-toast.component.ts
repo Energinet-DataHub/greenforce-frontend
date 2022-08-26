@@ -115,6 +115,9 @@ export class WattToastComponent {
    * Ensure the toast won't get dismissed when the user hovers over it.
    */
   private initDuration(duration = 5000): void {
+    // When the type is loading, the developer is responsible for dismissing the toast manually.
+    if(this.config.type === 'loading') return;
+
     const mouseEnter$ = fromEvent(this.elementRef.nativeElement, 'mouseenter');
     const mouseLeave$ = fromEvent(this.elementRef.nativeElement, 'mouseleave');
 

@@ -49,7 +49,6 @@ export class StorybookToastComponent implements AfterViewInit {
 
   open() {
     this.toast.open(this.config);
-    console.log(this.config);
   }
 
   ngAfterViewInit(): void {
