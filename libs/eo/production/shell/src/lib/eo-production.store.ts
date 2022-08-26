@@ -16,8 +16,9 @@
  */
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { AppSettingsStore } from '@energinet-datahub/eo/shared/services';
 import { ComponentStore } from '@ngrx/component-store';
-import { take } from 'rxjs';
+import { Subscription, take } from 'rxjs';
 import { EoMeasurement, EoProductionService } from './eo-production.service';
 
 export interface EoMeasurementData {
@@ -38,7 +39,12 @@ interface EoProductionState {
   providedIn: 'root',
 })
 export class EoProductionStore extends ComponentStore<EoProductionState> {
-  constructor(private service: EoProductionService) {
+  monthlyProductionApiCall: Subscription = new Subscription();
+
+  constructor(
+    private service: EoProductionService,
+    private appSettingsStore: AppSettingsStore
+  ) {
     super({
       loadingDone: false,
       measurements: [],
@@ -46,7 +52,9 @@ export class EoProductionStore extends ComponentStore<EoProductionState> {
       error: null,
     });
 
-    this.loadMonthlyProduction();
+    this.appSettingsStore.calendarDateRange$.subscribe(() => {
+      this.loadMonthlyProduction();
+    });
   }
 
   readonly loadingDone$ = this.select((state) => state.loadingDone);
@@ -83,7 +91,10 @@ export class EoProductionStore extends ComponentStore<EoProductionState> {
   );
 
   loadMonthlyProduction() {
-    this.service
+    this.setLoadingDone(false);
+    this.monthlyProductionApiCall.unsubscribe();
+
+    this.monthlyProductionApiCall = this.service
       .getMonthlyProduction()
       .pipe(take(1))
       .subscribe({
@@ -95,10 +106,11 @@ export class EoProductionStore extends ComponentStore<EoProductionState> {
           this.setMonthlyMeasurements(measurements);
           this.setTotalMeasurement(this.getTotalFromArray(measurements));
           this.setError(null);
-          this.setLoadingDone(true);
         },
         error: (error) => {
           this.setError(error);
+        },
+        complete: () => {
           this.setLoadingDone(true);
         },
       });
