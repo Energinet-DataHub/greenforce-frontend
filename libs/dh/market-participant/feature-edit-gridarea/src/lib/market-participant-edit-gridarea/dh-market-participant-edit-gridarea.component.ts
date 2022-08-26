@@ -18,7 +18,6 @@ import { CommonModule } from '@angular/common';
 import { Component, NgModule } from '@angular/core';
 import { DhMarketParticipantEditOrganizationDataAccessApiStore } from '@energinet-datahub/dh/market-participant/data-access-api';
 import { LetModule } from '@rx-angular/template/let';
-import { DhMarketParticipantOrganizationMasterDataComponentScam } from './master-data/dh-market-participant-organization-master-data.component';
 import {
   WattButtonModule,
   WattSpinnerModule,
@@ -29,20 +28,19 @@ import { TranslocoModule } from '@ngneat/transloco';
 import { map } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
-  dhMarketParticipantOrganizationIdParam,
-  dhMarketParticipantOrganizationsPath,
+  dhMarketParticipantGridAreaIdParam,
   dhMarketParticipantPath,
 } from '@energinet-datahub/dh/market-participant/routing';
 
 @Component({
   selector: 'dh-market-participant-edit-organization',
-  templateUrl: './dh-market-participant-edit-organization.component.html',
-  styleUrls: ['./dh-market-participant-edit-organization.component.scss'],
+  templateUrl: './dh-market-participant-edit-gridarea.component.html',
+  styleUrls: ['./dh-market-participant-edit-gridarea.component.scss'],
   providers: [DhMarketParticipantEditOrganizationDataAccessApiStore],
 })
-export class DhMarketParticipantEditOrganizationComponent {
+export class DhMarketParticipantEditGridAreaComponent {
   organizationId$ = this.route.params.pipe(
-    map((params) => params[dhMarketParticipantOrganizationIdParam] as string)
+    map((params) => params[dhMarketParticipantGridAreaIdParam] as string)
   );
 
   isLoading$ = this.store.isLoading$;
@@ -67,9 +65,7 @@ export class DhMarketParticipantEditOrganizationComponent {
   };
 
   private readonly backToOverview = () => {
-    this.router.navigateByUrl(
-      `${dhMarketParticipantPath}/${dhMarketParticipantOrganizationsPath}`
-    );
+    this.router.navigateByUrl(dhMarketParticipantPath);
   };
 }
 
@@ -81,10 +77,9 @@ export class DhMarketParticipantEditOrganizationComponent {
     WattButtonModule,
     WattTabsModule,
     WattSpinnerModule,
-    DhMarketParticipantOrganizationMasterDataComponentScam,
     WattValidationMessageModule,
   ],
-  exports: [DhMarketParticipantEditOrganizationComponent],
-  declarations: [DhMarketParticipantEditOrganizationComponent],
+  exports: [DhMarketParticipantEditGridAreaComponent],
+  declarations: [DhMarketParticipantEditGridAreaComponent],
 })
-export class DhMarketParticipantEditOrganizationScam {}
+export class DhMarketParticipantEditGridAreaScam {}
