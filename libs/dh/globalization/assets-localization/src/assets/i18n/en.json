@@ -9,7 +9,8 @@
     "navigation": {
       "meteringPoints": "Metering points",
       "messageArchive": "Request/Response messages",
-      "marketParticipant": "Organisations",
+      "marketParticipantOrganizations": "Organisations",
+      "marketParticipantGridAreas": "Grid areas",
       "wholesaleStartProcess": "Settlements - Start Process",
       "wholesaleOverview": "Settlements - Overview"
     }
@@ -481,6 +482,16 @@
       "ariaLabelPhoneForNewContact": "phone field for new contact",
       "ariaLabelMailForNewContact": "mail field for new contact",
       "ariaLabelDeleteForNewContact": "delete button for new contact"
+    },
+    "gridAreas": {
+      "header": "Grid areas",
+      "createGridArea": "Create",
+      "editGridArea": "Edit",
+      "noGridAreas": "No gridareas found",
+      "columns": {
+        "gridArea": "Grid area",
+        "gridAreaCode": "Code"
+      }
     }
   },
   "wholesale": {
