@@ -35,6 +35,22 @@ module "st_source_maps" {
   tags                        = azurerm_resource_group.this.tags
 }
 
+resource "azurerm_role_definition" "reader" {
+  scope       = module.st_source_maps.id
+  description = "This role is for users to be able to debug source maps through application insights"
+
+  permissions {
+    actions     = ["Microsoft.Storage/storageAccounts/blobServices/containers/read"]
+    not_actions = []
+  }
+}
+
+resource "azurerm_role_assignment" "this" {
+  scope              = data.azurerm_subscription.this.id
+  role_definition_id = azurerm_role_definition.reader.role_definition_resource_id
+  principal_id       = var.azure_ad_security_group_id
+}
+
 module "kvs_st_source_maps_primary_connection_string" {
   source        = "git::https://github.com/Energinet-DataHub/geh-terraform-modules.git//azure/key-vault-secret?ref=7.2.0"
   
