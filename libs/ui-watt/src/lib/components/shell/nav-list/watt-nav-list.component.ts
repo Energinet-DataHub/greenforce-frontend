@@ -41,24 +41,7 @@ import {
   encapsulation: ViewEncapsulation.None,
   selector: 'watt-nav-list',
   styleUrls: ['./watt-nav-list.component.scss'],
-  template: `
-    <ng-container *ngIf="expandable; else navListTemplate">
-      <mat-expansion-panel
-        wattExpandOnActiveLink
-        [wattNavListItemComponents]="navListItemComponents"
-        class="mat-elevation-z0"
-      >
-        <mat-expansion-panel-header>
-          <mat-panel-title class="watt-text-m">{{ title }}</mat-panel-title>
-        </mat-expansion-panel-header>
-        <ng-container *ngTemplateOutlet="navListTemplate"></ng-container>
-      </mat-expansion-panel>
-    </ng-container>
-
-    <ng-template #navListTemplate>
-      <mat-nav-list><ng-content></ng-content></mat-nav-list>
-    </ng-template>
-  `,
+  templateUrl: './watt-nav-list.component.html',
 })
 export class WattNavListComponent {
   /**
