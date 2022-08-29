@@ -28,7 +28,7 @@ import { EoProductLogoScam } from '@energinet-datahub/eo/shared/atomic-design/ui
         justify-content: space-between;
         background-color: var(--watt-color-neutral-white);
         border-bottom: 1px solid var(--watt-color-neutral-grey-300);
-        box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.08);
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
         height: var(--watt-space-xl);
       }
 

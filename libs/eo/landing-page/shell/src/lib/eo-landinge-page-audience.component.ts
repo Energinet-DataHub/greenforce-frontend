@@ -54,7 +54,7 @@ import { EoLandingPagePresenter } from './eo-landing-page.presenter';
         padding-bottom: var(--watt-space-l);
 
         @include watt.media('>=Large') {
-          max-width: 457px; // Magix UX number
+          max-width: 457px; // Magic UX number
         }
       }
 
