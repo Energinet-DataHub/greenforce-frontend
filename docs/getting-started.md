@@ -70,7 +70,7 @@ You can use [Jest Preview](https://github.com/nvh95/jest-preview) to visually de
 
 In order to do that, you need to:
 
-1. Start the Jest Preview Server by running `yarn jest-preview` in a Terminal.
+1. Start the Jest Preview Server by running `yarn jest-preview` in a Terminal. A new page will open in the browser where failing tests can be previewed.
 2. Add `debug()` to the test you want to debug.
 
 ```ts
