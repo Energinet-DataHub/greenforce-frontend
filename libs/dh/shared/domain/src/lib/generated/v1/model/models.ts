@@ -20,6 +20,7 @@ export * from './create-organization-dto';
 export * from './disconnection-type';
 export * from './eic-function';
 export * from './grid-area-dto';
+export * from './grid-area-overview-item-dto';
 export * from './market-participant-metering-point-type';
 export * from './message-archive-search-criteria';
 export * from './message-archive-search-result-item-dto';
