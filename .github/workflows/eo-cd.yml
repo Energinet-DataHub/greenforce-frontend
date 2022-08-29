@@ -173,6 +173,27 @@ jobs:
           yaml_file: build/infrastructure/eo/chart/values.yaml
           yaml_path: app.image.tag
 
+  sonarcloud:
+    name: SonarCloud
+    if: ${{ needs.affected.outputs.is-affected == 'true' }}
+    needs: affected
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        with:
+          args: >
+            -Dsonar.projectKey=energinet-datahub_energy-origin_frontend
+            -Dsonar.organization=energinet-datahub
+            -Dsonar.sources=apps/eo/app-eo,libs/eo
+            -Dsonar.exclusions=**/*.spec.ts
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.EO_SONAR_TOKEN }}
+
   helm_chart_version_increment_check:
     name: Helm chart check version
     if: ${{ github.event_name == 'pull_request' && needs.affected.outputs.is-affected == 'true' }}
