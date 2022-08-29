@@ -152,7 +152,7 @@ jobs:
     name: Build containers
     needs:
       - define_build
-      - app
+      - build
     uses: Energinet-DataHub/.github/.github/workflows/build-containers-and-release-chart.yaml@main
     with:
       helm_repository: ${{ github.repository_owner }}/helm-charts
