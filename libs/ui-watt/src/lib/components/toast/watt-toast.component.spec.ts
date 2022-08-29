@@ -67,9 +67,15 @@ describe('Toast', () => {
 
   it('should not show icon for toasts of type=loading', async () => {});
 
+  it('should not show close button for toasts of type=loading', async () => {});
+
   it('should show spinner for toasts of type=loading', async () => {});
 
   it('should not show spinner when toast is not of type=loading', () => {});
 
   it('should have a dismiss button', async () => {});
+
+  it('should not have default duration, when the type is loading', () => {});
+
+  it('should not dismiss the toast, when user is hovering it', () => {});
 });
