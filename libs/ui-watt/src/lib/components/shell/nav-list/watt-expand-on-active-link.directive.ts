@@ -16,7 +16,7 @@
  */
 import { Directive, AfterViewInit, Input, QueryList } from '@angular/core';
 import { MatExpansionPanel } from '@angular/material/expansion';
-import { from, mergeAll, filter } from 'rxjs';
+import { from, filter, mergeMap } from 'rxjs';
 
 import { WattNavListItemComponent } from './watt-nav-list-item.component';
 
@@ -35,11 +35,9 @@ export class WattExpandOnActiveLinkDirective implements AfterViewInit {
     const navListItems = this.wattNavListItemComponents?.toArray();
 
     if (navListItems) {
-      const links$ = navListItems.map((item) => item.isActive$);
-
-      from(links$)
+      from(navListItems)
         .pipe(
-          mergeAll(),
+          mergeMap((item) => item.isActive$),
           filter((isActive) => isActive)
         )
         .subscribe(() => {
