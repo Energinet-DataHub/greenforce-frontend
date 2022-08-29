@@ -190,6 +190,7 @@ jobs:
             -Dsonar.organization=energinet-datahub
             -Dsonar.sources=apps/eo/app-eo,libs/eo
             -Dsonar.exclusions=**/*.spec.ts
+            -Dsonar.verbose=true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.EO_SONAR_TOKEN }}
