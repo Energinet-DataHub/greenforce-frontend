@@ -72,7 +72,8 @@ watt-nav-list {
     }
 
     .mat-nav-list .mat-list-item .mat-list-item-content {
-      padding: var(--watt-space-s) var(--watt-space-l);
+      padding: var(--watt-space-s) var(--watt-space-m) var(--watt-space-s)
+        var(--watt-space-l);
     }
   }
 }
