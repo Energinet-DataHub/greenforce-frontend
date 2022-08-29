@@ -65,6 +65,7 @@ describe(DhMarketParticipantActorMarketRolesComponent.name, () => {
       code: 'code',
       name: 'name',
       priceAreaCode: 'DK1',
+      validFrom: '2022-08-30T00:00:00+02:00',
     },
   ];
 
