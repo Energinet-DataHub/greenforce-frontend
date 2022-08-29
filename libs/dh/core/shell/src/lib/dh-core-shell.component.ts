@@ -31,12 +31,21 @@ import { DhApplicationInsights } from '@energinet-datahub/dh/shared/util-applica
   templateUrl: './dh-core-shell.component.html',
 })
 export class DhCoreShellComponent {
-  constructor(private authService: MsalService, private insights: DhApplicationInsights) {
-    this.insights.trackException(new Error('[TEST] logged exception from shell component constructor'), 3);
+  constructor(
+    private authService: MsalService,
+    private insights: DhApplicationInsights
+  ) {
+    this.insights.trackException(
+      new Error('[TEST] logged exception from shell component constructor'),
+      3
+    );
   }
 
   logout() {
-    this.insights.trackException(new Error('[TEST] logged exception from shell component on logout'), 3);
+    this.insights.trackException(
+      new Error('[TEST] logged exception from shell component on logout'),
+      3
+    );
     this.authService.logout();
   }
 }
