@@ -23,6 +23,7 @@ import {
 } from '@angular/core';
 import { EoCookieBannerComponentScam } from '@energinet-datahub/eo/shared/atomic-design/feature-molecules';
 import { EoFooterScam } from '@energinet-datahub/eo/shared/atomic-design/ui-organisms';
+import { EoLandingPageAudienceScam } from './eo-landing-page-audience.component';
 import { EoLandingPageCallToActionScam } from './eo-landing-page-call-to-action.component';
 import { EoLandingPageCompanyScam } from './eo-landing-page-company.component';
 import { EoLandingPageHeaderScam } from './eo-landing-page-header.component';
@@ -32,7 +33,6 @@ import { EoLandingPageNotificationScam } from './eo-landing-page-notification.co
 import { EoLandingPageOriginOfEnergyScam } from './eo-landing-page-origin-of-energy.component';
 import { EoLandingPagePresenter } from './eo-landing-page.presenter';
 import { EoLandingPageStore } from './eo-landing-page.store';
-import { EoLandingPageAudienceScam } from './eo-landinge-page-audience.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
