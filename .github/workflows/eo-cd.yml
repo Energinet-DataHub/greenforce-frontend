@@ -183,16 +183,16 @@ jobs:
         with:
           fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
       - name: SonarCloud Scan
-        uses: SonarSource/sonarcloud-github-action@v1.6
+        uses: SonarSource/sonarcloud-github-action@master
         with:
           args: >
-            -Dsonar.projectKey=Energinet-DataHub_energy-origin
+            -Dsonar.projectKey=energinet-datahub_energy-origin_frontend
             -Dsonar.organization=energinet-datahub
             -Dsonar.sources=apps/eo/app-eo,libs/eo
             -Dsonar.exclusions=**/*.spec.ts
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_EO }}
+          SONAR_TOKEN: ${{ secrets.EO_SONAR_TOKEN }}
 
   helm_chart_version_increment_check:
     name: Helm chart check version
