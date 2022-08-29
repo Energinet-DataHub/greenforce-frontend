@@ -25,7 +25,7 @@ import { EoLandingPagePresenter } from './eo-landing-page.presenter';
       @use '@energinet-datahub/watt/utils' as watt;
       :host {
         padding: var(--watt-space-xl);
-        background: #ebf5f5; //Magic UX color
+        background: #ebf5f5; /* Magic UX color */
         display: block;
 
         @include watt.media('<Large') {
@@ -39,7 +39,7 @@ import { EoLandingPagePresenter } from './eo-landing-page.presenter';
 
       .content {
         margin: 0 auto;
-        max-width: 960px; // Magic UX number
+        max-width: 960px; /* Magic UX color */
         display: flex;
         justify-content: space-between;
 
@@ -54,7 +54,7 @@ import { EoLandingPagePresenter } from './eo-landing-page.presenter';
         padding-bottom: var(--watt-space-l);
 
         @include watt.media('>=Large') {
-          max-width: 457px; // Magix UX number
+          max-width: 457px; /* Magic UX color */
         }
       }
 
