@@ -11,13 +11,15 @@
  */
 
 
-export interface GridAreaDto { 
+export interface GridAreaOverviewItemDto { 
     id: string;
     code: string;
     name: string;
     priceAreaCode: string;
     validFrom: string;
     validTo?: string | null;
+    actorNumber?: string | null;
+    actorName?: string | null;
 }
 
 
