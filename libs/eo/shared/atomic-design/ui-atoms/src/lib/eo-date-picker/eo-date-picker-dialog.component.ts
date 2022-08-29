@@ -14,9 +14,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, Inject, NgModule, ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  Inject,
+  NgModule,
+  ViewChild,
+  ViewEncapsulation,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { DateRange, MatDatepickerModule } from '@angular/material/datepicker';
+import {
+  DateRange,
+  MatCalendar,
+  MatDatepickerModule,
+} from '@angular/material/datepicker';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatRadioChange, MatRadioModule } from '@angular/material/radio';
 import { CalendarDateRange } from '@energinet-datahub/eo/shared/services';
@@ -142,9 +152,11 @@ import { WattButtonModule } from '@energinet-datahub/watt';
     </div>
     <div class="calendar-container">
       <mat-calendar
+        #calendar
         [(selected)]="dateRange"
         (selectedChange)="setDatesFromCalendar($event)"
         [maxDate]="today"
+        [startAt]="dateRange?.start"
       >
       </mat-calendar>
       <div class="button-container">
@@ -157,30 +169,31 @@ import { WattButtonModule } from '@energinet-datahub/watt';
   </div>`,
 })
 export class EoDatePickerDialogComponent {
-  #openerPosition: DOMRect;
+  @ViewChild('calendar') calendar!: MatCalendar<Date>;
+
   #startDate: Date | null = null;
   #endDate: Date | null = null;
   predefinedValue: DateRange<Date> | null = null;
-  dateRange: DateRange<Date>;
+  dateRange: DateRange<Date> | null = null;
 
   today = new Date();
-  year2020 = new DateRange(new Date(1577836800000), new Date(1609459200000));
-  year2021 = new DateRange(new Date(1609459200000), new Date(1640995200000));
-  year2022 = new DateRange(new Date(1640995200000), new Date(1672531200000));
+  year2020 = new DateRange(new Date(2020, 0, 1), new Date(2020, 11, 31));
+  year2021 = new DateRange(new Date(2021, 0, 1), new Date(2021, 11, 31));
+  year2022 = new DateRange(new Date(2022, 0, 1), new Date(2022, 11, 31));
   last7days = new DateRange(
-    new Date(new Date().setDate(this.today.getDate() - 7)),
+    new Date(new Date().setDate(this.today.getDate() - 6)),
     this.today
   );
   last30Days = new DateRange(
-    new Date(new Date().setMonth(this.today.getMonth() - 1)),
+    new Date(new Date().setDate(this.today.getDate() - 29)),
     this.today
   );
   last90Days = new DateRange(
-    new Date(new Date().setMonth(this.today.getMonth() - 3)),
+    new Date(new Date().setDate(this.today.getDate() - 89)),
     this.today
   );
   yearToDate = new DateRange(
-    new Date(Date.UTC(this.today.getUTCFullYear(), 0, 1)),
+    new Date(Date.UTC(this.today.getFullYear(), 0, 1)),
     this.today
   );
 
@@ -191,33 +204,48 @@ export class EoDatePickerDialogComponent {
   ) {
     this.dateRange = new DateRange(
       new Date(options.dates.start),
-      new Date(options.dates.end)
+      new Date(this.convertToYesterday(options.dates.end))
     );
-    this.#openerPosition = options.openerPosition;
+
     dialogRef.updatePosition({
-      left: `${this.#openerPosition.left}px`,
-      top: `${this.#openerPosition.top - 454}px`,
+      left: `${options.openerPosition.left}px`,
+      top: `${options.openerPosition.top - 454}px`,
     });
   }
 
   setDatesFromPredefined(event: MatRadioChange) {
-    if (!event.value) return;
+    if (!event.value.start) return;
+    this.dateRange = new DateRange(
+      this.toUTCDate(event.value.start),
+      this.toUTCDate(event.value.end)
+    );
 
-    this.dateRange = new DateRange(event.value.start, event.value.end);
+    this.calendar._goToDateInView(event.value.start, 'month');
   }
 
   setDatesFromCalendar(date: Date): void {
     this.predefinedValue = null;
+    const UTCDate = this.toUTCDate(date);
+
     if (!this.#startDate) {
-      this.#startDate = date;
-    } else if (!this.#endDate && date.getTime() >= this.#startDate.getTime()) {
-      this.#endDate = date;
+      this.#startDate = UTCDate;
+    } else if (
+      !this.#endDate &&
+      UTCDate.getTime() >= this.#startDate.getTime()
+    ) {
+      this.#endDate = UTCDate;
     } else {
-      this.#startDate = date;
+      this.#startDate = UTCDate;
       this.#endDate = null;
     }
 
     this.dateRange = new DateRange(this.#startDate, this.#endDate);
+  }
+
+  toUTCDate(input: Date) {
+    return new Date(
+      Date.UTC(input.getFullYear(), input.getMonth(), input.getDate())
+    );
   }
 
   closeCancel(): void {
@@ -225,10 +253,23 @@ export class EoDatePickerDialogComponent {
   }
 
   closeAndSendDatesToApp() {
+    if (!this.dateRange?.start || !this.dateRange?.end) {
+      this.dialogRef.close();
+      return;
+    }
+
     this.dialogRef.close({
-      start: this.dateRange.start?.getTime(),
-      end: this.dateRange.end?.getTime(),
+      start: this.dateRange.start.getTime(),
+      end: this.convertToTomorrow(this.dateRange.end),
     });
+  }
+
+  convertToTomorrow(input: Date) {
+    return input.setUTCHours(24, 0, 0, 0);
+  }
+
+  convertToYesterday(input: number) {
+    return new Date(input).setDate(new Date(input).getDate() - 1);
   }
 }
 

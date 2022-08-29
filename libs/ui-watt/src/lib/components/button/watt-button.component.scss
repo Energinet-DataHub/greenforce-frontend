@@ -103,12 +103,12 @@ watt-button {
     background-color: var(--watt-color-primary);
     color: var(--watt-color-primary-contrast);
 
-    &:focus {
+    &:focus-visible {
       @include primary-focus;
     }
 
     &:hover,
-    &:focus {
+    &:focus-visible {
       @include primary-hover;
     }
 
@@ -126,12 +126,12 @@ watt-button {
     border: 1px solid var(--watt-color-primary);
     color: var(--watt-color-primary);
 
-    &:focus {
+    &:focus-visible {
       @include secondary-focus;
     }
 
     &:hover,
-    &:focus {
+    &:focus-visible {
       @include secondary-hover;
     }
 
@@ -146,12 +146,12 @@ watt-button {
     color: var(--watt-color-primary);
     outline: 2px solid transparent;
 
-    &:focus {
+    &:focus-visible {
       @include text-focus;
     }
 
     &:hover,
-    &:focus {
+    &:focus-visible {
       @include text-hover;
     }
 
@@ -165,13 +165,17 @@ watt-button {
     color: var(--watt-color-primary);
     @include watt.space-inset-s;
 
-    &:focus {
+    &:focus-visible {
       @include icon-focus;
     }
 
     &:hover,
-    &:focus {
+    &:focus-visible {
       @include icon-hover;
+    }
+
+    &.mat-button {
+      min-width: 44px;
     }
 
     &.mat-button.mat-button-disabled {

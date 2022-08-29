@@ -76,7 +76,6 @@ export class EoProductionShellComponent {
 
   setNewAppDates(dates: CalendarDateRange) {
     this.appSettingsStore.setCalendarDateRange(dates);
-    this.productionStore.loadMonthlyProduction();
   }
 }
 

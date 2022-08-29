@@ -24,6 +24,7 @@ import {
   DhMarketParticipantEditOrganizationComponent,
   DhMarketParticipantEditOrganizationScam,
 } from '@energinet-datahub/dh/market-participant/feature-edit-organization';
+import { DhMarketParticipantEditGridAreaScam } from '@energinet-datahub/dh/market-participant/feature-edit-gridarea';
 import {
   dhMarketParticipantActorIdParam,
   dhMarketParticipantActorsCreatePath,
@@ -33,22 +34,22 @@ import {
   dhMarketParticipantOrganizationsCreatePath,
   dhMarketParticipantOrganizationsEditPath,
   dhMarketParticipantOrganizationsPath,
+  dhMarketParticipantGridAreasPath,
 } from '@energinet-datahub/dh/market-participant/routing';
 import { DhMarketParticipantEditActorComponent } from '@energinet-datahub/dh/market-participant/edit-actor';
+import {
+  DhMarketParticipantGridAreaScam,
+  DhMarketParticipantGridAreaComponent,
+} from '@energinet-datahub/dh/market-participant/feature-gridarea';
 
 const routes: Routes = [
-  {
-    path: '',
-    pathMatch: 'full',
-    component: DhMarketParticipantOrganizationComponent,
-  },
   {
     path: dhMarketParticipantOrganizationsPath,
     children: [
       {
         path: '',
         pathMatch: 'full',
-        redirectTo: dhMarketParticipantOrganizationsCreatePath,
+        component: DhMarketParticipantOrganizationComponent,
       },
       {
         path: dhMarketParticipantOrganizationsCreatePath,
@@ -98,12 +99,19 @@ const routes: Routes = [
       },
     ],
   },
+  {
+    path: dhMarketParticipantGridAreasPath,
+    pathMatch: 'full',
+    component: DhMarketParticipantGridAreaComponent,
+  },
 ];
 
 @NgModule({
   imports: [
     DhMarketParticipantOrganizationScam,
     DhMarketParticipantEditOrganizationScam,
+    DhMarketParticipantEditGridAreaScam,
+    DhMarketParticipantGridAreaScam,
     RouterModule.forChild(routes),
   ],
 })
