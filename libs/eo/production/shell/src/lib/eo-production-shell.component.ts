@@ -14,7 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
+import { EoPopupMessageScam } from '@energinet-datahub/eo/shared/atomic-design/feature-molecules';
 import { EoDatePickerScam } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 import {
   AppSettingsStore,
@@ -40,6 +42,10 @@ import { EoProductionStore } from './eo-production.store';
     `,
   ],
   template: `
+    <ng-container *rxLet="error$ as error">
+      <eo-popup-message *ngIf="error" [errorMessage]="error">
+      </eo-popup-message>
+    </ng-container>
     <div class="content">
       <div>
         <eo-production-info class="watt-space-stack-l"></eo-production-info>
@@ -61,6 +67,7 @@ import { EoProductionStore } from './eo-production.store';
 })
 export class EoProductionShellComponent {
   appSettingsDates$ = this.appSettingsStore.calendarDateRange$;
+  error$ = this.productionStore.error$;
 
   constructor(
     private appSettingsStore: AppSettingsStore,
@@ -69,14 +76,15 @@ export class EoProductionShellComponent {
 
   setNewAppDates(dates: CalendarDateRange) {
     this.appSettingsStore.setCalendarDateRange(dates);
-    this.productionStore.loadMonthlyProduction();
   }
 }
 
 @NgModule({
   declarations: [EoProductionShellComponent],
   imports: [
+    EoPopupMessageScam,
     EoFeatureFlagScam,
+    CommonModule,
     LetModule,
     EoDatePickerScam,
     EoProductionTipScam,

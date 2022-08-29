@@ -1,0 +1,64 @@
+<!--
+@license
+Copyright 2020 Energinet DataHub A/S
+
+Licensed under the Apache License, Version 2.0 (the "License2");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<ng-container *transloco="let t; read: 'marketParticipant.gridAreas'">
+  <!-- Table -->
+  <mat-table [dataSource]="dataSource" aria-label="gridAreas">
+    <!-- Grid Area Name -->
+    <ng-container matColumnDef="grid-name">
+      <mat-header-cell *matHeaderCellDef>
+        {{ t("columns.gridArea") }}
+      </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        {{ element.name }}
+      </mat-cell>
+    </ng-container>
+
+    <!-- Actor GLN -->
+    <ng-container matColumnDef="actor-gln">
+      <mat-header-cell *matHeaderCellDef>
+        {{ t("columns.gridAreaCode") }}
+      </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        {{ element.code | dhEmDashFallback }}
+      </mat-cell>
+    </ng-container>
+
+    <!-- Edit -->
+    <ng-container matColumnDef="row-edit">
+      <mat-header-cell *matHeaderCellDef></mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <watt-button variant="icon" icon="edit" [mat-menu-trigger-for]="menu">
+        </watt-button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item (click)="onEditGridArea(element)">
+            {{ t("editGridArea") }}
+          </button>
+        </mat-menu>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="columnIds; sticky: true"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: columnIds"></mat-row>
+  </mat-table>
+
+  <mat-paginator
+    [pageSizeOptions]="[5, 10, 20, 50]"
+    pageSize="10"
+    showFirstLastButtons
+  ></mat-paginator>
+</ng-container>

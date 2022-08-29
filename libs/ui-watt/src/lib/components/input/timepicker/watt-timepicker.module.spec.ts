@@ -177,7 +177,9 @@ describe(WattTimepickerModule.name, () => {
       await setup({ template, disabled: true });
       const sliderToggle = screen.queryByRole('button') as HTMLButtonElement;
 
-      userEvent.click(sliderToggle);
+      userEvent.click(sliderToggle, undefined, {
+        skipPointerEventsCheck: true,
+      });
 
       expect(sliderToggle).toBeDisabled();
       expect(screen.queryByRole('dialog')).not.toBeInTheDocument();

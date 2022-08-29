@@ -70,3 +70,8 @@ data "azurerm_key_vault_secret" "plan_shared_id" {
   name         = "plan-services-id"
   key_vault_id = data.azurerm_key_vault.kv_shared_resources.id
 }
+
+data "azurerm_key_vault_secret" "log_shared_id" {
+  name         = "log-shared-id"
+  key_vault_id = data.azurerm_key_vault.kv_shared_resources.id
+}

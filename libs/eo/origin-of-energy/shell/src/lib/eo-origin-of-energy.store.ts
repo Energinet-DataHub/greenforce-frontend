@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ComponentStore } from '@ngrx/component-store';
 import { take } from 'rxjs';
@@ -44,6 +45,7 @@ interface EoOriginOfEnergy {
 interface EoOriginOfEnergyState {
   loadingDone: boolean;
   energySources: EoOriginOfEnergy;
+  error: HttpErrorResponse | null;
 }
 
 @Injectable({
@@ -70,6 +72,7 @@ export class EoOriginOfEnergyStore extends ComponentStore<EoOriginOfEnergyState>
           windOffshore: 0,
         },
       },
+      error: null,
     });
     this.loadData();
   }
@@ -77,6 +80,7 @@ export class EoOriginOfEnergyStore extends ComponentStore<EoOriginOfEnergyState>
   readonly loadingDone$ = this.select((state) => state.loadingDone);
   readonly renewable$ = this.select((state) => state.energySources.renewable);
   readonly ratios$ = this.select((state) => state.energySources.ratios);
+  readonly error$ = this.select((state) => state.error);
 
   readonly setLoadingDone = this.updater(
     (state, loadingDone: boolean): EoOriginOfEnergyState => ({
@@ -92,6 +96,13 @@ export class EoOriginOfEnergyStore extends ComponentStore<EoOriginOfEnergyState>
     })
   );
 
+  readonly setError = this.updater(
+    (state, error: HttpErrorResponse | null): EoOriginOfEnergyState => ({
+      ...state,
+      error,
+    })
+  );
+
   loadData() {
     this.service
       .getSourcesFor2021()
@@ -99,9 +110,11 @@ export class EoOriginOfEnergyStore extends ComponentStore<EoOriginOfEnergyState>
       .subscribe({
         next: (response) => {
           this.setEnergySources(response.energySources[0]);
+          this.setError(null);
           this.setLoadingDone(true);
         },
-        error: () => {
+        error: (error) => {
+          this.setError(error);
           this.setLoadingDone(true);
         },
       });

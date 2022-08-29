@@ -9,7 +9,8 @@
     "navigation": {
       "meteringPoints": "Målepunkter",
       "messageArchive": "Fremsøg forretningsbesked",
-      "marketParticipant": "Organisationer",
+      "marketParticipantOrganizations": "Organisationer",
+      "marketParticipantGridAreas": "Netområder",
       "wholesaleStartProcess": "Afregninger - Start proces",
       "wholesaleOverview": "Afregninger - Oversigt"
     }
@@ -481,6 +482,16 @@
       "ariaLabelPhoneForNewContact": "telefonnummerfelt for ny kontakt",
       "ariaLabelMailForNewContact": "mailfelt for ny kontakt",
       "ariaLabelDeleteForNewContact": "sletknap for ny kontakt"
+    },
+    "gridAreas": {
+      "header": "Netområder",
+      "createGridArea": "Opret",
+      "editGridArea": "Rediger",
+      "noGridAreas": "Ingen netområder fundet",
+      "columns": {
+        "gridArea": "Netområde",
+        "gridAreaCode": "Kode"
+      }
     }
   },
   "wholesale": {
