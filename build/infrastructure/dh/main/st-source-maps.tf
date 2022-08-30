@@ -35,6 +35,12 @@ module "st_source_maps" {
   tags                        = azurerm_resource_group.this.tags
 }
 
+resource "azurerm_role_assignment" "this" {
+  scope                 = module.st_source_maps.id
+  role_definition_name  = "Storage Blob Data Reader"
+  principal_id          = var.azure_ad_security_group_id
+}
+
 module "kvs_st_source_maps_primary_connection_string" {
   source        = "git::https://github.com/Energinet-DataHub/geh-terraform-modules.git//azure/key-vault-secret?ref=7.2.0"
   
