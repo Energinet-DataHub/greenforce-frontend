@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 module "st_source_maps" {
-  source                      = "git::https://github.com/Energinet-DataHub/geh-terraform-modules.git//azure/storage-account?ref=7.2.0"
+  source                      = "git::https://github.com/Energinet-DataHub/geh-terraform-modules.git//azure/storage-account?ref=renetnielsen/output-container-ids"
 
   name                        = "sourcemaps"
   project_name                = var.domain_name_short
@@ -41,13 +41,14 @@ resource "azurerm_role_definition" "reader" {
   description = "This role is for users to be able to debug source maps through application insights"
 
   permissions {
-    actions     = ["Microsoft.Storage/storageAccounts/blobServices/containers/read"]
-    not_actions = []
+    actions     = [
+      "Microsoft.Storage/storageAccounts/blobServices/containers/read"
+    ]
   }
 }
 
 resource "azurerm_role_assignment" "this" {
-  scope              = module.st_source_maps.id
+  scope              = module.st_source_maps.storage_container_ids[0].id
   role_definition_id = azurerm_role_definition.reader.role_definition_resource_id
   principal_id       = var.azure_ad_security_group_id
 }
