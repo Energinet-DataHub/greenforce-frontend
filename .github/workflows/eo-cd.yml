@@ -82,7 +82,7 @@ jobs:
 
       - name: 'PR: Production build of affected products'
         if: |
-          ${{ env.is-pull-request == 'true' }}
+          ${{ env.is-pull-request == 'true' }} ||
           contains(yarn nx print-affected --type=app --select=projects --base=origin/$BASE_BRANCH, 'app-eo')
         run: yarn affected:build --base=origin/$BASE_BRANCH --max-parallel=$NX_MAX_PARALLEL
 
