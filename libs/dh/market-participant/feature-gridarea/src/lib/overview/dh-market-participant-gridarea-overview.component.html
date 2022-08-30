@@ -16,7 +16,6 @@ limitations under the License.
 -->
 
 <ng-container *transloco="let t; read: 'marketParticipant.gridAreas'">
-
   <!-- drawer -->
   <watt-drawer #drawer (closed)="drawerClosed()" [size]="'large'">
     <watt-drawer-topbar>
@@ -28,13 +27,11 @@ limitations under the License.
       <watt-button>Primary action</watt-button>
     </watt-drawer-actions>
 
-    <watt-drawer-content *ngIf="drawer.opened">
-    </watt-drawer-content>
+    <watt-drawer-content *ngIf="drawer.opened"> </watt-drawer-content>
   </watt-drawer>
 
   <!-- Table -->
   <mat-table [dataSource]="dataSource" aria-label="gridAreas">
-
     <!-- Code -->
     <ng-container matColumnDef="code">
       <mat-header-cell *matHeaderCellDef>
@@ -107,9 +104,15 @@ limitations under the License.
       </mat-cell>
     </ng-container>
 
-    <mat-header-row *matHeaderRowDef="columnIds; sticky: false"></mat-header-row>
+    <mat-header-row
+      *matHeaderRowDef="columnIds; sticky: false"
+    ></mat-header-row>
     <mat-row *matRowDef="let row; columns: columnIds"></mat-row>
   </mat-table>
 
-  <mat-paginator [pageSizeOptions]="[5, 10, 20, 50]" pageSize="10" showFirstLastButtons></mat-paginator>
+  <mat-paginator
+    [pageSizeOptions]="[5, 10, 20, 50]"
+    pageSize="10"
+    showFirstLastButtons
+  ></mat-paginator>
 </ng-container>
