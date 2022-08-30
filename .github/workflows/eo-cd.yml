@@ -84,7 +84,7 @@ jobs:
         if: |
           ${{ env.is-pull-request == 'true' }}
           contains(yarn nx print-affected --type=app --select=projects --base=origin/$BASE_BRANCH, 'app-eo')
-        run: yarn affected:build --base=origin/$BASE_BRANCH --max-parallel=$NX_MAX_PARALLEL
+        run: yarn affected:build --base=origin/$BASE_BRANCH --max-parallel=$NX_MAX_PARALLEL --verbose=true
 
       - name: 'Merge: Production build of all products'
         if: ${{ env.is-pull-request == 'false' }}
