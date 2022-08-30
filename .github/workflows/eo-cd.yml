@@ -85,7 +85,7 @@ jobs:
 
       - name: 'PR: Production build of affected products'
         if: |
-          ${{ env.is-pull-request == 'true' }} &&
+          ${{ env.is-pull-request == 'true' }} ||
           contains(${{ steps.is-affected.outputs }}, 'app-eo')
         run: yarn affected:build --base=origin/$BASE_BRANCH --max-parallel=$NX_MAX_PARALLEL
 
