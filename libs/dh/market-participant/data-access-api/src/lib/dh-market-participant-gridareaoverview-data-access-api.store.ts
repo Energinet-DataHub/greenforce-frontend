@@ -75,14 +75,8 @@ export class DhMarketParticipantGridAreaOverviewDataAccessApiStore extends Compo
         (rows) =>
           this.patchState({
             rows: rows.map((row) => ({
-              id: row.id,
-              code: row.code,
-              name: row.name,
-              actorName: row.actorName,
-              actorNumber: row.actorNumber,
+              ...row,
               priceAreaCode: row.priceAreaCode.toUpperCase(),
-              validFrom: row.validFrom,
-              validTo: row.validTo,
             })),
           }),
         this.handleError

@@ -20,12 +20,10 @@ import { DhMarketParticipantGridAreaOverviewDataAccessApiStore } from '@energine
 import { LetModule } from '@rx-angular/template/let';
 import { TranslocoModule } from '@ngneat/transloco';
 import {
-  WattButtonModule,
   WattEmptyStateModule,
   WattSpinnerModule,
   WattValidationMessageModule,
 } from '@energinet-datahub/watt';
-import { Router } from '@angular/router';
 import { DhMarketParticipantGridAreaOverviewScam } from './overview/dh-market-participant-gridarea-overview.component';
 import { PushModule } from '@rx-angular/template';
 
@@ -38,7 +36,6 @@ import { PushModule } from '@rx-angular/template';
 export class DhMarketParticipantGridAreaComponent {
   constructor(
     private store: DhMarketParticipantGridAreaOverviewDataAccessApiStore,
-    private router: Router
   ) {
     this.store.init();
   }
@@ -46,10 +43,6 @@ export class DhMarketParticipantGridAreaComponent {
   isLoading$ = this.store.isLoading$;
   validationError$ = this.store.validationError$;
   rows$ = this.store.rows$;
-
-  readonly showGridArea = (gridAreaId: string) => {
-    console.log('show grid area called with id', gridAreaId);
-  };
 }
 
 @NgModule({
@@ -57,7 +50,6 @@ export class DhMarketParticipantGridAreaComponent {
     CommonModule,
     LetModule,
     TranslocoModule,
-    WattButtonModule,
     WattEmptyStateModule,
     WattSpinnerModule,
     WattValidationMessageModule,
