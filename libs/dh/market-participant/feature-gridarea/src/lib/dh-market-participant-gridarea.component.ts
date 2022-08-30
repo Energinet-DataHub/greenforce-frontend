@@ -16,7 +16,9 @@
  */
 import { CommonModule } from '@angular/common';
 import { Component, NgModule } from '@angular/core';
-import { DhMarketParticipantOverviewDataAccessApiStore } from '@energinet-datahub/dh/market-participant/data-access-api';
+import {
+  DhMarketParticipantGridAreaOverviewDataAccessApiStore,
+} from '@energinet-datahub/dh/market-participant/data-access-api';
 import { LetModule } from '@rx-angular/template/let';
 import { TranslocoModule } from '@ngneat/transloco';
 import {
@@ -26,12 +28,6 @@ import {
   WattValidationMessageModule,
 } from '@energinet-datahub/watt';
 import { Router } from '@angular/router';
-import {
-  dhMarketParticipantGridAreasCreatePath,
-  dhMarketParticipantGridAreasEditPath,
-  dhMarketParticipantGridAreasPath,
-  dhMarketParticipantPath,
-} from '@energinet-datahub/dh/market-participant/routing';
 import { DhMarketParticipantGridAreaOverviewScam } from './overview/dh-market-participant-gridarea-overview.component';
 import { PushModule } from '@rx-angular/template';
 
@@ -39,40 +35,22 @@ import { PushModule } from '@rx-angular/template';
   selector: 'dh-market-participant-gridarea',
   styleUrls: ['./dh-market-participant-gridarea.component.scss'],
   templateUrl: './dh-market-participant-gridarea.component.html',
-  providers: [DhMarketParticipantOverviewDataAccessApiStore],
+  providers: [DhMarketParticipantGridAreaOverviewDataAccessApiStore],
 })
 export class DhMarketParticipantGridAreaComponent {
   constructor(
-    private store: DhMarketParticipantOverviewDataAccessApiStore,
+    private store: DhMarketParticipantGridAreaOverviewDataAccessApiStore,
     private router: Router
   ) {
-    this.store.loadOverviewRows();
+    this.store.init();
   }
 
   isLoading$ = this.store.isLoading$;
   validationError$ = this.store.validationError$;
-  overviewList$ = this.store.overviewList$;
-  gridAreas$ = this.store.gridAreas$;
+  rows$ = this.store.rows$;
 
-  readonly editGridArea = (gridAreaId: string) => {
-    const url = this.router.createUrlTree([
-      dhMarketParticipantPath,
-      dhMarketParticipantGridAreasPath,
-      gridAreaId,
-      dhMarketParticipantGridAreasEditPath,
-    ]);
-
-    this.router.navigateByUrl(url);
-  };
-
-  readonly createGridArea = () => {
-    const url = this.router.createUrlTree([
-      dhMarketParticipantPath,
-      dhMarketParticipantGridAreasPath,
-      dhMarketParticipantGridAreasCreatePath,
-    ]);
-
-    this.router.navigateByUrl(url);
+  readonly showGridArea = (gridAreaId: string) => {
+    console.log('show grid area called with id', gridAreaId);
   };
 }
 
