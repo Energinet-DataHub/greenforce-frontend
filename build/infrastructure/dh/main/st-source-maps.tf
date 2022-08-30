@@ -47,7 +47,7 @@ resource "azurerm_role_definition" "reader" {
 }
 
 resource "azurerm_role_assignment" "this" {
-  scope              = data.azurerm_subscription.this.id
+  scope              = module.st_source_maps.id
   role_definition_id = azurerm_role_definition.reader.role_definition_resource_id
   principal_id       = var.azure_ad_security_group_id
 }
