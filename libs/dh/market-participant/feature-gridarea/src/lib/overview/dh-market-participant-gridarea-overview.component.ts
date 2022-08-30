@@ -37,6 +37,7 @@ import {
   WattSpinnerModule,
   WattValidationMessageModule,
   WattDrawerModule,
+  WattDrawerComponent,
 } from '@energinet-datahub/watt';
 import { MatMenuModule } from '@angular/material/menu';
 import {
@@ -46,18 +47,19 @@ import {
 } from '@angular/material/paginator';
 import { Subject, takeUntil } from 'rxjs';
 import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/metering-point/shared/ui-util';
-import { GridAreaDto } from '@energinet-datahub/dh/shared/domain';
 import { GridAreaOverviewRow } from '@energinet-datahub/dh/market-participant/data-access-api';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 
 @Component({
   selector: 'dh-market-participant-gridarea-overview',
+  styleUrls: ['./dh-market-participant-gridarea-overview.component.scss'],
   templateUrl: './dh-market-participant-gridarea-overview.component.html',
 })
 export class DhMarketParticipantGridAreaOverviewComponent
   implements OnInit, OnChanges, OnDestroy
 {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild('drawer') drawer!: WattDrawerComponent;
 
   private destroy$ = new Subject<void>();
 
@@ -84,6 +86,8 @@ export class DhMarketParticipantGridAreaOverviewComponent
     new MatTableDataSource<GridAreaOverviewRow>();
 
   gridAreasMap: { [id: string]: string } = {};
+
+  activeRowId?: string;
 
   ngOnInit() {
     this.setupPaginatorTranslation();
@@ -129,6 +133,11 @@ export class DhMarketParticipantGridAreaOverviewComponent
     this.showGridArea.emit(row.id);
 
   readonly drawerClosed = () => console.log('drawer closed');
+
+  readonly open = (row: GridAreaOverviewRow) => {
+    this.activeRowId = row.id;
+    this.drawer.open();
+  };
 }
 
 @NgModule({
