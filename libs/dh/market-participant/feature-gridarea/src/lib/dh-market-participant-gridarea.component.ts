@@ -35,7 +35,7 @@ import { PushModule } from '@rx-angular/template';
 })
 export class DhMarketParticipantGridAreaComponent {
   constructor(
-    private store: DhMarketParticipantGridAreaOverviewDataAccessApiStore,
+    private store: DhMarketParticipantGridAreaOverviewDataAccessApiStore
   ) {
     this.store.init();
   }
