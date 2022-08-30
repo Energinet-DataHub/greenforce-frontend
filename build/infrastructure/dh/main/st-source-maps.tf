@@ -35,22 +35,10 @@ module "st_source_maps" {
   tags                        = azurerm_resource_group.this.tags
 }
 
-resource "azurerm_role_definition" "reader" {
-  name        = "${module.st_source_maps.name}-reader-definition"
-  scope       = module.st_source_maps.id
-  description = "This role is for users to be able to debug source maps through application insights"
-
-  permissions {
-    actions     = [
-      "Microsoft.Storage/storageAccounts/blobServices/containers/read"
-    ]
-  }
-}
-
 resource "azurerm_role_assignment" "this" {
-  scope              = module.st_source_maps.id
-  role_definition_id = azurerm_role_definition.reader.role_definition_resource_id
-  principal_id       = var.azure_ad_security_group_id
+  scope                 = module.st_source_maps.id
+  role_definition_name  = "Storage Blob Data Reader"
+  principal_id          = var.azure_ad_security_group_id
 }
 
 module "kvs_st_source_maps_primary_connection_string" {
