@@ -36,6 +36,7 @@ import {
   WattEmptyStateModule,
   WattSpinnerModule,
   WattValidationMessageModule,
+  WattDrawerModule,
 } from '@energinet-datahub/watt';
 import { MatMenuModule } from '@angular/material/menu';
 import {
@@ -46,10 +47,11 @@ import {
 import { Subject, takeUntil } from 'rxjs';
 import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/metering-point/shared/ui-util';
 import { GridAreaDto } from '@energinet-datahub/dh/shared/domain';
+import { GridAreaOverviewRow } from '@energinet-datahub/dh/market-participant/data-access-api';
+import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 
 @Component({
   selector: 'dh-market-participant-gridarea-overview',
-  styleUrls: ['./dh-market-participant-gridarea-overview.component.scss'],
   templateUrl: './dh-market-participant-gridarea-overview.component.html',
 })
 export class DhMarketParticipantGridAreaOverviewComponent
@@ -64,14 +66,22 @@ export class DhMarketParticipantGridAreaOverviewComponent
     private matPaginatorIntl: MatPaginatorIntl
   ) {}
 
-  columnIds = ['grid-name', 'actor-gln', 'row-edit'];
+  columnIds = [
+    'code',
+    'name',
+    'actorName',
+    'actorNumber',
+    'priceAreaCode',
+    'validFrom',
+    'validTo',
+  ];
 
-  @Input() gridAreas: GridAreaDto[] = [];
+  @Input() gridAreas: GridAreaOverviewRow[] = [];
 
-  @Output() editGridArea = new EventEmitter<string>();
+  @Output() showGridArea = new EventEmitter<string>();
 
-  readonly dataSource: MatTableDataSource<GridAreaDto> =
-    new MatTableDataSource<GridAreaDto>();
+  readonly dataSource: MatTableDataSource<GridAreaOverviewRow> =
+    new MatTableDataSource<GridAreaOverviewRow>();
 
   gridAreasMap: { [id: string]: string } = {};
 
@@ -115,8 +125,10 @@ export class DhMarketParticipantGridAreaOverviewComponent
       });
   };
 
-  readonly onEditGridArea = (row: GridAreaDto) =>
-    this.editGridArea.emit(row.id);
+  readonly onEditGridArea = (row: GridAreaOverviewRow) =>
+    this.showGridArea.emit(row.id);
+
+  readonly drawerClosed = () => console.log('drawer closed');
 }
 
 @NgModule({
@@ -134,6 +146,8 @@ export class DhMarketParticipantGridAreaOverviewComponent
     WattSpinnerModule,
     WattValidationMessageModule,
     DhEmDashFallbackPipeScam,
+    DhSharedUiDateTimeModule,
+    WattDrawerModule,
   ],
   declarations: [DhMarketParticipantGridAreaOverviewComponent],
   exports: [DhMarketParticipantGridAreaOverviewComponent],
