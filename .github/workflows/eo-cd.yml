@@ -80,13 +80,8 @@ jobs:
       - name: Angular Compatibility Compiler
         run: npm run ngcc:eo
 
-      - id: is-affected
-        run: yarn nx print-affected --type=app --select=projects --base=origin/$BASE_BRANCH
-
       - name: 'PR: Production build of affected products'
-        if: |
-          ${{ env.is-pull-request == 'true' }} ||
-          contains(${{ steps.is-affected.outputs }}, 'app-eo')
+        if: ${{ env.is-pull-request == 'true' }}
         run: yarn affected:build --base=origin/$BASE_BRANCH --max-parallel=$NX_MAX_PARALLEL
 
       - name: 'Merge: Production build of all products'
