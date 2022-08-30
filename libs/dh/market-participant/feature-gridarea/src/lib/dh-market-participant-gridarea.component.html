@@ -27,21 +27,9 @@ limitations under the License.
       </watt-validation-message>
     </ng-container>
 
-    <!-- Header -->
-    <div class="create-gridarea-block">
-      <h1>{{ t("header") }}</h1>
-      <watt-button
-        variant="primary"
-        [disabled]="isLoading"
-        (click)="createGridArea()"
-        >{{ t("createGridArea") }}
-      </watt-button>
-    </div>
-
     <!-- Table -->
     <dh-market-participant-gridarea-overview
-      [gridAreas]="gridAreas$ | push"
-      (editGridArea)="editGridArea($event)"
+      [gridAreas]="rows$ | push"
     ></dh-market-participant-gridarea-overview>
 
     <!-- Spinner -->
@@ -50,9 +38,9 @@ limitations under the License.
     </div>
 
     <!-- Empty -->
-    <ng-container *rxLet="overviewList$ as overviewList">
+    <ng-container *rxLet="rows$ as rows">
       <watt-empty-state
-        *ngIf="!isLoading && overviewList.length === 0"
+        *ngIf="!isLoading && rows.length === 0"
         icon="power"
         size="small"
         [title]="t('noGridAreas')"
