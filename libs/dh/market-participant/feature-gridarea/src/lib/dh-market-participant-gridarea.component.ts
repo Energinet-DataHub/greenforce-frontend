@@ -16,9 +16,7 @@
  */
 import { CommonModule } from '@angular/common';
 import { Component, NgModule } from '@angular/core';
-import {
-  DhMarketParticipantGridAreaOverviewDataAccessApiStore,
-} from '@energinet-datahub/dh/market-participant/data-access-api';
+import { DhMarketParticipantGridAreaOverviewDataAccessApiStore } from '@energinet-datahub/dh/market-participant/data-access-api';
 import { LetModule } from '@rx-angular/template/let';
 import { TranslocoModule } from '@ngneat/transloco';
 import {
