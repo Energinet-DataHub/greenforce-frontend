@@ -129,9 +129,6 @@ export class DhMarketParticipantGridAreaOverviewComponent
       });
   };
 
-  readonly onEditGridArea = (row: GridAreaOverviewRow) =>
-    this.showGridArea.emit(row.id);
-
   readonly drawerClosed = () => console.log('drawer closed');
 
   readonly open = (row: GridAreaOverviewRow) => {
