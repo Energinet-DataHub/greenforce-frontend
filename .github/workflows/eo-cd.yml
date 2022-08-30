@@ -80,18 +80,14 @@ jobs:
       - name: Angular Compatibility Compiler
         run: npm run ngcc:eo
 
-      - id: affected_apps
-        run: yarn nx print-affected --type=app --select=projects
-
       - name: 'PR: Production build of affected products'
-        if: ${{ env.is-pull-request == 'true' }}
-        run: yarn affected:build --base=origin/$BASE_BRANCH
-          --max-parallel=$NX_MAX_PARALLEL
+        if: |
+          ${{ env.is-pull-request == 'true' }}
+          contains(yarn nx print-affected --type=app --select=projects --base=origin/$BASE_BRANCH, 'app-eo')
+        run: yarn affected:build --base=origin/$BASE_BRANCH --max-parallel=$NX_MAX_PARALLEL
 
       - name: 'Merge: Production build of all products'
-        if: |
-          ${{ env.is-pull-request == 'false' }}
-          contains(${{ steps.affected_apps.outputs }}, 'app-eo')
+        if: ${{ env.is-pull-request == 'false' }}
         run: yarn nx build ${{ env.app-name }} --max-parallel=$NX_MAX_PARALLEL
 
       - name: Upload web app build artifact
