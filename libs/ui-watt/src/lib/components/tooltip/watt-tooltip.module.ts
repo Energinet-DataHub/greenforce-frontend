@@ -14,21 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@use "./theme/light-theme.scss";
-@use "./theme/material-overwrites/datepicker";
+import { NgModule } from '@angular/core';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { WattTooltipDirective } from './watt-tooltip.directive';
 
-@use "../../../foundations/variables";
-@use "../../../foundations/box-sizing";
-@use "../../../foundations/typography";
-@use "../../../foundations/spacing";
-@use "../../../foundations/table";
-@use "../../../foundations/tooltip";
-
-html,
-body {
-  height: 100%;
-}
-body {
-  margin: 0;
-  font-family: "Open Sans", sans-serif;
-}
+@NgModule({
+  imports: [MatTooltipModule],
+  declarations: [WattTooltipDirective],
+  exports: [WattTooltipDirective],
+})
+export class WattTooltipModule {}
