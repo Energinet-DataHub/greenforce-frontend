@@ -498,7 +498,8 @@
         "validTo": "Gyldig til"
       },
       "detailsHeader": {
-        "code": "Netområde ID"
+        "code": "Netområde ID",
+        "actorId": "Aktør ID"
       }
     }
   },

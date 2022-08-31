@@ -498,7 +498,8 @@
         "validTo": "Valid to"
       },
       "detailsHeader": {
-        "code": "Grid area code"
+        "code": "Grid area code",
+        "actorId": "Actor ID"
       }
     }
   },
