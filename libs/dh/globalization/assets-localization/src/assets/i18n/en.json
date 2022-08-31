@@ -499,7 +499,7 @@
       },
       "detailsHeader": {
         "code": "Grid area code",
-        "actorId": "Actor ID"
+        "actorId": "Actor number"
       }
     }
   },
