@@ -45,6 +45,10 @@ export const dhFeatureFlagsConfig = makeFeatureFlags({
     created: '15-08-2022',
     disabledEnvironments: [DhAppEnvironment.prod],
   },
+  marketparticipant_gridareaoverview_feature_flag: {
+    created: '30-08-2022',
+    disabledEnvironments: [DhAppEnvironment.prod],
+  },
 });
 
 export type DhFeatureFlags = keyof typeof dhFeatureFlagsConfig;
