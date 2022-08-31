@@ -28,6 +28,15 @@ limitations under the License.
   global styling to it as seen in the follwing example.
 </p>
 
+<mat-paginator
+  [length]="100"
+  [pageSize]="50"
+  [pageSizeOptions]="[50, 100, 150, 250]"
+  [showFirstLastButtons]="true"
+  aria-label="Select page"
+>
+</mat-paginator>
+
 <mat-table
   #matTable
   [dataSource]="sortedData"
