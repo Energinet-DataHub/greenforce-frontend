@@ -15,22 +15,8 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import { Component, Input, NgModule, OnChanges } from '@angular/core';
-import { LetModule } from '@rx-angular/template/let';
-import { MatTableModule } from '@angular/material/table';
+import { Component, Input, NgModule } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
-import {
-  WattBadgeModule,
-  WattButtonModule,
-  WattIconModule,
-  WattEmptyStateModule,
-  WattSpinnerModule,
-  WattValidationMessageModule,
-  WattDrawerModule,
-} from '@energinet-datahub/watt';
-import { MatMenuModule } from '@angular/material/menu';
-import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/metering-point/shared/ui-util';
-import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import { GridAreaOverviewRow } from '@energinet-datahub/dh/market-participant/data-access-api';
 
 @Component({
@@ -39,29 +25,14 @@ import { GridAreaOverviewRow } from '@energinet-datahub/dh/market-participant/da
   templateUrl: './dh-market-participant-gridarea-details-header.component.html',
 })
 export class DhMarketParticipantGridAreaDetailsHeaderComponent
-  implements OnChanges
 {
   @Input() gridArea?: GridAreaOverviewRow;
-
-  ngOnChanges() {;}
 }
 
 @NgModule({
   imports: [
     CommonModule,
-    LetModule,
-    MatTableModule,
-    MatMenuModule,
     TranslocoModule,
-    WattBadgeModule,
-    WattButtonModule,
-    WattIconModule,
-    WattEmptyStateModule,
-    WattSpinnerModule,
-    WattValidationMessageModule,
-    DhEmDashFallbackPipeScam,
-    DhSharedUiDateTimeModule,
-    WattDrawerModule,
   ],
   declarations: [DhMarketParticipantGridAreaDetailsHeaderComponent],
   exports: [DhMarketParticipantGridAreaDetailsHeaderComponent],
