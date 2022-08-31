@@ -489,8 +489,13 @@
       "editGridArea": "Edit",
       "noGridAreas": "No gridareas found",
       "columns": {
-        "gridArea": "Grid area",
-        "gridAreaCode": "Code"
+        "name": "Grid area",
+        "code": "Code",
+        "actorName": "english_translation",
+        "actorNumber": "english_translation",
+        "priceAreaCode": "Price area code",
+        "validFrom": "Valid from",
+        "validTo": "Valid to"
       }
     }
   },

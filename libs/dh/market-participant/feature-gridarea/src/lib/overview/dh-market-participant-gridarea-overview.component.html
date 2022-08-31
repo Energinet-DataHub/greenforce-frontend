@@ -16,49 +16,110 @@ limitations under the License.
 -->
 
 <ng-container *transloco="let t; read: 'marketParticipant.gridAreas'">
+  <!-- drawer -->
+  <watt-drawer #drawer (closed)="drawerClosed()" [size]="'large'">
+    <watt-drawer-topbar>
+      <span>Header stuff</span>
+    </watt-drawer-topbar>
+
+    <watt-drawer-actions>
+      <watt-button variant="secondary">Secondary action</watt-button>
+      <watt-button>Primary action</watt-button>
+    </watt-drawer-actions>
+
+    <watt-drawer-content *ngIf="drawer.opened">
+      <div>{{ activeRowId }}</div>
+    </watt-drawer-content>
+  </watt-drawer>
+
   <!-- Table -->
-  <mat-table [dataSource]="dataSource" aria-label="gridAreas">
-    <!-- Grid Area Name -->
-    <ng-container matColumnDef="grid-name">
-      <mat-header-cell *matHeaderCellDef>
-        {{ t("columns.gridArea") }}
-      </mat-header-cell>
-      <mat-cell *matCellDef="let element">
-        {{ element.name }}
-      </mat-cell>
-    </ng-container>
+  <div class="card-container">
+    <div class="header-container">
+      <h2>{{ t("header") }}</h2>
+      <mat-paginator
+        [pageSizeOptions]="[5, 10, 20, 50]"
+        pageSize="10"
+        showFirstLastButtons
+      ></mat-paginator>
+    </div>
 
-    <!-- Actor GLN -->
-    <ng-container matColumnDef="actor-gln">
-      <mat-header-cell *matHeaderCellDef>
-        {{ t("columns.gridAreaCode") }}
-      </mat-header-cell>
-      <mat-cell *matCellDef="let element">
-        {{ element.code | dhEmDashFallback }}
-      </mat-cell>
-    </ng-container>
+    <mat-table [dataSource]="dataSource" aria-label="gridAreas">
+      <!-- Code -->
+      <ng-container matColumnDef="code">
+        <mat-header-cell *matHeaderCellDef>
+          {{ t("columns.code") }}
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <a (click)="open(element)">
+            {{ element.code | dhEmDashFallback }}
+          </a>
+        </mat-cell>
+      </ng-container>
 
-    <!-- Edit -->
-    <ng-container matColumnDef="row-edit">
-      <mat-header-cell *matHeaderCellDef></mat-header-cell>
-      <mat-cell *matCellDef="let element">
-        <watt-button variant="icon" icon="edit" [mat-menu-trigger-for]="menu">
-        </watt-button>
-        <mat-menu #menu="matMenu">
-          <button mat-menu-item (click)="onEditGridArea(element)">
-            {{ t("editGridArea") }}
-          </button>
-        </mat-menu>
-      </mat-cell>
-    </ng-container>
+      <!-- Name -->
+      <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef>
+          {{ t("columns.name") }}
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          {{ element.name }}
+        </mat-cell>
+      </ng-container>
 
-    <mat-header-row *matHeaderRowDef="columnIds; sticky: true"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: columnIds"></mat-row>
-  </mat-table>
+      <!-- Actor name -->
+      <ng-container matColumnDef="actorName">
+        <mat-header-cell *matHeaderCellDef>
+          {{ t("columns.actorName") }}
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          {{ element.actorName | dhEmDashFallback }}
+        </mat-cell>
+      </ng-container>
 
-  <mat-paginator
-    [pageSizeOptions]="[5, 10, 20, 50]"
-    pageSize="10"
-    showFirstLastButtons
-  ></mat-paginator>
+      <!-- Actor number -->
+      <ng-container matColumnDef="actorNumber">
+        <mat-header-cell *matHeaderCellDef>
+          {{ t("columns.actorNumber") }}
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          {{ element.actorNumber | dhEmDashFallback }}
+        </mat-cell>
+      </ng-container>
+
+      <!-- Price area code -->
+      <ng-container matColumnDef="priceAreaCode">
+        <mat-header-cell *matHeaderCellDef>
+          {{ t("columns.priceAreaCode") }}
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          {{ element.priceAreaCode | dhEmDashFallback }}
+        </mat-cell>
+      </ng-container>
+
+      <!-- Valid from -->
+      <ng-container matColumnDef="validFrom">
+        <mat-header-cell *matHeaderCellDef>
+          {{ t("columns.validFrom") }}
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          {{ element.validFrom | dhDateTime }}
+        </mat-cell>
+      </ng-container>
+
+      <!-- Valid to -->
+      <ng-container matColumnDef="validTo">
+        <mat-header-cell *matHeaderCellDef>
+          {{ t("columns.validTo") }}
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          {{ element.validTo | dhDateTime | dhEmDashFallback }}
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row
+        *matHeaderRowDef="columnIds; sticky: false"
+      ></mat-header-row>
+      <mat-row *matRowDef="let row; columns: columnIds"></mat-row>
+    </mat-table>
+  </div>
 </ng-container>

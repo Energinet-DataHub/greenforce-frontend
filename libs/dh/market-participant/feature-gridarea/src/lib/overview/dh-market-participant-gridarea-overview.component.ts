@@ -17,13 +17,11 @@
 import { CommonModule } from '@angular/common';
 import {
   Component,
-  EventEmitter,
   Input,
   NgModule,
   OnChanges,
   OnDestroy,
   OnInit,
-  Output,
   ViewChild,
 } from '@angular/core';
 import { LetModule } from '@rx-angular/template/let';
@@ -36,6 +34,8 @@ import {
   WattEmptyStateModule,
   WattSpinnerModule,
   WattValidationMessageModule,
+  WattDrawerModule,
+  WattDrawerComponent,
 } from '@energinet-datahub/watt';
 import { MatMenuModule } from '@angular/material/menu';
 import {
@@ -45,7 +45,8 @@ import {
 } from '@angular/material/paginator';
 import { Subject, takeUntil } from 'rxjs';
 import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/metering-point/shared/ui-util';
-import { GridAreaDto } from '@energinet-datahub/dh/shared/domain';
+import { GridAreaOverviewRow } from '@energinet-datahub/dh/market-participant/data-access-api';
+import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 
 @Component({
   selector: 'dh-market-participant-gridarea-overview',
@@ -56,6 +57,7 @@ export class DhMarketParticipantGridAreaOverviewComponent
   implements OnInit, OnChanges, OnDestroy
 {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild('drawer') drawer!: WattDrawerComponent;
 
   private destroy$ = new Subject<void>();
 
@@ -64,16 +66,24 @@ export class DhMarketParticipantGridAreaOverviewComponent
     private matPaginatorIntl: MatPaginatorIntl
   ) {}
 
-  columnIds = ['grid-name', 'actor-gln', 'row-edit'];
+  columnIds = [
+    'code',
+    'name',
+    'actorName',
+    'actorNumber',
+    'priceAreaCode',
+    'validFrom',
+    'validTo',
+  ];
 
-  @Input() gridAreas: GridAreaDto[] = [];
+  @Input() gridAreas: GridAreaOverviewRow[] = [];
 
-  @Output() editGridArea = new EventEmitter<string>();
-
-  readonly dataSource: MatTableDataSource<GridAreaDto> =
-    new MatTableDataSource<GridAreaDto>();
+  readonly dataSource: MatTableDataSource<GridAreaOverviewRow> =
+    new MatTableDataSource<GridAreaOverviewRow>();
 
   gridAreasMap: { [id: string]: string } = {};
+
+  activeRowId?: string;
 
   ngOnInit() {
     this.setupPaginatorTranslation();
@@ -115,8 +125,12 @@ export class DhMarketParticipantGridAreaOverviewComponent
       });
   };
 
-  readonly onEditGridArea = (row: GridAreaDto) =>
-    this.editGridArea.emit(row.id);
+  readonly drawerClosed = () => console.log('drawer closed');
+
+  readonly open = (row: GridAreaOverviewRow) => {
+    this.activeRowId = row.id;
+    this.drawer.open();
+  };
 }
 
 @NgModule({
@@ -134,6 +148,8 @@ export class DhMarketParticipantGridAreaOverviewComponent
     WattSpinnerModule,
     WattValidationMessageModule,
     DhEmDashFallbackPipeScam,
+    DhSharedUiDateTimeModule,
+    WattDrawerModule,
   ],
   declarations: [DhMarketParticipantGridAreaOverviewComponent],
   exports: [DhMarketParticipantGridAreaOverviewComponent],

@@ -16,9 +16,11 @@
  */
 
 import { render, screen } from '@testing-library/angular';
-
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { MatExpansionPanelHarness } from '@angular/material/expansion/testing';
+import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
+
 import { WattNavListModule } from './watt-nav-list.component';
 
 const httpEnerginetDkUrl = 'http://energinet.dk';
@@ -201,6 +203,108 @@ describe(WattNavListModule.name, () => {
         name: /energinet/i,
       });
       expect(link).not.toHaveAttribute('target');
+    });
+  });
+
+  describe('Supports expandable nav list', () => {
+    it('can set a title on an expandable nav list', async () => {
+      const title = 'Expandable menu';
+
+      const view = await render(
+        `
+        <watt-nav-list [title]="'${title}'" [expandable]="true">
+          <watt-nav-list-item link="/sub-page">Sub page</watt-nav-list-item>
+        </watt-nav-list>
+      `,
+        {
+          imports: [WattNavListModule],
+        }
+      );
+
+      expect(view.queryByText(title)).not.toBeNull();
+    });
+
+    it('supports nav list items in an expandable nav list', async () => {
+      const text = 'Sub page';
+
+      const view = await render(
+        `
+        <watt-nav-list [title]="'Title'" [expandable]="true">
+          <watt-nav-list-item link="/sub-page">${text}</watt-nav-list-item>
+        </watt-nav-list>
+      `,
+        {
+          imports: [WattNavListModule],
+        }
+      );
+
+      expect(view.queryByText(text)).not.toBeNull();
+    });
+
+    it('expands the nav list automatically when navigating to a sub page', async () => {
+      function generateComponent(content = '') {
+        @Component({
+          template: `<h2>${content}</h2>`,
+          standalone: true,
+        })
+        class TestPageComponent {}
+
+        return TestPageComponent;
+      }
+
+      const view = await render(
+        `
+        <watt-nav-list>
+          <watt-nav-list-item link="/top-page">Top page</watt-nav-list-item>
+        </watt-nav-list>
+
+        <watt-nav-list [title]="'Title'" [expandable]="true">
+          <watt-nav-list-item link="/sub-page">Sub page</watt-nav-list-item>
+        </watt-nav-list>
+        <router-outlet></router-outlet>
+      `,
+        {
+          imports: [WattNavListModule, RouterModule],
+          routes: [
+            {
+              path: 'top-page',
+              component: generateComponent('Top page'),
+            },
+            {
+              path: 'sub-page',
+              component: generateComponent('Sub page'),
+            },
+          ],
+        }
+      );
+
+      const loader = TestbedHarnessEnvironment.loader(view.fixture);
+      const expansionPanel = await loader.getHarness(MatExpansionPanelHarness);
+
+      const activeClass = 'active';
+      const topPageLink = await screen.findByRole('link', {
+        name: /top page/i,
+      });
+      const findSubPageLink = () =>
+        screen.findByRole('link', {
+          name: /sub page/i,
+        });
+
+      expect(await expansionPanel.isExpanded()).toBeFalsy();
+
+      await view.navigate('/sub-page');
+
+      expect(await expansionPanel.isExpanded()).toBeTruthy();
+
+      const subPageLink = await findSubPageLink();
+
+      expect(subPageLink).toHaveClass(activeClass);
+      expect(subPageLink).toBeVisible();
+
+      await view.navigate(topPageLink);
+
+      expect(subPageLink).not.toHaveClass(activeClass);
+      expect(await expansionPanel.isExpanded()).toBeTruthy();
     });
   });
 });

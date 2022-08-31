@@ -489,8 +489,13 @@
       "editGridArea": "Rediger",
       "noGridAreas": "Ingen netområder fundet",
       "columns": {
-        "gridArea": "Netområde",
-        "gridAreaCode": "Kode"
+        "name": "Netområde",
+        "code": "Kode",
+        "actorName": "Netvirksomhed",
+        "actorNumber": "Netvirksomhed nr.",
+        "priceAreaCode": "Prisområde",
+        "validFrom": "Gyldig fra",
+        "validTo": "Gyldig til"
       }
     }
   },
