@@ -30,11 +30,8 @@ import {
 } from '@angular/material/snack-bar';
 import {
   fromEvent,
-  Observable,
   repeat,
-  repeatWhen,
   Subscription,
-  switchMap,
   takeUntil,
   tap,
   timer,
