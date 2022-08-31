@@ -24,16 +24,12 @@ import { GridAreaOverviewRow } from '@energinet-datahub/dh/market-participant/da
   styleUrls: ['./dh-market-participant-gridarea-details-header.component.scss'],
   templateUrl: './dh-market-participant-gridarea-details-header.component.html',
 })
-export class DhMarketParticipantGridAreaDetailsHeaderComponent
-{
+export class DhMarketParticipantGridAreaDetailsHeaderComponent {
   @Input() gridArea?: GridAreaOverviewRow;
 }
 
 @NgModule({
-  imports: [
-    CommonModule,
-    TranslocoModule,
-  ],
+  imports: [CommonModule, TranslocoModule],
   declarations: [DhMarketParticipantGridAreaDetailsHeaderComponent],
   exports: [DhMarketParticipantGridAreaDetailsHeaderComponent],
 })
