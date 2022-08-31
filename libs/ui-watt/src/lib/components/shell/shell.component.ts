@@ -14,8 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { MatSidenav } from '@angular/material/sidenav';
+import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
+import { MatToolbarModule } from '@angular/material/toolbar';
 import { Router, NavigationEnd } from '@angular/router';
 import { filter, map, Subject, switchMap, takeUntil, first } from 'rxjs';
 
@@ -23,11 +25,14 @@ import {
   WattBreakpoint,
   WattBreakpointsObserver,
 } from '../../foundations/breakpoints';
+import { WattButtonModule } from '../button';
 
 @Component({
   selector: 'watt-shell',
   styleUrls: ['./shell.component.scss'],
   templateUrl: './shell.component.html',
+  standalone: true,
+  imports: [CommonModule, MatSidenavModule, MatToolbarModule, WattButtonModule],
 })
 export class WattShellComponent implements OnInit, OnDestroy {
   /**
