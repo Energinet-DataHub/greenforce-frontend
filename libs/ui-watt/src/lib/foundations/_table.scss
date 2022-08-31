@@ -53,7 +53,7 @@ mat-paginator {
   & .mat-icon-button {
     line-height: 1;
 
-    /* Decrease spacing between arrow buttons */
+    // Decrease spacing between arrow buttons
     width: 36px;
     height: 36px;
   }
@@ -68,7 +68,7 @@ mat-paginator {
 
   mat-form-field {
     &.mat-paginator-page-size-select {
-      width: 80px;
+      width: 80px; // Magic width
       margin: 0;
       padding: 0 var(--watt-space-s);
       border: 1px solid var(--watt-color-neutral-grey-400);
@@ -89,7 +89,7 @@ mat-paginator {
     }
 
     & .mat-form-field-flex {
-      height: 42px;
+      height: 42px; // Standard field height minus 1px border
       align-items: center;
     }
   }
