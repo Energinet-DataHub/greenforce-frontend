@@ -18,7 +18,10 @@ import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { TranslocoModule } from '@ngneat/transloco';
 
-import { WattNavListModule } from '@energinet-datahub/watt';
+import {
+  WattNavListComponent,
+  WattNavListItemComponent,
+} from '@energinet-datahub/watt';
 import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/feature-flags';
 
 @Component({
@@ -41,7 +44,8 @@ export class DhPrimaryNavigationComponent {}
   imports: [
     TranslocoModule,
     RouterModule,
-    WattNavListModule,
+    WattNavListComponent,
+    WattNavListItemComponent,
     DhFeatureFlagDirectiveModule,
   ],
 })

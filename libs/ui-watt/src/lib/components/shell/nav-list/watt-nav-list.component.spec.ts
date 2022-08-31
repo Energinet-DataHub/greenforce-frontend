@@ -21,12 +21,13 @@ import { RouterModule } from '@angular/router';
 import { MatExpansionPanelHarness } from '@angular/material/expansion/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 
-import { WattNavListModule } from './watt-nav-list.component';
+import { WattNavListComponent } from './watt-nav-list.component';
+import { WattNavListItemComponent } from './watt-nav-list-item.component';
 
 const httpEnerginetDkUrl = 'http://energinet.dk';
 const httpsEnerginetDkUrl = 'https://energinet.dk';
 
-describe(WattNavListModule.name, () => {
+describe(WattNavListComponent.name, () => {
   it('exports shared Watt Design System nav list', async () => {
     const text = 'Page 1';
 
@@ -39,7 +40,7 @@ describe(WattNavListModule.name, () => {
       </watt-nav-list>
     `,
       {
-        imports: [WattNavListModule],
+        imports: [WattNavListComponent, WattNavListItemComponent],
       }
     );
 
@@ -62,7 +63,7 @@ describe(WattNavListModule.name, () => {
     `,
       {
         declarations: [TestPageComponent],
-        imports: [WattNavListModule, RouterModule],
+        imports: [WattNavListComponent, WattNavListItemComponent, RouterModule],
         routes: [
           {
             path: '',
@@ -106,7 +107,7 @@ describe(WattNavListModule.name, () => {
       </watt-nav-list>
     `,
       {
-        imports: [WattNavListModule],
+        imports: [WattNavListComponent, WattNavListItemComponent],
       }
     );
 
@@ -120,7 +121,7 @@ describe(WattNavListModule.name, () => {
     ).toHaveAttribute('href', httpsEnerginetDkUrl);
   });
 
-  describe(`${WattNavListModule.name} - Ensures external links are specified with the expected protocol`, () => {
+  describe(`${WattNavListComponent.name} - Ensures external links are specified with the expected protocol`, () => {
     const setup = async (link: string) => {
       // Arrange
       await render(
@@ -132,7 +133,7 @@ describe(WattNavListModule.name, () => {
         </watt-nav-list>
       `,
         {
-          imports: [WattNavListModule],
+          imports: [WattNavListComponent, WattNavListItemComponent],
           componentProperties: {
             link,
           },
@@ -175,7 +176,7 @@ describe(WattNavListModule.name, () => {
         </watt-nav-list>
       `,
         {
-          imports: [WattNavListModule],
+          imports: [WattNavListComponent, WattNavListItemComponent],
           componentProperties: {
             target,
           },
@@ -217,7 +218,7 @@ describe(WattNavListModule.name, () => {
         </watt-nav-list>
       `,
         {
-          imports: [WattNavListModule],
+          imports: [WattNavListComponent, WattNavListItemComponent],
         }
       );
 
@@ -234,7 +235,7 @@ describe(WattNavListModule.name, () => {
         </watt-nav-list>
       `,
         {
-          imports: [WattNavListModule],
+          imports: [WattNavListComponent, WattNavListItemComponent],
         }
       );
 
@@ -264,7 +265,11 @@ describe(WattNavListModule.name, () => {
         <router-outlet></router-outlet>
       `,
         {
-          imports: [WattNavListModule, RouterModule],
+          imports: [
+            WattNavListComponent,
+            WattNavListItemComponent,
+            RouterModule,
+          ],
           routes: [
             {
               path: 'top-page',

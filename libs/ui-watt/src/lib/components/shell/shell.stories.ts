@@ -22,16 +22,19 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { WattNavListModule } from './nav-list';
+import { WattNavListComponent, WattNavListItemComponent } from './nav-list';
 import { WattShellComponent } from './shell.component';
-import { WattShellModule } from './shell.module';
 
 export default {
   title: 'Components/Shell',
   component: WattShellComponent,
   decorators: [
     moduleMetadata({
-      imports: [RouterTestingModule, BrowserAnimationsModule, WattShellModule],
+      imports: [
+        RouterTestingModule,
+        BrowserAnimationsModule,
+        WattShellComponent,
+      ],
     }),
   ],
 } as Meta<WattShellComponent>;
@@ -122,7 +125,8 @@ withSidebarNavigation.decorators = [
         { path: 'menu-5', component: generateComponent('Page 5') },
         { path: 'menu-6', component: generateComponent('Page 6') },
       ]),
-      WattNavListModule,
+      WattNavListComponent,
+      WattNavListItemComponent,
     ],
     providers: [
       {
