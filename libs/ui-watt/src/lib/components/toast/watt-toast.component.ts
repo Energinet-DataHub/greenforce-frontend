@@ -28,14 +28,7 @@ import {
   MatSnackBarRef,
   MAT_SNACK_BAR_DATA,
 } from '@angular/material/snack-bar';
-import {
-  fromEvent,
-  repeat,
-  Subscription,
-  takeUntil,
-  tap,
-  timer,
-} from 'rxjs';
+import { fromEvent, repeat, Subscription, takeUntil, tap, timer } from 'rxjs';
 
 export type WattToastType =
   | 'success'
