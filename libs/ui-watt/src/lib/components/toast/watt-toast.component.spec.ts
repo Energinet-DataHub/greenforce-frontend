@@ -26,8 +26,10 @@ import * as toastStories from './+storybook/watt-toast.stories';
 const { Overview } = composeStories(toastStories);
 
 describe('Toast', () => {
-  const getOpenToastButton = async () => screen.getByRole('button', { name: /Open toast/ });
-  const getToast = async () => screen.queryByText('You successfully launched a toast!');
+  const getOpenToastButton = async () =>
+    screen.getByRole('button', { name: /Open toast/ });
+  const getToast = async () =>
+    screen.queryByText('You successfully launched a toast!');
 
   async function setup(args: Partial<toastStories.WattToastStoryConfig> = {}) {
     const { component, ngModule } = createMountableStoryComponent(
@@ -52,13 +54,13 @@ describe('Toast', () => {
 
     expect(await getToast()).not.toBeInTheDocument();
 
-    jest.runOnlyPendingTimers()
+    jest.runOnlyPendingTimers();
     jest.useRealTimers();
   });
 
   it('should not dismiss a toast of type=loading after 5s', async () => {
     jest.useFakeTimers();
-    await setup({type: 'loading'});
+    await setup({ type: 'loading' });
     userEvent.click(await getOpenToastButton());
     expect(await getToast()).toBeInTheDocument();
 
@@ -66,7 +68,7 @@ describe('Toast', () => {
 
     expect(await getToast()).toBeInTheDocument();
 
-    jest.runOnlyPendingTimers()
+    jest.runOnlyPendingTimers();
     jest.useRealTimers();
   });
 
@@ -77,15 +79,15 @@ describe('Toast', () => {
     expect(await getToast()).toBeInTheDocument();
 
     jest.advanceTimersByTime(4000);
-    userEvent.hover(await getToast() as HTMLElement);
+    userEvent.hover((await getToast()) as HTMLElement);
     jest.advanceTimersByTime(5000);
     expect(await getToast()).toBeInTheDocument();
 
-    userEvent.unhover(await getToast() as HTMLElement);
+    userEvent.unhover((await getToast()) as HTMLElement);
     jest.advanceTimersByTime(5000);
     expect(await getToast()).not.toBeInTheDocument();
 
-    jest.runOnlyPendingTimers()
+    jest.runOnlyPendingTimers();
     jest.useRealTimers();
   });
 });
