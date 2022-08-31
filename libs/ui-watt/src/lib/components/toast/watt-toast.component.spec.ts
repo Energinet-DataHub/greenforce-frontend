@@ -18,29 +18,78 @@ import {
   composeStories,
   createMountableStoryComponent,
 } from '@storybook/testing-angular';
-import { queryByRole, render, screen, waitFor } from '@testing-library/angular';
+import { render, screen } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
 
 import * as toastStories from './+storybook/watt-toast.stories';
 
-const { Toast } = composeStories(toastStories);
+const { Overview } = composeStories(toastStories);
 
 describe('Toast', () => {
-  async function setup(args: toastStories.WattToastStoryConfig = {}) {
+  const getOpenToastButton = async () => screen.getByRole('button', { name: /Open toast/ });
+  const getToast = async () => screen.queryByText('You successfully launched a toast!');
+
+  async function setup(args: Partial<toastStories.WattToastStoryConfig> = {}) {
     const { component, ngModule } = createMountableStoryComponent(
-      Toast({ disableAnimations: true, ...args }, {} as never)
+      Overview({ disableAnimations: true, ...args }, {} as never)
     );
     await render(component, { imports: [ngModule] });
-
-    const openToastButton = screen.getByRole('button', { name: /Open toast/ });
-    userEvent.click(openToastButton);
-
-    const toast = screen.queryByText('You successfully launched a toast!');
-    expect(toast).toBeInTheDocument();
-
-    return { toast: toast?.parentElement?.parentElement };
   }
 
+  it('should open toast', async () => {
+    await setup();
+    userEvent.click(await getOpenToastButton());
+    expect(await getToast()).toBeInTheDocument();
+  });
+
+  it('should dismiss toast after 5s', async () => {
+    jest.useFakeTimers();
+    await setup();
+    userEvent.click(await getOpenToastButton());
+    expect(await getToast()).toBeInTheDocument();
+
+    jest.advanceTimersByTime(5000);
+
+    expect(await getToast()).not.toBeInTheDocument();
+
+    jest.runOnlyPendingTimers()
+    jest.useRealTimers();
+  });
+
+  it('should not dismiss a toast of type=loading after 5s', async () => {
+    jest.useFakeTimers();
+    await setup({type: 'loading'});
+    userEvent.click(await getOpenToastButton());
+    expect(await getToast()).toBeInTheDocument();
+
+    jest.advanceTimersByTime(5000);
+
+    expect(await getToast()).toBeInTheDocument();
+
+    jest.runOnlyPendingTimers()
+    jest.useRealTimers();
+  });
+
+  it('should reset the duration of the toast on hover', async () => {
+    jest.useFakeTimers();
+    await setup();
+    userEvent.click(await getOpenToastButton());
+    expect(await getToast()).toBeInTheDocument();
+
+    jest.advanceTimersByTime(4000);
+    userEvent.hover(await getToast() as HTMLElement);
+    jest.advanceTimersByTime(5000);
+    expect(await getToast()).toBeInTheDocument();
+
+    userEvent.unhover(await getToast() as HTMLElement);
+    jest.advanceTimersByTime(5000);
+    expect(await getToast()).not.toBeInTheDocument();
+
+    jest.runOnlyPendingTimers()
+    jest.useRealTimers();
+  });
+
+  /*
   it('should have an action button if an action is provided', async () => {
     const { toast } = await setup();
 
@@ -78,4 +127,5 @@ describe('Toast', () => {
   it('should not have default duration, when the type is loading', () => {});
 
   it('should not dismiss the toast, when user is hovering it', () => {});
+  */
 });
