@@ -53,3 +53,8 @@ variable apim_b2c_tenant_frontend_userflow {
   type          = string
   description   = "The URL of the B2C tenant where the signin user flow that is used by the frontend exists. On the format: https://<tenant-name>.b2clogin.com/<tenant-name>.onmicrosoft.com/<user-flow-name>"
 }
+
+variable azure_ad_security_group_id {
+  type          = string
+  description   = "The Id of the Azure Security group used for employees"
+}
