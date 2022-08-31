@@ -15,12 +15,7 @@
  * limitations under the License.
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  NgModule,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { MatListModule } from '@angular/material/list';
@@ -30,6 +25,8 @@ import { Subject } from 'rxjs';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'watt-nav-list-item',
+  standalone: true,
+  imports: [CommonModule, RouterModule, MatListModule, MatRippleModule],
   template: `
     <a
       *ngIf="isExternalLink; else internalLink"
@@ -72,10 +69,3 @@ export class WattNavListItemComponent {
     this.isActiveSubject.next(isActive);
   }
 }
-
-@NgModule({
-  declarations: [WattNavListItemComponent],
-  exports: [WattNavListItemComponent],
-  imports: [CommonModule, RouterModule, MatListModule, MatRippleModule],
-})
-export class WattNavListItemScam {}
