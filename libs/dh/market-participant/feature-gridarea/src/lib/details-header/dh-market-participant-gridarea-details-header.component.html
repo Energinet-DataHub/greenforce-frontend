@@ -15,10 +15,12 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<ng-container *transloco="let t; read: 'marketParticipant.gridAreas.detailsHeader'">
+<ng-container
+  *transloco="let t; read: 'marketParticipant.gridAreas.detailsHeader'"
+>
   <div>
     <p class="header-grid-area-code">
-      {{ t('code') + " " + gridArea?.code }}
+      {{ t("code") + " " + gridArea?.code }}
     </p>
     <h1 class="header-grid-area-name">
       {{ gridArea?.name }}

@@ -43,7 +43,7 @@ export class DhMarketParticipantGridAreaDetailsHeaderComponent
 {
   @Input() gridArea?: GridAreaOverviewRow;
 
-  ngOnChanges() {;}
+  ngOnChanges() {}
 }
 
 @NgModule({
