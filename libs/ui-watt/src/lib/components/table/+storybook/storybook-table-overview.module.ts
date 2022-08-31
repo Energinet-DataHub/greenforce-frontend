@@ -21,12 +21,14 @@ import { MatSortModule } from '@angular/material/sort';
 
 import { WattIconModule } from '../../../foundations/icon';
 import { StorybookTableOverviewComponent } from './storybook-table-overview.component';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 @NgModule({
   imports: [
     MatTableModule,
     WattIconModule,
     MatSortModule,
+    MatPaginatorModule,
     BrowserAnimationsModule,
   ],
   declarations: [StorybookTableOverviewComponent],
