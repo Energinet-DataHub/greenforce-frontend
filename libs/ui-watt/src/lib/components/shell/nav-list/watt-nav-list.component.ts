@@ -15,28 +15,65 @@
  * limitations under the License.
  */
 
+import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  ContentChildren,
+  HostBinding,
+  Input,
   NgModule,
+  QueryList,
   ViewEncapsulation,
 } from '@angular/core';
-
+import { RouterModule } from '@angular/router';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { MatListModule } from '@angular/material/list';
-import { WattNavListItemScam } from './watt-nav-list-item.component';
+
+import { WattExpandOnActiveLinkDirective } from './watt-expand-on-active-link.directive';
+import {
+  WattNavListItemComponent,
+  WattNavListItemScam,
+} from './watt-nav-list-item.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   selector: 'watt-nav-list',
   styleUrls: ['./watt-nav-list.component.scss'],
-  template: `<mat-nav-list><ng-content></ng-content></mat-nav-list>`,
+  templateUrl: './watt-nav-list.component.html',
 })
-export class WattNavListComponent {}
+export class WattNavListComponent {
+  /**
+   * @ignore
+   */
+  @ContentChildren(WattNavListItemComponent)
+  navListItemComponents: QueryList<WattNavListItemComponent> | null = null;
+
+  @Input()
+  expandable = false;
+
+  @Input()
+  title = '';
+
+  /**
+   * @ignore
+   */
+  @HostBinding('class.watt-nav-list--expandable')
+  get expandableClass() {
+    return this.expandable;
+  }
+}
 
 @NgModule({
   declarations: [WattNavListComponent],
   exports: [WattNavListComponent, WattNavListItemScam],
-  imports: [MatListModule],
+  imports: [
+    MatListModule,
+    CommonModule,
+    RouterModule,
+    MatExpansionModule,
+    WattExpandOnActiveLinkDirective,
+  ],
 })
 export class WattNavListModule {}
