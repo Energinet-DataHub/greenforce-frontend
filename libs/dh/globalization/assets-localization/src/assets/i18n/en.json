@@ -11,8 +11,11 @@
       "messageArchive": "Request/Response messages",
       "marketParticipantOrganizations": "Organisations",
       "marketParticipantGridAreas": "Grid areas",
-      "wholesaleStartProcess": "Settlements - Start Process",
-      "wholesaleOverview": "Settlements - Overview"
+      "wholesale": {
+        "menuGroupLabel": "Settlements",
+        "startProcess": "Start Process",
+        "overview": "Overview"
+      }
     }
   },
   "meteringPoint": {
