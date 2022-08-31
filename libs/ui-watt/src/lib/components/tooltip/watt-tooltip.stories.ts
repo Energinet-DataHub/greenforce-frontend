@@ -14,21 +14,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@use "./theme/light-theme.scss";
-@use "./theme/material-overwrites/datepicker";
+import { WattTooltipModule } from './watt-tooltip.module';
+import { moduleMetadata, Story } from '@storybook/angular';
+import { WattButtonModule } from '../button';
 
-@use "../../../foundations/variables";
-@use "../../../foundations/box-sizing";
-@use "../../../foundations/typography";
-@use "../../../foundations/spacing";
-@use "../../../foundations/table";
-@use "../../../foundations/tooltip";
+export default {
+  title: 'Components/Tooltip',
+  decorators: [
+    moduleMetadata({
+      imports: [WattButtonModule, WattTooltipModule],
+    }),
+  ],
+};
 
-html,
-body {
-  height: 100%;
-}
-body {
-  margin: 0;
-  font-family: "Open Sans", sans-serif;
-}
+export const Overview: Story = (args) => ({
+  props: args,
+  template: `
+    <watt-button
+      wattTooltip="Click me"
+      wattTooltipPosition="right"
+    >Button</watt-button>
+  `,
+});
