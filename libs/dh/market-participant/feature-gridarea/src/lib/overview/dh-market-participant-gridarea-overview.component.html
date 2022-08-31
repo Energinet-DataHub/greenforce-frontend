@@ -34,7 +34,6 @@ limitations under the License.
 
   <!-- Table -->
   <div class="card-container">
-
     <h2>{{ t("header") }}</h2>
 
     <mat-table [dataSource]="dataSource" aria-label="gridAreas">
@@ -110,7 +109,9 @@ limitations under the License.
         </mat-cell>
       </ng-container>
 
-      <mat-header-row *matHeaderRowDef="columnIds; sticky: false"></mat-header-row>
+      <mat-header-row
+        *matHeaderRowDef="columnIds; sticky: false"
+      ></mat-header-row>
       <mat-row *matRowDef="let row; columns: columnIds"></mat-row>
     </mat-table>
   </div>
