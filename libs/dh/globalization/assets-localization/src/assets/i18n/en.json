@@ -491,8 +491,8 @@
       "columns": {
         "name": "Grid area",
         "code": "Code",
-        "actorName": "english_translation",
-        "actorNumber": "english_translation",
+        "actorName": "Grid operator actor name",
+        "actorNumber": "Grid operator actor ID",
         "priceAreaCode": "Price area code",
         "validFrom": "Valid from",
         "validTo": "Valid to"
