@@ -15,15 +15,9 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import {
-  Component,
-  Input,
-  NgModule,
-  OnChanges,
-  ViewChild,
-} from '@angular/core';
+import { Component, Input, NgModule, OnChanges } from '@angular/core';
 import { LetModule } from '@rx-angular/template/let';
-import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatTableModule } from '@angular/material/table';
 import { TranslocoModule } from '@ngneat/transloco';
 import {
   WattBadgeModule,
@@ -33,49 +27,23 @@ import {
   WattSpinnerModule,
   WattValidationMessageModule,
   WattDrawerModule,
-  WattDrawerComponent,
 } from '@energinet-datahub/watt';
 import { MatMenuModule } from '@angular/material/menu';
 import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/metering-point/shared/ui-util';
-import { GridAreaOverviewRow } from '@energinet-datahub/dh/market-participant/data-access-api';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
-import { DhMarketParticipantGridAreaDetailsHeaderScam } from '../details-header/dh-market-participant-gridarea-details-header.component';
+import { GridAreaOverviewRow } from '@energinet-datahub/dh/market-participant/data-access-api';
 
 @Component({
-  selector: 'dh-market-participant-gridarea-overview',
-  styleUrls: ['./dh-market-participant-gridarea-overview.component.scss'],
-  templateUrl: './dh-market-participant-gridarea-overview.component.html',
+  selector: 'dh-market-participant-gridarea-details-header',
+  styleUrls: ['./dh-market-participant-gridarea-details-header.component.scss'],
+  templateUrl: './dh-market-participant-gridarea-details-header.component.html',
 })
-export class DhMarketParticipantGridAreaOverviewComponent implements OnChanges {
-  @ViewChild('drawer') drawer!: WattDrawerComponent;
+export class DhMarketParticipantGridAreaDetailsHeaderComponent
+  implements OnChanges
+{
+  @Input() gridArea?: GridAreaOverviewRow;
 
-  columnIds = [
-    'code',
-    'name',
-    'actorName',
-    'actorNumber',
-    'priceAreaCode',
-    'validFrom',
-    'validTo',
-  ];
-
-  @Input() gridAreas: GridAreaOverviewRow[] = [];
-
-  readonly dataSource: MatTableDataSource<GridAreaOverviewRow> =
-    new MatTableDataSource<GridAreaOverviewRow>();
-
-  activeRow?: GridAreaOverviewRow;
-
-  ngOnChanges() {
-    this.dataSource.data = this.gridAreas;
-  }
-
-  readonly drawerClosed = () => console.log('drawer closed');
-
-  readonly open = (row: GridAreaOverviewRow) => {
-    this.activeRow = row;
-    this.drawer.open();
-  };
+  ngOnChanges() {;}
 }
 
 @NgModule({
@@ -94,9 +62,8 @@ export class DhMarketParticipantGridAreaOverviewComponent implements OnChanges {
     DhEmDashFallbackPipeScam,
     DhSharedUiDateTimeModule,
     WattDrawerModule,
-    DhMarketParticipantGridAreaDetailsHeaderScam,
   ],
-  declarations: [DhMarketParticipantGridAreaOverviewComponent],
-  exports: [DhMarketParticipantGridAreaOverviewComponent],
+  declarations: [DhMarketParticipantGridAreaDetailsHeaderComponent],
+  exports: [DhMarketParticipantGridAreaDetailsHeaderComponent],
 })
-export class DhMarketParticipantGridAreaOverviewScam {}
+export class DhMarketParticipantGridAreaDetailsHeaderScam {}

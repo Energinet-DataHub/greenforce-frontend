@@ -496,6 +496,9 @@
         "priceAreaCode": "Price area code",
         "validFrom": "Valid from",
         "validTo": "Valid to"
+      },
+      "detailsHeader": {
+        "code": "Grid area code"
       }
     }
   },
