@@ -24,14 +24,17 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { WattNavListComponent, WattNavListItemComponent } from './nav-list';
 import { WattShellComponent } from './shell.component';
-import { WattShellModule } from './shell.module';
 
 export default {
   title: 'Components/Shell',
   component: WattShellComponent,
   decorators: [
     moduleMetadata({
-      imports: [RouterTestingModule, BrowserAnimationsModule, WattShellModule],
+      imports: [
+        RouterTestingModule,
+        BrowserAnimationsModule,
+        WattShellComponent,
+      ],
     }),
   ],
 } as Meta<WattShellComponent>;
