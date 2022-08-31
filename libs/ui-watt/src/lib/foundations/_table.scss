@@ -58,6 +58,10 @@ mat-paginator {
     height: 36px;
   }
 
+  & .mat-icon-button {
+    color: var(--watt-color-primary);
+  }
+
   & .mat-icon-button.mat-button-disabled.mat-button-disabled {
     color: var(--watt-color-neutral-grey-500);
   }
