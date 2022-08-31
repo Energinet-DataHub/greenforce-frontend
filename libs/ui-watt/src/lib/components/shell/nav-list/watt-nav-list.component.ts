@@ -22,7 +22,6 @@ import {
   ContentChildren,
   HostBinding,
   Input,
-  NgModule,
   QueryList,
   ViewEncapsulation,
 } from '@angular/core';
@@ -31,10 +30,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatListModule } from '@angular/material/list';
 
 import { WattExpandOnActiveLinkDirective } from './watt-expand-on-active-link.directive';
-import {
-  WattNavListItemComponent,
-  WattNavListItemScam,
-} from './watt-nav-list-item.component';
+import { WattNavListItemComponent } from './watt-nav-list-item.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -42,6 +38,15 @@ import {
   selector: 'watt-nav-list',
   styleUrls: ['./watt-nav-list.component.scss'],
   templateUrl: './watt-nav-list.component.html',
+  standalone: true,
+  imports: [
+    MatListModule,
+    CommonModule,
+    RouterModule,
+    MatExpansionModule,
+    WattNavListItemComponent,
+    WattExpandOnActiveLinkDirective,
+  ],
 })
 export class WattNavListComponent {
   /**
@@ -64,16 +69,3 @@ export class WattNavListComponent {
     return this.expandable;
   }
 }
-
-@NgModule({
-  declarations: [WattNavListComponent],
-  exports: [WattNavListComponent, WattNavListItemScam],
-  imports: [
-    MatListModule,
-    CommonModule,
-    RouterModule,
-    MatExpansionModule,
-    WattExpandOnActiveLinkDirective,
-  ],
-})
-export class WattNavListModule {}
