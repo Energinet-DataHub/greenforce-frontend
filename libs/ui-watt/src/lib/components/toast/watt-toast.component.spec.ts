@@ -88,44 +88,4 @@ describe('Toast', () => {
     jest.runOnlyPendingTimers()
     jest.useRealTimers();
   });
-
-  /*
-  it('should have an action button if an action is provided', async () => {
-    const { toast } = await setup();
-
-    await waitFor(() => {
-      const actionButton = queryByRole(toast as HTMLElement, 'button', {
-        name: /Action/i,
-      });
-      expect(actionButton).toBeInTheDocument();
-    });
-  });
-
-  it('should not have an action button if no action is provided', async () => {
-    const { toast } = await setup({ action: undefined });
-
-    await waitFor(() => {
-      const actionButton = queryByRole(toast as HTMLElement, 'button', {
-        name: /Action/i,
-      });
-      expect(actionButton).not.toBeInTheDocument();
-    });
-  });
-
-  it('should dismiss the toast with provided action', async () => {});
-
-  it('should not show icon for toasts of type=loading', async () => {});
-
-  it('should not show close button for toasts of type=loading', async () => {});
-
-  it('should show spinner for toasts of type=loading', async () => {});
-
-  it('should not show spinner when toast is not of type=loading', () => {});
-
-  it('should have a dismiss button', async () => {});
-
-  it('should not have default duration, when the type is loading', () => {});
-
-  it('should not dismiss the toast, when user is hovering it', () => {});
-  */
 });
