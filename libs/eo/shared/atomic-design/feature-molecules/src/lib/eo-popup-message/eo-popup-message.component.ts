@@ -95,7 +95,7 @@ import { MatIconModule } from '@angular/material/icon';
         overflow: hidden;
 
         &.collapsed {
-          max-height: 0px;
+          max-height: 0;
           transition: max-height 0.25s ease-out;
         }
       }

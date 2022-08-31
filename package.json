@@ -11,6 +11,7 @@
   "scripts": {
     "postinstall": "npm run postinstall:nx && npm run postinstall:ngcc",
     "postinstall:ngcc": "npm run ngcc",
+    "jest-preview": "jest-preview",
     "postinstall:nx": "node ./decorate-angular-cli.js",
     "check:dotnet": "dotnet --version || echo ❌ dotnet CLI must be installed",
     "check:java": "java -version || echo ❌ Java must be installed",
@@ -142,6 +143,7 @@
     "jest-canvas-mock": "2.4.0",
     "jest-dev-server": "6.0.3",
     "jest-preset-angular": "11.1.2",
+    "jest-preview": "0.3.0",
     "kill-port-process": "3.0.1",
     "msw": "0.43.1",
     "ng-mocks": "14.0.1",
