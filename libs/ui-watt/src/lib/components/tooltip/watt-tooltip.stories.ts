@@ -14,7 +14,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './lib/dh-market-participant-data-access-api.store';
-export * from './lib/dh-market-participant-edit-actor-data-access-api.store';
-export * from './lib/dh-market-participant-edit-organization-data-access-api.store';
-export * from './lib/dh-market-participant-gridareaoverview-data-access-api.store';
+import { WattTooltipModule } from './watt-tooltip.module';
+import { moduleMetadata, Story } from '@storybook/angular';
+import { WattButtonModule } from '../button';
+
+export default {
+  title: 'Components/Tooltip',
+  decorators: [
+    moduleMetadata({
+      imports: [WattButtonModule, WattTooltipModule],
+    }),
+  ],
+};
+
+export const Overview: Story = (args) => ({
+  props: args,
+  template: `
+    <watt-button
+      wattTooltip="Click me"
+      wattTooltipPosition="right"
+    >Button</watt-button>
+  `,
+});

@@ -14,14 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@use './theme/light-theme.scss';
-@use './theme/material-overwrites/datepicker';
+@use "./theme/light-theme.scss";
+@use "./theme/material-overwrites/datepicker";
 
-@use '../../../foundations/variables';
-@use '../../../foundations/box-sizing';
-@use '../../../foundations/typography';
-@use '../../../foundations/spacing';
-@use '../../../foundations/table';
+@use "../../../foundations/variables";
+@use "../../../foundations/box-sizing";
+@use "../../../foundations/typography";
+@use "../../../foundations/spacing";
+@use "../../../foundations/table";
+@use "../../../foundations/tooltip";
 
 html,
 body {

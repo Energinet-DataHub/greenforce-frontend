@@ -51,6 +51,10 @@
   outline: 2px solid var(--watt-color-primary);
 }
 
+watt-button {
+  display: inline-block;
+}
+
 .mat-button {
   @include watt.typography-font-weight("semi-bold");
   @include watt.typography-font-size("m");
