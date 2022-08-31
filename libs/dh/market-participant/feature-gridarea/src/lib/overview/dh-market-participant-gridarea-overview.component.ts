@@ -45,9 +45,7 @@ import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-t
   styleUrls: ['./dh-market-participant-gridarea-overview.component.scss'],
   templateUrl: './dh-market-participant-gridarea-overview.component.html',
 })
-export class DhMarketParticipantGridAreaOverviewComponent
-  implements OnChanges
-{
+export class DhMarketParticipantGridAreaOverviewComponent implements OnChanges {
   @ViewChild('drawer') drawer!: WattDrawerComponent;
 
   columnIds = [
