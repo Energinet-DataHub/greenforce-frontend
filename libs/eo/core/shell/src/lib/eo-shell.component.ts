@@ -21,7 +21,7 @@ import { EoCookieBannerComponentScam } from '@energinet-datahub/eo/shared/atomic
 import { EoProductLogoScam } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 import { EoFooterScam } from '@energinet-datahub/eo/shared/atomic-design/ui-organisms';
 import { EoTitleStore } from '@energinet-datahub/eo/shared/util-browser';
-import { WattShellModule } from '@energinet-datahub/watt';
+import { WattShellComponent } from '@energinet-datahub/watt';
 import { PushModule } from '@rx-angular/template';
 import { Observable } from 'rxjs';
 import { EoPrimaryNavigationScam } from './eo-primary-navigation.component';
@@ -151,7 +151,7 @@ export class EoShellComponent {
   declarations: [EoShellComponent],
   imports: [
     RouterModule,
-    WattShellModule,
+    WattShellComponent,
     EoPrimaryNavigationScam,
     EoCookieBannerComponentScam,
     EoProductLogoScam,
