@@ -39,6 +39,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/metering-point/shared/ui-util';
 import { GridAreaOverviewRow } from '@energinet-datahub/dh/market-participant/data-access-api';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
+import { DhMarketParticipantGridAreaDetailsHeaderScam } from '../details-header/dh-market-participant-gridarea-details-header.component';
 
 @Component({
   selector: 'dh-market-participant-gridarea-overview',
@@ -63,7 +64,7 @@ export class DhMarketParticipantGridAreaOverviewComponent implements OnChanges {
   readonly dataSource: MatTableDataSource<GridAreaOverviewRow> =
     new MatTableDataSource<GridAreaOverviewRow>();
 
-  activeRowId?: string;
+  activeRow?: GridAreaOverviewRow;
 
   ngOnChanges() {
     this.dataSource.data = this.gridAreas;
@@ -72,7 +73,7 @@ export class DhMarketParticipantGridAreaOverviewComponent implements OnChanges {
   readonly drawerClosed = () => console.log('drawer closed');
 
   readonly open = (row: GridAreaOverviewRow) => {
-    this.activeRowId = row.id;
+    this.activeRow = row;
     this.drawer.open();
   };
 }
@@ -93,6 +94,7 @@ export class DhMarketParticipantGridAreaOverviewComponent implements OnChanges {
     DhEmDashFallbackPipeScam,
     DhSharedUiDateTimeModule,
     WattDrawerModule,
+    DhMarketParticipantGridAreaDetailsHeaderScam,
   ],
   declarations: [DhMarketParticipantGridAreaOverviewComponent],
   exports: [DhMarketParticipantGridAreaOverviewComponent],

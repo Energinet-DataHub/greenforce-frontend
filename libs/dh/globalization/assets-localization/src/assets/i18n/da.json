@@ -499,6 +499,9 @@
         "priceAreaCode": "Prisområde",
         "validFrom": "Gyldig fra",
         "validTo": "Gyldig til"
+      },
+      "detailsHeader": {
+        "code": "Netområde ID"
       }
     }
   },
