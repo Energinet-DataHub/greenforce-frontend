@@ -20,13 +20,11 @@ import {
   Input,
   NgModule,
   OnChanges,
-  OnDestroy,
-  OnInit,
   ViewChild,
 } from '@angular/core';
 import { LetModule } from '@rx-angular/template/let';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
+import { TranslocoModule } from '@ngneat/transloco';
 import {
   WattBadgeModule,
   WattButtonModule,
@@ -38,12 +36,6 @@ import {
   WattDrawerComponent,
 } from '@energinet-datahub/watt';
 import { MatMenuModule } from '@angular/material/menu';
-import {
-  MatPaginator,
-  MatPaginatorIntl,
-  MatPaginatorModule,
-} from '@angular/material/paginator';
-import { Subject, takeUntil } from 'rxjs';
 import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/metering-point/shared/ui-util';
 import { GridAreaOverviewRow } from '@energinet-datahub/dh/market-participant/data-access-api';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
@@ -53,18 +45,8 @@ import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-t
   styleUrls: ['./dh-market-participant-gridarea-overview.component.scss'],
   templateUrl: './dh-market-participant-gridarea-overview.component.html',
 })
-export class DhMarketParticipantGridAreaOverviewComponent
-  implements OnInit, OnChanges, OnDestroy
-{
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
+export class DhMarketParticipantGridAreaOverviewComponent implements OnChanges {
   @ViewChild('drawer') drawer!: WattDrawerComponent;
-
-  private destroy$ = new Subject<void>();
-
-  constructor(
-    private translocoService: TranslocoService,
-    private matPaginatorIntl: MatPaginatorIntl
-  ) {}
 
   columnIds = [
     'code',
@@ -81,49 +63,11 @@ export class DhMarketParticipantGridAreaOverviewComponent
   readonly dataSource: MatTableDataSource<GridAreaOverviewRow> =
     new MatTableDataSource<GridAreaOverviewRow>();
 
-  gridAreasMap: { [id: string]: string } = {};
-
   activeRowId?: string;
-
-  ngOnInit() {
-    this.setupPaginatorTranslation();
-  }
 
   ngOnChanges() {
     this.dataSource.data = this.gridAreas;
-    this.dataSource.paginator = this.paginator;
-    this.gridAreas.forEach(
-      (gridArea) => (this.gridAreasMap[gridArea.id] = gridArea.name)
-    );
   }
-
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.unsubscribe();
-  }
-
-  private readonly setupPaginatorTranslation = () => {
-    const temp = this.matPaginatorIntl.getRangeLabel;
-    this.matPaginatorIntl.getRangeLabel = (page, pageSize, length) =>
-      temp(page, pageSize, length).replace(
-        'of',
-        this.translocoService.translate(
-          'marketParticipant.organization.paginator.of'
-        )
-      );
-
-    this.translocoService
-      .selectTranslateObject('marketParticipant.organization.paginator')
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((value) => {
-        this.matPaginatorIntl.itemsPerPageLabel = value.itemsPerPageLabel;
-        this.matPaginatorIntl.nextPageLabel = value.next;
-        this.matPaginatorIntl.previousPageLabel = value.previous;
-        this.matPaginatorIntl.firstPageLabel = value.first;
-        this.matPaginatorIntl.lastPageLabel = value.last;
-        this.dataSource.paginator = this.paginator;
-      });
-  };
 
   readonly drawerClosed = () => console.log('drawer closed');
 
@@ -138,7 +82,6 @@ export class DhMarketParticipantGridAreaOverviewComponent
     CommonModule,
     LetModule,
     MatTableModule,
-    MatPaginatorModule,
     MatMenuModule,
     TranslocoModule,
     WattBadgeModule,
