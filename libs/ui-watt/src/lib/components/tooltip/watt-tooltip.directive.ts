@@ -46,9 +46,6 @@ export type wattTooltipPosition = TooltipPosition;
 @Directive({
   selector: '[wattTooltip]',
   exportAs: 'wattTooltip',
-  host: {
-    class: 'mat-mdc-tooltip-trigger',
-  },
 })
 export class WattTooltipDirective extends MatTooltip {
   constructor(
