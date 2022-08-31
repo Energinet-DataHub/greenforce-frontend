@@ -102,7 +102,7 @@ limitations under the License.
           {{ t("columns.validFrom") }}
         </mat-header-cell>
         <mat-cell *matCellDef="let element">
-          {{ element.validFrom | dhDateTime }}
+          {{ element.validFrom | dhDate }}
         </mat-cell>
       </ng-container>
 
@@ -112,7 +112,7 @@ limitations under the License.
           {{ t("columns.validTo") }}
         </mat-header-cell>
         <mat-cell *matCellDef="let element">
-          {{ element.validTo | dhDateTime | dhEmDashFallback }}
+          {{ element.validTo | dhDate | dhEmDashFallback }}
         </mat-cell>
       </ng-container>
 
