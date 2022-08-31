@@ -17,13 +17,11 @@
 import { CommonModule } from '@angular/common';
 import {
   Component,
-  EventEmitter,
   Input,
   NgModule,
   OnChanges,
   OnDestroy,
   OnInit,
-  Output,
   ViewChild,
 } from '@angular/core';
 import { LetModule } from '@rx-angular/template/let';
@@ -79,8 +77,6 @@ export class DhMarketParticipantGridAreaOverviewComponent
   ];
 
   @Input() gridAreas: GridAreaOverviewRow[] = [];
-
-  @Output() showGridArea = new EventEmitter<string>();
 
   readonly dataSource: MatTableDataSource<GridAreaOverviewRow> =
     new MatTableDataSource<GridAreaOverviewRow>();
