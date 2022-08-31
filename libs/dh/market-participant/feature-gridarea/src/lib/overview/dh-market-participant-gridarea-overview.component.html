@@ -34,14 +34,8 @@ limitations under the License.
 
   <!-- Table -->
   <div class="card-container">
-    <div class="header-container">
-      <h2>{{ t("header") }}</h2>
-      <mat-paginator
-        [pageSizeOptions]="[5, 10, 20, 50]"
-        pageSize="10"
-        showFirstLastButtons
-      ></mat-paginator>
-    </div>
+
+    <h2>{{ t("header") }}</h2>
 
     <mat-table [dataSource]="dataSource" aria-label="gridAreas">
       <!-- Code -->
@@ -116,9 +110,7 @@ limitations under the License.
         </mat-cell>
       </ng-container>
 
-      <mat-header-row
-        *matHeaderRowDef="columnIds; sticky: false"
-      ></mat-header-row>
+      <mat-header-row *matHeaderRowDef="columnIds; sticky: false"></mat-header-row>
       <mat-row *matRowDef="let row; columns: columnIds"></mat-row>
     </mat-table>
   </div>
