@@ -18,17 +18,14 @@ limitations under the License.
 <ng-container *transloco="let t; read: 'marketParticipant.gridAreas'">
   <!-- drawer -->
   <watt-drawer #drawer (closed)="drawerClosed()" [size]="'large'">
-    <watt-drawer-topbar>
-      <span>Header stuff</span>
-    </watt-drawer-topbar>
+    <watt-drawer-topbar> </watt-drawer-topbar>
 
-    <watt-drawer-actions>
-      <watt-button variant="secondary">Secondary action</watt-button>
-      <watt-button>Primary action</watt-button>
-    </watt-drawer-actions>
+    <watt-drawer-actions> </watt-drawer-actions>
 
     <watt-drawer-content *ngIf="drawer.opened">
-      <div>{{ activeRowId }}</div>
+      <dh-market-participant-gridarea-details-header
+        [gridArea]="activeRow"
+      ></dh-market-participant-gridarea-details-header>
     </watt-drawer-content>
   </watt-drawer>
 
