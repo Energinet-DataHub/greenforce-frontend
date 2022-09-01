@@ -502,7 +502,8 @@
       },
       "detailsHeader": {
         "code": "Grid area code",
-        "actorId": "Actor number"
+        "actorId": "Actor number",
+        "fullFlexDate": "Transition to Full flex"
       }
     }
   },

@@ -502,7 +502,8 @@
       },
       "detailsHeader": {
         "code": "Netområde ID",
-        "actorId": "Aktør nummer"
+        "actorId": "Aktør nummer",
+        "fullFlexDate": "Overgang til fuld flex"
       }
     }
   },
