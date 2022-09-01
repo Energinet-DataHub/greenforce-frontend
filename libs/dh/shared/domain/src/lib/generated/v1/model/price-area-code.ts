@@ -9,16 +9,12 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { PriceAreaCode } from './price-area-code';
 
 
-export interface GridAreaDto { 
-    id: string;
-    code: string;
-    name: string;
-    priceAreaCode: PriceAreaCode;
-    validFrom: string;
-    validTo?: string | null;
-}
+export type PriceAreaCode = 'Dk1' | 'Dk2';
 
+export const PriceAreaCode = {
+    Dk1: 'Dk1' as PriceAreaCode,
+    Dk2: 'Dk2' as PriceAreaCode
+};
 
