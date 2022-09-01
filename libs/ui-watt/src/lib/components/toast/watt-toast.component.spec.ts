@@ -19,18 +19,14 @@ import {
   createMountableStoryComponent,
 } from '@storybook/testing-angular';
 import {
-  getByRole,
-  queryByRole,
   queryByTestId,
   render,
   screen,
   waitFor,
-  waitForElementToBeRemoved,
 } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
 
 import * as toastStories from './+storybook/watt-toast.stories';
-import { debug } from 'jest-preview';
 
 const { Overview } = composeStories(toastStories);
 
