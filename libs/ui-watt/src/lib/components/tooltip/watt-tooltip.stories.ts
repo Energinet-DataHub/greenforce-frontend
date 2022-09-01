@@ -14,17 +14,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
-import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatToolbarModule } from '@angular/material/toolbar';
+import { WattTooltipModule } from './watt-tooltip.module';
+import { moduleMetadata, Story } from '@storybook/angular';
+import { WattButtonModule } from '../button';
 
-import { WattButtonModule } from '../button/watt-button.module';
-import { WattShellComponent } from './shell.component';
+export default {
+  title: 'Components/Tooltip',
+  decorators: [
+    moduleMetadata({
+      imports: [WattButtonModule, WattTooltipModule],
+    }),
+  ],
+};
 
-@NgModule({
-  declarations: [WattShellComponent],
-  exports: [WattShellComponent],
-  imports: [CommonModule, MatSidenavModule, MatToolbarModule, WattButtonModule],
-})
-export class WattShellModule {}
+export const Overview: Story = (args) => ({
+  props: args,
+  template: `
+    <watt-button
+      wattTooltip="Click me"
+      wattTooltipPosition="right"
+    >Button</watt-button>
+  `,
+});

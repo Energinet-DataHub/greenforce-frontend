@@ -22,16 +22,19 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { WattNavListModule } from './nav-list';
+import { WattNavListComponent, WattNavListItemComponent } from './nav-list';
 import { WattShellComponent } from './shell.component';
-import { WattShellModule } from './shell.module';
 
 export default {
   title: 'Components/Shell',
   component: WattShellComponent,
   decorators: [
     moduleMetadata({
-      imports: [RouterTestingModule, BrowserAnimationsModule, WattShellModule],
+      imports: [
+        RouterTestingModule,
+        BrowserAnimationsModule,
+        WattShellComponent,
+      ],
     }),
   ],
 } as Meta<WattShellComponent>;
@@ -78,7 +81,13 @@ const withSidebarNavigationTemplate = `
       <watt-nav-list-item link="/menu-1">Menu 1</watt-nav-list-item>
       <watt-nav-list-item link="/menu-2">Menu 2</watt-nav-list-item>
       <watt-nav-list-item link="/menu-3">Menu 3</watt-nav-list-item>
-      <watt-nav-list-item link="https://angular.io/" target="_blank">External link (angular.io)</watt-nav-list-item>
+      <watt-nav-list-item link="https://angular.io/" target="_blank">External links (angular.io)</watt-nav-list-item>
+    </watt-nav-list>
+
+    <watt-nav-list [expandable]="true" [title]="'Nested menu'">
+      <watt-nav-list-item link="/menu-4">Menu 4</watt-nav-list-item>
+      <watt-nav-list-item link="/menu-5">Menu 5</watt-nav-list-item>
+      <watt-nav-list-item link="/menu-6">Menu 6</watt-nav-list-item>
     </watt-nav-list>
   </ng-container>
 
@@ -90,20 +99,15 @@ const withSidebarNavigationTemplate = `
 </watt-shell>
 `;
 
-@Component({
-  template: 'Page 1',
-})
-class StorybookPage1Component {}
+function generateComponent(template: string) {
+  @Component({
+    template,
+    standalone: true,
+  })
+  class StorybookPageComponent {}
 
-@Component({
-  template: 'Page 2',
-})
-class StorybookPage2Component {}
-
-@Component({
-  template: 'Page 3',
-})
-class StorybookPage3Component {}
+  return StorybookPageComponent;
+}
 
 export const withSidebarNavigation = () => ({
   template: withSidebarNavigationTemplate,
@@ -114,11 +118,15 @@ withSidebarNavigation.decorators = [
     imports: [
       RouterTestingModule.withRoutes([
         { path: '', redirectTo: 'menu-2', pathMatch: 'full' },
-        { path: 'menu-1', component: StorybookPage1Component },
-        { path: 'menu-2', component: StorybookPage2Component },
-        { path: 'menu-3', component: StorybookPage3Component },
+        { path: 'menu-1', component: generateComponent('Page 1') },
+        { path: 'menu-2', component: generateComponent('Page 2') },
+        { path: 'menu-3', component: generateComponent('Page 3') },
+        { path: 'menu-4', component: generateComponent('Page 4') },
+        { path: 'menu-5', component: generateComponent('Page 5') },
+        { path: 'menu-6', component: generateComponent('Page 6') },
       ]),
-      WattNavListModule,
+      WattNavListComponent,
+      WattNavListItemComponent,
     ],
     providers: [
       {

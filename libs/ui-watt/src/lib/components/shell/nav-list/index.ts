@@ -14,8 +14,5 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export {
-  WattNavListComponent,
-  WattNavListModule,
-} from './watt-nav-list.component';
+export { WattNavListComponent } from './watt-nav-list.component';
 export { WattNavListItemComponent } from './watt-nav-list-item.component';

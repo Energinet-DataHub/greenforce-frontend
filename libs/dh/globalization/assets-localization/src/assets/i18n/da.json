@@ -11,8 +11,11 @@
       "messageArchive": "Fremsøg forretningsbesked",
       "marketParticipantOrganizations": "Organisationer",
       "marketParticipantGridAreas": "Netområder",
-      "wholesaleStartProcess": "Afregninger - Start proces",
-      "wholesaleOverview": "Afregninger - Oversigt"
+      "wholesale": {
+        "menuGroupLabel": "Afregninger",
+        "startProcess": "Start proces",
+        "overview": "Oversigt"
+      }
     }
   },
   "meteringPoint": {
@@ -496,6 +499,10 @@
         "priceAreaCode": "Prisområde",
         "validFrom": "Gyldig fra",
         "validTo": "Gyldig til"
+      },
+      "detailsHeader": {
+        "code": "Netområde ID",
+        "actorId": "Aktør nummer"
       }
     }
   },
