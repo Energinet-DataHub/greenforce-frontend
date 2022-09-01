@@ -14,5 +14,5 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export { WattToastModule } from './watt-toast.module';
+export { WattToastComponent } from './watt-toast.component';
 export { WattToastService } from './watt-toast.service';

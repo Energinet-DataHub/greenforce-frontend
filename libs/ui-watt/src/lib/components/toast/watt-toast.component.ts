@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -25,10 +26,15 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import {
+  MatSnackBarModule,
   MatSnackBarRef,
   MAT_SNACK_BAR_DATA,
 } from '@angular/material/snack-bar';
 import { fromEvent, repeat, Subscription, takeUntil, tap, timer } from 'rxjs';
+
+import { WattIconModule } from '../../foundations/icon';
+import { WattButtonModule } from '../button';
+import { WattSpinnerModule } from '../spinner';
 
 export type WattToastType =
   | 'success'
@@ -49,7 +55,7 @@ export type WattToastRef = MatSnackBarRef<WattToastComponent>;
 
 /**
  * Usage:
- * `import { WattToastModule } from '@energinet-datahub/watt';`
+ * `import { WattToastComponent } from '@energinet-datahub/watt';`
  */
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -57,6 +63,14 @@ export type WattToastRef = MatSnackBarRef<WattToastComponent>;
   selector: 'watt-toast',
   styleUrls: ['./watt-toast.component.scss'],
   templateUrl: './watt-toast.component.html',
+  standalone: true,
+  imports: [
+    CommonModule,
+    MatSnackBarModule,
+    WattButtonModule,
+    WattIconModule,
+    WattSpinnerModule,
+  ]
 })
 export class WattToastComponent {
   @HostBinding('class') get class() {

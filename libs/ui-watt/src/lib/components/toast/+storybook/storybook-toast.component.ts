@@ -26,7 +26,6 @@ import {
 import { MAT_SNACK_BAR_DATA } from '@angular/material/snack-bar';
 
 import { WattButtonModule } from '../../button';
-import { WattToastModule } from '../watt-toast.module';
 import { WattToastService } from '../watt-toast.service';
 import {
   WattToastComponent,
@@ -77,7 +76,7 @@ export class StorybookToastComponent implements AfterViewInit {
 }
 
 @NgModule({
-  imports: [WattToastModule, WattButtonModule],
+  imports: [WattToastComponent, WattButtonModule],
   declarations: [StorybookToastComponent],
   providers: [{ provide: MAT_SNACK_BAR_DATA, useValue: {} }],
   exports: [StorybookToastComponent],
