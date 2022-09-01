@@ -31,7 +31,12 @@ export class DhMarketParticipantGridAreaDetailsHeaderComponent {
 }
 
 @NgModule({
-  imports: [CommonModule, TranslocoModule, MatDividerModule, DhEmDashFallbackPipeScam],
+  imports: [
+    CommonModule,
+    TranslocoModule,
+    MatDividerModule,
+    DhEmDashFallbackPipeScam,
+  ],
   declarations: [DhMarketParticipantGridAreaDetailsHeaderComponent],
   exports: [DhMarketParticipantGridAreaDetailsHeaderComponent],
 })

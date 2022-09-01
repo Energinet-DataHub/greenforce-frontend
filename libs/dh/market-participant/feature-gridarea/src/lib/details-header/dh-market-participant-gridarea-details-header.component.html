@@ -37,7 +37,10 @@ limitations under the License.
 
     <mat-divider></mat-divider>
 
-    <div class="grid-area-property-container" *transloco="let topTrans; read: 'marketParticipant.gridAreas'">
+    <div
+      class="grid-area-property-container"
+      *transloco="let topTrans; read: 'marketParticipant.gridAreas'"
+    >
       <ng-container
         *ngFor="
           let item of [
