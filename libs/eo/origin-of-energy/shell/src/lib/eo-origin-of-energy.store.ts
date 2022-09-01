@@ -44,7 +44,7 @@ interface EoOriginOfEnergy {
 
 interface EoOriginOfEnergyState {
   loadingDone: boolean;
-  energySources: EoOriginOfEnergy;
+  energySources: EoOriginOfEnergy[];
   error: HttpErrorResponse | null;
 }
 
@@ -55,31 +55,18 @@ export class EoOriginOfEnergyStore extends ComponentStore<EoOriginOfEnergyState>
   constructor(private service: EoOriginOfEnergyService) {
     super({
       loadingDone: false,
-      energySources: {
-        dateFrom: 0,
-        dateTo: 0,
-        renewable: 0,
-        ratios: {
-          wood: 0,
-          waste: 0,
-          straw: 0,
-          oil: 0,
-          naturalGas: 0,
-          coal: 0,
-          bioGas: 0,
-          solar: 0,
-          windOnshore: 0,
-          windOffshore: 0,
-        },
-      },
+      energySources: [],
       error: null,
     });
     this.loadData();
   }
 
   readonly loadingDone$ = this.select((state) => state.loadingDone);
-  readonly renewable$ = this.select((state) => state.energySources.renewable);
-  readonly ratios$ = this.select((state) => state.energySources.ratios);
+  readonly renewableTotal$ = this.select(
+    (state) =>
+      state.energySources.reduce((acc, obj) => acc + obj.renewable, 0) /
+      state.energySources.length
+  );
   readonly error$ = this.select((state) => state.error);
 
   readonly setLoadingDone = this.updater(
@@ -90,7 +77,7 @@ export class EoOriginOfEnergyStore extends ComponentStore<EoOriginOfEnergyState>
   );
 
   readonly setEnergySources = this.updater(
-    (state, energySources: EoOriginOfEnergy): EoOriginOfEnergyState => ({
+    (state, energySources: EoOriginOfEnergy[]): EoOriginOfEnergyState => ({
       ...state,
       energySources,
     })
@@ -104,12 +91,14 @@ export class EoOriginOfEnergyStore extends ComponentStore<EoOriginOfEnergyState>
   );
 
   loadData() {
+    this.setLoadingDone(false);
+
     this.service
       .getSourcesFor2021()
       .pipe(take(1))
       .subscribe({
         next: (response) => {
-          this.setEnergySources(response.energySources[0]);
+          this.setEnergySources(response.energySources);
           this.setError(null);
           this.setLoadingDone(true);
         },

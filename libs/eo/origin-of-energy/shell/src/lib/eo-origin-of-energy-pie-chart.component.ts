@@ -18,32 +18,43 @@ import { CommonModule } from '@angular/common';
 import { Component, NgModule } from '@angular/core';
 import { EoPieChartScam } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 import { WattSpinnerModule } from '@energinet-datahub/watt';
+import { LetModule } from '@rx-angular/template';
+import { map } from 'rxjs';
 import { EoOriginOfEnergyStore } from './eo-origin-of-energy.store';
 
 @Component({
   selector: 'eo-origin-of-energy-pie-chart',
   template: `
-    <div *ngIf="(loadingDone$ | async) === false" class="loadingObfuscator">
-      <watt-spinner [diameter]="100"></watt-spinner>
-      <div class="loadingText">
-        <strong>
-          Phew, loading is taking a while, but don't worry. It usually takes 3
-          minutes, but soon it will be faster
-        </strong>
+    <ng-container *rxLet="loadingDone$ as loadingDone">
+      <div *ngIf="!loadingDone" class="loadingObfuscator onTop">
+        <watt-spinner [diameter]="100"></watt-spinner>
+        <div class="loadingText">
+          <strong>
+            Phew, loading is taking a while, but don't worry. It usually takes 3
+            minutes, but soon it will be faster
+          </strong>
+        </div>
       </div>
-    </div>
-    <eo-pie-chart
-      [data]="[
-        convertToPercentage((renewableShare$ | async) || 0.5),
-        convertToPercentage(1 - ((renewableShare$ | async) || 0.5))
-      ]"
-    ></eo-pie-chart>
+      <ng-container *rxLet="renewableShare$ as share">
+        <div *ngIf="loadingDone && share.length === 0" class="noDataText onTop">
+          No data available, try a different date
+        </div>
+        <eo-pie-chart
+          [data]="share"
+          [labels]="['Renewable', 'Other']"
+        ></eo-pie-chart
+      ></ng-container>
+    </ng-container>
   `,
   styles: [
     `
       :host {
         display: block;
         position: relative;
+      }
+
+      .onTop {
+        z-index: 1;
       }
 
       .loadingObfuscator {
@@ -61,25 +72,33 @@ import { EoOriginOfEnergyStore } from './eo-origin-of-energy.store';
       .loadingText {
         width: 210px; /* Magic UX number */
       }
+
+      .noDataText {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: var(--watt-color-primary);
+        font-weight: 600;
+      }
     `,
   ],
 })
 export class EoOriginOfEnergyPieChartComponent {
   loadingDone$ = this.store.loadingDone$;
-  renewableShare$ = this.store.renewable$;
+  renewableShare$ = this.store.renewableTotal$.pipe(
+    map((res) => Number((res * 100).toFixed(0))),
+    map((share) => (share ? [share, 100 - share] : []))
+  );
 
   constructor(private store: EoOriginOfEnergyStore) {}
-
-  convertToPercentage(num: number): number {
-    if (!num || Number.isNaN(num)) return 0;
-
-    return Number((num * 100).toFixed(0));
-  }
 }
 
 @NgModule({
   declarations: [EoOriginOfEnergyPieChartComponent],
   exports: [EoOriginOfEnergyPieChartComponent],
-  imports: [EoPieChartScam, CommonModule, WattSpinnerModule],
+  imports: [EoPieChartScam, CommonModule, WattSpinnerModule, LetModule],
 })
 export class EoOriginOfEnergyPieChartScam {}
