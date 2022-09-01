@@ -25,5 +25,14 @@ limitations under the License.
     <h1 class="header-grid-area-name">
       {{ gridArea?.name }}
     </h1>
+    <div class="header-grid-area-access-provider">
+      {{
+        (gridArea?.actorName | dhEmDashFallback) +
+          " | " +
+          t("actorId") +
+          " " +
+          (gridArea?.actorNumber | dhEmDashFallback)
+      }}
+    </div>
   </div>
 </ng-container>
