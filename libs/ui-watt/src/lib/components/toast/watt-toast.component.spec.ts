@@ -18,10 +18,11 @@ import {
   composeStories,
   createMountableStoryComponent,
 } from '@storybook/testing-angular';
-import { render, screen } from '@testing-library/angular';
+import { getByRole, queryByRole, queryByTestId, render, screen, waitFor, waitForElementToBeRemoved } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
 
 import * as toastStories from './+storybook/watt-toast.stories';
+import { debug } from 'jest-preview';
 
 const { Overview } = composeStories(toastStories);
 
@@ -29,13 +30,14 @@ describe('Toast', () => {
   const getOpenToastButton = async () =>
     screen.getByRole('button', { name: /Open toast/ });
   const getToast = async () =>
-    screen.queryByText('You successfully launched a toast!');
+    screen.queryByText('You successfully launched a toast!')?.parentElement?.parentElement;
 
   async function setup(args: Partial<toastStories.WattToastStoryConfig> = {}) {
     const { component, ngModule } = createMountableStoryComponent(
       Overview({ disableAnimations: true, ...args }, {} as never)
     );
-    await render(component, { imports: [ngModule] });
+    const { fixture } = await render(component, { imports: [ngModule] });
+    return { fixture };
   }
 
   it('should open toast', async () => {
@@ -89,5 +91,31 @@ describe('Toast', () => {
 
     jest.runOnlyPendingTimers();
     jest.useRealTimers();
+  });
+
+  it('should dismiss the toast, when clicking the close button', async () => {
+    await setup();
+
+    userEvent.click(await getOpenToastButton());
+    const toast = await getToast();
+    expect(toast).toBeInTheDocument();
+
+    const closeButton = queryByTestId(toast as HTMLElement, 'dismiss');
+    userEvent.click(closeButton as HTMLElement);
+
+    await waitFor(() => {
+      expect(toast).not.toBeInTheDocument();
+    });
+  });
+
+  it('should not have a dimiss button, when of type=loading', async () => {
+    await setup({type: 'loading'});
+
+    userEvent.click(await getOpenToastButton());
+    const toast = await getToast();
+    expect(toast).toBeInTheDocument();
+
+    const closeButton = queryByTestId(toast as HTMLElement, 'dismiss');
+    expect(closeButton).not.toBeInTheDocument();
   });
 });
