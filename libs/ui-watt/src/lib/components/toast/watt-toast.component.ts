@@ -70,7 +70,7 @@ export type WattToastRef = MatSnackBarRef<WattToastComponent>;
     WattButtonModule,
     WattIconModule,
     WattSpinnerModule,
-  ]
+  ],
 })
 export class WattToastComponent {
   @HostBinding('class') get class() {

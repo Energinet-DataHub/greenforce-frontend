@@ -54,7 +54,7 @@ Overview.args = {
     alert('Call alert, and dismiss the toast!');
     ref.dismiss();
   },
-  actionLabel: 'action'
+  actionLabel: 'action',
 };
 
 Overview.argTypes = {

@@ -18,7 +18,15 @@ import {
   composeStories,
   createMountableStoryComponent,
 } from '@storybook/testing-angular';
-import { getByRole, queryByRole, queryByTestId, render, screen, waitFor, waitForElementToBeRemoved } from '@testing-library/angular';
+import {
+  getByRole,
+  queryByRole,
+  queryByTestId,
+  render,
+  screen,
+  waitFor,
+  waitForElementToBeRemoved,
+} from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
 
 import * as toastStories from './+storybook/watt-toast.stories';
@@ -30,7 +38,8 @@ describe('Toast', () => {
   const getOpenToastButton = async () =>
     screen.getByRole('button', { name: /Open toast/ });
   const getToast = async () =>
-    screen.queryByText('You successfully launched a toast!')?.parentElement?.parentElement;
+    screen.queryByText('You successfully launched a toast!')?.parentElement
+      ?.parentElement;
 
   async function setup(args: Partial<toastStories.WattToastStoryConfig> = {}) {
     const { component, ngModule } = createMountableStoryComponent(
@@ -109,7 +118,7 @@ describe('Toast', () => {
   });
 
   it('should not have a dimiss button, when of type=loading', async () => {
-    await setup({type: 'loading'});
+    await setup({ type: 'loading' });
 
     userEvent.click(await getOpenToastButton());
     const toast = await getToast();
