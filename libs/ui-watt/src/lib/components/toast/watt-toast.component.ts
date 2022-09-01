@@ -42,6 +42,7 @@ export interface WattToastConfig {
   type?: WattToastType;
   message: string;
   action?: (wattToastRef: WattToastRef) => void;
+  actionLabel?: string;
 }
 
 export type WattToastRef = MatSnackBarRef<WattToastComponent>;

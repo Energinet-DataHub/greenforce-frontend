@@ -28,11 +28,6 @@
 
   &--success {
     border-color: var(--watt-color-state-success);
-
-    watt-button watt-icon,
-    watt-button .watt-button--text {
-      color: var(--watt-color-state-success);
-    }
   }
 
   &--info {

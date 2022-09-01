@@ -28,9 +28,9 @@ limitations under the License.
 <span class="toast__actions">
   <watt-button
     variant="text"
-    *ngIf="config.action"
+    *ngIf="config.action && config.actionLabel"
     (click)="config.action(matSnackBarRef)"
-    >action</watt-button
+    >{{config.actionLabel}}</watt-button
   >
   <watt-button
     variant="icon"

@@ -37,7 +37,7 @@ export interface WattToastStoryConfig extends WattToastConfig {
 
 export const Overview: Story<WattToastStoryConfig> = (args) => ({
   props: args,
-  template: `<storybook-toast [config]="{type, duration, message, action}"></storybook-toast>`,
+  template: `<storybook-toast [config]="{type, duration, message, action, actionLabel}"></storybook-toast>`,
   moduleMetadata: {
     imports: [
       BrowserAnimationsModule.withConfig({
@@ -54,6 +54,7 @@ Overview.args = {
     alert('Call alert, and dismiss the toast!');
     ref.dismiss();
   },
+  actionLabel: 'action'
 };
 
 Overview.argTypes = {
