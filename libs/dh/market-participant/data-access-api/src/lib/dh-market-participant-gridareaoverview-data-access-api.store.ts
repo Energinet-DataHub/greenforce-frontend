@@ -77,7 +77,7 @@ export class DhMarketParticipantGridAreaOverviewDataAccessApiStore extends Compo
             rows: rows
               .map((row) => ({
                 ...row,
-                priceAreaCode: row.priceAreaCode.toUpperCase(),
+                priceAreaCode: row.priceAreaCode,
               }))
               .sort((a, b) => a.code.localeCompare(b.code)),
           }),

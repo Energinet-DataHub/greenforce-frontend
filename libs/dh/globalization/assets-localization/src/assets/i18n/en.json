@@ -502,7 +502,12 @@
       },
       "detailsHeader": {
         "code": "Grid area code",
-        "actorId": "Actor number"
+        "actorId": "Actor number",
+        "priceAreaCode": "Price area code"
+      },
+      "priceAreaCodes": {
+        "Dk1": "DK1",
+        "Dk2": "DK2"
       }
     }
   },
