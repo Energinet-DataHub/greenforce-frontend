@@ -40,7 +40,7 @@ import { BaseChartDirective, NgChartsModule } from 'ng2-charts';
 })
 export class EoPieChartComponent implements DoCheck {
   @ViewChild(BaseChartDirective) chart!: BaseChartDirective;
-  @Input() data: number[] = [];
+  @Input() data: number[] = [1];
   @Input() labels: string[] = [];
 
   #colorGreen = getComputedStyle(document.documentElement).getPropertyValue(
