@@ -19,7 +19,7 @@ import { RouterModule } from '@angular/router';
 import { TranslocoModule } from '@ngneat/transloco';
 import { MsalService } from '@azure/msal-angular';
 
-import { WattButtonModule, WattShellModule } from '@energinet-datahub/watt';
+import { WattButtonModule, WattShellComponent } from '@energinet-datahub/watt';
 import { DhLanguagePickerModule } from '@energinet-datahub/dh/globalization/feature-language-picker';
 
 import { DhPrimaryNavigationScam } from './dh-primary-navigation.component';
@@ -57,7 +57,7 @@ export class DhCoreShellComponent {
     DhLanguagePickerModule,
     RouterModule,
     DhPrimaryNavigationScam,
-    WattShellModule,
+    WattShellComponent,
     WattButtonModule,
   ],
 })

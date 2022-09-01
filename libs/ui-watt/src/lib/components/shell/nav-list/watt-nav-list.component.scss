@@ -32,6 +32,9 @@ watt-nav-list {
     &:hover,
     &.active {
       background-color: var(--watt-color-primary);
+    }
+
+    &.active {
       border-left-color: var(--watt-color-secondary);
     }
 

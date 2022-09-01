@@ -14,17 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
-import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatToolbarModule } from '@angular/material/toolbar';
 
-import { WattButtonModule } from '../button/watt-button.module';
-import { WattShellComponent } from './shell.component';
+.header-grid-area-code {
+  margin-bottom: var(--watt-space-xs);
+}
 
-@NgModule({
-  declarations: [WattShellComponent],
-  exports: [WattShellComponent],
-  imports: [CommonModule, MatSidenavModule, MatToolbarModule, WattButtonModule],
-})
-export class WattShellModule {}
+.header-grid-area-name {
+  margin-top: var(--watt-space-xs);
+  margin-bottom: var(--watt-space-xs);
+}
+
+.header-grid-area-access-provider {
+  margin-top: var(--watt-space-xs);
+}

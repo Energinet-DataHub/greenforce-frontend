@@ -18,30 +18,20 @@ limitations under the License.
 <ng-container *transloco="let t; read: 'marketParticipant.gridAreas'">
   <!-- drawer -->
   <watt-drawer #drawer (closed)="drawerClosed()" [size]="'large'">
-    <watt-drawer-topbar>
-      <span>Header stuff</span>
-    </watt-drawer-topbar>
+    <watt-drawer-topbar> </watt-drawer-topbar>
 
-    <watt-drawer-actions>
-      <watt-button variant="secondary">Secondary action</watt-button>
-      <watt-button>Primary action</watt-button>
-    </watt-drawer-actions>
+    <watt-drawer-actions> </watt-drawer-actions>
 
     <watt-drawer-content *ngIf="drawer.opened">
-      <div>{{ activeRowId }}</div>
+      <dh-market-participant-gridarea-details-header
+        [gridArea]="activeRow"
+      ></dh-market-participant-gridarea-details-header>
     </watt-drawer-content>
   </watt-drawer>
 
   <!-- Table -->
   <div class="card-container">
-    <div class="header-container">
-      <h2>{{ t("header") }}</h2>
-      <mat-paginator
-        [pageSizeOptions]="[5, 10, 20, 50]"
-        pageSize="10"
-        showFirstLastButtons
-      ></mat-paginator>
-    </div>
+    <h2>{{ t("header") }}</h2>
 
     <mat-table [dataSource]="dataSource" aria-label="gridAreas">
       <!-- Code -->
@@ -102,7 +92,7 @@ limitations under the License.
           {{ t("columns.validFrom") }}
         </mat-header-cell>
         <mat-cell *matCellDef="let element">
-          {{ element.validFrom | dhDateTime }}
+          {{ element.validFrom | dhDate }}
         </mat-cell>
       </ng-container>
 
@@ -112,7 +102,7 @@ limitations under the License.
           {{ t("columns.validTo") }}
         </mat-header-cell>
         <mat-cell *matCellDef="let element">
-          {{ element.validTo | dhDateTime | dhEmDashFallback }}
+          {{ element.validTo | dhDate | dhEmDashFallback }}
         </mat-cell>
       </ng-container>
 

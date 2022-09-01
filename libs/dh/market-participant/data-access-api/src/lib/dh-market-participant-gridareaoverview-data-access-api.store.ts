@@ -74,10 +74,12 @@ export class DhMarketParticipantGridAreaOverviewDataAccessApiStore extends Compo
       tapResponse(
         (rows) =>
           this.patchState({
-            rows: rows.map((row) => ({
-              ...row,
-              priceAreaCode: row.priceAreaCode.toUpperCase(),
-            })),
+            rows: rows
+              .map((row) => ({
+                ...row,
+                priceAreaCode: row.priceAreaCode.toUpperCase(),
+              }))
+              .sort((a, b) => a.code.localeCompare(b.code)),
           }),
         this.handleError
       )

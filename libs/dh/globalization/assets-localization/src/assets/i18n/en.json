@@ -11,8 +11,11 @@
       "messageArchive": "Request/Response messages",
       "marketParticipantOrganizations": "Organisations",
       "marketParticipantGridAreas": "Grid areas",
-      "wholesaleStartProcess": "Settlements - Start Process",
-      "wholesaleOverview": "Settlements - Overview"
+      "wholesale": {
+        "menuGroupLabel": "Settlements",
+        "startProcess": "Start Process",
+        "overview": "Overview"
+      }
     }
   },
   "meteringPoint": {
@@ -491,11 +494,15 @@
       "columns": {
         "name": "Grid area",
         "code": "Code",
-        "actorName": "english_translation",
-        "actorNumber": "english_translation",
+        "actorName": "Grid operator actor name",
+        "actorNumber": "Grid operator actor ID",
         "priceAreaCode": "Price area code",
         "validFrom": "Valid from",
         "validTo": "Valid to"
+      },
+      "detailsHeader": {
+        "code": "Grid area code",
+        "actorId": "Actor number"
       }
     }
   },
