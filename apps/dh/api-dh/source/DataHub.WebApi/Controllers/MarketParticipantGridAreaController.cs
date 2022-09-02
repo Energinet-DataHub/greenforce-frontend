@@ -39,5 +39,11 @@ namespace Energinet.DataHub.WebApi.Controllers
         {
             return HandleExceptionAsync(() => _client.GetGridAreasAsync());
         }
+
+        [HttpPut]
+        public Task<ActionResult> UpdateGridAreaNameAsync(ChangeGridAreaDto changes)
+        {
+            return HandleExceptionAsync(() => _client.UpdateGridAreaAsync(changes));
+        }
     }
 }
