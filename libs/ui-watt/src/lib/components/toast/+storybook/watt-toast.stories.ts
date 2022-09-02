@@ -17,17 +17,23 @@
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { moduleMetadata, Story, Meta } from '@storybook/angular';
 
-import { WattToastComponent, WattToastConfig } from '../watt-toast.component';
+import { WattToastConfig } from '../watt-toast.component';
 import { StorybookToastModule } from './storybook-toast.component';
 
 export default {
   title: 'Components/Toast',
-  component: WattToastComponent,
   decorators: [
     moduleMetadata({
       imports: [StorybookToastModule],
     }),
   ],
+  parameters: {
+    docs: {
+      description: {
+        component: "Usage: `import WattToastComponent from '@energinet-datahub/watt';`",
+      },
+    }
+  }
 } as Meta;
 
 export interface WattToastStoryConfig extends WattToastConfig {
