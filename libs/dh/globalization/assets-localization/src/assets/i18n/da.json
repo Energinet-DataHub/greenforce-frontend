@@ -313,7 +313,7 @@
           "statuses": {
             "New": "Ny",
             "Active": "Aktiv",
-            "Inactive": "Inaktive",
+            "Inactive": "Inaktiv",
             "Passive": "Passiv",
             "Deleted": "Slettet"
           }
