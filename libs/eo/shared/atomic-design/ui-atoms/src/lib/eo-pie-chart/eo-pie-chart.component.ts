@@ -79,23 +79,31 @@ export class EoPieChartComponent implements DoCheck {
   };
 
   public chartData: ChartData<'pie', number[], string | string[]> = {
-    datasets: [{ rotation: 180, data: [], borderWidth: 0 }],
+    datasets: [
+      {
+        rotation: 180,
+        data: [],
+        borderWidth: 0,
+      },
+    ],
   };
   public chartType: ChartType = 'pie';
   public chartPlugins = [DatalabelsPlugin];
+
+  updateChartColors() {
+    const colors =
+      this.data.length > 0 ? [this.#colorGreen, this.#colorGrey] : 'lightgrey';
+
+    this.chartData.datasets[0].backgroundColor = colors;
+    this.chartData.datasets[0].hoverBackgroundColor = colors;
+  }
 
   ngDoCheck() {
     if (this.data !== this.chartData.datasets[0].data) {
       this.chartData.labels = this.data.length > 0 ? this.labels : [];
       this.chartData.datasets[0].data = this.data.length > 0 ? this.data : [1];
-      this.chartData.datasets[0].backgroundColor =
-        this.data.length > 0
-          ? [this.#colorGreen, this.#colorGrey]
-          : 'lightgrey';
-      this.chartData.datasets[0].hoverBackgroundColor =
-        this.data.length > 0
-          ? [this.#colorGreen, this.#colorGrey]
-          : 'lightgrey';
+      this.updateChartColors();
+
       this.chart?.update();
     }
   }
