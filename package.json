@@ -164,5 +164,8 @@
     "node": "16.16.0",
     "//yarn-comment": "Keep this in sync with GitHub actions pipelines",
     "yarn": "1.22.19"
+  },
+  "msw": {
+    "workerDirectory": "libs/dh/shared/data-access-msw/src/assets"
   }
 }
