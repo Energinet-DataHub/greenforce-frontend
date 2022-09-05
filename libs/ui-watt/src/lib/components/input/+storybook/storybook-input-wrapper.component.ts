@@ -36,6 +36,7 @@ import { FormControl } from '@angular/forms';
       label="some meaningful description"
     ></watt-icon>
     <input
+      *ngIf="!isTextArea"
       wattInput
       type="text"
       maxlength="256"
@@ -43,6 +44,13 @@ import { FormControl } from '@angular/forms';
       [placeholder]="placeholder"
       [required]="required"
     />
+    <textarea
+      *ngIf="isTextArea"
+      wattInput
+      [formControl]="exampleFormControl"
+      [placeholder]="placeholder"
+      [required]="required"
+    ></textarea>
     <watt-button
       variant="icon"
       *ngIf="hasSuffix"
@@ -71,6 +79,7 @@ export class StorybookInputWrapperComponent implements OnChanges {
   @Input() hasHint = false;
   @Input() required = false;
   @Input() hasError = false;
+  @Input() isTextArea = false;
   @Input() size: 'normal' | 'large' = 'normal';
 
   /**
