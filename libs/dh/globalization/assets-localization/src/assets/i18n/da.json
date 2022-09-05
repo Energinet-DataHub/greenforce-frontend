@@ -503,7 +503,9 @@
       "detailsHeader": {
         "code": "Netområde ID",
         "actorId": "Aktørnummer",
-        "priceAreaCode": "Prisområde"
+        "priceAreaCode": "Prisområde",
+        "lossMeteringPoint": "Nettabsmålepunkt",
+        "correctionMeteringPoint": "Systemkorrek. målepunkt"
       },
       "priceAreaCodes": {
         "Dk1": "DK1",
