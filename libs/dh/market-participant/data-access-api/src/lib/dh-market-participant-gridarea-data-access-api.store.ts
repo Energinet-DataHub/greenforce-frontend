@@ -17,7 +17,7 @@
 import { Injectable } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { MarketParticipantGridAreaHttp } from '@energinet-datahub/dh/shared/domain';
-import { of } from 'rxjs';
+import { Observable, switchMap } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { parseErrorResponse } from './dh-market-participant-error-handling';
 
@@ -34,13 +34,13 @@ interface MarketParticipantGridAreaState {
 }
 
 export interface GridAreaChanges {
-  id: string,
+  id: string;
   name: string;
 }
 
 const initialState: MarketParticipantGridAreaState = {
   isLoading: false,
-  changes: { id: '', name: '' }
+  changes: { id: '', name: '' },
 };
 
 @Injectable()
@@ -49,32 +49,45 @@ export class DhMarketParticipantGridAreaDataAccessApiStore extends ComponentStor
   changes$ = this.select((state) => state.changes);
   validationError$ = this.select((state) => state.validation);
 
-  constructor(
-    private gridAreaClient: MarketParticipantGridAreaHttp
-  ) {
+  constructor(private gridAreaClient: MarketParticipantGridAreaHttp) {
     super(initialState);
   }
 
-  readonly saveGridAreaChanges = (changes: GridAreaChanges) => {
-
-    if (changes.id !== undefined) {
-      this.patchState({isLoading: true, changes: changes});
-      this.effect(() => {
-        return this.gridAreaClient
-          .v1MarketParticipantGridAreaPut({ id: changes.id, name: changes.name })
-          .pipe(
-            tapResponse(() => this.patchState({ isLoading: false }), this.handleError)
-          );
-      });
-
+  readonly saveGridAreaChanges = this.effect(
+    (
+      trigger: Observable<{ gridAreaChanges: GridAreaChanges; onCompleted: () => void }>
+    ) => {
+      this.patchState({ isLoading: true });
+      return trigger.pipe(
+        switchMap((changes) =>
+          this.gridAreaClient
+            .v1MarketParticipantGridAreaPut({
+              id: changes.gridAreaChanges.id,
+              name: changes.gridAreaChanges.name,
+            })
+            .pipe(
+              tapResponse(
+                () => this.gridAreaUpdated(changes.onCompleted),
+                this.handleError
+              )
+            )
+        )
+      );
     }
-    return of('');
+  );
+
+  private readonly gridAreaUpdated = (onCompleted: () => void) => {
+    this.patchState({ isLoading: false });
+    onCompleted();
+    return true;
   };
 
-  private readonly handleError = (errorResponse: HttpErrorResponse) =>
+  private readonly handleError = (errorResponse: HttpErrorResponse) => {
     this.patchState({
       validation: {
         errorMessage: parseErrorResponse(errorResponse),
       },
     });
+    return false;
+  };
 }

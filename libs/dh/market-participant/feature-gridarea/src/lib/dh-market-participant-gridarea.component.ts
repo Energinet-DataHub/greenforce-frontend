@@ -51,7 +51,7 @@ export class DhMarketParticipantGridAreaComponent {
 
   gridAreaChangesIsLoading$ = this.gridAreaEditStore.isLoading$;
 
-  onGridAreaChanged = (changes: GridAreaChanges) =>
+  onGridAreaChanged = (changes: {gridAreaChanges: GridAreaChanges, onCompleted: ()=> void}) =>
   {
     this.gridAreaEditStore.saveGridAreaChanges(changes);
   }

@@ -15,17 +15,30 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import { Component, Input, NgModule, OnChanges, ViewChild } from '@angular/core';
+import {
+  Component,
+  Input,
+  NgModule,
+  OnChanges,
+  ViewChild,
+} from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
-import { GridAreaChanges, GridAreaOverviewRow } from '@energinet-datahub/dh/market-participant/data-access-api';
+import {
+  GridAreaChanges,
+  GridAreaOverviewRow,
+} from '@energinet-datahub/dh/market-participant/data-access-api';
 import {
   WattModalModule,
   WattFormFieldModule,
   WattInputModule,
   WattButtonModule,
-  WattModalComponent
+  WattModalComponent,
 } from '@energinet-datahub/watt';
-import { FormsModule, ReactiveFormsModule, UntypedFormControl } from '@angular/forms';
+import {
+  FormsModule,
+  ReactiveFormsModule,
+  UntypedFormControl,
+} from '@angular/forms';
 import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/metering-point/shared/ui-util';
 
 @Component({
@@ -33,11 +46,16 @@ import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/metering-point/s
   styleUrls: ['./dh-market-participant-gridarea-details-header.component.scss'],
   templateUrl: './dh-market-participant-gridarea-details-header.component.html',
 })
-export class DhMarketParticipantGridAreaDetailsHeaderComponent implements OnChanges {
+export class DhMarketParticipantGridAreaDetailsHeaderComponent
+  implements OnChanges
+{
   @Input() gridArea?: GridAreaOverviewRow;
   @ViewChild('nameChangeModal') nameChangeModal!: WattModalComponent;
 
-  @Input() gridChanges!: (changes: GridAreaChanges) => void;
+  @Input() gridChanges!: (changes: {
+    gridAreaChanges: GridAreaChanges;
+    onCompleted: () => void;
+  }) => void;
 
   nameChangeForm = new UntypedFormControl('');
   newGridName = '';
@@ -56,10 +74,15 @@ export class DhMarketParticipantGridAreaDetailsHeaderComponent implements OnChan
   };
 
   saveGridChanges = ($event: Event) => {
-    if(this.gridArea) {
-      this.gridChanges({id: this.gridArea.id, name: this.newGridName});
-      this.gridArea.name = this.newGridName;
-      this.closeEditModal($event);
+    if (this.gridArea) {
+      const x = this.gridArea;
+      this.gridChanges({
+        gridAreaChanges: { id: this.gridArea.id, name: this.newGridName },
+        onCompleted: () => {
+          x.name = this.newGridName;
+          this.closeEditModal($event);
+        },
+      });
     }
   };
 
@@ -67,19 +90,20 @@ export class DhMarketParticipantGridAreaDetailsHeaderComponent implements OnChan
     this.newGridName = '';
     this.editGridNameEditOpen = false;
   }
-
 }
 
 @NgModule({
   imports: [
     CommonModule,
-    TranslocoModule, DhEmDashFallbackPipeScam,
+    TranslocoModule,
+    DhEmDashFallbackPipeScam,
     WattButtonModule,
     WattModalModule,
     WattFormFieldModule,
     WattInputModule,
     FormsModule,
-    ReactiveFormsModule],
+    ReactiveFormsModule,
+  ],
   declarations: [DhMarketParticipantGridAreaDetailsHeaderComponent],
   exports: [DhMarketParticipantGridAreaDetailsHeaderComponent],
 })

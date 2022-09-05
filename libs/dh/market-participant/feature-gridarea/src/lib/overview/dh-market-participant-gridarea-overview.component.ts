@@ -60,7 +60,7 @@ export class DhMarketParticipantGridAreaOverviewComponent implements OnChanges {
   ];
 
   @Input() gridAreas: GridAreaOverviewRow[] = [];
-  @Input() gridChanges!: (changes: GridAreaChanges) => void;
+  @Input() gridChanges!: (changes: {gridAreaChanges: GridAreaChanges, onCompleted: () => void}) => void;
 
   readonly dataSource: MatTableDataSource<GridAreaOverviewRow> =
     new MatTableDataSource<GridAreaOverviewRow>();
