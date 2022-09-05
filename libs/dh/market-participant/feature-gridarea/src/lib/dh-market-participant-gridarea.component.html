@@ -29,7 +29,7 @@ limitations under the License.
 
     <!-- Table -->
     <dh-market-participant-gridarea-overview
-      [gridAreas]="rows$ | push"
+      [gridAreas]="rows$ | push" [gridChanges]="onGridAreaChanged"
     ></dh-market-participant-gridarea-overview>
 
     <!-- Spinner -->

@@ -16,8 +16,8 @@
  */
 import { Injectable } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
-import { MarketParticipantGridAreaHttp, MarketParticipantGridAreaOverviewHttp } from '@energinet-datahub/dh/shared/domain';
-import { Observable, switchMap, tap } from 'rxjs';
+import { MarketParticipantGridAreaHttp } from '@energinet-datahub/dh/shared/domain';
+import { of } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { parseErrorResponse } from './dh-market-participant-error-handling';
 
@@ -34,12 +34,13 @@ interface MarketParticipantGridAreaState {
 }
 
 export interface GridAreaChanges {
+  id: string,
   name: string;
 }
 
 const initialState: MarketParticipantGridAreaState = {
   isLoading: false,
-  changes: { name: '' }
+  changes: { id: '', name: '' }
 };
 
 @Injectable()
@@ -53,6 +54,22 @@ export class DhMarketParticipantGridAreaDataAccessApiStore extends ComponentStor
   ) {
     super(initialState);
   }
+
+  readonly saveGridAreaChanges = (changes: GridAreaChanges) => {
+
+    if (changes.id !== undefined) {
+      this.patchState({isLoading: true, changes: changes});
+      this.effect(() => {
+        return this.gridAreaClient
+          .v1MarketParticipantGridAreaPut({ id: changes.id, name: changes.name })
+          .pipe(
+            tapResponse(() => this.patchState({ isLoading: false }), this.handleError)
+          );
+      });
+
+    }
+    return of('');
+  };
 
   private readonly handleError = (errorResponse: HttpErrorResponse) =>
     this.patchState({

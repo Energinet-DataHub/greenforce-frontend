@@ -15,9 +15,9 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import { Component, Input, NgModule, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, Input, NgModule, OnChanges, ViewChild } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
-import { GridAreaOverviewRow } from '@energinet-datahub/dh/market-participant/data-access-api';
+import { GridAreaChanges, GridAreaOverviewRow } from '@energinet-datahub/dh/market-participant/data-access-api';
 import {
   WattModalModule,
   WattFormFieldModule,
@@ -37,6 +37,8 @@ export class DhMarketParticipantGridAreaDetailsHeaderComponent implements OnChan
   @Input() gridArea?: GridAreaOverviewRow;
   @ViewChild('nameChangeModal') nameChangeModal!: WattModalComponent;
 
+  @Input() gridChanges!: (changes: GridAreaChanges) => void;
+
   nameChangeForm = new UntypedFormControl('');
   newGridName = '';
   editGridNameEditOpen = false;
@@ -54,8 +56,11 @@ export class DhMarketParticipantGridAreaDetailsHeaderComponent implements OnChan
   };
 
   saveGridChanges = ($event: Event) => {
-    // SAVE
-    this.closeEditModal($event);
+    if(this.gridArea) {
+      this.gridChanges({id: this.gridArea.id, name: this.newGridName});
+      this.gridArea.name = this.newGridName;
+      this.closeEditModal($event);
+    }
   };
 
   ngOnChanges(): void {

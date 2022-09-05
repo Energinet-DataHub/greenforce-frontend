@@ -37,7 +37,7 @@ import {
 } from '@energinet-datahub/watt';
 import { MatMenuModule } from '@angular/material/menu';
 import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/metering-point/shared/ui-util';
-import { GridAreaOverviewRow } from '@energinet-datahub/dh/market-participant/data-access-api';
+import { GridAreaChanges, GridAreaOverviewRow } from '@energinet-datahub/dh/market-participant/data-access-api';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import { DhMarketParticipantGridAreaDetailsHeaderScam } from '../details-header/dh-market-participant-gridarea-details-header.component';
 
@@ -60,6 +60,7 @@ export class DhMarketParticipantGridAreaOverviewComponent implements OnChanges {
   ];
 
   @Input() gridAreas: GridAreaOverviewRow[] = [];
+  @Input() gridChanges!: (changes: GridAreaChanges) => void;
 
   readonly dataSource: MatTableDataSource<GridAreaOverviewRow> =
     new MatTableDataSource<GridAreaOverviewRow>();
