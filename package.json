@@ -166,6 +166,7 @@
     "yarn": "1.22.19"
   },
   "msw": {
-    "workerDirectory": "libs\\dh\\shared\\data-access-msw\\src\\assets"
+    "workerDirectory": "libs/dh/shared/data-access-msw/src/assets"
+
   }
 }
