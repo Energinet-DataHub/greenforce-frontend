@@ -46,7 +46,11 @@ watt-form-field {
     }
 
     .mat-form-field-flex {
-      height: 56px;
+      min-height: 56px;
+
+      & textarea:not([rows]) {
+        min-height: 72px; // equal to three lines
+      }
     }
 
     [wattPrefix],
@@ -71,7 +75,16 @@ watt-form-field {
     border-radius: 4px;
     background: var(--input-background);
     border: 1px solid var(--input-border-color);
-    height: 44px;
+    min-height: 44px;
+
+    & textarea {
+      margin: 12px; // material spacing
+      padding: 0;
+    }
+
+    & textarea:not([rows]) {
+      min-height: 60px; // equal to three lines
+    }
   }
 
   .mat-form-field {
