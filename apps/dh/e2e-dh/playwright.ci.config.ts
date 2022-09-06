@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { PlaywrightTestConfig } from '@playwright/test';
-import { config as baseConfig } from './playwright';
+import { config as baseConfig } from './playwright.config';
 
 const config: PlaywrightTestConfig = {
   ...baseConfig,

@@ -313,7 +313,7 @@
           "statuses": {
             "New": "Ny",
             "Active": "Aktiv",
-            "Inactive": "Inaktive",
+            "Inactive": "Inaktiv",
             "Passive": "Passiv",
             "Deleted": "Slettet"
           }
@@ -502,8 +502,15 @@
       },
       "detailsHeader": {
         "code": "Netområde ID",
-        "actorId": "Aktør nummer",
-        "fullFlexDate": "Overgang til fuld flex"
+        "actorId": "Aktørnummer",
+        "fullFlexDate": "Overgang til fuld flex",
+        "priceAreaCode": "Prisområde",
+        "lossMeteringPoint": "Nettabsmålepunkt",
+        "correctionMeteringPoint": "Systemkorrek. målepunkt"
+      },
+      "priceAreaCodes": {
+        "Dk1": "DK1",
+        "Dk2": "DK2"
       }
     }
   },
