@@ -35,7 +35,7 @@ export class WattToastRootModule {
   ) {
     if (maybeNgModuleFromParentInjector) {
       throw new Error(
-        'WattDanishDatetimeRootModule.forRoot registered in multiple injectors. Only call it from the core feature shell module or in the Angular testing module.'
+        'WattToastRootModule.forRoot registered in multiple injectors. Only call it from the core feature shell module or in the Angular testing module.'
       );
     }
   }
