@@ -40,6 +40,7 @@ import {
   UntypedFormControl,
 } from '@angular/forms';
 import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/metering-point/shared/ui-util';
+import { MatDividerModule } from '@angular/material/divider';
 
 @Component({
   selector: 'dh-market-participant-gridarea-details-header',
@@ -97,6 +98,7 @@ export class DhMarketParticipantGridAreaDetailsHeaderComponent
     CommonModule,
     TranslocoModule,
     DhEmDashFallbackPipeScam,
+    MatDividerModule,
     WattButtonModule,
     WattModalModule,
     WattFormFieldModule,

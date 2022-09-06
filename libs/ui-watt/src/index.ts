@@ -42,3 +42,4 @@ export * from './lib/foundations/icon';
 export * from './lib/components/modal';
 export * from './lib/utils/resize-observer';
 export * from './lib/components/drawer';
+export * from './lib/components/toast';

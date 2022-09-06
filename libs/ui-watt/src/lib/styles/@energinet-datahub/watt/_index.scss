@@ -16,6 +16,7 @@
  */
 @use "./theme/light-theme.scss";
 @use "./theme/material-overwrites/datepicker";
+@use "./theme/material-overwrites/snack-bar";
 
 @use "../../../foundations/variables";
 @use "../../../foundations/box-sizing";

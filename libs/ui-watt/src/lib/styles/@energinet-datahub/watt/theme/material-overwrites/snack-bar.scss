@@ -14,30 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-.header-grid-area-code {
-  margin-bottom: var(--watt-space-xs);
-}
-
-.header-grid-area-name {
-  margin-top: var(--watt-space-xs);
-  margin-bottom: var(--watt-space-xs);
-}
-
-.header-grid-area-access-provider {
-  margin-top: var(--watt-space-xs);
-}
-
-.grid-area-property-container {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-}
-
-.grid-area-property {
-  margin-bottom: var(--watt-space-m);
-}
-
-.top-btns {
-  position: absolute;
-  right: 2em;
+.mat-snack-bar-container {
+  max-width: 704px !important;
 }
