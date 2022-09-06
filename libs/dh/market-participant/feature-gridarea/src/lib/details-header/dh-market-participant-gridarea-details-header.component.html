@@ -41,29 +41,20 @@ limitations under the License.
       class="grid-area-property-container"
       *transloco="let topTrans; read: 'marketParticipant.gridAreas'"
     >
-      <ng-container
-        *ngFor="
-          let item of [
-            {
-              header: t('priceAreaCode'),
-              value: topTrans('priceAreaCodes.' + gridArea.priceAreaCode)
-            },
-            {
-              header: t('lossMeteringPoint'),
-              value: undefined | dhEmDashFallback
-            },
-            {
-              header: t('correctionMeteringPoint'),
-              value: undefined | dhEmDashFallback
-            }
-          ]
-        "
-      >
-        <div class="grid-area-property">
-          <span class="watt-label">{{ item.header }}</span>
-          <div class="watt-text-s">{{ item.value }}</div>
+      <div class="grid-area-property">
+        <span class="watt-label">{{ t("priceAreaCode") }}</span>
+        <div class="watt-text-s">
+          {{ topTrans("priceAreaCodes." + gridArea.priceAreaCode) }}
         </div>
-      </ng-container>
+      </div>
+      <div class="grid-area-property">
+        <span class="watt-label">{{ t("lossMeteringPoint") }}</span>
+        <div class="watt-text-s">{{ undefined | dhEmDashFallback }}</div>
+      </div>
+      <div class="grid-area-property">
+        <span class="watt-label">{{ t("correctionMeteringPoint") }}</span>
+        <div class="watt-text-s">{{ undefined | dhEmDashFallback }}</div>
+      </div>
     </div>
   </ng-container>
 </ng-container>
