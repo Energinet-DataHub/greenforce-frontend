@@ -507,6 +507,11 @@
         "lossMeteringPoint": "Nettabsmålepunkt",
         "correctionMeteringPoint": "Systemkorrek. målepunkt"
       },
+      "changeGridArea": {
+        "gridAreaName": "Netområde navn",
+        "cancel": "Fortryd",
+        "saveChanges": "Gem ændringer"
+      },
       "priceAreaCodes": {
         "Dk1": "DK1",
         "Dk2": "DK2"

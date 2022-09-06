@@ -75,12 +75,12 @@ export class DhMarketParticipantGridAreaDetailsHeaderComponent
   };
 
   saveGridChanges = ($event: Event) => {
-    if (this.gridArea) {
-      const x = this.gridArea;
+    if (this.gridArea && this.newGridName && this.newGridName.trim() != "") {
+      const gridArea = this.gridArea;
       this.gridChanges({
         gridAreaChanges: { id: this.gridArea.id, name: this.newGridName },
         onCompleted: () => {
-          x.name = this.newGridName;
+          gridArea.name = this.newGridName;
           this.closeEditModal($event);
         },
       });

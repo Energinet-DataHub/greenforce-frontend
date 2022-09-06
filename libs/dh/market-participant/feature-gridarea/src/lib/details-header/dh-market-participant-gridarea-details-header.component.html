@@ -62,27 +62,29 @@ limitations under the License.
   </ng-container>
 </ng-container>
 
-<ng-container *ngIf="editGridNameEditOpen">
-  <!--<watt-modal
-    #nameChangeModal
-    [title]="'Rediger netområde'"
-    [size]="'small'"
-    [disableClose]="false"
-    closeLabel="Close modal">
-  <br />-->
-  <watt-form-field>
-    <watt-label>Netområde navn</watt-label>
-    <input
-      #nameChangeInput
-      wattInput
-      [(ngModel)]="newGridName"
-      type="text"
-      required
-      [formControl]="nameChangeForm" />
-  </watt-form-field>
-  <!--<watt-modal-actions>-->
-    <watt-button variant="secondary" (click)="closeEditModal($event)">Fortryd</watt-button>
-    <watt-button (click)="saveGridChanges($event)">Gem ændringer</watt-button>
-  <!--</watt-modal-actions>
-</watt-modal>-->
+<ng-container *transloco="let t; read: 'marketParticipant.gridAreas.changeGridArea'">
+  <ng-container *ngIf="editGridNameEditOpen">
+    <!--<watt-modal
+      #nameChangeModal
+      [title]="'Rediger netområde'"
+      [size]="'small'"
+      [disableClose]="false"
+      closeLabel="Close modal">
+    <br />-->
+    <watt-form-field>
+      <watt-label>{{ t("gridAreaName") }}</watt-label>
+      <input
+        #nameChangeInput
+        wattInput
+        [(ngModel)]="newGridName"
+        type="text"
+        required
+        [formControl]="nameChangeForm" />
+    </watt-form-field>
+    <!--<watt-modal-actions>-->
+      <watt-button variant="secondary" (click)="closeEditModal($event)">{{ t("cancel") }}</watt-button>
+      <watt-button (click)="saveGridChanges($event)">{{ t("saveChanges") }}</watt-button>
+    <!--</watt-modal-actions>
+  </watt-modal>-->
+  </ng-container>
 </ng-container>

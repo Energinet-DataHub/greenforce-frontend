@@ -507,6 +507,11 @@
         "lossMeteringPoint": "Loss metering point",
         "correctionMeteringPoint": "Correction metering point"
       },
+      "changeGridArea": {
+        "gridAreaName": "Grid area name",
+        "cancel": "Cancel",
+        "saveChanges": "Save changes"
+      },
       "priceAreaCodes": {
         "Dk1": "DK1",
         "Dk2": "DK2"
