@@ -50,17 +50,19 @@ limitations under the License.
       <div class="grid-area-property">
         <span class="watt-label">{{ t("validFrom") }}</span>
         <div class="watt-text-s">
-          {{ gridArea.validFrom | dhEmDashFallback }}
+          {{ gridArea.validFrom | dhDate | dhEmDashFallback }}
         </div>
       </div>
       <div class="grid-area-property">
         <span class="watt-label">{{ t("validTo") }}</span>
-        <div class="watt-text-s">{{ gridArea.validTo | dhDate | dhEmDashFallback }}</div>
+        <div class="watt-text-s">
+          {{ gridArea.validTo | dhDate | dhEmDashFallback }}
+        </div>
       </div>
       <div class="grid-area-property">
         <span class="watt-label">{{ t("fullFlexDate") }}</span>
         <div class="watt-text-s">
-          {{ gridArea.fullFlexDate | dhEmDashFallback }}
+          {{ gridArea.fullFlexDate | dhDate | dhEmDashFallback }}
         </div>
       </div>
       <div class="grid-area-property">
