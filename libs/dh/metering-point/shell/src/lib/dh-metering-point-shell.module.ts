@@ -30,7 +30,7 @@ const routes: Routes = [
     path: dhMeteringPointSearchPath,
     component: DhMeteringPointSearchComponent,
     data: {
-      titleTranslationKey: 'Lazy-loaded route',
+      titleTranslationKey: 'meteringPoint.search.title',
     },
   },
   { path: '', loadChildren: () => DhMeteringPointFeatureOverviewModule },
