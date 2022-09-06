@@ -12,6 +12,7 @@
 import { ActorStatus } from './actor-status';
 import { ActorNumberDto } from './actor-number-dto';
 import { ActorMarketRoleDto } from './actor-market-role-dto';
+import { ActorNameDto } from './actor-name-dto';
 
 
 export interface ActorDto { 
@@ -19,6 +20,7 @@ export interface ActorDto {
     externalActorId?: string | null;
     actorNumber: ActorNumberDto;
     status: ActorStatus;
+    name: ActorNameDto;
     marketRoles: Array<ActorMarketRoleDto>;
 }
 

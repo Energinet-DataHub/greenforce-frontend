@@ -9,6 +9,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { OrganizationStatus } from './organization-status';
 import { AddressDto } from './address-dto';
 
 
@@ -17,6 +18,7 @@ export interface ChangeOrganizationDto {
     businessRegisterIdentifier: string;
     address: AddressDto;
     comment?: string | null;
+    status: OrganizationStatus;
 }
 
 

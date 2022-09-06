@@ -18,7 +18,11 @@ import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { TranslocoModule } from '@ngneat/transloco';
 
-import { WattNavListModule } from '@energinet-datahub/watt';
+import {
+  WattNavListComponent,
+  WattNavListItemComponent,
+} from '@energinet-datahub/watt';
+import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/feature-flags';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -37,6 +41,12 @@ export class DhPrimaryNavigationComponent {}
 @NgModule({
   declarations: [DhPrimaryNavigationComponent],
   exports: [DhPrimaryNavigationComponent],
-  imports: [TranslocoModule, RouterModule, WattNavListModule],
+  imports: [
+    TranslocoModule,
+    RouterModule,
+    WattNavListComponent,
+    WattNavListItemComponent,
+    DhFeatureFlagDirectiveModule,
+  ],
 })
 export class DhPrimaryNavigationScam {}

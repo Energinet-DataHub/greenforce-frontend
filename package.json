@@ -2,25 +2,26 @@
   "name": "energinet-datahub",
   "version": "0.0.0",
   "license": "MIT",
-  "//engines-comment": "Keep this in sync with .nvmrc, and volta config in current package.json",
+  "//engines-comment": "Keep this in sync with '.nvmrc', and 'volta' config at the bottom of this file",
   "engines": {
-    "node": "16.15.1",
+    "node": "16.16.0",
     "npm": "Please use Yarn v1 instead of npm to install dependencies",
     "yarn": "1.22.19"
   },
   "scripts": {
     "postinstall": "npm run postinstall:nx && npm run postinstall:ngcc",
     "postinstall:ngcc": "npm run ngcc",
+    "jest-preview": "jest-preview",
     "postinstall:nx": "node ./decorate-angular-cli.js",
     "check:dotnet": "dotnet --version || echo ❌ dotnet CLI must be installed",
     "check:java": "java -version || echo ❌ Java must be installed",
     "affected": "nx affected",
-    "affected:apps": "nx affected:apps",
+    "affected:apps": "nx print-affected --type=app --select=projects",
     "affected:build": "nx affected:build --configuration=production --parallel",
     "affected:ci": "npm run affected:lint && npm run affected:test && npm run affected:build && npm run affected:e2e -- --configuration=ci",
     "affected:dep-graph": "nx affected:dep-graph",
     "affected:e2e": "nx affected:e2e",
-    "affected:libs": "nx affected:libs",
+    "affected:libs": "nx print-affected --type=lib --select=projects",
     "affected:lint": "nx affected:lint --max-warnings=0 --parallel",
     "affected:lint:fix": "nx affected:lint --max-warnings=0 --fix --parallel",
     "affected:test": "nx affected:test --parallel",
@@ -63,6 +64,8 @@
     "@angular/router": "14.0.2",
     "@azure/msal-angular": "2.3.3",
     "@azure/msal-browser": "2.27.0",
+    "@microsoft/applicationinsights-angularplugin-js": "3.0.0",
+    "@microsoft/applicationinsights-web": "2.8.6",
     "@ngneat/transloco": "4.1.0",
     "@ngrx/component-store": "14.0.1",
     "@nrwl/angular": "14.4.2",
@@ -82,7 +85,7 @@
     "zone.js": "0.11.4"
   },
   "devDependencies": {
-    "@actions/core": "^1.9.0",
+    "@actions/core": "1.9.1",
     "@angular-devkit/build-angular": "14.0.2",
     "@angular-eslint/eslint-plugin": "14.0.0",
     "@angular-eslint/eslint-plugin-template": "14.0.0",
@@ -140,6 +143,7 @@
     "jest-canvas-mock": "2.4.0",
     "jest-dev-server": "6.0.3",
     "jest-preset-angular": "11.1.2",
+    "jest-preview": "0.3.0",
     "kill-port-process": "3.0.1",
     "msw": "0.43.1",
     "ng-mocks": "14.0.1",
@@ -156,9 +160,12 @@
     "typescript": "4.7.3"
   },
   "volta": {
-    "//node-comment": "Keep this in sync with engines in current package.json",
-    "node": "16.15.1",
-    "//yarn-comment": "Keep this in sync with github actions pipelines",
+    "//node-comment": "Keep this in sync with 'engines' config at the top of the current file",
+    "node": "16.16.0",
+    "//yarn-comment": "Keep this in sync with GitHub actions pipelines",
     "yarn": "1.22.19"
+  },
+  "msw": {
+    "workerDirectory": "libs\\dh\\shared\\data-access-msw\\src\\assets"
   }
 }

@@ -45,8 +45,14 @@
       "@energinet-datahub/dh/market-participant/edit-actor": [
         "libs/dh/market-participant/feature-edit-actor/src/index.ts"
       ],
+      "@energinet-datahub/dh/market-participant/feature-edit-gridarea": [
+        "libs/dh/market-participant/feature-edit-gridarea/src/index.ts"
+      ],
       "@energinet-datahub/dh/market-participant/feature-edit-organization": [
         "libs/dh/market-participant/feature-edit-organization/src/index.ts"
+      ],
+      "@energinet-datahub/dh/market-participant/feature-gridarea": [
+        "libs/dh/market-participant/feature-gridarea/src/index.ts"
       ],
       "@energinet-datahub/dh/market-participant/feature-organization": [
         "libs/dh/market-participant/feature-organization/src/index.ts"
@@ -132,6 +138,9 @@
       "@energinet-datahub/dh/shared/ui-date-time": [
         "libs/dh/shared/ui-date-time/src/index.ts"
       ],
+      "@energinet-datahub/dh/shared/util-application-insights": [
+        "libs/dh/shared/util-application-insights/src/index.ts"
+      ],
       "@energinet-datahub/dh/wholesale/data-access-api": [
         "libs/dh/wholesale/data-access-api/src/index.ts"
       ],
@@ -200,6 +209,12 @@
       ],
       "@energinet-datahub/eo/privacy-policy/shell": [
         "libs/eo/privacy-policy/shell/src/index.ts"
+      ],
+      "@energinet-datahub/eo/production/routing": [
+        "libs/eo/production/routing/src/index.ts"
+      ],
+      "@energinet-datahub/eo/production/shell": [
+        "libs/eo/production/shell/src/index.ts"
       ],
       "@energinet-datahub/eo/shared/assets": [
         "libs/eo/shared/assets/src/index.ts"

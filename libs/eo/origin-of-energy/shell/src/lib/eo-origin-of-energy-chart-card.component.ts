@@ -15,29 +15,18 @@
  * limitations under the License.
  */
 
-import { CommonModule } from '@angular/common';
 import { Component, NgModule } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
-import { EoPieChartScam } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
-import { WattSpinnerModule } from '@energinet-datahub/watt';
-import { EoOriginOfEnergyStore } from './eo-origin-of-energy.store';
+import { EoOriginOfEnergyPieChartScam } from './eo-origin-of-energy-pie-chart.component';
 
 @Component({
-  selector: 'eo-origin-of-energy-pie-chart',
-  template: ` <mat-card class="chart-card">
+  selector: 'eo-origin-of-energy-chart-card',
+  template: ` <mat-card>
     <h3>Your share of renewable energy in 2021</h3>
     <p>Based on the hourly declaration</p>
-    <ng-container>
-      <div *ngIf="(loadingDone$ | async) === false" class="loadingObfuscator">
-        <watt-spinner [diameter]="100"></watt-spinner>
-      </div>
-      <eo-pie-chart
-        [data]="[
-          convertToPercentage((renewableShare$ | async) || 0.5),
-          convertToPercentage(1 - ((renewableShare$ | async) || 0.5))
-        ]"
-      ></eo-pie-chart>
-    </ng-container>
+    <div class="chart-box">
+      <eo-origin-of-energy-pie-chart></eo-origin-of-energy-pie-chart>
+    </div>
   </mat-card>`,
   styles: [
     `
@@ -45,43 +34,17 @@ import { EoOriginOfEnergyStore } from './eo-origin-of-energy.store';
         display: block;
       }
 
-      eo-pie-chart {
-        margin: 16px 56px 0 56px;
-        width: 440px; /* Magic UX number */
-      }
-
-      .chart-card {
-        width: 584px; /* Magic UX number */
-      }
-
-      .loadingObfuscator {
-        position: absolute;
-        height: calc(100% - 80px);
-        width: calc(100% - 32px);
-        background-color: var(--watt-on-dark-high-emphasis);
-        padding-top: calc(50% - 104px);
-        padding-left: calc(50% - 64px);
+      .chart-box {
+        margin: var(--watt-space-m) 56px; /* Magic UX number */
       }
     `,
   ],
 })
-export class EoOriginOfEnergyPieChartComponent {
-  loadingDone$ = this.store.loadingDone$;
-  renewableShare$ = this.store.renewable$;
-
-  constructor(private store: EoOriginOfEnergyStore) {}
-
-  convertToPercentage(num: number): number {
-    if (!num || Number.isNaN(num)) return 0;
-
-    return Number((num * 100).toFixed(0));
-  }
-}
+export class EoOriginOfEnergyChartCardComponent {}
 
 @NgModule({
-  providers: [EoOriginOfEnergyStore],
-  declarations: [EoOriginOfEnergyPieChartComponent],
-  exports: [EoOriginOfEnergyPieChartComponent],
-  imports: [MatCardModule, EoPieChartScam, CommonModule, WattSpinnerModule],
+  declarations: [EoOriginOfEnergyChartCardComponent],
+  exports: [EoOriginOfEnergyChartCardComponent],
+  imports: [EoOriginOfEnergyPieChartScam, MatCardModule],
 })
-export class EoOriginOfEnergyPieChartScam {}
+export class EoOriginOfEnergyChartCardScam {}

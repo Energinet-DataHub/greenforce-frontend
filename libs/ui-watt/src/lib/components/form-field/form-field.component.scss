@@ -19,10 +19,26 @@
 watt-form-field {
   display: block;
   width: 100%;
+  margin-top: var(
+    --watt-space-m
+  ); // margin is added to take up space for the floating label
   --input-border-color: var(--watt-color-neutral-grey-400);
   --input-color: var(--watt-color-primary-dark);
   --input-background: var(--watt-color-neutral-white);
   --label-margin-bottom: 4px;
+
+  .mat-form-field-label-wrapper {
+    overflow: visible;
+  }
+
+  .mat-form-field-appearance-legacy.mat-form-field-can-float.mat-form-field-should-float
+    .mat-form-field-label {
+    transform: translateY(
+      calc(0px - 1.28125em - var(--watt-space-s))
+    ); // 1.28125em is space to top of the input (this number is from Angular material)
+    @include watt.typography-watt-label;
+    width: 100%;
+  }
 
   &.watt-form-field-large {
     .mat-input-element {
@@ -30,7 +46,11 @@ watt-form-field {
     }
 
     .mat-form-field-flex {
-      height: 56px;
+      min-height: 56px;
+
+      & textarea:not([rows]) {
+        min-height: 72px; // equal to three lines
+      }
     }
 
     [wattPrefix],
@@ -55,7 +75,16 @@ watt-form-field {
     border-radius: 4px;
     background: var(--input-background);
     border: 1px solid var(--input-border-color);
-    height: 44px;
+    min-height: 44px;
+
+    & textarea {
+      margin: 12px; // material spacing
+      padding: 0;
+    }
+
+    & textarea:not([rows]) {
+      min-height: 60px; // equal to three lines
+    }
   }
 
   .mat-form-field {
@@ -77,7 +106,6 @@ watt-form-field {
     }
 
     .mat-form-field-subscript-wrapper {
-      position: relative;
       padding-left: 8px;
       margin-top: 4px;
     }

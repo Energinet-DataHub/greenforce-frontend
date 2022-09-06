@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ComponentStore } from '@ngrx/component-store';
 import { take } from 'rxjs';
@@ -33,9 +34,12 @@ interface EoEmissions {
 interface EoEmissionsState {
   loadingDone: boolean;
   emissions: EoEmissions;
+  error: HttpErrorResponse | null;
 }
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class EoEmissionsStore extends ComponentStore<EoEmissionsState> {
   constructor(private service: EoEmissionsService) {
     super({
@@ -46,6 +50,7 @@ export class EoEmissionsStore extends ComponentStore<EoEmissionsState> {
         total: { unit: '', value: 0 },
         relative: { unit: '', value: 0 },
       },
+      error: null,
     });
 
     this.loadData();
@@ -55,6 +60,7 @@ export class EoEmissionsStore extends ComponentStore<EoEmissionsState> {
   readonly relative$ = this.select((state) => state.emissions.relative);
   readonly loadingDone$ = this.select((state) => state.loadingDone);
   readonly emissions$ = this.select((state) => state.emissions);
+  readonly error$ = this.select((state) => state.error);
 
   readonly setLoadingDone = this.updater(
     (state, loadingDone: boolean): EoEmissionsState => ({
@@ -70,6 +76,13 @@ export class EoEmissionsStore extends ComponentStore<EoEmissionsState> {
     })
   );
 
+  readonly setError = this.updater(
+    (state, error: HttpErrorResponse | null): EoEmissionsState => ({
+      ...state,
+      error,
+    })
+  );
+
   loadData() {
     this.service
       .getEmissionsFor2021()
@@ -77,9 +90,11 @@ export class EoEmissionsStore extends ComponentStore<EoEmissionsState> {
       .subscribe({
         next: (response) => {
           this.setEmissions(response.emissions[0]);
+          this.setError(null);
           this.setLoadingDone(true);
         },
-        error: () => {
+        error: (error) => {
+          this.setError(error);
           this.setLoadingDone(true);
         },
       });

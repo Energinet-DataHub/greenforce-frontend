@@ -9,9 +9,13 @@
     "navigation": {
       "meteringPoints": "Målepunkter",
       "messageArchive": "Fremsøg forretningsbesked",
-      "marketParticipant": "Organisationer",
-      "wholesaleStartProcess": "Afregninger - Start proces",
-      "wholesaleOverview": "Afregninger - Oversigt"
+      "marketParticipantOrganizations": "Organisationer",
+      "marketParticipantGridAreas": "Netområder",
+      "wholesale": {
+        "menuGroupLabel": "Afregninger",
+        "startProcess": "Start proces",
+        "overview": "Oversigt"
+      }
     }
   },
   "meteringPoint": {
@@ -275,9 +279,7 @@
       "ChooseBusinessReason": "Vælg forretningsårsag",
       "ChooseDocumentType": "Vælg dokumenttype",
       "includeRelatedMessage": "Inkluder relateret besked",
-      "pageSize": "Resultater per side",
-      "nextPage": "Næste side",
-      "page": "Side",
+      "loadMore": "Indlæs flere",
       "rsm": "RSM",
       "sender": "Aktør",
       "timeStamp": "Tid",
@@ -306,11 +308,12 @@
         "masterData": {
           "labelActorNumber": "Aktørnummer",
           "labelStatus": "Status",
+          "labelActorName": "Aktørnavn",
           "fieldRequiredErrorText": "Feltet er påkrævet.",
           "statuses": {
             "New": "Ny",
             "Active": "Aktiv",
-            "Inactive": "Inaktive",
+            "Inactive": "Inaktiv",
             "Passive": "Passiv",
             "Deleted": "Slettet"
           }
@@ -373,7 +376,8 @@
       "SchedulingAreaResponsible": "Scheduling area responsible",
       "SystemOperator": "System operator",
       "TradeResponsibleParty": "Trade responsible party",
-      "TransmissionCapacityAllocator": "Transmission capacity allocator"
+      "TransmissionCapacityAllocator": "Transmission capacity allocator",
+      "DanishEnergyAgency": "Styrelsen"
     },
     "organization": {
       "header": "Organisationer",
@@ -452,6 +456,13 @@
             "es": "Spanien",
             "se": "Sverige",
             "gb": "England"
+          },
+          "labelStatus": "Status",
+          "statuses": {
+            "New": "Ny",
+            "Active": "Aktiv",
+            "Blocked": "Blokeret",
+            "Deleted": "Slettet"
           }
         }
       }
@@ -474,13 +485,39 @@
       "ariaLabelPhoneForNewContact": "telefonnummerfelt for ny kontakt",
       "ariaLabelMailForNewContact": "mailfelt for ny kontakt",
       "ariaLabelDeleteForNewContact": "sletknap for ny kontakt"
+    },
+    "gridAreas": {
+      "header": "Netområder",
+      "createGridArea": "Opret",
+      "editGridArea": "Rediger",
+      "noGridAreas": "Ingen netområder fundet",
+      "columns": {
+        "name": "Netområde",
+        "code": "Kode",
+        "actorName": "Netvirksomhed",
+        "actorNumber": "Netvirksomhed nr.",
+        "priceAreaCode": "Prisområde",
+        "validFrom": "Gyldig fra",
+        "validTo": "Gyldig til"
+      },
+      "detailsHeader": {
+        "code": "Netområde ID",
+        "actorId": "Aktørnummer",
+        "priceAreaCode": "Prisområde",
+        "lossMeteringPoint": "Nettabsmålepunkt",
+        "correctionMeteringPoint": "Systemkorrek. målepunkt"
+      },
+      "priceAreaCodes": {
+        "Dk1": "DK1",
+        "Dk2": "DK2"
+      }
     }
   },
   "wholesale": {
     "startProcess": {
       "startLabel": "Start",
       "header": "Start proces",
-      "processDescription": "Kør en balance fiksering for i går for netområde 805 & 806."
+      "processDescription": "Kør en balance fiksering for 1. juli 2022 for netområde 805 & 806."
     },
     "overview": {
       "header": "Proces oversigt"

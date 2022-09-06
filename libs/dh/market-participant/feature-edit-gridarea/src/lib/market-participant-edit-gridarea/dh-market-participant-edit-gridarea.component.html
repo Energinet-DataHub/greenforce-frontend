@@ -1,0 +1,57 @@
+<!--
+@license
+Copyright 2020 Energinet DataHub A/S
+
+Licensed under the Apache License, Version 2.0 (the "License2");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<ng-container *transloco="let t; read: 'marketParticipant.organization.create'">
+  <ng-container *rxLet="validation$ as validation">
+    <watt-validation-message
+      type="danger"
+      *ngIf="validation"
+      [label]="t('errorToastLabel')"
+      [message]="validation.error"
+    ></watt-validation-message>
+  </ng-container>
+
+  <ng-container *rxLet="isEditing$ as isEditing">
+    <h1 *ngIf="isEditing">{{ t("organizationEditHeader") }}</h1>
+    <h1 *ngIf="!isEditing">{{ t("organizationCreateHeader") }}</h1>
+  </ng-container>
+
+  <!-- Spinner -->
+  <ng-container *rxLet="isLoading$ as isLoading">
+    <div class="spinner-container" *ngIf="isLoading">
+      <watt-spinner></watt-spinner>
+    </div>
+    <ng-container *rxLet="changes$ as changes">
+      <div [hidden]="isLoading">
+        <!-- Tabs -->
+        <watt-tabs class="tabs">
+          <watt-tab [label]="t('masterDataTabHeader')"> </watt-tab>
+        </watt-tabs>
+
+        <!-- Confirmation  -->
+        <div class="button-container">
+          <watt-button variant="secondary" (click)="onCancelled()"
+            >{{ t("cancelLabel") }}
+          </watt-button>
+          <watt-button variant="primary" (click)="onSaved()">{{
+            t("saveLabel")
+          }}</watt-button>
+        </div>
+      </div>
+    </ng-container>
+  </ng-container>
+</ng-container>

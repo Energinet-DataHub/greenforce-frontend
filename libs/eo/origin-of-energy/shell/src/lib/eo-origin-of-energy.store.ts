@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ComponentStore } from '@ngrx/component-store';
 import { take } from 'rxjs';
@@ -43,39 +44,30 @@ interface EoOriginOfEnergy {
 
 interface EoOriginOfEnergyState {
   loadingDone: boolean;
-  energySources: EoOriginOfEnergy;
+  energySources: EoOriginOfEnergy[];
+  error: HttpErrorResponse | null;
 }
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class EoOriginOfEnergyStore extends ComponentStore<EoOriginOfEnergyState> {
   constructor(private service: EoOriginOfEnergyService) {
     super({
       loadingDone: false,
-      energySources: {
-        dateFrom: 0,
-        dateTo: 0,
-        renewable: 0,
-        ratios: {
-          wood: 0,
-          waste: 0,
-          straw: 0,
-          oil: 0,
-          naturalGas: 0,
-          coal: 0,
-          bioGas: 0,
-          solar: 0,
-          windOnshore: 0,
-          windOffshore: 0,
-        },
-      },
+      energySources: [],
+      error: null,
     });
-
     this.loadData();
   }
 
   readonly loadingDone$ = this.select((state) => state.loadingDone);
-  readonly renewable$ = this.select((state) => state.energySources.renewable);
-  readonly ratios$ = this.select((state) => state.energySources.ratios);
+  readonly renewableTotal$ = this.select(
+    (state) =>
+      state.energySources.reduce((acc, obj) => acc + obj.renewable, 0) /
+      state.energySources.length
+  );
+  readonly error$ = this.select((state) => state.error);
 
   readonly setLoadingDone = this.updater(
     (state, loadingDone: boolean): EoOriginOfEnergyState => ({
@@ -85,22 +77,33 @@ export class EoOriginOfEnergyStore extends ComponentStore<EoOriginOfEnergyState>
   );
 
   readonly setEnergySources = this.updater(
-    (state, energySources: EoOriginOfEnergy): EoOriginOfEnergyState => ({
+    (state, energySources: EoOriginOfEnergy[]): EoOriginOfEnergyState => ({
       ...state,
       energySources,
     })
   );
 
+  readonly setError = this.updater(
+    (state, error: HttpErrorResponse | null): EoOriginOfEnergyState => ({
+      ...state,
+      error,
+    })
+  );
+
   loadData() {
+    this.setLoadingDone(false);
+
     this.service
       .getSourcesFor2021()
       .pipe(take(1))
       .subscribe({
         next: (response) => {
-          this.setEnergySources(response.energySources[0]);
+          this.setEnergySources(response.energySources);
+          this.setError(null);
           this.setLoadingDone(true);
         },
-        error: () => {
+        error: (error) => {
+          this.setError(error);
           this.setLoadingDone(true);
         },
       });

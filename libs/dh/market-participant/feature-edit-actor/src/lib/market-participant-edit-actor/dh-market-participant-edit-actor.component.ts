@@ -30,6 +30,7 @@ import {
 import {
   dhMarketParticipantActorIdParam,
   dhMarketParticipantOrganizationIdParam,
+  dhMarketParticipantOrganizationsPath,
   dhMarketParticipantPath,
 } from '@energinet-datahub/dh/market-participant/routing';
 import { ActorContactDto } from '@energinet-datahub/dh/shared/domain';
@@ -60,6 +61,7 @@ export class DhMarketParticipantEditActorComponent {
   isLoading$ = this.store.isLoading$;
   isEditing$ = this.store.isEditing$;
   changes$ = this.store.changes$;
+  status$ = this.store.status$;
   validation$ = this.store.validation$;
   gridAreas$ = this.store.gridAreas$;
   marketRoles$ = this.store.marketRoles$;
@@ -98,7 +100,9 @@ export class DhMarketParticipantEditActorComponent {
   };
 
   private readonly backToOverview = () => {
-    this.router.navigateByUrl(dhMarketParticipantPath);
+    this.router.navigateByUrl(
+      `${dhMarketParticipantPath}/${dhMarketParticipantOrganizationsPath}`
+    );
   };
 }
 

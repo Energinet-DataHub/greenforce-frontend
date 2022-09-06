@@ -15,21 +15,18 @@
  * limitations under the License.
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  NgModule,
-} from '@angular/core';
-
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 import { MatListModule } from '@angular/material/list';
 import { MatRippleModule } from '@angular/material/core';
-import { RouterModule } from '@angular/router';
+import { Subject } from 'rxjs';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'watt-nav-list-item',
+  standalone: true,
+  imports: [CommonModule, RouterModule, MatListModule, MatRippleModule],
   template: `
     <a
       *ngIf="isExternalLink; else internalLink"
@@ -41,7 +38,12 @@ import { RouterModule } from '@angular/router';
     ></a>
 
     <ng-template #internalLink>
-      <a mat-list-item mat-ripple [routerLink]="link" routerLinkActive="active"
+      <a
+        mat-list-item
+        mat-ripple
+        [routerLink]="link"
+        routerLinkActive="active"
+        (isActiveChange)="onRouterLinkActive($event)"
         ><ng-container *ngTemplateOutlet="templateContent"></ng-container
       ></a>
     </ng-template>
@@ -52,17 +54,18 @@ import { RouterModule } from '@angular/router';
   `,
 })
 export class WattNavListItemComponent {
+  private isActiveSubject = new Subject<boolean>();
+
+  public readonly isActive$ = this.isActiveSubject.asObservable();
+
   @Input() link: string | null = null;
   @Input() target: '_self' | '_blank' | '_parent' | '_top' | null = null;
 
   get isExternalLink(): boolean {
     return /^(http:\/\/|https:\/\/)/i.test(this.link ?? '');
   }
-}
 
-@NgModule({
-  declarations: [WattNavListItemComponent],
-  exports: [WattNavListItemComponent],
-  imports: [CommonModule, RouterModule, MatListModule, MatRippleModule],
-})
-export class WattNavListItemScam {}
+  onRouterLinkActive(isActive: boolean) {
+    this.isActiveSubject.next(isActive);
+  }
+}

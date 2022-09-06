@@ -22,14 +22,26 @@ limitations under the License.
     <watt-nav-list-item link="/message-archive">{{
       transloco("messageArchive")
     }}</watt-nav-list-item>
-    <watt-nav-list-item link="/market-participant">{{
-      transloco("marketParticipant")
+    <watt-nav-list-item link="/market-participant/organizations">{{
+      transloco("marketParticipantOrganizations")
     }}</watt-nav-list-item>
-    <watt-nav-list-item link="/wholesale/start-process">{{
-      transloco("wholesaleStartProcess")
-    }}</watt-nav-list-item>
-    <watt-nav-list-item link="/wholesale/overview">{{
-      transloco("wholesaleOverview")
-    }}</watt-nav-list-item>
+    <ng-container
+      *dhFeatureFlag="'marketparticipant_gridareaoverview_feature_flag'"
+    >
+      <watt-nav-list-item link="/market-participant/gridareas">{{
+        transloco("marketParticipantGridAreas")
+      }}</watt-nav-list-item>
+    </ng-container>
   </watt-nav-list>
+
+  <ng-container *dhFeatureFlag="'start_wholesale_process_feature_flag'">
+    <watt-nav-list
+      [expandable]="true"
+      [title]="transloco('wholesale.menuGroupLabel')"
+    >
+      <watt-nav-list-item link="/wholesale/start-process">{{
+        transloco("wholesale.startProcess")
+      }}</watt-nav-list-item>
+    </watt-nav-list>
+  </ng-container>
 </ng-container>

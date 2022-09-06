@@ -14,24 +14,43 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component } from '@angular/core';
-import { map, shareReplay } from 'rxjs';
+import { CommonModule } from '@angular/common';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { Router, NavigationEnd } from '@angular/router';
+import { filter, map, Subject, switchMap, takeUntil, first } from 'rxjs';
 
 import {
-  WattBreakpointsObserver,
   WattBreakpoint,
+  WattBreakpointsObserver,
 } from '../../foundations/breakpoints';
+import { WattButtonModule } from '../button';
 
 @Component({
   selector: 'watt-shell',
   styleUrls: ['./shell.component.scss'],
   templateUrl: './shell.component.html',
+  standalone: true,
+  imports: [CommonModule, MatSidenavModule, MatToolbarModule, WattButtonModule],
 })
-export class WattShellComponent {
+export class WattShellComponent implements OnInit, OnDestroy {
+  /**
+   * @ignore
+   */
+  private destroy$ = new Subject<void>();
+
   /**
    * @ignore
    */
   shouldAutoFocus = false;
+
+  /**
+   * @ignore
+   */
+  private onNavigationEnd$ = this.router.events.pipe(
+    filter((event) => event instanceof NavigationEnd)
+  );
 
   /**
    * @ignore
@@ -42,10 +61,34 @@ export class WattShellComponent {
       WattBreakpoint.Small,
       WattBreakpoint.Medium,
     ])
-    .pipe(
-      map((result) => result.matches),
-      shareReplay()
-    );
+    .pipe(map((result) => result.matches));
 
-  constructor(private breakpointObserver: WattBreakpointsObserver) {}
+  @ViewChild('drawer') sidenav!: MatSidenav;
+
+  constructor(
+    private breakpointObserver: WattBreakpointsObserver,
+    private router: Router
+  ) {}
+
+  ngOnInit(): void {
+    this.closeSidenavOnNavigation();
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  private closeSidenavOnNavigation(): void {
+    this.onNavigationEnd$
+      .pipe(
+        switchMap(() => this.isHandset$.pipe(first())),
+        takeUntil(this.destroy$)
+      )
+      .subscribe((isHandset) => {
+        if (isHandset && this.sidenav && this.sidenav.opened) {
+          this.sidenav.close();
+        }
+      });
+  }
 }

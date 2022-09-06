@@ -9,9 +9,13 @@
     "navigation": {
       "meteringPoints": "Metering points",
       "messageArchive": "Request/Response messages",
-      "marketParticipant": "Organisations",
-      "wholesaleStartProcess": "Settlements - Start Process",
-      "wholesaleOverview": "Settlements - Overview"
+      "marketParticipantOrganizations": "Organisations",
+      "marketParticipantGridAreas": "Grid areas",
+      "wholesale": {
+        "menuGroupLabel": "Settlements",
+        "startProcess": "Start Process",
+        "overview": "Overview"
+      }
     }
   },
   "meteringPoint": {
@@ -275,9 +279,7 @@
       "ChooseBusinessReason": "Choose business reason",
       "ChooseDocumentType": "Choose document type",
       "includeRelatedMessage": "Include related message",
-      "pageSize": "Results each page",
-      "nextPage": "Next page",
-      "page": "Page",
+      "loadMore": "Load more",
       "rsm": "RSM",
       "sender": "Aktor",
       "timeStamp": "Time",
@@ -306,6 +308,7 @@
         "masterData": {
           "labelActorNumber": "Actor Number",
           "labelStatus": "Status",
+          "labelActorName": "Actor name",
           "fieldRequiredErrorText": "Field is required.",
           "statuses": {
             "New": "New",
@@ -373,7 +376,8 @@
       "SchedulingAreaResponsible": "Scheduling area responsible",
       "SystemOperator": "System operator",
       "TradeResponsibleParty": "Trade responsible party",
-      "TransmissionCapacityAllocator": "Transmission capacity allocator"
+      "TransmissionCapacityAllocator": "Transmission capacity allocator",
+      "DanishEnergyAgency": "Danish energy agency"
     },
     "organization": {
       "header": "Organisations",
@@ -452,6 +456,13 @@
             "es": "Spain",
             "se": "Sweden",
             "gb": "United Kingdom"
+          },
+          "labelStatus": "Status",
+          "statuses": {
+            "New": "New",
+            "Active": "Active",
+            "Blocked": "Blocked",
+            "Deleted": "Deleted"
           }
         }
       }
@@ -474,13 +485,39 @@
       "ariaLabelPhoneForNewContact": "phone field for new contact",
       "ariaLabelMailForNewContact": "mail field for new contact",
       "ariaLabelDeleteForNewContact": "delete button for new contact"
+    },
+    "gridAreas": {
+      "header": "Grid areas",
+      "createGridArea": "Create",
+      "editGridArea": "Edit",
+      "noGridAreas": "No gridareas found",
+      "columns": {
+        "name": "Grid area",
+        "code": "Code",
+        "actorName": "Grid operator actor name",
+        "actorNumber": "Grid operator actor ID",
+        "priceAreaCode": "Price area code",
+        "validFrom": "Valid from",
+        "validTo": "Valid to"
+      },
+      "detailsHeader": {
+        "code": "Grid area code",
+        "actorId": "Actor number",
+        "priceAreaCode": "Price area code",
+        "lossMeteringPoint": "Loss metering point",
+        "correctionMeteringPoint": "Correction metering point"
+      },
+      "priceAreaCodes": {
+        "Dk1": "DK1",
+        "Dk2": "DK2"
+      }
     }
   },
   "wholesale": {
     "startProcess": {
       "startLabel": "Start",
       "header": "Start Process",
-      "processDescription": "Start a balance fixing for yesterday for grid areas 805 & 806."
+      "processDescription": "Start a balance fixing for July 1, 2022 for grid areas 805 & 806."
     },
     "overview": {
       "header": "Process Overview"

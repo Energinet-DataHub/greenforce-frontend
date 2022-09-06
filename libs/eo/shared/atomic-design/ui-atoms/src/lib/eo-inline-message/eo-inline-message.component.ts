@@ -46,7 +46,7 @@ const selector = 'eo-inline-message';
         display: flex;
 
         background: var(--watt-color-neutral-white);
-        box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.08);
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
         color: var(--watt-color-primary-dark);
 
         watt-icon {
@@ -71,7 +71,7 @@ const selector = 'eo-inline-message';
       }
 
       .${selector}--warning {
-        background: var(--watt-color-state-warning);
+        background: var(--watt-color-secondary-light);
         color: var(--watt-color-primary-dark);
       }
     `,

@@ -113,7 +113,7 @@ Allowed dependencies to: `data-access`, `routing`, `util`, `test-util`, `shell`,
 ### Utility libraries
 
 A utility library contains low-level utilities used by many libraries and applications (services, pure functions, contants).
-Allowed dependencies to: `util`, `test-util`.
+Allowed dependencies to: `util`, `test-util`, `environments`.
 
 ### Test-util libraries
 
@@ -159,7 +159,31 @@ Allowed dependencies to: `assets`, `styles`.
 
 To generate a new library, run `yarn nx workspace-generator dh-library-generator` and follow the instructions or use the "workspace-generator - dh-library-generator" option under "generate" command in Nx Console extension.
 
-_Note_: This command currently only supports generating libraries of type _"feature"_, _"data-access"_ and _"shell"_.
+_Note_: This command currently supports generating the following library types:
+
+- feature
+- ui
+- data-access
+- routing
+- util
+- test-util
+- e2e-util
+- domain
+- shell
+- configuration
+- environments
+
+### Generating a new domain
+
+It is also possible to generate an entire domain. To do so, run `yarn nx workspace-generator dh-domain-generator`. This will generate a new domain
+with the following library types included:
+
+- data-access-api
+- feature
+- routing
+- shell
+
+_Note_: You will have to enter a name for the feature library.
 
 ## Frontend apps
 
@@ -197,12 +221,5 @@ Located under `.github/workflows`. There are:
 - `license-check-ci.yml` - Used for adding license to files
 - `frontend-ci.yml` - Used to build, test, format and lint all frontend apps
 
-We use bots for certain trivial tasks such as adding license headers to files, formatting code, fixing lint errors, and generating API clients based on OpenAPI. For this to work, bots have to use the repository secret `ACTIONS_BOT_SSH_KEY`
-when checking out and pushing changes or creating releases that trigger a workflow. Only do this for idempotent tasks to
+We use bots for certain trivial tasks such as adding license headers to files, formatting code, fixing lint errors, and generating API clients based on OpenAPI. For this to work, bots have to use the repository secret `PAT_TOKEN` when pushing changes or creating releases that trigger a workflow. Only do this for idempotent tasks to
 prevent circular workflows from causing inifinite workflow runs.
-
-The `ACTIONS_BOT_SSH_KEY` repository secret is registered as a deploy key. The following guides are used to manage this
-SSH key:
-
-- [Deploy keys](https://docs.github.com/en/developers/overview/managing-deploy-keys#deploy-keys)
-- [Generating a new SSH key](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent#generating-a-new-ssh-key)

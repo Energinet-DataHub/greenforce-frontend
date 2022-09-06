@@ -14,9 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { AppSettingsStore } from '@energinet-datahub/eo/shared/services';
 import { ComponentStore } from '@ngrx/component-store';
-import { take } from 'rxjs';
+import { Subscription, take } from 'rxjs';
 import { EoConsumptionService, EoMeasurement } from './eo-consumption.service';
 
 export interface EoMeasurementData {
@@ -30,28 +32,47 @@ interface EoConsumptionState {
   loadingDone: boolean;
   measurements: EoMeasurementData[];
   totalMeasurement: number;
+  error: HttpErrorResponse | null;
 }
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class EoConsumptionStore extends ComponentStore<EoConsumptionState> {
-  constructor(private service: EoConsumptionService) {
+  #monthlyConsumptionApiCall: Subscription = new Subscription();
+
+  constructor(
+    private service: EoConsumptionService,
+    private appSettingsStore: AppSettingsStore
+  ) {
     super({
       loadingDone: false,
       measurements: [],
       totalMeasurement: 0,
+      error: null,
     });
 
-    this.loadMonthlyConsumption();
+    this.appSettingsStore.calendarDateRange$.subscribe(() => {
+      this.loadMonthlyConsumption();
+    });
   }
 
   readonly loadingDone$ = this.select((state) => state.loadingDone);
   readonly measurements$ = this.select((state) => state.measurements);
   readonly totalMeasurement$ = this.select((state) => state.totalMeasurement);
+  readonly error$ = this.select((state) => state.error);
 
   readonly setLoadingDone = this.updater(
     (state, loadingDone: boolean): EoConsumptionState => ({
       ...state,
       loadingDone,
+    })
+  );
+
+  readonly setError = this.updater(
+    (state, error: HttpErrorResponse | null): EoConsumptionState => ({
+      ...state,
+      error,
     })
   );
 
@@ -70,8 +91,11 @@ export class EoConsumptionStore extends ComponentStore<EoConsumptionState> {
   );
 
   loadMonthlyConsumption() {
-    this.service
-      .getMonthlyConsumptionFor2021()
+    this.setLoadingDone(false);
+    this.#monthlyConsumptionApiCall.unsubscribe();
+
+    this.#monthlyConsumptionApiCall = this.service
+      .getMonthlyConsumption()
       .pipe(take(1))
       .subscribe({
         next: (result) => {
@@ -81,9 +105,12 @@ export class EoConsumptionStore extends ComponentStore<EoConsumptionState> {
 
           this.setMonthlyMeasurements(measurements);
           this.setTotalMeasurement(this.getTotalFromArray(measurements));
-          this.setLoadingDone(true);
+          this.setError(null);
         },
-        error: () => {
+        error: (error) => {
+          this.setError(error);
+        },
+        complete: () => {
           this.setLoadingDone(true);
         },
       });

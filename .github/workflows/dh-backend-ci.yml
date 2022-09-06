@@ -11,7 +11,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-name: DH UI Backend CI
+name: DH Backend CI
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -24,6 +24,7 @@ env:
   is-pull-request: ${{ github.event_name == 'pull_request' }}
   NODE_OPTIONS: --max-old-space-size=6144
   node-version-file: .nvmrc
+  # keep in sync with "engines.yarn" and "volta.yarn" in "package.json"
   yarn-version: 1.22.19
   NX_MAX_PARALLEL: 2
 
@@ -44,10 +45,9 @@ on:
 
 jobs:
   dotnet_solution_ci:
-    uses: Energinet-DataHub/.github/.github/workflows/dotnet-solution-ci.yml@7.6.0
+    uses: Energinet-DataHub/.github/.github/workflows/dotnet-solution-ci.yml@v8
     with:
       SOLUTION_FILE_PATH: 'apps/dh/api-dh/DataHub.WebApi.sln'
-      DOTNET_VERSION: '6.0.301'
       PREPARE_OUTPUTS: true
     secrets:
       AZURE_TENANT_ID: ${{ secrets.AZURE_TESTING_TENANT_ID }}
@@ -56,16 +56,15 @@ jobs:
       AZURE_KEYVAULT_URL: ${{ secrets.AZURE_TESTING_KEYVAULT_URL }}
 
   terraform_validate:
-    uses: Energinet-DataHub/.github/.github/workflows/terraform-validate.yml@7.6.0
+    uses: Energinet-DataHub/.github/.github/workflows/terraform-validate.yml@v8
     with:
       TERRAFORM_WORKING_DIR_PATH: 'build/infrastructure/dh/main'
       TERRAFORM_VERSION: '1.2.2'
 
   sonarcloud_analysis:
-    uses: Energinet-DataHub/.github/.github/workflows/sonarcloud-dotnet.yml@7.6.0
+    uses: Energinet-DataHub/.github/.github/workflows/sonarcloud-dotnet.yml@v8
     with:
       SOLUTION_FILE_PATH: 'apps/dh/api-dh/DataHub.WebApi.sln'
-      DOTNET_VERSION: '6.0.301'
       SONAR_CLOUD_ORGANIZATION: 'energinet-datahub'
       SONAR_CLOUD_PROJECT: 'geh-frontend-api'
     secrets:
@@ -85,7 +84,7 @@ jobs:
         with:
           fetch-depth: 0
           ref: ${{ github.head_ref }}
-          ssh-key: ${{ secrets.ACTIONS_BOT_SSH_KEY }}
+          token: ${{ secrets.PAT_TOKEN }}
       - name: 'Merge: Check out source code'
         if: ${{ env.is-main-branch == 'true' }}
         uses: actions/checkout@v2
@@ -132,8 +131,9 @@ jobs:
 
   create_prerelease:
     needs: [dotnet_solution_ci, terraform_validate, sonarcloud_analysis]
-    uses: Energinet-DataHub/.github/.github/workflows/create-prerelease.yml@7.6.0
+    uses: Energinet-DataHub/.github/.github/workflows/create-prerelease.yml@v8
     with:
       CALLER_REPOSITORY_PATH: Energinet-DataHub/greenforce-frontend
+      RELEASE_NAME_PREFIX: dh_backend_
     secrets:
       PAT_TOKEN: ${{ secrets.PAT_TOKEN }}

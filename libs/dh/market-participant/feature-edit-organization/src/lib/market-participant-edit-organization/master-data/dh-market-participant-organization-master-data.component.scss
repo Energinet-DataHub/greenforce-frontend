@@ -53,6 +53,10 @@
   max-width: 600px;
 }
 
+.field-status {
+  max-width: 256px;
+}
+
 :host {
   display: block;
   margin-top: var(--watt-space-l);

@@ -16,8 +16,8 @@
  */
 import { Component, DoCheck, Input, NgModule, ViewChild } from '@angular/core';
 import { ChartConfiguration, ChartData, ChartType } from 'chart.js';
-import { BaseChartDirective, NgChartsModule } from 'ng2-charts';
 import DatalabelsPlugin, { Context } from 'chartjs-plugin-datalabels';
+import { BaseChartDirective, NgChartsModule } from 'ng2-charts';
 
 @Component({
   selector: 'eo-pie-chart',
@@ -40,7 +40,8 @@ import DatalabelsPlugin, { Context } from 'chartjs-plugin-datalabels';
 })
 export class EoPieChartComponent implements DoCheck {
   @ViewChild(BaseChartDirective) chart!: BaseChartDirective;
-  @Input() data: number[] = [50, 50];
+  @Input() data: number[] = [1];
+  @Input() labels: string[] = [];
 
   #colorGreen = getComputedStyle(document.documentElement).getPropertyValue(
     '--watt-color-state-success'
@@ -68,7 +69,7 @@ export class EoPieChartComponent implements DoCheck {
           size: this.#wattTextNormalSize,
         },
         formatter: (value: number | string, ctx: Context) => {
-          if (ctx.chart.data.labels) {
+          if (ctx.chart.data?.labels?.length) {
             return `${value}%\n${ctx.chart.data.labels[ctx.dataIndex]}`;
           }
           return '';
@@ -78,13 +79,10 @@ export class EoPieChartComponent implements DoCheck {
   };
 
   public chartData: ChartData<'pie', number[], string | string[]> = {
-    labels: ['Renewable', 'Other'],
     datasets: [
       {
         rotation: 180,
         data: [],
-        backgroundColor: [this.#colorGreen, this.#colorGrey],
-        hoverBackgroundColor: [this.#colorGreen, this.#colorGrey],
         borderWidth: 0,
       },
     ],
@@ -92,9 +90,20 @@ export class EoPieChartComponent implements DoCheck {
   public chartType: ChartType = 'pie';
   public chartPlugins = [DatalabelsPlugin];
 
+  updateChartColors() {
+    const colors =
+      this.data.length > 0 ? [this.#colorGreen, this.#colorGrey] : 'lightgrey';
+
+    this.chartData.datasets[0].backgroundColor = colors;
+    this.chartData.datasets[0].hoverBackgroundColor = colors;
+  }
+
   ngDoCheck() {
     if (this.data !== this.chartData.datasets[0].data) {
-      this.chartData.datasets[0].data = this.data;
+      this.chartData.labels = this.data.length > 0 ? this.labels : [];
+      this.chartData.datasets[0].data = this.data.length > 0 ? this.data : [1];
+      this.updateChartColors();
+
       this.chart?.update();
     }
   }

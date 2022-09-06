@@ -19,7 +19,6 @@ export { WattColorHelperService } from './lib/foundations/color/color-helper.ser
 export { WattFormFieldModule } from './lib/components/form-field/form-field.module';
 export { WattInputModule } from './lib/components/input/input.module';
 export { WattShellComponent } from './lib/components/shell/shell.component';
-export { WattShellModule } from './lib/components/shell/shell.module';
 
 export * from './lib/components/badge';
 export * from './lib/components/button';
@@ -42,3 +41,5 @@ export * from './lib/foundations/breakpoints';
 export * from './lib/foundations/icon';
 export * from './lib/components/modal';
 export * from './lib/utils/resize-observer';
+export * from './lib/components/drawer';
+export * from './lib/components/toast';

@@ -54,7 +54,7 @@ namespace Energinet.DataHub.WebApi.Controllers
         /// Creates an organization
         /// </summary>
         [HttpPost]
-        public Task<ActionResult<Guid>> CreateOrganizationAsync(ChangeOrganizationDto organizationDto)
+        public Task<ActionResult<Guid>> CreateOrganizationAsync(CreateOrganizationDto organizationDto)
         {
             return HandleExceptionAsync(() => _client.CreateOrganizationAsync(organizationDto));
         }

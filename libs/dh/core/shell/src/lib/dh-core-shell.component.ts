@@ -19,10 +19,11 @@ import { RouterModule } from '@angular/router';
 import { TranslocoModule } from '@ngneat/transloco';
 import { MsalService } from '@azure/msal-angular';
 
-import { WattButtonModule, WattShellModule } from '@energinet-datahub/watt';
+import { WattButtonModule, WattShellComponent } from '@energinet-datahub/watt';
 import { DhLanguagePickerModule } from '@energinet-datahub/dh/globalization/feature-language-picker';
 
 import { DhPrimaryNavigationScam } from './dh-primary-navigation.component';
+import { DhApplicationInsights } from '@energinet-datahub/dh/shared/util-application-insights';
 
 @Component({
   selector: 'dh-shell',
@@ -30,9 +31,21 @@ import { DhPrimaryNavigationScam } from './dh-primary-navigation.component';
   templateUrl: './dh-core-shell.component.html',
 })
 export class DhCoreShellComponent {
-  constructor(private authService: MsalService) {}
+  constructor(
+    private authService: MsalService,
+    private insights: DhApplicationInsights
+  ) {
+    this.insights.trackException(
+      new Error('[TEST] logged exception from shell component constructor'),
+      3
+    );
+  }
 
   logout() {
+    this.insights.trackException(
+      new Error('[TEST] logged exception from shell component on logout'),
+      3
+    );
     this.authService.logout();
   }
 }
@@ -44,7 +57,7 @@ export class DhCoreShellComponent {
     DhLanguagePickerModule,
     RouterModule,
     DhPrimaryNavigationScam,
-    WattShellModule,
+    WattShellComponent,
     WattButtonModule,
   ],
 })
