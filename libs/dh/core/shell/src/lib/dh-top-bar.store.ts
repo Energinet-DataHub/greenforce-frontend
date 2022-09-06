@@ -18,15 +18,15 @@ const filterNavigationEnd = pipe(
 );
 
 function getTitleTranslationKey(snapshot: ActivatedRouteSnapshot): string {
-  let translationKey: string | undefined;
+  let maybeTranslationKey: string | undefined;
   let route: ActivatedRouteSnapshot | undefined = snapshot.root;
 
   while (route !== undefined) {
-    translationKey = route.data.titleTranslationKey ?? translationKey;
+    maybeTranslationKey = route.data.titleTranslationKey ?? maybeTranslationKey;
     route = route.children.find((child) => child.outlet === PRIMARY_OUTLET);
   }
 
-  return translationKey ?? defaultTitleTranslationKey;
+  return maybeTranslationKey ?? defaultTitleTranslationKey;
 }
 
 export const mapToTitleTranslationKey = (activatedRoute: ActivatedRoute) =>
