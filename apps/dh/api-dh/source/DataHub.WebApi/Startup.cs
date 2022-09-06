@@ -17,6 +17,8 @@ using System.IO;
 using System.Reflection;
 using System.Text.Json.Serialization;
 using Energinet.DataHub.Charges.Clients.Registration.ChargeLinks.ServiceCollectionExtensions;
+using Energinet.DataHub.Core.App.Common.Diagnostics.HealthChecks;
+using Energinet.DataHub.Core.App.WebApp.Diagnostics.HealthChecks;
 using Energinet.DataHub.Core.App.WebApp.Middleware;
 using Energinet.DataHub.MarketParticipant.Client.Extensions;
 using Energinet.DataHub.MessageArchive.Client.Extensions;
@@ -109,6 +111,17 @@ namespace Energinet.DataHub.WebApi
                         .AllowAnyMethod());
                 });
             }
+
+            // Health check
+            var chargesBaseUrl = "https://app-webapi-charges-u-001.azurewebsites.net"; // Configuration.GetValue<string>("ApiClientSettings__ChargesBaseUrl") ?? string.Empty;
+            /*var marketParticipantBaseUrl = "https://app-webapi-markpart-u-001.azurewebsites.net"; // Configuration.GetValue<string>("ApiClientSettings__MarketParticipantBaseUrl") ?? string.Empty;
+            var messageArchiveBaseUrl = "https://app-webapi-msgarch-u-001.azurewebsites.net"; // Configuration.GetValue<string>("ApiClientSettings__MessageArchiveBaseUrl") ?? string.Empty;
+            var meteringPointBaseUrl = "https://app-webapi-mpt-u-001.azurewebsites.net"; // Configuration.GetValue<string>("ApiClientSettings__MeteringPointBaseUrl") ?? string.Empty;
+            var wholesaleBaseUrl = "https://app-webapi-wholsal-u-001.azurewebsites.net"; // Configuration.GetValue<string>("ApiClientSettings__WholesaleBaseUrl") ?? string.Empty;
+            */
+            services.AddHealthChecks()
+                .AddLiveCheck()
+                .AddServiceLiveHealthCheck("charges", new Uri(chargesBaseUrl + "monitor/live"));
         }
 
         /// <summary>
@@ -141,7 +154,10 @@ namespace Energinet.DataHub.WebApi
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                endpoints.MapHealthChecks("/health").AllowAnonymous();
+
+                // Health check
+                endpoints.MapLiveHealthChecks();
+                endpoints.MapReadyHealthChecks();
             });
         }
 
