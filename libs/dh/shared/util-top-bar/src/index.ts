@@ -1,1 +1,1 @@
-export * from './lib/dh-shared-util-top-bar.module';
+export * from './lib/dh-top-bar.store';
