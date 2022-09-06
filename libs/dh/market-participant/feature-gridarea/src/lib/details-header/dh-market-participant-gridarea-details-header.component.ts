@@ -37,7 +37,7 @@ export class DhMarketParticipantGridAreaDetailsHeaderComponent {
     TranslocoModule,
     MatDividerModule,
     DhEmDashFallbackPipeScam,
-    DhSharedUiDateTimeModule
+    DhSharedUiDateTimeModule,
   ],
   declarations: [DhMarketParticipantGridAreaDetailsHeaderComponent],
   exports: [DhMarketParticipantGridAreaDetailsHeaderComponent],
