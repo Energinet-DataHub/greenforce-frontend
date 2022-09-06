@@ -141,6 +141,9 @@
       "@energinet-datahub/dh/shared/util-application-insights": [
         "libs/dh/shared/util-application-insights/src/index.ts"
       ],
+      "@energinet-datahub/dh/shared/util-top-bar": [
+        "libs/dh/shared/util-top-bar/src/index.ts"
+      ],
       "@energinet-datahub/dh/wholesale/data-access-api": [
         "libs/dh/wholesale/data-access-api/src/index.ts"
       ],
