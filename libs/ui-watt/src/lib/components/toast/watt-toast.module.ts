@@ -24,7 +24,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { WattToastComponent } from './watt-toast.component';
 
 @NgModule({
-  imports: [MatSnackBarModule, WattToastComponent]
+  imports: [MatSnackBarModule, WattToastComponent],
 })
 export class WattToastRootModule {
   constructor(

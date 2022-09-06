@@ -41,7 +41,10 @@ import { DhApiModule } from '@energinet-datahub/dh/shared/data-access-api';
 import { dhB2CEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 import { dhMarketParticipantPath } from '@energinet-datahub/dh/market-participant/routing';
 import { dhMeteringPointPath } from '@energinet-datahub/dh/metering-point/routing';
-import { WattDanishDatetimeModule, WattToastModule } from '@energinet-datahub/watt';
+import {
+  WattDanishDatetimeModule,
+  WattToastModule,
+} from '@energinet-datahub/watt';
 import {
   DhCoreShellComponent,
   DhCoreShellScam,
@@ -116,7 +119,7 @@ const routes: Routes = [
           : 'enabledNonBlocking',
       scrollPositionRestoration: 'enabled',
     }),
-    WattToastModule.forRoot()
+    WattToastModule.forRoot(),
   ],
   providers: [
     MsalService,
