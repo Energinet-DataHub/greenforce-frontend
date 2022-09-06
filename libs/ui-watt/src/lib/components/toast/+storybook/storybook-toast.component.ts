@@ -51,7 +51,6 @@ export class StorybookToastComponent implements AfterViewInit {
 
     if(this.config.type === 'loading') {
       setTimeout(() => {
-        // TODO: Updating type from loading to something else should start the timer
         this.toast.update({message: 'Finished loading :-)', type: 'success'});
       }, 1000);
     }

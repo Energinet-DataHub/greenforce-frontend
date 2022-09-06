@@ -4,7 +4,6 @@ import { WattToastComponent } from "./watt-toast.component";
 
 @NgModule({
   imports: [MatSnackBarModule, WattToastComponent],
-  exports: [WattToastComponent]
 })
 export class WattToastRootModule {
   constructor(
