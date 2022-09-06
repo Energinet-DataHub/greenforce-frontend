@@ -25,7 +25,7 @@ import { DhLanguagePickerModule } from '@energinet-datahub/dh/globalization/feat
 import { DhApplicationInsights } from '@energinet-datahub/dh/shared/util-application-insights';
 
 import { DhPrimaryNavigationScam } from './dh-primary-navigation.component';
-import { DhTopBarTitleService } from './dh-top-bar-title.service';
+import { DhTopBarStore } from './dh-top-bar.store';
 
 @Component({
   selector: 'dh-shell',
@@ -33,12 +33,12 @@ import { DhTopBarTitleService } from './dh-top-bar-title.service';
   templateUrl: './dh-core-shell.component.html',
 })
 export class DhCoreShellComponent {
-  titleTranslationKey$ = this.topBarTitle.tranlationKey$;
+  titleTranslationKey$ = this.dhTopBarStore.titleTranslationKey$;
 
   constructor(
     private authService: MsalService,
     private insights: DhApplicationInsights,
-    private topBarTitle: DhTopBarTitleService
+    private dhTopBarStore: DhTopBarStore
   ) {
     this.insights.trackException(
       new Error('[TEST] logged exception from shell component constructor'),
