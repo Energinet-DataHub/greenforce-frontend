@@ -511,7 +511,8 @@
       "startLabel": "Start",
       "header": "Start Process",
       "processDescription": "Start a balance fixing for grid areas 805 & 806",
-      "dateRangeRequired": "Date range is required"
+      "dateRangeRequired": "Date range is required",
+      "dateRangeLabel": "Period"
     },
     "overview": {
       "header": "Process Overview"

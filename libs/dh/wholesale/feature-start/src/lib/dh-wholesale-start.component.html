@@ -18,12 +18,14 @@ limitations under the License.
   <ng-container *transloco="let transloco; read: 'wholesale'">
     <h1>{{ transloco("startProcess.header") }}</h1>
     <p>{{ transloco("startProcess.processDescription") }}</p>
+    <div class="watt-space-stack-l"></div>
     <watt-form-field>
+      <watt-label>{{ transloco("startProcess.dateRangeLabel") }}</watt-label>
       <watt-datepicker
-        [formControl]="exampleFormControlRange"
+        [formControl]="formControlRange"
         [range]="true"
       ></watt-datepicker>
-      <watt-error *ngIf="exampleFormControlRange?.errors?.rangeRequired">
+      <watt-error *ngIf="formControlRange?.errors?.rangeRequired">
         {{ transloco("startProcess.dateRangeRequired") }}
       </watt-error>
     </watt-form-field>
