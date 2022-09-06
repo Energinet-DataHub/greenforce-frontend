@@ -9,17 +9,19 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { PriceAreaCode } from './price-area-code';
 
 
 export interface GridAreaOverviewItemDto { 
     id: string;
     code: string;
     name: string;
-    priceAreaCode: string;
+    priceAreaCode: PriceAreaCode;
     validFrom: string;
     validTo?: string | null;
     actorNumber?: string | null;
     actorName?: string | null;
+    fullFlexDate?: string | null;
 }
 
 
