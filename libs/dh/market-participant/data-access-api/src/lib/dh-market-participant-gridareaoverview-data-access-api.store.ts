@@ -43,6 +43,7 @@ export interface GridAreaOverviewRow {
   validTo?: string | null;
   actorNumber?: string | null;
   actorName?: string | null;
+  fullFlexDate?: string | null;
 }
 
 const initialState: MarketParticipantGridAreaOverviewState = {
