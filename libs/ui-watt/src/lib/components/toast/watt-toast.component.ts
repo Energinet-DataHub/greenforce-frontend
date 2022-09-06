@@ -115,6 +115,14 @@ export class WattToastComponent {
     this.dissmissToastSubscription?.unsubscribe();
   }
 
+  update(config: Partial<WattToastConfig>) {
+    this.config = {...this.config, ...config};
+    if(this.dissmissToastSubscription) {
+      this.dissmissToastSubscription.unsubscribe();
+    }
+    this.initDuration();
+  }
+
   /**
    * @ignore
    * Ensure the toast won't get dismissed when the user hovers over it.
