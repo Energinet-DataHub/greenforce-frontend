@@ -41,7 +41,7 @@ export class WattToastService {
   }
 
   dismiss() {
-    if(!this.ref) return;
+    if (!this.ref) return;
     this.ref.dismiss();
   }
 }

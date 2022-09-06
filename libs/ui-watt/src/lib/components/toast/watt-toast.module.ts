@@ -14,13 +14,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ModuleWithProviders, NgModule, Optional, SkipSelf } from "@angular/core";
-import { MatSnackBarModule } from "@angular/material/snack-bar";
-import { WattToastComponent } from "./watt-toast.component";
+import {
+  ModuleWithProviders,
+  NgModule,
+  Optional,
+  SkipSelf,
+} from '@angular/core';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { WattToastComponent } from './watt-toast.component';
 
 @NgModule({
   imports: [MatSnackBarModule, WattToastComponent],
-  exports: [WattToastComponent]
+  exports: [WattToastComponent],
 })
 export class WattToastRootModule {
   constructor(

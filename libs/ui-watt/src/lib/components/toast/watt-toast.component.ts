@@ -116,8 +116,8 @@ export class WattToastComponent {
   }
 
   update(config: Partial<WattToastConfig>) {
-    this.config = {...this.config, ...config};
-    if(this.dissmissToastSubscription) {
+    this.config = { ...this.config, ...config };
+    if (this.dissmissToastSubscription) {
       this.dissmissToastSubscription.unsubscribe();
     }
     this.initDuration();
