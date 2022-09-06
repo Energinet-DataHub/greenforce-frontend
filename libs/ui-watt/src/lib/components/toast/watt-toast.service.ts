@@ -17,8 +17,7 @@
 import { Injectable } from '@angular/core';
 import { MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
 
-import { WattToastComponent } from './watt-toast.component';
-import { WattToastConfig } from './watt-toast.component';
+import { WattToastComponent, WattToastConfig } from './watt-toast.component';
 
 @Injectable({
   providedIn: 'root',
