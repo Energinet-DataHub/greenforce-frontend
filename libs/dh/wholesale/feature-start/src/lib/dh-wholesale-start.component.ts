@@ -16,7 +16,7 @@
  */
 import { Component, NgModule } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
-import { WattButtonModule, WattDatepickerModule, WattFormFieldModule } from '@energinet-datahub/watt';
+import { WattButtonModule, WattDatepickerModule, WattFormFieldModule, WattRangeValidators } from '@energinet-datahub/watt';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 
 import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
@@ -31,10 +31,13 @@ import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/featu
 export class DhWholesaleStartComponent {
   constructor(private store: DhWholesaleBatchDataAccessApiStore) {}
 
-  formControlRange = new FormControl(null)
+  formControlRange = new FormControl<{start: string, end: string} | null>(null, [
+    WattRangeValidators.required(),
+  ])
   
   createBatch() {
-    this.store.createBatch(['805', '806']);
+    console.log(this.formControlRange.value!.end)
+    this.store.createBatch({gridAreas: ['805', '806']});
   }
 }
 
