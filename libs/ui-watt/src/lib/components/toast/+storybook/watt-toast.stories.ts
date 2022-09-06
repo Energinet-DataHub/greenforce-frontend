@@ -30,10 +30,11 @@ export default {
   parameters: {
     docs: {
       description: {
-        component: "Usage: `import WattToastComponent from '@energinet-datahub/watt';`",
+        component:
+          "Usage: `import WattToastComponent from '@energinet-datahub/watt';`",
       },
-    }
-  }
+    },
+  },
 } as Meta;
 
 export interface WattToastStoryConfig extends WattToastConfig {
