@@ -34,18 +34,25 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
     super(initialState);
   }
 
-  readonly createBatch = this.effect((object$: Observable<{gridAreas: string[], dateRange: {start: string, end: string} | null}>) => {
-    return object$.pipe(
-      switchMap((object) => {
-        const batchRequest: WholesaleBatchRequestDto = {
-          processType: WholesaleProcessType.BalanceFixing,
-          gridAreaCodes: object.gridAreas,
-          startDate: object.dateRange!.start,
-          endDate: object.dateRange!.end,
-        };
-        console.log(batchRequest);
-        return this.httpClient.v1WholesaleBatchPost(batchRequest);
-      })
-    );
-  });
+  readonly createBatch = this.effect(
+    (
+      object$: Observable<{
+        gridAreas: string[];
+        dateRange: { start: string; end: string } | null;
+      }>
+    ) => {
+      return object$.pipe(
+        switchMap((object) => {
+          const batchRequest: WholesaleBatchRequestDto = {
+            processType: WholesaleProcessType.BalanceFixing,
+            gridAreaCodes: object.gridAreas,
+            startDate: object.dateRange!.start,
+            endDate: object.dateRange!.end,
+          };
+          console.log(batchRequest);
+          return this.httpClient.v1WholesaleBatchPost(batchRequest);
+        })
+      );
+    }
+  );
 }
