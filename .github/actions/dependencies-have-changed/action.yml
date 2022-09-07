@@ -16,6 +16,8 @@ runs:
     # fail the calling job
     - run: node ${{ github.action_path }}/dependencies-have-changed.mjs >> ./tmp/DEPENDENCIES_HAVE_CHANGED
       shell: bash
+    - run: node ${{ github.action_path }}/dependencies-have-changed.mjs
+      shell: bash
     # if we inline the Node.js execution here, the calling job will not fail in
     # case of process errors
     - id: dependenciesHasChanged
