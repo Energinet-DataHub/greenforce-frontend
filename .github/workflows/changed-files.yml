@@ -1,0 +1,38 @@
+name: Changed files
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+on:
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch: {}
+
+jobs:
+  changedfiles:
+    name: Have dependencies changed?
+    runs-on: ubuntu-latest
+
+    outputs:
+      dependencies-have-changed: ${{ steps.dependenciesHaveChanged.outputs.dependencies-have-changed }}
+
+    steps:
+      # needed for local github actions
+      - name: Check out source code with current branch Git history
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Check if dependencies have changed
+        id: dependenciesHaveChanged
+        uses: ./.github/actions/dependencies-have-changed
+  echoResult:
+    name: Echo if dependencies have changed
+    needs: changedfiles
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Echo if dependencies have changed
+        run: echo "Dependencies have changed ${{ steps.changedfiles.outputs.dependencies-have-changed }}"
