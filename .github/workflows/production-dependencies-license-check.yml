@@ -11,12 +11,12 @@ on:
   workflow_dispatch: {}
 
 jobs:
-  dependenciesHaveChanged:
+  dependencies_have_changed:
     name: Have dependencies changed?
     runs-on: ubuntu-latest
 
     outputs:
-      dependencies-have-changed: ${{ steps.dependenciesHaveChanged.outputs.dependencies-have-changed }}
+      dependencies-have-changed: ${{ steps.dependencies_have_changed.outputs.dependencies-have-changed }}
 
     steps:
       # needed for local github actions
@@ -26,13 +26,13 @@ jobs:
           fetch-depth: 0
 
       - name: Check if dependencies have changed
-        id: dependenciesHaveChanged
+        id: dependencies_have_changed
         uses: ./.github/actions/dependencies-have-changed
 
   License_check:
     name: License Check
-    needs: dependenciesHaveChanged
-    if: ${{ needs.dependenciesHaveChanged.outputs.dependencies-have-changed == 'true' }}
+    needs: dependencies_have_changed
+    if: ${{ needs.dependencies_have_changed.outputs.dependencies-have-changed == 'true' }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout latest code
