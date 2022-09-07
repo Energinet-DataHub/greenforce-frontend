@@ -16,7 +16,7 @@ on:
   workflow_dispatch: {}
 
 jobs:
-  dependencies_have_changed:
+  license_check:
     name: License Check
     runs-on: ubuntu-latest
 
