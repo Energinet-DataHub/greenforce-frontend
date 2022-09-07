@@ -1,5 +1,4 @@
 import { execSync } from 'child_process';
-import * as core from '@actions/core';
 
 try {
   const changedFiles = readChangedFiles();
