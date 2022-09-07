@@ -1,0 +1,8 @@
+name: 'Dependencies have changed'
+description: 'Tell if dependencies have changed'
+outputs:
+  dependenciesHaveChanged:
+    description: 'Tells if dependencies have changed'
+runs:
+  using: 'node16'
+  main: 'dependencies-have-changed.mjs'
