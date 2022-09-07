@@ -14,6 +14,11 @@ jobs:
   changedfiles:
     runs-on: ubuntu-latest
     steps:
+      # needed for local github actions
+      - name: Check out source code with current branch Git history
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
 
       - name: Check if dependencies have changed
         id: dependenciesHaveChanged
