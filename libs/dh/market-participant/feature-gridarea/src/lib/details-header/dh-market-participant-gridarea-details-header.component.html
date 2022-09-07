@@ -20,7 +20,7 @@ limitations under the License.
 >
   <ng-container *ngIf="gridArea">
     <div class="top-btns">
-      <watt-button (click)="openEditModal()">Rediger</watt-button>
+      <watt-button (click)="openEditModal()">{{ t("editGridArea") }}</watt-button>
     </div>
     <div class="header-grid-area-code">
       {{ t("code") + " " + gridArea.code }}

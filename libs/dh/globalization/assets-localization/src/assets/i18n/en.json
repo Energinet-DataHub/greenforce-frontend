@@ -508,7 +508,8 @@
         "lossMeteringPoint": "Loss metering point",
         "correctionMeteringPoint": "Correction metering point",
         "validFrom": "Gyldig fra",
-        "validTo": "Gyldig til"
+        "validTo": "Gyldig til",
+        "editGridArea": "Edit"
       },
       "changeGridArea": {
         "gridAreaName": "Grid area name",

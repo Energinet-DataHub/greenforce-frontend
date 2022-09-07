@@ -508,7 +508,8 @@
         "lossMeteringPoint": "Nettabsmålepunkt",
         "correctionMeteringPoint": "Systemkorrek. målepunkt",
         "validFrom": "Gyldig fra",
-        "validTo": "Gyldig til"
+        "validTo": "Gyldig til",
+        "editGridArea": "Rediger"
       },
       "changeGridArea": {
         "gridAreaName": "Netområde navn",
