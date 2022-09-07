@@ -503,9 +503,12 @@
       "detailsHeader": {
         "code": "Netområde ID",
         "actorId": "Aktørnummer",
+        "fullFlexDate": "Overgang til fuld flex",
         "priceAreaCode": "Prisområde",
         "lossMeteringPoint": "Nettabsmålepunkt",
-        "correctionMeteringPoint": "Systemkorrek. målepunkt"
+        "correctionMeteringPoint": "Systemkorrek. målepunkt",
+        "validFrom": "Gyldig fra",
+        "validTo": "Gyldig til"
       },
       "changeGridArea": {
         "gridAreaName": "Netområde navn",

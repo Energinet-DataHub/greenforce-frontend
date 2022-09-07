@@ -40,6 +40,7 @@ import {
   UntypedFormControl,
 } from '@angular/forms';
 import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/metering-point/shared/ui-util';
+import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import { MatDividerModule } from '@angular/material/divider';
 
 @Component({
@@ -98,6 +99,7 @@ export class DhMarketParticipantGridAreaDetailsHeaderComponent
     CommonModule,
     TranslocoModule,
     DhEmDashFallbackPipeScam,
+    DhSharedUiDateTimeModule,
     MatDividerModule,
     WattButtonModule,
     WattModalModule,
