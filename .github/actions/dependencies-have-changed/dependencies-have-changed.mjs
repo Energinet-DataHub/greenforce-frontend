@@ -5,9 +5,8 @@ try {
   const changedFiles = readChangedFiles();
   const result = haveDependenciesChanged(changedFiles);
   console.log(result);
-  core.setOutput('dependenciesHaveChanged', result);
 } catch (error) {
-  core.setFailed(error.message);
+  console.error(error.message);
 }
 
 function readChangedFiles() {
