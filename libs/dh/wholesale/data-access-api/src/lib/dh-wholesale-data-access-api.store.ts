@@ -43,7 +43,7 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
           startDate: object.dateRange.start,
           endDate: object.dateRange.end,
         };
-        console.log(batchRequest)
+        console.log(batchRequest);
         return this.httpClient.v1WholesaleBatchPost(batchRequest);
       })
     );
