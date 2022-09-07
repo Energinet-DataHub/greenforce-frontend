@@ -55,7 +55,10 @@ export class DhMarketParticipantGridAreaDataAccessApiStore extends ComponentStor
 
   readonly saveGridAreaChanges = this.effect(
     (
-      trigger: Observable<{ gridAreaChanges: GridAreaChanges; onCompleted: () => void }>
+      trigger: Observable<{
+        gridAreaChanges: GridAreaChanges;
+        onCompleted: () => void;
+      }>
     ) => {
       this.patchState({ isLoading: true });
       return trigger.pipe(

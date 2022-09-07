@@ -35,7 +35,10 @@ import { PushModule } from '@rx-angular/template';
   selector: 'dh-market-participant-gridarea',
   styleUrls: ['./dh-market-participant-gridarea.component.scss'],
   templateUrl: './dh-market-participant-gridarea.component.html',
-  providers: [DhMarketParticipantGridAreaOverviewDataAccessApiStore, DhMarketParticipantGridAreaDataAccessApiStore],
+  providers: [
+    DhMarketParticipantGridAreaOverviewDataAccessApiStore,
+    DhMarketParticipantGridAreaDataAccessApiStore,
+  ],
 })
 export class DhMarketParticipantGridAreaComponent {
   constructor(
@@ -51,10 +54,12 @@ export class DhMarketParticipantGridAreaComponent {
 
   gridAreaChangesIsLoading$ = this.gridAreaEditStore.isLoading$;
 
-  onGridAreaChanged = (changes: {gridAreaChanges: GridAreaChanges, onCompleted: ()=> void}) =>
-  {
+  onGridAreaChanged = (changes: {
+    gridAreaChanges: GridAreaChanges;
+    onCompleted: () => void;
+  }) => {
     this.gridAreaEditStore.saveGridAreaChanges(changes);
-  }
+  };
 }
 
 @NgModule({
