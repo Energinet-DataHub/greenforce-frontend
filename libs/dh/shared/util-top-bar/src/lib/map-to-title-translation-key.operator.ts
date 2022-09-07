@@ -8,6 +8,7 @@ import type { Event } from '@angular/router';
 import { filter, map, pipe } from 'rxjs';
 
 import { defaultTitleTranslationKey } from './default-title-translation-key';
+import { titleTranslationKey } from './title-translation-key';
 
 const filterNavigationEnd = pipe(
   filter((event: Event) => event instanceof NavigationEnd),
@@ -20,7 +21,7 @@ function getTitleTranslationKey(snapshot: ActivatedRouteSnapshot): string {
 
   while (route !== undefined) {
     maybeTranslationKey =
-      route.data['titleTranslationKey'] ?? maybeTranslationKey;
+      route.data[titleTranslationKey] ?? maybeTranslationKey;
     route = route.children.find((child) => child.outlet === PRIMARY_OUTLET);
   }
 
