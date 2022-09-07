@@ -14,7 +14,6 @@
 
 using System;
 using System.Collections.Generic;
-using NodaTime;
 
 namespace Energinet.DataHub.WebApi.Controllers.Wholesale
 {
