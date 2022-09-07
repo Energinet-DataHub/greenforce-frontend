@@ -23,6 +23,13 @@ env:
   yarn-version: 1.22.19
 
 on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'package.json'
+      - 'yarn.lock'
+
   pull_request:
     branches:
       - main

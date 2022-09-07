@@ -18,6 +18,13 @@ concurrency:
   cancel-in-progress: true
 
 on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - 'package.json'
+      - 'yarn.lock'
+
   pull_request:
     branches:
       - main
