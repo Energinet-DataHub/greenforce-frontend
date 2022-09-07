@@ -58,7 +58,7 @@ namespace Energinet.DataHub.WebApi
 
             services.AddHttpClientFactory();
 
-            AddDomainClients(services);
+            var apiClientSettingsService = AddDomainClients(services);
 
             // Register the Swagger generator, defining 1 or more Swagger documents.
             services.AddSwaggerGen(config =>
@@ -113,15 +113,18 @@ namespace Energinet.DataHub.WebApi
             }
 
             // Health check
-            var chargesBaseUrl = "https://app-webapi-charges-u-001.azurewebsites.net"; // Configuration.GetValue<string>("ApiClientSettings__ChargesBaseUrl") ?? string.Empty;
-            /*var marketParticipantBaseUrl = "https://app-webapi-markpart-u-001.azurewebsites.net"; // Configuration.GetValue<string>("ApiClientSettings__MarketParticipantBaseUrl") ?? string.Empty;
-            var messageArchiveBaseUrl = "https://app-webapi-msgarch-u-001.azurewebsites.net"; // Configuration.GetValue<string>("ApiClientSettings__MessageArchiveBaseUrl") ?? string.Empty;
-            var meteringPointBaseUrl = "https://app-webapi-mpt-u-001.azurewebsites.net"; // Configuration.GetValue<string>("ApiClientSettings__MeteringPointBaseUrl") ?? string.Empty;
-            var wholesaleBaseUrl = "https://app-webapi-wholsal-u-001.azurewebsites.net"; // Configuration.GetValue<string>("ApiClientSettings__WholesaleBaseUrl") ?? string.Empty;
-            */
+            var chargesBaseUrl = apiClientSettingsService.ChargesBaseUrl;
+            var marketParticipantBaseUrl = apiClientSettingsService.MarketParticipantBaseUrl;
+            var messageArchiveBaseUrl = apiClientSettingsService.MessageArchiveBaseUrl;
+            var wholesaleBaseUrl = apiClientSettingsService.WholesaleBaseUrl;
+
+            const string liveEndpointPath = "/monitor/live";
             services.AddHealthChecks()
                 .AddLiveCheck()
-                .AddServiceLiveHealthCheck("charges", new Uri(chargesBaseUrl + "monitor/live"));
+                .AddServiceLiveHealthCheck("charges", new Uri(chargesBaseUrl + liveEndpointPath))
+                .AddServiceLiveHealthCheck("marketParticipant", new Uri(marketParticipantBaseUrl + liveEndpointPath))
+                .AddServiceLiveHealthCheck("messageArchive", new Uri(messageArchiveBaseUrl + liveEndpointPath))
+                .AddServiceLiveHealthCheck("wholesale", new Uri(wholesaleBaseUrl + liveEndpointPath));
         }
 
         /// <summary>
@@ -161,7 +164,7 @@ namespace Energinet.DataHub.WebApi
             });
         }
 
-        private void AddDomainClients(IServiceCollection services)
+        private ApiClientSettings AddDomainClients(IServiceCollection services)
         {
             var apiClientSettings = Configuration.GetSection("ApiClientSettings").Get<ApiClientSettings>();
 
@@ -171,6 +174,7 @@ namespace Energinet.DataHub.WebApi
             AddMarketParticipantClient(services, apiClientSettings);
 
             services.AddSingleton(apiClientSettings ?? new ApiClientSettings());
+            return apiClientSettings ?? new ApiClientSettings();
         }
 
         private static void AddChargeLinksClient(IServiceCollection services, ApiClientSettings? apiClientSettings)

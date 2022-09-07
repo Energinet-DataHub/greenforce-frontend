@@ -18,22 +18,39 @@ using System.Threading.Tasks;
 using AutoFixture;
 using Energinet.DataHub.MeteringPoints.Client.Abstractions;
 using Energinet.DataHub.MeteringPoints.Client.Abstractions.Models;
+using Energinet.DataHub.WebApi.Tests.Fixtures;
 using FluentAssertions;
-using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using Xunit;
+using Xunit.Abstractions;
+using Xunit.Categories;
 
 namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
 {
-    public class MeteringPointControllerTests : IClassFixture<WebApplicationFactory<Startup>>
+    [IntegrationTest]
+    public class MeteringPointControllerTests :
+        WebApiTestBase<BffWebApiFixture>,
+        IClassFixture<BffWebApiFixture>,
+        IClassFixture<WebApiFactory>,
+        IAsyncLifetime
     {
-        public MeteringPointControllerTests(WebApplicationFactory<Startup> factory)
+        private Fixture DtoFixture { get; }
+
+        private Mock<IMeteringPointClient> ApiClientMock { get; }
+
+        private readonly HttpClient _client;
+
+        public MeteringPointControllerTests(
+            BffWebApiFixture bffWebApiFixture,
+            WebApiFactory factory,
+            ITestOutputHelper testOutputHelper)
+            : base(bffWebApiFixture, testOutputHelper)
         {
-            Fixture = new Fixture();
+            DtoFixture = new Fixture();
 
             ApiClientMock = new Mock<IMeteringPointClient>();
-            HttpClient = factory.WithWebHostBuilder(builder =>
+            _client = factory.WithWebHostBuilder(builder =>
             {
                 builder.ConfigureServices(services =>
                 {
@@ -41,34 +58,42 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
                 });
             })
             .CreateClient();
+
+            factory.ReconfigureJwtTokenValidatorMock(isValid: true);
         }
 
-        private Fixture Fixture { get; }
+        public Task InitializeAsync()
+        {
+            _client.DefaultRequestHeaders.Add("Authorization", $"Bearer xxx");
+            return Task.CompletedTask;
+        }
 
-        private Mock<IMeteringPointClient> ApiClientMock { get; }
+        public Task DisposeAsync()
+        {
+            _client.Dispose();
+            return Task.CompletedTask;
+        }
 
-        private HttpClient HttpClient { get; }
-
-        [Fact(Skip = "Acquire token for B2C user must be added for test to work")]
+        [Fact]
         public async Task When_MeteringPoint_Requested_And_Found_Then_StatusCode_IsOK()
         {
             // Arrange
-            const string gsrn = "574591757409421563";
+            const string gsrn = "existing-gsrn-number";
             var requestUrl = $"/v1/MeteringPoint/GetByGsrn?gsrnNumber={gsrn}";
-            var meteringPointDto = Fixture.Create<MeteringPointCimDto>();
+            var meteringPointDto = DtoFixture.Create<MeteringPointCimDto>();
 
             ApiClientMock
                 .Setup(mock => mock.GetMeteringPointByGsrnAsync(gsrn))
                 .ReturnsAsync(meteringPointDto);
 
             // Act
-            var actual = await HttpClient.GetAsync(requestUrl);
+            var actual = await _client.GetAsync(requestUrl);
 
             // Assert
             actual.StatusCode.Should().Be(HttpStatusCode.OK);
         }
 
-        [Fact(Skip = "Acquire token for B2C user must be added for test to work")]
+        [Fact]
         public async Task When_MeteringPoint_Requested_And_Not_Found_Then_StatusCode_IsNotFound()
         {
             // Arrange
@@ -80,7 +105,7 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
                 .Returns(Task.FromResult<MeteringPointCimDto?>(null));
 
             // Act
-            var actual = await HttpClient.GetAsync(requestUrl);
+            var actual = await _client.GetAsync(requestUrl);
 
             // Assert
             actual.StatusCode.Should().Be(HttpStatusCode.NotFound);
