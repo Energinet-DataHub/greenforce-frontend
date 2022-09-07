@@ -64,7 +64,7 @@ describe(DhMarketParticipantActorMarketRolesComponent.name, () => {
       id: '9117A657-2839-4DA5-94DC-89F7EE55F62F',
       code: 'code',
       name: 'name',
-      priceAreaCode: 'DK1',
+      priceAreaCode: 'Dk1',
       validFrom: '2022-08-30T00:00:00+02:00',
     },
   ];

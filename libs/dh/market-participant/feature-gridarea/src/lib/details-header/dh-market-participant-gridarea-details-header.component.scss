@@ -27,3 +27,12 @@
 .header-grid-area-access-provider {
   margin-top: var(--watt-space-xs);
 }
+
+.grid-area-property-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+
+.grid-area-property {
+  margin-bottom: var(--watt-space-m);
+}
