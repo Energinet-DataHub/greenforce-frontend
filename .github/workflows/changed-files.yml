@@ -18,7 +18,7 @@ jobs:
       all: ${{ steps.changes.outputs.all}}
       ts: ${{ steps.changes.outputs.ts }}
     steps:
-        # Make sure we have some code to diff.
+      # Make sure we have some code to diff.
       - name: Checkout repository
         uses: actions/checkout@v2
       - name: Get changed files
