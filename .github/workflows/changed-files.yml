@@ -19,6 +19,8 @@ jobs:
       dependencies-have-changed: ${{ steps.dependenciesHaveChanged.outputs.dependencies-have-changed }}
 
     steps:
+      - name: debug
+      - run: echo '::echo::on'
       # needed for local github actions
       - name: Check out source code with current branch Git history
         uses: actions/checkout@v2
