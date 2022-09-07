@@ -3,7 +3,7 @@ import { execSync } from 'child_process';
 try {
   const changedFiles = readChangedFiles();
   const result = haveDependenciesChanged(changedFiles);
-  console.log(result);
+  console.log(`result:${result}`);
 } catch (error) {
   console.error(error.message);
   process.exit(1);
