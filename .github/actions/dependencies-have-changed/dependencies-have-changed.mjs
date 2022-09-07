@@ -10,7 +10,7 @@ try {
 }
 
 function readChangedFiles() {
-  const changedFiles = execSync(`git diff main... --name-only`, {
+  const changedFiles = execSync(`git diff main...HEAD --name-only`, {
     encoding: 'utf-8',
   });
   return changedFiles.replaceAll(/\s/g, ',').split(',');
