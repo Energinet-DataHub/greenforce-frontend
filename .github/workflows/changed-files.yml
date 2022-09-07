@@ -33,7 +33,7 @@ jobs:
         uses: ./.github/actions/dependencies-have-changed
 
       - name: debug
-        run: echo "${{ steps.dependenciesHaveChanged.outputs.dependencies-have-changed }}"
+        run: echo "${{ steps.dependenciesHaveChanged.outputs.dependencies-have-changed }}""
   echoResult:
     name: Echo if dependencies have changed
     needs: changedfiles
@@ -41,4 +41,4 @@ jobs:
 
     steps:
       - name: Echo if dependencies have changed
-        run: echo "Dependencies have changed ${{ steps.changedfiles.outputs.dependencies-have-changed }}"
+        run: echo "Dependencies have changed ${{ needs.changedfiles.outputs.dependencies-have-changed }}"
