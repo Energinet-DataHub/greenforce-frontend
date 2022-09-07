@@ -31,6 +31,9 @@ jobs:
       - name: Check if dependencies have changed
         id: dependenciesHaveChanged
         uses: ./.github/actions/dependencies-have-changed
+
+      - name: debug
+        run: echo "${{ steps.dependenciesHaveChanged.outputs.dependencies-have-changed }}"
   echoResult:
     name: Echo if dependencies have changed
     needs: changedfiles
