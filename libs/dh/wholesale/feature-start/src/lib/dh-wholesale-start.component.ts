@@ -42,7 +42,7 @@ export class DhWholesaleStartComponent {
   );
 
   createBatch() {
-    if(this.formControlRange.value != null){
+    if (this.formControlRange.value != null) {
       this.store.createBatch({
         gridAreas: ['805', '806'],
         dateRange: this.formControlRange.value,
