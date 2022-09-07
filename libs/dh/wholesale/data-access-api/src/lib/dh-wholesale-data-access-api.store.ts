@@ -36,20 +36,20 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
 
   readonly createBatch = this.effect(
     (
-      object$: Observable<{
+      batch$: Observable<{
         gridAreas: string[];
         dateRange: { start: string; end: string };
       }>
     ) => {
-      return object$.pipe(
-        switchMap((object) => {
+      return batch$.pipe(
+        switchMap((batch) => {
           const batchRequest: WholesaleBatchRequestDto = {
             processType: WholesaleProcessType.BalanceFixing,
-            gridAreaCodes: object.gridAreas,
-            startDate: object.dateRange.start,
-            endDate: object.dateRange.end,
+            gridAreaCodes: batch.gridAreas,
+            startDate: batch.dateRange.start,
+            endDate: batch.dateRange.end,
           };
-          console.log(batchRequest);
+
           return this.httpClient.v1WholesaleBatchPost(batchRequest);
         })
       );
