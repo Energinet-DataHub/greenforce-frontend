@@ -22,8 +22,8 @@ on:
     branches:
       - main
     paths-ignore:
-      - package.json
-      - yarn.lock
+      - 'package.json'
+      - 'yarn.lock'
   workflow_dispatch: {}
 
 jobs:
