@@ -29,7 +29,7 @@ limitations under the License.
         {{ transloco("startProcess.dateRangeRequired") }}
       </watt-error>
     </watt-form-field>
-    <watt-button (click)="createBatch()"
+    <watt-button (click)="createBatch()" [disabled]="formControlRange?.errors?.rangeRequired"
       >{{ transloco("startProcess.startLabel") }}
     </watt-button>
   </ng-container>
