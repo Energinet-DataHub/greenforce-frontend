@@ -2,10 +2,10 @@
   "name": "energinet-datahub",
   "version": "0.0.0",
   "license": "MIT",
-  "//engines-comment": "Keep this in sync with '.nvmrc', and 'volta' config at the bottom of this file",
+  "//engines-comment": "Keep this in sync with '.nvmrc', and 'volta' config at the bottom of this file.",
   "engines": {
     "node": "16.16.0",
-    "npm": "Please use Yarn v1 instead of npm to install dependencies",
+    "npm": "Please use Yarn v1 instead of npm to install dependencies.",
     "yarn": "1.22.19"
   },
   "scripts": {
@@ -50,6 +50,7 @@
     "workspace-generator": "nx workspace-generator"
   },
   "dependencies": {
+    "@actions/github": "^5.0.3",
     "@angular-slider/ngx-slider": "2.0.4",
     "@angular/animations": "14.0.2",
     "@angular/cdk": "14.0.2",
@@ -85,7 +86,7 @@
     "zone.js": "0.11.4"
   },
   "devDependencies": {
-    "@actions/core": "1.9.1",
+    "@actions/core": "^1.9.1",
     "@angular-devkit/build-angular": "14.0.2",
     "@angular-eslint/eslint-plugin": "14.0.0",
     "@angular-eslint/eslint-plugin-template": "14.0.0",
