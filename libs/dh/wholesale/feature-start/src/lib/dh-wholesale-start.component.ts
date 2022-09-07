@@ -36,8 +36,7 @@ export class DhWholesaleStartComponent {
   ])
   
   createBatch() {
-    console.log(this.formControlRange.value!.end)
-    this.store.createBatch({gridAreas: ['805', '806']});
+    this.store.createBatch({gridAreas: ['805', '806'], dateRange: this.formControlRange.value});
   }
 }
 
