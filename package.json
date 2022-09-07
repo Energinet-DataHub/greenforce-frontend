@@ -2,7 +2,7 @@
   "name": "energinet-datahub",
   "version": "0.0.0",
   "license": "MIT",
-  "//engines-comment": "Keep this in sync with '.nvmrc', and 'volta' config at the bottom of this file",
+  "//engines-comment": "Keep this in sync with '.nvmrc', and 'volta' config at the bottom of this file.",
   "engines": {
     "node": "16.16.0",
     "npm": "Please use Yarn v1 instead of npm to install dependencies.",
