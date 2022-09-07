@@ -42,10 +42,12 @@ export class DhWholesaleStartComponent {
   );
 
   createBatch() {
-    this.store.createBatch({
-      gridAreas: ['805', '806'],
-      dateRange: this.formControlRange.value,
-    });
+    if(this.formControlRange.value != null){
+      this.store.createBatch({
+        gridAreas: ['805', '806'],
+        dateRange: this.formControlRange.value,
+      });
+    }
   }
 }
 

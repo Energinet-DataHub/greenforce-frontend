@@ -38,7 +38,7 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
     (
       object$: Observable<{
         gridAreas: string[];
-        dateRange: { start: string; end: string } | null;
+        dateRange: { start: string; end: string };
       }>
     ) => {
       return object$.pipe(
@@ -46,8 +46,8 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
           const batchRequest: WholesaleBatchRequestDto = {
             processType: WholesaleProcessType.BalanceFixing,
             gridAreaCodes: object.gridAreas,
-            startDate: object.dateRange!.start,
-            endDate: object.dateRange!.end,
+            startDate: object.dateRange.start,
+            endDate: object.dateRange.end,
           };
           console.log(batchRequest);
           return this.httpClient.v1WholesaleBatchPost(batchRequest);
