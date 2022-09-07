@@ -4,6 +4,11 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
+env:
+  node-version-file: .nvmrc
+  # keep in sync with "engines.yarn" and "volta.yarn" in "package.json"
+  yarn-version: 1.22.19
+
 on:
   pull_request:
     branches:
