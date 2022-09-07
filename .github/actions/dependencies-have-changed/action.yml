@@ -23,7 +23,7 @@ runs:
     - id: dependenciesHasChanged
       run: echo "::set-output name=dependencies-have-changed::$(cat ./tmp/DEPENDENCIES_HAVE_CHANGED)"
       shell: bash
-    - run: echo "$(cat ./tmp/DEPENDENCIES_HAVE_CHANGED)"
+    - run: echo "${{ steps.dependenciesHasChanged.outputs.dependencies-have-changed }}"
       shell: bash
     - run: rm ./tmp/DEPENDENCIES_HAVE_CHANGED
       shell: bash
