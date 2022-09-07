@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, NgModule } from '@angular/core';
+import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
 import {
   WattButtonModule,
@@ -26,9 +26,11 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 
 import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
 import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/feature-flags';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'dh-wholesale-start',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './dh-wholesale-start.component.html',
   styleUrls: ['./dh-wholesale-start.component.scss'],
   providers: [DhWholesaleBatchDataAccessApiStore],
@@ -59,6 +61,7 @@ export class DhWholesaleStartComponent {
     TranslocoModule,
     DhFeatureFlagDirectiveModule,
     ReactiveFormsModule,
+    CommonModule,
   ],
   declarations: [DhWholesaleStartComponent],
 })
