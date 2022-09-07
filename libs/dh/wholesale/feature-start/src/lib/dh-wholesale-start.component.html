@@ -32,7 +32,7 @@ limitations under the License.
     </div>
       <watt-button
       (click)="createBatch()"
-      [disabled]="formControlRange?.errors?.rangeRequired"
+      [disabled]="formControlRange.invalid"
       >{{ transloco("startProcess.startLabel") }}
     </watt-button>
   </ng-container>
