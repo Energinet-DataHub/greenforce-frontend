@@ -16,12 +16,11 @@
  */
 import type {
   EnvironmentContext,
-  JestEnvironmentConfig
+  JestEnvironmentConfig,
 } from '@jest/environment';
 
 import JSDOMEnvironment from 'jest-environment-jsdom';
 const { ResourceLoader } = require('jsdom');
-
 
 // Based on https://github.com/facebook/jest/issues/8701#issuecomment-512130059
 
@@ -38,12 +37,12 @@ class JsdomLaxSslEnvironment extends JSDOMEnvironment {
               // this is all we want to change
               // allow self-signed certificates
               strictSSL: false,
-              userAgent: config.projectConfig.testEnvironmentOptions?.['userAgent'] as
-                | string
-                | undefined,
+              userAgent: config.projectConfig.testEnvironmentOptions?.[
+                'userAgent'
+              ] as string | undefined,
             }),
           },
-        }
+        },
       },
       options
     );
