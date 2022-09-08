@@ -14,15 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  render,
-  screen,
-} from '@testing-library/angular';
+import { render, screen } from '@testing-library/angular';
 import { Component } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { en as enTranslations } from '@energinet-datahub/dh/globalization/assets-localization';
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
-import { debug } from 'jest-preview'
+import { debug } from 'jest-preview';
 
 import {
   DhWholesaleStartComponent,
@@ -60,8 +57,11 @@ describe(DhWholesaleStartComponent.name, () => {
   it('start button should be disabled until dateRange and gridAreaDropbox both have data', async () => {
     const { submitButton, fixture } = await setup();
     expect(submitButton).toBeDisabled();
-    fixture.componentInstance.formControlGridArea.setValue(['806', '805'])
-    fixture.componentInstance.formControlRange.setValue({start: '01-01-2022', end: '01-02-2022'})
+    fixture.componentInstance.formControlGridArea.setValue(['806', '805']);
+    fixture.componentInstance.formControlRange.setValue({
+      start: '01-01-2022',
+      end: '01-02-2022',
+    });
     fixture.detectChanges();
     expect(submitButton).toBeEnabled();
   });

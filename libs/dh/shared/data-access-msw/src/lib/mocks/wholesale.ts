@@ -23,9 +23,7 @@ function postWholesaleBatch() {
   return rest.post(
     'https://localhost:5001/v1/WholesaleBatch',
     (req, res, ctx) => {
-        return res(
-          ctx.status(200),
-        );
+      return res(ctx.status(200));
     }
   );
 }
