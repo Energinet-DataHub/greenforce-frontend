@@ -48,7 +48,7 @@ export class DhWholesaleStartComponent {
     value: key,
   }));
 
-  formControlGridArea = new FormControl(null);
+  formControlGridArea = new FormControl<string[] | null>(null);
 
   formControlRange = new FormControl<{ start: string; end: string } | null>(
     null,

@@ -14,15 +14,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import 'jest-preset-angular/setup-jest';
+import { WholesaleBatchRequestDto } from '@energinet-datahub/dh/shared/domain';
+import { rest } from 'msw';
 
-import { addDomMatchers } from '@energinet-datahub/gf/test-util-matchers';
-import { setUpNgMocks, setUpTestbed, setUpAngularTestingLibrary } from '@energinet-datahub/gf/test-util-staging';
+export const wholesaleMocks = [postWholesaleBatch()];
 
-import { setupMSW } from '@energinet-datahub/dh/shared/test-util-msw';
-
-setupMSW();
-addDomMatchers();
-setUpTestbed();
-setUpAngularTestingLibrary();
-setUpNgMocks();
+function postWholesaleBatch() {
+  return rest.post(
+    'https://localhost:5001/v1/WholesaleBatch',
+    (req, res, ctx) => {
+        return res(
+          ctx.status(200),
+        );
+    }
+  );
+}
