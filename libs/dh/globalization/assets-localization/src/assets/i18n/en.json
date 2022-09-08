@@ -518,8 +518,8 @@
   },
   "wholesale": {
     "startProcess": {
+      "topBarTitle": "Start Process",
       "startLabel": "Start",
-      "header": "Start Process",
       "processDescription": "Start a balance fixing for July 1, 2022 for grid areas 805 & 806."
     },
     "overview": {
