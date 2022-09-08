@@ -89,7 +89,7 @@ export class DhMarketParticipantGridAreaDataAccessApiStore extends ComponentStor
       validation: {
         errorMessage: parseErrorResponse(errorResponse),
       },
-      isLoading: false
+      isLoading: false,
     });
     return false;
   };
