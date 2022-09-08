@@ -265,7 +265,7 @@
   "messageArchive": {
     "unknowenError": "Ukendt fejl",
     "search": {
-      "title": "Fremsøg forretningsbesked",
+      "topBarTitle": "Fremsøg forretningsbesked",
       "documenttype": "Dokumenttype",
       "senderId": "Afsender Id",
       "messageId": "Besked Id",
