@@ -125,7 +125,7 @@ export class WattDrawerComponent implements AfterViewInit, OnDestroy {
    */
   open() {
     // Trap focus whenever open is called. This doesn't work on the
-    // initiall call (when first opening the drawer), but this is
+    // initial call (when first opening the drawer), but this is
     // handled by the autoFocus property on mat-drawer.
     this.cdkTrapFocus.focusTrap.focusInitialElementWhenReady();
 
