@@ -37,6 +37,7 @@
     "dh-shared-assets": "libs/dh/shared/assets",
     "dh-shared-data-access-api": "libs/dh/shared/data-access-api",
     "dh-shared-data-access-msw": "libs/dh/shared/data-access-msw",
+    "dh-shared-data-access-top-bar": "libs/dh/shared/data-access-top-bar",
     "dh-shared-domain": "libs/dh/shared/domain",
     "dh-shared-environments": "libs/dh/shared/environments",
     "dh-shared-feature-flags": "libs/dh/shared/feature-flags",
