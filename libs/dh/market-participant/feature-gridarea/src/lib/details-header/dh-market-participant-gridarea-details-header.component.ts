@@ -15,11 +15,7 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import {
-  Component,
-  Input,
-  NgModule,
-} from '@angular/core';
+import { Component, Input, NgModule } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
 import {
   GridAreaChanges,
@@ -41,8 +37,7 @@ import { DhMarketParticipantGridAreaEditScam } from '../details-edit/dh-market-p
   styleUrls: ['./dh-market-participant-gridarea-details-header.component.scss'],
   templateUrl: './dh-market-participant-gridarea-details-header.component.html',
 })
-export class DhMarketParticipantGridAreaDetailsHeaderComponent
-{
+export class DhMarketParticipantGridAreaDetailsHeaderComponent {
   @Input() gridArea?: GridAreaOverviewRow;
   @Input() gridChanges!: (changes: {
     gridAreaChanges: GridAreaChanges;

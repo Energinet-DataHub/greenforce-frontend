@@ -14,101 +14,99 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- import { CommonModule } from '@angular/common';
- import {
-   Component,
-   Input,
-   NgModule,
-   OnChanges,
-   ViewChild,
- } from '@angular/core';
- import { TranslocoModule } from '@ngneat/transloco';
- import {
-   GridAreaChanges,
-   GridAreaOverviewRow,
- } from '@energinet-datahub/dh/market-participant/data-access-api';
- import {
-   WattModalModule,
-   WattFormFieldModule,
-   WattInputModule,
-   WattButtonModule,
-   WattModalComponent,
- } from '@energinet-datahub/watt';
- import {
-   FormsModule,
-   ReactiveFormsModule,
-   UntypedFormControl,
- } from '@angular/forms';
- import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/metering-point/shared/ui-util';
- import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
- import { MatDividerModule } from '@angular/material/divider';
+import { CommonModule } from '@angular/common';
+import {
+  Component,
+  Input,
+  NgModule,
+  OnChanges,
+  ViewChild,
+} from '@angular/core';
+import { TranslocoModule } from '@ngneat/transloco';
+import {
+  GridAreaChanges,
+  GridAreaOverviewRow,
+} from '@energinet-datahub/dh/market-participant/data-access-api';
+import {
+  WattModalModule,
+  WattFormFieldModule,
+  WattInputModule,
+  WattButtonModule,
+  WattModalComponent,
+} from '@energinet-datahub/watt';
+import {
+  FormsModule,
+  ReactiveFormsModule,
+  UntypedFormControl,
+} from '@angular/forms';
+import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/metering-point/shared/ui-util';
+import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
+import { MatDividerModule } from '@angular/material/divider';
 
- @Component({
-   selector: 'dh-market-participant-gridarea-edit',
-   styleUrls: ['./dh-market-participant-gridarea-edit.component.scss'],
-   templateUrl: './dh-market-participant-gridarea-edit.component.html',
- })
- export class DhMarketParticipantGridAreaEditComponent
-   implements OnChanges
- {
-   @Input() gridArea?: GridAreaOverviewRow;
-   @ViewChild('nameChangeModal') nameChangeModal!: WattModalComponent;
+@Component({
+  selector: 'dh-market-participant-gridarea-edit',
+  styleUrls: ['./dh-market-participant-gridarea-edit.component.scss'],
+  templateUrl: './dh-market-participant-gridarea-edit.component.html',
+})
+export class DhMarketParticipantGridAreaEditComponent implements OnChanges {
+  @Input() gridArea?: GridAreaOverviewRow;
+  @ViewChild('nameChangeModal') nameChangeModal!: WattModalComponent;
 
-   @Input() gridChanges!: (changes: {
-     gridAreaChanges: GridAreaChanges;
-     onCompleted: () => void;
-   }) => void;
+  @Input() gridChanges!: (changes: {
+    gridAreaChanges: GridAreaChanges;
+    onCompleted: () => void;
+  }) => void;
 
-   nameChangeForm = new UntypedFormControl('');
-   newGridName = '';
-   editGridNameEditOpen = false;
+  nameChangeForm = new UntypedFormControl('');
+  newGridName = '';
+  editGridNameEditOpen = false;
 
-   openEditModal = () => {
-     this.editGridNameEditOpen = true;
-     this.newGridName = this.gridArea?.name ?? '';
-     this.nameChangeModal.open();
-   };
+  openEditModal = () => {
+    this.editGridNameEditOpen = true;
+    this.newGridName = this.gridArea?.name ?? '';
+    this.nameChangeModal.open();
+  };
 
-   closeEditModal = ($event: Event) => {
-     this.editGridNameEditOpen = false;
-     this.nameChangeModal.close(true);
-     $event.stopPropagation();
-   };
+  closeEditModal = ($event: Event) => {
+    this.editGridNameEditOpen = false;
+    this.nameChangeModal.close(true);
+    $event.stopPropagation();
+  };
 
-   saveGridChanges = ($event: Event) => {
-     if (this.gridArea && this.newGridName && this.newGridName.trim() != '') {
-       const gridArea = this.gridArea;
-       this.gridChanges({
-         gridAreaChanges: { id: this.gridArea.id, name: this.newGridName },
-         onCompleted: () => {
-           gridArea.name = this.newGridName;
-           this.closeEditModal($event);
-         },
-       });
-     }
-   };
+  saveGridChanges = ($event: Event) => {
+    if (this.gridArea && this.newGridName && this.newGridName.trim() != '') {
+      const gridArea = this.gridArea;
+      this.gridChanges({
+        gridAreaChanges: { id: this.gridArea.id, name: this.newGridName },
+        onCompleted: () => {
+          gridArea.name = this.newGridName;
+          this.closeEditModal($event);
+        },
+      });
+    }
+  };
 
-   ngOnChanges(): void {
-     this.newGridName = '';
-     this.editGridNameEditOpen = false;
-   }
- }
+  ngOnChanges(): void {
+    this.newGridName = '';
+    this.editGridNameEditOpen = false;
+  }
+}
 
- @NgModule({
-   imports: [
-     CommonModule,
-     TranslocoModule,
-     DhEmDashFallbackPipeScam,
-     DhSharedUiDateTimeModule,
-     MatDividerModule,
-     WattButtonModule,
-     WattModalModule,
-     WattFormFieldModule,
-     WattInputModule,
-     FormsModule,
-     ReactiveFormsModule,
-   ],
-   declarations: [DhMarketParticipantGridAreaEditComponent],
-   exports: [DhMarketParticipantGridAreaEditComponent],
- })
- export class DhMarketParticipantGridAreaEditScam {}
+@NgModule({
+  imports: [
+    CommonModule,
+    TranslocoModule,
+    DhEmDashFallbackPipeScam,
+    DhSharedUiDateTimeModule,
+    MatDividerModule,
+    WattButtonModule,
+    WattModalModule,
+    WattFormFieldModule,
+    WattInputModule,
+    FormsModule,
+    ReactiveFormsModule,
+  ],
+  declarations: [DhMarketParticipantGridAreaEditComponent],
+  exports: [DhMarketParticipantGridAreaEditComponent],
+})
+export class DhMarketParticipantGridAreaEditScam {}
