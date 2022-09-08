@@ -14,22 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@use "./theme/light-theme.scss";
-@use "./theme/material-overwrites/datepicker";
-@use "./theme/material-overwrites/snack-bar";
+import { PlaywrightTestConfig } from '@playwright/test';
+import { config as baseConfig } from './playwright.config';
 
-@use "../../../foundations/variables";
-@use "../../../foundations/box-sizing";
-@use "../../../foundations/typography";
-@use "../../../foundations/spacing";
-@use "../../../foundations/table";
-@use "../../../foundations/tooltip";
-
-html,
-body {
-  height: 100%;
-}
-body {
-  margin: 0;
-  font-family: "Open Sans", sans-serif;
-}
+const config: PlaywrightTestConfig = {
+  ...baseConfig,
+  globalSetup: undefined,
+  use: {
+    ...baseConfig.use,
+    headless: true,
+    storageState: undefined,
+  },
+};
+export default config;

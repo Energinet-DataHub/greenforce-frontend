@@ -16,7 +16,10 @@
  */
 import { Injectable } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
-import { MarketParticipantGridAreaOverviewHttp } from '@energinet-datahub/dh/shared/domain';
+import {
+  MarketParticipantGridAreaOverviewHttp,
+  PriceAreaCode,
+} from '@energinet-datahub/dh/shared/domain';
 import { Observable, switchMap, tap } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { parseErrorResponse } from './dh-market-participant-error-handling';
@@ -35,11 +38,12 @@ export interface GridAreaOverviewRow {
   id: string;
   name: string;
   code: string;
-  priceAreaCode: string;
+  priceAreaCode: PriceAreaCode;
   validFrom: string;
   validTo?: string | null;
   actorNumber?: string | null;
   actorName?: string | null;
+  fullFlexDate?: string | null;
 }
 
 const initialState: MarketParticipantGridAreaOverviewState = {
@@ -77,7 +81,7 @@ export class DhMarketParticipantGridAreaOverviewDataAccessApiStore extends Compo
             rows: rows
               .map((row) => ({
                 ...row,
-                priceAreaCode: row.priceAreaCode.toUpperCase(),
+                priceAreaCode: row.priceAreaCode,
               }))
               .sort((a, b) => a.code.localeCompare(b.code)),
           }),
