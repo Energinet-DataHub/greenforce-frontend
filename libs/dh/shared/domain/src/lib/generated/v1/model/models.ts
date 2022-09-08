@@ -33,6 +33,7 @@ export * from './metering-point-type';
 export * from './net-settlement-group';
 export * from './organization-dto';
 export * from './organization-status';
+export * from './price-area-code';
 export * from './process';
 export * from './process-detail';
 export * from './process-detail-error';

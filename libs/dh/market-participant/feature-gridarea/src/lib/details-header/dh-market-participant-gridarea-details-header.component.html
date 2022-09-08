@@ -18,21 +18,61 @@ limitations under the License.
 <ng-container
   *transloco="let t; read: 'marketParticipant.gridAreas.detailsHeader'"
 >
-  <div>
+  <ng-container *ngIf="gridArea">
     <div class="header-grid-area-code">
-      {{ t("code") + " " + gridArea?.code }}
+      {{ t("code") + " " + gridArea.code }}
     </div>
     <h1 class="header-grid-area-name">
-      {{ gridArea?.name }}
+      {{ gridArea.name }}
     </h1>
     <div class="header-grid-area-access-provider">
       {{
-        (gridArea?.actorName | dhEmDashFallback) +
+        (gridArea.actorName | dhEmDashFallback) +
           " | " +
           t("actorId") +
           " " +
-          (gridArea?.actorNumber | dhEmDashFallback)
+          (gridArea.actorNumber | dhEmDashFallback)
       }}
     </div>
-  </div>
+
+    <mat-divider></mat-divider>
+
+    <div
+      class="grid-area-property-container"
+      *transloco="let topTrans; read: 'marketParticipant.gridAreas'"
+    >
+      <div class="grid-area-property">
+        <span class="watt-label">{{ t("priceAreaCode") }}</span>
+        <div class="watt-text-s">
+          {{ topTrans("priceAreaCodes." + gridArea.priceAreaCode) }}
+        </div>
+      </div>
+      <div class="grid-area-property">
+        <span class="watt-label">{{ t("validFrom") }}</span>
+        <div class="watt-text-s">
+          {{ gridArea.validFrom | dhDate }}
+        </div>
+      </div>
+      <div class="grid-area-property">
+        <span class="watt-label">{{ t("validTo") }}</span>
+        <div class="watt-text-s">
+          {{ gridArea.validTo | dhDate | dhEmDashFallback }}
+        </div>
+      </div>
+      <div class="grid-area-property">
+        <span class="watt-label">{{ t("fullFlexDate") }}</span>
+        <div class="watt-text-s">
+          {{ gridArea.fullFlexDate | dhDate | dhEmDashFallback }}
+        </div>
+      </div>
+      <div class="grid-area-property">
+        <span class="watt-label">{{ t("lossMeteringPoint") }}</span>
+        <div class="watt-text-s">{{ undefined | dhEmDashFallback }}</div>
+      </div>
+      <div class="grid-area-property">
+        <span class="watt-label">{{ t("correctionMeteringPoint") }}</span>
+        <div class="watt-text-s">{{ undefined | dhEmDashFallback }}</div>
+      </div>
+    </div>
+  </ng-container>
 </ng-container>

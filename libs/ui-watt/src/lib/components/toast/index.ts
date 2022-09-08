@@ -14,16 +14,5 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { PlaywrightTestConfig } from '@playwright/test';
-import { config as baseConfig } from './playwright';
-
-const config: PlaywrightTestConfig = {
-  ...baseConfig,
-  globalSetup: undefined,
-  use: {
-    ...baseConfig.use,
-    headless: true,
-    storageState: undefined,
-  },
-};
-export default config;
+export { WattToastModule } from './watt-toast.module';
+export { WattToastService } from './watt-toast.service';

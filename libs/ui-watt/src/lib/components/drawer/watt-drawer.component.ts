@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { OverlayContainer } from '@angular/cdk/overlay';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -71,8 +72,18 @@ export class WattDrawerComponent implements AfterViewInit, OnDestroy {
   onDocumentClick(event: MouseEvent) {
     // Prevent closing when the click triggered a call to `open`
     if (this.bypassClickCheck) return;
+
+    // Check if the click originated from within the drawer element
     const isClickInside = this.elementRef.nativeElement.contains(event.target);
-    if (!isClickInside) this.close();
+    if (isClickInside) return;
+
+    // Check if the click originated from within an overlay (such as a modal)
+    const overlayContainerEl = this.overlayContainer.getContainerElement();
+    const isOverlayClick = overlayContainerEl.contains(event.target as Node);
+    if (isOverlayClick) return;
+
+    // Click is allowed to close the drawer now
+    this.close();
   }
 
   /** @ignore */
@@ -81,7 +92,11 @@ export class WattDrawerComponent implements AfterViewInit, OnDestroy {
     this.close();
   }
 
-  constructor(private cdr: ChangeDetectorRef, private elementRef: ElementRef) {}
+  constructor(
+    private cdr: ChangeDetectorRef,
+    private elementRef: ElementRef,
+    private overlayContainer: OverlayContainer
+  ) {}
 
   /** @ignore */
   ngAfterViewInit(): void {
