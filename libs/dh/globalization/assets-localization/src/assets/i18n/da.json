@@ -520,9 +520,9 @@
     "startProcess": {
       "startLabel": "Start",
       "header": "Start proces",
-      "processDescription": "Kør en balance fixering for netområde 805 & 806",
       "dateRangeRequired": "Dato-periode påkrævet",
-      "dateRangeLabel": "Periode"
+      "dateRangeLabel": "Periode",
+      "gridAreaDropDownLabel": "Netområder"
     },
     "overview": {
       "header": "Proces oversigt"

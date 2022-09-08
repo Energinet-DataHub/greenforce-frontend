@@ -16,11 +16,18 @@ limitations under the License.
 -->
 <ng-container *dhFeatureFlag="'start_wholesale_process_feature_flag'">
   <ng-container *transloco="let transloco; read: 'wholesale'">
-    <h1>{{ transloco("startProcess.header") }}</h1>
-    <p class="watt-space-stack-l">
-      {{ transloco("startProcess.processDescription") }}
-    </p>
+    <h1 class="watt-space-stack-l">{{ transloco("startProcess.header") }}</h1>
     <div class="date-range-width">
+      <watt-form-field>
+        <watt-label>{{ transloco("startProcess.gridAreaDropDownLabel") }}</watt-label>
+        <watt-dropdown
+        [formControl]="formControlGridArea"
+        [options]="optionsGridAreas"
+        [showResetOption]="false"
+        [multiple]="true"
+        required
+        ></watt-dropdown>
+      </watt-form-field>
       <watt-form-field>
         <watt-label>{{ transloco("startProcess.dateRangeLabel") }}</watt-label>
         <watt-datepicker
@@ -32,7 +39,7 @@ limitations under the License.
         </watt-error>
       </watt-form-field>
     </div>
-    <watt-button (click)="createBatch()" [disabled]="formControlRange.invalid"
+    <watt-button (click)="createBatch()" [disabled]="formControlRange.invalid || formControlGridArea.invalid"
       >{{ transloco("startProcess.startLabel") }}
     </watt-button>
   </ng-container>
