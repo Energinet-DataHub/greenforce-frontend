@@ -19,6 +19,7 @@ import { moduleMetadata, Story, Meta } from '@storybook/angular';
 import { fireEvent, within } from '@storybook/testing-library';
 
 import { WattButtonModule } from '../../button';
+import { WattModalModule } from '../../modal';
 import { WattDrawerComponent } from '../watt-drawer.component';
 import { WattDrawerModule } from '../watt-drawer.module';
 import { WattStorybookDrawerContentModule } from './storybook-drawer-content.component';
@@ -50,6 +51,7 @@ export default {
         WattDrawerModule,
         BrowserAnimationsModule,
         WattButtonModule,
+        WattModalModule,
         WattStorybookDrawerContentModule,
         WattStorybookDrawerLoadingComponent,
       ],
@@ -141,4 +143,28 @@ export const Multiple: Story<WattDrawerComponent> = (args) => ({
 export const Loading: Story<WattDrawerComponent> = (args) => ({
   props: args,
   template: `<watt-storybook-drawer-loading (closed)="closed()"></watt-storybook-drawer-loading>`,
+});
+
+export const WithModal: Story<WattDrawerComponent> = (args) => ({
+  props: args,
+  template: `
+    <watt-modal #modal title="Much Overlay" closeLabel="Halp">
+      <p>I am a modal within a drawer within a web page within a browser within a window within an operating system within a computer within a room within a house within a city within a country on a planet within a solar system within a galaxy within a super cluster within a universe within a modal within a drawer...</p>
+      <watt-modal-actions>
+        <watt-button variant="secondary" (click)="modal.close(false)">Halp</watt-button>
+        <watt-button (click)="modal.close(true)">Whoa</watt-button>
+      </watt-modal-actions>
+    </watt-modal>
+
+    <watt-drawer #drawer (closed)="closed()" size="small">
+      <watt-drawer-topbar>
+        <span>Top bar</span>
+      </watt-drawer-topbar>
+      <watt-drawer-actions>
+        <watt-button (click)="modal.open()">Open Modal</watt-button>
+      </watt-drawer-actions>
+    </watt-drawer>
+
+    <watt-button (click)="drawer.open()">Open drawer</watt-button><br /><br />
+  `,
 });
