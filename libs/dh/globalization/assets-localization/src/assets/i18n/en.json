@@ -380,7 +380,7 @@
       "DanishEnergyAgency": "Danish energy agency"
     },
     "organization": {
-      "header": "Organisations",
+      "topBarTitle": "Organisations",
       "columns": {
         "organization": "Organisation",
         "gln": "Actor Number",

@@ -380,7 +380,7 @@
       "DanishEnergyAgency": "Styrelsen"
     },
     "organization": {
-      "header": "Organisationer",
+      "topBarTitle": "Organisationer",
       "columns": {
         "organization": "Organisation",
         "gln": "Aktørnummer",
