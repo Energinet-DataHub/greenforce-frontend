@@ -19,7 +19,7 @@ assignees: ''
 - [ ] The issue is correctly estimated
 - [ ] The issue is adequately described
 - [ ] Possible dependencies are defined and aligned
-- [ ] We have the neccesary skills to complete this issue
+- [ ] We have the necessary skills to complete this issue
 - [ ] The issue can be completed withing 1 iteration
 - [ ] The issue has acceptance criteria defined
 - [ ] The issue has adequate Definition Of Done described

@@ -14,6 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { CdkTrapFocus } from '@angular/cdk/a11y';
+import { OverlayContainer } from '@angular/cdk/overlay';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -26,6 +28,7 @@ import {
   Output,
   Input,
   ElementRef,
+  ViewChild,
 } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
 
@@ -52,6 +55,9 @@ export class WattDrawerComponent implements AfterViewInit, OnDestroy {
   @Output()
   closed = new EventEmitter<void>();
 
+  @ViewChild(CdkTrapFocus)
+  cdkTrapFocus!: CdkTrapFocus;
+
   /**
    * Is the drawer opened
    */
@@ -71,17 +77,31 @@ export class WattDrawerComponent implements AfterViewInit, OnDestroy {
   onDocumentClick(event: MouseEvent) {
     // Prevent closing when the click triggered a call to `open`
     if (this.bypassClickCheck) return;
+
+    // Check if the click originated from within the drawer element
     const isClickInside = this.elementRef.nativeElement.contains(event.target);
-    if (!isClickInside) this.close();
+    if (isClickInside) return;
+
+    // Check if the click originated from within an overlay (such as a modal)
+    const overlayContainerEl = this.overlayContainer.getContainerElement();
+    const isOverlayClick = overlayContainerEl.contains(event.target as Node);
+    if (isOverlayClick) return;
+
+    // Click is allowed to close the drawer now
+    this.close();
   }
 
   /** @ignore */
-  @HostListener('window:keydown.escape')
+  @HostListener('keydown.escape')
   onEscKeyPressed() {
     this.close();
   }
 
-  constructor(private cdr: ChangeDetectorRef, private elementRef: ElementRef) {}
+  constructor(
+    private cdr: ChangeDetectorRef,
+    private elementRef: ElementRef,
+    private overlayContainer: OverlayContainer
+  ) {}
 
   /** @ignore */
   ngAfterViewInit(): void {
@@ -104,6 +124,11 @@ export class WattDrawerComponent implements AfterViewInit, OnDestroy {
    * Opens the drawer. Subsequent calls are ignored while the drawer is opened.
    */
   open() {
+    // Trap focus whenever open is called. This doesn't work on the
+    // initial call (when first opening the drawer), but this is
+    // handled by the autoFocus property on mat-drawer.
+    this.cdkTrapFocus.focusTrap.focusInitialElementWhenReady();
+
     // Disable click outside check until the current event loop is finished.
     // This might seem hackish, but the order of execution is stable here.
     this.bypassClickCheck = true;
