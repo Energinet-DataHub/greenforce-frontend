@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { CdkTrapFocus } from '@angular/cdk/a11y';
 import { OverlayContainer } from '@angular/cdk/overlay';
 import {
   AfterViewInit,
@@ -27,6 +28,7 @@ import {
   Output,
   Input,
   ElementRef,
+  ViewChild,
 } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
 
@@ -52,6 +54,9 @@ export class WattDrawerComponent implements AfterViewInit, OnDestroy {
 
   @Output()
   closed = new EventEmitter<void>();
+
+  @ViewChild(CdkTrapFocus)
+  cdkTrapFocus!: CdkTrapFocus;
 
   /**
    * Is the drawer opened
@@ -87,7 +92,7 @@ export class WattDrawerComponent implements AfterViewInit, OnDestroy {
   }
 
   /** @ignore */
-  @HostListener('window:keydown.escape')
+  @HostListener('keydown.escape')
   onEscKeyPressed() {
     this.close();
   }
@@ -119,6 +124,11 @@ export class WattDrawerComponent implements AfterViewInit, OnDestroy {
    * Opens the drawer. Subsequent calls are ignored while the drawer is opened.
    */
   open() {
+    // Trap focus whenever open is called. This doesn't work on the
+    // initiall call (when first opening the drawer), but this is
+    // handled by the autoFocus property on mat-drawer.
+    this.cdkTrapFocus.focusTrap.focusInitialElementWhenReady();
+
     // Disable click outside check until the current event loop is finished.
     // This might seem hackish, but the order of execution is stable here.
     this.bypassClickCheck = true;
