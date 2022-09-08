@@ -19,8 +19,6 @@ import {
   Component,
   Input,
   NgModule,
-  OnChanges,
-  ViewChild,
 } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
 import {
@@ -32,16 +30,11 @@ import {
   WattFormFieldModule,
   WattInputModule,
   WattButtonModule,
-  WattModalComponent,
 } from '@energinet-datahub/watt';
-import {
-  FormsModule,
-  ReactiveFormsModule,
-  UntypedFormControl,
-} from '@angular/forms';
 import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/metering-point/shared/ui-util';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import { MatDividerModule } from '@angular/material/divider';
+import { DhMarketParticipantGridAreaEditScam } from '../details-edit/dh-market-participant-gridarea-edit.component';
 
 @Component({
   selector: 'dh-market-participant-gridarea-details-header',
@@ -49,49 +42,12 @@ import { MatDividerModule } from '@angular/material/divider';
   templateUrl: './dh-market-participant-gridarea-details-header.component.html',
 })
 export class DhMarketParticipantGridAreaDetailsHeaderComponent
-  implements OnChanges
 {
   @Input() gridArea?: GridAreaOverviewRow;
-  @ViewChild('nameChangeModal') nameChangeModal!: WattModalComponent;
-
   @Input() gridChanges!: (changes: {
     gridAreaChanges: GridAreaChanges;
     onCompleted: () => void;
   }) => void;
-
-  nameChangeForm = new UntypedFormControl('');
-  newGridName = '';
-  editGridNameEditOpen = false;
-
-  openEditModal = () => {
-    this.editGridNameEditOpen = true;
-    this.newGridName = this.gridArea?.name ?? '';
-    //this.nameChangeModal.open();
-  };
-
-  closeEditModal = ($event: Event) => {
-    this.editGridNameEditOpen = false;
-    //this.nameChangeModal.close(true);
-    $event.stopPropagation();
-  };
-
-  saveGridChanges = ($event: Event) => {
-    if (this.gridArea && this.newGridName && this.newGridName.trim() != '') {
-      const gridArea = this.gridArea;
-      this.gridChanges({
-        gridAreaChanges: { id: this.gridArea.id, name: this.newGridName },
-        onCompleted: () => {
-          gridArea.name = this.newGridName;
-          this.closeEditModal($event);
-        },
-      });
-    }
-  };
-
-  ngOnChanges(): void {
-    this.newGridName = '';
-    this.editGridNameEditOpen = false;
-  }
 }
 
 @NgModule({
@@ -105,8 +61,7 @@ export class DhMarketParticipantGridAreaDetailsHeaderComponent
     WattModalModule,
     WattFormFieldModule,
     WattInputModule,
-    FormsModule,
-    ReactiveFormsModule,
+    DhMarketParticipantGridAreaEditScam,
   ],
   declarations: [DhMarketParticipantGridAreaDetailsHeaderComponent],
   exports: [DhMarketParticipantGridAreaDetailsHeaderComponent],

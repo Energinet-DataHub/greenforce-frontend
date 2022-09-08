@@ -19,11 +19,10 @@ limitations under the License.
   *transloco="let t; read: 'marketParticipant.gridAreas.detailsHeader'"
 >
   <ng-container *ngIf="gridArea">
-    <div class="top-btns">
-      <watt-button (click)="openEditModal()">{{
-        t("editGridArea")
-      }}</watt-button>
-    </div>
+    <dh-market-participant-gridarea-edit
+      [gridArea]="gridArea"
+      [gridChanges]="gridChanges">
+    </dh-market-participant-gridarea-edit>
     <div class="header-grid-area-code">
       {{ t("code") + " " + gridArea.code }}
     </div>
@@ -79,39 +78,5 @@ limitations under the License.
         <div class="watt-text-s">{{ undefined | dhEmDashFallback }}</div>
       </div>
     </div>
-  </ng-container>
-</ng-container>
-
-<ng-container
-  *transloco="let t; read: 'marketParticipant.gridAreas.changeGridArea'"
->
-  <ng-container *ngIf="editGridNameEditOpen">
-    <!--<watt-modal
-      #nameChangeModal
-      [title]="'Rediger netområde'"
-      [size]="'small'"
-      [disableClose]="false"
-      closeLabel="Close modal">
-    <br />-->
-    <watt-form-field>
-      <watt-label>{{ t("gridAreaName") }}</watt-label>
-      <input
-        #nameChangeInput
-        wattInput
-        [(ngModel)]="newGridName"
-        type="text"
-        required
-        [formControl]="nameChangeForm"
-      />
-    </watt-form-field>
-    <!--<watt-modal-actions>-->
-    <watt-button variant="secondary" (click)="closeEditModal($event)">{{
-      t("cancel")
-    }}</watt-button>
-    <watt-button (click)="saveGridChanges($event)">{{
-      t("saveChanges")
-    }}</watt-button>
-    <!--</watt-modal-actions>
-  </watt-modal>-->
   </ng-container>
 </ng-container>
