@@ -168,7 +168,7 @@ describe(WattDrawerComponent.name, () => {
     await setup(Drawer);
 
     userEvent.click(getOpenDrawerButton());
-    userEvent.keyboard('{Escape}');
+    userEvent.type(getDrawerContent() as Element, '{esc}');
 
     expect(closedOutput).toHaveBeenCalled();
   });
@@ -179,7 +179,7 @@ describe(WattDrawerComponent.name, () => {
     userEvent.click(getOpenDrawerButton());
 
     getDrawerTopBarContent()?.focus();
-    userEvent.keyboard('{Escape}');
+    userEvent.type(getDrawerContent() as Element, '{esc}');
 
     expect(closedOutput).toHaveBeenCalled();
   });
@@ -188,8 +188,7 @@ describe(WattDrawerComponent.name, () => {
     await setup(Drawer);
 
     userEvent.click(getOpenDrawerButton());
-    userEvent.keyboard('{Escape}');
-    userEvent.keyboard('{Escape}');
+    userEvent.type(getDrawerContent() as Element, '{esc}{esc}');
 
     expect(closedOutput).toHaveBeenCalledTimes(1);
   });
