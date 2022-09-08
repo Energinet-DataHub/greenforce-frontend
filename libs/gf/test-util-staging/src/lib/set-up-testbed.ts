@@ -40,7 +40,9 @@ function patchTestbed(): void {
     testbed.configureTestingModule === realConfigureTestingModule;
 
   if (isUnpatched) {
-    testbed.configureTestingModule = (moduleDef: TestModuleMetadata): TestBed => {
+    testbed.configureTestingModule = (
+      moduleDef: TestModuleMetadata
+    ): TestBed => {
       realConfigureTestingModule.call(testbed, {
         ...moduleDef,
         imports: [
