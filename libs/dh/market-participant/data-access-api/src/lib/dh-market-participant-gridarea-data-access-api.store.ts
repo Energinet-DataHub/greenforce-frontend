@@ -82,7 +82,6 @@ export class DhMarketParticipantGridAreaDataAccessApiStore extends ComponentStor
   private readonly gridAreaUpdated = (onCompleted: () => void) => {
     this.patchState({ isLoading: false });
     onCompleted();
-    return true;
   };
 
   private readonly handleError = (errorResponse: HttpErrorResponse) => {
@@ -90,6 +89,7 @@ export class DhMarketParticipantGridAreaDataAccessApiStore extends ComponentStor
       validation: {
         errorMessage: parseErrorResponse(errorResponse),
       },
+      isLoading: false
     });
     return false;
   };
