@@ -18,12 +18,14 @@ import { Component, NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { TranslocoModule } from '@ngneat/transloco';
 import { MsalService } from '@azure/msal-angular';
+import { PushModule } from '@rx-angular/template';
 
 import { WattButtonModule, WattShellComponent } from '@energinet-datahub/watt';
 import { DhLanguagePickerModule } from '@energinet-datahub/dh/globalization/feature-language-picker';
+import { DhApplicationInsights } from '@energinet-datahub/dh/shared/util-application-insights';
+import { DhTopBarStore } from '@energinet-datahub/dh-shared-data-access-top-bar';
 
 import { DhPrimaryNavigationScam } from './dh-primary-navigation.component';
-import { DhApplicationInsights } from '@energinet-datahub/dh/shared/util-application-insights';
 
 @Component({
   selector: 'dh-shell',
@@ -31,9 +33,12 @@ import { DhApplicationInsights } from '@energinet-datahub/dh/shared/util-applica
   templateUrl: './dh-core-shell.component.html',
 })
 export class DhCoreShellComponent {
+  titleTranslationKey$ = this.dhTopBarStore.titleTranslationKey$;
+
   constructor(
     private authService: MsalService,
-    private insights: DhApplicationInsights
+    private insights: DhApplicationInsights,
+    private dhTopBarStore: DhTopBarStore
   ) {
     this.insights.trackException(
       new Error('[TEST] logged exception from shell component constructor'),
@@ -56,6 +61,7 @@ export class DhCoreShellComponent {
     TranslocoModule,
     DhLanguagePickerModule,
     RouterModule,
+    PushModule,
     DhPrimaryNavigationScam,
     WattShellComponent,
     WattButtonModule,
