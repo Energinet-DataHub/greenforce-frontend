@@ -104,8 +104,10 @@ const routes: Routes = [
   },
   {
     path: dhMarketParticipantGridAreasPath,
-    pathMatch: 'full',
     component: DhMarketParticipantGridAreaComponent,
+    data: {
+      titleTranslationKey: 'marketParticipant.gridAreas.topBarTitle',
+    },
   },
 ];
 
