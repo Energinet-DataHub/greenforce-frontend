@@ -23,7 +23,7 @@ import { PushModule } from '@rx-angular/template';
 import { WattButtonModule, WattShellComponent } from '@energinet-datahub/watt';
 import { DhLanguagePickerModule } from '@energinet-datahub/dh/globalization/feature-language-picker';
 import { DhApplicationInsights } from '@energinet-datahub/dh/shared/util-application-insights';
-import { DhTopBarStore } from '@energinet-datahub/dh/shared/util-top-bar';
+import { DhTopBarStore } from '@energinet-datahub/dh-shared-data-access-top-bar';
 
 import { DhPrimaryNavigationScam } from './dh-primary-navigation.component';
 

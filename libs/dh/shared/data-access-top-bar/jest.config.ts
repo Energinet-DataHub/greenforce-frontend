@@ -16,7 +16,7 @@
  */
 /* eslint-disable */
 export default {
-  displayName: 'dh-shared-util-top-bar',
+  displayName: 'dh-shared-data-access-top-bar',
   preset: '../../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   globals: {
@@ -25,7 +25,7 @@ export default {
       stringifyContentPathRegex: '\\.(html|svg)$',
     },
   },
-  coverageDirectory: '../../../../coverage/libs/dh/shared/util-top-bar',
+  coverageDirectory: '../../../../coverage/libs/dh/shared/data-access-top-bar',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': 'jest-preset-angular',
   },

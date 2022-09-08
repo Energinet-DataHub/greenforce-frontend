@@ -1,14 +1,14 @@
 {
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
-  "sourceRoot": "libs/dh/shared/util-top-bar/src",
+  "sourceRoot": "libs/dh/shared/data-access-top-bar/src",
   "prefix": "dh",
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/dh/shared/util-top-bar"],
+      "outputs": ["coverage/libs/dh/shared/data-access-top-bar"],
       "options": {
-        "jestConfig": "libs/dh/shared/util-top-bar/jest.config.ts",
+        "jestConfig": "libs/dh/shared/data-access-top-bar/jest.config.ts",
         "passWithNoTests": true
       }
     },
@@ -16,11 +16,11 @@
       "executor": "@nrwl/linter:eslint",
       "options": {
         "lintFilePatterns": [
-          "libs/dh/shared/util-top-bar/**/*.ts",
-          "libs/dh/shared/util-top-bar/**/*.html"
+          "libs/dh/shared/data-access-top-bar/**/*.ts",
+          "libs/dh/shared/data-access-top-bar/**/*.html"
         ]
       }
     }
   },
-  "tags": ["product:dh", "domain:shared", "type:util"]
+  "tags": ["product:dh", "domain:shared", "type:data-access"]
 }
