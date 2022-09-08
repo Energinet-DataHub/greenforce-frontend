@@ -19,13 +19,15 @@ limitations under the License.
     <h1 class="watt-space-stack-l">{{ transloco("startProcess.header") }}</h1>
     <div class="date-range-width">
       <watt-form-field>
-        <watt-label>{{ transloco("startProcess.gridAreaDropDownLabel") }}</watt-label>
+        <watt-label>{{
+          transloco("startProcess.gridAreaDropDownLabel")
+        }}</watt-label>
         <watt-dropdown
-        [formControl]="formControlGridArea"
-        [options]="optionsGridAreas"
-        [showResetOption]="false"
-        [multiple]="true"
-        required
+          [formControl]="formControlGridArea"
+          [options]="optionsGridAreas"
+          [showResetOption]="false"
+          [multiple]="true"
+          required
         ></watt-dropdown>
       </watt-form-field>
       <watt-form-field>
@@ -39,7 +41,9 @@ limitations under the License.
         </watt-error>
       </watt-form-field>
     </div>
-    <watt-button (click)="createBatch()" [disabled]="formControlRange.invalid || formControlGridArea.invalid"
+    <watt-button
+      (click)="createBatch()"
+      [disabled]="formControlRange.invalid || formControlGridArea.invalid"
       >{{ transloco("startProcess.startLabel") }}
     </watt-button>
   </ng-container>

@@ -22,7 +22,7 @@ import {
   WattFormFieldModule,
   WattRangeValidators,
   WattDropdownModule,
-  WattDropdownOption
+  WattDropdownOption,
 } from '@energinet-datahub/watt';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 
@@ -43,12 +43,10 @@ export class DhWholesaleStartComponent {
   optionsGridAreas: WattDropdownOption[] = Object.keys({
     805: '805',
     806: '806',
-  }).map(
-    (key) => ({
-      displayValue: key,
-      value: key,
-    })
-  );
+  }).map((key) => ({
+    displayValue: key,
+    value: key,
+  }));
 
   formControlGridArea = new FormControl(null);
 
@@ -58,7 +56,10 @@ export class DhWholesaleStartComponent {
   );
 
   createBatch() {
-    if (this.formControlRange.value != null && this.formControlGridArea.value != null) {
+    if (
+      this.formControlRange.value != null &&
+      this.formControlGridArea.value != null
+    ) {
       this.store.createBatch({
         gridAreas: this.formControlGridArea.value,
         dateRange: this.formControlRange.value,
@@ -76,7 +77,7 @@ export class DhWholesaleStartComponent {
     DhFeatureFlagDirectiveModule,
     ReactiveFormsModule,
     CommonModule,
-    WattDropdownModule
+    WattDropdownModule,
   ],
   declarations: [DhWholesaleStartComponent],
 })
