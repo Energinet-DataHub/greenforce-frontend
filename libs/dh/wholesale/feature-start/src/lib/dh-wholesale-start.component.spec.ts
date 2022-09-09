@@ -46,12 +46,6 @@ describe(DhWholesaleStartComponent.name, () => {
     };
   }
 
-  it('should show heading of level 1', async () => {
-    await setup();
-    const heading = screen.getByRole('heading', { level: 1 });
-    expect(heading).toBeInTheDocument();
-  });
-
   it('start button should be disabled until dateRange and gridAreaDropbox both have data', async () => {
     const { submitButton, fixture } = await setup();
     expect(submitButton).toBeDisabled();
