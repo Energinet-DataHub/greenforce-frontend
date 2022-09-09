@@ -508,13 +508,13 @@
         "lossMeteringPoint": "Nettabsmålepunkt",
         "correctionMeteringPoint": "Systemkorrek. målepunkt",
         "validFrom": "Gyldig fra",
-        "validTo": "Gyldig til",
-        "editGridArea": "Rediger"
+        "validTo": "Gyldig til"
       },
       "changeGridArea": {
         "gridAreaName": "Netområde navn",
         "cancel": "Fortryd",
-        "saveChanges": "Gem ændringer"
+        "saveChanges": "Gem ændringer",
+        "editGridArea": "Rediger"
       },
       "priceAreaCodes": {
         "Dk1": "DK1",

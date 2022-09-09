@@ -20,6 +20,7 @@ import {
   Input,
   NgModule,
   OnChanges,
+  SimpleChanges,
   ViewChild,
 } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
@@ -36,8 +37,6 @@ import {
 } from '@energinet-datahub/watt';
 import {
   FormsModule,
-  ReactiveFormsModule,
-  UntypedFormControl,
 } from '@angular/forms';
 import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/metering-point/shared/ui-util';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
@@ -50,14 +49,13 @@ import { MatDividerModule } from '@angular/material/divider';
 })
 export class DhMarketParticipantGridAreaEditComponent implements OnChanges {
   @Input() gridArea?: GridAreaOverviewRow;
-  @ViewChild('nameChangeModal') nameChangeModal!: WattModalComponent;
-
   @Input() gridChanges!: (changes: {
     gridAreaChanges: GridAreaChanges;
     onCompleted: () => void;
   }) => void;
+  @Input() gridChangesLoading?: boolean;
+  @ViewChild('nameChangeModal') nameChangeModal!: WattModalComponent;
 
-  nameChangeForm = new UntypedFormControl('');
   newGridName = '';
   editGridNameEditOpen = false;
 
@@ -74,7 +72,7 @@ export class DhMarketParticipantGridAreaEditComponent implements OnChanges {
   };
 
   saveGridChanges = ($event: Event) => {
-    if (this.gridArea && this.newGridName && this.newGridName.trim() != '') {
+    if (this.gridChangesLoading === false && this.gridArea && this.newGridName && this.newGridName.trim() != '') {
       const gridArea = this.gridArea;
       this.gridChanges({
         gridAreaChanges: { id: this.gridArea.id, name: this.newGridName },
@@ -86,9 +84,10 @@ export class DhMarketParticipantGridAreaEditComponent implements OnChanges {
     }
   };
 
-  ngOnChanges(): void {
-    this.newGridName = '';
-    this.editGridNameEditOpen = false;
+  ngOnChanges(changes: SimpleChanges): void {
+    if(changes.gridArea) {
+      this.editGridNameEditOpen = false;
+    }
   }
 }
 
@@ -104,7 +103,6 @@ export class DhMarketParticipantGridAreaEditComponent implements OnChanges {
     WattFormFieldModule,
     WattInputModule,
     FormsModule,
-    ReactiveFormsModule,
   ],
   declarations: [DhMarketParticipantGridAreaEditComponent],
   exports: [DhMarketParticipantGridAreaEditComponent],

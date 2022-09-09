@@ -508,13 +508,13 @@
         "lossMeteringPoint": "Loss metering point",
         "correctionMeteringPoint": "Correction metering point",
         "validFrom": "Gyldig fra",
-        "validTo": "Gyldig til",
-        "editGridArea": "Edit"
+        "validTo": "Gyldig til"
       },
       "changeGridArea": {
         "gridAreaName": "Grid area name",
         "cancel": "Cancel",
-        "saveChanges": "Save changes"
+        "saveChanges": "Save changes",
+        "editGridArea": "Edit"
       },
       "priceAreaCodes": {
         "Dk1": "DK1",

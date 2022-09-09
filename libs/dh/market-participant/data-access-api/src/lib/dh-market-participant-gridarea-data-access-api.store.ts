@@ -17,7 +17,7 @@
 import { Injectable } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { MarketParticipantGridAreaHttp } from '@energinet-datahub/dh/shared/domain';
-import { Observable, switchMap } from 'rxjs';
+import { Observable, switchMap, tap } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { parseErrorResponse } from './dh-market-participant-error-handling';
 
@@ -46,8 +46,6 @@ const initialState: MarketParticipantGridAreaState = {
 @Injectable()
 export class DhMarketParticipantGridAreaDataAccessApiStore extends ComponentStore<MarketParticipantGridAreaState> {
   isLoading$ = this.select((state) => state.isLoading);
-  changes$ = this.select((state) => state.changes);
-  validationError$ = this.select((state) => state.validation);
 
   constructor(private gridAreaClient: MarketParticipantGridAreaHttp) {
     super(initialState);
@@ -60,8 +58,8 @@ export class DhMarketParticipantGridAreaDataAccessApiStore extends ComponentStor
         onCompleted: () => void;
       }>
     ) => {
-      this.patchState({ isLoading: true });
       return trigger.pipe(
+        tap(() => this.patchState({ isLoading: true })),
         switchMap((changes) =>
           this.gridAreaClient
             .v1MarketParticipantGridAreaPut({
