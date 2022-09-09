@@ -15,11 +15,9 @@
  * limitations under the License.
  */
 import { render, screen } from '@testing-library/angular';
-import { Component } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { en as enTranslations } from '@energinet-datahub/dh/globalization/assets-localization';
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
-import { debug } from 'jest-preview';
 
 import {
   DhWholesaleStartComponent,
