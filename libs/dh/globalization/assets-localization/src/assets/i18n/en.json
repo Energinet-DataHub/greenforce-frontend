@@ -518,8 +518,8 @@
   },
   "wholesale": {
     "startProcess": {
+      "topBarTitle": "Start Process",
       "startLabel": "Start",
-      "header": "Start Process",
       "dateRangeRequired": "Date range is required",
       "dateRangeLabel": "Period",
       "gridAreaDropDownLabel": "Grid Areas"

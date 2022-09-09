@@ -518,8 +518,8 @@
   },
   "wholesale": {
     "startProcess": {
+      "topBarTitle": "Start proces",
       "startLabel": "Start",
-      "header": "Start proces",
       "dateRangeRequired": "Dato-periode påkrævet",
       "dateRangeLabel": "Periode",
       "gridAreaDropDownLabel": "Netområder"
