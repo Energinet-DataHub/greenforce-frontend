@@ -91,6 +91,5 @@ export class DhMarketParticipantGridAreaDataAccessApiStore extends ComponentStor
       },
       isLoading: false,
     });
-    return false;
   };
 }

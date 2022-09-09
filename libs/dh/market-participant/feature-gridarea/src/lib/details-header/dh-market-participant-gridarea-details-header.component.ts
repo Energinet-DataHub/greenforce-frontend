@@ -18,7 +18,6 @@ import { CommonModule } from '@angular/common';
 import { Component, Input, NgModule } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
 import {
-  GridAreaChanges,
   GridAreaOverviewRow,
 } from '@energinet-datahub/dh/market-participant/data-access-api';
 import {
@@ -30,7 +29,6 @@ import {
 import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/metering-point/shared/ui-util';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import { MatDividerModule } from '@angular/material/divider';
-import { DhMarketParticipantGridAreaEditScam } from '../details-edit/dh-market-participant-gridarea-edit.component';
 
 @Component({
   selector: 'dh-market-participant-gridarea-details-header',
@@ -39,10 +37,6 @@ import { DhMarketParticipantGridAreaEditScam } from '../details-edit/dh-market-p
 })
 export class DhMarketParticipantGridAreaDetailsHeaderComponent {
   @Input() gridArea?: GridAreaOverviewRow;
-  @Input() gridChanges!: (changes: {
-    gridAreaChanges: GridAreaChanges;
-    onCompleted: () => void;
-  }) => void;
 }
 
 @NgModule({
@@ -56,7 +50,6 @@ export class DhMarketParticipantGridAreaDetailsHeaderComponent {
     WattModalModule,
     WattFormFieldModule,
     WattInputModule,
-    DhMarketParticipantGridAreaEditScam,
   ],
   declarations: [DhMarketParticipantGridAreaDetailsHeaderComponent],
   exports: [DhMarketParticipantGridAreaDetailsHeaderComponent],

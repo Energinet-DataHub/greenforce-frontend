@@ -43,6 +43,7 @@ import {
 } from '@energinet-datahub/dh/market-participant/data-access-api';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import { DhMarketParticipantGridAreaDetailsHeaderScam } from '../details-header/dh-market-participant-gridarea-details-header.component';
+import { DhMarketParticipantGridAreaEditScam } from '../details-edit/dh-market-participant-gridarea-edit.component';
 
 @Component({
   selector: 'dh-market-participant-gridarea-overview',
@@ -102,6 +103,7 @@ export class DhMarketParticipantGridAreaOverviewComponent implements OnChanges {
     DhSharedUiDateTimeModule,
     WattDrawerModule,
     DhMarketParticipantGridAreaDetailsHeaderScam,
+    DhMarketParticipantGridAreaEditScam,
   ],
   declarations: [DhMarketParticipantGridAreaOverviewComponent],
   exports: [DhMarketParticipantGridAreaOverviewComponent],
