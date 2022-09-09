@@ -265,7 +265,7 @@
   "messageArchive": {
     "unknowenError": "Unknowen error",
     "search": {
-      "title": "Search in request and response messages",
+      "topBarTitle": "Search in request and response messages",
       "documenttype": "Document type",
       "senderId": "Sender Id",
       "messageId": "Message Id",
@@ -380,7 +380,7 @@
       "DanishEnergyAgency": "Danish energy agency"
     },
     "organization": {
-      "header": "Organisations",
+      "topBarTitle": "Organisations",
       "columns": {
         "organization": "Organisation",
         "gln": "Actor Number",
@@ -487,7 +487,7 @@
       "ariaLabelDeleteForNewContact": "delete button for new contact"
     },
     "gridAreas": {
-      "header": "Grid areas",
+      "topBarTitle": "Grid areas",
       "createGridArea": "Create",
       "editGridArea": "Edit",
       "noGridAreas": "No gridareas found",
@@ -518,8 +518,8 @@
   },
   "wholesale": {
     "startProcess": {
+      "topBarTitle": "Start Process",
       "startLabel": "Start",
-      "header": "Start Process",
       "processDescription": "Start a balance fixing for July 1, 2022 for grid areas 805 & 806."
     },
     "overview": {

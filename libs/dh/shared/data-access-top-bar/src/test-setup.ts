@@ -14,21 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@use "@energinet-datahub/watt/utils" as watt;
+import 'jest-preset-angular/setup-jest';
 
-:host {
-  display: block;
-}
+import { setUpTestbed } from '@energinet-datahub/gf/test-util-staging';
 
-.app-actions {
-  margin-left: auto;
-}
-
-.sidenav {
-  display: flex;
-  justify-content: center;
-}
-
-.logo--sidenav {
-  margin: var(--watt-space-m) 0;
-}
+setUpTestbed();
