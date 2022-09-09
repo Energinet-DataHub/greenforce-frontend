@@ -17,9 +17,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, NgModule } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
-import {
-  GridAreaOverviewRow,
-} from '@energinet-datahub/dh/market-participant/data-access-api';
+import { GridAreaOverviewRow } from '@energinet-datahub/dh/market-participant/data-access-api';
 import {
   WattModalModule,
   WattFormFieldModule,

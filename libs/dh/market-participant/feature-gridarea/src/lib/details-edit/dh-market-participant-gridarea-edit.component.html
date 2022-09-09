@@ -49,9 +49,11 @@ limitations under the License.
         <watt-button variant="secondary" (click)="closeEditModal($event)">{{
           t("cancel")
         }}</watt-button>
-        <watt-button [loading]="gridChangesLoading ?? false" (click)="saveGridChanges($event)">{{
-          t("saveChanges")
-        }}</watt-button>
+        <watt-button
+          [loading]="gridChangesLoading ?? false"
+          (click)="saveGridChanges($event)"
+          >{{ t("saveChanges") }}</watt-button
+        >
       </watt-modal-actions>
     </watt-modal>
   </ng-container>
