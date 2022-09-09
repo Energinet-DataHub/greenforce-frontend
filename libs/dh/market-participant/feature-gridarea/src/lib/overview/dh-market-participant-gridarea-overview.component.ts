@@ -44,7 +44,6 @@ import {
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import { DhMarketParticipantGridAreaDetailsHeaderScam } from '../details-header/dh-market-participant-gridarea-details-header.component';
 import { DhMarketParticipantGridAreaEditScam } from '../details-edit/dh-market-participant-gridarea-edit.component';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'dh-market-participant-gridarea-overview',
