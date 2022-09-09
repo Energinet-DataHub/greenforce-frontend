@@ -70,7 +70,7 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
         public async Task GetAsync_WhenMeteringPointIdHasChargeLinks_ReturnsOk()
         {
             // Arrange
-            var meteringPointId = "metering-point-has-links";
+            var meteringPointId = "571313180000000000";
             var requestUrl = $"/v1/ChargeLinks?meteringPointId={meteringPointId}";
             var list = new List<ChargeLinkV1Dto>
             {

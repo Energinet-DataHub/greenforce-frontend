@@ -69,7 +69,7 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
         public async Task When_MeteringPoint_Requested_And_Found_Then_StatusCode_IsOK()
         {
             // Arrange
-            const string gsrn = "existing-gsrn-number";
+            const string gsrn = "574591757409421563";
             var requestUrl = $"/v1/MeteringPoint/GetByGsrn?gsrnNumber={gsrn}";
             var meteringPointDto = DtoFixture.Create<MeteringPointCimDto>();
 
