@@ -25,6 +25,12 @@
   right: 0;
   top: 0;
   width: auto;
+
+  // Most material components does not have a z-index exceeding 100,
+  // except for modals which has a value of 1000. Since the drawer
+  // needs to stay on top of all content except modals, the value
+  // of 500 was chosen here which hopefully will remain stable.
+  z-index: 500;
 }
 
 .watt-drawer {
