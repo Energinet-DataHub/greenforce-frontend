@@ -14,21 +14,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@use "@energinet-datahub/watt/utils" as watt;
-
-:host {
-  display: block;
-}
-
-.app-actions {
-  margin-left: auto;
-}
-
-.sidenav {
-  display: flex;
-  justify-content: center;
-}
-
-.logo--sidenav {
-  margin: var(--watt-space-m) 0;
-}
+export const defaultTitleTranslationKey = '';
