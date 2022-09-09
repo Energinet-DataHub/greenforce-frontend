@@ -34,16 +34,12 @@ namespace Energinet.DataHub.WebApi.Tests.Fixtures
 
         public async Task InitializeAsync()
         {
-            OnConfigureEnvironment();
-
-            var localSettingsSnapshot = WebApiConfigurationBuilder.BuildLocalSettingsConfiguration();
-            await OnInitializeWebApiDependenciesAsync(localSettingsSnapshot).ConfigureAwait(false);
+            var configuration = new ConfigurationBuilder().Build();
+            await OnInitializeWebApiDependenciesAsync(configuration).ConfigureAwait(false);
         }
 
         public async Task DisposeAsync()
         {
-            await Task.CompletedTask.ConfigureAwait(false);
-
             await OnDisposeWebApiDependenciesAsync().ConfigureAwait(false);
         }
 
@@ -61,20 +57,11 @@ namespace Energinet.DataHub.WebApi.Tests.Fixtures
         }
 
         /// <summary>
-        /// Before starting the host or creating supporting manager/services, we set environment variables
-        /// to e.g. ensure the host uses the same instances of resources (e.g. a service bus queue or database).
-        /// </summary>
-        protected virtual void OnConfigureEnvironment()
-        {
-        }
-
-        /// <summary>
         /// Settings have been frozen, meaning loaded settings will not get updated
         /// if environment variables are changed from here on.
         /// </summary>
-        /// <param name="localSettingsSnapshot">Loaded settings from "local.settings.json",
-        /// which might have been overriden using environment variables.</param>
-        protected virtual Task OnInitializeWebApiDependenciesAsync(IConfiguration localSettingsSnapshot)
+        /// <param name="configuration">The configuration.</param>
+        protected virtual Task OnInitializeWebApiDependenciesAsync(IConfiguration configuration)
         {
             return Task.CompletedTask;
         }

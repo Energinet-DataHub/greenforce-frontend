@@ -31,7 +31,7 @@ namespace Energinet.DataHub.WebApi.Tests.Fixtures
         public B2CAuthorizationConfiguration AuthorizationConfiguration { get; }
 
         /// <inheritdoc/>
-        protected override Task OnInitializeWebApiDependenciesAsync(IConfiguration localSettingsSnapshot)
+        protected override Task OnInitializeWebApiDependenciesAsync(IConfiguration configuration)
         {
             Environment.SetEnvironmentVariable("ApiClientSettings__ChargesBaseUrl", "https://app-webapi-charges-u-001.azurewebsites.net");
             Environment.SetEnvironmentVariable("ApiClientSettings__MessageArchiveBaseUrl", "https://app-webapi-msgarch-u-001.azurewebsites.net");
