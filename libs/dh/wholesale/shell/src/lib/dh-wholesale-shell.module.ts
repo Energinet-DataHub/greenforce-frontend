@@ -31,6 +31,9 @@ const routes: Routes = [
   {
     path: 'start-process',
     component: DhWholesaleStartComponent,
+    data: {
+      titleTranslationKey: 'wholesale.startProcess.topBarTitle',
+    },
   },
   {
     path: 'overview',
