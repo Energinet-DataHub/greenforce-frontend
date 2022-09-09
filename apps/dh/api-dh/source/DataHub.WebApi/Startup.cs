@@ -113,18 +113,18 @@ namespace Energinet.DataHub.WebApi
             }
 
             // Health check
-            var chargesBaseUrl = apiClientSettingsService.ChargesBaseUrl;
-            var marketParticipantBaseUrl = apiClientSettingsService.MarketParticipantBaseUrl;
-            var messageArchiveBaseUrl = apiClientSettingsService.MessageArchiveBaseUrl;
-            var wholesaleBaseUrl = apiClientSettingsService.WholesaleBaseUrl;
-
             const string liveEndpointPath = "/monitor/live";
+            var chargesLiveHealthUrl = new Uri(apiClientSettingsService.ChargesBaseUrl + liveEndpointPath);
+            var marketParticipantLiveHealthUrl = new Uri(apiClientSettingsService.MarketParticipantBaseUrl + liveEndpointPath);
+            var messageArchiveLiveHealthUrl = new Uri(apiClientSettingsService.MessageArchiveBaseUrl + liveEndpointPath);
+            var wholesaleLiveHealthUrl = new Uri(apiClientSettingsService.WholesaleBaseUrl + liveEndpointPath);
+
             services.AddHealthChecks()
                 .AddLiveCheck()
-                .AddServiceLiveHealthCheck("charges", new Uri(chargesBaseUrl + liveEndpointPath))
-                .AddServiceLiveHealthCheck("marketParticipant", new Uri(marketParticipantBaseUrl + liveEndpointPath))
-                .AddServiceLiveHealthCheck("messageArchive", new Uri(messageArchiveBaseUrl + liveEndpointPath))
-                .AddServiceLiveHealthCheck("wholesale", new Uri(wholesaleBaseUrl + liveEndpointPath));
+                .AddServiceHealthCheck("charges", chargesLiveHealthUrl)
+                .AddServiceHealthCheck("marketParticipant", marketParticipantLiveHealthUrl)
+                .AddServiceHealthCheck("messageArchive", messageArchiveLiveHealthUrl)
+                .AddServiceHealthCheck("wholesale", wholesaleLiveHealthUrl);
         }
 
         /// <summary>

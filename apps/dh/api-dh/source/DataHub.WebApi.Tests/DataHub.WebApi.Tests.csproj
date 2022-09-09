@@ -30,7 +30,7 @@ limitations under the License.
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Energinet.DataHub.Core.App.WebApp" Version="7.1.0-alpha-235" />
+    <PackageReference Include="Energinet.DataHub.Core.App.WebApp" Version="7.1.0-alpha-248" />
     <PackageReference Include="Energinet.DataHub.Core.TestCommon" Version="3.4.0" />
     <PackageReference Include="Energinet.DataHub.Core.FunctionApp.TestCommon" Version="3.4.0" />
     <PackageReference Include="Energinet.DataHub.MeteringPoints.Client" Version="3.0.1" />
@@ -51,7 +51,6 @@ limitations under the License.
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="xunit" Version="2.4.2" />
-    <PackageReference Include="xunit.categories" Version="2.0.6" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.5">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>

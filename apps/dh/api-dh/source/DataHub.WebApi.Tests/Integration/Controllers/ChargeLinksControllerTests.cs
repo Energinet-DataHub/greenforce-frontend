@@ -24,11 +24,9 @@ using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using Xunit;
-using Xunit.Categories;
 
 namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
 {
-    [IntegrationTest]
     public class ChargeLinksControllerTests :
         IClassFixture<WebApiFactory>,
         IAsyncLifetime
