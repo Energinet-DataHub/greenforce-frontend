@@ -20,6 +20,9 @@ using Energinet.DataHub.Core.App.Common.Diagnostics.HealthChecks;
 using Energinet.DataHub.WebApi.Tests.Fixtures;
 using FluentAssertions;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
+using WireMock.RequestBuilders;
+using WireMock.ResponseBuilders;
+using WireMock.Server;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -33,6 +36,10 @@ namespace Energinet.DataHub.WebApi.Tests.Integration
     {
         private HttpClient Client { get; }
 
+        private Uri _dependentServiceUri;
+        private WireMockServer _serverMock;
+
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         public HealthCheckTests(
             BffWebApiFixture bffWebApiFixture,
             WebApiFactory factory,
@@ -41,14 +48,21 @@ namespace Energinet.DataHub.WebApi.Tests.Integration
         {
             Client = factory.CreateClient();
         }
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
         public Task InitializeAsync()
         {
+            var httpLocalhostServer = "http://localhost:8080/";
+            _dependentServiceUri = new Uri(httpLocalhostServer);
+            _serverMock = WireMockServer.Start(_dependentServiceUri.Port);
+
             return Task.CompletedTask;
         }
 
         public Task DisposeAsync()
         {
+            _serverMock.Stop();
+            _serverMock.Dispose();
             Client.Dispose();
             return Task.CompletedTask;
         }
@@ -68,6 +82,10 @@ namespace Energinet.DataHub.WebApi.Tests.Integration
         [Fact]
         public async Task When_RequestReadinessStatus_Then_ResponseIsOkAndHealthy()
         {
+            _serverMock
+                .Given(Request.Create().UsingGet())
+                .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK));
+
             var actualResponse = await Client.GetAsync(HealthChecksConstants.ReadyHealthCheckEndpointRoute);
 
             // Assert

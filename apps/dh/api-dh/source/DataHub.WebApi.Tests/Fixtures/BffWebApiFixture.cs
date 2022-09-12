@@ -35,10 +35,10 @@ namespace Energinet.DataHub.WebApi.Tests.Fixtures
         /// <inheritdoc/>
         protected override Task OnInitializeWebApiDependenciesAsync(IConfiguration configuration)
         {
-            Environment.SetEnvironmentVariable("ApiClientSettings__ChargesBaseUrl", "https://not-important-1.com");
-            Environment.SetEnvironmentVariable("ApiClientSettings__MessageArchiveBaseUrl", "https://not-important-2.com");
-            Environment.SetEnvironmentVariable("ApiClientSettings__MarketParticipantBaseUrl", "https://not-important-3.com");
-            Environment.SetEnvironmentVariable("ApiClientSettings__WholesaleBaseUrl", "https://not-important-4.com");
+            Environment.SetEnvironmentVariable("ApiClientSettings__ChargesBaseUrl", "http://localhost:8080/charges");
+            Environment.SetEnvironmentVariable("ApiClientSettings__MessageArchiveBaseUrl", "http://localhost:8080/messagearchive");
+            Environment.SetEnvironmentVariable("ApiClientSettings__MarketParticipantBaseUrl", "http://localhost:8080/marketparticipant");
+            Environment.SetEnvironmentVariable("ApiClientSettings__WholesaleBaseUrl", "http://localhost:8080/wholesale");
             Environment.SetEnvironmentVariable("FRONTEND_OPEN_ID_URL", AuthorizationConfiguration.FrontendOpenIdConfigurationUrl);
             Environment.SetEnvironmentVariable("FRONTEND_SERVICE_APP_ID", AuthorizationConfiguration.FrontendApp.AppId);
 
