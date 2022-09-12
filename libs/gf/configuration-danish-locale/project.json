@@ -8,7 +8,7 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/libs/gf/configuration-danish-locale"],
       "options": {
-        "jestConfig": "libs/gf/configuration-danish-locale/jest.config.js",
+        "jestConfig": "libs/gf/configuration-danish-locale/jest.config.ts",
         "passWithNoTests": true
       }
     },

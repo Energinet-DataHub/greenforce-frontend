@@ -16,7 +16,11 @@
  */
 import { CommonModule } from '@angular/common';
 import { Component, NgModule } from '@angular/core';
-import { DhMarketParticipantGridAreaOverviewDataAccessApiStore } from '@energinet-datahub/dh/market-participant/data-access-api';
+import {
+  DhMarketParticipantGridAreaOverviewDataAccessApiStore,
+  DhMarketParticipantGridAreaDataAccessApiStore,
+  GridAreaChanges,
+} from '@energinet-datahub/dh/market-participant/data-access-api';
 import { LetModule } from '@rx-angular/template/let';
 import { TranslocoModule } from '@ngneat/transloco';
 import {
@@ -31,11 +35,15 @@ import { PushModule } from '@rx-angular/template';
   selector: 'dh-market-participant-gridarea',
   styleUrls: ['./dh-market-participant-gridarea.component.scss'],
   templateUrl: './dh-market-participant-gridarea.component.html',
-  providers: [DhMarketParticipantGridAreaOverviewDataAccessApiStore],
+  providers: [
+    DhMarketParticipantGridAreaOverviewDataAccessApiStore,
+    DhMarketParticipantGridAreaDataAccessApiStore,
+  ],
 })
 export class DhMarketParticipantGridAreaComponent {
   constructor(
-    private store: DhMarketParticipantGridAreaOverviewDataAccessApiStore
+    private store: DhMarketParticipantGridAreaOverviewDataAccessApiStore,
+    private gridAreaEditStore: DhMarketParticipantGridAreaDataAccessApiStore
   ) {
     this.store.init();
   }
@@ -43,6 +51,15 @@ export class DhMarketParticipantGridAreaComponent {
   isLoading$ = this.store.isLoading$;
   validationError$ = this.store.validationError$;
   rows$ = this.store.rows$;
+
+  gridAreaChangesIsLoading$ = this.gridAreaEditStore.isLoading$;
+
+  onGridAreaChanged = (changes: {
+    gridAreaChanges: GridAreaChanges;
+    onCompleted: () => void;
+  }) => {
+    this.gridAreaEditStore.saveGridAreaChanges(changes);
+  };
 }
 
 @NgModule({

@@ -17,6 +17,7 @@
 import {
   ComponentFixtureAutoDetect,
   getTestBed,
+  TestBed,
   TestModuleMetadata,
 } from '@angular/core/testing';
 import {
@@ -39,7 +40,9 @@ function patchTestbed(): void {
     testbed.configureTestingModule === realConfigureTestingModule;
 
   if (isUnpatched) {
-    testbed.configureTestingModule = (moduleDef: TestModuleMetadata): void => {
+    testbed.configureTestingModule = (
+      moduleDef: TestModuleMetadata
+    ): TestBed => {
       realConfigureTestingModule.call(testbed, {
         ...moduleDef,
         imports: [
@@ -54,6 +57,7 @@ function patchTestbed(): void {
           ...(moduleDef.providers ?? []),
         ],
       });
+      return testbed;
     };
 
     // Run at least once in case `TestBed.inject` is called without calling
