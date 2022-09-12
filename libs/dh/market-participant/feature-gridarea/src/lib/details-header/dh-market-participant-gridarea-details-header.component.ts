@@ -35,9 +35,9 @@ export class DhMarketParticipantGridAreaDetailsHeaderComponent {
   imports: [
     CommonModule,
     TranslocoModule,
-    MatDividerModule,
     DhEmDashFallbackPipeScam,
     DhSharedUiDateTimeModule,
+    MatDividerModule,
   ],
   declarations: [DhMarketParticipantGridAreaDetailsHeaderComponent],
   exports: [DhMarketParticipantGridAreaDetailsHeaderComponent],
