@@ -22,7 +22,6 @@ import { PushModule } from '@rx-angular/template';
 
 import { WattButtonModule, WattShellComponent } from '@energinet-datahub/watt';
 import { DhLanguagePickerModule } from '@energinet-datahub/dh/globalization/feature-language-picker';
-import { DhApplicationInsights } from '@energinet-datahub/dh/shared/util-application-insights';
 import { DhTopBarStore } from '@energinet-datahub/dh-shared-data-access-top-bar';
 
 import { DhPrimaryNavigationScam } from './dh-primary-navigation.component';
@@ -37,20 +36,10 @@ export class DhCoreShellComponent {
 
   constructor(
     private authService: MsalService,
-    private insights: DhApplicationInsights,
     private dhTopBarStore: DhTopBarStore
-  ) {
-    this.insights.trackException(
-      new Error('[TEST] logged exception from shell component constructor'),
-      3
-    );
-  }
+  ) {}
 
   logout() {
-    this.insights.trackException(
-      new Error('[TEST] logged exception from shell component on logout'),
-      3
-    );
     this.authService.logout();
   }
 }
