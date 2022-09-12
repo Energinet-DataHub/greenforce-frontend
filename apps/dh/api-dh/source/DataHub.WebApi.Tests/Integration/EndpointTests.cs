@@ -18,7 +18,6 @@ using System.Threading.Tasks;
 using Energinet.DataHub.WebApi.Tests.Fixtures;
 using FluentAssertions;
 using FluentAssertions.Execution;
-using Microsoft.AspNetCore.Mvc.Testing;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -34,7 +33,7 @@ namespace Energinet.DataHub.WebApi.Tests.Integration
                     IClassFixture<BffWebApiFixture>,
                     IClassFixture<WebApiFactory>
         {
-            private readonly HttpClient _client;
+            private HttpClient Client { get; }
 
             public GetOpenApiDocumentation(
                     BffWebApiFixture bffWebApiFixture,
@@ -42,7 +41,7 @@ namespace Energinet.DataHub.WebApi.Tests.Integration
                     ITestOutputHelper testOutputHelper)
                     : base(bffWebApiFixture, testOutputHelper)
             {
-                _client = factory.CreateClient();
+                Client = factory.CreateClient();
             }
 
             [Fact]
@@ -52,7 +51,7 @@ namespace Energinet.DataHub.WebApi.Tests.Integration
                 var url = "swagger/v1/swagger.json";
 
                 // Act
-                var actualResponse = await _client.GetAsync(url);
+                var actualResponse = await Client.GetAsync(url);
 
                 // Assert
                 using var assertionScope = new AssertionScope();
@@ -63,36 +62,19 @@ namespace Energinet.DataHub.WebApi.Tests.Integration
                 content.Should().Contain("\"openapi\": \"3.");
             }
 
-            public class GetSwaggerUI :
-                    WebApiTestBase<BffWebApiFixture>,
-                    IClassFixture<BffWebApiFixture>,
-                    IClassFixture<WebApiFactory>
+            [Fact]
+            public async Task When_StandardRequest_Then_ResponseIsOKAndContainsHtml()
             {
-                private readonly HttpClient _client;
+                // Arrange
+                var url = "swagger";
 
-                public GetSwaggerUI(
-                    BffWebApiFixture bffWebApiFixture,
-                    WebApiFactory factory,
-                    ITestOutputHelper testOutputHelper)
-                    : base(bffWebApiFixture, testOutputHelper)
-                {
-                    _client = factory.CreateClient();
-                }
+                // Act
+                var actualResponse = await Client.GetAsync(url);
 
-                [Fact]
-                public async Task When_StandardRequest_Then_ResponseIsOKAndContainsHtml()
-                {
-                    // Arrange
-                    var url = "swagger";
-
-                    // Act
-                    var actualResponse = await _client.GetAsync(url);
-
-                    // Assert
-                    using var assertionScope = new AssertionScope();
-                    actualResponse.StatusCode.Should().Be(HttpStatusCode.OK);
-                    actualResponse.Content.Headers.ContentType!.MediaType.Should().Be("text/html");
-                }
+                // Assert
+                using var assertionScope = new AssertionScope();
+                actualResponse.StatusCode.Should().Be(HttpStatusCode.OK);
+                actualResponse.Content.Headers.ContentType!.MediaType.Should().Be("text/html");
             }
         }
     }

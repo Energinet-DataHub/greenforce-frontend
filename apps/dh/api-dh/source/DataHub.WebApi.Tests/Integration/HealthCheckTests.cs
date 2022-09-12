@@ -25,14 +25,13 @@ using Xunit.Abstractions;
 
 namespace Energinet.DataHub.WebApi.Tests.Integration
 {
-    /*
     public class HealthCheckTests :
         WebApiTestBase<BffWebApiFixture>,
         IClassFixture<BffWebApiFixture>,
         IClassFixture<WebApiFactory>,
         IAsyncLifetime
     {
-        private readonly HttpClient _client;
+        private HttpClient Client { get; }
 
         public HealthCheckTests(
             BffWebApiFixture bffWebApiFixture,
@@ -40,7 +39,7 @@ namespace Energinet.DataHub.WebApi.Tests.Integration
             ITestOutputHelper testOutputHelper)
             : base(bffWebApiFixture, testOutputHelper)
         {
-            _client = factory.CreateClient();
+            Client = factory.CreateClient();
         }
 
         public Task InitializeAsync()
@@ -50,14 +49,14 @@ namespace Energinet.DataHub.WebApi.Tests.Integration
 
         public Task DisposeAsync()
         {
-            _client.Dispose();
+            Client.Dispose();
             return Task.CompletedTask;
         }
 
         [Fact]
         public async Task When_RequestLivenessStatus_Then_ResponseIsOkAndHealthy()
         {
-            var actualResponse = await _client.GetAsync(HealthChecksConstants.LiveHealthCheckEndpointRoute);
+            var actualResponse = await Client.GetAsync(HealthChecksConstants.LiveHealthCheckEndpointRoute);
 
             // Assert
             actualResponse.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -69,7 +68,7 @@ namespace Energinet.DataHub.WebApi.Tests.Integration
         [Fact]
         public async Task When_RequestReadinessStatus_Then_ResponseIsOkAndHealthy()
         {
-            var actualResponse = await _client.GetAsync(HealthChecksConstants.ReadyHealthCheckEndpointRoute);
+            var actualResponse = await Client.GetAsync(HealthChecksConstants.ReadyHealthCheckEndpointRoute);
 
             // Assert
             actualResponse.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -77,5 +76,5 @@ namespace Energinet.DataHub.WebApi.Tests.Integration
             var actualContent = await actualResponse.Content.ReadAsStringAsync();
             actualContent.Should().Be(Enum.GetName(typeof(HealthStatus), HealthStatus.Healthy));
         }
-    }*/
+    }
 }

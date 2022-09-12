@@ -18,6 +18,11 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Energinet.DataHub.WebApi
 {
+    /// <summary>
+    /// Startup class used by the <seealso cref="SwaggerHostFactory"/> to ensure that no health endpoint is defined.
+    /// In the parent Startup class, configuration is used to setup health endpoints, but no configuration is available
+    /// when the Swashbuckle CLI tool is executed.
+    /// </summary>
     public class SwaggerStartup : Startup
     {
         public SwaggerStartup(IConfiguration configuration, IWebHostEnvironment environment)
@@ -25,7 +30,7 @@ namespace Energinet.DataHub.WebApi
         {
         }
 
-        protected override void SetupHealthEndpoints(IServiceCollection services, ApiClientSettings apiClientSettingsService)
+        protected override void SetupHealthEndpoints(IServiceCollection services, ApiClientSettings apiClientSettings)
         {
         }
     }

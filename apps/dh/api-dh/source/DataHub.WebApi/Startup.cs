@@ -58,8 +58,6 @@ namespace Energinet.DataHub.WebApi
 
             services.AddHttpClientFactory();
 
-            var apiClientSettingsService = AddDomainClients(services);
-
             // Register the Swagger generator, defining 1 or more Swagger documents.
             services.AddSwaggerGen(config =>
             {
@@ -112,8 +110,11 @@ namespace Energinet.DataHub.WebApi
                 });
             }
 
+            var apiClientSettings = Configuration.GetSection("ApiClientSettings").Get<ApiClientSettings>();
+            AddDomainClients(services, apiClientSettings);
+
             // Health check
-            SetupHealthEndpoints(services, apiClientSettingsService);
+            SetupHealthEndpoints(services, apiClientSettings);
         }
 
         /// <summary>
@@ -177,17 +178,14 @@ namespace Energinet.DataHub.WebApi
                 .AddServiceHealthCheck("wholesale", wholesaleLiveHealthUrl);
         }
 
-        private ApiClientSettings AddDomainClients(IServiceCollection services)
+        private void AddDomainClients(IServiceCollection services, ApiClientSettings apiClientSettings)
         {
-            var apiClientSettings = Configuration.GetSection("ApiClientSettings").Get<ApiClientSettings>();
-
             AddMeteringPointClient(services, apiClientSettings);
             AddChargeLinksClient(services, apiClientSettings);
             AddMessageArchiveClient(services, apiClientSettings);
             AddMarketParticipantClient(services, apiClientSettings);
 
             services.AddSingleton(apiClientSettings ?? new ApiClientSettings());
-            return apiClientSettings ?? new ApiClientSettings();
         }
 
         private static void AddChargeLinksClient(IServiceCollection services, ApiClientSettings? apiClientSettings)

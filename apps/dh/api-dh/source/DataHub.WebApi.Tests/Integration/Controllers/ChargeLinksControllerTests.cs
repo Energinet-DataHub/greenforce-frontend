@@ -38,7 +38,7 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
 
         private Mock<IChargeLinksClient> ApiClientMock { get; }
 
-        private readonly HttpClient _client;
+        private HttpClient Client { get; }
 
         public ChargeLinksControllerTests(
             BffWebApiFixture bffWebApiFixture,
@@ -49,7 +49,7 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
             DtoFixture = new Fixture();
 
             ApiClientMock = new Mock<IChargeLinksClient>();
-            _client = factory.WithWebHostBuilder(builder =>
+            Client = factory.WithWebHostBuilder(builder =>
             {
                 builder.ConfigureServices(services =>
                 {
@@ -63,13 +63,13 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
 
         public Task InitializeAsync()
         {
-            _client.DefaultRequestHeaders.Add("Authorization", $"Bearer xxx");
+            Client.DefaultRequestHeaders.Add("Authorization", $"Bearer xxx");
             return Task.CompletedTask;
         }
 
         public Task DisposeAsync()
         {
-            _client.Dispose();
+            Client.Dispose();
             return Task.CompletedTask;
         }
 
@@ -89,7 +89,7 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
                 .ReturnsAsync(list);
 
             // Act
-            var actual = await _client.GetAsync(requestUrl);
+            var actual = await Client.GetAsync(requestUrl);
 
             // Assert
             actual.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -108,7 +108,7 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
                 .ReturnsAsync(list);
 
             // Act
-            var actual = await _client.GetAsync(requestUrl);
+            var actual = await Client.GetAsync(requestUrl);
 
             // Arrange
             actual.StatusCode.Should().Be(HttpStatusCode.NotFound);

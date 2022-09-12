@@ -13,9 +13,9 @@
 // limitations under the License.
 
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Energinet.DataHub.Core.FunctionApp.TestCommon.Configuration.B2C;
-using Energinet.DataHub.WebApi.Tests.TestHelpers;
 using Microsoft.Extensions.Configuration;
 
 namespace Energinet.DataHub.WebApi.Tests.Fixtures
@@ -24,8 +24,10 @@ namespace Energinet.DataHub.WebApi.Tests.Fixtures
     {
         public BffWebApiFixture()
         {
-            AuthorizationConfiguration =
-                AuthorizationConfigurationData.CreateAuthorizationConfiguration();
+            AuthorizationConfiguration = new B2CAuthorizationConfiguration(
+                usedForSystemTests: false,
+                "u001",
+                new List<string> { "md" });
         }
 
         public B2CAuthorizationConfiguration AuthorizationConfiguration { get; }
@@ -33,10 +35,10 @@ namespace Energinet.DataHub.WebApi.Tests.Fixtures
         /// <inheritdoc/>
         protected override Task OnInitializeWebApiDependenciesAsync(IConfiguration configuration)
         {
-            Environment.SetEnvironmentVariable("ApiClientSettings__ChargesBaseUrl", "https://app-webapi-charges-u-001.azurewebsites.net");
-            Environment.SetEnvironmentVariable("ApiClientSettings__MessageArchiveBaseUrl", "https://app-webapi-msgarch-u-001.azurewebsites.net");
-            Environment.SetEnvironmentVariable("ApiClientSettings__MarketParticipantBaseUrl", "https://app-webapi-markpart-u-001.azurewebsites.net");
-            Environment.SetEnvironmentVariable("ApiClientSettings__WholesaleBaseUrl", "https://app-webapi-wholsal-u-001.azurewebsites.net");
+            Environment.SetEnvironmentVariable("ApiClientSettings__ChargesBaseUrl", "https://not-important-1.com");
+            Environment.SetEnvironmentVariable("ApiClientSettings__MessageArchiveBaseUrl", "https://not-important-2.com");
+            Environment.SetEnvironmentVariable("ApiClientSettings__MarketParticipantBaseUrl", "https://not-important-3.com");
+            Environment.SetEnvironmentVariable("ApiClientSettings__WholesaleBaseUrl", "https://not-important-4.com");
             Environment.SetEnvironmentVariable("FRONTEND_OPEN_ID_URL", AuthorizationConfiguration.FrontendOpenIdConfigurationUrl);
             Environment.SetEnvironmentVariable("FRONTEND_SERVICE_APP_ID", AuthorizationConfiguration.FrontendApp.AppId);
 

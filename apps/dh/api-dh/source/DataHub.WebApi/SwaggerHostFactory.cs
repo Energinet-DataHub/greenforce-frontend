@@ -17,6 +17,10 @@ using Microsoft.Extensions.Hosting;
 
 namespace Energinet.DataHub.WebApi
 {
+    /// <summary>
+    /// Swashbuckle CLI tool call this factory to setup the host used when generating the Swagger configuration.
+    /// See documentation: https://github.com/domaindrivendev/Swashbuckle.AspNetCore#use-the-cli-tool-with-a-custom-host-configuration
+    /// </summary>
     public class SwaggerHostFactory
     {
         public static IHost CreateHost()

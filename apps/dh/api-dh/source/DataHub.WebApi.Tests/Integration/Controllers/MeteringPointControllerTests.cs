@@ -37,7 +37,7 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
 
         private Mock<IMeteringPointClient> ApiClientMock { get; }
 
-        private readonly HttpClient _client;
+        private HttpClient Client { get; }
 
         public MeteringPointControllerTests(
             BffWebApiFixture bffWebApiFixture,
@@ -48,7 +48,7 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
             DtoFixture = new Fixture();
 
             ApiClientMock = new Mock<IMeteringPointClient>();
-            _client = factory.WithWebHostBuilder(builder =>
+            Client = factory.WithWebHostBuilder(builder =>
             {
                 builder.ConfigureServices(services =>
                 {
@@ -62,13 +62,13 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
 
         public Task InitializeAsync()
         {
-            _client.DefaultRequestHeaders.Add("Authorization", $"Bearer xxx");
+            Client.DefaultRequestHeaders.Add("Authorization", $"Bearer xxx");
             return Task.CompletedTask;
         }
 
         public Task DisposeAsync()
         {
-            _client.Dispose();
+            Client.Dispose();
             return Task.CompletedTask;
         }
 
@@ -85,7 +85,7 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
                 .ReturnsAsync(meteringPointDto);
 
             // Act
-            var actual = await _client.GetAsync(requestUrl);
+            var actual = await Client.GetAsync(requestUrl);
 
             // Assert
             actual.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -103,7 +103,7 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
                 .Returns(Task.FromResult<MeteringPointCimDto?>(null));
 
             // Act
-            var actual = await _client.GetAsync(requestUrl);
+            var actual = await Client.GetAsync(requestUrl);
 
             // Assert
             actual.StatusCode.Should().Be(HttpStatusCode.NotFound);
