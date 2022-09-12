@@ -15,6 +15,8 @@ import { WholesaleProcessType } from './wholesale-process-type';
 export interface WholesaleBatchRequestDto { 
     processType: WholesaleProcessType;
     gridAreaCodes: Array<string>;
+    startDate: string;
+    endDate: string;
 }
 
 

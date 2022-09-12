@@ -16,7 +16,7 @@
  */
 import { Injectable } from '@angular/core';
 import { ComponentStore } from '@ngrx/component-store';
-import { Observable, switchMap } from 'rxjs';
+import { Observable, exhaustMap } from 'rxjs';
 import {
   WholesaleBatchHttp,
   WholesaleBatchRequestDto,
@@ -34,15 +34,25 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
     super(initialState);
   }
 
-  readonly createBatch = this.effect((gridAreas$: Observable<string[]>) => {
-    return gridAreas$.pipe(
-      switchMap((gridAreas) => {
-        const batchRequest: WholesaleBatchRequestDto = {
-          processType: WholesaleProcessType.BalanceFixing,
-          gridAreaCodes: gridAreas,
-        };
-        return this.httpClient.v1WholesaleBatchPost(batchRequest);
-      })
-    );
-  });
+  readonly createBatch = this.effect(
+    (
+      batch$: Observable<{
+        gridAreas: string[];
+        dateRange: { start: string; end: string };
+      }>
+    ) => {
+      return batch$.pipe(
+        exhaustMap((batch) => {
+          const batchRequest: WholesaleBatchRequestDto = {
+            processType: WholesaleProcessType.BalanceFixing,
+            gridAreaCodes: batch.gridAreas,
+            startDate: batch.dateRange.start,
+            endDate: batch.dateRange.end,
+          };
+
+          return this.httpClient.v1WholesaleBatchPost(batchRequest);
+        })
+      );
+    }
+  );
 }

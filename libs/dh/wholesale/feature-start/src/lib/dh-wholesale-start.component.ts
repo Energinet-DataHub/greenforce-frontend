@@ -14,15 +14,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, NgModule } from '@angular/core';
+import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
-import { WattButtonModule } from '@energinet-datahub/watt';
+import {
+  WattButtonModule,
+  WattDatepickerModule,
+  WattFormFieldModule,
+  WattRangeValidators,
+  WattDropdownModule,
+  WattDropdownOption,
+} from '@energinet-datahub/watt';
+import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
 import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/feature-flags';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'dh-wholesale-start',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './dh-wholesale-start.component.html',
   styleUrls: ['./dh-wholesale-start.component.scss'],
   providers: [DhWholesaleBatchDataAccessApiStore],
@@ -30,13 +40,48 @@ import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/featu
 export class DhWholesaleStartComponent {
   constructor(private store: DhWholesaleBatchDataAccessApiStore) {}
 
+  optionsGridAreas: WattDropdownOption[] = Object.keys({
+    805: '805',
+    806: '806',
+  }).map((key) => ({
+    displayValue: key,
+    value: key,
+  }));
+
+  formControlGridArea = new FormControl<string[] | null>(
+    null,
+    Validators.required
+  );
+
+  formControlRange = new FormControl<{ start: string; end: string } | null>(
+    null,
+    [WattRangeValidators.required()]
+  );
+
   createBatch() {
-    this.store.createBatch(['805', '806']);
+    if (
+      this.formControlRange.value != null &&
+      this.formControlGridArea.value != null
+    ) {
+      this.store.createBatch({
+        gridAreas: this.formControlGridArea.value,
+        dateRange: this.formControlRange.value,
+      });
+    }
   }
 }
 
 @NgModule({
-  imports: [WattButtonModule, TranslocoModule, DhFeatureFlagDirectiveModule],
+  imports: [
+    WattButtonModule,
+    WattDatepickerModule,
+    WattFormFieldModule,
+    TranslocoModule,
+    DhFeatureFlagDirectiveModule,
+    ReactiveFormsModule,
+    CommonModule,
+    WattDropdownModule,
+  ],
   declarations: [DhWholesaleStartComponent],
 })
 export class DhWholesaleStartScam {}
