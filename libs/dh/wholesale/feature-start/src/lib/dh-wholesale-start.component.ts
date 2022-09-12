@@ -24,7 +24,7 @@ import {
   WattDropdownModule,
   WattDropdownOption,
 } from '@energinet-datahub/watt';
-import { FormControl, ReactiveFormsModule, Validators} from '@angular/forms';
+import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
 import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/feature-flags';
@@ -48,7 +48,10 @@ export class DhWholesaleStartComponent {
     value: key,
   }));
 
-  formControlGridArea = new FormControl<string[] | null>(null, Validators.required);
+  formControlGridArea = new FormControl<string[] | null>(
+    null,
+    Validators.required
+  );
 
   formControlRange = new FormControl<{ start: string; end: string } | null>(
     null,
