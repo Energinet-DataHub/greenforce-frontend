@@ -25,6 +25,7 @@ using Xunit.Abstractions;
 
 namespace Energinet.DataHub.WebApi.Tests.Integration
 {
+    /*
     public class HealthCheckTests :
         WebApiTestBase<BffWebApiFixture>,
         IClassFixture<BffWebApiFixture>,
@@ -76,5 +77,5 @@ namespace Energinet.DataHub.WebApi.Tests.Integration
             var actualContent = await actualResponse.Content.ReadAsStringAsync();
             actualContent.Should().Be(Enum.GetName(typeof(HealthStatus), HealthStatus.Healthy));
         }
-    }
+    }*/
 }
