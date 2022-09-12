@@ -80,7 +80,7 @@
     "inputmask": "5.0.7",
     "ng2-charts": "3.0.11",
     "ngx-mat-select-search": "4.2.0",
-    "rxjs": "~7.5.0",
+    "rxjs": "7.5.5",
     "tslib": "2.4.0",
     "zone.js": "0.11.4"
   },
@@ -90,7 +90,7 @@
     "@angular-eslint/eslint-plugin": "14.0.0",
     "@angular-eslint/eslint-plugin-template": "14.0.0",
     "@angular-eslint/template-parser": "14.0.0",
-    "@angular/cli": "~14.2.0",
+    "@angular/cli": "14.2.0",
     "@angular/compiler-cli": "14.2.1",
     "@angular/language-service": "14.2.1",
     "@compodoc/compodoc": "1.1.19",
