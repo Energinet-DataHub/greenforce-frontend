@@ -11,41 +11,41 @@ It is our intention to acknowledge all third-party product licenses used in this
 
 This DataHub repository relies on open source libraries and tools. We recommend you read their licenses, as their terms may differ from the terms described in our LICENSE.
 
-| Name                                 | Version       | Url                                                                | License    |
-| ------------------------------------ | ------------- | ------------------------------------------------------------------ | ---------- |
-| `@angular-slider/ngx-slider`         | 2.0.4         | <https://www.npmjs.com/package/@angular-slider/ngx-slider>         | MIT        |
-| `@angular/animations`                | 14.2.1        | <https://www.npmjs.com/package/@angular/animations>                | MIT        |
-| `@angular/cdk`                       | 14.2.1        | <https://www.npmjs.com/package/@angular/cdk>                       | MIT        |
-| `@angular/common`                    | 14.2.1        | <https://www.npmjs.com/package/@angular/common>                    | MIT        |
-| `@angular/compiler`                  | 14.2.1        | <https://www.npmjs.com/package/@angular/compiler>                  | MIT        |
-| `@angular/core`                      | 14.2.1        | <https://www.npmjs.com/package/@angular/core>                      | MIT        |
-| `@angular/forms`                     | 14.2.1        | <https://www.npmjs.com/package/@angular/forms>                     | MIT        |
-| `@angular/material`                  | 14.2.1        | <https://www.npmjs.com/package/@angular/material>                  | MIT        |
-| `@angular/material-date-fns-adapter` | 14.2.1        | <https://www.npmjs.com/package/@angular/material-date-fns-adapter> | MIT        |
-| `@angular/platform-browser`          | 14.2.1        | <https://www.npmjs.com/package/@angular/platform-browser>          | MIT        |
-| `@angular/platform-browser-dynamic`  | 14.2.1        | <https://www.npmjs.com/package/@angular/platform-browser-dynamic>  | MIT        |
-| `@angular/router`                    | 14.2.1        | <https://www.npmjs.com/package/@angular/router>                    | MIT        |
-| `@azure/msal-angular`                | 2.3.3         | <https://www.npmjs.com/package/@azure/msal-angular>                | MIT        |
-| `@azure/msal-browser`                | 2.27.0        | <https://www.npmjs.com/package/@azure/msal-browser>                | MIT        |
-| `@microsoft/applicationinsights-angularplugin-js`                | 3.0.0        | <https://www.npmjs.com/package/@microsoft/applicationinsights-angularplugin-js>                | MIT        |
-| `@microsoft/applicationinsights-web`                | 2.8.6        | <https://www.npmjs.com/package/@microsoft/applicationinsights-web>                | MIT        |
-| `@ngneat/transloco`                  | 4.1.0         | <https://www.npmjs.com/package/@ngneat/transloco>                  | MIT        |
-| `@ngrx/component-store`              | 14.0.1        | <https://www.npmjs.com/package/@ngrx/component-store>              | MIT        |
-| `@nrwl/angular`                      | 14.6.5        | <https://www.npmjs.com/package/@nrwl/angular>                      | MIT        |
-| `@rx-angular/cdk`                    | 1.0.0-rc.1  | <https://www.npmjs.com/package/@rx-angular/cdk>                    | MIT        |
-| `@rx-angular/template`               | 1.0.0-rc.1 | <https://www.npmjs.com/package/@rx-angular/template>               | MIT        |
-| `@vimeo/player`                      | 2.17.0        | <https://www.npmjs.com/package/@vimeo/player>                      | MIT        |
-| `chart.js`                           | 3.8.0         | <https://www.npmjs.com/package/chart.js>                           | MIT        |
-| `chartjs-plugin-datalabels`          | 2.0.0         | <https://www.npmjs.com/package/chartjs-plugin-datalabels>          | MIT        |
-| `date-fns`                           | 2.28.0        | <https://www.npmjs.com/package/date-fns>                           | MIT        |
-| `date-fns-tz`                        | 1.3.4         | <https://www.npmjs.com/package/date-fns-tz>                        | MIT        |
-| `include-media`                      | 1.4.10        | <https://www.npmjs.com/package/include-media>                      | MIT        |
-| `inputmask`                          | 5.0.7         | <https://www.npmjs.com/package/inputmask>                          | MIT        |
-| `ng2-charts`                         | 3.0.11        | <https://www.npmjs.com/package/ng2-charts>                         | ISC        |
-| `ngx-mat-select-search`              | 4.2.0         | <https://www.npmjs.com/package/ngx-mat-select-search>              | MIT        |
-| `rxjs`                               | 7.5.5         | <https://www.npmjs.com/package/rxjs>                               | Apache-2.0 |
-| `tslib`                              | 2.4.0         | <https://www.npmjs.com/package/tslib>                              | 0BSD       |
-| `zone.js`                            | 0.11.4        | <https://www.npmjs.com/package/zone.js>                            | MIT        |
+| Name                                              | Version    | Url                                                                             | License    |
+| ------------------------------------------------- | ---------- | ------------------------------------------------------------------------------- | ---------- |
+| `@angular-slider/ngx-slider`                      | 2.0.4      | <https://www.npmjs.com/package/@angular-slider/ngx-slider>                      | MIT        |
+| `@angular/animations`                             | 14.2.1     | <https://www.npmjs.com/package/@angular/animations>                             | MIT        |
+| `@angular/cdk`                                    | 14.2.1     | <https://www.npmjs.com/package/@angular/cdk>                                    | MIT        |
+| `@angular/common`                                 | 14.2.1     | <https://www.npmjs.com/package/@angular/common>                                 | MIT        |
+| `@angular/compiler`                               | 14.2.1     | <https://www.npmjs.com/package/@angular/compiler>                               | MIT        |
+| `@angular/core`                                   | 14.2.1     | <https://www.npmjs.com/package/@angular/core>                                   | MIT        |
+| `@angular/forms`                                  | 14.2.1     | <https://www.npmjs.com/package/@angular/forms>                                  | MIT        |
+| `@angular/material`                               | 14.2.1     | <https://www.npmjs.com/package/@angular/material>                               | MIT        |
+| `@angular/material-date-fns-adapter`              | 14.2.1     | <https://www.npmjs.com/package/@angular/material-date-fns-adapter>              | MIT        |
+| `@angular/platform-browser`                       | 14.2.1     | <https://www.npmjs.com/package/@angular/platform-browser>                       | MIT        |
+| `@angular/platform-browser-dynamic`               | 14.2.1     | <https://www.npmjs.com/package/@angular/platform-browser-dynamic>               | MIT        |
+| `@angular/router`                                 | 14.2.1     | <https://www.npmjs.com/package/@angular/router>                                 | MIT        |
+| `@azure/msal-angular`                             | 2.3.3      | <https://www.npmjs.com/package/@azure/msal-angular>                             | MIT        |
+| `@azure/msal-browser`                             | 2.27.0     | <https://www.npmjs.com/package/@azure/msal-browser>                             | MIT        |
+| `@microsoft/applicationinsights-angularplugin-js` | 3.0.0      | <https://www.npmjs.com/package/@microsoft/applicationinsights-angularplugin-js> | MIT        |
+| `@microsoft/applicationinsights-web`              | 2.8.6      | <https://www.npmjs.com/package/@microsoft/applicationinsights-web>              | MIT        |
+| `@ngneat/transloco`                               | 4.1.0      | <https://www.npmjs.com/package/@ngneat/transloco>                               | MIT        |
+| `@ngrx/component-store`                           | 14.0.1     | <https://www.npmjs.com/package/@ngrx/component-store>                           | MIT        |
+| `@nrwl/angular`                                   | 14.6.5     | <https://www.npmjs.com/package/@nrwl/angular>                                   | MIT        |
+| `@rx-angular/cdk`                                 | 1.0.0-rc.1 | <https://www.npmjs.com/package/@rx-angular/cdk>                                 | MIT        |
+| `@rx-angular/template`                            | 1.0.0-rc.1 | <https://www.npmjs.com/package/@rx-angular/template>                            | MIT        |
+| `@vimeo/player`                                   | 2.17.0     | <https://www.npmjs.com/package/@vimeo/player>                                   | MIT        |
+| `chart.js`                                        | 3.8.0      | <https://www.npmjs.com/package/chart.js>                                        | MIT        |
+| `chartjs-plugin-datalabels`                       | 2.0.0      | <https://www.npmjs.com/package/chartjs-plugin-datalabels>                       | MIT        |
+| `date-fns`                                        | 2.28.0     | <https://www.npmjs.com/package/date-fns>                                        | MIT        |
+| `date-fns-tz`                                     | 1.3.4      | <https://www.npmjs.com/package/date-fns-tz>                                     | MIT        |
+| `include-media`                                   | 1.4.10     | <https://www.npmjs.com/package/include-media>                                   | MIT        |
+| `inputmask`                                       | 5.0.7      | <https://www.npmjs.com/package/inputmask>                                       | MIT        |
+| `ng2-charts`                                      | 3.0.11     | <https://www.npmjs.com/package/ng2-charts>                                      | ISC        |
+| `ngx-mat-select-search`                           | 4.2.0      | <https://www.npmjs.com/package/ngx-mat-select-search>                           | MIT        |
+| `rxjs`                                            | 7.5.5      | <https://www.npmjs.com/package/rxjs>                                            | Apache-2.0 |
+| `tslib`                                           | 2.4.0      | <https://www.npmjs.com/package/tslib>                                           | 0BSD       |
+| `zone.js`                                         | 0.11.4     | <https://www.npmjs.com/package/zone.js>                                         | MIT        |
 
 <br>
 <br>
