@@ -113,26 +113,7 @@ namespace Energinet.DataHub.WebApi
             }
 
             // Health check
-            const string liveEndpointPath = "/monitor/live";
-            var chargesLiveHealthUrl = apiClientSettingsService.ChargesBaseUrl == string.Empty
-                ? throw new ArgumentException()
-                : new Uri(apiClientSettingsService.ChargesBaseUrl + liveEndpointPath);
-            var marketParticipantLiveHealthUrl = apiClientSettingsService.MarketParticipantBaseUrl == string.Empty
-                ? throw new ArgumentException()
-                : new Uri(apiClientSettingsService.MarketParticipantBaseUrl + liveEndpointPath);
-            var messageArchiveLiveHealthUrl = apiClientSettingsService.MessageArchiveBaseUrl == string.Empty
-                ? throw new ArgumentException()
-                : new Uri(apiClientSettingsService.MessageArchiveBaseUrl + liveEndpointPath);
-            var wholesaleLiveHealthUrl = apiClientSettingsService.WholesaleBaseUrl == string.Empty
-                ? throw new ArgumentException()
-                : new Uri(apiClientSettingsService.WholesaleBaseUrl + liveEndpointPath);
-
-            services.AddHealthChecks()
-                .AddLiveCheck()
-                .AddServiceHealthCheck("charges", chargesLiveHealthUrl)
-                .AddServiceHealthCheck("marketParticipant", marketParticipantLiveHealthUrl)
-                .AddServiceHealthCheck("messageArchive", messageArchiveLiveHealthUrl)
-                .AddServiceHealthCheck("wholesale", wholesaleLiveHealthUrl);
+            SetupHealthEndpoints(services, apiClientSettingsService);
         }
 
         /// <summary>
@@ -170,6 +151,30 @@ namespace Energinet.DataHub.WebApi
                 endpoints.MapLiveHealthChecks();
                 endpoints.MapReadyHealthChecks();
             });
+        }
+
+        protected virtual void SetupHealthEndpoints(IServiceCollection services, ApiClientSettings apiClientSettingsService)
+        {
+            const string liveEndpointPath = "/monitor/live";
+            var chargesLiveHealthUrl = apiClientSettingsService.ChargesBaseUrl == string.Empty
+                ? throw new ArgumentException()
+                : new Uri(apiClientSettingsService.ChargesBaseUrl + liveEndpointPath);
+            var marketParticipantLiveHealthUrl = apiClientSettingsService.MarketParticipantBaseUrl == string.Empty
+                ? throw new ArgumentException()
+                : new Uri(apiClientSettingsService.MarketParticipantBaseUrl + liveEndpointPath);
+            var messageArchiveLiveHealthUrl = apiClientSettingsService.MessageArchiveBaseUrl == string.Empty
+                ? throw new ArgumentException()
+                : new Uri(apiClientSettingsService.MessageArchiveBaseUrl + liveEndpointPath);
+            var wholesaleLiveHealthUrl = apiClientSettingsService.WholesaleBaseUrl == string.Empty
+                ? throw new ArgumentException()
+                : new Uri(apiClientSettingsService.WholesaleBaseUrl + liveEndpointPath);
+
+            services.AddHealthChecks()
+                .AddLiveCheck()
+                .AddServiceHealthCheck("charges", chargesLiveHealthUrl)
+                .AddServiceHealthCheck("marketParticipant", marketParticipantLiveHealthUrl)
+                .AddServiceHealthCheck("messageArchive", messageArchiveLiveHealthUrl)
+                .AddServiceHealthCheck("wholesale", wholesaleLiveHealthUrl);
         }
 
         private ApiClientSettings AddDomainClients(IServiceCollection services)
