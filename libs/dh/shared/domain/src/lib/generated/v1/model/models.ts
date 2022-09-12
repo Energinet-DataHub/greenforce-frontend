@@ -20,6 +20,8 @@ export * from './create-actor-dto';
 export * from './create-organization-dto';
 export * from './disconnection-type';
 export * from './eic-function';
+export * from './grid-area-audit-log-entry-dto';
+export * from './grid-area-audit-log-entry-field';
 export * from './grid-area-dto';
 export * from './grid-area-overview-item-dto';
 export * from './market-participant-metering-point-type';
