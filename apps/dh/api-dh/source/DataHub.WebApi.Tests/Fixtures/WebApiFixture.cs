@@ -35,6 +35,7 @@ namespace Energinet.DataHub.WebApi.Tests.Fixtures
         public async Task InitializeAsync()
         {
             var configuration = new ConfigurationBuilder().Build();
+
             await OnInitializeWebApiDependenciesAsync(configuration).ConfigureAwait(false);
         }
 

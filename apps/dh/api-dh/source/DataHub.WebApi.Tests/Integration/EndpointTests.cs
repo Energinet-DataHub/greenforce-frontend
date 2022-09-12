@@ -20,6 +20,7 @@ using FluentAssertions;
 using FluentAssertions.Execution;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace Energinet.DataHub.WebApi.Tests.Integration
 {
@@ -28,11 +29,20 @@ namespace Energinet.DataHub.WebApi.Tests.Integration
     /// </summary>
     public class EndpointTests
     {
-        public class GetOpenApiDocumentation : WebHostTestBase
+        public class GetOpenApiDocumentation :
+                    WebApiTestBase<BffWebApiFixture>,
+                    IClassFixture<BffWebApiFixture>,
+                    IClassFixture<WebApiFactory>
         {
-            public GetOpenApiDocumentation(WebApplicationFactory<WebApi.Startup> factory)
-                : base(factory)
+            private readonly HttpClient _client;
+
+            public GetOpenApiDocumentation(
+                    BffWebApiFixture bffWebApiFixture,
+                    WebApiFactory factory,
+                    ITestOutputHelper testOutputHelper)
+                    : base(bffWebApiFixture, testOutputHelper)
             {
+                _client = factory.CreateClient();
             }
 
             [Fact]
@@ -42,7 +52,7 @@ namespace Energinet.DataHub.WebApi.Tests.Integration
                 var url = "swagger/v1/swagger.json";
 
                 // Act
-                var actualResponse = await HttpClient.GetAsync(url);
+                var actualResponse = await _client.GetAsync(url);
 
                 // Assert
                 using var assertionScope = new AssertionScope();
@@ -53,11 +63,20 @@ namespace Energinet.DataHub.WebApi.Tests.Integration
                 content.Should().Contain("\"openapi\": \"3.");
             }
 
-            public class GetSwaggerUI : WebHostTestBase
+            public class GetSwaggerUI :
+                    WebApiTestBase<BffWebApiFixture>,
+                    IClassFixture<BffWebApiFixture>,
+                    IClassFixture<WebApiFactory>
             {
-                public GetSwaggerUI(WebApplicationFactory<WebApi.Startup> factory)
-                    : base(factory)
+                private readonly HttpClient _client;
+
+                public GetSwaggerUI(
+                    BffWebApiFixture bffWebApiFixture,
+                    WebApiFactory factory,
+                    ITestOutputHelper testOutputHelper)
+                    : base(bffWebApiFixture, testOutputHelper)
                 {
+                    _client = factory.CreateClient();
                 }
 
                 [Fact]
@@ -67,7 +86,7 @@ namespace Energinet.DataHub.WebApi.Tests.Integration
                     var url = "swagger";
 
                     // Act
-                    var actualResponse = await HttpClient.GetAsync(url);
+                    var actualResponse = await _client.GetAsync(url);
 
                     // Assert
                     using var assertionScope = new AssertionScope();

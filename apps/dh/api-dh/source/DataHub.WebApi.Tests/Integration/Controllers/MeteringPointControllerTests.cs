@@ -23,10 +23,13 @@ using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
 {
     public class MeteringPointControllerTests :
+        WebApiTestBase<BffWebApiFixture>,
+        IClassFixture<BffWebApiFixture>,
         IClassFixture<WebApiFactory>,
         IAsyncLifetime
     {
@@ -36,7 +39,11 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
 
         private readonly HttpClient _client;
 
-        public MeteringPointControllerTests(WebApiFactory factory)
+        public MeteringPointControllerTests(
+            BffWebApiFixture bffWebApiFixture,
+            WebApiFactory factory,
+            ITestOutputHelper testOutputHelper)
+             : base(bffWebApiFixture, testOutputHelper)
         {
             DtoFixture = new Fixture();
 
