@@ -19,8 +19,6 @@ import {
   Component,
   Input,
   NgModule,
-  OnChanges,
-  SimpleChanges,
   ViewChild,
 } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
