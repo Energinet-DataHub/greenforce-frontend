@@ -51,9 +51,8 @@ export class DhMarketParticipantGridAreaEditComponent {
     this.nameChangeModal.open();
   };
 
-  closeEditModal = ($event: Event) => {
+  closeEditModal = () => {
     this.nameChangeModal.close(true);
-    $event.stopPropagation();
   };
 
   saveGridChanges = ($event: Event) => {
