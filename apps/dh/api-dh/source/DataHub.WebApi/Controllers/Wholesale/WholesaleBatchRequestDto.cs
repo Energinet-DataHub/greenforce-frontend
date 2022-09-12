@@ -12,9 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System;
 using System.Collections.Generic;
 
 namespace Energinet.DataHub.WebApi.Controllers.Wholesale
 {
-    public sealed record WholesaleBatchRequestDto(WholesaleProcessType ProcessType, IEnumerable<string> GridAreaCodes);
+    public sealed record WholesaleBatchRequestDto(WholesaleProcessType ProcessType, IEnumerable<string> GridAreaCodes, DateTimeOffset StartDate, DateTimeOffset EndDate);
 }
