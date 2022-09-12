@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { TranslocoModule } from '@ngneat/transloco';
 
@@ -35,12 +35,7 @@ import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/featu
     `,
   ],
   templateUrl: './dh-primary-navigation.component.html',
-})
-export class DhPrimaryNavigationComponent {}
-
-@NgModule({
-  declarations: [DhPrimaryNavigationComponent],
-  exports: [DhPrimaryNavigationComponent],
+  standalone: true,
   imports: [
     TranslocoModule,
     RouterModule,
@@ -49,4 +44,4 @@ export class DhPrimaryNavigationComponent {}
     DhFeatureFlagDirectiveModule,
   ],
 })
-export class DhPrimaryNavigationScam {}
+export class DhPrimaryNavigationComponent {}
