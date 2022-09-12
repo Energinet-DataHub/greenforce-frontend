@@ -46,7 +46,7 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
           const batchRequest: WholesaleBatchRequestDto = {
             processType: WholesaleProcessType.BalanceFixing,
             gridAreaCodes: batch.gridAreas,
-            startDate: batch.dateRange.start,
+            startDate: batch.dateRange.start, // needs to be YYYY/MM/DD
             endDate: batch.dateRange.end,
           };
 
