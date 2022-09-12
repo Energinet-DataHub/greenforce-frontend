@@ -83,7 +83,13 @@ namespace Energinet.DataHub.WebApi.Tests.Integration
         public async Task When_RequestReadinessStatus_Then_ResponseIsOkAndHealthy()
         {
             _serverMock
-                .Given(Request.Create().UsingGet())
+                .Given(Request.Create().WithPath(new[]
+                {
+                    "/charges/monitor/live",
+                    "/messagearchive/monitor/live",
+                    "/marketparticipant/monitor/live",
+                    "/wholesale/monitor/live",
+                }).UsingGet())
                 .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK));
 
             var actualResponse = await Client.GetAsync(HealthChecksConstants.ReadyHealthCheckEndpointRoute);
