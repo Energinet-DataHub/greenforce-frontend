@@ -510,6 +510,14 @@
         "validFrom": "Gyldig fra",
         "validTo": "Gyldig til"
       },
+      "changeGridArea": {
+        "gridAreaName": "Grid area name",
+        "cancel": "Cancel",
+        "saveChanges": "Save changes",
+        "editGridArea": "Edit",
+        "editGridAreaModalTitle": "Edit grid area",
+        "editGridAreaModalCloseLabel": "Close"
+      },
       "priceAreaCodes": {
         "Dk1": "DK1",
         "Dk2": "DK2"
