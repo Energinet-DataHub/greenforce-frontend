@@ -16,7 +16,7 @@
  */
 import { Injectable } from '@angular/core';
 import { ComponentStore } from '@ngrx/component-store';
-import { Observable, switchMap } from 'rxjs';
+import { Observable, exhaustMap } from 'rxjs';
 import {
   WholesaleBatchHttp,
   WholesaleBatchRequestDto,
@@ -42,7 +42,7 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
       }>
     ) => {
       return batch$.pipe(
-        switchMap((batch) => {
+        exhaustMap((batch) => {
           const batchRequest: WholesaleBatchRequestDto = {
             processType: WholesaleProcessType.BalanceFixing,
             gridAreaCodes: batch.gridAreas,
