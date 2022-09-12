@@ -14,6 +14,7 @@
       "wholesale": {
         "menuGroupLabel": "Afregninger",
         "startProcess": "Start proces",
+        "searchProcess": "Søg proces",
         "overview": "Oversigt"
       }
     }
@@ -529,6 +530,9 @@
       "topBarTitle": "Start proces",
       "startLabel": "Start",
       "processDescription": "Kør en balance fiksering for 1. juli 2022 for netområde 805 & 806."
+    },
+    "searchProcess": {
+      "topBarTitle": "Søg proces"
     },
     "overview": {
       "header": "Proces oversigt"
