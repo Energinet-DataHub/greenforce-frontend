@@ -44,12 +44,12 @@ limitations under the License.
         <watt-button
           variant="secondary"
           [disabled]="gridChangesLoading"
-          (click)="closeEditModal($event)"
+          (click)="closeEditModal()"
           >{{ t("cancel") }}</watt-button
         >
         <watt-button
           [loading]="gridChangesLoading"
-          (click)="saveGridChanges($event)"
+          (click)="saveGridChanges()"
           >{{ t("saveChanges") }}</watt-button
         >
       </watt-modal-actions>
