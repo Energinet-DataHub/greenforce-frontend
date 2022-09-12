@@ -14,6 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-.date-range-width {
-  width: 300px;
+import { rest } from 'msw';
+
+export const wholesaleMocks = [postWholesaleBatch()];
+
+function postWholesaleBatch() {
+  return rest.post(
+    'https://localhost:5001/v1/WholesaleBatch',
+    (req, res, ctx) => {
+      return res(ctx.status(200));
+    }
+  );
 }

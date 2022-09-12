@@ -18,10 +18,12 @@ import { MockedRequest, RequestHandler } from 'msw';
 
 import { chargesMocks } from './mocks/charges';
 import { meteringPointMocks } from './mocks/metering-point';
+import { wholesaleMocks } from './mocks/wholesale';
 
 export const handlers: RequestHandler[] = [
   ...chargesMocks,
   ...meteringPointMocks,
+  ...wholesaleMocks,
 ];
 
 export function onUnhandledRequest(req: MockedRequest) {
