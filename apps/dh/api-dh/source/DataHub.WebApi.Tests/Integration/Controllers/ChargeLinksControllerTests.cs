@@ -47,13 +47,13 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
              : base(bffWebApiFixture, testOutputHelper)
         {
             DtoFixture = new Fixture();
-            ApiClientMock = new Mock<IChargeLinksClient>();
 
+            ApiClientMock = new Mock<IChargeLinksClient>();
             _client = factory.WithWebHostBuilder(builder =>
             {
                 builder.ConfigureServices(services =>
                 {
-                    services.AddTransient(_ => ApiClientMock.Object);
+                    services.AddTransient(provider => ApiClientMock.Object);
                 });
             })
             .CreateClient();
