@@ -23,7 +23,13 @@ import {
 } from '@energinet-datahub/dh/message-archive/feature-log-search';
 
 const routes: Routes = [
-  { path: '', component: DhMessageArchiveLogSearchComponent },
+  {
+    path: '',
+    component: DhMessageArchiveLogSearchComponent,
+    data: {
+      titleTranslationKey: 'messageArchive.search.topBarTitle',
+    },
+  },
   {
     path: ':logname',
     component: DhMessageArchiveLogSearchBlobContentComponent,

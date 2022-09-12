@@ -50,6 +50,9 @@ const routes: Routes = [
         path: '',
         pathMatch: 'full',
         component: DhMarketParticipantOrganizationComponent,
+        data: {
+          titleTranslationKey: 'marketParticipant.organization.topBarTitle',
+        },
       },
       {
         path: dhMarketParticipantOrganizationsCreatePath,
@@ -101,8 +104,10 @@ const routes: Routes = [
   },
   {
     path: dhMarketParticipantGridAreasPath,
-    pathMatch: 'full',
     component: DhMarketParticipantGridAreaComponent,
+    data: {
+      titleTranslationKey: 'marketParticipant.gridAreas.topBarTitle',
+    },
   },
 ];
 
