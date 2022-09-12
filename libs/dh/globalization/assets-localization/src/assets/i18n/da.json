@@ -265,7 +265,7 @@
   "messageArchive": {
     "unknowenError": "Ukendt fejl",
     "search": {
-      "title": "Fremsøg forretningsbesked",
+      "topBarTitle": "Fremsøg forretningsbesked",
       "documenttype": "Dokumenttype",
       "senderId": "Afsender Id",
       "messageId": "Besked Id",
@@ -380,7 +380,7 @@
       "DanishEnergyAgency": "Styrelsen"
     },
     "organization": {
-      "header": "Organisationer",
+      "topBarTitle": "Organisationer",
       "columns": {
         "organization": "Organisation",
         "gln": "Aktørnummer",
@@ -487,7 +487,7 @@
       "ariaLabelDeleteForNewContact": "sletknap for ny kontakt"
     },
     "gridAreas": {
-      "header": "Netområder",
+      "topBarTitle": "Netområder",
       "createGridArea": "Opret",
       "editGridArea": "Rediger",
       "noGridAreas": "Ingen netområder fundet",
@@ -510,6 +510,14 @@
         "validFrom": "Gyldig fra",
         "validTo": "Gyldig til"
       },
+      "changeGridArea": {
+        "gridAreaName": "Netområde navn",
+        "cancel": "Fortryd",
+        "saveChanges": "Gem ændringer",
+        "editGridArea": "Rediger",
+        "editGridAreaModalTitle": "Rediger netområde",
+        "editGridAreaModalCloseLabel": "Luk"
+      },
       "priceAreaCodes": {
         "Dk1": "DK1",
         "Dk2": "DK2"
@@ -518,8 +526,8 @@
   },
   "wholesale": {
     "startProcess": {
+      "topBarTitle": "Start proces",
       "startLabel": "Start",
-      "header": "Start proces",
       "processDescription": "Kør en balance fiksering for 1. juli 2022 for netområde 805 & 806."
     },
     "overview": {
