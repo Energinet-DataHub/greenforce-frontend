@@ -55,14 +55,14 @@ export class DhMarketParticipantGridAreaEditComponent {
     this.nameChangeModal.close(true);
   };
 
-  saveGridChanges = ($event: Event) => {
+  saveGridChanges = () => {
     if (this.gridArea && this.newGridName && this.newGridName.trim() != '') {
       const gridArea = this.gridArea;
       this.gridChanges({
         gridAreaChanges: { id: this.gridArea.id, name: this.newGridName },
         onCompleted: () => {
           gridArea.name = this.newGridName;
-          this.closeEditModal($event);
+          this.closeEditModal();
         },
       });
     }
