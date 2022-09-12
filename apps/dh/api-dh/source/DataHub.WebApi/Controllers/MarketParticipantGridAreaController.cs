@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Energinet.DataHub.MarketParticipant.Client;
@@ -38,6 +39,15 @@ namespace Energinet.DataHub.WebApi.Controllers
         public Task<ActionResult<IEnumerable<GridAreaDto>>> GetAllGridAreasAsync()
         {
             return HandleExceptionAsync(() => _client.GetGridAreasAsync());
+        }
+
+        /// <summary>
+        /// Retrieves all grid area audit logs for the given grid area
+        /// </summary>
+        [HttpGet("{gridAreaId:guid}/auditlogentry")]
+        public Task<ActionResult<IEnumerable<GridAreaAuditLogEntryDto>>> GetGridAreaAuditLogEntriesAsync(Guid gridAreaId)
+        {
+            return HandleExceptionAsync(() => _client.GetGridAreaAuditLogEntriesAsync(gridAreaId));
         }
     }
 }
