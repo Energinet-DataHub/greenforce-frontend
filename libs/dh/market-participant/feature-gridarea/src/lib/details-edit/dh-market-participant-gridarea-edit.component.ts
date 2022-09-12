@@ -15,12 +15,7 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import {
-  Component,
-  Input,
-  NgModule,
-  ViewChild,
-} from '@angular/core';
+import { Component, Input, NgModule, ViewChild } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
 import {
   GridAreaChanges,
