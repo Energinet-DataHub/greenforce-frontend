@@ -41,9 +41,12 @@ limitations under the License.
         />
       </watt-form-field>
       <watt-modal-actions>
-        <watt-button variant="secondary" [disabled]="gridChangesLoading" (click)="closeEditModal($event)">{{
-          t("cancel")
-        }}</watt-button>
+        <watt-button
+          variant="secondary"
+          [disabled]="gridChangesLoading"
+          (click)="closeEditModal($event)"
+          >{{ t("cancel") }}</watt-button
+        >
         <watt-button
           [loading]="gridChangesLoading"
           (click)="saveGridChanges($event)"
