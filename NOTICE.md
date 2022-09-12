@@ -27,6 +27,8 @@ This DataHub repository relies on open source libraries and tools. We recommend 
 | `@angular/router`                    | 14.2.1        | <https://www.npmjs.com/package/@angular/router>                    | MIT        |
 | `@azure/msal-angular`                | 2.3.3         | <https://www.npmjs.com/package/@azure/msal-angular>                | MIT        |
 | `@azure/msal-browser`                | 2.27.0        | <https://www.npmjs.com/package/@azure/msal-browser>                | MIT        |
+| `@microsoft/applicationinsights-angularplugin-js`                | 3.0.0        | <https://www.npmjs.com/package/@microsoft/applicationinsights-angularplugin-js>                | MIT        |
+| `@microsoft/applicationinsights-web`                | 2.8.6        | <https://www.npmjs.com/package/@microsoft/applicationinsights-web>                | MIT        |
 | `@ngneat/transloco`                  | 4.1.0         | <https://www.npmjs.com/package/@ngneat/transloco>                  | MIT        |
 | `@ngrx/component-store`              | 14.0.1        | <https://www.npmjs.com/package/@ngrx/component-store>              | MIT        |
 | `@nrwl/angular`                      | 14.6.5        | <https://www.npmjs.com/package/@nrwl/angular>                      | MIT        |
