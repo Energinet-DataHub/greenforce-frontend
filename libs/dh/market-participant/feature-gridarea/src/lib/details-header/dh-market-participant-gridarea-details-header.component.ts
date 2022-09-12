@@ -18,12 +18,6 @@ import { CommonModule } from '@angular/common';
 import { Component, Input, NgModule } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
 import { GridAreaOverviewRow } from '@energinet-datahub/dh/market-participant/data-access-api';
-import {
-  WattModalModule,
-  WattFormFieldModule,
-  WattInputModule,
-  WattButtonModule,
-} from '@energinet-datahub/watt';
 import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/metering-point/shared/ui-util';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import { MatDividerModule } from '@angular/material/divider';
@@ -44,10 +38,6 @@ export class DhMarketParticipantGridAreaDetailsHeaderComponent {
     DhEmDashFallbackPipeScam,
     DhSharedUiDateTimeModule,
     MatDividerModule,
-    WattButtonModule,
-    WattModalModule,
-    WattFormFieldModule,
-    WattInputModule,
   ],
   declarations: [DhMarketParticipantGridAreaDetailsHeaderComponent],
   exports: [DhMarketParticipantGridAreaDetailsHeaderComponent],

@@ -17,15 +17,12 @@
 import { Injectable } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { MarketParticipantGridAreaHttp } from '@energinet-datahub/dh/shared/domain';
-import { Observable, switchMap, tap } from 'rxjs';
+import { exhaustMap, Observable, tap } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { parseErrorResponse } from './dh-market-participant-error-handling';
 
 interface MarketParticipantGridAreaState {
   isLoading: boolean;
-
-  // Changes
-  changes: GridAreaChanges;
 
   // Validation
   validation?: {
@@ -40,7 +37,6 @@ export interface GridAreaChanges {
 
 const initialState: MarketParticipantGridAreaState = {
   isLoading: false,
-  changes: { id: '', name: '' },
 };
 
 @Injectable()
@@ -60,7 +56,7 @@ export class DhMarketParticipantGridAreaDataAccessApiStore extends ComponentStor
     ) => {
       return trigger.pipe(
         tap(() => this.patchState({ isLoading: true })),
-        switchMap((changes) =>
+        exhaustMap((changes) =>
           this.gridAreaClient
             .v1MarketParticipantGridAreaPut({
               id: changes.gridAreaChanges.id,

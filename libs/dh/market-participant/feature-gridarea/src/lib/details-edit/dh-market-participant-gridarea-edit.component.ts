@@ -36,42 +36,35 @@ import {
   WattModalComponent,
 } from '@energinet-datahub/watt';
 import { FormsModule } from '@angular/forms';
-import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/metering-point/shared/ui-util';
-import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
-import { MatDividerModule } from '@angular/material/divider';
 
 @Component({
   selector: 'dh-market-participant-gridarea-edit',
   styleUrls: ['./dh-market-participant-gridarea-edit.component.scss'],
   templateUrl: './dh-market-participant-gridarea-edit.component.html',
 })
-export class DhMarketParticipantGridAreaEditComponent implements OnChanges {
+export class DhMarketParticipantGridAreaEditComponent {
   @Input() gridArea?: GridAreaOverviewRow;
   @Input() gridChanges!: (changes: {
     gridAreaChanges: GridAreaChanges;
     onCompleted: () => void;
   }) => void;
-  @Input() gridChangesLoading?: boolean;
+  @Input() gridChangesLoading = false;
   @ViewChild('nameChangeModal') nameChangeModal!: WattModalComponent;
 
   newGridName = '';
-  editGridNameEditOpen = false;
 
   openEditModal = () => {
-    this.editGridNameEditOpen = true;
     this.newGridName = this.gridArea?.name ?? '';
     this.nameChangeModal.open();
   };
 
   closeEditModal = ($event: Event) => {
-    this.editGridNameEditOpen = false;
     this.nameChangeModal.close(true);
     $event.stopPropagation();
   };
 
   saveGridChanges = ($event: Event) => {
     if (
-      this.gridChangesLoading === false &&
       this.gridArea &&
       this.newGridName &&
       this.newGridName.trim() != ''
@@ -86,21 +79,12 @@ export class DhMarketParticipantGridAreaEditComponent implements OnChanges {
       });
     }
   };
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes.gridArea) {
-      this.editGridNameEditOpen = false;
-    }
-  }
 }
 
 @NgModule({
   imports: [
     CommonModule,
     TranslocoModule,
-    DhEmDashFallbackPipeScam,
-    DhSharedUiDateTimeModule,
-    MatDividerModule,
     WattButtonModule,
     WattModalModule,
     WattFormFieldModule,

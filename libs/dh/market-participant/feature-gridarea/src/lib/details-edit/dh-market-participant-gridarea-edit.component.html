@@ -21,17 +21,12 @@ limitations under the License.
   <div class="top-btns">
     <watt-button (click)="openEditModal()">{{ t("editGridArea") }}</watt-button>
   </div>
-</ng-container>
-
-<ng-container
-  *transloco="let t; read: 'marketParticipant.gridAreas.changeGridArea'"
->
   <ng-container>
     <watt-modal
       #nameChangeModal
       [title]="'Rediger netområde'"
       [size]="'small'"
-      [disableClose]="false"
+      [disableClose]="gridChangesLoading"
       closeLabel="Close modal"
     >
       <br />
@@ -46,11 +41,11 @@ limitations under the License.
         />
       </watt-form-field>
       <watt-modal-actions>
-        <watt-button variant="secondary" (click)="closeEditModal($event)">{{
+        <watt-button variant="secondary" [disabled]="gridChangesLoading" (click)="closeEditModal($event)">{{
           t("cancel")
         }}</watt-button>
         <watt-button
-          [loading]="gridChangesLoading ?? false"
+          [loading]="gridChangesLoading"
           (click)="saveGridChanges($event)"
           >{{ t("saveChanges") }}</watt-button
         >

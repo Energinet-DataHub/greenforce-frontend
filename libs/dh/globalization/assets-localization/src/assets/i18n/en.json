@@ -514,7 +514,9 @@
         "gridAreaName": "Grid area name",
         "cancel": "Cancel",
         "saveChanges": "Save changes",
-        "editGridArea": "Edit"
+        "editGridArea": "Edit",
+        "editGridAreaModalTitle": "Edit grid area",
+        "editGridAreaModalCloseLabel": "Close"
       },
       "priceAreaCodes": {
         "Dk1": "DK1",

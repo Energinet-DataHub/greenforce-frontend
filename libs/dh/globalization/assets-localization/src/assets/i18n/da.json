@@ -514,7 +514,9 @@
         "gridAreaName": "Netområde navn",
         "cancel": "Fortryd",
         "saveChanges": "Gem ændringer",
-        "editGridArea": "Rediger"
+        "editGridArea": "Rediger",
+        "editGridAreaModalTitle": "Rediger netområde",
+        "editGridAreaModalCloseLabel": "Luk"
       },
       "priceAreaCodes": {
         "Dk1": "DK1",
