@@ -30,6 +30,8 @@ limitations under the License.
     <!-- Table -->
     <dh-market-participant-gridarea-overview
       [gridAreas]="rows$ | push"
+      [gridChanges]="onGridAreaChanged"
+      [gridChangesLoading]="gridAreaChangesIsLoading$ | push"
     ></dh-market-participant-gridarea-overview>
 
     <!-- Spinner -->
