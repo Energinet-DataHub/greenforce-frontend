@@ -12,7 +12,7 @@
 [@angular/router@14.2.1](https://github.com/angular/angular) - MIT
 [@azure/msal-angular@2.4.3](https://github.com/AzureAD/microsoft-authentication-library-for-js) - MIT
 [@azure/msal-browser@2.28.3](https://github.com/AzureAD/microsoft-authentication-library-for-js) - MIT
-[@microsoft/applicationinsights-angularplugin-js@3.0.0](undefined) - MIT*
+[@microsoft/applicationinsights-angularplugin-js@3.0.0](undefined) - MIT\*
 [@microsoft/applicationinsights-web@2.8.6](https://github.com/microsoft/ApplicationInsights-JS) - MIT
 [@ngneat/transloco@4.1.0](https://github.com/ngneat/transloco) - MIT
 [@ngrx/component-store@14.0.1](https://github.com/ngrx/platform) - MIT
