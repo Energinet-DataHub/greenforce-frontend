@@ -65,7 +65,9 @@ export class DhMarketParticipantGridAreaDetailsAuditLogComponent
         return {
           timestamp: entry.timestamp,
           // 8 first chars of user ID until we can retrieve user name
-          message: `${entry.userId.substring(0, 8)} ${changed} ${field} ${to} ${entry.newValue}`,
+          message: `${entry.userId.substring(0, 8)} ${changed} ${field} ${to} ${
+            entry.newValue
+          }`,
         };
       })
       .sort((a, b) => b.timestamp.localeCompare(a.timestamp));

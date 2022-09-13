@@ -15,16 +15,27 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<ng-container *transloco="let t; read: 'marketParticipant.gridAreas.detailsAuditLog'">
-
+<ng-container
+  *transloco="let t; read: 'marketParticipant.gridAreas.detailsAuditLog'"
+>
   <div class="card-container">
-    <h3>{{t("changes")}}</h3>
-    <table class="auditlog-table" aria-label="request response log search" mat-table [dataSource]="rows">
-
+    <h3>{{ t("changes") }}</h3>
+    <table
+      class="auditlog-table"
+      aria-label="request response log search"
+      mat-table
+      [dataSource]="rows"
+    >
       <!-- timestamp column -->
       <ng-container matColumnDef="timestamp">
         <th mat-header-cell *matHeaderCellDef>{{ t("time") }}</th>
-        <td class="auditlog-column-timestamp" mat-cell *matCellDef="let element">{{ element.timestamp | dhDateTime }}</td>
+        <td
+          class="auditlog-column-timestamp"
+          mat-cell
+          *matCellDef="let element"
+        >
+          {{ element.timestamp | dhDateTime }}
+        </td>
       </ng-container>
 
       <!-- message column -->
@@ -42,7 +53,9 @@ limitations under the License.
         <watt-spinner></watt-spinner>
       </div>
 
-      <ng-container *ngIf="!isLoading && auditLogEntries && auditLogEntries.length === 0">
+      <ng-container
+        *ngIf="!isLoading && auditLogEntries && auditLogEntries.length === 0"
+      >
         <watt-empty-state size="small" title="{{ t('noResultsFound') }}">
         </watt-empty-state>
       </ng-container>
