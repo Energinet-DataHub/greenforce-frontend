@@ -57,7 +57,7 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
       );
     }
   );
-  private formatDate(value: string) : string {
+  private formatDate(value: string): string {
     const dateTimeFormat = 'yyyy-MM-dd';
     const danishTimeZoneIdentifier = 'Europe/Copenhagen';
     let date = parse(value, 'dd-MM-yyyy', new Date());
