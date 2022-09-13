@@ -41,10 +41,10 @@ const routes: Routes = [
     },
   },
   {
-    path: 'search-process',
+    path: 'search-batch',
     component: DhWholesaleSearchComponent,
     data: {
-      titleTranslationKey: 'wholesale.searchProcess.topBarTitle',
+      titleTranslationKey: 'wholesale.searchBatch.topBarTitle',
     },
   },
   {

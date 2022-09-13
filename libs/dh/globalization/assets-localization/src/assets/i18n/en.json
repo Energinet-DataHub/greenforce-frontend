@@ -14,7 +14,7 @@
       "wholesale": {
         "menuGroupLabel": "Settlements",
         "startProcess": "Start Process",
-        "searchProcess": "Search Process",
+        "searcBatch": "Search Batch",
         "overview": "Overview"
       }
     }
@@ -533,8 +533,8 @@
       "dateRangeLabel": "Period",
       "gridAreaDropDownLabel": "Grid Areas"
     },
-    "searchProcess": {
-      "topBarTitle": "Search Process"
+    "searchBatch": {
+      "topBarTitle": "Search Batch"
     },
     "overview": {
       "header": "Process Overview"
