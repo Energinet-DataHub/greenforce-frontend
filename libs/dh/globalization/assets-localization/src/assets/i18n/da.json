@@ -536,9 +536,11 @@
     "searchBatch": {
       "topBarTitle": "Søg batch",
       "columns": {
-        "batchNumber": "Batch nummer",
+        "batchNumber": "Batch-nummer",
         "periodFrom": "Periode fra",
-        "periodTo": "Periode til"
+        "periodTo": "Periode til",
+        "executionTime": "Eksekveringstid",
+        "status": "Status"
       }
     },
     "overview": {

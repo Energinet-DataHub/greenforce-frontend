@@ -14,7 +14,7 @@
       "wholesale": {
         "menuGroupLabel": "Settlements",
         "startProcess": "Start Process",
-        "searcBatch": "Search Batch",
+        "searchBatch": "Search Batch",
         "overview": "Overview"
       }
     }
@@ -534,7 +534,14 @@
       "gridAreaDropDownLabel": "Grid Areas"
     },
     "searchBatch": {
-      "topBarTitle": "Search Batch"
+      "topBarTitle": "Search Batch",
+      "columns": {
+        "batchNumber": "Batch number",
+        "periodFrom": "Periode from",
+        "periodTo": "Periode to",
+        "executionTime": "Execution time",
+        "status": "Status"
+      }
     },
     "overview": {
       "header": "Process Overview"

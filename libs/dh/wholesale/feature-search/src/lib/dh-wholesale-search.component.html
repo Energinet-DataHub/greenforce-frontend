@@ -15,6 +15,40 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <ng-container *dhFeatureFlag="'start_wholesale_process_feature_flag'">
-  <ng-container *transloco="let transloco; read: 'wholesale'">
+  <ng-container *transloco="let transloco; read: 'wholesale.searchBatch'">
+    <!-- Table -->
+    <mat-table [dataSource]="[]" aria-label="batches">
+      <!-- Batch Number -->
+      <ng-container matColumnDef="batchNumber">
+        <mat-header-cell *matHeaderCellDef>
+          {{ transloco("columns.batchNumber") }}
+        </mat-header-cell>
+      </ng-container>
+      <ng-container matColumnDef="periodFrom">
+        <mat-header-cell *matHeaderCellDef>
+          {{ transloco("columns.periodFrom") }}
+        </mat-header-cell>
+      </ng-container>
+      <ng-container matColumnDef="periodTo">
+        <mat-header-cell *matHeaderCellDef>
+          {{ transloco("columns.periodTo") }}
+        </mat-header-cell>
+      </ng-container>
+      <ng-container matColumnDef="executionTime">
+        <mat-header-cell *matHeaderCellDef>
+          {{ transloco("columns.executionTime") }}
+        </mat-header-cell>
+      </ng-container>
+      <ng-container matColumnDef="status">
+        <mat-header-cell *matHeaderCellDef>
+          {{ transloco("columns.status") }}
+        </mat-header-cell>
+      </ng-container>
+
+      <mat-header-row
+        *matHeaderRowDef="columnIds; sticky: true"
+      ></mat-header-row>
+      <mat-row *matRowDef="let row; columns: columnIds"></mat-row>
+    </mat-table>
   </ng-container>
 </ng-container>
