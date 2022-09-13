@@ -37,7 +37,29 @@ jobs:
         id: dependencies_have_changed
         uses: ./.github/actions/dependencies-have-changed
 
-      # Only run steps below if dependencies has changed
+      # node_modules are needed for license-checker
+      - name: Get Yarn cache directory path
+        id: yarn-cache-dir-path
+        if: ${{ steps.dependencies_have_changed.outputs.dependencies-have-changed == 'true' }}
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+
+      - name: Cache Yarn cache directory
+        if: ${{ steps.dependencies_have_changed.outputs.dependencies-have-changed == 'true' }}
+        uses: actions/cache@v3
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+
+      - name: Set yarn version ${{ env.yarn-version }}
+        if: ${{ steps.dependencies_have_changed.outputs.dependencies-have-changed == 'true' }}
+        run: yarn set version ${{ env.yarn-version }}
+
+      - name: Install package dependencies
+        if: ${{ steps.dependencies_have_changed.outputs.dependencies-have-changed == 'true' }}
+        run: yarn install --frozen-lockfile --non-interactive
+
       - name: Read .allowed-licenses.json
         id: allowed-licenses
         if: ${{ steps.dependencies_have_changed.outputs.dependencies-have-changed == 'true' }}
