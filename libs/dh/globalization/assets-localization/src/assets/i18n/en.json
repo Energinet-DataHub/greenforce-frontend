@@ -537,8 +537,8 @@
       "topBarTitle": "Search Batch",
       "columns": {
         "batchNumber": "Batch number",
-        "periodFrom": "Periode from",
-        "periodTo": "Periode to",
+        "periodFrom": "Period from",
+        "periodTo": "Period to",
         "executionTime": "Execution time",
         "status": "Status"
       }
