@@ -5252,10 +5252,10 @@
   dependencies:
     defer-to-connect "^1.0.1"
 
-"@testing-library/angular@12.0.2":
-  version "12.0.2"
-  resolved "https://registry.yarnpkg.com/@testing-library/angular/-/angular-12.0.2.tgz#b2cfce1090759ed12775f092e08ce1f40d4a7537"
-  integrity sha512-iNm2UvX2tOtz1EOI7UiFRowRUIh1HDkahhAERF9wB6mcIix2RF/ivw1BqOAzRtYY+nsTbTc/gXhz1KAczbyjHQ==
+"@testing-library/angular@12.1.2":
+  version "12.1.2"
+  resolved "https://registry.yarnpkg.com/@testing-library/angular/-/angular-12.1.2.tgz#1666692a0346520a4958d61575976a9868bc5568"
+  integrity sha512-xRE5YzxL1yUXE4zzY2TowwmYCvmjEyaXn5bRhgPBC8NiP6ys+zT1b3ZvQTrP3SGpanNj9YM02rEikuu0SQVerw==
   dependencies:
     "@testing-library/dom" "^8.0.0"
     tslib "^2.3.1"
@@ -5282,16 +5282,16 @@
     lz-string "^1.4.4"
     pretty-format "^27.0.2"
 
-"@testing-library/jest-dom@5.16.4":
-  version "5.16.4"
-  resolved "https://registry.yarnpkg.com/@testing-library/jest-dom/-/jest-dom-5.16.4.tgz#938302d7b8b483963a3ae821f1c0808f872245cd"
-  integrity sha512-Gy+IoFutbMQcky0k+bqqumXZ1cTGswLsFqmNLzNdSKkU9KGV2u9oXhukCbbJ9/LRPKiqwxEE8VpV/+YZlfkPUA==
+"@testing-library/jest-dom@5.16.5":
+  version "5.16.5"
+  resolved "https://registry.yarnpkg.com/@testing-library/jest-dom/-/jest-dom-5.16.5.tgz#3912846af19a29b2dbf32a6ae9c31ef52580074e"
+  integrity sha512-N5ixQ2qKpi5OLYfwQmUb/5mSV9LneAcaUfp32pn4yCnpb8r/Yz0pXFPck21dIicKmi+ta5WRAknkZCfA8refMA==
   dependencies:
+    "@adobe/css-tools" "^4.0.1"
     "@babel/runtime" "^7.9.2"
     "@types/testing-library__jest-dom" "^5.9.1"
     aria-query "^5.0.0"
     chalk "^3.0.0"
-    css "^3.0.0"
     css.escape "^1.5.1"
     dom-accessibility-api "^0.5.6"
     lodash "^4.17.15"
