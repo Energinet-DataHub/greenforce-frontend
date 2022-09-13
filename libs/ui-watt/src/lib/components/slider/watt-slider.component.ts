@@ -61,6 +61,10 @@ export class WattSliderComponent {
    */
   @Output() valueChange = new EventEmitter<WattSliderValue>();
 
+  constructor() {
+    this.triggerTests();
+  }
+
   /**
    * @ignore
    */
@@ -76,6 +80,10 @@ export class WattSliderComponent {
       step: this.step,
       stepsArray: this.customSteps?.map((value) => ({ value })),
     };
+  }
+
+  private triggerTests(): void {
+    console.log('Change so tests can run');
   }
 
   /**
