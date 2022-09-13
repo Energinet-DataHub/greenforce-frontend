@@ -19,59 +19,83 @@ using System.Threading.Tasks;
 using AutoFixture;
 using Energinet.Charges.Contracts.ChargeLink;
 using Energinet.DataHub.Charges.Clients.ChargeLinks;
+using Energinet.DataHub.WebApi.Tests.Fixtures;
 using FluentAssertions;
-using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
 {
-    public class ChargeLinksControllerTests : IClassFixture<WebApplicationFactory<Startup>>
+    public class ChargeLinksControllerTests :
+        WebApiTestBase<BffWebApiFixture>,
+        IClassFixture<BffWebApiFixture>,
+        IClassFixture<WebApiFactory>,
+        IAsyncLifetime
     {
-        private Fixture Fixture { get; }
+        private Fixture DtoFixture { get; }
 
         private Mock<IChargeLinksClient> ApiClientMock { get; }
 
-        private HttpClient HttpClient { get; }
+        private HttpClient Client { get; }
 
-        public ChargeLinksControllerTests(WebApplicationFactory<Startup> factory)
+        public ChargeLinksControllerTests(
+            BffWebApiFixture bffWebApiFixture,
+            WebApiFactory factory,
+            ITestOutputHelper testOutputHelper)
+             : base(bffWebApiFixture, testOutputHelper)
         {
-            Fixture = new Fixture();
+            DtoFixture = new Fixture();
 
             ApiClientMock = new Mock<IChargeLinksClient>();
-            HttpClient = factory.WithWebHostBuilder(builder =>
+            Client = factory.WithWebHostBuilder(builder =>
             {
                 builder.ConfigureServices(services =>
                 {
-                    services.AddTransient(_ => ApiClientMock.Object);
+                    services.AddTransient(provider => ApiClientMock.Object);
                 });
             })
             .CreateClient();
+
+            factory.ReconfigureJwtTokenValidatorMock(isValid: true);
         }
 
-        [Fact(Skip = "Acquire token for B2C user must be added for test to work")]
+        public Task InitializeAsync()
+        {
+            Client.DefaultRequestHeaders.Add("Authorization", $"Bearer xxx");
+            return Task.CompletedTask;
+        }
+
+        public Task DisposeAsync()
+        {
+            Client.Dispose();
+            return Task.CompletedTask;
+        }
+
+        [Fact]
         public async Task GetAsync_WhenMeteringPointIdHasChargeLinks_ReturnsOk()
         {
             // Arrange
             var meteringPointId = "571313180000000000";
             var requestUrl = $"/v1/ChargeLinks?meteringPointId={meteringPointId}";
-            var list = new List<ChargeLinkV1Dto>();
-            var dto = Fixture.Create<ChargeLinkV1Dto>();
-            list.Add(dto);
+            var list = new List<ChargeLinkV1Dto>
+            {
+                DtoFixture.Create<ChargeLinkV1Dto>(),
+            };
 
             ApiClientMock
                 .Setup(m => m.GetAsync(meteringPointId))
                 .ReturnsAsync(list);
 
             // Act
-            var actual = await HttpClient.GetAsync(requestUrl);
+            var actual = await Client.GetAsync(requestUrl);
 
             // Assert
             actual.StatusCode.Should().Be(HttpStatusCode.OK);
         }
 
-        [Fact(Skip = "Acquire token for B2C user must be added for test to work")]
+        [Fact]
         public async Task GetAsync_WhenMeteringPointIdHasNoChargeLink_ReturnsNotFound()
         {
             // Arrange
@@ -84,7 +108,7 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
                 .ReturnsAsync(list);
 
             // Act
-            var actual = await HttpClient.GetAsync(requestUrl);
+            var actual = await Client.GetAsync(requestUrl);
 
             // Arrange
             actual.StatusCode.Should().Be(HttpStatusCode.NotFound);
