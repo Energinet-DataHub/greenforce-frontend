@@ -17,6 +17,8 @@ using System.IO;
 using System.Reflection;
 using System.Text.Json.Serialization;
 using Energinet.DataHub.Charges.Clients.Registration.ChargeLinks.ServiceCollectionExtensions;
+using Energinet.DataHub.Core.App.Common.Diagnostics.HealthChecks;
+using Energinet.DataHub.Core.App.WebApp.Diagnostics.HealthChecks;
 using Energinet.DataHub.Core.App.WebApp.Middleware;
 using Energinet.DataHub.MarketParticipant.Client.Extensions;
 using Energinet.DataHub.MessageArchive.Client.Extensions;
@@ -55,8 +57,6 @@ namespace Energinet.DataHub.WebApi
             services.AddHealthChecks();
 
             services.AddHttpClientFactory();
-
-            AddDomainClients(services);
 
             // Register the Swagger generator, defining 1 or more Swagger documents.
             services.AddSwaggerGen(config =>
@@ -109,6 +109,12 @@ namespace Energinet.DataHub.WebApi
                         .AllowAnyMethod());
                 });
             }
+
+            var apiClientSettings = Configuration.GetSection("ApiClientSettings").Get<ApiClientSettings>();
+            AddDomainClients(services, apiClientSettings);
+
+            // Health check
+            SetupHealthEndpoints(services, apiClientSettings);
         }
 
         /// <summary>
@@ -141,14 +147,39 @@ namespace Energinet.DataHub.WebApi
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                endpoints.MapHealthChecks("/health").AllowAnonymous();
+
+                // Health check
+                endpoints.MapLiveHealthChecks();
+                endpoints.MapReadyHealthChecks();
             });
         }
 
-        private void AddDomainClients(IServiceCollection services)
+        protected virtual void SetupHealthEndpoints(IServiceCollection services, ApiClientSettings apiClientSettingsService)
         {
-            var apiClientSettings = Configuration.GetSection("ApiClientSettings").Get<ApiClientSettings>();
+            const string liveEndpointPath = "/monitor/live";
+            var chargesLiveHealthUrl = apiClientSettingsService.ChargesBaseUrl == string.Empty
+                ? throw new ArgumentException()
+                : new Uri(apiClientSettingsService.ChargesBaseUrl + liveEndpointPath);
+            var marketParticipantLiveHealthUrl = apiClientSettingsService.MarketParticipantBaseUrl == string.Empty
+                ? throw new ArgumentException()
+                : new Uri(apiClientSettingsService.MarketParticipantBaseUrl + liveEndpointPath);
+            var messageArchiveLiveHealthUrl = apiClientSettingsService.MessageArchiveBaseUrl == string.Empty
+                ? throw new ArgumentException()
+                : new Uri(apiClientSettingsService.MessageArchiveBaseUrl + liveEndpointPath);
+            var wholesaleLiveHealthUrl = apiClientSettingsService.WholesaleBaseUrl == string.Empty
+                ? throw new ArgumentException()
+                : new Uri(apiClientSettingsService.WholesaleBaseUrl + liveEndpointPath);
 
+            services.AddHealthChecks()
+                .AddLiveCheck()
+                .AddServiceHealthCheck("charges", chargesLiveHealthUrl)
+                .AddServiceHealthCheck("marketParticipant", marketParticipantLiveHealthUrl)
+                .AddServiceHealthCheck("messageArchive", messageArchiveLiveHealthUrl)
+                .AddServiceHealthCheck("wholesale", wholesaleLiveHealthUrl);
+        }
+
+        private void AddDomainClients(IServiceCollection services, ApiClientSettings apiClientSettings)
+        {
             AddMeteringPointClient(services, apiClientSettings);
             AddChargeLinksClient(services, apiClientSettings);
             AddMessageArchiveClient(services, apiClientSettings);
