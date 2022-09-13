@@ -18,7 +18,7 @@ import { Component, NgModule } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
 import { WattButtonModule } from '@energinet-datahub/watt';
 
-import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatTableModule } from '@angular/material/table';
 
 import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
 import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/feature-flags';
