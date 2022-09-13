@@ -42,6 +42,7 @@ export class DhMarketParticipantGridAreaEditComponent {
     onCompleted: () => void;
   }) => void;
   @Input() gridChangesLoading = false;
+  @Input() getGridAreaData!: (gridAreaId: string) => void;
   @ViewChild('nameChangeModal') nameChangeModal!: WattModalComponent;
 
   newGridName = '';
@@ -63,6 +64,7 @@ export class DhMarketParticipantGridAreaEditComponent {
         onCompleted: () => {
           gridArea.name = this.newGridName;
           this.closeEditModal();
+          this.getGridAreaData(gridArea.id);
         },
       });
     }

@@ -51,6 +51,8 @@ export class DhMarketParticipantGridAreaComponent {
   isLoading$ = this.store.isLoading$;
   validationError$ = this.store.validationError$;
   rows$ = this.store.rows$;
+  isLoadingAuditLog$ = this.gridAreaEditStore.isLoadingAuditLog$;
+  auditLog$ = this.gridAreaEditStore.auditLog$;
 
   gridAreaChangesIsLoading$ = this.gridAreaEditStore.isLoading$;
 
@@ -60,6 +62,9 @@ export class DhMarketParticipantGridAreaComponent {
   }) => {
     this.gridAreaEditStore.saveGridAreaChanges(changes);
   };
+
+  getGridAreaData = (gridAreaId: string) =>
+    this.gridAreaEditStore.getAuditLog(gridAreaId);
 }
 
 @NgModule({

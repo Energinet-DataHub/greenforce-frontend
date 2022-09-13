@@ -510,6 +510,17 @@
         "validFrom": "Gyldig fra",
         "validTo": "Gyldig til"
       },
+      "detailsAuditLog": {
+        "time": "Time",
+        "change": "Change",
+        "changes": "Changes",
+        "noResultsFound": "No results",
+        "changed": "changed",
+        "to": "to",
+        "fields": {
+          "name": "name"
+        }
+      },
       "changeGridArea": {
         "gridAreaName": "Grid area name",
         "cancel": "Cancel",

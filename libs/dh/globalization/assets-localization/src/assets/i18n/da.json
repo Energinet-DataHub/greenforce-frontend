@@ -510,6 +510,17 @@
         "validFrom": "Gyldig fra",
         "validTo": "Gyldig til"
       },
+      "detailsAuditLog": {
+        "time": "Tid",
+        "change": "Ændring",
+        "changes": "Ændringer",
+        "noResultsFound": "Ingen resultater",
+        "changed": "ændrede",
+        "to": "til",
+        "fields": {
+          "name": "navn"
+        }
+      },
       "changeGridArea": {
         "gridAreaName": "Netområde navn",
         "cancel": "Fortryd",
