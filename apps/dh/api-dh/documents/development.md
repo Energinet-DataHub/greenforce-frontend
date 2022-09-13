@@ -30,7 +30,12 @@ Add appsettings.Development.json with valid settings:
 
 `ApiClientSettings`  
 `> MeteringPointBaseUrl`  
-`> ChargesBaseUrl`
+`> ChargesBaseUrl`  
+`> MessageArchiveBaseUrl`  
+`> MarketParticipantBaseUrl`  
+`> WholesaleBaseUrl`  
+`FRONTEND_SERVICE_APP_ID`  
+`FRONTEND_OPEN_ID_URL`
 
 ## OpenAPI
 

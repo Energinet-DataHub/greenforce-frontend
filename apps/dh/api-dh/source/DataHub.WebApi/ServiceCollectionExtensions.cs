@@ -12,24 +12,43 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.IdentityModel.Tokens.Jwt;
 using Energinet.DataHub.Core.App.Common.Abstractions.Identity;
 using Energinet.DataHub.Core.App.Common.Abstractions.Security;
 using Energinet.DataHub.Core.App.Common.Identity;
 using Energinet.DataHub.Core.App.Common.Security;
 using Energinet.DataHub.Core.App.WebApp.Middleware;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Protocols;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Energinet.DataHub.WebApi
 {
     public static class ServiceCollectionExtensions
     {
-        public static void AddJwtTokenSecurity(this IServiceCollection services, string metadataAddress, string audience)
+        public static IServiceCollection AddJwtTokenSecurity(this IServiceCollection services, string metadataAddress, string audience)
         {
-            services.AddScoped<JwtTokenMiddleware>();
-            services.AddScoped<IJwtTokenValidator, JwtTokenValidator>();
-            services.AddScoped<IClaimsPrincipalAccessor, ClaimsPrincipalAccessor>();
+            services.AddSingleton<ISecurityTokenValidator, JwtSecurityTokenHandler>();
+            services.AddSingleton<IConfigurationManager<OpenIdConnectConfiguration>>(_ =>
+                new ConfigurationManager<OpenIdConnectConfiguration>(
+                    metadataAddress,
+                    new OpenIdConnectConfigurationRetriever()));
+
+            services.AddScoped<IJwtTokenValidator>(sp =>
+                new JwtTokenValidator(
+                    sp.GetRequiredService<ILogger<JwtTokenValidator>>(),
+                    sp.GetRequiredService<ISecurityTokenValidator>(),
+                    sp.GetRequiredService<IConfigurationManager<OpenIdConnectConfiguration>>(),
+                    audience));
+
             services.AddScoped<ClaimsPrincipalContext>();
-            services.AddScoped(_ => new OpenIdSettings(metadataAddress, audience));
+            services.AddScoped<IClaimsPrincipalAccessor, ClaimsPrincipalAccessor>();
+
+            services.AddScoped<JwtTokenMiddleware>();
+
+            return services;
         }
 
         /// <summary>

@@ -24,10 +24,7 @@ import {
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
 import { MsalServiceFake } from '@energinet-datahub/dh/shared/test-util-auth';
 
-import {
-  DhCoreShellComponent,
-  DhCoreShellScam,
-} from './dh-core-shell.component';
+import { DhCoreShellComponent } from './dh-core-shell.component';
 
 describe(DhCoreShellComponent.name, () => {
   beforeEach(async () => {
@@ -35,7 +32,6 @@ describe(DhCoreShellComponent.name, () => {
       imports: [
         getTranslocoTestingModule(),
         WattDanishDatetimeModule.forRoot(),
-        DhCoreShellScam,
       ],
       providers: [MsalServiceFake],
     });

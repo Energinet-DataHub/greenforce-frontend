@@ -45,10 +45,7 @@ import {
   WattDanishDatetimeModule,
   WattToastModule,
 } from '@energinet-datahub/watt';
-import {
-  DhCoreShellComponent,
-  DhCoreShellScam,
-} from './dh-core-shell.component';
+import { DhCoreShellComponent } from './dh-core-shell.component';
 import { DhSharedUtilApplicationInsightsModule } from '@energinet-datahub/dh/shared/util-application-insights';
 
 const routes: Routes = [
@@ -103,7 +100,7 @@ const routes: Routes = [
   exports: [RouterModule],
   imports: [
     DhApiModule.forRoot(),
-    DhCoreShellScam,
+    DhCoreShellComponent,
     DhTranslocoModule.forRoot(),
     HttpClientModule,
     MsalModule,
