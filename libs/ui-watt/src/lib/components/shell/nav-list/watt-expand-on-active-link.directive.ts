@@ -37,7 +37,7 @@ export class WattExpandOnActiveLinkDirective implements AfterViewInit {
     if (navListItems) {
       from(navListItems)
         .pipe(
-          mergeMap((item) => item.isActive$),
+          mergeMap((item) => item.isActive),
           filter((isActive) => isActive)
         )
         .subscribe(() => {
