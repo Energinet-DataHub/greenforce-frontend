@@ -37,7 +37,7 @@ export class DhWholesaleSearchComponent {
     'periodFrom',
     'periodTo',
     'executionTime',
-    'status'
+    'status',
   ];
 }
 
