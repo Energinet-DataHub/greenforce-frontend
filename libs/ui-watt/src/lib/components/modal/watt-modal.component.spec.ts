@@ -59,7 +59,7 @@ describe(WattModalComponent.name, () => {
   it('opens on button click', async () => {
     await setup();
     user.click(screen.getByRole('button'));
-    expect(screen.getByRole('dialog')).toBeInTheDocument();
+    await waitFor(() => expect(screen.getByRole('dialog')).toBeInTheDocument());
   });
 
   it('closes when rejected', async () => {
@@ -93,6 +93,8 @@ describe(WattModalComponent.name, () => {
     const closed = jest.fn();
     await setup({ closed });
     user.click(screen.getByRole('button'));
+    await waitFor(() => expect(screen.getByRole('dialog')).toBeInTheDocument());
+
     user.click(screen.getByLabelText('Close'));
     await waitFor(() => expect(closed).toBeCalledWith(false));
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
@@ -117,6 +119,7 @@ describe(WattModalComponent.name, () => {
   it('displays title', async () => {
     await setup();
     user.click(screen.getByRole('button'));
+    await waitFor(() => expect(screen.getByRole('dialog')).toBeInTheDocument());
     expect(screen.getByRole('heading')).toHaveTextContent('Test Modal');
   });
 });
