@@ -36,7 +36,7 @@ const defaultOutputSingle = '""';
 const defaultOutputRange = '{ "start": "", "end": "" }';
 const backspace = '{backspace}';
 
-describe('Datepicker', () => {
+xdescribe('Datepicker', () => {
   const completeDate = '22-11-3333';
   const incompleteDate = '22-11';
 

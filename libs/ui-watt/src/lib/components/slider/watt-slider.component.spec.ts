@@ -22,7 +22,6 @@ import { WattSliderComponent } from './watt-slider.component';
 describe(WattSliderComponent.name, () => {
   it('renders', async () => {
     await render(WattSliderComponent, {
-      declarations: [WattSliderComponent],
       imports: [WattSliderModule],
     });
 
