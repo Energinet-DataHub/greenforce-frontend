@@ -14,6 +14,7 @@
       "wholesale": {
         "menuGroupLabel": "Afregninger",
         "startProcess": "Start proces",
+        "searchBatch": "Søg batch",
         "overview": "Oversigt"
       }
     }
@@ -531,6 +532,17 @@
       "dateRangeRequired": "Dato-periode påkrævet",
       "dateRangeLabel": "Periode",
       "gridAreaDropDownLabel": "Netområder"
+    },
+    "searchBatch": {
+      "topBarTitle": "Søg batch",
+      "headline": "Seneste processer",
+      "columns": {
+        "batchNumber": "Batch-nummer",
+        "periodFrom": "Periode fra",
+        "periodTo": "Periode til",
+        "executionTime": "Eksekveringstid",
+        "status": "Status"
+      }
     },
     "overview": {
       "header": "Proces oversigt"
