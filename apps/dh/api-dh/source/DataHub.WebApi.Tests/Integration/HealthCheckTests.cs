@@ -100,5 +100,32 @@ namespace Energinet.DataHub.WebApi.Tests.Integration
             var actualContent = await actualResponse.Content.ReadAsStringAsync();
             actualContent.Should().Be(Enum.GetName(typeof(HealthStatus), HealthStatus.Healthy));
         }
+
+        [Fact]
+        public async Task If_ADependentServiceIsUnavailable_When_RequestReadinessStatus_Then_ResponseIsServiceUnavailableAndUnhealthy()
+        {
+            _serverMock
+                .Given(Request.Create().WithPath(new[]
+                {
+                    "/charges/monitor/live",
+                    "/messagearchive/monitor/live",
+                    "/marketparticipant/monitor/live",
+                }).UsingGet())
+                .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.OK));
+            _serverMock
+                .Given(Request.Create().WithPath(new[]
+                {
+                    "/wholesale/monitor/live",
+                }).UsingGet())
+                .RespondWith(Response.Create().WithStatusCode(HttpStatusCode.ServiceUnavailable));
+
+            var actualResponse = await Client.GetAsync(HealthChecksConstants.ReadyHealthCheckEndpointRoute);
+
+            // Assert
+            actualResponse.StatusCode.Should().Be(HttpStatusCode.ServiceUnavailable);
+
+            var actualContent = await actualResponse.Content.ReadAsStringAsync();
+            actualContent.Should().Be(Enum.GetName(typeof(HealthStatus), HealthStatus.Unhealthy));
+        }
     }
 }
