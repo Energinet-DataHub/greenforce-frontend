@@ -1,0 +1,4 @@
+﻿{
+  "AZURE_KEYVAULT_URL": "<Integration test key vault url>",
+  "AZURE_SECRETS_KEYVAULT_URL": "<Key vault with secrets url>"
+}

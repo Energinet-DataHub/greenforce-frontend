@@ -15,12 +15,17 @@
  * limitations under the License.
  */
 
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { MatListModule } from '@angular/material/list';
 import { MatRippleModule } from '@angular/material/core';
-import { Subject } from 'rxjs';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -54,18 +59,16 @@ import { Subject } from 'rxjs';
   `,
 })
 export class WattNavListItemComponent {
-  private isActiveSubject = new Subject<boolean>();
-
-  public readonly isActive$ = this.isActiveSubject.asObservable();
-
   @Input() link: string | null = null;
   @Input() target: '_self' | '_blank' | '_parent' | '_top' | null = null;
+
+  @Output() isActive = new EventEmitter<boolean>();
 
   get isExternalLink(): boolean {
     return /^(http:\/\/|https:\/\/)/i.test(this.link ?? '');
   }
 
   onRouterLinkActive(isActive: boolean) {
-    this.isActiveSubject.next(isActive);
+    this.isActive.emit(isActive);
   }
 }

@@ -58,3 +58,8 @@ variable azure_ad_security_group_id {
   type          = string
   description   = "The Id of the Azure Security group used for employees"
 }
+
+variable enable_health_check_alerts {
+  type          = bool
+  description   = "Specify if health check alerts for Azure Functions and App Services should be enabled."
+}
