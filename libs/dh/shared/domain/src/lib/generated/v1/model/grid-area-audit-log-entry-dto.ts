@@ -14,7 +14,7 @@ import { GridAreaAuditLogEntryField } from './grid-area-audit-log-entry-field';
 
 export interface GridAreaAuditLogEntryDto { 
     timestamp: string;
-    userId: string;
+    userDisplayName?: string | null;
     field: GridAreaAuditLogEntryField;
     oldValue: string;
     newValue: string;
