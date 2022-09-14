@@ -125,11 +125,11 @@ Below is an exhaustive list of permitted application types, along with their
 intended purpose and which [library types](#libraries) they are allowed to have direct
 dependendies to:
 
-| Prefix    | Description                     | Path                           | Allowed Dependencies                     |
-| --------- | ------------------------------- | ------------------------------ | ---------------------------------------- |
-| **`api`** | Serves as BFF for the product   | `apps/<product>/api-<product>` | -                                        |
-| **`app`** | Entry point for the frontend    | `apps/<product>/app-<product>` | `shell` `environments` `assets` `styles` |
-| **`e2e`** | Runs E2E tests for the frontend | `apps/<product>/e2e-<product>` | `e2e-util`                               |
+| Prefix    | Description                   | Path                           | Allowed Dependencies                     |
+| --------- | ----------------------------- | ------------------------------ | ---------------------------------------- |
+| **`api`** | Serves as BFF for the product | `apps/<product>/api-<product>` | -                                        |
+| **`app`** | Entry point for the frontend  | `apps/<product>/app-<product>` | `shell` `environments` `assets` `styles` |
+| **`e2e`** | Runs E2E tests for the app    | `apps/<product>/e2e-<product>` | `e2e-util`                               |
 
 ```
    ├── executors     # - Executors perform actions on your code. This can include building, linting, testing, serving.
