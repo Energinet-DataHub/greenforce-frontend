@@ -24,8 +24,8 @@ frontends backed by [Nx] and [Angular].
 
 > The documentation in this README assumes the reader has a general understanding
 > of [Nx] and [Angular]. For beginners in these technologies, the
-> [Core Nx Tutorial](https://nx.dev/getting-started/core-tutorial) and the
-> [Angular Tour of Heroes](https://angular.io/tutorial) can serve as a good
+> [Core Nx Tutorial](https://nx.dev/getting-started/core-tutorial) and
+> [Angular Tour of Heroes](https://angular.io/tutorial) serves as a good
 > introduction.
 
 This repository is a monorepo which hosts serveral applications that all share
@@ -76,11 +76,34 @@ _Note: It is recommended to use mocking as much as possible, see
 
 ### Development
 
-To generate a new library, run `yarn nx workspace-generator dh-library-generator` and follow the instructions or use the "workspace-generator - dh-library-generator" option under "generate" command in Nx Console extension.
+When it is time to add a new library, refrain from writing files manually or
+copying from existing libraries. Instead, use the provided workspace generators
+that takes care of all the manual work and avoids common pitfalls.
+
+_Note: Make sure to read the [Workspace](#workspace) section beforehand to understand
+which library type to generate. **It is currently not possible to generate
+libraries of type `assets` and `styles`**._
+
+To generate a new library, run the below command\* and follow the instructions:
 
 ```sh
 yarn nx workspace-generator dh-library-generator
 ```
+
+While rarely needed, it is also possible to generate an entirely new domain.
+Running the following command\* will create a new domain with
+`data-access-api`, `feature`, `routing` and `shell` libraries included:
+
+```sh
+yarn nx workspace-generator dh-domain-generator
+```
+
+<sub>\* Also available in [Nx Console](https://nx.dev/core-features/integrate-with-editors).</sub>
+
+### Configuration
+
+Configuration files are located in `libs/dh/shared/assets/src/configuration` folder. Local configurations have a `.local` filename suffix but is overridable by a configuration file without a prefix. For example, `dh-api-environment.local.json` configures the DataHub frontend to use a local DataHub API. To use a remote DataHub API, place a `dh-api-environment.json` file in the same folder
+and set the remote address in the relevant property.
 
 ## Workspace
 
@@ -125,7 +148,7 @@ In other words, all applications must follow the naming scheme
 `apps/<product>/<type>-<product>`.
 
 Below is an exhaustive list of permitted application types, along with their
-intended purpose, folder name and which [library types](#libraries) they are
+intended purpose, folder name and which [library types](#library-types) they are
 allowed to have direct dependendies to:
 
 | Type      | Description                    | Name            | Allowed Dependencies                     |
@@ -161,6 +184,8 @@ name and which other **library**\* types they are allowed to depend on:
 <sub>\* Only
 libraries of type `data-access` may have dependencies to apps and only apps of type
 `api`.</sub>
+
+<a name="library-types"></a>
 
 | Type                | Description                                                                                                                                                                 | Name                   | Allowed Dependencies                                                                                               |
 | ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------- | ------------------------------------------------------------------------------------------------------------------ |
@@ -223,13 +248,6 @@ The frontend apps are built with Angular in an Nx Workspace. They are located un
 - `eo/e2e-eo` - End-to-end tests for `app-eo`
 
 Besides the `apps` folder, there's also a `libs` folder that contains features used by the apps. This is where most of the code lives.
-
-### Frontend configuration files
-
-#### DataHub frontend
-
-Configuration files are located in the `assets/configuration` folder. Local configurations have a `.local` filename suffix but is overridable by a configuration file without a prefix. For example, `dh-api-environment.local.json` configures the DataHub frontend to use a local DataHub API. To use a remote DataHub API, place a `dh-api-environment.json` file in the same folder
-and set the remote address in the relevant property.
 
 ## Backend-for-frontend (BFF)
 
