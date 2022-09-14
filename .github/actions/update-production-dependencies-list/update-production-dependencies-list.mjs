@@ -18,12 +18,14 @@ function writeProductionDependencyLicenses(licenses) {
   | Name | Version | License |
   | ---- | ------- | ------- |
   `;
-  const content = Object.entries(parsedLicenses).map(([key, value]) => {
-    const splittedKey = key.split('@');
-    const name = splittedKey[splittedKey.length - 2];
-    const version = key.split('@')[splittedKey.length - 1];
-    return `| [${name}](${value.repository}) | ${version} | [${value.licenses}](${value.licenseFile}) |`;
-  }).join('\n');
+  const content = Object.entries(parsedLicenses)
+    .map(([key, value]) => {
+      const splittedKey = key.split('@');
+      const name = splittedKey[splittedKey.length - 2];
+      const version = key.split('@')[splittedKey.length - 1];
+      return `| [${name}](${value.repository}) | ${version} | [${value.licenses}](${value.licenseFile}) |`;
+    })
+    .join('\n');
 
   try {
     fs.writeFileSync('PRODUCTION_DEPENDENCIES.md', `${header}${content}`);
