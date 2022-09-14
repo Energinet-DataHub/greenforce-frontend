@@ -511,6 +511,17 @@
         "validFrom": "Gyldig fra",
         "validTo": "Gyldig til"
       },
+      "detailsAuditLog": {
+        "time": "Tid",
+        "change": "Ændring",
+        "changes": "Ændringer",
+        "noResultsFound": "Ingen resultater",
+        "fields": {
+          "name": "Netområde navn"
+        },
+        "unknown": "Ukendt",
+        "messageKey": "<strong>{{ userDisplayName }}</strong> ændrede <strong>{{ field }}</strong> til <strong>{{ newValue }}</strong>"
+      },
       "changeGridArea": {
         "gridAreaName": "Netområde navn",
         "cancel": "Fortryd",
