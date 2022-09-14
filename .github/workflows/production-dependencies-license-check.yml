@@ -72,17 +72,16 @@ jobs:
         run: echo ::set-output name=dependencies::$(npx license-checker-rseidelsohn --direct --production --onlyAllow="${{ steps.allowed-licenses.outputs.FILE }}" --markdown --out=production-dependency-licenses.md)
 
       - name: Update PRODUCTION_DEPENDENCIES.md
-        id: dependencies_have_changed
         if: ${{ steps.dependencies_have_changed.outputs.dependencies-have-changed == 'true' }}
         uses: ./.github/actions/update-production-dependencies-list
         with:
           dependencies-from-license-checker: steps.licenseChecker.dependencies
 
-      - name: Commit production-dependency-licenses.md
+      - name: Commit PRODUCTION_DEPENDENCIES.md
         if: ${{ steps.dependencies_have_changed.outputs.dependencies-have-changed == 'true' }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add production-dependency-licenses.md || cd .
-          git commit -m "chore: Update production-dependency-licenses.md" || cd .
+          git commit -m "chore: Update PRODUCTION_DEPENDENCIES.md" || cd .
           git push origin --force-with-lease || cd .
