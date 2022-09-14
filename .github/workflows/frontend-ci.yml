@@ -305,7 +305,7 @@ jobs:
 
   test:
     name: Unit and integration test
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     steps:
       # needed for nx affected command

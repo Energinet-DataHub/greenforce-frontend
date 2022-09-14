@@ -50,7 +50,7 @@ function setup(componentProperties?: Properties) {
   });
 }
 
-describe(WattModalComponent.name, () => {
+xdescribe(WattModalComponent.name, () => {
   it('starts closed', async () => {
     await setup();
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
