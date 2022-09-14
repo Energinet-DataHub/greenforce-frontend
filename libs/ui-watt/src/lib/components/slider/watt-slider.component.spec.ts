@@ -25,6 +25,10 @@ describe(WattSliderComponent.name, () => {
       imports: [WattSliderModule],
     });
 
+    const testElem = screen.getByText('dialog');
+
+    console.log(testElem?.textContent);
+
     expect(screen.queryAllByRole('slider')).toHaveLength(2);
   });
 });
