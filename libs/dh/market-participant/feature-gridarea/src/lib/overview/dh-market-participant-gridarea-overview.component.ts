@@ -44,6 +44,8 @@ import {
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import { DhMarketParticipantGridAreaDetailsHeaderScam } from '../details-header/dh-market-participant-gridarea-details-header.component';
 import { DhMarketParticipantGridAreaEditScam } from '../details-edit/dh-market-participant-gridarea-edit.component';
+import { DhMarketParticipantGridAreaDetailsAuditLogScam } from '../details-auditlog/dh-market-participant-gridarea-details-auditlog.component';
+import { GridAreaAuditLogEntryDto } from '@energinet-datahub/dh/shared/domain';
 
 @Component({
   selector: 'dh-market-participant-gridarea-overview',
@@ -70,6 +72,10 @@ export class DhMarketParticipantGridAreaOverviewComponent implements OnChanges {
   }) => void;
   @Input() gridChangesLoading = false;
 
+  @Input() isLoadingAuditLog = false;
+  @Input() activeGridAreaAuditLog: GridAreaAuditLogEntryDto[] = [];
+  @Input() getGridAreaData!: (gridAreaId: string) => void;
+
   readonly dataSource: MatTableDataSource<GridAreaOverviewRow> =
     new MatTableDataSource<GridAreaOverviewRow>();
 
@@ -83,6 +89,7 @@ export class DhMarketParticipantGridAreaOverviewComponent implements OnChanges {
 
   readonly open = (row: GridAreaOverviewRow) => {
     this.activeRow = row;
+    this.getGridAreaData(row.id);
     this.drawer.open();
   };
 }
@@ -105,6 +112,7 @@ export class DhMarketParticipantGridAreaOverviewComponent implements OnChanges {
     WattDrawerModule,
     DhMarketParticipantGridAreaDetailsHeaderScam,
     DhMarketParticipantGridAreaEditScam,
+    DhMarketParticipantGridAreaDetailsAuditLogScam,
   ],
   declarations: [DhMarketParticipantGridAreaOverviewComponent],
   exports: [DhMarketParticipantGridAreaOverviewComponent],

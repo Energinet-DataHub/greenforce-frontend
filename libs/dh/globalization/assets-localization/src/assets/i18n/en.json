@@ -511,6 +511,17 @@
         "validFrom": "Valid from",
         "validTo": "Valid to"
       },
+      "detailsAuditLog": {
+        "time": "Time",
+        "change": "Change",
+        "changes": "Changes",
+        "noResultsFound": "No results",
+        "fields": {
+          "name": "Grid area name"
+        },
+        "unknown": "Unknown",
+        "messageKey": "<strong>{{ userDisplayName }}</strong> changed <strong>{{ field }}</strong> to <strong>{{ newValue }}</strong>"
+      },
       "changeGridArea": {
         "gridAreaName": "Grid area name",
         "cancel": "Cancel",
