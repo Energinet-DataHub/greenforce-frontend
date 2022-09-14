@@ -13,7 +13,6 @@ This DataHub repository relies on open source libraries and tools. We recommend 
 
 **You can find the list of dependencies and licenses [here.](PRODUCTION_DEPENDENCIES.md)**
 
-
 <br>
 <br>
 
