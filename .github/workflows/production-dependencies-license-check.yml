@@ -75,7 +75,7 @@ jobs:
         if: ${{ steps.dependencies_have_changed.outputs.dependencies-have-changed == 'true' }}
         uses: ./.github/actions/update-production-dependencies-list
         with:
-          dependencies-from-license-checker: steps.licenseChecker.dependencies
+          dependencies-from-license-checker: ${{ steps.licenseChecker.dependencies }}
 
       - name: Commit PRODUCTION_DEPENDENCIES.md
         if: ${{ steps.dependencies_have_changed.outputs.dependencies-have-changed == 'true' }}
