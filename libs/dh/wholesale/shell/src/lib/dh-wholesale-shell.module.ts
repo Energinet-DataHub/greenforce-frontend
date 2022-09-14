@@ -23,6 +23,11 @@ import {
 } from '@energinet-datahub/dh/wholesale/feature-start';
 
 import {
+  DhWholesaleSearchComponent,
+  DhWholesaleSearchScam,
+} from '@energinet-datahub/dh/wholesale/feature-search';
+
+import {
   DhWholesaleOverviewComponent,
   DhWholesaleOverviewScam,
 } from '@energinet-datahub/dh/wholesale/feature-overview';
@@ -36,6 +41,13 @@ const routes: Routes = [
     },
   },
   {
+    path: 'search-batch',
+    component: DhWholesaleSearchComponent,
+    data: {
+      titleTranslationKey: 'wholesale.searchBatch.topBarTitle',
+    },
+  },
+  {
     path: 'overview',
     component: DhWholesaleOverviewComponent,
   },
@@ -44,6 +56,7 @@ const routes: Routes = [
 @NgModule({
   imports: [
     DhWholesaleStartScam,
+    DhWholesaleSearchScam,
     DhWholesaleOverviewScam,
     RouterModule.forChild(routes),
   ],

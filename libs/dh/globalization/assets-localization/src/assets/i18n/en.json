@@ -14,6 +14,7 @@
       "wholesale": {
         "menuGroupLabel": "Settlements",
         "startProcess": "Start Process",
+        "searchBatch": "Search Batch",
         "overview": "Overview"
       }
     }
@@ -510,6 +511,17 @@
         "validFrom": "Valid from",
         "validTo": "Valid to"
       },
+      "detailsAuditLog": {
+        "time": "Time",
+        "change": "Change",
+        "changes": "Changes",
+        "noResultsFound": "No results",
+        "fields": {
+          "name": "Grid area name"
+        },
+        "unknown": "Unknown",
+        "messageKey": "<strong>{{ userDisplayName }}</strong> changed <strong>{{ field }}</strong> to <strong>{{ newValue }}</strong>"
+      },
       "changeGridArea": {
         "gridAreaName": "Grid area name",
         "cancel": "Cancel",
@@ -531,6 +543,17 @@
       "dateRangeRequired": "Date range is required",
       "dateRangeLabel": "Period",
       "gridAreaDropDownLabel": "Grid Areas"
+    },
+    "searchBatch": {
+      "topBarTitle": "Search Batch",
+      "headline": "Latest processes",
+      "columns": {
+        "batchNumber": "Batch number",
+        "periodFrom": "Period from",
+        "periodTo": "Period to",
+        "executionTime": "Execution time",
+        "status": "Status"
+      }
     },
     "overview": {
       "header": "Process Overview"
