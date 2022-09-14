@@ -9,7 +9,10 @@ frontends backed by [Nx](https://nx.dev) and [Angular](https://angular.io).
 - [DataHub](#datahub)
   - [Getting Started](#getting-started)
   - [Development](#development)
-  - [Environments](#environments)
+- [Energy Origin](#datahub)
+  - [I Have No IDea](#getting-started)
+- [Workspace](#development)
+- [Tools](#development)
 
 ## DataHub
 
@@ -25,10 +28,9 @@ The application is deployed to five different environments as listed below:
 [b-001]: https://blue-rock-05b7e5e03.azurestaticapps.net
 [b-002]: https://purple-forest-07e41fb03.azurestaticapps.net
 
-<sub>_\* This is a special environment that is identical to **U-001**, except it also hosts
+<sub>\* This is identical to **U-001**, except it also hosts
 [B2C](https://azure.microsoft.com/en-us/services/active-directory/external-identities/b2c/).
-It can be accessed from **localhost**, **U-001** and **U-002**, so there is
-typically no need to interact with it directly._</sub>
+This service can be accessed from **localhost**, **U-001** and **U-002**.</sub>
 
 ### Getting Started
 
@@ -59,12 +61,37 @@ To generate a new library, run `yarn nx workspace-generator dh-library-generator
 yarn nx workspace-generator dh-library-generator
 ```
 
-## Folder Structure
+## Workspace
 
-The folder structure of the repository is based on [Nrwl](https://nrwl.io/) [NX](https://nx.dev/angular) mono-repository project.
+The structure of the monorepo is based on general conventions from
+[Nx](https://nx.dev) with a few extensions. On the highest level the
+workspace is separated into **apps** and **libs**, with most of the logic
+placed within the **libs** folder. The **apps** should mostly be slim
+containers that links to functionality implemented in libraries.
+
+On the top level, the workspace is divided into the following folders:
 
 ```|
 Energinet-DataHub/greenforce-frontend
+├── apps      # Source code for applications
+├── build     # Infrastructure related to deployment
+├── dist      # Output files when building artifacts
+├── docs      # General documentation
+├── libs      # Source code for libraries
+├── scripts   # Code needed for running certain commands
+└── tools     # Logic for executing or generating code
+```
+
+### Application Types
+
+To do...
+
+```
+   ├── executors     # - Executors perform actions on your code. This can include building, linting, testing, serving.
+   └── generators    # - Generators provide a way to automate tasks you regularly perform as part of your development workflow. This can include: scafolding
+```
+
+```|
 ├── apps                    # Contains source code for applications. This includes frontends, BFF and E2E. Apps are grouped by a product root folder, and type prefixed sub-folder(s).
 |  ├── dh                   # DataHub application (product)
 |  |  ├── api-dh            # - BFF for DataHub
@@ -73,16 +100,6 @@ Energinet-DataHub/greenforce-frontend
 |  └── eo                   # Energy Origin (product)
 |     ├── app-eo            # - Frontend for Energy Origin
 |     └── e2e-eo            # - E2E tests for Energy Origin
-├── build                   # Contains infrastructure for DataHub and the design system
-├── dist                    # Contains output files when building artifacts (for distribution)
-|  ├── apps                 #
-|  └── libs                 #
-├── docs                    # Contains general documentation
-├── infrastructure          # Contains infrastructure for Energy Origin
-├── libs                    # Contains source code for libraries. See "Folder Structure - library" section for more information
-└── tools                   # Contains various tools
-   ├── executors            # - Executors perform actions on your code. This can include building, linting, testing, serving.
-   └── generators           # - Generators provide a way to automate tasks you regularly perform as part of your development workflow. This can include: scafolding
 ```
 
 ### Folder Structure - library
