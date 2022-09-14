@@ -157,24 +157,24 @@ _Note: Certain library types should not have a name; in that case simply omit th
 
 Following is an exhaustive list of permitted library types, their description,
 name and which other **library** types they are allowed to depend on (only
-libraries of type `data-access` may have dependencies to apps and only apps of
-type `api`):
+libraries of type `data-access` may have dependencies to apps and only of type
+`api`):
 
-| Type                | Description | Name                   | Allowed Dependencies                                                                       |
-| ------------------- | ----------- | ---------------------- | ------------------------------------------------------------------------------------------ |
-| **`feature`**       |             | `feature‑<name>`       | `feature` `ui` `data‑access` `routing` `util` `test‑util` `domain` `environments` `assets` |
-| **`ui`**            |             | `ui‑<name>`            |                                                                                            |
-| **`data‑access`**   |             | `data‑access‑<name>`   |                                                                                            |
-| **`routing`**       |             | `routing`              |                                                                                            |
-| **`util`**          |             | `util‑<name>`          |                                                                                            |
-| **`test‑util`**     |             | `test‑util‑<name>`     |                                                                                            |
-| **`e2e‑util`**      |             | `e2e‑util‑<name>`      |                                                                                            |
-| **`domain`**        |             | `domain`               |                                                                                            |
-| **`shell`**         |             | `shell`                |                                                                                            |
-| **`configuration`** |             | `configuration‑<name>` |                                                                                            |
-| **`environments`**  |             | `environments`         |                                                                                            |
-| **`assets`**        |             | `assets`               |                                                                                            |
-| **`styles`**        |             | `styles`               |                                                                                            |
+| Type                | Description                                                                                                                                                                 | Name                   | Allowed Dependencies                                                                       |
+| ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------- | ------------------------------------------------------------------------------------------ |
+| **`feature`**       | Developers should consider feature libraries as libraries that implement smart UI (with access to data sources) for specific business use cases or pages in an application. | `feature‑<name>`       | `feature` `ui` `data‑access` `routing` `util` `test‑util` `domain` `environments` `assets` |
+| **`ui`**            |                                                                                                                                                                             | `ui‑<name>`            |                                                                                            |
+| **`data‑access`**   |                                                                                                                                                                             | `data‑access‑<name>`   |                                                                                            |
+| **`routing`**       |                                                                                                                                                                             | `routing`              |                                                                                            |
+| **`util`**          |                                                                                                                                                                             | `util‑<name>`          |                                                                                            |
+| **`test‑util`**     |                                                                                                                                                                             | `test‑util‑<name>`     |                                                                                            |
+| **`e2e‑util`**      |                                                                                                                                                                             | `e2e‑util‑<name>`      |                                                                                            |
+| **`domain`**        |                                                                                                                                                                             | `domain`               |                                                                                            |
+| **`shell`**         |                                                                                                                                                                             | `shell`                |                                                                                            |
+| **`configuration`** |                                                                                                                                                                             | `configuration‑<name>` |                                                                                            |
+| **`environments`**  |                                                                                                                                                                             | `environments`         |                                                                                            |
+| **`assets`**        |                                                                                                                                                                             | `assets`               |                                                                                            |
+| **`styles`**        |                                                                                                                                                                             | `styles`               |                                                                                            |
 
 ## Library Types
 
