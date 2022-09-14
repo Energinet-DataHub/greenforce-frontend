@@ -136,9 +136,10 @@ allowed to have direct dependendies to:
 
 ### Libraries
 
-As mentioned above, libraries are where most of the logic goes. There are many
-different library types which is listed further below, but they all follow the
-same naming convention:
+As mentioned above, libraries are where most of the logic goes. They are all
+either related to a single product or shared across multiple products\*.
+There are many different library types which are listed further below, but they
+all follow the same naming convention:
 
 ```|
 ...
@@ -149,37 +150,36 @@ same naming convention:
    └── ui-watt                                # Special product, see "Watt Design System" section
 ```
 
-```
-   ├── executors     # - Executors perform actions on your code. This can include building, linting, testing, serving.
-   └── generators    # - Generators provide a way to automate tasks you regularly perform as part of your development workflow. This can include: scafolding
-```
+<sub>\* The special `gf` product can be used for libraries that must be shared
+across multiple products.</sub>
 
-## App Types
+_Note: Certain library types should not have a name; in that case simply omit the `-<library name>` suffix._
 
-- api (BFF)
-- app (Frontend)
-- e2e
+Following is an exhaustive list of permitted library types, their description,
+name and which other **library** types they are allowed to depend on (only
+libraries of type `data-access` may have dependencies to apps and only apps of
+type `api`):
 
-### API apps (BFFs)
-
-An API app contains the BFF of a product. API apps are located under `apps/<product>` and are prefixed with `api-<product>`.
-
-### Frontend Apps
-
-A Frontend app contains the frontend application of a product. Frontend apps are located under `apps/<product>` and are prefixed with `app-<product>`.
-Allowed dependencies: `shell`, `environments`, `assets`, `styles` libraries.
-
-### E2E apps
-
-An E2E app contains the e2e application of a product. E2E apps are located under `apps/<product>` and are prefixed with `e2e-<product>`
-Allowed dependencies: `e2e-util` libraries and always an implicit dependency on an app, and an API (BFF).
+| Type                | Description | Name                   | Allowed Dependencies                                                                       |
+| ------------------- | ----------- | ---------------------- | ------------------------------------------------------------------------------------------ |
+| **`feature`**       |             | `feature-<name>`       | `feature` `ui` `data-access` `routing` `util` `test-util` `domain` `environments` `assets` |
+| **`ui`**            |             | `ui-<name>`            |                                                                                            |
+| **`data-access`**   |             | `data-access-<name>`   |                                                                                            |
+| **`routing`**       |             | `routing`              |                                                                                            |
+| **`util`**          |             | `util-<name>`          |                                                                                            |
+| **`test-util`**     |             | `test-util-<name>`     |                                                                                            |
+| **`e2e-util`**      |             | `e2e-util-<name>`      |                                                                                            |
+| **`domain`**        |             | `domain`               |                                                                                            |
+| **`shell`**         |             | `shell`                |                                                                                            |
+| **`configuration`** |             | `configuration-<name>` |                                                                                            |
+| **`environments`**  |             | `environments`         |                                                                                            |
+| **`assets`**        |             | `assets`               |                                                                                            |
+| **`styles`**        |             | `styles`               |                                                                                            |
 
 ## Library Types
 
 All libraries are related to a product or shared across multiple products. The libraries are located under `libs/<product>` and are prefixed with `<library type>-<library name>`.
 For shared libraries `gf` should be used as `product`.
-
-Only libraries of type `data-access` may have dependencies to apps, and only apps of type `api`. Depending on the type of a library, a library can have dependencies to other types of libraries:
 
 - feature
 - ui
@@ -259,6 +259,11 @@ Allowed dependencies to: `assets`.
 
 SCSS functions, mixins, variables, partials, and global stylesheets.
 Allowed dependencies to: `assets`, `styles`.
+
+```
+   ├── executors     # - Executors perform actions on your code. This can include building, linting, testing, serving.
+   └── generators    # - Generators provide a way to automate tasks you regularly perform as part of your development workflow. This can include: scafolding
+```
 
 ### Generating a library
 
