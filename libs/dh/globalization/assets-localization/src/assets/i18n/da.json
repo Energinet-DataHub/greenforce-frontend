@@ -516,11 +516,11 @@
         "change": "Ændring",
         "changes": "Ændringer",
         "noResultsFound": "Ingen resultater",
-        "changed": "ændrede",
-        "to": "til",
         "fields": {
-          "name": "navn"
-        }
+          "name": "Netområde navn"
+        },
+        "unknown": "Ukendt",
+        "messageKey": "<strong>{{ userDisplayName }}</strong> ændrede <strong>{{ field }}</strong> til <strong>{{ newValue }}</strong>"
       },
       "changeGridArea": {
         "gridAreaName": "Netområde navn",

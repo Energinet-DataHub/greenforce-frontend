@@ -516,11 +516,11 @@
         "change": "Change",
         "changes": "Changes",
         "noResultsFound": "No results",
-        "changed": "changed",
-        "to": "to",
         "fields": {
-          "name": "name"
-        }
+          "name": "Grid area name"
+        },
+        "unknown": "Unknown",
+        "messageKey": "<strong>{{ userDisplayName }}</strong> changed <strong>{{ field }}</strong> to <strong>{{ newValue }}</strong>"
       },
       "changeGridArea": {
         "gridAreaName": "Grid area name",

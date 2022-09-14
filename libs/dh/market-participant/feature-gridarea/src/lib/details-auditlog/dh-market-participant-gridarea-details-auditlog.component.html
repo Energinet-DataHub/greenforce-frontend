@@ -41,7 +41,7 @@ limitations under the License.
       <!-- message column -->
       <ng-container matColumnDef="message">
         <th mat-header-cell *matHeaderCellDef>{{ t("change") }}</th>
-        <td mat-cell *matCellDef="let element">{{ element.message }}</td>
+        <td mat-cell *matCellDef="let element"><p [innerHTML]="element.message"></p></td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

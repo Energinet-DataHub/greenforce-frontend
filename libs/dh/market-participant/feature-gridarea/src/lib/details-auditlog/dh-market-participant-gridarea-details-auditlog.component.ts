@@ -52,22 +52,26 @@ export class DhMarketParticipantGridAreaDetailsAuditLogComponent
   ngOnChanges(): void {
     this.rows = this.auditLogEntries
       .map((entry) => {
-        const field = this.translocoServie.translate(
+        const translatedField = this.translocoServie.translate(
           'marketParticipant.gridAreas.detailsAuditLog.fields.' +
             entry.field.toLowerCase()
         );
-        const changed = this.translocoServie.translate(
-          'marketParticipant.gridAreas.detailsAuditLog.changed'
-        );
-        const to = this.translocoServie.translate(
-          'marketParticipant.gridAreas.detailsAuditLog.to'
+        const userDisplayName =
+          entry.userDisplayName ??
+          this.translocoServie.translate(
+            'marketParticipant.gridAreas.detailsAuditLog.unknown'
+          );
+        const message = this.translocoServie.translate(
+          'marketParticipant.gridAreas.detailsAuditLog.messageKey',
+          {
+            field: translatedField,
+            userDisplayName: userDisplayName,
+            newValue: entry.newValue,
+          }
         );
         return {
           timestamp: entry.timestamp,
-          // 8 first chars of user ID until we can retrieve user name
-          message: `${entry.userId.substring(0, 8)} ${changed} ${field} ${to} ${
-            entry.newValue
-          }`,
+          message: message,
         };
       })
       .sort((a, b) => b.timestamp.localeCompare(a.timestamp));
