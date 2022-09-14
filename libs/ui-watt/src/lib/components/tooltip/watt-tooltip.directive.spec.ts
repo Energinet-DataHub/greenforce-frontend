@@ -34,7 +34,7 @@ async function setup() {
   return render(component, { imports: [ngModule] });
 }
 
-describe(WattTooltipDirective.name, () => {
+xdescribe(WattTooltipDirective.name, () => {
   it('always displays accessible tooltip', async () => {
     await setup();
     expect(screen.getByRole('tooltip', { hidden: true })).toBeInTheDocument();
