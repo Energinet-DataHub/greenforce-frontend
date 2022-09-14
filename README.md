@@ -162,16 +162,16 @@ type `api`):
 
 | Type                | Description | Name                   | Allowed Dependencies                                                                       |
 | ------------------- | ----------- | ---------------------- | ------------------------------------------------------------------------------------------ |
-| **`feature`**       |             | `feature-<name>`       | `feature` `ui` `data-access` `routing` `util` `test-util` `domain` `environments` `assets` |
-| **`ui`**            |             | `ui-<name>`            |                                                                                            |
-| **`data-access`**   |             | `data-access-<name>`   |                                                                                            |
+| **`feature`**       |             | `feature‑<name>`       | `feature` `ui` `data‑access` `routing` `util` `test‑util` `domain` `environments` `assets` |
+| **`ui`**            |             | `ui‑<name>`            |                                                                                            |
+| **`data‑access`**   |             | `data‑access‑<name>`   |                                                                                            |
 | **`routing`**       |             | `routing`              |                                                                                            |
-| **`util`**          |             | `util-<name>`          |                                                                                            |
-| **`test-util`**     |             | `test-util-<name>`     |                                                                                            |
-| **`e2e-util`**      |             | `e2e-util-<name>`      |                                                                                            |
+| **`util`**          |             | `util‑<name>`          |                                                                                            |
+| **`test‑util`**     |             | `test‑util‑<name>`     |                                                                                            |
+| **`e2e‑util`**      |             | `e2e‑util‑<name>`      |                                                                                            |
 | **`domain`**        |             | `domain`               |                                                                                            |
 | **`shell`**         |             | `shell`                |                                                                                            |
-| **`configuration`** |             | `configuration-<name>` |                                                                                            |
+| **`configuration`** |             | `configuration‑<name>` |                                                                                            |
 | **`environments`**  |             | `environments`         |                                                                                            |
 | **`assets`**        |             | `assets`               |                                                                                            |
 | **`styles`**        |             | `styles`               |                                                                                            |
