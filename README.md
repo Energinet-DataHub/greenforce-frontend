@@ -1,16 +1,63 @@
 # GreenForce
 
-Monorepo that hosts:
+Monorepo for the [DataHub](https://en.energinet.dk/Energy-data/DataHub) and
+[Energy Origin](https://en.energinet.dk/Energy-data/DataHub/Energy-Origin)
+frontends backed by [Nx](https://nx.dev) and [Angular](https://angular.io).
 
-- Frontend apps
-- Backend-for-frontends (BFFs)
-- Watt Design System
-- CI/CD pipelines
-- Infrastructure
+## Table of Contents
 
-## Getting started
+- [DataHub](#datahub)
+  - [Getting Started](#getting-started)
+  - [Development](#development)
+  - [Environments](#environments)
 
-[Read more here](docs/getting-started.md)
+## DataHub
+
+The application is deployed to five different environments as listed below:
+
+| Development | Development\* | Test    | Pre-production | Production |
+| ----------- | ------------- | ------- | -------------- | ---------- |
+| [U-001]     | [U-002]       | [T-001] | [B-001]        | [B-002]    |
+
+[u-001]: https://jolly-sand-03f839703.azurestaticapps.net
+[u-002]: https://wonderful-field-057109603.1.azurestaticapps.net
+[t-001]: https://lively-river-0f22ad403.azurestaticapps.net
+[b-001]: https://blue-rock-05b7e5e03.azurestaticapps.net
+[b-002]: https://purple-forest-07e41fb03.azurestaticapps.net
+
+<sub>_\* This is a special environment that is identical to **U-001**, except it also hosts
+[B2C](https://azure.microsoft.com/en-us/services/active-directory/external-identities/b2c/).
+It can be accessed from **localhost**, **U-001** and **U-002**, so there is
+typically no need to interact with it directly._</sub>
+
+### Getting Started
+
+Use the following command to serve the DataHub application locally:
+
+```sh
+yarn nx serve app-dh
+```
+
+The application utilizes request [mocking](mocking.md) for some of the requests
+to the backend-for-frontend (BFF), but there are still features that are not
+mocked. When working with those features, it might be required to serve the
+BFF locally as well. To do so, run the following command (requires some initial
+setup, see [Setup of BFF](#TODOTHISLINK)).
+
+```sh
+yarn nx serve api-dh
+```
+
+_Note: It is recommended to use mocking as much as possible, see
+[mocking.md](TODOTHISLINK)._
+
+### Development
+
+To generate a new library, run `yarn nx workspace-generator dh-library-generator` and follow the instructions or use the "workspace-generator - dh-library-generator" option under "generate" command in Nx Console extension.
+
+```sh
+yarn nx workspace-generator dh-library-generator
+```
 
 ## Folder Structure
 
