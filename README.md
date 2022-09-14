@@ -16,7 +16,8 @@ frontends backed by [Nx] and [Angular].
 - [Energy Origin](#energy-origin)
 - [Workspace](#development)
   - [Applications](#applications)
-  - [Library Types](#library-types)
+  - [Libraries](#libraries)
+  - [Tools](#development)
 - [Tools](#development)
 
 ## General
@@ -106,8 +107,7 @@ Energinet-DataHub/greenforce-frontend
 
 Within the **apps** folders resides the applications, which includes frontends,
 BFF and E2E tests. These applications are prefixed with their type and further
-grouped by a product root folder. This is what expanding the **apps** folder
-looks like:
+grouped by a product root folder. Expanding the **apps** folder looks like this:
 
 ```|
 ...
@@ -121,30 +121,37 @@ looks like:
       └── e2e-eo    # - E2E tests for Energy Origin
 ```
 
-Below is an exhaustive list of permitted application types, along with their
-intended purpose and which [library types](#libraries) they are allowed to have direct
-dependendies to:
+In other words, all applications must follow the naming scheme
+`apps/<product>/<type>-<product>`.
 
-| Prefix    | Description                   | Path                           | Allowed Dependencies                     |
-| --------- | ----------------------------- | ------------------------------ | ---------------------------------------- |
-| **`api`** | Serves as BFF for the product | `apps/<product>/api-<product>` | -                                        |
-| **`app`** | Entry point for the frontend  | `apps/<product>/app-<product>` | `shell` `environments` `assets` `styles` |
-| **`e2e`** | Runs E2E tests for the app    | `apps/<product>/e2e-<product>` | `e2e-util`                               |
+Below is an exhaustive list of permitted application types, along with their
+intended purpose, folder name and which [library types](#libraries) they are
+allowed to have direct dependendies to:
+
+| Type      | Description                    | Name            | Allowed Dependencies                     |
+| --------- | ------------------------------ | --------------- | ---------------------------------------- |
+| **`api`** | Serves as BFF for the product  | `api-<product>` | -                                        |
+| **`app`** | Entry point for the frontend   | `app-<product>` | `shell` `environments` `assets` `styles` |
+| **`e2e`** | Runs E2E tests on the frontend | `e2e-<product>` | `e2e-util`                               |
+
+### Libraries
+
+As mentioned above, libraries are where most of the logic goes. There are many
+different library types which is listed further below, but they all follow the
+same naming convention:
+
+```|
+...
+└── libs                                      # Source code for libraries
+   └── <product>                              # Libraries are grouped by a product root folder
+      └── <domain>                            # Products can contain several domains ex. auth, core, etc.
+         └── <library type>-<library name>    # Domains can contain several libraries prefixed by type
+   └── ui-watt                                # Special product, see "Watt Design System" section
+```
 
 ```
    ├── executors     # - Executors perform actions on your code. This can include building, linting, testing, serving.
    └── generators    # - Generators provide a way to automate tasks you regularly perform as part of your development workflow. This can include: scafolding
-```
-
-### Folder Structure - library
-
-```|
-...
-└── libs                                     # Contains source code for libraries
-   └── <product>                             # All libraries are grouped by a product root folder
-      └── <domain>                           # A product can contain serveral domains ex. auth, core, etc.
-         └── <library type>-<library name>   # A domain can contain serveral libraries which are prefixed by type
-   └── ui-watt                               # See "Watt Design System" section
 ```
 
 ## App Types
@@ -321,3 +328,7 @@ Located under `.github/workflows`. There are:
 
 We use bots for certain trivial tasks such as adding license headers to files, formatting code, fixing lint errors, and generating API clients based on OpenAPI. For this to work, bots have to use the repository secret `PAT_TOKEN` when pushing changes or creating releases that trigger a workflow. Only do this for idempotent tasks to
 prevent circular workflows from causing inifinite workflow runs.
+
+```
+
+```
