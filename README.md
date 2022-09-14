@@ -1,18 +1,38 @@
+[nx]: https://nx.dev
+[angular]: https://angular.io
+
 # GreenForce
 
 Monorepo for the [DataHub](https://en.energinet.dk/Energy-data/DataHub) and
 [Energy Origin](https://en.energinet.dk/Energy-data/DataHub/Energy-Origin)
-frontends backed by [Nx](https://nx.dev) and [Angular](https://angular.io).
+frontends backed by [Nx] and [Angular].
 
 ## Table of Contents
 
+- [General](#general)
 - [DataHub](#datahub)
   - [Getting Started](#getting-started)
   - [Development](#development)
-- [Energy Origin](#datahub)
-  - [I Have No IDea](#getting-started)
+- [Energy Origin](#energy-origin)
 - [Workspace](#development)
+  - [Applications](#applications)
+  - [Library Types](#library-types)
 - [Tools](#development)
+
+## General
+
+> The documentation in this README assumes the reader has a general understanding
+> of [Nx] and [Angular]. For beginners in these technologies, the
+> [Core Nx Tutorial](https://nx.dev/getting-started/core-tutorial) and the
+> [Angular Tour of Heroes](https://angular.io/tutorial) can serve as a good
+> introduction.
+
+This repository is a monorepo which hosts serveral applications that all share
+the same dependencies (for example, every application is running the same
+version of Angular).
+
+_Note: Since this is an [Nx](https://nx.dev) workspace, the Nx CLI should be used
+over the Angular CLI._
 
 ## DataHub
 
@@ -82,24 +102,38 @@ Energinet-DataHub/greenforce-frontend
 └── tools     # Logic for executing or generating code
 ```
 
-### Application Types
+### Applications
 
-To do...
+Within the **apps** folders resides the applications, which includes frontends,
+BFF and E2E tests. These applications are prefixed with their type and further
+grouped by a product root folder. This is what expanding the **apps** folder
+looks like:
+
+```|
+...
+└── apps            # Source code for applications
+   ├── dh           # DataHub application (product root)
+   │  ├── api-dh    # - BFF for DataHub
+   │  ├── app-dh    # - Frontend for DataHub
+   │  └── e2e-dh    # - E2E tests for DataHub
+   └── eo           # Energy Origin (product root)
+      ├── app-eo    # - Frontend for Energy Origin
+      └── e2e-eo    # - E2E tests for Energy Origin
+```
+
+Below is an exhaustive list of permitted application types, along with their
+intended purpose and which [library types](#libraries) they are allowed to have direct
+dependendies to:
+
+| Prefix    | Description                              | Path                           | Allowed Dependencies                     |
+| --------- | ---------------------------------------- | ------------------------------ | ---------------------------------------- |
+| **`api`** | Serves as BFF for the product            | `apps/<product>/api-<product>` | -                                        |
+| **`app`** | Entry point for the frontend application | `apps/<product>/app-<product>` | `shell` `environments` `assets` `styles` |
+| **`e2e`** | Runs E2E tests for the frontend and BFF  | `apps/<product>/e2e-<product>` | `e2e-util`                               |
 
 ```
    ├── executors     # - Executors perform actions on your code. This can include building, linting, testing, serving.
    └── generators    # - Generators provide a way to automate tasks you regularly perform as part of your development workflow. This can include: scafolding
-```
-
-```|
-├── apps                    # Contains source code for applications. This includes frontends, BFF and E2E. Apps are grouped by a product root folder, and type prefixed sub-folder(s).
-|  ├── dh                   # DataHub application (product)
-|  |  ├── api-dh            # - BFF for DataHub
-|  |  ├── app-dh            # - Frontend for DataHub
-|  |  └── e2e-dh            # - E2E tests for DataHub
-|  └── eo                   # Energy Origin (product)
-|     ├── app-eo            # - Frontend for Energy Origin
-|     └── e2e-eo            # - E2E tests for Energy Origin
 ```
 
 ### Folder Structure - library
