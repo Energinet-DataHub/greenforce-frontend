@@ -53,7 +53,7 @@ function setup(componentProperties: Properties) {
   );
 }
 
-describe(WattChipsComponent.name, () => {
+xdescribe(WattChipsComponent.name, () => {
   it('renders a single chip', async () => {
     await setup({ options: options.slice(0, 1) });
 

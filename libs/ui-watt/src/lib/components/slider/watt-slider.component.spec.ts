@@ -19,12 +19,15 @@ import { render, screen } from '@testing-library/angular';
 import { WattSliderModule } from './watt-slider.module';
 import { WattSliderComponent } from './watt-slider.component';
 
-xdescribe(WattSliderComponent.name, () => {
+describe(WattSliderComponent.name, () => {
   it('renders', async () => {
     await render(WattSliderComponent, {
-      declarations: [WattSliderComponent],
       imports: [WattSliderModule],
     });
+
+    const testElem = screen.getByText('dialog');
+
+    console.log(testElem?.textContent);
 
     expect(screen.queryAllByRole('slider')).toHaveLength(2);
   });
