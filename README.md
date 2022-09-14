@@ -141,6 +141,9 @@ either related to a single product or shared across multiple products\*.
 There are many different library types which are listed further below, but they
 all follow the same naming convention:
 
+<sub>\* The special `gf` product can be used for libraries that must be shared
+across multiple products.</sub>
+
 ```|
 ...
 └── libs                                      # Source code for libraries
@@ -150,115 +153,30 @@ all follow the same naming convention:
    └── ui-watt                                # Special product, see "Watt Design System" section
 ```
 
-<sub>\* The special `gf` product can be used for libraries that must be shared
-across multiple products.</sub>
-
 _Note: Certain library types should not have a name; in that case simply omit the `-<library name>` suffix._
 
 Following is an exhaustive list of permitted library types, their description,
-name and which other **library** types they are allowed to depend on (only
-libraries of type `data-access` may have dependencies to apps and only of type
-`api`):
+name and which other **library**\* types they are allowed to depend on:
 
-| Type                | Description                                                                                                                                                                 | Name                   | Allowed Dependencies                                                                       |
-| ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------- | ------------------------------------------------------------------------------------------ |
-| **`feature`**       | Developers should consider feature libraries as libraries that implement smart UI (with access to data sources) for specific business use cases or pages in an application. | `feature‑<name>`       | `feature` `ui` `data‑access` `routing` `util` `test‑util` `domain` `environments` `assets` |
-| **`ui`**            |                                                                                                                                                                             | `ui‑<name>`            |                                                                                            |
-| **`data‑access`**   |                                                                                                                                                                             | `data‑access‑<name>`   |                                                                                            |
-| **`routing`**       |                                                                                                                                                                             | `routing`              |                                                                                            |
-| **`util`**          |                                                                                                                                                                             | `util‑<name>`          |                                                                                            |
-| **`test‑util`**     |                                                                                                                                                                             | `test‑util‑<name>`     |                                                                                            |
-| **`e2e‑util`**      |                                                                                                                                                                             | `e2e‑util‑<name>`      |                                                                                            |
-| **`domain`**        |                                                                                                                                                                             | `domain`               |                                                                                            |
-| **`shell`**         |                                                                                                                                                                             | `shell`                |                                                                                            |
-| **`configuration`** |                                                                                                                                                                             | `configuration‑<name>` |                                                                                            |
-| **`environments`**  |                                                                                                                                                                             | `environments`         |                                                                                            |
-| **`assets`**        |                                                                                                                                                                             | `assets`               |                                                                                            |
-| **`styles`**        |                                                                                                                                                                             | `styles`               |                                                                                            |
+<sub>\* Only
+libraries of type `data-access` may have dependencies to apps and only apps of type
+`api`.</sub>
 
-## Library Types
-
-All libraries are related to a product or shared across multiple products. The libraries are located under `libs/<product>` and are prefixed with `<library type>-<library name>`.
-For shared libraries `gf` should be used as `product`.
-
-- feature
-- ui
-- data-access
-- routing
-- util
-- test-util
-- e2e-util
-- domain
-- shell
-- configuration
-- environments
-- assets
-- styles
-
-### Feature libraries
-
-Developers should consider feature libraries as libraries that implement smart UI (with access to data sources) for specific business use cases or pages in an application.
-Allowed dependencies to: `feature`, `ui`, `data-access`, `routing`, `util`, `test-util`, `domain`, `environments`, `assets`.
-
-### UI libraries
-
-A UI library contains only presentational logic (presentational components, pipes, presentational services, directives).
-Allowed dependencies to: `ui`, `util`, `test-util`, `domain`, `assets`, `styles`.
-
-### Data-access libraries
-
-A data-access library contains code for interacting with a back-end system. It also includes all the code related to state management, routing and HTTP interceptors.
-Allowed dependencies to: `data-access`, `routing`, `util`, `test-util`, `domain`, `environments`.
-
-### Routing libraries
-
-A routing library contains code related for routing (routes, route paths, route guards, route resolvers, route reuse strategies, preloading strategies).
-Allowed dependencies to: `data-access`, `routing`, `util`, `test-util`, `shell`, `domain`.
-
-### Utility libraries
-
-A utility library contains low-level utilities used by many libraries and applications (services, pure functions, contants).
-Allowed dependencies to: `util`, `test-util`, `environments`.
-
-### Test-util libraries
-
-Stubs, jest matchers, testing modules, test library configuration
-Allowed dependencies to: `data-access`, `util`, `test-util`, `domain`, `configuration`, `assets`.
-
-### E2E-util libraries
-
-Cypress commands or fixtures
-Allowed dependencies to: `util`, `test-util`, `e2e-util`.
-
-### Domain libraries
-
-Interfaces, types, constants, functions and services related to domain objects.
-Allowed dependencies to: `domain`, `util`, `test-util`.
-
-### Shell libraries
-
-Entrypoint for an application or domain. Orchestration and routing.
-Allowed dependencies to: `feature`, `ui`, `data-access`, `routing`, `util`, `test-util`, `shell`, `configuration`, `environments`, `assets`, `styles`.
-
-### Configuration libraries
-
-A library containing configuration and setup of libraries and conerns, for example i18n
-Allowed dependencies to: `data-access`, `routing`, `util`, `test-util`, `configuration`, `environments`, `domain`.
-
-### Environments libraries
-
-Angular environment files.
-Allowed dependencies to: `util`, `test-util`, `environments`, `assets`.
-
-### Assets libraries
-
-Icons, images, fonts, etc.
-Allowed dependencies to: `assets`.
-
-### Styles libraries
-
-SCSS functions, mixins, variables, partials, and global stylesheets.
-Allowed dependencies to: `assets`, `styles`.
+| Type                | Description                                                                                                                                                                 | Name                   | Allowed Dependencies                                                                                               |
+| ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| **`feature`**       | Developers should consider feature libraries as libraries that implement smart UI (with access to data sources) for specific business use cases or pages in an application. | `feature‑<name>`       | `feature` `ui` `data‑access` `routing` `util` `test‑util` `domain` `environments` `assets`                         |
+| **`ui`**            | A UI library contains only presentational logic (presentational components, pipes, presentational services, directives).                                                    | `ui‑<name>`            | `ui` `util` `test-util` `domain` `assets` `styles`                                                                 |
+| **`data‑access`**   | A data-access library contains code for interacting with a back-end system. It also includes all the code related to state management, routing and HTTP interceptors.       | `data‑access‑<name>`   | `data-access` `routing` `util` `test-util` `domain` `environments`                                                 |
+| **`routing`**       | A routing library contains code related for routing (routes, route paths, route guards, route resolvers, route reuse strategies, preloading strategies).                    | `routing`              | `data-access` `routing` `util` `test-util` `shell` `domain`                                                        |
+| **`util`**          | A utility library contains low-level utilities used by many libraries and applications (services, pure functions, contants).                                                | `util‑<name>`          | `util` `test-util` `environments`                                                                                  |
+| **`test‑util`**     | Stubs, jest matchers, testing modules, test library configuration                                                                                                           | `test‑util‑<name>`     | `data-access` `util` `test-util` `domain` `configuration` `assets`                                                 |
+| **`e2e‑util`**      | Cypress commands or fixtures                                                                                                                                                | `e2e‑util‑<name>`      | `util` `test-util` `e2e-util`                                                                                      |
+| **`domain`**        | Interfaces, types, constants, functions and services related to domain objects.                                                                                             | `domain`               | `domain` `util` `test-util`                                                                                        |
+| **`shell`**         | Entrypoint for an application or domain. Orchestration and routing.                                                                                                         | `shell`                | `feature` `ui` `data-access` `routing` `util` `test-util` `shell` `configuration` `environments` `assets` `styles` |
+| **`configuration`** | A library containing configuration and setup of libraries and conerns, for example i18n                                                                                     | `configuration‑<name>` | `data-access` `routing` `util` `test-util` `configuration` `environments` `domain`                                 |
+| **`environments`**  | Angular environment files.                                                                                                                                                  | `environments`         | `util` `test-util` `environments` `assets`                                                                         |
+| **`assets`**        | Icons, images, fonts, etc.                                                                                                                                                  | `assets`               | `assets`                                                                                                           |
+| **`styles`**        | SCSS functions, mixins, variables, partials, and global stylesheets.                                                                                                        | `styles`               | `assets` `styles`                                                                                                  |
 
 ```
    ├── executors     # - Executors perform actions on your code. This can include building, linting, testing, serving.
