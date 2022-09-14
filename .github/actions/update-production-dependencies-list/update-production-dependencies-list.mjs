@@ -11,8 +11,6 @@ try {
 }
 
 function writeProductionDependencyLicenses(licenses) {
-  console.log(dependencies);
-  /*
   const parsedLicenses = JSON.parse(licenses);
 
   const header = `# Production Dependencies
@@ -33,5 +31,5 @@ function writeProductionDependencyLicenses(licenses) {
     fs.writeFileSync('PRODUCTION_DEPENDENCIES.md', `${header}${content}`);
   } catch (err) {
     console.error(err);
-  }*/
+  }
 }
