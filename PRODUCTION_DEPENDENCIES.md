@@ -20,7 +20,6 @@
 | [microsoft/applicationinsights-web](https://github.com/microsoft/ApplicationInsights-JS) | 2.8.6 | [MIT](/home/runner/work/greenforce-frontend/greenforce-frontend/node_modules/@microsoft/applicationinsights-web/LICENSE) |
 | [ngneat/transloco](https://github.com/ngneat/transloco) | 4.1.0 | [MIT](/home/runner/work/greenforce-frontend/greenforce-frontend/node_modules/@ngneat/transloco/LICENSE) |
 | [ngrx/component-store](https://github.com/ngrx/platform) | 14.0.1 | [MIT](/home/runner/work/greenforce-frontend/greenforce-frontend/node_modules/@ngrx/component-store/README.md) |
-| [nrwl/angular](https://github.com/nrwl/nx) | 14.6.5 | [MIT](/home/runner/work/greenforce-frontend/greenforce-frontend/node_modules/@nrwl/angular/LICENSE) |
 | [rx-angular/cdk](https://github.com/rx-angular/rx-angular) | 1.0.0-rc.1 | [MIT](/home/runner/work/greenforce-frontend/greenforce-frontend/node_modules/@rx-angular/cdk/README.md) |
 | [rx-angular/template](https://github.com/rx-angular/rx-angular) | 1.0.0-rc.1 | [MIT](/home/runner/work/greenforce-frontend/greenforce-frontend/node_modules/@rx-angular/template/README.md) |
 | [vimeo/player](https://github.com/vimeo/player.js) | 2.17.0 | [MIT](/home/runner/work/greenforce-frontend/greenforce-frontend/node_modules/@vimeo/player/LICENSE.md) |
