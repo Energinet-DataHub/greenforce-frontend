@@ -69,13 +69,16 @@ jobs:
       - name: Run license-checker
         id: licenseChecker
         if: ${{ steps.dependencies_have_changed.outputs.dependencies-have-changed == 'true' }}
-        run: echo ::set-output name=dependencies::$(npx license-checker-rseidelsohn --direct --production --onlyAllow="${{ steps.allowed-licenses.outputs.FILE }}" --json)
+        run: |
+        echo '::echo::on'
+        echo ::set-output name=DEPENDENCIES::$(npx license-checker-rseidelsohn --direct --production --onlyAllow="${{ steps.allowed-licenses.outputs.FILE }}" --json)
+        echo '::echo::off'
 
       - name: Update PRODUCTION_DEPENDENCIES.md
         if: ${{ steps.dependencies_have_changed.outputs.dependencies-have-changed == 'true' }}
         uses: ./.github/actions/update-production-dependencies-list
         with:
-          dependencies-from-license-checker: ${{ steps.licenseChecker.dependencies }}
+          dependencies-from-license-checker: ${{ steps.licenseChecker.DEPENDENCIES }}
 
       - name: Commit PRODUCTION_DEPENDENCIES.md
         if: ${{ steps.dependencies_have_changed.outputs.dependencies-have-changed == 'true' }}
