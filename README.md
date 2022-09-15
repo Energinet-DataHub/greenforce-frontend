@@ -74,7 +74,7 @@ Use the following command to serve the DataHub application locally:
 yarn nx serve app-dh
 ```
 
-The application utilizes request [mocking](mocking.md) for some of the requests
+The application utilizes request mocking for some of the requests
 to the backend-for-frontend (BFF), but there are still features that are not
 mocked. When working with those features, it might be required to serve the
 BFF locally as well. To do so, run the following command (requires some initial
@@ -85,7 +85,7 @@ yarn nx serve api-dh
 ```
 
 _Note: It is recommended to use mocking as much as possible, see
-[mocking.md](TODOTHISLINK)._
+[mocking.md](docs/dh/mocking.md)._
 
 ### Development
 
@@ -140,7 +140,7 @@ It runs on Storybook, which is currently deployed to four different environments
 [watt-b-001]: https://calm-tree-090e25403.1.azurestaticapps.net/
 [watt-b-002]: https://wonderful-rock-021a80803.1.azurestaticapps.net/
 
-_Note: There is currently no difference between the environments, but this is
+_Note: There is currently no differences between the environments, but this is
 subject to change._
 
 ## Workspace
@@ -216,8 +216,9 @@ across multiple products.</sub>
 
 _Note: Certain library types should not have a name; in that case simply omit the `-<library name>` suffix._
 
-Following is an exhaustive list of permitted library types, their description,
-name and which other **library**\* types they are allowed to depend on:
+Following is an exhaustive list of permitted library types, what they should
+contain, their name and which other **library**\* types they are allowed to
+depend on:
 
 <sub>\* Only
 libraries of type `data-access` may have dependencies to apps and only apps of type
@@ -225,21 +226,21 @@ libraries of type `data-access` may have dependencies to apps and only apps of t
 
 <a name="library-types"></a>
 
-| Type                | Description                                                                                                                                                                 | Name                   | Allowed Dependencies                                                                                               |
-| ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------- | ------------------------------------------------------------------------------------------------------------------ |
-| **`feature`**       | Developers should consider feature libraries as libraries that implement smart UI (with access to data sources) for specific business use cases or pages in an application. | `feature‑<name>`       | `feature` `ui` `data‑access` `routing` `util` `test‑util` `domain` `environments` `assets`                         |
-| **`ui`**            | A UI library contains only presentational logic (presentational components, pipes, presentational services, directives).                                                    | `ui‑<name>`            | `ui` `util` `test-util` `domain` `assets` `styles`                                                                 |
-| **`data‑access`**   | A data-access library contains code for interacting with a back-end system. It also includes all the code related to state management, routing and HTTP interceptors.       | `data‑access‑<name>`   | `data-access` `routing` `util` `test-util` `domain` `environments`                                                 |
-| **`routing`**       | A routing library contains code related for routing (routes, route paths, route guards, route resolvers, route reuse strategies, preloading strategies).                    | `routing`              | `data-access` `routing` `util` `test-util` `shell` `domain`                                                        |
-| **`util`**          | A utility library contains low-level utilities used by many libraries and applications (services, pure functions, contants).                                                | `util‑<name>`          | `util` `test-util` `environments`                                                                                  |
-| **`test‑util`**     | Stubs, jest matchers, testing modules, test library configuration                                                                                                           | `test‑util‑<name>`     | `data-access` `util` `test-util` `domain` `configuration` `assets`                                                 |
-| **`e2e‑util`**      | Cypress commands or fixtures                                                                                                                                                | `e2e‑util‑<name>`      | `util` `test-util` `e2e-util`                                                                                      |
-| **`domain`**        | Interfaces, types, constants, functions and services related to domain objects.                                                                                             | `domain`               | `domain` `util` `test-util`                                                                                        |
-| **`shell`**         | Entrypoint for an application or domain. Orchestration and routing.                                                                                                         | `shell`                | `feature` `ui` `data-access` `routing` `util` `test-util` `shell` `configuration` `environments` `assets` `styles` |
-| **`configuration`** | A library containing configuration and setup of libraries and conerns, for example i18n                                                                                     | `configuration‑<name>` | `data-access` `routing` `util` `test-util` `configuration` `environments` `domain`                                 |
-| **`environments`**  | Angular environment files.                                                                                                                                                  | `environments`         | `util` `test-util` `environments` `assets`                                                                         |
-| **`assets`**        | Icons, images, fonts, etc.                                                                                                                                                  | `assets`               | `assets`                                                                                                           |
-| **`styles`**        | SCSS functions, mixins, variables, partials, and global stylesheets.                                                                                                        | `styles`               | `assets` `styles`                                                                                                  |
+| Type                | Contains                                                                                                                               | Name                   | Allowed Dependencies                                                                                               |
+| ------------------- | -------------------------------------------------------------------------------------------------------------------------------------- | ---------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| **`feature`**       | Smart UI (with access to data sources) for specific business use cases or pages in an application.                                     | `feature‑<name>`       | `feature` `ui` `data‑access` `routing` `util` `test‑util` `domain` `environments` `assets`                         |
+| **`ui`**            | Presentational logic (presentational components, pipes, presentational services, directives).                                          | `ui‑<name>`            | `ui` `util` `test-util` `domain` `assets` `styles`                                                                 |
+| **`data‑access`**   | Code for interacting with a back-end system. It also includes all the code related to state management, routing and HTTP interceptors. | `data‑access‑<name>`   | `data-access` `routing` `util` `test-util` `domain` `environments`                                                 |
+| **`routing`**       | Code related to routing (routes, route paths, route guards, route resolvers, route reuse strategies, preloading strategies).           | `routing`              | `data-access` `routing` `util` `test-util` `shell` `domain`                                                        |
+| **`util`**          | Low-level utilities used by many libraries and applications (services, pure functions, contants).                                      | `util‑<name>`          | `util` `test-util` `environments`                                                                                  |
+| **`test‑util`**     | Stubs, jest matchers, testing modules and test library configuration.                                                                  | `test‑util‑<name>`     | `data-access` `util` `test-util` `domain` `configuration` `assets`                                                 |
+| **`e2e‑util`**      | Cypress commands and fixtures.                                                                                                         | `e2e‑util‑<name>`      | `util` `test-util` `e2e-util`                                                                                      |
+| **`domain`**        | Interfaces, types, constants, functions and services related to domain objects.                                                        | `domain`               | `domain` `util` `test-util`                                                                                        |
+| **`shell`**         | Entrypoint for an application or domain. Orchestration and routing.                                                                    | `shell`                | `feature` `ui` `data-access` `routing` `util` `test-util` `shell` `configuration` `environments` `assets` `styles` |
+| **`configuration`** | Configuration and setup of libraries and concerns (for example i18n).                                                                  | `configuration‑<name>` | `data-access` `routing` `util` `test-util` `configuration` `environments` `domain`                                 |
+| **`environments`**  | Code related to loading different environment configurations.                                                                          | `environments`         | `util` `test-util` `environments` `assets`                                                                         |
+| **`assets`**        | Icons, images, fonts, JSON etc.                                                                                                        | `assets`               | `assets`                                                                                                           |
+| **`styles`**        | SCSS functions, mixins, variables, partials, and global stylesheets.                                                                   | `styles`               | `assets` `styles`                                                                                                  |
 
 ### Tools
 
