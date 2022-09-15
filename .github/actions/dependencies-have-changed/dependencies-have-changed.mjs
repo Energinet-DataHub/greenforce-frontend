@@ -1,9 +1,10 @@
 import { execSync } from 'child_process';
+import * as fs from 'fs';
 
 try {
   const changedFiles = readChangedFiles();
-  const result = haveDependenciesChanged(changedFiles);
-  console.log(result);
+  const hasChanged = haveDependenciesChanged(changedFiles);
+  console.log(hasChanged);
 } catch (error) {
   console.error(error.message);
   process.exit(1);

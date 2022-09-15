@@ -1,0 +1,9 @@
+name: 'Update PRODUCTION_DEPENDENCIES.md'
+description: 'Update list in PRODUCTION_DEPENDENCIES.md'
+inputs:
+  dependencies-from-license-checker:
+    description: 'Output from license-checker'
+    required: true
+runs:
+  using: 'node16'
+  main: 'update-production-dependencies-list.mjs'
