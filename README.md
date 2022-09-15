@@ -16,10 +16,12 @@ frontends backed by [Nx] and [Angular].
   - [Development](#development)
   - [Configuration](#configuration)
 - [Energy Origin](#energy-origin)
+- [Watt Design System](#watt-design-system)
+  - [Contributing](#contributing)
 - [Workspace](#development)
   - [Applications](#applications)
   - [Libraries](#libraries)
-  - [Tools](#development)
+  - [Tools](#tools)
 - [Tools](#development)
 
 ## General
@@ -50,15 +52,15 @@ this README, more specialized documentation for certain areas can be found here:
 
 The application is deployed to five different environments as listed below:
 
-| Development | Development\* | Test    | Pre-production | Production |
-| ----------- | ------------- | ------- | -------------- | ---------- |
-| [U-001]     | [U-002]       | [T-001] | [B-001]        | [B-002]    |
+| Development       | Development\*     | Test              | Pre-production    | Production        |
+| ----------------- | ----------------- | ----------------- | ----------------- | ----------------- |
+| [U-001][dh-u-001] | [U-002][dh-u-002] | [T-001][dh-t-001] | [B-001][dh-b-001] | [B-002][dh-b-002] |
 
-[u-001]: https://jolly-sand-03f839703.azurestaticapps.net
-[u-002]: https://wonderful-field-057109603.1.azurestaticapps.net
-[t-001]: https://lively-river-0f22ad403.azurestaticapps.net
-[b-001]: https://blue-rock-05b7e5e03.azurestaticapps.net
-[b-002]: https://purple-forest-07e41fb03.azurestaticapps.net
+[dh-u-001]: https://jolly-sand-03f839703.azurestaticapps.net
+[dh-u-002]: https://wonderful-field-057109603.1.azurestaticapps.net
+[dh-t-001]: https://lively-river-0f22ad403.azurestaticapps.net
+[dh-b-001]: https://blue-rock-05b7e5e03.azurestaticapps.net
+[dh-b-002]: https://purple-forest-07e41fb03.azurestaticapps.net
 
 <sub>\* This is identical to **U-001**, except it also hosts
 [B2C](https://azure.microsoft.com/en-us/services/active-directory/external-identities/b2c/).
@@ -164,9 +166,9 @@ allowed to have direct dependendies to:
 
 | Type      | Description                    | Name            | Allowed Dependencies                     |
 | --------- | ------------------------------ | --------------- | ---------------------------------------- |
-| **`api`** | Serves as BFF for the product  | `api-<product>` | -                                        |
-| **`app`** | Entry point for the frontend   | `app-<product>` | `shell` `environments` `assets` `styles` |
-| **`e2e`** | Runs E2E tests on the frontend | `e2e-<product>` | `e2e-util`                               |
+| **`api`** | Serves as BFF for the product  | `api‑<product>` | -                                        |
+| **`app`** | Entry point for the frontend   | `app‑<product>` | `shell` `environments` `assets` `styles` |
+| **`e2e`** | Runs E2E tests on the frontend | `e2e‑<product>` | `e2e-util`                               |
 
 ### Libraries
 
@@ -214,60 +216,45 @@ libraries of type `data-access` may have dependencies to apps and only apps of t
 | **`assets`**        | Icons, images, fonts, etc.                                                                                                                                                  | `assets`               | `assets`                                                                                                           |
 | **`styles`**        | SCSS functions, mixins, variables, partials, and global stylesheets.                                                                                                        | `styles`               | `assets` `styles`                                                                                                  |
 
-```
+### Tools
+
+```|
    ├── executors     # - Executors perform actions on your code. This can include building, linting, testing, serving.
    └── generators    # - Generators provide a way to automate tasks you regularly perform as part of your development workflow. This can include: scafolding
 ```
 
-### Generating a library
+## Watt Design System
 
-To generate a new library, run `yarn nx workspace-generator dh-library-generator` and follow the instructions or use the "workspace-generator - dh-library-generator" option under "generate" command in Nx Console extension.
+"Watt" is a design system used by all frontend apps and is located in
+`libs/ui-watt`. It contains many different Angular components designed
+to be shared across products.
 
-_Note_: This command currently supports generating the following library types:
+It runs on Storybook, which is currently deployed to four different environments:
 
-- feature
-- ui
-- data-access
-- routing
-- util
-- test-util
-- e2e-util
-- domain
-- shell
-- configuration
-- environments
+| Development         | Test                | Pre-production      | Production          |
+| ------------------- | ------------------- | ------------------- | ------------------- |
+| [U-001][watt-u-001] | [T-001][watt-t-001] | [B-001][watt-b-001] | [B-002][watt-b-002] |
 
-### Generating a new domain
+[watt-u-001]: https://lively-ocean-04c4e1403.1.azurestaticapps.net
+[watt-t-001]: https://green-hill-085d93003.1.azurestaticapps.net/
+[watt-b-001]: https://calm-tree-090e25403.1.azurestaticapps.net/
+[watt-b-002]: https://wonderful-rock-021a80803.1.azurestaticapps.net/
 
-It is also possible to generate an entire domain. To do so, run `yarn nx workspace-generator dh-domain-generator`. This will generate a new domain
-with the following library types included:
+_Note: There is currently no difference between the environments, but this is
+subject to change._
 
-- data-access-api
-- feature
-- routing
-- shell
+### Contributing
 
-_Note_: You will have to enter a name for the feature library.
-
-## Frontend apps
-
-The frontend apps are built with Angular in an Nx Workspace. They are located under `apps` folder:
-
-- `dh/app-dh` - "DataHub" app
-- `dh/e2e-dh` - End-to-end tests for `app-dh`
-- `eo/app-eo` - "Energy Origin" app.
-- `eo/e2e-eo` - End-to-end tests for `app-eo`
-
-Besides the `apps` folder, there's also a `libs` folder that contains features used by the apps. This is where most of the code lives.
+Help is always appreciated! Check the
+[Watt Design System README](libs/ui-watt/README.md) for developer documentation.
 
 ## Backend-for-frontend (BFF)
 
-There's currenly only one BFF located in `api-dh` under `apps/dh`. It is for `app-dh` and is using .NET 5.0. See [Development notes](./apps/dh/api-dh/documents/development.md). When developing `app-dh`, run `nx serve api-dh` to start
+There's currenly only one BFF located in `api-dh` under `apps/dh`.
+It is for `app-dh` and is using .NET 5.0.
+See [Development notes](./apps/dh/api-dh/documents/development.md).
+When developing `app-dh`, run `nx serve api-dh` to start
 the BFF. This is required for both local development and tests.
-
-## Watt Design System
-
-"Watt" is a Design System that is used by all frontend apps. It is located in `ui-watt` under `libs`.
 
 ## CI/CD pipelines
 
@@ -280,7 +267,3 @@ Located under `.github/workflows`. There are:
 
 We use bots for certain trivial tasks such as adding license headers to files, formatting code, fixing lint errors, and generating API clients based on OpenAPI. For this to work, bots have to use the repository secret `PAT_TOKEN` when pushing changes or creating releases that trigger a workflow. Only do this for idempotent tasks to
 prevent circular workflows from causing inifinite workflow runs.
-
-```
-
-```
