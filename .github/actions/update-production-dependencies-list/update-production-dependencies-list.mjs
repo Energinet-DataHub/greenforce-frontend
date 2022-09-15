@@ -1,8 +1,7 @@
 import * as fs from 'fs';
-import core from '@actions/core';
 
 try {
-  const dependencies = core.getInput('dependencies-from-license-checker');
+  const dependencies = process.argv.slice(2)[0];
   writeProductionDependencyLicenses(dependencies);
   console.log('PRODUCTION_DEPENDENCIES.md updated');
 } catch (error) {
