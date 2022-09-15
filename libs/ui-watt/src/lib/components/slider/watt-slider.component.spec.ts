@@ -14,17 +14,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { render, screen } from '@testing-library/angular';
+import { screen } from '@testing-library/angular';
 
 import { WattSliderModule } from './watt-slider.module';
 import { WattSliderComponent } from './watt-slider.component';
+import { TestBed } from '@angular/core/testing';
+import { Component } from '@angular/core';
 
-xdescribe(WattSliderComponent.name, () => {
+describe(WattSliderComponent.name, () => {
   it('renders', async () => {
-    await render(WattSliderComponent, {
-      declarations: [WattSliderComponent],
+    @Component({
+      template: `<watt-slider></watt-slider>`,
+    })
+    class TestComponent {}
+
+    TestBed.configureTestingModule({
+      declarations: [TestComponent],
       imports: [WattSliderModule],
     });
+
+    const fixture = TestBed.createComponent(TestComponent);
+    fixture.detectChanges();
 
     expect(screen.queryAllByRole('slider')).toHaveLength(2);
   });
