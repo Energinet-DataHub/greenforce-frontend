@@ -50,7 +50,7 @@
     "workspace-generator": "nx workspace-generator"
   },
   "dependencies": {
-    "@angular-slider/ngx-slider": "2.0.4",
+    "@angular-slider/ngx-slider": "file:local-packages/ngx-slider",
     "@angular/animations": "14.2.1",
     "@angular/cdk": "14.2.1",
     "@angular/common": "14.2.1",
