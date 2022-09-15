@@ -10,9 +10,11 @@ frontends backed by [Nx] and [Angular].
 ## Table of Contents
 
 - [General](#general)
+- [Documentation](#documentation)
 - [DataHub](#datahub)
   - [Getting Started](#getting-started)
   - [Development](#development)
+  - [Configuration](#configuration)
 - [Energy Origin](#energy-origin)
 - [Workspace](#development)
   - [Applications](#applications)
@@ -34,6 +36,15 @@ version of Angular).
 
 _Note: Since this is an [Nx](https://nx.dev) workspace, the Nx CLI should be used
 over the Angular CLI._
+
+## Documentation
+
+In addition to the general application and workspace documentation contained in
+this README, more specialized documentation for certain areas can be found here:
+
+- [Mocking](docs/dh/mocking.md)
+- [Feature Flags](libs/dh/shared/feature-flags/README.md)
+- [Logging with Application Insights](docs/dh/logging.md)
 
 ## DataHub
 
