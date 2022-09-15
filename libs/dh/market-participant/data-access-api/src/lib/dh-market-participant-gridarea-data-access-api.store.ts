@@ -16,13 +16,18 @@
  */
 import { Injectable } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
-import { MarketParticipantGridAreaHttp } from '@energinet-datahub/dh/shared/domain';
-import { exhaustMap, Observable, tap } from 'rxjs';
+import {
+  GridAreaAuditLogEntryDto,
+  MarketParticipantGridAreaHttp,
+} from '@energinet-datahub/dh/shared/domain';
+import { exhaustMap, Observable, switchMap, tap } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { parseErrorResponse } from './dh-market-participant-error-handling';
 
 interface MarketParticipantGridAreaState {
   isLoading: boolean;
+  isLoadingAuditLog: boolean;
+  auditLog: GridAreaAuditLogEntryDto[];
 
   // Validation
   validation?: {
@@ -37,15 +42,45 @@ export interface GridAreaChanges {
 
 const initialState: MarketParticipantGridAreaState = {
   isLoading: false,
+  isLoadingAuditLog: false,
+  auditLog: [],
 };
 
 @Injectable()
 export class DhMarketParticipantGridAreaDataAccessApiStore extends ComponentStore<MarketParticipantGridAreaState> {
   isLoading$ = this.select((state) => state.isLoading);
+  isLoadingAuditLog$ = this.select((state) => state.isLoadingAuditLog);
+  auditLog$ = this.select((state) => state.auditLog);
 
   constructor(private gridAreaClient: MarketParticipantGridAreaHttp) {
     super(initialState);
   }
+
+  readonly getAuditLog = this.effect((trigger$: Observable<string>) =>
+    trigger$.pipe(
+      tap(() =>
+        this.patchState({
+          isLoadingAuditLog: true,
+          auditLog: [],
+          validation: undefined,
+        })
+      ),
+      switchMap((gridAreaId) =>
+        this.gridAreaClient
+          .v1MarketParticipantGridAreaGridAreaIdAuditlogentryGet(gridAreaId)
+          .pipe(
+            tapResponse(
+              (rows) =>
+                this.patchState({
+                  auditLog: rows,
+                }),
+              this.handleError
+            )
+          )
+      ),
+      tap(() => this.patchState({ isLoadingAuditLog: false }))
+    )
+  );
 
   readonly saveGridAreaChanges = this.effect(
     (

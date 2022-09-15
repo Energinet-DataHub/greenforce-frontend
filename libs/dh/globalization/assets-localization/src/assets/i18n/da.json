@@ -14,6 +14,7 @@
       "wholesale": {
         "menuGroupLabel": "Afregninger",
         "startProcess": "Start proces",
+        "searchBatch": "Søg batch",
         "overview": "Oversigt"
       }
     }
@@ -510,6 +511,17 @@
         "validFrom": "Gyldig fra",
         "validTo": "Gyldig til"
       },
+      "detailsAuditLog": {
+        "time": "Tid",
+        "change": "Ændring",
+        "changes": "Ændringer",
+        "noResultsFound": "Ingen resultater",
+        "fields": {
+          "name": "Netområde navn"
+        },
+        "unknown": "Ukendt",
+        "messageKey": "<strong>{{ userDisplayName }}</strong> ændrede <strong>{{ field }}</strong> til <strong>{{ newValue }}</strong>"
+      },
       "changeGridArea": {
         "gridAreaName": "Netområde navn",
         "cancel": "Fortryd",
@@ -531,6 +543,17 @@
       "dateRangeRequired": "Dato-periode påkrævet",
       "dateRangeLabel": "Periode",
       "gridAreaDropDownLabel": "Netområder"
+    },
+    "searchBatch": {
+      "topBarTitle": "Søg batch",
+      "headline": "Seneste processer",
+      "columns": {
+        "batchNumber": "Batch-nummer",
+        "periodFrom": "Periode fra",
+        "periodTo": "Periode til",
+        "executionTime": "Eksekveringstid",
+        "status": "Status"
+      }
     },
     "overview": {
       "header": "Proces oversigt"
