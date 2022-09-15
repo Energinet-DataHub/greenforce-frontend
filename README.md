@@ -14,7 +14,7 @@ frontends backed by [Nx] and [Angular].
 - [DataHub](#datahub)
   - [Getting Started](#getting-started)
   - [Development](#development)
-  - [Backend-for-frontend (BFF)](#backend-for-frontend--BFF-)
+  - [Backend-for-frontend (BFF)](#backend-for-frontend-bff)
   - [Configuration](#configuration)
 - [Energy Origin](#energy-origin)
 - [Watt Design System](#watt-design-system)
