@@ -3504,13 +3504,13 @@
     tslib "2.3.1"
     uuid "8.3.2"
 
-"@ngneat/transloco-keys-manager@3.4.1":
-  version "3.4.1"
-  resolved "https://registry.yarnpkg.com/@ngneat/transloco-keys-manager/-/transloco-keys-manager-3.4.1.tgz#6b11f45101af6650473f0663b2b2d562c8fe5d2c"
-  integrity sha512-pCG0bkUHaqC7D3XH5Smhwutz9hR7MmCTz0lT6GnrAfDEVi0DI9GwvYm7Or5W+oOWBq7AP6ugUyVgPhbd90SRWg==
+"@ngneat/transloco-keys-manager@3.4.2":
+  version "3.4.2"
+  resolved "https://registry.yarnpkg.com/@ngneat/transloco-keys-manager/-/transloco-keys-manager-3.4.2.tgz#f17e15f3cad3416d1c1fd511ff9b373d4520c7fc"
+  integrity sha512-2m5NuJsg9Q1+aWb78bU/2VNUtLNi3WE8AHJN9HzPCkAkkbwuLwtbCay3qTC5IjVrvqbFuR6lQVm+LcwB+fVDsg==
   dependencies:
     "@angular/compiler" "12.2.6"
-    "@ngneat/transloco-utils" "^3.0.2"
+    "@ngneat/transloco-utils" "3.0.4"
     "@phenomnomnominal/tsquery" "4.1.1"
     chalk "4.1.2"
     cheerio "1.0.0-rc.10"
@@ -3535,7 +3535,15 @@
     flat "^5.0.2"
     glob "^7.1.7"
 
-"@ngneat/transloco-utils@^3.0.1", "@ngneat/transloco-utils@^3.0.2":
+"@ngneat/transloco-utils@3.0.4":
+  version "3.0.4"
+  resolved "https://registry.yarnpkg.com/@ngneat/transloco-utils/-/transloco-utils-3.0.4.tgz#6cc7b686be44e38d2e6e0475849b62ffaf5e69a5"
+  integrity sha512-65iWdgkR/ccyP/weHskbqynCdztiKPBT8aXrGZrLJktuMEzpqFzOYzCJEsyp7IOh/1eSgCYl/ssdUpDDJ/37fA==
+  dependencies:
+    cosmiconfig "^7.0.0"
+    tslib "^2.3.0"
+
+"@ngneat/transloco-utils@^3.0.1":
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/@ngneat/transloco-utils/-/transloco-utils-3.0.2.tgz#43470e314d4815eab82a5247ff3123992d2fec3c"
   integrity sha512-NItuBldCJPfQ1FtDcbTQUGbOtfYjdoNC/IIV+M0jeUqzeKCZCYh5ajwTYhLXSXhMhG4nH4QNWCADOKwOAOVuRg==
@@ -3543,10 +3551,10 @@
     cosmiconfig "^7.0.0"
     tslib "^2.3.0"
 
-"@ngneat/transloco@4.1.0":
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/@ngneat/transloco/-/transloco-4.1.0.tgz#2fdb92ac2227fad5aa2329091ac1030ffbf9fc20"
-  integrity sha512-dBis8YaaLL5Cg/Uk+RTtzInD3A8ctKhOo9kbR+4SFHvtSSMM8dXyVwuFMjDGgLKdAn/U6WB6Cwp3LFCw0ftBgQ==
+"@ngneat/transloco@4.1.1":
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/@ngneat/transloco/-/transloco-4.1.1.tgz#b0220d98d192ee164a6763ce8daf93ce77987e55"
+  integrity sha512-tDJNW0Jf0F0X5D+/WeItlT/YtNJDRd3y9szEblHTqikjc8ZWP9A3OU4BiBc3Y1hk+hnnZCr4RniFtk9ZEC7u7Q==
   dependencies:
     "@ngneat/transloco-utils" "^3.0.1"
     flat "5.0.2"
