@@ -14,12 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { screen } from '@testing-library/angular';
+import { debug } from 'jest-preview';
 
 import { WattSliderModule } from './watt-slider.module';
 import { WattSliderComponent } from './watt-slider.component';
 import { TestBed } from '@angular/core/testing';
 import { Component } from '@angular/core';
+import { By } from '@angular/platform-browser';
 
 describe(WattSliderComponent.name, () => {
   it('renders', async () => {
@@ -36,6 +37,8 @@ describe(WattSliderComponent.name, () => {
     const fixture = TestBed.createComponent(TestComponent);
     fixture.detectChanges();
 
-    expect(screen.queryAllByRole('slider')).toHaveLength(2);
+    const sliders = fixture.debugElement.queryAll(By.css('[role="slider"]'));
+
+    expect(sliders).toHaveLength(2);
   });
 });
