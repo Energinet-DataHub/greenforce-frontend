@@ -16,12 +16,12 @@
  */
 import { WattSliderModule } from './watt-slider.module';
 import { WattSliderComponent } from './watt-slider.component';
-import { fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { Component } from '@angular/core';
 import { By } from '@angular/platform-browser';
 
 describe(WattSliderComponent.name, () => {
-  it('renders', fakeAsync(() => {
+  it('renders', async () => {
     @Component({
       template: `<watt-slider></watt-slider>`,
     })
@@ -35,10 +35,8 @@ describe(WattSliderComponent.name, () => {
     const fixture = TestBed.createComponent(TestComponent);
     fixture.detectChanges();
 
-    tick();
-
     const sliders = fixture.debugElement.queryAll(By.css('[role="slider"]'));
 
     expect(sliders).toHaveLength(2);
-  }));
+  });
 });
