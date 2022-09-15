@@ -21,12 +21,12 @@ import { WattSliderComponent } from './watt-slider.component';
 
 describe(WattSliderComponent.name, () => {
   it('renders', async () => {
-    await render(WattSliderComponent, {
+    const comp = await render(WattSliderComponent, {
       imports: [WattSliderModule],
     });
 
-    await waitFor(() => {
-      expect(screen.queryAllByRole('slider')).toHaveLength(2);
-    });
+    comp.detectChanges();
+
+    expect(screen.queryAllByRole('slider')).toHaveLength(2);
   });
 });
