@@ -14,6 +14,7 @@ frontends backed by [Nx] and [Angular].
 - [DataHub](#datahub)
   - [Getting Started](#getting-started)
   - [Development](#development)
+  - [Backend-for-frontend (BFF)](#backend-for-frontend--BFF-)
   - [Configuration](#configuration)
 - [Energy Origin](#energy-origin)
 - [Watt Design System](#watt-design-system)
@@ -113,10 +114,22 @@ yarn nx workspace-generator dh-domain-generator
 
 <sub>\* Also available in [Nx Console](https://nx.dev/core-features/integrate-with-editors).</sub>
 
+### Backend-for-frontend (BFF)
+
+There's currenly only one BFF located in `api-dh` under `apps/dh`.
+It is for `app-dh` and is using .NET 5.0.
+See [Development notes](./apps/dh/api-dh/documents/development.md).
+When developing `app-dh`, run `nx serve api-dh` to start
+the BFF. This is required for both local development and tests.
+
 ### Configuration
 
-Configuration files are located in `libs/dh/shared/assets/src/configuration` folder. Local configurations have a `.local` filename suffix but is overridable by a configuration file without a prefix. For example, `dh-api-environment.local.json` configures the DataHub frontend to use a local DataHub API. To use a remote DataHub API, place a `dh-api-environment.json` file in the same folder
-and set the remote address in the relevant property.
+Configuration files are located in the `libs/dh/shared/assets/src/configuration`
+folder. These local configurations have a `.local` filename suffix, but is
+overridable by a configuration file without a prefix. For example,
+`dh-api-environment.local.json` configures the DataHub frontend to use a local
+DataHub API. To use a remote DataHub API, place a `dh-api-environment.json` file
+in the same folder and set the remote address in the relevant property.
 
 ## Energy Origin
 
@@ -248,14 +261,6 @@ libraries of type `data-access` may have dependencies to apps and only apps of t
    ├── executors     # - Executors perform actions on your code. This can include building, linting, testing, serving.
    └── generators    # - Generators provide a way to automate tasks you regularly perform as part of your development workflow. This can include: scafolding
 ```
-
-## Backend-for-frontend (BFF)
-
-There's currenly only one BFF located in `api-dh` under `apps/dh`.
-It is for `app-dh` and is using .NET 5.0.
-See [Development notes](./apps/dh/api-dh/documents/development.md).
-When developing `app-dh`, run `nx serve api-dh` to start
-the BFF. This is required for both local development and tests.
 
 ## CI/CD pipelines
 
