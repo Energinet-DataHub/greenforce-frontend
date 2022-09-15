@@ -11,16 +11,7 @@ try {
 }
 
 function writeProductionDependencyLicenses(licenses) {
-  console.log(
-    '--------------------------------------------------------------------------'
-  );
-  console.log(licenses);
-  console.log(
-    '--------------------------------------------------------------------------'
-  );
-
   const parsedLicenses = JSON.parse(licenses);
-
   const header = `# Production Dependencies
 
   | Name | Version | License |

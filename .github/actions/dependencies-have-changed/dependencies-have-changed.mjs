@@ -1,5 +1,4 @@
 import { execSync } from 'child_process';
-import * as fs from 'fs';
 
 try {
   const changedFiles = readChangedFiles();
