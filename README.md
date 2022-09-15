@@ -118,6 +118,31 @@ yarn nx workspace-generator dh-domain-generator
 Configuration files are located in `libs/dh/shared/assets/src/configuration` folder. Local configurations have a `.local` filename suffix but is overridable by a configuration file without a prefix. For example, `dh-api-environment.local.json` configures the DataHub frontend to use a local DataHub API. To use a remote DataHub API, place a `dh-api-environment.json` file in the same folder
 and set the remote address in the relevant property.
 
+## Energy Origin
+
+## Watt Design System
+
+> Contributing? Check the [Watt Design System README](libs/ui-watt/README.md)
+> for developer documentation.
+
+"Watt" is a design system used by all frontend apps and is located in
+`libs/ui-watt`. It contains many different Angular components designed
+to be shared across products.
+
+It runs on Storybook, which is currently deployed to four different environments:
+
+| Development         | Test                | Pre-production      | Production          |
+| ------------------- | ------------------- | ------------------- | ------------------- |
+| [U-001][watt-u-001] | [T-001][watt-t-001] | [B-001][watt-b-001] | [B-002][watt-b-002] |
+
+[watt-u-001]: https://lively-ocean-04c4e1403.1.azurestaticapps.net
+[watt-t-001]: https://green-hill-085d93003.1.azurestaticapps.net/
+[watt-b-001]: https://calm-tree-090e25403.1.azurestaticapps.net/
+[watt-b-002]: https://wonderful-rock-021a80803.1.azurestaticapps.net/
+
+_Note: There is currently no difference between the environments, but this is
+subject to change._
+
 ## Workspace
 
 The structure of the monorepo is based on general conventions from
@@ -222,31 +247,6 @@ libraries of type `data-access` may have dependencies to apps and only apps of t
    ├── executors     # - Executors perform actions on your code. This can include building, linting, testing, serving.
    └── generators    # - Generators provide a way to automate tasks you regularly perform as part of your development workflow. This can include: scafolding
 ```
-
-## Watt Design System
-
-"Watt" is a design system used by all frontend apps and is located in
-`libs/ui-watt`. It contains many different Angular components designed
-to be shared across products.
-
-It runs on Storybook, which is currently deployed to four different environments:
-
-| Development         | Test                | Pre-production      | Production          |
-| ------------------- | ------------------- | ------------------- | ------------------- |
-| [U-001][watt-u-001] | [T-001][watt-t-001] | [B-001][watt-b-001] | [B-002][watt-b-002] |
-
-[watt-u-001]: https://lively-ocean-04c4e1403.1.azurestaticapps.net
-[watt-t-001]: https://green-hill-085d93003.1.azurestaticapps.net/
-[watt-b-001]: https://calm-tree-090e25403.1.azurestaticapps.net/
-[watt-b-002]: https://wonderful-rock-021a80803.1.azurestaticapps.net/
-
-_Note: There is currently no difference between the environments, but this is
-subject to change._
-
-### Contributing
-
-Help is always appreciated! Check the
-[Watt Design System README](libs/ui-watt/README.md) for developer documentation.
 
 ## Backend-for-frontend (BFF)
 
