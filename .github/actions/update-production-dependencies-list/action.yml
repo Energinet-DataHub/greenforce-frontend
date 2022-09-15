@@ -6,3 +6,7 @@ inputs:
     required: true
 runs:
   main: 'update-production-dependencies-list.mjs'
+  using: composite
+  steps:
+    - run: node ${{ github.action_path }}/update-production-dependencies-list.mjs
+      shell: bash
