@@ -5,5 +5,4 @@ inputs:
     description: 'Output from license-checker'
     required: true
 runs:
-  using: 'node16'
   main: 'update-production-dependencies-list.mjs'
