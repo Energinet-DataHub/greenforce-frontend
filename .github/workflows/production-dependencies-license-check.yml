@@ -58,7 +58,7 @@ jobs:
 
       - name: Install package dependencies
         if: ${{ steps.dependencies_have_changed.outputs.dependencies-have-changed == 'true' }}
-        run: yarn install --frozen-lockfile --non-interactive
+        run: yarn install --production --ignore-scripts --frozen-lockfile --non-interactive
 
       - name: Read .allowed-licenses.json
         id: allowed-licenses

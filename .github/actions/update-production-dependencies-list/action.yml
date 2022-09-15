@@ -7,5 +7,5 @@ inputs:
 runs:
   using: composite
   steps:
-    - run: node ${{ github.action_path }}/update-production-dependencies-list.mjs "${{ inputs.dependencies-from-license-checker }}"
+    - run: node ${{ github.action_path }}/update-production-dependencies-list.mjs '${{ inputs.dependencies-from-license-checker }}'
       shell: bash
