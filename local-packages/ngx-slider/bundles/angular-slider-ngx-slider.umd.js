@@ -1617,6 +1617,7 @@
         this.onTouchedCallback = null;
         this.onChangeCallback = null;
         this.eventListenerHelper = new EventListenerHelper(this.renderer);
+        console.log('constructor end angular-slider-ngx-slider.umd.js');
       }
       Object.defineProperty(SliderComponent.prototype, 'manualRefresh', {
         // Input event that triggers slider refresh (re-positioning of slider elements)
@@ -1681,6 +1682,7 @@
          * @return {?}
          */
         function () {
+          console.log('ngOnInit angular-slider-ngx-slider.umd.js');
           this.viewOptions = new Options();
           Object.assign(this.viewOptions, this.options);
           // We need to run these two things first, before the rest of the init in ngAfterViewInit(),
