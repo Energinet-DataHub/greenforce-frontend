@@ -45,12 +45,7 @@ function patchTestbed(): void {
     ): TestBed => {
       realConfigureTestingModule.call(testbed, {
         ...moduleDef,
-        imports: [
-          GfBrowserTestingModule,
-          GfAngularMaterialTestingModule,
-          GfRxAngularTestingModule,
-          ...(moduleDef.imports ?? []),
-        ],
+        imports: [...(moduleDef.imports ?? [])],
         providers: [
           // Use automatic change detection in tests
           { provide: ComponentFixtureAutoDetect, useValue: true },
