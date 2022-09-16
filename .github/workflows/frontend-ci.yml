@@ -85,8 +85,7 @@ jobs:
 
       - name: 'PR: Test affected projects'
         if: ${{ env.is-pull-request == 'true' }}
-        run: yarn affected:test --base=origin/$BASE_BRANCH
-          --max-parallel=$NX_MAX_PARALLEL
+        run: yarn nx run ui-watt:test
       - name: 'Merge: Test all projects'
         if: ${{ env.is-pull-request == 'false' }}
         run: yarn test --max-parallel=$NX_MAX_PARALLEL
