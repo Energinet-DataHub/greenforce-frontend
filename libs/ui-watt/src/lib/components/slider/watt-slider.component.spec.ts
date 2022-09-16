@@ -14,15 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { render, screen } from '@testing-library/angular';
-
 import { WattSliderModule } from './watt-slider.module';
 import { WattSliderComponent } from './watt-slider.component';
+import { render, screen } from '@testing-library/angular';
 
-xdescribe(WattSliderComponent.name, () => {
-  it('renders', async () => {
+describe(WattSliderComponent.name, () => {
+  it('uses @testing-library', async () => {
     await render(WattSliderComponent, {
-      declarations: [WattSliderComponent],
       imports: [WattSliderModule],
     });
 

@@ -50,7 +50,7 @@ export class WattSliderComponent {
   @Input() step = 1;
 
   /** Manually define all steps. Overrules `min`, `max` and `step`. */
-  @Input() customSteps?: number[];
+  @Input() customSteps: number[] = [];
 
   /** The currently selected range value. */
   @Input() value: WattSliderValue = { min: this.min, max: this.max };
@@ -60,6 +60,10 @@ export class WattSliderComponent {
    * @ignore
    */
   @Output() valueChange = new EventEmitter<WattSliderValue>();
+
+  constructor() {
+    this.triggerTests();
+  }
 
   /**
    * @ignore
@@ -74,8 +78,12 @@ export class WattSliderComponent {
       enforceStep: false,
       enforceStepsArray: false,
       step: this.step,
-      stepsArray: this.customSteps?.map((value) => ({ value })),
+      stepsArray: this.customSteps.map((value) => ({ value })),
     };
+  }
+
+  private triggerTests(): void {
+    console.log('Change so tests can run');
   }
 
   /**
