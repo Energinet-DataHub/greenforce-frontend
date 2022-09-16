@@ -1,0 +1,43 @@
+{
+  "name": "@angular-slider/ngx-slider",
+  "version": "2.0.4",
+  "description": "Self-contained, mobile friendly slider component for Angular 5+ based on angularjs-slider",
+  "keywords": [
+    "slider",
+    "ui",
+    "component",
+    "angular",
+    "ng",
+    "ngx"
+  ],
+  "author": "Piotr Dziwinski",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/angular-slider/ngx-slider.git"
+  },
+  "bugs": {
+    "url": "https://github.com/angular-slider/ngx-slider/issues"
+  },
+  "homepage": "https://github.com/angular-slider/ngx-slider#readme",
+  "dependencies": {
+    "detect-passive-events": "^2.0.3",
+    "rxjs": "^6.5.2",
+    "tslib": "^1.9.0"
+  },
+  "peerDependencies": {
+    "@angular/core": ">=6.1.0",
+    "@angular/common": ">=6.1.0",
+    "@angular/forms": ">=6.1.0"
+  },
+  "main": "bundles/angular-slider-ngx-slider.umd.js",
+  "module": "fesm5/angular-slider-ngx-slider.js",
+  "es2015": "fesm2015/angular-slider-ngx-slider.js",
+  "esm5": "esm5/angular-slider-ngx-slider.js",
+  "esm2015": "esm2015/angular-slider-ngx-slider.js",
+  "fesm5": "fesm5/angular-slider-ngx-slider.js",
+  "fesm2015": "fesm2015/angular-slider-ngx-slider.js",
+  "typings": "angular-slider-ngx-slider.d.ts",
+  "metadata": "angular-slider-ngx-slider.metadata.json",
+  "sideEffects": false
+}

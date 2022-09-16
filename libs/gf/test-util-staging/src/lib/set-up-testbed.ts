@@ -33,7 +33,7 @@ import { GfRxAngularTestingModule } from './rx-angular/gf-rx-angular-testing.mod
  * For easier debugging in development mode, you can import the following file
  * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.
  */
-import 'zone.js/plugins/zone-error';
+// import 'zone.js/plugins/zone-error';
 
 function patchTestbed(): void {
   const isUnpatched =
@@ -45,12 +45,7 @@ function patchTestbed(): void {
     ): TestBed => {
       realConfigureTestingModule.call(testbed, {
         ...moduleDef,
-        imports: [
-          GfBrowserTestingModule,
-          GfAngularMaterialTestingModule,
-          GfRxAngularTestingModule,
-          ...(moduleDef.imports ?? []),
-        ],
+        imports: [...(moduleDef.imports ?? [])],
         providers: [
           // Use automatic change detection in tests
           { provide: ComponentFixtureAutoDetect, useValue: true },
