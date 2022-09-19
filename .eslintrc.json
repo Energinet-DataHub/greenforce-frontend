@@ -197,10 +197,6 @@
       "extends": ["plugin:@nrwl/nx/typescript"]
     },
     {
-      "files": ["*.ts"],
-      "extends": ["plugin:ngrx/component-store-strict"]
-    },
-    {
       "files": ["*.js", "*.ts"],
       "extends": ["plugin:sonarjs/recommended"],
       "rules": {
