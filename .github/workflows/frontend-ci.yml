@@ -87,6 +87,7 @@ jobs:
           key: ${{ runner.os }}-yarn-${{ hashFiles('yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-yarn-
+
       - name: Set yarn version ${{ env.yarn-version }}
         run: yarn set version ${{ env.yarn-version }}
 
@@ -157,6 +158,7 @@ jobs:
           key: ${{ runner.os }}-yarn-${{ hashFiles('yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-yarn-
+
       - name: Set yarn version ${{ env.yarn-version }}
         run: yarn set version ${{ env.yarn-version }}
 
@@ -206,6 +208,7 @@ jobs:
           key: ${{ runner.os }}-yarn-${{ hashFiles('yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-yarn-
+
       - name: Disable Angular Compatibility Compiler
         uses: ./.github/actions/setup-postinstall
         with:
@@ -270,6 +273,7 @@ jobs:
           key: ${{ runner.os }}-yarn-${{ hashFiles('yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-yarn-
+
       - name: Disable Angular Compatibility Compiler
         uses: ./.github/actions/setup-postinstall
         with:
