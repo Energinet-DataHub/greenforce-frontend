@@ -21,7 +21,7 @@ import {
   DhChargesPricesComponent,
   DhChargesPricesScam,
 } from '@energinet-datahub/dh/charges/feature-prices';
-import { dhChargesPricesPath } from '@energinet-datahub/dh-charges-routing';
+import { dhChargesPricesPath } from '@energinet-datahub/dh/charges/routing';
 
 const routes: Routes = [
   {
