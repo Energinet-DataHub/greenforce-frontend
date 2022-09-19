@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, NgModule } from '@angular/core';
+import { Component, NgModule, OnInit } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
 import { WattButtonModule } from '@energinet-datahub/watt';
 
@@ -22,6 +22,9 @@ import { MatTableModule } from '@angular/material/table';
 
 import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
 import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/feature-flags';
+import { of } from 'rxjs';
+import { PushModule } from '@rx-angular/template';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'dh-wholesale-search',
@@ -29,7 +32,7 @@ import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/featu
   styleUrls: ['./dh-wholesale-search.component.scss'],
   providers: [DhWholesaleBatchDataAccessApiStore],
 })
-export class DhWholesaleSearchComponent {
+export class DhWholesaleSearchComponent implements OnInit {
   constructor(private store: DhWholesaleBatchDataAccessApiStore) {}
 
   columnIds = [
@@ -39,6 +42,10 @@ export class DhWholesaleSearchComponent {
     'executionTime',
     'status',
   ];
+
+  data$ = this.store.batches$
+
+  ngOnInit(): void { this.store.getBatches(of({minExecutionTime: "qqwe", maxExecutionTime: "qwe"}))}
 }
 
 @NgModule({
@@ -47,6 +54,8 @@ export class DhWholesaleSearchComponent {
     TranslocoModule,
     DhFeatureFlagDirectiveModule,
     MatTableModule,
+    PushModule,
+    CommonModule,
   ],
   declarations: [DhWholesaleSearchComponent],
 })

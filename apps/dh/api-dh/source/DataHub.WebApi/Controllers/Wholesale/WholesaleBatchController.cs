@@ -50,7 +50,7 @@ namespace Energinet.DataHub.WebApi.Controllers.Wholesale
         /// <summary>
         /// Get a batch.
         /// </summary>
-        [HttpGet]
+        [HttpGet("search")]
         public async Task<IEnumerable<WholesaleSearchBatchResponseDto>> GetAsync(WholesaleSearchBatchDto wholesaleSearchBatchDto)
         {
             var response = await _httpClient

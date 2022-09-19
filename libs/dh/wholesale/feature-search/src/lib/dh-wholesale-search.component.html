@@ -18,36 +18,51 @@ limitations under the License.
   <ng-container *transloco="let transloco; read: 'wholesale.searchBatch'">
     <h3>{{ transloco("headline") }}</h3>
     <!-- Table -->
-    <mat-table [dataSource]="[]" aria-label="batches">
+    <mat-table [dataSource]="data$ | push" aria-label="batches">
       <!-- Batch Number -->
       <ng-container matColumnDef="batchNumber">
         <mat-header-cell *matHeaderCellDef>
           {{ transloco("columns.batchNumber") }}
         </mat-header-cell>
+        <mat-cell *matCellDef="let batch">
+          {{ batch.batchNumber }}
+        </mat-cell>
       </ng-container>
       <!-- Period From -->
       <ng-container matColumnDef="periodFrom">
         <mat-header-cell *matHeaderCellDef>
           {{ transloco("columns.periodFrom") }}
         </mat-header-cell>
+        <mat-cell *matCellDef="let batch">
+          {{ batch.periodFrom }}
+        </mat-cell>
       </ng-container>
       <!-- Period To -->
       <ng-container matColumnDef="periodTo">
         <mat-header-cell *matHeaderCellDef>
           {{ transloco("columns.periodTo") }}
         </mat-header-cell>
+        <mat-cell *matCellDef="let batch">
+          {{ batch.periodTo }}
+        </mat-cell>
       </ng-container>
       <!-- Execution Time -->
       <ng-container matColumnDef="executionTime">
         <mat-header-cell *matHeaderCellDef>
           {{ transloco("columns.executionTime") }}
         </mat-header-cell>
+        <mat-cell *matCellDef="let batch">
+          {{ batch.executionTime }}
+        </mat-cell>
       </ng-container>
       <!-- Status -->
       <ng-container matColumnDef="status">
         <mat-header-cell *matHeaderCellDef>
           {{ transloco("columns.status") }}
         </mat-header-cell>
+        <mat-cell *matCellDef="let batch">
+          {{ batch.status }}
+        </mat-cell>
       </ng-container>
 
       <mat-header-row
@@ -57,3 +72,4 @@ limitations under the License.
     </mat-table>
   </ng-container>
 </ng-container>
+{{data$ | push | json}}
