@@ -16,7 +16,7 @@
  */
 import { Component, NgModule, OnInit } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
-import { WattButtonModule } from '@energinet-datahub/watt';
+import { WattBadgeModule, WattButtonModule } from '@energinet-datahub/watt';
 
 import { MatTableModule } from '@angular/material/table';
 
@@ -25,6 +25,7 @@ import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/featu
 import { of } from 'rxjs';
 import { PushModule } from '@rx-angular/template';
 import { CommonModule } from '@angular/common';
+import { WholesaleStatus } from '@energinet-datahub/dh/shared/domain';
 
 @Component({
   selector: 'dh-wholesale-search',
@@ -45,6 +46,8 @@ export class DhWholesaleSearchComponent implements OnInit {
 
   data$ = this.store.batches$
 
+  wholesaleStatus = WholesaleStatus
+
   ngOnInit(): void { this.store.getBatches(of({minExecutionTime: "qqwe", maxExecutionTime: "qwe"}))}
 }
 
@@ -56,6 +59,7 @@ export class DhWholesaleSearchComponent implements OnInit {
     MatTableModule,
     PushModule,
     CommonModule,
+    WattBadgeModule,
   ],
   declarations: [DhWholesaleSearchComponent],
 })

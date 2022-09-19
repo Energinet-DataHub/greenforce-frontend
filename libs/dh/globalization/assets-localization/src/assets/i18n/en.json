@@ -553,7 +553,11 @@
         "periodTo": "Period to",
         "executionTime": "Execution time",
         "status": "Status"
-      }
+      },
+      "Pending": "Pending",
+      "Running": "Running",
+      "Finished": "Finished",
+      "Failed": "Failed"
     },
     "overview": {
       "header": "Process Overview"

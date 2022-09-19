@@ -61,7 +61,18 @@ limitations under the License.
           {{ transloco("columns.status") }}
         </mat-header-cell>
         <mat-cell *matCellDef="let batch">
-          {{ batch.status }}
+          <watt-badge *ngIf="batch.status == wholesaleStatus.Pending" type="warning">
+            {{ transloco(batch.status.toString()) }}
+          </watt-badge>
+          <watt-badge *ngIf="batch.status == wholesaleStatus.Running" type="success">
+            {{ transloco(batch.status.toString()) }}
+          </watt-badge>
+          <watt-badge *ngIf="batch.status == wholesaleStatus.Finished">
+            {{ transloco(batch.status.toString()) }}
+          </watt-badge>
+          <watt-badge *ngIf="batch.status == wholesaleStatus.Failed" type="danger">
+            {{ transloco(batch.status.toString()) }}
+          </watt-badge>
         </mat-cell>
       </ng-container>
 
@@ -72,4 +83,3 @@ limitations under the License.
     </mat-table>
   </ng-container>
 </ng-container>
-{{data$ | push | json}}

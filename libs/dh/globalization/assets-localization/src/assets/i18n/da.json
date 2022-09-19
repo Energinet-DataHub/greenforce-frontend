@@ -553,7 +553,11 @@
         "periodTo": "Periode til",
         "executionTime": "Eksekveringstid",
         "status": "Status"
-      }
+      },
+      "Pending": "Afventer",
+      "Running": "Kører",
+      "Finished": "Afsluttet",
+      "Failed": "Fejl"
     },
     "overview": {
       "header": "Proces oversigt"
