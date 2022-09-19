@@ -44,9 +44,9 @@ export class DhWholesaleSearchComponent implements OnInit {
     'status',
   ];
 
-  data$ = this.store.batches$
+  data$ = this.store.batches$;
 
-  wholesaleStatus = WholesaleStatus
+  wholesaleStatus = WholesaleStatus;
 
   ngOnInit(): void {
     this.store.getBatches(
