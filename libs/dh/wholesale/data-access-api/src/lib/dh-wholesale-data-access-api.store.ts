@@ -28,13 +28,15 @@ import { zonedTimeToUtc } from 'date-fns-tz';
 import { parse } from 'date-fns';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-interface State {batches: WholesaleSearchBatchResponseDto[]}
+interface State {
+  batches: WholesaleSearchBatchResponseDto[];
+}
 
-const initialState: State = {batches: []};
+const initialState: State = { batches: [] };
 
 @Injectable()
 export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
-  batches$ = this.select(x => x.batches)
+  batches$ = this.select((x) => x.batches);
   constructor(private httpClient: WholesaleBatchHttp) {
     super(initialState);
   }
@@ -64,14 +66,19 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
     const date = parse(value, 'dd-MM-yyyy', new Date());
     return zonedTimeToUtc(date, 'Europe/Copenhagen').toISOString();
   }
-  readonly setBarches = this.updater( (state, value: WholesaleSearchBatchResponseDto[]) => ({...state, batches: value}))
+  readonly setBarches = this.updater(
+    (state, value: WholesaleSearchBatchResponseDto[]) => ({
+      ...state,
+      batches: value,
+    })
+  );
   readonly getBatches = this.effect(
-    (
-      filter$: Observable<WholesaleSearchBatchDto>
-    ) => {
+    (filter$: Observable<WholesaleSearchBatchDto>) => {
       return filter$.pipe(
         switchMap((filter: WholesaleSearchBatchDto) => {
-          return this.httpClient.v1WholesaleBatchSearchGet(filter).pipe(tap((batches) => this.setBarches(batches)));
+          return this.httpClient
+            .v1WholesaleBatchSearchGet(filter)
+            .pipe(tap((batches) => this.setBarches(batches)));
         })
       );
     }

@@ -43,9 +43,13 @@ export class DhWholesaleSearchComponent implements OnInit {
     'status',
   ];
 
-  data$ = this.store.batches$
+  data$ = this.store.batches$;
 
-  ngOnInit(): void { this.store.getBatches(of({minExecutionTime: "qqwe", maxExecutionTime: "qwe"}))}
+  ngOnInit(): void {
+    this.store.getBatches(
+      of({ minExecutionTime: 'qqwe', maxExecutionTime: 'qwe' })
+    );
+  }
 }
 
 @NgModule({
