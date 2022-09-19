@@ -135,7 +135,7 @@ in the same folder and set the remote address in the relevant property.
 Use the following command to serve the Energy Origin application locally:
 
 ```sh
-yarn nx serve app-dh
+yarn nx serve app-eo
 ```
 
 ## Watt Design System
