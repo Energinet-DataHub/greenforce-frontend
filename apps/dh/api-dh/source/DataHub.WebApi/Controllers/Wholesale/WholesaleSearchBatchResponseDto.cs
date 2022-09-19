@@ -16,5 +16,5 @@ using System;
 
 namespace Energinet.DataHub.WebApi.Controllers.Wholesale
 {
-    public sealed record WholesaleSearchBatchResponseDto(int BatchNumber, DateTime PeriodFrom, DateTime PeriodTo, DateTimeOffset ExecutionTime, WholesaleStatus Status);
+    public sealed record WholesaleSearchBatchResponseDto(string BatchNumber, DateTime PeriodFrom, DateTime PeriodTo, DateTimeOffset ExecutionTime, WholesaleStatus Status);
 }
