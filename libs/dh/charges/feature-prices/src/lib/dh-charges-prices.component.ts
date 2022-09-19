@@ -20,21 +20,16 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'dh-dh-charges-prices',
   templateUrl: './dh-charges-prices.component.html',
-  styleUrls: ['./dh-charges-prices.component.scss']
+  styleUrls: ['./dh-charges-prices.component.scss'],
 })
 export class DhChargesPricesComponent implements OnInit {
+  constructor() {}
 
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }
 
 @NgModule({
   declarations: [DhChargesPricesComponent],
-  imports: [
-    CommonModule
-  ],
+  imports: [CommonModule],
 })
 export class DhChargesPricesScam {}

@@ -24,9 +24,8 @@ describe('DhChargesPricesComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ DhChargesPricesComponent ]
-    })
-    .compileComponents();
+      declarations: [DhChargesPricesComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(DhChargesPricesComponent);
     component = fixture.componentInstance;
