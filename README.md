@@ -14,11 +14,10 @@ frontends backed by [Nx] and [Angular].
 - [DataHub](#datahub)
   - [Getting Started](#getting-started)
   - [Development](#development)
-  - [Backend-for-frontend (BFF)](#backend-for-frontend-bff)
+  - [Backend For Frontend (BFF)](#backend-for-frontend-bff)
   - [Configuration](#configuration)
 - [Energy Origin](#energy-origin)
 - [Watt Design System](#watt-design-system)
-  - [Contributing](#contributing)
 - [Workspace](#development)
   - [Applications](#applications)
   - [Libraries](#libraries)
@@ -75,11 +74,12 @@ Use the following command to serve the DataHub application locally:
 yarn nx serve app-dh
 ```
 
-The application utilizes request mocking for some of the requests
-to the backend-for-frontend (BFF), but there are still features that are not
-mocked. When working with those features, it might be required to serve the
-BFF locally as well. To do so, run the following command (requires some initial
-setup, see [Setup of BFF](#TODOTHISLINK)).
+The application utilizes request mocking for some of the requests to the
+[backend for frontend (BFF)](#backend-for-frontend-bff), but there are still
+features that are not mocked. When working with those features, it might be
+required to serve the BFF locally as well. To do so, run the following command
+(requires some initial setup, see
+[Setup of BFF](apps/dh/api-dh/documents/development.md#setup-of-bff)).
 
 ```sh
 yarn nx serve api-dh
@@ -114,13 +114,12 @@ yarn nx workspace-generator dh-domain-generator
 
 <sub>\* Also available in [Nx Console](https://nx.dev/core-features/integrate-with-editors).</sub>
 
-### Backend-for-frontend (BFF)
+### Backend For Frontend (BFF)
 
 There's currenly only one BFF located in `api-dh` under `apps/dh`.
 It is for `app-dh` and is using .NET 5.0.
-See [Development notes](./apps/dh/api-dh/documents/development.md).
-When developing `app-dh`, run `nx serve api-dh` to start
-the BFF. This is required for both local development and tests.
+Check the [Development notes](./apps/dh/api-dh/documents/development.md)
+for how to get started.
 
 ### Configuration
 
@@ -132,6 +131,12 @@ DataHub API. To use a remote DataHub API, place a `dh-api-environment.json` file
 in the same folder and set the remote address in the relevant property.
 
 ## Energy Origin
+
+Use the following command to serve the Energy Origin application locally:
+
+```sh
+yarn nx serve app-dh
+```
 
 ## Watt Design System
 
@@ -258,6 +263,8 @@ libraries of type `data-access` may have dependencies to apps and only apps of t
 ### Tools
 
 ```|
+...
+└── tools
    ├── executors     # - Executors perform actions on your code. This can include building, linting, testing, serving.
    └── generators    # - Generators provide a way to automate tasks you regularly perform as part of your development workflow. This can include: scafolding
 ```
