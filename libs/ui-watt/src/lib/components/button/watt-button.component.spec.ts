@@ -37,7 +37,7 @@ interface WattButtonOptionsType {
   type?: WattButtonType;
 }
 
-xdescribe(WattButtonComponent.name, () => {
+describe(WattButtonComponent.name, () => {
   const renderComponent = async ({ ...options }: WattButtonOptionsType) => {
     return await render(
       `<watt-button

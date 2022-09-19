@@ -28,7 +28,7 @@ import * as drawerStories from './+storybook/watt-drawer.stories';
 
 const { Normal: Drawer, Multiple, Loading } = composeStories(drawerStories);
 
-xdescribe(WattDrawerComponent.name, () => {
+describe(WattDrawerComponent.name, () => {
   // Queries
   const getOpenDrawerButton: () => HTMLButtonElement = () =>
     screen.getByRole('button', {

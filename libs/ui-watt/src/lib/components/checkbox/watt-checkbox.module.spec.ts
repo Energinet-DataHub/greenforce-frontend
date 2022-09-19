@@ -21,7 +21,7 @@ import userEvent from '@testing-library/user-event';
 
 import { WattCheckboxModule } from './watt-checkbox.module';
 
-xdescribe(WattCheckboxModule.name, () => {
+describe(WattCheckboxModule.name, () => {
   it('exports shared Watt Design System checkbox', async () => {
     const labelText = 'Text';
 

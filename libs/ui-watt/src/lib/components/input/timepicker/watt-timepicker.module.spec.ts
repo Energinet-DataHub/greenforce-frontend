@@ -31,7 +31,7 @@ import { WattDanishDatetimeModule } from '../../../configuration/watt-danish-dat
 const backspace = '{backspace}';
 const ARIA_VALUENOW = 'aria-valuenow';
 
-xdescribe(WattTimepickerModule.name, () => {
+describe(WattTimepickerModule.name, () => {
   async function setup({
     template,
     initialState = null,

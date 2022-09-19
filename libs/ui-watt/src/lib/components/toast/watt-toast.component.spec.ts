@@ -30,7 +30,7 @@ import * as toastStories from './+storybook/watt-toast.stories';
 
 const { Overview } = composeStories(toastStories);
 
-xdescribe('Toast', () => {
+describe('Toast', () => {
   const getOpenToastButton = async () =>
     screen.getByRole('button', { name: /Open toast/ });
   const getToast = async () =>

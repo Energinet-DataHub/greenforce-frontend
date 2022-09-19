@@ -27,7 +27,7 @@ import { WattNavListItemComponent } from './watt-nav-list-item.component';
 const httpEnerginetDkUrl = 'http://energinet.dk';
 const httpsEnerginetDkUrl = 'https://energinet.dk';
 
-xdescribe(WattNavListComponent.name, () => {
+describe(WattNavListComponent.name, () => {
   it('exports shared Watt Design System nav list', async () => {
     const text = 'Page 1';
 

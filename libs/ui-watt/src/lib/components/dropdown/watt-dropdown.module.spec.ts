@@ -35,7 +35,7 @@ const dropdownOptions: WattDropdownOptions = [
 
 const matOptionClass = '.mat-option';
 
-xdescribe(WattDropdownModule.name, () => {
+describe(WattDropdownModule.name, () => {
   const placeholder = 'Select a team';
 
   // eslint-disable-next-line sonarjs/cognitive-complexity

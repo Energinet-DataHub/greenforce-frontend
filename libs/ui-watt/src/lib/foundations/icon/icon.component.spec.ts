@@ -24,7 +24,7 @@ import {
   WattIconState,
 } from './index';
 
-xdescribe(WattIconComponent.name, () => {
+describe(WattIconComponent.name, () => {
   it('has default `size`', async () => {
     const view = await render(WattIconComponent, {
       componentProperties: {

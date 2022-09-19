@@ -23,7 +23,7 @@ interface RangeValue {
   value: WattRange;
 }
 
-xdescribe('Range validators', () => {
+describe('Range validators', () => {
   const fullRangeValue: RangeValue = { value: { start: '1', end: '10' } };
   const onlyWithStartValue: RangeValue = { value: { start: '1', end: '' } };
   const onlyWithEndValue: RangeValue = { value: { start: '', end: '10' } };
