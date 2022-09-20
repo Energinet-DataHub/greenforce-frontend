@@ -10,8 +10,9 @@ frontends backed by [Nx] and [Angular].
 ## Table of Contents
 
 - [General](#general)
-- [Documentation](#documentation)
+- [Prerequisites](#prerequisites)
 - [DataHub](#datahub)
+  - [Documentation](#documentation)
   - [Getting Started](#getting-started)
   - [Development](#development)
   - [Backend For Frontend (BFF)](#backend-for-frontend-bff)
@@ -22,7 +23,9 @@ frontends backed by [Nx] and [Angular].
   - [Applications](#applications)
   - [Libraries](#libraries)
   - [Tools](#tools)
-- [Tools](#development)
+- [Scripts](#scripts)
+- [CI/CD Pipelines](#cicd-pipelines)
+- [Visual Studio Code](#cicd-pipelines)
 
 ## General
 
@@ -39,14 +42,14 @@ version of Angular).
 _Note: Since this is an [Nx](https://nx.dev) workspace, the Nx CLI should be used
 over the Angular CLI._
 
-## Documentation
+## Prerequisites
 
-In addition to the general application and workspace documentation contained in
-this README, more specialized documentation for certain areas can be found here:
-
-- [Mocking](docs/dh/mocking.md)
-- [Feature Flags](libs/dh/shared/feature-flags/README.md)
-- [Logging with Application Insights](docs/dh/logging.md)
+<dl>
+  <dt><a href="https://volta.sh">Volta</a></dt>
+  <dd>Manager for JavaScript command-line tools like Node.js® and Yarn.</dd>
+  <dt><a href="https://dotnet.microsoft.com/en-us/download">.NET SDK</a></dt>
+  <dd>Required for running and developing the Backend For Frontend.</dd>
+</dl>
 
 ## DataHub
 
@@ -65,6 +68,16 @@ The application is deployed to five different environments as listed below:
 <sub>\* This is identical to **U-001**, except it also hosts
 [B2C](https://azure.microsoft.com/en-us/services/active-directory/external-identities/b2c/).
 This service can be accessed from **localhost**, **U-001** and **U-002**.</sub>
+
+### Documentation
+
+Be sure to check out the additional DataHub documentation for the following
+areas:
+
+- [Testing](docs/dh/testing.md)
+- [Mocking](docs/dh/mocking.md)
+- [Feature Flags](libs/dh/shared/feature-flags/README.md)
+- [Logging with Application Insights](docs/dh/logging.md)
 
 ### Getting Started
 
@@ -143,11 +156,13 @@ yarn nx serve app-eo
 > Contributing? Check the [Watt Design System README](libs/ui-watt/README.md)
 > for developer documentation.
 
-"Watt" is a design system used by all frontend apps and is located in
-`libs/ui-watt`. It contains many different Angular components designed
-to be shared across products.
+This is a shared UI library meant to be used by all frontend apps and it
+contains basic components and functionality for speeding up app development.
+It is located in `libs/ui-watt` and can be imported from
+`@energinet-datahub/watt` in other libraries.
 
-It runs on Storybook, which is currently deployed to four different environments:
+The design system is showcased using [Storybook](https://storybook.js.org),
+which is currently deployed to four different environments:
 
 | Development         | Test                | Pre-production      | Production          |
 | ------------------- | ------------------- | ------------------- | ------------------- |
@@ -158,8 +173,15 @@ It runs on Storybook, which is currently deployed to four different environments
 [watt-b-001]: https://calm-tree-090e25403.1.azurestaticapps.net/
 [watt-b-002]: https://wonderful-rock-021a80803.1.azurestaticapps.net/
 
-_Note: There is currently no differences between the environments, but this is
-subject to change._
+_Note: There is currently no differences between the environments, but this
+might change in the future._
+
+To use components or other functionality from Watt, import as in the following
+example:
+
+```ts
+import { WattButtonModule } from '@energinet-datahub/watt';
+```
 
 ## Workspace
 
@@ -269,7 +291,14 @@ libraries of type `data-access` may have dependencies to apps and only apps of t
    └── generators    # - Generators provide a way to automate tasks you regularly perform as part of your development workflow. This can include: scafolding
 ```
 
-## CI/CD pipelines
+## Scripts
+
+<dl>
+  <dt><code>yarn dep-graph</code></dt>
+  <dd>Generate a dependency graph for the applications in the monorepo.</dd>
+</dl>
+
+## CI/CD Pipelines
 
 Located under `.github/workflows`. There are:
 
@@ -280,3 +309,18 @@ Located under `.github/workflows`. There are:
 
 We use bots for certain trivial tasks such as adding license headers to files, formatting code, fixing lint errors, and generating API clients based on OpenAPI. For this to work, bots have to use the repository secret `PAT_TOKEN` when pushing changes or creating releases that trigger a workflow. Only do this for idempotent tasks to
 prevent circular workflows from causing inifinite workflow runs.
+
+### Deployment
+
+The deployments can be found [here](https://github.com/Energinet-DataHub/dh3-environments/actions/workflows/dh-ui-frontend-cd.yml).
+
+## Visual Studio Code
+
+It is recommended to use the [Visual Studio Code](https://code.visualstudio.com)
+editor, as it supports the entire toolchain used in this repository.
+
+todo...
+
+A list of recommended extensions is stored in `.vscode/extenstions.json`.
+You'll get a notification asking you to install the extensions when you open
+the project in VS Code for the first time.
