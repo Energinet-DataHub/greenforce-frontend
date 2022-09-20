@@ -15,7 +15,13 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import { Component, Input, ViewChild, OnDestroy, AfterViewInit } from '@angular/core';
+import {
+  Component,
+  Input,
+  ViewChild,
+  OnDestroy,
+  AfterViewInit,
+} from '@angular/core';
 import {
   MatPaginator,
   MatPaginatorModule,
