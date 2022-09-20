@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import { Component, Input, ViewChild, OnDestroy } from '@angular/core';
+import { Component, Input, ViewChild, OnDestroy, AfterViewInit } from '@angular/core';
 import {
   MatPaginator,
   MatPaginatorModule,
@@ -60,7 +60,7 @@ type wholesaleTableData = MatTableDataSource<{
   styleUrls: ['./dh-wholesale-table.component.scss'],
   providers: [DhWholesaleBatchDataAccessApiStore],
 })
-export class DhWholesaleTableComponent implements OnDestroy {
+export class DhWholesaleTableComponent implements OnDestroy, AfterViewInit {
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @Input() set data(batches: WholesaleSearchBatchResponseDto[]) {
