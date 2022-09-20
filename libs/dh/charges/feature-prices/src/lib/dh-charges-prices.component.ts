@@ -2,7 +2,7 @@ import { Component, OnInit, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'dh-dh-charges-prices',
+  selector: 'dh-charges-prices',
   templateUrl: './dh-charges-prices.component.html',
   styleUrls: ['./dh-charges-prices.component.scss']
 })
