@@ -15,9 +15,11 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import { Component, Input, ViewChild } from '@angular/core';
+import { Component, Input, ViewChild, OnDestroy } from '@angular/core';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
+import { MatPaginator, MatPaginatorModule, MatPaginatorIntl } from '@angular/material/paginator';
+import { takeUntil, Subject } from 'rxjs';
 
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import { WattBadgeModule, WattBadgeType } from '@energinet-datahub/watt';
@@ -27,7 +29,6 @@ import {
   WholesaleSearchBatchResponseDto,
   WholesaleStatus,
 } from '@energinet-datahub/dh/shared/domain';
-import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 
 type wholesaleTableData = MatTableDataSource<{
   statusType: void | WattBadgeType;
@@ -53,7 +54,7 @@ type wholesaleTableData = MatTableDataSource<{
   styleUrls: ['./dh-wholesale-table.component.scss'],
   providers: [DhWholesaleBatchDataAccessApiStore],
 })
-export class DhWholesaleTableComponent {
+export class DhWholesaleTableComponent implements OnDestroy {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @Input() set data(batches: WholesaleSearchBatchResponseDto[]) {
     this._data = new MatTableDataSource(
@@ -63,12 +64,13 @@ export class DhWholesaleTableComponent {
       }))
     );
   }
+  destroy$ = new Subject<void>();
   _data: wholesaleTableData | null = null;
-  constructor(private store: DhWholesaleBatchDataAccessApiStore) {}
+
+  constructor(private store: DhWholesaleBatchDataAccessApiStore, private matPaginatorIntl: MatPaginatorIntl, private translocoService: TranslocoService) {}
 
   ngAfterViewInit() {
-    if (this._data === null) return;
-    this._data.paginator = this.paginator;
+    this.setupPaginator();
   }
 
   columnIds = [
@@ -78,6 +80,11 @@ export class DhWholesaleTableComponent {
     'executionTime',
     'status',
   ];
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 
   private getStatusType(status: WholesaleStatus): WattBadgeType | void {
     if (status === WholesaleStatus.Pending) {
@@ -89,5 +96,42 @@ export class DhWholesaleTableComponent {
     } else if (status === WholesaleStatus.Failed) {
       return 'danger';
     }
+  }
+
+  private setupPaginator() {
+    this.matPaginatorIntl.getRangeLabel = (page, pageSize, length) => {
+      const seperator = this.translocoService.translate(
+        'wholesale.searchBatch.paginator.of'
+      );
+
+      if (length == 0 || pageSize == 0) {
+        return `0 ${seperator} ${length}`;
+      }
+  
+      length = Math.max(length, 0);
+  
+      const startIndex = page * pageSize;
+  
+      // If the start index exceeds the list length, do not try and fix the end index to the end.
+      const endIndex =
+        startIndex < length ? Math.min(startIndex + pageSize, length) : startIndex + pageSize;
+  
+      return `${startIndex + 1} – ${endIndex} ${seperator} ${length}`;
+
+    }
+
+    this.translocoService
+      .selectTranslateObject('wholesale.searchBatch.paginator')
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((value) => {
+        this.matPaginatorIntl.itemsPerPageLabel = value.itemsPerPageLabel;
+        this.matPaginatorIntl.nextPageLabel = value.next;
+        this.matPaginatorIntl.previousPageLabel = value.previous;
+        this.matPaginatorIntl.firstPageLabel = value.first;
+        this.matPaginatorIntl.lastPageLabel = value.last;
+        
+        if (this._data === null) return;
+        this._data.paginator = this.paginator;
+      });
   }
 }

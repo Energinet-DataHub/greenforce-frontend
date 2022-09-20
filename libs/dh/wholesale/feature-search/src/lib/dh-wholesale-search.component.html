@@ -27,18 +27,19 @@ limitations under the License.
       "
       ><dh-wholesale-table *ngIf="data" [data]="data"></dh-wholesale-table
     ></ng-container>
+
+    <ng-template #loadingBatches>
+      <watt-spinner></watt-spinner>
+    </ng-template>
+    
+    <ng-template #loadedBatchesError>
+      <watt-empty-state
+        icon="power"
+        [title]="transloco('loadBatchesFailedTitle')"
+        [message]="transloco('loadBatchesFailedMessage')"
+      >
+      </watt-empty-state>
+    </ng-template>
+
   </ng-container>
 </ng-container>
-
-<ng-template #loadingBatches>
-  <watt-spinner></watt-spinner>
-</ng-template>
-
-<ng-template #loadedBatchesError>
-  <watt-empty-state
-    icon="power"
-    title="An unexpected error occured"
-    message="Try again or contact your system administrator if you keep getting this error."
-  >
-  </watt-empty-state>
-</ng-template>
