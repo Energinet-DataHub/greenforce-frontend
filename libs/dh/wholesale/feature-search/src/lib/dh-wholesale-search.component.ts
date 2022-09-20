@@ -16,16 +16,16 @@
  */
 import { Component, NgModule, OnInit } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
-import { WattBadgeModule, WattButtonModule } from '@energinet-datahub/watt';
+import { WattBadgeModule, WattButtonModule, WattBadgeType } from '@energinet-datahub/watt';
 
 import { MatTableModule } from '@angular/material/table';
 
 import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
 import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/feature-flags';
-import { of } from 'rxjs';
+import { map, of, tap } from 'rxjs';
 import { PushModule } from '@rx-angular/template';
 import { CommonModule } from '@angular/common';
-import { WholesaleStatus } from '@energinet-datahub/dh/shared/domain';
+import { WholesaleSearchBatchResponseDto, WholesaleStatus } from '@energinet-datahub/dh/shared/domain';
 
 @Component({
   selector: 'dh-wholesale-search',
@@ -44,7 +44,23 @@ export class DhWholesaleSearchComponent implements OnInit {
     'status',
   ];
 
-  data$ = this.store.batches$;
+  data$ = this.store.batches$.pipe(
+    map((batches: Partial<WholesaleSearchBatchResponseDto>[]) => {
+      return batches.map(batch => ({...batch, statusType: this.getStatusType(batch.status)}))
+    })
+  );
+
+  private getStatusType(status: WholesaleStatus | undefined) : WattBadgeType | void {
+    if(status === WholesaleStatus.Pending){
+      return "warning"
+    }else if(status === WholesaleStatus.Running){
+      return "success"
+    }else if(status === WholesaleStatus.Finished){
+      return "info"
+    }else if(status === WholesaleStatus.Failed){
+      return "danger"
+    }
+  }
 
   wholesaleStatus = WholesaleStatus;
 
