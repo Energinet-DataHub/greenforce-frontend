@@ -146,7 +146,7 @@
     "jest-preset-angular": "12.2.2",
     "jest-preview": "0.3.0",
     "kill-port-process": "3.0.1",
-    "msw": "0.47.2",
+    "msw": "0.47.3",
     "ng-mocks": "14.0.1",
     "ng-packagr": "14.2.1",
     "nx": "14.6.5",
