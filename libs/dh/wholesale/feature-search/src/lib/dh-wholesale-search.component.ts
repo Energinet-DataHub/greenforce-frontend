@@ -21,9 +21,7 @@ import { LetModule } from '@rx-angular/template';
 import { TranslocoModule } from '@ngneat/transloco';
 
 import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/feature-flags';
-import {
-  WattButtonModule, WattSpinnerModule,
-} from '@energinet-datahub/watt';
+import { WattButtonModule, WattSpinnerModule } from '@energinet-datahub/watt';
 
 import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
 

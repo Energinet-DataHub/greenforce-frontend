@@ -16,7 +16,15 @@
  */
 import { Injectable } from '@angular/core';
 import { ComponentStore } from '@ngrx/component-store';
-import { Observable, exhaustMap, switchMap, tap, Subject, catchError, EMPTY } from 'rxjs';
+import {
+  Observable,
+  exhaustMap,
+  switchMap,
+  tap,
+  Subject,
+  catchError,
+  EMPTY,
+} from 'rxjs';
 import {
   WholesaleBatchHttp,
   WholesaleBatchRequestDto,
@@ -75,15 +83,13 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
     (filter$: Observable<WholesaleSearchBatchDto>) => {
       return filter$.pipe(
         switchMap((filter: WholesaleSearchBatchDto) => {
-          return this.httpClient
-            .v1WholesaleBatchSearchGet(filter)
-            .pipe(
-              tap((batches) => this.setBarches(batches)),
-              catchError(() => {
-                this.loadingBatchesErrorTrigger$.next();
-                return EMPTY;
-              })
-            );
+          return this.httpClient.v1WholesaleBatchSearchGet(filter).pipe(
+            tap((batches) => this.setBarches(batches)),
+            catchError(() => {
+              this.loadingBatchesErrorTrigger$.next();
+              return EMPTY;
+            })
+          );
         })
       );
     }
