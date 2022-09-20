@@ -17,12 +17,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, NgModule, OnInit } from '@angular/core';
 import { of } from 'rxjs';
-import { PushModule } from '@rx-angular/template';
+import { LetModule } from '@rx-angular/template';
 import { TranslocoModule } from '@ngneat/transloco';
 
 import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/feature-flags';
 import {
-  WattButtonModule,
+  WattButtonModule, WattSpinnerModule,
 } from '@energinet-datahub/watt';
 
 import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
@@ -39,6 +39,7 @@ export class DhWholesaleSearchComponent implements OnInit {
   constructor(private store: DhWholesaleBatchDataAccessApiStore) {}
 
   data$ = this.store.batches$;
+  loadingBatchesErrorTrigger$ = this.store.loadingBatchesErrorTrigger$;
 
   ngOnInit(): void {
     this.store.getBatches(
@@ -49,12 +50,13 @@ export class DhWholesaleSearchComponent implements OnInit {
 
 @NgModule({
   imports: [
-    WattButtonModule,
-    TranslocoModule,
-    DhFeatureFlagDirectiveModule,
-    PushModule,
     CommonModule,
-    DhWholesaleTableComponent
+    DhFeatureFlagDirectiveModule,
+    DhWholesaleTableComponent,
+    LetModule,
+    TranslocoModule,
+    WattButtonModule,
+    WattSpinnerModule,
   ],
   declarations: [DhWholesaleSearchComponent],
 })
