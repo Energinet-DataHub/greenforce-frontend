@@ -105,10 +105,6 @@ export class DhChargesPricesComponent implements OnInit, OnDestroy {
     });
   }
 
-  onValidityDropdownChanged() {
-    console.log('changed');
-  }
-
   onSubmit() {
     console.log('submit');
   }
