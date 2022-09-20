@@ -277,8 +277,23 @@
         "dateValidFrom": "Valid from",
         "dateValidTo": "Valid to",
         "clearSearch": "Clear",
-        "startSearch": "Search",
-        "Now": "test"
+        "startSearch": "Search"
+      }
+    },
+    "domain": {
+      "chargeTypes": {
+        "Unknown": "Unknown",
+        "Subscription": "Subscription",
+        "Fee": "Fee",
+        "Tariff": "Tariff"
+      },
+      "validityOptions": {
+        "Now": "Valid now",
+        "Planned": "Planned",
+        "ThisWeek": "This week",
+        "ThisMonth": "This month",
+        "ThisQuarter": "This quarter",
+        "ThisYear": "This year"
       }
     }
   },

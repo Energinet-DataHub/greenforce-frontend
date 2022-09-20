@@ -49,7 +49,7 @@ import {
   styleUrls: ['./dh-charges-prices.component.scss'],
 })
 export class DhChargesPricesComponent implements OnInit, OnDestroy {
-  chargeTypeOptions: WattDropdownOptions = this.buildChargeTypeOptions();
+  chargeTypeOptions: WattDropdownOptions = [];
   validityOptions: WattDropdownOptions = [];
   searchCriteria: any = {
     chargeTypes: '',
@@ -60,8 +60,18 @@ export class DhChargesPricesComponent implements OnInit, OnDestroy {
   constructor(private translocoService: TranslocoService) {}
 
   ngOnInit() {
+    this.buildChargeTypeOptions();
+    this.buildValidityOptions();
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.unsubscribe();
+  }
+
+  private buildValidityOptions() {
     this.translocoService
-      .selectTranslateObject('charges.prices.search')
+      .selectTranslateObject('charges.domain.validityOptions')
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (keys) => {
@@ -77,17 +87,21 @@ export class DhChargesPricesComponent implements OnInit, OnDestroy {
       });
   }
 
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.unsubscribe();
-  }
-
   private buildChargeTypeOptions() {
-    return Object.entries(ChargeTypes).map((entry) => {
-      return {
-        value: entry[0],
-        displayValue: entry[0],
-      };
+    this.translocoService
+    .selectTranslateObject('charges.domain.chargeTypes')
+    .pipe(takeUntil(this.destroy$))
+    .subscribe({
+      next: (keys) => {
+        this.chargeTypeOptions = Object.entries(ChargeTypes).map(
+          (chargeType) => {
+            return {
+              value: chargeType[0],
+              displayValue: keys[chargeType[0]],
+            };
+          }
+        );
+      },
     });
   }
 

@@ -277,8 +277,23 @@
         "dateValidFrom": "Gyldig fra",
         "dateValidTo": "Gyldig til",
         "clearSearch": "Ryd",
-        "startSearch": "Søg",
-        "Now": "Nu"
+        "startSearch": "Søg"
+      }
+    },
+    "domain": {
+      "chargeTypes": {
+        "Unknown": "Ukendt",
+        "Subscription": "Abonnement",
+        "Fee": "Gebyr",
+        "Tariff": "Tarif"
+      },
+      "validityOptions": {
+        "Now": "Gyldig nu",
+        "Planned": "Planlagte",
+        "ThisWeek": "Denne uge",
+        "ThisMonth": "Denne måned",
+        "ThisQuarter": "Dette kvartal",
+        "ThisYear": "Dette år"
       }
     }
   },
