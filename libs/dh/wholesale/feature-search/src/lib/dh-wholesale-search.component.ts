@@ -61,9 +61,7 @@ export class DhWholesaleSearchComponent implements OnInit {
     })
   );
 
-  private getStatusType(
-    status: WholesaleStatus
-  ): WattBadgeType | void {
+  private getStatusType(status: WholesaleStatus): WattBadgeType | void {
     if (status === WholesaleStatus.Pending) {
       return 'warning';
     } else if (status === WholesaleStatus.Running) {
