@@ -14,26 +14,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { CommonModule } from '@angular/common';
 import { Component, NgModule, OnInit } from '@angular/core';
+import { map, of } from 'rxjs';
+import { MatTableModule } from '@angular/material/table';
+import { PushModule } from '@rx-angular/template';
 import { TranslocoModule } from '@ngneat/transloco';
+
+import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/feature-flags';
+import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import {
   WattBadgeModule,
   WattButtonModule,
   WattBadgeType,
 } from '@energinet-datahub/watt';
 
-import { MatTableModule } from '@angular/material/table';
-
 import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
-import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/feature-flags';
-import { map, of } from 'rxjs';
-import { PushModule } from '@rx-angular/template';
-import { CommonModule } from '@angular/common';
 import {
   WholesaleSearchBatchResponseDto,
   WholesaleStatus,
 } from '@energinet-datahub/dh/shared/domain';
-import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 
 @Component({
   selector: 'dh-wholesale-search',
@@ -53,7 +53,7 @@ export class DhWholesaleSearchComponent implements OnInit {
   ];
 
   data$ = this.store.batches$.pipe(
-    map((batches: Partial<WholesaleSearchBatchResponseDto>[]) => {
+    map((batches: WholesaleSearchBatchResponseDto[]) => {
       return batches.map((batch) => ({
         ...batch,
         statusType: this.getStatusType(batch.status),
@@ -62,7 +62,7 @@ export class DhWholesaleSearchComponent implements OnInit {
   );
 
   private getStatusType(
-    status: WholesaleStatus | undefined
+    status: WholesaleStatus
   ): WattBadgeType | void {
     if (status === WholesaleStatus.Pending) {
       return 'warning';
