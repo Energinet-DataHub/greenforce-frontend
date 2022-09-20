@@ -317,7 +317,9 @@
             "Inactive": "Inaktiv",
             "Passive": "Passiv",
             "Deleted": "Slettet"
-          }
+          },
+          "statusChangeWarningActionLabel": "Ja",
+          "statusChangeWarning": "Ændring af aktørstatus til '{{ status }}' er endelig og vil ikke kunne ændres tilbage til '{{ initialStatus }}'. Vil du fortsætte?"
         },
         "contacts": {
           "invalidConfiguration": "Kontakter er ikke korrekt konfigureret"
