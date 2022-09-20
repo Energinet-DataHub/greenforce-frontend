@@ -546,7 +546,7 @@
     },
     "searchBatch": {
       "topBarTitle": "Search Batch",
-      "headline": "Latest processes",
+      "headline": "Latest batches",
       "columns": {
         "batchNumber": "Batch number",
         "periodFrom": "Period from",
