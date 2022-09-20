@@ -25,7 +25,8 @@ limitations under the License.
         suspense: loadingBatches;
         errorTrg: loadingBatchesErrorTrigger$
       "
-    ><dh-wholesale-table *ngIf="data" [data]="data"></dh-wholesale-table></ng-container>
+      ><dh-wholesale-table *ngIf="data" [data]="data"></dh-wholesale-table
+    ></ng-container>
   </ng-container>
 </ng-container>
 
@@ -34,5 +35,10 @@ limitations under the License.
 </ng-template>
 
 <ng-template #loadedBatchesError>
-  <h3>SOMETHING WENT WRONG :(</h3>
+  <watt-empty-state
+    icon="power"
+    title="An unexpected error occured"
+    message="Try again or contact your system administrator if you keep getting this error."
+  >
+  </watt-empty-state>
 </ng-template>

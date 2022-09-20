@@ -22,7 +22,7 @@ import { TranslocoModule } from '@ngneat/transloco';
 
 import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/feature-flags';
 import {
-  WattButtonModule, WattSpinnerModule,
+  WattButtonModule, WattEmptyStateModule, WattSpinnerModule,
 } from '@energinet-datahub/watt';
 
 import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
@@ -57,6 +57,7 @@ export class DhWholesaleSearchComponent implements OnInit {
     TranslocoModule,
     WattButtonModule,
     WattSpinnerModule,
+    WattEmptyStateModule
   ],
   declarations: [DhWholesaleSearchComponent],
 })
