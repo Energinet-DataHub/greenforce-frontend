@@ -36,7 +36,7 @@ limitations under the License.
       <watt-dropdown
         [(ngModel)]="changes.status"
         [options]="statuses"
-        [disabled]="!changes.existingActor || initialActorStatus === 'Deleted'"
+        [disabled]="!changes.existingActor || initialActorStatus === 'Inactive'"
         #statusInputModel="ngModel"
         required
         [showResetOption]="false"
