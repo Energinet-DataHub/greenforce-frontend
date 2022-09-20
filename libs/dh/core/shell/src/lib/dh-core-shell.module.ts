@@ -41,7 +41,7 @@ import { DhApiModule } from '@energinet-datahub/dh/shared/data-access-api';
 import { dhB2CEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 import { dhMarketParticipantPath } from '@energinet-datahub/dh/market-participant/routing';
 import { dhMeteringPointPath } from '@energinet-datahub/dh/metering-point/routing';
-import { dhChargesPath } from '@energinet-datahub/dh-charges-routing';
+import { dhChargesPath } from '@energinet-datahub/dh/charges/routing';
 import {
   WattDanishDatetimeModule,
   WattToastModule,

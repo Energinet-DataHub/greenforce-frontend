@@ -115,6 +115,7 @@ export default async function (tree: Tree, schema: DhLibrarySchema) {
     // https://github.com/nrwl/nx/pull/10167#issuecomment-1126146451
     await angularMoveGenerator(tree, {
       updateImportPath: true,
+      importPath: `@energinet-datahub/dh/${libDomain}/routing`,
       projectName: `dh-${libDomain}-routing-tmpl`,
       destination: `dh/${libDomain}/routing`,
     });
