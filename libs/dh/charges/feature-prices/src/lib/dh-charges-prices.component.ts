@@ -17,11 +17,13 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  OnInit,
   NgModule,
+  OnDestroy,
+  OnInit,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { Subject, takeUntil } from 'rxjs';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 
 import {
@@ -39,7 +41,6 @@ import {
   WattSpinnerModule,
   WattDropdownOptions,
 } from '@energinet-datahub/watt';
-import { map, Observable } from 'rxjs';
 
 @Component({
   selector: 'dh-charges-prices',
@@ -47,16 +48,39 @@ import { map, Observable } from 'rxjs';
   templateUrl: './dh-charges-prices.component.html',
   styleUrls: ['./dh-charges-prices.component.scss'],
 })
-export class DhChargesPricesComponent implements OnInit {
+export class DhChargesPricesComponent implements OnInit, OnDestroy {
   chargeTypeOptions: WattDropdownOptions = this.buildChargeTypeOptions();
-  validityOptions: Observable<WattDropdownOptions> =
-    this.buildValidityOptions();
-
+  validityOptions: WattDropdownOptions = [];
   searchCriteria: any = {
     chargeTypes: '',
   };
 
+  private destroy$ = new Subject<void>();
+
   constructor(private translocoService: TranslocoService) {}
+
+  ngOnInit() {
+    this.translocoService
+      .selectTranslateObject('charges.prices.search')
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (keys) => {
+          this.validityOptions = Object.entries(ValidityOptions).map(
+            (entry) => {
+              return {
+                value: entry[0],
+                displayValue: keys[entry[0]],
+              };
+            }
+          );
+        },
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.unsubscribe();
+  }
 
   private buildChargeTypeOptions() {
     return Object.entries(ChargeTypes).map((entry) => {
@@ -67,32 +91,17 @@ export class DhChargesPricesComponent implements OnInit {
     });
   }
 
-  private buildValidityOptions() {
-    return this.translocoService
-      .selectTranslation('charges/prices/search')
-      .pipe(
-        map((entry) => {
-          return {
-            value: entry,
-            displayValue: entry,
-          };
-        })
-      );
-    // return Object.entries(ValidityOptions).map((entry) => {
-    //   return {
-    //     value: entry[0],
-    //     displayValue: this.translocoService.selectTranslation(`charges.prices.search.${entry[0]}`)
-    //   }
-    // })
+  onValidityDropdownChanged() {
+    console.log('changed');
   }
 
-  ngOnInit(): void {}
+  onSubmit() {
+    console.log('submit');
+  }
 
-  onValidityDropdownChanged() {}
-
-  onSubmit() {}
-
-  resetSearchCriteria() {}
+  resetSearchCriteria() {
+    console.log('reset');
+  }
 }
 
 @NgModule({
