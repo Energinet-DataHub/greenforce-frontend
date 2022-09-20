@@ -198,7 +198,7 @@
     },
     {
       "files": ["*.ts"],
-      "extends": ["plugin:ngrx/component-store-strict"]
+      "extends": ["plugin:@ngrx/component-store-strict"]
     },
     {
       "files": ["*.js", "*.ts"],
