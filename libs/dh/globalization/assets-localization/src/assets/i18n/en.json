@@ -264,7 +264,21 @@
       "message": "Unfortunately, an error occurred while retrieving the necessary information."
     },
     "prices": {
-      "topBarTitle": "Prices"
+      "topBarTitle": "Prices",
+      "search": {
+        "idOrName": "ID/Name",
+        "enterIdOrName": "Enter parts or whole name or id",
+        "owner": "Owner",
+        "enterOwner": "Enter owner",
+        "selectChargeType": "Choose type",
+        "selectValidity": "Choose validity",
+        "chargeType": "Type",
+        "validity": "Validity",
+        "dateValidFrom": "Valid from",
+        "dateValidTo": "Valid to",
+        "clearSearch": "Clear",
+        "startSearch": "Search"
+      }
     }
   },
   "messageArchive": {
