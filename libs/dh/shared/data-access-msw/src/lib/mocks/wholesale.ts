@@ -32,33 +32,37 @@ function postWholesaleBatch() {
 }
 
 function getWholesaleSearchBatch() {
+  const periodFrom = '2021-12-01T23:00:00Z';
+  const periodTo = '2021-12-02T23:00:00Z';
+  const executionTime = '2021-12-01T23:00:00Z';
+
   const mockData: WholesaleSearchBatchResponseDto[] = [
     {
       batchNumber: '123',
-      periodFrom: '01-01-2022',
-      periodTo: '01-02-2022',
-      executionTime: '01-02-2022 00.00.00',
+      periodFrom,
+      periodTo,
+      executionTime,
       status: WholesaleStatus.Pending,
     },
     {
       batchNumber: '234',
-      periodFrom: '01-01-2022',
-      periodTo: '01-02-2022',
-      executionTime: '01-03-2022 00.00.00',
+      periodFrom,
+      periodTo,
+      executionTime,
       status: WholesaleStatus.Running,
     },
     {
       batchNumber: '345',
-      periodFrom: '01-01-2022',
-      periodTo: '01-02-2022',
-      executionTime: '01-04-2022 00.00.00',
+      periodFrom,
+      periodTo,
+      executionTime,
       status: WholesaleStatus.Finished,
     },
     {
       batchNumber: '567',
-      periodFrom: '01-01-2022',
-      periodTo: '01-02-2022',
-      executionTime: '01-05-2022 00.00.00',
+      periodFrom,
+      periodTo,
+      executionTime,
       status: WholesaleStatus.Failed,
     },
   ];

@@ -26,13 +26,14 @@ import { MatTableModule } from '@angular/material/table';
 
 import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
 import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/feature-flags';
-import { map, of, tap } from 'rxjs';
+import { map, of } from 'rxjs';
 import { PushModule } from '@rx-angular/template';
 import { CommonModule } from '@angular/common';
 import {
   WholesaleSearchBatchResponseDto,
   WholesaleStatus,
 } from '@energinet-datahub/dh/shared/domain';
+import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 
 @Component({
   selector: 'dh-wholesale-search',
@@ -74,8 +75,6 @@ export class DhWholesaleSearchComponent implements OnInit {
     }
   }
 
-  wholesaleStatus = WholesaleStatus;
-
   ngOnInit(): void {
     this.store.getBatches(
       of({ minExecutionTime: 'qqwe', maxExecutionTime: 'qwe' })
@@ -92,6 +91,7 @@ export class DhWholesaleSearchComponent implements OnInit {
     PushModule,
     CommonModule,
     WattBadgeModule,
+    DhSharedUiDateTimeModule
   ],
   declarations: [DhWholesaleSearchComponent],
 })
