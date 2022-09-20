@@ -91,20 +91,20 @@ export class DhChargesPricesComponent implements OnInit, OnDestroy {
 
   private buildChargeTypeOptions() {
     this.translocoService
-    .selectTranslateObject('charges.domain.chargeTypes')
-    .pipe(takeUntil(this.destroy$))
-    .subscribe({
-      next: (keys) => {
-        this.chargeTypeOptions = Object.entries(ChargeTypes).map(
-          (chargeType) => {
-            return {
-              value: chargeType[0],
-              displayValue: keys[chargeType[0]],
-            };
-          }
-        );
-      },
-    });
+      .selectTranslateObject('charges.domain.chargeTypes')
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (keys) => {
+          this.chargeTypeOptions = Object.entries(ChargeTypes).map(
+            (chargeType) => {
+              return {
+                value: chargeType[0],
+                displayValue: keys[chargeType[0]],
+              };
+            }
+          );
+        },
+      });
   }
 
   onSubmit() {
