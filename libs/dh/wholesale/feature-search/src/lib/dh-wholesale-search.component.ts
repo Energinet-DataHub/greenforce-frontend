@@ -91,7 +91,7 @@ export class DhWholesaleSearchComponent implements OnInit {
     PushModule,
     CommonModule,
     WattBadgeModule,
-    DhSharedUiDateTimeModule
+    DhSharedUiDateTimeModule,
   ],
   declarations: [DhWholesaleSearchComponent],
 })
