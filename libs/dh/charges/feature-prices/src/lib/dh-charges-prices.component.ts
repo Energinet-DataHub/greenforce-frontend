@@ -26,7 +26,7 @@ import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 
 import {
   ChargeTypes,
-  ValidityOptions
+  ValidityOptions,
 } from '@energinet-datahub/dh/charges/domain';
 
 import {
@@ -49,15 +49,14 @@ import { map, Observable } from 'rxjs';
 })
 export class DhChargesPricesComponent implements OnInit {
   chargeTypeOptions: WattDropdownOptions = this.buildChargeTypeOptions();
-  validityOptions: Observable<WattDropdownOptions> = this.buildValidityOptions();
+  validityOptions: Observable<WattDropdownOptions> =
+    this.buildValidityOptions();
 
   searchCriteria: any = {
     chargeTypes: '',
   };
 
-  constructor(
-    private translocoService: TranslocoService
-  ) {}
+  constructor(private translocoService: TranslocoService) {}
 
   private buildChargeTypeOptions() {
     return Object.entries(ChargeTypes).map((entry) => {
@@ -69,12 +68,16 @@ export class DhChargesPricesComponent implements OnInit {
   }
 
   private buildValidityOptions() {
-    return this.translocoService.selectTranslation('charges/prices/search').pipe(map(entry => {
-      return {
-        value: entry,
-        displayValue: entry
-      }
-    }));
+    return this.translocoService
+      .selectTranslation('charges/prices/search')
+      .pipe(
+        map((entry) => {
+          return {
+            value: entry,
+            displayValue: entry,
+          };
+        })
+      );
     // return Object.entries(ValidityOptions).map((entry) => {
     //   return {
     //     value: entry[0],
@@ -85,10 +88,7 @@ export class DhChargesPricesComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  onValidityDropdownChanged() {
-  }
-
-
+  onValidityDropdownChanged() {}
 
   onSubmit() {}
 

@@ -20,5 +20,5 @@ export enum ValidityOptions {
   ThisWeek = 'This week',
   ThisMonth = 'This month',
   ThisQuarter = 'This quarter',
-  ThisYear = 'This year'
+  ThisYear = 'This year',
 }
