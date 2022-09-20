@@ -2695,10 +2695,10 @@
     replace-in-file "^6.2.0"
     tslib "^2.2.0"
 
-"@ngrx/component-store@14.0.1":
-  version "14.0.1"
-  resolved "https://registry.yarnpkg.com/@ngrx/component-store/-/component-store-14.0.1.tgz#d54e2b7c3347d4a1ce0baf011cb9f6cc6b88ec15"
-  integrity sha512-80vp1J6fWZNaBAU6Ankk+SV/oadB3Pym8JKB+mApDvZVs1mMgbATCAOxNODG0jzVefrlAUU5ZmzhezhAF8Z4YA==
+"@ngrx/component-store@14.3.1":
+  version "14.3.1"
+  resolved "https://registry.yarnpkg.com/@ngrx/component-store/-/component-store-14.3.1.tgz#6b014a27b95ae8b4206e2fd90b754885c01fa14d"
+  integrity sha512-aRIlakt7AHm1sFaRDcMhJEZ4MBusBwc94P+wLiKGePiJQ+FZnLtcrrHnd7nxjbU7VKTzgt+th/+cG2lxV//KxQ==
   dependencies:
     tslib "^2.0.0"
 
