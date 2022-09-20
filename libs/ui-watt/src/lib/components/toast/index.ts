@@ -16,3 +16,4 @@
  */
 export { WattToastModule } from './watt-toast.module';
 export { WattToastService } from './watt-toast.service';
+export type { WattToastRef } from './watt-toast.component';
