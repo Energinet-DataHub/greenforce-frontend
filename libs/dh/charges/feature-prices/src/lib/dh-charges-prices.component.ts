@@ -22,9 +22,12 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 
-import { ChargeTypes } from '@energinet-datahub/dh/charges/domain';
+import {
+  ChargeTypes,
+  ValidityOptions
+} from '@energinet-datahub/dh/charges/domain';
 
 import {
   WattButtonModule,
@@ -36,6 +39,7 @@ import {
   WattSpinnerModule,
   WattDropdownOptions,
 } from '@energinet-datahub/watt';
+import { map, Observable } from 'rxjs';
 
 @Component({
   selector: 'dh-charges-prices',
@@ -45,11 +49,15 @@ import {
 })
 export class DhChargesPricesComponent implements OnInit {
   chargeTypeOptions: WattDropdownOptions = this.buildChargeTypeOptions();
+  validityOptions: Observable<WattDropdownOptions> = this.buildValidityOptions();
+
   searchCriteria: any = {
     chargeTypes: '',
   };
 
-  constructor() {}
+  constructor(
+    private translocoService: TranslocoService
+  ) {}
 
   private buildChargeTypeOptions() {
     return Object.entries(ChargeTypes).map((entry) => {
@@ -60,7 +68,27 @@ export class DhChargesPricesComponent implements OnInit {
     });
   }
 
+  private buildValidityOptions() {
+    return this.translocoService.selectTranslation('charges/prices/search').pipe(map(entry => {
+      return {
+        value: entry,
+        displayValue: entry
+      }
+    }));
+    // return Object.entries(ValidityOptions).map((entry) => {
+    //   return {
+    //     value: entry[0],
+    //     displayValue: this.translocoService.selectTranslation(`charges.prices.search.${entry[0]}`)
+    //   }
+    // })
+  }
+
   ngOnInit(): void {}
+
+  onValidityDropdownChanged() {
+  }
+
+
 
   onSubmit() {}
 

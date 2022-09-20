@@ -15,3 +15,4 @@
  * limitations under the License.
  */
 export * from './lib/chargeTypes';
+export * from './lib/validityOptions';

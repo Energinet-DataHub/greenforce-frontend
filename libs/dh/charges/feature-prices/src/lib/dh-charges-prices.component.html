@@ -62,10 +62,12 @@ limitations under the License.
         <watt-label>{{ transloco("validity") }}</watt-label>
         <watt-dropdown
           [(ngModel)]="this.searchCriteria.validity"
+          [options]="validityOptions | async"
           name="validity"
           [placeholder]="transloco('selectValidity')"
           [multiple]="false"
           [title]="this.searchCriteria.validity"
+          (ngModelChange)="onValidityDropdownChanged"
         >
         </watt-dropdown>
       </watt-form-field>

@@ -277,7 +277,8 @@
         "dateValidFrom": "Gyldig fra",
         "dateValidTo": "Gyldig til",
         "clearSearch": "Ryd",
-        "startSearch": "Søg"
+        "startSearch": "Søg",
+        "Now":"Nu"
       }
     }
   },

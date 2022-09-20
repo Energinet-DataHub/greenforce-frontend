@@ -277,7 +277,8 @@
         "dateValidFrom": "Valid from",
         "dateValidTo": "Valid to",
         "clearSearch": "Clear",
-        "startSearch": "Search"
+        "startSearch": "Search",
+        "Now": "test"
       }
     }
   },
