@@ -16,24 +16,18 @@
  */
 import { CommonModule } from '@angular/common';
 import { Component, NgModule, OnInit } from '@angular/core';
-import { map, of } from 'rxjs';
-import { MatTableModule } from '@angular/material/table';
+import { of } from 'rxjs';
 import { PushModule } from '@rx-angular/template';
 import { TranslocoModule } from '@ngneat/transloco';
 
 import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/feature-flags';
-import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import {
-  WattBadgeModule,
   WattButtonModule,
-  WattBadgeType,
 } from '@energinet-datahub/watt';
 
 import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
-import {
-  WholesaleSearchBatchResponseDto,
-  WholesaleStatus,
-} from '@energinet-datahub/dh/shared/domain';
+
+import { DhWholesaleTableComponent } from './table/dh-wholesale-table.component';
 
 @Component({
   selector: 'dh-wholesale-search',
@@ -44,34 +38,7 @@ import {
 export class DhWholesaleSearchComponent implements OnInit {
   constructor(private store: DhWholesaleBatchDataAccessApiStore) {}
 
-  columnIds = [
-    'batchNumber',
-    'periodFrom',
-    'periodTo',
-    'executionTime',
-    'status',
-  ];
-
-  data$ = this.store.batches$.pipe(
-    map((batches: WholesaleSearchBatchResponseDto[]) => {
-      return batches.map((batch) => ({
-        ...batch,
-        statusType: this.getStatusType(batch.status),
-      }));
-    })
-  );
-
-  private getStatusType(status: WholesaleStatus): WattBadgeType | void {
-    if (status === WholesaleStatus.Pending) {
-      return 'warning';
-    } else if (status === WholesaleStatus.Running) {
-      return 'success';
-    } else if (status === WholesaleStatus.Finished) {
-      return 'info';
-    } else if (status === WholesaleStatus.Failed) {
-      return 'danger';
-    }
-  }
+  data$ = this.store.batches$;
 
   ngOnInit(): void {
     this.store.getBatches(
@@ -85,11 +52,9 @@ export class DhWholesaleSearchComponent implements OnInit {
     WattButtonModule,
     TranslocoModule,
     DhFeatureFlagDirectiveModule,
-    MatTableModule,
     PushModule,
     CommonModule,
-    WattBadgeModule,
-    DhSharedUiDateTimeModule,
+    DhWholesaleTableComponent
   ],
   declarations: [DhWholesaleSearchComponent],
 })
