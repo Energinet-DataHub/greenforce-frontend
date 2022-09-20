@@ -72,9 +72,12 @@ limitations under the License.
         >{{ t("cancelLabel") }}
       </watt-button>
       <ng-container *rxLet="changes$ as changes">
-        <watt-button *rxLet="status$ as status" variant="primary" (click)="onSaved(status, changes)">{{
-          t("saveLabel")
-        }}</watt-button>
+        <watt-button
+          *rxLet="status$ as status"
+          variant="primary"
+          (click)="onSaved(status, changes)"
+          >{{ t("saveLabel") }}</watt-button
+        >
       </ng-container>
     </div>
   </ng-container>
