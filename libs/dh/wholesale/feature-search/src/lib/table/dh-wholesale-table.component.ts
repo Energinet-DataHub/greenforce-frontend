@@ -16,10 +16,11 @@
  */
 import { CommonModule } from '@angular/common';
 import { Component, Input, ViewChild, OnDestroy } from '@angular/core';
-import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { MatPaginator, MatPaginatorModule, MatPaginatorIntl } from '@angular/material/paginator';
+import { MatSort, MatSortModule } from '@angular/material/sort';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { takeUntil, Subject } from 'rxjs';
+import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import { WattBadgeModule, WattBadgeType } from '@energinet-datahub/watt';
@@ -48,6 +49,7 @@ type wholesaleTableData = MatTableDataSource<{
     WattBadgeModule,
     DhSharedUiDateTimeModule,
     MatPaginatorModule,
+    MatSortModule
   ],
   selector: 'dh-wholesale-table',
   templateUrl: './dh-wholesale-table.component.html',
@@ -55,6 +57,7 @@ type wholesaleTableData = MatTableDataSource<{
   providers: [DhWholesaleBatchDataAccessApiStore],
 })
 export class DhWholesaleTableComponent implements OnDestroy {
+  @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @Input() set data(batches: WholesaleSearchBatchResponseDto[]) {
     this._data = new MatTableDataSource(
@@ -71,6 +74,8 @@ export class DhWholesaleTableComponent implements OnDestroy {
 
   ngAfterViewInit() {
     this.setupPaginator();
+    if(this._data === null) return;
+    this._data.sort = this.sort;
   }
 
   columnIds = [

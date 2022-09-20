@@ -25,10 +25,10 @@ limitations under the License.
   >
   </mat-paginator>
   <!-- Table -->
-  <mat-table [dataSource]="_data || []" aria-label="batches">
+  <mat-table [dataSource]="_data || []" aria-label="batches" matSort>
     <!-- Batch Number -->
     <ng-container matColumnDef="batchNumber">
-      <mat-header-cell *matHeaderCellDef>
+      <mat-header-cell *matHeaderCellDef mat-sort-header>
         {{ transloco("columns.batchNumber") }}
       </mat-header-cell>
       <mat-cell *matCellDef="let batch">
@@ -37,7 +37,7 @@ limitations under the License.
     </ng-container>
     <!-- Period From -->
     <ng-container matColumnDef="periodFrom">
-      <mat-header-cell *matHeaderCellDef>
+      <mat-header-cell *matHeaderCellDef mat-sort-header>
         {{ transloco("columns.periodFrom") }}
       </mat-header-cell>
       <mat-cell *matCellDef="let batch">
@@ -46,7 +46,7 @@ limitations under the License.
     </ng-container>
     <!-- Period To -->
     <ng-container matColumnDef="periodTo">
-      <mat-header-cell *matHeaderCellDef>
+      <mat-header-cell *matHeaderCellDef mat-sort-header>
         {{ transloco("columns.periodTo") }}
       </mat-header-cell>
       <mat-cell *matCellDef="let batch">
@@ -55,7 +55,7 @@ limitations under the License.
     </ng-container>
     <!-- Execution Time -->
     <ng-container matColumnDef="executionTime">
-      <mat-header-cell *matHeaderCellDef>
+      <mat-header-cell *matHeaderCellDef mat-sort-header>
         {{ transloco("columns.executionTime") }}
       </mat-header-cell>
       <mat-cell *matCellDef="let batch">
@@ -64,7 +64,7 @@ limitations under the License.
     </ng-container>
     <!-- Status -->
     <ng-container matColumnDef="status">
-      <mat-header-cell *matHeaderCellDef>
+      <mat-header-cell *matHeaderCellDef mat-sort-header>
         {{ transloco("columns.status") }}
       </mat-header-cell>
       <mat-cell *matCellDef="let batch">
