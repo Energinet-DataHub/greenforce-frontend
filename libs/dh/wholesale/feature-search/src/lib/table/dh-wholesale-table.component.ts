@@ -20,10 +20,7 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { TranslocoModule } from '@ngneat/transloco';
 
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
-import {
-  WattBadgeModule,
-  WattBadgeType,
-} from '@energinet-datahub/watt';
+import { WattBadgeModule, WattBadgeType } from '@energinet-datahub/watt';
 
 import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
 import {
@@ -32,7 +29,14 @@ import {
 } from '@energinet-datahub/dh/shared/domain';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 
-type wholesaleTableData = MatTableDataSource<{ statusType: void | WattBadgeType; batchNumber: string; periodFrom: string; periodTo: string; executionTime: string; status: WholesaleStatus; }>
+type wholesaleTableData = MatTableDataSource<{
+  statusType: void | WattBadgeType;
+  batchNumber: string;
+  periodFrom: string;
+  periodTo: string;
+  executionTime: string;
+  status: WholesaleStatus;
+}>;
 
 @Component({
   standalone: true,
@@ -50,20 +54,20 @@ type wholesaleTableData = MatTableDataSource<{ statusType: void | WattBadgeType;
   providers: [DhWholesaleBatchDataAccessApiStore],
 })
 export class DhWholesaleTableComponent {
-    @ViewChild(MatPaginator) paginator!: MatPaginator;
-    @Input() set data(batches: WholesaleSearchBatchResponseDto[]){
-        this._data = new MatTableDataSource(
-            batches.map((batch) => ({
-              ...batch,
-              statusType: this.getStatusType(batch.status),
-            }))
-          );
-    }
-    _data: wholesaleTableData | null = null;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @Input() set data(batches: WholesaleSearchBatchResponseDto[]) {
+    this._data = new MatTableDataSource(
+      batches.map((batch) => ({
+        ...batch,
+        statusType: this.getStatusType(batch.status),
+      }))
+    );
+  }
+  _data: wholesaleTableData | null = null;
   constructor(private store: DhWholesaleBatchDataAccessApiStore) {}
 
   ngAfterViewInit() {
-    if (this._data === null) return
+    if (this._data === null) return;
     this._data.paginator = this.paginator;
   }
 

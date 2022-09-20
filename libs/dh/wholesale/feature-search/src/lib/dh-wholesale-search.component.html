@@ -17,6 +17,6 @@ limitations under the License.
 <ng-container *dhFeatureFlag="'start_wholesale_process_feature_flag'">
   <ng-container *transloco="let transloco; read: 'wholesale.searchBatch'">
     <h3>{{ transloco("headline") }}</h3>
-    <dh-wholesale-table [data]="(data$ | push)"></dh-wholesale-table>
+    <dh-wholesale-table [data]="data$ | push"></dh-wholesale-table>
   </ng-container>
 </ng-container>

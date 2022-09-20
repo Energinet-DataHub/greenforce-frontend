@@ -16,60 +16,65 @@ limitations under the License.
 -->
 
 <ng-container *transloco="let transloco; read: 'wholesale.searchBatch'">
-    <mat-paginator [length]="160" [pageSize]="10" [pageSizeOptions]="[10, 20, 30, 50]" [showFirstLastButtons]="true"
-        aria-label="Select page">
-    </mat-paginator>
-    <!-- Table -->
-    <mat-table [dataSource]="_data || []" aria-label="batches">
-        <!-- Batch Number -->
-        <ng-container matColumnDef="batchNumber">
-            <mat-header-cell *matHeaderCellDef>
-                {{ transloco("columns.batchNumber") }}
-            </mat-header-cell>
-            <mat-cell *matCellDef="let batch">
-                {{ batch.batchNumber }}
-            </mat-cell>
-        </ng-container>
-        <!-- Period From -->
-        <ng-container matColumnDef="periodFrom">
-            <mat-header-cell *matHeaderCellDef>
-                {{ transloco("columns.periodFrom") }}
-            </mat-header-cell>
-            <mat-cell *matCellDef="let batch">
-                {{ batch.periodFrom | dhDate }}
-            </mat-cell>
-        </ng-container>
-        <!-- Period To -->
-        <ng-container matColumnDef="periodTo">
-            <mat-header-cell *matHeaderCellDef>
-                {{ transloco("columns.periodTo") }}
-            </mat-header-cell>
-            <mat-cell *matCellDef="let batch">
-                {{ batch.periodTo | dhDate }}
-            </mat-cell>
-        </ng-container>
-        <!-- Execution Time -->
-        <ng-container matColumnDef="executionTime">
-            <mat-header-cell *matHeaderCellDef>
-                {{ transloco("columns.executionTime") }}
-            </mat-header-cell>
-            <mat-cell *matCellDef="let batch">
-                {{ batch.executionTime | dhDateTime }}
-            </mat-cell>
-        </ng-container>
-        <!-- Status -->
-        <ng-container matColumnDef="status">
-            <mat-header-cell *matHeaderCellDef>
-                {{ transloco("columns.status") }}
-            </mat-header-cell>
-            <mat-cell *matCellDef="let batch">
-                <watt-badge [type]="batch.statusType">
-                    {{ transloco(batch.status) }}
-                </watt-badge>
-            </mat-cell>
-        </ng-container>
+  <mat-paginator
+    [length]="160"
+    [pageSize]="10"
+    [pageSizeOptions]="[10, 20, 30, 50]"
+    [showFirstLastButtons]="true"
+    aria-label="Select page"
+  >
+  </mat-paginator>
+  <!-- Table -->
+  <mat-table [dataSource]="_data || []" aria-label="batches">
+    <!-- Batch Number -->
+    <ng-container matColumnDef="batchNumber">
+      <mat-header-cell *matHeaderCellDef>
+        {{ transloco("columns.batchNumber") }}
+      </mat-header-cell>
+      <mat-cell *matCellDef="let batch">
+        {{ batch.batchNumber }}
+      </mat-cell>
+    </ng-container>
+    <!-- Period From -->
+    <ng-container matColumnDef="periodFrom">
+      <mat-header-cell *matHeaderCellDef>
+        {{ transloco("columns.periodFrom") }}
+      </mat-header-cell>
+      <mat-cell *matCellDef="let batch">
+        {{ batch.periodFrom | dhDate }}
+      </mat-cell>
+    </ng-container>
+    <!-- Period To -->
+    <ng-container matColumnDef="periodTo">
+      <mat-header-cell *matHeaderCellDef>
+        {{ transloco("columns.periodTo") }}
+      </mat-header-cell>
+      <mat-cell *matCellDef="let batch">
+        {{ batch.periodTo | dhDate }}
+      </mat-cell>
+    </ng-container>
+    <!-- Execution Time -->
+    <ng-container matColumnDef="executionTime">
+      <mat-header-cell *matHeaderCellDef>
+        {{ transloco("columns.executionTime") }}
+      </mat-header-cell>
+      <mat-cell *matCellDef="let batch">
+        {{ batch.executionTime | dhDateTime }}
+      </mat-cell>
+    </ng-container>
+    <!-- Status -->
+    <ng-container matColumnDef="status">
+      <mat-header-cell *matHeaderCellDef>
+        {{ transloco("columns.status") }}
+      </mat-header-cell>
+      <mat-cell *matCellDef="let batch">
+        <watt-badge [type]="batch.statusType">
+          {{ transloco(batch.status) }}
+        </watt-badge>
+      </mat-cell>
+    </ng-container>
 
-        <mat-header-row *matHeaderRowDef="columnIds; sticky: true"></mat-header-row>
-        <mat-row *matRowDef="let row; columns: columnIds"></mat-row>
-    </mat-table>
+    <mat-header-row *matHeaderRowDef="columnIds; sticky: true"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: columnIds"></mat-row>
+  </mat-table>
 </ng-container>

@@ -21,9 +21,7 @@ import { PushModule } from '@rx-angular/template';
 import { TranslocoModule } from '@ngneat/transloco';
 
 import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/feature-flags';
-import {
-  WattButtonModule,
-} from '@energinet-datahub/watt';
+import { WattButtonModule } from '@energinet-datahub/watt';
 
 import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
 
@@ -54,7 +52,7 @@ export class DhWholesaleSearchComponent implements OnInit {
     DhFeatureFlagDirectiveModule,
     PushModule,
     CommonModule,
-    DhWholesaleTableComponent
+    DhWholesaleTableComponent,
   ],
   declarations: [DhWholesaleSearchComponent],
 })
