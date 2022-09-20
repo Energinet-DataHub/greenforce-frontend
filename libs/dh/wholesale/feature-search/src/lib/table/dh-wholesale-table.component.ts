@@ -16,7 +16,11 @@
  */
 import { CommonModule } from '@angular/common';
 import { Component, Input, ViewChild, OnDestroy } from '@angular/core';
-import { MatPaginator, MatPaginatorModule, MatPaginatorIntl } from '@angular/material/paginator';
+import {
+  MatPaginator,
+  MatPaginatorModule,
+  MatPaginatorIntl,
+} from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { takeUntil, Subject } from 'rxjs';
@@ -49,7 +53,7 @@ type wholesaleTableData = MatTableDataSource<{
     WattBadgeModule,
     DhSharedUiDateTimeModule,
     MatPaginatorModule,
-    MatSortModule
+    MatSortModule,
   ],
   selector: 'dh-wholesale-table',
   templateUrl: './dh-wholesale-table.component.html',
@@ -78,7 +82,7 @@ export class DhWholesaleTableComponent implements OnDestroy {
 
   ngAfterViewInit() {
     this.setupPaginator();
-    if(this._data === null) return;
+    if (this._data === null) return;
     this._data.sort = this.sort;
   }
 
