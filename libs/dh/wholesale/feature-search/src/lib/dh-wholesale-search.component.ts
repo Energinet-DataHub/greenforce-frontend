@@ -16,7 +16,11 @@
  */
 import { Component, NgModule, OnInit } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
-import { WattBadgeModule, WattButtonModule, WattBadgeType } from '@energinet-datahub/watt';
+import {
+  WattBadgeModule,
+  WattButtonModule,
+  WattBadgeType,
+} from '@energinet-datahub/watt';
 
 import { MatTableModule } from '@angular/material/table';
 
@@ -25,7 +29,10 @@ import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/featu
 import { map, of, tap } from 'rxjs';
 import { PushModule } from '@rx-angular/template';
 import { CommonModule } from '@angular/common';
-import { WholesaleSearchBatchResponseDto, WholesaleStatus } from '@energinet-datahub/dh/shared/domain';
+import {
+  WholesaleSearchBatchResponseDto,
+  WholesaleStatus,
+} from '@energinet-datahub/dh/shared/domain';
 
 @Component({
   selector: 'dh-wholesale-search',
@@ -46,19 +53,24 @@ export class DhWholesaleSearchComponent implements OnInit {
 
   data$ = this.store.batches$.pipe(
     map((batches: Partial<WholesaleSearchBatchResponseDto>[]) => {
-      return batches.map(batch => ({...batch, statusType: this.getStatusType(batch.status)}))
+      return batches.map((batch) => ({
+        ...batch,
+        statusType: this.getStatusType(batch.status),
+      }));
     })
   );
 
-  private getStatusType(status: WholesaleStatus | undefined) : WattBadgeType | void {
-    if(status === WholesaleStatus.Pending){
-      return "warning"
-    }else if(status === WholesaleStatus.Running){
-      return "success"
-    }else if(status === WholesaleStatus.Finished){
-      return "info"
-    }else if(status === WholesaleStatus.Failed){
-      return "danger"
+  private getStatusType(
+    status: WholesaleStatus | undefined
+  ): WattBadgeType | void {
+    if (status === WholesaleStatus.Pending) {
+      return 'warning';
+    } else if (status === WholesaleStatus.Running) {
+      return 'success';
+    } else if (status === WholesaleStatus.Finished) {
+      return 'info';
+    } else if (status === WholesaleStatus.Failed) {
+      return 'danger';
     }
   }
 
