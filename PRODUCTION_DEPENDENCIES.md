@@ -18,8 +18,8 @@
 | [azure/msal-browser](https://github.com/AzureAD/microsoft-authentication-library-for-js) | 2.28.3 | MIT) |
 | [microsoft/applicationinsights-angularplugin-js](undefined) | 3.0.0 | MIT*) |
 | [microsoft/applicationinsights-web](https://github.com/microsoft/ApplicationInsights-JS) | 2.8.6 | MIT) |
-| [ngneat/transloco](https://github.com/ngneat/transloco) | 4.1.0 | MIT) |
-| [ngrx/component-store](https://github.com/ngrx/platform) | 14.0.1 | MIT) |
+| [ngneat/transloco](https://github.com/ngneat/transloco) | 4.1.1 | MIT) |
+| [ngrx/component-store](https://github.com/ngrx/platform) | 14.3.1 | MIT) |
 | [rx-angular/cdk](https://github.com/rx-angular/rx-angular) | 1.0.0-rc.1 | MIT) |
 | [rx-angular/template](https://github.com/rx-angular/rx-angular) | 1.0.0-rc.1 | MIT) |
 | [vimeo/player](https://github.com/vimeo/player.js) | 2.17.0 | MIT) |
