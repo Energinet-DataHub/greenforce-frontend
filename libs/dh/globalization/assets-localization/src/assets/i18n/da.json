@@ -546,7 +546,7 @@
     },
     "searchBatch": {
       "topBarTitle": "Søg batch",
-      "headline": "Seneste processer",
+      "headline": "Seneste batches",
       "columns": {
         "batchNumber": "Batch-nummer",
         "periodFrom": "Periode fra",
