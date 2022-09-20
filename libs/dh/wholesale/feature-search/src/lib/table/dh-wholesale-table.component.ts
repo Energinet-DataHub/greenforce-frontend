@@ -18,7 +18,11 @@ import { CommonModule } from '@angular/common';
 import { Component, Input, ViewChild, OnDestroy } from '@angular/core';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
-import { MatPaginator, MatPaginatorModule, MatPaginatorIntl } from '@angular/material/paginator';
+import {
+  MatPaginator,
+  MatPaginatorModule,
+  MatPaginatorIntl,
+} from '@angular/material/paginator';
 import { takeUntil, Subject } from 'rxjs';
 
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
@@ -67,7 +71,11 @@ export class DhWholesaleTableComponent implements OnDestroy {
   destroy$ = new Subject<void>();
   _data: wholesaleTableData | null = null;
 
-  constructor(private store: DhWholesaleBatchDataAccessApiStore, private matPaginatorIntl: MatPaginatorIntl, private translocoService: TranslocoService) {}
+  constructor(
+    private store: DhWholesaleBatchDataAccessApiStore,
+    private matPaginatorIntl: MatPaginatorIntl,
+    private translocoService: TranslocoService
+  ) {}
 
   ngAfterViewInit() {
     this.setupPaginator();
@@ -107,18 +115,19 @@ export class DhWholesaleTableComponent implements OnDestroy {
       if (length == 0 || pageSize == 0) {
         return `0 ${seperator} ${length}`;
       }
-  
+
       length = Math.max(length, 0);
-  
+
       const startIndex = page * pageSize;
-  
+
       // If the start index exceeds the list length, do not try and fix the end index to the end.
       const endIndex =
-        startIndex < length ? Math.min(startIndex + pageSize, length) : startIndex + pageSize;
-  
-      return `${startIndex + 1} – ${endIndex} ${seperator} ${length}`;
+        startIndex < length
+          ? Math.min(startIndex + pageSize, length)
+          : startIndex + pageSize;
 
-    }
+      return `${startIndex + 1} – ${endIndex} ${seperator} ${length}`;
+    };
 
     this.translocoService
       .selectTranslateObject('wholesale.searchBatch.paginator')
@@ -129,7 +138,7 @@ export class DhWholesaleTableComponent implements OnDestroy {
         this.matPaginatorIntl.previousPageLabel = value.previous;
         this.matPaginatorIntl.firstPageLabel = value.first;
         this.matPaginatorIntl.lastPageLabel = value.last;
-        
+
         if (this._data === null) return;
         this._data.paginator = this.paginator;
       });
