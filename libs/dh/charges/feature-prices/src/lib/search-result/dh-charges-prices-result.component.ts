@@ -88,7 +88,6 @@ export class DhChargesPricesResultComponent
   ) {}
 
   ngOnInit() {
-    // this.dataSource.data = this.searchResult;
     this.dataSource.paginator = this.paginator;
     this.setupPaginatiorTranslation();
   }

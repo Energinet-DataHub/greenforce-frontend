@@ -43,7 +43,11 @@ limitations under the License.
     </div>
 
     <!-- Table -->
-    <table mat-table [dataSource]="this.dataSource">
+    <table
+      aria-label="prices search results"
+      mat-table
+      [dataSource]="this.dataSource"
+    >
       <!-- price id column -->
       <ng-container matColumnDef="priceId">
         <th mat-header-cell *matHeaderCellDef>{{ transloco("priceId") }}</th>
