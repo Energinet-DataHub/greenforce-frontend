@@ -45,6 +45,7 @@ const initialState: State = {};
 export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
   batches$ = this.select((x) => x.batches);
   loadingBatchesErrorTrigger$: Subject<void> = new Subject();
+  loadingBatchesTrigger$: Subject<void> = new Subject();
 
   constructor(private httpClient: WholesaleBatchHttp) {
     super(initialState);
@@ -72,7 +73,7 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
     }
   );
 
-  readonly setBarches = this.updater(
+  readonly setBatches = this.updater(
     (state, value: WholesaleSearchBatchResponseDto[]): State => ({
       ...state,
       batches: value,
@@ -82,10 +83,15 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
   readonly getBatches = this.effect(
     (filter$: Observable<WholesaleSearchBatchDto>) => {
       return filter$.pipe(
+        tap(() => this.loadingBatchesTrigger$.next()),
         switchMap((filter: WholesaleSearchBatchDto) => {
-          console.log(filter);
-          return this.httpClient.v1WholesaleBatchSearchPost(filter).pipe(
-            tap((batches) => this.setBarches(batches)),
+          const searchBatchesRequest: WholesaleSearchBatchDto = {
+            minExecutionTime: this.formatDate(filter.minExecutionTime),
+            maxExecutionTime: this.formatDate(filter.maxExecutionTime)
+          };
+
+          return this.httpClient.v1WholesaleBatchSearchPost(searchBatchesRequest).pipe(
+            tap((batches) => this.setBatches(batches)),
             catchError(() => {
               this.loadingBatchesErrorTrigger$.next();
               return EMPTY;

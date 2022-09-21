@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import { Component, NgModule, OnInit } from '@angular/core';
+import { Component, NgModule } from '@angular/core';
 import { of } from 'rxjs';
 import { LetModule } from '@rx-angular/template';
 import { TranslocoModule } from '@ngneat/transloco';
@@ -29,9 +29,10 @@ import {
 } from '@energinet-datahub/watt';
 
 import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
+import { WholesaleSearchBatchDto } from '@energinet-datahub/dh/shared/domain';
 
 import { DhWholesaleTableComponent } from './table/dh-wholesale-table.component';
-import { zonedTimeToUtc } from 'date-fns-tz';
+import { DhWholesaleFormComponent } from './form/dh-wholesale-form.component';
 
 @Component({
   selector: 'dh-wholesale-search',
@@ -39,22 +40,19 @@ import { zonedTimeToUtc } from 'date-fns-tz';
   styleUrls: ['./dh-wholesale-search.component.scss'],
   providers: [DhWholesaleBatchDataAccessApiStore],
 })
-export class DhWholesaleSearchComponent implements OnInit {
+export class DhWholesaleSearchComponent {
   constructor(private store: DhWholesaleBatchDataAccessApiStore) {}
 
   data$ = this.store.batches$;
+  loadingBatchesTrigger$ = this.store.loadingBatchesTrigger$;
   loadingBatchesErrorTrigger$ = this.store.loadingBatchesErrorTrigger$;
 
-  ngOnInit(): void {
-    this.store.getBatches(
-      of({
-        minExecutionTime: '2022-09-01T07:12:40.086Z',
-        maxExecutionTime: zonedTimeToUtc(
-          new Date(),
-          'Europe/Copenhagen'
-        ).toISOString(),
-      })
-    );
+  searchSubmitted = false;
+
+  onSearch(search: WholesaleSearchBatchDto) {
+    console.log(search);
+    this.searchSubmitted = true;
+    this.store.getBatches(of(search));
   }
 }
 
@@ -62,13 +60,14 @@ export class DhWholesaleSearchComponent implements OnInit {
   imports: [
     CommonModule,
     DhFeatureFlagDirectiveModule,
+    DhWholesaleFormComponent,
     DhWholesaleTableComponent,
     LetModule,
+    MatCardModule,
     TranslocoModule,
     WattButtonModule,
-    WattSpinnerModule,
     WattEmptyStateModule,
-    MatCardModule,
+    WattSpinnerModule,
   ],
   declarations: [DhWholesaleSearchComponent],
 })
