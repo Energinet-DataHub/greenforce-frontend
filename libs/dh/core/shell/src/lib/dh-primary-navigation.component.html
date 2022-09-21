@@ -32,6 +32,11 @@ limitations under the License.
         transloco("marketParticipantGridAreas")
       }}</watt-nav-list-item>
     </ng-container>
+    <ng-container *dhFeatureFlag="'charges_prices_overview_feature_flag'">
+      <watt-nav-list-item link="/charges/prices">{{
+        transloco("chargePrices")
+      }}</watt-nav-list-item>
+    </ng-container>
   </watt-nav-list>
 
   <ng-container *dhFeatureFlag="'start_wholesale_process_feature_flag'">
