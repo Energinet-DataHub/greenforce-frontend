@@ -54,8 +54,8 @@ export class DhWholesaleFormComponent {
   searchForm = this.fb.group({
     executionTime: [
       {
-        start: format(new Date(), 'dd-MM-yyyy'),
-        end: format(sub(new Date(), { days: 14 }), 'dd-MM-yyyy'),
+        start: format(sub(new Date(), { days: 14 }), 'dd-MM-yyyy'),
+        end: format(new Date(), 'dd-MM-yyyy'),
       },
       WattRangeValidators.required(),
     ],
