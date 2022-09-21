@@ -28,6 +28,7 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { LetModule } from '@rx-angular/template';
 
+import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/feature-flags'
 import {
   WattIconModule,
   WattIconSize,
@@ -136,6 +137,7 @@ export class DhChargesPricesResultComponent
     MatPaginatorModule,
     WattButtonModule,
     WattEmptyStateModule,
+    DhFeatureFlagDirectiveModule
   ],
 })
 export class DhChargesPricesResultScam {}

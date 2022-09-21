@@ -15,8 +15,8 @@
  * limitations under the License.
  */
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { DhChargesPricesResultComponent } from './dh-charges-prices-result.component';
+import { DhChargesPricesScam } from '../dh-charges-prices.component'
 
 describe('DhChargesPricesResultComponent', () => {
   let component: DhChargesPricesResultComponent;
@@ -24,6 +24,7 @@ describe('DhChargesPricesResultComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      imports: [DhChargesPricesScam],
       declarations: [DhChargesPricesResultComponent],
     }).compileComponents();
 

@@ -129,7 +129,7 @@ export class DhChargesPricesComponent implements OnInit, OnDestroy {
     WattSpinnerModule,
     TranslocoModule,
     FormsModule,
-    DhChargesPricesResultScam,
+    DhChargesPricesResultScam
   ],
 })
 export class DhChargesPricesScam {}

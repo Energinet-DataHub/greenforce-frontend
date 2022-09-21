@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
 
 import { DhChargesPricesComponent } from './dh-charges-prices.component';
 
@@ -24,6 +25,7 @@ describe('DhChargesPricesComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      imports: [getTranslocoTestingModule()],
       declarations: [DhChargesPricesComponent],
     }).compileComponents();
 
