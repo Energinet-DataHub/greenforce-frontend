@@ -5,7 +5,7 @@ import {
   OnInit,
   OnDestroy,
   OnChanges,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
 
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
@@ -16,7 +16,7 @@ import {
   WattIconModule,
   WattIconSize,
   WattButtonModule,
-  WattEmptyStateModule
+  WattEmptyStateModule,
 } from '@energinet-datahub/watt';
 import {
   MatPaginator,
@@ -28,9 +28,11 @@ import { Subject, takeUntil } from 'rxjs';
 @Component({
   selector: 'dh-charges-prices-result',
   templateUrl: './dh-charges-prices-result.component.html',
-  styleUrls: ['./dh-charges-prices-result.component.scss']
+  styleUrls: ['./dh-charges-prices-result.component.scss'],
 })
-export class DhChargesPricesResultComponent implements OnInit, OnDestroy, OnChanges {
+export class DhChargesPricesResultComponent
+  implements OnInit, OnDestroy, OnChanges
+{
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   private destroy$ = new Subject<void>();
@@ -38,18 +40,18 @@ export class DhChargesPricesResultComponent implements OnInit, OnDestroy, OnChan
   iconSizes = WattIconSize;
   searchResult: Array<any> = [
     {
-      id: 2,
-      name: "test name",
-      owner: "test owner",
+      id: 1,
+      name: 'test name',
+      owner: 'test owner',
       isTax: true,
       isTransparentInvoicing: true,
       chargeType: 0,
       resolution: 0,
-      validFromDate: "01-01-2000",
-      validToDate: "02-01-2000"
-    }
+      validFromDate: '01-01-2000',
+      validToDate: '02-01-2000',
+    },
   ];
-  displayedColumns  = [
+  displayedColumns = [
     'priceId',
     'priceName',
     'owner',
@@ -57,11 +59,12 @@ export class DhChargesPricesResultComponent implements OnInit, OnDestroy, OnChan
     'chargeType',
     'resolution',
     'validFromDate',
-    'validToDate'
+    'validToDate',
   ];
 
-  readonly dataSource: MatTableDataSource<any> =
-    new MatTableDataSource<any>(this.searchResult);
+  readonly dataSource: MatTableDataSource<any> = new MatTableDataSource<any>(
+    this.searchResult
+  );
 
   constructor(
     private translocoService: TranslocoService,
@@ -89,9 +92,7 @@ export class DhChargesPricesResultComponent implements OnInit, OnDestroy, OnChan
     this.matPaginatorIntl.getRangeLabel = (page, pageSize, length) =>
       temp(page, pageSize, length).replace(
         'of',
-        this.translocoService.translate(
-          'charges.prices.result.paginator.of'
-        )
+        this.translocoService.translate('charges.prices.result.paginator.of')
       );
 
     this.translocoService
@@ -105,7 +106,7 @@ export class DhChargesPricesResultComponent implements OnInit, OnDestroy, OnChan
         this.matPaginatorIntl.lastPageLabel = value.last;
         this.dataSource.paginator = this.paginator;
       });
-  }
+  };
 }
 
 @NgModule({
@@ -119,7 +120,7 @@ export class DhChargesPricesResultComponent implements OnInit, OnDestroy, OnChan
     WattIconModule,
     MatPaginatorModule,
     WattButtonModule,
-    WattEmptyStateModule
+    WattEmptyStateModule,
   ],
 })
 export class DhChargesPricesResultScam {}
