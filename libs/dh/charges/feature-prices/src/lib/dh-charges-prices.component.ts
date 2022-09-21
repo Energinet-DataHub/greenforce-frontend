@@ -22,8 +22,7 @@ import { CommonModule } from '@angular/common';
   templateUrl: './dh-charges-prices.component.html',
   styleUrls: ['./dh-charges-prices.component.scss'],
 })
-export class DhChargesPricesComponent  {
-}
+export class DhChargesPricesComponent {}
 
 @NgModule({
   declarations: [DhChargesPricesComponent],
