@@ -46,7 +46,13 @@ export class DhWholesaleSearchComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.getBatches(
-      of({ minExecutionTime: "2022-09-01T07:12:40.086Z", maxExecutionTime: zonedTimeToUtc(new Date(), 'Europe/Copenhagen').toISOString() })
+      of({
+        minExecutionTime: '2022-09-01T07:12:40.086Z',
+        maxExecutionTime: zonedTimeToUtc(
+          new Date(),
+          'Europe/Copenhagen'
+        ).toISOString(),
+      })
     );
   }
 }
