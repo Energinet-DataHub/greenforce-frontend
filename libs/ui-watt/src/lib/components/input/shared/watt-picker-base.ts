@@ -377,6 +377,7 @@ export abstract class WattPickerBase
     startInput: HTMLInputElement,
     endInput: HTMLInputElement
   ) {
+    if (!value) value = { start: '', end: '' };
     const { start, end } = value;
 
     if (start) {

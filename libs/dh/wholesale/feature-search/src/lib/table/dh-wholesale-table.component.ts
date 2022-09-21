@@ -21,6 +21,7 @@ import {
   ViewChild,
   OnDestroy,
   AfterViewInit,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import {
   MatPaginator,
@@ -35,7 +36,6 @@ import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import { WattBadgeModule, WattBadgeType } from '@energinet-datahub/watt';
 
-import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
 import {
   WholesaleSearchBatchResponseDto,
   WholesaleStatus,
@@ -65,7 +65,7 @@ type wholesaleTableData = MatTableDataSource<{
   selector: 'dh-wholesale-table',
   templateUrl: './dh-wholesale-table.component.html',
   styleUrls: ['./dh-wholesale-table.component.scss'],
-  providers: [DhWholesaleBatchDataAccessApiStore],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DhWholesaleTableComponent implements OnDestroy, AfterViewInit {
   @ViewChild(MatSort) sort!: MatSort;
@@ -82,7 +82,6 @@ export class DhWholesaleTableComponent implements OnDestroy, AfterViewInit {
   _data: wholesaleTableData | null = null;
 
   constructor(
-    private store: DhWholesaleBatchDataAccessApiStore,
     private matPaginatorIntl: MatPaginatorIntl,
     private translocoService: TranslocoService
   ) {}

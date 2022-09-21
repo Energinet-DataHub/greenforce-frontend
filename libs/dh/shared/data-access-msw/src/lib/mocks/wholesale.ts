@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
+ import {
   WholesaleSearchBatchResponseDto,
   WholesaleStatus,
 } from '@energinet-datahub/dh/shared/domain';

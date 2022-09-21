@@ -547,6 +547,12 @@
     "searchBatch": {
       "topBarTitle": "Søg batch",
       "headline": "Seneste batches",
+      "filters": {
+        "period": "Periode",
+        "periodRequired": "Periode påkrævet",
+        "searchButton": "Søg",
+        "clearButton": "Ryd"
+      },
       "columns": {
         "batchNumber": "Batch-nummer",
         "periodFrom": "Periode fra",

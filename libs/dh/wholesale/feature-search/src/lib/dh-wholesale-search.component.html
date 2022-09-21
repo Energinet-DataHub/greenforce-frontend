@@ -14,33 +14,40 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<mat-card *dhFeatureFlag="'start_wholesale_process_feature_flag'">
-  <ng-container *transloco="let transloco; read: 'wholesale.searchBatch'">
-    <h3 class="watt-on-light--high-emphasis">{{ transloco("headline") }}</h3>
-    <section class="content">
-      <ng-container
-        *rxLet="
-          data$;
-          let data;
-          error: loadedBatchesError;
-          suspense: loadingBatches;
-          errorTrg: loadingBatchesErrorTrigger$
-        "
-        ><dh-wholesale-table *ngIf="data" [data]="data"></dh-wholesale-table
-      ></ng-container>
-    </section>
+<ng-container *dhFeatureFlag="'start_wholesale_process_feature_flag'">
+  <div class="header">
+    <dh-wholesale-form (search)="onSearch($event)"></dh-wholesale-form>
+  </div>
 
-    <ng-template #loadingBatches>
-      <watt-spinner></watt-spinner>
-    </ng-template>
+  <mat-card *ngIf="searchSubmitted">
+    <ng-container *transloco="let transloco; read: 'wholesale.searchBatch'">
+      <h3 class="watt-on-light--high-emphasis">{{ transloco("headline") }}</h3>
+      <section class="content">
+        <ng-container
+          *rxLet="
+            data$;
+            let data;
+            error: loadedBatchesError;
+            suspense: loadingBatches;
+            suspenseTrg: loadingBatchesTrigger$;
+            errorTrg: loadingBatchesErrorTrigger$
+          "
+          ><dh-wholesale-table *ngIf="data" [data]="data"></dh-wholesale-table
+        ></ng-container>
+      </section>
 
-    <ng-template #loadedBatchesError>
-      <watt-empty-state
-        icon="power"
-        [title]="transloco('loadBatchesFailedTitle')"
-        [message]="transloco('loadBatchesFailedMessage')"
-      >
-      </watt-empty-state>
-    </ng-template>
-  </ng-container>
-</mat-card>
+      <ng-template #loadingBatches>
+        <watt-spinner></watt-spinner>
+      </ng-template>
+
+      <ng-template #loadedBatchesError>
+        <watt-empty-state
+          icon="power"
+          [title]="transloco('loadBatchesFailedTitle')"
+          [message]="transloco('loadBatchesFailedMessage')"
+        >
+        </watt-empty-state>
+      </ng-template>
+    </ng-container>
+  </mat-card>
+</ng-container>

@@ -547,6 +547,12 @@
     "searchBatch": {
       "topBarTitle": "Search Batch",
       "headline": "Latest batches",
+      "filters": {
+        "period": "Period",
+        "periodRequired": "Period is required",
+        "searchButton": "Search",
+        "clearButton": "Clear"
+      },
       "columns": {
         "batchNumber": "Batch number",
         "periodFrom": "Period from",
