@@ -1156,7 +1156,7 @@ function getWholesaleSearchBatch() {
       periodTo,
       executionTime,
       status: WholesaleStatus.Failed,
-    }
+    },
   ];
   return rest.get(
     'https://localhost:5001/v1/WholesaleBatch/search',
