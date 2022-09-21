@@ -94,10 +94,14 @@ limitations under the License.
           </p>
           <watt-modal-actions>
             <ng-container *transloco="let t">
-              <watt-button (click)="confirmationModal.close(true)">{{ t("yes") }}</watt-button>
-              <watt-button variant="secondary" (click)="confirmationModal.close(false)">{{
-                t("no")
+              <watt-button (click)="confirmationModal.close(true)">{{
+                t("yes")
               }}</watt-button>
+              <watt-button
+                variant="secondary"
+                (click)="confirmationModal.close(false)"
+                >{{ t("no") }}</watt-button
+              >
             </ng-container>
           </watt-modal-actions>
         </watt-modal>
