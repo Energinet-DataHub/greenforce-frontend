@@ -111,15 +111,12 @@ export class DhMarketParticipantEditActorComponent {
     ) {
       this.confirmationModal.open();
     } else {
-      this.save();
+      this.store.save(this.backToOverview);
     }
   };
 
-  readonly closeModal = () => this.confirmationModal.close(false);
-
-  readonly save = () => {
-    this.closeModal();
-    this.store.save(this.backToOverview);
+  readonly modalClosed = (accepted: boolean) => {
+    if (accepted) this.store.save(this.backToOverview);
   };
 
   private readonly backToOverview = () => {

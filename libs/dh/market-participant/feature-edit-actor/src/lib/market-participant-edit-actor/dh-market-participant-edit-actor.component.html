@@ -82,6 +82,7 @@ limitations under the License.
           [size]="'small'"
           [title]="t('masterData.statusChangeTitle')"
           [disableClose]="true"
+          (closed)="modalClosed($event)"
         >
           <p>
             {{
@@ -93,8 +94,8 @@ limitations under the License.
           </p>
           <watt-modal-actions>
             <ng-container *transloco="let t">
-              <watt-button (click)="save()">{{ t("yes") }}</watt-button>
-              <watt-button variant="secondary" (click)="closeModal()">{{
+              <watt-button (click)="confirmationModal.close(true)">{{ t("yes") }}</watt-button>
+              <watt-button variant="secondary" (click)="confirmationModal.close(false)">{{
                 t("no")
               }}</watt-button>
             </ng-container>
