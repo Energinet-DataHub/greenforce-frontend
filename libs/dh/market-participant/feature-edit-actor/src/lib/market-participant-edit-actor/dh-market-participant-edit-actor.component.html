@@ -73,30 +73,34 @@ limitations under the License.
           <watt-button variant="secondary" (click)="onCancelled()"
             >{{ t("cancelLabel") }}
           </watt-button>
-            <watt-button
-              variant="primary"
-              (click)="onSaved(status, changes)"
-              >{{ t("saveLabel") }}</watt-button
-            >
+          <watt-button variant="primary" (click)="onSaved(status, changes)">{{
+            t("saveLabel")
+          }}</watt-button>
         </div>
-        <watt-modal #confirmationModal [size]="'small'"
+        <watt-modal
+          #confirmationModal
+          [size]="'small'"
           [title]="t('masterData.statusChangeTitle')"
-          [disableClose]="true">
-          <p>{{ t('masterData.statusChangeWarning', { status: t('masterData.statuses.' + changes.status), initialStatus: t('masterData.statuses.' + status) }) }}</p>
+          [disableClose]="true"
+        >
+          <p>
+            {{
+              t("masterData.statusChangeWarning", {
+                status: t("masterData.statuses." + changes.status),
+                initialStatus: t("masterData.statuses." + status)
+              })
+            }}
+          </p>
           <watt-modal-actions>
             <ng-container *transloco="let t">
-              <watt-button
-                (click)="save()"
-                >{{ t("yes") }}</watt-button
-              >
-              <watt-button
-                variant="secondary"
-                (click)="closeModal()"
-                >{{ t("no") }}</watt-button
-              >
+              <watt-button (click)="save()">{{ t("yes") }}</watt-button>
+              <watt-button variant="secondary" (click)="closeModal()">{{
+                t("no")
+              }}</watt-button>
             </ng-container>
           </watt-modal-actions>
         </watt-modal>
       </ng-container>
     </ng-container>
+  </ng-container>
 </ng-container>
