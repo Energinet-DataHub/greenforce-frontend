@@ -11,6 +11,7 @@
       "messageArchive": "Request/Response messages",
       "marketParticipantOrganizations": "Organisations",
       "marketParticipantGridAreas": "Grid areas",
+      "chargePrices": "Prices",
       "wholesale": {
         "menuGroupLabel": "Settlements",
         "startProcess": "Start Process",
@@ -261,6 +262,9 @@
     "serverError": {
       "title": "Oops! There was an error",
       "message": "Unfortunately, an error occurred while retrieving the necessary information."
+    },
+    "prices": {
+      "topBarTitle": "Prices"
     }
   },
   "messageArchive": {
