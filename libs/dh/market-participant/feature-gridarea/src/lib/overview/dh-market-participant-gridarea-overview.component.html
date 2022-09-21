@@ -119,7 +119,10 @@ limitations under the License.
       <mat-header-row
         *matHeaderRowDef="columnIds; sticky: false"
       ></mat-header-row>
-      <mat-row *matRowDef="let row; columns: columnIds"></mat-row>
+      <mat-row
+        *matRowDef="let row; columns: columnIds"
+        [class.watt-table-row--highlighted]="isSelected(row)"
+      ></mat-row>
     </mat-table>
   </div>
 </ng-container>

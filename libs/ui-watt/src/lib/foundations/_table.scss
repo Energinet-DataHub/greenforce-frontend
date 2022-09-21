@@ -16,6 +16,10 @@
  */
 @use "./typography/typography.import" as typography;
 
+.watt-table-row--highlighted {
+  background-color: var(--watt-color-secondary-light);
+}
+
 mat-table,
 .mat-table {
   .mat-header-row {

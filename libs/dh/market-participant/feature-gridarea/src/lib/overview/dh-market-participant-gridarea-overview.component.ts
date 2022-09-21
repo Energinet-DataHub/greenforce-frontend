@@ -85,13 +85,19 @@ export class DhMarketParticipantGridAreaOverviewComponent implements OnChanges {
     this.dataSource.data = this.gridAreas;
   }
 
-  readonly drawerClosed = () => console.log('drawer closed');
+  readonly drawerClosed = () => {
+    this.activeRow = undefined;
+  };
 
   readonly open = (row: GridAreaOverviewRow) => {
     this.activeRow = row;
     this.getGridAreaData(row.id);
     this.drawer.open();
   };
+
+  isSelected(row: GridAreaOverviewRow): boolean {
+    return this.activeRow?.id === row.id;
+  }
 }
 
 @NgModule({
