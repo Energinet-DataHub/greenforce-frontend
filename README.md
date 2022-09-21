@@ -317,10 +317,8 @@ The deployments can be found [here](https://github.com/Energinet-DataHub/dh3-env
 ## Visual Studio Code
 
 It is recommended to use the [Visual Studio Code](https://code.visualstudio.com)
-editor, as it supports the entire toolchain used in this repository.
-
-todo...
-
-A list of recommended extensions is stored in `.vscode/extenstions.json`.
-You'll get a notification asking you to install the extensions when you open
-the project in VS Code for the first time.
+editor, as it supports the entire toolchain of this repository and has
+been preconfigured with a list of recommended extensions stored in
+`.vscode/extensions.json`. The editor will automatically prompt for installing
+these extensions when the project is opened for the first time, but they can
+later be found by executing the `Show recommended extensions` command.
