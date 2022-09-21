@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, OnInit, NgModule } from '@angular/core';
+import { Component, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -22,10 +22,7 @@ import { CommonModule } from '@angular/common';
   templateUrl: './dh-charges-prices.component.html',
   styleUrls: ['./dh-charges-prices.component.scss'],
 })
-export class DhChargesPricesComponent implements OnInit {
-  constructor() {}
-
-  ngOnInit(): void {}
+export class DhChargesPricesComponent  {
 }
 
 @NgModule({
