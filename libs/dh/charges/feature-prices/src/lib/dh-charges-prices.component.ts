@@ -42,6 +42,8 @@ import {
   WattDropdownOptions,
 } from '@energinet-datahub/watt';
 
+import { DhChargesPricesResultScam } from './search-result/dh-charges-prices-result.component';
+
 @Component({
   selector: 'dh-charges-prices',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -127,6 +129,7 @@ export class DhChargesPricesComponent implements OnInit, OnDestroy {
     WattSpinnerModule,
     TranslocoModule,
     FormsModule,
+    DhChargesPricesResultScam,
   ],
 })
 export class DhChargesPricesScam {}

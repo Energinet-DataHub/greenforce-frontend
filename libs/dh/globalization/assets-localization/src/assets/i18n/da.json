@@ -278,6 +278,16 @@
         "dateValidTo": "Gyldig til",
         "clearSearch": "Ryd",
         "startSearch": "Søg"
+      },
+      "result": {
+        "priceId": "Id",
+        "priceName": "Navn",
+        "owner": "Ejer",
+        "chargeType": "Type",
+        "resolution": "Opløsning",
+        "validFromDate": "Gyldig fra",
+        "validToDate": "Gyldig til",
+        "resultLength": "Søgeresultater"
       }
     },
     "domain": {

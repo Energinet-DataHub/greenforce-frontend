@@ -278,6 +278,16 @@
         "dateValidTo": "Valid to",
         "clearSearch": "Clear",
         "startSearch": "Search"
+      },
+      "result": {
+        "priceId": "Id",
+        "priceName": "Name",
+        "owner": "Owner",
+        "chargeType": "Type",
+        "resolution": "Resolution",
+        "validFromDate": "Valid from",
+        "validToDate": "Valid to",
+        "resultLength": "Search results"
       }
     },
     "domain": {
