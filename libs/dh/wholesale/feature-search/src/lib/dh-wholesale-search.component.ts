@@ -68,7 +68,7 @@ export class DhWholesaleSearchComponent implements OnInit {
     WattButtonModule,
     WattSpinnerModule,
     WattEmptyStateModule,
-    MatCardModule
+    MatCardModule,
   ],
   declarations: [DhWholesaleSearchComponent],
 })
