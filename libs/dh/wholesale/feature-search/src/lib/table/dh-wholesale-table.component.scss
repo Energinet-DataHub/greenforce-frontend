@@ -14,8 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-.content {
-  display: flex;
-  justify-content: center;
+:host {
+  display: block;
   width: 100%;
 }
