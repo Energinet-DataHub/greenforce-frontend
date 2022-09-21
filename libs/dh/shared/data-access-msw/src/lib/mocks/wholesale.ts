@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- import {
+import {
   WholesaleSearchBatchResponseDto,
   WholesaleStatus,
 } from '@energinet-datahub/dh/shared/domain';
@@ -133,7 +133,7 @@ function getWholesaleSearchBatch() {
       executionTimeStart,
       executionTimeEnd,
       status: WholesaleStatus.Failed,
-    }
+    },
   ];
   return rest.post(
     'https://localhost:5001/v1/WholesaleBatch/search',
