@@ -1156,12 +1156,12 @@ function getWholesaleSearchBatch() {
       periodTo,
       executionTime,
       status: WholesaleStatus.Failed,
-    }
+    },
   ];
-  return rest.get(
+  return rest.post(
     'https://localhost:5001/v1/WholesaleBatch/search',
     (req, res, ctx) => {
-      return res(ctx.delay(0), ctx.status(200), ctx.json(mockData));
+      return res(ctx.delay(300), ctx.status(200), ctx.json(mockData));
       //return res(ctx.delay(2000), ctx.status(500));
     }
   );

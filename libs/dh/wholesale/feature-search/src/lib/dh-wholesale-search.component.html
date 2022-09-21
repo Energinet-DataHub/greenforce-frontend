@@ -14,19 +14,21 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<ng-container *dhFeatureFlag="'start_wholesale_process_feature_flag'">
+<mat-card *dhFeatureFlag="'start_wholesale_process_feature_flag'">
   <ng-container *transloco="let transloco; read: 'wholesale.searchBatch'">
-    <h3>{{ transloco("headline") }}</h3>
-    <ng-container
-      *rxLet="
-        data$;
-        let data;
-        error: loadedBatchesError;
-        suspense: loadingBatches;
-        errorTrg: loadingBatchesErrorTrigger$
-      "
-      ><dh-wholesale-table *ngIf="data" [data]="data"></dh-wholesale-table
-    ></ng-container>
+    <h3 class="watt-on-light--high-emphasis">{{ transloco("headline") }}</h3>
+    <section class="content">
+      <ng-container
+        *rxLet="
+          data$;
+          let data;
+          error: loadedBatchesError;
+          suspense: loadingBatches;
+          errorTrg: loadingBatchesErrorTrigger$
+        "
+        ><dh-wholesale-table *ngIf="data" [data]="data"></dh-wholesale-table
+      ></ng-container>
+    </section>
 
     <ng-template #loadingBatches>
       <watt-spinner></watt-spinner>
@@ -41,4 +43,4 @@ limitations under the License.
       </watt-empty-state>
     </ng-template>
   </ng-container>
-</ng-container>
+</mat-card>
