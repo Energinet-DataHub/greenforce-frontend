@@ -264,7 +264,7 @@
       "message": "Unfortunately, an error occurred while retrieving the necessary information."
     },
     "prices": {
-      "topBarTitle": "Prices",
+      "topBarTitle": "Search price",
       "search": {
         "idOrName": "ID/Name",
         "enterIdOrName": "Enter parts or whole name or id",

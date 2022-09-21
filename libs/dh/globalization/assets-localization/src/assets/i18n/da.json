@@ -264,7 +264,7 @@
       "message": "Der opstod desværre en fejl, da vi skulle hente de nødvendige oplysninger."
     },
     "prices": {
-      "topBarTitle": "Priser",
+      "topBarTitle": "Søg pris",
       "search": {
         "idOrName": "ID/Navn",
         "enterIdOrName": "Indtast dele af eller hele navn eller id",
