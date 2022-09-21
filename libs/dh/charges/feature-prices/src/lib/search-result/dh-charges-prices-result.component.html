@@ -1,10 +1,28 @@
 <ng-container *transloco="let transloco; read: 'charges.prices.result'">
   <div class="card-container">
-    <h3>{{this.searchResult.length}} {{ transloco("resultLength")}} </h3>
+    <div class="header-container">
+      <h3>{{this.searchResult.length}} {{ transloco("resultLength")}} </h3>
+
+      <div class="pagination-container">
+        <!-- Download -->
+        <watt-button variant="text" *dhFeatureFlag="'start_wholesale_process_feature_flag'">
+          <watt-icon name="openInNew" label="openInNew" [size]="iconSizes.Medium"></watt-icon>
+          {{ transloco("Download")}}
+        </watt-button>
+
+        <!-- Pagination -->
+        <mat-paginator
+          [pageSizeOptions]="[5, 10, 20, 50]"
+          pageSize="10"
+          showFirstLastButtons
+        ></mat-paginator>
+      </div>
+    </div>
+
     <!-- Table -->
     <table
       mat-table
-      [dataSource]="this.searchResult"
+      [dataSource]="this.dataSource"
     >
       <!-- price id column -->
       <ng-container matColumnDef="priceId">
@@ -32,7 +50,6 @@
             name="meter"
             label="meter"
             [size]="iconSizes.Small"
-            aria-label="Test"
           ></watt-icon>
         </td>
       </ng-container>
@@ -64,5 +81,11 @@
       <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     </table>
+
+    <ng-container *ngIf="searchResult && searchResult.length === 0">
+      <watt-empty-state class="no-result-div" icon="explore" size="large" title="{{ transloco('noResultsFound') }}"
+        message="{{ transloco('noResultsHelperText') }}">
+      </watt-empty-state>
+    </ng-container>
   </div>
 </ng-container>
