@@ -59,7 +59,10 @@ limitations under the License.
         {{ transloco("columns.executionTime") }}
       </mat-header-cell>
       <mat-cell *matCellDef="let batch">
-        {{ batch.executionTime | dhDateTime }}
+        <div>
+          <div>{{ batch.executionTimeStart | dhDateTime }}</div>
+          <div>{{ batch.executionTimeEnd | dhDateTime }}</div>
+        </div>
       </mat-cell>
     </ng-container>
     <!-- Status -->

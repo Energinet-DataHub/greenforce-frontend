@@ -209,7 +209,7 @@ export class WholesaleBatchHttp {
             responseType_ = 'text';
         }
 
-        return this.httpClient.post<Array<WholesaleSearchBatchResponseDto>>(`${this.configuration.basePath}/v1/WholesaleBatch/search`,
+        return this.httpClient.post<Array<WholesaleSearchBatchResponseDto>>(`${this.configuration.basePath}/v1/WholesaleBatch/Search`,
             wholesaleSearchBatchDto,
             {
                 context: localVarHttpContext,

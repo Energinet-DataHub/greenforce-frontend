@@ -13,10 +13,11 @@ import { WholesaleStatus } from './wholesale-status';
 
 
 export interface WholesaleSearchBatchResponseDto { 
-    batchNumber: string;
+    batchNumber: number;
     periodFrom: string;
     periodTo: string;
-    executionTime: string;
+    executionTimeStart: string;
+    executionTimeEnd?: string | null;
     status: WholesaleStatus;
 }
 
