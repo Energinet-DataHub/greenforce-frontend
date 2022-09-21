@@ -17,16 +17,18 @@ limitations under the License.
 <ng-container *dhFeatureFlag="'start_wholesale_process_feature_flag'">
   <ng-container *transloco="let transloco; read: 'wholesale.searchBatch'">
     <h3>{{ transloco("headline") }}</h3>
-    <ng-container
-      *rxLet="
-        data$;
-        let data;
-        error: loadedBatchesError;
-        suspense: loadingBatches;
-        errorTrg: loadingBatchesErrorTrigger$
-      "
-      ><dh-wholesale-table *ngIf="data" [data]="data"></dh-wholesale-table
-    ></ng-container>
+    <section class="content">
+      <ng-container
+        *rxLet="
+          data$;
+          let data;
+          error: loadedBatchesError;
+          suspense: loadingBatches;
+          errorTrg: loadingBatchesErrorTrigger$
+        "
+        ><dh-wholesale-table *ngIf="data" [data]="data"></dh-wholesale-table
+      ></ng-container>
+    </section>
 
     <ng-template #loadingBatches>
       <watt-spinner></watt-spinner>
