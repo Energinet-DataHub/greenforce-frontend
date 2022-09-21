@@ -321,7 +321,9 @@
             "Inactive": "Inactive",
             "Passive": "Passive",
             "Deleted": "Deleted"
-          }
+          },
+          "statusChangeTitle": "Actor status change",
+          "statusChangeWarning": "Changing actor status to '{{ status }}' is final and it cannot be changed back to '{{ initialStatus }}'. Do you want to continue?"
         },
         "contacts": {
           "invalidConfiguration": "Contacts are not correctly configured"

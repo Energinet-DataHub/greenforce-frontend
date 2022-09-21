@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import { Component, NgModule } from '@angular/core';
+import { Component, NgModule, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslocoModule } from '@ngneat/transloco';
 import { LetModule, PushModule } from '@rx-angular/template';
@@ -33,9 +33,14 @@ import {
   dhMarketParticipantOrganizationsPath,
   dhMarketParticipantPath,
 } from '@energinet-datahub/dh/market-participant/routing';
-import { ActorContactDto } from '@energinet-datahub/dh/shared/domain';
+import {
+  ActorContactDto,
+  ActorStatus,
+} from '@energinet-datahub/dh/shared/domain';
 import {
   WattButtonModule,
+  WattModalComponent,
+  WattModalModule,
   WattSpinnerModule,
   WattTabsModule,
   WattValidationMessageModule,
@@ -67,6 +72,8 @@ export class DhMarketParticipantEditActorComponent {
   marketRoles$ = this.store.marketRoles$;
   contacts$ = this.store.contacts$;
 
+  @ViewChild('confirmationModal') confirmationModal!: WattModalComponent;
+
   constructor(
     private store: DhMarketParticipantEditActorDataAccessApiStore,
     private route: ActivatedRoute,
@@ -95,8 +102,21 @@ export class DhMarketParticipantEditActorComponent {
     this.backToOverview();
   };
 
-  readonly onSaved = () => {
-    this.store.save(this.backToOverview);
+  readonly onSaved = (initialStatus: ActorStatus, changes: ActorChanges) => {
+    if (
+      (changes.status === ActorStatus.Inactive &&
+        initialStatus !== ActorStatus.Inactive) ||
+      (changes.status == ActorStatus.Passive &&
+        initialStatus != ActorStatus.Passive)
+    ) {
+      this.confirmationModal.open();
+    } else {
+      this.store.save(this.backToOverview);
+    }
+  };
+
+  readonly modalClosed = (accepted: boolean) => {
+    if (accepted) this.store.save(this.backToOverview);
   };
 
   private readonly backToOverview = () => {
@@ -115,6 +135,7 @@ export class DhMarketParticipantEditActorComponent {
     WattButtonModule,
     WattTabsModule,
     WattSpinnerModule,
+    WattModalModule,
     PushModule,
     DhMarketParticipantActorMasterDataComponentScam,
     DhMarketParticipantActorContactDataComponentScam,
