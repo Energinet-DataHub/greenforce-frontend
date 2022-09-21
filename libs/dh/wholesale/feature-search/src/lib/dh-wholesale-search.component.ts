@@ -19,6 +19,7 @@ import { Component, NgModule, OnInit } from '@angular/core';
 import { of } from 'rxjs';
 import { LetModule } from '@rx-angular/template';
 import { TranslocoModule } from '@ngneat/transloco';
+import { MatCardModule } from '@angular/material/card';
 
 import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/feature-flags';
 import {
@@ -67,6 +68,7 @@ export class DhWholesaleSearchComponent implements OnInit {
     WattButtonModule,
     WattSpinnerModule,
     WattEmptyStateModule,
+    MatCardModule
   ],
   declarations: [DhWholesaleSearchComponent],
 })
