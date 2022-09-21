@@ -16,7 +16,7 @@
  */
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DhChargesPricesResultComponent } from './dh-charges-prices-result.component';
-import { DhChargesPricesScam } from '../dh-charges-prices.component'
+import { DhChargesPricesScam } from '../dh-charges-prices.component';
 
 describe('DhChargesPricesResultComponent', () => {
   let component: DhChargesPricesResultComponent;
