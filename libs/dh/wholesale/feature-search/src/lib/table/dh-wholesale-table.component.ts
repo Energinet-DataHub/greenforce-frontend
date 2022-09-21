@@ -86,12 +86,6 @@ export class DhWholesaleTableComponent implements OnDestroy, AfterViewInit {
     private translocoService: TranslocoService
   ) {}
 
-  ngAfterViewInit() {
-    this.setupPaginator();
-    if (this._data === null) return;
-    this._data.sort = this.sort;
-  }
-
   columnIds = [
     'batchNumber',
     'periodFrom',
@@ -99,6 +93,12 @@ export class DhWholesaleTableComponent implements OnDestroy, AfterViewInit {
     'executionTime',
     'status',
   ];
+
+  ngAfterViewInit() {
+    this.setupPaginator();
+    if (this._data === null) return;
+    this._data.sort = this.sort;
+  }
 
   ngOnDestroy() {
     this.destroy$.next();
