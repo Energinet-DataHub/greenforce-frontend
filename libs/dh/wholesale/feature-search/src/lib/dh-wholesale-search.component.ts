@@ -30,6 +30,7 @@ import {
 import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
 
 import { DhWholesaleTableComponent } from './table/dh-wholesale-table.component';
+import { zonedTimeToUtc } from 'date-fns-tz';
 
 @Component({
   selector: 'dh-wholesale-search',
@@ -45,7 +46,7 @@ export class DhWholesaleSearchComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.getBatches(
-      of({ minExecutionTime: 'qqwe', maxExecutionTime: 'qwe' })
+      of({ minExecutionTime: "2022-09-01T07:12:40.086Z", maxExecutionTime: zonedTimeToUtc(new Date(), 'Europe/Copenhagen').toISOString() })
     );
   }
 }
