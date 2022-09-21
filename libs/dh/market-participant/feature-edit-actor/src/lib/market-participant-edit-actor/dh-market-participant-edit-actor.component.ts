@@ -15,9 +15,9 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import { Component, NgModule } from '@angular/core';
+import { Component, NgModule, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
+import { TranslocoModule } from '@ngneat/transloco';
 import { LetModule, PushModule } from '@rx-angular/template';
 import { map } from 'rxjs';
 
@@ -39,11 +39,10 @@ import {
 } from '@energinet-datahub/dh/shared/domain';
 import {
   WattButtonModule,
+  WattModalComponent,
+  WattModalModule,
   WattSpinnerModule,
   WattTabsModule,
-  WattToastModule,
-  WattToastRef,
-  WattToastService,
   WattValidationMessageModule,
 } from '@energinet-datahub/watt';
 
@@ -73,11 +72,11 @@ export class DhMarketParticipantEditActorComponent {
   marketRoles$ = this.store.marketRoles$;
   contacts$ = this.store.contacts$;
 
+  @ViewChild('confirmationModal') confirmationModal!: WattModalComponent;
+
   constructor(
     private store: DhMarketParticipantEditActorDataAccessApiStore,
     private route: ActivatedRoute,
-    private toast: WattToastService,
-    private translocoService: TranslocoService,
     private router: Router
   ) {
     this.store.loadInitialData(this.routeParams$);
@@ -110,34 +109,17 @@ export class DhMarketParticipantEditActorComponent {
       (changes.status == ActorStatus.Passive &&
         initialStatus != ActorStatus.Passive)
     ) {
-      this.toast.open({
-        actionLabel: this.translocoService.translateObject(
-          'marketParticipant.actor.create.masterData.statusChangeWarningActionLabel'
-        ),
-        type: 'warning',
-        duration: 60000,
-        message: this.translocoService.translateObject(
-          'marketParticipant.actor.create.masterData.statusChangeWarning',
-          {
-            status: this.translocoService.translateObject(
-              'marketParticipant.actor.create.masterData.statuses.' +
-                changes.status
-            ),
-            initialStatus: this.translocoService.translateObject(
-              'marketParticipant.actor.create.masterData.statuses.' +
-                initialStatus
-            ),
-          }
-        ),
-        action: (ref: WattToastRef) => {
-          this.store.save(this.backToOverview);
-          ref.dismiss();
-        },
-      });
+      this.confirmationModal.open();
     } else {
-      this.toast.dismiss();
-      this.store.save(this.backToOverview);
+      this.save();
     }
+  };
+
+  readonly closeModal = () => this.confirmationModal.close(false);
+
+  readonly save = () => {
+    this.closeModal();
+    this.store.save(this.backToOverview);
   };
 
   private readonly backToOverview = () => {
@@ -156,7 +138,7 @@ export class DhMarketParticipantEditActorComponent {
     WattButtonModule,
     WattTabsModule,
     WattSpinnerModule,
-    WattToastModule,
+    WattModalModule,
     PushModule,
     DhMarketParticipantActorMasterDataComponentScam,
     DhMarketParticipantActorContactDataComponentScam,
