@@ -87,16 +87,18 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
         switchMap((filter: WholesaleSearchBatchDto) => {
           const searchBatchesRequest: WholesaleSearchBatchDto = {
             minExecutionTime: this.formatDate(filter.minExecutionTime),
-            maxExecutionTime: this.formatDate(filter.maxExecutionTime)
+            maxExecutionTime: this.formatDate(filter.maxExecutionTime),
           };
 
-          return this.httpClient.v1WholesaleBatchSearchPost(searchBatchesRequest).pipe(
-            tap((batches) => this.setBatches(batches)),
-            catchError(() => {
-              this.loadingBatchesErrorTrigger$.next();
-              return EMPTY;
-            })
-          );
+          return this.httpClient
+            .v1WholesaleBatchSearchPost(searchBatchesRequest)
+            .pipe(
+              tap((batches) => this.setBatches(batches)),
+              catchError(() => {
+                this.loadingBatchesErrorTrigger$.next();
+                return EMPTY;
+              })
+            );
         })
       );
     }

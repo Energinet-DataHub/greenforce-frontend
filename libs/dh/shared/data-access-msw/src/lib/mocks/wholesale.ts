@@ -35,7 +35,7 @@ function getWholesaleSearchBatch() {
   const periodFrom = '2021-12-01T23:00:00Z';
   const periodTo = '2021-12-02T23:00:00Z';
   const executionTimeStart = '2021-12-01T23:00:00Z';
-  const executionTimeEnd = '2021-13-01T23:00:00Z'
+  const executionTimeEnd = '2021-13-01T23:00:00Z';
 
   const mockData: WholesaleSearchBatchResponseDto[] = [
     {

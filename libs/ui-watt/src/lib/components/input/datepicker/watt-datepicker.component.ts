@@ -135,7 +135,7 @@ export class WattDatepickerComponent extends WattPickerBase {
   writeValue(value: WattPickerValue): void {
     super.writeValue(value);
 
-    if(value === null) {
+    if (value === null) {
       setTimeout(() => {
         this.matEndDate?.writeValue(null);
         this.matStartDate.writeValue(null);

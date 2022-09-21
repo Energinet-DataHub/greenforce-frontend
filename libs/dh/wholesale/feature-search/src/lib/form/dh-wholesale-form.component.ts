@@ -23,7 +23,12 @@ import {
 } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoModule } from '@ngneat/transloco';
-import { WattButtonModule, WattDatepickerModule, WattFormFieldModule, WattRangeValidators } from '@energinet-datahub/watt';
+import {
+  WattButtonModule,
+  WattDatepickerModule,
+  WattFormFieldModule,
+  WattRangeValidators,
+} from '@energinet-datahub/watt';
 
 import { WholesaleSearchBatchDto } from '@energinet-datahub/dh/shared/domain';
 import { format, sub } from 'date-fns';
@@ -47,19 +52,21 @@ export class DhWholesaleFormComponent {
   @Output() search: EventEmitter<WholesaleSearchBatchDto> = new EventEmitter();
 
   searchForm = this.fb.group({
-    executionTime: [{
-      "start": format(new Date(), 'dd-MM-yyyy'),
-      "end": format(sub(new Date(), { days: 14 }), 'dd-MM-yyyy')
-    },
-    WattRangeValidators.required()
-  ]});
+    executionTime: [
+      {
+        start: format(new Date(), 'dd-MM-yyyy'),
+        end: format(sub(new Date(), { days: 14 }), 'dd-MM-yyyy'),
+      },
+      WattRangeValidators.required(),
+    ],
+  });
 
   constructor(private fb: FormBuilder) {}
 
   onSubmit() {
     this.search.emit({
       minExecutionTime: this.searchForm?.value?.executionTime?.start as string,
-      maxExecutionTime: this.searchForm?.value?.executionTime?.end as string
+      maxExecutionTime: this.searchForm?.value?.executionTime?.end as string,
     });
   }
 }
