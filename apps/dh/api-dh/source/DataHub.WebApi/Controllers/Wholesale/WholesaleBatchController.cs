@@ -50,11 +50,11 @@ namespace Energinet.DataHub.WebApi.Controllers.Wholesale
         /// <summary>
         /// Get a batch.
         /// </summary>
-        [HttpPost("search")]
+        [HttpPost("Search")]
         public async Task<IEnumerable<WholesaleSearchBatchResponseDto>> PostAsync(WholesaleSearchBatchDto wholesaleSearchBatchDto)
         {
             var response = await _httpClient
-                .PostAsJsonAsync("v1/SearchBatch", wholesaleSearchBatchDto)
+                .PostAsJsonAsync("v1/Batch/search", wholesaleSearchBatchDto)
                 .ConfigureAwait(false);
 
             // Forward response status from domain to frontend

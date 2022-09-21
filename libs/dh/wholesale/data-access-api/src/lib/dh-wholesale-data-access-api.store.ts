@@ -83,7 +83,6 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
     (filter$: Observable<WholesaleSearchBatchDto>) => {
       return filter$.pipe(
         switchMap((filter: WholesaleSearchBatchDto) => {
-          console.log(filter);
           return this.httpClient.v1WholesaleBatchSearchPost(filter).pipe(
             tap((batches) => this.setBarches(batches)),
             catchError(() => {
