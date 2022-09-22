@@ -290,6 +290,8 @@
       "Download": "Download",
       "noResultsFound": "Intet resultat",
       "noResultsHelperText": "Prøv at ændre dine søgeindstillinger",
+      "taxIndicator": "Afgift",
+      "transparentInvoicing": "Viderefakturering",
       "paginator": {
         "itemsPerPageLabel": "Priser pr. side",
         "of": "af",

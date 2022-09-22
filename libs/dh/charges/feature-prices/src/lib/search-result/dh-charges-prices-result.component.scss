@@ -40,3 +40,16 @@ table {
 .no-result-div {
   margin-top: var(--watt-space-xl);
 }
+
+.icons {
+  display: flex;
+
+  watt-icon {
+    margin-left: 1rem;
+    color: var(--watt-color-neutral-grey-400);
+  }
+
+  .active {
+    color: var(--watt-color-neutral-black);
+  }
+}

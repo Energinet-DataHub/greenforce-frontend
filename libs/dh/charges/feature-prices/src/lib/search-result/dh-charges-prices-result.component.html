@@ -24,7 +24,7 @@ limitations under the License.
         <watt-button
           icon="openInNew"
           variant="text"
-          *dhFeatureFlag="'charges_prices_overview_feature_flag'"
+          *dhFeatureFlag="'charges_prices_download_button_feature_flag'"
         >
           {{ t("Download") }}
         </watt-button>
@@ -64,13 +64,26 @@ limitations under the License.
 
       <!-- icons column -->
       <ng-container matColumnDef="icons">
-        <th mat-header-cell *matHeaderCellDef>-</th>
+        <th mat-header-cell *matHeaderCellDef></th>
         <td mat-cell *matCellDef="let element">
-          <watt-icon
-            name="meter"
-            label="meter"
-            [size]="iconSizes.Small"
-          ></watt-icon>
+          <div class="icons">
+            <watt-icon
+              [ngClass]="element.taxIndicator === true ? 'active' : ''"
+              wattTooltip="{{ t('taxIndicator') }}"
+              wattTooltipPosition="above"
+              name="meter"
+              label="meter"
+              [size]="iconSizes.Small"
+            ></watt-icon>
+            <watt-icon
+              [ngClass]="element.transparentInvoicing === true ? 'active' : ''"
+              wattTooltip="{{ t('transparentInvoicing') }}"
+              wattTooltipPosition="above"
+              name="meter"
+              label="meter"
+              [size]="iconSizes.Small"
+            ></watt-icon>
+          </div>
         </td>
       </ng-container>
 

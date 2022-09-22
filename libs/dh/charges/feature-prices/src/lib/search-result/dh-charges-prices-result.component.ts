@@ -34,6 +34,7 @@ import {
   WattIconSize,
   WattButtonModule,
   WattEmptyStateModule,
+  WattTooltipModule,
 } from '@energinet-datahub/watt';
 import {
   MatPaginator,
@@ -60,8 +61,8 @@ export class DhChargesPricesResultComponent
     //   id: 1,
     //   name: 'test name',
     //   owner: 'test owner',
-    //   isTax: false,
-    //   isTransparentInvoicing: true,
+    //   taxIndicator: false,
+    //   transparentInvoicing: true,
     //   chargeType: 'Abonnement',
     //   resolution: 'Måned',
     //   validFromDate: '01-01-2000',
@@ -137,6 +138,7 @@ export class DhChargesPricesResultComponent
     WattButtonModule,
     WattEmptyStateModule,
     DhFeatureFlagDirectiveModule,
+    WattTooltipModule,
   ],
 })
 export class DhChargesPricesResultScam {}
