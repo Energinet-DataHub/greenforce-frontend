@@ -112,11 +112,9 @@ namespace Energinet.DataHub.WebApi
 
             var apiClientSettings = Configuration.GetSection("ApiClientSettings").Get<ApiClientSettings>();
             AddDomainClients(services, apiClientSettings);
-            if (!Environment.IsDevelopment())
-            {
-                // Health check
-                SetupHealthEndpoints(services, apiClientSettings);
-            }
+
+            // Health check
+            SetupHealthEndpoints(services, apiClientSettings);
         }
 
         /// <summary>
