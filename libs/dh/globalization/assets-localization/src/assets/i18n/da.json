@@ -11,6 +11,7 @@
       "messageArchive": "Fremsøg forretningsbesked",
       "marketParticipantOrganizations": "Organisationer",
       "marketParticipantGridAreas": "Netområder",
+      "chargePrices": "Priser",
       "wholesale": {
         "menuGroupLabel": "Afregninger",
         "startProcess": "Start proces",
@@ -261,6 +262,9 @@
     "serverError": {
       "title": "Ups! Der opstod en fejl",
       "message": "Der opstod desværre en fejl, da vi skulle hente de nødvendige oplysninger."
+    },
+    "prices": {
+      "topBarTitle": "Priser"
     }
   },
   "messageArchive": {
@@ -317,7 +321,9 @@
             "Inactive": "Inaktiv",
             "Passive": "Passiv",
             "Deleted": "Slettet"
-          }
+          },
+          "statusChangeTitle": "Ændring af aktørstatus",
+          "statusChangeWarning": "Ændring af aktørstatus til '{{ status }}' er endelig og vil ikke kunne ændres tilbage til '{{ initialStatus }}'. Vil du fortsætte?"
         },
         "contacts": {
           "invalidConfiguration": "Kontakter er ikke korrekt konfigureret"
