@@ -552,13 +552,32 @@
     },
     "searchBatch": {
       "topBarTitle": "Search Batch",
-      "headline": "Latest batches",
+      "headline": "Batch overview",
+      "filters": {
+        "period": "Period",
+        "periodRequired": "Period is required",
+        "searchButton": "Search"
+      },
       "columns": {
         "batchNumber": "Batch number",
         "periodFrom": "Period from",
         "periodTo": "Period to",
         "executionTime": "Execution time",
         "status": "Status"
+      },
+      "Pending": "Pending",
+      "Running": "Running",
+      "Finished": "Finished",
+      "Failed": "Failed",
+      "loadBatchesFailedTitle": "Oops! There was an error",
+      "loadBatchesFailedMessage": "Unfortunately, an error occurred while retrieving the necessary information.",
+      "paginator": {
+        "itemsPerPageLabel": "Batches per page",
+        "nextPageLabel": "Next page",
+        "perviouspageLabel": "Previous page",
+        "firstPageLabel": "first page",
+        "lastPageLabel": "last page",
+        "of": "of"
       }
     },
     "overview": {

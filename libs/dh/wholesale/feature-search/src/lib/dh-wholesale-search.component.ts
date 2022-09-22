@@ -14,14 +14,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { CommonModule } from '@angular/common';
 import { Component, NgModule } from '@angular/core';
+import { of } from 'rxjs';
+import { LetModule } from '@rx-angular/template';
 import { TranslocoModule } from '@ngneat/transloco';
-import { WattButtonModule } from '@energinet-datahub/watt';
+import { MatCardModule } from '@angular/material/card';
 
-import { MatTableModule } from '@angular/material/table';
+import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/feature-flags';
+import {
+  WattButtonModule,
+  WattEmptyStateModule,
+  WattSpinnerModule,
+} from '@energinet-datahub/watt';
 
 import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
-import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/feature-flags';
+import { WholesaleSearchBatchDto } from '@energinet-datahub/dh/shared/domain';
+
+import { DhWholesaleTableComponent } from './table/dh-wholesale-table.component';
+import { DhWholesaleFormComponent } from './form/dh-wholesale-form.component';
 
 @Component({
   selector: 'dh-wholesale-search',
@@ -32,21 +43,31 @@ import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/featu
 export class DhWholesaleSearchComponent {
   constructor(private store: DhWholesaleBatchDataAccessApiStore) {}
 
-  columnIds = [
-    'batchNumber',
-    'periodFrom',
-    'periodTo',
-    'executionTime',
-    'status',
-  ];
+  data$ = this.store.batches$;
+  loadingBatchesTrigger$ = this.store.loadingBatchesTrigger$;
+  loadingBatchesErrorTrigger$ = this.store.loadingBatchesErrorTrigger$;
+
+  searchSubmitted = false;
+
+  onSearch(search: WholesaleSearchBatchDto) {
+    console.log(search);
+    this.searchSubmitted = true;
+    this.store.getBatches(of(search));
+  }
 }
 
 @NgModule({
   imports: [
-    WattButtonModule,
-    TranslocoModule,
+    CommonModule,
     DhFeatureFlagDirectiveModule,
-    MatTableModule,
+    DhWholesaleFormComponent,
+    DhWholesaleTableComponent,
+    LetModule,
+    MatCardModule,
+    TranslocoModule,
+    WattButtonModule,
+    WattEmptyStateModule,
+    WattSpinnerModule,
   ],
   declarations: [DhWholesaleSearchComponent],
 })

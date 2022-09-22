@@ -13,6 +13,7 @@
 // limitations under the License.
 
 using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
@@ -44,6 +45,20 @@ namespace Energinet.DataHub.WebApi.Controllers.Wholesale
 
             // Forward response status from domain to frontend
             return StatusCode((int)response.StatusCode);
+        }
+
+        /// <summary>
+        /// Get a batch.
+        /// </summary>
+        [HttpPost("Search")]
+        public async Task<IEnumerable<WholesaleSearchBatchResponseDto>> PostAsync(WholesaleSearchBatchDto wholesaleSearchBatchDto)
+        {
+            var response = await _httpClient
+                .PostAsJsonAsync("v1/Batch/search", wholesaleSearchBatchDto)
+                .ConfigureAwait(false);
+
+            // Forward response status from domain to frontend
+            return new List<WholesaleSearchBatchResponseDto>();
         }
     }
 }
