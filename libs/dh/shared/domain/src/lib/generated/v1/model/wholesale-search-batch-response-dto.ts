@@ -14,8 +14,8 @@ import { WholesaleStatus } from './wholesale-status';
 
 export interface WholesaleSearchBatchResponseDto { 
     batchNumber: number;
-    periodFrom: string;
-    periodTo: string;
+    periodStart: string;
+    periodEnd: string;
     executionTimeStart: string;
     executionTimeEnd?: string | null;
     status: WholesaleStatus;

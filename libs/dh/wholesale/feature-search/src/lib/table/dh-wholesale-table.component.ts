@@ -44,8 +44,8 @@ import {
 type wholesaleTableData = MatTableDataSource<{
   statusType: void | WattBadgeType;
   batchNumber: number;
-  periodFrom: string;
-  periodTo: string;
+  periodStart: string;
+  periodEnd: string;
   executionTimeStart: string;
   executionTimeEnd?: string | null;
   status: WholesaleStatus;

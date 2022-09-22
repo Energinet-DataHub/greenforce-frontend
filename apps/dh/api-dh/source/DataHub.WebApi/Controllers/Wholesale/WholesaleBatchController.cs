@@ -56,9 +56,8 @@ namespace Energinet.DataHub.WebApi.Controllers.Wholesale
             var response = await _httpClient
                 .PostAsJsonAsync("v1/Batch/search", wholesaleSearchBatchDto)
                 .ConfigureAwait(false);
-
-            // Forward response status from domain to frontend
-            return new List<WholesaleSearchBatchResponseDto>();
+            var result = await response.Content.ReadFromJsonAsync<IEnumerable<WholesaleSearchBatchResponseDto>>();
+            return result ?? new List<WholesaleSearchBatchResponseDto>();
         }
     }
 }

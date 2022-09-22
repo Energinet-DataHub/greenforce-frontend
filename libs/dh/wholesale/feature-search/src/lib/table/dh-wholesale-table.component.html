@@ -41,7 +41,7 @@ limitations under the License.
         {{ transloco("columns.periodFrom") }}
       </mat-header-cell>
       <mat-cell *matCellDef="let batch">
-        {{ batch.periodFrom | dhDate }}
+        {{ batch.periodStart | dhDate }}
       </mat-cell>
     </ng-container>
     <!-- Period To -->
@@ -50,7 +50,7 @@ limitations under the License.
         {{ transloco("columns.periodTo") }}
       </mat-header-cell>
       <mat-cell *matCellDef="let batch">
-        {{ batch.periodTo | dhDate }}
+        {{ batch.periodEnd | dhDate }}
       </mat-cell>
     </ng-container>
     <!-- Execution Time -->
