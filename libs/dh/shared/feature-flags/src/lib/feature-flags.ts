@@ -53,6 +53,10 @@ export const dhFeatureFlagsConfig = makeFeatureFlags({
     created: '19-09-2022',
     disabledEnvironments: [DhAppEnvironment.prod],
   },
+  charges_prices_download_button_feature_flag: {
+    created: '22-09-2022',
+    disabledEnvironments: [DhAppEnvironment.prod],
+  },
 });
 
 export type DhFeatureFlags = keyof typeof dhFeatureFlagsConfig;

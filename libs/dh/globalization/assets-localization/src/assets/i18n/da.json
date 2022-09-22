@@ -264,7 +264,56 @@
       "message": "Der opstod desværre en fejl, da vi skulle hente de nødvendige oplysninger."
     },
     "prices": {
-      "topBarTitle": "Priser"
+      "topBarTitle": "Søg pris",
+      "search": {
+        "idOrName": "ID/Navn",
+        "enterIdOrName": "Indtast dele af eller hele navnet",
+        "owner": "Ejer",
+        "enterOwner": "Indtast ejer",
+        "selectChargeType": "Vælg type",
+        "selectValidity": "Vælg gyldighed",
+        "chargeType": "Type",
+        "validity": "Gyldighed",
+        "dateValidFrom": "Gyldig fra",
+        "dateValidTo": "Gyldig til",
+        "clearSearch": "Ryd",
+        "startSearch": "Søg"
+      },
+      "priceId": "Id",
+      "priceName": "Navn",
+      "owner": "Ejer",
+      "chargeType": "Type",
+      "resolution": "Opløsning",
+      "validFromDate": "Gyldig fra",
+      "validToDate": "Gyldig til",
+      "resultLength": "Søgeresultater",
+      "Download": "Download",
+      "noResultsFound": "Intet resultat",
+      "noResultsHelperText": "Prøv at ændre dine søgeindstillinger",
+      "taxIndicator": "Afgift",
+      "transparentInvoicing": "Viderefakturering",
+      "paginator": {
+        "itemsPerPageLabel": "Priser pr. side",
+        "of": "af",
+        "first": "Første side",
+        "last": "Sidste side",
+        "next": "Næste side",
+        "previous": "Forrige side"
+      },
+      "chargeTypes": {
+        "Unknown": "Ukendt",
+        "Subscription": "Abonnement",
+        "Fee": "Gebyr",
+        "Tariff": "Tarif"
+      },
+      "validityOptions": {
+        "Now": "Gyldig nu",
+        "Planned": "Planlagte",
+        "ThisWeek": "Denne uge",
+        "ThisMonth": "Denne måned",
+        "ThisQuarter": "Dette kvartal",
+        "ThisYear": "Dette år"
+      }
     }
   },
   "messageArchive": {
