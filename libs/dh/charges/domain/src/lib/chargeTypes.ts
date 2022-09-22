@@ -15,8 +15,8 @@
  * limitations under the License.
  */
 export enum ChargeTypes {
-  Unknown = '0',
-  Subscription = '1',
-  Fee = '2',
-  Tariff = '3',
+  Unknown = 'Unknown',
+  Subscription = 'Subscription',
+  Fee = 'Fee',
+  Tariff = 'Tarif',
 }

@@ -279,29 +279,25 @@
         "clearSearch": "Ryd",
         "startSearch": "Søg"
       },
-      "result": {
-        "priceId": "Id",
-        "priceName": "Navn",
-        "owner": "Ejer",
-        "chargeType": "Type",
-        "resolution": "Opløsning",
-        "validFromDate": "Gyldig fra",
-        "validToDate": "Gyldig til",
-        "resultLength": "Søgeresultater",
-        "Download": "Download",
-        "noResultsFound": "Intet resultat",
-        "noResultsHelperText": "Prøv at ændre dine søge indstillinger",
-        "paginator": {
-          "itemsPerPageLabel": "Priser pr. side",
-          "of": "af",
-          "first": "Første side",
-          "last": "Sidste side",
-          "next": "Næste side",
-          "previous": "Forrige side"
-        }
-      }
-    },
-    "domain": {
+      "priceId": "Id",
+      "priceName": "Navn",
+      "owner": "Ejer",
+      "chargeType": "Type",
+      "resolution": "Opløsning",
+      "validFromDate": "Gyldig fra",
+      "validToDate": "Gyldig til",
+      "resultLength": "Søgeresultater",
+      "Download": "Download",
+      "noResultsFound": "Intet resultat",
+      "noResultsHelperText": "Prøv at ændre dine søge indstillinger",
+      "paginator": {
+        "itemsPerPageLabel": "Priser pr. side",
+        "of": "af",
+        "first": "Første side",
+        "last": "Sidste side",
+        "next": "Næste side",
+        "previous": "Forrige side"
+      },
       "chargeTypes": {
         "Unknown": "Ukendt",
         "Subscription": "Abonnement",

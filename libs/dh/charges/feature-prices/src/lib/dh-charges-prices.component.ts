@@ -73,7 +73,7 @@ export class DhChargesPricesComponent implements OnInit, OnDestroy {
 
   private buildValidityOptions() {
     this.translocoService
-      .selectTranslateObject('charges.domain.validityOptions')
+      .selectTranslateObject('charges.prices.validityOptions')
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (keys) => {
@@ -91,7 +91,7 @@ export class DhChargesPricesComponent implements OnInit, OnDestroy {
 
   private buildChargeTypeOptions() {
     this.translocoService
-      .selectTranslateObject('charges.domain.chargeTypes')
+      .selectTranslateObject('charges.prices.chargeTypes')
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (keys) => {

@@ -62,8 +62,8 @@ export class DhChargesPricesResultComponent
       owner: 'test owner',
       isTax: true,
       isTransparentInvoicing: true,
-      chargeType: 0,
-      resolution: 0,
+      chargeType: 'Abonnement',
+      resolution: 'Måned',
       validFromDate: '01-01-2000',
       validToDate: '02-01-2000',
     },
@@ -108,11 +108,11 @@ export class DhChargesPricesResultComponent
     this.matPaginatorIntl.getRangeLabel = (page, pageSize, length) =>
       temp(page, pageSize, length).replace(
         'of',
-        this.translocoService.translate('charges.prices.result.paginator.of')
+        this.translocoService.translate('charges.prices.paginator.of')
       );
 
     this.translocoService
-      .selectTranslateObject('charges.prices.result.paginator')
+      .selectTranslateObject('charges.prices.paginator')
       .pipe(takeUntil(this.destroy$))
       .subscribe((value) => {
         this.matPaginatorIntl.itemsPerPageLabel = value.itemsPerPageLabel;
