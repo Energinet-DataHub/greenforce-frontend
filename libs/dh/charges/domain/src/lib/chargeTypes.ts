@@ -18,5 +18,5 @@ export enum ChargeTypes {
   Unknown = 'Unknown',
   Subscription = 'Subscription',
   Fee = 'Fee',
-  Tariff = 'Tarif',
+  Tariff = 'Tariff',
 }

@@ -60,7 +60,7 @@ export class DhChargesPricesResultComponent
     //   id: 1,
     //   name: 'test name',
     //   owner: 'test owner',
-    //   isTax: true,
+    //   isTax: false,
     //   isTransparentInvoicing: true,
     //   chargeType: 'Abonnement',
     //   resolution: 'Måned',
