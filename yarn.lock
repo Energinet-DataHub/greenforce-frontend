@@ -13875,10 +13875,10 @@ next-tick@^1.1.0:
   resolved "https://registry.yarnpkg.com/next-tick/-/next-tick-1.1.0.tgz#1836ee30ad56d67ef281b22bd199f709449b35eb"
   integrity sha512-CXdUiJembsNjuToQvxayPZF9Vqht7hewsvy2sOWafLvi2awflj9mOC6bHIg50orX8IJvWKY9wYQ/zB2kogPslQ==
 
-ng-mocks@14.2.2:
-  version "14.2.2"
-  resolved "https://registry.yarnpkg.com/ng-mocks/-/ng-mocks-14.2.2.tgz#c59fe1b2eddda75befab3c87ffa81b2d86c27fa7"
-  integrity sha512-+WJlSu9ZN96JRP9WO0R3xcxzjvm+0ZKar1sR5ld+LWm6Fde3Ft0DGGfGWwKqRlow8qxldlVG+vhajgRpJzeVug==
+ng-mocks@14.0.1:
+  version "14.0.1"
+  resolved "https://registry.yarnpkg.com/ng-mocks/-/ng-mocks-14.0.1.tgz#bdcbe624332ea1a38f383ab4ed04e91cc78c2c53"
+  integrity sha512-wwIBQimfU5cpDmpyRRYYCNf2/M+8MObOJvsrdxvlhSE2t8QAJn1bJXbyL5SFjw1T4DreHwbH3mQzUqPdPLeyBA==
 
 ng-morph@^2.0.0:
   version "2.1.0"
