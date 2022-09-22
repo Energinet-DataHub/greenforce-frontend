@@ -550,8 +550,7 @@
       "filters": {
         "period": "Periode",
         "periodRequired": "Periode påkrævet",
-        "searchButton": "Søg",
-        "clearButton": "Ryd"
+        "searchButton": "Søg"
       },
       "columns": {
         "batchNumber": "Batch-nummer",

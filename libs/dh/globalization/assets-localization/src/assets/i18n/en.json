@@ -550,8 +550,7 @@
       "filters": {
         "period": "Period",
         "periodRequired": "Period is required",
-        "searchButton": "Search",
-        "clearButton": "Clear"
+        "searchButton": "Search"
       },
       "columns": {
         "batchNumber": "Batch number",
