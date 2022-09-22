@@ -15,3 +15,4 @@
  * limitations under the License.
  */
 export * from './lib/dh-charges-prices.component';
+export * from './lib/search-result/dh-charges-prices-result.component';
