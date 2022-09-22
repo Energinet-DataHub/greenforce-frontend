@@ -267,7 +267,7 @@
       "topBarTitle": "Søg pris",
       "search": {
         "idOrName": "ID/Navn",
-        "enterIdOrName": "Indtast dele af eller hele navn eller id",
+        "enterIdOrName": "Indtast dele af eller hele navnet",
         "owner": "Ejer",
         "enterOwner": "Indtast ejer",
         "selectChargeType": "Vælg type",

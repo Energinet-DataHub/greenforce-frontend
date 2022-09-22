@@ -267,7 +267,7 @@
       "topBarTitle": "Search price",
       "search": {
         "idOrName": "ID/Name",
-        "enterIdOrName": "Enter parts or whole name or id",
+        "enterIdOrName": "Enter part or whole name",
         "owner": "Owner",
         "enterOwner": "Enter owner",
         "selectChargeType": "Choose type",
