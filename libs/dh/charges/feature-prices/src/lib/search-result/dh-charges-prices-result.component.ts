@@ -55,7 +55,7 @@ export class DhChargesPricesResultComponent
   private destroy$ = new Subject<void>();
 
   iconSizes = WattIconSize;
-  searchResult: Array<any> = [
+  searchResult: Array<object> = [
     {
       id: 1,
       name: 'test name',
@@ -79,9 +79,8 @@ export class DhChargesPricesResultComponent
     'validToDate',
   ];
 
-  readonly dataSource: MatTableDataSource<any> = new MatTableDataSource<any>(
-    this.searchResult
-  );
+  readonly dataSource: MatTableDataSource<object> =
+    new MatTableDataSource<object>(this.searchResult);
 
   constructor(
     private translocoService: TranslocoService,

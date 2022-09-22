@@ -53,8 +53,11 @@ import { DhChargesPricesResultScam } from './search-result/dh-charges-prices-res
 export class DhChargesPricesComponent implements OnInit, OnDestroy {
   chargeTypeOptions: WattDropdownOptions = [];
   validityOptions: WattDropdownOptions = [];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   searchCriteria: any = {
     chargeTypes: '',
+    idOrName: '',
+    owner: '',
   };
 
   private destroy$ = new Subject<void>();
