@@ -56,17 +56,17 @@ export class DhChargesPricesResultComponent
 
   iconSizes = WattIconSize;
   searchResult: Array<object> = [
-    {
-      id: 1,
-      name: 'test name',
-      owner: 'test owner',
-      isTax: true,
-      isTransparentInvoicing: true,
-      chargeType: 'Abonnement',
-      resolution: 'Måned',
-      validFromDate: '01-01-2000',
-      validToDate: '02-01-2000',
-    },
+    // {
+    //   id: 1,
+    //   name: 'test name',
+    //   owner: 'test owner',
+    //   isTax: true,
+    //   isTransparentInvoicing: true,
+    //   chargeType: 'Abonnement',
+    //   resolution: 'Måned',
+    //   validFromDate: '01-01-2000',
+    //   validToDate: '02-01-2000',
+    // },
   ];
   displayedColumns = [
     'priceId',
