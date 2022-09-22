@@ -20,7 +20,7 @@ import {
   Component,
   EventEmitter,
   Output,
-  OnInit
+  OnInit,
 } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoModule } from '@ngneat/transloco';
