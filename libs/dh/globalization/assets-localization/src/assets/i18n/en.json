@@ -546,7 +546,7 @@
     },
     "searchBatch": {
       "topBarTitle": "Search Batch",
-      "headline": "Latest batches",
+      "headline": "Batch overview",
       "filters": {
         "period": "Period",
         "periodRequired": "Period is required",

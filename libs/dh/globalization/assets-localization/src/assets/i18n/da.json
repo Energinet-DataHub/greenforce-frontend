@@ -546,7 +546,7 @@
     },
     "searchBatch": {
       "topBarTitle": "Søg batch",
-      "headline": "Seneste batches",
+      "headline": "Batch overblik",
       "filters": {
         "period": "Periode",
         "periodRequired": "Periode påkrævet",

@@ -20,6 +20,7 @@ import {
   Component,
   EventEmitter,
   Output,
+  OnInit
 } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoModule } from '@ngneat/transloco';
@@ -48,13 +49,13 @@ import { format, sub } from 'date-fns';
   styleUrls: ['./dh-wholesale-form.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DhWholesaleFormComponent {
+export class DhWholesaleFormComponent implements OnInit {
   @Output() search: EventEmitter<WholesaleSearchBatchDto> = new EventEmitter();
 
   searchForm = this.fb.group({
     executionTime: [
       {
-        start: format(sub(new Date(), { days: 14 }), 'dd-MM-yyyy'),
+        start: format(sub(new Date(), { days: 10 }), 'dd-MM-yyyy'),
         end: format(new Date(), 'dd-MM-yyyy'),
       },
       WattRangeValidators.required(),
@@ -62,6 +63,10 @@ export class DhWholesaleFormComponent {
   });
 
   constructor(private fb: FormBuilder) {}
+
+  ngOnInit() {
+    this.onSubmit();
+  }
 
   onSubmit() {
     this.search.emit({
