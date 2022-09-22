@@ -14,16 +14,42 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-.search-container {
-  display: grid;
-  grid-template-columns: 2fr 2fr 1fr 1fr 1fr 1fr;
-  padding-bottom: var(--watt-space-m);
-  gap: var(--watt-space-m);
+table {
+  width: 100%;
 }
 
-.buttons-container {
+.card-container {
+  padding: var(--watt-space-m);
+  box-shadow: 0px 1px 6px rgba(11, 60, 93, 0.12),
+    0px 4px 18px 3px rgba(46, 50, 52, 0.08);
+  border-radius: 4px;
+}
+
+.header-container {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  align-items: center;
+}
+
+.pagination-container {
   display: flex;
   justify-content: flex-end;
-  padding-bottom: var(--watt-space-m);
-  gap: var(--watt-space-m);
+  align-items: center;
+}
+
+.no-result-div {
+  margin-top: var(--watt-space-xl);
+}
+
+.icons {
+  display: flex;
+
+  watt-icon {
+    margin-left: 1rem;
+    color: var(--watt-color-neutral-grey-400);
+  }
+
+  .active {
+    color: var(--watt-color-neutral-black);
+  }
 }
