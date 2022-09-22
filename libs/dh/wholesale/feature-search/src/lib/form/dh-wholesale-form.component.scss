@@ -14,8 +14,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-.content {
+:host {
+  background: var(--watt-color-neutral-white);
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
+  display: block;
+  margin-bottom: var(--watt-space-l);
+  margin-left: calc(var(--watt-space-l) * -1);
+  margin-top: calc(var(--watt-space-l) * -1);
+  padding: var(--watt-space-l);
+  width: calc(100% + var(--watt-space-xl));
+}
+
+.actions {
   display: flex;
-  justify-content: center;
-  width: 100%;
+  justify-content: flex-end;
+
+  watt-button {
+    margin-top: var(--watt-space-m);
+    margin-left: var(--watt-space-l);
+  }
 }
