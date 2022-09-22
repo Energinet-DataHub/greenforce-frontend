@@ -36,7 +36,7 @@ limitations under the License.
       </mat-cell>
     </ng-container>
     <!-- Period From -->
-    <ng-container matColumnDef="periodFrom">
+    <ng-container matColumnDef="periodStart">
       <mat-header-cell *matHeaderCellDef mat-sort-header>
         {{ transloco("columns.periodFrom") }}
       </mat-header-cell>
@@ -45,7 +45,7 @@ limitations under the License.
       </mat-cell>
     </ng-container>
     <!-- Period To -->
-    <ng-container matColumnDef="periodTo">
+    <ng-container matColumnDef="periodEnd">
       <mat-header-cell *matHeaderCellDef mat-sort-header>
         {{ transloco("columns.periodTo") }}
       </mat-header-cell>
@@ -54,7 +54,7 @@ limitations under the License.
       </mat-cell>
     </ng-container>
     <!-- Execution Time -->
-    <ng-container matColumnDef="executionTime">
+    <ng-container matColumnDef="executionTimeStart">
       <mat-header-cell *matHeaderCellDef mat-sort-header>
         {{ transloco("columns.executionTime") }}
       </mat-header-cell>
@@ -66,13 +66,13 @@ limitations under the License.
       </mat-cell>
     </ng-container>
     <!-- Status -->
-    <ng-container matColumnDef="status">
+    <ng-container matColumnDef="executionState">
       <mat-header-cell *matHeaderCellDef mat-sort-header>
         {{ transloco("columns.status") }}
       </mat-header-cell>
       <mat-cell *matCellDef="let batch">
         <watt-badge [type]="batch.statusType">
-          {{ transloco(batch.status) }}
+          {{ transloco(batch.executionState) }}
         </watt-badge>
       </mat-cell>
     </ng-container>

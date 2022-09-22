@@ -48,7 +48,7 @@ type wholesaleTableData = MatTableDataSource<{
   periodEnd: string;
   executionTimeStart: string;
   executionTimeEnd?: string | null;
-  status: WholesaleStatus;
+  executionState: WholesaleStatus;
 }>;
 
 @Component({
@@ -74,7 +74,7 @@ export class DhWholesaleTableComponent implements OnDestroy, AfterViewInit {
     this._data = new MatTableDataSource(
       batches.map((batch) => ({
         ...batch,
-        statusType: this.getStatusType(batch.status),
+        statusType: this.getStatusType(batch.executionState),
       }))
     );
   }
@@ -88,10 +88,10 @@ export class DhWholesaleTableComponent implements OnDestroy, AfterViewInit {
 
   columnIds = [
     'batchNumber',
-    'periodFrom',
-    'periodTo',
-    'executionTime',
-    'status',
+    'periodStart',
+    'periodEnd',
+    'executionTimeStart',
+    'executionState',
   ];
 
   ngAfterViewInit() {

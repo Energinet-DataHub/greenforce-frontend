@@ -18,7 +18,7 @@ export interface WholesaleSearchBatchResponseDto {
     periodEnd: string;
     executionTimeStart: string;
     executionTimeEnd?: string | null;
-    status: WholesaleStatus;
+    executionState: WholesaleStatus;
 }
 
 
