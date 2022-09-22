@@ -112,17 +112,19 @@ namespace Energinet.DataHub.WebApi
 
             var apiClientSettings = Configuration.GetSection("ApiClientSettings").Get<ApiClientSettings>();
             AddDomainClients(services, apiClientSettings);
-
-            // Health check
-            SetupHealthEndpoints(services, apiClientSettings);
+            if (!Environment.IsDevelopment())
+            {
+                // Health check
+                SetupHealthEndpoints(services, apiClientSettings);
+            }
         }
 
         /// <summary>
         /// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         /// </summary>
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment environment)
+        public void Configure(IApplicationBuilder app)
         {
-            if (environment.IsDevelopment())
+            if (Environment.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
 
@@ -133,6 +135,10 @@ namespace Energinet.DataHub.WebApi
                 app.UseSwaggerUI(options =>
                     options.SwaggerEndpoint("/swagger/v1/swagger.json", "DataHub.WebApi v1"));
             }
+            else
+            {
+                app.UseMiddleware<JwtTokenMiddleware>();
+            }
 
             app.UseHttpsRedirection();
 
@@ -141,8 +147,6 @@ namespace Energinet.DataHub.WebApi
             app.UseCors();
 
             app.UseAuthorization();
-
-            app.UseMiddleware<JwtTokenMiddleware>();
 
             app.UseEndpoints(endpoints =>
             {
