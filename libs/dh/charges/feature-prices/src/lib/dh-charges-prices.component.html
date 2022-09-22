@@ -14,16 +14,16 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<ng-container *transloco="let transloco; read: 'charges.prices.search'">
+<ng-container *transloco="let t; read: 'charges.prices.search'">
   <form #searchForm name="price-search-form" (ngSubmit)="onSubmit()">
     <div class="search-container">
       <!-- ID or name -->
       <watt-form-field>
-        <watt-label>{{ transloco("idOrName") }}</watt-label>
+        <watt-label>{{ t("idOrName") }}</watt-label>
         <watt-dropdown
           [(ngModel)]="this.searchCriteria.idOrName"
           name="idOrNAme"
-          [placeholder]="transloco('enterIdOrName')"
+          [placeholder]="t('enterIdOrName')"
           [multiple]="true"
           [title]="this.searchCriteria.idOrName"
         >
@@ -32,11 +32,11 @@ limitations under the License.
 
       <!-- Owner -->
       <watt-form-field>
-        <watt-label>{{ transloco("owner") }}</watt-label>
+        <watt-label>{{ t("owner") }}</watt-label>
         <watt-dropdown
           [(ngModel)]="this.searchCriteria.owner"
           name="owner"
-          [placeholder]="transloco('enterOwner')"
+          [placeholder]="t('enterOwner')"
           [multiple]="true"
           [title]="this.searchCriteria.owner"
         >
@@ -45,12 +45,12 @@ limitations under the License.
 
       <!-- Type -->
       <watt-form-field>
-        <watt-label>{{ transloco("chargeType") }}</watt-label>
+        <watt-label>{{ t("chargeType") }}</watt-label>
         <watt-dropdown
           [(ngModel)]="this.searchCriteria.chargeTypes"
           [options]="chargeTypeOptions"
           name="chargeType"
-          [placeholder]="transloco('selectChargeType')"
+          [placeholder]="t('selectChargeType')"
           [multiple]="true"
           [title]="this.searchCriteria.chargeTypes"
         >
@@ -59,12 +59,12 @@ limitations under the License.
 
       <!-- Validity -->
       <watt-form-field>
-        <watt-label>{{ transloco("validity") }}</watt-label>
+        <watt-label>{{ t("validity") }}</watt-label>
         <watt-dropdown
           [(ngModel)]="this.searchCriteria.validity"
           [options]="validityOptions"
           name="validity"
-          [placeholder]="transloco('selectValidity')"
+          [placeholder]="t('selectValidity')"
           [multiple]="false"
           [title]="this.searchCriteria.validity"
         >
@@ -73,48 +73,40 @@ limitations under the License.
 
       <!-- Date valid from -->
       <watt-form-field>
-        <watt-label>{{ transloco("dateValidFrom") }}</watt-label>
-        <input
-          #searchInputDateTimeValidFrom
+        <watt-label>{{ t("dateValidFrom") }}</watt-label>
+        <watt-datepicker>
           [(ngModel)]="this.searchCriteria.dateTimeValidFrom"
-          wattInput
-          type="date"
-          name="dateTimeValidFrom"
-        />
+        </watt-datepicker>
       </watt-form-field>
 
       <!-- Date to -->
       <watt-form-field>
-        <watt-label>{{ transloco("dateValidTo") }}</watt-label>
-        <input
-          #searchInputDateTimeValidTo
+        <watt-label>{{ t("dateValidTo") }}</watt-label>
+        <watt-datepicker>
           [(ngModel)]="this.searchCriteria.dateTimeValidTo"
-          wattInput
-          type="date"
-          name="dateTimeValidTo"
-        />
+        </watt-datepicker>
       </watt-form-field>
     </div>
     <div class="buttons-container">
       <!-- Clear -->
       <watt-button
-        title="{{ transloco('clearSearch') }}"
+        title="{{ t('clearSearch') }}"
         (click)="resetSearchCriteria()"
         variant="secondary"
         icon="remove"
         type="reset"
       >
-        {{ transloco("clearSearch") }}
+        {{ t("clearSearch") }}
       </watt-button>
 
       <!-- Search -->
       <watt-button
-        title="{{ transloco('startSearch') }}"
+        title="{{ t('startSearch') }}"
         variant="primary"
         icon="search"
         type="submit"
       >
-        {{ transloco("startSearch") }}
+        {{ t("startSearch") }}
       </watt-button>
     </div>
   </form>

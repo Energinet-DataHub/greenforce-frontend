@@ -89,7 +89,7 @@ export class DhChargesPricesResultComponent
 
   ngOnInit() {
     this.dataSource.paginator = this.paginator;
-    this.setupPaginatiorTranslation();
+    this.setupPaginatorTranslation();
   }
 
   ngOnChanges() {
@@ -99,10 +99,10 @@ export class DhChargesPricesResultComponent
 
   ngOnDestroy(): void {
     this.destroy$.next();
-    this.destroy$.unsubscribe();
+    this.destroy$.complete();
   }
 
-  private readonly setupPaginatiorTranslation = () => {
+  private readonly setupPaginatorTranslation = () => {
     const temp = this.matPaginatorIntl.getRangeLabel;
     this.matPaginatorIntl.getRangeLabel = (page, pageSize, length) =>
       temp(page, pageSize, length).replace(
