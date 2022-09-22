@@ -148,7 +148,6 @@
     "kill-port-process": "3.0.1",
     "msw": "0.47.3",
     "ng-mocks": "14.0.1",
-    "ng-packagr": "14.2.1",
     "nx": "14.7.8",
     "prettier": "2.7.1",
     "rimraf": "3.0.2",
