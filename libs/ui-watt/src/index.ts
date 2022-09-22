@@ -43,3 +43,4 @@ export * from './lib/components/modal';
 export * from './lib/utils/resize-observer';
 export * from './lib/components/drawer';
 export * from './lib/components/toast';
+export * from './lib/components/tooltip';
