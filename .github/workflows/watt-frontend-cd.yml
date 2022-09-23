@@ -203,7 +203,7 @@ jobs:
       - name: Set RELEASE_VERSION
         shell: bash
         run: |
-          echo "RELEASE_VERSION=watt_frontend_${{ steps.find_pull_request.outputs.pr }}" >> $GITHUB_ENV
+          echo "RELEASE_VERSION=watt_frontend${{ steps.find_pull_request.outputs.pr }}" >> $GITHUB_ENV
           echo "RELEASE_FOLDER_PATH=${{ github.workspace }}/watt_frontend_${{ steps.find_pull_request.outputs.pr }}" >> $GITHUB_ENV
 
       - name: Setup Release
