@@ -137,16 +137,16 @@ export abstract class WattPickerBase
       return;
     }
 
-    if (!this.range) {
-      this.setSingleValue(
-        value as Exclude<WattPickerValue, WattRange>,
-        this.input.nativeElement
-      );
-    } else {
+    if (this.range) {
       this.setRangeValue(
         value as WattRange,
         this.startInput.nativeElement,
         this.endInput.nativeElement
+      );
+    } else {
+      this.setSingleValue(
+        value as Exclude<WattPickerValue, WattRange>,
+        this.input.nativeElement
       );
     }
 
