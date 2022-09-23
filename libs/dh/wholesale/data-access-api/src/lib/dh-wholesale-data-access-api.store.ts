@@ -84,8 +84,8 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
         tap(() => this.loadingBatchesTrigger$.next()),
         switchMap((filter: WholesaleSearchBatchDto) => {
           const searchBatchesRequest: WholesaleSearchBatchDto = {
-            minExecutionTime: this.formatDate(filter.minExecutionTime),
-            maxExecutionTime: this.formatDate(filter.maxExecutionTime),
+            minExecutionTime: filter.minExecutionTime,
+            maxExecutionTime: filter.maxExecutionTime,
           };
 
           return this.httpClient
@@ -101,9 +101,4 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
       );
     }
   );
-
-  private formatDate(value: string): string {
-    const date = parse(value, 'dd-MM-yyyy', new Date());
-    return zonedTimeToUtc(date, 'Europe/Copenhagen').toISOString();
-  }
 }
