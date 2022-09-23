@@ -14,15 +14,132 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import {
+  WholesaleSearchBatchResponseDto,
+  WholesaleStatus,
+} from '@energinet-datahub/dh/shared/domain';
 import { rest } from 'msw';
 
-export const wholesaleMocks = [postWholesaleBatch()];
+export const wholesaleMocks = [postWholesaleBatch(), getWholesaleSearchBatch()];
 
 function postWholesaleBatch() {
   return rest.post(
     'https://localhost:5001/v1/WholesaleBatch',
     (req, res, ctx) => {
       return res(ctx.status(200));
+    }
+  );
+}
+
+function getWholesaleSearchBatch() {
+  const periodStart = '2021-12-01T23:00:00Z';
+  const periodEnd = '2021-12-02T23:00:00Z';
+  const executionTimeStart = '2021-12-01T23:00:00Z';
+  const executionTimeEnd = '2021-12-02T23:00:00Z';
+
+  const mockData: WholesaleSearchBatchResponseDto[] = [
+    {
+      batchNumber: 123,
+      periodStart,
+      periodEnd,
+      executionTimeStart,
+      executionTimeEnd: null,
+      executionState: WholesaleStatus.Pending,
+    },
+    {
+      batchNumber: 234,
+      periodStart,
+      periodEnd,
+      executionTimeStart,
+      executionTimeEnd: null,
+      executionState: WholesaleStatus.Running,
+    },
+    {
+      batchNumber: 345,
+      periodStart,
+      periodEnd,
+      executionTimeStart,
+      executionTimeEnd,
+      executionState: WholesaleStatus.Finished,
+    },
+    {
+      batchNumber: 567,
+      periodStart,
+      periodEnd,
+      executionTimeStart,
+      executionTimeEnd,
+      executionState: WholesaleStatus.Failed,
+    },
+    {
+      batchNumber: 123,
+      periodStart,
+      periodEnd,
+      executionTimeStart,
+      executionTimeEnd: null,
+      executionState: WholesaleStatus.Pending,
+    },
+    {
+      batchNumber: 234,
+      periodStart,
+      periodEnd,
+      executionTimeStart,
+      executionTimeEnd: null,
+      executionState: WholesaleStatus.Running,
+    },
+    {
+      batchNumber: 345,
+      periodStart,
+      periodEnd,
+      executionTimeStart,
+      executionTimeEnd,
+      executionState: WholesaleStatus.Finished,
+    },
+    {
+      batchNumber: 567,
+      periodStart,
+      periodEnd,
+      executionTimeStart,
+      executionTimeEnd,
+      executionState: WholesaleStatus.Failed,
+    },
+    {
+      batchNumber: 123,
+      periodStart,
+      periodEnd,
+      executionTimeStart,
+      executionTimeEnd: null,
+      executionState: WholesaleStatus.Pending,
+    },
+    {
+      batchNumber: 234,
+      periodStart,
+      periodEnd,
+      executionTimeStart,
+      executionTimeEnd: null,
+      executionState: WholesaleStatus.Running,
+    },
+    {
+      batchNumber: 345,
+      periodStart,
+      periodEnd,
+      executionTimeStart,
+      executionTimeEnd,
+      executionState: WholesaleStatus.Finished,
+    },
+    {
+      batchNumber: 567,
+      periodStart,
+      periodEnd,
+      executionTimeStart,
+      executionTimeEnd,
+      executionState: WholesaleStatus.Failed,
+    },
+  ];
+  return rest.post(
+    'https://localhost:5001/v1/WholesaleBatch/search',
+    (req, res, ctx) => {
+      return res(ctx.delay(300), ctx.status(200), ctx.json(mockData));
+      //return res(ctx.delay(2000), ctx.status(500));
     }
   );
 }
