@@ -151,7 +151,7 @@ jobs:
       - name: Set RELEASE_VERSION
         shell: bash
         run: |
-          echo "RELEASE_VERSION=dh_frontend_${{ steps.find_pull_request.outputs.pr }}" >> $GITHUB_ENV
+          echo "RELEASE_VERSION=dh_frontend${{ steps.find_pull_request.outputs.pr }}" >> $GITHUB_ENV
           echo "RELEASE_FOLDER_PATH=${{ github.workspace }}/dh_frontend_${{ steps.find_pull_request.outputs.pr }}" >> $GITHUB_ENV
 
       - name: Setup Release
