@@ -51,7 +51,6 @@ on:
 jobs:
   publish_inbound:
     name: Publish
-    needs: affected
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
