@@ -1,5 +1,9 @@
 import { HttpClientModule } from '@angular/common/http';
-import { render, screen, waitForElementToBeRemoved } from '@testing-library/angular';
+import {
+  render,
+  screen,
+  waitForElementToBeRemoved,
+} from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
 
 import { DhApiModule } from '@energinet-datahub/dh/shared/data-access-api';
@@ -48,7 +52,7 @@ describe(DhWholesaleSearchComponent.name, () => {
     expect(screen.getByText('Search')).toBeInTheDocument();
   });
 
-  it('should search batches on init', async() => {
+  it('should search batches on init', async () => {
     await setup();
     expect(screen.queryByRole('progressbar')).toBeInTheDocument();
   });

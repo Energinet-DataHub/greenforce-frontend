@@ -69,7 +69,7 @@ export class DhWholesaleFormComponent implements OnInit {
   }
 
   onSubmit() {
-    if(!this.searchForm?.value?.executionTime) return;
+    if (!this.searchForm?.value?.executionTime) return;
 
     this.search.emit({
       minExecutionTime: this.searchForm?.value?.executionTime?.start as string,
