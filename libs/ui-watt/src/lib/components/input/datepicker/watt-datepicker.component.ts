@@ -36,15 +36,18 @@ import {
 import { MatFormFieldControl } from '@angular/material/form-field';
 import { combineLatest, map, merge, takeUntil, tap } from 'rxjs';
 import { parse, isValid } from 'date-fns';
-import { formatInTimeZone } from 'date-fns-tz';
+import { formatInTimeZone, zonedTimeToUtc } from 'date-fns-tz';
 
 import { WattInputMaskService } from '../shared/watt-input-mask.service';
 import { WattRangeInputService } from '../shared/watt-range-input.service';
 import { WattRange } from '../shared/watt-range';
 import { WattPickerBase } from '../shared/watt-picker-base';
+import { WattPickerValue } from '../shared/watt-picker-value';
 
 const dateTimeFormat = 'dd-MM-yyyy';
-const danishTimeZoneIdentifier = 'Europe/Copenhagen';
+// Note: The single quotes around 'T' are used as escape characters
+const iso8601DateTimeFormat = "yyyy-MM-dd'T'HH:mm:ssXXX";
+export const danishTimeZoneIdentifier = 'Europe/Copenhagen';
 const danishLocaleCode = 'da';
 
 /**
@@ -149,8 +152,9 @@ export class WattDatepickerComponent extends WattPickerBase {
         let formattedDate = '';
 
         if (value instanceof Date) {
-          formattedDate = this.formatDate(value);
+          formattedDate = this.formatDateFromViewToModel(value);
         }
+
         return formattedDate;
       })
     );
@@ -160,6 +164,7 @@ export class WattDatepickerComponent extends WattPickerBase {
 
       if (isValid(parsedDate)) {
         this.matDatepickerInput.value = parsedDate;
+        value = this.formatDateFromViewToModel(parsedDate);
       }
 
       this.changeParentValue(value);
@@ -210,7 +215,7 @@ export class WattDatepickerComponent extends WattPickerBase {
         let start = '';
 
         if (value instanceof Date) {
-          start = this.formatDate(value);
+          start = this.formatDateFromViewToModel(value);
         }
 
         return start;
@@ -228,7 +233,7 @@ export class WattDatepickerComponent extends WattPickerBase {
         let end = '';
 
         if (value instanceof Date) {
-          end = this.formatDate(value);
+          end = this.formatDateFromViewToModel(value);
         }
 
         return end;
@@ -252,14 +257,40 @@ export class WattDatepickerComponent extends WattPickerBase {
 
         if (isValid(parsedStartDate)) {
           this.matStartDate.value = parsedStartDate;
+          start = this.formatDateFromViewToModel(parsedStartDate);
         }
 
         if (isValid(parsedEndDate)) {
           this.matEndDate.value = parsedEndDate;
+          end = this.formatDateFromViewToModel(parsedEndDate);
         }
 
         this.changeParentValue({ start, end });
       });
+  }
+
+  /**
+   * @ignore
+   */
+  protected setSingleValue(
+    value: Exclude<WattPickerValue, WattRange>,
+    input: HTMLInputElement
+  ) {
+    this.setValueToInput(value, input, this.matDatepickerInput);
+  }
+
+  /**
+   * @ignore
+   */
+  protected setRangeValue(
+    value: WattRange,
+    startInput: HTMLInputElement,
+    endInput: HTMLInputElement
+  ) {
+    const { start, end } = value;
+
+    this.setValueToInput(start, startInput, this.matStartDate);
+    this.setValueToInput(end, endInput, this.matEndDate);
   }
 
   /**
@@ -285,6 +316,7 @@ export class WattDatepickerComponent extends WattPickerBase {
       this.locale,
       FormatWidth.Short
     );
+
     return localeDateFormat
       .toLowerCase()
       .replace(/d+/, 'dd')
@@ -305,14 +337,40 @@ export class WattDatepickerComponent extends WattPickerBase {
   /**
    * @ignore
    */
-  private formatDate(value: Date): string {
-    return formatInTimeZone(value, danishTimeZoneIdentifier, dateTimeFormat);
+  private parseDate(value: string): Date {
+    return parse(value, dateTimeFormat, new Date());
   }
 
   /**
    * @ignore
    */
-  private parseDate(value: string): Date {
-    return parse(value, dateTimeFormat, new Date());
+  private setValueToInput<D extends { value: Date | null }>(
+    value: string | null | undefined,
+    nativeInput: HTMLInputElement,
+    matDateInput: D
+  ): void {
+    nativeInput.value = value ? this.formatDateTimeFromModelToView(value) : '';
+    matDateInput.value = value
+      ? zonedTimeToUtc(value, danishTimeZoneIdentifier)
+      : null;
+  }
+
+  /**
+   * @ignore
+   * Formats Date to full ISO 8601 format
+   */
+  private formatDateFromViewToModel(value: Date): string {
+    return formatInTimeZone(
+      value,
+      danishTimeZoneIdentifier,
+      iso8601DateTimeFormat
+    );
+  }
+
+  /**
+   * @ignore
+   */
+  private formatDateTimeFromModelToView(value: string): string {
+    return formatInTimeZone(value, danishTimeZoneIdentifier, dateTimeFormat);
   }
 }
