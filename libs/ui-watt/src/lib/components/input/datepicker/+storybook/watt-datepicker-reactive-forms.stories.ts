@@ -25,6 +25,10 @@ import { WattDatepickerModule } from '../watt-datepicker.module';
 import { WattFormFieldModule } from '../../../form-field/form-field.module';
 import { WattRangeValidators } from '../../shared/validators';
 
+export const initialValueSingle = '2022-09-01T00:00:00+02:00';
+export const initialValueRangeStart = initialValueSingle;
+export const initialValueRangeEnd = '2022-09-15T00:00:00+02:00';
+
 export default {
   title: 'Components/Datepicker',
   decorators: [
@@ -42,6 +46,9 @@ export default {
 } as Meta;
 
 const template = `
+<p>Value: <span>{{ exampleFormControlSingle.value | json }}</span></p>
+<p>Selected range: <span>{{ exampleFormControlRange.value | json }}</span></p>
+
 <watt-form-field>
   <watt-label>Single date</watt-label>
   <watt-datepicker [formControl]="exampleFormControlSingle"></watt-datepicker>
@@ -50,8 +57,7 @@ const template = `
   </watt-error>
 </watt-form-field>
 
-<p>Value: <code>{{exampleFormControlSingle.value | json}}</code></p>
-<p *ngIf="withValidations">Errors: <code>{{exampleFormControlSingle?.errors | json}}</code></p>
+<p *ngIf="withValidations">Errors: <span>{{ exampleFormControlSingle?.errors | json }}</span></p>
 
 <br />
 
@@ -63,11 +69,8 @@ const template = `
   </watt-error>
 </watt-form-field>
 
-<p>Selected range: <code>{{exampleFormControlRange.value | json}}</code></p>
-<p *ngIf="withValidations">Errors: <code>{{exampleFormControlRange?.errors | json}}</code></p>
+<p *ngIf="withValidations">Errors: <span>{{ exampleFormControlRange?.errors | json }}</span></p>
 `;
-
-const initialValue = '22-11-3333';
 
 export const withFormControl: Story = (args) => ({
   props: {
@@ -93,10 +96,10 @@ exampleFormControl = new FormControl();
 
 export const withInitialValue: Story = (args) => ({
   props: {
-    exampleFormControlSingle: new FormControl(initialValue),
+    exampleFormControlSingle: new FormControl(initialValueSingle),
     exampleFormControlRange: new FormControl({
-      start: initialValue,
-      end: initialValue,
+      start: initialValueRangeStart,
+      end: initialValueRangeEnd,
     }),
     ...args,
   },
