@@ -14,7 +14,7 @@
       "chargePrices": "Prices",
       "wholesale": {
         "menuGroupLabel": "Settlements",
-        "startProcess": "Start Process",
+        "startBatch": "Start Batch",
         "searchBatch": "Search Batch",
         "overview": "Overview"
       }
@@ -590,8 +590,8 @@
     }
   },
   "wholesale": {
-    "startProcess": {
-      "topBarTitle": "Start Process",
+    "startBatch": {
+      "topBarTitle": "Start Batch",
       "startLabel": "Start",
       "dateRangeRequired": "Date range is required",
       "dateRangeLabel": "Period",

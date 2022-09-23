@@ -19,7 +19,7 @@ limitations under the License.
     <div class="date-range-width">
       <watt-form-field>
         <watt-label>{{
-          transloco("startProcess.gridAreaDropDownLabel")
+          transloco("startBatch.gridAreaDropDownLabel")
         }}</watt-label>
         <watt-dropdown
           [formControl]="formControlGridArea"
@@ -29,20 +29,20 @@ limitations under the License.
         ></watt-dropdown>
       </watt-form-field>
       <watt-form-field>
-        <watt-label>{{ transloco("startProcess.dateRangeLabel") }}</watt-label>
+        <watt-label>{{ transloco("startBatch.dateRangeLabel") }}</watt-label>
         <watt-datepicker
           [formControl]="formControlRange"
           [range]="true"
         ></watt-datepicker>
         <watt-error *ngIf="formControlRange?.errors?.rangeRequired">
-          {{ transloco("startProcess.dateRangeRequired") }}
+          {{ transloco("startBatch.dateRangeRequired") }}
         </watt-error>
       </watt-form-field>
     </div>
     <watt-button
       (click)="createBatch()"
       [disabled]="formControlRange.invalid || formControlGridArea.invalid"
-      >{{ transloco("startProcess.startLabel") }}
+      >{{ transloco("startBatch.startLabel") }}
     </watt-button>
   </ng-container>
 </ng-container>

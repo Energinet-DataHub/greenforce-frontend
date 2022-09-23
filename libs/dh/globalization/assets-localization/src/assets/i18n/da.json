@@ -14,7 +14,7 @@
       "chargePrices": "Priser",
       "wholesale": {
         "menuGroupLabel": "Afregninger",
-        "startProcess": "Start proces",
+        "startBatch": "Start batch",
         "searchBatch": "Søg batch",
         "overview": "Oversigt"
       }
@@ -592,8 +592,8 @@
     }
   },
   "wholesale": {
-    "startProcess": {
-      "topBarTitle": "Start proces",
+    "startBatch": {
+      "topBarTitle": "Start batch",
       "startLabel": "Start",
       "dateRangeRequired": "Dato-periode påkrævet",
       "dateRangeLabel": "Periode",

@@ -16,7 +16,7 @@ export interface WholesaleSearchBatchResponseDto {
     batchNumber: number;
     periodStart: string;
     periodEnd: string;
-    executionTimeStart: string;
+    executionTimeStart?: string | null;
     executionTimeEnd?: string | null;
     executionState: WholesaleStatus;
 }
