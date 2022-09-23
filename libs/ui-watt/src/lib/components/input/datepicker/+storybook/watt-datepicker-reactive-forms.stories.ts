@@ -25,6 +25,10 @@ import { WattDatepickerModule } from '../watt-datepicker.module';
 import { WattFormFieldModule } from '../../../form-field/form-field.module';
 import { WattRangeValidators } from '../../shared/validators';
 
+export const initialValueSingle = '2022-09-01T00:00:00+02:00';
+export const initialValueRangeStart = initialValueSingle;
+export const initialValueRangeEnd = '2022-09-15T00:00:00+02:00';
+
 export default {
   title: 'Components/Datepicker',
   decorators: [
@@ -67,9 +71,6 @@ const template = `
 <p *ngIf="withValidations">Errors: <code>{{exampleFormControlRange?.errors | json}}</code></p>
 `;
 
-const initialValueStart = '2022-09-01T00:00:00+02:00';
-const initialValueEnd = '2022-09-15T00:00:00+02:00';
-
 export const withFormControl: Story = (args) => ({
   props: {
     exampleFormControlSingle: new FormControl(null),
@@ -94,10 +95,10 @@ exampleFormControl = new FormControl();
 
 export const withInitialValue: Story = (args) => ({
   props: {
-    exampleFormControlSingle: new FormControl(initialValueStart),
+    exampleFormControlSingle: new FormControl(initialValueRangeStart),
     exampleFormControlRange: new FormControl({
-      start: initialValueStart,
-      end: initialValueEnd,
+      start: initialValueRangeStart,
+      end: initialValueRangeEnd,
     }),
     ...args,
   },
