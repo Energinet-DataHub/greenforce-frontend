@@ -16,20 +16,35 @@
  */
 import { Injectable } from '@angular/core';
 import { ComponentStore } from '@ngrx/component-store';
-import { Observable, exhaustMap } from 'rxjs';
+import {
+  Observable,
+  exhaustMap,
+  switchMap,
+  tap,
+  Subject,
+  catchError,
+  EMPTY,
+} from 'rxjs';
 import {
   WholesaleBatchHttp,
   WholesaleBatchRequestDto,
   WholesaleProcessType,
+  WholesaleSearchBatchDto,
+  WholesaleSearchBatchResponseDto,
 } from '@energinet-datahub/dh/shared/domain';
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-interface State {}
+interface State {
+  batches?: WholesaleSearchBatchResponseDto[];
+}
 
 const initialState: State = {};
 
 @Injectable()
 export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
+  batches$ = this.select((x) => x.batches);
+  loadingBatchesErrorTrigger$: Subject<void> = new Subject();
+  loadingBatchesTrigger$: Subject<void> = new Subject();
+
   constructor(private httpClient: WholesaleBatchHttp) {
     super(initialState);
   }
@@ -55,4 +70,40 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
       );
     }
   );
+
+  readonly setBatches = this.updater(
+    (state, value: WholesaleSearchBatchResponseDto[]): State => ({
+      ...state,
+      batches: value,
+    })
+  );
+
+  readonly getBatches = this.effect(
+    (filter$: Observable<WholesaleSearchBatchDto>) => {
+      return filter$.pipe(
+        tap(() => this.loadingBatchesTrigger$.next()),
+        switchMap((filter: WholesaleSearchBatchDto) => {
+          const searchBatchesRequest: WholesaleSearchBatchDto = {
+            minExecutionTime: this.formatDate(filter.minExecutionTime),
+            maxExecutionTime: this.formatDate(filter.maxExecutionTime),
+          };
+
+          return this.httpClient
+            .v1WholesaleBatchSearchPost(searchBatchesRequest)
+            .pipe(
+              tap((batches) => this.setBatches(batches)),
+              catchError(() => {
+                this.loadingBatchesErrorTrigger$.next();
+                return EMPTY;
+              })
+            );
+        })
+      );
+    }
+  );
+
+  private formatDate(value: string): string {
+    const date = parse(value, 'dd-MM-yyyy', new Date());
+    return zonedTimeToUtc(date, 'Europe/Copenhagen').toISOString();
+  }
 }

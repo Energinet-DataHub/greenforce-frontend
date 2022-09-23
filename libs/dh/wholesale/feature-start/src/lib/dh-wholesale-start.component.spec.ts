@@ -37,7 +37,7 @@ describe(DhWholesaleStartComponent.name, () => {
     });
 
     const submitButton = screen.getByRole('button', {
-      name: enTranslations.wholesale.startProcess.startLabel,
+      name: enTranslations.wholesale.startBatch.startLabel,
     });
 
     return {
