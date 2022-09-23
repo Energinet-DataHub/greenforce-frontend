@@ -285,10 +285,7 @@ libraries of type `data-access` may have dependencies to apps and only apps of t
 ### Tools
 
 This folder contains code that are only meant for use during development or
-within workflows. Executors and generators are [Nx] inventions; for
-documentation on how to work with them, see
-[Use Task Executors](https://nx.dev/plugin-features/use-task-executors) and
-[Use Code Generators](https://nx.dev/plugin-features/use-code-generators).
+within workflows. Expanding it looks like this:
 
 ```|
 ...
@@ -297,6 +294,11 @@ documentation on how to work with them, see
    ├── executors     # Perform all sorts of actions on your code
    └── generators    # Automate tasks using code generation
 ```
+
+Executors and generators are [Nx] inventions; for
+documentation on how to work with them, see
+[Use Task Executors](https://nx.dev/plugin-features/use-task-executors) and
+[Use Code Generators](https://nx.dev/plugin-features/use-code-generators).
 
 ## Scripts
 
