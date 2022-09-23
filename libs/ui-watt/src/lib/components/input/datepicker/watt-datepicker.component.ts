@@ -42,6 +42,7 @@ import { WattInputMaskService } from '../shared/watt-input-mask.service';
 import { WattRangeInputService } from '../shared/watt-range-input.service';
 import { WattRange } from '../shared/watt-range';
 import { WattPickerBase } from '../shared/watt-picker-base';
+import { WattPickerValue } from '../shared/watt-picker-value';
 
 const dateTimeFormat = 'dd-MM-yyyy';
 const danishTimeZoneIdentifier = 'Europe/Copenhagen';
@@ -260,6 +261,35 @@ export class WattDatepickerComponent extends WattPickerBase {
 
         this.changeParentValue({ start, end });
       });
+  }
+
+  /**
+   * @ignore
+   */
+  protected setSingleValue(
+    value: Exclude<WattPickerValue, WattRange>,
+    input: HTMLInputElement
+  ) {
+    input.value = value ? value : '';
+  }
+
+  /**
+   * @ignore
+   */
+  protected setRangeValue(
+    value: WattRange,
+    startInput: HTMLInputElement,
+    endInput: HTMLInputElement
+  ) {
+    const { start, end } = value;
+
+    if (start) {
+      startInput.value = start;
+    }
+
+    if (end) {
+      endInput.value = end;
+    }
   }
 
   /**

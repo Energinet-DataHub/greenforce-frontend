@@ -286,6 +286,23 @@ export abstract class WattPickerBase
   /**
    * @ignore
    */
+  protected abstract setSingleValue(
+    value: Exclude<WattPickerValue, WattRange>,
+    input: HTMLInputElement
+  ): void;
+
+  /**
+   * @ignore
+   */
+  protected abstract setRangeValue(
+    value: WattRange,
+    startInput: HTMLInputElement,
+    endInput: HTMLInputElement
+  ): void;
+
+  /**
+   * @ignore
+   */
   setDescribedByIds(ids: string[]) {
     this.elementRef.nativeElement.setAttribute(
       'aria-describedby',
@@ -371,33 +388,4 @@ export abstract class WattPickerBase
   protected markParentControlAsTouched = (): void => {
     // Intentionally left empty
   };
-
-  /**
-   * @ignore
-   */
-  private setRangeValue(
-    value: WattRange,
-    startInput: HTMLInputElement,
-    endInput: HTMLInputElement
-  ) {
-    const { start, end } = value;
-
-    if (start) {
-      startInput.value = start;
-    }
-
-    if (end) {
-      endInput.value = end;
-    }
-  }
-
-  /**
-   * @ignore
-   */
-  private setSingleValue(
-    value: Exclude<WattPickerValue, WattRange>,
-    input: HTMLInputElement
-  ) {
-    input.value = value ? value : '';
-  }
 }
