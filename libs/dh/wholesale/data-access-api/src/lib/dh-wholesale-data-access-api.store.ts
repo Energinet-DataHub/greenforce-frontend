@@ -22,8 +22,6 @@ import {
   WholesaleBatchRequestDto,
   WholesaleProcessType,
 } from '@energinet-datahub/dh/shared/domain';
-import { zonedTimeToUtc } from 'date-fns-tz';
-import { parse } from 'date-fns';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface State {}
@@ -48,8 +46,8 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
           const batchRequest: WholesaleBatchRequestDto = {
             processType: WholesaleProcessType.BalanceFixing,
             gridAreaCodes: batch.gridAreas,
-            startDate: this.formatDate(batch.dateRange.start),
-            endDate: this.formatDate(batch.dateRange.end),
+            startDate: batch.dateRange.start,
+            endDate: batch.dateRange.end,
           };
 
           return this.httpClient.v1WholesaleBatchPost(batchRequest);
@@ -57,8 +55,4 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
       );
     }
   );
-  private formatDate(value: string): string {
-    const date = parse(value, 'dd-MM-yyyy', new Date());
-    return zonedTimeToUtc(date, 'Europe/Copenhagen').toISOString();
-  }
 }
