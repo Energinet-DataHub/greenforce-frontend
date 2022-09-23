@@ -47,7 +47,7 @@ import { WattPickerValue } from '../shared/watt-picker-value';
 const dateTimeFormat = 'dd-MM-yyyy';
 // Note: The single quotes around 'T' are used as escape characters
 const iso8601DateTimeFormat = "yyyy-MM-dd'T'HH:mm:ssXXX";
-const danishTimeZoneIdentifier = 'Europe/Copenhagen';
+export const danishTimeZoneIdentifier = 'Europe/Copenhagen';
 const danishLocaleCode = 'da';
 
 /**
