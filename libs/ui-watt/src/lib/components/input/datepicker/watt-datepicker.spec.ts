@@ -51,7 +51,10 @@ function formatDateAs(value: string, format: string): string {
 }
 
 describe('Datepicker', () => {
-  const incompleteDateAs_dd_MM = formatDateAs(initialValueSingle, 'dd-MM');
+  const incompleteDateWithoutSeperatorsAs_ddMM = formatDateAs(
+    initialValueSingle,
+    'ddMM'
+  );
   const displayDateFormat = 'dd-MM-yyyy';
   const pasteDateFormat = 'yyyy-MM-dd';
 
@@ -92,12 +95,10 @@ describe('Datepicker', () => {
 
         // Type start date
         dateInput.setSelectionRange(0, 0);
-        userEvent.type(dateInput, incompleteDateAs_dd_MM);
+        userEvent.type(dateInput, incompleteDateWithoutSeperatorsAs_ddMM);
         fireEvent.blur(dateInput);
 
-        expect(
-          screen.queryByText(`"${incompleteDateAs_dd_MM}"`)
-        ).not.toBeInTheDocument();
+        expect(screen.getByText(defaultOutputSingle)).toBeInTheDocument();
         expect(dateInput).toHaveValue('');
       });
 
@@ -169,9 +170,10 @@ describe('Datepicker', () => {
 
         // Type start date
         startDateInput.setSelectionRange(0, 0);
-        userEvent.type(startDateInput, incompleteDateAs_dd_MM);
+        userEvent.type(startDateInput, incompleteDateWithoutSeperatorsAs_ddMM);
         fireEvent.blur(startDateInput);
 
+        expect(screen.getByText(defaultOutputRange)).toBeInTheDocument();
         expect(startDateInput).toHaveValue('');
       });
 
@@ -182,7 +184,7 @@ describe('Datepicker', () => {
 
         // Type start date
         endDateInput.setSelectionRange(0, 0);
-        userEvent.type(endDateInput, incompleteDateAs_dd_MM);
+        userEvent.type(endDateInput, incompleteDateWithoutSeperatorsAs_ddMM);
         fireEvent.blur(endDateInput);
 
         expect(endDateInput).toHaveValue('');
