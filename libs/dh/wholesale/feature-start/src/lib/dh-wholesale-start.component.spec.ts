@@ -16,19 +16,22 @@
  */
 import { render, screen } from '@testing-library/angular';
 import { HttpClientModule } from '@angular/common/http';
+
 import { en as enTranslations } from '@energinet-datahub/dh/globalization/assets-localization';
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
+import { DhApiModule } from '@energinet-datahub/dh/shared/data-access-api';
+import { WattDanishDatetimeModule } from '@energinet-datahub/watt';
 
 import {
   DhWholesaleStartComponent,
   DhWholesaleStartScam,
 } from './dh-wholesale-start.component';
-import { DhApiModule } from '@energinet-datahub/dh/shared/data-access-api';
 
 describe(DhWholesaleStartComponent.name, () => {
   async function setup() {
     const { fixture } = await render(DhWholesaleStartComponent, {
       imports: [
+        WattDanishDatetimeModule.forRoot(),
         getTranslocoTestingModule(),
         DhApiModule.forRoot(),
         HttpClientModule,
@@ -49,11 +52,13 @@ describe(DhWholesaleStartComponent.name, () => {
   it('start button should be disabled until dateRange and gridAreaDropbox both have data', async () => {
     const { submitButton, fixture } = await setup();
     expect(submitButton).toBeDisabled();
+
     fixture.componentInstance.formControlGridArea.setValue(['806', '805']);
     fixture.componentInstance.formControlRange.setValue({
-      start: '01-01-2022',
-      end: '01-02-2022',
+      start: '2022-09-01T00:00:00+02:00',
+      end: '2022-09-10T00:00:00+02:00',
     });
+
     fixture.detectChanges();
     expect(submitButton).toBeEnabled();
   });
