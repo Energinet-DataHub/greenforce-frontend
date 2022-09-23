@@ -151,7 +151,7 @@ jobs:
       - name: Set RELEASE_VERSION
         shell: bash
         run: |
-          echo "RELEASE_VERSION=dh_frontend${{ steps.find_pull_request.outputs.pr }}" >> $GITHUB_ENV
+          echo "RELEASE_VERSION=dh_frontend_${{ steps.find_pull_request.outputs.pr }}" >> $GITHUB_ENV
           echo "RELEASE_FOLDER_PATH=${{ github.workspace }}/dh_frontend_${{ steps.find_pull_request.outputs.pr }}" >> $GITHUB_ENV
 
       - name: Setup Release
@@ -180,7 +180,7 @@ jobs:
     with:
       CALLER_REPOSITORY_NAME: greenforce-frontend
       CALLER_REPOSITORY_PATH: Energinet-DataHub/greenforce-frontend
-      RELEASE_NAME_PREFIX: dh_frontend_
+      RELEASE_NAME_PREFIX: dh_frontend
       CUSTOM_EVENT_TYPE: dh-frontend
     secrets:
       PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
