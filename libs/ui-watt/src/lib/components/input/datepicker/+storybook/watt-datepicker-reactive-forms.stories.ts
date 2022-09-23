@@ -67,7 +67,8 @@ const template = `
 <p *ngIf="withValidations">Errors: <code>{{exampleFormControlRange?.errors | json}}</code></p>
 `;
 
-const initialValue = '22-11-3333';
+const initialValueStart = '2022-09-01T00:00:00+02:00';
+const initialValueEnd = '2022-09-15T00:00:00+02:00';
 
 export const withFormControl: Story = (args) => ({
   props: {
@@ -93,10 +94,10 @@ exampleFormControl = new FormControl();
 
 export const withInitialValue: Story = (args) => ({
   props: {
-    exampleFormControlSingle: new FormControl(initialValue),
+    exampleFormControlSingle: new FormControl(initialValueStart),
     exampleFormControlRange: new FormControl({
-      start: initialValue,
-      end: initialValue,
+      start: initialValueStart,
+      end: initialValueEnd,
     }),
     ...args,
   },
