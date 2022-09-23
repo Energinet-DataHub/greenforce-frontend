@@ -9,7 +9,7 @@
   "ApiClientSettings": {
     "MeteringPointBaseUrl": "https://localhost:5001",
     "ChargesBaseUrl": "https://localhost:5001",
-    "WholesaleBaseUrl": "https://localhost:5001",
+    "WholesaleBaseUrl": "https://localhost:7133",
     "MarketParticipantBaseUrl": "https://localhost:5001",
     "MessageArchiveBaseUrl": "https://localhost:5001"
   },
