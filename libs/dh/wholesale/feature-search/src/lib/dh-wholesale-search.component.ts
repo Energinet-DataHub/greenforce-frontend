@@ -50,7 +50,6 @@ export class DhWholesaleSearchComponent {
   searchSubmitted = false;
 
   onSearch(search: WholesaleSearchBatchDto) {
-    console.log(search);
     this.searchSubmitted = true;
     this.store.getBatches(of(search));
   }

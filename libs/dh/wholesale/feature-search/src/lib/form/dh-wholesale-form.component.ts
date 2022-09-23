@@ -69,6 +69,8 @@ export class DhWholesaleFormComponent implements OnInit {
   }
 
   onSubmit() {
+    if(!this.searchForm?.value?.executionTime) return;
+
     this.search.emit({
       minExecutionTime: this.searchForm?.value?.executionTime?.start as string,
       maxExecutionTime: this.searchForm?.value?.executionTime?.end as string,
