@@ -361,7 +361,7 @@ export abstract class WattPickerBase
    * @ignore
    */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected changeParentValue = (_value: string | WattRange): void => {
+  protected changeParentValue = (value: string | WattRange): void => {
     // Intentionally left empty
   };
 
