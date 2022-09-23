@@ -95,7 +95,7 @@ exampleFormControl = new FormControl();
 
 export const withInitialValue: Story = (args) => ({
   props: {
-    exampleFormControlSingle: new FormControl(initialValueRangeStart),
+    exampleFormControlSingle: new FormControl(initialValueSingle),
     exampleFormControlRange: new FormControl({
       start: initialValueRangeStart,
       end: initialValueRangeEnd,
