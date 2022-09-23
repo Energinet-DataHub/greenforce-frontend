@@ -46,9 +46,8 @@ export default {
 } as Meta;
 
 const template = `
-<p>Value: <code>{{exampleFormControlSingle.value | json}}</code></p>
-<p>Selected range: <code>{{exampleFormControlRange.value | json}}</code></p>
-
+<p>Value: <span>{{ exampleFormControlSingle.value | json }}</span></p>
+<p>Selected range: <span>{{ exampleFormControlRange.value | json }}</span></p>
 
 <watt-form-field>
   <watt-label>Single date</watt-label>
@@ -58,7 +57,7 @@ const template = `
   </watt-error>
 </watt-form-field>
 
-<p *ngIf="withValidations">Errors: <code>{{exampleFormControlSingle?.errors | json}}</code></p>
+<p *ngIf="withValidations">Errors: <span>{{ exampleFormControlSingle?.errors | json }}</span></p>
 
 <br />
 
@@ -70,7 +69,7 @@ const template = `
   </watt-error>
 </watt-form-field>
 
-<p *ngIf="withValidations">Errors: <code>{{exampleFormControlRange?.errors | json}}</code></p>
+<p *ngIf="withValidations">Errors: <span>{{ exampleFormControlRange?.errors | json }}</span></p>
 `;
 
 export const withFormControl: Story = (args) => ({
