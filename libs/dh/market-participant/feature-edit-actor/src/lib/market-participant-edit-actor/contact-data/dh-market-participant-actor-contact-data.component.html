@@ -106,6 +106,7 @@ limitations under the License.
       <mat-cell *matCellDef="let element">
         <ng-container *ngIf="!element.isNewPlaceholder">
           <watt-button
+            class="delete-button"
             [attr.aria-label]="
               element.isExisting
                 ? t('ariaLabelDeleteForExistingContact')
