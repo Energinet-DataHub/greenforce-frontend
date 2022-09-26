@@ -129,7 +129,7 @@ yarn nx workspace-generator dh-domain-generator
 
 ### Backend For Frontend (BFF)
 
-There's currenly only one BFF located in `api-dh` under `apps/dh`.
+There is currenly only one BFF located in `api-dh` under `apps/dh`.
 It is for `app-dh` and is using .NET 5.0.
 Check the [Development notes](./apps/dh/api-dh/documents/development.md)
 for how to get started.
@@ -254,7 +254,8 @@ across multiple products.</sub>
    └── ui-watt                                # Special product, see "Watt Design System" section
 ```
 
-_Note: Certain library types should not have a name; in that case simply omit the `-<library name>` suffix._
+_Note: Certain library types should not have a name; in that case simply omit
+the `-<library name>` suffix._
 
 Following is an exhaustive list of permitted library types, what they should
 contain, their name and which other **library**\* types they are allowed to
@@ -316,8 +317,11 @@ Located under `.github/workflows`. There are:
 - `license-check-ci.yml` - Used for adding license to files
 - `frontend-ci.yml` - Used to build, test, format and lint all frontend apps
 
-We use bots for certain trivial tasks such as adding license headers to files, formatting code, fixing lint errors, and generating API clients based on OpenAPI. For this to work, bots have to use the repository secret `PAT_TOKEN` when pushing changes or creating releases that trigger a workflow. Only do this for idempotent tasks to
-prevent circular workflows from causing inifinite workflow runs.
+We use bots for certain trivial tasks such as adding license headers to files,
+formatting code, fixing lint errors, and generating API clients based on OpenAPI.
+For this to work, bots have to use the repository secret `PAT_TOKEN` when pushing
+changes or creating releases that trigger a workflow. Only do this for idempotent
+tasks to prevent circular workflows from causing inifinite workflow runs.
 
 ### Deployment
 
