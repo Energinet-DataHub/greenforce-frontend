@@ -323,10 +323,6 @@ For this to work, bots have to use the repository secret `PAT_TOKEN` when pushin
 changes or creating releases that trigger a workflow. Only do this for idempotent
 tasks to prevent circular workflows from causing inifinite workflow runs.
 
-### Deployment
-
-The deployments can be found [here](https://github.com/Energinet-DataHub/dh3-environments/actions/workflows/dh-ui-frontend-cd.yml).
-
 ## Visual Studio Code
 
 It is recommended to use the [Visual Studio Code](https://code.visualstudio.com)
