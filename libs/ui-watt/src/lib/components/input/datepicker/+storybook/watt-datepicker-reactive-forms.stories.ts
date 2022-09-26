@@ -55,7 +55,7 @@ const template = `
 </watt-form-field>
 
 <p>Value: <code>{{ exampleFormControlSingle.value | json }}</code></p>
-<p *ngIf="withValidations">Errors: <span>{{ exampleFormControlSingle?.errors | json }}</span></p>
+<p *ngIf="withValidations">Errors: <code>{{ exampleFormControlSingle?.errors | json }}</code></p>
 
 <br />
 
@@ -68,7 +68,7 @@ const template = `
 </watt-form-field>
 
 <p>Selected range: <code>{{ exampleFormControlRange.value | json }}</code></p>
-<p *ngIf="withValidations">Errors: <span>{{ exampleFormControlRange?.errors | json }}</span></p>
+<p *ngIf="withValidations">Errors: <code>{{ exampleFormControlRange?.errors | json }}</code></p>
 `;
 
 export const withFormControl: Story = (args) => ({
