@@ -24,13 +24,13 @@ frontends backed by [Nx] and [Angular].
   - [Configuration](#configuration)
 - [Energy Origin](#energy-origin)
 - [Watt Design System](#watt-design-system)
-- [Workspace](#development)
+- [Workspace](#workspace)
   - [Applications](#applications)
   - [Libraries](#libraries)
   - [Tools](#tools)
 - [Scripts](#scripts)
 - [CI/CD Pipelines](#cicd-pipelines)
-- [Visual Studio Code](#cicd-pipelines)
+- [Visual Studio Code](#visual-studio-code)
 
 ## General
 
