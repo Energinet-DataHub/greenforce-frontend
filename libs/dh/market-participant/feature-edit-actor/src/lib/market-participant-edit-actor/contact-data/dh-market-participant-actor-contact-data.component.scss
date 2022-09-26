@@ -22,16 +22,18 @@ mat-table {
 }
 
 .field ::ng-deep .mat-form-field-wrapper {
-  padding-bottom: 0px;
   margin-right: var(--watt-space-m);
   margin-top: var(--watt-space-m);
-  margin-bottom: var(--watt-space-s);
 }
 
 .mat-column-delete {
   max-width: 92px;
   display: flex;
   justify-content: center;
+}
+
+.delete-button {
+  margin-top: var(--watt-space-m);
 }
 
 .spinner-container {
