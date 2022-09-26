@@ -3,6 +3,11 @@
 
 # GreenForce
 
+![GitHub Workflow Status (event)](https://img.shields.io/github/workflow/status/Energinet-DataHub/greenforce-frontend/DH%20Frontend%20CD?event=push)
+![Sonar Quality Gate](https://img.shields.io/sonar/quality_gate/geh-frontend-app/main?server=https%3A%2F%2Fsonarcloud.io)
+![Codecov](https://img.shields.io/codecov/c/github/Energinet-DataHub/greenforce-frontend)
+![GitHub package.json dependency version (prod)](https://img.shields.io/github/package-json/dependency-version/Energinet-DataHub/greenforce-frontend/@angular/core?label=angular)
+
 Monorepo for the [DataHub](https://en.energinet.dk/Energy-data/DataHub) and
 [Energy Origin](https://en.energinet.dk/Energy-data/DataHub/Energy-Origin)
 frontends backed by [Nx] and [Angular].
