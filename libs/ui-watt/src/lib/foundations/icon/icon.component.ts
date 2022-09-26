@@ -46,7 +46,7 @@ export class WattIconComponent {
    * @description used for `aria-label`
    */
   @Input() label: string | null = null;
-  @Input() size: WattIconSize = WattIconSize.Medium;
+  @Input() size: WattIconSize = 'm';
   @Input() state: WattIconState = 'default';
 
   @HostBinding('class') get _cssClass(): string[] {

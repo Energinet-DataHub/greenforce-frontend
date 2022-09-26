@@ -34,8 +34,9 @@ describe(WattIconComponent.name, () => {
     });
 
     const component = view.fixture.componentInstance;
+    const expected: WattIconSize = 'm';
 
-    expect(component.size).toBe(WattIconSize.Medium);
+    expect(component.size).toBe(expected);
   });
 
   it('has default `state`', async () => {
@@ -71,7 +72,7 @@ describe(WattIconComponent.name, () => {
         const view = await render(WattIconComponent, {
           componentProperties: {
             name: 'search',
-            size: WattIconSize.Large,
+            size: 'l',
           },
           imports: [WattIconModule],
         });
