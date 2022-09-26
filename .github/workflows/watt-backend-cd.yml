@@ -32,7 +32,7 @@ jobs:
     secrets:
       PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
     with:
-      RELEASE_NAME_PREFIX: watt_backend_
+      RELEASE_NAME_PREFIX: watt_backend
 
   dispatch_deployment_request:
     needs: publish_release
@@ -40,7 +40,7 @@ jobs:
     with:
       CALLER_REPOSITORY_NAME: greenforce-frontend
       CALLER_REPOSITORY_PATH: Energinet-DataHub/greenforce-frontend
-      RELEASE_NAME_PREFIX: watt_backend_
+      RELEASE_NAME_PREFIX: watt_backend
       CUSTOM_EVENT_TYPE: watt-backend
     secrets:
       PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
