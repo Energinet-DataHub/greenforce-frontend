@@ -290,8 +290,8 @@ libraries of type `data-access` may have dependencies to apps and only apps of t
 
 ### Tools
 
-This folder contains code that are only meant for use during development or
-in workflows. Expanding it looks like this:
+This folder contains code only meant for use during development or within
+workflows. Expanding it looks like this:
 
 ```|
 ...
