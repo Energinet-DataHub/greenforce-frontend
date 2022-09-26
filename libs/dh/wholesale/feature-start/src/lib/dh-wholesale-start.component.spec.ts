@@ -55,8 +55,8 @@ describe(DhWholesaleStartComponent.name, () => {
 
     fixture.componentInstance.formControlGridArea.setValue(['806', '805']);
     fixture.componentInstance.formControlRange.setValue({
-      start: '2022-09-01T00:00:00+02:00',
-      end: '2022-09-10T00:00:00+02:00',
+      start: '2022-08-31T22:00:00.000Z',
+      end: '2022-09-09T22:00:00.000Z',
     });
 
     fixture.detectChanges();
