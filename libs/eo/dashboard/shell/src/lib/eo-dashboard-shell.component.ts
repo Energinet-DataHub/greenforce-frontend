@@ -16,7 +16,7 @@
  */
 import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
 import { EoInlineMessageScam } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
-import { WattIconModule, WattIconSize } from '@energinet-datahub/watt';
+import { WattIconModule } from '@energinet-datahub/watt';
 import { EoDashboardChartCardScam } from './eo-dashboard-chart-card.component';
 import { EoDashboardEmissionsCardScam } from './eo-dashboard-emissions-card.component';
 import { EoDashboardGetDataScam } from './eo-dashboard-get-data.component';
@@ -58,7 +58,7 @@ import { EoDashboardLinksScam } from './eo-dashboard-links.component';
       </div>
     </div>
     <eo-inline-message type="warning">
-      <watt-icon name="primary_info" [size]="iconSize.Large"></watt-icon>
+      <watt-icon name="primary_info" size="l"></watt-icon>
       <p>
         The Energy Origin Platform is <strong>under development</strong> and new
         functionalities will be released continuously. The first release of the
@@ -75,9 +75,7 @@ import { EoDashboardLinksScam } from './eo-dashboard-links.component';
     </eo-inline-message>
   `,
 })
-export class EoDashboardShellComponent {
-  iconSize = WattIconSize;
-}
+export class EoDashboardShellComponent {}
 
 @NgModule({
   declarations: [EoDashboardShellComponent],
