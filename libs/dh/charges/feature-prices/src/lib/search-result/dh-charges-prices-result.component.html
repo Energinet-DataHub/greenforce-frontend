@@ -75,20 +75,18 @@ limitations under the License.
         <td mat-cell *matCellDef="let element">
           <div class="icons">
             <watt-icon
-              [ngClass]="element.taxIndicator === true ? 'active' : ''"
-              wattTooltip="{{ t('taxIndicator') }}"
-              wattTooltipPosition="above"
-              name="meter"
-              label="meter"
-              [size]="iconSizes.Small"
+              name="payments"
+              [ngClass]="{ active: element.taxIndicator }"
+              [wattTooltip]="element.taxIndicator ? t('taxIndicator') : null"
+              [label]="t('taxIndicator')"
             ></watt-icon>
             <watt-icon
-              [ngClass]="element.transparentInvoicing === true ? 'active' : ''"
-              wattTooltip="{{ t('transparentInvoicing') }}"
-              wattTooltipPosition="above"
-              name="meter"
-              label="meter"
-              [size]="iconSizes.Small"
+              name="redo"
+              [ngClass]="{ active: element.transparentInvoicing }"
+              [wattTooltip]="
+                element.transparentInvoicing ? t('transparentInvoicing') : null
+              "
+              [label]="t('transparentInvoicing')"
             ></watt-icon>
           </div>
         </td>

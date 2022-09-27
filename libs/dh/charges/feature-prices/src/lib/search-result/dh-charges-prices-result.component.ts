@@ -32,7 +32,6 @@ import { LetModule } from '@rx-angular/template';
 import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/feature-flags';
 import {
   WattIconModule,
-  WattIconSize,
   WattButtonModule,
   WattEmptyStateModule,
   WattTooltipModule,
@@ -62,6 +61,7 @@ export class DhChargesPricesResultComponent
   private destroy$ = new Subject<void>();
 
   iconSizes = WattIconSize;
+
   displayedColumns = [
     'priceId',
     'priceName',

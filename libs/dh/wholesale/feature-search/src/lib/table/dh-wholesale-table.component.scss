@@ -14,26 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-mat-table {
+:host {
+  display: block;
   width: 100%;
-  margin-top: var(--watt-space-m);
-  margin-bottom: var(--watt-space-m);
 }
 
-.field ::ng-deep .mat-form-field-wrapper {
-  margin-right: var(--watt-space-m);
-}
-
-.mat-column-delete {
-  max-width: 92px;
-  display: flex;
-  justify-content: center;
-}
-
-.spinner-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: var(--watt-space-m);
+watt-empty-state {
+  margin-top: var(--watt-space-xl);
 }

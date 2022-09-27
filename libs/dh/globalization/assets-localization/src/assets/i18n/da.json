@@ -14,7 +14,7 @@
       "chargePrices": "Priser",
       "wholesale": {
         "menuGroupLabel": "Afregninger",
-        "startProcess": "Start proces",
+        "startBatch": "Start batch",
         "searchBatch": "Søg batch",
         "overview": "Oversigt"
       }
@@ -598,8 +598,8 @@
     }
   },
   "wholesale": {
-    "startProcess": {
-      "topBarTitle": "Start proces",
+    "startBatch": {
+      "topBarTitle": "Start batch",
       "startLabel": "Start",
       "dateRangeRequired": "Dato-periode påkrævet",
       "dateRangeLabel": "Periode",
@@ -607,13 +607,34 @@
     },
     "searchBatch": {
       "topBarTitle": "Søg batch",
-      "headline": "Seneste batches",
+      "headline": "Batch overblik",
+      "filters": {
+        "period": "Periode",
+        "periodRequired": "Periode påkrævet",
+        "searchButton": "Søg"
+      },
       "columns": {
         "batchNumber": "Batch-nummer",
         "periodFrom": "Periode fra",
         "periodTo": "Periode til",
         "executionTime": "Eksekveringstid",
         "status": "Status"
+      },
+      "Pending": "Afventer",
+      "Running": "Kører",
+      "Finished": "Afsluttet",
+      "Failed": "Fejl",
+      "loadBatchesFailedTitle": "Ups! Der opstod en fejl",
+      "loadBatchesFailedMessage": "Der opstod desværre en fejl, da vi skulle hente de nødvendige oplysninger",
+      "noBatchesFound": "Ingen batches fundet",
+      "noBatchesHelperText": "Prøv at ændre dine søgeindstillinger",
+      "paginator": {
+        "itemsPerPageLabel": "Batches pr. side",
+        "nextPageLabel": "Næste side",
+        "perviouspageLabel": "Forrige side",
+        "firstPageLabel": "Første side",
+        "lastPageLabel": "Sidste side",
+        "of": "af"
       }
     },
     "overview": {

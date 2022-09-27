@@ -180,7 +180,7 @@ jobs:
     with:
       CALLER_REPOSITORY_NAME: greenforce-frontend
       CALLER_REPOSITORY_PATH: Energinet-DataHub/greenforce-frontend
-      RELEASE_NAME_PREFIX: dh_frontend_
+      RELEASE_NAME_PREFIX: dh_frontend
       CUSTOM_EVENT_TYPE: dh-frontend
     secrets:
       PAT_TOKEN: ${{ secrets.PAT_TOKEN }}

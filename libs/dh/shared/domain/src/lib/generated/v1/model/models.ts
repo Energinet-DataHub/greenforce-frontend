@@ -50,3 +50,6 @@ export * from './stream';
 export * from './unit';
 export * from './wholesale-batch-request-dto';
 export * from './wholesale-process-type';
+export * from './wholesale-search-batch-dto';
+export * from './wholesale-search-batch-response-dto';
+export * from './wholesale-status';
