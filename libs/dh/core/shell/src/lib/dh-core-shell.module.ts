@@ -47,6 +47,7 @@ import {
 } from '@energinet-datahub/watt';
 import { DhCoreShellComponent } from './dh-core-shell.component';
 import { DhSharedUtilApplicationInsightsModule } from '@energinet-datahub/dh/shared/util-application-insights';
+import { PermissionGuard, PermissionService } from '@energinet-datahub/dh/shared/permission-guard';
 
 const routes: Routes = [
   {
@@ -119,6 +120,7 @@ const routes: Routes = [
     WattToastModule.forRoot(),
   ],
   providers: [
+    PermissionService,
     MsalService,
     {
       provide: HTTP_INTERCEPTORS,
@@ -140,6 +142,7 @@ const routes: Routes = [
       useFactory: MSALInterceptorConfigFactory,
       deps: [dhB2CEnvironmentToken],
     },
+    PermissionGuard,
   ],
 })
 export class DhCoreShellModule {}

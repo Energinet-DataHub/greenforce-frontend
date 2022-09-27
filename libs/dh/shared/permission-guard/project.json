@@ -1,0 +1,23 @@
+{
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/dh/shared/permission-guard/src",
+  "projectType": "library",
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/dh/shared/permission-guard/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/dh/shared/permission-guard"],
+      "options": {
+        "jestConfig": "libs/dh/shared/permission-guard/jest.config.ts",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": ["product:dh", "domain:shared", "type:feature"]
+}

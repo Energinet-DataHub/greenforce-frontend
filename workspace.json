@@ -41,6 +41,7 @@
     "dh-shared-domain": "libs/dh/shared/domain",
     "dh-shared-environments": "libs/dh/shared/environments",
     "dh-shared-feature-flags": "libs/dh/shared/feature-flags",
+    "dh-shared-permission-guard": "libs/dh/shared/permission-guard",
     "dh-shared-test-util-auth": "libs/dh/shared/test-util-auth",
     "dh-shared-test-util-i18n": "libs/dh/shared/test-util-i18n",
     "dh-shared-test-util-metering-point": "libs/dh/shared/test-util-metering-point",
