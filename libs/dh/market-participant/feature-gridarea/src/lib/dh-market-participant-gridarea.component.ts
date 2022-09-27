@@ -30,7 +30,6 @@ import {
 } from '@energinet-datahub/watt';
 import { DhMarketParticipantGridAreaOverviewScam } from './overview/dh-market-participant-gridarea-overview.component';
 import { PushModule } from '@rx-angular/template';
-import { DhHasPermissionDirectiveModule } from '@energinet-datahub/dh/shared/permission-guard';
 
 @Component({
   selector: 'dh-market-participant-gridarea',
@@ -78,7 +77,6 @@ export class DhMarketParticipantGridAreaComponent {
     WattValidationMessageModule,
     DhMarketParticipantGridAreaOverviewScam,
     PushModule,
-    DhHasPermissionDirectiveModule,
   ],
   declarations: [DhMarketParticipantGridAreaComponent],
 })

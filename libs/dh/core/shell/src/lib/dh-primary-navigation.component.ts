@@ -23,6 +23,7 @@ import {
   WattNavListItemComponent,
 } from '@energinet-datahub/watt';
 import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/feature-flags';
+import { DhUserRoleRequiredDirectiveModule } from '@energinet-datahub/dh/shared/permission-guard';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -42,6 +43,7 @@ import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/featu
     WattNavListComponent,
     WattNavListItemComponent,
     DhFeatureFlagDirectiveModule,
+    DhUserRoleRequiredDirectiveModule
   ],
 })
 export class DhPrimaryNavigationComponent {}

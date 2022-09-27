@@ -19,24 +19,32 @@ import { Injectable } from '@angular/core';
 import { MsalService } from '@azure/msal-angular';
 import { UserRole } from './user-roles';
 
+const roleClaimName = "extension_roles"
+
 @Injectable()
 export class PermissionService {
   constructor(private authService: MsalService) {}
 
-  public hasRole(permission: UserRole[]) {
+  public hasUserRole(userRole: UserRole) {
     const accounts = this.authService.instance.getAllAccounts();
 
-    if (accounts.length > 1) return false;
+    // If current service is missing an account,
+    // or the claims, the service default to no access.
+    if (accounts.length != 1) {
+      return false;
+    }
 
-    const claims = accounts[0].idTokenClaims;
-    return true;
+    const claims = accounts[0].idTokenClaims
 
-    // return this.obtainToken().pipe(
-    //   map((authResult) => {
-    //     console.log("Requested permission: ", permission);
-    //     console.log('fromCache: ', authResult.fromCache);
-    //     return !!permission; // authResult.scopes.includes(permission);
-    //   })
-    // );
+    if (!claims || !claims[roleClaimName]) {
+      return false;
+    }
+
+    // Because the claim is currently an extension, the format of ["roleName1"],
+    // but is currently received as a string.
+    const claimAsJson = "{ \"value\": " + claims[roleClaimName] + "}"
+
+    const assignedRoles = JSON.parse(claimAsJson).value as UserRole[];
+    return assignedRoles.includes(userRole);
   }
 }

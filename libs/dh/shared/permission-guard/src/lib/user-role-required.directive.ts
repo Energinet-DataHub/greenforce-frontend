@@ -26,26 +26,29 @@ import {
 import { PermissionService } from './permission-service';
 import { UserRole } from './user-roles';
 
-@Directive({ selector: '[dhHasPermission]' })
-export class DhHasPermissionDirective implements OnInit {
+@Directive({ selector: '[dhUserRoleRequired]' })
+export class DhUserRoleRequiredDirective implements OnInit {
   constructor(
     private templateRef: TemplateRef<unknown>,
     private viewContainer: ViewContainerRef,
     private permissionService: PermissionService
   ) {}
 
-  @Input() dhHasPermission?: UserRole[];
+  @Input() dhUserRoleRequired?: UserRole[];
 
   ngOnInit(): void {
-    const hasPermission = this.permissionService.hasRole(this.dhHasPermission ?? []);
-    if (hasPermission) {
+    const roles = this.dhUserRoleRequired ?? [];
+    const allowedRoles = roles.filter((r) =>
+      this.permissionService.hasUserRole(r)
+    );
+    if (allowedRoles.length > 0) {
       this.viewContainer.createEmbeddedView(this.templateRef);
     }
   }
 }
 
 @NgModule({
-  declarations: [DhHasPermissionDirective],
-  exports: [DhHasPermissionDirective],
+  declarations: [DhUserRoleRequiredDirective],
+  exports: [DhUserRoleRequiredDirective],
 })
-export class DhHasPermissionDirectiveModule {}
+export class DhUserRoleRequiredDirectiveModule {}

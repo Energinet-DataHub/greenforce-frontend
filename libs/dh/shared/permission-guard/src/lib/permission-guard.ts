@@ -16,13 +16,12 @@
  */
 
 import { inject } from '@angular/core';
-import { ActivatedRouteSnapshot } from '@angular/router';
 import { PermissionService } from './permission-service';
 import { UserRole } from './user-roles';
 
 export function PermissionGuard(userRoles: UserRole[]) {
-  return (route: ActivatedRouteSnapshot) => {
+  return () => {
     const permissionService = inject(PermissionService);
-    return permissionService.hasRole(userRoles);
+    return userRoles.filter(r => permissionService.hasUserRole(r)).length > 0;
   };
 }

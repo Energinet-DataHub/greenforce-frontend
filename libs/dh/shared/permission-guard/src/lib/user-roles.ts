@@ -15,6 +15,4 @@
  * limitations under the License.
  */
 
-// TODO: Permission must be placed in a common location. Autogen?
-
-export type UserRole = 'organization:read' | 'organization:write';
+export type UserRole = 'Accountant' | 'Supporter';

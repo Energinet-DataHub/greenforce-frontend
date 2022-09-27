@@ -46,7 +46,7 @@ import { PermissionGuard } from '@energinet-datahub/dh/shared/permission-guard';
 const routes: Routes = [
   {
     path: dhMarketParticipantOrganizationsPath,
-    canActivate: [PermissionGuard(['organization:read', 'organization:write'])],
+    canActivate: [PermissionGuard(['Accountant'])],
     children: [
       {
         path: '',
@@ -107,6 +107,7 @@ const routes: Routes = [
   {
     path: dhMarketParticipantGridAreasPath,
     component: DhMarketParticipantGridAreaComponent,
+    canActivate: [PermissionGuard(['Supporter'])],
     data: {
       titleTranslationKey: 'marketParticipant.gridAreas.topBarTitle',
     },
