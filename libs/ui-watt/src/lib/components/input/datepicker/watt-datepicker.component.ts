@@ -234,6 +234,8 @@ export class WattDatepickerComponent extends WattPickerBase {
           end = this.formatDateFromViewToModel(value);
         }
 
+        console.log('matEndDateChange$', value, end);
+
         return end;
       })
     );
