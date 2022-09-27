@@ -23,8 +23,9 @@ import {
   OnInit,
 } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { sub } from 'date-fns';
 import { TranslocoModule } from '@ngneat/transloco';
-import { formatISO, sub } from 'date-fns';
+import { zonedTimeToUtc } from 'date-fns-tz';
 
 import {
   WattButtonModule,
@@ -33,7 +34,6 @@ import {
   WattRangeValidators,
 } from '@energinet-datahub/watt';
 import { WholesaleSearchBatchDto } from '@energinet-datahub/dh/shared/domain';
-import { zonedTimeToUtc } from 'date-fns-tz';
 
 @Component({
   standalone: true,
