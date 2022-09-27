@@ -26,7 +26,13 @@ limitations under the License.
   </mat-paginator>
 
   <!-- Table -->
-  <mat-table [dataSource]="_data" aria-label="batches" matSort>
+  <mat-table
+    [dataSource]="_data"
+    aria-label="batches"
+    matSort
+    matSortActive="batchNumber"
+    matSortDirection="desc"
+  >
     <!-- Batch Number -->
     <ng-container matColumnDef="batchNumber">
       <mat-header-cell *matHeaderCellDef mat-sort-header>
