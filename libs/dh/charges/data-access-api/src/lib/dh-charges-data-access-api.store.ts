@@ -18,7 +18,7 @@ import { Injectable } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ChargeV1Dto, ChargesHttp } from '@energinet-datahub/dh/shared/domain';
-import { Observable, switchMap, tap, map, filter } from 'rxjs';
+import { Observable, switchMap, tap } from 'rxjs';
 
 interface ChargesState {
   readonly charges?: Array<ChargeV1Dto>;
