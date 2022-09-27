@@ -24,8 +24,15 @@ limitations under the License.
     aria-label="Select page"
   >
   </mat-paginator>
+
   <!-- Table -->
-  <mat-table [dataSource]="_data || []" aria-label="batches" matSort matSortActive="batchNumber" matSortDirection="desc">
+  <mat-table
+    [dataSource]="_data"
+    aria-label="batches"
+    matSort
+    matSortActive="batchNumber"
+    matSortDirection="desc"
+  >
     <!-- Batch Number -->
     <ng-container matColumnDef="batchNumber">
       <mat-header-cell *matHeaderCellDef mat-sort-header>
@@ -80,4 +87,14 @@ limitations under the License.
     <mat-header-row *matHeaderRowDef="columnIds; sticky: true"></mat-header-row>
     <mat-row *matRowDef="let row; columns: columnIds"></mat-row>
   </mat-table>
+
+  <!-- No Batches found -->
+  <watt-empty-state
+    *ngIf="_data.data.length === 0"
+    icon="explore"
+    size="large"
+    [title]="transloco('noBatchesFound')"
+    [message]="transloco('noBatchesHelperText')"
+  >
+  </watt-empty-state>
 </ng-container>
