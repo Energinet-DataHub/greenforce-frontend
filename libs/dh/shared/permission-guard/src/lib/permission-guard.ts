@@ -22,6 +22,6 @@ import { UserRole } from './user-roles';
 export function PermissionGuard(userRoles: UserRole[]) {
   return () => {
     const permissionService = inject(PermissionService);
-    return userRoles.filter(r => permissionService.hasUserRole(r)).length > 0;
+    return userRoles.filter((r) => permissionService.hasUserRole(r)).length > 0;
   };
 }

@@ -43,7 +43,7 @@ import { DhUserRoleRequiredDirectiveModule } from '@energinet-datahub/dh/shared/
     WattNavListComponent,
     WattNavListItemComponent,
     DhFeatureFlagDirectiveModule,
-    DhUserRoleRequiredDirectiveModule
+    DhUserRoleRequiredDirectiveModule,
   ],
 })
 export class DhPrimaryNavigationComponent {}

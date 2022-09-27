@@ -19,7 +19,7 @@ import { Injectable } from '@angular/core';
 import { MsalService } from '@azure/msal-angular';
 import { UserRole } from './user-roles';
 
-const roleClaimName = "extension_roles"
+const roleClaimName = 'extension_roles';
 
 @Injectable()
 export class PermissionService {
@@ -34,7 +34,7 @@ export class PermissionService {
       return false;
     }
 
-    const claims = accounts[0].idTokenClaims
+    const claims = accounts[0].idTokenClaims;
 
     if (!claims || !claims[roleClaimName]) {
       return false;
@@ -42,7 +42,7 @@ export class PermissionService {
 
     // Because the claim is currently an extension, the format of ["roleName1"],
     // but is currently received as a string.
-    const claimAsJson = "{ \"value\": " + claims[roleClaimName] + "}"
+    const claimAsJson = '{ "value": ' + claims[roleClaimName] + '}';
 
     const assignedRoles = JSON.parse(claimAsJson).value as UserRole[];
     return assignedRoles.includes(userRole);
