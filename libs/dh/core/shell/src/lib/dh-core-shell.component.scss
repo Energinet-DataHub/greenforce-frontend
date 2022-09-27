@@ -20,10 +20,6 @@
   display: block;
 }
 
-.app-actions {
-  margin-left: auto;
-}
-
 .sidenav {
   display: flex;
   justify-content: center;
@@ -31,4 +27,21 @@
 
 .logo--sidenav {
   margin: var(--watt-space-m) 0;
+}
+
+.toolbar {
+  &__heading {
+    margin-left: var(--watt-space-m);
+  }
+
+  &__actions {
+    margin-left: auto;
+    margin-right: var(--watt-space-m);
+  }
+
+  @include watt.media(">Large") {
+    &__logout {
+      margin-right: var(--watt-space-m);
+    }
+  }
 }
