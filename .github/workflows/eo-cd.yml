@@ -207,7 +207,6 @@ jobs:
           yaml-file: build/infrastructure/eo/chart/Chart.yaml
           yaml-path: version
 
-
   app_version_increment_check:
     runs-on: ubuntu-latest
     name: App check version
