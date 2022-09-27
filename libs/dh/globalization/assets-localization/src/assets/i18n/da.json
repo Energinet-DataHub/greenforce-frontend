@@ -619,7 +619,9 @@
       "Finished": "Afsluttet",
       "Failed": "Fejl",
       "loadBatchesFailedTitle": "Ups! Der opstod en fejl",
-      "loadBatchesFailedMessage": "Der opstod desværre en fejl, da vi skulle hente de nødvendige oplysninger.",
+      "loadBatchesFailedMessage": "Der opstod desværre en fejl, da vi skulle hente de nødvendige oplysninger",
+      "noBatchesFound": "Ingen batches fundet",
+      "noBatchesHelperText": "Prøv at ændre dine søgeindstillinger",
       "paginator": {
         "itemsPerPageLabel": "Batches pr. side",
         "nextPageLabel": "Næste side",

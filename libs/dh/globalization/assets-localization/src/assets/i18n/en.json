@@ -617,7 +617,9 @@
       "Finished": "Finished",
       "Failed": "Failed",
       "loadBatchesFailedTitle": "Oops! There was an error",
-      "loadBatchesFailedMessage": "Unfortunately, an error occurred while retrieving the necessary information.",
+      "loadBatchesFailedMessage": "Unfortunately, an error occurred while retrieving the necessary information",
+      "noBatchesFound": "No batches found",
+      "noBatchesHelperText": "Try changing the search criteria",
       "paginator": {
         "itemsPerPageLabel": "Batches per page",
         "nextPageLabel": "Next page",
