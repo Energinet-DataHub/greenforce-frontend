@@ -58,6 +58,8 @@ export class DhChargesPricesResultComponent
 
   @Input() result?: Array<ChargeV1Dto>;
   @Input() isLoading = false;
+  @Input() hasLoadingError = false;
+
   private destroy$ = new Subject<void>();
 
   displayedColumns = [
@@ -71,8 +73,8 @@ export class DhChargesPricesResultComponent
     'validToDate',
   ];
 
-  readonly dataSource: MatTableDataSource<object> =
-    new MatTableDataSource<object>();
+  readonly dataSource: MatTableDataSource<ChargeV1Dto> =
+    new MatTableDataSource<ChargeV1Dto>();
 
   constructor(
     private translocoService: TranslocoService,

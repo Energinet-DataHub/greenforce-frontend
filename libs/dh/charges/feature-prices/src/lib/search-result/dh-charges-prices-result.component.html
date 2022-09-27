@@ -138,7 +138,7 @@ limitations under the License.
     </div>
 
     <!-- Empty -->
-    <ng-container *ngIf="result && result.length === 0">
+    <ng-container *ngIf="!hasLoadingError && result && result.length === 0">
       <watt-empty-state
         class="no-result-div"
         icon="explore"
@@ -147,6 +147,16 @@ limitations under the License.
         message="{{ t('noResultsHelperText') }}"
       >
       </watt-empty-state>
+    </ng-container>
+
+    <!-- Error -->
+    <ng-container *ngIf="hasLoadingError">
+      <watt-empty-state
+        class="loading-error"
+        icon="power"
+        title="{{ t('loadingErrorTitle') }}"
+        message="{{ t('loadingErrorMessage') }}"
+      ></watt-empty-state>
     </ng-container>
   </div>
 </ng-container>

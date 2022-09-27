@@ -64,6 +64,7 @@ export class DhChargesPricesComponent implements OnInit, OnDestroy {
   };
   all$ = this.store.all$;
   isLoading$ = this.store.isLoading$;
+  hasLoadingError = this.store.hasGeneralError$;
 
   private destroy$ = new Subject<void>();
 

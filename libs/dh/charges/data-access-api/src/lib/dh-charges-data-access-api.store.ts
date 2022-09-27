@@ -16,24 +16,34 @@
  */
 import { Injectable } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
-import { HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { ChargeV1Dto, ChargesHttp } from '@energinet-datahub/dh/shared/domain';
 import { Observable, switchMap, tap } from 'rxjs';
+import { ErrorState, LoadingState } from './states';
 
 interface ChargesState {
   readonly charges?: Array<ChargeV1Dto>;
-  readonly isLoading: boolean;
+  readonly requestState: LoadingState | ErrorState;
 }
 
 const initialState: ChargesState = {
   charges: undefined,
-  isLoading: false,
+  requestState: LoadingState.INIT,
 };
 
 @Injectable()
 export class DhChargesDataAccessApiStore extends ComponentStore<ChargesState> {
   all$ = this.select((state) => state.charges);
-  isLoading$ = this.select((state) => state.isLoading);
+
+  isLoading$ = this.select(
+    (state) => state.requestState === LoadingState.LOADING
+  );
+  chargesNotFound$ = this.select(
+    (state) => state.requestState === ErrorState.NOT_FOUND_ERROR
+  );
+  hasGeneralError$ = this.select(
+    (state) => state.requestState === ErrorState.GENERAL_ERROR
+  );
 
   constructor(private httpClient: ChargesHttp) {
     super(initialState);
@@ -56,6 +66,7 @@ export class DhChargesDataAccessApiStore extends ComponentStore<ChargesState> {
             },
             (error: HttpErrorResponse) => {
               this.setLoading(false);
+              this.handleError(error);
             }
           )
         )
@@ -76,9 +87,21 @@ export class DhChargesDataAccessApiStore extends ComponentStore<ChargesState> {
   private setLoading = this.updater(
     (state, isLoading: boolean): ChargesState => ({
       ...state,
-      isLoading: isLoading,
+      requestState: isLoading ? LoadingState.LOADING : LoadingState.LOADED,
     })
   );
+
+  private handleError = (error: HttpErrorResponse) => {
+    const chargesData = undefined;
+    this.updateChargesData(chargesData);
+
+    const requestError =
+      error.status === HttpStatusCode.NotFound
+        ? ErrorState.NOT_FOUND_ERROR
+        : ErrorState.GENERAL_ERROR;
+
+    this.patchState({ requestState: requestError });
+  };
 
   private resetState = () => this.setState(initialState);
 }

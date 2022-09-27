@@ -317,7 +317,9 @@
         "ThisMonth": "This month",
         "ThisQuarter": "This quarter",
         "ThisYear": "This year"
-      }
+      },
+      "loadingErrorTitle": "An unexpected error occured",
+      "loadingErrorMessage": "Try again or contact your system administrator if you keep getting this error."
     }
   },
   "messageArchive": {

@@ -18,23 +18,12 @@ import { Injectable } from '@angular/core';
 import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { filter, map, Observable, switchMap, tap } from 'rxjs';
-
+import { ErrorState, LoadingState } from './states';
 import {
   ChargeLinkV1Dto,
   ChargeLinksHttp,
   ChargeType,
 } from '@energinet-datahub/dh/shared/domain';
-
-export const enum LoadingState {
-  INIT = 'INIT',
-  LOADING = 'LOADING',
-  LOADED = 'LOADED',
-}
-
-export const enum ErrorState {
-  NOT_FOUND_ERROR = 'NOT_FOUND_ERROR',
-  GENERAL_ERROR = 'GENERAL_ERROR',
-}
 
 interface ChargeLinksState {
   readonly chargeLinks?: Array<ChargeLinkV1Dto>;
