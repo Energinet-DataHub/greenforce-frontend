@@ -60,8 +60,6 @@ export class DhChargesPricesResultComponent
   @Input() isLoading = false;
   private destroy$ = new Subject<void>();
 
-  iconSizes = WattIconSize;
-
   displayedColumns = [
     'priceId',
     'priceName',
