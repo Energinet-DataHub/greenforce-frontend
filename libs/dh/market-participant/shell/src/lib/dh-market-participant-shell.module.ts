@@ -41,12 +41,12 @@ import {
   DhMarketParticipantGridAreaScam,
   DhMarketParticipantGridAreaComponent,
 } from '@energinet-datahub/dh/market-participant/feature-gridarea';
-import { PermissionGuard, PermissionGuard2 } from '@energinet-datahub/dh/shared/permission-guard';
+import { PermissionGuard } from '@energinet-datahub/dh/shared/permission-guard';
 
 const routes: Routes = [
   {
     path: dhMarketParticipantOrganizationsPath,
-    canActivate: [PermissionGuard2(['organization:read', 'organization:read'])],
+    canActivate: [PermissionGuard(['organization:read', 'organization:write'])],
     children: [
       {
         path: '',

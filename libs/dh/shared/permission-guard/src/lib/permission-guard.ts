@@ -15,40 +15,14 @@
  * limitations under the License.
  */
 
-import { inject, Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate } from '@angular/router';
+import { inject } from '@angular/core';
+import { ActivatedRouteSnapshot } from '@angular/router';
 import { PermissionService } from './permission-service';
-import { Permission } from './permissions';
+import { UserRole } from './user-roles';
 
-@Injectable()
-export class PermissionGuard implements CanActivate {
-  constructor(private permissionService: PermissionService) {}
-
-  canActivate(route: ActivatedRouteSnapshot) {
-    const requiredPermission = route.data.requiredPermission;
-    if (requiredPermission) {
-      return this.permissionService.hasPermission(requiredPermission);
-    }
-
-    // If a permission guard has been set up, but 'requiredPermission' was not specified,
-    // it is assumed that the intent was to protect access and the route is blocked.
-    return false;
-  }
-}
-
-export function PermissionGuard2(permission: Permission[])
-{
+export function PermissionGuard(userRoles: UserRole[]) {
   return (route: ActivatedRouteSnapshot) => {
-
     const permissionService = inject(PermissionService);
-
-    const requiredPermission = route.data.requiredPermission;
-    if (requiredPermission) {
-      return permissionService.hasPermission(requiredPermission);
-    }
-
-    // If a permission guard has been set up, but 'requiredPermission' was not specified,
-    // it is assumed that the intent was to protect access and the route is blocked.
-    return false;
-  }
+    return permissionService.hasRole(userRoles);
+  };
 }

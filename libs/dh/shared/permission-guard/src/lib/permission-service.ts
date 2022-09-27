@@ -15,40 +15,28 @@
  * limitations under the License.
  */
 
-import { Inject, Injectable } from '@angular/core';
-import { MsalGuardConfiguration, MsalService, MSAL_GUARD_CONFIG, MsalGuardAuthRequest } from '@azure/msal-angular';
-import { SilentRequest } from '@azure/msal-browser';
-import { map } from 'rxjs';
-import { Permission } from './permissions';
+import { Injectable } from '@angular/core';
+import { MsalService } from '@azure/msal-angular';
+import { UserRole } from './user-roles';
 
 @Injectable()
 export class PermissionService {
-  constructor(private authService: MsalService, @Inject(MSAL_GUARD_CONFIG) private config: MsalGuardConfiguration) {}
+  constructor(private authService: MsalService) {}
 
-  private obtainToken() {
-
+  public hasRole(permission: UserRole[]) {
     const accounts = this.authService.instance.getAllAccounts();
 
-     // TODO: Use this for 'roles' claims.
-    console.log(accounts[0].idTokenClaims)
+    if (accounts.length > 1) return false;
 
-    // TODO: Use this for 'scope' claims.
-    const scopes = (this.config.authRequest as MsalGuardAuthRequest).scopes || [];
-    const request: SilentRequest = {
-      scopes: scopes, // '88e5d356-0c71-49e9-b260-d0629f3c0445'
-      account: accounts[0]
-    };
+    const claims = accounts[0].idTokenClaims;
+    return true;
 
-    return this.authService.acquireTokenSilent(request);
-  }
-
-  public hasPermission(permission: Permission | undefined) {
-    return this.obtainToken().pipe(
-      map((authResult) => {
-        console.log("Requested permission: ", permission);
-        console.log('fromCache: ', authResult.fromCache);
-        return !!permission; // authResult.scopes.includes(permission);
-      })
-    );
+    // return this.obtainToken().pipe(
+    //   map((authResult) => {
+    //     console.log("Requested permission: ", permission);
+    //     console.log('fromCache: ', authResult.fromCache);
+    //     return !!permission; // authResult.scopes.includes(permission);
+    //   })
+    // );
   }
 }

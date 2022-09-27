@@ -17,9 +17,4 @@
 
 // TODO: Permission must be placed in a common location. Autogen?
 
-export enum Permissions {
-  OriganizationRead = 'organization:read',
-  OriganizationWrite ='organization:write'
-}
-
-export type Permission = 'organization:read' | 'organization:write';
+export type UserRole = 'organization:read' | 'organization:write';

@@ -19,41 +19,25 @@ import {
   Directive,
   Input,
   NgModule,
-  OnDestroy,
   OnInit,
   TemplateRef,
   ViewContainerRef,
 } from '@angular/core';
-import { Subscription, tap } from 'rxjs';
 import { PermissionService } from './permission-service';
-import { Permission } from './permissions';
+import { UserRole } from './user-roles';
 
 @Directive({ selector: '[dhHasPermission]' })
-export class DhHasPermissionDirective implements OnInit, OnDestroy {
+export class DhHasPermissionDirective implements OnInit {
   constructor(
     private templateRef: TemplateRef<unknown>,
     private viewContainer: ViewContainerRef,
     private permissionService: PermissionService
   ) {}
 
-  private subscription: Subscription | undefined;
-
-  @Input() dhHasPermission?: Permissions[];
+  @Input() dhHasPermission?: UserRole[];
 
   ngOnInit(): void {
-    this.subscription = this.permissionService
-      .hasPermission(this.dhHasPermission![0])
-      .pipe(tap((x) => this.updateView(x)))
-      .subscribe();
-  }
-
-  ngOnDestroy(): void {
-    this.subscription?.unsubscribe();
-    this.subscription = undefined;
-  }
-
-  private updateView(hasPermission: boolean) {
-    console.log(this.dhHasPermission, ' with ', hasPermission);
+    const hasPermission = this.permissionService.hasRole(this.dhHasPermission ?? []);
     if (hasPermission) {
       this.viewContainer.createEmbeddedView(this.templateRef);
     }
