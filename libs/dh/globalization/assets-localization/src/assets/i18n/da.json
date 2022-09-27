@@ -249,6 +249,12 @@
       "D02": "Gebyr",
       "D03": "Tarif"
     },
+    "resolutionType": {
+      "PT15M": "15 minutter",
+      "PT1H": "Time",
+      "P1D": "Dag",
+      "P1M": "Måned"
+    },
     "chargeOwner": "Ejer",
     "startDate": "Dato",
     "transparentInvoicing": "Viderefakturering",

@@ -1,153 +1,68 @@
-/**
- * @license
- * Copyright 2020 Energinet DataHub A/S
- *
- * Licensed under the Apache License, Version 2.0 (the "License2");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 import { Injectable } from '@angular/core';
-import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
-import { filter, map, Observable, switchMap, tap } from 'rxjs';
-
-import {
-  ChargeLinkV1Dto,
-  ChargeLinksHttp,
-  ChargeType,
-} from '@energinet-datahub/dh/shared/domain';
-
-export const enum LoadingState {
-  INIT = 'INIT',
-  LOADING = 'LOADING',
-  LOADED = 'LOADED',
-}
-
-export const enum ErrorState {
-  NOT_FOUND_ERROR = 'NOT_FOUND_ERROR',
-  GENERAL_ERROR = 'GENERAL_ERROR',
-}
+import { HttpErrorResponse } from '@angular/common/http';
+import { ChargeV1Dto, ChargesHttp } from '@energinet-datahub/dh/shared/domain';
+import { Observable, switchMap, tap, map, filter } from 'rxjs';
 
 interface ChargesState {
-  readonly charges?: Array<ChargeLinkV1Dto>;
-  readonly requestState: LoadingState | ErrorState;
+  readonly charges?: Array<ChargeV1Dto>;
+  readonly isLoading: boolean;
 }
 
 const initialState: ChargesState = {
   charges: undefined,
-  requestState: LoadingState.INIT,
+  isLoading: false,
 };
 
 @Injectable()
 export class DhChargesDataAccessApiStore extends ComponentStore<ChargesState> {
-  tariffs$: Observable<Array<ChargeLinkV1Dto>> = this.select(
-    (state) => state.charges
-  ).pipe(
-    filter((charges) => !!charges),
-    map((charges) => charges as Array<ChargeLinkV1Dto>),
-    map((charges) =>
-      charges.filter((charge) => charge.chargeType === ChargeType.D03)
-    )
-  );
+  all$ = this.select((state) => state.charges);
+  isLoading$ = this.select((state) => state.isLoading);
 
-  subscriptions$: Observable<Array<ChargeLinkV1Dto>> = this.select(
-    (state) => state.charges
-  ).pipe(
-    filter((charges) => !!charges),
-    map((charges) => charges as Array<ChargeLinkV1Dto>),
-    map((charges) =>
-      charges.filter((charge) => charge.chargeType === ChargeType.D01)
-    )
-  );
-
-  fees$: Observable<Array<ChargeLinkV1Dto>> = this.select(
-    (state) => state.charges
-  ).pipe(
-    filter((charges) => !!charges),
-    map((charges) => charges as Array<ChargeLinkV1Dto>),
-    map((charges) =>
-      charges.filter((charge) => charge.chargeType === ChargeType.D02)
-    )
-  );
-
-  isLoading$ = this.select(
-    (state) => state.requestState === LoadingState.LOADING
-  );
-  chargesNotFound$ = this.select(
-    (state) => state.requestState === ErrorState.NOT_FOUND_ERROR
-  );
-  hasGeneralError$ = this.select(
-    (state) => state.requestState === ErrorState.GENERAL_ERROR
-  );
-
-  constructor(private httpClient: ChargeLinksHttp) {
+  constructor(private httpClient: ChargesHttp) {
     super(initialState);
   }
 
-  readonly loadChargesData = this.effect(
-    (meteringPointId$: Observable<string>) => {
-      return meteringPointId$.pipe(
-        tap(() => {
-          this.resetState();
+  readonly loadChargesData = this.effect((trigger$: Observable<void>) => {
+    return trigger$.pipe(
+      tap(() => {
+        this.resetState();
 
-          this.setLoading(true);
-        }),
-        switchMap((id) =>
-          this.httpClient.v1ChargeLinksGet(id).pipe(
-            tapResponse(
-              (chargesData) => {
-                this.setLoading(false);
+        this.setLoading(true);
+      }),
+      switchMap(() =>
+        this.httpClient.v1ChargesGet().pipe(
+          tapResponse(
+            (chargesData) => {
+              this.setLoading(false);
 
-                this.updateChargesData(chargesData);
-              },
-              (error: HttpErrorResponse) => {
-                this.setLoading(false);
-
-                this.handleError(error);
-              }
-            )
+              this.updateChargesData(chargesData);
+            },
+            (error: HttpErrorResponse) => {
+              this.setLoading(false);
+            }
           )
         )
-      );
-    }
-  );
+      )
+    );
+  });
 
   private updateChargesData = this.updater(
     (
       state: ChargesState,
-      chargesData: Array<ChargeLinkV1Dto> | undefined
+      chargesData: Array<ChargeV1Dto> | undefined
     ): ChargesState => ({
       ...state,
-      charges: chargesData,
+      charges: chargesData || [],
     })
   );
 
   private setLoading = this.updater(
     (state, isLoading: boolean): ChargesState => ({
       ...state,
-      requestState: isLoading ? LoadingState.LOADING : LoadingState.LOADED,
+      isLoading: isLoading,
     })
   );
-
-  private handleError = (error: HttpErrorResponse) => {
-    const chargesData = undefined;
-    this.updateChargesData(chargesData);
-
-    const requestError =
-      error.status === HttpStatusCode.NotFound
-        ? ErrorState.NOT_FOUND_ERROR
-        : ErrorState.GENERAL_ERROR;
-
-    this.patchState({ requestState: requestError });
-  };
 
   private resetState = () => this.setState(initialState);
 }
