@@ -28,8 +28,8 @@ export class PermissionService {
   public hasUserRole(userRole: UserRole) {
     const accounts = this.authService.instance.getAllAccounts();
 
-    // If current service is missing an account,
-    // or the claims, the service default to no access.
+    // If MSAL returns no accounts or the claims are missing,
+    // the service default to no access.
     if (accounts.length != 1) {
       return false;
     }
@@ -40,8 +40,8 @@ export class PermissionService {
       return false;
     }
 
-    // Because the claim is currently an extension, the format of ["roleName1"],
-    // but is currently received as a string.
+    // Because the claim is currently an extension, the format of ["roleName1"]
+    // is currently received as a string, instead of a proper array.
     const claimAsJson = '{ "value": ' + claims[roleClaimName] + '}';
 
     const assignedRoles = JSON.parse(claimAsJson).value as UserRole[];
