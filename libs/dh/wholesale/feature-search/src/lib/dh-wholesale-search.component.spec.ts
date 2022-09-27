@@ -46,7 +46,7 @@ async function setup() {
 describe(DhWholesaleSearchComponent.name, () => {
   it('should show period with initial value', async () => {
     await setup();
-    expect(screen.getByText('Period')).toBeInTheDocument();
+    expect(screen.getByText('Execution time')).toBeInTheDocument();
   });
 
   it('should set initial value of period', async () => {
