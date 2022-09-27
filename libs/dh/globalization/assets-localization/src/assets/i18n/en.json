@@ -601,8 +601,8 @@
       "topBarTitle": "Search Batch",
       "headline": "Batch overview",
       "filters": {
-        "period": "Period",
-        "periodRequired": "Period is required",
+        "executionTime": "Execution time",
+        "executionTimeRequired": "Execution time is required",
         "searchButton": "Search"
       },
       "columns": {
