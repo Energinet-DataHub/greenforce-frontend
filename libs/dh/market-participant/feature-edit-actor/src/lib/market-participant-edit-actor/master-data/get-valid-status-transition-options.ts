@@ -27,23 +27,28 @@ export const getValidStatusTransitionOptions = (
         [
           ActorStatus.New.toLowerCase(),
           ActorStatus.Active.toLowerCase(),
-          ActorStatus.Deleted.toLocaleLowerCase(),
+          ActorStatus.Inactive.toLowerCase(),
+          ActorStatus.Passive.toLowerCase(),
         ].includes(x.value.toLowerCase())
       );
     case ActorStatus.Active:
-    case ActorStatus.Inactive:
-    case ActorStatus.Passive:
       return statuses.filter((x) =>
         [
           ActorStatus.Active.toLowerCase(),
-          ActorStatus.Inactive.toLocaleLowerCase(),
-          ActorStatus.Passive.toLocaleLowerCase(),
-          ActorStatus.Deleted.toLocaleLowerCase(),
+          ActorStatus.Inactive.toLowerCase(),
+          ActorStatus.Passive.toLowerCase(),
         ].includes(x.value.toLowerCase())
       );
-    case ActorStatus.Deleted:
+    case ActorStatus.Passive:
       return statuses.filter((x) =>
-        [ActorStatus.Deleted.toLocaleLowerCase()].includes(
+        [
+          ActorStatus.Inactive.toLocaleLowerCase(),
+          ActorStatus.Passive.toLocaleLowerCase(),
+        ].includes(x.value.toLowerCase())
+      );
+    case ActorStatus.Inactive:
+      return statuses.filter((x) =>
+        [ActorStatus.Inactive.toLocaleLowerCase()].includes(
           x.value.toLowerCase()
         )
       );

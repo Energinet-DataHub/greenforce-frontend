@@ -68,6 +68,7 @@ export class StorybookIconOverviewComponent {
     },
     {
       icons: [
+        { name: 'Redo', icon: 'redo' },
         { name: 'Close', icon: 'close' },
         { name: 'Checkmark', icon: 'checkmark' },
       ],
@@ -123,6 +124,7 @@ export class StorybookIconOverviewComponent {
       icons: [
         { name: 'Forward Message', icon: 'forwardMessage' },
         { name: 'Monetization', icon: 'monetization' },
+        { name: 'Payments', icon: 'payments' },
       ],
     },
   ];

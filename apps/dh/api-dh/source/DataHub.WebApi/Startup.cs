@@ -120,9 +120,9 @@ namespace Energinet.DataHub.WebApi
         /// <summary>
         /// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         /// </summary>
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment environment)
+        public void Configure(IApplicationBuilder app)
         {
-            if (environment.IsDevelopment())
+            if (Environment.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
 
@@ -133,14 +133,16 @@ namespace Energinet.DataHub.WebApi
                 app.UseSwaggerUI(options =>
                     options.SwaggerEndpoint("/swagger/v1/swagger.json", "DataHub.WebApi v1"));
             }
+            else
+            {
+                app.UseMiddleware<JwtTokenMiddleware>();
+            }
 
             app.UseHttpsRedirection();
 
             app.UseRouting();
 
             app.UseCors();
-
-            app.UseMiddleware<JwtTokenMiddleware>();
 
             app.UseAuthorization();
 
