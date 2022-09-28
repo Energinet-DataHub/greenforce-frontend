@@ -34,7 +34,11 @@ import { takeUntil, Subject } from 'rxjs';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
-import { WattBadgeModule, WattBadgeType } from '@energinet-datahub/watt';
+import {
+  WattBadgeModule,
+  WattBadgeType,
+  WattEmptyStateModule,
+} from '@energinet-datahub/watt';
 
 import {
   WholesaleSearchBatchResponseDto,
@@ -54,13 +58,14 @@ type wholesaleTableData = MatTableDataSource<{
 @Component({
   standalone: true,
   imports: [
-    TranslocoModule,
-    MatTableModule,
     CommonModule,
-    WattBadgeModule,
     DhSharedUiDateTimeModule,
     MatPaginatorModule,
     MatSortModule,
+    MatTableModule,
+    TranslocoModule,
+    WattBadgeModule,
+    WattEmptyStateModule,
   ],
   selector: 'dh-wholesale-table',
   templateUrl: './dh-wholesale-table.component.html',
@@ -79,7 +84,7 @@ export class DhWholesaleTableComponent implements OnDestroy, AfterViewInit {
     );
   }
   destroy$ = new Subject<void>();
-  _data: wholesaleTableData | null = null;
+  _data: wholesaleTableData = new MatTableDataSource(undefined);
 
   constructor(
     private matPaginatorIntl: MatPaginatorIntl,

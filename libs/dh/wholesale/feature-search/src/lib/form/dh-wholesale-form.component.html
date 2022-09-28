@@ -21,7 +21,7 @@ limitations under the License.
   novalidate
 >
   <watt-form-field>
-    <watt-label>{{ transloco("period") }}</watt-label>
+    <watt-label>{{ transloco("executionTime") }}</watt-label>
     <watt-datepicker
       formControlName="executionTime"
       [range]="true"
@@ -29,7 +29,7 @@ limitations under the License.
     <watt-error
       *ngIf="searchForm.controls.executionTime?.errors?.rangeRequired"
     >
-      {{ transloco("periodRequired") }}
+      {{ transloco("executionTimeRequired") }}
     </watt-error>
   </watt-form-field>
 
