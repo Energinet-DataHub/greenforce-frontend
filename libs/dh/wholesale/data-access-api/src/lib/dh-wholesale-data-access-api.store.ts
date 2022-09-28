@@ -32,8 +32,6 @@ import {
   WholesaleSearchBatchDto,
   WholesaleSearchBatchResponseDto,
 } from '@energinet-datahub/dh/shared/domain';
-import { zonedTimeToUtc } from 'date-fns-tz';
-import { parse } from 'date-fns';
 
 interface State {
   batches?: WholesaleSearchBatchResponseDto[];
@@ -63,8 +61,8 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
           const batchRequest: WholesaleBatchRequestDto = {
             processType: WholesaleProcessType.BalanceFixing,
             gridAreaCodes: batch.gridAreas,
-            startDate: this.formatDate(batch.dateRange.start),
-            endDate: this.formatDate(batch.dateRange.end),
+            startDate: batch.dateRange.start,
+            endDate: batch.dateRange.end,
           };
 
           return this.httpClient.v1WholesaleBatchPost(batchRequest);
@@ -86,8 +84,8 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
         tap(() => this.loadingBatchesTrigger$.next()),
         switchMap((filter: WholesaleSearchBatchDto) => {
           const searchBatchesRequest: WholesaleSearchBatchDto = {
-            minExecutionTime: this.formatDate(filter.minExecutionTime),
-            maxExecutionTime: this.formatDate(filter.maxExecutionTime),
+            minExecutionTime: filter.minExecutionTime,
+            maxExecutionTime: filter.maxExecutionTime,
           };
 
           return this.httpClient
@@ -103,9 +101,4 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
       );
     }
   );
-
-  private formatDate(value: string): string {
-    const date = parse(value, 'dd-MM-yyyy', new Date());
-    return zonedTimeToUtc(date, 'Europe/Copenhagen').toISOString();
-  }
 }
