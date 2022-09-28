@@ -205,7 +205,9 @@ export class WattDatepickerComponent extends WattPickerBase {
     const matStartDateChange$ = this.matStartDate.dateInput.pipe(
       startWith({
         value: this.parseDate(
-          this.formatDateTimeFromModelToView((this.initialValue as WattRange)?.start)
+          this.formatDateTimeFromModelToView(
+            (this.initialValue as WattRange)?.start
+          )
         ),
       }),
       tap(() => {
@@ -228,7 +230,9 @@ export class WattDatepickerComponent extends WattPickerBase {
     const matEndDateChange$ = this.matEndDate.dateInput.pipe(
       startWith({
         value: this.parseDate(
-          this.formatDateTimeFromModelToView((this.initialValue as WattRange)?.end)
+          this.formatDateTimeFromModelToView(
+            (this.initialValue as WattRange)?.end
+          )
         ),
       }),
       tap(() => {
