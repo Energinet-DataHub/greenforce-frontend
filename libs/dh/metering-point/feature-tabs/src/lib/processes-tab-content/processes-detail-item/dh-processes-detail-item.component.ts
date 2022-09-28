@@ -26,7 +26,6 @@ import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-t
 
 import {
   WattIconModule,
-  WattIconSize,
   WattValidationMessageModule,
 } from '@energinet-datahub/watt';
 import { TranslocoModule } from '@ngneat/transloco';
@@ -40,17 +39,17 @@ import { TranslocoModule } from '@ngneat/transloco';
 export class DhProcessesDetailItemComponent {
   private _detail!: ProcessDetail;
 
-  get detail(): ProcessDetail {
-    return this._detail;
-  }
   @Input()
   set detail(value: ProcessDetail) {
     if (value === undefined) {
       throw new Error('ProcessDetail is undefined');
     }
+
     this._detail = value;
   }
-  iconSize = WattIconSize;
+  get detail(): ProcessDetail {
+    return this._detail;
+  }
 }
 
 @NgModule({
