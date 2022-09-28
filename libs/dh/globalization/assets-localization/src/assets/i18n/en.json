@@ -306,7 +306,7 @@
       },
       "validityOptions": {
         "Now": "Valid now",
-        "Planned": "Planned",
+        "Planned": "Future Prices",
         "ThisWeek": "This week",
         "ThisMonth": "This month",
         "ThisQuarter": "This quarter",
