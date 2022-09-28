@@ -603,8 +603,8 @@
       "topBarTitle": "Søg batch",
       "headline": "Batch overblik",
       "filters": {
-        "period": "Periode",
-        "periodRequired": "Periode påkrævet",
+        "executionTime": "Eksekveringstid",
+        "executionTimeRequired": "Eksekveringstid påkrævet",
         "searchButton": "Søg"
       },
       "columns": {
