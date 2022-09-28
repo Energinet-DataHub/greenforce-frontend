@@ -266,7 +266,7 @@
     "prices": {
       "topBarTitle": "Search price",
       "search": {
-        "idOrName": "ID/Name",
+        "idOrName": "Price ID/Name",
         "enterIdOrName": "Enter part or whole name",
         "owner": "Owner",
         "enterOwner": "Enter owner",
@@ -279,7 +279,7 @@
         "clearSearch": "Clear",
         "startSearch": "Search"
       },
-      "priceId": "Id",
+      "priceId": "Price ID",
       "priceName": "Name",
       "owner": "Owner",
       "chargeType": "Type",

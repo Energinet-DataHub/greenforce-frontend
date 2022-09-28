@@ -266,7 +266,7 @@
     "prices": {
       "topBarTitle": "Søg pris",
       "search": {
-        "idOrName": "ID/Navn",
+        "idOrName": "Pris ID/Navn",
         "enterIdOrName": "Indtast dele af eller hele navnet",
         "owner": "Ejer",
         "enterOwner": "Indtast ejer",
@@ -279,7 +279,7 @@
         "clearSearch": "Ryd",
         "startSearch": "Søg"
       },
-      "priceId": "Id",
+      "priceId": "Pris ID",
       "priceName": "Navn",
       "owner": "Ejer",
       "chargeType": "Type",
