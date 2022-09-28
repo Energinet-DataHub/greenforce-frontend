@@ -26,6 +26,7 @@ import {
 import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { MatFormFieldControl } from '@angular/material/form-field';
 import { Subject } from 'rxjs';
+
 import { WattInputMaskService } from './watt-input-mask.service';
 import { WattPickerValue } from './watt-picker-value';
 import { WattRange } from './watt-range';
@@ -116,8 +117,10 @@ export abstract class WattPickerBase
       const {
         value: { start, end },
       } = this.ngControl;
+
       return { start, end };
     }
+
     return null;
   }
 
@@ -134,16 +137,16 @@ export abstract class WattPickerBase
       return;
     }
 
-    if (!this.range) {
-      this.setSingleValue(
-        value as Exclude<WattPickerValue, WattRange>,
-        this.input.nativeElement
-      );
-    } else {
+    if (this.range) {
       this.setRangeValue(
         value as WattRange,
         this.startInput.nativeElement,
         this.endInput.nativeElement
+      );
+    } else {
+      this.setSingleValue(
+        value as Exclude<WattPickerValue, WattRange>,
+        this.input.nativeElement
       );
     }
 
@@ -283,6 +286,23 @@ export abstract class WattPickerBase
   /**
    * @ignore
    */
+  protected abstract setSingleValue(
+    value: Exclude<WattPickerValue, WattRange>,
+    input: HTMLInputElement
+  ): void;
+
+  /**
+   * @ignore
+   */
+  protected abstract setRangeValue(
+    value: WattRange,
+    startInput: HTMLInputElement,
+    endInput: HTMLInputElement
+  ): void;
+
+  /**
+   * @ignore
+   */
   setDescribedByIds(ids: string[]) {
     this.elementRef.nativeElement.setAttribute(
       'aria-describedby',
@@ -358,7 +378,7 @@ export abstract class WattPickerBase
    * @ignore
    */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected changeParentValue = (_value: string | WattRange): void => {
+  protected changeParentValue = (value: string | WattRange): void => {
     // Intentionally left empty
   };
 
@@ -368,33 +388,4 @@ export abstract class WattPickerBase
   protected markParentControlAsTouched = (): void => {
     // Intentionally left empty
   };
-
-  /**
-   * @ignore
-   */
-  private setRangeValue(
-    value: WattRange,
-    startInput: HTMLInputElement,
-    endInput: HTMLInputElement
-  ) {
-    const { start, end } = value;
-
-    if (start) {
-      startInput.value = start;
-    }
-
-    if (end) {
-      endInput.value = end;
-    }
-  }
-
-  /**
-   * @ignore
-   */
-  private setSingleValue(
-    value: Exclude<WattPickerValue, WattRange>,
-    input: HTMLInputElement
-  ) {
-    input.value = value ? value : '';
-  }
 }
