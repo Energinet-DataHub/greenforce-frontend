@@ -222,11 +222,11 @@ export class WattDatepickerComponent extends WattPickerBase {
           maskedStartDate.inputMask
         );
       }),
-      map(({ value }) => {
+      map((x) => {
         let start = '';
 
-        if (value instanceof Date) {
-          start = this.formatDateFromViewToModel(value);
+        if (x?.value instanceof Date) {
+          start = this.formatDateFromViewToModel(x.value);
         }
 
         return start;
@@ -241,11 +241,11 @@ export class WattDatepickerComponent extends WattPickerBase {
           maskedEndDate.inputMask
         );
       }),
-      map(({ value }) => {
+      map((x) => {
         let end = '';
 
-        if (value instanceof Date) {
-          end = this.formatDateFromViewToModel(value);
+        if (x?.value instanceof Date) {
+          end = this.formatDateFromViewToModel(x.value);
         }
 
         return end;
