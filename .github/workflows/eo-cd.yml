@@ -247,9 +247,8 @@ jobs:
         id: chart-info
         uses: Energinet-DataHub/energy-origin/.github/actions/chart-info@main
         with:
-          chart-folder: ${{ inputs.chart_folder }}
-          chart-version: ${{ inputs.chart_version }}
-          include-image-name: ${{ inputs.include_image_name }}
+          chart-folder: build/infrastructure/eo/chart
+          chart-version: version
 
       - name: Release helm chart
         uses: Energinet-DataHub/energy-origin/.github/actions/helm-release-bundle-chart@main
