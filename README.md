@@ -346,11 +346,17 @@ Workflows are located in `.github/workflows` which currently contains the follow
   <dt><code>production-dependencies-license-check.yml</code></dt>
   <dd>Used for documenting used versions and licenses of production dependencies.</dd>
   <dt><code>watt-backend-cd.yml</code></dt>
-  <dd>Used by Watt for publishing a release and dispatching a deployment request of infrastructure as code (IaC).</dd>
+  <dd>
+    Used by Watt for publishing a release and dispatching a deployment request
+    of infrastructure as code (IaC).
+  </dd>
   <dt><code>watt-backend-ci.yml</code></dt>
   <dd>Used by Watt for creating a pre-release of IaC.</dd>
   <dt><code>watt-frontend-cd.yml</code></dt>
-  <dd>Used by Watt for deploying to Chromatic, publishing a release, and dispatching a deployment request.</dd>
+  <dd>
+    Used by Watt for deploying to Chromatic, publishing a release, and
+    dispatching a deployment request.
+  </dd>
 </dl>
 
 _Bots are used for certain trivial tasks such as adding license headers to files,
