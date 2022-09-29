@@ -99,7 +99,7 @@ export class DhWholesaleTableComponent implements OnDestroy, AfterViewInit {
     'periodEnd',
     'executionTimeStart',
     'executionState',
-    'basisData'
+    'basisData',
   ];
 
   ngAfterViewInit() {
