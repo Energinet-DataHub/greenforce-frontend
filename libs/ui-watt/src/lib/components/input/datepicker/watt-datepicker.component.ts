@@ -264,7 +264,6 @@ export class WattDatepickerComponent extends WattPickerBase {
     combineLatest([matStartDateChange$, matEndDateChange$])
       .pipe(takeUntil(this.destroy$))
       .subscribe(([start, end]) => {
-        console.log(start, end);
         if (initial) {
           initial = false;
           return;
