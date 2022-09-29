@@ -63,11 +63,7 @@ limitations under the License.
         }}</mat-header-cell
       >
       <mat-cell *matCellDef="let row">
-        <watt-icon
-          name="date"
-          [size]="iconSize.Small"
-          class="date-icon"
-        ></watt-icon>
+        <watt-icon name="date" size="s" class="date-icon"></watt-icon>
 
         <span class="watt-text-s">{{ row.effectiveDate | dhDate }} - </span>
       </mat-cell>

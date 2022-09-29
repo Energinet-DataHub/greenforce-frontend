@@ -21,21 +21,13 @@ limitations under the License.
   <div class="child-cell">{{ detail.name }}</div>
   <div class="child-cell">
     <ng-container *ngIf="detail.createdDate">
-      <watt-icon
-        name="date"
-        [size]="iconSize.Small"
-        class="date-icon"
-      ></watt-icon>
+      <watt-icon name="date" size="s" class="date-icon"></watt-icon>
       <span class="watt-text-s">{{ detail.createdDate | dhDateTime }}</span>
     </ng-container>
   </div>
   <div class="child-cell">
     <ng-container *ngIf="detail.effectiveDate">
-      <watt-icon
-        name="date"
-        [size]="iconSize.Small"
-        class="date-icon"
-      ></watt-icon>
+      <watt-icon name="date" size="s" class="date-icon"></watt-icon>
       <span class="watt-text-s">{{ detail.effectiveDate | dhDate }}</span>
     </ng-container>
   </div>
