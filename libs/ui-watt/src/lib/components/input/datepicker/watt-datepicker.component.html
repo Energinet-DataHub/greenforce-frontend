@@ -14,35 +14,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<ng-container *ngIf="!range; else rangeTemplate">
-  <input
-    matInput
-    aria-label="date-input"
-    #dateInput
-    autocomplete="off"
-    spellcheck="false"
-    [disabled]="disabled"
-    [matDatepicker]="singleDatepicker"
-    (focusin)="onFocusIn()"
-    (focusout)="onFocusOut($event)"
-  />
-
-  <watt-button
-    variant="icon"
-    icon="date"
-    [disabled]="disabled"
-    (click)="singleDatepicker.open()"
-    (focusin)="onFocusIn()"
-    (focusout)="onFocusOut($event)"
-  ></watt-button>
-
-  <mat-datepicker
-    #singleDatepicker
-    panelClass="watt-datepicker-single__panel"
-  ></mat-datepicker>
-</ng-container>
-
-<ng-template #rangeTemplate>
+<ng-container *ngIf="range; else singleInputTemplate">
   <mat-date-range-input
     [disabled]="disabled"
     [rangePicker]="rangeDatepicker"
@@ -81,4 +53,32 @@ limitations under the License.
     panelClass="watt-datepicker-range__panel"
     #rangeDatepicker
   ></mat-date-range-picker>
+</ng-container>
+
+<ng-template #singleInputTemplate>
+  <input
+    matInput
+    aria-label="date-input"
+    #dateInput
+    autocomplete="off"
+    spellcheck="false"
+    [disabled]="disabled"
+    [matDatepicker]="singleDatepicker"
+    (focusin)="onFocusIn()"
+    (focusout)="onFocusOut($event)"
+  />
+
+  <watt-button
+    variant="icon"
+    icon="date"
+    [disabled]="disabled"
+    (click)="singleDatepicker.open()"
+    (focusin)="onFocusIn()"
+    (focusout)="onFocusOut($event)"
+  ></watt-button>
+
+  <mat-datepicker
+    #singleDatepicker
+    panelClass="watt-datepicker-single__panel"
+  ></mat-datepicker>
 </ng-template>

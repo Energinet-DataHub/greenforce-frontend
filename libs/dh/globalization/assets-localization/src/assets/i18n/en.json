@@ -266,7 +266,7 @@
     "prices": {
       "topBarTitle": "Search price",
       "search": {
-        "idOrName": "ID/Name",
+        "idOrName": "Price ID/Name",
         "enterIdOrName": "Enter part or whole name",
         "owner": "Owner",
         "enterOwner": "Enter owner",
@@ -279,7 +279,7 @@
         "clearSearch": "Clear",
         "startSearch": "Search"
       },
-      "priceId": "Id",
+      "priceId": "Price ID",
       "priceName": "Name",
       "owner": "Owner",
       "chargeType": "Type",
@@ -304,14 +304,22 @@
         "Fee": "Fee",
         "Tariff": "Tariff"
       },
+      "resolutionType": {
+        "PT15M": "15 minutes",
+        "PT1H": "Hour",
+        "P1D": "Day",
+        "P1M": "Month"
+      },
       "validityOptions": {
         "Now": "Valid now",
-        "Planned": "Planned",
+        "Planned": "Future Prices",
         "ThisWeek": "This week",
         "ThisMonth": "This month",
         "ThisQuarter": "This quarter",
         "ThisYear": "This year"
-      }
+      },
+      "loadingErrorTitle": "An unexpected error occured",
+      "loadingErrorMessage": "Try again or contact your system administrator if you keep getting this error."
     }
   },
   "messageArchive": {

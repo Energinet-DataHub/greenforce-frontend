@@ -21,6 +21,8 @@ import { WattIconComponent } from '../icon.component';
 import { WattIconSize } from '../watt-icon-size';
 import { StorybookIconOverviewModule } from './storybook-icon-overview.module';
 
+const defaultIconSize: WattIconSize = 'm';
+
 export default {
   title: 'Foundations/Icons',
   decorators: [
@@ -61,10 +63,10 @@ icons.argTypes = {
   },
   size: {
     description: 'Size of the icon `WattIconSize`',
-    defaultValue: WattIconSize.Medium,
+    defaultValue: defaultIconSize,
     table: {
       type: { summary: 'string' },
-      defaultValue: { summary: WattIconSize.Medium },
+      defaultValue: { summary: defaultIconSize },
     },
   },
 };

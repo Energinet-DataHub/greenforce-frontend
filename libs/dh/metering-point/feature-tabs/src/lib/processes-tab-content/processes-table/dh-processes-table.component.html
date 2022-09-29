@@ -27,7 +27,7 @@ limitations under the License.
       <mat-header-cell *matHeaderCellDef class="control-cell-header">
       </mat-header-cell>
       <mat-cell *matCellDef="let row" class="control-cell">
-        <watt-icon name="right" [size]="iconSize.Large"></watt-icon>
+        <watt-icon name="right" size="l"></watt-icon>
       </mat-cell>
     </ng-container>
 
@@ -59,11 +59,7 @@ limitations under the License.
         {{ transloco("headers.createdDate") }}
       </mat-header-cell>
       <mat-cell *matCellDef="let row">
-        <watt-icon
-          name="date"
-          [size]="iconSize.Small"
-          class="date-icon"
-        ></watt-icon>
+        <watt-icon name="date" size="s" class="date-icon"></watt-icon>
         <span class="watt-text-s"
           >{{ row.data.createdDate | dhDateTime }}
         </span>
@@ -80,11 +76,7 @@ limitations under the License.
         {{ transloco("headers.effectiveDate") }}
       </mat-header-cell>
       <mat-cell *matCellDef="let row">
-        <watt-icon
-          name="date"
-          [size]="iconSize.Small"
-          class="date-icon"
-        ></watt-icon>
+        <watt-icon name="date" size="s" class="date-icon"></watt-icon>
         <span class="watt-text-s">{{ row.data.effectiveDate | dhDate }} </span>
       </mat-cell>
     </ng-container>
@@ -115,7 +107,7 @@ limitations under the License.
       <mat-cell *matCellDef="let row" class="has-details-errors-cell">
         <watt-icon
           [name]="row.data.hasDetailsErrors ? 'danger' : 'success'"
-          [size]="iconSize.Medium"
+          size="m"
           data-testId="processHasDetailsErrors"
         ></watt-icon>
       </mat-cell>

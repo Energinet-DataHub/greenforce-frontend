@@ -3,6 +3,7 @@ import { Configuration } from './configuration';
 import { HttpClient } from '@angular/common/http';
 
 import { ChargeLinksHttp } from './api/charge-links-http.service';
+import { ChargesHttp } from './api/charges-http.service';
 import { MarketParticipantHttp } from './api/market-participant-http.service';
 import { MarketParticipantGridAreaHttp } from './api/market-participant-grid-area-http.service';
 import { MarketParticipantGridAreaOverviewHttp } from './api/market-participant-grid-area-overview-http.service';
