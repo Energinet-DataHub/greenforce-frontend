@@ -43,6 +43,11 @@ export default {
     }),
   ],
   component: WattDatepickerComponent,
+  excludeStories: [
+    'initialValueSingle',
+    'initialValueRangeStart',
+    'initialValueRangeEnd',
+  ],
 } as Meta;
 
 const template = `
