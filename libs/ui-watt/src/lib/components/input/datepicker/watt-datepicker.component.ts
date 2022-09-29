@@ -255,6 +255,9 @@ export class WattDatepickerComponent extends WattPickerBase {
       })
     );
 
+    /*
+     * Initial is used to prevent marking the control as touched on initial values.
+     */
     let initial = true;
 
     // Subscribe for changes from date-range picker
