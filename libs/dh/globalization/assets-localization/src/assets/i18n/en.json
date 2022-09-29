@@ -305,7 +305,7 @@
         "Tariff": "Tariff"
       },
       "resolutionType": {
-        "PT15M": "15 minuts",
+        "PT15M": "15 minutes",
         "PT1H": "Hour",
         "P1D": "Day",
         "P1M": "Month"

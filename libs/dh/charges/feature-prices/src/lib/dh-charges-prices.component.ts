@@ -64,20 +64,20 @@ export class DhChargesPricesComponent implements OnInit, OnDestroy {
   };
   all$ = this.store.all$;
   isLoading$ = this.store.isLoading$;
-  hasLoadingError = this.store.hasGeneralError$;
+  hasLoadingError$ = this.store.hasGeneralError$;
 
   private destroy$ = new Subject<void>();
 
   constructor(
     private translocoService: TranslocoService,
     private store: DhChargesDataAccessApiStore
-  ) {
-    this.store.loadChargesData();
-  }
+  ) {}
 
   ngOnInit() {
     this.buildChargeTypeOptions();
     this.buildValidityOptions();
+
+    this.store.loadChargesData();
   }
 
   ngOnDestroy(): void {
