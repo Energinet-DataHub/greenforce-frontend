@@ -19,9 +19,8 @@ import {
   composeStory,
   createMountableStoryComponent,
 } from '@storybook/testing-angular';
-import { fireEvent, render, screen, within } from '@testing-library/angular';
+import { fireEvent, render, screen } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
-import { getDay } from 'date-fns';
 import { formatInTimeZone } from 'date-fns-tz';
 
 import Meta, {
