@@ -23,16 +23,17 @@ import {
   OnInit,
 } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { sub } from 'date-fns';
 import { TranslocoModule } from '@ngneat/transloco';
+import { zonedTimeToUtc } from 'date-fns-tz';
+
 import {
   WattButtonModule,
   WattDatepickerModule,
   WattFormFieldModule,
   WattRangeValidators,
 } from '@energinet-datahub/watt';
-
 import { WholesaleSearchBatchDto } from '@energinet-datahub/dh/shared/domain';
-import { format, sub } from 'date-fns';
 
 @Component({
   standalone: true,
@@ -55,8 +56,11 @@ export class DhWholesaleFormComponent implements OnInit {
   searchForm = this.fb.group({
     executionTime: [
       {
-        start: format(sub(new Date(), { days: 10 }), 'dd-MM-yyyy'),
-        end: format(new Date(), 'dd-MM-yyyy'),
+        start: sub(new Date().setHours(0, 0, 0, 0), { days: 10 }).toISOString(),
+        end: zonedTimeToUtc(
+          new Date().setHours(0, 0, 0, 0),
+          'Europe/Copenhagen'
+        ).toISOString(),
       },
       WattRangeValidators.required(),
     ],
