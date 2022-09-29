@@ -208,9 +208,7 @@ export class WattDatepickerComponent extends WattPickerBase {
       if (initialValue) {
         return {
           value: this.parseDate(
-            this.formatDateTimeFromModelToView(
-              (this.initialValue as WattRange)?.end
-            )
+            this.formatDateTimeFromModelToView(initialValue)
           ),
         };
       } else {
@@ -266,6 +264,7 @@ export class WattDatepickerComponent extends WattPickerBase {
     combineLatest([matStartDateChange$, matEndDateChange$])
       .pipe(takeUntil(this.destroy$))
       .subscribe(([start, end]) => {
+        console.log(start, end);
         if (initial) {
           initial = false;
           return;

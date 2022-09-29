@@ -19,8 +19,9 @@ import {
   composeStory,
   createMountableStoryComponent,
 } from '@storybook/testing-angular';
-import { fireEvent, render, screen } from '@testing-library/angular';
+import { fireEvent, render, screen, within } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
+import { getDay } from 'date-fns';
 import { formatInTimeZone } from 'date-fns-tz';
 
 import Meta, {
@@ -73,6 +74,7 @@ describe('Datepicker', () => {
     const endDateInput: HTMLInputElement = screen.getByRole('textbox', {
       name: /end-date-input/i,
     });
+
 
     dateInput.setSelectionRange(0, 0);
     startDateInput.setSelectionRange(0, 0);
@@ -343,6 +345,22 @@ describe('Datepicker', () => {
             `{ "start": "${initialValueRangeStart}", "end": "${initialValueRangeEnd}" }`
           )
         ).toBeInTheDocument();
+      });
+
+      it('should update control value when only end date has changed', async() => {
+        await setup(withInitialValue);
+
+        const [, range] = screen.getAllByRole('button', {name: 'calendar_today'});
+
+        userEvent.click(range);
+
+        const dayButtonStart = await screen.findByRole('button', {name: '1. sep. 2022'});
+        userEvent.click(dayButtonStart);
+
+        const dayButtonEnd = await screen.findByRole('button', {name: '28. sep. 2022'});
+        userEvent.click(dayButtonEnd);
+
+        expect(screen.getByTestId('rangeValue')).toHaveTextContent(`{ "start": "${initialValueRangeStart}", "end": "2022-09-27T22:00:00.000Z" }`);
       });
     });
   });
