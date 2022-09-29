@@ -249,6 +249,12 @@
       "D02": "Gebyr",
       "D03": "Tarif"
     },
+    "resolutionType": {
+      "PT15M": "15 minutter",
+      "PT1H": "Time",
+      "P1D": "Dag",
+      "P1M": "Måned"
+    },
     "chargeOwner": "Ejer",
     "startDate": "Dato",
     "transparentInvoicing": "Viderefakturering",
@@ -313,7 +319,9 @@
         "ThisMonth": "Denne måned",
         "ThisQuarter": "Dette kvartal",
         "ThisYear": "Dette år"
-      }
+      },
+      "loadingErrorTitle": "Der opstod en uventet fejl",
+      "loadingErrorMessage": "Prøv igen eller kontakt din systemadministrator, hvis du bliver ved med at få denne fejl."
     }
   },
   "messageArchive": {

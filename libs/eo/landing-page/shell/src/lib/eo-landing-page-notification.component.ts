@@ -16,7 +16,7 @@
  */
 import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
 import { EoInlineMessageScam } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
-import { WattIconModule, WattIconSize } from '@energinet-datahub/watt';
+import { WattIconModule } from '@energinet-datahub/watt';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -55,9 +55,7 @@ import { WattIconModule, WattIconSize } from '@energinet-datahub/watt';
     </eo-inline-message>
   `,
 })
-export class EoLandingPageNotificationComponent {
-  iconSize = WattIconSize;
-}
+export class EoLandingPageNotificationComponent {}
 
 @NgModule({
   declarations: [EoLandingPageNotificationComponent],

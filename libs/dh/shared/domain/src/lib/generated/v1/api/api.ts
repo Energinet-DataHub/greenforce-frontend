@@ -1,5 +1,7 @@
 export * from './charge-links-http.service';
 import { ChargeLinksHttp } from './charge-links-http.service';
+export * from './charges-http.service';
+import { ChargesHttp } from './charges-http.service';
 export * from './market-participant-http.service';
 import { MarketParticipantHttp } from './market-participant-http.service';
 export * from './market-participant-grid-area-http.service';
@@ -12,4 +14,4 @@ export * from './metering-point-http.service';
 import { MeteringPointHttp } from './metering-point-http.service';
 export * from './wholesale-batch-http.service';
 import { WholesaleBatchHttp } from './wholesale-batch-http.service';
-export const APIS = [ChargeLinksHttp, MarketParticipantHttp, MarketParticipantGridAreaHttp, MarketParticipantGridAreaOverviewHttp, MessageArchiveHttp, MeteringPointHttp, WholesaleBatchHttp];
+export const APIS = [ChargeLinksHttp, ChargesHttp, MarketParticipantHttp, MarketParticipantGridAreaHttp, MarketParticipantGridAreaOverviewHttp, MessageArchiveHttp, MeteringPointHttp, WholesaleBatchHttp];

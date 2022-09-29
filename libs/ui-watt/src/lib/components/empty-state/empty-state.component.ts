@@ -46,10 +46,10 @@ export class WattEmptyStateComponent {
 
   get iconSize(): WattIconSize {
     if (this.size === 'small') {
-      return WattIconSize.XLarge;
+      return 'xl';
     }
 
-    return WattIconSize.XXLarge;
+    return 'xxl';
   }
 
   get hasIcon(): boolean {
