@@ -74,7 +74,6 @@ describe('Datepicker', () => {
       name: /end-date-input/i,
     });
 
-
     dateInput.setSelectionRange(0, 0);
     startDateInput.setSelectionRange(0, 0);
     endDateInput.setSelectionRange(0, 0);
@@ -346,20 +345,28 @@ describe('Datepicker', () => {
         ).toBeInTheDocument();
       });
 
-      it('should update control value when only end date has changed', async() => {
+      it('should update control value when only end date has changed', async () => {
         await setup(withInitialValue);
 
-        const [, range] = screen.getAllByRole('button', {name: 'calendar_today'});
+        const [, range] = screen.getAllByRole('button', {
+          name: 'calendar_today',
+        });
 
         userEvent.click(range);
 
-        const dayButtonStart = await screen.findByRole('button', {name: '1. sep. 2022'});
+        const dayButtonStart = await screen.findByRole('button', {
+          name: '1. sep. 2022',
+        });
         userEvent.click(dayButtonStart);
 
-        const dayButtonEnd = await screen.findByRole('button', {name: '28. sep. 2022'});
+        const dayButtonEnd = await screen.findByRole('button', {
+          name: '28. sep. 2022',
+        });
         userEvent.click(dayButtonEnd);
 
-        expect(screen.getByTestId('rangeValue')).toHaveTextContent(`{ "start": "${initialValueRangeStart}", "end": "2022-09-27T22:00:00.000Z" }`);
+        expect(screen.getByTestId('rangeValue')).toHaveTextContent(
+          `{ "start": "${initialValueRangeStart}", "end": "2022-09-27T22:00:00.000Z" }`
+        );
       });
     });
   });
