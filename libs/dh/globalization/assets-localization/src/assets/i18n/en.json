@@ -304,6 +304,12 @@
         "Fee": "Fee",
         "Tariff": "Tariff"
       },
+      "resolutionType": {
+        "PT15M": "15 minutes",
+        "PT1H": "Hour",
+        "P1D": "Day",
+        "P1M": "Month"
+      },
       "validityOptions": {
         "Now": "Valid now",
         "Planned": "Planned",
@@ -311,7 +317,9 @@
         "ThisMonth": "This month",
         "ThisQuarter": "This quarter",
         "ThisYear": "This year"
-      }
+      },
+      "loadingErrorTitle": "An unexpected error occured",
+      "loadingErrorMessage": "Try again or contact your system administrator if you keep getting this error."
     }
   },
   "messageArchive": {
