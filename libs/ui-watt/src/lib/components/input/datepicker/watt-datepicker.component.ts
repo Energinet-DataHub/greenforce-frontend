@@ -206,15 +206,17 @@ export class WattDatepickerComponent extends WattPickerBase {
       let value: Date | string;
 
       if (initialValue) {
-        return {value: this.parseDate(
-          this.formatDateTimeFromModelToView(
-            (this.initialValue as WattRange)?.end
-          )
-        )};
+        return {
+          value: this.parseDate(
+            this.formatDateTimeFromModelToView(
+              (this.initialValue as WattRange)?.end
+            )
+          ),
+        };
       } else {
         value = '';
       }
-      return {value};
+      return { value };
     };
 
     const matStartDateChange$ = this.matStartDate.dateInput.pipe(
