@@ -203,15 +203,18 @@ export class WattDatepickerComponent extends WattPickerBase {
     });
 
     const getInitialValue = (initialValue: string) => {
-      if (!initialValue) return;
+      let value: Date | string;
 
-      return {
-        value: this.parseDate(
+      if (initialValue) {
+        return {value: this.parseDate(
           this.formatDateTimeFromModelToView(
             (this.initialValue as WattRange)?.end
           )
-        ),
-      };
+        )};
+      } else {
+        value = '';
+      }
+      return {value};
     };
 
     const matStartDateChange$ = this.matStartDate.dateInput.pipe(
@@ -222,11 +225,11 @@ export class WattDatepickerComponent extends WattPickerBase {
           maskedStartDate.inputMask
         );
       }),
-      map((x) => {
+      map(({ value }) => {
         let start = '';
 
-        if (x?.value instanceof Date) {
-          start = this.formatDateFromViewToModel(x.value);
+        if (value instanceof Date) {
+          start = this.formatDateFromViewToModel(value);
         }
 
         return start;
@@ -241,21 +244,27 @@ export class WattDatepickerComponent extends WattPickerBase {
           maskedEndDate.inputMask
         );
       }),
-      map((x) => {
+      map(({ value }) => {
         let end = '';
 
-        if (x?.value instanceof Date) {
-          end = this.formatDateFromViewToModel(x.value);
+        if (value instanceof Date) {
+          end = this.formatDateFromViewToModel(value);
         }
 
         return end;
       })
     );
 
+    let initial = true;
+
     // Subscribe for changes from date-range picker
     combineLatest([matStartDateChange$, matEndDateChange$])
       .pipe(takeUntil(this.destroy$))
       .subscribe(([start, end]) => {
+        if (initial) {
+          initial = false;
+          return;
+        }
         this.markParentControlAsTouched();
         this.changeParentValue({ start, end });
       });
