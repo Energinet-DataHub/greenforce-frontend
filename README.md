@@ -29,7 +29,7 @@ frontends backed by [Nx] and [Angular].
   - [Libraries](#libraries)
   - [Tools](#tools)
 - [Scripts](#scripts)
-- [CI/CD Pipelines](#cicd-pipelines)
+- [Workflows (CI/CD)](#workflows-cicd)
 - [Visual Studio Code](#visual-studio-code)
 
 ## General
@@ -313,20 +313,51 @@ documentation on how to work with them, see
   <dd>Generate a dependency graph for the applications in the monorepo.</dd>
 </dl>
 
-## CI/CD Pipelines
+## Workflows (CI/CD)
 
-Located under `.github/workflows`. There are:
+The repository is using [GitHub Actions workflows](https://docs.github.com/en/actions/using-workflows/about-workflows)
+for automation including CI/CD pipelines for each application.
+Workflows are located in `.github/workflows` which currently contains the following:
 
-- `api-dh-ci.yml` - Used by the BFF for `app-dh`.
-- `eo-cd.yml` - Used by "Energy Origin" app
-- `license-check-ci.yml` - Used for adding license to files
-- `frontend-ci.yml` - Used to build, test, format and lint all frontend apps
+<dl>
+  <dt><code>app-dh-healthchecks.yml</code></dt>
+  <dd>
+    Used for running health check and E2E tests every hour against all DataHub
+    environments.
+  </dd>
+  <dt><code>dh-backend-cd.yml</code></dt>
+  <dd>
+    Used by DataHub for publishing a release, dispatching a deployment request,
+    and updating code coverage for BFF.
+  </dd>
+  <dt><code>dh-backend-ci.yml</code></dt>
+  <dd>Used by the BFF for <code>app-dh</code>.</dd>
+  <dt><code>dh-frontend-cd.yml</code></dt>
+  <dd>
+    Used by DataHub frontend for publishing a release and dispatching a
+    deployment request.
+  </dd>
+  <dt><code>eo-cd.yml</code></dt>
+  <dd>Used by "Energy Origin" app.</dd>
+  <dt><code>frontend-ci.yml</code></dt>
+  <dd>Used to build, test, format and lint all frontend apps.</dd>
+  <dt><code>license-check-ci.yml</code></dt>
+  <dd>Used to check for license headers in files and adding them if missing.</dd>
+  <dt><code>production-dependencies-license-check.yml</code></dt>
+  <dd>Used for documenting used versions and licenses of production dependencies.</dd>
+  <dt><code>watt-backend-cd.yml</code></dt>
+  <dd>Used by Watt for publishing a release and dispatching a deployment request of infrastructure as code (IaC).</dd>
+  <dt><code>watt-backend-ci.yml</code></dt>
+  <dd>Used by Watt for creating a pre-release of IaC.</dd>
+  <dt><code>watt-frontend-cd.yml</code></dt>
+  <dd>Used by Watt for deploying to Chromatic, publishing a release, and dispatching a deployment request.</dd>
+</dl>
 
-We use bots for certain trivial tasks such as adding license headers to files,
+_Bots are used for certain trivial tasks such as adding license headers to files,
 formatting code, fixing lint errors, and generating API clients based on OpenAPI.
 For this to work, bots have to use the repository secret `PAT_TOKEN` when pushing
 changes or creating releases that trigger a workflow. Only do this for idempotent
-tasks to prevent circular workflows from causing inifinite workflow runs.
+tasks to prevent circular workflows from causing inifinite workflow runs._
 
 ## Visual Studio Code
 
