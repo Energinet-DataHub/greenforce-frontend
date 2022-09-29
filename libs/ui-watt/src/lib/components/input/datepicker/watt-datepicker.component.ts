@@ -202,14 +202,20 @@ export class WattDatepickerComponent extends WattPickerBase {
       },
     });
 
-    const matStartDateChange$ = this.matStartDate.dateInput.pipe(
-      startWith({
+    const getInitialValue = (initialValue: string) => {
+      if (!initialValue) return;
+
+      return {
         value: this.parseDate(
           this.formatDateTimeFromModelToView(
-            (this.initialValue as WattRange)?.start
+            (this.initialValue as WattRange)?.end
           )
         ),
-      }),
+      };
+    };
+
+    const matStartDateChange$ = this.matStartDate.dateInput.pipe(
+      startWith(getInitialValue((this.initialValue as WattRange)?.start)),
       tap(() => {
         this.inputMaskService.setInputColor(
           startDateInputElement,
@@ -228,13 +234,7 @@ export class WattDatepickerComponent extends WattPickerBase {
     );
 
     const matEndDateChange$ = this.matEndDate.dateInput.pipe(
-      startWith({
-        value: this.parseDate(
-          this.formatDateTimeFromModelToView(
-            (this.initialValue as WattRange)?.end
-          )
-        ),
-      }),
+      startWith(getInitialValue((this.initialValue as WattRange)?.end)),
       tap(() => {
         this.inputMaskService.setInputColor(
           endDateInputElement,
