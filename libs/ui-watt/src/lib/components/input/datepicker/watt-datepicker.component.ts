@@ -34,7 +34,7 @@ import {
   MAT_DATEPICKER_SCROLL_STRATEGY_FACTORY_PROVIDER,
 } from '@angular/material/datepicker';
 import { MatFormFieldControl } from '@angular/material/form-field';
-import { combineLatest, map, merge, takeUntil, tap } from 'rxjs';
+import { combineLatest, map, merge, startWith, takeUntil, tap } from 'rxjs';
 import { parse, isValid } from 'date-fns';
 import { formatInTimeZone, zonedTimeToUtc } from 'date-fns-tz';
 
@@ -203,6 +203,13 @@ export class WattDatepickerComponent extends WattPickerBase {
     });
 
     const matStartDateChange$ = this.matStartDate.dateInput.pipe(
+      startWith({
+        value: this.parseDate(
+          this.formatDateTimeFromModelToView(
+            (this.initialValue as WattRange)?.start
+          )
+        ),
+      }),
       tap(() => {
         this.inputMaskService.setInputColor(
           startDateInputElement,
@@ -221,6 +228,13 @@ export class WattDatepickerComponent extends WattPickerBase {
     );
 
     const matEndDateChange$ = this.matEndDate.dateInput.pipe(
+      startWith({
+        value: this.parseDate(
+          this.formatDateTimeFromModelToView(
+            (this.initialValue as WattRange)?.end
+          )
+        ),
+      }),
       tap(() => {
         this.inputMaskService.setInputColor(
           endDateInputElement,
