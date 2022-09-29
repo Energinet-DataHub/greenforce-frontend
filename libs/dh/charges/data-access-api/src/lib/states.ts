@@ -14,5 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './lib/dh-charge-links-data-access-api.store';
-export * from './lib/dh-charges-data-access-api.store';
+export const enum ErrorState {
+  NOT_FOUND_ERROR = 'NOT_FOUND_ERROR',
+  GENERAL_ERROR = 'GENERAL_ERROR',
+}
+
+export const enum LoadingState {
+  INIT = 'INIT',
+  LOADING = 'LOADING',
+  LOADED = 'LOADED',
+}
