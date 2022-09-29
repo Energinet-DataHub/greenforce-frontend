@@ -328,7 +328,7 @@ Workflows are located in `.github/workflows` which currently contains the follow
   <dt><code>dh-backend-cd.yml</code></dt>
   <dd>
     Used by DataHub for publishing a release, dispatching a deployment request,
-    and updating code coverage for BFF.
+    and updating BFF code coverage.
   </dd>
   <dt><code>dh-backend-ci.yml</code></dt>
   <dd>Used by the BFF for <code>app-dh</code>.</dd>
