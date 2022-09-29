@@ -76,7 +76,5 @@ describe('DhChargesPricesComponent', () => {
   it.todo('should show start search screen initially');
   it.todo('should open a drawer when clicking on row');
   it.todo('should clear valid from and valid to when selecting validity');
-  it.todo(
-    'should clear "user defined" in validity when entering valid dates'
-  );
+  it.todo('should clear "user defined" in validity when entering valid dates');
 });
