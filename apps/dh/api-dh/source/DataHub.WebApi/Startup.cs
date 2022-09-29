@@ -140,7 +140,7 @@ namespace Energinet.DataHub.WebApi
 
             app.UseCors();
 
-            if (Environment.IsDevelopment())
+            if (!Environment.IsDevelopment())
             {
                 app.UseMiddleware<JwtTokenMiddleware>();
             }
