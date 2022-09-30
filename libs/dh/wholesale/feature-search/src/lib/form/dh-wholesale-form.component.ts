@@ -72,7 +72,7 @@ export class DhWholesaleFormComponent implements OnInit {
 
   ngOnInit() {
     this.onSubmit();
-    this.searchForm.valueChanges.subscribe(() => this.loading = false);
+    this.searchForm.valueChanges.subscribe(() => (this.loading = false));
   }
 
   onSubmit() {
