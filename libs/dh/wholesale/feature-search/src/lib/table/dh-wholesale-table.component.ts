@@ -37,6 +37,7 @@ import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-t
 import {
   WattBadgeModule,
   WattBadgeType,
+  WattButtonModule,
   WattEmptyStateModule,
 } from '@energinet-datahub/watt';
 
@@ -65,6 +66,7 @@ type wholesaleTableData = MatTableDataSource<{
     MatTableModule,
     TranslocoModule,
     WattBadgeModule,
+    WattButtonModule,
     WattEmptyStateModule,
   ],
   selector: 'dh-wholesale-table',
@@ -97,6 +99,7 @@ export class DhWholesaleTableComponent implements OnDestroy, AfterViewInit {
     'periodEnd',
     'executionTimeStart',
     'executionState',
+    'basisData',
   ];
 
   ngAfterViewInit() {

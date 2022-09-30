@@ -618,8 +618,10 @@
         "periodFrom": "Period from",
         "periodTo": "Period to",
         "executionTime": "Execution time",
-        "status": "Status"
+        "status": "Status",
+        "basisData": "Basis data"
       },
+      "download": "Download",
       "Pending": "Pending",
       "Running": "Running",
       "Finished": "Finished",

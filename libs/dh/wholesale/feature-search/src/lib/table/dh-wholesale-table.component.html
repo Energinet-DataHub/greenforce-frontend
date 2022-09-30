@@ -83,6 +83,20 @@ limitations under the License.
         </watt-badge>
       </mat-cell>
     </ng-container>
+    <!-- Download basis data -->
+    <ng-container matColumnDef="basisData">
+      <mat-header-cell *matHeaderCellDef>
+        {{ transloco("columns.basisData") }}
+      </mat-header-cell>
+      <mat-cell *matCellDef="let batch">
+        <watt-button
+          variant="icon"
+          title="{{ transloco('download') }}"
+          icon="download"
+        >
+        </watt-button>
+      </mat-cell>
+    </ng-container>
 
     <mat-header-row *matHeaderRowDef="columnIds; sticky: true"></mat-header-row>
     <mat-row *matRowDef="let row; columns: columnIds"></mat-row>
