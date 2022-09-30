@@ -31,11 +31,9 @@ import Meta, {
   withInitialValue as WithInitialValue,
   withValidations as WithValidations,
   withFormControlDisabled as WithFormControlDisabled,
+  WattDatepickerStoryConfig,
 } from './+storybook/watt-datepicker-reactive-forms.stories';
-import {
-  danishTimeZoneIdentifier,
-  WattDatepickerComponent,
-} from './watt-datepicker.component';
+import { danishTimeZoneIdentifier } from './watt-datepicker.component';
 
 const withFormControl = composeStory(WithFormControl, Meta);
 const withInitialValue = composeStory(WithInitialValue, Meta);
@@ -51,6 +49,10 @@ function formatDateAs(value: string, format: string): string {
 }
 
 describe('Datepicker', () => {
+  beforeAll(() => {
+    jest.setTimeout(10000);
+  });
+
   const incompleteDateWithoutSeperatorsAs_ddMM = formatDateAs(
     initialValueSingle,
     'ddMM'
@@ -58,9 +60,9 @@ describe('Datepicker', () => {
   const displayDateFormat = 'dd-MM-yyyy';
   const pasteDateFormat = 'yyyy-MM-dd';
 
-  async function setup(story: Story<Partial<WattDatepickerComponent>>) {
+  async function setup(story: Story<Partial<WattDatepickerStoryConfig>>) {
     const { component, ngModule } = createMountableStoryComponent(
-      story({}, {} as never)
+      story({ disableAnimations: true, ...story }, {} as never)
     );
     const { fixture } = await render(component, { imports: [ngModule] });
 
@@ -343,6 +345,38 @@ describe('Datepicker', () => {
             `{ "start": "${initialValueRangeStart}", "end": "${initialValueRangeEnd}" }`
           )
         ).toBeInTheDocument();
+      });
+
+      it('should update control value when only end date has changed', async () => {
+        await setup(withInitialValue);
+
+        const [, range] = await screen.findAllByRole('button', {
+          name: 'calendar_today',
+        });
+
+        userEvent.click(range);
+
+        const dayButtonStart = await screen.findByRole(
+          'button',
+          {
+            name: '1. sep. 2022',
+          },
+          { timeout: 4000 }
+        );
+        userEvent.click(dayButtonStart);
+
+        const dayButtonEnd = await screen.findByRole(
+          'button',
+          {
+            name: '28. sep. 2022',
+          },
+          { timeout: 4000 }
+        );
+        userEvent.click(dayButtonEnd);
+
+        expect(screen.getByTestId('rangeValue')).toHaveTextContent(
+          `{ "start": "${initialValueRangeStart}", "end": "2022-09-27T22:00:00.000Z" }`
+        );
       });
     });
   });
