@@ -34,7 +34,7 @@ import {
   MAT_DATEPICKER_SCROLL_STRATEGY_FACTORY_PROVIDER,
 } from '@angular/material/datepicker';
 import { MatFormFieldControl } from '@angular/material/form-field';
-import { combineLatest, map, merge, takeUntil, tap } from 'rxjs';
+import { combineLatest, map, merge, startWith, takeUntil, tap } from 'rxjs';
 import { parse, isValid } from 'date-fns';
 import { formatInTimeZone, zonedTimeToUtc } from 'date-fns-tz';
 
@@ -202,7 +202,23 @@ export class WattDatepickerComponent extends WattPickerBase {
       },
     });
 
+    const getInitialValue = (initialValue: string) => {
+      let value: Date | string;
+
+      if (initialValue) {
+        return {
+          value: this.parseDate(
+            this.formatDateTimeFromModelToView(initialValue)
+          ),
+        };
+      } else {
+        value = '';
+      }
+      return { value };
+    };
+
     const matStartDateChange$ = this.matStartDate.dateInput.pipe(
+      startWith(getInitialValue((this.initialValue as WattRange)?.start)),
       tap(() => {
         this.inputMaskService.setInputColor(
           startDateInputElement,
@@ -221,6 +237,7 @@ export class WattDatepickerComponent extends WattPickerBase {
     );
 
     const matEndDateChange$ = this.matEndDate.dateInput.pipe(
+      startWith(getInitialValue((this.initialValue as WattRange)?.end)),
       tap(() => {
         this.inputMaskService.setInputColor(
           endDateInputElement,
@@ -238,10 +255,19 @@ export class WattDatepickerComponent extends WattPickerBase {
       })
     );
 
+    /*
+     * Initial is used to prevent marking the control as touched on initial values.
+     */
+    let initial = true;
+
     // Subscribe for changes from date-range picker
     combineLatest([matStartDateChange$, matEndDateChange$])
       .pipe(takeUntil(this.destroy$))
       .subscribe(([start, end]) => {
+        if (initial) {
+          initial = false;
+          return;
+        }
         this.markParentControlAsTouched();
         this.changeParentValue({ start, end });
       });
