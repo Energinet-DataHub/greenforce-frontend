@@ -359,6 +359,9 @@ describe('Datepicker', () => {
         const datepickerDialog = await screen.findByRole('dialog');
         expect(datepickerDialog).toBeInTheDocument();
 
+        const currentMonth = within(datepickerDialog).getByText('SEP. 2022');
+        expect(currentMonth).toBeInTheDocument();
+
         const dayButtonStart = within(datepickerDialog).getByRole('button',{
           name: /^1\./,
         });
