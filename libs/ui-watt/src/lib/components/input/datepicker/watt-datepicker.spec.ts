@@ -356,6 +356,10 @@ describe('Datepicker', () => {
 
         userEvent.click(range);
 
+
+        const datepickerDialog = await screen.findByRole('dialog');
+        expect(datepickerDialog).toBeInTheDocument();
+
         const dayButtonStart = await screen.findByRole(
           'button',
           {
