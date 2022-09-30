@@ -348,7 +348,8 @@ jobs:
 
       - name: 'PR: Test affected projects'
         if: ${{ env.is-pull-request == 'true' }}
-        run: yarn nx run ui-watt:test --skip-nx-cache --test-file libs/ui-watt/src/lib/components/input/datepicker/watt-datepicker.spec.ts
+        run: yarn affected:test --base=origin/$BASE_BRANCH
+          --max-parallel=$NX_MAX_PARALLEL
       - name: 'Merge: Test all projects'
         if: ${{ env.is-pull-request == 'false' }}
         run: yarn test --max-parallel=$NX_MAX_PARALLEL

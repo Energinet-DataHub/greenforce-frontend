@@ -49,10 +49,6 @@ function formatDateAs(value: string, format: string): string {
 }
 
 describe('Datepicker', () => {
-  beforeAll(() => {
-    jest.setTimeout(10000);
-  });
-
   const incompleteDateWithoutSeperatorsAs_ddMM = formatDateAs(
     initialValueSingle,
     'ddMM'
