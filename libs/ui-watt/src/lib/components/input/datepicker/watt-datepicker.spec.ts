@@ -359,12 +359,12 @@ describe('Datepicker', () => {
         const datepickerDialog = await screen.findByRole('dialog');
         expect(datepickerDialog).toBeInTheDocument();
 
-        const dayButtonStart = within(datepickerDialog).getByRole('button',{
+        const dayButtonStart = within(datepickerDialog).getByRole('button', {
           name: /^1\./,
         });
         userEvent.click(dayButtonStart);
 
-        const dayButtonEnd = within(datepickerDialog).getByRole('button',{
+        const dayButtonEnd = within(datepickerDialog).getByRole('button', {
           name: /^28\./,
         });
         userEvent.click(dayButtonEnd);
