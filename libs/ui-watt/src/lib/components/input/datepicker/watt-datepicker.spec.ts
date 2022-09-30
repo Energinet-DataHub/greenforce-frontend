@@ -344,6 +344,7 @@ describe('Datepicker', () => {
       });
 
       it('should update control value when only end date has changed', async () => {
+        jest.setTimeout(10000);
         await setup(withInitialValue);
 
         const [, range] = screen.getAllByRole('button', {
