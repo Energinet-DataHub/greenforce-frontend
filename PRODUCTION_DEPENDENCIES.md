@@ -26,12 +26,12 @@
 | [chart.js](https://github.com/chartjs/Chart.js) | 3.8.0 | MIT) |
 | [chartjs-plugin-datalabels](https://github.com/chartjs/chartjs-plugin-datalabels) | 2.0.0 | MIT) |
 | [date-fns-tz](https://github.com/marnusw/date-fns-tz) | 1.3.7 | MIT) |
-| [date-fns](https://github.com/date-fns/date-fns) | 2.29.1 | MIT) |
+| [date-fns](https://github.com/date-fns/date-fns) | 2.29.2 | MIT) |
 | [energinet-datahub](undefined) | 0.0.0 | MIT) |
 | [include-media](https://github.com/eduardoboucas/include-media) | 1.4.10 | MIT) |
 | [inputmask](https://github.com/RobinHerbots/Inputmask) | 5.0.7 | MIT) |
 | [ng2-charts](https://github.com/valor-software/ng2-charts) | 3.0.11 | ISC) |
 | [ngx-mat-select-search](https://github.com/bithost-gmbh/ngx-mat-select-search) | 4.2.1 | MIT) |
-| [rxjs](https://github.com/reactivex/rxjs) | 7.5.6 | Apache-2.0) |
+| [rxjs](https://github.com/reactivex/rxjs) | 7.5.7 | Apache-2.0) |
 | [tslib](https://github.com/Microsoft/tslib) | 2.4.0 | 0BSD) |
 | [zone.js](https://github.com/angular/angular) | 0.11.4 | MIT) |

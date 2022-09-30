@@ -16,6 +16,7 @@
  */
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
+import { HttpClientModule } from '@angular/common/http';
 
 import { DhChargesPricesComponent } from './dh-charges-prices.component';
 
@@ -25,7 +26,7 @@ describe('DhChargesPricesComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [getTranslocoTestingModule()],
+      imports: [getTranslocoTestingModule(), HttpClientModule],
       declarations: [DhChargesPricesComponent],
     }).compileComponents();
 

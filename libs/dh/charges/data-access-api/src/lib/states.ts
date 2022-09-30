@@ -14,34 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@use "@energinet-datahub/watt/utils" as watt;
-
-:host {
-  display: block;
+export const enum ErrorState {
+  NOT_FOUND_ERROR = 'NOT_FOUND_ERROR',
+  GENERAL_ERROR = 'GENERAL_ERROR',
 }
 
-.sidenav {
-  display: flex;
-  justify-content: center;
-}
-
-.logo--sidenav {
-  margin: var(--watt-space-m) 0;
-}
-
-.toolbar {
-  &__heading {
-    margin-left: var(--watt-space-m);
-  }
-
-  &__actions {
-    margin-left: auto;
-    margin-right: var(--watt-space-m);
-  }
-
-  @include watt.media(">Large") {
-    &__logout {
-      margin-right: var(--watt-space-m);
-    }
-  }
+export const enum LoadingState {
+  INIT = 'INIT',
+  LOADING = 'LOADING',
+  LOADED = 'LOADED',
 }

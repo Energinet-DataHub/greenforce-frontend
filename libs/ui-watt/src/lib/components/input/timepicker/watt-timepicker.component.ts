@@ -43,6 +43,7 @@ import { WattPickerBase } from '../shared/watt-picker-base';
 import { WattRange } from '../shared/watt-range';
 import { WattRangeInputService } from '../shared/watt-range-input.service';
 import { WattSliderValue } from '../../slider/watt-slider.component';
+import { WattPickerValue } from '../shared/watt-picker-value';
 
 /**
  * Note: `Inputmask` package uses upper case `MM` for "minutes" and
@@ -269,6 +270,35 @@ export class WattTimepickerComponent extends WattPickerBase {
       this.markParentControlAsTouched();
       this.changeParentValue({ start, end });
     });
+  }
+
+  /**
+   * @ignore
+   */
+  protected setSingleValue(
+    value: Exclude<WattPickerValue, WattRange>,
+    input: HTMLInputElement
+  ) {
+    input.value = value ? value : '';
+  }
+
+  /**
+   * @ignore
+   */
+  protected setRangeValue(
+    value: WattRange,
+    startInput: HTMLInputElement,
+    endInput: HTMLInputElement
+  ) {
+    const { start, end } = value;
+
+    if (start) {
+      startInput.value = start;
+    }
+
+    if (end) {
+      endInput.value = end;
+    }
   }
 
   /**
