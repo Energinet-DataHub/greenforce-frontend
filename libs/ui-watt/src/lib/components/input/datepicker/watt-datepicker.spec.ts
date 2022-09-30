@@ -19,7 +19,7 @@ import {
   composeStory,
   createMountableStoryComponent,
 } from '@storybook/testing-angular';
-import { fireEvent, render, screen } from '@testing-library/angular';
+import { fireEvent, render, screen, within } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
 import { formatInTimeZone } from 'date-fns-tz';
 
@@ -360,22 +360,14 @@ describe('Datepicker', () => {
         const datepickerDialog = await screen.findByRole('dialog');
         expect(datepickerDialog).toBeInTheDocument();
 
-        const dayButtonStart = await screen.findByRole(
-          'button',
-          {
-            name: '1. sep. 2022',
-          },
-          { timeout: 4000 }
-        );
+        const dayButtonStart = within(datepickerDialog).getByRole('button',{
+          name: '1. sep. 2022',
+        });
         userEvent.click(dayButtonStart);
 
-        const dayButtonEnd = await screen.findByRole(
-          'button',
-          {
-            name: '28. sep. 2022',
-          },
-          { timeout: 4000 }
-        );
+        const dayButtonEnd = within(datepickerDialog).getByRole('button',{
+          name: '28. sep. 2022',
+        });
         userEvent.click(dayButtonEnd);
 
         expect(screen.getByTestId('rangeValue')).toHaveTextContent(
