@@ -104,8 +104,8 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
             .pipe(
               tap((batches) => this.setBatches(batches)),
               catchError(() => {
-                this.loadingBatchesErrorTrigger$.next();
                 this.setLoadingBatches(false);
+                this.loadingBatchesErrorTrigger$.next();
                 return EMPTY;
               })
             );
