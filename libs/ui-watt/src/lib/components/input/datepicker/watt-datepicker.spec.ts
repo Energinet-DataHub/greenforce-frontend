@@ -362,12 +362,12 @@ describe('Datepicker', () => {
         const currentMonth = within(datepickerDialog).getByText('SEP. 2022');
         expect(currentMonth).toBeInTheDocument();
 
-        const dayButtonStart = within(datepickerDialog).getByRole('button',{
+        const dayButtonStart = within(datepickerDialog).getByRole('button', {
           name: /^1\./,
         });
         userEvent.click(dayButtonStart);
 
-        const dayButtonEnd = within(datepickerDialog).getByRole('button',{
+        const dayButtonEnd = within(datepickerDialog).getByRole('button', {
           name: /^28\./,
         });
         userEvent.click(dayButtonEnd);
