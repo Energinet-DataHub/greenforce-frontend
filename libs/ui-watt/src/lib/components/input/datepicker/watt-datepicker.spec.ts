@@ -353,14 +353,22 @@ describe('Datepicker', () => {
 
         userEvent.click(range);
 
-        const dayButtonStart = await screen.findByRole('button', {
-          name: '1. sep. 2022',
-        }, { timeout: 5000 });
+        const dayButtonStart = await screen.findByRole(
+          'button',
+          {
+            name: '1. sep. 2022',
+          },
+          { timeout: 5000 }
+        );
         userEvent.click(dayButtonStart);
 
-        const dayButtonEnd = await screen.findByRole('button', {
-          name: '28. sep. 2022',
-        }, { timeout: 5000 });
+        const dayButtonEnd = await screen.findByRole(
+          'button',
+          {
+            name: '28. sep. 2022',
+          },
+          { timeout: 5000 }
+        );
         userEvent.click(dayButtonEnd);
 
         expect(screen.getByTestId('rangeValue')).toHaveTextContent(
