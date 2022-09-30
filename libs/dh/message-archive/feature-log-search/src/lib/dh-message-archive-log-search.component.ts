@@ -155,6 +155,7 @@ export class DhMessageArchiveLogSearchComponent implements OnDestroy {
   }
 
   resetSearchCritera() {
+    this.store.resetState();
     this.searchCriteria = {
       messageId: null,
       rsmNames: new Array<string>(),
