@@ -4,6 +4,10 @@
 - [Volta](https://volta.sh/) - for managing JavaScript command-line tools like Node.js® and Yarn.
 - [.NET SDK](https://dotnet.microsoft.com/en-us/download)
 
+In case it's been a while since installing the prerequisites you may run into dependency problems
+(you'll see a wall of errors in the terminal output when trying to start the angular web development server),
+then try executing `yarn` to update required tools versions.
+
 ## Visual Studio Code - recommended extensions
 
 A list of recommended extensions is stored in `.vscode/extenstions.json`. You'll get a notification asking you to install the extensions when you open the project in VS Code for the first time.
