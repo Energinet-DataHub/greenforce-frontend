@@ -33,9 +33,7 @@ import Meta, {
   withFormControlDisabled as WithFormControlDisabled,
   WattDatepickerStoryConfig,
 } from './+storybook/watt-datepicker-reactive-forms.stories';
-import {
-  danishTimeZoneIdentifier,
-} from './watt-datepicker.component';
+import { danishTimeZoneIdentifier } from './watt-datepicker.component';
 
 const withFormControl = composeStory(WithFormControl, Meta);
 const withInitialValue = composeStory(WithInitialValue, Meta);
