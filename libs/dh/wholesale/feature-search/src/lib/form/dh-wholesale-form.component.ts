@@ -22,7 +22,7 @@ import {
   Output,
   OnInit,
   Input,
-  OnDestroy
+  OnDestroy,
 } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { sub } from 'date-fns';
@@ -76,7 +76,9 @@ export class DhWholesaleFormComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.onSubmit();
-    this.searchForm.valueChanges.pipe(takeUntil(this.destroy$)).subscribe(() => this.loading = false);
+    this.searchForm.valueChanges
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => (this.loading = false));
   }
 
   ngOnDestroy() {

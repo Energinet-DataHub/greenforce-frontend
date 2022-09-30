@@ -39,7 +39,7 @@ interface State {
 }
 
 const initialState: State = {
-  loadingBatches: false
+  loadingBatches: false,
 };
 
 @Injectable()
