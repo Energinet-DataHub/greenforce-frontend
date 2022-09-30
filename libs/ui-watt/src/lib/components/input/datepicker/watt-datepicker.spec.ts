@@ -49,6 +49,10 @@ function formatDateAs(value: string, format: string): string {
 }
 
 describe('Datepicker', () => {
+  beforeAll(() => {
+    jest.setTimeout(10000);
+  });
+
   const incompleteDateWithoutSeperatorsAs_ddMM = formatDateAs(
     initialValueSingle,
     'ddMM'
@@ -346,7 +350,7 @@ describe('Datepicker', () => {
       it('should update control value when only end date has changed', async () => {
         await setup(withInitialValue);
 
-        const [, range] = screen.getAllByRole('button', {
+        const [, range] = await screen.findAllByRole('button', {
           name: 'calendar_today',
         });
 
