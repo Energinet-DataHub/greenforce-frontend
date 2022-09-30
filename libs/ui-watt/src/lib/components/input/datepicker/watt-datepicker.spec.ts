@@ -363,7 +363,7 @@ describe('Datepicker', () => {
         expect(currentMonth).toBeInTheDocument();
 
         const dayButtonStart = within(datepickerDialog).getByRole('button', {
-          name: /^1\./,
+          name: /^3\./,
         });
         userEvent.click(dayButtonStart);
 

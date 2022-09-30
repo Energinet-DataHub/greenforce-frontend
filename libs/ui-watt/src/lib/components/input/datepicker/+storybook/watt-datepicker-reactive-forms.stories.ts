@@ -25,7 +25,7 @@ import { WattDatepickerModule } from '../watt-datepicker.module';
 import { WattFormFieldModule } from '../../../form-field/form-field.module';
 import { WattRangeValidators } from '../../shared/validators';
 
-export const initialValueSingle = '2022-08-31T22:00:00.000Z';
+export const initialValueSingle = '2022-09-02T22:00:00.000Z';
 export const initialValueRangeStart = initialValueSingle;
 export const initialValueRangeEnd = '2022-09-14T22:00:00.000Z';
 
