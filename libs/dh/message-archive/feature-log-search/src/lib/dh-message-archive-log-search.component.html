@@ -119,6 +119,13 @@ limitations under the License.
         </div>
         <ng-container *rxLet="continuationToken$ as continuationToken">
           <div class="buttons-container">
+            <watt-button
+              title="{{ transloco('clearSearch') }}"
+              (click)="resetSearchCritera()"
+              icon="close"
+              variant="secondary"
+              >{{ transloco("clearSearch") }}</watt-button
+            >
             <!-- Search -->
             <watt-button
               *rxLet="this.searching$ as seaching"
@@ -127,12 +134,6 @@ limitations under the License.
               type="submit"
               icon="search"
               >{{ transloco("startSearch") }}</watt-button
-            >
-            <watt-button
-              title="{{ transloco('clearSearch') }}"
-              (click)="resetSearchCritera()"
-              icon="close"
-              >{{ transloco("clearSearch") }}</watt-button
             >
           </div>
         </ng-container>
