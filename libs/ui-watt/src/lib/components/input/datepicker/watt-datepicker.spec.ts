@@ -360,12 +360,12 @@ describe('Datepicker', () => {
         expect(datepickerDialog).toBeInTheDocument();
 
         const dayButtonStart = within(datepickerDialog).getByRole('button',{
-          name: '1. sep. 2022',
+          name: /^1\./,
         });
         userEvent.click(dayButtonStart);
 
         const dayButtonEnd = within(datepickerDialog).getByRole('button',{
-          name: '28. sep. 2022',
+          name: /^28\./,
         });
         userEvent.click(dayButtonEnd);
 
