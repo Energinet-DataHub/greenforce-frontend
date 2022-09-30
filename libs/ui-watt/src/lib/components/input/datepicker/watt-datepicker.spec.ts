@@ -31,10 +31,10 @@ import Meta, {
   withInitialValue as WithInitialValue,
   withValidations as WithValidations,
   withFormControlDisabled as WithFormControlDisabled,
+  WattDatepickerStoryConfig,
 } from './+storybook/watt-datepicker-reactive-forms.stories';
 import {
   danishTimeZoneIdentifier,
-  WattDatepickerComponent,
 } from './watt-datepicker.component';
 
 const withFormControl = composeStory(WithFormControl, Meta);
@@ -58,9 +58,9 @@ describe('Datepicker', () => {
   const displayDateFormat = 'dd-MM-yyyy';
   const pasteDateFormat = 'yyyy-MM-dd';
 
-  async function setup(story: Story<Partial<WattDatepickerComponent>>) {
+  async function setup(story: Story<Partial<WattDatepickerStoryConfig>>) {
     const { component, ngModule } = createMountableStoryComponent(
-      story({}, {} as never)
+      story({ disableAnimations: true, ...story }, {} as never)
     );
     const { fixture } = await render(component, { imports: [ngModule] });
 

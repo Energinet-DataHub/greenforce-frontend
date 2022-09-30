@@ -29,6 +29,10 @@ export const initialValueSingle = '2022-08-31T22:00:00.000Z';
 export const initialValueRangeStart = initialValueSingle;
 export const initialValueRangeEnd = '2022-09-14T22:00:00.000Z';
 
+export interface WattDatepickerStoryConfig extends WattDatepickerComponent {
+  disableAnimations?: boolean; // Used to disable animations for the tests
+}
+
 export default {
   title: 'Components/Datepicker',
   decorators: [
@@ -76,7 +80,7 @@ const template = `
 <p *ngIf="withValidations">Errors: <code>{{ exampleFormControlRange?.errors | json }}</code></p>
 `;
 
-export const withFormControl: Story = (args) => ({
+export const withFormControl: Story<WattDatepickerStoryConfig> = (args) => ({
   props: {
     exampleFormControlSingle: new FormControl(null),
     exampleFormControlRange: new FormControl(null),
@@ -98,7 +102,7 @@ exampleFormControl = new FormControl();
   },
 };
 
-export const withInitialValue: Story = (args) => ({
+export const withInitialValue: Story<WattDatepickerStoryConfig> = (args) => ({
   props: {
     exampleFormControlSingle: new FormControl(initialValueSingle),
     exampleFormControlRange: new FormControl({
@@ -108,9 +112,15 @@ export const withInitialValue: Story = (args) => ({
     ...args,
   },
   template,
+  moduleMetadata: {
+    imports: [
+      BrowserAnimationsModule.withConfig({
+        disableAnimations: !!args.disableAnimations,
+      }),
+  ]},
 });
 
-export const withValidations: Story = (args) => ({
+export const withValidations: Story<WattDatepickerStoryConfig> = (args) => ({
   props: {
     exampleFormControlSingle: new FormControl(null, [Validators.required]),
     exampleFormControlRange: new FormControl(null, [
@@ -134,7 +144,7 @@ withValidations.play = async ({ canvasElement }) => {
   fireEvent.focusOut(startDateInput);
 };
 
-export const withFormControlDisabled: Story = (args) => ({
+export const withFormControlDisabled: Story<WattDatepickerStoryConfig> = (args) => ({
   props: {
     exampleFormControlSingle: new FormControl({ value: null, disabled: true }),
     exampleFormControlRange: new FormControl({ value: null, disabled: true }),
