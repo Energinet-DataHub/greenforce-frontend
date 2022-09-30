@@ -43,6 +43,11 @@ export default {
     }),
   ],
   component: WattDatepickerComponent,
+  excludeStories: [
+    'initialValueSingle',
+    'initialValueRangeStart',
+    'initialValueRangeEnd',
+  ],
 } as Meta;
 
 const template = `
@@ -67,7 +72,7 @@ const template = `
   </watt-error>
 </watt-form-field>
 
-<p>Selected range: <code>{{ exampleFormControlRange.value | json }}</code></p>
+<p>Selected range: <code data-testid="rangeValue">{{ exampleFormControlRange.value | json }}</code></p>
 <p *ngIf="withValidations">Errors: <code>{{ exampleFormControlRange?.errors | json }}</code></p>
 `;
 

@@ -344,6 +344,30 @@ describe('Datepicker', () => {
           )
         ).toBeInTheDocument();
       });
+
+      it('should update control value when only end date has changed', async () => {
+        await setup(withInitialValue);
+
+        const [, range] = screen.getAllByRole('button', {
+          name: 'calendar_today',
+        });
+
+        userEvent.click(range);
+
+        const dayButtonStart = await screen.findByRole('button', {
+          name: '1. sep. 2022',
+        });
+        userEvent.click(dayButtonStart);
+
+        const dayButtonEnd = await screen.findByRole('button', {
+          name: '28. sep. 2022',
+        });
+        userEvent.click(dayButtonEnd);
+
+        expect(screen.getByTestId('rangeValue')).toHaveTextContent(
+          `{ "start": "${initialValueRangeStart}", "end": "2022-09-27T22:00:00.000Z" }`
+        );
+      });
     });
   });
 
