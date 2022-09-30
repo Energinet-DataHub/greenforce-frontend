@@ -35,15 +35,18 @@ import {
 
 interface State {
   batches?: WholesaleSearchBatchResponseDto[];
+  loadingBatches: boolean;
 }
 
-const initialState: State = {};
+const initialState: State = {
+  loadingBatches: false
+};
 
 @Injectable()
 export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
   batches$ = this.select((x) => x.batches);
+  loadingBatches$ = this.select((x) => x.loadingBatches);
   loadingBatchesErrorTrigger$: Subject<void> = new Subject();
-  loadingBatchesTrigger$: Subject<void> = new Subject();
 
   constructor(private httpClient: WholesaleBatchHttp) {
     super(initialState);
@@ -75,13 +78,21 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
     (state, value: WholesaleSearchBatchResponseDto[]): State => ({
       ...state,
       batches: value,
+      loadingBatches: false,
+    })
+  );
+
+  readonly setLoadingBatches = this.updater(
+    (state, loadingBatches: boolean): State => ({
+      ...state,
+      loadingBatches,
     })
   );
 
   readonly getBatches = this.effect(
     (filter$: Observable<WholesaleSearchBatchDto>) => {
       return filter$.pipe(
-        tap(() => this.loadingBatchesTrigger$.next()),
+        tap(() => this.setLoadingBatches(true)),
         switchMap((filter: WholesaleSearchBatchDto) => {
           const searchBatchesRequest: WholesaleSearchBatchDto = {
             minExecutionTime: filter.minExecutionTime,
@@ -94,6 +105,7 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
               tap((batches) => this.setBatches(batches)),
               catchError(() => {
                 this.loadingBatchesErrorTrigger$.next();
+                this.setLoadingBatches(false);
                 return EMPTY;
               })
             );

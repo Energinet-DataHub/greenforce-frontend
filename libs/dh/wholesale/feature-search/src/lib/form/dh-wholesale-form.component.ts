@@ -21,6 +21,7 @@ import {
   EventEmitter,
   Output,
   OnInit,
+  Input,
 } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { sub } from 'date-fns';
@@ -51,6 +52,7 @@ import { WholesaleSearchBatchDto } from '@energinet-datahub/dh/shared/domain';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DhWholesaleFormComponent implements OnInit {
+  @Input() loading = false;
   @Output() search: EventEmitter<WholesaleSearchBatchDto> = new EventEmitter();
 
   searchForm = this.fb.group({
@@ -70,6 +72,7 @@ export class DhWholesaleFormComponent implements OnInit {
 
   ngOnInit() {
     this.onSubmit();
+    this.searchForm.valueChanges.subscribe(() => this.loading = false);
   }
 
   onSubmit() {
