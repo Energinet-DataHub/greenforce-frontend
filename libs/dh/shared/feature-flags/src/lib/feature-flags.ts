@@ -45,10 +45,6 @@ export const dhFeatureFlagsConfig = makeFeatureFlags({
     created: '15-08-2022',
     disabledEnvironments: [DhAppEnvironment.prod],
   },
-  marketparticipant_gridareaoverview_feature_flag: {
-    created: '30-08-2022',
-    disabledEnvironments: [DhAppEnvironment.prod],
-  },
   charges_prices_overview_feature_flag: {
     created: '19-09-2022',
     disabledEnvironments: [DhAppEnvironment.prod],

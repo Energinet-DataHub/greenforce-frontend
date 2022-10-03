@@ -25,13 +25,9 @@ limitations under the License.
     <watt-nav-list-item link="/market-participant/organizations">{{
       transloco("marketParticipantOrganizations")
     }}</watt-nav-list-item>
-    <ng-container
-      *dhFeatureFlag="'marketparticipant_gridareaoverview_feature_flag'"
-    >
-      <watt-nav-list-item link="/market-participant/gridareas">{{
-        transloco("marketParticipantGridAreas")
-      }}</watt-nav-list-item>
-    </ng-container>
+    <watt-nav-list-item link="/market-participant/gridareas">{{
+      transloco("marketParticipantGridAreas")
+    }}</watt-nav-list-item>
     <ng-container *dhFeatureFlag="'charges_prices_overview_feature_flag'">
       <watt-nav-list-item link="/charges/prices">{{
         transloco("chargePrices")
