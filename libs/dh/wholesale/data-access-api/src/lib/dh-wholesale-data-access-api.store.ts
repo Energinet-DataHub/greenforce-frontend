@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Injectable } from '@angular/core';
+import { Injectable, ChangeDetectorRef } from '@angular/core';
 import { ComponentStore } from '@ngrx/component-store';
 import {
   Observable,
@@ -48,7 +48,10 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
   loadingBatches$ = this.select((x) => x.loadingBatches);
   loadingBatchesErrorTrigger$: Subject<void> = new Subject();
 
-  constructor(private httpClient: WholesaleBatchHttp) {
+  constructor(
+    private httpClient: WholesaleBatchHttp,
+    private changeDetectorRef: ChangeDetectorRef
+  ) {
     super(initialState);
   }
 
@@ -92,7 +95,10 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
   readonly getBatches = this.effect(
     (filter$: Observable<WholesaleSearchBatchDto>) => {
       return filter$.pipe(
-        tap(() => this.setLoadingBatches(true)),
+        tap(() => {
+          this.setLoadingBatches(true);
+          this.changeDetectorRef.detectChanges();
+        }),
         switchMap((filter: WholesaleSearchBatchDto) => {
           const searchBatchesRequest: WholesaleSearchBatchDto = {
             minExecutionTime: filter.minExecutionTime,
