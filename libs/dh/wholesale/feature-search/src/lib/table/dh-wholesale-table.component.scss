@@ -22,3 +22,14 @@
 watt-empty-state {
   margin-top: var(--watt-space-xl);
 }
+
+.header {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: var(--watt-space-s);
+
+  h3 {
+    margin: 0;
+  }
+}

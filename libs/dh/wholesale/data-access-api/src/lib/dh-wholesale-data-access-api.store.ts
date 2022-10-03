@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Injectable } from '@angular/core';
+import { Injectable, ChangeDetectorRef } from '@angular/core';
 import { ComponentStore } from '@ngrx/component-store';
 import {
   Observable,
@@ -35,17 +35,23 @@ import {
 
 interface State {
   batches?: WholesaleSearchBatchResponseDto[];
+  loadingBatches: boolean;
 }
 
-const initialState: State = {};
+const initialState: State = {
+  loadingBatches: false,
+};
 
 @Injectable()
 export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
   batches$ = this.select((x) => x.batches);
+  loadingBatches$ = this.select((x) => x.loadingBatches);
   loadingBatchesErrorTrigger$: Subject<void> = new Subject();
-  loadingBatchesTrigger$: Subject<void> = new Subject();
 
-  constructor(private httpClient: WholesaleBatchHttp) {
+  constructor(
+    private httpClient: WholesaleBatchHttp,
+    private changeDetectorRef: ChangeDetectorRef
+  ) {
     super(initialState);
   }
 
@@ -75,13 +81,24 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
     (state, value: WholesaleSearchBatchResponseDto[]): State => ({
       ...state,
       batches: value,
+      loadingBatches: false,
+    })
+  );
+
+  readonly setLoadingBatches = this.updater(
+    (state, loadingBatches: boolean): State => ({
+      ...state,
+      loadingBatches,
     })
   );
 
   readonly getBatches = this.effect(
     (filter$: Observable<WholesaleSearchBatchDto>) => {
       return filter$.pipe(
-        tap(() => this.loadingBatchesTrigger$.next()),
+        tap(() => {
+          this.setLoadingBatches(true);
+          this.changeDetectorRef.detectChanges();
+        }),
         switchMap((filter: WholesaleSearchBatchDto) => {
           const searchBatchesRequest: WholesaleSearchBatchDto = {
             minExecutionTime: filter.minExecutionTime,
@@ -93,6 +110,7 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
             .pipe(
               tap((batches) => this.setBatches(batches)),
               catchError(() => {
+                this.setLoadingBatches(false);
                 this.loadingBatchesErrorTrigger$.next();
                 return EMPTY;
               })
