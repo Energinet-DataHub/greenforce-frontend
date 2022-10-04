@@ -76,8 +76,6 @@ export class DhChargesPricesComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.buildChargeTypeOptions();
     this.buildValidityOptions();
-
-    this.store.loadChargesData();
   }
 
   ngOnDestroy(): void {
@@ -122,7 +120,7 @@ export class DhChargesPricesComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    console.log('submit');
+    this.store.loadChargesData();
   }
 
   resetSearchCriteria() {
