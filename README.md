@@ -143,7 +143,7 @@ for how to get started.
 
 Configuration files are located in the `libs/dh/shared/assets/src/configuration`
 folder. These local configurations have a `.local` filename suffix, but is
-overridable by a configuration file without a prefix. For example,
+overridable by a configuration file without the suffix. For example,
 `dh-api-environment.local.json` configures the DataHub frontend to use a local
 DataHub API. To use a remote DataHub API, place a `dh-api-environment.json` file
 in the same folder and set the remote address in the relevant property.
