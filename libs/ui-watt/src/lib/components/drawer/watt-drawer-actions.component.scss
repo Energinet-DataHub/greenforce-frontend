@@ -17,6 +17,7 @@
 :host {
   display: flex;
   justify-content: flex-end;
-  margin: var(--watt-space-m) 0;
   gap: var(--watt-space-m);
+  margin-bottom: var(--watt-space-m);
+  margin-left: var(--watt-space-m);
 }
