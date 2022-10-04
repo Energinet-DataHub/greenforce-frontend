@@ -26,7 +26,7 @@ yarn nx run app-dh:test --watch
 
 Currently the test suites are running agains a mocked BFF, meaning that any code
 that requests the BFF will automatically receive the mocked data. This mocked
-data must be configured manually, check the [mocking documentation](mocking.md#Testing)
+data must be configured manually, check the [mocking documentation](mocking.md)
 for instructions.
 
 ### Debugging Jest tests
