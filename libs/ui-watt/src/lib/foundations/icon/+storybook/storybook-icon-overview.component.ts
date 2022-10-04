@@ -59,6 +59,7 @@ export class StorybookIconOverviewComponent {
       icons: [
         { name: 'Redo', icon: 'redo' },
         { name: 'Close', icon: 'close' },
+        { name: 'Cancel', icon: 'cancel' },
         { name: 'Checkmark', icon: 'checkmark' },
       ],
     },

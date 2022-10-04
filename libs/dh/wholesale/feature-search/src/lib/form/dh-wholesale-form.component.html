@@ -34,7 +34,7 @@ limitations under the License.
   </watt-form-field>
 
   <div class="actions">
-    <watt-button type="submit" icon="search">{{
+    <watt-button type="submit" icon="search" [disabled]="loading">{{
       transloco("searchButton")
     }}</watt-button>
   </div>
