@@ -2,13 +2,32 @@
 
 ## Unit / Integration Testing
 
-Currently the test suites are integrating with the BFF (Backend-for-Frontend), so to run the tests succesfully make sure you're already serving the backend locally.
+To run all test for every application and library, use the following command:
 
-`yarn test`
+```sh
+yarn test
+```
 
-While developing you can run the tests in watch mode:
+While this command can be useful when working with shared libraries to test for
+any regression, it is slow and not recommended during developing. Instead, the
+test execution can be scoped to a specific application or library:
 
-`yarn test --watch`
+```sh
+yarn nx run app-dh:test
+yarn nx run dh-metering-point-feature-overview:test
+```
+
+For running the tests in watch mode, add the `--watch` flag to the command:
+
+```sh
+yarn test --watch
+yarn nx run app-dh:test --watch
+```
+
+Currently the test suites are running agains a mocked BFF, meaning that any code
+that requests the BFF will automatically receive the mocked data. This mocked
+data must be configured manually, check the [mocking documentation](mocking.md#Testing)
+for instructions.
 
 ### Debugging Jest tests
 
