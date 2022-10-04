@@ -27,10 +27,12 @@ limitations under the License.
     <div class="watt-drawer__grid-container">
       <header>
         <ng-content select="watt-drawer-topbar"></ng-content>
-        <ng-content select="watt-drawer-actions"></ng-content>
       </header>
 
       <article class="watt-drawer__content">
+        <div class="watt-drawer__actions">
+          <ng-content select="watt-drawer-actions"></ng-content>
+        </div>
         <ng-content select="watt-drawer-content"></ng-content>
       </article>
     </div>
