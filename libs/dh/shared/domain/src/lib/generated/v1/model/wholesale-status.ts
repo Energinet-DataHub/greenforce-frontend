@@ -11,9 +11,10 @@
  */
 
 
-export type WholesaleStatus = 'Pending' | 'Running' | 'Finished' | 'Failed';
+export type WholesaleStatus = 'Created' | 'Pending' | 'Running' | 'Finished' | 'Failed';
 
 export const WholesaleStatus = {
+    Created: 'Created' as WholesaleStatus,
     Pending: 'Pending' as WholesaleStatus,
     Running: 'Running' as WholesaleStatus,
     Finished: 'Finished' as WholesaleStatus,

@@ -16,9 +16,10 @@ namespace Energinet.DataHub.WebApi.Controllers.Wholesale
 {
     public enum WholesaleStatus
     {
-        Pending,
-        Running,
-        Finished,
-        Failed,
+        Created = -1,
+        Pending = 0,
+        Running = 1,
+        Finished = 2,
+        Failed = 3,
     }
 }

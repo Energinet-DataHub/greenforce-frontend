@@ -114,7 +114,7 @@ export class DhWholesaleTableComponent implements OnDestroy, AfterViewInit {
   }
 
   private getStatusType(status: WholesaleStatus): WattBadgeType | void {
-    if (status === WholesaleStatus.Pending) {
+    if (status === WholesaleStatus.Pending || status === WholesaleStatus.Created) {
       return 'warning';
     } else if (status === WholesaleStatus.Running) {
       return 'success';
