@@ -135,7 +135,7 @@ yarn nx workspace-generator dh-domain-generator
 ### Backend For Frontend (BFF)
 
 There is currenly only one BFF located in `api-dh` under `apps/dh`.
-It is for `app-dh` and is using .NET 5.0.
+It is for `app-dh` and is using .NET 6.x.
 Check the [Development notes](./apps/dh/api-dh/documents/development.md)
 for how to get started.
 
