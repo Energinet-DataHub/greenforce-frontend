@@ -133,16 +133,17 @@ namespace Energinet.DataHub.WebApi
                 app.UseSwaggerUI(options =>
                     options.SwaggerEndpoint("/swagger/v1/swagger.json", "DataHub.WebApi v1"));
             }
-            else
-            {
-                app.UseMiddleware<JwtTokenMiddleware>();
-            }
 
             app.UseHttpsRedirection();
 
             app.UseRouting();
 
             app.UseCors();
+
+            if (!Environment.IsDevelopment())
+            {
+                app.UseMiddleware<JwtTokenMiddleware>();
+            }
 
             app.UseAuthorization();
 

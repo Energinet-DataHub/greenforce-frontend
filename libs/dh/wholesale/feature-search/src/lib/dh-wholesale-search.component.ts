@@ -17,7 +17,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, NgModule } from '@angular/core';
 import { of } from 'rxjs';
-import { LetModule } from '@rx-angular/template';
+import { LetModule, PushModule } from '@rx-angular/template';
 import { TranslocoModule } from '@ngneat/transloco';
 import { MatCardModule } from '@angular/material/card';
 
@@ -44,7 +44,7 @@ export class DhWholesaleSearchComponent {
   constructor(private store: DhWholesaleBatchDataAccessApiStore) {}
 
   data$ = this.store.batches$;
-  loadingBatchesTrigger$ = this.store.loadingBatchesTrigger$;
+  loadingBatchesTrigger$ = this.store.loadingBatches$;
   loadingBatchesErrorTrigger$ = this.store.loadingBatchesErrorTrigger$;
 
   searchSubmitted = false;
@@ -62,6 +62,7 @@ export class DhWholesaleSearchComponent {
     DhWholesaleFormComponent,
     DhWholesaleTableComponent,
     LetModule,
+    PushModule,
     MatCardModule,
     TranslocoModule,
     WattButtonModule,

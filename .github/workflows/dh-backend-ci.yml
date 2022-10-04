@@ -135,6 +135,6 @@ jobs:
     uses: Energinet-DataHub/.github/.github/workflows/create-prerelease.yml@v8
     with:
       CALLER_REPOSITORY_PATH: Energinet-DataHub/greenforce-frontend
-      RELEASE_NAME_PREFIX: dh_backend_
+      RELEASE_NAME_PREFIX: dh_backend
     secrets:
       PAT_TOKEN: ${{ secrets.PAT_TOKEN }}

@@ -620,8 +620,10 @@
         "periodFrom": "Periode fra",
         "periodTo": "Periode til",
         "executionTime": "Eksekveringstid",
-        "status": "Status"
+        "status": "Status",
+        "basisData": "Basis data"
       },
+      "download": "Download",
       "Pending": "Afventer",
       "Running": "Kører",
       "Finished": "Afsluttet",
