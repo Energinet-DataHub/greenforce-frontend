@@ -22,6 +22,7 @@ import {
   OnDestroy,
   OnChanges,
   ViewChild,
+  Input,
 } from '@angular/core';
 
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
@@ -34,6 +35,7 @@ import {
   WattButtonModule,
   WattEmptyStateModule,
   WattTooltipModule,
+  WattSpinnerModule,
 } from '@energinet-datahub/watt';
 import {
   MatPaginator,
@@ -41,6 +43,8 @@ import {
   MatPaginatorModule,
 } from '@angular/material/paginator';
 import { Subject, takeUntil } from 'rxjs';
+import { ChargeV1Dto } from '@energinet-datahub/dh/shared/domain';
+import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 
 @Component({
   selector: 'dh-charges-prices-result',
@@ -52,21 +56,12 @@ export class DhChargesPricesResultComponent
 {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
+  @Input() result?: Array<ChargeV1Dto>;
+  @Input() isLoading = false;
+  @Input() hasLoadingError = false;
+
   private destroy$ = new Subject<void>();
 
-  searchResult: Array<object> = [
-    // {
-    //   id: 1,
-    //   name: 'test name',
-    //   owner: 'test owner',
-    //   taxIndicator: false,
-    //   transparentInvoicing: true,
-    //   chargeType: 'Abonnement',
-    //   resolution: 'Måned',
-    //   validFromDate: '01-01-2000',
-    //   validToDate: '02-01-2000',
-    // },
-  ];
   displayedColumns = [
     'priceId',
     'priceName',
@@ -78,8 +73,8 @@ export class DhChargesPricesResultComponent
     'validToDate',
   ];
 
-  readonly dataSource: MatTableDataSource<object> =
-    new MatTableDataSource<object>(this.searchResult);
+  readonly dataSource: MatTableDataSource<ChargeV1Dto> =
+    new MatTableDataSource<ChargeV1Dto>();
 
   constructor(
     private translocoService: TranslocoService,
@@ -92,7 +87,8 @@ export class DhChargesPricesResultComponent
   }
 
   ngOnChanges() {
-    this.dataSource.data = this.searchResult;
+    if (this.result) this.dataSource.data = this.result;
+
     this.dataSource.paginator = this.paginator;
   }
 
@@ -137,6 +133,8 @@ export class DhChargesPricesResultComponent
     WattEmptyStateModule,
     DhFeatureFlagDirectiveModule,
     WattTooltipModule,
+    WattSpinnerModule,
+    DhSharedUiDateTimeModule,
   ],
 })
 export class DhChargesPricesResultScam {}

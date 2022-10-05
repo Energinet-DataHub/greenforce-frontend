@@ -16,16 +16,26 @@ limitations under the License.
 -->
 
 <ng-container *transloco="let transloco; read: 'wholesale.searchBatch'">
-  <mat-paginator
-    [length]="160"
-    [pageSize]="10"
-    [pageSizeOptions]="[10, 20, 30, 50]"
-    [showFirstLastButtons]="true"
-    aria-label="Select page"
-  >
-  </mat-paginator>
+  <div class="header">
+    <h3 class="watt-on-light--high-emphasis">{{ transloco("headline") }}</h3>
+    <mat-paginator
+      [length]="160"
+      [pageSize]="10"
+      [pageSizeOptions]="[10, 20, 30, 50]"
+      [showFirstLastButtons]="true"
+      aria-label="Select page"
+    >
+    </mat-paginator>
+  </div>
+
   <!-- Table -->
-  <mat-table [dataSource]="_data || []" aria-label="batches" matSort>
+  <mat-table
+    [dataSource]="_data"
+    aria-label="batches"
+    matSort
+    matSortActive="batchNumber"
+    matSortDirection="desc"
+  >
     <!-- Batch Number -->
     <ng-container matColumnDef="batchNumber">
       <mat-header-cell *matHeaderCellDef mat-sort-header>
@@ -76,8 +86,32 @@ limitations under the License.
         </watt-badge>
       </mat-cell>
     </ng-container>
+    <!-- Download basis data -->
+    <ng-container matColumnDef="basisData">
+      <mat-header-cell *matHeaderCellDef>
+        {{ transloco("columns.basisData") }}
+      </mat-header-cell>
+      <mat-cell *matCellDef="let batch">
+        <watt-button
+          variant="icon"
+          title="{{ transloco('download') }}"
+          icon="download"
+        >
+        </watt-button>
+      </mat-cell>
+    </ng-container>
 
     <mat-header-row *matHeaderRowDef="columnIds; sticky: true"></mat-header-row>
     <mat-row *matRowDef="let row; columns: columnIds"></mat-row>
   </mat-table>
+
+  <!-- No Batches found -->
+  <watt-empty-state
+    *ngIf="_data.data.length === 0"
+    icon="cancel"
+    size="large"
+    [title]="transloco('noBatchesFound')"
+    [message]="transloco('noBatchesHelperText')"
+  >
+  </watt-empty-state>
 </ng-container>

@@ -16,7 +16,7 @@ using System;
 using System.IO;
 using System.Reflection;
 using System.Text.Json.Serialization;
-using Energinet.DataHub.Charges.Clients.Registration.ChargeLinks.ServiceCollectionExtensions;
+using Energinet.DataHub.Charges.Clients.Registration.Charges.ServiceCollectionExtensions;
 using Energinet.DataHub.Core.App.Common.Diagnostics.HealthChecks;
 using Energinet.DataHub.Core.App.WebApp.Diagnostics.HealthChecks;
 using Energinet.DataHub.Core.App.WebApp.Middleware;
@@ -133,16 +133,17 @@ namespace Energinet.DataHub.WebApi
                 app.UseSwaggerUI(options =>
                     options.SwaggerEndpoint("/swagger/v1/swagger.json", "DataHub.WebApi v1"));
             }
-            else
-            {
-                app.UseMiddleware<JwtTokenMiddleware>();
-            }
 
             app.UseHttpsRedirection();
 
             app.UseRouting();
 
             app.UseCors();
+
+            if (!Environment.IsDevelopment())
+            {
+                app.UseMiddleware<JwtTokenMiddleware>();
+            }
 
             app.UseAuthorization();
 
@@ -183,21 +184,21 @@ namespace Energinet.DataHub.WebApi
         private void AddDomainClients(IServiceCollection services, ApiClientSettings apiClientSettings)
         {
             AddMeteringPointClient(services, apiClientSettings);
-            AddChargeLinksClient(services, apiClientSettings);
+            AddChargesClient(services, apiClientSettings);
             AddMessageArchiveClient(services, apiClientSettings);
             AddMarketParticipantClient(services, apiClientSettings);
 
             services.AddSingleton(apiClientSettings ?? new ApiClientSettings());
         }
 
-        private static void AddChargeLinksClient(IServiceCollection services, ApiClientSettings? apiClientSettings)
+        private static void AddChargesClient(IServiceCollection services, ApiClientSettings? apiClientSettings)
         {
             string emptyUrl = "https://empty";
             Uri chargesBaseUrl = Uri.TryCreate(apiClientSettings?.ChargesBaseUrl, UriKind.Absolute, out var url)
                 ? url
                 : new Uri(emptyUrl);
 
-            services.AddChargeLinksClient(chargesBaseUrl);
+            services.AddChargesClient(chargesBaseUrl);
         }
 
         private static void AddMeteringPointClient(IServiceCollection services, ApiClientSettings? apiClientSettings)

@@ -15,11 +15,4 @@
  * limitations under the License.
  */
 
-export enum WattIconSize {
-  XSmall = 'xs',
-  Small = 's',
-  Medium = 'm',
-  Large = 'l',
-  XLarge = 'xl',
-  XXLarge = 'xxl',
-}
+export type WattIconSize = 'xs' | 's' | 'm' | 'l' | 'xl' | 'xxl';

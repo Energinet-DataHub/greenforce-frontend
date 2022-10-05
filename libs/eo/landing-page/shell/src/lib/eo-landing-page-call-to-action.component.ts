@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
-import { WattIconModule, WattIconSize } from '@energinet-datahub/watt';
+import { WattIconModule } from '@energinet-datahub/watt';
 import { EoLandingPageLoginButtonScam } from './eo-landing-page-login-button.component';
 
 @Component({
@@ -91,9 +91,7 @@ import { EoLandingPageLoginButtonScam } from './eo-landing-page-login-button.com
     </div>
   `,
 })
-export class EoLandingPageCallToActionComponent {
-  iconSize = WattIconSize;
-}
+export class EoLandingPageCallToActionComponent {}
 
 @NgModule({
   declarations: [EoLandingPageCallToActionComponent],

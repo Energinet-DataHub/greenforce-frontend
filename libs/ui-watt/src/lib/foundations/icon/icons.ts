@@ -24,6 +24,7 @@ const materialIcons = {
   redo: 'redo',
   remove: 'delete',
   close: 'close',
+  cancel: 'cancel',
   checkmark: 'check',
   user: 'account_circle',
   settings: 'settings',

@@ -42,14 +42,16 @@ import {
   WattDropdownOptions,
   WattDatepickerModule,
 } from '@energinet-datahub/watt';
-
+import { PushModule } from '@rx-angular/template';
 import { DhChargesPricesResultScam } from './search-result/dh-charges-prices-result.component';
+import { DhChargesDataAccessApiStore } from '@energinet-datahub/dh/charges/data-access-api';
 
 @Component({
   selector: 'dh-charges-prices',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './dh-charges-prices.component.html',
   styleUrls: ['./dh-charges-prices.component.scss'],
+  providers: [DhChargesDataAccessApiStore],
 })
 export class DhChargesPricesComponent implements OnInit, OnDestroy {
   chargeTypeOptions: WattDropdownOptions = [];
@@ -60,10 +62,16 @@ export class DhChargesPricesComponent implements OnInit, OnDestroy {
     idOrName: '',
     owner: '',
   };
+  all$ = this.store.all$;
+  isLoading$ = this.store.isLoading$;
+  hasLoadingError$ = this.store.hasGeneralError$;
 
   private destroy$ = new Subject<void>();
 
-  constructor(private translocoService: TranslocoService) {}
+  constructor(
+    private translocoService: TranslocoService,
+    private store: DhChargesDataAccessApiStore
+  ) {}
 
   ngOnInit() {
     this.buildChargeTypeOptions();
@@ -112,7 +120,7 @@ export class DhChargesPricesComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    console.log('submit');
+    this.store.loadChargesData();
   }
 
   resetSearchCriteria() {
@@ -135,6 +143,7 @@ export class DhChargesPricesComponent implements OnInit, OnDestroy {
     FormsModule,
     DhChargesPricesResultScam,
     WattDatepickerModule,
+    PushModule,
   ],
 })
 export class DhChargesPricesScam {}

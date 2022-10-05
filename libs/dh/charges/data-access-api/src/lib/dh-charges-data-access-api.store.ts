@@ -15,29 +15,14 @@
  * limitations under the License.
  */
 import { Injectable } from '@angular/core';
-import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
-import { filter, map, Observable, switchMap, tap } from 'rxjs';
-
-import {
-  ChargeLinkV1Dto,
-  ChargeLinksHttp,
-  ChargeType,
-} from '@energinet-datahub/dh/shared/domain';
-
-export const enum LoadingState {
-  INIT = 'INIT',
-  LOADING = 'LOADING',
-  LOADED = 'LOADED',
-}
-
-export const enum ErrorState {
-  NOT_FOUND_ERROR = 'NOT_FOUND_ERROR',
-  GENERAL_ERROR = 'GENERAL_ERROR',
-}
+import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
+import { ChargeV1Dto, ChargesHttp } from '@energinet-datahub/dh/shared/domain';
+import { Observable, switchMap, tap } from 'rxjs';
+import { ErrorState, LoadingState } from './states';
 
 interface ChargesState {
-  readonly charges?: Array<ChargeLinkV1Dto>;
+  readonly charges?: Array<ChargeV1Dto>;
   readonly requestState: LoadingState | ErrorState;
 }
 
@@ -48,35 +33,7 @@ const initialState: ChargesState = {
 
 @Injectable()
 export class DhChargesDataAccessApiStore extends ComponentStore<ChargesState> {
-  tariffs$: Observable<Array<ChargeLinkV1Dto>> = this.select(
-    (state) => state.charges
-  ).pipe(
-    filter((charges) => !!charges),
-    map((charges) => charges as Array<ChargeLinkV1Dto>),
-    map((charges) =>
-      charges.filter((charge) => charge.chargeType === ChargeType.D03)
-    )
-  );
-
-  subscriptions$: Observable<Array<ChargeLinkV1Dto>> = this.select(
-    (state) => state.charges
-  ).pipe(
-    filter((charges) => !!charges),
-    map((charges) => charges as Array<ChargeLinkV1Dto>),
-    map((charges) =>
-      charges.filter((charge) => charge.chargeType === ChargeType.D01)
-    )
-  );
-
-  fees$: Observable<Array<ChargeLinkV1Dto>> = this.select(
-    (state) => state.charges
-  ).pipe(
-    filter((charges) => !!charges),
-    map((charges) => charges as Array<ChargeLinkV1Dto>),
-    map((charges) =>
-      charges.filter((charge) => charge.chargeType === ChargeType.D02)
-    )
-  );
+  all$ = this.select((state) => state.charges);
 
   isLoading$ = this.select(
     (state) => state.requestState === LoadingState.LOADING
@@ -88,45 +45,42 @@ export class DhChargesDataAccessApiStore extends ComponentStore<ChargesState> {
     (state) => state.requestState === ErrorState.GENERAL_ERROR
   );
 
-  constructor(private httpClient: ChargeLinksHttp) {
+  constructor(private httpClient: ChargesHttp) {
     super(initialState);
   }
 
-  readonly loadChargesData = this.effect(
-    (meteringPointId$: Observable<string>) => {
-      return meteringPointId$.pipe(
-        tap(() => {
-          this.resetState();
+  readonly loadChargesData = this.effect((trigger$: Observable<void>) => {
+    return trigger$.pipe(
+      tap(() => {
+        this.resetState();
 
-          this.setLoading(true);
-        }),
-        switchMap((id) =>
-          this.httpClient.v1ChargeLinksGet(id).pipe(
-            tapResponse(
-              (chargesData) => {
-                this.setLoading(false);
+        this.setLoading(true);
+      }),
+      switchMap(() =>
+        this.httpClient.v1ChargesGet().pipe(
+          tapResponse(
+            (chargesData) => {
+              this.setLoading(false);
 
-                this.updateChargesData(chargesData);
-              },
-              (error: HttpErrorResponse) => {
-                this.setLoading(false);
-
-                this.handleError(error);
-              }
-            )
+              this.updateChargesData(chargesData);
+            },
+            (error: HttpErrorResponse) => {
+              this.setLoading(false);
+              this.handleError(error);
+            }
           )
         )
-      );
-    }
-  );
+      )
+    );
+  });
 
   private updateChargesData = this.updater(
     (
       state: ChargesState,
-      chargesData: Array<ChargeLinkV1Dto> | undefined
+      chargesData: Array<ChargeV1Dto> | undefined
     ): ChargesState => ({
       ...state,
-      charges: chargesData,
+      charges: chargesData || [],
     })
   );
 

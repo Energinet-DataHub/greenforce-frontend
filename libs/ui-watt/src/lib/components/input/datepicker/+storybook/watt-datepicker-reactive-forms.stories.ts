@@ -25,6 +25,14 @@ import { WattDatepickerModule } from '../watt-datepicker.module';
 import { WattFormFieldModule } from '../../../form-field/form-field.module';
 import { WattRangeValidators } from '../../shared/validators';
 
+export const initialValueSingle = '2022-09-02T22:00:00.000Z';
+export const initialValueRangeStart = initialValueSingle;
+export const initialValueRangeEnd = '2022-09-14T22:00:00.000Z';
+
+export interface WattDatepickerStoryConfig extends WattDatepickerComponent {
+  disableAnimations?: boolean; // Used to disable animations for the tests
+}
+
 export default {
   title: 'Components/Datepicker',
   decorators: [
@@ -39,6 +47,11 @@ export default {
     }),
   ],
   component: WattDatepickerComponent,
+  excludeStories: [
+    'initialValueSingle',
+    'initialValueRangeStart',
+    'initialValueRangeEnd',
+  ],
 } as Meta;
 
 const template = `
@@ -50,8 +63,8 @@ const template = `
   </watt-error>
 </watt-form-field>
 
-<p>Value: <code>{{exampleFormControlSingle.value | json}}</code></p>
-<p *ngIf="withValidations">Errors: <code>{{exampleFormControlSingle?.errors | json}}</code></p>
+<p>Value: <code>{{ exampleFormControlSingle.value | json }}</code></p>
+<p *ngIf="withValidations">Errors: <code>{{ exampleFormControlSingle?.errors | json }}</code></p>
 
 <br />
 
@@ -63,13 +76,11 @@ const template = `
   </watt-error>
 </watt-form-field>
 
-<p>Selected range: <code>{{exampleFormControlRange.value | json}}</code></p>
-<p *ngIf="withValidations">Errors: <code>{{exampleFormControlRange?.errors | json}}</code></p>
+<p>Selected range: <code data-testid="rangeValue">{{ exampleFormControlRange.value | json }}</code></p>
+<p *ngIf="withValidations">Errors: <code>{{ exampleFormControlRange?.errors | json }}</code></p>
 `;
 
-const initialValue = '22-11-3333';
-
-export const withFormControl: Story = (args) => ({
+export const withFormControl: Story<WattDatepickerStoryConfig> = (args) => ({
   props: {
     exampleFormControlSingle: new FormControl(null),
     exampleFormControlRange: new FormControl(null),
@@ -91,19 +102,26 @@ exampleFormControl = new FormControl();
   },
 };
 
-export const withInitialValue: Story = (args) => ({
+export const withInitialValue: Story<WattDatepickerStoryConfig> = (args) => ({
   props: {
-    exampleFormControlSingle: new FormControl(initialValue),
+    exampleFormControlSingle: new FormControl(initialValueSingle),
     exampleFormControlRange: new FormControl({
-      start: initialValue,
-      end: initialValue,
+      start: initialValueRangeStart,
+      end: initialValueRangeEnd,
     }),
     ...args,
   },
   template,
+  moduleMetadata: {
+    imports: [
+      BrowserAnimationsModule.withConfig({
+        disableAnimations: !!args.disableAnimations,
+      }),
+    ],
+  },
 });
 
-export const withValidations: Story = (args) => ({
+export const withValidations: Story<WattDatepickerStoryConfig> = (args) => ({
   props: {
     exampleFormControlSingle: new FormControl(null, [Validators.required]),
     exampleFormControlRange: new FormControl(null, [
@@ -127,7 +145,9 @@ withValidations.play = async ({ canvasElement }) => {
   fireEvent.focusOut(startDateInput);
 };
 
-export const withFormControlDisabled: Story = (args) => ({
+export const withFormControlDisabled: Story<WattDatepickerStoryConfig> = (
+  args
+) => ({
   props: {
     exampleFormControlSingle: new FormControl({ value: null, disabled: true }),
     exampleFormControlRange: new FormControl({ value: null, disabled: true }),
