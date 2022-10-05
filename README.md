@@ -380,3 +380,10 @@ been preconfigured with a list of recommended extensions stored in
 `.vscode/extensions.json`. The editor will automatically prompt for installing
 these extensions when the project is opened for the first time, but they can
 later be found by executing the `Show recommended extensions` command.
+
+## Troubleshooting
+
+> There is a wall of errors in the terminal output when trying to start the
+> development server.
+
+This could be caused by outdated dependencies. Run `yarn install` and try again
