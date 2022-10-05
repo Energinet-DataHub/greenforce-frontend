@@ -387,4 +387,4 @@ later be found by executing the `Show recommended extensions` command.
 > There is a wall of errors in the terminal output when trying to start the
 > development server.
 
-This could be caused by outdated dependencies. Run `yarn install` and try again
+This could be caused by outdated dependencies. Run `yarn install` and try again.
