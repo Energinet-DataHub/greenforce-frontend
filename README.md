@@ -31,6 +31,7 @@ frontends backed by [Nx] and [Angular].
 - [Scripts](#scripts)
 - [Workflows (CI/CD)](#workflows-cicd)
 - [Visual Studio Code](#visual-studio-code)
+- [Troubleshooting](#troubleshooting)
 
 ## General
 
