@@ -92,31 +92,29 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
     })
   );
 
-  readonly getBatches = this.effect(
-    (filter$: Observable<BatchSearchDto>) => {
-      return filter$.pipe(
-        tap(() => {
-          this.setLoadingBatches(true);
-          this.changeDetectorRef.detectChanges();
-        }),
-        switchMap((filter: BatchSearchDto) => {
-          const searchBatchesRequest: BatchSearchDto = {
-            minExecutionTime: filter.minExecutionTime,
-            maxExecutionTime: filter.maxExecutionTime,
-          };
+  readonly getBatches = this.effect((filter$: Observable<BatchSearchDto>) => {
+    return filter$.pipe(
+      tap(() => {
+        this.setLoadingBatches(true);
+        this.changeDetectorRef.detectChanges();
+      }),
+      switchMap((filter: BatchSearchDto) => {
+        const searchBatchesRequest: BatchSearchDto = {
+          minExecutionTime: filter.minExecutionTime,
+          maxExecutionTime: filter.maxExecutionTime,
+        };
 
-          return this.httpClient
-            .v1WholesaleBatchSearchPost(searchBatchesRequest)
-            .pipe(
-              tap((batches) => this.setBatches(batches)),
-              catchError(() => {
-                this.setLoadingBatches(false);
-                this.loadingBatchesErrorTrigger$.next();
-                return EMPTY;
-              })
-            );
-        })
-      );
-    }
-  );
+        return this.httpClient
+          .v1WholesaleBatchSearchPost(searchBatchesRequest)
+          .pipe(
+            tap((batches) => this.setBatches(batches)),
+            catchError(() => {
+              this.setLoadingBatches(false);
+              this.loadingBatchesErrorTrigger$.next();
+              return EMPTY;
+            })
+          );
+      })
+    );
+  });
 }
