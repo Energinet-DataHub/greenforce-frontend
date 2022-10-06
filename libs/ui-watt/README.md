@@ -31,3 +31,11 @@ Using the example name above, the generator will create a `my-button` folder in 
 It will also automatically update the `libs/ui-watt/src/index.ts` with an `export` declaration that re-exports everything from `my-button/index.ts`.
 
 The generated files contain some sensible defaults for getting started and it should have a working story out of the box.
+
+## Design System
+
+The design system is deployed through Chromatic, and can be found here:  
+[Latest version (main)](https://main--61765fc47451ff003afe62ff.chromatic.com/)
+
+You can also find a deployed version of your specific branch here (direct link, can also be found under checks in a pull-request):
+`https://<branch>--61765fc47451ff003afe62ff.chromatic.com`
