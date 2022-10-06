@@ -1,5 +1,6 @@
 {
   "name": "energinet-datahub",
+  "private": "true",
   "version": "0.0.0",
   "license": "MIT",
   "//engines-comment": "Keep this in sync with '.nvmrc', and 'volta' config at the bottom of this file.",
@@ -9,7 +10,7 @@
     "yarn": "1.22.19"
   },
   "scripts": {
-    "postinstall": "npm run postinstall:nx && npm run postinstall:ngcc",
+    "postinstall": "npm run postinstall:nx && npm run postinstall:ngcc && git config --local core.hooksPath .githooks && chmod ug+x .githooks/*",
     "postinstall:ngcc": "npm run ngcc",
     "jest-preview": "jest-preview",
     "postinstall:nx": "node ./decorate-angular-cli.js",

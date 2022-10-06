@@ -13,7 +13,7 @@ function readChangedFiles() {
   const changedFiles = execSync(`git diff origin/main... --name-only`, {
     encoding: 'utf-8',
   });
-  return changedFiles.replaceAll(/\s/g, ',').split(',');
+  return changedFiles.trim().replaceAll(/\s/g, ',').split(',');
 }
 
 function haveDependenciesChanged(changes) {
