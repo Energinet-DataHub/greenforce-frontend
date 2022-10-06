@@ -28,6 +28,7 @@ import {
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { LetModule } from '@rx-angular/template';
+import { MatSort, Sort } from '@angular/material/sort';
 
 import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/feature-flags';
 import {
@@ -55,6 +56,7 @@ export class DhChargesPricesResultComponent
   implements OnInit, OnDestroy, OnChanges
 {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
 
   @Input() result?: Array<ChargeV1Dto>;
   @Input() isLoading = false;
@@ -83,6 +85,7 @@ export class DhChargesPricesResultComponent
 
   ngOnInit() {
     this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
     this.setupPaginatorTranslation();
   }
 
@@ -117,6 +120,10 @@ export class DhChargesPricesResultComponent
         this.dataSource.paginator = this.paginator;
       });
   };
+
+  announceSortChange(event: any) {
+    console.log(event);
+  }
 }
 
 @NgModule({
