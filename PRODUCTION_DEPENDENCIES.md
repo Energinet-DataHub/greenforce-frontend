@@ -27,7 +27,6 @@
 | [chartjs-plugin-datalabels](https://github.com/chartjs/chartjs-plugin-datalabels) | 2.0.0 | MIT) |
 | [date-fns-tz](https://github.com/marnusw/date-fns-tz) | 1.3.7 | MIT) |
 | [date-fns](https://github.com/date-fns/date-fns) | 2.29.2 | MIT) |
-| [energinet-datahub](undefined) | 0.0.0 | MIT) |
 | [include-media](https://github.com/eduardoboucas/include-media) | 1.4.10 | MIT) |
 | [inputmask](https://github.com/RobinHerbots/Inputmask) | 5.0.7 | MIT) |
 | [ng2-charts](https://github.com/valor-software/ng2-charts) | 3.0.11 | ISC) |
