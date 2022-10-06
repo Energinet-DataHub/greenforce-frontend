@@ -52,7 +52,7 @@ function getWholesaleSearchBatch() {
       periodEnd,
       executionTimeStart,
       executionTimeEnd: null,
-      executionState: BatchExecutionState.Running,
+      executionState: BatchExecutionState.Executing,
     },
     {
       batchNumber: 345,
@@ -60,7 +60,7 @@ function getWholesaleSearchBatch() {
       periodEnd,
       executionTimeStart,
       executionTimeEnd,
-      executionState: BatchExecutionState.Finished,
+      executionState: BatchExecutionState.Completed,
     },
     {
       batchNumber: 567,
@@ -84,7 +84,7 @@ function getWholesaleSearchBatch() {
       periodEnd,
       executionTimeStart,
       executionTimeEnd: null,
-      executionState: BatchExecutionState.Running,
+      executionState: BatchExecutionState.Executing,
     },
     {
       batchNumber: 345,
@@ -92,7 +92,7 @@ function getWholesaleSearchBatch() {
       periodEnd,
       executionTimeStart,
       executionTimeEnd,
-      executionState: BatchExecutionState.Finished,
+      executionState: BatchExecutionState.Completed,
     },
     {
       batchNumber: 567,
@@ -116,7 +116,7 @@ function getWholesaleSearchBatch() {
       periodEnd,
       executionTimeStart,
       executionTimeEnd: null,
-      executionState: BatchExecutionState.Running,
+      executionState: BatchExecutionState.Executing,
     },
     {
       batchNumber: 345,
@@ -124,7 +124,7 @@ function getWholesaleSearchBatch() {
       periodEnd,
       executionTimeStart,
       executionTimeEnd,
-      executionState: BatchExecutionState.Finished,
+      executionState: BatchExecutionState.Completed,
     },
     {
       batchNumber: 567,
