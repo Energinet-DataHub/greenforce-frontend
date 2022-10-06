@@ -55,6 +55,8 @@ over the Angular CLI._
   <dd>Manager for JavaScript command-line tools like Node.js® and Yarn.</dd>
   <dt><a href="https://dotnet.microsoft.com/en-us/download">.NET SDK</a></dt>
   <dd>Required for running and developing the Backend For Frontend.</dd>
+  <dt><a href="https://www.java.com/en/download/">Java</a></dt>
+  <dd>Required for generating HttpClients and DTOs based on Swagger definition.</dd>
 </dl>
 
 ## DataHub
