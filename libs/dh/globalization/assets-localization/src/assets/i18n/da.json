@@ -271,6 +271,7 @@
     },
     "prices": {
       "topBarTitle": "Søg pris",
+      "prices": "Priser",
       "search": {
         "idOrName": "Pris ID/Navn",
         "enterIdOrName": "Indtast dele af eller hele navnet",
