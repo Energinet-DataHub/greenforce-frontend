@@ -27,14 +27,14 @@ import {
 } from 'rxjs';
 import {
   WholesaleBatchHttp,
-  WholesaleBatchRequestDto,
+  BatchRequestDto,
   WholesaleProcessType,
-  WholesaleSearchBatchDto,
-  WholesaleSearchBatchResponseDto,
+  BatchSearchDto,
+  BatchDto,
 } from '@energinet-datahub/dh/shared/domain';
 
 interface State {
-  batches?: WholesaleSearchBatchResponseDto[];
+  batches?: BatchDto[];
   loadingBatches: boolean;
 }
 
@@ -64,7 +64,7 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
     ) => {
       return batch$.pipe(
         exhaustMap((batch) => {
-          const batchRequest: WholesaleBatchRequestDto = {
+          const batchRequest: BatchRequestDto = {
             processType: WholesaleProcessType.BalanceFixing,
             gridAreaCodes: batch.gridAreas,
             startDate: batch.dateRange.start,
@@ -78,7 +78,7 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
   );
 
   readonly setBatches = this.updater(
-    (state, value: WholesaleSearchBatchResponseDto[]): State => ({
+    (state, value: BatchDto[]): State => ({
       ...state,
       batches: value,
       loadingBatches: false,
@@ -93,14 +93,14 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
   );
 
   readonly getBatches = this.effect(
-    (filter$: Observable<WholesaleSearchBatchDto>) => {
+    (filter$: Observable<BatchSearchDto>) => {
       return filter$.pipe(
         tap(() => {
           this.setLoadingBatches(true);
           this.changeDetectorRef.detectChanges();
         }),
-        switchMap((filter: WholesaleSearchBatchDto) => {
-          const searchBatchesRequest: WholesaleSearchBatchDto = {
+        switchMap((filter: BatchSearchDto) => {
+          const searchBatchesRequest: BatchSearchDto = {
             minExecutionTime: filter.minExecutionTime,
             maxExecutionTime: filter.maxExecutionTime,
           };
