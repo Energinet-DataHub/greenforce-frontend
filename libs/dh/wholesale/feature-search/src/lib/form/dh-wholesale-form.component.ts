@@ -35,7 +35,7 @@ import {
   WattFormFieldModule,
   WattRangeValidators,
 } from '@energinet-datahub/watt';
-import { WholesaleSearchBatchDto } from '@energinet-datahub/dh/shared/domain';
+import { BatchSearchDto } from '@energinet-datahub/dh/shared/domain';
 import { Subject, takeUntil } from 'rxjs';
 
 @Component({
@@ -55,7 +55,7 @@ import { Subject, takeUntil } from 'rxjs';
 })
 export class DhWholesaleFormComponent implements OnInit, OnDestroy {
   @Input() loading = false;
-  @Output() search: EventEmitter<WholesaleSearchBatchDto> = new EventEmitter();
+  @Output() search: EventEmitter<BatchSearchDto> = new EventEmitter();
 
   destroy$: Subject<void> = new Subject();
 

@@ -12,7 +12,7 @@
 import { WholesaleProcessType } from './wholesale-process-type';
 
 
-export interface WholesaleBatchRequestDto { 
+export interface BatchRequestDto { 
     processType: WholesaleProcessType;
     gridAreaCodes: Array<string>;
     startDate: string;
