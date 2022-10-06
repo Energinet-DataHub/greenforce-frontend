@@ -13,8 +13,6 @@ export class DhChargesPricesDrawerComponent {
 
   charge?: ChargeV1Dto;
 
-  constructor() {}
-
   openDrawer(charge: ChargeV1Dto) {
     this.charge = charge;
     this.drawer.open();
