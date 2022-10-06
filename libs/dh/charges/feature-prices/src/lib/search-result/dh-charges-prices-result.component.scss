@@ -68,3 +68,22 @@ table {
 .loading-error {
   margin-top: var(--watt-space-m);
 }
+
+tr:hover {
+  background-color: var(--watt-color-primary-light);
+
+  td {
+    color: var(--watt-color-neutral-white);
+    cursor: pointer;
+  }
+
+  .gln-number {
+    color: var(--watt-color-neutral-white);
+  }
+
+  .icons {
+    .active {
+      color: var(--watt-color-neutral-white);
+    }
+  }
+}

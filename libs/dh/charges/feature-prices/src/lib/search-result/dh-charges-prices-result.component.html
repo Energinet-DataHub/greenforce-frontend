@@ -129,7 +129,11 @@ limitations under the License.
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      <tr
+        mat-row
+        (click)="rowClicked(row)"
+        *matRowDef="let row; columns: displayedColumns"
+      ></tr>
     </table>
 
     <!-- Spinner -->
@@ -159,4 +163,6 @@ limitations under the License.
       ></watt-empty-state>
     </ng-container>
   </div>
+
+  <dh-charges-prices-drawer></dh-charges-prices-drawer>
 </ng-container>

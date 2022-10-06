@@ -265,6 +265,7 @@
     },
     "prices": {
       "topBarTitle": "Search price",
+      "prices": "Prices",
       "search": {
         "idOrName": "Price ID/Name",
         "enterIdOrName": "Enter part or whole name",
@@ -623,8 +624,8 @@
       },
       "download": "Download",
       "Pending": "Pending",
-      "Running": "Running",
-      "Finished": "Finished",
+      "Executing": "Running",
+      "Completed": "Finished",
       "Failed": "Failed",
       "loadBatchesFailedTitle": "Oops! There was an error",
       "loadBatchesFailedMessage": "Unfortunately, an error occurred while retrieving the necessary information",
