@@ -24,9 +24,9 @@ using Microsoft.IdentityModel.Protocols;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Microsoft.IdentityModel.Tokens;
 
-namespace Energinet.DataHub.WebApi
+namespace Energinet.DataHub.WebApi.Registration
 {
-    public static class ServiceCollectionExtensions
+    public static class JwtTokenSecurityRegistrationExtensions
     {
         public static IServiceCollection AddJwtTokenSecurity(this IServiceCollection services, string metadataAddress, string audience)
         {
@@ -49,16 +49,6 @@ namespace Energinet.DataHub.WebApi
             services.AddScoped<JwtTokenMiddleware>();
 
             return services;
-        }
-
-        /// <summary>
-        /// Enable creating an HttpClient with authentication from an injected HttpClientFactory.
-        /// </summary>
-        public static void AddHttpClientFactory(this IServiceCollection services)
-        {
-            services.AddHttpClient();
-            services.AddHttpContextAccessor();
-            services.AddSingleton<HttpClientFactory>();
         }
     }
 }

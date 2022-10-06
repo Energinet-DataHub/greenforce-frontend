@@ -35,6 +35,7 @@ limitations under the License.
   </Target>
 
   <ItemGroup>
+    <PackageReference Include="Energinet.DataHub.Wholesale.Client" Version="1.0.0" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.20.0" />
     <PackageReference Include="Energinet.DataHub.Charges.Clients" Version="3.0.15" />
     <PackageReference Include="Energinet.DataHub.Charges.Clients.Registration" Version="3.0.15" />

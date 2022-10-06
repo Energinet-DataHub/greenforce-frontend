@@ -42,8 +42,8 @@ import {
 } from '@energinet-datahub/watt';
 
 import {
-  WholesaleSearchBatchResponseDto,
-  WholesaleStatus,
+  BatchDto,
+  BatchExecutionState,
 } from '@energinet-datahub/dh/shared/domain';
 
 type wholesaleTableData = MatTableDataSource<{
@@ -53,7 +53,7 @@ type wholesaleTableData = MatTableDataSource<{
   periodEnd: string;
   executionTimeStart?: string | null;
   executionTimeEnd?: string | null;
-  executionState: WholesaleStatus;
+  executionState: BatchExecutionState;
 }>;
 
 @Component({
@@ -77,7 +77,7 @@ type wholesaleTableData = MatTableDataSource<{
 export class DhWholesaleTableComponent implements OnDestroy, AfterViewInit {
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-  @Input() set data(batches: WholesaleSearchBatchResponseDto[]) {
+  @Input() set data(batches: BatchDto[]) {
     this._data = new MatTableDataSource(
       batches.map((batch) => ({
         ...batch,
@@ -113,14 +113,14 @@ export class DhWholesaleTableComponent implements OnDestroy, AfterViewInit {
     this.destroy$.complete();
   }
 
-  private getStatusType(status: WholesaleStatus): WattBadgeType | void {
-    if (status === WholesaleStatus.Pending) {
+  private getStatusType(status: BatchExecutionState): WattBadgeType | void {
+    if (status === BatchExecutionState.Pending) {
       return 'warning';
-    } else if (status === WholesaleStatus.Running) {
+    } else if (status === BatchExecutionState.Completed) {
       return 'success';
-    } else if (status === WholesaleStatus.Finished) {
+    } else if (status === BatchExecutionState.Executing) {
       return 'info';
-    } else if (status === WholesaleStatus.Failed) {
+    } else if (status === BatchExecutionState.Failed) {
       return 'danger';
     }
   }
