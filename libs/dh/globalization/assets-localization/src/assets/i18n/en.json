@@ -265,6 +265,7 @@
     },
     "prices": {
       "topBarTitle": "Search price",
+      "prices": "Prices",
       "search": {
         "idOrName": "Price ID/Name",
         "enterIdOrName": "Enter part or whole name",

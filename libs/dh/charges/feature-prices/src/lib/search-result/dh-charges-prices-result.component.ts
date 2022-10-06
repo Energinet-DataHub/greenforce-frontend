@@ -45,6 +45,10 @@ import {
 import { Subject, takeUntil } from 'rxjs';
 import { ChargeV1Dto } from '@energinet-datahub/dh/shared/domain';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
+import {
+  DhChargesPricesDrawerComponent,
+  DhChargesPricesDrawerScam,
+} from '../drawer/dh-charges-prices-drawer.component';
 
 @Component({
   selector: 'dh-charges-prices-result',
@@ -55,6 +59,8 @@ export class DhChargesPricesResultComponent
   implements OnInit, OnDestroy, OnChanges
 {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(DhChargesPricesDrawerComponent)
+  chargePriceDrawer!: DhChargesPricesDrawerComponent;
 
   @Input() result?: Array<ChargeV1Dto>;
   @Input() isLoading = false;
@@ -117,6 +123,10 @@ export class DhChargesPricesResultComponent
         this.dataSource.paginator = this.paginator;
       });
   };
+
+  rowClicked(charge: ChargeV1Dto) {
+    this.chargePriceDrawer.openDrawer(charge);
+  }
 }
 
 @NgModule({
@@ -135,6 +145,7 @@ export class DhChargesPricesResultComponent
     WattTooltipModule,
     WattSpinnerModule,
     DhSharedUiDateTimeModule,
+    DhChargesPricesDrawerScam,
   ],
 })
 export class DhChargesPricesResultScam {}
