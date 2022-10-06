@@ -11,7 +11,7 @@
  */
 
 
-export interface WholesaleSearchBatchDto { 
+export interface BatchSearchDto { 
     minExecutionTime: string;
     maxExecutionTime: string;
 }
