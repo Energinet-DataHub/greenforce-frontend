@@ -29,7 +29,7 @@ import {
 } from '@energinet-datahub/watt';
 
 import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
-import { WholesaleSearchBatchDto } from '@energinet-datahub/dh/shared/domain';
+import { BatchSearchDto } from '@energinet-datahub/dh/shared/domain';
 
 import { DhWholesaleTableComponent } from './table/dh-wholesale-table.component';
 import { DhWholesaleFormComponent } from './form/dh-wholesale-form.component';
@@ -49,7 +49,7 @@ export class DhWholesaleSearchComponent {
 
   searchSubmitted = false;
 
-  onSearch(search: WholesaleSearchBatchDto) {
+  onSearch(search: BatchSearchDto) {
     this.searchSubmitted = true;
     this.store.getBatches(of(search));
   }
