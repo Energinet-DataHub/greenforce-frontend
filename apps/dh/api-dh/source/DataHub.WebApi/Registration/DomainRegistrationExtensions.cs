@@ -25,54 +25,33 @@ namespace Energinet.DataHub.WebApi.Registration
 {
     public static class DomainRegistrationExtensions
     {
-        public static void AddDomainClients(this IServiceCollection services, ApiClientSettings apiClientSettings)
+        public static IServiceCollection AddDomainClients(this IServiceCollection services, ApiClientSettings apiClientSettings)
         {
-            AddMeteringPointClient(services, apiClientSettings);
-            AddChargesClient(services, apiClientSettings);
-            AddMessageArchiveClient(services, apiClientSettings);
-            AddMarketParticipantClient(services, apiClientSettings);
-            AddWholesaleClient(services, apiClientSettings);
+            services
+                .AddChargesClient(
+                    GetBaseUri(apiClientSettings.ChargesBaseUrl))
+                .AddMeteringPointClient(
+                    GetBaseUri(apiClientSettings.MeteringPointBaseUrl))
+                .AddMessageArchiveClient(
+                    GetBaseUri(apiClientSettings.MessageArchiveBaseUrl))
+                .AddMarketParticipantClient(
+                    GetBaseUri(apiClientSettings.MarketParticipantBaseUrl))
+                .AddWholesaleClient(
+                    GetBaseUri(apiClientSettings.WholesaleBaseUrl),
+                    AuthorizationHeaderProvider);
 
             services.AddSingleton(apiClientSettings);
+
+            return services;
         }
 
-        private static void AddChargesClient(IServiceCollection services, ApiClientSettings apiClientSettings)
-        {
-            var baseUri = GetBaseUri(apiClientSettings.ChargesBaseUrl);
-            services.AddChargesClient(baseUri);
-        }
-
-        private static void AddMeteringPointClient(IServiceCollection services, ApiClientSettings apiClientSettings)
-        {
-            var baseUri = GetBaseUri(apiClientSettings.MeteringPointBaseUrl);
-            services.AddMeteringPointClient(baseUri);
-        }
-
-        private static void AddMessageArchiveClient(IServiceCollection services, ApiClientSettings apiClientSettings)
-        {
-            var baseUri = GetBaseUri(apiClientSettings.MessageArchiveBaseUrl);
-            services.AddMessageArchiveClient(baseUri);
-        }
-
-        private static void AddMarketParticipantClient(IServiceCollection services, ApiClientSettings apiClientSettings)
-        {
-            var baseUri = GetBaseUri(apiClientSettings.MarketParticipantBaseUrl);
-            services.AddMarketParticipantClient(baseUri);
-        }
-
-        private static void AddWholesaleClient(IServiceCollection services, ApiClientSettings apiClientSettings)
-        {
-            var baseUri = GetBaseUri(apiClientSettings.WholesaleBaseUrl);
-            services.AddWholesaleClient(baseUri, AuthorizationHeaderProvider);
-        }
-
-        private static Uri GetBaseUri(string baseUri)
+        private static Uri GetBaseUri(string baseUrl)
         {
             var emptyUrl = "https://empty";
-            var messageArchiveBaseUrl = Uri.TryCreate(baseUri, UriKind.Absolute, out var url)
+            var baseUri = Uri.TryCreate(baseUrl, UriKind.Absolute, out var url)
                 ? url
                 : new Uri(emptyUrl);
-            return messageArchiveBaseUrl;
+            return baseUri;
         }
 
         private static string AuthorizationHeaderProvider(IServiceProvider serviceProvider)
