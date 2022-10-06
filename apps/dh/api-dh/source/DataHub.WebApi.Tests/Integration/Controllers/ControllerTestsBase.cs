@@ -14,7 +14,6 @@
 
 using System.Net.Http;
 using System.Threading.Tasks;
-using AutoFixture;
 using Energinet.DataHub.WebApi.Tests.Fixtures;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
@@ -30,11 +29,9 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
         IAsyncLifetime
         where TDomainClient : class
     {
-        protected Fixture DtoFixture { get; }
+        protected Mock<TDomainClient> DomainClientMock { get; }
 
-        protected Mock<TDomainClient> ApiClientMock { get; }
-
-        protected HttpClient Client { get; }
+        protected HttpClient BffClient { get; }
 
         protected ControllerTestsBase(
             BffWebApiFixture bffWebApiFixture,
@@ -42,14 +39,12 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
             ITestOutputHelper testOutputHelper)
              : base(bffWebApiFixture, testOutputHelper)
         {
-            DtoFixture = new Fixture();
-
-            ApiClientMock = new Mock<TDomainClient>();
-            Client = factory.WithWebHostBuilder(builder =>
+            DomainClientMock = new Mock<TDomainClient>();
+            BffClient = factory.WithWebHostBuilder(builder =>
             {
                 builder.ConfigureServices(services =>
                 {
-                    services.AddTransient(_ => ApiClientMock.Object);
+                    services.AddTransient(_ => DomainClientMock.Object);
                 });
             })
             .CreateClient();
@@ -59,13 +54,13 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
 
         public Task InitializeAsync()
         {
-            Client.DefaultRequestHeaders.Add("Authorization", $"Bearer xxx");
+            BffClient.DefaultRequestHeaders.Add("Authorization", $"Bearer xxx");
             return Task.CompletedTask;
         }
 
         public Task DisposeAsync()
         {
-            Client.Dispose();
+            BffClient.Dispose();
             return Task.CompletedTask;
         }
     }

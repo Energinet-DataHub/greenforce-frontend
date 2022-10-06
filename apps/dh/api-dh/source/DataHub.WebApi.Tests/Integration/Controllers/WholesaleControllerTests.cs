@@ -14,9 +14,9 @@
 
 using System.Collections.Generic;
 using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
-using AutoFixture;
-using Energinet.Charges.Contracts.ChargeLink;
+using Energinet.DataHub.Core.TestCommon.AutoFixture.Attributes;
 using Energinet.DataHub.WebApi.Tests.Fixtures;
 using Energinet.DataHub.Wholesale.Application.Batches;
 using Energinet.DataHub.Wholesale.Client;
@@ -34,45 +34,41 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
         {
         }
 
-        [Fact]
-        public async Task CreateAsync_ReturnsOk()
+        private const string BatchCreateUrl = "/v1/wholesalebatch";
+        private const string BatchSearchUrl = "/v1/wholesalebatch/search";
+
+        [Theory]
+        [InlineAutoMoqData]
+        public async Task CreateAsync_ReturnsOk(BatchRequestDto requestDto)
         {
-            // Arrange
-            var batchRequest = new BatchRequestDto();
-            var requestUrl = $"/v1/wholesalebatch";
-            var list = new List<ChargeLinkV1Dto>
-            {
-                DtoFixture.Create<ChargeLinkV1Dto>(),
-            };
-
-            ApiClientMock
-                .Setup(m => m.CreateBatchAsync(batchRequest))
-                .ReturnsAsync(list);
-
-            // Act
-            var actual = await Client.GetAsync(requestUrl);
-
-            // Assert
+            var actual = await BffClient.PostAsJsonAsync(BatchCreateUrl, requestDto);
             actual.StatusCode.Should().Be(HttpStatusCode.OK);
         }
 
-        // [Fact]
-        // public async Task PostAsync_WhenMeteringPointIdHasNoChargeLink_ReturnsNotFound()
-        // {
-        //     // Arrange
-        //     var meteringPointId = "metering-point-has-no-links";
-        //     var requestUrl = $"/v1/wholesalebatch/search";
-        //     var list = new List<ChargeLinkV1Dto>();
-        //
-        //     ApiClientMock
-        //         .Setup(m => m.GetChargeLinksAsync(meteringPointId))
-        //         .ReturnsAsync(list);
-        //
-        //     // Act
-        //     var actual = await Client.GetAsync(requestUrl);
-        //
-        //     // Arrange
-        //     actual.StatusCode.Should().Be(HttpStatusCode.NotFound);
-        // }
+        [Theory]
+        [InlineAutoMoqData]
+        public async Task PostAsync_WhenBatchesFound_ReturnsOk(BatchSearchDto searchDto, List<BatchDto> batches)
+        {
+            DomainClientMock
+                .Setup(m => m.GetBatchesAsync(searchDto))
+                .ReturnsAsync(batches);
+
+            var actual = await BffClient.PostAsJsonAsync(BatchSearchUrl, searchDto);
+
+            actual.StatusCode.Should().Be(HttpStatusCode.OK);
+        }
+
+        [Theory]
+        [InlineAutoMoqData]
+        public async Task PostAsync_WhenNoBatchesFound_ReturnsOk(BatchSearchDto searchDto)
+        {
+            DomainClientMock
+                .Setup(m => m.GetBatchesAsync(searchDto))
+                .ReturnsAsync(new List<BatchDto>());
+
+            var actual = await BffClient.PostAsJsonAsync(BatchSearchUrl, searchDto);
+
+            actual.StatusCode.Should().Be(HttpStatusCode.OK);
+        }
     }
 }
