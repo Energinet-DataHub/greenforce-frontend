@@ -22,7 +22,7 @@ limitations under the License.
         <watt-form-field>
           <watt-label>{{ t("idOrName") }}</watt-label>
           <input
-            [(ngModel)]="this.searchCriteria.idOrName"
+            [(ngModel)]="this.searchCriteria.chargeIdOrName"
             name="idOrNAme"
             wattInput
             type="text"
@@ -34,11 +34,11 @@ limitations under the License.
         <watt-form-field>
           <watt-label>{{ t("owner") }}</watt-label>
           <watt-dropdown
-            [(ngModel)]="this.searchCriteria.owner"
+            [(ngModel)]="this.searchCriteria.ownerId"
             name="owner"
             [placeholder]="t('enterOwner')"
             [multiple]="true"
-            [title]="this.searchCriteria.owner"
+            [title]="this.searchCriteria.ownerId"
           >
           </watt-dropdown>
         </watt-form-field>
@@ -61,12 +61,11 @@ limitations under the License.
         <watt-form-field>
           <watt-label>{{ t("validity") }}</watt-label>
           <watt-dropdown
-            [(ngModel)]="this.searchCriteria.validity"
+            [(ngModel)]="this.validityOption"
             [options]="validityOptions"
             name="validity"
             [placeholder]="t('selectValidity')"
             [multiple]="false"
-            [title]="this.searchCriteria.validity"
           >
           </watt-dropdown>
         </watt-form-field>

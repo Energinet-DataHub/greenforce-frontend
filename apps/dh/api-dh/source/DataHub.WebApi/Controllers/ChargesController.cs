@@ -39,5 +39,13 @@ namespace Energinet.DataHub.WebApi.Controllers
 
             return result.Any() ? Ok(result) : NotFound();
         }
+
+        [HttpPost("SearchAsync")]
+        public async Task<ActionResult<IList<ChargeV1Dto>>> SearchAsync([FromBody] SearchCriteriaDto searchCriteria)
+        {
+            var result = await _chargesClient.SearchChargesAsync(searchCriteria);
+
+            return result.Any() ? Ok(result) : NotFound();
+        }
     }
 }
