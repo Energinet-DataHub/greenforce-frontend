@@ -329,7 +329,11 @@
         "prices": "Priser",
         "showDescriptionLabel": "Se Beskrivelse",
         "hideDescriptionLabel": "Luk Beskrivelse",
-        "price": "Pris"
+        "price": "Pris",
+        "validity": "Gyldighed",
+        "vat": "Moms",
+        "transparentInvoicing": "Viderefakturering",
+        "tax": "Afgift"
       }
     }
   },

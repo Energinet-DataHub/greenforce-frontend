@@ -25,6 +25,7 @@ import {
 import { TranslocoModule } from '@ngneat/transloco';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatGridListModule } from '@angular/material/grid-list';
+import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 
 @Component({
   selector: 'dh-charges-prices-drawer',
@@ -52,6 +53,7 @@ export class DhChargesPricesDrawerComponent {
     MatDividerModule,
     WattExpansionModule,
     MatGridListModule,
+    DhSharedUiDateTimeModule,
   ],
 })
 export class DhChargesPricesDrawerScam {}

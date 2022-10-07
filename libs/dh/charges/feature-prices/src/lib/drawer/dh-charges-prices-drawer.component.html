@@ -44,23 +44,39 @@ limitations under the License.
 
         <mat-divider></mat-divider>
 
-        <mat-grid-list cols="5" rowHeight="100">
-          <mat-grid-tile
-            ><h3>{{ t("price") }}</h3>
-          </mat-grid-tile>
-          <mat-grid-tile
-            ><h3>{{ t("validity") }}</h3></mat-grid-tile
-          >
-          <mat-grid-tile
-            ><h3>{{ t("vat") }}</h3></mat-grid-tile
-          >
-          <mat-grid-tile
-            ><h3>{{ t("transparentInvoicing") }}</h3></mat-grid-tile
-          >
-          <mat-grid-tile
-            ><h3>{{ t("tax") }}</h3></mat-grid-tile
-          >
-        </mat-grid-list>
+        <div class="grid-list">
+          <mat-grid-list cols="5" rowHeight="25">
+            <mat-grid-tile
+              ><h3>{{ t("price") }}</h3>
+            </mat-grid-tile>
+            <mat-grid-tile
+              ><h3>{{ t("validity") }}</h3></mat-grid-tile
+            >
+            <mat-grid-tile
+              ><h3>{{ t("vat") }}</h3></mat-grid-tile
+            >
+            <mat-grid-tile
+              ><h3>{{ t("transparentInvoicing") }}</h3></mat-grid-tile
+            >
+            <mat-grid-tile
+              ><h3>{{ t("tax") }}</h3></mat-grid-tile
+            >
+            <mat-grid-tile></mat-grid-tile>
+            <mat-grid-tile
+              >{{ charge?.validFromDateTime | dhDate }} -
+              {{ charge?.validToDateTime | dhDate }}</mat-grid-tile
+            >
+            <mat-grid-tile></mat-grid-tile>
+            <mat-grid-tile>{{
+              charge?.transparentInvoicing
+                ? ("yes" | transloco)
+                : ("no" | transloco)
+            }}</mat-grid-tile>
+            <mat-grid-tile>{{
+              charge?.taxIndicator ? ("yes" | transloco) : ("no" | transloco)
+            }}</mat-grid-tile>
+          </mat-grid-list>
+        </div>
       </div>
     </watt-drawer-content>
   </watt-drawer>

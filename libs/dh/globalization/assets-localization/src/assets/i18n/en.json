@@ -326,7 +326,12 @@
         "edit": "Edit",
         "prices": "Prices",
         "showDescriptionLabel": "Show Description",
-        "hideDescriptionLabel": "Hide Description"
+        "hideDescriptionLabel": "Hide Description",
+        "price": "Price",
+        "validity": "Validity",
+        "vat": "Vat",
+        "transparentInvoicing": "Transparent Invoicing",
+        "tax": "Tax"
       }
     }
   },
