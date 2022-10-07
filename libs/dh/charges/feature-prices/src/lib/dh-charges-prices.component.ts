@@ -45,7 +45,7 @@ import {
 import { PushModule } from '@rx-angular/template';
 import { DhChargesPricesResultScam } from './search-result/dh-charges-prices-result.component';
 import { DhChargesDataAccessApiStore } from '@energinet-datahub/dh/charges/data-access-api';
-import { SearchCriteriaDto } from '@energinet-datahub/dh/shared/domain';
+import { SearchCriteriaV1Dto } from '@energinet-datahub/dh/shared/domain';
 
 @Component({
   selector: 'dh-charges-prices',
@@ -58,7 +58,7 @@ export class DhChargesPricesComponent implements OnInit, OnDestroy {
   chargeTypeOptions: WattDropdownOptions = [];
   validityOptions: WattDropdownOptions = [];
   validityOption: string | undefined;
-  searchCriteria: SearchCriteriaDto = {};
+  searchCriteria: SearchCriteriaV1Dto = {};
 
   all$ = this.store.all$;
   isLoading$ = this.store.isLoading$;

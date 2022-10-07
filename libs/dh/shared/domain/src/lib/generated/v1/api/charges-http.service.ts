@@ -19,7 +19,7 @@ import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
 
 import { ChargeV1Dto } from '../model/models';
-import { SearchCriteriaDto } from '../model/models';
+import { SearchCriteriaV1Dto } from '../model/models';
 
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
@@ -142,14 +142,14 @@ export class ChargesHttp {
     }
 
     /**
-     * @param searchCriteriaDto 
+     * @param searchCriteriaV1Dto 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public v1ChargesSearchAsyncPost(searchCriteriaDto?: SearchCriteriaDto, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<Array<ChargeV1Dto>>;
-    public v1ChargesSearchAsyncPost(searchCriteriaDto?: SearchCriteriaDto, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<Array<ChargeV1Dto>>>;
-    public v1ChargesSearchAsyncPost(searchCriteriaDto?: SearchCriteriaDto, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<Array<ChargeV1Dto>>>;
-    public v1ChargesSearchAsyncPost(searchCriteriaDto?: SearchCriteriaDto, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
+    public v1ChargesSearchAsyncPost(searchCriteriaV1Dto?: SearchCriteriaV1Dto, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<Array<ChargeV1Dto>>;
+    public v1ChargesSearchAsyncPost(searchCriteriaV1Dto?: SearchCriteriaV1Dto, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<Array<ChargeV1Dto>>>;
+    public v1ChargesSearchAsyncPost(searchCriteriaV1Dto?: SearchCriteriaV1Dto, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<Array<ChargeV1Dto>>>;
+    public v1ChargesSearchAsyncPost(searchCriteriaV1Dto?: SearchCriteriaV1Dto, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
 
         let localVarHeaders = this.defaultHeaders;
 
@@ -197,7 +197,7 @@ export class ChargesHttp {
         }
 
         return this.httpClient.post<Array<ChargeV1Dto>>(`${this.configuration.basePath}/v1/Charges/SearchAsync`,
-            searchCriteriaDto,
+            searchCriteriaV1Dto,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,

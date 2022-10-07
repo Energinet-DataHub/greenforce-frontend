@@ -35,11 +35,11 @@ limitations under the License.
           <watt-label>{{ t("owner") }}</watt-label>
           <watt-dropdown
             disabled
-            [(ngModel)]="this.searchCriteria.ownerId"
+            [(ngModel)]="this.searchCriteria.ownerIds"
             name="owner"
             [placeholder]="t('enterOwner')"
             [multiple]="true"
-            [title]="this.searchCriteria.ownerId"
+            [title]="this.searchCriteria.ownerIds"
           >
           </watt-dropdown>
         </watt-form-field>

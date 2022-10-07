@@ -41,7 +41,7 @@ namespace Energinet.DataHub.WebApi.Controllers
         }
 
         [HttpPost("SearchAsync")]
-        public async Task<ActionResult<IList<ChargeV1Dto>>> SearchAsync([FromBody] SearchCriteriaDto searchCriteria)
+        public async Task<ActionResult<IList<ChargeV1Dto>>> SearchAsync([FromBody] SearchCriteriaV1Dto searchCriteria)
         {
             var result = await _chargesClient.SearchChargesAsync(searchCriteria);
 
