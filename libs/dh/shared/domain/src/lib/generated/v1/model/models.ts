@@ -49,6 +49,7 @@ export * from './process-status';
 export * from './product-id';
 export * from './reading-occurrence';
 export * from './resolution';
+export * from './search-criteria-v1-dto';
 export * from './settlement-method';
 export * from './stream';
 export * from './unit';
