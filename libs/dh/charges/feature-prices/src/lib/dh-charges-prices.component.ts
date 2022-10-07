@@ -45,6 +45,7 @@ import {
 import { PushModule } from '@rx-angular/template';
 import { DhChargesPricesResultScam } from './search-result/dh-charges-prices-result.component';
 import { DhChargesDataAccessApiStore } from '@energinet-datahub/dh/charges/data-access-api';
+import { SearchCriteriaV1Dto } from '@energinet-datahub/dh/shared/domain';
 
 @Component({
   selector: 'dh-charges-prices',
@@ -56,12 +57,9 @@ import { DhChargesDataAccessApiStore } from '@energinet-datahub/dh/charges/data-
 export class DhChargesPricesComponent implements OnInit, OnDestroy {
   chargeTypeOptions: WattDropdownOptions = [];
   validityOptions: WattDropdownOptions = [];
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  searchCriteria: any = {
-    chargeTypes: '',
-    idOrName: '',
-    owner: '',
-  };
+  validityOption: string | undefined;
+  searchCriteria: SearchCriteriaV1Dto = {};
+
   all$ = this.store.all$;
   isLoading$ = this.store.isLoading$;
   hasLoadingError$ = this.store.hasGeneralError$;
@@ -89,14 +87,12 @@ export class DhChargesPricesComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (keys) => {
-          this.validityOptions = Object.entries(ValidityOptions).map(
-            (entry) => {
-              return {
-                value: entry[0],
-                displayValue: keys[entry[0]],
-              };
-            }
-          );
+          this.validityOptions = Object.keys(ValidityOptions).map((entry) => {
+            return {
+              value: entry[0],
+              displayValue: keys[entry[0]],
+            };
+          });
         },
       });
   }
@@ -106,21 +102,22 @@ export class DhChargesPricesComponent implements OnInit, OnDestroy {
       .selectTranslateObject('charges.prices.chargeTypes')
       .pipe(takeUntil(this.destroy$))
       .subscribe({
-        next: (keys) => {
-          this.chargeTypeOptions = Object.entries(ChargeTypes).map(
-            (chargeType) => {
+        next: (translationKeys) => {
+          this.chargeTypeOptions = Object.keys(ChargeTypes)
+            .filter((key) => ChargeTypes[Number(key)] != null)
+            .map((chargeTypeKey) => {
               return {
-                value: chargeType[0],
-                displayValue: keys[chargeType[0]],
+                value: chargeTypeKey,
+                displayValue:
+                  translationKeys[ChargeTypes[Number(chargeTypeKey)]],
               };
-            }
-          );
+            });
         },
       });
   }
 
   onSubmit() {
-    this.store.loadChargesData();
+    this.store.searchCharges(this.searchCriteria);
   }
 
   resetSearchCriteria() {
