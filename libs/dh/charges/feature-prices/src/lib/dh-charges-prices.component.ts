@@ -45,10 +45,7 @@ import {
 import { PushModule } from '@rx-angular/template';
 import { DhChargesPricesResultScam } from './search-result/dh-charges-prices-result.component';
 import { DhChargesDataAccessApiStore } from '@energinet-datahub/dh/charges/data-access-api';
-import {
-  ChargeType,
-  SearchCriteriaDto,
-} from '@energinet-datahub/dh/shared/domain';
+import { SearchCriteriaDto } from '@energinet-datahub/dh/shared/domain';
 
 @Component({
   selector: 'dh-charges-prices',

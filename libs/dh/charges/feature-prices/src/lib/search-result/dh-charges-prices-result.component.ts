@@ -61,8 +61,8 @@ export class DhChargesPricesResultComponent
 {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(DhChargesPricesDrawerComponent)
-  @ViewChild(MatSort) sort!: MatSort;
   chargePriceDrawer!: DhChargesPricesDrawerComponent;
+  @ViewChild(MatSort) sort!: MatSort;
 
   @Input() result?: Array<ChargeV1Dto>;
   @Input() isLoading = false;
