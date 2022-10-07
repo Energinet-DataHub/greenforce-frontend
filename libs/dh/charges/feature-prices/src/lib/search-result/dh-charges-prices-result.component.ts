@@ -60,7 +60,7 @@ export class DhChargesPricesResultComponent
   implements OnInit, OnDestroy, OnChanges
 {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-  @ViewChild(MatSort) sort!: MatSort;
+  @ViewChild(MatSort) matSort!: MatSort;
   @ViewChild(DhChargesPricesDrawerComponent)
   chargePriceDrawer!: DhChargesPricesDrawerComponent;
 
@@ -91,7 +91,7 @@ export class DhChargesPricesResultComponent
 
   ngOnInit() {
     this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+    this.dataSource.sort = this.matSort;
     this.setupPaginatorTranslation();
   }
 
@@ -129,10 +129,6 @@ export class DhChargesPricesResultComponent
 
   rowClicked(charge: ChargeV1Dto) {
     this.chargePriceDrawer.openDrawer(charge);
-  }
-
-  announceSortChange(event: any) {
-    console.log(event);
   }
 }
 

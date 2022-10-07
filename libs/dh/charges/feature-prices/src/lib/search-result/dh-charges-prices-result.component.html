@@ -48,16 +48,10 @@ limitations under the License.
       mat-table
       [dataSource]="this.dataSource"
       matSort
-      (matSortChange)="announceSortChange($event)"
     >
       <!-- price id column -->
       <ng-container matColumnDef="priceId">
-        <th
-          mat-header-cell
-          *matHeaderCellDef
-          mat-sort-header
-          sortActionDescription="Sort by number"
-        >
+        <th mat-header-cell *matHeaderCellDef>
           {{ t("priceId") }}
         </th>
         <td mat-cell *matCellDef="let element">{{ element.chargeId }}</td>
@@ -65,12 +59,7 @@ limitations under the License.
 
       <!-- price name column -->
       <ng-container matColumnDef="priceName">
-        <th
-          mat-header-cell
-          *matHeaderCellDef
-          mat-sort-header
-          sortActionDescription="Sort by number"
-        >
+        <th mat-header-cell *matHeaderCellDef>
           {{ t("priceName") }}
         </th>
         <td mat-cell *matCellDef="let element">{{ element.chargeName }}</td>
