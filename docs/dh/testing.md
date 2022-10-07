@@ -76,7 +76,7 @@ async function setup() {
 
 In this case import `WattDanishDatetimeModule.forRoot()` in the test setup. This will add the necessary providers needed for the datepicker/timepicker to work. For example:
 
-````ts
+```ts
 import { WattDanishDatetimeModule } from '@energinet-datahub/watt';
 
 async function setup() {
@@ -87,6 +87,7 @@ async function setup() {
     ],
   }
 };
+```
 
 ### Debugging Jest tests
 
@@ -107,7 +108,7 @@ describe('AppComponent', () => {
     // ...
   });
 });
-````
+```
 
 ## E2E Testing
 
