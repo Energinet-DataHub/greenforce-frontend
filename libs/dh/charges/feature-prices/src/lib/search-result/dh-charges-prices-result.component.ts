@@ -60,9 +60,9 @@ export class DhChargesPricesResultComponent
   implements OnInit, OnDestroy, OnChanges
 {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(DhChargesPricesDrawerComponent)
   chargePriceDrawer!: DhChargesPricesDrawerComponent;
-  @ViewChild(MatSort) sort!: MatSort;
 
   @Input() result?: Array<ChargeV1Dto>;
   @Input() isLoading = false;

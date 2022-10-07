@@ -61,10 +61,11 @@ limitations under the License.
         <watt-form-field>
           <watt-label>{{ t("validity") }}</watt-label>
           <watt-dropdown
+            disabled
             [(ngModel)]="this.validityOption"
             [options]="validityOptions"
             name="validity"
-            [placeholder]="t('selectValidity')"
+            [placeholder]="'charges.prices.validityOptions.Now' | transloco"
             [multiple]="false"
           >
           </watt-dropdown>
@@ -73,7 +74,7 @@ limitations under the License.
         <!-- Date valid from -->
         <watt-form-field>
           <watt-label>{{ t("dateValidFrom") }}</watt-label>
-          <watt-datepicker>
+          <watt-datepicker disabled>
             [(ngModel)]="this.searchCriteria.dateTimeValidFrom"
           </watt-datepicker>
         </watt-form-field>
@@ -81,7 +82,7 @@ limitations under the License.
         <!-- Date to -->
         <watt-form-field>
           <watt-label>{{ t("dateValidTo") }}</watt-label>
-          <watt-datepicker>
+          <watt-datepicker disabled>
             [(ngModel)]="this.searchCriteria.dateTimeValidTo"
           </watt-datepicker>
         </watt-form-field>
