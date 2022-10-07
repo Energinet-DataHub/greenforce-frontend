@@ -320,7 +320,14 @@
         "ThisYear": "This year"
       },
       "loadingErrorTitle": "An unexpected error occured",
-      "loadingErrorMessage": "Try again or contact your system administrator if you keep getting this error."
+      "loadingErrorMessage": "Try again or contact your system administrator if you keep getting this error.",
+      "drawer": {
+        "stop": "Stop",
+        "edit": "Edit",
+        "prices": "Prices",
+        "showDescriptionLabel": "Show Description",
+        "hideDescriptionLabel": "Hide Description"
+      }
     }
   },
   "messageArchive": {

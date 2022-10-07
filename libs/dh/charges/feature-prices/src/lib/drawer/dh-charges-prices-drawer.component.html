@@ -14,18 +14,54 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<ng-container *transloco="let t; read: 'charges.prices'">
+<ng-container *transloco="let t; read: 'charges.prices.drawer'">
   <!-- drawer -->
-  <watt-drawer #drawer size="normal">
+  <watt-drawer #drawer size="large">
     <watt-drawer-topbar
       ><span class="prices-label">{{ t("prices") }}</span> >
       {{ charge?.chargeId }}</watt-drawer-topbar
     >
 
-    <watt-drawer-actions> </watt-drawer-actions>
+    <watt-drawer-actions>
+      <watt-button variant="secondary" [disabled]="true">{{
+        t("stop")
+      }}</watt-button>
+      <watt-button [disabled]="true">{{ t("edit") }}</watt-button>
+    </watt-drawer-actions>
 
-    <watt-drawer-content *ngIf="drawer.opened">
-      <div class="container"></div>
+    <watt-drawer-content>
+      <div class="container">
+        {{ "charges.chargeType." + charge?.chargeType | transloco }} ({{
+          "charges.resolutionType." + charge?.resolution | transloco
+        }})
+        <h1>{{ charge?.chargeId }} - {{ charge?.chargeName }}</h1>
+        {{ charge?.chargeOwnerName }} | {{ charge?.chargeOwner }}
+
+        <watt-expansion
+          [openLabel]="t('showDescriptionLabel')"
+          [closeLabel]="t('hideDescriptionLabel')"
+        ></watt-expansion>
+
+        <mat-divider></mat-divider>
+
+        <mat-grid-list cols="5" rowHeight="100">
+          <mat-grid-tile
+            ><h3>{{ t("price") }}</h3>
+          </mat-grid-tile>
+          <mat-grid-tile
+            ><h3>{{ t("validity") }}</h3></mat-grid-tile
+          >
+          <mat-grid-tile
+            ><h3>{{ t("vat") }}</h3></mat-grid-tile
+          >
+          <mat-grid-tile
+            ><h3>{{ t("transparentInvoicing") }}</h3></mat-grid-tile
+          >
+          <mat-grid-tile
+            ><h3>{{ t("tax") }}</h3></mat-grid-tile
+          >
+        </mat-grid-list>
+      </div>
     </watt-drawer-content>
   </watt-drawer>
 </ng-container>
