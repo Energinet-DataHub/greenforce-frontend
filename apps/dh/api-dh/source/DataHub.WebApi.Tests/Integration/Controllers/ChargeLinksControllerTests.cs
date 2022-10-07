@@ -14,82 +14,39 @@
 
 using System.Collections.Generic;
 using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
-using AutoFixture;
 using Energinet.Charges.Contracts.ChargeLink;
 using Energinet.DataHub.Charges.Clients.Charges;
+using Energinet.DataHub.Core.TestCommon.AutoFixture.Attributes;
 using Energinet.DataHub.WebApi.Tests.Fixtures;
 using FluentAssertions;
-using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using Xunit;
 using Xunit.Abstractions;
 
 namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
 {
-    public class ChargeLinksControllerTests :
-        WebApiTestBase<BffWebApiFixture>,
-        IClassFixture<BffWebApiFixture>,
-        IClassFixture<WebApiFactory>,
-        IAsyncLifetime
+    public class ChargeLinksControllerTests : ControllerTestsBase<IChargesClient>
     {
-        private Fixture DtoFixture { get; }
-
-        private Mock<IChargesClient> ApiClientMock { get; }
-
-        private HttpClient Client { get; }
-
-        public ChargeLinksControllerTests(
-            BffWebApiFixture bffWebApiFixture,
-            WebApiFactory factory,
-            ITestOutputHelper testOutputHelper)
-             : base(bffWebApiFixture, testOutputHelper)
+        public ChargeLinksControllerTests(BffWebApiFixture bffWebApiFixture, WebApiFactory factory, ITestOutputHelper testOutputHelper)
+            : base(bffWebApiFixture, factory, testOutputHelper)
         {
-            DtoFixture = new Fixture();
-
-            ApiClientMock = new Mock<IChargesClient>();
-            Client = factory.WithWebHostBuilder(builder =>
-            {
-                builder.ConfigureServices(services =>
-                {
-                    services.AddTransient(provider => ApiClientMock.Object);
-                });
-            })
-            .CreateClient();
-
-            factory.ReconfigureJwtTokenValidatorMock(isValid: true);
         }
 
-        public Task InitializeAsync()
-        {
-            Client.DefaultRequestHeaders.Add("Authorization", $"Bearer xxx");
-            return Task.CompletedTask;
-        }
-
-        public Task DisposeAsync()
-        {
-            Client.Dispose();
-            return Task.CompletedTask;
-        }
-
-        [Fact]
-        public async Task GetChargeLinksAsync_WhenMeteringPointIdHasChargeLinks_ReturnsOk()
+        [Theory]
+        [InlineAutoMoqData]
+        public async Task GetChargeLinksAsync_WhenMeteringPointIdHasChargeLinks_ReturnsOk(List<ChargeLinkV1Dto> list)
         {
             // Arrange
             var meteringPointId = "571313180000000000";
             var requestUrl = $"/v1/ChargeLinks?meteringPointId={meteringPointId}";
-            var list = new List<ChargeLinkV1Dto>
-            {
-                DtoFixture.Create<ChargeLinkV1Dto>(),
-            };
 
-            ApiClientMock
+            DomainClientMock
                 .Setup(m => m.GetChargeLinksAsync(meteringPointId))
                 .ReturnsAsync(list);
 
             // Act
-            var actual = await Client.GetAsync(requestUrl);
+            var actual = await BffClient.GetAsync(requestUrl);
 
             // Assert
             actual.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -103,12 +60,12 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
             var requestUrl = $"/v1/ChargeLinks?meteringPointId={meteringPointId}";
             var list = new List<ChargeLinkV1Dto>();
 
-            ApiClientMock
+            DomainClientMock
                 .Setup(m => m.GetChargeLinksAsync(meteringPointId))
                 .ReturnsAsync(list);
 
             // Act
-            var actual = await Client.GetAsync(requestUrl);
+            var actual = await BffClient.GetAsync(requestUrl);
 
             // Arrange
             actual.StatusCode.Should().Be(HttpStatusCode.NotFound);

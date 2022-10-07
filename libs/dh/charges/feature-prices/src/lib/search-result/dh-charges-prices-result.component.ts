@@ -46,6 +46,10 @@ import {
 import { Subject, takeUntil } from 'rxjs';
 import { ChargeV1Dto } from '@energinet-datahub/dh/shared/domain';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
+import {
+  DhChargesPricesDrawerComponent,
+  DhChargesPricesDrawerScam,
+} from '../drawer/dh-charges-prices-drawer.component';
 
 @Component({
   selector: 'dh-charges-prices-result',
@@ -56,7 +60,9 @@ export class DhChargesPricesResultComponent
   implements OnInit, OnDestroy, OnChanges
 {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(DhChargesPricesDrawerComponent)
   @ViewChild(MatSort) sort!: MatSort;
+  chargePriceDrawer!: DhChargesPricesDrawerComponent;
 
   @Input() result?: Array<ChargeV1Dto>;
   @Input() isLoading = false;
@@ -121,6 +127,10 @@ export class DhChargesPricesResultComponent
       });
   };
 
+  rowClicked(charge: ChargeV1Dto) {
+    this.chargePriceDrawer.openDrawer(charge);
+  }
+
   announceSortChange(event: any) {
     console.log(event);
   }
@@ -143,6 +153,7 @@ export class DhChargesPricesResultComponent
     WattSpinnerModule,
     DhSharedUiDateTimeModule,
     MatSortModule,
+    DhChargesPricesDrawerScam,
   ],
 })
 export class DhChargesPricesResultScam {}
