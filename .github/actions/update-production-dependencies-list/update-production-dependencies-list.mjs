@@ -21,7 +21,7 @@ function writeProductionDependencyLicenses(licenses) {
       const splittedKey = key.split('@');
       const name = splittedKey[splittedKey.length - 2];
       const version = key.split('@')[splittedKey.length - 1];
-      return `| [${name}](${value.repository}) | ${version} | ${value.licenses}) |`;
+      return `| [${name}](${value.repository}) | ${version} | ${value.licenses} |`;
     })
     .join('\n');
 
