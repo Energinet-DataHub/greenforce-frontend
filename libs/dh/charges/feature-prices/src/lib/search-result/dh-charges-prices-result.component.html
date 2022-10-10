@@ -48,29 +48,29 @@ limitations under the License.
       mat-table
       [dataSource]="dataSource"
       matSort
-      matSortActive="priceId"
+      matSortActive="chargeId"
       matSortDirection="desc"
     >
       <!-- price id column -->
-      <ng-container matColumnDef="priceId">
+      <ng-container matColumnDef="chargeId">
         <th *matHeaderCellDef mat-header-cell mat-sort-header>
-          {{ t("priceId") }}
+          {{ t("chargeId") }}
         </th>
         <td mat-cell *matCellDef="let element">{{ element.chargeId }}</td>
       </ng-container>
 
       <!-- price name column -->
-      <ng-container matColumnDef="priceName">
+      <ng-container matColumnDef="chargeName">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>
-          {{ t("priceName") }}
+          {{ t("chargeName") }}
         </th>
         <td mat-cell *matCellDef="let element">{{ element.chargeName }}</td>
       </ng-container>
 
       <!-- owner column -->
-      <ng-container matColumnDef="owner">
+      <ng-container matColumnDef="chargeOwnerName">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>
-          {{ t("owner") }}
+          {{ t("chargeOwnerName") }}
         </th>
         <td mat-cell *matCellDef="let element">
           {{ element.chargeOwnerName }} <br />
@@ -122,9 +122,9 @@ limitations under the License.
       </ng-container>
 
       <!-- valid from date column -->
-      <ng-container matColumnDef="validFromDate">
+      <ng-container matColumnDef="validFromDateTime">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>
-          {{ t("validFromDate") }}
+          {{ t("validFromDateTime") }}
         </th>
         <td mat-cell *matCellDef="let element">
           {{ element.validFromDateTime | dhDate }}
@@ -132,9 +132,9 @@ limitations under the License.
       </ng-container>
 
       <!-- valid to date column -->
-      <ng-container matColumnDef="validToDate">
+      <ng-container matColumnDef="validToDateTime">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>
-          {{ t("validToDate") }}
+          {{ t("validToDateTime") }}
         </th>
         <td mat-cell *matCellDef="let element">
           {{ element.validToDateTime | dhDate }}

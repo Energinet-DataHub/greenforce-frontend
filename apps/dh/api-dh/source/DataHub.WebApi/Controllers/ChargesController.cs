@@ -47,5 +47,13 @@ namespace Energinet.DataHub.WebApi.Controllers
 
             return result.Any() ? Ok(result) : NotFound();
         }
+
+        [HttpGet("GetMarketParticipantsAsync")]
+        public async Task<ActionResult<IList<ChargeV1Dto>>> GetMarketParticipantsAsync()
+        {
+            var result = await _chargesClient.GetMarketParticipantsAsync();
+
+            return result.Any() ? Ok(result) : NotFound();
+        }
     }
 }

@@ -72,14 +72,14 @@ export class DhChargesPricesResultComponent
   private destroy$ = new Subject<void>();
 
   displayedColumns = [
-    'priceId',
-    'priceName',
-    'owner',
+    'chargeId',
+    'chargeName',
+    'chargeOwnerName',
     'icons',
     'chargeType',
     'resolution',
-    'validFromDate',
-    'validToDate',
+    'validFromDateTime',
+    'validToDateTime',
   ];
 
   readonly dataSource: MatTableDataSource<ChargeV1Dto> =

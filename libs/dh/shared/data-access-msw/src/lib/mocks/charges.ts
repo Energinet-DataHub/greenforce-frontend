@@ -63,7 +63,7 @@ export const chargesMocks = [
           validToDateTime: '2022-10-29T22:00:00',
           chargeId: '0AA1A',
           chargeName: 'Net abo A høj Forbrug 2',
-          chargeOwner: '5790000681075',
+          chargeOwner: '5790000681074',
           chargeOwnerName: 'Thy-Mors Energi Elnet A/S - 042',
         },
       ];
