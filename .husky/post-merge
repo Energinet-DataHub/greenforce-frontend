@@ -2,7 +2,7 @@
 . "$(dirname -- "$0")/_/husky.sh"
 . "$(dirname -- "$0")/common.sh"
 
-if git diff-tree -r --name-only --no-commit-id HEAD@{1} HEAD | grep "yarn.lock";
+if git diff-tree -r --name-only --no-commit-id HEAD@{1} HEAD | grep --quiet "yarn.lock";
 then
   echo " * changes detected in yarn.lock"
   echo " * running yarn install"
