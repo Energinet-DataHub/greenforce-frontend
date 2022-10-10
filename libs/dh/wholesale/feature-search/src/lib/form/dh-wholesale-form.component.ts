@@ -64,7 +64,7 @@ export class DhWholesaleFormComponent implements OnInit, OnDestroy {
       {
         start: sub(new Date().setHours(0, 0, 0, 0), { days: 10 }).toISOString(),
         end: zonedTimeToUtc(
-          sub(new Date().setHours(0, 0, 0, 0), {days: -1}),
+          sub(new Date().setHours(0, 0, 0, 0), { days: -1 }),
           'Europe/Copenhagen'
         ).toISOString(),
       },
