@@ -46,12 +46,14 @@ limitations under the License.
     <table
       aria-label="prices search results"
       mat-table
-      [dataSource]="this.dataSource"
+      [dataSource]="dataSource"
       matSort
+      matSortActive="priceId"
+      matSortDirection="desc"
     >
       <!-- price id column -->
       <ng-container matColumnDef="priceId">
-        <th mat-header-cell *matHeaderCellDef>
+        <th *matHeaderCellDef mat-header-cell mat-sort-header>
           {{ t("priceId") }}
         </th>
         <td mat-cell *matCellDef="let element">{{ element.chargeId }}</td>
@@ -59,7 +61,7 @@ limitations under the License.
 
       <!-- price name column -->
       <ng-container matColumnDef="priceName">
-        <th mat-header-cell *matHeaderCellDef>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
           {{ t("priceName") }}
         </th>
         <td mat-cell *matCellDef="let element">{{ element.chargeName }}</td>
@@ -67,7 +69,9 @@ limitations under the License.
 
       <!-- owner column -->
       <ng-container matColumnDef="owner">
-        <th mat-header-cell *matHeaderCellDef>{{ t("owner") }}</th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{ t("owner") }}
+        </th>
         <td mat-cell *matCellDef="let element">
           {{ element.chargeOwnerName }} <br />
           <span class="gln-number">{{ element.chargeOwner }}</span>
@@ -99,7 +103,9 @@ limitations under the License.
 
       <!-- charge type column -->
       <ng-container matColumnDef="chargeType">
-        <th mat-header-cell *matHeaderCellDef>{{ t("chargeType") }}</th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{ t("chargeType") }}
+        </th>
         <td mat-cell *matCellDef="let element">
           {{ "charges.chargeType." + element.chargeType | transloco }}
         </td>
@@ -107,7 +113,9 @@ limitations under the License.
 
       <!-- charge resolution column -->
       <ng-container matColumnDef="resolution">
-        <th mat-header-cell *matHeaderCellDef>{{ t("resolution") }}</th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{ t("resolution") }}
+        </th>
         <td mat-cell *matCellDef="let element">
           {{ "charges.resolutionType." + element.resolution | transloco }}
         </td>
@@ -115,7 +123,7 @@ limitations under the License.
 
       <!-- valid from date column -->
       <ng-container matColumnDef="validFromDate">
-        <th mat-header-cell *matHeaderCellDef>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
           {{ t("validFromDate") }}
         </th>
         <td mat-cell *matCellDef="let element">
@@ -125,7 +133,7 @@ limitations under the License.
 
       <!-- valid to date column -->
       <ng-container matColumnDef="validToDate">
-        <th mat-header-cell *matHeaderCellDef>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
           {{ t("validToDate") }}
         </th>
         <td mat-cell *matCellDef="let element">
@@ -147,13 +155,27 @@ limitations under the License.
     </div>
 
     <!-- Empty -->
-    <ng-container *ngIf="!hasLoadingError && result && result.length === 0">
+    <ng-container
+      *ngIf="!hasLoadingError && !isInit && result && result.length === 0"
+    >
       <watt-empty-state
         class="no-result-div"
         icon="explore"
         size="large"
         title="{{ t('noResultsFound') }}"
         message="{{ t('noResultsHelperText') }}"
+      >
+      </watt-empty-state>
+    </ng-container>
+
+    <!-- Init -->
+    <ng-container *ngIf="isInit">
+      <watt-empty-state
+        class="no-result-div"
+        icon="explore"
+        size="large"
+        title="{{ t('startSearch') }}"
+        message="{{ t('startSearchText') }}"
       >
       </watt-empty-state>
     </ng-container>

@@ -18,7 +18,7 @@ import { CommonModule } from '@angular/common';
 import {
   Component,
   NgModule,
-  OnInit,
+  AfterViewInit,
   OnDestroy,
   OnChanges,
   ViewChild,
@@ -57,7 +57,7 @@ import {
   styleUrls: ['./dh-charges-prices-result.component.scss'],
 })
 export class DhChargesPricesResultComponent
-  implements OnInit, OnDestroy, OnChanges
+  implements AfterViewInit, OnDestroy, OnChanges
 {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) matSort!: MatSort;
@@ -66,6 +66,7 @@ export class DhChargesPricesResultComponent
 
   @Input() result?: Array<ChargeV1Dto>;
   @Input() isLoading = false;
+  @Input() isInit = false;
   @Input() hasLoadingError = false;
 
   private destroy$ = new Subject<void>();
@@ -89,9 +90,8 @@ export class DhChargesPricesResultComponent
     private matPaginatorIntl: MatPaginatorIntl
   ) {}
 
-  ngOnInit() {
+  ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.matSort;
     this.setupPaginatorTranslation();
   }
 
@@ -99,6 +99,7 @@ export class DhChargesPricesResultComponent
     if (this.result) this.dataSource.data = this.result;
 
     this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.matSort;
   }
 
   ngOnDestroy(): void {

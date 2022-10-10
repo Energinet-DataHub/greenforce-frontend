@@ -39,6 +39,7 @@ const initialState: ChargesState = {
 export class DhChargesDataAccessApiStore extends ComponentStore<ChargesState> {
   all$ = this.select((state) => state.charges);
 
+  isInit$ = this.select((state) => state.requestState === LoadingState.INIT);
   isLoading$ = this.select(
     (state) => state.requestState === LoadingState.LOADING
   );
@@ -59,18 +60,18 @@ export class DhChargesDataAccessApiStore extends ComponentStore<ChargesState> {
         tap(() => {
           this.resetState();
 
-          this.setLoading(true);
+          this.setLoading(LoadingState.LOADING);
         }),
         switchMap((searchCriteria) =>
           this.httpClient.v1ChargesSearchAsyncPost(searchCriteria).pipe(
             tapResponse(
               (chargesData) => {
-                this.setLoading(false);
+                this.setLoading(LoadingState.LOADED);
 
                 this.updateChargesData(chargesData);
               },
               (error: HttpErrorResponse) => {
-                this.setLoading(false);
+                this.setLoading(LoadingState.LOADED);
                 this.handleError(error);
               }
             )
@@ -91,9 +92,9 @@ export class DhChargesDataAccessApiStore extends ComponentStore<ChargesState> {
   );
 
   private setLoading = this.updater(
-    (state, isLoading: boolean): ChargesState => ({
+    (state, loadingState: LoadingState): ChargesState => ({
       ...state,
-      requestState: isLoading ? LoadingState.LOADING : LoadingState.LOADED,
+      requestState: loadingState,
     })
   );
 
@@ -109,5 +110,9 @@ export class DhChargesDataAccessApiStore extends ComponentStore<ChargesState> {
     this.patchState({ requestState: requestError });
   };
 
+  readonly clearCharges = () => {
+    this.setLoading(LoadingState.INIT);
+    this.updateChargesData([]);
+  };
   private resetState = () => this.setState(initialState);
 }

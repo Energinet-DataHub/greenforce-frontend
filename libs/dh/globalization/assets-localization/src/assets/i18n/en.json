@@ -291,6 +291,8 @@
       "Download": "Download",
       "noResultsFound": "No results",
       "noResultsHelperText": "Try adjusting your search or filter to find what you are looking for.",
+      "startSearch": "Start Search",
+      "startSearchText": "Your results will appear here",
       "paginator": {
         "itemsPerPageLabel": "Prices per page",
         "of": "of",

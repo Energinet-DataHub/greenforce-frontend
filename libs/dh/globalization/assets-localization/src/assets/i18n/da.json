@@ -299,6 +299,8 @@
       "noResultsHelperText": "Prøv at ændre dine søgeindstillinger",
       "taxIndicator": "Afgift",
       "transparentInvoicing": "Viderefakturering",
+      "startSearch": "Start søgning",
+      "startSearchText": "Dine resultater vil fremgå her",
       "paginator": {
         "itemsPerPageLabel": "Priser pr. side",
         "of": "af",

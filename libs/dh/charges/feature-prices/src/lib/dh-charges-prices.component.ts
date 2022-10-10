@@ -62,6 +62,7 @@ export class DhChargesPricesComponent implements OnInit, OnDestroy {
 
   all$ = this.store.all$;
   isLoading$ = this.store.isLoading$;
+  isInit$ = this.store.isInit$;
   hasLoadingError$ = this.store.hasGeneralError$;
 
   private destroy$ = new Subject<void>();
@@ -121,7 +122,7 @@ export class DhChargesPricesComponent implements OnInit, OnDestroy {
   }
 
   resetSearchCriteria() {
-    console.log('reset');
+    this.store.clearCharges();
   }
 }
 
