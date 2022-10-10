@@ -15,7 +15,10 @@
  * limitations under the License.
  */
 import { rest } from 'msw';
-import { ChargeV1Dto } from '@energinet-datahub/dh/shared/domain';
+import {
+  ChargeV1Dto,
+  MarketParticipantV1Dto,
+} from '@energinet-datahub/dh/shared/domain';
 
 export const chargesMocks = [
   rest.get('https://localhost:5001/v1/ChargeLinks', (req, res, ctx) => {
@@ -65,6 +68,19 @@ export const chargesMocks = [
           chargeName: 'Net abo A høj Forbrug 2',
           chargeOwner: '5790000681074',
           chargeOwnerName: 'Thy-Mors Energi Elnet A/S - 042',
+        },
+      ];
+      return res(ctx.status(200), ctx.json(result));
+    }
+  ),
+  rest.get(
+    'https://localhost:5001/v1/Charges/GetMarketParticipantsAsync',
+    (req, res, ctx) => {
+      const result: MarketParticipantV1Dto[] = [
+        {
+          id: 'a guid',
+          name: 'name 1',
+          marketParticipantId: '8100000000016',
         },
       ];
       return res(ctx.status(200), ctx.json(result));
