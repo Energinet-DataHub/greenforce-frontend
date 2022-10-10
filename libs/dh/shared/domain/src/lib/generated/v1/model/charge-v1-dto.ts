@@ -23,7 +23,7 @@ export interface ChargeV1Dto {
     taxIndicator: boolean;
     transparentInvoicing: boolean;
     validFromDateTime: string;
-    validToDateTime: string;
+    validToDateTime?: string | null;
 }
 
 
