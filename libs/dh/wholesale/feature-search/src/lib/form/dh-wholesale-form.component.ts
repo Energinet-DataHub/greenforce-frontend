@@ -25,7 +25,7 @@ import {
   OnDestroy,
 } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { sub } from 'date-fns';
+import { sub, add } from 'date-fns';
 import { TranslocoModule } from '@ngneat/transloco';
 import { zonedTimeToUtc } from 'date-fns-tz';
 
@@ -64,7 +64,7 @@ export class DhWholesaleFormComponent implements OnInit, OnDestroy {
       {
         start: sub(new Date().setHours(0, 0, 0, 0), { days: 10 }).toISOString(),
         end: zonedTimeToUtc(
-          new Date().setHours(0, 0, 0, 0),
+          add(new Date().setHours(0, 0, 0, 0), {days: 1}),
           'Europe/Copenhagen'
         ).toISOString(),
       },
