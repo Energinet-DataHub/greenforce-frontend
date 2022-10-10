@@ -29,9 +29,69 @@ that requests the BFF will automatically receive the mocked data. This mocked
 data must be configured manually, check the [mocking documentation](mocking.md)
 for instructions.
 
+### Special test configuration
+
+#### When the feature under test uses translations
+
+In this case import `getTranslocoTestingModule` function in the testing setup. This will preload the translation files and set the default language to "English". So the English translation file should be used when looking for specific strings. For example:
+
+```ts
+import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
+
+import { en as enTranslations } from '@energinet-datahub/dh/globalization/assets-localization';
+
+async function setup() {
+  await render(MyComponent.name, {
+    imports: [
+      getTranslocoTestingModule(),
+      // ...
+    ],
+  }
+};
+```
+
+#### When the feature under test sends requests to the BFF
+
+In this case import `DhApiModule.forRoot()` and `HttpClientModule` in the test setup. This will make sure that the base API is configured correctly. For example:
+
+```ts
+import { HttpClientModule } from '@angular/common/http';
+
+import { DhApiModule } from '@energinet-datahub/dh/shared/data-access-api';
+
+async function setup() {
+  await render(MyComponent.name, {
+    imports: [
+      HttpClientModule,
+      DhApiModule.forRoot(),
+      // ...
+    ],
+  }
+};
+```
+
+**\*NOTE**: All requests to the BFF first go through MSW and a mock is returned if there's a match. If there's no match, the request falls through and continues to the BFF. In this case an error will be seen in the console.
+
+#### When the feature under test uses WattDatepicker or WattTimepicker components
+
+In this case import `WattDanishDatetimeModule.forRoot()` in the test setup. This will add the necessary providers needed for the datepicker/timepicker to work. For example:
+
+```ts
+import { WattDanishDatetimeModule } from '@energinet-datahub/watt';
+
+async function setup() {
+  await render(MyComponent.name, {
+    imports: [
+      WattDanishDatetimeModule.forRoot(),
+      // ...
+    ],
+  }
+};
+```
+
 ### Debugging Jest tests
 
-You can use [Jest Preview](https://github.com/nvh95/jest-preview) to visually debug Jest tests.
+You can use [Jest Preview](https://github.com/nvh95/jest-preview) to visually debug Jest tests in a browser.
 
 In order to do that, you need to:
 
