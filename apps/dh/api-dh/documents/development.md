@@ -31,7 +31,6 @@ yarn nx run api-dh:build-client
 `libs/dh/shared/domain/src/lib/generated/v1/**`. You **must not** modify these
 files manually.*
 
-
 ## Workflows
 
 > Describe BFF relevant workflows here.
