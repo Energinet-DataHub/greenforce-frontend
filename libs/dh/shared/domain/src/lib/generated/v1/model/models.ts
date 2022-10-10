@@ -30,6 +30,7 @@ export * from './grid-area-audit-log-entry-field';
 export * from './grid-area-dto';
 export * from './grid-area-overview-item-dto';
 export * from './market-participant-metering-point-type';
+export * from './market-participant-v1-dto';
 export * from './message-archive-search-criteria';
 export * from './message-archive-search-result-item-dto';
 export * from './message-archive-search-result-item-error-dto';

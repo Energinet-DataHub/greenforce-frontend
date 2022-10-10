@@ -49,7 +49,7 @@ namespace Energinet.DataHub.WebApi.Controllers
         }
 
         [HttpGet("GetMarketParticipantsAsync")]
-        public async Task<ActionResult<IList<ChargeV1Dto>>> GetMarketParticipantsAsync()
+        public async Task<ActionResult<IList<MarketParticipantV1Dto>>> GetMarketParticipantsAsync()
         {
             var result = await _chargesClient.GetMarketParticipantsAsync();
 
