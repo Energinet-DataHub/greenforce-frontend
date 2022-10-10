@@ -14,9 +14,9 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<ng-container *transloco="let t; read: 'charges.prices'">
+<ng-container *transloco="let t; read: 'charges.prices.drawer'">
   <!-- drawer -->
-  <watt-drawer #drawer size="normal">
+  <watt-drawer #drawer size="large">
     <watt-drawer-topbar
       ><span class="prices-label">{{ t("prices") }}</span> >
       {{ charge?.chargeId }}</watt-drawer-topbar
@@ -24,8 +24,15 @@ limitations under the License.
 
     <watt-drawer-actions> </watt-drawer-actions>
 
-    <watt-drawer-content *ngIf="drawer.opened">
-      <div class="container"></div>
+    <watt-drawer-content>
+      <div class="container">
+        <watt-tabs>
+          <watt-tab label="{{ t('prices').toUpperCase() }}"></watt-tab>
+          <watt-tab label="{{ t('messages').toUpperCase() }}"></watt-tab>
+          <watt-tab label="{{ t('history').toUpperCase() }}"></watt-tab>
+        </watt-tabs>
+      </div>
+
     </watt-drawer-content>
   </watt-drawer>
 </ng-container>

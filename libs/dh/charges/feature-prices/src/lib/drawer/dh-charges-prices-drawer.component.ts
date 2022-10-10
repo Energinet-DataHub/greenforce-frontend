@@ -16,7 +16,10 @@
  */
 import { Component, NgModule, ViewChild } from '@angular/core';
 import { ChargeV1Dto } from '@energinet-datahub/dh/shared/domain';
-import { WattDrawerModule, WattDrawerComponent } from '@energinet-datahub/watt';
+import {
+  WattDrawerModule,
+  WattDrawerComponent,
+  WattTabsModule } from '@energinet-datahub/watt';
 import { TranslocoModule } from '@ngneat/transloco';
 
 @Component({
@@ -38,6 +41,10 @@ export class DhChargesPricesDrawerComponent {
 @NgModule({
   declarations: [DhChargesPricesDrawerComponent],
   exports: [DhChargesPricesDrawerComponent],
-  imports: [WattDrawerModule, TranslocoModule],
+  imports: [
+    WattDrawerModule,
+    TranslocoModule,
+    WattTabsModule,
+  ],
 })
 export class DhChargesPricesDrawerScam {}
