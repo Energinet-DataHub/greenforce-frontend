@@ -29,6 +29,9 @@ const routes: Routes = [
   {
     path: dhMeteringPointSearchPath,
     component: DhMeteringPointSearchComponent,
+    data: {
+      titleTranslationKey: 'meteringPoint.search.topBarTitle',
+    },
   },
   { path: '', loadChildren: () => DhMeteringPointFeatureOverviewModule },
 ];
