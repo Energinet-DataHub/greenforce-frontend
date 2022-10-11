@@ -226,6 +226,12 @@ jobs:
           prerelease: false
           files: ${{ env.RELEASE_FOLDER_PATH }}/${{ env.RELEASE_VERSION }}.zip
 
+  publish_release:
+    needs: publish_inbound
+    uses: Energinet-DataHub/.github/.github/workflows/promote-prerelease.yml@v8
+    with:
+      RELEASE_NAME_PREFIX: watt_frontend
+
   dispatch_deployment_request:
     needs: publish_inbound
     uses: Energinet-DataHub/.github/.github/workflows/dispatch-deployment-request.yml@v8
