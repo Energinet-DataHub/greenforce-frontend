@@ -14,23 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@use "./theme/light-theme.scss";
-@use "./theme/material-overwrites/datepicker";
-@use "./theme/material-overwrites/snack-bar";
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
-@use "../../../foundations/variables";
-@use "../../../foundations/box-sizing";
-@use "../../../foundations/typography";
-@use "../../../foundations/spacing";
-@use "../../../foundations/table";
-@use "../../../foundations/tooltip";
-@use "../../../foundations/elevation";
+import { WattCardComponent } from './watt-card.component';
+import { WattCardTitleComponent } from './watt-card-title.component';
 
-html,
-body {
-  height: 100%;
-}
-body {
-  margin: 0;
-  font-family: "Open Sans", sans-serif;
-}
+@NgModule({
+  declarations: [WattCardTitleComponent, WattCardComponent],
+  exports: [WattCardTitleComponent, WattCardComponent],
+  imports: [CommonModule],
+})
+export class WattCardModule {}
