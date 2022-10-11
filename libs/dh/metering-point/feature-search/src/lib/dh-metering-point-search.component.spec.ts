@@ -74,12 +74,6 @@ describe(DhMeteringPointSearchComponent.name, () => {
     };
   }
 
-  it('should show heading of level 1', async () => {
-    await setup();
-    const heading = screen.getByRole('heading', { level: 1 });
-    expect(heading).toBeInTheDocument();
-  });
-
   it('should redirect to overview, if metering point is found', async () => {
     const { input, submitButton } = await setup();
     const location: Location = TestBed.inject(Location);
