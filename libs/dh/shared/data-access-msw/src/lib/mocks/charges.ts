@@ -17,30 +17,12 @@
 import { rest } from 'msw';
 import { ChargeV1Dto } from '@energinet-datahub/dh/shared/domain';
 
-export const chargesMocks = [
-  rest.get('https://localhost:5001/v1/ChargeLinks', (req, res, ctx) => {
-    return res(ctx.status(404));
-  }),
-  rest.get('https://localhost:5001/v1/Charges', (req, res, ctx) => {
-    const result: ChargeV1Dto[] = [
-      {
-        chargeType: 'D01',
-        resolution: 'PT15M',
-        taxIndicator: false,
-        transparentInvoicing: true,
-        validFromDateTime: '2022-09-29T22:00:00',
-        validToDateTime: '2022-10-29T22:00:00',
-        chargeId: '0AA1F',
-        chargeName: 'Net abo A høj Forbrug',
-        chargeOwner: '5790000681075',
-        chargeOwnerName: 'Thy-Mors Energi Elnet A/S - 042',
-      },
-    ];
-    return res(ctx.status(200), ctx.json(result));
-  }),
-  rest.post(
-    'https://localhost:5001/v1/Charges/SearchASync',
-    (req, res, ctx) => {
+export function chargesMocks(apiBase: string) {
+  return [
+    rest.get(`${apiBase}/v1/ChargeLinks`, (req, res, ctx) => {
+      return res(ctx.status(404));
+    }),
+    rest.get(`${apiBase}/v1/Charges`, (req, res, ctx) => {
       const result: ChargeV1Dto[] = [
         {
           chargeType: 'D01',
@@ -56,6 +38,23 @@ export const chargesMocks = [
         },
       ];
       return res(ctx.status(200), ctx.json(result));
-    }
-  ),
-];
+    }),
+    rest.post(`${apiBase}/v1/Charges/SearchASync`, (req, res, ctx) => {
+      const result: ChargeV1Dto[] = [
+        {
+          chargeType: 'D01',
+          resolution: 'PT15M',
+          taxIndicator: false,
+          transparentInvoicing: true,
+          validFromDateTime: '2022-09-29T22:00:00',
+          validToDateTime: '2022-10-29T22:00:00',
+          chargeId: '0AA1F',
+          chargeName: 'Net abo A høj Forbrug',
+          chargeOwner: '5790000681075',
+          chargeOwnerName: 'Thy-Mors Energi Elnet A/S - 042',
+        },
+      ];
+      return res(ctx.status(200), ctx.json(result));
+    }),
+  ];
+}
