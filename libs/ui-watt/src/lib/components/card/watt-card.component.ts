@@ -41,6 +41,6 @@ import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
 export class WattCardComponent {
   @HostBinding('class')
   get cssClass() {
-    return 'watt-card';
+    return 'watt-card watt-elevation';
   }
 }
