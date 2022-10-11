@@ -29,9 +29,7 @@ on:
 
 jobs:
   publish_release:
-    uses: Energinet-DataHub/.github/.github/workflows/publish-release.yml@v8
-    secrets:
-      PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
+    uses: Energinet-DataHub/.github/.github/workflows/promote-prerelease.yml@v8
     with:
       RELEASE_NAME_PREFIX: dh_backend
 
