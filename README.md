@@ -31,7 +31,6 @@ frontends backed by [Nx] and [Angular].
 - [Scripts](#scripts)
 - [Workflows (CI/CD)](#workflows-cicd)
 - [Visual Studio Code](#visual-studio-code)
-- [Troubleshooting](#troubleshooting)
 
 ## General
 
@@ -95,18 +94,11 @@ Use the following command to serve the DataHub application locally:
 yarn nx serve app-dh
 ```
 
-The application utilizes request mocking for requests to the
+The application utilizes request mocking for some of the requests to the
 [backend for frontend (BFF)](#backend-for-frontend-bff), but there are still
 features that are not mocked. When working with those features, it might be
-required to serve the BFF locally. To do so, instead of serving the application
-using the above command, start the application in development mode
-(this disables mocking):
-
-```sh
-yarn nx run app-dh:serve:development
-```
-
-Then serve the BFF by running the following command (requires some initial setup, see
+required to serve the BFF locally as well. To do so, run the following command
+(requires some initial setup, see
 [Setup of BFF](apps/dh/api-dh/documents/development.md#setup-of-bff)).
 
 ```sh
@@ -383,10 +375,3 @@ been preconfigured with a list of recommended extensions stored in
 `.vscode/extensions.json`. The editor will automatically prompt for installing
 these extensions when the project is opened for the first time, but they can
 later be found by executing the `Show recommended extensions` command.
-
-## Troubleshooting
-
-> There is a wall of errors in the terminal output when trying to start the
-> development server.
-
-This could be caused by outdated dependencies. Run `yarn install` and try again.
