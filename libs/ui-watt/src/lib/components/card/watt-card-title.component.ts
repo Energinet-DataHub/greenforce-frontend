@@ -14,23 +14,36 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@use "./theme/light-theme.scss";
-@use "./theme/material-overwrites/datepicker";
-@use "./theme/material-overwrites/snack-bar";
+import {
+  ChangeDetectionStrategy,
+  Component,
+  HostBinding,
+  ViewEncapsulation,
+} from '@angular/core';
 
-@use "../../../foundations/variables";
-@use "../../../foundations/box-sizing";
-@use "../../../foundations/typography";
-@use "../../../foundations/spacing";
-@use "../../../foundations/table";
-@use "../../../foundations/tooltip";
-@use "../../../foundations/elevation";
+const selector = 'watt-card-title';
 
-html,
-body {
-  height: 100%;
-}
-body {
-  margin: 0;
-  font-family: "Open Sans", sans-serif;
+@Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  selector,
+  styles: [
+    `
+      ${selector} {
+        display: block;
+      }
+
+      ${selector} h3 {
+        color: var(--watt-color-neutral-black);
+        margin: 0;
+      }
+    `,
+  ],
+  template: `<ng-content></ng-content>`,
+  encapsulation: ViewEncapsulation.None,
+})
+export class WattCardTitleComponent {
+  @HostBinding('class')
+  get cssClass() {
+    return 'watt-card__title watt-space-stack-m';
+  }
 }
