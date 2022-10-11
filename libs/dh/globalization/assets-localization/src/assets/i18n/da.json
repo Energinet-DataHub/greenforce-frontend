@@ -22,7 +22,7 @@
   },
   "meteringPoint": {
     "search": {
-      "topBarTitle": "Søg målepunkter",
+      "topBarTitle": "Målepunkt detaljer",
       "searchLabel": "Indtast et Målepunkts ID for at fremsøge et målepunkt",
       "searchPlaceholder": "Søg på Målepunkts ID",
       "searchButton": "Søg",
