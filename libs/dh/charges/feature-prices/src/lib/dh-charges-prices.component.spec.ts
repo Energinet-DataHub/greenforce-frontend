@@ -24,6 +24,7 @@ import {
   DhChargesPricesScam,
   DhChargesPricesComponent,
 } from './dh-charges-prices.component';
+import { en as enTranslations } from '@energinet-datahub/dh/globalization/assets-localization';
 
 describe('DhChargesPricesComponent', () => {
   async function setup() {
@@ -56,7 +57,7 @@ describe('DhChargesPricesComponent', () => {
     expect(id).toBeInTheDocument();
   });
 
-  it('should empty all input fields on reset', async () => {
+  it('should empty all input fields and result on reset', async () => {
     await setup();
 
     const idInputField = screen.getByLabelText(/price id\/name/i, {
@@ -71,10 +72,34 @@ describe('DhChargesPricesComponent', () => {
     userEvent.click(resetButton);
 
     expect(idInputField).toHaveValue('');
+
+    const searchTextLabel = screen.getByText(
+      enTranslations.charges.prices.startSearchText
+    );
+    expect(searchTextLabel).toBeInTheDocument();
   });
 
-  it.todo('should show start search screen initially');
-  it.todo('should open a drawer when clicking on row');
+  it('should open a drawer when clicking on row', async () => {
+    await setup();
+
+    const searchButton = screen.getByRole('button', { name: /search/i });
+
+    userEvent.click(searchButton);
+
+    const id = await waitFor(() =>
+      screen.getByRole('cell', { name: /0AA1F/i })
+    );
+
+    expect(id).toBeInTheDocument();
+    userEvent.click(id);
+
+    const drawer = screen.getByText(
+      (content, element) => element?.tagName.toLowerCase() === 'watt-drawer'
+    );
+
+    expect(drawer).toBeInTheDocument();
+  });
+
   it.todo('should clear valid from and valid to when selecting validity');
   it.todo('should clear "user defined" in validity when entering valid dates');
 });
