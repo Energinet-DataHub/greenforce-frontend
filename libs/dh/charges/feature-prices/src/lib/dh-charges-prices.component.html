@@ -15,100 +15,103 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <ng-container *transloco="let t; read: 'charges.prices.search'">
-  <form #searchForm name="price-search-form" (ngSubmit)="onSubmit()">
-    <div class="search-container">
-      <!-- ID or name -->
-      <watt-form-field>
-        <watt-label>{{ t("idOrName") }}</watt-label>
-        <input
-          [(ngModel)]="this.searchCriteria.idOrName"
-          name="idOrNAme"
-          wattInput
-          type="text"
-          [placeholder]="t('enterIdOrName')"
-        />
-      </watt-form-field>
+  <div class="header">
+    <form #searchForm name="price-search-form" (ngSubmit)="onSubmit()">
+      <div class="search-container">
+        <!-- ID or name -->
+        <watt-form-field>
+          <watt-label>{{ t("idOrName") }}</watt-label>
+          <input
+            [(ngModel)]="this.searchCriteria.chargeIdOrName"
+            name="idOrNAme"
+            wattInput
+            type="text"
+            [placeholder]="t('enterIdOrName')"
+          />
+        </watt-form-field>
 
-      <!-- Owner -->
-      <watt-form-field>
-        <watt-label>{{ t("owner") }}</watt-label>
-        <watt-dropdown
-          [(ngModel)]="this.searchCriteria.owner"
-          name="owner"
-          [placeholder]="t('enterOwner')"
-          [multiple]="true"
-          [title]="this.searchCriteria.owner"
+        <!-- Owner -->
+        <watt-form-field>
+          <watt-label>{{ t("owner") }}</watt-label>
+          <watt-dropdown
+            disabled
+            [(ngModel)]="this.searchCriteria.ownerIds"
+            name="owner"
+            [placeholder]="t('enterOwner')"
+            [multiple]="true"
+            [title]="this.searchCriteria.ownerIds"
+          >
+          </watt-dropdown>
+        </watt-form-field>
+
+        <!-- Type -->
+        <watt-form-field>
+          <watt-label>{{ t("chargeType") }}</watt-label>
+          <watt-dropdown
+            [(ngModel)]="this.searchCriteria.chargeTypes"
+            [options]="chargeTypeOptions"
+            name="chargeType"
+            [placeholder]="t('selectChargeType')"
+            [multiple]="true"
+            [title]="this.searchCriteria.chargeTypes"
+          >
+          </watt-dropdown>
+        </watt-form-field>
+
+        <!-- Validity -->
+        <watt-form-field>
+          <watt-label>{{ t("validity") }}</watt-label>
+          <watt-dropdown
+            disabled
+            [(ngModel)]="this.validityOption"
+            [options]="validityOptions"
+            name="validity"
+            [placeholder]="'charges.prices.validityOptions.Now' | transloco"
+            [multiple]="false"
+          >
+          </watt-dropdown>
+        </watt-form-field>
+
+        <!-- Date valid from -->
+        <watt-form-field>
+          <watt-label>{{ t("dateValidFrom") }}</watt-label>
+          <watt-datepicker disabled>
+            [(ngModel)]="this.searchCriteria.dateTimeValidFrom"
+          </watt-datepicker>
+        </watt-form-field>
+
+        <!-- Date to -->
+        <watt-form-field>
+          <watt-label>{{ t("dateValidTo") }}</watt-label>
+          <watt-datepicker disabled>
+            [(ngModel)]="this.searchCriteria.dateTimeValidTo"
+          </watt-datepicker>
+        </watt-form-field>
+      </div>
+      <div class="buttons-container">
+        <!-- Clear -->
+        <watt-button
+          title="{{ t('clearSearch') }}"
+          (click)="resetSearchCriteria()"
+          variant="secondary"
+          icon="remove"
+          type="reset"
         >
-        </watt-dropdown>
-      </watt-form-field>
+          {{ t("clearSearch") }}
+        </watt-button>
 
-      <!-- Type -->
-      <watt-form-field>
-        <watt-label>{{ t("chargeType") }}</watt-label>
-        <watt-dropdown
-          [(ngModel)]="this.searchCriteria.chargeTypes"
-          [options]="chargeTypeOptions"
-          name="chargeType"
-          [placeholder]="t('selectChargeType')"
-          [multiple]="true"
-          [title]="this.searchCriteria.chargeTypes"
+        <!-- Search -->
+        <watt-button
+          title="{{ t('startSearch') }}"
+          variant="primary"
+          icon="search"
+          type="submit"
         >
-        </watt-dropdown>
-      </watt-form-field>
-
-      <!-- Validity -->
-      <watt-form-field>
-        <watt-label>{{ t("validity") }}</watt-label>
-        <watt-dropdown
-          [(ngModel)]="this.searchCriteria.validity"
-          [options]="validityOptions"
-          name="validity"
-          [placeholder]="t('selectValidity')"
-          [multiple]="false"
-          [title]="this.searchCriteria.validity"
-        >
-        </watt-dropdown>
-      </watt-form-field>
-
-      <!-- Date valid from -->
-      <watt-form-field>
-        <watt-label>{{ t("dateValidFrom") }}</watt-label>
-        <watt-datepicker>
-          [(ngModel)]="this.searchCriteria.dateTimeValidFrom"
-        </watt-datepicker>
-      </watt-form-field>
-
-      <!-- Date to -->
-      <watt-form-field>
-        <watt-label>{{ t("dateValidTo") }}</watt-label>
-        <watt-datepicker>
-          [(ngModel)]="this.searchCriteria.dateTimeValidTo"
-        </watt-datepicker>
-      </watt-form-field>
-    </div>
-    <div class="buttons-container">
-      <!-- Clear -->
-      <watt-button
-        title="{{ t('clearSearch') }}"
-        (click)="resetSearchCriteria()"
-        variant="secondary"
-        icon="remove"
-        type="reset"
-      >
-        {{ t("clearSearch") }}
-      </watt-button>
-
-      <!-- Search -->
-      <watt-button
-        title="{{ t('startSearch') }}"
-        variant="primary"
-        icon="search"
-        type="submit"
-      >
-        {{ t("startSearch") }}
-      </watt-button>
-    </div>
-  </form>
+          {{ t("startSearch") }}
+        </watt-button>
+      </div>
+    </form>
+  </div>
 
   <dh-charges-prices-result
     [result]="all$ | push"

@@ -14,11 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export enum ValidityOptions {
-  Now = 'Now',
-  // Planned = 'Planned',
-  // ThisWeek = 'This week',
-  // ThisMonth = 'This month',
-  // ThisQuarter = 'This quarter',
-  // ThisYear = 'This year',
+.prices-label {
+  color: var(--watt-color-primary);
 }

@@ -17,7 +17,11 @@
 import { Injectable } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
-import { ChargeV1Dto, ChargesHttp } from '@energinet-datahub/dh/shared/domain';
+import {
+  ChargeV1Dto,
+  ChargesHttp,
+  SearchCriteriaV1Dto,
+} from '@energinet-datahub/dh/shared/domain';
 import { Observable, switchMap, tap } from 'rxjs';
 import { ErrorState, LoadingState } from './states';
 
@@ -49,30 +53,32 @@ export class DhChargesDataAccessApiStore extends ComponentStore<ChargesState> {
     super(initialState);
   }
 
-  readonly loadChargesData = this.effect((trigger$: Observable<void>) => {
-    return trigger$.pipe(
-      tap(() => {
-        this.resetState();
+  readonly searchCharges = this.effect(
+    (searchCriteria: Observable<SearchCriteriaV1Dto>) => {
+      return searchCriteria.pipe(
+        tap(() => {
+          this.resetState();
 
-        this.setLoading(true);
-      }),
-      switchMap(() =>
-        this.httpClient.v1ChargesGet().pipe(
-          tapResponse(
-            (chargesData) => {
-              this.setLoading(false);
+          this.setLoading(true);
+        }),
+        switchMap((searchCriteria) =>
+          this.httpClient.v1ChargesSearchAsyncPost(searchCriteria).pipe(
+            tapResponse(
+              (chargesData) => {
+                this.setLoading(false);
 
-              this.updateChargesData(chargesData);
-            },
-            (error: HttpErrorResponse) => {
-              this.setLoading(false);
-              this.handleError(error);
-            }
+                this.updateChargesData(chargesData);
+              },
+              (error: HttpErrorResponse) => {
+                this.setLoading(false);
+                this.handleError(error);
+              }
+            )
           )
         )
-      )
-    );
-  });
+      );
+    }
+  );
 
   private updateChargesData = this.updater(
     (

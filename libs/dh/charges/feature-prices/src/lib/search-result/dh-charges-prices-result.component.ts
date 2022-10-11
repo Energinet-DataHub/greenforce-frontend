@@ -28,6 +28,7 @@ import {
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { LetModule } from '@rx-angular/template';
+import { MatSort, MatSortModule } from '@angular/material/sort';
 
 import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/feature-flags';
 import {
@@ -45,6 +46,10 @@ import {
 import { Subject, takeUntil } from 'rxjs';
 import { ChargeV1Dto } from '@energinet-datahub/dh/shared/domain';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
+import {
+  DhChargesPricesDrawerComponent,
+  DhChargesPricesDrawerScam,
+} from '../drawer/dh-charges-prices-drawer.component';
 
 @Component({
   selector: 'dh-charges-prices-result',
@@ -55,6 +60,9 @@ export class DhChargesPricesResultComponent
   implements OnInit, OnDestroy, OnChanges
 {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) matSort!: MatSort;
+  @ViewChild(DhChargesPricesDrawerComponent)
+  chargePriceDrawer!: DhChargesPricesDrawerComponent;
 
   @Input() result?: Array<ChargeV1Dto>;
   @Input() isLoading = false;
@@ -83,6 +91,7 @@ export class DhChargesPricesResultComponent
 
   ngOnInit() {
     this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.matSort;
     this.setupPaginatorTranslation();
   }
 
@@ -117,6 +126,10 @@ export class DhChargesPricesResultComponent
         this.dataSource.paginator = this.paginator;
       });
   };
+
+  rowClicked(charge: ChargeV1Dto) {
+    this.chargePriceDrawer.openDrawer(charge);
+  }
 }
 
 @NgModule({
@@ -135,6 +148,8 @@ export class DhChargesPricesResultComponent
     WattTooltipModule,
     WattSpinnerModule,
     DhSharedUiDateTimeModule,
+    MatSortModule,
+    DhChargesPricesDrawerScam,
   ],
 })
 export class DhChargesPricesResultScam {}
