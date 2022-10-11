@@ -29,9 +29,7 @@ on:
 
 jobs:
   publish_release:
-    uses: Energinet-DataHub/.github/.github/workflows/publish-release.yml@v8
-    secrets:
-      PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
+    uses: Energinet-DataHub/.github/.github/workflows/promote-prerelease.yml@v8
     with:
       RELEASE_NAME_PREFIX: dh_backend
 
@@ -52,6 +50,7 @@ jobs:
     with:
       SOLUTION_FILE_PATH: 'apps/dh/api-dh/DataHub.WebApi.sln'
       PREPARE_OUTPUTS: false
+      ENVIRONMENT: AzureAuth
     secrets:
       AZURE_TENANT_ID: ${{ secrets.AZURE_TESTING_TENANT_ID }}
       AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_TESTING_SUBSCRIPTION_ID }}
