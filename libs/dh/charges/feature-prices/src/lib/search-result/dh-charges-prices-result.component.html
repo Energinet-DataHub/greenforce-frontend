@@ -46,28 +46,32 @@ limitations under the License.
     <table
       aria-label="prices search results"
       mat-table
-      [dataSource]="this.dataSource"
+      [dataSource]="dataSource"
       matSort
+      matSortActive="chargeName"
+      matSortDirection="asc"
     >
-      <!-- price id column -->
-      <ng-container matColumnDef="priceId">
-        <th mat-header-cell *matHeaderCellDef>
-          {{ t("priceId") }}
+      <!-- Charge id column -->
+      <ng-container matColumnDef="chargeId">
+        <th *matHeaderCellDef mat-header-cell mat-sort-header>
+          {{ t("chargeId") }}
         </th>
         <td mat-cell *matCellDef="let element">{{ element.chargeId }}</td>
       </ng-container>
 
-      <!-- price name column -->
-      <ng-container matColumnDef="priceName">
-        <th mat-header-cell *matHeaderCellDef>
-          {{ t("priceName") }}
+      <!-- Charge name column -->
+      <ng-container matColumnDef="chargeName">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{ t("chargeName") }}
         </th>
         <td mat-cell *matCellDef="let element">{{ element.chargeName }}</td>
       </ng-container>
 
-      <!-- owner column -->
-      <ng-container matColumnDef="owner">
-        <th mat-header-cell *matHeaderCellDef>{{ t("owner") }}</th>
+      <!-- Charge owner column -->
+      <ng-container matColumnDef="chargeOwnerName">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{ t("chargeOwnerName") }}
+        </th>
         <td mat-cell *matCellDef="let element">
           {{ element.chargeOwnerName }} <br />
           <span class="gln-number">{{ element.chargeOwner }}</span>
@@ -99,7 +103,9 @@ limitations under the License.
 
       <!-- charge type column -->
       <ng-container matColumnDef="chargeType">
-        <th mat-header-cell *matHeaderCellDef>{{ t("chargeType") }}</th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{ t("chargeType") }}
+        </th>
         <td mat-cell *matCellDef="let element">
           {{ "charges.chargeType." + element.chargeType | transloco }}
         </td>
@@ -107,16 +113,18 @@ limitations under the License.
 
       <!-- charge resolution column -->
       <ng-container matColumnDef="resolution">
-        <th mat-header-cell *matHeaderCellDef>{{ t("resolution") }}</th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{ t("resolution") }}
+        </th>
         <td mat-cell *matCellDef="let element">
           {{ "charges.resolutionType." + element.resolution | transloco }}
         </td>
       </ng-container>
 
       <!-- valid from date column -->
-      <ng-container matColumnDef="validFromDate">
-        <th mat-header-cell *matHeaderCellDef>
-          {{ t("validFromDate") }}
+      <ng-container matColumnDef="validFromDateTime">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{ t("validFromDateTime") }}
         </th>
         <td mat-cell *matCellDef="let element">
           {{ element.validFromDateTime | dhDate }}
@@ -124,9 +132,9 @@ limitations under the License.
       </ng-container>
 
       <!-- valid to date column -->
-      <ng-container matColumnDef="validToDate">
-        <th mat-header-cell *matHeaderCellDef>
-          {{ t("validToDate") }}
+      <ng-container matColumnDef="validToDateTime">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{ t("validToDateTime") }}
         </th>
         <td mat-cell *matCellDef="let element">
           {{ element.validToDateTime | dhDate }}
@@ -147,13 +155,27 @@ limitations under the License.
     </div>
 
     <!-- Empty -->
-    <ng-container *ngIf="!hasLoadingError && result && result.length === 0">
+    <ng-container
+      *ngIf="!hasLoadingError && !isInit && result && result.length === 0"
+    >
       <watt-empty-state
         class="no-result-div"
         icon="explore"
         size="large"
         title="{{ t('noResultsFound') }}"
         message="{{ t('noResultsHelperText') }}"
+      >
+      </watt-empty-state>
+    </ng-container>
+
+    <!-- Init -->
+    <ng-container *ngIf="isInit">
+      <watt-empty-state
+        class="no-result-div"
+        icon="explore"
+        size="large"
+        title="{{ t('startSearch') }}"
+        message="{{ t('startSearchText') }}"
       >
       </watt-empty-state>
     </ng-container>
