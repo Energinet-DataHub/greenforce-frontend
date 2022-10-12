@@ -1,0 +1,50 @@
+{
+  "organizationId": "b3bdd441-4f22-4f84-b88f-08da5f288474",
+  "name": "97 MJM",
+  "businessRegisterIdentifier": "344434",
+  "comment": "ok",
+  "status": "Deleted",
+  "address": {
+    "streetName": null,
+    "number": null,
+    "zipCode": null,
+    "city": null,
+    "country": "DK"
+  },
+  "actors": [
+    {
+      "actorId": "efad0fee-9d7c-49c6-7c17-08da5f28ddb1",
+      "externalActorId": "8b93b711-a4f8-4434-b7ec-794e408316fa",
+      "actorNumber": { "value": "9561643029441" },
+      "status": "Active",
+      "name": { "value": "Navn Ændret" },
+      "marketRoles": [
+        {
+          "eicFunction": "BalanceResponsibleParty",
+          "gridAreas": [
+            {
+              "id": "2f8197d5-05a7-4f68-957c-73d95d1c9289",
+              "meteringPointTypes": ["D01VeProduction"]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "actorId": "ccbc4dab-1c14-49af-7c18-08da5f28ddb1",
+      "externalActorId": null,
+      "actorNumber": { "value": "9561643029441" },
+      "status": "New",
+      "name": { "value": "123413123" },
+      "marketRoles": []
+    },
+    {
+      "actorId": "44ff3dc4-d4f0-4620-8ed8-cade66efccee",
+      "externalActorId": null,
+      "actorNumber": { "value": "11X0-0000-0544-U" },
+      "status": "New",
+      "name": { "value": "" },
+      "marketRoles": []
+    }
+  ]
+}
