@@ -14,23 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@use "./theme/light-theme.scss";
-@use "./theme/material-overwrites/datepicker";
-@use "./theme/material-overwrites/snack-bar";
-
-@use "../../../foundations/variables";
-@use "../../../foundations/box-sizing";
-@use "../../../foundations/typography";
-@use "../../../foundations/spacing";
-@use "../../../foundations/table";
-@use "../../../foundations/tooltip";
-@use "../../../foundations/elevation";
-
-html,
-body {
-  height: 100%;
-}
-body {
-  margin: 0;
-  font-family: "Open Sans", sans-serif;
-}
+export { WattCardModule } from './watt-card.module';
+export { WattCardComponent } from './watt-card.component';
+export { WattCardTitleComponent } from './watt-card-title.component';
