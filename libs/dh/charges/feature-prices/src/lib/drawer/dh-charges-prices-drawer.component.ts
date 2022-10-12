@@ -16,15 +16,17 @@
  */
 import { Component, NgModule, ViewChild } from '@angular/core';
 import { ChargeV1Dto } from '@energinet-datahub/dh/shared/domain';
-import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/metering-point/shared/ui-util';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import { DhChargeDetailsHeaderScam } from '../details-header/dh-charge-details-header.component';
 import {
   WattDrawerModule,
   WattDrawerComponent,
-  WattTabsModule
+  WattTabsModule,
+  WattButtonModule,
 } from '@energinet-datahub/watt';
 import { TranslocoModule } from '@ngneat/transloco';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatGridListModule } from '@angular/material/grid-list';
 
 @Component({
   selector: 'dh-charges-prices-drawer',
@@ -44,13 +46,15 @@ export class DhChargesPricesDrawerComponent {
 
 @NgModule({
   declarations: [DhChargesPricesDrawerComponent],
-  exports: [DhChargesPricesDrawerComponent, DhEmDashFallbackPipeScam],
+  exports: [DhChargesPricesDrawerComponent],
   imports: [
     WattDrawerModule,
     TranslocoModule,
     WattTabsModule,
+    MatDividerModule,
+    WattButtonModule,
+    MatGridListModule,
     DhSharedUiDateTimeModule,
-    DhEmDashFallbackPipeScam,
     DhChargeDetailsHeaderScam
   ],
 })
