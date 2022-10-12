@@ -15,7 +15,10 @@
  * limitations under the License.
  */
 import { rest } from 'msw';
-import { ChargeV1Dto } from '@energinet-datahub/dh/shared/domain';
+import {
+  ChargeV1Dto,
+  MarketParticipantV1Dto,
+} from '@energinet-datahub/dh/shared/domain';
 
 export const chargesMocks = [
   rest.get('https://localhost:5001/v1/ChargeLinks', (req, res, ctx) => {
@@ -28,7 +31,7 @@ export const chargesMocks = [
         resolution: 'PT15M',
         taxIndicator: false,
         transparentInvoicing: true,
-        validFromDateTime: '2022-09-29T22:00:00',
+        validFromDateTime: '2022-09-28T22:00:00',
         validToDateTime: '2022-10-29T22:00:00',
         chargeId: '0AA1F',
         chargeName: 'Net abo A høj Forbrug',
@@ -44,15 +47,40 @@ export const chargesMocks = [
       const result: ChargeV1Dto[] = [
         {
           chargeType: 'D01',
+          resolution: 'P1D',
+          taxIndicator: false,
+          transparentInvoicing: true,
+          validFromDateTime: '2022-09-27T22:00:00',
+          validToDateTime: '2022-11-29T22:00:00',
+          chargeId: '0AA1F',
+          chargeName: 'Net abo A høj Forbrug 1',
+          chargeOwner: '5790000681075',
+          chargeOwnerName: 'Thy-Mors Energi Elnet A/S - 041',
+        },
+        {
+          chargeType: 'D02',
           resolution: 'PT15M',
           taxIndicator: false,
           transparentInvoicing: true,
           validFromDateTime: '2022-09-29T22:00:00',
           validToDateTime: '2022-10-29T22:00:00',
-          chargeId: '0AA1F',
-          chargeName: 'Net abo A høj Forbrug',
-          chargeOwner: '5790000681075',
+          chargeId: '0AA1A',
+          chargeName: 'Net abo A høj Forbrug 2',
+          chargeOwner: '5790000681074',
           chargeOwnerName: 'Thy-Mors Energi Elnet A/S - 042',
+        },
+      ];
+      return res(ctx.status(200), ctx.json(result));
+    }
+  ),
+  rest.get(
+    'https://localhost:5001/v1/Charges/GetMarketParticipantsAsync',
+    (req, res, ctx) => {
+      const result: MarketParticipantV1Dto[] = [
+        {
+          id: 'C5E0990A-713B-41E6-AB9C-A1B357A1EABD',
+          name: 'name 1',
+          marketParticipantId: '8100000000016',
         },
       ];
       return res(ctx.status(200), ctx.json(result));
