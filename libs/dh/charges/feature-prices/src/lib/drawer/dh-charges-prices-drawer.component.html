@@ -26,37 +26,8 @@ limitations under the License.
 
     <watt-drawer-content>
       <div class="container">
-        <div>
-          <div
-            class="charge-property-container"
-            *transloco="let topTrans; read: 'charges'"
-          >
-            <div class="charge-property">
-              <span class="watt-label">{{ t("validityPeriod") }}</span>
-              <div class="watt-text-s">
-                {{ charge?.validFromDateTime | dhDate }} - {{ charge?.validToDateTime | dhDate | dhEmDashFallback }}
-              </div>
-            </div>
-            <div class="charge-property">
-              <span class="watt-label">{{ t("vatClassification") }}</span>
-              <div class="watt-text-s">
-                {{ topTrans("vatClassificationType." + charge?.vatClassification) }}
-              </div>
-            </div>
-            <div class="charge-property">
-              <span class="watt-label">{{ t("transparentInvoicing") }}</span>
-              <div class="watt-text-s">
-                {{ topTrans("transparentInvoicingType." + charge?.transparentInvoicing) }}
-              </div>
-            </div>
-            <div class="charge-property">
-              <span class="watt-label">{{ t("taxIndicator") }}</span>
-              <div class="watt-text-s">
-                {{ topTrans("taxIndicatorType." + charge?.taxIndicator ) }}
-              </div>
-            </div>
-          </div>
-        </div>
+        <dh-charge-details-header [charge]="charge">
+        </dh-charge-details-header>
         <watt-tabs>
           <watt-tab label="{{ t('prices').toUpperCase() }}"></watt-tab>
           <watt-tab label="{{ t('messages').toUpperCase() }}"></watt-tab>

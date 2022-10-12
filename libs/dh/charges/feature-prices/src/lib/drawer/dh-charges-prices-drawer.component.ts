@@ -18,6 +18,7 @@ import { Component, NgModule, ViewChild } from '@angular/core';
 import { ChargeV1Dto } from '@energinet-datahub/dh/shared/domain';
 import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/metering-point/shared/ui-util';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
+import { DhChargeDetailsHeaderScam } from '../details-header/dh-charge-details-header.component';
 import {
   WattDrawerModule,
   WattDrawerComponent,
@@ -44,6 +45,13 @@ export class DhChargesPricesDrawerComponent {
 @NgModule({
   declarations: [DhChargesPricesDrawerComponent],
   exports: [DhChargesPricesDrawerComponent, DhEmDashFallbackPipeScam],
-  imports: [WattDrawerModule, TranslocoModule, WattTabsModule, DhSharedUiDateTimeModule, DhEmDashFallbackPipeScam],
+  imports: [
+    WattDrawerModule,
+    TranslocoModule,
+    WattTabsModule,
+    DhSharedUiDateTimeModule,
+    DhEmDashFallbackPipeScam,
+    DhChargeDetailsHeaderScam
+  ],
 })
 export class DhChargesPricesDrawerScam {}

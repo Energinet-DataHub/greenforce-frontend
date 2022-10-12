@@ -251,10 +251,12 @@
     },
     "chargeOwner": "Owner",
     "startDate": "Date",
-    "transparentInvoicing": "Transparent Invoicing",
     "quantity": "Quantity",
     "noActive": "No active {{title}}",
     "noActiveMessage": "We found no active {{title}} on this metering point",
+    "validityPeriod": "Validity period",
+    "transparentInvoicing": "Transparent Invoicing",
+    "vatClassification": "VAT",
     "taxIndicator": "Tax",
     "chargesNotFound": {
       "title": "Sorry, we did not find any charges for this metering point"
@@ -338,11 +340,7 @@
         "messages": "Messages",
         "history": "History",
         "validFromDate": "Valid from",
-        "validToDate": "Valid to",
-        "validityPeriod": "Validity period",
-        "transparentInvoicing": "Transparent Invoicing",
-        "vatClassification": "VAT",
-        "taxIndicator": "Tax"
+        "validToDate": "Valid to"
       }
     }
   },

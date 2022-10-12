@@ -269,11 +269,13 @@
     },
     "chargeOwner": "Ejer",
     "startDate": "Dato",
-    "transparentInvoicing": "Viderefakturering",
     "quantity": "Antal",
     "noActive": "Ingen aktive {{title}}",
     "noActiveMessage": "Vi fandt ingen aktive {{title}} på dette målepunkt",
+    "validityPeriod": "Gyldighedsperiode",
+    "transparentInvoicing": "Viderefakturering",
     "taxIndicator": "Afgift",
+    "vatClassification": "Moms",
     "chargesNotFound": {
       "title": "Vi fandt desværre ingen priser tilknyttet dette målepunkt"
     },
@@ -340,11 +342,7 @@
         "messages": "Beskeder",
         "history": "Historik",
         "validFromDate": "Gyldig fra",
-        "validToDate": "Gyldig til",
-        "validityPeriod": "Gyldighedsperiode",
-        "transparentInvoicing": "Viderefakturering",
-        "vatClassification": "Moms",
-        "taxIndicator": "Afgift"
+        "validToDate": "Gyldig til"
       }
     }
   },
