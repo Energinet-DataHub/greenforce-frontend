@@ -78,7 +78,7 @@ export const chargesMocks = [
     (req, res, ctx) => {
       const result: MarketParticipantV1Dto[] = [
         {
-          id: 'a guid',
+          id: 'C5E0990A-713B-41E6-AB9C-A1B357A1EABD',
           name: 'name 1',
           marketParticipantId: '8100000000016',
         },

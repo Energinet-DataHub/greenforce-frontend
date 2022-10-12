@@ -51,7 +51,7 @@ limitations under the License.
       matSortActive="chargeName"
       matSortDirection="asc"
     >
-      <!-- price id column -->
+      <!-- Charge id column -->
       <ng-container matColumnDef="chargeId">
         <th *matHeaderCellDef mat-header-cell mat-sort-header>
           {{ t("chargeId") }}
@@ -59,7 +59,7 @@ limitations under the License.
         <td mat-cell *matCellDef="let element">{{ element.chargeId }}</td>
       </ng-container>
 
-      <!-- price name column -->
+      <!-- Charge name column -->
       <ng-container matColumnDef="chargeName">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>
           {{ t("chargeName") }}
@@ -67,7 +67,7 @@ limitations under the License.
         <td mat-cell *matCellDef="let element">{{ element.chargeName }}</td>
       </ng-container>
 
-      <!-- owner column -->
+      <!-- Charge owner column -->
       <ng-container matColumnDef="chargeOwnerName">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>
           {{ t("chargeOwnerName") }}
