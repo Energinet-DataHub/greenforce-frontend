@@ -15,4 +15,4 @@
  * limitations under the License.
  */
 export { setupServiceWorker } from './lib/mockedServiceWorker';
-export { handlers } from './lib/handlers';
+export { handlers, onUnhandledRequest } from './lib/handlers';
