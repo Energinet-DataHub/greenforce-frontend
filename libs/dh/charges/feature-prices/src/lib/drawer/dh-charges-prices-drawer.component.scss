@@ -17,12 +17,3 @@
 .prices-label {
   color: var(--watt-color-primary);
 }
-
-.charge-property-container {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-}
-
-.charge-property {
-  margin-bottom: var(--watt-space-m);
-}

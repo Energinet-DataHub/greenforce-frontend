@@ -339,8 +339,10 @@
         "prices": "Prices",
         "messages": "Messages",
         "history": "History",
-        "validFromDate": "Valid from",
-        "validToDate": "Valid to"
+        "stop": "Stop",
+        "edit": "Rediger",
+        "showDescriptionLabel": "Show description",
+        "hideDescriptionLabel": "Hide description"
       }
     }
   },

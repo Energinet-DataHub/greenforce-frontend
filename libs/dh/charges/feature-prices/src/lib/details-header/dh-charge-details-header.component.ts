@@ -17,10 +17,10 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, NgModule } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
-import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/metering-point/shared/ui-util';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import { MatDividerModule } from '@angular/material/divider';
 import { ChargeV1Dto } from '@energinet-datahub/dh/shared/domain';
+import { WattExpansionModule } from '@energinet-datahub/watt';
 
 @Component({
   selector: 'dh-charge-details-header',
@@ -35,9 +35,9 @@ export class DhChargeDetailsHeaderComponent {
   imports: [
     CommonModule,
     TranslocoModule,
-    DhEmDashFallbackPipeScam,
     DhSharedUiDateTimeModule,
     MatDividerModule,
+    WattExpansionModule,
   ],
   declarations: [DhChargeDetailsHeaderComponent],
   exports: [DhChargeDetailsHeaderComponent],

@@ -22,12 +22,19 @@ limitations under the License.
       {{ charge?.chargeId }}</watt-drawer-topbar
     >
 
-    <watt-drawer-actions> </watt-drawer-actions>
+    <watt-drawer-actions>
+      <watt-button variant="secondary" [disabled]="true">{{
+        t("stop")
+      }}</watt-button>
+      <watt-button [disabled]="true">{{ t("edit") }}</watt-button>
+    </watt-drawer-actions>
 
     <watt-drawer-content>
       <div class="container">
+
         <dh-charge-details-header [charge]="charge">
         </dh-charge-details-header>
+
         <watt-tabs>
           <watt-tab label="{{ t('prices').toUpperCase() }}"></watt-tab>
           <watt-tab label="{{ t('messages').toUpperCase() }}"></watt-tab>

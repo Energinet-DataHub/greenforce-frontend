@@ -15,6 +15,11 @@
  * limitations under the License.
  */
 
+ mat-divider {
+  color: var(--watt-color-neutral-grey-300);
+  margin: var(--watt-space-m) 0;
+}
+
 .charge-property-container {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;

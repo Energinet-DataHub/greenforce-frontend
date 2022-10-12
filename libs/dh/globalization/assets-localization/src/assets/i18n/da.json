@@ -341,8 +341,10 @@
         "prices": "Priser",
         "messages": "Beskeder",
         "history": "Historik",
-        "validFromDate": "Gyldig fra",
-        "validToDate": "Gyldig til"
+        "stop": "Stop",
+        "edit": "Rediger",
+        "showDescriptionLabel": "Se beskrivelse",
+        "hideDescriptionLabel": "Luk beskrivelse"
       }
     }
   },
