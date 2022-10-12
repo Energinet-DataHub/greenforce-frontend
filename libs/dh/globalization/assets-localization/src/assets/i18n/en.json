@@ -312,8 +312,16 @@
         "P1M": "Month"
       },
       "vatClassificationType": {
-        "NoVat": "No VAT",
-        "VAT": "VAT"
+        "VAT": "Yes",
+        "NoVat": "No"
+      },
+      "transparentInvoicingType": {
+        "true": "Yes",
+        "false": "No"
+      },
+      "taxIndicatorType": {
+        "true": "Yes",
+        "false": "No"
       },
       "validityOptions": {
         "Now": "Valid now",

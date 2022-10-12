@@ -256,8 +256,16 @@
       "P1M": "Måned"
     },
     "vatClassificationType": {
-      "NoVat": "Ingen moms",
-      "VAT": "Moms"
+      "VAT": "Ja",
+      "NoVat": "Nej"
+    },
+    "transparentInvoicingType": {
+      "true": "Ja",
+      "false": "Nej"
+    },
+    "taxIndicatorType": {
+      "true": "Ja",
+      "false": "Nej"
     },
     "chargeOwner": "Ejer",
     "startDate": "Dato",
