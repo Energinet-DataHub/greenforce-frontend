@@ -255,6 +255,10 @@
       "P1D": "Dag",
       "P1M": "Måned"
     },
+    "vatClassificationType": {
+      "NoVat": "Ingen moms",
+      "VAT": "Moms"
+    },
     "chargeOwner": "Ejer",
     "startDate": "Dato",
     "transparentInvoicing": "Viderefakturering",
@@ -326,7 +330,13 @@
       "drawer": {
         "prices": "Priser",
         "messages": "Beskeder",
-        "history": "Historik"
+        "history": "Historik",
+        "validFromDate": "Gyldig fra",
+        "validToDate": "Gyldig til",
+        "validityPeriod": "Gyldighedsperiode",
+        "transparentInvoicing": "Viderefakturering",
+        "vatClassification": "Moms",
+        "taxIndicator": "Afgift"
       }
     }
   },
