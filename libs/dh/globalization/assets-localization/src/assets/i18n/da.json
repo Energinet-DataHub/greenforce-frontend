@@ -256,7 +256,7 @@
       "P1M": "Måned"
     },
     "vatClassificationType": {
-      "VAT": "Ja",
+      "Vat25": "Ja",
       "NoVat": "Nej"
     },
     "transparentInvoicingType": {

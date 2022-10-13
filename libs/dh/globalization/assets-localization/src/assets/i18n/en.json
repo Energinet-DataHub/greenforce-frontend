@@ -314,7 +314,7 @@
         "P1M": "Month"
       },
       "vatClassificationType": {
-        "VAT": "Yes",
+        "Vat25": "Yes",
         "NoVat": "No"
       },
       "transparentInvoicingType": {
