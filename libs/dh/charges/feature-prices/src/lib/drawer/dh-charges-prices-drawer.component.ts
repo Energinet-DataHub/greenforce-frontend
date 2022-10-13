@@ -25,6 +25,7 @@ import {
 import { TranslocoModule } from '@ngneat/transloco';
 import { DhChargesPricesPriceTabScam } from './price-tab/dh-charges-prices-price-tab.component';
 import { DhChargesPricesMessageTabScam } from './message-tab/dh-charges-prices-message-tab.component';
+import { DhChargesPricesHistoryTabScam } from './history-tab/dh-charges-prices-history-tab.component';
 
 
 @Component({
@@ -54,6 +55,7 @@ export class DhChargesPricesDrawerComponent {
     WattFormFieldModule,
     DhChargesPricesPriceTabScam,
     DhChargesPricesMessageTabScam,
+    DhChargesPricesHistoryTabScam,
   ],
 })
 export class DhChargesPricesDrawerScam {}
