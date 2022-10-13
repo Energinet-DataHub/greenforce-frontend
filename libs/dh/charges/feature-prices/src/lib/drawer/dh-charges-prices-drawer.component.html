@@ -27,11 +27,16 @@ limitations under the License.
     <watt-drawer-content>
       <div class="container">
         <watt-tabs>
-          <watt-tab label="{{ t('prices').toUpperCase() }}"></watt-tab>
-          <watt-tab label="{{ t('messages').toUpperCase() }}"></watt-tab>
+          <watt-tab label="{{ t('prices').toUpperCase() }}">
+            <dh-charges-prices-price-tab></dh-charges-prices-price-tab>
+          </watt-tab>
+          <watt-tab label="{{ t('messages').toUpperCase() }}">
+            <dh-charges-prices-message-tab></dh-charges-prices-message-tab>
+          </watt-tab>
           <watt-tab label="{{ t('history').toUpperCase() }}"></watt-tab>
         </watt-tabs>
       </div>
+
     </watt-drawer-content>
   </watt-drawer>
 </ng-container>

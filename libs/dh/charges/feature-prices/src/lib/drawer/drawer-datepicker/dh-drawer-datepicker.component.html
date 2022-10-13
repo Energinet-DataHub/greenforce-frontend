@@ -1,0 +1,17 @@
+<ng-container *transloco="let t; read: 'charges.prices.drawer.dateChips'">
+  <!-- message-tab -->
+  <div class="date-range">
+    <watt-form-field>
+        <watt-datepicker
+          [formControl]="formControlDateRange"
+          [range]="true"
+        ></watt-datepicker>
+    </watt-form-field>
+  </div>
+  <div class="date-chips">
+    <watt-chips
+      [options]="options"
+      [selection]="optionSelected"
+    ></watt-chips>
+  </div>
+</ng-container>

@@ -326,7 +326,14 @@
       "drawer": {
         "prices": "Prices",
         "messages": "Messages",
-        "history": "History"
+        "history": "History",
+        "dateChips": {
+          "day": "Day",
+          "week": "Week",
+          "month": "Month",
+          "quarter": "Quarter",
+          "year": "Year"
+        }
       }
     }
   },

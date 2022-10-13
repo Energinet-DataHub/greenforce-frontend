@@ -328,7 +328,14 @@
       "drawer": {
         "prices": "Priser",
         "messages": "Beskeder",
-        "history": "Historik"
+        "history": "Historik",
+        "dateChips": {
+          "day": "Dag",
+          "week": "Uge",
+          "month": "Måned",
+          "quarter": "Kvartal",
+          "year": "År"
+        }
       }
     }
   },
