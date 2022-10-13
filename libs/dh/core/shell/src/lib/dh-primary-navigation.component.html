@@ -18,33 +18,36 @@ limitations under the License.
   <watt-nav-list>
     <watt-nav-list-item link="/metering-point">{{
       transloco("meteringPoints")
-      }}</watt-nav-list-item>
+    }}</watt-nav-list-item>
     <watt-nav-list-item link="/message-archive">{{
       transloco("messageArchive")
-      }}</watt-nav-list-item>
+    }}</watt-nav-list-item>
     <ng-container *dhUserRoleRequired="['Accountant']">
       <watt-nav-list-item link="/market-participant/organizations">{{
         transloco("marketParticipantOrganizations")
-        }}</watt-nav-list-item>
+      }}</watt-nav-list-item>
     </ng-container>
     <ng-container *dhUserRoleRequired="['Supporter']">
       <watt-nav-list-item link="/market-participant/gridareas">{{
         transloco("marketParticipantGridAreas")
-        }}</watt-nav-list-item>
+      }}</watt-nav-list-item>
     </ng-container>
     <watt-nav-list-item link="/charges/prices">{{
       transloco("chargePrices")
-      }}</watt-nav-list-item>
+    }}</watt-nav-list-item>
   </watt-nav-list>
 
   <ng-container *dhFeatureFlag="'start_wholesale_process_feature_flag'">
-    <watt-nav-list [expandable]="true" [title]="transloco('wholesale.menuGroupLabel')">
+    <watt-nav-list
+      [expandable]="true"
+      [title]="transloco('wholesale.menuGroupLabel')"
+    >
       <watt-nav-list-item link="/wholesale/start-process">{{
         transloco("wholesale.startBatch")
-        }}</watt-nav-list-item>
+      }}</watt-nav-list-item>
       <watt-nav-list-item link="/wholesale/search-batch">{{
         transloco("wholesale.searchBatch")
-        }}</watt-nav-list-item>
+      }}</watt-nav-list-item>
     </watt-nav-list>
   </ng-container>
 </ng-container>
