@@ -34,7 +34,7 @@
 }
 
 .watt-drawer {
-  padding: calc(1.5 * var(--watt-space-m)); // 24px
+  padding: 0;
 
   &__grid-container {
     display: grid;
@@ -67,6 +67,7 @@
 
   &__content {
     overflow-y: auto;
+    padding: calc(1.5 * var(--watt-space-m));
   }
 }
 
