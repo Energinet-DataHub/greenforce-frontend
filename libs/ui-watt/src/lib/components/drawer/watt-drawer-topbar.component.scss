@@ -21,6 +21,7 @@
   display: flex;
   gap: var(--watt-space-s);
   margin-bottom: var(--watt-space-m);
+  padding: calc(1.5 * var(--watt-space-m));
   padding-bottom: var(--watt-space-s);
   position: sticky;
   top: 0;
