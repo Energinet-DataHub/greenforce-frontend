@@ -44,6 +44,17 @@
 
   &--small {
     width: 460px;
+
+    .watt-drawer__actions {
+      margin-bottom: var(--watt-space-m);
+    }
+  }
+
+  &--normal,
+  &--large {
+    .watt-drawer__actions {
+      float: right;
+    }
   }
 
   &--normal {

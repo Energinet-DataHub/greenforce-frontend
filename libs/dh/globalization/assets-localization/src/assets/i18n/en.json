@@ -265,8 +265,9 @@
     },
     "prices": {
       "topBarTitle": "Search price",
+      "prices": "Prices",
       "search": {
-        "idOrName": "ID/Name",
+        "idOrName": "Price ID/Name",
         "enterIdOrName": "Enter part or whole name",
         "owner": "Owner",
         "enterOwner": "Enter owner",
@@ -279,17 +280,19 @@
         "clearSearch": "Clear",
         "startSearch": "Search"
       },
-      "priceId": "Id",
-      "priceName": "Name",
-      "owner": "Owner",
+      "chargeId": "Price ID",
+      "chargeName": "Name",
+      "chargeOwnerName": "Owner",
       "chargeType": "Type",
       "resolution": "Resolution",
-      "validFromDate": "Valid from",
-      "validToDate": "Valid to",
+      "validFromDateTime": "Valid from",
+      "validToDateTime": "Valid to",
       "resultLength": "Search results",
       "Download": "Download",
       "noResultsFound": "No results",
       "noResultsHelperText": "Try adjusting your search or filter to find what you are looking for.",
+      "startSearch": "Start Search",
+      "startSearchText": "Your results will appear here",
       "paginator": {
         "itemsPerPageLabel": "Prices per page",
         "of": "of",
@@ -304,13 +307,26 @@
         "Fee": "Fee",
         "Tariff": "Tariff"
       },
+      "resolutionType": {
+        "PT15M": "15 minutes",
+        "PT1H": "Hour",
+        "P1D": "Day",
+        "P1M": "Month"
+      },
       "validityOptions": {
         "Now": "Valid now",
-        "Planned": "Planned",
+        "Planned": "Future Prices",
         "ThisWeek": "This week",
         "ThisMonth": "This month",
         "ThisQuarter": "This quarter",
         "ThisYear": "This year"
+      },
+      "loadingErrorTitle": "An unexpected error occured",
+      "loadingErrorMessage": "Try again or contact your system administrator if you keep getting this error.",
+      "drawer": {
+        "prices": "Prices",
+        "messages": "Messages",
+        "history": "History"
       }
     }
   },
@@ -610,11 +626,13 @@
         "periodFrom": "Period from",
         "periodTo": "Period to",
         "executionTime": "Execution time",
-        "status": "Status"
+        "status": "Status",
+        "basisData": "Basis data"
       },
+      "download": "Download",
       "Pending": "Pending",
-      "Running": "Running",
-      "Finished": "Finished",
+      "Executing": "Running",
+      "Completed": "Finished",
       "Failed": "Failed",
       "loadBatchesFailedTitle": "Oops! There was an error",
       "loadBatchesFailedMessage": "Unfortunately, an error occurred while retrieving the necessary information",

@@ -39,9 +39,9 @@ export class WattRangeInputService {
     const { maskedInput: endMaskedInput } = endInput;
 
     const onStartInputChange$ = startMaskedInput.onChange$.pipe(
-      tap((val: string) => {
+      tap((value: string) => {
         this.jumpToEndInput(
-          val,
+          value,
           startMaskedInput.inputMask,
           startInput.element,
           endInput.element

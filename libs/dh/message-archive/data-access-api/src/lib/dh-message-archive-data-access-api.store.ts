@@ -133,5 +133,5 @@ export class DhMessageArchiveDataAccessApiStore extends ComponentStore<SearchRes
     this.patchState({ searchingState: requestError });
   };
 
-  private resetState = () => this.setState(initialState);
+  readonly resetState = () => this.setState(initialState);
 }

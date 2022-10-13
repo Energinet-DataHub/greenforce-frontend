@@ -255,7 +255,7 @@ exports.__esModule = true;
 require('dotenv/config');
 var path_1 = require('path');
 var devkit_1 = require('@nrwl/devkit');
-var run_commands_impl_1 = require('@nrwl/workspace/src/executors/run-commands/run-commands.impl');
+var run_commands_impl_1 = require('nx/src/executors/run-commands/run-commands.impl');
 function playwrightExecutor(options, context) {
   var e_1, _a;
   return __awaiter(this, void 0, void 0, function () {

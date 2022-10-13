@@ -17,8 +17,6 @@
 import { Component } from '@angular/core';
 
 import { WattIcon } from '../icons';
-import { WattIconSize } from '../watt-icon-size';
-import { WattIconState } from '../watt-icon-state';
 
 interface Icon {
   name: string;
@@ -37,15 +35,6 @@ interface IconGroup {
   styleUrls: ['./storybook-icon-overview.component.scss'],
 })
 export class StorybookIconOverviewComponent {
-  /**
-   * @ignore
-   */
-  iconSize = WattIconSize;
-  /**
-   * @ignore
-   */
-  iconState = WattIconState;
-
   /**
    * @ignore
    */
@@ -70,6 +59,7 @@ export class StorybookIconOverviewComponent {
       icons: [
         { name: 'Redo', icon: 'redo' },
         { name: 'Close', icon: 'close' },
+        { name: 'Cancel', icon: 'cancel' },
         { name: 'Checkmark', icon: 'checkmark' },
       ],
     },

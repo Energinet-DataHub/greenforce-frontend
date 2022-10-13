@@ -16,13 +16,9 @@ using System;
 using System.IO;
 using System.Reflection;
 using System.Text.Json.Serialization;
-using Energinet.DataHub.Charges.Clients.Registration.ChargeLinks.ServiceCollectionExtensions;
-using Energinet.DataHub.Core.App.Common.Diagnostics.HealthChecks;
 using Energinet.DataHub.Core.App.WebApp.Diagnostics.HealthChecks;
 using Energinet.DataHub.Core.App.WebApp.Middleware;
-using Energinet.DataHub.MarketParticipant.Client.Extensions;
-using Energinet.DataHub.MessageArchive.Client.Extensions;
-using Energinet.DataHub.MeteringPoints.Client.Extensions;
+using Energinet.DataHub.WebApi.Registration;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -56,7 +52,7 @@ namespace Energinet.DataHub.WebApi
 
             services.AddHealthChecks();
 
-            services.AddHttpClientFactory();
+            services.AddHttpContextAccessor();
 
             // Register the Swagger generator, defining 1 or more Swagger documents.
             services.AddSwaggerGen(config =>
@@ -94,9 +90,7 @@ namespace Energinet.DataHub.WebApi
             });
 
             var openIdUrl = Configuration.GetValue<string>("FRONTEND_OPEN_ID_URL") ?? string.Empty;
-
             var audience = Configuration.GetValue<string>("FRONTEND_SERVICE_APP_ID") ?? string.Empty;
-
             services.AddJwtTokenSecurity(openIdUrl, audience);
 
             if (Environment.IsDevelopment())
@@ -110,10 +104,10 @@ namespace Energinet.DataHub.WebApi
                 });
             }
 
-            var apiClientSettings = Configuration.GetSection("ApiClientSettings").Get<ApiClientSettings>();
-            AddDomainClients(services, apiClientSettings);
+            var apiClientSettings = Configuration.GetSection("ApiClientSettings").Get<ApiClientSettings>()
+                                    ?? new ApiClientSettings();
+            services.AddDomainClients(apiClientSettings);
 
-            // Health check
             SetupHealthEndpoints(services, apiClientSettings);
         }
 
@@ -133,16 +127,17 @@ namespace Energinet.DataHub.WebApi
                 app.UseSwaggerUI(options =>
                     options.SwaggerEndpoint("/swagger/v1/swagger.json", "DataHub.WebApi v1"));
             }
-            else
-            {
-                app.UseMiddleware<JwtTokenMiddleware>();
-            }
 
             app.UseHttpsRedirection();
 
             app.UseRouting();
 
             app.UseCors();
+
+            if (!Environment.IsDevelopment())
+            {
+                app.UseMiddleware<JwtTokenMiddleware>();
+            }
 
             app.UseAuthorization();
 
@@ -158,76 +153,7 @@ namespace Energinet.DataHub.WebApi
 
         protected virtual void SetupHealthEndpoints(IServiceCollection services, ApiClientSettings apiClientSettingsService)
         {
-            const string liveEndpointPath = "/monitor/live";
-            var chargesLiveHealthUrl = apiClientSettingsService.ChargesBaseUrl == string.Empty
-                ? throw new ArgumentException()
-                : new Uri(apiClientSettingsService.ChargesBaseUrl + liveEndpointPath);
-            var marketParticipantLiveHealthUrl = apiClientSettingsService.MarketParticipantBaseUrl == string.Empty
-                ? throw new ArgumentException()
-                : new Uri(apiClientSettingsService.MarketParticipantBaseUrl + liveEndpointPath);
-            var messageArchiveLiveHealthUrl = apiClientSettingsService.MessageArchiveBaseUrl == string.Empty
-                ? throw new ArgumentException()
-                : new Uri(apiClientSettingsService.MessageArchiveBaseUrl + liveEndpointPath);
-            var wholesaleLiveHealthUrl = apiClientSettingsService.WholesaleBaseUrl == string.Empty
-                ? throw new ArgumentException()
-                : new Uri(apiClientSettingsService.WholesaleBaseUrl + liveEndpointPath);
-
-            services.AddHealthChecks()
-                .AddLiveCheck()
-                .AddServiceHealthCheck("charges", chargesLiveHealthUrl)
-                .AddServiceHealthCheck("marketParticipant", marketParticipantLiveHealthUrl)
-                .AddServiceHealthCheck("messageArchive", messageArchiveLiveHealthUrl)
-                .AddServiceHealthCheck("wholesale", wholesaleLiveHealthUrl);
-        }
-
-        private void AddDomainClients(IServiceCollection services, ApiClientSettings apiClientSettings)
-        {
-            AddMeteringPointClient(services, apiClientSettings);
-            AddChargeLinksClient(services, apiClientSettings);
-            AddMessageArchiveClient(services, apiClientSettings);
-            AddMarketParticipantClient(services, apiClientSettings);
-
-            services.AddSingleton(apiClientSettings ?? new ApiClientSettings());
-        }
-
-        private static void AddChargeLinksClient(IServiceCollection services, ApiClientSettings? apiClientSettings)
-        {
-            string emptyUrl = "https://empty";
-            Uri chargesBaseUrl = Uri.TryCreate(apiClientSettings?.ChargesBaseUrl, UriKind.Absolute, out var url)
-                ? url
-                : new Uri(emptyUrl);
-
-            services.AddChargeLinksClient(chargesBaseUrl);
-        }
-
-        private static void AddMeteringPointClient(IServiceCollection services, ApiClientSettings? apiClientSettings)
-        {
-            string emptyUrl = "https://empty";
-            Uri meteringPointBaseUrl = Uri.TryCreate(apiClientSettings?.MeteringPointBaseUrl, UriKind.Absolute, out var url)
-                ? url
-                : new Uri(emptyUrl);
-
-            services.AddMeteringPointClient(meteringPointBaseUrl);
-        }
-
-        private static void AddMessageArchiveClient(IServiceCollection services, ApiClientSettings? apiClientSettings)
-        {
-            string emptyUrl = "https://empty";
-            Uri messageArchiveBaseUrl = Uri.TryCreate(apiClientSettings?.MessageArchiveBaseUrl, UriKind.Absolute, out var url)
-                ? url
-                : new Uri(emptyUrl);
-
-            services.AddMessageArchiveClient(messageArchiveBaseUrl);
-        }
-
-        private static void AddMarketParticipantClient(IServiceCollection services, ApiClientSettings? apiClientSettings)
-        {
-            string emptyUrl = "https://empty";
-            Uri messageArchiveBaseUrl = Uri.TryCreate(apiClientSettings?.MarketParticipantBaseUrl, UriKind.Absolute, out var url)
-                ? url
-                : new Uri(emptyUrl);
-
-            services.AddMarketParticipantClient(messageArchiveBaseUrl);
+            services.SetupHealthEndpoints(apiClientSettingsService);
         }
     }
 }

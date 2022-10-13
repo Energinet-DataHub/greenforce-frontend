@@ -21,18 +21,22 @@ import {
   EventEmitter,
   Output,
   OnInit,
+  Input,
+  OnDestroy,
 } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { sub } from 'date-fns';
 import { TranslocoModule } from '@ngneat/transloco';
+import { zonedTimeToUtc } from 'date-fns-tz';
+
 import {
   WattButtonModule,
   WattDatepickerModule,
   WattFormFieldModule,
   WattRangeValidators,
 } from '@energinet-datahub/watt';
-
-import { WholesaleSearchBatchDto } from '@energinet-datahub/dh/shared/domain';
-import { format, sub } from 'date-fns';
+import { BatchSearchDto } from '@energinet-datahub/dh/shared/domain';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   standalone: true,
@@ -49,14 +53,20 @@ import { format, sub } from 'date-fns';
   styleUrls: ['./dh-wholesale-form.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DhWholesaleFormComponent implements OnInit {
-  @Output() search: EventEmitter<WholesaleSearchBatchDto> = new EventEmitter();
+export class DhWholesaleFormComponent implements OnInit, OnDestroy {
+  @Input() loading = false;
+  @Output() search: EventEmitter<BatchSearchDto> = new EventEmitter();
+
+  destroy$: Subject<void> = new Subject();
 
   searchForm = this.fb.group({
     executionTime: [
       {
-        start: format(sub(new Date(), { days: 10 }), 'dd-MM-yyyy'),
-        end: format(new Date(), 'dd-MM-yyyy'),
+        start: sub(new Date().setHours(0, 0, 0, 0), { days: 10 }).toISOString(),
+        end: zonedTimeToUtc(
+          new Date().setHours(0, 0, 0, 0),
+          'Europe/Copenhagen'
+        ).toISOString(),
       },
       WattRangeValidators.required(),
     ],
@@ -66,6 +76,14 @@ export class DhWholesaleFormComponent implements OnInit {
 
   ngOnInit() {
     this.onSubmit();
+    this.searchForm.valueChanges
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => (this.loading = false));
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   onSubmit() {

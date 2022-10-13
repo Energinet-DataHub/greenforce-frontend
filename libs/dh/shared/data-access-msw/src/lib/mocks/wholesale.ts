@@ -15,8 +15,8 @@
  * limitations under the License.
  */
 import {
-  WholesaleSearchBatchResponseDto,
-  WholesaleStatus,
+  BatchDto,
+  BatchExecutionState,
 } from '@energinet-datahub/dh/shared/domain';
 import { rest } from 'msw';
 
@@ -37,14 +37,14 @@ function getWholesaleSearchBatch() {
   const executionTimeStart = '2021-12-01T23:00:00Z';
   const executionTimeEnd = '2021-12-02T23:00:00Z';
 
-  const mockData: WholesaleSearchBatchResponseDto[] = [
+  const mockData: BatchDto[] = [
     {
       batchNumber: 123,
       periodStart,
       periodEnd,
       executionTimeStart,
       executionTimeEnd: null,
-      executionState: WholesaleStatus.Pending,
+      executionState: BatchExecutionState.Pending,
     },
     {
       batchNumber: 234,
@@ -52,7 +52,7 @@ function getWholesaleSearchBatch() {
       periodEnd,
       executionTimeStart,
       executionTimeEnd: null,
-      executionState: WholesaleStatus.Running,
+      executionState: BatchExecutionState.Executing,
     },
     {
       batchNumber: 345,
@@ -60,7 +60,7 @@ function getWholesaleSearchBatch() {
       periodEnd,
       executionTimeStart,
       executionTimeEnd,
-      executionState: WholesaleStatus.Finished,
+      executionState: BatchExecutionState.Completed,
     },
     {
       batchNumber: 567,
@@ -68,7 +68,7 @@ function getWholesaleSearchBatch() {
       periodEnd,
       executionTimeStart,
       executionTimeEnd,
-      executionState: WholesaleStatus.Failed,
+      executionState: BatchExecutionState.Failed,
     },
     {
       batchNumber: 123,
@@ -76,7 +76,7 @@ function getWholesaleSearchBatch() {
       periodEnd,
       executionTimeStart,
       executionTimeEnd: null,
-      executionState: WholesaleStatus.Pending,
+      executionState: BatchExecutionState.Pending,
     },
     {
       batchNumber: 234,
@@ -84,7 +84,7 @@ function getWholesaleSearchBatch() {
       periodEnd,
       executionTimeStart,
       executionTimeEnd: null,
-      executionState: WholesaleStatus.Running,
+      executionState: BatchExecutionState.Executing,
     },
     {
       batchNumber: 345,
@@ -92,7 +92,7 @@ function getWholesaleSearchBatch() {
       periodEnd,
       executionTimeStart,
       executionTimeEnd,
-      executionState: WholesaleStatus.Finished,
+      executionState: BatchExecutionState.Completed,
     },
     {
       batchNumber: 567,
@@ -100,7 +100,7 @@ function getWholesaleSearchBatch() {
       periodEnd,
       executionTimeStart,
       executionTimeEnd,
-      executionState: WholesaleStatus.Failed,
+      executionState: BatchExecutionState.Failed,
     },
     {
       batchNumber: 123,
@@ -108,7 +108,7 @@ function getWholesaleSearchBatch() {
       periodEnd,
       executionTimeStart,
       executionTimeEnd: null,
-      executionState: WholesaleStatus.Pending,
+      executionState: BatchExecutionState.Pending,
     },
     {
       batchNumber: 234,
@@ -116,7 +116,7 @@ function getWholesaleSearchBatch() {
       periodEnd,
       executionTimeStart,
       executionTimeEnd: null,
-      executionState: WholesaleStatus.Running,
+      executionState: BatchExecutionState.Executing,
     },
     {
       batchNumber: 345,
@@ -124,7 +124,7 @@ function getWholesaleSearchBatch() {
       periodEnd,
       executionTimeStart,
       executionTimeEnd,
-      executionState: WholesaleStatus.Finished,
+      executionState: BatchExecutionState.Completed,
     },
     {
       batchNumber: 567,
@@ -132,7 +132,7 @@ function getWholesaleSearchBatch() {
       periodEnd,
       executionTimeStart,
       executionTimeEnd,
-      executionState: WholesaleStatus.Failed,
+      executionState: BatchExecutionState.Failed,
     },
   ];
   return rest.post(

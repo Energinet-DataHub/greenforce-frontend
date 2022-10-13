@@ -42,30 +42,49 @@ import {
   WattDropdownOptions,
   WattDatepickerModule,
 } from '@energinet-datahub/watt';
-
+import { PushModule } from '@rx-angular/template';
 import { DhChargesPricesResultScam } from './search-result/dh-charges-prices-result.component';
+import {
+  DhChargesDataAccessApiStore,
+  DhMarketParticipantDataAccessApiStore,
+} from '@energinet-datahub/dh/charges/data-access-api';
+import { SearchCriteriaV1Dto } from '@energinet-datahub/dh/shared/domain';
 
 @Component({
   selector: 'dh-charges-prices',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './dh-charges-prices.component.html',
   styleUrls: ['./dh-charges-prices.component.scss'],
+  providers: [
+    DhChargesDataAccessApiStore,
+    DhMarketParticipantDataAccessApiStore,
+  ],
 })
 export class DhChargesPricesComponent implements OnInit, OnDestroy {
   chargeTypeOptions: WattDropdownOptions = [];
   validityOptions: WattDropdownOptions = [];
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  searchCriteria: any = {
-    chargeTypes: '',
-    idOrName: '',
-    owner: '',
-  };
+  validityOption: string | undefined;
+  searchCriteria: SearchCriteriaV1Dto = {};
+  marketParticipantsOptions: WattDropdownOptions = [];
+
+  all$ = this.chargesStore.all$;
+  isLoading$ = this.chargesStore.isLoading$;
+  isInit$ = this.chargesStore.isInit$;
+  hasLoadingError$ = this.chargesStore.hasGeneralError$;
+  marketParticipants = this.marketParticipantStore.all$;
 
   private destroy$ = new Subject<void>();
 
-  constructor(private translocoService: TranslocoService) {}
+  constructor(
+    private translocoService: TranslocoService,
+    private chargesStore: DhChargesDataAccessApiStore,
+    private marketParticipantStore: DhMarketParticipantDataAccessApiStore
+  ) {}
 
   ngOnInit() {
+    this.marketParticipantStore.loadMarketParticipants();
+
+    this.buildMarketParticipantOptions();
     this.buildChargeTypeOptions();
     this.buildValidityOptions();
   }
@@ -75,20 +94,32 @@ export class DhChargesPricesComponent implements OnInit, OnDestroy {
     this.destroy$.unsubscribe();
   }
 
+  private buildMarketParticipantOptions() {
+    this.marketParticipants.pipe(takeUntil(this.destroy$)).subscribe({
+      next: (marketParticipants) => {
+        if (marketParticipants == null) return;
+        this.marketParticipantsOptions = marketParticipants.map((mp) => {
+          return {
+            value: mp.id,
+            displayValue: mp.marketParticipantId || '',
+          };
+        });
+      },
+    });
+  }
+
   private buildValidityOptions() {
     this.translocoService
       .selectTranslateObject('charges.prices.validityOptions')
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (keys) => {
-          this.validityOptions = Object.entries(ValidityOptions).map(
-            (entry) => {
-              return {
-                value: entry[0],
-                displayValue: keys[entry[0]],
-              };
-            }
-          );
+          this.validityOptions = Object.keys(ValidityOptions).map((entry) => {
+            return {
+              value: entry[0],
+              displayValue: keys[entry[0]],
+            };
+          });
         },
       });
   }
@@ -98,25 +129,26 @@ export class DhChargesPricesComponent implements OnInit, OnDestroy {
       .selectTranslateObject('charges.prices.chargeTypes')
       .pipe(takeUntil(this.destroy$))
       .subscribe({
-        next: (keys) => {
-          this.chargeTypeOptions = Object.entries(ChargeTypes).map(
-            (chargeType) => {
+        next: (translationKeys) => {
+          this.chargeTypeOptions = Object.keys(ChargeTypes)
+            .filter((key) => ChargeTypes[Number(key)] != null)
+            .map((chargeTypeKey) => {
               return {
-                value: chargeType[0],
-                displayValue: keys[chargeType[0]],
+                value: chargeTypeKey,
+                displayValue:
+                  translationKeys[ChargeTypes[Number(chargeTypeKey)]],
               };
-            }
-          );
+            });
         },
       });
   }
 
   onSubmit() {
-    console.log('submit');
+    this.chargesStore.searchCharges(this.searchCriteria);
   }
 
   resetSearchCriteria() {
-    console.log('reset');
+    this.chargesStore.clearCharges();
   }
 }
 
@@ -135,6 +167,7 @@ export class DhChargesPricesComponent implements OnInit, OnDestroy {
     FormsModule,
     DhChargesPricesResultScam,
     WattDatepickerModule,
+    PushModule,
   ],
 })
 export class DhChargesPricesScam {}

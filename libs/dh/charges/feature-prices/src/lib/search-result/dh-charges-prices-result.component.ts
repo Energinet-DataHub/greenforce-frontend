@@ -18,15 +18,17 @@ import { CommonModule } from '@angular/common';
 import {
   Component,
   NgModule,
-  OnInit,
+  AfterViewInit,
   OnDestroy,
   OnChanges,
   ViewChild,
+  Input,
 } from '@angular/core';
 
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { LetModule } from '@rx-angular/template';
+import { MatSort, MatSortModule } from '@angular/material/sort';
 
 import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/feature-flags';
 import {
@@ -34,6 +36,7 @@ import {
   WattButtonModule,
   WattEmptyStateModule,
   WattTooltipModule,
+  WattSpinnerModule,
 } from '@energinet-datahub/watt';
 import {
   MatPaginator,
@@ -41,6 +44,12 @@ import {
   MatPaginatorModule,
 } from '@angular/material/paginator';
 import { Subject, takeUntil } from 'rxjs';
+import { ChargeV1Dto } from '@energinet-datahub/dh/shared/domain';
+import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
+import {
+  DhChargesPricesDrawerComponent,
+  DhChargesPricesDrawerScam,
+} from '../drawer/dh-charges-prices-drawer.component';
 
 @Component({
   selector: 'dh-charges-prices-result',
@@ -48,52 +57,49 @@ import { Subject, takeUntil } from 'rxjs';
   styleUrls: ['./dh-charges-prices-result.component.scss'],
 })
 export class DhChargesPricesResultComponent
-  implements OnInit, OnDestroy, OnChanges
+  implements AfterViewInit, OnDestroy, OnChanges
 {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) matSort!: MatSort;
+  @ViewChild(DhChargesPricesDrawerComponent)
+  chargePriceDrawer!: DhChargesPricesDrawerComponent;
+
+  @Input() result?: Array<ChargeV1Dto>;
+  @Input() isLoading = false;
+  @Input() isInit = false;
+  @Input() hasLoadingError = false;
 
   private destroy$ = new Subject<void>();
 
-  searchResult: Array<object> = [
-    // {
-    //   id: 1,
-    //   name: 'test name',
-    //   owner: 'test owner',
-    //   taxIndicator: false,
-    //   transparentInvoicing: true,
-    //   chargeType: 'Abonnement',
-    //   resolution: 'Måned',
-    //   validFromDate: '01-01-2000',
-    //   validToDate: '02-01-2000',
-    // },
-  ];
   displayedColumns = [
-    'priceId',
-    'priceName',
-    'owner',
+    'chargeId',
+    'chargeName',
+    'chargeOwnerName',
     'icons',
     'chargeType',
     'resolution',
-    'validFromDate',
-    'validToDate',
+    'validFromDateTime',
+    'validToDateTime',
   ];
 
-  readonly dataSource: MatTableDataSource<object> =
-    new MatTableDataSource<object>(this.searchResult);
+  readonly dataSource: MatTableDataSource<ChargeV1Dto> =
+    new MatTableDataSource<ChargeV1Dto>();
 
   constructor(
     private translocoService: TranslocoService,
     private matPaginatorIntl: MatPaginatorIntl
   ) {}
 
-  ngOnInit() {
+  ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.setupPaginatorTranslation();
   }
 
   ngOnChanges() {
-    this.dataSource.data = this.searchResult;
+    if (this.result) this.dataSource.data = this.result;
+
     this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.matSort;
   }
 
   ngOnDestroy(): void {
@@ -121,6 +127,10 @@ export class DhChargesPricesResultComponent
         this.dataSource.paginator = this.paginator;
       });
   };
+
+  rowClicked(charge: ChargeV1Dto) {
+    this.chargePriceDrawer.openDrawer(charge);
+  }
 }
 
 @NgModule({
@@ -137,6 +147,10 @@ export class DhChargesPricesResultComponent
     WattEmptyStateModule,
     DhFeatureFlagDirectiveModule,
     WattTooltipModule,
+    WattSpinnerModule,
+    DhSharedUiDateTimeModule,
+    MatSortModule,
+    DhChargesPricesDrawerScam,
   ],
 })
 export class DhChargesPricesResultScam {}

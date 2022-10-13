@@ -46,8 +46,8 @@ export class WattIconComponent {
    * @description used for `aria-label`
    */
   @Input() label: string | null = null;
-  @Input() size: WattIconSize = WattIconSize.Medium;
-  @Input() state: WattIconState = WattIconState.Default;
+  @Input() size: WattIconSize = 'm';
+  @Input() state: WattIconState = 'default';
 
   @HostBinding('class') get _cssClass(): string[] {
     return [`icon-size-${this.size}`, `icon-state-${this.state}`];
@@ -90,15 +90,12 @@ export class WattIconComponent {
   private getDefaultStateForIcon(name?: WattIcon): WattIconState {
     switch (name) {
       case 'success':
-        return WattIconState.Success;
       case 'danger':
-        return WattIconState.Danger;
       case 'warning':
-        return WattIconState.Warning;
       case 'info':
-        return WattIconState.Info;
+        return name;
       default:
-        return WattIconState.Default;
+        return 'default';
     }
   }
 }

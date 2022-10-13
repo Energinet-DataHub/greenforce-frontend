@@ -11,12 +11,12 @@
  */
 
 
-export type WholesaleStatus = 'Pending' | 'Running' | 'Finished' | 'Failed';
+export type Resolution = 'PT15M' | 'PT1H' | 'P1D' | 'P1M';
 
-export const WholesaleStatus = {
-    Pending: 'Pending' as WholesaleStatus,
-    Running: 'Running' as WholesaleStatus,
-    Finished: 'Finished' as WholesaleStatus,
-    Failed: 'Failed' as WholesaleStatus
+export const Resolution = {
+    PT15M: 'PT15M' as Resolution,
+    PT1H: 'PT1H' as Resolution,
+    P1D: 'P1D' as Resolution,
+    P1M: 'P1M' as Resolution
 };
 

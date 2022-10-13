@@ -53,3 +53,37 @@ table {
     color: var(--watt-color-neutral-black);
   }
 }
+
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  margin-top: var(--watt-space-m);
+}
+
+.gln-number {
+  font-size: 12px;
+  color: var(--watt-color-neutral-grey-400);
+}
+
+.loading-error {
+  margin-top: var(--watt-space-m);
+}
+
+tr:hover {
+  background-color: var(--watt-color-primary-light);
+
+  td {
+    color: var(--watt-color-neutral-white);
+    cursor: pointer;
+  }
+
+  .gln-number {
+    color: var(--watt-color-neutral-white);
+  }
+
+  .icons {
+    .active {
+      color: var(--watt-color-neutral-white);
+    }
+  }
+}

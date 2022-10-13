@@ -16,7 +16,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Energinet.Charges.Contracts.ChargeLink;
-using Energinet.DataHub.Charges.Clients.ChargeLinks;
+using Energinet.DataHub.Charges.Clients.Charges;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Energinet.DataHub.WebApi.Controllers
@@ -25,11 +25,11 @@ namespace Energinet.DataHub.WebApi.Controllers
     [Route("v1/[controller]")]
     public class ChargeLinksController : ControllerBase
     {
-        private readonly IChargeLinksClient _chargeLinksClient;
+        private readonly IChargesClient _chargesClient;
 
-        public ChargeLinksController(IChargeLinksClient chargeLinksClient)
+        public ChargeLinksController(IChargesClient chargesClient)
         {
-            _chargeLinksClient = chargeLinksClient;
+            _chargesClient = chargesClient;
         }
 
         /// <summary>
@@ -43,7 +43,7 @@ namespace Energinet.DataHub.WebApi.Controllers
         [HttpGet]
         public async Task<ActionResult<IList<ChargeLinkV1Dto>>> GetAsync(string meteringPointId)
         {
-            var result = await _chargeLinksClient.GetAsync(meteringPointId);
+            var result = await _chargesClient.GetChargeLinksAsync(meteringPointId);
 
             return result.Any() ? Ok(result) : NotFound();
         }

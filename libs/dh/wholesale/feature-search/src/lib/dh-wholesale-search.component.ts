@@ -17,7 +17,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, NgModule } from '@angular/core';
 import { of } from 'rxjs';
-import { LetModule } from '@rx-angular/template';
+import { LetModule, PushModule } from '@rx-angular/template';
 import { TranslocoModule } from '@ngneat/transloco';
 import { MatCardModule } from '@angular/material/card';
 
@@ -29,7 +29,7 @@ import {
 } from '@energinet-datahub/watt';
 
 import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
-import { WholesaleSearchBatchDto } from '@energinet-datahub/dh/shared/domain';
+import { BatchSearchDto } from '@energinet-datahub/dh/shared/domain';
 
 import { DhWholesaleTableComponent } from './table/dh-wholesale-table.component';
 import { DhWholesaleFormComponent } from './form/dh-wholesale-form.component';
@@ -44,12 +44,12 @@ export class DhWholesaleSearchComponent {
   constructor(private store: DhWholesaleBatchDataAccessApiStore) {}
 
   data$ = this.store.batches$;
-  loadingBatchesTrigger$ = this.store.loadingBatchesTrigger$;
+  loadingBatchesTrigger$ = this.store.loadingBatches$;
   loadingBatchesErrorTrigger$ = this.store.loadingBatchesErrorTrigger$;
 
   searchSubmitted = false;
 
-  onSearch(search: WholesaleSearchBatchDto) {
+  onSearch(search: BatchSearchDto) {
     this.searchSubmitted = true;
     this.store.getBatches(of(search));
   }
@@ -62,6 +62,7 @@ export class DhWholesaleSearchComponent {
     DhWholesaleFormComponent,
     DhWholesaleTableComponent,
     LetModule,
+    PushModule,
     MatCardModule,
     TranslocoModule,
     WattButtonModule,
