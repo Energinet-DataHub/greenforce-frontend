@@ -49,7 +49,7 @@ export class DhChargesPricesDrawerComponent {
     TranslocoModule,
     WattTabsModule,
     WattButtonModule,
-    DhChargeDetailsHeaderScam
+    DhChargeDetailsHeaderScam,
   ],
 })
 export class DhChargesPricesDrawerScam {}

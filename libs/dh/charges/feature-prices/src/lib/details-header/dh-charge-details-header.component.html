@@ -16,18 +16,17 @@ limitations under the License.
 -->
 
 <ng-container *ngIf="charge">
-
-  <div
-    class="container"
-    *transloco="let t; read: 'charges'"
-  >
-    {{ t("chargeType." + charge.chargeType) }} ({{ t("resolutionType." + charge.resolution) }})
+  <div class="container" *transloco="let t; read: 'charges'">
+    {{ t("chargeType." + charge.chargeType) }} ({{
+      t("resolutionType." + charge.resolution)
+    }})
     <h1>{{ charge.chargeId }} - {{ charge.chargeName }}</h1>
     {{ charge.chargeOwnerName }} | {{ charge.chargeOwner }}
     <watt-expansion
       [openLabel]="t('prices.drawer.showDescriptionLabel')"
       [closeLabel]="t('prices.drawer.hideDescriptionLabel')"
-    >{{ charge.chargeDescription }}</watt-expansion>
+      >{{ charge.chargeDescription }}</watt-expansion
+    >
 
     <mat-divider></mat-divider>
 
@@ -35,7 +34,8 @@ limitations under the License.
       <div class="charge-property">
         <span class="watt-label">{{ t("validityPeriod") }}</span>
         <div class="watt-text-s">
-          {{ charge.validFromDateTime | dhDate }} - {{ charge.validToDateTime | dhDate }}
+          {{ charge.validFromDateTime | dhDate }} -
+          {{ charge.validToDateTime | dhDate }}
         </div>
       </div>
       <div class="charge-property">
@@ -53,9 +53,9 @@ limitations under the License.
       <div class="charge-property">
         <span class="watt-label">{{ t("taxIndicator") }}</span>
         <div class="watt-text-s">
-          {{ t("taxIndicatorType." + charge.taxIndicator ) }}
+          {{ t("taxIndicatorType." + charge.taxIndicator) }}
         </div>
       </div>
     </div>
-</div>
+  </div>
 </ng-container>
