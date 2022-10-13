@@ -34,9 +34,9 @@ limitations under the License.
         <watt-form-field>
           <watt-label>{{ t("owner") }}</watt-label>
           <watt-dropdown
-            disabled
             [(ngModel)]="this.searchCriteria.ownerIds"
             name="owner"
+            [options]="marketParticipantsOptions"
             [placeholder]="t('enterOwner')"
             [multiple]="true"
             [title]="this.searchCriteria.ownerIds"
@@ -116,6 +116,7 @@ limitations under the License.
   <dh-charges-prices-result
     [result]="all$ | push"
     [isLoading]="isLoading$ | push"
+    [isInit]="isInit$ | push"
     [hasLoadingError]="hasLoadingError$ | push"
   ></dh-charges-prices-result>
 </ng-container>
