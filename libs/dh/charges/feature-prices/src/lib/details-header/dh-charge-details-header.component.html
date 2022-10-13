@@ -24,7 +24,7 @@ limitations under the License.
     {{ t("chargeType." + charge.chargeType) }} ({{ t("resolutionType." + charge.resolution) }})
     <h1>{{ charge.chargeId }} - {{ charge.chargeName }}</h1>
     {{ charge.chargeOwnerName }} | {{ charge.chargeOwner }}
-    <watt-expansion variant="secondary"
+    <watt-expansion
       [openLabel]="t('prices.drawer.showDescriptionLabel')"
       [closeLabel]="t('prices.drawer.hideDescriptionLabel')"
     >{{ charge.chargeDescription }}</watt-expansion>
