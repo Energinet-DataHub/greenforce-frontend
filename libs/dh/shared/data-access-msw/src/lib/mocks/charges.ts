@@ -53,6 +53,7 @@ export const chargesMocks = [
           resolution: 'P1D',
           taxIndicator: false,
           transparentInvoicing: true,
+          vatClassification: VatClassification.Vat25,
           validFromDateTime: '2022-09-27T22:00:00',
           validToDateTime: '2022-11-29T22:00:00',
           chargeId: '0AA1F',
