@@ -21,7 +21,7 @@ import { UserRole } from './user-roles';
 
 const roleClaimName = 'extension_roles';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class PermissionService {
   constructor(private authService: MsalService) {}
 

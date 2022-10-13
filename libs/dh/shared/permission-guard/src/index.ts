@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './lib/permission-guard';
-export * from './lib/permission-service';
+export * from './lib/permission.guard';
 export * from './lib/user-roles';
 export * from './lib/user-role-required.directive';

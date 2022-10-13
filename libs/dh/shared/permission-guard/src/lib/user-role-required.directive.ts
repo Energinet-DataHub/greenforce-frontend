@@ -23,7 +23,7 @@ import {
   TemplateRef,
   ViewContainerRef,
 } from '@angular/core';
-import { PermissionService } from './permission-service';
+import { PermissionService } from './permission.service';
 import { UserRole } from './user-roles';
 
 @Directive({ selector: '[dhUserRoleRequired]' })
@@ -34,12 +34,11 @@ export class DhUserRoleRequiredDirective implements OnInit {
     private permissionService: PermissionService
   ) {}
 
-  @Input() dhUserRoleRequired?: UserRole[];
+  @Input() dhUserRoleRequired: UserRole[] = [];
 
   ngOnInit(): void {
-    const roles = this.dhUserRoleRequired ?? [];
-    const allowedRoles = roles.filter((r) =>
-      this.permissionService.hasUserRole(r)
+    const allowedRoles = this.dhUserRoleRequired.filter((userRole) =>
+      this.permissionService.hasUserRole(userRole)
     );
     if (allowedRoles.length > 0) {
       this.viewContainer.createEmbeddedView(this.templateRef);
@@ -51,4 +50,4 @@ export class DhUserRoleRequiredDirective implements OnInit {
   declarations: [DhUserRoleRequiredDirective],
   exports: [DhUserRoleRequiredDirective],
 })
-export class DhUserRoleRequiredDirectiveModule {}
+export class DhUserRoleRequiredDirectiveScam {}

@@ -16,12 +16,16 @@
  */
 
 import { inject } from '@angular/core';
-import { PermissionService } from './permission-service';
+import { CanActivateFn } from '@angular/router';
+import { PermissionService } from './permission.service';
 import { UserRole } from './user-roles';
 
-export function PermissionGuard(userRoles: UserRole[]) {
+export function PermissionGuard(userRoles: UserRole[]): CanActivateFn {
   return () => {
     const permissionService = inject(PermissionService);
-    return userRoles.filter((r) => permissionService.hasUserRole(r)).length > 0;
+    return (
+      userRoles.filter((userRole) => permissionService.hasUserRole(userRole))
+        .length > 0
+    );
   };
 }
