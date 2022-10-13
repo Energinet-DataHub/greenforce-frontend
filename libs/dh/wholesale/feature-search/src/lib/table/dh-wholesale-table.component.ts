@@ -22,6 +22,8 @@ import {
   OnDestroy,
   AfterViewInit,
   ChangeDetectionStrategy,
+  Output,
+  EventEmitter,
 } from '@angular/core';
 import {
   MatPaginator,
@@ -46,15 +48,17 @@ import {
   BatchExecutionState,
 } from '@energinet-datahub/dh/shared/domain';
 
-type wholesaleTableData = MatTableDataSource<{
-  statusType: void | WattBadgeType;
+export type wholesaleBatch = {
+  statusType: WattBadgeType;
   batchNumber: number;
   periodStart: string;
   periodEnd: string;
   executionTimeStart?: string | null;
   executionTimeEnd?: string | null;
   executionState: BatchExecutionState;
-}>;
+};
+
+type wholesaleTableData = MatTableDataSource<wholesaleBatch>;
 
 @Component({
   standalone: true,
@@ -85,8 +89,11 @@ export class DhWholesaleTableComponent implements OnDestroy, AfterViewInit {
       }))
     );
   }
+  @Output() selectedRow: EventEmitter<wholesaleBatch> = new EventEmitter();
+
   destroy$ = new Subject<void>();
   _data: wholesaleTableData = new MatTableDataSource(undefined);
+  selectedBatch?: BatchDto;
 
   constructor(
     private matPaginatorIntl: MatPaginatorIntl,
@@ -113,7 +120,7 @@ export class DhWholesaleTableComponent implements OnDestroy, AfterViewInit {
     this.destroy$.complete();
   }
 
-  private getStatusType(status: BatchExecutionState): WattBadgeType | void {
+  private getStatusType(status: BatchExecutionState): WattBadgeType {
     if (status === BatchExecutionState.Pending) {
       return 'warning';
     } else if (status === BatchExecutionState.Completed) {
@@ -122,6 +129,8 @@ export class DhWholesaleTableComponent implements OnDestroy, AfterViewInit {
       return 'info';
     } else if (status === BatchExecutionState.Failed) {
       return 'danger';
+    } else {
+      return 'info';
     }
   }
 

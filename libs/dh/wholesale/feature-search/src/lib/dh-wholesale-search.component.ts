@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import { Component, NgModule } from '@angular/core';
+import { ChangeDetectorRef, Component, NgModule, ViewChild } from '@angular/core';
 import { of } from 'rxjs';
 import { LetModule, PushModule } from '@rx-angular/template';
 import { TranslocoModule } from '@ngneat/transloco';
@@ -23,15 +23,19 @@ import { MatCardModule } from '@angular/material/card';
 
 import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/feature-flags';
 import {
+  WattBadgeModule,
   WattButtonModule,
+  WattDrawerComponent,
+  WattDrawerModule,
   WattEmptyStateModule,
   WattSpinnerModule,
+  WattCardModule
 } from '@energinet-datahub/watt';
 
 import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
 import { BatchSearchDto } from '@energinet-datahub/dh/shared/domain';
 
-import { DhWholesaleTableComponent } from './table/dh-wholesale-table.component';
+import { DhWholesaleTableComponent, wholesaleBatch } from './table/dh-wholesale-table.component';
 import { DhWholesaleFormComponent } from './form/dh-wholesale-form.component';
 
 @Component({
@@ -41,17 +45,27 @@ import { DhWholesaleFormComponent } from './form/dh-wholesale-form.component';
   providers: [DhWholesaleBatchDataAccessApiStore],
 })
 export class DhWholesaleSearchComponent {
-  constructor(private store: DhWholesaleBatchDataAccessApiStore) {}
+  @ViewChild(WattDrawerComponent) batchDetails!: WattDrawerComponent;
+
+  constructor(private store: DhWholesaleBatchDataAccessApiStore, private changeDetectorRef: ChangeDetectorRef) {}
 
   data$ = this.store.batches$;
   loadingBatchesTrigger$ = this.store.loadingBatches$;
   loadingBatchesErrorTrigger$ = this.store.loadingBatchesErrorTrigger$;
 
   searchSubmitted = false;
+  selectedBatch: wholesaleBatch | null = null;
 
   onSearch(search: BatchSearchDto) {
     this.searchSubmitted = true;
     this.store.getBatches(of(search));
+  }
+
+  onBatchSelected(batch: wholesaleBatch) {
+    this.selectedBatch = batch;
+    this.changeDetectorRef.detectChanges();
+
+    this.batchDetails.open();
   }
 }
 
@@ -68,6 +82,9 @@ export class DhWholesaleSearchComponent {
     WattButtonModule,
     WattEmptyStateModule,
     WattSpinnerModule,
+    WattDrawerModule,
+    WattBadgeModule,
+    WattCardModule
   ],
   declarations: [DhWholesaleSearchComponent],
 })
