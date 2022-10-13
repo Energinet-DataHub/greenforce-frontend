@@ -17,11 +17,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, NgModule } from '@angular/core';
 import { timer } from 'rxjs';
+import { WattCardModule } from '../../card';
 
 @Component({
   selector: 'watt-storybook-drawer-content',
   template: `
-    <p>Drawer has been opened for: {{ timer$ | async }}s</p>
     <p>
       Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nulla assumenda
       perspiciatis officia quam recusandae, voluptate ratione pariatur
@@ -40,24 +40,49 @@ import { timer } from 'rxjs';
       temporibus, consequuntur deserunt numquam dolorum! Sequi assumenda amet,
       laboriosam omnis ex sapiente voluptatibus?
     </p>
-    <p>
-      Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nulla assumenda
-      perspiciatis officia quam recusandae, voluptate ratione pariatur
-      temporibus, consequuntur deserunt numquam dolorum! Sequi assumenda amet,
-      laboriosam omnis ex sapiente voluptatibus?
-    </p>
-    <p>
-      Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nulla assumenda
-      perspiciatis officia quam recusandae, voluptate ratione pariatur
-      temporibus, consequuntur deserunt numquam dolorum! Sequi assumenda amet,
-      laboriosam omnis ex sapiente voluptatibus?
-    </p>
-    <p>
-      Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nulla assumenda
-      perspiciatis officia quam recusandae, voluptate ratione pariatur
-      temporibus, consequuntur deserunt numquam dolorum! Sequi assumenda amet,
-      laboriosam omnis ex sapiente voluptatibus?
-    </p>
+    <watt-card>
+      <watt-card-title
+        ><h3>
+          Drawer has been opened for: {{ timer$ | async }}s
+        </h3></watt-card-title
+      >
+      <p>
+        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nulla
+        assumenda perspiciatis officia quam recusandae, voluptate ratione
+        pariatur temporibus, consequuntur deserunt numquam dolorum! Sequi
+        assumenda amet, laboriosam omnis ex sapiente voluptatibus?
+      </p>
+      <p>
+        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nulla
+        assumenda perspiciatis officia quam recusandae, voluptate ratione
+        pariatur temporibus, consequuntur deserunt numquam dolorum! Sequi
+        assumenda amet, laboriosam omnis ex sapiente voluptatibus?
+      </p>
+      <p>
+        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nulla
+        assumenda perspiciatis officia quam recusandae, voluptate ratione
+        pariatur temporibus, consequuntur deserunt numquam dolorum! Sequi
+        assumenda amet, laboriosam omnis ex sapiente voluptatibus?
+      </p>
+      <p>
+        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nulla
+        assumenda perspiciatis officia quam recusandae, voluptate ratione
+        pariatur temporibus, consequuntur deserunt numquam dolorum! Sequi
+        assumenda amet, laboriosam omnis ex sapiente voluptatibus?
+      </p>
+      <p>
+        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nulla
+        assumenda perspiciatis officia quam recusandae, voluptate ratione
+        pariatur temporibus, consequuntur deserunt numquam dolorum! Sequi
+        assumenda amet, laboriosam omnis ex sapiente voluptatibus?
+      </p>
+      <p>
+        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nulla
+        assumenda perspiciatis officia quam recusandae, voluptate ratione
+        pariatur temporibus, consequuntur deserunt numquam dolorum! Sequi
+        assumenda amet, laboriosam omnis ex sapiente voluptatibus?
+      </p>
+    </watt-card>
   `,
 })
 export class WattStorybookDrawerContentComponent {
@@ -67,6 +92,6 @@ export class WattStorybookDrawerContentComponent {
 @NgModule({
   declarations: [WattStorybookDrawerContentComponent],
   exports: [WattStorybookDrawerContentComponent],
-  imports: [CommonModule],
+  imports: [CommonModule, WattCardModule],
 })
 export class WattStorybookDrawerContentModule {}
