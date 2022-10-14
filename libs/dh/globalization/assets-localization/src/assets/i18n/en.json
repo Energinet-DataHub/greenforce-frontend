@@ -249,6 +249,12 @@
       "D02": "Fee",
       "D03": "Tariff"
     },
+    "resolutionType": {
+      "PT15M": "15 minutes",
+      "PT1H": "Hour",
+      "P1D": "Day",
+      "P1M": "Month"
+    },
     "chargeOwner": "Owner",
     "startDate": "Date",
     "quantity": "Quantity",
@@ -308,12 +314,6 @@
         "Subscription": "Subscription",
         "Fee": "Fee",
         "Tariff": "Tariff"
-      },
-      "resolutionType": {
-        "PT15M": "15 minutes",
-        "PT1H": "Hour",
-        "P1D": "Day",
-        "P1M": "Month"
       },
       "vatClassificationType": {
         "Vat25": "Yes",

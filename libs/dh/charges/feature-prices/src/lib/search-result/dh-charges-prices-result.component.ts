@@ -71,6 +71,7 @@ export class DhChargesPricesResultComponent
 
   private destroy$ = new Subject<void>();
 
+  activeChargeId?: string | null;
   displayedColumns = [
     'chargeId',
     'chargeName',
@@ -92,7 +93,18 @@ export class DhChargesPricesResultComponent
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
+    this.dataSource.sortingDataAccessor = this.toLowerSort();
     this.setupPaginatorTranslation();
+  }
+
+  toLowerSort() {
+    return (data: any, sortHeaderId: string): string => {
+      if (typeof data[sortHeaderId] === 'string') {
+        return data[sortHeaderId].toLocaleLowerCase();
+      }
+
+      return data[sortHeaderId];
+    };
   }
 
   ngOnChanges() {
@@ -129,7 +141,12 @@ export class DhChargesPricesResultComponent
   };
 
   rowClicked(charge: ChargeV1Dto) {
+    this.activeChargeId = charge.chargeId;
     this.chargePriceDrawer.openDrawer(charge);
+  }
+
+  drawerClosed() {
+    this.activeChargeId = null;
   }
 }
 
