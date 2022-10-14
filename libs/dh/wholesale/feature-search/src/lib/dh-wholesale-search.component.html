@@ -22,84 +22,76 @@ limitations under the License.
     ></dh-wholesale-form>
   </div>
 
-  <mat-card *ngIf="searchSubmitted">
-    <ng-container *transloco="let transloco; read: 'wholesale.searchBatch'">
-      <section class="content">
-        <ng-container
-          *rxLet="
-            data$;
-            let data;
-            error: loadedBatchesError;
-            suspense: loadingBatches;
-            suspenseTrg: loadingBatchesTrigger$;
-            errorTrg: loadingBatchesErrorTrigger$
-          "
-        >
-          <dh-wholesale-table
-            *ngIf="data"
-            [data]="data"
-            (selectedRow)="onBatchSelected($event)"
-          ></dh-wholesale-table>
-        </ng-container>
-      </section>
+  <ng-container *transloco="let transloco; read: 'wholesale.searchBatch'">
+    <section class="content" *ngIf="searchSubmitted">
+      <ng-container
+        *rxLet="
+          data$;
+          let data;
+          error: loadedBatchesError;
+          suspense: loadingBatches;
+          suspenseTrg: loadingBatchesTrigger$;
+          errorTrg: loadingBatchesErrorTrigger$
+        "
+      >
+        <dh-wholesale-table
+          *ngIf="data"
+          [data]="data"
+          (selectedRow)="onBatchSelected($event)"
+        ></dh-wholesale-table>
+      </ng-container>
+    </section>
 
-      <ng-template #loadingBatches>
-        <watt-spinner></watt-spinner>
-      </ng-template>
+    <ng-template #loadingBatches>
+      <watt-spinner></watt-spinner>
+    </ng-template>
 
-      <ng-template #loadedBatchesError>
-        <watt-empty-state
-          icon="power"
-          [title]="transloco('loadBatchesFailedTitle')"
-          [message]="transloco('loadBatchesFailedMessage')"
-        >
-        </watt-empty-state>
-      </ng-template>
+    <ng-template #loadedBatchesError>
+      <watt-empty-state
+        icon="power"
+        [title]="transloco('loadBatchesFailedTitle')"
+        [message]="transloco('loadBatchesFailedMessage')"
+      >
+      </watt-empty-state>
+    </ng-template>
 
-
-      <!--
+    <!--
       *ngIf ensures the content are not loaded before the drawer is open,
       and make sure it's getting destroyed when drawer is closed
       -->
-      <watt-drawer *ngIf="selectedBatch" (closed)="selectedBatch = null">
-        <watt-drawer-topbar>
+    <watt-drawer *ngIf="selectedBatch" (closed)="selectedBatch = null">
+      <watt-drawer-topbar>
+        <div>
+          <watt-badge [type]="selectedBatch.statusType">
+            {{ transloco(selectedBatch.executionState) }}
+          </watt-badge>
+          <p class="subheadline"><small>Korrektionsafregning</small></p>
+          <h3 class="headline watt-headline-1">
+            Batch: {{ selectedBatch.batchNumber }}
+          </h3>
+        </div>
+      </watt-drawer-topbar>
+
+      <watt-drawer-content>
+        <dl>
           <div>
-            <watt-badge [type]="selectedBatch.statusType">
-              {{ transloco(selectedBatch.executionState) }}
-            </watt-badge>
-            <p class="subheadline"><small>Korrektionsafregning</small></p>
-            <h3 class="headline watt-headline-1">Batch: {{ selectedBatch.batchNumber }}</h3>
+            <dt class="watt-label">Beregningsperiode</dt>
+            <dd>01-02-2022 - 01-03-2022</dd>
           </div>
-        </watt-drawer-topbar>
+          <div>
+            <dt class="watt-label">Eksekveringstidspunkt</dt>
+            <dd>10-07-2022 10:00</dd>
+          </div>
+        </dl>
+        <watt-card>
+          <watt-card-title>
+            <h3>Title</h3>
+          </watt-card-title>
 
-        <watt-drawer-content>
-          <dl>
-            <div>
-              <dt class="watt-label">Beregningsperiode</dt>
-              <dd>01-02-2022 - 01-03-2022</dd>
-            </div>
-            <div>
-              <dt class="watt-label">Eksekveringstidspunkt</dt>
-              <dd>10-07-2022 10:00</dd>
-            </div>
-          </dl>
-          <watt-card>
-            <watt-card-title>
-              <h3>Title</h3>
-            </watt-card-title>
-
-            Content
-          </watt-card>
-          <br />
-          <mat-card>
-            <mat-card-title>
-              <h3>Title</h3>
-            </mat-card-title>
-
-            Content
-          </mat-card>
-        </watt-drawer-content>
-      </watt-drawer>
-    </ng-container>
-  </mat-card>
+          Content
+        </watt-card>
+        <br />
+      </watt-drawer-content>
+    </watt-drawer>
+  </ng-container>
 </ng-container>

@@ -77,7 +77,6 @@ export class DhWholesaleSearchComponent {
     DhWholesaleTableComponent,
     LetModule,
     PushModule,
-    MatCardModule,
     TranslocoModule,
     WattButtonModule,
     WattEmptyStateModule,

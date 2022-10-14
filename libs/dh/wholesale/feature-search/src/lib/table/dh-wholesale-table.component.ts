@@ -40,6 +40,7 @@ import {
   WattBadgeModule,
   WattBadgeType,
   WattButtonModule,
+  WattCardModule,
   WattEmptyStateModule,
 } from '@energinet-datahub/watt';
 
@@ -72,6 +73,7 @@ type wholesaleTableData = MatTableDataSource<wholesaleBatch>;
     WattBadgeModule,
     WattButtonModule,
     WattEmptyStateModule,
+    WattCardModule
   ],
   selector: 'dh-wholesale-table',
   templateUrl: './dh-wholesale-table.component.html',
