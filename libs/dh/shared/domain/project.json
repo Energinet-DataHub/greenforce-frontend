@@ -1,4 +1,5 @@
 {
+  "name": "dh-shared-domain",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "implicitDependencies": ["api-dh"],
   "projectType": "library",

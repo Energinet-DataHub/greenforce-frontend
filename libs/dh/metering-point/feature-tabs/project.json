@@ -1,4 +1,5 @@
 {
+  "name": "dh-metering-point-feature-tabs",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
   "sourceRoot": "libs/dh/metering-point/feature-tabs/src",
