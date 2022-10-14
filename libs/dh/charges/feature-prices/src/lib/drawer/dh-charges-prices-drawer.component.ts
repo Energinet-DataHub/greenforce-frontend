@@ -17,6 +17,7 @@
 import { Component, NgModule, ViewChild } from '@angular/core';
 import { ChargeV1Dto } from '@energinet-datahub/dh/shared/domain';
 import { DhChargeDetailsHeaderScam } from '../details-header/dh-charge-details-header.component';
+import { DhChargesMessageTabScam} from './message-tab/dh-charges-message-tab.component';
 import {
   WattDrawerModule,
   WattDrawerComponent,
@@ -50,6 +51,7 @@ export class DhChargesPricesDrawerComponent {
     WattTabsModule,
     WattButtonModule,
     DhChargeDetailsHeaderScam,
+    DhChargesMessageTabScam,
   ],
 })
 export class DhChargesPricesDrawerScam {}
