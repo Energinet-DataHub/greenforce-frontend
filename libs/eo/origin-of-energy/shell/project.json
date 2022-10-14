@@ -1,4 +1,5 @@
 {
+  "name": "eo-origin-of-energy-shell",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
   "sourceRoot": "libs/eo/origin-of-energy/shell/src",

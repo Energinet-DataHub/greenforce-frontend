@@ -1,4 +1,5 @@
 {
+  "name": "eo-consumption-page-routing",
   "projectType": "library",
   "sourceRoot": "libs/eo/consumption-page/routing/src",
   "prefix": "eo",
