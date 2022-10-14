@@ -1,4 +1,5 @@
 {
+  "name": "eo-privacy-policy-routing",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
   "sourceRoot": "libs/eo/privacy-policy/routing/src",
