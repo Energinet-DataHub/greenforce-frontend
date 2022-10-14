@@ -20,4 +20,10 @@ describe('DrawerDatepickerComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it.todo('initial date values should contain dates')
+  it.todo('changes to date values should sync to subscribers')
+  it.todo('changes to chip state should sync to subscribers')
+  it.todo('should have 5 chips with values "d", "w", "m", "q", "y"')
+
 });
