@@ -15,7 +15,12 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import { ChangeDetectorRef, Component, NgModule, ViewChild } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  NgModule,
+  ViewChild,
+} from '@angular/core';
 import { of } from 'rxjs';
 import { LetModule, PushModule } from '@rx-angular/template';
 import { TranslocoModule } from '@ngneat/transloco';
@@ -29,13 +34,16 @@ import {
   WattDrawerModule,
   WattEmptyStateModule,
   WattSpinnerModule,
-  WattCardModule
+  WattCardModule,
 } from '@energinet-datahub/watt';
 
 import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
 import { BatchSearchDto } from '@energinet-datahub/dh/shared/domain';
 
-import { DhWholesaleTableComponent, wholesaleBatch } from './table/dh-wholesale-table.component';
+import {
+  DhWholesaleTableComponent,
+  wholesaleBatch,
+} from './table/dh-wholesale-table.component';
 import { DhWholesaleFormComponent } from './form/dh-wholesale-form.component';
 
 @Component({
@@ -47,7 +55,10 @@ import { DhWholesaleFormComponent } from './form/dh-wholesale-form.component';
 export class DhWholesaleSearchComponent {
   @ViewChild(WattDrawerComponent) batchDetails!: WattDrawerComponent;
 
-  constructor(private store: DhWholesaleBatchDataAccessApiStore, private changeDetectorRef: ChangeDetectorRef) {}
+  constructor(
+    private store: DhWholesaleBatchDataAccessApiStore,
+    private changeDetectorRef: ChangeDetectorRef
+  ) {}
 
   data$ = this.store.batches$;
   loadingBatchesTrigger$ = this.store.loadingBatches$;
@@ -83,7 +94,7 @@ export class DhWholesaleSearchComponent {
     WattSpinnerModule,
     WattDrawerModule,
     WattBadgeModule,
-    WattCardModule
+    WattCardModule,
   ],
   declarations: [DhWholesaleSearchComponent],
 })

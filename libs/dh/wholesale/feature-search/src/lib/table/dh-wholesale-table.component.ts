@@ -73,7 +73,7 @@ type wholesaleTableData = MatTableDataSource<wholesaleBatch>;
     WattBadgeModule,
     WattButtonModule,
     WattEmptyStateModule,
-    WattCardModule
+    WattCardModule,
   ],
   selector: 'dh-wholesale-table',
   templateUrl: './dh-wholesale-table.component.html',
