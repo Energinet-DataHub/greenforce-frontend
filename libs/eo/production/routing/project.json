@@ -1,4 +1,5 @@
 {
+  "name": "eo-production-routing",
   "projectType": "library",
   "sourceRoot": "libs/eo/production/routing/src",
   "prefix": "eo",
