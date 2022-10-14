@@ -1,0 +1,61 @@
+<!--
+@license
+Copyright 2020 Energinet DataHub A/S
+
+Licensed under the Apache License, Version 2.0 (the "License2");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<ng-container *ngIf="charge">
+  <div class="container" *transloco="let t; read: 'charges'">
+    {{ t("chargeType." + charge.chargeType) }} ({{
+      t("resolutionType." + charge.resolution)
+    }})
+    <h1>{{ charge.chargeId }} - {{ charge.chargeName }}</h1>
+    {{ charge.chargeOwnerName }} | {{ charge.chargeOwner }}
+    <watt-expansion
+      [openLabel]="t('prices.drawer.showDescriptionLabel')"
+      [closeLabel]="t('prices.drawer.hideDescriptionLabel')"
+      >{{ charge.chargeDescription }}</watt-expansion
+    >
+
+    <mat-divider></mat-divider>
+
+    <div class="charge-property-container">
+      <div class="charge-property">
+        <span class="watt-label">{{ t("validityPeriod") }}</span>
+        <div class="watt-text-s">
+          {{ charge.validFromDateTime | dhDate }} -
+          {{ charge.validToDateTime | dhDate }}
+        </div>
+      </div>
+      <div class="charge-property">
+        <span class="watt-label">{{ t("vatClassification") }}</span>
+        <div class="watt-text-s">
+          {{ t("vatClassificationType." + charge.vatClassification) }}
+        </div>
+      </div>
+      <div class="charge-property">
+        <span class="watt-label">{{ t("transparentInvoicing") }}</span>
+        <div class="watt-text-s">
+          {{ t("transparentInvoicingType." + charge.transparentInvoicing) }}
+        </div>
+      </div>
+      <div class="charge-property">
+        <span class="watt-label">{{ t("taxIndicator") }}</span>
+        <div class="watt-text-s">
+          {{ t("taxIndicatorType." + charge.taxIndicator) }}
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>

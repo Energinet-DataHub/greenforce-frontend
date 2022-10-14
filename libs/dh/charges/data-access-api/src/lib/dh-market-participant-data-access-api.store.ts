@@ -18,33 +18,29 @@ import { Injectable } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import {
-  ChargeV1Dto,
+  MarketParticipantV1Dto,
   ChargesHttp,
-  SearchCriteriaV1Dto,
 } from '@energinet-datahub/dh/shared/domain';
 import { Observable, switchMap, tap } from 'rxjs';
 import { ErrorState, LoadingState } from './states';
 
-interface ChargesState {
-  readonly charges?: Array<ChargeV1Dto>;
+interface MarketParticipantState {
+  readonly marketParticipants?: Array<MarketParticipantV1Dto>;
   readonly requestState: LoadingState | ErrorState;
 }
 
-const initialState: ChargesState = {
-  charges: undefined,
+const initialState: MarketParticipantState = {
+  marketParticipants: undefined,
   requestState: LoadingState.INIT,
 };
 
 @Injectable()
-export class DhChargesDataAccessApiStore extends ComponentStore<ChargesState> {
-  all$ = this.select((state) => state.charges);
+export class DhMarketParticipantDataAccessApiStore extends ComponentStore<MarketParticipantState> {
+  all$ = this.select((state) => state.marketParticipants);
 
   isInit$ = this.select((state) => state.requestState === LoadingState.INIT);
   isLoading$ = this.select(
     (state) => state.requestState === LoadingState.LOADING
-  );
-  chargesNotFound$ = this.select(
-    (state) => state.requestState === ErrorState.NOT_FOUND_ERROR
   );
   hasGeneralError$ = this.select(
     (state) => state.requestState === ErrorState.GENERAL_ERROR
@@ -54,21 +50,21 @@ export class DhChargesDataAccessApiStore extends ComponentStore<ChargesState> {
     super(initialState);
   }
 
-  readonly searchCharges = this.effect(
-    (searchCriteria: Observable<SearchCriteriaV1Dto>) => {
-      return searchCriteria.pipe(
+  readonly loadMarketParticipants = this.effect(
+    (trigger$: Observable<void>) => {
+      return trigger$.pipe(
         tap(() => {
           this.resetState();
 
           this.setLoading(LoadingState.LOADING);
         }),
-        switchMap((searchCriteria) =>
-          this.httpClient.v1ChargesSearchAsyncPost(searchCriteria).pipe(
+        switchMap(() =>
+          this.httpClient.v1ChargesGetMarketParticipantsAsyncGet().pipe(
             tapResponse(
-              (chargesData) => {
+              (marketParticipants) => {
                 this.setLoading(LoadingState.LOADED);
 
-                this.updateChargesData(chargesData);
+                this.updateMarketParticipantsData(marketParticipants);
               },
               (error: HttpErrorResponse) => {
                 this.setLoading(LoadingState.LOADED);
@@ -81,26 +77,25 @@ export class DhChargesDataAccessApiStore extends ComponentStore<ChargesState> {
     }
   );
 
-  private updateChargesData = this.updater(
+  private updateMarketParticipantsData = this.updater(
     (
-      state: ChargesState,
-      chargesData: Array<ChargeV1Dto> | undefined
-    ): ChargesState => ({
+      state: MarketParticipantState,
+      marketParticipants: Array<MarketParticipantV1Dto> | undefined
+    ): MarketParticipantState => ({
       ...state,
-      charges: chargesData || [],
+      marketParticipants: marketParticipants || [],
     })
   );
 
   private setLoading = this.updater(
-    (state, loadingState: LoadingState): ChargesState => ({
+    (state, loadingState: LoadingState): MarketParticipantState => ({
       ...state,
       requestState: loadingState,
     })
   );
 
   private handleError = (error: HttpErrorResponse) => {
-    const chargesData = undefined;
-    this.updateChargesData(chargesData);
+    this.updateMarketParticipantsData(undefined);
 
     const requestError =
       error.status === HttpStatusCode.NotFound
@@ -110,9 +105,5 @@ export class DhChargesDataAccessApiStore extends ComponentStore<ChargesState> {
     this.patchState({ requestState: requestError });
   };
 
-  readonly clearCharges = () => {
-    this.setLoading(LoadingState.INIT);
-    this.updateChargesData([]);
-  };
   private resetState = () => this.setState(initialState);
 }

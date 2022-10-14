@@ -251,10 +251,12 @@
     },
     "chargeOwner": "Owner",
     "startDate": "Date",
-    "transparentInvoicing": "Transparent Invoicing",
     "quantity": "Quantity",
     "noActive": "No active {{title}}",
     "noActiveMessage": "We found no active {{title}} on this metering point",
+    "validityPeriod": "Validity period",
+    "transparentInvoicing": "Transparent Invoicing",
+    "vatClassification": "VAT",
     "taxIndicator": "Tax",
     "chargesNotFound": {
       "title": "Sorry, we did not find any charges for this metering point"
@@ -280,17 +282,19 @@
         "clearSearch": "Clear",
         "startSearch": "Search"
       },
-      "priceId": "Price ID",
-      "priceName": "Name",
-      "owner": "Owner",
+      "chargeId": "Price ID",
+      "chargeName": "Name",
+      "chargeOwnerName": "Owner",
       "chargeType": "Type",
       "resolution": "Resolution",
-      "validFromDate": "Valid from",
-      "validToDate": "Valid to",
+      "validFromDateTime": "Valid from",
+      "validToDateTime": "Valid to",
       "resultLength": "Search results",
       "Download": "Download",
       "noResultsFound": "No results",
       "noResultsHelperText": "Try adjusting your search or filter to find what you are looking for.",
+      "startSearch": "Start Search",
+      "startSearchText": "Your results will appear here",
       "paginator": {
         "itemsPerPageLabel": "Prices per page",
         "of": "of",
@@ -311,6 +315,18 @@
         "P1D": "Day",
         "P1M": "Month"
       },
+      "vatClassificationType": {
+        "Vat25": "Yes",
+        "NoVat": "No"
+      },
+      "transparentInvoicingType": {
+        "true": "Yes",
+        "false": "No"
+      },
+      "taxIndicatorType": {
+        "true": "Yes",
+        "false": "No"
+      },
       "validityOptions": {
         "Now": "Valid now",
         "Planned": "Future Prices",
@@ -324,7 +340,11 @@
       "drawer": {
         "prices": "Prices",
         "messages": "Messages",
-        "history": "History"
+        "history": "History",
+        "stop": "Stop",
+        "edit": "Rediger",
+        "showDescriptionLabel": "Show description",
+        "hideDescriptionLabel": "Hide description"
       }
     }
   },
