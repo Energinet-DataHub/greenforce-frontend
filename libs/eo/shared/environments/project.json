@@ -1,4 +1,5 @@
 {
+  "name": "eo-shared-environments",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
   "sourceRoot": "libs/eo/shared/environments/src",

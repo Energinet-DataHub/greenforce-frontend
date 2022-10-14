@@ -249,6 +249,24 @@
       "D02": "Fee",
       "D03": "Tariff"
     },
+    "resolutionType": {
+      "PT15M": "15 minutes",
+      "PT1H": "Hour",
+      "P1D": "Day",
+      "P1M": "Month"
+    },
+    "vatClassificationType": {
+      "Vat25": "Yes",
+      "NoVat": "No"
+    },
+    "transparentInvoicingType": {
+      "true": "Yes",
+      "false": "No"
+    },
+    "taxIndicatorType": {
+      "true": "Yes",
+      "false": "No"
+    },
     "chargeOwner": "Owner",
     "startDate": "Date",
     "quantity": "Quantity",
@@ -309,24 +327,6 @@
         "Fee": "Fee",
         "Tariff": "Tariff"
       },
-      "resolutionType": {
-        "PT15M": "15 minutes",
-        "PT1H": "Hour",
-        "P1D": "Day",
-        "P1M": "Month"
-      },
-      "vatClassificationType": {
-        "Vat25": "Yes",
-        "NoVat": "No"
-      },
-      "transparentInvoicingType": {
-        "true": "Yes",
-        "false": "No"
-      },
-      "taxIndicatorType": {
-        "true": "Yes",
-        "false": "No"
-      },
       "validityOptions": {
         "Now": "Valid now",
         "Planned": "Future Prices",
@@ -342,14 +342,14 @@
         "messages": "Messages",
         "history": "History",
         "stop": "Stop",
-        "edit": "Rediger",
+        "edit": "Edit",
         "showDescriptionLabel": "Show description",
         "hideDescriptionLabel": "Hide description"
       }
     }
   },
   "messageArchive": {
-    "unknowenError": "Unknowen error",
+    "unknowenError": "Unknown error",
     "search": {
       "topBarTitle": "Search in request and response messages",
       "documenttype": "Document type",
