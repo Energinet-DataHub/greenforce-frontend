@@ -82,14 +82,14 @@ jobs:
       # needed to push to origin
       - name: 'PR: Check out source code with current branch Git history'
         if: ${{ env.is-pull-request == 'true' }}
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
           ref: ${{ github.head_ref }}
           token: ${{ secrets.PAT_TOKEN }}
       - name: 'Merge: Check out source code'
         if: ${{ env.is-main-branch == 'true' }}
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Set up Node.js
         uses: actions/setup-node@v2

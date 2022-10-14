@@ -59,7 +59,7 @@ jobs:
       # needed for nx affected command
       - name: 'PR: Check out source code with current branch Git history'
         if: ${{ env.is-pull-request == 'true' }}
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
           ref: ${{ github.head_ref }}
@@ -69,7 +69,7 @@ jobs:
         run: git fetch --no-tags origin $BASE_BRANCH
       - name: 'Merge: Check out source code'
         if: ${{ env.is-pull-request == 'false' }}
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Set up Node.js
         uses: actions/setup-node@v2
@@ -106,7 +106,7 @@ jobs:
     name: SonarCloud
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
       - name: SonarCloud Scan
@@ -130,7 +130,7 @@ jobs:
       # needed for nx affected command
       - name: 'PR: Check out source code with current branch Git history'
         if: ${{ env.is-pull-request == 'true' }}
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
           ref: ${{ github.head_ref }}
@@ -140,7 +140,7 @@ jobs:
         run: git fetch --no-tags origin $BASE_BRANCH
       - name: 'Merge: Check out source code'
         if: ${{ env.is-pull-request == 'false' }}
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Set up Node.js
         uses: actions/setup-node@v2
@@ -183,7 +183,7 @@ jobs:
     steps:
       # needed for nx affected command
       - name: Check out source code with current branch Git history
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
           ref: ${{ github.head_ref }}
@@ -244,7 +244,7 @@ jobs:
       # needed for nx affected command
       - name: 'PR: Check out source code with current branch Git history'
         if: ${{ env.is-pull-request == 'true' }}
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
           ref: ${{ github.head_ref }}
@@ -255,7 +255,7 @@ jobs:
         run: git fetch --no-tags origin $BASE_BRANCH
       - name: 'Merge: Check out source code'
         if: ${{ env.is-pull-request == 'false' }}
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Set up Node.js
         uses: actions/setup-node@v2
@@ -311,7 +311,7 @@ jobs:
       # needed for nx affected command
       - name: 'PR: Check out source code with current branch Git history'
         if: ${{ env.is-pull-request == 'true' }}
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
           ref: ${{ github.head_ref }}
@@ -321,7 +321,7 @@ jobs:
         run: git fetch --no-tags origin $BASE_BRANCH
       - name: 'Merge: Check out source code'
         if: ${{ env.is-pull-request == 'false' }}
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Set up Node.js
         uses: actions/setup-node@v2
