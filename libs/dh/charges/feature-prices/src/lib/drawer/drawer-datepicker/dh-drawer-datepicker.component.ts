@@ -1,4 +1,12 @@
-import { Component, NgModule, OnInit, OnDestroy } from '@angular/core';
+import {
+  Component,
+  NgModule,
+  OnInit,
+  OnDestroy,
+  Output,
+  EventEmitter,
+  AfterViewInit,
+} from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Subject, takeUntil } from 'rxjs';
@@ -11,82 +19,112 @@ import {
   WattChipsSelection,
   WattChipsOption,
 } from '@energinet-datahub/watt';
-import { DatePickerData, DrawerDatepickerService } from './drawer-datepicker.service';
+import {
+  DatePickerData,
+  DrawerDatepickerService,
+} from './drawer-datepicker.service';
 
 @Component({
   selector: 'dh-drawer-datepicker',
   templateUrl: './dh-drawer-datepicker.component.html',
-  styleUrls: ['./dh-drawer-datepicker.component.scss']
+  styleUrls: ['./dh-drawer-datepicker.component.scss'],
 })
-export class DhDrawerDatepickerComponent implements OnInit, OnDestroy {
+export class DhDrawerDatepickerComponent
+  implements OnInit, OnDestroy, AfterViewInit
+{
+  @Output() changed = new EventEmitter();
 
-  private readonly chipOptions : WattChipsOption[] = [
-    { label: 'day', value: "d" },
-    { label: 'week', value: "w" },
-    { label: 'month', value: "m" },
-    { label: 'quarter', value: "q" },
-    { label: 'year', value: "y" },
+  private readonly chipOptions: WattChipsOption[] = [
+    { label: 'day', value: 'd' },
+    { label: 'week', value: 'w' },
+    { label: 'month', value: 'm' },
+    { label: 'quarter', value: 'q' },
+    { label: 'year', value: 'y' },
   ];
 
   options = this.chipOptions;
-  data : DatePickerData = this.datepickerService.getData();
-  optionSelected : WattChipsSelection = this.data.chipOption;
+  data: DatePickerData = this.datepickerService.getData();
+  optionSelected: WattChipsSelection = '';
   startDate = this.data.startDate;
   endDate = this.data.endDate;
+  timer: NodeJS.Timeout | undefined;
 
   formControlDateRange = new FormControl<{ start: string; end: string }>(
-    {start: this.startDate, end: this.endDate},
+    { start: this.startDate, end: this.endDate },
     [WattRangeValidators.required()]
   );
 
-  subscription = this.datepickerService.data$.subscribe(data => { this.startDate = data.startDate, this.endDate = data.endDate, this.optionSelected = data.chipOption });
-
-  constructor(private translocoService: TranslocoService, private datepickerService: DrawerDatepickerService) {}
+  constructor(
+    private translocoService: TranslocoService,
+    private datepickerService: DrawerDatepickerService
+  ) {}
 
   private destroy$ = new Subject<void>();
 
+  ngAfterViewInit() {
+    this.formControlDateRange.valueChanges
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((dateRange) => {
+        this.datepickerService.setData({
+          endDate: dateRange?.end ?? '',
+          startDate: dateRange?.start ?? '',
+        });
+
+        clearTimeout(this.timer);
+        this.timer = setTimeout(() => {
+          if (dateRange?.end != '') this.changed.emit(dateRange);
+        }, 1000);
+      });
+  }
+
   ngOnInit(): void {
-     this.setupDateChipTranslation();
+    this.setupDateChipTranslation();
+
+    this.datepickerService.data$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((data) => {
+        const value = this.formControlDateRange.value;
+        if (data.endDate == null) return;
+        if (value?.start == data.startDate && value?.end == data.endDate)
+          return;
+
+        this.formControlDateRange.patchValue(
+          {
+            start:
+              value?.start == data.startDate ? value.start : data.startDate,
+            end: value?.end == data.endDate ? value.end : data.endDate,
+          },
+          {
+            emitEvent: false,
+          }
+        );
+      });
   }
 
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.unsubscribe();
-    this.subscription.unsubscribe();
   }
 
   private setupDateChipTranslation() {
-      this.translocoService
-        .selectTranslateObject('charges.prices.drawer.dateChips')
-        .pipe(takeUntil(this.destroy$))
-        .subscribe({
-          next: (translationKeys) => {
-            this.options = Object.values(this.chipOptions
-              .map((option) => {
-                return {
-                  label: translationKeys[option.label],
-                  value: option.value
-                };
-              }));
-          },
-        });
+    this.translocoService
+      .selectTranslateObject('charges.prices.drawer.dateChips')
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (translationKeys) => {
+          this.options = Object.values(
+            this.chipOptions.map((option) => {
+              return {
+                label: translationKeys[option.label],
+                value: option.value,
+              };
+            })
+          );
+        },
+      });
   }
-
-  setData() {
-    this.datepickerService.setData({ startDate: this.startDate, endDate: this.endDate, chipOption: this.optionSelected as string})
-  }
-
-  // how to get notifications on changes from a watt-datepicker?
-  datesChange(dates: { start: string, end: string }) {
-    this.startDate = dates.start
-    this.endDate = dates.end;
-    this.setData();
-
-  }
-
   selectionChange(selectedChip: WattChipsSelection) {
-    this.optionSelected = selectedChip;
-    this.setData()
+    console.log(selectedChip);
   }
 }
 
@@ -99,7 +137,7 @@ export class DhDrawerDatepickerComponent implements OnInit, OnDestroy {
     ReactiveFormsModule,
     WattFormFieldModule,
     WattDatepickerModule,
-    WattChipsModule
+    WattChipsModule,
   ],
 })
 export class DhDrawerDatepickerScam {}

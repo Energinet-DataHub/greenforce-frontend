@@ -1,24 +1,21 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, distinctUntilKeyChanged } from 'rxjs';
 
 export interface DatePickerData {
   startDate: string;
   endDate: string;
-  chipOption: string;
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class DrawerDatepickerService {
-
   dataDefault: DatePickerData = {
-      startDate: new Date().toISOString(),
-      endDate: new Date().toISOString(),
-      chipOption: "d",
-    }
+    startDate: new Date().toISOString(),
+    endDate: new Date().toISOString(),
+  };
 
-  private dataSource$ = new BehaviorSubject(this.dataDefault)
+  private dataSource$ = new BehaviorSubject(this.dataDefault);
   data$ = this.dataSource$.asObservable();
 
   getData() {
