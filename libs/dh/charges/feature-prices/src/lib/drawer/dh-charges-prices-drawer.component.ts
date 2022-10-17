@@ -28,12 +28,13 @@ import {
   WattDrawerComponent,
   WattTabsModule,
   WattFormFieldModule,
-  WattDatepickerModule } from '@energinet-datahub/watt';
+  WattDatepickerModule,
+  WattButtonModule,
+} from '@energinet-datahub/watt';
 import { TranslocoModule } from '@ngneat/transloco';
 import { DhChargesPricesPriceTabScam } from './price-tab/dh-charges-prices-price-tab.component';
 import { DhChargesPricesMessageTabScam } from './message-tab/dh-charges-prices-message-tab.component';
 import { DhChargesPricesHistoryTabScam } from './history-tab/dh-charges-prices-history-tab.component';
-
 
 @Component({
   selector: 'dh-charges-prices-drawer',
@@ -64,8 +65,10 @@ export class DhChargesPricesDrawerComponent {
     WattDrawerModule,
     TranslocoModule,
     WattTabsModule,
+    WattButtonModule,
     WattDatepickerModule,
     WattFormFieldModule,
+    DhChargeDetailsHeaderScam,
     DhChargesPricesPriceTabScam,
     DhChargesPricesMessageTabScam,
     DhChargesPricesHistoryTabScam,
