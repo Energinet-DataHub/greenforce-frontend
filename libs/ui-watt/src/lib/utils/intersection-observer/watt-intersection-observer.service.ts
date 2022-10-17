@@ -22,7 +22,7 @@ import { filter, finalize, Subject } from 'rxjs';
  * the viewport.
  *
  * Usage:
- * `import { WattResizeObserverService } from '@energinet-datahub/watt';`
+ * `import { WattIntersectionObserverService } from '@energinet-datahub/watt';`
  */
 @Injectable({ providedIn: 'root' })
 export class WattIntersectionObserverService {
