@@ -16,7 +16,7 @@ limitations under the License.
 -->
 <ng-container *transloco="let t; read: 'charges.prices.drawer'">
   <!-- drawer -->
-  <watt-drawer #drawer size="large">
+  <watt-drawer #drawer size="large" (closed)="drawerClosed()">
     <watt-drawer-topbar
       ><span class="prices-label">{{ t("prices") }}</span> >
       {{ charge?.chargeId }}</watt-drawer-topbar
