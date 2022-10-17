@@ -18,7 +18,11 @@ import { Injectable } from '@angular/core';
 import { filter, finalize, Subject } from 'rxjs';
 
 /**
- * TODO: Docs
+ * Service for observing changes in the intersection of a target element with
+ * the viewport.
+ *
+ * Usage:
+ * `import { WattResizeObserverService } from '@energinet-datahub/watt';`
  */
 @Injectable({ providedIn: 'root' })
 export class WattIntersectionObserverService {
@@ -36,7 +40,9 @@ export class WattIntersectionObserverService {
   }
 
   /**
-   * TODO: Docs
+   * Add an element to be observed, returning an observable that emits
+   * whenever that element enters or leaves the viewport. Element will
+   * automatically be unobserved when the observable is unsubscribed.
    */
   observe(element: Element) {
     this.intersectionObserver?.observe(element);
