@@ -344,7 +344,9 @@
         "stop": "Stop",
         "edit": "Edit",
         "showDescriptionLabel": "Show description",
-        "hideDescriptionLabel": "Hide description"
+        "hideDescriptionLabel": "Hide description",
+        "messageId": "Message Id",
+        "date": "Date"
       }
     }
   },

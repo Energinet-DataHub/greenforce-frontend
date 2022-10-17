@@ -62,9 +62,9 @@ export class DhChargesMessageTabComponent
   private destroy$ = new Subject<void>();
 
   displayedColumns = [
-    'chargeId',
-    'chargeName',
-    'chargeOwnerName',
+    'messageId',
+    'date',
+    'chargeType',
   ];
 
   readonly dataSource: MatTableDataSource<string> =
