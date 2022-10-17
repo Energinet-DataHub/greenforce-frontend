@@ -14,22 +14,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@use "@energinet-datahub/watt";
-@use "@energinet-datahub/watt/utils";
+@use "@energinet-datahub/watt/utils" as watt;
 
-.watt-expandable-card:not([class*="mat-elevation-z"]) {
-  @extend .watt-elevation;
-}
-
-.watt-expandable-card {
-  margin: var(--watt-space-m) 0;
+.watt-expandable-card.mat-expansion-panel {
   border-radius: 4px !important;
 
   & .mat-expansion-panel-header {
-    @include utils.typography-watt-headline-4;
+    @include watt.typography-watt-headline-4;
     height: var(--watt-space-xl);
     padding: 0 var(--watt-space-m);
     user-select: none;
+
+    &:hover:not([aria-disabled="true"]) {
+      background: var(--watt-color-neutral-white);
+    }
   }
 
   & .mat-expansion-indicator {
@@ -47,8 +45,8 @@
   }
 
   & watt-expandable-card-badge {
-    @include utils.space-inset-squish-xs;
-    @include utils.typography-watt-text-m-highlighted;
+    @include watt.space-inset-squish-xs;
+    @include watt.typography-watt-text-m-highlighted;
     margin-right: var(--watt-space-m);
     border-radius: 4px;
     color: var(--watt-color-primary);
