@@ -18,6 +18,7 @@ import { Injectable, Renderer2 } from '@angular/core';
 import Inputmask from 'inputmask';
 import {
   distinctUntilChanged,
+  first,
   fromEvent,
   map,
   mergeWith,
@@ -27,6 +28,7 @@ import {
   tap,
 } from 'rxjs';
 
+import { WattIntersectionObserverService } from '../../../utils/intersection-observer';
 import { WattColor } from '../../../foundations/color/colors';
 
 export interface WattMaskedInput {
@@ -42,7 +44,10 @@ export class WattInputMaskService {
   // but it is influenced by the monospace font set on the component
   #charWidth = 8;
 
-  constructor(private renderer: Renderer2) {}
+  constructor(
+    private renderer: Renderer2,
+    private intersectionObserver: WattIntersectionObserverService
+  ) {}
 
   mask(
     initialValue: string | null = '',
@@ -66,7 +71,13 @@ export class WattInputMaskService {
 
     inputMask = im.mask(element);
 
-    this.setInputColor(element, inputMask);
+    // Since `setInputColor` uses getComputedStyle, that function may fail if
+    // trying to mask an element that is initially hidden. This then defers
+    // the first call to `setInputColor` until the element enters the viewport.
+    this.intersectionObserver
+      .observe(element)
+      .pipe(first((entry) => entry.isIntersecting))
+      .subscribe(() => this.setInputColor(element, inputMask));
 
     // Used for manually updating the input value
     const valueSubject = new Subject<string>();
