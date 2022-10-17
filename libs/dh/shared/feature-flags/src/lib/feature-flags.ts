@@ -50,7 +50,7 @@ export const dhFeatureFlagsConfig = makeFeatureFlags({
     disabledEnvironments: [DhAppEnvironment.prod],
   },
   charges_price_date_chips_feature_flag: {
-    created: '17-10-2022',
+    created: '16-10-2022',
     disabledEnvironments: [DhAppEnvironment.prod],
   },
 });
