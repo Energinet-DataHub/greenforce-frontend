@@ -14,7 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, NgModule, ViewChild } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  NgModule,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { ChargeV1Dto } from '@energinet-datahub/dh/shared/domain';
 import { DhChargeDetailsHeaderScam } from '../details-header/dh-charge-details-header.component';
 import { DhChargesMessageTabScam} from './message-tab/dh-charges-message-tab.component';
@@ -34,11 +40,17 @@ import { TranslocoModule } from '@ngneat/transloco';
 export class DhChargesPricesDrawerComponent {
   @ViewChild('drawer') drawer!: WattDrawerComponent;
 
+  @Output() closed = new EventEmitter<void>();
+
   charge?: ChargeV1Dto;
 
   openDrawer(charge: ChargeV1Dto) {
     this.charge = charge;
     this.drawer.open();
+  }
+
+  drawerClosed() {
+    this.closed.emit();
   }
 }
 
