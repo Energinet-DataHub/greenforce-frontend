@@ -348,6 +348,7 @@
         "showDescriptionLabel": "Se beskrivelse",
         "hideDescriptionLabel": "Luk beskrivelse",
         "messageId": "Besked Id",
+        "messageType": "Type",
         "date": "Dato"
       }
     }

@@ -29,6 +29,7 @@ import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { LetModule } from '@rx-angular/template';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { Subject, takeUntil } from 'rxjs';
+import { MessageArchiveSearchResultItemDto } from '@energinet-datahub/dh/shared/domain';
 import {
   WattButtonModule,
   WattEmptyStateModule,
@@ -54,7 +55,7 @@ export class DhChargesMessageTabComponent
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) matSort!: MatSort;
 
-  @Input() result?: Array<string>;
+  @Input() result?: Array<MessageArchiveSearchResultItemDto>;
   @Input() isLoading = false;
   @Input() isInit = false;
   @Input() hasLoadingError = false;
@@ -63,12 +64,12 @@ export class DhChargesMessageTabComponent
 
   displayedColumns = [
     'messageId',
-    'date',
-    'chargeType',
+    'createdDate',
+    'messageType',
   ];
 
-  readonly dataSource: MatTableDataSource<string> =
-    new MatTableDataSource<string>();
+  readonly dataSource: MatTableDataSource<MessageArchiveSearchResultItemDto> =
+    new MatTableDataSource<MessageArchiveSearchResultItemDto>();
 
   constructor(
     private translocoService: TranslocoService,
@@ -76,6 +77,11 @@ export class DhChargesMessageTabComponent
   ) {}
 
   ngAfterViewInit() {
+    this.result = [
+      { messageId: 'id', messageType: 'RSM - 33 RequestChangeOfPriceList', blobContentUri: 'https://', createdDate: '2022-10-29T22:00:00'},
+    ];
+    this.dataSource.data = this.result;
+
     this.dataSource.paginator = this.paginator;
     this.setupPaginatorTranslation();
   }
