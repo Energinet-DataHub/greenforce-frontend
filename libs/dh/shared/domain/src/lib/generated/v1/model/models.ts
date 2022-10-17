@@ -54,4 +54,5 @@ export * from './search-criteria-v1-dto';
 export * from './settlement-method';
 export * from './stream';
 export * from './unit';
+export * from './vat-classification';
 export * from './wholesale-process-type';

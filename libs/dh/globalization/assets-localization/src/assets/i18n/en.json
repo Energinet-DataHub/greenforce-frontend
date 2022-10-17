@@ -249,12 +249,32 @@
       "D02": "Fee",
       "D03": "Tariff"
     },
+    "resolutionType": {
+      "PT15M": "15 minutes",
+      "PT1H": "Hour",
+      "P1D": "Day",
+      "P1M": "Month"
+    },
+    "vatClassificationType": {
+      "Vat25": "Yes",
+      "NoVat": "No"
+    },
+    "transparentInvoicingType": {
+      "true": "Yes",
+      "false": "No"
+    },
+    "taxIndicatorType": {
+      "true": "Yes",
+      "false": "No"
+    },
     "chargeOwner": "Owner",
     "startDate": "Date",
-    "transparentInvoicing": "Transparent Invoicing",
     "quantity": "Quantity",
     "noActive": "No active {{title}}",
     "noActiveMessage": "We found no active {{title}} on this metering point",
+    "validityPeriod": "Validity period",
+    "transparentInvoicing": "Transparent Invoicing",
+    "vatClassification": "VAT",
     "taxIndicator": "Tax",
     "chargesNotFound": {
       "title": "Sorry, we did not find any charges for this metering point"
@@ -307,12 +327,6 @@
         "Fee": "Fee",
         "Tariff": "Tariff"
       },
-      "resolutionType": {
-        "PT15M": "15 minutes",
-        "PT1H": "Hour",
-        "P1D": "Day",
-        "P1M": "Month"
-      },
       "validityOptions": {
         "Now": "Valid now",
         "Planned": "Future Prices",
@@ -326,7 +340,6 @@
       "drawer": {
         "prices": "Prices",
         "messages": "Messages",
-        "history": "History",
         "dateChips": {
           "day": "Day",
           "week": "Week",
@@ -334,11 +347,16 @@
           "quarter": "Quarter",
           "year": "Year"
         }
+        "history": "History",
+        "stop": "Stop",
+        "edit": "Edit",
+        "showDescriptionLabel": "Show description",
+        "hideDescriptionLabel": "Hide description"
       }
     }
   },
   "messageArchive": {
-    "unknowenError": "Unknowen error",
+    "unknowenError": "Unknown error",
     "search": {
       "topBarTitle": "Search in request and response messages",
       "documenttype": "Document type",

@@ -19,7 +19,7 @@ runs:
     # if we inline the Node.js execution here, the calling job will not fail in
     # case of process errors
     - id: dependenciesHasChanged
-      run: echo "::set-output name=dependencies-have-changed::$(cat ./tmp/DEPENDENCIES_HAVE_CHANGED)"
+      run: echo "dependencies-have-changed=$(cat ./tmp/DEPENDENCIES_HAVE_CHANGED)" >> $GITHUB_OUTPUT
       shell: bash
     - run: rm ./tmp/DEPENDENCIES_HAVE_CHANGED
       shell: bash

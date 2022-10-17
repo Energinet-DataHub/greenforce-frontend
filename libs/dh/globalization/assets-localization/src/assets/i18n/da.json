@@ -255,13 +255,27 @@
       "P1D": "Dag",
       "P1M": "Måned"
     },
+    "vatClassificationType": {
+      "Vat25": "Ja",
+      "NoVat": "Nej"
+    },
+    "transparentInvoicingType": {
+      "true": "Ja",
+      "false": "Nej"
+    },
+    "taxIndicatorType": {
+      "true": "Ja",
+      "false": "Nej"
+    },
     "chargeOwner": "Ejer",
     "startDate": "Dato",
-    "transparentInvoicing": "Viderefakturering",
     "quantity": "Antal",
     "noActive": "Ingen aktive {{title}}",
     "noActiveMessage": "Vi fandt ingen aktive {{title}} på dette målepunkt",
+    "validityPeriod": "Gyldighedsperiode",
+    "transparentInvoicing": "Viderefakturering",
     "taxIndicator": "Afgift",
+    "vatClassification": "Moms",
     "chargesNotFound": {
       "title": "Vi fandt desværre ingen priser tilknyttet dette målepunkt"
     },
@@ -328,7 +342,6 @@
       "drawer": {
         "prices": "Priser",
         "messages": "Beskeder",
-        "history": "Historik",
         "dateChips": {
           "day": "Dag",
           "week": "Uge",
@@ -336,6 +349,11 @@
           "quarter": "Kvartal",
           "year": "År"
         }
+        "history": "Historik",
+        "stop": "Stop",
+        "edit": "Rediger",
+        "showDescriptionLabel": "Se beskrivelse",
+        "hideDescriptionLabel": "Luk beskrivelse"
       }
     }
   },
