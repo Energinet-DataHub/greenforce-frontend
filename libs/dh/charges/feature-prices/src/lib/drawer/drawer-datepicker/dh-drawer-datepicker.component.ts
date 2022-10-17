@@ -65,15 +65,10 @@ export class DhDrawerDatepickerComponent
     this.formControlDateRange.valueChanges
       .pipe(takeUntil(this.destroy$))
       .subscribe((dateRange) => {
-        this.datepickerService.setData({
-          endDate: dateRange?.end ?? '',
+        this.UpdateDateRange({
           startDate: dateRange?.start ?? '',
+          endDate: dateRange?.end ?? '',
         });
-
-        clearTimeout(this.timer);
-        this.timer = setTimeout(() => {
-          if (dateRange?.end != '') this.changed.emit(dateRange);
-        }, 1000);
       });
   }
 
@@ -123,8 +118,18 @@ export class DhDrawerDatepickerComponent
         },
       });
   }
-  selectionChange(selectedChip: WattChipsSelection) {
-    console.log(selectedChip);
+
+  private UpdateDateRange(dateRange: DatePickerData) {
+    clearTimeout(this.timer);
+
+    this.datepickerService.setData({
+      endDate: dateRange?.endDate ?? '',
+      startDate: dateRange?.startDate ?? '',
+    });
+
+    this.timer = setTimeout(() => {
+      if (dateRange?.endDate != '') this.changed.emit(dateRange);
+    }, 1000);
   }
 }
 
