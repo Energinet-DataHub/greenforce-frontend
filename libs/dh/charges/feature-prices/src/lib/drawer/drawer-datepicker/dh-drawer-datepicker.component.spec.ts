@@ -17,6 +17,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { DhDrawerDatepickerComponent } from './dh-drawer-datepicker.component';
+import { DhChargesPricesResultScam } from '../../search-result/dh-charges-prices-result.component';
+import { MatNativeDateModule } from '@angular/material/core';
 
 describe('DrawerDatepickerComponent', () => {
   let component: DhDrawerDatepickerComponent;
@@ -24,9 +26,9 @@ describe('DrawerDatepickerComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ DhDrawerDatepickerComponent ]
-    })
-    .compileComponents();
+      imports: [MatNativeDateModule, DhChargesPricesResultScam],
+      declarations: [DhDrawerDatepickerComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(DhDrawerDatepickerComponent);
     component = fixture.componentInstance;
@@ -37,9 +39,8 @@ describe('DrawerDatepickerComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it.todo('initial date values should contain dates')
-  it.todo('changes to date values should sync to subscribers')
-  it.todo('changes to chip state should sync to subscribers')
-  it.todo('should have 5 chips with values "d", "w", "m", "q", "y"')
-
+  it.todo('initial date values should contain dates');
+  it.todo('changes to date values should sync to subscribers');
+  it.todo('changes to chip state should sync to subscribers');
+  it.todo('should have 5 chips with values "d", "w", "m", "q", "y"');
 });

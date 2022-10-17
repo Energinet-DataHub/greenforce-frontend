@@ -39,6 +39,7 @@ import {
   DatePickerData,
   DrawerDatepickerService,
 } from './drawer-datepicker.service';
+import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/feature-flags';
 
 @Component({
   selector: 'dh-drawer-datepicker',
@@ -159,6 +160,7 @@ export class DhDrawerDatepickerComponent
     WattFormFieldModule,
     WattDatepickerModule,
     WattChipsModule,
+    DhFeatureFlagDirectiveModule,
   ],
 })
 export class DhDrawerDatepickerScam {}
