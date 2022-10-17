@@ -24,9 +24,8 @@ describe('DhChargesMessageTabComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ DhChargesPricesMessageTabComponent ]
-    })
-    .compileComponents();
+      declarations: [DhChargesPricesMessageTabComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(DhChargesPricesMessageTabComponent);
     component = fixture.componentInstance;
