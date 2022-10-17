@@ -1,4 +1,5 @@
 {
+  "name": "dh-shared-data-access-msw",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
   "sourceRoot": "libs/dh/shared/data-access-msw/src",

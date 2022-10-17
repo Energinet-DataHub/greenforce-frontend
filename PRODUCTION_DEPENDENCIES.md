@@ -14,8 +14,8 @@
 | [angular/platform-browser-dynamic](https://github.com/angular/angular) | 14.2.5 | MIT |
 | [angular/platform-browser](https://github.com/angular/angular) | 14.2.5 | MIT |
 | [angular/router](https://github.com/angular/angular) | 14.2.5 | MIT |
-| [azure/msal-angular](https://github.com/AzureAD/microsoft-authentication-library-for-js) | 2.4.4 | MIT |
-| [azure/msal-browser](https://github.com/AzureAD/microsoft-authentication-library-for-js) | 2.29.0 | MIT |
+| [azure/msal-angular](https://github.com/AzureAD/microsoft-authentication-library-for-js) | 2.4.5 | MIT |
+| [azure/msal-browser](https://github.com/AzureAD/microsoft-authentication-library-for-js) | 2.30.0 | MIT |
 | [microsoft/applicationinsights-angularplugin-js](undefined) | 3.0.0 | MIT* |
 | [microsoft/applicationinsights-web](https://github.com/microsoft/ApplicationInsights-JS) | 2.8.8 | MIT |
 | [ngneat/transloco](https://github.com/ngneat/transloco) | 4.1.1 | MIT |

@@ -14,18 +14,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-:host {
-  align-items: center;
-  background-color: var(--watt-color-neutral-white);
-  border-bottom: 1px solid var(--watt-color-neutral-grey-300);
-  display: flex;
-  gap: var(--watt-space-s);
-  padding: calc(1.5 * var(--watt-space-m));
-  padding-bottom: var(--watt-space-s);
-  position: sticky;
-  top: 0;
 
-  .close-btn {
-    margin-left: auto;
-  }
+mat-divider {
+  color: var(--watt-color-neutral-grey-300);
+  margin: var(--watt-space-m) 0;
+}
+
+h1 {
+  margin: 0;
+}
+
+//temporarily style watt-expansion button
+:host ::ng-deep.mat-button.watt-button--primary {
+  background-color: transparent;
+  color: var(--watt-color-primary);
+}
+
+.charge-property-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+
+.charge-property {
+  margin-bottom: var(--watt-space-m);
 }
