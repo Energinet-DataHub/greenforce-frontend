@@ -34,7 +34,12 @@ describe('PermissionService.name', () => {
     const target = permissionGuardCore;
 
     // act
-    const actual = await firstValueFrom(target(['gridarea', 'organization'], permissionService as PermissionService));
+    const actual = await firstValueFrom(
+      target(
+        ['gridarea', 'organization'],
+        permissionService as PermissionService
+      )
+    );
 
     // assert
     expect(actual).toEqual(true);
@@ -53,7 +58,9 @@ describe('PermissionService.name', () => {
     const target = permissionGuardCore;
 
     // act
-    const actual = await firstValueFrom(target(['gridarea'], permissionService as PermissionService));
+    const actual = await firstValueFrom(
+      target(['gridarea'], permissionService as PermissionService)
+    );
 
     // assert
     expect(actual).toEqual(false);
