@@ -29,7 +29,13 @@ import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { LetModule } from '@rx-angular/template';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { Subject, takeUntil } from 'rxjs';
-import { MessageArchiveSearchResultItemDto } from '@energinet-datahub/dh/shared/domain';
+import {
+  MessageArchiveSearchResultItemDto,
+  MessageArchiveSearchCriteria
+ } from '@energinet-datahub/dh/shared/domain';
+ import {
+  DhMessageArchiveDataAccessApiStore
+} from '@energinet-datahub/dh/message-archive/data-access-api';
 import {
   WattButtonModule,
   WattEmptyStateModule,
@@ -46,7 +52,8 @@ import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-t
 @Component({
   selector: 'dh-charges-message-tab',
   templateUrl: './dh-charges-message-tab.component.html',
-  styleUrls: ['./dh-charges-message-tab.component.scss']
+  styleUrls: ['./dh-charges-message-tab.component.scss'],
+  providers: [DhMessageArchiveDataAccessApiStore],
 })
 
 export class DhChargesMessageTabComponent
@@ -56,11 +63,13 @@ export class DhChargesMessageTabComponent
   @ViewChild(MatSort) matSort!: MatSort;
 
   @Input() result?: Array<MessageArchiveSearchResultItemDto>;
-  @Input() isLoading = false;
-  @Input() isInit = false;
+  @Input() isLoading = true;
+  @Input() isInit = true;
   @Input() hasLoadingError = false;
 
   private destroy$ = new Subject<void>();
+
+  searchResult$ = this.messageArchiveStore.searchResult$;
 
   displayedColumns = [
     'messageId',
@@ -68,20 +77,61 @@ export class DhChargesMessageTabComponent
     'messageType',
   ];
 
+  maxItemCount = 100;
+  searchCriteria: MessageArchiveSearchCriteria = {
+    maxItemCount: this.maxItemCount,
+    includeRelated: false,
+    includeResultsWithoutContent: false,
+  };
+
   readonly dataSource: MatTableDataSource<MessageArchiveSearchResultItemDto> =
     new MatTableDataSource<MessageArchiveSearchResultItemDto>();
 
+  loadMessages() {
+    this.searchCriteria.dateTimeFrom = this.initDateFrom().toISOString().split('.')[0] + 'Z';
+    this.searchCriteria.dateTimeTo = this.initDateTo().toISOString().split('.')[0] + 'Z';
+
+    if (this.validateSearchParams()) {
+      this.searchCriteria.continuationToken = null;
+
+      if (!this.searchCriteria.messageId) {
+        this.searchCriteria.includeRelated = false;
+      }
+
+      this.messageArchiveStore.searchLogs(this.searchCriteria);
+      console.log(this.searchResult$);
+    }
+
+    //Insert dummy data for now
+    if(this.dataSource.data.length === 0)
+    {
+      this.dataSource.data = [
+        {
+          messageId: 'dummy-message 1',
+          messageType: 'RSM - 33 RequestChangeOfPriceList',
+          blobContentUri: 'https://',
+          createdDate: '2022-10-29T22:00:00'
+        },
+        {
+          messageId: 'dummy-message 2',
+          messageType: 'RSM - 33 RequestChangeOfPriceList',
+          blobContentUri: 'https://',
+          createdDate: '2022-11-01T22:00:00'
+        },
+      ];
+    }
+
+    this.isLoading = false;
+    this.isInit = false;
+  }
+
   constructor(
+    private messageArchiveStore: DhMessageArchiveDataAccessApiStore,
     private translocoService: TranslocoService,
     private matPaginatorIntl: MatPaginatorIntl
   ) {}
 
   ngAfterViewInit() {
-    this.result = [
-      { messageId: 'id', messageType: 'RSM - 33 RequestChangeOfPriceList', blobContentUri: 'https://', createdDate: '2022-10-29T22:00:00'},
-    ];
-    this.dataSource.data = this.result;
-
     this.dataSource.paginator = this.paginator;
     this.setupPaginatorTranslation();
   }
@@ -97,6 +147,27 @@ export class DhChargesMessageTabComponent
     this.destroy$.next();
     this.destroy$.complete();
   }
+
+  validateSearchParams(): boolean {
+    return (
+      this.searchCriteria.dateTimeFrom != null &&
+      this.searchCriteria.dateTimeTo != null &&
+      this.searchCriteria.dateTimeFrom.length === 20 &&
+      this.searchCriteria.dateTimeTo.length === 20
+    );
+  }
+
+  private initDateFrom = (): Date => {
+    const from = new Date();
+    from.setUTCMonth(new Date().getMonth() - 1);
+    from.setUTCHours(0, 0, 0);
+    return from;
+  };
+  private initDateTo = (): Date => {
+    const to = new Date();
+    to.setUTCHours(23, 59, 59);
+    return to;
+  };
 
   private readonly setupPaginatorTranslation = () => {
     const temp = this.matPaginatorIntl.getRangeLabel;
