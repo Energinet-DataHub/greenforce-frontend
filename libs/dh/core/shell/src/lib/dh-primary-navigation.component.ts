@@ -23,7 +23,7 @@ import {
   WattNavListItemComponent,
 } from '@energinet-datahub/watt';
 import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/feature-flags';
-import { DhPermissionRequiredDirectiveScam } from '@energinet-datahub/dh/shared/permission-guard';
+import { DhPermissionRequiredDirectiveScam } from '@energinet-datahub/dh/shared/feature-authorization';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

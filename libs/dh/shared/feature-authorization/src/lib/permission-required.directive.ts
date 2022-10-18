@@ -50,7 +50,6 @@ export class DhPermissionRequiredDirective implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe((hasPermission) => {
         if (hasPermission) {
-          console.log(this.dhPermissionRequired, 'true');
           this.viewContainer.createEmbeddedView(this.templateRef);
         }
       });

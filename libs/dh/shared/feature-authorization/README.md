@@ -1,3 +1,3 @@
-# dh-shared-permission-guard
+# dh-shared-feature-authorization
 
 TODO: Write usage documentation.

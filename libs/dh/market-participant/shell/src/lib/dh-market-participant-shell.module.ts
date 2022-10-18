@@ -41,7 +41,7 @@ import {
   DhMarketParticipantGridAreaScam,
   DhMarketParticipantGridAreaComponent,
 } from '@energinet-datahub/dh/market-participant/feature-gridarea';
-import { PermissionGuard } from '@energinet-datahub/dh/shared/permission-guard';
+import { PermissionGuard } from '@energinet-datahub/dh/shared/feature-authorization';
 
 const routes: Routes = [
   {

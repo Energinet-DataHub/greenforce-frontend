@@ -1,15 +1,15 @@
 {
-  "name": "dh-shared-permission-guard",
+  "name": "dh-shared-feature-authorization",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
-  "sourceRoot": "libs/dh/shared/permission-guard/src",
+  "sourceRoot": "libs/dh/shared/feature-authorization/src",
   "prefix": "dh",
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/dh/shared/permission-guard"],
+      "outputs": ["coverage/libs/dh/shared/feature-authorization"],
       "options": {
-        "jestConfig": "libs/dh/shared/permission-guard/jest.config.ts",
+        "jestConfig": "libs/dh/shared/feature-authorization/jest.config.ts",
         "passWithNoTests": true
       }
     },
@@ -17,7 +17,7 @@
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["libs/dh/shared/permission-guard/**/*.ts"]
+        "lintFilePatterns": ["libs/dh/shared/feature-authorization/**/*.ts"]
       }
     }
   },
