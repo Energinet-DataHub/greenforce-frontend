@@ -1,0 +1,27 @@
+{
+  "name": "dh-shared-util-table",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/dh/shared/util-table/src",
+  "prefix": "dh",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/dh/shared/util-table"],
+      "options": {
+        "jestConfig": "libs/dh/shared/util-table/jest.config.ts",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/dh/shared/util-table/**/*.ts",
+          "libs/dh/shared/util-table/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": ["product:dh", "domain:shared", "type:util"]
+}

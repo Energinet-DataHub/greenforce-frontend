@@ -52,6 +52,7 @@
     "dh-shared-test-util-msw": "libs/dh/shared/test-util-msw",
     "dh-shared-ui-date-time": "libs/dh/shared/ui-date-time",
     "dh-shared-util-application-insights": "libs/dh/shared/util-application-insights",
+    "dh-shared-util-table": "libs/dh/shared/util-table",
     "dh-wholesale-data-access-api": "libs/dh/wholesale/data-access-api",
     "dh-wholesale-feature-overview": "libs/dh/wholesale/feature-overview",
     "dh-wholesale-feature-search": "libs/dh/wholesale/feature-search",
