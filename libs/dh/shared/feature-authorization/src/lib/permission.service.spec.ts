@@ -28,7 +28,7 @@ import { DeepPartial } from 'chart.js/types/utils';
 
 describe(PermissionService.name, () => {
   // base64 encoded access token: { roles: ['organization'] }
-  const fakeRolePerm = 'ignored.eyJyb2xlcyI6WyJvcmdhbml6YXRpb24iXX0=';
+  const fakeAccessToken = 'ignored.eyJyb2xlcyI6WyJvcmdhbml6YXRpb24iXX0=';
 
   test('should return false if now account is found', async () => {
     // arrange
@@ -59,7 +59,7 @@ describe(PermissionService.name, () => {
     const authService: DeepPartial<MsalService> = {
       instance: instance,
       acquireTokenSilent: () =>
-        of({ accessToken: fakeRolePerm } as AuthenticationResult),
+        of({ accessToken: fakeAccessToken } as AuthenticationResult),
     };
 
     const target = new PermissionService(
@@ -83,7 +83,7 @@ describe(PermissionService.name, () => {
     const authService: DeepPartial<MsalService> = {
       instance: instance,
       acquireTokenSilent: () =>
-        of({ accessToken: fakeRolePerm } as AuthenticationResult),
+        of({ accessToken: fakeAccessToken } as AuthenticationResult),
     };
 
     const target = new PermissionService(
