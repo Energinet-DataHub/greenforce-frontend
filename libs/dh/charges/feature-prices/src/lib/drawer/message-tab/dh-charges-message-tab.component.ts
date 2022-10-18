@@ -48,6 +48,7 @@ import {
   MatPaginatorModule,
 } from '@angular/material/paginator';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
+import { ToLowerSort } from '@energinet-datahub/dh/shared/util-table';
 
 @Component({
   selector: 'dh-charges-message-tab',
@@ -123,6 +124,7 @@ export class DhChargesMessageTabComponent
 
     this.isLoading = false;
     this.isInit = false;
+    this.dataSource.sortingDataAccessor = ToLowerSort();
   }
 
   constructor(
@@ -133,6 +135,7 @@ export class DhChargesMessageTabComponent
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
+    this.dataSource.sortingDataAccessor = ToLowerSort();
     this.setupPaginatorTranslation();
   }
 
