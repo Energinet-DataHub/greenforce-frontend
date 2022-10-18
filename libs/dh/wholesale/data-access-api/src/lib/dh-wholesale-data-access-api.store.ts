@@ -30,11 +30,11 @@ import {
   BatchRequestDto,
   WholesaleProcessType,
   BatchSearchDto,
-  BatchDto,
+  BatchDtoV2,
 } from '@energinet-datahub/dh/shared/domain';
 
 interface State {
-  batches?: BatchDto[];
+  batches?: BatchDtoV2[];
   loadingBatches: boolean;
 }
 
@@ -78,7 +78,7 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
   );
 
   readonly setBatches = this.updater(
-    (state, value: BatchDto[]): State => ({
+    (state, value: BatchDtoV2[]): State => ({
       ...state,
       batches: value,
       loadingBatches: false,
