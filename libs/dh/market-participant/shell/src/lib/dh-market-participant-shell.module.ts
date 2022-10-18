@@ -46,7 +46,9 @@ import { PermissionGuard } from '@energinet-datahub/dh/shared/feature-authorizat
 const routes: Routes = [
   {
     path: dhMarketParticipantOrganizationsPath,
-    canActivate: [PermissionGuard(['organization:view', 'organization:manage'])],
+    canActivate: [
+      PermissionGuard(['organization:view', 'organization:manage']),
+    ],
     children: [
       {
         path: '',
