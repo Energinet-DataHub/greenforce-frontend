@@ -45,7 +45,7 @@ namespace Energinet.DataHub.WebApi.Controllers
         /// Get a batch.
         /// </summary>
         [HttpPost("Search")]
-        public async Task<ActionResult<IEnumerable<BatchDto>>> PostAsync(BatchSearchDto batchSearchDto)
+        public async Task<ActionResult<IEnumerable<BatchDtoV2>>> PostAsync(BatchSearchDto batchSearchDto)
         {
             var batches = await _client.GetBatchesAsync(batchSearchDto).ConfigureAwait(false);
             return Ok(batches);
