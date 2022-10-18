@@ -212,7 +212,7 @@ export class DhChargesMessageTabComponent
     WattSpinnerModule,
     DhSharedUiDateTimeModule,
     MatSortModule,
-    DhFeatureFlagDirectiveModule
+    DhFeatureFlagDirectiveModule,
   ],
 })
 export class DhChargesMessageTabScam {}
