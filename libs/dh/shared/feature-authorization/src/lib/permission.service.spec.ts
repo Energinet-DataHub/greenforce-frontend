@@ -28,7 +28,8 @@ import { DeepPartial } from 'chart.js/types/utils';
 
 describe(PermissionService.name, () => {
   // base64 encoded access token: { roles: ['organization:view'] }
-  const fakeAccessToken = 'ignored.eyJyb2xlcyI6WyJvcmdhbml6YXRpb246dmlldyJdfQ==';
+  const fakeAccessToken =
+    'ignored.eyJyb2xlcyI6WyJvcmdhbml6YXRpb246dmlldyJdfQ==';
 
   test('should return false if now account is found', async () => {
     // arrange
