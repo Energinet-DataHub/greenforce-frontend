@@ -60,8 +60,8 @@ export class DhDrawerDatepickerComponent
   ];
 
   options = this.chipOptions;
-  data: DatePickerData = this.datepickerService.getData();
   optionSelected: WattChipsSelection = '';
+  data: DatePickerData = this.datepickerService.getData();
   startDate = this.data.startDate;
   endDate = this.data.endDate;
   timer: NodeJS.Timeout | undefined;
@@ -92,19 +92,25 @@ export class DhDrawerDatepickerComponent
   ngOnInit(): void {
     this.setupDateChipTranslation();
 
-    this.datepickerService.data$
+    this.datepickerService.dateRange$
       .pipe(takeUntil(this.destroy$))
-      .subscribe((data) => {
+      .subscribe((dateRange) => {
         const value = this.formControlDateRange.value;
-        if (data.endDate == null) return;
-        if (value?.start == data.startDate && value?.end == data.endDate)
+        if (dateRange.endDate == null) return;
+        if (
+          value?.start == dateRange.startDate &&
+          value?.end == dateRange.endDate
+        )
           return;
 
         this.formControlDateRange.patchValue(
           {
             start:
-              value?.start == data.startDate ? value.start : data.startDate,
-            end: value?.end == data.endDate ? value.end : data.endDate,
+              value?.start == dateRange.startDate
+                ? value.start
+                : dateRange.startDate,
+            end:
+              value?.end == dateRange.endDate ? value.end : dateRange.endDate,
           },
           {
             emitEvent: false,

@@ -26,19 +26,19 @@ export interface DatePickerData {
   providedIn: 'root',
 })
 export class DrawerDatepickerService {
-  dataDefault: DatePickerData = {
+  dateRangeDefault: DatePickerData = {
     startDate: new Date().toISOString(),
     endDate: new Date().toISOString(),
   };
 
-  private dataSource$ = new BehaviorSubject(this.dataDefault);
-  data$ = this.dataSource$.asObservable();
+  private dataSource$ = new BehaviorSubject(this.dateRangeDefault);
+  dateRange$ = this.dataSource$.asObservable();
 
   getData() {
-    return this.dataDefault;
+    return this.dateRangeDefault;
   }
 
-  setData(data: DatePickerData) {
-    this.dataSource$.next(data);
+  setData(dateRange: DatePickerData) {
+    this.dataSource$.next(dateRange);
   }
 }

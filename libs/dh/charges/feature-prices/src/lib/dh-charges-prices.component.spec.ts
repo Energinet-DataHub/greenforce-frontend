@@ -25,7 +25,6 @@ import {
   DhChargesPricesComponent,
 } from './dh-charges-prices.component';
 import { en as enTranslations } from '@energinet-datahub/dh/globalization/assets-localization';
-import { DatePipe } from '@angular/common';
 
 describe('DhChargesPricesComponent', () => {
   async function setup() {
@@ -37,7 +36,6 @@ describe('DhChargesPricesComponent', () => {
         HttpClientModule,
         DhChargesPricesScam,
       ],
-      providers: [DatePipe],
     });
 
     return {
