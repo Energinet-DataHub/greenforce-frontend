@@ -14,10 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  BatchDtoV2,
-  BatchState,
-} from '@energinet-datahub/dh/shared/domain';
+import { BatchDtoV2, BatchState } from '@energinet-datahub/dh/shared/domain';
 import { rest } from 'msw';
 
 export const wholesaleMocks = [postWholesaleBatch(), getWholesaleSearchBatch()];
@@ -39,7 +36,7 @@ function getWholesaleSearchBatch() {
 
   const mockData: BatchDtoV2[] = [
     {
-      batchNumber: "123",
+      batchNumber: '123',
       periodStart,
       periodEnd,
       executionTimeStart,
@@ -47,7 +44,7 @@ function getWholesaleSearchBatch() {
       executionState: BatchState.Pending,
     },
     {
-      batchNumber: "234",
+      batchNumber: '234',
       periodStart,
       periodEnd,
       executionTimeStart,
@@ -55,7 +52,7 @@ function getWholesaleSearchBatch() {
       executionState: BatchState.Executing,
     },
     {
-      batchNumber: "345",
+      batchNumber: '345',
       periodStart,
       periodEnd,
       executionTimeStart,
@@ -63,7 +60,7 @@ function getWholesaleSearchBatch() {
       executionState: BatchState.Completed,
     },
     {
-      batchNumber: "567",
+      batchNumber: '567',
       periodStart,
       periodEnd,
       executionTimeStart,
@@ -71,7 +68,7 @@ function getWholesaleSearchBatch() {
       executionState: BatchState.Failed,
     },
     {
-      batchNumber: "123",
+      batchNumber: '123',
       periodStart,
       periodEnd,
       executionTimeStart,
@@ -79,7 +76,7 @@ function getWholesaleSearchBatch() {
       executionState: BatchState.Pending,
     },
     {
-      batchNumber: "234",
+      batchNumber: '234',
       periodStart,
       periodEnd,
       executionTimeStart,
@@ -87,7 +84,7 @@ function getWholesaleSearchBatch() {
       executionState: BatchState.Executing,
     },
     {
-      batchNumber: "345",
+      batchNumber: '345',
       periodStart,
       periodEnd,
       executionTimeStart,
@@ -95,7 +92,7 @@ function getWholesaleSearchBatch() {
       executionState: BatchState.Completed,
     },
     {
-      batchNumber: "567",
+      batchNumber: '567',
       periodStart,
       periodEnd,
       executionTimeStart,
@@ -103,7 +100,7 @@ function getWholesaleSearchBatch() {
       executionState: BatchState.Failed,
     },
     {
-      batchNumber: "123",
+      batchNumber: '123',
       periodStart,
       periodEnd,
       executionTimeStart,
@@ -111,7 +108,7 @@ function getWholesaleSearchBatch() {
       executionState: BatchState.Pending,
     },
     {
-      batchNumber: "234",
+      batchNumber: '234',
       periodStart,
       periodEnd,
       executionTimeStart,
@@ -119,7 +116,7 @@ function getWholesaleSearchBatch() {
       executionState: BatchState.Executing,
     },
     {
-      batchNumber: "345",
+      batchNumber: '345',
       periodStart,
       periodEnd,
       executionTimeStart,
@@ -127,7 +124,7 @@ function getWholesaleSearchBatch() {
       executionState: BatchState.Completed,
     },
     {
-      batchNumber: "567",
+      batchNumber: '567',
       periodStart,
       periodEnd,
       executionTimeStart,

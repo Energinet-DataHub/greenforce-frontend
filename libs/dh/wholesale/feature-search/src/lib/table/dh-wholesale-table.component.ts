@@ -41,10 +41,7 @@ import {
   WattEmptyStateModule,
 } from '@energinet-datahub/watt';
 
-import {
-  BatchDtoV2,
-  BatchState,
-} from '@energinet-datahub/dh/shared/domain';
+import { BatchDtoV2, BatchState } from '@energinet-datahub/dh/shared/domain';
 
 type wholesaleTableData = MatTableDataSource<{
   statusType: void | WattBadgeType;
