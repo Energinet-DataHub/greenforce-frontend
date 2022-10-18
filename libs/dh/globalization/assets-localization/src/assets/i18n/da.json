@@ -288,7 +288,7 @@
       "prices": "Priser",
       "search": {
         "idOrName": "Pris ID/Navn",
-        "enterIdOrName": "Indtast dele af eller hele navnet",
+        "enterIdOrName": "Indtast dele af eller hele id eller navn",
         "owner": "Ejer",
         "enterOwner": "Indtast ejer",
         "selectChargeType": "Vælg type",
