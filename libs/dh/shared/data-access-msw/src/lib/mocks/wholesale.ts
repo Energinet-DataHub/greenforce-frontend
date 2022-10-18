@@ -15,8 +15,8 @@
  * limitations under the License.
  */
 import {
-  BatchDto,
-  BatchExecutionState,
+  BatchDtoV2,
+  BatchState,
 } from '@energinet-datahub/dh/shared/domain';
 import { rest } from 'msw';
 
@@ -37,102 +37,102 @@ function getWholesaleSearchBatch() {
   const executionTimeStart = '2021-12-01T23:00:00Z';
   const executionTimeEnd = '2021-12-02T23:00:00Z';
 
-  const mockData: BatchDto[] = [
+  const mockData: BatchDtoV2[] = [
     {
-      batchNumber: 123,
+      batchNumber: "123",
       periodStart,
       periodEnd,
       executionTimeStart,
       executionTimeEnd: null,
-      executionState: BatchExecutionState.Pending,
+      executionState: BatchState.Pending,
     },
     {
-      batchNumber: 234,
+      batchNumber: "234",
       periodStart,
       periodEnd,
       executionTimeStart,
       executionTimeEnd: null,
-      executionState: BatchExecutionState.Executing,
+      executionState: BatchState.Executing,
     },
     {
-      batchNumber: 345,
+      batchNumber: "345",
       periodStart,
       periodEnd,
       executionTimeStart,
       executionTimeEnd,
-      executionState: BatchExecutionState.Completed,
+      executionState: BatchState.Completed,
     },
     {
-      batchNumber: 567,
+      batchNumber: "567",
       periodStart,
       periodEnd,
       executionTimeStart,
       executionTimeEnd,
-      executionState: BatchExecutionState.Failed,
+      executionState: BatchState.Failed,
     },
     {
-      batchNumber: 123,
+      batchNumber: "123",
       periodStart,
       periodEnd,
       executionTimeStart,
       executionTimeEnd: null,
-      executionState: BatchExecutionState.Pending,
+      executionState: BatchState.Pending,
     },
     {
-      batchNumber: 234,
+      batchNumber: "234",
       periodStart,
       periodEnd,
       executionTimeStart,
       executionTimeEnd: null,
-      executionState: BatchExecutionState.Executing,
+      executionState: BatchState.Executing,
     },
     {
-      batchNumber: 345,
+      batchNumber: "345",
       periodStart,
       periodEnd,
       executionTimeStart,
       executionTimeEnd,
-      executionState: BatchExecutionState.Completed,
+      executionState: BatchState.Completed,
     },
     {
-      batchNumber: 567,
+      batchNumber: "567",
       periodStart,
       periodEnd,
       executionTimeStart,
       executionTimeEnd,
-      executionState: BatchExecutionState.Failed,
+      executionState: BatchState.Failed,
     },
     {
-      batchNumber: 123,
+      batchNumber: "123",
       periodStart,
       periodEnd,
       executionTimeStart,
       executionTimeEnd: null,
-      executionState: BatchExecutionState.Pending,
+      executionState: BatchState.Pending,
     },
     {
-      batchNumber: 234,
+      batchNumber: "234",
       periodStart,
       periodEnd,
       executionTimeStart,
       executionTimeEnd: null,
-      executionState: BatchExecutionState.Executing,
+      executionState: BatchState.Executing,
     },
     {
-      batchNumber: 345,
+      batchNumber: "345",
       periodStart,
       periodEnd,
       executionTimeStart,
       executionTimeEnd,
-      executionState: BatchExecutionState.Completed,
+      executionState: BatchState.Completed,
     },
     {
-      batchNumber: 567,
+      batchNumber: "567",
       periodStart,
       periodEnd,
       executionTimeStart,
       executionTimeEnd,
-      executionState: BatchExecutionState.Failed,
+      executionState: BatchState.Failed,
     },
   ];
   return rest.post(
