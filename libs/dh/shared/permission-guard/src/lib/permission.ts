@@ -15,4 +15,4 @@
  * limitations under the License.
  */
 
-export type UserRole = 'Accountant' | 'Supporter';
+export type Permission = 'organization' | 'gridarea';

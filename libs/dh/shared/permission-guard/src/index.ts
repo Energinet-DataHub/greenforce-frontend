@@ -15,5 +15,5 @@
  * limitations under the License.
  */
 export * from './lib/permission.guard';
-export * from './lib/user-roles';
-export * from './lib/user-role-required.directive';
+export * from './lib/permission';
+export * from './lib/permission-required.directive';

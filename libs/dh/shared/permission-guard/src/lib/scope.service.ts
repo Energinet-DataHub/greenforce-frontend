@@ -15,20 +15,19 @@
  * limitations under the License.
  */
 
-import { inject } from '@angular/core';
-import { CanActivateFn } from '@angular/router';
-import { PermissionService } from './permission.service';
-import { Permission } from './permission';
-import { concatAll, from, map, reduce } from 'rxjs';
+import { Inject, Injectable } from '@angular/core';
+import {
+  DhB2CEnvironment,
+  dhB2CEnvironmentToken,
+} from '@energinet-datahub/dh/shared/environments';
 
-export function PermissionGuard(permissions: Permission[]): CanActivateFn {
-  return () => {
-    const permissionService = inject(PermissionService);
-    return from(permissions).pipe(
-      map((perm) => permissionService.hasPermission(perm)),
-      concatAll(),
-      // Permissions are ORed together.
-      reduce((hasPermission, next) => hasPermission || next)
-    );
-  };
+@Injectable({ providedIn: 'root' })
+export class ScopeService {
+  constructor(
+    @Inject(dhB2CEnvironmentToken) private config: DhB2CEnvironment
+  ) {}
+
+  public getActiveScope() {
+    return this.config.clientId;
+  }
 }

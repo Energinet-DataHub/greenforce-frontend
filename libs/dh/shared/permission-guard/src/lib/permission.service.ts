@@ -17,34 +17,51 @@
 
 import { Injectable } from '@angular/core';
 import { MsalService } from '@azure/msal-angular';
-import { UserRole } from './user-roles';
-
-const roleClaimName = 'extension_roles';
+import { SilentRequest } from '@azure/msal-browser';
+import { map, of } from 'rxjs';
+import { Permission } from './permission';
+import { ScopeService } from './scope.service';
 
 @Injectable({ providedIn: 'root' })
 export class PermissionService {
-  constructor(private authService: MsalService) {}
+  constructor(
+    private scopeService: ScopeService,
+    private authService: MsalService
+  ) {}
 
-  public hasUserRole(userRole: UserRole) {
+  public hasPermission(permission: Permission) {
     const accounts = this.authService.instance.getAllAccounts();
 
     // If MSAL returns no accounts or the claims are missing,
     // the service default to no access.
     if (accounts.length != 1) {
-      return false;
+      return of(false);
     }
 
-    const claims = accounts[0].idTokenClaims;
+    const activeScope = this.scopeService.getActiveScope();
 
-    if (!claims || !claims[roleClaimName]) {
-      return false;
-    }
+    const tokenRequest: SilentRequest = {
+      scopes: [activeScope],
+      account: accounts[0],
+    };
 
-    // Because the claim is currently an extension, the format of ["roleName1"]
-    // is currently received as a string, instead of a proper array.
-    const claimAsJson = '{ "value": ' + claims[roleClaimName] + '}';
+    return this.authService.acquireTokenSilent(tokenRequest).pipe(
+      map((authResult) => {
+        const roles = this.acquireClaimsFromAccessToken(authResult.accessToken);
+        return roles.includes(permission);
+      })
+    );
+  }
 
-    const assignedRoles = JSON.parse(claimAsJson).value as UserRole[];
-    return assignedRoles.includes(userRole);
+  private acquireClaimsFromAccessToken(accessToken: string): Permission[] {
+    const jwtParts = accessToken.split('.');
+    const jwtPayload = jwtParts[1];
+
+    const claims = window.atob(jwtPayload);
+
+    const jwtJson = JSON.parse(claims);
+    const roles = jwtJson['roles'] as Permission[];
+
+    return roles || [];
   }
 }
