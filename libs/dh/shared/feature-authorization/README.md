@@ -6,7 +6,7 @@ Authorization in the frontend app is used to disable features and actions that t
 - `PermissionGuard`: A routing guard to prevent navigation.
 - `PermissionService.hasPermission()`: A function for manually checking permissions.
 
-The directive and the guard take an array of permissions in. Authorization succeeds if the user has any of the specified permissions in the list (permissions are OR'ed). If authorization should only succeed if the user has all the permissions (permissions are AND'ed), repeat the guard or directive for each permission.
+The directive and the guard take an array of permissions in. Authorization succeeds if the user has any of the specified permissions in the list (permissions are OR'ed). If authorization should succeed only when the user has all the listed permissions (permissions are AND'ed), repeat the guard or directive for each permission.
 
 > WARNING: This feature does not provide any form of security! Remember to configure authorization on the backend.
 
@@ -56,4 +56,6 @@ class Example {
 
 ## How it works
 
-Permissions are provided as 'roles' claim in the access token. MSAL `acqurTokenSilent` is used to request the access token. If the token is valid, it will be returned from cache; otherwise an attempt to obtain a new token will be made by the library. In case of error, no authorization will be granted to the user.
+Permissions are provided as 'roles' claim in the access token. MSAL `acquireTokenSilent` is used to request the access token. If the token is valid, it will be returned from cache; otherwise an attempt to obtain a new token will be made by the library. In case of error, no authorization will be granted to the user.
+
+NOTE: This will change when support for switching between actors is implemented.
