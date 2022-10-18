@@ -58,7 +58,8 @@ describe(PermissionService.name, () => {
 
     const authService: DeepPartial<MsalService> = {
       instance: instance,
-      acquireTokenSilent: () => of({ accessToken: fakeRolePerm } as AuthenticationResult),
+      acquireTokenSilent: () =>
+        of({ accessToken: fakeRolePerm } as AuthenticationResult),
     };
 
     const target = new PermissionService(
@@ -81,7 +82,8 @@ describe(PermissionService.name, () => {
 
     const authService: DeepPartial<MsalService> = {
       instance: instance,
-      acquireTokenSilent: () => of({ accessToken: fakeRolePerm } as AuthenticationResult),
+      acquireTokenSilent: () =>
+        of({ accessToken: fakeRolePerm } as AuthenticationResult),
     };
 
     const target = new PermissionService(
