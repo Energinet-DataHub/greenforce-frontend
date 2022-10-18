@@ -42,7 +42,7 @@ import {
 } from '@energinet-datahub/watt';
 
 import {
-  BatchDto,
+  BatchDtoV2,
   BatchExecutionState,
 } from '@energinet-datahub/dh/shared/domain';
 
