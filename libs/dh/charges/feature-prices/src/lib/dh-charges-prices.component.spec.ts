@@ -142,12 +142,6 @@ describe('DhChargesPricesComponent', () => {
     const actualDateInput = new Date(startDateInput.value).toLocaleDateString();
 
     expect(actualDateInput).toEqual(expectedDate);
-
-    const messageTab = screen.getByRole('tab', {
-      name: /message/i,
-    });
-
-    userEvent.click(messageTab);
   });
 
   it.todo('should clear valid from and valid to when selecting validity');
