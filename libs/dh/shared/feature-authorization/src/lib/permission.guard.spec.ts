@@ -20,13 +20,13 @@ import { firstValueFrom, of } from 'rxjs';
 import { inject } from '@angular/core/testing';
 import { permissionGuardCore } from './permission.guard';
 
-describe('PermissionService.name', () => {
+describe(PermissionService.name, () => {
+  const permissionService: Partial<PermissionService> = {
+    hasPermission: (permission) => of(permission === 'organization:view'),
+  };
+
   test('should return true if one of the permissions is present', async () => {
     // arrange
-    const permissionService: Partial<PermissionService> = {
-      hasPermission: (permission) => of(permission === 'organization'),
-    };
-
     inject([PermissionService], (injectService: PermissionService) => {
       expect(injectService).toBe(permissionService);
     });
@@ -36,7 +36,7 @@ describe('PermissionService.name', () => {
     // act
     const actual = await firstValueFrom(
       target(
-        ['gridarea', 'organization'],
+        ['gridareas:manage', 'organization:view'],
         permissionService as PermissionService
       )
     );
@@ -47,10 +47,6 @@ describe('PermissionService.name', () => {
 
   test('should return false if none of the permissions is present', async () => {
     // arrange
-    const permissionService: Partial<PermissionService> = {
-      hasPermission: (permission) => of(permission === 'organization'),
-    };
-
     inject([PermissionService], (injectService: PermissionService) => {
       expect(injectService).toBe(permissionService);
     });
@@ -59,7 +55,7 @@ describe('PermissionService.name', () => {
 
     // act
     const actual = await firstValueFrom(
-      target(['gridarea'], permissionService as PermissionService)
+      target(['gridareas:manage'], permissionService as PermissionService)
     );
 
     // assert

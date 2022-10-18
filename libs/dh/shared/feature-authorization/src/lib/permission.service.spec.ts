@@ -27,8 +27,8 @@ import { firstValueFrom, of } from 'rxjs';
 import { DeepPartial } from 'chart.js/types/utils';
 
 describe(PermissionService.name, () => {
-  // base64 encoded access token: { roles: ['organization'] }
-  const fakeAccessToken = 'ignored.eyJyb2xlcyI6WyJvcmdhbml6YXRpb24iXX0=';
+  // base64 encoded access token: { roles: ['organization:view'] }
+  const fakeAccessToken = 'ignored.eyJyb2xlcyI6WyJvcmdhbml6YXRpb246dmlldyJdfQ==';
 
   test('should return false if now account is found', async () => {
     // arrange
@@ -44,7 +44,9 @@ describe(PermissionService.name, () => {
     );
 
     // act
-    const actual = await firstValueFrom(target.hasPermission('gridarea'));
+    const actual = await firstValueFrom(
+      target.hasPermission('gridareas:manage')
+    );
 
     // assert
     expect(actual).toBeFalsy();
@@ -68,7 +70,9 @@ describe(PermissionService.name, () => {
     );
 
     // act
-    const actual = await firstValueFrom(target.hasPermission('organization'));
+    const actual = await firstValueFrom(
+      target.hasPermission('organization:view')
+    );
 
     // assert
     expect(actual).toBeTruthy();
@@ -92,7 +96,9 @@ describe(PermissionService.name, () => {
     );
 
     // act
-    const actual = await firstValueFrom(target.hasPermission('gridarea'));
+    const actual = await firstValueFrom(
+      target.hasPermission('gridareas:manage')
+    );
 
     // assert
     expect(actual).toBeFalsy();
