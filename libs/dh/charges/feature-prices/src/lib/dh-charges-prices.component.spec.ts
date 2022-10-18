@@ -25,6 +25,17 @@ import {
   DhChargesPricesComponent,
 } from './dh-charges-prices.component';
 import { en as enTranslations } from '@energinet-datahub/dh/globalization/assets-localization';
+import { formatInTimeZone } from 'date-fns-tz';
+import { DatePipe } from '@angular/common';
+
+const danishTimeZoneIdentifier = 'Europe/Copenhagen';
+const defaultOutputSingle = '""';
+const defaultOutputRange = '{ "start": "", "end": "" }';
+const backspace = '{backspace}';
+
+function formatDateAs(value: string, format: string): string {
+  return formatInTimeZone(value, danishTimeZoneIdentifier, format);
+}
 
 describe('DhChargesPricesComponent', () => {
   async function setup() {
@@ -36,6 +47,7 @@ describe('DhChargesPricesComponent', () => {
         HttpClientModule,
         DhChargesPricesScam,
       ],
+      providers: [DatePipe],
     });
 
     return {
@@ -98,6 +110,44 @@ describe('DhChargesPricesComponent', () => {
     );
 
     expect(drawer).toBeInTheDocument();
+  });
+
+  it('when drawer is open, date range should be set', async () => {
+    await setup();
+
+    const searchButton = screen.getByRole('button', { name: /search/i });
+
+    userEvent.click(searchButton);
+
+    const id = await waitFor(() =>
+      screen.getByRole('cell', { name: /0AA1F/i })
+    );
+
+    expect(id).toBeInTheDocument();
+    userEvent.click(id);
+
+    const drawer = screen.getByText(
+      (content, element) => element?.tagName.toLowerCase() === 'watt-drawer'
+    );
+
+    expect(drawer).toBeInTheDocument();
+
+    const startDateInput: HTMLInputElement = screen.getByRole('textbox', {
+      name: /start-date-input/i,
+    });
+
+    expect(startDateInput).toBeInTheDocument();
+
+    const expectedDate = new Date().toLocaleDateString();
+    const actualDateInput = new Date(startDateInput.value).toLocaleDateString();
+
+    expect(actualDateInput).toEqual(expectedDate);
+
+    const messageTab = screen.getByRole('tab', {
+      name: /message/i,
+    });
+
+    userEvent.click(messageTab);
   });
 
   it.todo('should clear valid from and valid to when selecting validity');
