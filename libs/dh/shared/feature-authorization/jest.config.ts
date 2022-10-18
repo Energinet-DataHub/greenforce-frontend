@@ -25,7 +25,8 @@ export default {
       stringifyContentPathRegex: '\\.(html|svg)$',
     },
   },
-  coverageDirectory: '../../../../coverage/libs/dh/shared/feature-authorization',
+  coverageDirectory:
+    '../../../../coverage/libs/dh/shared/feature-authorization',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': 'jest-preset-angular',
   },
