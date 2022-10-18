@@ -50,12 +50,12 @@ import { ToLowerSort } from '@energinet-datahub/dh/shared/util-table';
 import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/feature-flags';
 
 @Component({
-  selector: 'dh-charges-message-tab',
-  templateUrl: './dh-charges-message-tab.component.html',
-  styleUrls: ['./dh-charges-message-tab.component.scss'],
+  selector: 'dh-charges-charge-messages-tab',
+  templateUrl: './dh-charges-charge-messages-tab.component.html',
+  styleUrls: ['./dh-charges-charge-messages-tab.component.scss'],
   providers: [DhMessageArchiveDataAccessApiStore],
 })
-export class DhChargesMessageTabComponent
+export class DhChargesChargeMessagesTabComponent
   implements AfterViewInit, OnDestroy, OnChanges
 {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -198,8 +198,8 @@ export class DhChargesMessageTabComponent
 }
 
 @NgModule({
-  declarations: [DhChargesMessageTabComponent],
-  exports: [DhChargesMessageTabComponent],
+  declarations: [DhChargesChargeMessagesTabComponent],
+  exports: [DhChargesChargeMessagesTabComponent],
   imports: [
     CommonModule,
     MatTableModule,
@@ -215,4 +215,4 @@ export class DhChargesMessageTabComponent
     DhFeatureFlagDirectiveModule
   ],
 })
-export class DhChargesMessageTabScam {}
+export class DhChargesChargeMessagesTabScam {}

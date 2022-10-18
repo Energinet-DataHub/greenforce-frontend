@@ -24,9 +24,9 @@ import {
 import { ChargeV1Dto } from '@energinet-datahub/dh/shared/domain';
 import { DhChargeDetailsHeaderScam } from '../details-header/dh-charge-details-header.component';
 import {
-  DhChargesMessageTabScam,
-  DhChargesMessageTabComponent,
-} from './message-tab/dh-charges-message-tab.component';
+  DhChargesChargeMessagesTabScam,
+  DhChargesChargeMessagesTabComponent,
+} from './message-tab/dh-charges-charge-messages-tab.component';
 import {
   WattDrawerModule,
   WattDrawerComponent,
@@ -42,8 +42,8 @@ import { TranslocoModule } from '@ngneat/transloco';
 })
 export class DhChargesPricesDrawerComponent {
   @ViewChild('drawer') drawer!: WattDrawerComponent;
-  @ViewChild(DhChargesMessageTabComponent)
-  chargesMessageTabComponent!: DhChargesMessageTabComponent;
+  @ViewChild(DhChargesChargeMessagesTabComponent)
+  chargesMessageTabComponent!: DhChargesChargeMessagesTabComponent;
 
   @Output() closed = new EventEmitter<void>();
 
@@ -69,7 +69,7 @@ export class DhChargesPricesDrawerComponent {
     WattTabsModule,
     WattButtonModule,
     DhChargeDetailsHeaderScam,
-    DhChargesMessageTabScam,
+    DhChargesChargeMessagesTabScam,
   ],
 })
 export class DhChargesPricesDrawerScam {}
