@@ -25,17 +25,7 @@ import {
   DhChargesPricesComponent,
 } from './dh-charges-prices.component';
 import { en as enTranslations } from '@energinet-datahub/dh/globalization/assets-localization';
-import { formatInTimeZone } from 'date-fns-tz';
 import { DatePipe } from '@angular/common';
-
-const danishTimeZoneIdentifier = 'Europe/Copenhagen';
-const defaultOutputSingle = '""';
-const defaultOutputRange = '{ "start": "", "end": "" }';
-const backspace = '{backspace}';
-
-function formatDateAs(value: string, format: string): string {
-  return formatInTimeZone(value, danishTimeZoneIdentifier, format);
-}
 
 describe('DhChargesPricesComponent', () => {
   async function setup() {
