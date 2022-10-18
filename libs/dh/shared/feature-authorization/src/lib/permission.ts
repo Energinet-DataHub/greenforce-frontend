@@ -15,4 +15,4 @@
  * limitations under the License.
  */
 
-export type Permission = 'organization' | 'gridarea';
+export type Permission = 'organization:view' | 'organization:manage' | 'gridareas:manage';
