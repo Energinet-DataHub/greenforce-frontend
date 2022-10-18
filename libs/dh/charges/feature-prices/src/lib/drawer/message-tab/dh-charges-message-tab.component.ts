@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- import {
+import {
   Component,
   NgModule,
   AfterViewInit,
@@ -31,11 +31,9 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
 import { Subject, takeUntil } from 'rxjs';
 import {
   MessageArchiveSearchResultItemDto,
-  MessageArchiveSearchCriteria
- } from '@energinet-datahub/dh/shared/domain';
- import {
-  DhMessageArchiveDataAccessApiStore
-} from '@energinet-datahub/dh/message-archive/data-access-api';
+  MessageArchiveSearchCriteria,
+} from '@energinet-datahub/dh/shared/domain';
+import { DhMessageArchiveDataAccessApiStore } from '@energinet-datahub/dh/message-archive/data-access-api';
 import {
   WattButtonModule,
   WattEmptyStateModule,
@@ -56,7 +54,6 @@ import { ToLowerSort } from '@energinet-datahub/dh/shared/util-table';
   styleUrls: ['./dh-charges-message-tab.component.scss'],
   providers: [DhMessageArchiveDataAccessApiStore],
 })
-
 export class DhChargesMessageTabComponent
   implements AfterViewInit, OnDestroy, OnChanges
 {
@@ -72,11 +69,7 @@ export class DhChargesMessageTabComponent
 
   searchResult$ = this.messageArchiveStore.searchResult$;
 
-  displayedColumns = [
-    'messageId',
-    'createdDate',
-    'messageType',
-  ];
+  displayedColumns = ['messageId', 'createdDate', 'messageType'];
 
   maxItemCount = 100;
   searchCriteria: MessageArchiveSearchCriteria = {
@@ -89,8 +82,10 @@ export class DhChargesMessageTabComponent
     new MatTableDataSource<MessageArchiveSearchResultItemDto>();
 
   loadMessages() {
-    this.searchCriteria.dateTimeFrom = this.initDateFrom().toISOString().split('.')[0] + 'Z';
-    this.searchCriteria.dateTimeTo = this.initDateTo().toISOString().split('.')[0] + 'Z';
+    this.searchCriteria.dateTimeFrom =
+      this.initDateFrom().toISOString().split('.')[0] + 'Z';
+    this.searchCriteria.dateTimeTo =
+      this.initDateTo().toISOString().split('.')[0] + 'Z';
 
     if (this.validateSearchParams()) {
       this.searchCriteria.continuationToken = null;
@@ -104,20 +99,19 @@ export class DhChargesMessageTabComponent
     }
 
     //Insert dummy data for now
-    if(this.dataSource.data.length === 0)
-    {
+    if (this.dataSource.data.length === 0) {
       this.dataSource.data = [
         {
           messageId: 'dummy-message 1',
           messageType: 'RSM - 33 RequestChangeOfPriceList',
           blobContentUri: 'https://',
-          createdDate: '2022-10-29T22:00:00'
+          createdDate: '2022-10-29T22:00:00',
         },
         {
           messageId: 'dummy-message 2',
           messageType: 'RSM - 33 RequestChangeOfPriceList',
           blobContentUri: 'https://',
-          createdDate: '2022-11-01T22:00:00'
+          createdDate: '2022-11-01T22:00:00',
         },
       ];
     }

@@ -15,9 +15,7 @@
  * limitations under the License.
  */
 import { rest } from 'msw';
-import {
-  MessageArchiveSearchResultItemDto,
-} from '@energinet-datahub/dh/shared/domain';
+import { MessageArchiveSearchResultItemDto } from '@energinet-datahub/dh/shared/domain';
 
 export const messageArchiveMocks = [
   rest.post(
@@ -36,18 +34,22 @@ export const messageArchiveMocks = [
           senderGlnMarketRoleType: 'DDM',
           receiverGln: '5790001330552',
           receiverGlnMarketRoleType: 'DDZ',
-          blobContentUri: 'https://localhost:5001/marketoplogs-archive/273f329a-abcf-46da-a7e5-6a4a28e0911c',
+          blobContentUri:
+            'https://localhost:5001/marketoplogs-archive/273f329a-abcf-46da-a7e5-6a4a28e0911c',
           httpData: 'request',
           invocationId: '294410e4-75a1-41f5-acd6-78ea0aaa18ae',
           functionName: 'ChargeIngestion',
           traceId: 'c53db521d757874fa0f8d4c091608e98',
-          traceParent: '00-c53db521d757874fa0f8d4c091608e98-729896ec82938b96-01',
+          traceParent:
+            '00-c53db521d757874fa0f8d4c091608e98-729896ec82938b96-01',
           responseStatus: '',
           originalTransactionIDReferenceId: null,
           rsmName: 'requestchangeofpricelist',
           haveBodyContent: true,
           data: {
-            key: '{functionname}', value: 'ChargeIngestion',  },
+            key: '{functionname}',
+            value: 'ChargeIngestion',
+          },
           errors: null,
         },
       ];
