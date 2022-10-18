@@ -47,6 +47,7 @@ import {
 } from '@angular/material/paginator';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import { ToLowerSort } from '@energinet-datahub/dh/shared/util-table';
+import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/feature-flags';
 
 @Component({
   selector: 'dh-charges-message-tab',
@@ -211,6 +212,7 @@ export class DhChargesMessageTabComponent
     WattSpinnerModule,
     DhSharedUiDateTimeModule,
     MatSortModule,
+    DhFeatureFlagDirectiveModule
   ],
 })
 export class DhChargesMessageTabScam {}
