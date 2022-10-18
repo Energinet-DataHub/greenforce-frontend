@@ -24,11 +24,18 @@ import { concatAll, from, map, reduce } from 'rxjs';
 export function PermissionGuard(permissions: Permission[]): CanActivateFn {
   return () => {
     const permissionService = inject(PermissionService);
-    return from(permissions).pipe(
-      map((perm) => permissionService.hasPermission(perm)),
-      concatAll(),
-      // Permissions are ORed together.
-      reduce((hasPermission, next) => hasPermission || next)
-    );
+    return permissionGuardCore(permissions, permissionService);
   };
+}
+
+export function permissionGuardCore(
+  permissions: Permission[],
+  permissionService: PermissionService
+) {
+  return from(permissions).pipe(
+    map((perm) => permissionService.hasPermission(perm)),
+    concatAll(),
+    // Permissions are ORed together.
+    reduce((hasPermission, next) => hasPermission || next)
+  );
 }
