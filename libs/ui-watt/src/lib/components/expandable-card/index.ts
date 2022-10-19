@@ -14,9 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export { WattExpandableCardModule } from './watt-expandable-card.module';
 export {
   WattExpandableCardComponent,
-  WattExpandableCardBadgeComponent,
   WattExpandableCardTitleComponent,
+  WATT_EXPANDABLE_CARD_COMPONENTS,
 } from './watt-expandable-card.component';

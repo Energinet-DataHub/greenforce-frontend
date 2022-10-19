@@ -44,12 +44,8 @@
     padding: 0 var(--watt-space-m);
   }
 
-  & watt-expandable-card-badge {
-    @include watt.space-inset-squish-xs;
+  & watt-badge {
     @include watt.typography-watt-text-m-highlighted;
     margin-right: var(--watt-space-m);
-    border-radius: 4px;
-    color: var(--watt-color-primary);
-    background: var(--watt-color-state-info-light);
   }
 }

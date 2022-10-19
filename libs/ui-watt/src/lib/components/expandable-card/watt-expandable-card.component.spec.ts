@@ -16,20 +16,23 @@
  */
 import { render, screen } from '@testing-library/angular';
 import {
-  composeStory,
-  createMountableStoryComponent,
-} from '@storybook/testing-angular';
+  WattExpandableCardComponent,
+  WATT_EXPANDABLE_CARD_COMPONENTS,
+} from './watt-expandable-card.component';
 
-import { WattExpandableCardComponent } from './watt-expandable-card.component';
-import Meta, { Overview } from './watt-expandable-card.stories';
-
-const ExpandableCard = composeStory(Overview, Meta);
+const template = `
+  <watt-expandable-card [expanded]="expanded">
+    <watt-expandable-card-title>Title</watt-expandable-card-title>
+    <p>Body</p>
+  </watt-expandable-card>
+`;
 
 describe(WattExpandableCardComponent.name, () => {
   async function setup(args: Partial<WattExpandableCardComponent>) {
-    const story = ExpandableCard(args, {} as never);
-    const { component, ngModule } = createMountableStoryComponent(story);
-    await render(component, { imports: [ngModule] });
+    await render(template, {
+      componentProperties: args,
+      imports: [WATT_EXPANDABLE_CARD_COMPONENTS],
+    });
   }
 
   it('renders collapsed', async () => {

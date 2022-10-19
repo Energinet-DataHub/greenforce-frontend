@@ -15,8 +15,15 @@
  * limitations under the License.
  */
 import { Component, Input, ViewEncapsulation } from '@angular/core';
+import { MatExpansionModule } from '@angular/material/expansion';
 
+/**
+ * Usage:
+ * `import { WATT_EXPANDABLE_CARD_COMPONENTS } from '@energinet-datahub/watt';`
+ */
 @Component({
+  standalone: true,
+  imports: [MatExpansionModule],
   encapsulation: ViewEncapsulation.None,
   selector: 'watt-expandable-card',
   styleUrls: ['./watt-expandable-card.component.scss'],
@@ -28,13 +35,13 @@ export class WattExpandableCardComponent {
 }
 
 @Component({
-  selector: 'watt-expandable-card-badge',
+  standalone: true,
+  selector: 'watt-expandable-card-title',
   template: `<ng-content></ng-content>`,
 })
-export class WattExpandableCardBadgeComponent {}
-
-@Component({
-  selector: 'watt-expandable-card-title',
-  template: ` <ng-content></ng-content> `,
-})
 export class WattExpandableCardTitleComponent {}
+
+export const WATT_EXPANDABLE_CARD_COMPONENTS = [
+  WattExpandableCardComponent,
+  WattExpandableCardTitleComponent,
+] as const;

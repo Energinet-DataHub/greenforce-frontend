@@ -15,17 +15,24 @@
  * limitations under the License.
  */
 import { moduleMetadata, Story, Meta } from '@storybook/angular';
-
-import { WattExpandableCardModule } from './watt-expandable-card.module';
-import { WattExpandableCardComponent } from './watt-expandable-card.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+import { WattBadgeModule } from '../badge';
+import {
+  WattExpandableCardComponent,
+  WATT_EXPANDABLE_CARD_COMPONENTS,
+} from './watt-expandable-card.component';
 
 export default {
   title: 'Components/Expandable Card',
   component: WattExpandableCardComponent,
   decorators: [
     moduleMetadata({
-      imports: [BrowserAnimationsModule, WattExpandableCardModule],
+      imports: [
+        BrowserAnimationsModule,
+        WattBadgeModule,
+        WATT_EXPANDABLE_CARD_COMPONENTS,
+      ],
     }),
   ],
 } as Meta;
@@ -34,7 +41,7 @@ export const Overview: Story<WattExpandableCardComponent> = (args) => ({
   props: args,
   template: `
     <watt-expandable-card [expanded]="expanded">
-      <watt-expandable-card-badge>02</watt-expandable-card-badge>
+      <watt-badge>02</watt-badge>
       <watt-expandable-card-title>The Cosmos Awaits</watt-expandable-card-title>
       <p>
         The sky calls to us preserve and cherish that pale blue dot citizens of
