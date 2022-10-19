@@ -57,7 +57,7 @@ type wholesaleTableData = MatTableDataSource<{
     WattBadgeModule,
     WattButtonModule,
     WattEmptyStateModule,
-    DhSharedUiPaginatorComponent
+    DhSharedUiPaginatorComponent,
   ],
   selector: 'dh-wholesale-table',
   templateUrl: './dh-wholesale-table.component.html',
@@ -66,7 +66,8 @@ type wholesaleTableData = MatTableDataSource<{
 })
 export class DhWholesaleTableComponent implements AfterViewInit {
   @ViewChild(MatSort) sort!: MatSort;
-  @ViewChild(DhSharedUiPaginatorComponent) paginator!: DhSharedUiPaginatorComponent;
+  @ViewChild(DhSharedUiPaginatorComponent)
+  paginator!: DhSharedUiPaginatorComponent;
   @Input() set data(batches: BatchDtoV2[]) {
     this._data = new MatTableDataSource(
       batches.map((batch) => ({

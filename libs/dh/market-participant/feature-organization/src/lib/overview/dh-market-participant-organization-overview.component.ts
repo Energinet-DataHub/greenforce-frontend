@@ -52,7 +52,8 @@ import { OrganizationWithActorRow } from '@energinet-datahub/dh/market-participa
 export class DhMarketParticipantOrganizationOverviewComponent
   implements AfterViewInit, OnChanges
 {
-  @ViewChild(DhSharedUiPaginatorComponent) paginator!: DhSharedUiPaginatorComponent;
+  @ViewChild(DhSharedUiPaginatorComponent)
+  paginator!: DhSharedUiPaginatorComponent;
 
   columnIds = [
     'org-name',
@@ -115,7 +116,7 @@ export class DhMarketParticipantOrganizationOverviewComponent
     WattValidationMessageModule,
     DhEmDashFallbackPipeScam,
     DhMarketParticipantOrganizationOverviewGridAreasScam,
-    DhSharedUiPaginatorComponent
+    DhSharedUiPaginatorComponent,
   ],
   declarations: [DhMarketParticipantOrganizationOverviewComponent],
   exports: [DhMarketParticipantOrganizationOverviewComponent],

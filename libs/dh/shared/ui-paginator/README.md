@@ -7,7 +7,7 @@ Used for pagination of tables. The component includes translations and consisten
 1. Import the `DhSharedUiPaginatorComponent` inside a SCAM module or a standalone component:
 
    ```ts
-   imports: [DhSharedUiPaginatorComponent]
+   imports: [DhSharedUiPaginatorComponent];
    ```
 
 2. Add `<dh-shared-ui-paginator></dh-shared-ui-paginator>` to the template.
@@ -28,11 +28,11 @@ Used for pagination of tables. The component includes translations and consisten
 
 ## Configuration
 
-| Name            | Description                                                                  | Default                    |
-| --------------- | ---------------------------------------------------------------------------- | -------------------------- |
-| length          | The length of the total number of items that are being paginated. **Note: using `MatTableDataSource` will overwrite this value**. `number`   | `0`                        |
-| pageSizeOptions | The set of provided page size options to display to the user. `number[]`     | `[50, 100, 150, 200, 250]` |
-| pageSize        | Number of items to display on a page. `number`                               | `50`                       |
+| Name            | Description                                                                                                                                | Default                    |
+| --------------- | ------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------- |
+| length          | The length of the total number of items that are being paginated. **Note: using `MatTableDataSource` will overwrite this value**. `number` | `0`                        |
+| pageSizeOptions | The set of provided page size options to display to the user. `number[]`                                                                   | `[50, 100, 150, 200, 250]` |
+| pageSize        | Number of items to display on a page. `number`                                                                                             | `50`                       |
 
 ## MatTableDataSource
 
