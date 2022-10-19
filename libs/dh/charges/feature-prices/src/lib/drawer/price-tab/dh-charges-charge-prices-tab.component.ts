@@ -19,19 +19,19 @@ import { DhDrawerDatepickerScam } from '../drawer-datepicker/dh-drawer-datepicke
 import { DatePickerData } from '../drawer-datepicker/drawer-datepicker.service';
 
 @Component({
-  selector: 'dh-charges-prices-history-tab',
-  templateUrl: './dh-charges-prices-history-tab.component.html',
-  styleUrls: ['./dh-charges-prices-history-tab.component.scss'],
+  selector: 'dh-charges-prices-price-tab',
+  templateUrl: './dh-charges-charge-prices-tab.component.html',
+  styleUrls: ['./dh-charges-charge-prices-tab.component.scss'],
 })
-export class DhChargesPricesHistoryTabComponent {
+export class DhChargesChargePricesTabComponent {
   dateRangeChanged(dateRange: DatePickerData) {
     console.log(dateRange);
   }
 }
 
 @NgModule({
-  declarations: [DhChargesPricesHistoryTabComponent],
-  exports: [DhChargesPricesHistoryTabComponent],
+  declarations: [DhChargesChargePricesTabComponent],
+  exports: [DhChargesChargePricesTabComponent],
   imports: [DhDrawerDatepickerScam],
 })
-export class DhChargesPricesHistoryTabScam {}
+export class DhChargesChargePricesTabScam {}

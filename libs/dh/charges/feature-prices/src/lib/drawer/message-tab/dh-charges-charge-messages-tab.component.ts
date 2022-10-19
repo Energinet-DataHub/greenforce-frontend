@@ -20,18 +20,18 @@ import { DatePickerData } from '../drawer-datepicker/drawer-datepicker.service';
 
 @Component({
   selector: 'dh-charges-prices-message-tab',
-  templateUrl: './dh-charges-prices-message-tab.component.html',
-  styleUrls: ['./dh-charges-prices-message-tab.component.scss'],
+  templateUrl: './dh-charges-charge-messages-tab.component.html',
+  styleUrls: ['./dh-charges-charge-messages-tab.component.scss'],
 })
-export class DhChargesPricesMessageTabComponent {
+export class DhChargesChargeMessagesTabComponent {
   dateRangeChanged(dateRange: DatePickerData) {
     console.log(dateRange);
   }
 }
 
 @NgModule({
-  declarations: [DhChargesPricesMessageTabComponent],
-  exports: [DhChargesPricesMessageTabComponent],
+  declarations: [DhChargesChargeMessagesTabComponent],
+  exports: [DhChargesChargeMessagesTabComponent],
   imports: [DhDrawerDatepickerScam],
 })
-export class DhChargesPricesMessageTabScam {}
+export class DhChargesChargeMessagesTabScam {}

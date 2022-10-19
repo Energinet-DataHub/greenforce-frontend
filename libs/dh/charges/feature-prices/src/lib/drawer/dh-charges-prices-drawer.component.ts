@@ -32,9 +32,9 @@ import {
   WattButtonModule,
 } from '@energinet-datahub/watt';
 import { TranslocoModule } from '@ngneat/transloco';
-import { DhChargesPricesPriceTabScam } from './price-tab/dh-charges-prices-price-tab.component';
-import { DhChargesPricesMessageTabScam } from './message-tab/dh-charges-prices-message-tab.component';
-import { DhChargesPricesHistoryTabScam } from './history-tab/dh-charges-prices-history-tab.component';
+import { DhChargesChargePricesTabScam } from './price-tab/dh-charges-charge-prices-tab.component';
+import { DhChargesChargeMessagesTabScam } from './message-tab/dh-charges-charge-messages-tab.component';
+import { DhChargesChargeHistoryTabScam } from './history-tab/dh-charges-charge-history-tab.component';
 
 @Component({
   selector: 'dh-charges-prices-drawer',
@@ -69,9 +69,9 @@ export class DhChargesPricesDrawerComponent {
     WattDatepickerModule,
     WattFormFieldModule,
     DhChargeDetailsHeaderScam,
-    DhChargesPricesPriceTabScam,
-    DhChargesPricesMessageTabScam,
-    DhChargesPricesHistoryTabScam,
+    DhChargesChargePricesTabScam,
+    DhChargesChargeMessagesTabScam,
+    DhChargesChargeHistoryTabScam,
   ],
 })
 export class DhChargesPricesDrawerScam {}

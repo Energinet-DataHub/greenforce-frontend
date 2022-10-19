@@ -16,18 +16,18 @@
  */
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DhChargesPricesMessageTabComponent } from './dh-charges-prices-message-tab.component';
+import { DhChargesChargeMessagesTabComponent } from './dh-charges-charge-messages-tab.component';
 
 describe('DhChargesMessageTabComponent', () => {
-  let component: DhChargesPricesMessageTabComponent;
-  let fixture: ComponentFixture<DhChargesPricesMessageTabComponent>;
+  let component: DhChargesChargeMessagesTabComponent;
+  let fixture: ComponentFixture<DhChargesChargeMessagesTabComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [DhChargesPricesMessageTabComponent],
+      declarations: [DhChargesChargeMessagesTabComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(DhChargesPricesMessageTabComponent);
+    fixture = TestBed.createComponent(DhChargesChargeMessagesTabComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
