@@ -40,11 +40,12 @@ import {
 
 import { ChargeV1Dto } from '@energinet-datahub/dh/shared/domain';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
+import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
+import { ToLowerSort } from '@energinet-datahub/dh/shared/util-table';
 import {
   DhChargesPricesDrawerComponent,
   DhChargesPricesDrawerScam,
 } from '../drawer/dh-charges-prices-drawer.component';
-import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
 
 @Component({
   selector: 'dh-charges-prices-result',
@@ -64,6 +65,7 @@ export class DhChargesPricesResultComponent
   @Input() isInit = false;
   @Input() hasLoadingError = false;
 
+  activeChargeId?: string | null;
   displayedColumns = [
     'chargeId',
     'chargeName',
@@ -80,6 +82,7 @@ export class DhChargesPricesResultComponent
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator.getPaginator();
+    this.dataSource.sortingDataAccessor = ToLowerSort();
   }
 
   ngOnChanges() {
@@ -90,7 +93,12 @@ export class DhChargesPricesResultComponent
   }
 
   rowClicked(charge: ChargeV1Dto) {
+    this.activeChargeId = charge.chargeId;
     this.chargePriceDrawer.openDrawer(charge);
+  }
+
+  drawerClosed() {
+    this.activeChargeId = null;
   }
 }
 

@@ -141,6 +141,7 @@ limitations under the License.
       <tr
         mat-row
         (click)="rowClicked(row)"
+        [ngClass]="{ 'active-row': row.chargeId === activeChargeId }"
         *matRowDef="let row; columns: displayedColumns"
       ></tr>
     </table>
@@ -187,5 +188,7 @@ limitations under the License.
     </ng-container>
   </div>
 
-  <dh-charges-prices-drawer></dh-charges-prices-drawer>
+  <dh-charges-prices-drawer
+    (closed)="drawerClosed()"
+  ></dh-charges-prices-drawer>
 </ng-container>

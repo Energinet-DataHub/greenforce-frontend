@@ -19,16 +19,16 @@ import {
   Component,
   Input,
   ViewChild,
-  OnDestroy,
   AfterViewInit,
   ChangeDetectionStrategy,
 } from '@angular/core';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { Subject } from 'rxjs';
 import { TranslocoModule } from '@ngneat/transloco';
 
+import { BatchDtoV2, BatchState } from '@energinet-datahub/dh/shared/domain';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
+import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
 import {
   WattBadgeModule,
   WattBadgeType,
@@ -36,20 +36,14 @@ import {
   WattEmptyStateModule,
 } from '@energinet-datahub/watt';
 
-import {
-  BatchDto,
-  BatchExecutionState,
-} from '@energinet-datahub/dh/shared/domain';
-import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
-
 type wholesaleTableData = MatTableDataSource<{
   statusType: void | WattBadgeType;
-  batchNumber: number;
+  batchNumber: string;
   periodStart: string;
   periodEnd: string;
   executionTimeStart?: string | null;
   executionTimeEnd?: string | null;
-  executionState: BatchExecutionState;
+  executionState: BatchState;
 }>;
 
 @Component({
@@ -70,10 +64,10 @@ type wholesaleTableData = MatTableDataSource<{
   styleUrls: ['./dh-wholesale-table.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DhWholesaleTableComponent implements OnDestroy, AfterViewInit {
+export class DhWholesaleTableComponent implements AfterViewInit {
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(DhSharedUiPaginatorComponent) paginator!: DhSharedUiPaginatorComponent;
-  @Input() set data(batches: BatchDto[]) {
+  @Input() set data(batches: BatchDtoV2[]) {
     this._data = new MatTableDataSource(
       batches.map((batch) => ({
         ...batch,
@@ -81,7 +75,6 @@ export class DhWholesaleTableComponent implements OnDestroy, AfterViewInit {
       }))
     );
   }
-  destroy$ = new Subject<void>();
   _data: wholesaleTableData = new MatTableDataSource(undefined);
 
   columnIds = [
@@ -99,19 +92,14 @@ export class DhWholesaleTableComponent implements OnDestroy, AfterViewInit {
     this._data.paginator = this.paginator.getPaginator();
   }
 
-  ngOnDestroy() {
-    this.destroy$.next();
-    this.destroy$.complete();
-  }
-
-  private getStatusType(status: BatchExecutionState): WattBadgeType | void {
-    if (status === BatchExecutionState.Pending) {
+  private getStatusType(status: BatchState): WattBadgeType | void {
+    if (status === BatchState.Pending) {
       return 'warning';
-    } else if (status === BatchExecutionState.Completed) {
+    } else if (status === BatchState.Completed) {
       return 'success';
-    } else if (status === BatchExecutionState.Executing) {
+    } else if (status === BatchState.Executing) {
       return 'info';
-    } else if (status === BatchExecutionState.Failed) {
+    } else if (status === BatchState.Failed) {
       return 'danger';
     }
   }
