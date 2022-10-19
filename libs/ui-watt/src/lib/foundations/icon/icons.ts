@@ -28,6 +28,7 @@ const materialIcons = {
   checkmark: 'check',
   user: 'account_circle',
   settings: 'settings',
+  contentCopy: 'content_copy',
   date: 'calendar_today',
   time: 'schedule',
   email: 'email',

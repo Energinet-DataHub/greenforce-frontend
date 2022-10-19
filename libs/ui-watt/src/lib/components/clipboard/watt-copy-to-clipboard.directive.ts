@@ -14,6 +14,8 @@ import { WattToastService } from '../toast';
 })
 export class WattCopyToClipboardDirective {
   @Input('wattCopyToClipboard') text?: string;
+  @Input() wattCopyToClipboardSuccess = '';
+  @Input() wattCopyToClipboardError = '';
 
   constructor(
     private element: ElementRef,
@@ -26,12 +28,20 @@ export class WattCopyToClipboardDirective {
 
   @HostListener('click')
   onClick() {
-    if (this.text) {
-      this.clipboard.copy(this.text);
-    } else {
-      this.clipboard.copy(this.element.nativeElement.innerText);
-    }
+    const success = this.text
+      ? this.clipboard.copy(this.text)
+      : this.clipboard.copy(this.element.nativeElement.innerText);
 
-    this.toast.open({ type: 'success', message: 'Kopieret til udklipsholder' });
+    if (success) {
+      this.toast.open({
+        type: 'success',
+        message: this.wattCopyToClipboardSuccess,
+      });
+    } else {
+      this.toast.open({
+        type: 'danger',
+        message: this.wattCopyToClipboardError,
+      });
+    }
   }
 }

@@ -16,10 +16,10 @@
  */
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { moduleMetadata, Story, Meta } from '@storybook/angular';
-import { WattToastComponent } from '../toast';
+import { WattToastComponent } from '../../toast';
 
-import { WattTooltipModule } from '../tooltip';
-import { WattCopyToClipboardDirective } from './watt-copy-to-clipboard.directive';
+import { WattCopyToClipboardDirective } from '../watt-copy-to-clipboard.directive';
+import { WattStorybookClipboardComponent } from './storybook-clipboard.component';
 
 export default {
   title: 'Components/Clipboard',
@@ -27,9 +27,8 @@ export default {
     moduleMetadata({
       imports: [
         BrowserAnimationsModule,
-        WattTooltipModule,
-        WattCopyToClipboardDirective,
         WattToastComponent,
+        WattStorybookClipboardComponent,
       ],
     }),
   ],
@@ -37,16 +36,7 @@ export default {
 
 export const Overview: Story<WattCopyToClipboardDirective> = (args) => ({
   props: args,
-  template: `
-  <span
-    wattCopyToClipboard
-    wattTooltip="Copy to clipboard"
-    wattTooltipPosition="above"
-  >
-    WhatEverText
-  </span>
-
-  `,
+  template: `<watt-storybook-clipboard></watt-storybook-clipboard>`,
 });
 
 Overview.args = {};
