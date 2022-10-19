@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 import {
+  AfterViewInit,
   Component,
   EventEmitter,
   Input,
@@ -49,7 +50,7 @@ import { OrganizationWithActorRow } from '@energinet-datahub/dh/market-participa
   templateUrl: './dh-market-participant-organization-overview.component.html',
 })
 export class DhMarketParticipantOrganizationOverviewComponent
-  implements OnChanges
+  implements AfterViewInit, OnChanges
 {
   @ViewChild(DhSharedUiPaginatorComponent) paginator!: DhSharedUiPaginatorComponent;
 
@@ -79,10 +80,14 @@ export class DhMarketParticipantOrganizationOverviewComponent
 
   ngOnChanges() {
     this.dataSource.data = this.rows;
-    this.dataSource.paginator = this.paginator.getPaginator();
+    this.dataSource.paginator = this.paginator?.getPaginator();
     this.gridAreas.forEach(
       (gridArea) => (this.gridAreasMap[gridArea.id] = gridArea.name)
     );
+  }
+
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator.getPaginator();
   }
 
   readonly onEditOrganization = (row: OrganizationWithActorRow) =>

@@ -80,16 +80,16 @@ export class DhChargesPricesResultComponent
   readonly dataSource: MatTableDataSource<ChargeV1Dto> =
     new MatTableDataSource<ChargeV1Dto>();
 
-  ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator.getPaginator();
-    this.dataSource.sortingDataAccessor = ToLowerSort();
-  }
-
   ngOnChanges() {
     if (this.result) this.dataSource.data = this.result;
 
-    this.dataSource.paginator = this.paginator.getPaginator();
+    this.dataSource.paginator = this.paginator?.getPaginator();
     this.dataSource.sort = this.matSort;
+  }
+
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator.getPaginator();
+    this.dataSource.sortingDataAccessor = ToLowerSort();
   }
 
   rowClicked(charge: ChargeV1Dto) {
