@@ -48,6 +48,8 @@ import {
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import { ToLowerSort } from '@energinet-datahub/dh/shared/util-table';
 import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/feature-flags';
+import { Inject } from '@angular/core';
+import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
 
 @Component({
   selector: 'dh-charges-charge-messages-tab',
@@ -83,20 +85,9 @@ export class DhChargesChargeMessagesTabComponent
     new MatTableDataSource<MessageArchiveSearchResultItemDto>();
 
   loadMessages() {
-    this.searchCriteria.dateTimeFrom =
-      this.initDateFrom().toISOString().split('.')[0] + 'Z';
-    this.searchCriteria.dateTimeTo =
-      this.initDateTo().toISOString().split('.')[0] + 'Z';
-
-    if (this.validateSearchParams()) {
-      this.searchCriteria.continuationToken = null;
-
-      if (!this.searchCriteria.messageId) {
-        this.searchCriteria.includeRelated = false;
-      }
-
-      this.messageArchiveStore.searchLogs(this.searchCriteria);
-      console.log(this.searchResult$);
+    const chargesMessagesTabFeatureIsEnabled = this.featureFlagsService.isEnabled('charges_messages_tab_feature_flag');
+    if(chargesMessagesTabFeatureIsEnabled) {
+      this.loadMessagesFromMessageArchive();
     }
 
     //Insert dummy data for now
@@ -122,10 +113,29 @@ export class DhChargesChargeMessagesTabComponent
     this.dataSource.sortingDataAccessor = ToLowerSort();
   }
 
+  loadMessagesFromMessageArchive() {
+    this.searchCriteria.dateTimeFrom =
+      this.initDateFrom().toISOString().split('.')[0] + 'Z';
+    this.searchCriteria.dateTimeTo =
+      this.initDateTo().toISOString().split('.')[0] + 'Z';
+
+    if (this.validateSearchParams()) {
+      this.searchCriteria.continuationToken = null;
+
+      if (!this.searchCriteria.messageId) {
+        this.searchCriteria.includeRelated = false;
+      }
+
+      this.messageArchiveStore.searchLogs(this.searchCriteria);
+      console.log(this.searchResult$);
+    }
+  }
+
   constructor(
     private messageArchiveStore: DhMessageArchiveDataAccessApiStore,
     private translocoService: TranslocoService,
-    private matPaginatorIntl: MatPaginatorIntl
+    private matPaginatorIntl: MatPaginatorIntl,
+    @Inject(DhFeatureFlagsService) private featureFlagsService: DhFeatureFlagsService
   ) {}
 
   ngAfterViewInit() {
