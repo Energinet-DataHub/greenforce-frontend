@@ -20,8 +20,8 @@ import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-uti
 import { DhApiModule } from '@energinet-datahub/dh/shared/data-access-api';
 import {
   DhChargesChargeMessagesTabComponent,
-  DhChargesChargeMessagesTabScam
- } from './dh-charges-charge-messages-tab.component';
+  DhChargesChargeMessagesTabScam,
+} from './dh-charges-charge-messages-tab.component';
 
 describe('DhChargesMessageTabComponent', () => {
   beforeEach(async () => {
