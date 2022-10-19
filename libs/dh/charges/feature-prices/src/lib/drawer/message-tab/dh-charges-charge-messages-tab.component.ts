@@ -85,8 +85,9 @@ export class DhChargesChargeMessagesTabComponent
     new MatTableDataSource<MessageArchiveSearchResultItemDto>();
 
   loadMessages() {
-    const chargesMessagesTabFeatureIsEnabled = this.featureFlagsService.isEnabled('charges_messages_tab_feature_flag');
-    if(chargesMessagesTabFeatureIsEnabled) {
+    const chargesMessagesTabFeatureIsEnabled =
+      this.featureFlagsService.isEnabled('charges_messages_tab_feature_flag');
+    if (chargesMessagesTabFeatureIsEnabled) {
       this.loadMessagesFromMessageArchive();
     }
 
@@ -135,7 +136,8 @@ export class DhChargesChargeMessagesTabComponent
     private messageArchiveStore: DhMessageArchiveDataAccessApiStore,
     private translocoService: TranslocoService,
     private matPaginatorIntl: MatPaginatorIntl,
-    @Inject(DhFeatureFlagsService) private featureFlagsService: DhFeatureFlagsService
+    @Inject(DhFeatureFlagsService)
+    private featureFlagsService: DhFeatureFlagsService
   ) {}
 
   ngAfterViewInit() {
