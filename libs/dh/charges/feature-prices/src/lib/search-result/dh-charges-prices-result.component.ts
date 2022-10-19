@@ -50,6 +50,7 @@ import {
   DhChargesPricesDrawerComponent,
   DhChargesPricesDrawerScam,
 } from '../drawer/dh-charges-prices-drawer.component';
+import { ToLowerSort } from '@energinet-datahub/dh/shared/util-table';
 
 @Component({
   selector: 'dh-charges-prices-result',
@@ -71,6 +72,7 @@ export class DhChargesPricesResultComponent
 
   private destroy$ = new Subject<void>();
 
+  activeChargeId?: string | null;
   displayedColumns = [
     'chargeId',
     'chargeName',
@@ -92,6 +94,7 @@ export class DhChargesPricesResultComponent
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
+    this.dataSource.sortingDataAccessor = ToLowerSort();
     this.setupPaginatorTranslation();
   }
 
@@ -129,7 +132,12 @@ export class DhChargesPricesResultComponent
   };
 
   rowClicked(charge: ChargeV1Dto) {
+    this.activeChargeId = charge.chargeId;
     this.chargePriceDrawer.openDrawer(charge);
+  }
+
+  drawerClosed() {
+    this.activeChargeId = null;
   }
 }
 
