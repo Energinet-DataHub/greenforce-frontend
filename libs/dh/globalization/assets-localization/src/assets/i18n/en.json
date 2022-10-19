@@ -288,7 +288,7 @@
       "prices": "Prices",
       "search": {
         "idOrName": "Price ID/Name",
-        "enterIdOrName": "Enter part or whole name",
+        "enterIdOrName": "Enter part or whole id or name ",
         "owner": "Owner",
         "enterOwner": "Enter owner",
         "selectChargeType": "Choose type",
@@ -344,7 +344,10 @@
         "stop": "Stop",
         "edit": "Edit",
         "showDescriptionLabel": "Show description",
-        "hideDescriptionLabel": "Hide description"
+        "hideDescriptionLabel": "Hide description",
+        "messageId": "Message Id",
+        "messageType": "Type",
+        "date": "Date"
       }
     }
   },
