@@ -5,6 +5,17 @@
   "shell": {
     "logout": "Log ud"
   },
+  "shared": {
+    "paginator": {
+      "itemsPerPageLabel": "Resultater pr. side",
+      "of": "af",
+      "first": "Første side",
+      "last": "Sidste side",
+      "next": "Næste side",
+      "previous": "Forrige side",
+      "ariaLabel": "Vælg side"
+    }
+  },
   "sidebar": {
     "navigation": {
       "meteringPoints": "Målepunkter",

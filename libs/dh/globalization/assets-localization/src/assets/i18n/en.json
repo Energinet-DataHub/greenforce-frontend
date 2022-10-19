@@ -5,6 +5,17 @@
   "shell": {
     "logout": "Sign out"
   },
+  "shared": {
+    "paginator": {
+      "itemsPerPageLabel": "Results per page",
+      "of": "of",
+      "first": "First page",
+      "last": "Last page",
+      "next": "Next page",
+      "previous": "Previous page",
+      "ariaLabel": "Select page"
+    }
+  },
   "sidebar": {
     "navigation": {
       "meteringPoints": "Metering points",

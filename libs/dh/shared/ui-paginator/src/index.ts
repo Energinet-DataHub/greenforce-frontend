@@ -1,1 +1,1 @@
-export * from './lib/dh-shared-ui-paginator.module';
+export * from './lib/dh-shared-ui-paginator.component';
