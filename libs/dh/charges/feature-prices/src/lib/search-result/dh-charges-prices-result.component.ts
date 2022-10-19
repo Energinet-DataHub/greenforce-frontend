@@ -19,14 +19,13 @@ import {
   Component,
   NgModule,
   AfterViewInit,
-  OnDestroy,
   OnChanges,
   ViewChild,
   Input,
 } from '@angular/core';
 
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
+import { TranslocoModule } from '@ngneat/transloco';
 import { LetModule } from '@rx-angular/template';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 
@@ -38,18 +37,14 @@ import {
   WattTooltipModule,
   WattSpinnerModule,
 } from '@energinet-datahub/watt';
-import {
-  MatPaginator,
-  MatPaginatorIntl,
-  MatPaginatorModule,
-} from '@angular/material/paginator';
-import { Subject, takeUntil } from 'rxjs';
+
 import { ChargeV1Dto } from '@energinet-datahub/dh/shared/domain';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import {
   DhChargesPricesDrawerComponent,
   DhChargesPricesDrawerScam,
 } from '../drawer/dh-charges-prices-drawer.component';
+import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
 
 @Component({
   selector: 'dh-charges-prices-result',
@@ -57,9 +52,9 @@ import {
   styleUrls: ['./dh-charges-prices-result.component.scss'],
 })
 export class DhChargesPricesResultComponent
-  implements AfterViewInit, OnDestroy, OnChanges
+  implements AfterViewInit, OnChanges
 {
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(DhSharedUiPaginatorComponent) paginator!: DhSharedUiPaginatorComponent;
   @ViewChild(MatSort) matSort!: MatSort;
   @ViewChild(DhChargesPricesDrawerComponent)
   chargePriceDrawer!: DhChargesPricesDrawerComponent;
@@ -68,8 +63,6 @@ export class DhChargesPricesResultComponent
   @Input() isLoading = false;
   @Input() isInit = false;
   @Input() hasLoadingError = false;
-
-  private destroy$ = new Subject<void>();
 
   displayedColumns = [
     'chargeId',
@@ -85,48 +78,16 @@ export class DhChargesPricesResultComponent
   readonly dataSource: MatTableDataSource<ChargeV1Dto> =
     new MatTableDataSource<ChargeV1Dto>();
 
-  constructor(
-    private translocoService: TranslocoService,
-    private matPaginatorIntl: MatPaginatorIntl
-  ) {}
-
   ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-    this.setupPaginatorTranslation();
+    this.dataSource.paginator = this.paginator.getPaginator();
   }
 
   ngOnChanges() {
     if (this.result) this.dataSource.data = this.result;
 
-    this.dataSource.paginator = this.paginator;
+    this.dataSource.paginator = this.paginator.getPaginator();
     this.dataSource.sort = this.matSort;
   }
-
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
-  }
-
-  private readonly setupPaginatorTranslation = () => {
-    const temp = this.matPaginatorIntl.getRangeLabel;
-    this.matPaginatorIntl.getRangeLabel = (page, pageSize, length) =>
-      temp(page, pageSize, length).replace(
-        'of',
-        this.translocoService.translate('charges.prices.paginator.of')
-      );
-
-    this.translocoService
-      .selectTranslateObject('charges.prices.paginator')
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((value) => {
-        this.matPaginatorIntl.itemsPerPageLabel = value.itemsPerPageLabel;
-        this.matPaginatorIntl.nextPageLabel = value.next;
-        this.matPaginatorIntl.previousPageLabel = value.previous;
-        this.matPaginatorIntl.firstPageLabel = value.first;
-        this.matPaginatorIntl.lastPageLabel = value.last;
-        this.dataSource.paginator = this.paginator;
-      });
-  };
 
   rowClicked(charge: ChargeV1Dto) {
     this.chargePriceDrawer.openDrawer(charge);
@@ -142,7 +103,6 @@ export class DhChargesPricesResultComponent
     TranslocoModule,
     LetModule,
     WattIconModule,
-    MatPaginatorModule,
     WattButtonModule,
     WattEmptyStateModule,
     DhFeatureFlagDirectiveModule,
@@ -151,6 +111,7 @@ export class DhChargesPricesResultComponent
     DhSharedUiDateTimeModule,
     MatSortModule,
     DhChargesPricesDrawerScam,
+    DhSharedUiPaginatorComponent
   ],
 })
 export class DhChargesPricesResultScam {}
