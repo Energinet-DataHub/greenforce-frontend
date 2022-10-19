@@ -22,6 +22,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { WattIconModule } from '../../../foundations/icon';
 import { StorybookTableOverviewComponent } from './storybook-table-overview.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { WattResizeObserverDirective } from '../../../utils/resize-observer';
 
 @NgModule({
   imports: [
@@ -30,6 +31,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     MatSortModule,
     MatPaginatorModule,
     BrowserAnimationsModule,
+    WattResizeObserverDirective,
   ],
   declarations: [StorybookTableOverviewComponent],
   exports: [StorybookTableOverviewComponent],

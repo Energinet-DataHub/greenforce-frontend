@@ -14,7 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { AfterViewInit, Component, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  ViewChild,
+  ViewEncapsulation,
+} from '@angular/core';
 import { MatSort, MatSortable, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 
@@ -26,15 +32,34 @@ export interface PeriodicElement {
 }
 
 export const periodicElements: PeriodicElement[] = [
-  { position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H' },
+  {
+    position: 1,
+    name: 'Hydrogen Hydrogen Hydrogen Hydrogen Hydrogen Hydrogen Hydrogen Hydrogen Hydrogen ',
+    weight: 1.0079,
+    symbol: 'H',
+  },
+  { position: 2, name: 'Helium', weight: 4.0026, symbol: 'He' },
+  { position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li' },
+  { position: 2, name: 'Helium', weight: 4.0026, symbol: 'He' },
+  { position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li' },
+  { position: 2, name: 'Helium', weight: 4.0026, symbol: 'He' },
+  { position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li' },
+  { position: 2, name: 'Helium', weight: 4.0026, symbol: 'He' },
+  { position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li' },
+  { position: 2, name: 'Helium', weight: 4.0026, symbol: 'He' },
+  { position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li' },
+  { position: 2, name: 'Helium', weight: 4.0026, symbol: 'He' },
+  { position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li' },
   { position: 2, name: 'Helium', weight: 4.0026, symbol: 'He' },
   { position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li' },
 ];
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
+  encapsulation: ViewEncapsulation.None,
   selector: 'storybook-table-overview',
   templateUrl: 'storybook-table-overview.component.html',
+  styleUrls: ['style.scss'],
 })
 export class StorybookTableOverviewComponent implements AfterViewInit {
   displayedColumns: string[] = ['position', 'name', 'symbol'];
@@ -42,10 +67,20 @@ export class StorybookTableOverviewComponent implements AfterViewInit {
 
   @ViewChild(MatSort) matSort?: MatSort;
 
+  constructor(private elRef: ElementRef) {}
+
   ngAfterViewInit(): void {
     this.sortedData.sort = this.matSort ?? null;
+  }
 
-    this.setDefaultSorting();
+  updateStyle() {
+    const tbody = this.elRef.nativeElement.querySelector('tbody');
+    const thead = this.elRef.nativeElement.querySelector('.mat-header-row');
+
+    const gridTemplateColumns =
+      window.getComputedStyle(tbody).gridTemplateColumns;
+
+    thead.style.gridTemplateColumns = gridTemplateColumns;
   }
 
   sortData(sort: Sort) {
