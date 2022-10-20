@@ -44,3 +44,13 @@ table {
 .column-align-right {
   text-align: right;
 }
+
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  margin-top: var(--watt-space-m);
+}
+
+.no-result-div {
+  margin-top: var(--watt-space-xl);
+}

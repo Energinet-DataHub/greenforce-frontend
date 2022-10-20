@@ -94,6 +94,7 @@ export class DhChargesPricesResultComponent
   }
 
   rowClicked(charge: ChargeV1Dto) {
+    console.log(charge);
     this.activeChargeId = charge.chargeId;
     this.chargePriceDrawer.openDrawer(charge);
   }

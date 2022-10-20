@@ -62,7 +62,7 @@ export class DhChargesPricesDrawerComponent {
     this.charge = charge;
     this.drawer.open();
     this.chargesMessageTabComponent.loadMessages();
-    this.chargePricesTabComponent.loadMessages();
+    this.chargePricesTabComponent.loadPrices();
   }
 
   drawerClosed() {

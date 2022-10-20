@@ -14,13 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { CommonModule } from '@angular/common';
 import {
+  ChangeDetectionStrategy,
   Component,
   Input,
   NgModule,
   OnChanges,
+  OnDestroy,
   OnInit,
-  SimpleChanges,
   ViewChild,
 } from '@angular/core';
 import { DhDrawerDatepickerScam } from '../drawer-datepicker/dh-drawer-datepicker.component';
@@ -43,15 +45,23 @@ import {
   ChargePricesSearchCriteriaV1Dto,
   ChargePriceV1Dto,
   ChargeV1Dto,
+  Resolution,
 } from '@energinet-datahub/dh/shared/domain';
+import { Subject, takeUntil } from 'rxjs';
+import { PushModule } from '@rx-angular/template';
+
+import { getHours, getMinutes, minutesToSeconds } from 'date-fns';
 
 @Component({
   selector: 'dh-charges-charge-prices-tab',
   templateUrl: './dh-charges-charge-prices-tab.component.html',
   styleUrls: ['./dh-charges-charge-prices-tab.component.scss'],
   providers: [DhChargePricesDataAccessApiStore],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DhChargesChargePricesTabComponent implements OnInit, OnChanges {
+export class DhChargesChargePricesTabComponent
+  implements OnInit, OnChanges, OnDestroy
+{
   @ViewChild(DhSharedUiPaginatorComponent)
   paginator!: DhSharedUiPaginatorComponent;
   @ViewChild(MatSort) matSort!: MatSort;
@@ -61,41 +71,75 @@ export class DhChargesChargePricesTabComponent implements OnInit, OnChanges {
 
   searchCriteria: ChargePricesSearchCriteriaV1Dto = {
     chargeId: '',
-    fromDateTime: '',
-    toDateTime: '',
+    fromDateTime: '2000-09-28T22:00:00',
+    toDateTime: '2030-09-28T22:00:00',
   };
 
   result: ChargePriceV1Dto[] | undefined;
-  all$ = this.chargePricesStore.all$;
+  isLoading = this.chargePricesStore.isLoading$;
+  hasLoadingError = this.chargePricesStore.hasGeneralError$;
+  chargePricesNotFound = this.chargePricesStore.chargePricesNotFound$;
+  showDateTime = false;
+  displayedColumns = ['fromDateTime', 'time', 'price'];
 
-  displayedColumns = ['fromDateTime', 'toDateTime', 'price'];
+  private destroy$ = new Subject<void>();
 
   readonly dataSource: MatTableDataSource<ChargePriceV1Dto> =
     new MatTableDataSource<ChargePriceV1Dto>();
 
   ngOnInit() {
-    this.all$.subscribe((chargePrices) => {
-      if (chargePrices) {
-        this.dataSource.data = chargePrices;
+    this.chargePricesStore.all$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((chargePrices) => {
+        this.dataSource.data = chargePrices ?? new Array<ChargePriceV1Dto>();
         this.result = chargePrices;
-      }
 
-      this.dataSource.paginator = this.paginator?.instance;
-      this.dataSource.sort = this.matSort;
-    });
+        this.dataSource.paginator = this.paginator?.instance;
+        this.dataSource.sort = this.matSort;
+      });
   }
 
   ngOnChanges() {
-    console.log(this.charge);
-    if (this.charge) this.searchCriteria.chargeId = this.charge.chargeId ?? '';
+    if (this.charge) {
+      this.searchCriteria.chargeId = this.charge.id ?? '';
+
+      this.showDateTime =
+        this.charge?.resolution == Resolution.PT1H ||
+        this.charge?.resolution == Resolution.PT15M;
+
+      if (this.showDateTime)
+        this.displayedColumns = ['fromDateTime', 'time', 'price'];
+      else this.displayedColumns = ['fromDateTime', 'price'];
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.unsubscribe();
   }
 
   dateRangeChanged(dateRange: DatePickerData) {
     console.log(dateRange);
   }
 
-  loadMessages() {
+  loadPrices() {
     this.chargePricesStore.searchChargePrices(this.searchCriteria);
+  }
+
+  getHours(date: string) {
+    return this.addLeadingZeros(getHours(new Date(date)), 2);
+  }
+
+  getTime(date: string) {
+    if (this.charge?.resolution == Resolution.PT1H) return this.getHours(date);
+
+    const minutes = this.addLeadingZeros(getMinutes(new Date(date)), 2);
+    const hours = this.getHours(date);
+    return `${hours}:${minutes}`;
+  }
+
+  addLeadingZeros(number: number, totalLength: number): string {
+    return String(number).padStart(totalLength, '0');
   }
 }
 
@@ -103,6 +147,7 @@ export class DhChargesChargePricesTabComponent implements OnInit, OnChanges {
   declarations: [DhChargesChargePricesTabComponent],
   exports: [DhChargesChargePricesTabComponent],
   imports: [
+    CommonModule,
     DhDrawerDatepickerScam,
     WattIconModule,
     WattButtonModule,
@@ -114,6 +159,7 @@ export class DhChargesChargePricesTabComponent implements OnInit, OnChanges {
     MatSortModule,
     DhSharedUiPaginatorComponent,
     DhSharedUiDateTimeModule,
+    PushModule,
   ],
 })
 export class DhChargesChargePricesTabScam {}

@@ -61,17 +61,18 @@ limitations under the License.
           {{ t("priceTab.fromDateTime") }}
         </th>
         <td mat-cell *matCellDef="let element">
-          {{ element.fromDateTime | dhDateTime }}
+          {{ element.fromDateTime | dhDate }}
         </td>
       </ng-container>
 
       <!-- To date time column -->
-      <ng-container matColumnDef="toDateTime">
+      <ng-container matColumnDef="time">
         <th *matHeaderCellDef mat-header-cell mat-sort-header>
-          {{ t("priceTab.toDateTime") }}
+          {{ t("priceTab.time") }}
         </th>
         <td mat-cell *matCellDef="let element">
-          {{ element.toDateTime | dhDateTime }}
+          {{ this.getTime(element.fromDateTime) }} -
+          {{ this.getTime(element.toDateTime) }}
         </td>
       </ng-container>
 
@@ -93,5 +94,24 @@ limitations under the License.
       <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     </table>
+
+    <!-- Spinner -->
+    <div *ngIf="isLoading | push" class="overview__spinner spinner-container">
+      <watt-spinner></watt-spinner>
+    </div>
+
+    <!-- Empty -->
+    <ng-container
+      *ngIf="(chargePricesNotFound | push) && result && result.length === 0"
+    >
+      <watt-empty-state
+        class="no-result-div"
+        icon="explore"
+        size="large"
+        title="{{ t('noResultsFound') }}"
+        message="{{ t('noResultsHelperText') }}"
+      >
+      </watt-empty-state>
+    </ng-container>
   </div>
 </ng-container>

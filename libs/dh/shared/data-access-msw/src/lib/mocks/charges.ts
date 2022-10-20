@@ -40,6 +40,7 @@ function getCharges() {
   return rest.get('https://localhost:5001/v1/Charges', (req, res, ctx) => {
     const result: ChargeV1Dto[] = [
       {
+        id: 'CC2F52B8-8731-4262-98C6-0D0932D2D8F1',
         chargeType: 'D01',
         resolution: 'PT15M',
         taxIndicator: false,
@@ -80,6 +81,7 @@ function searchCharges() {
     (req, res, ctx) => {
       const result: ChargeV1Dto[] = [
         {
+          id: 'CC2F52B8-8731-4262-98C6-0D0932D2D8F1',
           chargeType: 'D01',
           resolution: 'P1D',
           taxIndicator: false,
@@ -94,6 +96,7 @@ function searchCharges() {
           chargeOwnerName: 'Thy-Mors Energi Elnet A/S - 041',
         },
         {
+          id: '774D75CB-B069-4A5A-A5EA-ED4FBAD67109',
           chargeType: 'D02',
           resolution: 'PT15M',
           taxIndicator: false,
@@ -108,6 +111,7 @@ function searchCharges() {
           chargeOwnerName: 'Thy-Mors Energi Elnet A/S - 040',
         },
         {
+          id: '6AA831CF-14F8-41D5-8E08-26939172DFAA',
           chargeType: 'D02',
           resolution: 'PT15M',
           taxIndicator: false,
