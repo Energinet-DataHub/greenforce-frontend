@@ -41,6 +41,7 @@ import {
   WattEmptyStateModule,
 } from '@energinet-datahub/watt';
 
+import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
 import { BatchDtoV2, BatchState } from '@energinet-datahub/dh/shared/domain';
 
 type wholesaleTableData = MatTableDataSource<{
@@ -70,6 +71,7 @@ type wholesaleTableData = MatTableDataSource<{
   templateUrl: './dh-wholesale-table.component.html',
   styleUrls: ['./dh-wholesale-table.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [DhWholesaleBatchDataAccessApiStore],
 })
 export class DhWholesaleTableComponent implements OnDestroy, AfterViewInit {
   @ViewChild(MatSort) sort!: MatSort;
@@ -84,10 +86,11 @@ export class DhWholesaleTableComponent implements OnDestroy, AfterViewInit {
   }
   destroy$ = new Subject<void>();
   _data: wholesaleTableData = new MatTableDataSource(undefined);
-
+  
   constructor(
     private matPaginatorIntl: MatPaginatorIntl,
-    private translocoService: TranslocoService
+    private translocoService: TranslocoService,
+    private store: DhWholesaleBatchDataAccessApiStore
   ) {}
 
   columnIds = [
@@ -108,6 +111,10 @@ export class DhWholesaleTableComponent implements OnDestroy, AfterViewInit {
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
+  }
+
+  onDownload(batchId: string) {
+    this.store.getZippedBasisData({id: batchId});
   }
 
   private getStatusType(status: BatchState): WattBadgeType | void {
