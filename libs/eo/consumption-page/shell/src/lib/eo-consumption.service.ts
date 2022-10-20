@@ -14,8 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { HttpClient } from '@angular/common/http';
-import { Inject, Injectable } from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {Inject, Injectable} from '@angular/core';
 import {
   EoApiEnvironment,
   eoApiEnvironmentToken,
@@ -24,7 +24,7 @@ import {
   AppSettingsStore,
   CalendarDateRange,
 } from '@energinet-datahub/eo/shared/services';
-import { take } from 'rxjs';
+import {take} from 'rxjs';
 
 export interface EoMeasurement {
   dateFrom: number;
@@ -42,6 +42,14 @@ interface EoConsumptionResponse {
 export class EoConsumptionService {
   #apiBase: string;
 
+  constructor(
+    private http: HttpClient,
+    private store: AppSettingsStore,
+    @Inject(eoApiEnvironmentToken) apiEnvironment: EoApiEnvironment
+  ) {
+    this.#apiBase = `${apiEnvironment.apiBase}`;
+  }
+
   getMonthlyConsumption() {
     let dateRange: CalendarDateRange = {} as CalendarDateRange;
 
@@ -53,15 +61,7 @@ export class EoConsumptionService {
       `${this.#apiBase}/measurements/consumption?dateFrom=${
         dateRange.start
       }&dateTo=${dateRange.end}&aggregation=Month`,
-      { withCredentials: true }
+      {withCredentials: true}
     );
-  }
-
-  constructor(
-    private http: HttpClient,
-    private store: AppSettingsStore,
-    @Inject(eoApiEnvironmentToken) apiEnvironment: EoApiEnvironment
-  ) {
-    this.#apiBase = `${apiEnvironment.apiBase}`;
   }
 }
