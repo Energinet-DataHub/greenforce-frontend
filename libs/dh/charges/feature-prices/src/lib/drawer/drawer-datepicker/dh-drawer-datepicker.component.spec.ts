@@ -15,21 +15,22 @@
  * limitations under the License.
  */
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { DhChargesPricesResultComponent } from './dh-charges-prices-result.component';
-import { DhChargesPricesScam } from '../dh-charges-prices.component';
-import { MatNativeDateModule } from '@angular/material/core';
 
-describe('DhChargesPricesResultComponent', () => {
-  let component: DhChargesPricesResultComponent;
-  let fixture: ComponentFixture<DhChargesPricesResultComponent>;
+import { DhDrawerDatepickerComponent } from './dh-drawer-datepicker.component';
+import { MatNativeDateModule } from '@angular/material/core';
+import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
+
+describe('DrawerDatepickerComponent', () => {
+  let component: DhDrawerDatepickerComponent;
+  let fixture: ComponentFixture<DhDrawerDatepickerComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [MatNativeDateModule, DhChargesPricesScam],
-      declarations: [DhChargesPricesResultComponent],
+      imports: [getTranslocoTestingModule(), MatNativeDateModule],
+      declarations: [DhDrawerDatepickerComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(DhChargesPricesResultComponent);
+    fixture = TestBed.createComponent(DhDrawerDatepickerComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

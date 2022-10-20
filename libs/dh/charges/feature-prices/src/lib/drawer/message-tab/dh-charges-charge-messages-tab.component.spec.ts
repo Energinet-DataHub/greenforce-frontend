@@ -15,26 +15,35 @@
  * limitations under the License.
  */
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { DhChargesPricesResultComponent } from './dh-charges-prices-result.component';
-import { DhChargesPricesScam } from '../dh-charges-prices.component';
+import { HttpClientModule } from '@angular/common/http';
+import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
+import { DhApiModule } from '@energinet-datahub/dh/shared/data-access-api';
+import { DhChargesChargeMessagesTabComponent } from './dh-charges-charge-messages-tab.component';
 import { MatNativeDateModule } from '@angular/material/core';
+import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/feature-flags';
 
-describe('DhChargesPricesResultComponent', () => {
-  let component: DhChargesPricesResultComponent;
-  let fixture: ComponentFixture<DhChargesPricesResultComponent>;
+describe('DhChargesMessagesTabComponent', () => {
+  let component: DhChargesChargeMessagesTabComponent;
+  let fixture: ComponentFixture<DhChargesChargeMessagesTabComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [MatNativeDateModule, DhChargesPricesScam],
-      declarations: [DhChargesPricesResultComponent],
+      imports: [
+        getTranslocoTestingModule(),
+        HttpClientModule,
+        DhApiModule.forRoot(),
+        MatNativeDateModule,
+        DhFeatureFlagDirectiveModule,
+      ],
+      declarations: [DhChargesChargeMessagesTabComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(DhChargesPricesResultComponent);
+    fixture = TestBed.createComponent(DhChargesChargeMessagesTabComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('should create', async () => {
     expect(component).toBeTruthy();
   });
 });
