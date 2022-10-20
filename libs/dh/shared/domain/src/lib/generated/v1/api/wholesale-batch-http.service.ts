@@ -250,10 +250,10 @@ export class WholesaleBatchHttp {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public v1WholesaleBatchZippedBasisDataUrlPost(batchId?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<string>;
-    public v1WholesaleBatchZippedBasisDataUrlPost(batchId?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<string>>;
-    public v1WholesaleBatchZippedBasisDataUrlPost(batchId?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<string>>;
-    public v1WholesaleBatchZippedBasisDataUrlPost(batchId?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
+    public v1WholesaleBatchZippedBasisDataStreamPost(batchId?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<string>;
+    public v1WholesaleBatchZippedBasisDataStreamPost(batchId?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<string>>;
+    public v1WholesaleBatchZippedBasisDataStreamPost(batchId?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<string>>;
+    public v1WholesaleBatchZippedBasisDataStreamPost(batchId?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
         if (batchId !== undefined && batchId !== null) {
@@ -301,7 +301,7 @@ export class WholesaleBatchHttp {
             }
         }
 
-        let localVarPath = `/v1/WholesaleBatch/ZippedBasisDataUrl`;
+        let localVarPath = `/v1/WholesaleBatch/ZippedBasisDataStream`;
         return this.httpClient.request<string>('post', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
