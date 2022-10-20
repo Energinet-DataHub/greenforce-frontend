@@ -5,6 +5,17 @@
   "shell": {
     "logout": "Sign out"
   },
+  "shared": {
+    "paginator": {
+      "itemsPerPageLabel": "Results per page",
+      "of": "of",
+      "first": "First page",
+      "last": "Last page",
+      "next": "Next page",
+      "previous": "Previous page",
+      "ariaLabel": "Select page"
+    }
+  },
   "sidebar": {
     "navigation": {
       "meteringPoints": "Metering points",
@@ -288,7 +299,7 @@
       "prices": "Prices",
       "search": {
         "idOrName": "Price ID/Name",
-        "enterIdOrName": "Enter part or whole name",
+        "enterIdOrName": "Enter part or whole id or name ",
         "owner": "Owner",
         "enterOwner": "Enter owner",
         "selectChargeType": "Choose type",
@@ -340,11 +351,21 @@
       "drawer": {
         "prices": "Prices",
         "messages": "Messages",
+        "dateChips": {
+          "day": "Day",
+          "week": "Week",
+          "month": "Month",
+          "quarter": "Quarter",
+          "year": "Year"
+        },
         "history": "History",
         "stop": "Stop",
         "edit": "Edit",
         "showDescriptionLabel": "Show description",
-        "hideDescriptionLabel": "Hide description"
+        "hideDescriptionLabel": "Hide description",
+        "messageId": "Message Id",
+        "messageType": "Type",
+        "date": "Date"
       }
     }
   },

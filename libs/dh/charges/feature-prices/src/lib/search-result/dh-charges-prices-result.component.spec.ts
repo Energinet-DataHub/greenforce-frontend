@@ -17,6 +17,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DhChargesPricesResultComponent } from './dh-charges-prices-result.component';
 import { DhChargesPricesScam } from '../dh-charges-prices.component';
+import { MatNativeDateModule } from '@angular/material/core';
 
 describe('DhChargesPricesResultComponent', () => {
   let component: DhChargesPricesResultComponent;
@@ -24,7 +25,7 @@ describe('DhChargesPricesResultComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [DhChargesPricesScam],
+      imports: [MatNativeDateModule, DhChargesPricesScam],
       declarations: [DhChargesPricesResultComponent],
     }).compileComponents();
 
