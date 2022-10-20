@@ -18,14 +18,11 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientModule } from '@angular/common/http';
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
 import { DhApiModule } from '@energinet-datahub/dh/shared/data-access-api';
-import {
-  DhChargesChargeMessagesTabComponent,
-  DhChargesChargeMessagesTabScam,
-} from './dh-charges-charge-messages-tab.component';
-
 import { DhChargesChargeMessagesTabComponent } from './dh-charges-charge-messages-tab.component';
+import { MatNativeDateModule } from '@angular/material/core';
+import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/feature-flags';
 
-describe('DhChargesMessageTabComponent', () => {
+describe('DhChargesMessagesTabComponent', () => {
   let component: DhChargesChargeMessagesTabComponent;
   let fixture: ComponentFixture<DhChargesChargeMessagesTabComponent>;
 
@@ -35,7 +32,8 @@ describe('DhChargesMessageTabComponent', () => {
         getTranslocoTestingModule(),
         HttpClientModule,
         DhApiModule.forRoot(),
-        DhChargesChargeMessagesTabScam,
+        MatNativeDateModule,
+        DhFeatureFlagDirectiveModule,
       ],
       declarations: [DhChargesChargeMessagesTabComponent],
     }).compileComponents();
@@ -44,9 +42,6 @@ describe('DhChargesMessageTabComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
-
-  let fixture: ComponentFixture<DhChargesChargeMessagesTabComponent>;
-  let component: DhChargesChargeMessagesTabComponent;
 
   it('should create', async () => {
     expect(component).toBeTruthy();

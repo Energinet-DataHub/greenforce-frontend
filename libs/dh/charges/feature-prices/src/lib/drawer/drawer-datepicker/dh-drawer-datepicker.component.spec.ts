@@ -17,8 +17,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { DhDrawerDatepickerComponent } from './dh-drawer-datepicker.component';
-import { DhChargesPricesResultScam } from '../../search-result/dh-charges-prices-result.component';
 import { MatNativeDateModule } from '@angular/material/core';
+import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
 
 describe('DrawerDatepickerComponent', () => {
   let component: DhDrawerDatepickerComponent;
@@ -26,7 +26,7 @@ describe('DrawerDatepickerComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [MatNativeDateModule, DhChargesPricesResultScam],
+      imports: [getTranslocoTestingModule(), MatNativeDateModule],
       declarations: [DhDrawerDatepickerComponent],
     }).compileComponents();
 
