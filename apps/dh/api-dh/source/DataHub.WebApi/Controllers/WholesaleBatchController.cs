@@ -12,7 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 using Energinet.DataHub.Wholesale.Application.Batches;
 using Energinet.DataHub.Wholesale.Client;
@@ -49,6 +51,16 @@ namespace Energinet.DataHub.WebApi.Controllers
         {
             var batches = await _client.GetBatchesAsync(batchSearchDto).ConfigureAwait(false);
             return Ok(batches);
+        }
+
+        /// <summary>
+        /// Get a batch.
+        /// </summary>
+        [HttpPost("ZippedBasisDataUrl")]
+        public async Task<ActionResult<Stream>> PostAsync(Guid batchId)
+        {
+            var stream = await _client.GetStreamBasisDataAsync(batchId);
+            return Ok(stream);
         }
     }
 }
