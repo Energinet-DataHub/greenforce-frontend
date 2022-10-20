@@ -297,6 +297,12 @@
     "prices": {
       "topBarTitle": "Search price",
       "prices": "Prices",
+      "price": "Price",
+      "priceTab": {
+        "fromDateTime": "Valid from",
+        "toDateTime": "Valid to",
+        "time": "Time"
+      },
       "search": {
         "idOrName": "Price ID/Name",
         "enterIdOrName": "Enter part or whole id or name ",

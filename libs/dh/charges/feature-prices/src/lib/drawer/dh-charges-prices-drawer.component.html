@@ -35,7 +35,9 @@ limitations under the License.
 
         <watt-tabs>
           <watt-tab label="{{ t('prices').toUpperCase() }}">
-            <dh-charges-charge-prices-tab></dh-charges-charge-prices-tab>
+            <dh-charges-charge-prices-tab
+              [charge]="this.charge"
+            ></dh-charges-charge-prices-tab>
           </watt-tab>
           <watt-tab label="{{ t('messages').toUpperCase() }}">
             <dh-charges-charge-messages-tab></dh-charges-charge-messages-tab>

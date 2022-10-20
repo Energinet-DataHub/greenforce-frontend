@@ -16,16 +16,28 @@
  */
 import { rest } from 'msw';
 import {
+  ChargePriceV1Dto,
   ChargeV1Dto,
   MarketParticipantV1Dto,
   VatClassification,
 } from '@energinet-datahub/dh/shared/domain';
 
 export const chargesMocks = [
-  rest.get('https://localhost:5001/v1/ChargeLinks', (req, res, ctx) => {
+  searchChargePrices(),
+  getChargeLinks(),
+  getCharges(),
+  getMarketParticipants(),
+  searchCharges(),
+];
+
+function getChargeLinks() {
+  return rest.get('https://localhost:5001/v1/ChargeLinks', (req, res, ctx) => {
     return res(ctx.status(404));
-  }),
-  rest.get('https://localhost:5001/v1/Charges', (req, res, ctx) => {
+  });
+}
+
+function getCharges() {
+  return rest.get('https://localhost:5001/v1/Charges', (req, res, ctx) => {
     const result: ChargeV1Dto[] = [
       {
         chargeType: 'D01',
@@ -43,8 +55,27 @@ export const chargesMocks = [
       },
     ];
     return res(ctx.status(200), ctx.json(result));
-  }),
-  rest.post(
+  });
+}
+
+function getMarketParticipants() {
+  return rest.get(
+    'https://localhost:5001/v1/Charges/GetMarketParticipantsAsync',
+    (req, res, ctx) => {
+      const result: MarketParticipantV1Dto[] = [
+        {
+          id: 'C5E0990A-713B-41E6-AB9C-A1B357A1EABD',
+          name: 'name 1',
+          marketParticipantId: '8100000000016',
+        },
+      ];
+      return res(ctx.status(200), ctx.json(result));
+    }
+  );
+}
+
+function searchCharges() {
+  return rest.post(
     'https://localhost:5001/v1/Charges/SearchASync',
     (req, res, ctx) => {
       const result: ChargeV1Dto[] = [
@@ -93,18 +124,31 @@ export const chargesMocks = [
       ];
       return res(ctx.status(200), ctx.json(result));
     }
-  ),
-  rest.get(
-    'https://localhost:5001/v1/Charges/GetMarketParticipantsAsync',
+  );
+}
+
+function searchChargePrices() {
+  return rest.post(
+    'https://localhost:5001/v1/Charges/SearchChargePricesAsync',
     (req, res, ctx) => {
-      const result: MarketParticipantV1Dto[] = [
+      const result: ChargePriceV1Dto[] = [
         {
-          id: 'C5E0990A-713B-41E6-AB9C-A1B357A1EABD',
-          name: 'name 1',
-          marketParticipantId: '8100000000016',
+          price: 10,
+          fromDateTime: '2022-01-01T22:00:00',
+          toDateTime: '2022-01-02T22:00:00',
+        },
+        {
+          price: 20,
+          fromDateTime: '2022-09-02T22:00:00',
+          toDateTime: '2022-09-03T22:00:00',
+        },
+        {
+          price: 300,
+          fromDateTime: '2022-09-03T22:00:00',
+          toDateTime: '2022-09-04T22:00:00',
         },
       ];
       return res(ctx.status(200), ctx.json(result));
     }
-  ),
-];
+  );
+}

@@ -297,6 +297,12 @@
     "prices": {
       "topBarTitle": "Søg pris",
       "prices": "Priser",
+      "price": "Pris",
+      "priceTab": {
+        "fromDateTime": "Gyldig fra",
+        "toDateTime": "Gyldig til",
+        "time": "Tid"
+      },
       "search": {
         "idOrName": "Pris ID/Navn",
         "enterIdOrName": "Indtast dele af eller hele id eller navn",

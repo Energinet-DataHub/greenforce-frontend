@@ -18,32 +18,32 @@ import { Injectable } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import {
-  ChargeV1Dto,
+  ChargePricesSearchCriteriaV1Dto,
+  ChargePriceV1Dto,
   ChargesHttp,
-  ChargeSearchCriteriaV1Dto,
 } from '@energinet-datahub/dh/shared/domain';
 import { Observable, switchMap, tap } from 'rxjs';
 import { ErrorState, LoadingState } from './states';
 
-interface ChargesState {
-  readonly charges?: Array<ChargeV1Dto>;
+interface ChargePricesState {
+  readonly chargePrices?: Array<ChargePriceV1Dto>;
   readonly requestState: LoadingState | ErrorState;
 }
 
-const initialState: ChargesState = {
-  charges: undefined,
+const initialState: ChargePricesState = {
+  chargePrices: undefined,
   requestState: LoadingState.INIT,
 };
 
 @Injectable()
-export class DhChargesDataAccessApiStore extends ComponentStore<ChargesState> {
-  all$ = this.select((state) => state.charges);
+export class DhChargePricesDataAccessApiStore extends ComponentStore<ChargePricesState> {
+  all$ = this.select((state) => state.chargePrices);
 
   isInit$ = this.select((state) => state.requestState === LoadingState.INIT);
   isLoading$ = this.select(
     (state) => state.requestState === LoadingState.LOADING
   );
-  chargesNotFound$ = this.select(
+  chargePricesNotFound$ = this.select(
     (state) => state.requestState === ErrorState.NOT_FOUND_ERROR
   );
   hasGeneralError$ = this.select(
@@ -54,8 +54,8 @@ export class DhChargesDataAccessApiStore extends ComponentStore<ChargesState> {
     super(initialState);
   }
 
-  readonly searchCharges = this.effect(
-    (searchCriteria: Observable<ChargeSearchCriteriaV1Dto>) => {
+  readonly searchChargePrices = this.effect(
+    (searchCriteria: Observable<ChargePricesSearchCriteriaV1Dto>) => {
       return searchCriteria.pipe(
         tap(() => {
           this.resetState();
@@ -63,44 +63,46 @@ export class DhChargesDataAccessApiStore extends ComponentStore<ChargesState> {
           this.setLoading(LoadingState.LOADING);
         }),
         switchMap((searchCriteria) =>
-          this.httpClient.v1ChargesSearchAsyncPost(searchCriteria).pipe(
-            tapResponse(
-              (chargesData) => {
-                this.setLoading(LoadingState.LOADED);
+          this.httpClient
+            .v1ChargesSearchChargePricesAsyncPost(searchCriteria)
+            .pipe(
+              tapResponse(
+                (chargePrices) => {
+                  this.setLoading(LoadingState.LOADED);
 
-                this.updateChargesData(chargesData);
-              },
-              (error: HttpErrorResponse) => {
-                this.setLoading(LoadingState.LOADED);
-                this.handleError(error);
-              }
+                  this.updateChargePrices(chargePrices);
+                },
+                (error: HttpErrorResponse) => {
+                  this.setLoading(LoadingState.LOADED);
+                  this.handleError(error);
+                }
+              )
             )
-          )
         )
       );
     }
   );
 
-  private updateChargesData = this.updater(
+  private updateChargePrices = this.updater(
     (
-      state: ChargesState,
-      chargesData: Array<ChargeV1Dto> | undefined
-    ): ChargesState => ({
+      state: ChargePricesState,
+      chargePrices: Array<ChargePriceV1Dto> | undefined
+    ): ChargePricesState => ({
       ...state,
-      charges: chargesData || [],
+      chargePrices: chargePrices || [],
     })
   );
 
   private setLoading = this.updater(
-    (state, loadingState: LoadingState): ChargesState => ({
+    (state, loadingState: LoadingState): ChargePricesState => ({
       ...state,
       requestState: loadingState,
     })
   );
 
   private handleError = (error: HttpErrorResponse) => {
-    const chargesData = undefined;
-    this.updateChargesData(chargesData);
+    const chargesPrices = undefined;
+    this.updateChargePrices(chargesPrices);
 
     const requestError =
       error.status === HttpStatusCode.NotFound
@@ -110,9 +112,9 @@ export class DhChargesDataAccessApiStore extends ComponentStore<ChargesState> {
     this.patchState({ requestState: requestError });
   };
 
-  readonly clearCharges = () => {
+  readonly clearChargePrices = () => {
     this.setLoading(LoadingState.INIT);
-    this.updateChargesData([]);
+    this.updateChargePrices([]);
   };
   private resetState = () => this.setState(initialState);
 }

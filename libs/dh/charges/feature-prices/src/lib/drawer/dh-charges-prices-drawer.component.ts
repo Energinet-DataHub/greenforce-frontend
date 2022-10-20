@@ -36,7 +36,10 @@ import {
   WattButtonModule,
 } from '@energinet-datahub/watt';
 import { TranslocoModule } from '@ngneat/transloco';
-import { DhChargesChargePricesTabScam } from './price-tab/dh-charges-charge-prices-tab.component';
+import {
+  DhChargesChargePricesTabScam,
+  DhChargesChargePricesTabComponent,
+} from './price-tab/dh-charges-charge-prices-tab.component';
 import { DhChargesChargeHistoryTabScam } from './history-tab/dh-charges-charge-history-tab.component';
 
 @Component({
@@ -48,6 +51,8 @@ export class DhChargesPricesDrawerComponent {
   @ViewChild('drawer') drawer!: WattDrawerComponent;
   @ViewChild(DhChargesChargeMessagesTabComponent)
   chargesMessageTabComponent!: DhChargesChargeMessagesTabComponent;
+  @ViewChild(DhChargesChargePricesTabComponent)
+  chargePricesTabComponent!: DhChargesChargePricesTabComponent;
 
   @Output() closed = new EventEmitter<void>();
 
@@ -57,6 +62,7 @@ export class DhChargesPricesDrawerComponent {
     this.charge = charge;
     this.drawer.open();
     this.chargesMessageTabComponent.loadMessages();
+    this.chargePricesTabComponent.loadMessages();
   }
 
   drawerClosed() {
