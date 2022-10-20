@@ -126,9 +126,11 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
     ) => {
       return batch$.pipe(
         exhaustMap((batch) => {
-          const batchId: string = batch.id
+          const batchId: string = batch.id;
 
-          return this.httpClient.v1WholesaleBatchZippedBasisDataUrlPost(batchId);
+          return this.httpClient.v1WholesaleBatchZippedBasisDataUrlPost(
+            batchId
+          );
         })
       );
     }

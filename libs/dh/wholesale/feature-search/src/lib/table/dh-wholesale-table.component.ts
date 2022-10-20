@@ -81,10 +81,7 @@ export class DhWholesaleTableComponent implements AfterViewInit {
   }
   _data: wholesaleTableData = new MatTableDataSource(undefined);
 
-  
-  constructor(
-    private store: DhWholesaleBatchDataAccessApiStore
-  ) {}
+  constructor(private store: DhWholesaleBatchDataAccessApiStore) {}
 
   columnIds = [
     'batchNumber',
@@ -102,7 +99,7 @@ export class DhWholesaleTableComponent implements AfterViewInit {
   }
 
   onDownload(batchId: string) {
-    this.store.getZippedBasisData({id: batchId});
+    this.store.getZippedBasisData({ id: batchId });
   }
 
   private getStatusType(status: BatchState): WattBadgeType | void {
