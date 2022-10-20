@@ -37,7 +37,6 @@ import {
 } from '@energinet-datahub/watt';
 import { TranslocoModule } from '@ngneat/transloco';
 import { DhChargesChargePricesTabScam } from './price-tab/dh-charges-charge-prices-tab.component';
-import { DhChargesChargeMessagesTabScam } from './message-tab/dh-charges-charge-messages-tab.component';
 import { DhChargesChargeHistoryTabScam } from './history-tab/dh-charges-charge-history-tab.component';
 
 @Component({

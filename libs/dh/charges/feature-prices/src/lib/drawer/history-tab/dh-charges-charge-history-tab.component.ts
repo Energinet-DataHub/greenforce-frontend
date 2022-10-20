@@ -19,7 +19,7 @@ import { DhDrawerDatepickerScam } from '../drawer-datepicker/dh-drawer-datepicke
 import { DatePickerData } from '../drawer-datepicker/drawer-datepicker.service';
 
 @Component({
-  selector: 'dh-charges-prices-history-tab',
+  selector: 'dh-charges-charge-history-tab',
   templateUrl: './dh-charges-charge-history-tab.component.html',
   styleUrls: ['./dh-charges-charge-history-tab.component.scss'],
 })
