@@ -23,19 +23,17 @@ import { Subject, takeUntil } from 'rxjs';
   `,
 })
 export class DhSharedUiPaginatorComponent implements OnDestroy {
-  @ViewChild(MatPaginator, { static: true }) private paginator!: MatPaginator;
+  @ViewChild(MatPaginator, { static: true }) instance!: MatPaginator;
 
-  @Input() length?: number;
+  @Input() length = 0;
   @Input() pageSizeOptions: number[] = [50, 100, 150, 200, 250];
-  @Input() pageSize?: number;
+  @Input() pageSize = 50;
 
   ariaLabel?: string;
 
   private matPaginatorIntl = inject(MatPaginatorIntl);
   private translocoService = inject(TranslocoService);
   private destroy$ = new Subject<void>();
-
-  getPaginator = () => this.paginator;
 
   constructor() {
     this.translocoService

@@ -80,14 +80,14 @@ export class DhMarketParticipantOrganizationOverviewComponent
 
   ngOnChanges() {
     this.dataSource.data = this.rows;
-    this.dataSource.paginator = this.paginator?.getPaginator();
+    this.dataSource.paginator = this.paginator?.instance;
     this.gridAreas.forEach(
       (gridArea) => (this.gridAreasMap[gridArea.id] = gridArea.name)
     );
   }
 
   ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator.getPaginator();
+    this.dataSource.paginator = this.paginator.instance;
   }
 
   readonly onEditOrganization = (row: OrganizationWithActorRow) =>

@@ -22,7 +22,7 @@ Used for pagination of tables. The component includes translations and consisten
 
    ```ts
    ngAfterViewInit() {
-     this.dataSource.paginator = this.paginator.getPaginator();
+     this.dataSource.paginator = this.paginator.instance;
    }
    ```
 

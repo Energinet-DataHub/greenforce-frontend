@@ -83,12 +83,12 @@ export class DhChargesPricesResultComponent
   ngOnChanges() {
     if (this.result) this.dataSource.data = this.result;
 
-    this.dataSource.paginator = this.paginator?.getPaginator();
+    this.dataSource.paginator = this.paginator?.instance;
     this.dataSource.sort = this.matSort;
   }
 
   ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator.getPaginator();
+    this.dataSource.paginator = this.paginator.instance;
     this.dataSource.sortingDataAccessor = ToLowerSort();
   }
 

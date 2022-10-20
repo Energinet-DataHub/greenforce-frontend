@@ -89,7 +89,7 @@ export class DhWholesaleTableComponent implements AfterViewInit {
   ngAfterViewInit() {
     if (this._data === null) return;
     this._data.sort = this.sort;
-    this._data.paginator = this.paginator.getPaginator();
+    this._data.paginator = this.paginator.instance;
   }
 
   private getStatusType(status: BatchState): WattBadgeType | void {
