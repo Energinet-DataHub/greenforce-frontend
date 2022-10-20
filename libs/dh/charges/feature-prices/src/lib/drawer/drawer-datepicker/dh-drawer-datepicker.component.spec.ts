@@ -15,35 +15,27 @@
  * limitations under the License.
  */
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { HttpClientModule } from '@angular/common/http';
-import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
-import { DhApiModule } from '@energinet-datahub/dh/shared/data-access-api';
-import { DhChargesChargeMessagesTabComponent } from './dh-charges-charge-messages-tab.component';
-import { MatNativeDateModule } from '@angular/material/core';
-import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/feature-flags';
 
-describe('DhChargesMessagesTabComponent', () => {
-  let component: DhChargesChargeMessagesTabComponent;
-  let fixture: ComponentFixture<DhChargesChargeMessagesTabComponent>;
+import { DhDrawerDatepickerComponent } from './dh-drawer-datepicker.component';
+import { MatNativeDateModule } from '@angular/material/core';
+import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
+
+describe('DrawerDatepickerComponent', () => {
+  let component: DhDrawerDatepickerComponent;
+  let fixture: ComponentFixture<DhDrawerDatepickerComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        getTranslocoTestingModule(),
-        HttpClientModule,
-        DhApiModule.forRoot(),
-        MatNativeDateModule,
-        DhFeatureFlagDirectiveModule,
-      ],
-      declarations: [DhChargesChargeMessagesTabComponent],
+      imports: [getTranslocoTestingModule(), MatNativeDateModule],
+      declarations: [DhDrawerDatepickerComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(DhChargesChargeMessagesTabComponent);
+    fixture = TestBed.createComponent(DhDrawerDatepickerComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
-  it('should create', async () => {
+  it('should create', () => {
     expect(component).toBeTruthy();
   });
 });

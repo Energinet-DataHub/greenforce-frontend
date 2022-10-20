@@ -50,6 +50,8 @@ import { ToLowerSort } from '@energinet-datahub/dh/shared/util-table';
 import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/feature-flags';
 import { Inject } from '@angular/core';
 import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
+import { DatePickerData } from '../drawer-datepicker/drawer-datepicker.service';
+import { DhDrawerDatepickerScam } from '../drawer-datepicker/dh-drawer-datepicker.component';
 
 @Component({
   selector: 'dh-charges-charge-messages-tab',
@@ -167,6 +169,10 @@ export class DhChargesChargeMessagesTabComponent
     );
   }
 
+  dateRangeChanged(dateRange: DatePickerData) {
+    console.log(dateRange);
+  }
+
   private initDateFrom = (): Date => {
     const from = new Date();
     from.setUTCMonth(new Date().getMonth() - 1);
@@ -225,6 +231,7 @@ export class DhChargesChargeMessagesTabComponent
     DhSharedUiDateTimeModule,
     MatSortModule,
     DhFeatureFlagDirectiveModule,
+    DhDrawerDatepickerScam,
   ],
 })
 export class DhChargesChargeMessagesTabScam {}
