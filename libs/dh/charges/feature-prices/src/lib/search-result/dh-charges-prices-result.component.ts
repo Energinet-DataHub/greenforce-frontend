@@ -55,7 +55,8 @@ import {
 export class DhChargesPricesResultComponent
   implements AfterViewInit, OnChanges
 {
-  @ViewChild(DhSharedUiPaginatorComponent) paginator!: DhSharedUiPaginatorComponent;
+  @ViewChild(DhSharedUiPaginatorComponent)
+  paginator!: DhSharedUiPaginatorComponent;
   @ViewChild(MatSort) matSort!: MatSort;
   @ViewChild(DhChargesPricesDrawerComponent)
   chargePriceDrawer!: DhChargesPricesDrawerComponent;
@@ -119,7 +120,7 @@ export class DhChargesPricesResultComponent
     DhSharedUiDateTimeModule,
     MatSortModule,
     DhChargesPricesDrawerScam,
-    DhSharedUiPaginatorComponent
+    DhSharedUiPaginatorComponent,
   ],
 })
 export class DhChargesPricesResultScam {}
