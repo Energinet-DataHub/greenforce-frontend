@@ -15,4 +15,7 @@
  * limitations under the License.
  */
 
-export { WattCopyToClipboardDirective } from './watt-copy-to-clipboard.directive';
+export {
+  WattCopyToClipboardDirective,
+  WATT_COPY_TO_CLIPBOARD_DEPS,
+} from './watt-copy-to-clipboard.directive';

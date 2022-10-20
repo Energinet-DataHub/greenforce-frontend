@@ -22,7 +22,10 @@ import {
   Input,
 } from '@angular/core';
 import { Clipboard } from '@angular/cdk/clipboard';
-import { WattToastService } from '../toast';
+import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
+import { WattToastComponent, WattToastService } from '../toast';
+import da from './i18n/da.json';
+import en from './i18n/en.json';
 
 @Directive({
   standalone: true,
@@ -30,14 +33,17 @@ import { WattToastService } from '../toast';
 })
 export class WattCopyToClipboardDirective {
   @Input('wattCopyToClipboard') text?: string;
-  @Input() wattCopyToClipboardSuccess = '';
-  @Input() wattCopyToClipboardError = '';
 
   constructor(
     private element: ElementRef,
     private clipboard: Clipboard,
-    private toast: WattToastService
-  ) {}
+    private toast: WattToastService,
+    private transloco: TranslocoService
+  ) {
+    const options = { merge: true, emitChange: false };
+    this.transloco.setTranslation({ watt: { clipboard: en } }, 'en', options);
+    this.transloco.setTranslation({ watt: { clipboard: da } }, 'da', options);
+  }
 
   @HostBinding('style.cursor')
   cursor = 'pointer';
@@ -51,13 +57,19 @@ export class WattCopyToClipboardDirective {
     if (success) {
       this.toast.open({
         type: 'success',
-        message: this.wattCopyToClipboardSuccess,
+        message: this.transloco.translate('watt.clipboard.success'),
       });
     } else {
       this.toast.open({
         type: 'danger',
-        message: this.wattCopyToClipboardError,
+        message: this.transloco.translate('watt.clipboard.error'),
       });
     }
   }
 }
+
+export const WATT_COPY_TO_CLIPBOARD_DEPS = [
+  TranslocoModule,
+  WattCopyToClipboardDirective,
+  WattToastComponent,
+] as const;

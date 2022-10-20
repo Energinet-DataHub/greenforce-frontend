@@ -14,15 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 import { Component, Input } from '@angular/core';
 import { WattIconModule } from '../../../foundations/icon';
 import { WattTooltipModule } from '../../tooltip';
-import { WattCopyToClipboardDirective } from '../watt-copy-to-clipboard.directive';
+import { WATT_COPY_TO_CLIPBOARD_DEPS } from '../watt-copy-to-clipboard.directive';
 
 @Component({
   standalone: true,
-  imports: [WattTooltipModule, WattIconModule, WattCopyToClipboardDirective],
+  imports: [WattTooltipModule, WattIconModule, ...WATT_COPY_TO_CLIPBOARD_DEPS],
   selector: 'watt-storybook-copy-to-clipboard',
   styles: [
     `
@@ -44,8 +43,6 @@ import { WattCopyToClipboardDirective } from '../watt-copy-to-clipboard.directiv
     <span
       class="watt-storybook-copy-to-clipboard"
       [wattCopyToClipboard]="text"
-      wattCopyToClipboardSuccess="Copied to clipboard"
-      wattCopyToClipboardError="Failed to copy text"
       [wattTooltip]="tooltip"
       wattTooltipPosition="above"
     >

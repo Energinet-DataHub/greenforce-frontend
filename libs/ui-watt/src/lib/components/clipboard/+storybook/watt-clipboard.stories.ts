@@ -16,9 +16,9 @@
  */
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { moduleMetadata, Story, Meta } from '@storybook/angular';
-import { WattToastComponent } from '../../toast';
 
 import { WattCopyToClipboardDirective } from '../watt-copy-to-clipboard.directive';
+import { StorybookTranslocoRootModule } from '../../../+storybook/storybook-transloco-root.module';
 import { WattStorybookClipboardComponent } from './storybook-clipboard.component';
 
 export default {
@@ -26,8 +26,8 @@ export default {
   decorators: [
     moduleMetadata({
       imports: [
+        StorybookTranslocoRootModule,
         BrowserAnimationsModule,
-        WattToastComponent,
         WattStorybookClipboardComponent,
       ],
     }),
