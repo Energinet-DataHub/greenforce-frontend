@@ -100,6 +100,38 @@ describe('DhChargesPricesComponent', () => {
     expect(drawer).toBeInTheDocument();
   });
 
+  it('when drawer is open, date range should be set', async () => {
+    await setup();
+
+    const searchButton = screen.getByRole('button', { name: /search/i });
+
+    userEvent.click(searchButton);
+
+    const id = await waitFor(() =>
+      screen.getByRole('cell', { name: /0AA1F/i })
+    );
+
+    expect(id).toBeInTheDocument();
+    userEvent.click(id);
+
+    const drawer = screen.getByText(
+      (content, element) => element?.tagName.toLowerCase() === 'watt-drawer'
+    );
+
+    expect(drawer).toBeInTheDocument();
+
+    const startDateInput: HTMLInputElement = screen.getByRole('textbox', {
+      name: /start-date-input/i,
+    });
+
+    expect(startDateInput).toBeInTheDocument();
+
+    const expectedDate = new Date().toLocaleDateString();
+    const actualDateInput = new Date(startDateInput.value).toLocaleDateString();
+
+    expect(actualDateInput).toEqual(expectedDate);
+  });
+
   it.todo('should clear valid from and valid to when selecting validity');
   it.todo('should clear "user defined" in validity when entering valid dates');
 });
