@@ -25,7 +25,7 @@ import {
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { TranslocoModule } from '@ngneat/transloco';
-
+import { of } from 'rxjs';
 import { BatchDtoV2, BatchState } from '@energinet-datahub/dh/shared/domain';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
@@ -99,7 +99,7 @@ export class DhWholesaleTableComponent implements AfterViewInit {
   }
 
   onDownload(batchId: string) {
-    this.store.getZippedBasisData({ id: batchId });
+    this.store.getZippedBasisData(of({ id: batchId }));
   }
 
   private getStatusType(status: BatchState): WattBadgeType | void {
