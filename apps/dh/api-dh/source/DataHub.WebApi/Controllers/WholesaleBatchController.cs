@@ -57,10 +57,10 @@ namespace Energinet.DataHub.WebApi.Controllers
         /// Get a batch.
         /// </summary>
         [HttpPost("ZippedBasisDataUrl")]
-        public async Task<ActionResult<Stream>> PostAsync(Guid batchId)
+        public async Task<ActionResult<string>> PostAsync(Guid batchId)
         {
-            var stream = await _client.GetStreamBasisDataAsync(batchId);
-            return Ok(stream);
+            var url = await _client.GetZippedBasisDataUrlAsync(batchId);
+            return Ok(url);
         }
     }
 }
