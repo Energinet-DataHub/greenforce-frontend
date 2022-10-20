@@ -5,6 +5,17 @@
   "shell": {
     "logout": "Sign out"
   },
+  "shared": {
+    "paginator": {
+      "itemsPerPageLabel": "Results per page",
+      "of": "of",
+      "first": "First page",
+      "last": "Last page",
+      "next": "Next page",
+      "previous": "Previous page",
+      "ariaLabel": "Select page"
+    }
+  },
   "sidebar": {
     "navigation": {
       "meteringPoints": "Metering points",
@@ -340,6 +351,13 @@
       "drawer": {
         "prices": "Prices",
         "messages": "Messages",
+        "dateChips": {
+          "day": "Day",
+          "week": "Week",
+          "month": "Month",
+          "quarter": "Quarter",
+          "year": "Year"
+        },
         "history": "History",
         "stop": "Stop",
         "edit": "Edit",

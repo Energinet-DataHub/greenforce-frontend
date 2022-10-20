@@ -5,6 +5,17 @@
   "shell": {
     "logout": "Log ud"
   },
+  "shared": {
+    "paginator": {
+      "itemsPerPageLabel": "Resultater pr. side",
+      "of": "af",
+      "first": "Første side",
+      "last": "Sidste side",
+      "next": "Næste side",
+      "previous": "Forrige side",
+      "ariaLabel": "Vælg side"
+    }
+  },
   "sidebar": {
     "navigation": {
       "meteringPoints": "Målepunkter",
@@ -342,6 +353,13 @@
       "drawer": {
         "prices": "Priser",
         "messages": "Beskeder",
+        "dateChips": {
+          "day": "Dag",
+          "week": "Uge",
+          "month": "Måned",
+          "quarter": "Kvartal",
+          "year": "År"
+        },
         "history": "Historik",
         "stop": "Stop",
         "edit": "Rediger",

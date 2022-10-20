@@ -19,21 +19,16 @@ import {
   Component,
   Input,
   ViewChild,
-  OnDestroy,
   AfterViewInit,
   ChangeDetectionStrategy,
 } from '@angular/core';
-import {
-  MatPaginator,
-  MatPaginatorModule,
-  MatPaginatorIntl,
-} from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { takeUntil, Subject } from 'rxjs';
-import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
+import { TranslocoModule } from '@ngneat/transloco';
 
+import { BatchDtoV2, BatchState } from '@energinet-datahub/dh/shared/domain';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
+import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
 import {
   WattBadgeModule,
   WattBadgeType,
@@ -42,7 +37,6 @@ import {
 } from '@energinet-datahub/watt';
 
 import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
-import { BatchDtoV2, BatchState } from '@energinet-datahub/dh/shared/domain';
 
 type wholesaleTableData = MatTableDataSource<{
   statusType: void | WattBadgeType;
@@ -59,13 +53,13 @@ type wholesaleTableData = MatTableDataSource<{
   imports: [
     CommonModule,
     DhSharedUiDateTimeModule,
-    MatPaginatorModule,
     MatSortModule,
     MatTableModule,
     TranslocoModule,
     WattBadgeModule,
     WattButtonModule,
     WattEmptyStateModule,
+    DhSharedUiPaginatorComponent,
   ],
   selector: 'dh-wholesale-table',
   templateUrl: './dh-wholesale-table.component.html',
@@ -73,9 +67,10 @@ type wholesaleTableData = MatTableDataSource<{
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [DhWholesaleBatchDataAccessApiStore],
 })
-export class DhWholesaleTableComponent implements OnDestroy, AfterViewInit {
+export class DhWholesaleTableComponent implements AfterViewInit {
   @ViewChild(MatSort) sort!: MatSort;
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(DhSharedUiPaginatorComponent)
+  paginator!: DhSharedUiPaginatorComponent;
   @Input() set data(batches: BatchDtoV2[]) {
     this._data = new MatTableDataSource(
       batches.map((batch) => ({
@@ -84,12 +79,10 @@ export class DhWholesaleTableComponent implements OnDestroy, AfterViewInit {
       }))
     );
   }
-  destroy$ = new Subject<void>();
   _data: wholesaleTableData = new MatTableDataSource(undefined);
+
   
   constructor(
-    private matPaginatorIntl: MatPaginatorIntl,
-    private translocoService: TranslocoService,
     private store: DhWholesaleBatchDataAccessApiStore
   ) {}
 
@@ -103,14 +96,9 @@ export class DhWholesaleTableComponent implements OnDestroy, AfterViewInit {
   ];
 
   ngAfterViewInit() {
-    this.setupPaginator();
     if (this._data === null) return;
     this._data.sort = this.sort;
-  }
-
-  ngOnDestroy() {
-    this.destroy$.next();
-    this.destroy$.complete();
+    this._data.paginator = this.paginator.instance;
   }
 
   onDownload(batchId: string) {
@@ -127,43 +115,5 @@ export class DhWholesaleTableComponent implements OnDestroy, AfterViewInit {
     } else if (status === BatchState.Failed) {
       return 'danger';
     }
-  }
-
-  private setupPaginator() {
-    this.matPaginatorIntl.getRangeLabel = (page, pageSize, length) => {
-      const seperator = this.translocoService.translate(
-        'wholesale.searchBatch.paginator.of'
-      );
-
-      if (length == 0 || pageSize == 0) {
-        return `0 ${seperator} ${length}`;
-      }
-
-      length = Math.max(length, 0);
-
-      const startIndex = page * pageSize;
-
-      // If the start index exceeds the list length, do not try and fix the end index to the end.
-      const endIndex =
-        startIndex < length
-          ? Math.min(startIndex + pageSize, length)
-          : startIndex + pageSize;
-
-      return `${startIndex + 1} – ${endIndex} ${seperator} ${length}`;
-    };
-
-    this.translocoService
-      .selectTranslateObject('wholesale.searchBatch.paginator')
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((value) => {
-        this.matPaginatorIntl.itemsPerPageLabel = value.itemsPerPageLabel;
-        this.matPaginatorIntl.nextPageLabel = value.next;
-        this.matPaginatorIntl.previousPageLabel = value.previous;
-        this.matPaginatorIntl.firstPageLabel = value.first;
-        this.matPaginatorIntl.lastPageLabel = value.last;
-
-        if (this._data === null) return;
-        this._data.paginator = this.paginator;
-      });
   }
 }

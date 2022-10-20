@@ -39,6 +39,34 @@ interface EoConsumptionState {
   providedIn: 'root',
 })
 export class EoConsumptionStore extends ComponentStore<EoConsumptionState> {
+  readonly loadingDone$ = this.select((state) => state.loadingDone);
+  readonly measurements$ = this.select((state) => state.measurements);
+  readonly totalMeasurement$ = this.select((state) => state.totalMeasurement);
+  readonly error$ = this.select((state) => state.error);
+  readonly setLoadingDone = this.updater(
+    (state, loadingDone: boolean): EoConsumptionState => ({
+      ...state,
+      loadingDone,
+    })
+  );
+  readonly setError = this.updater(
+    (state, error: HttpErrorResponse | null): EoConsumptionState => ({
+      ...state,
+      error,
+    })
+  );
+  readonly setTotalMeasurement = this.updater(
+    (state, totalMeasurement: number): EoConsumptionState => ({
+      ...state,
+      totalMeasurement,
+    })
+  );
+  readonly setMonthlyMeasurements = this.updater(
+    (state, measurements: EoMeasurementData[]): EoConsumptionState => ({
+      ...state,
+      measurements,
+    })
+  );
   #monthlyConsumptionApiCall: Subscription = new Subscription();
 
   constructor(
@@ -56,39 +84,6 @@ export class EoConsumptionStore extends ComponentStore<EoConsumptionState> {
       this.loadMonthlyConsumption();
     });
   }
-
-  readonly loadingDone$ = this.select((state) => state.loadingDone);
-  readonly measurements$ = this.select((state) => state.measurements);
-  readonly totalMeasurement$ = this.select((state) => state.totalMeasurement);
-  readonly error$ = this.select((state) => state.error);
-
-  readonly setLoadingDone = this.updater(
-    (state, loadingDone: boolean): EoConsumptionState => ({
-      ...state,
-      loadingDone,
-    })
-  );
-
-  readonly setError = this.updater(
-    (state, error: HttpErrorResponse | null): EoConsumptionState => ({
-      ...state,
-      error,
-    })
-  );
-
-  readonly setTotalMeasurement = this.updater(
-    (state, totalMeasurement: number): EoConsumptionState => ({
-      ...state,
-      totalMeasurement,
-    })
-  );
-
-  readonly setMonthlyMeasurements = this.updater(
-    (state, measurements: EoMeasurementData[]): EoConsumptionState => ({
-      ...state,
-      measurements,
-    })
-  );
 
   loadMonthlyConsumption() {
     this.setLoadingDone(false);

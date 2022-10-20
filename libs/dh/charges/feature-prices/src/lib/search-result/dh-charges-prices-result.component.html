@@ -34,11 +34,7 @@ limitations under the License.
         </watt-button>
 
         <!-- Pagination -->
-        <mat-paginator
-          [pageSizeOptions]="[50, 100, 150, 200, 250]"
-          pageSize="100"
-          showFirstLastButtons
-        ></mat-paginator>
+        <dh-shared-ui-paginator [pageSize]="100"></dh-shared-ui-paginator>
       </div>
     </div>
 
@@ -48,6 +44,7 @@ limitations under the License.
       mat-table
       [dataSource]="dataSource"
       matSort
+      matSortDisableClear
       matSortActive="chargeName"
       matSortDirection="asc"
     >
