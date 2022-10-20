@@ -14,7 +14,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-.watt-elevation:not([class*="mat-elevation-z"]) {
-  box-shadow: 0px 1px 6px rgba(11, 60, 93, 0.12),
-    0px 4px 18px 3px rgba(46, 50, 52, 0.08);
-}
+export { WattIntersectionObserverService } from './watt-intersection-observer.service';
