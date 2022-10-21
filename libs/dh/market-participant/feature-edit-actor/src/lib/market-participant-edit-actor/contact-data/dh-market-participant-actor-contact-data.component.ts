@@ -34,9 +34,8 @@ import { FormsModule } from '@angular/forms';
 import {
   WattInputModule,
   WattFormFieldModule,
-  WattDropdownModule,
-  WattDropdownOption,
 } from '@energinet-datahub/watt';
+import { WattDropdownModule, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import {
   ActorContactDto,

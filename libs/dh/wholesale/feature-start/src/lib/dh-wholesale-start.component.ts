@@ -20,9 +20,8 @@ import {
   WattDatepickerModule,
   WattFormFieldModule,
   WattRangeValidators,
-  WattDropdownModule,
-  WattDropdownOption,
 } from '@energinet-datahub/watt';
+import { WattDropdownModule, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 

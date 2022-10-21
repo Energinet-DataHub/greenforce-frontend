@@ -26,11 +26,10 @@ import {
 import { FormsModule } from '@angular/forms';
 import { OrganizationChanges } from '@energinet-datahub/dh/market-participant/data-access-api';
 import {
-  WattDropdownModule,
-  WattDropdownOption,
   WattFormFieldModule,
   WattInputModule,
 } from '@energinet-datahub/watt';
+import { WattDropdownModule, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { Subject, takeUntil } from 'rxjs';
 import { LetModule } from '@rx-angular/template/let';

@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { ActorStatus } from '@energinet-datahub/dh/shared/domain';
-import { WattDropdownOption } from '@energinet-datahub/watt';
+import { WattDropdownOption } from '@energinet-datahub/watt/dropdown';
 
 export const getValidStatusTransitionOptions = (
   status: ActorStatus,
