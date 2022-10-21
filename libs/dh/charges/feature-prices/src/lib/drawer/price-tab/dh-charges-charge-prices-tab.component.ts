@@ -50,7 +50,7 @@ import {
 import { Subject, takeUntil } from 'rxjs';
 import { PushModule } from '@rx-angular/template';
 
-import { getHours, getMinutes, minutesToSeconds } from 'date-fns';
+import { getHours, getMinutes } from 'date-fns';
 
 @Component({
   selector: 'dh-charges-charge-prices-tab',
