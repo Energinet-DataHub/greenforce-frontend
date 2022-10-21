@@ -49,7 +49,7 @@ import {
 } from '@energinet-datahub/dh/shared/domain';
 import { Subject, takeUntil } from 'rxjs';
 import { PushModule } from '@rx-angular/template';
-
+import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/feature-flags';
 import { getHours, getMinutes } from 'date-fns';
 
 @Component({
@@ -164,6 +164,7 @@ export class DhChargesChargePricesTabComponent
     DhSharedUiPaginatorComponent,
     DhSharedUiDateTimeModule,
     PushModule,
+    DhFeatureFlagDirectiveModule,
   ],
 })
 export class DhChargesChargePricesTabScam {}
