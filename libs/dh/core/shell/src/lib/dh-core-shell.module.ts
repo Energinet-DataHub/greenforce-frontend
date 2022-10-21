@@ -44,8 +44,8 @@ import { dhMeteringPointPath } from '@energinet-datahub/dh/metering-point/routin
 import { dhChargesPath } from '@energinet-datahub/dh/charges/routing';
 import {
   WattDanishDatetimeModule,
-  WattToastModule,
 } from '@energinet-datahub/watt';
+import { WattToastModule } from '@energinet-datahub/watt/toast';
 import { DhCoreShellComponent } from './dh-core-shell.component';
 import { DhSharedUtilApplicationInsightsModule } from '@energinet-datahub/dh/shared/util-application-insights';
 
