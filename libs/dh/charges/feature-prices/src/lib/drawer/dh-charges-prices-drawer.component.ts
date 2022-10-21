@@ -27,11 +27,11 @@ import {
   DhChargesChargeMessagesTabScam,
   DhChargesChargeMessagesTabComponent,
 } from './message-tab/dh-charges-charge-messages-tab.component';
+import { WattFormFieldModule } from '@energinet-datahub/watt';
 import {
   WattDrawerModule,
   WattDrawerComponent,
-  WattFormFieldModule,
-} from '@energinet-datahub/watt';
+} from '@energinet-datahub/watt/drawer';
 import { WattTabsModule } from '@energinet-datahub/watt/tabs';
 import { WattDatepickerModule } from '@energinet-datahub/watt/datepicker';
 import { WattButtonModule } from '@energinet-datahub/watt/button';

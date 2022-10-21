@@ -27,9 +27,11 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { TranslocoModule } from '@ngneat/transloco';
 import {
   WattIconModule,
+} from '@energinet-datahub/watt';
+import {
   WattDrawerModule,
   WattDrawerComponent,
-} from '@energinet-datahub/watt';
+} from '@energinet-datahub/watt/drawer';
 import { WattValidationMessageModule } from '@energinet-datahub/watt/validation-message';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
