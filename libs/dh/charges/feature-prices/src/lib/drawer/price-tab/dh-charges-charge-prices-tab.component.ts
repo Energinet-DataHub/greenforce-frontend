@@ -71,8 +71,8 @@ export class DhChargesChargePricesTabComponent
 
   searchCriteria: ChargePricesSearchCriteriaV1Dto = {
     chargeId: '',
-    fromDateTime: '2000-09-28T22:00:00',
-    toDateTime: '2030-09-28T22:00:00',
+    fromDateTime: new Date().toISOString(),
+    toDateTime: new Date().toISOString(),
   };
 
   result: ChargePriceV1Dto[] | undefined;
@@ -119,7 +119,10 @@ export class DhChargesChargePricesTabComponent
   }
 
   dateRangeChanged(dateRange: DatePickerData) {
-    console.log(dateRange);
+    this.searchCriteria.fromDateTime = dateRange.startDate;
+    this.searchCriteria.toDateTime = dateRange.endDate;
+
+    if (this.charge) this.loadPrices(this.charge);
   }
 
   loadPrices(charge: ChargeV1Dto) {
