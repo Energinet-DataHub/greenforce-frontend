@@ -21,7 +21,7 @@ import { TranslocoModule } from '@ngneat/transloco';
 import {
   WattNavListComponent,
   WattNavListItemComponent,
-} from '@energinet-datahub/watt';
+} from '@energinet-datahub/watt/shell';
 import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/feature-flags';
 
 @Component({
