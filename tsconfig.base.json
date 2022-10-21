@@ -135,6 +135,9 @@
       "@energinet-datahub/dh/shared/environments": [
         "libs/dh/shared/environments/src/index.ts"
       ],
+      "@energinet-datahub/dh/shared/feature-authorization": [
+        "libs/dh/shared/feature-authorization/src/index.ts"
+      ],
       "@energinet-datahub/dh/shared/feature-flags": [
         "libs/dh/shared/feature-flags/src/index.ts"
       ],
