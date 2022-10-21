@@ -18,24 +18,21 @@
 import {
   Directive,
   Input,
-  OnDestroy,
   OnInit,
   TemplateRef,
   ViewContainerRef,
 } from '@angular/core';
 import { PermissionService } from './permission.service';
 import { Permission } from './permission';
-import { concatAll, from, map, reduce, Subject, takeUntil } from 'rxjs';
+import { concatAll, from, map, reduce, take } from 'rxjs';
 
 @Directive({ standalone: true, selector: '[dhPermissionRequired]' })
-export class DhPermissionRequiredDirective implements OnInit, OnDestroy {
+export class DhPermissionRequiredDirective implements OnInit {
   constructor(
     private templateRef: TemplateRef<unknown>,
     private viewContainer: ViewContainerRef,
     private permissionService: PermissionService
   ) {}
-
-  private destroy$ = new Subject<void>();
 
   @Input() dhPermissionRequired: Permission[] = [];
 
@@ -44,18 +41,13 @@ export class DhPermissionRequiredDirective implements OnInit, OnDestroy {
       .pipe(
         map((permission) => this.permissionService.hasPermission(permission)),
         concatAll(),
-        reduce((hasPermission, next) => hasPermission || next)
+        reduce((hasPermission, next) => hasPermission || next),
+        take(1)
       )
-      .pipe(takeUntil(this.destroy$))
       .subscribe((hasPermission) => {
         if (hasPermission) {
           this.viewContainer.createEmbeddedView(this.templateRef);
         }
       });
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.unsubscribe();
   }
 }
