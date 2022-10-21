@@ -27,9 +27,7 @@ import { LetModule } from '@rx-angular/template';
 import { Subject } from 'rxjs';
 import { TranslocoModule } from '@ngneat/transloco';
 
-import {
-  WattInputModule,
-} from '@energinet-datahub/watt';
+import { WattInputModule } from '@energinet-datahub/watt/input';
 import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { WattDropdownModule, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';

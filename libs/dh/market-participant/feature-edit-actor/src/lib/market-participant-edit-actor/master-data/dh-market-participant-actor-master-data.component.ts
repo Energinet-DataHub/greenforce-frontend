@@ -26,9 +26,7 @@ import {
 import { FormsModule } from '@angular/forms';
 import { ActorChanges } from '@energinet-datahub/dh/market-participant/data-access-api';
 import { ActorStatus } from '@energinet-datahub/dh/shared/domain';
-import {
-  WattInputModule,
-} from '@energinet-datahub/watt';
+import { WattInputModule } from '@energinet-datahub/watt/input';
 import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
 import { WattDropdownModule, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';

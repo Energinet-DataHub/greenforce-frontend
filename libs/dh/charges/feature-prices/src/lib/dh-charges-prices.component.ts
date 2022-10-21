@@ -31,9 +31,7 @@ import {
   ValidityOptions,
 } from '@energinet-datahub/dh/charges/domain';
 
-import {
-  WattInputModule,
-} from '@energinet-datahub/watt';
+import { WattInputModule } from '@energinet-datahub/watt/input';
 import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { WattDatepickerModule } from '@energinet-datahub/watt/datepicker';

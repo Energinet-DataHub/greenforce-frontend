@@ -29,9 +29,7 @@ import {
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { MatTableModule } from '@angular/material/table';
 import { FormsModule } from '@angular/forms';
-import {
-  WattInputModule,
-} from '@energinet-datahub/watt';
+import { WattInputModule } from '@energinet-datahub/watt/input';
 import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
 import { WattDropdownModule, WattDropdownOption } from '@energinet-datahub/watt/dropdown';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
