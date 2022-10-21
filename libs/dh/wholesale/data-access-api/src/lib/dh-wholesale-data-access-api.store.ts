@@ -128,17 +128,17 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
         exhaustMap((batch) => {
           const batchId: string = batch.id;
 
-          return this.httpClient.v1WholesaleBatchZippedBasisDataStreamGet(
-            batchId, 
-          ).pipe(
-            tap((data) => {
-              const blob = new Blob([data as unknown as BlobPart], {
-                type: 'application/zip'
-              });
-              const url = window.URL.createObjectURL(blob);
-              window.open(url);
-            })
-          );
+          return this.httpClient
+            .v1WholesaleBatchZippedBasisDataStreamGet(batchId)
+            .pipe(
+              tap((data) => {
+                const blob = new Blob([data as unknown as BlobPart], {
+                  type: 'application/zip',
+                });
+                const url = window.URL.createObjectURL(blob);
+                window.open(url);
+              })
+            );
         })
       );
     }
