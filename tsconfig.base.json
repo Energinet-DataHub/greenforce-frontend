@@ -298,6 +298,12 @@
       "@energinet-datahub/watt/tooltip": ["libs/ui-watt/src/lib/components/tooltip/index.ts"],
       "@energinet-datahub/watt/validation-message": ["libs/ui-watt/src/lib/components/validation-message/index.ts"],
       "@energinet-datahub/watt/icon": ["libs/ui-watt/src/lib/foundations/icon/index.ts"],
+      "@energinet-datahub/watt/color": ["libs/ui-watt/src/lib/foundations/color/index.ts"],
+      "@energinet-datahub/watt/breakpoints": ["libs/ui-watt/src/lib/foundations/breakpoints/index.ts"],
+      "@energinet-datahub/watt/resize-observer": ["libs/ui-watt/src/lib/foundations/resize-observer/index.ts"],
+      "@energinet-datahub/watt/intersection-observer": ["libs/ui-watt/src/lib/foundations/intersection-observer/index.ts"],
+      "@energinet-datahub/watt/locale": ["libs/ui-watt/src/lib/configuration/watt-locale.service.ts"],
+      "@energinet-datahub/watt/danish-date-time": ["libs/ui-watt/src/lib/configuration/watt-danish-datetime.module"],
       "rxjs": ["./node_modules/rxjs"]
     }
   },

@@ -42,9 +42,7 @@ import { dhB2CEnvironmentToken } from '@energinet-datahub/dh/shared/environments
 import { dhMarketParticipantPath } from '@energinet-datahub/dh/market-participant/routing';
 import { dhMeteringPointPath } from '@energinet-datahub/dh/metering-point/routing';
 import { dhChargesPath } from '@energinet-datahub/dh/charges/routing';
-import {
-  WattDanishDatetimeModule,
-} from '@energinet-datahub/watt';
+import { WattDanishDatetimeModule } from '@energinet-datahub/watt/danish-date-time';
 import { WattToastModule } from '@energinet-datahub/watt/toast';
 import { DhCoreShellComponent } from './dh-core-shell.component';
 import { DhSharedUtilApplicationInsightsModule } from '@energinet-datahub/dh/shared/util-application-insights';

@@ -23,7 +23,7 @@ import {
 import { TranslocoService } from '@ngneat/transloco';
 import { map, Observable, tap } from 'rxjs';
 
-import { WattLocaleService } from '@energinet-datahub/watt';
+import { WattLocaleService } from '@energinet-datahub/watt/locale';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
