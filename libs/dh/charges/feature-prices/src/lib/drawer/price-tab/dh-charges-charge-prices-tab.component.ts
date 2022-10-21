@@ -122,7 +122,8 @@ export class DhChargesChargePricesTabComponent
     console.log(dateRange);
   }
 
-  loadPrices() {
+  loadPrices(charge: ChargeV1Dto) {
+    this.searchCriteria.chargeId = charge.id;
     this.chargePricesStore.searchChargePrices(this.searchCriteria);
   }
 

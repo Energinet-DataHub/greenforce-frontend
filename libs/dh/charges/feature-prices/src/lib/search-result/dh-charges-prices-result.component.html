@@ -142,7 +142,7 @@ limitations under the License.
       <tr
         mat-row
         (click)="rowClicked(row)"
-        [ngClass]="{ 'active-row': row.chargeId === activeChargeId }"
+        [ngClass]="{ 'active-row': row.id === activeChargeId }"
         *matRowDef="let row; columns: displayedColumns"
       ></tr>
     </table>
