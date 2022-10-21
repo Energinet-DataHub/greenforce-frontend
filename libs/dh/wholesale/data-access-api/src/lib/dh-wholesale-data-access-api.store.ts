@@ -50,7 +50,7 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
 
   constructor(
     private httpClient: WholesaleBatchHttp,
-    private changeDetectorRef: ChangeDetectorRef,
+    private changeDetectorRef: ChangeDetectorRef
   ) {
     super(initialState);
   }
