@@ -17,8 +17,6 @@
 export { WattColor } from './lib/foundations/color/colors';
 export { WattColorHelperService } from './lib/foundations/color/color-helper.service';
 
-export { WattShellComponent } from './lib/components/shell/shell.component';
-
 export * from './lib/configuration/watt-danish-datetime.module';
 export * from './lib/configuration/watt-locale.service';
 export * from './lib/foundations/breakpoints';
