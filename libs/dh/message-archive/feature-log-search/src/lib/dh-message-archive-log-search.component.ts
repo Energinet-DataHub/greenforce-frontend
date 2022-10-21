@@ -30,11 +30,11 @@ import { TranslocoModule } from '@ngneat/transloco';
 import {
   WattFormFieldModule,
   WattInputModule,
-  WattCheckboxModule,
   WattDropdownModule,
   WattDropdownOptions,
   WattSpinnerModule,
 } from '@energinet-datahub/watt';
+import { WattCheckboxModule } from '@energinet-datahub/watt/checkbox';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { WattBadgeModule } from '@energinet-datahub/watt/badge';
 import {

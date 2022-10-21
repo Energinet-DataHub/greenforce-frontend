@@ -21,7 +21,6 @@ export { WattInputModule } from './lib/components/input/input.module';
 export { WattShellComponent } from './lib/components/shell/shell.component';
 
 
-export * from './lib/components/checkbox';
 export * from './lib/components/chips';
 export * from './lib/components/dropdown';
 export * from './lib/components/empty-state';

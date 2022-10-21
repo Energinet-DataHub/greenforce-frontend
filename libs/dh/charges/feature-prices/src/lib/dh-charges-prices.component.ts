@@ -34,12 +34,12 @@ import {
 import {
   WattFormFieldModule,
   WattInputModule,
-  WattCheckboxModule,
   WattDropdownModule,
   WattSpinnerModule,
   WattDropdownOptions,
   WattDatepickerModule,
 } from '@energinet-datahub/watt';
+import { WattCheckboxModule } from '@energinet-datahub/watt/checkbox';
 import { WattBadgeModule } from '@energinet-datahub/watt/badge';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 
