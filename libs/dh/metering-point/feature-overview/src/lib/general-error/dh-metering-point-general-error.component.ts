@@ -23,9 +23,7 @@ import {
 } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
 
-import {
-  WattEmptyStateModule,
-} from '@energinet-datahub/watt';
+import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 
 @Component({

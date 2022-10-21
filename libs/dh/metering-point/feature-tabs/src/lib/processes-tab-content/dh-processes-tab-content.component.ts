@@ -24,9 +24,9 @@ import { DhProcessesDataAccessApiStore } from '@energinet-datahub/dh/metering-po
 import { dhMeteringPointIdParam } from '@energinet-datahub/dh/metering-point/routing';
 
 import {
-  WattEmptyStateModule,
   WattSpinnerModule,
 } from '@energinet-datahub/watt';
+import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 import { TranslocoModule } from '@ngneat/transloco';
 import { DhProcessesTableScam } from './processes-table/dh-processes-table.component';
 

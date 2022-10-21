@@ -32,10 +32,10 @@ import { TranslocoModule } from '@ngneat/transloco';
 
 import {
   WattIconModule,
-  WattEmptyStateModule,
   WattSpinnerModule,
   WattValidationMessageModule,
 } from '@energinet-datahub/watt';
+import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { WattBadgeModule } from '@energinet-datahub/watt/badge';
 import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/metering-point/shared/ui-util';

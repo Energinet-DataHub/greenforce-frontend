@@ -32,10 +32,10 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
 import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/feature-flags';
 import {
   WattIconModule,
-  WattEmptyStateModule,
   WattTooltipModule,
   WattSpinnerModule,
 } from '@energinet-datahub/watt';
+import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 
 import { ChargeV1Dto } from '@energinet-datahub/dh/shared/domain';
