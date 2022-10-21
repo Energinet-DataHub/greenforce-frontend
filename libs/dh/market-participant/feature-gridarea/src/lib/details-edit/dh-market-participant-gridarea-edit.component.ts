@@ -22,11 +22,10 @@ import {
   GridAreaOverviewRow,
 } from '@energinet-datahub/dh/market-participant/data-access-api';
 import {
-  WattModalModule,
   WattFormFieldModule,
   WattInputModule,
-  WattModalComponent,
 } from '@energinet-datahub/watt';
+import { WattModalModule, WattModalComponent } from '@energinet-datahub/watt/modal';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { FormsModule } from '@angular/forms';
 
