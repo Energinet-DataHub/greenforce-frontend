@@ -30,7 +30,7 @@ import { LetModule } from '@rx-angular/template';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 
 import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/feature-flags';
-import { WattIconModule } from '@energinet-datahub/watt';
+import { WattIconModule } from '@energinet-datahub/watt/icon';
 import { WattTooltipModule } from '@energinet-datahub/watt/tooltip';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';

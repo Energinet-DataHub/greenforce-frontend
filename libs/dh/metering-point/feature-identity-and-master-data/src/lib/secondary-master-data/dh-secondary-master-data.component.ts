@@ -22,7 +22,7 @@ import {
   MeteringPointCimDto,
   NetSettlementGroup,
 } from '@energinet-datahub/dh/shared/domain';
-import { WattIconModule } from '@energinet-datahub/watt';
+import { WattIconModule } from '@energinet-datahub/watt/icon';
 import { WattExpansionModule } from '@energinet-datahub/watt/expansion';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import {

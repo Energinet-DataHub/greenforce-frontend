@@ -33,7 +33,7 @@ import { MatTableModule } from '@angular/material/table';
 import { TranslocoModule } from '@ngneat/transloco';
 import { RouterModule } from '@angular/router';
 
-import { WattIconModule } from '@energinet-datahub/watt';
+import { WattIconModule } from '@energinet-datahub/watt/icon';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import { DhMeteringPointStatusBadgeScam } from '@energinet-datahub/dh/metering-point/ui-status-badge';

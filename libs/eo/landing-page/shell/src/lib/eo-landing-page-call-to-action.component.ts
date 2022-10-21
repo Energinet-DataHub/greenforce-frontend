@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
-import { WattIconModule } from '@energinet-datahub/watt';
+import { WattIconModule } from '@energinet-datahub/watt/icon';
 import { EoLandingPageLoginButtonScam } from './eo-landing-page-login-button.component';
 
 @Component({

@@ -25,9 +25,7 @@ import {
 import { LetModule } from '@rx-angular/template/let';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { TranslocoModule } from '@ngneat/transloco';
-import {
-  WattIconModule,
-} from '@energinet-datahub/watt';
+import { WattIconModule } from '@energinet-datahub/watt/icon';
 import {
   WattDrawerModule,
   WattDrawerComponent,

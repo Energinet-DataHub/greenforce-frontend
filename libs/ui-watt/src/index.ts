@@ -20,6 +20,6 @@ export { WattColorHelperService } from './lib/foundations/color/color-helper.ser
 export * from './lib/configuration/watt-danish-datetime.module';
 export * from './lib/configuration/watt-locale.service';
 export * from './lib/foundations/breakpoints';
-export * from './lib/foundations/icon';
+
 export * from './lib/utils/resize-observer';
 export * from './lib/utils/intersection-observer';

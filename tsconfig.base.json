@@ -297,6 +297,7 @@
       "@energinet-datahub/watt/toast": ["libs/ui-watt/src/lib/components/toast/index.ts"],
       "@energinet-datahub/watt/tooltip": ["libs/ui-watt/src/lib/components/tooltip/index.ts"],
       "@energinet-datahub/watt/validation-message": ["libs/ui-watt/src/lib/components/validation-message/index.ts"],
+      "@energinet-datahub/watt/icon": ["libs/ui-watt/src/lib/foundations/icon/index.ts"],
       "rxjs": ["./node_modules/rxjs"]
     }
   },

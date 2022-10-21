@@ -36,9 +36,7 @@ import { TranslocoModule } from '@ngneat/transloco';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import {
-  WattIconModule,
-} from '@energinet-datahub/watt';
+import { WattIconModule } from '@energinet-datahub/watt/icon';
 import { WattInputModule } from '@energinet-datahub/watt/input';
 import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
