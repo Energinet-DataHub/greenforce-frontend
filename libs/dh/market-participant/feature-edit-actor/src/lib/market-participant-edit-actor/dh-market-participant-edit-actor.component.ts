@@ -40,10 +40,10 @@ import {
 import {
   WattModalComponent,
   WattModalModule,
-  WattSpinnerModule,
   WattTabsModule,
   WattValidationMessageModule,
 } from '@energinet-datahub/watt';
+import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 
 import { DhMarketParticipantActorContactDataComponentScam } from './contact-data/dh-market-participant-actor-contact-data.component';

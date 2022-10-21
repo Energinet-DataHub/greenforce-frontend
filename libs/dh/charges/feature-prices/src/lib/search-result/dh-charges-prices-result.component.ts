@@ -33,8 +33,8 @@ import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/featu
 import {
   WattIconModule,
   WattTooltipModule,
-  WattSpinnerModule,
 } from '@energinet-datahub/watt';
+import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 

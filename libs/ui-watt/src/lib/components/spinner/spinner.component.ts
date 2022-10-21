@@ -17,7 +17,7 @@
 import { Component, Input } from '@angular/core';
 /**
  * Usage:
- * `import { WattSpinnerModule } from '@energinet-datahub/watt';`
+ * `import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';`
  */
 @Component({
   selector: 'watt-spinner',

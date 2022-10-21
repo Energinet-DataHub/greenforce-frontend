@@ -22,9 +22,7 @@ import { TranslocoModule } from '@ngneat/transloco';
 import { MatCardModule } from '@angular/material/card';
 
 import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/feature-flags';
-import {
-  WattSpinnerModule,
-} from '@energinet-datahub/watt';
+import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 

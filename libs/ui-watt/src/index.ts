@@ -20,7 +20,6 @@ export { WattFormFieldModule } from './lib/components/form-field/form-field.modu
 export { WattInputModule } from './lib/components/input/input.module';
 export { WattShellComponent } from './lib/components/shell/shell.component';
 
-export * from './lib/components/spinner';
 export * from './lib/components/tabs';
 export * from './lib/components/validation-message';
 export * from './lib/configuration/watt-danish-datetime.module';

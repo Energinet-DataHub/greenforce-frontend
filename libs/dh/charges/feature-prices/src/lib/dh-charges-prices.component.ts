@@ -34,8 +34,8 @@ import {
 import {
   WattFormFieldModule,
   WattInputModule,
-  WattSpinnerModule,
 } from '@energinet-datahub/watt';
+import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { WattDatepickerModule } from '@energinet-datahub/watt/datepicker';
 import {
   WattDropdownModule,

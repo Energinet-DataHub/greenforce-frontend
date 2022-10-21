@@ -27,7 +27,7 @@ import { Title } from '@angular/platform-browser';
 import { TranslocoModule } from '@ngneat/transloco';
 
 import { DhMessageArchiveDataAccessBlobApiStore } from '@energinet-datahub/dh/message-archive/data-access-api';
-import { WattSpinnerModule } from '@energinet-datahub/watt';
+import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { WattBadgeModule } from '@energinet-datahub/watt/badge';
 
 @Component({
