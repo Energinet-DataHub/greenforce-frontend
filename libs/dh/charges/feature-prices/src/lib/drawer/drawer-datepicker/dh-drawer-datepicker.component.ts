@@ -31,10 +31,8 @@ import {
   WattFormFieldModule,
   WattDatepickerModule,
   WattRangeValidators,
-  WattChipsModule,
-  WattChipsSelection,
-  WattChipsOption,
 } from '@energinet-datahub/watt';
+import { WattChipsModule, WattChipsSelection, WattChipsOption } from '@energinet-datahub/watt/chips';
 import {
   DatePickerData,
   DrawerDatepickerService,
