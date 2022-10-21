@@ -14,5 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export { setupServiceWorker } from './lib/setup-service-worker';
-export { handlers, onUnhandledRequest } from './lib/handlers';
+import { setupWorker } from 'msw';
+import { handlers, onUnhandledRequest } from './handlers';
+
+export function setupServiceWorker(apiBase: string) {
+  try {
+    const worker = setupWorker(...handlers(apiBase));
+    worker.start({ onUnhandledRequest });
+    // eslint-disable-next-line no-empty
+  } catch (error) {}
+}

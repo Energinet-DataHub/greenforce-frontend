@@ -14,5 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export { setupServiceWorker } from './lib/setup-service-worker';
-export { handlers, onUnhandledRequest } from './lib/handlers';
+export {
+  WattExpandableCardComponent,
+  WattExpandableCardTitleComponent,
+  WATT_EXPANDABLE_CARD_COMPONENTS,
+} from './watt-expandable-card.component';

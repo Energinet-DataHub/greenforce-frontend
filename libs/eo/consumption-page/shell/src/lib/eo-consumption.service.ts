@@ -42,6 +42,14 @@ interface EoConsumptionResponse {
 export class EoConsumptionService {
   #apiBase: string;
 
+  constructor(
+    private http: HttpClient,
+    private store: AppSettingsStore,
+    @Inject(eoApiEnvironmentToken) apiEnvironment: EoApiEnvironment
+  ) {
+    this.#apiBase = `${apiEnvironment.apiBase}`;
+  }
+
   getMonthlyConsumption() {
     let dateRange: CalendarDateRange = {} as CalendarDateRange;
 
@@ -55,13 +63,5 @@ export class EoConsumptionService {
       }&dateTo=${dateRange.end}&aggregation=Month`,
       { withCredentials: true }
     );
-  }
-
-  constructor(
-    private http: HttpClient,
-    private store: AppSettingsStore,
-    @Inject(eoApiEnvironmentToken) apiEnvironment: EoApiEnvironment
-  ) {
-    this.#apiBase = `${apiEnvironment.apiBase}`;
   }
 }

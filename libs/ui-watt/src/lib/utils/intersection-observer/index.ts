@@ -14,11 +14,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { setupWorker } from 'msw';
-import { handlers, onUnhandledRequest } from './handlers';
-
-try {
-  const worker = setupWorker(...handlers);
-  worker.start({ onUnhandledRequest });
-  // eslint-disable-next-line no-empty
-} catch (error) {}
+export { WattIntersectionObserverService } from './watt-intersection-observer.service';
