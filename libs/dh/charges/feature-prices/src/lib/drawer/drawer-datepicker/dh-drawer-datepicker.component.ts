@@ -27,12 +27,14 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Subject, takeUntil } from 'rxjs';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
-import {
-  WattFormFieldModule,
-  WattRangeValidators,
-} from '@energinet-datahub/watt';
+import { WattFormFieldModule } from '@energinet-datahub/watt';
+import { WattRangeValidators } from '@energinet-datahub/watt/validators';
 import { WattDatepickerModule } from '@energinet-datahub/watt/datepicker';
-import { WattChipsModule, WattChipsSelection, WattChipsOption } from '@energinet-datahub/watt/chips';
+import {
+  WattChipsModule,
+  WattChipsSelection,
+  WattChipsOption,
+} from '@energinet-datahub/watt/chips';
 import {
   DatePickerData,
   DrawerDatepickerService,

@@ -288,6 +288,7 @@
       "@energinet-datahub/watt/datepicker": ["libs/ui-watt/src/lib/components/input/datepicker/index.ts"],
       "@energinet-datahub/watt/timepicker": ["libs/ui-watt/src/lib/components/input/timepicker/index.ts"],
       "@energinet-datahub/watt/input": ["libs/ui-watt/src/lib/components/input/index.ts"],
+      "@energinet-datahub/watt/validators": ["libs/ui-watt/src/lib/components/input/shared/validators/index.ts"],
       "@energinet-datahub/watt/modal": ["libs/ui-watt/src/lib/components/modal/index.ts"],
       "@energinet-datahub/watt/shell": ["libs/ui-watt/src/lib/components/shell/index.ts"],
       "@energinet-datahub/watt/slider": ["libs/ui-watt/src/lib/components/slider/index.ts"],
