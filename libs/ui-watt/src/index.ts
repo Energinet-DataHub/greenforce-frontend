@@ -26,5 +26,3 @@ export * from './lib/foundations/breakpoints';
 export * from './lib/foundations/icon';
 export * from './lib/utils/resize-observer';
 export * from './lib/utils/intersection-observer';
-export * from './lib/components/card';
-export * from './lib/components/expandable-card';
