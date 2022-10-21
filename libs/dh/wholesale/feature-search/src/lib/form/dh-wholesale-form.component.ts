@@ -29,7 +29,7 @@ import { sub } from 'date-fns';
 import { TranslocoModule } from '@ngneat/transloco';
 import { zonedTimeToUtc } from 'date-fns-tz';
 
-import { WattFormFieldModule } from '@energinet-datahub/watt';
+import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
 import { WattRangeValidators } from '@energinet-datahub/watt/validators';
 import { WattDatepickerModule } from '@energinet-datahub/watt/datepicker';
 import { WattButtonModule } from '@energinet-datahub/watt/button';

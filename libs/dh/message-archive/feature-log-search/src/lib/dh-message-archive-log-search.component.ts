@@ -28,9 +28,9 @@ import { Subject } from 'rxjs';
 import { TranslocoModule } from '@ngneat/transloco';
 
 import {
-  WattFormFieldModule,
   WattInputModule,
 } from '@energinet-datahub/watt';
+import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { WattDropdownModule, WattDropdownOptions } from '@energinet-datahub/watt/dropdown';
 import { WattCheckboxModule } from '@energinet-datahub/watt/checkbox';

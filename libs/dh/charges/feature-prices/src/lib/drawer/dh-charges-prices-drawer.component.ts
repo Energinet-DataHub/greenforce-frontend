@@ -27,7 +27,7 @@ import {
   DhChargesChargeMessagesTabScam,
   DhChargesChargeMessagesTabComponent,
 } from './message-tab/dh-charges-charge-messages-tab.component';
-import { WattFormFieldModule } from '@energinet-datahub/watt';
+import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
 import {
   WattDrawerModule,
   WattDrawerComponent,

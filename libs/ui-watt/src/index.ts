@@ -16,7 +16,7 @@
  */
 export { WattColor } from './lib/foundations/color/colors';
 export { WattColorHelperService } from './lib/foundations/color/color-helper.service';
-export { WattFormFieldModule } from './lib/components/form-field/form-field.module';
+
 export { WattInputModule } from './lib/components/input/input.module';
 export { WattShellComponent } from './lib/components/shell/shell.component';
 

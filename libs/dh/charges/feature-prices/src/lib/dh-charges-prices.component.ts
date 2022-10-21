@@ -32,9 +32,9 @@ import {
 } from '@energinet-datahub/dh/charges/domain';
 
 import {
-  WattFormFieldModule,
   WattInputModule,
 } from '@energinet-datahub/watt';
+import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { WattDatepickerModule } from '@energinet-datahub/watt/datepicker';
 import {
