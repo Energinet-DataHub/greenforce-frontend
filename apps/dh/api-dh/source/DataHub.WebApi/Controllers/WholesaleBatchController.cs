@@ -15,6 +15,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Net.Mime;
 using System.Threading.Tasks;
 using Energinet.DataHub.Wholesale.Application.Batches;
 using Energinet.DataHub.Wholesale.Client;
@@ -56,11 +57,12 @@ namespace Energinet.DataHub.WebApi.Controllers
         /// <summary>
         /// Get a batch.
         /// </summary>
-        [HttpPost("ZippedBasisDataStream")]
-        public async Task<ActionResult<Stream>> PostAsync(Guid batchId)
+        [HttpGet("ZippedBasisDataStream")]
+        [Produces("application/zip")]
+        public async Task<ActionResult<Stream>> GetAsync(Guid batchId)
         {
             var stream = await _client.GetZippedBasisDataStreamAsync(batchId);
-            return Ok(stream);
+            return File(stream, MediaTypeNames.Application.Zip);
         }
     }
 }
