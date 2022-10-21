@@ -20,11 +20,11 @@ import { DhMarketParticipantEditOrganizationDataAccessApiStore } from '@energine
 import { LetModule } from '@rx-angular/template/let';
 import { DhMarketParticipantOrganizationMasterDataComponentScam } from './master-data/dh-market-participant-organization-master-data.component';
 import {
-  WattButtonModule,
   WattSpinnerModule,
   WattTabsModule,
   WattValidationMessageModule,
 } from '@energinet-datahub/watt';
+import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { TranslocoModule } from '@ngneat/transloco';
 import { map } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';

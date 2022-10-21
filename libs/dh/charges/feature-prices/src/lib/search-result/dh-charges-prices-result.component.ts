@@ -32,11 +32,11 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
 import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/feature-flags';
 import {
   WattIconModule,
-  WattButtonModule,
   WattEmptyStateModule,
   WattTooltipModule,
   WattSpinnerModule,
 } from '@energinet-datahub/watt';
+import { WattButtonModule } from '@energinet-datahub/watt/button';
 
 import { ChargeV1Dto } from '@energinet-datahub/dh/shared/domain';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';

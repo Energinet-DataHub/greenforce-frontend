@@ -35,11 +35,11 @@ import {
 } from '@energinet-datahub/dh/shared/domain';
 import { DhMessageArchiveDataAccessApiStore } from '@energinet-datahub/dh/message-archive/data-access-api';
 import {
-  WattButtonModule,
   WattEmptyStateModule,
   WattTooltipModule,
   WattSpinnerModule,
 } from '@energinet-datahub/watt';
+import { WattButtonModule } from '@energinet-datahub/watt/button';
 import {
   MatPaginator,
   MatPaginatorIntl,

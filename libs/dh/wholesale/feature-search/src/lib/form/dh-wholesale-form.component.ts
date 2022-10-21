@@ -30,11 +30,11 @@ import { TranslocoModule } from '@ngneat/transloco';
 import { zonedTimeToUtc } from 'date-fns-tz';
 
 import {
-  WattButtonModule,
   WattDatepickerModule,
   WattFormFieldModule,
   WattRangeValidators,
 } from '@energinet-datahub/watt';
+import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { BatchSearchDto } from '@energinet-datahub/dh/shared/domain';
 import { Subject, takeUntil } from 'rxjs';
 

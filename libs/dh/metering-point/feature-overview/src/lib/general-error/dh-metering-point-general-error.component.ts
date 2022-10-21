@@ -24,9 +24,9 @@ import {
 import { TranslocoModule } from '@ngneat/transloco';
 
 import {
-  WattButtonModule,
   WattEmptyStateModule,
 } from '@energinet-datahub/watt';
+import { WattButtonModule } from '@energinet-datahub/watt/button';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

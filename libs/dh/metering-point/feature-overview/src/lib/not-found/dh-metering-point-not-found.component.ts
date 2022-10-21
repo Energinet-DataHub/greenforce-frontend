@@ -23,9 +23,9 @@ import {
   dhMeteringPointPath,
 } from '@energinet-datahub/dh/metering-point/routing';
 import {
-  WattButtonModule,
   WattEmptyStateModule,
 } from '@energinet-datahub/watt';
+import { WattButtonModule } from '@energinet-datahub/watt/button';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

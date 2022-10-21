@@ -26,7 +26,6 @@ import { LetModule } from '@rx-angular/template/let';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { TranslocoModule } from '@ngneat/transloco';
 import {
-  WattButtonModule,
   WattIconModule,
   WattEmptyStateModule,
   WattSpinnerModule,
@@ -34,6 +33,7 @@ import {
   WattDrawerModule,
   WattDrawerComponent,
 } from '@energinet-datahub/watt';
+import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { WattBadgeModule } from '@energinet-datahub/watt/badge';
 import { MatMenuModule } from '@angular/material/menu';
 import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/metering-point/shared/ui-util';

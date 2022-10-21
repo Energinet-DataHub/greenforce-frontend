@@ -32,7 +32,6 @@ import {
 } from '@energinet-datahub/dh/charges/domain';
 
 import {
-  WattButtonModule,
   WattFormFieldModule,
   WattInputModule,
   WattCheckboxModule,
@@ -42,6 +41,7 @@ import {
   WattDatepickerModule,
 } from '@energinet-datahub/watt';
 import { WattBadgeModule } from '@energinet-datahub/watt/badge';
+import { WattButtonModule } from '@energinet-datahub/watt/button';
 
 import { PushModule } from '@rx-angular/template';
 import { DhChargesPricesResultScam } from './search-result/dh-charges-prices-result.component';

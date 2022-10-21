@@ -37,11 +37,11 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import {
-  WattButtonModule,
   WattFormFieldModule,
   WattIconModule,
   WattInputModule,
 } from '@energinet-datahub/watt';
+import { WattButtonModule } from '@energinet-datahub/watt/button';
 
 import { meteringPointIdValidator } from './dh-metering-point.validator';
 import { Subscription } from 'rxjs';

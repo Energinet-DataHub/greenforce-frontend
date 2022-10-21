@@ -25,9 +25,9 @@ import {
   WattModalModule,
   WattFormFieldModule,
   WattInputModule,
-  WattButtonModule,
   WattModalComponent,
 } from '@energinet-datahub/watt';
+import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { FormsModule } from '@angular/forms';
 
 @Component({

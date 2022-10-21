@@ -33,8 +33,8 @@ import {
   WattTabsModule,
   WattFormFieldModule,
   WattDatepickerModule,
-  WattButtonModule,
 } from '@energinet-datahub/watt';
+import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { TranslocoModule } from '@ngneat/transloco';
 import { DhChargesChargePricesTabScam } from './price-tab/dh-charges-charge-prices-tab.component';
 import { DhChargesChargeHistoryTabScam } from './history-tab/dh-charges-charge-history-tab.component';

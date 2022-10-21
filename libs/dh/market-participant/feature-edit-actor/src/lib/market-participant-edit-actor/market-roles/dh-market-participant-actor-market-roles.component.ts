@@ -30,12 +30,12 @@ import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { MatTableModule } from '@angular/material/table';
 import { FormsModule } from '@angular/forms';
 import {
-  WattButtonModule,
   WattInputModule,
   WattFormFieldModule,
   WattDropdownModule,
   WattDropdownOption,
 } from '@energinet-datahub/watt';
+import { WattButtonModule } from '@energinet-datahub/watt/button';
 import {
   ActorMarketRoleDto,
   ActorStatus,

@@ -28,7 +28,6 @@ import { Subject } from 'rxjs';
 import { TranslocoModule } from '@ngneat/transloco';
 
 import {
-  WattButtonModule,
   WattFormFieldModule,
   WattInputModule,
   WattCheckboxModule,
@@ -36,6 +35,7 @@ import {
   WattDropdownOptions,
   WattSpinnerModule,
 } from '@energinet-datahub/watt';
+import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { WattBadgeModule } from '@energinet-datahub/watt/badge';
 import {
   DhMessageArchiveDataAccessApiStore,

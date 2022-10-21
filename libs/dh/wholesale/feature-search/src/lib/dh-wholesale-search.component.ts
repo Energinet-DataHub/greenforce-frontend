@@ -23,10 +23,10 @@ import { MatCardModule } from '@angular/material/card';
 
 import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/feature-flags';
 import {
-  WattButtonModule,
   WattEmptyStateModule,
   WattSpinnerModule,
 } from '@energinet-datahub/watt';
+import { WattButtonModule } from '@energinet-datahub/watt/button';
 
 import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
 import { BatchSearchDto } from '@energinet-datahub/dh/shared/domain';
