@@ -32,8 +32,8 @@ import {
   WattDrawerComponent,
   WattTabsModule,
   WattFormFieldModule,
-  WattDatepickerModule,
 } from '@energinet-datahub/watt';
+import { WattDatepickerModule } from '@energinet-datahub/watt/datepicker';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { TranslocoModule } from '@ngneat/transloco';
 import { DhChargesChargePricesTabScam } from './price-tab/dh-charges-charge-prices-tab.component';
