@@ -25,8 +25,9 @@ import {
 import { ScopeService } from './scope.service';
 import { firstValueFrom, of } from 'rxjs';
 import { DeepPartial } from 'chart.js/types/utils';
+import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
 
-describe(PermissionService.name, () => {
+describe('PermissionService.name', () => {
   // base64 encoded access token: { roles: ['organization:view'] }
   const fakeAccessToken =
     'ignored.eyJyb2xlcyI6WyJvcmdhbml6YXRpb246dmlldyJdfQ==';
@@ -41,7 +42,10 @@ describe(PermissionService.name, () => {
       {} as ScopeService,
       {
         instance: instance,
-      } as MsalService
+      } as MsalService,
+      {
+        isEnabled: () => false,
+      } as DhFeatureFlagsService
     );
 
     // act
@@ -50,7 +54,32 @@ describe(PermissionService.name, () => {
     );
 
     // assert
-    expect(actual).toBeFalsy();
+    expect(actual).toBe(false);
+  });
+
+  test('should return true if grant_full_authorization is enabled', async () => {
+    // arrange
+    const instance: Partial<IPublicClientApplication> = {
+      getAllAccounts: () => [],
+    };
+
+    const target = new PermissionService(
+      {} as ScopeService,
+      {
+        instance: instance,
+      } as MsalService,
+      {
+        isEnabled: (f) => f === 'grant_full_authorization',
+      } as DhFeatureFlagsService
+    );
+
+    // act
+    const actual = await firstValueFrom(
+      target.hasPermission('organization:manage')
+    );
+
+    // assert
+    expect(actual).toBe(true);
   });
 
   test('should return true if permission is found within access token roles', async () => {
@@ -65,9 +94,14 @@ describe(PermissionService.name, () => {
         of({ accessToken: fakeAccessToken } as AuthenticationResult),
     };
 
+    const featureFlagService = {
+      isEnabled: () => false,
+    } as DhFeatureFlagsService;
+
     const target = new PermissionService(
       { getActiveScope: () => 'fake_value' } as ScopeService,
-      authService as MsalService
+      authService as MsalService,
+      featureFlagService as DhFeatureFlagsService
     );
 
     // act
@@ -76,7 +110,7 @@ describe(PermissionService.name, () => {
     );
 
     // assert
-    expect(actual).toBeTruthy();
+    expect(actual).toBe(true);
   });
 
   test('should return false if permission is not found within access token roles', async () => {
@@ -91,9 +125,14 @@ describe(PermissionService.name, () => {
         of({ accessToken: fakeAccessToken } as AuthenticationResult),
     };
 
+    const featureFlagService = {
+      isEnabled: () => false,
+    } as DhFeatureFlagsService;
+
     const target = new PermissionService(
       { getActiveScope: () => 'fake_value' } as ScopeService,
-      authService as MsalService
+      authService as MsalService,
+      featureFlagService as DhFeatureFlagsService
     );
 
     // act
@@ -102,6 +141,6 @@ describe(PermissionService.name, () => {
     );
 
     // assert
-    expect(actual).toBeFalsy();
+    expect(actual).toBe(false);
   });
 });
