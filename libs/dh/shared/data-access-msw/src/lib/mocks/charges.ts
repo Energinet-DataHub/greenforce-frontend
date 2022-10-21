@@ -21,32 +21,31 @@ import {
   VatClassification,
 } from '@energinet-datahub/dh/shared/domain';
 
-export const chargesMocks = [
-  rest.get('https://localhost:5001/v1/ChargeLinks', (req, res, ctx) => {
-    return res(ctx.status(404));
-  }),
-  rest.get('https://localhost:5001/v1/Charges', (req, res, ctx) => {
-    const result: ChargeV1Dto[] = [
-      {
-        chargeType: 'D01',
-        resolution: 'PT15M',
-        taxIndicator: false,
-        transparentInvoicing: true,
-        vatClassification: VatClassification.Vat25,
-        validFromDateTime: '2022-09-28T22:00:00',
-        validToDateTime: '2022-10-29T22:00:00',
-        chargeId: '0AA1F',
-        chargeName: 'Net abo A høj Forbrug',
-        chargeDescription: 'Net abo A høj Forbrug beskrivelse',
-        chargeOwner: '5790000681075',
-        chargeOwnerName: 'Thy-Mors Energi Elnet A/S - 042',
-      },
-    ];
-    return res(ctx.status(200), ctx.json(result));
-  }),
-  rest.post(
-    'https://localhost:5001/v1/Charges/SearchASync',
-    (req, res, ctx) => {
+export function chargesMocks(apiBase: string) {
+  return [
+    rest.get(`${apiBase}/v1/ChargeLinks`, (req, res, ctx) => {
+      return res(ctx.status(404));
+    }),
+    rest.get(`${apiBase}/v1/Charges`, (req, res, ctx) => {
+      const result: ChargeV1Dto[] = [
+        {
+          chargeType: 'D01',
+          resolution: 'PT15M',
+          taxIndicator: false,
+          transparentInvoicing: true,
+          vatClassification: VatClassification.Vat25,
+          validFromDateTime: '2022-09-28T22:00:00',
+          validToDateTime: '2022-10-29T22:00:00',
+          chargeId: '0AA1F',
+          chargeName: 'Net abo A høj Forbrug',
+          chargeDescription: 'Net abo A høj Forbrug beskrivelse',
+          chargeOwner: '5790000681075',
+          chargeOwnerName: 'Thy-Mors Energi Elnet A/S - 042',
+        },
+      ];
+      return res(ctx.status(200), ctx.json(result));
+    }),
+    rest.post(`${apiBase}/v1/Charges/SearchASync`, (req, res, ctx) => {
       const result: ChargeV1Dto[] = [
         {
           chargeType: 'D01',
@@ -92,19 +91,19 @@ export const chargesMocks = [
         },
       ];
       return res(ctx.status(200), ctx.json(result));
-    }
-  ),
-  rest.get(
-    'https://localhost:5001/v1/Charges/GetMarketParticipantsAsync',
-    (req, res, ctx) => {
-      const result: MarketParticipantV1Dto[] = [
-        {
-          id: 'C5E0990A-713B-41E6-AB9C-A1B357A1EABD',
-          name: 'name 1',
-          marketParticipantId: '8100000000016',
-        },
-      ];
-      return res(ctx.status(200), ctx.json(result));
-    }
-  ),
-];
+    }),
+    rest.get(
+      `${apiBase}/v1/Charges/GetMarketParticipantsAsync`,
+      (req, res, ctx) => {
+        const result: MarketParticipantV1Dto[] = [
+          {
+            id: 'C5E0990A-713B-41E6-AB9C-A1B357A1EABD',
+            name: 'name 1',
+            marketParticipantId: '8100000000016',
+          },
+        ];
+        return res(ctx.status(200), ctx.json(result));
+      }
+    ),
+  ];
+}

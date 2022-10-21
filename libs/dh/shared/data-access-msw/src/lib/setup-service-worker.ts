@@ -17,8 +17,10 @@
 import { setupWorker } from 'msw';
 import { handlers, onUnhandledRequest } from './handlers';
 
-try {
-  const worker = setupWorker(...handlers);
-  worker.start({ onUnhandledRequest });
-  // eslint-disable-next-line no-empty
-} catch (error) {}
+export function setupServiceWorker(apiBase: string) {
+  try {
+    const worker = setupWorker(...handlers(apiBase));
+    worker.start({ onUnhandledRequest });
+    // eslint-disable-next-line no-empty
+  } catch (error) {}
+}
