@@ -353,6 +353,13 @@
       "drawer": {
         "prices": "Priser",
         "messages": "Beskeder",
+        "dateChips": {
+          "day": "Dag",
+          "week": "Uge",
+          "month": "Måned",
+          "quarter": "Kvartal",
+          "year": "År"
+        },
         "history": "Historik",
         "stop": "Stop",
         "edit": "Rediger",

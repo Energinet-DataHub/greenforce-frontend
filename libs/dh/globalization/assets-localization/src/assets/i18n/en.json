@@ -351,6 +351,13 @@
       "drawer": {
         "prices": "Prices",
         "messages": "Messages",
+        "dateChips": {
+          "day": "Day",
+          "week": "Week",
+          "month": "Month",
+          "quarter": "Quarter",
+          "year": "Year"
+        },
         "history": "History",
         "stop": "Stop",
         "edit": "Edit",

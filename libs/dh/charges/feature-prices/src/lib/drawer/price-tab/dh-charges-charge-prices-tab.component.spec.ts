@@ -15,21 +15,19 @@
  * limitations under the License.
  */
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { DhChargesPricesResultComponent } from './dh-charges-prices-result.component';
-import { DhChargesPricesScam } from '../dh-charges-prices.component';
-import { MatNativeDateModule } from '@angular/material/core';
 
-describe('DhChargesPricesResultComponent', () => {
-  let component: DhChargesPricesResultComponent;
-  let fixture: ComponentFixture<DhChargesPricesResultComponent>;
+import { DhChargesChargePricesTabComponent } from './dh-charges-charge-prices-tab.component';
+
+describe('DhChargesPricesPricetabComponent', () => {
+  let component: DhChargesChargePricesTabComponent;
+  let fixture: ComponentFixture<DhChargesChargePricesTabComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [MatNativeDateModule, DhChargesPricesScam],
-      declarations: [DhChargesPricesResultComponent],
+      declarations: [DhChargesChargePricesTabComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(DhChargesPricesResultComponent);
+    fixture = TestBed.createComponent(DhChargesChargePricesTabComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
