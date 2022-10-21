@@ -18,9 +18,7 @@ import { CommonModule } from '@angular/common';
 import { Component, NgModule } from '@angular/core';
 import { DhMarketParticipantEditOrganizationDataAccessApiStore } from '@energinet-datahub/dh/market-participant/data-access-api';
 import { LetModule } from '@rx-angular/template/let';
-import {
-  WattValidationMessageModule,
-} from '@energinet-datahub/watt';
+import { WattValidationMessageModule } from '@energinet-datahub/watt/validation-message';
 import { WattTabsModule } from '@energinet-datahub/watt/tabs';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
