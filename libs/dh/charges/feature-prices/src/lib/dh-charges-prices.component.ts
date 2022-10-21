@@ -36,12 +36,13 @@ import {
   WattFormFieldModule,
   WattInputModule,
   WattCheckboxModule,
-  WattBadgeModule,
   WattDropdownModule,
   WattSpinnerModule,
   WattDropdownOptions,
   WattDatepickerModule,
 } from '@energinet-datahub/watt';
+import { WattBadgeModule } from '@energinet-datahub/watt/badge';
+
 import { PushModule } from '@rx-angular/template';
 import { DhChargesPricesResultScam } from './search-result/dh-charges-prices-result.component';
 import {

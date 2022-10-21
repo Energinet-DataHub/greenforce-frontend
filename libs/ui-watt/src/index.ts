@@ -20,7 +20,6 @@ export { WattFormFieldModule } from './lib/components/form-field/form-field.modu
 export { WattInputModule } from './lib/components/input/input.module';
 export { WattShellComponent } from './lib/components/shell/shell.component';
 
-export * from './lib/components/badge';
 export * from './lib/components/button';
 export * from './lib/components/checkbox';
 export * from './lib/components/chips';

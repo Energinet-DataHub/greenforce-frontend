@@ -32,11 +32,11 @@ import {
   WattFormFieldModule,
   WattInputModule,
   WattCheckboxModule,
-  WattBadgeModule,
   WattDropdownModule,
   WattDropdownOptions,
   WattSpinnerModule,
 } from '@energinet-datahub/watt';
+import { WattBadgeModule } from '@energinet-datahub/watt/badge';
 import {
   DhMessageArchiveDataAccessApiStore,
   DhMessageArchiveDataAccessBlobApiStore,
