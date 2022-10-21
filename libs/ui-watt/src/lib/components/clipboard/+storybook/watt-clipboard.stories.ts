@@ -18,15 +18,15 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { moduleMetadata, Story, Meta } from '@storybook/angular';
 
 import { WattCopyToClipboardDirective } from '../watt-copy-to-clipboard.directive';
-import { StorybookTranslocoRootModule } from '../../../+storybook/storybook-transloco-root.module';
 import { WattStorybookClipboardComponent } from './storybook-clipboard.component';
+import { WattStorybookTranslationModule } from '../../../utils/translation';
 
 export default {
   title: 'Components/Clipboard',
   decorators: [
     moduleMetadata({
       imports: [
-        StorybookTranslocoRootModule,
+        WattStorybookTranslationModule,
         BrowserAnimationsModule,
         WattStorybookClipboardComponent,
       ],

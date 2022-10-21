@@ -1,12 +1,17 @@
+import { NgModule } from '@angular/core';
 import {
-  TRANSLOCO_CONFIG,
   translocoConfig,
   TranslocoModule,
+  TRANSLOCO_CONFIG,
 } from '@ngneat/transloco';
-import { NgModule } from '@angular/core';
 
+/**
+ * Import this module in stories for Watt components using translations.
+ *
+ * __Only for use within stories, do not import directly in components.__
+ */
 @NgModule({
-  exports: [TranslocoModule],
+  imports: [TranslocoModule],
   providers: [
     {
       provide: TRANSLOCO_CONFIG,
@@ -19,4 +24,4 @@ import { NgModule } from '@angular/core';
     },
   ],
 })
-export class StorybookTranslocoRootModule {}
+export class WattStorybookTranslationModule {}

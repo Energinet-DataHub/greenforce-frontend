@@ -53,7 +53,7 @@ import { WATT_COPY_TO_CLIPBOARD_DEPS } from '../watt-copy-to-clipboard.directive
 })
 export class WattStorybookCopyToClipboardComponent {
   @Input() text?: string;
-  @Input() tooltip?: string;
+  @Input() tooltip = '';
 }
 
 @Component({
