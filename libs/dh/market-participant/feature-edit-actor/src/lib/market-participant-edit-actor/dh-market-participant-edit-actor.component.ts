@@ -40,9 +40,9 @@ import {
 import {
   WattModalComponent,
   WattModalModule,
-  WattTabsModule,
   WattValidationMessageModule,
 } from '@energinet-datahub/watt';
+import { WattTabsModule } from '@energinet-datahub/watt/tabs';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 

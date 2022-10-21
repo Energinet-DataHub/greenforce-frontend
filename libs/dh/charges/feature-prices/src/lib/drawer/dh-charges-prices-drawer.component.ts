@@ -30,9 +30,9 @@ import {
 import {
   WattDrawerModule,
   WattDrawerComponent,
-  WattTabsModule,
   WattFormFieldModule,
 } from '@energinet-datahub/watt';
+import { WattTabsModule } from '@energinet-datahub/watt/tabs';
 import { WattDatepickerModule } from '@energinet-datahub/watt/datepicker';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { TranslocoModule } from '@ngneat/transloco';
