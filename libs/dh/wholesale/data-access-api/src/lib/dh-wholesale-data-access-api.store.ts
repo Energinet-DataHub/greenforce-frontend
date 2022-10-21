@@ -128,7 +128,7 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
         exhaustMap((batch) => {
           const batchId: string = batch.id;
 
-          return this.httpClient.v1WholesaleBatchZippedBasisDataUrlPost(
+          return this.httpClient.v1WholesaleBatchZippedBasisDataStreamPost(
             batchId
           );
         })
