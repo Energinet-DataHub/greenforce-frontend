@@ -18,7 +18,6 @@
 import {
   Directive,
   Input,
-  NgModule,
   OnDestroy,
   OnInit,
   TemplateRef,
@@ -28,7 +27,7 @@ import { PermissionService } from './permission.service';
 import { Permission } from './permission';
 import { concatAll, from, map, reduce, Subject, takeUntil } from 'rxjs';
 
-@Directive({ selector: '[dhPermissionRequired]' })
+@Directive({ standalone: true, selector: '[dhPermissionRequired]' })
 export class DhPermissionRequiredDirective implements OnInit, OnDestroy {
   constructor(
     private templateRef: TemplateRef<unknown>,
@@ -60,9 +59,3 @@ export class DhPermissionRequiredDirective implements OnInit, OnDestroy {
     this.destroy$.unsubscribe();
   }
 }
-
-@NgModule({
-  declarations: [DhPermissionRequiredDirective],
-  exports: [DhPermissionRequiredDirective],
-})
-export class DhPermissionRequiredDirectiveScam {}

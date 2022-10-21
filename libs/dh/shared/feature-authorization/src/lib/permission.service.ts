@@ -18,6 +18,7 @@
 import { Injectable } from '@angular/core';
 import { MsalService } from '@azure/msal-angular';
 import { SilentRequest } from '@azure/msal-browser';
+import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
 import { map, of } from 'rxjs';
 import { Permission } from './permission';
 import { ScopeService } from './scope.service';
@@ -26,10 +27,15 @@ import { ScopeService } from './scope.service';
 export class PermissionService {
   constructor(
     private scopeService: ScopeService,
-    private authService: MsalService
+    private authService: MsalService,
+    private featureFlag: DhFeatureFlagsService
   ) {}
 
   public hasPermission(permission: Permission) {
+    if (this.featureFlag.isEnabled('grant_full_authorization')) {
+      return of(true);
+    }
+
     const accounts = this.authService.instance.getAllAccounts();
 
     // If MSAL returns no accounts or the claims are missing,
