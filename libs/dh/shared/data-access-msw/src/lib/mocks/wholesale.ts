@@ -17,18 +17,17 @@
 import { BatchDtoV2, BatchState } from '@energinet-datahub/dh/shared/domain';
 import { rest } from 'msw';
 
-export const wholesaleMocks = [postWholesaleBatch(), getWholesaleSearchBatch()];
-
-function postWholesaleBatch() {
-  return rest.post(
-    'https://localhost:5001/v1/WholesaleBatch',
-    (req, res, ctx) => {
-      return res(ctx.status(200));
-    }
-  );
+export function wholesaleMocks(apiBase: string) {
+  return [postWholesaleBatch(apiBase), getWholesaleSearchBatch(apiBase)];
 }
 
-function getWholesaleSearchBatch() {
+function postWholesaleBatch(apiBase: string) {
+  return rest.post(`${apiBase}/v1/WholesaleBatch`, (req, res, ctx) => {
+    return res(ctx.status(200));
+  });
+}
+
+function getWholesaleSearchBatch(apiBase: string) {
   const periodStart = '2021-12-01T23:00:00Z';
   const periodEnd = '2021-12-02T23:00:00Z';
   const executionTimeStart = '2021-12-01T23:00:00Z';
@@ -132,12 +131,9 @@ function getWholesaleSearchBatch() {
       executionState: BatchState.Failed,
     },
   ];
-  return rest.post(
-    'https://localhost:5001/v1/WholesaleBatch/search',
-    (req, res, ctx) => {
-      return res(ctx.delay(300), ctx.status(200), ctx.json(mockData));
-      //return res(ctx.delay(300), ctx.status(200), ctx.json([]));
-      //return res(ctx.delay(2000), ctx.status(500));
-    }
-  );
+  return rest.post(`${apiBase}/v1/WholesaleBatch/search`, (req, res, ctx) => {
+    return res(ctx.delay(300), ctx.status(200), ctx.json(mockData));
+    //return res(ctx.delay(300), ctx.status(200), ctx.json([]));
+    //return res(ctx.delay(2000), ctx.status(500));
+  });
 }
