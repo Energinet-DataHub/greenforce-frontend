@@ -34,7 +34,7 @@ import { RouterModule } from '@angular/router';
 import { DhProcess } from '@energinet-datahub/dh/metering-point/domain';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 
-import { WattIconModule } from '@energinet-datahub/watt';
+import { WattIconModule } from '@energinet-datahub/watt/icon';
 import { TranslocoModule } from '@ngneat/transloco';
 import { DhProcessesDetailItemScam } from '../processes-detail-item/dh-processes-detail-item.component';
 import { DhTableRow } from './dh-table-row';
