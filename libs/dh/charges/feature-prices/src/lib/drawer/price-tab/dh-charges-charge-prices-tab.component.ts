@@ -51,7 +51,7 @@ import {
 import { Subject, takeUntil } from 'rxjs';
 import { PushModule } from '@rx-angular/template';
 import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/feature-flags';
-import { getHours, getMinutes, isThisSecond } from 'date-fns';
+import { getHours, getMinutes } from 'date-fns';
 
 @Component({
   selector: 'dh-charges-charge-prices-tab',
