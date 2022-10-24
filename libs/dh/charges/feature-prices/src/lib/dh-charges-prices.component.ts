@@ -31,17 +31,18 @@ import {
   ValidityOptions,
 } from '@energinet-datahub/dh/charges/domain';
 
+import { WattInputModule } from '@energinet-datahub/watt/input';
+import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
+import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
+import { WattDatepickerModule } from '@energinet-datahub/watt/datepicker';
 import {
-  WattButtonModule,
-  WattFormFieldModule,
-  WattInputModule,
-  WattCheckboxModule,
-  WattBadgeModule,
   WattDropdownModule,
-  WattSpinnerModule,
   WattDropdownOptions,
-  WattDatepickerModule,
-} from '@energinet-datahub/watt';
+} from '@energinet-datahub/watt/dropdown';
+import { WattCheckboxModule } from '@energinet-datahub/watt/checkbox';
+import { WattBadgeModule } from '@energinet-datahub/watt/badge';
+import { WattButtonModule } from '@energinet-datahub/watt/button';
+
 import { PushModule } from '@rx-angular/template';
 import { DhChargesPricesResultScam } from './search-result/dh-charges-prices-result.component';
 import {

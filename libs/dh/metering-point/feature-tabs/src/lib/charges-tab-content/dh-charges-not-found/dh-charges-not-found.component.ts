@@ -16,7 +16,7 @@
  */
 import { CommonModule } from '@angular/common';
 import { Component, NgModule } from '@angular/core';
-import { WattEmptyStateModule } from '@energinet-datahub/watt';
+import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 import { TranslocoModule } from '@ngneat/transloco';
 
 @Component({

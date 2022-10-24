@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { ConnectionState } from '@energinet-datahub/dh/shared/domain';
-import { WattBadgeType } from '@energinet-datahub/watt';
+import { WattBadgeType } from '@energinet-datahub/watt/badge';
 
 /**
  *

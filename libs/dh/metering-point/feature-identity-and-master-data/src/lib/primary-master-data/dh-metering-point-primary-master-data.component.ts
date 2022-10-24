@@ -29,7 +29,7 @@ import { TranslocoModule } from '@ngneat/transloco';
 
 import { MeteringPointCimDto } from '@energinet-datahub/dh/shared/domain';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
-import { WattIcon, WattIconModule } from '@energinet-datahub/watt';
+import { WattIcon, WattIconModule } from '@energinet-datahub/watt/icon';
 import {
   DhEmDashFallbackPipeScam,
   DhIsParentPipeScam,

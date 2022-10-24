@@ -27,16 +27,16 @@ import { LetModule } from '@rx-angular/template';
 import { Subject } from 'rxjs';
 import { TranslocoModule } from '@ngneat/transloco';
 
+import { WattInputModule } from '@energinet-datahub/watt/input';
+import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
+import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import {
-  WattButtonModule,
-  WattFormFieldModule,
-  WattInputModule,
-  WattCheckboxModule,
-  WattBadgeModule,
   WattDropdownModule,
   WattDropdownOptions,
-  WattSpinnerModule,
-} from '@energinet-datahub/watt';
+} from '@energinet-datahub/watt/dropdown';
+import { WattCheckboxModule } from '@energinet-datahub/watt/checkbox';
+import { WattButtonModule } from '@energinet-datahub/watt/button';
+import { WattBadgeModule } from '@energinet-datahub/watt/badge';
 import {
   DhMessageArchiveDataAccessApiStore,
   DhMessageArchiveDataAccessBlobApiStore,
