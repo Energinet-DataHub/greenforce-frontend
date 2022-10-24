@@ -25,13 +25,15 @@ import {
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { TranslocoModule } from '@ngneat/transloco';
-
+import { of } from 'rxjs';
 import { BatchDtoV2, BatchState } from '@energinet-datahub/dh/shared/domain';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { WattBadgeModule, WattBadgeType } from '@energinet-datahub/watt/badge';
+
+import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
 
 type wholesaleTableData = MatTableDataSource<{
   statusType: void | WattBadgeType;
@@ -60,6 +62,7 @@ type wholesaleTableData = MatTableDataSource<{
   templateUrl: './dh-wholesale-table.component.html',
   styleUrls: ['./dh-wholesale-table.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [DhWholesaleBatchDataAccessApiStore],
 })
 export class DhWholesaleTableComponent implements AfterViewInit {
   @ViewChild(MatSort) sort!: MatSort;
@@ -75,6 +78,8 @@ export class DhWholesaleTableComponent implements AfterViewInit {
   }
   _data: wholesaleTableData = new MatTableDataSource(undefined);
 
+  constructor(private store: DhWholesaleBatchDataAccessApiStore) {}
+
   columnIds = [
     'batchNumber',
     'periodStart',
@@ -88,6 +93,10 @@ export class DhWholesaleTableComponent implements AfterViewInit {
     if (this._data === null) return;
     this._data.sort = this.sort;
     this._data.paginator = this.paginator.instance;
+  }
+
+  onDownload(batchId: string) {
+    this.store.getZippedBasisData(of({ id: batchId }));
   }
 
   private getStatusType(status: BatchState): WattBadgeType | void {
