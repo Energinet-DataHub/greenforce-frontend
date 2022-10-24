@@ -54,23 +54,23 @@ export default {
 
 const howToUseGuideBasic = `
  How to use
- 
+
  1. Import ${WattDropdownModule.name} in a module
- 
- import { ${WattDropdownModule.name} } from '@energinet-datahub/watt';
+
+ import { ${WattDropdownModule.name} } from '@energinet-datahub/watt/dropdown';
 
  2a. Create FormControl in a component and define dropdown options.
- 
+
  exampleFormControl = new FormControl(null);
 
  2b. Define dropdown options by using the WattDropdownOption interface
 
  options: WattDropdownOption[] = [{ value: 'example', displayValue: 'Example' }]
- 
+
  3. Assign the FormControl and options to the dropdown component
- 
+
  <watt-dropdown [formControl]="exampleFormControl" [options]="options"></watt-dropdown>
- 
+
  4. Wrap the dropdown component in a "watt-form-field"
 
  <watt-form-field>
@@ -159,9 +159,9 @@ export const withValidation: Story<WattDropdownComponent> = () => ({
   },
   template: `<watt-form-field>
     <watt-label>Label</watt-label>
-    
+
     <watt-dropdown [formControl]="exampleFormControl" [options]="options"></watt-dropdown>
-    
+
     <watt-error *ngIf="exampleFormControl.errors?.required">
       Field is required
     </watt-error>

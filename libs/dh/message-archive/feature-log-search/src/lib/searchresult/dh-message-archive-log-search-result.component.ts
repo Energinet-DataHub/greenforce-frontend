@@ -28,12 +28,10 @@ import { MatTableModule } from '@angular/material/table';
 import { TranslocoModule } from '@ngneat/transloco';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import { MessageArchiveSearchResultItemDto } from '@energinet-datahub/dh/shared/domain';
-import {
-  WattButtonModule,
-  WattIconModule,
-  WattEmptyStateModule,
-  WattBadgeModule,
-} from '@energinet-datahub/watt';
+import { WattIconModule } from '@energinet-datahub/watt/icon';
+import { WattButtonModule } from '@energinet-datahub/watt/button';
+import { WattBadgeModule } from '@energinet-datahub/watt/badge';
+import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

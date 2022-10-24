@@ -16,7 +16,7 @@
  */
 import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
 import { EoInlineMessageScam } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
-import { WattIconModule } from '@energinet-datahub/watt';
+import { WattIconModule } from '@energinet-datahub/watt/icon';
 import { EoDashboardChartCardScam } from './eo-dashboard-chart-card.component';
 import { EoDashboardEmissionsCardScam } from './eo-dashboard-emissions-card.component';
 import { EoDashboardGetDataScam } from './eo-dashboard-get-data.component';

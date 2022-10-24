@@ -19,7 +19,7 @@ import { MatExpansionPanel } from '@angular/material/expansion';
 
 /**
  * Usage:
- * `import { WattExpansionModule } from '@energinet-datahub/watt';`
+ * `import { WattExpansionModule } from '@energinet-datahub/watt/expansion';`
  */
 @Component({
   selector: 'watt-expansion',
