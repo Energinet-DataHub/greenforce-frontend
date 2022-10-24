@@ -34,12 +34,10 @@ import {
   MessageArchiveSearchCriteria,
 } from '@energinet-datahub/dh/shared/domain';
 import { DhMessageArchiveDataAccessApiStore } from '@energinet-datahub/dh/message-archive/data-access-api';
-import {
-  WattButtonModule,
-  WattEmptyStateModule,
-  WattTooltipModule,
-  WattSpinnerModule,
-} from '@energinet-datahub/watt';
+import { WattTooltipModule } from '@energinet-datahub/watt/tooltip';
+import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
+import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
+import { WattButtonModule } from '@energinet-datahub/watt/button';
 import {
   MatPaginator,
   MatPaginatorIntl,

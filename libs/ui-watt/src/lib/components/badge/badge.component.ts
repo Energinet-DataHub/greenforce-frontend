@@ -20,7 +20,7 @@ export type WattBadgeType = 'warning' | 'success' | 'danger' | 'info';
 
 /**
  * Usage:
- * `import { WattBadgeModule } from '@energinet-datahub/watt';`
+ * `import { WattBadgeModule } from '@energinet-datahub/watt/badge';`
  */
 @Component({
   selector: 'watt-badge',

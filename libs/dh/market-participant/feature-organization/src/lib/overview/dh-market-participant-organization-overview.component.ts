@@ -30,14 +30,12 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { TranslocoModule } from '@ngneat/transloco';
 
-import {
-  WattBadgeModule,
-  WattButtonModule,
-  WattIconModule,
-  WattEmptyStateModule,
-  WattSpinnerModule,
-  WattValidationMessageModule,
-} from '@energinet-datahub/watt';
+import { WattIconModule } from '@energinet-datahub/watt/icon';
+import { WattValidationMessageModule } from '@energinet-datahub/watt/validation-message';
+import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
+import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
+import { WattButtonModule } from '@energinet-datahub/watt/button';
+import { WattBadgeModule } from '@energinet-datahub/watt/badge';
 import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/metering-point/shared/ui-util';
 import { DhMarketParticipantOrganizationOverviewGridAreasScam } from './dh-market-participant-organization-overview-grid-areas-list.component';
 import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';

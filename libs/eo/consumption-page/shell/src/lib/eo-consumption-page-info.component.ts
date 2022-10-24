@@ -17,7 +17,7 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
-import { WattSpinnerModule } from '@energinet-datahub/watt';
+import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { EoConsumptionStore } from './eo-consumption.store';
 
 @Component({

@@ -27,14 +27,14 @@ import {
   DhChargesChargeMessagesTabScam,
   DhChargesChargeMessagesTabComponent,
 } from './message-tab/dh-charges-charge-messages-tab.component';
+import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
 import {
   WattDrawerModule,
   WattDrawerComponent,
-  WattTabsModule,
-  WattFormFieldModule,
-  WattDatepickerModule,
-  WattButtonModule,
-} from '@energinet-datahub/watt';
+} from '@energinet-datahub/watt/drawer';
+import { WattTabsModule } from '@energinet-datahub/watt/tabs';
+import { WattDatepickerModule } from '@energinet-datahub/watt/datepicker';
+import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { TranslocoModule } from '@ngneat/transloco';
 import { DhChargesChargePricesTabScam } from './price-tab/dh-charges-charge-prices-tab.component';
 import { DhChargesChargeHistoryTabScam } from './history-tab/dh-charges-charge-history-tab.component';

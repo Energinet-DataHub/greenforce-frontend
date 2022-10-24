@@ -35,7 +35,7 @@ How to use
 
 1. Import ${WattCheckboxModule.name} in a module
 
-import { ${WattCheckboxModule.name} } from '@energinet-datahub/watt';
+import { ${WattCheckboxModule.name} } from '@energinet-datahub/watt/checkbox';
 
 2. Create model in a component
 
@@ -64,7 +64,7 @@ How to use
 
 1. Import ${WattCheckboxModule.name} in a module
 
-import { ${WattCheckboxModule.name} } from '@energinet-datahub/watt';
+import { ${WattCheckboxModule.name} } from '@energinet-datahub/watt/checkbox';
 
 2. Create model in a component
 
