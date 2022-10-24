@@ -31,7 +31,7 @@ export default {
 
 const howToUseGuide = `
 1. Import ${WattButtonModule.name} in a module
-import { ${WattButtonModule.name} } from '@energinet-datahub/watt';
+import { ${WattButtonModule.name} } from '@energinet-datahub/watt/button';
 
 2. Use <watt-button>Button</watt-button>
 `;
