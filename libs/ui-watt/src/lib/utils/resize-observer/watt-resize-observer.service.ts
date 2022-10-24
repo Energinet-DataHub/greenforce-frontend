@@ -22,7 +22,7 @@ import { filter, finalize, Subject } from 'rxjs';
  * the `WattResizeObserverDirective`, but can also be imported directly.
  *
  * Usage:
- * `import { WattResizeObserverService } from '@energinet-datahub/watt';`
+ * `import { WattResizeObserverService } from '@energinet-datahub/watt/resize-observer';`
  */
 @Injectable({ providedIn: 'root' })
 export class WattResizeObserverService {

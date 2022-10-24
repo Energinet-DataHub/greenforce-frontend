@@ -27,6 +27,7 @@
     "affected:lint": "nx affected:lint --max-warnings=0 --parallel",
     "affected:lint:fix": "nx affected:lint --max-warnings=0 --fix --parallel",
     "affected:test": "nx affected:test --parallel",
+    "analyze:app-dh": "source-map-explorer dist/apps/dh/app-dh/**/*.js",
     "build": "nx run-many --target=build --configuration=production --all --parallel",
     "ci": "npm run lint && npm run test && npm run build && npm run e2e -- --configuration=ci",
     "designsystem:build": "yarn nx run ui-watt:build-storybook",
@@ -154,6 +155,7 @@
     "nx": "14.8.4",
     "prettier": "2.7.1",
     "rimraf": "3.0.2",
+    "source-map-explorer": "^2.5.3",
     "ts-jest": "28.0.8",
     "ts-node": "10.9.1",
     "typescript": "4.8.4"

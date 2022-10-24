@@ -17,7 +17,7 @@
 import { Component, NgModule } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
 
-import { WattButtonModule } from '@energinet-datahub/watt';
+import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/feature-flags';
 
 @Component({

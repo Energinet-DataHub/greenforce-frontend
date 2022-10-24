@@ -17,7 +17,7 @@
 import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { Router } from '@angular/router';
-import { WattButtonModule } from '@energinet-datahub/watt';
+import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { EoEmissionsDataScam } from './eo-emissions-data.component';
 import { EoEmissionsStore } from './eo-emissions.store';
 

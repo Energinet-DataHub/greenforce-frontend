@@ -26,7 +26,7 @@ import { WattIconSize } from '../../foundations/icon/watt-icon-size';
 
 /**
  * Usage:
- * `import { WattEmptyStateModule } from '@energinet-datahub/watt';`
+ * `import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';`
  */
 @Component({
   selector: 'watt-empty-state',

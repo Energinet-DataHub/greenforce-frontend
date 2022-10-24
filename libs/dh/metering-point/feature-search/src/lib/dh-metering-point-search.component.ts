@@ -22,7 +22,7 @@ import { PushModule } from '@rx-angular/template';
 import { TranslocoModule } from '@ngneat/transloco';
 
 import { DhMeteringPointDataAccessApiStore } from '@energinet-datahub/dh/metering-point/data-access-api';
-import { WattEmptyStateModule } from '@energinet-datahub/watt';
+import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 
 import { DhMeteringPointSearchFormScam } from './form/dh-metering-point-search-form.component';
 @Component({

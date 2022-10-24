@@ -17,7 +17,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { WattShellComponent } from '@energinet-datahub/watt';
+import { WattShellComponent } from '@energinet-datahub/watt/shell';
 
 import { EoShellComponent, EoShellScam } from './eo-shell.component';
 
