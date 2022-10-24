@@ -20,7 +20,7 @@ import {
   joinPathFragments,
   names,
   Tree,
-  updateJson
+  updateJson,
 } from '@nrwl/devkit';
 
 export default async function (host: Tree, schema: { name: string }) {
@@ -36,7 +36,9 @@ export default async function (host: Tree, schema: { name: string }) {
 
   // Add reference to base configuration
   updateJson(host, './tsconfig.base.json', (json) => {
-    json.compilerOptions.paths[`@energinet-datahub/ui-watt/${substitutions.fileName}`] = [
+    json.compilerOptions.paths[
+      `@energinet-datahub/ui-watt/${substitutions.fileName}`
+    ] = [
       `libs/ui-watt/src/lib/components/${substitutions.fileName}/src/index.ts`,
     ];
     return json;
