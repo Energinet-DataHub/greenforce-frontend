@@ -48,27 +48,27 @@ export default {
 
 const howToUseGuideBasic = `
  How to use
- 
+
  1. Import ${WattDropdownModule.name} in a module
- 
- import { ${WattDropdownModule.name} } from '@energinet-datahub/watt';
+
+ import { ${WattDropdownModule.name} } from '@energinet-datahub/watt/dropdown';
 
  2a. Create model in a component for single selection
- 
+
  singleSelectionModel = '';
 
  2b. Create model in a component for multi selection
- 
+
  multiSelectionModel: string[] | null = null;
- 
+
  3. Define dropdown options by using the WattDropdownOption interface
- 
+
  options: WattDropdownOption[] = [{ value: 'example', displayValue: 'Example' }]
- 
+
  4. Assign the model and options to the dropdown component
- 
+
  <watt-dropdown [(ngModel)]="singleSelectionModel" [options]="options"></watt-dropdown>
- 
+
  5. Wrap the dropdown component in a "watt-form-field"
 
  <watt-form-field>
@@ -163,7 +163,7 @@ export const withValidation: Story<WattDropdownComponent> = () => ({
       [(ngModel)]="singleSelectionModel"
       required
       [options]="options"></watt-dropdown>
-    
+
     <watt-error *ngIf="singleSelection.errors?.required">
       Field is required
     </watt-error>

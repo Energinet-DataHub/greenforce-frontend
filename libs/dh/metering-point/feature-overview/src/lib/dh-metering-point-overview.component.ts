@@ -20,7 +20,7 @@ import { ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs';
 import { LetModule } from '@rx-angular/template';
 
-import { WattSpinnerModule } from '@energinet-datahub/watt';
+import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { DhMeteringPointDataAccessApiStore } from '@energinet-datahub/dh/metering-point/data-access-api';
 import { DhMeteringPointFeatureIdentityAndMasterDataModule } from '@energinet-datahub/dh/metering-point/feature-identity-and-master-data';
 import { dhMeteringPointIdParam } from '@energinet-datahub/dh/metering-point/routing';

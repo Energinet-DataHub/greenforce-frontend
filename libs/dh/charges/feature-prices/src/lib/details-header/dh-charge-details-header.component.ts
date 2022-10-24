@@ -20,7 +20,7 @@ import { TranslocoModule } from '@ngneat/transloco';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import { MatDividerModule } from '@angular/material/divider';
 import { ChargeV1Dto } from '@energinet-datahub/dh/shared/domain';
-import { WattExpansionModule } from '@energinet-datahub/watt';
+import { WattExpansionModule } from '@energinet-datahub/watt/expansion';
 
 @Component({
   selector: 'dh-charge-details-header',
