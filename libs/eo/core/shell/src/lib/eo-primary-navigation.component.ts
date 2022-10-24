@@ -31,7 +31,7 @@ import { eoProductionRoutePath } from '@energinet-datahub/eo/production/routing'
 import {
   WattNavListComponent,
   WattNavListItemComponent,
-} from '@energinet-datahub/watt';
+} from '@energinet-datahub/watt/shell';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

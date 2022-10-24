@@ -18,7 +18,7 @@ import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
 
 /**
  * Usage:
- * `import { WattCardModule } from '@energinet-datahub/watt';`
+ * `import { WattCardModule } from '@energinet-datahub/watt/card';`
  */
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
