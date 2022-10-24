@@ -9,17 +9,12 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { SortColumnName } from './sort-column-name';
+import { ChargePriceV1Dto } from './charge-price-v1-dto';
 
 
-export interface ChargePricesSearchCriteriaV1Dto { 
-    chargeId: string;
-    fromDateTime: string;
-    toDateTime: string;
-    sortColumnName: SortColumnName;
-    isDescending: boolean;
-    skip: number;
-    take: number;
+export interface ChargePricesV1Dto { 
+    chargePrices?: Array<ChargePriceV1Dto> | null;
+    totalAmount: number;
 }
 
 

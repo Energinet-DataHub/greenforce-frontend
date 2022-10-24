@@ -22,14 +22,12 @@ limitations under the License.
     ></dh-drawer-datepicker>
   </div>
 
-  <div
-    class="card-container"
-    *dhFeatureFlag="'charges_prices_table_feature_flag'"
-  >
+  <div class="card-container">
     <div class="header-container">
       <h3>
         <ng-container>
-          {{ this.result?.length }} {{ t("prices") }}
+          {{ this.result?.length }}
+          {{ this.result?.length === 1 ? t("price") : t("prices") }}
         </ng-container>
       </h3>
 
@@ -46,8 +44,7 @@ limitations under the License.
         <!-- Pagination -->
         <dh-shared-ui-paginator
           (changed)="handlePageEvent($event)"
-          [pageSize]="1"
-          [length]="3"
+          [pageSize]="2"
         ></dh-shared-ui-paginator>
       </div>
     </div>
@@ -59,7 +56,7 @@ limitations under the License.
       [dataSource]="dataSource"
       matSort
       matSortDisableClear
-      matSortActive="chargeName"
+      matSortActive="fromDateTime"
       matSortDirection="asc"
       (matSortChange)="sortData($event)"
     >
@@ -75,7 +72,7 @@ limitations under the License.
 
       <!-- To date time column -->
       <ng-container matColumnDef="time">
-        <th *matHeaderCellDef mat-header-cell mat-sort-header>
+        <th *matHeaderCellDef mat-header-cell mat-sort-header disabled>
           {{ t("priceTab.time") }}
         </th>
         <td mat-cell *matCellDef="let element">

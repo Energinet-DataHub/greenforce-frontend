@@ -71,6 +71,7 @@ export class DhChargesPricesDrawerComponent {
   drawerClosed() {
     this.closed.emit();
     this.datepickerService.reset();
+    this.chargePricesTabComponent.reset();
   }
 }
 

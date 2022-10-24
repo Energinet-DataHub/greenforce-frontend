@@ -46,11 +46,12 @@ import {
   ChargePriceV1Dto,
   ChargeV1Dto,
   Resolution,
+  SortColumnName,
 } from '@energinet-datahub/dh/shared/domain';
 import { Subject, takeUntil } from 'rxjs';
 import { PushModule } from '@rx-angular/template';
 import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/feature-flags';
-import { getHours, getMinutes } from 'date-fns';
+import { getHours, getMinutes, isThisSecond } from 'date-fns';
 
 @Component({
   selector: 'dh-charges-charge-prices-tab',
@@ -73,6 +74,10 @@ export class DhChargesChargePricesTabComponent
     chargeId: '',
     fromDateTime: new Date().toISOString(),
     toDateTime: new Date().toISOString(),
+    isDescending: false,
+    sortColumnName: SortColumnName.FromDateTime,
+    skip: 0,
+    take: 0,
   };
 
   result: ChargePriceV1Dto[] | undefined;
@@ -94,6 +99,12 @@ export class DhChargesChargePricesTabComponent
         this.dataSource.data = chargePrices ?? new Array<ChargePriceV1Dto>();
         this.result = chargePrices;
         this.dataSource.sort = this.matSort;
+      });
+
+    this.chargePricesStore.totalAmount$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((totalAmount) => {
+        this.paginator.length = totalAmount;
       });
   }
 
@@ -125,7 +136,20 @@ export class DhChargesChargePricesTabComponent
 
   loadPrices(charge: ChargeV1Dto) {
     this.searchCriteria.chargeId = charge.id;
+    this.searchCriteria.take = this.paginator.pageSize;
     this.chargePricesStore.searchChargePrices(this.searchCriteria);
+  }
+
+  reset() {
+    this.searchCriteria = {
+      chargeId: '',
+      fromDateTime: new Date().toISOString(),
+      toDateTime: new Date().toISOString(),
+      isDescending: false,
+      sortColumnName: SortColumnName.FromDateTime,
+      skip: 0,
+      take: 0,
+    };
   }
 
   getHours(date: string) {
@@ -144,14 +168,18 @@ export class DhChargesChargePricesTabComponent
     return String(number).padStart(totalLength, '0');
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   sortData(event: any) {
-    console.log(`SortColumnName: ${event.active}`);
-    console.log(`IsDescending: ${event.direction === 'desc'}`);
+    this.searchCriteria.sortColumnName = event.active;
+    this.searchCriteria.isDescending = event.direction === 'desc';
+    this.chargePricesStore.searchChargePrices(this.searchCriteria);
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   handlePageEvent(event: any) {
-    console.log(`skip: ${event.pageIndex * event.pageSize}`);
-    console.log(`take: ${event.pageSize}`);
+    this.searchCriteria.skip = event.pageIndex * event.pageSize;
+    this.searchCriteria.take = event.pageSize;
+    this.chargePricesStore.searchChargePrices(this.searchCriteria);
   }
 }
 

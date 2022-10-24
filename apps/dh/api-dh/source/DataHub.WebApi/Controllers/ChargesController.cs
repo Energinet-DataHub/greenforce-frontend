@@ -58,11 +58,11 @@ namespace Energinet.DataHub.WebApi.Controllers
         }
 
         [HttpPost("SearchChargePricesAsync")]
-        public async Task<ActionResult<IList<ChargePriceV1Dto>>> SearchChargePricesAsync([FromBody] ChargePricesSearchCriteriaV1Dto searchCriteria)
+        public async Task<ActionResult<ChargePricesV1Dto>> SearchChargePricesAsync([FromBody] ChargePricesSearchCriteriaV1Dto searchCriteria)
         {
             var result = await _chargesClient.SearchChargePricesAsync(searchCriteria);
 
-            return result.Any() ? Ok(result) : NotFound();
+            return result;
         }
     }
 }

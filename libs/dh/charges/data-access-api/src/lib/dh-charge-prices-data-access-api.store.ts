@@ -19,6 +19,7 @@ import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import {
   ChargePricesSearchCriteriaV1Dto,
+  ChargePricesV1Dto,
   ChargePriceV1Dto,
   ChargesHttp,
 } from '@energinet-datahub/dh/shared/domain';
@@ -27,17 +28,20 @@ import { ErrorState, LoadingState } from './states';
 
 interface ChargePricesState {
   readonly chargePrices?: Array<ChargePriceV1Dto>;
+  readonly totalAmount: number;
   readonly requestState: LoadingState | ErrorState;
 }
 
 const initialState: ChargePricesState = {
-  chargePrices: undefined,
+  chargePrices: [],
+  totalAmount: 0,
   requestState: LoadingState.INIT,
 };
 
 @Injectable()
 export class DhChargePricesDataAccessApiStore extends ComponentStore<ChargePricesState> {
   all$ = this.select((state) => state.chargePrices);
+  totalAmount$ = this.select((state) => state.totalAmount);
 
   isInit$ = this.select((state) => state.requestState === LoadingState.INIT);
   isLoading$ = this.select(
@@ -67,10 +71,8 @@ export class DhChargePricesDataAccessApiStore extends ComponentStore<ChargePrice
             .v1ChargesSearchChargePricesAsyncPost(searchCriteria)
             .pipe(
               tapResponse(
-                (chargePrices) => {
-                  this.setLoading(LoadingState.LOADED);
-
-                  this.updateChargePrices(chargePrices);
+                (result) => {
+                  this.updateStates(result);
                 },
                 (error: HttpErrorResponse) => {
                   this.setLoading(LoadingState.LOADED);
@@ -83,13 +85,14 @@ export class DhChargePricesDataAccessApiStore extends ComponentStore<ChargePrice
     }
   );
 
-  private updateChargePrices = this.updater(
+  private update = this.updater(
     (
       state: ChargePricesState,
-      chargePrices: Array<ChargePriceV1Dto> | undefined
+      chargePrices: ChargePricesV1Dto
     ): ChargePricesState => ({
       ...state,
-      chargePrices: chargePrices || [],
+      chargePrices: chargePrices.chargePrices ?? undefined,
+      totalAmount: chargePrices.totalAmount,
     })
   );
 
@@ -100,9 +103,22 @@ export class DhChargePricesDataAccessApiStore extends ComponentStore<ChargePrice
     })
   );
 
+  private updateStates = (chargePrices: ChargePricesV1Dto) => {
+    this.update(chargePrices);
+
+    if (chargePrices.totalAmount == 0) {
+      this.patchState({ requestState: ErrorState.NOT_FOUND_ERROR });
+    } else {
+      this.patchState({ requestState: LoadingState.LOADED });
+    }
+  };
+
   private handleError = (error: HttpErrorResponse) => {
-    const chargesPrices = undefined;
-    this.updateChargePrices(chargesPrices);
+    const chargesPrices = {
+      chargesPrices: undefined,
+      totalAmount: 0,
+    };
+    this.update(chargesPrices);
 
     const requestError =
       error.status === HttpStatusCode.NotFound
@@ -114,7 +130,11 @@ export class DhChargePricesDataAccessApiStore extends ComponentStore<ChargePrice
 
   readonly clearChargePrices = () => {
     this.setLoading(LoadingState.INIT);
-    this.updateChargePrices([]);
+    const chargesPrices = {
+      chargesPrices: [],
+      totalAmount: 0,
+    };
+    this.update(chargesPrices);
   };
   private resetState = () => this.setState(initialState);
 }
