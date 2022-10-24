@@ -22,7 +22,10 @@ limitations under the License.
     ></dh-drawer-datepicker>
   </div>
 
-  <div class="card-container"  *dhFeatureFlag="'charges_prices_table_feature_flag'">
+  <div
+    class="card-container"
+    *dhFeatureFlag="'charges_prices_table_feature_flag'"
+  >
     <div class="header-container">
       <h3>
         <ng-container>
@@ -41,7 +44,11 @@ limitations under the License.
         </watt-button>
 
         <!-- Pagination -->
-        <dh-shared-ui-paginator [pageSize]="100"></dh-shared-ui-paginator>
+        <dh-shared-ui-paginator
+          (changed)="handlePageEvent($event)"
+          [pageSize]="1"
+          [length]="3"
+        ></dh-shared-ui-paginator>
       </div>
     </div>
 
@@ -54,6 +61,7 @@ limitations under the License.
       matSortDisableClear
       matSortActive="chargeName"
       matSortDirection="asc"
+      (matSortChange)="sortData($event)"
     >
       <!-- From date time column -->
       <ng-container matColumnDef="fromDateTime">

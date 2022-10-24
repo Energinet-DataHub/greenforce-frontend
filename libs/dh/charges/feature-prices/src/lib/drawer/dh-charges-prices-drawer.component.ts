@@ -41,6 +41,7 @@ import {
   DhChargesChargePricesTabComponent,
 } from './price-tab/dh-charges-charge-prices-tab.component';
 import { DhChargesChargeHistoryTabScam } from './history-tab/dh-charges-charge-history-tab.component';
+import { DrawerDatepickerService } from './drawer-datepicker/drawer-datepicker.service';
 
 @Component({
   selector: 'dh-charges-prices-drawer',
@@ -58,6 +59,8 @@ export class DhChargesPricesDrawerComponent {
 
   charge?: ChargeV1Dto;
 
+  constructor(private datepickerService: DrawerDatepickerService) {}
+
   openDrawer(charge: ChargeV1Dto) {
     this.charge = charge;
     this.drawer.open();
@@ -67,6 +70,7 @@ export class DhChargesPricesDrawerComponent {
 
   drawerClosed() {
     this.closed.emit();
+    this.datepickerService.reset();
   }
 }
 

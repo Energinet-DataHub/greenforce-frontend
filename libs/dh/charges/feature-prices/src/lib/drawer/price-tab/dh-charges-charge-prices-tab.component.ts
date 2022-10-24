@@ -93,8 +93,6 @@ export class DhChargesChargePricesTabComponent
       .subscribe((chargePrices) => {
         this.dataSource.data = chargePrices ?? new Array<ChargePriceV1Dto>();
         this.result = chargePrices;
-
-        this.dataSource.paginator = this.paginator?.instance;
         this.dataSource.sort = this.matSort;
       });
   }
@@ -144,6 +142,16 @@ export class DhChargesChargePricesTabComponent
 
   addLeadingZeros(number: number, totalLength: number): string {
     return String(number).padStart(totalLength, '0');
+  }
+
+  sortData(event: any) {
+    console.log(`SortColumnName: ${event.active}`);
+    console.log(`IsDescending: ${event.direction === 'desc'}`);
+  }
+
+  handlePageEvent(event: any) {
+    console.log(`skip: ${event.pageIndex * event.pageSize}`);
+    console.log(`take: ${event.pageSize}`);
   }
 }
 
