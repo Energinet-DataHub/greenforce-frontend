@@ -18,12 +18,14 @@
 // `ng build` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `workspace.json`.
 import { DhEnvironment } from './dh-environment';
+import { dhLocalApiEnvironment } from '@energinet-datahub/dh/shared/assets';
 
 /**
  * Mock Service Worker
  */
 // eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
-import '@energinet-datahub/dh/shared/data-access-msw';
+import { setupServiceWorker } from '@energinet-datahub/dh/shared/data-access-msw';
+setupServiceWorker(dhLocalApiEnvironment.apiBase);
 
 /*
  * For easier debugging in development mode, you can import the following file

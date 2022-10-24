@@ -118,6 +118,32 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
     );
   });
 
+  readonly getZippedBasisData = this.effect(
+    (
+      batch$: Observable<{
+        id: string;
+      }>
+    ) => {
+      return batch$.pipe(
+        exhaustMap((batch) => {
+          const batchId: string = batch.id;
+
+          return this.httpClient
+            .v1WholesaleBatchZippedBasisDataStreamGet(batchId)
+            .pipe(
+              tap((data) => {
+                const blob = new Blob([data as unknown as BlobPart], {
+                  type: 'application/zip',
+                });
+                const url = window.URL.createObjectURL(blob);
+                window.open(url);
+              })
+            );
+        })
+      );
+    }
+  );
+
   // TODO: This should be removed when the design system has implemented a proper fix in the date picker (Mighty Ducks will do this refactor)
   private addTimeToDate(date: string): string {
     const withTime = new Date(date).setHours(23, 59, 59, 999);

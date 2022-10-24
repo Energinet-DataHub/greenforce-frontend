@@ -14,5 +14,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export { setupServiceWorker } from './lib/setup-service-worker';
-export { handlers, onUnhandledRequest } from './lib/handlers';
+
+import { Inject, Injectable } from '@angular/core';
+import {
+  DhB2CEnvironment,
+  dhB2CEnvironmentToken,
+} from '@energinet-datahub/dh/shared/environments';
+
+@Injectable({ providedIn: 'root' })
+export class ScopeService {
+  constructor(
+    @Inject(dhB2CEnvironmentToken) private config: DhB2CEnvironment
+  ) {}
+
+  public getActiveScope() {
+    return this.config.clientId;
+  }
+}

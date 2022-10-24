@@ -14,11 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { setupWorker } from 'msw';
-import { handlers, onUnhandledRequest } from './handlers';
-
-try {
-  const worker = setupWorker(...handlers);
-  worker.start({ onUnhandledRequest });
-  // eslint-disable-next-line no-empty
-} catch (error) {}
+export * from './lib/permission.guard';
+export * from './lib/permission';
+export * from './lib/permission-required.directive';
