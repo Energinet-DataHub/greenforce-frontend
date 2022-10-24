@@ -33,13 +33,5 @@ export default async function (host: Tree, schema: { name: string }) {
     { tmpl: '', ...substitutions }
   );
 
-  // Add export declaration to index file
-  const wattIndexFile = './libs/ui-watt/src/index.ts';
-  const contents = host.read(wattIndexFile);
-  host.write(
-    wattIndexFile,
-    `${contents}export * from './lib/components/${substitutions.fileName}';\n`
-  );
-
   await formatFiles(host);
 }
