@@ -31,10 +31,7 @@ import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-t
 import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 import { WattButtonModule } from '@energinet-datahub/watt/button';
-import {
-  WattBadgeModule,
-  WattBadgeType,
-} from '@energinet-datahub/watt/badge';
+import { WattBadgeModule, WattBadgeType } from '@energinet-datahub/watt/badge';
 
 type wholesaleTableData = MatTableDataSource<{
   statusType: void | WattBadgeType;
