@@ -29,7 +29,7 @@ export type WattValidationMessageType =
 
 /**
  * Usage:
- * `import { WattValidationMessageModule } from '@energinet-datahub/watt';`
+ * `import { WattValidationMessageModule } from '@energinet-datahub/watt/validation-message';`
  */
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

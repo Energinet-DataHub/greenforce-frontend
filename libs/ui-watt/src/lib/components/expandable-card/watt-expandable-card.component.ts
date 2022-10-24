@@ -19,7 +19,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 
 /**
  * Usage:
- * `import { WATT_EXPANDABLE_CARD_COMPONENTS } from '@energinet-datahub/watt';`
+ * `import { WATT_EXPANDABLE_CARD_COMPONENTS } from '@energinet-datahub/watt/expandable-card';`
  */
 @Component({
   standalone: true,

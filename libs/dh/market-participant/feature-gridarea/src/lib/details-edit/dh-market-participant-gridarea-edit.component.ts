@@ -21,13 +21,13 @@ import {
   GridAreaChanges,
   GridAreaOverviewRow,
 } from '@energinet-datahub/dh/market-participant/data-access-api';
+import { WattInputModule } from '@energinet-datahub/watt/input';
+import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
 import {
   WattModalModule,
-  WattFormFieldModule,
-  WattInputModule,
-  WattButtonModule,
   WattModalComponent,
-} from '@energinet-datahub/watt';
+} from '@energinet-datahub/watt/modal';
+import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { FormsModule } from '@angular/forms';
 
 @Component({
