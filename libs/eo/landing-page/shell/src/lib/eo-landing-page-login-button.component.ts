@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
-import { WattButtonModule } from '@energinet-datahub/watt';
+import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { LetModule } from '@rx-angular/template';
 import { EoLandingPageStore } from './eo-landing-page.store';
 

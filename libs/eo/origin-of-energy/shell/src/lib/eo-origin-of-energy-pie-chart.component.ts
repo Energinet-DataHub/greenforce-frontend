@@ -17,7 +17,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, NgModule } from '@angular/core';
 import { EoPieChartScam } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
-import { WattSpinnerModule } from '@energinet-datahub/watt';
+import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { LetModule } from '@rx-angular/template';
 import { map } from 'rxjs';
 import { EoOriginOfEnergyStore } from './eo-origin-of-energy.store';

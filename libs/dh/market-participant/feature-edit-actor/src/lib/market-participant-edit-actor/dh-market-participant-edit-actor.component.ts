@@ -38,13 +38,13 @@ import {
   ActorStatus,
 } from '@energinet-datahub/dh/shared/domain';
 import {
-  WattButtonModule,
-  WattModalComponent,
   WattModalModule,
-  WattSpinnerModule,
-  WattTabsModule,
-  WattValidationMessageModule,
-} from '@energinet-datahub/watt';
+  WattModalComponent,
+} from '@energinet-datahub/watt/modal';
+import { WattValidationMessageModule } from '@energinet-datahub/watt/validation-message';
+import { WattTabsModule } from '@energinet-datahub/watt/tabs';
+import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
+import { WattButtonModule } from '@energinet-datahub/watt/button';
 
 import { DhMarketParticipantActorContactDataComponentScam } from './contact-data/dh-market-participant-actor-contact-data.component';
 import { DhMarketParticipantActorMasterDataComponentScam } from './master-data/dh-market-participant-actor-master-data.component';
