@@ -671,6 +671,7 @@
         "basisData": "Basis data"
       },
       "download": "Download",
+      "downloadFailed": "Download af basis data fejlede",
       "Pending": "Afventer",
       "Executing": "Kører",
       "Completed": "Afsluttet",

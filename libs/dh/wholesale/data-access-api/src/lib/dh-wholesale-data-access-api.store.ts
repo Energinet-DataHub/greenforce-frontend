@@ -25,6 +25,9 @@ import {
   catchError,
   EMPTY,
 } from 'rxjs';
+
+import { WattToastService } from '@energinet-datahub/watt/toast';
+
 import {
   WholesaleBatchHttp,
   BatchRequestDto,
@@ -32,6 +35,7 @@ import {
   BatchSearchDto,
   BatchDtoV2,
 } from '@energinet-datahub/dh/shared/domain';
+import { TranslocoService } from '@ngneat/transloco';
 
 interface State {
   batches?: BatchDtoV2[];
@@ -50,7 +54,9 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
 
   constructor(
     private httpClient: WholesaleBatchHttp,
-    private changeDetectorRef: ChangeDetectorRef
+    private changeDetectorRef: ChangeDetectorRef,
+    private toastService: WattToastService,
+    private translations: TranslocoService
   ) {
     super(initialState);
   }
@@ -137,6 +143,10 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
                 });
                 const url = window.URL.createObjectURL(blob);
                 window.open(url);
+              }),
+              catchError(() => {
+                this.toastService.open({message: this.translations.translate('wholesale.searchBatch.downloadFailed'), type: 'danger'});
+                return EMPTY;
               })
             );
         })

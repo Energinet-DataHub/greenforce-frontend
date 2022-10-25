@@ -669,6 +669,7 @@
         "basisData": "Basis data"
       },
       "download": "Download",
+      "downloadFailed": "Download of basis data failed",
       "Pending": "Pending",
       "Executing": "Running",
       "Completed": "Finished",
