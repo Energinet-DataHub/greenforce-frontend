@@ -20,7 +20,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { en as enTranslations } from '@energinet-datahub/dh/globalization/assets-localization';
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
 import { DhApiModule } from '@energinet-datahub/dh/shared/data-access-api';
-import { WattDanishDatetimeModule } from '@energinet-datahub/watt';
+import { WattDanishDatetimeModule } from '@energinet-datahub/watt/danish-date-time';
 
 import {
   DhWholesaleStartComponent,

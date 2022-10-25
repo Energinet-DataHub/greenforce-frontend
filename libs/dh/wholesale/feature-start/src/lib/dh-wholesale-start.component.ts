@@ -16,14 +16,14 @@
  */
 import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
 import { TranslocoModule } from '@ngneat/transloco';
+import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
+import { WattRangeValidators } from '@energinet-datahub/watt/validators';
+import { WattDatepickerModule } from '@energinet-datahub/watt/datepicker';
 import {
-  WattButtonModule,
-  WattDatepickerModule,
-  WattFormFieldModule,
-  WattRangeValidators,
   WattDropdownModule,
   WattDropdownOption,
-} from '@energinet-datahub/watt';
+} from '@energinet-datahub/watt/dropdown';
+import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';

@@ -49,7 +49,7 @@ const sizeConfig: Record<WattModalSize, MatDialogConfig> = {
  * a modal window that appears in front of the entire content.
  *
  * Usage:
- * `import { WattModalModule } from '@energinet-datahub/watt';`
+ * `import { WattModalModule } from '@energinet-datahub/watt/modal';`
  */
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

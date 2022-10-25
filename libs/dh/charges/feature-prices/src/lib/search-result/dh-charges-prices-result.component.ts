@@ -19,38 +19,31 @@ import {
   Component,
   NgModule,
   AfterViewInit,
-  OnDestroy,
   OnChanges,
   ViewChild,
   Input,
 } from '@angular/core';
 
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
+import { TranslocoModule } from '@ngneat/transloco';
 import { LetModule } from '@rx-angular/template';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 
 import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/feature-flags';
-import {
-  WattIconModule,
-  WattButtonModule,
-  WattEmptyStateModule,
-  WattTooltipModule,
-  WattSpinnerModule,
-} from '@energinet-datahub/watt';
-import {
-  MatPaginator,
-  MatPaginatorIntl,
-  MatPaginatorModule,
-} from '@angular/material/paginator';
-import { Subject, takeUntil } from 'rxjs';
+import { WattIconModule } from '@energinet-datahub/watt/icon';
+import { WattTooltipModule } from '@energinet-datahub/watt/tooltip';
+import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
+import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
+import { WattButtonModule } from '@energinet-datahub/watt/button';
+
 import { ChargeV1Dto } from '@energinet-datahub/dh/shared/domain';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
+import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
+import { ToLowerSort } from '@energinet-datahub/dh/shared/util-table';
 import {
   DhChargesPricesDrawerComponent,
   DhChargesPricesDrawerScam,
 } from '../drawer/dh-charges-prices-drawer.component';
-import { ToLowerSort } from '@energinet-datahub/dh/shared/util-table';
 
 @Component({
   selector: 'dh-charges-prices-result',
@@ -58,9 +51,10 @@ import { ToLowerSort } from '@energinet-datahub/dh/shared/util-table';
   styleUrls: ['./dh-charges-prices-result.component.scss'],
 })
 export class DhChargesPricesResultComponent
-  implements AfterViewInit, OnDestroy, OnChanges
+  implements AfterViewInit, OnChanges
 {
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(DhSharedUiPaginatorComponent)
+  paginator!: DhSharedUiPaginatorComponent;
   @ViewChild(MatSort) matSort!: MatSort;
   @ViewChild(DhChargesPricesDrawerComponent)
   chargePriceDrawer!: DhChargesPricesDrawerComponent;
@@ -69,8 +63,6 @@ export class DhChargesPricesResultComponent
   @Input() isLoading = false;
   @Input() isInit = false;
   @Input() hasLoadingError = false;
-
-  private destroy$ = new Subject<void>();
 
   activeChargeId?: string | null;
   displayedColumns = [
@@ -87,49 +79,17 @@ export class DhChargesPricesResultComponent
   readonly dataSource: MatTableDataSource<ChargeV1Dto> =
     new MatTableDataSource<ChargeV1Dto>();
 
-  constructor(
-    private translocoService: TranslocoService,
-    private matPaginatorIntl: MatPaginatorIntl
-  ) {}
-
-  ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sortingDataAccessor = ToLowerSort();
-    this.setupPaginatorTranslation();
-  }
-
   ngOnChanges() {
     if (this.result) this.dataSource.data = this.result;
 
-    this.dataSource.paginator = this.paginator;
+    this.dataSource.paginator = this.paginator?.instance;
     this.dataSource.sort = this.matSort;
   }
 
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator.instance;
+    this.dataSource.sortingDataAccessor = ToLowerSort();
   }
-
-  private readonly setupPaginatorTranslation = () => {
-    const temp = this.matPaginatorIntl.getRangeLabel;
-    this.matPaginatorIntl.getRangeLabel = (page, pageSize, length) =>
-      temp(page, pageSize, length).replace(
-        'of',
-        this.translocoService.translate('charges.prices.paginator.of')
-      );
-
-    this.translocoService
-      .selectTranslateObject('charges.prices.paginator')
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((value) => {
-        this.matPaginatorIntl.itemsPerPageLabel = value.itemsPerPageLabel;
-        this.matPaginatorIntl.nextPageLabel = value.next;
-        this.matPaginatorIntl.previousPageLabel = value.previous;
-        this.matPaginatorIntl.firstPageLabel = value.first;
-        this.matPaginatorIntl.lastPageLabel = value.last;
-        this.dataSource.paginator = this.paginator;
-      });
-  };
 
   rowClicked(charge: ChargeV1Dto) {
     this.activeChargeId = charge.chargeId;
@@ -150,7 +110,6 @@ export class DhChargesPricesResultComponent
     TranslocoModule,
     LetModule,
     WattIconModule,
-    MatPaginatorModule,
     WattButtonModule,
     WattEmptyStateModule,
     DhFeatureFlagDirectiveModule,
@@ -159,6 +118,7 @@ export class DhChargesPricesResultComponent
     DhSharedUiDateTimeModule,
     MatSortModule,
     DhChargesPricesDrawerScam,
+    DhSharedUiPaginatorComponent,
   ],
 })
 export class DhChargesPricesResultScam {}

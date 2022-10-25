@@ -9,16 +9,16 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { BatchExecutionState } from './batch-execution-state';
+import { BatchState } from './batch-state';
 
 
-export interface BatchDto { 
-    batchNumber: number;
+export interface BatchDtoV2 { 
+    batchNumber: string;
     periodStart: string;
     periodEnd: string;
     executionTimeStart?: string | null;
     executionTimeEnd?: string | null;
-    executionState: BatchExecutionState;
+    executionState: BatchState;
 }
 
 

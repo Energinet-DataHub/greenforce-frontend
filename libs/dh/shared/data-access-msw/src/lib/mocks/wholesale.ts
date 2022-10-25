@@ -14,133 +14,126 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  BatchDto,
-  BatchExecutionState,
-} from '@energinet-datahub/dh/shared/domain';
+import { BatchDtoV2, BatchState } from '@energinet-datahub/dh/shared/domain';
 import { rest } from 'msw';
 
-export const wholesaleMocks = [postWholesaleBatch(), getWholesaleSearchBatch()];
-
-function postWholesaleBatch() {
-  return rest.post(
-    'https://localhost:5001/v1/WholesaleBatch',
-    (req, res, ctx) => {
-      return res(ctx.status(200));
-    }
-  );
+export function wholesaleMocks(apiBase: string) {
+  return [postWholesaleBatch(apiBase), getWholesaleSearchBatch(apiBase)];
 }
 
-function getWholesaleSearchBatch() {
+function postWholesaleBatch(apiBase: string) {
+  return rest.post(`${apiBase}/v1/WholesaleBatch`, (req, res, ctx) => {
+    return res(ctx.status(200));
+  });
+}
+
+function getWholesaleSearchBatch(apiBase: string) {
   const periodStart = '2021-12-01T23:00:00Z';
   const periodEnd = '2021-12-02T23:00:00Z';
   const executionTimeStart = '2021-12-01T23:00:00Z';
   const executionTimeEnd = '2021-12-02T23:00:00Z';
 
-  const mockData: BatchDto[] = [
+  const mockData: BatchDtoV2[] = [
     {
-      batchNumber: 123,
+      batchNumber: '123',
       periodStart,
       periodEnd,
       executionTimeStart,
       executionTimeEnd: null,
-      executionState: BatchExecutionState.Pending,
+      executionState: BatchState.Pending,
     },
     {
-      batchNumber: 234,
+      batchNumber: '234',
       periodStart,
       periodEnd,
       executionTimeStart,
       executionTimeEnd: null,
-      executionState: BatchExecutionState.Executing,
+      executionState: BatchState.Executing,
     },
     {
-      batchNumber: 345,
+      batchNumber: '345',
       periodStart,
       periodEnd,
       executionTimeStart,
       executionTimeEnd,
-      executionState: BatchExecutionState.Completed,
+      executionState: BatchState.Completed,
     },
     {
-      batchNumber: 567,
+      batchNumber: '567',
       periodStart,
       periodEnd,
       executionTimeStart,
       executionTimeEnd,
-      executionState: BatchExecutionState.Failed,
+      executionState: BatchState.Failed,
     },
     {
-      batchNumber: 123,
+      batchNumber: '123',
       periodStart,
       periodEnd,
       executionTimeStart,
       executionTimeEnd: null,
-      executionState: BatchExecutionState.Pending,
+      executionState: BatchState.Pending,
     },
     {
-      batchNumber: 234,
+      batchNumber: '234',
       periodStart,
       periodEnd,
       executionTimeStart,
       executionTimeEnd: null,
-      executionState: BatchExecutionState.Executing,
+      executionState: BatchState.Executing,
     },
     {
-      batchNumber: 345,
+      batchNumber: '345',
       periodStart,
       periodEnd,
       executionTimeStart,
       executionTimeEnd,
-      executionState: BatchExecutionState.Completed,
+      executionState: BatchState.Completed,
     },
     {
-      batchNumber: 567,
+      batchNumber: '567',
       periodStart,
       periodEnd,
       executionTimeStart,
       executionTimeEnd,
-      executionState: BatchExecutionState.Failed,
+      executionState: BatchState.Failed,
     },
     {
-      batchNumber: 123,
+      batchNumber: '123',
       periodStart,
       periodEnd,
       executionTimeStart,
       executionTimeEnd: null,
-      executionState: BatchExecutionState.Pending,
+      executionState: BatchState.Pending,
     },
     {
-      batchNumber: 234,
+      batchNumber: '234',
       periodStart,
       periodEnd,
       executionTimeStart,
       executionTimeEnd: null,
-      executionState: BatchExecutionState.Executing,
+      executionState: BatchState.Executing,
     },
     {
-      batchNumber: 345,
+      batchNumber: '345',
       periodStart,
       periodEnd,
       executionTimeStart,
       executionTimeEnd,
-      executionState: BatchExecutionState.Completed,
+      executionState: BatchState.Completed,
     },
     {
-      batchNumber: 567,
+      batchNumber: '567',
       periodStart,
       periodEnd,
       executionTimeStart,
       executionTimeEnd,
-      executionState: BatchExecutionState.Failed,
+      executionState: BatchState.Failed,
     },
   ];
-  return rest.post(
-    'https://localhost:5001/v1/WholesaleBatch/search',
-    (req, res, ctx) => {
-      return res(ctx.delay(300), ctx.status(200), ctx.json(mockData));
-      //return res(ctx.delay(300), ctx.status(200), ctx.json([]));
-      //return res(ctx.delay(2000), ctx.status(500));
-    }
-  );
+  return rest.post(`${apiBase}/v1/WholesaleBatch/search`, (req, res, ctx) => {
+    return res(ctx.delay(300), ctx.status(200), ctx.json(mockData));
+    //return res(ctx.delay(300), ctx.status(200), ctx.json([]));
+    //return res(ctx.delay(2000), ctx.status(500));
+  });
 }

@@ -30,7 +30,7 @@ import {
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatRadioChange, MatRadioModule } from '@angular/material/radio';
 import { CalendarDateRange } from '@energinet-datahub/eo/shared/services';
-import { WattButtonModule } from '@energinet-datahub/watt';
+import { WattButtonModule } from '@energinet-datahub/watt/button';
 
 @Component({
   selector: 'eo-date-picker-dialog',
