@@ -73,6 +73,7 @@ export class DhSharedUiPaginatorComponent implements OnDestroy {
     this.destroy$.complete();
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   handlePageEvent(event: any) {
     this.changed.emit(event);
   }
