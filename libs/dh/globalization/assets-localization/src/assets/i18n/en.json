@@ -331,6 +331,8 @@
       "noResultsHelperText": "Try adjusting your search or filter to find what you are looking for.",
       "startSearch": "Start Search",
       "startSearchText": "Your results will appear here",
+      "noPricesForCharge": "No prices",
+      "noPricesForChargeText": "No prices have been submitted for the period.",
       "paginator": {
         "itemsPerPageLabel": "Prices per page",
         "of": "of",

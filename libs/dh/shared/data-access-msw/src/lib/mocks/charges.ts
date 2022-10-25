@@ -55,6 +55,7 @@ function getCharges(apiBase: string) {
         chargeDescription: 'Net abo A høj Forbrug beskrivelse',
         chargeOwner: '5790000681075',
         chargeOwnerName: 'Thy-Mors Energi Elnet A/S - 042',
+        hasAnyPrices: true,
       },
     ];
     return res(ctx.status(200), ctx.json(result));
@@ -78,6 +79,7 @@ function searchCharges(apiBase: string) {
         chargeDescription: 'Net abo A høj Forbrug 1 beskrivelse',
         chargeOwner: '5790000681075',
         chargeOwnerName: 'Thy-Mors Energi Elnet A/S - 041',
+        hasAnyPrices: true,
       },
       {
         id: '774D75CB-B069-4A5A-A5EA-ED4FBAD67109',
@@ -93,6 +95,7 @@ function searchCharges(apiBase: string) {
         chargeDescription: 'net abo A høj Forbrug 2 beskrivelse',
         chargeOwner: '5790000681074',
         chargeOwnerName: 'Thy-Mors Energi Elnet A/S - 040',
+        hasAnyPrices: false,
       },
       {
         id: '6AA831CF-14F8-41D5-8E08-26939172DFAA',
@@ -108,6 +111,7 @@ function searchCharges(apiBase: string) {
         chargeDescription: 'Net abo A høj Forbrug 2 beskrivelse',
         chargeOwner: '5790000681074',
         chargeOwnerName: 'Thy-Mors Energi Elnet A/S - 042',
+        hasAnyPrices: true,
       },
     ];
     return res(ctx.status(200), ctx.json(result));

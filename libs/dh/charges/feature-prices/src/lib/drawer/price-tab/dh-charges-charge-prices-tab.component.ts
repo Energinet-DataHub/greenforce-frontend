@@ -27,13 +27,7 @@ import {
 } from '@angular/core';
 import { DhDrawerDatepickerScam } from '../drawer-datepicker/dh-drawer-datepicker.component';
 import { DatePickerData } from '../drawer-datepicker/drawer-datepicker.service';
-import {
-  WattIconModule,
-  WattButtonModule,
-  WattEmptyStateModule,
-  WattTooltipModule,
-  WattSpinnerModule,
-} from '@energinet-datahub/watt';
+
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 
 import { TranslocoModule } from '@ngneat/transloco';
@@ -52,6 +46,11 @@ import { Subject, takeUntil } from 'rxjs';
 import { PushModule } from '@rx-angular/template';
 import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/feature-flags';
 import { getHours, getMinutes } from 'date-fns';
+import { WattIconModule } from '@energinet-datahub/watt/icon';
+import { WattButtonModule } from '@energinet-datahub/watt/button';
+import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
+import { WattTooltipModule } from '@energinet-datahub/watt/tooltip';
+import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 
 @Component({
   selector: 'dh-charges-charge-prices-tab',
@@ -104,7 +103,7 @@ export class DhChargesChargePricesTabComponent
     this.chargePricesStore.totalAmount$
       .pipe(takeUntil(this.destroy$))
       .subscribe((totalAmount) => {
-        this.paginator.length = totalAmount;
+        if (this.paginator) this.paginator.length = totalAmount;
       });
   }
 
@@ -135,9 +134,11 @@ export class DhChargesChargePricesTabComponent
   }
 
   loadPrices(charge: ChargeV1Dto) {
-    this.searchCriteria.chargeId = charge.id;
-    this.searchCriteria.take = this.paginator.pageSize;
-    this.chargePricesStore.searchChargePrices(this.searchCriteria);
+    if (this.charge?.hasAnyPrices) {
+      this.searchCriteria.chargeId = charge.id;
+      this.searchCriteria.take = this.paginator.pageSize;
+      this.chargePricesStore.searchChargePrices(this.searchCriteria);
+    }
   }
 
   reset() {
