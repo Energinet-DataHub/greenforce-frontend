@@ -18,7 +18,11 @@ import { BatchDtoV2, BatchState } from '@energinet-datahub/dh/shared/domain';
 import { rest } from 'msw';
 
 export function wholesaleMocks(apiBase: string) {
-  return [postWholesaleBatch(apiBase), getWholesaleSearchBatch(apiBase), downloadBasisData(apiBase)];
+  return [
+    postWholesaleBatch(apiBase),
+    getWholesaleSearchBatch(apiBase),
+    downloadBasisData(apiBase),
+  ];
 }
 
 function postWholesaleBatch(apiBase: string) {
@@ -28,9 +32,12 @@ function postWholesaleBatch(apiBase: string) {
 }
 
 function downloadBasisData(apiBase: string) {
-  return rest.get(`${apiBase}/v1/WholesaleBatch/ZippedBasisDataStream?batchId=123`, (req, res, ctx) => {
-    return res(ctx.status(500));
-  });
+  return rest.get(
+    `${apiBase}/v1/WholesaleBatch/ZippedBasisDataStream?batchId=123`,
+    (req, res, ctx) => {
+      return res(ctx.status(500));
+    }
+  );
 }
 
 function getWholesaleSearchBatch(apiBase: string) {

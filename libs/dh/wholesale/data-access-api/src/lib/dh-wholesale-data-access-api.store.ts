@@ -145,7 +145,12 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
                 window.open(url);
               }),
               catchError(() => {
-                this.toastService.open({message: this.translations.translate('wholesale.searchBatch.downloadFailed'), type: 'danger'});
+                this.toastService.open({
+                  message: this.translations.translate(
+                    'wholesale.searchBatch.downloadFailed'
+                  ),
+                  type: 'danger',
+                });
                 return EMPTY;
               })
             );
