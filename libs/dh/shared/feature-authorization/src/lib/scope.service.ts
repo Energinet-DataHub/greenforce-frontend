@@ -28,16 +28,13 @@ export class ScopeService {
     @Inject(dhB2CEnvironmentToken) private config: DhB2CEnvironment,
     private msalBroadcastService: MsalBroadcastService
   ) {
-
     // Lytte på login // /auth
     // SÆT aktiv scope
     // /token
     // Done
-
   }
 
   public getActiveScope() {
-
     // Throw exception if no scope at all. That is sus.
 
     return this.config.clientId;
