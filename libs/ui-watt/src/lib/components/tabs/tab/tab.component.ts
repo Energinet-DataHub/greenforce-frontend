@@ -31,7 +31,7 @@ export class WattTabComponent {
   @Input() label = '';
   @ViewChild('templateRef') public templateRef: TemplateRef<unknown> | null =
     null;
-  @Output() changed = new EventEmitter();
+  @Output() changed = new EventEmitter<void>();
 
   emitChange() {
     this.changed.emit();
