@@ -33,15 +33,24 @@ limitations under the License.
       <div class="container">
         <dh-charge-details-header [charge]="charge"> </dh-charge-details-header>
         <watt-tabs>
-          <watt-tab label="{{ t('prices').toUpperCase() }}">
+          <watt-tab
+            label="{{ t('prices').toUpperCase() }}"
+            (changed)="loadPrices()"
+          >
             <dh-charges-charge-prices-tab
               [charge]="this.charge"
             ></dh-charges-charge-prices-tab>
           </watt-tab>
-          <watt-tab label="{{ t('messages').toUpperCase() }}">
+          <watt-tab
+            label="{{ t('messages').toUpperCase() }}"
+            (changed)="loadMessages()"
+          >
             <dh-charges-charge-messages-tab></dh-charges-charge-messages-tab>
           </watt-tab>
-          <watt-tab label="{{ t('history').toUpperCase() }}">
+          <watt-tab
+            label="{{ t('history').toUpperCase() }}"
+            (changed)="loadHistory()"
+          >
             <dh-charges-charge-history-tab></dh-charges-charge-history-tab>
           </watt-tab>
         </watt-tabs>
