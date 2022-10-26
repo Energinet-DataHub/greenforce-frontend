@@ -110,6 +110,9 @@ export class DhChargesChargePricesTabComponent
   ngOnChanges() {
     if (this.charge) {
       this.searchCriteria.chargeId = this.charge.id ?? '';
+      this.paginator.length = 0;
+      this.paginator.instance.pageIndex = 0;
+      this.searchCriteria.skip = 0;
 
       this.showDateTime =
         this.charge?.resolution == Resolution.PT1H ||
@@ -134,11 +137,13 @@ export class DhChargesChargePricesTabComponent
   }
 
   loadPrices(charge: ChargeV1Dto) {
-    if (this.charge?.hasAnyPrices) {
-      this.searchCriteria.chargeId = charge.id;
-      this.searchCriteria.take = this.paginator.pageSize;
-      this.chargePricesStore.searchChargePrices(this.searchCriteria);
-    }
+    setTimeout(() => {
+      if (charge?.hasAnyPrices) {
+        this.searchCriteria.chargeId = charge.id;
+        this.searchCriteria.take = this.paginator.instance.pageSize;
+        this.chargePricesStore.searchChargePrices(this.searchCriteria);
+      }
+    }, 0);
   }
 
   reset() {
