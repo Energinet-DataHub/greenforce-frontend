@@ -15,8 +15,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Energinet.Charges.Contracts.Charge;
 using Energinet.DataHub.Charges.Clients.Charges;
+using Energinet.DataHub.Charges.Contracts.Charge;
+using Energinet.DataHub.Charges.Contracts.ChargePrice;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Energinet.DataHub.WebApi.Controllers
@@ -41,7 +42,7 @@ namespace Energinet.DataHub.WebApi.Controllers
         }
 
         [HttpPost("SearchAsync")]
-        public async Task<ActionResult<IList<ChargeV1Dto>>> SearchAsync([FromBody] SearchCriteriaV1Dto searchCriteria)
+        public async Task<ActionResult<IList<ChargeV1Dto>>> SearchAsync([FromBody] ChargeSearchCriteriaV1Dto searchCriteria)
         {
             var result = await _chargesClient.SearchChargesAsync(searchCriteria);
 
@@ -54,6 +55,14 @@ namespace Energinet.DataHub.WebApi.Controllers
             var result = await _chargesClient.GetMarketParticipantsAsync();
 
             return result.Any() ? Ok(result) : NotFound();
+        }
+
+        [HttpPost("SearchChargePricesAsync")]
+        public async Task<ActionResult<ChargePricesV1Dto>> SearchChargePricesAsync([FromBody] ChargePricesSearchCriteriaV1Dto searchCriteria)
+        {
+            var result = await _chargesClient.SearchChargePricesAsync(searchCriteria);
+
+            return result;
         }
     }
 }

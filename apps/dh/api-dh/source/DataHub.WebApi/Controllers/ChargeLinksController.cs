@@ -15,8 +15,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Energinet.Charges.Contracts.ChargeLink;
 using Energinet.DataHub.Charges.Clients.Charges;
+using Energinet.DataHub.Charges.Contracts.ChargeLink;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Energinet.DataHub.WebApi.Controllers

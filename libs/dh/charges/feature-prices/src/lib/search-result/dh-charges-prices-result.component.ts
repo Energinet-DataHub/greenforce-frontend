@@ -92,7 +92,7 @@ export class DhChargesPricesResultComponent
   }
 
   rowClicked(charge: ChargeV1Dto) {
-    this.activeChargeId = charge.chargeId;
+    this.activeChargeId = charge.id;
     this.chargePriceDrawer.openDrawer(charge);
   }
 
