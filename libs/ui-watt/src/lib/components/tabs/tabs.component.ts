@@ -39,4 +39,17 @@ export class WattTabsComponent {
    */
   @ContentChildren(WattTabComponent)
   public readonly tabElements: QueryList<WattTabComponent> = new QueryList<WattTabComponent>();
+  activeTabIndex = 0;
+
+  emitSelectedTabChange(selectedIndex: number) {
+    this.activeTabIndex = selectedIndex;
+    const currentTab = this.tabElements.find(
+      (tab, index) => index === selectedIndex
+    );
+    currentTab?.emitChange();
+  }
+
+  triggerChange() {
+    this.emitSelectedTabChange(this.activeTabIndex);
+  }
 }
