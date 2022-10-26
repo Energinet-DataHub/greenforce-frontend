@@ -69,7 +69,7 @@ export class DhChargesPricesDrawerComponent {
   openDrawer(charge: ChargeV1Dto) {
     this.charge = charge;
     this.drawer.open();
-    this.wattTabsComponents.triggerChange();
+    // this.wattTabsComponents.triggerChange();
   }
 
   drawerClosed() {
