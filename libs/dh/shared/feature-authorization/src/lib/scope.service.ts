@@ -16,12 +16,13 @@
  */
 
 import { Inject, Injectable } from '@angular/core';
-import { MsalBroadcastService } from '@azure/msal-angular';
+import { MsalBroadcastService, MsalService } from '@azure/msal-angular';
 import { EventMessage, EventType } from '@azure/msal-browser';
 import {
   DhB2CEnvironment,
   dhB2CEnvironmentToken,
 } from '@energinet-datahub/dh/shared/environments';
+import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
 import { filter } from 'rxjs';
 
 const scopesKey = 'actor-scopes';
@@ -31,49 +32,76 @@ const scopeKey = 'active-actor-scope';
 export class ScopeService {
   constructor(
     @Inject(dhB2CEnvironmentToken) private config: DhB2CEnvironment,
-    private msalBroadcastService: MsalBroadcastService
+    private msalBroadcastService: MsalBroadcastService,
+    private authService: MsalService,
+    private featureFlagService: DhFeatureFlagsService
   ) {
     this.msalBroadcastService.msalSubject$
       .pipe(
-        filter(
-          (msg: EventMessage) =>
-            msg.eventType === EventType.ACQUIRE_TOKEN_SUCCESS
-        )
+        filter((msg: EventMessage) => msg.eventType === EventType.LOGIN_SUCCESS)
       )
-      .subscribe((msg) => {
-        // console.log(msg);
-        const claims = (msg.payload as any).idTokenClaims;
-        console.log('Claims:', claims);
+      .subscribe(() => {
+        console.log(EventType.LOGIN_SUCCESS);
 
-        const actorScopes = claims['extn.actors'];
-        console.log('ActorScopes:', actorScopes);
+        const account = this.getAccount();
 
-        this.setScopes(actorScopes ? actorScopes[0].split(' ') : []);
-        if (actorScopes) {
-          const scope = actorScopes[0];
-          if (scope) {
-            console.log('A');
-            this.setActiveScope(scope);
-          }
+        if (!account) {
+          localStorage.clear();
+          return;
         }
+
+        const userId = account.localAccountId;
+        const actors =
+          account.idTokenClaims &&
+          (account.idTokenClaims['extn.actors'] as string[]);
+        const scopes = this.getActorClaims(actors);
+
+        localStorage.setItem(userId + scopesKey, scopes.join(' '));
       });
   }
 
-  public setScopes(scope: string[]) {
-    localStorage.setItem(scopesKey, scope.join(','));
-  }
-
-  public getScopes() {
-    return localStorage.getItem(scopesKey)?.split(',') ?? [];
-  }
-
-  public setActiveScope(scope: string) {
-    localStorage.setItem(scopeKey, scope);
-  }
-
   public getActiveScope() {
-    const scope = localStorage.getItem(scopeKey) ?? '';
-    console.log(scope);
-    return scope;
+    const account = this.getAccount();
+    if (!account) return this.fallbackScope();
+
+    const userId = account.localAccountId;
+
+    const scopes = this.getScopes(userId);
+    if (scopes.length === 0) return this.fallbackScope();
+
+    const stored = localStorage.getItem(userId + scopeKey);
+    if (stored && scopes.includes(stored)) return stored;
+
+    const activeScope = scopes[0];
+    localStorage.setItem(userId + scopeKey, activeScope);
+
+    return activeScope;
+  }
+
+  getScopes(userId: string) {
+    const scopes = localStorage.getItem(userId + scopesKey);
+    return scopes?.split(' ') || [];
+  }
+
+  getActorClaims(scopesString?: string[]) {
+    return scopesString && scopesString?.length > 0
+      ? scopesString[0].split(' ')
+      : [];
+  }
+
+  getAccount() {
+    const accounts = this.authService.instance.getAllAccounts();
+
+    if (accounts.length !== 1) {
+      return undefined;
+    }
+
+    return accounts[0];
+  }
+
+  fallbackScope() {
+    return this.featureFlagService.isEnabled('grant_full_authorization')
+      ? this.config.clientId
+      : '';
   }
 }
