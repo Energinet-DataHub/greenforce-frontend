@@ -35,15 +35,18 @@ export class ScopeService {
   ) {
     this.msalBroadcastService.msalSubject$
       .pipe(
-        filter((msg: EventMessage) => msg.eventType === EventType.ACQUIRE_TOKEN_SUCCESS)
+        filter(
+          (msg: EventMessage) =>
+            msg.eventType === EventType.ACQUIRE_TOKEN_SUCCESS
+        )
       )
       .subscribe((msg) => {
         // console.log(msg);
         const claims = (msg.payload as any).idTokenClaims;
-        console.log("Claims:", claims);
+        console.log('Claims:', claims);
 
         const actorScopes = claims['extn.actors'];
-        console.log("ActorScopes:", actorScopes);
+        console.log('ActorScopes:', actorScopes);
 
         this.setScopes(actorScopes ? actorScopes[0].split(' ') : []);
         if (actorScopes) {
