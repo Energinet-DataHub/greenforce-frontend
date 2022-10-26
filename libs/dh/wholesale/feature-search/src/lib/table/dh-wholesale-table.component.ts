@@ -43,6 +43,7 @@ type wholesaleTableData = MatTableDataSource<{
   executionTimeStart?: string | null;
   executionTimeEnd?: string | null;
   executionState: BatchState;
+  isBasisDataDownloadAvailable: boolean;
 }>;
 
 @Component({

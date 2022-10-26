@@ -41,6 +41,7 @@ function getWholesaleSearchBatch(apiBase: string) {
       executionTimeStart,
       executionTimeEnd: null,
       executionState: BatchState.Pending,
+      isBasisDataDownloadAvailable: false,
     },
     {
       batchNumber: '234',
@@ -49,6 +50,7 @@ function getWholesaleSearchBatch(apiBase: string) {
       executionTimeStart,
       executionTimeEnd: null,
       executionState: BatchState.Executing,
+      isBasisDataDownloadAvailable: false,
     },
     {
       batchNumber: '345',
@@ -57,6 +59,7 @@ function getWholesaleSearchBatch(apiBase: string) {
       executionTimeStart,
       executionTimeEnd,
       executionState: BatchState.Completed,
+      isBasisDataDownloadAvailable: true,
     },
     {
       batchNumber: '567',
@@ -65,6 +68,7 @@ function getWholesaleSearchBatch(apiBase: string) {
       executionTimeStart,
       executionTimeEnd,
       executionState: BatchState.Failed,
+      isBasisDataDownloadAvailable: false,
     },
     {
       batchNumber: '123',
@@ -73,6 +77,7 @@ function getWholesaleSearchBatch(apiBase: string) {
       executionTimeStart,
       executionTimeEnd: null,
       executionState: BatchState.Pending,
+      isBasisDataDownloadAvailable: false,
     },
     {
       batchNumber: '234',
@@ -81,6 +86,7 @@ function getWholesaleSearchBatch(apiBase: string) {
       executionTimeStart,
       executionTimeEnd: null,
       executionState: BatchState.Executing,
+      isBasisDataDownloadAvailable: false,
     },
     {
       batchNumber: '345',
@@ -89,6 +95,7 @@ function getWholesaleSearchBatch(apiBase: string) {
       executionTimeStart,
       executionTimeEnd,
       executionState: BatchState.Completed,
+      isBasisDataDownloadAvailable: true,
     },
     {
       batchNumber: '567',
@@ -97,6 +104,7 @@ function getWholesaleSearchBatch(apiBase: string) {
       executionTimeStart,
       executionTimeEnd,
       executionState: BatchState.Failed,
+      isBasisDataDownloadAvailable: false,
     },
     {
       batchNumber: '123',
@@ -105,6 +113,7 @@ function getWholesaleSearchBatch(apiBase: string) {
       executionTimeStart,
       executionTimeEnd: null,
       executionState: BatchState.Pending,
+      isBasisDataDownloadAvailable: false,
     },
     {
       batchNumber: '234',
@@ -113,6 +122,7 @@ function getWholesaleSearchBatch(apiBase: string) {
       executionTimeStart,
       executionTimeEnd: null,
       executionState: BatchState.Executing,
+      isBasisDataDownloadAvailable: false,
     },
     {
       batchNumber: '345',
@@ -121,6 +131,7 @@ function getWholesaleSearchBatch(apiBase: string) {
       executionTimeStart,
       executionTimeEnd,
       executionState: BatchState.Completed,
+      isBasisDataDownloadAvailable: true,
     },
     {
       batchNumber: '567',
@@ -129,6 +140,7 @@ function getWholesaleSearchBatch(apiBase: string) {
       executionTimeStart,
       executionTimeEnd,
       executionState: BatchState.Failed,
+      isBasisDataDownloadAvailable: false,
     },
   ];
   return rest.post(`${apiBase}/v1/WholesaleBatch/search`, (req, res, ctx) => {
