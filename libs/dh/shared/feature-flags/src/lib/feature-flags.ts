@@ -60,6 +60,7 @@ export const dhFeatureFlagsConfig = makeFeatureFlags({
   grant_full_authorization: {
     created: '21-10-2022',
     disabledEnvironments: [
+      DhAppEnvironment.local,
       DhAppEnvironment.experimental,
       DhAppEnvironment.prod,
     ],

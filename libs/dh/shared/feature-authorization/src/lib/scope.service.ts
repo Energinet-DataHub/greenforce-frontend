@@ -17,10 +17,15 @@
 
 import { Inject, Injectable } from '@angular/core';
 import { MsalBroadcastService } from '@azure/msal-angular';
+import { EventMessage, EventType } from '@azure/msal-browser';
 import {
   DhB2CEnvironment,
   dhB2CEnvironmentToken,
 } from '@energinet-datahub/dh/shared/environments';
+import { filter } from 'rxjs';
+
+const scopesKey = 'actor-scopes';
+const scopeKey = 'active-actor-scope';
 
 @Injectable({ providedIn: 'root' })
 export class ScopeService {
@@ -28,15 +33,44 @@ export class ScopeService {
     @Inject(dhB2CEnvironmentToken) private config: DhB2CEnvironment,
     private msalBroadcastService: MsalBroadcastService
   ) {
-    // Lytte på login // /auth
-    // SÆT aktiv scope
-    // /token
-    // Done
+    this.msalBroadcastService.msalSubject$
+      .pipe(
+        filter((msg: EventMessage) => msg.eventType === EventType.ACQUIRE_TOKEN_SUCCESS)
+      )
+      .subscribe((msg) => {
+        // console.log(msg);
+        const claims = (msg.payload as any).idTokenClaims;
+        console.log("Claims:", claims);
+
+        const actorScopes = claims['extn.actors'];
+        console.log("ActorScopes:", actorScopes);
+
+        this.setScopes(actorScopes ? actorScopes[0].split(' ') : []);
+        if (actorScopes) {
+          const scope = actorScopes[0];
+          if (scope) {
+            console.log('A');
+            this.setActiveScope(scope);
+          }
+        }
+      });
+  }
+
+  public setScopes(scope: string[]) {
+    localStorage.setItem(scopesKey, scope.join(','));
+  }
+
+  public getScopes() {
+    return localStorage.getItem(scopesKey)?.split(',') ?? [];
+  }
+
+  public setActiveScope(scope: string) {
+    localStorage.setItem(scopeKey, scope);
   }
 
   public getActiveScope() {
-    // Throw exception if no scope at all. That is sus.
-
-    return this.config.clientId;
+    const scope = localStorage.getItem(scopeKey) ?? '';
+    console.log(scope);
+    return scope;
   }
 }
