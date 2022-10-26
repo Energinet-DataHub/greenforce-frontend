@@ -27,6 +27,7 @@ import {
   MatPaginator,
   MatPaginatorIntl,
   MatPaginatorModule,
+  PageEvent,
 } from '@angular/material/paginator';
 import { TranslocoService } from '@ngneat/transloco';
 import { Subject, takeUntil } from 'rxjs';
@@ -73,8 +74,7 @@ export class DhSharedUiPaginatorComponent implements OnDestroy {
     this.destroy$.complete();
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  handlePageEvent(event: any) {
+  handlePageEvent(event: PageEvent) {
     this.changed.emit(event);
   }
 
