@@ -366,7 +366,21 @@
         "messageId": "Message Id",
         "messageType": "Type",
         "date": "Date"
-      }
+      },
+      "csvHeader": {
+        "id": "ID",
+        "name": "NAME",
+        "description": "DESCRIPTION",
+        "owner": "OWNER",
+        "taxIndicator": "TAX",
+        "vat": "VAT",
+        "transparentInvoicing": "TRANSPARENT INVOICING",
+        "type": "TYPE",
+        "resolution": "RESOLUTION",
+        "validFromDate": "VALID FROM",
+        "validToDate": "VALID TO"
+      },
+      "downloadFileName": "Chargeinformation"
     }
   },
   "messageArchive": {
