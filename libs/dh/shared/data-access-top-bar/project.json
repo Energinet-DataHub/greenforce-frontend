@@ -7,7 +7,9 @@
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/dh/shared/data-access-top-bar"],
+      "outputs": [
+        "{workspaceRoot}/coverage/libs/dh/shared/data-access-top-bar"
+      ],
       "options": {
         "jestConfig": "libs/dh/shared/data-access-top-bar/jest.config.ts",
         "passWithNoTests": true

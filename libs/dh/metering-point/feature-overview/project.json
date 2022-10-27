@@ -7,7 +7,9 @@
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/dh/metering-point/feature-overview"],
+      "outputs": [
+        "{workspaceRoot}/coverage/libs/dh/metering-point/feature-overview"
+      ],
       "options": {
         "jestConfig": "libs/dh/metering-point/feature-overview/jest.config.ts",
         "passWithNoTests": true
