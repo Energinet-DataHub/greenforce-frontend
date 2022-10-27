@@ -370,10 +370,11 @@
         "date": "Dato"
       },
       "csvHeader": {
-        "id": "ID",
+        "id": "PRIS ID",
         "name": "NAVN",
         "description": "BESKRIVELSE",
         "owner": "EJER",
+        "ownerName": "EJER NAVN",
         "taxIndicator": "AFGIFT",
         "vat": "MOMS",
         "transparentInvoicing": "VIDEREFAKTURERING",
