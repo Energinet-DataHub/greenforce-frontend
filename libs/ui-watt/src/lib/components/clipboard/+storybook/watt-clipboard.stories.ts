@@ -39,4 +39,16 @@ export const Overview: Story<WattCopyToClipboardDirective> = (args) => ({
   template: `<watt-storybook-clipboard></watt-storybook-clipboard>`,
 });
 
-Overview.args = {};
+Overview.parameters = {
+  docs: {
+    source: {
+      code: `
+        <span
+          [wattCopyToClipboard]="hunter2"
+          wattTooltip="Copy password"
+          wattTooltipPosition="above"
+        >*******</span>
+      `,
+    },
+  },
+};
