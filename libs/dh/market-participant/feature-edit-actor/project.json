@@ -7,7 +7,9 @@
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/dh/market-participant/feature-edit-actor"],
+      "outputs": [
+        "{workspaceRoot}/coverage/libs/dh/market-participant/feature-edit-actor"
+      ],
       "options": {
         "jestConfig": "libs/dh/market-participant/feature-edit-actor/jest.config.ts",
         "passWithNoTests": true

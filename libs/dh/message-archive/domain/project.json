@@ -7,7 +7,7 @@
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/dh/message-archive/domain"],
+      "outputs": ["{workspaceRoot}/coverage/libs/dh/message-archive/domain"],
       "options": {
         "jestConfig": "libs/dh/message-archive/domain/jest.config.ts",
         "passWithNoTests": true

@@ -7,7 +7,7 @@
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/eo/dashboard/routing"],
+      "outputs": ["{workspaceRoot}/coverage/libs/eo/dashboard/routing"],
       "options": {
         "jestConfig": "libs/eo/dashboard/routing/jest.config.ts",
         "passWithNoTests": true

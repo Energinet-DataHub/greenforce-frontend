@@ -7,7 +7,9 @@
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/dh/market-participant/feature-edit-gridarea"],
+      "outputs": [
+        "{workspaceRoot}/coverage/libs/dh/market-participant/feature-edit-gridarea"
+      ],
       "options": {
         "jestConfig": "libs/dh/market-participant/feature-edit-gridarea/jest.config.ts",
         "passWithNoTests": true

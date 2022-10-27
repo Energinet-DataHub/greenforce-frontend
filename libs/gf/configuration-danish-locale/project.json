@@ -7,7 +7,9 @@
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/gf/configuration-danish-locale"],
+      "outputs": [
+        "{workspaceRoot}/coverage/libs/gf/configuration-danish-locale"
+      ],
       "options": {
         "jestConfig": "libs/gf/configuration-danish-locale/jest.config.ts",
         "passWithNoTests": true
