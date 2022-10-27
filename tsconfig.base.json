@@ -201,7 +201,9 @@
       "@energinet-datahub/eo/auth/routing-security": [
         "libs/eo/auth/routing-security/src/index.ts"
       ],
-      "@energinet-datahub/eo/certificates": ["libs/eo/certificates/src/index.ts"],
+      "@energinet-datahub/eo/certificates": [
+        "libs/eo/certificates/src/index.ts"
+      ],
       "@energinet-datahub/eo/consumption-page/routing": [
         "libs/eo/consumption-page/routing/src/index.ts"
       ],

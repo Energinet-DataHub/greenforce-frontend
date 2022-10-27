@@ -17,7 +17,7 @@
 
 import 'jest-preset-angular/setup-jest';
 import 'jest-canvas-mock';
-import {setUpTestbed} from "@energinet-datahub/gf/test-util-staging";
+import { setUpTestbed } from '@energinet-datahub/gf/test-util-staging';
 import { addDomMatchers } from '@energinet-datahub/gf/test-util-matchers';
 
 addDomMatchers();

@@ -51,7 +51,9 @@ export class EoOriginOfEnergyService {
 
   getSourcesFor2021() {
     return this.http.get<EoOriginOfEnergyResponse>(
-      `${        this.#apiBase      }/sources?dateFrom=1609459200&dateTo=1640995199&aggregation=Total`,
+      `${
+        this.#apiBase
+      }/sources?dateFrom=1609459200&dateTo=1640995199&aggregation=Total`,
       { withCredentials: true }
     );
   }

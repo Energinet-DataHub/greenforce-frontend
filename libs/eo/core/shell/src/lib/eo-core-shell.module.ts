@@ -29,7 +29,7 @@ import { EoHttpModule } from './eo-http.module';
 import { EoMaterialModule } from './eo-material.module';
 import { EoShellComponent, EoShellScam } from './eo-shell.component';
 import { eoProductionRoutePath } from '@energinet-datahub/eo/production/routing';
-import {eoCertificatesRoutePath} from "@energinet-datahub/eo/certificates";
+import { eoCertificatesRoutePath } from '@energinet-datahub/eo/certificates';
 
 const routes: Routes = [
   {

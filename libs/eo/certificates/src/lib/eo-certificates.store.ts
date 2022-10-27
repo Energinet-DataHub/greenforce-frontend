@@ -19,7 +19,10 @@ import { Injectable } from '@angular/core';
 import { AppSettingsStore } from '@energinet-datahub/eo/shared/services';
 import { ComponentStore } from '@ngrx/component-store';
 import { Subscription, take } from 'rxjs';
-import { EoCertificatesService, EoMeasurement } from './eo-certificates.service';
+import {
+  EoCertificatesService,
+  EoMeasurement,
+} from './eo-certificates.service';
 
 export interface EoMeasurementData {
   /** Name of month */

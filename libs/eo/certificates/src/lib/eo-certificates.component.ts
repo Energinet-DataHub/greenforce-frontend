@@ -14,18 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {ChangeDetectionStrategy, Component} from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'eo-certificates',
   standalone: true,
-  styles: [``,
-  ],
-  template: `
-    <div>Certificates</div>
-  `,
+  styles: [``],
+  template: ` <div>Certificates</div> `,
 })
-export class EoCertificatesComponent {
-
-}
+export class EoCertificatesComponent {}
