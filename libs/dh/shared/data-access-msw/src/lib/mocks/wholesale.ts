@@ -39,6 +39,7 @@ function downloadBasisData(apiBase: string) {
     async (req, res, ctx) => {
       return res(ctx.status(500));
 
+      /*
       // Convert "base64" image to "ArrayBuffer".
       const imageBuffer = await fetch(fakeBasisData).then((res) =>
         res.arrayBuffer()
@@ -49,6 +50,7 @@ function downloadBasisData(apiBase: string) {
         // Respond with the "ArrayBuffer".
         ctx.body(imageBuffer)
       );
+      */
     }
   );
 }
