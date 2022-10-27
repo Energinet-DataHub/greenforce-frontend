@@ -25,7 +25,7 @@ import {
 } from '@angular/core';
 
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { LetModule } from '@rx-angular/template';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 
@@ -44,6 +44,7 @@ import {
   DhChargesPricesDrawerComponent,
   DhChargesPricesDrawerScam,
 } from '../drawer/dh-charges-prices-drawer.component';
+import formatInTimeZone from 'date-fns-tz/formatInTimeZone';
 
 @Component({
   selector: 'dh-charges-prices-result',
@@ -79,6 +80,12 @@ export class DhChargesPricesResultComponent
   readonly dataSource: MatTableDataSource<ChargeV1Dto> =
     new MatTableDataSource<ChargeV1Dto>();
 
+  private danishTimeZoneIdentifier = 'Europe/Copenhagen';
+  private dateFormat = 'dd-MM-yyyy';
+  private dateTimeFormat = 'dd-MM-yyyy HH:mm:ss';
+
+  constructor(private translocoService: TranslocoService) {}
+
   ngOnChanges() {
     if (this.result) this.dataSource.data = this.result;
 
@@ -96,8 +103,105 @@ export class DhChargesPricesResultComponent
     this.chargePriceDrawer.openDrawer(charge);
   }
 
+  downloadClicked() {
+    if (this.result && this.result.length > 0) {
+      const csvText = [this.createHeaderLabels(), ...this.createRows()]
+        .map((x) => x.join(';'))
+        .join('\n');
+
+      this.saveFile(csvText);
+    }
+  }
+
   drawerClosed() {
     this.activeChargeId = null;
+  }
+
+  private createHeaderLabels(): string[] {
+    return this.translocoService.translate<string[]>([
+      'charges.prices.csvHeader.id',
+      'charges.prices.csvHeader.name',
+      'charges.prices.csvHeader.description',
+      'charges.prices.csvHeader.owner',
+      'charges.prices.csvHeader.ownerName',
+      'charges.prices.csvHeader.taxIndicator',
+      'charges.prices.csvHeader.vat',
+      'charges.prices.csvHeader.transparentInvoicing',
+      'charges.prices.csvHeader.type',
+      'charges.prices.csvHeader.resolution',
+      'charges.prices.csvHeader.validFromDate',
+      'charges.prices.csvHeader.validToDate',
+    ]);
+  }
+
+  private createRows(): (string | null | undefined)[][] {
+    if (!this.result || this.result.length == 0) return [];
+    return this.result
+      .sort((a, b) => (a.chargeId || '').localeCompare(b.chargeId || ''))
+      .map((charge) => [
+        charge.chargeId,
+        charge.chargeName,
+        charge.chargeDescription,
+        charge.chargeOwner,
+        charge.chargeOwnerName,
+        this.translocoService.translate(
+          `charges.taxIndicatorType.${charge.taxIndicator}`
+        ),
+        this.translocoService.translate(
+          `charges.vatClassificationType.${charge.vatClassification}`
+        ),
+        this.translocoService.translate(
+          `charges.transparentInvoicingType.${charge.transparentInvoicing}`
+        ),
+        this.translocoService.translate(
+          `charges.chargeType.${charge.chargeType}`
+        ),
+        this.translocoService.translate(
+          `charges.resolutionType.${charge.resolution}`
+        ),
+        formatInTimeZone(
+          charge.validFromDateTime,
+          this.danishTimeZoneIdentifier,
+          this.dateFormat
+        ),
+        charge.validToDateTime == null
+          ? ''
+          : formatInTimeZone(
+              charge.validToDateTime,
+              this.danishTimeZoneIdentifier,
+              this.dateFormat
+            ),
+      ]);
+  }
+
+  private saveFile(content: string): void {
+    // Only browsers that support HTML5 download attribute
+    const bom = '\ufeff';
+    const blob = new Blob([bom, content], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    if (link.download !== undefined) {
+      const url = URL.createObjectURL(blob);
+      link.setAttribute('href', url);
+      link.setAttribute('download', this.createFilename());
+      link.style.visibility = 'hidden';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  }
+
+  private createFilename(): string {
+    const fileType = '.csv';
+    const dateString = (
+      formatInTimeZone(
+        new Date().toISOString(),
+        this.danishTimeZoneIdentifier,
+        this.dateTimeFormat
+      ) ?? ''
+    ).replace(/:/g, '_');
+    return this.translocoService
+      .translate('charges.prices.downloadFileName')
+      .concat(' ', dateString, fileType);
   }
 }
 
