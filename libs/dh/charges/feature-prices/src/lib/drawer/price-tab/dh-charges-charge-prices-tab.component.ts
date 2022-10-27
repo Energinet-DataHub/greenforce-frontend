@@ -147,14 +147,7 @@ export class DhChargesChargePricesTabComponent
   }
 
   dateRangeChanged(dateRange: DatePickerData) {
-    this.searchCriteria.fromDateTime = zonedTimeToUtc(
-      dateRange.startDate,
-      this.localTimeZone
-    ).toISOString();
-    this.searchCriteria.toDateTime = zonedTimeToUtc(
-      dateRange.endDate,
-      this.localTimeZone
-    ).toISOString();
+    this.setSearchCriteriaDateRange(dateRange);
 
     if (this.charge) this.loadPrices(this.charge);
   }
@@ -169,18 +162,25 @@ export class DhChargesChargePricesTabComponent
           this.drawerDatepickerComponent.formControlDateRange.value;
 
         if (dateTimeRange) {
-          this.searchCriteria.fromDateTime = zonedTimeToUtc(
-            dateTimeRange.start,
-            this.localTimeZone
-          ).toISOString();
-          this.searchCriteria.toDateTime = zonedTimeToUtc(
-            dateTimeRange.end,
-            this.localTimeZone
-          ).toISOString();
+          this.setSearchCriteriaDateRange({
+            startDate: dateTimeRange.start,
+            endDate: dateTimeRange.end,
+          });
         }
         this.chargePricesStore.searchChargePrices(this.searchCriteria);
       }
     }, 0);
+  }
+
+  setSearchCriteriaDateRange(dateRange: DatePickerData) {
+    this.searchCriteria.fromDateTime = zonedTimeToUtc(
+      dateRange.startDate,
+      this.localTimeZone
+    ).toISOString();
+    this.searchCriteria.toDateTime = zonedTimeToUtc(
+      dateRange.endDate,
+      this.localTimeZone
+    ).toISOString();
   }
 
   reset() {
