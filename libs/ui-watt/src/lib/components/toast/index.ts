@@ -15,6 +15,5 @@
  * limitations under the License.
  */
 export { WattToastModule } from './watt-toast.module';
-export { WattToastComponent } from './watt-toast.component';
 export { WattToastService } from './watt-toast.service';
 export type { WattToastRef } from './watt-toast.component';
