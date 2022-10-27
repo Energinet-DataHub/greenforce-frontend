@@ -14,7 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, Input, TemplateRef, ViewChild } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  TemplateRef,
+  ViewChild,
+} from '@angular/core';
 
 @Component({
   selector: 'watt-tab',
@@ -24,4 +31,9 @@ export class WattTabComponent {
   @Input() label = '';
   @ViewChild('templateRef') public templateRef: TemplateRef<unknown> | null =
     null;
+  @Output() changed = new EventEmitter<void>();
+
+  emitChange() {
+    this.changed.emit();
+  }
 }

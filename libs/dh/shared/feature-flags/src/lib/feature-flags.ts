@@ -57,7 +57,6 @@ export const dhFeatureFlagsConfig = makeFeatureFlags({
     created: '21-10-2022',
     disabledEnvironments: [
       DhAppEnvironment.experimental,
-      DhAppEnvironment.prod,
     ],
   },
 });
