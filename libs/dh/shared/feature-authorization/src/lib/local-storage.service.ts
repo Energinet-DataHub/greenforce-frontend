@@ -24,18 +24,18 @@ export class LocalStorage {
   setItem = (key: string, value: string) => {
     localStorage.setItem(key, value);
     this.length = localStorage.length;
-  }
+  };
 
-  getItem = (key: string)  => {
+  getItem = (key: string) => {
     return localStorage.getItem(key);
-  }
+  };
 
   removeItem = (key: string) => {
     localStorage.removeItem(key);
     this.length = localStorage.length;
-  }
+  };
 
   key = (index: number) => {
     return localStorage.key(index);
-  }
+  };
 }
