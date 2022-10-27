@@ -90,7 +90,7 @@ limitations under the License.
           title="{{ transloco('download') }}"
           icon="download"
           (click)="onDownload(batch)"
-          (disabled)="(!batch.isBasisDataDownloadAvailable)"
+          [disabled]="!batch.isBasisDataDownloadAvailable"
         >
         </watt-button>
       </mat-cell>
