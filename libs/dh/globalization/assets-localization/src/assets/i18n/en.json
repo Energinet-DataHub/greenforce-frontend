@@ -377,10 +377,11 @@
         "date": "Date"
       },
       "csvHeader": {
-        "id": "ID",
+        "id": "PRICE ID",
         "name": "NAME",
         "description": "DESCRIPTION",
         "owner": "OWNER",
+        "ownerName": "OWNER NAME",
         "taxIndicator": "TAX",
         "vat": "VAT",
         "transparentInvoicing": "TRANSPARENT INVOICING",

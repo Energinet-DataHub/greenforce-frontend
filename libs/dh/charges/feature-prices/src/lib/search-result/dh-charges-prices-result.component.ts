@@ -123,6 +123,7 @@ export class DhChargesPricesResultComponent
       'charges.prices.csvHeader.name',
       'charges.prices.csvHeader.description',
       'charges.prices.csvHeader.owner',
+      'charges.prices.csvHeader.ownerName',
       'charges.prices.csvHeader.taxIndicator',
       'charges.prices.csvHeader.vat',
       'charges.prices.csvHeader.transparentInvoicing',
@@ -135,39 +136,42 @@ export class DhChargesPricesResultComponent
 
   private createRows(): (string | null | undefined)[][] {
     if (!this.result || this.result.length == 0) return [];
-    return this.result.map((charge) => [
-      charge.chargeId,
-      charge.chargeName,
-      charge.chargeDescription,
-      charge.chargeOwnerName,
-      this.translocoService.translate(
-        `charges.taxIndicatorType.${charge.taxIndicator}`
-      ),
-      this.translocoService.translate(
-        `charges.vatClassificationType.${charge.vatClassification}`
-      ),
-      this.translocoService.translate(
-        `charges.transparentInvoicingType.${charge.transparentInvoicing}`
-      ),
-      this.translocoService.translate(
-        `charges.chargeType.${charge.chargeType}`
-      ),
-      this.translocoService.translate(
-        `charges.resolutionType.${charge.resolution}`
-      ),
-      formatInTimeZone(
-        charge.validFromDateTime,
-        this.danishTimeZoneIdentifier,
-        this.dateFormat
-      ),
-      charge.validToDateTime == null
-        ? ''
-        : formatInTimeZone(
-            charge.validToDateTime,
-            this.danishTimeZoneIdentifier,
-            this.dateFormat
-          ),
-    ]);
+    return this.result
+      .sort((a, b) => (a.chargeId || '').localeCompare(b.chargeId || ''))
+      .map((charge) => [
+        charge.chargeId,
+        charge.chargeName,
+        charge.chargeDescription,
+        charge.chargeOwner,
+        charge.chargeOwnerName,
+        this.translocoService.translate(
+          `charges.taxIndicatorType.${charge.taxIndicator}`
+        ),
+        this.translocoService.translate(
+          `charges.vatClassificationType.${charge.vatClassification}`
+        ),
+        this.translocoService.translate(
+          `charges.transparentInvoicingType.${charge.transparentInvoicing}`
+        ),
+        this.translocoService.translate(
+          `charges.chargeType.${charge.chargeType}`
+        ),
+        this.translocoService.translate(
+          `charges.resolutionType.${charge.resolution}`
+        ),
+        formatInTimeZone(
+          charge.validFromDateTime,
+          this.danishTimeZoneIdentifier,
+          this.dateFormat
+        ),
+        charge.validToDateTime == null
+          ? ''
+          : formatInTimeZone(
+              charge.validToDateTime,
+              this.danishTimeZoneIdentifier,
+              this.dateFormat
+            ),
+      ]);
   }
 
   private saveFile(content: string): void {
@@ -219,7 +223,6 @@ export class DhChargesPricesResultComponent
     MatSortModule,
     DhChargesPricesDrawerScam,
     DhSharedUiPaginatorComponent,
-    DhSharedUiDateTimeModule,
   ],
 })
 export class DhChargesPricesResultScam {}
