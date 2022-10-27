@@ -117,8 +117,7 @@ export class DhChargesPricesResultComponent
     this.activeChargeId = null;
   }
 
-  private createHeaderLabels(): string[]
-  {
+  private createHeaderLabels(): string[] {
     return this.translocoService.translate<string[]>([
       'charges.prices.csvHeader.id',
       'charges.prices.csvHeader.name',
@@ -131,54 +130,79 @@ export class DhChargesPricesResultComponent
       'charges.prices.csvHeader.type',
       'charges.prices.csvHeader.resolution',
       'charges.prices.csvHeader.validFromDate',
-      'charges.prices.csvHeader.validToDate'
+      'charges.prices.csvHeader.validToDate',
     ]);
   }
 
-  private createRows(): (string | null | undefined)[][]
-  {
+  private createRows(): (string | null | undefined)[][] {
     if (!this.result || this.result.length == 0) return [];
-    return this.result.sort((a, b) => (a.chargeId || '').localeCompare(b.chargeId || ''))
-    .map(charge => [
-      charge.chargeId,
-      charge.chargeName,
-      charge.chargeDescription,
-      charge.chargeOwner,
-      charge.chargeOwnerName,
-      this.translocoService.translate(`charges.taxIndicatorType.${charge.taxIndicator}`),
-      this.translocoService.translate(`charges.vatClassificationType.${charge.vatClassification}`),
-      this.translocoService.translate(`charges.transparentInvoicingType.${charge.transparentInvoicing}`),
-      this.translocoService.translate(`charges.chargeType.${charge.chargeType}`),
-      this.translocoService.translate(`charges.resolutionType.${charge.resolution}`),
-      formatInTimeZone(charge.validFromDateTime, this.danishTimeZoneIdentifier, this.dateFormat),
-      charge.validToDateTime == null ? '' : formatInTimeZone(charge.validToDateTime, this.danishTimeZoneIdentifier, this.dateFormat)
-    ])
+    return this.result
+      .sort((a, b) => (a.chargeId || '').localeCompare(b.chargeId || ''))
+      .map((charge) => [
+        charge.chargeId,
+        charge.chargeName,
+        charge.chargeDescription,
+        charge.chargeOwner,
+        charge.chargeOwnerName,
+        this.translocoService.translate(
+          `charges.taxIndicatorType.${charge.taxIndicator}`
+        ),
+        this.translocoService.translate(
+          `charges.vatClassificationType.${charge.vatClassification}`
+        ),
+        this.translocoService.translate(
+          `charges.transparentInvoicingType.${charge.transparentInvoicing}`
+        ),
+        this.translocoService.translate(
+          `charges.chargeType.${charge.chargeType}`
+        ),
+        this.translocoService.translate(
+          `charges.resolutionType.${charge.resolution}`
+        ),
+        formatInTimeZone(
+          charge.validFromDateTime,
+          this.danishTimeZoneIdentifier,
+          this.dateFormat
+        ),
+        charge.validToDateTime == null
+          ? ''
+          : formatInTimeZone(
+              charge.validToDateTime,
+              this.danishTimeZoneIdentifier,
+              this.dateFormat
+            ),
+      ]);
   }
 
-  private saveFile(content: string): void
-  {
+  private saveFile(content: string): void {
     // Only browsers that support HTML5 download attribute
     const bom = '\ufeff';
     const blob = new Blob([bom, content], { type: 'text/csv;charset=utf-8;' });
     const link = document.createElement('a');
     if (link.download !== undefined) {
-        const url = URL.createObjectURL(blob);
-        link.setAttribute('href', url);
-        link.setAttribute('download', this.createFilename());
-        link.style.visibility = 'hidden';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
+      const url = URL.createObjectURL(blob);
+      link.setAttribute('href', url);
+      link.setAttribute('download', this.createFilename());
+      link.style.visibility = 'hidden';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
     }
   }
 
-  private createFilename(): string
-  {
+  private createFilename(): string {
     const fileType = '.csv';
-    const dateString = (formatInTimeZone(new Date().toISOString(), this.danishTimeZoneIdentifier, this.dateTimeFormat) ?? '').replace(/:/g,'_');
-    return this.translocoService.translate('charges.prices.downloadFileName').concat(' ', dateString, fileType);
+    const dateString = (
+      formatInTimeZone(
+        new Date().toISOString(),
+        this.danishTimeZoneIdentifier,
+        this.dateTimeFormat
+      ) ?? ''
+    ).replace(/:/g, '_');
+    return this.translocoService
+      .translate('charges.prices.downloadFileName')
+      .concat(' ', dateString, fileType);
   }
-
 }
 
 @NgModule({
@@ -198,8 +222,7 @@ export class DhChargesPricesResultComponent
     DhSharedUiDateTimeModule,
     MatSortModule,
     DhChargesPricesDrawerScam,
-    DhSharedUiPaginatorComponent
+    DhSharedUiPaginatorComponent,
   ],
 })
 export class DhChargesPricesResultScam {}
-
