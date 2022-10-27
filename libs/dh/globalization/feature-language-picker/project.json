@@ -7,7 +7,9 @@
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/dh/globalization/feature-language-picker"],
+      "outputs": [
+        "{workspaceRoot}/coverage/libs/dh/globalization/feature-language-picker"
+      ],
       "options": {
         "jestConfig": "libs/dh/globalization/feature-language-picker/jest.config.ts",
         "passWithNoTests": true

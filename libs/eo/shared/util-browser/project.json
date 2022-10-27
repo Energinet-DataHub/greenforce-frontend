@@ -7,7 +7,7 @@
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/eo/shared/util-browser"],
+      "outputs": ["{workspaceRoot}/coverage/libs/eo/shared/util-browser"],
       "options": {
         "jestConfig": "libs/eo/shared/util-browser/jest.config.ts",
         "passWithNoTests": true

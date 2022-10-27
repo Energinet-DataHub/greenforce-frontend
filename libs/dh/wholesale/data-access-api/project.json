@@ -6,7 +6,7 @@
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/dh/wholesale/data-access-api"],
+      "outputs": ["{workspaceRoot}/coverage/libs/dh/wholesale/data-access-api"],
       "options": {
         "jestConfig": "libs/dh/wholesale/data-access-api/jest.config.ts",
         "passWithNoTests": true
