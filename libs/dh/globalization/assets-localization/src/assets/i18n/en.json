@@ -366,7 +366,22 @@
         "messageId": "Message Id",
         "messageType": "Type",
         "date": "Date"
-      }
+      },
+      "csvHeader": {
+        "id": "PRICE ID",
+        "name": "NAME",
+        "description": "DESCRIPTION",
+        "owner": "OWNER",
+        "ownerName": "OWNER NAME",
+        "taxIndicator": "TAX",
+        "vat": "VAT",
+        "transparentInvoicing": "TRANSPARENT INVOICING",
+        "type": "TYPE",
+        "resolution": "RESOLUTION",
+        "validFromDate": "VALID FROM",
+        "validToDate": "VALID TO"
+      },
+      "downloadFileName": "Chargeinformation"
     }
   },
   "messageArchive": {
@@ -669,6 +684,7 @@
         "basisData": "Basis data"
       },
       "download": "Download",
+      "downloadFailed": "Download of basis data failed",
       "Pending": "Pending",
       "Executing": "Running",
       "Completed": "Finished",

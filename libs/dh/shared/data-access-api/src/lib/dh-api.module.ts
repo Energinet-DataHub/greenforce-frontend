@@ -25,7 +25,8 @@ import {
 
 import { dhApiEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 
-import { ApiModule, Configuration } from '@energinet-datahub/dh/shared/domain';
+import { ApiModule } from '@energinet-datahub/dh/shared/domain/api';
+import { Configuration } from '@energinet-datahub/dh/shared/domain/configuration';
 
 /**
  * Do not import directly. Use `DhApiModule.forRoot`.

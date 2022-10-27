@@ -132,6 +132,12 @@
       "@energinet-datahub/dh/shared/domain": [
         "libs/dh/shared/domain/src/index.ts"
       ],
+      "@energinet-datahub/dh/shared/domain/api": [
+        "libs/dh/shared/domain/src/lib/generated/v1/api.module.ts"
+      ],
+      "@energinet-datahub/dh/shared/domain/configuration": [
+        "libs/dh/shared/domain/src/lib/generated/v1/configuration.ts"
+      ],
       "@energinet-datahub/dh/shared/environments": [
         "libs/dh/shared/environments/src/index.ts"
       ],
