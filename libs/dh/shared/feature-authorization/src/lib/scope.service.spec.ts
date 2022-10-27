@@ -70,7 +70,6 @@ describe('ScopeService.name', () => {
     'getActiveScope should return fallbackValue if account is not found',
     (granFullAuthorizationEnabled) => {
       // arrange
-
       const target = createTarget(
         null,
         granFullAuthorizationEnabled,
