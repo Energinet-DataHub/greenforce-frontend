@@ -25,7 +25,10 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { DhDrawerDatepickerScam } from '../drawer-datepicker/dh-drawer-datepicker.component';
+import {
+  DhDrawerDatepickerComponent,
+  DhDrawerDatepickerScam,
+} from '../drawer-datepicker/dh-drawer-datepicker.component';
 import { DatePickerData } from '../drawer-datepicker/drawer-datepicker.service';
 
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
@@ -66,6 +69,8 @@ export class DhChargesChargePricesTabComponent
   @ViewChild(DhSharedUiPaginatorComponent)
   paginator!: DhSharedUiPaginatorComponent;
   @ViewChild(MatSort) matSort!: MatSort;
+  @ViewChild(DhDrawerDatepickerComponent)
+  drawerDatepickerComponent!: DhDrawerDatepickerComponent;
 
   @Input() charge: ChargeV1Dto | undefined;
   constructor(private chargePricesStore: DhChargePricesDataAccessApiStore) {}
@@ -159,6 +164,20 @@ export class DhChargesChargePricesTabComponent
       if (charge?.hasAnyPrices) {
         this.searchCriteria.chargeId = charge.id;
         this.searchCriteria.take = this.paginator.instance.pageSize;
+
+        const dateTimeRange =
+          this.drawerDatepickerComponent.formControlDateRange.value;
+
+        if (dateTimeRange) {
+          this.searchCriteria.fromDateTime = zonedTimeToUtc(
+            dateTimeRange.start,
+            this.localTimeZone
+          ).toISOString();
+          this.searchCriteria.toDateTime = zonedTimeToUtc(
+            dateTimeRange.end,
+            this.localTimeZone
+          ).toISOString();
+        }
         this.chargePricesStore.searchChargePrices(this.searchCriteria);
       }
     }, 0);
