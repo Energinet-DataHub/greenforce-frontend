@@ -30,6 +30,7 @@ import {
   DhWholesaleSearchComponent,
   DhWholesaleSearchScam,
 } from './dh-wholesale-search.component';
+import { WattToastModule } from '@energinet-datahub/watt/toast';
 
 async function setup() {
   await render(DhWholesaleSearchComponent, {
@@ -39,6 +40,7 @@ async function setup() {
       HttpClientModule,
       getTranslocoTestingModule(),
       DhApiModule.forRoot(),
+      WattToastModule.forRoot(),
     ],
   });
 }
