@@ -47,10 +47,7 @@ import { MatSort, MatSortable, Sort } from '@angular/material/sort';
       <!-- View certificate Column -->
       <ng-container matColumnDef="action">
         <mat-header-cell *matHeaderCellDef mat-sort-header></mat-header-cell>
-        <mat-cell *matCellDef="let element"
-          >View certificate - {{ element.time }} - {{ element.gsrn }} -
-          {{ element.quantity }}</mat-cell
-        >
+        <mat-cell *matCellDef="let element">View certificate </mat-cell>
       </ng-container>
 
       <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
