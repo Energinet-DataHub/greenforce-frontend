@@ -25,6 +25,7 @@ import userEvent from '@testing-library/user-event';
 import { DhApiModule } from '@energinet-datahub/dh/shared/data-access-api';
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
 import { WattDanishDatetimeModule } from '@energinet-datahub/watt/danish-date-time';
+import { WattToastModule } from '@energinet-datahub/watt/toast';
 
 import {
   DhWholesaleSearchComponent,
@@ -39,6 +40,7 @@ async function setup() {
       HttpClientModule,
       getTranslocoTestingModule(),
       DhApiModule.forRoot(),
+      WattToastModule.forRoot(),
     ],
   });
 }
