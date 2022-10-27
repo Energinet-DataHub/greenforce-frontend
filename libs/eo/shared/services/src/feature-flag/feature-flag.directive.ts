@@ -37,7 +37,7 @@ import {
  * To Enable: Append something like this '?enableFeature=daterange' to the URL
  * To Disable: Append something like this '?disableFeature=daterange' to the URL
  */
-export class EoFeatureFlagDirective implements AfterViewInit {
+export class EoFeatureFlagDirective {
   /**
    * This directive can be used to show/hide a component based on the feature flags that are currently enabled.
    * Look in Feature-flag service for list of currently supported flags.
