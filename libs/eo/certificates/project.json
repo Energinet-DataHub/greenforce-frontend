@@ -22,5 +22,5 @@
       }
     }
   },
-  "tags": ["product:eo", "domain:certificates"]
+  "tags": ["product:eo", "domain:certificates", "type:feature"]
 }

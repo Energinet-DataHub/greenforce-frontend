@@ -47,7 +47,7 @@ import { MatSort, MatSortable, Sort } from '@angular/material/sort';
       <!-- View certificate Column -->
       <ng-container matColumnDef="action">
         <mat-header-cell *matHeaderCellDef mat-sort-header></mat-header-cell>
-        <mat-cell *matCellDef="let element">View certificate </mat-cell>
+        <mat-cell *matCellDef="let element">View certificate</mat-cell>
       </ng-container>
 
       <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
@@ -58,7 +58,11 @@ import { MatSort, MatSortable, Sort } from '@angular/material/sort';
 export class EoCertificatesTableComponent {
   loadingDone$ = this.store.loadingDone$;
   data$ = this.store.certificates$;
-  dataSource: MatTableDataSource<any> = new MatTableDataSource();
+  dataSource: MatTableDataSource<{
+    time: number;
+    gsrn: string;
+    quantity: number;
+  }> = new MatTableDataSource();
   displayedColumns: string[] = ['time', 'gsrn', 'quantity', 'action'];
 
   @ViewChild(MatSort) matSort?: MatSort;
