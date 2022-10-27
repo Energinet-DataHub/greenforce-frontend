@@ -368,7 +368,7 @@
         "date": "Date"
       },
       "csvHeader": {
-        "id": "CHARGE ID",
+        "id": "PRICE ID",
         "name": "NAME",
         "description": "DESCRIPTION",
         "owner": "OWNER",
