@@ -16,22 +16,25 @@
  */
 import { CommonModule } from '@angular/common';
 import {
-  Component,
-  Input,
-  ViewChild,
   AfterViewInit,
   ChangeDetectionStrategy,
+  Component,
+  inject,
+  Input,
+  ViewChild,
 } from '@angular/core';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { TranslocoModule } from '@ngneat/transloco';
-import { of } from 'rxjs';
+import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
+import { first, of } from 'rxjs';
+
 import { BatchDtoV2, BatchState } from '@energinet-datahub/dh/shared/domain';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
-import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
-import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { WattBadgeModule, WattBadgeType } from '@energinet-datahub/watt/badge';
+import { WattButtonModule } from '@energinet-datahub/watt/button';
+import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
+import { WattToastService } from '@energinet-datahub/watt/toast';
 
 import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
 
@@ -63,7 +66,6 @@ type wholesaleTableData = MatTableDataSource<{
   templateUrl: './dh-wholesale-table.component.html',
   styleUrls: ['./dh-wholesale-table.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [DhWholesaleBatchDataAccessApiStore],
 })
 export class DhWholesaleTableComponent implements AfterViewInit {
   @ViewChild(MatSort) sort!: MatSort;
@@ -79,7 +81,9 @@ export class DhWholesaleTableComponent implements AfterViewInit {
   }
   _data: wholesaleTableData = new MatTableDataSource(undefined);
 
-  constructor(private store: DhWholesaleBatchDataAccessApiStore) {}
+  private store = inject(DhWholesaleBatchDataAccessApiStore);
+  private toastService = inject(WattToastService);
+  private translations = inject(TranslocoService);
 
   columnIds = [
     'batchNumber',
@@ -96,8 +100,16 @@ export class DhWholesaleTableComponent implements AfterViewInit {
     this._data.paginator = this.paginator.instance;
   }
 
-  onDownload(batchId: string) {
-    this.store.getZippedBasisData(of({ id: batchId }));
+  onDownload(batch: BatchDtoV2) {
+    this.store.getZippedBasisData(of(batch));
+    this.store.loadingBasisDataErrorTrigger$.pipe(first()).subscribe(() => {
+      this.toastService.open({
+        message: this.translations.translate(
+          'wholesale.searchBatch.downloadFailed'
+        ),
+        type: 'danger',
+      });
+    });
   }
 
   private getStatusType(status: BatchState): WattBadgeType | void {

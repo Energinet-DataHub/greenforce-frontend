@@ -368,7 +368,21 @@
         "messageId": "Besked Id",
         "messageType": "Type",
         "date": "Dato"
-      }
+      },
+      "csvHeader": {
+        "id": "ID",
+        "name": "NAVN",
+        "description": "BESKRIVELSE",
+        "owner": "EJER",
+        "taxIndicator": "AFGIFT",
+        "vat": "MOMS",
+        "transparentInvoicing": "VIDEREFAKTURERING",
+        "type": "TYPE",
+        "resolution": "OPLØSNING",
+        "validFromDate": "GYLDIG FRA",
+        "validToDate": "GYLDIG TIL"
+      },
+      "downloadFileName": "Prisinformationer"
     }
   },
   "messageArchive": {
@@ -671,6 +685,7 @@
         "basisData": "Basis data"
       },
       "download": "Download",
+      "downloadFailed": "Download af basis data fejlede",
       "Pending": "Afventer",
       "Executing": "Kører",
       "Completed": "Afsluttet",
