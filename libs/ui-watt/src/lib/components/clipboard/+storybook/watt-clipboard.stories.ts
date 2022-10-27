@@ -16,17 +16,17 @@
  */
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { moduleMetadata, Story, Meta } from '@storybook/angular';
+import { WattToastModule } from '../../toast/watt-toast.module';
 
 import { WattCopyToClipboardDirective } from '../watt-copy-to-clipboard.directive';
 import { WattStorybookClipboardComponent } from './storybook-clipboard.component';
-import { WattStorybookTranslationModule } from '../../../utils/translation';
 
 export default {
   title: 'Components/Clipboard',
   decorators: [
     moduleMetadata({
       imports: [
-        WattStorybookTranslationModule,
+        WattToastModule.forRoot(),
         BrowserAnimationsModule,
         WattStorybookClipboardComponent,
       ],

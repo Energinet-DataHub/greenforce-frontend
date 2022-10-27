@@ -19,30 +19,25 @@ import {
   ElementRef,
   HostBinding,
   HostListener,
+  inject,
   Input,
 } from '@angular/core';
 import { Clipboard } from '@angular/cdk/clipboard';
-import { WattToastComponent, WattToastService } from '../toast';
-import da from './i18n/da.json';
-import en from './i18n/en.json';
-import { WattTranslationService } from '../../utils/translation';
+import { WattToastService } from '../toast';
+import { WattClipboardIntlService } from './watt-clipboard-intl.service';
 
 @Directive({
   standalone: true,
   selector: '[wattCopyToClipboard]',
 })
 export class WattCopyToClipboardDirective {
-  @Input('wattCopyToClipboard') text?: string;
+  private element = inject(ElementRef);
+  private clipboard = inject(Clipboard);
+  private toast = inject(WattToastService);
+  private intl = inject(WattClipboardIntlService);
 
-  constructor(
-    private element: ElementRef,
-    private clipboard: Clipboard,
-    private toast: WattToastService,
-    private translation: WattTranslationService
-  ) {
-    this.translation.addTranslation('clipboard', en, 'en');
-    this.translation.addTranslation('clipboard', da, 'da');
-  }
+  @Input('wattCopyToClipboard')
+  text?: string;
 
   @HostBinding('style.cursor')
   cursor = 'pointer';
@@ -56,18 +51,13 @@ export class WattCopyToClipboardDirective {
     if (success) {
       this.toast.open({
         type: 'success',
-        message: this.translation.translate('clipboard.success'),
+        message: this.intl.success,
       });
     } else {
       this.toast.open({
         type: 'danger',
-        message: this.translation.translate('clipboard.error'),
+        message: this.intl.error,
       });
     }
   }
 }
-
-export const WATT_COPY_TO_CLIPBOARD_DEPS = [
-  WattToastComponent,
-  WattCopyToClipboardDirective,
-] as const;
