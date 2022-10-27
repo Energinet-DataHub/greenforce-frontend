@@ -121,6 +121,16 @@ limitations under the License.
         >
         </watt-empty-state>
       </ng-container>
+
+      <!-- Error -->
+      <ng-container *ngIf="hasLoadingError | push">
+        <watt-empty-state
+          class="loading-error"
+          icon="power"
+          title="{{ t('loadingErrorTitle') }}"
+          message="{{ t('loadingErrorMessage') }}"
+        ></watt-empty-state>
+      </ng-container>
     </div>
   </ng-container>
 
