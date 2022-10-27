@@ -19,6 +19,7 @@ export interface BatchDtoV2 {
     executionTimeStart?: string | null;
     executionTimeEnd?: string | null;
     executionState: BatchState;
+    isBasisDataDownloadAvailable: boolean;
 }
 
 
