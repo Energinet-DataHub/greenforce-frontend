@@ -15,12 +15,30 @@
  * limitations under the License.
  */
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { MatCardModule } from '@angular/material/card';
+import { WattCheckboxModule } from '@energinet-datahub/watt/checkbox';
+import { EoCertificatesTableComponent } from './eo-certificates-table.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [MatCardModule, WattCheckboxModule, EoCertificatesTableComponent],
   selector: 'eo-certificates',
   standalone: true,
   styles: [``],
-  template: ` <div>Certificates</div> `,
+  template: `
+    <mat-card class="watt-space-stack-l">
+      <h4 class="watt-space-stack-m">This is the beginning</h4>
+      <p class="watt-space-stack-m">
+        This page is based on real data and is working towards the coming
+        solution regarding certificates. So it is not just a test, though these
+        data cannot yet be used in a legal sense. It will be communicated, when
+        it is out of beta and can be used legally. So you can try this without
+        any consequences.
+      </p>
+    </mat-card>
+    <mat-card>
+      <eo-certificates-table></eo-certificates-table>
+    </mat-card>
+  `,
 })
 export class EoCertificatesComponent {}

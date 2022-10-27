@@ -33,6 +33,7 @@ import {
   WattNavListItemComponent,
 } from '@energinet-datahub/watt/shell';
 import { eoCertificatesRoutePath } from '@energinet-datahub/eo/certificates';
+import { EoFeatureFlagScam } from '@energinet-datahub/eo/shared/services';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -64,9 +65,15 @@ import { eoCertificatesRoutePath } from '@energinet-datahub/eo/certificates';
       <watt-nav-list-item link="/${eoMeteringPointsRoutePath}">
         Metering Points
       </watt-nav-list-item>
-      <watt-nav-list-item link="/${eoCertificatesRoutePath}"
-        >Certificates</watt-nav-list-item
-      >
+      <watt-nav-list-item
+        [onFeatureFlag]="'certificates'"
+        link="/${eoCertificatesRoutePath}"
+        >Certificates
+        <span
+          style="padding-left:8px; font-weight:bold;color:var(--watt-color-secondary-dark);"
+          >BETA</span
+        >
+      </watt-nav-list-item>
       <watt-nav-list-item link="/${eoFaqRoutePath}">FAQ</watt-nav-list-item>
       <watt-nav-list-item (click)="onLogOut()" role="link">
         Log out
@@ -91,6 +98,6 @@ export class EoPrimaryNavigationComponent {
 @NgModule({
   declarations: [EoPrimaryNavigationComponent],
   exports: [EoPrimaryNavigationComponent],
-  imports: [WattNavListComponent, WattNavListItemComponent],
+  imports: [WattNavListComponent, WattNavListItemComponent, EoFeatureFlagScam],
 })
 export class EoPrimaryNavigationScam {}

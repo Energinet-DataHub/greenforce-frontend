@@ -16,116 +16,65 @@
  */
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { AppSettingsStore } from '@energinet-datahub/eo/shared/services';
 import { ComponentStore } from '@ngrx/component-store';
-import { Subscription, take } from 'rxjs';
 import {
+  EoCertificate,
   EoCertificatesService,
-  EoMeasurement,
 } from './eo-certificates.service';
 
-export interface EoMeasurementData {
-  /** Name of month */
-  name: string;
-  /** Value of the total consumption for the selected dates, in kWh */
-  value: number;
-}
-
-interface EoConsumptionState {
+interface EoCertificatesState {
   loadingDone: boolean;
-  measurements: EoMeasurementData[];
-  totalMeasurement: number;
+  certificates: EoCertificate[];
   error: HttpErrorResponse | null;
 }
 
 @Injectable({
   providedIn: 'root',
 })
-export class EoCertificatesStore extends ComponentStore<EoConsumptionState> {
+export class EoCertificatesStore extends ComponentStore<EoCertificatesState> {
   readonly loadingDone$ = this.select((state) => state.loadingDone);
-  readonly measurements$ = this.select((state) => state.measurements);
-  readonly totalMeasurement$ = this.select((state) => state.totalMeasurement);
+  readonly certificates$ = this.select((state) => state.certificates);
   readonly error$ = this.select((state) => state.error);
   readonly setLoadingDone = this.updater(
-    (state, loadingDone: boolean): EoConsumptionState => ({
+    (state, loadingDone: boolean): EoCertificatesState => ({
       ...state,
       loadingDone,
     })
   );
+  readonly setCertificates = this.updater(
+    (state, certificates: EoCertificate[]): EoCertificatesState => ({
+      ...state,
+      certificates,
+    })
+  );
   readonly setError = this.updater(
-    (state, error: HttpErrorResponse | null): EoConsumptionState => ({
+    (state, error: HttpErrorResponse | null): EoCertificatesState => ({
       ...state,
       error,
     })
   );
-  readonly setTotalMeasurement = this.updater(
-    (state, totalMeasurement: number): EoConsumptionState => ({
-      ...state,
-      totalMeasurement,
-    })
-  );
-  readonly setMonthlyMeasurements = this.updater(
-    (state, measurements: EoMeasurementData[]): EoConsumptionState => ({
-      ...state,
-      measurements,
-    })
-  );
-  #monthlyConsumptionApiCall: Subscription = new Subscription();
 
-  constructor(
-    private service: EoCertificatesService,
-    private appSettingsStore: AppSettingsStore
-  ) {
+  constructor(private service: EoCertificatesService) {
     super({
       loadingDone: false,
-      measurements: [],
-      totalMeasurement: 0,
+      certificates: [],
       error: null,
     });
 
-    this.appSettingsStore.calendarDateRange$.subscribe(() => {
-      this.loadMonthlyConsumption();
+    this.loadData();
+  }
+
+  loadData() {
+    this.service.getCertificates().subscribe({
+      next: (response) => {
+        this.setCertificates(response.result);
+        this.setError(null);
+        this.setLoadingDone(true);
+      },
+      error: (error) => {
+        this.setError(error);
+        this.setLoadingDone(true);
+      },
     });
-  }
-
-  loadMonthlyConsumption() {
-    this.setLoadingDone(false);
-    this.#monthlyConsumptionApiCall.unsubscribe();
-
-    this.#monthlyConsumptionApiCall = this.service
-      .getMonthlyConsumption()
-      .pipe(take(1))
-      .subscribe({
-        next: (result) => {
-          const measurements = this.getMeasurementsFromData(
-            result.measurements
-          );
-
-          this.setMonthlyMeasurements(measurements);
-          this.setTotalMeasurement(this.getTotalFromArray(measurements));
-          this.setError(null);
-        },
-        error: (error) => {
-          this.setError(error);
-        },
-        complete: () => {
-          this.setLoadingDone(true);
-        },
-      });
-  }
-
-  getMeasurementsFromData(array: EoMeasurement[]): EoMeasurementData[] {
-    return array.map((measure) => {
-      return {
-        name: new Date(measure.dateFrom * 1000).toLocaleString('en-us', {
-          month: 'short',
-        }),
-        value: measure.value,
-      };
-    });
-  }
-
-  getTotalFromArray(array: EoMeasurementData[]): number {
-    return array.reduce((total, obj) => total + obj.value, 0);
   }
 }
