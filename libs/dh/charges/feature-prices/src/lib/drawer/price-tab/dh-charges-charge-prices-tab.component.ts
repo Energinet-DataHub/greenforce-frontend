@@ -51,6 +51,7 @@ import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 import { WattTooltipModule } from '@energinet-datahub/watt/tooltip';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
+import { zonedTimeToUtc } from 'date-fns-tz';
 
 @Component({
   selector: 'dh-charges-charge-prices-tab',
@@ -69,10 +70,18 @@ export class DhChargesChargePricesTabComponent
   @Input() charge: ChargeV1Dto | undefined;
   constructor(private chargePricesStore: DhChargePricesDataAccessApiStore) {}
 
+  localTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
   searchCriteria: ChargePricesSearchCriteriaV1Dto = {
     chargeId: '',
-    fromDateTime: new Date().toISOString(),
-    toDateTime: new Date().toISOString(),
+    fromDateTime: zonedTimeToUtc(
+      new Date(new Date().toDateString()),
+      this.localTimeZone
+    ).toISOString(),
+    toDateTime: zonedTimeToUtc(
+      new Date(new Date().toDateString()),
+      this.localTimeZone
+    ).toISOString(),
     isDescending: false,
     sortColumnName: SortColumnName.FromDateTime,
     skip: 0,
@@ -110,8 +119,6 @@ export class DhChargesChargePricesTabComponent
   ngOnChanges() {
     if (this.charge) {
       this.searchCriteria.chargeId = this.charge.id ?? '';
-      this.paginator.length = 0;
-      this.paginator.instance.pageIndex = 0;
       this.searchCriteria.skip = 0;
 
       this.showDateTime =
@@ -121,6 +128,11 @@ export class DhChargesChargePricesTabComponent
       if (this.showDateTime)
         this.displayedColumns = ['fromDateTime', 'time', 'price'];
       else this.displayedColumns = ['fromDateTime', 'price'];
+
+      if (this.paginator) {
+        this.paginator.length = 0;
+        this.paginator.instance.pageIndex = 0;
+      }
     }
   }
 
@@ -130,8 +142,14 @@ export class DhChargesChargePricesTabComponent
   }
 
   dateRangeChanged(dateRange: DatePickerData) {
-    this.searchCriteria.fromDateTime = dateRange.startDate;
-    this.searchCriteria.toDateTime = dateRange.endDate;
+    this.searchCriteria.fromDateTime = zonedTimeToUtc(
+      dateRange.startDate,
+      this.localTimeZone
+    ).toISOString();
+    this.searchCriteria.toDateTime = zonedTimeToUtc(
+      dateRange.endDate,
+      this.localTimeZone
+    ).toISOString();
 
     if (this.charge) this.loadPrices(this.charge);
   }
