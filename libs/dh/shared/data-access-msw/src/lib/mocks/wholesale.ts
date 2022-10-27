@@ -31,8 +31,6 @@ function postWholesaleBatch(apiBase: string) {
   });
 }
 
-const fakeBasisData = 'FAKE_BASIS_DATA';
-
 function downloadBasisData(apiBase: string) {
   return rest.get(
     `${apiBase}/v1/WholesaleBatch/ZippedBasisDataStream?batchId=123`,
@@ -41,7 +39,7 @@ function downloadBasisData(apiBase: string) {
 
       /*
       // Convert "base64" image to "ArrayBuffer".
-      const imageBuffer = await fetch(fakeBasisData).then((res) =>
+      const imageBuffer = await fetch('FAKE_BASIS_DATA').then((res) =>
         res.arrayBuffer()
       );
       return res(

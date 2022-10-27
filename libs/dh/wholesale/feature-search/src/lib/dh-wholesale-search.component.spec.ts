@@ -25,12 +25,12 @@ import userEvent from '@testing-library/user-event';
 import { DhApiModule } from '@energinet-datahub/dh/shared/data-access-api';
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util-i18n';
 import { WattDanishDatetimeModule } from '@energinet-datahub/watt/danish-date-time';
+import { WattToastModule } from '@energinet-datahub/watt/toast';
 
 import {
   DhWholesaleSearchComponent,
   DhWholesaleSearchScam,
 } from './dh-wholesale-search.component';
-import { WattToastModule } from '@energinet-datahub/watt/toast';
 
 async function setup() {
   await render(DhWholesaleSearchComponent, {
