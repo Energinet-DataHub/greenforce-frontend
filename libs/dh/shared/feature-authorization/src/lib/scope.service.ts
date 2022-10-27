@@ -24,9 +24,10 @@ import {
 } from '@energinet-datahub/dh/shared/environments';
 import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
 import { filter } from 'rxjs';
+import { LocalStorage } from './local-storage.service';
 
-const scopesKey = 'actor-scopes';
-const scopeKey = 'active-actor-scope';
+export const scopesKey = 'actor-scopes';
+export const scopeKey = 'active-actor-scope';
 
 @Injectable({ providedIn: 'root' })
 export class ScopeService {
@@ -34,7 +35,8 @@ export class ScopeService {
     @Inject(dhB2CEnvironmentToken) private config: DhB2CEnvironment,
     private msalBroadcastService: MsalBroadcastService,
     private authService: MsalService,
-    private featureFlagService: DhFeatureFlagsService
+    private featureFlagService: DhFeatureFlagsService,
+    private localStorage: LocalStorage
   ) {
     this.msalBroadcastService.msalSubject$
       .pipe(
@@ -46,7 +48,7 @@ export class ScopeService {
         const account = this.getAccount();
 
         if (!account) {
-          localStorage.clear();
+          this.clearScopeRelatedItems();
           return;
         }
 
@@ -56,7 +58,7 @@ export class ScopeService {
           (account.idTokenClaims['extn.actors'] as string[]);
         const scopes = this.getActorClaims(actors);
 
-        localStorage.setItem(userId + scopesKey, scopes.join(' '));
+        this.localStorage.setItem(userId + scopesKey, scopes.join(' '));
       });
   }
 
@@ -69,27 +71,27 @@ export class ScopeService {
     const scopes = this.getScopes(userId);
     if (scopes.length === 0) return this.fallbackScope();
 
-    const stored = localStorage.getItem(userId + scopeKey);
+    const stored = this.localStorage.getItem(userId + scopeKey);
     if (stored && scopes.includes(stored)) return stored;
 
     const activeScope = scopes[0];
-    localStorage.setItem(userId + scopeKey, activeScope);
+    this.localStorage.setItem(userId + scopeKey, activeScope);
 
     return activeScope;
   }
 
-  getScopes(userId: string) {
-    const scopes = localStorage.getItem(userId + scopesKey);
-    return scopes?.split(' ') || [];
+  private getScopes(userId: string) {
+    const scopes = this.localStorage.getItem(userId + scopesKey);
+    return (scopes && scopes.split(' ')) || [];
   }
 
-  getActorClaims(scopesString?: string[]) {
-    return scopesString && scopesString?.length > 0
+  private getActorClaims(scopesString?: string[]) {
+    return scopesString && scopesString.length > 0
       ? scopesString[0].split(' ')
       : [];
   }
 
-  getAccount() {
+  private getAccount() {
     const accounts = this.authService.instance.getAllAccounts();
 
     if (accounts.length !== 1) {
@@ -99,7 +101,20 @@ export class ScopeService {
     return accounts[0];
   }
 
-  fallbackScope() {
+  private clearScopeRelatedItems() {
+    const keys = [];
+
+    for (let i = 0, l = this.localStorage.length; i < l; ++i) {
+      const key = this.localStorage.key(i);
+      if (key && (key.endsWith(scopeKey) || key.endsWith(scopesKey))) {
+        keys.push(key);
+      }
+    }
+
+    keys.forEach(this.localStorage.removeItem);
+  }
+
+  private fallbackScope() {
     return this.featureFlagService.isEnabled('grant_full_authorization')
       ? this.config.clientId
       : '';
