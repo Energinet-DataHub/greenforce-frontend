@@ -30,8 +30,9 @@ import { eoOriginOfEnergyRoutePath } from '@energinet-datahub/eo/origin-of-energ
 import { eoProductionRoutePath } from '@energinet-datahub/eo/production/routing';
 import {
   WattNavListComponent,
-  WattNavListItemComponent,
-} from '@energinet-datahub/watt/shell';
+  WattNavListItemComponent
+} from "@energinet-datahub/watt/shell";
+import {eoCertificatesRoutePath} from "@energinet-datahub/eo/certificates";
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -63,6 +64,7 @@ import {
       <watt-nav-list-item link="/${eoMeteringPointsRoutePath}">
         Metering Points
       </watt-nav-list-item>
+      <watt-nav-list-item link="/${eoCertificatesRoutePath}">Certificates</watt-nav-list-item>
       <watt-nav-list-item link="/${eoFaqRoutePath}">FAQ</watt-nav-list-item>
       <watt-nav-list-item (click)="onLogOut()" role="link">
         Log out

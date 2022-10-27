@@ -20,46 +20,48 @@ import {
   EoApiEnvironment,
   eoApiEnvironmentToken,
 } from '@energinet-datahub/eo/shared/environments';
+import {
+  AppSettingsStore,
+  CalendarDateRange,
+} from '@energinet-datahub/eo/shared/services';
+import { take } from 'rxjs';
 
-export interface EoOriginOfEnergyResponse {
-  energySources: [
-    {
-      dateFrom: number;
-      dateTo: number;
-      renewable: number;
-      ratios: {
-        wood: number;
-        waste: number;
-        straw: number;
-        oil: number;
-        naturalGas: number;
-        coal: number;
-        bioGas: number;
-        solar: number;
-        windOnshore: number;
-        windOffshore: number;
-      };
-    }
-  ];
+export interface EoMeasurement {
+  dateFrom: number;
+  dateTo: number;
+  value: number;
+}
+
+interface EoConsumptionResponse {
+  measurements: EoMeasurement[];
 }
 
 @Injectable({
   providedIn: 'root',
 })
-export class EoOriginOfEnergyService {
+export class EoCertificatesService {
   #apiBase: string;
-
-  getSourcesFor2021() {
-    return this.http.get<EoOriginOfEnergyResponse>(
-      `${        this.#apiBase      }/sources?dateFrom=1609459200&dateTo=1640995199&aggregation=Total`,
-      { withCredentials: true }
-    );
-  }
 
   constructor(
     private http: HttpClient,
+    private store: AppSettingsStore,
     @Inject(eoApiEnvironmentToken) apiEnvironment: EoApiEnvironment
   ) {
     this.#apiBase = `${apiEnvironment.apiBase}`;
+  }
+
+  getMonthlyConsumption() {
+    let dateRange: CalendarDateRange = {} as CalendarDateRange;
+
+    this.store.calendarDateRangeInSeconds$
+      .pipe(take(1))
+      .subscribe((datesInSeconds) => (dateRange = datesInSeconds));
+
+    return this.http.get<EoConsumptionResponse>(
+      `${this.#apiBase}/measurements/consumption?dateFrom=${
+        dateRange.start
+      }&dateTo=${dateRange.end}&aggregation=Month`,
+      { withCredentials: true }
+    );
   }
 }

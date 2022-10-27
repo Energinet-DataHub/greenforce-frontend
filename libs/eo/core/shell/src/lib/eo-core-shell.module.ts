@@ -29,6 +29,7 @@ import { EoHttpModule } from './eo-http.module';
 import { EoMaterialModule } from './eo-material.module';
 import { EoShellComponent, EoShellScam } from './eo-shell.component';
 import { eoProductionRoutePath } from '@energinet-datahub/eo/production/routing';
+import {eoCertificatesRoutePath} from "@energinet-datahub/eo/certificates";
 
 const routes: Routes = [
   {
@@ -52,6 +53,14 @@ const routes: Routes = [
     component: EoShellComponent,
     canActivateChild: [EoAuthenticationGuard],
     children: [
+      {
+        path: eoCertificatesRoutePath,
+        data: { title: 'Certificates' },
+        loadChildren: () =>
+          import('@energinet-datahub/eo/certificates').then(
+            (esModule) => esModule.EoCertificatesModule
+          ),
+      },
       {
         path: eoDashboardRoutePath,
         data: { title: 'Dashboard' },
