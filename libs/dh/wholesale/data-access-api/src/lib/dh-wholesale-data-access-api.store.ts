@@ -14,7 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Injectable, ChangeDetectorRef } from '@angular/core';
+import { Injectable, ChangeDetectorRef, inject } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 import { ComponentStore } from '@ngrx/component-store';
 import {
   Observable,
@@ -26,8 +27,6 @@ import {
   EMPTY,
 } from 'rxjs';
 
-import { WattToastService } from '@energinet-datahub/watt/toast';
-
 import {
   WholesaleBatchHttp,
   BatchRequestDto,
@@ -35,7 +34,6 @@ import {
   BatchSearchDto,
   BatchDtoV2,
 } from '@energinet-datahub/dh/shared/domain';
-import { TranslocoService } from '@ngneat/transloco';
 
 interface State {
   batches?: BatchDtoV2[];
@@ -51,13 +49,13 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
   batches$ = this.select((x) => x.batches);
   loadingBatches$ = this.select((x) => x.loadingBatches);
   loadingBatchesErrorTrigger$: Subject<void> = new Subject();
+  loadingBasisDataErrorTrigger$: Subject<void> = new Subject();
 
-  constructor(
-    private httpClient: WholesaleBatchHttp,
-    private changeDetectorRef: ChangeDetectorRef,
-    private toastService: WattToastService,
-    private translations: TranslocoService
-  ) {
+  private document = inject(DOCUMENT);
+  private httpClient = inject(WholesaleBatchHttp);
+  private changeDetectorRef = inject(ChangeDetectorRef);
+
+  constructor() {
     super(initialState);
   }
 
@@ -125,32 +123,24 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
   });
 
   readonly getZippedBasisData = this.effect(
-    (
-      batch$: Observable<{
-        id: string;
-      }>
-    ) => {
+    (batch$: Observable<BatchDtoV2>) => {
       return batch$.pipe(
-        exhaustMap((batch) => {
-          const batchId: string = batch.id;
-
+        switchMap((batch) => {
           return this.httpClient
-            .v1WholesaleBatchZippedBasisDataStreamGet(batchId)
+            .v1WholesaleBatchZippedBasisDataStreamGet(batch.batchNumber)
             .pipe(
               tap((data) => {
                 const blob = new Blob([data as unknown as BlobPart], {
                   type: 'application/zip',
                 });
-                const url = window.URL.createObjectURL(blob);
-                window.open(url);
+                const basisData = window.URL.createObjectURL(blob);
+                const link = this.document.createElement('a');
+                link.href = basisData;
+                link.download = `${batch.batchNumber}.zip`;
+                link.click();
               }),
               catchError(() => {
-                this.toastService.open({
-                  message: this.translations.translate(
-                    'wholesale.searchBatch.downloadFailed'
-                  ),
-                  type: 'danger',
-                });
+                this.loadingBasisDataErrorTrigger$.next();
                 return EMPTY;
               })
             );
