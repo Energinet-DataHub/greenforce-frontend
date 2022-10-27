@@ -31,7 +31,6 @@ function postWholesaleBatch(apiBase: string) {
   });
 }
 
-
 const fakeBasisData = 'FAKE_BASIS_DATA';
 
 function downloadBasisData(apiBase: string) {
@@ -42,14 +41,14 @@ function downloadBasisData(apiBase: string) {
 
       // Convert "base64" image to "ArrayBuffer".
       const imageBuffer = await fetch(fakeBasisData).then((res) =>
-        res.arrayBuffer(),
-      )
+        res.arrayBuffer()
+      );
       return res(
         ctx.set('Content-Length', imageBuffer.byteLength.toString()),
         ctx.set('Content-Type', 'image/png'),
         // Respond with the "ArrayBuffer".
-        ctx.body(imageBuffer),
-      )
+        ctx.body(imageBuffer)
+      );
     }
   );
 }
