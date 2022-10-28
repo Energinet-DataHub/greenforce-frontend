@@ -7,7 +7,7 @@
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/dh/auth/feature-msal"],
+      "outputs": ["{workspaceRoot}/coverage/libs/dh/auth/feature-msal"],
       "options": {
         "jestConfig": "libs/dh/auth/feature-msal/jest.config.ts",
         "passWithNoTests": true

@@ -7,7 +7,7 @@
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/eo/metering-points/routing"],
+      "outputs": ["{workspaceRoot}/coverage/libs/eo/metering-points/routing"],
       "options": {
         "jestConfig": "libs/eo/metering-points/routing/jest.config.ts",
         "passWithNoTests": true

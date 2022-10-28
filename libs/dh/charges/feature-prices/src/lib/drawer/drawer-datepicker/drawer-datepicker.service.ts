@@ -41,4 +41,8 @@ export class DrawerDatepickerService {
   setData(dateRange: DatePickerData) {
     this.dataSource$.next(dateRange);
   }
+
+  reset() {
+    this.dataSource$.next(this.dateRangeDefault);
+  }
 }

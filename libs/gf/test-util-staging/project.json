@@ -7,7 +7,7 @@
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/gf/test-util-staging"],
+      "outputs": ["{workspaceRoot}/coverage/libs/gf/test-util-staging"],
       "options": {
         "jestConfig": "libs/gf/test-util-staging/jest.config.ts",
         "passWithNoTests": true
