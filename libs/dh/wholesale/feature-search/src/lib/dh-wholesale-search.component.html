@@ -62,7 +62,7 @@ limitations under the License.
     <watt-drawer *ngIf="selectedBatch" (closed)="selectedBatch = null">
       <watt-drawer-topbar>
         <div>
-          <watt-badge [type]="selectedBatch.statusType">
+          <watt-badge [type]="selectedBatch.statusType || 'info'">
             {{ transloco(selectedBatch.executionState) }}
           </watt-badge>
           <p class="subheadline"><small>Korrektionsafregning</small></p>

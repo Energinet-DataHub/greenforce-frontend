@@ -22,6 +22,8 @@
    inject,
    Input,
    ViewChild,
+   Output,
+   EventEmitter
  } from '@angular/core';
  import { MatSort, MatSortModule } from '@angular/material/sort';
  import { MatTableDataSource, MatTableModule } from '@angular/material/table';
@@ -38,16 +40,8 @@
 
  import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
 
- type wholesaleTableData = MatTableDataSource<{
-   statusType: void | WattBadgeType;
-   batchNumber: string;
-   periodStart: string;
-   periodEnd: string;
-   executionTimeStart?: string | null;
-   executionTimeEnd?: string | null;
-   executionState: BatchState;
-   isBasisDataDownloadAvailable: boolean;
- }>;
+ export type BatchVm = BatchDtoV2 & {statusType: void | WattBadgeType;};
+ type wholesaleTableData = MatTableDataSource<BatchVm>;
 
  @Component({
    standalone: true,
@@ -79,6 +73,7 @@
        }))
      );
    }
+   @Output() selectedRow: EventEmitter<BatchVm> = new EventEmitter();
    _data: wholesaleTableData = new MatTableDataSource(undefined);
 
    private store = inject(DhWholesaleBatchDataAccessApiStore);
