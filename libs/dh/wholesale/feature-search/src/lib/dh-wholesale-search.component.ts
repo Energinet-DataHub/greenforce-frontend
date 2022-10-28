@@ -15,7 +15,13 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import { Component, inject, NgModule, ChangeDetectorRef, ViewChild } from '@angular/core';
+import {
+  Component,
+  inject,
+  NgModule,
+  ChangeDetectorRef,
+  ViewChild,
+} from '@angular/core';
 import { of } from 'rxjs';
 import { LetModule, PushModule } from '@rx-angular/template';
 import { TranslocoModule } from '@ngneat/transloco';
@@ -32,10 +38,16 @@ import {
   BatchSearchDto,
 } from '@energinet-datahub/dh/shared/domain';
 
-import { BatchVm, DhWholesaleTableComponent } from './table/dh-wholesale-table.component';
+import {
+  BatchVm,
+  DhWholesaleTableComponent,
+} from './table/dh-wholesale-table.component';
 import { DhWholesaleFormComponent } from './form/dh-wholesale-form.component';
 import { WattCardModule } from '@energinet-datahub/watt/card';
-import { WattDrawerComponent, WattDrawerModule } from '@energinet-datahub/watt/drawer';
+import {
+  WattDrawerComponent,
+  WattDrawerModule,
+} from '@energinet-datahub/watt/drawer';
 import { WattBadgeModule } from '@energinet-datahub/watt/badge';
 
 @Component({
@@ -89,7 +101,7 @@ export class DhWholesaleSearchComponent {
     WattSpinnerModule,
     WattCardModule,
     WattDrawerModule,
-    WattBadgeModule
+    WattBadgeModule,
   ],
   declarations: [DhWholesaleSearchComponent],
 })
