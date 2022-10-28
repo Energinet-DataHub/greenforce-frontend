@@ -1,3 +1,13 @@
+.headline,
+.subheadline {
+  margin: 0;
+}
+
+.subheadline {
+  float: right;
+  margin-left: var(--watt-space-s);
+}
+
 dl {
   border-bottom: 1px solid var(--watt-color-neutral-grey-300);
   display: flex;
