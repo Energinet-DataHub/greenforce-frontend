@@ -15,11 +15,11 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<ng-container *transloco="let transloco; read: 'wholesale.searchBatch'">
-  <div class="header">
+<watt-card *transloco="let transloco; read: 'wholesale.searchBatch'">
+  <watt-card-title>
     <h3 class="watt-on-light--high-emphasis">{{ transloco("headline") }}</h3>
     <dh-shared-ui-paginator></dh-shared-ui-paginator>
-  </div>
+  </watt-card-title>
 
   <!-- Table -->
   <mat-table
@@ -89,7 +89,7 @@ limitations under the License.
           variant="icon"
           title="{{ transloco('download') }}"
           icon="download"
-          (click)="onDownload(batch)"
+          (click)="onDownload($event, batch)"
           [disabled]="!batch.isBasisDataDownloadAvailable"
         >
         </watt-button>
@@ -112,4 +112,4 @@ limitations under the License.
     [message]="transloco('noBatchesHelperText')"
   >
   </watt-empty-state>
-</ng-container>
+</watt-card>

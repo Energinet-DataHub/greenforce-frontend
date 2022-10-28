@@ -38,6 +38,7 @@ limitations under the License.
           *ngIf="data"
           [data]="data"
           (selectedRow)="onBatchSelected($event)"
+          (download)="onDownloadBasisData($event)"
         ></dh-wholesale-table>
       </ng-container>
     </section>

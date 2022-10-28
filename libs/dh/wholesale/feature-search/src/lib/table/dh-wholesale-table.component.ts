@@ -14,108 +14,95 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- import { CommonModule } from '@angular/common';
- import {
-   AfterViewInit,
-   ChangeDetectionStrategy,
-   Component,
-   inject,
-   Input,
-   ViewChild,
-   Output,
-   EventEmitter
- } from '@angular/core';
- import { MatSort, MatSortModule } from '@angular/material/sort';
- import { MatTableDataSource, MatTableModule } from '@angular/material/table';
- import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
- import { first, of } from 'rxjs';
+import { CommonModule } from '@angular/common';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  ViewChild,
+  Output,
+  EventEmitter,
+} from '@angular/core';
+import { MatSort, MatSortModule } from '@angular/material/sort';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { TranslocoModule } from '@ngneat/transloco';
 
- import { BatchDtoV2, BatchState } from '@energinet-datahub/dh/shared/domain';
- import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
- import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
- import { WattBadgeModule, WattBadgeType } from '@energinet-datahub/watt/badge';
- import { WattButtonModule } from '@energinet-datahub/watt/button';
- import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
- import { WattToastService } from '@energinet-datahub/watt/toast';
+import { BatchDtoV2, BatchState } from '@energinet-datahub/dh/shared/domain';
+import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
+import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
+import { WattBadgeModule, WattBadgeType } from '@energinet-datahub/watt/badge';
+import { WattButtonModule } from '@energinet-datahub/watt/button';
+import { WattCardModule } from '@energinet-datahub/watt/card';
+import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 
- import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
+export type BatchVm = BatchDtoV2 & { statusType: void | WattBadgeType };
+type wholesaleTableData = MatTableDataSource<BatchVm>;
 
- export type BatchVm = BatchDtoV2 & {statusType: void | WattBadgeType;};
- type wholesaleTableData = MatTableDataSource<BatchVm>;
+@Component({
+  standalone: true,
+  imports: [
+    CommonModule,
+    DhSharedUiDateTimeModule,
+    MatSortModule,
+    MatTableModule,
+    TranslocoModule,
+    WattBadgeModule,
+    WattButtonModule,
+    WattEmptyStateModule,
+    DhSharedUiPaginatorComponent,
+    WattCardModule,
+  ],
+  selector: 'dh-wholesale-table',
+  templateUrl: './dh-wholesale-table.component.html',
+  styleUrls: ['./dh-wholesale-table.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class DhWholesaleTableComponent implements AfterViewInit {
+  @ViewChild(MatSort) sort!: MatSort;
+  @ViewChild(DhSharedUiPaginatorComponent)
+  paginator!: DhSharedUiPaginatorComponent;
+  @Input() set data(batches: BatchDtoV2[]) {
+    this._data = new MatTableDataSource(
+      batches.map((batch) => ({
+        ...batch,
+        statusType: this.getStatusType(batch.executionState),
+      }))
+    );
+  }
+  @Output() selectedRow: EventEmitter<BatchVm> = new EventEmitter();
+  @Output() download: EventEmitter<BatchVm> = new EventEmitter();
+  _data: wholesaleTableData = new MatTableDataSource(undefined);
 
- @Component({
-   standalone: true,
-   imports: [
-     CommonModule,
-     DhSharedUiDateTimeModule,
-     MatSortModule,
-     MatTableModule,
-     TranslocoModule,
-     WattBadgeModule,
-     WattButtonModule,
-     WattEmptyStateModule,
-     DhSharedUiPaginatorComponent,
-   ],
-   selector: 'dh-wholesale-table',
-   templateUrl: './dh-wholesale-table.component.html',
-   styleUrls: ['./dh-wholesale-table.component.scss'],
-   changeDetection: ChangeDetectionStrategy.OnPush,
- })
- export class DhWholesaleTableComponent implements AfterViewInit {
-   @ViewChild(MatSort) sort!: MatSort;
-   @ViewChild(DhSharedUiPaginatorComponent)
-   paginator!: DhSharedUiPaginatorComponent;
-   @Input() set data(batches: BatchDtoV2[]) {
-     this._data = new MatTableDataSource(
-       batches.map((batch) => ({
-         ...batch,
-         statusType: this.getStatusType(batch.executionState),
-       }))
-     );
-   }
-   @Output() selectedRow: EventEmitter<BatchVm> = new EventEmitter();
-   _data: wholesaleTableData = new MatTableDataSource(undefined);
+  columnIds = [
+    'batchNumber',
+    'periodStart',
+    'periodEnd',
+    'executionTimeStart',
+    'executionState',
+    'basisData',
+  ];
 
-   private store = inject(DhWholesaleBatchDataAccessApiStore);
-   private toastService = inject(WattToastService);
-   private translations = inject(TranslocoService);
+  ngAfterViewInit() {
+    if (this._data === null) return;
+    this._data.sort = this.sort;
+    this._data.paginator = this.paginator.instance;
+  }
 
-   columnIds = [
-     'batchNumber',
-     'periodStart',
-     'periodEnd',
-     'executionTimeStart',
-     'executionState',
-     'basisData',
-   ];
+  onDownload(event: Event, batch: BatchVm) {
+    event.stopPropagation();
+    this.download.emit(batch);
+  }
 
-   ngAfterViewInit() {
-     if (this._data === null) return;
-     this._data.sort = this.sort;
-     this._data.paginator = this.paginator.instance;
-   }
-
-   onDownload(batch: BatchDtoV2) {
-     this.store.getZippedBasisData(of(batch));
-     this.store.loadingBasisDataErrorTrigger$.pipe(first()).subscribe(() => {
-       this.toastService.open({
-         message: this.translations.translate(
-           'wholesale.searchBatch.downloadFailed'
-         ),
-         type: 'danger',
-       });
-     });
-   }
-
-   private getStatusType(status: BatchState): WattBadgeType | void {
-     if (status === BatchState.Pending) {
-       return 'warning';
-     } else if (status === BatchState.Completed) {
-       return 'success';
-     } else if (status === BatchState.Executing) {
-       return 'info';
-     } else if (status === BatchState.Failed) {
-       return 'danger';
-     }
-   }
- }
+  private getStatusType(status: BatchState): WattBadgeType | void {
+    if (status === BatchState.Pending) {
+      return 'warning';
+    } else if (status === BatchState.Completed) {
+      return 'success';
+    } else if (status === BatchState.Executing) {
+      return 'info';
+    } else if (status === BatchState.Failed) {
+      return 'danger';
+    }
+  }
+}

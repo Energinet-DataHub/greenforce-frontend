@@ -15,11 +15,16 @@
  * limitations under the License.
  */
 import { CommonModule } from '@angular/common';
-import { Component, inject, NgModule, ChangeDetectorRef, ViewChild } from '@angular/core';
-import { of } from 'rxjs';
+import {
+  Component,
+  inject,
+  NgModule,
+  ChangeDetectorRef,
+  ViewChild,
+} from '@angular/core';
+import { first, of } from 'rxjs';
 import { LetModule, PushModule } from '@rx-angular/template';
-import { TranslocoModule } from '@ngneat/transloco';
-import { MatCardModule } from '@angular/material/card';
+import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 
 import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/feature-flags';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
@@ -32,11 +37,18 @@ import {
   BatchSearchDto,
 } from '@energinet-datahub/dh/shared/domain';
 
-import { BatchVm, DhWholesaleTableComponent } from './table/dh-wholesale-table.component';
+import {
+  BatchVm,
+  DhWholesaleTableComponent,
+} from './table/dh-wholesale-table.component';
 import { DhWholesaleFormComponent } from './form/dh-wholesale-form.component';
 import { WattCardModule } from '@energinet-datahub/watt/card';
-import { WattDrawerComponent, WattDrawerModule } from '@energinet-datahub/watt/drawer';
+import {
+  WattDrawerComponent,
+  WattDrawerModule,
+} from '@energinet-datahub/watt/drawer';
 import { WattBadgeModule } from '@energinet-datahub/watt/badge';
+import { WattToastService } from '@energinet-datahub/watt/toast';
 
 @Component({
   selector: 'dh-wholesale-search',
@@ -48,6 +60,8 @@ export class DhWholesaleSearchComponent {
   @ViewChild(WattDrawerComponent) batchDetails!: WattDrawerComponent;
 
   private store = inject(DhWholesaleBatchDataAccessApiStore);
+  private toastService = inject(WattToastService);
+  private translations = inject(TranslocoService);
   private changeDetectorRef = inject(ChangeDetectorRef);
 
   data$ = this.store.batches$;
@@ -63,7 +77,15 @@ export class DhWholesaleSearchComponent {
   }
 
   onDownloadBasisData(batch: BatchDtoV2) {
-    alert('DOWNLOAD');
+    this.store.getZippedBasisData(of(batch));
+    this.store.loadingBasisDataErrorTrigger$.pipe(first()).subscribe(() => {
+      this.toastService.open({
+        message: this.translations.translate(
+          'wholesale.searchBatch.downloadFailed'
+        ),
+        type: 'danger',
+      });
+    });
   }
 
   onBatchSelected(batch: BatchVm) {
@@ -82,14 +104,13 @@ export class DhWholesaleSearchComponent {
     DhWholesaleTableComponent,
     LetModule,
     PushModule,
-    MatCardModule,
     TranslocoModule,
     WattButtonModule,
     WattEmptyStateModule,
     WattSpinnerModule,
     WattCardModule,
     WattDrawerModule,
-    WattBadgeModule
+    WattBadgeModule,
   ],
   declarations: [DhWholesaleSearchComponent],
 })
