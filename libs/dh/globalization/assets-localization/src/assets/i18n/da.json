@@ -334,7 +334,7 @@
       "startSearch": "Start søgning",
       "startSearchText": "Dine resultater vil fremgå her",
       "noPricesForCharge": "Ingen priser",
-      "noPricesForChargeText": "Ingen priser er indsendt for perioden.",
+      "noPricesForChargeText": "Der findes ingen pris serier for denne pris.",
       "paginator": {
         "itemsPerPageLabel": "Priser pr. side",
         "of": "af",
