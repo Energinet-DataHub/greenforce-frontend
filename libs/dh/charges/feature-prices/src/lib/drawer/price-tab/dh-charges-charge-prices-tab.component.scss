@@ -14,7 +14,55 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+table {
+  width: 100%;
+}
 
 .datepicker-container {
   display: flex;
+}
+
+.card-container {
+  padding: var(--watt-space-m);
+  box-shadow: 0px 1px 6px rgba(11, 60, 93, 0.12),
+    0px 4px 18px 3px rgba(46, 50, 52, 0.08);
+  border-radius: 4px;
+}
+
+.header-container {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  align-items: center;
+}
+
+.pagination-container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.column-align-right {
+  text-align: right;
+}
+
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  margin-top: var(--watt-space-m);
+}
+
+.no-result-div {
+  margin-top: var(--watt-space-xl);
+}
+
+.mat-column-time {
+  width: 20%;
+}
+
+.mat-column-fromDateTime {
+  width: 20%;
+}
+
+.loading-error {
+  margin-top: var(--watt-space-m);
 }

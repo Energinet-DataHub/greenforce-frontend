@@ -297,6 +297,12 @@
     "prices": {
       "topBarTitle": "Search price",
       "prices": "Prices",
+      "price": "Price",
+      "priceTab": {
+        "fromDateTime": "Valid from",
+        "toDateTime": "Valid to",
+        "time": "Time"
+      },
       "search": {
         "idOrName": "Price ID/Name",
         "enterIdOrName": "Enter part or whole id or name ",
@@ -318,12 +324,15 @@
       "resolution": "Resolution",
       "validFromDateTime": "Valid from",
       "validToDateTime": "Valid to",
-      "resultLength": "Search results",
+      "resultLength": "Search result",
+      "resultsLength": "Search results",
       "Download": "Download",
       "noResultsFound": "No results",
       "noResultsHelperText": "Try adjusting your search or filter to find what you are looking for.",
       "startSearch": "Start Search",
       "startSearchText": "Your results will appear here",
+      "noPricesForCharge": "No prices",
+      "noPricesForChargeText": "No prices have been submitted for the period.",
       "paginator": {
         "itemsPerPageLabel": "Prices per page",
         "of": "of",
