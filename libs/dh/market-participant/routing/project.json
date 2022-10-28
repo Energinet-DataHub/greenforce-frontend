@@ -7,7 +7,9 @@
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/dh/market-participant/routing"],
+      "outputs": [
+        "{workspaceRoot}/coverage/libs/dh/market-participant/routing"
+      ],
       "options": {
         "jestConfig": "libs/dh/market-participant/routing/jest.config.ts",
         "passWithNoTests": true

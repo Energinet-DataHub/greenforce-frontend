@@ -7,7 +7,7 @@
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/eo/privacy-policy/routing"],
+      "outputs": ["{workspaceRoot}/coverage/libs/eo/privacy-policy/routing"],
       "options": {
         "jestConfig": "libs/eo/privacy-policy/routing/jest.config.ts",
         "passWithNoTests": true
