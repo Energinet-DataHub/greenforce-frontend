@@ -24,8 +24,7 @@ import {
 } from '@azure/msal-browser';
 import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
 import { of } from 'rxjs';
-import { scopesKey } from '..';
-import { scopeKey, ScopeService } from './scope.service';
+import { scopeKey, ScopeService, scopesKey } from './scope.service';
 
 describe('ScopeService.name', () => {
   const clientId = 'client_id';
