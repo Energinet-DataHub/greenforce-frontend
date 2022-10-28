@@ -7,7 +7,7 @@
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/dh/shared/ui-paginator"],
+      "outputs": ["{workspaceRoot}/coverage/libs/dh/shared/ui-paginator"],
       "options": {
         "jestConfig": "libs/dh/shared/ui-paginator/jest.config.ts",
         "passWithNoTests": true

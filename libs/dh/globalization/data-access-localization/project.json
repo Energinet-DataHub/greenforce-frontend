@@ -7,7 +7,9 @@
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/dh/globalization/data-access-localization"],
+      "outputs": [
+        "{workspaceRoot}/coverage/libs/dh/globalization/data-access-localization"
+      ],
       "options": {
         "jestConfig": "libs/dh/globalization/data-access-localization/jest.config.ts",
         "passWithNoTests": true

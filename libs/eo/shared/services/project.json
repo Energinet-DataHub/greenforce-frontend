@@ -7,7 +7,7 @@
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/eo/shared/services"],
+      "outputs": ["{workspaceRoot}/coverage/libs/eo/shared/services"],
       "options": {
         "jestConfig": "libs/eo/shared/services/jest.config.ts",
         "passWithNoTests": true

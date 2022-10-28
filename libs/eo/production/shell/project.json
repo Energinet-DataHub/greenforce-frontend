@@ -6,7 +6,7 @@
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/eo/production/shell"],
+      "outputs": ["{workspaceRoot}/coverage/libs/eo/production/shell"],
       "options": {
         "jestConfig": "libs/eo/production/shell/jest.config.ts",
         "passWithNoTests": true
