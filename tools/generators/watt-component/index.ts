@@ -37,7 +37,7 @@ export default async function (host: Tree, schema: { name: string }) {
   // Add reference to base configuration
   updateJson(host, './tsconfig.base.json', (json) => {
     json.compilerOptions.paths[
-      `@energinet-datahub/ui-watt/${substitutions.fileName}`
+      `@energinet-datahub/watt/${substitutions.fileName}`
     ] = [
       `libs/ui-watt/src/lib/components/${substitutions.fileName}/src/index.ts`,
     ];
