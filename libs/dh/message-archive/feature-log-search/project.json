@@ -7,7 +7,9 @@
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/dh/message-archive/feature-log-search"],
+      "outputs": [
+        "{workspaceRoot}/coverage/libs/dh/message-archive/feature-log-search"
+      ],
       "options": {
         "jestConfig": "libs/dh/message-archive/feature-log-search/jest.config.ts",
         "passWithNoTests": true

@@ -7,7 +7,7 @@
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/dh/wholesale/feature-search"],
+      "outputs": ["{workspaceRoot}/coverage/libs/dh/wholesale/feature-search"],
       "options": {
         "jestConfig": "libs/dh/wholesale/feature-search/jest.config.ts",
         "passWithNoTests": true

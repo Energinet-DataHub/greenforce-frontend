@@ -7,7 +7,9 @@
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/eo/shared/atomic-design/feature-molecules"],
+      "outputs": [
+        "{workspaceRoot}/coverage/libs/eo/shared/atomic-design/feature-molecules"
+      ],
       "options": {
         "jestConfig": "libs/eo/shared/atomic-design/feature-molecules/jest.config.ts",
         "passWithNoTests": true
