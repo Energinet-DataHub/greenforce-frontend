@@ -24,7 +24,7 @@ import {
 } from '@energinet-datahub/dh/shared/environments';
 import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
 import { filter } from 'rxjs';
-import { LocalStorage } from './local-storage.service';
+import { ScopeStorage } from './scope-storage.service';
 
 export const scopesKey = 'actor-scopes';
 export const scopeKey = 'active-actor-scope';
@@ -36,7 +36,7 @@ export class ScopeService {
     private msalBroadcastService: MsalBroadcastService,
     private authService: MsalService,
     private featureFlagService: DhFeatureFlagsService,
-    private localStorage: LocalStorage
+    private scopeStorage: ScopeStorage
   ) {
     this.msalBroadcastService.msalSubject$
       .pipe(
@@ -56,7 +56,7 @@ export class ScopeService {
           (account.idTokenClaims['extn.actors'] as string[]);
         const scopes = this.getActorClaims(actors);
 
-        this.localStorage.setItem(userId + scopesKey, scopes.join(' '));
+        this.scopeStorage.setItem(userId + scopesKey, scopes.join(' '));
       });
   }
 
@@ -69,17 +69,17 @@ export class ScopeService {
     const scopes = this.getScopes(userId);
     if (scopes.length === 0) return this.fallbackScope();
 
-    const stored = this.localStorage.getItem(userId + scopeKey);
+    const stored = this.scopeStorage.getItem(userId + scopeKey);
     if (stored && scopes.includes(stored)) return stored;
 
     const activeScope = scopes[0];
-    this.localStorage.setItem(userId + scopeKey, activeScope);
+    this.scopeStorage.setItem(userId + scopeKey, activeScope);
 
     return activeScope;
   }
 
   private getScopes(userId: string) {
-    const scopes = this.localStorage.getItem(userId + scopesKey);
+    const scopes = this.scopeStorage.getItem(userId + scopesKey);
     return (scopes && scopes.split(' ')) || [];
   }
 
@@ -102,14 +102,14 @@ export class ScopeService {
   private clearScopeRelatedItems() {
     const keys = [];
 
-    for (let i = 0, l = this.localStorage.length; i < l; ++i) {
-      const key = this.localStorage.key(i);
+    for (let i = 0, l = this.scopeStorage.length; i < l; ++i) {
+      const key = this.scopeStorage.key(i);
       if (key && (key.endsWith(scopeKey) || key.endsWith(scopesKey))) {
         keys.push(key);
       }
     }
 
-    keys.forEach(this.localStorage.removeItem);
+    keys.forEach(this.scopeStorage.removeItem);
   }
 
   private fallbackScope() {

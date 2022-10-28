@@ -18,7 +18,7 @@
 import { Injectable } from '@angular/core';
 
 @Injectable({ providedIn: 'root' })
-export class LocalStorage {
+export class ScopeStorage {
   length = 0;
 
   setItem = (key: string, value: string) => {
