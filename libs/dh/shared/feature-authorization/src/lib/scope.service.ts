@@ -43,8 +43,6 @@ export class ScopeService {
         filter((msg: EventMessage) => msg.eventType === EventType.LOGIN_SUCCESS)
       )
       .subscribe(() => {
-        console.log(EventType.LOGIN_SUCCESS);
-
         const account = this.getAccount();
 
         if (!account) {
