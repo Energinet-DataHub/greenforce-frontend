@@ -1,7 +1,7 @@
 <watt-drawer *transloco="let transloco; read: 'wholesale.searchBatch'" #drawer>
   <watt-drawer-topbar>
     <div>
-      <watt-badge [type]="batch.statusType || 'info'">
+      <watt-badge [type]="batch.statusType">
         {{ transloco(batch.executionState) }}
       </watt-badge>
       <p class="subheadline"><small>Korrektionsafregning</small></p>
