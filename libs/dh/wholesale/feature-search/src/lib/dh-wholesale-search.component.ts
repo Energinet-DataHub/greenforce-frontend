@@ -51,7 +51,7 @@ import { DhWholesaleBatchDetailsComponent } from './batch-details/dh-wholesale-b
     PushModule,
     TranslocoModule,
     WattEmptyStateModule,
-    WattSpinnerModule
+    WattSpinnerModule,
   ],
   templateUrl: './dh-wholesale-search.component.html',
   styleUrls: ['./dh-wholesale-search.component.scss'],
