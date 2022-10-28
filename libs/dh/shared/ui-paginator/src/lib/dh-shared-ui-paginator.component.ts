@@ -14,11 +14,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, OnDestroy, inject, ViewChild, Input } from '@angular/core';
+import {
+  Component,
+  OnDestroy,
+  inject,
+  ViewChild,
+  Input,
+  Output,
+  EventEmitter,
+} from '@angular/core';
 import {
   MatPaginator,
   MatPaginatorIntl,
   MatPaginatorModule,
+  PageEvent,
 } from '@angular/material/paginator';
 import { TranslocoService } from '@ngneat/transloco';
 import { Subject, takeUntil } from 'rxjs';
@@ -29,6 +38,7 @@ import { Subject, takeUntil } from 'rxjs';
   imports: [MatPaginatorModule],
   template: `
     <mat-paginator
+      (page)="handlePageEvent($event)"
       [length]="length"
       [pageSize]="pageSize"
       [pageSizeOptions]="pageSizeOptions"
@@ -44,6 +54,7 @@ export class DhSharedUiPaginatorComponent implements OnDestroy {
   @Input() length = 0;
   @Input() pageSizeOptions: number[] = [50, 100, 150, 200, 250];
   @Input() pageSize = 50;
+  @Output() changed = new EventEmitter();
 
   ariaLabel?: string;
 
@@ -61,6 +72,10 @@ export class DhSharedUiPaginatorComponent implements OnDestroy {
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
+  }
+
+  handlePageEvent(event: PageEvent) {
+    this.changed.emit(event);
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

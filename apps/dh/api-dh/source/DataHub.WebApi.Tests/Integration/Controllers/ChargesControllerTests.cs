@@ -15,8 +15,8 @@
 using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
-using Energinet.Charges.Contracts.Charge;
 using Energinet.DataHub.Charges.Clients.Charges;
+using Energinet.DataHub.Charges.Contracts.Charge;
 using Energinet.DataHub.Core.TestCommon.AutoFixture.Attributes;
 using Energinet.DataHub.WebApi.Tests.Fixtures;
 using FluentAssertions;
