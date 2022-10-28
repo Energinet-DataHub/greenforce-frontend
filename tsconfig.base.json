@@ -301,6 +301,9 @@
       "@energinet-datahub/watt/chips": [
         "libs/ui-watt/src/lib/components/chips/index.ts"
       ],
+      "@energinet-datahub/watt/clipboard": [
+        "libs/ui-watt/src/lib/components/clipboard/index.ts"
+      ],
       "@energinet-datahub/watt/color": [
         "libs/ui-watt/src/lib/foundations/color/index.ts"
       ],
