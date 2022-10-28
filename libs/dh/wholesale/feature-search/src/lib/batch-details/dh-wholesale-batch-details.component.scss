@@ -1,0 +1,11 @@
+dl {
+  border-bottom: 1px solid var(--watt-color-neutral-grey-300);
+  display: flex;
+  justify-content: space-between;
+  margin: 0 0 var(--watt-space-m) 0;
+  padding-bottom: var(--watt-space-m);
+
+  dd {
+    margin: 0;
+  }
+}
