@@ -40,9 +40,9 @@ export class DhWattClipboardIntlService extends WattClipboardIntlService {
 }
 
 /**
- * Do not import directly. Use `DhConfigurationLocalization.forRoot`.
+ * Do not import directly. Use `DhGlobalizationUiWattTranslationModule.forRoot`.
  */
-@NgModule({})
+@NgModule()
 export class DhGlobalizationUiWattTranslationModule {
   static forRoot(): ModuleWithProviders<DhGlobalizationUiWattTranslationModule> {
     return {
