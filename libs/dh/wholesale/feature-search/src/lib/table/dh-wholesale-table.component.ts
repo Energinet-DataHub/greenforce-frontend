@@ -62,6 +62,7 @@ export class DhWholesaleTableComponent implements AfterViewInit {
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(DhSharedUiPaginatorComponent)
   paginator!: DhSharedUiPaginatorComponent;
+
   @Input() set data(batches: BatchDtoV2[]) {
     this._data = new MatTableDataSource(
       batches.map((batch) => ({
@@ -72,8 +73,8 @@ export class DhWholesaleTableComponent implements AfterViewInit {
   }
   @Output() selectedRow: EventEmitter<BatchVm> = new EventEmitter();
   @Output() download: EventEmitter<BatchVm> = new EventEmitter();
-  _data: wholesaleTableData = new MatTableDataSource(undefined);
 
+  _data: wholesaleTableData = new MatTableDataSource(undefined);
   columnIds = [
     'batchNumber',
     'periodStart',
