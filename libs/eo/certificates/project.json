@@ -6,9 +6,7 @@
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": [
-        "{workspaceRoot}/coverage/libs/eo/certificates"
-      ],
+      "outputs": ["{workspaceRoot}/coverage/libs/eo/certificates"],
       "options": {
         "jestConfig": "libs/eo/certificates/jest.config.ts",
         "passWithNoTests": true
@@ -24,9 +22,5 @@
       }
     }
   },
-  "tags": [
-    "product:eo",
-    "domain:certificates",
-    "type:feature"
-  ]
+  "tags": ["product:eo", "domain:certificates", "type:feature"]
 }
