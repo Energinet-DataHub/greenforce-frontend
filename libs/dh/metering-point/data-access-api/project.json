@@ -7,7 +7,9 @@
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/dh/metering-point/data-access-api"],
+      "outputs": [
+        "{workspaceRoot}/coverage/libs/dh/metering-point/data-access-api"
+      ],
       "options": {
         "jestConfig": "libs/dh/metering-point/data-access-api/jest.config.ts",
         "passWithNoTests": true
