@@ -7,7 +7,7 @@
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/dh/shared/test-util-msw"],
+      "outputs": ["{workspaceRoot}/coverage/libs/dh/shared/test-util-msw"],
       "options": {
         "jestConfig": "libs/dh/shared/test-util-msw/jest.config.ts",
         "passWithNoTests": true
