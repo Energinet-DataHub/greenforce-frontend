@@ -1,4 +1,5 @@
 {
+  "name": "eo-faq-routing",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
   "sourceRoot": "libs/eo/faq/routing/src",

@@ -47,7 +47,7 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
 
         [Theory]
         [InlineAutoMoqData]
-        public async Task PostAsync_WhenBatchesFound_ReturnsOk(BatchSearchDto searchDto, List<BatchDto> batches)
+        public async Task PostAsync_WhenBatchesFound_ReturnsOk(BatchSearchDto searchDto, List<BatchDtoV2> batches)
         {
             DomainClientMock
                 .Setup(m => m.GetBatchesAsync(searchDto))
@@ -64,7 +64,7 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.Controllers
         {
             DomainClientMock
                 .Setup(m => m.GetBatchesAsync(searchDto))
-                .ReturnsAsync(new List<BatchDto>());
+                .ReturnsAsync(new List<BatchDtoV2>());
 
             var actual = await BffClient.PostAsJsonAsync(BatchSearchUrl, searchDto);
 

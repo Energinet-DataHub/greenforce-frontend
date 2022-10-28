@@ -1,4 +1,5 @@
 {
+  "name": "dh-metering-point-data-access-api",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
   "sourceRoot": "libs/dh/metering-point/data-access-api/src",

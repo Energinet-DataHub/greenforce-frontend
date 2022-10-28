@@ -19,10 +19,8 @@ import { Component, Input, NgModule, OnChanges } from '@angular/core';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import { MatTableModule } from '@angular/material/table';
-import {
-  WattEmptyStateModule,
-  WattSpinnerModule,
-} from '@energinet-datahub/watt';
+import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
+import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 import { GridAreaAuditLogEntryDto } from '@energinet-datahub/dh/shared/domain';
 
 interface AuditLogEntry {

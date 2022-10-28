@@ -69,7 +69,8 @@ table {
   margin-top: var(--watt-space-m);
 }
 
-tr:hover {
+tr:hover,
+.active-row {
   background-color: var(--watt-color-primary-light);
 
   td {

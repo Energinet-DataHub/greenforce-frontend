@@ -1,4 +1,5 @@
 {
+  "name": "eo-faq-shell",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
   "sourceRoot": "libs/eo/faq/shell/src",

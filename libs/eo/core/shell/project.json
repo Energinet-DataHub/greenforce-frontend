@@ -1,4 +1,5 @@
 {
+  "name": "eo-core-shell",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
   "sourceRoot": "libs/eo/core/shell/src",

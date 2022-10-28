@@ -1,4 +1,5 @@
 {
+  "name": "eo-shared-atomic-design-ui-organisms",
   "$schema": "../../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
   "sourceRoot": "libs/eo/shared/atomic-design/ui-organisms/src",

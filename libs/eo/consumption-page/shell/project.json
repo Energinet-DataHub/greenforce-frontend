@@ -1,4 +1,5 @@
 {
+  "name": "eo-consumption-page-shell",
   "projectType": "library",
   "sourceRoot": "libs/eo/consumption-page/shell/src",
   "prefix": "eo",

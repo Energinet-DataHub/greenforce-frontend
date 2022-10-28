@@ -1,4 +1,5 @@
 {
+  "name": "dh-message-archive-feature-log-search",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
   "sourceRoot": "libs/dh/message-archive/feature-log-search/src",

@@ -15,25 +15,18 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<watt-card *transloco="let transloco; read: 'wholesale.searchBatch'">
-  <watt-card-title>
+<ng-container *transloco="let transloco; read: 'wholesale.searchBatch'">
+  <div class="header">
     <h3 class="watt-on-light--high-emphasis">{{ transloco("headline") }}</h3>
-    <mat-paginator
-      [length]="160"
-      [pageSize]="10"
-      [pageSizeOptions]="[10, 20, 30, 50]"
-      [showFirstLastButtons]="true"
-      aria-label="Select page"
-    >
-    </mat-paginator>
-  </watt-card-title>
+    <dh-shared-ui-paginator></dh-shared-ui-paginator>
+  </div>
 
   <!-- Table -->
   <mat-table
     [dataSource]="_data"
     aria-label="batches"
     matSort
-    matSortActive="batchNumber"
+    matSortActive="executionTimeStart"
     matSortDirection="desc"
   >
     <!-- Batch Number -->
@@ -96,13 +89,15 @@ limitations under the License.
           variant="icon"
           title="{{ transloco('download') }}"
           icon="download"
+          (click)="onDownload(batch)"
+          [disabled]="!batch.isBasisDataDownloadAvailable"
         >
         </watt-button>
       </mat-cell>
     </ng-container>
 
     <mat-header-row *matHeaderRowDef="columnIds; sticky: true"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: columnIds" (click)="selectedRow.emit(row)"></mat-row>
+    <mat-row *matRowDef="let row; columns: columnIds"></mat-row>
   </mat-table>
 
   <!-- No Batches found -->
@@ -114,4 +109,4 @@ limitations under the License.
     [message]="transloco('noBatchesHelperText')"
   >
   </watt-empty-state>
-</watt-card>
+</ng-container>

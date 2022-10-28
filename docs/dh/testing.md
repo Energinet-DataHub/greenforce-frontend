@@ -50,6 +50,23 @@ async function setup() {
 };
 ```
 
+#### When the feature under test uses toast(s)
+
+In this case import `WattToastModule` function in the testing setup. This will make sure that the base API is configured correctly. For example:
+
+```ts
+import { WattToastModule } from '@energinet-datahub/watt/toast';
+
+async function setup() {
+  await render(MyComponent.name, {
+    imports: [
+      WattToastModule.forRoot(),
+      // ...
+    ],
+  }
+};
+```
+
 #### When the feature under test sends requests to the BFF
 
 In this case import `DhApiModule.forRoot()` and `HttpClientModule` in the test setup. This will make sure that the base API is configured correctly. For example:
@@ -77,7 +94,7 @@ async function setup() {
 In this case import `WattDanishDatetimeModule.forRoot()` in the test setup. This will add the necessary providers needed for the datepicker/timepicker to work. For example:
 
 ```ts
-import { WattDanishDatetimeModule } from '@energinet-datahub/watt';
+import { WattDanishDatetimeModule } from '@energinet-datahub/watt/danish-date-time';
 
 async function setup() {
   await render(MyComponent.name, {

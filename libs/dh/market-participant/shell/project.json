@@ -1,4 +1,5 @@
 {
+  "name": "dh-market-participant-shell",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
   "sourceRoot": "libs/dh/market-participant/shell/src",

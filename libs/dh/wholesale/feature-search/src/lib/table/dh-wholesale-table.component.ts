@@ -14,163 +14,113 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { CommonModule } from '@angular/common';
-import {
-  Component,
-  Input,
-  ViewChild,
-  OnDestroy,
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  Output,
-  EventEmitter,
-} from '@angular/core';
-import {
-  MatPaginator,
-  MatPaginatorModule,
-  MatPaginatorIntl,
-} from '@angular/material/paginator';
-import { MatSort, MatSortModule } from '@angular/material/sort';
-import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { takeUntil, Subject } from 'rxjs';
-import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
+ import { CommonModule } from '@angular/common';
+ import {
+   AfterViewInit,
+   ChangeDetectionStrategy,
+   Component,
+   inject,
+   Input,
+   ViewChild,
+ } from '@angular/core';
+ import { MatSort, MatSortModule } from '@angular/material/sort';
+ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+ import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
+ import { first, of } from 'rxjs';
 
-import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
-import {
-  WattBadgeModule,
-  WattBadgeType,
-  WattButtonModule,
-  WattCardModule,
-  WattEmptyStateModule,
-} from '@energinet-datahub/watt';
+ import { BatchDtoV2, BatchState } from '@energinet-datahub/dh/shared/domain';
+ import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
+ import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
+ import { WattBadgeModule, WattBadgeType } from '@energinet-datahub/watt/badge';
+ import { WattButtonModule } from '@energinet-datahub/watt/button';
+ import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
+ import { WattToastService } from '@energinet-datahub/watt/toast';
 
-import {
-  BatchDto,
-  BatchExecutionState,
-} from '@energinet-datahub/dh/shared/domain';
+ import { DhWholesaleBatchDataAccessApiStore } from '@energinet-datahub/dh/wholesale/data-access-api';
 
-export type wholesaleBatch = {
-  statusType: WattBadgeType;
-  batchNumber: number;
-  periodStart: string;
-  periodEnd: string;
-  executionTimeStart?: string | null;
-  executionTimeEnd?: string | null;
-  executionState: BatchExecutionState;
-};
+ type wholesaleTableData = MatTableDataSource<{
+   statusType: void | WattBadgeType;
+   batchNumber: string;
+   periodStart: string;
+   periodEnd: string;
+   executionTimeStart?: string | null;
+   executionTimeEnd?: string | null;
+   executionState: BatchState;
+   isBasisDataDownloadAvailable: boolean;
+ }>;
 
-type wholesaleTableData = MatTableDataSource<wholesaleBatch>;
+ @Component({
+   standalone: true,
+   imports: [
+     CommonModule,
+     DhSharedUiDateTimeModule,
+     MatSortModule,
+     MatTableModule,
+     TranslocoModule,
+     WattBadgeModule,
+     WattButtonModule,
+     WattEmptyStateModule,
+     DhSharedUiPaginatorComponent,
+   ],
+   selector: 'dh-wholesale-table',
+   templateUrl: './dh-wholesale-table.component.html',
+   styleUrls: ['./dh-wholesale-table.component.scss'],
+   changeDetection: ChangeDetectionStrategy.OnPush,
+ })
+ export class DhWholesaleTableComponent implements AfterViewInit {
+   @ViewChild(MatSort) sort!: MatSort;
+   @ViewChild(DhSharedUiPaginatorComponent)
+   paginator!: DhSharedUiPaginatorComponent;
+   @Input() set data(batches: BatchDtoV2[]) {
+     this._data = new MatTableDataSource(
+       batches.map((batch) => ({
+         ...batch,
+         statusType: this.getStatusType(batch.executionState),
+       }))
+     );
+   }
+   _data: wholesaleTableData = new MatTableDataSource(undefined);
 
-@Component({
-  standalone: true,
-  imports: [
-    CommonModule,
-    DhSharedUiDateTimeModule,
-    MatPaginatorModule,
-    MatSortModule,
-    MatTableModule,
-    TranslocoModule,
-    WattBadgeModule,
-    WattButtonModule,
-    WattEmptyStateModule,
-    WattCardModule
-  ],
-  selector: 'dh-wholesale-table',
-  templateUrl: './dh-wholesale-table.component.html',
-  styleUrls: ['./dh-wholesale-table.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-})
-export class DhWholesaleTableComponent implements OnDestroy, AfterViewInit {
-  @ViewChild(MatSort) sort!: MatSort;
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
-  @Input() set data(batches: BatchDto[]) {
-    this._data = new MatTableDataSource(
-      batches.map((batch) => ({
-        ...batch,
-        statusType: this.getStatusType(batch.executionState),
-      }))
-    );
-  }
-  @Output() selectedRow: EventEmitter<wholesaleBatch> = new EventEmitter();
+   private store = inject(DhWholesaleBatchDataAccessApiStore);
+   private toastService = inject(WattToastService);
+   private translations = inject(TranslocoService);
 
-  destroy$ = new Subject<void>();
-  _data: wholesaleTableData = new MatTableDataSource(undefined);
-  selectedBatch?: BatchDto;
+   columnIds = [
+     'batchNumber',
+     'periodStart',
+     'periodEnd',
+     'executionTimeStart',
+     'executionState',
+     'basisData',
+   ];
 
-  constructor(
-    private matPaginatorIntl: MatPaginatorIntl,
-    private translocoService: TranslocoService
-  ) {}
+   ngAfterViewInit() {
+     if (this._data === null) return;
+     this._data.sort = this.sort;
+     this._data.paginator = this.paginator.instance;
+   }
 
-  columnIds = [
-    'batchNumber',
-    'periodStart',
-    'periodEnd',
-    'executionTimeStart',
-    'executionState',
-    'basisData',
-  ];
+   onDownload(batch: BatchDtoV2) {
+     this.store.getZippedBasisData(of(batch));
+     this.store.loadingBasisDataErrorTrigger$.pipe(first()).subscribe(() => {
+       this.toastService.open({
+         message: this.translations.translate(
+           'wholesale.searchBatch.downloadFailed'
+         ),
+         type: 'danger',
+       });
+     });
+   }
 
-  ngAfterViewInit() {
-    this.setupPaginator();
-    if (this._data === null) return;
-    this._data.sort = this.sort;
-  }
-
-  ngOnDestroy() {
-    this.destroy$.next();
-    this.destroy$.complete();
-  }
-
-  private getStatusType(status: BatchExecutionState): WattBadgeType {
-    if (status === BatchExecutionState.Pending) {
-      return 'warning';
-    } else if (status === BatchExecutionState.Completed) {
-      return 'success';
-    } else if (status === BatchExecutionState.Executing) {
-      return 'info';
-    } else if (status === BatchExecutionState.Failed) {
-      return 'danger';
-    } else {
-      return 'info';
-    }
-  }
-
-  private setupPaginator() {
-    this.matPaginatorIntl.getRangeLabel = (page, pageSize, length) => {
-      const seperator = this.translocoService.translate(
-        'wholesale.searchBatch.paginator.of'
-      );
-
-      if (length == 0 || pageSize == 0) {
-        return `0 ${seperator} ${length}`;
-      }
-
-      length = Math.max(length, 0);
-
-      const startIndex = page * pageSize;
-
-      // If the start index exceeds the list length, do not try and fix the end index to the end.
-      const endIndex =
-        startIndex < length
-          ? Math.min(startIndex + pageSize, length)
-          : startIndex + pageSize;
-
-      return `${startIndex + 1} – ${endIndex} ${seperator} ${length}`;
-    };
-
-    this.translocoService
-      .selectTranslateObject('wholesale.searchBatch.paginator')
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((value) => {
-        this.matPaginatorIntl.itemsPerPageLabel = value.itemsPerPageLabel;
-        this.matPaginatorIntl.nextPageLabel = value.next;
-        this.matPaginatorIntl.previousPageLabel = value.previous;
-        this.matPaginatorIntl.firstPageLabel = value.first;
-        this.matPaginatorIntl.lastPageLabel = value.last;
-
-        if (this._data === null) return;
-        this._data.paginator = this.paginator;
-      });
-  }
-}
+   private getStatusType(status: BatchState): WattBadgeType | void {
+     if (status === BatchState.Pending) {
+       return 'warning';
+     } else if (status === BatchState.Completed) {
+       return 'success';
+     } else if (status === BatchState.Executing) {
+       return 'info';
+     } else if (status === BatchState.Failed) {
+       return 'danger';
+     }
+   }
+ }

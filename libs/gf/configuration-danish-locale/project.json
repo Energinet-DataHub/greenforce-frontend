@@ -1,4 +1,5 @@
 {
+  "name": "gf-configuration-danish-locale",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
   "sourceRoot": "libs/gf/configuration-danish-locale/src",

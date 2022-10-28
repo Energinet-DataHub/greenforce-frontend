@@ -1,4 +1,5 @@
 {
+  "name": "dh-charges-routing",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
   "sourceRoot": "libs/dh/charges/routing/src",

@@ -1,4 +1,5 @@
 {
+  "name": "app-eo",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
   "sourceRoot": "apps/eo/app-eo/src",

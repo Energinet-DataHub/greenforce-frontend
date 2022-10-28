@@ -1,4 +1,5 @@
 {
+  "name": "eo-production-shell",
   "projectType": "library",
   "sourceRoot": "libs/eo/production/shell/src",
   "prefix": "eo",

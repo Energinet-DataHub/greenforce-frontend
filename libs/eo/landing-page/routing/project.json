@@ -1,4 +1,5 @@
 {
+  "name": "eo-landing-page-routing",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
   "sourceRoot": "libs/eo/landing-page/routing/src",
