@@ -332,7 +332,7 @@
       "startSearch": "Start Search",
       "startSearchText": "Your results will appear here",
       "noPricesForCharge": "No prices",
-      "noPricesForChargeText": "No prices have been submitted for the period.",
+      "noPricesForChargeText": "No price series exists for this price.",
       "paginator": {
         "itemsPerPageLabel": "Prices per page",
         "of": "of",
