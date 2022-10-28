@@ -16,6 +16,10 @@
       "ariaLabel": "Select page"
     }
   },
+  "clipboard": {
+    "success": "Copied to clipboard",
+    "error": "Failed to copy"
+  },
   "sidebar": {
     "navigation": {
       "meteringPoints": "Metering points",
