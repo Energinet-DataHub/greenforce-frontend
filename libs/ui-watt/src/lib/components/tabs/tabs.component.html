@@ -14,7 +14,10 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<mat-tab-group dynamicHeight>
+<mat-tab-group
+  dynamicHeight
+  (selectedIndexChange)="emitSelectedTabChange($event)"
+>
   <mat-tab [label]="tab.label" *ngFor="let tab of tabElements">
     <ng-container *ngTemplateOutlet="tab.templateRef"></ng-container>
   </mat-tab>
