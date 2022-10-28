@@ -56,43 +56,10 @@ limitations under the License.
       </watt-empty-state>
     </ng-template>
 
-    <!--
-      *ngIf ensures the content are not loaded before the drawer is open,
-      and make sure it's getting destroyed when drawer is closed
-      -->
-    <watt-drawer *ngIf="selectedBatch" (closed)="selectedBatch = null">
-      <watt-drawer-topbar>
-        <div>
-          <watt-badge [type]="selectedBatch.statusType || 'info'">
-            {{ transloco(selectedBatch.executionState) }}
-          </watt-badge>
-          <p class="subheadline"><small>Korrektionsafregning</small></p>
-          <h3 class="headline watt-headline-1">
-            Batch: {{ selectedBatch.batchNumber }}
-          </h3>
-        </div>
-      </watt-drawer-topbar>
-
-      <watt-drawer-content>
-        <dl>
-          <div>
-            <dt class="watt-label">Beregningsperiode</dt>
-            <dd>01-02-2022 - 01-03-2022</dd>
-          </div>
-          <div>
-            <dt class="watt-label">Eksekveringstidspunkt</dt>
-            <dd>10-07-2022 10:00</dd>
-          </div>
-        </dl>
-        <watt-card>
-          <watt-card-title>
-            <h3>Title</h3>
-          </watt-card-title>
-
-          Content
-        </watt-card>
-        <br />
-      </watt-drawer-content>
-    </watt-drawer>
+    <dh-wholesale-batch-details
+      *ngIf="selectedBatch"
+      [batch]="selectedBatch"
+      #batchDetails
+    ></dh-wholesale-batch-details>
   </ng-container>
 </ng-container>

@@ -27,13 +27,6 @@ import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 
 import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/feature-flags';
 
-import { WattBadgeModule } from '@energinet-datahub/watt/badge';
-import { WattButtonModule } from '@energinet-datahub/watt/button';
-import { WattCardModule } from '@energinet-datahub/watt/card';
-import {
-  WattDrawerComponent,
-  WattDrawerModule,
-} from '@energinet-datahub/watt/drawer';
 import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
 import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
 import { WattToastService } from '@energinet-datahub/watt/toast';
@@ -48,6 +41,7 @@ import {
   DhWholesaleTableComponent,
 } from './table/dh-wholesale-table.component';
 import { DhWholesaleFormComponent } from './form/dh-wholesale-form.component';
+import { DhWholesaleBatchDetailsComponent } from './batch-details/dh-wholesale-batch-details.component';
 
 @Component({
   selector: 'dh-wholesale-search',
@@ -57,22 +51,19 @@ import { DhWholesaleFormComponent } from './form/dh-wholesale-form.component';
     DhFeatureFlagDirectiveModule,
     DhWholesaleFormComponent,
     DhWholesaleTableComponent,
+    DhWholesaleBatchDetailsComponent,
     LetModule,
     PushModule,
     TranslocoModule,
-    WattButtonModule,
     WattEmptyStateModule,
-    WattSpinnerModule,
-    WattCardModule,
-    WattDrawerModule,
-    WattBadgeModule,
+    WattSpinnerModule
   ],
   templateUrl: './dh-wholesale-search.component.html',
   styleUrls: ['./dh-wholesale-search.component.scss'],
   providers: [DhWholesaleBatchDataAccessApiStore],
 })
 export class DhWholesaleSearchComponent {
-  @ViewChild(WattDrawerComponent) batchDetails!: WattDrawerComponent;
+  @ViewChild('batchDetails') batchDetails!: DhWholesaleBatchDetailsComponent;
 
   private store = inject(DhWholesaleBatchDataAccessApiStore);
   private toastService = inject(WattToastService);

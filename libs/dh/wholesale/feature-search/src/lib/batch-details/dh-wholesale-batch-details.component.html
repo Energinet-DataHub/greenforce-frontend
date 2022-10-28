@@ -1,0 +1,32 @@
+<watt-drawer *transloco="let transloco; read: 'wholesale.searchBatch'" #drawer>
+  <watt-drawer-topbar>
+    <div>
+      <watt-badge [type]="batch.statusType || 'info'">
+        {{ transloco(batch.executionState) }}
+      </watt-badge>
+      <p class="subheadline"><small>Korrektionsafregning</small></p>
+      <h3 class="headline watt-headline-1">Batch: {{ batch.batchNumber }}</h3>
+    </div>
+  </watt-drawer-topbar>
+
+  <watt-drawer-content>
+    <dl>
+      <div>
+        <dt class="watt-label">Beregningsperiode</dt>
+        <dd>01-02-2022 - 01-03-2022</dd>
+      </div>
+      <div>
+        <dt class="watt-label">Eksekveringstidspunkt</dt>
+        <dd>10-07-2022 10:00</dd>
+      </div>
+    </dl>
+    <watt-card>
+      <watt-card-title>
+        <h3>Title</h3>
+      </watt-card-title>
+
+      Content
+    </watt-card>
+    <br />
+  </watt-drawer-content>
+</watt-drawer>
