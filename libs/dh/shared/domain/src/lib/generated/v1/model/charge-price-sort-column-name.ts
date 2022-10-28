@@ -11,10 +11,10 @@
  */
 
 
-export type SortColumnName = 'FromDateTime' | 'Price';
+export type ChargePriceSortColumnName = 'FromDateTime' | 'Price';
 
-export const SortColumnName = {
-    FromDateTime: 'FromDateTime' as SortColumnName,
-    Price: 'Price' as SortColumnName
+export const ChargePriceSortColumnName = {
+    FromDateTime: 'FromDateTime' as ChargePriceSortColumnName,
+    Price: 'Price' as ChargePriceSortColumnName
 };
 

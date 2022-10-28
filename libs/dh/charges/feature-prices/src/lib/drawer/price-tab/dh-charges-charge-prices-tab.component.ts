@@ -43,7 +43,7 @@ import {
   ChargePriceV1Dto,
   ChargeV1Dto,
   Resolution,
-  SortColumnName,
+  ChargePriceSortColumnName,
 } from '@energinet-datahub/dh/shared/domain';
 import { Subject, takeUntil } from 'rxjs';
 import { PushModule } from '@rx-angular/template';
@@ -79,16 +79,16 @@ export class DhChargesChargePricesTabComponent
 
   searchCriteria: ChargePricesSearchCriteriaV1Dto = {
     chargeId: '',
-    fromDateTime: zonedTimeToUtc(
+    fromDateTimeUtc: zonedTimeToUtc(
       new Date(new Date().toDateString()),
       this.localTimeZone
     ).toISOString(),
-    toDateTime: zonedTimeToUtc(
+    toDateTimeUtc: zonedTimeToUtc(
       new Date(new Date().toDateString()),
       this.localTimeZone
     ).toISOString(),
     isDescending: false,
-    sortColumnName: SortColumnName.FromDateTime,
+    sortColumnName: ChargePriceSortColumnName.FromDateTime,
     skip: 0,
     take: 0,
   };
@@ -173,11 +173,11 @@ export class DhChargesChargePricesTabComponent
   }
 
   setSearchCriteriaDateRange(dateRange: DatePickerData) {
-    this.searchCriteria.fromDateTime = zonedTimeToUtc(
+    this.searchCriteria.fromDateTimeUtc = zonedTimeToUtc(
       dateRange.startDate,
       this.localTimeZone
     ).toISOString();
-    this.searchCriteria.toDateTime = zonedTimeToUtc(
+    this.searchCriteria.toDateTimeUtc = zonedTimeToUtc(
       dateRange.endDate,
       this.localTimeZone
     ).toISOString();
@@ -186,10 +186,10 @@ export class DhChargesChargePricesTabComponent
   reset() {
     this.searchCriteria = {
       chargeId: '',
-      fromDateTime: new Date().toISOString(),
-      toDateTime: new Date().toISOString(),
+      fromDateTimeUtc: new Date().toISOString(),
+      toDateTimeUtc: new Date().toISOString(),
       isDescending: false,
-      sortColumnName: SortColumnName.FromDateTime,
+      sortColumnName: ChargePriceSortColumnName.FromDateTime,
       skip: 0,
       take: 0,
     };
