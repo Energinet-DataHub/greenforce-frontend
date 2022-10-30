@@ -17,6 +17,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  Input,
   NgModule,
   OnInit,
   OnDestroy,
@@ -70,6 +71,8 @@ export class DhChargesChargeMessagesTabComponent
   @ViewChild(MatSort) matSort!: MatSort;
   @ViewChild(DhDrawerDatepickerComponent)
   drawerDatepickerComponent!: DhDrawerDatepickerComponent;
+
+  @Input() charge: ChargeV1Dto | undefined;
 
   constructor(
     private chargeMessagesStore: DhChargeMessagesDataAccessApiStore,
@@ -127,6 +130,16 @@ export class DhChargesChargeMessagesTabComponent
     this.destroy$.complete();
   }
 
+  dateRangeChanged(dateRange: DatePickerData) {
+    this.setSearchCriteriaDateRange(dateRange);
+
+    if (this.charge) this.loadMessages(this.charge);
+  }
+
+  rowClicked(message: string) {
+    this.openMessage(message);
+  }
+
   loadMessages(charge: ChargeV1Dto) {
     const chargesMessagesTabFeatureIsEnabled =
       this.featureFlagsService.isEnabled('charges_messages_tab_feature_flag');
@@ -163,22 +176,6 @@ export class DhChargesChargeMessagesTabComponent
       dateRange.endDate,
       this.localTimeZone
     ).toISOString();
-  }
-
-  validateSearchParams(): boolean {
-    return (
-      this.chargeMessagesSearchCriteria.fromDateTime != null &&
-      this.chargeMessagesSearchCriteria.chargeId != null &&
-      this.chargeMessagesSearchCriteria.toDateTime != null
-    );
-  }
-
-  dateRangeChanged(dateRange: DatePickerData) {
-    console.log(dateRange);
-  }
-
-  rowClicked(message: string) {
-    this.openMessage(message);
   }
 
   openMessage(message: string) {
