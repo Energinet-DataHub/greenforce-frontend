@@ -170,18 +170,18 @@ function searchChargeMessages(apiBase: string) {
       const result: ChargeMessageV1Dto[] = [
         {
           messageId: "MessageId00001",
-          messageDateTime: '2022-09-01T22:00:00',
+          messageDateTime: '2022-08-01T22:00:00',
           messageType: ChargeMessageDocumentType.D05,
         },
         {
           messageId: "MessageId00002",
-          messageDateTime: '2022-09-01T22:00:00',
+          messageDateTime: '2022-08-02T22:00:00',
           messageType: ChargeMessageDocumentType.D05,
         },
         {
           messageId: "MessageId00003",
-          messageDateTime: '2022-09-01T22:00:00',
-          messageType: ChargeMessageDocumentType.D05,
+          messageDateTime: '2022-08-03T22:00:00',
+          messageType: ChargeMessageDocumentType.D10,
         },
       ];
       return res(ctx.status(200), ctx.json(result));

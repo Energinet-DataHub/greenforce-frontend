@@ -34,16 +34,18 @@ limitations under the License.
 
       <div class="pagination-container">
         <!-- Download -->
-        <watt-button icon="openInNew" variant="text">
+        <watt-button
+          icon="openInNew"
+          variant="text"
+          *dhFeatureFlag="'charge_prices_download_button_feature_flag'"
+        >
           {{ t("Download") }}
         </watt-button>
 
         <!-- Pagination -->
-        <mat-paginator
-          [pageSizeOptions]="[50, 100, 150, 200, 250]"
-          pageSize="100"
-          showFirstLastButtons
-        ></mat-paginator>
+        <dh-shared-ui-paginator
+          (changed)="handlePageEvent($event)"
+        ></dh-shared-ui-paginator>
       </div>
     </div>
 
@@ -53,8 +55,8 @@ limitations under the License.
       mat-table
       [dataSource]="dataSource"
       matSort
-      matSortActive="messageId"
-      matSortDirection="asc"
+      matSortActive="messageDateTime"
+      matSortDirection="desc"
     >
       <!-- Message id column -->
       <ng-container matColumnDef="messageId">
@@ -91,13 +93,13 @@ limitations under the License.
     </table>
 
     <!-- Spinner -->
-    <div *ngIf="isLoading" class="overview__spinner spinner-container">
+    <div *ngIf="isLoading | push" class="overview__spinner spinner-container">
       <watt-spinner></watt-spinner>
     </div>
 
     <!-- Empty -->
     <ng-container
-      *ngIf="!hasLoadingError && !isInit && result && result.length === 0"
+      *ngIf="!hasLoadingError && result && result.length === 0"
     >
       <watt-empty-state
         class="no-result-div"
@@ -109,20 +111,8 @@ limitations under the License.
       </watt-empty-state>
     </ng-container>
 
-    <!-- Init -->
-    <ng-container *ngIf="isInit">
-      <watt-empty-state
-        class="no-result-div"
-        icon="explore"
-        size="large"
-        title="{{ t('startSearch') }}"
-        message="{{ t('startSearchText') }}"
-      >
-      </watt-empty-state>
-    </ng-container>
-
     <!-- Error -->
-    <ng-container *ngIf="hasLoadingError">
+    <ng-container *ngIf="hasLoadingError && !isLoading">
       <watt-empty-state
         class="loading-error"
         icon="power"
