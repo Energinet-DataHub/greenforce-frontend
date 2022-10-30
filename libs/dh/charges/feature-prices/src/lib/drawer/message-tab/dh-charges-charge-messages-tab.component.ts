@@ -22,118 +22,115 @@ import {
   OnChanges,
   ViewChild,
   Input,
+  Inject
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { LetModule } from '@rx-angular/template';
 import { MatSort, MatSortModule } from '@angular/material/sort';
-import { Subject, takeUntil } from 'rxjs';
-import {
-  MessageArchiveSearchResultItemDto,
-  MessageArchiveSearchCriteria,
-} from '@energinet-datahub/dh/shared/domain';
-import { DhMessageArchiveDataAccessApiStore } from '@energinet-datahub/dh/message-archive/data-access-api';
-import { WattTooltipModule } from '@energinet-datahub/watt/tooltip';
-import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
-import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
-import { WattButtonModule } from '@energinet-datahub/watt/button';
 import {
   MatPaginator,
   MatPaginatorIntl,
   MatPaginatorModule,
 } from '@angular/material/paginator';
+import { Subject, takeUntil } from 'rxjs';
+import { DhChargeMessagesDataAccessApiStore } from '@energinet-datahub/dh/charges/data-access-api';
+import {
+  ChargeMessagesSearchCriteriaV1Dto,
+  ChargeMessageV1Dto,
+  ChargeV1Dto,
+  ChargeMessageSortColumnName,
+} from '@energinet-datahub/dh/shared/domain';
+import { WattTooltipModule } from '@energinet-datahub/watt/tooltip';
+import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
+import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
+import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { DhSharedUiDateTimeModule } from '@energinet-datahub/dh/shared/ui-date-time';
 import { ToLowerSort } from '@energinet-datahub/dh/shared/util-table';
-import { DhFeatureFlagDirectiveModule } from '@energinet-datahub/dh/shared/feature-flags';
-import { Inject } from '@angular/core';
-import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
+import {
+  DhFeatureFlagDirectiveModule,
+  DhFeatureFlagsService
+ } from '@energinet-datahub/dh/shared/feature-flags';
 import { DatePickerData } from '../drawer-datepicker/drawer-datepicker.service';
 import { DhDrawerDatepickerScam } from '../drawer-datepicker/dh-drawer-datepicker.component';
+import { zonedTimeToUtc } from 'date-fns-tz';
 
 @Component({
   selector: 'dh-charges-charge-messages-tab',
   templateUrl: './dh-charges-charge-messages-tab.component.html',
   styleUrls: ['./dh-charges-charge-messages-tab.component.scss'],
-  providers: [DhMessageArchiveDataAccessApiStore],
+  providers: [DhChargeMessagesDataAccessApiStore],
+  //changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DhChargesChargeMessagesTabComponent
   implements AfterViewInit, OnDestroy, OnChanges
 {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) matSort!: MatSort;
-
-  @Input() result?: Array<MessageArchiveSearchResultItemDto>;
-  @Input() isLoading = true;
   @Input() isInit = true;
-  @Input() hasLoadingError = false;
 
   private destroy$ = new Subject<void>();
 
-  searchResult$ = this.messageArchiveStore.searchResult$;
-
-  displayedColumns = ['messageId', 'createdDate', 'messageType'];
+  result: ChargeMessageV1Dto[] | undefined;
+  isLoading = this.chargeMessagesStore.isLoading$;
+  hasLoadingError = this.chargeMessagesStore.hasGeneralError$;
+  chargeMessageNotFound = this.chargeMessagesStore.chargeMessagesNotFound$;
+  displayedColumns = ['messageId', 'messageDateTime', 'messageType'];
 
   maxItemCount = 100;
-  searchCriteria: MessageArchiveSearchCriteria = {
-    maxItemCount: this.maxItemCount,
-    includeRelated: false,
-    includeResultsWithoutContent: false,
+
+  localTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+  chargeMessagesSearchCriteria: ChargeMessagesSearchCriteriaV1Dto = {
+    chargeId: '',
+    fromDateTime: zonedTimeToUtc(
+      new Date(new Date().toDateString()),
+      this.localTimeZone
+    ).toISOString(),
+    toDateTime: zonedTimeToUtc(
+      new Date(new Date().toDateString()),
+      this.localTimeZone
+    ).toISOString(),
+    isDescending: false,
+    chargeMessageSortColumnName: ChargeMessageSortColumnName.MessageDateTime,
+    skip: 0,
+    take: 0,
   };
 
-  readonly dataSource: MatTableDataSource<MessageArchiveSearchResultItemDto> =
-    new MatTableDataSource<MessageArchiveSearchResultItemDto>();
+  readonly dataSource: MatTableDataSource<ChargeMessageV1Dto> =
+    new MatTableDataSource<ChargeMessageV1Dto>();
 
-  loadMessages() {
+  loadMessages(charge: ChargeV1Dto) {
     const chargesMessagesTabFeatureIsEnabled =
       this.featureFlagsService.isEnabled('charges_messages_tab_feature_flag');
     if (chargesMessagesTabFeatureIsEnabled) {
-      this.loadMessagesFromMessageArchive();
+      this.doLoadMessages(charge);
     }
 
-    //Insert dummy data for now
-    if (this.dataSource.data.length === 0) {
-      this.dataSource.data = [
-        {
-          messageId: 'dummy-message 1',
-          messageType: 'RSM - 33 RequestChangeOfPriceList',
-          blobContentUri: 'https://',
-          createdDate: '2022-10-29T22:00:00',
-        },
-        {
-          messageId: 'dummy-message 2',
-          messageType: 'RSM - 33 RequestChangeOfPriceList',
-          blobContentUri: 'https://',
-          createdDate: '2022-11-01T22:00:00',
-        },
-      ];
-    }
-
-    this.isLoading = false;
-    this.isInit = false;
     this.dataSource.sortingDataAccessor = ToLowerSort();
   }
 
-  loadMessagesFromMessageArchive() {
-    this.searchCriteria.dateTimeFrom =
-      this.initDateFrom().toISOString().split('.')[0] + 'Z';
-    this.searchCriteria.dateTimeTo =
-      this.initDateTo().toISOString().split('.')[0] + 'Z';
+  doLoadMessages(charge: ChargeV1Dto) {
+    setTimeout(() => {
+      this.chargeMessagesSearchCriteria.chargeId = charge.id;
+      //this.chargeMessagesSearchCriteria.take = this.paginator.instance.pageSize;
 
-    if (this.validateSearchParams()) {
-      this.searchCriteria.continuationToken = null;
+      /* const dateTimeRange =
+        this.drawerDatepickerComponent.formControlDateRange.value;
 
-      if (!this.searchCriteria.messageId) {
-        this.searchCriteria.includeRelated = false;
-      }
-
-      this.messageArchiveStore.searchLogs(this.searchCriteria);
-      console.log(this.searchResult$);
-    }
+      if (dateTimeRange) {
+        this.setSearchCriteriaDateRange({
+          startDate: dateTimeRange.start,
+          endDate: dateTimeRange.end,
+        });
+      } */
+      this.chargeMessagesStore.searchChargeMessages(this.chargeMessagesSearchCriteria);
+    }, 0);
   }
 
   constructor(
-    private messageArchiveStore: DhMessageArchiveDataAccessApiStore,
+    private chargeMessagesStore: DhChargeMessagesDataAccessApiStore,
     private translocoService: TranslocoService,
     private matPaginatorIntl: MatPaginatorIntl,
     @Inject(DhFeatureFlagsService)
@@ -160,10 +157,9 @@ export class DhChargesChargeMessagesTabComponent
 
   validateSearchParams(): boolean {
     return (
-      this.searchCriteria.dateTimeFrom != null &&
-      this.searchCriteria.dateTimeTo != null &&
-      this.searchCriteria.dateTimeFrom.length === 20 &&
-      this.searchCriteria.dateTimeTo.length === 20
+      this.chargeMessagesSearchCriteria.fromDateTime != null &&
+      this.chargeMessagesSearchCriteria.chargeId != null &&
+      this.chargeMessagesSearchCriteria.toDateTime != null
     );
   }
 
