@@ -26,9 +26,15 @@ limitations under the License.
 
   <!-- Expand control column -->
   <ng-container matColumnDef="tableExpandControl">
-    <mat-header-cell *matHeaderCellDef class="control-cell-header"></mat-header-cell>
+    <mat-header-cell
+      *matHeaderCellDef
+      class="control-cell-header"
+    ></mat-header-cell>
     <mat-cell *matCellDef="let element" class="control-cell">
-      <watt-icon name="right" [ngClass]="{'expanded': element.expanded}"></watt-icon>
+      <watt-icon
+        name="right"
+        [ngClass]="{ expanded: element.expanded }"
+      ></watt-icon>
     </mat-cell>
   </ng-container>
 
@@ -91,7 +97,9 @@ limitations under the License.
         <div class="child-cell">med</div>
         <div class="child-cell">dig</div>
         <div class="child-cell">what</div>
-        <div class="child-cell full-width">AFVIST: Landenavn SE for målepunkt har forkert værdi</div>
+        <div class="child-cell full-width">
+          AFVIST: Landenavn SE for målepunkt har forkert værdi
+        </div>
       </div>
 
       <div class="child-row">

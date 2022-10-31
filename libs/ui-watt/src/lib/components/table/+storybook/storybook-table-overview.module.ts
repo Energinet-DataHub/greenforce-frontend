@@ -31,7 +31,7 @@ import { StorybookTableExpandableModule } from './expandable/storybook-table-exp
     MatSortModule,
     MatPaginatorModule,
     BrowserAnimationsModule,
-    StorybookTableExpandableModule
+    StorybookTableExpandableModule,
   ],
   declarations: [StorybookTableOverviewComponent],
   exports: [StorybookTableOverviewComponent],

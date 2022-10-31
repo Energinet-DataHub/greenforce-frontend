@@ -31,7 +31,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { animate, state, style, transition, trigger } from '@angular/animations';
+import {
+  animate,
+  state,
+  style,
+  transition,
+  trigger,
+} from '@angular/animations';
 import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { MatSort, MatSortable, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -50,16 +56,76 @@ export interface Process {
 
 export const data: Process[] = [
   // eslint-disable-next-line sonarjs/no-duplicate-string
-  { id: '987655', beskrivelse: 'Fremsendelse af stamdata (BRS-006)', indsendt: 1, skaeringsdato: '1. jan 2019', status: 'Afsluttet', childs: [] },
-  { id: '987656', beskrivelse: 'Fremsendelse af stamdata (BRS-006)', indsendt: 2, skaeringsdato: '1. jan 2019', status: 'Afsluttet', expanded: true, childs: [
-    { id: '987657', beskrivelse: 'Fremsendelse af stamdata (BRS-006)', indsendt: 3, skaeringsdato: '1. jan 2019', status: 'Afsluttet'},
-    { id: '987657', beskrivelse: 'Fremsendelse af stamdata (BRS-006)', indsendt: 4, skaeringsdato: '1. jan 2019', status: 'Afsluttet'},
-    { id: '987657', beskrivelse: 'Fremsendelse af stamdata (BRS-006)', indsendt: 5, skaeringsdato: '1. jan 2019', status: 'Afsluttet'},
-    { id: '987657', beskrivelse: 'Fremsendelse af stamdata (BRS-006)', indsendt: 6, skaeringsdato: '1. jan 2019', status: 'Afsluttet'},
-  ] },
-  { id: '987657', beskrivelse: 'Fremsendelse af stamdata (BRS-006)', indsendt: 7, skaeringsdato: '1. jan 2019', status: 'Afsluttet', childs: [] },
-  { id: '987658', beskrivelse: 'Fremsendelse af stamdata (BRS-006)', indsendt: 8, skaeringsdato: '1. jan 2019', status: 'Afsluttet', childs: [] },
-  { id: '987659', beskrivelse: 'Fremsendelse af stamdata (BRS-006)', indsendt: 9, skaeringsdato: '1. jan 2019', status: 'Afsluttet', childs: [] },
+  {
+    id: '987655',
+    beskrivelse: 'Fremsendelse af stamdata (BRS-006)',
+    indsendt: 1,
+    skaeringsdato: '1. jan 2019',
+    status: 'Afsluttet',
+    childs: [],
+  },
+  {
+    id: '987656',
+    beskrivelse: 'Fremsendelse af stamdata (BRS-006)',
+    indsendt: 2,
+    skaeringsdato: '1. jan 2019',
+    status: 'Afsluttet',
+    expanded: true,
+    childs: [
+      {
+        id: '987657',
+        beskrivelse: 'Fremsendelse af stamdata (BRS-006)',
+        indsendt: 3,
+        skaeringsdato: '1. jan 2019',
+        status: 'Afsluttet',
+      },
+      {
+        id: '987657',
+        beskrivelse: 'Fremsendelse af stamdata (BRS-006)',
+        indsendt: 4,
+        skaeringsdato: '1. jan 2019',
+        status: 'Afsluttet',
+      },
+      {
+        id: '987657',
+        beskrivelse: 'Fremsendelse af stamdata (BRS-006)',
+        indsendt: 5,
+        skaeringsdato: '1. jan 2019',
+        status: 'Afsluttet',
+      },
+      {
+        id: '987657',
+        beskrivelse: 'Fremsendelse af stamdata (BRS-006)',
+        indsendt: 6,
+        skaeringsdato: '1. jan 2019',
+        status: 'Afsluttet',
+      },
+    ],
+  },
+  {
+    id: '987657',
+    beskrivelse: 'Fremsendelse af stamdata (BRS-006)',
+    indsendt: 7,
+    skaeringsdato: '1. jan 2019',
+    status: 'Afsluttet',
+    childs: [],
+  },
+  {
+    id: '987658',
+    beskrivelse: 'Fremsendelse af stamdata (BRS-006)',
+    indsendt: 8,
+    skaeringsdato: '1. jan 2019',
+    status: 'Afsluttet',
+    childs: [],
+  },
+  {
+    id: '987659',
+    beskrivelse: 'Fremsendelse af stamdata (BRS-006)',
+    indsendt: 9,
+    skaeringsdato: '1. jan 2019',
+    status: 'Afsluttet',
+    childs: [],
+  },
 ];
 
 @Component({
@@ -69,15 +135,27 @@ export const data: Process[] = [
   styleUrls: ['storybook-table-expandable.component.scss'],
   animations: [
     trigger('detailExpand', [
-      state('collapsed, void', style({height: '0px', minHeight: '0'})),
-      state('expanded', style({height: '*'})),
-      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
-      transition('expanded <=> void', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)'))
+      state('collapsed, void', style({ height: '0px', minHeight: '0' })),
+      state('expanded', style({ height: '*' })),
+      transition(
+        'expanded <=> collapsed',
+        animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')
+      ),
+      transition(
+        'expanded <=> void',
+        animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')
+      ),
     ]),
   ],
 })
 export class StorybookTableExpandableComponent implements AfterViewInit {
-  columnsToDisplay : string[] = ['tableExpandControl', 'beskrivelse', 'indsendt', 'skaeringsdato', 'status'];
+  columnsToDisplay: string[] = [
+    'tableExpandControl',
+    'beskrivelse',
+    'indsendt',
+    'skaeringsdato',
+    'status',
+  ];
   sortedData = new MatTableDataSource(data);
   iconSize = WattIconSize;
 

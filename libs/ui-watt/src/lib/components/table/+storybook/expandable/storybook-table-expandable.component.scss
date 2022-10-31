@@ -69,11 +69,11 @@ mat-row {
 
   --row-state-color: var(--watt-color-neutral-grey-400);
 
-  &[state='success'] {
+  &[state="success"] {
     --row-state-color: var(--watt-color-state-success);
   }
 
-  &[state='danger'] {
+  &[state="danger"] {
     --row-state-color: var(--watt-color-state-danger);
   }
 
@@ -83,7 +83,7 @@ mat-row {
     left: 0;
     height: calc(100% + 1px);
     width: 4px;
-    content: '';
+    content: "";
     background: var(--row-state-color);
   }
 
