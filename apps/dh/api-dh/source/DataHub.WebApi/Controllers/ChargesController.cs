@@ -67,11 +67,11 @@ namespace Energinet.DataHub.WebApi.Controllers
         }
 
         [HttpPost("SearchChargeMessagesAsync")]
-        public async Task<ActionResult<IList<ChargeMessageV1Dto>>> SearchChargeMessagesAsync([FromBody] ChargeMessagesSearchCriteriaV1Dto searchCriteria)
+        public async Task<ActionResult<ChargeMessagesV1Dto>> SearchChargeMessagesAsync([FromBody] ChargeMessagesSearchCriteriaV1Dto searchCriteria)
         {
             var result = await _chargesClient.SearchChargeMessagesAsync(searchCriteria);
 
-            return result.Any() ? Ok(result) : NotFound();
+            return result;
         }
     }
 }
