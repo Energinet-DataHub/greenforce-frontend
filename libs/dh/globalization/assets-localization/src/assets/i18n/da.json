@@ -523,7 +523,7 @@
       "columns": {
         "organization": "Organisation",
         "gln": "Aktørnummer",
-        "status": "Status",
+        "status": "Aktørstatus",
         "marketRoles": "Markedsroller",
         "gridAreas": "Netområder",
         "noActors": "Ingen aktører"
