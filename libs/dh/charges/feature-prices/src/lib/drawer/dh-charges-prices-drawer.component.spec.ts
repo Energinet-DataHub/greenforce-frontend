@@ -72,6 +72,7 @@ describe('DhChargesPricesDrawerComponent', () => {
     });
 
     fixture.componentInstance.openDrawer(charge);
+
     return {
       fixture,
     };
@@ -109,8 +110,11 @@ describe('DhChargesPricesDrawerComponent', () => {
   it('when date range updated, should be same on all tabs', async () => {
     await setup();
 
-    const startDateInput: HTMLInputElement = screen.getByRole('textbox', {
-      name: /start-date-input/i,
+    const startDateInput = await waitFor(() => {
+      const startDateInput: HTMLInputElement = screen.getByRole('textbox', {
+        name: /start-date-input/i,
+      });
+      return startDateInput;
     });
 
     expect(startDateInput).toBeInTheDocument();
@@ -136,35 +140,14 @@ describe('DhChargesPricesDrawerComponent', () => {
     userEvent.click(messageTab);
     expect(messageTab).toHaveClass('mat-tab-label-active');
 
-    const startDateInput2 = await waitFor(() => {
+    const startDateInput2: HTMLInputElement = screen.getByRole('textbox', {
+      name: /start-date-input/i,
+    });
+
+    expect(startDateInput2).toBeInTheDocument();
+    await waitFor(() => {
       expect(startDateInput).not.toBeInTheDocument();
-      const startDateInput2: HTMLInputElement = screen.getByRole('textbox', {
-        name: /start-date-input/i,
-      });
-      return startDateInput2;
-    });
-
-    setTimeout(() => {
       expect(startDateInput2.value).toBe(tomorrow.toISOString());
-    }, 1000);
-
-    // Change to History Tab
-    const historyTab = screen.getByRole('tab', { name: /history/i });
-    expect(historyTab).toBeInTheDocument();
-
-    userEvent.click(historyTab);
-    expect(historyTab).toHaveClass('mat-tab-label-active');
-
-    const startDateInput3 = await waitFor(() => {
-      expect(startDateInput2).not.toBeInTheDocument();
-      const startDateInput: HTMLInputElement = screen.getByRole('textbox', {
-        name: /start-date-input/i,
-      });
-      return startDateInput;
     });
-
-    setTimeout(() => {
-      expect(startDateInput3.value).toBe(tomorrow.toISOString());
-    }, 1000);
   });
 });
