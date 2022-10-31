@@ -19,10 +19,12 @@ export enum WattColor {
   primary = '--watt-color-primary',
   primaryLight = '--watt-color-primary-light',
   primaryDark = '--watt-color-primary-dark',
+  primaryBack = '--watt-color-primary-back',
   // Secondary
   secondary = '--watt-color-secondary',
   secondaryLight = '--watt-color-secondary-light',
   secondaryDark = '--watt-color-secondary-dark',
+  secondaryBack = '--watt-color-secondary-back',
   // Data Visualization
   data1 = '--watt-color-data-1',
   data2 = '--watt-color-data-2',
