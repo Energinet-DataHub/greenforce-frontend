@@ -33,15 +33,6 @@ limitations under the License.
       </h3>
 
       <div class="pagination-container">
-        <!-- Download -->
-        <watt-button
-          icon="openInNew"
-          variant="text"
-          *dhFeatureFlag="'charge_prices_download_button_feature_flag'"
-        >
-          {{ t("Download") }}
-        </watt-button>
-
         <!-- Pagination -->
         <dh-shared-ui-paginator
           (changed)="handlePageEvent($event)"
