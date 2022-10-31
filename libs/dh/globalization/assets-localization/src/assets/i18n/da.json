@@ -374,6 +374,7 @@
       "drawer": {
         "prices": "Priser",
         "messages": "Beskeder",
+        "message": "Besked",
         "dateChips": {
           "day": "Dag",
           "week": "Uge",

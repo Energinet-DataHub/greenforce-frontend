@@ -372,6 +372,7 @@
       "drawer": {
         "prices": "Prices",
         "messages": "Messages",
+        "message": "Message",
         "dateChips": {
           "day": "Day",
           "week": "Week",

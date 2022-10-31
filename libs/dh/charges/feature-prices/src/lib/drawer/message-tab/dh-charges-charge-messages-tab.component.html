@@ -28,7 +28,8 @@ limitations under the License.
     <div class="header-container">
       <h3>
         <ng-container *ngIf="this.result">
-          {{ this.result.length }} {{ t("resultLength") }}
+          {{ this.result.length }}
+          {{ this.result.length === 1 ? t("drawer.message") : t("drawer.messages") }}
         </ng-container>
       </h3>
 
