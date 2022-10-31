@@ -16,6 +16,10 @@
       "ariaLabel": "Vælg side"
     }
   },
+  "clipboard": {
+    "success": "Kopieret til udklipsholder",
+    "error": "Kopiering mislykkedes"
+  },
   "sidebar": {
     "navigation": {
       "meteringPoints": "Målepunkter",
@@ -527,7 +531,7 @@
       "columns": {
         "organization": "Organisation",
         "gln": "Aktørnummer",
-        "status": "Status",
+        "status": "Aktørstatus",
         "marketRoles": "Markedsroller",
         "gridAreas": "Netområder",
         "noActors": "Ingen aktører"
