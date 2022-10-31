@@ -26,7 +26,7 @@ import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flag
 import { of } from 'rxjs';
 import { scopeKey, ScopeService, scopesKey } from './scope.service';
 
-describe('ScopeService.name', () => {
+describe(ScopeService.name, () => {
   const clientId = 'client_id';
   const localAccountId = 'local_account_id';
   const actorScopesClaim = 'actor1 actor2';

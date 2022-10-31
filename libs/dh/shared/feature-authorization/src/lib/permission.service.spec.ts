@@ -27,7 +27,7 @@ import { firstValueFrom, of } from 'rxjs';
 import { DeepPartial } from 'chart.js/types/utils';
 import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
 
-describe('PermissionService.name', () => {
+describe(PermissionService.name, () => {
   // base64 encoded access token: { roles: ['organization:view'] }
   const fakeAccessToken =
     'ignored.eyJyb2xlcyI6WyJvcmdhbml6YXRpb246dmlldyJdfQ==';

@@ -15,9 +15,6 @@
  * limitations under the License.
  */
 
-import { Injectable } from '@angular/core';
-
-@Injectable({ providedIn: 'root' })
 export class ScopeStorage {
   length = 0;
 

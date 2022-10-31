@@ -36,7 +36,7 @@ export class ScopeService {
     private msalBroadcastService: MsalBroadcastService,
     private authService: MsalService,
     private featureFlagService: DhFeatureFlagsService,
-    private scopeStorage: ScopeStorage
+    @Inject(ScopeStorage) private scopeStorage: ScopeStorage
   ) {
     this.msalBroadcastService.msalSubject$
       .pipe(
