@@ -24,6 +24,7 @@ import {
 } from '@azure/msal-browser';
 import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
 import { of } from 'rxjs';
+import { ScopeStorage } from './scope-storage.service';
 import { scopeKey, ScopeService, scopesKey } from './scope.service';
 
 describe(ScopeService.name, () => {
@@ -152,23 +153,25 @@ describe(ScopeService.name, () => {
 class LocalStorageMock {
   store: { [key: string]: string } = {};
 
-  length = 0;
+  private length = 0;
 
-  setItem = (key: string, value: string) => {
+  public readonly getLength = () => this.length;
+
+  public readonly setItem = (key: string, value: string) => {
     this.store[key] = value;
     this.length = Object.keys(this.store).length;
   };
 
-  getItem = (key: string) => {
+  public readonly getItem = (key: string) => {
     return this.store[key];
   };
 
-  removeItem = (key: string) => {
+  public readonly removeItem = (key: string) => {
     delete this.store[key];
     this.length = Object.keys(this.store).length;
   };
 
-  key = (index: number) => {
+  public readonly key = (index: number) => {
     return Object.keys(this.store).at(index) ?? null;
   };
 }
@@ -216,6 +219,6 @@ function createTarget(
     msalBroadcastService as MsalBroadcastService,
     msalService as MsalService,
     featureFlagService as DhFeatureFlagsService,
-    store
+    store as unknown as ScopeStorage
   );
 }
