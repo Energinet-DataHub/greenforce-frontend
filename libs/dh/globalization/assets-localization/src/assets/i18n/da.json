@@ -16,6 +16,10 @@
       "ariaLabel": "Vælg side"
     }
   },
+  "clipboard": {
+    "success": "Kopieret til udklipsholder",
+    "error": "Kopiering mislykkedes"
+  },
   "sidebar": {
     "navigation": {
       "meteringPoints": "Målepunkter",
