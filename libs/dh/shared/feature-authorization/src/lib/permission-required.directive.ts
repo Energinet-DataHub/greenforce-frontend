@@ -16,6 +16,7 @@
  */
 
 import {
+  ChangeDetectorRef,
   Directive,
   Input,
   OnInit,
@@ -31,7 +32,8 @@ export class DhPermissionRequiredDirective implements OnInit {
   constructor(
     private templateRef: TemplateRef<unknown>,
     private viewContainer: ViewContainerRef,
-    private permissionService: PermissionService
+    private permissionService: PermissionService,
+    private changeDetectorRef: ChangeDetectorRef
   ) {}
 
   @Input() dhPermissionRequired: Permission[] = [];
@@ -47,6 +49,7 @@ export class DhPermissionRequiredDirective implements OnInit {
       .subscribe((hasPermission) => {
         if (hasPermission) {
           this.viewContainer.createEmbeddedView(this.templateRef);
+          this.changeDetectorRef.detectChanges();
         }
       });
   }
