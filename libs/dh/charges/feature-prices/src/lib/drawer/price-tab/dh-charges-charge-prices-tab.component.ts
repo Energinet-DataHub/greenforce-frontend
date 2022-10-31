@@ -132,7 +132,7 @@ export class DhChargesChargePricesTabComponent
 
       if (this.showDateTime)
         this.displayedColumns = ['fromDateTime', 'time', 'price'];
-      else this.displayedColumns = ['fromDateTime', 'price'];
+      else this.displayedColumns = ['fromDateTime', 'toDateTime', 'price'];
 
       if (this.paginator) {
         this.paginator.length = 0;
