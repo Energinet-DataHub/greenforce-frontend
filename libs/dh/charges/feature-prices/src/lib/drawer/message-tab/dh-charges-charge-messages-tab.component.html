@@ -29,7 +29,11 @@ limitations under the License.
       <h3>
         <ng-container *ngIf="this.result">
           {{ this.result.length }}
-          {{ this.result.length === 1 ? t("drawer.message") : t("drawer.messages") }}
+          {{
+            this.result.length === 1
+              ? t("drawer.message")
+              : t("drawer.messages")
+          }}
         </ng-container>
       </h3>
 
