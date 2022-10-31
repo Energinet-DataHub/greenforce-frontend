@@ -14,40 +14,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { CommonModule } from '@angular/common';
 import {
+  AfterViewInit,
   Component,
   EventEmitter,
   Input,
   NgModule,
   OnChanges,
-  OnDestroy,
-  OnInit,
   Output,
   ViewChild,
 } from '@angular/core';
-import { OrganizationWithActorRow } from '@energinet-datahub/dh/market-participant/data-access-api';
+import { CommonModule } from '@angular/common';
 import { LetModule } from '@rx-angular/template/let';
-import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
-import {
-  WattBadgeModule,
-  WattButtonModule,
-  WattIconModule,
-  WattEmptyStateModule,
-  WattSpinnerModule,
-  WattValidationMessageModule,
-} from '@energinet-datahub/watt';
 import { MatMenuModule } from '@angular/material/menu';
-import {
-  MatPaginator,
-  MatPaginatorIntl,
-  MatPaginatorModule,
-} from '@angular/material/paginator';
-import { Subject, takeUntil } from 'rxjs';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { TranslocoModule } from '@ngneat/transloco';
+
+import { WattIconModule } from '@energinet-datahub/watt/icon';
+import { WattValidationMessageModule } from '@energinet-datahub/watt/validation-message';
+import { WattSpinnerModule } from '@energinet-datahub/watt/spinner';
+import { WattEmptyStateModule } from '@energinet-datahub/watt/empty-state';
+import { WattButtonModule } from '@energinet-datahub/watt/button';
+import { WattBadgeModule } from '@energinet-datahub/watt/badge';
 import { DhEmDashFallbackPipeScam } from '@energinet-datahub/dh/metering-point/shared/ui-util';
-import { GridAreaDto } from '@energinet-datahub/dh/shared/domain';
 import { DhMarketParticipantOrganizationOverviewGridAreasScam } from './dh-market-participant-organization-overview-grid-areas-list.component';
+import { DhSharedUiPaginatorComponent } from '@energinet-datahub/dh/shared/ui-paginator';
+import { GridAreaDto } from '@energinet-datahub/dh/shared/domain';
+import { OrganizationWithActorRow } from '@energinet-datahub/dh/market-participant/data-access-api';
 
 @Component({
   selector: 'dh-market-participant-organization-overview',
@@ -55,16 +48,10 @@ import { DhMarketParticipantOrganizationOverviewGridAreasScam } from './dh-marke
   templateUrl: './dh-market-participant-organization-overview.component.html',
 })
 export class DhMarketParticipantOrganizationOverviewComponent
-  implements OnInit, OnChanges, OnDestroy
+  implements AfterViewInit, OnChanges
 {
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
-
-  private destroy$ = new Subject<void>();
-
-  constructor(
-    private translocoService: TranslocoService,
-    private matPaginatorIntl: MatPaginatorIntl
-  ) {}
+  @ViewChild(DhSharedUiPaginatorComponent)
+  paginator!: DhSharedUiPaginatorComponent;
 
   columnIds = [
     'org-name',
@@ -90,45 +77,17 @@ export class DhMarketParticipantOrganizationOverviewComponent
 
   gridAreasMap: { [id: string]: string } = {};
 
-  ngOnInit() {
-    this.setupPaginatorTranslation();
-  }
-
   ngOnChanges() {
     this.dataSource.data = this.rows;
-    this.dataSource.paginator = this.paginator;
+    this.dataSource.paginator = this.paginator?.instance;
     this.gridAreas.forEach(
       (gridArea) => (this.gridAreasMap[gridArea.id] = gridArea.name)
     );
   }
 
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.unsubscribe();
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator.instance;
   }
-
-  private readonly setupPaginatorTranslation = () => {
-    const temp = this.matPaginatorIntl.getRangeLabel;
-    this.matPaginatorIntl.getRangeLabel = (page, pageSize, length) =>
-      temp(page, pageSize, length).replace(
-        'of',
-        this.translocoService.translate(
-          'marketParticipant.organization.paginator.of'
-        )
-      );
-
-    this.translocoService
-      .selectTranslateObject('marketParticipant.organization.paginator')
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((value) => {
-        this.matPaginatorIntl.itemsPerPageLabel = value.itemsPerPageLabel;
-        this.matPaginatorIntl.nextPageLabel = value.next;
-        this.matPaginatorIntl.previousPageLabel = value.previous;
-        this.matPaginatorIntl.firstPageLabel = value.first;
-        this.matPaginatorIntl.lastPageLabel = value.last;
-        this.dataSource.paginator = this.paginator;
-      });
-  };
 
   readonly onEditOrganization = (row: OrganizationWithActorRow) =>
     this.editOrganization.emit(row.organization.organizationId);
@@ -145,7 +104,6 @@ export class DhMarketParticipantOrganizationOverviewComponent
     CommonModule,
     LetModule,
     MatTableModule,
-    MatPaginatorModule,
     MatMenuModule,
     TranslocoModule,
     WattBadgeModule,
@@ -156,6 +114,7 @@ export class DhMarketParticipantOrganizationOverviewComponent
     WattValidationMessageModule,
     DhEmDashFallbackPipeScam,
     DhMarketParticipantOrganizationOverviewGridAreasScam,
+    DhSharedUiPaginatorComponent,
   ],
   declarations: [DhMarketParticipantOrganizationOverviewComponent],
   exports: [DhMarketParticipantOrganizationOverviewComponent],

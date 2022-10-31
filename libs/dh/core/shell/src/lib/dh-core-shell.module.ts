@@ -32,6 +32,7 @@ import {
   DhConfigurationLocalizationModule,
   DhTranslocoModule,
 } from '@energinet-datahub/dh/globalization/configuration-localization';
+import { DhGlobalizationUiWattTranslationModule } from '@energinet-datahub/dh/globalization/ui-watt-translation';
 import {
   MSALGuardConfigFactory,
   MSALInstanceFactory,
@@ -42,10 +43,8 @@ import { dhB2CEnvironmentToken } from '@energinet-datahub/dh/shared/environments
 import { dhMarketParticipantPath } from '@energinet-datahub/dh/market-participant/routing';
 import { dhMeteringPointPath } from '@energinet-datahub/dh/metering-point/routing';
 import { dhChargesPath } from '@energinet-datahub/dh/charges/routing';
-import {
-  WattDanishDatetimeModule,
-  WattToastModule,
-} from '@energinet-datahub/watt';
+import { WattDanishDatetimeModule } from '@energinet-datahub/watt/danish-date-time';
+import { WattToastModule } from '@energinet-datahub/watt/toast';
 import { DhCoreShellComponent } from './dh-core-shell.component';
 import { DhSharedUtilApplicationInsightsModule } from '@energinet-datahub/dh/shared/util-application-insights';
 
@@ -126,6 +125,7 @@ const routes: Routes = [
       scrollPositionRestoration: 'enabled',
     }),
     WattToastModule.forRoot(),
+    DhGlobalizationUiWattTranslationModule.forRoot(),
   ],
   providers: [
     MsalService,

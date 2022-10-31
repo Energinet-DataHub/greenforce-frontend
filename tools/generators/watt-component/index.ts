@@ -20,6 +20,7 @@ import {
   joinPathFragments,
   names,
   Tree,
+  updateJson,
 } from '@nrwl/devkit';
 
 export default async function (host: Tree, schema: { name: string }) {
@@ -33,13 +34,15 @@ export default async function (host: Tree, schema: { name: string }) {
     { tmpl: '', ...substitutions }
   );
 
-  // Add export declaration to index file
-  const wattIndexFile = './libs/ui-watt/src/index.ts';
-  const contents = host.read(wattIndexFile);
-  host.write(
-    wattIndexFile,
-    `${contents}export * from './lib/components/${substitutions.fileName}';\n`
-  );
+  // Add reference to base configuration
+  updateJson(host, './tsconfig.base.json', (json) => {
+    json.compilerOptions.paths[
+      `@energinet-datahub/watt/${substitutions.fileName}`
+    ] = [
+      `libs/ui-watt/src/lib/components/${substitutions.fileName}/src/index.ts`,
+    ];
+    return json;
+  });
 
   await formatFiles(host);
 }

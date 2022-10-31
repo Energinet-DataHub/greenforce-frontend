@@ -22,7 +22,8 @@ import {
   EoFooterScam,
   EoHeaderScam,
 } from '@energinet-datahub/eo/shared/atomic-design/ui-organisms';
-import { WattButtonModule, WattCheckboxModule } from '@energinet-datahub/watt';
+import { WattCheckboxModule } from '@energinet-datahub/watt/checkbox';
+import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { EoScrollViewScam } from '@energinet-datahub/eo/shared/atomic-design/ui-atoms';
 import { EoAuthTermsStore } from './eo-auth-terms.store';
 

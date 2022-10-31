@@ -18,14 +18,7 @@ limitations under the License.
 <ng-container *transloco="let transloco; read: 'wholesale.searchBatch'">
   <div class="header">
     <h3 class="watt-on-light--high-emphasis">{{ transloco("headline") }}</h3>
-    <mat-paginator
-      [length]="160"
-      [pageSize]="10"
-      [pageSizeOptions]="[10, 20, 30, 50]"
-      [showFirstLastButtons]="true"
-      aria-label="Select page"
-    >
-    </mat-paginator>
+    <dh-shared-ui-paginator></dh-shared-ui-paginator>
   </div>
 
   <!-- Table -->
@@ -96,6 +89,8 @@ limitations under the License.
           variant="icon"
           title="{{ transloco('download') }}"
           icon="download"
+          (click)="onDownload(batch)"
+          [disabled]="!batch.isBasisDataDownloadAvailable"
         >
         </watt-button>
       </mat-cell>

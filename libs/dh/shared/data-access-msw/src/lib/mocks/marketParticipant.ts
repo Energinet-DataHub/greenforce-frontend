@@ -23,29 +23,29 @@ import actorData from './data/marketPaticipantActor.json';
 import actorContactsData from './data/marketPaticipantActorContacts.json';
 import organizationData from './data/marketPaticipantOrganization.json';
 
-const port = 5001;
+export function marketParticipantMocks(apiBase: string) {
+  return [
+    getOrganizations(apiBase),
+    getMarketParticipantGridArea(apiBase),
+    getMarketParticipantGridAreaOverview(apiBase),
+    getActor(apiBase),
+    getActorContact(apiBase),
+    getOrganization(apiBase),
+  ];
+}
 
-export const marketParticipantMocks = [
-  getOrganizations(),
-  getMarketParticipantGridArea(),
-  getMarketParticipantGridAreaOverview(),
-  getActor(),
-  getActorContact(),
-  getOrganization(),
-];
-
-function getOrganizations() {
+function getOrganizations(apiBase: string) {
   return rest.get(
-    `https://localhost:${port}/v1/MarketParticipant/organization`,
+    `${apiBase}/v1/MarketParticipant/organization`,
     (req, res, ctx) => {
       return res(ctx.json(organizationsData));
     }
   );
 }
 
-function getOrganization() {
+function getOrganization(apiBase: string) {
   return rest.get(
-    `https://localhost:${port}/v1/MarketParticipant/organization/:organizationId`,
+    `${apiBase}/v1/MarketParticipant/organization/:organizationId`,
     (req, res, ctx) => {
       const { organizationId } = req.params;
       const organizationDataWithUpdatedId = {
@@ -57,27 +57,27 @@ function getOrganization() {
   );
 }
 
-function getMarketParticipantGridArea() {
+function getMarketParticipantGridArea(apiBase: string) {
   return rest.get(
-    `https://localhost:${port}/v1/MarketParticipantGridArea`,
+    `${apiBase}/v1/MarketParticipantGridArea`,
     (req, res, ctx) => {
       return res(ctx.json(gridAreaData));
     }
   );
 }
 
-function getMarketParticipantGridAreaOverview() {
+function getMarketParticipantGridAreaOverview(apiBase: string) {
   return rest.get(
-    `https://localhost:${port}/v1/MarketParticipantGridAreaOverview`,
+    `${apiBase}/v1/MarketParticipantGridAreaOverview`,
     (req, res, ctx) => {
       return res(ctx.json(gridAreaOverviewData));
     }
   );
 }
 
-function getActor() {
+function getActor(apiBase: string) {
   return rest.get(
-    `https://localhost:${port}/v1/MarketParticipant/organization/:organizationId/actor/:actorId`,
+    `${apiBase}/v1/MarketParticipant/organization/:organizationId/actor/:actorId`,
     (req, res, ctx) => {
       const { actorId } = req.params;
       const actorDataWithUpdatedId = {
@@ -89,9 +89,9 @@ function getActor() {
   );
 }
 
-function getActorContact() {
+function getActorContact(apiBase: string) {
   return rest.get(
-    `https://localhost:${port}/v1/MarketParticipant/organization/:organizationId/actor/:actorId/contact`,
+    `${apiBase}/v1/MarketParticipant/organization/:organizationId/actor/:actorId/contact`,
     (req, res, ctx) => {
       return res(ctx.json(actorContactsData));
     }

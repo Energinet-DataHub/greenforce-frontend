@@ -14,7 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Injectable, ChangeDetectorRef } from '@angular/core';
+import { Injectable, ChangeDetectorRef, inject } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 import { ComponentStore } from '@ngrx/component-store';
 import {
   Observable,
@@ -25,6 +26,7 @@ import {
   catchError,
   EMPTY,
 } from 'rxjs';
+
 import {
   WholesaleBatchHttp,
   BatchRequestDto,
@@ -47,11 +49,13 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
   batches$ = this.select((x) => x.batches);
   loadingBatches$ = this.select((x) => x.loadingBatches);
   loadingBatchesErrorTrigger$: Subject<void> = new Subject();
+  loadingBasisDataErrorTrigger$: Subject<void> = new Subject();
 
-  constructor(
-    private httpClient: WholesaleBatchHttp,
-    private changeDetectorRef: ChangeDetectorRef
-  ) {
+  private document = inject(DOCUMENT);
+  private httpClient = inject(WholesaleBatchHttp);
+  private changeDetectorRef = inject(ChangeDetectorRef);
+
+  constructor() {
     super(initialState);
   }
 
@@ -117,6 +121,33 @@ export class DhWholesaleBatchDataAccessApiStore extends ComponentStore<State> {
       })
     );
   });
+
+  readonly getZippedBasisData = this.effect(
+    (batch$: Observable<BatchDtoV2>) => {
+      return batch$.pipe(
+        switchMap((batch) => {
+          return this.httpClient
+            .v1WholesaleBatchZippedBasisDataStreamGet(batch.batchNumber)
+            .pipe(
+              tap((data) => {
+                const blob = new Blob([data as unknown as BlobPart], {
+                  type: 'application/zip',
+                });
+                const basisData = window.URL.createObjectURL(blob);
+                const link = this.document.createElement('a');
+                link.href = basisData;
+                link.download = `${batch.batchNumber}.zip`;
+                link.click();
+              }),
+              catchError(() => {
+                this.loadingBasisDataErrorTrigger$.next();
+                return EMPTY;
+              })
+            );
+        })
+      );
+    }
+  );
 
   // TODO: This should be removed when the design system has implemented a proper fix in the date picker (Mighty Ducks will do this refactor)
   private addTimeToDate(date: string): string {

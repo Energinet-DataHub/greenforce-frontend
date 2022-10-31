@@ -24,12 +24,27 @@ import {
 import { ChargeV1Dto } from '@energinet-datahub/dh/shared/domain';
 import { DhChargeDetailsHeaderScam } from '../details-header/dh-charge-details-header.component';
 import {
+  DhChargesChargeMessagesTabScam,
+  DhChargesChargeMessagesTabComponent,
+} from './message-tab/dh-charges-charge-messages-tab.component';
+import { WattFormFieldModule } from '@energinet-datahub/watt/form-field';
+import {
   WattDrawerModule,
   WattDrawerComponent,
+} from '@energinet-datahub/watt/drawer';
+import {
+  WattTabsComponent,
   WattTabsModule,
-  WattButtonModule,
-} from '@energinet-datahub/watt';
+} from '@energinet-datahub/watt/tabs';
+import { WattDatepickerModule } from '@energinet-datahub/watt/datepicker';
+import { WattButtonModule } from '@energinet-datahub/watt/button';
 import { TranslocoModule } from '@ngneat/transloco';
+import {
+  DhChargesChargePricesTabScam,
+  DhChargesChargePricesTabComponent,
+} from './price-tab/dh-charges-charge-prices-tab.component';
+import { DhChargesChargeHistoryTabScam } from './history-tab/dh-charges-charge-history-tab.component';
+import { DrawerDatepickerService } from './drawer-datepicker/drawer-datepicker.service';
 
 @Component({
   selector: 'dh-charges-prices-drawer',
@@ -38,18 +53,41 @@ import { TranslocoModule } from '@ngneat/transloco';
 })
 export class DhChargesPricesDrawerComponent {
   @ViewChild('drawer') drawer!: WattDrawerComponent;
+  @ViewChild(DhChargesChargeMessagesTabComponent)
+  chargesMessageTabComponent!: DhChargesChargeMessagesTabComponent;
+  @ViewChild(DhChargesChargePricesTabComponent)
+  chargePricesTabComponent!: DhChargesChargePricesTabComponent;
+  @ViewChild(WattTabsComponent)
+  wattTabsComponents!: WattTabsComponent;
 
   @Output() closed = new EventEmitter<void>();
 
   charge?: ChargeV1Dto;
 
+  constructor(private datepickerService: DrawerDatepickerService) {}
+
   openDrawer(charge: ChargeV1Dto) {
     this.charge = charge;
     this.drawer.open();
+    this.wattTabsComponents.triggerChange();
   }
 
   drawerClosed() {
     this.closed.emit();
+    this.datepickerService.reset();
+    this.chargePricesTabComponent.reset();
+  }
+
+  loadPrices() {
+    if (this.charge) this.chargePricesTabComponent.loadPrices(this.charge);
+  }
+
+  loadMessages() {
+    this.chargesMessageTabComponent.loadMessages();
+  }
+
+  loadHistory() {
+    console.log('load history');
   }
 }
 
@@ -61,7 +99,12 @@ export class DhChargesPricesDrawerComponent {
     TranslocoModule,
     WattTabsModule,
     WattButtonModule,
+    WattDatepickerModule,
+    WattFormFieldModule,
     DhChargeDetailsHeaderScam,
+    DhChargesChargePricesTabScam,
+    DhChargesChargeMessagesTabScam,
+    DhChargesChargeHistoryTabScam,
   ],
 })
 export class DhChargesPricesDrawerScam {}

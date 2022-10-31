@@ -65,7 +65,7 @@
             {
               "type": "initial",
               "maximumWarning": "500kb",
-              "maximumError": "1.82mb"
+              "maximumError": "1.33mb"
             },
             {
               "type": "anyComponentStyle",
@@ -170,7 +170,7 @@
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/apps/dh/app-dh"],
+      "outputs": ["{workspaceRoot}/coverage/apps/dh/app-dh"],
       "options": {
         "jestConfig": "apps/dh/app-dh/jest.config.ts",
         "passWithNoTests": true

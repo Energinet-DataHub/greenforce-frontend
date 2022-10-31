@@ -45,8 +45,20 @@ export const dhFeatureFlagsConfig = makeFeatureFlags({
     created: '18-10-2022',
     disabledEnvironments: [DhAppEnvironment.prod],
   },
-  charges_prices_download_button_feature_flag: {
-    created: '22-09-2022',
+  charges_messages_tab_feature_flag: {
+    created: '18-10-2022',
+    disabledEnvironments: [DhAppEnvironment.prod],
+  },
+  charges_price_date_chips_feature_flag: {
+    created: '16-10-2022',
+    disabledEnvironments: [DhAppEnvironment.prod],
+  },
+  grant_full_authorization: {
+    created: '21-10-2022',
+    disabledEnvironments: [DhAppEnvironment.experimental],
+  },
+  charge_prices_download_button_feature_flag: {
+    created: '27-10-2022',
     disabledEnvironments: [DhAppEnvironment.prod],
   },
 });

@@ -20,7 +20,7 @@ import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import {
   ChargeV1Dto,
   ChargesHttp,
-  SearchCriteriaV1Dto,
+  ChargeSearchCriteriaV1Dto,
 } from '@energinet-datahub/dh/shared/domain';
 import { Observable, switchMap, tap } from 'rxjs';
 import { ErrorState, LoadingState } from './states';
@@ -55,7 +55,7 @@ export class DhChargesDataAccessApiStore extends ComponentStore<ChargesState> {
   }
 
   readonly searchCharges = this.effect(
-    (searchCriteria: Observable<SearchCriteriaV1Dto>) => {
+    (searchCriteria: Observable<ChargeSearchCriteriaV1Dto>) => {
       return searchCriteria.pipe(
         tap(() => {
           this.resetState();

@@ -55,7 +55,7 @@ export type WattToastRef = MatSnackBarRef<WattToastComponent>;
 
 /**
  * Usage:
- * `import { WattToastService } from '@energinet-datahub/watt';`
+ * `import { WattToastService } from '@energinet-datahub/watt/toast';`
  */
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

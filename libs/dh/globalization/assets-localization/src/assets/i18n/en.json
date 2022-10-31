@@ -5,6 +5,21 @@
   "shell": {
     "logout": "Sign out"
   },
+  "shared": {
+    "paginator": {
+      "itemsPerPageLabel": "Results per page",
+      "of": "of",
+      "first": "First page",
+      "last": "Last page",
+      "next": "Next page",
+      "previous": "Previous page",
+      "ariaLabel": "Select page"
+    }
+  },
+  "clipboard": {
+    "success": "Copied to clipboard",
+    "error": "Failed to copy"
+  },
   "sidebar": {
     "navigation": {
       "meteringPoints": "Metering points",
@@ -286,6 +301,12 @@
     "prices": {
       "topBarTitle": "Search price",
       "prices": "Prices",
+      "price": "Price",
+      "priceTab": {
+        "fromDateTime": "Valid from",
+        "toDateTime": "Valid to",
+        "time": "Time"
+      },
       "search": {
         "idOrName": "Price ID/Name",
         "enterIdOrName": "Enter part or whole id or name ",
@@ -307,12 +328,15 @@
       "resolution": "Resolution",
       "validFromDateTime": "Valid from",
       "validToDateTime": "Valid to",
-      "resultLength": "Search results",
+      "resultLength": "Search result",
+      "resultsLength": "Search results",
       "Download": "Download",
       "noResultsFound": "No results",
       "noResultsHelperText": "Try adjusting your search or filter to find what you are looking for.",
       "startSearch": "Start Search",
       "startSearchText": "Your results will appear here",
+      "noPricesForCharge": "No prices",
+      "noPricesForChargeText": "No price series exists for this price.",
       "paginator": {
         "itemsPerPageLabel": "Prices per page",
         "of": "of",
@@ -340,12 +364,37 @@
       "drawer": {
         "prices": "Prices",
         "messages": "Messages",
+        "dateChips": {
+          "day": "Day",
+          "week": "Week",
+          "month": "Month",
+          "quarter": "Quarter",
+          "year": "Year"
+        },
         "history": "History",
         "stop": "Stop",
         "edit": "Edit",
         "showDescriptionLabel": "Show description",
-        "hideDescriptionLabel": "Hide description"
-      }
+        "hideDescriptionLabel": "Hide description",
+        "messageId": "Message Id",
+        "messageType": "Type",
+        "date": "Date"
+      },
+      "csvHeader": {
+        "id": "PRICE ID",
+        "name": "NAME",
+        "description": "DESCRIPTION",
+        "owner": "OWNER",
+        "ownerName": "OWNER NAME",
+        "taxIndicator": "TAX",
+        "vat": "VAT",
+        "transparentInvoicing": "TRANSPARENT INVOICING",
+        "type": "TYPE",
+        "resolution": "RESOLUTION",
+        "validFromDate": "VALID FROM",
+        "validToDate": "VALID TO"
+      },
+      "downloadFileName": "Chargeinformation"
     }
   },
   "messageArchive": {
@@ -648,6 +697,7 @@
         "basisData": "Basis data"
       },
       "download": "Download",
+      "downloadFailed": "Download of basis data failed",
       "Pending": "Pending",
       "Executing": "Running",
       "Completed": "Finished",

@@ -5,6 +5,21 @@
   "shell": {
     "logout": "Log ud"
   },
+  "shared": {
+    "paginator": {
+      "itemsPerPageLabel": "Resultater pr. side",
+      "of": "af",
+      "first": "Første side",
+      "last": "Sidste side",
+      "next": "Næste side",
+      "previous": "Forrige side",
+      "ariaLabel": "Vælg side"
+    }
+  },
+  "clipboard": {
+    "success": "Kopieret til udklipsholder",
+    "error": "Kopiering mislykkedes"
+  },
   "sidebar": {
     "navigation": {
       "meteringPoints": "Målepunkter",
@@ -286,6 +301,12 @@
     "prices": {
       "topBarTitle": "Søg pris",
       "prices": "Priser",
+      "price": "Pris",
+      "priceTab": {
+        "fromDateTime": "Gyldig fra",
+        "toDateTime": "Gyldig til",
+        "time": "Tid"
+      },
       "search": {
         "idOrName": "Pris ID/Navn",
         "enterIdOrName": "Indtast dele af eller hele id eller navn",
@@ -307,7 +328,8 @@
       "resolution": "Opløsning",
       "validFromDateTime": "Gyldig fra",
       "validToDateTime": "Gyldig til",
-      "resultLength": "Søgeresultater",
+      "resultLength": "Søgeresultat",
+      "resultsLength": "Søgeresultater",
       "Download": "Download",
       "noResultsFound": "Intet resultat",
       "noResultsHelperText": "Prøv at ændre dine søgeindstillinger",
@@ -315,6 +337,8 @@
       "transparentInvoicing": "Viderefakturering",
       "startSearch": "Start søgning",
       "startSearchText": "Dine resultater vil fremgå her",
+      "noPricesForCharge": "Ingen priser",
+      "noPricesForChargeText": "Der findes ingen pris serier for denne pris.",
       "paginator": {
         "itemsPerPageLabel": "Priser pr. side",
         "of": "af",
@@ -342,12 +366,37 @@
       "drawer": {
         "prices": "Priser",
         "messages": "Beskeder",
+        "dateChips": {
+          "day": "Dag",
+          "week": "Uge",
+          "month": "Måned",
+          "quarter": "Kvartal",
+          "year": "År"
+        },
         "history": "Historik",
         "stop": "Stop",
         "edit": "Rediger",
         "showDescriptionLabel": "Se beskrivelse",
-        "hideDescriptionLabel": "Luk beskrivelse"
-      }
+        "hideDescriptionLabel": "Luk beskrivelse",
+        "messageId": "Besked Id",
+        "messageType": "Type",
+        "date": "Dato"
+      },
+      "csvHeader": {
+        "id": "PRIS ID",
+        "name": "NAVN",
+        "description": "BESKRIVELSE",
+        "owner": "EJER",
+        "ownerName": "EJER NAVN",
+        "taxIndicator": "AFGIFT",
+        "vat": "MOMS",
+        "transparentInvoicing": "VIDEREFAKTURERING",
+        "type": "TYPE",
+        "resolution": "OPLØSNING",
+        "validFromDate": "GYLDIG FRA",
+        "validToDate": "GYLDIG TIL"
+      },
+      "downloadFileName": "Prisinformationer"
     }
   },
   "messageArchive": {
@@ -474,7 +523,7 @@
       "columns": {
         "organization": "Organisation",
         "gln": "Aktørnummer",
-        "status": "Status",
+        "status": "Aktørstatus",
         "marketRoles": "Markedsroller",
         "gridAreas": "Netområder",
         "noActors": "Ingen aktører"
@@ -650,6 +699,7 @@
         "basisData": "Basis data"
       },
       "download": "Download",
+      "downloadFailed": "Download af basis data fejlede",
       "Pending": "Afventer",
       "Executing": "Kører",
       "Completed": "Afsluttet",

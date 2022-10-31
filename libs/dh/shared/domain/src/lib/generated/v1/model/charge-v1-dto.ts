@@ -15,6 +15,7 @@ import { Resolution } from './resolution';
 
 
 export interface ChargeV1Dto { 
+    id: string;
     chargeType: ChargeType;
     resolution: Resolution;
     chargeId?: string | null;
@@ -25,6 +26,7 @@ export interface ChargeV1Dto {
     vatClassification: VatClassification;
     taxIndicator: boolean;
     transparentInvoicing: boolean;
+    hasAnyPrices: boolean;
     validFromDateTime: string;
     validToDateTime?: string | null;
 }
