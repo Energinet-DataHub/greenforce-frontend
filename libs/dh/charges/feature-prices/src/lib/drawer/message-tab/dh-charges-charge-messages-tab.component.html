@@ -84,9 +84,7 @@ limitations under the License.
         <td mat-cell *matCellDef="let element">
           {{ "charges.messageType." + element.messageType | transloco }}<br />
           <span class="subtext">
-            {{
-              "charges.messageTypeAbbreviation." + element.messageType | transloco
-            }}
+            {{ "charges.messageTypeAbbreviation." + element.messageType | transloco }}
           </span>
         </td>
       </ng-container>
