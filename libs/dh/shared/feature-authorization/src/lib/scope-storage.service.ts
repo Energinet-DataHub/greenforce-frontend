@@ -27,7 +27,7 @@ export class ScopeStorage {
     this.length = localStorage.length;
   };
 
-  public readonly  getItem = (key: string) => {
+  public readonly getItem = (key: string) => {
     return localStorage.getItem(key);
   };
 
