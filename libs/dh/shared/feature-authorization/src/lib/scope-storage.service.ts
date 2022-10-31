@@ -15,6 +15,8 @@
  * limitations under the License.
  */
 
+import { InjectionToken } from '@angular/core';
+
 export class ScopeStorage {
   length = 0;
 
@@ -36,3 +38,10 @@ export class ScopeStorage {
     return localStorage.key(index);
   };
 }
+
+export const scopeStorageToken = new InjectionToken<ScopeStorage>(
+  'scopeStorageToken',
+  {
+    factory: (): ScopeStorage => new ScopeStorage(),
+  }
+);

@@ -24,7 +24,7 @@ import {
 } from '@energinet-datahub/dh/shared/environments';
 import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
 import { filter } from 'rxjs';
-import { ScopeStorage } from './scope-storage.service';
+import { ScopeStorage, scopeStorageToken } from './scope-storage.service';
 
 export const scopesKey = 'actor-scopes';
 export const scopeKey = 'active-actor-scope';
@@ -36,7 +36,7 @@ export class ScopeService {
     private msalBroadcastService: MsalBroadcastService,
     private authService: MsalService,
     private featureFlagService: DhFeatureFlagsService,
-    @Inject(ScopeStorage) private scopeStorage: ScopeStorage
+    @Inject(scopeStorageToken) private scopeStorage: ScopeStorage
   ) {
     this.msalBroadcastService.msalSubject$
       .pipe(
