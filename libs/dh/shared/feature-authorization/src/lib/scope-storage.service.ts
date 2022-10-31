@@ -18,23 +18,25 @@
 import { InjectionToken } from '@angular/core';
 
 export class ScopeStorage {
-  length = 0;
+  private length = 0;
 
-  setItem = (key: string, value: string) => {
+  public readonly getLength = () => this.length;
+
+  public readonly setItem = (key: string, value: string) => {
     localStorage.setItem(key, value);
     this.length = localStorage.length;
   };
 
-  getItem = (key: string) => {
+  public readonly  getItem = (key: string) => {
     return localStorage.getItem(key);
   };
 
-  removeItem = (key: string) => {
+  public readonly removeItem = (key: string) => {
     localStorage.removeItem(key);
     this.length = localStorage.length;
   };
 
-  key = (index: number) => {
+  public readonly key = (index: number) => {
     return localStorage.key(index);
   };
 }

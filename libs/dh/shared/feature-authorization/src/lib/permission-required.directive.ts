@@ -31,7 +31,7 @@ import { concatAll, from, map, reduce, take } from 'rxjs';
 export class DhPermissionRequiredDirective implements OnInit {
   constructor(
     private templateRef: TemplateRef<unknown>,
-    private viewContainer: ViewContainerRef,
+    private viewContainerRef: ViewContainerRef,
     private permissionService: PermissionService,
     private changeDetectorRef: ChangeDetectorRef
   ) {}
@@ -48,7 +48,7 @@ export class DhPermissionRequiredDirective implements OnInit {
       )
       .subscribe((hasPermission) => {
         if (hasPermission) {
-          this.viewContainer.createEmbeddedView(this.templateRef);
+          this.viewContainerRef.createEmbeddedView(this.templateRef);
           this.changeDetectorRef.detectChanges();
         }
       });
