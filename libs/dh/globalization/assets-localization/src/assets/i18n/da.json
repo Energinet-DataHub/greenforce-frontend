@@ -257,7 +257,7 @@
     "feesTitle": "Gebyrer",
     "messageType": {
       "D05": "Opdatering af pris stamdata",
-      "D10": "Opdatering af prisliste"
+      "D10": "Opdatering af prisserie"
     },
     "messageTypeAbbreviation": {
       "D05": "RSM-33",

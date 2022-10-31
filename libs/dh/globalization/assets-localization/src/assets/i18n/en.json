@@ -257,7 +257,7 @@
     "feesTitle": "Fees",
     "messageType": {
       "D05": "Request change of billing masterdata",
-      "D10": "Request change of pricelist"
+      "D10": "Request change of price series"
     },
     "messageTypeAbbreviation": {
       "D05": "RSM-33",
