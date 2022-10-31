@@ -142,16 +142,6 @@ export class DhChargesChargeMessagesTabComponent
   }
 
   loadMessages(charge: ChargeV1Dto) {
-    const chargesMessagesTabFeatureIsEnabled =
-      this.featureFlagsService.isEnabled('charges_messages_tab_feature_flag');
-    if (chargesMessagesTabFeatureIsEnabled) {
-      this.doLoadMessages(charge);
-    }
-
-    this.dataSource.sortingDataAccessor = ToLowerSort();
-  }
-
-  doLoadMessages(charge: ChargeV1Dto) {
     setTimeout(() => {
       this.chargeMessagesSearchCriteria.chargeId = charge.id;
       this.chargeMessagesSearchCriteria.take = this.paginator.instance.pageSize;
@@ -169,6 +159,8 @@ export class DhChargesChargeMessagesTabComponent
         this.chargeMessagesSearchCriteria
       );
     }, 0);
+
+    this.dataSource.sortingDataAccessor = ToLowerSort();
   }
 
   setSearchCriteriaDateRange(dateRange: DatePickerData) {
