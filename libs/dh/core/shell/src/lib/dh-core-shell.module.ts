@@ -32,6 +32,7 @@ import {
   DhConfigurationLocalizationModule,
   DhTranslocoModule,
 } from '@energinet-datahub/dh/globalization/configuration-localization';
+import { DhGlobalizationUiWattTranslationModule } from '@energinet-datahub/dh/globalization/ui-watt-translation';
 import {
   MSALGuardConfigFactory,
   MSALInstanceFactory,
@@ -125,6 +126,7 @@ const routes: Routes = [
       scrollPositionRestoration: 'enabled',
     }),
     WattToastModule.forRoot(),
+    DhGlobalizationUiWattTranslationModule.forRoot(),
   ],
   providers: [
     MsalService,

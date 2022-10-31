@@ -54,6 +54,9 @@
       "@energinet-datahub/dh/globalization/feature-language-picker": [
         "libs/dh/globalization/feature-language-picker/src/index.ts"
       ],
+      "@energinet-datahub/dh/globalization/ui-watt-translation": [
+        "libs/dh/globalization/ui-watt-translation/src/index.ts"
+      ],
       "@energinet-datahub/dh/market-participant/data-access-api": [
         "libs/dh/market-participant/data-access-api/src/index.ts"
       ],
@@ -282,7 +285,6 @@
       "@energinet-datahub/gf/util-browser": [
         "libs/gf/util-browser/src/index.ts"
       ],
-      "@energinet-datahub/watt": ["libs/ui-watt/src/index.ts"],
       "@energinet-datahub/watt/badge": [
         "libs/ui-watt/src/lib/components/badge/index.ts"
       ],
@@ -301,11 +303,14 @@
       "@energinet-datahub/watt/chips": [
         "libs/ui-watt/src/lib/components/chips/index.ts"
       ],
+      "@energinet-datahub/watt/clipboard": [
+        "libs/ui-watt/src/lib/components/clipboard/index.ts"
+      ],
       "@energinet-datahub/watt/color": [
         "libs/ui-watt/src/lib/foundations/color/index.ts"
       ],
       "@energinet-datahub/watt/danish-date-time": [
-        "libs/ui-watt/src/lib/configuration/watt-danish-datetime.module"
+        "libs/ui-watt/src/lib/configuration/watt-danish-datetime.module.ts"
       ],
       "@energinet-datahub/watt/datepicker": [
         "libs/ui-watt/src/lib/components/input/datepicker/index.ts"
@@ -335,7 +340,7 @@
         "libs/ui-watt/src/lib/components/input/index.ts"
       ],
       "@energinet-datahub/watt/intersection-observer": [
-        "libs/ui-watt/src/lib/foundations/intersection-observer/index.ts"
+        "libs/ui-watt/src/lib/utils/intersection-observer/index.ts"
       ],
       "@energinet-datahub/watt/locale": [
         "libs/ui-watt/src/lib/configuration/watt-locale.service.ts"
@@ -344,7 +349,7 @@
         "libs/ui-watt/src/lib/components/modal/index.ts"
       ],
       "@energinet-datahub/watt/resize-observer": [
-        "libs/ui-watt/src/lib/foundations/resize-observer/index.ts"
+        "libs/ui-watt/src/lib/utils/resize-observer/index.ts"
       ],
       "@energinet-datahub/watt/shell": [
         "libs/ui-watt/src/lib/components/shell/index.ts"
